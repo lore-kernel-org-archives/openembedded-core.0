@@ -1,78 +1,72 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web08.16665.1612089853044092193
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.17179.1612092344136671484
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 02:44:13 -0800
+ Sun, 31 Jan 2021 03:25:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UkwEVMhN;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id a12so18714124lfb.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 02:44:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ExtYhhUG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f41.google.com with SMTP id dj23so15554418edb.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 03:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UG3rxQ4GJtMZgwmirNCkWUAOhgkZ2Zd27KJ5/rZPSm8=;
-        b=UkwEVMhNqczI+B3pj6mU5r9oyA9nln+GyOwHQ/DyN5+aPy9A2OS+gklCrqINbKybmM
-         hGRYksd9Jgi+1cgdGiTSrU0d2OlDJIHgoyrThTLT2wLf7yq9WmSJ/7M+VUGkceBW6MfI
-         VRIQXGGCsSwTOfEWOltvwWpFYnSi7IAHvYfqrtb5lNzJGwndPztRiyZaYOjqS9AcPAAf
-         wclaGRftV4qqoq5ZaU/PXTLjl5FwgJButGj7n4ndepb8EepNKUwlUjFR5RLUOUeNsxsg
-         VtEXYvWENTs+Gn+LCHR+BVwsRNXXhhC1UIi92Z1aV9TkgiJK8Y0BvGgGi4x1zTGnwTe1
-         P/ow==
+        bh=VkSvFhtWuMhuPE2kpgF5o1wO3FFfBoZYYYUuRMT3ZU0=;
+        b=ExtYhhUG+K0BPTosqKwuNzIyZIje5WS6+lDFkkc6GBFZdV8JXEbVmLFjNP8DSwNCLP
+         w1+GssXEnwBIc+t0yqW35LgLg6QCc7LduUH/E4mykivBGCXBzpfDU1CruCi4cs9aOspf
+         F7eBa46/uZHsS0EMibzzgb/nyOuIZ+OZ9FKcU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UG3rxQ4GJtMZgwmirNCkWUAOhgkZ2Zd27KJ5/rZPSm8=;
-        b=aYWtd+lDLe4u/e2y3+wjX2v1XOqhRkvar49Q8+bPfuUIO7M8lxBO/bA35XKaE6bdnQ
-         I5ElW/iJpDh26jJ3//6DL3ai1AwLqWzVArOKRrPgg82aGfCedh7HWPEHw5FjY6lUgldi
-         Bptr7vKYueGcrv0YXOocLhXB+ADFLzTHTOXb4Ilg3PMjZSuS41LEdP266sFAv5EXhyfs
-         A0aEjWpQz5o/47KxjSDMul4S95zLvZ+RZndqz+LP57cMogzvOxzZ1RxUcIZdbrm9B9Fo
-         bWamDPjgFhnbH2xfo8JKLfCiAveHY9O1UKw6b+yh3p1brXlK46eFw2OvqFcrDOqVmOpl
-         0U3A==
-X-Gm-Message-State: AOAM532cZeBXwPbli/0aY4FPUwmQSgNGf3qBQWXO+HvLC9eVEUOtZwPZ
-	BxvE9BA38vo3ZooI260hPr1qvt2HJSHQYw==
-X-Google-Smtp-Source: ABdhPJxMbtgswHnYOzcgfnVNdX5smh6id6R2yuGoSUI5/Vqjxs1G5V+y8tFvpblM1NwWsN4/ttanoA==
-X-Received: by 2002:a05:6512:a90:: with SMTP id m16mr5899912lfu.577.1612089850919;
-        Sun, 31 Jan 2021 02:44:10 -0800 (PST)
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id f21sm3381448ljh.18.2021.01.31.02.44.09
+        bh=VkSvFhtWuMhuPE2kpgF5o1wO3FFfBoZYYYUuRMT3ZU0=;
+        b=XylvdLZYoxy4VDsfwIWEh9Sx/EWGqiXSs6jaiIRIPwLxBoxu8/H5yCZGmoeq1D2ytJ
+         xWFaYRdPtDNBJS62bZw+alOASnMoHk6bj2DQY+9xusJ8FgBijns22p/tLL1zEGNV0D4g
+         ZuVvLsJ7LauN2Wwl3pw4oHhu79Dz8JeoccZBcMDivOEkF7ygwP1hD9VfiUxuPwd/fIOk
+         0kYD0UOccN2DuNVrI0LD3U7xdP5nDXOIQMbS71qp/7yEFDw5g27YKxVpUlIlQIoXa8i2
+         9hci8fHXhpcI67cgQtNV8SsPXkau4IBI0cVAL4LzfvnHczaHRX0SL8OCvJNkxZ9RjQ2J
+         r+VA==
+X-Gm-Message-State: AOAM530hAyJJ2FgHS/PbzanNIWUFHewkqSf338e+ny2IjE+vDnO+o3zK
+	GaMoKew6D33w7Z/LuTqbZ2rX2N/HsVEgAQ==
+X-Google-Smtp-Source: ABdhPJwSAK3WyaaPB/ODVKeSf0+yZabkCBmXYkkCTb6ZjQQRtRP4HtwSKgtkCqIOzw0YKhbS3LhpfQ==
+X-Received: by 2002:a50:ed97:: with SMTP id h23mr13547609edr.278.1612092342386;
+        Sun, 31 Jan 2021 03:25:42 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:29f7:5a4e:c660:258e])
+        by smtp.gmail.com with ESMTPSA id u21sm1554963ejj.120.2021.01.31.03.25.41
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 02:44:10 -0800 (PST)
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+        Sun, 31 Jan 2021 03:25:41 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH] lib/oe/patch.py: Ignore scissors line on applying patch
-Date: Sun, 31 Jan 2021 11:46:49 +0100
-Message-Id: <20210131104649.2494-1-tomasz.dziendzielski@gmail.com>
-X-Mailer: git-send-email 2.30.0
+Subject: [PATCH] python3-setuptools: Add back accidentally dropped RDEPENDS
+Date: Sun, 31 Jan 2021 11:25:41 +0000
+Message-Id: <20210131112541.1441542-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The "devtool modify" could remove message body before scissors line, so
-patches re-generated from git tree were incorrectly modified.
-Adding --no-scissors to "git am" invocation to prevent this behaviour.
+This was accidentally removed in a previous commit. Due to improvements
+in the core, we can now just add it as a normal RDEPENDS along with the
+others as the native case no longer causes issues.
 
-[YOCTO #12674]
-
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-setuptools_51.0.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 8ad70f53f1..fccbedb519 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -516,7 +516,7 @@ class GitApplyTree(PatchTree):
-             try:
-                 shellcmd = [patchfilevar, "git", "--work-tree=%s" % reporoot]
-                 self.gitCommandUserOptions(shellcmd, self.commituser, self.commitemail)
--                shellcmd += ["am", "-3", "--keep-cr", "-p%s" % patch['strippath']]
-+                shellcmd += ["am", "-3", "--keep-cr", "--no-scissors", "-p%s" % patch['strippath']]
-                 return _applypatchhelper(shellcmd, patch, force, reverse, run)
-             except CmdError:
-                 # Need to abort the git am, or we'll still be within it at the end
+diff --git a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
+index db336bfa13b..dc09c13846d 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
+@@ -28,6 +28,7 @@ RDEPENDS_${PN} = "\
+   ${PYTHON_PN}-netserver \
+   ${PYTHON_PN}-numbers \
+   ${PYTHON_PN}-pickle \
++  ${PYTHON_PN}-pkg-resources \
+   ${PYTHON_PN}-pkgutil \
+   ${PYTHON_PN}-plistlib \
+   ${PYTHON_PN}-shell \
 -- 
-2.30.0
+2.27.0
 
