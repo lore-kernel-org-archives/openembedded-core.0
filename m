@@ -1,247 +1,207 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web12.29654.1612155700189377465
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.29793.1612156105311867510
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 21:01:40 -0800
+ Sun, 31 Jan 2021 21:08:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: iKSYtTebQQ1CQ5rVtbOvvZMM8Kr84irqOhba46scRQYRreQeyvX/rkMv98bZDdWMAfvsvmsQsI
- Fm8KPzUgqYng==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="265466008"
-X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
-   d="scan'208";a="265466008"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 21:01:39 -0800
-IronPort-SDR: afBpvB2nJWYNH03k44RRaSpp52mywo8fHWW0w8i94MgH6DlscTid+bL+C5b4ZqQxqeCSCdfdDB
- wj6Ji7mRaGhg==
-X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
-   d="scan'208";a="432159991"
-Received: from hhan1-mobl.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.124])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 21:01:37 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: fix CVE-2021-3177
-Date: Mon,  1 Feb 2021 13:01:33 +0800
-Message-Id: <20210201050133.98227-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,391,1602518400"; 
+   d="scan'208";a="104040178"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 01 Feb 2021 13:08:00 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id AD4644CE67AB
+	for <openembedded-core@lists.openembedded.org>; Mon,  1 Feb 2021 13:07:58 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 1 Feb 2021 13:07:59 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] libical: upgrade 3.0.8 -> 3.0.9
+Date: Mon, 1 Feb 2021 13:07:56 +0800
+Message-ID: <1612156076-77353-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: AD4644CE67AB.AAE64
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../python/python3/CVE-2021-3177.patch        | 191 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.9.1.bb |   1 +
- 2 files changed, 192 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+0001-Fix-build-with-icu-68.1.patch
+removed since it is included in 3.0.9
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
-new file mode 100644
-index 0000000000..a48207162f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
-@@ -0,0 +1,191 @@
-+From c347cbe694743cee120457aa6626712f7799a932 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Mon, 18 Jan 2021 13:29:31 -0800
-+Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
-+ formatting in ctypes param reprs. (GH-24247)
-+
-+(cherry picked from commit 916610ef90a0d0761f08747f7b0905541f0977c7)
-+
-+Co-authored-by: Benjamin Peterson <benjamin@python.org>
-+
-+Co-authored-by: Benjamin Peterson <benjamin@python.org>
-+
-+CVE: CVE-2021-3177
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/c347cbe694743cee120457aa6626712f7799a932]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ Lib/ctypes/test/test_parameters.py            | 43 ++++++++++++++++
-+ .../2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst  |  2 +
-+ Modules/_ctypes/callproc.c                    | 51 +++++++------------
-+ 3 files changed, 64 insertions(+), 32 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
-+
-+diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
-+index e4c25fd880cef..531894fdec838 100644
-+--- a/Lib/ctypes/test/test_parameters.py
-++++ b/Lib/ctypes/test/test_parameters.py
-+@@ -201,6 +201,49 @@ def __dict__(self):
-+         with self.assertRaises(ZeroDivisionError):
-+             WorseStruct().__setstate__({}, b'foo')
-+ 
-++    def test_parameter_repr(self):
-++        from ctypes import (
-++            c_bool,
-++            c_char,
-++            c_wchar,
-++            c_byte,
-++            c_ubyte,
-++            c_short,
-++            c_ushort,
-++            c_int,
-++            c_uint,
-++            c_long,
-++            c_ulong,
-++            c_longlong,
-++            c_ulonglong,
-++            c_float,
-++            c_double,
-++            c_longdouble,
-++            c_char_p,
-++            c_wchar_p,
-++            c_void_p,
-++        )
-++        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
-++        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
-++        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
-++        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
-++        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
-++        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
-++        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
-++        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
-++        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
-++        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
-++        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
-++        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
-++        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
-++        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
-++        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
-++        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
-++        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
-++        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
-++        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
-++        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
-++
-+ ################################################################
-+ 
-+ if __name__ == '__main__':
-+diff --git a/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
-+new file mode 100644
-+index 0000000000000..7df65a156feab
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
-+@@ -0,0 +1,2 @@
-++Avoid static buffers when computing the repr of :class:`ctypes.c_double` and
-++:class:`ctypes.c_longdouble` values.
-+diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-+index b0a36a30248f7..f2506de54498e 100644
-+--- a/Modules/_ctypes/callproc.c
-++++ b/Modules/_ctypes/callproc.c
-+@@ -489,58 +489,47 @@ is_literal_char(unsigned char c)
-+ static PyObject *
-+ PyCArg_repr(PyCArgObject *self)
-+ {
-+-    char buffer[256];
-+     switch(self->tag) {
-+     case 'b':
-+     case 'B':
-+-        sprintf(buffer, "<cparam '%c' (%d)>",
-++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
-+             self->tag, self->value.b);
-+-        break;
-+     case 'h':
-+     case 'H':
-+-        sprintf(buffer, "<cparam '%c' (%d)>",
-++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
-+             self->tag, self->value.h);
-+-        break;
-+     case 'i':
-+     case 'I':
-+-        sprintf(buffer, "<cparam '%c' (%d)>",
-++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
-+             self->tag, self->value.i);
-+-        break;
-+     case 'l':
-+     case 'L':
-+-        sprintf(buffer, "<cparam '%c' (%ld)>",
-++        return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
-+             self->tag, self->value.l);
-+-        break;
-+ 
-+     case 'q':
-+     case 'Q':
-+-        sprintf(buffer,
-+-#ifdef MS_WIN32
-+-            "<cparam '%c' (%I64d)>",
-+-#else
-+-            "<cparam '%c' (%lld)>",
-+-#endif
-++        return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
-+             self->tag, self->value.q);
-+-        break;
-+     case 'd':
-+-        sprintf(buffer, "<cparam '%c' (%f)>",
-+-            self->tag, self->value.d);
-+-        break;
-+-    case 'f':
-+-        sprintf(buffer, "<cparam '%c' (%f)>",
-+-            self->tag, self->value.f);
-+-        break;
-+-
-++    case 'f': {
-++        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
-++        if (f == NULL) {
-++            return NULL;
-++        }
-++        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
-++        Py_DECREF(f);
-++        return result;
-++    }
-+     case 'c':
-+         if (is_literal_char((unsigned char)self->value.c)) {
-+-            sprintf(buffer, "<cparam '%c' ('%c')>",
-++            return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
-+                 self->tag, self->value.c);
-+         }
-+         else {
-+-            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
-++            return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
-+                 self->tag, (unsigned char)self->value.c);
-+         }
-+-        break;
-+ 
-+ /* Hm, are these 'z' and 'Z' codes useful at all?
-+    Shouldn't they be replaced by the functionality of c_string
-+@@ -549,22 +538,20 @@ PyCArg_repr(PyCArgObject *self)
-+     case 'z':
-+     case 'Z':
-+     case 'P':
-+-        sprintf(buffer, "<cparam '%c' (%p)>",
-++        return PyUnicode_FromFormat("<cparam '%c' (%p)>",
-+             self->tag, self->value.p);
-+         break;
-+ 
-+     default:
-+         if (is_literal_char((unsigned char)self->tag)) {
-+-            sprintf(buffer, "<cparam '%c' at %p>",
-++            return PyUnicode_FromFormat("<cparam '%c' at %p>",
-+                 (unsigned char)self->tag, (void *)self);
-+         }
-+         else {
-+-            sprintf(buffer, "<cparam 0x%02x at %p>",
-++            return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
-+                 (unsigned char)self->tag, (void *)self);
-+         }
-+-        break;
-+     }
-+-    return PyUnicode_FromString(buffer);
-+ }
-+ 
-+ static PyMemberDef PyCArgType_members[] = {
-+
-diff --git a/meta/recipes-devtools/python/python3_3.9.1.bb b/meta/recipes-devtools/python/python3_3.9.1.bb
-index bdeddc4e68..ad032e97ae 100644
---- a/meta/recipes-devtools/python/python3_3.9.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.1.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
-+           file://CVE-2021-3177.patch \
-            "
+refresh 0001-Use-our-hand-build-native-src-generator.patch
+
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ .../0001-Fix-build-with-icu-68.1.patch        | 81 -------------------
+ ...-our-hand-build-native-src-generator.patch | 32 ++++----
+ .../{libical_3.0.8.bb => libical_3.0.9.bb}    |  5 +-
+ 3 files changed, 20 insertions(+), 98 deletions(-)
+ delete mode 100644 meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+ rename meta/recipes-support/libical/{libical_3.0.8.bb => libical_3.0.9.bb} (91%)
+
+diff --git a/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch b/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+deleted file mode 100644
+index 79e1475c6c..0000000000
+--- a/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From 52d603212173d4502800bf746436a93f806a8898 Mon Sep 17 00:00:00 2001
+-From: Allen Winter <allen.winter@kdab.com>
+-Date: Sat, 31 Oct 2020 17:38:01 -0400
+-Subject: [PATCH] Fix build with icu-68.1
+-
+-Use stdbool.h to define true and false when possible
+-
+-Issue#448
+----
+- ConfigureChecks.cmake   |  1 +
+- config.h.cmake          |  3 +++
+- src/libical/icalrecur.c | 10 ++++++++--
+- 3 files changed, 12 insertions(+), 2 deletions(-)
+-
+-diff --git a/ConfigureChecks.cmake b/ConfigureChecks.cmake
+-index e4d0e2ec..bba33fa9 100644
+---- a/ConfigureChecks.cmake
+-+++ b/ConfigureChecks.cmake
+-@@ -10,6 +10,7 @@ check_include_files(sys/utsname.h HAVE_SYS_UTSNAME_H)
+- check_include_files(fcntl.h HAVE_FCNTL_H)
+- check_include_files(unistd.h HAVE_UNISTD_H)
+- check_include_files(wctype.h HAVE_WCTYPE_H)
+-+check_include_files(stdbool.h HAVE_STDBOOL_H)
+- 
+- include(CheckFunctionExists)
+- if(WIN32 AND MSVC)
+-diff --git a/config.h.cmake b/config.h.cmake
+-index 8fd3421b..c8008692 100644
+---- a/config.h.cmake
+-+++ b/config.h.cmake
+-@@ -39,6 +39,9 @@
+- /* Define to 1 if you have the <dirent.h> header file. */
+- #cmakedefine HAVE_DIRENT_H 1
+- 
+-+/* Define to 1 if you have the <stdbool.h> header file. */
+-+#cmakedefine HAVE_STDBOOL_H 1
+-+
+- /* Define if we have pthread. */
+- #cmakedefine HAVE_PTHREAD_ATTR_GET_NP 1
+- #cmakedefine HAVE_PTHREAD_GETATTR_NP 1
+-diff --git a/src/libical/icalrecur.c b/src/libical/icalrecur.c
+-index 73178450..b3f054b8 100644
+---- a/src/libical/icalrecur.c
+-+++ b/src/libical/icalrecur.c
+-@@ -145,6 +145,12 @@
+- #if defined(HAVE_LIBICU)
+- #include <unicode/ucal.h>
+- #include <unicode/ustring.h>
+-+#if defined(HAVE_STDBOOL_H)
+-+#include <stdbool.h>
+-+#else
+-+#define false 0
+-+#define true 1
+-+#endif
+- #define RSCALE_IS_SUPPORTED 1
+- #else
+- #define RSCALE_IS_SUPPORTED 0
+-@@ -1018,7 +1024,7 @@ icalarray *icalrecurrencetype_rscale_supported_calendars(void)
+- 
+-     calendars = icalarray_new(sizeof(const char **), 20);
+- 
+--    en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
+-+    en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
+-     while ((cal = uenum_next(en, NULL, &status))) {
+-         cal = icalmemory_tmp_copy(cal);
+-         icalarray_append(calendars, &cal);
+-@@ -1411,7 +1417,7 @@ static int initialize_rscale(icalrecur_iterator *impl)
+-         }
+- 
+-         /* Check if specified calendar is supported */
+--        en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
+-+        en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
+-         while ((cal = uenum_next(en, NULL, &status))) {
+-             if (!strcmp(cal, rule.rscale)) {
+-                 is_hebrew = !strcmp(rule.rscale, "hebrew");
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch b/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
+index b7b757d74b..d48185b971 100644
+--- a/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
++++ b/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
+@@ -9,25 +9,29 @@ Content-Transfer-Encoding: 8bit
+ Upstream-Status: Inappropriate [oe-core specific]
  
- SRC_URI_append_class-native = " \
+ Signed-off-by: Andreas MÃ¼ller <schnitzeltony@gmail.com>
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+ ---
+- src/libical-glib/CMakeLists.txt | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/libical-glib/CMakeLists.txt | 7 +------
++ 1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+ diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLists.txt
+-index f3704e6..ce9db16 100644
++index 13f77aa..c337c9e 100644
+ --- a/src/libical-glib/CMakeLists.txt
+ +++ b/src/libical-glib/CMakeLists.txt
+-@@ -63,8 +63,8 @@ endforeach()
++@@ -74,12 +74,7 @@ endforeach()
+  
+- add_custom_command (
+-   OUTPUT ${LIBICAL_GLIB_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/libical-glib-private.h ${CMAKE_CURRENT_BINARY_DIR}/i-cal-forward-declarations.h
+--  COMMAND ${EXECUTABLE_OUTPUT_PATH}/src-generator "${CMAKE_CURRENT_SOURCE_DIR}/tools" "${CMAKE_CURRENT_SOURCE_DIR}/api"
+--  DEPENDS ${EXECUTABLE_OUTPUT_PATH}/src-generator ${xml_files}
+-+  COMMAND ${CMAKE_BINARY_DIR}/src-generator "${CMAKE_CURRENT_SOURCE_DIR}/tools" "${CMAKE_CURRENT_SOURCE_DIR}/api"
+-+  DEPENDS ${CMAKE_BINARY_DIR}/src-generator ${xml_files}
+- )
+- 
+- configure_file(
++ if(CMAKE_CROSSCOMPILING)
++   # import native ical-glib-src-generator when cross-compiling
++-  set(IMPORT_ICAL_GLIB_SRC_GENERATOR "ICAL_GLIB_SRC_GENERATOR-NOTFOUND"
++-    CACHE FILEPATH
++-    "Path to exported ical-glib-src-generator target from native build"
++-  )
++-  include(${IMPORT_ICAL_GLIB_SRC_GENERATOR})
++-  set(ical-glib-src-generator_EXE native-ical-glib-src-generator)
+++  set(ical-glib-src-generator_EXE ${CMAKE_BINARY_DIR}/src-generator)
++ else()
++   set(ical-glib-src-generator_EXE ical-glib-src-generator)
++ endif()
+ -- 
+-2.21.0
++2.25.1
+ 
+diff --git a/meta/recipes-support/libical/libical_3.0.8.bb b/meta/recipes-support/libical/libical_3.0.9.bb
+similarity index 91%
+rename from meta/recipes-support/libical/libical_3.0.8.bb
+rename to meta/recipes-support/libical/libical_3.0.9.bb
+index 6230f09eca..548b7b1686 100644
+--- a/meta/recipes-support/libical/libical_3.0.8.bb
++++ b/meta/recipes-support/libical/libical_3.0.9.bb
+@@ -11,10 +11,9 @@ SECTION = "libs"
+ SRC_URI = " \
+     https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+     file://0001-Use-our-hand-build-native-src-generator.patch \
+-    file://0001-Fix-build-with-icu-68.1.patch \
+ "
+-SRC_URI[md5sum] = "41bd1f1fcdcb4779cea478bb55cf07bf"
+-SRC_URI[sha256sum] = "09fecacaf75ba5a242159e3a9758a5446b5ce4d0ab684f98a7040864e1d1286f"
++SRC_URI[md5sum] = "734099cc0b0f52bdcc5e3e191a0d9769"
++SRC_URI[sha256sum] = "bd26d98b7fcb2eb0cd5461747bbb02024ebe38e293ca53a7dfdcb2505265a728"
+ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig
 -- 
-2.29.2
+2.25.1
+
+
 
