@@ -1,81 +1,168 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web09.36454.1612196747155522561
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web12.36660.1612196754681693876
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 08:25:47 -0800
+ Mon, 01 Feb 2021 08:25:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pzIbHihZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f178.google.com with SMTP id g69so19348109oib.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:25:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=JGmQUonb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f44.google.com with SMTP id 63so16868736oty.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:25:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=r5KME7oPB0Lsf6Ye0BEXc7K9W/yZCukc1Z+IJ+u/77g=;
-        b=pzIbHihZJB6uT7dBQ0E+FEr7UH9g8sV7djejv9K3sQnpDNsCpdpdU41Lcq2W0tTN43
-         mg1L/WytwvFHjAAJdiGqxsVXIsLoCavHBuRdYQFxNSsYv+gQsEUUQ1t0luGVIilppCIk
-         giZyhozFy5WGI3xmuJZTrA74daC1is8kl/1n9ud7f19hCKMBubz8ekeWN39t47V0Hjfa
-         5rNXn1aP2WREcoVpsyEsbrhsiiB2dvv6CO2zFfaqmuDfFPwdAhtMJcBBs1tbhAaVb6up
-         j/Zj/xmVhzfeZwhPcACtIQLyLJo/F6ZDBKmAq1ciGS7wC0XwErbEooptjKYOw5XG+Jyk
-         d4mQ==
+        bh=DAc8Y0FCV0elAXLuXlZ2osQN6ag4+1i8CRf18u0+Zuw=;
+        b=JGmQUonbfIF2HF2ZCDtrttCAFrmL9Sc5dQ9KzQUVqlKOWP81GgYkdD0R9LemR1ZM5J
+         I40bI3rHOZVBlHBnmV8Dz/Ad5/rXChATXxyHek284NlW4eq8/ghg4S6jwfY5fpsTwRzX
+         zZoys1VU4h9Fo/Lgg5Y+4JugbDebo19Vypr9VbvsUCroBVQExP/uruVh7SRFKuaq4a71
+         RJv3icSwoBnfqKmDYMGlBSKaCyFwyKzyGLUKVvgirrW1hWkVwBtdMowoKVYZqWwE3V09
+         p9FdV+YnZsQZHz+vgf8MMuqI+9kczonySuYEVXcwf+9ADmPsWrvaadn8haZAZm3Com0i
+         00HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=r5KME7oPB0Lsf6Ye0BEXc7K9W/yZCukc1Z+IJ+u/77g=;
-        b=GmIcoId+r7Bi90U43trVWlZ+BpvAuJO7aqTIMKQ197VhYUVwdCvD41EanD8LNsDpC6
-         1sz+e9DirrOv1ieHfbmkwnDaM1HjT/Sh+1E0aBtn5EwhEGj+OjNwsmWvMRWUBQdd/Y4G
-         FnNeTo0Z0R6/NEaUDQkAqLy4N8QBy+BT6Aayxyo93TVkLAw9sw5AFcf9wuXw3DARBuMf
-         4sey5kSaycbFaa+LeSS8X2n815Ha3fjRwAnY36uxf6MaPABrKQ91ikhI2YX0GbYU1zfl
-         MZ3C8i0QOoyr7PzZ3i+gYsstoGa4rCauohWv2U67GKsdes5mLWIWQYvkV+rNC1Tw9MyO
-         9BFA==
-X-Gm-Message-State: AOAM533QbLZojGZWhb1SWMbuWxvRa1iRuukX8XBEMcMOY+JIwOoHkwI8
-	ndTbLsMbJIFY/ZF6uv9Ia0X2FRVancNI8oNSQKs=
-X-Google-Smtp-Source: ABdhPJzbgwpyFRaFCKPB6eS2jeSm5kfy+NR+5eqwHixNEQ0WWJmj6f0pvRtXj+gYt42B5u3+swnhgQ==
-X-Received: by 2002:aca:add7:: with SMTP id w206mr11428128oie.86.1612196746040;
-        Mon, 01 Feb 2021 08:25:46 -0800 (PST)
+        bh=DAc8Y0FCV0elAXLuXlZ2osQN6ag4+1i8CRf18u0+Zuw=;
+        b=qM74iqH3bUfgM8c4vlLLHbNUxwXAcY6nX4aV+EctArXnFvaoYhmfU9EfZ9TZOiLj2s
+         +95Le5q+bIpNj5GqCEveCjm8FECsoxGdOJ96Mu5PdwNJqVLOYJVRoOOszQOJaMd2prlo
+         rc7nS6rVpr16PpmRoTeRkVWblFgmV2LMD9RQqzRxJ0pUd+hxnPm4Wif6D6Zl+yAJAR1r
+         2qGs38c54q4hgoVMbCyBfEXiEE/eS4MpMgcH1qeJTq2Qa3LZ5C3u3m8vyR1UT/kp0Prh
+         PSsVByaTLEg73/iZ8z/63YW1ZhtewioZ85rAwhOZgo/mu5TYLmdxbLSK5yoZBFMTkeX3
+         4ruQ==
+X-Gm-Message-State: AOAM530U2SVF2S5IBz7AXfTWnUwyf/bKaraimqAjT7m71xE/AyROi1MS
+	YENGXzqcPKYfPbnKvOUMe4WBsaoE81PkO5tgR/w=
+X-Google-Smtp-Source: ABdhPJxLGp9F8J8sbFcmB3rtabvMBg1mtbMp8bEquv9+/3EaF3zzraIW2XwrEDAl4nMi9rGlMG5KRw==
+X-Received: by 2002:a9d:7b4c:: with SMTP id f12mr11600432oto.144.1612196753511;
+        Mon, 01 Feb 2021 08:25:53 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.25.43
+        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.25.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 08:25:45 -0800 (PST)
+        Mon, 01 Feb 2021 08:25:52 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/21] oeqa/ptest: print a warning if ptests failed
-Date: Mon,  1 Feb 2021 06:24:34 -1000
-Message-Id: <6097b1cbffc048185c1ed658f16f0f90a9d19054.1612188857.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/21] flex: fix build with autoconf 2.70
+Date: Mon,  1 Feb 2021 06:24:35 -1000
+Message-Id: <4a977fba25e9fa0a14b49d5f8ac992f14a6ca254.1612188857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612188857.git.steve@sakoman.com>
 References: <cover.1612188857.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-This allows spotting ptest regressions without having hard ptest failures
-(for that full ptest stability should be achieved).
+autoconf 2.70 is coming soon which has some small behavioural fixes, so
+backport a patch from upstream to fix the build with that release.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 79b54d902df2788b0822b6c9cc14705ab00e6a5b)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 5232c0b480eba4537c8db71c95189950011fb64d)
+(cherry picked from commit 946610f2cc8cd42265ee3fab6c73ad4831aaeb4e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/ptest.py | 1 +
- 1 file changed, 1 insertion(+)
+ .../flex/flex/check-funcs.patch               | 79 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/check-funcs.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index ef0470da7e..2066d009c3 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -104,4 +104,5 @@ class PtestRunnerTest(OERuntimeTestCase):
-             failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
+diff --git a/meta/recipes-devtools/flex/flex/check-funcs.patch b/meta/recipes-devtools/flex/flex/check-funcs.patch
+new file mode 100644
+index 0000000000..037ca81fdc
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/check-funcs.patch
+@@ -0,0 +1,79 @@
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From c42de062bbdc7c31d7181c10a74202d493280ada Mon Sep 17 00:00:00 2001
++From: Explorer09 <explorer09@gmail.com>
++Date: Tue, 27 Feb 2018 09:10:12 +0800
++Subject: [PATCH] build: Move dnl comments out of AC_CHECK_FUNCS
++
++Due to a bug, autoheader (2.69) will treat M4 dnl comments in a quoted
++argument of AC_CHECK_FUNCS as function tokens and generate a lot of
++redundant and useless HAVE_* macros in config.h.in.
++(Examples: HAVE_DNL, HAVE_AVAILABLE_, HAVE_BY)
++
++It seems to be this commit dbb4e94dc7bacbcfd4acef4f085ef752fe1aa03f of
++mine that revealed this autoheader bug, and the affected config.h.in
++had been shipped within flex-2.6.4 release tarball.
++
++I have reported the autoheader bug here:
++<https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html>
++
++As a workaround, let's move comments out of AC_CHECK_FUNCS.
++
++Signed-off-by: Kang-Che Sung <explorer09@gmail.com>
++---
++ configure.ac | 29 +++++++++++++----------------
++ 1 file changed, 13 insertions(+), 16 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 55e774b0..d0f3b7da 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -166,6 +166,7 @@ strtol dnl
++ AC_CHECK_FUNCS([dnl
++ pow dnl           Used only by "examples/manual/expr"
++ setlocale dnl     Needed only if NLS is enabled
+++reallocarr dnl    NetBSD function. Use reallocarray if not available.
++ reallocarray dnl  OpenBSD function. We have replacement if not available.
++ ])
++ 
++diff --git a/configure.ac b/configure.ac
++index 3c977a4e..9c53590f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -158,22 +158,19 @@ AC_FUNC_REALLOC
++ AS_IF([test "$cross_compiling" = yes],
++    AC_MSG_WARN([result $ac_cv_func_realloc_0_nonnull guessed because of cross compilation]))
++ 
++-AC_CHECK_FUNCS([dup2 dnl
++-memset dnl
++-regcomp dnl
++-strcasecmp dnl
++-strchr dnl
++-strdup dnl
++-strtol dnl
++-], [], [AC_MSG_ERROR(required library function not found on your system)])
++-
++-# Optional library functions
++-AC_CHECK_FUNCS([dnl
++-pow dnl           Used only by "examples/manual/expr"
++-setlocale dnl     Needed only if NLS is enabled
++-reallocarr dnl    NetBSD function. Use reallocarray if not available.
++-reallocarray dnl  OpenBSD function. We have replacement if not available.
++-])
+++dnl Autoheader (<= 2.69) bug: "dnl" comments in a quoted argument of
+++dnl AC_CHECK_FUNCS will expand wierdly in config.h.in.
+++dnl (https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html)
+++
+++AC_CHECK_FUNCS([dup2 memset regcomp strcasecmp strchr strdup strtol], [],
+++  [AC_MSG_ERROR(required library function not found on your system)])
+++
+++# Optional library functions:
+++# pow - Used only by "examples/manual/expr".
+++# setlocale - Needed only if NLS is enabled.
+++# reallocarr - NetBSD function. Use reallocarray if not available.
+++# reallocarray - OpenBSD function. We have replacement if not available.
+++AC_CHECK_FUNCS([pow setlocale reallocarr reallocarray])
++ 
++ AC_CONFIG_FILES(
++ Makefile
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 43b2547fc6..3d57572865 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
++           file://check-funcs.patch \
+            "
  
-         if failmsg:
-+            self.logger.warning("There were failing ptests.")
-             self.fail(failmsg)
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.25.1
 
