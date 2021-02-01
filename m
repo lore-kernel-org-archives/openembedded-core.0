@@ -1,50 +1,50 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web10.36629.1612196839157911529
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web10.36632.1612196844615629975
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 08:27:19 -0800
+ Mon, 01 Feb 2021 08:27:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=UIfl8/z9;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.180, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f180.google.com with SMTP id k142so4944515oib.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:27:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DZTV7oaw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.181, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f181.google.com with SMTP id m13so19354806oig.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:27:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WscHItuzsyZIjdrYjzOz/9/udRpmqULXTseKsR1aeTE=;
-        b=UIfl8/z9lqj8w0Tfw0TScOS5VukyDcD0UdC6+WrkVYI0fnx86CqE1yZZEzuyQ/ZV7+
-         lOJg8Quk7AGcVlie/NFKy+lYbgzZ/qiWLX4954XHrtScEhZACaNfFqOxHxm6kka2xWGt
-         GNgwujDFoc6txn+aEsVVDqXd0QO4mYkwLZyVKJBoz9pPzn7moNgrldqBDPL0e5QW2iK7
-         OxlU9I6KidI21K2Bul3yAd2OQ9hNW/TfM0EAAhTGz9anSFWYxbMjJ2uzYT72tWVuSOHd
-         HjENqYxTPASYbRk4X62LPHWvla12ekab4VfqJe6lpZHZhjg36RteOm7uqaTvMxMrYkUH
-         SmKw==
+        bh=jYJROwyVd56YblL5/t+jggjb3z361Cj43cqCACCMvTQ=;
+        b=DZTV7oawuU0raigScgLm5T4aezRgB+sOR+C1UKMjioIRe9Rhd70PHM4JQPnUlymgBV
+         sEHOUJ70CHx+p0Qc1ZZOzxp7iume++PISggAQS0vQ1WuhUcvSp7+Gb86cQ8sIfgcev3I
+         zOS/VeBWRDlI6jh6kkHozrIk26JT+hSkzPSveFiS4WPXdGddjHMQEnCvltihSN27y603
+         1lz3yu28v9aKUONqb2T30lbtCAwDhOUOREtTBmQzklbl6/DZ7KsAsgKxxuZc3b+S+3bu
+         hmbcYDArrxlOs72KXIc64zZKW3wyNrhis3XO/jnJ7dbtZMxdCfiQAYcsXF4lYHI4yS5a
+         8GIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WscHItuzsyZIjdrYjzOz/9/udRpmqULXTseKsR1aeTE=;
-        b=mEsLeF0rFRXgSMdB8Bv32CwCMDrZZYr+MLhs8JEQAfCXgi7No+2VKdZzWKjtMRLsc+
-         6Wl8BA0CKanMgFJ9X98Pe+r3WyYC8ICwi//XznDMihnG4ndCL20WVtDw3xdUGVM7ElJW
-         GhTIHfzKawcBbm/6g+jywJtYfjQtDb29KTvQuKhhFzkrjREfkJHe9cDi8XXl7Ng52qG+
-         u111j8PSXtNOrU+aymeFD56pp/9Ka5njGEzyw5Lxy7UnQls+taub5stZccTsukbI8bS1
-         xcU4k1tf0w1FQ03SmrsfmJRDTp/sz+jXIDpVrS9PansuzmMLJOrmFCYXUTATucIqz4hP
-         t8PQ==
-X-Gm-Message-State: AOAM5303yHOH7+/8RZcBqhaT3TDgd1agQZLZgtdlw2AhCYFhBl0BhGJ7
-	N6DU3BkhJ/tiqptpXYmBPST2CkQ606BoUfSDyZ8=
-X-Google-Smtp-Source: ABdhPJy0/H5k8BoyMdzrr6Rx1hRzS8lUIrw1sYHApPpBc/cy5gjj6b1pW0pHt33IWef7n++6yFiL1g==
-X-Received: by 2002:a05:6808:b23:: with SMTP id t3mr11065463oij.29.1612196838120;
-        Mon, 01 Feb 2021 08:27:18 -0800 (PST)
+        bh=jYJROwyVd56YblL5/t+jggjb3z361Cj43cqCACCMvTQ=;
+        b=qWY+EK87KBKX81a8TXirkhS3YrbEPEN282uqoAtOC5kT8OpYz9ko49Uf5zxG/Qm/IJ
+         NkHvC0ydLZkbuYFSADOwlYaaeVPi3OEIr9WD0GIGZpZLcOQ5UhfvNirdgr41hGk2S8Aw
+         n9iB5PqSiW1on3h4QaU2jKnwlXHhQrCUK1p29ag1hQGgDSB6+9OcslPsDR6chMpyBuCD
+         5da3hepn2vJhBjLOkdItNVSjWrubhwQZRQOLysLnBnEcTHUVKnw8FVSaWSP1nb3L9hQ/
+         Y8WjqgAlK2n3j2HSGFBFmuxZrTWQtwq+xA5vVfvGPCNa9CpAQp1othZqNxHNidGKQE2G
+         gqfQ==
+X-Gm-Message-State: AOAM533WZDs920cTYCuggKyO80N2ETT2c+CYVajZEgA4735P8IcnCkxp
+	JIpNvn3mJP0KDEayMfPwfcsKMfrcwUFDbQ6f73s=
+X-Google-Smtp-Source: ABdhPJwbfXFQBCIO+GDqna1LVDXCUZyPVoOTVgoLoof246ExopAb1/x7OpXPRzhnfPjD+pYt0ORx/Q==
+X-Received: by 2002:aca:add7:: with SMTP id w206mr11432557oie.86.1612196843543;
+        Mon, 01 Feb 2021 08:27:23 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.27.14
+        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.27.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 08:27:17 -0800 (PST)
+        Mon, 01 Feb 2021 08:27:23 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/21] python3: Avoid installing test data into recipe-sysroot
-Date: Mon,  1 Feb 2021 06:24:51 -1000
-Message-Id: <f73ac290617e89b80e10dc700c0e90efddc8e1b2.1612188857.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/21] staging: Clean up files installed into the sysroot
+Date: Mon,  1 Feb 2021 06:24:52 -1000
+Message-Id: <e0cd2e1f9ae956d72b8033ce1c4403d8bd99d3d5.1612188857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612188857.git.steve@sakoman.com>
 References: <cover.1612188857.git.steve@sakoman.com>
@@ -53,32 +53,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-There are several thousand files in the test directory which we don't need.
-Adding these for the native and target sysroots is a crazy amount of files
-to be throwing around needlessly. Delete the files from the sysroot side
-of things to tidy up the sysroots and improve performance.
+There are a variety of files being installed into $datadir which we
+don't need. Pick the top "offenders" which amount of thousands of files
+and simply don't install them. These include things like test data,
+terminfo data, locale data for native tools and so on. This saves
+copying these files into native and target sysroots and should improve
+performance (smaller sstate, fewer files to copy around).
+
+With this and the python recipe change, alsa-tools went from:
+
+recipe-sysroot: 18357
+recipe-sysroot-native: 14129
+
+to
+
+recipe-sysroot: 10809
+recipe-sysroot-native: 8079
+
+which is a decent improvement.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f6bced03011ad1663d68b0322a2f8aeb4d836646)
+(cherry picked from commit 366c72941fe1c24d0b1d96df46e13cb9eb4e79d6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/python/python3_3.8.2.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/staging.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index 9eddad4ad4..a86542e547 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -360,3 +360,9 @@ RDEPENDS_${PN}-dev = ""
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 5b04f88b2d..506ce0665e 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -27,11 +27,15 @@ SYSROOT_DIRS_BLACKLIST = " \
+     ${mandir} \
+     ${docdir} \
+     ${infodir} \
++    ${datadir}/X11/locale \
+     ${datadir}/applications \
++    ${datadir}/bash-completion \
+     ${datadir}/fonts \
+     ${datadir}/gtk-doc/html \
++    ${datadir}/installed-tests \
+     ${datadir}/locale \
+     ${datadir}/pixmaps \
++    ${datadir}/terminfo \
+     ${libdir}/${BPN}/ptest \
+ "
  
- RDEPENDS_${PN}-tests_append_class-target = " bash"
- RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
-+
-+# Python's tests contain large numbers of files we don't need in the recipe sysroots
-+SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
-+py3_sysroot_cleanup () {
-+	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
-+}
 -- 
 2.25.1
 
