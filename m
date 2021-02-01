@@ -1,139 +1,123 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.36592.1612196759583790449
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web11.36737.1612196764083907798
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 08:25:59 -0800
+ Mon, 01 Feb 2021 08:26:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1gs9L9zy;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f51.google.com with SMTP id d5so1413244otc.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:25:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b4rAgc1Y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f50.google.com with SMTP id h14so16858182otr.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:26:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=j/cxGrOGgD8EY8hIubemiG9eOTKSY3DZDk3/u+Wjo8Y=;
-        b=1gs9L9zyKQ1hsArIUhxRmJS+r2qVOlhDaoGKMwvsZo0lMSpBCo+ZRcdFUgZ6rk0sXZ
-         Le2eehexHYAQ4Wg4IE36lYm/fVSNeRBTYmPH/t5dch/FTUxzUdF9N6N1IQ9okc8gFOPm
-         8SUdnThJD0/LZ9vHg63hNgm2QRrSf4BjevFxBJRNoqV+hzrE6VB51Otl+QQeQMLOLTog
-         +jb+o2+M0uc2eoQDcNv+j369rtT7zDmMzYGk1TVCDc5S0BFYnCLW/U8yiUpMWU5uE2DT
-         XGYbj/aYwnjVbv/4P7X3h++yq84Djamm6fC42vbFmO1jd694STdYWmhLtAAT1//lbL22
-         j4rA==
+        bh=xG5ytvnV5G1CBSsicilE+d6KpYaZ+Zeh/qe8AqI4JCg=;
+        b=b4rAgc1YxARKQBJlXI7oIuSri56op5qCj85wM3AWAHI5H2UMKtKjMKXjsvcgIB/zHQ
+         npn2FMG+eWlwBZ+iin9aoYSjdp1rjYiUZJhIpr9O6yNVUoAkfJyfxxZFMvE3LX1PRE2L
+         Nh0r8CzF7dd6E3aSW2g8Nxv5oCJcN15W1GJVKpB90ncVz0ibA9Fesd5IUrlfop5mwKJL
+         cpK4BCPGvHmksNylzfr+frzZaQ84p60ua48r6lyy5BpesJb4gYYR+wkZL49FmrnPfO1+
+         edYhvAnvuYpVzbchgr/6b+dh/P7KSoDnHc/MMSF/7NBtkRQ7us0T4ImvY0mvhrA7sBGg
+         dfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=j/cxGrOGgD8EY8hIubemiG9eOTKSY3DZDk3/u+Wjo8Y=;
-        b=HJK3iGqblF5X/pja6LileLYvWmZyCWVs3j+rMUI69J1OuWeEpVR7ZMmH0amSnOaOnb
-         l5PsTNnS821Hl5/7Y049gDaIprYR1+DU5c/Y0KLl/20MXQj2+vEbRlWLS+hOUAUnSu7r
-         7Qqu2WvO3vmaEBLPaGrbjIfmlkM6Lr6sEz6hz07nGkG6wEJHmdTYzBcBYYrRksHNgtWp
-         MoD7QwVIOLSmKV+XZlzOHjq9/2QUOSzYdBH03G1HNAklzpBXyxrWn/vpRoGhV7y0YnS5
-         AqSF4jWmLdls1q3s/6GEsf915K2fL1SLLE/F6I7fUnPD8jKVgKfvJxl/RZuNxXA92wpA
-         HMGA==
-X-Gm-Message-State: AOAM530crkqGn4uiSngV7hLg4aJoM8nlRr5+q4sc0J4/9dxEKdz4+I+7
-	952eicGnuWxmzJf/RbjeHbruVwhKfqJjg0YnWEE=
-X-Google-Smtp-Source: ABdhPJyBiUunlzHA0sG2TQWL5FexcR3nrNNMimN3wEaomrDdjtRrlsk0b55vZnQjPKX1bVDkXQHNgg==
-X-Received: by 2002:a05:6830:1d79:: with SMTP id l25mr11370476oti.17.1612196758306;
-        Mon, 01 Feb 2021 08:25:58 -0800 (PST)
+        bh=xG5ytvnV5G1CBSsicilE+d6KpYaZ+Zeh/qe8AqI4JCg=;
+        b=XKoPYcgSnt8O4o1DzVx0Ar3YFujCPwyg6QKfR2g6kojVMeXtfmSlmFL57vp6wei67A
+         iJZ4wt2CfETdFElQg9quv1oDabV85cCe0ljlQDBfJJbU2Zhv3VaUvt5tkI8pVEHuZsi3
+         oIH6T6SmbextFx9x0oxf+BhCaD0q7PAJB1fR86lCxkbV+8IWq7ydyz6BvSiXBosublkZ
+         uxuhWP9Odts7aeUG6MFdj7Y46+WUHnskK07MG0bbKSpyPYBOrgQLOc/5HZDHXRaoJaSJ
+         V1LI9aGUb+/X3O3DOlmlzceQ9/U3XEYuyOq1h4/j6fFn6PLlW9L81cSZ87nBG2E0rSC5
+         BIcA==
+X-Gm-Message-State: AOAM5335+khRPSAoSy0yGYmRQYUahCpGh4X7+WMxVzSFs7Uoj5FfGJw9
+	cGbfGrQRNlqeXUYRpqWRqjC5D5b/rCgTdgBXLr4=
+X-Google-Smtp-Source: ABdhPJzLABJizXPGxl+iAIXdymL1HmpTxdeieUxViq9W1uv5XSO7nzJCMIWIBBQnoAVBjAGf6qoR/w==
+X-Received: by 2002:a9d:66d1:: with SMTP id t17mr11780010otm.163.1612196762959;
+        Mon, 01 Feb 2021 08:26:02 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.25.55
+        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.25.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 08:25:57 -0800 (PST)
+        Mon, 01 Feb 2021 08:26:02 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/21] flex: Refresh patch
-Date: Mon,  1 Feb 2021 06:24:36 -1000
-Message-Id: <0668fa21b7a5dbf96632b406d28d152c7c53fa3c.1612188857.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/21] flex: Fix --noline option behavior
+Date: Mon,  1 Feb 2021 06:24:37 -1000
+Message-Id: <2c000cb19aa605c1578afc0b5a445163a2387089.1612188857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612188857.git.steve@sakoman.com>
 References: <cover.1612188857.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: zangrc <zangrc.fnst@cn.fujitsu.com>
+From: Oleksiy Obitotskyy <oobitots@cisco.com>
 
-The patch changes the same file twice which causes issues with some patch
-tools (not used in YP by default). Refresh the patch to clean this up
-anyway.
+Option --noline or -L does not handled properly.
+So generated code contains #line directives with
+file absolute path and prevents to create
+reproducible builds.
 
-RP: Tweak commit message
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb6e65f8196fd6587c75c3ab2cf060c00a074ec6)
+(cherry picked from commit 0bf2cb7dc2123f220accf1542c2ae4c4b4b8275a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../flex/flex/check-funcs.patch               | 36 +++++++------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+ ...directives-if-gen_line_dirs-is-false.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
 
-diff --git a/meta/recipes-devtools/flex/flex/check-funcs.patch b/meta/recipes-devtools/flex/flex/check-funcs.patch
-index 037ca81fdc..762275e7f8 100644
---- a/meta/recipes-devtools/flex/flex/check-funcs.patch
-+++ b/meta/recipes-devtools/flex/flex/check-funcs.patch
-@@ -1,10 +1,4 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From c42de062bbdc7c31d7181c10a74202d493280ada Mon Sep 17 00:00:00 2001
--From: Explorer09 <explorer09@gmail.com>
--Date: Tue, 27 Feb 2018 09:10:12 +0800
--Subject: [PATCH] build: Move dnl comments out of AC_CHECK_FUNCS
-+Subject: build: Move dnl comments out of AC_CHECK_FUNCS
- 
- Due to a bug, autoheader (2.69) will treat M4 dnl comments in a quoted
- argument of AC_CHECK_FUNCS as function tokens and generate a lot of
-@@ -20,28 +14,20 @@ I have reported the autoheader bug here:
- 
- As a workaround, let's move comments out of AC_CHECK_FUNCS.
- 
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
+diff --git a/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+new file mode 100644
+index 0000000000..c8202b6bd5
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+@@ -0,0 +1,32 @@
++From 440f3f55739468cd26e22f31871eca8cbbd53294 Mon Sep 17 00:00:00 2001
++From: Oleksiy Obitotskyy <oobitots@cisco.com>
++Date: Wed, 6 Jan 2021 06:12:14 -0800
++Subject: [PATCH] Emit no #line directives if gen_line_dirs is false
 +
- Signed-off-by: Kang-Che Sung <explorer09@gmail.com>
-+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
- ---
-- configure.ac | 29 +++++++++++++----------------
-- 1 file changed, 13 insertions(+), 16 deletions(-)
-+ configure.ac | 28 +++++++++++++---------------
-+ 1 file changed, 13 insertions(+), 15 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 55e774b0..d0f3b7da 100644
-+index 55e774b..5ea3a93 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -166,6 +166,7 @@ strtol dnl
-- AC_CHECK_FUNCS([dnl
-- pow dnl           Used only by "examples/manual/expr"
-- setlocale dnl     Needed only if NLS is enabled
--+reallocarr dnl    NetBSD function. Use reallocarray if not available.
-- reallocarray dnl  OpenBSD function. We have replacement if not available.
-- ])
-- 
--diff --git a/configure.ac b/configure.ac
--index 3c977a4e..9c53590f 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -158,22 +158,19 @@ AC_FUNC_REALLOC
-+@@ -153,21 +153,19 @@ AC_FUNC_REALLOC
-  AS_IF([test "$cross_compiling" = yes],
-     AC_MSG_WARN([result $ac_cv_func_realloc_0_nonnull guessed because of cross compilation]))
-  
-@@ -58,7 +44,6 @@ index 3c977a4e..9c53590f 100644
- -AC_CHECK_FUNCS([dnl
- -pow dnl           Used only by "examples/manual/expr"
- -setlocale dnl     Needed only if NLS is enabled
---reallocarr dnl    NetBSD function. Use reallocarray if not available.
- -reallocarray dnl  OpenBSD function. We have replacement if not available.
- -])
- +dnl Autoheader (<= 2.69) bug: "dnl" comments in a quoted argument of
-@@ -77,3 +62,6 @@ index 3c977a4e..9c53590f 100644
-  
-  AC_CONFIG_FILES(
-  Makefile
++If we set --noline we should not print line directives.
++But setting --noline means gen_line_dirs is false.
++
++Upstream-Status: Submitted
++Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
++---
++ src/buf.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/buf.c b/src/buf.c
++index 185083c..4439e28 100644
++--- a/src/buf.c
+++++ b/src/buf.c
++@@ -95,8 +95,8 @@ struct Buf *buf_linedir (struct Buf *buf, const char* filename, int lineno)
++     const char *src;
++     size_t tsz;
++ 
++-    if (gen_line_dirs)
++-	return buf;
+++    if (!gen_line_dirs)
+++        return buf;
++ 
++     tsz = strlen("#line \"\"\n")                +   /* constant parts */
++                2 * strlen (filename)            +   /* filename with possibly all backslashes escaped */
 +-- 
-+2.25.1
++2.26.2.Cisco
 +
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 3d57572865..1d43d2228a 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
+            file://check-funcs.patch \
++           file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.25.1
 
