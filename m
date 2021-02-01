@@ -1,83 +1,126 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web12.36666.1612196768640938415
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web08.36633.1612196773885845516
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 08:26:08 -0800
+ Mon, 01 Feb 2021 08:26:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VlsHGu+4;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f178.google.com with SMTP id n7so19345606oic.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:26:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b/UrCj9q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.53, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f53.google.com with SMTP id x23so4397479oop.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 08:26:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=+43IqXagrq1kVzebAr0oR19Hklc81odjV++RDBU4eCo=;
-        b=VlsHGu+4MZX2ROIoLhrtsWcWjGeiDjnif9AHoV7V8X1rxJhCLHnOeSCPkgOFpvk5s0
-         AMcnBiyUfqSQCWd/e2no8L0tBywTomXJNOxGrghQblc+J1hR6niX+1f7RbGz3htRLT6x
-         sfujDpBxkwfK0S6iuyZJ6KWpHhc0v5H3L4z0lswsf4u/KQm4LE6Hz1OHLNXl4zZwtDDr
-         +66g2Aj4bnli8vg+6sz9hjqUmBVir5ncamgCU7EH+dAHGYYqNPN0y0zrrcDVL4vFuPzh
-         KPEX5GPBrw1pOFKbOqWkYmEtjo42p0TOcwlhnAYw7vaDpCpfFIsnRpXdKuVTnNINzT+s
-         tEsA==
+        bh=On4U47vPpZqk/AhwabJcJi/CF/KruKDpyS/LGD212sg=;
+        b=b/UrCj9qUmOv5gmndrY0JfTSEEoeVtzjmZoSVb2aVQPzTFUCGHDruz0MRe0XE3TzZx
+         aR6aUw33XIwgaDghSgdBsnQ2naOPs4YYEueS0GK4Z4owYlM511FeD8hu2uK/IrPScCYq
+         4VgQqn8pUuxazzfhmDu3tK3nSbd/xfFN7Y6GwNkjs+ZF2N37I/f//p7pLaWecIfo+A4e
+         d+4XfhdpyhWHsjhm6uN0f88FrFRhEDs1/p2/VGF4ZUdMxPDTo21r/+w8Tm9wPa0vIj63
+         rbmAYzQ1yjCLO5tAtkup27Fh23STGXx6VSOXsPzSruNKNHTmIO+xesAFwS3CKBuBsu6r
+         7sZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+43IqXagrq1kVzebAr0oR19Hklc81odjV++RDBU4eCo=;
-        b=fLHEuAfCZg1+wxomLnAsyZv/e77nUEQQ1+Y6O9LbF7LbgI4e1osLfq3k7tkX8A0jOY
-         0vTI2Qy9sEuJ0/7IxnZU8lzlEq7RIY2TN8M3CGTJ5keRY6AV/moAI/UuI+JjQEMgfWQw
-         oTSmuZEdk/YpakluaapD9jCc9z5Q9DjH75v0XLom1UVbE8xgELK+Dth9gtnjE4zm066E
-         T3ud1MLQ7Syylk7QO21FaKtUZdAQCVAwIJ7T+yQc/Be8Nac8hVwbRRzWrU8pyo1iDC3n
-         VvbPVaU9++itIjPO2Yf9QyuAE2lSkrVzpUn23Lq6yd4yC/YgT57H3IT/wtmcYl0fiMW3
-         CnWA==
-X-Gm-Message-State: AOAM531Y7Z38wMhcQj0ETdAClwICZhUPsjAAIwBSb5dbV7EuI7tXg68j
-	4WIFvnXqId4S6sHH/gPh1DyZwwIpcEQ2hYq+Oj4=
-X-Google-Smtp-Source: ABdhPJwe+4ACIGvHOLk46avnGKDw8FmzNI3rAVYZZvFAgl/Zfxr2rd5HqIJLTEzGOzCsvS2OOPflLw==
-X-Received: by 2002:a05:6808:101:: with SMTP id b1mr11291749oie.25.1612196767611;
-        Mon, 01 Feb 2021 08:26:07 -0800 (PST)
+        bh=On4U47vPpZqk/AhwabJcJi/CF/KruKDpyS/LGD212sg=;
+        b=Z2Qbxn5Cf3lm38OS6MY/NYGojTycYROJlujaWXqciHKdv+8VdQvVtM62gnAKalDJ1F
+         y7NLUfjr8Wy5fhFuHeQLYdAtLLfBHuS0UJpXb5brp4STRhx2plCsC83oEemicCgmA4/Z
+         c0sROG2BcHHxz83Wx/7cVndIbtP2kicJf7JYLlcjZKNTJ1BIZ2MRJlLsMprPzUMAcbry
+         QhLl5dg5v0e6GrsYpGuogEn9TVzvNa6lfd7okx8wLYITS4XKa9OJk+UlEqo7mUetsMNh
+         bMipJSGXIK2QDGyONtTxf4LVi0aOXvaZ+RMwMVekdHt1W6ucW/hBr+mfxbFbXmjVJLOI
+         zksA==
+X-Gm-Message-State: AOAM532TnGTn4iBRzds1aUOVz6Qf/ox41yOnV7+wtPJY3ZuRDJYf0dHJ
+	nnOfRAG8EFHo24965bt5SmSnhGhmbrfPy9iBa8Q=
+X-Google-Smtp-Source: ABdhPJzuZjQC/tSAo4oYf0Mfgz5IBqTJRoxAgxWV9/7DVza3EOm3CyZCsiMeXg5XlXeX7QRuLopAAw==
+X-Received: by 2002:a4a:1bc1:: with SMTP id 184mr2757174oop.86.1612196772375;
+        Mon, 01 Feb 2021 08:26:12 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.26.04
+        by smtp.gmail.com with ESMTPSA id o16sm3980726ote.79.2021.02.01.08.26.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 08:26:07 -0800 (PST)
+        Mon, 01 Feb 2021 08:26:11 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/21] toolchain-shar-relocate.sh: Fix handling files with colons
-Date: Mon,  1 Feb 2021 06:24:38 -1000
-Message-Id: <a4b72056e76f6c9b206cefacaab89a09b32948f6.1612188857.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/21] devtool: Fix source extraction for gcc shared source
+Date: Mon,  1 Feb 2021 06:24:39 -1000
+Message-Id: <1685e470f0dc49c1b857ffd869407f3396c55d31.1612188857.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612188857.git.steve@sakoman.com>
 References: <cover.1612188857.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Oleksiy Obitotskyy yIEf0zt.mo" <oobitots@cisco.com>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 
-Files could contain colons in name and we should not use
-colons (':') as field separator. E.g. perl/python man
-pages packages.
+If do_patch task is disabled then prepare do_configure dependencies to
+fetch external sources and create symlink to ${S} in devtool workspace.
 
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+[YOCTO #13036]
+
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 50d2ed0689f1aed6f33b4992d37e2e991c99eb07)
+(cherry picked from commit 9e47319bfe62d289b90f7545a64dbdc1cbde7f1d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/files/toolchain-shar-relocate.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index 94d288ce05..5433741296 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -55,7 +55,7 @@ fi
- for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
- 	$SUDO_EXEC find $replace -type f
- done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
--    awk -F':' '{printf "\"%s\"\n", $1}' | \
-+    awk -F': ' '{printf "\"%s\"\n", $1}' | \
-     grep -Fv -e "$target_sdk_dir/environment-setup-" \
-              -e "$target_sdk_dir/relocate_sdk" \
-              -e "$target_sdk_dir/post-relocate-setup" \
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 261d642d4a..f7d8a82117 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -589,6 +589,16 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+             else:
+                 task = 'do_patch'
+ 
++                if 'noexec' in (d.getVarFlags(task, False) or []) or 'task' not in (d.getVarFlags(task, False) or []):
++                    logger.info('The %s recipe has %s disabled. Running only '
++                                       'do_configure task dependencies' % (pn, task))
++
++                    if 'depends' in d.getVarFlags('do_configure', False):
++                        pn = d.getVarFlags('do_configure', False)['depends']
++                        pn = pn.replace('${PV}', d.getVar('PV'))
++                        pn = pn.replace('${COMPILERDEP}', d.getVar('COMPILERDEP'))
++                        task = None
++
+             # Run the fetch + unpack tasks
+             res = tinfoil.build_targets(pn,
+                                         task,
+@@ -600,6 +610,17 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+         if not res:
+             raise DevtoolError('Extracting source for %s failed' % pn)
+ 
++        if not is_kernel_yocto and ('noexec' in (d.getVarFlags('do_patch', False) or []) or 'task' not in (d.getVarFlags('do_patch', False) or [])):
++            workshareddir = d.getVar('S')
++            if os.path.islink(srctree):
++                os.unlink(srctree)
++
++            os.symlink(workshareddir, srctree)
++
++            # The initial_rev file is created in devtool_post_unpack function that will not be executed if
++            # do_unpack/do_patch tasks are disabled so we have to directly say that source extraction was successful
++            return True, True
++
+         try:
+             with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
+                 initial_rev = f.read()
+@@ -847,10 +868,11 @@ def modify(args, config, basepath, workspace):
+             if not initial_rev:
+                 return 1
+             logger.info('Source tree extracted to %s' % srctree)
+-            # Get list of commits since this revision
+-            (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
+-            commits = stdout.split()
+-            check_commits = True
++            if os.path.exists(os.path.join(srctree, '.git')):
++                # Get list of commits since this revision
++                (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
++                commits = stdout.split()
++                check_commits = True
+         else:
+             if os.path.exists(os.path.join(srctree, '.git')):
+                 # Check if it's a tree previously extracted by us. This is done
 -- 
 2.25.1
 
