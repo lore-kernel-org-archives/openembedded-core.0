@@ -1,91 +1,88 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web08.24867.1612129814735012653
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web08.26961.1612139450373101584
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 13:50:15 -0800
+ Sun, 31 Jan 2021 16:30:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PkJhtxBC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id 7so14563474wrz.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 13:50:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RC2U4FGj;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id r14so17477051ljc.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 16:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=KcKpiqesNkJ5G2NkYR7BlA9wXadMhcxqu/J3bJYjUJ4=;
-        b=PkJhtxBCrlo8eD+nLJD8XU+NcFHQDjBiIXlHmUJlIOsRN6LRA+sBfcnTXmV5st/baH
-         oBZUjnhG2Wbm1jbF2kJR23hcFhLfyVynL/KA/cKO2fr+JyulWX7+an4QwF0xoBay3zhM
-         k2nTwD45PrK/hbN9ekhIRX4afmDeu3wHys8A4=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TvjUyHtZs2THc9jXgviudizeKQRMfWB4bpeKM1t6vIw=;
+        b=RC2U4FGjoBzKgxHBVqIcN6sVTmMo8MUoZzhxiDizk0d/hu6cGVE0RO/c/0yn2LhuuQ
+         iYAym4i/HcfMwS746SNoCmegq9IR0gyUeyp12XJ0pOvxWtq8SPvBEqiEiM81cXwfs0LO
+         k377QJyOaboJwSHU0jKsXc4F3t5KvM2nenmpjmfOd2adk7T2W32WC7VbSCZRckl9P/Cv
+         xORMErR7zQE7E8gD4NR+5v9xADPMYUiY7CdcdeMamIWjVgibv2KBsDiZRjCp2mBRCK6P
+         7VsY8E7qhkUjReUeU9doUBvPugERbScPt6My16To8R28+vurKkfV/MGAGzmimbdXU6Fs
+         BdLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KcKpiqesNkJ5G2NkYR7BlA9wXadMhcxqu/J3bJYjUJ4=;
-        b=efYuYrPQqGRSjgCObuisLrOWiEPR2b9YLqZEezNab7urrWPYMfwAIHTT2FxYDEssE+
-         M/zv8VKAdLAdbaCvQlt8USujq5cmL19qdC/Hi97yPf8KuYtdJ5Idqlntk5lledjA/QFM
-         OjMnFsKfWQ83PoRGcjzqnpnz7Pu3K+ulf3pZlpOzGO+4t0+5g3roAS/qldeiSH3l+Dk7
-         eUwIA99WystiNPzTCosmVisprkyc6vKpWumZ4vWl2F0U/zAZexaG9TVAFs8cdFNcBwgn
-         wUfmaCzYUnCv6DyLIDCZ0A+jnZoPTi7bBFHwMQGi5P/duQ3ns4XVObyZFpbEvBmebvNz
-         c4Kg==
-X-Gm-Message-State: AOAM530Qaly957fqZBtaWx3bEJdnU2KXx1ksE44MalYKYdPdCOlzYtRd
-	LB2AqR2mTvFatfPv3TbCQ3cvnQ==
-X-Google-Smtp-Source: ABdhPJyE20qAt5cQvaEQ2D/puhujJ91yCeDjXl007taaLSF5dGYsPuAHBaMcrP1I/Oolx+cVhq9S8w==
-X-Received: by 2002:adf:f743:: with SMTP id z3mr15252865wrp.165.1612129813207;
-        Sun, 31 Jan 2021 13:50:13 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:ffbf:3082:adb4:3ffa? ([2001:8b0:aba:5f3c:ffbf:3082:adb4:3ffa])
-        by smtp.gmail.com with ESMTPSA id z1sm19249001wrp.62.2021.01.31.13.50.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TvjUyHtZs2THc9jXgviudizeKQRMfWB4bpeKM1t6vIw=;
+        b=IpUHRutytGG8b3EbncHLvpdVQuxXlRJaafBa6g2sAVijBWCChs0Gvy8mQybWvPcEPm
+         r14DNeqeGeKBYMazkcdP/qEqtBxun8dHgUxpJFCxwigRr9fv4914JJ5cszCFnWuOuL1a
+         Bh40q3bFN8fOUv6O3egoRYQPq6aXk3N4s99KFQEvemPC0XwtQuil6CtYfYY2LBZRY8je
+         2quDhpp8izlnOWtSMMue3VM5h3w8oXQleoXrPjyeEWKfkFqd8/5IJoqrWb/cDCiNDHRJ
+         ue96iZRIHKWf6zthnSzVw86YuGMdySwmA0tOATbFnvvDAuT3BE5PNOmzt71oTAMoSt5p
+         cl8Q==
+X-Gm-Message-State: AOAM531R6zv7/fznnrVGHrlbb0Y0t4U3llNOnVb6Vs3N/aE1kWqyO2LJ
+	rU6bc6jj3GwFPRRac6XQeaG50YrCcZc=
+X-Google-Smtp-Source: ABdhPJxVdinsM/ZMRgHQi2ddbbAWglxRuhM3tGAtTC2jOhPmdZv4kV4PtW2iD5Rw5KlADGcku8VLGg==
+X-Received: by 2002:a2e:9c89:: with SMTP id x9mr8947108lji.469.1612139447967;
+        Sun, 31 Jan 2021 16:30:47 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id 64sm2819288lfj.278.2021.01.31.16.30.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 13:50:12 -0800 (PST)
-Message-ID: <1559e89a094f9f6eaa3bfa9b01f6126a36e1d0d3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and paths under pseudo control overlap
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Dorinda <dorindabassey@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 31 Jan 2021 21:50:11 +0000
-In-Reply-To: <20210131192649.30005-1-dorindabassey@gmail.com>
-References: <20210131192649.30005-1-dorindabassey@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Sun, 31 Jan 2021 16:30:47 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] sstatesig: Add descriptive error message to getpwuid/getgrgid "uid/gid not found" KeyError
+Date: Mon,  1 Feb 2021 01:32:56 +0100
+Message-Id: <20210201003256.22788-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-01-31 at 14:26 -0500, Dorinda wrote:
-> 
-> +    # Check if PSEUDO_IGNORE_PATHS and and paths under pseudo control overlap
-> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
-> +    pseudo_control_dir = "${D},${PKGD},${PKGDEST},${IMAGEROOTFS},${SDK_OUTPUT}"
-> +    pseudocontroldir = d.getVar('pseudo_control_dir', expand=True).split(",")
+If path is not owned by any user installed on target it gives
+insufficient error "getpwuid(): uid not found" which may be misleading.
+This exception occurs if uid/gid of path was not found in PSEUDO_PASSWD
+files, which simply means the path is owned by host user and there is
+host user contamination.
 
-I'm not sure that would actually work without a setVar as
-pseudo_control_dir isn't a variable.
+Add more information to the exception message to make it easier for user
+to debug.
 
-What you probably want is:
+[YOCTO #14031]
 
-pseudocontroldir = d.expand(pseudo_control_dir, expand=True).split(",")
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/lib/oe/sstatesig.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-
-How did you test this? Did you try setting S = "${WORKDIR}/pack" in a
-recipe to ensure it correctly detects the issue?
-
-
-> +    for i in pseudoignorepaths:
-> +        for j in pseudocontroldir:
-> +            if i and j:
-> +                if j.startswith(i):
-> +                    status.addresult("a path included in PSEUDO_IGNORE_PATHS " + str(i) + " and the path " + str(j) + " are overlapping each other, please set this path " + str(j) + " to point to a different directory. \n")
-
-How about improving this to:
-
-'''
-A path in PSEUDO_IGNORE_PATHS " + str(i) + " and the path " + str(j) +
-" overlap and this will break pseudo permission and ownership tracking.
-Please set the path " + str(j) + " to a different directory which does
-not overlap with pseudo controlled directories. 
-'''
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index adfe2e403b..84999ee94d 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -552,9 +552,11 @@ def OEOuthashBasic(path, sigfile, task, d):
+                     try:
+                         update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
+                         update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
+-                    except KeyError:
++                    except KeyError as e:
+                         bb.warn("KeyError in %s" % path)
+-                        raise
++                        msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
++                            "any user/group on target. This may be due to host contamination." % (e, path, s.st_uid, s.st_gid))
++                        raise Exception(msg).with_traceback(e.__traceback__)
+ 
+                 if include_timestamps:
+                     update_hash(" %10d" % s.st_mtime)
+-- 
+2.30.0
 
