@@ -1,119 +1,76 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.32555.1612179306040424764
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+ by mx.groups.io with SMTP id smtpd.web08.34076.1612187560214291639
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 03:35:06 -0800
+ Mon, 01 Feb 2021 05:52:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fH0TjAJq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id s7so13198603wru.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 03:35:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LOSk0kG1;
+ spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f49.google.com with SMTP id 186so9080639vsz.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Feb 2021 05:52:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=PF7WcPoysD8gFItabh9wI1TtOmJxPlF6Fay1R5Ju78k=;
-        b=fH0TjAJqgP6ssju08yvqEx5meY3LqmYFSosCeZ4GzpXiTIW8qGVsTW0q2bFAySz6uf
-         aZkW+DzCPTFVGzTT3/FEw1C5OSZIuaKAK1uUgK8dzHGNAo+W+N5013k3+C1wZiqWPsxu
-         5DnZ6KA+3EksLyAZ8RFRMT5gh9D4I8qA8XXCk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UYAU7iCrQTHIVgxQr11Q0s1P3S13gTSYv1A5udLSVVw=;
+        b=LOSk0kG1ICnOsVsxfGceiVSLRA7vl/yc65u9t5G+yMGqSRFUPYHRc0bHtVAlYDqcsl
+         3Q6/228Fp3rACOwj1hJqjZiAoBvEGhzh40vTxHNz293I6Fj1icAEADyQhjTxLMgucSFc
+         Euav0gVHVMAxsO5PrJwz+aLNBEksEsH9pM9fqdrrDQiWpP2nSgT7yXKGmLWwY+fo347p
+         waUWYwXvvSE/v9BehMmehKS5L/9/4qv6FS9fScjfSkuJ7Bl4jtv+OXHmB4c4VfDtIa4p
+         mVBA9MxLOFLbt8NbI7wYydLLwUzMmthN5ONrGH+PLUNoAWkx+/DmjXLRXvZiWgf2QX+A
+         sKuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=PF7WcPoysD8gFItabh9wI1TtOmJxPlF6Fay1R5Ju78k=;
-        b=NKA/p9mZDWS6fHNiD/KeHU69mhTFBxzDn3lOoNtaEUxD2yKU0v+BevFPWnSnfftp6p
-         rfYjQ08w51bsfD6w2TZ9zNyFMK3r+DukL/ZwGJ1MxVC8Jjlno4eUCOurot4jCAM1PBuA
-         yzwPFwfK6Ot3KWFK3N10qjHLLOZ4W7y12vTlqCK6wxR5c33TNHa+gH+/XzW1/FRPS+yE
-         cwaRT1Xu7XY2l5rVUDzR7GWKVIMwIXuVadZoM3NnqRhsnWDKIcViKJsJjv4gGuj8n7yJ
-         tOSuZgD0CbgIt/7+sZXvOOnWYuESI6xupEwxzwi9oCswNCkMBrnH9i1lG87du0o4ZKpO
-         C7gQ==
-X-Gm-Message-State: AOAM531XOZ71vZQr47/Etq1JjdnFSGqrW0AI0d5ygU4iwVShK6wHpwNv
-	WQ6Ow7L6o0Xkoqbee2oxT0MdPA==
-X-Google-Smtp-Source: ABdhPJy8VuKSAsssWPCr5uLrHhlI594LuyAx/JjOeHr/Krtlx8yXeTZLxvtDzjZzqw1t1FzT8Lu3Cg==
-X-Received: by 2002:adf:9031:: with SMTP id h46mr17770953wrh.19.1612179304200;
-        Mon, 01 Feb 2021 03:35:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:ffbf:3082:adb4:3ffa? ([2001:8b0:aba:5f3c:ffbf:3082:adb4:3ffa])
-        by smtp.gmail.com with ESMTPSA id t18sm22812463wrr.56.2021.02.01.03.35.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 03:35:03 -0800 (PST)
-Message-ID: <260643e582bbeee2748e08e1fd7ebee4adbef888.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] igt-gpu-tools: add procps-lib to RDEPENDS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, Joshua Watt
- <JPEW.hacker@gmail.com>
-Date: Mon, 01 Feb 2021 11:34:59 +0000
-In-Reply-To: <165F4F23A9F2744A.13584@lists.openembedded.org>
-References: <20210120050318.10376-1-Qi.Chen@windriver.com>
-	 <165F4E547FA339C3.13584@lists.openembedded.org>
-	 <165F4F23A9F2744A.13584@lists.openembedded.org>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UYAU7iCrQTHIVgxQr11Q0s1P3S13gTSYv1A5udLSVVw=;
+        b=NU4T9Q6TogjG5L6RyUteIJThMrYzP+RCusVOnEtocfs/5dvW9R7Ol4dBZW69h3/JXS
+         w+r3E0DWrFhg5SJAI7EyOfbL26eDgJ3+dg2nNEkUGq3naEDuXeagvLztXGFjL8xHt3r4
+         8/R1HdOCsskSbMHF4kNwlszAIyZr8ZM6nFLIO9AcpQoutuwTzPRFNchF1gVvfLZWy/zC
+         y9bdJjpjkmU2Vc0DA/cD4JoHyllx3EqWPU3WyzyBN8pDaW2nrHhTF9ypWbUjD1zk2OkK
+         x7vHEaSm4pOYwuNWEtwfsb3ZoiYQRMSCSMer2uNA2oZFcjZu1DsB4QRPOySP/ktN+ti7
+         xYug==
+X-Gm-Message-State: AOAM531b0xP7O488lRehAGzOx4qUxWA83uMuhiId2dgUdq+WjUXhhA2h
+	0zjwlwnYCaMcO8hCnL213N1BEXlRbGWAdjkhgkU=
+X-Google-Smtp-Source: ABdhPJzwBUAdZVwXPposnuPWGjSJ6ssBHiYM5chDCFdZBJ+iLyRHh6XRY2a2AtpEMaCKGcahwQPF8mnnbCYzln+3IC4=
+X-Received: by 2002:a05:6102:7b1:: with SMTP id x17mr2306855vsg.41.1612187559397;
+ Mon, 01 Feb 2021 05:52:39 -0800 (PST)
 MIME-Version: 1.0
+References: <1612156126-77401-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1612156126-77401-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 1 Feb 2021 14:52:28 +0100
+Message-ID: <CANNYZj-_673_Xk2XkmTvu4hJ7jE-2uNsC1E8GbmrCW+nnzbWTA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mc: upgrade 4.8.25 -> 4.8.26
+To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ca0be705ba46aa74"
+
+--000000000000ca0be705ba46aa74
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-01-31 at 11:56 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Sun, 2021-01-31 at 11:41 +0000, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Wed, 2021-01-20 at 13:03 +0800, Chen Qi wrote:
-> > > Build error occurs as below:
-> > > 
-> > >   ERROR: igt-gpu-tools-1.25+gitAUTOINC+d16ad07e7f-r0 do_package_qa:
-> > >          QA Issue: /usr/lib/libigt.so.0 contained in package igt-gpu-tools
-> > > 	 requires libprocps.so.8(LIBPROCPS_0)(64bit), but no providers
-> > > 	 found in RDEPENDS_igt-gpu-tools? [file-rdeps]
-> > > 
-> > > Add procps-lib to RDEPENDS to solve this issue.
-> > > 
-> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > > ---
-> > >  meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > index 89480d79d2..b012dbf58e 100644
-> > > --- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-> > > @@ -15,7 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
-> > >  S = "${WORKDIR}/git"
-> > >  
-> > >  DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native"
-> > > -RDEPENDS_${PN} += "bash"
-> > > +RDEPENDS_${PN} += "bash procps-lib"
-> > >  RDEPENDS_${PN}-tests += "bash"
-> > > 
-> > 
-> > 
-> > You are correct about this and I see the same issue if I build it
-> > locally. What worries me is why we don't see this on the autobuilder in
-> > world builds?
-> > 
-> > Cc'ing Anuj as the maintainer.
-> 
-> Looking at the autobuilder logs, I think I can guess the problem, I
-> think its a hash equivalence issue.
-> 
-> Errors raised by do_package_qa aren't reflected in the output so it
-> would error once and then never again as the output wouldn't seen
-> changed next time :(
-> 
-> We'll have to fix this, its nasty.
-> 
-> Cc: Joshua
+On Mon, 1 Feb 2021 at 06:09, zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+wrote:
 
-Its not a hashequiv issue directly although the QA warnings not being
-cached is am unrelated problem.
+> +COMPATIBLE_HOST_libc-musl = 'null'
+> +
+>
 
-It seems if you build igt-gpu-tools with /usr/lib64/ it works (as on
-the autobuilder where multilib is enabled), if you build with /usr/lib/
-it gives the QA warning despite actually having the right RDEPENDS
-anyway.
+This needs to be addressed, and not just disabled without explanation.
 
-We need to debug why its showing this error incorrectly as there is
-something bad looking going on underneath here...
+Alex
 
-Cheers,
+--000000000000ca0be705ba46aa74
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 1 Feb 2021 at 06:09, zhengruoqin &lt;<a href=3D"mailto:zheng=
+rq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">+COMPATIBLE_HOST_libc-mu=
+sl =3D &#39;null&#39;<br>
++<br></blockquote><div><br></div><div>This needs to be addressed, and not j=
+ust disabled without explanation.</div><div></div><div><br></div><div>Alex<=
+br></div></div></div>
 
+--000000000000ca0be705ba46aa74--
