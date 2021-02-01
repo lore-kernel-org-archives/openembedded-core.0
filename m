@@ -1,200 +1,247 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.69])
- by mx.groups.io with SMTP id smtpd.web12.29587.1612155215569249776
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web12.29654.1612155700189377465
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 20:53:36 -0800
+ Sun, 31 Jan 2021 21:01:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mfAlbJJ1;
- spf=pass (domain: windriver.com, ip: 40.107.243.69, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C45O8rr2Gd8ULVq7FgY7ITYIrnTHvbbXvp/ReAJScWXyHAEq4wdjfxyD4mIj1QJXz680m1gUI6hnO1Yz2UM+nDknjxdFaH2mxRSOw0085BkZvxay+dVWALpMvF2XsG6a9mDD9qdYkW7QrROFqFsv5Evrgwaoj/Q8NM8/B7YrPA/2pnB6eeqvwkcoTCfE0pC9VZhNSaMdT7ChaLaGHVO5qpWsRi77hBHqFEysgcxUSaBGnCAjYiMnUaeEkYPrmKXEMZHq0i2N9bWmWQ8PrBuN8fiKXf3AGThwH9VLgdEk4ckF0eL9IfzCBdhMKj3XeyJi/EqVF5nTH5uwSiii+HbWzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i8EJCztEPR3elFRNoLzhDLvu3DTokzl0hYgs36DW+1Q=;
- b=TD1ikQw59yuzseiO+ivlYcGyjvBmlJA9IsvSeP55C07F6b0e2BrtUY5lromIjedlyzBrN39Kmh2WHC4jIwk/PSQe1c44Tf4gbpxhukjjCQjsNF/YmKpBxeq4qx86oQEuC/l28RxTaLghlKgGetrE9E7xi7T4xqC99D/u9VKcPSP6Z0GYy+Umdci30HtKTJxt1m/8/8tyzQJG+rBpc7yl8s474oSp+2DjeWK2yv7OzuPHQMrFHV1yOJavmuhUe3lAlO88oL3FDlzKmOxG55jQ/zkDzorfeOlLpKBJJTzDPyKypmBgteXuSrvvF0tl/mmRdYt7f0SH7YFGtmNdcxEGfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i8EJCztEPR3elFRNoLzhDLvu3DTokzl0hYgs36DW+1Q=;
- b=mfAlbJJ1+PlmWYKUpqSd0RgzMgCzpVyBagPoYtks3UPBgKdAj9pIWa+gY2hezxmQYaJBeSmyYMhVLR9GCrdyBaQaT7P7CouHevjvDogpqIrgSGXNwBZW+rMCkIwzCcCDGuAhcNEo692paXE5n0JgQ7pMTQeoPtsxqGLqxmhiShQ=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BYAPR11MB2632.namprd11.prod.outlook.com (2603:10b6:a02:c4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Mon, 1 Feb
- 2021 04:53:34 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60%7]) with mapi id 15.20.3805.026; Mon, 1 Feb 2021
- 04:53:34 +0000
-Subject: Re: [OE-core] [PATCH] oe-pkgdata-util: Check if environment script is initialized
-To: Dorinda <dorindabassey@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210201034344.5661-1-dorindabassey@gmail.com>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <adbac703-82b4-a3d7-734e-2ef23c03dd81@windriver.com>
-Date: Mon, 1 Feb 2021 13:02:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <20210201034344.5661-1-dorindabassey@gmail.com>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR04CA0006.apcprd04.prod.outlook.com
- (2603:1096:203:d0::16) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: iKSYtTebQQ1CQ5rVtbOvvZMM8Kr84irqOhba46scRQYRreQeyvX/rkMv98bZDdWMAfvsvmsQsI
+ Fm8KPzUgqYng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="265466008"
+X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
+   d="scan'208";a="265466008"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 21:01:39 -0800
+IronPort-SDR: afBpvB2nJWYNH03k44RRaSpp52mywo8fHWW0w8i94MgH6DlscTid+bL+C5b4ZqQxqeCSCdfdDB
+ wj6Ji7mRaGhg==
+X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
+   d="scan'208";a="432159991"
+Received: from hhan1-mobl.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.124])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 21:01:37 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3: fix CVE-2021-3177
+Date: Mon,  1 Feb 2021 13:01:33 +0800
+Message-Id: <20210201050133.98227-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HKAPR04CA0006.apcprd04.prod.outlook.com (2603:1096:203:d0::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3805.16 via Frontend Transport; Mon, 1 Feb 2021 04:53:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b03a08fa-44ed-4200-0226-08d8c66d53e6
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2632:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB26329C7F5E2C812974E420DFEDB69@BYAPR11MB2632.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	IBE5bRfSWTbgtt9AH7coIHyjlAKRgw0EzphGPgkTX/+bMrr6PNnZmZEXRn3thRYMVq/kXCT2CM5eE55bB6rARR92F2ZOeiKRcbt5eTHfgxIUem2f3tBikL2WetVXnLZe43o4Bkq31v1P/wNr3BTOCO+9cydwqhvDhTu/45Sz+NbJ1TE4fQ7xRxEvV1fRnW/VtnH3FcCfkcRZeId0bPdl6yMvO6knWHplT2fc6HYMY54vTcf2oJnh1F5qk88DqIc6ctWIB6p7G8Vn6ttSxauu5mMfpMkKiCBt3y5kHkLiOt9pZb3cF1ptx8FAAAFI3OO+Ll2BgRAf0ORz4k35cKpBC7qk1C8viRDhS4AJKzkD/6tB6FBES2CcF7k3aR6OfzX5giXXt0PtsSAThDy6fK/KSmieLj6aynyWYUdTHwdmk53vQeblvRF0KL/yY601sZPK5ClNn0CxVhVMxgF0MVjl+zvvEJW11P+njDpnkVDgbpFk8Edh36kZ042xT3WD9/uZtjR67cQY1dqxzsSQB5E6Lod7tnQ7Nihc9Xwj7gIvaSy83lF2AhfodiloxiFVVD+FchzFJosPO2HaTuHBG8IfYMs+fuW1/eQCfnkgDijJvNKZSJ38qukGPLuk5KStFKPOxFIbkCny3XJPoUn2R7yBRNxBoWK8qYs/lPoFL0Uw/FgjBwwN4Ie53dFY7MPw5UhOxbDWKK87R6gqYlWBxQNe/g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(39840400004)(346002)(396003)(366004)(66556008)(2906002)(66946007)(36756003)(66476007)(186003)(52116002)(16526019)(53546011)(166002)(966005)(83380400001)(31686004)(8936002)(2616005)(86362001)(26005)(33964004)(31696002)(5660300002)(478600001)(6486002)(8676002)(956004)(16576012)(316002)(6706004)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?WU9kMmRvMEhKZ3ljakMxanZjUEdJM3hPNW5hY2F3ZVc2amh3SHY5cTBxL3Bj?=
- =?utf-8?B?VHFtc3ZuejdTckovM0ZUQmZwclh4VGRyS1pFajBrcHhXd3VIQ1JkZ0M0YjFx?=
- =?utf-8?B?TmFYYnlBR1dFeHJYbEdWQ3BPRGxLaDIvSk1LWlppOGt2TVcwYXh2d1RoVExI?=
- =?utf-8?B?RSszT2cxUDhqN3E5ZFZ4OXJ4anpSSHJxaGVXMTZpR25Ic0hqY1dZOUtJK1Mz?=
- =?utf-8?B?R0dkVE5uaE5lc0tPc1djQVdYZmFsS2NFYTkzSWpKUSs1aDcvbk5ialhQSE56?=
- =?utf-8?B?WGZ4UXpyN2xJM29uTktEbG9mL3p6U0s3REY3ek5IaW5YSkVHMkRZYVk4a2Zv?=
- =?utf-8?B?bzJzVHpYR2cxVExvTDcvZFlMSWdOMlNhTVVXM3FWZm4yVk96WDlycm9PUEdJ?=
- =?utf-8?B?VlY0TGFBRUlLNzl4NEU5MGxLb1phcDNqTExWc0FpL042YU5oQ0NjYUlRdlRQ?=
- =?utf-8?B?VXZ5RGVHOHQyY1Q0cFpWSmJCV05vSFBLWmVzQlIxWGcyamlTRmZMMEFNQXlV?=
- =?utf-8?B?MlBBditqUW1LWDB3dE5Va2R3Y0NrSUNBbmRncmtwSU9XbEhMVkNQTFJuaFhy?=
- =?utf-8?B?UEpkOVRwdjlsZDVSdkJQMmxiTHhlams5QTgyVUN4Zk40K1p1Y1NYd0dOZDdp?=
- =?utf-8?B?SnNWODlFSGJnV250OTcrWDZ6VVYzYWZnZ0FsaW9EQ0plc1pLOUk3V3pvNmZ4?=
- =?utf-8?B?cmJDTjNKaHFndjY0bGZMa2p0b0g1VHBGWjNTajJzU0pKNWtZOENLTHJ0MEdr?=
- =?utf-8?B?UW9kRUxwL013U0tJZ0QySENHc1MrVkxjaUtSYmpRZHRsbzRtNnNpbng3bUZk?=
- =?utf-8?B?bTBsK2RsdkxPdGwxWll4Yk9uVHRzeXdscWEwTGYwQ2t5eFE2dUk5WXJGOVhI?=
- =?utf-8?B?SGsrbkVXVFl5Q004Y0tuNHlmbnZqR0ZaVnYySytBU1VWWkMvR2hxNnIyNHp4?=
- =?utf-8?B?L25KN0h3YWIzbjRkUWFYOVU1Y2R6T1NJdXQzM01BK1I3ZXVrZ2ZpeW8wUWtq?=
- =?utf-8?B?QlVNeU9hbGRkYUx6SlptcjJha25BLzJuckdzVEVWc1lIeG05Z0pMZFNrRDVa?=
- =?utf-8?B?bmRNUFIrUGV4a0xFeitMbVZmUEZMWW05UDIrRm95VDJtSmowZ09keTRMM0M5?=
- =?utf-8?B?aHI0Z2tGbTRlRW1ic2NWaGMvb2hGWWxMaW1xdmg1cCt6emsxUmJxNS9tZS9q?=
- =?utf-8?B?YXhZbGwxNG1OT292eFNqSkNnenJUc1VVOHFtOGlrRXdLalp6eDZoY2l6dlYx?=
- =?utf-8?B?VzdKTVZhS3k4NVZoajV4MFFReThISWdHbE02SHhpZjFLTk8wZkFRaW0zYkdu?=
- =?utf-8?B?cHJiMmMxMUsrSEpxZ2pYZkE2Ujl6NnhjcEU0eFVZOE91dFh5Q1BmL0ppMW5x?=
- =?utf-8?B?cU14dVhydm9VdzRacm92R2tZUDBuaTlKOVlJaCtHeG5FYzFMOCszblZRMGxN?=
- =?utf-8?Q?rXDbO4QL?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b03a08fa-44ed-4200-0226-08d8c66d53e6
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2021 04:53:33.9849
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ut9rpuEMPnXNUGSoRxxK9X+d32OPooTM8KUUNY7Z+KelmgEEmqCcjMwt5C8HnAWQ0IrkX3QeG+sCORyBL4sUeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2632
-Content-Type: multipart/alternative;
- boundary="------------8CC5043FEF5DE44A6E69DAE6"
+Content-Transfer-Encoding: 8bit
 
---------------8CC5043FEF5DE44A6E69DAE6
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-There's a '-p' option. It should error out only when it cannot determine 
-the pkdata dir.
-
-Regards,
-Chen Qi
-
-On 02/01/2021 11:43 AM, Dorinda wrote:
-> [YOCTO #12096]
->
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
->   scripts/oe-pkgdata-util | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> index 93220e3617..169908638d 100755
-> --- a/scripts/oe-pkgdata-util
-> +++ b/scripts/oe-pkgdata-util
-> @@ -513,6 +513,11 @@ def find_path(args):
->   
->   
->   def main():
-> +
-> +    if not os.environ.get('BUILDDIR', ''):
-> +        logger.error("This script can only be run after initialising the build environment (e.g. by using oe-init-build-env)")
-> +        sys.exit(1)
-> +
->       parser = argparse_oe.ArgumentParser(description="OpenEmbedded pkgdata tool - queries the pkgdata files written out during do_package",
->                                           epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
->       parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
->
->
-> 
->
-
-
---------------8CC5043FEF5DE44A6E69DAE6
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">There's a '-p' option. It should error
-      out only when it cannot determine the pkdata dir.<br>
-      <br>
-      Regards,<br>
-      Chen Qi<br>
-      <br>
-      On 02/01/2021 11:43 AM, Dorinda wrote:<br>
-    </div>
-    <blockquote cite="mid:20210201034344.5661-1-dorindabassey@gmail.com" type="cite">
-      <pre wrap="">[YOCTO #12096]
-
-Signed-off-by: Dorinda Bassey <a class="moz-txt-link-rfc2396E" href="mailto:dorindabassey@gmail.com">&lt;dorindabassey@gmail.com&gt;</a>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/oe-pkgdata-util | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../python/python3/CVE-2021-3177.patch        | 191 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.9.1.bb |   1 +
+ 2 files changed, 192 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 93220e3617..169908638d 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -513,6 +513,11 @@ def find_path(args):
- 
- 
- def main():
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+new file mode 100644
+index 0000000000..a48207162f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+@@ -0,0 +1,191 @@
++From c347cbe694743cee120457aa6626712f7799a932 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 18 Jan 2021 13:29:31 -0800
++Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
++ formatting in ctypes param reprs. (GH-24247)
 +
-+    if not os.environ.get('BUILDDIR', ''):
-+        logger.error(&quot;This script can only be run after initialising the build environment (e.g. by using oe-init-build-env)&quot;)
-+        sys.exit(1)
++(cherry picked from commit 916610ef90a0d0761f08747f7b0905541f0977c7)
 +
-     parser = argparse_oe.ArgumentParser(description=&quot;OpenEmbedded pkgdata tool - queries the pkgdata files written out during do_package&quot;,
-                                         epilog=&quot;Use %(prog)s &lt;subcommand&gt; --help to get help on a specific command&quot;)
-     parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++CVE: CVE-2021-3177
++Upstream-Status: Backport [https://github.com/python/cpython/commit/c347cbe694743cee120457aa6626712f7799a932]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ Lib/ctypes/test/test_parameters.py            | 43 ++++++++++++++++
++ .../2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst  |  2 +
++ Modules/_ctypes/callproc.c                    | 51 +++++++------------
++ 3 files changed, 64 insertions(+), 32 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++
++diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
++index e4c25fd880cef..531894fdec838 100644
++--- a/Lib/ctypes/test/test_parameters.py
+++++ b/Lib/ctypes/test/test_parameters.py
++@@ -201,6 +201,49 @@ def __dict__(self):
++         with self.assertRaises(ZeroDivisionError):
++             WorseStruct().__setstate__({}, b'foo')
++ 
+++    def test_parameter_repr(self):
+++        from ctypes import (
+++            c_bool,
+++            c_char,
+++            c_wchar,
+++            c_byte,
+++            c_ubyte,
+++            c_short,
+++            c_ushort,
+++            c_int,
+++            c_uint,
+++            c_long,
+++            c_ulong,
+++            c_longlong,
+++            c_ulonglong,
+++            c_float,
+++            c_double,
+++            c_longdouble,
+++            c_char_p,
+++            c_wchar_p,
+++            c_void_p,
+++        )
+++        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
+++        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
+++        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
+++        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
+++        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
+++        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
+++        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
+++        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
+++        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
+++
++ ################################################################
++ 
++ if __name__ == '__main__':
++diff --git a/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++new file mode 100644
++index 0000000000000..7df65a156feab
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++@@ -0,0 +1,2 @@
+++Avoid static buffers when computing the repr of :class:`ctypes.c_double` and
+++:class:`ctypes.c_longdouble` values.
++diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
++index b0a36a30248f7..f2506de54498e 100644
++--- a/Modules/_ctypes/callproc.c
+++++ b/Modules/_ctypes/callproc.c
++@@ -489,58 +489,47 @@ is_literal_char(unsigned char c)
++ static PyObject *
++ PyCArg_repr(PyCArgObject *self)
++ {
++-    char buffer[256];
++     switch(self->tag) {
++     case 'b':
++     case 'B':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.b);
++-        break;
++     case 'h':
++     case 'H':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.h);
++-        break;
++     case 'i':
++     case 'I':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.i);
++-        break;
++     case 'l':
++     case 'L':
++-        sprintf(buffer, "<cparam '%c' (%ld)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
++             self->tag, self->value.l);
++-        break;
++ 
++     case 'q':
++     case 'Q':
++-        sprintf(buffer,
++-#ifdef MS_WIN32
++-            "<cparam '%c' (%I64d)>",
++-#else
++-            "<cparam '%c' (%lld)>",
++-#endif
+++        return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
++             self->tag, self->value.q);
++-        break;
++     case 'd':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.d);
++-        break;
++-    case 'f':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.f);
++-        break;
++-
+++    case 'f': {
+++        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+++        if (f == NULL) {
+++            return NULL;
+++        }
+++        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
+++        Py_DECREF(f);
+++        return result;
+++    }
++     case 'c':
++         if (is_literal_char((unsigned char)self->value.c)) {
++-            sprintf(buffer, "<cparam '%c' ('%c')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
++                 self->tag, self->value.c);
++         }
++         else {
++-            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
++                 self->tag, (unsigned char)self->value.c);
++         }
++-        break;
++ 
++ /* Hm, are these 'z' and 'Z' codes useful at all?
++    Shouldn't they be replaced by the functionality of c_string
++@@ -549,22 +538,20 @@ PyCArg_repr(PyCArgObject *self)
++     case 'z':
++     case 'Z':
++     case 'P':
++-        sprintf(buffer, "<cparam '%c' (%p)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%p)>",
++             self->tag, self->value.p);
++         break;
++ 
++     default:
++         if (is_literal_char((unsigned char)self->tag)) {
++-            sprintf(buffer, "<cparam '%c' at %p>",
+++            return PyUnicode_FromFormat("<cparam '%c' at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++         else {
++-            sprintf(buffer, "<cparam 0x%02x at %p>",
+++            return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++-        break;
++     }
++-    return PyUnicode_FromString(buffer);
++ }
++ 
++ static PyMemberDef PyCArgType_members[] = {
++
+diff --git a/meta/recipes-devtools/python/python3_3.9.1.bb b/meta/recipes-devtools/python/python3_3.9.1.bb
+index bdeddc4e68..ad032e97ae 100644
+--- a/meta/recipes-devtools/python/python3_3.9.1.bb
++++ b/meta/recipes-devtools/python/python3_3.9.1.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
++           file://CVE-2021-3177.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+-- 
+2.29.2
 
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------8CC5043FEF5DE44A6E69DAE6--
