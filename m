@@ -1,178 +1,84 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web12.28776.1612149525837879774
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web09.28724.1612149790384598364
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 19:18:45 -0800
+ Sun, 31 Jan 2021 19:23:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y0Ch1Shl;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: dorindabassey@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id e133so5032604iof.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 19:18:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hTyrU1ut;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id 7so15026174wrz.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 19:23:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=1eBn0XAYBRboDGXaVv3q2/ObNzIm31FXBx5CUsfMbls=;
-        b=Y0Ch1ShlKI7H45HdFKTp75ykD6lKDrthwbRTos8SMalC48KMRWZPRdQ7eHoIcezbuf
-         N8phWNI2apm6oT9FlgZSD95ZWBVInAkO1QHrxUsnJAG2xsRmBKcY4efNkv6ksuPxTcPk
-         QlpfpRZ71s1+jV5iGAFS67+oP0I5d/Urw2qBjE16MnyTOqfivaiIZ6YiqOftULZvITXS
-         Rv41G61W8bcEjZHYv6OvvdCOHmTf5ff5nLxBhyWNfLdY15ZatVOsZnkw+JYdPvFy9Qe2
-         x/c/05BDWaIXTbQyjIN6JBP1GEx/axSTFw13iBIrNFdMLAUzKMeErAqLsrYVdYesjJka
-         LYZw==
+        h=from:to:cc:subject:date:message-id;
+        bh=MYvSeNnWNQxJDc5yisVzHGD7ihaNAGTpQ/o16Fj/yzA=;
+        b=hTyrU1ut92C6as/laxNkQ2dJWijwCVpflUQm4rXznefzEDw6j/F/WUjIiFOEmjqOQx
+         m0cRJ4aGnOzworsbcJPuwjDlcgRZaWXC2TL8TwH/S2X+mhj9qk2FCE+ZF1D0Q3VZ3Rn7
+         1tUi6PvhLTlXikNe+FaBSeq830QMkTMa2ANBOygOmT2FiPvvkzk0YEqjHHCqJ+kWTp8m
+         x0/+m+Uq5MJeUmgNQbY4938+EkB2pJm59gRS/X/AK2tmOtaA6Izc/cVMN3QSkexstRsm
+         tWgMohtIHDEZjoK16SEf+Bu57dB/y4DnL7PfoGDi7awfL5xDpCqNSaEAx4ugR6bxW37d
+         aBeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=1eBn0XAYBRboDGXaVv3q2/ObNzIm31FXBx5CUsfMbls=;
-        b=Q4WX6pQUER122RPLgfVQJelXBl1w0Fl07ovDIfAM7D7fTysHqmFvt3RiWjqcUv7HGl
-         bN/H03YRH617YTHnCjgVMw+C/Z8ZNRbt1/EdGc66W5wBNtVUCP/R6au+gSYgnlPArOqc
-         sQbTkyJj+hy4j7oxgvAe+jawaqxI8rjgOMkaV/rSmsTn7E7hOjL0SDA7BsFfgtCDNf4I
-         3aXf1IAy03UgsexTizRrTi11y9rDIlZ/2+PnKrbTJelsYUw92/uPyliIF+K3XrYvzH3Y
-         gFE+ShxzMgFOjGIAx1JLKLQdG81Bs0ePIM5SmxqoggoK/ICbZ72f2nLg8beFxYNUPyxw
-         9qAg==
-X-Gm-Message-State: AOAM531iAvjFRqDtUN5gsN/7aDBLw/VNopHQN8BncHftQlvImgihsn57
-	PPXUflRDSZsbQtWZrIH4kOuOXfFjChyl1Ve6xVI=
-X-Google-Smtp-Source: ABdhPJxaK8oltaACc6+o4JEcvDB4o2PBarfDylFq+ila5aZCIhf7Zyuc2Cq6iIszHioVk8g7MQ9ptVShIQNMlcryP0s=
-X-Received: by 2002:a5e:c101:: with SMTP id v1mr332080iol.108.1612149525160;
- Sun, 31 Jan 2021 19:18:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a92:ce09:0:0:0:0:0 with HTTP; Sun, 31 Jan 2021 19:18:44
- -0800 (PST)
-Received: by 2002:a92:ce09:0:0:0:0:0 with HTTP; Sun, 31 Jan 2021 19:18:44
- -0800 (PST)
-In-Reply-To: <1559e89a094f9f6eaa3bfa9b01f6126a36e1d0d3.camel@linuxfoundation.org>
-References: <20210131192649.30005-1-dorindabassey@gmail.com> <1559e89a094f9f6eaa3bfa9b01f6126a36e1d0d3.camel@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MYvSeNnWNQxJDc5yisVzHGD7ihaNAGTpQ/o16Fj/yzA=;
+        b=NiosoxxjhE6hbRNzd+1DfwW998RFW0xZSlCV0oWP6q5eez3ac3pf2I1rbAMgSM3VHA
+         Gk6kqEyI4f5DC4Ja6moDIilHKPjCoaUWwmUd1iwSzCjyxjAxTaRl38J4IaAdF2Jviyxq
+         OmEQgI84elByK5/KboFfPUscxHw7Gmi3fxn9LYqwBfmHfuwLME2H+THxBChBakyeLwh/
+         0GwErKV578FepcqJx2MMYxj76uJZEUtaAQ5tO9QxrMEROAeVJXk7iuGNhttUjg0Uo4Zm
+         +0+FwLsJ4Kg1KFA8GNmKT4Yv0VCzo2vKiw414Qo4/Z3MaBf3NhGaexg9xx21n+wAFBAY
+         3FLQ==
+X-Gm-Message-State: AOAM533yA9+iSbuFSWLUt2DAi8yV+M34iRtSu0ov6DDOCCkQIcWbN5bT
+	2CHDNsuTEu0AxXNWwMCYLc6tdIwmmy0RjA==
+X-Google-Smtp-Source: ABdhPJzjCYDSi5KALcuISPWiXheM5E7GcbmbX2vl5OEi8V99tezJhvNee+HmzN/uSKosPn+nYNVMtA==
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr15808946wrr.93.1612149788618;
+        Sun, 31 Jan 2021 19:23:08 -0800 (PST)
+Return-Path: <dorindabassey@gmail.com>
+Received: from smtp.gmail.com. ([105.112.33.13])
+        by smtp.gmail.com with ESMTPSA id 192sm21301540wme.27.2021.01.31.19.23.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Jan 2021 19:23:08 -0800 (PST)
 From: "Dorinda" <dorindabassey@gmail.com>
-Date: Sun, 31 Jan 2021 22:18:44 -0500
-Message-ID: <CAJSnhztQDZ+H5naTZ9Xj_52h9TuHH=K9xmcuTjzJF8jY0X2hNg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and paths under pseudo control overlap
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c5a4e005ba3dcf6d"
+To: openembedded-core@lists.openembedded.org
+Cc: dorindabassey <dorindabassey@gmail.com>
+Subject: [PATCH v4] sanity.bbclass: Check if PSEUDO_IGNORE_PATHS and paths under pseudo control overlap
+Date: Sun, 31 Jan 2021 22:22:56 -0500
+Message-Id: <20210201032256.28989-1-dorindabassey@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
---000000000000c5a4e005ba3dcf6d
-Content-Type: text/plain; charset="UTF-8"
+Added a sanity check for when PSEUDO_IGNORE_PATHS and paths under pseudo control overlap to avoid random failures generated.
 
-I agree.
-Thanks for the helpful hints here, will be more thorough in future patches
-:)
+[YOCTO #14193]
 
-Thanks,
-Dorinda
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+---
+v4:
+-Edited pseudocontroldir variable
+-Changed error log
 
-On Jan 31, 2021 22:50, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
+ meta/classes/sanity.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-On Sun, 2021-01-31 at 14:26 -0500, Dorinda wrote:
->
-> +    # Check if PSEUDO_IGNORE_PATHS and and paths under pseudo control
-overlap
-> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS',
-expand=True).split(",")
-> +    pseudo_control_dir = "${D},${PKGD},${PKGDEST},${
-IMAGEROOTFS},${SDK_OUTPUT}"
-> +    pseudocontroldir = d.getVar('pseudo_control_dir',
-expand=True).split(",")
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index c6842ff549..485173ab48 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -710,6 +710,16 @@ def check_sanity_version_change(status, d):
+         if i and workdir.startswith(i):
+             status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
+ 
++    # Check if PSEUDO_IGNORE_PATHS and and paths under pseudo control overlap
++    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
++    pseudo_control_dir = "${D},${PKGD},${PKGDEST},${IMAGEROOTFS},${SDK_OUTPUT}"
++    pseudocontroldir = d.expand(pseudo_control_dir).split(",")
++    for i in pseudoignorepaths:
++        for j in pseudocontroldir:
++            if i and j:
++                if j.startswith(i):
++                    status.addresult("A path included in PSEUDO_IGNORE_PATHS " + str(i) + " and the path " + str(j) + " overlap and this will break pseudo permission and ownership tracking. Please set the path " + str(j) + " to a different directory which does not overlap with pseudo controlled directories. \n")
++
+     # Some third-party software apparently relies on chmod etc. being suid root (!!)
+     import stat
+     suid_check_bins = "chown chmod mknod".split()
+-- 
+2.17.1
 
-I'm not sure that would actually work without a setVar as
-pseudo_control_dir isn't a variable.
-
-What you probably want is:
-
-pseudocontroldir = d.expand(pseudo_control_dir, expand=True).split(",")
-
-
-How did you test this? Did you try setting S = "${WORKDIR}/pack" in a
-recipe to ensure it correctly detects the issue?
-
-
-> +    for i in pseudoignorepaths:
-> +        for j in pseudocontroldir:
-> +            if i and j:
-> +                if j.startswith(i):
-> +                    status.addresult("a path included in
-PSEUDO_IGNORE_PATHS " + str(i) + " and the path " + str(j) + " are
-overlapping each other, please set this path " + str(j) + " to point to a
-different directory. \n")
-
-How about improving this to:
-
-'''
-A path in PSEUDO_IGNORE_PATHS " + str(i) + " and the path " + str(j) +
-" overlap and this will break pseudo permission and ownership tracking.
-Please set the path " + str(j) + " to a different directory which does
-not overlap with pseudo controlled directories.
-'''
-
-Cheers,
-
-Richard
-
---000000000000c5a4e005ba3dcf6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">I agree.<div dir=3D"auto">Thanks for the helpful hints he=
-re, will be more thorough in future patches :)<div dir=3D"auto"><br></div><=
-div dir=3D"auto">Thanks,</div><div dir=3D"auto">Dorinda<br><div class=3D"gm=
-ail_extra"><br><div class=3D"gmail_quote">On Jan 31, 2021 22:50, &quot;Rich=
-ard Purdie&quot; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">=
-richard.purdie@linuxfoundation.org</a>&gt; wrote:<br type=3D"attribution"><=
-blockquote class=3D"quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div class=3D"quoted-text">On Sun, 2021-01-31 at 14=
-:26 -0500, Dorinda wrote:<br>
-&gt; <br>
-&gt; +=C2=A0 =C2=A0 # Check if PSEUDO_IGNORE_PATHS and and paths under pseu=
-do control overlap<br>
-&gt; +=C2=A0 =C2=A0 pseudoignorepaths =3D d.getVar(&#39;PSEUDO_IGNORE_PATHS=
-&#39;<wbr>, expand=3DTrue).split(&quot;,&quot;)<br>
-&gt; +=C2=A0 =C2=A0 pseudo_control_dir =3D &quot;${D},${PKGD},${PKGDEST},${=
-<wbr>IMAGEROOTFS},${SDK_OUTPUT}&quot;<br>
-&gt; +=C2=A0 =C2=A0 pseudocontroldir =3D d.getVar(&#39;pseudo_control_dir&#=
-39;, expand=3DTrue).split(&quot;,&quot;)<br>
-<br>
-</div>I&#39;m not sure that would actually work without a setVar as<br>
-pseudo_control_dir isn&#39;t a variable.<br>
-<br>
-What you probably want is:<br>
-<br>
-pseudocontroldir =3D d.expand(pseudo_control_dir, expand=3DTrue).split(&quo=
-t;,&quot;)<br>
-<br>
-<br>
-How did you test this? Did you try setting S =3D &quot;${WORKDIR}/pack&quot=
-; in a<br>
-recipe to ensure it correctly detects the issue?<br>
-<div class=3D"quoted-text"><br>
-<br>
-&gt; +=C2=A0 =C2=A0 for i in pseudoignorepaths:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for j in pseudocontroldir:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if i and j:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if j.startswi=
-th(i):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- status.addresult(&quot;a path included in PSEUDO_IGNORE_PATHS &quot; + str=
-(i) + &quot; and the path &quot; + str(j) + &quot; are overlapping each oth=
-er, please set this path &quot; + str(j) + &quot; to point to a different d=
-irectory. \n&quot;)<br>
-<br>
-</div>How about improving this to:<br>
-<br>
-&#39;&#39;&#39;<br>
-A path in PSEUDO_IGNORE_PATHS &quot; + str(i) + &quot; and the path &quot; =
-+ str(j) +<br>
-&quot; overlap and this will break pseudo permission and ownership tracking=
-.<br>
-Please set the path &quot; + str(j) + &quot; to a different directory which=
- does<br>
-not overlap with pseudo controlled directories. <br>
-&#39;&#39;&#39;<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div><br></div></div></div></div>
-
---000000000000c5a4e005ba3dcf6d--
