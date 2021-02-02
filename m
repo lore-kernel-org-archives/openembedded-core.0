@@ -1,143 +1,249 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web09.47921.1612244055746825648
+ by mx.groups.io with SMTP id smtpd.web11.48458.1612244056890937343
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:16 -0800
+ Mon, 01 Feb 2021 21:34:17 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 4gzMhdWuG6m9d3JKa+v2lbBzOQf4xQmU/PmZiac6DZH6eNPBxG6z9RbHe7AXDHTcBugU2KHZdj
- tIm/1QjYZhwQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876862"
+IronPort-SDR: 4+rcCihRoBy8T1ZG1HzXTyN/zNADX+dMF5qH0WrNLxq30dYzUvHb46/koZc+ohFmQwJXNY+zbI
+ n/JxpP6g/faw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876864"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876862"
+   d="scan'208";a="180876864"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:14 -0800
-IronPort-SDR: kEF0tvYUx/uD0cQRC0efqbUwHmg9i/r+erdIRCiGsQ2f/GKZXE5EW39P5wFN0ndm7ntiPviibO
- QO+n4JeyAuLQ==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:15 -0800
+IronPort-SDR: ArQXiBEk/FBFz7Yphq/wxwMeVyg5SxQgxJ0BaY2kgiBgqtphdbAYoEfrrmXneLno26g/t2VP7R
+ cTZaUBFmG+Mg==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360862"
+   d="scan'208";a="370360866"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:13 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:14 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/25] patch review request
-Date: Tue,  2 Feb 2021 13:33:43 +0800
-Message-Id: <cover.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 01/25] python3: fix CVE-2021-3177
+Date: Tue,  2 Feb 2021 13:33:44 +0800
+Message-Id: <25d1cae49e56797c4c9e91c01697c4de02dee046.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
+References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review these changes for gatesgarth. Builds cleanly on
-autobuilder except for one intermittent failure while executing
-oe-selftest on a CentOS 7 worker:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1784/steps/10/logs/step2d
-
-This doesn't look related to the proposed changes and didn't happen
-again.
-
-Thanks,
-
-Anuj
-
-The following changes since commit 4e8022635fc8543d135fed3091a9f555899d1b3c:
-
-  linuxloader: Avoid confusing string concat errors (2021-01-27 09:32:36 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
-
-Anuj Mittal (3):
-  python3: fix CVE-2021-3177
-  sudo: fix CVE-2021-23239
-  gstreamer1.0: fix failing ptest
-
-Dorinda (2):
-  sanity: Verify that user isn't building in PSEUDO_IGNORE_PATHS
-  sanity.bbclass: sanity check for if bitbake is present in PATH
-
-Lee Chee Yang (4):
-  gdk-pixbuf: fix CVE-2020-29385
-  p11-kit: upgrade 0.23.21 -> 0.23.22
-  cve-check: replace Looseversion with custom version class
-  cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
-
-Oleksiy Obitotskyy (1):
-  dtc: improve reproducibility
-
-Ovidiu Panait (1):
-  timezone: upgrade to 2021a
-
-Peter Bergin (1):
-  buildhistory.bbclass: avoid exception for empty BUILDHISTORY_FEATURES
-    variable
-
-Richard Purdie (3):
-  gobject-introspection: Fix variable override order
-  pseudo: Update to include passwd and file renaming fixes
-  image_types: Ensure tar archives are reproducible
-
-Ross Burton (2):
-  core-image-sato-sdk-ptest: these images need ptest
-  ovmf-shell-image: image is only buildable on x86-64
-
-Tomasz Dziendzielski (5):
-  externalsrc: Fix parsing error with devtool non-git sources
-  devtool: Fix file:// fetcher symlink directory structure
-  externalsrc: Detect code changes in submodules
-  lib/oe/patch.py: Don't return command stderr from runcmd function
-  python3: Use addtask statement instead of task dependencies
-
-Yi Fan Yu (2):
-  oeqa/selftest/cases/tinfoil.py: increase timeout 10->60s
-    test_wait_event
-  strace: increase ptest timeout duration 120->240s
-
-zhengruoqin (1):
-  ca-certificates: upgrade 20200601 -> 20210119
-
- meta/classes/buildhistory.bbclass             |   2 +-
- meta/classes/cve-check.bbclass                |  14 +-
- meta/classes/externalsrc.bbclass              |  16 +-
- meta/classes/image_types.bbclass              |   2 +-
- meta/classes/sanity.bbclass                   |  12 ++
- meta/lib/oe/cve_check.py                      |  60 ++++++
- meta/lib/oe/patch.py                          |  14 +-
- meta/lib/oeqa/selftest/cases/cve_check.py     |  36 ++++
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   6 +-
- meta/recipes-core/ovmf/ovmf-shell-image.bb    |   1 +
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
  .../python/python3/CVE-2021-3177.patch        | 191 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.5.bb |   6 +-
- meta/recipes-devtools/strace/strace/run-ptest |   2 +-
- .../sudo/files/CVE-2021-23239.patch           |  62 ++++++
- meta/recipes-extended/sudo/sudo_1.9.3.bb      |   1 +
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../gdk-pixbuf/CVE-2020-29385.patch           |  55 +++++
- .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
- .../gobject-introspection_1.64.1.bb           |   4 +-
- meta/recipes-kernel/dtc/dtc.inc               |   2 +
- ...-Makefile-to-add-CFLAGS-not-override.patch |  36 ++++
- ...-use-too-strict-timeout-for-validati.patch |  32 +++
- .../gstreamer/gstreamer1.0_1.16.3.bb          |   1 +
- .../images/core-image-sato-ptest-fast.bb      |   3 +
- .../images/core-image-sato-sdk-ptest.bb       |   3 +
- .../0001-certdata2pem.py-use-python3.patch    |  37 ----
- ...0200601.bb => ca-certificates_20210119.bb} |   3 +-
- ...{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb} |   7 +-
- scripts/lib/devtool/standard.py               |   6 +-
- 30 files changed, 554 insertions(+), 69 deletions(-)
- create mode 100644 meta/lib/oe/cve_check.py
- create mode 100644 meta/lib/oeqa/selftest/cases/cve_check.py
+ meta/recipes-devtools/python/python3_3.8.5.bb |   1 +
+ 2 files changed, 192 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-23239.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
- create mode 100644 meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
- rename meta/recipes-support/ca-certificates/{ca-certificates_20200601.bb => ca-certificates_20210119.bb} (96%)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb} (75%)
 
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+new file mode 100644
+index 0000000000..43d678db46
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+@@ -0,0 +1,191 @@
++From ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 18 Jan 2021 13:28:52 -0800
++Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
++ formatting in ctypes param reprs. (GH-24248)
++
++(cherry picked from commit 916610ef90a0d0761f08747f7b0905541f0977c7)
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++CVE: CVE-2021-3177
++Upstream-Status: Backport [https://github.com/python/cpython/commit/ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ Lib/ctypes/test/test_parameters.py            | 43 ++++++++++++++++
++ .../2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst  |  2 +
++ Modules/_ctypes/callproc.c                    | 51 +++++++------------
++ 3 files changed, 64 insertions(+), 32 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++
++diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
++index e4c25fd880cef..531894fdec838 100644
++--- a/Lib/ctypes/test/test_parameters.py
+++++ b/Lib/ctypes/test/test_parameters.py
++@@ -201,6 +201,49 @@ def __dict__(self):
++         with self.assertRaises(ZeroDivisionError):
++             WorseStruct().__setstate__({}, b'foo')
++ 
+++    def test_parameter_repr(self):
+++        from ctypes import (
+++            c_bool,
+++            c_char,
+++            c_wchar,
+++            c_byte,
+++            c_ubyte,
+++            c_short,
+++            c_ushort,
+++            c_int,
+++            c_uint,
+++            c_long,
+++            c_ulong,
+++            c_longlong,
+++            c_ulonglong,
+++            c_float,
+++            c_double,
+++            c_longdouble,
+++            c_char_p,
+++            c_wchar_p,
+++            c_void_p,
+++        )
+++        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
+++        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
+++        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
+++        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
+++        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
+++        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
+++        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
+++        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
+++        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
+++
++ ################################################################
++ 
++ if __name__ == '__main__':
++diff --git a/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++new file mode 100644
++index 0000000000000..7df65a156feab
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++@@ -0,0 +1,2 @@
+++Avoid static buffers when computing the repr of :class:`ctypes.c_double` and
+++:class:`ctypes.c_longdouble` values.
++diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
++index a9b8675cd951b..de75918d49f37 100644
++--- a/Modules/_ctypes/callproc.c
+++++ b/Modules/_ctypes/callproc.c
++@@ -484,58 +484,47 @@ is_literal_char(unsigned char c)
++ static PyObject *
++ PyCArg_repr(PyCArgObject *self)
++ {
++-    char buffer[256];
++     switch(self->tag) {
++     case 'b':
++     case 'B':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.b);
++-        break;
++     case 'h':
++     case 'H':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.h);
++-        break;
++     case 'i':
++     case 'I':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.i);
++-        break;
++     case 'l':
++     case 'L':
++-        sprintf(buffer, "<cparam '%c' (%ld)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
++             self->tag, self->value.l);
++-        break;
++ 
++     case 'q':
++     case 'Q':
++-        sprintf(buffer,
++-#ifdef MS_WIN32
++-            "<cparam '%c' (%I64d)>",
++-#else
++-            "<cparam '%c' (%lld)>",
++-#endif
+++        return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
++             self->tag, self->value.q);
++-        break;
++     case 'd':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.d);
++-        break;
++-    case 'f':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.f);
++-        break;
++-
+++    case 'f': {
+++        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+++        if (f == NULL) {
+++            return NULL;
+++        }
+++        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
+++        Py_DECREF(f);
+++        return result;
+++    }
++     case 'c':
++         if (is_literal_char((unsigned char)self->value.c)) {
++-            sprintf(buffer, "<cparam '%c' ('%c')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
++                 self->tag, self->value.c);
++         }
++         else {
++-            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
++                 self->tag, (unsigned char)self->value.c);
++         }
++-        break;
++ 
++ /* Hm, are these 'z' and 'Z' codes useful at all?
++    Shouldn't they be replaced by the functionality of c_string
++@@ -544,22 +533,20 @@ PyCArg_repr(PyCArgObject *self)
++     case 'z':
++     case 'Z':
++     case 'P':
++-        sprintf(buffer, "<cparam '%c' (%p)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%p)>",
++             self->tag, self->value.p);
++         break;
++ 
++     default:
++         if (is_literal_char((unsigned char)self->tag)) {
++-            sprintf(buffer, "<cparam '%c' at %p>",
+++            return PyUnicode_FromFormat("<cparam '%c' at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++         else {
++-            sprintf(buffer, "<cparam 0x%02x at %p>",
+++            return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++-        break;
++     }
++-    return PyUnicode_FromString(buffer);
++ }
++ 
++ static PyMemberDef PyCArgType_members[] = {
++
+diff --git a/meta/recipes-devtools/python/python3_3.8.5.bb b/meta/recipes-devtools/python/python3_3.8.5.bb
+index f09a3c1d6e..8c34ae2b40 100644
+--- a/meta/recipes-devtools/python/python3_3.8.5.bb
++++ b/meta/recipes-devtools/python/python3_3.8.5.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://CVE-2020-27619.patch \
++           file://CVE-2021-3177.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
 -- 
 2.29.2
 
