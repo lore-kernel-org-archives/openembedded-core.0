@@ -1,206 +1,88 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.48154.1612244094073717358
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Feb 2021 21:34:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: ozGSptOSapaxz96sAX5ljjw5Z6rk2wHM7m6vjIrCns13Vv/m6TJ/AGS5KymBgSFY3ylpNWUJLR
- QDJMlT1GXXYQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876929"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 5TmHR1npCJPuth0uvoqHynDkUNzgo7cNWonyCJPaaQVWAqjDBwDcEomnjM7YT3iss/GIjgwXPy
+ VKpXGCT4ySyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876932"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876929"
+   d="scan'208";a="180876932"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:34 -0800
-IronPort-SDR: xFZKjLjNks2VufLYLFAbgqEnJks7cLEugjpqJCKF29CPiXMxY9n19My23ylHH7CDqVW7DnKyYq
- GQg9sJz7Tmsg==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:35 -0800
+IronPort-SDR: NYtd+wjIP/NDOHuobYu0iClzNA87tfu5Kp+1y/vCiJkx7l8Ci76xBwwiq993XHXaL2nbFHTbSu
+ LZhEtzfrKjCA==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360983"
+   d="scan'208";a="370360993"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:33 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:34 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 18/25] cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
-Date: Tue,  2 Feb 2021 13:34:01 +0800
-Message-Id: <73f8c25a44ee33866a8fa61824437285cea96249.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 19/25] lib/oe/patch.py: Don't return command stderr from runcmd function
+Date: Tue,  2 Feb 2021 13:34:02 +0800
+Message-Id: <1dadeb58e88c4d953be612654fe4a76b51ff0553.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 
-add CVE_VERSION_SUFFIX to indicate the version suffix type, currently
-works in two value, "alphabetical" if the version string uses single
-alphabetical character suffix as incremental release, blank to not
-consider the unidentified suffixes. This can be expand when more suffix
-pattern identified.
+If a function returns any stderr it will be passed to extractPatches and
+used as path to patch.
 
-refactor cve_check.Version class to use functools and add parameter to
-handle suffix condition.
+For example subprocess command output can be:
+| sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+| /tmp/oepatchhuqle8fj/0001-foo.patch
+| /tmp/oepatchhuqle8fj/0002-bar.patch
 
-Also update testcases to cover new changes.
+that will result in:
+| FileNotFoundError: [Errno 2] No such file or directory: 'sh:'
 
-(From OE-Core rev: 5dfd5ad5144708b474ef31eaa89a846c57be8ac0)
+To fix this I separated output, made the function return stdout and
+print stderr only in case of command error.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+(From OE-Core rev: 482589e2cc7c3ddeefb0a0fb98d97a9cbb18c9ec)
+
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 86b42289bda5bc2a4eff221ab476f170dd3d3794)
+(cherry picked from commit 5e2450731c1f70fb72af0b8349905b359d3cd2b1)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/cve-check.bbclass            | 12 ++++---
- meta/lib/oe/cve_check.py                  | 40 ++++++++++++-----------
- meta/lib/oeqa/selftest/cases/cve_check.py | 11 ++++++-
- 3 files changed, 39 insertions(+), 24 deletions(-)
+ meta/lib/oe/patch.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 646cc879dd..ed86403b6b 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -53,6 +53,9 @@ CVE_CHECK_PN_WHITELIST ?= ""
- #
- CVE_CHECK_WHITELIST ?= ""
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 40755fbb03..8ad70f53f1 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -38,15 +38,19 @@ def runcmd(args, dir = None):
+         args = [ pipes.quote(str(arg)) for arg in args ]
+         cmd = " ".join(args)
+         # print("cmd: %s" % cmd)
+-        (exitstatus, output) = subprocess.getstatusoutput(cmd)
++        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
++        stdout, stderr = proc.communicate()
++        stdout = stdout.decode('utf-8')
++        stderr = stderr.decode('utf-8')
++        exitstatus = proc.returncode
+         if exitstatus != 0:
+-            raise CmdError(cmd, exitstatus >> 8, output)
+-        if " fuzz " in output and "Hunk " in output:
++            raise CmdError(cmd, exitstatus >> 8, "stdout: %s\nstderr: %s" % (stdout, stderr))
++        if " fuzz " in stdout and "Hunk " in stdout:
+             # Drop patch fuzz info with header and footer to log file so
+             # insane.bbclass can handle to throw error/warning
+-            bb.note("--- Patch fuzz start ---\n%s\n--- Patch fuzz end ---" % format(output))
++            bb.note("--- Patch fuzz start ---\n%s\n--- Patch fuzz end ---" % format(stdout))
  
-+# set to "alphabetical" for version using single alphabetical character as increament release
-+CVE_VERSION_SUFFIX ??= ""
-+
- python cve_save_summary_handler () {
-     import shutil
-     import datetime
-@@ -210,6 +213,7 @@ def check_cves(d, patched_cves):
+-        return output
++        return stdout
  
-     pn = d.getVar("PN")
-     real_pv = d.getVar("PV")
-+    suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-@@ -263,8 +267,8 @@ def check_cves(d, patched_cves):
-                 else:
-                     if operator_start:
-                         try:
--                            vulnerable_start =  (operator_start == '>=' and Version(pv) >= Version(version_start))
--                            vulnerable_start |= (operator_start == '>' and Version(pv) > Version(version_start))
-+                            vulnerable_start =  (operator_start == '>=' and Version(pv,suffix) >= Version(version_start,suffix))
-+                            vulnerable_start |= (operator_start == '>' and Version(pv,suffix) > Version(version_start,suffix))
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_start, version_start, cve))
-@@ -274,8 +278,8 @@ def check_cves(d, patched_cves):
- 
-                     if operator_end:
-                         try:
--                            vulnerable_end  = (operator_end == '<=' and Version(pv) <= Version(version_end) )
--                            vulnerable_end |= (operator_end == '<' and Version(pv) < Version(version_end) )
-+                            vulnerable_end  = (operator_end == '<=' and Version(pv,suffix) <= Version(version_end,suffix) )
-+                            vulnerable_end |= (operator_end == '<' and Version(pv,suffix) < Version(version_end,suffix) )
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_end, version_end, cve))
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index ec48a3f829..ce755f940a 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -1,58 +1,60 @@
- import collections
- import re
- import itertools
-+import functools
- 
- _Version = collections.namedtuple(
--    "_Version", ["release", "pre_l", "pre_v"]
-+    "_Version", ["release", "patch_l", "pre_l", "pre_v"]
- )
- 
-+@functools.total_ordering
- class Version():
--    _version_pattern =  r"""v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
--    _regex = re.compile(r"^\s*" + _version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
--    def __init__(self, version):
--        match = self._regex.search(version)
-+
-+    def __init__(self, version, suffix=None):
-+        if str(suffix) == "alphabetical":
-+            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(?P<patch_l>[a-z]))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+        else:
-+            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+        regex = re.compile(r"^\s*" + version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-+
-+        match = regex.search(version)
-         if not match:
-             raise Exception("Invalid version: '{0}'".format(version))
- 
-         self._version = _Version(
-             release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
-+            patch_l=match.group("patch_l") if str(suffix) == "alphabetical" and match.group("patch_l") else "",
-             pre_l=match.group("pre_l"),
-             pre_v=match.group("pre_v")
-         )
- 
-         self._key = _cmpkey(
-             self._version.release,
-+            self._version.patch_l,
-             self._version.pre_l,
-             self._version.pre_v
-         )
- 
--    def __le__(self, other):
--        if not isinstance(other, Version):
--            return NotImplemented
--        return self._key <= other._key
--
--    def __lt__(self, other):
-+    def __eq__(self, other):
-         if not isinstance(other, Version):
-             return NotImplemented
--        return self._key < other._key
--
--    def __ge__(self, other):
--        if not isinstance(other, Version):
--            return NotImplemented
--        return self._key >= other._key
-+        return self._key == other._key
- 
-     def __gt__(self, other):
-         if not isinstance(other, Version):
-             return NotImplemented
-         return self._key > other._key
- 
--def _cmpkey(release, pre_l, pre_v):
-+def _cmpkey(release, patch_l, pre_l, pre_v):
-     # remove leading 0
-     _release = tuple(
-         reversed(list(itertools.dropwhile(lambda x: x == 0, reversed(release))))
-     )
-+
-+    _patch = patch_l.upper()
-+
-     if pre_l is None and pre_v is None:
-         _pre = float('inf')
-     else:
-         _pre = float(pre_v) if pre_v else float('-inf')
--    return _release, _pre
-+    return _release, _patch, _pre
-diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-index 35e2b29a9a..3f343a2841 100644
---- a/meta/lib/oeqa/selftest/cases/cve_check.py
-+++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-@@ -23,5 +23,14 @@ class CVECheck(OESelftestTestCase):
-         self.assertTrue( result, msg="Failed to compare version '1.0_dev' <= '1.0'")
- 
-         # ignore "p1" and "p2", so these should be equal
--        result = Version("1.0p2") <= Version("1.0p1") and Version("1.0p2") >= Version("1.0p1")
-+        result = Version("1.0p2") == Version("1.0p1")
-         self.assertTrue( result ,msg="Failed to compare version '1.0p2' to '1.0p1'")
-+        # ignore the "b" and "r"
-+        result = Version("1.0b") == Version("1.0r")
-+        self.assertTrue( result ,msg="Failed to compare version '1.0b' to '1.0r'")
-+
-+        # consider the trailing alphabet as patched level when comparing
-+        result = Version("1.0b","alphabetical") < Version("1.0r","alphabetical")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' < '1.0r'")
-+        result = Version("1.0b","alphabetical") > Version("1.0","alphabetical")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
+     finally:
+         if dir:
 -- 
 2.29.2
 
