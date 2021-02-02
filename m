@@ -1,120 +1,127 @@
-Received: from mga03.intel.com (mga03.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.47921.1612244055746825648
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web11.48460.1612244058134667125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:17 -0800
+ Mon, 01 Feb 2021 21:34:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: wjV7weKzwcCAjgNXGmkjVz9PLd2iCo366ei/Ck7S/QF3mT+2XzQ3HZWIM/4U+V+z0vqUsXI/qF
- ei7P2NYhSMvg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876866"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: SqJeglH5bE1nBlE2DAG98W7EtUwf0lTA46FUqbYIZjISRHNXR/f8yNgeGNsJXhu5/5NGcsYoTH
+ ZHXxu8xFuy7A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876871"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876866"
+   d="scan'208";a="180876871"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:16 -0800
-IronPort-SDR: R35mWUhD9QpLgbDlvqJb8kxqTdNggV8M6rq8SM1cjChfR34HBZ6ZFqbZAlmdexBIiE7kUu0FKs
- +kPw5BuYjSOg==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:17 -0800
+IronPort-SDR: cr1/NVi5y+CNlSmOFlXle3qU8gEZsUiQzmPKAYAzahLKqLPEMulE7qP2lYhU/4RHWb3MD8HtWg
+ ovCEMPGrXH5A==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360872"
+   d="scan'208";a="370360875"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:15 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:16 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 02/25] sudo: fix CVE-2021-23239
-Date: Tue,  2 Feb 2021 13:33:45 +0800
-Message-Id: <ed8e858fc3ca0c5a401f08408a793f8c864ff645.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 03/25] gdk-pixbuf: fix CVE-2020-29385
+Date: Tue,  2 Feb 2021 13:33:46 +0800
+Message-Id: <c3f2e4ed9c5fe541a9aee900cc632592f9824407.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+From: Lee Chee Yang <chee.yang.lee@intel.com>
+
+Backport patch from
+https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81
+
+image file in upstream patch is for test purpose only, it cause error during
+do_patch so drop it:
+File tests/test-images/fail/hang_114.gif: git binary diffs are not supported.
+
+(From OE-Core rev: 7cd401b7c60dba91f6fb10395ab4a10a267cf23d)
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ee867453ff2116620c07f0bb3bea725d7aa60731)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../sudo/files/CVE-2021-23239.patch           | 62 +++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.3.bb      |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-23239.patch
+ .../gdk-pixbuf/CVE-2020-29385.patch           | 55 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2021-23239.patch b/meta/recipes-extended/sudo/files/CVE-2021-23239.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
 new file mode 100644
-index 0000000000..e16baecd5a
+index 0000000000..3fef2bc1eb
 --- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2021-23239.patch
-@@ -0,0 +1,62 @@
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+@@ -0,0 +1,55 @@
++From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
++From: Robert Ancell <robert.ancell@canonical.com>
++Date: Mon, 30 Nov 2020 12:26:12 +1300
++Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
 +
-+# HG changeset patch
-+# User Todd C. Miller <Todd.Miller@sudo.ws>
-+# Date 1609953360 25200
-+# Node ID ea19d0073c02951bbbf35342dd63304da83edce8
-+# Parent  f1ca39a0d87089d005b78a2556e2b1a2dc17f672
-+Fix potential directory existing info leak in sudoedit.
-+When creating a new file, sudoedit checks to make sure the parent
-+directory exists so it can provide the user with a sensible error
-+message.  However, this could be used to test for the existence of
-+directories not normally accessible to the user by pointing to them
-+with a symbolic link when the parent directory is controlled by the
-+user.  Problem reported by Matthias Gerstner of SUSE.
++The code value after a reset wasn't being validated, which means we would
++accept invalid codes. This could cause an infinite loop in the decoder.
 +
-+Upstream-Status: Backport [https://www.sudo.ws/repos/sudo/rev/ea19d0073c02]
-+CVE: CVE-2021-23239
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++Fixes CVE-2020-29385
 +
-+diff -r f1ca39a0d870 -r ea19d0073c02 src/sudo_edit.c
-+--- a/src/sudo_edit.c	Wed Jan 06 10:16:00 2021 -0700
-++++ b/src/sudo_edit.c	Wed Jan 06 10:16:00 2021 -0700
-+@@ -541,14 +541,33 @@
-+ 	    S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH, command_details);
-+ 	if (ofd != -1 || errno == ENOENT) {
-+ 	    if (ofd == -1) {
-+-		/* New file, verify parent dir exists unless in cwd. */
-++		/*
-++		 * New file, verify parent dir exists unless in cwd.
-++		 * This fails early so the user knows ahead of time if the
-++		 * edit won't succeed.  Additional checks are performed
-++		 * when copying the temporary file back to the origin.
-++		 */
-+ 		char *slash = strrchr(files[i], '/');
-+ 		if (slash != NULL && slash != files[i]) {
-+-		    int serrno = errno;
-++		    const int sflags = command_details->flags;
-++		    const int serrno = errno;
-++		    int dfd;
++Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
++CVE: CVE-2020-29385
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ gdk-pixbuf/lzw.c                    |  13 +++++++------
++ 1 files changed, 7 insertions(+), 6 deletions(-)
++ create mode 100644 tests/test-images/fail/hang_114.gif
++
++diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
++index 9e052a6f7..105daf2b1 100644
++--- a/gdk-pixbuf/lzw.c
+++++ b/gdk-pixbuf/lzw.c
++@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
++                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
++                                         if (self->code < self->code_table_size)
++                                                 add_code (self, self->code);
++-                                        else if (self->code == self->code_table_size)
+++                                        else
++                                                 add_code (self, self->last_code);
++-                                        else {
++-                                                /* Invalid code received - just stop here */
++-                                                self->last_code = self->eoi_code;
++-                                                return output_length;
++-                                        }
++ 
++                                         /* When table is full increase code size */
++                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
++                                                 self->code_size++;
++                                 }
++ 
+++                                /* Invalid code received - just stop here */
+++                                if (self->code >= self->code_table_size) {
+++                                        self->last_code = self->eoi_code;
+++                                        return output_length;
+++                                }
 ++
-++		    /*
-++		     * The parent directory is allowed to be a symbolic
-++		     * link as long as *its* parent is not writable.
-++		     */
-+ 		    *slash = '\0';
-+-		    if (stat(files[i], &sb) == 0 && S_ISDIR(sb.st_mode)) {
-+-			memset(&sb, 0, sizeof(sb));
-+-			rc = 0;
-++		    SET(command_details->flags, CD_SUDOEDIT_FOLLOW);
-++		    dfd = sudo_edit_open(files[i], DIR_OPEN_FLAGS,
-++			S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH, command_details);
-++		    command_details->flags = sflags;
-++		    if (dfd != -1) {
-++			if (fstat(dfd, &sb) == 0 && S_ISDIR(sb.st_mode)) {
-++			    memset(&sb, 0, sizeof(sb));
-++			    rc = 0;
-++			}
-++			close(dfd);
-+ 		    }
-+ 		    *slash = '/';
-+ 		    errno = serrno;
++                                 /* Convert codeword into indexes */
++                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
++                         }
++-- 
++2.25.1
 +
-+
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.3.bb b/meta/recipes-extended/sudo/sudo_1.9.3.bb
-index 0d0be9ab8b..132d9a8cb9 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.3.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.3.bb
-@@ -3,6 +3,7 @@ require sudo.inc
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
-+           file://CVE-2021-23239.patch \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+index 3dec5ed052..16708fd581 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0004-Do-not-run-tests-when-building.patch \
+            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
+            file://missing-test-data.patch \
++           file://CVE-2020-29385.patch \
             "
  
- PAM_SRC_URI = "file://sudo.pam"
+ SRC_URI_append_class-target = " \
 -- 
 2.29.2
 
