@@ -1,73 +1,69 @@
 Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.48460.1612244058134667125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:24 -0800
+ Mon, 01 Feb 2021 21:34:26 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: mhWcKeprJDaFA/njqQB4LVNqitORGVTwMJwuUjxnoJWxziD9KGxiT1mE7RZUJx6s2ta+JgLT5P
- hKS7eEK6Ca5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876894"
+IronPort-SDR: BW5rHxdQNL1s+vnAs71dXLTN/oM0Z8ze6/mUbjVZIKK9HyZl4Vqon8MH28UkgCloJsZq2jj2nh
+ kUu62qEpORJQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876896"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876894"
+   d="scan'208";a="180876896"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:24 -0800
-IronPort-SDR: YDJTOOHx+uGtPr7fFw5sARb/hH0qovCFMOpmlPmsyuynEtNzvafpgajc083PycHbz6z5EDHKJj
- xThcrh/KbRsg==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:25 -0800
+IronPort-SDR: s0tg/0zrK5ukpRea5qKIzF+MK5+jC6H+49B+Vb3K+Jav/2xn5NpqOUycF6BtJYe47YMy3o89ic
+ WOV13at3CiNA==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360920"
+   d="scan'208";a="370360925"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:23 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:24 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 09/25] timezone: upgrade to 2021a
-Date: Tue,  2 Feb 2021 13:33:52 +0800
-Message-Id: <c34b1432078647b3e435dfa8bc52a6d8c36e18b0.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 10/25] sanity: Verify that user isn't building in PSEUDO_IGNORE_PATHS
+Date: Tue,  2 Feb 2021 13:33:53 +0800
+Message-Id: <35f3e08c52e163e4496c0222896c49888ad5c960.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Dorinda <dorindabassey@gmail.com>
 
-Release 2021a - 2021-01-24 10:54:57 -0800
+If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures
+are generated. Hence this patch adds a sanity check in sanity.bbclass
+to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
 
-  Changes to future timestamps
+[YOCTO #14179]
 
-    South Sudan changes from +03 to +02 on 2021-02-01 at 00:00.
-    (Thanks to Steffen Thorsen.)
+(From OE-Core rev: 7a681525e904914e938de25df5cc64209097d15d)
 
-(From OE-Core rev: ed9114df2086c4ad0544cf99c9c1ff8fb7b830b9)
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d647db7c3087cee051e29211d6c519d3c9575b3d)
+(cherry picked from commit bfeeaf9ff148a61868e0c882b7455dc02ca8ed76)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/sanity.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 9a19093e24..a89560b424 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 3262d08fbf..0e7ad45c94 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -703,6 +703,13 @@ def check_sanity_version_change(status, d):
+     if (tmpdirmode & stat.S_ISUID):
+         status.addresult("TMPDIR is setuid, please don't build in a setuid directory")
  
--PV = "2020f"
-+PV = "2021a"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "cfeeea2a7745164f64bd9f6d76e47916f4ac820c4434493674adbbd4324329c5"
--SRC_URI[tzdata.sha256sum] = "121131918c3ae6dc5d40f0eb87563a2be920b71a76e2392c09519a5e4a666881"
-+SRC_URI[tzcode.sha256sum] = "eb46bfa124b5b6bd13d61a609bfde8351bd192894708d33aa06e5c1e255802d0"
-+SRC_URI[tzdata.sha256sum] = "39e7d2ba08c68cbaefc8de3227aab0dec2521be8042cf56855f7dc3a9fb14e08"
++    # Check that a user isn't building in a path in PSEUDO_IGNORE_PATHS
++    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
++    workdir = d.getVar('WORKDIR', expand=True)
++    for i in pseudoignorepaths:
++        if i and workdir.startswith(i):
++            status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
++
+     # Some third-party software apparently relies on chmod etc. being suid root (!!)
+     import stat
+     suid_check_bins = "chown chmod mknod".split()
 -- 
 2.29.2
 
