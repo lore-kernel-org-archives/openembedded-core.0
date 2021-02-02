@@ -1,71 +1,71 @@
 Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.48460.1612244058134667125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:20 -0800
+ Mon, 01 Feb 2021 21:34:21 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: XOCdQggKAIR6+pNWRNY19xmNls7/U1+nF5RegCobctw36bf1zb1hXfAj5Wp2HeppfykKrdfI/8
- Lcl0BnSAB1EQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876879"
+IronPort-SDR: gNzlvw2z/AIjW87mKOJrRx8G7fWPE7Kqc8DZJA99X5KTiSKWgvLDD2qyEES2+4bxfq0xESDZQf
+ ckWe+BBO0KCw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876881"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876879"
+   d="scan'208";a="180876881"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:19 -0800
-IronPort-SDR: CEtdrITmUxwLGv3fKmtrqexy2WE9Kv7YSLeVXvSnr4j3BQw35tAiFLzdCW+d7UJxxjaiqmaO8K
- vBrSnQWralxg==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:20 -0800
+IronPort-SDR: 59jlPmQHjcaIHh2cQBgBVLkvvKTawyF+DkIyrHAPGPsbnc3cTDznQxelw5S7iK885TVh0MmTKa
+ 99FhqWItkybg==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360891"
+   d="scan'208";a="370360894"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:18 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:20 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 05/25] externalsrc: Fix parsing error with devtool non-git sources
-Date: Tue,  2 Feb 2021 13:33:48 +0800
-Message-Id: <1da57e92812a1025d975204797b761a3be3998aa.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 06/25] oeqa/selftest/cases/tinfoil.py: increase timeout 10->60s test_wait_event
+Date: Tue,  2 Feb 2021 13:33:49 +0800
+Message-Id: <c925b83cbd31345f788515ca8b642b14e5e11898.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+From: Yi Fan Yu <yifan.yu@windriver.com>
 
-If srcdir is under poky directory (e.g. devtool poky/build/workspace/sources)
-and is not a git repository then ${@srctree_hash_files(d)} will run "git
-rev-parse --git-dir" and detect poky directory as git-dir and run "'git', 'add',
-'-A', '.'], cwd=s_dir" trying to add srcdir but build dir is in .gitignore and
-latest git will fail with "The following paths are ignored by one of your
-.gitignore files: build" which will end with "ExpansionError during parsing".
+The test would timeout on autobuilders. This patch increases the
+timeout to 60s
 
-In this commit I added a check if git_dir is the same as git-dir from
-TOPDIR (which will detect poky directory) and if yes, then treat srcdir
-as non-git sources.
+The test will now also exit as soon as we receive the 2 expected events
+Expected runtime is around 1s if successful
 
-(From OE-Core rev: 95fbac8dcad6c93f4c9737e9fe13e92ab6befa09)
+Bug 14158
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+(From OE-Core rev: be02aa9283f805de718badd5ea12c4968da8774f)
+
+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 28bdfe0066cb3c41d6471af75dabcc573e319688)
+(cherry picked from commit 1d803b70e599521ad0c743f49007e6fc5c055d1c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/externalsrc.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index dd09395788..7a7d31e311 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -197,6 +197,10 @@ def srctree_hash_files(d, srcdir=None):
-     try:
-         git_dir = os.path.join(s_dir,
-             subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
-+        top_git_dir = os.path.join(s_dir, subprocess.check_output(['git', '-C', d.getVar("TOPDIR"), 'rev-parse', '--git-dir'],
-+            stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
-+        if git_dir == top_git_dir:
-+            git_dir = None
-     except subprocess.CalledProcessError:
-         pass
- 
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index 206168ed00..a51c6048d3 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -100,9 +100,11 @@ class TinfoilTests(OESelftestTestCase):
+             eventreceived = False
+             commandcomplete = False
+             start = time.time()
+-            # Wait for 10s in total so we'd detect spurious heartbeat events for example
++            # Wait for maximum 60s in total so we'd detect spurious heartbeat events for example
+             # The test is IO load sensitive too
+-            while time.time() - start < 10:
++            while (not (eventreceived == True and commandcomplete == True) 
++                    and (time.time() - start < 60)):
++                # if we received both events (on let's say a good day), we are done  
+                 event = tinfoil.wait_event(1)
+                 if event:
+                     if isinstance(event, bb.command.CommandCompleted):
 -- 
 2.29.2
 
