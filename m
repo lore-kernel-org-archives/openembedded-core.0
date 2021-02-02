@@ -1,71 +1,66 @@
 Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.48460.1612244058134667125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:21 -0800
+ Mon, 01 Feb 2021 21:34:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: gNzlvw2z/AIjW87mKOJrRx8G7fWPE7Kqc8DZJA99X5KTiSKWgvLDD2qyEES2+4bxfq0xESDZQf
- ckWe+BBO0KCw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876881"
+IronPort-SDR: cUU6NiViS44h9OEKRq1GnSQWHxuHkJ3VdS2klp/AtmV3n65zwdCCRVrglLoW9lUQd+AHiaAvLy
+ 4pNZQO4WiPuA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876886"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876881"
+   d="scan'208";a="180876886"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:20 -0800
-IronPort-SDR: 59jlPmQHjcaIHh2cQBgBVLkvvKTawyF+DkIyrHAPGPsbnc3cTDznQxelw5S7iK885TVh0MmTKa
- 99FhqWItkybg==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:22 -0800
+IronPort-SDR: fbDx1pdZjz9D0u770STLVUoqyywtJNWF4/+xbyDD1oR2zchApn+msHcM7bpAH6RweqpOaUIFaS
+ 9eqi1rjpgu7A==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360894"
+   d="scan'208";a="370360902"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:20 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:21 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 06/25] oeqa/selftest/cases/tinfoil.py: increase timeout 10->60s test_wait_event
-Date: Tue,  2 Feb 2021 13:33:49 +0800
-Message-Id: <c925b83cbd31345f788515ca8b642b14e5e11898.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 07/25] devtool: Fix file:// fetcher symlink directory structure
+Date: Tue,  2 Feb 2021 13:33:50 +0800
+Message-Id: <a6a4e1350c6c8170648a9e910b06e6534d11f926.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Yi Fan Yu <yifan.yu@windriver.com>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 
-The test would timeout on autobuilders. This patch increases the
-timeout to 60s
+Add relative path if file is under directory.
 
-The test will now also exit as soon as we receive the 2 expected events
-Expected runtime is around 1s if successful
+[YOCTO #13738]
 
-Bug 14158
+(From OE-Core rev: 19ddacc1b38f9ebb86a9359963ccc3c707f7125e)
 
-(From OE-Core rev: be02aa9283f805de718badd5ea12c4968da8774f)
-
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1d803b70e599521ad0c743f49007e6fc5c055d1c)
+(cherry picked from commit 3a220f1e411767cbf9e7099c18d94a12171c1093)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/tinfoil.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 206168ed00..a51c6048d3 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -100,9 +100,11 @@ class TinfoilTests(OESelftestTestCase):
-             eventreceived = False
-             commandcomplete = False
-             start = time.time()
--            # Wait for 10s in total so we'd detect spurious heartbeat events for example
-+            # Wait for maximum 60s in total so we'd detect spurious heartbeat events for example
-             # The test is IO load sensitive too
--            while time.time() - start < 10:
-+            while (not (eventreceived == True and commandcomplete == True) 
-+                    and (time.time() - start < 60)):
-+                # if we received both events (on let's say a good day), we are done  
-                 event = tinfoil.wait_event(1)
-                 if event:
-                     if isinstance(event, bb.command.CommandCompleted):
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index f7d8a82117..7b62b7e7b8 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -474,7 +474,11 @@ def symlink_oelocal_files_srctree(rd,srctree):
+                 destpth = os.path.join(srctree, relpth, fn)
+                 if os.path.exists(destpth):
+                     os.unlink(destpth)
+-                os.symlink('oe-local-files/%s' % fn, destpth)
++                if relpth != '.':
++                    back_relpth = os.path.relpath(local_files_dir, root)
++                    os.symlink('%s/oe-local-files/%s/%s' % (back_relpth, relpth, fn), destpth)
++                else:
++                    os.symlink('oe-local-files/%s' % fn, destpth)
+                 addfiles.append(os.path.join(relpth, fn))
+         if addfiles:
+             bb.process.run('git add %s' % ' '.join(addfiles), cwd=srctree)
 -- 
 2.29.2
 
