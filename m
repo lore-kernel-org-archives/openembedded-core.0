@@ -1,27 +1,27 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.48460.1612244058134667125
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Feb 2021 21:34:18 -0800
+ Mon, 01 Feb 2021 21:34:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: SqJeglH5bE1nBlE2DAG98W7EtUwf0lTA46FUqbYIZjISRHNXR/f8yNgeGNsJXhu5/5NGcsYoTH
- ZHXxu8xFuy7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876871"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: /jboWuav3u7NHJd7CP8lP6dCB9Ii/qH70oOPUCpq8R+ZZU5HFUU2BK0kiKQjthUcnr+OzE6CG+
+ y2BxDawtTKIw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180876874"
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180876871"
+   d="scan'208";a="180876874"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:17 -0800
-IronPort-SDR: cr1/NVi5y+CNlSmOFlXle3qU8gEZsUiQzmPKAYAzahLKqLPEMulE7qP2lYhU/4RHWb3MD8HtWg
- ovCEMPGrXH5A==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:18 -0800
+IronPort-SDR: Q7Ujr+Q57jAdrd4VpSXIBB8BRfU8Dk1HQC/n2QKrBRYbUs+peXTPJwOW76mu1tj5c/+1qZT5tm
+ +NV/Ov7rXpdA==
 X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="370360875"
+   d="scan'208";a="370360880"
 Received: from ajayap1x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.137])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:16 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 21:34:17 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 03/25] gdk-pixbuf: fix CVE-2020-29385
-Date: Tue,  2 Feb 2021 13:33:46 +0800
-Message-Id: <c3f2e4ed9c5fe541a9aee900cc632592f9824407.1612243805.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 04/25] p11-kit: upgrade 0.23.21 -> 0.23.22
+Date: Tue,  2 Feb 2021 13:33:47 +0800
+Message-Id: <f500435958fd676a00757a64572f06f5cb16c251.1612243805.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612243805.git.anuj.mittal@intel.com>
 References: <cover.1612243805.git.anuj.mittal@intel.com>
@@ -30,98 +30,69 @@ Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Backport patch from
-https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81
+https://github.com/p11-glue/p11-kit/releases/tag/0.23.22
 
-image file in upstream patch is for test purpose only, it cause error during
-do_patch so drop it:
-File tests/test-images/fail/hang_114.gif: git binary diffs are not supported.
+Release notes:
+Fix memory-safety issues that affect the RPC protocol (CVE-2020-29361, CVE-2020-29362, and CVE-2020-29363), discovered and fixed by David Cook
+anchor: Prefer persistent format when storing anchor [#329]
+common: Fix infloop in p11_path_build [#326, #327]
+proxy: C_CloseAllSessions: Make sure that calloc args are non-zero [#325]
+common: Check for a NULL locale before freeing it [#321]
+Build and test fixes [#313, #315, #317, #318, #319, #323, #330, #333, #334, #335, #338, #339]
 
-(From OE-Core rev: 7cd401b7c60dba91f6fb10395ab4a10a267cf23d)
+https://github.com/p11-glue/p11-kit/commit/c4e75e10021ce86ab42682ea4936dce94ced2f77
+patch to fix trailing newline using custom_target() caused error
+with DISTRO_FEATURES api-documentation due to meson bugs, enable
+manpages PACKAGECONFIG should prevent this error.
+| warning: failed to load external entity "../version.xml"
+| ../p11-kit-docs.xml:11: parser error : Failure to process entity version
+| 		<releaseinfo>for p11-kit &version;</releaseinfo>
+| 		                                  ^
+| ../p11-kit-docs.xml:11: parser error : Entity 'version' not defined
+| 		<releaseinfo>for p11-kit &version;</releaseinfo>
+| 		                                  ^
+| unable to parse ../p11-kit-docs.xml
+
+(From OE-Core rev: b112ba291835061640123c13784e2b33cc73f17d)
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ee867453ff2116620c07f0bb3bea725d7aa60731)
+(cherry picked from commit 59b07a71f32c84e592d66595a2a7e1ae9c7ebef8)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../gdk-pixbuf/CVE-2020-29385.patch           | 55 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+ .../p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb}     | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb} (75%)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
-new file mode 100644
-index 0000000000..3fef2bc1eb
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
-@@ -0,0 +1,55 @@
-+From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
-+From: Robert Ancell <robert.ancell@canonical.com>
-+Date: Mon, 30 Nov 2020 12:26:12 +1300
-+Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
-+
-+The code value after a reset wasn't being validated, which means we would
-+accept invalid codes. This could cause an infinite loop in the decoder.
-+
-+Fixes CVE-2020-29385
-+
-+Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
-+CVE: CVE-2020-29385
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ gdk-pixbuf/lzw.c                    |  13 +++++++------
-+ 1 files changed, 7 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/test-images/fail/hang_114.gif
-+
-+diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
-+index 9e052a6f7..105daf2b1 100644
-+--- a/gdk-pixbuf/lzw.c
-++++ b/gdk-pixbuf/lzw.c
-+@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
-+                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
-+                                         if (self->code < self->code_table_size)
-+                                                 add_code (self, self->code);
-+-                                        else if (self->code == self->code_table_size)
-++                                        else
-+                                                 add_code (self, self->last_code);
-+-                                        else {
-+-                                                /* Invalid code received - just stop here */
-+-                                                self->last_code = self->eoi_code;
-+-                                                return output_length;
-+-                                        }
-+ 
-+                                         /* When table is full increase code size */
-+                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
-+                                                 self->code_size++;
-+                                 }
-+ 
-++                                /* Invalid code received - just stop here */
-++                                if (self->code >= self->code_table_size) {
-++                                        self->last_code = self->eoi_code;
-++                                        return output_length;
-++                                }
-++
-+                                 /* Convert codeword into indexes */
-+                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
-+                         }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-index 3dec5ed052..16708fd581 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0004-Do-not-run-tests-when-building.patch \
-            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
-            file://missing-test-data.patch \
-+           file://CVE-2020-29385.patch \
-            "
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+similarity index 75%
+rename from meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+index b1fd2334b2..c539ecdbc6 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+@@ -2,17 +2,18 @@ SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
  
- SRC_URI_append_class-target = " \
+-inherit meson gettext pkgconfig gtk-doc bash-completion
++inherit meson gettext pkgconfig gtk-doc bash-completion manpages
+ 
+ DEPENDS = "libtasn1 libtasn1-native libffi"
+ 
+ DEPENDS_append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
+ 
+-SRC_URI = "git://github.com/p11-glue/p11-kit"
+-SRCREV = "fd8b56f3ee971f94dc6fc95411fc01e1c12153ab"
++SRC_URI = "git://github.com/p11-glue/p11-kit;branch=0.23"
++SRCREV = "bd97afbfe28d5fbbde95ce36ff7a8834fc0291ee"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= ""
++PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
+ PACKAGECONFIG[trust-paths] = "-Dtrust_paths=/etc/ssl/certs/ca-certificates.crt,,,ca-certificates"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
 -- 
 2.29.2
 
