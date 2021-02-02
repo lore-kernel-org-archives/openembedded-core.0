@@ -1,78 +1,110 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.49719.1612258386527778747
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web09.49555.1612258393577774608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Feb 2021 01:33:06 -0800
+ Tue, 02 Feb 2021 01:33:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BR7uifS9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id 7so19678345wrz.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 01:33:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TxQdHbnR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: idadelm@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id l12so19674562wry.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 01:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Rp3zBMJjNI9nvxAytFrNCT/f2+lzNqltOScxtYmUbq4=;
-        b=BR7uifS9bGTczpxde5mfbE8cSWH9kAQLs/b2bbNoo3tBVjsCWK0tozZG0R2rDr4ruq
-         2eFKt60GNFSDOMKrRtulAO5sFc1WQ0YMU1Xab2QGXtYFanjqhb3UuuraQkyXC9yBLqVs
-         XS8leSxpcKZrpcjcWIhV+cJ7iOR4k7Y6HjprI=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kGtWv6dmCCUYKmt25amU22+aTA5EPlYgAeQMwJHa3CU=;
+        b=TxQdHbnR843KE1ppcwjYX8zyBkoY9Cx+PsLA6IPtz/ISUNkhuMAS6zHPbMowklJd1l
+         ZB4MPZi/wK5oQk6qaTtAz71EAg53Xr9Ek1mclp5U28DXQaRL0I7zipYbYg2drNY+G9Hv
+         IyMmwAvFy9R22S9B4b7HNcksGIZfs2c92SvSiqRBhLBe54YqEyRWhzS09+LwbEtWPaqo
+         +INWL/EFs8v/2yXkXPdsCavfprHYnXXbH4Z3z6TL8trKS/1XS3cbsgA+z9z1CrLYQm2j
+         yahQe+SZjGFZQfkc0/y79Ekf9vY7lL+5f/8RQnYs1fJUC7ZNTxm5I3B3UiP/kA5l2MOW
+         hLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Rp3zBMJjNI9nvxAytFrNCT/f2+lzNqltOScxtYmUbq4=;
-        b=IVTcG9qcxRH0DlRKJbmWbZ+/Ue/zlzzJ217l9ByQCmfV7xzrt5nn8e8YX4T5sEteKl
-         JGC7jcY3e49tcJqL9uhLHtR/PTf6JHfJv+wg14SHCvYRvdrU6NOUGGO80uir3TkHJ9pu
-         /fXiazzsPIl29rh7hnT6t7tQF4Jb4p7hycRs/+MtqXD10jcpYEA3b3djBURZ+rMkh2tt
-         B0nlE78reJTVu4jy06QAAGvSLCu3gkEYxW6eSKiFSSwO5Q1ydEgJDD0zptRQekT3uz7w
-         J9nNCHSJL4Tll9CM9b7tFn/2bmg73oQjSc2Oa/DFVvndhoEh6TDl++4ky4xTU63Z+0M+
-         9QsQ==
-X-Gm-Message-State: AOAM5315UhihjOMr6F3a+Bn4UcFSo0Na1vGYvF1PL5GD3X1Mi38lgL+o
-	1lUP0/6g9mIQ1feeXsuZFdHLJw==
-X-Google-Smtp-Source: ABdhPJzPTqRJ5weztck8DgeoVGZg4GV7od5zxyytxRjFYdQwHk11JmZY0xQ1Q3tnHlPQvmb64eSKaQ==
-X-Received: by 2002:a05:6000:188b:: with SMTP id a11mr22299053wri.151.1612258384941;
-        Tue, 02 Feb 2021 01:33:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1d48:268:5d93:58e4? ([2001:8b0:aba:5f3c:1d48:268:5d93:58e4])
-        by smtp.gmail.com with ESMTPSA id p12sm2010327wmq.1.2021.02.02.01.33.04
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kGtWv6dmCCUYKmt25amU22+aTA5EPlYgAeQMwJHa3CU=;
+        b=KHfTs4jMtbQNqOhwfHgNAt5599qjSyJ5tC+qBErU65ss9zYQ6GcTsYubjH3Vi4Juhg
+         0DmTbyqMI6UcbE0gzgNac8tDas6kodBL3RV+ci8W2foJjxrgp580r5fvIFrXR57KSU+T
+         wxSYxeJnL2M/4L5NdxvcVuxRfOCD8inCEEc2oRxjNTAChNOgrAlBqmCVMjwdqXRdjeKO
+         89oMog6FLKnBUq0z4PGVed/VA0cyE+vKBEu40d7Y8r1zhpL3IplVMdBG6GHm4H/hGsly
+         R8scVQapeVssuxEug4Qh9yRr2HpY+r9fUhUcboBjObAuOcDTFHlbihKRUqXCswnXdvTh
+         NNJA==
+X-Gm-Message-State: AOAM532STOnRkL76O6gl+HGkb4JJBNMh3eLMp0hzzXSY+D4eD3/v6Er9
+	cK8HZ4RRj7HK8ACbuR+eFiGvMfE5Gi9DsQ==
+X-Google-Smtp-Source: ABdhPJxVf8/7+VGF50KYdShn02Q+z8o0jJVsGuJygLKnoIXwGgw3VnZ5kQAeoPGQ9kIFVV5u2/B9IA==
+X-Received: by 2002:a05:6000:1374:: with SMTP id q20mr21789507wrz.44.1612258391970;
+        Tue, 02 Feb 2021 01:33:11 -0800 (PST)
+Return-Path: <idadelm@gmail.com>
+Received: from ida-pc.lan ([41.202.219.241])
+        by smtp.gmail.com with ESMTPSA id v1sm2067120wmj.31.2021.02.02.01.33.10
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 01:33:04 -0800 (PST)
-Message-ID: <456f2eb44ad30da1e4422d06267c07e7c57595aa.camel@linuxfoundation.org>
-Subject: Re: [yocto] [OE-core] Let me tell you how I really feel. Zero filter. If you need meta-python2, you need to become a maintainer. Immediately. Period.
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Tim Orling <ticotimo@gmail.com>, Yocto-mailing-list
-	 <yocto@lists.yoctoproject.org>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>, 
-	"openembedded-devel@lists.openembedded.org"
-	 <Openembedded-devel@lists.openembedded.org>, Anibal Limon
-	 <anibal.limon@linaro.org>
-Date: Tue, 02 Feb 2021 09:33:03 +0000
-In-Reply-To: <CA+chaQeJnDzgusQvqEWkkNwkoDxR1fMhrb0kM3932D71yWTMRw@mail.gmail.com>
-References: 
-	<CANx9H-DFtcdnZwDqHEPg4t5ySyJe++KS8hO9QDFX5r31KLz3Ww@mail.gmail.com>
-	 <16406E32EA0586FD.712@lists.yoctoproject.org>
-	 <CA+chaQeJnDzgusQvqEWkkNwkoDxR1fMhrb0kM3932D71yWTMRw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Tue, 02 Feb 2021 01:33:11 -0800 (PST)
+From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta][RFC PATCH] meta/classes/package.bbclass: Remove false positive lic warnings
+Date: Tue,  2 Feb 2021 10:32:33 +0100
+Message-Id: <20210202093233.19555-1-idadelm@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-02-01 at 15:40 +0100, Martin Jansa wrote:
-> can I get the write access to meta-python2 as mentioned above?
-> 
-> I have 2 fixes to make it parse able with latest oe-core:
-> https://lists.openembedded.org/g/openembedded-devel/message/89201
-> https://lists.openembedded.org/g/openembedded-devel/message/89200
-> 
-> to fix issues discussed in:
-> https://github.com/openembedded/openembedded-core/commit/fd6a007efa7cb45101a66f294af81d9d33bb3fab#commitcomment-46565284
-> https://lists.openembedded.org/g/openembedded-core/message/147477
-> https://lists.openembedded.org/g/openembedded-core/message/147514
+Warnings occur if and only if licenses in the sources don't match LICENSE value of the recipe.
+Firstly, the recipe LICENSE strings are split into their individual license and the canonicalised to easy enable matching with licenses of sources.
+With the IGNOREWITHLINUXSYSCALLNOTE variable set to "1" in local.conf, it removes the "WITH Linux syscall note" string attached to the license value for sources before comparism.
+Added text to distinguish licenses from sources and those from recipes when warnings are outputed.
 
-This sounds like a good idea to me and I have admin right so I've given
-you access :)
+Signed-off-by: Ida Delphine <idadelm@gmail.com>
+---
+ meta/classes/package.bbclass | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index ab96f141ae..e814965d70 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1545,6 +1545,7 @@ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+ 
+ python emit_pkgdata() {
++    import oe.license
+     from glob import glob
+     import json
+     import subprocess
+@@ -1756,13 +1757,30 @@ fi
+                     computedpkglics[pkg].update(computedlics[f])
+             if not found:
+                 bb.warn("%s not in %s" % (f, str(filemap)))
+-        #if computedpkglics:
+-        #    bb.warn(str(computedpkglics))
+         for pkg in computedpkglics:
+             lic = d.getVar('LICENSE_%s' % (pkg))
+             if not lic:
+                 lic = d.getVar('LICENSE')
+-            bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], lic))
++
++            # Splits the LICENSE values and canonicalise each license
++            # in the set of split license(s)    
++            split_lic = oe.license.list_licenses(lic)
++            spdx_lic = set([canonical_license(d, l) for l in split_lic])
++            if computedpkglics[pkg]:
++                computedpkglicsperpkg = set([])
++                for l in computedpkglics[pkg]:
++                    if l.endswith('-or-later'):
++                        lic_ = l.replace('-or-later', '+')
++                        computedpkglicsperpkg.add(lic_)
++                    elif l.endswith(' WITH Linux-syscall-note'):
++                        if d.getVar("IGNOREWITHLINUXSYSCALLNOTE") == "1":
++                            lic_ = l.replace(' WITH Linux-syscall-note', '')
++                            computedpkglicsperpkg.add(lic_)
++                    else:
++                        computedpkglicsperpkg.add(l)
++            # Displays warnings for licenses found in the recipes and not sources
++            if spdx_lic - computedpkglicsperpkg:
++                bb.warn("License for package %s is %s (source SPDX headers) vs %s (LICENSE)" % (pkg, computedpkglicsperpkg, str(spdx_lic)))
+ }
+ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
+ 
+-- 
+2.25.1
 
