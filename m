@@ -1,66 +1,92 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.7351.1612348219367106274
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.9034.1612358886000532844
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 02:30:19 -0800
+ Wed, 03 Feb 2021 05:28:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Stao/mas;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id l12so23566403wry.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 02:30:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IqW/RPxA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id l12so24298374wry.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 05:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=5RaY1bFY4OvUZalbjpryxC+ac62BJLlrb+Y6NXN36Ow=;
-        b=Stao/masu9FbWmrIPQfSBTdpcQjRaQeP5kzB0Lh3qv+iAxMj26ctMoluv8jvkaVZ0H
-         fGUYfcAyXwy5xn+r5hG7+4Elfg5Sg7/b61jG/2Y3Lr9/rrE8qhvuj9BbwOdKpyJclZ1X
-         Wf123t1zXP2+zFjwobgPUX89lL8Od0qcVdcoo=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=USBk8wdFrG074XaLld3H/qRGLuz2fuBeywq+whQLJ9A=;
+        b=IqW/RPxAKqrhOnZYCM5rQWoQeM+HhiH0tptRRuVGS6FICDtSYK4zkkKkJ1u3/vGyuT
+         szAUHiZGzBN6nH9oMJTzABxL+TiL3frfUV2wJdjnbJOTbk0f3EPNVOpk95/FgGhy/a3c
+         wQ8cisru63rGYuLlubz9We6plq5vnvjJG4DDJ7byFCXucuYBvQpmaDKDXD23Pl/vwfPX
+         EY83EPdX9pCIOQP4LHrlPMWPRJWCxF9dTqKdmyVFMFoCnjBBdE6KNufnf5UyMr2EZQNh
+         zOICiI4hnqyH11kBjFbzIYzkqDhnhHN4JUpPdBgeptuIH9XXxiCkcMvf6MmWBMpBFGgF
+         YfHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=5RaY1bFY4OvUZalbjpryxC+ac62BJLlrb+Y6NXN36Ow=;
-        b=src03Y/ojXPdgafLugHwS0IrF2P92Nd9E0kHpVjmvy/iX8BImuquKh2yaLTSdKn70b
-         I5lAt+M6xLAuQmHbztRrT5hmIaz34Q02s8SLVPU0oAyI0EPJ311LRsaxt2i4LVTncxif
-         SW4ko8e4qQ2zIzK1a6Ga/tKWpr/6XX7oTdIKjopd8VwDegU/XIdp3qvtpM5AXc3KLToC
-         rje4pQ5+y6S8tq1xTCkfNPce8mpb6GLGW/LspTMuJMz+nQmb2bxuNYfz6aLPtILIBWrc
-         OAhVCl4YoxvDYkiiFD/7Ez6hB3ZeK45lDxvl8wrSxoI8SFGEJ6UuHiv2suC2GARRkNHc
-         MYng==
-X-Gm-Message-State: AOAM533CPRi+9sT9zfmyIc0cUFZKvDXH5g+AgEXulsgCVocFcEN2E8kF
-	i+fkDEcURFjxixIc9l24hV8bCA==
-X-Google-Smtp-Source: ABdhPJy8CaxF8gl7Rpa19Dyll0pVK8RFaQv+miCjWi5tNBUhL6VqL/QnaK2OenHUQ+ne9P3HpRegFw==
-X-Received: by 2002:adf:9427:: with SMTP id 36mr2697148wrq.271.1612348217854;
-        Wed, 03 Feb 2021 02:30:17 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:a910:113:8225:ce6d? ([2001:8b0:aba:5f3c:a910:113:8225:ce6d])
-        by smtp.gmail.com with ESMTPSA id n4sm2885236wrt.47.2021.02.03.02.30.17
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=USBk8wdFrG074XaLld3H/qRGLuz2fuBeywq+whQLJ9A=;
+        b=IFhAZD0YkW218vXrUEGHQnJco8Merqu6ZjXPMvvOWshZ3cAFaevR2cCF6Ek3Iv+J6/
+         diEX3Rq17B6BRld1tJMCpJUZ+A6HQQgXhE+OGoNPXcU7YoPT/Al9ZfG0nVuKeSGVEb4T
+         TmfLC5W4csq7H2gSkNI/1+xoz4EbWf/T+vBHeiaoZ5v0DBFedcmXGqCL9VQTV8FR9ewN
+         WAnEuYqk++mfxgsB+gC88ShPrXKSzIiCxlOEm5PZRDopFZKCN9C08Vl5nWFBoA6oucOD
+         NL+Jk0j3+jsTIRHAhmCrgOhsp/wW0Ym8rPaB60wZqW52bGifuKQGQj6cCFO9ZGJW/ngL
+         h7rg==
+X-Gm-Message-State: AOAM5328bLwXp9sBLabboZiQt8x70OMBhcbwLvfNGTABaxt4wlO6kScd
+	dPfxOz7RIVk3qrCbKlTCybaKHePDcaQ7nw==
+X-Google-Smtp-Source: ABdhPJyIX5KSB+t3EhNQjxhu853c7nlr6AvIUCegtJQ/XZK30fUSTpoZSPF1jGTF7yKf0VZalkX14g==
+X-Received: by 2002:a5d:6685:: with SMTP id l5mr3480568wru.176.1612358884069;
+        Wed, 03 Feb 2021 05:28:04 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id f17sm4041712wrv.0.2021.02.03.05.28.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 02:30:17 -0800 (PST)
-Message-ID: <6557c3fc0dfcfa0968186079d6db005856b745a9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.33
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 03 Feb 2021 10:30:11 +0000
-In-Reply-To: <20210201183910.145052-1-raj.khem@gmail.com>
-References: <20210201183910.145052-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Wed, 03 Feb 2021 05:28:03 -0800 (PST)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] systemd: update to v247.3
+Date: Wed,  3 Feb 2021 13:28:01 +0000
+Message-Id: <20210203132801.982669-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-02-01 at 10:39 -0800, Khem Raj wrote:
-> Drop backported patches
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Patches fail to apply, e.g.:
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ .../systemd/{systemd-boot_247.2.bb => systemd-boot_247.3.bb}    | 0
+ .../systemd/{systemd-conf_247.2.bb => systemd-conf_247.3.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../recipes-core/systemd/{systemd_247.2.bb => systemd_247.3.bb} | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot_247.2.bb => systemd-boot_247.3.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_247.2.bb => systemd-conf_247.3.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_247.2.bb => systemd_247.3.bb} (100%)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/1911
-
-(but basically everything failed)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd-boot_247.2.bb b/meta/recipes-core/systemd/systemd-boot_247.3.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_247.2.bb
+rename to meta/recipes-core/systemd/systemd-boot_247.3.bb
+diff --git a/meta/recipes-core/systemd/systemd-conf_247.2.bb b/meta/recipes-core/systemd/systemd-conf_247.3.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-conf_247.2.bb
+rename to meta/recipes-core/systemd/systemd-conf_247.3.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index cb7d782b76..ccff8c8b9e 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "937118a5b2f27a7913c421ad76893cdda01c5566"
++SRCREV = "551dd873b0bdfb9e7e47431b2933c8b910228f0c"
+ SRCBRANCH = "v247-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd_247.2.bb b/meta/recipes-core/systemd/systemd_247.3.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_247.2.bb
+rename to meta/recipes-core/systemd/systemd_247.3.bb
+-- 
+2.29.2
 
