@@ -1,73 +1,78 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web12.3046.1612316199279742951
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web12.3048.1612316200365358903
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Feb 2021 17:36:39 -0800
+ Tue, 02 Feb 2021 17:36:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fJ+l/D82;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id r38so16145308pgk.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 17:36:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mPfzZwxE;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id t29so15594164pfg.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 17:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BczXtvbdp4XRELhAbtsy/zyWvb+SZb3tVCwShyIt1wM=;
-        b=fJ+l/D82BfNY0MIre4LhLH8cWQ/wGzqDOEAoPoQqtIUx4nX159Fw/FKoTe2HL7kxvf
-         jkzcuKHAuc5Gdd49e/DtfMaaHOINqwwruqVzLnvQj4EmaRUg4fu6ckwB0Ktoa6lEzQjo
-         KMESbxWVT/hK6Wu73vSiR1oofVTrVpf+RhEKF2P+Fmv7URE6vxeUbUUwW0cUCbt9/PIq
-         ZjoXf8os1Jmrozl3OnX7WNh/3/tT4/Alrz0Y/q8TtjdxGLk5OVXlRJRXRnvGKPF/HhNc
-         UxNf3Zipk8OgkSuXpW+I1CC0/+DeZYScXfSVKK39hIH3WHu3v+WobILPXg+ie+I5VSo4
-         RL3Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=f4mj/b9dMKsN8Texwdd28yiW/S4N1nuY27Ul3BNmWz4=;
+        b=mPfzZwxEGTNbztfzlrxCIDKYPG5+IaDRb+wufVoNc5pprVIekESRt0yDhaFeSd+VQ+
+         6oVfpTYPUEEA0fc8+/hNIyuDKLGFJbsiayNT0bf9PARXQDSgbCHuG5c7XV7XQUaibIBj
+         iQ+OMHEXfRWHIqDwLSqMahcmBpk80UvWtTDtUpLDSBH5w/b3yeoC4UicaAY9VaoWH6Yi
+         Hzdl8F3jyOyrzcGU03xtDTydZYd+3o345AcUGPM9ANjnZa699+4j7NNnwo0u9LbFvE0v
+         BbPrwDFHbc+e9+TarKrQMBdEIjaDMd7wZxpif5KeF6NFGg1JQO5ozyi3R2l+z7dI8FIk
+         TyXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BczXtvbdp4XRELhAbtsy/zyWvb+SZb3tVCwShyIt1wM=;
-        b=bPjQfre5IpZ9O7XPf9sbNlo/utS2YZsJtoOoiYAsPEbL8iuLvBSgZYvXymaDscyc0c
-         vrB5WFxPkpcyMzDYbVmq1U/W9yD0pvUxNrD6afe+SN4PpkX8sL0Y+8dSu/6OhyNpZfZv
-         gUgDUgqj3dKm8GcJlNeg6/mw3PmEBHWjbsqDFGb9dpF02A2vFQbwhpI4b8LxpRTMhQf3
-         Q3c7dlhR/XhUXwHtObDJ97BY5GySx7SNhW2O2idTY2FabOFxQDh7E1HhhkuwNYM7lhs3
-         XLU9PKpHJqTmgZKgsHyK0mKSrz+JXCUdURHZXFC3zdvW8Ze9zdkNoHTa7fufn1VwAIvH
-         yT6w==
-X-Gm-Message-State: AOAM533flaZ/WharkqFq18Gne2s/FqrCOsr14q+iS5lNFZxblWGI5c/0
-	92J0jDpqMtwIK44t7r4CXF9jdzzjP8fgWg==
-X-Google-Smtp-Source: ABdhPJzjxszFwRFkhqF/pIyDZh2Vip/h+yR6+a57PNM/AyxAXJRYBXlAxypzJWkEd7xnsPL8Dt/0pA==
-X-Received: by 2002:a63:5309:: with SMTP id h9mr945623pgb.19.1612316198484;
-        Tue, 02 Feb 2021 17:36:38 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=f4mj/b9dMKsN8Texwdd28yiW/S4N1nuY27Ul3BNmWz4=;
+        b=CN0oYbWdLmXelxRUSvDfpsnSyOo4QCaVZEz5JMcWVip5KyzirslzNXVE3EM/WZRhm5
+         5L+7r5x4Fquq4FXrvIUMDwoefO0Rl+PvSZViDaJSvZwxsfUguKrdTIgecHfQhnkh0STy
+         TnSMWfXoyMouBFcktVqZHE4ZSNTWuyVWptlJRLBTS3R3ISuSba2jxjellAswuWHECFkq
+         3UdaPxtxE5lFKrawMRuolNI80Ai38wFUZ10aR9HBHIICfsUzUeV453ijDOkhrsGBblpl
+         BGYpVpadcga+wHZLOxaOileYAe183vMPX37MfTGiDJSuWDXYpkX1th3a3wkWFFbLYOUx
+         O+FQ==
+X-Gm-Message-State: AOAM532uzHR9I2LeuGwSX0Kxm7iIMcxDShGYa6y1U153bXeDEYQaNVvL
+	Gfq9jDcC7myugZu608LBI14nMS+xuT6skA==
+X-Google-Smtp-Source: ABdhPJzGudiAp2DLIU6oUscGiYLuEqwHHKdFx9t9PR7nokbpYcaDlP4A5kEwt0lvYX2Eu6M5Vwmxhg==
+X-Received: by 2002:a63:a312:: with SMTP id s18mr929740pge.229.1612316199542;
+        Tue, 02 Feb 2021 17:36:39 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9296])
-        by smtp.gmail.com with ESMTPSA id d14sm214013pfo.156.2021.02.02.17.36.37
+        by smtp.gmail.com with ESMTPSA id d14sm214013pfo.156.2021.02.02.17.36.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 17:36:37 -0800 (PST)
+        Tue, 02 Feb 2021 17:36:38 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [v2 1/5] binutils: Package libdep linker plugins
-Date: Tue,  2 Feb 2021 17:36:31 -0800
-Message-Id: <20210203013635.2512741-1-raj.khem@gmail.com>
+Subject: [v2 2/5] binutils: Disable parallel install for target/nativesdk binutils
+Date: Tue,  2 Feb 2021 17:36:32 -0800
+Message-Id: <20210203013635.2512741-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210203013635.2512741-1-raj.khem@gmail.com>
+References: <20210203013635.2512741-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-this is new plugin added in binutils 2.36
+2.36 has a build race between libctf and libbfd
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/binutils/binutils_2.36.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index e93cd50b20..81891963c8 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -18,6 +18,7 @@ inherit autotools gettext multilib_header texinfo
- FILES_${PN} = " \
- 	${bindir}/${TARGET_PREFIX}* \
- 	${libdir}/lib*.so.* \
-+	${libdir}/bfd-plugins/lib*.so \
- 	${libdir}/lib*-${PV}*.so \
- 	${prefix}/${TARGET_SYS}/bin/* \
-         ${bindir}/embedspu"
+diff --git a/meta/recipes-devtools/binutils/binutils_2.36.bb b/meta/recipes-devtools/binutils/binutils_2.36.bb
+index 976e49765a..f316eb8d1c 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.36.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.36.bb
+@@ -52,6 +52,10 @@ do_install_class-native () {
+ 	rmdir ${D}/${libdir}64 || :
+ }
+ 
++# libctf races with libbfd
++PARALLEL_MAKEINST_class-target = ""
++PARALLEL_MAKEINST_class-nativesdk = ""
++
+ # Split out libbfd-*.so and libopcodes-*.so so including perf doesn't include
+ # extra stuff
+ PACKAGE_BEFORE_PN += "libbfd libopcodes"
 -- 
 2.30.0
 
