@@ -1,92 +1,87 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web08.10391.1612364424446755901
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.10419.1612364599446634262
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 07:00:24 -0800
+ Wed, 03 Feb 2021 07:03:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KM3avNnO;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id b9so16666351ejy.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 07:00:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=psfL5WbvoNbAtW8dWLJ/EoaAZMuzYq7anFpHtvqxgYg=;
-        b=KM3avNnOqBa9oPegf+pg7k0kg2aGmtQnknzFFZvWFEjkIHH4wzPvxuJo/b2pDQyETQ
-         vWJmTpk8dOQoPU2LFDmWiht6TK7lP2Yd6RpoxdtGUZftEPli1xrZPLta9oY1/lSKCPW7
-         M8kDTNqrfeY9eYLCk82YtdJpHLc979BW6TpNjgm2fNtBw08Ete6/79ZGk0An1Ko05zeR
-         7bcvG71UyqdJQIG2IzUmDRpj3s7o9vvTmeqfFFQN52FdkVSX0GdPCPJTLSDviDlFqy1l
-         019zP4qyAmj47qiQZ4m9YpIPvmk5jPwBFT4Ernxp0NQueXjTpbQx/BJzWSzUHBfI8qII
-         IJig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=psfL5WbvoNbAtW8dWLJ/EoaAZMuzYq7anFpHtvqxgYg=;
-        b=dXysNv/PXeDsU+3WcoqB9lgevVPGqZ8xiEWmAnUI9tIBpJlibOBv/cNYEQceLuEXvv
-         ZIhyONb+pvXR322ulpKBH7TJa4F/tu3Axp8uuVf6pPpns+YJnSSN9Cp1eEi+O6VmWxxT
-         JQ/+7JwBtTS9NXsme+PEP5ZiKo+t652CGG7ezQAH4P1daElgKRFnd+D5TT+yqB2wy6Ut
-         Id255ffOzC96vSsARTuvkC7EsZwHM7G0rypjFrmtqk727A1mSR5XvDds//OPCm8vCDmO
-         UUhFrGbtmJwrEhPCCrlXhRumTf2Usb1949iPDWDECRONITj0TVLfKrx70mx/adS6phXp
-         e6oA==
-X-Gm-Message-State: AOAM53176xU+cOJjagz1WHaOaTPkwvk37NuGXn2Ydepp+QufqYavGZLf
-	KZq1J3Dld49uvGuoVwcftQRhYCt+X+U9YT30was=
-X-Google-Smtp-Source: ABdhPJz5dZC78TyYS/mu8JBDgMaNAH3cW/746CvaFcalWddcMNQ1sFSTetLOOI3vzAesakTr5yPPcoorXlk4lMVlo0Q=
-X-Received: by 2002:a17:906:b50:: with SMTP id v16mr3413483ejg.298.1612364417796;
- Wed, 03 Feb 2021 07:00:17 -0800 (PST)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=f3eBCPCw;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (unknown [83.135.221.227])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2633820B6C41;
+	Wed,  3 Feb 2021 07:03:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2633820B6C41
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1612364598;
+	bh=cpOrf53IDupZIDk2DfbUPXI5OFuxOd1WMKU76cGJXNQ=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=f3eBCPCw+7ShuuiKLX9c6iXuffrcTM5oJt42aisxWM3Kb60To4TtBG/2YzTOME5uf
+	 G5+5h4xb+NsXsUOkg923Ef4VqEpPrvArtSdlbjC1kOrhK07QFDwX3YjDsZJLorj/7a
+	 QyIV8lfMDQAiSWuOz/UsEsTvTlY6QyyUqyPywc9w=
+Subject: Re: [OE-core] [dunfell][PATCH] glib-2.0: Rename patch file for CVE-2020-35457
+To: Steve Sakoman <steve@sakoman.com>, Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210203084257.26778-1-anbelski@linux.microsoft.com>
+ <YBp0r/IvR1vFubjt@korppu>
+ <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <1a607f35-5b55-2e64-bceb-0e787ff3d4cc@linux.microsoft.com>
+Date: Wed, 3 Feb 2021 16:03:15 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <cover.1612322536.git.bruce.ashfield@gmail.com>
- <9da75cbd42a281f7c06bda22c3765966fe9a9ca3.1612322536.git.bruce.ashfield@gmail.com>
- <67021164a90fc306800636a55aec26a69eca033d.camel@linuxfoundation.org>
-In-Reply-To: <67021164a90fc306800636a55aec26a69eca033d.camel@linuxfoundation.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 3 Feb 2021 10:00:06 -0500
-Message-ID: <CADkTA4Peo1KBg+GeikvJcSgMfrqPvT08BwdrcV9xM92SYYOUNw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] linux-yocto/5.10: binutils 2.36 fixues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, Feb 3, 2021 at 9:39 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2021-02-02 at 22:24 -0500, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Integrating the following commit(s) to linux-yocto/5.10:
-> >
-> >     cdca78778415 objtool: Fix seg fault with Clang non-section symbols
-> >     d3287798bd88 x86/entry: Emit a symbol for register restoring thunk
-> >
-> > With these, build issues with binutils 2.36 are resolved
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >  .../linux/linux-yocto-rt_5.10.bb               |  2 +-
-> >  .../linux/linux-yocto-tiny_5.10.bb             |  4 ++--
-> >  meta/recipes-kernel/linux/linux-yocto_5.10.bb  | 18 +++++++++---------
-> >  3 files changed, 12 insertions(+), 12 deletions(-)
->
-> Thanks. I think to catch all the binutils issues, we need to also
-> update genericx86-64:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/3016
->
-> but otherwise looks good.
+Hi,
 
-I just bumped all of the reference board SRCREVs and sent the patch.
-
-Bruce
-
+On 2/3/2021 3:38 PM, Steve Sakoman wrote:
+> On Wed, Feb 3, 2021 at 12:02 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+>> Hi,
+>>
+>> On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
+>>> The naming convention needs to be help so the CVE is recognized as
+>>> fixed by the tooling.
+>> Yocto CVE checker does detect CVE patches also from patch comments so
+>> this change is not needed for that. This is sufficient:
+>>
+>> poky$ git grep CVE-2020-35457
+>> meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
+> Yes, we are detecting the CVE patch from the patch comment.
 >
-> Cheers,
+> However our CVE patch guidelines do request that the patch be named
+> with the CVE as the name:
 >
-> Richard
+> https://wiki.yoctoproject.org/wiki/Security
 >
+> (in the "Patch name convention and commit message" section)
+>
+> I'm sorry I didn't catch this when I merged this earlier.  I always
+> check the patch itself for the CVE tag, but I missed the name.  So I'm
+> happy to take this patch just to clean up the metadata and make it
+> easy to see that this is a CVE patch.
 
+Thanks for pointing this out. On my side, I also always check this one
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+There's no explicit mention on the filename, but I guess i sure read the 
+other page, too. Perhaps the effort would be better put adding a word on 
+the wiki, that the filename is not really relevant. And otherwise, seems 
+there's nothing to fix other than my habit on seeing the filename to be 
+same as CVE :)
+
+Thanks!
+
+Anatol
+
+> Steve
+>
+>> Is there some other tooling that you are referring to?
+>>
+>> Cheers,
+>>
+>> -Mikko
+>> 
+>>
