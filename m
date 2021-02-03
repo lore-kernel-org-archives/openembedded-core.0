@@ -1,74 +1,139 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web12.2014.1612311516524788317
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web08.2971.1612315837634918370
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Feb 2021 16:18:36 -0800
+ Tue, 02 Feb 2021 17:30:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ejr02VfH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id c127so3715822wmf.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 16:18:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vHSudbcA;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id e15so16470775qte.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 17:30:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=2fTnOtj1AgME2lWi0Lf2NAr2f5JaWbxMTOzkkAsvfRo=;
-        b=ejr02VfHdUwxWgZO7s2myfSzA/zcBucLnDe2P1jxcCLNljCtTzbx75lWf+ZSBjNeLP
-         kCu1TKVvOWiawbg+Tu9FRq0ww7FMyZUw7Qf2ogHKQ6A208h71gmwNpVtKx2w+ZqI/j9w
-         ZboAldPpSozaktH9Sy+aE4TOu7nS9e0Vzwpzc=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lKkL8FNFc9Zx9w+9Kk4gWxQZAsrtJ/d5QT0cP+/E/dM=;
+        b=vHSudbcAyTuaN2e7lL5dQM+Qi+D4a2PR52avkkOdnXQxp2VBYMy5kNdo5cLq4mfp57
+         A6AlkyqJpuMb+FZXTcP4gww+v0bFQuWP/LpRDITdf8LaHjnXRaeqssJtq179N35JtQ6t
+         XPTNRocPhc1jEGY6Zb+tx77/j8dotCwNKwcky/wP6blLRJrvDyONvbGi0LQkD/pKa4Zs
+         NtoUYAz7CkFoKb085QI7CswYcq8LuLwFASZX7P+ix2gJUI/xrbRk8pPK5486RHbI50mR
+         W1R8DFYkPUJnFBdYWxE+AODnEu59jZ6t2nJgh00+griOKsF7cptUyF4117tS9NtQTP46
+         eIjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2fTnOtj1AgME2lWi0Lf2NAr2f5JaWbxMTOzkkAsvfRo=;
-        b=t9GWXV04WI50+dzke5ECezMFkQ1+JOaJmJFTs2AiljYZCkgDk//9jjLYO8psEjARi4
-         g6Cvd+Lekv2MpApjf3VcTPxgtOEYFW2YHxL6e+6KnRCdkmc3oEnEs17UTL9lFMA0/9R2
-         za7L7T8TsfBiFZwDsgEp3LQoYbZCw9m5JeYSVEQo0h6AqGgXAxDEEPWevs/XN62kUhMs
-         GGzxIItUJLxMvwPAXn88hgClAR/oA1kzmZ6Ko3l5VdX3CIFERcpDIENUG2cVftVaupKt
-         q71Qt4mfICfreDJRgNMXCKEXlMNSSUxYB2SuhOQfQeorFGU/GDkK/7/sMqykpsUfZ/tm
-         oOBg==
-X-Gm-Message-State: AOAM532mqU2N7Dq3fRNIF0wbH9SkUfAUJ9pJxZcTPOWB02NY0LRWf4Rj
-	cIkSdD1YSqdoaF8NqYHYeOZ2wQ==
-X-Google-Smtp-Source: ABdhPJyV5m2wjrKvg8udOCZhMCzNl1J3HMcqtRL90lSWbMgqF7nd7ei/kJEXvb91IV0yHADwg3DBDg==
-X-Received: by 2002:a1c:3587:: with SMTP id c129mr427930wma.76.1612311514878;
-        Tue, 02 Feb 2021 16:18:34 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:a910:113:8225:ce6d? ([2001:8b0:aba:5f3c:a910:113:8225:ce6d])
-        by smtp.gmail.com with ESMTPSA id b7sm459527wrs.50.2021.02.02.16.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 16:18:34 -0800 (PST)
-Message-ID: <5fa25102e09ce1403a6850ade90f9eb107a8c19d.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] igt-gpu-tools: add procps-lib to RDEPENDS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>, "Qi.Chen@windriver.com"
-	 <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "JPEW.hacker@gmail.com" <JPEW.hacker@gmail.com>
-Date: Wed, 03 Feb 2021 00:18:33 +0000
-In-Reply-To: <39f0c1745d9a3d31c7256f7851267b49e7f7c3d5.camel@intel.com>
-References: <20210120050318.10376-1-Qi.Chen@windriver.com>
-	 <165F4E547FA339C3.13584@lists.openembedded.org>
-	 <165F4F23A9F2744A.13584@lists.openembedded.org>
-	 <260643e582bbeee2748e08e1fd7ebee4adbef888.camel@linuxfoundation.org>
-	 <39f0c1745d9a3d31c7256f7851267b49e7f7c3d5.camel@intel.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lKkL8FNFc9Zx9w+9Kk4gWxQZAsrtJ/d5QT0cP+/E/dM=;
+        b=AOOJ5al9MjnOif25/CEr77K4+BhTF/Ok1PVQ52B1Cw3tPnXEUtCZeLxDU3ReM5Bfvu
+         yDCB8s+AaeKM/UhFLQTPhOdeWlJMO4am3fTrZ89GLlLHMZFsegAIfEqgHXq2c0aF34SA
+         i6jkWFaI0EAL80Z0NDpL9lXqGdPRE0Igal+uDsZhZAD/ODEIrs1ZHCNcj/ScRQRCvDRj
+         EbQ//gwveXXN9FLABaeKAmcC0m0Sf8lrdWD5ECcoqQKnCniMKQVfLWtvkEwuJvceXbJh
+         GQhLcE6y2G9XG9zD40vMY+z5wk/Ms9brYG/ZwcOqk96Zhpp44hD/H1YbDsUvtLJfJhKZ
+         /XeA==
+X-Gm-Message-State: AOAM530OOuqNBRFvME6xM2HxlguS1rGFOnyw5mRmGDtoTriYVCOj4PZi
+	8OWburb5ACfmC3AMijA83DXITtxlhxuWugcbHbw=
+X-Google-Smtp-Source: ABdhPJzUYoBz//glBwRiC7Q58drNFOmKWARtUwoncc7YCb1fCVFOnvgaaoY1iPpIH3TgpZmzvlPVFNsflhrjwdTa7ag=
+X-Received: by 2002:ac8:6f06:: with SMTP id g6mr643159qtv.80.1612315836717;
+ Tue, 02 Feb 2021 17:30:36 -0800 (PST)
 MIME-Version: 1.0
+References: <20210130071954.2695419-1-raj.khem@gmail.com> <dd06d0409cccb1a4bd6728a8b16e8e46b6fbc115.camel@linuxfoundation.org>
+ <CAMKF1sq7Qaw5VOkTRRo4c7=QkjG-uuSRfoV=16FVKvXBXiAz=g@mail.gmail.com>
+ <CAMKF1sp7XgjUjmvio1=jgjhbDUz47sf8u7VGAhxNNQ2S22-qcA@mail.gmail.com>
+ <CADkTA4PJW6CP3_Ryn2QiTbY=wMSe4oUO1GvZ20GJTf6hz65cAw@mail.gmail.com> <CAMKF1sq9FB=_KVaVH0TeV7RarD7wmboH2h=5PvaYHVnOgLDR8w@mail.gmail.com>
+In-Reply-To: <CAMKF1sq9FB=_KVaVH0TeV7RarD7wmboH2h=5PvaYHVnOgLDR8w@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 2 Feb 2021 17:30:10 -0800
+Message-ID: <CAMKF1sq2_jcakyxKO=atEKjJYdB+arT6fNvzidAaUHdJLhsY=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] binutils: Upgrade to 2.36 release
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Jon Mason <Jon.Mason@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2021-02-02 at 02:57 +0000, Mittal, Anuj wrote:
-> I see the same failure locally even when using the autobuilder
-> configuration so it's probably not related to multilib.
-> 
-> I guess it's happening because procps was split up recently to have the
-> lib installed in a separate package and that didn't result in a rebuild
-> of igt-gpu-tools?
+Hi Bruce
 
-It seems related to this. It doesn't seem to happen on a clean build
-but in my older TMPDIRs, shlibs2/procps.list seems to be persisting for
-some reason and is making the package RDEPEND on procps instead of
-procps-libs. I've run out of time today to dig further though...
+We need to backport another patch as well
 
-Cheers,
+https://github.com/torvalds/linux/commit/44f6a7c0755d8dd453c70557e11687bb080a6f21
 
-Richard
+once we have these two patches kernel compiled fine with binutils 2.36
 
+These backport requests need to go to Greg-KH as well.
+
+On Tue, Feb 2, 2021 at 1:46 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Tue, Feb 2, 2021 at 1:39 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Tue, Feb 2, 2021 at 1:56 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > Hi Richard and Bruce
+> > >
+> > > I also looked at the x86_64 kernel failure and it seems that objtool
+> > > is crashing and we need to backport a kernel patch into 5.10
+> > > linux-yocto kernel
+> > >
+> > > https://github.com/torvalds/linux/commit/5e6dca82bcaa49348f9e5fcb48df4881f6d6c4ae
+> > >
+> > > Bruce, would you be able to take care of this ?
+> >
+> > Yep. I can do the merge.
+> >
+> > I have a series of -stable updates ready to go, so this will be
+> > stacked on top of them.
+>
+> I am still seeing similar failures with 5.10 however linux-yocto-dev works ok.
+> there perhaps are more backports needed.
+>
+> >
+> > Bruce
+> >
+> > >
+> > > Thanks
+> > > -Khem
+> > >
+> > >
+> > > On Sat, Jan 30, 2021 at 11:28 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > >
+> > > > On Sat, Jan 30, 2021 at 9:17 AM Richard Purdie
+> > > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Fri, 2021-01-29 at 23:19 -0800, Khem Raj wrote:
+> > > > > > Drop backported patches which are already present in 2.36 release
+> > > > > >
+> > > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > >
+> > > > > Failed in testing:
+> > > > >
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1806
+> > > > >
+> > > > > Looks to be at least two issues, the 5.10 kernel doesn't build with it
+> > > > > and maybe that nativesdk-binutils also has the parallel make race?
+> > > > >
+> > > >
+> > > > Thanks for trying it out. you are right about nativesdk race and I
+> > > > have fixed it locally and will be in v2
+> > > > the 5.10 kernel issue seems dicey
+> > > >
+> > > > make[3]: *** [/home/pokybuild/yocto-worker/build-appliance/build/build/tmp/work-shared/qemux86-64/kernel-source/scripts/Makefile.build:279:
+> > > > kernel/entry/common.o] Segmentation fault (core dumped)
+> > > > make[3]: *** Deleting file 'kernel/entry/common.o'
+> > > >
+> > > > make[4]: *** [/home/pokybuild/yocto-worker/build-appliance/build/build/tmp/work-shared/qemux86-64/kernel-source/scripts/Makefile.build:279:
+> > > > arch/x86/kernel/apic/apic.o] Segmentation fault (core dumped)
+> > > > make[4]: *** Deleting file 'arch/x86/kernel/apic/apic.o'
+> > > >
+> > > > I wonder if we can find which binary is causing the segfault. Is it
+> > > > assembler or make or something else.
+> > > >
+> > > > > Cheers,
+> > > > >
+> > > > > Richard
+> > > > >
+> > > > >
+> > > > >
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
