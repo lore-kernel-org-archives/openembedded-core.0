@@ -1,110 +1,130 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web09.10146.1612363538301432363
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.10132.1612364069390882236
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 06:45:38 -0800
+ Wed, 03 Feb 2021 06:54:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NTxCxtPx;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id b187so10109974ybg.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 06:45:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=y+FsjKMZ+XCoQP8k1+0e2pxa5kKKr9KxDZiWEy9rgcM=;
-        b=NTxCxtPx3Yx3pPS5EDBG9NPtpY8cziqnYuom5/+9XxTGmvUUMGsxc8CKUzWFIm/a7g
-         RPFt/bhr5pS5a3LX3WAzYfzzYqMygV5KAHBrbBzSf72HjX1AFG//pAbU7zE58vGubfgb
-         51NOII59xiY2HKo02ec+CJpD48T4emFS3MH2kaRDcSTKAWqbO7/VmTBKG5oS+4KQzAbn
-         qj6hFfOqh0YEflfETviy4SfF8VfRdFXqnCwxqLpPJ1MnfElcHCBswURw9vRWf7emVjkt
-         VamIy120YUVyakQXnHbFOh1AOnG7XobJF3s/+cdsm9lsYMXw8u8bWy90XvGZNjj8+iU0
-         XIMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=y+FsjKMZ+XCoQP8k1+0e2pxa5kKKr9KxDZiWEy9rgcM=;
-        b=l6gktcYhgB5FnfXrrX8kWySmeTcabq6o1MTuaHUxPDxU8swBiyxoBKdWLel2npVqhw
-         rZKES62RLFTMXUYFWPtwNMF+472AJI3RJDBqR2Hs10Jb2WErTvXMaU3WVpVdC0mlA8l7
-         LjsMUU/0KLV/0KXdtM0u8dWAR+1NrEZGWwe5z3q7Sg+tyyTXSXOJinnpQLa8aS2MiZ80
-         ggvMt/QgDEJsDp6Tfmxt5dfJDCCL6zEiIVg3d7MfZibLZnKtYXv5OYT7jkfKRZyPmPmo
-         lSBJLREapTO5Z/+5PurmZAgZFd96SWqSYONei26EFfG5qPUlogd2xwoAniLcjpxQpObh
-         FJUA==
-X-Gm-Message-State: AOAM532As3ziOvfeQLZbZnKzFqbyWfq73HA6DKFH6wUNEdqr4QKh6kOc
-	y8AbBuIguL9PDziiVBjwiiQCn3hQES0z774YW6c=
-X-Google-Smtp-Source: ABdhPJyuUqm0dvbTeN/0ascHAAzWgpmIVfGUMhmNiSdtLmgs8iOCrPXN+jouetA1bLFn4jqR0NQqb4G/7fMMNZMaofM=
-X-Received: by 2002:a25:21d4:: with SMTP id h203mr4606075ybh.290.1612363537486;
- Wed, 03 Feb 2021 06:45:37 -0800 (PST)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=g0PQdvwg;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (unknown [83.135.221.227])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0809520B7192;
+	Wed,  3 Feb 2021 06:54:27 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0809520B7192
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1612364068;
+	bh=5bVUJNp6cwEjeVBp/VB4RodeZBTu+wkDOiJUtBuU3mI=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=g0PQdvwgSYukqCOArtuxWriI9Vgq1QSEbbVE72dtcSS+fj1Hx1UV9TtKjkmN4aziS
+	 OK+XGhCUSH8CnUo1mts+Pi96cVRnlPh3oxrJGgMo078/XptB5t+DHLpi591+3hIjwn
+	 TYD+W9ncaPzs6Iez5jwWdgm2rYb+5XnC7Nxjx3CQ=
+Subject: Re: [OE-core] [dunfell][PATCH] glib-2.0: Rename patch file for CVE-2020-35457
+To: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: openembedded-core@lists.openembedded.org
+References: <20210203084257.26778-1-anbelski@linux.microsoft.com>
+ <YBp0r/IvR1vFubjt@korppu>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <30a17ea8-3af9-026b-64eb-5d25f34bae77@linux.microsoft.com>
+Date: Wed, 3 Feb 2021 15:54:17 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <1612289367-10977-1-git-send-email-Saloni.Jain@kpit.com>
-In-Reply-To: <1612289367-10977-1-git-send-email-Saloni.Jain@kpit.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Wed, 3 Feb 2021 04:45:26 -1000
-Message-ID: <CAGDS+nmxYCFTrt-Sd3_cO94tSBWvg4U15P7UFr2cTw8fQo_vWQ@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] libgcrypt: Whitelisted CVEs
-To: saloni <saloni.jain@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	nisha.parrakat@kpit.com, Anuj Chougule <anuj.chougule@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YBp0r/IvR1vFubjt@korppu>
+Content-Type: multipart/alternative;
+ boundary="------------5BFA4C0A4382F24EF157CA59"
+Content-Language: en-US
 
-On Tue, Feb 2, 2021 at 8:09 AM saloni <saloni.jain@kpit.com> wrote:
->
-> Whitelisted below CVEs as their status is disputed
-> and ignored and not affecting the Ubuntu and Debian
-> environments. Hence, marked them whitelisted.
+--------------5BFA4C0A4382F24EF157CA59
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I'm not sure why you are referencing Ubuntu and Debian environments.
-We care about whether it is affecting the Yocto implementation.
+Hi,
 
-Could you explain your reasoning a bit more?  Are you saying that
-Ubuntu and Debian maintainers don't consider these CVE's to be a
-serious enough issue to mitigate and thus it is safe for us to do the
-same?
+On 2/3/2021 11:02 AM, Mikko Rapeli wrote:
+> Hi,
+>
+> On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
+>> The naming convention needs to be help so the CVE is recognized as
+>> fixed by the tooling.
+> Yocto CVE checker does detect CVE patches also from patch comments so
+> this change is not needed for that. This is sufficient:
+>
+> poky$ git grep CVE-2020-35457
+> meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
+>
+> Is there some other tooling that you are referring to?
 
-Thanks!
+I should have read meta/classes/cve-check.bbclass before :) Looks like 
+it was a wrong impression on my side, that the filename needs to match 
+there, also when working with older versions. Thanks for the 
+explanation, indeed there's no action required on this, I didn't refer 
+to any other tools.
 
-Steve
+Regards
 
-> 1. CVE-2018-12433
-> Link: https://security-tracker.debian.org/tracker/CVE-2018-12433
+Anatol
+
+> Cheers,
 >
-> 2. CVE-2018-12438
-> Link: https://security-tracker.debian.org/tracker/CVE-2018-12438
+> -Mikko
 >
-> Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
-> ---
->  meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb | 3 +++
->  1 file changed, 3 insertions(+)
+> 
 >
-> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb b/meta/re=
-cipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> index 4e0eb0a..ba3666f 100644
-> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> @@ -29,6 +29,9 @@ SRC_URI =3D "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}=
-.tar.bz2 \
->  SRC_URI[md5sum] =3D "348cc4601ca34307fc6cd6c945467743"
->  SRC_URI[sha256sum] =3D "3b4a2a94cb637eff5bdebbcaf46f4d95c4f25206f459809=
-339cdada0eb577ac3"
->
-> +# Below whitelisted CVEs are disputed and not affecting Ubuntu and Debi=
-an environments.
-> +CVE_CHECK_WHITELIST +=3D "CVE-2018-12433 CVE-2018-12438"
-> +
->  BINCONFIG =3D "${bindir}/libgcrypt-config"
->
->  inherit autotools texinfo binconfig-disabled pkgconfig
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential=
- and is the property of the KPIT Technologies Ltd. It is intended only for =
-the person to whom it is addressed. If you are not the intended recipient, =
-you are not authorized to read, print, retain copy, disseminate, distribute=
-, or use this message or any part thereof. If you receive this message in e=
-rror, please notify the sender immediately and delete all copies of this me=
-ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
-ted mails.
->
->=20
->
+
+--------------5BFA4C0A4382F24EF157CA59
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p>Hi,<br>
+    </p>
+    <div class="moz-cite-prefix">On 2/3/2021 11:02 AM, Mikko Rapeli
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YBp0r%2FIvR1vFubjt@korppu">
+      <pre class="moz-quote-pre" wrap="">Hi,
+
+On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">The naming convention needs to be help so the CVE is recognized as
+fixed by the tooling.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Yocto CVE checker does detect CVE patches also from patch comments so
+this change is not needed for that. This is sufficient:
+
+poky$ git grep CVE-2020-35457
+meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
+
+Is there some other tooling that you are referring to?
+</pre>
+    </blockquote>
+    <p>I should have read meta/classes/cve-check.bbclass before :) Looks
+      like it was a wrong impression on my side, that the filename needs
+      to match there, also when working with older versions. Thanks for
+      the explanation, indeed there's no action required on this, I
+      didn't refer to any other tools. </p>
+    <p>Regards</p>
+    <p>Anatol<br>
+    </p>
+    <blockquote type="cite" cite="mid:YBp0r%2FIvR1vFubjt@korppu">
+      <pre class="moz-quote-pre" wrap="">
+Cheers,
+
+-Mikko</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------5BFA4C0A4382F24EF157CA59--
