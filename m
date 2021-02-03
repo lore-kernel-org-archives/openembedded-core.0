@@ -1,50 +1,50 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web09.2930.1612316201538623496
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.2942.1612316202509316033
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Feb 2021 17:36:41 -0800
+ Tue, 02 Feb 2021 17:36:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s783srAQ;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id g15so3596683pjd.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 17:36:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IcMB8fK/;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id o16so16174683pgg.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 17:36:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uqj2wBWlpK2P1P1y3J8gRe5BYWNNwAWPDt4Nu6UnpPU=;
-        b=s783srAQvxngCh9hFyleaKvwo/a981UsnLI61fcAS+tJjWMqaE03IoV2iaSOuBafzZ
-         moRO0hdKKgmO1ngbijZU6VeNMXorOJkO35buDjUubeE8IsuL11yID39qd6l96SlKOoRv
-         F49sFh80YoyzJAoimj0ESs79bWhSKl3Pn6bL3JFfWNtOqrFWFyQBwndOtgQi9j+l0MAM
-         82GyhWzgBWsTGWGeD/yLSJgnOB1PoaZnZZqMolGvMYQNuiV/v9CCfN7JVP2ATYV+e1AW
-         a6C/CnJ/adhXHf8TjnhYdNj4WUY0VjdUP+Ji0JBAEVLzML3KtUpe0v5Z5J5k8WfjZPNt
-         QrEg==
+        bh=Q585fxHoK6hrKdNDl4IwZMWXLUFel0VdnJxLv1FflvM=;
+        b=IcMB8fK/NWFPn8rpc87UTydzVgpKAWvlcPscPh5mkcGr/TMDSi/wUd/rJenmTduJST
+         KKA2zTbqm8UNorJZqMTyTfHqfpk72RPWLYsLRyujJcH/0Z1vfB+C+LlZF+8TDEeXwZSC
+         sqGykDIVg/24V3M7MOIGKRL9EWF+nylw/D8FpkHvIFd0xP4z1sGgJiTwd/UEwLv4Eq8L
+         llEs8N3MGoUpfkt4UU19RQSFWDNVgBZalJWUAPgzju1pcMvD756FmyGow7iVHFfDYp+E
+         9nXR9SXOI03sHsEMiWd6yEA+LOCxL6m99d3ZywvhHIthxrYwi0lussAC1uuila1uY45S
+         GePw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uqj2wBWlpK2P1P1y3J8gRe5BYWNNwAWPDt4Nu6UnpPU=;
-        b=s0Q3Ja64PKnyo+hwyD91H22m3rcKk6uLUi30ayf/ReFWYGImg8/DfhGx0wf8II6lHB
-         vfMRU1a40jRpVI4JTLbMfZhaGHYaFVSZbHFmp8wErKdGni2y+cHR023A1TUy4GyJJakt
-         LVdI7KXNCVOxJQqeF4JvfXPrdtIt3MQF1JVN91KwYk+5o5fqwp+cyRu6Fx5/qzYtDgt3
-         OGheHeAEeXZWQN1WyUxA4kPPuDJzXjdhkZrcPegS5HIdb/twd6BGmYO92bUV5xClBNWi
-         0CTDpR5DpgzjVpUUABFbEO+d/ObGoA0xbVOivE59cQbguc0KXV+iJWnGexbKKLy7N4Yr
-         MbSQ==
-X-Gm-Message-State: AOAM530sYsOakO41ompZY4kA4gVTmYJ+oVu3S4RUxI7XNxFvewULsaKz
-	5mD8sDHRWoFup6t+TidMdb0P8EhsJbIEEg==
-X-Google-Smtp-Source: ABdhPJy15RkKRpGbldsZcn9RxYC9V5KDHQhiihIM7BGKV0tw7jFIqSHWILIfP4FVeRutQNaRHW2b0Q==
-X-Received: by 2002:a17:902:ea91:b029:e1:8695:c199 with SMTP id x17-20020a170902ea91b02900e18695c199mr1003937plb.6.1612316200660;
-        Tue, 02 Feb 2021 17:36:40 -0800 (PST)
+        bh=Q585fxHoK6hrKdNDl4IwZMWXLUFel0VdnJxLv1FflvM=;
+        b=WMOAA+6GWYAPQXcZHu0MOrD5Z/NMR9NpxLw57kDyt+Qr7EEBj5Z0/fUZF8c3Tekbq6
+         tlJyIr85/ZEgTsyzp5JH8vrhT5WnfQ49VaGAVdoVLLdSMnkumavwfMct+0gs9iWaL6tu
+         aP4Ib2WCs6Q1AWpcTdobyAs4kk4uKRkFxq7ZWw4ZpjWSqu8s3p9jupC8Gz6cUirugqyd
+         q0sn5o9JOP/uYPYSWigJmvH69ioqffOQVkUkSNVc+bB8wUQiGhg8Q6uVqBtrzBse25yu
+         MJ0cadPrC1GaEUddin8PA3ju74Te6R7S10cgjMvnRv6MpAHLw+dqrrz8GcYEi//ytE81
+         h9lg==
+X-Gm-Message-State: AOAM5314yIKDeMCiqlxeFMriFAQbjFM+PHOIo8n4WmEHrpgMmetdKPd9
+	E6Awi95Meih//5pYq7dEkP6ajZLCw3XinQ==
+X-Google-Smtp-Source: ABdhPJyRQRQJxWdDDsG48kIyN/CuF3Si/t2deuFFTTQlVFaPwSc2qZm5qhufZ6g4SAASgyMJvns9Rw==
+X-Received: by 2002:a63:f34f:: with SMTP id t15mr922812pgj.239.1612316201720;
+        Tue, 02 Feb 2021 17:36:41 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9296])
-        by smtp.gmail.com with ESMTPSA id d14sm214013pfo.156.2021.02.02.17.36.39
+        by smtp.gmail.com with ESMTPSA id d14sm214013pfo.156.2021.02.02.17.36.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 17:36:40 -0800 (PST)
+        Tue, 02 Feb 2021 17:36:41 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [v2 3/5] glibc: Drop adding .file directive in asm files
-Date: Tue,  2 Feb 2021 17:36:33 -0800
-Message-Id: <20210203013635.2512741-3-raj.khem@gmail.com>
+Subject: [v2 4/5] musl: Drop adding .file directive in asm files
+Date: Tue,  2 Feb 2021 17:36:34 -0800
+Message-Id: <20210203013635.2512741-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210203013635.2512741-1-raj.khem@gmail.com>
 References: <20210203013635.2512741-1-raj.khem@gmail.com>
@@ -57,273 +57,274 @@ https://sourceware.org/bugzilla/show_bug.cgi?id=26822
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...0026-inject-file-assembly-directives.patch | 244 ------------------
- meta/recipes-core/glibc/glibc_2.33.bb         |   1 -
- 2 files changed, 245 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/0026-inject-file-assembly-directives.patch
+ .../musl/0001-crt-Add-.file-directive.patch   | 245 ------------------
+ meta/recipes-core/musl/musl_git.bb            |   1 -
+ 2 files changed, 246 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0026-inject-file-assembly-directives.patch b/meta/recipes-core/glibc/glibc/0026-inject-file-assembly-directives.patch
+diff --git a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
 deleted file mode 100644
-index 5137fedb7b..0000000000
---- a/meta/recipes-core/glibc/glibc/0026-inject-file-assembly-directives.patch
+index 1cd08cdcd4..0000000000
+--- a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
 +++ /dev/null
-@@ -1,244 +0,0 @@
--From cf043d56638883157dbfaa8c6a8e2f63a6f66280 Mon Sep 17 00:00:00 2001
+@@ -1,245 +0,0 @@
+-From b0124f3c4f2a353506621d387135ebea6b8c6609 Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 29 Nov 2018 17:29:35 -0800
--Subject: [PATCH 26/29] inject file assembly directives
+-Date: Thu, 29 Oct 2020 22:40:53 -0700
+-Subject: [PATCH] crt: Add .file directive
 -
--Currently, non-IA builds are not reproducibile since build paths are
--being injected into the debug symbols. These are coming from the use of
--.S assembler files during the glibc build. No STT_FILE section is added
--during the assembly but when linking, ld decides to add one to aid
--debugging and ensure references between the different object files its
--linking remain clear.
--
--We can avoid this by injecting a file header into the assembler files
--ahead of time, choosing a filename which does not contain build system
--paths.
--
--This is a bit of a workaround/hack but does significantly reduce the
--build system references in target binaries for the non-IA architectures
--which use .S files.
--
--RP
--2018/10/3
+-Musl linked binaries come out to be not reproducible because
+-absolute build path is seen in debug info of crti.o and crtn.o
+-This is due to the fact that these objects are built from assembly
+-source files and they are missing .file directive
+-if we add .file <filename>.s in them then debug info encodes this
+-value instead of absolute path in debug_line section
 -
 -fixed in binutils 2.36 [1]
 -
 -[1] https://sourceware.org/bugzilla/show_bug.cgi?id=26822
 -
 -Upstream-Status: OE-Specific [ Drop when upgrading binutils 2.36+ ]
--
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- csu/abi-note.c                                | 2 ++
-- sysdeps/aarch64/crti.S                        | 2 ++
-- sysdeps/aarch64/crtn.S                        | 1 +
-- sysdeps/aarch64/dl-tlsdesc.S                  | 2 ++
-- sysdeps/aarch64/dl-trampoline.S               | 2 ++
-- sysdeps/aarch64/start.S                       | 2 ++
-- sysdeps/arm/crti.S                            | 2 ++
-- sysdeps/arm/crtn.S                            | 2 ++
-- sysdeps/arm/dl-tlsdesc.S                      | 2 ++
-- sysdeps/arm/dl-trampoline.S                   | 2 ++
-- sysdeps/arm/start.S                           | 2 ++
-- sysdeps/mips/start.S                          | 2 ++
-- sysdeps/powerpc/powerpc32/dl-start.S          | 2 ++
-- sysdeps/powerpc/powerpc32/start.S             | 2 ++
-- sysdeps/powerpc/powerpc64/start.S             | 2 ++
-- sysdeps/unix/sysv/linux/aarch64/__read_tp.S   | 2 ++
-- sysdeps/unix/sysv/linux/arm/aeabi_read_tp.S   | 2 ++
-- sysdeps/unix/sysv/linux/arm/libc-do-syscall.S | 2 ++
-- sysdeps/unix/sysv/linux/powerpc/dl-brk.S      | 2 ++
-- 19 files changed, 37 insertions(+)
+- crt/aarch64/crti.s    | 1 +
+- crt/aarch64/crtn.s    | 1 +
+- crt/arm/crti.s        | 1 +
+- crt/arm/crtn.s        | 1 +
+- crt/i386/crti.s       | 1 +
+- crt/i386/crtn.s       | 1 +
+- crt/microblaze/crti.s | 1 +
+- crt/microblaze/crtn.s | 1 +
+- crt/mips/crti.s       | 1 +
+- crt/mips/crtn.s       | 1 +
+- crt/mips64/crti.s     | 1 +
+- crt/mips64/crtn.s     | 1 +
+- crt/mipsn32/crti.s    | 1 +
+- crt/mipsn32/crtn.s    | 1 +
+- crt/or1k/crti.s       | 1 +
+- crt/or1k/crtn.s       | 1 +
+- crt/powerpc/crti.s    | 1 +
+- crt/powerpc/crtn.s    | 1 +
+- crt/powerpc64/crti.s  | 1 +
+- crt/powerpc64/crtn.s  | 1 +
+- crt/s390x/crti.s      | 1 +
+- crt/s390x/crtn.s      | 1 +
+- crt/sh/crti.s         | 1 +
+- crt/sh/crtn.s         | 1 +
+- crt/x32/crti.s        | 1 +
+- crt/x32/crtn.s        | 1 +
+- crt/x86_64/crti.s     | 1 +
+- crt/x86_64/crtn.s     | 1 +
+- 28 files changed, 28 insertions(+)
 -
----- a/sysdeps/aarch64/crti.S
--+++ b/sysdeps/aarch64/crti.S
--@@ -50,6 +50,8 @@
-- # define PREINIT_FUNCTION_WEAK 1
-- #endif
+---- a/crt/aarch64/crti.s
+-+++ b/crt/aarch64/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- .type _init,%function
+---- a/crt/aarch64/crtn.s
+-+++ b/crt/aarch64/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	ldp x29,x30,[sp],#16
+- 	ret
+---- a/crt/arm/crti.s
+-+++ b/crt/arm/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .syntax unified
 - 
--+    .file "crti.S"
--+
-- #if PREINIT_FUNCTION_WEAK
-- 	weak_extern (PREINIT_FUNCTION)
-- #else
----- a/sysdeps/aarch64/crtn.S
--+++ b/sysdeps/aarch64/crtn.S
--@@ -38,6 +38,7 @@
--    corresponding to the prologues in crti.S. */
+- .section .init
+---- a/crt/arm/crtn.s
+-+++ b/crt/arm/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .syntax unified
 - 
-- #include <sysdep.h>
--+	.file "crtn.S"
+- .section .init
+---- a/crt/i386/crti.s
+-+++ b/crt/i386/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- _init:
+---- a/crt/i386/crtn.s
+-+++ b/crt/i386/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	add $12,%esp
+- 	ret
+---- a/crt/microblaze/crti.s
+-+++ b/crt/microblaze/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- .align 2
+---- a/crt/microblaze/crtn.s
+-+++ b/crt/microblaze/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	lwi r15, r1, 0
+- 	rtsd r15, 8
+---- a/crt/mips/crti.s
+-+++ b/crt/mips/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .set noreorder
 - 
-- 	.section .init,"ax",%progbits
-- 	ldp	x29, x30, [sp], 16
----- a/sysdeps/aarch64/dl-tlsdesc.S
--+++ b/sysdeps/aarch64/dl-tlsdesc.S
--@@ -22,6 +22,8 @@
-- #include <tls.h>
-- #include "tlsdesc.h"
+- .section .init
+---- a/crt/mips/crtn.s
+-+++ b/crt/mips/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .set noreorder
 - 
--+	.file "dl-tlsdesc.S"
--+
-- #define NSAVEDQREGPAIRS	16
-- #define SAVE_Q_REGISTERS				\
-- 	stp	q0, q1,	[sp, #-32*NSAVEDQREGPAIRS]!;	\
----- a/sysdeps/aarch64/dl-trampoline.S
--+++ b/sysdeps/aarch64/dl-trampoline.S
--@@ -21,6 +21,8 @@
+- .section .init
+---- a/crt/mips64/crti.s
+-+++ b/crt/mips64/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .set noreorder
 - 
-- #include "dl-link.h"
+- .section .init
+---- a/crt/mips64/crtn.s
+-+++ b/crt/mips64/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .set noreorder
 - 
--+	.file "dl-trampoline.S"
--+
-- #define ip0 x16
-- #define ip0l PTR_REG (16)
-- #define ip1 x17
----- a/sysdeps/aarch64/start.S
--+++ b/sysdeps/aarch64/start.S
--@@ -18,6 +18,8 @@
-- 
-- #include <sysdep.h>
-- 
--+	.file "start.S"
--+
-- /* This is the canonical entry point, usually the first thing in the text
--    segment.
-- 
----- a/sysdeps/arm/crti.S
--+++ b/sysdeps/arm/crti.S
--@@ -57,6 +57,8 @@
-- 	.hidden PREINIT_FUNCTION
-- #endif
-- 
--+    .file "crti.S"
--+
-- #if PREINIT_FUNCTION_WEAK
-- 	.p2align 2
-- 	.type call_weak_fn, %function
----- a/sysdeps/arm/crtn.S
--+++ b/sysdeps/arm/crtn.S
--@@ -37,6 +37,8 @@
-- #define NO_THUMB
-- #include <sysdep.h>
-- 
--+    .file "crtn.S"
--+
-- /* crtn.S puts function epilogues in the .init and .fini sections
--    corresponding to the prologues in crti.S. */
-- 
----- a/sysdeps/arm/dl-tlsdesc.S
--+++ b/sysdeps/arm/dl-tlsdesc.S
--@@ -21,6 +21,8 @@
-- #include <tls.h>
-- #include "tlsdesc.h"
-- 
--+	.file "dl-tlsdesc.S"
--+
-- 	.text
-- 	@ emit debug information with cfi
-- 	@ use arm-specific pseudos for unwinding itself
----- a/sysdeps/arm/dl-trampoline.S
--+++ b/sysdeps/arm/dl-trampoline.S
--@@ -21,6 +21,8 @@
-- #include <sysdep.h>
-- #include <libc-symbols.h>
-- 
--+	.file "dl-trampoline.S"
--+
-- 	.text
-- 	.globl _dl_runtime_resolve
-- 	.type _dl_runtime_resolve, #function
----- a/sysdeps/arm/start.S
--+++ b/sysdeps/arm/start.S
--@@ -57,6 +57,8 @@
-- 					NULL
-- */
-- 
--+	.file "start.S"
--+
-- /* Tag_ABI_align8_preserved: This code preserves 8-byte
--    alignment in any callee.  */
-- 	.eabi_attribute 25, 1
----- a/sysdeps/mips/start.S
--+++ b/sysdeps/mips/start.S
--@@ -38,6 +38,8 @@
-- #include <sgidefs.h>
-- #include <sys/asm.h>
-- 
--+	.file "start.S"
--+
-- #ifndef ENTRY_POINT
-- #error ENTRY_POINT needs to be defined for start.S on MIPS/ELF.
-- #endif
----- a/sysdeps/powerpc/powerpc32/dl-start.S
--+++ b/sysdeps/powerpc/powerpc32/dl-start.S
--@@ -18,6 +18,8 @@
-- 
-- #include <sysdep.h>
-- 
--+	.file "dl-start.S"
--+
-- /* Initial entry point code for the dynamic linker.
--    The C function `_dl_start' is the real entry point;
--    its return value is the user program's entry point.	*/
----- a/sysdeps/powerpc/powerpc32/start.S
--+++ b/sysdeps/powerpc/powerpc32/start.S
--@@ -35,6 +35,8 @@
-- 
-- #include <sysdep.h>
-- 
--+	.file "start.S"
--+
-- /* We do not want .eh_frame info for crt1.o since crt1.o is linked
--    before crtbegin.o, the file defining __EH_FRAME_BEGIN__.  */
-- #undef cfi_startproc
----- a/sysdeps/powerpc/powerpc64/start.S
--+++ b/sysdeps/powerpc/powerpc64/start.S
--@@ -35,6 +35,8 @@
-- 
-- #include <sysdep.h>
-- 
--+	.file "start.S"
--+
-- /* We do not want .eh_frame info for crt1.o since crt1.o is linked
--    before crtbegin.o, the file defining __EH_FRAME_BEGIN__.  */
-- #undef cfi_startproc
----- a/sysdeps/unix/sysv/linux/aarch64/__read_tp.S
--+++ b/sysdeps/unix/sysv/linux/aarch64/__read_tp.S
--@@ -18,6 +18,8 @@
-- 
-- #include <sysdep.h>
-- 
--+	.file "__read_tp.S"
--+
-- 	.hidden __read_tp
-- ENTRY (__read_tp)
-- 	mrs	x0, tpidr_el0
----- a/sysdeps/unix/sysv/linux/arm/aeabi_read_tp.S
--+++ b/sysdeps/unix/sysv/linux/arm/aeabi_read_tp.S
--@@ -39,6 +39,8 @@
--    a normal function call) in a high page of memory; tail call to the
--    helper.  */
-- 
--+	.file "aeabi_read_tp.S"
--+
-- 	.hidden __aeabi_read_tp
-- ENTRY (__aeabi_read_tp)
-- #ifdef ARCH_HAS_HARD_TP
----- a/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S
--+++ b/sysdeps/unix/sysv/linux/arm/libc-do-syscall.S
--@@ -27,6 +27,8 @@
--    ARM unwind tables for register to register moves, the actual opcodes
--    are not defined.  */
-- 
--+      .file "libc-do-syscall.S"
--+
-- #if defined(__thumb__)
-- 	.thumb
-- 	.syntax unified
----- a/sysdeps/unix/sysv/linux/powerpc/dl-brk.S
--+++ b/sysdeps/unix/sysv/linux/powerpc/dl-brk.S
--@@ -1 +1,3 @@
--+	.file "dl-brk.S"
--+
-- #include <brk.S>
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 2a0e464385..2259d60196 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -38,7 +38,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
-            file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
-            file://0025-intl-Emit-no-lines-in-bison-generated-files.patch \
--           file://0026-inject-file-assembly-directives.patch \
-            file://0027-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
-            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
+- .section .init
+---- a/crt/mipsn32/crti.s
+-+++ b/crt/mipsn32/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .set	noreorder
+- .section	.init
+- .global	_init
+---- a/crt/mipsn32/crtn.s
+-+++ b/crt/mipsn32/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .set	noreorder
+- .section	.init
+- 	ld	$gp, 16($sp)
+---- a/crt/or1k/crti.s
+-+++ b/crt/or1k/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- _init:
+---- a/crt/or1k/crtn.s
+-+++ b/crt/or1k/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	l.lwz	r9,0(r1)
+- 	l.jr	r9
+---- a/crt/powerpc/crti.s
+-+++ b/crt/powerpc/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .align 2
+- .global _init
+---- a/crt/powerpc/crtn.s
+-+++ b/crt/powerpc/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- .align 2
+- 	lwz 0,36(1)
+---- a/crt/powerpc64/crti.s
+-+++ b/crt/powerpc64/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .align 2
+- .global _init
+---- a/crt/powerpc64/crtn.s
+-+++ b/crt/powerpc64/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- .align 2
+- 	addi 1, 1, 32
+---- a/crt/s390x/crti.s
+-+++ b/crt/s390x/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .align 2
+- .global _init
+---- a/crt/s390x/crtn.s
+-+++ b/crt/s390x/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- .align 2
+- 	lmg  %r14, %r15, 272(%r15)
+---- a/crt/sh/crti.s
+-+++ b/crt/sh/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global  _init
+- .type    _init, @function
+---- a/crt/sh/crtn.s
+-+++ b/crt/sh/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	lds.l @r15+, pr
+- 	mov.l @r15+, r14
+---- a/crt/x32/crti.s
+-+++ b/crt/x32/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- _init:
+---- a/crt/x32/crtn.s
+-+++ b/crt/x32/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	pop %rax
+- 	ret
+---- a/crt/x86_64/crti.s
+-+++ b/crt/x86_64/crti.s
+-@@ -1,3 +1,4 @@
+-+.file "crti.s"
+- .section .init
+- .global _init
+- _init:
+---- a/crt/x86_64/crtn.s
+-+++ b/crt/x86_64/crtn.s
+-@@ -1,3 +1,4 @@
+-+.file "crtn.s"
+- .section .init
+- 	pop %rax
+- 	ret
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 265f79f2fd..249ce53521 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -15,7 +15,6 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
+-           file://0001-crt-Add-.file-directive.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.30.0
 
