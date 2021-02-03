@@ -1,100 +1,102 @@
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info [104.130.122.29])
- by mx.groups.io with SMTP id smtpd.web11.11623.1612369454418120543
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web09.11936.1612369879497252442
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 08:24:15 -0800
+ Wed, 03 Feb 2021 08:31:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=P82kGoub;
- spf=pass (domain: mg.codeaurora.org, ip: 104.130.122.29, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1612369455; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=e928B2+xXosWqdb93gv7GFIq4ZcozI87oIJTcZl01zA=;
- b=P82kGoubQZIFiTKHAwhibUKqdcd7WOdHtOoK7sCY0Z6videooSiQjNeYUOeQeuZ4z2N3jQKr
- sd4aLSmUt8a7LL7+/GDBrHqAYUxUeCu34HmTXd1vvkjFV4dmXUXPNgarVUPnL5wW4qd+0WYw
- DhBzn/TjAgGWjKEy8lAkveFom6s=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 601ace285a2f264828e48f3c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 03 Feb 2021 16:24:08
- GMT
-Sender: sbanerje=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 45459C433ED; Wed,  3 Feb 2021 16:24:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sbanerje)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id E1166C433CA;
-	Wed,  3 Feb 2021 16:24:07 +0000 (UTC)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mgIiCYCT;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id j84so196410ybg.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 08:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8gj0+BOluyaOX7wW9BWPqTCFbBYoH+0ygNjWZbb/jsY=;
+        b=mgIiCYCTmpfW/pw1rbpi+RRZYx7BifQFwbtcFexm/jWMtFNEttNYLwJOIR85vi5gSt
+         OvrBHzmZlxMG08CChkXRAkxNOULhNcB68rNUJFkrbYUYoNGF1PjaX8sSNGZy4JePMv4G
+         kYq4ZYmzT3Xm1LUgDOkgLTl+We7yHcd5STPCK7cNk71SVCumNfzZO/GNEYm9rjnSk4bM
+         LEK5dP/HgBTAncH1+ZaKejAUaDQs23m+1ycit6XIFeotLPPDqHz8EM9xVb+014MtG5yl
+         ddTsphwD4nte0L6HRdG3Y0sG65AtZy/FqVC7XNoogn2bVpFbWO+WA3CClrLtHY5P2Zn6
+         UD5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8gj0+BOluyaOX7wW9BWPqTCFbBYoH+0ygNjWZbb/jsY=;
+        b=i8RL31vjNHd9TrmhtzaN6KVFillmb+RqOA7jGId8YxOoqejUzMORSBycwbtZs5NA6a
+         0qMIDn/zfWo0RwYFzIYka24PzKePLB0ZFTdbDg1RXeSeJyqv06zzZrHEvgQkPMNL52/o
+         JPd57LKHkIltonlc3scRrVtD9wZ8G8XXdinkTw4ZlOvSoQPAbVjwiML6FpI6upVOu2pD
+         zYTzGBpZgEswEKxvwYXlr4hpuCyoTJfJgQ+nUkC/FzmuMtw/hRZg/JNDLcvOs0pQrChc
+         sra8AprhDt+QjEDasbBr0v2tHTz4jF9953GXwhnr0tBLdkyfprZBNQqCwC4VccXlQi0U
+         uWRQ==
+X-Gm-Message-State: AOAM532r+saBZ/imZIvrgPVDGWBSuwf76/TxtJdMtsTYlVGgSg0c+84K
+	7UePVdyxNTY5X3uJFCP0zq/jFVG73oG7TjwfaQ8=
+X-Google-Smtp-Source: ABdhPJw8JDST1ll0dhS1d23DOEc1Vnb0r62c/uhDQL4au3J1uwf1Pg1DmcapbWTZ0vUgTWfSKxLk3BzqKZquAYNwFPA=
+X-Received: by 2002:a25:1646:: with SMTP id 67mr5810634ybw.97.1612369878673;
+ Wed, 03 Feb 2021 08:31:18 -0800 (PST)
 MIME-Version: 1.0
-Date: Wed, 03 Feb 2021 21:54:07 +0530
-From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
-To: openembedded-core@lists.openembedded.org, steve@sakoman.com
-Cc: vkraleti@codeaurora.org, ndeche@codeaurora.org, himalg@codeaurora.org,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [Dunfell][PATCH] layer.conf: fix sanity error for PATH variable in extensible SDK workflow
-In-Reply-To: <1612369223-5608-1-git-send-email-sbanerje@codeaurora.org>
-References: <1612369223-5608-1-git-send-email-sbanerje@codeaurora.org>
-Message-ID: <c26b70b89acf21df70c8be98c1797baf@codeaurora.org>
-X-Sender: sbanerje@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210203084257.26778-1-anbelski@linux.microsoft.com>
+ <YBp0r/IvR1vFubjt@korppu> <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
+ <YBrG8IXZ18sRjupY@korppu>
+In-Reply-To: <YBrG8IXZ18sRjupY@korppu>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Wed, 3 Feb 2021 06:31:06 -1000
+Message-ID: <CAGDS+nm6oVw9UuHmm_5PKE7kGiOo1HrNp3rHqVKgg72ZLdpHLQ@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] glib-2.0: Rename patch file for CVE-2020-35457
+To: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: anbelski@linux.microsoft.com, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2021-02-03 21:50, Sourabh Banerjee wrote:
-> Sanity checker reports following error for the PATH variable,
-> when bitbake -e <recipe> command is run in an extensible SDK workspace.
->    PATH contains '.', './' or '' (empty element), which will break the 
-> build
-> 
-> In case of extensible SDK, PATH variable is formed with two consecutive 
-> ':'
-> as bb.utils.which(d.getVar('PATH'),'bitbake') call returns an empty 
-> string.
-> 
-> This change adds ':' if BITBAKEPATH is a non empty string.
-> 
-> (From OE-Core rev: 05a87be51b44608ce4f77ac332df90a3cd2445ef)
-> 
-> Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/conf/layer.conf | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index d593492..2d9cd05 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -102,4 +102,6 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
->  SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
-> 
->  # We need to keep bitbake tools in PATH
-> -PATH :=
-> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
-> +# Avoid empty path entries
-> +BITBAKEPATH :=
-> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
-> +PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' is not '' else
-> ''}${HOSTTOOLS_DIR}"
+On Wed, Feb 3, 2021 at 5:53 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+>
+> On Wed, Feb 03, 2021 at 04:38:58AM -1000, Steve Sakoman wrote:
+> > On Wed, Feb 3, 2021 at 12:02 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
+> > > > The naming convention needs to be help so the CVE is recognized as
+> > > > fixed by the tooling.
+> > >
+> > > Yocto CVE checker does detect CVE patches also from patch comments so
+> > > this change is not needed for that. This is sufficient:
+> > >
+> > > poky$ git grep CVE-2020-35457
+> > > meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
+> >
+> > Yes, we are detecting the CVE patch from the patch comment.
+> >
+> > However our CVE patch guidelines do request that the patch be named
+> > with the CVE as the name:
+> >
+> > https://wiki.yoctoproject.org/wiki/Security
+> >
+> > (in the "Patch name convention and commit message" section)
+> >
+> > I'm sorry I didn't catch this when I merged this earlier.  I always
+> > check the patch itself for the CVE tag, but I missed the name.  So I'm
+> > happy to take this patch just to clean up the metadata and make it
+> > easy to see that this is a CVE patch.
+>
+> Does anyone know why CVE ID in both name of the patch and in the CVE: tag are required?
 
-Hi Steve,
+I wasn't involved in defining the requirements, but I suspect that it
+is to make it easy to
+see with a glance of the recipe which patches are CVE fixes.
 
-This is a backport from from master to Dunfell.
+I like it for this reason, but as you say it doesn't affect the cve
+checker script.
 
-Regards,
-Sourabh
+Steve
 
-
--- 
-Regards,
-Sourabh
+> Sometimes when copying patches over from upstream or other distros, I prefer to do as
+> little changes to them as possible. Adding CVE: tag and Upstream-Status are ok, but
+> for example renaming all patches files copied from a Debian/Ubuntu patch set is
+> a bit too much.
+>
+> Cheers,
+>
+> -Mikko
+> 
+>
