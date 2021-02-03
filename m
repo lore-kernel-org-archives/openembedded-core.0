@@ -1,184 +1,195 @@
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (NAM04-BN3-obe.outbound.protection.outlook.com [40.107.68.65])
- by mx.groups.io with SMTP id smtpd.web09.41.1612396497113452694
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web12.129.1612397196016903440
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 15:54:58 -0800
+ Wed, 03 Feb 2021 16:06:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=RbKT7nR7;
- spf=pass (domain: windriver.com, ip: 40.107.68.65, mailfrom: yifan.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ml48/S2vscegsyomDv1+wMKhALRTrVNK6/xS0udSc8BBSJir8XSVoxJeGs2ff5GYiNOK/xPT1+TGZgNW0Anx6GimgEoxx+IAkZNecvoriIyD32p2d5feiGyMcEDAmmRqKXLE6zlpQGKGeqgW+ImDRUKC4SldaFuiHSysi0Ce/0ObEc89zFOWPax21btqqfxsB0aAPqB7r2Vi607kGXEeW73vhXVaFnZ7i2D+ZXO9w0sgOOZdx8OsgJnw1XVEJRDpgyLx59RxQenI1njK2Zg0RNa/JD+BG6c+sSaIzUNdi1CbyzLf4dRw45GsJ5DuP0GEuWgBIs2fP2SxSHLUfpLk/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0rxg1XwYtycx2+eLMPAcxdUOV1jnke3lDSczzdZptA=;
- b=SjXvpR2wzP9B+RnyHid+715ORMegf/h9V5/2TzLvP6r53iYDQKiHakf8GqQIJQAyTZYoe00InW4J1aQrI9LwIKRwijQuFvY3AHj47acoi9+E8okxRSQnrhYKD8G4bhr17ajWRGA6AgpX1DAFeJG6oL9RdwHvQxjhc0sn+JAltqdggi9mxT0gqnhH/qo4TO1d3ycFf/UoMspbdvM6LlG5JGnvReuY/Gb4q4pkHcBscNUCAoB3q+Nm+KH3y0DZOw1w1zNgy2PUxZupGFXqR5a8qa4wA3/W0uN+qDF07ytqi4qAd1j6RWZngfx+ASl6eg35mnS4jcNksvwfIKaSuvobxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g3wubtVF;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id z21so893685pgj.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 16:06:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0rxg1XwYtycx2+eLMPAcxdUOV1jnke3lDSczzdZptA=;
- b=RbKT7nR7eL3pel95USqV1dXwOLa9VIsVicem2U33LrltNULjKPSfWwkmmx30ANYkS/38YbB20bmFoG9dSiUpW7eSqAOXEe1qD5myVe4C6i9+ft+EQTarHDnEVbMDcAiifdODFDTX5aENDQu2byBbNJJx6RgPs2yDS+/A6s1d1Og=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
- by SA2PR11MB4777.namprd11.prod.outlook.com (2603:10b6:806:115::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.19; Wed, 3 Feb
- 2021 23:54:55 +0000
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3]) by SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3%7]) with mapi id 15.20.3805.027; Wed, 3 Feb 2021
- 23:54:55 +0000
-From: "Yi Fan Yu" <yifan.yu@windriver.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pYHWJXzFY4YDgJM38pINd4y9a/9ivE1ifr+lNld7pKk=;
+        b=g3wubtVFatugzSNJ2AyRSXMRYYaLKF6Tt6Gwr2EMHX7vV6lekA4ixblhyenNoiY/fi
+         YEzQ5FvyDHq12LI765NAsqfpII/SUZjPo9V2B/KAqmMqjVlnKLXvBje3fQ+X1EfdvV4b
+         iHkIBuPLyRNhQk5Uy58cOTq/LteynGigWxMr48QghsgQHKnMo0MXmt9hosH2QoIbIgUd
+         FGZr/XYIUznPywdL1tv15TEKs7YVRSJGX1QGSSb/KxPgfpPsxVFgeYRCP2w2iurcd8pF
+         PgKwzsNlHeQ6G2iw+eJxzbKfI46Mp6jxFLVGFapzTkjkTw2VWQN02yd60PXL8lObmx/3
+         rrgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pYHWJXzFY4YDgJM38pINd4y9a/9ivE1ifr+lNld7pKk=;
+        b=NxNV0MOBSrEhbn2nqo1RCTrLEscPDxU61Djk0byl5pErfnbfPswxMBiGuN5GIOEHDg
+         pbdjN5UXG0EESVaepklJ9fPYeXsaHLWT2pmoxNV3UQv1bM86f5KfYkr/nw+jEwXkv3hh
+         CeZ0rhzaK9/yvLxHIyZemZFBo3k3sTNDa86wum66NgzEv2s38yqtNNZa3Y7Rlt1l69vZ
+         bHfryFHhvNsvip284QoS3YmNmquS0QIaVoch+eJtdh6NcpHvFxrx/JtsxV8zsTEr54dK
+         oxeR1zNwqirEiRjQ6xScLBJT4YRDSfaujzJZ5SFMVaA/AZE9TvK6lxb/rSi8F46agKXW
+         wgCQ==
+X-Gm-Message-State: AOAM533AjznXXXt0hCQHAEwudaZEIAAVfXy5cAm+9XWhIgFFfN3DWAY/
+	yC3D5hD41d03TPE0hJTSqN7bpEECJMVGSw==
+X-Google-Smtp-Source: ABdhPJyMPyC1lJxLXqJRMds0JifW1F+/tAuGssTLEoBh9hdd0O5x/c7twTGJIbSNQyGcllVT+/wqnw==
+X-Received: by 2002:a63:5642:: with SMTP id g2mr6082530pgm.434.1612396747350;
+        Wed, 03 Feb 2021 15:59:07 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2914])
+        by smtp.gmail.com with ESMTPSA id f3sm3161840pfe.25.2021.02.03.15.59.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 15:59:06 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH]] glib-2.0: add workaround to fix codegen.py.test failing
-Date: Wed,  3 Feb 2021 18:54:39 -0500
-Message-ID: <20210203235439.15882-1-yifan.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0120.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::29) To SA0PR11MB4719.namprd11.prod.outlook.com
- (2603:10b6:806:95::17)
-Return-Path: yifan.yu@windriver.com
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Require full ISA support for x86-64 level marker
+Date: Wed,  3 Feb 2021 15:59:03 -0800
+Message-Id: <20210203235903.12616-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0120.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend Transport; Wed, 3 Feb 2021 23:54:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3744304d-0761-45ba-443a-08d8c89f1b52
-X-MS-TrafficTypeDiagnostic: SA2PR11MB4777:
-X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB47776E7A6BBC9D10F7AF850F80B49@SA2PR11MB4777.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9hGXHgBxhcl3jjVAtR1LUl4DzHqcP7xIYAlXwbnaBgnNlRC5ldnHGgQoyCcgPepO1s4rZ3W+0+Cp5iXyDI725u9nMo8gS5ql9Pp0iGi6Xj8i3zvPOvIUda2+1bGgS32cYwCIdqDApCGP2W6Hfsbl2KTCrb/319SLNCqDtIA02KomV36B6wQ9VodPyhc0GzkUB470NmIkrjmAXEdb7CH47V9OtsdTSbcMSN4o1uu0rdX4qvMgd17DcYZEXm0YbbTl8oY12ydfWKwvTyNJZlRaTjaDJwKwBNuhLxFDoVha3Y4UKJa+un/x7xo27PGERc+7jTd/MiLYnshKxwEiucygqawlyj5AdEDlbfMXpJkbPJ70ygujPgZz3bhajzQtPuZ9wx094XhtXZZZ5HTvXUu6jZZlX50OWqpEfuS5I4Sl5yA1FlgyXu1pm/7rougfUgVXeql5Rlm8TR/QhzEeWtF1uv62EnZ7imNCXHr0AVwxzMYhcirE58ogjbgs94uO4qtPPnep8zDo3rsWBBsqQN8gMA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(136003)(396003)(366004)(376002)(346002)(26005)(6486002)(2906002)(956004)(83380400001)(478600001)(52116002)(6506007)(8676002)(66476007)(1076003)(86362001)(66946007)(5660300002)(2616005)(6512007)(6666004)(66556008)(16526019)(36756003)(6916009)(8936002)(186003)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?Kx/pJaGT4aSUR9WBWSEA6o0MO4HcsQNGmppuLjd8XUnmDQdbgQRLdaaO1Is2?=
- =?us-ascii?Q?wurQ0kJDee470a9H7KLiugKNRvEdu1txjLmkfbfePZIffHPGgEoEyat1jTiw?=
- =?us-ascii?Q?QUj5CrK1fzjNLbDRM/HKrgUfchtWSv7nfz+F8kRhWbwG8AlMHSQYIIL0vFnO?=
- =?us-ascii?Q?bWIlKKGLhFH9f+Ul3JwkTUevi+EkS/jl8YuZ1aYEW7a53x3MWpWEyVvUnf6v?=
- =?us-ascii?Q?IsYK7l03iOgLfGl0j2FdP/ePiTxAkqa0ufhfbAHIvWCkNw3sCPiH2drBnKIj?=
- =?us-ascii?Q?sjCT6hkKFxxGInNxV8JmbNj7hyi+PfPr7wp8wq5dt2DbGZRioj8+nS9NxQ/4?=
- =?us-ascii?Q?v1c2WZuRjF48fchziy5D/pWUDdvwGeHWlZSEsp1viaYBp8daoKYxUSanQDJL?=
- =?us-ascii?Q?pK49OjvY8/UrS0qxF3VqMXvmnbgWouHaHb0sdGuaOdqZqB6oHWq83yMQP75B?=
- =?us-ascii?Q?CTFWXbWPvLNWRJ/W4PCSYOVYSk3RghjzN3/z363QaqTeI5wp+Phj3GtOSV3k?=
- =?us-ascii?Q?3neFFQyxutQ0vo29gUYWzQDDVn04b3vd7eVSNx11g7It6/i4GlCBedilsSfo?=
- =?us-ascii?Q?q3txast6sX6gz8GhBUnVQdUSNaKU7WZkt6209hhf9C3dEIuxJxcDLNvx6u1U?=
- =?us-ascii?Q?gOwSIREIlWtWcJ3T2EdVsnFci/mkSkzCRd8x5OvdkqTaVcpn8JZwUv0WPiQv?=
- =?us-ascii?Q?bE234wslSq6Ss7FRPjyZz/0uMLdspGHovbARXsS/K6ZQcfUeycUGm4aXc0R0?=
- =?us-ascii?Q?pei7Vm4mONpfWLeTj0zfB7QVSHB35itcm0OpCfdXMpjokpAbH20Za6yIbPDG?=
- =?us-ascii?Q?gg42Ccn/Ldcik92FO74SlkFzfK4HmUdON+6o2lpwYlVPatLF1Txhx9FjSn+X?=
- =?us-ascii?Q?Fmczj7FgD7NRz67JdfOip6eVW1UoJnppLW79u3FbnwFhI+G5Vvx8hq68rvq+?=
- =?us-ascii?Q?lfBuX06n6dmsJdtdFfDLjCuPd8XIm9Mb0ESB6bnawEFPVyx3Nez8SRM4LS2U?=
- =?us-ascii?Q?JU/wXWvswVKQUSZFpP8YgVUqpj9dfv3WZpMc/+nG4WWHb6dfRSbC3a8G6wD1?=
- =?us-ascii?Q?irWlNPJ7WmF3esZp9qJM/WlHHpq5Pyy7mKWL+raaICTyhmY1mjwQswpzORzg?=
- =?us-ascii?Q?ZJs7LY/6usR0FdfedE430VvLf8aDB/diUUZYp1fxUQnLYuKawnHtjdgb+Ta8?=
- =?us-ascii?Q?IHZmiBdgHDNa72COKlPQRh5bo3CMWit7KUAnf3ywdKCAz3JgisZo8gecm3a8?=
- =?us-ascii?Q?nUxYYQhaaBB5Eq9t2a2p8knowex/+YwYWAoIaJjvcFE74DhoeLoVi0wWmWS7?=
- =?us-ascii?Q?YKznSW1N0jeKyoPxWyxgdpfd?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3744304d-0761-45ba-443a-08d8c89f1b52
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2021 23:54:55.8170
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5vJJgnuORjZPpGBGLEh/lDScBYLaqYgUkmpaZq+9SzU6oBLHV0kM2gLuMCdyzZWcZHrMWT1CISbgocXmGU11EQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4777
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Adding a patch to remove an unecessary print statement
-in test-codegen.py that cause the ptest-runner to fail.
-
-Root cause is suspected to be in ptest-runner.
-
-[YOCTO #14170]
-
-Uptream-Status: Inappropriate [other]
-this is a workaround.
-
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-removing-unecessary-print-statement.patch | 38 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.=
-py-removing-unecessary-print-statement.patch
+ ...-ISA-support-for-x86-64-level-marker.patch | 116 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.33.bb         |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.py-remo=
-ving-unecessary-print-statement.patch b/meta/recipes-core/glib-2.0/glib-2.0=
-/0001-tests-codegen.py-removing-unecessary-print-statement.patch
+diff --git a/meta/recipes-core/glibc/glibc/0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch b/meta/recipes-core/glibc/glibc/0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch
 new file mode 100644
-index 0000000000..40427e0e67
+index 0000000000..3cb60b2e55
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.py-removing-un=
-ecessary-print-statement.patch
-@@ -0,0 +1,38 @@
-+From 6178df5658045a6253ef806e018fe80d99a8f5fb Mon Sep 17 00:00:00 2001
-+From: Yi Fan Yu <yifan.yu@windriver.com>
-+Date: Mon, 1 Feb 2021 16:10:28 -0500
-+Subject: [PATCH] tests/codegen.py: removing unecessary print statement
++++ b/meta/recipes-core/glibc/glibc/0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch
+@@ -0,0 +1,116 @@
++From b1971f6f1331d738d1d6b376b4741668a7546125 Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Tue, 2 Feb 2021 13:45:58 -0800
++Subject: [PATCH] x86: Require full ISA support for x86-64 level marker [BZ #27318]
 +
-+A huge amount of output(boiler-plate code) is
-+printed to the console screen.
-+This is not critical to the test results.
++Since -march=sandybridge enables ISAs in x86-64 ISA level v3, the v3
++marker is set on libc.so.  We couldn't set the needed ISA marker to v2
++since this libc won't run on all v2 machines.  Technically, the v3 marker
++is correct.  But the resulting libc.so won't run on Sandy Brigde, which
++is a v2 machine, even when libc is compiled with -march=sandybridge:
 +
-+This causes intermittent test failure when another process
-+has to parse its output.
++$ ./elf/ld.so ./libc.so
++./libc.so: (p) CPU ISA level is lower than required: needed: 7; got: 3
 +
-+Root cause is in ptest-runner, This is a workaround
++Instead, we require full ISA support for x86-64 level marker and disable
++x86-64 level marker for -march=sandybridge which enables ISAs between v2
++and v3.
 +
-+Uptream-Status: Inappropriate [other]
-+
-+
-+
-+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
++Upstream-Status: Submitted [https://sourceware.org/pipermail/libc-alpha/2021-February/122297.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ gio/tests/codegen.py | 1 -
-+ 1 file changed, 1 deletion(-)
 +
-+diff --git a/gio/tests/codegen.py b/gio/tests/codegen.py
-+index 51de0ede4..cfa4db42e 100644
-+--- a/gio/tests/codegen.py
-++++ b/gio/tests/codegen.py
-+@@ -250,7 +250,6 @@ class TestCodegen(unittest.TestCase):
-+=20
-+         result =3D Result(info, out, err, subs)
-+=20
-+-        print('Output:', result.out)
-+         return result
-+=20
-+     def runCodegenWithInterface(self, interface_contents, *args):
-+--=20
-+2.29.2
++ sysdeps/x86/configure    |  7 ++++++-
++ sysdeps/x86/configure.ac |  2 +-
++ sysdeps/x86/isa-level.c  | 21 ++++++++++++++++++++-
++ 3 files changed, 27 insertions(+), 3 deletions(-)
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb b/meta/recipes-c=
-ore/glib-2.0/glib-2.0_2.66.4.bb
-index 70e8aa8785..5e1c0f2d33 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
-@@ -17,6 +17,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.=
-tar.xz \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only=
--.patch \
-            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.pa=
-tch \
-+           file://0001-tests-codegen.py-removing-unecessary-print-statemen=
-t.patch \
++diff --git a/sysdeps/x86/configure b/sysdeps/x86/configure
++index 5e32dc62b3..5b20646843 100644
++--- a/sysdeps/x86/configure
+++++ b/sysdeps/x86/configure
++@@ -133,7 +133,12 @@ if { ac_try='${CC-cc} $CFLAGS $CPPFLAGS -nostartfiles -nostdlib -r -o conftest c
++   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
++   test $ac_status = 0; }; }; then
++   count=`LC_ALL=C $READELF -n conftest | grep NT_GNU_PROPERTY_TYPE_0 | wc -l`
++-  if test "$count" = 1; then
+++  if test "$count" = 1 && { ac_try='${CC-cc} $CFLAGS $CPPFLAGS -DINCLUDE_X86_ISA_LEVEL -S -o conftest.s $srcdir/sysdeps/x86/isa-level.c'
+++  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+++  (eval $ac_try) 2>&5
+++  ac_status=$?
+++  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+++  test $ac_status = 0; }; }; then
++     libc_cv_include_x86_isa_level=yes
++   fi
++ fi
++diff --git a/sysdeps/x86/configure.ac b/sysdeps/x86/configure.ac
++index f94088f377..54ecd33d2c 100644
++--- a/sysdeps/x86/configure.ac
+++++ b/sysdeps/x86/configure.ac
++@@ -100,7 +100,7 @@ EOF
++ libc_cv_include_x86_isa_level=no
++ if AC_TRY_COMMAND(${CC-cc} $CFLAGS $CPPFLAGS -nostartfiles -nostdlib -r -o conftest conftest1.S conftest2.S); then
++   count=`LC_ALL=C $READELF -n conftest | grep NT_GNU_PROPERTY_TYPE_0 | wc -l`
++-  if test "$count" = 1; then
+++  if test "$count" = 1 && AC_TRY_COMMAND(${CC-cc} $CFLAGS $CPPFLAGS -DINCLUDE_X86_ISA_LEVEL -S -o conftest.s $srcdir/sysdeps/x86/isa-level.c); then
++     libc_cv_include_x86_isa_level=yes
++   fi
++ fi
++diff --git a/sysdeps/x86/isa-level.c b/sysdeps/x86/isa-level.c
++index aaf524cb56..7f83449061 100644
++--- a/sysdeps/x86/isa-level.c
+++++ b/sysdeps/x86/isa-level.c
++@@ -25,12 +25,17 @@
++    License along with the GNU C Library; if not, see
++    <https://www.gnu.org/licenses/>.  */
++ 
++-#include <elf.h>
+++#ifdef _LIBC
+++# include <elf.h>
+++#endif
++ 
++ /* ELF program property for x86 ISA level.  */
++ #ifdef INCLUDE_X86_ISA_LEVEL
++ # if defined __x86_64__ || defined __FXSR__ || !defined _SOFT_FLOAT \
++      || defined  __MMX__ || defined __SSE__ || defined __SSE2__
+++#  if !defined __SSE__ || !defined __SSE2__
+++#   error "Missing ISAs for x86-64 ISA level baseline"
+++#  endif
++ #  define ISA_BASELINE	GNU_PROPERTY_X86_ISA_1_BASELINE
++ # else
++ #  define ISA_BASELINE	0
++@@ -40,6 +45,11 @@
++      || (defined __x86_64__ && defined __LAHF_SAHF__) \
++      || defined __POPCNT__ || defined __SSE3__ \
++      || defined __SSSE3__ || defined __SSE4_1__ || defined __SSE4_2__
+++#  if !defined __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16 \
+++     || !defined __POPCNT__ || !defined __SSE3__ \
+++     || !defined __SSSE3__ || !defined __SSE4_1__ || !defined __SSE4_2__
+++#   error "Missing ISAs for x86-64 ISA level v2"
+++#  endif
++ #  define ISA_V2	GNU_PROPERTY_X86_ISA_1_V2
++ # else
++ #  define ISA_V2	0
++@@ -48,6 +58,10 @@
++ # if defined __AVX__ || defined __AVX2__ || defined __F16C__ \
++      || defined __FMA__ || defined __LZCNT__ || defined __MOVBE__ \
++      || defined __XSAVE__
+++# if !defined __AVX__ || !defined __AVX2__ || !defined __F16C__ \
+++     || !defined __FMA__ || !defined __LZCNT__
+++#   error "Missing ISAs for x86-64 ISA level v3"
+++#  endif
++ #  define ISA_V3	GNU_PROPERTY_X86_ISA_1_V3
++ # else
++ #  define ISA_V3	0
++@@ -55,6 +69,11 @@
++ 
++ # if defined __AVX512F__ || defined __AVX512BW__ || defined __AVX512CD__ \
++      || defined __AVX512DQ__ || defined __AVX512VL__
+++#  if !defined __AVX512F__ || !defined __AVX512BW__ \
+++      || !defined __AVX512CD__ || !defined __AVX512DQ__ \
+++      || !defined __AVX512VL__
+++#   error "Missing ISAs for x86-64 ISA level v4"
+++#  endif
++ #  define ISA_V4	GNU_PROPERTY_X86_ISA_1_V4
++ # else
++ #  define ISA_V4	0
+diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+index b39f97d656..4085c779eb 100644
+--- a/meta/recipes-core/glibc/glibc_2.33.bb
++++ b/meta/recipes-core/glibc/glibc_2.33.bb
+@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
+            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
+            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
++           file://0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch \
             "
-=20
- SRC_URI_append_class-native =3D " file://relocate-modules.patch"
---=20
-2.29.2
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.30.0
 
