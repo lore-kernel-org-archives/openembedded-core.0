@@ -1,81 +1,85 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.9639.1612362340936050161
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.10033.1612363152600716886
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 06:25:41 -0800
+ Wed, 03 Feb 2021 06:39:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NLsbD9nZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id 7so24567589wrz.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 06:25:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wTE40WO2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.50, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f50.google.com with SMTP id j11so4944850wmi.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 06:39:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lOtDClzGtckBDcmkYmnkW0QA46Dpc7HyZkTTmEcxTX8=;
-        b=NLsbD9nZTc//0mPuUMofuUPihLg+02FW2XtLmq8xfweIkNxZF93OHbxYBI1WLCK+rA
-         jTBdRptzi2Devtevj3Qx2Q/WSMDfnsi635A5xbOX583Pu1E+19oZpVyJY5hBcRBDEH1+
-         nwU5myKkMJkRnz0OCnILMb7i7qZbofIR4saB4=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gzCaavKazNgWQji+5/bJqeqPRYiZ9eV2T7TTLuUT/0Q=;
+        b=wTE40WO2zmESWp8okt65NgAz3WgqC1Ki3uVHuzBtdUEcfxtawtEddjM2FnsomZUcHU
+         aMULsSEjXoaW+sj9le6Liu1uFpX99gQblGbrDsQWJWPqCp+YTQ+TUZDmKPqdBXfjFTuK
+         gixD8mvZDxEUAQOQH/3Lq2LBO3/SAqhZNTmigEsKUPaGJ6uKUENFLKgNFrZ2ghO1S5wJ
+         xGa2MOUfmZ1D/ybSia3qBnUTTmCrGOb4RpkCFr6m0vqbjTLQ1eTmV8qQihYFxmU0WSzN
+         TVBlJl3x6zgqrKrx0wHTCSBaLzgig4dOinlJk74QdvQ5cbp3OsVS+JLFVgKteBrwkSpv
+         4Ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lOtDClzGtckBDcmkYmnkW0QA46Dpc7HyZkTTmEcxTX8=;
-        b=S4VzevfVJkz+5KQiSmw5FM6WhQuRfML4aG2n35BmZWL8YjOn4heD2QRCYeEXsTt8XH
-         iteeDxYpxOLvPAp9BRwvUhuTh8WCeUWE7fUprgeoyh3BTKE7l0RtFllOXn8Y1KjV0QNO
-         vAmuKd3TG3UtDNvS8Cb7dfSGR72QaDJ4LTjCZsnq7X5ZvMOIeyFSDGAMrGMZJyIYjHCA
-         ceZgro6/vLDJLPhh161cDMynT0ozvTKasJPOA1JPMqtJyMN5oFeXOloBWXT2bhagfl9L
-         CcRfs2HqFb3wmf3UNzDYP15XGti5GNropIV0QtzrJVf8eV9NEPuxSX3EIK4psgncu5qk
-         h5sw==
-X-Gm-Message-State: AOAM530l920VsGUdtvH6fnhwoLDP4feHkRkf0NTHWjAvYll4n+j5oks+
-	J7WNNAhM0x0BHinNham6BTDWrbtHOTyIAQ==
-X-Google-Smtp-Source: ABdhPJytMWzqJufqG03kpBEAyRFh2pwWeaupKIfg/1nroA27OdDCz4I7EieCZlxKsHZsw2US+c7Shw==
-X-Received: by 2002:a5d:4806:: with SMTP id l6mr3908334wrq.389.1612362339138;
-        Wed, 03 Feb 2021 06:25:39 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:a910:113:8225:ce6d])
-        by smtp.gmail.com with ESMTPSA id r11sm3046178wmh.9.2021.02.03.06.25.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 06:25:38 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] package: Ensure do_packagedata is cleaned correctly
-Date: Wed,  3 Feb 2021 14:25:38 +0000
-Message-Id: <20210203142538.1555064-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gzCaavKazNgWQji+5/bJqeqPRYiZ9eV2T7TTLuUT/0Q=;
+        b=qZXOkO4Ko7c0bc5E8sS0KUUsphA3HtcN+Idzd7nKanwGYe7lYJjMhd4+4bZZ5RmIgW
+         /MPiyGH7jFDUDcRXcIwiSdgtmJKKD8Hf/8RErxgxEfeW8BPHxEtJLtRZbYXMz5jOCXme
+         epVmeiunFROzpefS1EFsZMfA59ZUgHhA/H0RhfiH0sLFV2+N8ExujmwiqicliJkJNcGV
+         ni7QkQe5gFGhMqbsGx/rPwxbS+J5/t9/UA0VKC7ErL0RqZPNcNUSAEWFr5z4NTpC+Spj
+         FTVAQb61fauP6OBXsrvSX4kI66MoGIn4eVnxvhD+ZdwQBq27u1Wh6YO6lJeP3DbnGfhs
+         OWXQ==
+X-Gm-Message-State: AOAM532/X+PCbx2zu7wbwk8yzXK5C7A4rtDAYSh4ElgNnH70dEWNiThT
+	x33xRYp5XSL1zbw/nqQ9fbjAfRvsYoAaZz7WSKym9g==
+X-Google-Smtp-Source: ABdhPJxnKIobESLUgQk8NxjuVlhMwYTdH8NxNISxbZLhLlOTZC/NP1eXfTxYFQTRrshHUznqWESuPg/3bNvLGQ21lP8=
+X-Received: by 2002:a7b:c0d8:: with SMTP id s24mr3206640wmh.4.1612363151101;
+ Wed, 03 Feb 2021 06:39:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210203084257.26778-1-anbelski@linux.microsoft.com> <YBp0r/IvR1vFubjt@korppu>
+In-Reply-To: <YBp0r/IvR1vFubjt@korppu>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Wed, 3 Feb 2021 04:38:58 -1000
+Message-ID: <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] glib-2.0: Rename patch file for CVE-2020-35457
+To: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: anbelski@linux.microsoft.com, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-In an earlier commit, libprocps was split into a separate package leaving
-no shlibs in the main package. A bug was seen where igt-gpu-tools wouldn't
-build correctly in some cases as it thought the librbary was still in the
-main package, throwing qa errors as a result.
+On Wed, Feb 3, 2021 at 12:02 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+>
+> Hi,
+>
+> On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
+> > The naming convention needs to be help so the CVE is recognized as
+> > fixed by the tooling.
+>
+> Yocto CVE checker does detect CVE patches also from patch comments so
+> this change is not needed for that. This is sufficient:
+>
+> poky$ git grep CVE-2020-35457
+> meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
 
-The issue was due to an extra file being left in the sstate output of
-the do_packagedata task in the shlibs2/ folder which contained the bad
-shlibs information.
+Yes, we are detecting the CVE patch from the patch comment.
 
-The reason for this was that the temporary directory used in this
-task wasn't being cleaned so files which were deleted were not handled
-correctly. Add a missing cleandirs entry to fix this.
+However our CVE patch guidelines do request that the patch be named
+with the CVE as the name:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/package.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+https://wiki.yoctoproject.org/wiki/Security
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a77d532b66b..417e2252979 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2452,6 +2452,7 @@ python do_packagedata () {
- 
-     bb.build.exec_func("packagedata_translate_pr_autoinc", d)
- }
-+do_packagedata[cleandirs] += "${WORKDIR}/pkgdata-pdata-input"
- 
- # Translate the EXTENDPRAUTO and AUTOINC to the final values
- packagedata_translate_pr_autoinc() {
--- 
-2.27.0
+(in the "Patch name convention and commit message" section)
 
+I'm sorry I didn't catch this when I merged this earlier.  I always
+check the patch itself for the CVE tag, but I missed the name.  So I'm
+happy to take this patch just to clean up the metadata and make it
+easy to see that this is a CVE patch.
+
+Steve
+
+> Is there some other tooling that you are referring to?
+>
+> Cheers,
+>
+> -Mikko
+> 
+>
