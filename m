@@ -1,81 +1,110 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.10065.1612363272756338061
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web09.10146.1612363538301432363
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 06:41:13 -0800
+ Wed, 03 Feb 2021 06:45:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S4r5m9rw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id j11so4951500wmi.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 06:41:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NTxCxtPx;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id b187so10109974ybg.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 06:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=oVKZwnrUlZysJsK4cjvzGun3gU+Hw9InzDeNbsRqmOo=;
-        b=S4r5m9rwj6niLsbrIDdJKECLg+jtw/GoRtNqW0P4ZmRss4cA3QNAYyTjZjzK9Bq3oe
-         6ZAQQ/2tU+5NMl9UgBRWQcpQbz1Piz+6Tssq+/HFX3t6De3CqdltvUqEYrspXWr2wXF/
-         siF7QtLJcAzHQGFS6705Zq2OUnuV2UYJN/H1Y=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=y+FsjKMZ+XCoQP8k1+0e2pxa5kKKr9KxDZiWEy9rgcM=;
+        b=NTxCxtPx3Yx3pPS5EDBG9NPtpY8cziqnYuom5/+9XxTGmvUUMGsxc8CKUzWFIm/a7g
+         RPFt/bhr5pS5a3LX3WAzYfzzYqMygV5KAHBrbBzSf72HjX1AFG//pAbU7zE58vGubfgb
+         51NOII59xiY2HKo02ec+CJpD48T4emFS3MH2kaRDcSTKAWqbO7/VmTBKG5oS+4KQzAbn
+         qj6hFfOqh0YEflfETviy4SfF8VfRdFXqnCwxqLpPJ1MnfElcHCBswURw9vRWf7emVjkt
+         VamIy120YUVyakQXnHbFOh1AOnG7XobJF3s/+cdsm9lsYMXw8u8bWy90XvGZNjj8+iU0
+         XIMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oVKZwnrUlZysJsK4cjvzGun3gU+Hw9InzDeNbsRqmOo=;
-        b=Hv8Ekqfp7hcal2W/qOf6D3nzLvj5o29AAWSYav7sCGvSIC9kcNhi2BVD6Bkxc15As9
-         TxiGyP89C6RPDgPi+V/OLsx60MfbGqCnYV4S6/msgowiPbs+bsfxht9OuesJOolHcjiW
-         CteuS4fMdmHTRIy+zdw1GPgJ/mtEAvF830CdqLT5fvHrlr6XufqXQkV0THuX7sA1D1/P
-         I5qeayi2CKy2CSEb1+7m/jdmwBmYEbzHjTBj2pZXrc4eWHsHXM6el2vdJ0Md9AuEa9kc
-         kGqGoumP5kn4P25TEeTaqfxPbdArswaOIffPfn3kjepp3F0/XaGVJtqo+96JmBlL5pmC
-         rTlw==
-X-Gm-Message-State: AOAM530plwXedQ3jijufZ6bhdfyOcGxncfdxD9sNVDwXrBynZlOnarAb
-	WSoNbz+arlnKgtiSO/S+X/dt7g==
-X-Google-Smtp-Source: ABdhPJwn9+ZtCHP2jq6aGaXXD2ROFaxoTpqyd2pZeGVAFbH9t/50yKSjUj/7sTzAqETNXQO+S6NAyw==
-X-Received: by 2002:a05:600c:1986:: with SMTP id t6mr3135731wmq.92.1612363271400;
-        Wed, 03 Feb 2021 06:41:11 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:a910:113:8225:ce6d? ([2001:8b0:aba:5f3c:a910:113:8225:ce6d])
-        by smtp.gmail.com with ESMTPSA id l2sm2942305wmq.17.2021.02.03.06.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 06:41:10 -0800 (PST)
-Message-ID: <f95a85e6a8b7782c753a8ee684cc0b2a24007239.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] igt-gpu-tools: add procps-lib to RDEPENDS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>, "Qi.Chen@windriver.com"
-	 <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "JPEW.hacker@gmail.com" <JPEW.hacker@gmail.com>
-Date: Wed, 03 Feb 2021 14:41:09 +0000
-In-Reply-To: <166014C846A3C62E.24362@lists.openembedded.org>
-References: <20210120050318.10376-1-Qi.Chen@windriver.com>
-	 <165F4E547FA339C3.13584@lists.openembedded.org>
-	 <165F4F23A9F2744A.13584@lists.openembedded.org>
-	 <260643e582bbeee2748e08e1fd7ebee4adbef888.camel@linuxfoundation.org>
-	 <39f0c1745d9a3d31c7256f7851267b49e7f7c3d5.camel@intel.com>
-	 <166014C846A3C62E.24362@lists.openembedded.org>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=y+FsjKMZ+XCoQP8k1+0e2pxa5kKKr9KxDZiWEy9rgcM=;
+        b=l6gktcYhgB5FnfXrrX8kWySmeTcabq6o1MTuaHUxPDxU8swBiyxoBKdWLel2npVqhw
+         rZKES62RLFTMXUYFWPtwNMF+472AJI3RJDBqR2Hs10Jb2WErTvXMaU3WVpVdC0mlA8l7
+         LjsMUU/0KLV/0KXdtM0u8dWAR+1NrEZGWwe5z3q7Sg+tyyTXSXOJinnpQLa8aS2MiZ80
+         ggvMt/QgDEJsDp6Tfmxt5dfJDCCL6zEiIVg3d7MfZibLZnKtYXv5OYT7jkfKRZyPmPmo
+         lSBJLREapTO5Z/+5PurmZAgZFd96SWqSYONei26EFfG5qPUlogd2xwoAniLcjpxQpObh
+         FJUA==
+X-Gm-Message-State: AOAM532As3ziOvfeQLZbZnKzFqbyWfq73HA6DKFH6wUNEdqr4QKh6kOc
+	y8AbBuIguL9PDziiVBjwiiQCn3hQES0z774YW6c=
+X-Google-Smtp-Source: ABdhPJyuUqm0dvbTeN/0ascHAAzWgpmIVfGUMhmNiSdtLmgs8iOCrPXN+jouetA1bLFn4jqR0NQqb4G/7fMMNZMaofM=
+X-Received: by 2002:a25:21d4:: with SMTP id h203mr4606075ybh.290.1612363537486;
+ Wed, 03 Feb 2021 06:45:37 -0800 (PST)
 MIME-Version: 1.0
+References: <1612289367-10977-1-git-send-email-Saloni.Jain@kpit.com>
+In-Reply-To: <1612289367-10977-1-git-send-email-Saloni.Jain@kpit.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Wed, 3 Feb 2021 04:45:26 -1000
+Message-ID: <CAGDS+nmxYCFTrt-Sd3_cO94tSBWvg4U15P7UFr2cTw8fQo_vWQ@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] libgcrypt: Whitelisted CVEs
+To: saloni <saloni.jain@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	nisha.parrakat@kpit.com, Anuj Chougule <anuj.chougule@kpit.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2021-02-03 at 00:18 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Tue, 2021-02-02 at 02:57 +0000, Mittal, Anuj wrote:
-> > I see the same failure locally even when using the autobuilder
-> > configuration so it's probably not related to multilib.
-> > 
-> > I guess it's happening because procps was split up recently to have the
-> > lib installed in a separate package and that didn't result in a rebuild
-> > of igt-gpu-tools?
-> 
-> It seems related to this. It doesn't seem to happen on a clean build
-> but in my older TMPDIRs, shlibs2/procps.list seems to be persisting for
-> some reason and is making the package RDEPEND on procps instead of
-> procps-libs. I've run out of time today to dig further though...
+On Tue, Feb 2, 2021 at 8:09 AM saloni <saloni.jain@kpit.com> wrote:
+>
+> Whitelisted below CVEs as their status is disputed
+> and ignored and not affecting the Ubuntu and Debian
+> environments. Hence, marked them whitelisted.
 
-I found the problem, its an issue in do_packagedata when TMPDIR isn't
-clean. I've sent a patch. I'm going to drop this RDEPENDS patch in
-favour of that.
+I'm not sure why you are referencing Ubuntu and Debian environments.
+We care about whether it is affecting the Yocto implementation.
 
-Cheers,
+Could you explain your reasoning a bit more?  Are you saying that
+Ubuntu and Debian maintainers don't consider these CVE's to be a
+serious enough issue to mitigate and thus it is safe for us to do the
+same?
 
-Richard
+Thanks!
 
+Steve
+
+> 1. CVE-2018-12433
+> Link: https://security-tracker.debian.org/tracker/CVE-2018-12433
+>
+> 2. CVE-2018-12438
+> Link: https://security-tracker.debian.org/tracker/CVE-2018-12438
+>
+> Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+> ---
+>  meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb b/meta/re=
+cipes-support/libgcrypt/libgcrypt_1.8.5.bb
+> index 4e0eb0a..ba3666f 100644
+> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+> @@ -29,6 +29,9 @@ SRC_URI =3D "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}=
+.tar.bz2 \
+>  SRC_URI[md5sum] =3D "348cc4601ca34307fc6cd6c945467743"
+>  SRC_URI[sha256sum] =3D "3b4a2a94cb637eff5bdebbcaf46f4d95c4f25206f459809=
+339cdada0eb577ac3"
+>
+> +# Below whitelisted CVEs are disputed and not affecting Ubuntu and Debi=
+an environments.
+> +CVE_CHECK_WHITELIST +=3D "CVE-2018-12433 CVE-2018-12438"
+> +
+>  BINCONFIG =3D "${bindir}/libgcrypt-config"
+>
+>  inherit autotools texinfo binconfig-disabled pkgconfig
+> --
+> 2.7.4
+>
+> This message contains information that may be privileged or confidential=
+ and is the property of the KPIT Technologies Ltd. It is intended only for =
+the person to whom it is addressed. If you are not the intended recipient, =
+you are not authorized to read, print, retain copy, disseminate, distribute=
+, or use this message or any part thereof. If you receive this message in e=
+rror, please notify the sender immediately and delete all copies of this me=
+ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
+ted mails.
+>
+>=20
+>
