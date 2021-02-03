@@ -1,92 +1,576 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.9034.1612358886000532844
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web11.9161.1612360486442296993
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 05:28:06 -0800
+ Wed, 03 Feb 2021 05:54:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IqW/RPxA;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id l12so24298374wry.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 05:28:05 -0800 (PST)
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=EsU+lEpL;
+ spf=pass (domain: blade-group.com, ip: 209.85.222.43, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-ua1-f43.google.com with SMTP id k22so8345153ual.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 05:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=USBk8wdFrG074XaLld3H/qRGLuz2fuBeywq+whQLJ9A=;
-        b=IqW/RPxAKqrhOnZYCM5rQWoQeM+HhiH0tptRRuVGS6FICDtSYK4zkkKkJ1u3/vGyuT
-         szAUHiZGzBN6nH9oMJTzABxL+TiL3frfUV2wJdjnbJOTbk0f3EPNVOpk95/FgGhy/a3c
-         wQ8cisru63rGYuLlubz9We6plq5vnvjJG4DDJ7byFCXucuYBvQpmaDKDXD23Pl/vwfPX
-         EY83EPdX9pCIOQP4LHrlPMWPRJWCxF9dTqKdmyVFMFoCnjBBdE6KNufnf5UyMr2EZQNh
-         zOICiI4hnqyH11kBjFbzIYzkqDhnhHN4JUpPdBgeptuIH9XXxiCkcMvf6MmWBMpBFGgF
-         YfHQ==
+        d=blade-group.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2J9OJZ3wn62TL2iFptUU4BVnkpol812l1TbDiZprXx0=;
+        b=EsU+lEpLT797jobnSDrn5mwKMTqclofUv5Jg9hzz85f3C7l+B2W89eGW82VQLkWrWE
+         +Vho4tf6RR80mxHMNknPUiRauadYCflg8f8W4pSCQboFyzw9ExZpWhg05YyV/jIE5Gan
+         wTVBlnvujxrHg4L+beN0lzXoqKe4jpUdMrJwIa80gTefxS7kfgHpjV52FZtONSelu72R
+         PFFDXeE784ifhXg5fkbO9tjhxh6YeF8+mLvuUMEAEMK9ucZDp5FaiooWAuWdnwyHQJwR
+         a/Ken1QUNXWZFRMn57SF2P6a6zqkt1u4RKDHVKtqouHLby1fH4dk0kPaII74mc2Xv2ae
+         KaDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=USBk8wdFrG074XaLld3H/qRGLuz2fuBeywq+whQLJ9A=;
-        b=IFhAZD0YkW218vXrUEGHQnJco8Merqu6ZjXPMvvOWshZ3cAFaevR2cCF6Ek3Iv+J6/
-         diEX3Rq17B6BRld1tJMCpJUZ+A6HQQgXhE+OGoNPXcU7YoPT/Al9ZfG0nVuKeSGVEb4T
-         TmfLC5W4csq7H2gSkNI/1+xoz4EbWf/T+vBHeiaoZ5v0DBFedcmXGqCL9VQTV8FR9ewN
-         WAnEuYqk++mfxgsB+gC88ShPrXKSzIiCxlOEm5PZRDopFZKCN9C08Vl5nWFBoA6oucOD
-         NL+Jk0j3+jsTIRHAhmCrgOhsp/wW0Ym8rPaB60wZqW52bGifuKQGQj6cCFO9ZGJW/ngL
-         h7rg==
-X-Gm-Message-State: AOAM5328bLwXp9sBLabboZiQt8x70OMBhcbwLvfNGTABaxt4wlO6kScd
-	dPfxOz7RIVk3qrCbKlTCybaKHePDcaQ7nw==
-X-Google-Smtp-Source: ABdhPJyIX5KSB+t3EhNQjxhu853c7nlr6AvIUCegtJQ/XZK30fUSTpoZSPF1jGTF7yKf0VZalkX14g==
-X-Received: by 2002:a5d:6685:: with SMTP id l5mr3480568wru.176.1612358884069;
-        Wed, 03 Feb 2021 05:28:04 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id f17sm4041712wrv.0.2021.02.03.05.28.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 05:28:03 -0800 (PST)
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: update to v247.3
-Date: Wed,  3 Feb 2021 13:28:01 +0000
-Message-Id: <20210203132801.982669-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2J9OJZ3wn62TL2iFptUU4BVnkpol812l1TbDiZprXx0=;
+        b=CjMZ1+sbmBfq5qkFJjg1WTDvrwZDtXC5aYcyEPiI1FjJidFnKDcn9RV8UYpeS2+t/D
+         +eT/eUl9sTE/MyFVGM/G2ypr3OxFClA+gUCkk+pIfdQJiHr5d8m8j41tUWMmezYzNLky
+         nRxkRj7vA6Z3xihtG21sSbCofhmOQdPxtsM0BxIsuPqNAqAZrovo+swEPTcsGJf7XALB
+         NdTaMaC1cKDC74SihITon9E/X9iUcCqpyJfyIOfscAWUDch5ta1lUh7P5mhWGQyczuTo
+         WNlNCX6MH0tdHu7hfVR+Q7Qb1DjuElj/Zm4U69IJH1mIXRm/h4M7CeVWCpeGw2EtsaZA
+         y+8A==
+X-Gm-Message-State: AOAM532B0Kt6qTmX2pBzyoWNEszA64F2ZjFKCqZ1PbFWtbHsmtCitNZl
+	5xNfachZqmOkihpspzAS9CyvD/BvfmnmEtrq+Mf9xw==
+X-Google-Smtp-Source: ABdhPJwnJtzTg5/OYpMoGXPLmGXdNGSHstpTjj2eFZ0eL2szj4NlBp5OVVKsb7Dp/etvLz16c5Ns1vouj6Xlzi+Vk/g=
+X-Received: by 2002:ab0:6f0d:: with SMTP id r13mr1751498uah.8.1612360485179;
+ Wed, 03 Feb 2021 05:54:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210201102300.3789714-1-yann@blade-group.com> <CAEE5dN2tyho8jGnSb4bSE1P7h=_ejELEPd_ULeE4V6KSdk81hA@mail.gmail.com>
+In-Reply-To: <CAEE5dN2tyho8jGnSb4bSE1P7h=_ejELEPd_ULeE4V6KSdk81hA@mail.gmail.com>
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+Date: Wed, 3 Feb 2021 14:54:33 +0100
+Message-ID: <CA+4=imbeMSfAijugTxx-_px3jDxqOZp-sA7i-j4XqFM4y5gmJA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libsdl2: upgrade to 2.0.14
+To: Mark Jonas <toertel@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	Yann Dirson <yann@blade-group.com>, =?UTF-8?Q?Romain_Roff=C3=A9?= <romain.roffe@blade-group.com>
+Content-Type: multipart/alternative; boundary="000000000000f8343205ba6eedbb"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--000000000000f8343205ba6eedbb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- .../systemd/{systemd-boot_247.2.bb => systemd-boot_247.3.bb}    | 0
- .../systemd/{systemd-conf_247.2.bb => systemd-conf_247.3.bb}    | 0
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- .../recipes-core/systemd/{systemd_247.2.bb => systemd_247.3.bb} | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/systemd/{systemd-boot_247.2.bb => systemd-boot_247.3.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-conf_247.2.bb => systemd-conf_247.3.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_247.2.bb => systemd_247.3.bb} (100%)
+Le lun. 1 f=C3=A9vr. 2021 =C3=A0 20:11, Mark Jonas <toertel@gmail.com> a =
+=C3=A9crit :
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_247.2.bb b/meta/recipes-core/systemd/systemd-boot_247.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_247.2.bb
-rename to meta/recipes-core/systemd/systemd-boot_247.3.bb
-diff --git a/meta/recipes-core/systemd/systemd-conf_247.2.bb b/meta/recipes-core/systemd/systemd-conf_247.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-conf_247.2.bb
-rename to meta/recipes-core/systemd/systemd-conf_247.3.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index cb7d782b76..ccff8c8b9e 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "937118a5b2f27a7913c421ad76893cdda01c5566"
-+SRCREV = "551dd873b0bdfb9e7e47431b2933c8b910228f0c"
- SRCBRANCH = "v247-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
- 
-diff --git a/meta/recipes-core/systemd/systemd_247.2.bb b/meta/recipes-core/systemd/systemd_247.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_247.2.bb
-rename to meta/recipes-core/systemd/systemd_247.3.bb
--- 
-2.29.2
+> Hi,
+>
+> tslib support is often relevant for embedded projects with simple
+> (resistive) touch screens. Would it make sense to keep the 2.0.12
+> recipe and offer both in parallel?
+>
 
+ What do others think ?
+
+We could use a libsdl2.inc with the common stuff, of just keep the current
+2.0.12
+version as is.  Maybe even move the 2.0.12 recipe to meta-oe, where tslib
+seems
+to live nowadays, although that could make the recipe harder to find for
+those who
+need it.
+
+I'd suggest if that support is still needed, to approach libsdl upstream
+with a patch
+restoring the tslib support ?  Maybe we could even carry such a patch in
+yocto until
+upstream does something ?  That could be better than just carying an old
+version.
+
+
+> Cheers,
+> Mark
+>
+> On Mon, Feb 1, 2021 at 11:23 AM Yann Dirson <yann.dirson@blade-group.com=
+>
+> wrote:
+> >
+> > From: Yann Dirson <yann@blade-group.com>
+> >
+> > This version does not support tslib any more, as can be seen by the
+> > failed AUH run.
+> >
+> > Originally-by: Romain Roff=C3=A9 <romain.roffe@blade-group.com>
+> > Signed-off-by: Yann Dirson <yann@blade-group.com>
+> > ---
+> >  .../libsdl2/directfb-renderfillrect-fix.patch | 33 -------------
+> >  ...ectfb-spurious-curly-brace-missing-e.patch | 49 ------------------=
+-
+> >  .../{libsdl2_2.0.12.bb =3D> libsdl2_2.0.14.bb}  |  6 +--
+> >  3 files changed, 1 insertion(+), 87 deletions(-)
+> >  delete mode 100644
+> meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
+> >  delete mode 100644
+> meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-miss=
+ing-e.patch
+> >  rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.12.bb =3D>
+> libsdl2_2.0.14.bb} (91%)
+> >
+> > diff --git
+> a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patc=
+h
+> b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patc=
+h
+> > deleted file mode 100644
+> > index 83d4f4b1ec..0000000000
+> > ---
+> a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patc=
+h
+> > +++ /dev/null
+> > @@ -1,33 +0,0 @@
+> > -# HG changeset patch
+> > -# User Sam Lantinga <slouken@libsdl.org>
+> > -# Date 1590793369 25200
+> > -# Node ID a90089f75990e8b07a1dcf931c5f8a580ae343bf
+> > -# Parent  a9b4bd264f3cbedc4f3287b3ec6b32311370ba85
+> > -Fixed bug 5146 - SDL_RenderFillRect doesn't work in DirectFB
+> > -
+> > -Lacky
+> > -
+> > -It looks like refactoring of SDL2 internal API has broken
+> SDL_RenderFillRect for DirectFB. In new version function SDL_RenderFillR=
+ect
+> returns 0, but rectangle is not visible.
+> > -
+> > -Replacing "count" with "len" in the argument list for SDL_memcpy in
+> DirectFB_QueueFillRects fixes problem.
+> > -
+> > ---
+> > -
+> > -The patch was imported from the libsdl Mercurial repository
+> > -(https://hg.libsdl.org/SDL) as of changeset id a90089f75990.
+> > -
+> > -Upstream-Status: Backport
+> > -
+> > -Signed-off-by: Mark Jonas <toertel@gmail.com>
+> > -
+> > -diff -r a9b4bd264f3c -r a90089f75990
+> src/video/directfb/SDL_DirectFB_render.c
+> > ---- a/src/video/directfb/SDL_DirectFB_render.c Thu May 21 00:06:09 20=
+20
+> -0400
+> > -+++ b/src/video/directfb/SDL_DirectFB_render.c Fri May 29 16:02:49 20=
+20
+> -0700
+> > -@@ -626,7 +626,7 @@
+> > -     }
+> > -
+> > -     cmd->data.draw.count =3D count;
+> > --    SDL_memcpy(verts, rects, count);
+> > -+    SDL_memcpy(verts, rects, len);
+> > -     return 0;
+> > - }
+> > diff --git
+> a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-mi=
+ssing-e.patch
+> b/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-mi=
+ssing-e.patch
+> > deleted file mode 100644
+> > index aa351a89ba..0000000000
+> > ---
+> a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-mi=
+ssing-e.patch
+> > +++ /dev/null
+> > @@ -1,49 +0,0 @@
+> > -# HG changeset patch
+> > -# User Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> > -# Date 1585069551 25200
+> > -# Node ID 769f800952179633ec6c3e6bc1bc1d40e401750a
+> > -# Parent  63387e8920f58f608288f247824ec5f4c286691f
+> > -src/video/directfb/SDL_DirectFB_render.c: fix build
+> > -Build with directfb is broken due to a spurious '}' and a missing 'E'
+> > -since version 2.0.12 and https://hg.libsdl.org/SDL/rev/2d5b5a5ccbfb:
+> > -
+> >
+> -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
+/video/directfb/SDL_DirectFB_render.c:
+> In function 'SetBlendMode':
+> >
+> -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
+/video/directfb/SDL_DirectFB_render.c:202:9:
+> error: case label not within a switch statement
+> > -  202 |         case SDL_BLENDMODE_MUL:
+> > -      |         ^~~~
+> > -
+> >
+> -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
+/video/directfb/SDL_DirectFB_render.c:205:67:
+> error: 'DSBF_DSTCOLOR' undeclared (first use in this function); did you
+> mean 'DSBF_DESTCOLOR'?
+> > -  205 |
+>  SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf, DSBF_DSTCOLOR));
+> > -      |
+>    ^~~~~~~~~~~~~
+> > -
+> > -Fixes:
+> > - -
+> http://autobuild.buildroot.org/results/83ccefee68c2800c0544e6f40fa8bc8ee=
+6b67b77
+> > -
+> > -Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> > -
+> > ---
+> > -
+> > -The patch was imported from the libsdl Mercurial repository
+> > -(https://hg.libsdl.org/SDL) as of changeset id 769f80095217.
+> > -
+> > -Upstream-Status: Backport
+> > -
+> > -Signed-off-by: Mark Jonas <toertel@gmail.com>
+> > -
+> > -
+> > -diff -r 63387e8920f5 -r 769f80095217
+> src/video/directfb/SDL_DirectFB_render.c
+> > ---- a/src/video/directfb/SDL_DirectFB_render.c Mon Mar 23 14:10:25 20=
+20
+> -0700
+> > -+++ b/src/video/directfb/SDL_DirectFB_render.c Tue Mar 24 10:05:51 20=
+20
+> -0700
+> > -@@ -198,11 +198,10 @@
+> > -             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf,
+> DSBF_SRCCOLOR));
+> > -
+> > -             break;
+> > --        }
+> > -         case SDL_BLENDMODE_MUL:
+> > -             data->blitFlags =3D DSBLIT_BLEND_ALPHACHANNEL;
+> > -             data->drawFlags =3D DSDRAW_BLEND;
+> > --            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf,
+> DSBF_DSTCOLOR));
+> > -+            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf,
+> DSBF_DESTCOLOR));
+> > -             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf,
+> DSBF_INVSRCALPHA));
+> > -
+> > -             break;
+> > diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+> > similarity index 91%
+> > rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+> > rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+> > index 5fa99821c4..872592fdae 100644
+> > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+> > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+> > @@ -18,14 +18,11 @@ PROVIDES =3D "virtual/libsdl2"
+> >
+> >  SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+> >             file://more-gen-depends.patch \
+> > -           file://directfb-spurious-curly-brace-missing-e.patch \
+> > -           file://directfb-renderfillrect-fix.patch \
+> >  "
+> >
+> >  S =3D "${WORKDIR}/SDL2-${PV}"
+> >
+> > -SRC_URI[md5sum] =3D "783b6f2df8ff02b19bb5ce492b99c8ff"
+> > -SRC_URI[sha256sum] =3D
+> "349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863"
+> > +SRC_URI[sha256sum] =3D
+> "d8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc"
+> >
+> >  inherit autotools lib_package binconfig-disabled pkgconfig
+> >
+> > @@ -64,7 +61,6 @@ PACKAGECONFIG[jack]       =3D
+> "--enable-jack,--disable-jack,jack"
+> >  PACKAGECONFIG[kmsdrm]     =3D
+> "--enable-video-kmsdrm,--disable-video-kmsdrm,libdrm virtual/libgbm"
+> >  PACKAGECONFIG[opengl]     =3D
+> "--enable-video-opengl,--disable-video-opengl,virtual/libgl"
+> >  PACKAGECONFIG[pulseaudio] =3D
+> "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
+> > -PACKAGECONFIG[tslib]      =3D
+> "--enable-input-tslib,--disable-input-tslib,tslib"
+> >  PACKAGECONFIG[wayland]    =3D
+> "--enable-video-wayland,--disable-video-wayland,wayland-native wayland
+> wayland-protocols libxkbcommon"
+> >  PACKAGECONFIG[x11]        =3D
+> "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr
+> libxrender"
+> >
+> > --
+> > 2.29.2
+> >
+> >
+> >=20
+> >
+>
+
+
+--=20
+Yann Dirson <yann@blade-group.com>
+Blade / Shadow -- http://shadow.tech
+
+--000000000000f8343205ba6eedbb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">Le=C2=A0lun. 1 f=C3=A9vr. 2021 =C3=A0=C2=A020:11, Mark Jonas &lt;<a =
+href=3D"mailto:toertel@gmail.com">toertel@gmail.com</a>&gt; a =C3=A9crit=C2=
+=
+=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+<br>
+tslib support is often relevant for embedded projects with simple<br>
+(resistive) touch screens. Would it make sense to keep the 2.0.12<br>
+recipe and offer both in parallel?<br></blockquote><div><br></div><div>=C2=
+=
+=A0What do others think ?</div><div><br></div><div>We could use a libsdl2.=
+inc with the common stuff, of just keep the current 2.0.12</div><div>versio=
+n as is.=C2=A0 Maybe even move the 2.0.12 recipe to meta-oe, where tslib se=
+ems</div><div>to live nowadays, although that could make the recipe harder =
+to find for those who</div><div>need it.</div><div><br></div><div>I&#39;d s=
+uggest if that support is still needed, to approach libsdl upstream with a =
+patch</div><div>restoring the tslib support ?=C2=A0 Maybe we could even car=
+ry such a patch in yocto until</div><div>upstream does something ?=C2=A0 Th=
+at could be better than just carying an old version.<br></div><div><br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+Mark<br>
+<br>
+On Mon, Feb 1, 2021 at 11:23 AM Yann Dirson &lt;<a href=3D"mailto:yann.dir=
+son@blade-group.com" target=3D"_blank">yann.dirson@blade-group.com</a>&gt; =
+wrote:<br>
+&gt;<br>
+&gt; From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" target=
+=3D"_blank">yann@blade-group.com</a>&gt;<br>
+&gt;<br>
+&gt; This version does not support tslib any more, as can be seen by the<b=
+r>
+&gt; failed AUH run.<br>
+&gt;<br>
+&gt; Originally-by: Romain Roff=C3=A9 &lt;<a href=3D"mailto:romain.roffe@b=
+lade-group.com" target=3D"_blank">romain.roffe@blade-group.com</a>&gt;<br>
+&gt; Signed-off-by: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com=
+" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../libsdl2/directfb-renderfillrect-fix.patch | 33 ------------=
+-<br>
+&gt;=C2=A0 ...ectfb-spurious-curly-brace-missing-e.patch | 49 ------------=
+-------<br>
+&gt;=C2=A0 .../{<a href=3D"http://libsdl2_2.0.12.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">libsdl2_2.0.12.bb</a> =3D&gt; <a href=3D"http://libsdl2_2.0=
+.14.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.14.bb</a>}=C2=A0 |=
+=
+=C2=A0 6 +--<br>
+&gt;=C2=A0 3 files changed, 1 insertion(+), 87 deletions(-)<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/direct=
+fb-renderfillrect-fix.patch<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/direct=
+fb-spurious-curly-brace-missing-e.patch<br>
+&gt;=C2=A0 rename meta/recipes-graphics/libsdl2/{<a href=3D"http://libsdl2=
+_2.0.12.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.12.bb</a> =3D&=
+gt; <a href=3D"http://libsdl2_2.0.14.bb" rel=3D"noreferrer" target=3D"_blan=
+k">libsdl2_2.0.14.bb</a>} (91%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfil=
+lrect-fix.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfill=
+rect-fix.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index 83d4f4b1ec..0000000000<br>
+&gt; --- a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-f=
+ix.patch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,33 +0,0 @@<br>
+&gt; -# HG changeset patch<br>
+&gt; -# User Sam Lantinga &lt;<a href=3D"mailto:slouken@libsdl.org" target=
+=
+=3D"_blank">slouken@libsdl.org</a>&gt;<br>
+&gt; -# Date 1590793369 25200<br>
+&gt; -# Node ID a90089f75990e8b07a1dcf931c5f8a580ae343bf<br>
+&gt; -# Parent=C2=A0 a9b4bd264f3cbedc4f3287b3ec6b32311370ba85<br>
+&gt; -Fixed bug 5146 - SDL_RenderFillRect doesn&#39;t work in DirectFB<br>
+&gt; -<br>
+&gt; -Lacky<br>
+&gt; -<br>
+&gt; -It looks like refactoring of SDL2 internal API has broken SDL_Render=
+FillRect for DirectFB. In new version function SDL_RenderFillRect returns 0=
+, but rectangle is not visible.<br>
+&gt; -<br>
+&gt; -Replacing &quot;count&quot; with &quot;len&quot; in the argument lis=
+t for SDL_memcpy in DirectFB_QueueFillRects fixes problem.<br>
+&gt; -<br>
+&gt; ---<br>
+&gt; -<br>
+&gt; -The patch was imported from the libsdl Mercurial repository<br>
+&gt; -(<a href=3D"https://hg.libsdl.org/SDL" rel=3D"noreferrer" target=3D"=
+_blank">https://hg.libsdl.org/SDL</a>) as of changeset id a90089f75990.<br>
+&gt; -<br>
+&gt; -Upstream-Status: Backport<br>
+&gt; -<br>
+&gt; -Signed-off-by: Mark Jonas &lt;<a href=3D"mailto:toertel@gmail.com" t=
+arget=3D"_blank">toertel@gmail.com</a>&gt;<br>
+&gt; -<br>
+&gt; -diff -r a9b4bd264f3c -r a90089f75990 src/video/directfb/SDL_DirectFB=
+_render.c<br>
+&gt; ---- a/src/video/directfb/SDL_DirectFB_render.c Thu May 21 00:06:09 2=
+020 -0400<br>
+&gt; -+++ b/src/video/directfb/SDL_DirectFB_render.c Fri May 29 16:02:49 2=
+020 -0700<br>
+&gt; -@@ -626,7 +626,7 @@<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0cmd-&gt;data.draw.count =3D count;<br>
+&gt; --=C2=A0 =C2=A0 SDL_memcpy(verts, rects, count);<br>
+&gt; -+=C2=A0 =C2=A0 SDL_memcpy(verts, rects, len);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0return 0;<br>
+&gt; - }<br>
+&gt; diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-=
+curly-brace-missing-e.patch b/meta/recipes-graphics/libsdl2/libsdl2/directf=
+b-spurious-curly-brace-missing-e.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index aa351a89ba..0000000000<br>
+&gt; --- a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-b=
+race-missing-e.patch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,49 +0,0 @@<br>
+&gt; -# HG changeset patch<br>
+&gt; -# User Fabrice Fontaine &lt;<a href=3D"mailto:fontaine.fabrice@gmail=
+.com" target=3D"_blank">fontaine.fabrice@gmail.com</a>&gt;<br>
+&gt; -# Date 1585069551 25200<br>
+&gt; -# Node ID 769f800952179633ec6c3e6bc1bc1d40e401750a<br>
+&gt; -# Parent=C2=A0 63387e8920f58f608288f247824ec5f4c286691f<br>
+&gt; -src/video/directfb/SDL_DirectFB_render.c: fix build<br>
+&gt; -Build with directfb is broken due to a spurious &#39;}&#39; and a mi=
+ssing &#39;E&#39;<br>
+&gt; -since version 2.0.12 and <a href=3D"https://hg.libsdl.org/SDL/rev/2d=
+5b5a5ccbfb" rel=3D"noreferrer" target=3D"_blank">https://hg.libsdl.org/SDL/=
+rev/2d5b5a5ccbfb</a>:<br>
+&gt; -<br>
+&gt; -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/=
+src/video/directfb/SDL_DirectFB_render.c: In function &#39;SetBlendMode&#39=
+;:<br>
+&gt; -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/=
+src/video/directfb/SDL_DirectFB_render.c:202:9: error: case label not withi=
+n a switch statement<br>
+&gt; -=C2=A0 202 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SDL_BLENDMODE_MUL=
+:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~<br>
+&gt; -<br>
+&gt; -/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/=
+src/video/directfb/SDL_DirectFB_render.c:205:67: error: &#39;DSBF_DSTCOLOR&=
+#39; undeclared (first use in this function); did you mean &#39;DSBF_DESTCO=
+LOR&#39;?<br>
+&gt; -=C2=A0 205 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SDL_DFB_=
+CHECK(destsurf-&gt;SetSrcBlendFunction(destsurf, DSBF_DSTCOLOR));<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~~<br>
+&gt; -<br>
+&gt; -Fixes:<br>
+&gt; - - <a href=3D"http://autobuild.buildroot.org/results/83ccefee68c2800=
+c0544e6f40fa8bc8ee6b67b77" rel=3D"noreferrer" target=3D"_blank">http://auto=
+build.buildroot.org/results/83ccefee68c2800c0544e6f40fa8bc8ee6b67b77</a><br=
+>
+&gt; -<br>
+&gt; -Signed-off-by: Fabrice Fontaine &lt;<a href=3D"mailto:fontaine.fabri=
+ce@gmail.com" target=3D"_blank">fontaine.fabrice@gmail.com</a>&gt;<br>
+&gt; -<br>
+&gt; ---<br>
+&gt; -<br>
+&gt; -The patch was imported from the libsdl Mercurial repository<br>
+&gt; -(<a href=3D"https://hg.libsdl.org/SDL" rel=3D"noreferrer" target=3D"=
+_blank">https://hg.libsdl.org/SDL</a>) as of changeset id 769f80095217.<br>
+&gt; -<br>
+&gt; -Upstream-Status: Backport<br>
+&gt; -<br>
+&gt; -Signed-off-by: Mark Jonas &lt;<a href=3D"mailto:toertel@gmail.com" t=
+arget=3D"_blank">toertel@gmail.com</a>&gt;<br>
+&gt; -<br>
+&gt; -<br>
+&gt; -diff -r 63387e8920f5 -r 769f80095217 src/video/directfb/SDL_DirectFB=
+_render.c<br>
+&gt; ---- a/src/video/directfb/SDL_DirectFB_render.c Mon Mar 23 14:10:25 2=
+020 -0700<br>
+&gt; -+++ b/src/video/directfb/SDL_DirectFB_render.c Tue Mar 24 10:05:51 2=
+020 -0700<br>
+&gt; -@@ -198,11 +198,10 @@<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SDL_DFB_CHECK(destsu=
+rf-&gt;SetDstBlendFunction(destsurf, DSBF_SRCCOLOR));<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SDL_BLENDMODE_MUL:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data-&gt;blitFlags =
+=3D DSBLIT_BLEND_ALPHACHANNEL;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data-&gt;drawFlags =
+=3D DSDRAW_BLEND;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SDL_DFB_CHECK(destsurf-&g=
+t;SetSrcBlendFunction(destsurf, DSBF_DSTCOLOR));<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SDL_DFB_CHECK(destsurf-&g=
+t;SetSrcBlendFunction(destsurf, DSBF_DESTCOLOR));<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SDL_DFB_CHECK(destsu=
+rf-&gt;SetDstBlendFunction(destsurf, DSBF_INVSRCALPHA));<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+&gt; diff --git a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_=
+2.0.12.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.12.bb</a> b/met=
+a/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.14.bb" rel=3D"nore=
+ferrer" target=3D"_blank">libsdl2_2.0.14.bb</a><br>
+&gt; similarity index 91%<br>
+&gt; rename from meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2=
+.0.12.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.12.bb</a><br>
+&gt; rename to meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0=
+.14.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.14.bb</a><br>
+&gt; index 5fa99821c4..872592fdae 100644<br>
+&gt; --- a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.12.=
+bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.12.bb</a><br>
+&gt; +++ b/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.14.=
+bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.14.bb</a><br>
+&gt; @@ -18,14 +18,11 @@ PROVIDES =3D &quot;virtual/libsdl2&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://www.libsdl.org/release/SDL2=
+-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://www.libsdl.o=
+rg/release/SDL2-${PV}.tar.gz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://more-gen-depend=
+s.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://directfb-spurious-cu=
+rly-brace-missing-e.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://directfb-renderfillr=
+ect-fix.patch \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;<br>
+&gt;=C2=A0 S =3D &quot;${WORKDIR}/SDL2-${PV}&quot;<br>
+&gt;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;783b6f2df8ff02b19bb5ce492b99c8ff&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;349268f695c02efbc9b9148a70b85e58cefbbf7=
+04abd3e91be654db7f1e2c863&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;d8215b571a581be1332d2106f8036fcb03d12a7=
+0bae01e20f424976d275432bc&quot;<br>
+&gt;<br>
+&gt;=C2=A0 inherit autotools lib_package binconfig-disabled pkgconfig<br>
+&gt;<br>
+&gt; @@ -64,7 +61,6 @@ PACKAGECONFIG[jack]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &=
+quot;--enable-jack,--disable-jack,jack&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[kmsdrm]=C2=A0 =C2=A0 =C2=A0=3D &quot;--enable-vid=
+eo-kmsdrm,--disable-video-kmsdrm,libdrm virtual/libgbm&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[opengl]=C2=A0 =C2=A0 =C2=A0=3D &quot;--enable-vid=
+eo-opengl,--disable-video-opengl,virtual/libgl&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[pulseaudio] =3D &quot;--enable-pulseaudio,--disab=
+le-pulseaudio,pulseaudio&quot;<br>
+&gt; -PACKAGECONFIG[tslib]=C2=A0 =C2=A0 =C2=A0 =3D &quot;--enable-input-ts=
+lib,--disable-input-tslib,tslib&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[wayland]=C2=A0 =C2=A0 =3D &quot;--enable-video-wa=
+yland,--disable-video-wayland,wayland-native wayland wayland-protocols libx=
+kbcommon&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[x11]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;--enabl=
+e-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender=
+&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.29.2<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
+rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
+=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
+div></div>
+
+--000000000000f8343205ba6eedbb--
