@@ -1,71 +1,209 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web08.10760.1612365718503688410
+Received: from mail.iot.bzh (mail.iot.bzh [51.75.236.24])
+ by mx.groups.io with SMTP id smtpd.web08.10906.1612366126796800984
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 07:21:58 -0800
+ Wed, 03 Feb 2021 07:28:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TMyKYo/L;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id e11so160989qtg.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 07:21:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9ekUPALeg+NU8QW5C2AaJ7ARTNt9bTpXxn2JX4aZfXw=;
-        b=TMyKYo/LPw2NmtXK5rverF8VkXmv37siHbg1p1/dJ3yeOi1pokR8TFHt74oAeLeq8D
-         MTbUGIM1H47/YkaMlOkg+ACBdHDV8gKODXpW3J8YNwg+jrOLTZu3wjiFeol6aXkxQsYl
-         47/6MgwRWO3CgUBLwii6Wxcn8+enagFOo3djv5d0rdpULefVTGQnABgrTFZRumLwP+Fz
-         dl6V6468gMOsz7D++IpxQa+xAfilgVFfX7hsFuLKQkKMakOB+IHhQ0SgswZCo5C7xJG+
-         sK0fBIxh8D6wliwg8XeoBtnAobCsYuPeb5JNTicl/mAAaJbVHDA7n6K+QKAOwlfS6hff
-         Y9qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9ekUPALeg+NU8QW5C2AaJ7ARTNt9bTpXxn2JX4aZfXw=;
-        b=HV3hwh/FfC1mFCuMD9OdjzwZ9bkFzq09szuVvCE1s4vkjMp38EMM+hrWw5H2VnGCMx
-         B+JCHhRJ8OXjD6rx7mlYBsCJNtfiUR+GyRTl3tiHdmtZYvePQo/BOClseCp0kmfyC7ro
-         IFDmNnMhWFq7Pb32OGyjiz48xKEssBDDQdXDz423z8+9TmXZUVsr49E05xNX5rcy59Xq
-         6itXNCWMKemggEc+7JbqMRtaVxd4ueDHvCBJR3o8X3Xa/9QaMDsReMJ+WQ90SX+W12pM
-         b5VVu23QP7jjc85YrkXvcsknU5dFvjfGfc8i6rYqJDtoo+4yQK8Qt4GdC8wMEVqwLEs6
-         1FAw==
-X-Gm-Message-State: AOAM532jZQe4z6UKZdhcZrMNhDHTtftwfED1msMLT0pUTaU55Jw64RLP
-	Iq/2AZF9yKpfQQTnlUNUh1+ZySTLbOkn+DBeRHs=
-X-Google-Smtp-Source: ABdhPJxgYCsfT1JVbo9iGxizKFLQl45Pr2BlGKejTOgjbyXWmt+HaIVv/9q9Unx7mjdzMG8BxA0AR6eFqhVVJarBZV0=
-X-Received: by 2002:ac8:7441:: with SMTP id h1mr2927441qtr.88.1612365717569;
- Wed, 03 Feb 2021 07:21:57 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@iot.bzh header.s=20180822 header.b=edjI8FBm;
+ spf=pass (domain: iot.bzh, ip: 51.75.236.24, mailfrom: julien.massot@iot.bzh)
+Received: from 3c-8c-f8-f6-b6-1d.lorient.iot (112.6.193.77.rev.sfr.net [77.193.6.112])
+	by mail.iot.bzh (Postfix) with ESMTPSA id 3C27C40097;
+	Wed,  3 Feb 2021 16:28:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
+	t=1612366124; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:references; bh=t2w+gW1gLycxp0bIlrBQ1paU9v042QpnuQ8+//QjSQ8=;
+	b=edjI8FBm0sVtKOqmyIkT0qCaxT4e2ZLy7Cr4YiTgTkQbuGKjymZYeVRYkvwUPAeDQeo4cz
+	Wg/2lc3eHghqWmsWLmmOXmq3IGr+nps3Vi0nzFSfNZbcbLq12JralKWpMC0WSvfDCD38Sj
+	as4c/ylpLONaD0Ai7QezJoxYIE5NeMnzPn+8h+nSicuMybj3GLRgGtxFooVk/iuYiQEK0B
+	zzYHp4qvTSuz/O8U0x5PpBqMKamaW6f4ALUTCWbgrZD+ksNwJhpz2wU0B9lJci9Ked7hrf
+	YoXDxNvysBOFr3jhonu/chG4rwi2AWM5Y1reb+ZBKOH3sKRemHNkQcNoT7UWkg==
+From: "Julien Massot" <julien.massot@iot.bzh>
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Massot <julien.massot@iot.bzh>
+Subject: [dunfell][PATCH] rng-tools: fix rngd_jitter initialization
+Date: Wed,  3 Feb 2021 16:28:37 +0100
+Message-Id: <20210203152837.1474686-1-julien.massot@iot.bzh>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210201183910.145052-1-raj.khem@gmail.com> <6557c3fc0dfcfa0968186079d6db005856b745a9.camel@linuxfoundation.org>
-In-Reply-To: <6557c3fc0dfcfa0968186079d6db005856b745a9.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 3 Feb 2021 07:21:30 -0800
-Message-ID: <CAMKF1sqAKen0iJWEUHnfQu3vH6mNyTywwH3hThChBpCgHia4yg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.33
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 3, 2021 at 2:30 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-02-01 at 10:39 -0800, Khem Raj wrote:
-> > Drop backported patches
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
->
-> Patches fail to apply, e.g.:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/1911
->
-> (but basically everything failed)
+rngd daemon may spam the console when using an older version
+than 6.11.
 
-yes there is a dependency for this patch where it has to apply before
-the binutils 2.36 series.
-I can rebase and send it to apply after it
+Backport patches from https://github.com/nhorman/rng-tools/pull/99/commit=
+s
 
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Julien Massot <julien.massot@iot.bzh>
+---
+ ...-O_NONBLOCK-setting-for-entropy-pipe.patch | 26 +++++++++++++
+ ...ialize-AES-key-before-setting-the-en.patch | 38 +++++++++++++++++++
+ ...ys-read-from-entropy-pipe-before-set.patch | 38 +++++++++++++++++++
+ .../rng-tools/rng-tools_6.9.bb                |  3 ++
+ 4 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rngd_ji=
+tter-fix-O_NONBLOCK-setting-for-entropy-pipe.patch
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0002-rngd_ji=
+tter-initialize-AES-key-before-setting-the-en.patch
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0003-rngd_ji=
+tter-always-read-from-entropy-pipe-before-set.patch
+
+diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-rngd_jitter-fi=
+x-O_NONBLOCK-setting-for-entropy-pipe.patch b/meta/recipes-support/rng-to=
+ols/rng-tools/0001-rngd_jitter-fix-O_NONBLOCK-setting-for-entropy-pipe.pa=
+tch
+new file mode 100644
+index 0000000000..3b44095cf5
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/0001-rngd_jitter-fix-O_NON=
+BLOCK-setting-for-entropy-pipe.patch
+@@ -0,0 +1,26 @@
++From 6ce86cb5cf06541cd5aad70fe8494b07b22c247e Mon Sep 17 00:00:00 2001
++From: Matthias Schiffer <matthias.schiffer@tq-group.com>
++Date: Wed, 27 Jan 2021 16:10:32 +0100
++Subject: [PATCH] rngd_jitter: fix O_NONBLOCK setting for entropy pipe
++
++A pointer was passed to fcntl instead of the flags variable, setting
++random flags.
++
++Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
++---
++ rngd_jitter.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/rngd_jitter.c b/rngd_jitter.c
++index 32bac53..25b3543 100644
++--- a/rngd_jitter.c
+++++ b/rngd_jitter.c
++@@ -465,7 +465,7 @@ int init_jitter_entropy_source(struct rng *ent_src)
++=20
++ 	flags =3D fcntl(pipefds[0], F_GETFL, 0);
++ 	flags |=3D O_NONBLOCK;
++-	fcntl(pipefds[0], F_SETFL, &flags);
+++	fcntl(pipefds[0], F_SETFL, flags);
++=20
++ 	if (ent_src->rng_options[JITTER_OPT_USE_AES].int_val) {
++ #ifdef HAVE_LIBGCRYPT
+diff --git a/meta/recipes-support/rng-tools/rng-tools/0002-rngd_jitter-in=
+itialize-AES-key-before-setting-the-en.patch b/meta/recipes-support/rng-t=
+ools/rng-tools/0002-rngd_jitter-initialize-AES-key-before-setting-the-en.=
+patch
+new file mode 100644
+index 0000000000..34f8227543
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/0002-rngd_jitter-initializ=
+e-AES-key-before-setting-the-en.patch
+@@ -0,0 +1,38 @@
++From 330c2ba14510c8103b30d5021adb18f1534031a1 Mon Sep 17 00:00:00 2001
++From: Matthias Schiffer <matthias.schiffer@tq-group.com>
++Date: Wed, 27 Jan 2021 16:18:09 +0100
++Subject: [PATCH] rngd_jitter: initialize AES key before setting the entr=
+opy
++ pipe to O_NONBLOCK
++
++Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
++---
++ rngd_jitter.c | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/rngd_jitter.c b/rngd_jitter.c
++index 25b3543..48f344c 100644
++--- a/rngd_jitter.c
+++++ b/rngd_jitter.c
++@@ -463,10 +463,6 @@ int init_jitter_entropy_source(struct rng *ent_src)
++ 		pthread_mutex_unlock(&tdata[i].statemtx);
++ 	}
++=20
++-	flags =3D fcntl(pipefds[0], F_GETFL, 0);
++-	flags |=3D O_NONBLOCK;
++-	fcntl(pipefds[0], F_SETFL, flags);
++-
++ 	if (ent_src->rng_options[JITTER_OPT_USE_AES].int_val) {
++ #ifdef HAVE_LIBGCRYPT
++ 		/*
++@@ -487,6 +483,11 @@ int init_jitter_entropy_source(struct rng *ent_src)
++ 			ent_src->rng_options[JITTER_OPT_USE_AES].int_val =3D 1;
++ 		}
++ 		xread_jitter(aes_buf, tdata[0].buf_sz, ent_src);
+++
+++		flags =3D fcntl(pipefds[0], F_GETFL, 0);
+++		flags |=3D O_NONBLOCK;
+++		fcntl(pipefds[0], F_SETFL, flags);
+++
++ #else
++ 		message_entsrc(ent_src,LOG_CONS|LOG_INFO, "libgcrypt not available. D=
+isabling AES in JITTER source\n");
++ 		ent_src->rng_options[JITTER_OPT_USE_AES].int_val =3D 0;
+diff --git a/meta/recipes-support/rng-tools/rng-tools/0003-rngd_jitter-al=
+ways-read-from-entropy-pipe-before-set.patch b/meta/recipes-support/rng-t=
+ools/rng-tools/0003-rngd_jitter-always-read-from-entropy-pipe-before-set.=
+patch
+new file mode 100644
+index 0000000000..b3bc8028ea
+--- /dev/null
++++ b/meta/recipes-support/rng-tools/rng-tools/0003-rngd_jitter-always-re=
+ad-from-entropy-pipe-before-set.patch
+@@ -0,0 +1,38 @@
++From 36bc92ef2789b13183c8895d83665f48b13c2b9e Mon Sep 17 00:00:00 2001
++From: Matthias Schiffer <matthias.schiffer@tq-group.com>
++Date: Wed, 27 Jan 2021 16:22:39 +0100
++Subject: [PATCH] rngd_jitter: always read from entropy pipe before setti=
+ng
++ O_NONBLOCK
++
++Even with AES disabled, we want to make sure that jent_read_entropy() ha=
+s
++already generated some entropy before we consider the the source
++initialized. Otherwise "Entropy Generation is slow" log spam will be
++emitteded until this has happened, which can take several seconds.
++
++Signed-off-by: Matthias Schiffer <matthias.schiffer@tq-group.com>
++---
++ rngd_jitter.c | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
++
++diff --git a/rngd_jitter.c b/rngd_jitter.c
++index 48f344c..b736cdd 100644
++--- a/rngd_jitter.c
+++++ b/rngd_jitter.c
++@@ -492,6 +492,17 @@ int init_jitter_entropy_source(struct rng *ent_src)
++ 		message_entsrc(ent_src,LOG_CONS|LOG_INFO, "libgcrypt not available. D=
+isabling AES in JITTER source\n");
++ 		ent_src->rng_options[JITTER_OPT_USE_AES].int_val =3D 0;
++ #endif
+++	} else {
+++		/*
+++		 * Make sure that an entropy gathering thread has generated
+++		 * at least some entropy before setting O_NONBLOCK and finishing
+++		 * the entropy source initialization.
+++		 *
+++		 * This avoids "Entropy Generation is slow" log spamming that
+++		 * would otherwise happen until jent_read_entropy() has run
+++		 * for the first time.
+++		 */
+++		xread_jitter(&i, 1, ent_src);
++ 	}
++ 	message_entsrc(ent_src,LOG_DAEMON|LOG_INFO, "Enabling JITTER rng suppo=
+rt\n");
++ 	return 0;
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.9.bb b/meta/recip=
+es-support/rng-tools/rng-tools_6.9.bb
+index 913342c315..b8c6f022f3 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.9.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
+@@ -10,6 +10,9 @@ DEPENDS =3D "sysfsutils"
+=20
+ SRC_URI =3D "\
+     git://github.com/nhorman/rng-tools.git \
++    file://0001-rngd_jitter-fix-O_NONBLOCK-setting-for-entropy-pipe.patc=
+h \
++    file://0002-rngd_jitter-initialize-AES-key-before-setting-the-en.pat=
+ch \
++    file://0003-rngd_jitter-always-read-from-entropy-pipe-before-set.pat=
+ch \
+     file://init \
+     file://default \
+     file://rngd.service \
+--=20
+2.29.2
+
