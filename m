@@ -1,87 +1,71 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.10419.1612364599446634262
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web08.10760.1612365718503688410
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 07:03:19 -0800
+ Wed, 03 Feb 2021 07:21:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=f3eBCPCw;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
-Received: from [192.168.178.23] (unknown [83.135.221.227])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 2633820B6C41;
-	Wed,  3 Feb 2021 07:03:17 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2633820B6C41
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1612364598;
-	bh=cpOrf53IDupZIDk2DfbUPXI5OFuxOd1WMKU76cGJXNQ=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=f3eBCPCw+7ShuuiKLX9c6iXuffrcTM5oJt42aisxWM3Kb60To4TtBG/2YzTOME5uf
-	 G5+5h4xb+NsXsUOkg923Ef4VqEpPrvArtSdlbjC1kOrhK07QFDwX3YjDsZJLorj/7a
-	 QyIV8lfMDQAiSWuOz/UsEsTvTlY6QyyUqyPywc9w=
-Subject: Re: [OE-core] [dunfell][PATCH] glib-2.0: Rename patch file for CVE-2020-35457
-To: Steve Sakoman <steve@sakoman.com>, Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210203084257.26778-1-anbelski@linux.microsoft.com>
- <YBp0r/IvR1vFubjt@korppu>
- <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
-From: "Anatol Belski" <anbelski@linux.microsoft.com>
-Message-ID: <1a607f35-5b55-2e64-bceb-0e787ff3d4cc@linux.microsoft.com>
-Date: Wed, 3 Feb 2021 16:03:15 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TMyKYo/L;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id e11so160989qtg.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 07:21:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9ekUPALeg+NU8QW5C2AaJ7ARTNt9bTpXxn2JX4aZfXw=;
+        b=TMyKYo/LPw2NmtXK5rverF8VkXmv37siHbg1p1/dJ3yeOi1pokR8TFHt74oAeLeq8D
+         MTbUGIM1H47/YkaMlOkg+ACBdHDV8gKODXpW3J8YNwg+jrOLTZu3wjiFeol6aXkxQsYl
+         47/6MgwRWO3CgUBLwii6Wxcn8+enagFOo3djv5d0rdpULefVTGQnABgrTFZRumLwP+Fz
+         dl6V6468gMOsz7D++IpxQa+xAfilgVFfX7hsFuLKQkKMakOB+IHhQ0SgswZCo5C7xJG+
+         sK0fBIxh8D6wliwg8XeoBtnAobCsYuPeb5JNTicl/mAAaJbVHDA7n6K+QKAOwlfS6hff
+         Y9qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9ekUPALeg+NU8QW5C2AaJ7ARTNt9bTpXxn2JX4aZfXw=;
+        b=HV3hwh/FfC1mFCuMD9OdjzwZ9bkFzq09szuVvCE1s4vkjMp38EMM+hrWw5H2VnGCMx
+         B+JCHhRJ8OXjD6rx7mlYBsCJNtfiUR+GyRTl3tiHdmtZYvePQo/BOClseCp0kmfyC7ro
+         IFDmNnMhWFq7Pb32OGyjiz48xKEssBDDQdXDz423z8+9TmXZUVsr49E05xNX5rcy59Xq
+         6itXNCWMKemggEc+7JbqMRtaVxd4ueDHvCBJR3o8X3Xa/9QaMDsReMJ+WQ90SX+W12pM
+         b5VVu23QP7jjc85YrkXvcsknU5dFvjfGfc8i6rYqJDtoo+4yQK8Qt4GdC8wMEVqwLEs6
+         1FAw==
+X-Gm-Message-State: AOAM532jZQe4z6UKZdhcZrMNhDHTtftwfED1msMLT0pUTaU55Jw64RLP
+	Iq/2AZF9yKpfQQTnlUNUh1+ZySTLbOkn+DBeRHs=
+X-Google-Smtp-Source: ABdhPJxgYCsfT1JVbo9iGxizKFLQl45Pr2BlGKejTOgjbyXWmt+HaIVv/9q9Unx7mjdzMG8BxA0AR6eFqhVVJarBZV0=
+X-Received: by 2002:ac8:7441:: with SMTP id h1mr2927441qtr.88.1612365717569;
+ Wed, 03 Feb 2021 07:21:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdYJNWu+cPtAH_ceHuOsYVYEo8ozh0RJRRcv54-B139fOA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210201183910.145052-1-raj.khem@gmail.com> <6557c3fc0dfcfa0968186079d6db005856b745a9.camel@linuxfoundation.org>
+In-Reply-To: <6557c3fc0dfcfa0968186079d6db005856b745a9.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 3 Feb 2021 07:21:30 -0800
+Message-ID: <CAMKF1sqAKen0iJWEUHnfQu3vH6mNyTywwH3hThChBpCgHia4yg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Upgrade to 2.33
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-
-On 2/3/2021 3:38 PM, Steve Sakoman wrote:
-> On Wed, Feb 3, 2021 at 12:02 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
->> Hi,
->>
->> On Wed, Feb 03, 2021 at 08:42:57AM +0000, Anatol Belski wrote:
->>> The naming convention needs to be help so the CVE is recognized as
->>> fixed by the tooling.
->> Yocto CVE checker does detect CVE patches also from patch comments so
->> this change is not needed for that. This is sufficient:
->>
->> poky$ git grep CVE-2020-35457
->> meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch:CVE: CVE-2020-35457
-> Yes, we are detecting the CVE patch from the patch comment.
+On Wed, Feb 3, 2021 at 2:30 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> However our CVE patch guidelines do request that the patch be named
-> with the CVE as the name:
+> On Mon, 2021-02-01 at 10:39 -0800, Khem Raj wrote:
+> > Drop backported patches
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
 >
-> https://wiki.yoctoproject.org/wiki/Security
+> Patches fail to apply, e.g.:
 >
-> (in the "Patch name convention and commit message" section)
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/1911
 >
-> I'm sorry I didn't catch this when I merged this earlier.  I always
-> check the patch itself for the CVE tag, but I missed the name.  So I'm
-> happy to take this patch just to clean up the metadata and make it
-> easy to see that this is a CVE patch.
+> (but basically everything failed)
 
-Thanks for pointing this out. On my side, I also always check this one
+yes there is a dependency for this patch where it has to apply before
+the binutils 2.36 series.
+I can rebase and send it to apply after it
 
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-
-There's no explicit mention on the filename, but I guess i sure read the 
-other page, too. Perhaps the effort would be better put adding a word on 
-the wiki, that the filename is not really relevant. And otherwise, seems 
-there's nothing to fix other than my habit on seeing the filename to be 
-same as CVE :)
-
-Thanks!
-
-Anatol
-
-> Steve
 >
->> Is there some other tooling that you are referring to?
->>
->> Cheers,
->>
->> -Mikko
->> 
->>
+> Cheers,
+>
+> Richard
+>
