@@ -1,75 +1,124 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web09.6298.1612338373147743182
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info [104.130.122.29])
+ by mx.groups.io with SMTP id smtpd.web09.6422.1612339360868144354
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Feb 2021 23:46:13 -0800
+ Wed, 03 Feb 2021 00:02:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dkEecDJr;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id w1so34040221ejf.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Feb 2021 23:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C3YXl7NwmRWmPOSYCnJiTINypD2qciRHOJbcuJJ+4WE=;
-        b=dkEecDJrcHQ+S7VrPPpH3uf4wXAK2faBiEexFh3M7+g1i3NymtINZDWWcfdlZ9o2QS
-         UbNjeflM9wmhsBuIxDo48HkHmv8y9gEVPl4TzuXftElxsF0egjyhYy7TSuMVPNxYhwfe
-         10zRg5YgZzmwRw2zn0e2sKq/pec7O05pupc6kz+GoMfbyDZW4soFm6I5YJ/4pxYjBPHT
-         +3j90lR98UiWNOpMz4j7q5pJaLM5EqRRs67KL/HQs8q7LCGAcsGNzISU4YKqabAFZ1HG
-         2CvCVkeK9BfogEirkY0Fnfats7eZh6m1hNYX6IzfnWuwVb0N+WVcjCTUTMTbTd7FVAB0
-         hpag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C3YXl7NwmRWmPOSYCnJiTINypD2qciRHOJbcuJJ+4WE=;
-        b=g5dfkxo5ib/efiA9lf64YRf+nZxwy+uLguMz285GEgauU7RBcQKyNOgrPHBzUEP8FF
-         FA3A+xMQKK2K8gturRNDUFsnVuKVn7/CcML7hKNsupeAiZOrBBsnPopdal7Bi8mHmxFe
-         HcnR6OCdNr8NXsuYAMcIhIcgESZCqY+D/bAGcAn7fEnjL+RSZo940uGtx6tHo7V9Nuuh
-         VMo6FFHZWgDdNvKvpwnmZyJltC3G4hR+Ra8/GVPZKGZGVE33P8vzfc3FtvCyph30KFnB
-         ZM1OeuXZPF8Km45+Axhg1Ka9C44JPhM8wELIfztkVj6Vq/ekAV48nEuZKa4r52PH2yar
-         Olaw==
-X-Gm-Message-State: AOAM531xexUG9E5s++EeNaZwnK+Vrgjrz5phXfjd70mJrNCA+LNA2vh+
-	22YtTLu8pH6v/wpOKM3q8ytFLbPr4AI7sQ==
-X-Google-Smtp-Source: ABdhPJxdg55KHCcikoKJFmXSUHKStaoM+zq8cHq41nMHz9Z8eGkST7m7xqzo0kJD8wGvowk4hliU4Q==
-X-Received: by 2002:a17:906:7d4d:: with SMTP id l13mr1876972ejp.107.1612338371312;
-        Tue, 02 Feb 2021 23:46:11 -0800 (PST)
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from cmtcleu60844809.rd.corpintra.net ([2a02:8109:b5c0:8990:59b9:cc7c:ab26:5a37])
-        by smtp.gmail.com with ESMTPSA id x17sm452472edd.76.2021.02.02.23.46.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 23:46:10 -0800 (PST)
-From: "Changhyeok Bae" <changhyeok.bae@gmail.com>
+ dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=haHeRjXE;
+ spf=pass (domain: mg.codeaurora.org, ip: 104.130.122.29, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1612339363; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=gVGrqZe6xDGaYJYS8H6ZnixruTJGrSxjP+Jar0ePSC8=; b=haHeRjXEOFbYFzSGQ9Ms39uhO13jWXwygz+86aYXVkn8t2ptTk6xLlOwRI92+Ii6+QHU7yeI
+ SdhYeBnLx4cEEd1BHcBfbiE5Xyis001F42UisWYHx7OnLZBt2ElZNUjWox62UstwGJ3UNGqn
+ vRRRlgeOU7u3GqXRlpB2nFgm7JA=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 601a588f6a70425dcae6f45a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 03 Feb 2021 08:02:23
+ GMT
+Sender: sbanerje=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id DEDC8C433ED; Wed,  3 Feb 2021 08:02:22 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hydlnxeng07.qualcomm.com (unknown [202.46.23.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: sbanerje)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 95E70C43463;
+	Wed,  3 Feb 2021 08:02:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 95E70C43463
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sbanerje@codeaurora.org
+From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [OE-Core][PATCH] python3-importlib-metadata: Add toml dependency
-Date: Wed,  3 Feb 2021 08:48:39 +0100
-Message-Id: <20210203074839.11376-1-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: vkraleti@codeaurora.org,
+	ndeche@codeaurora.org,
+	himalg@codeaurora.org,
+	Sourabh Banerjee <sbanerje@codeaurora.org>
+Subject: [meta-oe][PATCH] populate_sdk_ext: copy files from build/conf/multiconfig to ${SDK_OUTPUT}/${SDKPATH}
+Date: Wed,  3 Feb 2021 13:31:59 +0530
+Message-Id: <1612339319-27820-1-git-send-email-sbanerje@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 
-ERROR: Do not try to fetch 'toml' for building. Please add its native
-recipe to DEPENDS.
+the multiconfig files are required at ${SDK_OUTPUT}/${SDKPATH}
+for the populate_sdk_ext to pass. Without the multiconfig files
+following command runs into error:
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+  $ bitbake -c populate_sdk_ext mc::${image} mc:${conf1}:${image}
+
+ERROR: bitbake failed:
+ERROR: ParseError at ${/path}/poky/build/${tmp}/work/${machine}/${image}
+                      /tmp-renamed-sdk/layers/poky/meta/conf/bitbake.conf:760:
+                      Could not include required file conf/multiconfig/${conf1}.conf
+
+Signed-off-by: Sourabh Banerjee <sbanerje@codeaurora.org>
 ---
- .../recipes-devtools/python/python3-importlib-metadata_3.4.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb
-index 4e2d23721c..81f24e55c2 100644
---- a/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb
-@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "fa5daa4477a7414ae34e95942e4dd07f62adf589143c875c133c1e53c4
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index e6bf27c..8d53219 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -184,11 +184,22 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
+         if os.path.exists(localconf + '.bak'):
+             os.replace(localconf + '.bak', localconf)
  
- S = "${WORKDIR}/importlib_metadata-${PV}"
++def list_all_files(path):
++    all_files = list()
++    entries = os.listdir(path)
++    for entry in entries:
++       if os.path.isdir(path+entry):
++          all_files = all_files + list_all_files(path+entry)
++       else:
++          all_files.append(entry)
++    return all_files
++
+ python copy_buildsystem () {
+     import re
+     import shutil
+     import glob
+     import oe.copy_buildsystem
++    from distutils.dir_util import copy_tree
  
--DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
-+DEPENDS += "${PYTHON_PN}-setuptools-scm-native ${PYTHON_PN}-toml-native"
- RDEPENDS_${PN} += "${PYTHON_PN}-zipp ${PYTHON_PN}-pathlib2"
- RDEPENDS_${PN}_append_class-target = " python3-misc"
- RDEPENDS_${PN}_append_class-nativesdk = " python3-misc"
+     oe_init_env_script = d.getVar('OE_INIT_ENV_SCRIPT')
+ 
+@@ -401,6 +412,15 @@ python copy_buildsystem () {
+         with open(baseoutpath + '/conf/templateconf.cfg', 'w') as f:
+             f.write('meta/conf\n')
+ 
++    # copy all contents of multiconfig directory from builddir if exists
++    if os.path.exists(builddir + '/conf/multiconfig/'):
++        try:
++            os.mkdir(baseoutpath + '/conf/multiconfig/')
++        except FileExistsError:
++            pass
++
++        copy_tree(builddir + '/conf/multiconfig/',  baseoutpath + '/conf/multiconfig/')
++
+     # Ensure any variables set from the external environment (by way of
+     # BB_ENV_EXTRAWHITE) are set in the SDK's configuration
+     extralines = []
+@@ -525,7 +545,7 @@ python copy_buildsystem () {
+     # it updated, since it gets modified during SDK installation (see
+     # sdk_ext_postinst() below) thus the checksum we take here would always
+     # be different.
+-    manifest_file_list = ['conf/*']
++    manifest_file_list = list_all_files('conf/')
+     esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
+     esdk_manifest_excludes_list = []
+     for exclude_item in esdk_manifest_excludes:
 -- 
-2.23.0
+2.7.4
 
+
+
+-- 
+Regards,
+Sourabh
