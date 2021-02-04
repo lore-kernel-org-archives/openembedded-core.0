@@ -1,186 +1,222 @@
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (NAM04-CO1-obe.outbound.protection.outlook.com [40.107.69.77])
- by mx.groups.io with SMTP id smtpd.web11.146.1612397301477539087
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.web08.187.1612397476369749378
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Feb 2021 16:08:22 -0800
+ Wed, 03 Feb 2021 16:11:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=C9nx5CQB;
- spf=pass (domain: windriver.com, ip: 40.107.69.77, mailfrom: yifan.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cHTinsE4qdje9sxCcW/N/VeJI6moibBSL2w6MYkW5XXMNjgjb+1442RJjI0YuU2Y7AcPSFgxJBt/fBMeQo0MFExjDTqjlUR4Qulzk3beDT7k5cXuPRtqjEKehZT27iD7b92gG0F50qiC+O6X6bGF/VMX6pkEXhRHFgoeifS5xXxcLAYQdyKxFJHSxjIHZs0mZaByf1Sofu82l0rUndPjmxEvEzxTHB02GlnQyM+JglklvZHfIohmirJwP+gFpZeBg8tGxIrwyo6NVVtLmB9W2wq/Xbz7GpGL2dO6CEf8WoPJZZ/Zc4DU+GsS7CyMiWEZLyfe2jshqkSVtuA3SyzeFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0rxg1XwYtycx2+eLMPAcxdUOV1jnke3lDSczzdZptA=;
- b=XHcBqa4zxohUrruz25wrObCy0lIAs5YMBGDN05B5Nhp1fTi++zg6aiuERz+gCuzXsfcU39NPxIOP3prWQ80JG1ZKp45M6nsHyzzX/ePeXlvP4ciYxUSMubEiTO5q0uKjkjDJtc6XOG+xTRhkMHB5KLnBZgD4IWoL0/GuU0XgXnnc30kHGenU+axY8naL/Tu5HIuwj2Poj3hVuExb6AnZqe+emTXyW2e/snfEa0tigS2APIO369xH6MMWck3VOhnS7YxE2kAUkA/6eAzqB8RsmZFIaVI0jRy7xdlYkiLtQ7HAiOZJKSmWn1aCzI8EtY1lubItMmecGsTyR0rcoIehEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=WPheE2G+;
+ spf=pass (domain: blade-group.com, ip: 209.85.217.51, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-vs1-f51.google.com with SMTP id x201so886754vsc.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Feb 2021 16:11:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0rxg1XwYtycx2+eLMPAcxdUOV1jnke3lDSczzdZptA=;
- b=C9nx5CQBwXueSA0k3GngB0Hu50uEhGpob9HvG6RhLhVzldpaROm8dmOk1sKSmEHSJoqdRXEvo5PvGJ8DdBtVOcsh68Ecwvbn/vME1XA6/b1vczU2dLWSNvm8DXg+JSbSf8oJKo0auaU4Dd+RaQV8+wDT5seSgzgXVY/yRNr16dk=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
- by SA2PR11MB5193.namprd11.prod.outlook.com (2603:10b6:806:fa::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Thu, 4 Feb
- 2021 00:08:19 +0000
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3]) by SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3%7]) with mapi id 15.20.3805.027; Thu, 4 Feb 2021
- 00:08:19 +0000
-From: "Yi Fan Yu" <yifan.yu@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] glib-2.0: add workaround to fix codegen.py.test failing
-Date: Wed,  3 Feb 2021 19:08:07 -0500
-Message-ID: <20210204000807.37397-1-yifan.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <66062128267E148.9318@lists.openembedded.org>
-References: <66062128267E148.9318@lists.openembedded.org>
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YTBPR01CA0032.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::45) To SA0PR11MB4719.namprd11.prod.outlook.com
- (2603:10b6:806:95::17)
-Return-Path: yifan.yu@windriver.com
+        d=blade-group.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xl+bE3b/DBLyG+MuHcQtzh9GgC6xJqRuZfaN8/HRn/o=;
+        b=WPheE2G+Zl1UKV+bFgz9kfBbuqJ+93RfbG6UhHHFYOQDxOGUfkVH1rNyT+N3RDuieF
+         TwoVD3rvlmsXb44Kb3swep4OBSIOp3visgmSfTnofDIaoT+wIGq0qvBhTb3XtXR+DDhQ
+         pnE5ByDzsW8vJwkBj5F5g9kGlpwe2RccpujV8/hGT+BtjbedhjQX1Tx8kpclaY8Oo/3W
+         EeOI1ozTmhMFcTgnCExxzI/+TywqWTAKRMg7l2jElV5xuStC/M19GdH1QxMPdNyeei36
+         /dxDwa5NBlN7Ac8g+ResJLRGq751d0vPnsITwPFMYo/gtWITDsYk83c36G2OIupkg5DA
+         fmaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xl+bE3b/DBLyG+MuHcQtzh9GgC6xJqRuZfaN8/HRn/o=;
+        b=oHQ0YyNgEiiZhvD+VEuVsS8twNXyy2kZAasZRm/X0451n9/1MtxSEksXC9zlFQ5/Nd
+         D6SJmdprTTv6Q8mdTzUW3IHndkXbwnkgy0VVGtvZztqFPmQOGx74rDTfh5Kjy1DAFxs3
+         EZxAHHkUw1abPEd3UbZ2CIakdQIFFzoYm07po2BUp/hvSUjUHE8vdQD9SQUkAW0SYkQZ
+         2tsnAQOC8HKlU8ADpslrsSIKcmM/SuAWTJikwYxc31dltAPDVMl2ps50kfMFSHeOepcs
+         4ISeHM50/6fCSw1+BMR4ZLojS//lLyF+OipnIDiv+J7WUwlqP5Sd0ezwJEhoHWF+w1Xg
+         MneQ==
+X-Gm-Message-State: AOAM530ShAYzqDdeD+Nnr87GiTmLWudHyLGmfe0Ivc4UA/Tubl/FDopQ
+	z65Ed0rlS3jR0SYEygqHYfJ8KglCFBEiNhAi9RABcQ==
+X-Google-Smtp-Source: ABdhPJz6wnSyO7nUjz1aBCkwbzalk0TRBTNuzhQA4dcO2OPyLsa9eQvE/G5LfUxiJvkpgbQjGsAxAkJkM8CNMo23RjY=
+X-Received: by 2002:a05:6102:7b1:: with SMTP id x17mr3525418vsg.41.1612397475496;
+ Wed, 03 Feb 2021 16:11:15 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YTBPR01CA0032.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend Transport; Thu, 4 Feb 2021 00:08:19 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38da9fb1-cbc3-4de5-d858-08d8c8a0fa6e
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5193:
-X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB5193000C835C56547ACE86AC80B39@SA2PR11MB5193.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	j4TUOEdXrvcpD5RVx8yL4OhuZqHU+tvlcZo+rYAGD7KkqS9RGwVaDbgWdpNYjmlWvSp5Fnw+JnThmBtNMl1GqMrLjabvgWLhrXGBs1puE33X4cvCAp9jEuw2khF6PdhxuwcExiszcBEtMj/gx2ezuWWGVke47PEQ63mk5QvqqjZh7C+7NWXzt1WJdELD0EzU+1nhA9HodSvc08vbOIA5cjrXaKCTxI4tDv0ugDlZxa/0NhmglaMfNQgN8i5pIdjF9ChcjMwTM/MSG+5QhSrxoCHo+tleg1JdvlZv4YV1xFvvK+n3MhXHUV+0zGcHPdqKGI5R0YyDzg5H8tD58Qkgl6+5dGOu5iHHepS1Ih3f8/NM9yjVSaDi6Dequfr7BpbXzADHNQu4nzy1FzvCD+uaeVdKhnmUuEipxoaiWEZl+GdrB+m7Tj4m4tjiWjlji1MCS4k9EI+sdqA80HD71CXn4zpRzIdvZEQSSXTMSKGVFnRpVrW21j59Terl9E1e3GJzfqfyk/AwIRf9vORxQDoMIw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(136003)(346002)(376002)(366004)(396003)(5660300002)(478600001)(66946007)(66556008)(66476007)(1076003)(8936002)(6916009)(6506007)(6486002)(6512007)(956004)(6666004)(8676002)(2616005)(2906002)(36756003)(86362001)(26005)(316002)(83380400001)(186003)(16526019)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?4vEUiU7oy17G4YgEvuhNYSEJq2PrUQ0eW+TrLDa/jcrDjfL6YoXNz9C+u2Z7?=
- =?us-ascii?Q?fPI0uCY1vAKTBPZM9Oo0LRLArI8QAtHjp+De6CiL2pfO0qlsdSV9NxTIqYUs?=
- =?us-ascii?Q?PYcx+gWvpmd2ZpEA2V9pg4ZGm4C8R96t6D6Ujvzz6tMcMQ0pCut90xGqF9lc?=
- =?us-ascii?Q?uJXhFGX0kl2MnGy9ovo7PsWXvqgnKVeaopK1cxdWEcWjM5NG8PMcRoi8sxHH?=
- =?us-ascii?Q?5MkoWTbH8svD/bCi6ViYiGwJDB+eL9TXZfBv2xpzm849F/Ybk3WRyF+tlhw6?=
- =?us-ascii?Q?XoiPsc5GRj3fzFJJtSpDKCvK5Vy4SBpSPsRwmU8JIkb6NfAXOSehSbJBji4D?=
- =?us-ascii?Q?mGy90J2vlzPhwRJnOyClHxhDuPBCO6iQgPnSWf+1S+9B6iJEjJlBmUD5EtyU?=
- =?us-ascii?Q?EuB1ZKn+iw6TdiopoJucEaxsDJGTN3dMpL32zUekMH2GL8r4iQ2rPNmUbUTA?=
- =?us-ascii?Q?OSiWOSYYdAyR1FHZ3aeLLKacNpd0Jw0SdjpOkFsTmlT4uucqrgSV/bLL5Is0?=
- =?us-ascii?Q?0OlY8aPOmlB4C9UHdt80yajHyKe4nlKC1in1qtKItwX2L6nA+DaXDnIIw4SF?=
- =?us-ascii?Q?wQaP2gvtKioxmWLJQaNa1PwoJcpRNNrXQ0jiPZYsjGIb9DNOfr88efrU85KG?=
- =?us-ascii?Q?rL8DQNgheGGy26pRs7YyRqVi/x/c28DnVyihR+qjkbwGoGAk4AruekDsqubj?=
- =?us-ascii?Q?O0XkKo659Y2ZW2OGymoI/uB1vltQoF2fovsdm38bhULhkpPvgmy0ig2pUaJX?=
- =?us-ascii?Q?yjGEwyw2ctxTE8dOIlpFC1peck4Vl48zvTev9SO5G1ewQc1Xq+taqfF4aN2a?=
- =?us-ascii?Q?ZfbEgU4v038oe+VmLDnPkAfxsf3Dbqx89gzGLnbYGCGcSWDbX/fFv3NQqLLf?=
- =?us-ascii?Q?/Q5/C5LuXmcO/YZaIqTenqKSelpWw77H9NtaDyhTiiR/mGfpUgH+RgAp0hIM?=
- =?us-ascii?Q?P6dFcBTwl9WB4rLFR8gjW5DjD5hcnN4Fl7D5nYmoxd/yHnUeuly7Kv2cfIRc?=
- =?us-ascii?Q?+g/9i3L3M7PIEp5MNNkuOkJ6BTtXQd//pwOrydHJDt8xzt2L9R9IlcQNPGzt?=
- =?us-ascii?Q?sY25a62iIjHcMB7uWRBLwPGpiS5zvP2FimS1iwXbOmYkpOOAUjwGt2lUn7Az?=
- =?us-ascii?Q?G/cPu52caEZxCJfY6x4NAdOYlOmh5SQ63AdtB/1QbYOUvautgKkS3JYhpa39?=
- =?us-ascii?Q?9weuszO05CJq8Im4vPgAu1DzwBdY3lnH1AEM13/EVWEGOONYeNDjlgIilX2T?=
- =?us-ascii?Q?8LMA3It9+dawFsQHAfvjFZX1/wWhTKBDuisZXvnMb1YmYLngTVNs6lygzMcp?=
- =?us-ascii?Q?1P38wmmD6rDzNfEBGoLOQarr?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38da9fb1-cbc3-4de5-d858-08d8c8a0fa6e
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 00:08:19.6249
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LkM7DDhRv9vJoMsvY/etsi/TlNxggvrsM0LWEinf+C4pzXRA++o/6TtljjYz9+AvrPPRW5TOQGCJYDFUrwDR3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5193
+References: <20210201102300.3789714-1-yann@blade-group.com> <CAHtQpK6c8cHp5qn6wjC5jyha5i2Q57KuVy6EVVyXuRJcLg9b9g@mail.gmail.com>
+In-Reply-To: <CAHtQpK6c8cHp5qn6wjC5jyha5i2Q57KuVy6EVVyXuRJcLg9b9g@mail.gmail.com>
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+Date: Thu, 4 Feb 2021 01:11:04 +0100
+Message-ID: <CA+4=imaUEgCL4reQ3xAh=vYUK6wfOspb0ti5k6Onw2WDTZxQTA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libsdl2: upgrade to 2.0.14
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	Yann Dirson <yann@blade-group.com>, =?UTF-8?Q?Romain_Roff=C3=A9?= <romain.roffe@blade-group.com>
+Content-Type: multipart/alternative; boundary="000000000000c39e4005ba778a1f"
+
+--000000000000c39e4005ba778a1f
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-Adding a patch to remove an unecessary print statement
-in test-codegen.py that cause the ptest-runner to fail.
+Le mer. 3 f=C3=A9vr. 2021 =C3=A0 21:56, Andrey Zhizhikin <andrey.z@gmail.co=
+m> a
+=C3=A9crit :
 
-Root cause is suspected to be in ptest-runner.
+> Hello Yann,
+>
+> > index 5fa99821c4..872592fdae 100644
+> > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+> > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+> > @@ -18,14 +18,11 @@ PROVIDES =3D "virtual/libsdl2"
+> >
+> >  SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+> >             file://more-gen-depends.patch \
+> > -           file://directfb-spurious-curly-brace-missing-e.patch \
+> > -           file://directfb-renderfillrect-fix.patch \
+>
+> I believe the patch ac_check_define.patch can also be dropped, as it
+> was applied upstream and is included in 2.0.14, see
+> http://hg.libsdl.org/SDL/rev/2c13b7ca1997
+>
 
-[YOCTO #14170]
+hm, not sure what patch you're talking about, I don't see any by that name=
+.
 
-Uptream-Status: Inappropriate [other]
-this is a workaround.
 
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
----
- ...-removing-unecessary-print-statement.patch | 38 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.=
-py-removing-unecessary-print-statement.patch
+> >  "
+> >
+> >  S =3D "${WORKDIR}/SDL2-${PV}"
+> >
+> > -SRC_URI[md5sum] =3D "783b6f2df8ff02b19bb5ce492b99c8ff"
+>
+> Wonder why md5sum was just dropped and rather not updated?
+>
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.py-remo=
-ving-unecessary-print-statement.patch b/meta/recipes-core/glib-2.0/glib-2.0=
-/0001-tests-codegen.py-removing-unecessary-print-statement.patch
-new file mode 100644
-index 0000000000..40427e0e67
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-codegen.py-removing-un=
-ecessary-print-statement.patch
-@@ -0,0 +1,38 @@
-+From 6178df5658045a6253ef806e018fe80d99a8f5fb Mon Sep 17 00:00:00 2001
-+From: Yi Fan Yu <yifan.yu@windriver.com>
-+Date: Mon, 1 Feb 2021 16:10:28 -0500
-+Subject: [PATCH] tests/codegen.py: removing unecessary print statement
-+
-+A huge amount of output(boiler-plate code) is
-+printed to the console screen.
-+This is not critical to the test results.
-+
-+This causes intermittent test failure when another process
-+has to parse its output.
-+
-+Root cause is in ptest-runner, This is a workaround
-+
-+Uptream-Status: Inappropriate [other]
-+
-+
-+
-+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
-+---
-+ gio/tests/codegen.py | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/gio/tests/codegen.py b/gio/tests/codegen.py
-+index 51de0ede4..cfa4db42e 100644
-+--- a/gio/tests/codegen.py
-++++ b/gio/tests/codegen.py
-+@@ -250,7 +250,6 @@ class TestCodegen(unittest.TestCase):
-+=20
-+         result =3D Result(info, out, err, subs)
-+=20
-+-        print('Output:', result.out)
-+         return result
-+=20
-+     def runCodegenWithInterface(self, interface_contents, *args):
-+--=20
-+2.29.2
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb b/meta/recipes-c=
-ore/glib-2.0/glib-2.0_2.66.4.bb
-index 70e8aa8785..5e1c0f2d33 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
-@@ -17,6 +17,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.=
-tar.xz \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only=
--.patch \
-            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.pa=
-tch \
-+           file://0001-tests-codegen.py-removing-unecessary-print-statemen=
-t.patch \
-            "
-=20
- SRC_URI_append_class-native =3D " file://relocate-modules.patch"
+It's an obsolete algorithm. AUH itself removes this in its patches.
+
+
+> > -SRC_URI[sha256sum] =3D
+> "349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863"
+> > +SRC_URI[sha256sum] =3D
+> "d8215b571a581be1332d2106f8036fcb03d12a70bae01e20f424976d275432bc"
+> >
+> >  inherit autotools lib_package binconfig-disabled pkgconfig
+> >
+> > @@ -64,7 +61,6 @@ PACKAGECONFIG[jack]       =3D
+> "--enable-jack,--disable-jack,jack"
+> >  PACKAGECONFIG[kmsdrm]     =3D
+> "--enable-video-kmsdrm,--disable-video-kmsdrm,libdrm virtual/libgbm"
+> >  PACKAGECONFIG[opengl]     =3D
+> "--enable-video-opengl,--disable-video-opengl,virtual/libgl"
+> >  PACKAGECONFIG[pulseaudio] =3D
+> "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
+> > -PACKAGECONFIG[tslib]      =3D
+> "--enable-input-tslib,--disable-input-tslib,tslib"
+> >  PACKAGECONFIG[wayland]    =3D
+> "--enable-video-wayland,--disable-video-wayland,wayland-native wayland
+> wayland-protocols libxkbcommon"
+> >  PACKAGECONFIG[x11]        =3D
+> "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr
+> libxrender"
+> >
+> > --
+> > 2.29.2
+> >
+> >
+> >=20
+> >
+>
+>
+> --
+> Regards,
+> Andrey.
+>
+
+
 --=20
-2.29.2
+Yann Dirson <yann@blade-group.com>
+Blade / Shadow -- http://shadow.tech
 
+--000000000000c39e4005ba778a1f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 3 f=C3=A9vr. 2021 =C3=A0=
+=
+=C2=A021:56, Andrey Zhizhikin &lt;<a href=3D"mailto:andrey.z@gmail.com">an=
+drey.z@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">Hello Yann,<br>
+<br>&gt; index 5fa99821c4..872592fdae 100644<br>
+&gt; --- a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.12.=
+bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.12.bb</a><br>
+&gt; +++ b/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.14.=
+bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.14.bb</a><br>
+&gt; @@ -18,14 +18,11 @@ PROVIDES =3D &quot;virtual/libsdl2&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://www.libsdl.org/release/SDL2=
+-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://www.libsdl.o=
+rg/release/SDL2-${PV}.tar.gz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://more-gen-depend=
+s.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://directfb-spurious-cu=
+rly-brace-missing-e.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://directfb-renderfillr=
+ect-fix.patch \<br>
+<br>
+I believe the patch ac_check_define.patch can also be dropped, as it<br>
+was applied upstream and is included in 2.0.14, see<br>
+<a href=3D"http://hg.libsdl.org/SDL/rev/2c13b7ca1997" rel=3D"noreferrer" t=
+arget=3D"_blank">http://hg.libsdl.org/SDL/rev/2c13b7ca1997</a><br></blockqu=
+ote><div><br></div><div>hm, not sure what patch you&#39;re talking about, I=
+ don&#39;t see any by that name.</div><div><br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 &quot;<br>
+&gt;<br>
+&gt;=C2=A0 S =3D &quot;${WORKDIR}/SDL2-${PV}&quot;<br>
+&gt;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;783b6f2df8ff02b19bb5ce492b99c8ff&quot;<br>
+<br>
+Wonder why md5sum was just dropped and rather not updated?<br></blockquote=
+><div><br></div><div>It&#39;s an obsolete algorithm. AUH itself removes thi=
+s in its patches.<br></div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;349268f695c02efbc9b9148a70b85e58cefbbf7=
+04abd3e91be654db7f1e2c863&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;d8215b571a581be1332d2106f8036fcb03d12a7=
+0bae01e20f424976d275432bc&quot;<br>
+&gt;<br>
+&gt;=C2=A0 inherit autotools lib_package binconfig-disabled pkgconfig<br>
+&gt;<br>
+&gt; @@ -64,7 +61,6 @@ PACKAGECONFIG[jack]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &=
+quot;--enable-jack,--disable-jack,jack&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[kmsdrm]=C2=A0 =C2=A0 =C2=A0=3D &quot;--enable-vid=
+eo-kmsdrm,--disable-video-kmsdrm,libdrm virtual/libgbm&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[opengl]=C2=A0 =C2=A0 =C2=A0=3D &quot;--enable-vid=
+eo-opengl,--disable-video-opengl,virtual/libgl&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[pulseaudio] =3D &quot;--enable-pulseaudio,--disab=
+le-pulseaudio,pulseaudio&quot;<br>
+&gt; -PACKAGECONFIG[tslib]=C2=A0 =C2=A0 =C2=A0 =3D &quot;--enable-input-ts=
+lib,--disable-input-tslib,tslib&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[wayland]=C2=A0 =C2=A0 =3D &quot;--enable-video-wa=
+yland,--disable-video-wayland,wayland-native wayland wayland-protocols libx=
+kbcommon&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[x11]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;--enabl=
+e-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender=
+&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.29.2<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+<br>
+-- <br>
+Regards,<br>
+Andrey.<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
+rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
+=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
+div></div>
+
+--000000000000c39e4005ba778a1f--
