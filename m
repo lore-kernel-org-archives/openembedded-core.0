@@ -1,100 +1,131 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.8261.1612447413503399959
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web11.8672.1612448889667881142
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Feb 2021 06:03:33 -0800
+ Thu, 04 Feb 2021 06:28:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XQB/AgS3;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id y8so4227911ede.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Feb 2021 06:03:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PfE64Tkw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id h192so3896039oib.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Feb 2021 06:28:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jsYFHM/OXhmaODDnGNVYJO+PPMEgeEW3tLNC2JKOz3Y=;
-        b=XQB/AgS39xH7iUJxh6ETZQFYzWPYDr9PZpFHf0OcjDLyN6GKIjy2F2WOwEMYzne6Vv
-         XtQGPGNDGVPwlXMZcprBM6zMUtEnfMKVeZNzP+keXG5S/LMpqalDxzR3fpolmwdGC5y7
-         QrIngheIyyF9i6ZNV3C+Y3NFa12o92zRibh/enaccli9JMVP24IM4CCQMTcCYIIHrzTZ
-         IWkCcH7FxUyWxuj0TyHJ0x1b72qGv9fOS83/K4aVSdiRwZBpIsvH3e3az4L3j4ZVo2/A
-         qNTzjnLG7LVbe3ejPljCLvcfJ701QpDgwifitFMUFRBudNrckCBRhiApgzZamZRQFkMk
-         AK6A==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xlFin5nQoc52EcTRKtnB/tbGZOkGYk9R6xZmRbiJNdU=;
+        b=PfE64Tkwj/vkGl7U+HD8CrqmIeBgnM0N0IPw0LzJNutj344hlgj5iFkg6iav8MU3Uw
+         igrUKUaC3t9Mz/XsNSed768i03f9v77r5p4h0PdMxEjzBCWm1w0MN9xq5BHeOwIN0c6F
+         a2CexHm5sOOaRYw0NNzrAiEarCeVZMcjRIxQVhi/+6TrwC2KUTN1HTkdFj9I14iP3xXx
+         1RwcN9KoCtJPzBPCDss/JP3TZxnNpXAMuyQTlvsnjdq42eH/NFxC2Y6FASbV8yr2n/dL
+         ixYWrL+v2eHlycTrY5PS5DLrJeWTmvA9F14PoDV1i1mvb2iy1P3vkiNjbfO1gsSeqZe3
+         9mTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jsYFHM/OXhmaODDnGNVYJO+PPMEgeEW3tLNC2JKOz3Y=;
-        b=EJeXTDNxKm4i0IXUCh2e1uF+Sx2J3tgpNIfj22lOzO6rBJNtufvEm1k43E3vZc+/oc
-         PQj1jijDp4D9h9aUOc+ziECvI4ys1S6a3A9PEsmcAVe2atH/5WLhI9O9nTrzuNUv29mA
-         v7qseM9UMEYMLvD+unq8xiTVsWuJhNSfoGgxH8RXlQsuoZY26jdxLS19l4pFbKsYCBJC
-         aH8pRELOQ6SbZ5lhZGDr/aA+NmI55HF0pPUkEpvgqe938ss5S6haLv/ccjCIbTQGW0Rt
-         zMMbd9x/8t+R/02FCiZNI4r9Ay3Vyhbzf8YLJwyjRSbhA/D24NTVP7CgqqqToHpoNXO3
-         QkQg==
-X-Gm-Message-State: AOAM5336ZOPVBif4XtVuR0sOuZsWpTpxYdoUdj0G7d07JAgZKq8+ov7q
-	iFFjKYLuJ1l/7wzXTP6D7rpBSaAPdpe+2usxUwY=
-X-Google-Smtp-Source: ABdhPJy8Pp4x3JPxq1ZtwXfSYzyYW6s5ZKPjs6XqlekVMTmfdxMmh8VrCIV4c7NvUTj5az+fYHJmKPVpK6uDrQjPRHQ=
-X-Received: by 2002:a05:6402:26c9:: with SMTP id x9mr8111170edd.365.1612447411802;
- Thu, 04 Feb 2021 06:03:31 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xlFin5nQoc52EcTRKtnB/tbGZOkGYk9R6xZmRbiJNdU=;
+        b=n/ZP+fd/RIfFOnTDYcvM8ixYfk15R9x1Pu0/sGJBVurohUPuDMIdpXh+zNnW7lI47M
+         DeVMJmPC9IDgRGEpvAiJjQhWUt5YBZGhBFzD7N6VsxYLuGzxIEa0OgRkJoF3fBJK+IkN
+         F7/DvYWFZjiRuaPC1lFgKGaOxqgZwGUwLVsSpK4YD5A8+uWMXaXMkgajvQ9EuyPPO/DM
+         l83VgxDsvE1+athN4rV6FaMXLsbgOPmc9DqECWdzhiuBaAHEEfbciOIfihEDud3X6suM
+         tUWsBagHSV62Lh5FCkCOzLBn7gk4U5kxIDMpd0cAQg4a6dq5KHY0Bf57IWj9QYC+n+Rr
+         NfvA==
+X-Gm-Message-State: AOAM531FHXh37I8CKTo24QwhKIdxnKgEPx3d7BpVRhvTD0jDL1nfefkI
+	y1qEY9ZEj7VDQcl0sKa29NcfJaq8mN5FhHG78N4=
+X-Google-Smtp-Source: ABdhPJy4rCK+94uMmfTzbZWIz+8UmIoNzWQ3hHgWq/jGSL+WwTmBLl/ot4488I38/qOSmtF8rTMOig==
+X-Received: by 2002:aca:e184:: with SMTP id y126mr5388395oig.75.1612448888387;
+        Thu, 04 Feb 2021 06:28:08 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id w11sm1124715otg.58.2021.02.04.06.28.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Feb 2021 06:28:07 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/21] Pull request (cover letter only)
+Date: Thu,  4 Feb 2021 04:27:47 -1000
+Message-Id: <cover.1612448561.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
-In-Reply-To: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 4 Feb 2021 09:03:20 -0500
-Message-ID: <CADkTA4NU2ykdZ7QNmsR0oZE8JaYXonyQ0acghSfs7V6+A3T9kw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 4, 2021 at 7:10 AM Tomasz Dziendzielski
-<tomasz.dziendzielski@gmail.com> wrote:
->
-> If image recipe depends on another image recipe it will try to use
-> license recipeinfo that is not deployed. It will result in:
-> | Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> | 'TMPDIR/deploy/licenses/foo-image/recipeinfo'
->
-> We can't determine in a simple and efficient way if dependency recipe
-> inherits image.bbclass, so let's introduce SKIP_LICENSE_MANIFEST_RECIPES
-> variable that will contain list of recipes that should be skipped.
->
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> ---
->  meta/classes/license_image.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-> index 8fd88cfb2d..e2f3178306 100644
-> --- a/meta/classes/license_image.bbclass
-> +++ b/meta/classes/license_image.bbclass
-> @@ -223,7 +223,8 @@ def get_deployed_dependencies(d):
->      pn = d.getVar("PN", True)
->      depends = list(set([dep[0] for dep
->                      in list(taskdata.values())
-> -                    if not dep[0].endswith("-native") and not dep[0] == pn]))
-> +                    if not dep[0].endswith("-native") and not dep[0] == pn
-> +                    and dep[0] not in (d.getVar("SKIP_LICENSE_MANIFEST_RECIPES", True) or "").split()]))
+The following changes since commit 1988d07b65ad38bdf8fac8615f11fb6536a75806:
 
-I didn't see anything on the docs mailing list, but we should also
-have a matching update to the docs for the new variable (unless it is
-already in the docs, I didn't check for that).
+  wic: Optimise fstab modification for ext2/3/4 and msdos partitions (2021-01-28 04:41:47 -1000)
 
-Cheers,
+are available in the Git repository at:
 
-Bruce
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
+Alexander Kanavin (1):
+  oeqa/ptest: print a warning if ptests failed
 
->
->      # To verify what was deployed it checks the rootfs dependencies against
->      # the SSTATE_MANIFESTS for "deploy" task.
-> --
-> 2.30.0
->
->
-> 
->
+Dorinda (2):
+  sanity: Verify that user isn't building in PSEUDO_IGNORE_PATHS
+  sanity.bbclass: sanity check for if bitbake is present in PATH
 
+Oleksiy Obitotskyy (2):
+  flex: Fix --noline option behavior
+  dtc: improve reproducibility
 
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Oleksiy Obitotskyy yIEf0zt.mo (1):
+  toolchain-shar-relocate.sh: Fix handling files with colons
+
+Ovidiu Panait (1):
+  timezone: upgrade to 2021a
+
+Richard Purdie (3):
+  ncurses: Don't put terminfo into the sysroot
+  python3: Avoid installing test data into recipe-sysroot
+  staging: Clean up files installed into the sysroot
+
+Ross Burton (3):
+  flex: fix build with autoconf 2.70
+  core-image-sato-sdk-ptest: these images need ptest
+  ovmf-shell-image: image is only buildable on x86-64
+
+Tomasz Dziendzielski (5):
+  devtool: Fix source extraction for gcc shared source
+  externalsrc: Fix parsing error with devtool non-git sources
+  devtool: Fix file:// fetcher symlink directory structure
+  selftest/devtool: Add modify_localfiles_only test checking symlink
+    path
+  externalsrc: Detect code changes in submodules
+
+Yi Fan Yu (2):
+  oeqa/selftest/cases/tinfoil.py: increase timeout 10->60s
+    test_wait_event
+  strace: increase ptest timeout duration 120->240s
+
+zangrc (1):
+  flex: Refresh patch
+
+ meta/classes/externalsrc.bbclass              | 16 ++++-
+ meta/classes/sanity.bbclass                   | 12 ++++
+ meta/classes/staging.bbclass                  |  4 ++
+ meta/files/toolchain-shar-relocate.sh         |  2 +-
+ meta/lib/oeqa/runtime/cases/ptest.py          |  1 +
+ meta/lib/oeqa/selftest/cases/devtool.py       | 37 ++++++++++
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  6 +-
+ meta/recipes-core/ncurses/ncurses.inc         |  5 ++
+ meta/recipes-core/ovmf/ovmf-shell-image.bb    |  1 +
+ ...directives-if-gen_line_dirs-is-false.patch | 32 +++++++++
+ .../flex/flex/check-funcs.patch               | 67 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  2 +
+ meta/recipes-devtools/python/python3_3.8.2.bb |  6 ++
+ meta/recipes-devtools/strace/strace/run-ptest |  2 +-
+ meta/recipes-extended/timezone/timezone.inc   |  6 +-
+ meta/recipes-kernel/dtc/dtc.inc               |  2 +
+ ...-Makefile-to-add-CFLAGS-not-override.patch | 36 ++++++++++
+ .../images/core-image-sato-ptest-fast.bb      |  3 +
+ .../images/core-image-sato-sdk-ptest.bb       |  3 +
+ scripts/lib/devtool/standard.py               | 36 ++++++++--
+ 20 files changed, 266 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/check-funcs.patch
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
+
+-- 
+2.25.1
+
