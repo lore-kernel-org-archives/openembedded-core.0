@@ -1,122 +1,84 @@
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web09.7966.1612446480306783538
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web11.8223.1612447317223649744
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Feb 2021 05:48:02 -0800
+ Thu, 04 Feb 2021 06:01:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=ksDo0h5a;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=6625637df=michael.ho@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XFnIwTRO;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id y19so3300693iov.2;
+        Thu, 04 Feb 2021 06:01:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1612446480; x=1643982480;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=fxBTJlNzMqWOgWryCC9dMSU4xXppm1Tw0dxKfg/YFQ4=;
-  b=ksDo0h5aoeW0Efxbp9eE6czFasbu69FP/BtNPkhRSa7X2d0KLlXYqO0b
-   MK0Re5+G+IVAIVi8V0yfqHsQ5TzLuy/kR75MKCK9DkDBi5uwT6QgZa9/O
-   /ADyewZYkmaQO2mDQbrRms+VzAS+vVYoTfpnvylWxDLk5CMLlZjpmJSwi
-   s=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 04 Feb 2021 14:47:56 +0100
-Received: from esabb4.muc ([160.50.100.33])  by esagw6.muc with ESMTP/TLS;
- 04 Feb 2021 14:47:23 +0100
-Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
- by esabb4.muc with ESMTP/TLS; 04 Feb 2021 14:47:23 +0100
-Received: from smucm09k.europe.bmw.corp (160.48.96.43) by smucm09k.europe.bmw.corp
- (160.48.96.43) with Microsoft SMTP Server (TLS;
- Thu, 4 Feb 2021 14:47:22 +0100
-Received: from smucm09k.europe.bmw.corp ([160.48.96.43]) by
- smucm09k.europe.bmw.corp ([160.48.96.43]) with mapi id 15.00.1497.010; Thu, 4
- Feb 2021 14:47:22 +0100
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <bounce+67612+147659+4454854+8786752@lists.openembedded.org>,
-	<tomasz.dziendzielski@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
-Thread-Topic: [OE-core] [PATCH] license_image: Introduce
- SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license
- recipeinfo file from image recipes
-Thread-Index: AQHW+u7O4DCEUh72tkmAOHx4mHk5L6pIAeoAgAAAvgA=
-Date: Thu, 4 Feb 2021 13:47:22 +0000
-Message-ID: <7FACD4B0-6B67-4213-AEC3-5C3AE446B034@bmw.de>
-References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
- <16608F6140EB97FE.10090@lists.openembedded.org>
-In-Reply-To: <16608F6140EB97FE.10090@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5rl7c8Z6QgwE2/gYpDA6WH/KCLBdifKos5q9pLZux2Y=;
+        b=XFnIwTROx6wOTIIKEg6wYBg2oK85N81mHDChePaM7lFfWEnXhwfcCSmaLJ+u/gdXS7
+         Pfo6v8b2zK/khP/gKwu6IKBeMO+esgSC/BUC4DauNh9g/+b1EzXRhtVXYifExlmVJ5zy
+         f4vBZBZbKonkLduaxxXOB01+KeJsO1r41+/sJh3eJwdB6wx1LGTGrPLvL+S3sUDOI8+z
+         uVk2J4cgWqdQqbWWEK5i4KsBkUyxXpLKBqqqMgkyFRKosCJBQSibiS9MPIdeqvQKqCit
+         yGn9HU6UVoWl5bYuPsTd+a8iBf5j1IP/FfKeO7wu4R+rVQQYOEdQSu1ZVTQQWFl5KdCh
+         7jzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5rl7c8Z6QgwE2/gYpDA6WH/KCLBdifKos5q9pLZux2Y=;
+        b=st2F/tKq1lCv8H3+gVBLMCSqJUIWSLtDiqFxqIJQQ01NQBrk7N/RR3HynF5r7pY+XV
+         8VGZrxFc/Jh6xWsx+b31BmZO43bsfEITYix80/pYvNd9CDiOXmX1glNIMHLUUEaKeOsv
+         GvMZjFDrDoubVYXo4YxRRLpLjrnQjaaFOGF3rfI2C77BD8b+5ie26cxLjMAcO1ueIl3q
+         dW59HB2RKyNRf4hUNJw+2d+agC8kBtI4Ds/qLOYdTph7/aZ3G253R7KoxkCZFSGGW8Jw
+         Qwn1g3ZJ/2d9mlWw0flOwSsQ2kzO9IGu0r6YsGKRGVBPliSoxXne4moMXKBw0jvRSp8j
+         eROQ==
+X-Gm-Message-State: AOAM5335vvWgrIGzOoVQeaDhrFOlwB7A2Py3lPAd6whu4Iq85GZTIvAr
+	lzkSy4HU6qXBwISGS5cKPJUJ4q4Ek9cRwaOwbV58Y2oLfFc=
+X-Google-Smtp-Source: ABdhPJzi6XxCWfMke6jzDWd9heFR/KCcOiJLveyK/a6vZjoQy0M3fEbeNkgdgrcFmEmbTeoPIxMCRPTfLkMslAdBdoQ=
+X-Received: by 2002:a5d:8704:: with SMTP id u4mr6690728iom.3.1612447316593;
+ Thu, 04 Feb 2021 06:01:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BE94557758B6B64E9925F6A666B934D8@bmwmail.corp>
-Content-Transfer-Encoding: base64
+References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
+ <16608F6140EB97FE.10090@lists.openembedded.org> <7FACD4B0-6B67-4213-AEC3-5C3AE446B034@bmw.de>
+In-Reply-To: <7FACD4B0-6B67-4213-AEC3-5C3AE446B034@bmw.de>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Thu, 4 Feb 2021 15:03:17 +0100
+Message-ID: <CAJkqNs2xTY84ZWqccoLfxNYT5CMyG_JcT66N4BXXSvbtxMzw=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
+To: Michael.Ho@bmw.de
+Cc: bounce+67612+147659+4454854+8786752@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000864f9a05ba832570"
 
-KFNvcnJ5LCBkaWRuJ3QgcmVhZCB5b3VyIHBhdGNoIGNvcnJlY3RseSwgaXQgYWxyZWFkeSBpbmNs
-dWRlZCBteSBjaGFuZ2UpLg0KDQpJIGd1ZXNzIEkgbWVhbiBzaG91bGQgbXkgY2hhbmdlIChub3Qg
-ZGVwWzBdID09IHBuKSBiZSByZW1vdmVkIGFuZCB5b3Vycw0KdGFrZSBpdHMgcGxhY2UgYXMgeW91
-cnMgc2hvdWxkIGNvdmVyIHRoYXQgY2FzZS4NCg0KS2luZCByZWdhcmRzLA0KTWljaGFlbCBIbw0K
-DQotLSANCkJNVyBDYXIgSVQgR21iSA0KTWljaGFlbCBIbw0KU3BlemlhbGlzdCBFbnR3aWNrbHVu
-ZyDigJMgQnVpbGQgYW5kIFJlbGVhc2UgRW5naW5lZXJpbmcNCkxpc2UtTWVpdG5lci1TdHJhw59l
-IDE0DQo4OTA4MSBVbG0NCg0KVGVsLjogwq0rNDktNzMxLTM3ODA0LTA3MQ0KTW9iaWw6ICs0OS0x
-NTItNTQ5ODAtNDcxDQpGYXg6ICs0OS03MzEtMzc4MDQtMDAxDQpNYWlsOiBtaWNoYWVsLmhvQGJt
-dy1jYXJpdC5kZSANCldlYjogaHR0cDovL3d3dy5ibXctY2FyaXQuZGUgPGh0dHA6Ly93d3cuYm13
-LWNhcml0LmRlLz4NCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkJNVyBDYXIgSVQgR21iSA0KR2VzY2jDpGZ0
-c2bDvGhyZXI6IEthaS1Vd2UgQmFsc3p1d2VpdCB1bmQgTWljaGFlbCBCw7Z0dHJpY2gNClNpdHog
-dW5kIFJlZ2lzdGVyZ2VyaWNodDogTcO8bmNoZW4gSFJCIDEzNDgxMA0KLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KIA0KDQrvu79PbiAwNC4wMi4yMSwgMTQ6NDUsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnIG9uIGJlaGFsZiBvZiBib3VuY2UrNjc2MTIrMTQ3NjU5KzQ0NTQ4NTQr
-ODc4Njc1MkBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZyBvbiBiZWhhbGYgb2YgYm91bmNlKzY3NjEyKzE0NzY1OSs0NDU0ODU0
-Kzg3ODY3NTJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQoNCiAgICBIaSwNCg0KICAg
-IEkgc3VibWl0dGVkIHNvbWV0aGluZyBzaW1pbGFyIGF3aGlsZSBiYWNrIHRvIHRoaXMgbWFpbGlu
-ZyBsaXN0Lg0KDQogICAgaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVk
-ZGVkLWNvcmUvbWVzc2FnZS8xNDY2MDc/cD0sLCwyMCwwLDAsMDo6cmVsZXZhbmNlLCxNaWNoYWVs
-LkhvJTQwYm13LmRlLDIwLDIsMCw3OTYxOTI4Nw0KDQogICAgSWYgeW91cnMgbWFrZXMgbW9yZSBz
-ZW5zZSAoSSBkaWRuJ3QgdGhpbmsgdGhlcmUncyBldmVyIGEgY2FzZSB3aGVyZSBhbiBpbWFnZQ0K
-ICAgIHJlY2lwZSBhY3R1YWxseSBoYXMgYSBsaWNlbnNlKSB0aGVuIG15IHBhdGNoIHNob3VsZCBw
-cm9iYWJseSBiZSBza2lwcGVkIG92ZXINCiAgICBmb3IgeW91cnMuDQoNCiAgICBLaW5kIHJlZ2Fy
-ZHMsDQogICAgTWljaGFlbCBIbw0KDQogICAgLS0gDQogICAgQk1XIENhciBJVCBHbWJIDQogICAg
-TWljaGFlbCBIbw0KICAgIFNwZXppYWxpc3QgRW50d2lja2x1bmcg4oCTIEJ1aWxkIGFuZCBSZWxl
-YXNlIEVuZ2luZWVyaW5nDQogICAgTGlzZS1NZWl0bmVyLVN0cmHDn2UgMTQNCiAgICA4OTA4MSBV
-bG0NCg0KICAgIFRlbC46IMKtKzQ5LTczMS0zNzgwNC0wNzENCiAgICBNb2JpbDogKzQ5LTE1Mi01
-NDk4MC00NzENCiAgICBGYXg6ICs0OS03MzEtMzc4MDQtMDAxDQogICAgTWFpbDogbWljaGFlbC5o
-b0BibXctY2FyaXQuZGUgDQogICAgV2ViOiBodHRwOi8vd3d3LmJtdy1jYXJpdC5kZSA8aHR0cDov
-L3d3dy5ibXctY2FyaXQuZGUvPg0KICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCiAgICBCTVcgQ2FyIElU
-IEdtYkgNCiAgICBHZXNjaMOkZnRzZsO8aHJlcjogS2FpLVV3ZSBCYWxzenV3ZWl0IHVuZCBNaWNo
-YWVsIELDtnR0cmljaA0KICAgIFNpdHogdW5kIFJlZ2lzdGVyZ2VyaWNodDogTcO8bmNoZW4gSFJC
-IDEzNDgxMA0KICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCg0KDQogICAgT24gMDQuMDIuMjEsIDEzOjEx
-LCAib3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBvbiBiZWhhbGYgb2Yg
-VG9tYXN6IER6aWVuZHppZWxza2kiIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnIG9uIGJlaGFsZiBvZiB0b21hc3ouZHppZW5kemllbHNraUBnbWFpbC5jb20+IHdyb3Rl
-Og0KDQogICAgICAgIElmIGltYWdlIHJlY2lwZSBkZXBlbmRzIG9uIGFub3RoZXIgaW1hZ2UgcmVj
-aXBlIGl0IHdpbGwgdHJ5IHRvIHVzZQ0KICAgICAgICBsaWNlbnNlIHJlY2lwZWluZm8gdGhhdCBp
-cyBub3QgZGVwbG95ZWQuIEl0IHdpbGwgcmVzdWx0IGluOg0KICAgICAgICB8IEV4Y2VwdGlvbjog
-RmlsZU5vdEZvdW5kRXJyb3I6IFtFcnJubyAyXSBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Og0K
-ICAgICAgICB8ICdUTVBESVIvZGVwbG95L2xpY2Vuc2VzL2Zvby1pbWFnZS9yZWNpcGVpbmZvJw0K
-DQogICAgICAgIFdlIGNhbid0IGRldGVybWluZSBpbiBhIHNpbXBsZSBhbmQgZWZmaWNpZW50IHdh
-eSBpZiBkZXBlbmRlbmN5IHJlY2lwZQ0KICAgICAgICBpbmhlcml0cyBpbWFnZS5iYmNsYXNzLCBz
-byBsZXQncyBpbnRyb2R1Y2UgU0tJUF9MSUNFTlNFX01BTklGRVNUX1JFQ0lQRVMNCiAgICAgICAg
-dmFyaWFibGUgdGhhdCB3aWxsIGNvbnRhaW4gbGlzdCBvZiByZWNpcGVzIHRoYXQgc2hvdWxkIGJl
-IHNraXBwZWQuDQoNCiAgICAgICAgU2lnbmVkLW9mZi1ieTogVG9tYXN6IER6aWVuZHppZWxza2kg
-PHRvbWFzei5kemllbmR6aWVsc2tpQGdtYWlsLmNvbT4NCiAgICAgICAgLS0tDQogICAgICAgICBt
-ZXRhL2NsYXNzZXMvbGljZW5zZV9pbWFnZS5iYmNsYXNzIHwgMyArKy0NCiAgICAgICAgIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KICAgICAgICBkaWZm
-IC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2xpY2Vuc2VfaW1hZ2UuYmJjbGFzcyBiL21ldGEvY2xhc3Nl
-cy9saWNlbnNlX2ltYWdlLmJiY2xhc3MNCiAgICAgICAgaW5kZXggOGZkODhjZmIyZC4uZTJmMzE3
-ODMwNiAxMDA2NDQNCiAgICAgICAgLS0tIGEvbWV0YS9jbGFzc2VzL2xpY2Vuc2VfaW1hZ2UuYmJj
-bGFzcw0KICAgICAgICArKysgYi9tZXRhL2NsYXNzZXMvbGljZW5zZV9pbWFnZS5iYmNsYXNzDQog
-ICAgICAgIEBAIC0yMjMsNyArMjIzLDggQEAgZGVmIGdldF9kZXBsb3llZF9kZXBlbmRlbmNpZXMo
-ZCk6DQogICAgICAgICAgICAgcG4gPSBkLmdldFZhcigiUE4iLCBUcnVlKQ0KICAgICAgICAgICAg
-IGRlcGVuZHMgPSBsaXN0KHNldChbZGVwWzBdIGZvciBkZXANCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgaW4gbGlzdCh0YXNrZGF0YS52YWx1ZXMoKSkNCiAgICAgICAgLSAgICAgICAgICAg
-ICAgICAgICAgaWYgbm90IGRlcFswXS5lbmRzd2l0aCgiLW5hdGl2ZSIpIGFuZCBub3QgZGVwWzBd
-ID09IHBuXSkpDQogICAgICAgICsgICAgICAgICAgICAgICAgICAgIGlmIG5vdCBkZXBbMF0uZW5k
-c3dpdGgoIi1uYXRpdmUiKSBhbmQgbm90IGRlcFswXSA9PSBwbg0KICAgICAgICArICAgICAgICAg
-ICAgICAgICAgICBhbmQgZGVwWzBdIG5vdCBpbiAoZC5nZXRWYXIoIlNLSVBfTElDRU5TRV9NQU5J
-RkVTVF9SRUNJUEVTIiwgVHJ1ZSkgb3IgIiIpLnNwbGl0KCldKSkNCg0KICAgICAgICAgICAgICMg
-VG8gdmVyaWZ5IHdoYXQgd2FzIGRlcGxveWVkIGl0IGNoZWNrcyB0aGUgcm9vdGZzIGRlcGVuZGVu
-Y2llcyBhZ2FpbnN0DQogICAgICAgICAgICAgIyB0aGUgU1NUQVRFX01BTklGRVNUUyBmb3IgImRl
-cGxveSIgdGFzay4NCiAgICAgICAgLS0gDQogICAgICAgIDIuMzAuMA0KDQoNCg0K
+--000000000000864f9a05ba832570
+Content-Type: text/plain; charset="UTF-8"
+
+ >I guess I mean should my change (not dep[0] == pn) be removed and yours
+>take its place as yours should cover that case.
+
+Hi Michael,
+I would say we should keep both. Your change would be enough for most cases
+and most developers wouldn't even need to care about that problem.  I think
+image recipes depending on other image recipes are less common scenarios
+and only in these cases my change would be needed. If we remove "(not
+dep[0] == pn)" we would require all developers to adapt their builds with
+SKIP_LICENSE_MANIFEST_RECIPES variable.
+
+Best regards,
+Tomasz Dziendzielski
+
+--000000000000864f9a05ba832570
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+&gt;I guess I mean should my change (not dep[0] =3D=3D pn) be removed and y=
+ours<br><div>
+&gt;take its place as yours should cover that case.</div><div><br></div><di=
+v>Hi Michael,<br>I would say we should keep both. Your change would be enou=
+gh for most cases and most developers wouldn&#39;t even need to care about =
+that problem.=C2=A0 I think image recipes depending on other image recipes =
+are less common scenarios and only in these cases my change would be needed=
+. If we remove &quot;(not dep[0] =3D=3D pn)&quot; we would require all deve=
+lopers to adapt their builds with SKIP_LICENSE_MANIFEST_RECIPES variable.</=
+div><div><br></div><div>Best regards,</div><div>Tomasz Dziendzielski<br></d=
+iv></div>
+
+--000000000000864f9a05ba832570--
