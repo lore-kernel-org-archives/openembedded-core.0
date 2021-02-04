@@ -1,84 +1,100 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web11.8223.1612447317223649744
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.8261.1612447413503399959
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Feb 2021 06:01:57 -0800
+ Thu, 04 Feb 2021 06:03:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XFnIwTRO;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id y19so3300693iov.2;
-        Thu, 04 Feb 2021 06:01:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XQB/AgS3;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id y8so4227911ede.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Feb 2021 06:03:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5rl7c8Z6QgwE2/gYpDA6WH/KCLBdifKos5q9pLZux2Y=;
-        b=XFnIwTROx6wOTIIKEg6wYBg2oK85N81mHDChePaM7lFfWEnXhwfcCSmaLJ+u/gdXS7
-         Pfo6v8b2zK/khP/gKwu6IKBeMO+esgSC/BUC4DauNh9g/+b1EzXRhtVXYifExlmVJ5zy
-         f4vBZBZbKonkLduaxxXOB01+KeJsO1r41+/sJh3eJwdB6wx1LGTGrPLvL+S3sUDOI8+z
-         uVk2J4cgWqdQqbWWEK5i4KsBkUyxXpLKBqqqMgkyFRKosCJBQSibiS9MPIdeqvQKqCit
-         yGn9HU6UVoWl5bYuPsTd+a8iBf5j1IP/FfKeO7wu4R+rVQQYOEdQSu1ZVTQQWFl5KdCh
-         7jzQ==
+        bh=jsYFHM/OXhmaODDnGNVYJO+PPMEgeEW3tLNC2JKOz3Y=;
+        b=XQB/AgS39xH7iUJxh6ETZQFYzWPYDr9PZpFHf0OcjDLyN6GKIjy2F2WOwEMYzne6Vv
+         XtQGPGNDGVPwlXMZcprBM6zMUtEnfMKVeZNzP+keXG5S/LMpqalDxzR3fpolmwdGC5y7
+         QrIngheIyyF9i6ZNV3C+Y3NFa12o92zRibh/enaccli9JMVP24IM4CCQMTcCYIIHrzTZ
+         IWkCcH7FxUyWxuj0TyHJ0x1b72qGv9fOS83/K4aVSdiRwZBpIsvH3e3az4L3j4ZVo2/A
+         qNTzjnLG7LVbe3ejPljCLvcfJ701QpDgwifitFMUFRBudNrckCBRhiApgzZamZRQFkMk
+         AK6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5rl7c8Z6QgwE2/gYpDA6WH/KCLBdifKos5q9pLZux2Y=;
-        b=st2F/tKq1lCv8H3+gVBLMCSqJUIWSLtDiqFxqIJQQ01NQBrk7N/RR3HynF5r7pY+XV
-         8VGZrxFc/Jh6xWsx+b31BmZO43bsfEITYix80/pYvNd9CDiOXmX1glNIMHLUUEaKeOsv
-         GvMZjFDrDoubVYXo4YxRRLpLjrnQjaaFOGF3rfI2C77BD8b+5ie26cxLjMAcO1ueIl3q
-         dW59HB2RKyNRf4hUNJw+2d+agC8kBtI4Ds/qLOYdTph7/aZ3G253R7KoxkCZFSGGW8Jw
-         Qwn1g3ZJ/2d9mlWw0flOwSsQ2kzO9IGu0r6YsGKRGVBPliSoxXne4moMXKBw0jvRSp8j
-         eROQ==
-X-Gm-Message-State: AOAM5335vvWgrIGzOoVQeaDhrFOlwB7A2Py3lPAd6whu4Iq85GZTIvAr
-	lzkSy4HU6qXBwISGS5cKPJUJ4q4Ek9cRwaOwbV58Y2oLfFc=
-X-Google-Smtp-Source: ABdhPJzi6XxCWfMke6jzDWd9heFR/KCcOiJLveyK/a6vZjoQy0M3fEbeNkgdgrcFmEmbTeoPIxMCRPTfLkMslAdBdoQ=
-X-Received: by 2002:a5d:8704:: with SMTP id u4mr6690728iom.3.1612447316593;
- Thu, 04 Feb 2021 06:01:56 -0800 (PST)
+        bh=jsYFHM/OXhmaODDnGNVYJO+PPMEgeEW3tLNC2JKOz3Y=;
+        b=EJeXTDNxKm4i0IXUCh2e1uF+Sx2J3tgpNIfj22lOzO6rBJNtufvEm1k43E3vZc+/oc
+         PQj1jijDp4D9h9aUOc+ziECvI4ys1S6a3A9PEsmcAVe2atH/5WLhI9O9nTrzuNUv29mA
+         v7qseM9UMEYMLvD+unq8xiTVsWuJhNSfoGgxH8RXlQsuoZY26jdxLS19l4pFbKsYCBJC
+         aH8pRELOQ6SbZ5lhZGDr/aA+NmI55HF0pPUkEpvgqe938ss5S6haLv/ccjCIbTQGW0Rt
+         zMMbd9x/8t+R/02FCiZNI4r9Ay3Vyhbzf8YLJwyjRSbhA/D24NTVP7CgqqqToHpoNXO3
+         QkQg==
+X-Gm-Message-State: AOAM5336ZOPVBif4XtVuR0sOuZsWpTpxYdoUdj0G7d07JAgZKq8+ov7q
+	iFFjKYLuJ1l/7wzXTP6D7rpBSaAPdpe+2usxUwY=
+X-Google-Smtp-Source: ABdhPJy8Pp4x3JPxq1ZtwXfSYzyYW6s5ZKPjs6XqlekVMTmfdxMmh8VrCIV4c7NvUTj5az+fYHJmKPVpK6uDrQjPRHQ=
+X-Received: by 2002:a05:6402:26c9:: with SMTP id x9mr8111170edd.365.1612447411802;
+ Thu, 04 Feb 2021 06:03:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
- <16608F6140EB97FE.10090@lists.openembedded.org> <7FACD4B0-6B67-4213-AEC3-5C3AE446B034@bmw.de>
-In-Reply-To: <7FACD4B0-6B67-4213-AEC3-5C3AE446B034@bmw.de>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Thu, 4 Feb 2021 15:03:17 +0100
-Message-ID: <CAJkqNs2xTY84ZWqccoLfxNYT5CMyG_JcT66N4BXXSvbtxMzw=g@mail.gmail.com>
+In-Reply-To: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 4 Feb 2021 09:03:20 -0500
+Message-ID: <CADkTA4NU2ykdZ7QNmsR0oZE8JaYXonyQ0acghSfs7V6+A3T9kw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
-To: Michael.Ho@bmw.de
-Cc: bounce+67612+147659+4454854+8786752@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000864f9a05ba832570"
-
---000000000000864f9a05ba832570
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
- >I guess I mean should my change (not dep[0] == pn) be removed and yours
->take its place as yours should cover that case.
+On Thu, Feb 4, 2021 at 7:10 AM Tomasz Dziendzielski
+<tomasz.dziendzielski@gmail.com> wrote:
+>
+> If image recipe depends on another image recipe it will try to use
+> license recipeinfo that is not deployed. It will result in:
+> | Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> | 'TMPDIR/deploy/licenses/foo-image/recipeinfo'
+>
+> We can't determine in a simple and efficient way if dependency recipe
+> inherits image.bbclass, so let's introduce SKIP_LICENSE_MANIFEST_RECIPES
+> variable that will contain list of recipes that should be skipped.
+>
+> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> ---
+>  meta/classes/license_image.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+> index 8fd88cfb2d..e2f3178306 100644
+> --- a/meta/classes/license_image.bbclass
+> +++ b/meta/classes/license_image.bbclass
+> @@ -223,7 +223,8 @@ def get_deployed_dependencies(d):
+>      pn = d.getVar("PN", True)
+>      depends = list(set([dep[0] for dep
+>                      in list(taskdata.values())
+> -                    if not dep[0].endswith("-native") and not dep[0] == pn]))
+> +                    if not dep[0].endswith("-native") and not dep[0] == pn
+> +                    and dep[0] not in (d.getVar("SKIP_LICENSE_MANIFEST_RECIPES", True) or "").split()]))
 
-Hi Michael,
-I would say we should keep both. Your change would be enough for most cases
-and most developers wouldn't even need to care about that problem.  I think
-image recipes depending on other image recipes are less common scenarios
-and only in these cases my change would be needed. If we remove "(not
-dep[0] == pn)" we would require all developers to adapt their builds with
-SKIP_LICENSE_MANIFEST_RECIPES variable.
+I didn't see anything on the docs mailing list, but we should also
+have a matching update to the docs for the new variable (unless it is
+already in the docs, I didn't check for that).
 
-Best regards,
-Tomasz Dziendzielski
+Cheers,
 
---000000000000864f9a05ba832570
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bruce
 
-<div dir=3D"ltr">
-&gt;I guess I mean should my change (not dep[0] =3D=3D pn) be removed and y=
-ours<br><div>
-&gt;take its place as yours should cover that case.</div><div><br></div><di=
-v>Hi Michael,<br>I would say we should keep both. Your change would be enou=
-gh for most cases and most developers wouldn&#39;t even need to care about =
-that problem.=C2=A0 I think image recipes depending on other image recipes =
-are less common scenarios and only in these cases my change would be needed=
-. If we remove &quot;(not dep[0] =3D=3D pn)&quot; we would require all deve=
-lopers to adapt their builds with SKIP_LICENSE_MANIFEST_RECIPES variable.</=
-div><div><br></div><div>Best regards,</div><div>Tomasz Dziendzielski<br></d=
-iv></div>
 
---000000000000864f9a05ba832570--
+>
+>      # To verify what was deployed it checks the rootfs dependencies against
+>      # the SSTATE_MANIFESTS for "deploy" task.
+> --
+> 2.30.0
+>
+>
+> 
+>
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
