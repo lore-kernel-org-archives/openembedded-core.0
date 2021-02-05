@@ -1,100 +1,107 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.7036.1612527903094176617
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.7333.1612528384289253366
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 04:25:03 -0800
+ Fri, 05 Feb 2021 04:33:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IzECX/fB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id t142so3700921wmt.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 04:25:02 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J5ti9Lan;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id m13so7465473wro.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 04:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=vLIF0AY2KqomiDcMgBK/UtUwgUnlyrGQpy35sizAWQI=;
-        b=IzECX/fBQ4IpO+W7eV5s1sdE0YjqZVj/KI7lk1jTyVCTceafe7NEur3le4sGrhfKuh
-         tUNaCjteWujTqEgGIeyeArjTlIKlTcV4AAKcm3bWun/LyayWu5Ig2xtIWMfX/H+/VU8L
-         dQEd82dbZGS9Rht/IOugBjpqd6/l+nIZCJu2g=
+        bh=AWA92MAZoXHglG/ZJAEXpfS8C3S/8yfwLJ2kUWLwumw=;
+        b=J5ti9Lanz6gFoC84KlS7h/huTTjbV9qcL+yRnjOodd9JfAJbkaJXGeKgz0XGdXpHUq
+         EUWMUexbNYpQKMZ8EwEt3YdhCE05legEE6bKya+gt1swIuqkifCIunmZWjKBDSF+Y10B
+         imRE0uYGsDTcndfShaTiKzuwVIajN4q3+Tw4o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=vLIF0AY2KqomiDcMgBK/UtUwgUnlyrGQpy35sizAWQI=;
-        b=gwXRxgIeXbYDdb6yIfNYfYnAVYNiEPIIjFcHY00dQQgz4A7aucW5RGhK6PvPmPzvtL
-         jv7iBY+1NoTDIKr+8vVIimkt9pCQduK12gjq80rfwAt68D2QSjQsWUvbbrQ81poTvzwb
-         b0dP52kO6IVdxvuWjPKSs7tx3/eAqFPRRslhi+3O++Zf98d9npDugKUj5Un/heJCZYET
-         A1IUeMekwJgo2NpX99o9Rghnb7Kco9SRLbiv/DJLHNkk5i9ALU/BZhtb3Tj3ZinLy0CK
-         Sh3N1az72raGaZCftC8sRZEodEyA2NxtkwJ4EmhNkKWDtopQg8C/m6mPYp5op6yx4052
-         Zr3g==
-X-Gm-Message-State: AOAM532eT9caLV6q2FyDDfZfjgVD1WjnWpsWKEolCIt3+M+c84Fzy/8V
-	HBgH1XPOMxB/pVPMEDOJ3bIOKQ==
-X-Google-Smtp-Source: ABdhPJxbKzB88DU4l/rNFjaiqAMayhs/VmWiA1fOL7Fksrl3wjX1B3Nv1M1ueXfkZpAaEY425eK6vA==
-X-Received: by 2002:a1c:2d0f:: with SMTP id t15mr3441493wmt.181.1612527901292;
-        Fri, 05 Feb 2021 04:25:01 -0800 (PST)
+        bh=AWA92MAZoXHglG/ZJAEXpfS8C3S/8yfwLJ2kUWLwumw=;
+        b=emb3GEfDPxyNW1ePhm7BUD1oijIqx64rf0K3UsXCPYbx6FC7Qc9Rxvx1M19neWknvh
+         D1cHwow5ULeereh/U+tCrCB4O+BhJ/Wp+DV5I5o+U3hoCiIqCSsoCF+bF5NjbLSWLnz4
+         r5XDrue4xAirjjEUbhAIy2vwLNcqTpvZjuNhixXMV+HphFA+dO7YyOageaVuTH8HHXcN
+         2aoT48kpI4fRLwsdgyEAP12bzaf16R2IEFs61uFG4EO8iE9RU7oCcwyM2iSN+UF1Isck
+         CyK2feKIXZZW/o0d6S8lBzest8rEJaQHo+Fo4n6UgTS+LKzRVgIUt6kxyPIxY+o5zkKi
+         VYXw==
+X-Gm-Message-State: AOAM5327b4SNsSZ+jv93iBq27HZmRWjOJow9HNz28BpF6Z3r30TmqLqn
+	OxSkNRZeY5ZO8EB/DrPYrhrwBA==
+X-Google-Smtp-Source: ABdhPJyYnNK8z7akJ8HHxlOrpU+CKDSneVNAQrhzUgimkk0pc6uWMd9CxKApxa1fDQeqcUNayDIhVA==
+X-Received: by 2002:a05:6000:12c7:: with SMTP id l7mr4765871wrx.103.1612528382662;
+        Fri, 05 Feb 2021 04:33:02 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:d1b2:8778:591e:ef47? ([2001:8b0:aba:5f3c:d1b2:8778:591e:ef47])
-        by smtp.gmail.com with ESMTPSA id w12sm388353wmi.4.2021.02.05.04.25.00
+        by smtp.gmail.com with ESMTPSA id d30sm13745352wrc.92.2021.02.05.04.33.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 04:25:00 -0800 (PST)
-Message-ID: <4e3dc6e986011a1ebc58f9d74351d32390037748.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: fix deployment for initramfs images
+        Fri, 05 Feb 2021 04:33:02 -0800 (PST)
+Message-ID: <2148a893a9deec135bfa733be2a4ec6c99e9201e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rootfs.py: expose prepared_index and ipk_repo_workdir for OpkgPM
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Awais Belal <Awais_Belal@mentor.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Feb 2021 12:24:59 +0000
-In-Reply-To: <931232d223874e60aef228ad4c77f8d7@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <165EB485E3CC1C7F.12832@lists.openembedded.org>
-	 <931232d223874e60aef228ad4c77f8d7@SVR-IES-MBX-03.mgc.mentorg.com>
+To: Michael Ho <Michael.Ho@bmw.de>, openembedded-core@lists.openembedded.org
+Date: Fri, 05 Feb 2021 12:33:01 +0000
+In-Reply-To: <1612515106-377011-2-git-send-email-michael.ho@bmw.de>
+References: <1612515106-377011-1-git-send-email-michael.ho@bmw.de>
+	 <1612515106-377011-2-git-send-email-michael.ho@bmw.de>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-04 at 08:25 +0000, Awais Belal wrote:
-> The do_bundle_initramfs() only processes kernel image
-> types that are found in KERNEL_IMAGETYPE_FOR_MAKE whereas
-> the build system can generate other types that are not
-> directly supported by the kernel build system. In which
-> case when we come to the deploy phase not all the images
-> mentioned in KERNEL_IMAGETYPES would have a respective
-> initramfs bundled image. An example is using vmlinux.gz
-> in KERNEL_IMAGETYPES and enabling initramfs and then we
-> see
+On Fri, 2021-02-05 at 09:51 +0100, Michael Ho wrote:
+> From: Michael Ho <Michael.Ho@bmw.de>
 > 
-> install: cannot stat 'arch/arm64/boot/vmlinux.gz.initramfs': No such file or directory
+> The OpkgPM class has several constructor options that allows for skipping
+> the ipk repository set up and controlling the ipk repository directory. This
+> commit exposes these option via the OpkgRootfs class so others can make use
+> of them if they wish to.
 > 
-> So we align the deploy phase with bundle initramfs phase
-> and pick up relevant initramfs bundled images using
-> KERNEL_IMAGETYPE_FOR_MAKE instead of KERNEL_IMAGETYPES.
+> Adds the bitbake variables "IPKGREPO_TARGET_PREPARED" and "IPKGREPO_TARGET"
+> to act as the interfaces.
 > 
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
 > ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/lib/oe/package_manager/ipk/rootfs.py | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ddff2ddcd2..8693ab86be 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -759,7 +759,7 @@ kernel_do_deploy() {
->         fi
+> diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
+> index 26dbee6..6313b72 100644
+> --- a/meta/lib/oe/package_manager/ipk/rootfs.py
+> +++ b/meta/lib/oe/package_manager/ipk/rootfs.py
+> @@ -129,6 +129,14 @@ class PkgRootfs(DpkgOpkgRootfs):
+>          self.manifest = PkgManifest(d, manifest_dir)
+>          self.opkg_conf = self.d.getVar("IPKGCONF_TARGET")
+>          self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS")
+> +        self.opkg_repo = self.d.getVar("IPKGREPO_TARGET")
+> +        self.opkg_repo_prepared = self.d.getVar("IPKGREPO_TARGET_PREPARED")
+> +
+> +        kwargs = {}
+> +        if self.opkg_repo:
+> +            kwargs["ipk_repo_workdir"] = self.opkg_repo
+> +        if self.opkg_repo_prepared:
+> +            kwargs["prepare_index"] = False
+>  
 > 
->         if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> -               for imageType in ${KERNEL_IMAGETYPES} ; do
-> +               for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
->                         if [ "$imageType" = "fitImage" ] ; then
->                                 continue
->                         fi
-> --
-> 2.17.1
-> 
-> 
-> Ping!
 
-Merged six days ago?
+It seems reasonable to expose them, I'd just suggest that we don't put
+them in self here but do something like:
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=44ecc935b2ba919ed5bf026c02cdb814e207d996
++        if self.d.getVar("IPKGREPO_TARGET"):
++            kwargs["ipk_repo_workdir"] = self.opkg_repo
++        if self.d.getVar("IPKGREPO_TARGET_PREPARED"):
++            kwargs["prepare_index"] = False
+ 
+and my only other concern is the naming. Somehow we need to get from
+the mess we're currently in to some kind of more consistent and
+understandable naming of variables.
+
+OPKG_ROOTFS_FEED_WORKDIR
+OPKG_ROOTFS_REBUILDINDEX
+
+maybe?
+
+I'd also yes, we should document them.
 
 Cheers,
 
