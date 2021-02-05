@@ -1,107 +1,87 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.7333.1612528384289253366
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.7170.1612528734792449553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 04:33:04 -0800
+ Fri, 05 Feb 2021 04:38:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J5ti9Lan;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id m13so7465473wro.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 04:33:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CmbyDjlQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id c4so7483396wru.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 04:38:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=AWA92MAZoXHglG/ZJAEXpfS8C3S/8yfwLJ2kUWLwumw=;
-        b=J5ti9Lanz6gFoC84KlS7h/huTTjbV9qcL+yRnjOodd9JfAJbkaJXGeKgz0XGdXpHUq
-         EUWMUexbNYpQKMZ8EwEt3YdhCE05legEE6bKya+gt1swIuqkifCIunmZWjKBDSF+Y10B
-         imRE0uYGsDTcndfShaTiKzuwVIajN4q3+Tw4o=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=JqQ1ep1XK0oZ20Qk17LD/pA0PlmCYwva7gNmeLZH5xU=;
+        b=CmbyDjlQBj/C0d8kyETQBMDUAYLN0V57ZJ45ztPhAaOZ18ULKlTYptTsdgPgY1u4Xd
+         OJGBPjDKkbYcHlQpfo/v5nKAwfPdraB+fNJOXeA6ktJIu/S9QwfEo3EEHor1hArGy0TF
+         kB5EFmS4QZTFsHIEzuamxqnAleyoeMOpM9Qm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AWA92MAZoXHglG/ZJAEXpfS8C3S/8yfwLJ2kUWLwumw=;
-        b=emb3GEfDPxyNW1ePhm7BUD1oijIqx64rf0K3UsXCPYbx6FC7Qc9Rxvx1M19neWknvh
-         D1cHwow5ULeereh/U+tCrCB4O+BhJ/Wp+DV5I5o+U3hoCiIqCSsoCF+bF5NjbLSWLnz4
-         r5XDrue4xAirjjEUbhAIy2vwLNcqTpvZjuNhixXMV+HphFA+dO7YyOageaVuTH8HHXcN
-         2aoT48kpI4fRLwsdgyEAP12bzaf16R2IEFs61uFG4EO8iE9RU7oCcwyM2iSN+UF1Isck
-         CyK2feKIXZZW/o0d6S8lBzest8rEJaQHo+Fo4n6UgTS+LKzRVgIUt6kxyPIxY+o5zkKi
-         VYXw==
-X-Gm-Message-State: AOAM5327b4SNsSZ+jv93iBq27HZmRWjOJow9HNz28BpF6Z3r30TmqLqn
-	OxSkNRZeY5ZO8EB/DrPYrhrwBA==
-X-Google-Smtp-Source: ABdhPJyYnNK8z7akJ8HHxlOrpU+CKDSneVNAQrhzUgimkk0pc6uWMd9CxKApxa1fDQeqcUNayDIhVA==
-X-Received: by 2002:a05:6000:12c7:: with SMTP id l7mr4765871wrx.103.1612528382662;
-        Fri, 05 Feb 2021 04:33:02 -0800 (PST)
+        bh=JqQ1ep1XK0oZ20Qk17LD/pA0PlmCYwva7gNmeLZH5xU=;
+        b=EjhVvHJgyu3Lnygxx6+OgwFZIkZTjYV9h1zqXR9ersHYCG8rcUjbYXo2g+NPOOQxM5
+         +k08pNYt1/76rRau/jOg+/2o07+2JzRBEjeoFRMdN9nWzoJ0QHmIfVeYaFEbqhsCXMT2
+         li3eROFkb/KGt3l7oqUzWF75nT4NHHAHwJ404QOwrJmZBy3NEJmof0OdyUD07VuLnXZ1
+         nNuIOkK8lYs5QxFIIG/GcM5EtZQV48lGvDuFZCzbxdylo01oxR1pgXfQDdPk5I+4V2Oe
+         YfEB3OOIVeoFwfOKDWahZEIuVqs9aio5opQDge0rt+hvVhqjdN3+oRl2hqlalmd/l75o
+         QCRw==
+X-Gm-Message-State: AOAM533LuGnkdsE1qrKOchJ/bAuqXFrqsTRFftj11maUR4PHYBu8VDSs
+	KlPX44uXwnSUf6YeJ6OrGAk9bg==
+X-Google-Smtp-Source: ABdhPJzwhQktLkcFkaOlRMLrwj2eBa3GH8Ilp5SagTdSqG/vVQQVu6jLR7YIeoInrvul7NY2fZyJ2A==
+X-Received: by 2002:a5d:4402:: with SMTP id z2mr4782953wrq.265.1612528733224;
+        Fri, 05 Feb 2021 04:38:53 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:d1b2:8778:591e:ef47? ([2001:8b0:aba:5f3c:d1b2:8778:591e:ef47])
-        by smtp.gmail.com with ESMTPSA id d30sm13745352wrc.92.2021.02.05.04.33.02
+        by smtp.gmail.com with ESMTPSA id d16sm11940103wrr.59.2021.02.05.04.38.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 04:33:02 -0800 (PST)
-Message-ID: <2148a893a9deec135bfa733be2a4ec6c99e9201e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rootfs.py: expose prepared_index and ipk_repo_workdir for OpkgPM
+        Fri, 05 Feb 2021 04:38:52 -0800 (PST)
+Message-ID: <9da0171adf6cc76fed112f7df9210f4deb49fff6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] image_types: Ensure tar archives are reproducible
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Michael Ho <Michael.Ho@bmw.de>, openembedded-core@lists.openembedded.org
-Date: Fri, 05 Feb 2021 12:33:01 +0000
-In-Reply-To: <1612515106-377011-2-git-send-email-michael.ho@bmw.de>
-References: <1612515106-377011-1-git-send-email-michael.ho@bmw.de>
-	 <1612515106-377011-2-git-send-email-michael.ho@bmw.de>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 05 Feb 2021 12:38:52 +0000
+In-Reply-To: <CA+chaQcpgeCdunqKrPJkkqjRw-dY68pHM_zdj5u3zMOjh5cG7g@mail.gmail.com>
+References: <20210130180240.1417810-1-richard.purdie@linuxfoundation.org>
+	 <CA+chaQcpgeCdunqKrPJkkqjRw-dY68pHM_zdj5u3zMOjh5cG7g@mail.gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2021-02-05 at 09:51 +0100, Michael Ho wrote:
-> From: Michael Ho <Michael.Ho@bmw.de>
+On Fri, 2021-02-05 at 13:14 +0100, Martin Jansa wrote:
+> On Sat, Jan 30, 2021 at 7:02 PM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > The tar output seems to vary depending on the version of tar used
+> > and distro
+> > configuration. Be explict about the output format to avoid this and
+> > be
+> > determinstic.
+> > 
 > 
-> The OpkgPM class has several constructor options that allows for skipping
-> the ipk repository set up and controlling the ipk repository directory. This
-> commit exposes these option via the OpkgRootfs class so others can make use
-> of them if they wish to.
+> Is it the tar format selection which isn't deterministic or something
+> else when the format isn't set to gnu?
+
+Different versions of tar seemed to be picking different output
+formats, I therefore picked one. I looked at which output format
+reproducible builds were recommending.
+
+> I'm asking because gnu format isn't compatible with --xattrs used
+> e.g. here:
+>  
+> https://github.com/advancedtelematic/meta-updater/blob/d3a832f66e8802cb45536ff278d5c77f946d341d/classes/image_types_ostree.bbclass#L16
+> causing do_image_tar failing with:
 > 
-> Adds the bitbake variables "IPKGREPO_TARGET_PREPARED" and "IPKGREPO_TARGET"
-> to act as the interfaces.
+> | tar: --xattrs can be used only on POSIX archives
+> | Try 'tar --help' or 'tar --usage' for more information.
 > 
-> Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
-> ---
->  meta/lib/oe/package_manager/ipk/rootfs.py | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-> index 26dbee6..6313b72 100644
-> --- a/meta/lib/oe/package_manager/ipk/rootfs.py
-> +++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-> @@ -129,6 +129,14 @@ class PkgRootfs(DpkgOpkgRootfs):
->          self.manifest = PkgManifest(d, manifest_dir)
->          self.opkg_conf = self.d.getVar("IPKGCONF_TARGET")
->          self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS")
-> +        self.opkg_repo = self.d.getVar("IPKGREPO_TARGET")
-> +        self.opkg_repo_prepared = self.d.getVar("IPKGREPO_TARGET_PREPARED")
-> +
-> +        kwargs = {}
-> +        if self.opkg_repo:
-> +            kwargs["ipk_repo_workdir"] = self.opkg_repo
-> +        if self.opkg_repo_prepared:
-> +            kwargs["prepare_index"] = False
->  
-> 
+> I've already tested that --format=posix here would fix meta-updater,
+> but not sure if it's still as deterministic as --format=gnu. Do you
+> remember which distros were producing different output?
 
-It seems reasonable to expose them, I'd just suggest that we don't put
-them in self here but do something like:
-
-+        if self.d.getVar("IPKGREPO_TARGET"):
-+            kwargs["ipk_repo_workdir"] = self.opkg_repo
-+        if self.d.getVar("IPKGREPO_TARGET_PREPARED"):
-+            kwargs["prepare_index"] = False
- 
-and my only other concern is the naming. Somehow we need to get from
-the mess we're currently in to some kind of more consistent and
-understandable naming of variables.
-
-OPKG_ROOTFS_FEED_WORKDIR
-OPKG_ROOTFS_REBUILDINDEX
-
-maybe?
-
-I'd also yes, we should document them.
+I think it was centos7 differing to ubuntu 18.04
 
 Cheers,
 
