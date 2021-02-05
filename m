@@ -1,166 +1,82 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga01.intel.com (mga01.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.8328.1612533566225247300
  for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Feb 2021 05:59:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: a56mpyKA3c5BC8o2gi01KSzAesEbSFjP4342U2pzQ92DIpLQN/1dpuDxBGSbcYNfGGnOvYTUR8
- /Y6d4rHJd3lQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="200439025"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: yCPZinLjL/TOolJzUlkiFCnFk6M7GHn1JtNbdSEkSO5v2OcYRhFo4sIBuhPun72V07ruJdnwG9
+ /RescXhOckVQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="200439029"
 X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
-   d="scan'208";a="200439025"
+   d="scan'208";a="200439029"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:59:19 -0800
-IronPort-SDR: QpSTuG6pYC1UvtS50aRI4Kq48xfrHIccwbXiG62pB7A9mSPUSiZm/WvE1of90i0czzX+15OiB9
- pj91r0LUJYJw==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 05:59:20 -0800
+IronPort-SDR: vbe/vmxyUSAnhEBobvnIfW+KMp/fqRn0uDpXzoDZQHpn0jc2d264kBV5w4x1RkCXJhRWFg+Lns
+ e3B7srvaLpOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
-   d="scan'208";a="360374566"
+   d="scan'208";a="360374577"
 Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga006.jf.intel.com with ESMTP; 05 Feb 2021 05:59:17 -0800
+  by orsmga006.jf.intel.com with ESMTP; 05 Feb 2021 05:59:18 -0800
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 2/3] oeqa: wic: Add tests for permissions and change-directory
-Date: Fri,  5 Feb 2021 21:59:15 +0800
-Message-Id: <20210205135916.55589-2-chee.yang.lee@intel.com>
+Subject: [PATCH][dunfell 3/3] wic/selftest: test_permissions also test bitbake image
+Date: Fri,  5 Feb 2021 21:59:16 +0800
+Message-Id: <20210205135916.55589-3-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210205135916.55589-1-chee.yang.lee@intel.com>
 References: <20210205135916.55589-1-chee.yang.lee@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Make sure that the permissions and username are respected when using all
-the rootfs modifiers.
+existing test case test_permissions use Wic command as standalone
+tools to create wic image and check that wic image for permissions.
 
-Add tests for change-directory command
+add extra steps to the test case to also check against image build
+using bitbake do_image_wic.
 
-Cc: Paul Barker <pbarker@konsulko.com>
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4aad9531df44d1b0637bd559161702ad86861b46)
+(cherry picked from commit 551ce73a90757ba43501fe5cf9ac84a7b77de549)
 Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 90 +++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 13b6a0cc72..d4c0db8bda 100644
+index d4c0db8bda..0435aa29c9 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -62,6 +62,12 @@ def extract_files(debugfs_output):
-     return [line.split('/')[5].strip() for line in \
-             debugfs_output.strip().split('/\n')]
+@@ -516,6 +516,9 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+     def test_permissions(self):
+         """Test permissions are respected"""
  
-+def files_own_by_root(debugfs_output):
-+    for line in debugfs_output.strip().split('/\n'):
-+        if line.split('/')[3:5] != ['0', '0']:
-+            print(debugfs_output)
-+            return False
-+    return True
- 
- class WicTestCase(OESelftestTestCase):
-     """Wic test class."""
-@@ -84,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
-                 self.skipTest('wic-tools cannot be built due its (intltool|gettext)-native dependency and NLS disable')
- 
-             bitbake('core-image-minimal')
-+            bitbake('core-image-minimal-mtdutils')
-             WicTestCase.image_is_ready = True
- 
-         rmtree(self.resultdir, ignore_errors=True)
-@@ -506,6 +513,89 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-+    def test_permissions(self):
-+        """Test permissions are respected"""
++        # prepare wicenv and rootfs
++        bitbake('core-image-minimal core-image-minimal-mtdutils -c do_rootfs_wicenv')
 +
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+         oldpath = os.environ['PATH']
+         os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+ 
+@@ -549,6 +552,19 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+                     res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part))
+                     self.assertEqual(True, files_own_by_root(res.output))
+ 
++                config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
++                self.append_config(config)
++                bitbake('core-image-minimal')
++                tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
 +
-+        t_normal = """
-+part / --source rootfs --fstype=ext4
-+"""
-+        t_exclude = """
-+part / --source rootfs --fstype=ext4 --exclude-path=home
-+"""
-+        t_multi = """
-+part / --source rootfs --ondisk sda --fstype=ext4
-+part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
-+"""
-+        t_change = """
-+part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/   
-+part /etc --source rootfs --fstype=ext4 --change-directory=etc
-+"""
-+        tests = [t_normal, t_exclude, t_multi, t_change]
-+
-+        try:
-+            for test in tests:
-+                include_path = os.path.join(self.resultdir, 'test-include')
-+                os.makedirs(include_path)
-+                wks_file = os.path.join(include_path, 'temp.wks')
-+                with open(wks_file, 'w') as wks:
-+                    wks.write(test)
-+                runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+                for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
++                # check each partition for permission
++                for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
 +                    res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part))
-+                    self.assertEqual(True, files_own_by_root(res.output))
++                    self.assertTrue(files_own_by_root(res.output)
++                        ,msg='Files permission incorrect using wks set "%s"' % test)
 +
-+                rmtree(self.resultdir, ignore_errors=True)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_change_directory(self):
-+        """Test --change-directory wks option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        try:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-+            files = extract_files(res.output)
-+            self.assertIn('passwd', files)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_change_directory_errors(self):
-+        """Test --change-directory wks option error handling."""
-+        wks_file = 'temp.wks'
-+
-+        # Absolute argument.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --change-directory /usr")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-+        # Argument pointing to parent directory.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --change-directory ././..")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
- class Wic2(WicTestCase):
++                # clean config and result directory for next cases
++                self.remove_config(config)
+                 rmtree(self.resultdir, ignore_errors=True)
  
-     def test_bmap_short(self):
+         finally:
 -- 
 2.17.1
 
