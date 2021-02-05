@@ -1,74 +1,65 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.5570.1612513535364259878
+Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
+ by mx.groups.io with SMTP id smtpd.web10.5643.1612515123770662742
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 00:25:35 -0800
+ Fri, 05 Feb 2021 00:52:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fHN1crax;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id v15so6655017wrx.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 00:25:35 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=iW1zoIAe;
+ spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=6636a3d1c=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=PKU8i9AVIamIDwZdtn5gfSx6cJZiAtniTDoJgjl2KBY=;
-        b=fHN1craxvLOX24+7/hcH7rZaTvjObjw8HuEG3eYH6F1DoVtH/PM8/BvlQJCwDjIXiR
-         TuBGNDkm/bl5cXANXgt+FND9NDXGg9QO4UrB96hZBgy9qfJ7F1G4Cbrde3TplBVz0sp4
-         WcT64ARM8Q3nCC7ohBge9SEVbSRgM72b5M84w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PKU8i9AVIamIDwZdtn5gfSx6cJZiAtniTDoJgjl2KBY=;
-        b=NqvgCObPvLrt5jG+J2B0n66TLhGEYBJr4xAO10isUHBmnL1byIpxy65YdQQ7AXkxpv
-         nSufz3oZ5CrsW86hsWl7ebMz02jR3rRw1qV4cTQT5dUw4MFQkFJtsuS/i4FUdj7xcWMN
-         cj8NT9DHDimifo19ffcajmV3MESYHvieGFt07vYT+Wn9k9tthvEBEL3vCRBvLZM9whFJ
-         MIplRfPRlok5pDSv0wuO31fDGsXI1eja/THNnBxfXY5aOxxUj0viCAf8q4xjsYUmR7IL
-         PU12TyowQ/SEfxEDdJcUEi/qgW273mPnh/lXcjwyoXahmf2IW9MIiIhZNSFgNksU0Xhg
-         wlEQ==
-X-Gm-Message-State: AOAM531kJ1xuYlk6H6WkTjDld55QbVlmkX/VYRIU9njRv+d2Zkxw4Oud
-	0Nq+rvmbBX7RRGe4vDKhzMh2ijrBQFmeWQ==
-X-Google-Smtp-Source: ABdhPJxTaqglaIWnhbtbhy3spvEUvcPBhUxv9keg3f8SnZl4JJiRBeW+7YlJYBYQKMr3FL0sIV2NNA==
-X-Received: by 2002:a5d:6511:: with SMTP id x17mr3653715wru.313.1612513533703;
-        Fri, 05 Feb 2021 00:25:33 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:d1b2:8778:591e:ef47])
-        by smtp.gmail.com with ESMTPSA id f6sm7708464wmq.33.2021.02.05.00.25.33
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 00:25:33 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] pseudo: Update to work with glibc 2.33
-Date: Fri,  5 Feb 2021 08:25:32 +0000
-Message-Id: <20210205082532.1620529-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210205082532.1620529-1-richard.purdie@linuxfoundation.org>
-References: <20210205082532.1620529-1-richard.purdie@linuxfoundation.org>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1612515123; x=1644051123;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=rVci02W67vmyWaAg/UVGQglp9aqYZYt0VQkIuQoREGk=;
+  b=iW1zoIAeFHWUErRN/tr65TpXqXUuJ17khZ88r7DuIx1F3IyKv5RmsN8D
+   IEjEcY3AHdXidvqpOfzQkjmY8322OmF4VMujgSdqhftMZnd53XSF7ITLQ
+   wpvMR74j7qqQpEWM4ZEzwSFSj8OCbAxQokUq2AHVVLkcAslKYKo6/2whG
+   Q=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 05 Feb 2021 09:52:00 +0100
+Received: from esabb1.muc ([160.50.100.31])  by esagw6.muc with ESMTP/TLS;
+ 05 Feb 2021 09:52:00 +0100
+Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
+ by esabb1.muc with ESMTP/TLS; 05 Feb 2021 09:52:00 +0100
+Received: from michael-pcx.bmw-carit.intra (192.168.221.44) by
+ smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
+ Fri, 5 Feb 2021 09:52:00 +0100
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Michael Ho <Michael.Ho@bmw.de>
+Subject: [PATCH] RFC: rootfs.py: expose prepared_index and ipk_repo_workdir for OpkgPM
+Date: Fri, 5 Feb 2021 09:51:45 +0100
+Message-ID: <1612515106-377011-1-git-send-email-michael.ho@bmw.de>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: michael.ho@bmw.de
+X-ClientProxiedBy: smucm07k.europe.bmw.corp (160.48.96.35) To
+ smucm09k.europe.bmw.corp (160.48.96.43)
+Content-Type: text/plain
 
-Update to a pseudo version which contains some heqader fixes for
-glibc 2.33.
+From: Michael Ho <Michael.Ho@bmw.de>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 0ba7b503551..0072e0558b8 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-group \
-            "
- 
--SRCREV = "8317c0ab172db47dabcef909bae02cd77b1f1010"
-+SRCREV = "f332f5633b5dd73fa2b6e5d605eb33e4a446d7ad"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
+The OpkgPM class has two arguments for advanced control over the ipk
+repository creation/use that I would like to make use of from outside of
+OpkgRootfs (which wraps OpkgPM). This is for purposes beyond just standard
+image generation so it's more of an advanced interface that is not intended
+for normal use. In this commit, I've added the variables IPKGREPO_TARGET and
+IPKGREPO_TARGET_PREPARED as interfaces to forward on to as ipk_repo_workdir
+and prepare_index when calling the OpkgPM constructor.
+
+Is this something that could be suitable for upstreaming or not likely? And
+if so, should I send a patch to document these variables or leave them
+undocumented like other IPKG variables (eg. IPKGCONF_TARGET).
+
+Thanks!
+
+Michael Ho (1):
+  rootfs.py: expose prepared_index and ipk_repo_workdir for OpkgPM
+
+ meta/lib/oe/package_manager/ipk/rootfs.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
 -- 
-2.27.0
+2.7.4
 
