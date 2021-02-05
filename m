@@ -1,220 +1,243 @@
 Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.2811.1612492102935951856
+ by mx.groups.io with SMTP id smtpd.web10.2819.1612492128924055853
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Feb 2021 18:28:24 -0800
+ Thu, 04 Feb 2021 18:28:49 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
 X-IronPort-AV: E=Sophos;i="5.81,154,1610380800"; 
-   d="scan'208";a="104222071"
+   d="scan'208";a="104222100"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 05 Feb 2021 10:28:22 +0800
+  by heian.cn.fujitsu.com with ESMTP; 05 Feb 2021 10:28:48 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 93A504CE6D74
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Feb 2021 10:28:16 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 79F884CE6F78
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Feb 2021 10:28:47 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 5 Feb 2021 10:28:18 +0800
+ (TLS) id 15.0.1497.2; Fri, 5 Feb 2021 10:28:48 +0800
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] parted: upgrade 3.3 -> 3.4
-Date: Fri, 5 Feb 2021 10:28:11 +0800
-Message-ID: <1612492091-33259-1-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] python3: CVE-2021-3177 Security Advisory
+Date: Fri, 5 Feb 2021 10:28:41 +0800
+Message-ID: <1612492121-33316-1-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 93A504CE6D74.A3D0A
+X-yoursite-MailScanner-ID: 79F884CE6F78.A503C
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
-0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
-0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch
-0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch
-removed since they are included in 3.4
+References
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3177
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- ...er-scripts-used-only-in-tests-to-Pyt.patch | 33 ----------
- ...s-add-sourcedir-lib-to-include-paths.patch | 26 --------
- ...rather-than-skip_test_-which-is-unde.patch | 66 -------------------
- .../parted/{parted_3.3.bb => parted_3.4.bb}   |  7 +-
- 4 files changed, 2 insertions(+), 130 deletions(-)
- delete mode 100644 meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
- delete mode 100644 meta/recipes-extended/parted/files/0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch
- delete mode 100644 meta/recipes-extended/parted/files/0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch
- rename meta/recipes-extended/parted/{parted_3.3.bb => parted_3.4.bb} (83%)
+ .../python/python3/CVE-2021-3177.patch        | 179 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.9.1.bb |   1 +
+ 2 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
 
-diff --git a/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch b/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
-deleted file mode 100644
-index 829c0c8b78..0000000000
---- a/meta/recipes-extended/parted/files/0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From ddbefd80d74c3baaae328332458db447e1666240 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 27 Apr 2017 16:37:24 +0300
--Subject: [PATCH] Move python helper scripts (used only in tests) to Python 3
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- tests/gpt-header-move | 2 +-
-- tests/msdos-overlap   | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/tests/gpt-header-move b/tests/gpt-header-move
--index 3dda5cb..a2b9508 100755
----- a/tests/gpt-header-move
--+++ b/tests/gpt-header-move
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python3
-- 
-- # open img file, subtract 33 from altlba address, and move the last 33 sectors
-- # back by 33 sectors
--diff --git a/tests/msdos-overlap b/tests/msdos-overlap
--index d6ae8d6..2c6747b 100755
----- a/tests/msdos-overlap
--+++ b/tests/msdos-overlap
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python3
-- """
--     Write an overlapping partition to a msdos disk
-- 
-diff --git a/meta/recipes-extended/parted/files/0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch b/meta/recipes-extended/parted/files/0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch
-deleted file mode 100644
-index 4dc2ab259d..0000000000
---- a/meta/recipes-extended/parted/files/0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From d60a8a86f6593738b5324ccd8fe3e6d84a1fe7bc Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 11 Dec 2019 14:18:36 +0100
--Subject: [PATCH] libparted/fs: add $sourcedir/lib to include paths
--
--Otherwise, getopt-pfx-core.h won't be found.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- libparted/fs/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libparted/fs/Makefile.am b/libparted/fs/Makefile.am
--index 286bff6..65f45d3 100644
----- a/libparted/fs/Makefile.am
--+++ b/libparted/fs/Makefile.am
--@@ -3,7 +3,7 @@
-- #
-- # This file may be modified and/or distributed without restriction.
-- 
---partedincludedir = -I$(top_builddir)/include -I$(top_srcdir)/include
--+partedincludedir = -I$(top_builddir)/include -I$(top_srcdir)/include -I$(top_srcdir)/lib
-- 
-- AM_CFLAGS = $(WARN_CFLAGS)
-- 
-diff --git a/meta/recipes-extended/parted/files/0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch b/meta/recipes-extended/parted/files/0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch
-deleted file mode 100644
-index 9524adf7b8..0000000000
---- a/meta/recipes-extended/parted/files/0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--From 9f844484cedb39e301b016e9da7852c1a0fb6eea Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 11 Dec 2019 16:27:48 +0100
--Subject: [PATCH] tests: use skip_ rather than skip_test_ (which is undefined)
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- tests/t6001-psep.sh               | 2 +-
-- tests/t6004-dm-many-partitions.sh | 2 +-
-- tests/t6005-dm-uuid.sh            | 2 +-
-- tests/t6006-dm-512b-sectors.sh    | 2 +-
-- 4 files changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/tests/t6001-psep.sh b/tests/t6001-psep.sh
--index e350bd2..67014a0 100644
----- a/tests/t6001-psep.sh
--+++ b/tests/t6001-psep.sh
--@@ -21,7 +21,7 @@
-- require_root_
-- require_udevadm_settle_
-- 
---(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
--+(dmsetup --help) > /dev/null 2>&1 || skip_ "No dmsetup installed"
-- 
-- # Device maps names - should be random to not conflict with existing ones on
-- # the system
--diff --git a/tests/t6004-dm-many-partitions.sh b/tests/t6004-dm-many-partitions.sh
--index b4be975..7214f60 100755
----- a/tests/t6004-dm-many-partitions.sh
--+++ b/tests/t6004-dm-many-partitions.sh
--@@ -21,7 +21,7 @@
-- 
-- require_root_
-- require_udevadm_settle_
---(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
--+(dmsetup --help) > /dev/null 2>&1 || skip_ "No dmsetup installed"
-- 
-- ss=$sector_size_
-- ns=300
--diff --git a/tests/t6005-dm-uuid.sh b/tests/t6005-dm-uuid.sh
--index 4266747..4790a8b 100755
----- a/tests/t6005-dm-uuid.sh
--+++ b/tests/t6005-dm-uuid.sh
--@@ -21,7 +21,7 @@
-- 
-- require_root_
-- require_udevadm_settle_
---(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
--+(dmsetup --help) > /dev/null 2>&1 || skip_ "No dmsetup installed"
-- 
-- ss=$sector_size_
-- ns=300
--diff --git a/tests/t6006-dm-512b-sectors.sh b/tests/t6006-dm-512b-sectors.sh
--index bf32135..b679adb 100644
----- a/tests/t6006-dm-512b-sectors.sh
--+++ b/tests/t6006-dm-512b-sectors.sh
--@@ -25,7 +25,7 @@ require_scsi_debug_module_
-- grep '^#define USE_BLKID 1' "$CONFIG_HEADER" > /dev/null ||
--   skip_ 'this system lacks a new-enough libblkid'
-- 
---(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
--+(dmsetup --help) > /dev/null 2>&1 || skip_ "No dmsetup installed"
-- 
-- # Device maps names - should be random to not conflict with existing ones on
-- # the system
-diff --git a/meta/recipes-extended/parted/parted_3.3.bb b/meta/recipes-extended/parted/parted_3.4.bb
-similarity index 83%
-rename from meta/recipes-extended/parted/parted_3.3.bb
-rename to meta/recipes-extended/parted/parted_3.4.bb
-index ce40c04ad4..8b42a6d35d 100644
---- a/meta/recipes-extended/parted/parted_3.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.4.bb
-@@ -9,14 +9,11 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://no_check.patch \
-            file://fix-doc-mandir.patch \
-            file://0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch \
--           file://0001-Move-python-helper-scripts-used-only-in-tests-to-Pyt.patch \
-            file://run-ptest \
--           file://0001-libparted-fs-add-sourcedir-lib-to-include-paths.patch \
--           file://0002-tests-use-skip_-rather-than-skip_test_-which-is-unde.patch \
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+new file mode 100644
+index 0000000000..2ff59a8d2d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+@@ -0,0 +1,179 @@
++From 9ff800eb4b605cf0bf663c6bbe4304b93e384e03 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@cn.fujitsu.com>
++Date: Wed, 3 Feb 2021 15:33:47 +0900
++Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
++ formatting in ctypes param reprs.
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
++---
++ Lib/ctypes/test/test_parameters.py | 44 ++++++++++++++++++++++++++
++ Modules/_ctypes/callproc.c         | 51 +++++++++++-------------------
++ 2 files changed, 63 insertions(+), 32 deletions(-)
++
++diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
++index e4c25fd..01a91c9 100644
++--- a/Lib/ctypes/test/test_parameters.py
+++++ b/Lib/ctypes/test/test_parameters.py
++@@ -201,6 +201,50 @@ class SimpleTypesTestCase(unittest.TestCase):
++         with self.assertRaises(ZeroDivisionError):
++             WorseStruct().__setstate__({}, b'foo')
++ 
+++    def test_parameter_repr(self):
+++        from ctypes import (
+++            c_bool,
+++            c_char,
+++            c_wchar,
+++            c_byte,
+++            c_ubyte,
+++            c_short,
+++            c_ushort,
+++            c_int,
+++            c_uint,
+++            c_long,
+++            c_ulong,
+++            c_longlong,
+++            c_ulonglong,
+++            c_float,
+++            c_double,
+++            c_longdouble,
+++            c_char_p,
+++            c_wchar_p,
+++            c_void_p,
+++        )
+++        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
+++        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
+++        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
+++        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
+++        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
+++        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
+++        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
+++        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
+++        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
+++
+++
++ ################################################################
++ 
++ if __name__ == '__main__':
++diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
++index b0a36a3..11c4588 100644
++--- a/Modules/_ctypes/callproc.c
+++++ b/Modules/_ctypes/callproc.c
++@@ -489,58 +489,47 @@ is_literal_char(unsigned char c)
++ static PyObject *
++ PyCArg_repr(PyCArgObject *self)
++ {
++-    char buffer[256];
++     switch(self->tag) {
++     case 'b':
++     case 'B':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++	return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.b);
++-        break;
++     case 'h':
++     case 'H':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++	return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.h);
++-        break;
++     case 'i':
++     case 'I':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++	return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.i);
++-        break;
++     case 'l':
++     case 'L':
++-        sprintf(buffer, "<cparam '%c' (%ld)>",
+++	return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
++             self->tag, self->value.l);
++-        break;
++ 
++     case 'q':
++     case 'Q':
++-        sprintf(buffer,
++-#ifdef MS_WIN32
++-            "<cparam '%c' (%I64d)>",
++-#else
++-            "<cparam '%c' (%lld)>",
++-#endif
+++	return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
++             self->tag, self->value.q);
++-        break;
++     case 'd':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.d);
++-        break;
++-    case 'f':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.f);
++-        break;
++-
+++    case 'f': {
+++        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+++        if (f == NULL) {
+++            return NULL;
+++        }
+++        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
+++        Py_DECREF(f);
+++        return result;
+++    }
++     case 'c':
++         if (is_literal_char((unsigned char)self->value.c)) {
++-            sprintf(buffer, "<cparam '%c' ('%c')>",
+++	    return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
++                 self->tag, self->value.c);
++         }
++         else {
++-            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
+++	    return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
++                 self->tag, (unsigned char)self->value.c);
++         }
++-        break;
++ 
++ /* Hm, are these 'z' and 'Z' codes useful at all?
++    Shouldn't they be replaced by the functionality of c_string
++@@ -549,22 +538,20 @@ PyCArg_repr(PyCArgObject *self)
++     case 'z':
++     case 'Z':
++     case 'P':
++-        sprintf(buffer, "<cparam '%c' (%p)>",
+++	return PyUnicode_FromFormat("<cparam '%c' (%p)>",
++             self->tag, self->value.p);
++         break;
++ 
++     default:
++         if (is_literal_char((unsigned char)self->tag)) {
++-            sprintf(buffer, "<cparam '%c' at %p>",
+++	    return PyUnicode_FromFormat("<cparam '%c' at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++         else {
++-            sprintf(buffer, "<cparam 0x%02x at %p>",
+++	    return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++-        break;
++     }
++-    return PyUnicode_FromString(buffer);
++ }
++ 
++ static PyMemberDef PyCArgType_members[] = {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.9.1.bb b/meta/recipes-devtools/python/python3_3.9.1.bb
+index bdeddc4e68..ad032e97ae 100644
+--- a/meta/recipes-devtools/python/python3_3.9.1.bb
++++ b/meta/recipes-devtools/python/python3_3.9.1.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-Lib-sysconfig.py-use-libdir-values-from-configuratio.patch \
++           file://CVE-2021-3177.patch \
             "
  
--SRC_URI[md5sum] = "090655d05f3c471aa8e15a27536889ec"
--SRC_URI[sha256sum] = "57e2b4bd87018625c515421d4524f6e3b55175b472302056391c5f7eccb83d44"
-+SRC_URI[md5sum] = "357d19387c6e7bc4a8a90fe2d015fe80"
-+SRC_URI[sha256sum] = "e1298022472da5589b7f2be1d5ee3c1b66ec3d96dfbad03dc642afd009da5342"
- 
- EXTRA_OECONF = "--disable-device-mapper"
- 
+ SRC_URI_append_class-native = " \
 -- 
 2.25.1
 
