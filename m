@@ -1,80 +1,173 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.6840.1612524759030421935
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web09.6934.1612527284800275941
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 03:32:39 -0800
+ Fri, 05 Feb 2021 04:14:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZG49ZzWZ;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id u14so7336312wri.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 03:32:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QxlK1CAP;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id w1so11546866ejf.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 04:14:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rbaIHLMFdus1dW3GG8Lvl5xiOX3/z77epR4nOQIK5bk=;
-        b=ZG49ZzWZ4H7z6IWAMX0DXBylF4SHiMHPV4VI9vQpMtfWEyA/pnsibk1V9gqYfCQJeZ
-         8duO3Njo+KPdH+dBvSCcxFj/PBubK92FF2FdnZzkRd2VAtuoek3gVMCml8nkMC6PZyt5
-         so4MpPRqRJEvISFsXs7nuNgkw/ICAN4lr79qzOF7VG5dhYZvUsYKTpiME8l1htuebuCD
-         vPkhRAnnaYFAUyfHef0RJX4VXc0N3KO5lx6hFkwnHSqiFX0JxQlW1ZJQjX/B8IdWGv4z
-         YZP/XXM6z6D5yjSiC9VmZBywWVwD3TOiI8wfRcjz1sgv5ExKkf6T847ps8Sjwl2FsBM/
-         mKqQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P3T0TXQox1NKHe0eYFoYBC+UEiUVvYiaW1Ae/XXKU4k=;
+        b=QxlK1CAPagRlbWiVJVhUy5pZcmApnlIZh+LNqOSyj0eCnwDxONIZpBYlNAEAJr4tnw
+         GExyrozQ6DqcrpzYMaQ7D0mIyWxwZPe/iCKd8DXDsYImOAX0Ci0gHU8hh+s3zmfe3Iyr
+         XDgC+SsX7Mug0CihtlIG8X8/BmCDA6G7KJvxcT9n7aiRfQSK3bAPmwWv0qUCx5egNTst
+         GlJHxI7wznpple4HqhdC/+zveI3VrzyS5ZyjxrXmd8ieZ+weofeg1D41CD1Fobx75s9A
+         spyjSbML76JTKlFm0buQqRUu++sYUzlO327ZWv6JUk2Qx6ew+OCnfL09Hodpad8M0h7l
+         JL8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rbaIHLMFdus1dW3GG8Lvl5xiOX3/z77epR4nOQIK5bk=;
-        b=dcFbLk6YSHPlocqPlYNxxpF/cmi32ZZ/46zXNcPyn3cykuzpt9EJopSZEHHchsl482
-         TLpI6V2e39Zxqvwz4OruyOdCRC91qhb/RYRkip2eYNEkSRAVlopTpROr2JEpB1OLuvTm
-         qqSxblChjjKZdyo2TNmrroFojM2F2fIIRbu+48wsFmyhZb4uNnnn+C/3uEiR/HD26zP1
-         xsh3pyQzy7+yJVagIDGqApJsJZz7zfTsgqbcKrCvkwWGOv1kEUFD9hlXqHhj1gmNqibU
-         BGV3mazgKg902++c24q+8PazRMHbBT/2InN2rxvcLqUvWqqonwBAOvGBYvqUrP1KG7RE
-         GfqQ==
-X-Gm-Message-State: AOAM532qXIlXCFgNTjlrxIiJJ20P0+BOBmPUe92UxHSAcxRB26UTlQqf
-	VHdfDAmCPMLYPjF7CD9cR4WsP550pOM=
-X-Google-Smtp-Source: ABdhPJzrLTo8lFEbAd3UbG1IdS3tYDSNk9B5lKuSUbD9ziXSK3xgBYbrUK8kdLqfRupMb3brfU2lng==
-X-Received: by 2002:adf:e392:: with SMTP id e18mr4466128wrm.116.1612524757493;
-        Fri, 05 Feb 2021 03:32:37 -0800 (PST)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from superandy.speedport.ip (p200300f07f016e992fe439d49478b28e.dip0.t-ipconnect.de. [2003:f0:7f01:6e99:2fe4:39d4:9478:b28e])
-        by smtp.gmail.com with ESMTPSA id c5sm11782375wrn.77.2021.02.05.03.32.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 03:32:36 -0800 (PST)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][V2] openssl: re-enable whirlpool
-Date: Fri,  5 Feb 2021 12:32:29 +0100
-Message-Id: <20210205113229.933277-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P3T0TXQox1NKHe0eYFoYBC+UEiUVvYiaW1Ae/XXKU4k=;
+        b=Mmf76RZcebslDE4GBX0Fu/B4zOhBlxh25z0N24XSDN0zchdAApZxWhH8fFoEJN+CVT
+         SyWEw8MALJX2XwWRfPoiQ+GSCa2LJRAbEBqEt3H8y0GVbJlDq4DQsKn04h0gWvzwM7jm
+         XSlc1bL50OgeI2xtOxAlquXaWsrRFx/dfMgMg3v0vTXFkHY49qTGb/PRJugCVaFBFfX/
+         IdXEkGR5Zdn4+DvburL/YvuLhjN81XCYMnJbXVfXa9ezLFd4U0e/vLBND2z9k5j3tkFK
+         LNbUIIKD6JLwcOINevkcG9nBkWV+hvAqmjlCR8cn5iyKxZb4O8BSg7C4C5asgGJk5UwN
+         EoYA==
+X-Gm-Message-State: AOAM531/JhSOSK81kGSctne6PxC+QOyUdSLFElNO/EDVTrblQ1fPWtaN
+	CILPN99XMJ0mfhlzkbK8Tx6X42fMtlUpRskT1r8=
+X-Google-Smtp-Source: ABdhPJxZHSvyhNHA8R9PmKgn8q2LofWgCdhJBymwDS5TP+3RkNUz9jbPlrjAQJQSS2alEj9KagTFHIVc26LJ6QZauTg=
+X-Received: by 2002:a17:906:154d:: with SMTP id c13mr3851496ejd.471.1612527283281;
+ Fri, 05 Feb 2021 04:14:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210130180240.1417810-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210130180240.1417810-1-richard.purdie@linuxfoundation.org>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Fri, 5 Feb 2021 13:14:32 +0100
+Message-ID: <CA+chaQcpgeCdunqKrPJkkqjRw-dY68pHM_zdj5u3zMOjh5cG7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] image_types: Ensure tar archives are reproducible
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e921b005ba95c362"
 
-* it breaks KDE's qca and dependencies
-* it is not deprecated. Openssl 3.0 (currently alpha) will deprecate whirlpool
+--000000000000e921b005ba95c362
+Content-Type: text/plain; charset="UTF-8"
 
-[1] https://www.openssl.org/news/changelog.html#openssl-30
+On Sat, Jan 30, 2021 at 7:02 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
-V1 -> V2: Add comment for whirlpool
- meta/recipes-connectivity/openssl/openssl_1.1.1i.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> The tar output seems to vary depending on the version of tar used and
+> distro
+> configuration. Be explict about the output format to avoid this and be
+> determinstic.
+>
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-index 5617f337e0..99b1566740 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-@@ -65,7 +65,8 @@ CFLAGS_append_class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
- # rc2 (mailx)
- # psk (qt5)
- # srp (libest)
--DEPRECATED_CRYPTO_FLAGS = "no-ssl no-idea no-rc5 no-md2 no-camellia no-mdc2 no-scrypt no-seed no-siphash no-sm2 no-sm3 no-sm4 no-whirlpool"
-+# whirlpool (qca)
-+DEPRECATED_CRYPTO_FLAGS = "no-ssl no-idea no-rc5 no-md2 no-camellia no-mdc2 no-scrypt no-seed no-siphash no-sm2 no-sm3 no-sm4"
- 
- do_configure () {
- 	os=${HOST_OS}
--- 
-2.26.2
+Is it the tar format selection which isn't deterministic or something else
+when the format isn't set to gnu?
 
+I'm asking because gnu format isn't compatible with --xattrs used e.g. here:
+https://github.com/advancedtelematic/meta-updater/blob/d3a832f66e8802cb45536ff278d5c77f946d341d/classes/image_types_ostree.bbclass#L16
+causing do_image_tar failing with:
+
+| tar: --xattrs can be used only on POSIX archives
+| Try 'tar --help' or 'tar --usage' for more information.
+
+I've already tested that --format=posix here would fix meta-updater, but
+not sure if it's still as deterministic as --format=gnu. Do you remember
+which distros were producing different output?
+
+Thanks
+
+
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/image_types.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> index c937ae45384..76949d1051d 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -110,7 +110,7 @@ IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS}
+> ${IMGDEPLOYDIR}/${IMAGE_NAM
+>
+>  IMAGE_CMD_TAR ?= "tar"
+>  # ignore return code 1 "file changed as we read it" as other tasks(e.g.
+> do_image_wic) may be hardlinking rootfs
+> -IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --numeric-owner -cf
+> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} .
+> || [ $? -eq 1 ]"
+> +IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --format=gnu
+> --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar
+> -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+>
+>  do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+>  IMAGE_CMD_cpio () {
+> --
+> 2.27.0
+>
+>
+> 
+>
+>
+
+--000000000000e921b005ba95c362
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Jan 30, 2021 at 7:02 PM Richard P=
+urdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.pur=
+die@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote">=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">The tar output seems to v=
+ary depending on the version of tar used and distro<br>
+configuration. Be explict about the output format to avoid this and be<br>
+determinstic.<br></blockquote><div><br></div><div>Is it the tar format sel=
+ection which isn&#39;t deterministic or something else when the format isn&=
+#39;t set to gnu?</div><div><br></div><div>I&#39;m asking because gnu forma=
+t isn&#39;t compatible with --xattrs used e.g. here:</div><div><a href=3D"h=
+ttps://github.com/advancedtelematic/meta-updater/blob/d3a832f66e8802cb45536=
+ff278d5c77f946d341d/classes/image_types_ostree.bbclass#L16">https://github.=
+com/advancedtelematic/meta-updater/blob/d3a832f66e8802cb45536ff278d5c77f946=
+d341d/classes/image_types_ostree.bbclass#L16</a><br></div><div>causing do_i=
+mage_tar failing with:</div><div><br></div><div>| tar: --xattrs can be used=
+ only on POSIX archives<br>| Try &#39;tar --help&#39; or &#39;tar --usage&#=
+39; for more information.<br></div><div><br></div><div>I&#39;ve already tes=
+ted that --format=3Dposix here would fix meta-updater, but not sure if it&#=
+39;s still as deterministic as --format=3Dgnu. Do you remember which distro=
+s were producing different output?</div><div><br></div><div>Thanks</div><di=
+v><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
+br>
+---<br>
+=C2=A0meta/classes/image_types.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.b=
+bclass<br>
+index c937ae45384..76949d1051d 100644<br>
+--- a/meta/classes/image_types.bbclass<br>
++++ b/meta/classes/image_types.bbclass<br>
+@@ -110,7 +110,7 @@ IMAGE_CMD_squashfs-lz4 =3D &quot;mksquashfs ${IMAGE_RO=
+OTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM<br>
+<br>
+=C2=A0IMAGE_CMD_TAR ?=3D &quot;tar&quot;<br>
+=C2=A0# ignore return code 1 &quot;file changed as we read it&quot; as oth=
+er tasks(e.g. do_image_wic) may be hardlinking rootfs<br>
+-IMAGE_CMD_tar =3D &quot;${IMAGE_CMD_TAR} --sort=3Dname --numeric-owner -c=
+f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} =
+. || [ $? -eq 1 ]&quot;<br>
++IMAGE_CMD_tar =3D &quot;${IMAGE_CMD_TAR} --sort=3Dname --format=3Dgnu --n=
+umeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C $=
+{IMAGE_ROOTFS} . || [ $? -eq 1 ]&quot;<br>
+<br>
+=C2=A0do_image_cpio[cleandirs] +=3D &quot;${WORKDIR}/cpio_append&quot;<br>
+=C2=A0IMAGE_CMD_cpio () {<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000e921b005ba95c362--
