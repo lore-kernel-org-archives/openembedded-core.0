@@ -1,81 +1,75 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.224.1612569685855972688
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.1761.1612578168813930944
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 16:01:26 -0800
+ Fri, 05 Feb 2021 18:22:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=VDrY5LaH;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.176, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f176.google.com with SMTP id 19so8786495qkh.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 16:01:25 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W+tZnb5O;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.222.169, mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-qk1-f169.google.com with SMTP id k193so8968853qke.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 18:22:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h1P2MaksK6Mi5wm4YJPDY9JvCHXP/rQbSXxpqcdOocU=;
-        b=VDrY5LaHkwJIsbj9w1AzHikgMtqeASSv4ADLkapdhnwR8AR55JLnFTi3aZnlVUN1Og
-         lnJtDujwS7kO8tDKt3HSoyfhMuXWy9P0JVMKRt7vWsXj8lNjOvm6TU8026tE+fI6jd3p
-         x0w8Anufg2kiE0nV+lUQHMWcO7fre+ACy0bdF2gFp8xwEiylTxCGMd8Eznu6zEUaVIto
-         03iBSgfHYBXXKKSoIHsgZ9Rul2LNX7ZGWdyQ+lQL+It8NiN+y8UV4byJTUCT+CPJWtIf
-         bvEmQzN4D/VWPIvnVV8VBihmPUDRrvfAXuphuQmXSFBFBjecvtAecE/x/KUvmrzgBKo6
-         T0jQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l4I/LZuDrhP5xNlFrXI1pUCPsjl2cN7cu/zQTs6oF18=;
+        b=W+tZnb5OgDr21fCw24yTjw8Rtvd/pmeezT9unr3PGoJEeGPnjTdWA4eUSJ0ZwwH16+
+         Vp+J8R5FqPg9r20Y+xodgnpZqxsY7NUsayAztu3g2NxmguwLGEelnybrN1Rs5D9WePcU
+         Z3WloTbliKUhLVqAolmtndJ6ubHWSgNfixWrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h1P2MaksK6Mi5wm4YJPDY9JvCHXP/rQbSXxpqcdOocU=;
-        b=HYepphdwR4Og9lll7Ab58RtbATCY+qC/kOp2laX/qDAemg9Fz7MLzeUZHWnV7FrHcW
-         1EUICfdy2KPQjjOMbs7+2mFx6ByMZgj19W+/i66x2qVN/pvLVPIvZN5/KMZ8j9Jz5qbR
-         x4sWrkymhLRN/7K20cR70ErZmxJz+RzlfGrVFWuDm5VsRAS2a2tU9JLo8PhCVfnBNUN5
-         dDXguZXmMsdll9dqoqDHPeo2bUJveXXvEVOvXUC1k8q+Abjl49WLY62MSDPLsIyxeWJ4
-         4a5Adntg6HQQx4Ffb0e+j8vyV+Ds4yS/TXy5XjWWkgVmzMze4IdAsviob3TtxwMsyrmQ
-         rEkQ==
-X-Gm-Message-State: AOAM532cbqCJsoZt/RjcPoGRl4ZNr4X3p5DKpMU7b6jGqM6ZXDOfmig3
-	jmlloJCHTFGWq/mdS9oJPTpvC1kEiuNv+SeaETDGAA==
-X-Google-Smtp-Source: ABdhPJyFFTTS0JGsvZW9NNcG3T23CcrSvSQeTYZ65+dSUVIM7zTpTwh0Q8gv3e6QBYTm+56nnt5/KvQrz40MK0qR3d4=
-X-Received: by 2002:a37:7cc5:: with SMTP id x188mr6829382qkc.130.1612569685060;
- Fri, 05 Feb 2021 16:01:25 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l4I/LZuDrhP5xNlFrXI1pUCPsjl2cN7cu/zQTs6oF18=;
+        b=phTsSagpXGIUTX9toC8lhNHIztkkL1yRT5dCllgsDIXz8dIiNod5iuBJLpJc3ch6DE
+         lgOf9B6RT2fiagd0C84ERwo8OmhqkCO4KR08Z+ghJfNNeUdq/O54vOfuCnGQCLhdMdoW
+         0PoUHfOkY5pxHIX6GzNobB4ryq6EdkVbBOvW223MnWLQIEqlpg/TL1mO6nyM4vFgnxvZ
+         TiFaYM9Fqx85o1OH6ic4SxTBNN/rsuL5owiBNxHYB1MAOTP2HMZXd9JlTwjCORi0MZf+
+         7tF+iRFerw9j4g2U80IeHq0xZeT5TZ82Ni4DrOXPbgcatgM2wGZNghPsi3avJ6pJUO05
+         5SHw==
+X-Gm-Message-State: AOAM5330uN1IDsEPZjxpdX5kcwdK8fiazjctrNZDAHGdEf/obqLm9K6y
+	OpbKlff4BFYAe9yXyFTXTetPR9nAqG69Zg==
+X-Google-Smtp-Source: ABdhPJzrnE9GcucC2KMuGZBQf8BDLEjZ7nVPAP5TtYvSB2bu9lDCq7YTlht2OXYr6AKqnJunMjSkmg==
+X-Received: by 2002:a05:620a:16c9:: with SMTP id a9mr7089445qkn.41.1612578167693;
+        Fri, 05 Feb 2021 18:22:47 -0800 (PST)
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from localhost.lan1 (068-113-044-012.res.spectrum.com. [68.113.44.12])
+        by smtp.gmail.com with ESMTPSA id v135sm12072697qka.98.2021.02.05.18.22.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 18:22:46 -0800 (PST)
+From: "Michael Halstead" <mhalstead@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: rpurdie@linuxfoundation.org,
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Subject: [PATCH] uninative: Upgrade to 2.10
+Date: Fri,  5 Feb 2021 18:22:27 -0800
+Message-Id: <20210206022227.7573-1-mhalstead@linuxfoundation.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210205034258.340392-1-douglas.royds@taitradio.com>
-In-Reply-To: <20210205034258.340392-1-douglas.royds@taitradio.com>
-From: "Jon Mason" <jdmason@kudzu.us>
-Date: Fri, 5 Feb 2021 19:01:14 -0500
-Message-ID: <CAPoiz9woPh6dbcXjeLhGxSAmB8QX4jE_txbh-R3Hq8YDQvwoQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] externalsrc: Detect code changes in submodules
-To: douglas.royds@taitradio.com
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 4, 2021 at 10:43 PM Douglas via lists.openembedded.org
-<douglas.royds=taitradio.com@lists.openembedded.org> wrote:
->
-> Further to 50ff9afb39, only detect code changes in submodules that are
-> subdirectories of the EXTERNALSRC directory.
->
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
+Final glibc 2.32 based uninative.
 
-I believe this patch is causing errors in the autobuilder.  See
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1801/steps/14/logs/stdio
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+---
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
->  meta/classes/externalsrc.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-> index 64e94e3301..27496bb2db 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -216,7 +216,7 @@ def srctree_hash_files(d, srcdir=None):
->              env['GIT_INDEX_FILE'] = tmp_index.name
->              subprocess.check_output(['git', 'add', '-A', '.'], cwd=s_dir, env=env)
->              git_sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env).decode("utf-8")
-> -            submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list'], cwd=s_dir, env=env).decode("utf-8")
-> +            submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list', s_dir], cwd=s_dir, env=env).decode("utf-8")
->              for line in submodule_helper.splitlines():
->                  module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
->                  proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-> --
-> 2.25.1
->
->
-> 
->
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 69b6edee5f..85336014b1 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -8,7 +8,7 @@
+ 
+ UNINATIVE_MAXGLIBCVERSION = "2.32"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.9/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "9f25a667aee225b1dd65c4aea73e01983e825b1cb9b56937932a1ee328b45f81"
+-UNINATIVE_CHECKSUM[i686] ?= "cae5d73245d95b07cf133b780ba3f6c8d0adca3ffc4e7e7fab999961d5e24d36"
+-UNINATIVE_CHECKSUM[x86_64] ?= "d07916b95c419c81541a19c8ef0ed8cbd78ae18437ff28a4c8a60ef40518e423"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.10/"
++UNINATIVE_CHECKSUM[aarch64] ?= "645e5c50b2b48aabb8b10f783a9f94b4b7c5ddc7cfceb5386d43b86d30253202"
++UNINATIVE_CHECKSUM[i686] ?= "233e09b5ff30e15341232a0c16fa8448ff31dccb8f3f3e2ad3948cdac8c4a598"
++UNINATIVE_CHECKSUM[x86_64] ?= "04333677f81990ce2cf55c3bc256cd84a66085d18fc95ccddfab8581e4aec014"
+-- 
+2.29.2
+
