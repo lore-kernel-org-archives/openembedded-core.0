@@ -1,90 +1,106 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web08.3498.1612593103532249318
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web09.3590.1612593903112920559
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Feb 2021 22:31:43 -0800
+ Fri, 05 Feb 2021 22:45:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FqhSEDAw;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id o63so6109782pgo.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 22:31:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ilVQUDNL;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id s11so2960259qtq.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Feb 2021 22:45:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6H0sTnDW2s3pgL+lyRCG/lJxgFN72KrajOkqg4DTK8g=;
-        b=FqhSEDAwru/RhV/EBbcWFMNI9KLcvaN9wHq+ZNIK0lIzMcaewEj2Pv5leYDpoAGvIK
-         hVpc4ZI/ILhnxjKxrP8xyQHkNb69sQIzCf2G39ngZXOxjt/Yd+/EPvo2FF1/t180qnGI
-         iuyvhn7JzAb22766RUgyB4dWShm81RtO5JAopIqGB2a8Fgbr9ukP9iG0Nk520A/lbJGy
-         /SXb2i7UCvEGAD6l4Mrsu84Uxap3dG0lxZ3whQeK3jimcb8h6jrmxcY71Nv8MkQNQC0e
-         SncfrP7V7oyRnX3x3OFCe9+1fE9NNT0or+x0EWojgI19EXpJqQIPdZRxEYoMOVYlrmc8
-         Cicg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bNR4qNXPQJN77zyfZs3yaXqfm5+SnoZR7jc4wszVL2M=;
+        b=ilVQUDNLWfP2TptV1Dm+IYhgqIEVzHEKumpXZ3QfeJfKp0Ex4c/pnxtnxMebnxbuPZ
+         qgn2fI44esOndcgIdqO3RXXr4qFkvdqmJnNnWKkDRXUtGMK0/3nfiOUal/YijO0C98Kw
+         FSQjNBThLJi4qelzQfCf++deIn45R7nQ1QPp1mLmbrQ1G5u2dD2KR1vfAgY3seyB50Eh
+         M5cX3fRRk6LVMrcEtBiORIiDk1X1ms4zCEyw6rP4BeN7nRTlKrL3SVrWSXsuX9pjzXlD
+         cqY5I28N/MWtvqUFU3yw+Q/XpO/RG/qYh6nav9xGIq3gnATEKYPKl1JBmkbZ/vFOi19s
+         5stQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6H0sTnDW2s3pgL+lyRCG/lJxgFN72KrajOkqg4DTK8g=;
-        b=KTCc71yimP5AGUoEiWh5goHcwIp/Nyb8Ld422/aAMsYJv78O0PpNPoRFLbaoo+Io+l
-         QhTBUeE0JFv4AI/MDDzGYrO7mP4v/EO1HxxubF/+DsI0sJcvViZAUtffw6c3g3341UYP
-         L0vNb2XImBzOWaRaEs+3CZmc3PbDLN23H/1G3dM/eDx1/Z7iqPHUd+tzLuXBgiCFuJev
-         +/Sjs1StzUk723YuQYCuyxghpotkBxAQaKjMyuyRxj161JQ76BhKixt9qUTk2qLz9dKK
-         gMWyqPJftNs8JSYHbxdZlSLny7CtMGqlESoaP9ygv27e6NVn16yvj4SqJsu4PMGnzxT+
-         4Djw==
-X-Gm-Message-State: AOAM532jSLgCJB5B3SzuNSVqb3CKx4+oMgdWv9fwYmdGBFfUPK68A6wa
-	t/iI9oxn+Dv9mCKRUlhzuVzrGY/YZo5ZpA==
-X-Google-Smtp-Source: ABdhPJz6WkAiWiW+YXHoeuTZbTCEWYjd1N+DdopdH2A33aZaxeYOUSa8Ljd18x/KDukbQSm81gTx7w==
-X-Received: by 2002:aa7:983c:0:b029:1d0:1014:3d46 with SMTP id q28-20020aa7983c0000b02901d010143d46mr8303451pfl.43.1612593102199;
-        Fri, 05 Feb 2021 22:31:42 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d188])
-        by smtp.gmail.com with ESMTPSA id j9sm12861152pgb.47.2021.02.05.22.31.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 22:31:41 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] security_flags.inc: Use -O with -D_FORTIFY_SOURCE
-Date: Fri,  5 Feb 2021 22:31:38 -0800
-Message-Id: <20210206063138.1649019-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bNR4qNXPQJN77zyfZs3yaXqfm5+SnoZR7jc4wszVL2M=;
+        b=j4tAq+PY/ViCRbp14RSI/V651WcTPWrjDMBWJIHiALK90iYfsqlV+neZT4li4iJVp6
+         LTt0C8DuVvovMGbjA+w7LBIzFbvF30OXWNLWXIzeft1qAqtu2TDAz+wl1JnMQI+Nfvrr
+         udWC4STcwSeMFRmPUYIlh5NFsgs+bZUW2jiF6ny0a1Ny5jCjsz31EaRByF6amimcb/PV
+         TJUxAsEpSzEgTHQNvqfDjFiC7M6heEMOUcjrF8Cep3aYDnLtrCCvDcnFG4/7NGYdfXDA
+         LbQuroIc9uWTqp9d4I2CiGm1uoG1xLv/y4RHrpwls3pAyd901jqus0HJkvQ2YtzrPRzz
+         9CyA==
+X-Gm-Message-State: AOAM530/jaQ9IvltPVTIiT1kOlqhyDJYEyzGCnNA51qPtv5W7biXkvOH
+	GZUVNBi4AhRH6LrSjVUAJKa1FNeIooJBp7eZ4mg=
+X-Google-Smtp-Source: ABdhPJxmNsp58w96Cs7mfajvGm7CFGE4U9SoL9uZR35vi6dgs1ponZZJ573tUSBafB+XfrxpoQbVSbJFmE7R0XdFctU=
+X-Received: by 2002:a05:622a:44d:: with SMTP id o13mr1359344qtx.378.1612593902169;
+ Fri, 05 Feb 2021 22:45:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1611212366-44911-1-git-send-email-wangmy@cn.fujitsu.com>
+ <8ff56839bd7345ac64d0221f0f588e9886b4ef38.camel@linuxfoundation.org> <CAAnfSTtQYhHwkFrMczvv0OdUhFPM18tLyYfhAV4EKEBnDRPfwQ@mail.gmail.com>
+In-Reply-To: <CAAnfSTtQYhHwkFrMczvv0OdUhFPM18tLyYfhAV4EKEBnDRPfwQ@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 5 Feb 2021 22:44:36 -0800
+Message-ID: <CAMKF1spQ9Ld=UHEWed9wHFhmog16YZhOjuif4Qy5wVZUqsm0pQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libcroco: CVE-2020-12825 Security Advisory
+To: Ross Burton <ross@burtonini.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-compiler can only use fortify options when some level of optimization is
-on, otherwise it ends up sending some warnings.
+I am also seeing
 
-warning: _FORTIFY_SOURCE requires compiling with optimization (-O) [-W#warnings]
+ERROR: libcroco-native-0.6.13-r0 do_patch: Fuzz detected:
 
-this is usually OK, since -O<level> would be added via CFLAGS to
-compiler cmdline in normal compile stages, however during configure
-there are problems when CC,CPP,CXX are probed alone in configure tests
-which results in above warning, which confuses the configure results and
-autotools 2.70+ detects it as error e.g.
+Applying patch CVE-2020-12825.patch
+patching file src/cr-parser.c
+Hunk #4 succeeded at 799 with fuzz 1.
 
-configure:17292: error: C preprocessor "riscv32-yoe-linux-clang -target riscv32-yoe-linux      -mlittle-endian -mno-relax -Qunused-arguments -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/mnt/b/yoe/master/build/tmp/work/riscv32-yoe-linux/ndpi/3.4-r0/recipe-sysroot -E" fails sanity check
-See `config.log' for more details
 
-therefore adding a -O ( which actually is -O1 ) to lcl_maybe_fortify
-means we can properly test these configure tests and real -O<level> will
-still override -O added here, so overrall behavior improves
+The context lines in the patches can be updated with devtool:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/security_flags.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    devtool modify libcroco-native
+    devtool finish --force-patch-refresh libcroco-native <layer_path>
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 4e64eb99f9..05253b2df9 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -10,7 +10,7 @@ GCCPIE ?= "--enable-default-pie"
- 
- # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
- # -O0 which then results in a compiler warning.
--lcl_maybe_fortify ?= "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
-+lcl_maybe_fortify ?= "${@oe.utils.conditional('DEBUG_BUILD','1','','-O -D_FORTIFY_SOURCE=2',d)}"
- 
- # Error on use of format strings that represent possible security problems
- SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
--- 
-2.30.0
-
+On Thu, Jan 21, 2021 at 3:53 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> And a CVE: CVE-2020-12825 tag alongside that too would be good.
+>
+> Ross
+>
+> On Thu, 21 Jan 2021 at 10:50, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Thu, 2021-01-21 at 14:59 +0800, Wang Mingyu wrote:
+> > > References
+> > > https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12825
+> > >
+> > > Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> > > ---
+> > >  .../libcroco/libcroco/CVE-2020-12825.patch    | 170 ++++++++++++++++++
+> > >  .../libcroco/libcroco_0.6.13.bb               |   2 +
+> > >  2 files changed, 172 insertions(+)
+> > >  create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2020-12825.patch
+> > >
+> > > diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2020-12825.patch b/meta/recipes-support/libcroco/libcroco/CVE-2020-12825.patch
+> > > new file mode 100644
+> > > index 0000000000..cde0abd676
+> > > --- /dev/null
+> > > +++ b/meta/recipes-support/libcroco/libcroco/CVE-2020-12825.patch
+> > > @@ -0,0 +1,170 @@
+> > > +Subject: [PATCH] libcroco: Limit recursion in block and any productions
+> > > +
+> > > +Signed-off-by:Michael Catanzaro @mcatanzaro
+> >
+> > Thanks for this, the patch has no Upstream-Status set though? Could you
+> > resend with one please?
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >
+>
+> 
+>
