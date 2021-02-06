@@ -1,79 +1,92 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.4342.1612602011759077957
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web09.4313.1612602258219788736
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Feb 2021 01:00:12 -0800
+ Sat, 06 Feb 2021 01:04:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eNeQdsj6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id i9so7869197wmq.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 01:00:11 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=akaL6HdM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id o24so163380wmh.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 01:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=4esrONQoC2yqm+dt02NPlPtJ89lP+7Z30SAT3CLV5J4=;
-        b=eNeQdsj6BazYhD+KL4qBd4qZdMW7UyDlYxlxn/fBqu+zbSFwYT5xqFWou7QS1v7DOc
-         QM7Pg7L9RxZLNSPNlwce0PCskkG5iblrNbuzIyCJo3qa/HQ6iR9nC+kWOX9aTqOUPAIg
-         np0Pebs6XRaHVblieDFXfBRXWJ3TFAnIciQiY=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=yP/8bN+WP3uOxoW/e79H5rq+x6e6Xs9pUNGiZX5Btzc=;
+        b=akaL6HdME3+XGDWO+KwyleOHfi6Qp8DkGVZ2uzdU6wXQHL2IhIN/U1VIgtfUDGbYj+
+         NkkK/d1zEGA//Y6P064/H41Os7QuMWhwVo8nM+XC/DeZqZwQApR1ZWr9WwszYIAgBaY3
+         kARlvcz/Mo2nGPkW082cPPg55slOPNjnLl8YQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4esrONQoC2yqm+dt02NPlPtJ89lP+7Z30SAT3CLV5J4=;
-        b=KD5fPXGT0dTEBFg4pYoHaMXiLQe5nBremWtjslnU3L1TGoAvNuzXST7iiP64KJ4iTM
-         NJ2eo6h95V6+BTSixTKW1Ov8MLjjC5Ky88pL/k8uKCM0Mln9LCQzCirSrKDYdREA52OA
-         FLpdz7Xffm4LoJRvmkjvC6rnL2S/DkHQDdOmQ3EsXJuOrKHQvGvrnOzNqnQWsvwzKZ3P
-         2bfe3geERg43KWlq/yf3Wc4T9ofSESv0LpQahFmyafiUwAwZ5N4IKlqA9iMeZLRn7jY7
-         JYJWr5gJ363NwqnR1e1mA2WdLyZZG2RVjfLCtrv3SU9b32f1cujIuUZjtnUayzZNdG9S
-         5SGA==
-X-Gm-Message-State: AOAM5310d5yLiQQG86R2xda02dVsSDOSFSpAJrI1yEUnQb3PLw612LWI
-	4Dq/oXrcqKzyouKB2/9LcJHNyQ==
-X-Google-Smtp-Source: ABdhPJzZjrLVvWyQ4+GNRa4rjwL9nQ7q69mECBaV9cfNJqGnGuFGWgMhguaAwZ41M9tOnRKv7TjsaA==
-X-Received: by 2002:a1c:b1d7:: with SMTP id a206mr6696941wmf.88.1612602009963;
-        Sat, 06 Feb 2021 01:00:09 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yP/8bN+WP3uOxoW/e79H5rq+x6e6Xs9pUNGiZX5Btzc=;
+        b=ma86ObSNsg1cKMbIpYBY6K77rD7EcAUfIfzUy8fOibIXRFfVPz1nYPJZwX3keIR8sE
+         euFP2qoBr/uUr4X5iX11sQvvYJLeBSbcvb0d/etTqDDqaiQG3WNo/nPxcTPtS/lrtqoS
+         D+NfyY4Y8f42GJqnqdVOllC/wrU15+SwBJe3o7RjLkk08Xnal4wFbgh+zLtw/1aefius
+         i1s6staGlh+7Auk9ng3v+bXrxQDjQ40JkcvavlmF8jk9OF4DPQq1yUu8dciWA36/E+wd
+         amsRpFN2Nfb6oR2kx+xlP+HpBxYY3NHBo4VJDWcYqPUcNnclGfnlFPCTDXhfxO+UXGms
+         XPhQ==
+X-Gm-Message-State: AOAM533yNfhwj8HCU1xa/OqpzzNUuz5U9HlyOCxXPGKTmpyRpzRy01FF
+	F9D+Ev7/tuEQeOfqFpx69vX7XfGOFwqWcg==
+X-Google-Smtp-Source: ABdhPJyjEZJgWA9rzIvwcWMqbWOMzUKVrTLseeq7+0svd/c6rf/aATZu3A0KQhPXFI01v4sZTbPYsw==
+X-Received: by 2002:a1c:d7:: with SMTP id 206mr6856224wma.68.1612602256609;
+        Sat, 06 Feb 2021 01:04:16 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:be75:a088:9c76:71df? ([2001:8b0:aba:5f3c:be75:a088:9c76:71df])
-        by smtp.gmail.com with ESMTPSA id i18sm16123353wrn.29.2021.02.06.01.00.09
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:be75:a088:9c76:71df])
+        by smtp.gmail.com with ESMTPSA id o124sm11332678wmb.5.2021.02.06.01.04.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 01:00:09 -0800 (PST)
-Message-ID: <5b4a928dead7b0500b28e7df160e0fe253a14228.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libcroco: CVE-2020-12825 Security Advisory
+        Sat, 06 Feb 2021 01:04:16 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Sat, 06 Feb 2021 09:00:06 +0000
-In-Reply-To: <CAMKF1spQ9Ld=UHEWed9wHFhmog16YZhOjuif4Qy5wVZUqsm0pQ@mail.gmail.com>
-References: <1611212366-44911-1-git-send-email-wangmy@cn.fujitsu.com>
-	 <8ff56839bd7345ac64d0221f0f588e9886b4ef38.camel@linuxfoundation.org>
-	 <CAAnfSTtQYhHwkFrMczvv0OdUhFPM18tLyYfhAV4EKEBnDRPfwQ@mail.gmail.com>
-	 <CAMKF1spQ9Ld=UHEWed9wHFhmog16YZhOjuif4Qy5wVZUqsm0pQ@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>
+Subject: [PATCH 02/10] unfs3: fix build with new autoconf
+Date: Sat,  6 Feb 2021 09:04:07 +0000
+Message-Id: <20210206090415.1707868-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210206090415.1707868-1-richard.purdie@linuxfoundation.org>
+References: <20210206090415.1707868-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-02-05 at 22:44 -0800, Khem Raj wrote:
-> I am also seeing
-> 
-> ERROR: libcroco-native-0.6.13-r0 do_patch: Fuzz detected:
-> 
-> Applying patch CVE-2020-12825.patch
-> patching file src/cr-parser.c
-> Hunk #4 succeeded at 799 with fuzz 1.
-> 
-> 
-> The context lines in the patches can be updated with devtool:
-> 
->     devtool modify libcroco-native
->     devtool finish --force-patch-refresh libcroco-native <layer_path>
+From: Ross Burton <ross.burton@arm.com>
 
-There was a more recently submitted version of this. I've refreshed it,
-in master-next it looks like it was whitespace damaged somehow.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch | 12 ++++++++++++
+ meta/recipes-devtools/unfs3/unfs3_git.bb          |  1 +
+ 2 files changed, 13 insertions(+)
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch b/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
+new file mode 100644
+index 00000000000..e0746ad5188
+--- /dev/null
++++ b/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
+@@ -0,0 +1,12 @@
++diff --git a/Config/exports.l b/Config/exports.l
++index 662603c..7e7c4fc 100644
++--- a/Config/exports.l
+++++ b/Config/exports.l
++@@ -50,6 +50,7 @@ OLDNET {IP}"/"{IP}
++ 
++ %option nounput
++ %option noinput
+++%option noyywrap
++ 
++ %%
++ 
+diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
+index d60cee87c9b..b02369bd0e6 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_git.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
+@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https \
+            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
+            file://0001-attr-fix-utime-for-symlink.patch \
+            file://0001-Add-listen-action-for-a-tcp-socket.patch \
++           file://no-yywrap.patch \
+           "
+ SRCREV = "c12a5c69a8d59be6916cbd0e0f41c159f1962425"
+ UPSTREAM_CHECK_GITTAGREGEX = "unfs3\-(?P<pver>.+)"
+-- 
+2.27.0
 
