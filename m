@@ -1,80 +1,128 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web09.10207.1612636531935419596
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.13733.1612653319736630257
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Feb 2021 10:35:32 -0800
+ Sat, 06 Feb 2021 15:15:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=fNDH3Gyl;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.195, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f195.google.com with SMTP id r23so9480253ljh.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 10:35:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UiQiVu2q;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id df22so13895031edb.1;
+        Sat, 06 Feb 2021 15:15:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dhZZ6dwBJIY68ORtlOTauHBuzOyATZ9iRgtUhVdhKRo=;
-        b=fNDH3GylZEMt9nt9GoQ20TNJQADrffO/MOJXTIlG2oeFiWmXKqNyzgDwx/IDIgmWU4
-         B5iUrl8Xly3IzzYHsIUJboMVX6A+KF19wLTOKJY1QtwnBwuneSdSSpSjaXgXAkorDRB9
-         rptxhhUXt45JD9gUjlRSpVV7gwoVc+S2plF3wY4FYcKNfrmQmPaFoJ7zAOPN9t5jMeNQ
-         Wvhg4M8O0kkuLiPE94xNC1Pz1E0wdz9sxpUdj4bkvpsZrf+f9uPlO7jF3z3qndNegkY9
-         kw67nmawinUBhc7/dexFhBOE+7neokdQ5a4CLCmoxf+lyk76JkSBUAz/F5reVNEB3SVM
-         Pd2A==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CB9+SiuxdXELzvu1uDRjoLOYRs6lBKK3YQuJ68gcR6g=;
+        b=UiQiVu2qxbWde7UUZKlhuajvjSlqrhSjY1OwDk21aJg/nJ0rhdcA6ZLE/lCTrJOA45
+         aGjJEYl65kCnytM5Zs/M+09ugk4qTIeFXCksZ2J0XyLmuDGlHItaI3H7MoN1aRjjCMcC
+         4pOzK1jRx1y7N1ngPkhkGk2qdqXMo///Qlv3pFNcFRv38/N32etnVDskWzl0YgNBI/6Q
+         X0i4PsBsHC6XBxmV0p2uLeNdaj6VH4wvj1UmAo6mbe+3zrAIlaVTBdyS3VC9qnokdoBx
+         2y+Ar2rt/gkGX8hSxrI+yDVSwz0qVxRYIeCfmdqKjWbfED8238bIzIqSBehJ53YXacyd
+         sHMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dhZZ6dwBJIY68ORtlOTauHBuzOyATZ9iRgtUhVdhKRo=;
-        b=WUt9FAOEcyGEnOZ70x2IguEzPpHEvp2IPzvCkueiHnRH8mfEQWLYyShXfTvZXeNnAe
-         O34WeliHv0nH6h1tZ/drcFI/8ebAymeeKtWFdH4LiIYrQ+P77fKB4dt3T0J6B6LsoNzH
-         /rikJpY+2QmruCUxOj8//AJS6TPFNv88P/+hNMLBfA9rLGV8jv0IGqI+1yaIpXHHpGqm
-         VbGpszfy0Y1naUBnLpR9Zfkdnnade2cVreE7duOZ6n79ldl3PNescsHBrGhDy46Q6WGF
-         EdilNKGxSwBHZbaf9Eterg6qG57DqPayvTuacjrK/2LEGGXgodtJqOxBhWhtVMPaSgrV
-         QfRA==
-X-Gm-Message-State: AOAM532JhLMLpjFUz2cn3GTtS9owcxvw4c8QjDbFNjoo2el+sJ8zgXdp
-	/vPB7IggkEisRkLLTXyTHqImCJSojAKoz+Mf
-X-Google-Smtp-Source: ABdhPJwd4cIYEQhfvCYMt08LgpVS2qCsxRJmM3GTVZm/zJu4YVC+gKBowRpLhdEUkTs1EM5uqfFhiA==
-X-Received: by 2002:a2e:2c11:: with SMTP id s17mr5967211ljs.468.1612636528310;
-        Sat, 06 Feb 2021 10:35:28 -0800 (PST)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id q16sm1393863ljh.139.2021.02.06.10.35.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 10:35:27 -0800 (PST)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ell: update to 0.37
-Date: Sat,  6 Feb 2021 19:35:26 +0100
-Message-Id: <20210206183526.3385016-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CB9+SiuxdXELzvu1uDRjoLOYRs6lBKK3YQuJ68gcR6g=;
+        b=WLVASZCHWvKRp9tFD3EcAGeKLPr/CHkBQPKxg0tkE1JF+PFnhYVG3C1kFWQoHzaHNF
+         AT6g4uXt/8H5tN3IMIsig1KHSq1cRK2nudt0Xxo16FDaHWqUr5XZmXOcGoV8nal7RyWc
+         qkTVYa4YxXTNvduG3W9CNf2p3+mk4jlbetq2HO7xAan4Zp9TMY1lvs4RmK+YmQD7EdmP
+         MObPtoCXE03Jmn8TpwzdS1Jym3T795CezgiVG90laO9BvQ6Mmd1y9+P/j0vqscmHUGEk
+         4pJno4eWxiVS28chik+XpzrkE5hzqRjmWA8eiCDj1+ki8IkFi3bfSxiP8flIw/Ab32Tp
+         hRJA==
+X-Gm-Message-State: AOAM532w5u/X1uqskkDzAoMH+qv3xwddmIs6p4UndBXyDwdOyo8eWDbl
+	xpKAA8p0U0noVUULEE3TNEqKPx7IFmj6qc5H+EU=
+X-Google-Smtp-Source: ABdhPJwiF6Dhn+TSHoXnY08VfmUtOMrrRbQdxZBLiF3IyvXUdCOmhhOovuA+uDSsT6pic0Xs7Ea1vuqS6yxE9OeLZgo=
+X-Received: by 2002:a05:6402:524a:: with SMTP id t10mr10271016edd.270.1612653318158;
+ Sat, 06 Feb 2021 15:15:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
+ <CA+chaQc0anOg2E=o1ouEca-QJDGqKxDoXm6aPVXzsc8TELW3zA@mail.gmail.com> <d9185d19-1f09-a1b6-2926-f54309190b24@gmail.com>
+In-Reply-To: <d9185d19-1f09-a1b6-2926-f54309190b24@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sun, 7 Feb 2021 00:15:07 +0100
+Message-ID: <CA+chaQdT4zVNw26kkdV+A2_qRZYtt-LvPzaYtm2pZCurOB_Zbw@mail.gmail.com>
+Subject: Re: [bitbake-devel] Backport changes for _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
+To: akuster808 <akuster808@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Steve Sakoman <steve@sakoman.com>, 
+	"Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"OE Core (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>, 
+	"OE Development (openembedded-devel@lists.openembedded.org)" <openembedded-devel@lists.openembedded.org>, 
+	"BitBake Development (bitbake-devel@lists.openembedded.org)" <bitbake-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002cbe0905bab31cc7"
 
-Changelog:
-- Fix issue with D-Bus filter messages with no interfaces set.
-- Add support for PKCS#12 certification loading.
+--0000000000002cbe0905bab31cc7
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-core/ell/{ell_0.36.bb => ell_0.37.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ell/{ell_0.36.bb => ell_0.37.bb} (89%)
+On Sat, Jan 16, 2021 at 6:52 PM akuster808 <akuster808@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/ell/ell_0.36.bb b/meta/recipes-core/ell/ell_0.37.bb
-similarity index 89%
-rename from meta/recipes-core/ell/ell_0.36.bb
-rename to meta/recipes-core/ell/ell_0.37.bb
-index 4535ec2186..e442b02198 100644
---- a/meta/recipes-core/ell/ell_0.36.bb
-+++ b/meta/recipes-core/ell/ell_0.37.bb
-@@ -16,7 +16,7 @@ inherit autotools pkgconfig
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
-            file://0001-pem.c-do-not-use-rawmemchr.patch \
-            "
--SRC_URI[sha256sum] = "2f99e743a235b1c834b19112e4e0283d02da93b863899381466cde47bf159cf6"
-+SRC_URI[sha256sum] = "30027a2043bbe2faca7849946bb2ed7d5e48c1b9d2638bfa8f5fdef3093c4784"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
--- 
-2.25.1
+>
+>
+> On 1/16/21 9:44 AM, Martin Jansa wrote:
+> > Aren't the missing spaces in appends fixes also needed for meta-oe
+> > recipes?
+>
+>
+> >
+> > I think at least top 5 commits from:
+> >
+> https://git.openembedded.org/meta-openembedded/log/?qt=grep&q=space.*append
+> > were also follow-up from these changes in oe-core.
+> >
+> Do you mean something beyond the meta-openembedded commits mentioned
+> near the bottom of the email?
+>
 
+Yes I mean these 5 commits at least.
+
+with c99bb790 DEPENDS variable doesn't end with a space, so the missing
+leading space in these appends (which was fine until now because of
+trailing space from DEPENDS set in bbclass) is now causing wrong dependency
+(should be easily reproducible with the patches backported, just by parsing
+the recipes).
+
+
+> I need clarity so I can open an issue in gitlab for tracking purposes as
+> I am sure I will forget this
+>
+
+we're using gitlab?
+
+--0000000000002cbe0905bab31cc7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Jan 16, 2021 at 6:52 PM akuster80=
+8 &lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; =
+wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><br>
+<br>
+On 1/16/21 9:44 AM, Martin Jansa wrote:<br>
+&gt; Aren&#39;t the missing spaces in appends fixes also needed for meta-oe=
+<br>
+&gt; recipes?<br>
+<br>
+<br>
+&gt;<br>
+&gt; I think at least top 5 commits from:<br>
+&gt; <a href=3D"https://git.openembedded.org/meta-openembedded/log/?qt=3Dgr=
+ep&amp;q=3Dspace.*append" rel=3D"noreferrer" target=3D"_blank">https://git.=
+openembedded.org/meta-openembedded/log/?qt=3Dgrep&amp;q=3Dspace.*append</a>=
+<br>
+&gt; were also follow-up from these changes in oe-core.<br>
+&gt;<br>
+Do you mean something beyond the meta-openembedded commits mentioned<br>
+near the bottom of the email?<br></blockquote><div><br></div><div>Yes I mea=
+n these 5 commits at least.</div><div><br></div><div>with c99bb790 DEPENDS =
+variable doesn&#39;t end with a space, so the missing leading space in thes=
+e appends (which was fine until now because of trailing space from DEPENDS =
+set in bbclass) is now causing wrong dependency (should be easily reproduci=
+ble with the patches backported, just by parsing the recipes).</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+I need clarity so I can open an issue in gitlab for tracking purposes as<br=
+>
+I am sure I will forget this<br></blockquote><div><br></div><div>we&#39;re =
+using gitlab?=C2=A0</div></div></div>
+
+--0000000000002cbe0905bab31cc7--
