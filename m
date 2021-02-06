@@ -1,92 +1,558 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web09.4313.1612602258219788736
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.4282.1612602258423388035
  for <openembedded-core@lists.openembedded.org>;
  Sat, 06 Feb 2021 01:04:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=akaL6HdM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id o24so163380wmh.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YE+UgDtv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id p15so10421884wrq.8
         for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 01:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yP/8bN+WP3uOxoW/e79H5rq+x6e6Xs9pUNGiZX5Btzc=;
-        b=akaL6HdME3+XGDWO+KwyleOHfi6Qp8DkGVZ2uzdU6wXQHL2IhIN/U1VIgtfUDGbYj+
-         NkkK/d1zEGA//Y6P064/H41Os7QuMWhwVo8nM+XC/DeZqZwQApR1ZWr9WwszYIAgBaY3
-         kARlvcz/Mo2nGPkW082cPPg55slOPNjnLl8YQ=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clOwJGieTLiMPRRr0yo6GiRGRbIUjQcLP41nlZV2Al8=;
+        b=YE+UgDtv9u3IGzoxER3IVb07PrvPb9rahy8W0t0FIzQX7hifPtLWvExm6i2Xya4w/J
+         csYSKmLI+WChjiT3wCu8dW79dZY62IIsLuGXE0Lc+ZdQjoltXGKv0OT9QMxMI009cQ59
+         u4ygo3dEYcU0aOjhrnmIsm5n1tUceafiD53Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yP/8bN+WP3uOxoW/e79H5rq+x6e6Xs9pUNGiZX5Btzc=;
-        b=ma86ObSNsg1cKMbIpYBY6K77rD7EcAUfIfzUy8fOibIXRFfVPz1nYPJZwX3keIR8sE
-         euFP2qoBr/uUr4X5iX11sQvvYJLeBSbcvb0d/etTqDDqaiQG3WNo/nPxcTPtS/lrtqoS
-         D+NfyY4Y8f42GJqnqdVOllC/wrU15+SwBJe3o7RjLkk08Xnal4wFbgh+zLtw/1aefius
-         i1s6staGlh+7Auk9ng3v+bXrxQDjQ40JkcvavlmF8jk9OF4DPQq1yUu8dciWA36/E+wd
-         amsRpFN2Nfb6oR2kx+xlP+HpBxYY3NHBo4VJDWcYqPUcNnclGfnlFPCTDXhfxO+UXGms
-         XPhQ==
-X-Gm-Message-State: AOAM533yNfhwj8HCU1xa/OqpzzNUuz5U9HlyOCxXPGKTmpyRpzRy01FF
-	F9D+Ev7/tuEQeOfqFpx69vX7XfGOFwqWcg==
-X-Google-Smtp-Source: ABdhPJyjEZJgWA9rzIvwcWMqbWOMzUKVrTLseeq7+0svd/c6rf/aATZu3A0KQhPXFI01v4sZTbPYsw==
-X-Received: by 2002:a1c:d7:: with SMTP id 206mr6856224wma.68.1612602256609;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clOwJGieTLiMPRRr0yo6GiRGRbIUjQcLP41nlZV2Al8=;
+        b=UEV/tJXGLV01rejHo5j4Xb5+gjHeAF/erJx66TZ50PY1qOQOyw8F8OWsIF24tPP1+r
+         r0qE9BFk0/rBKlY/lAvnR/ex8eh92Be5pbddhODWlsvTlSCQygXFVVphls5ro2ptI8lr
+         c7ge46kDtlFkFGyWUtywieh7j9hErDxIspOTkVNaWQATBWHbilt6FBkQnj4VFFk0+nw1
+         AreGHkQfY6zGxF0y+fJ46QkuOjWZfdDxUDFyxKAg3EP/XQquyf5XY53Y1gMmCnloSxZz
+         yoo2s7NZSY0v+zvUevlsQV1U5kqcG38WqFgTnz1zAq35VFv1uOOMEDPU/QuO0/ymrEjM
+         b+ow==
+X-Gm-Message-State: AOAM532bLdVmWPRdrsmrOpLPSc8AKewyQ7OYKiI406YWcWUM7GwBWtUs
+	FC0n2RflGoteYxCpiMOliKTxjDB49lL3vg==
+X-Google-Smtp-Source: ABdhPJxKgc4Qjo1FNXKAWUjo+nVPNRPqNQtlptp5XlTvYFRY/iIQR7FHFzJ7rqRiwbMDWTlD5zDRwQ==
+X-Received: by 2002:adf:ee84:: with SMTP id b4mr1167070wro.339.1612602256046;
         Sat, 06 Feb 2021 01:04:16 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:be75:a088:9c76:71df])
-        by smtp.gmail.com with ESMTPSA id o124sm11332678wmb.5.2021.02.06.01.04.16
+        by smtp.gmail.com with ESMTPSA id o124sm11332678wmb.5.2021.02.06.01.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 01:04:16 -0800 (PST)
+        Sat, 06 Feb 2021 01:04:15 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Ross Burton <ross.burton@arm.com>
-Subject: [PATCH 02/10] unfs3: fix build with new autoconf
-Date: Sat,  6 Feb 2021 09:04:07 +0000
-Message-Id: <20210206090415.1707868-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 01/10] Revert "lrzsz: Fix to work with autoconf 2.70"
+Date: Sat,  6 Feb 2021 09:04:06 +0000
+Message-Id: <20210206090415.1707868-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210206090415.1707868-1-richard.purdie@linuxfoundation.org>
-References: <20210206090415.1707868-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ross Burton <ross.burton@arm.com>
 
+This change was only needed with 2.70, it is not needed with 2.71.
+
+This reverts commit 36aef08dcd5e45c4138ccd72e8de01157f7213c4.
+
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch | 12 ++++++++++++
- meta/recipes-devtools/unfs3/unfs3_git.bb          |  1 +
- 2 files changed, 13 insertions(+)
- create mode 100644 meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
+ .../lrzsz-0.12.20/autotools-update.patch      | 249 ++++++++----------
+ 1 file changed, 107 insertions(+), 142 deletions(-)
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch b/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
-new file mode 100644
-index 00000000000..e0746ad5188
---- /dev/null
-+++ b/meta/recipes-devtools/unfs3/unfs3/no-yywrap.patch
-@@ -0,0 +1,12 @@
-+diff --git a/Config/exports.l b/Config/exports.l
-+index 662603c..7e7c4fc 100644
-+--- a/Config/exports.l
-++++ b/Config/exports.l
-+@@ -50,6 +50,7 @@ OLDNET {IP}"/"{IP}
-+ 
-+ %option nounput
-+ %option noinput
-++%option noyywrap
-+ 
-+ %%
-+ 
-diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
-index d60cee87c9b..b02369bd0e6 100644
---- a/meta/recipes-devtools/unfs3/unfs3_git.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
-@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https \
-            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
-            file://0001-attr-fix-utime-for-symlink.patch \
-            file://0001-Add-listen-action-for-a-tcp-socket.patch \
-+           file://no-yywrap.patch \
-           "
- SRCREV = "c12a5c69a8d59be6916cbd0e0f41c159f1962425"
- UPSTREAM_CHECK_GITTAGREGEX = "unfs3\-(?P<pver>.+)"
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
+index 4a50f7410a2..33af38b4a8d 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
+@@ -3,10 +3,9 @@ Update autotools infrastructure (including gettext) to modern versions.
+ Upstream-Status: Pending
+ Signed-off-by: Phil Blundell <pb@pbcl.net>
+ 
+-Index: lrzsz-0.12.20/configure.in
+-===================================================================
+---- lrzsz-0.12.20.orig/configure.in
+-+++ lrzsz-0.12.20/configure.in
++diff -uprN clean/lrzsz-0.12.20/configure.in lrzsz-0.12.20/configure.in
++--- clean/lrzsz-0.12.20/configure.in	1998-12-30 07:50:07.000000000 +0000
+++++ lrzsz-0.12.20/configure.in	2019-11-25 16:22:37.000000000 +0000
+ @@ -92,7 +92,6 @@ AC_PROG_RANLIB
+  AC_ISC_POSIX
+  AC_AIX
+@@ -15,7 +14,7 @@ Index: lrzsz-0.12.20/configure.in
+  AC_C_CONST
+  AC_C_INLINE
+  
+-@@ -253,18 +252,14 @@ ihave$lookup_facility
++@@ -253,18 +252,13 @@ ihave$lookup_facility
+  fi
+  
+  
+@@ -25,7 +24,6 @@ Index: lrzsz-0.12.20/configure.in
+  
+ -AM_GNU_GETTEXT
+ +AM_GNU_GETTEXT([external])
+-+AM_GNU_GETTEXT_VERSION([0.21])
+  
+ -AC_DEFINE_UNQUOTED(LOCALEDIR,"$prefix/$DATADIRNAME")
+ -AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+@@ -38,10 +36,9 @@ Index: lrzsz-0.12.20/configure.in
+ +[
+  chmod +x debian/rules;
+  test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h])
+-Index: lrzsz-0.12.20/intl/bindtextdom.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/bindtextdom.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/bindtextdom.c lrzsz-0.12.20/intl/bindtextdom.c
++--- clean/lrzsz-0.12.20/intl/bindtextdom.c	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/bindtextdom.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,199 +0,0 @@
+ -/* Implementation of the bindtextdomain(3) function
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -242,10 +239,9 @@ Index: lrzsz-0.12.20/intl/bindtextdom.c
+ -/* Alias for function name in GNU C Library.  */
+ -weak_alias (__bindtextdomain, bindtextdomain);
+ -#endif
+-Index: lrzsz-0.12.20/intl/cat-compat.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/cat-compat.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/cat-compat.c lrzsz-0.12.20/intl/cat-compat.c
++--- clean/lrzsz-0.12.20/intl/cat-compat.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/cat-compat.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,262 +0,0 @@
+ -/* Compatibility code for gettext-using-catgets interface.
+ -   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+@@ -509,10 +505,9 @@ Index: lrzsz-0.12.20/intl/cat-compat.c
+ -  return dest - 1;
+ -}
+ -#endif
+-Index: lrzsz-0.12.20/intl/ChangeLog
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/ChangeLog
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/ChangeLog lrzsz-0.12.20/intl/ChangeLog
++--- clean/lrzsz-0.12.20/intl/ChangeLog	1998-04-26 14:22:35.000000000 +0100
+++++ lrzsz-0.12.20/intl/ChangeLog	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,1022 +0,0 @@
+ -1997-09-06 02:10  Ulrich Drepper  <drepper@cygnus.com>
+ -
+@@ -1536,10 +1531,9 @@ Index: lrzsz-0.12.20/intl/ChangeLog
+ -	which allow to use the X/Open catgets function with an interface
+ -	like the Uniforum gettext function.  For system which does not
+ -	have neither of those a complete implementation is provided.
+-Index: lrzsz-0.12.20/intl/dcgettext.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/dcgettext.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/dcgettext.c lrzsz-0.12.20/intl/dcgettext.c
++--- clean/lrzsz-0.12.20/intl/dcgettext.c	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/dcgettext.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,593 +0,0 @@
+ -/* Implementation of the dcgettext(3) function
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -2134,10 +2128,9 @@ Index: lrzsz-0.12.20/intl/dcgettext.c
+ -  return dest - 1;
+ -}
+ -#endif
+-Index: lrzsz-0.12.20/intl/dgettext.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/dgettext.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/dgettext.c lrzsz-0.12.20/intl/dgettext.c
++--- clean/lrzsz-0.12.20/intl/dgettext.c	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/dgettext.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,59 +0,0 @@
+ -/* dgettext.c -- implementation of the dgettext(3) function
+ -   Copyright (C) 1995 Software Foundation, Inc.
+@@ -2198,10 +2191,9 @@ Index: lrzsz-0.12.20/intl/dgettext.c
+ -/* Alias for function name in GNU C Library.  */
+ -weak_alias (__dgettext, dgettext);
+ -#endif
+-Index: lrzsz-0.12.20/intl/explodename.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/explodename.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/explodename.c lrzsz-0.12.20/intl/explodename.c
++--- clean/lrzsz-0.12.20/intl/explodename.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/explodename.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,181 +0,0 @@
+ -/* Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+ -   Contributed by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+@@ -2384,10 +2376,9 @@ Index: lrzsz-0.12.20/intl/explodename.c
+ -
+ -  return mask;
+ -}
+-Index: lrzsz-0.12.20/intl/finddomain.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/finddomain.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/finddomain.c lrzsz-0.12.20/intl/finddomain.c
++--- clean/lrzsz-0.12.20/intl/finddomain.c	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/finddomain.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,189 +0,0 @@
+ -/* Handle list of needed message catalogs
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -2578,10 +2569,9 @@ Index: lrzsz-0.12.20/intl/finddomain.c
+ -
+ -  return retval;
+ -}
+-Index: lrzsz-0.12.20/intl/gettext.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/gettext.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/gettext.c lrzsz-0.12.20/intl/gettext.c
++--- clean/lrzsz-0.12.20/intl/gettext.c	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/gettext.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,70 +0,0 @@
+ -/* Implementation of gettext(3) function
+ -   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+@@ -2653,10 +2643,9 @@ Index: lrzsz-0.12.20/intl/gettext.c
+ -/* Alias for function name in GNU C Library.  */
+ -weak_alias (__gettext, gettext);
+ -#endif
+-Index: lrzsz-0.12.20/intl/gettext.h
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/gettext.h
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/gettext.h lrzsz-0.12.20/intl/gettext.h
++--- clean/lrzsz-0.12.20/intl/gettext.h	1998-04-26 14:22:35.000000000 +0100
+++++ lrzsz-0.12.20/intl/gettext.h	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,105 +0,0 @@
+ -/* Internal header for GNU gettext internationalization functions
+ -   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+@@ -2763,10 +2752,9 @@ Index: lrzsz-0.12.20/intl/gettext.h
+ -/* @@ begin of epilog @@ */
+ -
+ -#endif	/* gettext.h  */
+-Index: lrzsz-0.12.20/intl/gettextP.h
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/gettextP.h
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/gettextP.h lrzsz-0.12.20/intl/gettextP.h
++--- clean/lrzsz-0.12.20/intl/gettextP.h	1998-04-26 14:22:35.000000000 +0100
+++++ lrzsz-0.12.20/intl/gettextP.h	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,73 +0,0 @@
+ -/* Header describing internals of gettext library
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -2841,10 +2829,9 @@ Index: lrzsz-0.12.20/intl/gettextP.h
+ -/* @@ begin of epilog @@ */
+ -
+ -#endif /* gettextP.h  */
+-Index: lrzsz-0.12.20/intl/hash-string.h
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/hash-string.h
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/hash-string.h lrzsz-0.12.20/intl/hash-string.h
++--- clean/lrzsz-0.12.20/intl/hash-string.h	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/hash-string.h	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,63 +0,0 @@
+ -/* Implements a string hashing function.
+ -   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+@@ -2909,10 +2896,9 @@ Index: lrzsz-0.12.20/intl/hash-string.h
+ -    }
+ -  return hval;
+ -}
+-Index: lrzsz-0.12.20/intl/intl-compat.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/intl-compat.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/intl-compat.c lrzsz-0.12.20/intl/intl-compat.c
++--- clean/lrzsz-0.12.20/intl/intl-compat.c	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/intl-compat.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,76 +0,0 @@
+ -/* intl-compat.c - Stub functions to call gettext functions from GNU gettext
+ -   Library.
+@@ -2990,10 +2976,9 @@ Index: lrzsz-0.12.20/intl/intl-compat.c
+ -{
+ -  return textdomain__ (domainname);
+ -}
+-Index: lrzsz-0.12.20/intl/l10nflist.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/l10nflist.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/l10nflist.c lrzsz-0.12.20/intl/l10nflist.c
++--- clean/lrzsz-0.12.20/intl/l10nflist.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/l10nflist.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,409 +0,0 @@
+ -/* Handle list of needed message catalogs
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -3404,10 +3389,9 @@ Index: lrzsz-0.12.20/intl/l10nflist.c
+ -  return dest - 1;
+ -}
+ -#endif
+-Index: lrzsz-0.12.20/intl/libgettext.h
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/libgettext.h
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/libgettext.h lrzsz-0.12.20/intl/libgettext.h
++--- clean/lrzsz-0.12.20/intl/libgettext.h	1998-04-26 14:22:36.000000000 +0100
+++++ lrzsz-0.12.20/intl/libgettext.h	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,182 +0,0 @@
+ -/* Message catalogs for internationalization.
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -3591,10 +3575,9 @@ Index: lrzsz-0.12.20/intl/libgettext.h
+ -#endif
+ -
+ -#endif
+-Index: lrzsz-0.12.20/intl/linux-msg.sed
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/linux-msg.sed
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/linux-msg.sed lrzsz-0.12.20/intl/linux-msg.sed
++--- clean/lrzsz-0.12.20/intl/linux-msg.sed	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/linux-msg.sed	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,100 +0,0 @@
+ -# po2msg.sed - Convert Uniforum style .po file to Linux style .msg file
+ -# Copyright (C) 1995 Free Software Foundation, Inc.
+@@ -3696,10 +3679,9 @@ Index: lrzsz-0.12.20/intl/linux-msg.sed
+ -  tb
+ -}
+ -d
+-Index: lrzsz-0.12.20/intl/loadinfo.h
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/loadinfo.h
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/loadinfo.h lrzsz-0.12.20/intl/loadinfo.h
++--- clean/lrzsz-0.12.20/intl/loadinfo.h	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/loadinfo.h	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,58 +0,0 @@
+ -#ifndef PARAMS
+ -# if __STDC__
+@@ -3759,10 +3741,9 @@ Index: lrzsz-0.12.20/intl/loadinfo.h
+ -				     const char **special,
+ -				     const char **sponsor,
+ -				     const char **revision));
+-Index: lrzsz-0.12.20/intl/loadmsgcat.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/loadmsgcat.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/loadmsgcat.c lrzsz-0.12.20/intl/loadmsgcat.c
++--- clean/lrzsz-0.12.20/intl/loadmsgcat.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/loadmsgcat.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,199 +0,0 @@
+ -/* Load needed message catalogs
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -3963,10 +3944,9 @@ Index: lrzsz-0.12.20/intl/loadmsgcat.c
+ -     translations invalid.  */
+ -  ++_nl_msg_cat_cntr;
+ -}
+-Index: lrzsz-0.12.20/intl/localealias.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/localealias.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/localealias.c lrzsz-0.12.20/intl/localealias.c
++--- clean/lrzsz-0.12.20/intl/localealias.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/localealias.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,378 +0,0 @@
+ -/* Handle aliases for locale names
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -4346,10 +4326,9 @@ Index: lrzsz-0.12.20/intl/localealias.c
+ -  return c1 - c2;
+ -#endif
+ -}
+-Index: lrzsz-0.12.20/intl/Makefile.in
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/Makefile.in
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/Makefile.in lrzsz-0.12.20/intl/Makefile.in
++--- clean/lrzsz-0.12.20/intl/Makefile.in	1998-04-26 14:22:35.000000000 +0100
+++++ lrzsz-0.12.20/intl/Makefile.in	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,214 +0,0 @@
+ -# Makefile for directory with message catalog handling in GNU NLS Utilities.
+ -# Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -4565,10 +4544,9 @@ Index: lrzsz-0.12.20/intl/Makefile.in
+ -# Tell versions [3.59,3.63) of GNU make not to export all variables.
+ -# Otherwise a system limit (for SysV at least) may be exceeded.
+ -.NOEXPORT:
+-Index: lrzsz-0.12.20/intl/po2tbl.sed.in
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/po2tbl.sed.in
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/po2tbl.sed.in lrzsz-0.12.20/intl/po2tbl.sed.in
++--- clean/lrzsz-0.12.20/intl/po2tbl.sed.in	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/po2tbl.sed.in	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,102 +0,0 @@
+ -# po2tbl.sed - Convert Uniforum style .po file to lookup table for catgets
+ -# Copyright (C) 1995 Free Software Foundation, Inc.
+@@ -4672,10 +4650,9 @@ Index: lrzsz-0.12.20/intl/po2tbl.sed.in
+ -  s/0*\(.*\)/int _msg_tbl_length = \1;/p
+ -}
+ -d
+-Index: lrzsz-0.12.20/intl/textdomain.c
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/textdomain.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/textdomain.c lrzsz-0.12.20/intl/textdomain.c
++--- clean/lrzsz-0.12.20/intl/textdomain.c	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/textdomain.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,106 +0,0 @@
+ -/* Implementation of the textdomain(3) function
+ -   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+@@ -4783,16 +4760,14 @@ Index: lrzsz-0.12.20/intl/textdomain.c
+ -/* Alias for function name in GNU C Library.  */
+ -weak_alias (__textdomain, textdomain);
+ -#endif
+-Index: lrzsz-0.12.20/intl/VERSION
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/VERSION
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/VERSION lrzsz-0.12.20/intl/VERSION
++--- clean/lrzsz-0.12.20/intl/VERSION	1998-04-26 14:22:37.000000000 +0100
+++++ lrzsz-0.12.20/intl/VERSION	1970-01-01 01:00:00.000000000 +0100
+ @@ -1 +0,0 @@
+ -GNU gettext library from gettext-0.10.32
+-Index: lrzsz-0.12.20/intl/xopen-msg.sed
+-===================================================================
+---- lrzsz-0.12.20.orig/intl/xopen-msg.sed
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/intl/xopen-msg.sed lrzsz-0.12.20/intl/xopen-msg.sed
++--- clean/lrzsz-0.12.20/intl/xopen-msg.sed	1998-04-26 14:20:52.000000000 +0100
+++++ lrzsz-0.12.20/intl/xopen-msg.sed	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,104 +0,0 @@
+ -# po2msg.sed - Convert Uniforum style .po file to X/Open style .msg file
+ -# Copyright (C) 1995 Free Software Foundation, Inc.
+@@ -4898,10 +4873,9 @@ Index: lrzsz-0.12.20/intl/xopen-msg.sed
+ -  tb
+ -}
+ -d
+-Index: lrzsz-0.12.20/lib/Makefile.am
+-===================================================================
+---- lrzsz-0.12.20.orig/lib/Makefile.am
+-+++ lrzsz-0.12.20/lib/Makefile.am
++diff -uprN clean/lrzsz-0.12.20/lib/Makefile.am lrzsz-0.12.20/lib/Makefile.am
++--- clean/lrzsz-0.12.20/lib/Makefile.am	1998-12-27 16:25:26.000000000 +0000
+++++ lrzsz-0.12.20/lib/Makefile.am	2019-11-25 16:22:34.000000000 +0000
+ @@ -1,6 +1,4 @@
+  noinst_LIBRARIES=libzmodem.a
+ -CFLAGS=@CFLAGS@
+@@ -4909,10 +4883,9 @@ Index: lrzsz-0.12.20/lib/Makefile.am
+  
+  EXTRA_DIST = alloca.c ansi2knr.1 ansi2knr.c \
+  	getopt.c getopt1.c mkdir.c mktime.c \
+-Index: lrzsz-0.12.20/Makefile.am
+-===================================================================
+---- lrzsz-0.12.20.orig/Makefile.am
+-+++ lrzsz-0.12.20/Makefile.am
++diff -uprN clean/lrzsz-0.12.20/Makefile.am lrzsz-0.12.20/Makefile.am
++--- clean/lrzsz-0.12.20/Makefile.am	1998-12-30 11:19:40.000000000 +0000
+++++ lrzsz-0.12.20/Makefile.am	2019-11-26 11:47:29.000000000 +0000
+ @@ -1,5 +1,5 @@
+ -SUBDIRS = lib intl src po man testsuite
+ -EXTRA_DIST = check.lrzsz COMPATABILITY README.cvs README.isdn4linux \
+@@ -4935,10 +4908,9 @@ Index: lrzsz-0.12.20/Makefile.am
+  
+ +
+ +ACLOCAL_AMFLAGS = -I m4
+-Index: lrzsz-0.12.20/po/cat-id-tbl.c
+-===================================================================
+---- lrzsz-0.12.20.orig/po/cat-id-tbl.c
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/po/cat-id-tbl.c lrzsz-0.12.20/po/cat-id-tbl.c
++--- clean/lrzsz-0.12.20/po/cat-id-tbl.c	1998-12-29 09:24:24.000000000 +0000
+++++ lrzsz-0.12.20/po/cat-id-tbl.c	1970-01-01 01:00:00.000000000 +0100
+ @@ -1,234 +0,0 @@
+ -/* Automatically generated by po2tbl.sed from lrzsz.pot.  */
+ -
+@@ -5174,10 +5146,10 @@ Index: lrzsz-0.12.20/po/cat-id-tbl.c
+ -};
+ -
+ -int _msg_tbl_length = 136;
+-Index: lrzsz-0.12.20/po/de.po
+-===================================================================
+---- lrzsz-0.12.20.orig/po/de.po
+-+++ lrzsz-0.12.20/po/de.po
++Binary files clean/lrzsz-0.12.20/po/de.gmo and lrzsz-0.12.20/po/de.gmo differ
++diff -uprN clean/lrzsz-0.12.20/po/de.po lrzsz-0.12.20/po/de.po
++--- clean/lrzsz-0.12.20/po/de.po	1998-12-30 16:31:46.000000000 +0000
+++++ lrzsz-0.12.20/po/de.po	2019-11-26 11:42:07.000000000 +0000
+ @@ -6,10 +6,12 @@
+  msgid ""
+  msgstr ""
+@@ -5412,10 +5384,9 @@ Index: lrzsz-0.12.20/po/de.po
+  #: src/lrz.c:2079
+  msgid "rzfile: reached stop time"
+  msgstr "rzfile: Abbruchzeit erreicht"
+-Index: lrzsz-0.12.20/po/lrzsz.pot
+-===================================================================
+---- lrzsz-0.12.20.orig/po/lrzsz.pot
+-+++ lrzsz-0.12.20/po/lrzsz.pot
++diff -uprN clean/lrzsz-0.12.20/po/lrzsz.pot lrzsz-0.12.20/po/lrzsz.pot
++--- clean/lrzsz-0.12.20/po/lrzsz.pot	1998-12-30 07:50:00.000000000 +0000
+++++ lrzsz-0.12.20/po/lrzsz.pot	2019-11-26 11:39:12.000000000 +0000
+ @@ -1,24 +1,27 @@
+  # SOME DESCRIPTIVE TITLE.
+  # Copyright (C) YEAR Free Software Foundation, Inc.
+@@ -5647,10 +5618,9 @@ Index: lrzsz-0.12.20/po/lrzsz.pot
+  #: src/lrz.c:2079
+  msgid "rzfile: reached stop time"
+  msgstr ""
+-Index: lrzsz-0.12.20/po/Makevars
+-===================================================================
+---- /dev/null
+-+++ lrzsz-0.12.20/po/Makevars
++diff -uprN clean/lrzsz-0.12.20/po/Makevars lrzsz-0.12.20/po/Makevars
++--- clean/lrzsz-0.12.20/po/Makevars	1970-01-01 01:00:00.000000000 +0100
+++++ lrzsz-0.12.20/po/Makevars	2019-11-25 18:09:52.000000000 +0000
+ @@ -0,0 +1,78 @@
+ +# Makefile variables for PO directory in any package using GNU gettext.
+ +
+@@ -5730,22 +5700,19 @@ Index: lrzsz-0.12.20/po/Makevars
+ +# "no".  Set this to no if the POT file and PO files are maintained
+ +# externally.
+ +DIST_DEPENDS_ON_UPDATE_PO = yes
+-Index: lrzsz-0.12.20/po/stamp-cat-id
+-===================================================================
+---- lrzsz-0.12.20.orig/po/stamp-cat-id
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/po/stamp-cat-id lrzsz-0.12.20/po/stamp-cat-id
++--- clean/lrzsz-0.12.20/po/stamp-cat-id	1998-12-30 07:50:01.000000000 +0000
+++++ lrzsz-0.12.20/po/stamp-cat-id	1970-01-01 01:00:00.000000000 +0100
+ @@ -1 +0,0 @@
+ -timestamp
+-Index: lrzsz-0.12.20/po/stamp-po
+-===================================================================
+---- /dev/null
+-+++ lrzsz-0.12.20/po/stamp-po
++diff -uprN clean/lrzsz-0.12.20/po/stamp-po lrzsz-0.12.20/po/stamp-po
++--- clean/lrzsz-0.12.20/po/stamp-po	1970-01-01 01:00:00.000000000 +0100
+++++ lrzsz-0.12.20/po/stamp-po	2019-11-26 11:42:09.000000000 +0000
+ @@ -0,0 +1 @@
+ +timestamp
+-Index: lrzsz-0.12.20/src/Makefile.am
+-===================================================================
+---- lrzsz-0.12.20.orig/src/Makefile.am
+-+++ lrzsz-0.12.20/src/Makefile.am
++diff -uprN clean/lrzsz-0.12.20/src/Makefile.am lrzsz-0.12.20/src/Makefile.am
++--- clean/lrzsz-0.12.20/src/Makefile.am	1998-12-28 08:38:47.000000000 +0000
+++++ lrzsz-0.12.20/src/Makefile.am	2019-11-25 16:22:49.000000000 +0000
+ @@ -2,13 +2,11 @@ bin_PROGRAMS=lrz lsz
+  lrz_SOURCES=lrz.c timing.c zperr.c zreadline.c crctab.c rbsb.c zm.c protname.c tcp.c lsyslog.c canit.c
+  lsz_SOURCES=lsz.c timing.c zperr.c zreadline.c crctab.c rbsb.c zm.c protname.c tcp.c lsyslog.c canit.c
+@@ -5762,10 +5729,9 @@ Index: lrzsz-0.12.20/src/Makefile.am
+  EXTRA_DIST = ansi2knr.1 ansi2knr.c lrzszbug.in
+  INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl -I$(top_srcdir)/lib
+  #DEFS = -DLOCALEDIR=\"$(localedir)\" -DOS=\"@host_os@\" -DCPU=\"@host_cpu@\"
+-Index: lrzsz-0.12.20/src/zglobal.h
+-===================================================================
+---- lrzsz-0.12.20.orig/src/zglobal.h
+-+++ lrzsz-0.12.20/src/zglobal.h
++diff -uprN clean/lrzsz-0.12.20/src/zglobal.h lrzsz-0.12.20/src/zglobal.h
++--- clean/lrzsz-0.12.20/src/zglobal.h	1998-12-29 12:34:59.000000000 +0000
+++++ lrzsz-0.12.20/src/zglobal.h	2019-11-25 16:32:42.000000000 +0000
+ @@ -180,9 +180,6 @@ struct termios;
+  #if HAVE_LOCALE_H
+  # include <locale.h>
+@@ -5776,9 +5742,8 @@ Index: lrzsz-0.12.20/src/zglobal.h
+  
+  #if ENABLE_NLS
+  # include <libintl.h>
+-Index: lrzsz-0.12.20/stamp-h.in
+-===================================================================
+---- lrzsz-0.12.20.orig/stamp-h.in
+-+++ /dev/null
++diff -uprN clean/lrzsz-0.12.20/stamp-h.in lrzsz-0.12.20/stamp-h.in
++--- clean/lrzsz-0.12.20/stamp-h.in	1998-12-30 07:51:07.000000000 +0000
+++++ lrzsz-0.12.20/stamp-h.in	1970-01-01 01:00:00.000000000 +0100
+ @@ -1 +0,0 @@
+ -timestamp
 -- 
 2.27.0
 
