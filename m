@@ -1,472 +1,387 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web12.7159.1612623421346573375
+ by mx.groups.io with SMTP id smtpd.web10.7242.1612623421619168872
  for <openembedded-core@lists.openembedded.org>;
  Sat, 06 Feb 2021 06:57:01 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: bjU5Bmk055qC5sHq20w3Cd+ygPoUY6yCl4x17TOoBP/kIVJ+NF8Si39Gike3DAYbkRsj0WevzJ
- dFcAPxRxSnYg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="200566867"
+IronPort-SDR: bCtVBsR+Yfy+uoEV09cf9rdjrbvaUhdLh9M2g6vrNQKVHbSk+ibNxpT7oVDLiWL1BnAnQ7Altx
+ y8xS37q4gsJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="200566870"
 X-IronPort-AV: E=Sophos;i="5.81,158,1610438400"; 
-   d="scan'208";a="200566867"
+   d="scan'208";a="200566870"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2021 06:57:00 -0800
-IronPort-SDR: 6TUtUwkdUmQ2MMg+ALWN0UegU4rYkUhgeR6tcXaSFZkxyA7gyQ8hJjsByaR0lHjL87EwksEqLw
- nGYZo3S5xmAw==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2021 06:57:01 -0800
+IronPort-SDR: X46c2jN7+yDvagUdVeojEKIj4DV+TkUkgaoc8JNm60LBcLJmZjBh0uM9LtK9puQXGBnS2Qcfk6
+ 2L9Lw0OVPEfA==
 X-IronPort-AV: E=Sophos;i="5.81,158,1610438400"; 
-   d="scan'208";a="434877851"
+   d="scan'208";a="434877855"
 Received: from taoki-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.238])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2021 06:56:58 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2021 06:57:00 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 1/2] sudo: fix CVE-2021-23240
-Date: Sat,  6 Feb 2021 22:56:50 +0800
-Message-Id: <20210206145651.1610972-1-anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 2/2] sudo: fix CVE-2021-3156
+Date: Sat,  6 Feb 2021 22:56:51 +0800
+Message-Id: <20210206145651.1610972-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210206145651.1610972-1-anuj.mittal@intel.com>
+References: <20210206145651.1610972-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../sudo/files/CVE-2021-23240.patch           | 419 ++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.3.bb      |   1 +
- 2 files changed, 420 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-23240.patch
+ .../sudo/files/CVE-2021-3156-1.patch          | 100 ++++++++++++++++++
+ .../sudo/files/CVE-2021-3156-2.patch          |  53 ++++++++++
+ .../sudo/files/CVE-2021-3156-3.patch          |  73 +++++++++++++
+ .../sudo/files/CVE-2021-3156-4.patch          |  29 +++++
+ .../sudo/files/CVE-2021-3156-5.patch          |  41 +++++++
+ meta/recipes-extended/sudo/sudo_1.9.3.bb      |   5 +
+ 6 files changed, 301 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-1.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-2.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-3.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-4.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-5.patch
 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2021-23240.patch b/meta/recipes-extended/sudo/files/CVE-2021-23240.patch
+diff --git a/meta/recipes-extended/sudo/files/CVE-2021-3156-1.patch b/meta/recipes-extended/sudo/files/CVE-2021-3156-1.patch
 new file mode 100644
-index 0000000000..740a13cd90
+index 0000000000..83c277575e
 --- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2021-23240.patch
-@@ -0,0 +1,419 @@
-+Upstream-Status: Backport [https://www.sudo.ws/repos/sudo/rev/8fcb36ef422a]
++++ b/meta/recipes-extended/sudo/files/CVE-2021-3156-1.patch
+@@ -0,0 +1,100 @@
++Upstream-Status: Backport[https://www.sudo.ws/repos/sudo/rev/9b97f1787804]
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+CVE: CVE-2021-23240
++CVE: CVE-2021-3156
 +
 +# HG changeset patch
 +# User Todd C. Miller <Todd.Miller@sudo.ws>
-+# Date 1609953360 25200
-+# Node ID 8fcb36ef422a251fe33738a347551439944a4a37
-+# Parent  ea19d0073c02951bbbf35342dd63304da83edce8
-+Add security checks before using temp files for SELinux RBAC sudoedit.
-+Otherwise, it may be possible for the user running sudoedit to
-+replace the newly-created temporary files with a symbolic link and
-+have sudoedit set the owner of an arbitrary file.
-+Problem reported by Matthias Gerstner of SUSE.
++# Date 1611416639 25200
++# Node ID 9b97f1787804aedccaec63c379053b1a91a0e409
++# Parent  90aba6ba6e03f3bc33b4eabf16358396ed83642d
++Reset valid_flags to MODE_NONINTERACTIVE for sudoedit.
++This is consistent with how the -e option is handled.
++Also reject -H and -P flags for sudoedit as was done in sudo 1.7.
++Found by Qualys, this is part of the fix for CVE-2021-3156.
 +
-+diff -r ea19d0073c02 -r 8fcb36ef422a src/copy_file.c
-+--- a/src/copy_file.c	Wed Jan 06 10:16:00 2021 -0700
-++++ b/src/copy_file.c	Wed Jan 06 10:16:00 2021 -0700
-+@@ -1,7 +1,7 @@
++diff -r 90aba6ba6e03 -r 9b97f1787804 src/parse_args.c
++--- a/src/parse_args.c	Mon Jan 18 12:30:52 2021 +0100
+++++ b/src/parse_args.c	Sat Jan 23 08:43:59 2021 -0700
++@@ -117,7 +117,10 @@
 + /*
-+  * SPDX-License-Identifier: ISC
-+  *
-+- * Copyright (c) 2020 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2020-2021 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -23,6 +23,8 @@
-+ 
-+ #include <config.h>
-+ 
-++#include <sys/stat.h>
-++
-+ #include <stdlib.h>
-+ #include <unistd.h>
-+ #include <errno.h>
-+@@ -134,3 +136,34 @@
-+     sudo_warn(U_("unable to write to %s"), dst);
-+     debug_return_int(-1);
-+ }
-++
-++#ifdef HAVE_SELINUX
-++bool
-++sudo_check_temp_file(int tfd, const char *tfile, uid_t uid, struct stat *sb)
-++{
-++    struct stat sbuf;
-++    debug_decl(sudo_check_temp_file, SUDO_DEBUG_UTIL);
-++
-++    if (sb == NULL)
-++	sb = &sbuf;
-++
-++    if (fstat(tfd, sb) == -1) {
-++	sudo_warn(U_("unable to stat %s"), tfile);
-++	debug_return_bool(false);
-++    }
-++    if (!S_ISREG(sb->st_mode)) {
-++	sudo_warnx(U_("%s: not a regular file"), tfile);
-++	debug_return_bool(false);
-++    }
-++    if ((sb->st_mode & ALLPERMS) != (S_IRUSR|S_IWUSR)) {
-++	sudo_warnx(U_("%s: bad file mode: 0%o"), tfile, sb->st_mode & ALLPERMS);
-++	debug_return_bool(false);
-++    }
-++    if (sb->st_uid != uid) {
-++	sudo_warnx(U_("%s is owned by uid %u, should be %u"),
-++	    tfile, (unsigned int)sb->st_uid, (unsigned int)uid);
-++	debug_return_bool(false);
-++    }
-++    debug_return_bool(true);
-++}
-++#endif /* SELINUX */
-+diff -r ea19d0073c02 -r 8fcb36ef422a src/sesh.c
-+--- a/src/sesh.c	Wed Jan 06 10:16:00 2021 -0700
-++++ b/src/sesh.c	Wed Jan 06 10:16:00 2021 -0700
-+@@ -1,7 +1,7 @@
-+ /*
-+  * SPDX-License-Identifier: ISC
-+  *
-+- * Copyright (c) 2008, 2010-2018, 2020 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2008, 2010-2018, 2020-2021 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -132,7 +132,7 @@
-+ static int
-+ sesh_sudoedit(int argc, char *argv[])
-+ {
-+-    int i, oflags_dst, post, ret = SESH_ERR_FAILURE;
-++    int i, oflags_src, oflags_dst, post, ret = SESH_ERR_FAILURE;
-+     int fd_src = -1, fd_dst = -1, follow = 0;
-+     struct stat sb;
-+     struct timespec times[2];
-+@@ -174,10 +174,12 @@
-+ 	debug_return_int(SESH_ERR_BAD_PATHS);
-+ 
-+     /*
-+-     * Use O_EXCL if we are not in the post editing stage
-+-     * so that it's ensured that the temporary files are
-+-     * created by us and that we are not opening any symlinks.
-++     * In the pre-editing stage, use O_EXCL to ensure that the temporary
-++     * files are created by us and that we are not opening any symlinks.
-++     * In the post-editing stage, use O_NOFOLLOW so we don't follow symlinks
-++     * when opening the temporary files.
-+      */
-++    oflags_src = O_RDONLY|(post ? O_NONBLOCK|O_NOFOLLOW : follow);
-+     oflags_dst = O_WRONLY|O_CREAT|(post ? follow : O_EXCL);
-+     for (i = 0; i < argc - 1; i += 2) {
-+ 	const char *path_src = argv[i];
-+@@ -187,7 +189,7 @@
-+ 	 * doesn't exist, that's OK, we'll create an empty
-+ 	 * destination file.
-+ 	 */
-+-	if ((fd_src = open(path_src, O_RDONLY|follow, S_IRUSR|S_IWUSR)) < 0) {
-++	if ((fd_src = open(path_src, oflags_src, S_IRUSR|S_IWUSR)) < 0) {
-+ 	    if (errno != ENOENT) {
-+ 		sudo_warn("%s", path_src);
-+ 		if (post) {
-+@@ -197,6 +199,14 @@
-+ 		    goto cleanup_0;
-+ 	    }
-+ 	}
-++	if (post) {
-++	    /* Make sure the temporary file is safe and has the proper owner. */
-++	    if (!sudo_check_temp_file(fd_src, path_src, geteuid(), &sb)) {
-++		ret = SESH_ERR_SOME_FILES;
-++		goto nocleanup;
-++	    }
-++	    fcntl(fd_src, F_SETFL, fcntl(fd_src, F_GETFL, 0) & ~O_NONBLOCK);
-++	}
-+ 
-+ 	if ((fd_dst = open(path_dst, oflags_dst, post ?
-+ 	    (S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH) : (S_IRUSR|S_IWUSR))) < 0) {
-+@@ -214,10 +224,7 @@
-+ 	    off_t len_dst = -1;
-+ 
-+ 	    if (post) {
-+-		if (fstat(fd_src, &sb) != 0) {
-+-		    ret = SESH_ERR_SOME_FILES;
-+-		    goto nocleanup;
-+-		}
-++		/* sudo_check_temp_file() filled in sb for us. */
-+ 		len_src = sb.st_size;
-+ 		if (fstat(fd_dst, &sb) != 0) {
-+ 		    ret = SESH_ERR_SOME_FILES;
-+diff -r ea19d0073c02 -r 8fcb36ef422a src/sudo_edit.c
-+--- a/src/sudo_edit.c	Wed Jan 06 10:16:00 2021 -0700
-++++ b/src/sudo_edit.c	Wed Jan 06 10:16:00 2021 -0700
-+@@ -1,7 +1,7 @@
-+ /*
-+  * SPDX-License-Identifier: ISC
-+  *
-+- * Copyright (c) 2004-2008, 2010-2020 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2004-2008, 2010-2021 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -259,8 +259,10 @@
-+     } else {
-+ 	len = asprintf(tfile, "%s/%s.XXXXXXXX", edit_tmpdir, cp);
-+     }
-+-    if (len == -1)
-+-	sudo_fatalx(U_("%s: %s"), __func__, U_("unable to allocate memory"));
-++    if (len == -1) {
-++	sudo_warnx(U_("%s: %s"), __func__, U_("unable to allocate memory"));
-++	debug_return_int(-1);
-++    }
-+     tfd = mkstemps(*tfile, suff ? strlen(suff) : 0);
-+     sudo_debug_printf(SUDO_DEBUG_INFO|SUDO_DEBUG_LINENO,
-+ 	"%s -> %s, fd %d", ofile, *tfile, tfd);
-+@@ -735,7 +737,8 @@
-+ 
-+ #ifdef HAVE_SELINUX
-+ static int
-+-selinux_run_helper(char *argv[], char *envp[])
-++selinux_run_helper(uid_t uid, gid_t gid, int ngroups, GETGROUPS_T *groups,
-++    char *const argv[], char *const envp[])
-+ {
-+     int status, ret = SESH_ERR_FAILURE;
-+     const char *sesh;
-+@@ -755,8 +758,10 @@
-+ 	break;
-+     case 0:
-+ 	/* child runs sesh in new context */
-+-	if (selinux_setcon() == 0)
-++	if (selinux_setcon() == 0) {
-++	    switch_user(uid, gid, ngroups, groups);
-+ 	    execve(sesh, argv, envp);
-++	}
-+ 	_exit(SESH_ERR_FAILURE);
-+     default:
-+ 	/* parent waits */
-+@@ -775,7 +780,7 @@
-+     struct tempfile *tf, char *files[], int nfiles)
-+ {
-+     char **sesh_args, **sesh_ap;
-+-    int i, rc, sesh_nargs;
-++    int i, error, sesh_nargs, ret = -1;
-+     struct stat sb;
-+     debug_decl(selinux_edit_create_tfiles, SUDO_DEBUG_EDIT);
-+     
-+@@ -787,7 +792,7 @@
-+     sesh_args = sesh_ap = reallocarray(NULL, sesh_nargs, sizeof(char *));
-+     if (sesh_args == NULL) {
-+ 	sudo_warnx(U_("%s: %s"), __func__, U_("unable to allocate memory"));
-+-	debug_return_int(-1);
-++	goto done;
-+     }
-+     *sesh_ap++ = "sesh";
-+     *sesh_ap++ = "-e";
-+@@ -795,7 +800,6 @@
-+ 	*sesh_ap++ = "-h";
-+     *sesh_ap++ = "0";
-+ 
-+-    /* XXX - temp files should be created with user's context */
-+     for (i = 0; i < nfiles; i++) {
-+ 	char *tfile, *ofile = files[i];
-+ 	int tfd;
-+@@ -813,8 +817,7 @@
-+ 	if (tfd == -1) {
-+ 	    sudo_warn("mkstemps");
-+ 	    free(tfile);
-+-	    free(sesh_args);
-+-	    debug_return_int(-1);
-++	    goto done;
-+ 	}
-+ 	/* Helper will re-create temp file with proper security context. */
-+ 	close(tfd);
-+@@ -825,8 +828,10 @@
-+     *sesh_ap = NULL;
-+ 
-+     /* Run sesh -e [-h] 0 <o1> <t1> ... <on> <tn> */
-+-    rc = selinux_run_helper(sesh_args, command_details->envp);
-+-    switch (rc) {
-++    error = selinux_run_helper(command_details->uid, command_details->gid,
-++	command_details->ngroups, command_details->groups, sesh_args,
-++	command_details->envp);
-++    switch (error) {
-+     case SESH_SUCCESS:
-+ 	break;
-+     case SESH_ERR_BAD_PATHS:
-+@@ -836,21 +841,35 @@
-+     case SESH_ERR_KILLED:
-+ 	sudo_fatalx("%s", U_("sesh: killed by a signal"));
-+     default:
-+-	sudo_fatalx(U_("sesh: unknown error %d"), rc);
-++	sudo_warnx(U_("sesh: unknown error %d"), error);
-++	goto done;
-+     }
-+ 
-+-    /* Chown to user's UID so they can edit the temporary files. */
-+     for (i = 0; i < nfiles; i++) {
-+-	if (chown(tf[i].tfile, user_details.uid, user_details.gid) != 0) {
-++	int tfd = open(tf[i].tfile, O_RDONLY|O_NONBLOCK|O_NOFOLLOW);
-++	if (tfd == -1) {
-++	    sudo_warn(U_("unable to open %s"), tf[i].tfile);
-++	    goto done;
-++	}
-++	if (!sudo_check_temp_file(tfd, tf[i].tfile, command_details->uid, NULL)) {
-++	    close(tfd);
-++	    goto done;
-++	}
-++	if (fchown(tfd, user_details.uid, user_details.gid) != 0) {
-+ 	    sudo_warn("unable to chown(%s) to %d:%d for editing",
-+ 		tf[i].tfile, user_details.uid, user_details.gid);
-++	    close(tfd);
-++	    goto done;
-+ 	}
-++	close(tfd);
-+     }
-++    ret = nfiles;
-+ 
-++done:
-+     /* Contents of tf will be freed by caller. */
-+     free(sesh_args);
-+ 
-+-    return (nfiles);
-++    debug_return_int(ret);
-+ }
-+ 
-+ static int
-+@@ -858,7 +877,8 @@
-+     struct tempfile *tf, int nfiles, struct timespec *times)
-+ {
-+     char **sesh_args, **sesh_ap;
-+-    int i, rc, sesh_nargs, ret = 1;
-++    int i, error, sesh_nargs, ret = 1;
-++    int tfd = -1;
-+     struct timespec ts;
-+     struct stat sb;
-+     debug_decl(selinux_edit_copy_tfiles, SUDO_DEBUG_EDIT);
-+@@ -879,33 +899,43 @@
-+ 
-+     /* Construct args for sesh -e 1 */
-+     for (i = 0; i < nfiles; i++) {
-+-	if (stat(tf[i].tfile, &sb) == 0) {
-+-	    mtim_get(&sb, ts);
-+-	    if (tf[i].osize == sb.st_size && sudo_timespeccmp(&tf[i].omtim, &ts, ==)) {
-+-		/*
-+-		 * If mtime and size match but the user spent no measurable
-+-		 * time in the editor we can't tell if the file was changed.
-+-		 */
-+-		if (sudo_timespeccmp(&times[0], &times[1], !=)) {
-+-		    sudo_warnx(U_("%s unchanged"), tf[i].ofile);
-+-		    unlink(tf[i].tfile);
-+-		    continue;
-+-		}
-++	if (tfd != -1)
-++	    close(tfd);
-++	if ((tfd = open(tf[i].tfile, O_RDONLY|O_NONBLOCK|O_NOFOLLOW)) == -1) {
-++	    sudo_warn(U_("unable to open %s"), tf[i].tfile);
-++	    continue;
-++	}
-++	if (!sudo_check_temp_file(tfd, tf[i].tfile, user_details.uid, &sb))
-++	    continue;
-++	mtim_get(&sb, ts);
-++	if (tf[i].osize == sb.st_size && sudo_timespeccmp(&tf[i].omtim, &ts, ==)) {
-++	    /*
-++	     * If mtime and size match but the user spent no measurable
-++	     * time in the editor we can't tell if the file was changed.
-++	     */
-++	    if (sudo_timespeccmp(&times[0], &times[1], !=)) {
-++		sudo_warnx(U_("%s unchanged"), tf[i].ofile);
-++		unlink(tf[i].tfile);
-++		continue;
-+ 	    }
-+ 	}
-+ 	*sesh_ap++ = tf[i].tfile;
-+ 	*sesh_ap++ = tf[i].ofile;
-+-	if (chown(tf[i].tfile, command_details->uid, command_details->gid) != 0) {
-++	if (fchown(tfd, command_details->uid, command_details->gid) != 0) {
-+ 	    sudo_warn("unable to chown(%s) back to %d:%d", tf[i].tfile,
-+ 		command_details->uid, command_details->gid);
-+ 	}
-+     }
-+     *sesh_ap = NULL;
-++    if (tfd != -1)
-++	close(tfd);
-+ 
-+     if (sesh_ap - sesh_args > 3) {
-+ 	/* Run sesh -e 1 <t1> <o1> ... <tn> <on> */
-+-	rc = selinux_run_helper(sesh_args, command_details->envp);
-+-	switch (rc) {
-++	error = selinux_run_helper(command_details->uid, command_details->gid,
-++	    command_details->ngroups, command_details->groups, sesh_args,
-++	    command_details->envp);
-++	switch (error) {
-+ 	case SESH_SUCCESS:
-+ 	    ret = 0;
-+ 	    break;
-+@@ -921,7 +951,7 @@
-+ 	    sudo_warnx("%s", U_("sesh: killed by a signal"));
-+ 	    break;
-+ 	default:
-+-	    sudo_warnx(U_("sesh: unknown error %d"), rc);
-++	    sudo_warnx(U_("sesh: unknown error %d"), error);
-+ 	    break;
-+ 	}
-+ 	if (ret != 0)
-+@@ -943,7 +973,7 @@
-+ {
-+     struct command_details saved_command_details;
-+     char **nargv = NULL, **ap, **files = NULL;
-+-    int errors, i, ac, nargc, rc;
-++    int errors, i, ac, nargc, ret;
-+     int editor_argc = 0, nfiles = 0;
-+     struct timespec times[2];
-+     struct tempfile *tf = NULL;
-+@@ -1038,7 +1068,7 @@
-+     command_details->ngroups = user_details.ngroups;
-+     command_details->groups = user_details.groups;
-+     command_details->argv = nargv;
-+-    rc = run_command(command_details);
-++    ret = run_command(command_details);
-+     if (sudo_gettime_real(&times[1]) == -1) {
-+ 	sudo_warn("%s", U_("unable to read the clock"));
-+ 	goto cleanup;
-+@@ -1062,14 +1092,14 @@
-+ 	errors = sudo_edit_copy_tfiles(command_details, tf, nfiles, times);
-+     if (errors) {
-+ 	/* Preserve the edited temporary files. */
-+-	rc = W_EXITCODE(1, 0);
-++	ret = W_EXITCODE(1, 0);
-+     }
-+ 
-+     for (i = 0; i < nfiles; i++)
-+ 	free(tf[i].tfile);
-+     free(tf);
-+     free(nargv);
-+-    debug_return_int(rc);
-++    debug_return_int(ret);
-+ 
-+ cleanup:
-+     /* Clean up temp files and return. */
-+diff -r ea19d0073c02 -r 8fcb36ef422a src/sudo_exec.h
-+--- a/src/sudo_exec.h	Wed Jan 06 10:16:00 2021 -0700
-++++ b/src/sudo_exec.h	Wed Jan 06 10:16:00 2021 -0700
-+@@ -1,7 +1,7 @@
-+ /*
-+  * SPDX-License-Identifier: ISC
-+  *
-+- * Copyright (c) 2010-2016 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2010-2017, 2020-2021 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -84,9 +84,11 @@
++  * Default flags allowed when running a command.
 +  */
-+ struct command_details;
-+ struct command_status;
-++struct stat;
++-#define DEFAULT_VALID_FLAGS	(MODE_BACKGROUND|MODE_PRESERVE_ENV|MODE_RESET_HOME|MODE_LOGIN_SHELL|MODE_NONINTERACTIVE|MODE_SHELL)
+++#define DEFAULT_VALID_FLAGS	(MODE_BACKGROUND|MODE_PRESERVE_ENV|MODE_RESET_HOME|MODE_LOGIN_SHELL|MODE_NONINTERACTIVE|MODE_PRESERVE_GROUPS|MODE_SHELL)
+++#define EDIT_VALID_FLAGS	MODE_NONINTERACTIVE
+++#define LIST_VALID_FLAGS	(MODE_NONINTERACTIVE|MODE_LONG_LIST)
+++#define VALIDATE_VALID_FLAGS	MODE_NONINTERACTIVE
 + 
-+ /* copy_file.c */
-+ int sudo_copy_file(const char *src, int src_fd, off_t src_len, const char *dst, int dst_fd, off_t dst_len);
-++bool sudo_check_temp_file(int tfd, const char *tname, uid_t uid, struct stat *sb);
++ /* Option number for the --host long option due to ambiguity of the -h flag. */
++ #define OPT_HOSTNAME	256
++@@ -262,6 +265,7 @@
++ 	progname = "sudoedit";
++ 	mode = MODE_EDIT;
++ 	sudo_settings[ARG_SUDOEDIT].value = "true";
+++	valid_flags = EDIT_VALID_FLAGS;
++     }
 + 
-+ /* exec.c */
-+ void exec_cmnd(struct command_details *details, int errfd);
++     /* Load local IP addresses and masks. */
++@@ -365,7 +369,7 @@
++ 			usage_excl();
++ 		    mode = MODE_EDIT;
++ 		    sudo_settings[ARG_SUDOEDIT].value = "true";
++-		    valid_flags = MODE_NONINTERACTIVE;
+++		    valid_flags = EDIT_VALID_FLAGS;
++ 		    break;
++ 		case 'g':
++ 		    assert(optarg != NULL);
++@@ -377,6 +381,7 @@
++ 		    break;
++ 		case 'H':
++ 		    sudo_settings[ARG_SET_HOME].value = "true";
+++		    SET(flags, MODE_RESET_HOME);
++ 		    break;
++ 		case 'h':
++ 		    if (optarg == NULL) {
++@@ -431,7 +436,7 @@
++ 			    usage_excl();
++ 		    }
++ 		    mode = MODE_LIST;
++-		    valid_flags = MODE_NONINTERACTIVE|MODE_LONG_LIST;
+++		    valid_flags = LIST_VALID_FLAGS;
++ 		    break;
++ 		case 'n':
++ 		    SET(flags, MODE_NONINTERACTIVE);
++@@ -439,6 +444,7 @@
++ 		    break;
++ 		case 'P':
++ 		    sudo_settings[ARG_PRESERVE_GROUPS].value = "true";
+++		    SET(flags, MODE_PRESERVE_GROUPS);
++ 		    break;
++ 		case 'p':
++ 		    /* An empty prompt is allowed. */
++@@ -505,7 +511,7 @@
++ 		    if (mode && mode != MODE_VALIDATE)
++ 			usage_excl();
++ 		    mode = MODE_VALIDATE;
++-		    valid_flags = MODE_NONINTERACTIVE;
+++		    valid_flags = VALIDATE_VALID_FLAGS;
++ 		    break;
++ 		case 'V':
++ 		    if (mode && mode != MODE_VERSION)
++@@ -533,7 +539,7 @@
++     if (!mode) {
++ 	/* Defer -k mode setting until we know whether it is a flag or not */
++ 	if (sudo_settings[ARG_IGNORE_TICKET].value != NULL) {
++-	    if (argc == 0 && !(flags & (MODE_SHELL|MODE_LOGIN_SHELL))) {
+++	    if (argc == 0 && !ISSET(flags, MODE_SHELL|MODE_LOGIN_SHELL)) {
++ 		mode = MODE_INVALIDATE;	/* -k by itself */
++ 		sudo_settings[ARG_IGNORE_TICKET].value = NULL;
++ 		valid_flags = 0;
++@@ -601,7 +607,7 @@
++     /*
++      * For shell mode we need to rewrite argv
++      */
++-    if (ISSET(mode, MODE_RUN) && ISSET(flags, MODE_SHELL)) {
+++    if (ISSET(flags, MODE_SHELL|MODE_LOGIN_SHELL) && ISSET(mode, MODE_RUN)) {
++ 	char **av, *cmnd = NULL;
++ 	int ac = 1;
++ 
++
++
+diff --git a/meta/recipes-extended/sudo/files/CVE-2021-3156-2.patch b/meta/recipes-extended/sudo/files/CVE-2021-3156-2.patch
+new file mode 100644
+index 0000000000..6d051252cb
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2021-3156-2.patch
+@@ -0,0 +1,53 @@
++From 03d04069468d6633be0d6ef6c4adff07620488da Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anuj.mittal@intel.com>
++Date: Sat, 6 Feb 2021 15:57:55 +0800
++Subject: [PATCH] sudo: fix CVE-2021-3156
++
++Upstream-Status: Backport [https://www.sudo.ws/repos/sudo/rev/a97dc92eae6b]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++CVE: CVE-2021-3156
++
++# HG changeset patch
++# User Todd C. Miller <Todd.Miller@sudo.ws>
++# Date 1611416639 25200
++# Node ID a97dc92eae6b60ae285055441341d493c17262ff
++# Parent  9b97f1787804aedccaec63c379053b1a91a0e409
++Add sudoedit flag checks in plugin that are consistent with front-end.
++Don't assume the sudo front-end is sending reasonable mode flags.
++These checks need to be kept consistent between the sudo front-end
++and the sudoers plugin.
++
++---
++ plugins/sudoers/policy.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/plugins/sudoers/policy.c b/plugins/sudoers/policy.c
++index c4749a6..2f18fe1 100644
++--- a/plugins/sudoers/policy.c
+++++ b/plugins/sudoers/policy.c
++@@ -88,10 +88,11 @@ parse_bool(const char *line, int varlen, int *flags, int fval)
++ int
++ sudoers_policy_deserialize_info(void *v, char **runas_user, char **runas_group)
++ {
+++    const int edit_mask = MODE_EDIT|MODE_IGNORE_TICKET|MODE_NONINTERACTIVE;
++     struct sudoers_open_info *info = v;
++-    char * const *cur;
++     const char *p, *errstr, *groups = NULL;
++     const char *remhost = NULL;
+++    char * const *cur;
++     int flags = 0;
++     debug_decl(sudoers_policy_deserialize_info, SUDOERS_DEBUG_PLUGIN);
++ 
++@@ -343,6 +344,12 @@ sudoers_policy_deserialize_info(void *v, char **runas_user, char **runas_group)
++ #endif
++     }
++ 
+++    /* Sudo front-end should restrict mode flags for sudoedit. */
+++    if (ISSET(flags, MODE_EDIT) && (flags & edit_mask) != flags) {
+++	sudo_warnx(U_("invalid mode flags from sudo front end: 0x%x"), flags);
+++	goto bad;
+++    }
+++
++     user_gid = (gid_t)-1;
++     user_sid = (pid_t)-1;
++     user_uid = (gid_t)-1;
+diff --git a/meta/recipes-extended/sudo/files/CVE-2021-3156-3.patch b/meta/recipes-extended/sudo/files/CVE-2021-3156-3.patch
+new file mode 100644
+index 0000000000..30a574d05c
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2021-3156-3.patch
+@@ -0,0 +1,73 @@
++Upstream-Status: Backport[https://www.sudo.ws/repos/sudo/rev/049ad90590be]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++CVE: CVE-2021-3156
++
++# HG changeset patch
++# User Todd C. Miller <Todd.Miller@sudo.ws>
++# Date 1611416639 25200
++# Node ID 049ad90590be1e5dfb7df2675d2eb3e37c96ab86
++# Parent  a97dc92eae6b60ae285055441341d493c17262ff
++Fix potential buffer overflow when unescaping backslashes in user_args.
++Also, do not try to unescaping backslashes unless in run mode *and*
++we are running the command via a shell.
++Found by Qualys, this fixes CVE-2021-3156.
++
++diff -r a97dc92eae6b -r 049ad90590be plugins/sudoers/sudoers.c
++--- a/plugins/sudoers/sudoers.c	Sat Jan 23 08:43:59 2021 -0700
+++++ b/plugins/sudoers/sudoers.c	Sat Jan 23 08:43:59 2021 -0700
++@@ -547,7 +547,7 @@
++ 
++     /* If run as root with SUDO_USER set, set sudo_user.pw to that user. */
++     /* XXX - causes confusion when root is not listed in sudoers */
++-    if (sudo_mode & (MODE_RUN | MODE_EDIT) && prev_user != NULL) {
+++    if (ISSET(sudo_mode, MODE_RUN|MODE_EDIT) && prev_user != NULL) {
++ 	if (user_uid == 0 && strcmp(prev_user, "root") != 0) {
++ 	    struct passwd *pw;
++ 
++@@ -932,8 +932,8 @@
++     if (user_cmnd == NULL)
++ 	user_cmnd = NewArgv[0];
++ 
++-    if (sudo_mode & (MODE_RUN | MODE_EDIT | MODE_CHECK)) {
++-	if (ISSET(sudo_mode, MODE_RUN | MODE_CHECK)) {
+++    if (ISSET(sudo_mode, MODE_RUN|MODE_EDIT|MODE_CHECK)) {
+++	if (!ISSET(sudo_mode, MODE_EDIT)) {
++ 	    const char *runchroot = user_runchroot;
++ 	    if (runchroot == NULL && def_runchroot != NULL &&
++ 		    strcmp(def_runchroot, "*") != 0)
++@@ -961,7 +961,8 @@
++ 		sudo_warnx(U_("%s: %s"), __func__, U_("unable to allocate memory"));
++ 		debug_return_int(NOT_FOUND_ERROR);
++ 	    }
++-	    if (ISSET(sudo_mode, MODE_SHELL|MODE_LOGIN_SHELL)) {
+++	    if (ISSET(sudo_mode, MODE_SHELL|MODE_LOGIN_SHELL) &&
+++		    ISSET(sudo_mode, MODE_RUN)) {
++ 		/*
++ 		 * When running a command via a shell, the sudo front-end
++ 		 * escapes potential meta chars.  We unescape non-spaces
++@@ -969,10 +970,22 @@
++ 		 */
++ 		for (to = user_args, av = NewArgv + 1; (from = *av); av++) {
++ 		    while (*from) {
++-			if (from[0] == '\\' && !isspace((unsigned char)from[1]))
+++			if (from[0] == '\\' && from[1] != '\0' &&
+++				!isspace((unsigned char)from[1])) {
++ 			    from++;
+++			}
+++			if (size - (to - user_args) < 1) {
+++			    sudo_warnx(U_("internal error, %s overflow"),
+++				__func__);
+++			    debug_return_int(NOT_FOUND_ERROR);
+++			}
++ 			*to++ = *from++;
++ 		    }
+++		    if (size - (to - user_args) < 1) {
+++			sudo_warnx(U_("internal error, %s overflow"),
+++			    __func__);
+++			debug_return_int(NOT_FOUND_ERROR);
+++		    }
++ 		    *to++ = ' ';
++ 		}
++ 		*--to = '\0';
++
++
+diff --git a/meta/recipes-extended/sudo/files/CVE-2021-3156-4.patch b/meta/recipes-extended/sudo/files/CVE-2021-3156-4.patch
+new file mode 100644
+index 0000000000..c1b00c740e
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2021-3156-4.patch
+@@ -0,0 +1,29 @@
++Upstream-Status: Backport [https://www.sudo.ws/repos/sudo/rev/09f98816fc89]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++CVE: CVE-2021-3156
++
++# HG changeset patch
++# User Todd C. Miller <Todd.Miller@sudo.ws>
++# Date 1611416640 25200
++# Node ID 09f98816fc8978f1d8623a857073d2d5746f0379
++# Parent  049ad90590be1e5dfb7df2675d2eb3e37c96ab86
++Fix the memset offset when converting a v1 timestamp to TS_LOCKEXCL.
++We want to zero the struct starting at flags, not type (which was just set).
++Found by Qualys.
++
++diff -r 049ad90590be -r 09f98816fc89 plugins/sudoers/timestamp.c
++--- a/plugins/sudoers/timestamp.c	Sat Jan 23 08:43:59 2021 -0700
+++++ b/plugins/sudoers/timestamp.c	Sat Jan 23 08:44:00 2021 -0700
++@@ -643,8 +643,8 @@
++ 	if (entry.size == sizeof(struct timestamp_entry_v1)) {
++ 	    /* Old sudo record, convert it to TS_LOCKEXCL. */
++ 	    entry.type = TS_LOCKEXCL;
++-	    memset((char *)&entry + offsetof(struct timestamp_entry, type), 0,
++-		nread - offsetof(struct timestamp_entry, type));
+++	    memset((char *)&entry + offsetof(struct timestamp_entry, flags), 0,
+++		nread - offsetof(struct timestamp_entry, flags));
++ 	    if (ts_write(cookie->fd, cookie->fname, &entry, 0) == -1)
++ 		debug_return_bool(false);
++ 	} else {
++
++
+diff --git a/meta/recipes-extended/sudo/files/CVE-2021-3156-5.patch b/meta/recipes-extended/sudo/files/CVE-2021-3156-5.patch
+new file mode 100644
+index 0000000000..c04b8e72a6
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2021-3156-5.patch
+@@ -0,0 +1,41 @@
++Upstream-Status: Backport [https://www.sudo.ws/repos/sudo/rev/c125fbe68783]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++CVE: CVE-2021-3156
++
++# HG changeset patch
++# User Todd C. Miller <Todd.Miller@sudo.ws>
++# Date 1611416640 25200
++# Node ID c125fbe6878395d10f01d891d3c09b1229ada404
++# Parent  09f98816fc8978f1d8623a857073d2d5746f0379
++Don't assume that argv is allocated as a single flat buffer.
++While this is how the kernel behaves it is not a portable assumption.
++The assumption may also be violated if getopt_long(3) permutes arguments.
++Found by Qualys.
++
++diff -r 09f98816fc89 -r c125fbe68783 src/parse_args.c
++--- a/src/parse_args.c	Sat Jan 23 08:44:00 2021 -0700
+++++ b/src/parse_args.c	Sat Jan 23 08:44:00 2021 -0700
++@@ -614,16 +614,16 @@
++ 	if (argc != 0) {
++ 	    /* shell -c "command" */
++ 	    char *src, *dst;
++-	    size_t cmnd_size = (size_t) (argv[argc - 1] - argv[0]) +
++-		strlen(argv[argc - 1]) + 1;
+++	    size_t size = 0;
++ 
++-	    cmnd = dst = reallocarray(NULL, cmnd_size, 2);
++-	    if (cmnd == NULL)
+++	    for (av = argv; *av != NULL; av++)
+++		size += strlen(*av) + 1;
+++	    if (size == 0 || (cmnd = reallocarray(NULL, size, 2)) == NULL)
++ 		sudo_fatalx(U_("%s: %s"), __func__, U_("unable to allocate memory"));
++ 	    if (!gc_add(GC_PTR, cmnd))
++ 		exit(EXIT_FAILURE);
++ 
++-	    for (av = argv; *av != NULL; av++) {
+++	    for (dst = cmnd, av = argv; *av != NULL; av++) {
++ 		for (src = *av; *src != '\0'; src++) {
++ 		    /* quote potential meta characters */
++ 		    if (!isalnum((unsigned char)*src) && *src != '_' && *src != '-' && *src != '$')
 +
 +
 diff --git a/meta/recipes-extended/sudo/sudo_1.9.3.bb b/meta/recipes-extended/sudo/sudo_1.9.3.bb
-index 132d9a8cb9..4edcbfc607 100644
+index 4edcbfc607..37fd6386dd 100644
 --- a/meta/recipes-extended/sudo/sudo_1.9.3.bb
 +++ b/meta/recipes-extended/sudo/sudo_1.9.3.bb
-@@ -4,6 +4,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+@@ -5,6 +5,11 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
             file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
             file://CVE-2021-23239.patch \
-+           file://CVE-2021-23240.patch \
+            file://CVE-2021-23240.patch \
++           file://CVE-2021-3156-1.patch \
++           file://CVE-2021-3156-2.patch \
++           file://CVE-2021-3156-3.patch \
++           file://CVE-2021-3156-4.patch \
++           file://CVE-2021-3156-5.patch \
             "
  
  PAM_SRC_URI = "file://sudo.pam"
