@@ -1,82 +1,72 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web09.27865.1612738811518926412
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web09.27940.1612739159046928215
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 15:00:11 -0800
+ Sun, 07 Feb 2021 15:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ehf8Ii/O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id c12so15066995wrc.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 15:00:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A9Eisntw;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id a16so6829516plh.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 15:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=caZN71TdxOV0ifhH1qjaTOU8No4hskcTFJIWS3ivq0g=;
-        b=Ehf8Ii/OSU3BD3ZCsXJYkCCNMDUGI/e4IPcBmuNVxzv7ohvtiMdX4uRgOJs5UB2Je+
-         yjC9Fs8O+G/JnoXVba5F7kdBl4KA+DnTVjiQZXbhTHdE2HXzNFE2mZ2mtPFOT/IvBK9Y
-         jQdOW3tlCA75//Js7vbov/IybNkH+34ic+7mM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iuwsdyB/FMoULLh6VomDw4S/VJUmQTjPdBfjMvJJVV4=;
+        b=A9EisntwrO45PjTPGswWI45jfHZ2B/INczfNFF7rOy/PpYgUBXKUYzWCv/U7tZG8ae
+         KagBNaAreCuGQwHG0MD36v7zwCQJ/qFtNrlaEJ5lMQ7bgPi/pgsetoRnpGIxpaJ3ykkh
+         bgPDZorCdzRd9qqcgj4mnkDKJ3zYfNdxNGMG5s1h1+aVYrHvs/CkThB5sDTh08dzwiTC
+         cR7zrmA9hlu5QMvTXv6LfypCZ4IlnHIRfKaIlrJdtynAS8NeYBI4G0fPG3w+Hnf4kFm5
+         j07MteoIV5TGNkzu6kqNuI/Y3xEiDGb2StAX0aECX/mvGoNVE0jC7bT1Q0ObQ2/Jy7CE
+         n7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=caZN71TdxOV0ifhH1qjaTOU8No4hskcTFJIWS3ivq0g=;
-        b=iTyt1hdxq1BYyDd5U+O5gKfdMdldLaaIDeKzOn5vSxzGlf2f7Y8Ahm+nPJArGXQ9UK
-         NMdb1a3zfzzqmCVRxMF9P5Xu7JqBJCXfZx9tEm2YI4aLunl/lbWiBpqvCmehEbil5CQu
-         Sj3uKe8pQ6ZysowXQ/R3Wcged5j5sS+CFSraQ8mPnm+4UsULeXKJ6Fb7SS+Vn21olZZ1
-         erd/UqfKYYxwfxNDJEuqvS5DQ2hsV/IApS7A1L9mAzDoDH1i3EZDDRq3YeB3jXwvEs97
-         070sNW37YExCJOvkiNjgeUx12MIuTILVzEFiwoYZwsqWYf79twXSj/38Cm+RHHVnhFkO
-         o9hg==
-X-Gm-Message-State: AOAM530QmUo2Jnm9FKi8+CFNJ+W5bu7C1BHRqE26c8vsqaynIIcu42Lt
-	2kMvJMAWS4cEa9xwbBiKr3jP6w==
-X-Google-Smtp-Source: ABdhPJwpUUOl0AdYYBztzLkB5uM/vgzF7mayqtbb+w0/N4CLSY6JJH8Wce/KD8694qOiiiZyLvLsgw==
-X-Received: by 2002:adf:e70e:: with SMTP id c14mr5139429wrm.54.1612738810222;
-        Sun, 07 Feb 2021 15:00:10 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:ff1a:4654:ede1:462c? ([2001:8b0:aba:5f3c:ff1a:4654:ede1:462c])
-        by smtp.gmail.com with ESMTPSA id z1sm25128992wru.70.2021.02.07.15.00.09
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iuwsdyB/FMoULLh6VomDw4S/VJUmQTjPdBfjMvJJVV4=;
+        b=V4CsiEeKWBjFm7ebA5UQnHyGzZSbtzMoJ9+HCuVWwvvJxE9jCB3iWo0agJsHA+v03Z
+         t6njy6UYE931lJOTrnDCPWX6zVgjXxOTIxRU1eg1uYQK4XDaNTYcJKarKvhr2N4K5B+q
+         vrOfxigMt0xufKz/cqCST/8e7Ld8Is35s2a527sdpTB7xnabYj8HcXWLfXqYvYuxDyLJ
+         rjeu4WUQwkKNd4xLVxXu2eD9FhNdptKNxr/wC8qhZGjygV01yrVQlIE02Y1trx9J79wP
+         6Q7+uHGtfmSWklMTAU7bAo0qkfC2cHei9vS2uZPIC/r2WNA755CHMp1OdVEUaBLThNcG
+         bc/Q==
+X-Gm-Message-State: AOAM530Y2UAFSFvyqneJfR6xhy4hBrwoE+Nf1LP4P9bhZflB9xHa2iQH
+	FnhZpcigbI79sF3ZHMeoeEREFeYwzVj3eg==
+X-Google-Smtp-Source: ABdhPJyJ87VQJDuPto2ODEKFfcobBCfp9a1Wir6ZDpTsfHEXa19XhkikrwlMNz0hKJnrKKF0cuDbCw==
+X-Received: by 2002:a17:902:e8c4:b029:e2:b7d3:4fd7 with SMTP id v4-20020a170902e8c4b02900e2b7d34fd7mr10356291plg.73.1612739158211;
+        Sun, 07 Feb 2021 15:05:58 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::d188])
+        by smtp.gmail.com with ESMTPSA id t25sm3311269pgo.87.2021.02.07.15.05.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 15:00:09 -0800 (PST)
-Message-ID: <5bd02696955631f07d754eb6a009a8f6f38ce27c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/3] shaderc: add option to skip building the examples
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 07 Feb 2021 23:00:09 +0000
-In-Reply-To: <CANPvuRntP03A8U696D+JoBVtvK=Kp-Dj08Eae5=Sx=CuqpTP4g@mail.gmail.com>
-References: <20210207180504.1552900-1-quaresma.jose@gmail.com>
-	 <20210207180504.1552900-2-quaresma.jose@gmail.com>
-	 <f772741f2969f3b3e3ea117fb35c8a39a9a14756.camel@linuxfoundation.org>
-	 <CANPvuRntP03A8U696D+JoBVtvK=Kp-Dj08Eae5=Sx=CuqpTP4g@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Sun, 07 Feb 2021 15:05:57 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [master-next][PATCH] autoconf: Fix typo for prefuncs
+Date: Sun,  7 Feb 2021 15:05:55 -0800
+Message-Id: <20210207230555.946763-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-02-07 at 22:56 +0000, Jose Quaresma wrote:
-> Hi Richard,
-> 
-> I need some help to analyze the log of the compilation.
-> where can i find it? is it possible?
-> 
-> The compilation log mentioned on
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1835
-> are
-> /home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/x86_64-
-> linux/shaderc-native/2020.4-r0/temp/log.do_compile.199121
-> 
-> On my side it build fine on x86_64 so I don't understand the problem!
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/autoconf/autoconf_2.71.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That log is included here:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/3034/steps/11/logs/stdio
-
-or here is another:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/3056/steps/11/logs/stdio
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.71.bb b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+index 3202a87273..e5098106f8 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.71.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+@@ -65,7 +65,7 @@ update_gnu_config() {
+ 	install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}/build-aux
+ 	install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}/build-aux
+ }
+-do_configure[prefuncss] += "update_gnu_config"
++do_configure[prefuncs] += "update_gnu_config"
+ 
+ do_configure_class-native() {
+ 	oe_runconf
+-- 
+2.30.0
 
