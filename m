@@ -1,97 +1,61 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.15463.1612662697094495265
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.17591.1612681879514444281
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Feb 2021 17:51:37 -0800
+ Sat, 06 Feb 2021 23:11:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pwoYEefU;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id z6so12826812wrq.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 17:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mTexGQZoOSEpJ8G3iyqpDFQr85O71xGj6CWqwWo0AIw=;
-        b=pwoYEefUvHZItX36nJ6LpKzMrq2aZjGuIBR/jyK9fkvwOy+aiW4FvPnqYWoCzWwQvr
-         bNzCDwHtcFZE3+jDavHahQmOYGhp5D9U3Vw+olXS3Wpq+wyYaszq7F7tDW/VrsrUOYlJ
-         Awui4o2cxiHau7Rav36yeKeW+mz67B3kRJ/+igKLuAi4FPbgS2ZiA7PgHNmZ82IsGxDl
-         +x+hga9O0HzKIvJORhvq/ZPdL8BC2pbTIOwUR9pB/uKh+w87Gt02VIuSj9KSNHyZNG5Y
-         PMtLSTW7+qYtRdC8XjZtLqD4DJf73ZihXRmVh5N5mp+daQb0n8nlkPtG+tOLygVTkKVd
-         KOOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mTexGQZoOSEpJ8G3iyqpDFQr85O71xGj6CWqwWo0AIw=;
-        b=SDVEaFn98nxghBZyXln6gon/J0JMKTAAwaWpxRLNdYgHGXpfUnShijiFaPmoiahXiB
-         d3YJIkIDxgE6GGnZsWTKuKR2X9/VFAC58VOJPYSggJrjpw9f5yvPHFGAecpzBOvA4iXP
-         9rWJGzVz7QTFb69jMVHR5rUIxPSgKRtf1PIBCKEjQxNffzzLlYUDnK5QgUbvsOXNMCfO
-         YmAefIM7SUpxvnjyHLSQ/2l1WylfK4BiM1knsie4sN0Abt59Zm+XT0SNeFsOxFrLUJ9w
-         bsvGArUM86YP7IEjibW4Z7IsP8Nl4IPMtirUgojdA0SspiTDUukiMhwT8vdYgb0VIOEN
-         4NWw==
-X-Gm-Message-State: AOAM5307PdBVvX3GrxN9m4lxSm6N/aIruCFayB1gEJ3aWfy2OszCEtth
-	8FrpGirHZ02rqv5iCUYj+GWmiuB85o14yw==
-X-Google-Smtp-Source: ABdhPJxN1CzlEAvVJQIe6LePw/v4I3MnE7TXbwhdcg4Pc0WCfRx7ysHmLt0W5p+y/QBfwCvDHA6AOw==
-X-Received: by 2002:a5d:6089:: with SMTP id w9mr4601776wrt.412.1612662695790;
-        Sat, 06 Feb 2021 17:51:35 -0800 (PST)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id n9sm19129089wrq.41.2021.02.06.17.51.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 17:51:35 -0800 (PST)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 4/4] shaderc: remove the glslang-native from dependencies
-Date: Sun,  7 Feb 2021 01:51:20 +0000
-Message-Id: <20210207015120.1299136-4-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210207015120.1299136-1-quaresma.jose@gmail.com>
-References: <20210207015120.1299136-1-quaresma.jose@gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.81,159,1610380800"; 
+   d="scan'208";a="104291363"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 07 Feb 2021 15:11:14 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6358E4CE6033
+	for <openembedded-core@lists.openembedded.org>; Sun,  7 Feb 2021 15:11:10 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sun, 7 Feb 2021 15:11:11 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] sqlite3: upgrade 3.34.0 -> 3.34.1
+Date: Sun, 7 Feb 2021 15:11:13 +0800
+Message-ID: <1612681873-58787-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 6358E4CE6033.A66CF
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-- glslang now provides pkg-config, so use it
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/recipes-graphics/shaderc/shaderc_2020.4.bb | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ .../sqlite/{sqlite3_3.34.0.bb => sqlite3_3.34.1.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.34.0.bb => sqlite3_3.34.1.bb} (70%)
 
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-index c7982dd815..94a6b081f4 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
- UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.34.0.bb b/meta/recipes-support/sqlite/sqlite3_3.34.1.bb
+similarity index 70%
+rename from meta/recipes-support/sqlite/sqlite3_3.34.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.34.1.bb
+index 19996fc064..fe5adb221e 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.34.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.34.1.bb
+@@ -3,8 +3,8 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
--inherit cmake python3native
-+inherit cmake python3native pkgconfig
+-SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "bf6db7fae37d51754737747aaaf413b4d6b3b5fbacd52bdb2d0d6e5b2edd9aee"
++SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[sha256sum] = "2a3bca581117b3b88e5361d0ef3803ba6d8da604b1c1a47d902ef785c1b53e89"
  
- DEPENDS = "spirv-headers spirv-tools glslang"
- 
-@@ -25,17 +25,12 @@ EXTRA_OECMAKE = " \
-     -DSHADERC_SKIP_EXAMPLES=ON \
- "
- 
--BBCLASSEXTEND = "native nativesdk"
--
--# TODO: probably there is better solution for this.
--# I don't know any method for get the version of a receipe in DEPENDS,
--# so do this ugly hack
--inherit pkgconfig
--DEPENDS += "glslang-native"
- do_configure_prepend() {
-     cat <<- EOF > ${S}/glslc/src/build-version.inc
- "${PV}\\n"
- "$(pkg-config --modversion SPIRV-Tools)\\n"
--"$(glslangValidator --version | head -1 | cut -d' ' -f3)\\n"
-+"$(pkg-config --modversion glslang)\\n"
- EOF
- }
-+
-+BBCLASSEXTEND = "native nativesdk"
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
 -- 
-2.30.0
+2.25.1
+
+
 
