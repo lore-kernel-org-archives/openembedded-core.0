@@ -1,130 +1,204 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.15221.1612662695537536566
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.15462.1612662696318304342
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Feb 2021 17:51:35 -0800
+ Sat, 06 Feb 2021 17:51:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dSCsXJBk;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 190so9532302wmz.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 17:51:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kfuVuIrc;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id u14so12909011wri.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 17:51:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O1K5EQ5OzBZGXYtnkx4AZDxoPtTwb/GWb+n6xP63Ym4=;
-        b=dSCsXJBkNrElH50Qg4Obo6KZwNCby0uxiJ+nyMh03jB2N4faEl6wfDS5N03Afr/hwZ
-         akcPZV0Fx3yPY8Vf9uOUwgH988IHxP4kqHyOKDlJbyvA2bubii67aeI+Lcuj8VstBhg4
-         dfRV0YiOFTO3KuFRa8M1a1v7jxxnApvpHLQg3ky/ULspRV1ItV42UxduVJEYfMz/MD4e
-         MQnS9aDHyv9GoG/E1kg2y9M23AkpcyF/pDPkznBHiyJopvFlV6qA5jZGpsX/TzKJYms2
-         sfP/aZYMZnQ9U1gxTPpRiEyXqyWwVC17ViMmo3GySFi8Bwq/aZysPffyBqNOD0g7EW6y
-         txpg==
+        bh=qud2M/kmoTT8XveFB4t3yWN0HbGwqs6TxiZYSAAheuw=;
+        b=kfuVuIrcfqtzDiUlE1NH9Q6vsxOZlBbXt77wfQk25G1DAHXQtu1cCs6iW3Q43IZ5Bz
+         CYbJCD/9shPZYNiYkXXX9+9gTrmbIXRbmO964ujqRjJ9rE/CQBdZ94CDoFvn5ikvnbVe
+         /KmzT7IKqd3eZD5mU+xmw7iplPfZd4ILfnoLmXEBw/TxGwwZGV3QG5rPeVHSLJmTitj6
+         Mk3C3vxQrcVz2h9ddXnOLh3GEcyDkAy6Dp4i+ln/WELXLCKYvcN7aVV8TItoSLZg2+zi
+         Pg9C44AhbSW7/iuLlhr04iDDheXuFibCz7DDLa/jj2WnjdEf7nSdV78uJQQSpz/xB2P6
+         pmLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O1K5EQ5OzBZGXYtnkx4AZDxoPtTwb/GWb+n6xP63Ym4=;
-        b=hn5NejRKblJNxKeGi3IKAgWn1NE+nBmcGXz/O6bWuXFxdrn7wEGjR165OW82bcNJ4d
-         VPfTSUW5dCULeG2FkFFhnpMPN8HYFwpvozvsZ1rn9qx5GFjBFC9Xn3N+N3m5wku/1mLv
-         XJcrsmcxpkdBv43SN4Ad8DdPxK+Qwo12MebYNxbvxzp+UZh1dbbLm9txDc0y8TXQQt7H
-         qXKcIDL/z57KVZmpTojvxZ33gd46SZM8e+zw013mkWjjPBuOLqD9GOiMfwY7BZbRZewj
-         c5CInS369QVEP5IL26pJV3iD89NN922Owb1pvsQ72WUuAQta3oKk3owUCz2UR3LrqKLe
-         78QA==
-X-Gm-Message-State: AOAM531UZrJDFR1Bv7i2uaok2yGk5KjzkgH+ss4vEUW/ridGxfhKWCPA
-	wBvyoejkwWV35n6pDmCmf0wOY/TPPryP/w==
-X-Google-Smtp-Source: ABdhPJwAS0c56mf0NgxBqwY747B1QGzrWobGN4MUrATrxF5nHfD+Zq8+r076y8aAmIQIeiSvW/lB6g==
-X-Received: by 2002:a05:600c:1988:: with SMTP id t8mr9558999wmq.48.1612662694151;
+        bh=qud2M/kmoTT8XveFB4t3yWN0HbGwqs6TxiZYSAAheuw=;
+        b=Ns7oq8t7SzxnXSjpCi/NJ0gFbOei03MtsziWBe7vUF0tC6C6nf6TJVWSnk4QUFw7bV
+         w7Xq7s3eRSi5jYsA+I/VvreuBP51xTr+9fMWv8qoTDHj5BaqpNRpZ0mYq4IoRLxFRr5U
+         6frBm/ecyqPSucL9dbu0CQ+Cz/LJipMYU5xSS0Lpcoo5eJIZC1cUHzef0Y7Q53BVnTpG
+         UF3FI94p3iRSPBV4+HdfGWWaYSbLQvfwTSYrR+hcW1uxVjafNLPwUOrseJKEdXjo/o9A
+         T+4Y8VFzGQtOsLkWD3ddvySHRWGXnvBiC0uoUJrVs7jw3PaEJ9cH1wQ2FlGXcPWa8NnH
+         kdWQ==
+X-Gm-Message-State: AOAM532ftZfgqXp4WjjgywBvqR3QFlSdaiOyQQ6KXrswQBYXfqowl7+t
+	RyyFK3lsZUrYfyKvJ6bAQf5Tas9GrfAwRg==
+X-Google-Smtp-Source: ABdhPJw5wOJrzp4Ga+9eqRXeCssvUi5bHhPJUvf/NYDaHTmFA/xjQkAlPlG3AFHdHSUiL41NdKV83w==
+X-Received: by 2002:a5d:430a:: with SMTP id h10mr5156384wrq.162.1612662694923;
         Sat, 06 Feb 2021 17:51:34 -0800 (PST)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id n9sm19129089wrq.41.2021.02.06.17.51.33
+        by smtp.gmail.com with ESMTPSA id n9sm19129089wrq.41.2021.02.06.17.51.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 17:51:33 -0800 (PST)
+        Sat, 06 Feb 2021 17:51:34 -0800 (PST)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 2/4] glslang: generate glslang pkg-config
-Date: Sun,  7 Feb 2021 01:51:18 +0000
-Message-Id: <20210207015120.1299136-2-quaresma.jose@gmail.com>
+Subject: [PATCH 3/4] shaderc: add option to skip building the examples
+Date: Sun,  7 Feb 2021 01:51:19 +0000
+Message-Id: <20210207015120.1299136-3-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210207015120.1299136-1-quaresma.jose@gmail.com>
 References: <20210207015120.1299136-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- it will be useful for shaderc
-
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../0002-generate-glslang-pkg-config.patch    | 47 +++++++++++++++++++
- .../glslang/glslang_11.1.0.bb                 |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
+ ...dd-option-to-skip-build-the-examples.patch | 45 +++++++++++++++++++
+ ...lding-external-dependencies-in-thir.patch} | 32 +++++--------
+ .../shaderc/shaderc_2020.4.bb                 |  6 ++-
+ 3 files changed, 61 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
+ rename meta/recipes-graphics/shaderc/files/{0001-cmake-de-vendor-libs-and-disable-git-versioning.patch => 0002-cmake-disable-building-external-dependencies-in-thir.patch} (55%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
 new file mode 100644
-index 0000000000..ef092f17a1
+index 0000000000..d414a78854
 --- /dev/null
-+++ b/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
-@@ -0,0 +1,47 @@
-+From 6692611126b40d499c94bbcc8e29604560262072 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
+@@ -0,0 +1,45 @@
++From 23114b9862482ef325768b5e2d47f6c247e5044e Mon Sep 17 00:00:00 2001
 +From: Jose Quaresma <quaresma.jose@gmail.com>
 +Date: Sun, 7 Feb 2021 01:30:39 +0000
-+Subject: [PATCH] generate glslang pkg-config
++Subject: [PATCH] cmake: add option to skip build the examples
 +
-+Based on https://src.fedoraproject.org/rpms/glslang/blob/main/f/0001-pkg-config-compatibility.patch
-+
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://github.com/google/shaderc/pull/1170]
 +
 +Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 +
 +---
-+ glslang/CMakeLists.txt      |  2 ++
-+ glslang/glslang.pc.cmake.in | 11 +++++++++++
-+ 2 files changed, 13 insertions(+)
-+ create mode 100644 glslang/glslang.pc.cmake.in
++ CMakeLists.txt | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
 +
-+diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
-+index 1c7d22a2..10c1e841 100644
-+--- a/glslang/CMakeLists.txt
-++++ b/glslang/CMakeLists.txt
-+@@ -209,6 +209,8 @@ if(ENABLE_GLSLANG_INSTALL)
-+                 EXPORT  glslangTargets
-+                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-+     endif()
-++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/glslang.pc.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc @ONLY)
-++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 5c74cd8..0c8d1ae 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -40,6 +40,16 @@ else()
++   message(STATUS "Configuring Shaderc to avoid building tests.")
++ endif()
 + 
-+     install(EXPORT glslangTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
+++option(SHADERC_SKIP_EXAMPLES "Skip building examples" ${SHADERC_SKIP_EXAMPLES})
+++if(NOT ${SHADERC_SKIP_EXAMPLES})
+++  set(SHADERC_ENABLE_EXAMPLES ON)
+++endif()
+++if(${SHADERC_ENABLE_EXAMPLES})
+++  message(STATUS "Configuring Shaderc to build examples.")
+++else()
+++  message(STATUS "Configuring Shaderc to avoid building examples.")
+++endif()
+++
++ option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
 + 
-+diff --git a/glslang/glslang.pc.cmake.in b/glslang/glslang.pc.cmake.in
-+new file mode 100644
-+index 00000000..64b6882d
-+--- /dev/null
-++++ b/glslang/glslang.pc.cmake.in
-+@@ -0,0 +1,11 @@
-++    prefix=@CMAKE_INSTALL_PREFIX@
-++    exec_prefix=@CMAKE_INSTALL_PREFIX@
-++    libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
-++    includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
-++    
-++    Name: @PROJECT_NAME@
-++    Description: OpenGL and OpenGL ES shader front end and validator
-++    Requires:
-++    Version: @GLSLANG_VERSION@
-++    Libs: -L${libdir} -lglslang -lOSDependent -lHLSL -lOGLCompiler -lSPVRemapper
-++    Cflags: -I${includedir}
-diff --git a/meta/recipes-graphics/glslang/glslang_11.1.0.bb b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-index 7e83ff0626..391b686eca 100644
---- a/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
- SRCREV = "c594de23cdd790d64ad5f9c8b059baae0ee2941d"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https \
-            file://0001-build-the-glslang-default-resource-limits-lib-static.patch \
-+           file://0002-generate-glslang-pkg-config.patch \
++ set (CMAKE_CXX_STANDARD 11)
++@@ -107,7 +117,9 @@ add_subdirectory(third_party)
++ add_subdirectory(libshaderc_util)
++ add_subdirectory(libshaderc)
++ add_subdirectory(glslc)
++-add_subdirectory(examples)
+++if(${SHADERC_ENABLE_EXAMPLES})
+++    add_subdirectory(examples)
+++endif()
++ 
++ add_custom_target(build-version
++   ${PYTHON_EXECUTABLE}
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch b/meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+similarity index 55%
+rename from meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
+rename to meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+index 40cc84df26..2c82445028 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
++++ b/meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+@@ -1,36 +1,31 @@
+-From a07ac322a5a5fd4f0339913eb4456321ad1a69fd Mon Sep 17 00:00:00 2001
++From fdef5b662df941c49fd2d6e486d0427f8dfb602e Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+-Date: Sat, 17 Oct 2020 12:51:50 +0100
+-Subject: [PATCH] cmake: de-vendor libs and disable git versioning
++Date: Sun, 7 Feb 2021 01:30:39 +0000
++Subject: [PATCH] cmake: disable building external dependencies in /third_party
+ 
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [OE-core specific]
+ 
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+ 
+ ---
+- CMakeLists.txt              | 2 --
+- glslc/CMakeLists.txt        | 1 -
+- glslc/src/build-version.inc | 0
+- 3 files changed, 3 deletions(-)
+- create mode 100644 glslc/src/build-version.inc
++ CMakeLists.txt       | 3 ---
++ glslc/CMakeLists.txt | 1 -
++ 2 files changed, 4 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 5c74cd8..9451fbc 100644
++index 0c8d1ae..c7940f6 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -102,12 +102,10 @@ endif(MSVC)
++@@ -111,9 +111,6 @@ endif(MSVC)
++ 
+  
+  # Configure subdirectories.
+- # We depend on these for later projects, so they should come first.
++-# We depend on these for later projects, so they should come first.
+ -add_subdirectory(third_party)
+- 
++-
+  add_subdirectory(libshaderc_util)
+  add_subdirectory(libshaderc)
+  add_subdirectory(glslc)
+--add_subdirectory(examples)
+- 
+- add_custom_target(build-version
+-   ${PYTHON_EXECUTABLE}
+ diff --git a/glslc/CMakeLists.txt b/glslc/CMakeLists.txt
+ index 31664d1..358d91b 100644
+ --- a/glslc/CMakeLists.txt
+@@ -43,6 +38,3 @@ index 31664d1..358d91b 100644
+  
+  shaderc_add_tests(
+    TEST_PREFIX glslc
+-diff --git a/glslc/src/build-version.inc b/glslc/src/build-version.inc
+-new file mode 100644
+-index 0000000..e69de29
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+index 8658a5737b..c7982dd815 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+ SRCREV = "0dbd899941a43ffd55df527d65128b3b66e75c9c"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
+-           file://0001-cmake-de-vendor-libs-and-disable-git-versioning.patch \
++           file://0001-cmake-add-option-to-skip-build-the-examples.patch \
++           file://0002-cmake-disable-building-external-dependencies-in-thir.patch \
             "
  UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
  S = "${WORKDIR}/git"
+@@ -19,8 +20,9 @@ DEPENDS = "spirv-headers spirv-tools glslang"
+ 
+ EXTRA_OECMAKE = " \
+     -DCMAKE_BUILD_TYPE=Release \
+-    -DSHADERC_SKIP_TESTS=ON \
+     -Dglslang_SOURCE_DIR=${STAGING_INCDIR}/glslang \
++    -DSHADERC_SKIP_TESTS=ON \
++    -DSHADERC_SKIP_EXAMPLES=ON \
+ "
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.0
 
