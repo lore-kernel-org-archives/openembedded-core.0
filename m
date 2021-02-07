@@ -1,118 +1,130 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.15527.1612662694892091645
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.15221.1612662695537536566
  for <openembedded-core@lists.openembedded.org>;
  Sat, 06 Feb 2021 17:51:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A+OhweR/;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id d16so12823582wro.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 17:51:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dSCsXJBk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 190so9532302wmz.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Feb 2021 17:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eH6F6EXhvqJooJ57bO9wYnBcGXuGX4ad92OCZF0X3Uc=;
-        b=A+OhweR/qCsepq99111ATxDlMbpd5oVvUONK4t40iuH19bctjhMh1kHP/a52P16IdT
-         fXQlFsDrEBSrmKsGb8HoCKlJgKtnOcEs+Nqyqn3R9GodM4ViDOfoAH0jkp9JRIobIwvI
-         G0sohOic34wsnLvTo8JRpuLKJNV4D+YX1E7m4+//cgy44O3PgZdwnaHzid89zbxzsVNU
-         +M5AmBzz/v/fdR7d3sp3F/sKxIpvL94J89gOxp3H4RN3s5LeGEFMmDndXXWkgkdZIdg2
-         XAYJsTONvC3wRwBCdJpK7CwsdtNbQNR6Y8HOGB5ROcAvepjFnvgfSfCrETi52nn1bjuu
-         WKhw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=O1K5EQ5OzBZGXYtnkx4AZDxoPtTwb/GWb+n6xP63Ym4=;
+        b=dSCsXJBkNrElH50Qg4Obo6KZwNCby0uxiJ+nyMh03jB2N4faEl6wfDS5N03Afr/hwZ
+         akcPZV0Fx3yPY8Vf9uOUwgH988IHxP4kqHyOKDlJbyvA2bubii67aeI+Lcuj8VstBhg4
+         dfRV0YiOFTO3KuFRa8M1a1v7jxxnApvpHLQg3ky/ULspRV1ItV42UxduVJEYfMz/MD4e
+         MQnS9aDHyv9GoG/E1kg2y9M23AkpcyF/pDPkznBHiyJopvFlV6qA5jZGpsX/TzKJYms2
+         sfP/aZYMZnQ9U1gxTPpRiEyXqyWwVC17ViMmo3GySFi8Bwq/aZysPffyBqNOD0g7EW6y
+         txpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eH6F6EXhvqJooJ57bO9wYnBcGXuGX4ad92OCZF0X3Uc=;
-        b=sA5ZslhxpaGvh0R8kPF+I6rL/zIrhk/s+6TtdRxC1WadiL8cUA1sdXu4hea442JbuI
-         fr80qaayxFUnyhYkRPNJEQEQkKZDPwfIqWxZs7BR4LMbY6Ih7RmeOi1o7M1ALWBWqXF2
-         vAqf3TN+vfjo+kLxiRw2ig5Hxp6s+QzKFr9BTPGJinOu8c1HASbBUZMZMcUY8i0BCDCf
-         SOWq/ZHJJqJ0To/6XUcCM6MhRU1O+yuIeA+ehuDiBacW/ONKaEs05218q+Q4zpEQgtXN
-         g1Fokz+woA/wA+PHrYTvImwa3fyM4kSEHzSKVXCdGJvVAe8nbRwirg0BAqeN/TtpEuT1
-         4Tlw==
-X-Gm-Message-State: AOAM533EipFQ3m5cYwgG9vhCB0wCP4yTPgrivKUvXi8xgyBcPWaB1X7N
-	6uJb41ys6uzQgatwW/ay1KrILZjfsHvZ7A==
-X-Google-Smtp-Source: ABdhPJyfAkNa4WBFkaMdbaipVdWd8dd16xgx439La+4T7Du0S0ZTqTlye0LXbkltx/XvkmiordNLCA==
-X-Received: by 2002:adf:cc8e:: with SMTP id p14mr12167714wrj.270.1612662693310;
-        Sat, 06 Feb 2021 17:51:33 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=O1K5EQ5OzBZGXYtnkx4AZDxoPtTwb/GWb+n6xP63Ym4=;
+        b=hn5NejRKblJNxKeGi3IKAgWn1NE+nBmcGXz/O6bWuXFxdrn7wEGjR165OW82bcNJ4d
+         VPfTSUW5dCULeG2FkFFhnpMPN8HYFwpvozvsZ1rn9qx5GFjBFC9Xn3N+N3m5wku/1mLv
+         XJcrsmcxpkdBv43SN4Ad8DdPxK+Qwo12MebYNxbvxzp+UZh1dbbLm9txDc0y8TXQQt7H
+         qXKcIDL/z57KVZmpTojvxZ33gd46SZM8e+zw013mkWjjPBuOLqD9GOiMfwY7BZbRZewj
+         c5CInS369QVEP5IL26pJV3iD89NN922Owb1pvsQ72WUuAQta3oKk3owUCz2UR3LrqKLe
+         78QA==
+X-Gm-Message-State: AOAM531UZrJDFR1Bv7i2uaok2yGk5KjzkgH+ss4vEUW/ridGxfhKWCPA
+	wBvyoejkwWV35n6pDmCmf0wOY/TPPryP/w==
+X-Google-Smtp-Source: ABdhPJwAS0c56mf0NgxBqwY747B1QGzrWobGN4MUrATrxF5nHfD+Zq8+r076y8aAmIQIeiSvW/lB6g==
+X-Received: by 2002:a05:600c:1988:: with SMTP id t8mr9558999wmq.48.1612662694151;
+        Sat, 06 Feb 2021 17:51:34 -0800 (PST)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id n9sm19129089wrq.41.2021.02.06.17.51.32
+        by smtp.gmail.com with ESMTPSA id n9sm19129089wrq.41.2021.02.06.17.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 17:51:32 -0800 (PST)
+        Sat, 06 Feb 2021 17:51:33 -0800 (PST)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 1/4] glslang: only build shared libs for dev packages
-Date: Sun,  7 Feb 2021 01:51:17 +0000
-Message-Id: <20210207015120.1299136-1-quaresma.jose@gmail.com>
+Subject: [PATCH 2/4] glslang: generate glslang pkg-config
+Date: Sun,  7 Feb 2021 01:51:18 +0000
+Message-Id: <20210207015120.1299136-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210207015120.1299136-1-quaresma.jose@gmail.com>
+References: <20210207015120.1299136-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+- it will be useful for shaderc
+
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...g-default-resource-limits-lib-static.patch | 28 +++++++++++++++++++
- .../glslang/glslang_11.1.0.bb                 |  7 ++---
- 2 files changed, 31 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-graphics/glslang/glslang/0001-build-the-glslang-default-resource-limits-lib-static.patch
+ .../0002-generate-glslang-pkg-config.patch    | 47 +++++++++++++++++++
+ .../glslang/glslang_11.1.0.bb                 |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-build-the-glslang-default-resource-limits-lib-static.patch b/meta/recipes-graphics/glslang/glslang/0001-build-the-glslang-default-resource-limits-lib-static.patch
+diff --git a/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
 new file mode 100644
-index 0000000000..111d85b212
+index 0000000000..ef092f17a1
 --- /dev/null
-+++ b/meta/recipes-graphics/glslang/glslang/0001-build-the-glslang-default-resource-limits-lib-static.patch
-@@ -0,0 +1,28 @@
-+From 58ebb16f1ea50dbc4096ea24292be8e174528d75 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/glslang/glslang/0002-generate-glslang-pkg-config.patch
+@@ -0,0 +1,47 @@
++From 6692611126b40d499c94bbcc8e29604560262072 Mon Sep 17 00:00:00 2001
 +From: Jose Quaresma <quaresma.jose@gmail.com>
 +Date: Sun, 7 Feb 2021 01:30:39 +0000
-+Subject: [PATCH] build the glslang-default-resource-limits lib statically
++Subject: [PATCH] generate glslang pkg-config
 +
-+Taken from https://src.fedoraproject.org/rpms/glslang/blob/main/f/glslang-default-resource-limits_staticlib.patch
++Based on https://src.fedoraproject.org/rpms/glslang/blob/main/f/0001-pkg-config-compatibility.patch
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 +
 +---
-+ StandAlone/CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ glslang/CMakeLists.txt      |  2 ++
++ glslang/glslang.pc.cmake.in | 11 +++++++++++
++ 2 files changed, 13 insertions(+)
++ create mode 100644 glslang/glslang.pc.cmake.in
 +
-+diff --git a/StandAlone/CMakeLists.txt b/StandAlone/CMakeLists.txt
-+index bff9ab61..c4d10ae9 100644
-+--- a/StandAlone/CMakeLists.txt
-++++ b/StandAlone/CMakeLists.txt
-+@@ -31,7 +31,7 @@
-+ # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-+ # POSSIBILITY OF SUCH DAMAGE.
++diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
++index 1c7d22a2..10c1e841 100644
++--- a/glslang/CMakeLists.txt
+++++ b/glslang/CMakeLists.txt
++@@ -209,6 +209,8 @@ if(ENABLE_GLSLANG_INSTALL)
++                 EXPORT  glslangTargets
++                 ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++     endif()
+++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/glslang.pc.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc @ONLY)
+++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 + 
-+-add_library(glslang-default-resource-limits
-++add_library(glslang-default-resource-limits STATIC
-+             ${CMAKE_CURRENT_SOURCE_DIR}/ResourceLimits.cpp
-+             ${CMAKE_CURRENT_SOURCE_DIR}/resource_limits_c.cpp)
-+ set_property(TARGET glslang-default-resource-limits PROPERTY FOLDER glslang)
++     install(EXPORT glslangTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
++ 
++diff --git a/glslang/glslang.pc.cmake.in b/glslang/glslang.pc.cmake.in
++new file mode 100644
++index 00000000..64b6882d
++--- /dev/null
+++++ b/glslang/glslang.pc.cmake.in
++@@ -0,0 +1,11 @@
+++    prefix=@CMAKE_INSTALL_PREFIX@
+++    exec_prefix=@CMAKE_INSTALL_PREFIX@
+++    libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+++    includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+++    
+++    Name: @PROJECT_NAME@
+++    Description: OpenGL and OpenGL ES shader front end and validator
+++    Requires:
+++    Version: @GLSLANG_VERSION@
+++    Libs: -L${libdir} -lglslang -lOSDependent -lHLSL -lOGLCompiler -lSPVRemapper
+++    Cflags: -I${includedir}
 diff --git a/meta/recipes-graphics/glslang/glslang_11.1.0.bb b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-index fe21dbcf50..7e83ff0626 100644
+index 7e83ff0626..391b686eca 100644
 --- a/meta/recipes-graphics/glslang/glslang_11.1.0.bb
 +++ b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-@@ -9,7 +9,9 @@ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exc
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
- 
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
  SRCREV = "c594de23cdd790d64ad5f9c8b059baae0ee2941d"
--SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https"
-+SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https \
-+           file://0001-build-the-glslang-default-resource-limits-lib-static.patch \
-+           "
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https \
+            file://0001-build-the-glslang-default-resource-limits-lib-static.patch \
++           file://0002-generate-glslang-pkg-config.patch \
+            "
  UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
  S = "${WORKDIR}/git"
- 
-@@ -23,7 +25,4 @@ EXTRA_OECMAKE = " \
-     -DBUILD_EXTERNAL=OFF \
- "
- 
--SOLIBSDEV = "glslang.so"
--FILES_${PN} += "${libdir}/*.so"
--
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.0
 
