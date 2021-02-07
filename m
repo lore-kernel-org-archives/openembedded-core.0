@@ -1,126 +1,204 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web08.23622.1612721054415975851
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.23641.1612721114324296883
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 10:04:14 -0800
+ Sun, 07 Feb 2021 10:05:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1tot9kvw;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f177.google.com with SMTP id k25so13337793oik.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 10:04:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iCZLvkZe;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id a1so14563932wrq.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 10:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=OYwwbN8ePXVpOVdf1i+prG4ehhh76v4vXlOkEe+v0Fw=;
-        b=1tot9kvwl5gSjdq/czfiFJFsdRKM0ifmTo3sfU+v230msiYI4/VCVr4ZqYFrhXEpxk
-         7nZ0Irm0z7W95w3Shoai6LC56cj96zXimsvtilKdWTUQNI6wwxP9rGGoFub+vKbDot69
-         Fy+ZyjxPSOkgSQPdrDb/r743uAhDyk/VtIYR/FyPkuI7OAUeiilk2pWM/Tb4Ngbfdvik
-         oQhydQaPP8Tw00TVvJwgxAKz0rvL/dlqYVZop8KzXRzYx5lxhZwu0VAOEje4LxGh2sM9
-         7HAo52p9qSBsoPxniK6ZBOOwLxMQdQtfmUzbYiU9zMdl76yhsFuGVFpaHsst8e8jXDMq
-         JywQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qud2M/kmoTT8XveFB4t3yWN0HbGwqs6TxiZYSAAheuw=;
+        b=iCZLvkZejmFqXAp+LWb2+wOEtBVtE1rHOWcZeZC/q5feUzJ3lo56Y0Q5HEajEtkzOl
+         mjZDoj2FhPXvKeq/OhK4SvwGuw7VVwao5BonbNqPH7yorPbrtNOCQV1SNx/JwhiAJ2tO
+         ldNy/UEFPBq9/89FGpcMv75agLB8v7JleeAN6ntysYBPuxsDGqxYhRviz93dvb0s9gPa
+         rSAHpV01K72j4uBQl0DMa7OfpGUz0VvbytG5B9F9Bmjd68hQoWQbxPH1IbDP64GvdpMF
+         on75jvZJ+Eugg9Z0FNBbvNGqkccygmIo25h+fEe2bTO7NDhGN/qV7fE6fAGUvfVyn1Bl
+         Zmag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=OYwwbN8ePXVpOVdf1i+prG4ehhh76v4vXlOkEe+v0Fw=;
-        b=lsg2UbvvsL35YkO/IiFdG2OVMDbE4EBP5J76uLkrqpS7jMl6NLe8HdcpdZJJ/OgXvv
-         KaumxIAWzixeXudAwVhqwmLMWLQOOkXGkvNhEq96+mnqTuCwPd7BI0ClHD54xD16GHFH
-         EzcWoFQTI65Vr0G96X6kCBTubCBJ6I5KdV9pp9GCzI2HxRIr0tQr79nboDF3JTw287Cr
-         lpAK5BCOdSV6if3yE2hi/HqTqsaYeUw53MhTg7n6VaeDMv3prKTur0fLQ4Ivn7CLAP0Y
-         Fx/DXqKB/9mA2haDcq1+nDWXtDISVKhwRM3dApCbLLfscTUTPpmGWM+Pq2gw2KDp/HwX
-         uoPw==
-X-Gm-Message-State: AOAM5302APA6CELA3Zua7wErGvlL1L6U2RU6l8j+bWJ7NOYTniXNGjU6
-	m9CVQVZ9NS1bs8+jueSN5a6Ucjc6Ahhx+fF/rio=
-X-Google-Smtp-Source: ABdhPJw/1RVFXjIkN/WkMM1LnerJ2LXfIdUpvRTIL4tnriMwBUk3jXFug0C8aBsH58EAsmQ4JRTQhg==
-X-Received: by 2002:a05:6808:f09:: with SMTP id m9mr9211604oiw.92.1612721053174;
-        Sun, 07 Feb 2021 10:04:13 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id k207sm1554463oih.32.2021.02.07.10.04.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qud2M/kmoTT8XveFB4t3yWN0HbGwqs6TxiZYSAAheuw=;
+        b=IjbzA9nB2gfrT7bO84l5PF5ESVDam9wDnRKy7scfPdBbBwPUDhBjwMv+Va4+yTLysv
+         BIK8WrW+V1BPRMvvitEZil7immClFYGdTG0I91x47oayDvCCfkySj99yL9sUlbe0KKvX
+         PqkLHs+v/143CYcreANarEGh7egIZqQdUisi3AAKYn9N4OGshw69lOCmb03PnklD5Fvm
+         1nQc4+F/4LiY5oqYqsI+T6prDDbHa8rtvV2wPI1SObG8J86iBP81B3dzb0x1l5MiVKMv
+         NeYGMe/J+ZrGKwtiPH4wy42snCLszqi8kfNDGJMxNQXFYmsssTbr4SCcWDo0/s1m2OAx
+         5Ikw==
+X-Gm-Message-State: AOAM533VlS7uuIx9ocFQKPNpKtG4VcjBNlt3sOWlWRn5v5mPcVoTpaf0
+	jfsrfO6/FecKkUVqcpr6EWAMV7ZOQnGSTg==
+X-Google-Smtp-Source: ABdhPJxUlA9EhKnu8DDi3IGjeh4D0LlBdJyObEUAJB5vSagV6BS4fMNeHFLqlJNL9EPw6Fd8ND4l9A==
+X-Received: by 2002:adf:cc8e:: with SMTP id p14mr15502000wrj.270.1612721112906;
+        Sun, 07 Feb 2021 10:05:12 -0800 (PST)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id n9sm24045112wrq.41.2021.02.07.10.05.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 10:04:12 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 2979D960302; Sun,  7 Feb 2021 08:04:01 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 07 Feb 2021 08:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210207180401.2979D960302@nuc.router0800d9.com>
-Date: Sun,  7 Feb 2021 08:04:01 -1000 (HST)
+        Sun, 07 Feb 2021 10:05:12 -0800 (PST)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH v2 2/3] shaderc: add option to skip building the examples
+Date: Sun,  7 Feb 2021 18:05:03 +0000
+Message-Id: <20210207180504.1552900-2-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210207180504.1552900-1-quaresma.jose@gmail.com>
+References: <20210207180504.1552900-1-quaresma.jose@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: master
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ ...dd-option-to-skip-build-the-examples.patch | 45 +++++++++++++++++++
+ ...lding-external-dependencies-in-thir.patch} | 32 +++++--------
+ .../shaderc/shaderc_2020.4.bb                 |  6 ++-
+ 3 files changed, 61 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
+ rename meta/recipes-graphics/shaderc/files/{0001-cmake-de-vendor-libs-and-disable-git-versioning.patch => 0002-cmake-disable-building-external-dependencies-in-thir.patch} (55%)
 
-New this week:
-CVE-2011-4862: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-4862 *
-CVE-2018-12433: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12438: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2020-35517: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
-CVE-2021-3114: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3114 *
-CVE-2021-3115: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3115 *
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
+new file mode 100644
+index 0000000000..d414a78854
+--- /dev/null
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-add-option-to-skip-build-the-examples.patch
+@@ -0,0 +1,45 @@
++From 23114b9862482ef325768b5e2d47f6c247e5044e Mon Sep 17 00:00:00 2001
++From: Jose Quaresma <quaresma.jose@gmail.com>
++Date: Sun, 7 Feb 2021 01:30:39 +0000
++Subject: [PATCH] cmake: add option to skip build the examples
++
++Upstream-Status: Submitted [https://github.com/google/shaderc/pull/1170]
++
++Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
++
++---
++ CMakeLists.txt | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 5c74cd8..0c8d1ae 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -40,6 +40,16 @@ else()
++   message(STATUS "Configuring Shaderc to avoid building tests.")
++ endif()
++ 
+++option(SHADERC_SKIP_EXAMPLES "Skip building examples" ${SHADERC_SKIP_EXAMPLES})
+++if(NOT ${SHADERC_SKIP_EXAMPLES})
+++  set(SHADERC_ENABLE_EXAMPLES ON)
+++endif()
+++if(${SHADERC_ENABLE_EXAMPLES})
+++  message(STATUS "Configuring Shaderc to build examples.")
+++else()
+++  message(STATUS "Configuring Shaderc to avoid building examples.")
+++endif()
+++
++ option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
++ 
++ set (CMAKE_CXX_STANDARD 11)
++@@ -107,7 +117,9 @@ add_subdirectory(third_party)
++ add_subdirectory(libshaderc_util)
++ add_subdirectory(libshaderc)
++ add_subdirectory(glslc)
++-add_subdirectory(examples)
+++if(${SHADERC_ENABLE_EXAMPLES})
+++    add_subdirectory(examples)
+++endif()
++ 
++ add_custom_target(build-version
++   ${PYTHON_EXECUTABLE}
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch b/meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+similarity index 55%
+rename from meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
+rename to meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+index 40cc84df26..2c82445028 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
++++ b/meta/recipes-graphics/shaderc/files/0002-cmake-disable-building-external-dependencies-in-thir.patch
+@@ -1,36 +1,31 @@
+-From a07ac322a5a5fd4f0339913eb4456321ad1a69fd Mon Sep 17 00:00:00 2001
++From fdef5b662df941c49fd2d6e486d0427f8dfb602e Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+-Date: Sat, 17 Oct 2020 12:51:50 +0100
+-Subject: [PATCH] cmake: de-vendor libs and disable git versioning
++Date: Sun, 7 Feb 2021 01:30:39 +0000
++Subject: [PATCH] cmake: disable building external dependencies in /third_party
+ 
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [OE-core specific]
+ 
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+ 
+ ---
+- CMakeLists.txt              | 2 --
+- glslc/CMakeLists.txt        | 1 -
+- glslc/src/build-version.inc | 0
+- 3 files changed, 3 deletions(-)
+- create mode 100644 glslc/src/build-version.inc
++ CMakeLists.txt       | 3 ---
++ glslc/CMakeLists.txt | 1 -
++ 2 files changed, 4 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 5c74cd8..9451fbc 100644
++index 0c8d1ae..c7940f6 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -102,12 +102,10 @@ endif(MSVC)
++@@ -111,9 +111,6 @@ endif(MSVC)
++ 
+  
+  # Configure subdirectories.
+- # We depend on these for later projects, so they should come first.
++-# We depend on these for later projects, so they should come first.
+ -add_subdirectory(third_party)
+- 
++-
+  add_subdirectory(libshaderc_util)
+  add_subdirectory(libshaderc)
+  add_subdirectory(glslc)
+--add_subdirectory(examples)
+- 
+- add_custom_target(build-version
+-   ${PYTHON_EXECUTABLE}
+ diff --git a/glslc/CMakeLists.txt b/glslc/CMakeLists.txt
+ index 31664d1..358d91b 100644
+ --- a/glslc/CMakeLists.txt
+@@ -43,6 +38,3 @@ index 31664d1..358d91b 100644
+  
+  shaderc_add_tests(
+    TEST_PREFIX glslc
+-diff --git a/glslc/src/build-version.inc b/glslc/src/build-version.inc
+-new file mode 100644
+-index 0000000..e69de29
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+index 8658a5737b..c7982dd815 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+ SRCREV = "0dbd899941a43ffd55df527d65128b3b66e75c9c"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
+-           file://0001-cmake-de-vendor-libs-and-disable-git-versioning.patch \
++           file://0001-cmake-add-option-to-skip-build-the-examples.patch \
++           file://0002-cmake-disable-building-external-dependencies-in-thir.patch \
+            "
+ UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
+ S = "${WORKDIR}/git"
+@@ -19,8 +20,9 @@ DEPENDS = "spirv-headers spirv-tools glslang"
+ 
+ EXTRA_OECMAKE = " \
+     -DCMAKE_BUILD_TYPE=Release \
+-    -DSHADERC_SKIP_TESTS=ON \
+     -Dglslang_SOURCE_DIR=${STAGING_INCDIR}/glslang \
++    -DSHADERC_SKIP_TESTS=ON \
++    -DSHADERC_SKIP_EXAMPLES=ON \
+ "
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.30.0
 
-Removed this week:
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2019-1543: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1543 *
-CVE-2019-1547: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1547 *
-CVE-2019-1549: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1549 *
-CVE-2019-1551: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1551 *
-CVE-2019-1552: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1552 *
-CVE-2019-1563: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1563 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14409: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14409 *
-CVE-2020-14410: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14410 *
-CVE-2020-1967: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1967 *
-CVE-2020-1971: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1971 *
-CVE-2021-3177: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3177 *
-
-Full list:  Found 51 unpatched CVEs
-CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
-CVE-2000-0803: groff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
-CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
-CVE-2007-0998: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
-CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
-CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
-CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
-CVE-2008-0888: unzip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
-CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
-CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
-CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
-CVE-2008-4539: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
-CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
-CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
-CVE-2011-4862: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-4862 *
-CVE-2013-0221: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
-CVE-2013-0222: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
-CVE-2013-0223: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
-CVE-2013-0800: pixman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2016-2781: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2020-35517: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2021-3114: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3114 *
-CVE-2021-3115: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3115 *
