@@ -1,78 +1,121 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.310.1612807717260791382
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.467.1612808272528798475
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 10:08:37 -0800
+ Mon, 08 Feb 2021 10:17:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20150623.gappssmtp.com header.s=20150623 header.b=j2RyNNBR;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id i5so22532wmq.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 10:08:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pGfyGxnalcCk+Sgk4WZHYLKbsvuO5ivaMO3rt4HgxxI=;
-        b=j2RyNNBRsidt8X/6f/p4DUmnS2ZgdBnvxT2MuKpUAxKjIZdwopJ2EaTPQHLXliD7Rb
-         kg+Cu5Eozp9JmhW+b0WXOoY5aqMLfrHrg/OktPE9TJRMbxgEpR/FFj2paohRn11p8V9V
-         vouvc7itbnmGKZvSPtcUCJR9NPVibr8jhHnMXzeXQOgzFPeHg9bUBTXVP3cArhb3yLM9
-         9oFQNfpCpuDRw9XrMkTtSfdseajtrJVEYYs5QfABs7fkwlv6+cBbvDADB0gAwKoOOicL
-         1UnFu7i0kvB9HCc/iYjy5RUxmXDV6L1SHrTx/2/2FTpUK9Np2yzgUeeA7K0ClK0tmz7l
-         4LIw==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: technoboy85@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id b3so18361399wrj.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 10:17:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=pGfyGxnalcCk+Sgk4WZHYLKbsvuO5ivaMO3rt4HgxxI=;
-        b=SjvtGnwC783UVO14kkUD1BNeFRwnKrnzGKnuMnZSINCn9MchU7Ze1C7ZvUVN1HbsrK
-         0K8VmkD+NYvybznV3sOM4HQsuz5bc1dnwDrz43Mhl/aiByI6+rPLYhMuLEmspTlQRViI
-         uKePVOkG94r7bLd5Q9jbEzGhd60AYLexZrhQNjqwF/mvv6f0RLdIZvr0kKAVr/d1rTDI
-         HybJ9AO4netJ6+w/FljMqZKWAPAGlCGZU/z/bnoGahoUIExJBkFVww6LoSb4QJRyiv8j
-         rSIlt6b6kA4CvnRXFJaCJmRfr+KtI6/jutU47oJ5RWrWcyKQCE9Kpp/hhLreGaGXUNra
-         z/0w==
-X-Gm-Message-State: AOAM532z9AuI1LKHo+KGFFzp/vFVsQ3gKDp4XgF7/LoPV+CqZi5gpA1a
-	X6hbMRTecx9HbxrR+LzRHRvhmFLwfq8bEw==
-X-Google-Smtp-Source: ABdhPJxitR4Xd1h+qrX9uXDYwZf1FAzE2+1MwGEVQP31+/P8C52EH9rc0LpEp92mYRNqLkIuZXgv+Q==
-X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr13625759wmb.115.1612807679260;
-        Mon, 08 Feb 2021 10:07:59 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from P-ASN-KEVALD.idf.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id h9sm6157915wrc.94.2021.02.08.10.07.58
+        bh=ovxDvkJ01YZnBjCrSXXJ0tZoJvNliWG8b6tKutrixPY=;
+        b=lZ8fLRZvJ+5FCKGnFE704J7+AF5GLqIPwYiYlxrLOM66YLbD5HCASLaOjcchyFRPse
+         6m36u52NHk/OcJL78DkXBSg264H/DR0ajNwHMaRldnUSdo5gp1TzhswfdR3VIhVLtQNz
+         ASMqDMhcRY6nTXoSB4gK4iZU087DF1/YIprVXBqmpw4eVBMTsMNgSkXAh0nEdnVvu9GZ
+         ez0ZZlr6C/ivl3lTsOKpBfTmu0L9ZqjE8vTL+HscG2Va+bbTMEHKMdyaMCVceNm01IKV
+         o23pkjY4B/vDTJ9xjgTdRM4DU6pmuLRc84sQAiWW5aB8UlwwwjDTuTqLLMMguteNFEsc
+         7Yng==
+X-Gm-Message-State: AOAM530klvg7HDTJnJ5l3b4sXJBlLWlwg+2F7iPZES3WZTC2N46IGFKU
+	iUjRlpIlJcvxaYKWy1TG1p0WOt8qPPQ=
+X-Google-Smtp-Source: ABdhPJx3fRB8aa7eXvVEkCyJxW2ZqSWtfPtOFMtKalEmZmqnMl8sRldIc2jd+l/ATiKgrBphJrUbwA==
+X-Received: by 2002:adf:e511:: with SMTP id j17mr2745034wrm.251.1612808270801;
+        Mon, 08 Feb 2021 10:17:50 -0800 (PST)
+Return-Path: <technoboy85@gmail.com>
+Received: from msft-t490s.teknoraver.net (net-2-36-203-239.cust.vodafonedsl.it. [2.36.203.239])
+        by smtp.gmail.com with ESMTPSA id y5sm23950wmi.10.2021.02.08.10.17.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 10:07:58 -0800 (PST)
-From: "Yoann Congal" <yoann.congal@smile.fr>
+        Mon, 08 Feb 2021 10:17:50 -0800 (PST)
+From: "Matteo Croce" <mcroce@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [meta][PATCHv2] npm.bbclass: avoid building target nodejs for native npm recipes
-Date: Mon,  8 Feb 2021 19:07:47 +0100
-Message-Id: <20210208180747.12546-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH] recipes-kernel: add libbpf
+Date: Mon,  8 Feb 2021 19:17:47 +0100
+Message-Id: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current recipe unconditionally RDEPENDS on nodejs (the target one).
-When building on the "-native recipe" of "BBCLASSEXTEND native" recipe,
-the target nodejs is unnecessarily built.
+From: Matteo Croce <mcroce@microsoft.com>
 
-This patch fixes this by only RDEPENDS on nodejs when building for the target.
+Add a recipe to build libbpf from https://github.com/libbpf/libbpf
+The only patch fixes a build issue, and it's already merged upstream.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Matteo Croce <mcroce@microsoft.com>
 ---
- meta/classes/npm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...01-install-don-t-preserve-file-owner.patch | 29 +++++++++++++++++++
+ meta/recipes-kernel/libbpf/libbpf_0.3.bb      | 25 ++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+ create mode 100644 meta/recipes-kernel/libbpf/libbpf_0.3.bb
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 79f55febcc..ac49aa4cda 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -20,7 +20,7 @@
- inherit python3native
- 
- DEPENDS_prepend = "nodejs-native "
--RDEPENDS_${PN}_prepend = "nodejs "
-+RDEPENDS_${PN}_class-target_prepend = "nodejs "
- 
- NPM_INSTALL_DEV ?= "0"
- 
+diff --git a/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+new file mode 100644
+index 0000000000..4e65d8d80a
+--- /dev/null
++++ b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+@@ -0,0 +1,29 @@
++From 7df10d91db6f533cc0f6c09f4ae8ad92918c6160 Mon Sep 17 00:00:00 2001
++From: Matteo Croce <mcroce@microsoft.com>
++Date: Tue, 26 Jan 2021 12:41:47 +0100
++Subject: [PATCH] install: don't preserve file owner
++
++'cp -p' preserve file ownership, this may leave files owned by the
++current in user in /lib .
++
++Signed-off-by: Matteo Croce <mcroce@microsoft.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index da33613..ab66edc 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -130,7 +130,7 @@ define do_s_install
++ 	$(Q)if [ ! -d '$(DESTDIR)$2' ]; then		\
++ 		$(INSTALL) -d -m 755 '$(DESTDIR)$2';	\
++ 	fi;
++-	$(Q)cp -fpR $1 '$(DESTDIR)$2'
+++	$(Q)cp -fR $1 '$(DESTDIR)$2'
++ endef
++ 
++ install: all install_headers install_pkgconfig
++-- 
++2.29.2
++
+diff --git a/meta/recipes-kernel/libbpf/libbpf_0.3.bb b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+new file mode 100644
+index 0000000000..402e57257f
+--- /dev/null
++++ b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Library for BPF handling"
++DESCRIPTION = "Library for BPF handling"
++HOMEPAGE = "https://github.com/libbpf/libbpf"
++SECTION = "libs"
++LICENSE = "LGPLv2.1+"
++
++LIC_FILES_CHKSUM = "file://../LICENSE.LPGL-2.1;md5=b370887980db5dd40659b50909238dbd"
++
++DEPENDS = "zlib elfutils"
++
++SRC_URI = "git://github.com/libbpf/libbpf.git;protocol=https"
++SRCREV = "051a4009f94d5633a8f734ca4235f0a78ee90469"
++
++# Backported from version 0.4
++SRC_URI += "file://0001-install-don-t-preserve-file-owner.patch"
++
++S = "${WORKDIR}/git/src"
++
++inherit pkgconfig
++
++do_install() {
++	make install DESTDIR=${D} LIBDIR=${libdir}
++}
++
++BBCLASSEXTEND = "native"
 -- 
-2.20.1
+2.29.2
 
