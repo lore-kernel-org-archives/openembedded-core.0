@@ -1,122 +1,278 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.1147.1612820055091140659
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.3006.1612827954538625120
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 13:34:15 -0800
+ Mon, 08 Feb 2021 15:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QqPLWI9W;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id bl23so27794641ejb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 13:34:14 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=h+nqLZlD;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cOTQsDV3MsbSUAfZTTf0/3b4WSe99+Fg0Oj/ov8g3x8=;
-        b=QqPLWI9WHj89R92gqGGOZHt6/ER6jo5a6YP6twJpjyWFLR58CC8d+oDcEj2cvaJoAU
-         MtDmFwi48LOhQVYI+JS5Aei8ozGgFdRILVP57+UiIkPUdYVUfLeI8UDtl6qZ2qGzP0py
-         3Tvx3p3Rp6dRl/Kq2OWQ2v79Fws3zTLtZVPrL350SqOEHnhy9fvKBop/6KJAtGBxSJyE
-         PIshunIZxjr2ODbVuNGobmHTL6+L+FbX2jr1ghLAtX//VVbwTC+jscgqTNG53A8LjVU3
-         dokAgRVCle/wNTcRLuVs8LyPoUE5axLwadU2ih/piLz2mNi+twQp3h30y6r0UClfYoPJ
-         YL3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cOTQsDV3MsbSUAfZTTf0/3b4WSe99+Fg0Oj/ov8g3x8=;
-        b=JKL4W9Rojfhind7SJk4BWC0yZWTTNTlNoefEUn3Z6cDRH+NH2/qqkPGyFkEZaRS78I
-         A/ADFWQxMMf7u9nMYnS7gmzlmgIUlXfmllXlV2kmt6XzE+6rCtX3RCoaIUli767okZJk
-         L/6M9i3VXq1yt0YDuZ4t0uVnOZmecDVfuSHYCZRnZOkw6EiDqCVbgDBHSFL2Pmm0Ca6D
-         5JC2hJ2CJVewvH0JrfZyKmOgCJgrt4lNI11Y021lXtC0yTpYNSsy+50+g10/3gou6WWw
-         JOMEs3OUXLIEWr/Q3a7eWp83K8sbUZxoHCr8N9LUPbAlQR9dWI1kHQPbv3AV4TtskmHc
-         KLBg==
-X-Gm-Message-State: AOAM532yjzKzJLZ8GDeNYhNHHFmC31cqbPrOcwn7tDTrffFgDuPlxtel
-	V+dbtIgpGX7QgX5WK4V5JdDzKtAAT5+2wBWh2kg=
-X-Google-Smtp-Source: ABdhPJwW1YsocThfFQ/lF4D8m/R4MX0wyL4VDnku2IPtEtBZi5cgxQXUIRllx4wEl9v1x/ku1pXkQnLKzduZuYPQtkc=
-X-Received: by 2002:a17:906:a295:: with SMTP id i21mr19345812ejz.334.1612820053624;
- Mon, 08 Feb 2021 13:34:13 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1612827956;
+  x=1644363956;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=zYXP7h89o5Lm0uYGtEtG7xH/Uhv4PsFqqmmFfNs/b0w=;
+  b=h+nqLZlD40i1Et8IbM9WgeguNBg+JeJeRYrTFshUA8odbmk9gRsDYMDU
+   6MWiUSKUix5JFq8DR0zaBZkuhktazpBP9yAKxXmm7ODRcISR7LqAOjUey
+   1K/X8Hr6EavEfQZmkkBVM+xHTxsj8L+JivNOZK2PTZ3eKM/IZeaPufVSe
+   lXexBpX8lidjzv2ockVQ+LhCNEdU3ND3dxXXHiN2YZ+cgtx9FrFNWJIoe
+   PDmlYM7co4iM5QJCm7xBcLjZbair9vhTE6B2MgRDVVpB2qyNuAtJCUiOS
+   BLBbIUlNWoxVY8BNpE1smBPCrsHbZGh+S5L0GTGRguzARk6M+at2YzNYq
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Martin Jansa <martin.jansa@gmail.com>, akuster808 <akuster808@gmail.com>,
+	Steve Sakoman <steve@sakoman.com>, "Mittal, Anuj" <anuj.mittal@intel.com>
+CC: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>, "OE Development
+ (openembedded-devel@lists.openembedded.org)"
+	<openembedded-devel@lists.openembedded.org>, "BitBake Development
+ (bitbake-devel@lists.openembedded.org)"
+	<bitbake-devel@lists.openembedded.org>
+Subject: Re: [oe] [bitbake-devel] Backport changes for _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
+Thread-Topic: [oe] [bitbake-devel] Backport changes for
+ _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
+Thread-Index: AdbqluypjM9qGzPGT4u0xlyyjXAnKgBj+tKAAABKXAAERp6YLABJjZfQ
+Date: Mon, 8 Feb 2021 23:45:51 +0000
+Message-ID: <f190d3e175a9413994caf1c73a9f9125@XBOX03.axis.com>
+References: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
+ <CA+chaQc0anOg2E=o1ouEca-QJDGqKxDoXm6aPVXzsc8TELW3zA@mail.gmail.com>
+ <d9185d19-1f09-a1b6-2926-f54309190b24@gmail.com>
+ <16614BA6A53B3779.25597@lists.openembedded.org>
+ <CA+chaQdbZwyBTbyctEh_y8x_p=txiwqy8gjmkwDrh6rqX_ztng@mail.gmail.com>
+In-Reply-To: <CA+chaQdbZwyBTbyctEh_y8x_p=txiwqy8gjmkwDrh6rqX_ztng@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20210208181747.44789-1-mcroce@linux.microsoft.com>
- <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com> <CAFnufp0ehmcRbLmZXPyG0s8guwyxHhaFXchATL0JRqTYMVPKNA@mail.gmail.com>
-In-Reply-To: <CAFnufp0ehmcRbLmZXPyG0s8guwyxHhaFXchATL0JRqTYMVPKNA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 8 Feb 2021 16:34:02 -0500
-Message-ID: <CADkTA4OyrJa19z57OJDvo-Si2cjjkO5AH+e9JQ1P5cWtQUKRQw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
-To: Matteo Croce <mcroce@linux.microsoft.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_f190d3e175a9413994caf1c73a9f9125XBOX03axiscom_"
 
-On Mon, Feb 8, 2021 at 4:22 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
->
-> On Mon, Feb 8, 2021 at 9:13 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
-> > >
-> > > From: Matteo Croce <mcroce@microsoft.com>
-> > >
-> > > Add a recipe to build libbpf from https://github.com/libbpf/libbpf
-> > > The only patch fixes a build issue, and it's already merged upstream.
-> >
-> > Thanks for the submission! I have a few comments / questions.
-> >
-> > To get this into oe-core, we should be commenting / documenting why it
-> > should be in core, versus another layer. The standard criteria is that
-> > there are enough varied users and that the functionality is common
-> > enough, that it belongs in core.
-> >
->
-> For sure bcc and bpftrace can use it, and maybe also perf.
-> In future even iproute2 will use it, as it has been ported to libbpf recently.
-> Feel free to propose another layer, in case you know a better one.
+--_000_f190d3e175a9413994caf1c73a9f9125XBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-That's not for me to propose . that's for you to sort out.
+QXMgYWdyZWVkIHVwb24gb24gdGhlIFlvY3RvIFByb2plY3QgVGVjaG5pY2FsIFRlYW0gTWVldGlu
+ZyBhIHdlZWsgYWdvLCBJIGhhdmUgY3JlYXRlZCBicmFuY2hlcyBmb3IgYm90aCBHYXRlc2dhcnRo
+IGFuZCBEdW5mZWxsIGluIG9wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWIgYW5kIG1ldGEtb3BlbmVt
+YmVkZGVkLWNvbnRyaWIgd2l0aCB0aGUgcmVxdWlyZWQgcGF0Y2hlcy4gVGhlIGJyYW5jaGVzIGFy
+ZSBjYWxsZWQgcGtqL19QWVRIT05fU1lTQ09ORklHREFUQV9OQU1FLWdhdGVzZ2FydGggYW5kIHBr
+ai9fUFlUSE9OX1NZU0NPTkZJR0RBVEFfTkFNRS1kdW5mZWxsIChvaywgaG9ycmlibGUgbmFtZXMs
+IGJ1dCB0aGV5IHNob3VsZCBiZSBlYXN5IHRvIHNwb3QpLiBUaGVyZSBpcyBvbmUgYWRkaXRpb25h
+bCBwYXRjaCBmb3IgYml0YmFrZSwgYnV0IEkgZm9yZ290IHRvIGFzayBmb3IgYWNjZXNzIHRvIGJp
+dGJha2UtY29udHJpYiwgc28geW91IHdpbGwgaGF2ZSB0byBjaGVycnktcGljayBpdCBmcm9tIGNv
+bW1pdCA0N2I2NGNmYSAoaXQgaXMgbm90IHN0cmljdGx5IG5lY2Vzc2FyeSBhcyBpdCBpcyBqdXN0
+IGNsZWFuIHVwIG1hZGUgcG9zc2libGUgYWZ0ZXIgdGhlIGNoYW5nZXMgaW4gT0UtQ29yZSkuDQoN
+CkBqYW5zYSwgQGFrdXN0ZXI6IEkgaGF2ZSBpbmNsdWRlZCB0aGUgdHdvIGV4dHJhIHBhdGNoZXMg
+aW4gbWV0YS1vcGVuZW1iZWRkZWQgdGhhdCBNYXJ0aW4gbWVudGlvbmVkLCB3aGljaCB3ZXJlIGxh
+Y2tpbmcgZnJvbSBteSBvcmlnaW5hbCBtYWlsLiBUaGVyZSB3ZXJlIG90aGVyIHBhdGNoZXMgbWVu
+dGlvbmVkLCB3aGljaCBmaXhlZCBtaXNzaW5nIHNwYWNlcyByZWxhdGVkIHRvIHRoZSB1c2Ugb2Yg
+X2FwcGVuZC4gSG93ZXZlciwgYXMgdGhleSB3ZXJlIG5vdCBuZWNlc3NhcnkgKHRoZXkgY2hhbmdl
+ZCBvdGhlciB2YXJpYWJsZXMgdGhhbiBERVBFTkRTIGZvciB0YXJnZXQpLCBJIGRpZCBub3QgaW5j
+bHVkZSB0aGVtLg0KDQpJIGhhdmUgbm90IGRvbmUgYW55IGV4Y2Vzc2l2ZSB0ZXN0aW5nIG9mIHRo
+ZXNlIGJyYW5jaGVzLiBJIGhhdmUgdmVyaWZpZWQgdGhhdCBJIGNhbiBydW4gYGRldnRvb2wgbW9k
+aWZ5IGxpYnhtbDJgLCB3aGljaCBJIGNvdWxkIG5vdCBkbyBiZWZvcmUsIGFuZCBJIGhhdmUgcnVu
+IGBiaXRiYWtlIGNvcmUtaW1hZ2UtbWluaW1hbGAuDQoNCi8vUGV0ZXINCg0KRnJvbTogTWFydGlu
+IEphbnNhIDxtYXJ0aW4uamFuc2FAZ21haWwuY29tPg0KU2VudDogZGVuIDcgZmVicnVhcmkgMjAy
+MSAxMjoxNQ0KVG86IE1hcnRpbiBKYW5zYSA8TWFydGluLkphbnNhQGdtYWlsLmNvbT4NCkNjOiBh
+a3VzdGVyODA4IDxha3VzdGVyODA4QGdtYWlsLmNvbT47IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0
+ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgU3RldmUgU2Frb21hbiA8c3RldmVAc2Frb21hbi5j
+b20+OyBNaXR0YWwsIEFudWogPGFudWoubWl0dGFsQGludGVsLmNvbT47IE9FIENvcmUgKG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcpIDxvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPjsgT0UgRGV2ZWxvcG1lbnQgKG9wZW5lbWJlZGRlZC1kZXZl
+bEBsaXN0cy5vcGVuZW1iZWRkZWQub3JnKSA8b3BlbmVtYmVkZGVkLWRldmVsQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmc+OyBCaXRCYWtlIERldmVsb3BtZW50IChiaXRiYWtlLWRldmVsQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcpIDxiaXRiYWtlLWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpT
+dWJqZWN0OiBSZTogW29lXSBbYml0YmFrZS1kZXZlbF0gQmFja3BvcnQgY2hhbmdlcyBmb3IgX1BZ
+VEhPTl9TWVNDT05GSUdEQVRBX05BTUUgdG8gR2F0ZXNnYXJ0aCBhbmQgRHVuZmVsbA0KDQpPbiBT
+dW4sIEZlYiA3LCAyMDIxIGF0IDEyOjE1IEFNIE1hcnRpbiBKYW5zYSB2aWEgbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZzxodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gPE1hcnRpbi5KYW5zYT1n
+bWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86Z21haWwuY29tQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc+PiB3cm90ZToNCk9uIFNhdCwgSmFuIDE2LCAyMDIxIGF0IDY6NTIgUE0g
+YWt1c3RlcjgwOCA8YWt1c3RlcjgwOEBnbWFpbC5jb208bWFpbHRvOmFrdXN0ZXI4MDhAZ21haWwu
+Y29tPj4gd3JvdGU6DQoNCg0KT24gMS8xNi8yMSA5OjQ0IEFNLCBNYXJ0aW4gSmFuc2Egd3JvdGU6
+DQo+IEFyZW4ndCB0aGUgbWlzc2luZyBzcGFjZXMgaW4gYXBwZW5kcyBmaXhlcyBhbHNvIG5lZWRl
+ZCBmb3IgbWV0YS1vZQ0KPiByZWNpcGVzPw0KDQoNCj4NCj4gSSB0aGluayBhdCBsZWFzdCB0b3Ag
+NSBjb21taXRzIGZyb206DQo+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvbWV0YS1vcGVu
+ZW1iZWRkZWQvbG9nLz9xdD1ncmVwJnE9c3BhY2UuKmFwcGVuZA0KPiB3ZXJlIGFsc28gZm9sbG93
+LXVwIGZyb20gdGhlc2UgY2hhbmdlcyBpbiBvZS1jb3JlLg0KPg0KRG8geW91IG1lYW4gc29tZXRo
+aW5nIGJleW9uZCB0aGUgbWV0YS1vcGVuZW1iZWRkZWQgY29tbWl0cyBtZW50aW9uZWQNCm5lYXIg
+dGhlIGJvdHRvbSBvZiB0aGUgZW1haWw/DQoNClllcyBJIG1lYW4gdGhlc2UgNSBjb21taXRzIGF0
+IGxlYXN0Lg0KDQo1MGJiZjgwYWJmIHB5dGhvbjMtcHlrd2FsaWZ5OiBEbyBub3QgdW5zZXQgX1BZ
+VEhPTl9TWVNDT05GSUdEQVRBX05BTUUNCjZiM2UzYmRhZjggcHl0aG9uLWdycGNpby10b29sczog
+QWRkIG1pc3Npbmcgc3BhY2UgZm9yIGFwcGVuZA0KDQpUaGUgZmlyc3Qgb25lIGlzIGp1c3QgYW4g
+YWRkaXRpb25hbCBjbGVhbnVwLCBidXQgd2l0aG91dCB0aGUgMm5kIG9uZSBhbmQgd2l0aCB0aGUg
+Y2hlcnJ5LXBpY2tzIGZyb20gdGhlIGZpcnN0IGUtbWFpbCBhcHBsaWVkIHlvdSB3b3VsZCBnZXQ6
+DQpFUlJPUjogTm90aGluZyBQUk9WSURFUyAncHl0aG9uM3B5dGhvbjMtZ3JwY2lvJyAoYnV0IG1l
+dGEtb2UvbWV0YS1weXRob24vcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ncnBjaW8t
+dG9vbHNfMS4xNC4xLmJiPGh0dHA6Ly9weXRob24zLWdycGNpby10b29sc18xLjE0LjEuYmI+IERF
+UEVORFMgb24gb3Igb3RoZXJ3aXNlIHJlcXVpcmVzIGl0KS4gQ2xvc2UgbWF0Y2hlczoNCiAgcHl0
+aG9uLWdycGNpbw0KICBweXRob24zLWdycGNpbw0KDQpteSB3b3JsZCBidWlsZCBpcyBzdGlsbCBy
+dW5uaW5nLi4NCg0KDQp3aXRoIGM5OWJiNzkwIERFUEVORFMgdmFyaWFibGUgZG9lc24ndCBlbmQg
+d2l0aCBhIHNwYWNlLCBzbyB0aGUgbWlzc2luZyBsZWFkaW5nIHNwYWNlIGluIHRoZXNlIGFwcGVu
+ZHMgKHdoaWNoIHdhcyBmaW5lIHVudGlsIG5vdyBiZWNhdXNlIG9mIHRyYWlsaW5nIHNwYWNlIGZy
+b20gREVQRU5EUyBzZXQgaW4gYmJjbGFzcykgaXMgbm93IGNhdXNpbmcgd3JvbmcgZGVwZW5kZW5j
+eSAoc2hvdWxkIGJlIGVhc2lseSByZXByb2R1Y2libGUgd2l0aCB0aGUgcGF0Y2hlcyBiYWNrcG9y
+dGVkLCBqdXN0IGJ5IHBhcnNpbmcgdGhlIHJlY2lwZXMpLg0KDQpJIG5lZWQgY2xhcml0eSBzbyBJ
+IGNhbiBvcGVuIGFuIGlzc3VlIGluIGdpdGxhYiBmb3IgdHJhY2tpbmcgcHVycG9zZXMgYXMNCkkg
+YW0gc3VyZSBJIHdpbGwgZm9yZ2V0IHRoaXMNCg0Kd2UncmUgdXNpbmcgZ2l0bGFiPw0KDQoNCg==
 
-A quick check of the layer index would show that other bpf tools are
-in meta-oe.
+--_000_f190d3e175a9413994caf1c73a9f9125XBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
->
->
-> > There should also be some sort of oe-selftest for the functionality,
-> > otherwise, it is hard to detect breakages. Some sort of application
-> > that uses the library and that can be executed in qemu would be
-> > enough.
-> >
->
-> That's doable.
->
-> > What are the kernel requirements ? CONFIG_BPF is selected by other
-> > kernel configs (it has no menu entry, so it must be), is it that, or
-> > something else that is the requirement (classic BFP?). If that option
-> > is now always on, is that true for the reference kernel versions in
-> > master (5.4 and 5.10).
-> >
->
-> I'd say BPF_SYSCALL, which is the single entry point for al the eBPF routines.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgN
+Cgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
+LHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglmb250LXdlaWdodDpub3JtYWw7DQoJZm9u
+dC1zdHlsZTpub3JtYWw7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
+LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
+MHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5Xb3Jk
+U2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBt
+c28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYi
+IC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
+bGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0K
+PC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0i
+U1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24x
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6
+Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+QXMgYWdyZWVkIHVwb24gb24gdGhl
+IFlvY3RvIFByb2plY3QgVGVjaG5pY2FsIFRlYW0gTWVldGluZyBhIHdlZWsgYWdvLCBJIGhhdmUg
+Y3JlYXRlZCBicmFuY2hlcyBmb3IgYm90aCBHYXRlc2dhcnRoIGFuZCBEdW5mZWxsIGluIG9wZW5l
+bWJlZGRlZC1jb3JlLWNvbnRyaWIgYW5kIG1ldGEtb3BlbmVtYmVkZGVkLWNvbnRyaWINCiB3aXRo
+IHRoZSByZXF1aXJlZCBwYXRjaGVzLiBUaGUgYnJhbmNoZXMgYXJlIGNhbGxlZCBwa2ovX1BZVEhP
+Tl9TWVNDT05GSUdEQVRBX05BTUUtZ2F0ZXNnYXJ0aCBhbmQgcGtqL19QWVRIT05fU1lTQ09ORklH
+REFUQV9OQU1FLWR1bmZlbGwgKG9rLCBob3JyaWJsZSBuYW1lcywgYnV0IHRoZXkgc2hvdWxkIGJl
+IGVhc3kgdG8gc3BvdCkuIFRoZXJlIGlzIG9uZSBhZGRpdGlvbmFsIHBhdGNoIGZvciBiaXRiYWtl
+LCBidXQgSSBmb3Jnb3QgdG8gYXNrIGZvcg0KIGFjY2VzcyB0byBiaXRiYWtlLWNvbnRyaWIsIHNv
+IHlvdSB3aWxsIGhhdmUgdG8gY2hlcnJ5LXBpY2sgaXQgZnJvbSBjb21taXQgNDdiNjRjZmEgKGl0
+IGlzIG5vdCBzdHJpY3RseSBuZWNlc3NhcnkgYXMgaXQgaXMganVzdCBjbGVhbiB1cCBtYWRlIHBv
+c3NpYmxlIGFmdGVyIHRoZSBjaGFuZ2VzIGluIE9FLUNvcmUpLjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6
+Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJj
+b2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5AamFuc2EsIEBha3VzdGVy
+OiBJIGhhdmUgaW5jbHVkZWQgdGhlIHR3byBleHRyYSBwYXRjaGVzIGluIG1ldGEtb3BlbmVtYmVk
+ZGVkIHRoYXQgTWFydGluIG1lbnRpb25lZCwgd2hpY2ggd2VyZSBsYWNraW5nIGZyb20gbXkgb3Jp
+Z2luYWwgbWFpbC4gVGhlcmUgd2VyZSBvdGhlciBwYXRjaGVzIG1lbnRpb25lZCwNCiB3aGljaCBm
+aXhlZCBtaXNzaW5nIHNwYWNlcyByZWxhdGVkIHRvIHRoZSB1c2Ugb2YgX2FwcGVuZC4gSG93ZXZl
+ciwgYXMgdGhleSB3ZXJlIG5vdCBuZWNlc3NhcnkgKHRoZXkgY2hhbmdlZCBvdGhlciB2YXJpYWJs
+ZXMgdGhhbiBERVBFTkRTIGZvciB0YXJnZXQpLCBJIGRpZCBub3QgaW5jbHVkZSB0aGVtLg0KPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
+PkkgaGF2ZSBub3QgZG9uZSBhbnkgZXhjZXNzaXZlIHRlc3Rpbmcgb2YgdGhlc2UgYnJhbmNoZXMu
+IEkgaGF2ZSB2ZXJpZmllZCB0aGF0IEkgY2FuIHJ1biBgZGV2dG9vbCBtb2RpZnkgbGlieG1sMmAs
+IHdoaWNoIEkgY291bGQgbm90IGRvIGJlZm9yZSwgYW5kIEkgaGF2ZSBydW4gYGJpdGJha2UgY29y
+ZS1pbWFnZS1taW5pbWFsYC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFy
+ZWFzdC1sYW5ndWFnZTpFTi1VUyI+Ly9QZXRlcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDtt
+c28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRk
+aW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTti
+b3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyI+RnJvbTo8L3NwYW4+
+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIj4gTWFydGluIEphbnNhICZsdDttYXJ0aW4uamFuc2FAZ21h
+aWwuY29tJmd0Ow0KPGJyPg0KPGI+U2VudDo8L2I+IGRlbiA3IGZlYnJ1YXJpIDIwMjEgMTI6MTU8
+YnI+DQo8Yj5Ubzo8L2I+IE1hcnRpbiBKYW5zYSAmbHQ7TWFydGluLkphbnNhQGdtYWlsLmNvbSZn
+dDs8YnI+DQo8Yj5DYzo8L2I+IGFrdXN0ZXI4MDggJmx0O2FrdXN0ZXI4MDhAZ21haWwuY29tJmd0
+OzsgUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20mZ3Q7
+OyBTdGV2ZSBTYWtvbWFuICZsdDtzdGV2ZUBzYWtvbWFuLmNvbSZndDs7IE1pdHRhbCwgQW51aiAm
+bHQ7YW51ai5taXR0YWxAaW50ZWwuY29tJmd0OzsgT0UgQ29yZSAob3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZykgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcmZ3Q7Ow0KIE9FIERldmVsb3BtZW50IChvcGVuZW1iZWRkZWQtZGV2ZWxAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZykgJmx0O29wZW5lbWJlZGRlZC1kZXZlbEBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnJmd0OzsgQml0QmFrZSBEZXZlbG9wbWVudCAoYml0YmFrZS1kZXZlbEBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnKSAmbHQ7Yml0YmFrZS1kZXZlbEBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+Jmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW29lXSBbYml0YmFrZS1kZXZlbF0gQmFja3Bv
+cnQgY2hhbmdlcyBmb3IgX1BZVEhPTl9TWVNDT05GSUdEQVRBX05BTUUgdG8gR2F0ZXNnYXJ0aCBh
+bmQgRHVuZmVsbDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+T24gU3VuLCBGZWIgNywgMjAyMSBhdCAxMjoxNSBBTSBNYXJ0aW4gSmFu
+c2EgdmlhIDxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnIj4NCmxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc8L2E+ICZsdDtNYXJ0aW4uSmFuc2E9PGEgaHJlZj0ibWFpbHRvOmdtYWls
+LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZzwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGJsb2Nr
+cXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7
+cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6
+MGNtIj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gU2F0LCBKYW4gMTYs
+IDIwMjEgYXQgNjo1MiBQTSBha3VzdGVyODA4ICZsdDs8YSBocmVmPSJtYWlsdG86YWt1c3Rlcjgw
+OEBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5rIj5ha3VzdGVyODA4QGdtYWlsLmNvbTwvYT4mZ3Q7
+IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20g
+MGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxicj4NCjxicj4NCk9uIDEvMTYvMjEgOTo0NCBBTSwgTWFydGluIEph
+bnNhIHdyb3RlOjxicj4NCiZndDsgQXJlbid0IHRoZSBtaXNzaW5nIHNwYWNlcyBpbiBhcHBlbmRz
+IGZpeGVzIGFsc28gbmVlZGVkIGZvciBtZXRhLW9lPGJyPg0KJmd0OyByZWNpcGVzPzxicj4NCjxi
+cj4NCjxicj4NCiZndDs8YnI+DQomZ3Q7IEkgdGhpbmsgYXQgbGVhc3QgdG9wIDUgY29tbWl0cyBm
+cm9tOjxicj4NCiZndDsgPGEgaHJlZj0iaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9tZXRh
+LW9wZW5lbWJlZGRlZC9sb2cvP3F0PWdyZXAmYW1wO3E9c3BhY2UuKmFwcGVuZCIgdGFyZ2V0PSJf
+YmxhbmsiPg0KaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9tZXRhLW9wZW5lbWJlZGRlZC9s
+b2cvP3F0PWdyZXAmYW1wO3E9c3BhY2UuKmFwcGVuZDwvYT48YnI+DQomZ3Q7IHdlcmUgYWxzbyBm
+b2xsb3ctdXAgZnJvbSB0aGVzZSBjaGFuZ2VzIGluIG9lLWNvcmUuPGJyPg0KJmd0Ozxicj4NCkRv
+IHlvdSBtZWFuIHNvbWV0aGluZyBiZXlvbmQgdGhlIG1ldGEtb3BlbmVtYmVkZGVkIGNvbW1pdHMg
+bWVudGlvbmVkPGJyPg0KbmVhciB0aGUgYm90dG9tIG9mIHRoZSBlbWFpbD88bzpwPjwvbzpwPjwv
+cD4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlllcyBJIG1l
+YW4gdGhlc2UgNSBjb21taXRzIGF0IGxlYXN0LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+NTBiYmY4MGFiZiBweXRob24zLXB5a3dhbGlmeTogRG8gbm90IHVuc2V0IF9QWVRIT05fU1lTQ09O
+RklHREFUQV9OQU1FPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjZiM2UzYmRhZjggcHl0aG9uLWdycGNpby10b29sczogQWRkIG1pc3Npbmcgc3BhY2UgZm9yIGFw
+cGVuZDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5UaGUgZmlyc3Qgb25lIGlzIGp1c3QgYW4gYWRkaXRpb25hbCBjbGVhbnVwLCBidXQgd2l0aG91
+dCB0aGUgMm5kIG9uZSBhbmQgd2l0aCB0aGUgY2hlcnJ5LXBpY2tzIGZyb20gdGhlIGZpcnN0IGUt
+bWFpbCBhcHBsaWVkIHlvdSB3b3VsZCBnZXQ6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5FUlJPUjogTm90aGluZyBQUk9WSURFUyAncHl0aG9uM3B5
+dGhvbjMtZ3JwY2lvJyAoYnV0IG1ldGEtb2UvbWV0YS1weXRob24vcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vPGEgaHJlZj0iaHR0cDovL3B5dGhvbjMtZ3JwY2lvLXRvb2xzXzEuMTQuMS5iYiI+cHl0
+aG9uMy1ncnBjaW8tdG9vbHNfMS4xNC4xLmJiPC9hPiBERVBFTkRTIG9uIG9yIG90aGVyd2lzZSBy
+ZXF1aXJlcyBpdCkuIENsb3NlIG1hdGNoZXM6PGJyPg0KJm5ic3A7IHB5dGhvbi1ncnBjaW88YnI+
+DQombmJzcDsgcHl0aG9uMy1ncnBjaW88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+bXkgd29ybGQgYnVpbGQgaXMgc3RpbGwgcnVubmluZy4uPG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
+dDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxl
+ZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPndpdGggYzk5YmI3OTAgREVQRU5EUyB2YXJpYWJsZSBkb2Vzbid0IGVu
+ZCB3aXRoIGEgc3BhY2UsIHNvIHRoZSBtaXNzaW5nIGxlYWRpbmcgc3BhY2UgaW4gdGhlc2UgYXBw
+ZW5kcyAod2hpY2ggd2FzIGZpbmUgdW50aWwgbm93IGJlY2F1c2Ugb2YgdHJhaWxpbmcgc3BhY2Ug
+ZnJvbSBERVBFTkRTIHNldCBpbiBiYmNsYXNzKSBpcyBub3cgY2F1c2luZyB3cm9uZyBkZXBlbmRl
+bmN5IChzaG91bGQgYmUgZWFzaWx5IHJlcHJvZHVjaWJsZQ0KIHdpdGggdGhlIHBhdGNoZXMgYmFj
+a3BvcnRlZCwganVzdCBieSBwYXJzaW5nIHRoZSByZWNpcGVzKS48bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQg
+I0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0
+O21hcmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBuZWVkIGNsYXJpdHkg
+c28gSSBjYW4gb3BlbiBhbiBpc3N1ZSBpbiBnaXRsYWIgZm9yIHRyYWNraW5nIHB1cnBvc2VzIGFz
+PGJyPg0KSSBhbSBzdXJlIEkgd2lsbCBmb3JnZXQgdGhpczxvOnA+PC9vOnA+PC9wPg0KPC9ibG9j
+a3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+d2UncmUgdXNpbmcgZ2l0bGFi
+PyZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48YnI+DQo8bzpwPjwvbzpw
+PjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9i
+b2R5Pg0KPC9odG1sPg0K
 
-Yes, that's the core support, and a selftest would ensure that the
-reference kernels can support the package (they can, but we still need
-the test) and implicitly document that requirement.
-
->
-> > Finally, does this work across all the supported architectures ? if
-> > not, we'll need compatibility settings.
-> >
->
-> I tested it only x86 and aarch64, but it should be arch independent.
-
-Then it should be limited to where it has been tested, otherwise, the
-burden falls to the oe-core maintainer, which we don't want.
-
-Bruce
-
->
-> Thanks!
-> --
-> per aspera ad upstream
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+--_000_f190d3e175a9413994caf1c73a9f9125XBOX03axiscom_--
