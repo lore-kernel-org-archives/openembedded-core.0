@@ -1,112 +1,107 @@
 Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web08.33752.1612781980881379249
+ by mx.groups.io with SMTP id smtpd.web12.33493.1612781981557741769
  for <openembedded-core@lists.openembedded.org>;
  Mon, 08 Feb 2021 02:59:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VT0XNEJq;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KgrZOzYX;
  spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id jj19so23907609ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 02:59:40 -0800 (PST)
+Received: by mail-ej1-f43.google.com with SMTP id f14so23877070ejc.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 02:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SZUyP1fVtx6lpItbIRVDFg6v7enle1T5knC4QJKPg8E=;
-        b=VT0XNEJqZ0bS8bJg7UhK6n6Zm6PLYfr554wycFxeMWaJsrJRJPSpkG128BI3nTiKni
-         KnupVBkPwtFZ19OJ/GYxuBwixxTiwxk3u8/VNJ8w492w4YYOun1U0yw8FBp8wOE2F8RL
-         02mq/TKyLMFwQQxHdaIBpT84Eh/TzVaE3q1EBU5icp3isdwOF5jJxAjTq1GOULvZ+I/e
-         9qqlyOinF65CGDG+y7OyW6jclZyIiqN9OYQPDulNdDA2k0wGOEk5QpPFLEYhdsjJyu42
-         PJgk3LcQg6a3wX1Rkl+X64ZaMEupZZYwtMylQR+IMN9MPi+zR3sVzToYA4tw9REA6k21
-         uY+g==
+        bh=snEnaQ9QHWvIOlvtQQIJ+y9rfDVa20nb65rsZwq7LnI=;
+        b=KgrZOzYX5yoksBvkKDN8yYir1GSvhGOW2TqrxDIUK82hlxu3TF0w1yCZ6S1uuZGQUH
+         x7MmrP2C/Hj/y/3NRMmwD7N3AiIreWnQ9dgHExHBBqjkTZZpEBa0P2hujc0cC5Arnigc
+         QV0c3Q52mMSd5qNKjvTl3rSy4P3WuXa9UvQEk3Xdlf7xqeloeenkBjp8t0PtRQDfe0Jl
+         IfkTAzecr8gDtd5o0SwMJ1oUdvOGNW9SKigcheoTvPmy8YA1/qfOw6Io5AeCISE+zMDy
+         CvEeWF21A+ETju9og2ica/p2VFLxxdG40Tm3sq50mhffntEN1aUsCwoe9GVsbculnyz7
+         FDfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SZUyP1fVtx6lpItbIRVDFg6v7enle1T5knC4QJKPg8E=;
-        b=X9pdm5H7mernLZEST20fRLlfVyKpXgXWlWl2JWNLKcqANrGUhMlB0Et0MsTZwRl/Wv
-         hmPCCCjWtpbLs9gBr6NfLXhee3OfF6FT7Ui6IILJ0aZ0oUIYDTQ/n4lOEnWdq7JkxlPy
-         65Ujzn2CZwnE6+QweZBwmDRju2PRKj+ZOXWzXfvrz8MZORB72KHnvDGzYf6iAyFOLqw7
-         1ryp3YN0OMNjXZl4QC/ntdI0gpY553VK01UKvXkWBrMMtPED8U3j8cyG87ZQ9F703UMf
-         nFcDIx3EyXdWt9o6+OFgNfpPX50xFbOKqG/Wt7F36uYQmDwKs29O2yvtMKxa1lQoM9NH
-         xY9A==
-X-Gm-Message-State: AOAM5328meSK/YTUl4LbYKli11VwwoHKlNPdT4DGFJI0Sd8cMpb8YEr3
-	Ztb4bcFVnYZaykkK+IWSW095YI/KFkTBfA==
-X-Google-Smtp-Source: ABdhPJxNn33U62lzIKzhXs3pi9C/So1tyfeo6TwhghaEDwMUh364qOyaJI2KM2zE/xNnKU4V378aug==
-X-Received: by 2002:a17:906:52c1:: with SMTP id w1mr16588245ejn.214.1612781979426;
-        Mon, 08 Feb 2021 02:59:39 -0800 (PST)
+        bh=snEnaQ9QHWvIOlvtQQIJ+y9rfDVa20nb65rsZwq7LnI=;
+        b=H/ADfY6c3ZsRGDtm//wV4nge1jRBiWfg+dpG/k7fbJdTluEIn9LwE3foF+b7k5AQdz
+         VfxNgwCCnzAqe5Cx0wImxxneMBvYz+rG130TIsCfxO16/TwEmI8jec5SV4pzf0lQwwe4
+         3lHOvC01DxByK3vzs05tHze3tDhS2BTECEaCYFegjN2u0f33cfR7qR627uh48rqlLTrz
+         8MkJbHbVkznssb+fkRg8R1ITxjb1aRn01zMspbw0bRqE6S5FMg0JaBBc8fohygLiNkOE
+         M/CYla4kGw9BZzKvJ9JC3q/XugX4FvofK4Vvj9Vr0paXB4QbpxpVRJdW5E1KvNHspe6c
+         F3hg==
+X-Gm-Message-State: AOAM531CA5D2vLcJ36uCDWGkIcJT3Bg2ygxP1u4A+oZvywAMEnEqDH4v
+	dHSIQ3d6BMRoU8xMhS3rJhChpxGga+/IRg==
+X-Google-Smtp-Source: ABdhPJzr51ZgRaWc9wL6MPWmQpZUnTMNo20TwZsysyZnIE9b0jDz9VVY85mRO7XTPlAGzGT5rrTsoQ==
+X-Received: by 2002:a17:906:3006:: with SMTP id 6mr6952492ejz.448.1612781980177;
+        Mon, 08 Feb 2021 02:59:40 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id t19sm8382226ejc.62.2021.02.08.02.59.38
+        by smtp.gmail.com with ESMTPSA id t19sm8382226ejc.62.2021.02.08.02.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 02:59:38 -0800 (PST)
+        Mon, 08 Feb 2021 02:59:39 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/12] gptfdisk: update 1.0.5 -> 1.0.6
-Date: Mon,  8 Feb 2021 11:59:22 +0100
-Message-Id: <20210208105932.347925-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/12] python3-setuptools: update 51.0.0 -> 52.0.0
+Date: Mon,  8 Feb 2021 11:59:23 +0100
+Message-Id: <20210208105932.347925-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208105932.347925-1-alex.kanavin@gmail.com>
 References: <20210208105932.347925-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+easy_install script removed upstream:
+https://github.com/pypa/setuptools/blob/v52.0.0/CHANGES.rst
+
+Tarballs are now provided instead of zip files.
+
+License-Update: formatting
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-gptcurses-correctly-include-curses.h.patch        | 7 ++++---
- .../fdisk/{gptfdisk_1.0.5.bb => gptfdisk_1.0.6.bb}         | 3 +--
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/fdisk/{gptfdisk_1.0.5.bb => gptfdisk_1.0.6.bb} (89%)
+ ...tuptools_51.0.0.bb => python3-setuptools_52.0.0.bb} | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_51.0.0.bb => python3-setuptools_52.0.0.bb} (82%)
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correctly-include-curses.h.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correctly-include-curses.h.patch
-index 67689e838a..266afbfa11 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correctly-include-curses.h.patch
-+++ b/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correctly-include-curses.h.patch
-@@ -1,23 +1,24 @@
--From 607b0bed5e8a5f5c3754cd6ffcf499d8134c37f9 Mon Sep 17 00:00:00 2001
-+From 6bc6e867c5b3a774c0d7819ee5a3d2885e97caa9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 30 Mar 2020 17:11:19 +0200
- Subject: [PATCH] gptcurses: correctly include curses.h
+diff --git a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_52.0.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_52.0.0.bb
+index dc09c13846..118f416657 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_52.0.0.bb
+@@ -2,9 +2,7 @@ SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
+ HOMEPAGE = "https://pypi.org/project/setuptools"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=9a33897f1bca1160d7aad3835152e158"
+-
+-PYPI_PACKAGE_EXT = "zip"
++LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=7a7126e068206290f3fe9f8d6c713ea6"
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  gptcurses.cc | 4 ----
-  1 file changed, 4 deletions(-)
+ inherit pypi setuptools3
  
- diff --git a/gptcurses.cc b/gptcurses.cc
--index 1b18cf2..4ebfde1 100644
-+index 71aa734..4ebfde1 100644
- --- a/gptcurses.cc
- +++ b/gptcurses.cc
- @@ -23,11 +23,7 @@
-  #include <iostream>
-  #include <string>
-  #include <sstream>
---#ifdef __APPLE__
-+-#if defined (__APPLE__) || (__FreeBSD__)
-  #include <ncurses.h>
- -#else
- -#include <ncursesw/ncurses.h>
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.6.bb
-similarity index 89%
-rename from meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
-rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.6.bb
-index c7850f03ca..3f331e2dc5 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.6.bb
-@@ -9,8 +9,7 @@ DEPENDS = "util-linux"
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
-            file://0001-gptcurses-correctly-include-curses.h.patch \
-            "
--SRC_URI[md5sum] = "58dac67c85e46ca87b587231549aefe6"
--SRC_URI[sha256sum] = "0e7d3987cd0488ecaf4b48761bc97f40b1dc089e5ff53c4b37abe30bc67dcb2f"
-+SRC_URI[sha256sum] = "ddc551d643a53f0bd4440345d3ae32c49b04a797e9c01036ea460b6bb4168ca8"
+@@ -12,7 +10,7 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
  
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
- UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ 
+-SRC_URI[sha256sum] = "029c49fd713e9230f6a41c0298e6e1f5839f2cde7104c0ad5e053a37777e7688"
++SRC_URI[sha256sum] = "fb3a1ee622509550dbf1d419f241296169d7f09cb1eb5b1736f2f10965932b96"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+@@ -42,10 +40,6 @@ do_install_prepend() {
+     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+ }
+ 
+-do_install_append() {
+-    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
+-}
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # The pkg-resources module can be used by itself, without the package downloader
 -- 
 2.29.2
 
