@@ -1,90 +1,95 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web08.35497.1612792427783568260
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web10.35341.1612792435827229122
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 05:53:47 -0800
+ Mon, 08 Feb 2021 05:53:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YqrHhQEG;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id m7so15594331oiw.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:53:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=N2UNmp+B;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.53, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f53.google.com with SMTP id z36so3457088ooi.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=B9pMSz1hi0khgmuW5sYuf/C5IWoUrKGb/+HduQgCpMw=;
-        b=YqrHhQEGNIdevxW+LbgvafNvRE0LWzPaFJ9Qywrcldd9jKEhd/IHkXD8iyXN4aEWt6
-         ckl5GM8gSpefTyCzNTTbRFkXy5r4N0uCgylLosCbKS69EUeUBWRuCuPV2iVk/xnJZ0Nv
-         H/Em3MSw89rqjeU/LbJYpKcYMOnhdtkwOgLAEqofxdJ2lb+6vve27+3aBUOxqlFrFEYS
-         4vqNbASZTryFfYRaz1jf8GG02DzzfylFfqjgkIuRYm2L+HONrulCVexKT46KDYMZyYN5
-         tlMzY4AI3dKKFaXtFjngQFWHXc/rlSdVt9rzIoQjO+ivL+ZHHiz7n9UniLdDH/kg3UgQ
-         Notg==
+        bh=j6B0sNhKafjIJ0FUngFbymCCVK6gW3Q2yJgq5+XX9Pc=;
+        b=N2UNmp+B0fS88FVtwEfKR+R0xV/nXPsHSH32Hes9Dt1a5Cbqiq3EVk1byLWd3NkeSo
+         vj8ODzAGV0qd8CQSYyyjclBYOY3oRw6Oh8A6T6BhZEr921mrzhv3pBKm2VWPLZ7Vlodj
+         kamsUfVmKKyYSk6v7c7lCo7MO0EA7JxbhzVBjIKSZmxaWPVFYc5A4sq3v172w5XnWyjA
+         ZndAQ6shKJtCjp2/J4YxyppB63qLrmpzndbMrnDfvWD/e86zFsO7DaauM+8ybs8k7Dda
+         iSRwgQJ0/ottNRZByC4EE9ritWpcbmVZsHnzbHy+0zF1w8WkCHYxp+3OEohlT/SXq6GN
+         08sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=B9pMSz1hi0khgmuW5sYuf/C5IWoUrKGb/+HduQgCpMw=;
-        b=uCLqlSRnIqRmpVj1VfxAZ0tlkfW1yPut/925tjNioWkDewf/9RTWbcg6DS1T2v3dmC
-         wq0t9WDOXEVHDXuAdIrx7qaauH8D+FnkUsirhCJwnBu7ZhG5NRKynpATo63Fhj+QAS0D
-         RYwe5oybjn0SNugtROJBLPT1Jhwg+RaRDWOU9Anr3+AOXXEuEQ9G3hyNJPCfyHtN6Kfb
-         Hvkmcs45D794sqaaH+CkTHGYOPxAqAV3xRrdEgTiYO9rqn1OpxLtID/FG8E0HHHd/RNI
-         KAANKDOAV/rMmpzyW9DtTNXziRLFTvW3LexaEWRNb3ppLYExUeWmCN8GbDBcHKSUpO9+
-         uxaA==
-X-Gm-Message-State: AOAM531a9UMM7GXLgCD6dZzVBRJC2jRB88LU+dV5LEtKuOB+2TQJHtTZ
-	83Yfqx2j3baokne+U50TnjYpKZ4R2HmmK6hA+Po=
-X-Google-Smtp-Source: ABdhPJxK5zbgjEXeaYyU4/rlGFcBsIIAIVJfDOYnocEjOZKGb7uIDqjS0jybzqwUYPCeZNbLxTiy+g==
-X-Received: by 2002:a54:4706:: with SMTP id k6mr11338669oik.56.1612792426725;
-        Mon, 08 Feb 2021 05:53:46 -0800 (PST)
+        bh=j6B0sNhKafjIJ0FUngFbymCCVK6gW3Q2yJgq5+XX9Pc=;
+        b=ma2JVZhII53ujksnxGC4/rxIKqpALWqFNjre0BgiZwrL/FnokYLB3g9r2yKlw8k5Ff
+         QLt3Eb9VRfMASUI+CfzUrnSpTdmP5SY7zAQ8t8WZAiZmFEjfoOradGGKZIh9H8h/0s4b
+         afntygMjlicODJttcrfaPVjBRMuPU9cPxS+qm0oht4pPMUPXrQl8RQAcTK+Ev8f4DX4A
+         AK8UBcgiUWH5YZ/CaKu9gVCmf6VJ53Uyj2SV/4/fAGaweP7WBuZefdoQGnhPlBk1x5D0
+         AcLDu053NbVWqNVe7jQHkJpS6yZUGtImpkBSSEZbVgJKGszKXLfWvCJ7S5wOz51ppwkn
+         EtXw==
+X-Gm-Message-State: AOAM530RYbs8oiAfti79nnzNrb1qm0r/ROLSNb1b5gTpU9Oiqj8UUAoC
+	3xj75Xvh2dPLtO+zJ+003Z45luqEYrAuO7aqhgY=
+X-Google-Smtp-Source: ABdhPJx5OONMGs2gvOKxPTg7NP37CO3amoaLFLxvOfYjBuenBRwfN3hEbyvGW8r2G6PeTn5oMff5AQ==
+X-Received: by 2002:a4a:3517:: with SMTP id l23mr3925663ooa.18.1612792434710;
+        Mon, 08 Feb 2021 05:53:54 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.53.42
+        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.53.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 05:53:46 -0800 (PST)
+        Mon, 08 Feb 2021 05:53:54 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/28] package: Ensure do_packagedata is cleaned correctly
-Date: Mon,  8 Feb 2021 03:52:02 -1000
-Message-Id: <4c4775d3e8ab132995ce4b69fab7abef8bff4a4f.1612792088.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/28] kernel.bbclass: fix deployment for initramfs images
+Date: Mon,  8 Feb 2021 03:52:03 -1000
+Message-Id: <352cecca98a0a845e1dacd10e399e26cdf8c7a93.1612792088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612792088.git.steve@sakoman.com>
 References: <cover.1612792088.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Awais Belal <Awais_Belal@mentor.com>
 
-In an earlier commit, libprocps was split into a separate package leaving
-no shlibs in the main package. A bug was seen where igt-gpu-tools wouldn't
-build correctly in some cases as it thought the librbary was still in the
-main package, throwing qa errors as a result.
+The do_bundle_initramfs() only processes kernel image
+types that are found in KERNEL_IMAGETYPE_FOR_MAKE whereas
+the build system can generate other types that are not
+directly supported by the kernel build system. In which
+case when we come to the deploy phase not all the images
+mentioned in KERNEL_IMAGETYPES would have a respective
+initramfs bundled image. An example is using vmlinux.gz
+in KERNEL_IMAGETYPES and enabling initramfs and then we
+see
 
-The issue was due to an extra file being left in the sstate output of
-the do_packagedata task in the shlibs2/ folder which contained the bad
-shlibs information.
+install: cannot stat 'arch/arm64/boot/vmlinux.gz.initramfs': No such file or directory
 
-The reason for this was that the temporary directory used in this
-task wasn't being cleaned so files which were deleted were not handled
-correctly. Add a missing cleandirs entry to fix this.
+So we align the deploy phase with bundle initramfs phase
+and pick up relevant initramfs bundled images using
+KERNEL_IMAGETYPE_FOR_MAKE instead of KERNEL_IMAGETYPES.
 
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 50f17d0a655a3a2556f9fcad67259101c2814a36)
+(cherry picked from commit 526bdd88ccd758204452579333ba188e29270bde)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index f8074d866c..15bff9c778 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2362,6 +2362,7 @@ python do_packagedata () {
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 2a65c001d9..83a574efcd 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -718,7 +718,7 @@ kernel_do_deploy() {
+ 	fi
  
-     bb.build.exec_func("packagedata_translate_pr_autoinc", d)
- }
-+do_packagedata[cleandirs] += "${WORKDIR}/pkgdata-pdata-input"
- 
- # Translate the EXTENDPRAUTO and AUTOINC to the final values
- packagedata_translate_pr_autoinc() {
+ 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+-		for imageType in ${KERNEL_IMAGETYPES} ; do
++		for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+ 			if [ "$imageType" = "fitImage" ] ; then
+ 				continue
+ 			fi
 -- 
 2.25.1
 
