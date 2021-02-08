@@ -1,149 +1,90 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web12.28563.1612742578398760882
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web08.29523.1612747378725735329
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 16:02:58 -0800
+ Sun, 07 Feb 2021 17:22:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ff9cK5Oc;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: dorindabassey@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id n201so13181408iod.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 16:02:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to;
-        bh=PYGA1jXs7vjPXq3z1hd4hyOnH2szbrFAWQYqnHpm4lE=;
-        b=ff9cK5Oc12lUvhbXhK4vaAd+7tr7W7eyxaS545H9jx/jP4MuHV2yGdatOeyihqYM+U
-         bMYijTaeuoz9WPznem+R2F/427et44/RBS10kvsGz2av8NCIUHPMRvuOQxIMkWvwbQ0s
-         2jO1Jt6WmkjmKdNb8dpBsToVzPQMJhY2+Doyf9Ne6OzmjkX5IxHU0B6psiZqqBEuNwgp
-         nSncPpcnzBuL1kHqnyWaqaC+/kTCRCUrBbS3Uwvjslz7DCELRpxHimllWUPqO4WilmLq
-         Aa5CSevn+RU70t01xLfCdzHhB85Y21EswpKsysJnHujT3LEPjf2m1YyEp7WGtRjlEKsx
-         qP/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to;
-        bh=PYGA1jXs7vjPXq3z1hd4hyOnH2szbrFAWQYqnHpm4lE=;
-        b=Lfc/h5lJbLtF/P2f9+udnajpbLiDBWlBYeVh9VEbOuU28V3FSN44LKLVKAzT1pwKht
-         o8gkgHHKzqqS1e0p8D8yBMM7XzsVxHlbMEyyHUYOnIiZijEmkSxM2MPv1u9PWqL71V4s
-         aBICP6zXGZFFWgzkA9yy68V4FE0YdC1hmpyW1WC6dHpqfmQDFINUoIGbsi/lmvXSv7fT
-         R2K99v0HMpjbSltLRkht1yPyG/uQT9wUGh+IVzt4DohzLAUglz4C6l6bM/zA4P18xoUP
-         rbGhEOQRgPHyJl7Jgr28tzxYYsvCk54lZxNiMSqGw1sJZFF3KM2xrbT7m2t2o8L0YIGo
-         5+PQ==
-X-Gm-Message-State: AOAM533vGfy3+dnNxTB5A/+Yu92IsiKPxGfJRneOE4Z684pEyATFC0Ld
-	42SemozGCmqaxFNkuJigRKc4D7rhdQR5Kme2n8NPgSrpnFM=
-X-Google-Smtp-Source: ABdhPJyyeBEp/Hq2cX4dH6Wh7npCjFl9882u4WQ33piuMt8pD93Gglhjqz84eS7/EzgFo/dClqujZQGIkFAgamiA6Ic=
-X-Received: by 2002:a02:6014:: with SMTP id i20mr14897946jac.101.1612742577547;
- Sun, 07 Feb 2021 16:02:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Sun, 7 Feb 2021 16:02:57
- -0800 (PST)
-Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Sun, 7 Feb 2021 16:02:57
- -0800 (PST)
-In-Reply-To: <20210201144638.15582-1-dorindabassey@gmail.com>
-References: <20210201144638.15582-1-dorindabassey@gmail.com>
-From: "Dorinda" <dorindabassey@gmail.com>
-Date: Sun, 7 Feb 2021 19:02:57 -0500
-Message-ID: <CAJSnhztAzUkS_kc2zbmoALzD9Y+pN2j9prGjxFoxYxd3iJEGqA@mail.gmail.com>
-Subject: Re: [PATCH v2] oe-pkgdata-util: Check if environment script is initialized
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000072eba805bac7e44a"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: IQaUyt6iETmKOgeDFIbmayPjjJ89AvorlvFOKk4rLmYCKOLn/yoqo66R9X2be1GZ65+0592gch
+ BS2enNNwnHig==
+X-IronPort-AV: E=McAfee;i="6000,8403,9888"; a="180867526"
+X-IronPort-AV: E=Sophos;i="5.81,160,1610438400"; 
+   d="scan'208";a="180867526"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2021 17:22:57 -0800
+IronPort-SDR: NskuJD/3IybnwwAbVA2Gypv9x2vjjFgo/R+5H+lk6kZ8+mRb9WHm0e9XGOAli5LdyhefYvTM5y
+ nKugJFu7tZZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,160,1610438400"; 
+   d="scan'208";a="584942799"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Feb 2021 17:22:56 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] wic: debug mode to keep tmp directory
+Date: Mon,  8 Feb 2021 09:22:55 +0800
+Message-Id: <20210208012255.34097-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
---00000000000072eba805bac7e44a
-Content-Type: text/plain; charset="UTF-8"
+From: Lee Chee Yang <Chee.Yang.Lee@intel.com>
 
-Hi Everyone,
-Just a friendly reminder to review this patch.
+files in wic tmp directory can be usefull for debugging, so do not remove
+tmp directory when wic create run with debugging mode (-D or --debug).
 
-Thanks,
-Dorinda.
+also update wic.Wic.test_debug_short and wic.Wic.test_debug_long to
+check for tmp directory.
 
-On Feb 1, 2021 3:46 PM, "dorindabassey" <dorindabassey@gmail.com> wrote:
+[YOCTO#14216]
 
-> Tinfoil doesn't behave well if environment is not initialized, this check
-> ensures a proper error log if environment is not initialized.
->
-> [YOCTO #12096]
->
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
-> v2:
-> -Positioned check under a condition when it cannot determine the
-> pkgdata_dir
->
->  scripts/oe-pkgdata-util | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> index 93220e3617..75dd23efa3 100755
-> --- a/scripts/oe-pkgdata-util
-> +++ b/scripts/oe-pkgdata-util
-> @@ -598,6 +598,9 @@ def main():
->              logger.error("Unable to find bitbake by searching parent
-> directory of this script or PATH")
->              sys.exit(1)
->          logger.debug('Found bitbake path: %s' % bitbakepath)
-> +        if not os.environ.get('BUILDDIR', ''):
-> +            logger.error("This script can only be run after initialising
-> the build environment (e.g. by using oe-init-build-env)")
-> +            sys.exit(1)
->          tinfoil = tinfoil_init()
->          try:
->              args.pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
-> --
-> 2.17.1
->
->
+Signed-off-by: Lee Chee Yang <Chee.Yang.Lee@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/wic.py      | 2 ++
+ scripts/lib/wic/plugins/imager/direct.py | 6 ++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
---00000000000072eba805bac7e44a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 03a3ac565c..2bf5cb9a86 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -318,6 +318,7 @@ class Wic(WicTestCase):
+                                    "--image-name=core-image-minimal "
+                                    "-D -o %s" % self.resultdir)
+         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*.direct")))
++        self.assertEqual(1, len(glob(self.resultdir + "tmp.wic*")))
+ 
+     def test_debug_long(self):
+         """Test --debug option"""
+@@ -325,6 +326,7 @@ class Wic(WicTestCase):
+                                    "--image-name=core-image-minimal "
+                                    "--debug -o %s" % self.resultdir)
+         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*.direct")))
++        self.assertEqual(1, len(glob(self.resultdir + "tmp.wic*")))
+ 
+     def test_skip_build_check_short(self):
+         """Test -s option"""
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 7e1c1c03ab..ea709e8c54 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -54,6 +54,7 @@ class DirectPlugin(ImagerPlugin):
+         self.native_sysroot = native_sysroot
+         self.oe_builddir = oe_builddir
+ 
++        self.debug = options.debug
+         self.outdir = options.outdir
+         self.compressor = options.compressor
+         self.bmap = options.bmap
+@@ -274,8 +275,9 @@ class DirectPlugin(ImagerPlugin):
+             if os.path.isfile(path):
+                 shutil.move(path, os.path.join(self.outdir, fname))
+ 
+-        # remove work directory
+-        shutil.rmtree(self.workdir, ignore_errors=True)
++        # remove work directory when it is not in debugging mode
++        if not self.debug:
++            shutil.rmtree(self.workdir, ignore_errors=True)
+ 
+ # Overhead of the MBR partitioning scheme (just one sector)
+ MBR_OVERHEAD = 1
+-- 
+2.17.1
 
-<div dir=3D"auto">Hi Everyone,<div dir=3D"auto">Just a friendly reminder to=
- review this patch.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Than=
-ks,</div><div dir=3D"auto">Dorinda.</div></div><div class=3D"gmail_extra"><=
-br><div class=3D"gmail_quote">On Feb 1, 2021 3:46 PM, &quot;dorindabassey&q=
-uot; &lt;<a href=3D"mailto:dorindabassey@gmail.com" target=3D"_blank">dorin=
-dabassey@gmail.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">Tinfoil doesn&#39;t behave well if environment is not initial=
-ized, this check ensures a proper error log if environment is not initializ=
-ed.<br>
-<br>
-[YOCTO #12096]<br>
-<br>
-Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gmail.com=
-">dorindabassey@gmail.com</a>&gt;<br>
----<br>
-v2:<br>
--Positioned check under a condition when it cannot determine the pkgdata_di=
-r<br>
-<br>
-=C2=A0scripts/oe-pkgdata-util | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util<br>
-index 93220e3617..75dd23efa3 100755<br>
---- a/scripts/oe-pkgdata-util<br>
-+++ b/scripts/oe-pkgdata-util<br>
-@@ -598,6 +598,9 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.error(&quot;Unable t=
-o find bitbake by searching parent directory of this script or PATH&quot;)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.exit(1)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.debug(&#39;Found bitbake path: %s&=
-#39; % bitbakepath)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.environ.get(&#39;BUILDDIR&#39;, &#39=
-;&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error(&quot;This script c=
-an only be run after initialising the build environment (e.g. by using oe-i=
-nit-build-env)&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(1)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tinfoil =3D tinfoil_init()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args.pkgdata_dir =3D tinfoi=
-l.config_data.getVar(&#39;<wbr>PKGDATA_DIR&#39;)<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div></div>
-
---00000000000072eba805bac7e44a--
