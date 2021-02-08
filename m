@@ -1,187 +1,78 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.296.1612807666922959544
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.310.1612807717260791382
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 10:07:47 -0800
+ Mon, 08 Feb 2021 10:08:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20150623.gappssmtp.com header.s=20150623 header.b=0i87uD15;
- spf=pass (domain: smile.fr, ip: 209.85.208.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ed1-f53.google.com with SMTP id t5so19580102eds.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 10:07:46 -0800 (PST)
+ dkim=pass header.i=@smile-fr.20150623.gappssmtp.com header.s=20150623 header.b=j2RyNNBR;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id i5so22532wmq.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 10:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile-fr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EPGC6yR+Mt0eBGsicKWJsPEXBbu8qWA/tTwp1tVQvV0=;
-        b=0i87uD15rKE84Ck6XBmhtRXfV2DMQwUguzSsbG7hgg6mJJHbeP424YOvRmVJUE6MXm
-         HfQJ4lovicBHrMlF/o2nqUxZ1K6obgX4LiKD/rd8KY9SpouDFhUo0ffahFi9kBgEfA1O
-         8cBeh4sORaKzxvKvptdzF/RZcFimsmIXVH/+tcF8H0CHxfmm1z9jGrMOgDh29nLYxsaj
-         LbcqzX8s7Te3JCvC47go5tAn9EsvzqvlJ8dxNeFnf8LwYx6E/sbdZjKZVDyws/kmxwQ5
-         DtOk98EPey8yce6Kc+NxabkTI+XIBSfrFFu/1IIhzytrOdPEfu/niQLxe1f4iVWu+e+4
-         1bxQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pGfyGxnalcCk+Sgk4WZHYLKbsvuO5ivaMO3rt4HgxxI=;
+        b=j2RyNNBRsidt8X/6f/p4DUmnS2ZgdBnvxT2MuKpUAxKjIZdwopJ2EaTPQHLXliD7Rb
+         kg+Cu5Eozp9JmhW+b0WXOoY5aqMLfrHrg/OktPE9TJRMbxgEpR/FFj2paohRn11p8V9V
+         vouvc7itbnmGKZvSPtcUCJR9NPVibr8jhHnMXzeXQOgzFPeHg9bUBTXVP3cArhb3yLM9
+         9oFQNfpCpuDRw9XrMkTtSfdseajtrJVEYYs5QfABs7fkwlv6+cBbvDADB0gAwKoOOicL
+         1UnFu7i0kvB9HCc/iYjy5RUxmXDV6L1SHrTx/2/2FTpUK9Np2yzgUeeA7K0ClK0tmz7l
+         4LIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EPGC6yR+Mt0eBGsicKWJsPEXBbu8qWA/tTwp1tVQvV0=;
-        b=JYtH7y9V+nTsGexxQnuwhH++nhA4cfP2z8C1LgirNTmDM4mf31NptSbsu7rCcwCcEv
-         KblHtVPXuROS5BS2HqHhEfu7v8yokzpntj1o1+XPsJRoM2hioSEDNFhJ1AG3+iRoBW69
-         SfSr8lVOMD11Oz+cjAnUMft7TJCSRGSr2SQyeUkQar1TqT1M4Ojp61iyCYU1cXlhTi1n
-         4bKHj8/b/SlFWdlDmhCzzAOfTceQeGSbED8FZXzOYaLxGOfWXtkqKfrtFyjiuvzTTHXa
-         gc8qpUKvvoRVdszdC6XThdqS72+p3cio9zqklUd/ZdVPHV3irT6Of5Zf/ElO3ho6G6it
-         emqw==
-X-Gm-Message-State: AOAM533VXzwp31FPJPXxhmyu2IjWo3xpWIarej6vY7Q9HeE39nBGom8R
-	xCE6II3G5t8UaP9yqCUgEoOZAwgvv25XRVSjQiZwNA==
-X-Google-Smtp-Source: ABdhPJzdfIIVa9m49NXuuqwthHNEjw1844aj0rWJtqJKORipgxzV34w6K0IIooHTxNaDxQgLoezbTIY6ztwSFH6MED0=
-X-Received: by 2002:aa7:d656:: with SMTP id v22mr18354343edr.349.1612807665354;
- Mon, 08 Feb 2021 10:07:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20210208175226.4081-1-yoann.congal@smile.fr> <AM9PR09MB464216503C5A3768E2779FF6A88F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB464216503C5A3768E2779FF6A88F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pGfyGxnalcCk+Sgk4WZHYLKbsvuO5ivaMO3rt4HgxxI=;
+        b=SjvtGnwC783UVO14kkUD1BNeFRwnKrnzGKnuMnZSINCn9MchU7Ze1C7ZvUVN1HbsrK
+         0K8VmkD+NYvybznV3sOM4HQsuz5bc1dnwDrz43Mhl/aiByI6+rPLYhMuLEmspTlQRViI
+         uKePVOkG94r7bLd5Q9jbEzGhd60AYLexZrhQNjqwF/mvv6f0RLdIZvr0kKAVr/d1rTDI
+         HybJ9AO4netJ6+w/FljMqZKWAPAGlCGZU/z/bnoGahoUIExJBkFVww6LoSb4QJRyiv8j
+         rSIlt6b6kA4CvnRXFJaCJmRfr+KtI6/jutU47oJ5RWrWcyKQCE9Kpp/hhLreGaGXUNra
+         z/0w==
+X-Gm-Message-State: AOAM532z9AuI1LKHo+KGFFzp/vFVsQ3gKDp4XgF7/LoPV+CqZi5gpA1a
+	X6hbMRTecx9HbxrR+LzRHRvhmFLwfq8bEw==
+X-Google-Smtp-Source: ABdhPJxitR4Xd1h+qrX9uXDYwZf1FAzE2+1MwGEVQP31+/P8C52EH9rc0LpEp92mYRNqLkIuZXgv+Q==
+X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr13625759wmb.115.1612807679260;
+        Mon, 08 Feb 2021 10:07:59 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from P-ASN-KEVALD.idf.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id h9sm6157915wrc.94.2021.02.08.10.07.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 10:07:58 -0800 (PST)
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Date: Mon, 8 Feb 2021 19:07:18 +0100
-Message-ID: <CAMSfU+7EdBfWRMOEvZTz-KieyhGrpGsQ8WYU9+eW48H4eCUgeg@mail.gmail.com>
-Subject: Re: [OE-core] [meta][PATCH] npm.bbclass: avoid building target nodejs for native npm recipes
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000fc297805bad70b7a"
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [meta][PATCHv2] npm.bbclass: avoid building target nodejs for native npm recipes
+Date: Mon,  8 Feb 2021 19:07:47 +0100
+Message-Id: <20210208180747.12546-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000fc297805bad70b7a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The current recipe unconditionally RDEPENDS on nodejs (the target one).
+When building on the "-native recipe" of "BBCLASSEXTEND native" recipe,
+the target nodejs is unnecessarily built.
 
-Le lun. 8 f=C3=A9vr. 2021 =C3=A0 18:55, Konrad Weihmann <kweihmann@outlook.=
-com> a
-=C3=A9crit :
+This patch fixes this by only RDEPENDS on nodejs when building for the target.
 
->
->
-> On 08.02.21 18:52, Yoann Congal wrote:
-> > The current recipe unconditionally RDEPENDS on nodejs (the target one)=
-.
-> > When building on the "-native recipe" of "BBCLASSEXTEND native" recipe=
-,
-> > the target nodejs is unnecessarily built.
-> >
-> > This patch fixes this by only RDEPENDS on nodejs when building for the
-> target.
-> >
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> > ---
-> >   meta/classes/npm.bbclass | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-> > index 79f55febcc..61d16cf23d 100644
-> > --- a/meta/classes/npm.bbclass
-> > +++ b/meta/classes/npm.bbclass
-> > @@ -20,7 +20,7 @@
-> >   inherit python3native
-> >
-> >   DEPENDS_prepend =3D "nodejs-native "
-> > -RDEPENDS_${PN}_prepend =3D "nodejs "
-> > +RDEPENDS_${PN}_class-target_prepend +=3D "nodejs"
->
-> This doesn't look right. Either
->
-> RDEPENDS_${PN}_class-target_prepend =3D "nodejs "
->   or
-> RDEPENDS_${PN}_class-target +=3D "nodejs"
->
-> but not both. plus prepend does require a trailing blank iirc
->
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/classes/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Oh wow, I should not have missed that :-/
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 79f55febcc..ac49aa4cda 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -20,7 +20,7 @@
+ inherit python3native
+ 
+ DEPENDS_prepend = "nodejs-native "
+-RDEPENDS_${PN}_prepend = "nodejs "
++RDEPENDS_${PN}_class-target_prepend = "nodejs "
+ 
+ NPM_INSTALL_DEV ?= "0"
+ 
+-- 
+2.20.1
 
-I'll send a PATCHv2.
-
-Thanks!
-
-
-> >
-> >   NPM_INSTALL_DEV ?=3D "0"
-> >
-> >
-> >
-> >
-> >
-> >
->
->=20
->
->
-
---=20
-Yoann Congal
-Smile ECS - Expert technique
-yoann.congal@smile.fr
-
---000000000000fc297805bad70b7a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 8 f=C3=A9vr. 2021 =C3=A0=
-=
-=C2=A018:55, Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com">=
-kweihmann@outlook.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><br>
-<br>
-On 08.02.21 18:52, Yoann Congal wrote:<br>
-&gt; The current recipe unconditionally RDEPENDS on nodejs (the target one=
-).<br>
-&gt; When building on the &quot;-native recipe&quot; of &quot;BBCLASSEXTEN=
-D native&quot; recipe,<br>
-&gt; the target nodejs is unnecessarily built.<br>
-&gt; <br>
-&gt; This patch fixes this by only RDEPENDS on nodejs when building for th=
-e target.<br>
-&gt; <br>
-&gt; Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.=
-fr" target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/classes/npm.bbclass | 2 +-<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass<br>
-&gt; index 79f55febcc..61d16cf23d 100644<br>
-&gt; --- a/meta/classes/npm.bbclass<br>
-&gt; +++ b/meta/classes/npm.bbclass<br>
-&gt; @@ -20,7 +20,7 @@<br>
-&gt;=C2=A0 =C2=A0inherit python3native<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0DEPENDS_prepend =3D &quot;nodejs-native &quot;<br>
-&gt; -RDEPENDS_${PN}_prepend =3D &quot;nodejs &quot;<br>
-&gt; +RDEPENDS_${PN}_class-target_prepend +=3D &quot;nodejs&quot;<br>
-<br>
-This doesn&#39;t look right. Either<br>
-<br>
-RDEPENDS_${PN}_class-target_prepend =3D &quot;nodejs &quot;<br>
-=C2=A0 or<br>
-RDEPENDS_${PN}_class-target +=3D &quot;nodejs&quot;<br>
-<br>
-but not both. plus prepend does require a trailing blank iirc<br></blockqu=
-ote><div><br></div><div>Oh wow, I should not have missed that :-/</div><div=
-><br></div><div>I&#39;ll send a PATCHv2.<br></div><div>=C2=A0</div><div>Tha=
-nks!</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0NPM_INSTALL_DEV ?=3D &quot;0&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Con=
-gal</font><div><font face=3D"Raleway, regular">Smile ECS - Expert technique=
-</font></div><div><font face=3D"Raleway, regular"><a href=3D"mailto:yoann.c=
-ongal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a></font></div></d=
-iv></div></div>
-
---000000000000fc297805bad70b7a--
