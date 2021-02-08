@@ -1,84 +1,107 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.31598.1612763492849442319
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.31599.1612763493526671166
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 21:51:32 -0800
+ Sun, 07 Feb 2021 21:51:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jAWmmUrS;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id o21so8088322pgn.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 21:51:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=COQPbcZr;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id x136so2436557pfc.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 21:51:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=jsNHyP1fFc6tOpcKfFCNDWhbahKQzt3PkGdzpd0KXjo=;
-        b=jAWmmUrSInuMjscizbZWBIfX5A2gUQVLJ5uvOE+QjPGoypqUekcDM9Ncrom13sqCaT
-         OYhId1JJkpW4VkWnb6RMklxdCaycLi2ppkQcl96NJaaIy/KcmcwU7vAAZ0WE1TUL2W0P
-         4JKxo/vqfwsiolE7Aayt5r7b+EMXw6+tZ96e9LEENz6Q5k9XBMPXn/yuMvSPdSJZYGRT
-         wxWIgvD7RgKx09W5jV4d3ligIGHkmLnVIqf/kblUXdN21I3FAyuPMn8diIUD0gPCak0j
-         X1UPqdybEtjTnIhJINeRo08v0U8TErcepIjBGOao12mjm8q4eeYD78IjYG3wzkBn8q3K
-         NLiQ==
+        bh=69OTNiuz5uc7mms6WXOBe3A0higL2BSrVyvX5bG4c+k=;
+        b=COQPbcZrV24qrN+NB+1CTSSq7ZylW3DNWZF5RqH49qo8MFFhgfQvIsyBJeBg2xJaSI
+         23RV3Q+A2Xrx3+JZK2le4C9qWbYMkIAQ1vh63a+fzAfHwT/+40zWSCyg5cTubTtWRbbZ
+         xp9n5kqHwjq7HlzIHvMasu9wdA/HvBk2oNwr9AD/piFQt6JBQaccB6pmEEmajigkL+c9
+         jxng0guOKa6WFv1pNYETPJ02EyRVrITDwjPNcTMRIoyBhw4bhMeZTpj4fdNBO1oef9Q2
+         kUUrBNgkByJmhGOSNoQMHxzNgGBWNBSfogJBxuuUMQk1jwGPyZvdh6kqXmTy6N/IAv6Q
+         bLGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jsNHyP1fFc6tOpcKfFCNDWhbahKQzt3PkGdzpd0KXjo=;
-        b=q8Pc+hoxVlmND1o5RCaFjYFSjYN7PlY+pqSznhMH53QbURH0t/YkFLgUvpApn2We3Q
-         P1JKZvefnq6xWZM8HWyIhk8nDbITJHTOEGHaGKXQ8ZN0+Xo0q02eUV8Qa47zyhFV/jhg
-         T+I7mfIdO9d85KBtLC9yZ09Qp+3gZ4Y+2kmVdipsc+fYPpft5vpDmhYFWshsegYYAJha
-         eImhXMrPZ1BElah6OdGgjt6zWMKCyxJdiR6GPBVkLQ+Py+LQ12yg7bBL8HIXTAPKA5ae
-         x+v82kMt2sdVRu0VmarPBo8Pc59eKmij96kBBTXkJksQbBxa7wg5dL2EQk6d8q4YF7jR
-         +8gQ==
-X-Gm-Message-State: AOAM532FzUxTRNFHdHujWZEIiCQIoNNht2R+s5p0zWOjpMtimzv3Wi/w
-	0Ju79ju9S9B7msj581cVGVFv3NsFfgE=
-X-Google-Smtp-Source: ABdhPJwkdsSGyWP9K86PbRN+Pc7qG4Uo/0i9+EyDYBjrV7CF+Xqr0LFS+sxJYCF3+fWkM0rWcUtE/Q==
-X-Received: by 2002:aa7:97a4:0:b029:1de:7bf7:2f98 with SMTP id d4-20020aa797a40000b02901de7bf72f98mr1447746pfq.6.1612763492093;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=69OTNiuz5uc7mms6WXOBe3A0higL2BSrVyvX5bG4c+k=;
+        b=T3Vk4WLE6YvypekqAROC5N9LQ/tHP16Vl8Z7oidyP2AooJM9TTgosrlm/NY92MvLvO
+         z/pLmsAcKZbSpM2CaELFAJmRrVt+f5AxM4jrzdj1vJVbW4PodshZP9GrI1lvBh7uZn5P
+         yNGChTEBWXQGiKpuU+K2dnyUgfDU/ZsFOzM0nzSzs0z8R7ZYrA/RT2znx6fm9tiH1qcS
+         p/8Rt3uyfZa3173R3yn7foKhRs2+MWFWgjRtSKblai10ZmY3kwzr8Q0bQgB9jGvEDv4x
+         0MstcMnLRzNj6hQTiuDEcvCz3+6jb0hwH8PvGPzFbZcrsC9/goqjY0XtKYyFryhXGIvb
+         1AEg==
+X-Gm-Message-State: AOAM533TbJ1rmhspP/1Vjs6wLaWIHosTc6MsaJtP3rqNfBRMUVUjwAlO
+	tfBCi8NhSVsGu1kDGxBXUMNlwpcjCZk=
+X-Google-Smtp-Source: ABdhPJyXhd60f8Spl8U25aPcURvEy6EX9Q90IXHi6yDUHAg21s6R3UnMIbMYbqI4ZHEs7cK9iAYoFQ==
+X-Received: by 2002:a63:ce4b:: with SMTP id r11mr4765491pgi.148.1612763492865;
         Sun, 07 Feb 2021 21:51:32 -0800 (PST)
 Return-Path: <akuster808@gmail.com>
 Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
-        by smtp.gmail.com with ESMTPSA id a31sm17254508pgb.93.2021.02.07.21.51.31
+        by smtp.gmail.com with ESMTPSA id a31sm17254508pgb.93.2021.02.07.21.51.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 21:51:31 -0800 (PST)
+        Sun, 07 Feb 2021 21:51:32 -0800 (PST)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] cve-check.bbclass: add layer to cve log
-Date: Mon,  8 Feb 2021 05:51:29 +0000
-Message-Id: <20210208055130.892351-1-akuster808@gmail.com>
+Subject: [PATCH 2/2] cve-check: add include/exclude layers
+Date: Mon,  8 Feb 2021 05:51:30 +0000
+Message-Id: <20210208055130.892351-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210208055130.892351-1-akuster808@gmail.com>
+References: <20210208055130.892351-1-akuster808@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Lets include whcih layer a package belongs to and
-add it to the cve logs
+There are times when exluding or including a layer
+may be desired. This provide the framwork for that via
+two variables. The default is all layers in bblayers.
+
+CVE_CHECK_LAYER_INCLUDELIST
+CVE_CHECK_LAYER_EXCLUDELIST
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cve-check.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/cve-check.bbclass | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index ed86403b6bc..061af7a2760 100644
+index 061af7a2760..112ee3379d3 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -335,6 +335,9 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+@@ -53,6 +53,13 @@ CVE_CHECK_PN_WHITELIST ?= ""
+ #
+ CVE_CHECK_WHITELIST ?= ""
+ 
++# Layers to be excluded
++CVE_CHECK_LAYER_EXCLUDELIST ??= ""
++
++# Layers to be included 
++CVE_CHECK_LAYER_INCLUDELIST ??= ""
++
++
+ # set to "alphabetical" for version using single alphabetical character as increament release
+ CVE_VERSION_SUFFIX ??= ""
+ 
+@@ -334,10 +341,20 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+     CVE manifest if enabled.
      """
  
++
      cve_file = d.getVar("CVE_CHECK_LOG")
-+    fdir_name  = d.getVar("FILE_DIRNAME")
-+    layer = fdir_name.split("/")[-3]
+     fdir_name  = d.getVar("FILE_DIRNAME")
+     layer = fdir_name.split("/")[-3]
+ 
++    include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
++    exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
++
++    if exclude_layers and layer in exclude_layers:
++        return
++
++    if include_layers and layer not in include_layers:
++        return
 +
      nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
      write_string = ""
      unpatched_cves = []
-@@ -344,6 +347,7 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
-         is_patched = cve in patched
-         if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
-             continue
-+        write_string += "LAYER: %s\n" % layer
-         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
-         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-         write_string += "CVE: %s\n" % cve
 -- 
 2.25.1
 
