@@ -1,128 +1,83 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web12.33993.1612785440222518165
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web12.34266.1612787125947360421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 03:57:21 -0800
+ Mon, 08 Feb 2021 04:25:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.81,161,1610380800"; 
-   d="scan'208";a="104329838"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Feb 2021 19:57:11 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id DACD74CE6F84
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Feb 2021 19:57:10 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 8 Feb 2021 19:57:13 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH v2] bind: upgrade 9.16.10 -> 9.16.11
-Date: Mon, 8 Feb 2021 19:57:01 +0800
-Message-ID: <1612785421-42876-2-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ITIRFgo7;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id z3so4743151vsn.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 04:25:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vEy6Xq6H+BbyWnrpmTfoCE7irvwife5P4DCF2+gPhaw=;
+        b=ITIRFgo7dFyXyr2Xzq5nXDOzSnIzk8vai6+Qz7nF052PXvEACHfRZ9Cgd5GCGMffRM
+         ErmEWVbyXmq0/1h9x5aY2Q4O9OnggJJ3o2uFLF5dLEn5yRo1DXMDJb1mBRKfROPargu/
+         fjGfahxNtjSdQqzfcZZOpOK6SqNH9aOHI198aRMfJfHY1rOH1SdaS1qNHWR+WpMuA2sq
+         7QbUi8GRiYi0srnVnX9s7eB6ckpHLA+rfmY97Ru1Pwh3lHaGtWMyXkw2ROE0MZyJ0ss8
+         Eq+ZE/wnnodhndfCzCuuQhqXUN0MSmzYKRpUjot3gvq9lelXBT8nbZkMiJENW1fL90C3
+         u7tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vEy6Xq6H+BbyWnrpmTfoCE7irvwife5P4DCF2+gPhaw=;
+        b=k1oV5wYvw439tEiTLHm63Ath/75KABqUcs2Y7xB3fMLAwhunoOA59jDyVhU91WxK6n
+         RLNeF8SZeBqLezhRwc9tO1PNj/mn6m9QwX3ZPTfwH+m1TFHUZ2qh3kZLgwkytQwl0pL6
+         F+KwwxAnqBGLZP+Oa2tsBurT9b7W9VWCTF/cX9UhwReuhU8W1rbXapg5qGk6HLSzBjHC
+         ll8B1bR1ZWGvv1u1cAQnSQ6sby2lOUR5Il1MTwXmWjEEy2kCj1SPGsOA3OvlpJ4wWVoa
+         Mr0SWzKcaEJolv2Wt3we4+fbNbxlISf603mPjWXg7rvXFV0BGeaoua9DvJx6wIsehLvg
+         6DBw==
+X-Gm-Message-State: AOAM530gPpnGrAKc4vr/n1qzrqW98hwtjZuDAZomLhMynDY7BcBOHyKw
+	xQlvQT73Rz9zMrirk9qRCwAw8k1yn63XLwUX6NQ=
+X-Google-Smtp-Source: ABdhPJyhGBC01thIwiDCyaGJGa1Z4v9qHMTlxe8ywNuNNWTPESiikhMzkHuCIOpKqg81BhYnqnW6mY+xM5oVlHAj+kc=
+X-Received: by 2002:a67:c599:: with SMTP id h25mr10005260vsk.31.1612787125180;
+ Mon, 08 Feb 2021 04:25:25 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: DACD74CE6F84.A66A8
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+References: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
+In-Reply-To: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 8 Feb 2021 13:25:13 +0100
+Message-ID: <CANNYZj__mzG41r1rKGMVunEuJqSgxfspMNG7-b-Mb-b=c2huoQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] libdrm: upgrade 2.4.103 -> 2.4.104
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b1db0f05bad24373"
 
-rename directory of patches
--License-Update: Copyright year updated to 2021.
+--000000000000b1db0f05bad24373
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../0001-avoid-start-failure-with-bind-user.patch             | 0
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
- .../bind/{bind-9.16.10 => bind-9.16.11}/bind9                 | 0
- .../bind/{bind-9.16.10 => bind-9.16.11}/conf.patch            | 0
- .../bind/{bind-9.16.10 => bind-9.16.11}/generate-rndc-key.sh  | 0
- .../init.d-add-support-for-read-only-rootfs.patch             | 0
- .../make-etc-initd-bind-stop-work.patch                       | 0
- .../bind/{bind-9.16.10 => bind-9.16.11}/named.service         | 0
- .../bind/{bind_9.16.10.bb => bind_9.16.11.bb}                 | 4 ++--
- 10 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.10 => bind-9.16.11}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.10.bb => bind_9.16.11.bb} (96%)
+On Mon, 8 Feb 2021 at 12:57, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/bind9 b/meta/recipes-connectivity/bind/bind-9.16.11/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.11/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.10/named.service b/meta/recipes-connectivity/bind/bind-9.16.11/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.10/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.11/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.10.bb b/meta/recipes-connectivity/bind/bind_9.16.11.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.16.10.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.11.bb
-index 71194a61bf..3b76a1f5cd 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.10.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.11.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://www.isc.org/bind/"
- SECTION = "console/network"
- 
- LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4673dc07337cace3b93c65e9ffe57b60"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=ef10b4de6371115dcecdc38ca2af4561"
- 
- DEPENDS = "openssl libcap zlib libuv"
- 
-@@ -19,7 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[sha256sum] = "bc47fc019c6205e6a6bfb839c544a1472321df0537ba905b846a4cbffe3362b3"
-+SRC_URI[sha256sum] = "0111f64dd7d8f515cfa129e181cce96ff82070d1b27f11a21f6856110d0699c1"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
--- 
-2.25.1
+> +
+> +That's what upstream docutils installs by default.
+> +Signed-off-by: Heiko Becker's avatarHeiko Becker <heirecka@exherbo.org>
+>
 
+Please add Upstream-Status to the patch according to guidelines, I guess
+it's a backport?
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
 
+Alex
 
+--000000000000b1db0f05bad24373
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 8 Feb 2021 at 12:57, Wang Mingyu &lt;<a href=3D"mailto:wangm=
+y@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">+<br>
++That&#39;s what upstream docutils installs by default.<br>
++Signed-off-by: Heiko Becker&#39;s avatarHeiko Becker &lt;<a href=3D"mailto=
+:heirecka@exherbo.org" target=3D"_blank">heirecka@exherbo.org</a>&gt;<br></=
+blockquote><div><br></div><div>Please add Upstream-Status to the patch acco=
+rding to guidelines, I guess it&#39;s a backport? <br></div><div><a href=3D=
+"https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_He=
+ader_Recommendations:_Upstream-Status">https://www.openembedded.org/wiki/Co=
+mmit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status=
+</a></div><div><br></div><div>Alex<br></div></div></div>
+
+--000000000000b1db0f05bad24373--
