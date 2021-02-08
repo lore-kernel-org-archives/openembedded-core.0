@@ -1,138 +1,174 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.793.1612811473324554531
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.89.1612815216072697044
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 11:11:13 -0800
+ Mon, 08 Feb 2021 12:13:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VcTyhgYP;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id y8so20014311ede.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 11:11:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=drRl6wiK;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id df22so20429502edb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 12:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qDc6hlRWZF1Mdn9hluh0rWR2IjhRGriwTglUhz/5+PE=;
-        b=VcTyhgYPe6o1xqqN5VJ9liJl8op5M2vEh8Pg7t/aj9pJ2WCryyyZLd5HW5xmiMRRk1
-         dexMO+WwmjkrRmjnyvpbSOeDEhMNOv4QM7mSJXr4nmTU9JNRjk1LLKVF8BXotCsX2uNM
-         SJv4tONaTPEXVnwOcZeI+UTX9xspwCuyNQy3cFDAoNLVjux5WbedZzkXvzK4uBFXHKiz
-         gOCkJAdyGNMPlIJRVwtkVifM2BA9vAJcmaVtTiaJYRfkkRI3syZrRQIymgLNIJJdlWHI
-         xDMAQDaAH7lQRaA5RFo8jX3IKBKnXXoKSI8doFRlpVZtwCfLRHcHmIH7sO6HDBa86kuO
-         w5kg==
+        bh=GlTS7lPjIUHiyXo7cfzMjYLsmWNO6Z6v8oMdaJmJC24=;
+        b=drRl6wiKlT4BBn5uVqHWYySudiopLjltqxmhXqJzNfzkjP+HAbg87Kr4sVZyAHfqFW
+         6Ng09y7LzQIVsqU6X6qAl4knt2sHVqRnAATrb7NY7jmxoSEJxrheLrNwuMHLaONzSXw4
+         ahhQBIIsieO9yLVydIC+9Au0JT7SVjkTkjjSXdGyLRhbYId2MYW7FPObzG9CqE5jVjRl
+         xu1Qa57swh4t5fXOtLobQ56gAqYzGYYJWXCXhMzRRjsBbD8weJ75FHEbfVVK8oVU6KQ4
+         88j3TF/vqA0k0s++Ai0dC/T1utHNmkuTmOu3j0y0LS90f4sPKjsF6r7/fJ1B8ATp1j6v
+         0ZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qDc6hlRWZF1Mdn9hluh0rWR2IjhRGriwTglUhz/5+PE=;
-        b=FyM1XXubi/IUmX0N4uIW5DsmfZME6oXbxaKfL8qTieZ4/phPEFc+gxIxyn/Bx4hgjV
-         S0j53qr1W5mDns/5K5Oe0fslCZ32LQrGv8TwVnqyEVj9CBj8ioXfK5q1HE4dc12LXDUq
-         ZSS0rMApEVOuh7UqMv5YzdAUK8MJsTDotX6A6pyHi73S5Bq3H1+IckT37WQTMm/R33X7
-         knJp0v39K4ggF3v8n7P9UN9dYnZNOgeDVGzO/8Gmpb1uYO2Y0TwSYM2gnFKzvCjqFafT
-         9ykL6lquxlMsyLdXsWrDX3yCFNsln3p6BHvTR7ahnMEWlS6fXeV57GBS7r8xL39fbW81
-         8jpw==
-X-Gm-Message-State: AOAM531fh9Yd8gPbTo8AGKMQvf5XGgK4PRF22E7n2am27jI75WfZXz3f
-	qaey+Er/aLSjRnEHbq1QnSNN4w3HIPSqf4AMDDY=
-X-Google-Smtp-Source: ABdhPJz3rJDr599Ca9yUGEC2wrTJbj7zuHlHDpbLouGQV1KeQdhkDttcU4YcTaii2rNaJP/UJEzNEEVJa71JW872wYc=
-X-Received: by 2002:a05:6402:2053:: with SMTP id bc19mr18198692edb.230.1612811471803;
- Mon, 08 Feb 2021 11:11:11 -0800 (PST)
+        bh=GlTS7lPjIUHiyXo7cfzMjYLsmWNO6Z6v8oMdaJmJC24=;
+        b=Qh/vZd5e88ey7OfjlpBS2ob1XqKfioNbFxtGNbhjoehR90YQnDK7vOzvIdE6ceBjtk
+         mhNIwKj5feZy3G3poMvg5TCz6dnW1O/mCs2loYm1LJNkLd0HJv6Uhp334wyS1yBYKwFv
+         44E3ZTrHaXl/bxRLA6+/WpLtPH5+QzlKmOmHclqs6BONh1z3rNrAOUTyqEtB7qGeQMOB
+         ETv6yllPBKPFlzQHHphAUEXQmWCpDL6CQ5oeCYB81BvToLvuc7bvF36izwWrY0kTD1KQ
+         NjBBshV0bYF2pdTN0wUrjKLElZzjM6oKD5bDx0nd7gcHrZGokM6r8Hgtm5Gfrc91qzFh
+         65Bg==
+X-Gm-Message-State: AOAM5307tck1Jp30w5rRZp292Uiz2IQ3L6E6v4KxydYUqTNzEuxBrPfT
+	BVzERPhlb7hel1vgwHf71oQMD29r4TOqw4LBXZ4=
+X-Google-Smtp-Source: ABdhPJx84J6nSyclr2sV7JmW7VbVufHtoirclzMFQLC2OBR9kz+Laxo4NU8Ibp28jPrFZNyXaN+jxF1889FBHD9qIC0=
+X-Received: by 2002:a50:eb49:: with SMTP id z9mr9606627edp.234.1612815214529;
+ Mon, 08 Feb 2021 12:13:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20210208180747.12546-1-yoann.congal@smile.fr>
-In-Reply-To: <20210208180747.12546-1-yoann.congal@smile.fr>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Mon, 8 Feb 2021 20:11:00 +0100
-Message-ID: <CA+chaQfTpihqNma3-_aNNwZJRyMa0aqMuqkq7y4HhbmUFt_dGQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta][PATCHv2] npm.bbclass: avoid building target nodejs for native npm recipes
-To: Yoann Congal <yoann.congal@smile.fr>
+References: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+In-Reply-To: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 8 Feb 2021 15:13:23 -0500
+Message-ID: <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
+To: Matteo Croce <mcroce@linux.microsoft.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ddd8f005bad7ee67"
-
---000000000000ddd8f005bad7ee67
 Content-Type: text/plain; charset="UTF-8"
 
-You need the override after the append/prepend operator and append is more
-common than prepend (order of RDEPENDS isn't important) so I would use:
-
-RDEPENDS_${PN}_append_class-target = " nodejs"
-
-On Mon, Feb 8, 2021 at 7:08 PM Yoann Congal <yoann.congal@smile.fr> wrote:
-
-> The current recipe unconditionally RDEPENDS on nodejs (the target one).
-> When building on the "-native recipe" of "BBCLASSEXTEND native" recipe,
-> the target nodejs is unnecessarily built.
+On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
 >
-> This patch fixes this by only RDEPENDS on nodejs when building for the
-> target.
+> From: Matteo Croce <mcroce@microsoft.com>
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Add a recipe to build libbpf from https://github.com/libbpf/libbpf
+> The only patch fixes a build issue, and it's already merged upstream.
+
+Thanks for the submission! I have a few comments / questions.
+
+To get this into oe-core, we should be commenting / documenting why it
+should be in core, versus another layer. The standard criteria is that
+there are enough varied users and that the functionality is common
+enough, that it belongs in core.
+
+There should also be some sort of oe-selftest for the functionality,
+otherwise, it is hard to detect breakages. Some sort of application
+that uses the library and that can be executed in qemu would be
+enough.
+
+What are the kernel requirements ? CONFIG_BPF is selected by other
+kernel configs (it has no menu entry, so it must be), is it that, or
+something else that is the requirement (classic BFP?). If that option
+is now always on, is that true for the reference kernel versions in
+master (5.4 and 5.10).
+
+Finally, does this work across all the supported architectures ? if
+not, we'll need compatibility settings.
+
+>
+> Signed-off-by: Matteo Croce <mcroce@microsoft.com>
 > ---
->  meta/classes/npm.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  ...01-install-don-t-preserve-file-owner.patch | 29 +++++++++++++++++++
+>  meta/recipes-kernel/libbpf/libbpf_0.3.bb      | 25 ++++++++++++++++
+>  2 files changed, 54 insertions(+)
+>  create mode 100644 meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+>  create mode 100644 meta/recipes-kernel/libbpf/libbpf_0.3.bb
 >
-> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-> index 79f55febcc..ac49aa4cda 100644
-> --- a/meta/classes/npm.bbclass
-> +++ b/meta/classes/npm.bbclass
-> @@ -20,7 +20,7 @@
->  inherit python3native
->
->  DEPENDS_prepend = "nodejs-native "
-> -RDEPENDS_${PN}_prepend = "nodejs "
-> +RDEPENDS_${PN}_class-target_prepend = "nodejs "
->
->  NPM_INSTALL_DEV ?= "0"
->
+> diff --git a/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> new file mode 100644
+> index 0000000000..4e65d8d80a
+> --- /dev/null
+> +++ b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> @@ -0,0 +1,29 @@
+> +From 7df10d91db6f533cc0f6c09f4ae8ad92918c6160 Mon Sep 17 00:00:00 2001
+> +From: Matteo Croce <mcroce@microsoft.com>
+> +Date: Tue, 26 Jan 2021 12:41:47 +0100
+> +Subject: [PATCH] install: don't preserve file owner
+> +
+> +'cp -p' preserve file ownership, this may leave files owned by the
+> +current in user in /lib .
+> +
+
+We need the upstream status documented here, not just in the commit message.
+
+> +Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> +---
+> + Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index da33613..ab66edc 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -130,7 +130,7 @@ define do_s_install
+> +       $(Q)if [ ! -d '$(DESTDIR)$2' ]; then            \
+> +               $(INSTALL) -d -m 755 '$(DESTDIR)$2';    \
+> +       fi;
+> +-      $(Q)cp -fpR $1 '$(DESTDIR)$2'
+> ++      $(Q)cp -fR $1 '$(DESTDIR)$2'
+> + endef
+> +
+> + install: all install_headers install_pkgconfig
+> +--
+> +2.29.2
+> +
+> diff --git a/meta/recipes-kernel/libbpf/libbpf_0.3.bb b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> new file mode 100644
+> index 0000000000..402e57257f
+> --- /dev/null
+> +++ b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> @@ -0,0 +1,25 @@
+> +SUMMARY = "Library for BPF handling"
+> +DESCRIPTION = "Library for BPF handling"
+> +HOMEPAGE = "https://github.com/libbpf/libbpf"
+> +SECTION = "libs"
+> +LICENSE = "LGPLv2.1+"
+> +
+> +LIC_FILES_CHKSUM = "file://../LICENSE.LPGL-2.1;md5=b370887980db5dd40659b50909238dbd"
+> +
+> +DEPENDS = "zlib elfutils"
+> +
+> +SRC_URI = "git://github.com/libbpf/libbpf.git;protocol=https"
+> +SRCREV = "051a4009f94d5633a8f734ca4235f0a78ee90469"
+> +
+> +# Backported from version 0.4
+> +SRC_URI += "file://0001-install-don-t-preserve-file-owner.patch"
+> +
+> +S = "${WORKDIR}/git/src"
+> +
+> +inherit pkgconfig
+
+I see inherit pkgconfig, but no PACKAGECONFIG setting. Is it actually
+used here ?
+
+> +
+> +do_install() {
+> +       make install DESTDIR=${D} LIBDIR=${libdir}
+
+Rather than a bare 'make' call, this should likely be oe_runmake
+
+Bruce
+
+> +}
+> +
+> +BBCLASSEXTEND = "native"
 > --
-> 2.20.1
+> 2.29.2
 >
 >
 > 
 >
->
 
---000000000000ddd8f005bad7ee67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>You need the override after the append/prepend operat=
-or and append is more common than prepend (order of RDEPENDS isn&#39;t impo=
-rtant) so I would use:</div><div><br></div>RDEPENDS_${PN}_append_class-targ=
-et =3D &quot; nodejs&quot;</div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Mon, Feb 8, 2021 at 7:08 PM Yoann Congal &lt;<=
-a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The current re=
-cipe unconditionally RDEPENDS on nodejs (the target one).<br>
-When building on the &quot;-native recipe&quot; of &quot;BBCLASSEXTEND nat=
-ive&quot; recipe,<br>
-the target nodejs is unnecessarily built.<br>
-<br>
-This patch fixes this by only RDEPENDS on nodejs when building for the tar=
-get.<br>
-<br>
-Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" t=
-arget=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
----<br>
-=C2=A0meta/classes/npm.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass<br>
-index 79f55febcc..ac49aa4cda 100644<br>
---- a/meta/classes/npm.bbclass<br>
-+++ b/meta/classes/npm.bbclass<br>
-@@ -20,7 +20,7 @@<br>
-=C2=A0inherit python3native<br>
-<br>
-=C2=A0DEPENDS_prepend =3D &quot;nodejs-native &quot;<br>
--RDEPENDS_${PN}_prepend =3D &quot;nodejs &quot;<br>
-+RDEPENDS_${PN}_class-target_prepend =3D &quot;nodejs &quot;<br>
-<br>
-=C2=A0NPM_INSTALL_DEV ?=3D &quot;0&quot;<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000ddd8f005bad7ee67--
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
