@@ -1,67 +1,65 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.31817.1612766194091085962
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.33269.1612779408919616158
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 22:36:35 -0800
+ Mon, 08 Feb 2021 02:16:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.81,161,1610380800"; 
-   d="scan'208";a="104318756"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Feb 2021 14:36:28 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 26EA14CE6033
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Feb 2021 14:36:24 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 8 Feb 2021 14:36:24 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] python3-packaging: upgrade 20.8 -> 20.9
-Date: Mon, 8 Feb 2021 14:36:26 +0800
-Message-ID: <1612766186-76752-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aVuOFqF+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id r21so139564wrr.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 02:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=lW4RzG9thdVQft28SKwYarYXUu/rwfI+8TvgEZ/ecvE=;
+        b=aVuOFqF+7e5NpLAW/W34kvPjqynuz5OTX0e3qVifnNfk4GBHhu4jBrL/lETTe2GBZW
+         YQj1n8FmqU05zn3TwEM1UTC5Ht1rQ1V+Oz8U8xXN0+W33vR5pzOe2Q4teul+pfcE5k1g
+         Pzc5OesESkA159DkVoatOoTQB+/WVmenlB3ow=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=lW4RzG9thdVQft28SKwYarYXUu/rwfI+8TvgEZ/ecvE=;
+        b=S0UPO3345APPqc7FC8Kn4bp+VvtD7G0TeQD6gmtD0As+w7v6ue2LNPkD+RFHnpuBVR
+         QdsdoGxmW6jDyWhd/5Q99ZUAttZtTDIwDuz1A0DfWcQ59Usumbw1I2RLkBptFiSMT8CN
+         QEF9bBP43KffveFXkxXLrq4czr2xot0FJiH3J/FEs7XuUPe4K/2xJmZ4fv4R+H5eBeYr
+         t59g7V6aDCx4k8eKkIbLvDnCcOyVrJwLSCYQQW+dncxd+Fuip12WZpTFatMPGYO4vav1
+         PYQbu6hf9QCe0uSlYPt6JEIaQrolKTYxfR2wOV8grH0d1sd4LrFauYmJDeOvvaB97A2S
+         zoAg==
+X-Gm-Message-State: AOAM530J8QppJsmOheoND91lsa3864FNEQGHppqafk16U9Qb78hjDG/L
+	H3Ql/0POyHRcc/wNYGF19BtQGA==
+X-Google-Smtp-Source: ABdhPJz0+uqmAS80+aA7FP2+6M177QZHuTOrEheenc60fCw4+knm2M6949ZG8+GFGc7VRcjR8DA1zg==
+X-Received: by 2002:adf:8104:: with SMTP id 4mr6596409wrm.265.1612779407133;
+        Mon, 08 Feb 2021 02:16:47 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:ff1a:4654:ede1:462c? ([2001:8b0:aba:5f3c:ff1a:4654:ede1:462c])
+        by smtp.gmail.com with ESMTPSA id i15sm18117658wmq.26.2021.02.08.02.16.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 02:16:46 -0800 (PST)
+Message-ID: <86120a48209d7305382958e303e55e0f1a012da9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] cve-check: add include/exclude layers
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 08 Feb 2021 10:16:43 +0000
+In-Reply-To: <20210208055130.892351-2-akuster808@gmail.com>
+References: <20210208055130.892351-1-akuster808@gmail.com>
+	 <20210208055130.892351-2-akuster808@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 26EA14CE6033.A683B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-20.9 - 2021-01-29
-~~~~~~~~~~~~~~~~~
+On Mon, 2021-02-08 at 05:51 +0000, akuster wrote:
+> There are times when exluding or including a layer
+> may be desired. This provide the framwork for that via
+> two variables. The default is all layers in bblayers.
+> 
+> CVE_CHECK_LAYER_INCLUDELIST
+> CVE_CHECK_LAYER_EXCLUDELIST
 
-* Run [isort](https://pypi.org/project/isort/) over the code base (:issue:`377`)
-* Add support for the ``macosx_10_*_universal2`` platform tags (:issue:`379`)
-* Introduce ``packaging.utils.parse_wheel_filename()`` and ``parse_sdist_filename()``
-  (:issue:`387` and :issue:`389`)
+Do we need to document these?
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../{python3-packaging_20.8.bb => python3-packaging_20.9.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-packaging_20.8.bb => python3-packaging_20.9.bb} (80%)
+Cheers,
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_20.8.bb b/meta/recipes-devtools/python/python3-packaging_20.9.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-packaging_20.8.bb
-rename to meta/recipes-devtools/python/python3-packaging_20.9.bb
-index 658c3d1f33..92cf6a25fe 100644
---- a/meta/recipes-devtools/python/python3-packaging_20.8.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_20.9.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
- LICENSE = "Apache-2.0 & BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
- 
--SRC_URI[sha256sum] = "78598185a7008a470d64526a8059de9aaa449238f280fc9eb6b13ba6c4109093"
-+SRC_URI[sha256sum] = "5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5"
- 
- inherit pypi setuptools3
- 
--- 
-2.25.1
-
-
+Richard
 
