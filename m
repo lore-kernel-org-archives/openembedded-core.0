@@ -1,83 +1,180 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.web12.34266.1612787125947360421
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web12.35214.1612792367209120737
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 04:25:26 -0800
+ Mon, 08 Feb 2021 05:52:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ITIRFgo7;
- spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f44.google.com with SMTP id z3so4743151vsn.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 04:25:25 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mL9xoZEz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id l19so3148259oih.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vEy6Xq6H+BbyWnrpmTfoCE7irvwife5P4DCF2+gPhaw=;
-        b=ITIRFgo7dFyXyr2Xzq5nXDOzSnIzk8vai6+Qz7nF052PXvEACHfRZ9Cgd5GCGMffRM
-         ErmEWVbyXmq0/1h9x5aY2Q4O9OnggJJ3o2uFLF5dLEn5yRo1DXMDJb1mBRKfROPargu/
-         fjGfahxNtjSdQqzfcZZOpOK6SqNH9aOHI198aRMfJfHY1rOH1SdaS1qNHWR+WpMuA2sq
-         7QbUi8GRiYi0srnVnX9s7eB6ckpHLA+rfmY97Ru1Pwh3lHaGtWMyXkw2ROE0MZyJ0ss8
-         Eq+ZE/wnnodhndfCzCuuQhqXUN0MSmzYKRpUjot3gvq9lelXBT8nbZkMiJENW1fL90C3
-         u7tA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7FYcz9tqiF4Ji4rNtUnVBMINW9+UlvGBBlljit+Eox0=;
+        b=mL9xoZEzE40aEMr6dcQwCb1wIpcOjfJJ4FWuiYdSrQAG9138Z0d8PDbC0Z1XgEVCQx
+         67XPlHQq49QerEsbBEm3zC6Ni8Y8088znlIfWPdH7UOz4jqtfuaINQ6bYKxLiHRbxBAf
+         rYwWeUaYmFOZSppNsFv+d0bAg53dMvCiDyjBsaJQBBW7wSiWXhqZZcRMz24Bwz9eDfXN
+         Eoedvn1RysVVL/EqejeBysrKbbKP2HG5rCxxUVDyB5L/xvDiguAd/g4+f9v1UIRk2SnS
+         MVdQtxRQOoJD572+OQF7dRY8Tu3gksx5I/+9UJTrKWYkPfS2qc2Iwg9z4Y25fd662GT6
+         3iyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vEy6Xq6H+BbyWnrpmTfoCE7irvwife5P4DCF2+gPhaw=;
-        b=k1oV5wYvw439tEiTLHm63Ath/75KABqUcs2Y7xB3fMLAwhunoOA59jDyVhU91WxK6n
-         RLNeF8SZeBqLezhRwc9tO1PNj/mn6m9QwX3ZPTfwH+m1TFHUZ2qh3kZLgwkytQwl0pL6
-         F+KwwxAnqBGLZP+Oa2tsBurT9b7W9VWCTF/cX9UhwReuhU8W1rbXapg5qGk6HLSzBjHC
-         ll8B1bR1ZWGvv1u1cAQnSQ6sby2lOUR5Il1MTwXmWjEEy2kCj1SPGsOA3OvlpJ4wWVoa
-         Mr0SWzKcaEJolv2Wt3we4+fbNbxlISf603mPjWXg7rvXFV0BGeaoua9DvJx6wIsehLvg
-         6DBw==
-X-Gm-Message-State: AOAM530gPpnGrAKc4vr/n1qzrqW98hwtjZuDAZomLhMynDY7BcBOHyKw
-	xQlvQT73Rz9zMrirk9qRCwAw8k1yn63XLwUX6NQ=
-X-Google-Smtp-Source: ABdhPJyhGBC01thIwiDCyaGJGa1Z4v9qHMTlxe8ywNuNNWTPESiikhMzkHuCIOpKqg81BhYnqnW6mY+xM5oVlHAj+kc=
-X-Received: by 2002:a67:c599:: with SMTP id h25mr10005260vsk.31.1612787125180;
- Mon, 08 Feb 2021 04:25:25 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7FYcz9tqiF4Ji4rNtUnVBMINW9+UlvGBBlljit+Eox0=;
+        b=D/TbvmDQBO8h0XBWAJh8TTYmf35JSj4MdTIqheZ5yAjbhRh9aJ4L07HBxYeNAYVWeH
+         ydJ8VR9WT65F6fx89CaodL3BV30QjnlrG/YiMaP2zbfLHetHtugM76bht0OHjpOj9nMY
+         cwjV3ODUySZ4oBsM1INZ5VHRozbQ9w0MyT+j/+vv2CeQsSpjPNh/Ah7CrWuFQrytNwym
+         ZUKsbDIpGI/k1EDlDx4W/ArI4XP26L4i1mjsLfQ2Iw5jzQje8cLb/sJ4xsW9MxFiWGfm
+         4wC5pxBGLZDkHSxcYOUnvVzSHsJCYep9jPx0I6S6yJ99cbrNjU33YhoTosk3Is7QaxWE
+         UY6A==
+X-Gm-Message-State: AOAM5332nKW5xx53XmfdoT6ymbhi7cCOnx1zi9Ih8CSTx3nYSONXq8dG
+	70diZd5/JTLA+L+OJXRjpDFgeWDN1DN7LsJcov8=
+X-Google-Smtp-Source: ABdhPJwkd9bGe5+kWewlph/02+K/F5HA4LbV0kyQkVH8ZpphGYotoyJ0h6vuoFiw03oFQnFSCZ38Jg==
+X-Received: by 2002:aca:d644:: with SMTP id n65mr11064865oig.111.1612792365866;
+        Mon, 08 Feb 2021 05:52:45 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.52.41
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 05:52:44 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/28] Patch review
+Date: Mon,  8 Feb 2021 03:51:52 -1000
+Message-Id: <cover.1612792088.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1612785421-42876-1-git-send-email-wangmy@cn.fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 8 Feb 2021 13:25:13 +0100
-Message-ID: <CANNYZj__mzG41r1rKGMVunEuJqSgxfspMNG7-b-Mb-b=c2huoQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] libdrm: upgrade 2.4.103 -> 2.4.104
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b1db0f05bad24373"
+Content-Transfer-Encoding: 8bit
 
---000000000000b1db0f05bad24373
-Content-Type: text/plain; charset="UTF-8"
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-On Mon, 8 Feb 2021 at 12:57, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
+Passed a-full on autobuilder:
 
-> +
-> +That's what upstream docutils installs by default.
-> +Signed-off-by: Heiko Becker's avatarHeiko Becker <heirecka@exherbo.org>
->
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1837
 
-Please add Upstream-Status to the patch according to guidelines, I guess
-it's a backport?
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
+The following changes since commit e0cd2e1f9ae956d72b8033ce1c4403d8bd99d3d5:
 
-Alex
+  staging: Clean up files installed into the sysroot (2021-01-29 04:48:10 -1000)
 
---000000000000b1db0f05bad24373
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the Git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 8 Feb 2021 at 12:57, Wang Mingyu &lt;<a href=3D"mailto:wangm=
-y@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">+<br>
-+That&#39;s what upstream docutils installs by default.<br>
-+Signed-off-by: Heiko Becker&#39;s avatarHeiko Becker &lt;<a href=3D"mailto=
-:heirecka@exherbo.org" target=3D"_blank">heirecka@exherbo.org</a>&gt;<br></=
-blockquote><div><br></div><div>Please add Upstream-Status to the patch acco=
-rding to guidelines, I guess it&#39;s a backport? <br></div><div><a href=3D=
-"https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_He=
-ader_Recommendations:_Upstream-Status">https://www.openembedded.org/wiki/Co=
-mmit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status=
-</a></div><div><br></div><div>Alex<br></div></div></div>
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
---000000000000b1db0f05bad24373--
+Alexander Kanavin (1):
+  ca-certificates: correct upstream version check
+
+Anatol Belski (1):
+  glib-2.0: Rename patch file for CVE-2020-35457
+
+Awais Belal (1):
+  kernel.bbclass: fix deployment for initramfs images
+
+Bruce Ashfield (3):
+  linux-yocto/5.4: update to v5.4.90
+  linux-yocto-rt/5.4: fix 5.4-stable caused build breakage
+  linux-yocto/5.4: update to v5.4.94
+
+Dorinda (1):
+  sanity.bbclass: Check if PSEUDO_IGNORE_PATHS and paths under pseudo
+    control overlap
+
+Julien Massot (1):
+  rng-tools: fix rngd_jitter initialization
+
+Lee Chee Yang (4):
+  cve-check: replace Looseversion with custom version class
+  cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
+  openssl: set CVE_VERSION_SUFFIX
+  wic/selftest: test_permissions also test bitbake image
+
+Mark Hatle (1):
+  package.bbclass: hash equivalency and pr service
+
+Peter Bergin (1):
+  buildhistory.bbclass: avoid exception for empty BUILDHISTORY_FEATURES
+    variable
+
+Ricardo Ribalda (1):
+  classes/image_types_wic: Reorder do_flush_pseudodb
+
+Ricardo Ribalda Delgado (1):
+  oeqa: wic: Add tests for permissions and change-directory
+
+Richard Purdie (5):
+  pseudo: Update to include passwd and file renaming fixes
+  package: Ensure do_packagedata is cleaned correctly
+  image_types: Ensure tar archives are reproducible
+  qemu.inc: Should depend on qemu-system-native, not qemu-native
+  opkg: Fix build reproducibility issue
+
+Sourabh Banerjee (1):
+  layer.conf: fix sanity error for PATH variable in extensible SDK
+    workflow
+
+Tomasz Dziendzielski (3):
+  python3: Use addtask statement instead of task dependencies
+  lib/oe/patch.py: Ignore scissors line on applying patch
+  sstatesig: Add descriptive error message to getpwuid/getgrgid "uid/gid
+    not found" KeyError
+
+Vyacheslav Yurkov (1):
+  npm.bbclass: use python3 for npm config
+
+Wang Mingyu (1):
+  ca-certificates: upgrade 20190110 -> 20200601
+
+zhengruoqin (1):
+  ca-certificates: upgrade 20200601 -> 20210119
+
+ meta/classes/buildhistory.bbclass             |   2 +-
+ meta/classes/cve-check.bbclass                |  14 ++-
+ meta/classes/image_types.bbclass              |   2 +-
+ meta/classes/image_types_wic.bbclass          |   2 +-
+ meta/classes/kernel.bbclass                   |   2 +-
+ meta/classes/npm.bbclass                      |   6 +-
+ meta/classes/package.bbclass                  |  59 ++++++++--
+ meta/classes/sanity.bbclass                   |  10 ++
+ meta/conf/bitbake.conf                        |   1 +
+ meta/conf/layer.conf                          |   4 +-
+ meta/conf/machine/include/qemu.inc            |   2 +-
+ meta/lib/oe/cve_check.py                      |  60 ++++++++++
+ meta/lib/oe/patch.py                          |   2 +-
+ meta/lib/oe/sstatesig.py                      |   6 +-
+ meta/lib/oeqa/selftest/cases/cve_check.py     |  36 ++++++
+ meta/lib/oeqa/selftest/cases/prservice.py     |   8 +-
+ meta/lib/oeqa/selftest/cases/wic.py           | 106 ++++++++++++++++++
+ .../openssl/openssl_1.1.1i.bb                 |   2 +
+ ...onEntry-lis.patch => CVE-2020-35457.patch} |   0
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |   2 +-
+ .../opkg/opkg/sourcedateepoch.patch           |  25 +++++
+ meta/recipes-devtools/opkg/opkg_0.4.2.bb      |   1 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ meta/recipes-devtools/python/python3_3.8.2.bb |   5 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 ++--
+ .../0001-certdata2pem.py-use-python3.patch    |  37 ------
+ ...0190110.bb => ca-certificates_20210119.bb} |   6 +-
+ ...-O_NONBLOCK-setting-for-entropy-pipe.patch |  26 +++++
+ ...ialize-AES-key-before-setting-the-en.patch |  38 +++++++
+ ...ys-read-from-entropy-pipe-before-set.patch |  38 +++++++
+ .../rng-tools/rng-tools_6.9.bb                |   3 +
+ 33 files changed, 450 insertions(+), 93 deletions(-)
+ create mode 100644 meta/lib/oe/cve_check.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/cve_check.py
+ rename meta/recipes-core/glib-2.0/glib-2.0/{0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch => CVE-2020-35457.patch} (100%)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+ delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
+ rename meta/recipes-support/ca-certificates/{ca-certificates_20190110.bb => ca-certificates_20210119.bb} (93%)
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rngd_jitter-fix-O_NONBLOCK-setting-for-entropy-pipe.patch
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0002-rngd_jitter-initialize-AES-key-before-setting-the-en.patch
+ create mode 100644 meta/recipes-support/rng-tools/rng-tools/0003-rngd_jitter-always-read-from-entropy-pipe-before-set.patch
+
+-- 
+2.25.1
+
