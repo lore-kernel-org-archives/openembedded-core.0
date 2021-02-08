@@ -1,94 +1,138 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.36.1612808674228986707
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web12.793.1612811473324554531
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 10:24:34 -0800
+ Mon, 08 Feb 2021 11:11:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cota8nlY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id i9so71447wmq.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 10:24:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VcTyhgYP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id y8so20014311ede.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 11:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=UwwV9GlrOUpCV5rZ4L+SK0MAGSyKLDbGtP0XOYLH7y8=;
-        b=cota8nlY2ueGTCrgMagAeMW2rFA+6T3m/4NFrUXGmwis5BtFs4ENgbgPPXAFF3fReZ
-         JC10nGLP4eH2Z81t/t0KhsVxKZexM+3VvWFDK2iHLCAm4lL9pIJ818DL2xl1jaC5V8b3
-         oUz3Y894s7sCX+HT2YMLDhegSrXdLONl7FjZY=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qDc6hlRWZF1Mdn9hluh0rWR2IjhRGriwTglUhz/5+PE=;
+        b=VcTyhgYPe6o1xqqN5VJ9liJl8op5M2vEh8Pg7t/aj9pJ2WCryyyZLd5HW5xmiMRRk1
+         dexMO+WwmjkrRmjnyvpbSOeDEhMNOv4QM7mSJXr4nmTU9JNRjk1LLKVF8BXotCsX2uNM
+         SJv4tONaTPEXVnwOcZeI+UTX9xspwCuyNQy3cFDAoNLVjux5WbedZzkXvzK4uBFXHKiz
+         gOCkJAdyGNMPlIJRVwtkVifM2BA9vAJcmaVtTiaJYRfkkRI3syZrRQIymgLNIJJdlWHI
+         xDMAQDaAH7lQRaA5RFo8jX3IKBKnXXoKSI8doFRlpVZtwCfLRHcHmIH7sO6HDBa86kuO
+         w5kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UwwV9GlrOUpCV5rZ4L+SK0MAGSyKLDbGtP0XOYLH7y8=;
-        b=aOrJ81FRFf1cjG9ZG6nlECDnA7DJ2l1bbQPbX0BxAzWOVvGPidUxqb3c4ST1138xbq
-         FGKb6p9TlM+ZfkNfso3q/Pf5hUqCH3lkVbAc2AEzxtZSomGtESuF3TvSFQsIJF84FAqf
-         Hm8EYAjPfkqW4P/ds4k/5bO6NtQSyi9e0CNP6CguN8EcR4HD/6CRbTmywyWv1X16ZSpV
-         /PKQn5EAQliZ6iplZMuYU+gxe46nLB3l/nFrgeMJH9iH0thbVw17/xE0LyLMmZvcE27v
-         W3I2N0Wuxio89L3hKz1y8pm6VkIIjsShTC8KjUf53PbA7BtWstbdij1YiaEm1Os1/uh4
-         nBuA==
-X-Gm-Message-State: AOAM53340ZV9urYvp3Gk83dCRRfegZhCw2JK9sIqnpVxHp1lgOoddac+
-	eUur+KVTd3Qh8AvfpeACRdVT6g==
-X-Google-Smtp-Source: ABdhPJwKSrAIi0p2NaXSvNsC+V+u1Ih4CH+W7aFq57effMdlDAAKbwRstCVYP8WSsu70elViIM/+1A==
-X-Received: by 2002:a1c:e08a:: with SMTP id x132mr74624wmg.184.1612808672685;
-        Mon, 08 Feb 2021 10:24:32 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:ff1a:4654:ede1:462c? ([2001:8b0:aba:5f3c:ff1a:4654:ede1:462c])
-        by smtp.gmail.com with ESMTPSA id m18sm30251075wrx.17.2021.02.08.10.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 10:24:32 -0800 (PST)
-Message-ID: <4a694c6541b5121ae913bc75a62fd07b497948bd.camel@linuxfoundation.org>
-Subject: Re: [PATCH] opkg: Fix build reproducibility issue
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alex Stewart <alex.stewart@ni.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 08 Feb 2021 18:24:29 +0000
-In-Reply-To: <cc33b921-3b59-8c11-ffbf-df8fdb4d3173@ni.com>
-References: <20210202234835.1532984-1-richard.purdie@linuxfoundation.org>
-	 <cc33b921-3b59-8c11-ffbf-df8fdb4d3173@ni.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qDc6hlRWZF1Mdn9hluh0rWR2IjhRGriwTglUhz/5+PE=;
+        b=FyM1XXubi/IUmX0N4uIW5DsmfZME6oXbxaKfL8qTieZ4/phPEFc+gxIxyn/Bx4hgjV
+         S0j53qr1W5mDns/5K5Oe0fslCZ32LQrGv8TwVnqyEVj9CBj8ioXfK5q1HE4dc12LXDUq
+         ZSS0rMApEVOuh7UqMv5YzdAUK8MJsTDotX6A6pyHi73S5Bq3H1+IckT37WQTMm/R33X7
+         knJp0v39K4ggF3v8n7P9UN9dYnZNOgeDVGzO/8Gmpb1uYO2Y0TwSYM2gnFKzvCjqFafT
+         9ykL6lquxlMsyLdXsWrDX3yCFNsln3p6BHvTR7ahnMEWlS6fXeV57GBS7r8xL39fbW81
+         8jpw==
+X-Gm-Message-State: AOAM531fh9Yd8gPbTo8AGKMQvf5XGgK4PRF22E7n2am27jI75WfZXz3f
+	qaey+Er/aLSjRnEHbq1QnSNN4w3HIPSqf4AMDDY=
+X-Google-Smtp-Source: ABdhPJz3rJDr599Ca9yUGEC2wrTJbj7zuHlHDpbLouGQV1KeQdhkDttcU4YcTaii2rNaJP/UJEzNEEVJa71JW872wYc=
+X-Received: by 2002:a05:6402:2053:: with SMTP id bc19mr18198692edb.230.1612811471803;
+ Mon, 08 Feb 2021 11:11:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20210208180747.12546-1-yoann.congal@smile.fr>
+In-Reply-To: <20210208180747.12546-1-yoann.congal@smile.fr>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Mon, 8 Feb 2021 20:11:00 +0100
+Message-ID: <CA+chaQfTpihqNma3-_aNNwZJRyMa0aqMuqkq7y4HhbmUFt_dGQ@mail.gmail.com>
+Subject: Re: [OE-core] [meta][PATCHv2] npm.bbclass: avoid building target nodejs for native npm recipes
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ddd8f005bad7ee67"
+
+--000000000000ddd8f005bad7ee67
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2021-02-08 at 12:21 -0600, Alex Stewart wrote:
-> On 2/2/21 5:48 PM, Richard Purdie wrote:
-> > A build date was leaking into the generated docs and makefile used for
-> > ptests leading to reproducibility issues each time the month changed.
-> > 
-> > Add a patch to use SOURCE_DATE_EPOCH to derive it if available.
+You need the override after the append/prepend operator and append is more
+common than prepend (order of RDEPENDS isn't important) so I would use:
+
+RDEPENDS_${PN}_append_class-target = " nodejs"
+
+On Mon, Feb 8, 2021 at 7:08 PM Yoann Congal <yoann.congal@smile.fr> wrote:
+
+> The current recipe unconditionally RDEPENDS on nodejs (the target one).
+> When building on the "-native recipe" of "BBCLASSEXTEND native" recipe,
+> the target nodejs is unnecessarily built.
+>
+> This patch fixes this by only RDEPENDS on nodejs when building for the
+> target.
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/classes/npm.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+> index 79f55febcc..ac49aa4cda 100644
+> --- a/meta/classes/npm.bbclass
+> +++ b/meta/classes/npm.bbclass
+> @@ -20,7 +20,7 @@
+>  inherit python3native
+>
+>  DEPENDS_prepend = "nodejs-native "
+> -RDEPENDS_${PN}_prepend = "nodejs "
+> +RDEPENDS_${PN}_class-target_prepend = "nodejs "
+>
+>  NPM_INSTALL_DEV ?= "0"
+>
+> --
+> 2.20.1
+>
+>
 > 
-> ACK the objective, but I have a couple concerns about the patch below.
-> 
-> > +--- opkg-0.4.4.orig/configure.ac
-> > ++++ opkg-0.4.4/configure.ac
-> > +@@ -281,7 +281,12 @@ AC_FUNC_UTIME_NULL
-> > + AC_FUNC_VPRINTF
-> > + AC_CHECK_FUNCS([memmove memset mkdir regcomp strchr strcspn strdup strerror strndup strrchr strstr strtol strtoul sysinfo utime])
-> > +
-> > +-CLEAN_DATE=`date +"%B %Y" | tr -d '\n'`
-> > ++1607446883
-> 
-> Is this `1607...` timestamp just some leftover pollution in the 
-> configure.ac file or does it serve some purpose?
+>
+>
 
-Sorry, its just junk that crept in from testing. I'm surprised that
-doesn't error!
+--000000000000ddd8f005bad7ee67
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > ++if [ ! -z "$SOURCE_DATE_EPOCH" ]; then
-> 
-> AutoConf doesn't have the shell interpretation of `[`; right? At least 
-> on my system, AutoConf drops the brackets in this statement and writes 
-> the ./configure file as:
-> 
-> if ! -z "$SOURCE_DATE_EPOCH" ; then
-> 
-> which obviously fails when executed. Can you use `if test ! -z ...` instead?
+<div dir=3D"ltr"><div>You need the override after the append/prepend operat=
+or and append is more common than prepend (order of RDEPENDS isn&#39;t impo=
+rtant) so I would use:</div><div><br></div>RDEPENDS_${PN}_append_class-targ=
+et =3D &quot; nodejs&quot;</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Mon, Feb 8, 2021 at 7:08 PM Yoann Congal &lt;<=
+a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The current re=
+cipe unconditionally RDEPENDS on nodejs (the target one).<br>
+When building on the &quot;-native recipe&quot; of &quot;BBCLASSEXTEND nat=
+ive&quot; recipe,<br>
+the target nodejs is unnecessarily built.<br>
+<br>
+This patch fixes this by only RDEPENDS on nodejs when building for the tar=
+get.<br>
+<br>
+Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" t=
+arget=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/npm.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass<br>
+index 79f55febcc..ac49aa4cda 100644<br>
+--- a/meta/classes/npm.bbclass<br>
++++ b/meta/classes/npm.bbclass<br>
+@@ -20,7 +20,7 @@<br>
+=C2=A0inherit python3native<br>
+<br>
+=C2=A0DEPENDS_prepend =3D &quot;nodejs-native &quot;<br>
+-RDEPENDS_${PN}_prepend =3D &quot;nodejs &quot;<br>
++RDEPENDS_${PN}_class-target_prepend =3D &quot;nodejs &quot;<br>
+<br>
+=C2=A0NPM_INSTALL_DEV ?=3D &quot;0&quot;<br>
+<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-I should know better than using [] in configure :) The other format
-should be fine. It probably works as OE always sets this now.
-
-Cheers,
-
-Richard
-
-
+--000000000000ddd8f005bad7ee67--
