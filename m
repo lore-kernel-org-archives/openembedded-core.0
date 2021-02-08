@@ -1,165 +1,116 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.35734.1612794025700059675
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.35917.1612794865410366987
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 06:20:26 -0800
+ Mon, 08 Feb 2021 06:34:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Irse3YgF;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id q2so18285307edi.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 06:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r//EPbNELvo8KbbGNduBnTzv3KMhkjX1zwNmUivYmvI=;
-        b=Irse3YgFPbB+8hlvDr9VuMtC78WbHHnvhRFyYs2fpqbmO2rI+BzFTqwI2HByYMBGKq
-         +GRfrE+w0zYud0EFLWGYhI6YvVBXVwjEIZZdNq3oYvZP0iqE/C9mEjsT8rFyuxKBjAak
-         He8BlDz5xR9AC2bB1l7EO+QNW/GT42bemE4X3A41k8WkzQqmq9xbXIgllPjr0tP78NTI
-         y9AoKBb3A5mRPAkrFnrjam/NYYI7uztu46Kgx6bVeSmGd8D6EsDgobEtjxv10QTJ2fxa
-         fU4TPn+dCT0CHkPWIWhsQtKvCHPXnSwW3lmN2XNFkHKb3fB7GsSvOL67nWoeGQE9p+hx
-         eG5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r//EPbNELvo8KbbGNduBnTzv3KMhkjX1zwNmUivYmvI=;
-        b=eY70mQw7Nh+WLGvzIkfaVkRn9a3BwEmxb2dxcONP9uwdHtFhdTyHBDUiTPFZWz4FNW
-         Os0zfB2DyXv6O+zF8jbr/MEs5U8oLjz813wLIm+CLS5WGm92JqN69oYBz22kuDle1fVX
-         BmLDCQtRbNS6jZkb+eARxYceLQ9NtQxVC6cHi2jiAnd+KvG6b3BerZF6HyFuFhoVlxjU
-         MMt1BrFv1B+D1Z2+iaNkT1c3KI0axvwhDmyb6kmfQ66v8bK2FX58x3utN68dmi/8xfVl
-         qLs9Yy3JJO/pT6ae4kEVUUfr7dnP1PrHDLSbaMm3qF35ZlBbWLV7rvp1FUg75lM379FM
-         gW/Q==
-X-Gm-Message-State: AOAM5306XDa8wzwDHvycMVBXWP3X6gu4XOj1TwThh2M3Ow3kpkURvZfg
-	rstuRKfmt37xegWiQ4lZxg60FUBPaO1gI4wZ4rg=
-X-Google-Smtp-Source: ABdhPJzuJz2O/jLZqTws8RMxhpKtL9Z/Ge2RoTHgCGem4KuoSjOFRt3yw0GQOZOW9DFgvo+qxwZsh96GgudGKEiGH4k=
-X-Received: by 2002:a05:6402:5207:: with SMTP id s7mr16842751edd.311.1612794023953;
- Mon, 08 Feb 2021 06:20:23 -0800 (PST)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.81,162,1610380800"; 
+   d="scan'208";a="104333019"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 08 Feb 2021 22:34:18 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 87D414CE6F8D
+	for <openembedded-core@lists.openembedded.org>; Mon,  8 Feb 2021 22:34:15 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 8 Feb 2021 22:34:18 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH v4] libdrm: upgrade 2.4.103 -> 2.4.104
+Date: Mon, 8 Feb 2021 22:34:10 +0800
+Message-ID: <1612794850-43263-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <cover.1612792088.git.steve@sakoman.com> <347808ca0898452d9656317cd24559bc34f9ed78.1612792088.git.steve@sakoman.com>
-In-Reply-To: <347808ca0898452d9656317cd24559bc34f9ed78.1612792088.git.steve@sakoman.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Mon, 8 Feb 2021 15:20:13 +0100
-Message-ID: <CA+chaQesbg883MCuZ=r23jjTiV=pCdgsOnoVKLJTunOYyr8LWQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 18/28] image_types: Ensure tar archives are reproducible
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e4c78005bad3de58"
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: 87D414CE6F8D.A611F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
---000000000000e4c78005bad3de58
-Content-Type: text/plain; charset="UTF-8"
+Add 0001-meson-Also-search-for-rst2man.py.patch to fix bug of program rst2man cannot be found.
 
-Please add this only together with
-https://git.openembedded.org/openembedded-core/commit/?id=3ecea58f2a3382d9f4b410d6ad7089111334cb6f
+Add dependency python3-docutils-native to manpages.
 
-RP dropped this one from last gatesgarth PR as well until both are applied
-at the same time:
-https://lists.openembedded.org/g/openembedded-core/message/147712
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ ...001-meson-Also-search-for-rst2man.py.patch | 30 +++++++++++++++++++
+ .../{libdrm_2.4.103.bb => libdrm_2.4.104.bb}  |  8 +++--
+ 2 files changed, 35 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.103.bb => libdrm_2.4.104.bb} (90%)
 
-On Mon, Feb 8, 2021 at 2:54 PM Steve Sakoman <steve@sakoman.com> wrote:
+diff --git a/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch b/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
+new file mode 100644
+index 0000000000..67fafd40c3
+--- /dev/null
++++ b/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
+@@ -0,0 +1,30 @@
++From 4129a8c6911b6b0ef3665cb167da6b635c29614d Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@cn.fujitsu.com>
++Date: Mon, 8 Feb 2021 17:30:52 +0900
++Subject: [PATCH] meson: Also search for rst2man.py
++
++That's what upstream docutils installs by default.
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/drm/-/commit/62b9a3eee9bdaafa766e92d5bebeb4e59845c45a]
++
++Signed-off-by: Heiko Becker's avatarHeiko Becker <heirecka@exherbo.org>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index a4d8d70..07d2e08 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -261,7 +261,7 @@ else
++ endif
++ 
++ with_man_pages = get_option('man-pages')
++-prog_rst2man = find_program('rst2man', required: with_man_pages == 'true')
+++prog_rst2man = find_program('rst2man', 'rst2man.py', required: with_man_pages == 'true')
++ with_man_pages = with_man_pages != 'false' and prog_rst2man.found()
++ 
++ config.set10('HAVE_VISIBILITY',
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.103.bb b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
+similarity index 90%
+rename from meta/recipes-graphics/drm/libdrm_2.4.103.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.104.bb
+index 1028d618ae..ff869d6db9 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.103.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
+@@ -10,9 +10,11 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs"
+ 
+-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
++           file://0001-meson-Also-search-for-rst2man.py.patch \
++          "
+ 
+-SRC_URI[sha256sum] = "3fe0affdba6460166a7323290c18cf68e9b59edcb520722826cb244e9cb50222"
++SRC_URI[sha256sum] = "d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb"
+ 
+ inherit meson pkgconfig manpages
+ 
+@@ -34,7 +36,7 @@ PACKAGECONFIG[valgrind] = "-Dvalgrind=true,-Dvalgrind=false,valgrind"
+ PACKAGECONFIG[install-test-programs] = "-Dinstall-test-programs=true,-Dinstall-test-programs=false"
+ PACKAGECONFIG[cairo-tests] = "-Dcairo-tests=true,-Dcairo-tests=false"
+ PACKAGECONFIG[udev] = "-Dudev=true,-Dudev=false,udev"
+-PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native"
++PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native python3-docutils-native"
+ 
+ ALLOW_EMPTY_${PN}-drivers = "1"
+ PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
+-- 
+2.25.1
 
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> The tar output seems to vary depending on the version of tar used and
-> distro
-> configuration. Be explict about the output format to avoid this and be
-> determinstic.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit c56f3c9febc1732aa1302524c6c4da36f16bd1f7)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/classes/image_types.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> index d81747527b..6de16d42b9 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -126,7 +126,7 @@ IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS}
-> ${IMGDEPLOYDIR}/${IMAGE_NAM
->  # required when extracting, but it seems prudent to use it in both cases.
->  IMAGE_CMD_TAR ?= "tar"
->  # ignore return code 1 "file changed as we read it" as other tasks(e.g.
-> do_image_wic) may be hardlinking rootfs
-> -IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --numeric-owner -cf
-> ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} .
-> || [ $? -eq 1 ]"
-> +IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --format=gnu
-> --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar
-> -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
->
->  do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
->  IMAGE_CMD_cpio () {
-> --
-> 2.25.1
->
->
-> 
->
->
 
---000000000000e4c78005bad3de58
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Please add this only together with<div><a href=3D"https://=
-git.openembedded.org/openembedded-core/commit/?id=3D3ecea58f2a3382d9f4b410d=
-6ad7089111334cb6f">https://git.openembedded.org/openembedded-core/commit/?i=
-d=3D3ecea58f2a3382d9f4b410d6ad7089111334cb6f</a><br></div><div><br></div><d=
-iv>RP dropped this one from last gatesgarth PR as well until both are appli=
-ed at the same time:</div><div><a href=3D"https://lists.openembedded.org/g/=
-openembedded-core/message/147712">https://lists.openembedded.org/g/openembe=
-dded-core/message/147712</a><br></div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 8, 2021 at 2:54 PM Steve =
-Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ric=
-hard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
-t=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>
-<br>
-The tar output seems to vary depending on the version of tar used and dist=
-ro<br>
-configuration. Be explict about the output format to avoid this and be<br>
-determinstic.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
-(cherry picked from commit c56f3c9febc1732aa1302524c6c4da36f16bd1f7)<br>
-Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" targ=
-et=3D"_blank">steve@sakoman.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/image_types.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.b=
-bclass<br>
-index d81747527b..6de16d42b9 100644<br>
---- a/meta/classes/image_types.bbclass<br>
-+++ b/meta/classes/image_types.bbclass<br>
-@@ -126,7 +126,7 @@ IMAGE_CMD_squashfs-lz4 =3D &quot;mksquashfs ${IMAGE_RO=
-OTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM<br>
-=C2=A0# required when extracting, but it seems prudent to use it in both c=
-ases.<br>
-=C2=A0IMAGE_CMD_TAR ?=3D &quot;tar&quot;<br>
-=C2=A0# ignore return code 1 &quot;file changed as we read it&quot; as oth=
-er tasks(e.g. do_image_wic) may be hardlinking rootfs<br>
--IMAGE_CMD_tar =3D &quot;${IMAGE_CMD_TAR} --sort=3Dname --numeric-owner -c=
-f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} =
-. || [ $? -eq 1 ]&quot;<br>
-+IMAGE_CMD_tar =3D &quot;${IMAGE_CMD_TAR} --sort=3Dname --format=3Dgnu --n=
-umeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C $=
-{IMAGE_ROOTFS} . || [ $? -eq 1 ]&quot;<br>
-<br>
-=C2=A0do_image_cpio[cleandirs] +=3D &quot;${WORKDIR}/cpio_append&quot;<br>
-=C2=A0IMAGE_CMD_cpio () {<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e4c78005bad3de58--
