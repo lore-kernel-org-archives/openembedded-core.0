@@ -1,188 +1,106 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
- by mx.groups.io with SMTP id smtpd.web10.35376.1612792564351505415
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web12.35288.1612792570532503195
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 05:56:04 -0800
+ Mon, 08 Feb 2021 05:56:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ClNVuwFl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.47, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f47.google.com with SMTP id l23so2559691otn.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:56:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YhjeHNKX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.47, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f47.google.com with SMTP id 123so3435537ooi.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6LA9Z7vl9TIHSAHKKR0aYl7zqVFcz4u48X3GjNFAhIM=;
-        b=ClNVuwFl64UyCwdOUz6z6EP5LR1qA4oXM1RWGSQnNSZxQftsQi3OAkzRXk+q8X1epD
-         b8ApPVqjKvh1I3a1mktiRgrFOsfLcpgaoGxeIe4i6RZgeL5pfiIKGQ3CMadiJXPAIDhF
-         NJNU9CBvLvOl1w0YxmtiGyzvDimuNVkqyujSFxfAWa0mC0KtmuByGUOfTGiPLKkJtrGZ
-         BvmLsxK9Zn9bYsbEGE/VjmA15J2m38eYyFzXdT2ipcPPu4Rgl80Lnkrkykj+PP//TbyP
-         KNqCQ5SEzjgINUMZnu9QW8TfIj7DsEL/ldZpYLSslhY/si/WzQ9VlRqYFAwe9Wi7QGy5
-         5pVg==
+        bh=XFk5A3KeWhi4YMCp37feDKMXMoiHH5VF+xyM8Kqg6o8=;
+        b=YhjeHNKXhGSPXHQXbMEwdoGyNjtOKomW5BF8F33RB2K2tJfEADKrbw0Fdi4zNTqqX0
+         H0JDNp+Shm5bUpbjoIRZs779XkWeknq8uL2pRsEJj8VsS9WO3o8I+kwZeJN66e0TVZV9
+         DfDqC7et0hMpH9LuB3c0GxtdeKjjIa02P06lbu2qQlUXr63bCvNd44/+9AcuqtEDqprA
+         D57ovO/ayRdgl9XPl3DsX4FhkMmcqyC8mhlEG0yztFxWPmzs/KJK8ON59wJcyvRl2UtW
+         T4SeOpkgc1MQhIegSbRfkdiCi5HEvwLXPSPT/MH9ovsGfpaeoLKY1Zlfh+ApVYxqQ5hQ
+         fPUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6LA9Z7vl9TIHSAHKKR0aYl7zqVFcz4u48X3GjNFAhIM=;
-        b=CrJNVcSEUJsTN12mE1jyzXaldRH+7Vf1lJ0s+RidGOFIoo8qyowndKGtVF+A3gDVUH
-         wDxqlX3QAI3Qj3hJVeequ7U60IhoYAUI4KmY1/YvTbEIRnoDKFETzRfnbOz8bNoSrVoX
-         MrlE5S2VWg7JMK6VjXWMdjTP1xG78S9SsKdJk522imoyC1QEX8rfelEllYTD/eWt+Nb8
-         +Ojs5h9VXkpTjYVYgca+Wn2eSfm2ckLRnn0FOTxVynLer7YFRjEM3K/ey390bqJrQV4g
-         TwbF5pgtm6Lph81r2kJKgMmmmq+n2ZRThe8PYgPrW7hP9XrhdJqqs/ouayUUtU3puqEh
-         V+zw==
-X-Gm-Message-State: AOAM532rZEv2fOum8u1eB6sWOlloKGd+X26ZNEhhUMxkNVW+iDB4IsXq
-	Q2GgNHA0HStuYILw3JYcgk2qxDSD12cgd2lK2dM=
-X-Google-Smtp-Source: ABdhPJxmBvQmZu311vlKv5XLVXrYAgpl1F28jxYIZPXTK/mEL8LHUHqCOHfqBngYQR0x0J9hBTIxag==
-X-Received: by 2002:a05:6830:16cb:: with SMTP id l11mr4389677otr.83.1612792563241;
-        Mon, 08 Feb 2021 05:56:03 -0800 (PST)
+        bh=XFk5A3KeWhi4YMCp37feDKMXMoiHH5VF+xyM8Kqg6o8=;
+        b=p0EfVKkKsYOoaEnf7U7EJOxo2kyAVYvlMjwnwy5Pw0wbzAfQn1KLYHF76xeN049aG4
+         GIDsKVkkivNuEuXAPrWzGTtBU92AgtDEuXVt5IYAykSkjwIcZhesbzmeUjMlvqiYrY7N
+         PuHjIX3pmXz4qpZ2PXjlsGJ73X8JR4emjFyZARZRcgSYqcCYYvN+5+/cGbLroMj8W1Hl
+         y+wNml8YilSKs32poiAOKhz4k/z++HpXzLlgWBjlfGi5pGuUJKrn/Y5+qI1RJxGLDKLn
+         o/gl8OyWzbria1MQMWdMS4LS9BuVY08E7DSEz9HbCvyljJVZmOa8WjMicCTidjxBKmBN
+         Af0w==
+X-Gm-Message-State: AOAM533mNA5PQ2yGV7wUdKNpOQX5xm+KfBVMp8mL4bs97Af+m+Bxn/ft
+	kjwCW17dnBthvH9tFV8SyVbi5b3FjWXMMiflaTI=
+X-Google-Smtp-Source: ABdhPJyi7uy4bksk9NBZbcFvgmlDyxElKnmv5MZZjouOEls/h39a1Uxs1YOpnCo5eZUlhxTLvYvkxQ==
+X-Received: by 2002:a4a:e6d2:: with SMTP id v18mr12650824oot.40.1612792569465;
+        Mon, 08 Feb 2021 05:56:09 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.55.58
+        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.56.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 05:56:02 -0800 (PST)
+        Mon, 08 Feb 2021 05:56:08 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 27/28] oeqa: wic: Add tests for permissions and change-directory
-Date: Mon,  8 Feb 2021 03:52:19 -1000
-Message-Id: <9853e213090e3e658e5e91cf0bd7c7a0c7da3be2.1612792088.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 28/28] wic/selftest: test_permissions also test bitbake image
+Date: Mon,  8 Feb 2021 03:52:20 -1000
+Message-Id: <89ba6986a09caf15c0833520bba79b3ad28c755e.1612792088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612792088.git.steve@sakoman.com>
 References: <cover.1612792088.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Make sure that the permissions and username are respected when using all
-the rootfs modifiers.
+existing test case test_permissions use Wic command as standalone
+tools to create wic image and check that wic image for permissions.
 
-Add tests for change-directory command
+add extra steps to the test case to also check against image build
+using bitbake do_image_wic.
 
-Cc: Paul Barker <pbarker@konsulko.com>
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4aad9531df44d1b0637bd559161702ad86861b46)
+(cherry picked from commit 551ce73a90757ba43501fe5cf9ac84a7b77de549)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 90 +++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 13b6a0cc72..d4c0db8bda 100644
+index d4c0db8bda..0435aa29c9 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -62,6 +62,12 @@ def extract_files(debugfs_output):
-     return [line.split('/')[5].strip() for line in \
-             debugfs_output.strip().split('/\n')]
+@@ -516,6 +516,9 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+     def test_permissions(self):
+         """Test permissions are respected"""
  
-+def files_own_by_root(debugfs_output):
-+    for line in debugfs_output.strip().split('/\n'):
-+        if line.split('/')[3:5] != ['0', '0']:
-+            print(debugfs_output)
-+            return False
-+    return True
- 
- class WicTestCase(OESelftestTestCase):
-     """Wic test class."""
-@@ -84,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
-                 self.skipTest('wic-tools cannot be built due its (intltool|gettext)-native dependency and NLS disable')
- 
-             bitbake('core-image-minimal')
-+            bitbake('core-image-minimal-mtdutils')
-             WicTestCase.image_is_ready = True
- 
-         rmtree(self.resultdir, ignore_errors=True)
-@@ -506,6 +513,89 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-+    def test_permissions(self):
-+        """Test permissions are respected"""
++        # prepare wicenv and rootfs
++        bitbake('core-image-minimal core-image-minimal-mtdutils -c do_rootfs_wicenv')
 +
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+         oldpath = os.environ['PATH']
+         os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+ 
+@@ -549,6 +552,19 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
+                     res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part))
+                     self.assertEqual(True, files_own_by_root(res.output))
+ 
++                config = 'IMAGE_FSTYPES += "wic"\nWKS_FILE = "%s"\n' % wks_file
++                self.append_config(config)
++                bitbake('core-image-minimal')
++                tmpdir = os.path.join(get_bb_var('WORKDIR', 'core-image-minimal'),'build-wic')
 +
-+        t_normal = """
-+part / --source rootfs --fstype=ext4
-+"""
-+        t_exclude = """
-+part / --source rootfs --fstype=ext4 --exclude-path=home
-+"""
-+        t_multi = """
-+part / --source rootfs --ondisk sda --fstype=ext4
-+part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
-+"""
-+        t_change = """
-+part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/   
-+part /etc --source rootfs --fstype=ext4 --change-directory=etc
-+"""
-+        tests = [t_normal, t_exclude, t_multi, t_change]
-+
-+        try:
-+            for test in tests:
-+                include_path = os.path.join(self.resultdir, 'test-include')
-+                os.makedirs(include_path)
-+                wks_file = os.path.join(include_path, 'temp.wks')
-+                with open(wks_file, 'w') as wks:
-+                    wks.write(test)
-+                runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+                for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
++                # check each partition for permission
++                for part in glob(os.path.join(tmpdir, 'temp-*.direct.p*')):
 +                    res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part))
-+                    self.assertEqual(True, files_own_by_root(res.output))
++                    self.assertTrue(files_own_by_root(res.output)
++                        ,msg='Files permission incorrect using wks set "%s"' % test)
 +
-+                rmtree(self.resultdir, ignore_errors=True)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_change_directory(self):
-+        """Test --change-directory wks option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        try:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-+            files = extract_files(res.output)
-+            self.assertIn('passwd', files)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_change_directory_errors(self):
-+        """Test --change-directory wks option error handling."""
-+        wks_file = 'temp.wks'
-+
-+        # Absolute argument.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --change-directory /usr")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-+        # Argument pointing to parent directory.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --change-directory ././..")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
- class Wic2(WicTestCase):
++                # clean config and result directory for next cases
++                self.remove_config(config)
+                 rmtree(self.resultdir, ignore_errors=True)
  
-     def test_bmap_short(self):
+         finally:
 -- 
 2.25.1
 
