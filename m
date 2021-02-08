@@ -1,210 +1,149 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.28640.1612742006248038904
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web12.28563.1612742578398760882
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Feb 2021 15:53:26 -0800
+ Sun, 07 Feb 2021 16:02:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ITtsce1K;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id i8so21854532ejc.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 15:53:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ff9cK5Oc;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: dorindabassey@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id n201so13181408iod.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 Feb 2021 16:02:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sDKzrH07mv/EUgxuvVRoyQ04wJSvtwn5KkNofBOyICw=;
-        b=ITtsce1KPw1IoUPu6Uo/Eiaqn9kbXgfz2RLgHTihN6yT753vDYhUkCzic9AmFlCE7W
-         TT7Byh3D4CS8G20chLrxMLAIVnnndGXIjPot06ytoE5zWjfzajpIm1S1jKC0tJ8vGFH6
-         wt0+4jCuTCHXZuA8dQuFKydTtOxEYnJ3LHlz94ovruvBfVacte1XLBvdU57aqIVBmWj8
-         fBzshQAlokUlXE6NYMRliK9wOYGRCLvZ1JGk6sPv9kG4tbTehmxOPOGfwr1FePd5A2TZ
-         4nxUeE13OKRCP4NOgM4QzZNkgd+xYMsVU7ACuh/TWiOPNXobV+QWbuxbbgbiRjcRmBch
-         g2fg==
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to;
+        bh=PYGA1jXs7vjPXq3z1hd4hyOnH2szbrFAWQYqnHpm4lE=;
+        b=ff9cK5Oc12lUvhbXhK4vaAd+7tr7W7eyxaS545H9jx/jP4MuHV2yGdatOeyihqYM+U
+         bMYijTaeuoz9WPznem+R2F/427et44/RBS10kvsGz2av8NCIUHPMRvuOQxIMkWvwbQ0s
+         2jO1Jt6WmkjmKdNb8dpBsToVzPQMJhY2+Doyf9Ne6OzmjkX5IxHU0B6psiZqqBEuNwgp
+         nSncPpcnzBuL1kHqnyWaqaC+/kTCRCUrBbS3Uwvjslz7DCELRpxHimllWUPqO4WilmLq
+         Aa5CSevn+RU70t01xLfCdzHhB85Y21EswpKsysJnHujT3LEPjf2m1YyEp7WGtRjlEKsx
+         qP/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sDKzrH07mv/EUgxuvVRoyQ04wJSvtwn5KkNofBOyICw=;
-        b=g0FNffazlwP58t+c4cy1dApvqcR1T9SaBlZgMvr9NDvnkmTQidv1suSu73HdUIhkmX
-         qVmK1XUMDWaPuXQ71DYNl2rhL9DzGkhPG56dshlm+11kNQ0YbB691NErwFkRJIUJ8P0G
-         2GmvLQ927mxtISAVelWTlIBuexMDJA5U2iEV7YpWywuJAesnfC08cDg9lLiDnoZKZ1mB
-         4ReRMr4QkFMMpUU2OF/rYN1uS5JhYmGxS/HFKmPYsaltLVrb2h2Aa1PiBVB3y6kl/LjT
-         GtkibijPHMAMBL5SaPKf1QQGSKSqVFU2dTHVMZvyr+Vzkro1yDA8ZLzDM2xvbtWAKAxC
-         LQIg==
-X-Gm-Message-State: AOAM531a8EtZFN1Iq+WoyMKdZNJmamNeWKyHGu43n2j692wxgW+zfUpk
-	0S+y7fadlrFHU22ZkLpQQ53f5Rvfvz+8zvOqRbA=
-X-Google-Smtp-Source: ABdhPJxpRqF+sCePuPHpu/YdO2IgGxRV/vQdQ9Z6ObxfnFji5NCHR7E/f/bJEAdWNjJI+UoNM+kEvsOZk413JVVOaP0=
-X-Received: by 2002:a17:907:768e:: with SMTP id jv14mr8073822ejc.453.1612742004572;
- Sun, 07 Feb 2021 15:53:24 -0800 (PST)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to;
+        bh=PYGA1jXs7vjPXq3z1hd4hyOnH2szbrFAWQYqnHpm4lE=;
+        b=Lfc/h5lJbLtF/P2f9+udnajpbLiDBWlBYeVh9VEbOuU28V3FSN44LKLVKAzT1pwKht
+         o8gkgHHKzqqS1e0p8D8yBMM7XzsVxHlbMEyyHUYOnIiZijEmkSxM2MPv1u9PWqL71V4s
+         aBICP6zXGZFFWgzkA9yy68V4FE0YdC1hmpyW1WC6dHpqfmQDFINUoIGbsi/lmvXSv7fT
+         R2K99v0HMpjbSltLRkht1yPyG/uQT9wUGh+IVzt4DohzLAUglz4C6l6bM/zA4P18xoUP
+         rbGhEOQRgPHyJl7Jgr28tzxYYsvCk54lZxNiMSqGw1sJZFF3KM2xrbT7m2t2o8L0YIGo
+         5+PQ==
+X-Gm-Message-State: AOAM533vGfy3+dnNxTB5A/+Yu92IsiKPxGfJRneOE4Z684pEyATFC0Ld
+	42SemozGCmqaxFNkuJigRKc4D7rhdQR5Kme2n8NPgSrpnFM=
+X-Google-Smtp-Source: ABdhPJyyeBEp/Hq2cX4dH6Wh7npCjFl9882u4WQ33piuMt8pD93Gglhjqz84eS7/EzgFo/dClqujZQGIkFAgamiA6Ic=
+X-Received: by 2002:a02:6014:: with SMTP id i20mr14897946jac.101.1612742577547;
+ Sun, 07 Feb 2021 16:02:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20210207180504.1552900-1-quaresma.jose@gmail.com>
- <20210207180504.1552900-2-quaresma.jose@gmail.com> <f772741f2969f3b3e3ea117fb35c8a39a9a14756.camel@linuxfoundation.org>
- <CANPvuRntP03A8U696D+JoBVtvK=Kp-Dj08Eae5=Sx=CuqpTP4g@mail.gmail.com>
- <5bd02696955631f07d754eb6a009a8f6f38ce27c.camel@linuxfoundation.org>
- <CANPvuRkS1xGjy3TL3-dtLkoVS9LBPYoQKUW2wXaGAkGVzzHVeg@mail.gmail.com> <c4eb364acb17db6e7e38a233e539ff0a003a6cb1.camel@linuxfoundation.org>
-In-Reply-To: <c4eb364acb17db6e7e38a233e539ff0a003a6cb1.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Sun, 7 Feb 2021 23:53:14 +0000
-Message-ID: <CANPvuRnbrJjC5+gsUOMSu29MZXD++Z7XABUuzbxCcNj__GLHOQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/3] shaderc: add option to skip building the examples
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004c05ba05bac7c21f"
+Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Sun, 7 Feb 2021 16:02:57
+ -0800 (PST)
+Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Sun, 7 Feb 2021 16:02:57
+ -0800 (PST)
+In-Reply-To: <20210201144638.15582-1-dorindabassey@gmail.com>
+References: <20210201144638.15582-1-dorindabassey@gmail.com>
+From: "Dorinda" <dorindabassey@gmail.com>
+Date: Sun, 7 Feb 2021 19:02:57 -0500
+Message-ID: <CAJSnhztAzUkS_kc2zbmoALzD9Y+pN2j9prGjxFoxYxd3iJEGqA@mail.gmail.com>
+Subject: Re: [PATCH v2] oe-pkgdata-util: Check if environment script is initialized
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000072eba805bac7e44a"
 
---0000000000004c05ba05bac7c21f
+--00000000000072eba805bac7e44a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-domingo, 7/02/2021 =C3=A0(s) 23:37:
+Hi Everyone,
+Just a friendly reminder to review this patch.
 
-> On Sun, 2021-02-07 at 23:13 +0000, Jose Quaresma wrote:
-> >
-> > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-> > domingo, 7/02/2021 =C3=A0(s) 23:00:
-> > > On Sun, 2021-02-07 at 22:56 +0000, Jose Quaresma wrote:
-> > > > Hi Richard,
-> > > >
-> > > > I need some help to analyze the log of the compilation.
-> > > > where can i find it? is it possible?
-> > > >
-> > > > The compilation log mentioned on
-> > > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/183=
-5
-> > > > are
-> > > > /home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/x86_64-
-> > > > linux/shaderc-native/2020.4-r0/temp/log.do_compile.199121
-> > > >
-> > > > On my side it build fine on x86_64 so I don't understand the
-> > > problem!
-> > >
-> > > That log is included here:
-> > >
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/3034/st=
-eps/11/logs/stdio
-> > >
-> > > or here is another:
-> > >
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/3056/st=
-eps/11/logs/stdio
-> > >
-> > >
-> >
-> > I have seen the log of the bitbake but what I liked to access was the
-> > log of the compilation in the WORKDIR of the shaderc.Is it possible ?
->
-> That logfile is printed onto stdout so the log in that file is what you
-> see printed on the console in the above logs.
->
-> Did you click the magnifying glass on the top right and then search for
-> "error:"? You should find the compile output there.
->
+Thanks,
+Dorinda.
 
-On the autobuilder web page I have only see the the bitbake error at the
-end of the stdio log.
-I downloaded the stdout log and now I can see the shaderc compilation
-output.
+On Feb 1, 2021 3:46 PM, "dorindabassey" <dorindabassey@gmail.com> wrote:
 
-Many thanks for the help.
-
-
+> Tinfoil doesn't behave well if environment is not initialized, this check
+> ensures a proper error log if environment is not initialized.
 >
-> Cheers,
+> [YOCTO #12096]
 >
-> Richard
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> ---
+> v2:
+> -Positioned check under a condition when it cannot determine the
+> pkgdata_dir
 >
+>  scripts/oe-pkgdata-util | 3 +++
+>  1 file changed, 3 insertions(+)
 >
->
->
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 93220e3617..75dd23efa3 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -598,6 +598,9 @@ def main():
+>              logger.error("Unable to find bitbake by searching parent
+> directory of this script or PATH")
+>              sys.exit(1)
+>          logger.debug('Found bitbake path: %s' % bitbakepath)
+> +        if not os.environ.get('BUILDDIR', ''):
+> +            logger.error("This script can only be run after initialising
+> the build environment (e.g. by using oe-init-build-env)")
+> +            sys.exit(1)
+>          tinfoil = tinfoil_init()
+>          try:
+>              args.pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
+> --
+> 2.17.1
 >
 >
 
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000004c05ba05bac7c21f
+--00000000000072eba805bac7e44a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia domingo, 7/02/2021 =C3=A0(s) 23:37:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Sun, 2021-02-07 at 23:13 +0000, =
-Jose Quaresma wrote:<br>
-&gt; <br>
-&gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
-g" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu no=
- dia<br>
-&gt; domingo, 7/02/2021 =C3=A0(s) 23:00:<br>
-&gt; &gt; On Sun, 2021-02-07 at 22:56 +0000, Jose Quaresma wrote:<br>
-&gt; &gt; &gt; Hi Richard,<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; I need some help to analyze the log of the compilation.<br>
-&gt; &gt; &gt; where can i find it? is it possible?<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; The compilation log mentioned on<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/83/builds/1835" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yoctoproject.org/typhoon/#/builders/83/builds/1835</a><br>
-&gt; &gt; &gt; are<br>
-&gt; &gt; &gt; /home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/x86=
-_64-<br>
-&gt; &gt; &gt; linux/shaderc-native/2020.4-r0/temp/log.do_compile.199121<br=
->
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; On my side it build fine on=C2=A0x86_64 so I don&#39;t under=
-stand the<br>
-&gt; &gt; problem!<br>
-&gt; &gt; <br>
-&gt; &gt; That log is included here:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/40/builds/3034/steps/11/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/3034/step=
-s/11/logs/stdio</a><br>
-&gt; &gt; <br>
-&gt; &gt; or here is another:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/65/builds/3056/steps/11/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/3056/step=
-s/11/logs/stdio</a><br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; I have seen the log of the bitbake=C2=A0but what I liked to access was=
- the<br>
-&gt; log of the compilation in the WORKDIR of the shaderc.Is it=C2=A0possib=
-le ?<br>
+<div dir=3D"auto">Hi Everyone,<div dir=3D"auto">Just a friendly reminder to=
+ review this patch.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Than=
+ks,</div><div dir=3D"auto">Dorinda.</div></div><div class=3D"gmail_extra"><=
+br><div class=3D"gmail_quote">On Feb 1, 2021 3:46 PM, &quot;dorindabassey&q=
+uot; &lt;<a href=3D"mailto:dorindabassey@gmail.com" target=3D"_blank">dorin=
+dabassey@gmail.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">Tinfoil doesn&#39;t behave well if environment is not initial=
+ized, this check ensures a proper error log if environment is not initializ=
+ed.<br>
 <br>
-That logfile is printed onto stdout so the log in that file is what you<br>
-see printed on the console in the above logs.<br>
+[YOCTO #12096]<br>
 <br>
-Did you click the magnifying glass on the top right and then search for<br>
-&quot;error:&quot;? You should find the compile output there.<br></blockquo=
-te><div><br></div><div>On the autobuilder web page I have only see the the =
-bitbake error at the end of the stdio log.</div><div>I downloaded the stdou=
-t log and now I can see the shaderc compilation output.</div><div></div><di=
-v><br></div><div>Many thanks for the help.</div><div></div><div>=C2=A0</div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gmail.com=
+">dorindabassey@gmail.com</a>&gt;<br>
+---<br>
+v2:<br>
+-Positioned check under a condition when it cannot determine the pkgdata_di=
+r<br>
 <br>
-Cheers,<br>
+=C2=A0scripts/oe-pkgdata-util | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
 <br>
-Richard<br>
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util<br>
+index 93220e3617..75dd23efa3 100755<br>
+--- a/scripts/oe-pkgdata-util<br>
++++ b/scripts/oe-pkgdata-util<br>
+@@ -598,6 +598,9 @@ def main():<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.error(&quot;Unable t=
+o find bitbake by searching parent directory of this script or PATH&quot;)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.exit(1)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.debug(&#39;Found bitbake path: %s&=
+#39; % bitbakepath)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.environ.get(&#39;BUILDDIR&#39;, &#39=
+;&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error(&quot;This script c=
+an only be run after initialising the build environment (e.g. by using oe-i=
+nit-build-env)&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(1)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tinfoil =3D tinfoil_init()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args.pkgdata_dir =3D tinfoi=
+l.config_data.getVar(&#39;<wbr>PKGDATA_DIR&#39;)<br>
+-- <br>
+2.17.1<br>
 <br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
+</blockquote></div></div>
 
---0000000000004c05ba05bac7c21f--
+--00000000000072eba805bac7e44a--
