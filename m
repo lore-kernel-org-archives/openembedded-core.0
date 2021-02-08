@@ -1,50 +1,50 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web11.35308.1612792401392449109
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+ by mx.groups.io with SMTP id smtpd.web10.35333.1612792407915862383
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 05:53:21 -0800
+ Mon, 08 Feb 2021 05:53:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=JSlXA2qR;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f50.google.com with SMTP id r21so5708401otk.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:53:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dseyI40/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.54, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f54.google.com with SMTP id y11so14237880otq.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 05:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=rYXAmNDnjMO8IyRbCSeUVGhwJgRMu9BLAEfRxBWIcd8=;
-        b=JSlXA2qRixo9+TrOEfnPNdHZkQD//HHcyVKtH4Zf0Xaelixgf4A4u1F96Ka4U1KsM2
-         Oald5GABeFFvSpuhy1Mo0BsFCTiXRTPq061867JlvgyAT3aTUt+TAVWR22zuA/62imBJ
-         i86b2sgEUmxAtV4bIo3F2/3B5lr/j9ULQ9x/YWRnedUXRSQ7X91ATlNS14yYsbLwOF66
-         AdQACnktdQSVBi7iC6ugO8I9NQYIIDS+Cj4GaBX+ijaQbeufwP0TsCQ3NMfNUqUgKjjB
-         rZZSkDvlFKbG58YU1ZeMG1Kl87xHjPZkCYnEWshF4h0bNR86e0TDD5wAp6LdgGfqjgBO
-         8G3A==
+        bh=2D4pk0jxMGfvBIPm/IqeRkHw0YlFub/ujP+LSPEWblI=;
+        b=dseyI40/HPAfUhI292JMxTWMBuxKaJ+qJ604kHFYTqgAsxrZzIY3Wb/4SouVnhEX9X
+         r47aEl5VPVMg0XRRXtc3/ZSzwt1Kz26tQ8a+3z2tHBdX8Im1805VIK7zsscb1TyYC+CF
+         EDA0hNjVVYBA0YFHwajGfQB5JLPkaYt9hhTpNwDjrYbfuiMCYrr6tVpDZNhNOX8U8CNF
+         GPX0LQvToxzUwY+B68foe4vtiI+EQ0/8gObBQFfJEpoY3Vj+viiTaOEHZ2P6oHPB79E6
+         N59otbDtzp3+3cpFPDb2Fa34sMWKUwTZ5PJc3Tb0gvWhOGdLUB7qxq5PTpk3HyBg3y/N
+         FzmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rYXAmNDnjMO8IyRbCSeUVGhwJgRMu9BLAEfRxBWIcd8=;
-        b=IXAHudkZp/dMqlN6Dz38SD/ctEcKW8pcd66JBsZw4dGxkJbbx0aPsxrxv0F5TqBPHE
-         6Lu74xfSuIpqGImNZOU6Oc9xjYyWE/+CwHQNnjIjjfi9aQAiJWBnVkVeu4jZBfySMGwt
-         l+mu4NMCf8Ns4LA+20FNnQT4KWNGr14+bqJON1R2NjiYGX2K7dP7BApbljwDyABKYzzL
-         M5iQtX8N5FU8ZolpFQJBrAYhTcGW+5+DidfVTEz8JKTYPcWrMgEdAEVfd0BF5+UDszX2
-         jfjHAakywvc2dwjZYLagVt30wwgFq+5GegK5MfD3phvPnd4dnnS1if8S3wSYNvgl3i8l
-         aHGw==
-X-Gm-Message-State: AOAM530sfjNJC5YyYeod5Q2Wu+F6oZ3dVojd1NAV0I5DGoEAnaSg3cOZ
-	Rr7ztAWgAqirLCo3E9k3frOZK5pLaawQK3WzSMU=
-X-Google-Smtp-Source: ABdhPJxJlRZhZ+KBOzyYTYJbPEtL0O2falAhpV/6KPnD7xAmaiYCPRxAjIEGoyYpdGdu1tsT9cmbBA==
-X-Received: by 2002:a9d:6650:: with SMTP id q16mr11918608otm.57.1612792400228;
-        Mon, 08 Feb 2021 05:53:20 -0800 (PST)
+        bh=2D4pk0jxMGfvBIPm/IqeRkHw0YlFub/ujP+LSPEWblI=;
+        b=tBXta5VrVmB4pPOxTgmA4VzPp8tl1AeL6PeE5FCAgPvqMn6HeMuhym//jOZnyOvEmm
+         CS8yT4hfwQJFwjUzQgbeaQ7VcAfOjDMDYSLYieND+7JT3SRzqvQV8soevReCjf5q1uYa
+         EJ1Oypaq5k9z5ZpFLLNZ08vXMa8odPysCuw4bJjCOPhVL9dMkj7+aTR6c3i050+4KlnB
+         KRXdmO5yg2+wgC+7pdUOZT4jxID1QrwjFX4csochbJhr/0HhyS8Y44dI1UpMLvmDVuOL
+         RV42jGOia0FbMCJtNKFTDhpEDUs4itYwpAh8wTN2tfzIJ4NjkhDK7WUY5G6IWc9bvQo7
+         MWmQ==
+X-Gm-Message-State: AOAM531botDGp10qiesXDmk2GC9bNRq6fPJKiyPvscz7ONY7DCcKu7PB
+	YNma3lwO7083iNgTNQMssciqxjgXTpVANPL4JEs=
+X-Google-Smtp-Source: ABdhPJyDuyXdsCERBF+07/mbJVF9zoMYKBO4vXyZS2rctFOVE3k8HXNvcGOoNPY+NbnEiv80SUWWbg==
+X-Received: by 2002:a9d:3b26:: with SMTP id z35mr12402374otb.192.1612792406718;
+        Mon, 08 Feb 2021 05:53:26 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.53.16
+        by smtp.gmail.com with ESMTPSA id g8sm2023833ooe.21.2021.02.08.05.53.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 05:53:19 -0800 (PST)
+        Mon, 08 Feb 2021 05:53:25 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/28] cve-check: replace Looseversion with custom version class
-Date: Mon,  8 Feb 2021 03:51:58 -1000
-Message-Id: <294baea424472341d2ec880f13699076315d8274.1612792088.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/28] cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
+Date: Mon,  8 Feb 2021 03:51:59 -1000
+Message-Id: <37a40c30709bf80c74948f47361b2be2c646c9d8.1612792088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1612792088.git.steve@sakoman.com>
 References: <cover.1612792088.git.steve@sakoman.com>
@@ -53,167 +53,175 @@ Content-Transfer-Encoding: 8bit
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-The way distutils.version.LooseVersion compare version are tricky, it treat
-all these ( "1.0-beta2", "1.0-rc1", "1.0A", "1.0p2" and "1.0pre1") as greater
-version than "1.0". This might be right for "1.0A" and "1.0p1" but not for
-the rest, also these version could be confusing, the "p" in "1.0p1" can be
-"pre" or "patched" version or even other meaning.
+add CVE_VERSION_SUFFIX to indicate the version suffix type, currently
+works in two value, "alphabetical" if the version string uses single
+alphabetical character suffix as incremental release, blank to not
+consider the unidentified suffixes. This can be expand when more suffix
+pattern identified.
 
-Replace Looseversion with custom class, it uses regex to capture common
-version format like "1.1.1" or tag format using date like "2020-12-12" as
-release section, check for following known string/tags ( beta, rc, pre, dev,
-alpha, preview) as pre-release section, any other trailing characters
-are difficult to understand/define so ignore them. Compare release
-section and pre-release section saperately.
+refactor cve_check.Version class to use functools and add parameter to
+handle suffix condition.
 
-included selftest for the version class.
-
-[YOCTO#14127]
+Also update testcases to cover new changes.
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6ced85e9ddd3569240f1e8b82130d1ac0fffbc40)
+(cherry picked from commit 5dfd5ad5144708b474ef31eaa89a846c57be8ac0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass            | 10 ++--
- meta/lib/oe/cve_check.py                  | 58 +++++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/cve_check.py | 27 +++++++++++
- 3 files changed, 90 insertions(+), 5 deletions(-)
- create mode 100644 meta/lib/oe/cve_check.py
- create mode 100644 meta/lib/oeqa/selftest/cases/cve_check.py
+ meta/classes/cve-check.bbclass            | 12 ++++---
+ meta/lib/oe/cve_check.py                  | 40 ++++++++++++-----------
+ meta/lib/oeqa/selftest/cases/cve_check.py | 11 ++++++-
+ 3 files changed, 39 insertions(+), 24 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 669da6c8e9..93af667544 100644
+index 93af667544..dbff852e18 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -203,7 +203,7 @@ def check_cves(d, patched_cves):
-     """
-     Connect to the NVD database and find unpatched cves.
-     """
--    from distutils.version import LooseVersion
-+    from oe.cve_check import Version
+@@ -50,6 +50,9 @@ CVE_CHECK_PN_WHITELIST ?= ""
+ # 
+ CVE_CHECK_WHITELIST ?= ""
+ 
++# set to "alphabetical" for version using single alphabetical character as increament release
++CVE_VERSION_SUFFIX ??= ""
++
+ python cve_save_summary_handler () {
+     import shutil
+     import datetime
+@@ -207,6 +210,7 @@ def check_cves(d, patched_cves):
  
      pn = d.getVar("PN")
      real_pv = d.getVar("PV")
-@@ -260,8 +260,8 @@ def check_cves(d, patched_cves):
++    suffix = d.getVar("CVE_VERSION_SUFFIX")
+ 
+     cves_unpatched = []
+     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
+@@ -260,8 +264,8 @@ def check_cves(d, patched_cves):
                  else:
                      if operator_start:
                          try:
--                            vulnerable_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
--                            vulnerable_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
-+                            vulnerable_start =  (operator_start == '>=' and Version(pv) >= Version(version_start))
-+                            vulnerable_start |= (operator_start == '>' and Version(pv) > Version(version_start))
+-                            vulnerable_start =  (operator_start == '>=' and Version(pv) >= Version(version_start))
+-                            vulnerable_start |= (operator_start == '>' and Version(pv) > Version(version_start))
++                            vulnerable_start =  (operator_start == '>=' and Version(pv,suffix) >= Version(version_start,suffix))
++                            vulnerable_start |= (operator_start == '>' and Version(pv,suffix) > Version(version_start,suffix))
                          except:
                              bb.warn("%s: Failed to compare %s %s %s for %s" %
                                      (product, pv, operator_start, version_start, cve))
-@@ -271,8 +271,8 @@ def check_cves(d, patched_cves):
+@@ -271,8 +275,8 @@ def check_cves(d, patched_cves):
  
                      if operator_end:
                          try:
--                            vulnerable_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
--                            vulnerable_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
-+                            vulnerable_end  = (operator_end == '<=' and Version(pv) <= Version(version_end) )
-+                            vulnerable_end |= (operator_end == '<' and Version(pv) < Version(version_end) )
+-                            vulnerable_end  = (operator_end == '<=' and Version(pv) <= Version(version_end) )
+-                            vulnerable_end |= (operator_end == '<' and Version(pv) < Version(version_end) )
++                            vulnerable_end  = (operator_end == '<=' and Version(pv,suffix) <= Version(version_end,suffix) )
++                            vulnerable_end |= (operator_end == '<' and Version(pv,suffix) < Version(version_end,suffix) )
                          except:
                              bb.warn("%s: Failed to compare %s %s %s for %s" %
                                      (product, pv, operator_end, version_end, cve))
 diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-new file mode 100644
-index 0000000000..ec48a3f829
---- /dev/null
+index ec48a3f829..ce755f940a 100644
+--- a/meta/lib/oe/cve_check.py
 +++ b/meta/lib/oe/cve_check.py
-@@ -0,0 +1,58 @@
-+import collections
-+import re
-+import itertools
+@@ -1,58 +1,60 @@
+ import collections
+ import re
+ import itertools
++import functools
+ 
+ _Version = collections.namedtuple(
+-    "_Version", ["release", "pre_l", "pre_v"]
++    "_Version", ["release", "patch_l", "pre_l", "pre_v"]
+ )
+ 
++@functools.total_ordering
+ class Version():
+-    _version_pattern =  r"""v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
+-    _regex = re.compile(r"^\s*" + _version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
+-    def __init__(self, version):
+-        match = self._regex.search(version)
 +
-+_Version = collections.namedtuple(
-+    "_Version", ["release", "pre_l", "pre_v"]
-+)
++    def __init__(self, version, suffix=None):
++        if str(suffix) == "alphabetical":
++            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(?P<patch_l>[a-z]))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
++        else:
++            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
++        regex = re.compile(r"^\s*" + version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
 +
-+class Version():
-+    _version_pattern =  r"""v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+    _regex = re.compile(r"^\s*" + _version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-+    def __init__(self, version):
-+        match = self._regex.search(version)
-+        if not match:
-+            raise Exception("Invalid version: '{0}'".format(version))
++        match = regex.search(version)
+         if not match:
+             raise Exception("Invalid version: '{0}'".format(version))
+ 
+         self._version = _Version(
+             release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
++            patch_l=match.group("patch_l") if str(suffix) == "alphabetical" and match.group("patch_l") else "",
+             pre_l=match.group("pre_l"),
+             pre_v=match.group("pre_v")
+         )
+ 
+         self._key = _cmpkey(
+             self._version.release,
++            self._version.patch_l,
+             self._version.pre_l,
+             self._version.pre_v
+         )
+ 
+-    def __le__(self, other):
+-        if not isinstance(other, Version):
+-            return NotImplemented
+-        return self._key <= other._key
+-
+-    def __lt__(self, other):
++    def __eq__(self, other):
+         if not isinstance(other, Version):
+             return NotImplemented
+-        return self._key < other._key
+-
+-    def __ge__(self, other):
+-        if not isinstance(other, Version):
+-            return NotImplemented
+-        return self._key >= other._key
++        return self._key == other._key
+ 
+     def __gt__(self, other):
+         if not isinstance(other, Version):
+             return NotImplemented
+         return self._key > other._key
+ 
+-def _cmpkey(release, pre_l, pre_v):
++def _cmpkey(release, patch_l, pre_l, pre_v):
+     # remove leading 0
+     _release = tuple(
+         reversed(list(itertools.dropwhile(lambda x: x == 0, reversed(release))))
+     )
 +
-+        self._version = _Version(
-+            release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
-+            pre_l=match.group("pre_l"),
-+            pre_v=match.group("pre_v")
-+        )
++    _patch = patch_l.upper()
 +
-+        self._key = _cmpkey(
-+            self._version.release,
-+            self._version.pre_l,
-+            self._version.pre_v
-+        )
-+
-+    def __le__(self, other):
-+        if not isinstance(other, Version):
-+            return NotImplemented
-+        return self._key <= other._key
-+
-+    def __lt__(self, other):
-+        if not isinstance(other, Version):
-+            return NotImplemented
-+        return self._key < other._key
-+
-+    def __ge__(self, other):
-+        if not isinstance(other, Version):
-+            return NotImplemented
-+        return self._key >= other._key
-+
-+    def __gt__(self, other):
-+        if not isinstance(other, Version):
-+            return NotImplemented
-+        return self._key > other._key
-+
-+def _cmpkey(release, pre_l, pre_v):
-+    # remove leading 0
-+    _release = tuple(
-+        reversed(list(itertools.dropwhile(lambda x: x == 0, reversed(release))))
-+    )
-+    if pre_l is None and pre_v is None:
-+        _pre = float('inf')
-+    else:
-+        _pre = float(pre_v) if pre_v else float('-inf')
-+    return _release, _pre
+     if pre_l is None and pre_v is None:
+         _pre = float('inf')
+     else:
+         _pre = float(pre_v) if pre_v else float('-inf')
+-    return _release, _pre
++    return _release, _patch, _pre
 diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-new file mode 100644
-index 0000000000..35e2b29a9a
---- /dev/null
+index 35e2b29a9a..3f343a2841 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
 +++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-@@ -0,0 +1,27 @@
-+from oe.cve_check import Version
-+from oeqa.selftest.case import OESelftestTestCase
+@@ -23,5 +23,14 @@ class CVECheck(OESelftestTestCase):
+         self.assertTrue( result, msg="Failed to compare version '1.0_dev' <= '1.0'")
+ 
+         # ignore "p1" and "p2", so these should be equal
+-        result = Version("1.0p2") <= Version("1.0p1") and Version("1.0p2") >= Version("1.0p1")
++        result = Version("1.0p2") == Version("1.0p1")
+         self.assertTrue( result ,msg="Failed to compare version '1.0p2' to '1.0p1'")
++        # ignore the "b" and "r"
++        result = Version("1.0b") == Version("1.0r")
++        self.assertTrue( result ,msg="Failed to compare version '1.0b' to '1.0r'")
 +
-+class CVECheck(OESelftestTestCase):
-+
-+    def test_version_compare(self):
-+        result = Version("100") > Version("99")
-+        self.assertTrue( result, msg="Failed to compare version '100' > '99'")
-+        result = Version("2.3.1") > Version("2.2.3")
-+        self.assertTrue( result, msg="Failed to compare version '2.3.1' > '2.2.3'")
-+        result = Version("2021-01-21") > Version("2020-12-25")
-+        self.assertTrue( result, msg="Failed to compare version '2021-01-21' > '2020-12-25'")
-+        result = Version("1.2-20200910") < Version("1.2-20200920")
-+        self.assertTrue( result, msg="Failed to compare version '1.2-20200910' < '1.2-20200920'")
-+
-+        result = Version("1.0") >= Version("1.0beta")
-+        self.assertTrue( result, msg="Failed to compare version '1.0' >= '1.0beta'")
-+        result = Version("1.0-rc2") > Version("1.0-rc1")
-+        self.assertTrue( result, msg="Failed to compare version '1.0-rc2' > '1.0-rc1'")
-+        result = Version("1.0.alpha1") < Version("1.0")
-+        self.assertTrue( result, msg="Failed to compare version '1.0.alpha1' < '1.0'")
-+        result = Version("1.0_dev") <= Version("1.0")
-+        self.assertTrue( result, msg="Failed to compare version '1.0_dev' <= '1.0'")
-+
-+        # ignore "p1" and "p2", so these should be equal
-+        result = Version("1.0p2") <= Version("1.0p1") and Version("1.0p2") >= Version("1.0p1")
-+        self.assertTrue( result ,msg="Failed to compare version '1.0p2' to '1.0p1'")
++        # consider the trailing alphabet as patched level when comparing
++        result = Version("1.0b","alphabetical") < Version("1.0r","alphabetical")
++        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' < '1.0r'")
++        result = Version("1.0b","alphabetical") > Version("1.0","alphabetical")
++        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
 -- 
 2.25.1
 
