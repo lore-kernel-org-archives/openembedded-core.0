@@ -1,128 +1,93 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.570.1612802447431688791
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.595.1612802550096330645
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 08:40:47 -0800
+ Mon, 08 Feb 2021 08:42:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GqAzJ7WU;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id m6so10077089pfk.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 08:40:47 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eHmr/Pps;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id l12so18010519wry.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 08:42:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fVb/ejybcylz6M4Y2CGpI03+ukJmy1vIb42H1IjhbrA=;
-        b=GqAzJ7WUUrGE4rHm5XujWbCi/Zt/Iv265VB/7ywYnlqCgcWKI3Z7pCd0JvlEOga5Z3
-         f8rS4rO2JwoCJ9P78v9KQsfvWgNn9A8eK2s5IhQtxxTkZLUPQ9EQotYcXJGkaqYbP0J2
-         SVMvtpUa/dlehobTF/CQrqvuBSVVZhLh/JOcMnJ0AkFSoVGdag29rS1uDvVKEgUk7mGF
-         8Ec7LOjRIH0KJktNktUYO/zf5RtYc89+0Yv9UOv0bmVX5T4ZMLl4S4ATOgGkQcd1MDjC
-         J9VJYMDl//RzHuB9ZtNeBR1hz/9JUhp5zVk1c1Q13vVpSrnXp4hnsUCRDgWpquwcpXU+
-         XHcg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=VfjHy0PbDoVuG1wAlm5c72jajghbQj3wnpASu+6ObD4=;
+        b=eHmr/PpsFMXMzsD1NSO+Cbg8/StDPSxgJtY7kupcD0kNrONrxoLQt90+2R+mukxb1H
+         DRJToLKOKMY8PTJ2qPAOYYjdaBuSatBvSEBYIb/Cak7h0jbSb5ctXh++5S6v7d2Prpb6
+         VIEQWLo5NGTsT/eAMzGFySfoNNy0Ci4O3nBBI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fVb/ejybcylz6M4Y2CGpI03+ukJmy1vIb42H1IjhbrA=;
-        b=L5ruBWAENSfeNPUZ+gNrjAczhya4QzVFY9dbQbqweE8qRT/cyUFCoiwVHbhUT8BNGw
-         mSbkZ+Vi/gSivBOSpPxS+Nic1B3vtzP/YAMueHQD6cf6ZshVNM09pCCrRQlTBAgdtLwc
-         1Tfqo8S2wA0HczQPBIX5q8WIrEmC3eUwcQI4S8Dv2dl96G9fYWWRk+uj2aslOE55PBO3
-         XbSh3w0ts/Kj0sfYmeX6qYETu10Q35vnxLoE5kCC87FpUTjL0egf2HN2CXqqL4WkZ/pO
-         LobyeMSUA252Pc6dk1lzodwIv/gdWHby7NYxcdMtM+LB92X4r9/cawZ/2iTk8CZUs9CA
-         P0vQ==
-X-Gm-Message-State: AOAM530vvwrAAGKTX1YY1eVnxiFStvGjkBO5wYiKEfcvE33xBd08gg8I
-	JPl4l35PkSpqtN2Tfkk6/pcF8iCtO8DnVw==
-X-Google-Smtp-Source: ABdhPJyHFOOAf5kNQIEmSuMoTeyA00RoGZBAoiOd5tlq8MiJAlj7X88D26nhnQYuidTZQacfbjqG8Q==
-X-Received: by 2002:aa7:8d8e:0:b029:1d1:f9c9:cff6 with SMTP id i14-20020aa78d8e0000b02901d1f9c9cff6mr19174619pfr.31.1612802445951;
-        Mon, 08 Feb 2021 08:40:45 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:a0c8:8a08:8518:4b41? ([2601:646:9200:a0f0:a0c8:8a08:8518:4b41])
-        by smtp.gmail.com with ESMTPSA id q22sm19806610pgi.66.2021.02.08.08.40.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Feb 2021 08:40:45 -0800 (PST)
-Subject: Re: [OE-core] [meta-oe][PATCH] libhugetlbfs: improve reproducibility
-To: oobitots@cisco.com, openembedded-core@lists.openembedded.org
-References: <20210208154416.2880-1-oobitots@cisco.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <80aa78c9-a1a8-0dc9-c4d2-9d53f664a80c@gmail.com>
-Date: Mon, 8 Feb 2021 08:40:43 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VfjHy0PbDoVuG1wAlm5c72jajghbQj3wnpASu+6ObD4=;
+        b=EcuVSR1jSo4GPeW21cdgJ89ww1Bw3GAfniJq77Cd0cBEuw2iWEJRjtJEP4fWWozt3G
+         /ylQFQPP6DiJ92+tibrlydsTW+nRS+U2lhQvVigXJqfBEP/hMZfOIHAEyMR2FLwvITx2
+         MB7HYqSEIoDjxFuw00cmjicqlKcEtFx4Zu7hBKEAzFpZ/gpCUhjMmo/KuAxYwiM5cGcl
+         KfDZch+mB3Z/x1XF5A8Z8BHc80lKr8M0GUZeoKxX60YB1zjqPtjopqzS9eOKTVv/4tPy
+         WJuev7I47KQthk48q9QRTaAy2EHk1evPjPLKayJgBTAYpUy1COgh1jJ8I6MAIQSNlleu
+         6W1A==
+X-Gm-Message-State: AOAM533SnyWTygkftUR15sus9BRstLPKpNNPobjOaizB0DzlKyESxCve
+	ehWk7lz7AYLGsT1xKpVmKY9XWQ==
+X-Google-Smtp-Source: ABdhPJzEUt1iRPvKCdMyrJ/1SGyt1FLFWOYMv3zvqOrcdSCeT2SwcHt1Als2rnaD4JS/hJmtQn134Q==
+X-Received: by 2002:adf:a4c8:: with SMTP id h8mr11584800wrb.286.1612802548352;
+        Mon, 08 Feb 2021 08:42:28 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:ff1a:4654:ede1:462c? ([2001:8b0:aba:5f3c:ff1a:4654:ede1:462c])
+        by smtp.gmail.com with ESMTPSA id i7sm405883wmq.2.2021.02.08.08.42.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 08:42:27 -0800 (PST)
+Message-ID: <cc0a90ba7b46bcd5b51c60374b741c198d401fde.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] oe-pkgdata-util: Check if environment script is initialized
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Dorinda <dorindabassey@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 08 Feb 2021 16:42:26 +0000
+In-Reply-To: <20210201144638.15582-1-dorindabassey@gmail.com>
+References: <20210201144638.15582-1-dorindabassey@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <20210208154416.2880-1-oobitots@cisco.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Oleksiy
+Hi Dorinda,
 
-oe-core ml is only for oe-core repo patches. For meta-openembedded 
-layers patches they should be sent to oe-devel mailing list.
-
-On 2/8/21 7:44 AM, Oleksiy Obitotskyy via lists.openembedded.org wrote:
-> CPPFLAGS was overrided for tests, so we
-> missing DEBUG_PREFIX_MAP and got absolute
-> path in binary.
+On Mon, 2021-02-01 at 09:46 -0500, Dorinda wrote:
+> Tinfoil doesn't behave well if environment is not initialized, this check ensures a proper error log if environment is not initialized.
 > 
-> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+> [YOCTO #12096]
+> 
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 > ---
->   ...Append-CPPFLAGS-rather-then-override.patch | 31 +++++++++++++++++++
->   .../libhugetlbfs/libhugetlbfs_git.bb          |  1 +
->   2 files changed, 32 insertions(+)
->   create mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-tests-makefile-Append-CPPFLAGS-rather-then-override.patch
+> v2:
+> -Positioned check under a condition when it cannot determine the pkgdata_dir
 > 
-> diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-tests-makefile-Append-CPPFLAGS-rather-then-override.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-tests-makefile-Append-CPPFLAGS-rather-then-override.patch
-> new file mode 100644
-> index 000000000..78a4cb0fc
-> --- /dev/null
-> +++ b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-tests-makefile-Append-CPPFLAGS-rather-then-override.patch
-> @@ -0,0 +1,31 @@
-> +From b6dba773491bbb7b4664dacdd87a12af860f1bd8 Mon Sep 17 00:00:00 2001
-> +From: Oleksiy Obitotskyy <oobitots@cisco.com>
-> +Date: Thu, 28 Jan 2021 05:43:33 -0800
-> +Subject: [PATCH] tests/makefile: Append CPPFLAGS rather then override
-> +
-> +CPPFLAGS overrided and we could miss some options needed.
-> +
-> +Upstream-Status: Submitted
-> +Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-> +---
-> + tests/Makefile | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/tests/Makefile b/tests/Makefile
-> +index 0ca3716..d262932 100644
-> +--- a/tests/Makefile
-> ++++ b/tests/Makefile
-> +@@ -33,8 +33,8 @@ HELPERS = get_hugetlbfs_path compare_kvers
-> + HELPER_LIBS = libheapshrink.so
-> + BADTOOLCHAIN = bad-toolchain.sh
-> +
-> +-CFLAGS = -O2 -Wall -g
-> +-CPPFLAGS = -I..
-> ++CFLAGS += -O2 -Wall -g
-> ++CPPFLAGS += -I..
-> + STATIC_LIBHUGE = -Wl,--whole-archive -lhugetlbfs -Wl,--no-whole-archive
-> + STATIC_LDLIBS = -Wl,--no-as-needed -lpthread
-> + LDLIBS = $(STATIC_LDLIBS) -ldl -lhugetlbfs_privutils
-> +--
-> +2.26.2.Cisco
-> +
-> diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb b/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
-> index 2f07c938b..fa63316b0 100644
-> --- a/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
-> +++ b/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
-> @@ -26,6 +26,7 @@ SRC_URI = " \
->       file://0006-include-limits.h-for-PATH_MAX.patch \
->       file://0001-huge_page_setup_helper-use-python3-interpreter.patch \
->       file://0001-Revert-ld.hugetlbfs-fix-Ttext-segment-argument-on-AA.patch \
-> +    file://0001-tests-makefile-Append-CPPFLAGS-rather-then-override.patch \
->   "
->   
->   UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+>  scripts/oe-pkgdata-util | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> 
-> 
-> 
-> 
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 93220e3617..75dd23efa3 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -598,6 +598,9 @@ def main():
+>              logger.error("Unable to find bitbake by searching parent directory of this script or PATH")
+>              sys.exit(1)
+>          logger.debug('Found bitbake path: %s' % bitbakepath)
+> +        if not os.environ.get('BUILDDIR', ''):
+> +            logger.error("This script can only be run after initialising the build environment (e.g. by using oe-init-build-env)")
+> +            sys.exit(1)
+>          tinfoil = tinfoil_init()
+>          try:
+>              args.pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
+
+I'm a little worried about this patch since it fixes the oe-pkgdata-
+util case but what about devtool, or recipetool or anything else which
+uses tinfoil.
+
+I'm wondering if there should be a check inside tinfoil itself?
+
+or is this problem really oe-pkgdata-util specific?
+
+Cheers,
+
+Richard
+
