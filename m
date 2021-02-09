@@ -1,77 +1,73 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web12.7960.1612861506406638849
- for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 01:05:06 -0800
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.9948.1612876186218903624
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 09 Feb 2021 05:09:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OgVxB5TV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id n6so7841383wrv.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 01:05:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WMEP9eX6;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id f14so31250873ejc.8
+        for <Openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 05:09:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=NGNT5PVVf1omBIPkeuoqfhO9w7zpVvTRxjaTWF/bV0o=;
-        b=OgVxB5TVxsTSBmiKszg2orO98RZw3fZA+g2ywDf7AUUjirBzOOWNludsZM+3Q1lsmd
-         KtkXg+uCvcsYajF9G32z0O9vt4aG9WTp+CnBpryruh3WH7bKNA3Up9gI6gpCXaVD/r1L
-         gIneSrWclMeNPsCmA/5jOwCS8sevUPmLbKuus=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YjKHBSX3e5TKJtr8iEK19/fKfKT5wAnk7kh76OEuRsA=;
+        b=WMEP9eX6fWvxrOxhWLUZ1ZL612KyZn0d8MY58XH+1+fNfLZ0QMMWIoa6Soabu3XuMz
+         UWJZ3ctMmlt9O+hDkL4EvTWUZZwcUXOKDuoMyfUSg2qkXOdbarPiPTkOiXTwDQKsek6L
+         SoU0ZaC2p6TxK8uNZQFWv7Kj/43pnVNJBweUwjM5WHZ0VInY4AmdRVUG09YdTLfvE/Y9
+         gYv6sbmPTATHJ+iHegyklaHfbGcWnmywfk3n8rpFWhIsa6TA9B55+hPQY2+GUZ0505e5
+         YKTTtq1L9gSKpDuzxsDlJTXju44jEJdpEaBh44Djhje1PGa6EH0E89yK1p8hx2viXcFD
+         G8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=NGNT5PVVf1omBIPkeuoqfhO9w7zpVvTRxjaTWF/bV0o=;
-        b=megyk+Wxj4KTvG1SAUPK4Z15Wizhh1EK21IPj8gpREeM308M2ORSJBp3ulDx5EMaF+
-         qQvr9MNgPcW8gONXCza/1DLwoNvTDzpTMraugI446TPuq5gZnSqsCjkXIi05xDXZKulv
-         d1OmFhOBDTXCloe9yNgl2UCPI40Q3N6kir1fbS+IAohFTlTApXwECu2jElhDYm6l2TJ3
-         UpkKDHkJS72d/Imn3A1FC7iTVsrBdFsN7dqpZdmLfkrSwe/QDAVHd6KG6Tp2mkHUJnPn
-         uXSkUPXB9f+xaFxFZWoEHnOk9dRrG2K1I9Mm1RI4zn5Wbaaxr+QVDd51k7NXN3A9Zps5
-         4ijw==
-X-Gm-Message-State: AOAM533zKbXwbvhkG+K7ySqgQ+digg5MKxOpCi7IVFGnrvqnj0LM/Omd
-	NjEGl9WwaziPCjvHLy0gzw7PlQ==
-X-Google-Smtp-Source: ABdhPJxfy2W7DgDtETdNyYcky0eOtKmkqDZguV8x2bf/ZTVqukqAZkanVozIvyLcvFvj1qoaKTiXMQ==
-X-Received: by 2002:a5d:6044:: with SMTP id j4mr24000175wrt.287.1612861504821;
-        Tue, 09 Feb 2021 01:05:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c? ([2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c])
-        by smtp.gmail.com with ESMTPSA id c3sm30344151wrr.6.2021.02.09.01.05.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 01:05:04 -0800 (PST)
-Message-ID: <3b653ae622d4ee0fdb18c676e0763f65d4471de4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] cve-check: add include/exclude layers
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 09 Feb 2021 09:05:03 +0000
-In-Reply-To: <3df4f82e-49fe-8550-b686-a60d79b586da@gmail.com>
-References: <20210208055130.892351-1-akuster808@gmail.com>
-	 <20210208055130.892351-2-akuster808@gmail.com>
-	 <86120a48209d7305382958e303e55e0f1a012da9.camel@linuxfoundation.org>
-	 <3df4f82e-49fe-8550-b686-a60d79b586da@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YjKHBSX3e5TKJtr8iEK19/fKfKT5wAnk7kh76OEuRsA=;
+        b=jbWHLTdJ5S0re5UNPV4vUfhlEABm+5N5XQ16qvkC9l9y99HWSWqeB/4Cp3qb3fpUyd
+         MDBNzxWhJx4FXqeJWTeg302btCzZfNFTYni8JCtjWyXGtc6RcMKQBMbRB1r9WiTDyg2W
+         mG2FrRFSHfb4XCFv5Ia9mAkoeOyCiu28VSmMmEKejin2e/NCLmck6FVi+VZEC6dzwHUZ
+         5+mA3HpK1rrIaKgTCvPrujuWc3SvujXR80mK6qk+vPIUdChuvZLl5oYZFGiDchRBqjP4
+         g/w+3RSM9YBMMLOZR9ufgkpV1nXaU79aIBUmtHcMl71eiyGuZsJsMqHX9z1Z8nLgIr+o
+         /Ejg==
+X-Gm-Message-State: AOAM533+rNPaA+WHRIkiYFWwbYIhF6ZK/XylIbxgjTDtmozi3rwUn1f9
+	c0TNZbM3iLpeNs+mbNcZB4NYo99FWxTEXkKmcOk=
+X-Google-Smtp-Source: ABdhPJx+Oq4WQZmjSvTDGmTLBl/vMrsSJKP5yGpfJjl4Bj1nGFcdmU2QVZ0gNqyqIsJk2lR8jJT6zYVG6YKrVV0S+kY=
+X-Received: by 2002:a17:906:7a49:: with SMTP id i9mr14824572ejo.247.1612876184721;
+ Tue, 09 Feb 2021 05:09:44 -0800 (PST)
 MIME-Version: 1.0
+References: <CAGi-RUJUdQf4LtsYusmzDH-FSpuq=6ZvEpyPBJkj3=XojqR4kw@mail.gmail.com>
+In-Reply-To: <CAGi-RUJUdQf4LtsYusmzDH-FSpuq=6ZvEpyPBJkj3=XojqR4kw@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 9 Feb 2021 08:09:32 -0500
+Message-ID: <CADkTA4Pd=bHOz7yNsQPHPsxtps=A_HwWp4yN7k_n-9jeSY=t0Q@mail.gmail.com>
+Subject: Re: [OE-core] libsystemd is missing ?
+To: Ramon Fried <rfried.dev@gmail.com>
+Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-02-08 at 07:55 -0800, akuster808 wrote:
+On Tue, Feb 9, 2021 at 3:29 AM Ramon Fried <rfried.dev@gmail.com> wrote:
+>
+> Hi.
+> I stumbled upon a recipe which needs libsystemd (fluentbit).
+> In the configuration phase, during pkg-config, it fails finding libsystemd.
+> Specifically, it fails to find the journald header file: sd-journal.h
+>
+> Am I missing some configuration, or systemd recipe doesn't install the
+> dev libraries, only the runtime ?
+
+Did you try putting "systemd" in the DEPENDS of the recipe ?
+
+Bruce
+
+>
+> Thanks,
+> Ramon.
+>
 > 
-> On 2/8/21 2:16 AM, Richard Purdie wrote:
-> > On Mon, 2021-02-08 at 05:51 +0000, akuster wrote:
-> > > There are times when exluding or including a layer
-> > > may be desired. This provide the framwork for that via
-> > > two variables. The default is all layers in bblayers.
-> > > 
-> > > CVE_CHECK_LAYER_INCLUDELIST
-> > > CVE_CHECK_LAYER_EXCLUDELIST
-> > Do we need to document these?
-> Yes if and when the patches are accepted.  By doc do you mean the
-> manuals or documentation.conf?
-
-I was thinking the of the manuals but both may make sense. The patch is
-in so looking forward to the docs updated, thanks! :)
-
-Cheers,
-
-Richard
+>
 
 
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
