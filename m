@@ -1,80 +1,74 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.10970.1612881282127820770
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.11149.1612881630706225537
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 06:34:42 -0800
+ Tue, 09 Feb 2021 06:40:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U6oIA61Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id b3so22119583wrj.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 06:34:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b/2/2viT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.50, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f50.google.com with SMTP id q7so22099156wre.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 06:40:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ntjEVR4Xk/JRIPVDTnukg9At6lN9CEY+xYlosINqNn4=;
-        b=U6oIA61QT70op/o4geC3M2oxRe3xumwJeUhGOy8TMqpEPWuaTH41HrAHsDF/LD/r3a
-         EcOWKYlOkDQgQersCN6VmOn0WnhLS5H0r64JHQR0fCYkb8kDuq2ayT5vKC7QuBKm0eAx
-         6siavVOqnrYwvOzj0r0BCR2sJieV/EzQT6/eg=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=x43Rsec69MLiXAm6S7dXRgYXd95duaSq+LkLAHickNA=;
+        b=b/2/2viTkisPv/ozDMzh8bbB8htys6CKGX2nD9oMo+i/7Dil/F5fIYzOjxOhJzRqhy
+         YaeLGmhmmveQ3sSQViFnUHAOmPrpCnjsjflMB2XL8tgf8IB0ZLIr/sKkvvY5f1quoeYN
+         1tohTyZYzZk26Uvjq3HZNooL+y5nGAlp+cgs70jAMuj+xkUkTHuLe0v4sq0EffPFFeRD
+         OC7DyYyZTcOToYjPubOxdw0YHZFbXa10WIZoKkgJuAdZAYNin0ZlISlxfUB3SV6LuESg
+         VjHjymrhRT1pmRHdZYPYMXET2H7Y2H+8LDDwiDAbn6p8CiZokdAFaZvuWtO0IEcB+kKE
+         Rw5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ntjEVR4Xk/JRIPVDTnukg9At6lN9CEY+xYlosINqNn4=;
-        b=Cl+FSYgp08TNk+FnkjnbJvKuIXK9Hixi9eQgbwB/52gCge2EWxu4r5ndgfN7IqUkYE
-         jFr42/Hu6mlZg5iVI6SjDmGOrznxyx0J9QWbQkLxNYlFz300E8OIVMluFfBjFjlxwnfb
-         EaaL6mnpRpDO++GeEbmmHm8qZ/ofU9rueky0Z3WHxfhT31iEeswmbW6dB02+WlGWPwGa
-         V9Fbb86Iji34vdxYUszoSJOuLGRoHP5GDi3cnKXXusg+p6DicREpIZqeYNNU8mj4MuZb
-         O3zjIfpD0kqYGutzRO6cTFAGQYSbqqqNs6TUd7XQPR02eQClwlnCzsSEYnhDohOkVytT
-         kE2Q==
-X-Gm-Message-State: AOAM5309w+BNz9jyffXRDquDQoSEU4aC5S2S/kgJj23OqjSZJ7P733oX
-	CqNnd5DICmxMtoXXHn7K+lV2Rdtt+8YIqg==
-X-Google-Smtp-Source: ABdhPJwigdxfHm8DUbnA423rPFvxL9e1uUqUKgTp5qdLrq+PzpDMPiGKBBrNOX3t6iJ13FHdlzUW+A==
-X-Received: by 2002:a5d:6d06:: with SMTP id e6mr26171202wrq.425.1612881280556;
-        Tue, 09 Feb 2021 06:34:40 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c])
-        by smtp.gmail.com with ESMTPSA id v15sm11138838wra.61.2021.02.09.06.34.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 06:34:40 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] opkg: Fix patch glitches
-Date: Tue,  9 Feb 2021 14:34:39 +0000
-Message-Id: <20210209143439.1807422-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x43Rsec69MLiXAm6S7dXRgYXd95duaSq+LkLAHickNA=;
+        b=B9nC7uymCPuATxkeILXnElFI/BCzUrbV6/d2m2JYPLAUL6/l5QeF7rxw1Cbs1n/skT
+         n0A11znM7GQJGR3CKtd3FSJMPec60JukDqtS628+qQSufFu/8fdslk9r3JFi5Z9w7Yq5
+         H8SUAMIMz0Q0QR2Ptgou4qgVRZJueFdI82yKk0H1cHWb8bko+VamrYh66GA/oeuv9wiK
+         ruDFBiORbCoxt1O2gRXOrqhlBxZONKzIzbLcgtUZcOmMAUjSS+uPlz+AvUtlVqDYZ95m
+         YRbm+ntIFpUmodAa7CdTqYzvfzDaaLO114KI9Fmyp97WPWXsn8VJSopJPKwt+pF1ngML
+         h81Q==
+X-Gm-Message-State: AOAM530tXz+i9eljwRJJkHkj/4sNvNMl1CGTDXeXa+QwvZcnwpDFeUec
+	oRV103GUFxp5w8wBtGqVG4W+3pQtwV5/SKMLdQ3w8Q==
+X-Google-Smtp-Source: ABdhPJwhBniuqJwtAiTP6YOVlugeInTk40+lMrrqMzR1NXCLDGGi4dfcJCnyyFErZ45vKIeMxxK9JuF4DfO1e2+2OEc=
+X-Received: by 2002:adf:e5c6:: with SMTP id a6mr26096539wrn.400.1612881629282;
+ Tue, 09 Feb 2021 06:40:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1612792088.git.steve@sakoman.com> <bc1f08f0202b1ea3780b72dc9b2e7bc339581fcc.1612792088.git.steve@sakoman.com>
+ <efcd1bc6ff5c0f4ec4b6111d51b292c629b2ce58.camel@linuxfoundation.org>
+In-Reply-To: <efcd1bc6ff5c0f4ec4b6111d51b292c629b2ce58.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 9 Feb 2021 04:40:17 -1000
+Message-ID: <CAOSpxdbL_s8kENSEXyez036pdEJ5wSR8GaYccy-ZHcvO+U2jVA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 23/28] opkg: Fix build reproducibility issue
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The original patch contained some text which shouldn't have been there
-and used brackets in configure which isn't a great idea. Tweak the patch
-to resolve this.
+On Tue, Feb 9, 2021 at 4:34 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2021-02-08 at 03:52 -1000, Steve Sakoman wrote:
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >
+> > A build date was leaking into the generated docs and makefile used for
+> > ptests leading to reproducibility issues each time the month changed.
+> >
+> > Add a patch to use SOURCE_DATE_EPOCH to derive it if available.
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit 6a9ca7aec4991eabd425e32fdf85f51bb1686b8b)
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  .../opkg/opkg/sourcedateepoch.patch           | 25 +++++++++++++++++++
+> >  meta/recipes-devtools/opkg/opkg_0.4.2.bb      |  1 +
+> >  2 files changed, 26 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+>
+> I'd hold this one until I get the patch fixed...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Got it!  I'll remove from the pull request and wait till I see your
+fix to resubmit.
 
-diff --git a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch b/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
-index 285d258c635..6d0b1486ad3 100644
---- a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
-+++ b/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
-@@ -9,13 +9,12 @@ Index: opkg-0.4.4/configure.ac
- ===================================================================
- --- opkg-0.4.4.orig/configure.ac
- +++ opkg-0.4.4/configure.ac
--@@ -281,7 +281,12 @@ AC_FUNC_UTIME_NULL
-+@@ -281,7 +281,11 @@ AC_FUNC_UTIME_NULL
-  AC_FUNC_VPRINTF
-  AC_CHECK_FUNCS([memmove memset mkdir regcomp strchr strcspn strdup strerror strndup strrchr strstr strtol strtoul sysinfo utime])
-  
- -CLEAN_DATE=`date +"%B %Y" | tr -d '\n'`
--+1607446883
--+if [ ! -z "$SOURCE_DATE_EPOCH" ]; then
-++if ! -z "$SOURCE_DATE_EPOCH" ; then
- +    CLEAN_DATE=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH +"%B %Y" | tr -d '\n'`
- +else
- +    CLEAN_DATE=`date +"%B %Y" | tr -d '\n'`
--- 
-2.27.0
-
+Steve
