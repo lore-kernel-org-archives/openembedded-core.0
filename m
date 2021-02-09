@@ -1,27 +1,27 @@
 Received: from mga07.intel.com (mga07.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.12270.1612885959329511791
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 07:52:44 -0800
+ Tue, 09 Feb 2021 07:52:46 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: +tV7rYqFP76gPJHuXg0JuhUJ9A/SNlZWB7vGNN0t9Ie1RIovYctUsDq7PB1iOQnuuAjuY5zSb0
- fCpKZ0W1A/5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="245968586"
+IronPort-SDR: ISGFPZjvlvoo5bvt9z6kdLDVF9ZTLhky6AhGMxnXaDd4kxOSXCs+sBM8Jy6JWNzIR9sK0B0Cjs
+ 2HFYQksKN9Kg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="245968598"
 X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="245968586"
+   d="scan'208";a="245968598"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:52:44 -0800
-IronPort-SDR: u0ks1IAiXl5MQEPe7as6YuqEU9kvGk4bNP8QQNraF8Dc+ffmB/makZxp4HUujRK5TDskcyoDQ9
- N18TEw6kQtKg==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:52:45 -0800
+IronPort-SDR: Qi4MKwzRRxXN48zUJLA6tHNvDUJHKE7Bn83d0Knjp0v0Z7U2ZxWjddF0adJcetNcYGLI7HC8I1
+ 9DggD+QwzdRQ==
 X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="359215439"
+   d="scan'208";a="359215441"
 Received: from ytee-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.146.52])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:52:43 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:52:44 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 06/35] ncurses: Don't put terminfo into the sysroot
-Date: Tue,  9 Feb 2021 23:51:51 +0800
-Message-Id: <cb254debc36acc085a90c665f72ecf3a28692944.1612885583.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 07/35] python3: Avoid installing test data into recipe-sysroot
+Date: Tue,  9 Feb 2021 23:51:52 +0800
+Message-Id: <653f8b1a8adf59d924028bfc69ead1c7437de11e.1612885583.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612885583.git.anuj.mittal@intel.com>
 References: <cover.1612885583.git.anuj.mittal@intel.com>
@@ -30,31 +30,32 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This recudes the file count from ~2850 to ~100 which is a huge win
-for reducing build directory clutter, its unlikely anything uses the
-terminfo data or man pages in the sysroot. This is especially helpful
-as we usually end up with two copies of these sets of files.
+There are several thousand files in the test directory which we don't need.
+Adding these for the native and target sysroots is a crazy amount of files
+to be throwing around needlessly. Delete the files from the sysroot side
+of things to tidy up the sysroots and improve performance.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 443633dfc20177ef88a388d96745675817510c99)
+(cherry picked from commit f6bced03011ad1663d68b0322a2f8aeb4d836646)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/python/python3_3.8.5.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index fe4e8a5d6e..ef59bc3b0a 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -324,3 +324,8 @@ FILES_${PN}-terminfo-base = "\
+diff --git a/meta/recipes-devtools/python/python3_3.8.5.bb b/meta/recipes-devtools/python/python3_3.8.5.bb
+index 0e588d7e4c..fb066084bf 100644
+--- a/meta/recipes-devtools/python/python3_3.8.5.bb
++++ b/meta/recipes-devtools/python/python3_3.8.5.bb
+@@ -361,3 +361,9 @@ RDEPENDS_${PN}-dev = ""
  
- RSUGGESTS_${PN}-libtinfo = "${PN}-terminfo"
- RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
+ RDEPENDS_${PN}-tests_append_class-target = " ${MLPREFIX}bash"
+ RDEPENDS_${PN}-tests_append_class-nativesdk = " ${MLPREFIX}bash"
 +
-+# Putting terminfo into the sysroot adds around 2800 files to
-+# each recipe specific sysroot. We can live without this, particularly
-+# as many recipes may have native and target copies.
-+SYSROOT_DIRS_remove = "${datadir}"
++# Python's tests contain large numbers of files we don't need in the recipe sysroots
++SYSROOT_PREPROCESS_FUNCS += " py3_sysroot_cleanup"
++py3_sysroot_cleanup () {
++	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
++}
 -- 
 2.29.2
 
