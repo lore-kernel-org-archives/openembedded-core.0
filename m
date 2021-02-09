@@ -1,95 +1,96 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.12107.1612885383220665793
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.12098.1612885594222547098
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 07:43:04 -0800
+ Tue, 09 Feb 2021 07:46:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20150623.gappssmtp.com header.s=20150623 header.b=RGHhh/bO;
- spf=pass (domain: smile.fr, ip: 209.85.218.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f41.google.com with SMTP id y9so32320738ejp.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 07:43:03 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PcL7Ars5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id y134so3945278wmd.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 07:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jmS6gFi5ORbqhcpWkT6KlDpHKHkjeIpLOvwUwPyjpnc=;
-        b=RGHhh/bOcfhMU7UOlgXEEiQmOb8nppERRFwZe3CFXltcBb//U/nctCct0UQ8IpRD1Y
-         oEIc4JSC7UFM0gsHDAneRjHlpnnvOPHqQOcTMnh4fwrtM88+BRXiwiDZIkIH+6ZsCxVz
-         eC0uwt3j8X5fIIpU30q9Z38bWgToKAP0HKtB1AWVDCtrN43h88NxrtNeTIL2ACaF/NYm
-         ssJyONPhLNFZ0SB+ggH8Dfq7TgXWjWC4/WiIiJKJ0OqCijZXR+g+2XmcUxaESzSAg9Aq
-         ICe2pxMD55PI/yLbuVTN1QLx5dESoZEa5ehOrY7A1V7KjjKV/CQiV/0ZrIxHWAjnCVeR
-         pR9w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=SuXpZ9ZsoXrQcgQxKDfBD0MGjja3PqG7AaWlVXKIOaE=;
+        b=PcL7Ars5Zhu8pk936QI/r4OsypYGf2aDVcgA8WeNsvo9EPXXrY9grIJFTwJ+4ZGuuS
+         LxmiLR0D/mGoGcx485xvxZjykbgWDwFivjI6bI4vv1b47Um8WST0pNAF9YgrhGb9A+VW
+         FrUPsyk+EMF77tKKs76hJ71wxfymzcYemHNX8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jmS6gFi5ORbqhcpWkT6KlDpHKHkjeIpLOvwUwPyjpnc=;
-        b=BdOIM07Z4rM3CgaHlOmJiE0W0sBoA6tuXpmmi29N8NyLN/Al8N2u6HRAlthmCGksWw
-         mG1sVoCFpZWOt644XvT50jsw1pDnYorsQy8PwNR2rgM23LwnRI4rNwSd5corT7qu35cn
-         6aHc5ZPQLe1wTrwsLTHYoB+u/lECnIE3b4U+/zxQwQObTqE6VoLJcDLULT7nZ7/PvbEo
-         zMR9Sbdrb40qwz04KM/AGLg8jeTFbxpggyyoTKz6aTx/PfSLBHPieaiQoyF2guBryR7B
-         dVG1fEMo/1yGxWTDzBZvT/PqKsSbEfI6L537siodmQlSQnJrdBygyjoz4ZX81tRDEen+
-         2xfg==
-X-Gm-Message-State: AOAM533cB+0cEdRNI+9oR4wLxpSKr/Yl86uhS6e7h2aGZ6oQf4Rt5jO5
-	KOnEaO69Km1iVo39k3lwWGP9HD1vjUAbmWgqF2lT9g==
-X-Google-Smtp-Source: ABdhPJxmevvTlmX3jkYOOnLhXmLho9PL22hagzdQknCCZXsWXJPwhegywAkL74QheunYGFrVL5lN+hhyPoH8QIXBVaM=
-X-Received: by 2002:a17:907:1181:: with SMTP id uz1mr23466158ejb.60.1612885381800;
- Tue, 09 Feb 2021 07:43:01 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=SuXpZ9ZsoXrQcgQxKDfBD0MGjja3PqG7AaWlVXKIOaE=;
+        b=Qr9yQwzxMKkFthia402NudKvj/gOO7Ndj1WlvDdrYBCpD0nNmbGLSMG0q+Ym4Sa0rG
+         IChDHV+21MBl6j0R9tiGp95fhJa0xmP3AHta7cvp8f1AQD2aYvAM+gYlsfFJnOtR2m25
+         e1q1dOvcYsIUdeAaOboZaB6JCrKMiEVlr0X0fKFWS09rxd1ylafvuIhWsOHMkRekVvjj
+         x3iCJAGNkGiPzlQ5IvkQw4ypjXsWBwnVY3gHJvBZC3RPdnJhbZ+3LP/fflyeOZzdG72z
+         cgno/fwDKBaCxspAebA8QVCGJrjzvAqB48GigwjADjXh6OBPHCqpW7wJDNFvJIr96cfk
+         fbQw==
+X-Gm-Message-State: AOAM532rq7rBOGnWevB+aq3yeos4M7HKAvNh6U0Ltk+PTh/RYOE4XpRE
+	1CO/UwD2yZUnr+u5o53i2OuAiA==
+X-Google-Smtp-Source: ABdhPJwWMEBjixLb6CFjzaqEmp9TrCFCR79Z89rwTXDXPlazNPFf7NpfnDjd0DupidJO6kWcWvKzEw==
+X-Received: by 2002:a7b:cb58:: with SMTP id v24mr4077367wmj.182.1612885592732;
+        Tue, 09 Feb 2021 07:46:32 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c? ([2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c])
+        by smtp.gmail.com with ESMTPSA id d5sm17608224wrb.14.2021.02.09.07.46.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 07:46:32 -0800 (PST)
+Message-ID: <1e96542badf8a0e272bb9d1456509976c89695b1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 09 Feb 2021 15:46:29 +0000
+In-Reply-To: <CAJkqNs17+aUbbqg+Yw9HM0nKMXSPw_kri7Hho4eDeHOh1am8ew@mail.gmail.com>
+References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
+	 <f0c6dc4481894031536eda836d13510ae919935c.camel@linuxfoundation.org>
+	 <CAJkqNs17+aUbbqg+Yw9HM0nKMXSPw_kri7Hho4eDeHOh1am8ew@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210208180747.12546-1-yoann.congal@smile.fr> <CA+chaQfTpihqNma3-_aNNwZJRyMa0aqMuqkq7y4HhbmUFt_dGQ@mail.gmail.com>
-In-Reply-To: <CA+chaQfTpihqNma3-_aNNwZJRyMa0aqMuqkq7y4HhbmUFt_dGQ@mail.gmail.com>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Date: Tue, 9 Feb 2021 16:42:35 +0100
-Message-ID: <CAMSfU+7AdcJ6o3Uba6gn-C2832H+t9-RYeVZS2BiT5iDE-cphw@mail.gmail.com>
-Subject: Re: [OE-core] [meta][PATCHv2] npm.bbclass: avoid building target nodejs for native npm recipes
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003ef9e605bae92474"
-
---0000000000003ef9e605bae92474
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Le lun. 8 f=C3=A9vr. 2021 =C3=A0 20:11, Martin Jansa <martin.jansa@gmail.co=
-m> a
-=C3=A9crit :
+On Tue, 2021-02-09 at 16:37 +0100, Tomasz Dziendzielski wrote:
+> 
+> Thanks for the answer.
+> 
+> > I've been giving this some thought and I really don't like having
+> > to
+> > remember to manually add special cases like this, it sounds/looks
+> > like
+> > something we should really fix in a better way.
+> 
+> The other way that comes to my mind would be to loop over all
+> dependencies and check if they inherit image.bbclass which would
+> increase build time. Another problem is that we don't have direct
+> access to other recipes' metadata, so we would need to prepare such
+> mechanism.
 
-> You need the override after the append/prepend operator and append is mor=
-e
-> common than prepend (order of RDEPENDS isn't important) so I would use:
->
-> RDEPENDS_${PN}_append_class-target =3D " nodejs"
->
+That isn't something we want to support.
 
-Hi !
+> > Perhaps we should just skip license files if they don't exist? We
+> > could
+> > perhaps show a warning if the match isn't for a recipe called *-
+> > image?
+> 
+> There might be recipes inheriting image.bbclass that don't have
+> "image" in its name (which is also my case). I can prepare the change
+> to just print a warning instead of error if the recipe can't find a
+> license manifest for any recipe, not only the ones called *-image.
+> Unfortunately that way we could not catch missing manifests with
+> recipes that should provide them. Would such change be accepted?
 
-Thanks! I already sent a v2 here :
-https://lists.openembedded.org/g/openembedded-core/message/147833
+I think the warn/error issue isn't the real solution, "good" builds
+shouldn't show warnings and this case would.
 
-... with _prepend though : I respected the original line as much as
-possible. I would have used _append as well.
+I guess the other option is to enable populate_lic for image recipes
+rather than deleting the task, then there would be some kind of license
+information available. Not sure whether that makes sense or not (and
+whether it should be the image recipe license or the sum of the
+licences making up that image is a secondary difficult question)...
 
-Regards,
---=20
-Yoann
+Cheers,
 
---0000000000003ef9e605bae92474
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0lun. 8 f=C3=A9vr. 2021 =C3=A0=C2=
-=A020:11, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin=
-.jansa@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv>You need the override after the append/prepend operator and append is mo=
-re common than prepend (order of RDEPENDS isn&#39;t important) so I would u=
-se:</div><div><br></div>RDEPENDS_${PN}_append_class-target =3D &quot; nodej=
-s&quot;</div></blockquote><div><br></div><div>Hi ! <br></div><div><br></div=
-><div>Thanks! I already sent a v2 here : <a href=3D"https://lists.openembed=
-ded.org/g/openembedded-core/message/147833">https://lists.openembedded.org/=
-g/openembedded-core/message/147833</a></div><div><br></div><div>... with _p=
-repend though : I respected the original line as much as possible. I would =
-have used _append as well.<br></div><div><br></div><div>Regards,</div><div>=
--- <br></div><div>Yoann<br></div></div></div>
-
---0000000000003ef9e605bae92474--
