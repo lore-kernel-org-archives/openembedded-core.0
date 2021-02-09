@@ -1,87 +1,193 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.199.1612909473620502938
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.314.1612909905304220353
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 14:24:33 -0800
+ Tue, 09 Feb 2021 14:31:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=akPIKzkE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id m1so166058wml.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 14:24:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nsLfagEV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.54, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f54.google.com with SMTP id h12so45926wrw.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 14:31:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=jZe3a29ULkVw3x4qCuESStUjLltqxplSOaMCKAvyKUg=;
-        b=akPIKzkEkspu2IOK+nidwQ9qTdqZG4bOyFfRG2FYRBE7akpH498K0pcf3fEeSt79xa
-         1XCpqW0nyvT4ScYzaaqwX3xhPMgvU0i5y2v74/ag3zZXfXE1DfW8giWNEum5Lh9R6oB9
-         /i5R+3OUShs4R+dbWPD9B/GMHpGO/j2dEbATU=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=GABZi787Wp8y2jP5j911R8ypXUTd8yW4lOUQBM0rSuo=;
+        b=nsLfagEVjvElOOjNxBfZ9x0hWi+YF3hzqpfwKgG8aSDVg4/T9U+oRoqSfImxtUsIKm
+         8IQTwY4qO8HLk3cuQJYm5F+NWmERP+7cn8XYwxq7WZsGW8QYJlHuFMxvnZv/JEvalPuC
+         nhJtPttLD0BV5YexLqhPp/4sy9XYVtlJSRX30TVU4oxZ+XcG3bndP6p1cZxUO+0l32C9
+         zTC9HawK+mWLuiJYaASfiaIp/bF+28LA9qGQP8kPax52jIf2dXSZ7ptHKx8I7pbXmWWz
+         zSmAgwrTopdK6+79j63o02dE8mkshi16/pGILDW9QvfNAy+45mrubdWEVaru7uA4nyG8
+         d1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jZe3a29ULkVw3x4qCuESStUjLltqxplSOaMCKAvyKUg=;
-        b=Wv0hwoKmOQWXOqMNN8UnZLOYp/YfdkbKptmnWErKx7e/lsK9GnqqAvwPb2QSejXIf+
-         4pQZO2fH/n+mDHh7ESTdmMUgwcs5oi4vBXSt6xx8oaMBYnDYtlx/htC+vt+Rr5wcAUqO
-         QepB4uFTXFbmjZ9Gwh6AO5uPKL0HDJxVe59ydoPDhU7LGumdfLDo1kh+MwWQxq2lhgXP
-         WrCZoLMGBoV0s8YYkUmNHXawbVaIDYTX/0KF7I0EZ55R1goL//yevT2CD2/p5FSjTNMz
-         3+Nxmf2LR3mdG+ed8wad1LXjGEOuyzdgUCWLSKqY2nmo6llEQO6FZuzevsgiD9LrOCcT
-         jyjQ==
-X-Gm-Message-State: AOAM5321GRyl7PJq/rL6zSu2lfexNFJ+MyinuO6539xsVOkQJ8q5N9BL
-	CcxdjiYxSRhlBJqZXTFhutO7iA==
-X-Google-Smtp-Source: ABdhPJyHEJtJ2RG8AqFrfZg3NwlNvlhlL5Z2g/igFMI6Nxz/ptCEO10ayKrOjDxtD8e7rxnERK8wpQ==
-X-Received: by 2002:a1c:6387:: with SMTP id x129mr228498wmb.84.1612909472038;
-        Tue, 09 Feb 2021 14:24:32 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:486c:54d8:3bdb:bc7a? ([2001:8b0:aba:5f3c:486c:54d8:3bdb:bc7a])
-        by smtp.gmail.com with ESMTPSA id t197sm9264886wmt.3.2021.02.09.14.24.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 14:24:31 -0800 (PST)
-Message-ID: <86e12e50c3d95200a3192a56e4cac352832d97cd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Build libpwquality without distutils3
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joseph Reynolds <jrey@linux.ibm.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Feb 2021 22:24:30 +0000
-In-Reply-To: <f8302620-913a-2e91-b118-7881437aaeb0@linux.ibm.com>
-References: <f8302620-913a-2e91-b118-7881437aaeb0@linux.ibm.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=GABZi787Wp8y2jP5j911R8ypXUTd8yW4lOUQBM0rSuo=;
+        b=IDccHVVYwTwuwaIyB2ms4rjcem4nrh7vTC9hEj9GvUx1jRP/COL3arVMgYaZch6UIW
+         +RljN09Duh4RChG9CfI1OClVoWagY3WfG1xpPo1AQVWgtCwg9rFl3PVr9gPcdLi/azwl
+         JyomgXtSa4QDFeXKdVYdlpS9Koyq7qmBtlux+f9C6KLapoEXTXzkXrcl0rF1zhR+XYw5
+         gWfLMuYqF5hkli09KYPdfRjhgAqskc3tFFpEEa6xj6j/BXktlqWZ39WeXCkdGVwyOKKw
+         g3xI/6vcspPl22Mm/uioV6nG13CnIbAlnk5izS9RZQuXVx8GfkKWcBy5mIj5f1s0dOFw
+         ioag==
+X-Gm-Message-State: AOAM530cK936Xyt1LkhNQRQDdBaUNfzRfxXQGqyr4I4UT0Rlv6AEpXtp
+	5Dn8zuKcGSp5ET2dGcST/5dPcvCUCYuLLeAsL9QJhg==
+X-Google-Smtp-Source: ABdhPJy3+rp+dpriLNC0waxWLbZV8faXasxrqie99CRHKokdk44M0FSKRLUuCR8PdQtt2Fq3YftS7BovSw2eoPZNHlk=
+X-Received: by 2002:a05:6000:1815:: with SMTP id m21mr271920wrh.350.1612909903610;
+ Tue, 09 Feb 2021 14:31:43 -0800 (PST)
 MIME-Version: 1.0
+References: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
+ <CA+chaQc0anOg2E=o1ouEca-QJDGqKxDoXm6aPVXzsc8TELW3zA@mail.gmail.com>
+ <d9185d19-1f09-a1b6-2926-f54309190b24@gmail.com> <16614BA6A53B3779.25597@lists.openembedded.org>
+ <CA+chaQdbZwyBTbyctEh_y8x_p=txiwqy8gjmkwDrh6rqX_ztng@mail.gmail.com>
+ <f190d3e175a9413994caf1c73a9f9125@XBOX03.axis.com> <CAGDS+n=fBJad4LPWfpA3A-S3_aHfNKXbZQTpsaw56MtQ3miTRQ@mail.gmail.com>
+In-Reply-To: <CAGDS+n=fBJad4LPWfpA3A-S3_aHfNKXbZQTpsaw56MtQ3miTRQ@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Tue, 9 Feb 2021 12:31:31 -1000
+Message-ID: <CAOSpxdZsU9vPHLPnc6ZCnJXZBURp3FqKLxnUQ9UbXTqPqtU23w@mail.gmail.com>
+Subject: Re: [oe] [bitbake-devel] Backport changes for _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, akuster808 <akuster808@gmail.com>, 
+	"Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"OE Core (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>, 
+	"OE Development (openembedded-devel@lists.openembedded.org)" <openembedded-devel@lists.openembedded.org>, 
+	"BitBake Development (bitbake-devel@lists.openembedded.org)" <bitbake-devel@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2021-02-09 at 15:27 -0600, Joseph Reynolds wrote:
-> Dear openembedded-core members,
-> 
-> How can I avoid bringing Python into my image via libpwquality?  I need 
-> to keep my image size small.  My bbappend uses EXTRA_OECONF += 
-> "--enable-python-bindings=no" to take advantage of the source project's 
-> configuration option [1], but because libpwquality_1.4.4.bb [2] imports 
-> distutil3-base, my image gets Python.  I built a working proof of 
-> concept that libpwquality does not need Python here: [3].
-> 
-> I tried enhancing libpwquality_1.4.4.bb with PACKAGECONFIG 
-> "python-bindings" (so my bbappend can use 
-> PACKAGECONFIG_remove="python-bindings") but can't find a way to get the 
-> final value of PACKAGECONFIG to conditionally `inherit 
-> distutils3-base`.  So I am asking for help.
-> 
-> How can I avoid bringing in Python via libpwquality?
+On Tue, Feb 9, 2021 at 4:11 AM Steve Sakoman <sakoman@gmail.com> wrote:
+>
+> On Mon, Feb 8, 2021 at 1:45 PM Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com> wrote:
+> >
+> > As agreed upon on the Yocto Project Technical Team Meeting a week ago,=
+ I have created branches for both Gatesgarth and Dunfell in openembedded-co=
+re-contrib and meta-openembedded-contrib with the required patches. The bra=
+nches are called pkj/_PYTHON_SYSCONFIGDATA_NAME-gatesgarth and pkj/_PYTHON_=
+SYSCONFIGDATA_NAME-dunfell (ok, horrible names, but they should be easy to =
+spot). There is one additional patch for bitbake, but I forgot to ask for a=
+ccess to bitbake-contrib, so you will have to cherry-pick it from commit 47=
+b64cfa (it is not strictly necessary as it is just clean up made possible a=
+fter the changes in OE-Core).
+> >
+> >
+> >
+> > @jansa, @akuster: I have included the two extra patches in meta-openem=
+bedded that Martin mentioned, which were lacking from my original mail. The=
+re were other patches mentioned, which fixed missing spaces related to the =
+use of _append. However, as they were not necessary (they changed other var=
+iables than DEPENDS for target), I did not include them.
+> >
+> >
+> >
+> > I have not done any excessive testing of these branches. I have verifi=
+ed that I can run `devtool modify libxml2`, which I could not do before, an=
+d I have run `bitbake core-image-minimal`.
+>
+> Thanks Peter!  I'll start testing with dunfell this morning.
 
-distutils3-base looks rather simple. Offhand, you could:
+I did an autobuilder run with your meta-openembedded branch, my
+stable/dunfell-nut branch with the 6 patches, and my bitbake
+stable/1.46-nut branch with the single patch:
 
-a) remove python3-core from RDEPENDS when the appropriate PACKAGECONFIG
-is set using the remove operator
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/921
 
-b) replace the distutils3-base with the other inherits directly and
-rewrite the RDEPENDS code to be conditions
+All was fine except for an error in sysdig: do_compile, which doesn't
+appear to be related:
 
-c) propose a patch to allow the RDEPENDS to be indirected via another
-variable?
+https://errors.yoctoproject.org/Errors/Details/570303/
 
-Some of these work from bbappends, some are more neater but take a bit
-more work to sort out.
+Unless someone has an objection I'll add the oe-core and bitbake
+patches to my next set of review patches.
 
-Cheers,
+Steve
 
-Richard
 
+> > From: Martin Jansa <martin.jansa@gmail.com>
+> > Sent: den 7 februari 2021 12:15
+> > To: Martin Jansa <Martin.Jansa@gmail.com>
+> > Cc: akuster808 <akuster808@gmail.com>; Peter Kjellerstedt <peter.kjell=
+erstedt@axis.com>; Steve Sakoman <steve@sakoman.com>; Mittal, Anuj <anuj.mi=
+ttal@intel.com>; OE Core (openembedded-core@lists.openembedded.org) <openem=
+bedded-core@lists.openembedded.org>; OE Development (openembedded-devel@lis=
+ts.openembedded.org) <openembedded-devel@lists.openembedded.org>; BitBake D=
+evelopment (bitbake-devel@lists.openembedded.org) <bitbake-devel@lists.open=
+embedded.org>
+> > Subject: Re: [oe] [bitbake-devel] Backport changes for _PYTHON_SYSCONF=
+IGDATA_NAME to Gatesgarth and Dunfell
+> >
+> >
+> >
+> > On Sun, Feb 7, 2021 at 12:15 AM Martin Jansa via lists.openembedded.or=
+g <Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > On Sat, Jan 16, 2021 at 6:52 PM akuster808 <akuster808@gmail.com> wrot=
+e:
+> >
+> >
+> >
+> > On 1/16/21 9:44 AM, Martin Jansa wrote:
+> > > Aren't the missing spaces in appends fixes also needed for meta-oe
+> > > recipes?
+> >
+> >
+> > >
+> > > I think at least top 5 commits from:
+> > > https://git.openembedded.org/meta-openembedded/log/?qt=3Dgrep&q=3Dsp=
+ace.*append
+> > > were also follow-up from these changes in oe-core.
+> > >
+> > Do you mean something beyond the meta-openembedded commits mentioned
+> > near the bottom of the email?
+> >
+> >
+> >
+> > Yes I mean these 5 commits at least.
+> >
+> >
+> >
+> > 50bbf80abf python3-pykwalify: Do not unset _PYTHON_SYSCONFIGDATA_NAME
+> >
+> > 6b3e3bdaf8 python-grpcio-tools: Add missing space for append
+> >
+> >
+> >
+> > The first one is just an additional cleanup, but without the 2nd one a=
+nd with the cherry-picks from the first e-mail applied you would get:
+> >
+> > ERROR: Nothing PROVIDES 'python3python3-grpcio' (but meta-oe/meta-pyth=
+on/recipes-devtools/python/python3-grpcio-tools_1.14.1.bb DEPENDS on or oth=
+erwise requires it). Close matches:
+> >   python-grpcio
+> >   python3-grpcio
+> >
+> >
+> >
+> > my world build is still running..
+> >
+> >
+> >
+> >
+> >
+> > with c99bb790 DEPENDS variable doesn't end with a space, so the missin=
+g leading space in these appends (which was fine until now because of trail=
+ing space from DEPENDS set in bbclass) is now causing wrong dependency (sho=
+uld be easily reproducible with the patches backported, just by parsing the=
+ recipes).
+> >
+> >
+> >
+> > I need clarity so I can open an issue in gitlab for tracking purposes =
+as
+> > I am sure I will forget this
+> >
+> >
+> >
+> > we're using gitlab?
+> >
+> >
+> >
+> >
+> >
+>
+>=20
+>
