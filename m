@@ -1,81 +1,100 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.15749.1612897858856649311
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web08.17791.1612906034228098370
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 11:10:59 -0800
+ Tue, 09 Feb 2021 13:27:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z6S9TVv8;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id s77so19127260qke.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 11:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LHtkJOCmkCg1ox75htw3anDkoZclMdeLZvuEd011VPc=;
-        b=Z6S9TVv8ujQ4mGKc3ygbNhIoohqYKXEE392JwKDd1HXu71HhDOL/ux4wJ61XVSK15B
-         o5koeQaNIgvhD/sNwTEiZ546MujLzdbs2NJ1+HAEr74FN/9foa0/ua4noEx015n/3I2Z
-         s3eiPVCTqp1U7Fy+G0fVpqk3FoXD963QutzkLeB+eaqNFQ3qifa6ydiGLP6HBEzdk02L
-         kz/rRR0QXBAXfCEtPUCklGEmqn19OtWkr9ZdBNwniekaRQm8F9m41CdihMSqNkSFN7Vr
-         hqWc2Fve9vPWwHQGLVm37cr61R8E+ij09JxLRY3pfNGggYcYRBJlBOZkhCHDAWM3cEhD
-         mxhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LHtkJOCmkCg1ox75htw3anDkoZclMdeLZvuEd011VPc=;
-        b=mWFID560wTtt0orwpKXEeLepmMXBvu6z6wZNsp5nBrWUXDRW9HlrbxTDJ5kQq9Grda
-         yl070ET0eg4wk3A4Fpncqu0Ftvb3ijO5ThWlDZ9wF5jDqOMgwLumn0yk7AcUXz1PgVHm
-         Vr0xjGnG3XliO/G2ayKgr5Of1bSQ7gCdIrGDWcUItAwbgxRrT9P0p7RlKCb6LdxeH/i3
-         Lk6Vp+Z/Uif6vruYpR6aPszdW7Qlctexqo+kjoYaKd98m5ZGrgXcvaaVOWnN4fWQibkd
-         io5lxOl30fIWJUkCJMSBoKScuHawmK8OUAzO24eAUpwePHHOJFagaHN5Mxh1oUnYAxAP
-         SG0A==
-X-Gm-Message-State: AOAM531JsRHM1cxz+HORXRNtCbUPjmeXJXS3KHRrQU+z7kQUhnUuEKh4
-	jEYBuS3bDGQWC5YHKh7Q2zYSasPRP0t1eXVjgD4=
-X-Google-Smtp-Source: ABdhPJzzNBzdL1Qkve182fbryAsM6cs/xDteZ1oIMKlPEn0fTGge+kp4jwQFvHGXgMySvV9kjcUkKrYZFEpvpe+OnaU=
-X-Received: by 2002:a37:9ec5:: with SMTP id h188mr6563686qke.474.1612897857895;
- Tue, 09 Feb 2021 11:10:57 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@ibm.com header.s=pp1 header.b=pflIZGy9;
+ spf=pass (domain: linux.ibm.com, ip: 148.163.156.1, mailfrom: jrey@linux.ibm.com)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 119L4oUm075348
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Feb 2021 16:27:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : subject : to :
+ message-id : date : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=Td7dmvpHPCI/QEmWLTVobRqJ2fDeInCeHyz+W46Eli4=;
+ b=pflIZGy97LOy1r18RgBjijslGHP7W+bxY2IrRO5OR7CJNMTnOB2gwNIVoRNNBOWXKR7e
+ yKHEEbpxrWoWgr+IVv4/enphksyme3i1nnr9DJSBb6Q974o9W1JYyNw9aObhbe3U7lzY
+ u8+HLFNVh5IqpKyj3KCKgnvpknwFHTi+sENQjTOtdxP5jLKNrG2Bi9tM17WWDEXoGdsR
+ bQU6A+0SfxhRzWG8cjFB35TIEWBHxMFolnm4AYWSy0CdBptxfFA7RmNTOS62WT41hoH1
+ xjuV2hC6bCKoJK18/2Ca3V6VscjySFSLP7TrqjhKPMq8bg3sbVnMAXd2oiC9WOhBkJZX Fg== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 36m1tcgtpe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 16:27:13 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+	by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 119LCMYp018585
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Feb 2021 21:27:12 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+	by ppma02dal.us.ibm.com with ESMTP id 36hjr9yv19-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 21:27:12 +0000
+Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+	by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 119LRBRS38470110
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Feb 2021 21:27:11 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3F5ABC6059
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Feb 2021 21:27:11 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ED859C6055
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Feb 2021 21:27:10 +0000 (GMT)
+Received: from demeter.local (unknown [9.80.197.32])
+	by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Feb 2021 21:27:10 +0000 (GMT)
+From: "Joseph Reynolds" <jrey@linux.ibm.com>
+Subject: Build libpwquality without distutils3
+To: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <f8302620-913a-2e91-b118-7881437aaeb0@linux.ibm.com>
+Date: Tue, 9 Feb 2021 15:27:09 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210209141616.24276-1-robert.rosengren@axis.com>
-In-Reply-To: <20210209141616.24276-1-robert.rosengren@axis.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 9 Feb 2021 11:10:31 -0800
-Message-ID: <CAMKF1spisR5dPaN-1pPsk-kiBjW356znTP2JJt500zuU5CjN=w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mpg123: Add support for FPU-less targets
-To: robert.rosengren@axis.com
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.737
+ definitions=2021-02-09_07:2021-02-09,2021-02-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=3
+ suspectscore=0 impostorscore=0 spamscore=0 mlxscore=0 adultscore=0
+ bulkscore=3 clxscore=1011 priorityscore=1501 phishscore=0 mlxlogscore=608
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102090107
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-001b2d01.pphosted.com id 119L4oUm075348
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-is --with-cpu=generic_nofpu applicable for all soft fpu machines or
-just arm ? I wonder if it will improve or regress other nofpu
-machines. Do you have any data
+Dear openembedded-core members,
 
-On Tue, Feb 9, 2021 at 6:16 AM <robert.rosengren@axis.com> wrote:
->
-> From: Robert Rosengren <robert.rosengren@axis.com>
->
-> Support added to configure mpg123 for FPU-less targets. Building for
-> fixed-point arithmetic increases performance on such devices.
->
-> Signed-off-by: Robert Rosengren <robert.rosengren@axis.com>
-> ---
->  meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb b/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
-> index c9bbcd30ff..35cad6ffc4 100644
-> --- a/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
-> +++ b/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
-> @@ -40,6 +40,7 @@ EXTRA_OECONF = " \
->      --with-audio='${AUDIOMODS}' \
->      ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
->      ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
-> +    ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-cpu=generic_nofpu', '', d)} \
->  "
->  # Fails to build with thumb-1 (qemuarm)
->  #| {standard input}: Assembler messages:
-> --
-> 2.20.1
->
->
-> 
->
+How can I avoid bringing Python into my image via libpwquality?=C2=A0 I n=
+eed=20
+to keep my image size small.=C2=A0 My bbappend uses EXTRA_OECONF +=3D=20
+"--enable-python-bindings=3Dno" to take advantage of the source project's=
+=20
+configuration option [1], but because libpwquality_1.4.4.bb [2] imports=20
+distutil3-base, my image gets Python.=C2=A0 I built a working proof of=20
+concept that libpwquality does not need Python here: [3].
+
+I tried enhancing libpwquality_1.4.4.bb with PACKAGECONFIG=20
+"python-bindings" (so my bbappend can use=20
+PACKAGECONFIG_remove=3D"python-bindings") but can't find a way to get the=
+=20
+final value of PACKAGECONFIG to conditionally `inherit=20
+distutils3-base`.=C2=A0 So I am asking for help.
+
+How can I avoid bringing in Python via libpwquality?
+
+I am also curious if anyone else is interested in changing the default=20
+install location for libpwquality.so to /lib/security/ (where Yocto/Poky=20
+defaults to /usr/lib/security).
+
+- Joseph
+
+[1]:=20
+https://github.com/libpwquality/libpwquality/blob/master/configure.ac#L11=
+9
+[2]:=20
+https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-exten=
+ded/libpwquality/libpwquality_1.4.4.bb
+[3]:=20
+https://gerrit.openbmc-project.xyz/c/openbmc/openbmc/+/40102/4..5/meta-op=
+enembedded/meta-oe/recipes-extended/libpwquality/libpwquality_1.4.4.bb#21
+
