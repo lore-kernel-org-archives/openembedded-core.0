@@ -1,259 +1,199 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.12468.1612885988361102987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 07:53:09 -0800
+ Tue, 09 Feb 2021 07:53:11 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: +PWwVR0/1nxL+iPFK/K0Gw9FAZ1WHEaowAOQBBZYkACRe1ZucKMyEQsxfjyb9ENYKyMjr1jDFG
- dhu639PESVMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="266735993"
+IronPort-SDR: szltdHo1H5d/GQDdr3y0MjU+XqtbLD8LYz7POM/0vg748MdNRBjTFZWdd6e8t+7Hq/dvakMrtX
+ CNUARIq6nzhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="266736000"
 X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="266735993"
+   d="scan'208";a="266736000"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:53:09 -0800
-IronPort-SDR: +oEqepaEuXKPBuedqHH3gE8ZHILB/zp+4NlLtkrt5aQRJHhRWt6aMObgXpdzOZwZ/gncF5M+Lb
- C/832tZ1tqSg==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:53:11 -0800
+IronPort-SDR: eWawd704kZhMe1Ktt5haESWZTgmIt5bLWqUhxRS2bxvM9HIfwuSIDbelm6uW5eQaaFZVERZdYl
+ iQXzPVcoK39w==
 X-IronPort-AV: E=Sophos;i="5.81,165,1610438400"; 
-   d="scan'208";a="359215556"
+   d="scan'208";a="359215562"
 Received: from ytee-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.146.52])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:53:08 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 07:53:09 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 22/35] libcroco: Added CVE
-Date: Tue,  9 Feb 2021 23:52:07 +0800
-Message-Id: <5fbf670ec5606f628758b433fe956134b7261dd7.1612885583.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 23/35] image_types.bbclass: tar: use posix format instead of gnu
+Date: Tue,  9 Feb 2021 23:52:08 +0800
+Message-Id: <09127557fd9332472a168efba694a4764b20edd0.1612885583.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1612885583.git.anuj.mittal@intel.com>
 References: <cover.1612885583.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: saloni <saloni.jain@kpit.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Added below CVE:
-CVE-2020-12825
-Link: CVE-2020-12825 [https://gitlab.gnome.org/Archive/libcroco/-/commit/6eb257e5c731c691eb137fca94e916ca73941a5a]
-Link: https://gitlab.gnome.org/Archive/libcroco/-/issues/8
+* gnu isn't compatible with  --xattrs used e.g. here:
+https://github.com/advancedtelematic/meta-updater/blob/d3a832f66e8802cb45536ff278d5c77f946d341d/classes/image_types_ostree.bbclass#L16
+causing do_image_tar failing with:
 
-Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+| tar: --xattrs can be used only on POSIX archives
+| Try 'tar --help' or 'tar --usage' for more information.
+
+* https://www.gnu.org/software/tar/manual/html_chapter/tar_8.html
+  says about posix format:
+
+  This is the most flexible and feature-rich format.
+  It does not impose any restrictions on file sizes or file name lengths.
+  This format is quite recent, so not all tar implementations are able to handle it properly.
+  However, this format is designed in such a way that any tar implementation able to read `ustar'
+  archives will be able to read most `posix' archives as well, with the only exception that any
+  additional information (such as long file names etc.) will in such case be extracted as plain
+  text files along with the files it refers to.
+
+  This archive format will be the default format for future versions of GNU tar.
+
+  and:
+
+  The default format for GNU tar is defined at compilation time.
+  You may check it by running tar --help, and examining the last lines of its output.
+  Usually, GNU tar is configured to create archives in `gnu' format, however, future version will switch to `posix'.
+
+* I've compared tar on centos7 and ubuntu-18.04:
+
+bash-4.2$ cat /etc/centos-release
+CentOS Linux release 7.9.2009 (Core)
+
+bash-4.2$ tar --version
+tar (GNU tar) 1.26
+...
+
+bash-4.2$ tar --help | tail -n 5
+*This* tar defaults to:
+--format=gnu -f- -b20 --quoting-style=escape --rmt-command=/etc/rmt
+--rsh-command=/usr/bin/ssh
+...
+
+bitbake@e0ee76f81c2f:/$ grep VERSION /etc/os-release
+VERSION="18.04.5 LTS (Bionic Beaver)"
+VERSION_ID="18.04"
+VERSION_CODENAME=bionic
+
+bitbake@e0ee76f81c2f:/$ tar --version
+tar (GNU tar) 1.29
+...
+
+bitbake@e0ee76f81c2f:/$ tar --help | tail -n 5
+...
+*This* tar defaults to:
+--format=gnu -f- -b20 --quoting-style=escape --rmt-command=/usr/lib/tar/rmt
+--rsh-command=/usr/bin/rsh
+
+Both support posix format (as pax POSIX 1003.1-2001). But centos7 version is
+already too old anyway, because it doesn't support --sort=name used since:
+https://git.openembedded.org/openembedded-core/commit/?id=4fa68626bbcfd9795577e1426c27d00f4d9d1c17
+and
+https://git.openembedded.org/openembedded-core/commit/?id=f19e43dec63a86c200e04ba14393583588550380
+says that 1.28 is the minium version now and
+https://git.openembedded.org/openembedded-core/commit/?id=7a66434cf11b7f051699b774e4fccd6738351368
+recommends to use install-buildtools for hosts with tar < 1.28
+
+On the other side latest tumbleweed from:
+https://hub.docker.com/r/opensuse/tumbleweed
+with tar-1.33 alredy defaults to posix format:
+
+b99dbb3d86dd:/ # head -n 3 /etc/os-release
+NAME="openSUSE Tumbleweed"
+ID="opensuse-tumbleweed"
+
+b99dbb3d86dd:/ # tar --version
+tar (GNU tar) 1.33
+...
+
+b99dbb3d86dd:/ # tar --help | tail -n 3
+*This* tar defaults to:
+--format=posix -f- -b20 --quoting-style=escape --rmt-command=/usr/bin/rmt
+--rsh-command=/usr/bin/ssh
+
+I've packaged some sample rootfs directory with both tars and the result is
+identical (with --format=gnu as well as --format=posix).
+
+with ubuntu:
+tar --sort=name --format=gnu --numeric-owner -cf rootfs.ubuntu.gnu.tar -C rootfs .
+tar --xattrs --xattrs-include=* --sort=name --format=posix --numeric-owner -cf rootfs.ubuntu.posix.tar -C rootfs .
+tumbleweed:
+tar --sort=name --format=gnu --numeric-owner -cf rootfs.tumbleweed.gnu.tar -C rootfs .
+tar --xattrs --xattrs-include=* --sort=name --format=posix --numeric-owner -cf rootfs.tumbleweed.posix.tar -C rootfs .
+centos7 (without --sort=name):
+tar --format=gnu --numeric-owner -cf rootfs.centos7.gnu.tar -C rootfs .
+tar --xattrs --xattrs-include=* --format=posix --numeric-owner -cf rootfs.centos7.posix.tar -C rootfs .
+
+size is identical:
+-rw-r--r-- 1 mjansa mjansa 2487480320 Feb  5 09:19 rootfs.ubuntu.gnu.tar
+-rw-r--r-- 1 mjansa mjansa 2487480320 Feb  5 10:17 rootfs.centos7.gnu.tar
+-rw-r--r-- 1 mjansa mjansa 2487480320 Feb  5 10:26 rootfs.tumbleweed.gnu.tar
+-rw-r--r-- 1 mjansa mjansa 2579875840 Feb  5 10:15 rootfs.ubuntu.posix.tar
+-rw-r--r-- 1 mjansa mjansa 2579875840 Feb  5 10:16 rootfs.centos7.posix.tar
+-rw-r--r-- 1 mjansa mjansa 2579875840 Feb  5 10:26 rootfs.tumbleweed.posix.tar
+
+but md5s aren't:
+5e3880283379dd773ac054e20562fdea  rootfs.centos7.gnu.tar
+abeaf992c780aa780a27be01365d26f5  rootfs.centos7.posix.tar
+0c6ee59d87ab56583293262de110bca4  rootfs.tumbleweed.gnu.tar
+1555bc7276eaba924bf82a13a010fd6d  rootfs.tumbleweed.posix.tar
+553d802bba351e273191bd5b2a621b66  rootfs.ubuntu.gnu.tar
+b6d7b43b30174686f6625ba3c7aefdc6  rootfs.ubuntu.posix.tar
+
+diffoscope shows some differences when using gnu format:
+
+$ diffoscope rootfs.tumbleweed.gnu.tar rootfs.ubuntu.gnu.tar
+...
+-00239890: 3030 3000 3030 3737 3637 0020 4b00 0000  000.007767. K...
++00239890: 3030 3000 3031 3135 3737 0020 4b00 0000  000.011577. K...
+...
+-00239900: 0075 7374 6172 2020 0000 0000 0000 0000  .ustar  ........
++00239900: 0075 7374 6172 2020 0072 6f6f 7400 0000  .ustar  .root...
+...
+-00239920: 0000 0000 0000 0000 0000 0000 0000 0000  ................
++00239920: 0000 0000 0000 0000 0072 6f6f 7400 0000  .........root...
+
+with posix format there are also some differences shown by diffoscope:
+
+$ diffoscope rootfs.tumbleweed.posix.tar rootfs.ubuntu.posix.tar
+ 016a4c00: 2e2f 7573 722f 6269 6e2f 5061 7848 6561  ./usr/bin/PaxHea
+-016a4c10: 6465 7273 2f63 6861 7474 722e 6532 6673  ders/chattr.e2fs
+-016a4c20: 7072 6f67 7300 0000 0000 0000 0000 0000  progs...........
++016a4c10: 6465 7273 2e32 322f 6368 6174 7472 2e65  ders.22/chattr.e
++016a4c20: 3266 7370 726f 6773 0000 0000 0000 0000  2fsprogs........
+...
+ 03937000: 2e2f 7573 722f 6269 6e2f 5061 7848 6561  ./usr/bin/PaxHea
+-03937010: 6465 7273 2f63 6f6e 7461 696e 6572 642d  ders/containerd-
+-03937020: 6374 7200 0000 0000 0000 0000 0000 0000  ctr.............
++03937010: 6465 7273 2e32 322f 636f 6e74 6169 6e65  ders.22/containe
++03937020: 7264 2d63 7472 0000 0000 0000 0000 0000  rd-ctr..........
+
+so cannot really say which format is better for reproducible tar
+archives from different distros, but posix at least supports xattrs
+and it's the format for future.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f8cee7386c556e1c5adb07a0aee385642b7a5568)
+(cherry picked from commit 3ecea58f2a3382d9f4b410d6ad7089111334cb6f)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../libcroco/files/CVE-2020-12825.patch       | 192 ++++++++++++++++++
- .../libcroco/libcroco_0.6.13.bb               |   3 +
- 2 files changed, 195 insertions(+)
- create mode 100644 meta/recipes-support/libcroco/files/CVE-2020-12825.patch
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcroco/files/CVE-2020-12825.patch b/meta/recipes-support/libcroco/files/CVE-2020-12825.patch
-new file mode 100644
-index 0000000000..42f92e3607
---- /dev/null
-+++ b/meta/recipes-support/libcroco/files/CVE-2020-12825.patch
-@@ -0,0 +1,192 @@
-+From fdf78a4877afa987ba646a8779b513f258e6d04c Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@gnome.org>
-+Date: Fri, 31 Jul 2020 15:21:53 -0500
-+Subject: [PATCH] libcroco: Limit recursion in block and any productions
-+
-+ (CVE-2020-12825)
-+
-+If we don't have any limits, we can recurse forever and overflow the
-+stack.
-+
-+Fixes #8
-+This is per https://gitlab.gnome.org/Archive/libcroco/-/issues/8
-+
-+https://gitlab.gnome.org/GNOME/gnome-shell/-/merge_requests/1404
-+
-+CVE: CVE-2020-12825
-+Upstream-Status: Backport [https://gitlab.gnome.org/Archive/libcroco/-/commit/6eb257e5c731c691eb137fca94e916ca73941a5a]
-+Comment: No refreshing changes done.
-+Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
-+
-+---
-+ src/cr-parser.c | 44 +++++++++++++++++++++++++++++---------------
-+ 1 file changed, 29 insertions(+), 15 deletions(-)
-+
-+diff --git a/src/cr-parser.c b/src/cr-parser.c
-+index 18c9a01..f4a62e3 100644
-+--- a/src/cr-parser.c
-++++ b/src/cr-parser.c
-+@@ -136,6 +136,8 @@ struct _CRParserPriv {
-+ 
-+ #define CHARS_TAB_SIZE 12
-+ 
-++#define RECURSIVE_CALLERS_LIMIT 100
-++
-+ /**
-+  * IS_NUM:
-+  *@a_char: the char to test.
-+@@ -344,9 +346,11 @@ static enum CRStatus cr_parser_parse_selector_core (CRParser * a_this);
-+ 
-+ static enum CRStatus cr_parser_parse_declaration_core (CRParser * a_this);
-+ 
-+-static enum CRStatus cr_parser_parse_any_core (CRParser * a_this);
-++static enum CRStatus cr_parser_parse_any_core (CRParser * a_this,
-++                                               guint      n_calls);
-+ 
-+-static enum CRStatus cr_parser_parse_block_core (CRParser * a_this);
-++static enum CRStatus cr_parser_parse_block_core (CRParser * a_this,
-++                                                 guint      n_calls);
-+ 
-+ static enum CRStatus cr_parser_parse_value_core (CRParser * a_this);
-+ 
-+@@ -784,7 +788,7 @@ cr_parser_parse_atrule_core (CRParser * a_this)
-+         cr_parser_try_to_skip_spaces_and_comments (a_this);
-+ 
-+         do {
-+-                status = cr_parser_parse_any_core (a_this);
-++                status = cr_parser_parse_any_core (a_this, 0);
-+         } while (status == CR_OK);
-+ 
-+         status = cr_tknzr_get_next_token (PRIVATE (a_this)->tknzr,
-+@@ -795,7 +799,7 @@ cr_parser_parse_atrule_core (CRParser * a_this)
-+                 cr_tknzr_unget_token (PRIVATE (a_this)->tknzr, 
-+                                       token);
-+                 token = NULL;
-+-                status = cr_parser_parse_block_core (a_this);
-++                status = cr_parser_parse_block_core (a_this, 0);
-+                 CHECK_PARSING_STATUS (status,
-+                                       FALSE);
-+                 goto done;
-+@@ -930,11 +934,11 @@ cr_parser_parse_selector_core (CRParser * a_this)
-+ 
-+         RECORD_INITIAL_POS (a_this, &init_pos);
-+ 
-+-        status = cr_parser_parse_any_core (a_this);
-++        status = cr_parser_parse_any_core (a_this, 0);
-+         CHECK_PARSING_STATUS (status, FALSE);
-+ 
-+         do {
-+-                status = cr_parser_parse_any_core (a_this);
-++                status = cr_parser_parse_any_core (a_this, 0);
-+ 
-+         } while (status == CR_OK);
-+ 
-+@@ -956,10 +960,12 @@ cr_parser_parse_selector_core (CRParser * a_this)
-+  *in chapter 4.1 of the css2 spec.
-+  *block ::= '{' S* [ any | block | ATKEYWORD S* | ';' ]* '}' S*;
-+  *@param a_this the current instance of #CRParser.
-++ *@param n_calls used to limit recursion depth
-+  *FIXME: code this function.
-+  */
-+ static enum CRStatus
-+-cr_parser_parse_block_core (CRParser * a_this)
-++cr_parser_parse_block_core (CRParser * a_this,
-++                            guint      n_calls)
-+ {
-+         CRToken *token = NULL;
-+         CRInputPos init_pos;
-+@@ -967,6 +973,9 @@ cr_parser_parse_block_core (CRParser * a_this)
-+ 
-+         g_return_val_if_fail (a_this && PRIVATE (a_this), CR_BAD_PARAM_ERROR);
-+ 
-++        if (n_calls > RECURSIVE_CALLERS_LIMIT)
-++                return CR_ERROR;
-++
-+         RECORD_INITIAL_POS (a_this, &init_pos);
-+ 
-+         status = cr_tknzr_get_next_token (PRIVATE (a_this)->tknzr, &token);
-+@@ -996,13 +1005,13 @@ cr_parser_parse_block_core (CRParser * a_this)
-+         } else if (token->type == CBO_TK) {
-+                 cr_tknzr_unget_token (PRIVATE (a_this)->tknzr, token);
-+                 token = NULL;
-+-                status = cr_parser_parse_block_core (a_this);
-++                status = cr_parser_parse_block_core (a_this, n_calls + 1);
-+                 CHECK_PARSING_STATUS (status, FALSE);
-+                 goto parse_block_content;
-+         } else {
-+                 cr_tknzr_unget_token (PRIVATE (a_this)->tknzr, token);
-+                 token = NULL;
-+-                status = cr_parser_parse_any_core (a_this);
-++                status = cr_parser_parse_any_core (a_this, n_calls + 1);
-+                 CHECK_PARSING_STATUS (status, FALSE);
-+                 goto parse_block_content;
-+         }
-+@@ -1109,7 +1118,7 @@ cr_parser_parse_value_core (CRParser * a_this)
-+                 status = cr_tknzr_unget_token (PRIVATE (a_this)->tknzr,
-+                                                token);
-+                 token = NULL;
-+-                status = cr_parser_parse_block_core (a_this);
-++                status = cr_parser_parse_block_core (a_this, 0);
-+                 CHECK_PARSING_STATUS (status, FALSE);
-+                 ref++;
-+                 goto continue_parsing;
-+@@ -1123,7 +1132,7 @@ cr_parser_parse_value_core (CRParser * a_this)
-+                 status = cr_tknzr_unget_token (PRIVATE (a_this)->tknzr,
-+                                                token);
-+                 token = NULL;
-+-                status = cr_parser_parse_any_core (a_this);
-++                status = cr_parser_parse_any_core (a_this, 0);
-+                 if (status == CR_OK) {
-+                         ref++;
-+                         goto continue_parsing;
-+@@ -1162,10 +1171,12 @@ cr_parser_parse_value_core (CRParser * a_this)
-+  *        | FUNCTION | DASHMATCH | '(' any* ')' | '[' any* ']' ] S*;
-+  *
-+  *@param a_this the current instance of #CRParser.
-++ *@param n_calls used to limit recursion depth
-+  *@return CR_OK upon successfull completion, an error code otherwise.
-+  */
-+ static enum CRStatus
-+-cr_parser_parse_any_core (CRParser * a_this)
-++cr_parser_parse_any_core (CRParser * a_this,
-++                          guint      n_calls)
-+ {
-+         CRToken *token1 = NULL,
-+                 *token2 = NULL;
-+@@ -1174,6 +1185,9 @@ cr_parser_parse_any_core (CRParser * a_this)
-+ 
-+         g_return_val_if_fail (a_this, CR_BAD_PARAM_ERROR);
-+ 
-++        if (n_calls > RECURSIVE_CALLERS_LIMIT)
-++                return CR_ERROR;
-++
-+         RECORD_INITIAL_POS (a_this, &init_pos);
-+ 
-+         status = cr_tknzr_get_next_token (PRIVATE (a_this)->tknzr, &token1);
-+@@ -1212,7 +1226,7 @@ cr_parser_parse_any_core (CRParser * a_this)
-+                  *We consider parameter as being an "any*" production.
-+                  */
-+                 do {
-+-                        status = cr_parser_parse_any_core (a_this);
-++                        status = cr_parser_parse_any_core (a_this, n_calls + 1);
-+                 } while (status == CR_OK);
-+ 
-+                 ENSURE_PARSING_COND (status == CR_PARSING_ERROR);
-+@@ -1237,7 +1251,7 @@ cr_parser_parse_any_core (CRParser * a_this)
-+                 }
-+ 
-+                 do {
-+-                        status = cr_parser_parse_any_core (a_this);
-++                        status = cr_parser_parse_any_core (a_this, n_calls + 1);
-+                 } while (status == CR_OK);
-+ 
-+                 ENSURE_PARSING_COND (status == CR_PARSING_ERROR);
-+@@ -1265,7 +1279,7 @@ cr_parser_parse_any_core (CRParser * a_this)
-+                 }
-+ 
-+                 do {
-+-                        status = cr_parser_parse_any_core (a_this);
-++                        status = cr_parser_parse_any_core (a_this, n_calls + 1);
-+                 } while (status == CR_OK);
-+ 
-+                 ENSURE_PARSING_COND (status == CR_PARSING_ERROR);
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.13.bb b/meta/recipes-support/libcroco/libcroco_0.6.13.bb
-index 9171a9de5c..a443ff23fe 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.13.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.13.bb
-@@ -18,3 +18,6 @@ inherit gnomebase gtk-doc binconfig-disabled
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 85d619ca89..30951ae366 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -110,7 +110,7 @@ IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
  
- SRC_URI[archive.md5sum] = "c80c5a8385011a0260dce6bd0da93dce"
- SRC_URI[archive.sha256sum] = "767ec234ae7aa684695b3a735548224888132e063f92db585759b422570621d4"
-+
-+SRC_URI +="file://CVE-2020-12825.patch \
-+"
+ IMAGE_CMD_TAR ?= "tar"
+ # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
+-IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --format=gnu --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
++IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+ 
+ do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD_cpio () {
 -- 
 2.29.2
 
