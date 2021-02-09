@@ -1,74 +1,93 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.11149.1612881630706225537
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.11804.1612883735471593570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 06:40:31 -0800
+ Tue, 09 Feb 2021 07:15:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b/2/2viT;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.50, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f50.google.com with SMTP id q7so22099156wre.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 06:40:30 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JZ26npRd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id 7so22425508wrz.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 07:15:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x43Rsec69MLiXAm6S7dXRgYXd95duaSq+LkLAHickNA=;
-        b=b/2/2viTkisPv/ozDMzh8bbB8htys6CKGX2nD9oMo+i/7Dil/F5fIYzOjxOhJzRqhy
-         YaeLGmhmmveQ3sSQViFnUHAOmPrpCnjsjflMB2XL8tgf8IB0ZLIr/sKkvvY5f1quoeYN
-         1tohTyZYzZk26Uvjq3HZNooL+y5nGAlp+cgs70jAMuj+xkUkTHuLe0v4sq0EffPFFeRD
-         OC7DyYyZTcOToYjPubOxdw0YHZFbXa10WIZoKkgJuAdZAYNin0ZlISlxfUB3SV6LuESg
-         VjHjymrhRT1pmRHdZYPYMXET2H7Y2H+8LDDwiDAbn6p8CiZokdAFaZvuWtO0IEcB+kKE
-         Rw5w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=yNyJi6qG7TNOgqahw1S66Xg8s0L6nCntLO0mi12HplM=;
+        b=JZ26npRdIGVsnreU95yONvWY0UQcOdh0sNXkOd0Zdc+Ks5UV3MdthZWc4NMKHQCDAn
+         XbOJep/adKi91p5hZftWeaLzLiFCopnJt27vtBP1PaOmY4WG1WaMFlft5e3oCSHYhpEw
+         RlimdSjYofTaCVfH0R6CM/5itI8/PNj4Uh7L0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x43Rsec69MLiXAm6S7dXRgYXd95duaSq+LkLAHickNA=;
-        b=B9nC7uymCPuATxkeILXnElFI/BCzUrbV6/d2m2JYPLAUL6/l5QeF7rxw1Cbs1n/skT
-         n0A11znM7GQJGR3CKtd3FSJMPec60JukDqtS628+qQSufFu/8fdslk9r3JFi5Z9w7Yq5
-         H8SUAMIMz0Q0QR2Ptgou4qgVRZJueFdI82yKk0H1cHWb8bko+VamrYh66GA/oeuv9wiK
-         ruDFBiORbCoxt1O2gRXOrqhlBxZONKzIzbLcgtUZcOmMAUjSS+uPlz+AvUtlVqDYZ95m
-         YRbm+ntIFpUmodAa7CdTqYzvfzDaaLO114KI9Fmyp97WPWXsn8VJSopJPKwt+pF1ngML
-         h81Q==
-X-Gm-Message-State: AOAM530tXz+i9eljwRJJkHkj/4sNvNMl1CGTDXeXa+QwvZcnwpDFeUec
-	oRV103GUFxp5w8wBtGqVG4W+3pQtwV5/SKMLdQ3w8Q==
-X-Google-Smtp-Source: ABdhPJwhBniuqJwtAiTP6YOVlugeInTk40+lMrrqMzR1NXCLDGGi4dfcJCnyyFErZ45vKIeMxxK9JuF4DfO1e2+2OEc=
-X-Received: by 2002:adf:e5c6:: with SMTP id a6mr26096539wrn.400.1612881629282;
- Tue, 09 Feb 2021 06:40:29 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=yNyJi6qG7TNOgqahw1S66Xg8s0L6nCntLO0mi12HplM=;
+        b=SLrc/UKvisTUjq8ApnRZyZZg479ac+AV3z/xa9jaOs8+ZV+cemAlAXpnmAKNpafrnR
+         G94pwhwWQ/Ox/U6Qy7ghEgMFFo8/NKOhI02qyFTzNx8wpypnCiRDOa3Bt9IDbXWL79ip
+         YiTzUV+3Vz9NqTj/XjjGx6WJ92nQ3O9aJDcFxjHkbBWIiPnq8PU32qFsiGetmNaACelD
+         2y0dFpkEbePj7LvPGZynUtZs4J8k0AWJ3a//ulXdoYXoyTV1lruKQIPEqMI9dYw/FuA1
+         /Aipit8jPpbphgk3KGMf6BZIFR/6rWlPv/dKwz2dsgLg7hhciOGYHuyGNao/jRp+J4nu
+         JrIw==
+X-Gm-Message-State: AOAM532QW57uH6j2ZVLeV+SYV9/eeu7qzeZSEEJbd0ifYQwvbsXh3kGt
+	YF2F7AhCFkFC8p3SMEFV6cTUuw==
+X-Google-Smtp-Source: ABdhPJyQaVXK1ml7D5qmyByWKuxy1UgoZ9993yWXvMfGHPkC2ptu3JRoRNBgueOtWOGX7+se/tkIyg==
+X-Received: by 2002:adf:c6c1:: with SMTP id c1mr26208196wrh.326.1612883733980;
+        Tue, 09 Feb 2021 07:15:33 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c? ([2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c])
+        by smtp.gmail.com with ESMTPSA id r10sm5382865wrn.83.2021.02.09.07.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 07:15:33 -0800 (PST)
+Message-ID: <f0c6dc4481894031536eda836d13510ae919935c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 09 Feb 2021 15:15:32 +0000
+In-Reply-To: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
+References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <cover.1612792088.git.steve@sakoman.com> <bc1f08f0202b1ea3780b72dc9b2e7bc339581fcc.1612792088.git.steve@sakoman.com>
- <efcd1bc6ff5c0f4ec4b6111d51b292c629b2ce58.camel@linuxfoundation.org>
-In-Reply-To: <efcd1bc6ff5c0f4ec4b6111d51b292c629b2ce58.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 9 Feb 2021 04:40:17 -1000
-Message-ID: <CAOSpxdbL_s8kENSEXyez036pdEJ5wSR8GaYccy-ZHcvO+U2jVA@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 23/28] opkg: Fix build reproducibility issue
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 9, 2021 at 4:34 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-02-08 at 03:52 -1000, Steve Sakoman wrote:
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > A build date was leaking into the generated docs and makefile used for
-> > ptests leading to reproducibility issues each time the month changed.
-> >
-> > Add a patch to use SOURCE_DATE_EPOCH to derive it if available.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit 6a9ca7aec4991eabd425e32fdf85f51bb1686b8b)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  .../opkg/opkg/sourcedateepoch.patch           | 25 +++++++++++++++++++
-> >  meta/recipes-devtools/opkg/opkg_0.4.2.bb      |  1 +
-> >  2 files changed, 26 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
->
-> I'd hold this one until I get the patch fixed...
+On Thu, 2021-02-04 at 13:13 +0100, Tomasz Dziendzielski wrote:
+> If image recipe depends on another image recipe it will try to use
+> license recipeinfo that is not deployed. It will result in:
+> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> > 'TMPDIR/deploy/licenses/foo-image/recipeinfo'
+> 
+> We can't determine in a simple and efficient way if dependency recipe
+> inherits image.bbclass, so let's introduce SKIP_LICENSE_MANIFEST_RECIPES
+> variable that will contain list of recipes that should be skipped.
+> 
+> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> ---
+>  meta/classes/license_image.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+> index 8fd88cfb2d..e2f3178306 100644
+> --- a/meta/classes/license_image.bbclass
+> +++ b/meta/classes/license_image.bbclass
+> @@ -223,7 +223,8 @@ def get_deployed_dependencies(d):
+>      pn = d.getVar("PN", True)
+>      depends = list(set([dep[0] for dep
+>                      in list(taskdata.values())
+> -                    if not dep[0].endswith("-native") and not dep[0] == pn]))
+> +                    if not dep[0].endswith("-native") and not dep[0] == pn
+> +                    and dep[0] not in (d.getVar("SKIP_LICENSE_MANIFEST_RECIPES", True) or "").split()]))
+>  
+> 
+> 
+> 
 
-Got it!  I'll remove from the pull request and wait till I see your
-fix to resubmit.
+I've been giving this some thought and I really don't like having to
+remember to manually add special cases like this, it sounds/looks like
+something we should really fix in a better way.
 
-Steve
+Perhaps we should just skip license files if they don't exist? We could
+perhaps show a warning if the match isn't for a recipe called *-image?
+
+Cheers,
+
+Richard
+
