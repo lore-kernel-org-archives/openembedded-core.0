@@ -1,93 +1,166 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.11804.1612883735471593570
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web09.11628.1612883822516670073
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 07:15:35 -0800
+ Tue, 09 Feb 2021 07:17:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JZ26npRd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id 7so22425508wrz.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 07:15:35 -0800 (PST)
+ dkim=pass header.i=@madison.systems header.s=google header.b=lP7B76jd;
+ spf=pass (domain: madison.systems, ip: 209.85.208.169, mailfrom: matt@madison.systems)
+Received: by mail-lj1-f169.google.com with SMTP id b16so7025790lji.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 07:17:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=yNyJi6qG7TNOgqahw1S66Xg8s0L6nCntLO0mi12HplM=;
-        b=JZ26npRdIGVsnreU95yONvWY0UQcOdh0sNXkOd0Zdc+Ks5UV3MdthZWc4NMKHQCDAn
-         XbOJep/adKi91p5hZftWeaLzLiFCopnJt27vtBP1PaOmY4WG1WaMFlft5e3oCSHYhpEw
-         RlimdSjYofTaCVfH0R6CM/5itI8/PNj4Uh7L0=
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A5mZIAo47v8+978SwsE44umli1KZNRdqnwpKk6eGIco=;
+        b=lP7B76jdJgOeArvKnfD1Ux7t229VX2+nTzbX38T3w85duPQRc20/iK46ezVgUm/nB0
+         yurQvwIupHaEU33VSeueVFc3RkNKa9j2uKR3KEGQc3N26AIx7U5FHld8OnKDGMrBNMe3
+         QMqaBNNWp+7eUC13VrUQYTv4tWBbdxHuzWHzF6uebn8zWpA6gO0WQs0lABf1Azu+0c94
+         pHaZSWNQRSj3QPcTXvSxr8US5/W9teFdcpAqdWfu9Q2ahGl+2vVJkZcNQkBgDDSbHr5w
+         zvwb/7PNlxooL0G59uZyrwxQDxMjn9XeW0zGGo1MaQknWSQe1vgImYp026XR0hLG4rx0
+         9bXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yNyJi6qG7TNOgqahw1S66Xg8s0L6nCntLO0mi12HplM=;
-        b=SLrc/UKvisTUjq8ApnRZyZZg479ac+AV3z/xa9jaOs8+ZV+cemAlAXpnmAKNpafrnR
-         G94pwhwWQ/Ox/U6Qy7ghEgMFFo8/NKOhI02qyFTzNx8wpypnCiRDOa3Bt9IDbXWL79ip
-         YiTzUV+3Vz9NqTj/XjjGx6WJ92nQ3O9aJDcFxjHkbBWIiPnq8PU32qFsiGetmNaACelD
-         2y0dFpkEbePj7LvPGZynUtZs4J8k0AWJ3a//ulXdoYXoyTV1lruKQIPEqMI9dYw/FuA1
-         /Aipit8jPpbphgk3KGMf6BZIFR/6rWlPv/dKwz2dsgLg7hhciOGYHuyGNao/jRp+J4nu
-         JrIw==
-X-Gm-Message-State: AOAM532QW57uH6j2ZVLeV+SYV9/eeu7qzeZSEEJbd0ifYQwvbsXh3kGt
-	YF2F7AhCFkFC8p3SMEFV6cTUuw==
-X-Google-Smtp-Source: ABdhPJyQaVXK1ml7D5qmyByWKuxy1UgoZ9993yWXvMfGHPkC2ptu3JRoRNBgueOtWOGX7+se/tkIyg==
-X-Received: by 2002:adf:c6c1:: with SMTP id c1mr26208196wrh.326.1612883733980;
-        Tue, 09 Feb 2021 07:15:33 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c? ([2001:8b0:aba:5f3c:6e64:a4a9:6e48:217c])
-        by smtp.gmail.com with ESMTPSA id r10sm5382865wrn.83.2021.02.09.07.15.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 07:15:33 -0800 (PST)
-Message-ID: <f0c6dc4481894031536eda836d13510ae919935c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] license_image: Introduce SKIP_LICENSE_MANIFEST_RECIPES variable to prevent from trying to use license recipeinfo file from image recipes
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 09 Feb 2021 15:15:32 +0000
-In-Reply-To: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
-References: <20210204121323.1696-1-tomasz.dziendzielski@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A5mZIAo47v8+978SwsE44umli1KZNRdqnwpKk6eGIco=;
+        b=emTzLV20j2bH8z1ZEOS2P2BxuaKwVuoBG83HnOE3cA0A7ipL9pZv0Np4C85V6sxVbk
+         B7SV6goZFArCMDcGawyTjmjc+ewJNhZKJDv8t+q6GHa6fjBbNgypGN2W8kUDjhmBmOS/
+         jnYjIcaQI0M8d9ohz3pF1FpeYv/AzZNJCGrjQO+5ay8eBMsFhADPNBXoRxcIBT2RLDTx
+         Tw8iVNYDSc+1uO6A3ExcxYLkXWmDp+ZEL27gvF8zWxsJcY2YJ/4cnrAM9MqzfJEPx/mz
+         VHMCjnspYb8HEIDvii/cmqUIkuCAertH9ndLepvk3RiGsvDlzQVVgd8d5eIaOQTRlEh0
+         xg8Q==
+X-Gm-Message-State: AOAM533ffHY/N3ynqxrqpQMAHZtY+YeY92Pye1YPqy36OOxWF9YZH0RA
+	zUd0u7VFIoAOgtJP6J04WvbRhbpzg6jnWwdTalrt4Q==
+X-Google-Smtp-Source: ABdhPJxrYDFT14l9U1zqZwuuffNST2ZAyChJV+ENx2WO8nEjvCi4bW7SxogkeuiXOKhuNeWWzAsZ3gSh4S+C/minCyw=
+X-Received: by 2002:a2e:3203:: with SMTP id y3mr5304915ljy.476.1612883820495;
+ Tue, 09 Feb 2021 07:17:00 -0800 (PST)
 MIME-Version: 1.0
+References: <20210209143439.1807422-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210209143439.1807422-1-richard.purdie@linuxfoundation.org>
+From: "Matt Madison" <matt@madison.systems>
+Date: Tue, 9 Feb 2021 07:16:49 -0800
+Message-ID: <CAGgRHJpP0B8RUnDwT5vyTApstFggmQPfXWd5xuF8iKUsX4i-Sw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] opkg: Fix patch glitches
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002f61c305bae8c722"
+
+--0000000000002f61c305bae8c722
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-04 at 13:13 +0100, Tomasz Dziendzielski wrote:
-> If image recipe depends on another image recipe it will try to use
-> license recipeinfo that is not deployed. It will result in:
-> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> > 'TMPDIR/deploy/licenses/foo-image/recipeinfo'
-> 
-> We can't determine in a simple and efficient way if dependency recipe
-> inherits image.bbclass, so let's introduce SKIP_LICENSE_MANIFEST_RECIPES
-> variable that will contain list of recipes that should be skipped.
-> 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+On Tue, Feb 9, 2021 at 6:34 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> The original patch contained some text which shouldn't have been there
+> and used brackets in configure which isn't a great idea. Tweak the patch
+> to resolve this.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/classes/license_image.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+> b/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+> index 285d258c635..6d0b1486ad3 100644
+> --- a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+> +++ b/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+> @@ -9,13 +9,12 @@ Index: opkg-0.4.4/configure.ac
+>  ===================================================================
+>  --- opkg-0.4.4.orig/configure.ac
+>  +++ opkg-0.4.4/configure.ac
+> -@@ -281,7 +281,12 @@ AC_FUNC_UTIME_NULL
+> +@@ -281,7 +281,11 @@ AC_FUNC_UTIME_NULL
+>   AC_FUNC_VPRINTF
+>   AC_CHECK_FUNCS([memmove memset mkdir regcomp strchr strcspn strdup
+> strerror strndup strrchr strstr strtol strtoul sysinfo utime])
+>
+>  -CLEAN_DATE=`date +"%B %Y" | tr -d '\n'`
+> -+1607446883
+> -+if [ ! -z "$SOURCE_DATE_EPOCH" ]; then
+> ++if ! -z "$SOURCE_DATE_EPOCH" ; then
+>
+
+This doesn't look like valid shell syntax - there should be a 'test'
+command before the '!', right?
+Or change the whole thing to use AS_IF.
+
+-Matt
+
+ +    CLEAN_DATE=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH +"%B %Y" | tr -d
+> '\n'`
+>  +else
+>  +    CLEAN_DATE=`date +"%B %Y" | tr -d '\n'`
+> --
+> 2.27.0
+>
+>
 > 
-> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-> index 8fd88cfb2d..e2f3178306 100644
-> --- a/meta/classes/license_image.bbclass
-> +++ b/meta/classes/license_image.bbclass
-> @@ -223,7 +223,8 @@ def get_deployed_dependencies(d):
->      pn = d.getVar("PN", True)
->      depends = list(set([dep[0] for dep
->                      in list(taskdata.values())
-> -                    if not dep[0].endswith("-native") and not dep[0] == pn]))
-> +                    if not dep[0].endswith("-native") and not dep[0] == pn
-> +                    and dep[0] not in (d.getVar("SKIP_LICENSE_MANIFEST_RECIPES", True) or "").split()]))
->  
-> 
-> 
-> 
+>
+>
 
-I've been giving this some thought and I really don't like having to
-remember to manually add special cases like this, it sounds/looks like
-something we should really fix in a better way.
+--0000000000002f61c305bae8c722
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Perhaps we should just skip license files if they don't exist? We could
-perhaps show a warning if the match isn't for a recipe called *-image?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 9, 2021 at 6:34 AM Richar=
+d Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.=
+purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">The original patch contained some text which shou=
+ldn&#39;t have been there<br>
+and used brackets in configure which isn&#39;t a great idea. Tweak the pat=
+ch<br>
+to resolve this.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
+br>
+---<br>
+=C2=A0meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch | 5 ++---<br>
+=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch b/meta/=
+recipes-devtools/opkg/opkg/sourcedateepoch.patch<br>
+index 285d258c635..6d0b1486ad3 100644<br>
+--- a/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch<br>
++++ b/meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch<br>
+@@ -9,13 +9,12 @@ Index: opkg-0.4.4/<a href=3D"http://configure.ac" rel=3D=
+"noreferrer" target=3D"_blank">configure.ac</a><br>
+=C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+=C2=A0--- opkg-0.4.4.orig/<a href=3D"http://configure.ac" rel=3D"noreferre=
+r" target=3D"_blank">configure.ac</a><br>
+=C2=A0+++ opkg-0.4.4/<a href=3D"http://configure.ac" rel=3D"noreferrer" ta=
+rget=3D"_blank">configure.ac</a><br>
+-@@ -281,7 +281,12 @@ AC_FUNC_UTIME_NULL<br>
++@@ -281,7 +281,11 @@ AC_FUNC_UTIME_NULL<br>
+=C2=A0 AC_FUNC_VPRINTF<br>
+=C2=A0 AC_CHECK_FUNCS([memmove memset mkdir regcomp strchr strcspn strdup =
+strerror strndup strrchr strstr strtol strtoul sysinfo utime])<br>
+<br>
+=C2=A0-CLEAN_DATE=3D`date +&quot;%B %Y&quot; | tr -d &#39;\n&#39;`<br>
+-+1607446883<br>
+-+if [ ! -z &quot;$SOURCE_DATE_EPOCH&quot; ]; then<br>
+++if ! -z &quot;$SOURCE_DATE_EPOCH&quot; ; then<br></blockquote><div><br><=
+/div><div>This doesn&#39;t look like valid=C2=A0shell syntax - there should=
+ be a &#39;test&#39; command before the &#39;!&#39;, right?</div><div>Or ch=
+ange the whole thing to use AS_IF.<br></div><div><br></div><div>-Matt</div>=
+<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0+=C2=A0 =C2=A0 CLEAN_DATE=3D`LC_ALL=3DC date -d @$SOURCE_DATE_EPOCH =
++&quot;%B %Y&quot; | tr -d &#39;\n&#39;`<br>
+=C2=A0+else<br>
+=C2=A0+=C2=A0 =C2=A0 CLEAN_DATE=3D`date +&quot;%B %Y&quot; | tr -d &#39;\n=
+&#39;`<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
-Cheers,
-
-Richard
-
+--0000000000002f61c305bae8c722--
