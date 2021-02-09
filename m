@@ -1,73 +1,81 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.15559.1612897045982381732
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web11.15749.1612897858856649311
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 10:57:26 -0800
+ Tue, 09 Feb 2021 11:10:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iOYB5XgP;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id l18so2219876pji.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 10:57:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z6S9TVv8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id s77so19127260qke.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 11:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WTTor+f8ObTkzAMsZVdW6eQj1jvYJWjLEQOx6xvnKmQ=;
-        b=iOYB5XgPE45M6WKAuM/8MuyHYrHik1T/6d8vXKZP8GYDhWB1Trthwgei25shhmLg4L
-         RZXTJSjPIVTHPHRuNwkXwDxj+BseQo0AMJJytqYMGjfC9Nv2lIahPRdOgyOXgpORKxFP
-         k7XTxJNpTNNvNKfT79E6f7kpQYd807/OiaMkQs5P/REUpWg+f6Z5dQcgVA7kkOXIKSoN
-         Et58kAU0ARXbcg5vAaQh+s6XwMDdg0lW7XzNe0PfGM2liU8Yf8k5yA6Ue3enVHWDqsIt
-         kGjFO61GSKYjjmFXzswhBZ018sMTIEZlU4zb3C5DLfBgfzcKXJr9YO9Bqn7YIjliAHrv
-         79FQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LHtkJOCmkCg1ox75htw3anDkoZclMdeLZvuEd011VPc=;
+        b=Z6S9TVv8ujQ4mGKc3ygbNhIoohqYKXEE392JwKDd1HXu71HhDOL/ux4wJ61XVSK15B
+         o5koeQaNIgvhD/sNwTEiZ546MujLzdbs2NJ1+HAEr74FN/9foa0/ua4noEx015n/3I2Z
+         s3eiPVCTqp1U7Fy+G0fVpqk3FoXD963QutzkLeB+eaqNFQ3qifa6ydiGLP6HBEzdk02L
+         kz/rRR0QXBAXfCEtPUCklGEmqn19OtWkr9ZdBNwniekaRQm8F9m41CdihMSqNkSFN7Vr
+         hqWc2Fve9vPWwHQGLVm37cr61R8E+ij09JxLRY3pfNGggYcYRBJlBOZkhCHDAWM3cEhD
+         mxhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WTTor+f8ObTkzAMsZVdW6eQj1jvYJWjLEQOx6xvnKmQ=;
-        b=f/Nfj0qKP8vts7FdIJgyr2day53lw4t5mIths6a7XKeXF2IMLG80Y+TN/DmOObl21N
-         3dVB4is3jGGvu4A19qpy/PKWMgctA42HFoaLRsN7SlIAaCgDxL2FHxo27+uSIjTObQlq
-         ouGHyUpeVvRFOvURSQDh1N912VAfmVCUFg0BWfxmPE2RpsmZk23FZtgiFmgJ/D2qNqDE
-         pKpsC03KNnMoNqume2QbsaLiR0r1fqXp8ZNn6HANtRNXAFSxOydSbY9DQ3wVluSTOEsJ
-         Y7y2p98BUowjeqgk+YnApSFjSyUb4GxHFfiT/BMcuAt4bRuEA5p1vs6CDj8e7PBtBRz2
-         YplA==
-X-Gm-Message-State: AOAM531ZQMNTd2QCCwcDaLfDJoTcMF0LGvD7ozUezFGYGrabrPpRjVmJ
-	hYQJ+UDvM5CJ5jq1RfdKDATBagWvqCyczg==
-X-Google-Smtp-Source: ABdhPJxaTsyrgE/AxgoYauaaESBF9FFYiLH6MsBWFnPOANV6lm19BfWPlxuyxXjn9AGKiyjCAckLug==
-X-Received: by 2002:a17:90a:4209:: with SMTP id o9mr5664707pjg.75.1612897045405;
-        Tue, 09 Feb 2021 10:57:25 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ca6])
-        by smtp.gmail.com with ESMTPSA id x20sm12458415pfn.14.2021.02.09.10.57.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 10:57:24 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] tcf-agent: Fix build on riscv32
-Date: Tue,  9 Feb 2021 10:57:22 -0800
-Message-Id: <20210209185722.2861342-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LHtkJOCmkCg1ox75htw3anDkoZclMdeLZvuEd011VPc=;
+        b=mWFID560wTtt0orwpKXEeLepmMXBvu6z6wZNsp5nBrWUXDRW9HlrbxTDJ5kQq9Grda
+         yl070ET0eg4wk3A4Fpncqu0Ftvb3ijO5ThWlDZ9wF5jDqOMgwLumn0yk7AcUXz1PgVHm
+         Vr0xjGnG3XliO/G2ayKgr5Of1bSQ7gCdIrGDWcUItAwbgxRrT9P0p7RlKCb6LdxeH/i3
+         Lk6Vp+Z/Uif6vruYpR6aPszdW7Qlctexqo+kjoYaKd98m5ZGrgXcvaaVOWnN4fWQibkd
+         io5lxOl30fIWJUkCJMSBoKScuHawmK8OUAzO24eAUpwePHHOJFagaHN5Mxh1oUnYAxAP
+         SG0A==
+X-Gm-Message-State: AOAM531JsRHM1cxz+HORXRNtCbUPjmeXJXS3KHRrQU+z7kQUhnUuEKh4
+	jEYBuS3bDGQWC5YHKh7Q2zYSasPRP0t1eXVjgD4=
+X-Google-Smtp-Source: ABdhPJzzNBzdL1Qkve182fbryAsM6cs/xDteZ1oIMKlPEn0fTGge+kp4jwQFvHGXgMySvV9kjcUkKrYZFEpvpe+OnaU=
+X-Received: by 2002:a37:9ec5:: with SMTP id h188mr6563686qke.474.1612897857895;
+ Tue, 09 Feb 2021 11:10:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210209141616.24276-1-robert.rosengren@axis.com>
+In-Reply-To: <20210209141616.24276-1-robert.rosengren@axis.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 9 Feb 2021 11:10:31 -0800
+Message-ID: <CAMKF1spisR5dPaN-1pPsk-kiBjW356znTP2JJt500zuU5CjN=w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mpg123: Add support for FPU-less targets
+To: robert.rosengren@axis.com
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-LCL_STOP_SERVICES needs tcf/cpudefs-mdep.h ported
+is --with-cpu=generic_nofpu applicable for all soft fpu machines or
+just arm ? I wonder if it will improve or regress other nofpu
+machines. Do you have any data
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index ed14fe66b1..c1b05691b8 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -48,6 +48,7 @@ CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_powerpc64 = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_powerpc64le = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_riscv64 = " ${LCL_STOP_SERVICES}"
-+CFLAGS_append_riscv32 = " ${LCL_STOP_SERVICES}"
- 
- do_install() {
- 	oe_runmake install INSTALLROOT=${D}
--- 
-2.30.0
-
+On Tue, Feb 9, 2021 at 6:16 AM <robert.rosengren@axis.com> wrote:
+>
+> From: Robert Rosengren <robert.rosengren@axis.com>
+>
+> Support added to configure mpg123 for FPU-less targets. Building for
+> fixed-point arithmetic increases performance on such devices.
+>
+> Signed-off-by: Robert Rosengren <robert.rosengren@axis.com>
+> ---
+>  meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb b/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
+> index c9bbcd30ff..35cad6ffc4 100644
+> --- a/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
+> +++ b/meta/recipes-multimedia/mpg123/mpg123_1.26.4.bb
+> @@ -40,6 +40,7 @@ EXTRA_OECONF = " \
+>      --with-audio='${AUDIOMODS}' \
+>      ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
+>      ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
+> +    ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-cpu=generic_nofpu', '', d)} \
+>  "
+>  # Fails to build with thumb-1 (qemuarm)
+>  #| {standard input}: Assembler messages:
+> --
+> 2.20.1
+>
+>
+> 
+>
