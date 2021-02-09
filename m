@@ -1,156 +1,147 @@
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web09.13333.1612889624840987485
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.13738.1612890187430038448
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 08:53:44 -0800
+ Tue, 09 Feb 2021 09:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=H+3HaW3v;
- spf=pass (domain: ni.com, ip: 148.163.156.75, mailfrom: prvs=76746431c9=alex.stewart@ni.com)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 119GXGpn011716;
-	Tue, 9 Feb 2021 10:53:43 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=to : cc : references :
- from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version : subject; s=PPS11062020;
- bh=bZjDa+27Dkmgy5aTy/h9+L6AjeOp7hhSmUiCmlo3yMM=;
- b=H+3HaW3vgq3Bg/KFfgJPmfqQO6O8Tn7fIVZ63zIkjXlu9QWgF6ctNr/L66nW4eNkbUvD
- rGad49shshsRZu9n3ZNZe4v9Zi3cOpcsAolLPWZOdu7ai6ZdLBZ53j0pdXg3qB2uPEBV
- Oj6CbsyZeWrAkq6MnLevClx81E8CR/oMZBBuqb1BeTwOhIWozisJN1hHQSAJUuaD87GO
- L6CrQIf2P6g8ZaawXyMw7IBFXbLxqgBoNM0aZjTInPYyFEU3sDeGKiaPnxf/KqwBjc/V
- 3qJwmyNVr5NhY6EiGJPi/ZwgnGNFAaPdpeT/FU4l2z0XMxjqSF/KX0wQ+ggbXbOD4+a9 rQ== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-	by mx0a-00010702.pphosted.com with ESMTP id 36hsgw5w2d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Feb 2021 10:53:43 -0600
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OQ2O1bM/He0nidm4CAhrPs/yLvdhRWb6u5OLrYKVNWgc0piWytfxMcw9UEfPyE+79i48qkswOu0/ax2Tep2qGZTMxi5VsEcnUqG3KC4qqF6Q58wwLg1CfU2TYizk+FkFZUifAFR1mQ7LV/ZXl+DVGNI8pbkTe+s7FkkcIvFTIdMlMvjPZxK26h6UhTh55FOZ+UtnxwR88Uf2YnuelgTuU9fjS5G0Jtz2aYQ1Pdfkikq1GaD4BnKH8durh2RbQqfg8G0Qv8FfZSP/0SBE3E8XX/67Dsewr7e6vFiXA7TsY9hGE0Aq55kAOI55pR4lBnpYwZuiix/c+LInxtdjMJREvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bZjDa+27Dkmgy5aTy/h9+L6AjeOp7hhSmUiCmlo3yMM=;
- b=mkR68C/7bSW+fDznVK3fUw9+UI5Af8+KvSxUpRBJYE0YK76hK1E+EzKzQgwAoHrFvRrbTmStjAvUq2ofLK/23QECKJdR5HEuKAsS8xZ9MBwBF86WGLufMYmKL1X14F5SHSZFWQNH1iuSDpmaQ61r3iGAeHfq186GAwONNChqtxY8vOURuv7OWz/kIFx40HLPBOEAy6B6oA63IKWFoAbdsT4igqHxaadUqKjMkYT2QEula7z+G5fh+e6P8HB0lZAeNfR9YKbryinfXrpX61M2LaKzUukGaSR2PQblZN8MkzBeq5qjR88IA7Exb00IJYockGq32fpj3yx6jbtVsOXYQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bZjDa+27Dkmgy5aTy/h9+L6AjeOp7hhSmUiCmlo3yMM=;
- b=qBFnVZtCKheVZnPBqRA9Q6PcJ5rr/0oj91KF+xy0gXiCpVGgCcQt5cWV2TYw5JllCOTKLAiohjnb+20HOaF4RzH6xg5VQjYw1Yk77U/GghWIIh63P88lAAw78g9LcASthiVHnLE+lIBp8ok2sCnUr7bDcmgdhlQ7MFDSjkM/RdA=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=ni.com;
-Received: from DM6PR04MB5306.namprd04.prod.outlook.com (2603:10b6:5:10f::25)
- by DM5PR0401MB3576.namprd04.prod.outlook.com (2603:10b6:4:7e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Tue, 9 Feb
- 2021 16:53:41 +0000
-Received: from DM6PR04MB5306.namprd04.prod.outlook.com
- ([fe80::85b8:7cc:802e:d31]) by DM6PR04MB5306.namprd04.prod.outlook.com
- ([fe80::85b8:7cc:802e:d31%4]) with mapi id 15.20.3825.030; Tue, 9 Feb 2021
- 16:53:41 +0000
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210209143439.1807422-1-richard.purdie@linuxfoundation.org>
- <CAGgRHJpP0B8RUnDwT5vyTApstFggmQPfXWd5xuF8iKUsX4i-Sw@mail.gmail.com>
- <12e761e8a4cc8f4e5f319bbee76748b6916aef1b.camel@linuxfoundation.org>
-From: "Alex Stewart" <alex.stewart@ni.com>
-Organization: National Instruments Corp.
-Message-ID: <3371a98f-b9f9-fe6d-944d-6fd52aba8bf0@ni.com>
-Date: Tue, 9 Feb 2021 10:53:39 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <12e761e8a4cc8f4e5f319bbee76748b6916aef1b.camel@linuxfoundation.org>
-X-Originating-IP: [65.36.69.14]
-X-ClientProxiedBy: SN7PR04CA0218.namprd04.prod.outlook.com
- (2603:10b6:806:127::13) To DM6PR04MB5306.namprd04.prod.outlook.com
- (2603:10b6:5:10f::25)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=ALRSUdze;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: mcroce@linux.microsoft.com)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CD89F2075FF5
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Feb 2021 09:03:06 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CD89F2075FF5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1612890186;
+	bh=ykisvCnps0t1Ch9krtWYiym1VsB84/0Otgxyp50lhuo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ALRSUdzezSoCVTcx1iZAo6TtIINZZkWJRwK4LnNhDubEYfF69fnAs12JLfcylRE9w
+	 OvzXTrPh57JUWcYSkFmTy/n4UKBE6CGELR76b3C6RHu4MKlNtxVtNmY61tzSrg/yXr
+	 EXzDLfGPfFdbRiWGc106ppRgDWbX/dU2JdX/90+8=
+Received: by mail-pj1-f49.google.com with SMTP id e9so2030549pjj.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 09:03:06 -0800 (PST)
+X-Gm-Message-State: AOAM530c6+gbqZysPkzGUp12lBntzApJJ1YptU8hZXtOayStaq+jh9f5
+	f/XQJjBsIYTds6mWv81JYprqBJXLZDF+5XBhA+I=
+X-Google-Smtp-Source: ABdhPJz79myI6V/XtySeJYg3JowQbFIU72leuv0YeyoGM7lBb51unJdmX2LhTLMTtXvGK1RN86WVGqdiumSSd8yQkRg=
+X-Received: by 2002:a17:90b:104c:: with SMTP id gq12mr4951367pjb.11.1612890185248;
+ Tue, 09 Feb 2021 09:03:05 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.3] (65.36.69.14) by SN7PR04CA0218.namprd04.prod.outlook.com (2603:10b6:806:127::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.21 via Frontend Transport; Tue, 9 Feb 2021 16:53:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 530b0ad3-428c-4587-66e5-08d8cd1b4118
-X-MS-TrafficTypeDiagnostic: DM5PR0401MB3576:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR0401MB35768BB1324CCA3E0167508BFE8E9@DM5PR0401MB3576.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	SyZF1QjZevfPqhmgENo8NH01YmOqC4jzN2Wceq2f9aTslVasD41BMgy5Prj/5qz8HxSoip8mfIRRk8eXja0PhP9fB9b9AALZ6Q7h4G7NLhFuGwCOUH5+EDihUJmlkKwl4pXapW9B1G6bPQjwjeNsod9+jF1q9HWldZvLBi4SKkV39auHxgYOeUcm5qgw4VABMJVEhb46SEz1YcXUQszj8/0YB6UPJ9HqDgtPxiaIFO9Ojc0cdZ6RSv/FJwXWtbJQCUphcenh0+JV+I+SWyW8h2BxG44vFxbuywCk96/54+ktoXyIVOY88rjdD1Gpl/cm3gMoIKBA7WaPhJgfz6XScRnWObm2HPfsGUTAW/Bq7Zz/AxuAM4lA2YmR3y+Jj+GajehEV8xkNgSeoc/ct7zVuiXdJdCDuKAR9V3lOjN/BBOu82UIVGpmmT+bJDJU7pJvYYVE+I3sZLHLV8Ppd1oB7MBHzYL/1NOGJ/5gAf7pVPl3Jv9bCaVrt5ubDF2IhewvqFSjFWtjIOu9bCr5YQ/zeRbFyn9+Vi/vMwZJX8dNGv07vnWCiH9wryXpbZEvAU6NQEgHMIrHBVQXbmoU92yb5EEHV7HsNfYIXlMilrVqA5o=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB5306.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(376002)(346002)(366004)(136003)(39860400002)(26005)(53546011)(316002)(36756003)(186003)(2616005)(44832011)(16526019)(16576012)(956004)(31696002)(4744005)(6916009)(86362001)(31686004)(5660300002)(66556008)(66476007)(8936002)(2906002)(52116002)(36916002)(8676002)(478600001)(4326008)(6486002)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?bHVWRnhDVDdPWGV3MW81RmNOZFNHbDZsNTZtdTZWR3JCSmZPdTRtZk9NOUdH?=
- =?utf-8?B?YjR0TDdDT3pnODBUcnoydGM1akNtT1dRblVoOFFKQ3AxNGdwMUkwcHRtQ3Iz?=
- =?utf-8?B?Y1JhZ2xKcGJZcjF1REpDNDc3VGt6TXFKUTdjK3VlaWhNWWE2KzkvWnFnbGhy?=
- =?utf-8?B?cGhZRVlabys1YTZ1U054YkNEaDhnaHhRWnI3dlp2UWhacXpuUFlSUXp5Nyti?=
- =?utf-8?B?dFA1RlRpeHFVUnUrMHgzU3JDS3Q1cGQwSDMzM3RnRkZLdjU3cnBqc1pnT3B1?=
- =?utf-8?B?QXVCQlk1ZjZNcVMvTGNLUXkraVlQbk9CandwZVgzU1JyendMcDFOY21QVlhp?=
- =?utf-8?B?ZjYyNDhiWVljM0FIV29abzVQWE9XaEhvOWpNMy9zRHhDZWxuZ1Y4WEQ1SlBo?=
- =?utf-8?B?S00rRktwMWZMT3Y1bUluY3ZBSTE5dDlGdTZOd3lucnhKQkdZMDJvbWxPbGda?=
- =?utf-8?B?aml3VHhXdDVHTDRRWmpJcHVtSDFiQ3h3YjBFSTE1dENUWWgwL3BsenlUUjRH?=
- =?utf-8?B?OEprcmZhWW40enc4SWN1anhnWlZkQ0tmWWFSYkduV29reGxYS1dLb2FFVzBy?=
- =?utf-8?B?UW5sLzRIRTUwY3l0VWxSdDdMM05VQStVa2N1eHF4R1VhKzNJNlBTdVFxNjI4?=
- =?utf-8?B?QnI3VDNtZ3d3RktUT0laaEZtV3VqZjJiaUF5cGVyMzl6amVLbG9WMWNLY3RJ?=
- =?utf-8?B?TWtxS1FzQUFSVzU3b3R3L1BFNlY3NmhReTEvMUkyQUtvYW9seDRRR0YycEgy?=
- =?utf-8?B?OUxoK0QycHhWdFBKUUZQZDMvczJtTXpxOFBuTG9sWjE1akY2WjVJUUVjZzg1?=
- =?utf-8?B?TUg0TitOaHV1WVVmZ3BxakNhdGE1MHFtM3EzRzl3bGhpclhDWGphN0o3d2la?=
- =?utf-8?B?UlFtenNIR28xQlFzMmQzajlHYmpJWUZvZkczUmVFUUsyVmlvT2RFTkl1VEZz?=
- =?utf-8?B?M1ZXVTVGWEpsd3ZZNlk2RmpxYTdmZEhWcEo4aStaQ3NNbDU3cXd1L01KWUE4?=
- =?utf-8?B?RFlocllFa3NRSnZ2Vm4xaUtZcGkvTC9JQUpRb1orb25ZWG92Tk85ODhaclJp?=
- =?utf-8?B?Ukdyb0hNRU0rWXBpNDlWWVhRQzU1bzR4dFV3ZnhNRFJkWjNKcnZUeVAvVlA4?=
- =?utf-8?B?U3U1QkdCYmhjbnFyZHNiVnc5VlZ2Y1p6dVVZMWZHdGFmaUs2N05iVnBmRUtC?=
- =?utf-8?B?eHg1SzllRzdYOG4xbVpYcmQrMUg5QnRUc3VzbWFVKzAwRHFEM3pud1ZVS2ps?=
- =?utf-8?B?V0tGOE1ZZXNmaCthNnVockRWTHZDemtKUTEzUVBRbXhmYnh1bWlwZ2JwTWdD?=
- =?utf-8?B?YmNNUHVqKy9YaFBYbzE2RmlJRThqdU9CT1lnR0RJTXlIUnVvMmR3RU1YV1hw?=
- =?utf-8?B?MVFNeTBPNTlQWkVpb2g0VCtjN25zVG5mRlBkclRMTnhxQUw0UVRZOVhxd1VI?=
- =?utf-8?B?OGczaUdhU1RmOHJyaGt3THlDSVdZbUgvSjRMaXphT1R3aFU3OGEyUHdNVTNx?=
- =?utf-8?B?WStvVWRhRVI0QjR0Z25hYzN1VStqVk5IelM0b1h6MHJxRzYwWlQzMTkyZWRU?=
- =?utf-8?B?QldtT3dwUzR0L0ptNWs0cVRraWJwNnNaSUEvMGppaUhPRkdqZUV2NzVrM2RB?=
- =?utf-8?B?TFBVZkxRYW4xSDVFT1d4YlVmeVJTTFBZZEJBQzd0RTZoZHhBRU1TOFk0Z0k2?=
- =?utf-8?B?QVFNbGpONHE0M3ZXSWV1L0VjaVYwZTZJc2xCTUVxNkc0VVNUREVwWmhSdmd3?=
- =?utf-8?Q?cDJvzOoVPrhYRKiWzy3K5Be8jKKaT4482qfolZj?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 530b0ad3-428c-4587-66e5-08d8cd1b4118
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5306.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 16:53:41.4583
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vuRLp6969KMX3+/OCVvojSVB+yEy3M6l2J7peWQs9X1ZGw3U7B/OiWaXTJse7JxtY2aSYrCNRcOYmYeafWCaOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0401MB3576
-Subject: Re: [OE-core] [PATCH] opkg: Fix patch glitches
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.737
- definitions=2021-02-09_05:2021-02-09,2021-02-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30
- lowpriorityscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 clxscore=1015 spamscore=0 mlxscore=0 suspectscore=0
- bulkscore=0 mlxlogscore=863 priorityscore=1501 classifier=spam adjust=30
- reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102090082
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+ <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com>
+ <CAFnufp0ehmcRbLmZXPyG0s8guwyxHhaFXchATL0JRqTYMVPKNA@mail.gmail.com>
+ <CADkTA4OyrJa19z57OJDvo-Si2cjjkO5AH+e9JQ1P5cWtQUKRQw@mail.gmail.com> <CAMKF1sonXQZL0ML=HPmyHdfV=A7fR_XumuhLd7YMBCLJ1JkZ+g@mail.gmail.com>
+In-Reply-To: <CAMKF1sonXQZL0ML=HPmyHdfV=A7fR_XumuhLd7YMBCLJ1JkZ+g@mail.gmail.com>
+From: "Matteo Croce" <mcroce@linux.microsoft.com>
+Date: Tue, 9 Feb 2021 18:02:29 +0100
+X-Gmail-Original-Message-ID: <CAFnufp1xNs9_KweTtx62HJdUc37VV1XmZ3=KRv0vYCjJ62kBug@mail.gmail.com>
+Message-ID: <CAFnufp1xNs9_KweTtx62HJdUc37VV1XmZ3=KRv0vYCjJ62kBug@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hey Richard,
+On Tue, Feb 9, 2021 at 5:44 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> fails to build for rpi4 here
+>
+> https://errors.yoctoproject.org/Errors/Details/570276/
+>
+> On Mon, Feb 8, 2021 at 1:34 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Mon, Feb 8, 2021 at 4:22 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
+> > >
+> > > On Mon, Feb 8, 2021 at 9:13 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > > >
+> > > > On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
+> > > > >
+> > > > > From: Matteo Croce <mcroce@microsoft.com>
+> > > > >
+> > > > > Add a recipe to build libbpf from https://github.com/libbpf/libbpf
+> > > > > The only patch fixes a build issue, and it's already merged upstream.
+> > > >
+> > > > Thanks for the submission! I have a few comments / questions.
+> > > >
+> > > > To get this into oe-core, we should be commenting / documenting why it
+> > > > should be in core, versus another layer. The standard criteria is that
+> > > > there are enough varied users and that the functionality is common
+> > > > enough, that it belongs in core.
+> > > >
+> > >
+> > > For sure bcc and bpftrace can use it, and maybe also perf.
+> > > In future even iproute2 will use it, as it has been ported to libbpf recently.
+> > > Feel free to propose another layer, in case you know a better one.
+> >
+> > That's not for me to propose . that's for you to sort out.
+> >
+> > A quick check of the layer index would show that other bpf tools are
+> > in meta-oe.
+> >
+> > >
+> > >
+> > > > There should also be some sort of oe-selftest for the functionality,
+> > > > otherwise, it is hard to detect breakages. Some sort of application
+> > > > that uses the library and that can be executed in qemu would be
+> > > > enough.
+> > > >
+> > >
+> > > That's doable.
+> > >
+> > > > What are the kernel requirements ? CONFIG_BPF is selected by other
+> > > > kernel configs (it has no menu entry, so it must be), is it that, or
+> > > > something else that is the requirement (classic BFP?). If that option
+> > > > is now always on, is that true for the reference kernel versions in
+> > > > master (5.4 and 5.10).
+> > > >
+> > >
+> > > I'd say BPF_SYSCALL, which is the single entry point for al the eBPF routines.
+> >
+> > Yes, that's the core support, and a selftest would ensure that the
+> > reference kernels can support the package (they can, but we still need
+> > the test) and implicitly document that requirement.
+> >
+> > >
+> > > > Finally, does this work across all the supported architectures ? if
+> > > > not, we'll need compatibility settings.
+> > > >
+> > >
+> > > I tested it only x86 and aarch64, but it should be arch independent.
+> >
+> > Then it should be limited to where it has been tested, otherwise, the
+> > burden falls to the oe-core maintainer, which we don't want.
+> >
+> > Bruce
+> >
+> > >
+> > > Thanks!
+> > > --
+> > > per aspera ad upstream
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> >
+> > 
+> >
 
-On 2/9/21 9:23 AM, Richard Purdie wrote:
-> Well spotted. I somehow grabbed a half complete version, trying to
-> juggle too many things at once I think. I've fixed it on the branch,
-> third time lucky :/.
+Hi,
 
-The new patch on master-next looks good. Could you submit it to the 
-opkg-devel ML, so that I can pull it from there?
+to let bcc use the libbpf dynamic library, you need to backport some
+commits from upstream:
 
-Thanks!
+This one which I recently pushed:
+https://github.com/iovisor/bcc/commit/6b4222cd41b3f5e833307aeff2b10c6b084d3f4f
 
+And these from Luca:
+https://github.com/iovisor/bcc/commit/e46997e9a43d512b6a5d01aae1a4566fd147b7b9
+https://github.com/iovisor/bcc/commit/300296a598613912df5dc61f4b327b7102e52011
+https://github.com/iovisor/bcc/commit/1cb5026e6f1d8dc7ca115cae579be4c53bec0c9e
+
+And you need to pass to cmake some extra flags.
+I have both bcc and bpftraf working with dynamic libbpf, I will share
+my changes to the bcc recipes once libbpf is merged.
+
+Regards,
 -- 
-Alex Stewart
-Software Engineer - NI Real-Time OS
-NI (National Instruments)
-
-alex.stewart@ni.com
-
+per aspera ad upstream
