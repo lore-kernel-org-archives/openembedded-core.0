@@ -1,98 +1,190 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web09.3928.1612832412617263670
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web12.4128.1612833232551117551
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Feb 2021 17:00:13 -0800
+ Mon, 08 Feb 2021 17:13:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.81,163,1610380800"; 
-   d="scan'208";a="104348531"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 09 Feb 2021 09:00:06 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id CB3994CE6F92;
-	Tue,  9 Feb 2021 09:00:04 +0800 (CST)
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 9 Feb 2021 09:00:03 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa])
- by G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa%14]) with
- mapi id 15.00.1497.010; Tue, 9 Feb 2021 09:00:03 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Steve Sakoman <steve@sakoman.com>, Ross Burton <ross@burtonini.com>
-Subject: Re: [OE-core] [PATCH] qemu: CVE-2018-18438 Security Advisory
-Thread-Topic: [OE-core] [PATCH] qemu: CVE-2018-18438 Security Advisory
-Thread-Index: AQHW8MeuIWVkLH95mEeznRznFMUf0qpPG2wg
-Date: Tue, 9 Feb 2021 01:00:03 +0000
-Message-ID: <2c6f7db933684f339dfec0a2251f6e56@G08CNEXMBPEKD05.g08.fujitsu.local>
-References: <1611299746-47965-1-git-send-email-wangmy@cn.fujitsu.com>
-	 <165C8656186C2541.12911@lists.openembedded.org>
- <1353ad48939fcde5e0a549020fec51553560dace.camel@linuxfoundation.org>
-In-Reply-To: <1353ad48939fcde5e0a549020fec51553560dace.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.33]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=e5g06Dz3;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: dorindabassey@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id f2so5190748ioq.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Feb 2021 17:13:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=8mcDx3TBhBg2kbKcckOecRH8/ylWbx7cL6upadlnGMk=;
+        b=e5g06Dz3Up0tm3VtjvRFjteQ9WjXmotqejNhP0FDrAJi79wuoFGdFt2VwMcpw/rd5a
+         BeGVepUyL71AVLAijHOLPzHMKiNdTfwpJdIlyXdQHWm0yyTKT4OW1KZkH6eFpJ6OG5kB
+         l0m7Kb7BqPRzh5FC93Tvhne+eAw7vUKOG+MnS2XeyQ+dE9H/h4FD+K3pOPTp/kwWf1Yy
+         kI/4L2wKauRsUaTWG58aPzrWNhAO0VaN84P+M6VYDFxkqRyHMAcRAF4gSLVRGc02ywpO
+         raJ4okExhXRkN3AcIlSzp5iFfGafH9G6zznD6gPE0KCX41Pytxe9TykYZrSjnPeSMh4z
+         fn2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=8mcDx3TBhBg2kbKcckOecRH8/ylWbx7cL6upadlnGMk=;
+        b=HfeVV7d/oTSuKCF4ra+gMdsWAJGNKmRk5ADp6g+xhLq8DqP/rpG3p2fEaEotU2J665
+         KjDnKT7su3Kt2w+XhIxNW9sn2JnN13rgimSQPTSQonQCZH1NgUKxu0i4bWWLuUAHsMWW
+         g665TDnrjHKNEgnp0lSaPLfldfCZ/s/sMd8eSmtVcyx9P0Ib5Mab92dTPjqukfCA4CKN
+         C7K7wwbTj/ejWydRJRZL0qmtoBnOAmYAX4497PUaR1LOEcR3dabvUzqO0cbI41QjF3mk
+         KsFWJUH9fRbMY9s/rokNkjc4S/thhLKHBCQc20vTQidHgC2dI70WpHxtp2kicXPu/bTa
+         PAZA==
+X-Gm-Message-State: AOAM532YigJ6GVcx7vAmyL04gAlbbp7KZZWgKL6PBXMqKZ6WFSGGORSp
+	rVxdHAQPwkvPFxEsY/z0uepLSdcJi+6TPaFUSrM=
+X-Google-Smtp-Source: ABdhPJyoEkwbQYl6TlAgyObl+SFB5hxHIIAYwh/ruZ6XCMeqs6Iy62+Eon6e1bAI/u/srriH0+LXblp/0UyL/ann7gs=
+X-Received: by 2002:a6b:a0a:: with SMTP id z10mr18106419ioi.67.1612833231984;
+ Mon, 08 Feb 2021 17:13:51 -0800 (PST)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: CB3994CE6F92.AB0BD
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Mon, 8 Feb 2021 17:13:51
+ -0800 (PST)
+Received: by 2002:a05:6e02:b46:0:0:0:0 with HTTP; Mon, 8 Feb 2021 17:13:51
+ -0800 (PST)
+In-Reply-To: <cc0a90ba7b46bcd5b51c60374b741c198d401fde.camel@linuxfoundation.org>
+References: <20210201144638.15582-1-dorindabassey@gmail.com> <cc0a90ba7b46bcd5b51c60374b741c198d401fde.camel@linuxfoundation.org>
+From: "Dorinda" <dorindabassey@gmail.com>
+Date: Mon, 8 Feb 2021 20:13:51 -0500
+Message-ID: <CAJSnhzs1-73MYgRCyfvz+fNuk+A4j=rD+tKTGfRSSMQnjhWAVg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] oe-pkgdata-util: Check if environment script is initialized
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000dfdaf005badcff27"
 
-SGkgUmljaGFyZCwNCg0KPiBJIHdlbnQgZGlnZ2luZyBhbmQgd2FzIHBvaW50
-ZWQgdG8NCj4gDQo+IGh0dHBzOi8vYnVnemlsbGEucmVkaGF0LmNvbS9zaG93
-X2J1Zy5jZ2k/aWQ9MTYwOTAxNQ0KSW4gdGhlIGRpc2N1c3Npb24sICJwYXRj
-aGVzIHdlcmUgYXBwbGllZCB1cHN0cmVhbSB0byBwcmV2ZW50IGZ1dHVyZSBj
-aGFuZ2VzIGludHJvZHVjaW5nIHN1Y2ggZmxhbWVzIiB3YXMgZXhwbGFpbmVk
-LiANCkl0IHNlZW1zIHRoYXQgQ1ZFIGRvZXNuJ3QgdGhpbmsgdGhpcyBpcyBh
-IHByb2JsZW0sIGJ1dCB0aGUgdXBzdHJlYW0gc3RpbGwgYXBwbGllZCB0aGlz
-IHBhdGNoLiANCkluIHRoaXMgY2FzZSwgaXMgaXQgbmVlZCB0byBzdWJtaXQg
-Q1ZFIHBhdGNoPyBPciBzdWJtaXQgaXQgYXMgYSBub3JtYWwgcGF0Y2g/DQoN
-CkJlc3QgcmVnYXJkcywNCldhbmdteQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1
-cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiBTZW50OiBGcmlkYXksIEph
-bnVhcnkgMjIsIDIwMjEgMTA6MDYgUE0NCj4gVG86IFdhbmcsIE1pbmd5dS/n
-josg6bij55GcIDx3YW5nbXlAY24uZnVqaXRzdS5jb20+Ow0KPiBvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBTdGV2
-ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFuLmNvbT47IFJvc3MgQnVydG9uDQo+
-IDxyb3NzQGJ1cnRvbmluaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIXSBxZW11OiBDVkUtMjAxOC0xODQzOCBTZWN1cml0eSBBZHZp
-c29yeQ0KPiANCj4gT24gRnJpLCAyMDIxLTAxLTIyIGF0IDEwOjE0ICswMDAw
-LCBSaWNoYXJkIFB1cmRpZSB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZyB3cm90ZToNCj4gPiBPbiBGcmksIDIwMjEtMDEtMjIgYXQgMTU6MTUgKzA4
-MDAsIFdhbmcgTWluZ3l1IHdyb3RlOg0KPiA+ID4NCj4gPiA+IGRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11L0NWRS0yMDE4
-LTE4NDM4LnBhdGNoDQo+ID4gPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9x
-ZW11L3FlbXUvQ1ZFLTIwMTgtMTg0MzgucGF0Y2gNCj4gPiA+IG5ldyBmaWxl
-IG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRleCAwMDAwMDAwMDAwLi5iNmNlOGZh
-NTdkDQo+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiArKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11L0NWRS0yMDE4LTE4NDM4LnBhdGNo
-DQo+ID4gPiBAQCAtMCwwICsxLDY5NyBAQA0KPiA+ID4gK0Zyb206CVBoaWxp
-cHBlIE1hdGhpZXUtRGF1ZMOpDQo+ID4gPiArU3ViamVjdDoJW1FlbXUtZGV2
-ZWxdIFtQQVRDSCB2MiAwNy8xMV0gY2hhcmRldjogTGV0IElPUmVhZEhhbmRs
-ZXINCj4gdXNlIHVuc2lnbmVkIHR5cGUNCj4gPiA+ICtEYXRlOglGcmksIDEy
-IE9jdCAyMDE4IDAyOjIyOjEzICswMjAwDQo+ID4gPiArDQo+ID4gPiArVGhl
-IG51bWJlciBvZiBieXRlcyBjYW4gbm90IGJlIG5lZ2F0aXZlIG5vciB6ZXJv
-Lg0KPiA+ID4gKw0KPiA+ID4gK0ZpeGVkIDIgZm9ybWF0IHN0cmluZzoNCj4g
-PiA+ICstIGh3L2NoYXIvc3BhcHJfdnR5LmMNCj4gPiA+ICstIGh3L3VzYi9j
-Y2lkLWNhcmQtcGFzc3RocnUuYw0KPiA+DQo+ID4gTm8gVXBzdHJlYW0tU3Rh
-dHVzLg0KPiA+DQo+ID4gSXRzIGFsc28gdW5jbGVhciB3aGF0IHRoZSBzdGF0
-dXMgb2YgdGhlc2UgcGF0Y2hlcyBpcyB1cHN0cmVhbSwgdGhleSdyZQ0KPiA+
-IHN1Ym1pdHRlZCwgdGhlcmUgd2FzIGRpc2N1c3Npb24gYnV0IHRoZXkgd2Vy
-ZW4ndCBtZXJnZWQuIEknbSBhbHNvDQo+ID4gd29uZGVyaW5nIHdoZXRoZXIg
-dGhlcmUgYXJlIG1vcmUgb2YgdGhlIDExIHBhdGNoZXMgaW4gdGhlIHNlcmll
-cw0KPiA+IG5lZWRlZCB0byBhZGRyZXNzIHRoZSBpc3N1ZT8gT3IgcGVyaGFw
-cyB0aGUgaXNzdWUgd2FzIHVsdGltYXRlbHkNCj4gPiBhZGRyZXNzZWQgYnkg
-b3RoZXIgcGF0Y2hlcz8NCj4gDQo+IEkgd2VudCBkaWdnaW5nIGFuZCB3YXMg
-cG9pbnRlZCB0bw0KPiANCj4gaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29t
-L3Nob3dfYnVnLmNnaT9pZD0xNjA5MDE1DQo+IA0KPiBpLmUuIHFlbXUgdXBz
-dHJlYW0gYW5kIFJlZGhhdCBiZWxpZXZlIHRoaXMgaXMgbm90IGFuIGlzc3Vl
-DQo+IA0KPiBTdGV2ZTogV2hhdCBkbyB3ZSBkbyBoZXJlPyBXaGl0ZWxpc3Q/
-IERvIHdlIHJlcG9ydCB1cHN0cmVhbSBzb21laG93Pw0KPiANCj4gQ2hlZXJz
-LA0KPiANCj4gUmljaGFyZA0KPiANCj4gDQoNCgoK
+--000000000000dfdaf005badcff27
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Richard,
+
+I checked devtool and recipetool, they have checks in place that errors out
+immediately if executed without initializing oe-init-build-env script.
+
+However, I'm unsure about this:
+I'm wondering if there should be a check inside tinfoil itself?
+
+Thanks and Regards,
+Dorinda.
+
+
+On Feb 8, 2021 17:42, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
+
+Hi Dorinda,
+
+On Mon, 2021-02-01 at 09:46 -0500, Dorinda wrote:
+> Tinfoil doesn't behave well if environment is not initialized, this check
+ensures a proper error log if environment is not initialized.
+>
+> [YOCTO #12096]
+>
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> ---
+> v2:
+> -Positioned check under a condition when it cannot determine the
+pkgdata_dir
+>
+>  scripts/oe-pkgdata-util | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 93220e3617..75dd23efa3 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -598,6 +598,9 @@ def main():
+>              logger.error("Unable to find bitbake by searching parent
+directory of this script or PATH")
+>              sys.exit(1)
+>          logger.debug('Found bitbake path: %s' % bitbakepath)
+> +        if not os.environ.get('BUILDDIR', ''):
+> +            logger.error("This script can only be run after initialising
+the build environment (e.g. by using oe-init-build-env)")
+> +            sys.exit(1)
+>          tinfoil = tinfoil_init()
+>          try:
+>              args.pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
+
+I'm a little worried about this patch since it fixes the oe-pkgdata-
+util case but what about devtool, or recipetool or anything else which
+uses tinfoil.
+
+I'm wondering if there should be a check inside tinfoil itself?
+
+or is this problem really oe-pkgdata-util specific?
+
+Cheers,
+
+Richard
+
+--000000000000dfdaf005badcff27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi Richard,</div><div dir=3D"auto"><br><div dir=3D"a=
+uto">I checked devtool and recipetool, they have checks in place that error=
+s out immediately if executed without initializing oe-init-build-env script=
+.</div><div dir=3D"auto"><br></div><div dir=3D"auto">However, I&#39;m unsur=
+e about this:</div><div dir=3D"auto"><span style=3D"font-family:sans-serif"=
+>I&#39;m wondering if there should be a check inside tinfoil itself?</span>=
+<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks and Regards,=
+</div><div dir=3D"auto">Dorinda.</div><br><div class=3D"gmail_extra" dir=3D=
+"auto"><br><div class=3D"gmail_quote">On Feb 8, 2021 17:42, &quot;Richard P=
+urdie&quot; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richa=
+rd.purdie@linuxfoundation.org</a>&gt; wrote:<br type=3D"attribution"><block=
+quote class=3D"quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">Hi Dorinda,<br>
+<div class=3D"elided-text"><br>
+On Mon, 2021-02-01 at 09:46 -0500, Dorinda wrote:<br>
+&gt; Tinfoil doesn&#39;t behave well if environment is not initialized, thi=
+s check ensures a proper error log if environment is not initialized.<br>
+&gt; <br>
+&gt; [YOCTO #12096]<br>
+&gt; <br>
+&gt; Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gmai=
+l.com">dorindabassey@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; v2:<br>
+&gt; -Positioned check under a condition when it cannot determine the pkgda=
+ta_dir<br>
+&gt; <br>
+&gt; =C2=A0scripts/oe-pkgdata-util | 3 +++<br>
+&gt; =C2=A01 file changed, 3 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util<br>
+&gt; index 93220e3617..75dd23efa3 100755<br>
+&gt; --- a/scripts/oe-pkgdata-util<br>
+&gt; +++ b/scripts/oe-pkgdata-util<br>
+&gt; @@ -598,6 +598,9 @@ def main():<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0logger.error(&quot;<wbr>Unable to find bitbake by searching parent=
+ directory of this script or PATH&quot;)<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0sys.exit(1)<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0logger.debug(&#3=
+9;Found bitbake path: %s&#39; % bitbakepath)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.environ.get(&#39;BUILDDIR&#39;,=
+ &#39;&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error(&quot;This scr=
+ipt can only be run after initialising the build environment (e.g. by using=
+ oe-init-build-env)&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(1)<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tinfoil =3D tinf=
+oil_init()<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0try:<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0args.pkgdata_dir =3D tinfoil.config_data.getVar(&#39;<wbr>PKGDATA_=
+DIR&#39;)<br>
+<br>
+</div>I&#39;m a little worried about this patch since it fixes the oe-pkgda=
+ta-<br>
+util case but what about devtool, or recipetool or anything else which<br>
+uses tinfoil.<br>
+<br>
+I&#39;m wondering if there should be a check inside tinfoil itself?<br>
+<br>
+or is this problem really oe-pkgdata-util specific?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><br></div></div></div>
+
+--000000000000dfdaf005badcff27--
