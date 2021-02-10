@@ -1,83 +1,89 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web11.7338.1612972465053229547
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.8748.1612977282621047770
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Feb 2021 07:54:25 -0800
+ Wed, 10 Feb 2021 09:14:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=STQfdQX2;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.196, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f196.google.com with SMTP id r23so3522859ljh.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 07:54:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GBoLzoAt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: raymsmithuk@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id a17so3868634ljq.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 09:14:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5Xs1ujw72KPwPmypTevAQ4Xk9Ya4+Y/gNohB5H2zuq8=;
-        b=STQfdQX2vyveWSUSeWpo0U5Wz67Bo5Ovv9QVWVNVix1rRbFOkUeHHmxGRJLlqKZbej
-         dJy1OqFyTGwMpahINwjveRahd3xe/+nuLazNyHSs3DRPqmlEJc0JBJJ4jdVjB/Y6ucVO
-         EsuEVwUET/3XCb+50Gnst/rSEFzZfDvr1WzAz64fL9U2jl7U2mDTkXHLgFLcsdnZTpIL
-         bqZPbY+UHKHU0uT7bHGAS6pKgcufzhoKdeKEiG2Ru+ZOCn6PaomlURyLgxvhoZsXTYhQ
-         VqWaN7e4+VU0mXRaXjl1b4B8FKJSoYTY8wV08yx1l/kRCh/zypVRTHI3WownG2Ht3ooo
-         wqmw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V6Bma/TOaZZ5sqxVbmn82lkYaoglqg+Bnn/reUnZi20=;
+        b=GBoLzoAtjKI/rq8W/+A5oBCPLUaCZcGO2xUeJCLF0bJ3BUR/gcO8UIW0BvZgW28mRp
+         C6iDaXU1zJyJOtbFvwHgBqlQLJwBd26+CoVlMrWO5vZ9fL0a6IzqBeivVa+HmiQeUoe2
+         dH0Ts9gyU+sbLQdh2UePdCj1KrMjQlSBu0SVnHY39Dc3vs+Kl/ZWfdBnuYe7YzzJ+aCB
+         e/pa+Qmeu0/P6prpaYhakCmgXVqdNoAiLBqnISUSQLFgSm0r59NuB0bntK+1OkLymGox
+         fy1cWWJjwHVE5Rrif06r5arqOX0I/5qZ4s9pKF6cvuYbgkeapwSG38OccPBh3bOK1w6j
+         sHxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5Xs1ujw72KPwPmypTevAQ4Xk9Ya4+Y/gNohB5H2zuq8=;
-        b=JeteAorHO8ZNDke7Wg/nfLn/YRQ8CsGnIYbrUAIyU+hZWuUZ7bSXpimrY1TuVILn64
-         yHugdmOs6I8+qy4TKhMZKP2AvtbgYiBzTm2jl2OZP1iWDHujkGODtN62N0z/zGi+Bgi0
-         SlLlsK5kcWROCZrnHcZp0eb3hQiL4Axp/cuvjpKJzn8BXFC31/Mgs2EMdAuTEylTdX1R
-         7sa8raF3BBTzY3FtvjhsQbZYuKoCzhMiZdIToT0pAY0G5su8bDOKWysyFas5rzZq/k8K
-         YPDEGMg2cgLhW4BPbiNnNzBxW+IkJMGoZRSx8YIrymjqA5o2YKCjpt2ptxOP2LWuX0Md
-         g11Q==
-X-Gm-Message-State: AOAM532Brzjm4nPvz7lnH03IR41mC+6Bun2CFTMYg1q8WhyljslS2Bx0
-	BXQ11V73lfrCT3BRr2xttkzfaHeugrrdqFZY
-X-Google-Smtp-Source: ABdhPJxE3i/MTZBJ6ogBPaMMbit1UtFmj98ALuN92xAa5Nh0lIt3Sva13xekZzrNZgi7XPqMg1voDg==
-X-Received: by 2002:a2e:8945:: with SMTP id b5mr2362450ljk.508.1612972462824;
-        Wed, 10 Feb 2021 07:54:22 -0800 (PST)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id p19sm575536ljn.75.2021.02.10.07.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Feb 2021 07:54:21 -0800 (PST)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] connman: update to 1.39
-Date: Wed, 10 Feb 2021 16:54:19 +0100
-Message-Id: <20210210155419.1444596-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V6Bma/TOaZZ5sqxVbmn82lkYaoglqg+Bnn/reUnZi20=;
+        b=iOyCIWfeeulYpXuZFrhjju9KauPWT6ZqS8Tox4JLYkxVExFLxyIheaOBgaQRsp+vrK
+         1qIFb/0j9O5qQ64pgVKw/Iy0vTrlYiFrNvMFW+IyH6ifSKog9WENLYua+e2Qh4w21y9F
+         FDSwErUoayZpd9rj02ze25nVPKorOzhVsYDFTGCqfgKxmoNlJjI/x00AZdMkqxIKiuB4
+         Nhyq6QmSmiIrqUnzohDBht1yViONKtX6zEmKXxVL03PAGkrhZkIt3FQ+O82kqDoaVImv
+         SafpoEo7Ssmy77wGQnm79Z9i8phFnpkW84+UnLQ1Y1TPJ/z9f0bk6ChragSFecl+Yo26
+         Sfdw==
+X-Gm-Message-State: AOAM5311HFGCyc1mR5iSgfhv4VPFqADqwut4dcl3QTGIgzilQPhkHhLM
+	rcYoIDk6okPTBEMBj4eD351+WHMB9Rl8lCVJdnc=
+X-Google-Smtp-Source: ABdhPJyQ5HrfuercroPuEg0vtzPvdgdCiLzlikd2mFF4R5eFtl0Bht1fXona0HJv3axR3b+TEYN9o+9vbdeLD9WX+Tk=
+X-Received: by 2002:a2e:974f:: with SMTP id f15mr2527842ljj.412.1612977280759;
+ Wed, 10 Feb 2021 09:14:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210210111113.17318-1-raymsmithuk@gmail.com> <37de26c1-3d02-313b-dd91-7e3fabe93928@gmail.com>
+In-Reply-To: <37de26c1-3d02-313b-dd91-7e3fabe93928@gmail.com>
+From: "Ray Smith" <raymsmithuk@gmail.com>
+Date: Wed, 10 Feb 2021 17:14:29 +0000
+Message-ID: <CAHS1ALJjxL2uVWGiBbJBdGxtbO395CMsEHsuUdBT8mB3DwZf1Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
+To: akuster808 <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d9b9af05bafe8965"
 
-Changelog:
-- Fix issue with scanning state synchronization and iwd.
-- Fix issue with invalid key with 4-way handshake offloading.
-- Fix issue with DNS proxy length checks to prevent buffer overflow.
-- Fix issue with DHCP leaking stack data via uninitialized variable.
+--000000000000d9b9af05bafe8965
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../connman/{connman_1.38.bb => connman_1.39.bb}               | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
+On Wed, Feb 10, 2021 at 3:15 PM akuster808 <akuster808@gmail.com> wrote:
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/recipes-connectivity/connman/connman_1.39.bb
-similarity index 78%
-rename from meta/recipes-connectivity/connman/connman_1.38.bb
-rename to meta/recipes-connectivity/connman/connman_1.39.bb
-index 027c41e9af..df42e9ffb8 100644
---- a/meta/recipes-connectivity/connman/connman_1.38.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.39.bb
-@@ -9,8 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
- 
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
- 
--SRC_URI[md5sum] = "1ed8745354c7254bdfd4def54833ee94"
--SRC_URI[sha256sum] = "cb30aca97c2f79ccaed8802aa2909ac5100a3969de74c0af8a9d73b85fc4932b"
-+SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
- 
- RRECOMMENDS_${PN} = "connman-conf"
- RCONFLICTS_${PN} = "networkmanager"
--- 
-2.25.1
+>
+> Did you run yocto-check-layer to ensure this passes?
+>
+> -armin
+>
+>
+I didn't, but I don't think it makes sense for this. At least, it fails for
+fundamental-looking reasons when run on oe-core/meta without my changes
+(assuming I'm running it correctly):
 
+~/src/oe-core/build$ ../scripts/yocto-check-layer ../meta
+INFO: Detected layers:
+ERROR: meta: Can't be DISTRO and BSP type at the same time. Both
+conf/distro and conf/machine folders were found.
+
+--000000000000d9b9af05bafe8965
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Wed, Feb 10, 2021 at 3:15 PM akuster808 &l=
+t;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Did you run yocto-check-layer to ensure this passes?<br>
+<br>
+-armin<br>
+<br></blockquote><div><br></div><div>I didn&#39;t, but I don&#39;t think it=
+ makes sense for this. At least, it fails for fundamental-looking reasons w=
+hen run on oe-core/meta without my changes (assuming I&#39;m running it cor=
+rectly):</div><div><br></div><div>~/src/oe-core/build$ ../scripts/yocto-che=
+ck-layer ../meta<br>INFO: Detected layers:<br>ERROR: meta: Can&#39;t be DIS=
+TRO and BSP type at the same time. Both conf/distro and conf/machine folder=
+s were found.<br></div></div></div>
+
+--000000000000d9b9af05bafe8965--
