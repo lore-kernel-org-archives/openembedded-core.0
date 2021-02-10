@@ -1,141 +1,161 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web10.210.1612992058443280718
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web10.429.1612992995420181204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Feb 2021 13:20:58 -0800
+ Wed, 10 Feb 2021 13:36:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oZof/txz;
- spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: akuster808@gmail.com)
-Received: by mail-il1-f182.google.com with SMTP id y15so3220685ilj.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 13:20:58 -0800 (PST)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=tIv4H0O7;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.176, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f176.google.com with SMTP id b24so2674258qtp.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 13:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=hmj09A9v+DhfheD/+rC6NCquRzW6zMjeBHdtXNy7pKc=;
-        b=oZof/txz9kHL1kox37KcZrM6PpvaZwX1N11+cNJ+xL/RSl4iqIq/VYXtTdDVsSJzmI
-         daqPT5kdRku81VRfsi6Ayk2609DpvKm8UHQsRyOb1/cf1dDNl7wcQc0rfitdXT8CZCib
-         +StUCptfSVhCVIvMhPU2tgv3JABfsYN0jupnEhe7DqegoOxvOLUTSxL+bA0gcW5u1LFU
-         3ctrDZ1YlKLG2aD8OdZADPWJJQQXWlYVB1DhGL/Y3xMf8MqWwm5lAqzygpfSMvi1NGKN
-         1bCnhqNj3NBhaxckyDOKH/zFU3i+Gbe7cR4kcncOoYJztWH4dd5HMUcciZLHtfi6rGwR
-         hfUw==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=msp7W9/viqe/lD/7TS2tAqB8aOIxbVFqq+68Dt8+LY4=;
+        b=tIv4H0O7GozM9cjpOS8J3MIP6SVUFmDyDW1Qq7NfJNJjCj7O7hXr2J+e5A8g/vs07t
+         JtTwVYMBfgqFJfaMQx3ddzDhiCKHsbB4bFxePvdCHNUp69QzLVsNiV2I+QQKwME+6Yry
+         kExqjuK8tz9gSKiQVXPdfxZsq0gLohCq+HnFdtWM/Q4DHVuHj8lo0INYl5La/Xp0zPBO
+         u4Nh3rj8O8UtQT+q/iHpjdemEInsqIZIwJsb/SNazMZxbd3dbm2hP0IWVKwZvSMZNYHe
+         ry8i2NxkiLmpK6f3ujeVzEX/wLKrLBrLgHVJHsEr6xtlXrYLqrnIDiXXRg9d6GZpLFyO
+         aDAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=hmj09A9v+DhfheD/+rC6NCquRzW6zMjeBHdtXNy7pKc=;
-        b=FuJLirzA60k6nQRR27W7jyyfzfdQSF4fLV9uGUpz0KaWxxKkAaTmPsAzIzJ3s6jyDt
-         ip1S2XWDAN1HL5A8sRHsHGECqcbEUYOYVdAG4G29CPRX4lKmoPpeC/YEnZjOFSldBc1H
-         nBRCvLZ+f7QY5BNHB04q8i5wkbskS89i3aJMns1VUAU54fUx4SJtYWcm15dZmG+EdOS9
-         CQIuy4bDKOc/GLv/UxIK11rTkASUxZhtYH5cMB51eVYC255fI1cMYc82P7WVx514EdLH
-         Ym3mlQCEmQSMCa2i0N4Rfdosm/QyHpBNwQ9J0Qon8EM+TxUfHbyu/jYoC3Wpd3Xr5jMP
-         YnXQ==
-X-Gm-Message-State: AOAM533ekk5tX6JQNEvACjahJLduQpDaNapo4Xw5VD/x9DmHdB1GwCqu
-	M+CPleUuHh6fae/F/itJDCHp06C9UZBqGQ==
-X-Google-Smtp-Source: ABdhPJzscOtL6QnzMDzppe9R6bAnfSaTdwg7EJKZ6WQuWKnDBlowSARuQotNcU4G/1Nn4E0gKwyMBA==
-X-Received: by 2002:a05:6e02:1390:: with SMTP id d16mr2897194ilo.269.1612992054402;
-        Wed, 10 Feb 2021 13:20:54 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:5c13:19:1e34:e0ed? ([2601:202:4180:a5c0:5c13:19:1e34:e0ed])
-        by smtp.gmail.com with ESMTPSA id g17sm1563467ilk.37.2021.02.10.13.20.52
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=msp7W9/viqe/lD/7TS2tAqB8aOIxbVFqq+68Dt8+LY4=;
+        b=ZKywHQ0Wa6RA22LQsdXxIwIRW6Qifk+gLmacD+xUUe6p1MUgX+qyI3yhPb8dyDujCK
+         aaS6Fv+wAIJ2FyKZLloR0Ms/doBmIG6O5s5uiMkyccNtlP/WszGXlj0N7EfqD3K0qbzC
+         C+v5vV3cmeU8/WxtoHEbrvhPYKvrsBCKvQVnTQjXzfBWC8as6w7tXRDqJjXouUKdURy4
+         G7GbKC+XhQGJrq4Vj2/F7T2Z8YrtC6FqiwA3DdsaeiWVLhh5iRvuEh92fOYtPuv1vmlr
+         repTgaf2qywPt9OQE54eRely0yygpTT8bKJxIhY51ElWMR/aTmSOlE/+rltRt7xaHQmd
+         4s9g==
+X-Gm-Message-State: AOAM530V2rUn6CQs3MN2SPnWaN4AqKr5MWSIymaqUFbFGO+SIILgSFFk
+	NG6XmEE/lm05uoPEN8+/LcFY3nOWGV9F6dyT
+X-Google-Smtp-Source: ABdhPJz5C+brsSqREPaKfx8nd324z4KUSyciNJRKrI12Pgni0SzvZL6H+JT5qD8JJueWpRLPNJ5fow==
+X-Received: by 2002:ac8:37d1:: with SMTP id e17mr4786129qtc.215.1612992994421;
+        Wed, 10 Feb 2021 13:36:34 -0800 (PST)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
+        by smtp.gmail.com with ESMTPSA id c17sm2097342qtn.71.2021.02.10.13.36.33
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Feb 2021 13:20:52 -0800 (PST)
-Subject: Re: [OE-core] [PATCH] connman: update to 1.39
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
- openembedded-core@lists.openembedded.org
-References: <20210210155419.1444596-1-open.source@oleksandr-kravchuk.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <491422b1-e871-2948-7ef9-1d1ed8a7c853@gmail.com>
-Date: Wed, 10 Feb 2021 13:20:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 10 Feb 2021 13:36:33 -0800 (PST)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qv1-f42.google.com with SMTP id r13so1617897qvm.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 13:36:33 -0800 (PST)
+X-Received: by 2002:ad4:528c:: with SMTP id v12mr4843266qvr.32.1612992993645;
+ Wed, 10 Feb 2021 13:36:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210210155419.1444596-1-open.source@oleksandr-kravchuk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210210111113.17318-1-raymsmithuk@gmail.com> <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
+ <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com> <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
+In-Reply-To: <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
+Date: Wed, 10 Feb 2021 18:36:22 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
+Message-ID: <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Ray Smith <raymsmithuk@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000695aa005bb0232e8"
 
+--000000000000695aa005bb0232e8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Em qua., 10 de fev. de 2021 =C3=A0s 17:21, Andrey Zhizhikin <andrey.z@gmail=
+.com>
+escreveu:
 
-On 2/10/21 7:54 AM, Oleksandr Kravchuk wrote:
-> Changelog:
-> - Fix issue with scanning state synchronization and iwd.
-> - Fix issue with invalid key with 4-way handshake offloading.
-> - Fix issue with DNS proxy length checks to prevent buffer overflow.
-> - Fix issue with DHCP leaking stack data via uninitialized variable.
-
-this update was sent last night which included CVE #. either patch will
-do IMHO
-
--armin
+> On Wed, Feb 10, 2021 at 3:41 PM Ray Smith <raymsmithuk@gmail.com> wrote:
+> > On Wed, Feb 10, 2021 at 1:26 PM Otavio Salvador <
+> otavio.salvador@ossystems.com.br> wrote:
+> >>
+> >>
+> >> I didn't understand what you mean here. Could you elaborate this?
+> >>
+> >
+> > If you try to build mesa with PACKAGECONFIG "egl gles dri" you get an
+> error:
+> > ../mesa-20.3.2/meson.build:144:4: ERROR: Problem encountered: building
+> OpenGL ES without OpenGL is not supported.
+> >
+> > This means that in practice you can't get a GLES-only build of mesa, so
+> mesa always provides OpenGL (ignoring Vulkan). But for an abstract graphi=
+cs
+> driver that's not true - many drivers provide GLES but not OpenGL. I'd
+> argue that this is an implementation detail (and maybe a minor bug) of
+> mesa. If mesa internally requires code from its OpenGL support to build
+> GLES, it should silently include that if it's been configured for GLES-on=
+ly.
+> >
+> > I only mention it to be clear that in general "GLES requires OpenGL" is
+> not true, even though mesa's build system enforces that.
 >
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  .../connman/{connman_1.38.bb => connman_1.39.bb}               | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->  rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
->
-> diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/recipes-connectivity/connman/connman_1.39.bb
-> similarity index 78%
-> rename from meta/recipes-connectivity/connman/connman_1.38.bb
-> rename to meta/recipes-connectivity/connman/connman_1.39.bb
-> index 027c41e9af..df42e9ffb8 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.38.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.39.bb
-> @@ -9,8 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->  
->  SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
->  
-> -SRC_URI[md5sum] = "1ed8745354c7254bdfd4def54833ee94"
-> -SRC_URI[sha256sum] = "cb30aca97c2f79ccaed8802aa2909ac5100a3969de74c0af8a9d73b85fc4932b"
-> +SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
->  
->  RRECOMMENDS_${PN} = "connman-conf"
->  RCONFLICTS_${PN} = "networkmanager"
->
-> 
+> Should this be clarified with Mesa folks upfront? If you believe that
+> this limitation is rather "artificial", then there has to be a proper
+> explanation from Mesa developers why OGL is provided when OGLES-only
+> is built.
 >
 
+Agreed ... I'd rather not drop the check until we hear from upstream the
+reasoning behind it.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+--000000000000695aa005bb0232e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em qua., 10 de fev. de 2021 =C3=A0s 1=
+7:21, Andrey Zhizhikin &lt;<a href=3D"mailto:andrey.z@gmail.com">andrey.z@g=
+mail.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Wed, Feb 10, 2021 at 3:41 PM Ray Smith &lt;<a href=3D"mailto:=
+raymsmithuk@gmail.com" target=3D"_blank">raymsmithuk@gmail.com</a>&gt; wrot=
+e:<br>&gt; On Wed, Feb 10, 2021 at 1:26 PM Otavio Salvador &lt;<a href=3D"m=
+ailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@o=
+ssystems.com.br</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; I didn&#39;t understand what you mean here. Could you elaborate th=
+is?<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; If you try to build mesa with PACKAGECONFIG &quot;egl gles dri&quot; y=
+ou get an error:<br>
+&gt; ../mesa-20.3.2/meson.build:144:4: ERROR: Problem encountered: building=
+ OpenGL ES without OpenGL is not supported.<br>
+&gt;<br>
+&gt; This means that in practice you can&#39;t get a GLES-only build of mes=
+a, so mesa always provides OpenGL (ignoring Vulkan). But for an abstract gr=
+aphics driver that&#39;s not true - many drivers provide GLES but not OpenG=
+L. I&#39;d argue that this is an implementation detail (and maybe a minor b=
+ug) of mesa. If mesa internally requires code from its OpenGL support to bu=
+ild GLES, it should silently include that if it&#39;s been configured for G=
+LES-only.<br>
+&gt;<br>
+&gt; I only mention it to be clear that in general &quot;GLES requires Open=
+GL&quot; is not true, even though mesa&#39;s build system enforces that.<br=
+>
+<br>
+Should this be clarified with Mesa folks upfront? If you believe that<br>
+this limitation is rather &quot;artificial&quot;, then there has to be a pr=
+oper<br>
+explanation from Mesa developers why OGL is provided when OGLES-only<br>
+is built.<br>
+</blockquote></div><div><br></div><div>Agreed ... I&#39;d rather not drop t=
+he check until we hear from upstream the reasoning behind it.<br></div><br>=
+-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" t=
+arget=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.o=
+ssystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
+
+--000000000000695aa005bb0232e8--
