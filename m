@@ -1,193 +1,139 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web12.314.1612909905304220353
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.73])
+ by mx.groups.io with SMTP id smtpd.web09.456.1612925219396249492
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 14:31:45 -0800
+ Tue, 09 Feb 2021 18:46:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nsLfagEV;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.54, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f54.google.com with SMTP id h12so45926wrw.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 14:31:45 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=knQKmtdA;
+ spf=pass (domain: windriver.com, ip: 40.107.220.73, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g51R0LMViDGjDsffiJ4VUp//DfFY9ajhZPaxqdxluEuJjhU055bB0NFR9QnrICscBR3eSDqsz5R54+vJJR0PRPq7OYkTJQtFrfh1WeDKzCx8dwv0YW+zNaJW0sScH/FSxuI/noUqqRH9J6AXKpXIchHLmglcwq3JAUoAmPLcmVZ5For/HwtP6uzgBNU59Yo1iuxLficw/XoB2CU1qDppFXfqZAMsybBMYelMTIdlOzENQpXwAze2MBokpwbrQungup5FWRRE5Y9lSNZs6jX8Ty7Ja5NJJgE7LX9cPWwTVIyuI3QfG+7jy8nuMPsFIdlwfsQlWkVZK4f19wiu64Mplg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QogefvTxI/TXBn0dOCz9GZi8JjSXXyao/dYAMQVFhE8=;
+ b=j8EBJdxU8SqeY+8qwd0ChDWrCGeeEGeEUcGFhWjwz0ARCS2RHbk3hah+KbYCFxTUROHPV8wIFSAtEadJm9yTkknPlxec59u954nSN4d3OGMxNb2M8MPA3p6jjgRSThFrlRDuE5KAFbe2MPI01dd23OwkPHCzMw4FRDvu4CRNq96iRfKRT9mfioVg17f9OdQKZpF/UAjz+6XY7V9063ATqns6CyzhGoomR1Lj5tVja2W6CgTAtvWvyWpmBVhILvI+E4w+H+wjmoliRMp5CfYerWXUzPQnW7igiyB7pKSdujW1Mqle11ozLKR56ceBwboXzfE4kBNyvAdssS+L1Rf7JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GABZi787Wp8y2jP5j911R8ypXUTd8yW4lOUQBM0rSuo=;
-        b=nsLfagEVjvElOOjNxBfZ9x0hWi+YF3hzqpfwKgG8aSDVg4/T9U+oRoqSfImxtUsIKm
-         8IQTwY4qO8HLk3cuQJYm5F+NWmERP+7cn8XYwxq7WZsGW8QYJlHuFMxvnZv/JEvalPuC
-         nhJtPttLD0BV5YexLqhPp/4sy9XYVtlJSRX30TVU4oxZ+XcG3bndP6p1cZxUO+0l32C9
-         zTC9HawK+mWLuiJYaASfiaIp/bF+28LA9qGQP8kPax52jIf2dXSZ7ptHKx8I7pbXmWWz
-         zSmAgwrTopdK6+79j63o02dE8mkshi16/pGILDW9QvfNAy+45mrubdWEVaru7uA4nyG8
-         d1zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GABZi787Wp8y2jP5j911R8ypXUTd8yW4lOUQBM0rSuo=;
-        b=IDccHVVYwTwuwaIyB2ms4rjcem4nrh7vTC9hEj9GvUx1jRP/COL3arVMgYaZch6UIW
-         +RljN09Duh4RChG9CfI1OClVoWagY3WfG1xpPo1AQVWgtCwg9rFl3PVr9gPcdLi/azwl
-         JyomgXtSa4QDFeXKdVYdlpS9Koyq7qmBtlux+f9C6KLapoEXTXzkXrcl0rF1zhR+XYw5
-         gWfLMuYqF5hkli09KYPdfRjhgAqskc3tFFpEEa6xj6j/BXktlqWZ39WeXCkdGVwyOKKw
-         g3xI/6vcspPl22Mm/uioV6nG13CnIbAlnk5izS9RZQuXVx8GfkKWcBy5mIj5f1s0dOFw
-         ioag==
-X-Gm-Message-State: AOAM530cK936Xyt1LkhNQRQDdBaUNfzRfxXQGqyr4I4UT0Rlv6AEpXtp
-	5Dn8zuKcGSp5ET2dGcST/5dPcvCUCYuLLeAsL9QJhg==
-X-Google-Smtp-Source: ABdhPJy3+rp+dpriLNC0waxWLbZV8faXasxrqie99CRHKokdk44M0FSKRLUuCR8PdQtt2Fq3YftS7BovSw2eoPZNHlk=
-X-Received: by 2002:a05:6000:1815:: with SMTP id m21mr271920wrh.350.1612909903610;
- Tue, 09 Feb 2021 14:31:43 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QogefvTxI/TXBn0dOCz9GZi8JjSXXyao/dYAMQVFhE8=;
+ b=knQKmtdAbivdlMC5unf8JmkiSMGU9fRorGDqNa0eOOH6t47VgSrAteVXviQ/zH2sC464XCHNTQOvmjU6Lgq+DomBWGNvC74FH0m+07Gow5J+P1rKzda5ulrtDdEhw3AXFmmzvQ5P6qoRcuTmzWxLVlQKx+xW71RPTcS7LAt/LyI=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MWHPR1101MB2143.namprd11.prod.outlook.com (2603:10b6:301:4f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.27; Wed, 10 Feb
+ 2021 02:46:58 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::45:697c:a699:df64]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::45:697c:a699:df64%7]) with mapi id 15.20.3846.027; Wed, 10 Feb 2021
+ 02:46:57 +0000
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sanity.bbclass: improve the network connectivity check message
+Date: Wed, 10 Feb 2021 10:46:39 +0800
+Message-Id: <20210210024639.1033-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HKAPR03CA0023.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::10) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
-References: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
- <CA+chaQc0anOg2E=o1ouEca-QJDGqKxDoXm6aPVXzsc8TELW3zA@mail.gmail.com>
- <d9185d19-1f09-a1b6-2926-f54309190b24@gmail.com> <16614BA6A53B3779.25597@lists.openembedded.org>
- <CA+chaQdbZwyBTbyctEh_y8x_p=txiwqy8gjmkwDrh6rqX_ztng@mail.gmail.com>
- <f190d3e175a9413994caf1c73a9f9125@XBOX03.axis.com> <CAGDS+n=fBJad4LPWfpA3A-S3_aHfNKXbZQTpsaw56MtQ3miTRQ@mail.gmail.com>
-In-Reply-To: <CAGDS+n=fBJad4LPWfpA3A-S3_aHfNKXbZQTpsaw56MtQ3miTRQ@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 9 Feb 2021 12:31:31 -1000
-Message-ID: <CAOSpxdZsU9vPHLPnc6ZCnJXZBURp3FqKLxnUQ9UbXTqPqtU23w@mail.gmail.com>
-Subject: Re: [oe] [bitbake-devel] Backport changes for _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>, akuster808 <akuster808@gmail.com>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"OE Core (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>, 
-	"OE Development (openembedded-devel@lists.openembedded.org)" <openembedded-devel@lists.openembedded.org>, 
-	"BitBake Development (bitbake-devel@lists.openembedded.org)" <bitbake-devel@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HKAPR03CA0023.apcprd03.prod.outlook.com (2603:1096:203:c9::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.11 via Frontend Transport; Wed, 10 Feb 2021 02:46:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 72d75aa4-276c-40f0-5dd0-08d8cd6e2224
+X-MS-TrafficTypeDiagnostic: MWHPR1101MB2143:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1101MB21438D795E214E875A19D286F18D9@MWHPR1101MB2143.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	oB7DDI4BEZx1g0oGJ2WAAZM2xSt+MUqnP3GdJa4JkglGatCZd2wQRjw3vgs31raNMUocNzn/jlfgfD02/bai5h52+JUmXBn/VdyYR6kwwZGcC/SNhhWZ39rK5XSXWuZb+ERlBqqrZtXbzuIQ200K3pydQPqhIK+vYpwD/aivUvClfWyph3lThKiQK9LtECDU7JQEDCxaM2Oj0J9KSRXF7owV9/sbEYr7Q2/Rj3xKCO6zizVYS6kMuwfhUSjPIfN4+YfgHylYGZXdHFgbZ2fXX59Fo6rub5LQiDSD038N+iRl49DygFHt217TvQ+VEo6icSnt2/hHuj5JYwM0GMvokjkLtQ+mWoNjAtgvq4OiZLRGw1/3yqwvlKcKCTRAxtKtO3Ct2KPYeHtRSWIcYksj24qtR/8LYvH1ZxQu8QTQnZQt9hfs9C3msUKQyY0cPtML37BPs3pEtP4OKZwX8eSFmq2TB/czm5EvKpnVsdl6m2ROMS+0p2Oftcs/rkfqqka7AhcA0xjzzoy1BBPJnTUipHj+j0cvW4magcJKdGHm9XWjb0pRoK6CzR/UxvvIr1QG+2g1qh9hfMXHIX7HAzdAY77JDgXsi8oUekKxPBddN38=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39850400004)(366004)(396003)(346002)(956004)(6506007)(2616005)(36756003)(6916009)(1076003)(186003)(6666004)(9686003)(16526019)(2906002)(8676002)(66476007)(86362001)(8936002)(83380400001)(5660300002)(6512007)(15974865002)(66556008)(316002)(66946007)(26005)(478600001)(6486002)(52116002)(15650500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?3Wcv8J+WRWAyDPKW6omFhG+PXxw20cV999IRDpg8kuzsVXJj3FnuLcb+ejZD?=
+ =?us-ascii?Q?XAAsRWCMZt5zQa4Co6H+e4v/2zpXg5mL1ATtysk/2oFOTG7er55HPL7InHiV?=
+ =?us-ascii?Q?sdY6Qq559XWe8t5+cpbSTDEQCvt2gKhW7OenyvrAXLXQG7PmlQYDT2PRZofi?=
+ =?us-ascii?Q?7c9DoOWSFuzvqZE4H4uBWu6kbcI058Xf0JUXeMPhwK70l9oc/Xntp6BevrZY?=
+ =?us-ascii?Q?awHxjyDgW9JzWLTlY6Pdh57YaNm0zPU4+3JoSp1ok23rm6wsMKlu4fqzkoSa?=
+ =?us-ascii?Q?rRcwlKBjwA4QTqnWNWMGuRjxOlNV3R4D1eM8YOJjYbqW7cYyPU1KNj6mVXg+?=
+ =?us-ascii?Q?gLlMjFxHrG2xGjxhsye8sSWOmvjUbCXmmV/s25ZukDjWNpdQjwNIgnDJih8Q?=
+ =?us-ascii?Q?UYrcSZv8jlkcYUStfeBc6H041ZlAACb5m6fAPC7CL80C04Brq8FdZ4IsFubg?=
+ =?us-ascii?Q?RRXd9ZtCDVxDZREvi4zC7EhSLNW1hs0j7aEXmsZd/ZIcMkx/0VA/5CVT8Dnb?=
+ =?us-ascii?Q?21MI6AgcL0IuHgxg8wCt3/I8WwVa4CYOxHyZlv7reWXbCB6vdT62O1GqsbV5?=
+ =?us-ascii?Q?NCJlGUHixhWcGo4KzwnndOZOq87zUbPP0Ao+y33HRF28eYG+JIgLbYvf6W6x?=
+ =?us-ascii?Q?N0hpWhzDsthYprLrRmkjRZ0FtD/O/ttZAOxrMVZ8ATjFuEDbjFYvBCDvoxYr?=
+ =?us-ascii?Q?qv+PHQUnM/i0xyhqerZrBkGRNBK2xb+qse6lBlniyG2wBNwHvyj3AMjK0MAa?=
+ =?us-ascii?Q?1pkPAkaYcyk0hJmX10pmqEMoFScYQQ1ZtFDFZshl18E2XBXJGc79TYKl5meB?=
+ =?us-ascii?Q?WzOIvFFSM4kmYzu3wIh+Y/Qeh0EZDlooZ83d2TDZnh3rCPRVOx/VuaXhYJj3?=
+ =?us-ascii?Q?S/s4ec1aZTAKPxNa/4/FGqKhGeUhO7yc5+lNWSzk2/y/HmUdTvi+JVVDEwia?=
+ =?us-ascii?Q?3zu1qIZSgeOD5tomSs3KU2tI/TM2U5CLQFFXgYsYAcyb5/77pY2t2hNZePv3?=
+ =?us-ascii?Q?M4YeZujjquq6GwiJDQt2AqR8ya58Ll2jJfGPHwAW7SQn6c5NOZzrIChxzl/G?=
+ =?us-ascii?Q?ts0kcK5e0xolE4uCehUseN54905zheaRLnWzLxtH73omjLOuWT8udrOFlQuQ?=
+ =?us-ascii?Q?D2vsd7egag627/2UdSfVdV0ExVd9DjSIwzBaiEHfmcHe2ZYHy+Pn+1L5ARix?=
+ =?us-ascii?Q?UV6SNgh2UXNsvS37Bqd5OHG5CmCrq+EBq4kr3p81H3DugIdxbdNFNQcAmE2L?=
+ =?us-ascii?Q?l/ioZ+D9t9pFO9T3vYHDWh5hbPa7N+a9Z7zTl/j7hmlMnwDS1pTW5mI8FGHZ?=
+ =?us-ascii?Q?8621RvCsITv8zd8JvIEhBCuB?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72d75aa4-276c-40f0-5dd0-08d8cd6e2224
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2021 02:46:57.8030
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0x73K1VXRGlrhUYvkTEVC7Ksx67BWGdWgg4NyNSPPxR/qq86DnTjJuTH3kOcHm1Q0AgthuYGvux4XNy/n41Pew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2143
+Content-Type: text/plain
 
-On Tue, Feb 9, 2021 at 4:11 AM Steve Sakoman <sakoman@gmail.com> wrote:
->
-> On Mon, Feb 8, 2021 at 1:45 PM Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com> wrote:
-> >
-> > As agreed upon on the Yocto Project Technical Team Meeting a week ago,=
- I have created branches for both Gatesgarth and Dunfell in openembedded-co=
-re-contrib and meta-openembedded-contrib with the required patches. The bra=
-nches are called pkj/_PYTHON_SYSCONFIGDATA_NAME-gatesgarth and pkj/_PYTHON_=
-SYSCONFIGDATA_NAME-dunfell (ok, horrible names, but they should be easy to =
-spot). There is one additional patch for bitbake, but I forgot to ask for a=
-ccess to bitbake-contrib, so you will have to cherry-pick it from commit 47=
-b64cfa (it is not strictly necessary as it is just clean up made possible a=
-fter the changes in OE-Core).
-> >
-> >
-> >
-> > @jansa, @akuster: I have included the two extra patches in meta-openem=
-bedded that Martin mentioned, which were lacking from my original mail. The=
-re were other patches mentioned, which fixed missing spaces related to the =
-use of _append. However, as they were not necessary (they changed other var=
-iables than DEPENDS for target), I did not include them.
-> >
-> >
-> >
-> > I have not done any excessive testing of these branches. I have verifi=
-ed that I can run `devtool modify libxml2`, which I could not do before, an=
-d I have run `bitbake core-image-minimal`.
->
-> Thanks Peter!  I'll start testing with dunfell this morning.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-I did an autobuilder run with your meta-openembedded branch, my
-stable/dunfell-nut branch with the 6 patches, and my bitbake
-stable/1.46-nut branch with the single patch:
+The network connectivity check via checking www.example.com by default
+and also can customized by CONNECTIVITY_CHECK_URIS if desired.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/921
+Improve the check message to let the user know if the network is actually
+unaccessible or the checked URIs is wrongly set.
 
-All was fine except for an error in sysdig: do_compile, which doesn't
-appear to be related:
+[YOCTO #12708]
 
-https://errors.yoctoproject.org/Errors/Details/570303/
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/classes/sanity.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Unless someone has an objection I'll add the oe-core and bitbake
-patches to my next set of review patches.
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 485173ab48..ebf0a559a2 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -389,13 +389,17 @@ def check_connectivity(d):
+         except Exception as err:
+             # Allow the message to be configured so that users can be
+             # pointed to a support mechanism.
++            urlmsg = "Check network connectivity via the below tested URIs\n"
++            urlmsg += "    please make sure the below tested URIs accessible\n"
++            for test_uri in test_uris:
++                urlmsg = "    %s\n" % test_uri.strip()
+             msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
+             if len(msg) == 0:
+                 msg = "%s.\n" % err
+                 msg += "    Please ensure your host's network is configured correctly,\n"
+                 msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
+                 msg += "    all required sources are on local disk.\n"
+-            retval = msg
++            retval = urlmsg + msg
+ 
+     return retval
+ 
+-- 
+2.17.1
 
-Steve
-
-
-> > From: Martin Jansa <martin.jansa@gmail.com>
-> > Sent: den 7 februari 2021 12:15
-> > To: Martin Jansa <Martin.Jansa@gmail.com>
-> > Cc: akuster808 <akuster808@gmail.com>; Peter Kjellerstedt <peter.kjell=
-erstedt@axis.com>; Steve Sakoman <steve@sakoman.com>; Mittal, Anuj <anuj.mi=
-ttal@intel.com>; OE Core (openembedded-core@lists.openembedded.org) <openem=
-bedded-core@lists.openembedded.org>; OE Development (openembedded-devel@lis=
-ts.openembedded.org) <openembedded-devel@lists.openembedded.org>; BitBake D=
-evelopment (bitbake-devel@lists.openembedded.org) <bitbake-devel@lists.open=
-embedded.org>
-> > Subject: Re: [oe] [bitbake-devel] Backport changes for _PYTHON_SYSCONF=
-IGDATA_NAME to Gatesgarth and Dunfell
-> >
-> >
-> >
-> > On Sun, Feb 7, 2021 at 12:15 AM Martin Jansa via lists.openembedded.or=
-g <Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > On Sat, Jan 16, 2021 at 6:52 PM akuster808 <akuster808@gmail.com> wrot=
-e:
-> >
-> >
-> >
-> > On 1/16/21 9:44 AM, Martin Jansa wrote:
-> > > Aren't the missing spaces in appends fixes also needed for meta-oe
-> > > recipes?
-> >
-> >
-> > >
-> > > I think at least top 5 commits from:
-> > > https://git.openembedded.org/meta-openembedded/log/?qt=3Dgrep&q=3Dsp=
-ace.*append
-> > > were also follow-up from these changes in oe-core.
-> > >
-> > Do you mean something beyond the meta-openembedded commits mentioned
-> > near the bottom of the email?
-> >
-> >
-> >
-> > Yes I mean these 5 commits at least.
-> >
-> >
-> >
-> > 50bbf80abf python3-pykwalify: Do not unset _PYTHON_SYSCONFIGDATA_NAME
-> >
-> > 6b3e3bdaf8 python-grpcio-tools: Add missing space for append
-> >
-> >
-> >
-> > The first one is just an additional cleanup, but without the 2nd one a=
-nd with the cherry-picks from the first e-mail applied you would get:
-> >
-> > ERROR: Nothing PROVIDES 'python3python3-grpcio' (but meta-oe/meta-pyth=
-on/recipes-devtools/python/python3-grpcio-tools_1.14.1.bb DEPENDS on or oth=
-erwise requires it). Close matches:
-> >   python-grpcio
-> >   python3-grpcio
-> >
-> >
-> >
-> > my world build is still running..
-> >
-> >
-> >
-> >
-> >
-> > with c99bb790 DEPENDS variable doesn't end with a space, so the missin=
-g leading space in these appends (which was fine until now because of trail=
-ing space from DEPENDS set in bbclass) is now causing wrong dependency (sho=
-uld be easily reproducible with the patches backported, just by parsing the=
- recipes).
-> >
-> >
-> >
-> > I need clarity so I can open an issue in gitlab for tracking purposes =
-as
-> > I am sure I will forget this
-> >
-> >
-> >
-> > we're using gitlab?
-> >
-> >
-> >
-> >
-> >
->
->=20
->
