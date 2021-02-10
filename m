@@ -1,96 +1,149 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.6293.1612968099890493129
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web12.6662.1612970131871959818
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Feb 2021 06:41:40 -0800
+ Wed, 10 Feb 2021 07:15:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=THCY33Sy;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: raymsmithuk@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id f2so3112881ljp.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 06:41:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nigwjhxc;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: akuster808@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id n14so2237370iog.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 07:15:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mNs3mCuEi758RBP4ia6Rsef+FV9tagfCvxOiV6v+WEo=;
-        b=THCY33SyG1CKPox4oZUbcj7PGxspZ+6erjHx3jfJGlQhuTVX8gIeaDaz+m9sZWdgWT
-         5lXWwtSNMN4MoHNMaMIO5FKRAChK0Ph6o1dPvWfRRBLEpn6cXktLlYNuHFAhv8jdJXse
-         HOFqxAlTF/ddACcVuwK7WtmMQ2VVzIa166OHWKFTr4rh0cdqJfRtd6VhQ8p3tjzjGmcM
-         tXhkAeza/ON7D1swH+05ngl456E9hiD9/gzX4NiFb3Sb1QhaTtq1q7C14RKIf2gKWrSc
-         51IXN6uR7DopJfFFEsGWlIeSyUHftcRg8iNSdJVlPgMxxDSHwEbsSQZBDBINO07Bb4fx
-         oqLg==
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=1uVQLOP4rUFh5ImezURFfruOSrNUcrcEc7yzqSPVdf4=;
+        b=nigwjhxczUmydfKTN6f18UjKATBcNBE9jRSyNTnAOa1z/nV2cA0JD6JF9NxgOqQymV
+         b/Jfh0CwxLxUXmeUQFHGPyP79Mx0zxeOuzMVqctsdEGNfEbwUhtTKziUrehnIAmhjaee
+         Fr6sehQLgOxAZzv6EbBfuHNm7f8Rzrz8Hnwm6tQz4UlDbditugC0pAvmVjdEuyQZpDvQ
+         fW2tnez7VVULkG1+4N3eyng+xg1vLFrcx2tFLO9e8Wxbnl/pQUszh1nY+RJfBakxDS23
+         U/ZItndQ85ZdUOzZKsw7CT775uxP7B8taF0P/ZP5nchc4dGsS+H5vWTgO1FhNa6+ZvYW
+         wKnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mNs3mCuEi758RBP4ia6Rsef+FV9tagfCvxOiV6v+WEo=;
-        b=TNsj+8+UOZVmNbj2ssvV0nRCeOrpxBHDGp5oY1O8ivxa60Hk4dF61fOSHtBTzBnOcL
-         nQ+GLoGmeHZSj3vKS1jiiT6D2VnpEy0Mu91l3hU9+o6FfONEYCYJa+ZoGVTWl2LwY9ix
-         fEZzexCGBwVchrxZB094R5o06q9FPp2K6i4VW8I7KHowAfs2w700XFKCCTV+7/JuFkGY
-         xHt9Uvig/9SzKtA+vaiapygm8jkWxvWOKfKnYryKpJsq1jikNTwqWowB90T/+JqIgnOw
-         2aNWkfrYOsuiFzYEFDgsjAB8k5pKUrU77HtxskF4Ck9Km/UtZVpMBOLj6ORto5jWW7XH
-         mW5g==
-X-Gm-Message-State: AOAM531t/FGAX0H0qcmIYoe27J+BdTTlGJrN8Nt57I4Ie5cl7HhGmOQv
-	aU7sfAyaxA7Ra9bjJTUPpmGA/GfOqDDPvFQvZjo=
-X-Google-Smtp-Source: ABdhPJwJxaLYm/8qm7e208PKN1MJVDXO65N8AEl2VAwq4/QX8nu9j4wQi200qm4Msh03a/8MAOLIn9YAo2cdBS2TddU=
-X-Received: by 2002:a2e:7815:: with SMTP id t21mr2237107ljc.94.1612968097922;
- Wed, 10 Feb 2021 06:41:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20210210111113.17318-1-raymsmithuk@gmail.com> <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
-In-Reply-To: <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
-From: "Ray Smith" <raymsmithuk@gmail.com>
-Date: Wed, 10 Feb 2021 14:41:26 +0000
-Message-ID: <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=1uVQLOP4rUFh5ImezURFfruOSrNUcrcEc7yzqSPVdf4=;
+        b=V1ms9yxqpkpr2b7lO1PfYaNE2UdgbbDN5DyogAb9cUaTKm/kpP9dM93T9GT0rCMcqL
+         JP9b3IYpwMGPUTPFrcBGy+o3e3iXrzI4uVIRQUhn0WskjujeVF+7sN1Tihf3psRwAoGA
+         h0cPU0SbrXbEh0jmlplSbTzjUhKO06CUXtoth9IzjyPFE5JIuE+/vaa5Kzity3QnniVB
+         VSUIuLMzAuIP+wkomSvdvgxmqwQ1cupxqXBpuVKA9JDIDIH3GHQeIRzZKUQQIZ4c+F6k
+         R4LwMAc0+cQtt8ExVtX69lJFdPiV1+xuvl6rx1bei7awAnMxJ74xTMwl4kUA3ObES7zZ
+         5tuA==
+X-Gm-Message-State: AOAM531OD9Mz6Kc+spOeOyB+DnjsjBzMEJ4f4w6zooRL/WRqxan12AVf
+	OPu/Exo/CS3BJEaGmPHtIgV5Ho/xOitI7w==
+X-Google-Smtp-Source: ABdhPJyIx0FI3fha8/HtF8Bnu7nHtWnLLwrHjQSRS8dqh0KpnHJlSpKWppdPoOJKc+dfOIBg2c2Z/w==
+X-Received: by 2002:a5d:81d1:: with SMTP id t17mr921702iol.208.1612970131029;
+        Wed, 10 Feb 2021 07:15:31 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:5c13:19:1e34:e0ed? ([2601:202:4180:a5c0:5c13:19:1e34:e0ed])
+        by smtp.gmail.com with ESMTPSA id l14sm1148451ilc.33.2021.02.10.07.15.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Feb 2021 07:15:30 -0800 (PST)
 Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000082c0be05bafc6608"
+To: Ray Smith <raymsmithuk@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20210210111113.17318-1-raymsmithuk@gmail.com>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8CS2NxU=
+Message-ID: <37de26c1-3d02-313b-dd91-7e3fabe93928@gmail.com>
+Date: Wed, 10 Feb 2021 07:15:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210210111113.17318-1-raymsmithuk@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---00000000000082c0be05bafc6608
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 10, 2021 at 1:26 PM Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
 
+On 2/10/21 3:11 AM, Ray Smith wrote:
+> Mesa doesn't _require_ either of these features of the distribution,
+> it (conditionally) _provides_ them.
 >
-> I didn't understand what you mean here. Could you elaborate this?
+> This has a desirable side-effect of enabling a build of mesa that
+> supports only OpenGL ES and EGL, without having the rest of the
+> distribution think that full OpenGL is available.
 >
+> Without this, a distribution can't support different machines with
+> (non-mesa) OpenGL ES/EGL-only drivers alongside mesa drivers, even
+> when the distribution only needs OpenGL ES/EGL.
 >
-If you try to build mesa with PACKAGECONFIG "egl gles dri" you get an error:
-../mesa-20.3.2/meson.build:144:4: ERROR: Problem encountered: building
-OpenGL ES without OpenGL is not supported.
+> (Note that currently mesa internally requires OpenGL support to be
+> built in order for OpenGL ES support to be built, but this is a
+> detail internal to mesa that should not be exposed to the wider
+> build)
 
-This means that in practice you can't get a GLES-only build of mesa, so
-mesa always provides OpenGL (ignoring Vulkan). But for an abstract graphics
-driver that's not true - many drivers provide GLES but not OpenGL. I'd
-argue that this is an implementation detail (and maybe a minor bug) of
-mesa. If mesa internally requires code from its OpenGL support to build
-GLES, it should silently include that if it's been configured for GLES-only.
+Did you run yocto-check-layer to ensure this passes?
 
-I only mention it to be clear that in general "GLES requires OpenGL" is not
-true, even though mesa's build system enforces that.
+-armin
+> Signed-off-by: Ray Smith <raymsmithuk@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index cb075a8b89..bdb978de95 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -44,12 +44,10 @@ PROVIDES = " \
+>      virtual/mesa \
+>      "
+>  
+> -inherit meson pkgconfig python3native gettext features_check
+> +inherit meson pkgconfig python3native gettext
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> -ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
+> -
+>  PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
+>  
+>  export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
+>
+> 
+>
 
---00000000000082c0be05bafc6608
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, Feb 10, 2021 at 1:26 PM Otavio Salvador &lt;<a href=3D"mailt=
-o:otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com.br</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr"><br><div>I didn&#39;t understand what you mean here. Could you el=
-aborate this?<br></div><br></div></blockquote><div><br></div><div>If you tr=
-y to build mesa with PACKAGECONFIG &quot;egl gles dri&quot; you get an erro=
-r:</div><div>../mesa-20.3.2/meson.build:144:4: ERROR: Problem encountered: =
-building OpenGL ES without OpenGL is not supported.</div><div><br></div><di=
-v>This means that in practice you can&#39;t get a GLES-only build of mesa, =
-so mesa always provides OpenGL (ignoring Vulkan). But for an abstract graph=
-ics driver that&#39;s not true - many drivers provide GLES but not OpenGL. =
-I&#39;d argue that this is an implementation detail (and maybe a minor bug)=
- of mesa. If mesa internally requires code from its OpenGL support to build=
- GLES, it should silently include that if it&#39;s been configured for GLES=
--only.</div><div><br></div><div>I only mention it to be clear that in gener=
-al &quot;GLES requires OpenGL&quot; is not true, even though mesa&#39;s bui=
-ld system enforces that.<br></div></div></div>
-
---00000000000082c0be05bafc6608--
