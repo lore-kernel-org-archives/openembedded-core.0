@@ -1,84 +1,113 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.1330.1612931530652058683
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web10.1489.1612932429189528409
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 20:32:10 -0800
+ Tue, 09 Feb 2021 20:47:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L0MYAcmw;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id e9so523085plh.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 20:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QGOCyhbUPKReNqQbC2+Fj4vKrjx4SG86vqQdNPbKL3U=;
-        b=L0MYAcmw8fCPF2W7lG6zMpvyLwl4pgqFRoZhzVQywJO12PRryQfF0X6P/YPejatBFv
-         WNEkbR9JmGRe3c6DJoOw68ME6oau7XMjW6ieMSdYlUZpt24FQhCamep6aqwvuncObm64
-         9aT+FE8EF5s11njTTrQ3rOQ4ugkN9qD1hlRMYlBC2GLv8GwRJgSThpwQD/9P04sCcZ7M
-         J1XRwATqUssKJ2EaLJrI+0K2KlMGiWQ4MGxIw8XWwDBRkZ4hOrCebVbyLNPlzlyQwBdt
-         kczJoMqYKWoqkHSJY0DJ+rKNr5lvfvnRLLfMmbe1/hwxg0ymbzYyOSvfsAlZCSu1znVU
-         f8hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QGOCyhbUPKReNqQbC2+Fj4vKrjx4SG86vqQdNPbKL3U=;
-        b=cf/7RCgjE4obm1FGNRIYUQeTBqz2P2vG9HyB4CRexPfPv6WRJ9L0WHDWYtPD9vJZqA
-         VDSJQDtCxHiUMvkmry8th3P0JRaT9WGVq+PBl0MEc4+zYpLD5OVPl3B3cGt1uowsig3N
-         Lz2IxVw5caTuzskaxu2Yd+py8lXR2eRn/MxilAtpqC8oXJva9atP99XV8idnFbqoNU4i
-         SUrzJSRXPfD7ccBw6mzsIbHxht8vuPswLR2YoCLv3c9BI1rCqyYPNUAykGSbEJM3rZoP
-         7L6UzjE7dY8aQLItDr7ml4sytIfhQdy7sRFL5x02p4EvbCA8LsMTQAcm2pMMH1xjdUCh
-         d3Jw==
-X-Gm-Message-State: AOAM532sWPWtmkA2L7y6xIIkYo3uLR5loQALHkym39Te2pbhwl+VoRt7
-	53nMH1TvneGfCdkpl4Cl/jMMotUlojU=
-X-Google-Smtp-Source: ABdhPJwaOyLzi0OMICVmD5lw9Wlr0Phh7AD4Hd7yUt+8dIO9LQr//1qKLZI6oua6o1zIjOrZtmqCkQ==
-X-Received: by 2002:a17:90b:3907:: with SMTP id ob7mr1336296pjb.18.1612931529849;
-        Tue, 09 Feb 2021 20:32:09 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
-        by smtp.gmail.com with ESMTPSA id d1sm502504pgl.17.2021.02.09.20.32.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 20:32:09 -0800 (PST)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] connman: update to 1.39
-Date: Wed, 10 Feb 2021 04:32:07 +0000
-Message-Id: <20210210043207.3141102-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: x6Jk6I6ByrGmU7NVett20wXYEvsmfaXc/r2H2ll7L5hNya2RLm56s0LLyEQy0I6CK2LUhx4Tr5
+ 4m15xpz+Hstg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="169691477"
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
+   d="scan'208";a="169691477"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 20:47:06 -0800
+IronPort-SDR: 7VygnSR20LbcPQ6dp/5zqqkWIc1poimUB5jy1qR5YMa3EDzXTAiSj0ElDm/tZmv06HlRRrBUOF
+ xeC+Y9dMeRAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,167,1610438400"; 
+   d="scan'208";a="488480748"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2021 20:47:05 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 10 Feb 2021 12:47:04 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.002;
+ Wed, 10 Feb 2021 12:47:04 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH] security_flags.inc: Use -O with -D_FORTIFY_SOURCE
+Thread-Topic: [OE-core] [PATCH] security_flags.inc: Use -O with
+ -D_FORTIFY_SOURCE
+Thread-Index: AQHW/FHIdXSsKla2rUCY/CXjQrhfD6pQUM4A
+Date: Wed, 10 Feb 2021 04:47:04 +0000
+Message-ID: <3b2c317d565d09bda89eacb05002ef1f0d816c6c.camel@intel.com>
+References: <20210206063138.1649019-1-raj.khem@gmail.com>
+In-Reply-To: <20210206063138.1649019-1-raj.khem@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <02B0495592B69645A57ECFCD34372D92@intel.com>
+Content-Transfer-Encoding: base64
 
-[Yocto #14231]
-
-Bug fix only and includes two security fixes:
-
-CVE-2021-26676
-CVE-2021-26676
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../connman/{connman_1.38.bb => connman_1.39.bb}               | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
-
-diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/recipes-connectivity/connman/connman_1.39.bb
-similarity index 78%
-rename from meta/recipes-connectivity/connman/connman_1.38.bb
-rename to meta/recipes-connectivity/connman/connman_1.39.bb
-index 027c41e9afa..df42e9ffb8a 100644
---- a/meta/recipes-connectivity/connman/connman_1.38.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.39.bb
-@@ -9,8 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
- 
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
- 
--SRC_URI[md5sum] = "1ed8745354c7254bdfd4def54833ee94"
--SRC_URI[sha256sum] = "cb30aca97c2f79ccaed8802aa2909ac5100a3969de74c0af8a9d73b85fc4932b"
-+SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
- 
- RRECOMMENDS_${PN} = "connman-conf"
- RCONFLICTS_${PN} = "networkmanager"
--- 
-2.25.1
-
+T24gRnJpLCAyMDIxLTAyLTA1IGF0IDIyOjMxIC0wODAwLCBLaGVtIFJhaiB3cm90ZToNCj4gY29t
+cGlsZXIgY2FuIG9ubHkgdXNlIGZvcnRpZnkgb3B0aW9ucyB3aGVuIHNvbWUgbGV2ZWwgb2Ygb3B0
+aW1pemF0aW9uDQo+IGlzDQo+IG9uLCBvdGhlcndpc2UgaXQgZW5kcyB1cCBzZW5kaW5nIHNvbWUg
+d2FybmluZ3MuDQo+IA0KPiB3YXJuaW5nOiBfRk9SVElGWV9TT1VSQ0UgcmVxdWlyZXMgY29tcGls
+aW5nIHdpdGggb3B0aW1pemF0aW9uICgtTykgWy0NCj4gVyN3YXJuaW5nc10NCj4gDQo+IHRoaXMg
+aXMgdXN1YWxseSBPSywgc2luY2UgLU88bGV2ZWw+IHdvdWxkIGJlIGFkZGVkIHZpYSBDRkxBR1Mg
+dG8NCj4gY29tcGlsZXIgY21kbGluZSBpbiBub3JtYWwgY29tcGlsZSBzdGFnZXMsIGhvd2V2ZXIg
+ZHVyaW5nIGNvbmZpZ3VyZQ0KPiB0aGVyZSBhcmUgcHJvYmxlbXMgd2hlbiBDQyxDUFAsQ1hYIGFy
+ZSBwcm9iZWQgYWxvbmUgaW4gY29uZmlndXJlDQo+IHRlc3RzDQo+IHdoaWNoIHJlc3VsdHMgaW4g
+YWJvdmUgd2FybmluZywgd2hpY2ggY29uZnVzZXMgdGhlIGNvbmZpZ3VyZSByZXN1bHRzDQo+IGFu
+ZA0KPiBhdXRvdG9vbHMgMi43MCsgZGV0ZWN0cyBpdCBhcyBlcnJvciBlLmcuDQo+IA0KPiBjb25m
+aWd1cmU6MTcyOTI6IGVycm9yOiBDIHByZXByb2Nlc3NvciAicmlzY3YzMi15b2UtbGludXgtY2xh
+bmcgLQ0KPiB0YXJnZXQgcmlzY3YzMi15b2UtbGludXjCoMKgwqDCoMKgIC1tbGl0dGxlLWVuZGlh
+biAtbW5vLXJlbGF4IC1RdW51c2VkLQ0KPiBhcmd1bWVudHMgLWZzdGFjay1wcm90ZWN0b3Itc3Ry
+b25nwqAgLURfRk9SVElGWV9TT1VSQ0U9MiAtV2Zvcm1hdCAtDQo+IFdmb3JtYXQtc2VjdXJpdHkg
+LVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS0NCj4gc3lzcm9vdD0vbW50L2IveW9lL21hc3Rlci9i
+dWlsZC90bXAvd29yay9yaXNjdjMyLXlvZS1saW51eC9uZHBpLzMuNC0NCj4gcjAvcmVjaXBlLXN5
+c3Jvb3QgLUUiIGZhaWxzIHNhbml0eSBjaGVjaw0KPiBTZWUgYGNvbmZpZy5sb2cnIGZvciBtb3Jl
+IGRldGFpbHMNCj4gDQo+IHRoZXJlZm9yZSBhZGRpbmcgYSAtTyAoIHdoaWNoIGFjdHVhbGx5IGlz
+IC1PMSApIHRvIGxjbF9tYXliZV9mb3J0aWZ5DQo+IG1lYW5zIHdlIGNhbiBwcm9wZXJseSB0ZXN0
+IHRoZXNlIGNvbmZpZ3VyZSB0ZXN0cyBhbmQgcmVhbCAtTzxsZXZlbD4NCj4gd2lsbA0KPiBzdGls
+bCBvdmVycmlkZSAtTyBhZGRlZCBoZXJlLCBzbyBvdmVycmFsbCBiZWhhdmlvciBpbXByb3Zlcw0K
+DQpnY2MgbWFuIHBhZ2Ugc2F5cyB0aGF0IHRoZSBsYXN0IHNwZWNpZmllZCBPIG9wdGlvbiB3aWxs
+IHRha2UgZWZmZWN0Lg0KDQpJbiBjYXNlIG9mIG5jdXJzZXMgZm9yIGV4YW1wbGUgdXNpbmcgcG9r
+eToNCg0KeDg2XzY0LXBva3ktbGludXgtZ2NjIC1tNjQgLW1hcmNoPXNreWxha2UgLW10dW5lPWdl
+bmVyaWMgLW1hdngyIC0NCm1mcG1hdGg9c3NlIC0tc3lzcm9vdD0vaG9tZS9hbm1pdHRhMi93b3Jr
+L3Bva3kvYnVpbGQvdG1wL3dvcmsvc2t5bGFrZS0NCjY0LXBva3ktbGludXgvbmN1cnNlcy82LjIt
+cjAvcmVjaXBlLXN5c3Jvb3QgLURIQVZFX0NPTkZJR19IIC0NCkkuLi9uY3Vyc2VzIC1JLiAtSS4u
+Ly4uLy4uL2dpdC9uY3Vyc2VzIC1JLi4vaW5jbHVkZSAtDQpJLi4vLi4vLi4vZ2l0L25jdXJzZXMv
+Li4vaW5jbHVkZSAtRF9GT1JUSUZZX1NPVVJDRT0yIC1EX0RFRkFVTFRfU09VUkNFDQotRF9YT1BF
+Tl9TT1VSQ0U9NjAwIC1ETkRFQlVHIC1PMiAtcGlwZSAtZyAtZmVsaW1pbmF0ZS11bnVzZWQtZGVi
+dWctDQp0eXBlcyAtZm1hY3JvLXByZWZpeC0NCm1hcD0vaG9tZS9hbm1pdHRhMi93b3JrL3Bva3kv
+YnVpbGQvdG1wL3dvcmsvc2t5bGFrZS02NC1wb2t5LQ0KbGludXgvbmN1cnNlcy82LjItcjA9L3Vz
+ci9zcmMvZGVidWcvbmN1cnNlcy82LjItcjAgICAgICAgICAgICAgICAgICAgIA0KLWZkZWJ1Zy1w
+cmVmaXgtbWFwPS9ob21lL2FubWl0dGEyL3dvcmsvcG9reS9idWlsZC90bXAvd29yay9za3lsYWtl
+LTY0LQ0KcG9reS1saW51eC9uY3Vyc2VzLzYuMi1yMD0vdXNyL3NyYy9kZWJ1Zy9uY3Vyc2VzLzYu
+Mi1yMCAgICAgICAgICAgICAgIA0KLWZkZWJ1Zy1wcmVmaXgtbWFwPS9ob21lL2FubWl0dGEyL3dv
+cmsvcG9reS9idWlsZC90bXAvd29yay9za3lsYWtlLTY0LQ0KcG9reS1saW51eC9uY3Vyc2VzLzYu
+Mi1yMC9yZWNpcGUtc3lzcm9vdD0gICAgICAgICAgICAgICAgICAgICAgLWZkZWJ1Zy0NCnByZWZp
+eC1tYXA9L2hvbWUvYW5taXR0YTIvd29yay9wb2t5L2J1aWxkL3RtcC93b3JrL3NreWxha2UtNjQt
+cG9reS0NCmxpbnV4L25jdXJzZXMvNi4yLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZT0gIC1mc3Rh
+Y2stcHJvdGVjdG9yLXN0cm9uZyAtDQpPIC1XZm9ybWF0IC1XZm9ybWF0LXNlY3VyaXR5IC1XZXJy
+b3I9Zm9ybWF0LXNlY3VyaXR5IC0tcGFyYW0gbWF4LQ0KaW5saW5lLWluc25zLXNpbmdsZT0xMjAw
+IC1mUElDIC1EVVNFX1RFUk1MSUIgLWMNCi4uLy4uLy4uL2dpdC9uY3Vyc2VzL3RpbmZvL2RvYWxs
+b2MuYyAtbyAuLi9vYmpfcy9kb2FsbG9jLm8NCg0KSSBzZWUgLU8gYWZ0ZXIgLU8yIHNvIGlzIE8y
+IHJlYWxseSB0YWtpbmcgZWZmZWN0PyANCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+IFNpZ25l
+ZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+IC0tLQ0KPiDCoG1ldGEv
+Y29uZi9kaXN0cm8vaW5jbHVkZS9zZWN1cml0eV9mbGFncy5pbmMgfCAyICstDQo+IMKgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3NlY3VyaXR5X2ZsYWdzLmluYw0KPiBiL21ldGEv
+Y29uZi9kaXN0cm8vaW5jbHVkZS9zZWN1cml0eV9mbGFncy5pbmMNCj4gaW5kZXggNGU2NGViOTlm
+OS4uMDUyNTNiMmRmOSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3Nl
+Y3VyaXR5X2ZsYWdzLmluYw0KPiArKysgYi9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvc2VjdXJp
+dHlfZmxhZ3MuaW5jDQo+IEBAIC0xMCw3ICsxMCw3IEBAIEdDQ1BJRSA/PSAiLS1lbmFibGUtZGVm
+YXVsdC1waWUiDQo+IMKgDQo+IMKgIyBfRk9SVElGWV9TT1VSQ0UgcmVxdWlyZXMgLU8xIG9yIGhp
+Z2hlciwgc28gZGlzYWJsZSBpbiBkZWJ1ZyBidWlsZHMNCj4gYXMgdGhleSB1c2UNCj4gwqAjIC1P
+MCB3aGljaCB0aGVuIHJlc3VsdHMgaW4gYSBjb21waWxlciB3YXJuaW5nLg0KPiAtbGNsX21heWJl
+X2ZvcnRpZnkgPz0NCj4gIiR7QG9lLnV0aWxzLmNvbmRpdGlvbmFsKCdERUJVR19CVUlMRCcsJzEn
+LCcnLCctDQo+IERfRk9SVElGWV9TT1VSQ0U9MicsZCl9Ig0KPiArbGNsX21heWJlX2ZvcnRpZnkg
+Pz0NCj4gIiR7QG9lLnV0aWxzLmNvbmRpdGlvbmFsKCdERUJVR19CVUlMRCcsJzEnLCcnLCctTyAt
+DQo+IERfRk9SVElGWV9TT1VSQ0U9MicsZCl9Ig0KPiDCoA0KPiDCoCMgRXJyb3Igb24gdXNlIG9m
+IGZvcm1hdCBzdHJpbmdzIHRoYXQgcmVwcmVzZW50IHBvc3NpYmxlIHNlY3VyaXR5DQo+IHByb2Js
+ZW1zDQo+IMKgU0VDVVJJVFlfU1RSSU5HRk9STUFUID89ICItV2Zvcm1hdCAtV2Zvcm1hdC1zZWN1
+cml0eSAtV2Vycm9yPWZvcm1hdC0NCj4gc2VjdXJpdHkiDQo+IA0KPiANCj4gDQoNCg==
