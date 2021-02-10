@@ -1,92 +1,77 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web12.2516.1612942848403151923
+Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com [207.54.72.34])
+ by mx.groups.io with SMTP id smtpd.web12.2918.1612946913071364873
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 23:40:48 -0800
+ Wed, 10 Feb 2021 00:48:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X6nZBXTZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id g3so747603plp.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 23:40:48 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=iU3bw2d5;
+ spf=pass (domain: bmw.de, ip: 207.54.72.34, mailfrom: prvs=668b81529=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7DJtCyebVlqeFd+GosbFqbjUf/a7YdB+oEiu27sooyo=;
-        b=X6nZBXTZCHf0KH7tbHNjIGfDCg+HtgbzbCMUsbXqGzDd/vtrfXRYmkaU71c7ib6NJK
-         YNU+IHeAwU5GdPHm9t7vv1drGt6AqMeO2GO5d9MW+HpeYxuXShM2NjZUHTZewu7zJz+o
-         sHIUL3xJVUifWunP66elwZCHIUFYFliIpotnB6cQLRpTlWS24WjuIun+NcxO7QNmzoRk
-         /zcn/u5wCuGg6BU8guIkBHRwVQq5euKLzd4uFP5KpVetBTTcRoXE3m19CeOLsuwC8Q4D
-         H3XBNeu0ixSSN1l1eS1rUtmaz4IrqttMZoNoZhPO07oLZ4SIReKd+dzf0RI7ET3dEnXK
-         oJzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7DJtCyebVlqeFd+GosbFqbjUf/a7YdB+oEiu27sooyo=;
-        b=rIuYyuaedXP7nbUVwvT8aMTfY3sU6GM2ZOxcQIhmW+Naw5qLFe4hbbt/uV3Hjl58Gm
-         cvdvEQ8QJUvf8S7DhNmrEI6aFsqYJNwY8yzDz5qw2smvmKaC/9kUvUddbHsJ7xNXR1aa
-         ZdkBCS6dlJI7bgafqeYUHUB1ubFKTsprBkn3cOs3vE7Bj7ZoIhBOEgpOZinW/FD11eiZ
-         dzHOu3bcGq8nY2bnLFg9tuW/9V88/G38HXUkZjk0Ly/pelHF4QkwayCyqdm4Q7hDA2iS
-         ET8kf0lYrR3/ox/pwmuuLKorupKX9qveBs+9D6BpXfu6uRG/1o5iMSq7mAKA9xcAmKUS
-         aAKw==
-X-Gm-Message-State: AOAM533gsgOV01Cb/t0jS3cxdK7a36XVVGmotinIlzXnV7gDwtJD4TRO
-	bq1UeErYMOSRcwzTsWKxk9RAjW4T7XOVXg==
-X-Google-Smtp-Source: ABdhPJzK45GVPVIisT5Bs+6qAQdNWrHCox3hqoJlzx1LdQ8qel3fsrn9pK7eD9fyZ8Wp126Y1Ma4OA==
-X-Received: by 2002:a17:90a:420c:: with SMTP id o12mr1932186pjg.193.1612942847582;
-        Tue, 09 Feb 2021 23:40:47 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ca6])
-        by smtp.gmail.com with ESMTPSA id k10sm1248954pfk.0.2021.02.09.23.40.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 23:40:47 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Anuj Mittal <anuj.mittal@intel.com>
-Subject: [PATCH v2] security_flags.inc: Add same O<level> as in SELECTED_OPTIMIZATION
-Date: Tue,  9 Feb 2021 23:40:44 -0800
-Message-Id: <20210210074044.1565808-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1612946913; x=1644482913;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=glytZHAamRvqLwXrglwwQ9LzfbDIC5+ohrj0z8aqimg=;
+  b=iU3bw2d5ZSx8o90jLgHBhNfSPphQGlaGMtKfI5mN83XfmHJfCWGOaRNo
+   lnAXwaqcCXbIDyQUDJjmVFXeP8aLj5ulkEM0wZgsCodaK3CMfr87ar26d
+   MmAwZ9NDBU6YybEkWJllqoNGWhBkqnXiEZ2R769eSxoXFIgZ+Ga/PmFzY
+   Q=;
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 10 Feb 2021 09:48:30 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
+ 10 Feb 2021 09:48:30 +0100
+Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
+ by esabb5.muc with ESMTP/TLS; 10 Feb 2021 09:48:26 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
+ (160.46.167.66) with Microsoft SMTP Server (TLS;
+ Wed, 10 Feb 2021 09:48:26 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Wed,
+ 10 Feb 2021 09:48:26 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <raj.khem@gmail.com>
+CC: <anuj.mittal@intel.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] security_flags.inc: Use -O with -D_FORTIFY_SOURCE
+Thread-Topic: [OE-core] [PATCH] security_flags.inc: Use -O with
+ -D_FORTIFY_SOURCE
+Thread-Index: AQHW/FHPTLbovpFRkEKjnMnljGgpTqpQxiYAgAAvqYCAABPGgA==
+Date: Wed, 10 Feb 2021 08:48:26 +0000
+Message-ID: <YCOd2Ru/zB/fZedT@korppu>
+References: <20210206063138.1649019-1-raj.khem@gmail.com>
+ <3b2c317d565d09bda89eacb05002ef1f0d816c6c.camel@intel.com>
+ <CAMKF1so+8XcjgVUjSbn3ph1ZMRQRjnLQbq4na9WNEfTT_TPwuQ@mail.gmail.com>
+In-Reply-To: <CAMKF1so+8XcjgVUjSbn3ph1ZMRQRjnLQbq4na9WNEfTT_TPwuQ@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <34D77D6EE0624F409D209E10F53C97D8@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Adding -O can be troublesome in some packages where it may override the
-O<n> specified by CFLAGS, this can be due to configure processing of
-CFLAGS and munging them into new values in Makefiles, which is
-contructed from CC and CFLAGS passed by bitbake environment. Problem
-arises if the sequence is altered, which seems to be the case in some
-packages e.g. ncurses, where the value from CC variable is added last
-and thus overrides -O<n> coming from CFLAGS,
+Hi,
 
-Therefore grok the value from SELECTED_OPTIMIZATION and append the
-appropriate -O<level> flag to lcl_maybe_fortify so the level does not
-change inaderdantly.
+On Tue, Feb 09, 2021 at 11:37:39PM -0800, Khem Raj wrote:
+> In this case -O  will take effect sadly. and it seems to be that
+> autconf munges the compiler cmdline
+> while generating CFLAGS in generated Makefiles and appends the value
+> of -On coming from CC
+> variable last.
+>=20
+> I think right solution would be to add same -O<level> as specified in
+> SELECTED_OPTIMIZATION so it remains
+> in sync always, I have sent a patch to ml. Could you test it out and
+> let me know if it works for you as well.
 
-Since we do not use -O0 anymore there is no point of checking for
-DEBUG_BUILD since it uses -Og now which works fine with
--D_FORTIFY_SOURCE=2, so check for optlevel O0 instead
+Or let it go? A lot of recipes amend their own optimization flags and overr=
+ide
+distro wide optimization and other compiler flags. I once fixes all recipes
+in a project which were not obeying Os until buildhistory showed change in =
+binary
+sizes... that was a lot of work for a PoC..
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/conf/distro/include/security_flags.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 05253b2df9..f996ca9be2 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -10,7 +10,9 @@ GCCPIE ?= "--enable-default-pie"
- 
- # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
- # -O0 which then results in a compiler warning.
--lcl_maybe_fortify ?= "${@oe.utils.conditional('DEBUG_BUILD','1','','-O -D_FORTIFY_SOURCE=2',d)}"
-+OPTLEVEL = "${@bb.utils.filter('SELECTED_OPTIMIZATION', '-O0 -O1 -O2 -O3 -Ofast -Og -Os -Oz -O', d)}"
-+
-+lcl_maybe_fortify ?= "${@oe.utils.conditional('OPTLEVEL','-O0','','${OPTLEVEL} -D_FORTIFY_SOURCE=2',d)}"
- 
- # Error on use of format strings that represent possible security problems
- SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
--- 
-2.30.0
-
+-Mikko=
