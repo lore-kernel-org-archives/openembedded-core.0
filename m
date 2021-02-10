@@ -1,150 +1,92 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web10.2571.1612942686697874202
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.2516.1612942848403151923
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Feb 2021 23:38:06 -0800
+ Tue, 09 Feb 2021 23:40:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZfwlPnca;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id x3so906105qti.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 23:38:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X6nZBXTZ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id g3so747603plp.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Feb 2021 23:40:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wXj4skWvgtofwE1SQWjlUAD6sdulom+7oan0hca5afo=;
-        b=ZfwlPncadd+LACJ+/32QBuJEgZw8d/UeIX3lkY30zR9gvcwWytBBNjUnjquDe4s8ti
-         PD3630Bls6SjnOXpNGOQF0+sfSSdYUOcRkJAGPfv9793Bsv6Rbu6nD9fbryBnhEmqI2x
-         hTYchwELj+bnuntQD1XDaAaCmGWVV3yyJvxc/1V6hFVrU/wmsxVgkfgje/61MOlRn2Tv
-         fMPuEy6d5TeRwCK7ru3aiVnC240uYTS8CoxYH5WfODcvB/fFpKmWyAM6UORP/jtr+fvi
-         bXw27wsxvolFNSOfI13/r7hSW8GbYjhXxaw/Zi9EDuMx2CZskIcrsUwmRhJq4rOZp4YC
-         doAw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7DJtCyebVlqeFd+GosbFqbjUf/a7YdB+oEiu27sooyo=;
+        b=X6nZBXTZCHf0KH7tbHNjIGfDCg+HtgbzbCMUsbXqGzDd/vtrfXRYmkaU71c7ib6NJK
+         YNU+IHeAwU5GdPHm9t7vv1drGt6AqMeO2GO5d9MW+HpeYxuXShM2NjZUHTZewu7zJz+o
+         sHIUL3xJVUifWunP66elwZCHIUFYFliIpotnB6cQLRpTlWS24WjuIun+NcxO7QNmzoRk
+         /zcn/u5wCuGg6BU8guIkBHRwVQq5euKLzd4uFP5KpVetBTTcRoXE3m19CeOLsuwC8Q4D
+         H3XBNeu0ixSSN1l1eS1rUtmaz4IrqttMZoNoZhPO07oLZ4SIReKd+dzf0RI7ET3dEnXK
+         oJzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wXj4skWvgtofwE1SQWjlUAD6sdulom+7oan0hca5afo=;
-        b=WWh2HeuUJ+//w7/zSNXWuHP12Lxc7brg02j4H01TFX31LDvqajAKfD6/jzZUzSyur6
-         FNialdGNlaDAa526QiQKIr5xljvSBVw90EJDtpo5ScVnmDGeuYkeNgek0U5L2lj3aRrK
-         TsCMMuRx6etk5eXWZC71U8R5fmAQpC2oVvKR7VXwu7qMqQZPjC0+6DeS+j4EWaQZBYXZ
-         RJ8z6maHg85Q3h4297TDUCTPvAEMJ6EN98d03cFNHECkOenX4IfXFGuetTow7yGGfFJl
-         J3U6TgAd+Ka/ByP0sKmgH2Xjff9ExeVgXxr0LpAgjdNYT+z14DFHxJ1Exqe02F01Ce8g
-         ClbA==
-X-Gm-Message-State: AOAM532j68jXm9jTTNDc074zqOf7+1SHmN9RAg1Hy3KlLVTKAO1nkVzh
-	WN46V9WYRFBWUe+Ae2ym8F9hEkvNWiifnanrpvM=
-X-Google-Smtp-Source: ABdhPJwqZNQdFOHnr9jxlgI7fZ80WkCxv1i1ZUi6woAlR+5LvkpawG8BRX6P0xFLGi5zgcqfNYcW+L+d7MzUG0sA3Oc=
-X-Received: by 2002:ac8:5bd1:: with SMTP id b17mr1640205qtb.53.1612942685737;
- Tue, 09 Feb 2021 23:38:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20210206063138.1649019-1-raj.khem@gmail.com> <3b2c317d565d09bda89eacb05002ef1f0d816c6c.camel@intel.com>
-In-Reply-To: <3b2c317d565d09bda89eacb05002ef1f0d816c6c.camel@intel.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7DJtCyebVlqeFd+GosbFqbjUf/a7YdB+oEiu27sooyo=;
+        b=rIuYyuaedXP7nbUVwvT8aMTfY3sU6GM2ZOxcQIhmW+Naw5qLFe4hbbt/uV3Hjl58Gm
+         cvdvEQ8QJUvf8S7DhNmrEI6aFsqYJNwY8yzDz5qw2smvmKaC/9kUvUddbHsJ7xNXR1aa
+         ZdkBCS6dlJI7bgafqeYUHUB1ubFKTsprBkn3cOs3vE7Bj7ZoIhBOEgpOZinW/FD11eiZ
+         dzHOu3bcGq8nY2bnLFg9tuW/9V88/G38HXUkZjk0Ly/pelHF4QkwayCyqdm4Q7hDA2iS
+         ET8kf0lYrR3/ox/pwmuuLKorupKX9qveBs+9D6BpXfu6uRG/1o5iMSq7mAKA9xcAmKUS
+         aAKw==
+X-Gm-Message-State: AOAM533gsgOV01Cb/t0jS3cxdK7a36XVVGmotinIlzXnV7gDwtJD4TRO
+	bq1UeErYMOSRcwzTsWKxk9RAjW4T7XOVXg==
+X-Google-Smtp-Source: ABdhPJzK45GVPVIisT5Bs+6qAQdNWrHCox3hqoJlzx1LdQ8qel3fsrn9pK7eD9fyZ8Wp126Y1Ma4OA==
+X-Received: by 2002:a17:90a:420c:: with SMTP id o12mr1932186pjg.193.1612942847582;
+        Tue, 09 Feb 2021 23:40:47 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ca6])
+        by smtp.gmail.com with ESMTPSA id k10sm1248954pfk.0.2021.02.09.23.40.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 23:40:47 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 9 Feb 2021 23:37:39 -0800
-Message-ID: <CAMKF1so+8XcjgVUjSbn3ph1ZMRQRjnLQbq4na9WNEfTT_TPwuQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] security_flags.inc: Use -O with -D_FORTIFY_SOURCE
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Anuj Mittal <anuj.mittal@intel.com>
+Subject: [PATCH v2] security_flags.inc: Add same O<level> as in SELECTED_OPTIMIZATION
+Date: Tue,  9 Feb 2021 23:40:44 -0800
+Message-Id: <20210210074044.1565808-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 9, 2021 at 8:47 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> On Fri, 2021-02-05 at 22:31 -0800, Khem Raj wrote:
-> > compiler can only use fortify options when some level of optimization
-> > is
-> > on, otherwise it ends up sending some warnings.
-> >
-> > warning: _FORTIFY_SOURCE requires compiling with optimization (-O) [-
-> > W#warnings]
-> >
-> > this is usually OK, since -O<level> would be added via CFLAGS to
-> > compiler cmdline in normal compile stages, however during configure
-> > there are problems when CC,CPP,CXX are probed alone in configure
-> > tests
-> > which results in above warning, which confuses the configure results
-> > and
-> > autotools 2.70+ detects it as error e.g.
-> >
-> > configure:17292: error: C preprocessor "riscv32-yoe-linux-clang -
-> > target riscv32-yoe-linux      -mlittle-endian -mno-relax -Qunused-
-> > arguments -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -
-> > Wformat-security -Werror=format-security --
-> > sysroot=/mnt/b/yoe/master/build/tmp/work/riscv32-yoe-linux/ndpi/3.4-
-> > r0/recipe-sysroot -E" fails sanity check
-> > See `config.log' for more details
-> >
-> > therefore adding a -O ( which actually is -O1 ) to lcl_maybe_fortify
-> > means we can properly test these configure tests and real -O<level>
-> > will
-> > still override -O added here, so overrall behavior improves
->
-> gcc man page says that the last specified O option will take effect.
->
-> In case of ncurses for example using poky:
->
-> x86_64-poky-linux-gcc -m64 -march=skylake -mtune=generic -mavx2 -
-> mfpmath=sse --sysroot=/home/anmitta2/work/poky/build/tmp/work/skylake-
-> 64-poky-linux/ncurses/6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -
-> I../ncurses -I. -I../../../git/ncurses -I../include -
-> I../../../git/ncurses/../include -D_FORTIFY_SOURCE=2 -D_DEFAULT_SOURCE
-> -D_XOPEN_SOURCE=600 -DNDEBUG -O2 -pipe -g -feliminate-unused-debug-
-> types -fmacro-prefix-
-> map=/home/anmitta2/work/poky/build/tmp/work/skylake-64-poky-
-> linux/ncurses/6.2-r0=/usr/src/debug/ncurses/6.2-r0
-> -fdebug-prefix-map=/home/anmitta2/work/poky/build/tmp/work/skylake-64-
-> poky-linux/ncurses/6.2-r0=/usr/src/debug/ncurses/6.2-r0
-> -fdebug-prefix-map=/home/anmitta2/work/poky/build/tmp/work/skylake-64-
-> poky-linux/ncurses/6.2-r0/recipe-sysroot=                      -fdebug-
-> prefix-map=/home/anmitta2/work/poky/build/tmp/work/skylake-64-poky-
-> linux/ncurses/6.2-r0/recipe-sysroot-native=  -fstack-protector-strong -
-> O -Wformat -Wformat-security -Werror=format-security --param max-
-> inline-insns-single=1200 -fPIC -DUSE_TERMLIB -c
-> ../../../git/ncurses/tinfo/doalloc.c -o ../obj_s/doalloc.o
->
-> I see -O after -O2 so is O2 really taking effect?
+Adding -O can be troublesome in some packages where it may override the
+O<n> specified by CFLAGS, this can be due to configure processing of
+CFLAGS and munging them into new values in Makefiles, which is
+contructed from CC and CFLAGS passed by bitbake environment. Problem
+arises if the sequence is altered, which seems to be the case in some
+packages e.g. ncurses, where the value from CC variable is added last
+and thus overrides -O<n> coming from CFLAGS,
 
-In this case -O  will take effect sadly. and it seems to be that
-autconf munges the compiler cmdline
-while generating CFLAGS in generated Makefiles and appends the value
-of -On coming from CC
-variable last.
+Therefore grok the value from SELECTED_OPTIMIZATION and append the
+appropriate -O<level> flag to lcl_maybe_fortify so the level does not
+change inaderdantly.
 
-I think right solution would be to add same -O<level> as specified in
-SELECTED_OPTIMIZATION so it remains
-in sync always, I have sent a patch to ml. Could you test it out and
-let me know if it works for you as well.
+Since we do not use -O0 anymore there is no point of checking for
+DEBUG_BUILD since it uses -Og now which works fine with
+-D_FORTIFY_SOURCE=2, so check for optlevel O0 instead
 
->
-> Thanks,
->
-> Anuj
->
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/conf/distro/include/security_flags.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/distro/include/security_flags.inc
-> > b/meta/conf/distro/include/security_flags.inc
-> > index 4e64eb99f9..05253b2df9 100644
-> > --- a/meta/conf/distro/include/security_flags.inc
-> > +++ b/meta/conf/distro/include/security_flags.inc
-> > @@ -10,7 +10,7 @@ GCCPIE ?= "--enable-default-pie"
-> >
-> >  # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds
-> > as they use
-> >  # -O0 which then results in a compiler warning.
-> > -lcl_maybe_fortify ?=
-> > "${@oe.utils.conditional('DEBUG_BUILD','1','','-
-> > D_FORTIFY_SOURCE=2',d)}"
-> > +lcl_maybe_fortify ?=
-> > "${@oe.utils.conditional('DEBUG_BUILD','1','','-O -
-> > D_FORTIFY_SOURCE=2',d)}"
-> >
-> >  # Error on use of format strings that represent possible security
-> > problems
-> >  SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-
-> > security"
-> >
-> > 
-> >
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 05253b2df9..f996ca9be2 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -10,7 +10,9 @@ GCCPIE ?= "--enable-default-pie"
+ 
+ # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
+ # -O0 which then results in a compiler warning.
+-lcl_maybe_fortify ?= "${@oe.utils.conditional('DEBUG_BUILD','1','','-O -D_FORTIFY_SOURCE=2',d)}"
++OPTLEVEL = "${@bb.utils.filter('SELECTED_OPTIMIZATION', '-O0 -O1 -O2 -O3 -Ofast -Og -Os -Oz -O', d)}"
++
++lcl_maybe_fortify ?= "${@oe.utils.conditional('OPTLEVEL','-O0','','${OPTLEVEL} -D_FORTIFY_SOURCE=2',d)}"
+ 
+ # Error on use of format strings that represent possible security problems
+ SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
+-- 
+2.30.0
+
