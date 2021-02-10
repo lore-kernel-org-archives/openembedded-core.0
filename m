@@ -1,80 +1,48 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.3467.1612951031137604160
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.3857.1612954452263997356
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Feb 2021 01:57:11 -0800
+ Wed, 10 Feb 2021 02:54:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bFJ/N+Qb;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id a17so2018890ljq.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Feb 2021 01:57:10 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=UjOQewjf;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: robert.rosengren@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cUjayvwG0XgWZ5kOpMEOnnCiOeVGKPkFCxMP+T4Q5Jw=;
-        b=bFJ/N+QboDrOr3nQEGLPc+xmu1QQ0ziQI1JXBCJA31bcGjY+FyWTYdZ+slpUHVLht0
-         NEX/oibbR97/cT3Qznbw1SSxiRvk5MJ5842+PdJiLBAIpRB/iObqW+O+0Ve3DRurbqcp
-         QagUK2zEdUePHMueBvnz7VzRJ0Bj85jcIBxCY2oO75ZW2TNUy52aO4MeaIlOuYctIHgB
-         5xqNstg7yI8m9FOeS1aF8PkO7mBr53sGd+QaXDylHaSFZzX6GTG7rCqwwLxOZ8J3JFtg
-         CFyILZFhMv04LZDJv7fMoB9lKgSxh3r3thXPfUBUqR1yrfqxbat8E2t5xgWJj/ZJt3dZ
-         UdXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cUjayvwG0XgWZ5kOpMEOnnCiOeVGKPkFCxMP+T4Q5Jw=;
-        b=gQLTlwcZ/voOhF2p8kpnCFGdZ8/yjUEFDhJ1CRkW+XIeKwSEEEwfCMAvWeJvxCeMER
-         EwEKeFHW3vj3ly8PbYmq6T4kAjj66z+g7PCIIlL79/XZAsiS2feEhtakg9LCFkte2CAh
-         CKkTR8NvrIdP9xclc0271RwGCwo/PXSTnQgUDVsfXlu1kkPUx3V5YuPTsK1osO0xk3MO
-         3yPpZy4TaLbtrAc2ghoP2HE8xN+Ma0CrxsFDRp4Vda273mmWwIeifeD6efBSYjbruk3v
-         jhlb+wPyIRqK/6xCoB68lKW53/lHsu3lKZ9y3zBomgCHF8+0LPaPo+bJEFRziB/czrrV
-         v4oA==
-X-Gm-Message-State: AOAM530UkYlSABllSqn8kgKv8/wFf4jxxkLmjnaCDM1iQO5LrE0SJ2kU
-	MzJSyeT668H6SCGyfSjwJFi7HU7ecEjbvu78hkM=
-X-Google-Smtp-Source: ABdhPJxO92IOZQu1yq03TeF1tq/zWwUhMhqoV9/c0ujJKaJBFOZtO0BpNKwe0zX89TncILXvjpfLsunhpaj/h2tu6vQ=
-X-Received: by 2002:a05:651c:102c:: with SMTP id w12mr1460989ljm.432.1612951029296;
- Wed, 10 Feb 2021 01:57:09 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1612954452;
+  x=1644490452;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=01QJIkx8Zo/PnuGEWQLFh0zwIzqeQss4vuW6EqVnIKg=;
+  b=UjOQewjf4o1rkeAG+YI+RwRvzFdavwJYJOuvEAHx5jfAhgohYsD1EmOk
+   WQQgLkvIbNqXUFMA0Yz+KvS7V3p7ecYRLYEVtj3IgBXWqWO1xokhD55W7
+   wQDicIbTiLlEQWbkKdz/4UisgDkySPEV8R0mY7bFpK+Ed9RgeR7BRZdsI
+   WcQ8yTyew8b6JBHdgxElWuP/XKlkiqzs/x1hveGLuuB/tvSf4DEQ01uWx
+   ckf2c64KAC61wBRJKuUl7EG+AmHlrKLrRSLjUb8X6X1968GFUfChiVOAP
+   F8GLNHaAO5/mXDLIlly/4TD20sfnp4rS1PFlvDc3hjaH8Xpbc1bBf/tXQ
+   A==;
+Subject: Re: [OE-core] [PATCH] mpg123: Add support for FPU-less targets
+To: Khem Raj <raj.khem@gmail.com>, Robert Rosengren
+	<Robert.Rosengren@axis.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20210209141616.24276-1-robert.rosengren@axis.com>
+ <CAMKF1spisR5dPaN-1pPsk-kiBjW356znTP2JJt500zuU5CjN=w@mail.gmail.com>
+From: robert.rosengren@axis.com
+Message-ID: <483bd3e6-3366-d248-3c55-456aa8d966f1@axis.com>
+Date: Wed, 10 Feb 2021 11:53:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210206063138.1649019-1-raj.khem@gmail.com> <3b2c317d565d09bda89eacb05002ef1f0d816c6c.camel@intel.com>
- <CAMKF1so+8XcjgVUjSbn3ph1ZMRQRjnLQbq4na9WNEfTT_TPwuQ@mail.gmail.com> <YCOd2Ru/zB/fZedT@korppu>
-In-Reply-To: <YCOd2Ru/zB/fZedT@korppu>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Wed, 10 Feb 2021 01:56:58 -0800
-Message-ID: <CAJ86T=WTgTHUMb8s+jjUPJDRCwLjr_qpoT2vU3_nUgyheHDALQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] security_flags.inc: Use -O with -D_FORTIFY_SOURCE
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: Khem Raj <raj.khem@gmail.com>, Anuj Mittal <anuj.mittal@intel.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMKF1spisR5dPaN-1pPsk-kiBjW356znTP2JJt500zuU5CjN=w@mail.gmail.com>
+Return-Path: robertr@axis.com
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX01.axis.com (10.0.5.15)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 10, 2021 at 12:48 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
->
-> Hi,
->
-> On Tue, Feb 09, 2021 at 11:37:39PM -0800, Khem Raj wrote:
-> > In this case -O  will take effect sadly. and it seems to be that
-> > autconf munges the compiler cmdline
-> > while generating CFLAGS in generated Makefiles and appends the value
-> > of -On coming from CC
-> > variable last.
-> >
-> > I think right solution would be to add same -O<level> as specified in
-> > SELECTED_OPTIMIZATION so it remains
-> > in sync always, I have sent a patch to ml. Could you test it out and
-> > let me know if it works for you as well.
->
-> Or let it go? A lot of recipes amend their own optimization flags and override
-> distro wide optimization and other compiler flags. I once fixes all recipes
-> in a project which were not obeying Os until buildhistory showed change in binary
-> sizes... that was a lot of work for a PoC..
+Actually, I used a MIPS-based device lacking FPU and ran simple gstreamer/gst-play to test a mp3. A very non-scientific measurement on that device using nmon moved from roughly 100% CPU load and stuttering audio to a doable ~15-20% CPU load with the fixed point configuration. (of course all such measurements depends heavily on audio latency, queues and so on of a device hardware.)
 
-If the goal is to ensure that the optimisation flag from
-FULL_OPTIMIZATION and the -D_FORTIFY_SOURCE flag from
-lcl_maybe_fortify are always applied together then isn't the easiest
-solution to move -D_FORTIFY_SOURCE out of lcl_maybe_fortify and into
-FULL_OPTIMIZATION ?
-
-Putting a separate optimisation flag in lcl_maybe_fortify and trying
-to arrange for it not to clash with or override the one already in
-FULL_OPTIMIZATION seems like an ugly solution, even if it can be made
-to work.
+On 2/9/21 8:10 PM, Khem Raj wrote:
+> is --with-cpu=generic_nofpu applicable for all soft fpu machines or
+> just arm ? I wonder if it will improve or regress other nofpu
+> machines. Do you have any data
+> 
