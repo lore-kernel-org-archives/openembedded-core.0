@@ -1,139 +1,84 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web09.6839.1613039316604570539
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.7265.1613043831772197470
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 02:28:36 -0800
+ Thu, 11 Feb 2021 03:43:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z6eNsam3;
- spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f51.google.com with SMTP id q7so5139540iob.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 02:28:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZTmxB4Z8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id w4so5257152wmi.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 03:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gPueD+jDtN0Qvx5vvFsgo2msvRyNAJds7lzcUiixAAU=;
-        b=Z6eNsam35fs+/M5Dl0zfwLlR74tWjvtd6Vhn2UqrQQFW5NCl12y+2JQJMFA/FjuhWY
-         v4tuReCxAftGbnT/1rjbDIm4HXm6qx1Exuult1XIzx9oimrQbat8xiA7gzpXmE1hbaJW
-         /WMbpVSIPwsOkiIq9F5+1VSghcWuwyBneEQg8dcQYKMSnOO5XhkVktKv3A4L1UB9fKkf
-         Z4xN9i4mNLZaG/fIpx4UGl81/FlPHzUQaYRetUjv/LQRXbQu0HX9bux9p61/1fv4xhDI
-         d+SVCHUxyqvBL82O2nbF9Db8dGPyzxfDvPPbVLyYYgQ/mALZegIkBaAwKt2ayBJ+9GRt
-         v5XQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=+1FZlPHSyNbAnLJy+qvScxAFbuImKpEg6d1W1UrFo0A=;
+        b=ZTmxB4Z8VMB9LlSdFGJW3KLtIXCgz6w9y0b8QYrtdG1hOPa3xBTPE7Gqq4jR3TAXtH
+         rlRM+RnABmNCKZmQAYrOuLUzDmhG93hfzwtlr8kK1auuI+Orf2SYawyC8SBvVcVyzlZu
+         U8z+HtlLOH0ozbJr0vpttQXjp2WmTcof4ny4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gPueD+jDtN0Qvx5vvFsgo2msvRyNAJds7lzcUiixAAU=;
-        b=bQGwRa/tJKSOeHpgIJq50o4664zSFne6pgt3o7xvDT4b2hw6tLZJHbBv1x6+yMfqtJ
-         bBudtHZv1pOvxUvAW12/at4pN2wb9dCKIB1Cb7yXFjE7WcSEznZxaXlIsZ/WhF1LbuE2
-         bwp+gipbjdwtDrrrql/8zDWNu8rki1O+CtFoWYBknUzmLxUpmOQONiyt87aOG+8hGWyC
-         WXzbBYFr7UeG55O7Q8R3TxGD1rDAetioNyfOoNx2jVLnZdh15UCpatmEfhee4Rvf/Zlq
-         6XaySvfUGXf0mbzVUj784Dwyc8ShewGIbVYJUDu7FllSp3jV8ZPisjgRrkVLBrMSuA0T
-         h6Gg==
-X-Gm-Message-State: AOAM531O5cMmDwjPOb5e91Bm1BFcj/PNjtz+EFP8Y/TQJjSkNm9dWMq5
-	FedeGhD1T49HbVyxSOebiNRDS87ToDHR3zrbGlg=
-X-Google-Smtp-Source: ABdhPJwE9d3Sf0UvOzcShQ4rSr1MObQglO6T2XGBEDojDSXcTm5KiuX8s4jpfHZUAXoMx+++KqIa3h4xt9W7Whsf29E=
-X-Received: by 2002:a05:6638:34a1:: with SMTP id t33mr4794646jal.23.1613039315849;
- Thu, 11 Feb 2021 02:28:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com> <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Thu, 11 Feb 2021 11:30:02 +0100
-Message-ID: <CAJkqNs21=9-B-oWU4AqLSLKZ9286N5UgoXNr7Smxr3+PqgZdVw@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=+1FZlPHSyNbAnLJy+qvScxAFbuImKpEg6d1W1UrFo0A=;
+        b=AHPOo/kSSZEKr30Z9DNBTnRQXSmDzISsbYgQ8dteAypPTYLhp7qRc747cGVs7Huqd3
+         g0O2qDP7pkK4kKY+t0FAZKuN21wzzUWTq708IkFzr+W1/YyIHXujBzCZSxccpBViGV6l
+         ej1y4P/8uXpO0Wx9FUYhMn3q7BhJLADcSl4yYcNd5f6u1tv7qRGvjbxb5clKN6+j8sL2
+         PYxFyhgEAVWO90KSE8n2MMkaPU0KUzYX3I9o4XUMSWHQ5owk1r63BWAC9u26LtGSMAFL
+         54RdL8I7i8rwNhBQTCoM+49F8G7Bh6BOasR8JhWXADIsm8Ijilbg/g8HPDM0GcuyKz6V
+         dNDA==
+X-Gm-Message-State: AOAM530KYK/G6SHI4EUx3ZhCtCr5SPAlKwpZQ0pnz7R+U1evabL33PU6
+	T4sW3f74IjapBUdpi2RgaoY0Kg==
+X-Google-Smtp-Source: ABdhPJxAzsrv9YRSCjZ4NJHHW0l/CG6dx1h5YWy3LnoS2HCYZ+p5QP2F7dYbXkqZQKQQjFaIi9ulvA==
+X-Received: by 2002:a7b:c442:: with SMTP id l2mr4750578wmi.69.1613043830337;
+        Thu, 11 Feb 2021 03:43:50 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:1f44:6379:818:1e61? ([2001:8b0:aba:5f3c:1f44:6379:818:1e61])
+        by smtp.gmail.com with ESMTPSA id k205sm10453095wmf.23.2021.02.11.03.43.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Feb 2021 03:43:50 -0800 (PST)
+Message-ID: <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006e154e05bb0cfbff"
-
---0000000000006e154e05bb0cfbff
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	openembedded-core@lists.openembedded.org, tomasz.dziendzielski@gmail.com
+Date: Thu, 11 Feb 2021 11:43:47 +0000
+In-Reply-To: <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+	 <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
->After this patch got merged I notice some "noise" in my builds.
->
->For bbappends which inherit unrelated classes I get a lot of warning like
->
->Issue: nativesdk-openssh: native/nativesdk class is not inherited last,
->this can result in unexpected behaviour. Classes inherited after
->native/nativesdk: my-custom-class.bbclass [native-last]
->
->First it doesn't give any hint that this is caused by the bbappend and
->secondly I have no idea how to fix that (if that is even possible).
->
->So I would like to have at least an option to ignore these warnings for
->classes I'm sure don't cause any conflict - something more granular then
->just to deactivate this pretty useful check.
->
->Thoughts?
+On Thu, 2021-02-11 at 08:21 +0100, Konrad Weihmann wrote:
+> After this patch got merged I notice some "noise" in my builds.
+> 
+> For bbappends which inherit unrelated classes I get a lot of warning like
+> 
+> Issue: nativesdk-openssh: native/nativesdk class is not inherited last, 
+> this can result in unexpected behaviour. Classes inherited after 
+> native/nativesdk: my-custom-class.bbclass [native-last]
+> 
+> First it doesn't give any hint that this is caused by the bbappend and
+> secondly I have no idea how to fix that (if that is even possible).
+> 
+> So I would like to have at least an option to ignore these warnings for 
+> classes I'm sure don't cause any conflict - something more granular then 
+> just to deactivate this pretty useful check.
+> 
+> Thoughts?
 
-I think it's a good idea to just ignore specific classes. The diff below
-should be enough, with some additional note in the warning message. I'll
-check if it works correctly later today.
+This shouldn't be too common as most recently use BBCLASSEXTEND which
+would ensure they're last. Which recipes are you running into this
+with?
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 53230fc667..2f53a9be09 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1381,6 +1381,10 @@ python () {
-                     # native also inherits nopackages and relocatable
-bbclasses
-                     skip_classes.extend(['nopackages', 'relocatable'])
+You really don't want your class coming after native/nativesdk, if you
+understand what that code is doing you'll realise it is rather risky :(
 
-+                extra_skip_classes =
-(d.getVar('NATIVE_LAST_IGNORE_CLASSES') or '').split()
-+                if extra_skip_classes:
-+                    skip_classes.extend(extra_skip_classes)
-+
-                 broken_order = []
-                 for class_item in reversed(inherited_classes):
-                     if needle not in class_item:
+You could turn off that warning for a set of recipes if you really
+don't care but I'd prefer not to make that too easy.
 
-Best regards,
-Tomasz Dziendzielski
+Cheers,
 
---0000000000006e154e05bb0cfbff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr">&gt;After this patch got merged I notice some &quot;noise&=
-quot; in my builds.<br>
-&gt;<br>
-&gt;For bbappends which inherit unrelated classes I get a lot of warning li=
-ke<br>
-&gt;<br>
-&gt;Issue: nativesdk-openssh: native/nativesdk class is not inherited last,=
- <br>
-&gt;this can result in unexpected behaviour. Classes inherited after <br>
-&gt;native/nativesdk: my-custom-class.bbclass [native-last]<br>
-&gt;<br>
-&gt;First it doesn&#39;t give any hint that this is caused by the bbappend =
-and<br>
-&gt;secondly I have no idea how to fix that (if that is even possible).<br>
-&gt;<br>&gt;So I would like to have at least an option to ignore these warn=
-ings for <br>
-&gt;classes I&#39;m sure don&#39;t cause any conflict - something more gran=
-ular then <br>
-&gt;just to deactivate this pretty useful check.<br>
-&gt;<br><div>
-&gt;Thoughts?</div><div><br></div><div>I think it&#39;s a good idea to just=
- ignore specific classes. The diff below should be enough, with some additi=
-onal note in the warning message. I&#39;ll check if it works correctly late=
-r today.<br></div><div><br></div><div>diff --git a/meta/classes/insane.bbcl=
-ass b/meta/classes/insane.bbclass<br>index 53230fc667..2f53a9be09 100644<br=
->--- a/meta/classes/insane.bbclass<br>+++ b/meta/classes/insane.bbclass<br>=
-@@ -1381,6 +1381,10 @@ python () {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# native also inherits nopackages =
-and relocatable bbclasses<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0skip_classes.extend([&#39;nopackages&#39;, &=
-#39;relocatable&#39;])<br>=C2=A0<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0extra_skip_classes =3D (d.getVar(&#39;NATIVE_LAST_IGNOR=
-E_CLASSES&#39;) or &#39;&#39;).split()<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0if extra_skip_classes:<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0skip_classes.extend(extra_s=
-kip_classes)<br>+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0broken_order =3D []<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0for class_item in reversed(inherited_classes):<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if=
- needle not in class_item:</div><div><br></div><div>Best regards,</div><div=
->Tomasz Dziendzielski<br></div></div>
-
---0000000000006e154e05bb0cfbff--
