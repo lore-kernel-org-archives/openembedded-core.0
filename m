@@ -1,203 +1,144 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web12.11187.1613061381554389690
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+ by mx.groups.io with SMTP id smtpd.web11.11353.1613062352715891771
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 08:36:21 -0800
+ Thu, 11 Feb 2021 08:52:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=Wus5927L;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.169, mailfrom: jdmason@kudzu.us)
-Received: by mail-qk1-f169.google.com with SMTP id x14so5764283qkm.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 08:36:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5P2SawUUDcGuF9GO0rhWspQ/w+IR5vReZ0yVbjN13UY=;
-        b=Wus5927Lgl1oG98VFN+bNYLQRaB2jEGglL7HpImxfqT7/CUZjLgfDzkewE900jlSTU
-         DbwuGyxUiSmUuoewwF4BCLMIHQlVoRAnKFQmAhniQ6PYRaikm/3vq/D7MSQMNJ0Q++Kx
-         kA44inQezIL+i1UXfQjnXaT0WpclkJn1gP5neROk1IgbE51OZiKmqIs5A1u+3I++ijBV
-         uUHBcLXi1/tq71Uz0Xq4mr+zE/yQ60iht4kVtHYDCYE9RQEd71tNkPvt0gyiozCg0h8a
-         v8qon24kKuL4mJw+PWKSK+3P2qMSP4GWcHaufvP//DT3xlkEuXOHFfwRtOUEuTAZbUrX
-         QrbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5P2SawUUDcGuF9GO0rhWspQ/w+IR5vReZ0yVbjN13UY=;
-        b=chhX6dvo0+X/DOvNdrfTDP5AJVoZECGopAGGcJ5jc1xHOnU8PvL0Ax79V7n86HmEwR
-         CccIu+5fQlO+PRhwerH+ymxNYx8g7aCz0hec26s1js+YL1oocCc95GVlGovuV3DS2Trv
-         Wuyxvl5AL41nbHh98mrS64+vZeZ3mm1Odb7ahjKFFVW45q3wk2w38slvVKnqHzS5X9dK
-         zMLZt3yFEPrjNXD5ptR9dyoea3kDV96XvDL2q46hTM4VGEj6slflPBd1lxGs2PN9fMAS
-         jiPbKu46Wg5e1KiTDoGBUJ1YAowaK/3TXpb+ta2xJDtAzbZrbnaThy6+wT/Hr2S885nO
-         G0Bg==
-X-Gm-Message-State: AOAM530xvfZUXwr+IqRcF+PzKPEQLaCnn4lfXsl3T5y/igcUFV8Qy2qI
-	Pd4YsZ1ftM6o0KwsbL9wqnkM6DZVOkJhJKAC
-X-Google-Smtp-Source: ABdhPJw7ZJWgIKV7MBkxURJBSnQBqF2RQpGYyWA2twgDNZ18tsZDe3abNwZQVbyMuF122DGsThmlaQ==
-X-Received: by 2002:a37:7fc2:: with SMTP id a185mr9508691qkd.202.1613061380433;
-        Thu, 11 Feb 2021 08:36:20 -0800 (PST)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a62f:6d00:8994:9451:fd1:86a9])
-        by smtp.gmail.com with ESMTPSA id 9sm4050839qtr.64.2021.02.11.08.36.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 08:36:19 -0800 (PST)
-From: "Jon Mason" <jdmason@kudzu.us>
-X-Google-Original-From: Jon Mason <jon.mason@arm.com>
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=JBV1mR3E;
+ spf=pass (domain: wdc.com, ip: 216.71.154.45, mailfrom: prvs=6690c33ee=alistair.francis@wdc.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1613062353; x=1644598353;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rbRQdl1tCMd2s81JYDappiM9XM1LLtdqjjfWDuhSZzc=;
+  b=JBV1mR3EoGkJ4PUzOnyV9c4izBTubwoUVbIk1nK9g9YLGvVCvpm4APnx
+   CzqSfxXaHw16GOsSxHcbb0d416euy9Ga7jnj9ol5kGpmmLDawYVRXQ83M
+   C27nQh/xlzccimTPtgMWt8qlekxu3AqLXKWp2El6VhXXxWxPZgiCJoPd2
+   2Pzvz4FN7WPyPq0zQL+Z4RBSDWFoI+4IjbTARHWdIfIxvfPXHSLxF41Nf
+   UoXYWpR+2+A/XtuAQs67FcC5S18gnw0OjE+Zby91NDgt6L6dfaeTckZ9S
+   VFuoYnSf3O2wFroVrnsq+mjpYuUWoBMPOTJW4sjlFT93DU2/FzKTDbEUp
+   g==;
+IronPort-SDR: Tb3fZVvdREsHH+FwY4vlVfZR4Y9DfGwpDvXgbF8MWQ4LU6lJPexyv1uw2AUEEc33AAiyzABep3
+ 5OjMUjKQuCWEdCodJXb7ktXLyfMqbcKwE/hqBOwoMdUzJuIOcgCYJwdPR8A98h5+A0eN22+nEu
+ S3paSppyEiO/tUNN6TzkolFZ4d6IPg3GECpT39V57TBvNaFVtzwDecSxPWbmmf/b3mxu1badZ7
+ z+VCQc2R0cVwqtGiH5T4SnrRqGJr7D4CTKxrLkJ8WDo1bEd7gDlXEjrOND/BbaicIXuuCIsgAA
+ HSk=
+X-IronPort-AV: E=Sophos;i="5.81,170,1610380800"; 
+   d="scan'208";a="160940728"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2021 00:52:32 +0800
+IronPort-SDR: jE2ahQdgeI/6JHVJ8Cqe/RlLyEpwPd5d7eOdUXqzKb9xrchGkRouxcj9YRWcLMjDd0WsyoJWi7
+ 6OSoZFfR8OTyu4FqyPFoDk/dkkCOhH9I1DNehITQBL26dwNSVOn2sqObrhopFmFHXEv3dtssJF
+ HjUjVBlxfb2DYgE5wU5KXlL4xC4O3xr12thOynI4l7zQVTvwIyt3LLxPkCC11PQ6nz8+O7WJPs
+ D4cxEEG/S38dXnLYx+V+mDSPXwrI+bYK/7jT1g8m0BEIvkmFWjclTrv2rfg8PcvoxhCGjkXYBn
+ JakPeG8CJrgYF7BkKvkPiPkt
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 08:34:22 -0800
+IronPort-SDR: SYhVAY43gKx9NTPNBJZpdlJwHi+kB/WNPxs/ozqh3kQNPWWFLgoSGZjX6p0tQK+j38egBD9shv
+ 1rnX6TBLWOxZcWxNVarSlMy37vqxXSrlKXSZLkYJtIf/9J/C0NRfS4miu5UHgBVssekNkUm+S6
+ YQp85geNphf5J9HqOmgiPC77bCGrH1zJj4kWa7eHdAMsOe4H/PxQU8B5GLF3nWjOIakCsQz/kp
+ pndtXtM2SsMRpnCqqH69OCLCymi9B93GEVIHVO/hk2tI/nNX2T7iTEGrYguu+I+CaxxH/KGwrH
+ jx4=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO risc6-mainframe.int.fusionio.com) ([10.196.157.248])
+  by uls-op-cesaip01.wdc.com with ESMTP; 11 Feb 2021 08:52:31 -0800
+From: "Alistair Francis" <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe][PATCH dunfell v2] gcc-9.3.inc: Fix potential runtime crash
-Date: Thu, 11 Feb 2021 11:36:18 -0500
-Message-Id: <20210211163618.22227-1-jon.mason@arm.com>
-X-Mailer: git-send-email 2.20.1
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH] openssl: Enable building for RISC-V 32-bit
+Date: Thu, 11 Feb 2021 08:52:29 -0800
+Message-Id: <20210211165229.741761-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GCCv9 tree vectorization code is faulty and can cause random crashes at
-runtime (when using -O3).  Add the backported patch to address this
-issue.
-
-Signed-off-by: Jon Mason <jon.mason@arm.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/recipes-devtools/gcc/gcc-9.3.inc         |   1 +
- ...-PR-tree-optimization-97236-fix-bad-.patch | 119 ++++++++++++++++++
- 2 files changed, 120 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+ ...ort-for-io_pgetevents_time64-syscall.patch | 58 +++++++++++++++++++
+ .../openssl/openssl_1.1.1i.bb                 |  4 ++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
-index 4c54ba250aba..1c8e3df51d91 100644
---- a/meta/recipes-devtools/gcc/gcc-9.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
-@@ -72,6 +72,7 @@ SRC_URI = "\
-            file://0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch \
-            file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
-            file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
-+           file://0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch \
- "
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
-diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch b/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch b/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
 new file mode 100644
-index 000000000000..dc1039dcc8b1
+index 0000000000..591354fbb9
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
-@@ -0,0 +1,119 @@
-+Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=97b668f9a8c6ec565c278a60e7d1492a6932e409]
-+Signed-off-by: Jon Mason <jon.mason@arm.com>
++++ b/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
+@@ -0,0 +1,58 @@
++From d1a1b797d961301fd58513e50ac5de9ad5b8bc08 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Thu, 29 Aug 2019 13:56:21 -0700
++Subject: [PATCH] Add support for io_pgetevents_time64 syscall
 +
-+From 97b668f9a8c6ec565c278a60e7d1492a6932e409 Mon Sep 17 00:00:00 2001
-+From: Matthias Klose <doko@ubuntu.com>
-+Date: Tue, 6 Oct 2020 13:41:37 +0200
-+Subject: [PATCH] Backport fix for PR/tree-optimization/97236 - fix bad use of
-+ VMAT_CONTIGUOUS
++32-bit architectures that are y2038 safe don't include syscalls that use
++32-bit time_t. Instead these architectures have suffixed syscalls that
++always use a 64-bit time_t. In the case of the io_getevents syscall the
++syscall has been replaced with the io_pgetevents_time64 syscall instead.
 +
-+This avoids using VMAT_CONTIGUOUS with single-element interleaving
-+when using V1mode vectors.  Instead keep VMAT_ELEMENTWISE but
-+continue to avoid load-lanes and gathers.
++This patch changes the io_getevents() function to use the correct
++syscall based on the avaliable syscalls and the time_t size. We will
++only use the new 64-bit time_t syscall if the architecture is using a
++64-bit time_t. This is to avoid having to deal with 32/64-bit
++conversions and relying on a 64-bit timespec struct on 32-bit time_t
++platforms. As of Linux 5.3 there are no 32-bit time_t architectures
++without __NR_io_getevents. In the future if a 32-bit time_t architecture
++wants to use the 64-bit syscalls we can handle the conversion.
 +
-+2020-10-01  Richard Biener  <rguenther@suse.de>
++This fixes build failures on 32-bit RISC-V.
 +
-+	PR tree-optimization/97236
-+	* tree-vect-stmts.c (get_group_load_store_type): Keep
-+	VMAT_ELEMENTWISE for single-element vectors.
-+
-+	* gcc.dg/vect/pr97236.c: New testcase.
-+
-+(cherry picked from commit 1ab88985631dd2c5a5e3b5c0dce47cf8b6ed2f82)
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/9819]
 +---
-+ gcc/testsuite/gcc.dg/vect/pr97236.c | 43 +++++++++++++++++++++++++++++
-+ gcc/tree-vect-stmts.c               | 20 ++++++--------
-+ 2 files changed, 52 insertions(+), 11 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.dg/vect/pr97236.c
++ engines/e_afalg.c | 16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
 +
-+diff --git a/gcc/testsuite/gcc.dg/vect/pr97236.c b/gcc/testsuite/gcc.dg/vect/pr97236.c
-+new file mode 100644
-+index 000000000000..9d3dc20d953d
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/vect/pr97236.c
-+@@ -0,0 +1,43 @@
-++typedef unsigned char __uint8_t;
-++typedef __uint8_t uint8_t;
-++typedef struct plane_t {
-++  uint8_t *p_pixels;
-++  int i_lines;
-++  int i_pitch;
-++} plane_t;
-++
-++typedef struct {
-++  plane_t p[5];
-++} picture_t;
-++
-++#define N 4
-++
-++void __attribute__((noipa))
-++picture_Clone(picture_t *picture, picture_t *res)
-++{
-++  for (int i = 0; i < N; i++) {
-++    res->p[i].p_pixels = picture->p[i].p_pixels;
-++    res->p[i].i_lines = picture->p[i].i_lines;
-++    res->p[i].i_pitch = picture->p[i].i_pitch;
-++  }
-++}
-++
-++int
-++main()
-++{
-++  picture_t aaa, bbb;
-++  uint8_t pixels[10] = {1, 1, 1, 1, 1, 1, 1, 1};
-++
-++  for (unsigned i = 0; i < N; i++)
-++    aaa.p[i].p_pixels = pixels;
-++
-++  picture_Clone (&aaa, &bbb);
-++
-++  uint8_t c = 0;
-++  for (unsigned i = 0; i < N; i++)
-++    c += bbb.p[i].p_pixels[0];
-++
-++  if (c != N)
-++    __builtin_abort ();
-++  return 0;
-++}
-+diff --git a/gcc/tree-vect-stmts.c b/gcc/tree-vect-stmts.c
-+index 507f81b0a0e8..ffbba3441de2 100644
-+--- a/gcc/tree-vect-stmts.c
-++++ b/gcc/tree-vect-stmts.c
-+@@ -2355,25 +2355,23 @@ get_group_load_store_type (stmt_vec_info stmt_info, tree vectype, bool slp,
-+ 	  /* First cope with the degenerate case of a single-element
-+ 	     vector.  */
-+ 	  if (known_eq (TYPE_VECTOR_SUBPARTS (vectype), 1U))
-+-	    *memory_access_type = VMAT_CONTIGUOUS;
-++	    ;
++diff --git a/engines/e_afalg.c b/engines/e_afalg.c
++index dacbe358cb..99516cb1bb 100644
++--- a/engines/e_afalg.c
+++++ b/engines/e_afalg.c
++@@ -125,7 +125,23 @@ static ossl_inline int io_getevents(aio_context_t ctx, long min, long max,
++                                struct io_event *events,
++                                struct timespec *timeout)
++ {
+++#if defined(__NR_io_getevents)
++     return syscall(__NR_io_getevents, ctx, min, max, events, timeout);
+++#elif defined(__NR_io_pgetevents_time64)
+++    /* Let's only support the 64 suffix syscalls for 64-bit time_t.
+++     * This simplifies the code for us as we don't need to use a 64-bit
+++     * version of timespec with a 32-bit time_t and handle converting
+++     * between 64-bit and 32-bit times and check for overflows.
+++     */
+++    if (sizeof(timeout->tv_sec) == 8)
+++        return syscall(__NR_io_pgetevents_time64, ctx, min, max, events, timeout, NULL);
+++    else {
+++        errno = ENOSYS;
+++        return -1;
+++    }
+++#else
+++# error "We require either the io_getevents syscall or __NR_io_pgetevents_time64."
+++#endif
++ }
 + 
-+ 	  /* Otherwise try using LOAD/STORE_LANES.  */
-+-	  if (*memory_access_type == VMAT_ELEMENTWISE
-+-	      && (vls_type == VLS_LOAD
-+-		  ? vect_load_lanes_supported (vectype, group_size, masked_p)
-+-		  : vect_store_lanes_supported (vectype, group_size,
-+-						masked_p)))
-++	  else if (vls_type == VLS_LOAD
-++		   ? vect_load_lanes_supported (vectype, group_size, masked_p)
-++		   : vect_store_lanes_supported (vectype, group_size,
-++						 masked_p))
-+ 	    {
-+ 	      *memory_access_type = VMAT_LOAD_STORE_LANES;
-+ 	      overrun_p = would_overrun_p;
-+ 	    }
-+ 
-+ 	  /* If that fails, try using permuting loads.  */
-+-	  if (*memory_access_type == VMAT_ELEMENTWISE
-+-	      && (vls_type == VLS_LOAD
-+-		  ? vect_grouped_load_supported (vectype, single_element_p,
-+-						 group_size)
-+-		  : vect_grouped_store_supported (vectype, group_size)))
-++	  else if (vls_type == VLS_LOAD
-++		   ? vect_grouped_load_supported (vectype, single_element_p,
-++						  group_size)
-++		   : vect_grouped_store_supported (vectype, group_size))
-+ 	    {
-+ 	      *memory_access_type = VMAT_CONTIGUOUS_PERMUTE;
-+ 	      overrun_p = would_overrun_p;
++ static void afalg_waitfd_cleanup(ASYNC_WAIT_CTX *ctx, const void *key,
 +-- 
-+2.20.1
++2.23.0
 +
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+index 86950f7544..599d78abea 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+@@ -23,6 +23,10 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
++SRC_URI_append_riscv32 = " \
++           file://0003-Add-support-for-io_pgetevents_time64-syscall.patch \
++	   "
++
+ SRC_URI[sha256sum] = "e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242"
+ 
+ inherit lib_package multilib_header multilib_script ptest
 -- 
-2.20.1
+2.30.0
 
