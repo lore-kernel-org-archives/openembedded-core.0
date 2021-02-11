@@ -1,77 +1,78 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web10.8218.1613049690847961596
+Received: from pbcl.net (pbcl.net [159.69.221.92])
+ by mx.groups.io with SMTP id smtpd.web08.8235.1613050037355703057
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 05:21:31 -0800
+ Thu, 11 Feb 2021 05:27:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: FWCyWjhRwkqOY2gNMx2iZA8AUGy9CMRFRi2pUWnaU/gdmLObsumy94F5v0tXeIUUWUjTF4yiHv
- XJhRICMGCISA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="201365938"
-X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
-   d="scan'208";a="201365938"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 05:21:28 -0800
-IronPort-SDR: E/XVAD5yWoOl+6jA+S1PONhHEm4kp5c/y5J+axGQf1XTP/ti/PSXjtN3UI4D2q3XxhAfibw1Fx
- yskKRvATmNyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
-   d="scan'208";a="380637751"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Feb 2021 05:21:27 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell] sudo: 1.8.31 -> 1.8.32
-Date: Thu, 11 Feb 2021 21:21:26 +0800
-Message-Id: <20210211132126.83665-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=pass (domain: pbcl.net, ip: 159.69.221.92, mailfrom: pb@pbcl.net)
+Received: from pb by pbcl.net with local (Exim 4.92)
+	(envelope-from <pb@pbcl.net>)
+	id 1lAC02-0005Ws-Cy; Thu, 11 Feb 2021 14:27:14 +0100
+Date: Thu, 11 Feb 2021 14:27:14 +0100
+From: "Phil Blundell" <pb@pbcl.net>
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Ray Smith <raymsmithuk@gmail.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Andrey Zhizhikin <andrey.z@gmail.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
+Message-ID: <20210211132714.GO3066@pbcl.net>
+References: <20210210111113.17318-1-raymsmithuk@gmail.com>
+ <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
+ <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
+ <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
+ <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
+ <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
+ <20210211120520.7h32qy5sqasyplv7@jama>
+MIME-Version: 1.0
+In-Reply-To: <20210211120520.7h32qy5sqasyplv7@jama>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Thu, Feb 11, 2021 at 01:05:20PM +0100, Martin Jansa wrote:
+> Or you can read it as that it makes sense to build mesa recipe only when
+> DISTRO supports opengl or vulkan or opengles,
 
-release notes:
-https://www.sudo.ws/legacy.html#1.8.32
+It's never been the intent of DISTRO_FEATURES to determine which recipes 
+it "makes sense" to build, above and beyond those that are actually
+impossible to compile in a given configuration.  If there were certain 
+recipes that are fundamentally and completely incompatible with a 
+particular DISTRO_FEATURE to the extent that you simply couldn't build 
+them at all then it might make sense to exclude them in this way, but 
+I can't honestly think of even a single case where that would be true.  
+Even at a fundamental level, there's no reason that a musl-based 
+DISTRO couldn't also build glibc for example.  Conversely, if a recipe
+simply needs some aspect of a given DISTRO_FEATURE to work then, in
+general, the solution to that is just to declare it as a dependency.
+Recipes that necessarily and unavoidably need OpenGL should just have
+virtual/libgl in their DEPENDS and there is no need for them to be
+checking DISTRO_FEATURES to see whether OpenGL is "available" in some
+abstract sense.
 
-updates include fixes for
-CVE-2021-23239
-CVE-2021-23240
+If a particular DISTRO wants to actively prohibit mesa or any other
+recipe from being built (because it wants to ensure that certain code
+never leaks into the build artifacts due to a dependency error) then
+there are other mechanisms for that.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/recipes-extended/sudo/sudo.inc                           | 2 +-
- meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (92%)
+The intent of the "opengl" DISTRO_FEATURE is that it gives you a single
+central place to control the configuration of packages that either have
+an optional dependency on OpenGL, or are selectable between OpenGL and
+Vulkan at configure time.  Even this is a tiny bit half-baked because
+it doesn't really distinguish between the myriad variants of OpenGL(ES)
+but in general that distinction is a matter of platform capability 
+rather than DISTRO choice (i.e. if your graphics stack only supports 
+OpenGL ES 1.x, no amount of oe-core configuration is going to make it 
+support OpenGL 4.)  And the DISTRO_FEATURE does at least let you assert
+at the whole-distribution level that you have a preference for Vulkan
+over OpenGL, or vice versa.
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 5d27d46928..aeedfc1a23 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-similarity index 92%
-rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
-index 39d8817c32..af875f5b4c 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-@@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
--SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
-+SRC_URI[md5sum] = "a7318202ba391079a0e32933f0fb8bd6"
-+SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-2.17.1
+If you add opengl to DISTRO_FEATURES then you will start getting OpenGL
+support enabled in recipes like cairo.  With the way the Mesa recipe
+is currently constituted, anybody who wants to build Mesa for some
+ancillary purpose but doesn't want everything else to start using 
+OpenGL needs to add opengl to DISTRO_FEATURES and then engage in a 
+game of whack-a-mole to go round turning it back off again in all 
+the individual PACKAGECONFIGs.  I don't think that's a rational state
+of affairs.
 
+p.
