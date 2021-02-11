@@ -1,116 +1,152 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web08.7435.1613045123941059299
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.92.72.32])
+ by mx.groups.io with SMTP id smtpd.web12.7532.1613045457595727233
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 04:05:24 -0800
+ Thu, 11 Feb 2021 04:10:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dnuewRBO;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a9so9694347ejr.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 04:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kpYMJwsFNqJEEjGo1bljoFqFJvZnehmxNPuBLC5BSY8=;
-        b=dnuewRBOAf7XfFWfUdv7f5O0hwo+hSTYbGperm+nZ05lFOLhFu/mlPwpXoaUkoCP+x
-         eM9gXHSJhnwy6Vq+LXrICocMq5n9ODjRCXv04hbGIpZSpnCedKuY1BdRyb5+6kHMw9bI
-         1VEIFEjYsRIyntU+CK9U6KKzqcJz3pWA8i7oldPyepNk/biavy7Lw3zUeOdFHtFsLEvk
-         qGObnh1W6D4uLzTw6Ay758iuUgVFw65Ucl1KZodV6OjfH3ffG3akkbLeoFQ7hVC1Qe+8
-         VlCwb8KOSx/XNyqPdvbyT4RqNJqrJQpPXI0Z/ZITExoZPRpUeweg6Q5ZWDGne6/Lk4SS
-         o0Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kpYMJwsFNqJEEjGo1bljoFqFJvZnehmxNPuBLC5BSY8=;
-        b=hSwfyjBE4CHv6GWmHLQvRiHDiT/C8ZvePR2uDEMyMtHJw6AcploaO74TD7gNQxo0d+
-         6iUhBhmA6Ao3QtaRAOtfLEHWErWH4xU6dKpfln8dJ5Y7pdpM+Qy2om+ztbBLzUiP4dHH
-         71xDYjtvmP4rFV9jmewrsRXbiqsT+/HxVDr/CmCtrBx+rldAcQP/ZJ6XzU+7FtBi6GQt
-         6D6HeGJ4ipUw01QBi3Eus/4ZU3v+7pAKRg5kmh+2PxUIgetYP59hO62hP39kig9C2s7m
-         XOipgRIu2vi6795VUDhH4/yyjgb8xNEArPHDJVnYdPqAYgVeVlCavRZiMq8mnw6MEydd
-         IaCw==
-X-Gm-Message-State: AOAM533AEZ15oXbgZEVS8PGYNr2eCEiLUaP6QuniERhjhePbcOBulqZ/
-	CypMUNREh6Q/ancnzqmqsZs=
-X-Google-Smtp-Source: ABdhPJxiMqZYiyItu+uwVDeUclW7bVyEIg5Pv6StKYq4AdCsMVY7ikNflXLLWNT7ceZ1SNE2RI41Cw==
-X-Received: by 2002:a17:906:3649:: with SMTP id r9mr7998489ejb.202.1613045122295;
-        Thu, 11 Feb 2021 04:05:22 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id i18sm3740571edt.68.2021.02.11.04.05.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 04:05:21 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Feb 2021 13:05:20 +0100
-To: Ray Smith <raymsmithuk@gmail.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Andrey Zhizhikin <andrey.z@gmail.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
-Message-ID: <20210211120520.7h32qy5sqasyplv7@jama>
-References: <20210210111113.17318-1-raymsmithuk@gmail.com>
- <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
- <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
- <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
- <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
- <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=B96AVAQz;
+ spf=pass (domain: outlook.com, ip: 40.92.72.32, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I3tjklZ0H1roJLV1IX7gDkfcG0pqVBXmiFmTk4zu8IgN0B5d+vcNFt3Vxz2uIN5uX8iMAouyq8QlIo6t+eulVFAWFq3NDRYhS92aRiI+rEzCjJDd16nmUjCknooYQaVbZNXiNO/jZ4WQZKcytRxDqIIhkh22FaLDwIMFUSPNMgmZEkBly0b5TJ8Uqx4ddFcgsbKATJ6c58U6tmSmEWnFdb4hnHUzOznRJVGKSw9ONL9p+Asvj0g3HOtc1I9ocb3UqvvdrCIXLp8bFERvGmFi8IiigPqnbQF7wX2esRV9Q85DxjwjwreUFz5s5Pu/3isqhbkfLnD/kRz8rdkd3gUSBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVuJWjGJXvPOozC3fUomQM9SwLZXBvxTtV+5DoqIwOI=;
+ b=nFQY3DNUATpb7/X6qIW9N+RBbHRbhql+ZX+thBXjBaU5EjCuauAX/daCLOAFrKbsnHPkk7OGcmH41gyoNIxQdBU1uK1n2n+ZEo0eKlTd32dPk1hueTcdWrrFluQch8bd1yPK6/Dd6e06bR3iZ9XHXZHwePXTl2yTfQH0pkFkjYjpGOJz4lMj2YsvJCLuJVYyMcrk32NilwDozfTAWgYR9da745XUGXMWbhWUbE7A01+cZCXGyS6oxjqJWWYH2Y9d2+tdkh40I1QBlB+Miw/nrJn0AMXpks+/o0ZdBH3HUMOc57wsPn/A3Bw2P9H5RJk7wAZymOnhalrcL6fTWasbyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVuJWjGJXvPOozC3fUomQM9SwLZXBvxTtV+5DoqIwOI=;
+ b=B96AVAQznBjUUVrZlx0O9Z8DSe2wCCQeAhC4URmSgM8ynmpiCjBzeCO+k3btfZntYnhJf8WY0qmbRfdXnY4NrLI0XF9PWrNWFRwoe6GfPPAuFD1fV6/1NTV7kVjaXS7bMfX8j1kXdqbQ3K+iwEZNXQ4AHvYfkt7ZpxgH4qlML+bAPGdPGtnstA4RcM68kUQ4PbWjPq1u5NLokPwNBXkjs06TJmS2PmKoY+6Y+XhSbb0zWbWo5ykmmnJL5JlRsYSKnIq2c8tO/M3vDWH74Ab1ucQjeGFgT2j/S5a6SbYs/IUaL4qgn4KS5vpLS+T5j8RXEPrivXZq+gS9mDzG2qCeMg==
+Received: from DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e0a::50) by
+ DB5EUR03HT008.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::246)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Thu, 11 Feb
+ 2021 12:10:55 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e0a::53) by DB5EUR03FT015.mail.protection.outlook.com
+ (2a01:111:e400:7e0a::145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
+ Transport; Thu, 11 Feb 2021 12:10:55 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:F48A56D6AE7AC6E974027991E014B34BFCCB711292FA753C3A71A5D2086753B1;UpperCasedChecksum:C28A2111A75E4985BABFE3D359CEB9DD91014F395FA0D464EFC6940AE12EB494;SizeAsReceived:8925;Count:47
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d88:562c:471c:9560]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d88:562c:471c:9560%6]) with mapi id 15.20.3846.029; Thu, 11 Feb 2021
+ 12:10:55 +0000
+Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org, tomasz.dziendzielski@gmail.com
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+ <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 11 Feb 2021 13:10:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
+X-TMN: [G8Ygov/o1iUfTeQ0dyX5UXKuLIlNK/xC]
+X-ClientProxiedBy: AS8PR05CA0009.eurprd05.prod.outlook.com
+ (2603:10a6:20b:311::14) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <5ef82bf2-34ff-9ff4-b363-3d277f270995@outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
-X-Groupsio-MsgNum: 147946
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ghn5vowag4q4eenj"
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.90.166) by AS8PR05CA0009.eurprd05.prod.outlook.com (2603:10a6:20b:311::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend Transport; Thu, 11 Feb 2021 12:10:54 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 88743a4b-2a6b-462d-8127-08d8ce861502
+X-MS-TrafficTypeDiagnostic: DB5EUR03HT008:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1bdLdwmf5tzzV/+CKkB4PGz4E+a1x4dbFVgZzZjii0srmT+RoVvXJrwsYCJDA9yZsBa88DdESHgQ9C6WQPT/Gm5zSAY2wcfIMv+5hX+1fGDz1iWFX5v2Mt3b94A8lJ4jbLNAHZNa5ZfJoQedejMm4BTrfknyd2r2h6aZ2oHkH6qcqsClUAPEHk4tNACDkQEUrI1nvhwk5le3OVuxlga+Lq9muV+C14z8l9joTCC609+wKRfZOjorLtwvnCdnoHjk/gsoom0XGz8OcQlN/lDTwhvjaG4pGI456y3H7mwCCfyg1APqezerJDDHI6Lkoa7WTd4rl7+bKOslqLGhU8sH199tFfGz3ZOcBC91eFJ+ySjEO281I2FkMw3yUfjEujn/6BeJqh1A5faiOrcMaiYrYQ==
+X-MS-Exchange-AntiSpam-MessageData: 
+	usKWF6yKv6B/k9SC645oTnt7q7Q8ndNGoZN64KGR9CCREkWT3O2/r7obAcwjjGZ06/q2blmataGqD0Dh5xRRhujDvfMdP90ANr6ExOQCP08HrVg8jr/keO2eLQh7fT96UBW57+Iu3Aeg3Vy5+bjUqQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88743a4b-2a6b-462d-8127-08d8ce861502
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 12:10:54.9377
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT008
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---ghn5vowag4q4eenj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 11:59:43AM +0000, Ray Smith wrote:
-> On Wed, Feb 10, 2021 at 9:36 PM Otavio Salvador <
-> otavio.salvador@ossystems.com.br> wrote:
->=20
-> > Em qua., 10 de fev. de 2021 =E0s 17:21, Andrey Zhizhikin <andrey.z@gmai=
-l.com>
-> > escreveu:
-> >
-> >>
-> >> Should this be clarified with Mesa folks upfront? If you believe that
-> >> this limitation is rather "artificial", then there has to be a proper
-> >> explanation from Mesa developers why OGL is provided when OGLES-only
-> >> is built.
-> >>
-> >
-> > Agreed ... I'd rather not drop the check until we hear from upstream the
-> > reasoning behind it.
-> >
->=20
-> This patch is really about the first line:
->=20
-> > Mesa doesn't _require_ either of these features of the distribution,
-> > it (conditionally) _provides_ them.
->=20
-> Even if we had an opengles distro feature that solved the GLES vs OpenGL
-> issues, having a 'ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan
-> opengles"' line instead still wouldn't make sense (although it would solve
-> my problem), because mesa doesn't require any of those features. This line
-> is effectively saying it depends on the things it provides.
 
-Or you can read it as that it makes sense to build mesa recipe only when
-DISTRO supports opengl or vulkan or opengles, which IMHO still makes
-sense.
+On 11.02.21 12:43, Richard Purdie wrote:
+> On Thu, 2021-02-11 at 08:21 +0100, Konrad Weihmann wrote:
+>> After this patch got merged I notice some "noise" in my builds.
+>>
+>> For bbappends which inherit unrelated classes I get a lot of warning like
+>>
+>> Issue: nativesdk-openssh: native/nativesdk class is not inherited last,
+>> this can result in unexpected behaviour. Classes inherited after
+>> native/nativesdk: my-custom-class.bbclass [native-last]
+>>
+>> First it doesn't give any hint that this is caused by the bbappend and
+>> secondly I have no idea how to fix that (if that is even possible).
+>>
+>> So I would like to have at least an option to ignore these warnings for
+>> classes I'm sure don't cause any conflict - something more granular then
+>> just to deactivate this pretty useful check.
+>>
+>> Thoughts?
+> 
+> This shouldn't be too common as most recently use BBCLASSEXTEND which
+> would ensure they're last. Which recipes are you running into this
+> with?
 
-Similarly when DISTO_FEATURES are used to set PACKAGECONFIG values, it
-doesn't say what it requires, but what DISTRO wants to support.
+Sure, it does only affect recipes which are manually inheriting native 
+(I got a bunch of them, that's why I noticed).
+A (unfortunately) common pattern I face is that ppl share variables 
+between recipes using bbclasses - which to my understanding shouldn't 
+cause any issues when being inherited after native.
+And the same pattern is applied to recipes only being appended.
 
---ghn5vowag4q4eenj
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> You really don't want your class coming after native/nativesdk, if you
+> understand what that code is doing you'll realise it is rather risky :(
 
------BEGIN PGP SIGNATURE-----
+Totally, that why I'm absolutely in favor of this patch.
 
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYCUdfAAKCRA3VSO3ZXaA
-HPTdAJ9rpO4JKK2+r8Kc13PjTe3Inlq6WQCfe4Dwybg0EyGYtiElGjHLQpdGBns=
-=mzwV
------END PGP SIGNATURE-----
+> 
+> You could turn off that warning for a set of recipes if you really
+> don't care but I'd prefer not to make that too easy.
 
---ghn5vowag4q4eenj--
+But that would turn off the whole feature, which is bad IMO.
+What I see (once that will be used by a wider audience in the wild) is 
+that this will lead to questions (consuming my time as an integrator) or 
+to the fact that this check will be turned off completely.
+Either way not the best choice if you'd ask me.
+
+That's why I asked for a more granular configuration, so that a person 
+who's able to understand the implications of a bbclass in relation to 
+native could turn it off on a distro/site config level.
+
+And just to be clear I wouldn't want that to be used widely, or even 
+being promoted.
+
+If that's not what the project wants, I'm also fine with it, but then it 
+would be really helpful to point to the bbappend as a culprit and not 
+the base recipe
+
+> 
+> Cheers,
+> 
+> Richard
+> 
