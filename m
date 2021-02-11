@@ -1,132 +1,77 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web09.8214.1613048687149411634
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web10.8218.1613049690847961596
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 05:04:47 -0800
+ Thu, 11 Feb 2021 05:21:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=anfOdvN8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id u14so5669993wmq.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 05:04:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=iUauJ9w3jLKSSX7FNn1BKKqa2m2CgBm4FaA/UYIoChE=;
-        b=anfOdvN8okMiUoPk5zdgbv4IxRo7DUGk0jVN5VW59jy5DS3c59arXICujagokEcZvC
-         jWRIZ30m+Vv332KX7CUF6UeHCpF14DWlK0vXGkf/1ObU7N14M4JVokRy3759R9WsEYSs
-         pNAtmjl+e79iYZdo+HdXe9plECjuzuL0Stm0E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=iUauJ9w3jLKSSX7FNn1BKKqa2m2CgBm4FaA/UYIoChE=;
-        b=k6uYCQzAGkKmZRWiuizbglgK/dB6IHHoIqcKg+q8pf0RgkRXpt6YdwdJJ3e7QYyNAQ
-         RJbA/KFQLSK0hvOu+UEtqR8regqwlNCmvA76ewXSbiqlNol1W7cuXgZNJIHK4MII4945
-         PIYKQZMJ2HnypgbUfQBtqc9XNNkslIKdwkJcUIVtH4rl/SH5tEwtF/4+vGGmpVFM3D2P
-         XOHnk6qBkOmKKpIWlKjBsAhTeF3qdeNqXmBLqfKiFvMY4hVCWVhZG8NwSE1Mlsn+pOJN
-         22lWMOvE3CPe5NxKlzbCDUVaTeXlZJ9pW6nY1rmGF4/5L4eUp2g3BklAj6Is0HHq/nCL
-         5RGA==
-X-Gm-Message-State: AOAM5318VbYbOyCrfYAJqCpnbcxe1IxqBX59mmObogEFcgfzwlsZTnis
-	j2XuTavmy2u8xeGLxokycTw03g==
-X-Google-Smtp-Source: ABdhPJwwTMW6SqhOx+G3Jaiy4Q9h8gfzKRpJyuVbjqrY+BysaeyKlESrWwgWpqKId1sREVxe5eXXGQ==
-X-Received: by 2002:a1c:98d4:: with SMTP id a203mr5216904wme.10.1613048685663;
-        Thu, 11 Feb 2021 05:04:45 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1f44:6379:818:1e61? ([2001:8b0:aba:5f3c:1f44:6379:818:1e61])
-        by smtp.gmail.com with ESMTPSA id c9sm9778847wmb.33.2021.02.11.05.04.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 05:04:45 -0800 (PST)
-Message-ID: <df38a497ef1c31b72445d7ae2361d3d6db676f6e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org, tomasz.dziendzielski@gmail.com
-Date: Thu, 11 Feb 2021 13:04:44 +0000
-In-Reply-To: <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
-	 <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-	 <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
-	 <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: FWCyWjhRwkqOY2gNMx2iZA8AUGy9CMRFRi2pUWnaU/gdmLObsumy94F5v0tXeIUUWUjTF4yiHv
+ XJhRICMGCISA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="201365938"
+X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
+   d="scan'208";a="201365938"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 05:21:28 -0800
+IronPort-SDR: E/XVAD5yWoOl+6jA+S1PONhHEm4kp5c/y5J+axGQf1XTP/ti/PSXjtN3UI4D2q3XxhAfibw1Fx
+ yskKRvATmNyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
+   d="scan'208";a="380637751"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Feb 2021 05:21:27 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] sudo: 1.8.31 -> 1.8.32
+Date: Thu, 11 Feb 2021 21:21:26 +0800
+Message-Id: <20210211132126.83665-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, 2021-02-11 at 13:10 +0100, Konrad Weihmann wrote:
-> 
-> On 11.02.21 12:43, Richard Purdie wrote:
-> > On Thu, 2021-02-11 at 08:21 +0100, Konrad Weihmann wrote:
-> > > After this patch got merged I notice some "noise" in my builds.
-> > > 
-> > > For bbappends which inherit unrelated classes I get a lot of warning like
-> > > 
-> > > Issue: nativesdk-openssh: native/nativesdk class is not inherited last,
-> > > this can result in unexpected behaviour. Classes inherited after
-> > > native/nativesdk: my-custom-class.bbclass [native-last]
-> > > 
-> > > First it doesn't give any hint that this is caused by the bbappend and
-> > > secondly I have no idea how to fix that (if that is even possible).
-> > > 
-> > > So I would like to have at least an option to ignore these warnings for
-> > > classes I'm sure don't cause any conflict - something more granular then
-> > > just to deactivate this pretty useful check.
-> > > 
-> > > Thoughts?
-> > 
-> > This shouldn't be too common as most recently use BBCLASSEXTEND which
-> > would ensure they're last. Which recipes are you running into this
-> > with?
-> 
-> Sure, it does only affect recipes which are manually inheriting native 
-> (I got a bunch of them, that's why I noticed).
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Any reason they don't/can't use BBCLASSEXTEND?
+release notes:
+https://www.sudo.ws/legacy.html#1.8.32
 
-> A (unfortunately) common pattern I face is that ppl share variables 
-> between recipes using bbclasses - which to my understanding shouldn't 
-> cause any issues when being inherited after native.
-> And the same pattern is applied to recipes only being appended.
+updates include fixes for
+CVE-2021-23239
+CVE-2021-23240
 
-You could use conf files for variables. That is something I'd like to
-try and encourage more of, I've been meaning to look at that for the
-core too.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ meta/recipes-extended/sudo/sudo.inc                           | 2 +-
+ meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (92%)
 
-> > You really don't want your class coming after native/nativesdk, if you
-> > understand what that code is doing you'll realise it is rather risky :(
-> 
-> Totally, that why I'm absolutely in favor of this patch.
-> 
-> > 
-> > You could turn off that warning for a set of recipes if you really
-> > don't care but I'd prefer not to make that too easy.
-> 
-> But that would turn off the whole feature, which is bad IMO.
-> What I see (once that will be used by a wider audience in the wild) is 
-> that this will lead to questions (consuming my time as an integrator) or 
-> to the fact that this check will be turned off completely.
-> Either way not the best choice if you'd ask me.
-
-I'm hoping that people might fix the underlying issues.
-
-> That's why I asked for a more granular configuration, so that a person 
-> who's able to understand the implications of a bbclass in relation to 
-> native could turn it off on a distro/site config level.
-> 
-> And just to be clear I wouldn't want that to be used widely, or even 
-> being promoted.
-
-I can guarantee that making any such option available will just have
-people reach for it and use it. You clearly want to here when the
-changes needed to avoid it are probably not that difficult.
-
-> If that's not what the project wants, I'm also fine with it, but then it 
-> would be really helpful to point to the bbappend as a culprit and not 
-> the base recipe
-
-I understand why you'd want it, I'm just not sure if would encourage
-the right behaviour :(.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 5d27d46928..aeedfc1a23 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+similarity index 92%
+rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
+index 39d8817c32..af875f5b4c 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+@@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
+-SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
++SRC_URI[md5sum] = "a7318202ba391079a0e32933f0fb8bd6"
++SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-- 
+2.17.1
 
