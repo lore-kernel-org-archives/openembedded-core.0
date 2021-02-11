@@ -1,174 +1,200 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web09.10459.1613058407401004320
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web09.10637.1613059061540580430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 07:46:47 -0800
+ Thu, 11 Feb 2021 07:57:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Za1iKXWWbHbFAMCHCRlVnIwfSCOHnAsyCB5ldPkneXL/P+CvoIEAvHjYL68wNoj0QvmRKz/5Tg
- 1JDeIis8Si3Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="169933116"
-X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
-   d="scan'208";a="169933116"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 07:46:45 -0800
-IronPort-SDR: jsq4HYgIo5wtXQMeC8hMAtXj7gqxcCloRqUiPyIiG7cl6l0LtvmBCv9CK7Ni9lS+/3a4rQ3j91
- Rv5+2amUED/Q==
-X-IronPort-AV: E=Sophos;i="5.81,170,1610438400"; 
-   d="scan'208";a="362052120"
-Received: from peiwangc-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.146.128])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 07:46:44 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/35] pull request (cover letter only)
-Date: Thu, 11 Feb 2021 23:46:40 +0800
-Message-Id: <cover.1613058232.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=Zsay51CJ;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.42, mailfrom: jdmason@kudzu.us)
+Received: by mail-qv1-f42.google.com with SMTP id e9so2198031qvy.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 07:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Zj+LZY03KstWcXOg2daq3dy28uOaXXlZAVYemrqv22A=;
+        b=Zsay51CJYl2n7o8LJnmXgHk/AJC2dFeQbn+9GvuN4lr3Zf7GKf01lsHkPM4c0cF1Uk
+         Si+vgGDu6mZrx0lkhUHlVoP4To7g1A3K4UAOGEn3rxLEtb1wtZFHO2P1pCY9R9sqd+AR
+         0mSldHGAG4AMdUJRG7ewS15NP+tVXw5nLlTAo/aJ4zDpzZYQgOYgAtA6mqxg+qPH4RSM
+         svwNmUgHq7bsrRkZa/qfoczhu/0X43LT8+5EQzw0TMEerDbXVOW2PohMCYKcEWwtuwen
+         2sa4UtmeaIFiRCDBMexOz0CRdtgqaMpKRcBaU2BKzScIFNksOy9+zdsJrFf+uau36Y0c
+         VVYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Zj+LZY03KstWcXOg2daq3dy28uOaXXlZAVYemrqv22A=;
+        b=c2Okabf/ZPCyvlgfNueejYfiD/8BFK8pp2K0IEdGzYSqNaHga60YyxaIYAd3OU03pC
+         MCOsnOJFrZDDbZtEEf/u1Tdvbvo5+j3vW11Tp8Be+YWTdjQjOpZDQK+p5WmCtT2dfLnY
+         7umalZ/JSrmkXAMamUF0KWaNydp13QOnwlDSAoRTw35HMEleLYTTxAV1eLoixG5NCcwS
+         zjNfWsmS+nKrOFg41rQ1KIRqgtjaA8vvZqkUW+V5xUqc7uAVaRwP72M6VgVh9m3nC1Am
+         8IEaxbKxtZT4haOKsMI1YOY6kdSFmJhGCgaz5/krYsltQwmRHJutdQqJiZpoGgKIS38V
+         m0Hg==
+X-Gm-Message-State: AOAM532iEPIYUWOAjK+24KuI4eQE3Qep3D0WKcy13KcxRSNSprTcVhSB
+	imo4Q13iMeZdo0/RvBdQxuA28RAbdOEc/yi4
+X-Google-Smtp-Source: ABdhPJyCcV3INkF34Y51IIqioks5ekTdEtllE/Y49cplEH1Ga/B4M3W4QW8XHoKcu+OQOje0jtcxIA==
+X-Received: by 2002:a0c:8304:: with SMTP id j4mr8230129qva.18.1613059060423;
+        Thu, 11 Feb 2021 07:57:40 -0800 (PST)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a62f:6d00:8994:9451:fd1:86a9])
+        by smtp.gmail.com with ESMTPSA id j67sm4296678qke.85.2021.02.11.07.57.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Feb 2021 07:57:39 -0800 (PST)
+From: "Jon Mason" <jdmason@kudzu.us>
+X-Google-Original-From: Jon Mason <jon.mason@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-oe][PATCH] gcc-9.3.inc: Fix potential runtime crash
+Date: Thu, 11 Feb 2021 10:57:39 -0500
+Message-Id: <20210211155739.17067-1-jon.mason@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please merge these changes in gatesgarth.
+GCCv9 tree vectorization code is faulty and can cause random crashes at
+runtime (when using -O3).  Add the backported patch to address this
+issue.
 
-Thanks,
+Signed-off-by: Jon Mason <jon.mason@arm.com>
+---
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |   1 +
+ ...-PR-tree-optimization-97236-fix-bad-.patch | 116 ++++++++++++++++++
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
 
-Anuj
-
-The following changes since commit c63feb7e062750ef9d1fcfd6ee16f1d220f8a369:
-
-  strace: increase ptest timeout duration 120->240s (2021-02-05 23:34:49 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Alexander Kanavin (5):
-  python3: split python target configuration into own class
-  python3-pycairo: use python3targetconfig
-  distutils3-base.bbclass: use python3targetconfig
-  meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks
-  gpgme: use python3targetconfig
-
-Anuj Mittal (2):
-  sudo: fix CVE-2021-23240
-  sudo: fix CVE-2021-3156
-
-Awais Belal (1):
-  kernel.bbclass: fix deployment for initramfs images
-
-Bruce Ashfield (3):
-  linux-yocto/5.4: update to v5.4.90
-  linux-yocto-rt/5.4: fix 5.4-stable caused build breakage
-  linux-yocto/5.4: update to v5.4.94
-
-Chen Qi (1):
-  systemd: change /bin/nologin to /sbin/nologin
-
-Dorinda (1):
-  sanity.bbclass: Check if PSEUDO_IGNORE_PATHS and paths under pseudo
-    control overlap
-
-Kamel Bouhara (2):
-  npm.bbclass: make shrinkwrap file optional
-  recipetool: create: only add npmsw url if required
-
-Khem Raj (1):
-  python3targetconfig.bbclass: Make py3 dep and tasks only for target
-    recipes
-
-Lee Chee Yang (2):
-  openssl: set CVE_VERSION_SUFFIX
-  wic/selftest: test_permissions also test bitbake image
-
-Martin Jansa (1):
-  image_types.bbclass: tar: use posix format instead of gnu
-
-Michael Halstead (2):
-  uninative: Upgrade to 2.10
-  yocto-uninative.inc: version 2.11 updates glibc to 2.33
-
-Mike Looijmans (1):
-  license_image.bbclass: Don't attempt to symlink to the same file
-
-Richard Purdie (8):
-  image_types: Ensure tar archives are reproducible
-  ncurses: Don't put terminfo into the sysroot
-  python3: Avoid installing test data into recipe-sysroot
-  staging: Clean up files installed into the sysroot
-  package: Ensure do_packagedata is cleaned correctly
-  qemu.inc: Should depend on qemu-system-native, not qemu-native
-  openssh: Backport a fix to fix with glibc 2.33 on some platforms
-  pseudo: Update to work with glibc 2.33
-
-Steve Sakoman (1):
-  glibc: update to latest release/2.32/master branch
-
-Tomasz Dziendzielski (1):
-  sstatesig: Add descriptive error message to getpwuid/getgrgid "uid/gid
-    not found" KeyError
-
-Vyacheslav Yurkov (1):
-  npm.bbclass: use python3 for npm config
-
-saloni (2):
-  libgcrypt: Whitelisted CVEs
-  libcroco: Added CVE
-
- meta/classes/distutils3-base.bbclass          |   2 +-
- meta/classes/image_types.bbclass              |   2 +-
- meta/classes/kernel.bbclass                   |   2 +-
- meta/classes/license_image.bbclass            |   3 +-
- meta/classes/npm.bbclass                      |  37 +-
- meta/classes/package.bbclass                  |   1 +
- meta/classes/python3native.bbclass            |   2 -
- meta/classes/python3targetconfig.bbclass      |  17 +
- meta/classes/sanity.bbclass                   |  10 +
- meta/classes/scons.bbclass                    |   3 -
- meta/classes/staging.bbclass                  |   4 +
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/conf/machine/include/qemu.inc            |   2 +-
- meta/lib/oe/prservice.py                      |   4 -
- meta/lib/oe/sstatesig.py                      |   6 +-
- meta/lib/oeqa/selftest/cases/wic.py           |  16 +
- ...440ca70abab947acbd77795e9f130967956c.patch |  28 ++
- .../openssh/openssh_8.3p1.bb                  |   1 +
- .../openssl/openssl_1.1.1i.bb                 |   2 +
- meta/recipes-core/glib-2.0/glib.inc           |   4 -
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../glibc/glibc/CVE-2019-25013.patch          | 137 ------
- meta/recipes-core/glibc/glibc_2.32.bb         |   4 +-
- meta/recipes-core/ncurses/ncurses.inc         |   5 +
- meta/recipes-core/systemd/systemd_246.9.bb    |  16 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
- .../python/python3-pycairo_1.19.1.bb          |   2 +-
- meta/recipes-devtools/python/python3_3.8.5.bb |   6 +
- .../sudo/files/CVE-2021-23240.patch           | 419 ++++++++++++++++++
- .../sudo/files/CVE-2021-3156-1.patch          | 100 +++++
- .../sudo/files/CVE-2021-3156-2.patch          |  53 +++
- .../sudo/files/CVE-2021-3156-3.patch          |  73 +++
- .../sudo/files/CVE-2021-3156-4.patch          |  29 ++
- .../sudo/files/CVE-2021-3156-5.patch          |  41 ++
- meta/recipes-extended/sudo/sudo_1.9.3.bb      |   6 +
- meta/recipes-graphics/mesa/mesa.inc           |   5 -
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- meta/recipes-support/gpgme/gpgme_1.14.0.bb    |   2 +-
- .../libcroco/files/CVE-2020-12825.patch       | 192 ++++++++
- .../libcroco/libcroco_0.6.13.bb               |   3 +
- .../libgcrypt/libgcrypt_1.8.6.bb              |   3 +
- scripts/lib/recipetool/create_npm.py          |   6 +-
- 44 files changed, 1085 insertions(+), 213 deletions(-)
- create mode 100644 meta/classes/python3targetconfig.bbclass
- create mode 100644 meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-23240.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-1.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-2.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-3.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-4.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2021-3156-5.patch
- create mode 100644 meta/recipes-support/libcroco/files/CVE-2020-12825.patch
-
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
+index 4c54ba250aba..1c8e3df51d91 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
+@@ -72,6 +72,7 @@ SRC_URI = "\
+            file://0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch \
+            file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
+            file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
++           file://0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch \
+ "
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch b/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+new file mode 100644
+index 000000000000..9020aa6c3a1e
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+@@ -0,0 +1,116 @@
++From 97b668f9a8c6ec565c278a60e7d1492a6932e409 Mon Sep 17 00:00:00 2001
++From: Matthias Klose <doko@ubuntu.com>
++Date: Tue, 6 Oct 2020 13:41:37 +0200
++Subject: [PATCH] Backport fix for PR/tree-optimization/97236 - fix bad use of
++ VMAT_CONTIGUOUS
++
++This avoids using VMAT_CONTIGUOUS with single-element interleaving
++when using V1mode vectors.  Instead keep VMAT_ELEMENTWISE but
++continue to avoid load-lanes and gathers.
++
++2020-10-01  Richard Biener  <rguenther@suse.de>
++
++	PR tree-optimization/97236
++	* tree-vect-stmts.c (get_group_load_store_type): Keep
++	VMAT_ELEMENTWISE for single-element vectors.
++
++	* gcc.dg/vect/pr97236.c: New testcase.
++
++(cherry picked from commit 1ab88985631dd2c5a5e3b5c0dce47cf8b6ed2f82)
++---
++ gcc/testsuite/gcc.dg/vect/pr97236.c | 43 +++++++++++++++++++++++++++++
++ gcc/tree-vect-stmts.c               | 20 ++++++--------
++ 2 files changed, 52 insertions(+), 11 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/vect/pr97236.c
++
++diff --git a/gcc/testsuite/gcc.dg/vect/pr97236.c b/gcc/testsuite/gcc.dg/vect/pr97236.c
++new file mode 100644
++index 000000000000..9d3dc20d953d
++--- /dev/null
+++++ b/gcc/testsuite/gcc.dg/vect/pr97236.c
++@@ -0,0 +1,43 @@
+++typedef unsigned char __uint8_t;
+++typedef __uint8_t uint8_t;
+++typedef struct plane_t {
+++  uint8_t *p_pixels;
+++  int i_lines;
+++  int i_pitch;
+++} plane_t;
+++
+++typedef struct {
+++  plane_t p[5];
+++} picture_t;
+++
+++#define N 4
+++
+++void __attribute__((noipa))
+++picture_Clone(picture_t *picture, picture_t *res)
+++{
+++  for (int i = 0; i < N; i++) {
+++    res->p[i].p_pixels = picture->p[i].p_pixels;
+++    res->p[i].i_lines = picture->p[i].i_lines;
+++    res->p[i].i_pitch = picture->p[i].i_pitch;
+++  }
+++}
+++
+++int
+++main()
+++{
+++  picture_t aaa, bbb;
+++  uint8_t pixels[10] = {1, 1, 1, 1, 1, 1, 1, 1};
+++
+++  for (unsigned i = 0; i < N; i++)
+++    aaa.p[i].p_pixels = pixels;
+++
+++  picture_Clone (&aaa, &bbb);
+++
+++  uint8_t c = 0;
+++  for (unsigned i = 0; i < N; i++)
+++    c += bbb.p[i].p_pixels[0];
+++
+++  if (c != N)
+++    __builtin_abort ();
+++  return 0;
+++}
++diff --git a/gcc/tree-vect-stmts.c b/gcc/tree-vect-stmts.c
++index 507f81b0a0e8..ffbba3441de2 100644
++--- a/gcc/tree-vect-stmts.c
+++++ b/gcc/tree-vect-stmts.c
++@@ -2355,25 +2355,23 @@ get_group_load_store_type (stmt_vec_info stmt_info, tree vectype, bool slp,
++ 	  /* First cope with the degenerate case of a single-element
++ 	     vector.  */
++ 	  if (known_eq (TYPE_VECTOR_SUBPARTS (vectype), 1U))
++-	    *memory_access_type = VMAT_CONTIGUOUS;
+++	    ;
++ 
++ 	  /* Otherwise try using LOAD/STORE_LANES.  */
++-	  if (*memory_access_type == VMAT_ELEMENTWISE
++-	      && (vls_type == VLS_LOAD
++-		  ? vect_load_lanes_supported (vectype, group_size, masked_p)
++-		  : vect_store_lanes_supported (vectype, group_size,
++-						masked_p)))
+++	  else if (vls_type == VLS_LOAD
+++		   ? vect_load_lanes_supported (vectype, group_size, masked_p)
+++		   : vect_store_lanes_supported (vectype, group_size,
+++						 masked_p))
++ 	    {
++ 	      *memory_access_type = VMAT_LOAD_STORE_LANES;
++ 	      overrun_p = would_overrun_p;
++ 	    }
++ 
++ 	  /* If that fails, try using permuting loads.  */
++-	  if (*memory_access_type == VMAT_ELEMENTWISE
++-	      && (vls_type == VLS_LOAD
++-		  ? vect_grouped_load_supported (vectype, single_element_p,
++-						 group_size)
++-		  : vect_grouped_store_supported (vectype, group_size)))
+++	  else if (vls_type == VLS_LOAD
+++		   ? vect_grouped_load_supported (vectype, single_element_p,
+++						  group_size)
+++		   : vect_grouped_store_supported (vectype, group_size))
++ 	    {
++ 	      *memory_access_type = VMAT_CONTIGUOUS_PERMUTE;
++ 	      overrun_p = would_overrun_p;
++-- 
++2.20.1
++
 -- 
-2.29.2
+2.20.1
 
