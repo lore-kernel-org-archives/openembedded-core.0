@@ -1,125 +1,116 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.7407.1613044796606143369
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web08.7435.1613045123941059299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 03:59:57 -0800
+ Thu, 11 Feb 2021 04:05:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QOeBlAw5;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: raymsmithuk@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id u4so7024529ljh.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 03:59:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dnuewRBO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a9so9694347ejr.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 04:05:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DZ6oHoYGoWDa7rfVCf53O72N8eqVre3ctuF0XR2yaAg=;
-        b=QOeBlAw5A5jNs6VzuUAy1j7dTx4DWrcfjTpYunxPDhOTt2pSKfRGIkSRYwNdWsvMkG
-         t4Pr3j17mKY9NX0mEPpu63oJalfKpP/b7oaJvzpHm8DESKrw79w1MuvQHMJE9GxrQcV/
-         06hz+wXJ49I0PJMT/uzHS7HjroC6jazRLuL9rEmvM9adw0C3k0Cx51Ohexp9agZaOz2L
-         ucU7MsGf/rbwhO7M6VQx53bbCjskwAYwomDgU+gVxJ1MMYVkI/RJ+sTQl6HlF4BUesAp
-         eSOrgpIqPFZL4lbHy7IxmZKs1QemwEWZOFsMfNE3JSDUClibVx/K9W9pHa7F0KTrKAPv
-         FbXw==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kpYMJwsFNqJEEjGo1bljoFqFJvZnehmxNPuBLC5BSY8=;
+        b=dnuewRBOAf7XfFWfUdv7f5O0hwo+hSTYbGperm+nZ05lFOLhFu/mlPwpXoaUkoCP+x
+         eM9gXHSJhnwy6Vq+LXrICocMq5n9ODjRCXv04hbGIpZSpnCedKuY1BdRyb5+6kHMw9bI
+         1VEIFEjYsRIyntU+CK9U6KKzqcJz3pWA8i7oldPyepNk/biavy7Lw3zUeOdFHtFsLEvk
+         qGObnh1W6D4uLzTw6Ay758iuUgVFw65Ucl1KZodV6OjfH3ffG3akkbLeoFQ7hVC1Qe+8
+         VlCwb8KOSx/XNyqPdvbyT4RqNJqrJQpPXI0Z/ZITExoZPRpUeweg6Q5ZWDGne6/Lk4SS
+         o0Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DZ6oHoYGoWDa7rfVCf53O72N8eqVre3ctuF0XR2yaAg=;
-        b=CWxfHDYWFKAubMjv/cSo+MLYM1AILWsf+Tl/fTb9wqWqwd8Ee9pLQCfW6/NEPlwg40
-         3j+VEBCFa3M+zuDlFQbWHmrzSATp+C8+oMM2R4h6Pd+jMcoq23IBC5+9Pgxq329VpVZD
-         hbuIKCA2FtGMz+rgFBM6/58AGbjltEwg9MWWXJfdLkUvSDdHAzfJkNsIrx8zGLf2BDHg
-         pQcKRztmFOWnX18jhM02keCAtM3nZDrnx7G8d1XGC7Gt9pqz4XbaXVgEJrVqLni2odT2
-         Nhpi2Lcaxfm2fWxY96BF8WnzmJRkus0b7WV1A2YvTQ6XSlHa1RS4PAzHfgtYOZZZ4hEh
-         7mhQ==
-X-Gm-Message-State: AOAM53145puqhEQuJ28UTXfB/Fm8DFdAKhCLiIxx1SlqDEURhCOP/JYC
-	SRanpyiJnj1bxbYNju9UA89PyqXb7nz4z2618tI=
-X-Google-Smtp-Source: ABdhPJxSL4vlpaQ/W/+6cKSKs3clb4+y+4KAoqUuT139JxX96p9vFIU39i/YLSCweFt8TdXhom+mPZhqeogh8OjVfWE=
-X-Received: by 2002:a2e:974f:: with SMTP id f15mr4826444ljj.412.1613044794708;
- Thu, 11 Feb 2021 03:59:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20210210111113.17318-1-raymsmithuk@gmail.com> <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
- <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
- <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com> <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
-From: "Ray Smith" <raymsmithuk@gmail.com>
-Date: Thu, 11 Feb 2021 11:59:43 +0000
-Message-ID: <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Andrey Zhizhikin <andrey.z@gmail.com>, 
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kpYMJwsFNqJEEjGo1bljoFqFJvZnehmxNPuBLC5BSY8=;
+        b=hSwfyjBE4CHv6GWmHLQvRiHDiT/C8ZvePR2uDEMyMtHJw6AcploaO74TD7gNQxo0d+
+         6iUhBhmA6Ao3QtaRAOtfLEHWErWH4xU6dKpfln8dJ5Y7pdpM+Qy2om+ztbBLzUiP4dHH
+         71xDYjtvmP4rFV9jmewrsRXbiqsT+/HxVDr/CmCtrBx+rldAcQP/ZJ6XzU+7FtBi6GQt
+         6D6HeGJ4ipUw01QBi3Eus/4ZU3v+7pAKRg5kmh+2PxUIgetYP59hO62hP39kig9C2s7m
+         XOipgRIu2vi6795VUDhH4/yyjgb8xNEArPHDJVnYdPqAYgVeVlCavRZiMq8mnw6MEydd
+         IaCw==
+X-Gm-Message-State: AOAM533AEZ15oXbgZEVS8PGYNr2eCEiLUaP6QuniERhjhePbcOBulqZ/
+	CypMUNREh6Q/ancnzqmqsZs=
+X-Google-Smtp-Source: ABdhPJxiMqZYiyItu+uwVDeUclW7bVyEIg5Pv6StKYq4AdCsMVY7ikNflXLLWNT7ceZ1SNE2RI41Cw==
+X-Received: by 2002:a17:906:3649:: with SMTP id r9mr7998489ejb.202.1613045122295;
+        Thu, 11 Feb 2021 04:05:22 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id i18sm3740571edt.68.2021.02.11.04.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Feb 2021 04:05:21 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 11 Feb 2021 13:05:20 +0100
+To: Ray Smith <raymsmithuk@gmail.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Andrey Zhizhikin <andrey.z@gmail.com>,
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fed81105bb0e41dd"
+Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
+Message-ID: <20210211120520.7h32qy5sqasyplv7@jama>
+References: <20210210111113.17318-1-raymsmithuk@gmail.com>
+ <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
+ <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
+ <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
+ <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
+ <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
+X-Groupsio-MsgNum: 147946
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ghn5vowag4q4eenj"
+Content-Disposition: inline
 
---000000000000fed81105bb0e41dd
-Content-Type: text/plain; charset="UTF-8"
+--ghn5vowag4q4eenj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 10, 2021 at 9:36 PM Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+On Thu, Feb 11, 2021 at 11:59:43AM +0000, Ray Smith wrote:
+> On Wed, Feb 10, 2021 at 9:36 PM Otavio Salvador <
+> otavio.salvador@ossystems.com.br> wrote:
+>=20
+> > Em qua., 10 de fev. de 2021 =E0s 17:21, Andrey Zhizhikin <andrey.z@gmai=
+l.com>
+> > escreveu:
+> >
+> >>
+> >> Should this be clarified with Mesa folks upfront? If you believe that
+> >> this limitation is rather "artificial", then there has to be a proper
+> >> explanation from Mesa developers why OGL is provided when OGLES-only
+> >> is built.
+> >>
+> >
+> > Agreed ... I'd rather not drop the check until we hear from upstream the
+> > reasoning behind it.
+> >
+>=20
+> This patch is really about the first line:
+>=20
+> > Mesa doesn't _require_ either of these features of the distribution,
+> > it (conditionally) _provides_ them.
+>=20
+> Even if we had an opengles distro feature that solved the GLES vs OpenGL
+> issues, having a 'ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan
+> opengles"' line instead still wouldn't make sense (although it would solve
+> my problem), because mesa doesn't require any of those features. This line
+> is effectively saying it depends on the things it provides.
 
-> Em qua., 10 de fev. de 2021 =C3=A0s 17:21, Andrey Zhizhikin <andrey.z@gma=
-il.com>
-> escreveu:
->
->>
->> Should this be clarified with Mesa folks upfront? If you believe that
->> this limitation is rather "artificial", then there has to be a proper
->> explanation from Mesa developers why OGL is provided when OGLES-only
->> is built.
->>
->
-> Agreed ... I'd rather not drop the check until we hear from upstream the
-> reasoning behind it.
->
+Or you can read it as that it makes sense to build mesa recipe only when
+DISTRO supports opengl or vulkan or opengles, which IMHO still makes
+sense.
 
-This patch is really about the first line:
+Similarly when DISTO_FEATURES are used to set PACKAGECONFIG values, it
+doesn't say what it requires, but what DISTRO wants to support.
 
-> Mesa doesn't _require_ either of these features of the distribution,
-> it (conditionally) _provides_ them.
+--ghn5vowag4q4eenj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Even if we had an opengles distro feature that solved the GLES vs OpenGL
-issues, having a 'ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan
-opengles"' line instead still wouldn't make sense (although it would solve
-my problem), because mesa doesn't require any of those features. This line
-is effectively saying it depends on the things it provides.
+-----BEGIN PGP SIGNATURE-----
 
-I will raise the build issue with mesa, but I think it's not related to the
-core issue here. There are no responses yet, but I see
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/4176 was raised a couple
-of weeks ago with a very similar issue.
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYCUdfAAKCRA3VSO3ZXaA
+HPTdAJ9rpO4JKK2+r8Kc13PjTe3Inlq6WQCfe4Dwybg0EyGYtiElGjHLQpdGBns=
+=mzwV
+-----END PGP SIGNATURE-----
 
---000000000000fed81105bb0e41dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, Feb 10, 2021 at 9:36 PM Otavio Salvador &lt;<a href=3D"mailt=
-o:otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com.br</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-Em qua., 10 de fev. de 2021 =C3=A0s 17:21, Andrey Zhizhikin &lt;<a href=3D"=
-mailto:andrey.z@gmail.com" target=3D"_blank">andrey.z@gmail.com</a>&gt; esc=
-reveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-Should this be clarified with Mesa folks upfront? If you believe that<br>
-this limitation is rather &quot;artificial&quot;, then there has to be a pr=
-oper<br>
-explanation from Mesa developers why OGL is provided when OGLES-only<br>
-is built.<br>
-</blockquote></div><div><br></div><div>Agreed ... I&#39;d rather not drop t=
-he check until we hear from upstream the reasoning behind it.<br></div></di=
-v></blockquote><div><br></div><div>This patch is really about the first lin=
-e:</div><div><br></div><div>&gt; Mesa doesn&#39;t _require_ either of these=
- features of the distribution,<br>&gt; it (conditionally) _provides_ them.<=
-/div><div><br></div><div>Even if we had an opengles distro feature that sol=
-ved the GLES vs OpenGL issues, having a &#39;ANY_OF_DISTRO_FEATURES_class-t=
-arget =3D &quot;opengl vulkan opengles&quot;&#39; line instead still wouldn=
-&#39;t make sense (although it would solve my problem), because mesa doesn&=
-#39;t require any of those features. This line is effectively saying it dep=
-ends on the things it provides.</div><div><br></div><div>I will raise the b=
-uild issue with mesa, but I think it&#39;s not related to the core issue he=
-re. There are no responses yet, but I see <a href=3D"https://gitlab.freedes=
-ktop.org/mesa/mesa/-/issues/4176">https://gitlab.freedesktop.org/mesa/mesa/=
--/issues/4176</a> was raised a couple of weeks ago with a very similar issu=
-e.<br></div></div></div>
-
---000000000000fed81105bb0e41dd--
+--ghn5vowag4q4eenj--
