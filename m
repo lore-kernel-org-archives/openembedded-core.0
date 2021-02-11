@@ -1,156 +1,72 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.11810.1613063600336886795
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.11816.1613064156260976209
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 09:13:20 -0800
+ Thu, 11 Feb 2021 09:22:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E5c9oVZV;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: andrey.z@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id d3so9127661lfg.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 09:13:20 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KUd5qHx/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id b3so4958103wrj.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 09:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WXBBBvwV6p1U7oDBizfZ/DqhyRQaVIXZ8CHVKw/qnpw=;
-        b=E5c9oVZVmhBdr1k83kS17qRJmF8touWuYG6jsrshUkKRyLYnXfYqPZroQPWgZKOVAp
-         +S4umnfCC8eg7vHcILKAra95/Q7Dfpqn27QHmqtMsseRgFw/b3ejLbP4RrX6MuJwEZXO
-         6dsX8EVlnqnZri3ZUCSCg3DmIzEOFNYvCl63Z/txXXYkD0QS+cWizVecR0m5djyzwe68
-         aC5Zzowi/jxa2Go3lM7dAQBYTmWFVA4A4hheuniRpdcwrTW1IIpSDfKNXGVMt7/APl+b
-         sVMu1noJ6M22HOaWkbhmHzpluH6sYuMEs7/SbnATbFXGeQ5oj7QYvEgZ//PcCjr3LJfE
-         6Njg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oEO2sMziI6GPPsYyXFY1xbQ6WrAM/hLFeCLw6Apj+E4=;
+        b=KUd5qHx/LfIl/yTqkaGQpjk1+hfFhP31j5x0bi5dpLeoAMh/+y29IoCfbVA2mKImzJ
+         hbmNFa+QAFTcz+DgxfRASsNQiBqLfoov5JEMQ1gSSSR3zh38g7mX76A6Evq/saeALUJD
+         Z50ePFi+Wmp3CrwOFOMZ8C9yGgaYaH8CC94xw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WXBBBvwV6p1U7oDBizfZ/DqhyRQaVIXZ8CHVKw/qnpw=;
-        b=jF91as2nnRCkXd458PGmovSSPjooXs12dIQzPo12YmP+s5gxO32rOFRJw5tK0J6B79
-         h40WPgvn83AmjtROwsA8i3dyNkldFpD7v3+hmRWU7lHI6fnH7DHSJrHSb8nbzW9LS/yi
-         Ms1C4MCGFm1QIOD6Rbpm2jPD4Cpwgpb5POX696Nj9EJrz07uag2Vl8gKy/l5wudZMiW6
-         gCE26majOizMu99I+Iz7mNTyjRFrb59W8/ZW99mtE5W5PjZuIpe5C2I0HdiETkB7POv+
-         Je+ZFfmHYfb8qhK3cPXefBhj+I7zqbBkuZTb9vxLh1FI7WLdMXW+0rN2Fi4J5H9iroG3
-         wVwQ==
-X-Gm-Message-State: AOAM531xq1bLPZt5rXd3OeIUupklurrAzAL93cC7fWjhisKjj+jhE5JE
-	pFyZkJvTk7sXOdnbhQpmNmgbwdJHvVirodDOMt8=
-X-Google-Smtp-Source: ABdhPJzWBDjz9ukD0HFkirtWO5cP1IDIWe95dti4OHLhiObljin5m+vOMY98smMCM6DZbvkhet5+eTV2Xeek2AQEyUk=
-X-Received: by 2002:ac2:5387:: with SMTP id g7mr4626181lfh.138.1613063598383;
- Thu, 11 Feb 2021 09:13:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oEO2sMziI6GPPsYyXFY1xbQ6WrAM/hLFeCLw6Apj+E4=;
+        b=sCw2ZfScDFYN3krYiyBtoFsKg9INxrtwh/oCjx8i53boFat2w0i/6E7zYRryNE68F3
+         UZ9hpySvTreaOlpaIH54ynqtsgY1cJ/S9IQMN6d+MQYj4JSdZYt6awu9C8byFbBVgAyS
+         fdcXrnAqz7Y0zQaKbUGwUnHo5sAvKcejgBawefXbvWEfihrkcBH8bQW3z3N8y66p8Zgo
+         BroqpG8K1sPqe+uk+RTobWuOTuS0mzCDZnUTMqpXPeMrBiQw3LV/z6UtA8QI6/3YojJg
+         XuwfaBIzyqXV+IVexUN17E+cfeZx6bfvChc8GqYH4191080SgShxrd/GnOJSQH8m9ZQQ
+         O70w==
+X-Gm-Message-State: AOAM530Ugy46PJ6A6x2AJtt1hK96ifYJceqYW2s5bcN5lk8y4bQKo/1Q
+	HkNZzPaal4+gd3LhrRCQuC95VSN3Q8g9qw==
+X-Google-Smtp-Source: ABdhPJzGRpb8003Z99b/XUYVgAvLX3Bzs8/9InD/7HSaJk9BjWaGZD++DX5o4hcefPYOSXs/SggEEQ==
+X-Received: by 2002:adf:8544:: with SMTP id 62mr4285173wrh.336.1613064154639;
+        Thu, 11 Feb 2021 09:22:34 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:1f44:6379:818:1e61])
+        by smtp.gmail.com with ESMTPSA id 36sm6727836wrj.97.2021.02.11.09.22.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Feb 2021 09:22:34 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: seebs@seebs.net
+Subject: [PATCH 1/3] ports/access.c: Use EACCES, not EPERM
+Date: Thu, 11 Feb 2021 17:22:31 +0000
+Message-Id: <20210211172233.1887023-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210211165229.741761-1-alistair.francis@wdc.com>
-In-Reply-To: <20210211165229.741761-1-alistair.francis@wdc.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Thu, 11 Feb 2021 18:13:06 +0100
-Message-ID: <CAHtQpK7yL4JGRK1FVGW-yoBr63iHnRfv3nvdYbLemePqVBoFeg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: Enable building for RISC-V 32-bit
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, alistair23@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Alistair,
+The man page for access() does not allow for a return value of EPERM,
+should be EACCES. Fix.
 
-On Thu, Feb 11, 2021 at 5:52 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  ...ort-for-io_pgetevents_time64-syscall.patch | 58 +++++++++++++++++++
->  .../openssl/openssl_1.1.1i.bb                 |  4 ++
->  2 files changed, 62 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch b/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
-> new file mode 100644
-> index 0000000000..591354fbb9
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl/0003-Add-support-for-io_pgetevents_time64-syscall.patch
-> @@ -0,0 +1,58 @@
-> +From d1a1b797d961301fd58513e50ac5de9ad5b8bc08 Mon Sep 17 00:00:00 2001
-> +From: Alistair Francis <alistair.francis@wdc.com>
-> +Date: Thu, 29 Aug 2019 13:56:21 -0700
-> +Subject: [PATCH] Add support for io_pgetevents_time64 syscall
-> +
-> +32-bit architectures that are y2038 safe don't include syscalls that use
-> +32-bit time_t. Instead these architectures have suffixed syscalls that
-> +always use a 64-bit time_t. In the case of the io_getevents syscall the
-> +syscall has been replaced with the io_pgetevents_time64 syscall instead.
-> +
-> +This patch changes the io_getevents() function to use the correct
-> +syscall based on the avaliable syscalls and the time_t size. We will
-> +only use the new 64-bit time_t syscall if the architecture is using a
-> +64-bit time_t. This is to avoid having to deal with 32/64-bit
-> +conversions and relying on a 64-bit timespec struct on 32-bit time_t
-> +platforms. As of Linux 5.3 there are no 32-bit time_t architectures
-> +without __NR_io_getevents. In the future if a 32-bit time_t architecture
-> +wants to use the 64-bit syscalls we can handle the conversion.
-> +
-> +This fixes build failures on 32-bit RISC-V.
-> +
-> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> +Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/9819]
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ports/unix/guts/access.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This PR and related commit has not been integrated in 1.1.1-stable
-branch, and according to Arnd [1] - it might be wrong.
-
-I do not know if this can be taken like that, but just want to point
-out that upstream did not fully take the change you're providing here.
-
-> +---
-> + engines/e_afalg.c | 16 ++++++++++++++++
-> + 1 file changed, 16 insertions(+)
-> +
-> +diff --git a/engines/e_afalg.c b/engines/e_afalg.c
-> +index dacbe358cb..99516cb1bb 100644
-> +--- a/engines/e_afalg.c
-> ++++ b/engines/e_afalg.c
-> +@@ -125,7 +125,23 @@ static ossl_inline int io_getevents(aio_context_t ctx, long min, long max,
-> +                                struct io_event *events,
-> +                                struct timespec *timeout)
-> + {
-> ++#if defined(__NR_io_getevents)
-> +     return syscall(__NR_io_getevents, ctx, min, max, events, timeout);
-> ++#elif defined(__NR_io_pgetevents_time64)
-> ++    /* Let's only support the 64 suffix syscalls for 64-bit time_t.
-> ++     * This simplifies the code for us as we don't need to use a 64-bit
-> ++     * version of timespec with a 32-bit time_t and handle converting
-> ++     * between 64-bit and 32-bit times and check for overflows.
-> ++     */
-> ++    if (sizeof(timeout->tv_sec) == 8)
-> ++        return syscall(__NR_io_pgetevents_time64, ctx, min, max, events, timeout, NULL);
-> ++    else {
-> ++        errno = ENOSYS;
-> ++        return -1;
-> ++    }
-> ++#else
-> ++# error "We require either the io_getevents syscall or __NR_io_pgetevents_time64."
-> ++#endif
-> + }
-> +
-> + static void afalg_waitfd_cleanup(ASYNC_WAIT_CTX *ctx, const void *key,
-> +--
-> +2.23.0
-> +
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-> index 86950f7544..599d78abea 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-> @@ -23,6 +23,10 @@ SRC_URI_append_class-nativesdk = " \
->             file://environment.d-openssl.sh \
->             "
->
-> +SRC_URI_append_riscv32 = " \
-> +           file://0003-Add-support-for-io_pgetevents_time64-syscall.patch \
-> +          "
-> +
->  SRC_URI[sha256sum] = "e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242"
->
->  inherit lib_package multilib_header multilib_script ptest
-> --
-> 2.30.0
->
->
-> 
->
-
-Link: [1]: https://github.com/openssl/openssl/commit/5b5e2985f355c8e99c196d9ce5d02c15bebadfbc#comments
+diff --git a/ports/unix/guts/access.c b/ports/unix/guts/access.c
+index 1cc8d58..4725f49 100644
+--- a/ports/unix/guts/access.c
++++ b/ports/unix/guts/access.c
+@@ -21,7 +21,7 @@
+ 		if (buf.st_mode & 0111) {
+ 			return 0;
+ 		} else {
+-			errno = EPERM;
++			errno = EACCES;
+ 			return -1;
+ 		}
+ 	} else {
 -- 
-Regards,
-Andrey.
+2.27.0
+
