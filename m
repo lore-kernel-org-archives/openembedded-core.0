@@ -1,113 +1,132 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.8115.1613048157371699314
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web09.8214.1613048687149411634
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 04:55:57 -0800
+ Thu, 11 Feb 2021 05:04:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=exra6CYi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id a16so5932618wmm.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 04:55:57 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=anfOdvN8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id u14so5669993wmq.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 05:04:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=Y58y0OSsIMkMHn28Q9mNsC18/nzSPs0/Yif+r3VLi3I=;
-        b=exra6CYik9G8Ocx8xG4ABY6URDLTI5LvbigbY/+WPUd+Xtm5qmKKMyZgs6zg996DhB
-         Yi+oOp72JcsILk+pNPMn9pTAtsE1xuOdTqTfpzC4MDD6bFpGD/4YpUq3gvb8aY1OUWKo
-         OHwLxagAx/Tqa89Ty5khcXw9MeypJBv4JlMLg=
+        bh=iUauJ9w3jLKSSX7FNn1BKKqa2m2CgBm4FaA/UYIoChE=;
+        b=anfOdvN8okMiUoPk5zdgbv4IxRo7DUGk0jVN5VW59jy5DS3c59arXICujagokEcZvC
+         jWRIZ30m+Vv332KX7CUF6UeHCpF14DWlK0vXGkf/1ObU7N14M4JVokRy3759R9WsEYSs
+         pNAtmjl+e79iYZdo+HdXe9plECjuzuL0Stm0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Y58y0OSsIMkMHn28Q9mNsC18/nzSPs0/Yif+r3VLi3I=;
-        b=Gd0CehL8Fb+AdbMO9Nuli9BQx+/VX0nMnXKBWuYUFrQF4qF19iP4vUjO6Z4MdP05Zr
-         cTG0heQDxXzRU260VmatpbYm4MVyM/8fggwPu2su3dBAN2hWB6YNfGEmb5LwpezO7Fh+
-         jL18ck/UkjbIQwXMwLeV016++jvGDgc2jzX6L1wwfveLwA7krIqT9PHOF+HurkJzs0Nb
-         b29CpqtHwV42Zfnev5A3dkIW2J2YG4QaolhnzVYdNTFASDB41K005Q8YUP4yKb4B6L3+
-         OwevNdabTyuZMibaXEpZO+D4TcbXwkBrq9PuhzqcCDX4tUprzgspQ6IH0CCKtmB8X8Xc
-         YZEg==
-X-Gm-Message-State: AOAM533u3M+YV5JoMAUFIwMWkXLs5zLy9Sbck3z7/WuuMuJ6YCw3vg1u
-	PRSeKoDH9C4n2wTBFZwckvtDMbyRI0Fiwg==
-X-Google-Smtp-Source: ABdhPJwQXJw/3aVDjJlK6cMMiJHUyG4l2OsHHwuv1d2xQ3G9Cg6c8/a3su+hvBu9KAtQ+l8uIFy91g==
-X-Received: by 2002:a05:600c:4296:: with SMTP id v22mr5095327wmc.52.1613048155773;
-        Thu, 11 Feb 2021 04:55:55 -0800 (PST)
+        bh=iUauJ9w3jLKSSX7FNn1BKKqa2m2CgBm4FaA/UYIoChE=;
+        b=k6uYCQzAGkKmZRWiuizbglgK/dB6IHHoIqcKg+q8pf0RgkRXpt6YdwdJJ3e7QYyNAQ
+         RJbA/KFQLSK0hvOu+UEtqR8regqwlNCmvA76ewXSbiqlNol1W7cuXgZNJIHK4MII4945
+         PIYKQZMJ2HnypgbUfQBtqc9XNNkslIKdwkJcUIVtH4rl/SH5tEwtF/4+vGGmpVFM3D2P
+         XOHnk6qBkOmKKpIWlKjBsAhTeF3qdeNqXmBLqfKiFvMY4hVCWVhZG8NwSE1Mlsn+pOJN
+         22lWMOvE3CPe5NxKlzbCDUVaTeXlZJ9pW6nY1rmGF4/5L4eUp2g3BklAj6Is0HHq/nCL
+         5RGA==
+X-Gm-Message-State: AOAM5318VbYbOyCrfYAJqCpnbcxe1IxqBX59mmObogEFcgfzwlsZTnis
+	j2XuTavmy2u8xeGLxokycTw03g==
+X-Google-Smtp-Source: ABdhPJwwTMW6SqhOx+G3Jaiy4Q9h8gfzKRpJyuVbjqrY+BysaeyKlESrWwgWpqKId1sREVxe5eXXGQ==
+X-Received: by 2002:a1c:98d4:: with SMTP id a203mr5216904wme.10.1613048685663;
+        Thu, 11 Feb 2021 05:04:45 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:1f44:6379:818:1e61? ([2001:8b0:aba:5f3c:1f44:6379:818:1e61])
-        by smtp.gmail.com with ESMTPSA id 2sm9330918wmn.10.2021.02.11.04.55.55
+        by smtp.gmail.com with ESMTPSA id c9sm9778847wmb.33.2021.02.11.05.04.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 04:55:55 -0800 (PST)
-Message-ID: <cfb3d3d350ec28062fccfa432e2bae4507641b34.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: improve the network connectivity check message
+        Thu, 11 Feb 2021 05:04:45 -0800 (PST)
+Message-ID: <df38a497ef1c31b72445d7ae2361d3d6db676f6e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Feb 2021 12:55:52 +0000
-In-Reply-To: <20210210024639.1033-1-mingli.yu@windriver.com>
-References: <20210210024639.1033-1-mingli.yu@windriver.com>
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	openembedded-core@lists.openembedded.org, tomasz.dziendzielski@gmail.com
+Date: Thu, 11 Feb 2021 13:04:44 +0000
+In-Reply-To: <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+	 <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+	 <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
+	 <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2021-02-10 at 10:46 +0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On Thu, 2021-02-11 at 13:10 +0100, Konrad Weihmann wrote:
 > 
-> The network connectivity check via checking www.example.com by default
-> and also can customized by CONNECTIVITY_CHECK_URIS if desired.
+> On 11.02.21 12:43, Richard Purdie wrote:
+> > On Thu, 2021-02-11 at 08:21 +0100, Konrad Weihmann wrote:
+> > > After this patch got merged I notice some "noise" in my builds.
+> > > 
+> > > For bbappends which inherit unrelated classes I get a lot of warning like
+> > > 
+> > > Issue: nativesdk-openssh: native/nativesdk class is not inherited last,
+> > > this can result in unexpected behaviour. Classes inherited after
+> > > native/nativesdk: my-custom-class.bbclass [native-last]
+> > > 
+> > > First it doesn't give any hint that this is caused by the bbappend and
+> > > secondly I have no idea how to fix that (if that is even possible).
+> > > 
+> > > So I would like to have at least an option to ignore these warnings for
+> > > classes I'm sure don't cause any conflict - something more granular then
+> > > just to deactivate this pretty useful check.
+> > > 
+> > > Thoughts?
+> > 
+> > This shouldn't be too common as most recently use BBCLASSEXTEND which
+> > would ensure they're last. Which recipes are you running into this
+> > with?
 > 
-> Improve the check message to let the user know if the network is actually
-> unaccessible or the checked URIs is wrongly set.
-> 
-> [YOCTO #12708]
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/classes/sanity.bbclass | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 485173ab48..ebf0a559a2 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -389,13 +389,17 @@ def check_connectivity(d):
->          except Exception as err:
->              # Allow the message to be configured so that users can be
->              # pointed to a support mechanism.
-> +            urlmsg = "Check network connectivity via the below tested URIs\n"
-> +            urlmsg += "    please make sure the below tested URIs accessible\n"
-> +            for test_uri in test_uris:
-> +                urlmsg = "    %s\n" % test_uri.strip()
->              msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
->              if len(msg) == 0:
->                  msg = "%s.\n" % err
->                  msg += "    Please ensure your host's network is configured correctly,\n"
->                  msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
->                  msg += "    all required sources are on local disk.\n"
-> -            retval = msg
-> +            retval = urlmsg + msg
->  
-> 
+> Sure, it does only affect recipes which are manually inheriting native 
+> (I got a bunch of them, that's why I noticed).
 
+Any reason they don't/can't use BBCLASSEXTEND?
 
-The idea was to allow things like toaster as a UI to override the
-message entirely so this should probably just add to the len(msg) == 0
-case. Probably something like:
+> A (unfortunately) common pattern I face is that ppl share variables 
+> between recipes using bbclasses - which to my understanding shouldn't 
+> cause any issues when being inherited after native.
+> And the same pattern is applied to recipes only being appended.
 
-if not msg:
-    msg = "%s.\n" % err
-    msg += "    Please ensure your host's network is configured correctly,\n"
-    msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
-    msg += "    all required sources are on local disk.\n"
-    msg += "    The urls tested were:
-    for test_uri in test_uris:
-        msg += "        %s\n" % test_uri.strip()
+You could use conf files for variables. That is something I'd like to
+try and encourage more of, I've been meaning to look at that for the
+core too.
 
-len(msg) == 0 is a horrible test so I tweaked that too :)
+> > You really don't want your class coming after native/nativesdk, if you
+> > understand what that code is doing you'll realise it is rather risky :(
+> 
+> Totally, that why I'm absolutely in favor of this patch.
+> 
+> > 
+> > You could turn off that warning for a set of recipes if you really
+> > don't care but I'd prefer not to make that too easy.
+> 
+> But that would turn off the whole feature, which is bad IMO.
+> What I see (once that will be used by a wider audience in the wild) is 
+> that this will lead to questions (consuming my time as an integrator) or 
+> to the fact that this check will be turned off completely.
+> Either way not the best choice if you'd ask me.
+
+I'm hoping that people might fix the underlying issues.
+
+> That's why I asked for a more granular configuration, so that a person 
+> who's able to understand the implications of a bbclass in relation to 
+> native could turn it off on a distro/site config level.
+> 
+> And just to be clear I wouldn't want that to be used widely, or even 
+> being promoted.
+
+I can guarantee that making any such option available will just have
+people reach for it and use it. You clearly want to here when the
+changes needed to avoid it are probably not that difficult.
+
+> If that's not what the project wants, I'm also fine with it, but then it 
+> would be really helpful to point to the bbappend as a culprit and not 
+> the base recipe
+
+I understand why you'd want it, I'm just not sure if would encourage
+the right behaviour :(.
 
 Cheers,
 
 Richard
-
-
-
 
