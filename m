@@ -1,78 +1,99 @@
-Received: from pbcl.net (pbcl.net [159.69.221.92])
- by mx.groups.io with SMTP id smtpd.web08.8235.1613050037355703057
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.9391.1613054810747081433
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 05:27:18 -0800
+ Thu, 11 Feb 2021 06:46:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pbcl.net, ip: 159.69.221.92, mailfrom: pb@pbcl.net)
-Received: from pb by pbcl.net with local (Exim 4.92)
-	(envelope-from <pb@pbcl.net>)
-	id 1lAC02-0005Ws-Cy; Thu, 11 Feb 2021 14:27:14 +0100
-Date: Thu, 11 Feb 2021 14:27:14 +0100
-From: "Phil Blundell" <pb@pbcl.net>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Ray Smith <raymsmithuk@gmail.com>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Andrey Zhizhikin <andrey.z@gmail.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] mesa: Remove dependency on opengl or vulkan DISTRO_FEATURES
-Message-ID: <20210211132714.GO3066@pbcl.net>
-References: <20210210111113.17318-1-raymsmithuk@gmail.com>
- <CAP9ODKqqrhboqgEGa_7MRprs2OZhE8GMRFCS3K77Jt2-4G9KKw@mail.gmail.com>
- <CAHS1ALKpm9+5Fa+roQ8ZJ3m3jGa3m=yymWpG8ftfEkVdAk+RqA@mail.gmail.com>
- <CAHtQpK7rFBrGHUJ2TG-Xke4V-kZc2jJF4hZgO5LtdGef4vNQfA@mail.gmail.com>
- <CAP9ODKorRTxwsCdJPGT4hzG5cd560EUuOeGzVgnJ6CNLAhxjYQ@mail.gmail.com>
- <CAHS1ALL+u0sRMTVb5uXJg67aLdxm4aYoCriv-1vM4WKNfyh0Qw@mail.gmail.com>
- <20210211120520.7h32qy5sqasyplv7@jama>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70A9731B
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 06:46:49 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19F9C3F73D
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 06:46:48 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glibc: add workaround for faccessat2 being blocked by seccomp filters
+Date: Thu, 11 Feb 2021 14:46:45 +0000
+Message-Id: <20210211144645.1458075-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210211120520.7h32qy5sqasyplv7@jama>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 01:05:20PM +0100, Martin Jansa wrote:
-> Or you can read it as that it makes sense to build mesa recipe only when
-> DISTRO supports opengl or vulkan or opengles,
+Older seccomp-based filters used in container frameworks will block facce=
+ssat2
+calls as it's a relatively new syscall.  This isn't a big problem with
+glibc <2.33 but 2.33 will call faccessat2 itself, get EPERM, and thenn be=
+ confused
+about what to do as EPERM isn't an expected error code.
 
-It's never been the intent of DISTRO_FEATURES to determine which recipes 
-it "makes sense" to build, above and beyond those that are actually
-impossible to compile in a given configuration.  If there were certain 
-recipes that are fundamentally and completely incompatible with a 
-particular DISTRO_FEATURE to the extent that you simply couldn't build 
-them at all then it might make sense to exclude them in this way, but 
-I can't honestly think of even a single case where that would be true.  
-Even at a fundamental level, there's no reason that a musl-based 
-DISTRO couldn't also build glibc for example.  Conversely, if a recipe
-simply needs some aspect of a given DISTRO_FEATURE to work then, in
-general, the solution to that is just to declare it as a dependency.
-Recipes that necessarily and unavoidably need OpenGL should just have
-virtual/libgl in their DEPENDS and there is no need for them to be
-checking DISTRO_FEATURES to see whether OpenGL is "available" in some
-abstract sense.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../glibc/glibc/faccessat2-perm.patch         | 31 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/faccessat2-perm.patch
 
-If a particular DISTRO wants to actively prohibit mesa or any other
-recipe from being built (because it wants to ensure that certain code
-never leaks into the build artifacts due to a dependency error) then
-there are other mechanisms for that.
+diff --git a/meta/recipes-core/glibc/glibc/faccessat2-perm.patch b/meta/r=
+ecipes-core/glibc/glibc/faccessat2-perm.patch
+new file mode 100644
+index 0000000000..2ee7110ca1
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/faccessat2-perm.patch
+@@ -0,0 +1,31 @@
++Older seccomp-based filters used in container frameworks will block facc=
+essat2
++calls as it's a relatively new syscall.  This isn't a big problem with
++glibc <2.33 but 2.33 will call faccessat2 itself, get EPERM, and thenn b=
+e confused
++about what to do as EPERM isn't an expected error code.
++
++This manifests itself as mysterious errors, for example a kernel failing=
+ to link.
++
++The root cause of bad seccomp filters is mostly fixed (systemd 247, Dock=
+er 20.10.0)
++but we can't expect everyone to upgrade, so add a workaound (originally =
+from=20
++Red Hat) to handle EPERM like ENOSYS and fallback to faccessat().
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/sysdeps/unix/sysv/linux/faccessat.c b/sysdeps/unix/sysv/lin=
+ux/faccessat.c
++index 56cb6dcc8b4d58d3..5de75032bbc93a2c 100644
++--- a/sysdeps/unix/sysv/linux/faccessat.c
+++++ b/sysdeps/unix/sysv/linux/faccessat.c
++@@ -34,7 +34,11 @@ faccessat (int fd, const char *file, int mode, int fl=
+ag)
++ #if __ASSUME_FACCESSAT2
++   return ret;
++ #else
++-  if (ret =3D=3D 0 || errno !=3D ENOSYS)
+++  /* Fedora-specific workaround:
+++     As a workround for a broken systemd-nspawn that returns
+++     EPERM when a syscall is not allowed instead of ENOSYS
+++     we must check for EPERM here and fall back to faccessat.  */
+++  if (ret =3D=3D 0 || !(errno =3D=3D ENOSYS || errno =3D=3D EPERM))
++     return ret;
++=20
++   if (flag & ~(AT_SYMLINK_NOFOLLOW | AT_EACCESS))
+diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/gl=
+ibc/glibc_2.33.bb
+index 4085c779eb..e0002e6046 100644
+--- a/meta/recipes-core/glibc/glibc_2.33.bb
++++ b/meta/recipes-core/glibc/glibc_2.33.bb
+@@ -12,6 +12,7 @@ NATIVESDKFIXES_class-nativesdk =3D "\
+            file://0005-nativesdk-glibc-Raise-the-size-of-arrays-containi=
+ng-.patch \
+            file://0006-nativesdk-glibc-Allow-64-bit-atomics-for-x86.patc=
+h \
+            file://0007-nativesdk-glibc-Make-relocatable-install-for-loca=
+les.patch \
++           file://faccessat2-perm.patch \
+ "
+=20
+ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+--=20
+2.25.1
 
-The intent of the "opengl" DISTRO_FEATURE is that it gives you a single
-central place to control the configuration of packages that either have
-an optional dependency on OpenGL, or are selectable between OpenGL and
-Vulkan at configure time.  Even this is a tiny bit half-baked because
-it doesn't really distinguish between the myriad variants of OpenGL(ES)
-but in general that distinction is a matter of platform capability 
-rather than DISTRO choice (i.e. if your graphics stack only supports 
-OpenGL ES 1.x, no amount of oe-core configuration is going to make it 
-support OpenGL 4.)  And the DISTRO_FEATURE does at least let you assert
-at the whole-distribution level that you have a preference for Vulkan
-over OpenGL, or vice versa.
-
-If you add opengl to DISTRO_FEATURES then you will start getting OpenGL
-support enabled in recipes like cairo.  With the way the Mesa recipe
-is currently constituted, anybody who wants to build Mesa for some
-ancillary purpose but doesn't want everything else to start using 
-OpenGL needs to add opengl to DISTRO_FEATURES and then engage in a 
-game of whack-a-mole to go round turning it back off again in all 
-the individual PACKAGECONFIGs.  I don't think that's a rational state
-of affairs.
-
-p.
