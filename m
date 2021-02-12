@@ -1,108 +1,107 @@
-Received: from mail-oi1-f225.google.com (mail-oi1-f225.google.com [209.85.167.225])
- by mx.groups.io with SMTP id smtpd.web11.8974.1613157963362833042
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web08.9073.1613158517463458876
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Feb 2021 11:26:03 -0800
+ Fri, 12 Feb 2021 11:35:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@broadcom.com header.s=google header.b=D/E35/nQ;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.167.225, mailfrom: suji.velupillai@broadcom.com)
-Received: by mail-oi1-f225.google.com with SMTP id r75so776640oie.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 11:26:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kMRlwUZi;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id bl23so994008ejb.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 11:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=ptu98YJchwhOQQGBZF1DaLtTw263HmTOWVk8NpoG3o8=;
-        b=D/E35/nQzSrKH6FMcw99Y4hg6eMynSAZ5WcVoK0FXkSE0mIraHtjmlxuSGemEEdOT5
-         AE4NGcM7/N8tD+wOX6Va1theSjDZbWm3qMioe0fLNwKI6hbRLh1xtKp0yn2HrAn0ASIh
-         wCrAKJoyZ8erd4CEU780S14DMRuntt21a59aM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9O11mKmPyYIyJt1cWQlIAkLA8cCyGTy+zRMmc8Q8Qqg=;
+        b=kMRlwUZiSLcjgP/85fYZWIX6TCha05olXJFC+nKG1BFbwo7ji89qISNxAgR+QfTpEd
+         7shKZsH8fSIGYXb/Fwigns0gKZg69faWuAdTZaVU2wr807soGyObXy+gJXyMF3BY/QuC
+         VkNEkUxxidUiPXATnCvD0wfG/zjqM7VsO4nrmPxj1hbi9LZ3MacpwgakR2iDTm4bWInU
+         WNe5WsahVnv+Tb4Rb4HEvZUjUmuGpDIxgreb22mMuQTR7IecLq5+nMpvGFirecIVU+8p
+         96aBII0JHKUd/istQULATpL9BOkwg95/AHVVUgx0tYeYPFA01/TcAdDsz9X8Lft8kGGg
+         /tTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=ptu98YJchwhOQQGBZF1DaLtTw263HmTOWVk8NpoG3o8=;
-        b=KwTkNd4w29daCu88NG7GkCuIb7Rt8KFxjtD72FhvabhUM7ArPoWUnoTSTLqMW2lFY/
-         5M7tAr8xZ6DOSzzORQrbkwzpOVxcno/p9IL0RWAcvfvEu0FOBia/tDPhRNTu1XLjzF2m
-         OXH0sXrm99e4q3+83yZHoRbgsOPiHDj+NaD/N/TMF8phneJQqszQ1A8aP9Ur0u/v8kZp
-         QSwRbdu260dcdzzw6qr1mn8FSxLa7iz60oytk9HOOsuIUlQ1uwtWCLSUayBtvpF1X+0W
-         da8DWIG8ca5Yf81nD84eAiPou4kH1MxOePds0P8BXPyirRI+gbMtkfrl1d+fAskxSIi3
-         1bTA==
-X-Gm-Message-State: AOAM531frvyZkEu3LGycepBvpAOOyXhFiGPP9f2iTAHImnmy/rUA5PRO
-	PFC5RgWzcpqieHed31iPNDz7U38UlgxSuhT8U0cCJyptz1mwqKwqhtsb+IqOiFealSR5MwFRdcz
-	W+hGKVLbQPCIMFSCWOELLFQHDSak4qfK1EWRrlHW3WkgBBdapFdWc52EKHVY/+myq15pINKyebD
-	TiLIsoTNf5nygLmc1VgT47ASilvjw36A6i7uKuti4C3w==
-X-Google-Smtp-Source: ABdhPJxJqf/MMX+Yeqp+bNu++FWChrnucsXJq/j+p+QnK/OFV4Xzgu7ZqvPRDTfS8WoRKeCLs7K2ieRflrjw
-X-Received: by 2002:a05:6808:130d:: with SMTP id y13mr691368oiv.167.1613157962638;
-        Fri, 12 Feb 2021 11:26:02 -0800 (PST)
-Return-Path: <suji.velupillai@broadcom.com>
-Received: from suji-Vostro-460.ric.broadcom.com ([192.19.228.250])
-        by smtp-relay.gmail.com with ESMTPS id x45sm1359229ooi.18.2021.02.12.11.26.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9O11mKmPyYIyJt1cWQlIAkLA8cCyGTy+zRMmc8Q8Qqg=;
+        b=He2DRbwOjNsF0+nlV0w8t1N9y+HDhFxsmbG943qQkGCrUgKIkm+p4uS8hXEH4yREAO
+         zQgpp5rw23AsWKkp9rR8ZIOWuXRJ4WPg0dI4WpnJ1UnMCLugQdkcXtWw/S7O8XEdWcXP
+         3BmKPo9zvqQeYmSesqab0ebx+x3YDHeZetSkw0LfICmBujELAxgFenXjyvGG2G+waBku
+         mr9DhRIfhggH4OFMpEVIiqYZuqNzXFs5U8bNnCwZe5NkCEqjONR0rpkx2P0UH5u+Rp8p
+         yM4AwjjeVnWSQqIJmsDX2fWloEK+O51/Tq9bAVmyP44jZgl0oCWgZLmOwAv9Kccasxp5
+         3+mQ==
+X-Gm-Message-State: AOAM532NugsAGaRJkRV7AmsLxDRxdKbUkQHGORLctXh7BJF5ArN47paV
+	HjyzW4Gqw84lBpuUqIhQTYGoNYoFr5Y=
+X-Google-Smtp-Source: ABdhPJz4toKIPyeFj2Vf3stRgvo24FsomkYLT/IwQjJKj60jpOJJChCoeH6xo+Za/1OOFSmMEDeWcA==
+X-Received: by 2002:a17:906:1f85:: with SMTP id t5mr4602535ejr.530.1613158515885;
+        Fri, 12 Feb 2021 11:35:15 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
+        by smtp.gmail.com with ESMTPSA id e20sm6662485ejr.80.2021.02.12.11.35.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Feb 2021 11:26:02 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-From: "Suji Velupillai" <suji.velupillai@broadcom.com>
+        Fri, 12 Feb 2021 11:35:15 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: suji.velupillai@broadcom.com,
-	jonathan.richardson@broadcom.com,
-	scott.branden@broadcom.com
-Subject: [OE-core][PATCH] ffmpeg: move ffmpeg config into packageconfig
-Date: Fri, 12 Feb 2021 11:25:20 -0800
-Message-Id: <20210212192520.7984-1-suji.velupillai@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] selftest/reproducible: track unusued entries in the exclusion list
+Date: Fri, 12 Feb 2021 20:35:10 +0100
+Message-Id: <20210212193510.483835-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Suji Velupillai <suji.velupillai@broadcom.com>
+This helps with trimming down the list, and towards 100% reproducibility :)
 
-Move ffmpeg configuration options to Yocto PACKAGECONFIG options.
-
-Signed-off-by: Suji Velupillai <suji.velupillai@broadcom.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-index ded8232713..bd21552332 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-@@ -46,7 +46,8 @@ DEPENDS = "nasm-native"
- inherit autotools pkgconfig
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index deddf6e50b..ecd69b3577 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -79,8 +79,8 @@ def is_excluded(package):
+     package_name = os.path.basename(package)
+     for i in exclude_packages:
+         if package_name.startswith(i):
+-            return True
+-    return False
++            return i
++    return None
  
- PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc avresample \
--                   alsa bzlib gpl lzma theora x264 zlib \
-+                   alsa bzlib gpl lzma pic pthreads shared theora x264 zlib \
-+                   ${@bb.utils.contains('AVAILTUNES', 'mips32r2', 'mips32r2', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)}"
+ MISSING = 'MISSING'
+ DIFFERENT = 'DIFFERENT'
+@@ -106,14 +106,17 @@ class PackageCompareResults(object):
+         self.different = []
+         self.different_excluded = []
+         self.same = []
++        self.active_exclusions = set()
  
- # libraries to build in addition to avutil
-@@ -85,6 +86,13 @@ PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
- PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
+     def add_result(self, r):
+         self.total.append(r)
+         if r.status == MISSING:
+             self.missing.append(r)
+         elif r.status == DIFFERENT:
+-            if is_excluded(r.reference):
++            exclusion = is_excluded(r.reference)
++            if exclusion:
+                 self.different_excluded.append(r)
++                self.active_exclusions.add(exclusion)
+             else:
+                 self.different.append(r)
+         else:
+@@ -127,7 +130,10 @@ class PackageCompareResults(object):
+         self.same.sort()
  
-+# other configuration options
-+PACKAGECONFIG[mips32r2] = ",--disable-mipsdsp --disable-mipsdspr2"
-+PACKAGECONFIG[pic] = "--enable-pic"
-+PACKAGECONFIG[pthreads] = "--enable-pthreads,--disable-pthreads"
-+PACKAGECONFIG[shared] = "--enable-shared"
-+PACKAGECONFIG[strip] = ",--disable-stripping"
+     def __str__(self):
+-        return 'same=%i different=%i different_excluded=%i missing=%i total=%i' % (len(self.same), len(self.different), len(self.different_excluded), len(self.missing), len(self.total))
++        return 'same=%i different=%i different_excluded=%i missing=%i total=%i\nunused_exclusions=%s' % (len(self.same), len(self.different), len(self.different_excluded), len(self.missing), len(self.total), self.unused_exclusions())
 +
- # Check codecs that require --enable-nonfree
- USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'openssl' ], 'yes', '', d)}"
++    def unused_exclusions(self):
++        return set(exclude_packages) - self.active_exclusions
  
-@@ -95,10 +103,6 @@ def cpu(d):
-     return 'generic'
- 
- EXTRA_OECONF = " \
--    --disable-stripping \
--    --enable-pic \
--    --enable-shared \
--    --enable-pthreads \
-     ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
-     \
-     --cross-prefix=${TARGET_PREFIX} \
-@@ -116,7 +120,6 @@ EXTRA_OECONF = " \
-     --libdir=${libdir} \
-     --shlibdir=${libdir} \
-     --datadir=${datadir}/ffmpeg \
--    ${@bb.utils.contains('AVAILTUNES', 'mips32r2', '', '--disable-mipsdsp --disable-mipsdspr2', d)} \
-     --cpu=${@cpu(d)} \
-     --pkg-config=pkg-config \
- "
+ def compare_file(reference, test, diffutils_sysroot):
+     result = CompareResult()
 -- 
-2.17.1
+2.29.2
 
