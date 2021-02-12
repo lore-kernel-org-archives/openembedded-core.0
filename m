@@ -1,76 +1,95 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web12.6594.1613148712199868817
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web10.6511.1613148722388922712
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Feb 2021 08:51:52 -0800
+ Fri, 12 Feb 2021 08:52:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=n0kmkkz4;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id d7so8969538otq.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 08:51:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bwKFQINw;
+ spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f44.google.com with SMTP id e17so2225510oow.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 08:52:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zfdhrmqOc2t3L7sH5mVpgokAnbV0j/5YeMCDpXPPqT8=;
-        b=n0kmkkz4g5fmdXafmyyRLphvBENAceDqRc8APQMn3/xANvIMVlt89AsO6Oz9/rzLGL
-         34UR6mS446w+yFgb9lr+l/VTwMOvD7Ch9LosxXxiHnXm2AlzcCipQmu/91edKfCncYQW
-         Ru34ey0zas8WTf7CQfI5MZGjr0kAcsQeRki4WWLXe90jrh7N/BQAlCHbDY60YofinkOK
-         PAHHK5hzMWH8twAG1+hpyritsSVQY9Gl60VvbqdR3/ktz1Bc6cvVCYRkkyaTT6a3gDvC
-         3PMcbgEr4G2ElxIBSefI+i3OqV9P7D3vCJYwInpLgCFcUjt3ZUryDNSq9x0DFlxAF8wI
-         Ov6w==
+        bh=DT7zyhC2ESfkG/i5AlJgietkC1zPwocCYZ3nU84hZtQ=;
+        b=bwKFQINwAbdndT2QdITZv7htn3piaQQfaSfyrZkzJFcbiIWjAoyAWeuZ50qCfJRpy1
+         hNdTIsNCtThwF7IsZYn/G9KAURsABBpXkYFXcdLf1aSCbk2mltPkSrcOQ1G+SUCEVnOS
+         GSk/Z9YONDApXrAnn2DwQUKO+JJVL+O4U3JySeDI02vyryjwN81+1tEThE6m5nKwLjQ6
+         a9YQDh6Y9WgpR1HSw7KIzW6iVhykPMKJ8dgcrnXJ0F8+EcMNDf1a6uC3pV6KtppLzC9u
+         6utV9Yg0c3oCbmkwZpQQJ1BKV4KDDmhdsXiUw9pC9F+nKMzRhnzvFNL1HK3liWfciZqw
+         7KDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zfdhrmqOc2t3L7sH5mVpgokAnbV0j/5YeMCDpXPPqT8=;
-        b=YSBoEL2Svtpiyt7Z/7h6Tkg2HlA7qutT/yGMwhOFZyzV28WSzOi4yutIuHzpdsZhud
-         DNWoONFbs0KET1aSpoOybJ02FNMM19uQxBjtbEll2givh1zcyUS5dYKW4NK7hiNrjVT1
-         h3qmH6P4lS1tJPPBRiaIU1TqpCJboxgS13QsaFgAYWbPdFIvi/OIjCzJrQmuBDK0eDba
-         1ErwQqv44AuqzYZshPgZ7ylqVBiCCkHS12I5Ty/W6Kv1Xmg/PZR0eO25QD5yy0RqGeoA
-         jHgZe4P2t/9p6p0XT8sStYnMeXrZgGF5UthqlJFdzmxh3iNH4vdjFCR84vErbl8AmfvE
-         lm+w==
-X-Gm-Message-State: AOAM532UIx94VpvREuBT8liUSFHdIU+pHQ05xu2qFH4lhJUWXuQCUY16
-	3Totm/j08pjpnpYf2UCwqhqH2MDa8Z4=
-X-Google-Smtp-Source: ABdhPJxVfemUxq96Tyrf0blo/vPr0TdvZKJf7vVJyIo1iHtAlPxzgKeIi3Hpo2CljFZWdJ/nM91+Zg==
-X-Received: by 2002:a05:6830:1653:: with SMTP id h19mr2659671otr.78.1613148711334;
-        Fri, 12 Feb 2021 08:51:51 -0800 (PST)
+        bh=DT7zyhC2ESfkG/i5AlJgietkC1zPwocCYZ3nU84hZtQ=;
+        b=q89SrQI1xOjtDHwx3VKZndVNSQTykKEApKjKFbzRHu63W5OyzvfUKPd2uJXEp2powh
+         kDQiaw13yQNm30+cd7pvnFDcZYPAiA72ISmoZzUJVRiNDBogZyGuB+Rhtxox/T5Ju/ri
+         wXO2gixn3QeUeOEnLpoH48NWALr1wEnjk54+rKg55kMHUER4BEjCexDIdVtKwIB27IfA
+         tbv3SNsuCWIk2nOVOlB2kwdUr1adisBXxKdQ66Itd/3AnmzxPC/FT4GQfEEsPck5QGK+
+         GtcV6zpOn2U6RLvbnS0KM9j/eQ+IvBLSs0eCnPc3kP2/EPGYj5RCb+DTAcf5HAcPSgXw
+         FyAg==
+X-Gm-Message-State: AOAM533Z076PCdY9xUfhlCvFGQ8044IRe7ZGK64dtcKz2V/6cF72I4vd
+	0L5k8eyq8kywKCzD+2F4taitewt669U=
+X-Google-Smtp-Source: ABdhPJwHLtqsjuQU7F52a3yDDRdxKH37XhQZSj3Wq7mjAjGyCkwHQJhm9zUSHA5HO2EdQSYezIcKew==
+X-Received: by 2002:a4a:96b3:: with SMTP id s48mr2497326ooi.11.1613148721439;
+        Fri, 12 Feb 2021 08:52:01 -0800 (PST)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id o83sm1649248ooo.37.2021.02.12.08.51.50
+        by smtp.gmail.com with ESMTPSA id k21sm1718262otl.27.2021.02.12.08.52.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Feb 2021 08:51:50 -0800 (PST)
+        Fri, 12 Feb 2021 08:52:00 -0800 (PST)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] weston: remoting backend requires GStreamer base plugins
-Date: Fri, 12 Feb 2021 10:51:46 -0600
-Message-Id: <20210212165146.21830-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] libomxil: Fix up commercial license flag
+Date: Fri, 12 Feb 2021 10:51:57 -0600
+Message-Id: <20210212165157.21896-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The remoting backend of weston requires the GStreamer base plugins, so
-add them to the PACAKGECONFIG depends list.
+The commercial license flag on libomxil is set because it may include
+the Adaptive Multi-Rate audio codec (AMR) using FFmepg, which is patent
+encumbered.
+
+It turns out this component is disabled by default in the recipe; add a
+PACKAGECONFIG to enable it and trigger the "commercial" LICENSE_FLAGS on
+it. This make the default build configuration clean unless a user
+specifically asks for AMR support, and prevents them from marking the
+recipe with the "commerical" flag unnecessarily which could hide
+potential problems later on.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-graphics/wayland/weston_9.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-index 75f9fb05fd..d60b5e1a35 100644
---- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -73,7 +73,7 @@ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-color
- # Clients support
- PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
- # Virtual remote output with GStreamer on DRM backend
--PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
-+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0 gstreamer1.0-plugins-base"
- # Weston with PAM support
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
- # Weston with screen-share support
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index 2061c280e4..82cdaf54c7 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Bellagio is an opensource implementation of the Khronos OpenMAX \
+ HOMEPAGE = "http://omxil.sourceforge.net/"
+ 
+ LICENSE = "LGPLv2.1+"
+-LICENSE_FLAGS = "commercial"
++LICENSE_FLAGS = "${@bb.utils.contains('PACKAGECONFIG', 'amr', 'commercial', '', d)}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+                     file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
+ 
+@@ -28,6 +28,10 @@ PROVIDES += "virtual/libomxil"
+ 
+ CFLAGS += "-fcommon"
+ 
++PACKAGECONFIG ??= ""
++
++PACKAGECONFIG[amr] = "--enable-amr,,"
++
+ #
+ # The .so files under ${libdir}/bellagio are not intended to be versioned and symlinked.
+ # Make sure they get packaged in the main package.
 -- 
 2.30.0
 
