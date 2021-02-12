@@ -1,211 +1,108 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.7960.1613154393071190177
+Received: from mail-oi1-f225.google.com (mail-oi1-f225.google.com [209.85.167.225])
+ by mx.groups.io with SMTP id smtpd.web11.8974.1613157963362833042
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Feb 2021 10:26:34 -0800
+ Fri, 12 Feb 2021 11:26:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=N+PXiEqX;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=D/E35/nQ;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.167.225, mailfrom: suji.velupillai@broadcom.com)
+Received: by mail-oi1-f225.google.com with SMTP id r75so776640oie.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 11:26:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1613154393;
-  x=1644690393;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=DMoOPZxBTCJ4bt6FNt2E/6Y/0hvauNqs2v4IFOwKrDw=;
-  b=N+PXiEqXHRQ4hx+ojLZuDDnUsu+/FZ7DuCdFDdHt342lDdxMoxa1Xhkp
-   pvLMZE2EPONqKG3Pf4hfcePOtxJo+4Q1FqhD8cyFxlFg1am+esBaE3l3A
-   zbeJxnILfYrBfuytm4UVq2loOL5l6y1d7ZM2KSgW5PC6fwDrECa96HEUF
-   bkhMGKmXStUtI+ZAUjMLwyFXFxvh2Qnwy3i0COh8U4Yh9ZtmtRenJl6Bb
-   hfwHJzNG5W8NYeF0trYS79TMZPuZ5di+96+BHmzyKjEVG9iubRTatihuN
-   V4oLWqErkPp+IRjbAaBImLOWbvRqT6TVgdariiw/RIZxcAL9dUcub4exb
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, Konrad Weihmann
-	<kweihmann@outlook.com>
-CC: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
-Thread-Topic: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk
- inherit order
-Thread-Index: AQHW8jbJH8a3sBu8YUStk0R8/0DzeapSl9IAgAA0sgCAAiT8kA==
-Date: Fri, 12 Feb 2021 18:26:30 +0000
-Message-ID: <d00ff6214c464610951e8984625f1eed@XBOX03.axis.com>
-References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
- <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAJkqNs21=9-B-oWU4AqLSLKZ9286N5UgoXNr7Smxr3+PqgZdVw@mail.gmail.com>
-In-Reply-To: <CAJkqNs21=9-B-oWU4AqLSLKZ9286N5UgoXNr7Smxr3+PqgZdVw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_"
+        d=broadcom.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=ptu98YJchwhOQQGBZF1DaLtTw263HmTOWVk8NpoG3o8=;
+        b=D/E35/nQzSrKH6FMcw99Y4hg6eMynSAZ5WcVoK0FXkSE0mIraHtjmlxuSGemEEdOT5
+         AE4NGcM7/N8tD+wOX6Va1theSjDZbWm3qMioe0fLNwKI6hbRLh1xtKp0yn2HrAn0ASIh
+         wCrAKJoyZ8erd4CEU780S14DMRuntt21a59aM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ptu98YJchwhOQQGBZF1DaLtTw263HmTOWVk8NpoG3o8=;
+        b=KwTkNd4w29daCu88NG7GkCuIb7Rt8KFxjtD72FhvabhUM7ArPoWUnoTSTLqMW2lFY/
+         5M7tAr8xZ6DOSzzORQrbkwzpOVxcno/p9IL0RWAcvfvEu0FOBia/tDPhRNTu1XLjzF2m
+         OXH0sXrm99e4q3+83yZHoRbgsOPiHDj+NaD/N/TMF8phneJQqszQ1A8aP9Ur0u/v8kZp
+         QSwRbdu260dcdzzw6qr1mn8FSxLa7iz60oytk9HOOsuIUlQ1uwtWCLSUayBtvpF1X+0W
+         da8DWIG8ca5Yf81nD84eAiPou4kH1MxOePds0P8BXPyirRI+gbMtkfrl1d+fAskxSIi3
+         1bTA==
+X-Gm-Message-State: AOAM531frvyZkEu3LGycepBvpAOOyXhFiGPP9f2iTAHImnmy/rUA5PRO
+	PFC5RgWzcpqieHed31iPNDz7U38UlgxSuhT8U0cCJyptz1mwqKwqhtsb+IqOiFealSR5MwFRdcz
+	W+hGKVLbQPCIMFSCWOELLFQHDSak4qfK1EWRrlHW3WkgBBdapFdWc52EKHVY/+myq15pINKyebD
+	TiLIsoTNf5nygLmc1VgT47ASilvjw36A6i7uKuti4C3w==
+X-Google-Smtp-Source: ABdhPJxJqf/MMX+Yeqp+bNu++FWChrnucsXJq/j+p+QnK/OFV4Xzgu7ZqvPRDTfS8WoRKeCLs7K2ieRflrjw
+X-Received: by 2002:a05:6808:130d:: with SMTP id y13mr691368oiv.167.1613157962638;
+        Fri, 12 Feb 2021 11:26:02 -0800 (PST)
+Return-Path: <suji.velupillai@broadcom.com>
+Received: from suji-Vostro-460.ric.broadcom.com ([192.19.228.250])
+        by smtp-relay.gmail.com with ESMTPS id x45sm1359229ooi.18.2021.02.12.11.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Feb 2021 11:26:02 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+From: "Suji Velupillai" <suji.velupillai@broadcom.com>
+To: openembedded-core@lists.openembedded.org
+Cc: suji.velupillai@broadcom.com,
+	jonathan.richardson@broadcom.com,
+	scott.branden@broadcom.com
+Subject: [OE-core][PATCH] ffmpeg: move ffmpeg config into packageconfig
+Date: Fri, 12 Feb 2021 11:25:20 -0800
+Message-Id: <20210212192520.7984-1-suji.velupillai@broadcom.com>
+X-Mailer: git-send-email 2.17.1
 
---_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Suji Velupillai <suji.velupillai@broadcom.com>
 
-U2luY2UgdGhlIG9yZGVyIG9mIGluaGVyaXRpbmcgbmF0aXZlL25hdGl2ZXNkayBpcyBpbXBvcnRh
-bnQsIHJhdGhlciB0aGFuIGFkZGluZyB3YXJuaW5ncyBhYm91dCB3aGVuIGl0IGlzIGRvbmUgaW4g
-dGhlIHdyb25nIG9yZGVyLCB3aGljaCBjb25mbGljdHMgd2l0aCBiYmFwcGVuZHMgdGhhdCB3YW50
-IHRvIGFkZCBpbmhlcml0IHN0YXRlbWVudHMgZm9yIG5hdGl2ZSByZWNpcGVzLCB3b3VsZG7igJl0
-IGl0IG1ha2Ugc2Vuc2UgdG8gaW5zdGVhZCBoYW5kbGUgdGhpcyBwcm9wZXJseSBpbiB0aGUgY29k
-ZSBzbyB0aGF0IG5hdGl2ZS9uYXRpdmVzZGsgYXJlIGFsd2F5cyBpbmhlcml0ZWQgbGFzdC4gQW4g
-aWRlYSB0byBzb2x2ZSB0aGlzIHdvdWxkIGJlIHRvIHJlbmFtZSBuYXRpdmUuYmJjbGFzcyBhbmQg
-bmF0aXZlc2RrLmJiY2xhc3MgdG8sIGUuZy4sIG5hdGl2ZS1pbnRlcm5hbC5iYmNsYXNzIGFuZCBu
-YXRpdmVzZGstaW50ZXJuYWwuYmJjbGFzcywgYW5kIHRoZW4gbWFrZSB0aGUgb3JpZ2luYWwgY2xh
-c3NlcyBvbmx5IHNldCBhIHNwZWNpYWwgdmFyaWFibGUgKHNpbWlsYXIgdG8gQkJDTEFTU0VYVEVO
-RCksIGFuZCB0aGVuIGxhdGVyIHdoZW4gaXQgaXMgYXBwcm9wcmlhdGUgY2hlY2sgdGhpcyB2YXJp
-YWJsZSBhbmQgaW1wb3J0IHRoZSBuYXRpdmUtaW50ZXJuYWwvbmF0aXZlc2RrLWludGVybmFsIGNs
-YXNzLg0KDQovL1BldGVyDQoNCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJl
-aGFsZiBPZiBUb21hc3ogRHppZW5kemllbHNraQ0KU2VudDogZGVuIDExIGZlYnJ1YXJpIDIwMjEg
-MTE6MzANClRvOiBLb25yYWQgV2VpaG1hbm4gPGt3ZWlobWFubkBvdXRsb29rLmNvbT4NCkNjOiBv
-cGVuZW1iZWRkZWQtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMl0gaW5zYW5lOiBBZGQgdGVzdCBm
-b3IgbmF0aXZlL25hdGl2ZXNkayBpbmhlcml0IG9yZGVyDQoNCj5BZnRlciB0aGlzIHBhdGNoIGdv
-dCBtZXJnZWQgSSBub3RpY2Ugc29tZSAibm9pc2UiIGluIG15IGJ1aWxkcy4NCj4NCj5Gb3IgYmJh
-cHBlbmRzIHdoaWNoIGluaGVyaXQgdW5yZWxhdGVkIGNsYXNzZXMgSSBnZXQgYSBsb3Qgb2Ygd2Fy
-bmluZyBsaWtlDQo+DQo+SXNzdWU6IG5hdGl2ZXNkay1vcGVuc3NoOiBuYXRpdmUvbmF0aXZlc2Rr
-IGNsYXNzIGlzIG5vdCBpbmhlcml0ZWQgbGFzdCwNCj50aGlzIGNhbiByZXN1bHQgaW4gdW5leHBl
-Y3RlZCBiZWhhdmlvdXIuIENsYXNzZXMgaW5oZXJpdGVkIGFmdGVyDQo+bmF0aXZlL25hdGl2ZXNk
-azogbXktY3VzdG9tLWNsYXNzLmJiY2xhc3MgW25hdGl2ZS1sYXN0XQ0KPg0KPkZpcnN0IGl0IGRv
-ZXNuJ3QgZ2l2ZSBhbnkgaGludCB0aGF0IHRoaXMgaXMgY2F1c2VkIGJ5IHRoZSBiYmFwcGVuZCBh
-bmQNCj5zZWNvbmRseSBJIGhhdmUgbm8gaWRlYSBob3cgdG8gZml4IHRoYXQgKGlmIHRoYXQgaXMg
-ZXZlbiBwb3NzaWJsZSkuDQo+DQo+U28gSSB3b3VsZCBsaWtlIHRvIGhhdmUgYXQgbGVhc3QgYW4g
-b3B0aW9uIHRvIGlnbm9yZSB0aGVzZSB3YXJuaW5ncyBmb3INCj5jbGFzc2VzIEknbSBzdXJlIGRv
-bid0IGNhdXNlIGFueSBjb25mbGljdCAtIHNvbWV0aGluZyBtb3JlIGdyYW51bGFyIHRoZW4NCj5q
-dXN0IHRvIGRlYWN0aXZhdGUgdGhpcyBwcmV0dHkgdXNlZnVsIGNoZWNrLg0KPg0KPlRob3VnaHRz
-Pw0KDQpJIHRoaW5rIGl0J3MgYSBnb29kIGlkZWEgdG8ganVzdCBpZ25vcmUgc3BlY2lmaWMgY2xh
-c3Nlcy4gVGhlIGRpZmYgYmVsb3cgc2hvdWxkIGJlIGVub3VnaCwgd2l0aCBzb21lIGFkZGl0aW9u
-YWwgbm90ZSBpbiB0aGUgd2FybmluZyBtZXNzYWdlLiBJJ2xsIGNoZWNrIGlmIGl0IHdvcmtzIGNv
-cnJlY3RseSBsYXRlciB0b2RheS4NCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUu
-YmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KaW5kZXggNTMyMzBmYzY2Ny4u
-MmY1M2E5YmUwOSAxMDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KKysr
-IGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQpAQCAtMTM4MSw2ICsxMzgxLDEwIEBAIHB5
-dGhvbiAoKSB7DQogICAgICAgICAgICAgICAgICAgICAjIG5hdGl2ZSBhbHNvIGluaGVyaXRzIG5v
-cGFja2FnZXMgYW5kIHJlbG9jYXRhYmxlIGJiY2xhc3Nlcw0KICAgICAgICAgICAgICAgICAgICAg
-c2tpcF9jbGFzc2VzLmV4dGVuZChbJ25vcGFja2FnZXMnLCAncmVsb2NhdGFibGUnXSkNCg0KKyAg
-ICAgICAgICAgICAgICBleHRyYV9za2lwX2NsYXNzZXMgPSAoZC5nZXRWYXIoJ05BVElWRV9MQVNU
-X0lHTk9SRV9DTEFTU0VTJykgb3IgJycpLnNwbGl0KCkNCisgICAgICAgICAgICAgICAgaWYgZXh0
-cmFfc2tpcF9jbGFzc2VzOg0KKyAgICAgICAgICAgICAgICAgICAgc2tpcF9jbGFzc2VzLmV4dGVu
-ZChleHRyYV9za2lwX2NsYXNzZXMpDQorDQogICAgICAgICAgICAgICAgIGJyb2tlbl9vcmRlciA9
-IFtdDQogICAgICAgICAgICAgICAgIGZvciBjbGFzc19pdGVtIGluIHJldmVyc2VkKGluaGVyaXRl
-ZF9jbGFzc2VzKToNCiAgICAgICAgICAgICAgICAgICAgIGlmIG5lZWRsZSBub3QgaW4gY2xhc3Nf
-aXRlbToNCg0KQmVzdCByZWdhcmRzLA0KVG9tYXN6IER6aWVuZHppZWxza2kNCg==
+Move ffmpeg configuration options to Yocto PACKAGECONFIG options.
 
---_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Suji Velupillai <suji.velupillai@broadcom.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1z
-dHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNl
-cmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5bGU6
-bm9ybWFsO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
-CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24x
-DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
-bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
-bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
-OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
-ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlNWIiBsaW5r
-PSIjMDU2M0MxIiB2bGluaz0iIzk1NEY3MiIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4N
-CjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
-YW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4t
-VVMiPlNpbmNlIHRoZSBvcmRlciBvZiBpbmhlcml0aW5nIG5hdGl2ZS9uYXRpdmVzZGsgaXMgaW1w
-b3J0YW50LCByYXRoZXIgdGhhbiBhZGRpbmcgd2FybmluZ3MgYWJvdXQgd2hlbiBpdCBpcyBkb25l
-IGluIHRoZSB3cm9uZyBvcmRlciwgd2hpY2ggY29uZmxpY3RzIHdpdGggYmJhcHBlbmRzIHRoYXQg
-d2FudA0KIHRvIGFkZCBpbmhlcml0IHN0YXRlbWVudHMgZm9yIG5hdGl2ZSByZWNpcGVzLCB3b3Vs
-ZG7igJl0IGl0IG1ha2Ugc2Vuc2UgdG8gaW5zdGVhZCBoYW5kbGUgdGhpcyBwcm9wZXJseSBpbiB0
-aGUgY29kZSBzbyB0aGF0IG5hdGl2ZS9uYXRpdmVzZGsgYXJlIGFsd2F5cyBpbmhlcml0ZWQgbGFz
-dC4gQW4gaWRlYSB0byBzb2x2ZSB0aGlzIHdvdWxkIGJlIHRvIHJlbmFtZSBuYXRpdmUuYmJjbGFz
-cyBhbmQgbmF0aXZlc2RrLmJiY2xhc3MgdG8sIGUuZy4sIG5hdGl2ZS1pbnRlcm5hbC5iYmNsYXNz
-DQogYW5kIG5hdGl2ZXNkay1pbnRlcm5hbC5iYmNsYXNzLCBhbmQgdGhlbiBtYWtlIHRoZSBvcmln
-aW5hbCBjbGFzc2VzIG9ubHkgc2V0IGEgc3BlY2lhbCB2YXJpYWJsZSAoc2ltaWxhciB0byBCQkNM
-QVNTRVhURU5EKSwgYW5kIHRoZW4gbGF0ZXIgd2hlbiBpdCBpcyBhcHByb3ByaWF0ZSBjaGVjayB0
-aGlzIHZhcmlhYmxlIGFuZCBpbXBvcnQgdGhlIG5hdGl2ZS1pbnRlcm5hbC9uYXRpdmVzZGstaW50
-ZXJuYWwgY2xhc3MuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1
-YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3Qt
-bGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZh
-cmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYg
-c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzow
-Y20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
-LXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48
-c3BhbiBsYW5nPSJFTi1VUyI+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7DQo8Yj5P
-biBCZWhhbGYgT2YgPC9iPlRvbWFzeiBEemllbmR6aWVsc2tpPGJyPg0KPGI+U2VudDo8L2I+IGRl
-biAxMSBmZWJydWFyaSAyMDIxIDExOjMwPGJyPg0KPGI+VG86PC9iPiBLb25yYWQgV2VpaG1hbm4g
-Jmx0O2t3ZWlobWFubkBvdXRsb29rLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRl
-ZC1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzJdIGluc2FuZTogQWRk
-IHRlc3QgZm9yIG5hdGl2ZS9uYXRpdmVzZGsgaW5oZXJpdCBvcmRlcjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7QWZ0ZXIgdGhpcyBwYXRj
-aCBnb3QgbWVyZ2VkIEkgbm90aWNlIHNvbWUgJnF1b3Q7bm9pc2UmcXVvdDsgaW4gbXkgYnVpbGRz
-Ljxicj4NCiZndDs8YnI+DQomZ3Q7Rm9yIGJiYXBwZW5kcyB3aGljaCBpbmhlcml0IHVucmVsYXRl
-ZCBjbGFzc2VzIEkgZ2V0IGEgbG90IG9mIHdhcm5pbmcgbGlrZTxicj4NCiZndDs8YnI+DQomZ3Q7
-SXNzdWU6IG5hdGl2ZXNkay1vcGVuc3NoOiBuYXRpdmUvbmF0aXZlc2RrIGNsYXNzIGlzIG5vdCBp
-bmhlcml0ZWQgbGFzdCwgPGJyPg0KJmd0O3RoaXMgY2FuIHJlc3VsdCBpbiB1bmV4cGVjdGVkIGJl
-aGF2aW91ci4gQ2xhc3NlcyBpbmhlcml0ZWQgYWZ0ZXIgPGJyPg0KJmd0O25hdGl2ZS9uYXRpdmVz
-ZGs6IG15LWN1c3RvbS1jbGFzcy5iYmNsYXNzIFtuYXRpdmUtbGFzdF08YnI+DQomZ3Q7PGJyPg0K
-Jmd0O0ZpcnN0IGl0IGRvZXNuJ3QgZ2l2ZSBhbnkgaGludCB0aGF0IHRoaXMgaXMgY2F1c2VkIGJ5
-IHRoZSBiYmFwcGVuZCBhbmQ8YnI+DQomZ3Q7c2Vjb25kbHkgSSBoYXZlIG5vIGlkZWEgaG93IHRv
-IGZpeCB0aGF0IChpZiB0aGF0IGlzIGV2ZW4gcG9zc2libGUpLjxicj4NCiZndDs8YnI+DQomZ3Q7
-U28gSSB3b3VsZCBsaWtlIHRvIGhhdmUgYXQgbGVhc3QgYW4gb3B0aW9uIHRvIGlnbm9yZSB0aGVz
-ZSB3YXJuaW5ncyBmb3IgPGJyPg0KJmd0O2NsYXNzZXMgSSdtIHN1cmUgZG9uJ3QgY2F1c2UgYW55
-IGNvbmZsaWN0IC0gc29tZXRoaW5nIG1vcmUgZ3JhbnVsYXIgdGhlbiA8YnI+DQomZ3Q7anVzdCB0
-byBkZWFjdGl2YXRlIHRoaXMgcHJldHR5IHVzZWZ1bCBjaGVjay48YnI+DQomZ3Q7PG86cD48L286
-cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0O1Rob3VnaHRzPzxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIHRoaW5rIGl0
-J3MgYSBnb29kIGlkZWEgdG8ganVzdCBpZ25vcmUgc3BlY2lmaWMgY2xhc3Nlcy4gVGhlIGRpZmYg
-YmVsb3cgc2hvdWxkIGJlIGVub3VnaCwgd2l0aCBzb21lIGFkZGl0aW9uYWwgbm90ZSBpbiB0aGUg
-d2FybmluZyBtZXNzYWdlLiBJJ2xsIGNoZWNrIGlmIGl0IHdvcmtzIGNvcnJlY3RseSBsYXRlciB0
-b2RheS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcyBiL21ldGEvY2xhc3Nl
-cy9pbnNhbmUuYmJjbGFzczxicj4NCmluZGV4IDUzMjMwZmM2NjcuLjJmNTNhOWJlMDkgMTAwNjQ0
-PGJyPg0KLS0tIGEvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzPGJyPg0KJiM0MzsmIzQzOyYj
-NDM7IGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzPGJyPg0KQEAgLTEzODEsNiAmIzQzOzEz
-ODEsMTAgQEAgcHl0aG9uICgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IyBuYXRpdmUgYWxz
-byBpbmhlcml0cyBub3BhY2thZ2VzIGFuZCByZWxvY2F0YWJsZSBiYmNsYXNzZXM8YnI+DQombmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7c2tpcF9jbGFzc2VzLmV4dGVuZChbJ25vcGFja2FnZXMnLCAncmVsb2Nh
-dGFibGUnXSk8YnI+DQombmJzcDs8YnI+DQomIzQzOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZXh0cmFfc2tpcF9jbGFzc2VzID0gKGQuZ2V0
-VmFyKCdOQVRJVkVfTEFTVF9JR05PUkVfQ0xBU1NFUycpIG9yICcnKS5zcGxpdCgpPGJyPg0KJiM0
-MzsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-O2lmIGV4dHJhX3NraXBfY2xhc3Nlczo8YnI+DQomIzQzOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtza2lwX2NsYXNz
-ZXMuZXh0ZW5kKGV4dHJhX3NraXBfY2xhc3Nlcyk8YnI+DQomIzQzOzxicj4NCiZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7YnJva2Vu
-X29yZGVyID0gW108YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwO2ZvciBjbGFzc19pdGVtIGluIHJldmVyc2VkKGluaGVyaXRl
-ZF9jbGFzc2VzKTo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgbmVlZGxlIG5vdCBpbiBjbGFz
-c19pdGVtOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj5CZXN0IHJlZ2FyZHMsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5Ub21hc3ogRHppZW5kemllbHNraTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+index ded8232713..bd21552332 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+@@ -46,7 +46,8 @@ DEPENDS = "nasm-native"
+ inherit autotools pkgconfig
+ 
+ PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc avresample \
+-                   alsa bzlib gpl lzma theora x264 zlib \
++                   alsa bzlib gpl lzma pic pthreads shared theora x264 zlib \
++                   ${@bb.utils.contains('AVAILTUNES', 'mips32r2', 'mips32r2', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)}"
+ 
+ # libraries to build in addition to avutil
+@@ -85,6 +86,13 @@ PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
+ PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
+ 
++# other configuration options
++PACKAGECONFIG[mips32r2] = ",--disable-mipsdsp --disable-mipsdspr2"
++PACKAGECONFIG[pic] = "--enable-pic"
++PACKAGECONFIG[pthreads] = "--enable-pthreads,--disable-pthreads"
++PACKAGECONFIG[shared] = "--enable-shared"
++PACKAGECONFIG[strip] = ",--disable-stripping"
++
+ # Check codecs that require --enable-nonfree
+ USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'openssl' ], 'yes', '', d)}"
+ 
+@@ -95,10 +103,6 @@ def cpu(d):
+     return 'generic'
+ 
+ EXTRA_OECONF = " \
+-    --disable-stripping \
+-    --enable-pic \
+-    --enable-shared \
+-    --enable-pthreads \
+     ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
+     \
+     --cross-prefix=${TARGET_PREFIX} \
+@@ -116,7 +120,6 @@ EXTRA_OECONF = " \
+     --libdir=${libdir} \
+     --shlibdir=${libdir} \
+     --datadir=${datadir}/ffmpeg \
+-    ${@bb.utils.contains('AVAILTUNES', 'mips32r2', '', '--disable-mipsdsp --disable-mipsdspr2', d)} \
+     --cpu=${@cpu(d)} \
+     --pkg-config=pkg-config \
+ "
+-- 
+2.17.1
 
---_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_--
