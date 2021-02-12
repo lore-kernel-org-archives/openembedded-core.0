@@ -1,114 +1,72 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.1620.1613099588670592375
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web08.2444.1613105651086209474
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Feb 2021 19:13:09 -0800
+ Thu, 11 Feb 2021 20:54:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b+LNBv9r;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.47, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f47.google.com with SMTP id n10so6021728wmq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 19:13:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nfNzmpWq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: champagne.guillaume.c@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id h8so7681073qkk.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Feb 2021 20:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g6tQ5DwBsE398+oknIsnEQdKUn+H1JJzjdh9MD/VPpM=;
-        b=b+LNBv9rle72oSxW7YpuVflipdG2zXW24AFPwY70qmpv2wZZRTslSI5SIx6P5YDzkW
-         ALTSrA1KdXSQVaEdXx8JbZUy+wJoH2eb/epFoKJkmuGuvN2Bqk5LKP/6G2wmFZdVgKea
-         q+fal5PtGNV6wBfx13k1hoYYjCYeh2C1H8HyAbtj90EJhAH7jL+rUbUYxfgya2AbwyUP
-         RUe/itAz89p+ZKxrzJiOrcGw2sNhXUJk/ayg3O0nw1qtMT8Rlx7hr+phYSfWYnkBoyvU
-         z5Fm6EuxagEtk/XcKfEOni0mPCu1XQ9CkA8Bkppb37J6OSOtEW8cl3T2hAUQ6G9vOLXn
-         gxEg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBAmI/JWbrX7O/y1E1xwgAxoGwjWRpWAuiZ3CfefTqg=;
+        b=nfNzmpWqlrlMBFhfcjNDvpratuCh3dCBbMFMyZXeh3tIJIvDuM9zBKqhebp2ubU0Me
+         aKSKI09C0iAiGMY8cMxPcE5A5Pun036k7vsrV6PMFTkcbv3OwOaOG7J7UWyOeaykl+Pd
+         wuI2bdxJq+q9bit/cYskj4gXMgcNAH2Ws40AbGb4SQE6zJ4BtGRKFxZgVPOUdpDCE0iG
+         KTDWov6Ymu3dZe6H7K9dv3zmEnQ7A+xiWF3haW0z55Ns+FwsOuVYbg1rxgOMJtYfGCpg
+         32qACLfO3OMzbq+5rr6LB4gcO5cDuICS5oks287MdEiIRTmP79jcdWQFK45c+4w+KzPg
+         wUXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g6tQ5DwBsE398+oknIsnEQdKUn+H1JJzjdh9MD/VPpM=;
-        b=I8GJKHXkzZM6vcuoXbaA3KUzg9H9xdNz26u88Va6FjDOLb4pX7udE5hXF1DUS4hmN8
-         DXDlwFXt54NsnWjWJppUZdzHbjGxquWMU9PzJh6vIwXW42v8ngTyhabEXf6nD2e9AAZE
-         PoT9JdHPwcyjI54qtW8zruskNlMOj/DutKkcQA2zPCUwjLAHT63yppMg3KtSgPAa22Xb
-         7gNVNbGYCkcwcnBJ7Iv/1wGzDdvRTc1mOvW1jns6FWYbsS+rxa2glpbskZ5A4y+yz2Ms
-         hCOcYT0TyfKdDsPj+ouEspBKpjELUZ6hjlHcFPlB1qBEVYN1NY1lmRJqYK8AxpwNaQg1
-         pv9Q==
-X-Gm-Message-State: AOAM532IFlYuKd1HVbrFE6wdj4f680FZrO/uT7dypgzfhHzU+lc6KTwR
-	jTJ3lw2P080mlJCkV4DvzIVD/fOklQmSllvXEwkg1Q==
-X-Google-Smtp-Source: ABdhPJz4NITzCHp252YzPq+e9V8ahE2oxvYCca8w7UjTKSajWg5hU1p/Q9g8jjNHf0dKpTzXI5AyHLNB7pDNsfQSb64=
-X-Received: by 2002:a05:600c:2056:: with SMTP id p22mr773792wmg.12.1613099587117;
- Thu, 11 Feb 2021 19:13:07 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBAmI/JWbrX7O/y1E1xwgAxoGwjWRpWAuiZ3CfefTqg=;
+        b=dgJUoSK6rTkEiWxw0CqSaWNwF8st//cH3gv/C249D9rbMqw6WFYSHXUq9HG7EAjpJ2
+         SteDvRvHCZPhxZWeSMt87/Hq0G6y+tEJTqlRmlYW+mrg9P+N0hoFRY2GlAqNS9Fcqddw
+         rPVH/rRaPNHdgMnlbfb2CsQ4EAQQu6Xm9A+4+oO+qczrPUKGnKGFpp9mAGnsn/luM35e
+         JA+AokhUs/0vm1RhAs6yx1lb22u8iBYg6ZfNB5mjX+0NG6EQkQ06Fg9G7pcs3d21q8IX
+         NvL71ArRGZx6VN4yZqdCRRKhIXTQKOvXnDwI/QH29D2DhTer196YTEIOw+BBZBjrg64+
+         nAZQ==
+X-Gm-Message-State: AOAM530+oL7qr/Xf1jvDJJdJT+ESf1psvyxICKEv1s7UBxRvWg62dEPw
+	kDyYD+76YI487le59kPwnlEWpmuFBqQ=
+X-Google-Smtp-Source: ABdhPJxBZlbKvtVB3OrR/DhZJXwhDQ5VVNDE2F4E6OkJebyXDA9upQXqd2lLZTE9UxOdMHxCeoRowA==
+X-Received: by 2002:a37:490c:: with SMTP id w12mr1158342qka.156.1613105650228;
+        Thu, 11 Feb 2021 20:54:10 -0800 (PST)
+Return-Path: <champagne.guillaume.c@gmail.com>
+Received: from gchdesk.Sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
+        by smtp.googlemail.com with ESMTPSA id i6sm4992703qti.30.2021.02.11.20.54.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Feb 2021 20:54:09 -0800 (PST)
+From: "Guillaume Champagne" <champagne.guillaume.c@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+Subject: [RFC PATCH 0/2] replace qemuboot.conf by qemuboot.json
+Date: Thu, 11 Feb 2021 23:53:33 -0500
+Message-Id: <20210212045335.16612-1-champagne.guillaume.c@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210211132126.83665-1-chee.yang.lee@intel.com>
-In-Reply-To: <20210211132126.83665-1-chee.yang.lee@intel.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 11 Feb 2021 17:12:55 -1000
-Message-ID: <CAOSpxdYSGZSbAJ3b-3oYCJe9LY91Q4-zCh+p61pvPpYPv85yoQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] sudo: 1.8.31 -> 1.8.32
-To: Lee Chee Yang <chee.yang.lee@intel.com>, Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 11, 2021 at 3:21 AM Lee Chee Yang <chee.yang.lee@intel.com> wrote:
->
-> From: Lee Chee Yang <chee.yang.lee@intel.com>
->
-> release notes:
-> https://www.sudo.ws/legacy.html#1.8.32
->
-> updates include fixes for
-> CVE-2021-23239
-> CVE-2021-23240
+This fixes bug #12503. Sending this as an RFC since I'm not sure what to
+do with autobuilder-worker-prereq-tests. It fetches a qemuboot.conf from
+yoctoproject.org, but this cannot be changed yet to qemuboot.json since
+it doesn't exist on there.
 
-I'm getting do_compile errors with musl builds:
+A patch is also sent to the docs mailing list to update references to
+qemuboot.conf in the documentation.
 
-https://errors.yoctoproject.org/Errors/Details/570494/
+Guillaume Champagne (2):
+  runqemu: replace qemuboot.conf by qemuboot.json
+  baremetal-image: change comment to qemuboot.json
 
-In file included from ../../../sudo-1.8.32/lib/util/progname.c:36:
-../../../sudo-1.8.32/include/sudo_compat.h:318: warning:
-"WIFCONTINUED" redefined
+ meta/classes/baremetal-image.bbclass    |  2 +-
+ meta/classes/qemuboot.bbclass           | 18 +++++------
+ meta/lib/oeqa/selftest/cases/runqemu.py |  6 ++--
+ scripts/runqemu                         | 40 ++++++++++++-------------
+ 4 files changed, 33 insertions(+), 33 deletions(-)
 
-318 | # define WIFCONTINUED(x) 0
+-- 
+2.20.1
 
-Steve
-
-> Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-> ---
->  meta/recipes-extended/sudo/sudo.inc                           | 2 +-
->  meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (92%)
->
-> diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-> index 5d27d46928..aeedfc1a23 100644
-> --- a/meta/recipes-extended/sudo/sudo.inc
-> +++ b/meta/recipes-extended/sudo/sudo.inc
-> @@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
->  BUGTRACKER = "http://www.sudo.ws/bugs/"
->  SECTION = "admin"
->  LICENSE = "ISC & BSD & Zlib"
-> -LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
-> +LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
->                      file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
->                      file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
->                      file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-> diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-> similarity index 92%
-> rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
-> rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
-> index 39d8817c32..af875f5b4c 100644
-> --- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
-> +++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-> @@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
->
->  PAM_SRC_URI = "file://sudo.pam"
->
-> -SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
-> -SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
-> +SRC_URI[md5sum] = "a7318202ba391079a0e32933f0fb8bd6"
-> +SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
->
->  DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->  RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
-> --
-> 2.17.1
->
->
-> 
->
