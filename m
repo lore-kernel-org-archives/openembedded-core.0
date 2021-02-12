@@ -1,74 +1,211 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web09.7984.1613153796627953272
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.7960.1613154393071190177
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Feb 2021 10:16:36 -0800
+ Fri, 12 Feb 2021 10:26:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qe/XxUq0;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id 18so571703oiz.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 10:16:36 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=N+PXiEqX;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=YrD7t7URZj39KxfnHkuruWKv/FxaVU02Fk0/z8GzNQo=;
-        b=Qe/XxUq0DHUj8/84D8FKxCuTHpURwP6rTQqZ8Z7UPA1fKM9tqiqE9htXsJmMPAXJre
-         8eVt6Mj4PI0pkmj1JRWBUr02R+pGUl51SgnhRo0oSireG4I21+zUVu6VQEyT0Tq2FM2I
-         lZqobW4VPnkV+j0lLZ2Sjgim4IgTPgho7sAF1nW/+es+L3pkOhz8FBy5gZMyPwnyDjRV
-         /Kr6yosWtqVod2FnpaisSzD9RtA0mfwA9ykCw7jPpu5v0ohlrpvH0LLfGV9+DSskfwRS
-         xN442wXyDIDqdSlaWeFge9prXMjF7HGJ8MJD5dUt4O58QwVBLd4upy9wbkkt2wm5AW/T
-         lezA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=YrD7t7URZj39KxfnHkuruWKv/FxaVU02Fk0/z8GzNQo=;
-        b=sZuE+n3rQh/OYPIIXWlrnoth21+4Y1Vz6WTjjWAM9Nz+pbIhBusGLqao5HetxyJnms
-         p7Q4xmH2Awh2VDe/Lc1wtTohNKPawY6iDanUyxrEL9dWYSWKzgdw10CmN2vUIl+MN3yL
-         i8c+RMHVLILNElv2c1nhysDcy0xfqLm6zK0r2SD/o+uFs/NijG3989E4p6olOrV7cj23
-         4V/niJYk0cq5vBq/fTZ3Cr17Wh7MNqmVwH6JMm/OZ03Nw/OUQj3elxZkiy4+Yk1Xj8YJ
-         XAHi+E+9DYQ5EwLhl5cD5bRJ+m6JHJopIi/dT8+G/2Lf5QwETYNKB1GfwYGgI9P5dOJn
-         1W4A==
-X-Gm-Message-State: AOAM533JqWsWTP7oN11KhsoLhE4t+a5/q3ig4a1gA3pPzmWzLliR++7C
-	8hk0dNdjofLFkWyFn0wnxzVa4e126Ak=
-X-Google-Smtp-Source: ABdhPJzizl5BXVpMK2J0xoPGtY2cBxelhyB8n5CO+oUk8PQtLECZKYCvSPPMrtUf+mbUmxPjD+VyGw==
-X-Received: by 2002:aca:1003:: with SMTP id 3mr506220oiq.22.1613153795763;
-        Fri, 12 Feb 2021 10:16:35 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id l67sm1956932oih.57.2021.02.12.10.16.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Feb 2021 10:16:35 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core][PATCH] weston: remoting backend requires GStreamer base plugins
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210212165146.21830-1-JPEWhacker@gmail.com>
- <CAP9ODKp=mKt+9gekQmb3gF-tueWfS9tnr9JVJmHvXorqdwU1ow@mail.gmail.com>
-Message-ID: <3dbd00de-129c-39fa-f94c-b9f76ab9deab@gmail.com>
-Date: Fri, 12 Feb 2021 12:16:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1613154393;
+  x=1644690393;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=DMoOPZxBTCJ4bt6FNt2E/6Y/0hvauNqs2v4IFOwKrDw=;
+  b=N+PXiEqXHRQ4hx+ojLZuDDnUsu+/FZ7DuCdFDdHt342lDdxMoxa1Xhkp
+   pvLMZE2EPONqKG3Pf4hfcePOtxJo+4Q1FqhD8cyFxlFg1am+esBaE3l3A
+   zbeJxnILfYrBfuytm4UVq2loOL5l6y1d7ZM2KSgW5PC6fwDrECa96HEUF
+   bkhMGKmXStUtI+ZAUjMLwyFXFxvh2Qnwy3i0COh8U4Yh9ZtmtRenJl6Bb
+   hfwHJzNG5W8NYeF0trYS79TMZPuZ5di+96+BHmzyKjEVG9iubRTatihuN
+   V4oLWqErkPp+IRjbAaBImLOWbvRqT6TVgdariiw/RIZxcAL9dUcub4exb
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, Konrad Weihmann
+	<kweihmann@outlook.com>
+CC: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
+Thread-Topic: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk
+ inherit order
+Thread-Index: AQHW8jbJH8a3sBu8YUStk0R8/0DzeapSl9IAgAA0sgCAAiT8kA==
+Date: Fri, 12 Feb 2021 18:26:30 +0000
+Message-ID: <d00ff6214c464610951e8984625f1eed@XBOX03.axis.com>
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+ <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAJkqNs21=9-B-oWU4AqLSLKZ9286N5UgoXNr7Smxr3+PqgZdVw@mail.gmail.com>
+In-Reply-To: <CAJkqNs21=9-B-oWU4AqLSLKZ9286N5UgoXNr7Smxr3+PqgZdVw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKp=mKt+9gekQmb3gF-tueWfS9tnr9JVJmHvXorqdwU1ow@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_"
 
+--_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2/12/21 11:59 AM, Otavio Salvador wrote:
-> Em sex., 12 de fev. de 2021 às 13:52, Joshua Watt
-> <JPEWhacker@gmail.com> escreveu:
->> -PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
->> +PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0 gstreamer1.0-plugins-base"
-> The base is needed as build dependency or runtime?
+U2luY2UgdGhlIG9yZGVyIG9mIGluaGVyaXRpbmcgbmF0aXZlL25hdGl2ZXNkayBpcyBpbXBvcnRh
+bnQsIHJhdGhlciB0aGFuIGFkZGluZyB3YXJuaW5ncyBhYm91dCB3aGVuIGl0IGlzIGRvbmUgaW4g
+dGhlIHdyb25nIG9yZGVyLCB3aGljaCBjb25mbGljdHMgd2l0aCBiYmFwcGVuZHMgdGhhdCB3YW50
+IHRvIGFkZCBpbmhlcml0IHN0YXRlbWVudHMgZm9yIG5hdGl2ZSByZWNpcGVzLCB3b3VsZG7igJl0
+IGl0IG1ha2Ugc2Vuc2UgdG8gaW5zdGVhZCBoYW5kbGUgdGhpcyBwcm9wZXJseSBpbiB0aGUgY29k
+ZSBzbyB0aGF0IG5hdGl2ZS9uYXRpdmVzZGsgYXJlIGFsd2F5cyBpbmhlcml0ZWQgbGFzdC4gQW4g
+aWRlYSB0byBzb2x2ZSB0aGlzIHdvdWxkIGJlIHRvIHJlbmFtZSBuYXRpdmUuYmJjbGFzcyBhbmQg
+bmF0aXZlc2RrLmJiY2xhc3MgdG8sIGUuZy4sIG5hdGl2ZS1pbnRlcm5hbC5iYmNsYXNzIGFuZCBu
+YXRpdmVzZGstaW50ZXJuYWwuYmJjbGFzcywgYW5kIHRoZW4gbWFrZSB0aGUgb3JpZ2luYWwgY2xh
+c3NlcyBvbmx5IHNldCBhIHNwZWNpYWwgdmFyaWFibGUgKHNpbWlsYXIgdG8gQkJDTEFTU0VYVEVO
+RCksIGFuZCB0aGVuIGxhdGVyIHdoZW4gaXQgaXMgYXBwcm9wcmlhdGUgY2hlY2sgdGhpcyB2YXJp
+YWJsZSBhbmQgaW1wb3J0IHRoZSBuYXRpdmUtaW50ZXJuYWwvbmF0aXZlc2RrLWludGVybmFsIGNs
+YXNzLg0KDQovL1BldGVyDQoNCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJl
+aGFsZiBPZiBUb21hc3ogRHppZW5kemllbHNraQ0KU2VudDogZGVuIDExIGZlYnJ1YXJpIDIwMjEg
+MTE6MzANClRvOiBLb25yYWQgV2VpaG1hbm4gPGt3ZWlobWFubkBvdXRsb29rLmNvbT4NCkNjOiBv
+cGVuZW1iZWRkZWQtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMl0gaW5zYW5lOiBBZGQgdGVzdCBm
+b3IgbmF0aXZlL25hdGl2ZXNkayBpbmhlcml0IG9yZGVyDQoNCj5BZnRlciB0aGlzIHBhdGNoIGdv
+dCBtZXJnZWQgSSBub3RpY2Ugc29tZSAibm9pc2UiIGluIG15IGJ1aWxkcy4NCj4NCj5Gb3IgYmJh
+cHBlbmRzIHdoaWNoIGluaGVyaXQgdW5yZWxhdGVkIGNsYXNzZXMgSSBnZXQgYSBsb3Qgb2Ygd2Fy
+bmluZyBsaWtlDQo+DQo+SXNzdWU6IG5hdGl2ZXNkay1vcGVuc3NoOiBuYXRpdmUvbmF0aXZlc2Rr
+IGNsYXNzIGlzIG5vdCBpbmhlcml0ZWQgbGFzdCwNCj50aGlzIGNhbiByZXN1bHQgaW4gdW5leHBl
+Y3RlZCBiZWhhdmlvdXIuIENsYXNzZXMgaW5oZXJpdGVkIGFmdGVyDQo+bmF0aXZlL25hdGl2ZXNk
+azogbXktY3VzdG9tLWNsYXNzLmJiY2xhc3MgW25hdGl2ZS1sYXN0XQ0KPg0KPkZpcnN0IGl0IGRv
+ZXNuJ3QgZ2l2ZSBhbnkgaGludCB0aGF0IHRoaXMgaXMgY2F1c2VkIGJ5IHRoZSBiYmFwcGVuZCBh
+bmQNCj5zZWNvbmRseSBJIGhhdmUgbm8gaWRlYSBob3cgdG8gZml4IHRoYXQgKGlmIHRoYXQgaXMg
+ZXZlbiBwb3NzaWJsZSkuDQo+DQo+U28gSSB3b3VsZCBsaWtlIHRvIGhhdmUgYXQgbGVhc3QgYW4g
+b3B0aW9uIHRvIGlnbm9yZSB0aGVzZSB3YXJuaW5ncyBmb3INCj5jbGFzc2VzIEknbSBzdXJlIGRv
+bid0IGNhdXNlIGFueSBjb25mbGljdCAtIHNvbWV0aGluZyBtb3JlIGdyYW51bGFyIHRoZW4NCj5q
+dXN0IHRvIGRlYWN0aXZhdGUgdGhpcyBwcmV0dHkgdXNlZnVsIGNoZWNrLg0KPg0KPlRob3VnaHRz
+Pw0KDQpJIHRoaW5rIGl0J3MgYSBnb29kIGlkZWEgdG8ganVzdCBpZ25vcmUgc3BlY2lmaWMgY2xh
+c3Nlcy4gVGhlIGRpZmYgYmVsb3cgc2hvdWxkIGJlIGVub3VnaCwgd2l0aCBzb21lIGFkZGl0aW9u
+YWwgbm90ZSBpbiB0aGUgd2FybmluZyBtZXNzYWdlLiBJJ2xsIGNoZWNrIGlmIGl0IHdvcmtzIGNv
+cnJlY3RseSBsYXRlciB0b2RheS4NCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUu
+YmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KaW5kZXggNTMyMzBmYzY2Ny4u
+MmY1M2E5YmUwOSAxMDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcw0KKysr
+IGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQpAQCAtMTM4MSw2ICsxMzgxLDEwIEBAIHB5
+dGhvbiAoKSB7DQogICAgICAgICAgICAgICAgICAgICAjIG5hdGl2ZSBhbHNvIGluaGVyaXRzIG5v
+cGFja2FnZXMgYW5kIHJlbG9jYXRhYmxlIGJiY2xhc3Nlcw0KICAgICAgICAgICAgICAgICAgICAg
+c2tpcF9jbGFzc2VzLmV4dGVuZChbJ25vcGFja2FnZXMnLCAncmVsb2NhdGFibGUnXSkNCg0KKyAg
+ICAgICAgICAgICAgICBleHRyYV9za2lwX2NsYXNzZXMgPSAoZC5nZXRWYXIoJ05BVElWRV9MQVNU
+X0lHTk9SRV9DTEFTU0VTJykgb3IgJycpLnNwbGl0KCkNCisgICAgICAgICAgICAgICAgaWYgZXh0
+cmFfc2tpcF9jbGFzc2VzOg0KKyAgICAgICAgICAgICAgICAgICAgc2tpcF9jbGFzc2VzLmV4dGVu
+ZChleHRyYV9za2lwX2NsYXNzZXMpDQorDQogICAgICAgICAgICAgICAgIGJyb2tlbl9vcmRlciA9
+IFtdDQogICAgICAgICAgICAgICAgIGZvciBjbGFzc19pdGVtIGluIHJldmVyc2VkKGluaGVyaXRl
+ZF9jbGFzc2VzKToNCiAgICAgICAgICAgICAgICAgICAgIGlmIG5lZWRsZSBub3QgaW4gY2xhc3Nf
+aXRlbToNCg0KQmVzdCByZWdhcmRzLA0KVG9tYXN6IER6aWVuZHppZWxza2kNCg==
 
-build time. It's basically making it's own gstreamer element (GstAppSrc) 
-to be inserted into the pipeline as the source. Also, meson looks for 
-the dependency at build time so it can link against the proper libraries
+--_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1z
+dHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNl
+cmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5bGU6
+bm9ybWFsO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdl
+OkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
+YXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24x
+DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
+bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
+bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
+OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
+ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlNWIiBsaW5r
+PSIjMDU2M0MxIiB2bGluaz0iIzk1NEY3MiIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4N
+CjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4t
+VVMiPlNpbmNlIHRoZSBvcmRlciBvZiBpbmhlcml0aW5nIG5hdGl2ZS9uYXRpdmVzZGsgaXMgaW1w
+b3J0YW50LCByYXRoZXIgdGhhbiBhZGRpbmcgd2FybmluZ3MgYWJvdXQgd2hlbiBpdCBpcyBkb25l
+IGluIHRoZSB3cm9uZyBvcmRlciwgd2hpY2ggY29uZmxpY3RzIHdpdGggYmJhcHBlbmRzIHRoYXQg
+d2FudA0KIHRvIGFkZCBpbmhlcml0IHN0YXRlbWVudHMgZm9yIG5hdGl2ZSByZWNpcGVzLCB3b3Vs
+ZG7igJl0IGl0IG1ha2Ugc2Vuc2UgdG8gaW5zdGVhZCBoYW5kbGUgdGhpcyBwcm9wZXJseSBpbiB0
+aGUgY29kZSBzbyB0aGF0IG5hdGl2ZS9uYXRpdmVzZGsgYXJlIGFsd2F5cyBpbmhlcml0ZWQgbGFz
+dC4gQW4gaWRlYSB0byBzb2x2ZSB0aGlzIHdvdWxkIGJlIHRvIHJlbmFtZSBuYXRpdmUuYmJjbGFz
+cyBhbmQgbmF0aXZlc2RrLmJiY2xhc3MgdG8sIGUuZy4sIG5hdGl2ZS1pbnRlcm5hbC5iYmNsYXNz
+DQogYW5kIG5hdGl2ZXNkay1pbnRlcm5hbC5iYmNsYXNzLCBhbmQgdGhlbiBtYWtlIHRoZSBvcmln
+aW5hbCBjbGFzc2VzIG9ubHkgc2V0IGEgc3BlY2lhbCB2YXJpYWJsZSAoc2ltaWxhciB0byBCQkNM
+QVNTRVhURU5EKSwgYW5kIHRoZW4gbGF0ZXIgd2hlbiBpdCBpcyBhcHByb3ByaWF0ZSBjaGVjayB0
+aGlzIHZhcmlhYmxlIGFuZCBpbXBvcnQgdGhlIG5hdGl2ZS1pbnRlcm5hbC9uYXRpdmVzZGstaW50
+ZXJuYWwgY2xhc3MuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1
+YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZh
+cmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYg
+c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzow
+Y20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
+LXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48
+c3BhbiBsYW5nPSJFTi1VUyI+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7DQo8Yj5P
+biBCZWhhbGYgT2YgPC9iPlRvbWFzeiBEemllbmR6aWVsc2tpPGJyPg0KPGI+U2VudDo8L2I+IGRl
+biAxMSBmZWJydWFyaSAyMDIxIDExOjMwPGJyPg0KPGI+VG86PC9iPiBLb25yYWQgV2VpaG1hbm4g
+Jmx0O2t3ZWlobWFubkBvdXRsb29rLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRl
+ZC1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxi
+cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzJdIGluc2FuZTogQWRk
+IHRlc3QgZm9yIG5hdGl2ZS9uYXRpdmVzZGsgaW5oZXJpdCBvcmRlcjxvOnA+PC9vOnA+PC9zcGFu
+PjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
+bzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7QWZ0ZXIgdGhpcyBwYXRj
+aCBnb3QgbWVyZ2VkIEkgbm90aWNlIHNvbWUgJnF1b3Q7bm9pc2UmcXVvdDsgaW4gbXkgYnVpbGRz
+Ljxicj4NCiZndDs8YnI+DQomZ3Q7Rm9yIGJiYXBwZW5kcyB3aGljaCBpbmhlcml0IHVucmVsYXRl
+ZCBjbGFzc2VzIEkgZ2V0IGEgbG90IG9mIHdhcm5pbmcgbGlrZTxicj4NCiZndDs8YnI+DQomZ3Q7
+SXNzdWU6IG5hdGl2ZXNkay1vcGVuc3NoOiBuYXRpdmUvbmF0aXZlc2RrIGNsYXNzIGlzIG5vdCBp
+bmhlcml0ZWQgbGFzdCwgPGJyPg0KJmd0O3RoaXMgY2FuIHJlc3VsdCBpbiB1bmV4cGVjdGVkIGJl
+aGF2aW91ci4gQ2xhc3NlcyBpbmhlcml0ZWQgYWZ0ZXIgPGJyPg0KJmd0O25hdGl2ZS9uYXRpdmVz
+ZGs6IG15LWN1c3RvbS1jbGFzcy5iYmNsYXNzIFtuYXRpdmUtbGFzdF08YnI+DQomZ3Q7PGJyPg0K
+Jmd0O0ZpcnN0IGl0IGRvZXNuJ3QgZ2l2ZSBhbnkgaGludCB0aGF0IHRoaXMgaXMgY2F1c2VkIGJ5
+IHRoZSBiYmFwcGVuZCBhbmQ8YnI+DQomZ3Q7c2Vjb25kbHkgSSBoYXZlIG5vIGlkZWEgaG93IHRv
+IGZpeCB0aGF0IChpZiB0aGF0IGlzIGV2ZW4gcG9zc2libGUpLjxicj4NCiZndDs8YnI+DQomZ3Q7
+U28gSSB3b3VsZCBsaWtlIHRvIGhhdmUgYXQgbGVhc3QgYW4gb3B0aW9uIHRvIGlnbm9yZSB0aGVz
+ZSB3YXJuaW5ncyBmb3IgPGJyPg0KJmd0O2NsYXNzZXMgSSdtIHN1cmUgZG9uJ3QgY2F1c2UgYW55
+IGNvbmZsaWN0IC0gc29tZXRoaW5nIG1vcmUgZ3JhbnVsYXIgdGhlbiA8YnI+DQomZ3Q7anVzdCB0
+byBkZWFjdGl2YXRlIHRoaXMgcHJldHR5IHVzZWZ1bCBjaGVjay48YnI+DQomZ3Q7PG86cD48L286
+cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmd0O1Rob3VnaHRzPzxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIHRoaW5rIGl0
+J3MgYSBnb29kIGlkZWEgdG8ganVzdCBpZ25vcmUgc3BlY2lmaWMgY2xhc3Nlcy4gVGhlIGRpZmYg
+YmVsb3cgc2hvdWxkIGJlIGVub3VnaCwgd2l0aCBzb21lIGFkZGl0aW9uYWwgbm90ZSBpbiB0aGUg
+d2FybmluZyBtZXNzYWdlLiBJJ2xsIGNoZWNrIGlmIGl0IHdvcmtzIGNvcnJlY3RseSBsYXRlciB0
+b2RheS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcyBiL21ldGEvY2xhc3Nl
+cy9pbnNhbmUuYmJjbGFzczxicj4NCmluZGV4IDUzMjMwZmM2NjcuLjJmNTNhOWJlMDkgMTAwNjQ0
+PGJyPg0KLS0tIGEvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzPGJyPg0KJiM0MzsmIzQzOyYj
+NDM7IGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzPGJyPg0KQEAgLTEzODEsNiAmIzQzOzEz
+ODEsMTAgQEAgcHl0aG9uICgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IyBuYXRpdmUgYWxz
+byBpbmhlcml0cyBub3BhY2thZ2VzIGFuZCByZWxvY2F0YWJsZSBiYmNsYXNzZXM8YnI+DQombmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7c2tpcF9jbGFzc2VzLmV4dGVuZChbJ25vcGFja2FnZXMnLCAncmVsb2Nh
+dGFibGUnXSk8YnI+DQombmJzcDs8YnI+DQomIzQzOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZXh0cmFfc2tpcF9jbGFzc2VzID0gKGQuZ2V0
+VmFyKCdOQVRJVkVfTEFTVF9JR05PUkVfQ0xBU1NFUycpIG9yICcnKS5zcGxpdCgpPGJyPg0KJiM0
+MzsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+O2lmIGV4dHJhX3NraXBfY2xhc3Nlczo8YnI+DQomIzQzOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtza2lwX2NsYXNz
+ZXMuZXh0ZW5kKGV4dHJhX3NraXBfY2xhc3Nlcyk8YnI+DQomIzQzOzxicj4NCiZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7YnJva2Vu
+X29yZGVyID0gW108YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwO2ZvciBjbGFzc19pdGVtIGluIHJldmVyc2VkKGluaGVyaXRl
+ZF9jbGFzc2VzKTo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgbmVlZGxlIG5vdCBpbiBjbGFz
+c19pdGVtOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj5CZXN0IHJlZ2FyZHMsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj5Ub21hc3ogRHppZW5kemllbHNraTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
->
+--_000_d00ff6214c464610951e8984625f1eedXBOX03axiscom_--
