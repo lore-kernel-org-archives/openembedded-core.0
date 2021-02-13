@@ -1,89 +1,77 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.1640.1613210530461634458
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.1616.1613210540846758417
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Feb 2021 02:02:10 -0800
+ Sat, 13 Feb 2021 02:02:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O2wOWuVZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id g10so2490239wrx.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 02:02:10 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vd5yKAyl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id o24so2206348wmh.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 02:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=/XLJOKCkEgfSEx+iNRS+57pwH+rkyFZYtgQrDC6+x7Q=;
-        b=O2wOWuVZzJr7SiZVVhEDy1JjNRusPN5kIqvsixGyLPNcgxYJVtPYwJhWY7yKxZUXuT
-         QFWxl+Kqm+vlw9vkMIHloOE2M0uoOCCKKBrAh5WImLuADXUaY8kz2sMY0G9/QAemqvkH
-         OGnJI6jznBYXe6a2QRDMaWhJ/SfXZ7UyiJFmA=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p/Uxn6M0GBgEgGMtjxKfblqikboX8/8ZtD3A60nz0iY=;
+        b=Vd5yKAyl55QBXJhgpINA4NZPR/xZ8xE7yiRsDVAjsGme3SYada8mJMrFgWYILqNnRX
+         vb6DVlYmr/dFY/k0EYYOwmWfpTm0WotOswa7VAg1DKj5Q+GJs75ys4gRkU5Qf/jn44Ef
+         7YnK3ElkltfjXvq3I+sOCJbqe4OYBMDUku23Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/XLJOKCkEgfSEx+iNRS+57pwH+rkyFZYtgQrDC6+x7Q=;
-        b=jUuHko91o9xX9S116mEx3mMdsfum0WYn7Y0AdlsJeJErIc+kACd8sVQCOQLsqdPISw
-         9t7zoEzcfMViE9MRNCLn3T/AWXLXlTNYp/XEw7Sc2l+n8XE2ZFrY0nLokXpEtVfdX5JR
-         sDnWacs3XA8PTsduNcbhXbkfi4OBJdFzIm/VLk1MAL8NWYagefTwJxIkAfnW/1BaUJwy
-         L3M9WW/nZ/NR0QjYjxGuxTGnyxxzVvUEajuZtvpqbC8gVSXpAmeawRPXk2k3DTuHucK5
-         LosjZ6+gLR4aMZIsbwL9MXtUXs6w07mlqui4aC99gVvfudGeiGujbmpannp+Ydot6iYb
-         8d0Q==
-X-Gm-Message-State: AOAM532PfIRhGqbKt4KZjFYDZYOS711hLmZh9096rgz7gEYI1ekg74Af
-	j8VvGms2tyTAwQpWpVQao+CrhA==
-X-Google-Smtp-Source: ABdhPJy2uei5BqrlOBfRb7V1Rm4KP+lH2s0OTwEq3XVR0NaklsQ6LbXdAzl/qT8K7wcewcv/ZD3WkQ==
-X-Received: by 2002:adf:f7c5:: with SMTP id a5mr8174064wrq.243.1613210528937;
-        Sat, 13 Feb 2021 02:02:08 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p/Uxn6M0GBgEgGMtjxKfblqikboX8/8ZtD3A60nz0iY=;
+        b=OPy2R+fmWV9qKxIauQnvWNeCr3/VqV0SETX6ploYZD7knNk3KXY16a8xWN1lPukh/J
+         OTxbKMYwI3hvEIH5EYhVC6vAYpu2roXyVGOQR7KDqzIjaGjR1AXedhtQqdwNJR3Xzp1w
+         JIow5QIZ6na+c/X/sjZJ+BEU59kLkm2cmF0QLQAGrq1mSVOJGCDpyfuYo7fBKVW46S/e
+         J0KFjdPa86anRUk/XgKZAF7OIsQBADllDvpB1sXOxSoIu20wtMQ08ZE+b0fBEgRIms1u
+         wX0qy2Fe7aaYfv64QST82nLmelgSTqb4vfCoZrsRILhNrceGZeXD0J6Lw45ZvgB/8xwf
+         omWg==
+X-Gm-Message-State: AOAM530UFFqobDkgMlb6MamiqSDTdeFIdagO+rWgeikgZboFUuCdB1Nw
+	JaSZu1vX2lVnYOMQp0NW1ZWtbcYMIplswQ==
+X-Google-Smtp-Source: ABdhPJzFhLJjCvtMTpWiqaFSxyDoh/UqUvfoXcV2zLSDko0SjgmsTx5AE6EIMENHc8S1IUj4lgesrQ==
+X-Received: by 2002:a05:600c:4a09:: with SMTP id c9mr6092212wmp.91.1613210539261;
+        Sat, 13 Feb 2021 02:02:19 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:91a5:e7fd:31d5:331? ([2001:8b0:aba:5f3c:91a5:e7fd:31d5:331])
-        by smtp.gmail.com with ESMTPSA id q2sm8417390wrx.79.2021.02.13.02.02.08
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:91a5:e7fd:31d5:331])
+        by smtp.gmail.com with ESMTPSA id b2sm14632342wrv.73.2021.02.13.02.02.18
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Feb 2021 02:02:08 -0800 (PST)
-Message-ID: <fb179fd9d774c95c5a5529b024a9cd8b9b30d1e2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] autoconf: Add missing perl modules to rdeps
+        Sat, 13 Feb 2021 02:02:19 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 13 Feb 2021 10:02:05 +0000
-In-Reply-To: <20210212075952.1032920-1-raj.khem@gmail.com>
-References: <20210212075952.1032920-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] nativesdk-buildtools-perl-dummy: Add new autoconf dependencies
+Date: Sat, 13 Feb 2021 10:02:18 +0000
+Message-Id: <20210213100218.1928273-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-11 at 23:59 -0800, Khem Raj wrote:
-> Calling autoreconf with on-device sdk fails due to missing perl modules
-> which are required for it to work with autoconf 2.71+
-> 
-> Fixes
-> Can't locate File/Temp.pm in @INC (you may need to install the File::Temp module) (@INC contains: /usr/share/autoconf /usr/lib/perl5/site_perl/5.32.0/riscv32-linux /usr/lib/perl5/site_perl/5.32.0 /usr/lib/per
-> l5/vendor_perl/5.32.0/riscv32-linux /usr/lib/perl5/vendor_perl/5.32.0 /usr/lib/perl5/5.32.0/riscv32-linux /usr/lib/perl5/5.32.0 .) at /usr/bin/autoreconf line 50.
-> BEGIN failed--compilation aborted at /usr/bin/autoreconf line 50.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/autoconf/autoconf_2.71.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.71.bb b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
-> index e5098106f8..8526067201 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf_2.71.bb
-> +++ b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
-> @@ -40,10 +40,13 @@ RDEPENDS_${PN} = "m4 gnu-config \
->  		  perl-module-file-spec \
->  		  perl-module-file-spec-unix \
->  		  perl-module-file-stat \
-> +                  perl-module-file-temp \
->  		  perl-module-getopt-long \
->  		  perl-module-io-file \
-> +                  perl-module-list-util \
->  		  perl-module-overloading \
->  		  perl-module-posix \
-> +                  perl-module-scalar-util \
->  		  perl-module-symbol \
->  		  perl-module-thread-queue \
->  		  perl-module-threads \
+When used in SDKs we need to provide the perl modules used by autoconf.
+Add new ones needed by recent changes.
 
-This breaks builds of SDKs. I'll send a patch to fix it.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index cce086caf2a..beca73104e0 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -17,10 +17,13 @@ DUMMYPROVIDES_PACKAGES = "\
+     nativesdk-perl-module-file-path \
+     nativesdk-perl-module-file-spec \
+     nativesdk-perl-module-file-stat \
++    nativesdk-perl-module-file-temp \
+     nativesdk-perl-module-getopt-long \
+     nativesdk-perl-module-io-file \
++    nativesdk-perl-module-list-util \
+     nativesdk-perl-module-overloading \
+     nativesdk-perl-module-posix \
++    nativesdk-perl-module-scalar-util
+     nativesdk-perl-module-strict \
+     nativesdk-perl-module-text-parsewords \
+     nativesdk-perl-module-thread-queue \
+-- 
+2.27.0
 
