@@ -1,85 +1,89 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web12.533.1613198073074855227
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.1640.1613210530461634458
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Feb 2021 22:34:33 -0800
+ Sat, 13 Feb 2021 02:02:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BAlwVM8+;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id j3so1813062qkk.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Feb 2021 22:34:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O2wOWuVZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id g10so2490239wrx.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 02:02:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SwN/pa+iZVcNyluBnglniu5ZPCFpgoItdqowWJdlG/8=;
-        b=BAlwVM8+gWxUUQzR1FIl8t3tYqvoTvx04VYDJ3+dly+LxRl8xrvzJXETNFQpiBrA9t
-         e5QtjPR/oDocgLijIFKFSjYMb7Cols7H4gS+EYX6IQbhct50SHYboBNzUKufEql03o5Y
-         s4OeZhKFUClXu5mDscDtcM48BImR/nlDboWxZw8nMOMTlmk8rHDGjYvKW588AvUt8hib
-         uUA6605bFCStjS9LBKgwfULiK8Twd57fkGRzrx+SI+7yclMklP+YluQ4qBXugRMz87xF
-         H80r2eDLjzrh8aXRtk6OFNbG/AgHFv9vnCkJwak6M46AXInFlbcQathNs2Oadmc4JKJK
-         gERA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=/XLJOKCkEgfSEx+iNRS+57pwH+rkyFZYtgQrDC6+x7Q=;
+        b=O2wOWuVZzJr7SiZVVhEDy1JjNRusPN5kIqvsixGyLPNcgxYJVtPYwJhWY7yKxZUXuT
+         QFWxl+Kqm+vlw9vkMIHloOE2M0uoOCCKKBrAh5WImLuADXUaY8kz2sMY0G9/QAemqvkH
+         OGnJI6jznBYXe6a2QRDMaWhJ/SfXZ7UyiJFmA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SwN/pa+iZVcNyluBnglniu5ZPCFpgoItdqowWJdlG/8=;
-        b=ivLiq/0zfHtkUnJIljjBZssq3XECnIy2uZXE0k0TTL3dnRKubso0aVivjUW1pHS51e
-         bbaGQdILpQciYTcO1OTKfSR8xAXvLj0nPSorgXGXrYFdgG/ltm1m/CowDB/ol8lZyGTo
-         kEeilxY+LhnD821Niws2DFgR9g3HtaNWfMn5zcEGpBl8OvA31yzm8XY0mri3HhN0JYma
-         1hrja3eiGHRHX+k8FHdDuujZlWek6EuiqFaWsrpi+Xij9/iD+R04gYiFm8lbV7ChocBL
-         QrFWmeVGOD5+gXFftbYwAyEOiEfyuh6vXVGeMiL50YsRey7CmtQLsI/8KxcRm2wRbOmj
-         zRVA==
-X-Gm-Message-State: AOAM53243DWeAO3cdAOFw7XIZUI7pMW1z8NJSYPCTB51e5YW4JS4s+rF
-	ebPdhwVVnUvw36TuEKv2WGyre7eHgb2xPAoObyk=
-X-Google-Smtp-Source: ABdhPJypvEgHadp4jFrU5wknonIYt1k6QlGrzZwQaDV+zE/RxHpt5WrVHleCwM9nrERPAvruI7ZDlufyqNmmuwsHVNY=
-X-Received: by 2002:a37:b346:: with SMTP id c67mr6092196qkf.212.1613198072162;
- Fri, 12 Feb 2021 22:34:32 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/XLJOKCkEgfSEx+iNRS+57pwH+rkyFZYtgQrDC6+x7Q=;
+        b=jUuHko91o9xX9S116mEx3mMdsfum0WYn7Y0AdlsJeJErIc+kACd8sVQCOQLsqdPISw
+         9t7zoEzcfMViE9MRNCLn3T/AWXLXlTNYp/XEw7Sc2l+n8XE2ZFrY0nLokXpEtVfdX5JR
+         sDnWacs3XA8PTsduNcbhXbkfi4OBJdFzIm/VLk1MAL8NWYagefTwJxIkAfnW/1BaUJwy
+         L3M9WW/nZ/NR0QjYjxGuxTGnyxxzVvUEajuZtvpqbC8gVSXpAmeawRPXk2k3DTuHucK5
+         LosjZ6+gLR4aMZIsbwL9MXtUXs6w07mlqui4aC99gVvfudGeiGujbmpannp+Ydot6iYb
+         8d0Q==
+X-Gm-Message-State: AOAM532PfIRhGqbKt4KZjFYDZYOS711hLmZh9096rgz7gEYI1ekg74Af
+	j8VvGms2tyTAwQpWpVQao+CrhA==
+X-Google-Smtp-Source: ABdhPJy2uei5BqrlOBfRb7V1Rm4KP+lH2s0OTwEq3XVR0NaklsQ6LbXdAzl/qT8K7wcewcv/ZD3WkQ==
+X-Received: by 2002:adf:f7c5:: with SMTP id a5mr8174064wrq.243.1613210528937;
+        Sat, 13 Feb 2021 02:02:08 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:91a5:e7fd:31d5:331? ([2001:8b0:aba:5f3c:91a5:e7fd:31d5:331])
+        by smtp.gmail.com with ESMTPSA id q2sm8417390wrx.79.2021.02.13.02.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Feb 2021 02:02:08 -0800 (PST)
+Message-ID: <fb179fd9d774c95c5a5529b024a9cd8b9b30d1e2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] autoconf: Add missing perl modules to rdeps
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 13 Feb 2021 10:02:05 +0000
+In-Reply-To: <20210212075952.1032920-1-raj.khem@gmail.com>
+References: <20210212075952.1032920-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210212014112.2356927-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20210212014112.2356927-1-open.source@oleksandr-kravchuk.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 12 Feb 2021 22:34:06 -0800
-Message-ID: <CAMKF1srmtVXrAFDenzxiWmAcuGxXjKoAZrQ8n3qL3mJ6bTzT5Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-firmware: update to 20210208
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-seeing license checksum errors
-https://errors.yoctoproject.org/Errors/Details/570561/
-
-linux-firmware-20210208: linux-firmware: The LIC_FILES_CHKSUM does not
-match for file://WHENCE;md5=03f0fad70b8b557b56084e3090198021
-linux-firmware: The new md5 checksum is ef0565762eac313c409567b59dff00b2
-
-On Thu, Feb 11, 2021 at 5:41 PM Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  .../{linux-firmware_20201218.bb => linux-firmware_20210208.bb}  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201218.bb => linux-firmware_20210208.bb} (99%)
->
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-> similarity index 99%
-> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-> index 700a79b118..4a2e30119d 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-> @@ -201,7 +201,7 @@ PE = "1"
->
->  SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
->
-> -SRC_URI[sha256sum] = "a1cc1ff72c739f312b095df589e9fd639fc81c3f8f7966377ea35222dc94c04b"
-> +SRC_URI[sha256sum] = "1bcb1a3944c361507754a7d26ccff40ffc28d1fb93bce711d67da26b33e785b7"
->
->  inherit allarch
->
-> --
-> 2.25.1
->
->
+On Thu, 2021-02-11 at 23:59 -0800, Khem Raj wrote:
+> Calling autoreconf with on-device sdk fails due to missing perl modules
+> which are required for it to work with autoconf 2.71+
 > 
->
+> Fixes
+> Can't locate File/Temp.pm in @INC (you may need to install the File::Temp module) (@INC contains: /usr/share/autoconf /usr/lib/perl5/site_perl/5.32.0/riscv32-linux /usr/lib/perl5/site_perl/5.32.0 /usr/lib/per
+> l5/vendor_perl/5.32.0/riscv32-linux /usr/lib/perl5/vendor_perl/5.32.0 /usr/lib/perl5/5.32.0/riscv32-linux /usr/lib/perl5/5.32.0 .) at /usr/bin/autoreconf line 50.
+> BEGIN failed--compilation aborted at /usr/bin/autoreconf line 50.
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/autoconf/autoconf_2.71.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.71.bb b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+> index e5098106f8..8526067201 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+> +++ b/meta/recipes-devtools/autoconf/autoconf_2.71.bb
+> @@ -40,10 +40,13 @@ RDEPENDS_${PN} = "m4 gnu-config \
+>  		  perl-module-file-spec \
+>  		  perl-module-file-spec-unix \
+>  		  perl-module-file-stat \
+> +                  perl-module-file-temp \
+>  		  perl-module-getopt-long \
+>  		  perl-module-io-file \
+> +                  perl-module-list-util \
+>  		  perl-module-overloading \
+>  		  perl-module-posix \
+> +                  perl-module-scalar-util \
+>  		  perl-module-symbol \
+>  		  perl-module-thread-queue \
+>  		  perl-module-threads \
+
+This breaks builds of SDKs. I'll send a patch to fix it.
+
+Cheers,
+
+Richard
+
