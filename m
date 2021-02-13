@@ -1,77 +1,71 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.1616.1613210540846758417
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.5158.1613233066468807988
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Feb 2021 02:02:21 -0800
+ Sat, 13 Feb 2021 08:17:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vd5yKAyl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id o24so2206348wmh.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 02:02:20 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CGXjoW69;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id r21so3301663wrr.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 08:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p/Uxn6M0GBgEgGMtjxKfblqikboX8/8ZtD3A60nz0iY=;
-        b=Vd5yKAyl55QBXJhgpINA4NZPR/xZ8xE7yiRsDVAjsGme3SYada8mJMrFgWYILqNnRX
-         vb6DVlYmr/dFY/k0EYYOwmWfpTm0WotOswa7VAg1DKj5Q+GJs75ys4gRkU5Qf/jn44Ef
-         7YnK3ElkltfjXvq3I+sOCJbqe4OYBMDUku23Y=
+        bh=krljBXeVCWv/3CVau4vVHTeU7qYNNSf7KLCqKXEI4pA=;
+        b=CGXjoW69TL6emv/ZRk9ALnMIQV8YrOvtnrbGbyd+ksZe0AQq8hUYaUPq5C6YDAvgxD
+         GbVhk/fb5uG/QiYGtV2sfrC06EdAiHnUyHQj4fQ7w93VMUWVrTts10ueBKWxqmaiES8M
+         MvEkyK/Rz9M+v9r49FcLl/IIqDURJdCiL2G1A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p/Uxn6M0GBgEgGMtjxKfblqikboX8/8ZtD3A60nz0iY=;
-        b=OPy2R+fmWV9qKxIauQnvWNeCr3/VqV0SETX6ploYZD7knNk3KXY16a8xWN1lPukh/J
-         OTxbKMYwI3hvEIH5EYhVC6vAYpu2roXyVGOQR7KDqzIjaGjR1AXedhtQqdwNJR3Xzp1w
-         JIow5QIZ6na+c/X/sjZJ+BEU59kLkm2cmF0QLQAGrq1mSVOJGCDpyfuYo7fBKVW46S/e
-         J0KFjdPa86anRUk/XgKZAF7OIsQBADllDvpB1sXOxSoIu20wtMQ08ZE+b0fBEgRIms1u
-         wX0qy2Fe7aaYfv64QST82nLmelgSTqb4vfCoZrsRILhNrceGZeXD0J6Lw45ZvgB/8xwf
-         omWg==
-X-Gm-Message-State: AOAM530UFFqobDkgMlb6MamiqSDTdeFIdagO+rWgeikgZboFUuCdB1Nw
-	JaSZu1vX2lVnYOMQp0NW1ZWtbcYMIplswQ==
-X-Google-Smtp-Source: ABdhPJzFhLJjCvtMTpWiqaFSxyDoh/UqUvfoXcV2zLSDko0SjgmsTx5AE6EIMENHc8S1IUj4lgesrQ==
-X-Received: by 2002:a05:600c:4a09:: with SMTP id c9mr6092212wmp.91.1613210539261;
-        Sat, 13 Feb 2021 02:02:19 -0800 (PST)
+        bh=krljBXeVCWv/3CVau4vVHTeU7qYNNSf7KLCqKXEI4pA=;
+        b=qn+9TE6mtnGYC48lM5hTQnH7UdAn07GfZrWoWHYYAtz+MSKFKUr/z9FXaySGARXBy3
+         zesF6597ZY7FjMToiYe+cqhzYooctVyw3Fy70cpdGJjlRG2EByacpFLSW0ma1tCFE+iO
+         5ApxIKjJH01CpcJY6WBm9l38oG3jZ3rHIOTBS509z8d0jsTm7S3bQvCQZu1Kdo1NGmDB
+         hpsgCq9lrE92rKdD782Iq9KN5B3KB8HIWpI1f9+d+lwIdP6/y6PBgWG02zGe4UN09HCX
+         RPOB5ANR0haiikQ1/DHEUaHH8b/TMi1dUiOJXv/04WPSM4PNdSpeIG3gKyFBHMKiyJfv
+         W1WQ==
+X-Gm-Message-State: AOAM532puKKkXcarwCTVKylYLX9+TwnKMBd9/hrCZv8agkKm8VW9jMrH
+	tMnQP03qYwjYBrDjnPt5007MCARYPWzF3Q==
+X-Google-Smtp-Source: ABdhPJyVquFb/lx9rHNuoIbdS8bldbzNvil3A6gZvSykuIYkQ/A7ZTfKdGzMIMhiodNRZVgTwuKEWQ==
+X-Received: by 2002:adf:e988:: with SMTP id h8mr8287819wrm.2.1613233064865;
+        Sat, 13 Feb 2021 08:17:44 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:91a5:e7fd:31d5:331])
-        by smtp.gmail.com with ESMTPSA id b2sm14632342wrv.73.2021.02.13.02.02.18
+        by smtp.gmail.com with ESMTPSA id x15sm15705208wro.66.2021.02.13.08.17.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Feb 2021 02:02:19 -0800 (PST)
+        Sat, 13 Feb 2021 08:17:44 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] nativesdk-buildtools-perl-dummy: Add new autoconf dependencies
-Date: Sat, 13 Feb 2021 10:02:18 +0000
-Message-Id: <20210213100218.1928273-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] selftest/reproducible: Sort the unused exclusion list
+Date: Sat, 13 Feb 2021 16:17:42 +0000
+Message-Id: <20210213161744.1938647-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When used in SDKs we need to provide the perl modules used by autoconf.
-Add new ones needed by recent changes.
+This makes comparisions between lists easier.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-index cce086caf2a..beca73104e0 100644
---- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -17,10 +17,13 @@ DUMMYPROVIDES_PACKAGES = "\
-     nativesdk-perl-module-file-path \
-     nativesdk-perl-module-file-spec \
-     nativesdk-perl-module-file-stat \
-+    nativesdk-perl-module-file-temp \
-     nativesdk-perl-module-getopt-long \
-     nativesdk-perl-module-io-file \
-+    nativesdk-perl-module-list-util \
-     nativesdk-perl-module-overloading \
-     nativesdk-perl-module-posix \
-+    nativesdk-perl-module-scalar-util
-     nativesdk-perl-module-strict \
-     nativesdk-perl-module-text-parsewords \
-     nativesdk-perl-module-thread-queue \
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index ecd69b3577f..860c8c95886 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -133,7 +133,7 @@ class PackageCompareResults(object):
+         return 'same=%i different=%i different_excluded=%i missing=%i total=%i\nunused_exclusions=%s' % (len(self.same), len(self.different), len(self.different_excluded), len(self.missing), len(self.total), self.unused_exclusions())
+ 
+     def unused_exclusions(self):
+-        return set(exclude_packages) - self.active_exclusions
++        return sorted(set(exclude_packages) - self.active_exclusions)
+ 
+ def compare_file(reference, test, diffutils_sysroot):
+     result = CompareResult()
 -- 
 2.27.0
 
