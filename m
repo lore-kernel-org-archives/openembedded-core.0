@@ -1,149 +1,134 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web08.6753.1613239882157846145
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.8201.1613246505474460786
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Feb 2021 10:11:22 -0800
+ Sat, 13 Feb 2021 12:01:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VmKjZbzx;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id n28so2101390qtv.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 10:11:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VEHxuXAb;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d13so1598569plg.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 12:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R/4a0gdt5Gdwyzpe7XngZu9TQF8N5EvqZT3gLP5qSCE=;
-        b=VmKjZbzxodKaIyysAmFgNVLnvubX7W/g7jOa+h/fOezzlpwoSfShWzp4Pztn6JhRt5
-         BSLKioKepy/bH2HOw/7sLbfruZbD3Kl6mUV3qI+HljRa3xSR28KsrPtOXEHyYbOdwGUp
-         FPVBfyN8IWT55rSKQL/aLicZrppjJw34wETJtJBodOww4jXayTPaBzqK5CYvk63DKvSm
-         43p6nP00kGNyRqIsx5AwCsTt1X7WrM7PSL17Fe3WCd99Z6qf+ydTloXjpq47thI+XNeQ
-         KjWdmOZ6kQl7xImREZjtYd/31h2nB7W436y50jdp87PR36tiiKhm8+aCqFtUPa8JJfOG
-         X3Lg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3iZ275HI8Yza2txI58fPuT6CmOxi17/DJ1v4luqO5E4=;
+        b=VEHxuXAbLCw+87JhTBwJs20/Z6d4kyCT+nrTgnwn0Kde7ST6sJERBYbS3FjNwVGWtM
+         JPEWkl5NxMgkJnxhmQOcoAf7wMCUL1QHLpgJXHxZLaFxs4tQtf6QkBPr0e8XyTLyFeVc
+         CxoYKxNdlDmafRTFuQcu3XUkuHcgKGn8MSZn8hKVULf5WvWaTcg6bHldZdrQVqxN4SMm
+         TNhbDBZTp5TAASX2aczq9j4KTaZIcQtyM9rz9hoKS+VsoHn5YdZx0WIZjJE207rYldmV
+         RlOowj2AUwFEB5ev92glLDnCL7kJpYO3IikoU8GMypzv9kBcC6yxj0vUBR2wun+wY8Q+
+         zKjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R/4a0gdt5Gdwyzpe7XngZu9TQF8N5EvqZT3gLP5qSCE=;
-        b=s9zNO5eGKT5o6Jhu8QAyZOexfZg/InxGT9bEUy9i4wQVgV45qZVohE4h9f0e7PtLG7
-         22t0N5dcvhoed2VUzcuuyQXmujub7UBfHEUHpLABaTcULkv4y393P9BkrDMeyG3mha2m
-         f+RERjM3qGcCMuIzb3CaOhEjfHxmnv1q7Qh1YYIKepYZLlV8DriWzzrFvKXTNjhn5Owg
-         IhnqYLAQH5NhYlaX2tWonWHrI5IFNaAP497Q3ItQEn7FOP0G1c6grgxzIYFrIesyLO3b
-         z8R8fuTfiN4TKb2lSJcJt3ZUrCQMzyLodjWq51jNR8BgbTH2Bdl+Jmb1QFmwVlAmvwe1
-         zPLQ==
-X-Gm-Message-State: AOAM5333UPKEp5MqR7HxizVT0PcYXFhOKfs2arzSFrdfViD7SLsUkO1H
-	gQAGsoxtQd9Z6hgRNAHpde9zzQUJEKf0EMAC/Qg=
-X-Google-Smtp-Source: ABdhPJybg/AcNN+osNaG9D4s9bxp0TcYhOa35XDJlxStqgRxmaFQjInpfknYQCihH+8EbB3gOVpnUI/Il7JgoCdeD0M=
-X-Received: by 2002:a05:622a:44d:: with SMTP id o13mr7826043qtx.378.1613239881241;
- Sat, 13 Feb 2021 10:11:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20210213100218.1928273-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210213100218.1928273-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3iZ275HI8Yza2txI58fPuT6CmOxi17/DJ1v4luqO5E4=;
+        b=nHXre+Ui/DUZZmUEEAiu1MZaiSV6XbAgYswlOcx8UMmqySVGgSGH0a+iGayUp7S677
+         9ilKHHUImCGbVdvd2mHsJz9Tp43LH/KlPX4akIVudJSr6rAbTayWLsnMCnlIFFojMmwv
+         aVbuIXuymFHXIlnbO9EsVVhZjJAbsOPoUrDgZ+ekqBM1Wwp5YSIrzuoeIlXZKN5QSJh0
+         fDpST1gI59yggBsqu+0NpEdUZ5tvZmMyGWweoq6otC/93BNpVRzouJUaar+AZTEy/AQf
+         DBXo/F5aaFh0jNuRpOnUj/xGwmkenn80IZrE5dNg3X0TIXBPMuHdVwdFqr9rkihoAV4U
+         EE6Q==
+X-Gm-Message-State: AOAM533bT77YIUsj1IeBSmKbBTb916OC4MM+gdvisnd61fpwUP3KEDPl
+	izPQyB/T8kN17UnIr/2yAaH9LNbTg1NKyA==
+X-Google-Smtp-Source: ABdhPJy30LoSBEe772u4Vn6/nXv54sN1XFRmMULPEhvlCfU2XMbRknjdc1pfMy1K8A81zo0AKE4rDA==
+X-Received: by 2002:a17:90a:c503:: with SMTP id k3mr8155066pjt.29.1613246504396;
+        Sat, 13 Feb 2021 12:01:44 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3857])
+        by smtp.gmail.com with ESMTPSA id j3sm13521260pgk.24.2021.02.13.12.01.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Feb 2021 12:01:44 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 13 Feb 2021 10:11:10 -0800
-Message-ID: <CAMKF1sotNxLONy45ga0iKHpo9bFAkOHX2Xk3KA=s3W7oFZcnwg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] nativesdk-buildtools-perl-dummy: Add new autoconf dependencies
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000000f17ee05bb3baeee"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gdb: Drop SIGRTMIN definition patch
+Date: Sat, 13 Feb 2021 12:01:41 -0800
+Message-Id: <20210213200141.957025-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---0000000000000f17ee05bb3baeee
-Content-Type: text/plain; charset="UTF-8"
+This has been already fixed in gdb via
+https://sourceware.org/pipermail/gdb-patches/2015-October/128532.html
 
-May be we should add a comment to keep this list in sync with autoconf
-recipe and vice versa
+and W_STOPCODE is fixed by including gdbsupport/gdb_wait.h in nat/linux-nat.h
 
-On Sat, Feb 13, 2021 at 2:02 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-10.1.inc        |  1 -
+ ...-Use-exorted-definitions-of-SIGRTMIN.patch | 50 -------------------
+ 2 files changed, 51 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0007-Use-exorted-definitions-of-SIGRTMIN.patch
 
-> When used in SDKs we need to provide the perl modules used by autoconf.
-> Add new ones needed by recent changes.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-> b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-> index cce086caf2a..beca73104e0 100644
-> --- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-> +++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-> @@ -17,10 +17,13 @@ DUMMYPROVIDES_PACKAGES = "\
->      nativesdk-perl-module-file-path \
->      nativesdk-perl-module-file-spec \
->      nativesdk-perl-module-file-stat \
-> +    nativesdk-perl-module-file-temp \
->      nativesdk-perl-module-getopt-long \
->      nativesdk-perl-module-io-file \
-> +    nativesdk-perl-module-list-util \
->      nativesdk-perl-module-overloading \
->      nativesdk-perl-module-posix \
-> +    nativesdk-perl-module-scalar-util
->      nativesdk-perl-module-strict \
->      nativesdk-perl-module-text-parsewords \
->      nativesdk-perl-module-thread-queue \
-> --
-> 2.27.0
->
->
-> 
->
->
+diff --git a/meta/recipes-devtools/gdb/gdb-10.1.inc b/meta/recipes-devtools/gdb/gdb-10.1.inc
+index 4b8de2b4e6..07de17f84f 100644
+--- a/meta/recipes-devtools/gdb/gdb-10.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-10.1.inc
+@@ -11,7 +11,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0004-Add-support-for-Renesas-SH-sh4-architecture.patch \
+            file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
+            file://0006-use-asm-sgidefs.h.patch \
+-           file://0007-Use-exorted-definitions-of-SIGRTMIN.patch \
+            file://0008-Change-order-of-CFLAGS.patch \
+            file://0009-resolve-restrict-keyword-conflict.patch \
+            file://0010-Fix-invalid-sigprocmask-call.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb/0007-Use-exorted-definitions-of-SIGRTMIN.patch b/meta/recipes-devtools/gdb/gdb/0007-Use-exorted-definitions-of-SIGRTMIN.patch
+deleted file mode 100644
+index 8cbc50b75f..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0007-Use-exorted-definitions-of-SIGRTMIN.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 53f694ffa1ee9893b834758413c23947957f0fee Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 30 Apr 2016 15:31:40 -0700
+-Subject: [PATCH 07/11] Use exorted definitions of SIGRTMIN
+-
+-Define W_STOPCODE if not defined already
+-
+-__SIGRTMIN is internal to glibc and other libcs e.g. musl
+-may not provide them
+-
+-Fixes
+-https://sourceware.org/bugzilla/show_bug.cgi?id=13012
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gdb/linux-nat.c     | 4 ++--
+- gdb/nat/linux-nat.h | 4 ++++
+- 2 files changed, 6 insertions(+), 2 deletions(-)
+-
+-diff --git a/gdb/linux-nat.c b/gdb/linux-nat.c
+-index b81014024c7..e0513d47122 100644
+---- a/gdb/linux-nat.c
+-+++ b/gdb/linux-nat.c
+-@@ -4428,6 +4428,6 @@ lin_thread_get_thread_signals (sigset_t *set)
+-   /* NPTL reserves the first two RT signals, but does not provide any
+-      way for the debugger to query the signal numbers - fortunately
+-      they don't change.  */
+--  sigaddset (set, __SIGRTMIN);
+--  sigaddset (set, __SIGRTMIN + 1);
+-+  sigaddset (set, SIGRTMIN);
+-+  sigaddset (set, SIGRTMIN + 1);
+- }
+-diff --git a/gdb/nat/linux-nat.h b/gdb/nat/linux-nat.h
+-index 44dcbb7758d..975d7276f66 100644
+---- a/gdb/nat/linux-nat.h
+-+++ b/gdb/nat/linux-nat.h
+-@@ -91,4 +91,8 @@ extern void linux_stop_lwp (struct lwp_info *lwp);
+- 
+- extern int lwp_is_stepping (struct lwp_info *lwp);
+- 
+-+#ifndef W_STOPCODE
+-+#define W_STOPCODE(sig) ((sig) << 8 | 0x7f)
+-+#endif
+-+
+- #endif /* NAT_LINUX_NAT_H */
+--- 
+-2.29.2
+-
+-- 
+2.30.1
 
---0000000000000f17ee05bb3baeee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">May be we should add a comment to keep this list in sync =
-with autoconf recipe and vice versa=C2=A0</div><div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 13, 2021 at 2:02 =
-AM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">When used in SDKs we need to provide the perl modules used =
-by autoconf.<br>
-Add new ones needed by recent changes.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
----<br>
-=C2=A0meta/recipes-core/meta/<a href=3D"http://nativesdk-buildtools-perl-d=
-ummy.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-buildtools-perl-dum=
-my.bb</a> | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-core/meta/<a href=3D"http://nativesdk-buildtools=
--perl-dummy.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-buildtools-p=
-erl-dummy.bb</a> b/meta/recipes-core/meta/<a href=3D"http://nativesdk-build=
-tools-perl-dummy.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-buildto=
-ols-perl-dummy.bb</a><br>
-index cce086caf2a..beca73104e0 100644<br>
---- a/meta/recipes-core/meta/<a href=3D"http://nativesdk-buildtools-perl-d=
-ummy.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-buildtools-perl-dum=
-my.bb</a><br>
-+++ b/meta/recipes-core/meta/<a href=3D"http://nativesdk-buildtools-perl-d=
-ummy.bb" rel=3D"noreferrer" target=3D"_blank">nativesdk-buildtools-perl-dum=
-my.bb</a><br>
-@@ -17,10 +17,13 @@ DUMMYPROVIDES_PACKAGES =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-file-path \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-file-spec \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-file-stat \<br>
-+=C2=A0 =C2=A0 nativesdk-perl-module-file-temp \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-getopt-long \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-io-file \<br>
-+=C2=A0 =C2=A0 nativesdk-perl-module-list-util \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-overloading \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-posix \<br>
-+=C2=A0 =C2=A0 nativesdk-perl-module-scalar-util<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-strict \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-text-parsewords \<br>
-=C2=A0 =C2=A0 =C2=A0nativesdk-perl-module-thread-queue \<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000000f17ee05bb3baeee--
