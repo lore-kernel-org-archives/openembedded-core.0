@@ -1,80 +1,135 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by mx.groups.io with SMTP id smtpd.web09.9558.1613253846646976182
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web09.10775.1613259510476546791
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Feb 2021 14:04:07 -0800
+ Sat, 13 Feb 2021 15:38:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@web.de header.s=dbaedf251592 header.b=TP+aN1r3;
- spf=pass (domain: web.de, ip: 212.227.15.4, mailfrom: patchesthomas.vie@web.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-	s=dbaedf251592; t=1613253844;
-	bh=3AJaBq0RzUXprQIKNE0oy2ftS+H/r5V87TgujaHWiIg=;
-	h=X-UI-Sender-Class:To:From:Subject:Date;
-	b=TP+aN1r3sxEHqERWQx1mBrVpe56wHlqVQ2zmYq8pTHMOnSj4rKQ729EQ7JFj9G1hW
-	 lRACJdCbVaRx48aYV1QA4Mlhkma7joeEH3KS/01WUdDzVUWaKYpvwiyrgM/CGW26b5
-	 2GV0oljJm7olXE71l3a0UM+iZQcTAgO7vHwdE5c8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.178.20] ([77.190.31.127]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0M1Wxd-1lzyof2dgH-00tQxN for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 23:04:04 +0100
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J4eUCVvQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id m1so3896900wml.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Feb 2021 15:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vpBIMLKzJ1RvxMNBleZGlPxMDwCZRb/nXoGN2ZAOL0g=;
+        b=J4eUCVvQi8HYSC4l+fpBQoqAX6ExC0Aa5B5ju7W/zgG5h+Cv0OE6Nxt4lV/6luJUD/
+         hFQzeV8JgA+HKd9Ja/baINACHMj/sHi9Q29aU4DBmD7WL0hwqhLl9vVKrBnQkfEBP94s
+         qZ7XhsIZFsZatF5iL9AtGpBfaIsKXbn61QR7Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vpBIMLKzJ1RvxMNBleZGlPxMDwCZRb/nXoGN2ZAOL0g=;
+        b=XsBp7HfLXj3vsrChXij/OmF7q0iIQnNyFGdA6Q0ymuO3w8fav2fzmuYnPSkIJ2Gkii
+         ECIMPFUOIvGLLJZqFdWoquSHk/2kaYM+5h5gGdiasEyyAMUXM11A4xhCvHFno2qCUk87
+         VUYIpcuuAl0KmeGUy7hu3L4OoZ7JqTKkTC2znvS9810TyYukoMHQM/c7p+KkTZnUP99u
+         ZjuFEvIK/MuVdmL1fcj2LaoooRS0MAlYFxQ0kLX3rfhKjwvhXl7N2DKI8AOiygHU0618
+         xs0iNog3OU1s2KxJzu0UVric1rIvSf7ap8S1KNEITheSzBekWxWh5ap2bPMLhU8JdGLQ
+         Qnxw==
+X-Gm-Message-State: AOAM532fbxDPKJnavPnPwNlGADamxscoeTcQFmwXCVWLIfS9hRs40AWp
+	rwhebgGxr5M5qO/ZUMvQ7eWxnESXvQywIQ==
+X-Google-Smtp-Source: ABdhPJxwHoAZOj3qfeCmHQ+YtEvle6f+NlX9DSFNojGHDp2nLcy1eCp+ZGez+V56mAfXqyGpCWQO2Q==
+X-Received: by 2002:a1c:545d:: with SMTP id p29mr8068629wmi.77.1613259508649;
+        Sat, 13 Feb 2021 15:38:28 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6c46:cb67:3902:3f00])
+        by smtp.gmail.com with ESMTPSA id f7sm17006646wre.78.2021.02.13.15.38.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Feb 2021 15:38:28 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: "Thomas Viehweger" <patchesThomas.Vie@web.de>
-Subject: [PATCH] mtd-utils: Remove duplicate assignments to alternative link names
-Message-ID: <e5700d4c-f63c-4b81-7723-8cb3337ff176@web.de>
-Date: Sat, 13 Feb 2021 23:04:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+Subject: [PATCH] systemd: Simplify mount error patch
+Date: Sat, 13 Feb 2021 23:38:27 +0000
+Message-Id: <20210213233827.1947355-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:dh/MDBiZv0O/ROZ9sUdDjxFkGUCmveWBfI7B7z6Hqf392Rk2DaT
- sg5avR5nn1QtuNYhw+qLvtku9fl+rC5mQgJmlopBUGLx0EFjPwQIACqJCAR/ZLV9vaL6xu7
- l4pF1ixRYKc7Pn551GYAZS692UwNb+0Bn8IOG2sna65eW1LuhqSdIPmZ39Q0dL4wxocUlI3
- 3TYVN1yLgSYXh8WD7efkQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hmXDAaNWSYM=:LgwnwWJL9TVCVZ4cydg2lN
- WYhfUWLmUhaDVBv48y0QJv0lSj0h9Q8xllxon77QXHydBJyJ6O5iDmeCFT8mA8SiY7Q5qMEr+
- XO5Wcj4KRoSzEDB5g5QZnLiBIPYfbOTE5IfjZnX6db9nHAV4U39q/Z+JMmxzmGc3kd5Eb4Z+n
- cB+uHm5xYXl1I6H7lLBX5EzY1wfX96Mz38POkU2r0ImIMgjt0XaMOsUQRVB8x2e/8AaZ2khTf
- 0de+nfJJagotwdL7w1h9M4Cef+DnYlEF6nVBH/ty7nGT6oZtyxDVqb8hf9rMPsZb2EG0nkwFU
- nj6sOoxUh+QoxLLhuB4hcKIT3NgPzXyN+tkdYkiJhR4GOCeXixW+tTAjz4OFUMZvVfAN8jzFu
- iKKEhV+AfGTMuRYX6uTJfoRiL9E3RjhiIqS9UjLa3MXdiKnkrmoJdxXAD/obBCBcxQEJ2tqjk
- GWilOrx6+2MiLycyiZrKYqImvFGQ9AfB19+0TCom36d+plqBzncWRgVlWuhAIQJtVwKglXfk/
- L55f/KYpMu5Jy5oJ8HhVUmrt+P5WA29suroSODBFq6UqfBLwUDy9BQpIJr1MkG80pOM0lAf86
- 7EtXoF9eQgHhxZDwPjCJ3DVQHCHLFjeXDTtcRbsLYgCwYACzyilav5TO1N7awgHIgPwPGzWVQ
- q8EdzzhHXKOqMqWbKzhEP0yAIpRCl9ovFrkx7ZAe0Q9oU0HpXYMdLHGBxIAD4e7/J1YHQRMaP
- Ct5bGdwGP4E18yETkIWRCHx9WQf95uBZaXFD3Qw2vQ0y8tEcdUYJwzdPq95pKG51USN1bh5d1
- ymUZp3ud/FrctN6VzowNSBGd/Ya+TawWBqoruJiK+GLi7mtHApCfBnO/0HfdN0gY/IqiOwF3b
- 1uVvmvyuqGBn/hGSLZgFv08I5FfCiZmkNw0fmGEZE=
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 
-The two duplicate lines are not needed. The existence is confusing.
+As mentioned during review, this patch can be less invasive and hence easier
+to maintain. Improve as such.
 
-Signed-off-by: Thomas Viehweger <patchesThomas.Vie@web.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- =C2=A0meta/recipes-devtools/mtd/mtd-utils_git.bb | 2 --
- =C2=A01 file changed, 2 deletions(-)
+ ...r-mount-error-with-invalid-options-o.patch | 43 +++----------------
+ 1 file changed, 7 insertions(+), 36 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-de=
-vtools/mtd/mtd-utils_git.bb
-index 8d6bbfca3f..ff42219513 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -42,11 +42,9 @@ ALTERNATIVE_PRIORITY =3D "100"
- =C2=A0ALTERNATIVE_${PN} =3D "flashcp flash_eraseall flash_lock flash_unl=
-ock nanddump nandwrite"
- =C2=A0ALTERNATIVE_${PN}-ubifs =3D "ubiattach ubidetach ubimkvol ubirenam=
-e ubirmvol ubirsvol ubiupdatevol"
-
--ALTERNATIVE_LINK_NAME[flash_eraseall] =3D "${sbindir}/flash_eraseall"
- =C2=A0ALTERNATIVE_LINK_NAME[nandwrite] =3D "${sbindir}/nandwrite"
- =C2=A0ALTERNATIVE_LINK_NAME[nanddump] =3D "${sbindir}/nanddump"
- =C2=A0ALTERNATIVE_LINK_NAME[ubiattach] =3D "${sbindir}/ubiattach"
--ALTERNATIVE_LINK_NAME[ubiattach] =3D "${sbindir}/ubiattach"
- =C2=A0ALTERNATIVE_LINK_NAME[ubidetach] =3D "${sbindir}/ubidetach"
- =C2=A0ALTERNATIVE_LINK_NAME[ubimkvol] =3D "${sbindir}/ubimkvol"
- =C2=A0ALTERNATIVE_LINK_NAME[ubirename] =3D "${sbindir}/ubirename"
---=20
-2.30.0
-
-
+diff --git a/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch b/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch
+index b1d3d6963c4..94a4c307b54 100644
+--- a/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch
++++ b/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch
+@@ -36,10 +36,10 @@ systemd 247 and above plus kernel v5.7 or older will need this.
+ Upstream-Status: Denied [https://github.com/systemd/systemd/issues/16896]
+ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ 
+-diff --git a/src/core/namespace.c b/src/core/namespace.c
+-index cdf427a6ea93..f8fc33a89fc2 100644
+---- a/src/core/namespace.c
+-+++ b/src/core/namespace.c
++Index: git/src/core/namespace.c
++===================================================================
++--- git.orig/src/core/namespace.c
+++++ git/src/core/namespace.c
+ @@ -4,7 +4,9 @@
+  #include <linux/loop.h>
+  #include <sched.h>
+@@ -50,11 +50,9 @@ index cdf427a6ea93..f8fc33a89fc2 100644
+  #include <unistd.h>
+  #include <linux/fs.h>
+  
+-@@ -859,14 +861,34 @@ static int mount_sysfs(const MountEntry *m) {
+- }
++@@ -860,13 +862,32 @@ static int mount_sysfs(const MountEntry
+  
+  static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
+-+        _cleanup_free_ char *opts = NULL;
+          const char *entry_path;
+ -        int r;
+ +        int r, major, minor;
+@@ -86,41 +84,14 @@ index cdf427a6ea93..f8fc33a89fc2 100644
+          /* Mount a new instance, so that we get the one that matches our user namespace, if we are running in
+           * one. i.e we don't reuse existing mounts here under any condition, we want a new instance owned by
+           * our user namespace and with our hidepid= settings applied. Hence, let's get rid of everything
+-@@ -875,9 +897,8 @@ static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
++@@ -875,8 +896,8 @@ static int mount_procfs(const MountEntry
+          (void) mkdir_p_label(entry_path, 0755);
+          (void) umount_recursive(entry_path, 0);
+  
+ -        if (ns_info->protect_proc != PROTECT_PROC_DEFAULT ||
+ -            ns_info->proc_subset != PROC_SUBSET_ALL) {
+--                _cleanup_free_ char *opts = NULL;
+ +        if (!old && (ns_info->protect_proc != PROTECT_PROC_DEFAULT ||
+ +            ns_info->proc_subset != PROC_SUBSET_ALL)) {
++                 _cleanup_free_ char *opts = NULL;
+  
+                  /* Starting with kernel 5.8 procfs' hidepid= logic is truly per-instance (previously it
+-                  * pretended to be per-instance but actually was per-namespace), hence let's make use of it
+-@@ -891,21 +912,9 @@ static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
+-                                ns_info->proc_subset == PROC_SUBSET_PID ? ",subset=pid" : "");
+-                 if (!opts)
+-                         return -ENOMEM;
+--
+--                r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
+--                if (r < 0) {
+--                        if (r != -EINVAL)
+--                                return r;
+--
+--                        /* If this failed with EINVAL then this likely means the textual hidepid= stuff is
+--                         * not supported by the kernel, and thus the per-instance hidepid= neither, which
+--                         * means we really don't want to use it, since it would affect our host's /proc
+--                         * mount. Hence let's gracefully fallback to a classic, unrestricted version. */
+--                } else
+--                        return 1;
+-         }
+- 
+--        r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, NULL);
+-+        r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
+-         if (r < 0)
+-                 return r;
+- 
+--- 
+-2.29.2
+-
+-- 
+2.27.0
 
