@@ -1,92 +1,108 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web10.21187.1613329980850065282
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web09.21344.1613330290858073936
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 11:13:01 -0800
+ Sun, 14 Feb 2021 11:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b/NLDC94;
- spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f173.google.com with SMTP id l19so5682710oih.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 11:13:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Oj/vBHtI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id n10so5973158wmq.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 11:18:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K7MEd0gS4f7Xya7jGBVneZfD6c4A7zprBb4RscReNZQ=;
-        b=b/NLDC94osWxb2A6nWYUO/aCcVTYxBrgPIxFYKxujyd3d8m+4mPV9th3+GZxwupwN5
-         eH88lKMNFxJswkhTThhlTQC1+60+YyZZovWtt4XderUyEPoZOulpHa8m1zJ4kfie8U9a
-         4p3MuoC0bVPc+GK85kHzelD/RcrwfKXfi3MCl+PVlajc7tzUW6wvYkjU1MZ2vIUt2AaQ
-         yhIJQaFITTudCxtpwBmicWPguIb6H9qPb7FUlV0/x3Yq8+v9zXig1th+gPbCJM4TaIjB
-         lTH8QUdCH4WQ+pO6kkOg8Y3wcaVzOclyyiw4BUxWt2gy97dzINpc6jHC9vziWXFJ0rI3
-         3QoA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0mbSULxyHHHY27VS4btYdTCfJgHZLu6p/OBQtmiK8wY=;
+        b=Oj/vBHtIZ4F/uZbhRXD+zWiE2imDy7jxojkNpyoa2hV6PSJvHQixLXfJkuhDX0ppd2
+         U1uqKgZfodHYQidKoCqRj2VtrhMBQIyNh/EjeSMyeaeBLC2qB1eURwKzk8feHttJCekE
+         fQ89gwk70dH/bXqVlcNbEbPy03+UWNfJAxGnR4rYO/7ik5eWgPVmF8sLtXweQI/ZOU7P
+         LRn5DAbhXCyYfbVJjDWu83Q7Xa+QI+WQQRDk+PorQJqmee0YAEiyyHZQvOXQy/A7HK2F
+         lA4enVzxrEsmLDvm5X2Rv37PpMyq24Apr0Vc9x2aGPLdSM4O1fUhmmqFog+XsW148eAE
+         SvKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K7MEd0gS4f7Xya7jGBVneZfD6c4A7zprBb4RscReNZQ=;
-        b=kUUFW5J9sl7hJ5PDVw8j6kHdL6BSTrcD1FsDP5T4EQCiemnuJut81jD6P7teLCed2Z
-         ZA7tMggsHpISddLj5DK0dzam8cWa/JbpEjAzzlP3HT6xdJy9p1Sy3npFiwEGYcX3KSgk
-         8DZZoJtNOWgMYbyQHpVBjlEXKSAg8+9icQLRhYp8YHcppkUVkvHIyC0u7w7xNXZGB1WS
-         +Cb99wS2fpsrHK4FOxfEjZ3rSJE0zZU0IoDEaiv2ljyO2TiiVdW4aRQcwIpvs9JyLiMy
-         Br8QbUMdPysNAXINpUN9x+GrkqZIugeQnGumRh9q66JOJviJpHo2A75wZGDuFLJLWVHu
-         pvCw==
-X-Gm-Message-State: AOAM530/eiK7eiUL6xJ5liDHoWKae4M8ktwrQ2YqmBSqs5c/PIiFluR5
-	BWGPLXp++35IZxIyB49vk3GB6SausMQ=
-X-Google-Smtp-Source: ABdhPJwMNvVzPylfQX6wHMExeEaK4GhKw+l4uBnt6H66JMN/NNshECnXDMasD117qJFmcA1Yxcrf4w==
-X-Received: by 2002:aca:3354:: with SMTP id z81mr6058939oiz.2.1613329980037;
-        Sun, 14 Feb 2021 11:13:00 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id s49sm3079854otb.39.2021.02.14.11.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Feb 2021 11:12:59 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] oeqa: reproducible: Add more logging
-Date: Sun, 14 Feb 2021 13:12:58 -0600
-Message-Id: <20210214191258.19940-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0mbSULxyHHHY27VS4btYdTCfJgHZLu6p/OBQtmiK8wY=;
+        b=SIFCtH8zar62OuXLe9yhWStXP9cFkU2DuwdkeuV9ujeWdUivOtujuSUrbO72GEVEU4
+         STZBfXFzMXrHL8WL1KHO1fo31B8tzPmdGYlX/d6Eeh3slxHlDTTtIgRaLF+NZLffSwbf
+         RXG6CEsO0oZ8Kyy4i67DLfShfP4O0S1JYbMbiZVbw60ScClpjhaSfCiej6fqmoLkhGP4
+         rYm4i8YfRVWog1GSVbgDPoV0vcFRxg/Igtco/D+iMP8g34rtuSxXIF6CKM2dqpzBJBED
+         HW8f5V6laHNL7VyYXR5sLzRLF1XLRH/ytUCQYYQJ4p3eoP6rDXFIOyxxefkQFJA/Kvx1
+         0v2Q==
+X-Gm-Message-State: AOAM532iLB6sl0jFJhZMBIJeAoodJFM1oiJ6njr7eKH/4rVv6fnPDjCR
+	5r4+KTTjHQ5S7L1Z+KxUIV/ybIOOlZa2dx2zs+M=
+X-Google-Smtp-Source: ABdhPJwGRza24niUvu3zJmnlJcdqbL5pS0yU/+C9a0sIcFI6ciauBLutAVJniEqRYGH3ekqspqoVr3e9knZgV5zx8Vc=
+X-Received: by 2002:a1c:67c4:: with SMTP id b187mr11314106wmc.17.1613330289288;
+ Sun, 14 Feb 2021 11:18:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
+In-Reply-To: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Sun, 14 Feb 2021 13:17:58 -0600
+Message-ID: <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com>
+Subject: Re: Autobuilder reproducibility target changes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	swat <swat@lists.yoctoproject.org>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	Steve Sakoman <steve@sakoman.com>, Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The reproducible build tests can take a long time, so having more
-logging messages at various points in the build can help debug where the
-build is taking a long time.
+On Sun, Feb 14, 2021 at 6:19 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Regular users of the autobuilder will note that I've split the
+> reproducible builds test out of the main oe-selftest build and into its
+> own target build. This is because that test tends to run for a lot
+> longer time period and it helps to see the result separately.
+>
+> I've only done this for master. If gatesgarth and dunfell want to
+> follow, that should be straight forward with a change to the branch in
+> autobuilder-helper. Obviously we should ensure this is working ok with
+> master first but so far so good.
+>
+> It has already highlighted the difference between a successful run:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/2
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/2
+> (took 3-4 hours)
+>
+> and failing two failing runs:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/2
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/2
+> (took 9 hours)
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 3 +++
- 1 file changed, 3 insertions(+)
+OK, I read through the code and unfortunately found a bug: when
+attempting to make sure the "B" build doesn't use sstate, I misspelled
+the SSTATE_MIRRORS, which means that the B build could have been
+pulling from the sstate mirror when it was not supposed to. This has a
+few implications:
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 7bc578a20f..99497522d2 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -261,6 +261,7 @@ class ReproducibleTests(OESelftestTestCase):
-                 SSTATE_MIRRORS = ""
-                 ''')
- 
-+        self.logger.info("Building %s (sstate%s allowed)..." % (name, '' if use_sstate else ' NOT'))
-         self.write_config(config)
-         d = get_bb_vars(capture_vars)
-         bitbake(' '.join(self.images))
-@@ -287,6 +288,7 @@ class ReproducibleTests(OESelftestTestCase):
-             self.logger.info('Non-reproducible packages will be copied to %s', save_dir)
- 
-         vars_A = self.do_test_build('reproducibleA', self.build_from_sstate)
-+
-         vars_B = self.do_test_build('reproducibleB', False)
- 
-         # NOTE: The temp directories from the reproducible build are purposely
-@@ -301,6 +303,7 @@ class ReproducibleTests(OESelftestTestCase):
-                 deploy_A = vars_A['DEPLOY_DIR_' + c.upper()]
-                 deploy_B = vars_B['DEPLOY_DIR_' + c.upper()]
- 
-+                self.logger.info('Checking %s packages for differences...' % c)
-                 result = self.compare_packages(deploy_A, deploy_B, diffutils_sysroot)
- 
-                 self.logger.info('Reproducibility summary for %s: %s' % (c, result))
--- 
-2.30.0
+ 1) It might explain why some of the reproducible results seem intermittent
+ 2) It might explain why there is such a time disparity between the tests
 
+Unfortunately, while it probably will help the intermittent results,
+it probably means that the tests taking 9 hours is what is "supposed"
+to happen, and they happen to be shorter sometimes because the B build
+is pulling from sstate when it's not supposed to.
+
+>
+> the time difference being the system trying to run diffoscope on vim-
+> common :/.
+>
+> I'm aware I removed some recipes from the exclusions list after seeing
+> multiple passing builds for all distros and we're now seeing test
+> failures. My mistake was not waiting for the date to change and for
+> builds to run on an autobuilder worker with a different umask.
+>
+> Meson is failing with a pyc file mismatch which diffoscope can't decode
+> and despite trying for 5 hours, diffoscope hasn't given any data on why
+> vim-common differs. I should have fixes in for quilt, valgrind, kernel-
+> devsrc and cwautomacros. The umask fix may fix other issues too. Alex
+> has improved the reporting so we can spot cases where exclusion is now
+> longer needed.
+>
+> Cheers,
+>
+> Richard
+>
