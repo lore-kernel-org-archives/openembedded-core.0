@@ -1,173 +1,84 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
- by mx.groups.io with SMTP id smtpd.web11.17722.1613315063636824944
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.17958.1613315854793256277
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 07:04:23 -0800
+ Sun, 14 Feb 2021 07:17:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uYZzs8p/;
- spf=pass (domain: gmail.com, ip: 209.85.217.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f47.google.com with SMTP id l19so1390273vso.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 07:04:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DWE/zJiH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id r21so5581357wrr.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 07:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GGjea3HRIxrhU+BGfyQfaEqKUblnjIu+j6UuMgE4hUs=;
-        b=uYZzs8p/wXyHp8Gf++N/lObCvCHYx4tVSWBA8pd1GKsWBCsELqlRUTizJqbR/XFSE7
-         bkV/W5nnXdaseHpr3V7wbwj62TBGW2gIL7Fl2FI6kdr/LSH0qGrVdj1yBVJOkavKp0Fe
-         e4sOUJYaalM7GVm/zk/HJIfggyzjX8dOfvb6c7PbFm+IMaESLDlzgy/aRZwN4GqJ2nAD
-         84iZrDL1RtHLZwOvfGD5KIOQTytUFas3eISAU72PqQZ9BUjnAa9srq5h7bJb/JCBmAue
-         MAFqnvezWVUpi2AhlIYouQMJRHGIJyl5Oqy7QRfStv7GVeR6uKTYTKFpKi5BhnqP3DAM
-         oEfQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=On4fex0F0VZbC+hc4ffzLnF467wYpx/I+qhbudLdNWQ=;
+        b=DWE/zJiHmU1rZwWIalhbbpEl6+oYWfQQ/c2A8lQYNoOCv2a3DF9Tzfl/g9pNAUD6iS
+         9/jl1mCKUh8Thze1JDC88DtIskDIjvalNHd/S/W83JwdtWUdamcwfK13up3Dp1IbDTSO
+         Q8hoEMa8XfxxmJwgAD6HyMvgYBhEc/zmtQXRM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GGjea3HRIxrhU+BGfyQfaEqKUblnjIu+j6UuMgE4hUs=;
-        b=qGU4tqWwn/mv9b/HlLEumd58DYGijxDZnnSKG9pNEyqdgN5QG8LOkSEUz1288pbv5p
-         c3StLz8Ei63SLwUyNuGR5Zd+vIyFQ4N5IIQh24nHDQrSd/FhUvrYwehClPPK+RxyrjUi
-         T2JxIXH9FO16/QC8aVRk9LXhHqXpmaOmN+0BmNAvSR++6aDG1q2OfEWWdZqYMTqIhIX7
-         CO24DSnZNFWB75SSM0Q51mPayqV9bsiI69onIkGr+Jd89whSR6ysG5SrF4W6IImwQaJp
-         q+B2GdIyOL7smd/8knqKyZsJOPhkHRD1QpHhlBfh7F2hrNEYv6R/nsnfr5oJOdXZE51I
-         f0cA==
-X-Gm-Message-State: AOAM532dXL06UDW2U/Z7Z0xV5pjTKpihzXUFo5ng1V4Fr3xaNH0iHc+N
-	yCcE4TIYpavgea83+VYw1GASYsxbgfYp7TW65jw=
-X-Google-Smtp-Source: ABdhPJwoF99IHcWtAcgNpz95va7Ylg8796pDneXu+ZLGzBP8EyzYb+XvEjbPGbn53DfcwQ2Vc0bCF3P0JMHBiLmG0Dg=
-X-Received: by 2002:a67:e358:: with SMTP id s24mr6119362vsm.20.1613315062733;
- Sun, 14 Feb 2021 07:04:22 -0800 (PST)
-MIME-Version: 1.0
-References: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
-In-Reply-To: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 14 Feb 2021 16:04:11 +0100
-Message-ID: <CANNYZj-cpgjuvUikfCrYCnBqTLdsNsY-5PUBji7PqJhkrbuHzg@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=On4fex0F0VZbC+hc4ffzLnF467wYpx/I+qhbudLdNWQ=;
+        b=VMr4jz2BPqUWUlG0UfVKiImEb2ALSa/ixMZaObZAQcp9DjXwlGp0AGfZoqP1AL3w8z
+         FD7yMHO48sgJ/r0yYKAt+jY51j/uVryZpv3/SAmuS+N5IKdIrfEsKJ4OUsCLZi2R9Z+J
+         iWdK7DoXK5hMnib4rJkxznBdx/UYGurEp4uny5XorUeBZEuQ7RB0vSGVr7j7xLMcAJjM
+         8p4Sg5efUEJkYznc66S8SU4dSeYL1PLRqEt9vCD5YpNAx/vcHrdXkVj0vvN0ANku5LF8
+         VYLMfqllLI/8MfUrUlRYXgZJzU1Y46gPd7mEodG4VgzQu1V3IDVxznKW5Wu2M7pdgxcj
+         Bo7g==
+X-Gm-Message-State: AOAM531l2G2M7XI8vK6o33IJ43VH7bG68cNCXvTZjjXKIlFhH8OQ0l/4
+	pfjpQiMoU6bzov+sp1JchLBUcQ==
+X-Google-Smtp-Source: ABdhPJyIPFw1k8ueiznJJl9c+E3UwbLyRVPKH7F6b44iBKCbDiRBFdqVu2CFfppEU3NRKzVfAqQjSQ==
+X-Received: by 2002:adf:f00c:: with SMTP id j12mr13854419wro.160.1613315853332;
+        Sun, 14 Feb 2021 07:17:33 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:6c46:cb67:3902:3f00? ([2001:8b0:aba:5f3c:6c46:cb67:3902:3f00])
+        by smtp.gmail.com with ESMTPSA id m1sm11677587wmq.36.2021.02.14.07.17.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Feb 2021 07:17:33 -0800 (PST)
+Message-ID: <679f3ccb6bea88cd72132ba9ea51547e81bcf0d8.camel@linuxfoundation.org>
 Subject: Re: Autobuilder reproducibility target changes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	swat <swat@lists.yoctoproject.org>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	Steve Sakoman <steve@sakoman.com>, Joshua Watt <jpewhacker@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000399f2305bb4d2f67"
-
---000000000000399f2305bb4d2f67
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, swat
+ <swat@lists.yoctoproject.org>, "Mittal, Anuj" <anuj.mittal@intel.com>,
+ Steve Sakoman <steve@sakoman.com>, Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 14 Feb 2021 15:17:29 +0000
+In-Reply-To: <CANNYZj-cpgjuvUikfCrYCnBqTLdsNsY-5PUBji7PqJhkrbuHzg@mail.gmail.com>
+References: 
+	<80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
+	 <CANNYZj-cpgjuvUikfCrYCnBqTLdsNsY-5PUBji7PqJhkrbuHzg@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Cheers :) If there's something else I could help, tell.
+On Sun, 2021-02-14 at 16:04 +0100, Alexander Kanavin wrote:
+> Cheers :) If there's something else I could help, tell.
 
-One item is getting to the bottom of why it takes diffoscope beyond the
-heat death of the universe to render its verdict on some items.
+I'm going to try and get diffs of the remaining big package differences
+and see where we stand. The two big ones I know of are go as a language
+for reproducibility and perf. Perf will just be a shear pain to fix,
+hopefully the kernel will take patches.
 
-Alex
+> One item is getting to the bottom of why it takes diffoscope beyond
+> the heat death of the universe to render its verdict on some items.
 
-On Sun, 14 Feb 2021 at 13:19, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+That would be really helpful to get to the bottom of. The vim-common
+difference is actually really simple:
 
-> Regular users of the autobuilder will note that I've split the
-> reproducible builds test out of the main oe-selftest build and into its
-> own target build. This is because that test tends to run for a lot
-> longer time period and it helps to see the result separately.
->
-> I've only done this for master. If gatesgarth and dunfell want to
-> follow, that should be straight forward with a change to the branch in
-> autobuilder-helper. Obviously we should ensure this is working ok with
-> master first but so far so good.
->
-> It has already highlighted the difference between a successful run:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/2
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/2
-> (took 3-4 hours)
->
-> and failing two failing runs:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/2
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/2
-> (took 9 hours)
->
-> the time difference being the system trying to run diffoscope on vim-
-> common :/.
->
-> I'm aware I removed some recipes from the exclusions list after seeing
-> multiple passing builds for all distros and we're now seeing test
-> failures. My mistake was not waiting for the date to change and for
-> builds to run on an autobuilder worker with a different umask.
->
-> Meson is failing with a pyc file mismatch which diffoscope can't decode
-> and despite trying for 5 hours, diffoscope hasn't given any data on why
-> vim-common differs. I should have fixes in for quilt, valgrind, kernel-
-> devsrc and cwautomacros. The umask fix may fix other issues too. Alex
-> has improved the reporting so we can spot cases where exclusion is now
-> longer needed.
->
-> Cheers,
->
-> Richard
->
->
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210213-0djxo1sn/packages/diff-html/
 
---000000000000399f2305bb4d2f67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+so I don't know why it took 5 hours to compute that. It suggests
+something really silly/stupid is going on. diffoscope should be
+amenable to fixes so it would be worth talking to them too...
 
-<div dir=3D"ltr"><div>Cheers :) If there&#39;s something else I could help,=
- tell.</div><div><br></div><div>One item is getting to the bottom of why it=
- takes diffoscope beyond the heat death of the universe to render its verdi=
-ct on some items.<br></div><div><br></div><div>Alex<br></div></div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 14 Feb=
- 2021 at 13:19, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">Regular users of the autobu=
-ilder will note that I&#39;ve split the<br>
-reproducible builds test out of the main oe-selftest build and into its<br>
-own target build. This is because that test tends to run for a lot<br>
-longer time period and it helps to see the result separately.<br>
-<br>
-I&#39;ve only done this for master. If gatesgarth and dunfell want to<br>
-follow, that should be straight forward with a change to the branch in<br>
-autobuilder-helper. Obviously we should ensure this is working ok with<br>
-master first but so far so good.<br>
-<br>
-It has already highlighted the difference between a successful run:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/115/buil=
-ds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproject=
-.org/typhoon/#/builders/115/builds/2</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/119/buil=
-ds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproject=
-.org/typhoon/#/builders/119/builds/2</a><br>
-(took 3-4 hours)<br>
-<br>
-and failing two failing runs:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/116/buil=
-ds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproject=
-.org/typhoon/#/builders/116/builds/2</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/118/buil=
-ds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproject=
-.org/typhoon/#/builders/118/builds/2</a><br>
-(took 9 hours)<br>
-<br>
-the time difference being the system trying to run diffoscope on vim-<br>
-common :/.<br>
-<br>
-I&#39;m aware I removed some recipes from the exclusions list after seeing<=
-br>
-multiple passing builds for all distros and we&#39;re now seeing test<br>
-failures. My mistake was not waiting for the date to change and for<br>
-builds to run on an autobuilder worker with a different umask.<br>
-<br>
-Meson is failing with a pyc file mismatch which diffoscope can&#39;t decode=
-<br>
-and despite trying for 5 hours, diffoscope hasn&#39;t given any data on why=
-<br>
-vim-common differs. I should have fixes in for quilt, valgrind, kernel-<br>
-devsrc and cwautomacros. The umask fix may fix other issues too. Alex<br>
-has improved the reporting so we can spot cases where exclusion is now<br>
-longer needed.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
+(I have a fix for the locale problem in vim brewing, it needs a new
+buildtools-extended-tarball)
 
---000000000000399f2305bb4d2f67--
+Cheers,
+
+Richard
+
+
+
