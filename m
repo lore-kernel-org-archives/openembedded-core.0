@@ -1,63 +1,75 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web09.17446.1613313755937476436
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.17425.1613314201183778896
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 06:42:36 -0800
+ Sun, 14 Feb 2021 06:50:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: marex@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4DdqhV33jvz1rtZ9;
-	Sun, 14 Feb 2021 15:42:34 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4DdqhV2kDMz1t5kV;
-	Sun, 14 Feb 2021 15:42:34 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id xd1gvGJP9z_u; Sun, 14 Feb 2021 15:42:33 +0100 (CET)
-X-Auth-Info: QzZOZ5x4WFusueVtrD6TxAKEGJAs8+BAZEwd5Ipdj3Q=
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sun, 14 Feb 2021 15:42:33 +0100 (CET)
-From: "Marek Vasut" <marex@denx.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F4AKZfwK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id l12so5578945wry.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 06:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9Im/D2jKlD5ZtOjo1XTflmWxDaCHzs1dcdphWXeCDkM=;
+        b=F4AKZfwKc+uTxgFB7g3OoQDGtec1/hpreQzSCzgbijS63vu2qjs+WnIsfZ4cB0Z1Ut
+         BTUEM6Uw4rXrgFDCVnEFnyXEV6FCP6TmNTDWKvTOOHhg60s/Pb3tWx4pvhzpJ9xzoTIm
+         1GEYNmVK63SDGBbvlExnRNEEjWnG/SYfuNc38=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9Im/D2jKlD5ZtOjo1XTflmWxDaCHzs1dcdphWXeCDkM=;
+        b=megv7//T665GhxtzyhEja62cZBxlaYAkIV7tFOOtoG0bNDaXaVUX4UydHftP8llz2x
+         npHSsmUMsoTLL0JJwd90cyq3bVgJYxPEBbdwN6Cy3bToiBo+8wEp17C7qxCH5y1hYZ8j
+         8CXfpaZugAcIjHPOe6fYXNB0K3U+68FW4nQs0FXGkc0tkxmuwZyVyp6RWKmE4oad7wUz
+         dhfi1y1tpdv/shW9x8N4anEtbenPr3niZcpTkJ8R3dh/lnAoJr292xKe2djTA8+c1zjn
+         RxkpyWF+X06RVLkUCRz+DqQIsFtWlKoPlj8q8mB+nXoLH5kyFYlr4I8zL2ptENRs7joD
+         KGUw==
+X-Gm-Message-State: AOAM5304W+uxJn0vF8eJhr4Ruk+4VGmDXP7QgjSfuzxUgS+1BGAxmJJ1
+	GI6zgXSk8K06PgZlrWaTS8Te5WkCuWrR7Q==
+X-Google-Smtp-Source: ABdhPJy8THmFDmqOSTgamK+18n6fgdtBUFES5J5C/M/WY3dW+qOovOyxX47x2PO2tdTRZ/dMeINfuA==
+X-Received: by 2002:adf:dc8d:: with SMTP id r13mr14246023wrj.209.1613314199519;
+        Sun, 14 Feb 2021 06:49:59 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6c46:cb67:3902:3f00])
+        by smtp.gmail.com with ESMTPSA id a186sm10710684wme.17.2021.02.14.06.49.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Feb 2021 06:49:59 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH][dunfell] weston-init: Fix weston-keyboard path in weston.ini
-Date: Sun, 14 Feb 2021 15:42:30 +0100
-Message-Id: <20210214144230.8674-1-marex@denx.de>
-X-Mailer: git-send-email 2.30.0
+Subject: [PATCH 1/4] vim: Improve determinism
+Date: Sun, 14 Feb 2021 14:49:55 +0000
+Message-Id: <20210214144958.1966826-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The weston-keyboard executable is installed into /usr/libexec
-instead of /usr/lib/weston , correct the path in weston.ini .
+Add a couple of configure options to avoid determism issues in the vim build.
+This can happen due to the addition of glib-2.0 to the native sysroot through
+later task additions to the sysroot through indirect dependencies.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-NOTE: this could be applied at least all the way to Dunfell / 3.1.y
----
- meta/recipes-graphics/wayland/weston-init/weston.ini | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/vim/vim.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/=
-recipes-graphics/wayland/weston-init/weston.ini
-index 1e6dff68fd..40c5195887 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -42,7 +42,7 @@ require-input=3Dfalse
- #path=3D/build/weston-0lEgCh/weston-1.11.0/weston-flower
-=20
- #[input-method]
--#path=3D/usr/lib/weston/weston-keyboard
-+#path=3D/usr/libexec/weston-keyboard
-=20
- #[output]
- #name=3DLVDS1
---=20
-2.30.0
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 4d2886c19e2..1ea40e5e7f5 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -68,8 +68,10 @@ EXTRA_OECONF = " \
+     --disable-gtktest \
+     --disable-xim \
+     --disable-netbeans \
++    --disable-desktop-database-update \
+     --with-tlib=ncurses \
+     ac_cv_small_wchar_t=no \
++    ac_cv_path_GLIB_COMPILE_RESOURCES=no \
+     vim_cv_getcwd_broken=no \
+     vim_cv_memmove_handles_overlap=yes \
+     vim_cv_stat_ignores_slash=no \
+-- 
+2.27.0
 
