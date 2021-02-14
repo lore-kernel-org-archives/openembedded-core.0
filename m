@@ -1,161 +1,133 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.21031.1613328590547311059
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.21067.1613329398755731499
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 10:49:50 -0800
+ Sun, 14 Feb 2021 11:03:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fOGulVvE;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id l18so2576872pji.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 10:49:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=h2zzZ0qh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id y199so5679631oia.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 11:03:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=9DpyxPSqQbtu6YhuZt23K6ddZcStpf/N5WQGXaPTkz0=;
-        b=fOGulVvEJVBzJZdKHyipgvGmphvb6O314zQNipTyIrJEXpNZL5MU3i7TCj26P6aY72
-         gvFqQCCBzzyyMiXvr9dOqGTRMCqGLuGJcHlCbLNtuERBH93cj83+2c90D0QbHegGPV4x
-         uzoJ2m18DLsVOXJqc0oGCcfXU3id2qIO/sjtTJA9SM1gmHHBLjsWXmO4JG6F459XQsri
-         DQGNmFEbpWXq4OVDoVaw+0cILSspm2AAl+2Ah6CKXWqKZQrMYPT+9E6mDKF/TPAQErN6
-         B4FVjOT9LskTSVkBektRJXzPYzheyNSkrlB5vnAGzgDAuBrFoUa7eju3vBQcIgV+nOaV
-         cgng==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=Z+Ec3xlk4chvgC6qjpUnRtBYWZmTqW5oME7nTg2MAPc=;
+        b=h2zzZ0qh2parSqfVk1s0W4/SLp30A9pcPN/wYpy6gFBrKjdBiv+LLJBs29BSkdx3Ka
+         b4bGyPJ7uBh0mHbMtGeX7pies+0ydrGrRloVTQj6OoqKlH86/BJ7/6ocvNSt1u1AB9Jl
+         hxspkSE6cp1dNW8Q3ZkmgDFg3ugH+r5cknO4fNaCVPcmU3OqA9slHTGqO7Ar5rCeGGQu
+         JSMkQRbTxJhZ0OYvV4pR68VxC1n2KaL8+0vWjtATQMCzxfNLCBTT9iUminWMDWaQthF4
+         ZY8KkSRI1raUt7BWqK5UBnPSR25bD6p3FSUuIDO9PrJdnijqqkPE8x5/ZoERw3eQ3F05
+         xjEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=9DpyxPSqQbtu6YhuZt23K6ddZcStpf/N5WQGXaPTkz0=;
-        b=lZFe/0JA9At+JmHHC+A3dRsZ1Yna85W15riKZP9/0bMkME+7uCo/TfHFpdEIzWCnnE
-         oi7ia2WOolIqkhQDSXfxXDcKhIEPkgigCdrWqbdiLtct6BBcc3C2GJpQsXde7ThbYxOE
-         x6IUycsvJMHSlO6p/dJbZ5o16w3lyVUoyfCzHgjS2LJVrl30uIl/bYiIefe6CfciS/kL
-         MkoCezaq1BbQ2HIbr8bBjE3Nx1YQrd7Znqolk9WZAxe3SK7KCqKQi8DSp0RAaJ147qWs
-         4vc20YY3YpO0yjRT1utCS55qLXwkXv0ZIw8vYqyao1htAuVkI46SE6zvBYUb8rze+9KQ
-         TJxA==
-X-Gm-Message-State: AOAM531PGufFrYc1p5+tEVI1RJBt8GiUX8bqDi5WKsi4sAbt+3ULIrwb
-	rY2dcfS7U6CGLVMDrqH+N2Vdr1A9wUlMtw==
-X-Google-Smtp-Source: ABdhPJz1xcPc+gwu85Eo9UdORYpFQdOATX8REMCC8hQNlKsfu8ZB6LnBXNOcBGVPQzhghHZGqRBN4Q==
-X-Received: by 2002:a17:90b:1895:: with SMTP id mn21mr12593132pjb.6.1613328589962;
-        Sun, 14 Feb 2021 10:49:49 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:c8b8:7fc5:a225:bb8d? ([2601:202:4180:a5c0:c8b8:7fc5:a225:bb8d])
-        by smtp.gmail.com with ESMTPSA id 73sm15636009pfa.27.2021.02.14.10.49.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Feb 2021 10:49:49 -0800 (PST)
-Subject: Re: [OE-core] [PATCH] buildhistory.bbclass: add ${PN}/cve.log
-To: Konrad Weihmann <kweihmann@outlook.com>,
- openembedded-core@lists.openembedded.org
-References: <20210214175942.1981711-1-akuster808@gmail.com>
- <AM9PR09MB46422BBD6C5317F01D038450A8899@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <18970bb8-2406-079e-90a9-35285cb94c1c@gmail.com>
-Date: Sun, 14 Feb 2021 10:49:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <AM9PR09MB46422BBD6C5317F01D038450A8899@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=Z+Ec3xlk4chvgC6qjpUnRtBYWZmTqW5oME7nTg2MAPc=;
+        b=KLhQOYfI45KciNCJhqxRcwVp8RDZGel1RvpOj1ug4S8Gdh2ja4w9xxjtHfMUWyZ8gm
+         fj5+/WwhIIN+aBOvj3J/QIkWV2XkODGlGpAlQq9e0EVK/9Vh/LFndEUuV32hpaFhyf3h
+         fLXQdxR7JdxWzs41Iz4/Om1HbBN+rH+UwQO4pXv9dwMIGNCNeJsBuZu0xPb2/iE4wxRU
+         S9C9OZsUCqJLi7a0l/7g+eA1gv710tL6xJxpAXPG+DDVO2z68AAH0GnH4QBztnWTe146
+         5ABOUI6pYBSyeT3N0uzwcnJr9ehaFqX5rvwtfgSuAdTlqQ0kfcrtN7q0wjvKGL3KTHGL
+         va1Q==
+X-Gm-Message-State: AOAM53216RdPmRLRhqaAP7ooBfZD8/7+iyD/Oj6Vgkznst3lHWyPmGV8
+	snuDJs6TbXWttNgTasrdLzeIaL4Euyn6P5s1
+X-Google-Smtp-Source: ABdhPJxhQhH0SMJtGhMRHbHk9qIiqf/MnHy0+2vgZNjilN+dTok4rNI0omRNscPx752hhLwQnpE+tw==
+X-Received: by 2002:aca:4486:: with SMTP id r128mr3248857oia.171.1613329397643;
+        Sun, 14 Feb 2021 11:03:17 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id v16sm3287348oia.26.2021.02.14.11.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Feb 2021 11:03:17 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 67171960339; Sun, 14 Feb 2021 09:03:06 -1000 (HST)
+Subject: OE-core CVE metrics for gatesgarth on Sun 14 Feb 2021 09:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210214190306.67171960339@nuc.router0800d9.com>
+Date: Sun, 14 Feb 2021 09:03:06 -1000 (HST)
 
+Branch: gatesgarth
 
+New this week:
+CVE-2018-12433: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12438: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
 
-On 2/14/21 10:43 AM, Konrad Weihmann wrote:
->
->
-> On 14.02.21 18:59, akuster wrote:
->> Let archive package cve.logs too
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>   meta/classes/buildhistory.bbclass | 24 ++++++++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>
->> diff --git a/meta/classes/buildhistory.bbclass
->> b/meta/classes/buildhistory.bbclass
->> index 8ed420174e9..a119981d9b7 100644
->> --- a/meta/classes/buildhistory.bbclass
->> +++ b/meta/classes/buildhistory.bbclass
->> @@ -1067,3 +1067,27 @@ def write_latest_ptest_result(d, histdir):
->>                       bb.error('Failed to run %s!' % cmd)
->>           finally:
->>               bb.utils.unlockfile(lock)
->> +
->> +do_cve_check[postfuncs] += "write_cve_result"
->> +do_cve_check[vardepsexclude] += "write_cve_result"
->> +
->> +python write_cve_result() {
->> +    write_latest_cve_result(d, d.getVar('BUILDHISTORY_DIR'))
->> +}
->> +
->> +def write_latest_cve_result(d, histdir):
->> +    import shutil
->> +
->> +    input_file = d.getVar("CVE_CHECK_LOG")
->> +    pkg = d.getVar("PN")
->> +
->> +    output_cve = os.path.join(histdir, 'cve', pkg)
->> +    if os.path.isfile(input_file):
->> +        try:
->> +            # Lock it avoid race issue
->> +            lock = bb.utils.lockfile(histdir + "/cve.lock")
->> +            bb.utils.mkdirhier(output_cve)
->> +            shutil.copyfile(input_file, output_cve+"/cve.log")
->> +
->> +        finally:
->> +            bb.utils.unlockfile(lock)
->
-> just theoretically if bb.utils.lockfile raises an exception `lock`
-> would be undefined at this line
-Good question. I don't know. I just copied that locking from the ptest
-handler in buildhistory.
+Removed this week:
+CVE-2011-4862: inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-4862 *
+CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2019-1543: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1543 *
+CVE-2019-1547: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1547 *
+CVE-2019-1549: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1549 *
+CVE-2019-1551: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1551 *
+CVE-2019-1552: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1552 *
+CVE-2019-1563: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1563 *
+CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
+CVE-2020-1967: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1967 *
+CVE-2020-1971: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1971 *
+CVE-2021-23240: sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-23240 *
+CVE-2021-3156: sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3156 *
 
--armin
->
->>
->>
->>
->> 
->>
-
+Full list:  Found 61 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-0800: pixman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-12433: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+CVE-2018-12438: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
+CVE-2020-14409: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14409 *
+CVE-2020-14410: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14410 *
+CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27821: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
+CVE-2020-29443: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29443 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35517: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-3114: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3114 *
+CVE-2021-3115: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3115 *
+CVE-2021-3326: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3326 *
