@@ -1,126 +1,160 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web11.31977.1613399951910272411
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web09.31717.1613399966963211651
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 06:39:12 -0800
+ Mon, 15 Feb 2021 06:39:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=x8TrpNsP;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id r75so7900349oie.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:39:11 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EMUIXhKU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id o24so9527070wmh.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=lizB9Ft+Lg/Z/nXCHjhsxnGlwBMITMtnU7FOS29JpwQ=;
-        b=x8TrpNsP0jQ3cizTkqCBN4HvBGNaMLyg3jK8NKPMIU5WJDX+s+Pwl7SW3ALCjCQRxZ
-         fsvHqEpcsSfhPs462CcKsGQEz3UWa1iAjT5l7cCcDSabHXNWgJOdoGlij5CClYKf50ZM
-         /uKtEdpZ3W8TamHNNyTz+BjU98xJviot4A6yUwhH1wYMujzv+esM0fBWwF4s1K5YiQvB
-         +sxIsjwBMd/nMbaIXeSHC0Qv5kJAQ0f8K5cR1raooy00ndezPkSmPXydT06k3sZ+9Wt0
-         sVYHIN+NB1PeqOfhZ+uhA1YgdOQGJ7k1ybRVncvfQXZGEwzw2FiJkcN+u7Q3EAB8Z9EP
-         Z/OQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Lt6p+XJjj7SN//EQPuznucA1lbnema0YY3VLKSd8rX0=;
+        b=EMUIXhKUEJjaXTKrIS+7yEAsWJwq6bFdibHt9jIKuS6yzaf176Ut+JYOOUiWHvUZT3
+         TCa1TRTY1r6x1Jk2uSN+CdFiE5U313va7pWD5l9hzAYdBjUzIJRkCeQsPUPqCrvOGtLT
+         OTg2kgzXbg584vbgjRRDZwGheUdl6dsZghciA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lizB9Ft+Lg/Z/nXCHjhsxnGlwBMITMtnU7FOS29JpwQ=;
-        b=bRDbPRIUvzuMDE/H/9/U0ZFrkyxbT7zkMT53s0aLuPKNLbSg6qfdPXk/K+6++B1uuM
-         zt9aindvxQdB77iRjShgNYyVS/Cn46F2DqbfgvwEpB+5f7MIIJ673Fs/x28F10PU/cjs
-         97a0++6rDYG1HSzrhkrD0THOOudHw3hcsCSRkN5j62tN/K85WlEEGe3YPnd6CnbDKYIJ
-         AkCYRaxlX+a0SrBnpz6c4XpFRUn4N3z4FUZjahtZke4Nw0UK7FOC8jU6KSZOVLqjH0E4
-         Gzv7yOoqdPsEVZz8Wg4ZRuCuFzAtBHBnuPPqzB5BiGPjpluTlejyY0jcW2mtvKG57oAS
-         hQfA==
-X-Gm-Message-State: AOAM533zDKtNjpiWH4lPKTcAPR5Sv8ioEd7VizQ4YLLW3MovmgzE2LDW
-	QgGezFREqpnpj/QM3aQiO3vgLeAXNDtka5F2
-X-Google-Smtp-Source: ABdhPJzfM+kQV76lX3stwPFuT8gxiQCcxQA/HUfg3T+nRO6Ks6jfJ3qnaXsBzJ95TMkiBFVOSWRa1Q==
-X-Received: by 2002:a05:6808:bc3:: with SMTP id o3mr8625925oik.134.1613399950903;
-        Mon, 15 Feb 2021 06:39:10 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id f1sm2714068otq.10.2021.02.15.06.39.07
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Lt6p+XJjj7SN//EQPuznucA1lbnema0YY3VLKSd8rX0=;
+        b=gsKJIr6nRcS+tNZclJRWQ91P0+b8sI1e9ET76xLHW3Ol5hdvZWlHLF4y0ieyCfHPVP
+         rv9hDDzew3VFQ+HCHvRHLSnO4+uLSweP97ytUdKMbzNQjuhDk0Z5Ky5OwOl9qEUky/Dg
+         9gXzNSw33Qiy2/2BBAU1gWQK2L5CO6kWac+uurllhYW78k5ZuTZymZoKRdFyNTV/xXg1
+         QPfEm5xymYjDu5vKTHUlKlDzyNxk2IzZ4nzzVD/ieiFyHuHD7L98Fze3jN3yG/iesjWe
+         3XI87xdkKT2EmPxvikj8SD1HO2WiD1CeZt+5cnHjiMYYIeTB9Ne5Azll8nRx1NBUasjh
+         aGjw==
+X-Gm-Message-State: AOAM5325/rRO8FwC4XTFezUua38XlwYiDVOdWgiXt3TlC7CZPtTwDTY8
+	yH0oqnrWlYMB+mnFzhYEEiheWw==
+X-Google-Smtp-Source: ABdhPJx8FFd6AKa0O0RoZAUXLKS2a66wIVYEoKlyMMU46+6hxMpvHV0onMUYhWZtXBvCBX63G6+cRw==
+X-Received: by 2002:a7b:c007:: with SMTP id c7mr3351162wmb.59.1613399965545;
+        Mon, 15 Feb 2021 06:39:25 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:3015:c6e2:686f:34ff? ([2001:8b0:aba:5f3c:3015:c6e2:686f:34ff])
+        by smtp.gmail.com with ESMTPSA id i15sm22104395wmq.26.2021.02.15.06.39.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 06:39:10 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/17] python3targetconfig.bbclass: Make py3 dep and tasks only for target recipes
-Date: Mon, 15 Feb 2021 04:37:28 -1000
-Message-Id: <48157a1ca663e574fd6c7dd5cbc54524a81155c3.1613399659.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1613399659.git.steve@sakoman.com>
-References: <cover.1613399659.git.steve@sakoman.com>
+        Mon, 15 Feb 2021 06:39:25 -0800 (PST)
+Message-ID: <99fbfdb4bed1129a6250634688387a54665be35a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [V2][PATCH] buildhistory.bbclass: add cloning
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 15 Feb 2021 14:39:22 +0000
+In-Reply-To: <20210214191847.2043214-1-akuster808@gmail.com>
+References: <20210214191847.2043214-1-akuster808@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-From: Khem Raj <raj.khem@gmail.com>
+On Sun, 2021-02-14 at 19:18 +0000, akuster wrote:
+> Provide a method to clone and push to a git repo
+> Provide a method to pre-populate buildhistory
+> Maybe remove the need for external scripts to do the same
+> 
+> Three new variables:
+> BUILDHISTORY_BRANCH - branch used for checkout and pushing
+> BUILDHISTORY_CLONE - git repo uri
+> 
+> example:
+> BUILDHISTORY_BRANCH="${DISTRO}/gatesgarth/${MACHINE}"
+> BUILDHISTORY_CLONE = "git@gitlab.com:akuster/oe-buildhistory"
+> BUILDHISTORY_PUSH_REPO = "origin ${BUILDHISTORY_BRANCH}"
+> 
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> 
+> ----
+> [V2]
+> Use BUILDHISTORY_CLONE instead of BUILDHISTORY_REPO_URI
+> 
+> Simplified initial clone to one step
+> ---
+>  meta/classes/buildhistory.bbclass | 47 +++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 117a44eaf38..d0e918c3d8e 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -44,6 +44,12 @@ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+>  BUILDHISTORY_PUSH_REPO ?= ""
+>  BUILDHISTORY_TAG ?= "build"
+>  
+> 
+> 
+> 
+> +# Branch for checkout
+> +BUILDHISTORY_BRANCH ?= ""
+> +
+> +# Clone previous buildhistory from repo
+> +BUILDHISTORY_CLONE ?= ""
+> +
+>  SSTATEPOSTINSTFUNCS_append = " buildhistory_emit_pkghistory"
+>  # We want to avoid influencing the signatures of sstate tasks - first the function itself:
+>  sstate_install[vardepsexclude] += "buildhistory_emit_pkghistory"
+> @@ -858,6 +864,42 @@ END
+>  		fi) || true
+>  }
+>  
+> 
+> 
+> 
+> +python buildhistory_clone() {
+> +    import subprocess
+> +
+> +    histdir = d.getVar('BUILDHISTORY_DIR')
+> +    repo_uri = d.getVar("BUILDHISTORY_CLONE")
+> +    bh_branch = d.getVar("BUILDHISTORY_BRANCH")
+> +
+> +    if not bh_branch:
+> +        bb.note("BUILDHISTORY_BRANCH not set")
+> +        return
+> +
+> +    if not os.path.isdir(histdir):
+> +        cmd = ['git', 'clone', repo_uri, '-b', bh_branch, histdir]
+> +        ret = subprocess.call(cmd)
+> +        if ret != 0:
+> +            bb.error('Failed to clond %s!' % repo_uri)
+> +
+> +    if not os.path.isdir(histdir):
+> +       rerturn
+> +
+> +    if os.path.isdir(os.path.join(histdir, '.git')):
+> +        cmd =['git', '-C', histdir, 'config', '--get', 'remote.origin.url']
+> +        hasurl = subprocess.call(cmd, shell=True)
+> +        if hasurl:
+> +            cmd = ['git', '-C', histdir, 'remote', 'add', '-f', '-t', bh_branch, '-m', bh_branch, 'origin', repo_uri]
+> +            subprocess.call(cmd)
+> +
+> +            cmd = ['git', '-C', histdir, 'checkout', bh_branch]
+> +            ret = subprocess.call(cmd)
+> +            if ret != 0:
+> +                bb.error('Failed to checkout branch %s' % bh_branch)
+> +
+> +            cmd = ['git', '-C', histdir, 'branch', '--set-upstream-to=origin/%s' % bh_branch]
+> +            subprocess.call(cmd)
+> +}
+> +
+>  python buildhistory_eventhandler() {
+>      if (e.data.getVar('BUILDHISTORY_FEATURES') or "").strip():
+>          reset = e.data.getVar("BUILDHISTORY_RESET")
+> @@ -874,6 +916,11 @@ python buildhistory_eventhandler() {
+>                  for entry in entries:
+>                      os.rename(os.path.join(rootdir, entry),
+>                                os.path.join(olddir, entry))
+> +
+> +            if e.data.getVar("BUILDHISTORY_CLONE") != "":
+> +                localdata = bb.data.createCopy(e.data)
 
-python3targetconfig append target python3 to dependencies
-unconditionally, and here its inherited unconditionally too but
-distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other not-target
-recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01603a22df3
-is now bridging the native dependencies with target python3 and thats
-resulting all sorts of rebuilds for multimachine builds e.g.
+This wasn't tested without it set? Should be just:
 
-MACHINE=qemuarm bitbake python3-scons-native
-MACHINE=qemumips bitbake python3-scons-native
+if e.data.getVar("BUILDHISTORY_CLONE"):
 
-results in rebuilds for python3-scons-native
+Cheers,
 
-bitbake-diffsigs shows
+Richard
 
-Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
-0e3b97bd058d162065
-    Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
-229cb0f5ebb11
-        Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
-7cc9769194c43eae1
-            Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee778f848acdfaa2
-b346650fbdf114ac70ab57b
-                Hash for dependent task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 474333fb565f908992fd3716
-4935aaecf31a79e867826fe634cde4f44171d8e7
-                    Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
-08777e46a6fa6e417c0445018
 
-...
 
-Therefore limit effects of this class only for target recipes.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c99bb79087e74a967286469e1d8888a546ebec83)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/python3targetconfig.bbclass | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python3targetconfig.bbclass
-index 640d0c97b6..fc1025c207 100644
---- a/meta/classes/python3targetconfig.bbclass
-+++ b/meta/classes/python3targetconfig.bbclass
-@@ -1,15 +1,17 @@
- inherit python3native
- 
--DEPENDS_append = " python3"
-+EXTRA_PYTHON_DEPENDS ?= ""
-+EXTRA_PYTHON_DEPENDS_class-target = "python3"
-+DEPENDS_append = " ${EXTRA_PYTHON_DEPENDS}"
- 
--do_configure_prepend() {
-+do_configure_prepend_class-target() {
-         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
- }
- 
--do_compile_prepend() {
-+do_compile_prepend_class-target() {
-         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
- }
- 
--do_install_prepend() {
-+do_install_prepend_class-target() {
-         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
- }
--- 
-2.25.1
 
