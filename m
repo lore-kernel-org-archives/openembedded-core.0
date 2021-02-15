@@ -1,74 +1,133 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web09.32255.1613402170448917727
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web08.33633.1613406220934365317
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 07:16:10 -0800
+ Mon, 15 Feb 2021 08:23:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AcGMMQVE;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: aj.bagwell@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id a132so96898wmc.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 07:16:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XdRLN1fT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id w4so6706790wmi.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 08:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PKSNfyzeOkBPc6oYhcW6ZRSRDzcKIIvPkfPzJxAMDfM=;
-        b=AcGMMQVE/4bkPni576O2wM3qdWL68M+DhmBjveC2h8NXz9ghqvpWFZyF9qgxheqjjb
-         c9oKWIK2CZs+K0XkKiVmPCCYejG84SAcXk82JZtc04Y+dNMHdc8Idrk69vRvsUAi+ATL
-         7OIs6rpWQZNCjqzX7jCyjm3QWPw3YdwM9i6qUvtAVMFE+fsa2SglVCyK/qHJ3ZZbNk9W
-         ZraPr8nIXGSf0api8u9inRp4Q+WGqcvUtdQpX7PIKKTYsHTsoc3dyXNzRV1svFmyhU8q
-         hG5rmLlwdjk3IcxClTkOUvzBcyGbENtWBYWnztKn9QE0JIxTkCM0/jqyPupopK+zABdw
-         iiNQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Np+OvdW28VZzfL3Wy3j2s+Xvi8csJw9gSljIuWskVKM=;
+        b=XdRLN1fT20gLl61CwWguKxMalZ/asbJbxZiE431gS8h+apCN3P5JAW6JmixvAiG5dQ
+         8YdrzqJu7WYALLBSttzI3W4FZuAiw7yMOXSrska9EhjIWEqZhrElHxLAsAaOLhyeO4/0
+         82lKuJmcDcKktboQDDZYIDMzjZHVTF708KM4P/VDhae5Ii7G78qK959NQz0trCZw+HiP
+         KpCX3/PzjWa1UO5JXnno/wqRHq0SVIp1lFCanuwKtLAb2dwrzVYcH0E8HmpD4ljQ+ANS
+         h8qwu5WbT9NpeYebgydozm8sR33xAq+yVhz3P3YiqByMNmpLiqEhgV+1ZBH4W26pqfnC
+         E79Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PKSNfyzeOkBPc6oYhcW6ZRSRDzcKIIvPkfPzJxAMDfM=;
-        b=XJKUUJUCZkiH+liJVF97vXQUNBKVaIftOnBs/GSwb1noVnepATMjr0s9IJWYxfmVEA
-         W96X24dKuEGIaDyMLuWZvJUkp3rNDO4jKzmo/Pdnqb6PaYEaG7IbgwODhYVzIq+9iPIO
-         Xp++WQCgqZiT/WjytqKRR7m/XMIUqsTujtUI5Y8TbocsPWeKp5/+FShqgGhqY/IiO4Xa
-         gWwM7MPoU2sHkihU+GCuNQ3eTAgH6mzOrz0+ccV4vUKfiXLkU/OReTZAEJe788aPOo1S
-         /tojHan6hQyGs1pvg6+UX8GZf3NByZ2zCf6yatE8AOT2E75fsdPSZ4k45rUjH+MhKaEp
-         dejQ==
-X-Gm-Message-State: AOAM533s1zQmQVjSkR7PmrB0rdCoz/ULU6SBT1e+aAcuRN68YLjudEjx
-	SvJPsn3L3QB93JF+fVV01Y47s0EuUtn0QRCP
-X-Google-Smtp-Source: ABdhPJwmTJvwKd3/oXlvmmzU8XSPzF71lYjIBxeuNAo8mdhsG4ajj5RjSongW6JrXJoM4znTBmEP8A==
-X-Received: by 2002:a05:600c:3589:: with SMTP id p9mr14684382wmq.18.1613402168916;
-        Mon, 15 Feb 2021 07:16:08 -0800 (PST)
-Return-Path: <aj.bagwell@gmail.com>
-Received: from CMM-C02QQ1FRG8WL.localdomain (cpc159419-cmbg20-2-0-cust164.5-4.cable.virginm.net. [86.29.216.165])
-        by smtp.gmail.com with ESMTPSA id c18sm174118wmk.0.2021.02.15.07.16.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Feb 2021 07:16:08 -0800 (PST)
-From: "Anthony Bagwell" <aj.bagwell@gmail.com>
-X-Google-Original-From: AJ Bagwell <anthony.bagwell@hivehome.com>
-To: openembedded-core@lists.openembedded.org
-Cc: AJ Bagwell <anthony.bagwell@hivehome.com>
-Subject: [OE-core][PATCH] kernel-fitimage: fix dtbo support for fit images
-Date: Mon, 15 Feb 2021 15:16:06 +0000
-Message-Id: <20210215151606.46544-1-anthony.bagwell@hivehome.com>
-X-Mailer: git-send-email 2.24.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Np+OvdW28VZzfL3Wy3j2s+Xvi8csJw9gSljIuWskVKM=;
+        b=Xot9uGvNIgQYshatSCVjiTXjc/XPNrEi6rpZTuW70gzxqnNoLcdQnmKsMvw3jadvr6
+         CYaFHePnwr6PYe0YrItIDkfk5DbrvFX++y9/zHnKTpGWKrYMk5CKQNTJ6gTS6HsyjQm6
+         +lezgyaXRziBvkkikrLwGS62OE1x9Y2TB/SQVqnhMGVeLARmJV/DKYToa4buAOXp8ySn
+         r3nOxMK0MIH6uIGe3akv4TGe2UIqabyqGXq4pOa7QFpbhoUuwELcFMkatZtEjW7+5TPP
+         +Pqu1E1DXZdRJkoHfCTS/Lf5up9L6SAopzhDValU5UsjvgjdACWayBCD3MdHI12374AE
+         HkOA==
+X-Gm-Message-State: AOAM531t8EP0OB5UA+29DYEMc6u7+vZAsAeWtEPq+6rG8/WGwZ0R3cXS
+	mvlwdeD7k2Qbs5YkIIJBvenxt44FmTLiH9RPO+k=
+X-Google-Smtp-Source: ABdhPJzHzhQSs2rLIw+UT0auzoWgU7rfl7pYOkjbGHSweF25dHmIfYhLZvWINFQJxWnjcYe4BbmAaCcOukWjUMdqFXQ=
+X-Received: by 2002:a05:600c:4857:: with SMTP id j23mr15003532wmo.31.1613406219407;
+ Mon, 15 Feb 2021 08:23:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
+ <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com> <CANNYZj9cpxKMWbwXFaJay0C-yFk4_9B45T4V34a_vKS1PG38pQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9cpxKMWbwXFaJay0C-yFk4_9B45T4V34a_vKS1PG38pQ@mail.gmail.com>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Mon, 15 Feb 2021 10:23:28 -0600
+Message-ID: <CAJdd5GY+e_nv1Op928ENCbWzerz=61hH_w0FOO4YwBWBAAKstg@mail.gmail.com>
+Subject: Re: Autobuilder reproducibility target changes
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	swat <swat@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-8a2f4e143 added support for u-boot boot script but missed adding the
-extra parameter to fitimage_emit_section_config on the dtbo branch
----
- meta/classes/kernel-fitimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Feb 15, 2021 at 12:21 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I=E2=80=99ve definitely seen diffoscope process take hours and hours and =
+hours in local builds. Trying it with these vim packages locally should sti=
+ll be done.
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 87ed8bd892..2414870817 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -626,7 +626,7 @@ fitimage_assemble() {
- 		for DTB in ${DTBS}; do
- 			dtb_ext=${DTB##*.}
- 			if [ "${dtb_ext}" = "dtbo" ]; then
--				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
-+				fitimage_emit_section_config ${1} "" "${DTB}" "" "${bootscr_id}" "" "`expr ${i} = ${dtbcount}`"
- 			else
- 				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${bootscr_id}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
- 			fi
--- 
-2.24.0
+I forgot to mention that I did run diffoscope locally with the
+offending vim packages and it took about 30 seconds (same as the AB
+logs showed)
 
+>
+> Alex
+>
+> On Sun 14. Feb 2021 at 20.18, Joshua Watt <jpewhacker@gmail.com> wrote:
+>>
+>> On Sun, Feb 14, 2021 at 6:19 AM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > Regular users of the autobuilder will note that I've split the
+>> > reproducible builds test out of the main oe-selftest build and into it=
+s
+>> > own target build. This is because that test tends to run for a lot
+>> > longer time period and it helps to see the result separately.
+>> >
+>> > I've only done this for master. If gatesgarth and dunfell want to
+>> > follow, that should be straight forward with a change to the branch in
+>> > autobuilder-helper. Obviously we should ensure this is working ok with
+>> > master first but so far so good.
+>> >
+>> > It has already highlighted the difference between a successful run:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/2
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/2
+>> > (took 3-4 hours)
+>> >
+>> > and failing two failing runs:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/2
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/2
+>> > (took 9 hours)
+>>
+>> OK, I read through the code and unfortunately found a bug: when
+>> attempting to make sure the "B" build doesn't use sstate, I misspelled
+>> the SSTATE_MIRRORS, which means that the B build could have been
+>> pulling from the sstate mirror when it was not supposed to. This has a
+>> few implications:
+>>
+>>  1) It might explain why some of the reproducible results seem intermitt=
+ent
+>>  2) It might explain why there is such a time disparity between the test=
+s
+>>
+>> Unfortunately, while it probably will help the intermittent results,
+>> it probably means that the tests taking 9 hours is what is "supposed"
+>> to happen, and they happen to be shorter sometimes because the B build
+>> is pulling from sstate when it's not supposed to.
+>>
+>> >
+>> > the time difference being the system trying to run diffoscope on vim-
+>> > common :/.
+>> >
+>> > I'm aware I removed some recipes from the exclusions list after seeing
+>> > multiple passing builds for all distros and we're now seeing test
+>> > failures. My mistake was not waiting for the date to change and for
+>> > builds to run on an autobuilder worker with a different umask.
+>> >
+>> > Meson is failing with a pyc file mismatch which diffoscope can't decod=
+e
+>> > and despite trying for 5 hours, diffoscope hasn't given any data on wh=
+y
+>> > vim-common differs. I should have fixes in for quilt, valgrind, kernel=
+-
+>> > devsrc and cwautomacros. The umask fix may fix other issues too. Alex
+>> > has improved the reporting so we can spot cases where exclusion is now
+>> > longer needed.
+>> >
+>> > Cheers,
+>> >
+>> > Richard
+>> >
