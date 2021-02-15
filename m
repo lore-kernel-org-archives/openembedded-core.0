@@ -1,124 +1,133 @@
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web10.28369.1613375509978160590
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web10.31862.1613399869292529583
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 23:51:51 -0800
+ Mon, 15 Feb 2021 06:37:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=AZ7j16td;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=673db656c=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LfRZjlB3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.44, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f44.google.com with SMTP id t196so1573764oot.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:37:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1613375510; x=1644911510;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=k3+OxW85jN21YH2NCLwhySPnIMYiw2cp4+0hFLTGfWM=;
-  b=AZ7j16tduw/OD88WoJVPsNvgLLNn6249Mb3vuitadDV1E4s3PmsxJMkt
-   pc4pE4H76MLru2Mu3voKBogsW6vCRxqpiF9+9vEp7iYF6tZmSQfwEGg9V
-   XB9pmLrKR+iTL1zrOyXBT7EXYAib/jy+S8HOFHdZ9ndFLpdxxy4KIoyKU
-   Y=;
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 15 Feb 2021 08:51:47 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw5.muc with ESMTP/TLS;
- 15 Feb 2021 08:51:46 +0100
-Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
- by esabb6.muc with ESMTP/TLS; 15 Feb 2021 08:51:46 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
- (160.46.167.69) with Microsoft SMTP Server (TLS;
- Mon, 15 Feb 2021 08:51:45 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Mon,
- 15 Feb 2021 08:51:46 +0100
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <akuster808@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [[PATCH] cve-check.bbclass: allow skiping non pbn
-Thread-Topic: [OE-core] [[PATCH] cve-check.bbclass: allow skiping non pbn
-Thread-Index: AQHXAygN5IMYJKoepkyEpl1GoYY9JqpYx7oA
-Date: Mon, 15 Feb 2021 07:51:45 +0000
-Message-ID: <YCooECLAFp0akfsC@korppu>
-References: <20210214232027.2354161-1-akuster808@gmail.com>
-In-Reply-To: <20210214232027.2354161-1-akuster808@gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GCCSVoGJCf2+8pMrVdVrdOOrvAhU5B6DZr7GzOTDwZk=;
+        b=LfRZjlB3GohgYMngAM2vkTJrYsZVmVCzF1NqvJN6ay+JEcaSxTAKr8TCQUdxPZWbdV
+         68P2zAhRblxdXIdXMNWJs5p0knqFvnwirikLGaeUe8OpPDR4YNHf0k/tpD9Mk2kHiTn7
+         jrEJpjx1G6baB8fP2fNh3DJnPhA3LM/U8QVwY5HksOW6JD6S/Qyy+DGI4N3PUsW0oceA
+         jpnmv0aaqGFu5IPaJaAn7oH5RTYzaxywu+VwNt6MY3hMC4CkzIgvTILbanYYVi+m8Nku
+         U6ZnCeVeW6F2kcCtMR4kJE2k6wS+Y+IJ2SZNPnzWjY/VeuQLAdD3onEvO1YIhKOty3L0
+         tAYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GCCSVoGJCf2+8pMrVdVrdOOrvAhU5B6DZr7GzOTDwZk=;
+        b=JxP18OsiM7ifqfUfwXxZGabqUdnCFOUaoTlQXz1zTPHlYWQa4wwhYVnZk4NxOGRcSJ
+         O1v1y3R5YzsYtPPj7D4RaIYHUppk65/1i/vGjYurKiY7YyJ/hqeRjGCAL49jy1WYLFCE
+         wp5GNJhpDjVNgMVcv1G08gp6vICDDblJQHlJTLsJBL4Jl+aoL00v8dzqV6UsaBhGNTDG
+         AR1ubzN0u6liF/vSMugBzxBRSKd5+COH5r3Ss7zf27mE1UsOAjpm3UHKhsLfvZcKfsBR
+         QrUVszwSe4uPsD/gHq7L86/1k98i+bSOdYfdVrylB0PhNDUDT9i6qjEBLOSJYjxI8WpC
+         cRMg==
+X-Gm-Message-State: AOAM532zYG7VnxRctY504NIoEZdCNOIwyh4rZLYoOfVmlNkPUB19gyqx
+	dBbFkMdCNQSrxWR0si1Cx2nTgE0R61UkkXq8
+X-Google-Smtp-Source: ABdhPJxnarP2ePQa6jqeBjdBm3iHArHzLQlaYVUeoiJhJMaRtecuklJClsZj3mppKQkP60dviqiCHQ==
+X-Received: by 2002:a4a:d50d:: with SMTP id m13mr11037422oos.2.1613399868116;
+        Mon, 15 Feb 2021 06:37:48 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id f1sm2714068otq.10.2021.02.15.06.37.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Feb 2021 06:37:47 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/17] Patch review
+Date: Mon, 15 Feb 2021 04:37:11 -1000
+Message-Id: <cover.1613399659.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <457D614EFE9A8A419CC419A95BC2E5C0@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-On Sun, Feb 14, 2021 at 11:20:27PM +0000, akuster wrote:
-> I don't see the point in logging native, nativesdk etc.
-> The bottom line is the BPN has the issue.
+Passed a-full on autobuilder:
 
-While I agree to some part and do alot of:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1852
 
-$ cd build/tmp/deploy/cve
-$ less $( grep -l Unpatched * | \
-egrep -v -- '-native|-nativesdk|-cross-|-crosssdk' )
+The following changes since commit 9efabaff73090b08233b4fcef22142b9ac0c11aa:
 
-I do find that fixing build tooling CVEs is a good idea since
-they downloads stuff from the Internet.
+  wic/selftest: test_permissions also test bitbake image (2021-02-09 06:12:09 -1000)
 
-Hence I'm not sure I like this filter. Maybe at least
-rename CVE_CHECK_MANIFEST_FILTER to CVE_CHECK_FILTER_BUILD_TOOLS
-which makes this a bit more clear.
+are available in the Git repository at:
 
-Cheers,
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
--Mikko
+Alexander Kanavin (6):
+  p11-kit: upgrade 0.23.20 -> 0.23.21
+  python3: split python target configuration into own class
+  python3-pycairo: use python3targetconfig
+  distutils3-base.bbclass: use python3targetconfig
+  meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks
+  gpgme: use python3targetconfig
 
-> Allow folks to filter out those other package name variations via
-> CVE_CHECK_MANIFEST_FILTER
->=20
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/classes/cve-check.bbclass | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbc=
-lass
-> index 112ee3379d3..0d33d5a530c 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -59,6 +59,7 @@ CVE_CHECK_LAYER_EXCLUDELIST ??=3D ""
->  # Layers to be included=20
->  CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
->  
-> +CVE_CHECK_MANIFEST_FILTER ??=3D"0"
->  
->  # set to "alphabetical" for version using single alphabetical character=
- as increament release
->  CVE_VERSION_SUFFIX ??=3D ""
-> @@ -96,6 +97,13 @@ python do_cve_check () {
->      """
->  
->      if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-> +        if d.getVar("CVE_CHECK_MANIFEST_FILTER") =3D=3D "1":
-> +            # drop native, nativesdk, cross, etc
-> +            bpn =3D d.getVar("BPN")
-> +            pn =3D d.getVar("PN")
-> +            if bpn !=3D pn:
-> +               return
-> +
->          try:
->              patched_cves =3D get_patches_cves(d)
->          except FileNotFoundError:
-> @@ -164,6 +172,7 @@ def get_patches_cves(d):
->      import re
->  
->      pn =3D d.getVar("PN")
-> +
->      cve_match =3D re.compile("CVE:( CVE\-\d{4}\-\d+)+")
->  
->      # Matches last CVE-1234-211432 in the file name, also if written
-> --=20
-> 2.25.1
->=20
+Dorinda (1):
+  oe-pkgdata-util: Check if environment script is initialized
 
->=20
->=20
->=20
+Jon Mason (1):
+  gcc-9.3.inc: Fix potential runtime crash
+
+Khem Raj (1):
+  python3targetconfig.bbclass: Make py3 dep and tasks only for target
+    recipes
+
+Lee Chee Yang (1):
+  p11-kit: upgrade 0.23.21 -> 0.23.22
+
+Martin Jansa (1):
+  image_types.bbclass: tar: use posix format instead of gnu
+
+Michael Halstead (1):
+  uninative: Upgrade to 2.10
+
+Richard Purdie (3):
+  image_types: Ensure tar archives are reproducible
+  opkg: Fix build reproducibility issue
+  opkg: Fix patch glitches
+
+saloni (2):
+  libgcrypt: Whitelisted CVEs
+  libcroco: Added CVE
+
+ meta/classes/distutils3-base.bbclass          |   2 +-
+ meta/classes/image_types.bbclass              |   2 +-
+ meta/classes/python3native.bbclass            |   2 -
+ meta/classes/python3targetconfig.bbclass      |  17 ++
+ meta/classes/scons.bbclass                    |   3 -
+ meta/conf/distro/include/yocto-uninative.inc  |   8 +-
+ meta/lib/oe/prservice.py                      |   4 -
+ meta/recipes-core/glib-2.0/glib.inc           |   4 -
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |   1 +
+ ...-PR-tree-optimization-97236-fix-bad-.patch | 119 +++++++++++
+ .../opkg/opkg/sourcedateepoch.patch           |  24 +++
+ meta/recipes-devtools/opkg/opkg_0.4.2.bb      |   1 +
+ .../python/python3-pycairo_1.19.0.bb          |   2 +-
+ meta/recipes-graphics/mesa/mesa.inc           |   5 -
+ meta/recipes-support/gpgme/gpgme_1.13.1.bb    |   2 +-
+ .../libcroco/files/CVE-2020-12825.patch       | 192 ++++++++++++++++++
+ .../libcroco/libcroco_0.6.13.bb               |   3 +
+ .../libgcrypt/libgcrypt_1.8.5.bb              |   3 +
+ ...{p11-kit_0.23.20.bb => p11-kit_0.23.22.bb} |   7 +-
+ scripts/oe-pkgdata-util                       |   3 +
+ 20 files changed, 375 insertions(+), 29 deletions(-)
+ create mode 100644 meta/classes/python3targetconfig.bbclass
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+ create mode 100644 meta/recipes-support/libcroco/files/CVE-2020-12825.patch
+ rename meta/recipes-support/p11-kit/{p11-kit_0.23.20.bb => p11-kit_0.23.22.bb} (75%)
+
+-- 
+2.25.1
+
