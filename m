@@ -1,111 +1,100 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.33748.1613406689643604842
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web11.34019.1613407672803047372
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 08:31:30 -0800
+ Mon, 15 Feb 2021 08:47:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iPc6Mfay;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id b3so9646071wrj.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 08:31:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oRJFgUFs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id w26so824280otm.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 08:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Glw5tTaMVmDeNXbKqGegAuyrclR/R6UxWygBqWRaji0=;
-        b=iPc6MfayjsdvRxueZo8PPeu38T1SeSLh/27jdWZkIWOlkvivUt6H2hy7ZYYJeUIh45
-         iOumOl5ey9rq151PN1vVF1RKBjJaLXpHLuIq7vUiCSHj8prbcWjbdECHLUbN02wH4N7x
-         Mot3tqC7ktT87YapHNxM6l6YQGAvmz++CpesU=
+        d=gmail.com; s=20161025;
+        h=from:subject:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=Ugb4tdPxmwIzj5PKV5KUcFXix7JcQG5g3pziALfbsGg=;
+        b=oRJFgUFs3gzMr3y59Dk9ABOUUybpNfda+Inc4h7bMfdY1sLdiWjkUUx6NDHg+ghaAR
+         dXr6F8E2ulaaQHejVSwQnR58sbh41qNIknonMxu/OaZRCYIMH0kjSQtj/pl6aPyLAehD
+         TT7uJXEKr6cW7GtNYcCjQ2s1e4QgZ/5yegxlpLE88dyWtKVOHwQZBZvr3tZHWPgfn5Uv
+         F5qq2HT9b6YNlIyWHNV5hmqhMfyhdh23Q+72G+mMefYczTiILD4OZzndlZHwSfcW5Ruw
+         F169qUWZyW4p/+4J4b2aIVhTo99u1l2Ecl9gs0M5N2bhmlpaAB5aAtXR7SR7WZS/C8Po
+         NNIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Glw5tTaMVmDeNXbKqGegAuyrclR/R6UxWygBqWRaji0=;
-        b=SJukVFMh4JDlA3bYTGoNn4bWOG8fVcUrF3VJA31Vk6YRQ9sMbcPdmty5O1UPwRRzxQ
-         kXr7hKXtP/HzCffUSf+eofbLMUY8HkthdM8sbmjY1vsR1CA6+kz6z5WNPCJFb4kQJSyb
-         hmcy/vIyIuL6W3sYA6SZrXpPikUIlPowvXV+XRVGSPOe09YRJHkKr/Pu2yOpywJiTeut
-         28T214Rw8iwBzdYUsC/Msucu1PhaXV+BzRcSYUxwrWzGggsqLb8j2ZBWzWb8TNhL74Tc
-         /+KGl3HPou3R2gkOnd3WizlO1CUC0lS32+xO9fmeLpytbtaOOL0+wZVvcb1Z6f5pQtq1
-         DtIw==
-X-Gm-Message-State: AOAM533X4WW8Y9b2hsuIL1NNpKRnTrIh3ob3vQ/P2U1OYGqoFdD0A9Aq
-	3daASz7iFY0GJWlBVKErQ+bqDg==
-X-Google-Smtp-Source: ABdhPJynBkoJ82p1ODcRzQVk0B6gYEtYWfpmmYMqvV8aUtr8m9RMSqr7YQEraKI9deE7lzJuYIx3Aw==
-X-Received: by 2002:a05:6000:18a:: with SMTP id p10mr8666944wrx.166.1613406688080;
-        Mon, 15 Feb 2021 08:31:28 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:3015:c6e2:686f:34ff? ([2001:8b0:aba:5f3c:3015:c6e2:686f:34ff])
-        by smtp.gmail.com with ESMTPSA id g18sm5688093wrw.40.2021.02.15.08.31.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 08:31:27 -0800 (PST)
-Message-ID: <7a33da6d5bb1c49cc940efeef542d6ab57bc2f90.camel@linuxfoundation.org>
-Subject: Re: Autobuilder reproducibility target changes
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, swat
- <swat@lists.yoctoproject.org>, "Mittal, Anuj" <anuj.mittal@intel.com>,
- Steve Sakoman <steve@sakoman.com>, Alexander Kanavin
- <alex.kanavin@gmail.com>
-Date: Mon, 15 Feb 2021 16:31:24 +0000
-In-Reply-To: <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com>
-References: 
-	<80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
-	 <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:from:subject:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=Ugb4tdPxmwIzj5PKV5KUcFXix7JcQG5g3pziALfbsGg=;
+        b=hlALcdpdRZt0hG4HDWI6/BPVATJgYlV1ADGzUdLjEOHq3lHgk/Fx2g4fjzGdvRmRYN
+         G4eIdhNms0Pj1DjPo9fWQcuZkMRy4CPnmLLwqzOWuvVGC3lIUIWEZid+1SdoVVu+g4K1
+         RCeDfVNXpcf/VcIBukxivrdv9MzEgHTlVBW11KlrwbvVZCUcXqCBeFqL7lFdluRiKWcF
+         o1JSBXeF44biUhP+dx4766vn7LBID/TnKr/97XzZXFeNbeKqJYI+xb6nbexuxSda1N69
+         ukFTO/2GggpYRiCvCeKsKFjuSwCeHrhbz0ZhOgXbmMqyr1ZpYcwiiSFoTX1C+8slTY6i
+         DMEQ==
+X-Gm-Message-State: AOAM531s5GaxtX2z9icubdGNOY9jTT7UnC8OCwEIKxiqzUCoQ37kSRpW
+	Kl/b8DVxJkmTHpPbmxhK1IU=
+X-Google-Smtp-Source: ABdhPJyQBxsB1E6Pz1K5M4iG4qKB108dtoJWXCw7o9FAdmi33jCU1NXo5gFvPVUZQVma4xYXbnESLg==
+X-Received: by 2002:a05:6830:1215:: with SMTP id r21mr12425565otp.353.1613407672218;
+        Mon, 15 Feb 2021 08:47:52 -0800 (PST)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id g13sm3576263otl.60.2021.02.15.08.47.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Feb 2021 08:47:51 -0800 (PST)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][PATCH] libomxil: Fix up commercial license flag
+To: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com
+References: <20210212165157.21896-1-JPEWhacker@gmail.com>
+Message-ID: <7a213c0e-3abe-d100-e38e-3d4ef77a5f6c@gmail.com>
+Date: Mon, 15 Feb 2021 10:47:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210212165157.21896-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sun, 2021-02-14 at 13:17 -0600, Joshua Watt wrote:
-> On Sun, Feb 14, 2021 at 6:19 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > Regular users of the autobuilder will note that I've split the
-> > reproducible builds test out of the main oe-selftest build and into its
-> > own target build. This is because that test tends to run for a lot
-> > longer time period and it helps to see the result separately.
-> > 
-> > I've only done this for master. If gatesgarth and dunfell want to
-> > follow, that should be straight forward with a change to the branch in
-> > autobuilder-helper. Obviously we should ensure this is working ok with
-> > master first but so far so good.
-> > 
-> > It has already highlighted the difference between a successful run:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/2
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/2
-> > (took 3-4 hours)
-> > 
-> > and failing two failing runs:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/2
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/2
-> > (took 9 hours)
-> 
-> OK, I read through the code and unfortunately found a bug: when
-> attempting to make sure the "B" build doesn't use sstate, I misspelled
-> the SSTATE_MIRRORS, which means that the B build could have been
-> pulling from the sstate mirror when it was not supposed to. This has a
-> few implications:
-> 
->  1) It might explain why some of the reproducible results seem intermittent
->  2) It might explain why there is such a time disparity between the tests
+Can this please be backported to gatesgarth?
 
-The "good" news is that this didn't affect the autobuilder as it sets
-SSTATE_DIR to a common directory and doesn't use SSTATE_MIRRORS.
-
-> Unfortunately, while it probably will help the intermittent results,
-> it probably means that the tests taking 9 hours is what is "supposed"
-> to happen, and they happen to be shorter sometimes because the B build
-> is pulling from sstate when it's not supposed to.
-
-I don't think we're to the bottom of this. If its not spending the time
-in diffoscope, something seems to cause builds with differences to take
-much longer...
-
-Cheers,
-
-Richard
-
-
-
-
-
+On 2/12/21 10:51 AM, Joshua Watt wrote:
+> The commercial license flag on libomxil is set because it may include
+> the Adaptive Multi-Rate audio codec (AMR) using FFmepg, which is patent
+> encumbered.
+>
+> It turns out this component is disabled by default in the recipe; add a
+> PACKAGECONFIG to enable it and trigger the "commercial" LICENSE_FLAGS on
+> it. This make the default build configuration clean unless a user
+> specifically asks for AMR support, and prevents them from marking the
+> recipe with the "commerical" flag unnecessarily which could hide
+> potential problems later on.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>   meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> index 2061c280e4..82cdaf54c7 100644
+> --- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> +++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "Bellagio is an opensource implementation of the Khronos OpenMAX \
+>   HOMEPAGE = "http://omxil.sourceforge.net/"
+>   
+>   LICENSE = "LGPLv2.1+"
+> -LICENSE_FLAGS = "commercial"
+> +LICENSE_FLAGS = "${@bb.utils.contains('PACKAGECONFIG', 'amr', 'commercial', '', d)}"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+>                       file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
+>   
+> @@ -28,6 +28,10 @@ PROVIDES += "virtual/libomxil"
+>   
+>   CFLAGS += "-fcommon"
+>   
+> +PACKAGECONFIG ??= ""
+> +
+> +PACKAGECONFIG[amr] = "--enable-amr,,"
+> +
+>   #
+>   # The .so files under ${libdir}/bellagio are not intended to be versioned and symlinked.
+>   # Make sure they get packaged in the main package.
