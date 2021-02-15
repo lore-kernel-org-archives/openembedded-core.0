@@ -1,50 +1,50 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web08.32114.1613399942095370885
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web09.31711.1613399946405505741
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 06:39:02 -0800
+ Mon, 15 Feb 2021 06:39:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mSmGFj/w;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f52.google.com with SMTP id l23so6190594otn.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:39:02 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OUDT+eGm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f53.google.com with SMTP id r21so6162940otk.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:39:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=xmgjxcl3f4YIXNyw76ATDgEki+E72W+zCgYwRw88MRk=;
-        b=mSmGFj/wqRR5mrtLB+ecCcXYyyZ3GgiEr+b3T/xmYNRROGNztmRSLVTz1B1ec+Ucuo
-         GsgKzAILI8ZIwhRp2K7Fkccr1tv/IYj2DWEm9wqkF2Sn9ddtsGEgzZ4X4nUC8JWk3vMz
-         B/ZgnOkDWhZrK3SMTHd1hUFdCc1kOh4ChHw4SlS4G6iVdEoxkX1bBIShDLqTDPuo1FW7
-         DawIfRCSz+oUL2N0zRjUzzJRzfKAQAjYhsiQf4vnKk26+cBdH33C3c4lp00AHeY+msGH
-         2IE4wHpeqK8kv6tarm7n8+vg35nEce7Z9Ih9hyKS2w0MOtdsuxtZ6mWJfd0G2h773nky
-         QaNw==
+        bh=0NkbQKskwdjCpvdzUbLCGgRSXYdX1q1/yshB1z0vKAI=;
+        b=OUDT+eGmRpkMFaMeOXW1ObFgKs2SX61AnzcWASa7ZkS6L/N9+Me9/rjZT7AU3peHCj
+         LapW1UAZwGsNROslUoGD8hRE+xCffV8aLhUxeyAK7NMWPMY/t2tn1ECcVp1JNQBUsyHV
+         joH9WdGdHA4Q5ITD+j89U1F1syPw9hRl6X43eY/txEM0et25envX+rTVBHkkA90t8XyI
+         SASNbnXUB4l5ITo/UE3zk+KTaEd4jUoIPQLWjQKkOzS5u1bLHF4qTe9fQSbyENyUUw3Y
+         PxILLP6+Ci1rS7wdjxDjsGztOa1+4/ZwSE0NffIuaPns2+D5VhLzEKTgksdFDikKkaxb
+         K0jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xmgjxcl3f4YIXNyw76ATDgEki+E72W+zCgYwRw88MRk=;
-        b=gC+oQ4Uw62L5BTzgNzqLY56TLb/FMvCuXA9pfMNfnV+Xzvd8jHN/FoT4AlVeRafCK6
-         cFNnvMzAOcRvyNrmFnNoUhR7ArXlhD7CidV8qovR2ATJah9VxTLCxV0skwxPn7RpF98u
-         LXIv6FnfOEfFB1ygh4GKag/X9CK1MGfTgXwwZBFy9d7eltdoMsxEQCjkgNAp/dUsZfIy
-         ky3m6xv6PB82tMs+C7Ycg20f7vATbA51bFZt3bpMiI0b4CFa0+Gx6P7zu9JkZmK/cvlL
-         XYLHWUTDnTJYHvGkseq4ZoTfdhEo+VG2+3PDgpECP2ZwSrUDuAUHAebTPBQrp1+a6RqT
-         mHUA==
-X-Gm-Message-State: AOAM533BefndgleE/E3QciDWmnr6GK1BDCFG3okXC3Q8WGYF6qHqii/T
-	A9gW4Tn41vx0xJo6DgnnU6rkukaQwrcklt5D
-X-Google-Smtp-Source: ABdhPJxc8HkwzfGVsQ5Nn5DjYlhy11CKbhDOPrLdRmZdxyF3Mp24Y7Ewn2boMSX+7IC4itVLpDXoEA==
-X-Received: by 2002:a05:6830:150a:: with SMTP id k10mr11295484otp.235.1613399941035;
-        Mon, 15 Feb 2021 06:39:01 -0800 (PST)
+        bh=0NkbQKskwdjCpvdzUbLCGgRSXYdX1q1/yshB1z0vKAI=;
+        b=klBl/k6NAkitAkd4UbV2nIiwaRqGCTdM1D/LwShnsABJDhE7DWVVbClbAgIXj3ymmy
+         yG1Io+1IOI+Jpp9Ujw94rmvbIAzH1vm4YbfEn4xspRXdfBty9VpZI+UAvqtvU/32uSpw
+         CVBGrazeMIJPBAQhWZSQED1ScdTjwcmGaHEUhCINfOx7ZPDzpZuZbg3myed9GK+HwXnR
+         +BRPlj6B1h11BQab/Lc3zoWHGDpv4VquhPQBBZkt59fIYXVhXBWm8ja61orfafiPtT6S
+         2L/K68+rVckKjFpj0mEdQmbADdf10DOsKWHqRvmzv2UUv8hAyzc7ZTLl0BM1xXuLDAbt
+         6xRA==
+X-Gm-Message-State: AOAM533OpURglIVlCsNglcHSXI0vIT5/rQRjDmkQoa0GF0pR6d3WeGYt
+	z5hzsyHoW9M2g9VEH6uVlsH4ueS5cQYtLtMz
+X-Google-Smtp-Source: ABdhPJxG/dyRUi0TO4uOPL6SHjQ2iRuHCLyPjyklMtcTvTqUPT02wqD7WI0+8kjzgrXqNjo1rYoMkA==
+X-Received: by 2002:a9d:470b:: with SMTP id a11mr11655876otf.327.1613399945369;
+        Mon, 15 Feb 2021 06:39:05 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id f1sm2714068otq.10.2021.02.15.06.38.57
+        by smtp.gmail.com with ESMTPSA id f1sm2714068otq.10.2021.02.15.06.39.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 06:39:00 -0800 (PST)
+        Mon, 15 Feb 2021 06:39:05 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/17] meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks
-Date: Mon, 15 Feb 2021 04:37:26 -1000
-Message-Id: <961b6ce18c4dfff2fa54306230480dbd0cd970ee.1613399659.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/17] gpgme: use python3targetconfig
+Date: Mon, 15 Feb 2021 04:37:27 -1000
+Message-Id: <bf0e67e6b9d8b5cb532b7b479872a9930f50063f.1613399659.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1613399659.git.steve@sakoman.com>
 References: <cover.1613399659.git.steve@sakoman.com>
@@ -55,87 +55,25 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d3a81dd0e72a3495bfc7cc969c2bb806b666023d)
+(cherry picked from commit 38ecb83c444406b5157712d87aef3bbb320b45ec)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/scons.bbclass          | 3 ---
- meta/lib/oe/prservice.py            | 4 ----
- meta/recipes-core/glib-2.0/glib.inc | 4 ----
- meta/recipes-graphics/mesa/mesa.inc | 5 -----
- 4 files changed, 16 deletions(-)
+ meta/recipes-support/gpgme/gpgme_1.13.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-index 6b171ca8df..4f3ae502ef 100644
---- a/meta/classes/scons.bbclass
-+++ b/meta/classes/scons.bbclass
-@@ -5,7 +5,6 @@ DEPENDS += "python3-scons-native"
- EXTRA_OESCONS ?= ""
+diff --git a/meta/recipes-support/gpgme/gpgme_1.13.1.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+index b51534351d..6e945d3165 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.13.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+@@ -49,7 +49,7 @@ DEFAULT_LANGUAGES_class-target = "cpp"
+ LANGUAGES ?= "${DEFAULT_LANGUAGES} python"
  
- do_configure() {
--	unset _PYTHON_SYSCONFIGDATA_NAME
- 	if [ -n "${CONFIGURESTAMPFILE}" ]; then
- 		if [ -e "${CONFIGURESTAMPFILE}" -a "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${CLEANBROKEN}" != "1" ]; then
- 			${STAGING_BINDIR_NATIVE}/scons --clean PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS}
-@@ -17,13 +16,11 @@ do_configure() {
- }
+ PYTHON_INHERIT = "${@bb.utils.contains('PACKAGECONFIG', 'python2', 'pythonnative', '', d)}"
+-PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native', '', d)}"
++PYTHON_INHERIT .= "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native python3targetconfig', '', d)}"
  
- scons_do_compile() {
--	unset _PYTHON_SYSCONFIGDATA_NAME
- 	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
- 	die "scons build execution failed."
- }
- 
- scons_do_install() {
--	unset _PYTHON_SYSCONFIGDATA_NAME
- 	${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
- 	die "scons install execution failed."
- }
-diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index 2d3c9c7e50..fcdbe66c19 100644
---- a/meta/lib/oe/prservice.py
-+++ b/meta/lib/oe/prservice.py
-@@ -3,10 +3,6 @@
- #
- 
- def prserv_make_conn(d, check = False):
--    # Otherwise this fails when called from recipes which e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
--    # No module named '_sysconfigdata'
--    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
--        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
-     import prserv.serv
-     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
-     try:
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 7ebed0e5fd..c3ddf18387 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -32,10 +32,6 @@ inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bas
- 
- GTKDOC_MESON_OPTION = "gtk_doc"
- 
--# This avoids the need to depend on target python3, which in case of mingw is not even possible.
--# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
--unset _PYTHON_SYSCONFIGDATA_NAME
--
- S = "${WORKDIR}/glib-${PV}"
- 
- PACKAGECONFIG ??= "system-pcre libmount \
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index b7ef496fdc..a1bf878b1a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -26,11 +26,6 @@ PROVIDES = " \
- 
- inherit meson pkgconfig python3native gettext features_check
- 
--# Unset these to stop python trying to report the target Python setup
--_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
--STAGING_INCDIR[unexport] = "1"
--STAGING_LIBDIR[unexport] = "1"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
+ EXTRA_OECONF += '--enable-languages="${LANGUAGES}" \
+                  --disable-gpgconf-test \
 -- 
 2.25.1
 
