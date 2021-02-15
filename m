@@ -1,58 +1,79 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.766.1613428057966042501
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.966.1613428895602662878
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 14:27:38 -0800
+ Mon, 15 Feb 2021 14:41:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:43720 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lBmLA-0002Bz-B6; Mon, 15 Feb 2021 17:27:37 -0500
-Date: Mon, 15 Feb 2021 17:27:34 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: akuster808 <akuster808@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] upgrading pseudo on zeus branch to handle gcc 10?
-In-Reply-To: <bda3e653-f49f-6464-c47e-48b58c89d07d@gmail.com>
-Message-ID: <19969497-5e8a-cf53-1533-159e40f87d51@crashcourse.ca>
-References: <ca75402e-b19-4796-ff75-4769e628ea2e@crashcourse.ca> <bda3e653-f49f-6464-c47e-48b58c89d07d@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=p2gpqB3y;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id cl8so4537835pjb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 14:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0zknK1cTappJxJi5kfyojntpKukritZFN45HT2d+AQw=;
+        b=p2gpqB3y/Py/3IiSugU1IG+a8ljzrwzHWrTdbOEC4Byu6PN5xfZzgpg7sjVcIsANyJ
+         FEOZSHBNiubOpiCOwRaNV3t0om9khpQp7WXkrVM/iOtK1+i4zVUOQEkNTVdysc1SmeHl
+         59wJ6kzsbgmero1gRKYMc+oj1QQF8cOVfxatwKIrwhB/tqzy6hx0Rx9K9Yz6uk8a6Eys
+         07sfWtwM1h+VxziOoPx/kSyuMNEhSdMZiquYL8eSKjJJkyUYavRq9wIDW77cAT3yo2h3
+         z8ZyPDYDTiVaZtJ9cJLbboD2mZBwHHBJ9MP/jJy3qHDXzn0jUKIYLey4OYjbkUoQ73cd
+         Cqrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0zknK1cTappJxJi5kfyojntpKukritZFN45HT2d+AQw=;
+        b=VIaKKEtI2gJHWg4T6433L1UyoynDNwen5PcAoP39EtYkgccYEOtkOttg7R+5/fFqY8
+         JeLWYIBPzrv6vP9DxwHowQqRfGFjoIb3an2xQw2zR4QCFJMoTaMzKgD2pYu63y+8KtMz
+         Fy9FvobhmnZ9Cez+cSARZbpx3z1L1c9yzXxpbTDf688HvfntGFcZcC7Hpi/MFtPEvmHm
+         0Hu9U0aNtBZx9/kjH5PImYZFRAa09gPlZx3YU8nGIiWvh+vLuUmI4VEqH+pUTQFAvjv8
+         0SKNJKRlyK6oD42mOaczzZQfByPuyo/l3/OQoIUFWMacTg+Qr/mrBOtH2qR19D3FbyOG
+         wweg==
+X-Gm-Message-State: AOAM532Q6egULTWZK4KN2PppdAi9F9/97Eab43otbkNGZV0ypp3BowZn
+	2VQx5gbmVPZdCEMntEgasFObpk4MqJs=
+X-Google-Smtp-Source: ABdhPJxHPeCth748N+drZ3ETOMieqJ0qxdPMtwwg/J9FAVJTsv4b6MUoEMZnYx1otNNf04Ay0eYnlw==
+X-Received: by 2002:a17:90a:bb8b:: with SMTP id v11mr959578pjr.77.1613428894883;
+        Mon, 15 Feb 2021 14:41:34 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
+        by smtp.gmail.com with ESMTPSA id ga22sm476407pjb.34.2021.02.15.14.41.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Feb 2021 14:41:34 -0800 (PST)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [[PATCH] cve-check.bbclass: don't skip scanning if file not found
+Date: Mon, 15 Feb 2021 22:41:33 +0000
+Message-Id: <20210215224133.2550191-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Feb 2021, akuster808 wrote:
+This helps avoid these errors:
+ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found: /home/build/builds/master/tmp/work/core2-64-poky-linux/lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff
 
->
->
-> On 2/15/21 12:11 PM, Robert P. J. Day wrote:
-> >   yes, i know fedora 33 is not a supported build distro, but in trying
-> > an absolutely stock build of core-image-minimal from poky (zeus
-> > branch) on my F33 system, i ran into a gcc 10-related build error for
-> > which this:
-> >
-> > https://git.yoctoproject.org/cgit/cgit.cgi/pseudo/commit/?h=oe-core&id=a44361b8d3fbf5fc40cd87b599caeb380454efbe
-> >
-> > would appear to be just the solution. so is there a proper protocol
-> > for handling this? should the zeus branch move up to the incorporate
-> > that commit? or what?
+We should continuing to scan other applied patches for CVE info.
 
-> wouldn't bbappend of that patch work?
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/classes/cve-check.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  are you suggesting i just do that locally for my own benefit, or
-that that is something that can be submitted as a patch so that others
-get the benefit as well? i know i can add that as a local patch, but
-if the roadmap includes supporting zeus under gcc 10, then that patch
-would need to be applied universally.
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 1bed815d8e4..e56366579d1 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -186,8 +186,8 @@ def get_patches_cves(d):
+         patch_file = bb.fetch.decodeurl(url)[2]
+ 
+         if not os.path.isfile(patch_file):
+-            bb.error("File Not found: %s" % patch_file)
+-            raise FileNotFoundError
++            bb.warn("File Not found: %s" % patch_file)
++            continue
+ 
+         # Check patch file name for CVE ID
+         fname_match = cve_file_name_match.search(patch_file)
+-- 
+2.25.1
 
-rday
