@@ -1,227 +1,124 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web12.27624.1613370092284428235
+Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
+ by mx.groups.io with SMTP id smtpd.web10.28369.1613375509978160590
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Feb 2021 22:21:32 -0800
+ Sun, 14 Feb 2021 23:51:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fTWLHU+t;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id u7so2765075vsp.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Feb 2021 22:21:32 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=AZ7j16td;
+ spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=673db656c=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N6PItbFmw0XqWxZlZVEPkpifrDpu/G2FFS/dWDoktHg=;
-        b=fTWLHU+ta6CjxqUJNhBxKY+fsEvSezlmdC87C+p1Py6y523RWm6a00wh6QqFLuKrFG
-         Sh/dFn2pIdNo9JxArUjlxbrGbodPKLTbCur/ICTLVK50m5/bW3u4sQRu+K0zKjVAWu3C
-         MHivNfiNURCYDLKrRq+1Mk5nWE1RWyuM8llHicqV9MeAKNGWpsqRb6uFsyWRloJkLcCz
-         xtV27XpfgcCQ1EkPbLyEOQLFyHziFiOCWPBBiO4ltNQaxQhHF5IImH7RnTOUTAewFNi/
-         o2+fKyTXd0c/88EXhOm1liGj453BuraQ/BsFj9H8QYFaCYHs+/bdINssUSHAD8JqpQFt
-         vbUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N6PItbFmw0XqWxZlZVEPkpifrDpu/G2FFS/dWDoktHg=;
-        b=jc4vis9iW3T67mtwXVgtXb/AA0Hh8sd4Pqyi4ANOVMFebKtzKtaUWzZOHlz95prIVY
-         a0bjkg6KcO9y2TUeKbaRcdSGAAFSz5p/tXWtJLv2Er+I33jqPAHMjsU5n+6hQ3mZjzYT
-         mnhCnKlaAfhBkGXSaQ8NFA8Mu+bP2NX+7DXXrHH6yLuLih8s0nOcH0hr2+r17Ox39MlQ
-         LqPMj2Orx2+AUOubNOGWaK4gPBXuAEt+VKEJrKl+XPK2pBgw8qk37r6IIAdCiR4hM2+R
-         PU7yZf3xkDi1KfpWi6Rzh8wOsZN3vCwtI5MfxzN8xohUA3oZOdMDt3rSmoyU0gAbz9XR
-         GLQQ==
-X-Gm-Message-State: AOAM531ljiGy/UH4RuMmGe3BjVSpyRuABdEVeDNNsOhh63chyI0L9QaT
-	uPhmcvsAGYBfdDotHO9SsIHLQzCfZrJxtQ1S2a4=
-X-Google-Smtp-Source: ABdhPJwm9bBal+ALMFaBtefFCU7StFxkEvsoC97wBZbYzVT0ackEw4DhVSuBfME275hvfOp5vG2TDc+eiYvfKrrIkZI=
-X-Received: by 2002:a67:c599:: with SMTP id h25mr7534802vsk.31.1613370091287;
- Sun, 14 Feb 2021 22:21:31 -0800 (PST)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1613375510; x=1644911510;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=k3+OxW85jN21YH2NCLwhySPnIMYiw2cp4+0hFLTGfWM=;
+  b=AZ7j16tduw/OD88WoJVPsNvgLLNn6249Mb3vuitadDV1E4s3PmsxJMkt
+   pc4pE4H76MLru2Mu3voKBogsW6vCRxqpiF9+9vEp7iYF6tZmSQfwEGg9V
+   XB9pmLrKR+iTL1zrOyXBT7EXYAib/jy+S8HOFHdZ9ndFLpdxxy4KIoyKU
+   Y=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 15 Feb 2021 08:51:47 +0100
+Received: from esabb6.muc ([160.50.100.50])  by esagw5.muc with ESMTP/TLS;
+ 15 Feb 2021 08:51:46 +0100
+Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
+ by esabb6.muc with ESMTP/TLS; 15 Feb 2021 08:51:46 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
+ (160.46.167.69) with Microsoft SMTP Server (TLS;
+ Mon, 15 Feb 2021 08:51:45 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Mon,
+ 15 Feb 2021 08:51:46 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <akuster808@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [[PATCH] cve-check.bbclass: allow skiping non pbn
+Thread-Topic: [OE-core] [[PATCH] cve-check.bbclass: allow skiping non pbn
+Thread-Index: AQHXAygN5IMYJKoepkyEpl1GoYY9JqpYx7oA
+Date: Mon, 15 Feb 2021 07:51:45 +0000
+Message-ID: <YCooECLAFp0akfsC@korppu>
+References: <20210214232027.2354161-1-akuster808@gmail.com>
+In-Reply-To: <20210214232027.2354161-1-akuster808@gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-References: <80c70797943e52fa430d2f9f65bffe7a90730dec.camel@linuxfoundation.org>
- <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com>
-In-Reply-To: <CAJdd5GZ4WyPb+Rc-s1n=mm-PQo3ENcjwdnLxsyH1FMC0YTGB-g@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 15 Feb 2021 07:21:20 +0100
-Message-ID: <CANNYZj9cpxKMWbwXFaJay0C-yFk4_9B45T4V34a_vKS1PG38pQ@mail.gmail.com>
-Subject: Re: Autobuilder reproducibility target changes
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	swat <swat@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="0000000000002eb72105bb59ff93"
-
---0000000000002eb72105bb59ff93
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <457D614EFE9A8A419CC419A95BC2E5C0@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-I=E2=80=99ve definitely seen diffoscope process take hours and hours and ho=
-urs in
-local builds. Trying it with these vim packages locally should still be
-done.
+Hi,
 
-Alex
+On Sun, Feb 14, 2021 at 11:20:27PM +0000, akuster wrote:
+> I don't see the point in logging native, nativesdk etc.
+> The bottom line is the BPN has the issue.
 
-On Sun 14. Feb 2021 at 20.18, Joshua Watt <jpewhacker@gmail.com> wrote:
+While I agree to some part and do alot of:
 
-> On Sun, Feb 14, 2021 at 6:19 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > Regular users of the autobuilder will note that I've split the
-> > reproducible builds test out of the main oe-selftest build and into its
-> > own target build. This is because that test tends to run for a lot
-> > longer time period and it helps to see the result separately.
-> >
-> > I've only done this for master. If gatesgarth and dunfell want to
-> > follow, that should be straight forward with a change to the branch in
-> > autobuilder-helper. Obviously we should ensure this is working ok with
-> > master first but so far so good.
-> >
-> > It has already highlighted the difference between a successful run:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/2
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/2
-> > (took 3-4 hours)
-> >
-> > and failing two failing runs:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/2
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/2
-> > (took 9 hours)
->
-> OK, I read through the code and unfortunately found a bug: when
-> attempting to make sure the "B" build doesn't use sstate, I misspelled
-> the SSTATE_MIRRORS, which means that the B build could have been
-> pulling from the sstate mirror when it was not supposed to. This has a
-> few implications:
->
->  1) It might explain why some of the reproducible results seem intermitte=
-nt
->  2) It might explain why there is such a time disparity between the tests
->
-> Unfortunately, while it probably will help the intermittent results,
-> it probably means that the tests taking 9 hours is what is "supposed"
-> to happen, and they happen to be shorter sometimes because the B build
-> is pulling from sstate when it's not supposed to.
->
-> >
-> > the time difference being the system trying to run diffoscope on vim-
-> > common :/.
-> >
-> > I'm aware I removed some recipes from the exclusions list after seeing
-> > multiple passing builds for all distros and we're now seeing test
-> > failures. My mistake was not waiting for the date to change and for
-> > builds to run on an autobuilder worker with a different umask.
-> >
-> > Meson is failing with a pyc file mismatch which diffoscope can't decode
-> > and despite trying for 5 hours, diffoscope hasn't given any data on why
-> > vim-common differs. I should have fixes in for quilt, valgrind, kernel-
-> > devsrc and cwautomacros. The umask fix may fix other issues too. Alex
-> > has improved the reporting so we can spot cases where exclusion is now
-> > longer needed.
-> >
-> > Cheers,
-> >
-> > Richard
-> >
->
+$ cd build/tmp/deploy/cve
+$ less $( grep -l Unpatched * | \
+egrep -v -- '-native|-nativesdk|-cross-|-crosssdk' )
 
---0000000000002eb72105bb59ff93
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I do find that fixing build tooling CVEs is a good idea since
+they downloads stuff from the Internet.
 
-<div dir=3D"auto">I=E2=80=99ve definitely seen diffoscope process take hour=
-s and hours and hours in local builds. Trying it with these vim packages lo=
-cally should still be done.</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Sun 14. Feb 2021 at 20.18, Joshua Watt &lt;<a href=3D"mailt=
-o:jpewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-w=
-idth:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204=
-,204,204)">On Sun, Feb 14, 2021 at 6:19 AM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Regular users of the autobuilder will note that I&#39;ve split the<br>
-&gt; reproducible builds test out of the main oe-selftest build and into it=
-s<br>
-&gt; own target build. This is because that test tends to run for a lot<br>
-&gt; longer time period and it helps to see the result separately.<br>
-&gt;<br>
-&gt; I&#39;ve only done this for master. If gatesgarth and dunfell want to<=
-br>
-&gt; follow, that should be straight forward with a change to the branch in=
-<br>
-&gt; autobuilder-helper. Obviously we should ensure this is working ok with=
-<br>
-&gt; master first but so far so good.<br>
-&gt;<br>
-&gt; It has already highlighted the difference between a successful run:<br=
->
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/115=
-/builds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctopr=
-oject.org/typhoon/#/builders/115/builds/2</a><br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/119=
-/builds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctopr=
-oject.org/typhoon/#/builders/119/builds/2</a><br>
-&gt; (took 3-4 hours)<br>
-&gt;<br>
-&gt; and failing two failing runs:<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/116=
-/builds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctopr=
-oject.org/typhoon/#/builders/116/builds/2</a><br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/118=
-/builds/2" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctopr=
-oject.org/typhoon/#/builders/118/builds/2</a><br>
-&gt; (took 9 hours)<br>
-<br>
-OK, I read through the code and unfortunately found a bug: when<br>
-attempting to make sure the &quot;B&quot; build doesn&#39;t use sstate, I m=
-isspelled<br>
-the SSTATE_MIRRORS, which means that the B build could have been<br>
-pulling from the sstate mirror when it was not supposed to. This has a<br>
-few implications:<br>
-<br>
-=C2=A01) It might explain why some of the reproducible results seem intermi=
-ttent<br>
-=C2=A02) It might explain why there is such a time disparity between the te=
-sts<br>
-<br>
-Unfortunately, while it probably will help the intermittent results,<br>
-it probably means that the tests taking 9 hours is what is &quot;supposed&q=
-uot;<br>
-to happen, and they happen to be shorter sometimes because the B build<br>
-is pulling from sstate when it&#39;s not supposed to.<br>
-<br>
-&gt;<br>
-&gt; the time difference being the system trying to run diffoscope on vim-<=
-br>
-&gt; common :/.<br>
-&gt;<br>
-&gt; I&#39;m aware I removed some recipes from the exclusions list after se=
-eing<br>
-&gt; multiple passing builds for all distros and we&#39;re now seeing test<=
-br>
-&gt; failures. My mistake was not waiting for the date to change and for<br=
->
-&gt; builds to run on an autobuilder worker with a different umask.<br>
-&gt;<br>
-&gt; Meson is failing with a pyc file mismatch which diffoscope can&#39;t d=
-ecode<br>
-&gt; and despite trying for 5 hours, diffoscope hasn&#39;t given any data o=
-n why<br>
-&gt; vim-common differs. I should have fixes in for quilt, valgrind, kernel=
--<br>
-&gt; devsrc and cwautomacros. The umask fix may fix other issues too. Alex<=
-br>
-&gt; has improved the reporting so we can spot cases where exclusion is now=
-<br>
-&gt; longer needed.<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-</blockquote></div></div>
+Hence I'm not sure I like this filter. Maybe at least
+rename CVE_CHECK_MANIFEST_FILTER to CVE_CHECK_FILTER_BUILD_TOOLS
+which makes this a bit more clear.
 
---0000000000002eb72105bb59ff93--
+Cheers,
+
+-Mikko
+
+> Allow folks to filter out those other package name variations via
+> CVE_CHECK_MANIFEST_FILTER
+>=20
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/classes/cve-check.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbc=
+lass
+> index 112ee3379d3..0d33d5a530c 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -59,6 +59,7 @@ CVE_CHECK_LAYER_EXCLUDELIST ??=3D ""
+>  # Layers to be included=20
+>  CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
+>  
+> +CVE_CHECK_MANIFEST_FILTER ??=3D"0"
+>  
+>  # set to "alphabetical" for version using single alphabetical character=
+ as increament release
+>  CVE_VERSION_SUFFIX ??=3D ""
+> @@ -96,6 +97,13 @@ python do_cve_check () {
+>      """
+>  
+>      if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
+> +        if d.getVar("CVE_CHECK_MANIFEST_FILTER") =3D=3D "1":
+> +            # drop native, nativesdk, cross, etc
+> +            bpn =3D d.getVar("BPN")
+> +            pn =3D d.getVar("PN")
+> +            if bpn !=3D pn:
+> +               return
+> +
+>          try:
+>              patched_cves =3D get_patches_cves(d)
+>          except FileNotFoundError:
+> @@ -164,6 +172,7 @@ def get_patches_cves(d):
+>      import re
+>  
+>      pn =3D d.getVar("PN")
+> +
+>      cve_match =3D re.compile("CVE:( CVE\-\d{4}\-\d+)+")
+>  
+>      # Matches last CVE-1234-211432 in the file name, also if written
+> --=20
+> 2.25.1
+>=20
+
+>=20
+>=20
+>=20
