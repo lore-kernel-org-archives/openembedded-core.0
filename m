@@ -1,77 +1,118 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web08.53.1613421992049791597
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.29.1613422331398946465
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 12:46:32 -0800
+ Mon, 15 Feb 2021 12:52:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OauweqCv;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: champagne.guillaume.c@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id y10so3736373qvo.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 12:46:31 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VzyZLrNq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id x4so10529418wmi.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 12:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xwuN9qyE78DRtiJYS6CBDNnI0x4fVMO1cZWMF0KPJE4=;
-        b=OauweqCvjpqt2s6FuLmvY1g+IpwOCesripMxoOdqwFzwcvkFQO+z5m6SEchP+Hi07g
-         zxOyFFN2fEHG3kSOppZt6b/jjUWLIStp/LOabtOz5RgTedJJ80l7s7doPnGdUmH9J/+4
-         oNQ+PC0vRZro5NqObWeAn+tPraXF2jwXs1+Xykg9JqhoG+MFYger31DdWr4oiPMKrQjd
-         JqNfQoz+LsCWxPlMWr9hjfq4xWqm/OC/WfFp8UqdfTQDc43jC0myi9KbJyI8mFAFU7nn
-         4l7CBuhokDh70wDyxfwPxC+tHbgTKFoSgrwqUjRnHMqsbs0iOimJD6uhO851lxpmI5jI
-         ZY5w==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1xGKbMiLoI/MXmqjJMvU2Gd7eZ3/y88xAal9OZWYzx8=;
+        b=VzyZLrNqQtMFb69mXn/G/oc9L0Wu1iAXX53TsBPIE1xIHMySJwApxjITbiXIwosRm0
+         x6S1ewTzABBlpzkO1eWXYGfjcHXJ6kDcJIIYLsA7NUOAru+Qd6XCfgJbEsEUzXO40f2D
+         Aq6kqXS4rBmq9JZqjZ5rVoE9VclGqg+nkFJmc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xwuN9qyE78DRtiJYS6CBDNnI0x4fVMO1cZWMF0KPJE4=;
-        b=mXluJbCuNvfK/t82qB4KCIQJaBYH+eI2Zk0kahnjKDH0ky02wlhS+MW9KOlpdrv2oN
-         mJ8ACNim4VFPaZ4GSGwSYW96Rm80H0v2o9/KoCNqlQVnFQyC3Bqp4SfpDH4SK3NV+fI/
-         giIfUyZVOo/6ybqQKB1rXQeuE7oEuX3WkwXRwE9Ntl9T2nDWOp9C1rh273sYrCZHbztF
-         D83kV/ov1k3nHZaAKQdN5ik2FZ8MC5OxXPqIfqpq4Kb54kyrUy4BJO0G5zJeeerAHxM+
-         AMPmB0FHYGWIPUJbcLpFU/XN6CP1sEY29+ygsBbkOYtxm/B2+zYSIM8eSR2o+apoRnRE
-         gtXQ==
-X-Gm-Message-State: AOAM530r7MQ6Tx8Cqs923O3elpdV+p7GNAqbppdMn1lkUKF1zgRoxNGM
-	eCmNajgqNKreJner3TVQTXyNE0qnZMkn+C+3yUw=
-X-Google-Smtp-Source: ABdhPJwT14qMtBlznczaT7NpcKkeh3xiONc10FLM4yQvUbABxX1jniJYQO5a0X1FKqeM0s6PthFU8A8HwU2t0ocnAHE=
-X-Received: by 2002:ad4:4693:: with SMTP id bq19mr16478015qvb.43.1613421991280;
- Mon, 15 Feb 2021 12:46:31 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1xGKbMiLoI/MXmqjJMvU2Gd7eZ3/y88xAal9OZWYzx8=;
+        b=KyngxmFZvGruWRO5Dwtvna+cN1o766SAPIXumw1pX2yeK5SfW1rouwSJv2XYoiEhrx
+         ugwYrMWUTAo4Ij6P6WgWw+X9RA4xQvqBqKIZt1A/tFYefJBVuJ9nmJcysJEBRY+hnv9/
+         iRHi2Ao708zwBdCFLVw6g3SEQzOv6aGyh8b5yiiPxIdo5DWUTUwXmsxAWaWaNKeQkJWY
+         4q8d75izTs1bRuyqsJRl/ZoR1awexrinNeU9MtehX1qp8vAldyi44R5iez2YLDD7YuJZ
+         8Oi3lhwkaAvLnE8x4QrlzBI+/3HDV4FoaOrRkZ8zIqXQ6oaADF/t1ZKvP5DeAAwgXHof
+         Ew2Q==
+X-Gm-Message-State: AOAM532snx1VETlBnWpOZhnYbW7qwlyWtGa5FAYPR1eAPYph1E9o1b8c
+	WuhXvNqMlyEdfKVaZk8YhtnIpfEO4nCaFw==
+X-Google-Smtp-Source: ABdhPJz2ENj4A5EV9NLwlLYJ9J/tqTDKJphPF1TvoI+Lw0BShiLW9BjBssXj9KsGaS9q1Sg7L4JnEA==
+X-Received: by 2002:a05:600c:4642:: with SMTP id n2mr561744wmo.49.1613422329731;
+        Mon, 15 Feb 2021 12:52:09 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3015:c6e2:686f:34ff])
+        by smtp.gmail.com with ESMTPSA id q2sm18706253wrx.79.2021.02.15.12.52.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Feb 2021 12:52:09 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: seebs@seebs.net
+Subject: [PATCH 1/2] ports/linux: Add wrapper for fstatat/fstatat64 in glibc 2.33
+Date: Mon, 15 Feb 2021 20:52:07 +0000
+Message-Id: <20210215205208.2001387-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210212045335.16612-1-champagne.guillaume.c@gmail.com> <CAAnfSTvUJvqH0ZNde7VpqTFdLrMC022+T1HPKigUYKDhDZc=WQ@mail.gmail.com>
-In-Reply-To: <CAAnfSTvUJvqH0ZNde7VpqTFdLrMC022+T1HPKigUYKDhDZc=WQ@mail.gmail.com>
-From: "Guillaume Champagne" <champagne.guillaume.c@gmail.com>
-Date: Mon, 15 Feb 2021 15:46:20 -0500
-Message-ID: <CAHSN6OfaLBdt7JFtc8Zs7dN6NiLyBOniynzLoMn=eKe6EfC_Dw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 0/2] replace qemuboot.conf by qemuboot.json
-To: Ross Burton <ross@burtonini.com>
-Cc: liezhi.yang@windriver.com, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Le ven. 12 f=C3=A9vr. 2021 =C3=A0 06:48, Ross Burton <ross@burtonini.com> a=
- =C3=A9crit :
->
-> On Fri, 12 Feb 2021 at 04:54, Guillaume Champagne
-> <champagne.guillaume.c@gmail.com> wrote:
-> > This fixes bug #12503. Sending this as an RFC since I'm not sure what t=
-o
-> > do with autobuilder-worker-prereq-tests. It fetches a qemuboot.conf fro=
-m
-> > yoctoproject.org, but this cannot be changed yet to qemuboot.json since
-> > it doesn't exist on there.
->
-> I understand that you're simply fixing a newcomer bug but I just don't
-> see the rationale behind the bug in the first place.  Copying in
-> Robert for his opinion.
->
-> I'm unaware of any real world limitations of INI files that are a
-> problem for runqemu.  We either break compatibility with existing
-> builds, or have two separate parsing codepaths in runqemu which
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ports/linux/guts/fstatat.c   | 15 +++++++++++++++
+ ports/linux/guts/fstatat64.c | 15 +++++++++++++++
+ ports/linux/wrapfuncs.in     |  2 ++
+ 3 files changed, 32 insertions(+)
+ create mode 100644 ports/linux/guts/fstatat.c
+ create mode 100644 ports/linux/guts/fstatat64.c
 
-Fair enough, I asked a question to that effect on the bugzilla report
-a month ago but didn't get an answer. Someone should eventually close
-this ticket / remove it from the newcomer list before you get other
-contribution attempts regarding this .
+diff --git a/ports/linux/guts/fstatat.c b/ports/linux/guts/fstatat.c
+new file mode 100644
+index 0000000..3267641
+--- /dev/null
++++ b/ports/linux/guts/fstatat.c
+@@ -0,0 +1,15 @@
++/*
++ * Copyright (c) 2021 Linux Foundation; see
++ * guts/COPYRIGHT for information.
++ *
++ * SPDX-License-Identifier: LGPL-2.1-only
++ *
++ * int fstatat(int dirfd, const char *path, struct stat *buf, int flags)
++ *	int rc = -1;
++ */
++
++	rc = wrap___fxstatat(_STAT_VER, dirfd, path, buf, flags);
++
++/*	return rc;
++ * }
++ */
+diff --git a/ports/linux/guts/fstatat64.c b/ports/linux/guts/fstatat64.c
+new file mode 100644
+index 0000000..c981e14
+--- /dev/null
++++ b/ports/linux/guts/fstatat64.c
+@@ -0,0 +1,15 @@
++/*
++ * Copyright (c) 2021 Linux Foundation; see
++ * guts/COPYRIGHT for information.
++ *
++ * SPDX-License-Identifier: LGPL-2.1-only
++ *
++ * int fstatat64(int dirfd, const char *path, struct stat64 *buf, int flags)
++ *	int rc = -1;
++ */
++
++	rc = wrap___fxstatat64(_STAT_VER, dirfd, path, buf, flags);
++
++/*	return rc;
++ * }
++ */
+diff --git a/ports/linux/wrapfuncs.in b/ports/linux/wrapfuncs.in
+index 80221fc..3824fd8 100644
+--- a/ports/linux/wrapfuncs.in
++++ b/ports/linux/wrapfuncs.in
+@@ -23,9 +23,11 @@ int creat64(const char *path, mode_t mode);
+ int stat(const char *path, struct stat *buf); /* real_func=pseudo_stat */
+ int lstat(const char *path, struct stat *buf); /* real_func=pseudo_lstat, flags=AT_SYMLINK_NOFOLLOW */
+ int fstat(int fd, struct stat *buf); /* real_func=pseudo_fstat */
++int fstatat(int dirfd, const char *path, struct stat *buf, int flags);
+ int stat64(const char *path, struct stat64 *buf); /* real_func=pseudo_stat64 */
+ int lstat64(const char *path, struct stat64 *buf); /* real_func=pseudo_lstat64, flags=AT_SYMLINK_NOFOLLOW */
+ int fstat64(int fd, struct stat64 *buf); /* real_func=pseudo_fstat64 */
++int fstatat64(int dirfd, const char *path, struct stat64 *buf, int flags);
+ int __xstat64(int ver, const char *path, struct stat64 *buf);
+ int __lxstat64(int ver, const char *path, struct stat64 *buf); /* flags=AT_SYMLINK_NOFOLLOW */
+ int __fxstat64(int ver, int fd, struct stat64 *buf);
+-- 
+2.27.0
 
-> complicates things more (as the ini path won't get tested).
->
-> Ross
