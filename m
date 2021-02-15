@@ -1,160 +1,74 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.31717.1613399966963211651
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web09.32255.1613402170448917727
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 06:39:27 -0800
+ Mon, 15 Feb 2021 07:16:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EMUIXhKU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id o24so9527070wmh.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 06:39:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AcGMMQVE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: aj.bagwell@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id a132so96898wmc.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Feb 2021 07:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Lt6p+XJjj7SN//EQPuznucA1lbnema0YY3VLKSd8rX0=;
-        b=EMUIXhKUEJjaXTKrIS+7yEAsWJwq6bFdibHt9jIKuS6yzaf176Ut+JYOOUiWHvUZT3
-         TCa1TRTY1r6x1Jk2uSN+CdFiE5U313va7pWD5l9hzAYdBjUzIJRkCeQsPUPqCrvOGtLT
-         OTg2kgzXbg584vbgjRRDZwGheUdl6dsZghciA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PKSNfyzeOkBPc6oYhcW6ZRSRDzcKIIvPkfPzJxAMDfM=;
+        b=AcGMMQVE/4bkPni576O2wM3qdWL68M+DhmBjveC2h8NXz9ghqvpWFZyF9qgxheqjjb
+         c9oKWIK2CZs+K0XkKiVmPCCYejG84SAcXk82JZtc04Y+dNMHdc8Idrk69vRvsUAi+ATL
+         7OIs6rpWQZNCjqzX7jCyjm3QWPw3YdwM9i6qUvtAVMFE+fsa2SglVCyK/qHJ3ZZbNk9W
+         ZraPr8nIXGSf0api8u9inRp4Q+WGqcvUtdQpX7PIKKTYsHTsoc3dyXNzRV1svFmyhU8q
+         hG5rmLlwdjk3IcxClTkOUvzBcyGbENtWBYWnztKn9QE0JIxTkCM0/jqyPupopK+zABdw
+         iiNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Lt6p+XJjj7SN//EQPuznucA1lbnema0YY3VLKSd8rX0=;
-        b=gsKJIr6nRcS+tNZclJRWQ91P0+b8sI1e9ET76xLHW3Ol5hdvZWlHLF4y0ieyCfHPVP
-         rv9hDDzew3VFQ+HCHvRHLSnO4+uLSweP97ytUdKMbzNQjuhDk0Z5Ky5OwOl9qEUky/Dg
-         9gXzNSw33Qiy2/2BBAU1gWQK2L5CO6kWac+uurllhYW78k5ZuTZymZoKRdFyNTV/xXg1
-         QPfEm5xymYjDu5vKTHUlKlDzyNxk2IzZ4nzzVD/ieiFyHuHD7L98Fze3jN3yG/iesjWe
-         3XI87xdkKT2EmPxvikj8SD1HO2WiD1CeZt+5cnHjiMYYIeTB9Ne5Azll8nRx1NBUasjh
-         aGjw==
-X-Gm-Message-State: AOAM5325/rRO8FwC4XTFezUua38XlwYiDVOdWgiXt3TlC7CZPtTwDTY8
-	yH0oqnrWlYMB+mnFzhYEEiheWw==
-X-Google-Smtp-Source: ABdhPJx8FFd6AKa0O0RoZAUXLKS2a66wIVYEoKlyMMU46+6hxMpvHV0onMUYhWZtXBvCBX63G6+cRw==
-X-Received: by 2002:a7b:c007:: with SMTP id c7mr3351162wmb.59.1613399965545;
-        Mon, 15 Feb 2021 06:39:25 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:3015:c6e2:686f:34ff? ([2001:8b0:aba:5f3c:3015:c6e2:686f:34ff])
-        by smtp.gmail.com with ESMTPSA id i15sm22104395wmq.26.2021.02.15.06.39.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 06:39:25 -0800 (PST)
-Message-ID: <99fbfdb4bed1129a6250634688387a54665be35a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [V2][PATCH] buildhistory.bbclass: add cloning
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Feb 2021 14:39:22 +0000
-In-Reply-To: <20210214191847.2043214-1-akuster808@gmail.com>
-References: <20210214191847.2043214-1-akuster808@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PKSNfyzeOkBPc6oYhcW6ZRSRDzcKIIvPkfPzJxAMDfM=;
+        b=XJKUUJUCZkiH+liJVF97vXQUNBKVaIftOnBs/GSwb1noVnepATMjr0s9IJWYxfmVEA
+         W96X24dKuEGIaDyMLuWZvJUkp3rNDO4jKzmo/Pdnqb6PaYEaG7IbgwODhYVzIq+9iPIO
+         Xp++WQCgqZiT/WjytqKRR7m/XMIUqsTujtUI5Y8TbocsPWeKp5/+FShqgGhqY/IiO4Xa
+         gWwM7MPoU2sHkihU+GCuNQ3eTAgH6mzOrz0+ccV4vUKfiXLkU/OReTZAEJe788aPOo1S
+         /tojHan6hQyGs1pvg6+UX8GZf3NByZ2zCf6yatE8AOT2E75fsdPSZ4k45rUjH+MhKaEp
+         dejQ==
+X-Gm-Message-State: AOAM533s1zQmQVjSkR7PmrB0rdCoz/ULU6SBT1e+aAcuRN68YLjudEjx
+	SvJPsn3L3QB93JF+fVV01Y47s0EuUtn0QRCP
+X-Google-Smtp-Source: ABdhPJwmTJvwKd3/oXlvmmzU8XSPzF71lYjIBxeuNAo8mdhsG4ajj5RjSongW6JrXJoM4znTBmEP8A==
+X-Received: by 2002:a05:600c:3589:: with SMTP id p9mr14684382wmq.18.1613402168916;
+        Mon, 15 Feb 2021 07:16:08 -0800 (PST)
+Return-Path: <aj.bagwell@gmail.com>
+Received: from CMM-C02QQ1FRG8WL.localdomain (cpc159419-cmbg20-2-0-cust164.5-4.cable.virginm.net. [86.29.216.165])
+        by smtp.gmail.com with ESMTPSA id c18sm174118wmk.0.2021.02.15.07.16.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Feb 2021 07:16:08 -0800 (PST)
+From: "Anthony Bagwell" <aj.bagwell@gmail.com>
+X-Google-Original-From: AJ Bagwell <anthony.bagwell@hivehome.com>
+To: openembedded-core@lists.openembedded.org
+Cc: AJ Bagwell <anthony.bagwell@hivehome.com>
+Subject: [OE-core][PATCH] kernel-fitimage: fix dtbo support for fit images
+Date: Mon, 15 Feb 2021 15:16:06 +0000
+Message-Id: <20210215151606.46544-1-anthony.bagwell@hivehome.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-02-14 at 19:18 +0000, akuster wrote:
-> Provide a method to clone and push to a git repo
-> Provide a method to pre-populate buildhistory
-> Maybe remove the need for external scripts to do the same
-> 
-> Three new variables:
-> BUILDHISTORY_BRANCH - branch used for checkout and pushing
-> BUILDHISTORY_CLONE - git repo uri
-> 
-> example:
-> BUILDHISTORY_BRANCH="${DISTRO}/gatesgarth/${MACHINE}"
-> BUILDHISTORY_CLONE = "git@gitlab.com:akuster/oe-buildhistory"
-> BUILDHISTORY_PUSH_REPO = "origin ${BUILDHISTORY_BRANCH}"
-> 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> 
-> ----
-> [V2]
-> Use BUILDHISTORY_CLONE instead of BUILDHISTORY_REPO_URI
-> 
-> Simplified initial clone to one step
-> ---
->  meta/classes/buildhistory.bbclass | 47 +++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 117a44eaf38..d0e918c3d8e 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -44,6 +44,12 @@ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
->  BUILDHISTORY_PUSH_REPO ?= ""
->  BUILDHISTORY_TAG ?= "build"
->  
-> 
-> 
-> 
-> +# Branch for checkout
-> +BUILDHISTORY_BRANCH ?= ""
-> +
-> +# Clone previous buildhistory from repo
-> +BUILDHISTORY_CLONE ?= ""
-> +
->  SSTATEPOSTINSTFUNCS_append = " buildhistory_emit_pkghistory"
->  # We want to avoid influencing the signatures of sstate tasks - first the function itself:
->  sstate_install[vardepsexclude] += "buildhistory_emit_pkghistory"
-> @@ -858,6 +864,42 @@ END
->  		fi) || true
->  }
->  
-> 
-> 
-> 
-> +python buildhistory_clone() {
-> +    import subprocess
-> +
-> +    histdir = d.getVar('BUILDHISTORY_DIR')
-> +    repo_uri = d.getVar("BUILDHISTORY_CLONE")
-> +    bh_branch = d.getVar("BUILDHISTORY_BRANCH")
-> +
-> +    if not bh_branch:
-> +        bb.note("BUILDHISTORY_BRANCH not set")
-> +        return
-> +
-> +    if not os.path.isdir(histdir):
-> +        cmd = ['git', 'clone', repo_uri, '-b', bh_branch, histdir]
-> +        ret = subprocess.call(cmd)
-> +        if ret != 0:
-> +            bb.error('Failed to clond %s!' % repo_uri)
-> +
-> +    if not os.path.isdir(histdir):
-> +       rerturn
-> +
-> +    if os.path.isdir(os.path.join(histdir, '.git')):
-> +        cmd =['git', '-C', histdir, 'config', '--get', 'remote.origin.url']
-> +        hasurl = subprocess.call(cmd, shell=True)
-> +        if hasurl:
-> +            cmd = ['git', '-C', histdir, 'remote', 'add', '-f', '-t', bh_branch, '-m', bh_branch, 'origin', repo_uri]
-> +            subprocess.call(cmd)
-> +
-> +            cmd = ['git', '-C', histdir, 'checkout', bh_branch]
-> +            ret = subprocess.call(cmd)
-> +            if ret != 0:
-> +                bb.error('Failed to checkout branch %s' % bh_branch)
-> +
-> +            cmd = ['git', '-C', histdir, 'branch', '--set-upstream-to=origin/%s' % bh_branch]
-> +            subprocess.call(cmd)
-> +}
-> +
->  python buildhistory_eventhandler() {
->      if (e.data.getVar('BUILDHISTORY_FEATURES') or "").strip():
->          reset = e.data.getVar("BUILDHISTORY_RESET")
-> @@ -874,6 +916,11 @@ python buildhistory_eventhandler() {
->                  for entry in entries:
->                      os.rename(os.path.join(rootdir, entry),
->                                os.path.join(olddir, entry))
-> +
-> +            if e.data.getVar("BUILDHISTORY_CLONE") != "":
-> +                localdata = bb.data.createCopy(e.data)
+8a2f4e143 added support for u-boot boot script but missed adding the
+extra parameter to fitimage_emit_section_config on the dtbo branch
+---
+ meta/classes/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This wasn't tested without it set? Should be just:
-
-if e.data.getVar("BUILDHISTORY_CLONE"):
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 87ed8bd892..2414870817 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -626,7 +626,7 @@ fitimage_assemble() {
+ 		for DTB in ${DTBS}; do
+ 			dtb_ext=${DTB##*.}
+ 			if [ "${dtb_ext}" = "dtbo" ]; then
+-				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
++				fitimage_emit_section_config ${1} "" "${DTB}" "" "${bootscr_id}" "" "`expr ${i} = ${dtbcount}`"
+ 			else
+ 				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${bootscr_id}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
+ 			fi
+-- 
+2.24.0
 
