@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.5218.1613463848513890660
+ by mx.groups.io with SMTP id smtpd.web09.5135.1613463848528049364
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 00:24:11 -0800
+ Tue, 16 Feb 2021 00:24:12 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D302938C1262
+	by mail.yoctoproject.org (Postfix) with ESMTP id D919D38C1288
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:11 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gdk-pixbuf: upgrading to 2.42.2 FAILED
-Message-ID: <MADEUP.16642CD32CE49B7A.16989@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============2960279766515124915=="
+Subject: [AUH] adwaita-icon-theme: upgrading to 3.38.0 FAILED
+Message-ID: <MADEUP.16642CD32EC972B9.20265@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============0310397555742120717=="
 
---===============2960279766515124915==
+--===============0310397555742120717==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,100 +23,66 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gdk-pixbuf* to *2.42.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *3.38.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe gdk-pixbuf failed.
+The following devtool command failed:  finish -f adwaita-icon-theme /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-61970b606b8c2b0c85bd7f697350f51de0207268"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:61970b606b8c2b0c85bd7f697350f51de0207268"
-workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.2.tar.xz...
-Loading cache...done.
-Loaded 1428 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 811 .bb files complete (809 cached, 2 parsed). 1429 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Parsing of 811 .bb files complete (809 cached, 2 parsed). 1431 targets, 31 skipped, 0 masked, 0 errors.
+ERROR: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 131, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/conf/layer.conf not found
 
-Build Configuration:
-BB_VERSION           = "1.49.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-61970b606b8c2b0c85bd7f697350f51de0207268"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:61970b606b8c2b0c85bd7f697350f51de0207268"
-workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
+ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 131, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gnome/conf/layer.conf not found
 
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 5deb2fcd0d732adc1741e4f15692af70f6b5862b' failed:
-First, rewinding head to replay your work on top of it...
-Applying: gdk-pixbuf: add an option so that loader errors are fatal
-Applying: Work-around thumbnailer cross-compile failure
-Applying: Generate loaders.cache using a native tool when cross-compiling
-Applying: Do not run tests when building
-Using index info to reconstruct a base tree...
-M	tests/meson.build
-Falling back to patching base and 3-way merge...
-Auto-merging tests/meson.build
-CONFLICT (content): Merge conflict in tests/meson.build
-error: Failed to merge in the changes.
-Patch failed at 0004 Do not run tests when building
-Use 'git am --show-current-patch' to see the failed patch
+During handling of the above exception, another exception occurred:
 
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gdk-pixbuf
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
-
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2107, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1813, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1670, in _update_recipe_patch
+    redirect_output=dry_run_outdir)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 705, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
 
 
 
@@ -126,4 +92,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2960279766515124915==--
+--===============0310397555742120717==--
