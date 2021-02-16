@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.5135.1613463848528049364
+ by mx.groups.io with SMTP id smtpd.web10.5171.1613463848621642100
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:11 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 04CE138C1285
+	by mail.yoctoproject.org (Postfix) with ESMTP id 1679038C128A
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:11 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] net-tools: upgrading to 2.10 SUCCEEDED
-Message-ID: <MADEUP.16642CD2FB92B60E.16989@lists.openembedded.org>
-X-Groupsio-MsgNum: 148127
-Content-Type: multipart/mixed; boundary="===============4106848273680059124=="
+Subject: [AUH] pigz: upgrading to 2.6 SUCCEEDED
+Message-ID: <MADEUP.16642CD3004BE274.20265@lists.openembedded.org>
+X-Groupsio-MsgNum: 148128
+Content-Type: multipart/mixed; boundary="===============9187718591313916830=="
 
---===============4106848273680059124==
+--===============9187718591313916830==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *net-tools* to *2.10* has Succeeded.
+that the automatic attempt to upgrade the recipe *pigz* to *2.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-net-tools-upgrade-1.60-20181103-2.10.patch
+    - apply the patch: git am 0001-pigz-upgrade-2.4-2.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,171 +44,68 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4106848273680059124==
+--===============9187718591313916830==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-net-tools-upgrade-1.60-20181103-2.10.patch"
+Content-Disposition: attachment; filename="0001-pigz-upgrade-2.4-2.6.patch"
 
-From 401658c7ce0ee6eb6b9378e2f23fa7cef6612fa8 Mon Sep 17 00:00:00 2001
+From c1c6220d7e672c294d441d91ab661203b119b6a4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Feb 2021 23:04:00 +0000
-Subject: [PATCH] net-tools: upgrade 1.60-20181103 -> 2.10
+Date: Mon, 15 Feb 2021 23:14:30 +0000
+Subject: [PATCH] pigz: upgrade 2.4 -> 2.6
 
 ---
- ...075-ifconfig.c-pointtopoint_spelling.patch | 26 -------------------
- .../Bug_541172-netstat.c-exit-codes.patch     | 22 ----------------
- .../net-tools/net-tools_1.60-20181103.bb      | 14 +++++-----
- 3 files changed, 6 insertions(+), 56 deletions(-)
- delete mode 100644 meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
- delete mode 100644 meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
+ meta/recipes-extended/pigz/{pigz_2.4.bb => pigz_2.6.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/pigz/{pigz_2.4.bb => pigz_2.6.bb} (91%)
 
-diff --git a/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch b/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
-deleted file mode 100644
-index 74d74668ce..0000000000
---- a/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--Description: Accept "pointtopoint" as a synonym for "pointopoint"
--Bug-Debian: https://bugs.debian.org/443075
--Author: Justin Pryzby <pryzbyj@libra>
--
--Upstream-Status: Pending
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
----- a/ifconfig.c
--+++ b/ifconfig.c
--@@ -644,14 +644,14 @@
-- 	    spp++;
-- 	    continue;
-- 	}
---	if (!strcmp(*spp, "-pointopoint")) {
--+	if (!strcmp(*spp, "-pointopoint") || !strcmp(*spp, "-pointtopoint")) {
-- 	    goterr |= clr_flag(ifr.ifr_name, IFF_POINTOPOINT);
-- 	    spp++;
-- 	    if (test_flag(ifr.ifr_name, IFF_POINTOPOINT) > 0)
-- 	    	fprintf(stderr, _("Warning: Interface %s still in POINTOPOINT mode.\n"), ifr.ifr_name);
-- 	    continue;
-- 	}
---	if (!strcmp(*spp, "pointopoint")) {
--+	if (!strcmp(*spp, "pointopoint") || !strcmp(*spp, "pointtopoint")) {
-- 	    if (*(spp + 1) != NULL) {
-- 		spp++;
-- 		safe_strncpy(host, *spp, (sizeof host));
-diff --git a/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch b/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
-deleted file mode 100644
-index 782b94bc61..0000000000
---- a/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Description: Bug#541172: netstat.c exit codes
--
--Upstream-Status: Pending
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
----- a/netstat.c
--+++ b/netstat.c
--@@ -2237,12 +2237,14 @@
--             parsesnmp(flag_raw, flag_tcp, flag_udp, flag_sctp);
-- #else
--             ENOSUPP("netstat", "AF INET");
--+            exit(1);
-- #endif
--         } else if(!strcmp(afname, "inet6")) {
-- #if HAVE_AFINET6
--             parsesnmp6(flag_raw, flag_tcp, flag_udp);
-- #else
--             ENOSUPP("netstat", "AF INET6");
--+            exit(1);
-- #endif
--         } else {
--           printf(_("netstat: No statistics support for specified address family: %s\n"), afname);
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-index e163a6948a..3b00945eca 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-@@ -6,15 +6,13 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://ifconfig.c;beginline=11;endline=15;md5=d1ca372080ad5401e23ca0afc35cf9ba"
+diff --git a/meta/recipes-extended/pigz/pigz_2.4.bb b/meta/recipes-extended/pigz/pigz_2.6.bb
+similarity index 91%
+rename from meta/recipes-extended/pigz/pigz_2.4.bb
+rename to meta/recipes-extended/pigz/pigz_2.6.bb
+index 8c65ec34f0..05be9b733f 100644
+--- a/meta/recipes-extended/pigz/pigz_2.4.bb
++++ b/meta/recipes-extended/pigz/pigz_2.6.bb
+@@ -9,8 +9,7 @@ LICENSE = "Zlib & Apache-2.0"
+ LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline=7;endline=21"
  
--PV = "1.60-20181103+git${SRCPV}"
--SRCREV = "0eebece8c964e3cfa8a018f42b2e7e751a7009a0"
-+PV = "2.10"
-+SRCREV = "80d7b95067f1f22fece9537dea6dff53081f4886"
- SRC_URI = "git://git.code.sf.net/p/net-tools/code;protocol=https \
--    file://net-tools-config.h \
--    file://net-tools-config.make \
--    file://Add_missing_headers.patch \
--    file://Bug_443075-ifconfig.c-pointtopoint_spelling.patch \
--    file://Bug_541172-netstat.c-exit-codes.patch \
--"
-+           file://net-tools-config.h \
-+           file://net-tools-config.make \
-+           file://Add_missing_headers.patch \
-+           "
+ SRC_URI = "http://zlib.net/${BPN}/fossils/${BP}.tar.gz"
+-SRC_URI[md5sum] = "def2f6e19d9d8231445adc1349d346df"
+-SRC_URI[sha256sum] = "a4f816222a7b4269bd232680590b579ccc72591f1bb5adafcd7208ca77e14f73"
++SRC_URI[sha256sum] = "2eed7b0d7449d1d70903f2a62cd6005d262eb3a8c9e98687bc8cbb5809db2a7d"
+ PROVIDES_class-native += "gzip-native"
  
- S = "${WORKDIR}/git"
- 
+ # Point this at the homepage in case /fossils/ isn't updated
 -- 
 2.17.1
 
 
---===============4106848273680059124==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/net-tools: PACKAGES: removed "net-tools-locale-et-ee", added "net-tools-locale-et"
-packages/core2-32-poky-linux/net-tools/net-tools-dbg: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-dev: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-doc: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-cs: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-de: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-fr: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-pt-br: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-mii-tool: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-src: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-staticdev: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-
---===============4106848273680059124==
+--===============9187718591313916830==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/net-tools: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools: SRC_URI changed from "git://git.code.sf.net/p/net-tools/code;protocol=https file://net-tools-config.h file://net-tools-config.make file://Add_missing_headers.patch file://Bug_443075-ifconfig.c-pointtopoint_spelling.patch file://Bug_541172-netstat.c-exit-codes.patch" to "git://git.code.sf.net/p/net-tools/code;protocol=https file://net-tools-config.h file://net-tools-config.make file://Add_missing_headers.patch"
-packages/core2-32-poky-linux/net-tools: PKGV changed from 1.60-20181103+gitAUTOINC+0eebece8c9 [default] to 2.10 [default]
-packages/core2-32-poky-linux/net-tools: PACKAGES: removed "net-tools-locale-et-ee", added "net-tools-locale-et"
-packages/core2-32-poky-linux/net-tools/net-tools-dbg: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-dbg: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-dbg: PKGSIZE changed from 1159348 to 1158764 (-0%)
-packages/core2-32-poky-linux/net-tools/net-tools-dev: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-dev: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-doc: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-doc: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-doc: PKGSIZE changed from 184729 to 187879 (+2%)
-packages/core2-32-poky-linux/net-tools/net-tools-locale-cs: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-locale-cs: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-cs: PKGSIZE changed from 62601 to 62849 (+0%)
-packages/core2-32-poky-linux/net-tools/net-tools-locale-de: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-locale-de: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-fr: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-locale-fr: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-locale-pt-br: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-locale-pt-br: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-mii-tool: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-mii-tool: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-src: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-src: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools-src: PKGSIZE changed from 404834 to 406270 (+0%)
-packages/core2-32-poky-linux/net-tools/net-tools-staticdev: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools-staticdev: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools: PV changed from "1.60-20181103+gitAUTOINC+0eebece8c9" to "2.10"
-packages/core2-32-poky-linux/net-tools/net-tools: PKGV changed from 1.60-20181103+git0+0eebece8c9 to 2.10 [default]
-packages/core2-32-poky-linux/net-tools/net-tools: PKGSIZE changed from 468588 to 464460 (-1%)
+packages/core2-32-poky-linux/pigz: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz: SRC_URI changed from "http://zlib.net/pigz/fossils/pigz-2.4.tar.gz" to "http://zlib.net/pigz/fossils/pigz-2.6.tar.gz"
+packages/core2-32-poky-linux/pigz: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-dbg: PKGSIZE changed from 306300 to 320956 (+5%)
+packages/core2-32-poky-linux/pigz/pigz-dbg: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-dbg: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-dev: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-dev: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-doc: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-doc: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-locale: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-locale: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-src: PKGSIZE changed from 334407 to 357736 (+7%)
+packages/core2-32-poky-linux/pigz/pigz-src: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-src: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz-staticdev: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz-staticdev: PKGV changed from 2.4 [default] to 2.6 [default]
+packages/core2-32-poky-linux/pigz/pigz: PKGSIZE changed from 132620 to 144908 (+9%)
+packages/core2-32-poky-linux/pigz/pigz: PV changed from "2.4" to "2.6"
+packages/core2-32-poky-linux/pigz/pigz: PKGV changed from 2.4 [default] to 2.6 [default]
 
---===============4106848273680059124==--
+--===============9187718591313916830==--
