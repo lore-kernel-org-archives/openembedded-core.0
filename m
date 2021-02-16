@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.5219.1613463848596552830
+ by mx.groups.io with SMTP id smtpd.web09.5135.1613463848528049364
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:15 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0461338C12A4
+	by mail.yoctoproject.org (Postfix) with ESMTP id 027AC38C1292
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libical: upgrading to 3.0.9 FAILED
-Message-ID: <MADEUP.16642CD3EBFB61B3.20265@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============5211221472156313148=="
+Subject: [AUH] libgcrypt: upgrading to 1.9.1 FAILED
+Message-ID: <MADEUP.16642CD3ECA540FB.20265@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8811360471771423696=="
 
---===============5211221472156313148==
+--===============8811360471771423696==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libical* to *3.0.9* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libgcrypt* to *1.9.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libical failed.
+Running 'devtool upgrade' for recipe libgcrypt failed.
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry...
-NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
 INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -59,7 +57,7 @@ NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/libical/libical/releases/download/v3.0.9/libical-3.0.9.tar.gz...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.9.1.tar.bz2...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
 Parsing recipes...done.
@@ -91,24 +89,20 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  13% |####                                | ETA:  0:00:00
-Adding changed files:  27% |#########                           | ETA:  0:00:00
-Adding changed files:  41% |##############                      | ETA:  0:00:00
-Adding changed files:  55% |###################                 | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  32% |###########                         | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase f5bbba6a329169bc3809ebe802c49ce4b0b10fbd' failed:
+WARNING: Command 'git rebase e1dcf360d3a3543e0873b18765ca296ba8798935' failed:
 First, rewinding head to replay your work on top of it...
-Applying: Use our hand-build native src-generator
+Applying: libgcrypt: fix m4 file for oe-core
 Using index info to reconstruct a base tree...
-M	src/libical-glib/CMakeLists.txt
+M	src/libgcrypt.m4
 Falling back to patching base and 3-way merge...
-Auto-merging src/libical-glib/CMakeLists.txt
-CONFLICT (content): Merge conflict in src/libical-glib/CMakeLists.txt
+Auto-merging src/libgcrypt.m4
+CONFLICT (content): Merge conflict in src/libgcrypt.m4
 error: Failed to merge in the changes.
-Patch failed at 0001 Use our hand-build native src-generator
+Patch failed at 0001 libgcrypt: fix m4 file for oe-core
 Use 'git am --show-current-patch' to see the failed patch
 
 Resolve all conflicts manually, mark them as resolved with
@@ -117,8 +111,9 @@ You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libical
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libical/libical_3.0.9.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libgcrypt
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libgcrypt/libgcrypt_1.9.1.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
 
 
 
@@ -129,4 +124,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5211221472156313148==--
+--===============8811360471771423696==--
