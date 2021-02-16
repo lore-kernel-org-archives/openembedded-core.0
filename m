@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.5170.1613463848543488864
+ by mx.groups.io with SMTP id smtpd.web09.5135.1613463848528049364
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:08 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id DC1C238C1285
+	by mail.yoctoproject.org (Postfix) with ESMTP id C44D738C127B
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:07 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Pascal Bach <pascal.bach@siemens.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake: upgrading to 3.19.4 FAILED
-Message-ID: <MADEUP.16642CD266CDBC21.7752@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============4273608865792994325=="
+Subject: [AUH] ccache: upgrading to 4.2 FAILED
+Message-ID: <MADEUP.16642CD2654C8CFC.16989@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============7630713188414569977=="
 
---===============4273608865792994325==
+--===============7630713188414569977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cmake* to *3.19.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *ccache* to *4.2* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe cmake failed.
+Running 'devtool upgrade' for recipe ccache failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -59,7 +58,7 @@ NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 INFO: Extracting upgraded version source...
-INFO: Fetching https://cmake.org/files/v3.19/cmake-3.19.4.tar.gz...
+INFO: Fetching https://github.com/ccache/ccache/releases/download/v4.2/ccache-4.2.tar.gz...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
 Parsing recipes...done.
@@ -91,20 +90,19 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  93% |#################################   | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 5c2496d8359234131bb18ec9e1d21107b9f1dcc2' failed:
+WARNING: Command 'git rebase 827d09bdadeefc663d45ae3f7c09d455595a80c2' failed:
 First, rewinding head to replay your work on top of it...
-Applying: cmake: Prevent the detection of Qt5
-Applying: cmake: support OpenEmbedded Qt4 tool binary names
-Applying: Fail silently if system Qt installation is broken
-Applying: cm_cxx_features.cmake: do not try to run the test binary
+Applying: Improve SIMD detection (#735)
 Using index info to reconstruct a base tree...
-M	Source/Checks/cm_cxx_features.cmake
+M	cmake/GenerateConfigurationFile.cmake
+M	src/third_party/blake3/CMakeLists.txt
 Falling back to patching base and 3-way merge...
-Auto-merging Source/Checks/cm_cxx_features.cmake
-CONFLICT (content): Merge conflict in Source/Checks/cm_cxx_features.cmake
+Auto-merging src/third_party/blake3/CMakeLists.txt
+CONFLICT (content): Merge conflict in src/third_party/blake3/CMakeLists.txt
 error: Failed to merge in the changes.
-Patch failed at 0004 cm_cxx_features.cmake: do not try to run the test binary
+Patch failed at 0001 Improve SIMD detection (#735)
 Use 'git am --show-current-patch' to see the failed patch
 
 Resolve all conflicts manually, mark them as resolved with
@@ -113,8 +111,9 @@ You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/cmake
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/cmake/cmake_3.19.4.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ccache
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/ccache/ccache_4.2.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
 
 
 
@@ -125,4 +124,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4273608865792994325==--
+--===============7630713188414569977==--
