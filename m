@@ -1,88 +1,70 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.6619.1613475530865932988
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.6551.1613475558487922022
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 03:38:51 -0800
+ Tue, 16 Feb 2021 03:39:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HREdGP4i;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id x4so14134985wmi.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 03:38:50 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EFeVCSPP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id n8so12470845wrm.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 03:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=QN4iBysttcI2Fb9Zkq5ojZmUGvr24ruU6Xp3yvUCqhg=;
-        b=HREdGP4iVMnzXVQIZ3A/jXtDZrRqPo8sX5Ts/lTRD/gCDhEyLmgnzBtFHhdp4euAlz
-         c2c+cYEP712FYRY8v/4eb0yyKC0aLuQCyb0Q1OHFNVi2HVMjgBiiGw5gUHY2mT49EUDZ
-         3Y/6kfNWtszPsRoB0eaQRDBfp620Y5JPPhZCg=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r2ptBuAJea2QZUUh7V6umI30hpmlGBqpcEl+dZaK5tU=;
+        b=EFeVCSPPEb/OnhncOJYVxLKQeFYaLBs71Hwk6UZNSbRGWQFyz2+A9XoDXD6EzVBySi
+         u5Sf+ZVEswCjQjqeZXLYtQxSwKOtZhJ+4z5JBZgo0U3uUmxQko8twTXlB4fNGztOeJpb
+         UNypRK1C5DuU2mOMEGUHVtvlnRXQdt3aYdGpw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=QN4iBysttcI2Fb9Zkq5ojZmUGvr24ruU6Xp3yvUCqhg=;
-        b=sS0axizrDzxQSth8ljQuwFokIlb4J5wT7d+OdsH1Uq11F063rY9rPv3xYoukMs168E
-         qsvELUA5tqbt/Ewf19tseVgCDObln41/C+VQ+UADW2meJIUnTmxgWBpc2T05CZizUY9w
-         1UD6qW66Re3criOHhvnD5ia5eJ7jBlIashPLVJgm6DDSvaIBdu99Y6U6bmpIR/+rqk8h
-         658i0wOSpG0b4oCPjG8y8pL7FSiAkSwkMOI6QjUW+K/fusOesXiMqduX1DccotVul6AB
-         jyUl+akjR5lyA0ClY0RNjzPK9/GmtWzCLik2aer1HkRnFtQYBa7KqcE2LzvmbtaGgBl8
-         GuBQ==
-X-Gm-Message-State: AOAM533xW80OmvAyFe0lGWK514siZRkd1C5PIJq0yLC0WKPqiYPy6b8A
-	rciAgDm3BEivHPtWgx1XiYFjNg==
-X-Google-Smtp-Source: ABdhPJys1eEykeXefgjWlFahgL9tOWUQTp3JBbO6FNiYQrXK+eOP7Om01KqYTKaGG/EzvvUHunaOYA==
-X-Received: by 2002:a7b:c1d6:: with SMTP id a22mr2919562wmj.113.1613475529215;
-        Tue, 16 Feb 2021 03:38:49 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r2ptBuAJea2QZUUh7V6umI30hpmlGBqpcEl+dZaK5tU=;
+        b=n/l8QSHfnohdWTrD0Iu3ISaqWYY8sUYQGgFpd6ore/S0HrSHNHnO2ZhiajcluBvclr
+         zYPoKo8rYbhmyu6PbVAoKglB+3JFyTtrfXDC1do4L2M+lQwe4Zl1h4V3TfnSin68bKXZ
+         I7U6ccDTXk2wSSqlG3zXLTP2Cvu52b7r6UV5E/H1QusslPL7HyMiA03aEAlHzjMTqESA
+         sdGtyqDdNcZeFTGr78039I846hCRLL2Ydt5RJx1Acl3/MiMXwGtBbwZr15HE4VKG8RKt
+         fBVRQxzHejKKOutbFdK28X2nDb4IF/1nQE7dhZl90D6f2ZTqQajv3pVJUdzfYD2oL0Db
+         W4PA==
+X-Gm-Message-State: AOAM532lc9TOkV/CApRVY2+F5BvMZeoAcfYDBgKX7ijNVaamt5gLXxcF
+	cuIafo0LgfxhVjjiJWZhroZKaz/s+dPtDw==
+X-Google-Smtp-Source: ABdhPJwflKmC0m6cG/irk9orOsYIRQCkYXYXMBrZUYzsnJ0BZfuvZ7UBGUNlyVx6d7zYqD00A6LeEw==
+X-Received: by 2002:a05:6000:1208:: with SMTP id e8mr24043748wrx.131.1613475556969;
+        Tue, 16 Feb 2021 03:39:16 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:3cdf:51ac:3008:b3cc? ([2001:8b0:aba:5f3c:3cdf:51ac:3008:b3cc])
-        by smtp.gmail.com with ESMTPSA id n187sm3247608wmf.29.2021.02.16.03.38.48
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3cdf:51ac:3008:b3cc])
+        by smtp.gmail.com with ESMTPSA id a9sm24673716wrn.60.2021.02.16.03.39.16
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 03:38:48 -0800 (PST)
-Message-ID: <77fb6e42e9f858710792627660b116bafb168b2c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] native python recipes using setuptools
+        Tue, 16 Feb 2021 03:39:16 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 16 Feb 2021 11:38:45 +0000
-In-Reply-To: <AM9PR09MB46427C15B7F9F7652EA41605A8879@AM9PR09MB4642.eurprd09.prod.outlook.com>
-References: 
-	<AM9PR09MB46427C15B7F9F7652EA41605A8879@AM9PR09MB4642.eurprd09.prod.outlook.com>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] distutils3-base: Fix after native packaging changes
+Date: Tue, 16 Feb 2021 11:39:16 +0000
+Message-Id: <20210216113916.2021941-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-02-16 at 10:59 +0100, Konrad Weihmann wrote:
-> I'm a bit puzzled at the moment - after 
-> fd6a007efa7cb45101a66f294af81d9d33bb3fab in meta-openembedded I faced a 
-> lot of changes in the behavior of native-only recipes (@RP yes the ones 
-> that don't use BBCLASSEXTEND :-))
-> 
-> after this change I had a couple of dependency loops like
-> 
-> python3-my-recipe-native > python3 > ... > python3-my-recipe-native
-> 
-> and I could track it down to distutils3-base.bbclass [1].
-> There for all recipes no matter what the set (I guess BBCLASSEXTEND 
-> magic will solves that in the end) "python3-native python3" is set in 
-> DEPENDS.
-> 
-> My question is, is that intended behavior or would it make sense to be 
-> more explicit here, like
-> 
-> DEPENDS += "python3-native"
-> DEPENDS_class-target += "python3"
-> 
-> ?
-> 
-> Mainly this happens when a globally inherited class requests a native 
-> python3 package via DEPENDS (a not too uncommon use case for me).
-> 
-> Thoughts?
+Now that native recipes have PACKAGES, this DEPENDS construct doesn't
+work. It applies to target and nativesdk recipes so adjust accordingly.
 
-Definitely a bug, I've sent a patch. The DEPENDS would be needed for
-nativesdk too and since it doesn't appear to require python3-native in
-the native case, I didn't change that.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/distutils3-base.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/distutils3-base.bbclass b/meta/classes/distutils3-base.bbclass
+index a277d1c7bc6..302ee8c82c0 100644
+--- a/meta/classes/distutils3-base.bbclass
++++ b/meta/classes/distutils3-base.bbclass
+@@ -1,4 +1,5 @@
+-DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}", ""][(d.getVar('PACKAGES') == '')]}"
++DEPENDS_append_class-target = " ${PYTHON_PN}-native ${PYTHON_PN}"
++DEPENDS_append_class-nativesdk = " ${PYTHON_PN}-native ${PYTHON_PN}"
+ RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' == 'class-target']}"
+ 
+ inherit distutils-common-base python3native python3targetconfig
+-- 
+2.27.0
 
