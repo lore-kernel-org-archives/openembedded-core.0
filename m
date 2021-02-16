@@ -1,145 +1,320 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.5215.1613463855170882801
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web10.5170.1613463848543488864
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0B29838C12CE
+	by mail.yoctoproject.org (Postfix) with ESMTP id 095A038C12BB
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2021-02-16
-Message-ID: <MADEUP.16642CD3EFD0D7E2.5617@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============2714546061973013704=="
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] vte: upgrading to 0.62.2 SUCCEEDED
+Message-ID: <MADEUP.16642CD3F2570F65.16989@lists.openembedded.org>
+X-Groupsio-MsgNum: 148163
+Content-Type: multipart/mixed; boundary="===============5362621549912266202=="
 
---===============2714546061973013704==
-Content-Type: text/plain; charset="utf-8"
+--===============5362621549912266202==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogNDgKICAgICAgICBs
-aWJ1diwgMS40MS4wLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXJAbXZpc3RhLmNvbT4KICAgICAgICBh
-cHQsIDEuOC4yLjIsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAg
-ICAgIGJ0cmZzLXRvb2xzLCA1LjEwLjEsIFdhbmcgTWluZ3l1IDx3YW5nbXlAY24uZnVqaXRzdS5j
-b20+CiAgICAgICAgY3JlYXRlcmVwby1jLCAwLjE3LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGRuZiwgNC42LjAsIEFsZXhhbmRlciBLYW5hdmlu
-IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdvLXJ1bnRpbWUsIDEuMTUuOCwgS2hl
-bSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBnbywgMS4xNS44LCBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGhlbHAybWFuLCAxLjQ4LjEsIEhvbmd4dSBKaWEg
-PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLW51bXB5LCAxLjIwLjEs
-IE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4K
-ICAgICAgICBweXRob24zLWdpdCwgMy4xLjEzLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291
-cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1oeXBvdGhlc2lzLCA2
-LjIuMCwgVGltIE9ybGluZyA8dGltb3RoeS50Lm9ybGluZ0BsaW51eC5pbnRlbC5jb20+CiAgICAg
-ICAgcHl0aG9uMy1qaW5qYTIsIDIuMTEuMywgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGll
-QGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgcHl0aG9uMy1tYWdpYywgMC40LjIwLCBKb3No
-dWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1tb3JlLWl0ZXJ0
-b29scywgOC43LjAsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29t
-PgogICAgICAgIHB5dGhvbjMtcHljcnlwdG9kb21lLCAzLjEwLjEsIEpvc2h1YSBXYXR0IDxKUEVX
-aGFja2VyQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLXB5Y3J5cHRvZG9tZXgsIDMuMTAuMSwg
-Sm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtcHlnbWVu
-dHMsIDIuOC4wLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2
-Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1weXRlc3QsIDYuMi4yLCBUaW0gT3JsaW5nIDx0aW1v
-dGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBweXRob24zLXNldHVwdG9vbHMs
-IDUzLjAuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNo
-dWsuY29tPgogICAgICAgIHN1YnZlcnNpb24sIDEuMTQuMSwgUmljaGFyZCBQdXJkaWUgPHJpY2hh
-cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgbGlnaHR0cGQsIDEuNC41OSwg
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbWFuLWRi
-LCAyLjkuNCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIG5l
-dC10b29scywgMi4xMCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAg
-ICBwaWd6LCAyLjYsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAg
-ICBwc21pc2MsIDIzLjQsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIHN0cmVzcy1uZywgMC4xMi4wMywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
-dGVsLmNvbT4KICAgICAgICBzeXNrbG9nZCwgMi4yLjEsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICBzeXNzdGF0LCAxMi40LjMsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICB0YXIsIDEuMzQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNv
-bT4KICAgICAgICBndGsrMywgMy4yNC4yNSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5j
-b20+CiAgICAgICAganNvbi1nbGliLCAxLjYuMiwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIu
-Y29tPgogICAgICAgIGttc2N1YmUsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIENhcmxvcyBS
-YWZhZWwgR2lhbmkgPGR2QHBzZXVkb3Rlcm1pbmFsLm9yZz4KICAgICAgICBtZXNhLCAyMC4zLjQs
-IE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAg
-ICAgcGlnbGl0LCAxLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5i
-dXJ0b25AYXJtLmNvbT4KICAgICAgICBsaWJ4dCwgMS4yLjEsIEFybWluIEt1c3RlciA8YWt1c3Rl
-cjgwOEBnbWFpbC5jb20+CiAgICAgICAgbGludXgtZmlybXdhcmUsIDIwMjEwMjA4LCBPdGF2aW8g
-U2FsdmFkb3IgPG90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGxpYndl
-YnAsIDEuMi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAg
-ICAgICB4MjY0LCByMzAxMS1uZXctY29tbWl0cy1hdmFpbGFibGUsIEFudWogTWl0dGFsIDxhbnVq
-Lm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcGNtYW5mbSwgMS4zLjIsIEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGxpYndwZSwgMS45LjEsIEFsZXhh
-bmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHdwZWJhY2tlbmQt
-ZmRvLCAxLjkuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgYm1hcC10b29scywgMy42LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIGN1cmwsIDcuNzUuMCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNv
-bT4KICAgICAgICBkaWZmb3Njb3BlLCAxNjYsIEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWls
-LmNvbT4KICAgICAgICBsaWJjYXAsIDIuNDgsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNv
-bT4KICAgICAgICBsaWJldmRldiwgMS4xMS4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
-ZWwuY29tPgogICAgICAgIGxpYmZtLWV4dHJhLCAxLjMuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgdnRlLCAwLjYyLjIsIEFudWogTWl0dGFsIDxh
-bnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDI0CiAg
-ICAgICAgYnVzeWJveCwgMS4zMy4wLCBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0BzaWVtZW5z
-LmNvbT4KICAgICAgICBhdXRvbWFrZSwgMS4xNi4zLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdA
-d2luZHJpdmVyLmNvbT4KICAgICAgICBiaW51dGlscywgMi4zNi4xLCBLaGVtIFJhaiA8cmFqLmto
-ZW1AZ21haWwuY29tPgogICAgICAgIGNjYWNoZSwgNC4yLCBSb2JlcnQgWWFuZyA8bGllemhpLnlh
-bmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBjbWFrZSwgMy4xOS40LCBQYXNjYWwgQmFjaCA8cGFz
-Y2FsLmJhY2hAc2llbWVucy5jb20+CiAgICAgICAgZG9zZnN0b29scywgNC4yLCBZaSBaaGFvIDx5
-aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ2LjEsIFJvYmVydCBZ
-YW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGVsZnV0aWxzLCAwLjE4Mywg
-WmFuZyBSdW9jaGVuIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT4KICAgICAgICBsaWJkbmYs
-IDAuNTguMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAg
-ICAgbGlicmVwbywgMS4xMy4wLCBXYW5nIE1pbmd5dSA8d2FuZ215QGNuLmZ1aml0c3UuY29tPgog
-ICAgICAgIGxsdm0sIDExLjAuMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAg
-ICBtZXNvbiwgMC41Ny4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KICAgICAgICBwZXJsLCA1LjMyLjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogICAgICAgIGFzY2lpZG9jLCAxMC4wLjAsIFlpIFpoYW8gPHlpLnpoYW9Ad2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBnby1oZWxsb3dvcmxkLCAwLjEtbmV3LWNvbW1pdHMtYXZhaWxh
-YmxlLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGdkay1waXhidWYsIDIu
-NDIuMiwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgYWR3YWl0YS1p
-Y29uLXRoZW1lLCAzLjM4LjAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAg
-ICAgIGxpYmhhbmR5LCAxLjEuOTAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
-aWwuY29tPgogICAgICAgIHBhbmdvLCAxLjQ4LjIsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBh
-cm0uY29tPgogICAgICAgIHZ1bGthbi1zYW1wbGVzLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
-LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICB3ZWJraXRndGssIDIu
-MzAuNSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
-bGliZ2NyeXB0LCAxLjkuMSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGxpYmljYWwsIDMuMC45LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4K
-ICAgICAgICBwaW5lbnRyeSwgMS4xLjEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
-b20+CiAgICAqIEZhaWxlZChkb19jb21waWxlKTogNAogICAgICAgIGdsaWItMi4wLCAyLjY2Ljcs
-IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ2l0LCAyLjMwLjEs
-IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHByb2Nwcywg
-My4zLjE3LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAg
-ICBsaWJic2QsIDAuMTEuMywgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgoKICAgIFRP
-VEFMOiBhdHRlbXB0ZWQ9NzYgc3VjY2VlZGVkPTQ4KDYzLjE2JSkgZmFpbGVkPTI4KDM2Ljg0JSkK
-ClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgVGltIE9ybGlu
-ZyA8dGltb3RoeS50Lm9ybGluZzogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTMoMTAwLjAwJSkgZmFp
-bGVkPTAoMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVkPTEgc3Vj
-Y2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBDaGVuIFFpIDxRaS5DaGVuOiBh
-dHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MygxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIE9sZWtz
-YW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2U6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD00KDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXI6IGF0dGVtcHRl
-ZD00IHN1Y2NlZWRlZD00KDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgS2hlbSBSYWogPHJh
-ai5raGVtOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9Mig0MC4wMCUpIGZhaWxlZD0zKDYwLjAwJSkK
-ICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0yKDQwLjAwJSkgZmFp
-bGVkPTMoNjAuMDAlKQogICAgV2FuZyBNaW5neXUgPHdhbmdteTogYXR0ZW1wdGVkPTIgc3VjY2Vl
-ZGVkPTEoNTAuMDAlKSBmYWlsZWQ9MSg1MC4wMCUpCiAgICBBbmRyZWogVmFsZWsgPGFuZHJlai52
-YWxlazogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAg
-ICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluOiBhdHRlbXB0ZWQ9MTUgc3VjY2VlZGVk
-PTkoNjAuMDAlKSBmYWlsZWQ9Nig0MC4wMCUpCiAgICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246
-IGF0dGVtcHRlZD03IHN1Y2NlZWRlZD0yKDI4LjU3JSkgZmFpbGVkPTUoNzEuNDMlKQogICAgSG9u
-Z3h1IEppYSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTMoNzUuMDAlKSBmYWls
-ZWQ9MSgyNS4wMCUpCiAgICBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvcjogYXR0ZW1w
-dGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBaYW5nIFJ1b2No
-ZW4gPHphbmdyYy5mbnN0OiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEo
-MTAwLjAwJSkKICAgIEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTQgc3VjY2Vl
-ZGVkPTMoNzUuMDAlKSBmYWlsZWQ9MSgyNS4wMCUpCiAgICBQYXNjYWwgQmFjaCA8cGFzY2FsLmJh
-Y2g6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAg
-Um9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9MCgwLjAwJSkg
-ZmFpbGVkPTQoMTAwLjAwJSkKICAgIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0
-ZW1wdGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBBbnVqIE1p
-dHRhbCA8YW51ai5taXR0YWw6IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD01KDgzLjMzJSkgZmFpbGVk
-PTEoMTYuNjclKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbDogYXR0ZW1wdGVkPTEg
-c3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBBcm1pbiBLdXN0ZXIgPGFr
-dXN0ZXI6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQo=
+Hello,
 
---===============2714546061973013704==--
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *vte* to *0.62.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-vte-upgrade-0.62.1-0.62.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============5362621549912266202==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/vte (sysroot):
+  /usr/lib/libvte-2.91.so.0 changed symlink target from libvte-2.91.so.0.6200.1 to libvte-2.91.so.0.6200.2
+  /usr/lib/libvte-2.91.so.0.6200.1 moved to /usr/lib/libvte-2.91.so.0.6200.2
+
+--===============5362621549912266202==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-vte-upgrade-0.62.1-0.62.2.patch"
+
+From 37fb294702ca45e82b76f53c3b4cd558ef19b515 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Tue, 16 Feb 2021 08:24:06 +0000
+Subject: [PATCH] vte: upgrade 0.62.1 -> 0.62.2
+
+---
+ meta/recipes-support/vte/{vte_0.62.1.bb => vte_0.62.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/vte/{vte_0.62.1.bb => vte_0.62.2.bb} (95%)
+
+diff --git a/meta/recipes-support/vte/vte_0.62.1.bb b/meta/recipes-support/vte/vte_0.62.2.bb
+similarity index 95%
+rename from meta/recipes-support/vte/vte_0.62.1.bb
+rename to meta/recipes-support/vte/vte_0.62.2.bb
+index 1a8e21dec4..b7e6f0bd8f 100644
+--- a/meta/recipes-support/vte/vte_0.62.1.bb
++++ b/meta/recipes-support/vte/vte_0.62.2.bb
+@@ -18,7 +18,7 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
+ 
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+-SRC_URI[archive.sha256sum] = "c369e87c0c8284e09109d0a9aac821f543558f51c0cb9c7acfff3df64153308d"
++SRC_URI[archive.sha256sum] = "b0300bbcf0c02df5812a10a3cb8e4fff723bab92c08c97a0a90c167cf543aff0"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+-- 
+2.17.1
+
+
+--===============5362621549912266202==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/vte: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte: SRC_URI changed from "https://ftp.gnome.org/pub/GNOME/sources/vte/0.62/vte-0.62.1.tar.xz;name=archive file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch" to "https://ftp.gnome.org/pub/GNOME/sources/vte/0.62/vte-0.62.2.tar.xz;name=archive file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+packages/core2-32-poky-linux/vte/libvte: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/libvte: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+Changes to packages/core2-32-poky-linux/vte (sysroot):
+  /usr/lib/libvte-2.91.so.0 changed symlink target from libvte-2.91.so.0.6200.1 to libvte-2.91.so.0.6200.2
+  /usr/lib/libvte-2.91.so.0.6200.1 moved to /usr/lib/libvte-2.91.so.0.6200.2
+packages/core2-32-poky-linux/vte/vte-dbg: PKGSIZE changed from 5507736 to 5508728 (+0%)
+packages/core2-32-poky-linux/vte/vte-dbg: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-dbg: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-dev: PKGSIZE changed from 364087 to 364367 (+0%)
+packages/core2-32-poky-linux/vte/vte-dev: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-dev: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-doc: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-doc: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-am: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-am: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-an: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-an: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ang: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ang: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ar: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ar: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-as: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-as: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ast: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ast: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-az: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-az: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-be+latin: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-be+latin: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-be: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-be: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-bg: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-bg: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-bn-in: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-bn-in: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-bn: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-bn: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-bs: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-bs: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ca+valencia: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ca+valencia: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ca: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ca: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ckb: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ckb: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-cs: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-cs: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-cy: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-cy: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-da: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-da: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-de: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-de: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-dz: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-dz: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-el: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-el: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-en+shaw: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-en+shaw: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-en-ca: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-en-ca: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-en-gb: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-en-gb: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-eo: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-eo: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-es: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-es: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-et: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-et: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-eu: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-eu: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-fa: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-fa: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-fi: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-fi: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-fr: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-fr: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-fur: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-fur: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ga: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ga: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-gd: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-gd: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-gl: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-gl: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-gu: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-gu: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-he: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-he: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-hi: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-hi: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-hr: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-hr: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-hu: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-hu: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-id: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-id: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-is: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-is: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-it: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-it: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ja: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ja: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ka: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ka: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-kk: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-kk: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-kn: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-kn: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ko: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ko: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ku: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ku: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ky: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ky: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-li: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-li: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-lt: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-lt: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-lv: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-lv: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mai: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mai: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mi: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mi: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mjw: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mjw: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mk: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mk: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ml: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ml: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mn: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mn: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-mr: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-mr: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ms: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ms: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-nb: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-nb: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-nds: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-nds: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ne: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ne: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-nl: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-nl: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-nn: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-nn: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-oc: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-oc: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-or: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-or: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-pa: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-pa: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-pl: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-pl: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-pt-br: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-pt-br: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-pt: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-pt: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ro: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ro: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ru: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ru: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-rw: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-rw: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-si: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-si: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sk: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sk: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sl: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sl: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sq: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sq: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sr+latin: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sr+latin: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sr: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sr: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-sv: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-sv: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ta: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ta: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-te: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-te: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-tg: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-tg: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-th: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-th: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-tr: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-tr: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-ug: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-ug: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-uk: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-uk: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-uz+cyrillic: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-uz+cyrillic: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-vi: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-vi: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-wa: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-wa: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-xh: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-xh: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-zh-cn: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-zh-cn: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-zh-hk: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-zh-hk: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-locale-zh-tw: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-locale-zh-tw: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-prompt: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-prompt: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-src: PKGSIZE changed from 2032684 to 2033851 (+0%)
+packages/core2-32-poky-linux/vte/vte-src: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-src: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte-staticdev: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte-staticdev: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+packages/core2-32-poky-linux/vte/vte: PV changed from "0.62.1" to "0.62.2"
+packages/core2-32-poky-linux/vte/vte: PKGV changed from 0.62.1 [default] to 0.62.2 [default]
+
+--===============5362621549912266202==--
