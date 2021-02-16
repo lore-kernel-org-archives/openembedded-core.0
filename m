@@ -1,89 +1,121 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
- by mx.groups.io with SMTP id smtpd.web09.8040.1613483878042979561
+Received: from EUR06-VI1-obe.outbound.protection.outlook.com (EUR06-VI1-obe.outbound.protection.outlook.com [40.92.17.86])
+ by mx.groups.io with SMTP id smtpd.web12.8139.1613484217450620788
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 05:57:58 -0800
+ Tue, 16 Feb 2021 06:03:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm1 header.b=UJ78zUMs;
- spf=pass (domain: stwcx.xyz, ip: 66.111.4.25, mailfrom: patrick@stwcx.xyz)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5141C5C0047;
-	Tue, 16 Feb 2021 08:57:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 16 Feb 2021 08:57:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm1; bh=sg2sWUW2EVIhwz89eUHSMzGISG
-	/qaFGooPPGdE657qg=; b=UJ78zUMsPar4Z4wQBtyLs9nO1I7zkEpj62jqu63KH3
-	7l9mkS/nFQG/n2CZPjv7FZiLlMatF1oiECXIfkTLk18E5ZetDNeKPy4G27G3G5Gx
-	KxMM8qWKstFWb20gLM0nvLGVUZb0TEGV9MoWBy7/fsZru/RwLKCj7zacenv6axtD
-	rN6Jt5x4yOst4TeyE1XvoZBlIPTFx6Sd/VcYyRNXsZtJ/PsBZvJSU5Qs5OFrIM6b
-	d2nbke5EOP+NNkzm3wPduX7GH5TYcPb+00NfG2RFZ9dmX6UgVyCaUlfx3VyldcAm
-	+NEXWzlKetxn4e9ST6XIYSjbordPcm1QrARS258dWpXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=sg2sWUW2EVIhwz89e
-	UHSMzGISG/qaFGooPPGdE657qg=; b=pYPrCBf9nD54Qbd0ro38kJMNnzMixzkWG
-	2jYwtENPAM4OjVdbHjcPAuc+ZvrQOCB21zW0gExikSUyhDJfrVrBO5ZKkaP/mNe9
-	YL4T1uPp/BZMHvY7NeZhkZrNXI8c65I2gu+t+JYJdiH+cWfp2mTr81CG9G3bWfBV
-	HfgVUVBeddetmaK3INqdPZYh8T3IFAzTkCeI3eMQGhzrXsoKmgVZgyEiHwWHLB1r
-	cmp0fhkOsx9Uof7zLr5kxhC4wNuwuwmOWKZAB13H71Mq42DZwTED8j7lvT/1qF6F
-	v4U9/vZduxJaIkkPm9HBA8SrtM7Bbe8rXW9yWHXCFRw+pOUJwv1Pg==
-X-ME-Sender: <xms:ZM8rYGkvz1e4YR3POLNeYOQP7N6AxTFa-HCk0x63fbT1aa3nww8M4g>
-    <xme:ZM8rYN2hkZL320TlQyq-DxQbjXm8cTI2GzPk4qwhtpGtcd5oNutCgIjbp_Hcd0stY
-    HUC11XHqdDD2Lr1cXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedtgdehkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdefhedmnegovehorghsthgrlhdqhfeguddvqddtvdculdduhedtmden
-    ucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheprfgrthhrihgtkh
-    cuhghilhhlihgrmhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecuggftrfgr
-    thhtvghrnheptdeggeefteejjeeltdefvedttdfhieffvedvteefvdeljedvheeufeeggf
-    etleffnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepudeiiedrudejiedr
-    uddvuddrvdefjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:ZM8rYErRihQSJ66cf8-26D9XdWcBXHbFeB677Z5yozALrf3-VVSgdg>
-    <xmx:ZM8rYKkEP9gu17-fep953UrvvD18SyUAk60rOCtOCnOD1gtaPCnvyw>
-    <xmx:ZM8rYE2WFMd7i3khnuUNo2gc6ATXkowkKQNvw0RWzzMAv_96WIpqVg>
-    <xmx:Zc8rYB-cyMJJeLf4CnQKB6NnA4HspkXObpEw5pJsGoxPoLsF-rhp2g>
-Received: from localhost (mobile-166-176-121-237.mycingular.net [166.176.121.237])
-	by mail.messagingengine.com (Postfix) with ESMTPA id E0AE8108005F;
-	Tue, 16 Feb 2021 08:57:55 -0500 (EST)
-From: "Patrick Williams" <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Cc: Patrick Williams <patrick@stwcx.xyz>,
-	James Feist <james.feist@linux.intel.com>,
-	Ed Tanous <edtanous@google.com>
-Subject: [meta-oe][PATCH] boost-url: update to latest
-Date: Tue, 16 Feb 2021 07:57:45 -0600
-Message-Id: <20210216135745.2584034-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.26.2
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=D1/rQMSI;
+ spf=pass (domain: outlook.com, ip: 40.92.17.86, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sj7qnrNTs2DEimStEfbxj+VpssUDLuTKZ0rnIamwoY/Z9x8Xu59Bd2fyOe9oOg7LId8nLpVuXVMRSfI8WV+hFStSaqaRtQPSDZnoQ1Nt4nkQMy0Wwv1RaFCMHmFayfp4jOFHqA2/2d4i/QwEEdeUK8AYR1qgBQ7oVF1Fs7KJUscmHlrY5xSNqcGeXsjiY1cDuRqfvPBo1aOb+K+gv9TiehSghVF7aaH6zc5EgzTnWGIDB1zucVwD5PiZ15GWZSMWjhSU2YMifmGmyYi6qah7fFvnnJnhy8z1WgJvSHOBOnA9pVe45BEWCALSIKMwtL534WYZiNGvcWRBguURF6M5lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ro71b+qWgalI0G4eaX00horj26raLdqQhPH4AiuYgSE=;
+ b=SQQ7F+CavDVpuJd/W+TDPtE5LGJLNCOXganH/PQGFKO5AdmPaeuRmwKKKqKPclGhtpPydxl5Bjf7RkBRfwBdKyZtqZOvF14T1dyqT/vNY5KOwgb1vO6MHiVp3DmsyN8GOPADFo5kQvDkgnLaNIhlKEdelICu3PjOjOJdCyAlCdO55Pqz4zAC2d/ZPowOAHo9ANUDsevpmQO6NDEyX9UspsD4y0ziBK71u4Jk7wowW726wSpu8YucPgoyVngL/fCrHJaUr7BJbOtw+U7Um4wl+hITTNsk5IWRXsYabFI4wA/Sp0FVW92fo63oeMgLlYGw29BfkGJRJ7qsUonv4MfhMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ro71b+qWgalI0G4eaX00horj26raLdqQhPH4AiuYgSE=;
+ b=D1/rQMSIivem9lpYLGYW8DQe78Q+SqZJ3ky2s4ipicfKLpLhxwju3lektzmS6WGCUUSZ9A+9fsEkTfCO3rquQaHZwSrF/6xOMLKzLV5uUM5lDxNdWCpFI1BEkcC4oe9QhcTdQQ8bwVbIUaAjJzFu2DlGTffyzrzAwJ1xR/x7ErV1MtfeO9GseFAPXJQrR38Jv27CPIOGKWMWYDkOblhpujHwuwe9XXO2/RZ/M1SJieAsbz3lRTwCeUIMaIyFlLnPZ38XqH+PKogw9G3HthoLOJMdPFsCWaWVfnlxXK/Dhhs01rJ8CvDIfnCj9d59YVhBTeU9R9idv3xFHvt6vnxWfQ==
+Received: from DB8EUR06FT017.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc35::43) by
+ DB8EUR06HT129.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc35::150)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Tue, 16 Feb
+ 2021 14:03:34 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:fc35::49) by DB8EUR06FT017.mail.protection.outlook.com
+ (2a01:111:e400:fc35::113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
+ Transport; Tue, 16 Feb 2021 14:03:34 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:A0141AD6E285F5E20701D45BB24D23C04F10E4494CFBEDD141D80F77BD3BC138;UpperCasedChecksum:65E01314D7A613C8431BE81161780B41A9C6C048656FF593C8A2DA35A89E741F;SizeAsReceived:8633;Count:47
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d88:562c:471c:9560]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::5d88:562c:471c:9560%6]) with mapi id 15.20.3846.042; Tue, 16 Feb 2021
+ 14:03:34 +0000
+Subject: Re: [OE-core] [meta-oe][PATCH] catch2: upgrade to 2.13.4
+To: openembedded-core@lists.openembedded.org, patrick@stwcx.xyz
+References: <20210216134331.2473571-1-patrick@stwcx.xyz>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB46427D7AB75584EE2F517F3BA8879@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Tue, 16 Feb 2021 15:03:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210216134331.2473571-1-patrick@stwcx.xyz>
+X-TMN: [PRMD8LIwvqyN5ZfZdb6WLCMfFTjBnAnV]
+X-ClientProxiedBy: AS8PR04CA0061.eurprd04.prod.outlook.com
+ (2603:10a6:20b:313::6) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <d53947aa-430c-ec5d-4652-120cf0e25284@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.84.106) by AS8PR04CA0061.eurprd04.prod.outlook.com (2603:10a6:20b:313::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27 via Frontend Transport; Tue, 16 Feb 2021 14:03:34 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 90c98b50-bdd6-4ac2-de0e-08d8d283a646
+X-MS-TrafficTypeDiagnostic: DB8EUR06HT129:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	F4WxmpvxRD8y+o4X/eS45tFpV12Xj3sF6+tYuf2AHvBEYGv8LLHCojT7DQGuCBhOj9hl0nRAXYajW6kD1o8t+syyxPQeyrgjN4Qp6Lp6nWgtF5MIyVnjRJqsnjCVttvrgIGrUuFKHY3m3W/1x0dWvDhBhEk82HAB9knuQRVkcCu9uFQJQyAvH4qBnWyRX7VMqYnfaoBP5xF6SyRS1H74Dk46in5uhx3KzJ2h49ARTSgx7czU3QKvOVi+ridSOOaAnXfgSnz6fQR5vN8evz4PHTTfeY9Y+Rmimb8P4ND7Dv+tuIqtX6Kuf34MkAJvr0xNk8qlsyZpME16leNLi9Za4v72yGC7Q4AZL4BeGs+Gf3qKgsv30dgI+zS1AJKqBtb7fomdyhsMRNjn9WEobk9uv0mQBc9wtMfFPH9bBWEqSxI=
+X-MS-Exchange-AntiSpam-MessageData: 
+	r/nHgFxtAAt8NPBVfUni1DLSN4hZIHtO+pLS3EXoTuoVWwr3fNnMgApeJi+qvGAxOmBNNjAKfOGHxAiNeF2GZWSb6RwOPbO0IwpHppmRHCrycfDtN7Rt+bTohg9c9bDc5fwctMc/CKDz+lhLrvPeaQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90c98b50-bdd6-4ac2-de0e-08d8d283a646
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2021 14:03:34.8332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB8EUR06FT017.eop-eur06.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR06HT129
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-Cc: James Feist <james.feist@linux.intel.com>
-Cc: Ed Tanous <edtanous@google.com>
----
- meta-oe/recipes-devtools/boost-url/boost-url_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 16.02.21 14:43, Patrick Williams wrote:
+> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> ---
+>   .../recipes-test/catch2/{catch2_2.9.2.bb => catch2_2.13.4.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta-oe/recipes-test/catch2/{catch2_2.9.2.bb => catch2_2.13.4.bb} (84%)
+> 
+> diff --git a/meta-oe/recipes-test/catch2/catch2_2.9.2.bb b/meta-oe/recipes-test/catch2/catch2_2.13.4.bb
+> similarity index 84%
+> rename from meta-oe/recipes-test/catch2/catch2_2.9.2.bb
+> rename to meta-oe/recipes-test/catch2/catch2_2.13.4.bb
+> index 57fc935f77..512c00681f 100644
+> --- a/meta-oe/recipes-test/catch2/catch2_2.9.2.bb
+> +++ b/meta-oe/recipes-test/catch2/catch2_2.13.4.bb
+> @@ -5,8 +5,8 @@ HOMEPAGE = "https://github.com/catchorg/Catch2"
+>   LICENSE = "BSL-1.0"
+>   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+>   
+> -SRC_URI = "git://github.com/catchorg/Catch2.git"
+> -SRCREV = "2c869e17e4803d30b3d5ca5b0d76387b9db97fa5"
+> +SRC_URI = "git://github.com/catchorg/Catch2.git;nobranch=1"
 
-diff --git a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb b/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
-index 6d4635b666..107a4a8331 100644
---- a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
-+++ b/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
-@@ -4,9 +4,9 @@ SECTION = "libs"
- LICENSE = "BSL-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
--SRC_URI = "git://github.com/CPPAlliance/url.git"
-+SRC_URI = "git://github.com/CPPAlliance/url.git;branch=develop"
- 
--SRCREV = "a56ae0df6d3078319755fbaa67822b4fa7fd352b"
-+SRCREV = "2c867fbe284ae532f1329b87a86ad3f8cd382867"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.26.2
+Wrong mailing list I suppose - this should go to 
+openembedded-devel@lists.openembedded.org - and on a second note I don't 
+think using nobranch is a good idea - the branch used "v2.x" or is there 
+any reason for this which isn't that obvious?
 
+> +SRCREV = "de6fe184a9ac1a06895cdd1c9b437f0a0bdf14ad"
+>   
+>   S = "${WORKDIR}/git"
+>   
+> 
+> 
+> 
+> 
+> 
