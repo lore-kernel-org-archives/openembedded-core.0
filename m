@@ -1,70 +1,73 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web09.6551.1613475558487922022
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.6590.1613475662420524689
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 03:39:18 -0800
+ Tue, 16 Feb 2021 03:41:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EFeVCSPP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id n8so12470845wrm.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 03:39:18 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GokebHO6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id v15so12512071wrx.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 03:41:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=r2ptBuAJea2QZUUh7V6umI30hpmlGBqpcEl+dZaK5tU=;
-        b=EFeVCSPPEb/OnhncOJYVxLKQeFYaLBs71Hwk6UZNSbRGWQFyz2+A9XoDXD6EzVBySi
-         u5Sf+ZVEswCjQjqeZXLYtQxSwKOtZhJ+4z5JBZgo0U3uUmxQko8twTXlB4fNGztOeJpb
-         UNypRK1C5DuU2mOMEGUHVtvlnRXQdt3aYdGpw=
+        bh=S/LAW0AtzpXXbw/IoWFUt2/AFaMFcXecZuRsCJmytyQ=;
+        b=GokebHO69PLu6pnCL+4No0nFq1nxhlZHzf2BicPh+xXT9zJm+HOIR+utrEpOyZxj18
+         iVVNY3Tlc1OQmHJmMzC0prrRLWDlgzTsf7HZzi5si2KuL/oSUJUP4WSb/QJTRbrnd6Gp
+         RFdHJzU5ZDy+9qKEI074IiNqaHvwXCPwKzZKE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=r2ptBuAJea2QZUUh7V6umI30hpmlGBqpcEl+dZaK5tU=;
-        b=n/l8QSHfnohdWTrD0Iu3ISaqWYY8sUYQGgFpd6ore/S0HrSHNHnO2ZhiajcluBvclr
-         zYPoKo8rYbhmyu6PbVAoKglB+3JFyTtrfXDC1do4L2M+lQwe4Zl1h4V3TfnSin68bKXZ
-         I7U6ccDTXk2wSSqlG3zXLTP2Cvu52b7r6UV5E/H1QusslPL7HyMiA03aEAlHzjMTqESA
-         sdGtyqDdNcZeFTGr78039I846hCRLL2Ydt5RJx1Acl3/MiMXwGtBbwZr15HE4VKG8RKt
-         fBVRQxzHejKKOutbFdK28X2nDb4IF/1nQE7dhZl90D6f2ZTqQajv3pVJUdzfYD2oL0Db
-         W4PA==
-X-Gm-Message-State: AOAM532lc9TOkV/CApRVY2+F5BvMZeoAcfYDBgKX7ijNVaamt5gLXxcF
-	cuIafo0LgfxhVjjiJWZhroZKaz/s+dPtDw==
-X-Google-Smtp-Source: ABdhPJwflKmC0m6cG/irk9orOsYIRQCkYXYXMBrZUYzsnJ0BZfuvZ7UBGUNlyVx6d7zYqD00A6LeEw==
-X-Received: by 2002:a05:6000:1208:: with SMTP id e8mr24043748wrx.131.1613475556969;
-        Tue, 16 Feb 2021 03:39:16 -0800 (PST)
+        bh=S/LAW0AtzpXXbw/IoWFUt2/AFaMFcXecZuRsCJmytyQ=;
+        b=ZHbZHa23sPo802RkVl+qZj9EQkoYk2viwWPOxd19m8UyVEhD3f64NXnEY+ydrv5l+d
+         STJ93lgsBRCcIAQDEO9XDh0n/9yObbgP8dOfCYvOQNUl3TSZ3I7sS4D5hXiTkwIhCetg
+         SbmjpZJHvUhi1Iby03fpTyME/XIwllwPNaKY6UjjXcejfifOou/4R+ejoBX+ZpjKP2h+
+         8ed5QPRbqh7EWU2Vip/2YWPooUzPbOXl3SzPiyuS5jIJQNIr5Ay29XMY1dx/X4YAxeeZ
+         TfxJ/b6/UqEbLiwKH6PH1wgEaeMye/QY0XgkYGp2mw+sZ++3h3/PqA4EYs6yqviBhJ6j
+         /EzQ==
+X-Gm-Message-State: AOAM5339qgIxynBfV7pL36/lRVeE65TFmvj4Z04vwuaul0OJpwyuXkPw
+	vRkPx1UAqhUoZI7rN1vvbd3vd4qrCs27dg==
+X-Google-Smtp-Source: ABdhPJyXwWnngC6CwF8R4ma0fNky9ZM1PPweiKptPFnHBTUlkLJM3wSiixRU/9ATNRJHdP2+2MhuWA==
+X-Received: by 2002:adf:df88:: with SMTP id z8mr23398195wrl.39.1613475661009;
+        Tue, 16 Feb 2021 03:41:01 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3cdf:51ac:3008:b3cc])
-        by smtp.gmail.com with ESMTPSA id a9sm24673716wrn.60.2021.02.16.03.39.16
+        by smtp.gmail.com with ESMTPSA id q21sm4215496wmj.18.2021.02.16.03.41.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 03:39:16 -0800 (PST)
+        Tue, 16 Feb 2021 03:41:00 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] distutils3-base: Fix after native packaging changes
-Date: Tue, 16 Feb 2021 11:39:16 +0000
-Message-Id: <20210216113916.2021941-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] subversion: upgrade 1.14.0 -> 1.14.1
+Date: Tue, 16 Feb 2021 11:40:59 +0000
+Message-Id: <20210216114100.2022235-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that native recipes have PACKAGES, this DEPENDS construct doesn't
-work. It applies to target and nativesdk recipes so adjust accordingly.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/distutils3-base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../subversion/{subversion_1.14.0.bb => subversion_1.14.1.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/subversion/{subversion_1.14.0.bb => subversion_1.14.1.bb} (97%)
 
-diff --git a/meta/classes/distutils3-base.bbclass b/meta/classes/distutils3-base.bbclass
-index a277d1c7bc6..302ee8c82c0 100644
---- a/meta/classes/distutils3-base.bbclass
-+++ b/meta/classes/distutils3-base.bbclass
-@@ -1,4 +1,5 @@
--DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}", ""][(d.getVar('PACKAGES') == '')]}"
-+DEPENDS_append_class-target = " ${PYTHON_PN}-native ${PYTHON_PN}"
-+DEPENDS_append_class-nativesdk = " ${PYTHON_PN}-native ${PYTHON_PN}"
- RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' == 'class-target']}"
+diff --git a/meta/recipes-devtools/subversion/subversion_1.14.0.bb b/meta/recipes-devtools/subversion/subversion_1.14.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/subversion/subversion_1.14.0.bb
+rename to meta/recipes-devtools/subversion/subversion_1.14.1.bb
+index 452a025fcc4..f1d00380863 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.14.0.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.14.1.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://serfmacro.patch \
+            "
  
- inherit distutils-common-base python3native python3targetconfig
+-SRC_URI[sha256sum] = "6ba8e218f9f97a83a799e58a3c6da1221d034b18d9d8cbbcb6ec52ab11722102"
++SRC_URI[sha256sum] = "2c5da93c255d2e5569fa91d92457fdb65396b0666fad4fd59b22e154d986e1a9"
+ 
+ inherit autotools pkgconfig gettext python3native
+ 
 -- 
 2.27.0
 
