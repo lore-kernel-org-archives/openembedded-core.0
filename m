@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.5220.1613463850067736720
+ by mx.groups.io with SMTP id smtpd.web10.5173.1613463850169632873
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:10 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id E2A7338C112E
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:09 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0D22838C1276
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:10 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jinja2: upgrading to 2.11.3 SUCCEEDED
-Message-ID: <MADEUP.16642CD2C0589085.7752@lists.openembedded.org>
-X-Groupsio-MsgNum: 148114
-Content-Type: multipart/mixed; boundary="===============4121109987575527264=="
+Subject: [AUH] python3-more-itertools: upgrading to 8.7.0 SUCCEEDED
+Message-ID: <MADEUP.16642CD2C647C656.5617@lists.openembedded.org>
+X-Groupsio-MsgNum: 148115
+Content-Type: multipart/mixed; boundary="===============0582311403005895771=="
 
---===============4121109987575527264==
+--===============0582311403005895771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jinja2* to *2.11.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-more-itertools* to *8.7.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-jinja2-upgrade-2.11.2-2.11.3.patch
+    - apply the patch: git am 0001-python3-more-itertools-upgrade-8.6.0-8.7.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,77 +44,80 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4121109987575527264==
+--===============0582311403005895771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-jinja2 (sysroot):
-  /usr/lib/python3.9/site-packages/Jinja2-2.11.2-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Jinja2-2.11.3-py3.9.egg-info
+Changes to packages/core2-32-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.9/site-packages/more_itertools-8.6.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/more_itertools-8.7.0-py3.9.egg-info
 
---===============4121109987575527264==
+--===============0582311403005895771==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-python3-jinja2-upgrade-2.11.2-2.11.3.patch"
+ filename="0001-python3-more-itertools-upgrade-8.6.0-8.7.0.patch"
 
-From 2d083819c66fd2524621027e4a8edb14bb781b78 Mon Sep 17 00:00:00 2001
+From 301806226bbb9fcd884526298e9b6f532cacd63a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Feb 2021 21:42:49 +0000
-Subject: [PATCH] python3-jinja2: upgrade 2.11.2 -> 2.11.3
+Date: Mon, 15 Feb 2021 21:50:01 +0000
+Subject: [PATCH] python3-more-itertools: upgrade 8.6.0 -> 8.7.0
 
 ---
- .../{python3-jinja2_2.11.2.bb => python3-jinja2_2.11.3.bb}      | 2 +-
+ ...-more-itertools_8.6.0.bb => python3-more-itertools_8.7.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jinja2_2.11.2.bb => python3-jinja2_2.11.3.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-more-itertools_8.6.0.bb => python3-more-itertools_8.7.0.bb} (84%)
 
-diff --git a/meta/recipes-devtools/python/python3-jinja2_2.11.2.bb b/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
-rename to meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
-index 89538d2f27..19a4eee11a 100644
---- a/meta/recipes-devtools/python/python3-jinja2_2.11.2.bb
-+++ b/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Python Jinja2: A small but fast and easy to use stand-alone templ
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.7.0.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_8.7.0.bb
+index ee5ce7ba9c..0cb61915bf 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_8.7.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
  
--SRC_URI[sha256sum] = "89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0"
-+SRC_URI[sha256sum] = "a6d58433de0ae800347cab1fa3043cebbabe8baa9d29e668f1c768cb87a333c6"
+-SRC_URI[sha256sum] = "b3a9005928e5bed54076e6e549c792b306fddfe72b2d1d22dd63d42d5d3899cf"
++SRC_URI[sha256sum] = "c5d6da9ca3ff65220c3bfd2a8db06d698f05d4d2b9be57e1deb2be5a45019713"
  
- PYPI_PACKAGE = "Jinja2"
+ inherit pypi setuptools3 ptest
  
 -- 
 2.17.1
 
 
---===============4121109987575527264==
+--===============0582311403005895771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-jinja2: SRC_URI changed from "https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-2.11.2.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-2.11.3.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/python3-jinja2: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-dbg: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-dbg: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-dev: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-dev: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-doc: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-doc: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-locale: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-locale: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-src: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-src: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-staticdev: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2-staticdev: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2: PKGV changed from 2.11.2 [default] to 2.11.3 [default]
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2: PV changed from "2.11.2" to "2.11.3"
-packages/core2-32-poky-linux/python3-jinja2/python3-jinja2: PKGSIZE changed from 836387 to 836159 (-0%)
-Changes to packages/core2-32-poky-linux/python3-jinja2 (sysroot):
-  /usr/lib/python3.9/site-packages/Jinja2-2.11.2-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Jinja2-2.11.3-py3.9.egg-info
+packages/core2-32-poky-linux/python3-more-itertools: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-8.6.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-8.7.0.tar.gz file://run-ptest"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dev: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dev: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-doc: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-doc: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-locale: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-locale: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGSIZE changed from 162136 to 170883 (+5%)
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-src: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-src: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PV changed from "8.6.0" to "8.7.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PKGV changed from 8.6.0 [default] to 8.7.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PKGSIZE changed from 286372 to 304751 (+6%)
+Changes to packages/core2-32-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.9/site-packages/more_itertools-8.6.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/more_itertools-8.7.0-py3.9.egg-info
 
---===============4121109987575527264==--
+--===============0582311403005895771==--
