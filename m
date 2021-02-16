@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.5219.1613463848596552830
+ by mx.groups.io with SMTP id smtpd.web10.5171.1613463848621642100
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:14 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 6849038C1283
+	by mail.yoctoproject.org (Postfix) with ESMTP id 764A238C1290
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:14 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 166 SUCCEEDED
-Message-ID: <MADEUP.16642CD3CEA35B60.5617@lists.openembedded.org>
-X-Groupsio-MsgNum: 148155
-Content-Type: multipart/mixed; boundary="===============3231445255838150410=="
+Subject: [AUH] libbsd: upgrading to 0.11.3 FAILED
+Message-ID: <MADEUP.16642CD3D078A3EC.20265@lists.openembedded.org>
+X-Groupsio-MsgNum: 148156
+Content-Type: multipart/mixed; boundary="===============1545232700571252000=="
 
---===============3231445255838150410==
+--===============1545232700571252000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *166* has Succeeded.
+that the automatic attempt to upgrade the recipe *libbsd* to *0.11.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-164-166.patch
+    - apply the patch: git am 0001-libbsd-upgrade-0.10.0-0.11.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,1302 +50,592 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3231445255838150410==
+--===============1545232700571252000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 810 .bb files complete (0 cached, 810 parsed). 1428 targets, 41 skipped, 0 masked, 0 errors.
-Removing 133 recipes from the core2-32 sysroot...done.
-Removing 137 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.9/site-packages/diffoscope-164-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-166-py3.9.egg-info
-
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 810 .bb files complete (0 cached, 810 parsed). 1428 targets, 49 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the armv7vet2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
-
-Initialising tasks...done.
-Sstate summary: Wanted 44 Found 13 Missed 31 Current 929 (29% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 934 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 946 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 947 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 967 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 969 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 970 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_packagedata_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1054 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Succeeded
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-src went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dbg went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-staticdev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-doc went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-locale went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 972 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2136 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_fetch)
-NOTE: Running task 2205 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_fetch)
-NOTE: Running task 2206 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2207 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_fetch)
-NOTE: Running task 2208 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2304 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_fetch)
-NOTE: recipe diffoscope-166-r0: task do_fetch: Started
-NOTE: recipe diffoscope-166-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Started
-NOTE: Running task 2482 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_unpack)
-NOTE: Running task 2483 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Succeeded
-NOTE: Running task 2509 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_unpack)
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Succeeded
-NOTE: Running task 2526 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_unpack)
-NOTE: Running task 2538 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Started
-NOTE: Running task 2539 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: Running task 2540 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2541 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: Running task 2542 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2543 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_unpack)
-NOTE: Running task 2620 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_unpack: Started
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Succeeded
-NOTE: Running task 2756 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_patch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2780 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_patch)
-NOTE: Running task 2781 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Started
-NOTE: recipe diffoscope-166-r0: task do_patch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2885 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2886 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe diffoscope-166-r0: task do_patch: Succeeded
-NOTE: Running task 2887 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2888 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2889 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Succeeded
-NOTE: Running task 2890 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: Running task 2891 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Started
-NOTE: Running task 2892 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2893 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Succeeded
-NOTE: Running task 2894 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2895 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_configure)
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic unihash changed to bc204cc3c8c075f499034e309a51e730d7b4722aca5125312345b05cfdd4d019
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2896 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2897 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe diffoscope-166-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2898 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Started
-NOTE: Running task 2899 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_configure)
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2900 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 9be73892817ccae6a1679d6602b61f68cb686db2a571abe1d29b85f617ac1e25
-NOTE: recipe diffoscope-166-r0: task do_configure: Succeeded
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: Running task 2985 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_compile)
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Succeeded
-NOTE: Running task 2992 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2995 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_compile)
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 3006 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe diffoscope-166-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Succeeded
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 3007 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_compile)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3008 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3009 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Succeeded
-NOTE: Running task 3010 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_install)
-NOTE: recipe diffoscope-166-r0: task do_compile: Succeeded
-NOTE: Running task 3011 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_install)
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Succeeded
-NOTE: Running task 3012 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_install)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Started
-NOTE: recipe diffoscope-166-r0: task do_install: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 34ae1f9d59024cf3248f55464cec110c7b18e0eb3d540ee9ad905def0f031610
-NOTE: Setscene tasks completed
-NOTE: Running task 3070 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Succeeded
-NOTE: Running task 3075 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Succeeded
-NOTE: Running task 3076 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3077 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe diffoscope-166-r0: task do_install: Succeeded
-NOTE: Running task 3078 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package)
-NOTE: Running task 3079 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-166-r0: task do_package: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3080 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Succeeded
-NOTE: Running task 3081 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3082 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Succeeded
-NOTE: Running task 3083 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Succeeded
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-src went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dbg went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-staticdev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe diffoscope-166-r0: task do_package: Succeeded
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: Running task 3084 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_packagedata)
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-doc went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-locale went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3085 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3086 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3087 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3088 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3089 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3090 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3091 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3092 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3093 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_write_rpm)
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 3094 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_compile)
-NOTE: Running task 3095 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Started
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 3096 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_install)
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Succeeded
-NOTE: Running task 3097 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package)
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Succeeded
-NOTE: Running task 3098 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3099 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package_write_rpm)
-NOTE: Running task 3100 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package_write_rpm)
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3101 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_build)
-NOTE: Tasks Summary: Attempted 3101 tasks of which 3026 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 14 ERROR messages shown, returning a non-zero exit code.
-
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 810 .bb files complete (0 cached, 810 parsed). 1428 targets, 67 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
-
-Initialising tasks...done.
-Sstate summary: Wanted 44 Found 13 Missed 31 Current 929 (29% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 934 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 946 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 947 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 967 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 969 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 970 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1054 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-src went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dbg went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-staticdev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-doc went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-locale went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 972 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2136 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_fetch)
-NOTE: Running task 2205 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2206 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_fetch)
-NOTE: Running task 2207 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2208 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_fetch)
-NOTE: Running task 2305 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_fetch)
-NOTE: recipe diffoscope-166-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Started
-NOTE: recipe diffoscope-166-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Started
-NOTE: Running task 2443 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_unpack)
-NOTE: Running task 2447 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2448 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_unpack)
-NOTE: Running task 2449 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_unpack)
-NOTE: Running task 2469 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Started
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2539 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2540 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: Running task 2541 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2542 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_unpack)
-NOTE: Running task 2543 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_unpack: Started
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: Running task 2622 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Succeeded
-NOTE: Running task 2671 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_patch)
-NOTE: Running task 2686 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_patch)
-NOTE: recipe diffoscope-166-r0: task do_unpack: Succeeded
-NOTE: Running task 2707 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Started
-NOTE: recipe diffoscope-166-r0: task do_patch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2885 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_patch: Succeeded
-NOTE: Running task 2886 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: Running task 2887 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2888 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2889 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2890 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Succeeded
-NOTE: Running task 2891 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Succeeded
-NOTE: Running task 2892 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2893 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 2894 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2895 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_configure)
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic unihash changed to bc204cc3c8c075f499034e309a51e730d7b4722aca5125312345b05cfdd4d019
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2896 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_configure)
-NOTE: Running task 2897 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_configure)
-NOTE: recipe diffoscope-166-r0: task do_configure: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Started
-NOTE: Running task 2898 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_configure)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 947b3f3eeb0dfbbf6b71a2570cf7038cea898c207019c744a3a1ca5df19e8530
-NOTE: recipe diffoscope-166-r0: task do_configure: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Succeeded
-NOTE: Running task 2983 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_compile)
-NOTE: Running task 2990 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Succeeded
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Started
-NOTE: Running task 2991 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: Running task 2993 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: Running task 2995 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_compile)
-NOTE: Running task 2996 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_compile)
-NOTE: recipe diffoscope-166-r0: task do_compile: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 3007 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3008 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe diffoscope-166-r0: task do_compile: Succeeded
-NOTE: Running task 3009 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_install)
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Succeeded
-NOTE: Running task 3010 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_install)
-NOTE: recipe diffoscope-166-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Succeeded
-NOTE: Running task 3011 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_install)
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3012 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 0b1db967e13a1cce76dacb0a93759952734dd0c6028b6c011e72a5e0f26fbaff
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Started
-NOTE: Setscene tasks completed
-NOTE: Running task 3070 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Succeeded
-NOTE: Running task 3075 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3076 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Succeeded
-NOTE: Running task 3077 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_install: Succeeded
-NOTE: Running task 3078 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package)
-NOTE: Running task 3079 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-166-r0: task do_package: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Succeeded
-NOTE: Running task 3080 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3081 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Succeeded
-NOTE: Running task 3082 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_packagedata)
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-src went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dbg went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-staticdev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-doc went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-locale went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3083 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3084 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package: Succeeded
-NOTE: Running task 3085 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_packagedata)
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3086 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3087 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3088 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3089 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3090 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3091 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 3092 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_compile)
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3093 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3094 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_write_rpm)
-NOTE: Running task 3095 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 3096 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_install)
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Succeeded
-NOTE: Running task 3097 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package)
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Succeeded
-NOTE: Running task 3098 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3099 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package_write_rpm)
-NOTE: Running task 3100 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package_write_rpm)
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3101 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_build)
-NOTE: Tasks Summary: Attempted 3101 tasks of which 3026 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 14 ERROR messages shown, returning a non-zero exit code.
-
---===============3231445255838150410==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-164-166.patch"
-
-From eb67a1e41d9403bc28b9e206b9aff278bfb3a7d2 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Tue, 16 Feb 2021 06:53:09 +0000
-Subject: [PATCH] diffoscope: upgrade 164 -> 166
-
----
- .../diffoscope/{diffoscope_164.bb => diffoscope_166.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_164.bb => diffoscope_166.bb} (83%)
-
-diff --git a/meta/recipes-support/diffoscope/diffoscope_164.bb b/meta/recipes-support/diffoscope/diffoscope_166.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_164.bb
-rename to meta/recipes-support/diffoscope/diffoscope_166.bb
-index 7707c441ca..14c95fe5af 100644
---- a/meta/recipes-support/diffoscope/diffoscope_164.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_166.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "bc269a39ec72261d9fead55bd951f6cbbe3d2ccce1481f974665999a5b141fff"
-+SRC_URI[sha256sum] = "20d0b4091ae535dc7d094bf5f366e0687e0b4337a268254b11925b8e7c9ea9c4"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
--- 
-2.17.1
-
-
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 810 .bb files complete (0 cached, 810 parsed). 1428 targets, 58 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
-
-Initialising tasks...done.
-Sstate summary: Wanted 44 Found 13 Missed 31 Current 929 (29% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 934 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 946 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 947 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 967 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 969 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 970 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_packagedata_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1054 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-src went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dbg went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-staticdev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-doc went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-locale went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 972 of 973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2136 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_fetch)
-NOTE: Running task 2205 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_fetch)
-NOTE: Running task 2206 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2207 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_fetch)
-NOTE: Running task 2208 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2304 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_fetch)
-NOTE: recipe diffoscope-166-r0: task do_fetch: Started
-NOTE: recipe diffoscope-166-r0: task do_fetch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Started
-NOTE: Running task 2472 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_unpack)
-NOTE: Running task 2473 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Succeeded
-NOTE: Running task 2504 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_unpack)
-NOTE: Running task 2525 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_unpack)
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2538 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Started
-NOTE: Running task 2539 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: Running task 2540 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2541 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: Running task 2542 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2543 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_unpack)
-NOTE: recipe diffoscope-166-r0: task do_unpack: Started
-NOTE: Running task 2620 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_unpack: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Succeeded
-NOTE: Running task 2755 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_patch)
-NOTE: Running task 2756 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_patch)
-NOTE: Running task 2776 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_patch)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Started
-NOTE: recipe diffoscope-166-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2885 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2886 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_patch: Succeeded
-NOTE: Running task 2887 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2888 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic)
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Succeeded
-NOTE: Running task 2889 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2890 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 2891 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2892 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2893 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 2894 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2895 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_configure)
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic unihash changed to bc204cc3c8c075f499034e309a51e730d7b4722aca5125312345b05cfdd4d019
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2896 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_configure)
-NOTE: Running task 2897 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_configure)
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2898 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_configure)
-NOTE: recipe diffoscope-166-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2899 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Started
-NOTE: recipe diffoscope-166-r0: task do_configure: Succeeded
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2900 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_compile)
-NOTE: Running task 2901 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 517200faa79489c03aaee74d243275f29de67290a89364e59cd5fcf52c63e1e4
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 2992 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_compile: Started
-NOTE: Running task 2995 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_compile)
-NOTE: Running task 2996 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Succeeded
-NOTE: Running task 2997 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3008 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe diffoscope-166-r0: task do_compile: Succeeded
-NOTE: Running task 3009 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_install)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe diffoscope-166-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Succeeded
-NOTE: Running task 3010 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_install)
-NOTE: Running task 3011 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_install)
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3012 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4d36386f84f1f8a6eeadb3b159bce7be17a46afff77c0a8da00b9ade299130f5
-NOTE: Setscene tasks completed
-NOTE: Running task 3070 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Succeeded
-NOTE: Running task 3075 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Succeeded
-NOTE: Running task 3076 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3077 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe diffoscope-166-r0: task do_install: Succeeded
-NOTE: Running task 3078 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package)
-NOTE: Running task 3079 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_sysroot)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Succeeded
-NOTE: Running task 3080 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Succeeded
-NOTE: Running task 3081 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3082 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Succeeded
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-src went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3083 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dbg went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-staticdev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-doc went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-locale went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe diffoscope-166-r0: task do_package: Succeeded
-NOTE: Running task 3084 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_packagedata)
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3085 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3086 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3087 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3088 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3089 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3090 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3091 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 3092 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_compile)
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3093 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3094 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_write_rpm)
-NOTE: Running task 3095 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 3096 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_install)
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Succeeded
-NOTE: Running task 3097 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package)
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Succeeded
-NOTE: Running task 3098 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3099 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package_write_rpm)
-NOTE: Running task 3100 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package_write_rpm)
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3101 of 3101 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_build)
-NOTE: Tasks Summary: Attempted 3101 tasks of which 3026 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 14 ERROR messages shown, returning a non-zero exit code.
-
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1429 entries from dependency cache.
+Loaded 1428 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 810 .bb files complete (809 cached, 1 parsed). 1428 targets, 31 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "1.49.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
-TUNE_FEATURES        = "m64 core2"
+DISTRO_VERSION       = "3.2+snapshot-b8c3139362ddcbf13c5a67198a7805881041b9be"
+TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f029e8ff9948a14e3ab5a80b9b5e627499d0a9d6"
+meta-yocto-bsp       = "tmp-auh-upgrades:b8c3139362ddcbf13c5a67198a7805881041b9be"
 workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
 
 Initialising tasks...done.
-Sstate summary: Wanted 46 Found 15 Missed 31 Current 931 (32% match, 96% complete)
+Sstate summary: Wanted 15 Found 8 Missed 7 Current 120 (53% match, 94% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 936 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 948 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 949 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 969 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 971 of 977 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe e2fsprogs-native-1.45.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxt-1_1.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 972 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_packagedata_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 973 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1054 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-src went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dbg went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-staticdev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-dev went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-doc went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt-locale went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-ERROR: libxt-1_1.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxt went backwards which would break package feeds (from 1:1.2.1-r0 to 1:1.2.0-r0) [version-going-backwards]
-NOTE: recipe libxt-1_1.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 975 of 977 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe e2fsprogs-native-1.45.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 977 of 977 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxt-1_1.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe e2fsprogs-native-1.45.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe e2fsprogs-native-1.45.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2154 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_fetch)
-NOTE: Running task 2223 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_fetch)
-NOTE: Running task 2224 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
-NOTE: Running task 2225 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_fetch)
-NOTE: Running task 2226 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
-NOTE: Running task 2322 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_fetch)
-NOTE: recipe diffoscope-166-r0: task do_fetch: Started
-NOTE: recipe diffoscope-166-r0: task do_fetch: Succeeded
-NOTE: Running task 2458 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_unpack)
-NOTE: Running task 2465 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_fetch: Succeeded
-NOTE: Running task 2487 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_unpack)
-NOTE: recipe vim-8.2-r0: task do_fetch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2530 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Started
-NOTE: Running task 2556 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2557 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vim-8.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2582 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
-NOTE: recipe diffoscope-166-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_fetch: Succeeded
-NOTE: Running task 2631 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_unpack)
-NOTE: Running task 2632 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Started
-NOTE: recipe diffoscope-166-r0: task do_unpack: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2742 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_patch)
-NOTE: Running task 2755 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_unpack)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_unpack: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2756 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2757 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_patch)
-NOTE: recipe vim-8.2-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe diffoscope-166-r0: task do_patch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_unpack: Succeeded
-NOTE: Running task 2902 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_patch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Started
-NOTE: recipe diffoscope-166-r0: task do_patch: Succeeded
-NOTE: Running task 2903 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2904 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic)
-NOTE: recipe diffoscope-166-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_patch: Succeeded
-NOTE: Running task 2905 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_patch: Succeeded
-NOTE: Running task 2906 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_populate_lic: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_lic unihash changed to bc204cc3c8c075f499034e309a51e730d7b4722aca5125312345b05cfdd4d019
-NOTE: Running task 2907 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 2908 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2909 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2910 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_configure)
-NOTE: recipe libarchive-3.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 2911 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Started
-NOTE: recipe diffoscope-166-r0: task do_configure: Succeeded
-NOTE: Running task 2912 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_compile)
-NOTE: recipe python3-magic-0.4.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2913 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_configure)
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_configure: Succeeded
-NOTE: Running task 2914 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_compile)
-NOTE: recipe libarchive-3.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2915 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_patch)
-NOTE: recipe diffoscope-166-r0: task do_compile: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_configure: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 2916 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2917 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 2e06541ff4c1e71ad371a85f393c3f35ed840fa219ee311f9a83df5e15081efc
-NOTE: recipe libarchive-3.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 3008 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 3014 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_compile: Succeeded
-NOTE: Running task 3022 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3023 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_compile: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_compile: Succeeded
-NOTE: Running task 3024 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_install)
-NOTE: Running task 3025 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_install)
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 3026 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe libarchive-3.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3027 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3028 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
-NOTE: recipe squashfs-tools-4.4-r0: task do_configure: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: Running task 3029 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Started
-NOTE: recipe diffoscope-166-r0: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Started
-NOTE: recipe vim-8.2-r0: task do_patch: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_install: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 664e107f7e4384d7a71270232afba85e211fe63f8509de7e39ef4650d4c4d829
-NOTE: Setscene tasks completed
-NOTE: Running task 3060 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package)
-NOTE: Running task 3088 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.18-r0: task do_install: Succeeded
-NOTE: Running task 3093 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vim-8.2-r0: task do_patch: Succeeded
-NOTE: Running task 3094 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe diffoscope-166-r0: task do_install: Succeeded
-NOTE: Running task 3095 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package)
-NOTE: Running task 3096 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_populate_sysroot)
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Started
-NOTE: recipe diffoscope-166-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3097 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
-NOTE: recipe vim-8.2-r0: task do_configure: Started
-NOTE: recipe diffoscope-166-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package: Succeeded
-NOTE: Running task 3098 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_packagedata)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Started
-NOTE: recipe python3-magic-0.4.18-r0: task do_package: Succeeded
-NOTE: Running task 3099 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_packagedata)
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 3100 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_packagedata: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_install: Succeeded
-NOTE: Running task 3101 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-src went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dbg went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-staticdev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-dev went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Started
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-doc went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic-locale went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-ERROR: python3-magic-0.4.18-r0 do_packagedata: QA Issue: Package version for package python3-magic went backwards which would break package feeds (from 0:0.4.20-r0 to 0:0.4.18-r0) [version-going-backwards]
-NOTE: recipe python3-magic-0.4.18-r0: task do_packagedata: Succeeded
-NOTE: Running task 3102 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.18.bb:do_package_write_rpm)
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package: Succeeded
-NOTE: Running task 3103 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_packagedata)
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Started
-NOTE: recipe diffoscope-166-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-magic-0.4.18-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe squashfs-tools-4.4-r0: task do_package: Succeeded
-NOTE: Running task 3104 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 3105 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Started
-NOTE: recipe squashfs-tools-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe vim-8.2-r0: task do_configure: Succeeded
-NOTE: Running task 3106 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
-NOTE: recipe vim-8.2-r0: task do_compile: Started
-NOTE: recipe vim-8.2-r0: task do_compile: Succeeded
-NOTE: Running task 3107 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
-NOTE: recipe vim-8.2-r0: task do_install: Started
-NOTE: recipe vim-8.2-r0: task do_install: Succeeded
-NOTE: Running task 3108 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
-NOTE: recipe vim-8.2-r0: task do_package: Started
-NOTE: recipe vim-8.2-r0: task do_package: Succeeded
-NOTE: Running task 3109 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
-NOTE: recipe vim-8.2-r0: task do_packagedata: Started
-NOTE: recipe vim-8.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 3110 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
-NOTE: Running task 3111 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_write_rpm)
-NOTE: Running task 3112 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_package_qa)
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_configure: Succeeded
-NOTE: Running task 3113 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_compile)
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Started
-NOTE: recipe diffoscope-166-r0: task do_package_qa: Succeeded
-NOTE: recipe diffoscope-166-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_compile: Succeeded
-NOTE: Running task 3114 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_install)
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_install: Succeeded
-NOTE: Running task 3115 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package)
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_package: Succeeded
-NOTE: Running task 3116 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_packagedata)
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Started
-NOTE: recipe libarchive-3.5.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 3117 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.5.1.bb:do_package_write_rpm)
-NOTE: Running task 3118 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb:do_package_write_rpm)
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Started
-NOTE: recipe vim-8.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-libarchive-c-2.9-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libarchive-3.5.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3119 of 3119 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_166.bb:do_build)
-NOTE: Tasks Summary: Attempted 3119 tasks of which 3044 didn't need to be rerun and all succeeded.
+NOTE: Running task 511 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_fetch)
+NOTE: recipe libbsd-0.11.3-r0: task do_fetch: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_fetch: Succeeded
+NOTE: Running task 529 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_unpack)
+NOTE: Running task 530 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libbsd-0.11.3-r0: task do_unpack: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_unpack: Succeeded
+NOTE: Running task 531 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_patch)
+NOTE: recipe libbsd-0.11.3-r0: task do_patch: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_patch: Succeeded
+NOTE: recipe libbsd-0.11.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 532 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 533 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_populate_lic)
+NOTE: recipe libbsd-0.11.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_populate_lic: Started
+NOTE: recipe libbsd-0.11.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe libbsd-0.11.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 534 of 542 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_configure)
+NOTE: recipe libbsd-0.11.3-r0: task do_configure: Started
+ERROR: libbsd-0.11.3-r0 do_configure: configure failed
+ERROR: libbsd-0.11.3-r0 do_configure: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/temp/run.do_configure.12210' failed with exit code 1:
+automake (GNU automake) 1.16.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Tom Tromey <tromey@redhat.com>
+       and Alexandre Duret-Lutz <adl@gnu.org>.
+AUTOV is 1.16
+autoreconf: export WARNINGS=cross,no-obsolete
+autoreconf: Entering directory '.'
+autoreconf: configure.ac: not using Gettext
+autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+autoreconf: configure.ac: tracing
+autoreconf: running: libtoolize --copy --force
+libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
+libtoolize: copying file 'build-aux/ltmain.sh'
+libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+libtoolize: copying file 'm4/libtool.m4'
+libtoolize: copying file 'm4/ltoptions.m4'
+libtoolize: copying file 'm4/ltsugar.m4'
+libtoolize: copying file 'm4/ltversion.m4'
+libtoolize: copying file 'm4/lt~obsolete.m4'
+autoreconf: configure.ac: not using Intltool
+autoreconf: configure.ac: not using Gtkdoc
+autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+autoreconf: running: automake --add-missing --copy --force-missing
+configure.ac:25: installing 'build-aux/compile'
+configure.ac:9: installing 'build-aux/missing'
+src/Makefile.am: installing 'build-aux/depcomp'
+autoreconf: 'build-aux/install-sh' is updated
+autoreconf: 'build-aux/config.sub' is updated
+autoreconf: 'build-aux/config.guess' is updated
+autoreconf: Leaving directory '.'
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+checking whether build environment is sane... yes
+checking for i686-poky-linux-strip... i686-poky-linux-strip
+checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking whether make supports nested variables... (cached) yes
+checking whether make supports the include directive... yes (GNU style)
+checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... yes
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... yes
+checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... none needed
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... yes
+checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... none
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for wchar.h... yes
+checking for minix/config.h... no
+checking whether it is safe to define __EXTENSIONS__... yes
+checking whether _XOPEN_SOURCE should be defined... no
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... i686-poky-linux-gnu
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) sed
+checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -F
+checking for ld used by i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  
+checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... i686-poky-linux-nm
+checking the name lister (i686-poky-linux-nm) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to i686-poky-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot   option to reload object files... -r
+checking for i686-poky-linux-objdump... i686-poky-linux-objdump
+checking how to recognize dependent libraries... pass_all
+checking for i686-poky-linux-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for i686-poky-linux-ar... i686-poky-linux-gcc-ar
+checking for archiver @FILE support... @
+checking for i686-poky-linux-strip... (cached) i686-poky-linux-strip
+checking for i686-poky-linux-ranlib... i686-poky-linux-gcc-ranlib
+checking command to parse i686-poky-linux-nm output from i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot object... ok
+checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd
+checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd bs=4096 count=1
+checking for i686-poky-linux-mt... no
+checking for mt... no
+checking if : is a manifest tool... no
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -fno-rtti -fno-exceptions... no
+checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to produce PIC... -fPIC -DPIC
+checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
+checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot static flag -static works... yes
+checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... yes
+checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... (cached) yes
+checking whether the i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking if ld supports --version-script flag... yes
+checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+checking whether the compiler supports GNU C... (cached) yes
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... (cached) yes
+checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... (cached) yes
+checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... (cached) none
+checking whether ln -s works... yes
+checking for unif01_CreateExternGenBits in -ltestu01... no
+checking for library containing dlsym... -ldl
+checking for library containing MD5Update... no
+configure: error: cannot find required MD5 functions in libc or libmd
+WARNING: exit code 1 from a shell command.
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/temp/log.do_configure.12210
+Log data follows:
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_10.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/automake/automake_1.16.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.33.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-n
+ ative_0.66.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-native_2.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf/autoconf_2.71.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['gcc-cross-i686', 'gcc-runtime', 'pkgconfig-native', 'automake-native', 'libtool-cross', 'glibc', 'patch-native', 'quilt-native', 'libtool-native', 'pseudo-native', 'autoconf-native', 'xz-native', 'flex-native', 'linux-libc-headers', 'zlib-native', 'gmp-native', 'gnu-config-native', 'texinfo-dummy-native', 'binutils-cross-i686', 'libmpc-native', 'mpfr-native', 'libgcc', 'attr-native', 'm4-native', 'gettext-minimal-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.16.2
+| Copyright (C) 2020 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+| 
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.16
+| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint --exclude=gtkdocize -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: configure.ac: not using Gettext
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: configure.ac: tracing
+| autoreconf: running: libtoolize --copy --force
+| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
+| libtoolize: copying file 'build-aux/ltmain.sh'
+| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+| libtoolize: copying file 'm4/libtool.m4'
+| libtoolize: copying file 'm4/ltoptions.m4'
+| libtoolize: copying file 'm4/ltsugar.m4'
+| libtoolize: copying file 'm4/ltversion.m4'
+| libtoolize: copying file 'm4/lt~obsolete.m4'
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| configure.ac:25: installing 'build-aux/compile'
+| configure.ac:9: installing 'build-aux/missing'
+| src/Makefile.am: installing 'build-aux/depcomp'
+| autoreconf: 'build-aux/install-sh' is updated
+| autoreconf: 'build-aux/config.sub' is updated
+| autoreconf: 'build-aux/config.guess' is updated
+| autoreconf: Leaving directory '.'
+| NOTE: Running ../libbsd-0.11.3/configure  --build=x86_64-linux 		  --host=i686-poky-linux 		  --target=i686-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  --disable-static
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+| checking whether build environment is sane... yes
+| checking for i686-poky-linux-strip... i686-poky-linux-strip
+| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking whether make supports nested variables... (cached) yes
+| checking whether make supports the include directive... yes (GNU style)
+| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... none
+| checking for stdio.h... yes
+| checking for stdlib.h... yes
+| checking for string.h... yes
+| checking for inttypes.h... yes
+| checking for stdint.h... yes
+| checking for strings.h... yes
+| checking for sys/stat.h... yes
+| checking for sys/types.h... yes
+| checking for unistd.h... yes
+| checking for wchar.h... yes
+| checking for minix/config.h... no
+| checking whether it is safe to define __EXTENSIONS__... yes
+| checking whether _XOPEN_SOURCE should be defined... no
+| checking for special C compiler options needed for large files... no
+| checking for _FILE_OFFSET_BITS value needed for large files... 64
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... i686-poky-linux-gnu
+| checking how to print strings... printf
+| checking for a sed that does not truncate output... (cached) sed
+| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -F
+| checking for ld used by i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) is GNU ld... yes
+| checking for BSD- or MS-compatible name lister (nm)... i686-poky-linux-nm
+| checking the name lister (i686-poky-linux-nm) interface... BSD nm
+| checking whether ln -s works... yes
+| checking the maximum length of command line arguments... 1572864
+| checking how to convert x86_64-pc-linux-gnu file names to i686-poky-linux-gnu format... func_convert_file_noop
+| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+| checking for i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot   option to reload object files... -r
+| checking for i686-poky-linux-objdump... i686-poky-linux-objdump
+| checking how to recognize dependent libraries... pass_all
+| checking for i686-poky-linux-dlltool... no
+| checking for dlltool... no
+| checking how to associate runtime and link libraries... printf %s\n
+| checking for i686-poky-linux-ar... i686-poky-linux-gcc-ar
+| checking for archiver @FILE support... @
+| checking for i686-poky-linux-strip... (cached) i686-poky-linux-strip
+| checking for i686-poky-linux-ranlib... i686-poky-linux-gcc-ranlib
+| checking command to parse i686-poky-linux-nm output from i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot object... ok
+| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd
+| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd bs=4096 count=1
+| checking for i686-poky-linux-mt... no
+| checking for mt... no
+| checking if : is a manifest tool... no
+| checking for dlfcn.h... yes
+| checking for objdir... .libs
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -fno-rtti -fno-exceptions... no
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to produce PIC... -fPIC -DPIC
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot static flag -static works... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... (cached) yes
+| checking whether the i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) supports shared libraries... yes
+| checking whether -lc should be explicitly linked in... no
+| checking dynamic linker characteristics... GNU/Linux ld.so
+| checking how to hardcode library paths into programs... immediate
+| checking whether stripping libraries is possible... yes
+| checking if libtool supports shared libraries... yes
+| checking whether to build shared libraries... yes
+| checking whether to build static libraries... no
+| checking if ld supports --version-script flag... yes
+| checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking whether the compiler supports GNU C... (cached) yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... (cached) yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... (cached) yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... (cached) none
+| checking whether ln -s works... yes
+| checking for unif01_CreateExternGenBits in -ltestu01... no
+| checking for library containing dlsym... -ldl
+| checking for library containing MD5Update... no
+| configure: error: cannot find required MD5 functions in libc or libmd
+| NOTE: The following config.log files may provide further information.
+| NOTE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/build/config.log
+| ERROR: configure failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/temp/run.do_configure.12210' failed with exit code 1:
+| automake (GNU automake) 1.16.2
+| Copyright (C) 2020 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+| 
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.16
+| autoreconf: export WARNINGS=cross,no-obsolete
+| autoreconf: Entering directory '.'
+| autoreconf: configure.ac: not using Gettext
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: configure.ac: tracing
+| autoreconf: running: libtoolize --copy --force
+| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
+| libtoolize: copying file 'build-aux/ltmain.sh'
+| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+| libtoolize: copying file 'm4/libtool.m4'
+| libtoolize: copying file 'm4/ltoptions.m4'
+| libtoolize: copying file 'm4/ltsugar.m4'
+| libtoolize: copying file 'm4/ltversion.m4'
+| libtoolize: copying file 'm4/lt~obsolete.m4'
+| autoreconf: configure.ac: not using Intltool
+| autoreconf: configure.ac: not using Gtkdoc
+| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/libbsd-0.11.3/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot-native/usr/share/aclocal/ --force
+| autoreconf: running: automake --add-missing --copy --force-missing
+| configure.ac:25: installing 'build-aux/compile'
+| configure.ac:9: installing 'build-aux/missing'
+| src/Makefile.am: installing 'build-aux/depcomp'
+| autoreconf: 'build-aux/install-sh' is updated
+| autoreconf: 'build-aux/config.sub' is updated
+| autoreconf: 'build-aux/config.guess' is updated
+| autoreconf: Leaving directory '.'
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
+| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
+| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
+| checking whether build environment is sane... yes
+| checking for i686-poky-linux-strip... i686-poky-linux-strip
+| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
+| checking for gawk... gawk
+| checking whether make sets $(MAKE)... yes
+| checking whether make supports nested variables... yes
+| checking whether make supports nested variables... (cached) yes
+| checking whether make supports the include directive... yes (GNU style)
+| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking whether the C compiler works... yes
+| checking for C compiler default output file name... a.out
+| checking for suffix of executables...
+| checking whether we are cross compiling... yes
+| checking for suffix of object files... o
+| checking whether the compiler supports GNU C... yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... none
+| checking for stdio.h... yes
+| checking for stdlib.h... yes
+| checking for string.h... yes
+| checking for inttypes.h... yes
+| checking for stdint.h... yes
+| checking for strings.h... yes
+| checking for sys/stat.h... yes
+| checking for sys/types.h... yes
+| checking for unistd.h... yes
+| checking for wchar.h... yes
+| checking for minix/config.h... no
+| checking whether it is safe to define __EXTENSIONS__... yes
+| checking whether _XOPEN_SOURCE should be defined... no
+| checking for special C compiler options needed for large files... no
+| checking for _FILE_OFFSET_BITS value needed for large files... 64
+| checking build system type... x86_64-pc-linux-gnu
+| checking host system type... i686-poky-linux-gnu
+| checking how to print strings... printf
+| checking for a sed that does not truncate output... (cached) sed
+| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
+| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
+| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -F
+| checking for ld used by i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) is GNU ld... yes
+| checking for BSD- or MS-compatible name lister (nm)... i686-poky-linux-nm
+| checking the name lister (i686-poky-linux-nm) interface... BSD nm
+| checking whether ln -s works... yes
+| checking the maximum length of command line arguments... 1572864
+| checking how to convert x86_64-pc-linux-gnu file names to i686-poky-linux-gnu format... func_convert_file_noop
+| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+| checking for i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot   option to reload object files... -r
+| checking for i686-poky-linux-objdump... i686-poky-linux-objdump
+| checking how to recognize dependent libraries... pass_all
+| checking for i686-poky-linux-dlltool... no
+| checking for dlltool... no
+| checking how to associate runtime and link libraries... printf %s\n
+| checking for i686-poky-linux-ar... i686-poky-linux-gcc-ar
+| checking for archiver @FILE support... @
+| checking for i686-poky-linux-strip... (cached) i686-poky-linux-strip
+| checking for i686-poky-linux-ranlib... i686-poky-linux-gcc-ranlib
+| checking command to parse i686-poky-linux-nm output from i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot object... ok
+| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd
+| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd bs=4096 count=1
+| checking for i686-poky-linux-mt... no
+| checking for mt... no
+| checking if : is a manifest tool... no
+| checking for dlfcn.h... yes
+| checking for objdir... .libs
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -fno-rtti -fno-exceptions... no
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to produce PIC... -fPIC -DPIC
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot static flag -static works... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... yes
+| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot supports -c -o file.o... (cached) yes
+| checking whether the i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot  ) supports shared libraries... yes
+| checking whether -lc should be explicitly linked in... no
+| checking dynamic linker characteristics... GNU/Linux ld.so
+| checking how to hardcode library paths into programs... immediate
+| checking whether stripping libraries is possible... yes
+| checking if libtool supports shared libraries... yes
+| checking whether to build shared libraries... yes
+| checking whether to build static libraries... no
+| checking if ld supports --version-script flag... yes
+| checking for i686-poky-linux-gcc... (cached) i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot
+| checking whether the compiler supports GNU C... (cached) yes
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot accepts -g... (cached) yes
+| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot option to enable C11 features... (cached) none needed
+| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot understands -c and -o together... (cached) yes
+| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libbsd/0.11.3-r0/recipe-sysroot... (cached) none
+| checking whether ln -s works... yes
+| checking for unif01_CreateExternGenBits in -ltestu01... no
+| checking for library containing dlsym... -ldl
+| checking for library containing MD5Update... no
+| configure: error: cannot find required MD5 functions in libc or libmd
+| WARNING: exit code 1 from a shell command.
+| 
+NOTE: recipe libbsd-0.11.3-r0: task do_configure: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_configure) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 534 tasks of which 527 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 
-Summary: There were 14 ERROR messages shown, returning a non-zero exit code.
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libbsd/libbsd_0.11.3.bb:do_configure
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
 
---===============3231445255838150410==
-Content-Type: text/plain; charset="us-ascii"
+--===============1545232700571252000==
+Content-Type: text/x-diff; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libbsd-upgrade-0.10.0-0.11.3.patch"
 
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 935074 to 937936 (+0%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "164" to "166"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 164 [default] to 166 [default]
-packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-164.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-166.tar.gz"
-packages/core2-32-poky-linux/diffoscope: PV changed from "164" to "166"
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.9/site-packages/diffoscope-164-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-166-py3.9.egg-info
+RnJvbSBhMTdjYjhjNTE3ODEyNGZjZGYwMWE0YTEyMGUxY2EwNGYyZjFhMjc5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQGF1aC55b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBUdWUsIDE2IEZlYiAyMDIxIDA2OjU1OjAyICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gbGliYnNkOiB1cGdyYWRlIDAuMTAuMCAtPiAwLjExLjMKCi0tLQogLi4uL3tsaWJic2RfMC4x
+MC4wLmJiID0+IGxpYmJzZF8wLjExLjMuYmJ9ICAgIHwgMTEyICsrKysrKysrKysrKysrKysrLQog
+MSBmaWxlIGNoYW5nZWQsIDEwOSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC97bGliYnNkXzAuMTAuMC5iYiA9PiBsaWJic2Rf
+MC4xMS4zLmJifSAoMzIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJz
+ZC9saWJic2RfMC4xMC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliYnNkL2xpYmJzZF8w
+LjExLjMuYmIKc2ltaWxhcml0eSBpbmRleCAzMiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGliYnNkL2xpYmJzZF8wLjEwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYmJzZC9saWJic2RfMC4xMS4zLmJiCmluZGV4IDViMzJiOWFmNDEuLjg5ZjYxZjE0ODQg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMS4zLmJiCkBAIC0x
+LDMgKzEsMTEwIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
+ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
+IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
+UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
+dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
+JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
+dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORworIyArKysgQ09QWUlO
+RworIyBAQCAtMyw3ICszLDcgQEAKKyMgIEZpbGVzOgorIyAgICoKKyMgIENvcHlyaWdodDoKKyMg
+LSBDb3B5cmlnaHQgwqkgMjAwNC0yMDA2LCAyMDA4LTIwMTggR3VpbGxlbSBKb3ZlciA8Z3VpbGxl
+bUBoYWRyb25zLm9yZz4KKyMgKyBDb3B5cmlnaHQgwqkgMjAwNC0yMDA2LCAyMDA4LTIwMjEgR3Vp
+bGxlbSBKb3ZlciA8Z3VpbGxlbUBoYWRyb25zLm9yZz4KKyMgIExpY2Vuc2U6IEJTRC0zLWNsYXVz
+ZQorIyAgCisjICBGaWxlczoKKyMgQEAgLTEwNSw2ICsxMDUsNyBAQAorIyAgIG1hbi9nZXRic2l6
+ZS4zYnNkCisjICAgbWFuL2hlYXBzb3J0LjNic2QKKyMgICBtYW4vbmxpc3QuM2JzZAorIyArIG1h
+bi9wd2NhY2hlLjNic2QKKyMgICBtYW4vcXVldWUuM2JzZAorIyAgIG1hbi9yYWRpeHNvcnQuM2Jz
+ZAorIyAgIG1hbi9yZWFsbG9jYXJyYXkuM2JzZAorIyBAQCAtMTIxLDYgKzEyMiw3IEBACisjICAg
+c3JjL2hlYXBzb3J0LmMKKyMgICBzcmMvbWVyZ2UuYworIyAgIHNyYy9ubGlzdC5jCisjICsgc3Jj
+L3B3Y2FjaGUuYworIyAgIHNyYy9yYWRpeHNvcnQuYworIyAgIHNyYy9zZXRtb2RlLmMKKyMgICBz
+cmMvc3RybW9kZS5jCisjIEBAIC0xMzEsNiArMTMzLDcgQEAKKyMgIENvcHlyaWdodDoKKyMgICBD
+b3B5cmlnaHQgwqkgMTk4MCwgMTk4MiwgMTk4NiwgMTk4OS0xOTk0CisjICAgICAgIFRoZSBSZWdl
+bnRzIG9mIHRoZSBVbml2ZXJzaXR5IG9mIENhbGlmb3JuaWEuICBBbGwgcmlnaHRzIHJlc2VydmVk
+LgorIyArIENvcHlyaWdodCDCqSAxOTkyIEtlaXRoIE11bGxlci4KKyMgICBDb3B5cmlnaHQgwqkg
+MjAwMSBNaWtlIEJhcmNyb2Z0IDxtaWtlQEZyZWVCU0Qub3JnPgorIyAgIC4KKyMgICBTb21lIGNv
+ZGUgaXMgZGVyaXZlZCBmcm9tIHNvZnR3YXJlIGNvbnRyaWJ1dGVkIHRvIEJlcmtlbGV5IGJ5Cisj
+IEBAIC0yNzUsOCArMjc4LDYgQEAKKyMgICBtYW4vZ2V0cGVlcmVpZC4zYnNkCisjICAgbWFuL3Bp
+ZGZpbGUuM2JzZAorIyAgIHNyYy9leHBhbmRfbnVtYmVyLmMKKyMgLSBzcmMvaGFzaC9zaGE1MTIu
+aAorIyAtIHNyYy9oYXNoL3NoYTUxMmMuYworIyAgIHNyYy9waWRmaWxlLmMKKyMgICBzcmMvcmVh
+bGxvY2YuYworIyAgIHNyYy90aW1lY29udi5jCisjIEBAIC0zNjgsNiArMzY5LDcgQEAKKyMgICBz
+cmMvYXJjNHJhbmRvbV91bml4LmgKKyMgICBzcmMvYXJjNHJhbmRvbV93aW4uaAorIyAgIHNyYy9j
+bG9zZWZyb20uYworIyArIHNyYy9mcmVlemVyby5jCisjICAgc3JjL2dldGVudHJvcHlfYWl4LmMK
+KyMgICBzcmMvZ2V0ZW50cm9weV9ic2QuYworIyAgIHNyYy9nZXRlbnRyb3B5X2hwdXguYworIyBA
+QCAtMzc4LDYgKzM4MCw3IEBACisjICAgc3JjL2dldGVudHJvcHlfd2luLmMKKyMgICBzcmMvcmVh
+ZHBhc3NwaHJhc2UuYworIyAgIHNyYy9yZWFsbG9jYXJyYXkuYworIyArIHNyYy9yZWNhbGxvY2Fy
+cmF5LmMKKyMgICBzcmMvc3RybGNhdC5jCisjICAgc3JjL3N0cmxjcHkuYworIyAgQ29weXJpZ2h0
+OgorIyBAQCAtMzg5LDcgKzM5Miw3IEBACisjICAgICAgIFRvZGQgQy4gTWlsbGVyIDxUb2RkLk1p
+bGxlckBjb3VydGVzYW4uY29tPgorIyAgIENvcHlyaWdodCDCqSAyMDA0IFRlZCBVbmFuZ3N0Cisj
+ICAgQ29weXJpZ2h0IMKpIDIwMDggRGFtaWVuIE1pbGxlciA8ZGptQG9wZW5ic2Qub3JnPgorIyAt
+IENvcHlyaWdodCDCqSAyMDA4IE90dG8gTW9lcmJlZWsgPG90dG9AZHJpamYubmV0PgorIyArIENv
+cHlyaWdodCDCqSAyMDA4LCAyMDEwLTIwMTEsIDIwMTYtMjAxNyBPdHRvIE1vZXJiZWVrIDxvdHRv
+QGRyaWpmLm5ldD4KKyMgICBDb3B5cmlnaHQgwqkgMjAxMyBNYXJrdXMgRnJpZWRsIDxtYXJrdXNA
+b3BlbmJzZC5vcmc+CisjICAgQ29weXJpZ2h0IMKpIDIwMTQgQm9iIEJlY2sgPGJlY2tAb2J0dXNl
+LmNvbT4KKyMgICBDb3B5cmlnaHQgwqkgMjAxNCBCcmVudCBDb29rIDxiY29va0BvcGVuYnNkLm9y
+Zz4KKyMgQEAgLTQ1NCwxNyArNDU3LDYgQEAKKyMgICBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4g
+VEhFIFNPRlRXQVJFLgorIyAgCisjICBGaWxlczoKKyMgLSBpbmNsdWRlL2JzZC9tZDUuaAorIyAt
+IHNyYy9oYXNoL21kNS5jCisjIC1Db3B5cmlnaHQ6CisjIC0gTm9uZQorIyAtTGljZW5zZTogcHVi
+bGljLWRvbWFpbi1Db2xpbi1QbHVtYgorIyAtIFRoaXMgY29kZSBpbXBsZW1lbnRzIHRoZSBNRDUg
+bWVzc2FnZS1kaWdlc3QgYWxnb3JpdGhtLgorIyAtIFRoZSBhbGdvcml0aG0gaXMgZHVlIHRvIFJv
+biBSaXZlc3QuIFRoaXMgY29kZSB3YXMKKyMgLSB3cml0dGVuIGJ5IENvbGluIFBsdW1iIGluIDE5
+OTMsIG5vIGNvcHlyaWdodCBpcyBjbGFpbWVkLgorIyAtIFRoaXMgY29kZSBpcyBpbiB0aGUgcHVi
+bGljIGRvbWFpbjsgZG8gd2l0aCBpdCB3aGF0IHlvdSB3aXNoLgorIyAtCisjIC1GaWxlczoKKyMg
+ICBzcmMvZXhwbGljaXRfYnplcm8uYworIyAgIHNyYy9jaGFjaGFfcHJpdmF0ZS5oCisjICBDb3B5
+cmlnaHQ6CisjIEBAIC00NzQsOCArNDY2LDYgQEAKKyMgIAorIyAgRmlsZXM6CisjICAgbWFuL21k
+WC4zYnNkCisjIC0gc3JjL2hhc2gvbWQ1aGwuYworIyAtIHNyYy9oYXNoL2hlbHBlci5jCisjICBD
+b3B5cmlnaHQ6CisjICAgTm9uZQorIyAgTGljZW5zZTogQmVlcndhcmUKKyMgCisjCisKICMgQ29w
+eXJpZ2h0IChDKSAyMDEzIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAjIFJlbGVhc2Vk
+IHVuZGVyIHRoZSBNSVQgbGljZW5zZSAoc2VlIENPUFlJTkcuTUlUIGZvciB0aGUgdGVybXMpCiAK
+QEAgLTI5LDEzICsxMzYsMTIgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9saWJic2QuZnJlZWRlc2t0
+b3Aub3JnL3dpa2kvIgogIyBMaWNlbnNlOiBwdWJsaWMtZG9tYWluLUNvbGluLVBsdW1iCiBMSUNF
+TlNFID0gIkJTRC0zLUNsYXVzZSAmIEJTRC00LUNsYXVzZSAmIElTQyAmIFBEIgogTElDRU5TRV8k
+e1BOfSA9ICJCU0QtMy1DbGF1c2UgJiBJU0MgJiBQRCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmls
+ZTovL0NPUFlJTkc7bWQ1PTIxMjBiZTAxNzM0NjlhMDZlZDE4NWI2ODhlMGUxYWUwIgorTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YWRmNjE3MjA3NWJjYzU4MzdlMzNhOGE2
+ODhlYjdlMjIiCiBTRUNUSU9OID0gImxpYnMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9saWJic2Qu
+ZnJlZWRlc2t0b3Aub3JnL3JlbGVhc2VzLyR7QlBOfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklb
+bWQ1c3VtXSA9ICJlYWQ5NmQyNDBkMDJmYWE1YjkyMWMwYWE1MGM4MTJiNSIKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICIzNGI4YWRjNzI2ODgzZDBlODViMzExOGZhMTM2MDVlMTc5YTYyYjMxYmE1MWY2
+NzYxMzZlY2IyZDBiYzFhODg3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImZmOTVjZjgxODQxNTFk
+YWNhZTQyNDc4MzJmOGQ0ZWE4ODAwZmExMjdkYmQxNTAzM2VjZmU4MzlmMjg1YjQyYTEiCiAKIGlu
+aGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZwogCi0tIAoyLjE3LjEKCg==
 
---===============3231445255838150410==--
+--===============1545232700571252000==--
