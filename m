@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.5218.1613463848513890660
+ by mx.groups.io with SMTP id smtpd.web12.5219.1613463848596552830
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:15 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id CB11E38C126E
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:14 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0461338C12A4
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libevdev: upgrading to 1.11.0 SUCCEEDED
-Message-ID: <MADEUP.16642CD3E0F6ED32.7752@lists.openembedded.org>
-X-Groupsio-MsgNum: 148158
-Content-Type: multipart/mixed; boundary="===============1591264690266445488=="
+Subject: [AUH] libical: upgrading to 3.0.9 FAILED
+Message-ID: <MADEUP.16642CD3EBFB61B3.20265@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5211221472156313148=="
 
---===============1591264690266445488==
+--===============5211221472156313148==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,105 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libevdev* to *1.11.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libical* to *3.0.9* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libevdev-upgrade-1.10.1-1.11.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libical failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1428 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-50df9ec6594c99c3402e855b544e4ad879a54bdf"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:50df9ec6594c99c3402e855b544e4ad879a54bdf"
+workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://github.com/libical/libical/releases/download/v3.0.9/libical-3.0.9.tar.gz...
+Loading cache...done.
+Loaded 1428 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 811 .bb files complete (809 cached, 2 parsed). 1429 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-50df9ec6594c99c3402e855b544e4ad879a54bdf"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:50df9ec6594c99c3402e855b544e4ad879a54bdf"
+workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  13% |####                                | ETA:  0:00:00
+Adding changed files:  27% |#########                           | ETA:  0:00:00
+Adding changed files:  41% |##############                      | ETA:  0:00:00
+Adding changed files:  55% |###################                 | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase f5bbba6a329169bc3809ebe802c49ce4b0b10fbd' failed:
+First, rewinding head to replay your work on top of it...
+Applying: Use our hand-build native src-generator
+Using index info to reconstruct a base tree...
+M	src/libical-glib/CMakeLists.txt
+Falling back to patching base and 3-way merge...
+Auto-merging src/libical-glib/CMakeLists.txt
+CONFLICT (content): Merge conflict in src/libical-glib/CMakeLists.txt
+error: Failed to merge in the changes.
+Patch failed at 0001 Use our hand-build native src-generator
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libical
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libical/libical_3.0.9.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,177 +129,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1591264690266445488==
-Content-Type: text/x-diff; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libevdev-upgrade-1.10.1-1.11.0.patch"
-
-RnJvbSAxMjY2ZTE2OGM1YTAzMTBlOTBkNzM4YWRlNDE3YTM2ZDRiNjQyODZiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQGF1aC55b2N0b3Byb2plY3Qu
-b3JnPgpEYXRlOiBUdWUsIDE2IEZlYiAyMDIxIDA3OjUyOjA5ICswMDAwClN1YmplY3Q6IFtQQVRD
-SF0gbGliZXZkZXY6IHVwZ3JhZGUgMS4xMC4xIC0+IDEuMTEuMAoKLS0tCiAuLi4vbGliZXZkZXYv
-bGliZXZkZXZfMS4xMC4xLmJiICAgICAgICAgICAgICAgfCAgMTUgLS0tCiAuLi4vbGliZXZkZXYv
-bGliZXZkZXZfMS4xMS4wLmJiICAgICAgICAgICAgICAgfCAxMTMgKysrKysrKysrKysrKysrKysr
-CiAyIGZpbGVzIGNoYW5nZWQsIDExMyBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKIGRl
-bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRldi9saWJldmRldl8x
-LjEwLjEuYmIKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRl
-di9saWJldmRldl8xLjExLjAuYmIKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJldmRldi9saWJldmRldl8xLjEwLjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRl
-di9saWJldmRldl8xLjEwLjEuYmIKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDM1M2Rl
-ZDZmMjguLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZkZXYvbGli
-ZXZkZXZfMS4xMC4xLmJiCisrKyAvZGV2L251bGwKQEAgLTEsMTUgKzAsMCBAQAotU1VNTUFSWSA9
-ICJXcmFwcGVyIGxpYnJhcnkgZm9yIGV2ZGV2IGRldmljZXMiCi1IT01FUEFHRSA9ICJodHRwOi8v
-d3d3LmZyZWVkZXNrdG9wLm9yZy93aWtpL1NvZnR3YXJlL2xpYmV2ZGV2LyIKLVNFQ1RJT04gPSAi
-bGlicyIKLQotTElDRU5TRSA9ICJNSVQtWCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
-UFlJTkc7bWQ1PTc1YWFlMGQzOGZlZWE2ZmRhOTdjYTM4MWNiOTEzMmViIFwKLSAgICAgICAgICAg
-ICAgICAgICAgZmlsZTovL2xpYmV2ZGV2L2xpYmV2ZGV2Lmg7ZW5kbGluZT0yMTttZDU9N2ZmNGYw
-YjUxMTMyNTJjMmYxYTgyOGUwYmJhZDk4ZDEiCi0KLVNSQ19VUkkgPSAiaHR0cDovL3d3dy5mcmVl
-ZGVza3RvcC5vcmcvc29mdHdhcmUvbGliZXZkZXYvJHtCUH0udGFyLnh6IFwKLSAgICAgICAgICAg
-ZmlsZTovL2RldGVybWluaXNtLnBhdGNoIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAzMzBmZTgz
-NTdlY2U5MTVkYjkzNjZjMWI5YTY2NDg5NDFhZWE2ZjcyNGI3M2FkNmU3MTQwMTEyN2FhMDg5MzIi
-Ci0KLWluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZwotCi1VUFNUUkVBTV9DSEVDS19SRUdFWCA9
-ICJsaWJldmRldi0oP1A8cHZlcj4oXGQrXC4pKyg/ITkwXGQrKVxkKykiCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJldmRldi9saWJldmRldl8xLjExLjAuYmIgYi9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJldmRldi9saWJldmRldl8xLjExLjAuYmIKbmV3IGZpbGUgbW9kZSAx
-MDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uZTlmNmQzOTU2MwotLS0gL2Rldi9udWxsCisrKyBiL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmV2ZGV2L2xpYmV2ZGV2XzEuMTEuMC5iYgpAQCAtMCwwICsx
-LDExMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1
-cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZm
-ZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFz
-ZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBj
-aGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFn
-LgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4n
-KQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMg
-QEAgLTEsMjMgKzEsMjYgQEAKKyMgK1NQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQKKyMgKwor
-IyAgQ29weXJpZ2h0IMKpIDIwMTMgUmVkIEhhdCwgSW5jLgorIyAgQ29weXJpZ2h0IMKpIDIwMTMg
-RGF2aWQgSGVycm1hbm4gPGRoLmhlcnJtYW5uQGdtYWlsLmNvbT4KKyMgIAorIyAtUGVybWlzc2lv
-biB0byB1c2UsIGNvcHksIG1vZGlmeSwgZGlzdHJpYnV0ZSwgYW5kIHNlbGwgdGhpcyBzb2Z0d2Fy
-ZSBhbmQgaXRzCisjIC1kb2N1bWVudGF0aW9uIGZvciBhbnkgcHVycG9zZSBpcyBoZXJlYnkgZ3Jh
-bnRlZCB3aXRob3V0IGZlZSwgcHJvdmlkZWQgdGhhdAorIyAtdGhlIGFib3ZlIGNvcHlyaWdodCBu
-b3RpY2UgYXBwZWFyIGluIGFsbCBjb3BpZXMgYW5kIHRoYXQgYm90aCB0aGF0IGNvcHlyaWdodAor
-IyAtbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIGFwcGVhciBpbiBzdXBwb3J0aW5n
-IGRvY3VtZW50YXRpb24sIGFuZAorIyAtdGhhdCB0aGUgbmFtZSBvZiB0aGUgY29weXJpZ2h0IGhv
-bGRlcnMgbm90IGJlIHVzZWQgaW4gYWR2ZXJ0aXNpbmcgb3IKKyMgLXB1YmxpY2l0eSBwZXJ0YWlu
-aW5nIHRvIGRpc3RyaWJ1dGlvbiBvZiB0aGUgc29mdHdhcmUgd2l0aG91dCBzcGVjaWZpYywKKyMg
-LXdyaXR0ZW4gcHJpb3IgcGVybWlzc2lvbi4gIFRoZSBjb3B5cmlnaHQgaG9sZGVycyBtYWtlIG5v
-IHJlcHJlc2VudGF0aW9ucworIyAtYWJvdXQgdGhlIHN1aXRhYmlsaXR5IG9mIHRoaXMgc29mdHdh
-cmUgZm9yIGFueSBwdXJwb3NlLiAgSXQgaXMgcHJvdmlkZWQgImFzCisjIC1pcyIgd2l0aG91dCBl
-eHByZXNzIG9yIGltcGxpZWQgd2FycmFudHkuCisjICtQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFu
-dGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYSBjb3B5CisjICtv
-ZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAi
-U29mdHdhcmUiKSwgdG8KKyMgK2RlYWwgaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rp
-b24sIGluY2x1ZGluZyB3aXRob3V0IGxpbWl0YXRpb24gdGhlCisjICtyaWdodHMgdG8gdXNlLCBj
-b3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLCBhbmQv
-b3IKKyMgK3NlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25z
-IHRvIHdob20gdGhlIFNvZnR3YXJlIGlzCisjICtmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3Qg
-dG8gdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgorIyAgCisjIC1USEUgQ09QWVJJR0hUIEhPTERF
-UlMgRElTQ0xBSU0gQUxMIFdBUlJBTlRJRVMgV0lUSCBSRUdBUkQgVE8gVEhJUyBTT0ZUV0FSRSwK
-KyMgLUlOQ0xVRElORyBBTEwgSU1QTElFRCBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSBB
-TkQgRklUTkVTUywgSU4gTk8KKyMgLUVWRU5UIFNIQUxMIFRIRSBDT1BZUklHSFQgSE9MREVSUyBC
-RSBMSUFCTEUgRk9SIEFOWSBTUEVDSUFMLCBJTkRJUkVDVCBPUgorIyAtQ09OU0VRVUVOVElBTCBE
-QU1BR0VTIE9SIEFOWSBEQU1BR0VTIFdIQVRTT0VWRVIgUkVTVUxUSU5HIEZST00gTE9TUyBPRiBV
-U0UsCisjIC1EQVRBIE9SIFBST0ZJVFMsIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNU
-LCBORUdMSUdFTkNFIE9SIE9USEVSCisjIC1UT1JUSU9VUyBBQ1RJT04sIEFSSVNJTkcgT1VUIE9G
-IE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFCisjIC1PRiBUSElT
-IFNPRlRXQVJFLgorIyArVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlz
-c2lvbiBub3RpY2UgKGluY2x1ZGluZyB0aGUgbmV4dAorIyArcGFyYWdyYXBoKSBzaGFsbCBiZSBp
-bmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZQorIyAr
-U29mdHdhcmUuCisjICsKKyMgK1RIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRI
-T1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9SCisjICtJTVBMSUVELCBJTkNMVURJ
-TkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwK
-KyMgK0ZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQu
-IElOIE5PIEVWRU5UIFNIQUxMIFRIRQorIyArQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBC
-RSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUgorIyArTElBQklMSVRZLCBX
-SEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJ
-TkcKKyMgK0ZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9S
-IFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MKKyMgK0lOIFRIRSBTT0ZUV0FSRS4KKyMgIAorIyAg
-VGhlIGZvbGxvd2luZyBsaWNlbnNlIGlzIGZyb20gYSBMaW51eCBrZXJuZWwgaGVhZGVyIGZpbGUg
-YW5kIHRoZXJlIGlzIG5vIEdQTAorIyAgY29kZSB0aGlzIHBhY2thZ2UgbGlua3MgdG8uCisjIC0t
-LSBsaWJldmRldi9saWJldmRldi5oCisjICsrKyBsaWJldmRldi9saWJldmRldi5oCisjIEBAIC0x
-LDIxICsxLDIxIEBACisjICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUICovCisjICAv
-KgorIyAgICogQ29weXJpZ2h0IMKpIDIwMTMgUmVkIEhhdCwgSW5jLgorIyAgICoKKyMgLSAqIFBl
-cm1pc3Npb24gdG8gdXNlLCBjb3B5LCBtb2RpZnksIGRpc3RyaWJ1dGUsIGFuZCBzZWxsIHRoaXMg
-c29mdHdhcmUgYW5kIGl0cworIyAtICogZG9jdW1lbnRhdGlvbiBmb3IgYW55IHB1cnBvc2UgaXMg
-aGVyZWJ5IGdyYW50ZWQgd2l0aG91dCBmZWUsIHByb3ZpZGVkIHRoYXQKKyMgLSAqIHRoZSBhYm92
-ZSBjb3B5cmlnaHQgbm90aWNlIGFwcGVhciBpbiBhbGwgY29waWVzIGFuZCB0aGF0IGJvdGggdGhh
-dCBjb3B5cmlnaHQKKyMgLSAqIG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBhcHBl
-YXIgaW4gc3VwcG9ydGluZyBkb2N1bWVudGF0aW9uLCBhbmQKKyMgLSAqIHRoYXQgdGhlIG5hbWUg
-b2YgdGhlIGNvcHlyaWdodCBob2xkZXJzIG5vdCBiZSB1c2VkIGluIGFkdmVydGlzaW5nIG9yCisj
-IC0gKiBwdWJsaWNpdHkgcGVydGFpbmluZyB0byBkaXN0cmlidXRpb24gb2YgdGhlIHNvZnR3YXJl
-IHdpdGhvdXQgc3BlY2lmaWMsCisjIC0gKiB3cml0dGVuIHByaW9yIHBlcm1pc3Npb24uICBUaGUg
-Y29weXJpZ2h0IGhvbGRlcnMgbWFrZSBubyByZXByZXNlbnRhdGlvbnMKKyMgLSAqIGFib3V0IHRo
-ZSBzdWl0YWJpbGl0eSBvZiB0aGlzIHNvZnR3YXJlIGZvciBhbnkgcHVycG9zZS4gIEl0IGlzIHBy
-b3ZpZGVkICJhcworIyAtICogaXMiIHdpdGhvdXQgZXhwcmVzcyBvciBpbXBsaWVkIHdhcnJhbnR5
-LgorIyArICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRv
-IGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQorIyArICogb2YgdGhpcyBzb2Z0d2FyZSBhbmQg
-YXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvCisjICsg
-KiBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0
-aG91dCBsaW1pdGF0aW9uIHRoZQorIyArICogcmlnaHRzIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBt
-ZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yCisjICsgKiBzZWxs
-IGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRo
-ZSBTb2Z0d2FyZSBpcworIyArICogZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBm
-b2xsb3dpbmcgY29uZGl0aW9uczoKKyMgICAqCisjIC0gKiBUSEUgQ09QWVJJR0hUIEhPTERFUlMg
-RElTQ0xBSU0gQUxMIFdBUlJBTlRJRVMgV0lUSCBSRUdBUkQgVE8gVEhJUyBTT0ZUV0FSRSwKKyMg
-LSAqIElOQ0xVRElORyBBTEwgSU1QTElFRCBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSBB
-TkQgRklUTkVTUywgSU4gTk8KKyMgLSAqIEVWRU5UIFNIQUxMIFRIRSBDT1BZUklHSFQgSE9MREVS
-UyBCRSBMSUFCTEUgRk9SIEFOWSBTUEVDSUFMLCBJTkRJUkVDVCBPUgorIyAtICogQ09OU0VRVUVO
-VElBTCBEQU1BR0VTIE9SIEFOWSBEQU1BR0VTIFdIQVRTT0VWRVIgUkVTVUxUSU5HIEZST00gTE9T
-UyBPRiBVU0UsCisjIC0gKiBEQVRBIE9SIFBST0ZJVFMsIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9G
-IENPTlRSQUNULCBORUdMSUdFTkNFIE9SIE9USEVSCisjIC0gKiBUT1JUSU9VUyBBQ1RJT04sIEFS
-SVNJTkcgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNF
-CisjIC0gKiBPRiBUSElTIFNPRlRXQVJFLgorIyAtICovCisjICsgKiBUaGUgYWJvdmUgY29weXJp
-Z2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSAoaW5jbHVkaW5nIHRoZSBuZXh0
-CisjICsgKiBwYXJhZ3JhcGgpIHNoYWxsIGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vi
-c3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlCisjICsgKiBTb2Z0d2FyZS4KKyMgKyAqCisjICsgKiBU
-SEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkg
-S0lORCwgRVhQUkVTUyBPUgorIyArICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRF
-RCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisjICsgKiBGSVRORVNTIEZP
-UiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBT
-SEFMTCBUSEUKKyMgKyAqIEFVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZP
-UiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKKyMgKyAqIExJQUJJTElUWSwgV0hFVEhFUiBJ
-TiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HCisjICsg
-KiBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUg
-VVNFIE9SIE9USEVSIERFQUxJTkdTCisjIAorIworCitTVU1NQVJZID0gIldyYXBwZXIgbGlicmFy
-eSBmb3IgZXZkZXYgZGV2aWNlcyIKK0hPTUVQQUdFID0gImh0dHA6Ly93d3cuZnJlZWRlc2t0b3Au
-b3JnL3dpa2kvU29mdHdhcmUvbGliZXZkZXYvIgorU0VDVElPTiA9ICJsaWJzIgorCitMSUNFTlNF
-ID0gIk1JVC1YIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ODBjNTUw
-YjMxOTdiY2I4ZGE3ZDc1NTdlYmNjM2ZjNDYgXAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
-bGliZXZkZXYvbGliZXZkZXYuaDtlbmRsaW5lPTIxO21kNT03OGNhNzJlY2UyYTM3NzA1NzE0MjVk
-ZDg1Y2UwZWM0OCBcCisgICAgICAgICAgICAgICAgICAgICIKKworU1JDX1VSSSA9ICJodHRwOi8v
-d3d3LmZyZWVkZXNrdG9wLm9yZy9zb2Z0d2FyZS9saWJldmRldi8ke0JQfS50YXIueHogXAorICAg
-ICAgICAgICBmaWxlOi8vZGV0ZXJtaW5pc20ucGF0Y2giCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-NjNmNGVhMTQ4OTg1OGExMDkwODBlMGI0MGJkNDNlNGUwOTAzYTFlMTJlYTg4OGQ1ODFkYjhjNDk1
-NzQ3YzJkMCIKKworaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCisKK1VQU1RSRUFNX0NIRUNL
-X1JFR0VYID0gImxpYmV2ZGV2LSg/UDxwdmVyPihcZCtcLikrKD8hOTBcZCspXGQrKSIKLS0gCjIu
-MTcuMQoK
-
---===============1591264690266445488==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libevdev: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev: SRC_URI changed from "http://www.freedesktop.org/software/libevdev/libevdev-1.10.1.tar.xz file://determinism.patch" to "http://www.freedesktop.org/software/libevdev/libevdev-1.11.0.tar.xz file://determinism.patch"
-packages/core2-32-poky-linux/libevdev/libevdev-dbg: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-dbg: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev-dbg: PKGSIZE changed from 197712 to 197672 (-0%)
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PKGSIZE changed from 97536 to 97531 (-0%)
-packages/core2-32-poky-linux/libevdev/libevdev-doc: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-doc: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev-locale: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-locale: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev-src: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-src: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev-src: PKGSIZE changed from 291113 to 281150 (-3%)
-packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PV changed from "1.10.1" to "1.11.0"
-packages/core2-32-poky-linux/libevdev/libevdev: PKGV changed from 1.10.1 [default] to 1.11.0 [default]
-packages/core2-32-poky-linux/libevdev/libevdev: PV changed from "1.10.1" to "1.11.0"
-
---===============1591264690266445488==--
+--===============5211221472156313148==--
