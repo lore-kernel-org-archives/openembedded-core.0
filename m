@@ -1,85 +1,86 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
- by mx.groups.io with SMTP id smtpd.web11.7831.1613483027132714115
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+ by mx.groups.io with SMTP id smtpd.web09.8040.1613483878042979561
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 05:43:48 -0800
+ Tue, 16 Feb 2021 05:57:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm1 header.b=vrQ71OWg;
- spf=pass (domain: stwcx.xyz, ip: 66.111.4.229, mailfrom: patrick@stwcx.xyz)
+ dkim=pass header.i=@stwcx.xyz header.s=fm1 header.b=UJ78zUMs;
+ spf=pass (domain: stwcx.xyz, ip: 66.111.4.25, mailfrom: patrick@stwcx.xyz)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 6ACA75802CB;
-	Tue, 16 Feb 2021 08:43:46 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 5141C5C0047;
+	Tue, 16 Feb 2021 08:57:57 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 16 Feb 2021 08:43:46 -0500
+  by compute4.internal (MEProxy); Tue, 16 Feb 2021 08:57:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm1; bh=3ErKxdCE9MsaOJKAikBi3oRArI
-	cwMeZY0RDxq+kVDxM=; b=vrQ71OWgwihstPaUSqSG/FDXXqAyrkcktnuGuskr6R
-	fgzA3XSO0xJHrUi4FOLunmGdgd2mGc3XOxwDGMtHqXQZXjMqetkhB/rp/1RMlAxb
-	id7aP+z3MFrslOBr6AdlYaMWPY4Z0/BHnTv5fFkR7xFBz31tXXHixnSkW53nV6kM
-	yk+VJzExQia3IQQlaiHthlUGwSod5Vc+0TzyAjVxayV07eDpzGprjZi+NhjxhsnK
-	FBw6A3X37Asrc98cGg9jFAiWy0b4vEtOditFjSoupOsT7DhfF3lsSy+aPrqZD1dH
-	Gj0JanSzozFqk5aepEaqV0U2V8jD1Rav2MbFeQOdFkBA==
+	:content-transfer-encoding; s=fm1; bh=sg2sWUW2EVIhwz89eUHSMzGISG
+	/qaFGooPPGdE657qg=; b=UJ78zUMsPar4Z4wQBtyLs9nO1I7zkEpj62jqu63KH3
+	7l9mkS/nFQG/n2CZPjv7FZiLlMatF1oiECXIfkTLk18E5ZetDNeKPy4G27G3G5Gx
+	KxMM8qWKstFWb20gLM0nvLGVUZb0TEGV9MoWBy7/fsZru/RwLKCj7zacenv6axtD
+	rN6Jt5x4yOst4TeyE1XvoZBlIPTFx6Sd/VcYyRNXsZtJ/PsBZvJSU5Qs5OFrIM6b
+	d2nbke5EOP+NNkzm3wPduX7GH5TYcPb+00NfG2RFZ9dmX6UgVyCaUlfx3VyldcAm
+	+NEXWzlKetxn4e9ST6XIYSjbordPcm1QrARS258dWpXw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
 	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3ErKxdCE9MsaOJKAi
-	kBi3oRArIcwMeZY0RDxq+kVDxM=; b=Jo/cXjE0A7bvpFUfq6GR+RVzyYt77+SRm
-	G/RmW0T4jkozNO74B9712QGvtdAHjLR0wU3JtWw3zBLaQHaEJTOG03uq2vlAz1tS
-	wcYtK9w4K9BJrY1k5cVLnawvvg/1eZWl8TuxE880qGYM9W6oFXj5PQ7D7dw25Y73
-	F2605ao8U55J0mbagcO2mR/OqZZwGlgv2Y3FoPQSHFbzDSCporWJaevEklsEQela
-	+mibodT7hi7xacqV03H+jZJIDFXmYb2hIIxwfWvcs0j9u2k3NAwko61UXSr15yJj
-	oO6ZhMVJxhrtr/dQ6oEqrKUeXDoIUwwk8ApVUHVbYyF88e325dBTw==
-X-ME-Sender: <xms:EswrYGPdp3-RqI94XDB8FI1TxfrmzSlUfqQJjnqmBMAcH0y-6DYN4w>
-    <xme:EswrYE9RmmTipnTyKFn6Qv9T82h0cTf4b-C8T_7hWv94vUvC6_N72-qhP8ZTonU5n
-    Q_5DQD0Gd9jAtwgZ1Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedtgdehhecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=sg2sWUW2EVIhwz89e
+	UHSMzGISG/qaFGooPPGdE657qg=; b=pYPrCBf9nD54Qbd0ro38kJMNnzMixzkWG
+	2jYwtENPAM4OjVdbHjcPAuc+ZvrQOCB21zW0gExikSUyhDJfrVrBO5ZKkaP/mNe9
+	YL4T1uPp/BZMHvY7NeZhkZrNXI8c65I2gu+t+JYJdiH+cWfp2mTr81CG9G3bWfBV
+	HfgVUVBeddetmaK3INqdPZYh8T3IFAzTkCeI3eMQGhzrXsoKmgVZgyEiHwWHLB1r
+	cmp0fhkOsx9Uof7zLr5kxhC4wNuwuwmOWKZAB13H71Mq42DZwTED8j7lvT/1qF6F
+	v4U9/vZduxJaIkkPm9HBA8SrtM7Bbe8rXW9yWHXCFRw+pOUJwv1Pg==
+X-ME-Sender: <xms:ZM8rYGkvz1e4YR3POLNeYOQP7N6AxTFa-HCk0x63fbT1aa3nww8M4g>
+    <xme:ZM8rYN2hkZL320TlQyq-DxQbjXm8cTI2GzPk4qwhtpGtcd5oNutCgIjbp_Hcd0stY
+    HUC11XHqdDD2Lr1cXA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedtgdehkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdefhedmnegovehorghsthgrlh
-    dqhfeguddvqddtvdculdduhedtmdenucfjughrpefhvffufffkofgggfestdekredtredt
-    tdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
-    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnheptdeggeefteejjeeltdefvedttdfh
-    ieffvedvteefvdeljedvheeufeeggfetleffnecuffhomhgrihhnpehgihhthhhusgdrtg
-    homhenucfkphepudeiiedrudejiedruddvuddrvdefjeenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighi
-    ii
-X-ME-Proxy: <xmx:EswrYNTw9ejlycwOmYgkJkAxubH7rENFc6oLTisyZhT5q9ykmMldqg>
-    <xmx:EswrYGtuaUev64cnO2ANDfeuE41kuL2JT2YccVIfCcVoRSEln51sVA>
-    <xmx:EswrYOfp__G2SsiV_YfM9iSer8gNhX_Sgdjhe19LulBfXoJiXNdhVg>
-    <xmx:EswrYAq_kxHvB3-iAPDPEsfkQKyrocYIKgumceQ17pz1i6jMvItPdQ>
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdefhedmnegovehorghsthgrlhdqhfeguddvqddtvdculdduhedtmden
+    ucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheprfgrthhrihgtkh
+    cuhghilhhlihgrmhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecuggftrfgr
+    thhtvghrnheptdeggeefteejjeeltdefvedttdfhieffvedvteefvdeljedvheeufeeggf
+    etleffnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepudeiiedrudejiedr
+    uddvuddrvdefjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehprghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:ZM8rYErRihQSJ66cf8-26D9XdWcBXHbFeB677Z5yozALrf3-VVSgdg>
+    <xmx:ZM8rYKkEP9gu17-fep953UrvvD18SyUAk60rOCtOCnOD1gtaPCnvyw>
+    <xmx:ZM8rYE2WFMd7i3khnuUNo2gc6ATXkowkKQNvw0RWzzMAv_96WIpqVg>
+    <xmx:Zc8rYB-cyMJJeLf4CnQKB6NnA4HspkXObpEw5pJsGoxPoLsF-rhp2g>
 Received: from localhost (mobile-166-176-121-237.mycingular.net [166.176.121.237])
-	by mail.messagingengine.com (Postfix) with ESMTPA id CE61C108005F;
-	Tue, 16 Feb 2021 08:43:45 -0500 (EST)
+	by mail.messagingengine.com (Postfix) with ESMTPA id E0AE8108005F;
+	Tue, 16 Feb 2021 08:57:55 -0500 (EST)
 From: "Patrick Williams" <patrick@stwcx.xyz>
 To: openembedded-core@lists.openembedded.org
-Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [meta-oe][PATCH] catch2: upgrade to 2.13.4
-Date: Tue, 16 Feb 2021 07:43:31 -0600
-Message-Id: <20210216134331.2473571-1-patrick@stwcx.xyz>
+Cc: Patrick Williams <patrick@stwcx.xyz>,
+	James Feist <james.feist@linux.intel.com>,
+	Ed Tanous <edtanous@google.com>
+Subject: [meta-oe][PATCH] boost-url: update to latest
+Date: Tue, 16 Feb 2021 07:57:45 -0600
+Message-Id: <20210216135745.2584034-1-patrick@stwcx.xyz>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+Cc: James Feist <james.feist@linux.intel.com>
+Cc: Ed Tanous <edtanous@google.com>
 ---
- .../recipes-test/catch2/{catch2_2.9.2.bb => catch2_2.13.4.bb} | 4 ++--
+ meta-oe/recipes-devtools/boost-url/boost-url_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-oe/recipes-test/catch2/{catch2_2.9.2.bb => catch2_2.13.4.bb} (84%)
 
-diff --git a/meta-oe/recipes-test/catch2/catch2_2.9.2.bb b/meta-oe/recipes-test/catch2/catch2_2.13.4.bb
-similarity index 84%
-rename from meta-oe/recipes-test/catch2/catch2_2.9.2.bb
-rename to meta-oe/recipes-test/catch2/catch2_2.13.4.bb
-index 57fc935f77..512c00681f 100644
---- a/meta-oe/recipes-test/catch2/catch2_2.9.2.bb
-+++ b/meta-oe/recipes-test/catch2/catch2_2.13.4.bb
-@@ -5,8 +5,8 @@ HOMEPAGE = "https://github.com/catchorg/Catch2"
+diff --git a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb b/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
+index 6d4635b666..107a4a8331 100644
+--- a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
++++ b/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
+@@ -4,9 +4,9 @@ SECTION = "libs"
  LICENSE = "BSL-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+ LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
  
--SRC_URI = "git://github.com/catchorg/Catch2.git"
--SRCREV = "2c869e17e4803d30b3d5ca5b0d76387b9db97fa5"
-+SRC_URI = "git://github.com/catchorg/Catch2.git;nobranch=1"
-+SRCREV = "de6fe184a9ac1a06895cdd1c9b437f0a0bdf14ad"
+-SRC_URI = "git://github.com/CPPAlliance/url.git"
++SRC_URI = "git://github.com/CPPAlliance/url.git;branch=develop"
+ 
+-SRCREV = "a56ae0df6d3078319755fbaa67822b4fa7fd352b"
++SRCREV = "2c867fbe284ae532f1329b87a86ad3f8cd382867"
  
  S = "${WORKDIR}/git"
  
