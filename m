@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.5135.1613463848528049364
+ by mx.groups.io with SMTP id smtpd.web10.5171.1613463848621642100
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:09 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D8BAA38C1285
+	by mail.yoctoproject.org (Postfix) with ESMTP id DE7C838C12A1
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:08 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdnf: upgrading to 0.58.0 FAILED
-Message-ID: <MADEUP.16642CD27DDE64D0.16989@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============7254770859081841378=="
+Subject: [AUH] llvm: upgrading to 11.0.1 FAILED
+Message-ID: <MADEUP.16642CD28049C8C6.20265@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6387623080272256759=="
 
---===============7254770859081841378==
+--===============6387623080272256759==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libdnf* to *0.58.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *llvm* to *11.0.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade libdnf -V 0.58.0 -S 85278894f21bc1957dc47a2a09ddacf59bc3cda8
+The following devtool command failed:  upgrade llvm -V 11.0.1 -S 43ff75f2c3feef64f9d73328230d34dac8832a91
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1428 entries from dependency cache.
 INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -57,11 +58,16 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting upgraded version source...
-ERROR: Revision 85278894f21bc1957dc47a2a09ddacf59bc3cda8 was found on multiple branches: 
-  dnf-4-master
-  trying
-Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 553, in upgrade
+    old_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 468, in _extract_licenses
+    with open(os.path.join(srcpath, path), 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/llvm/LICENSE.TXT'
 
 
 
@@ -71,4 +77,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7254770859081841378==--
+--===============6387623080272256759==--
