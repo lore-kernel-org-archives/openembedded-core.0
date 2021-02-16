@@ -1,89 +1,211 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web10.3444.1613447828356329909
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web08.5109.1613463848181404407
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Feb 2021 19:57:08 -0800
+ Tue, 16 Feb 2021 00:24:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: he2Lqd2F9vOX38z80Zm/LcHh+xbzG1lfrVUN7UfnyVfiH5O0mauLrXMMWC8lH9viU/7zXXsNAu
- mMgw7RqWEVuA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="244278952"
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; 
-   d="scan'208";a="244278952"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2021 19:57:02 -0800
-IronPort-SDR: 6ki49NTM+vWKc/2QKBs2TcSnvtJZrNa9KSdrV11ykmqNnoiKQMOzLjAExuKz8CbtvKFHE7T5dj
- Qrd7+lvVcyFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; 
-   d="scan'208";a="426134982"
-Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Feb 2021 19:57:01 -0800
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 16 Feb 2021 11:57:00 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.002;
- Tue, 16 Feb 2021 11:57:00 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "jpewhacker@gmail.com"
-	<jpewhacker@gmail.com>
-Subject: Re: [OE-core][PATCH] libomxil: Fix up commercial license flag
-Thread-Topic: [OE-core][PATCH] libomxil: Fix up commercial license flag
-Thread-Index: AQHXAV9lfRyfuEYGn0uI2bYD49RwsapY672AgAC69QA=
-Date: Tue, 16 Feb 2021 03:57:00 +0000
-Message-ID: <8fc2f4ea2c7f876557519b5717e30560b6137c79.camel@intel.com>
-References: <20210212165157.21896-1-JPEWhacker@gmail.com>
-	 <7a213c0e-3abe-d100-e38e-3d4ef77a5f6c@gmail.com>
-In-Reply-To: <7a213c0e-3abe-d100-e38e-3d4ef77a5f6c@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from [172.29.10.113] (unknown [172.29.10.113])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 4A98B38C112E
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7C5C61B90720CF48AF2E7F61B47BC991@intel.com>
-Content-Transfer-Encoding: base64
+From: auh@auh.yoctoproject.org
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] glib-2.0: upgrading to 2.66.7 FAILED
+Message-ID: <MADEUP.16642CD2504316F8.7752@lists.openembedded.org>
+X-Groupsio-MsgNum: 148088
+Content-Type: multipart/mixed; boundary="===============6753180632079547595=="
 
-WWVzLCBJIGhhdmUgcGlja2VkIHRoaXMgYW5kIHRoZSB3ZXN0b24gY2hhbmdlLg0KDQpUaGFua3Ms
-DQoNCkFudWoNCg0KT24gTW9uLCAyMDIxLTAyLTE1IGF0IDEwOjQ3IC0wNjAwLCBKb3NodWEgV2F0
-dCB3cm90ZToNCj4gQ2FuIHRoaXMgcGxlYXNlIGJlIGJhY2twb3J0ZWQgdG8gZ2F0ZXNnYXJ0aD8N
-Cj4gDQo+IE9uIDIvMTIvMjEgMTA6NTEgQU0sIEpvc2h1YSBXYXR0IHdyb3RlOg0KPiA+IFRoZSBj
-b21tZXJjaWFsIGxpY2Vuc2UgZmxhZyBvbiBsaWJvbXhpbCBpcyBzZXQgYmVjYXVzZSBpdCBtYXkN
-Cj4gPiBpbmNsdWRlDQo+ID4gdGhlIEFkYXB0aXZlIE11bHRpLVJhdGUgYXVkaW8gY29kZWMgKEFN
-UikgdXNpbmcgRkZtZXBnLCB3aGljaCBpcw0KPiA+IHBhdGVudA0KPiA+IGVuY3VtYmVyZWQuDQo+
-ID4gDQo+ID4gSXQgdHVybnMgb3V0IHRoaXMgY29tcG9uZW50IGlzIGRpc2FibGVkIGJ5IGRlZmF1
-bHQgaW4gdGhlIHJlY2lwZTsNCj4gPiBhZGQgYQ0KPiA+IFBBQ0tBR0VDT05GSUcgdG8gZW5hYmxl
-IGl0IGFuZCB0cmlnZ2VyIHRoZSAiY29tbWVyY2lhbCINCj4gPiBMSUNFTlNFX0ZMQUdTIG9uDQo+
-ID4gaXQuIFRoaXMgbWFrZSB0aGUgZGVmYXVsdCBidWlsZCBjb25maWd1cmF0aW9uIGNsZWFuIHVu
-bGVzcyBhIHVzZXINCj4gPiBzcGVjaWZpY2FsbHkgYXNrcyBmb3IgQU1SIHN1cHBvcnQsIGFuZCBw
-cmV2ZW50cyB0aGVtIGZyb20gbWFya2luZw0KPiA+IHRoZQ0KPiA+IHJlY2lwZSB3aXRoIHRoZSAi
-Y29tbWVyaWNhbCIgZmxhZyB1bm5lY2Vzc2FyaWx5IHdoaWNoIGNvdWxkIGhpZGUNCj4gPiBwb3Rl
-bnRpYWwgcHJvYmxlbXMgbGF0ZXIgb24uDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogSm9zaHVh
-IFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+IMKgIG1ldGEvcmVjaXBl
-cy1tdWx0aW1lZGlhL2xpYm9teGlsL2xpYm9teGlsXzAuOS4zLmJiIHwgNiArKysrKy0NCj4gPiDC
-oCAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gDQo+
-ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYm9teGlsL2xpYm9teGls
-XzAuOS4zLmJiDQo+ID4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJvbXhpbC9saWJvbXhp
-bF8wLjkuMy5iYg0KPiA+IGluZGV4IDIwNjFjMjgwZTQuLjgyY2RhZjU0YzcgMTAwNjQ0DQo+ID4g
-LS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlib214aWwvbGlib214aWxfMC45LjMuYmIN
-Cj4gPiArKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJvbXhpbC9saWJvbXhpbF8wLjku
-My5iYg0KPiA+IEBAIC00LDcgKzQsNyBAQCBERVNDUklQVElPTiA9ICJCZWxsYWdpbyBpcyBhbiBv
-cGVuc291cmNlDQo+ID4gaW1wbGVtZW50YXRpb24gb2YgdGhlIEtocm9ub3MgT3Blbk1BWCBcDQo+
-ID4gwqAgSE9NRVBBR0UgPSAiaHR0cDovL29teGlsLnNvdXJjZWZvcmdlLm5ldC8iDQo+ID4gwqAg
-DQo+ID4gwqAgTElDRU5TRSA9ICJMR1BMdjIuMSsiDQo+ID4gLUxJQ0VOU0VfRkxBR1MgPSAiY29t
-bWVyY2lhbCINCj4gPiArTElDRU5TRV9GTEFHUyA9ICIke0BiYi51dGlscy5jb250YWlucygnUEFD
-S0FHRUNPTkZJRycsICdhbXInLA0KPiA+ICdjb21tZXJjaWFsJywgJycsIGQpfSINCj4gPiDCoCBM
-SUNfRklMRVNfQ0hLU1VNID0NCj4gPiAiZmlsZTovL0NPUFlJTkc7bWQ1PWFlNmYwZjRkYmM3YWMx
-OTNiNTBmMzIzYTZhZTE5MWNiwqBcDQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgDQo+ID4gZmlsZTovL3NyYy9vbXhjb3JlLmg7YmVnaW5saW5lPTE7ZW5kbGlu
-ZT0yNzttZDU9ODA2YjFlNTU2NmMwNjQ4NmZlOGU0MmI0NjFlMDNhOTANCj4gPiAiDQo+ID4gwqAg
-DQo+ID4gQEAgLTI4LDYgKzI4LDEwIEBAIFBST1ZJREVTICs9ICJ2aXJ0dWFsL2xpYm9teGlsIg0K
-PiA+IMKgIA0KPiA+IMKgIENGTEFHUyArPSAiLWZjb21tb24iDQo+ID4gwqAgDQo+ID4gK1BBQ0tB
-R0VDT05GSUcgPz89ICIiDQo+ID4gKw0KPiA+ICtQQUNLQUdFQ09ORklHW2Ftcl0gPSAiLS1lbmFi
-bGUtYW1yLCwiDQo+ID4gKw0KPiA+IMKgICMNCj4gPiDCoCAjIFRoZSAuc28gZmlsZXMgdW5kZXIg
-JHtsaWJkaXJ9L2JlbGxhZ2lvIGFyZSBub3QgaW50ZW5kZWQgdG8gYmUNCj4gPiB2ZXJzaW9uZWQg
-YW5kIHN5bWxpbmtlZC4NCj4gPiDCoCAjIE1ha2Ugc3VyZSB0aGV5IGdldCBwYWNrYWdlZCBpbiB0
-aGUgbWFpbiBwYWNrYWdlLg0KDQo=
+--===============6753180632079547595==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *glib-2.0* to *2.66.7* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-glib-2.0-upgrade-2.66.4-2.66.7.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============6753180632079547595==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1425 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 809 .bb files complete (808 cached, 1 parsed). 1425 targets, 31 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-8656105cb5c16cbf95c8d49202ad23f4bb15933f"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8656105cb5c16cbf95c8d49202ad23f4bb15933f"
+workspace            = "master:6b24d3fc583a87fb4284ce00256e8069345c9f3a"
+
+Initialising tasks...done.
+Sstate summary: Wanted 27 Found 5 Missed 22 Current 625 (18% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1029 of 2090 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_fetch)
+NOTE: Running task 1031 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_fetch)
+NOTE: Running task 1241 of 2090 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_write_config)
+NOTE: Running task 1247 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_write_config)
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_fetch: Succeeded
+NOTE: Running task 1598 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_unpack)
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_fetch: Succeeded
+NOTE: Running task 1666 of 2090 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_unpack)
+NOTE: Running task 1667 of 2090 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_write_config: Succeeded
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_write_config: Succeeded
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2033 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_patch)
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_patch: Started
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2034 of 2090 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_patch)
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_patch: Started
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_patch: Succeeded
+NOTE: Running task 2035 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2036 of 2090 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_populate_lic)
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_populate_lic: Started
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.66.7-r0: task do_populate_lic: Succeeded
+ERROR: glib-2.0-native-1_2.66.7-r0 do_patch: Command Error: 'quilt --quiltrc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.66.7-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+stdout: Patch relocate-modules.patch is already applied; check your series file
+
+stderr: 
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.66.7-r0/temp/log.do_patch.41358
+NOTE: recipe glib-2.0-native-1_2.66.7-r0: task do_patch: Failed
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_patch) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 2036 tasks of which 2025 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb:do_patch
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============6753180632079547595==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-glib-2.0-upgrade-2.66.4-2.66.7.patch"
+
+From 7631d76220d71fdbd754ae7f976a4b713497a2e3 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Mon, 15 Feb 2021 17:31:35 +0000
+Subject: [PATCH] glib-2.0: upgrade 2.66.4 -> 2.66.7
+
+---
+ .../glib-2.0/glib-2.0/relocate-modules.patch             | 2 +-
+ meta/recipes-core/glib-2.0/glib-2.0/run-ptest            | 9 ---------
+ .../glib-2.0/{glib-2.0_2.66.4.bb => glib-2.0_2.66.7.bb}  | 4 ++--
+ 3 files changed, 3 insertions(+), 12 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.66.4.bb => glib-2.0_2.66.7.bb} (94%)
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 4cbcc29a50..b2ec8844de 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From 011c9f024b6475d31e7d5432a38d00fb67eaea40 Mon Sep 17 00:00:00 2001
++From f70e4ba589b77172a1bbe21713dfe973571fea56 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+deleted file mode 100644
+index 7a231b514b..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#! /bin/sh
+-
+-set -eux
+-if id -u glib2-test; then
+-   userdel glib2-test
+-fi
+-useradd glib2-test
+-su glib2-test -c 'gnome-desktop-testing-runner glib'
+-userdel glib2-test
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
+similarity index 94%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
+index 5e1c0f2d33..470ef03632 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.4.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
+@@ -5,7 +5,6 @@ PE = "1"
+ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+-           file://run-ptest \
+            file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch \
+            file://Enable-more-tests-while-cross-compiling.patch \
+            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+@@ -18,11 +17,12 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch \
+            file://0001-tests-codegen.py-removing-unecessary-print-statement.patch \
++           file://relocate-modules.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+ 
+-SRC_URI[sha256sum] = "97df8670e32f9fd4f7392b0980e661dd625012015d58350da1e58e343f4af984"
++SRC_URI[sha256sum] = "09f158769f6f26b31074e15b1ac80ec39b13b53102dfae66cfe826fb2cc65502"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
+-- 
+2.17.1
+
+
+--===============6753180632079547595==--
