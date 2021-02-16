@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.5212.1613463848681847767
+ by mx.groups.io with SMTP id smtpd.web08.5110.1613463848635394653
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Feb 2021 00:24:11 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.113] (unknown [172.29.10.113])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 6EB7D38C1283
+	by mail.yoctoproject.org (Postfix) with ESMTP id 84B4138C1288
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 08:24:11 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] stress-ng: upgrading to 0.12.03 SUCCEEDED
-Message-ID: <MADEUP.16642CD3150CC558.5617@lists.openembedded.org>
-X-Groupsio-MsgNum: 148131
-Content-Type: multipart/mixed; boundary="===============1708694027646917804=="
+Subject: [AUH] sysklogd: upgrading to 2.2.1 SUCCEEDED
+Message-ID: <MADEUP.16642CD31A543EDE.7752@lists.openembedded.org>
+X-Groupsio-MsgNum: 148132
+Content-Type: multipart/mixed; boundary="===============5413575711680745348=="
 
---===============1708694027646917804==
+--===============5413575711680745348==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *stress-ng* to *0.12.03* has Succeeded.
+that the automatic attempt to upgrade the recipe *sysklogd* to *2.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-stress-ng-upgrade-0.12.02-0.12.03.patch
+    - apply the patch: git am 0001-sysklogd-upgrade-2.1.2-2.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,71 +44,129 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1708694027646917804==
+--===============5413575711680745348==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-stress-ng-upgrade-0.12.02-0.12.03.patch"
+ filename="0001-sysklogd-upgrade-2.1.2-2.2.1.patch"
 
-From 81e8e3b103dab48078baf53c4609a33f094dbf3a Mon Sep 17 00:00:00 2001
+From 4fad21fa17f295034174d541474230031262eed2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Feb 2021 23:37:28 +0000
-Subject: [PATCH] stress-ng: upgrade 0.12.02 -> 0.12.03
+Date: Mon, 15 Feb 2021 23:42:41 +0000
+Subject: [PATCH] sysklogd: upgrade 2.1.2 -> 2.2.1
 
 ---
- .../stress-ng/{stress-ng_0.12.02.bb => stress-ng_0.12.03.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.12.02.bb => stress-ng_0.12.03.bb} (90%)
+ .../0001-Makefile.am-fixup-issue-17.patch     | 43 -------------------
+ meta/recipes-extended/sysklogd/sysklogd.inc   |  1 -
+ .../{sysklogd_2.1.2.bb => sysklogd_2.2.1.bb}  |  2 +-
+ 3 files changed, 1 insertion(+), 45 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0001-Makefile.am-fixup-issue-17.patch
+ rename meta/recipes-extended/sysklogd/{sysklogd_2.1.2.bb => sysklogd_2.2.1.bb} (29%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.02.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.03.bb
-similarity index 90%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.12.02.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.12.03.bb
-index a5851b43f2..73539c9268 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.12.02.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.03.bb
-@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-            file://no_daddr_t.patch \
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Makefile.am-fixup-issue-17.patch b/meta/recipes-extended/sysklogd/files/0001-Makefile.am-fixup-issue-17.patch
+deleted file mode 100644
+index 96365648d7..0000000000
+--- a/meta/recipes-extended/sysklogd/files/0001-Makefile.am-fixup-issue-17.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From a4a472c19eaaf03cc0e70797b2d24b540d6424e1 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Wed, 3 Jun 2020 13:39:18 +0800
+-Subject: [PATCH] Makefile.am: fixup issue #17
+-
+-only make $(LIBOBJS) depend on $(LTLIBOBJS) still have race condition,
+-library like pidfile.o may be changed when compile or link for
+-libsyslog_la_LIBADD, which will cause problem like below:
+-
+-ERROR: dwarfsrcfiles failed with exit code 1 (cmd was ['dwarfsrcfiles', /tmp/work/ppc7400-oe-linux/sysklogd/2.1.2-r0/package/usr/lib/libsyslog.a']):
+-dwarfsrcfiles: tmp/work/ppc7400-oe-linux/sysklogd/2.1.2-r0/package/usr/lib/libsyslog.a: not a valid ELF file
+-
+-arm-oe-linux-gnueabi-libtool: link: arm-oe-linux-gnueabi-gcc  -march=armv7ve -mthumb -mfpu=neon -mfloat-abi=hard --sysroot=TOPDIR/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/sysklogd/2.1.2-r0/recipe-sysroot -shared  -fPIC -DPIC  .libs/libsyslog_la-syslog.o ../lib/.libs/pidfile.o ../lib/.libs/strlcpy.o ../lib/.libs/strlcat.o    -march=armv7ve -mthumb -mfpu=neon -mfloat-abi=hard --sysroot=TOPDIR/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/sysklogd/2.1.2-r0/recipe-sysroot -O2 -g -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed   -Wl,-soname -Wl,libsyslog.so.0 -o .libs/libsyslog.so.0.0.0
+-arm-oe-linux-gnueabi-libtool: link: (cd ".libs" && rm -f "libsyslog.so.0" && ln -s "libsyslog.so.0.0.0" "libsyslog.so.0")
+-arm-oe-linux-gnueabi-libtool: link: (cd ".libs" && rm -f "libsyslog.so" && ln -s "libsyslog.so.0.0.0" "libsyslog.so")
+-arm-oe-linux-gnueabi-libtool: link: arm-oe-linux-gnueabi-gcc-ar cru .libs/libsyslog.a  libsyslog_la-syslog.o ../lib/pidfile.o ../lib/strlcpy.o ../lib/strlcat.o
+-TOPDIR/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/sysklogd/2.1.2-r0/recipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/10.1.0/ar: `u' modifier ignored since `D' is the default (see `U')
+-TOPDIR/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/sysklogd/2.1.2-r0/recipe-sysroot-native/usr/bin/arm-oe-linux-gnueabi/../../libexec/arm-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/10.1.0/ar: ../lib/strlcat.o: No such file or directory
+-
+-Upstream-Status: Submitted [https://github.com/troglobit/sysklogd/pull/23/commits/e684939559341cb1c6373dfc6469b59e580d80af]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- src/Makefile.am | 7 ++++---
+- 1 file changed, 4 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index f8a6820..f45c773 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -66,6 +66,7 @@ libsyslog_la_LIBADD   = $(LTLIBOBJS)
+- #  ld: syslogd-syslogd.o: in function `main': syslogd.c:417: undefined
+- #      reference to `__pidfile'
+- #
+--# Work around the problem by building one .o from lib at a time, this
+--# can be achieved by making LIBOBJS depend on LTLIBOBJS.
+--$(LIBOBJS): $(LTLIBOBJS)
+-+# Work around the problem by make LIBOBJS depend on libsyslog.la,
+-+# so that LIBOBJS/syslogd/logger will start compile after libsyslog.la
+-+# is completed
+-+$(LIBOBJS): $(lib_LTLIBRARIES)
+--- 
+-2.17.1
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 162260f000..2e3d9831b1 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -12,7 +12,6 @@ inherit update-rc.d update-alternatives systemd autotools
+ 
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+            file://sysklogd \
+-           file://0001-Makefile.am-fixup-issue-17.patch \
             "
--SRC_URI[sha256sum] = "f847be115f60d3ad7d37c806fd1bfb1412aa3c631fca581d6dc233322f50d6a5"
-+SRC_URI[sha256sum] = "f27ff439b76a17641291d4234c73655cddcb0a5a588441d6ade290b06ca4b805"
+ S = "${WORKDIR}/git"
  
- DEPENDS = "coreutils-native"
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb b/meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb
+similarity index 29%
+rename from meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
+rename to meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb
+index 2917c2aae0..4f24918566 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
++++ b/meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb
+@@ -1,3 +1,3 @@
+ require sysklogd.inc
  
+-SRCREV = "6d6010add698370fc7d9828f0aaa18613dd2397f"
++SRCREV = "b115c7ec4e6d9f3587ac8d212bfc454bfbfe7023"
 -- 
 2.17.1
 
 
---===============1708694027646917804==
+--===============5413575711680745348==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng: SRC_URI changed from "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.02.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch" to "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.03.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch"
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5708280 to 5791652 (+1%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 50725 to 51000 (+1%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2824847 to 2882940 (+2%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.12.02" to "0.12.03"
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4106372 to 4135332 (+1%)
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.12.02 [default] to 0.12.03 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.12.02" to "0.12.03"
+packages/core2-32-poky-linux/sysklogd: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd: SRC_URI changed from "git://github.com/troglobit/sysklogd.git;nobranch=1 file://sysklogd file://0001-Makefile.am-fixup-issue-17.patch" to "git://github.com/troglobit/sysklogd.git;nobranch=1 file://sysklogd"
+packages/core2-32-poky-linux/sysklogd: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-dbg: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-dbg: PKGSIZE changed from 133556 to 138944 (+4%)
+packages/core2-32-poky-linux/sysklogd/sysklogd-dbg: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-dev: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-dev: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-doc: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-doc: PKGSIZE changed from 75895 to 77670 (+2%)
+packages/core2-32-poky-linux/sysklogd/sysklogd-doc: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-locale: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-locale: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-src: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-src: PKGSIZE changed from 130185 to 131985 (+1%)
+packages/core2-32-poky-linux/sysklogd/sysklogd-src: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd-staticdev: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd-staticdev: PV changed from "2.1.2" to "2.2.1"
+packages/core2-32-poky-linux/sysklogd/sysklogd: PKGV changed from 2.1.2 [default] to 2.2.1 [default]
+packages/core2-32-poky-linux/sysklogd/sysklogd: PKGSIZE changed from 83070 to 83102 (+0%)
+packages/core2-32-poky-linux/sysklogd/sysklogd: PV changed from "2.1.2" to "2.2.1"
 
---===============1708694027646917804==--
+--===============5413575711680745348==--
