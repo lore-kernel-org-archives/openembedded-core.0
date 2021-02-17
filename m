@@ -1,108 +1,98 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.6288.1613562350517391585
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by mx.groups.io with SMTP id smtpd.web10.6385.1613563083829870469
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 03:45:50 -0800
+ Wed, 17 Feb 2021 03:58:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=WRsemFkS;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
-Received: from fringe.fritz.box (unknown [87.123.127.191])
-	by linux.microsoft.com (Postfix) with ESMTPSA id F3F1520B6C40;
-	Wed, 17 Feb 2021 03:45:47 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F3F1520B6C40
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1613562349;
-	bh=hbG+nrszYMf4CKltkH6T5Jznf8pHA1U7mV0GylFwQOY=;
-	h=Subject:From:Reply-To:To:Cc:Date:In-Reply-To:References:From;
-	b=WRsemFkSG2SX/vgtfqb75S1vveF8/ouTvrMy3tpMw8ylqkrkjGKGxMxnT/6PBTpyb
-	 +TyQEOsgWGNsyVTWrfktT4C542uBkFhwqzwamjSO2heCDX7mi8aBkZM6MAeCk+wcF2
-	 GTamYe2BSGeuSep2VCYx7TUj4CLbTTHPyl6ld3Y0=
-Message-ID: <557d69ebe7e78cc245a3b4a9cd90223e9a2d7021.camel@linux.microsoft.com>
-Subject: Re: [OE-core] meta-rust -> oe-core
-From: "Anatol Belski" <anbelski@linux.microsoft.com>
-Reply-To: anbelski@linux.microsoft.com
-To: Randy MacLeod <randy.macleod@windriver.com>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>, Andreas =?ISO-8859-1?Q?M=FCller?=
-	 <schnitzeltony@gmail.com>, Vinay Kumar <vinay.kumar@blackfigtech.com>
-Date: Wed, 17 Feb 2021 12:45:37 +0100
-In-Reply-To: <e9e8693d-2e4c-40be-55ac-37ae001ec7b5@windriver.com>
-References: <e9e8693d-2e4c-40be-55ac-37ae001ec7b5@windriver.com>
-User-Agent: Evolution 3.38.3 
+ dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=HHDmaG7c;
+ spf=pass (domain: gmx.de, ip: 212.227.15.18, mailfrom: dl9pf@gmx.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1613563081;
+	bh=ji0dBWHmE4168MN9Bh+GC/I8hB+azhc4uiBmdI0AyAw=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=HHDmaG7cwNFiNpWc6AAv9teuVUEmNLOiPTzXtFd/H3nERok8Kc9DTHrB8Zwq/MhXp
+	 VlCBoFImpCvCNG0PbwsjwcfPcFgYb6qevx8E88y+ORJ29f2+Y8T5+p4f0ALldCpcWV
+	 Ird8UKutPik2qhCEmpCca2m6HzIOTUXOBo7Eq6LE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from gmx.de ([95.88.58.204]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMofW-1lSuNh0lIi-00Iii3; Wed, 17
+ Feb 2021 12:58:01 +0100
+From: =?UTF-8?B?SmFuLVNpbW9uIE3DtmxsZXI=?= <dl9pf@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Jan-Simon=20M=C3=B6ller?= <jsmoeller@linuxfoundation.org>
+Subject: [PATCH] oe-selftests: add rpm to reproducible build selftest
+Date: Wed, 17 Feb 2021 12:57:57 +0100
+Message-Id: <20210217115757.18324-1-dl9pf@gmx.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:F/pUwcloiNZCN3JEHBsMIUI7i3z3PKhWI7RZEh7uf+YHFG9vo/y
+ OzTJi6AFGlcEOv8UmQymwBVhNb9FD0C759iwlTp+0zODbBQDFjLXnHEjhF3ZY4o232icbgH
+ 3485qye/9Let1QqzQukrXw2MXOFHv+fATZBeK9bOVkDySCt3XKxQXIGoVsCamCjmej82JlY
+ wSyMHqdko7+II27BkNfFg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6rixDGY4e9g=:J2pd9mAN7vIkfQY+qf/B9T
+ nBYDuEwN31tpZHtEZ7acpIfg6dv3O/v7RKxthxaWfGigqD4K+dNEf3ayXfJ+G7lOQDcPE4yow
+ CAU7W3dQmGYjFoYYeXuA9al5OLvSoBX2q4ZY+5KZeJpun8PYVeBATaZjtRE+srxMp4bbYXscU
+ mEJEtk+80Hx/Mocb+I6vTKwVjcynHTxTXxoKVsJWdjJ1tu/Va4zzqXVvYmMAU0vK6weHZZ8+/
+ uIE8/mNlCJXlVshqApJt8ZgCR1L21VQ5dXErHtBkHc5Zsith/vHW2jbTkFm+3KkhbENdm6Ojx
+ jr6fymjcHbw91t2PogYWciO34pbjbVBU8zIjQowU4/Jb71yGwPOE6IATnckfseKh/B4gKSlOr
+ IUifCKOAhiD528UJrwwnwYNiII8UVXm99zh3vnlhN+KINNFa529MmBEeV2LoQN8kdiftpol4m
+ 6C5ao81myZfHE6AVZ8JbbtC2uo/QEMHZc2fdaQjPmUsprgFolenTu3ozULDwdvdR67R1czBDt
+ r/Saaar0wuB+E7lR4eqTsEtGgW7ytHZ53gnmpchQEq1eSoGuncphivRNQ7HZvuvXja0EMqs+L
+ OCWOmQUPDNdG79h6/r7e+hLSQuh16wVgHmuHlIfqCyYyuUcKtOJOsLFy8XulsMoH+ofT1docu
+ rCPWtOGulCSOr5KCUzPtjI3va6mItmEB6dpmrDxv24ZDx1JW5X4kCi6V8lBNSweoZ+gkhTzkT
+ g1YNIQ/DfvjrMy/Zauf1wn68u3FctalduCcY9u/jdSSQI2KwrBovPWho39gfs47M6SoRRgWeO
+ VckUr+ubHfdEyGXpWgUDzzljqgv4iqycPkD0OrwLkK1W2BrA9Gk2r5UtZIJxVovJiO6VZaE/4
+ 6D1s2xxNKWvFNd4KvK/Q==
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Randy,
+From: Jan-Simon M=C3=B6ller <jsmoeller@linuxfoundation.org>
 
-thanks for driving progress on this work.
+rpm packaging has shown good numbers wrt reproducible builds as well
+when testing core-image-minimal locally:
 
-On Tue, 2021-02-16 at 21:40 -0500, Randy MacLeod wrote:
-> I've updated poky-contrib with my merge of meta-rust to oe-core:
->=20
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drmacleod=
-/rust-wip-2021-02-16
->=20
-> The build status is fine (shown below) aside from qemuriscv64/musl
-> and qemuppc/musl.
->=20
-> Khem is working on the qemuriscv64/musl problem with upstream rust
-> devs.
-> qemuppc/musl fails due to:
-> =C2=A0=C2=A0=C2=A0 libunwind.cpp:66:3: error: #error Architecture not su=
-pported
->=20
-> Known issues if someone is interested:
->=20
-> 1. I have an updated librsvg that isn't building using autotools
-> =C2=A0=C2=A0=C2=A0 It does build with cargo but I doubt that will produc=
-e a library
-> =C2=A0=C2=A0=C2=A0 that is usable. See=20
-> https://github.com/meta-rust/meta-rust/issues/264
->=20
-> =C2=A0
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drmacleod=
-/librsvg-broken-wip-2021-02-16
->=20
-> 2. native-sdk support is broken:
-> =C2=A0=C2=A0=C2=A0=C2=A0 https://github.com/meta-rust/meta-rust/issues/2=
-36
-> =C2=A0=C2=A0=C2=A0 As shown in my OE talk last year, you can do rust app=
-lication
-> =C2=A0=C2=A0=C2=A0 development and testing without this but it would be =
-best to
-> =C2=A0=C2=A0=C2=A0 fix this bug and have rust behave like other YP toolc=
-hains.
->=20
-I was working on the SDK support some passt weeks and coincidentially
-filed a PR yesterday
+ Reproducibility summary for rpm: same=3D4671 different=3D0 missing=3D0 to=
+tal=3D4671
 
-https://github.com/meta-rust/meta-rust/pull/313
+Thus enable it in the autobuilder to be more widely tested.
 
-This is definitely a wanted feature. If some would have time for a
-review, it'd be great. Please also let me know how it would best be
-integrated into your patch.
+v2: also add the define for "use_source_date_epoch_as_buildtime 1"
 
-Thanks
+Signed-off-by: Jan-Simon M=C3=B6ller <jsmoeller@linuxfoundation.org>
+=2D--
+ meta/classes/package_rpm.bbclass             | 1 +
+ meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Anatol
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.b=
+bclass
+index c48bece742..c1824306ee 100644
+=2D-- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -687,6 +687,7 @@ python do_package_rpm () {
+     cmd =3D cmd + " --define '_binary_payload w6T.xzdio'"
+     cmd =3D cmd + " --define '_source_payload w6T.xzdio'"
+     cmd =3D cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
++    cmd =3D cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+     cmd =3D cmd + " --define '_buildhost reproducible'"
+     if perfiledeps:
+         cmd =3D cmd + " --define '__find_requires " + outdepends + "'"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/=
+selftest/cases/reproducible.py
+index 0963c2f11a..9785c5ffac 100644
+=2D-- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -173,7 +173,7 @@ class DiffoscopeTests(OESelftestTestCase):
+             self.assertTrue(os.path.exists(os.path.join(tmpdir, 'index.ht=
+ml')), "HTML index not found!")
 
-> 3. There's an cargo-fetcher proposal sent to the bitbake
-> =C2=A0=C2=A0=C2=A0 list from Andreas but I don't see a patch to meta-rus=
-t to
-> =C2=A0=C2=A0=C2=A0 make the two patchsets work together. Andreas, is tha=
-t something
-> =C2=A0=C2=A0=C2=A0 that you can do, even if it's just a quick change to =
-get started?
->=20
-> 4. We're (Vinay via WR) working on a way to use the rustc test suite.
-> =C2=A0=C2=A0=C2=A0 More to come on that later this week.
->=20
-> Sorry that this has dragged on for so long.
-> Any help would be appreciated.
->=20
->=20
->=20
->=20
->=20
-
+ class ReproducibleTests(OESelftestTestCase):
+-    package_classes =3D ['deb', 'ipk']
++    package_classes =3D ['deb', 'ipk', 'rpm']
+     images =3D ['core-image-minimal', 'core-image-sato', 'core-image-full=
+-cmdline', 'world']
+     save_results =3D False
+     if 'OEQA_DEBUGGING_SAVED_OUTPUT' in os.environ:
+=2D-
+2.30.0
 
