@@ -1,78 +1,103 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web09.3199.1613534460597536529
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web08.3222.1613534461959436823
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 20:01:01 -0800
+ Tue, 16 Feb 2021 20:01:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jIm10dd6;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: idadelm@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id j19so19312307lfr.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 20:01:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z4mNmMh4;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: idadelm@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id e7so2380213lft.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 20:01:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Th6AOXZ+aXGjdFo1uNlhJnA+jnk7ns2KBHuYV2GIhG4=;
-        b=jIm10dd67IW0sAo0We967CrVPxrZWLqezQIeGm5tTwcQvMeNQG4Y9CxHzsJx0IXaGw
-         Gg/qDq2ExylyXYh/uJWaEDUPNKu61VjtsmcVQVHDBbJdnKULZddcvc/mxAeQmH/lyRlv
-         T20qubjyPDPdKse1TQqI9W06tSAyf7WWPRn2fujD+0rSsV5tiBIody6OOVF81vwlmULN
-         Z/nXvlLYnmEPeoKxrzIQuI9UjIn22Lz0gusDLB7YAP5RBLRoJQZ62qqurWtsymRKfiYm
-         CiDUEmnxV6FqAoQC9ntv23+DL5FpYnuwGpcMg/PHx1HdZeL02FeY6uRoK+oWaPU0ZtIh
-         giiw==
+        bh=pp0+g9twxQ4dDACTMFxPfyh5fM4MF4BX05GfmA4m90k=;
+        b=Z4mNmMh4FCXmwapcUSW3Ho8nHORPdy/c5YspPHh9v6+49R1nXYUnvSNsV89uTaAK/O
+         adyNbWthFxFQ/SclXFBPgFkxp7HfVhWZEqw0FMICb5S22kS433Ulx8rlUCAf04kMQMoL
+         x4nGWjQ6pt+3N0dOLmS+99QlGCHEydP9N4rBTqG8K9B/gdWZpgl7icSgNsFdCBV1lTev
+         sZQvwQ0MP85pLQUKJaEBjeM8ZlxiaJqrmsoAIXsaXzyOJ+/ATBtO3ahUvfxHr6b4ijCg
+         QSWcQmTL6WTx7bAf6co5lI553nXl7CRFn1Zm+uBoYuwIkWkXt5b2dExifvqIWTEF01Oj
+         isPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Th6AOXZ+aXGjdFo1uNlhJnA+jnk7ns2KBHuYV2GIhG4=;
-        b=sHQ15V0C1WjlSZRHy16jboSD2/nLrzD9EiJOdQQZTy8zRHm6nbKFzbsE7lj0uMJ9Iw
-         M7kJFyaNO1nPgNshQt7Vv30x+UKyDEI6g+aFGoXi4wVWRBLR/Jq9MeIFpxoh344ahb4p
-         o8y6T1sZV3lC3goEKUfdEOvSnNgp0BkgG+tZeLzWPBkHgz9BkoFMLVDMjoWTnkWQbjEY
-         j1TPpHORxdH9gQ1UmeCimJuTcQ01+8R/ezgsy1hflWtPuvQGA9zUxEDYZM9T9U+7A0pT
-         t44Vra/+ZDzE/Rsetx9rN1IaKZO+wiwEclQ5/x7krWpejwvzcgMKku1essqGnfE8+W6b
-         S55A==
-X-Gm-Message-State: AOAM5327eqor8w30RJAxksqHjOJ0cHfu9f1mFa2C1hgIuhuLI2UkV/lL
-	jjbnL4R941x1XeM0Jd8ddyuIYXhmgJIu9g==
-X-Google-Smtp-Source: ABdhPJxOagqSVU6B1PqhjqXD9n3JCOI85cAzoam7YwuX1arUF9uK5rQWfNMeGjh6FS5iqttmUQqMtA==
-X-Received: by 2002:a19:6c3:: with SMTP id 186mr12558889lfg.399.1613534458754;
-        Tue, 16 Feb 2021 20:00:58 -0800 (PST)
+        bh=pp0+g9twxQ4dDACTMFxPfyh5fM4MF4BX05GfmA4m90k=;
+        b=EtMtCNTdpJpEhW/UEYD3rrnhqdphP3E/nrouaTNlXCyMVRnsj92DZ3zTD7ZcX5UXH6
+         DFBa0fQw6p+muWyns5QhKRVz54pAEEbKaALqetMov+bunPGDu/4YKCmykvuEx1l+uL5A
+         UQQs9lZNkorIYILix8xxo0KyH8Rc4ZarjwFvKubAoREbJVnl8sveIlY2HL3ntnCB/ylW
+         I0KNrkMtHCm+uGYGO0YejGksFVxV51/qQrkbQkwLN5iHcXi+FP9oum1f7yI94ds+LW9t
+         K3pwDNhN1Sd73XN68bUNdP1CczwSgmOWak7XzAsGc4QkeGTf8nGgPIPmOIS45AdP7f+b
+         3cew==
+X-Gm-Message-State: AOAM532UYxxbfJCdG6AAZC2Xw4MrrcOiYtMe0Dj6bfGZm4STVvafX+DT
+	MojlWpGQC5bvMLvmLBhMzczh54aHV7g/dQ==
+X-Google-Smtp-Source: ABdhPJwGnWWhpCNWtb6IrfOFyWlwaHv0eBKPcS/ckEGXPEZID+Mlq9GHo/T8MG0QX/ksI1ksULQUVQ==
+X-Received: by 2002:ac2:5470:: with SMTP id e16mr13724317lfn.258.1613534460029;
+        Tue, 16 Feb 2021 20:01:00 -0800 (PST)
 Return-Path: <idadelm@gmail.com>
 Received: from localhost.localdomain ([129.0.101.17])
-        by smtp.gmail.com with ESMTPSA id 5sm101464lff.176.2021.02.16.20.00.57
+        by smtp.gmail.com with ESMTPSA id 5sm101464lff.176.2021.02.16.20.00.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 20:00:58 -0800 (PST)
+        Tue, 16 Feb 2021 20:00:59 -0800 (PST)
 From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky-contrib][RFC PATCH 3/5] package: Remove false positive lic warnings
-Date: Wed, 17 Feb 2021 05:00:31 +0100
-Message-Id: <20210217040033.21541-4-idadelm@gmail.com>
+Subject: [poky-contrib][RFC PATCH 4/5] license.bbclass: Add functions to split and canonicalise license strings
+Date: Wed, 17 Feb 2021 05:00:32 +0100
+Message-Id: <20210217040033.21541-5-idadelm@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217040033.21541-1-idadelm@gmail.com>
 References: <20210217040033.21541-1-idadelm@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added text to distinguish licenses from sources and those from recipes when warnings are outputed.
+These functions that will later be used in package.bbclass simply make the source and recipe licenses in the same format so that they can easily be compared and the ouput warnings filtered accordingly.
+split_spdx_lic() splits the license strings and returns a set of the canonicalised licenses.
+rem_false_lics() does two things:
+- Converts '-or-later' licenses to their canonicalised form
+- Gets rid of "WITH Linux-syscall-note" from license string if specified in local.conf
 
 Signed-off-by: Ida Delphine <idadelm@gmail.com>
 ---
- meta/classes/package.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/license.bbclass | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 14c8475cfa..782d9d00b3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1780,8 +1780,9 @@ fi
-                             computedpkglicsperpkg.add(lic_)
-                     else:
-                         computedpkglicsperpkg.add(l)
-+            # Displays warnings for licenses found in the recipes and not sources
-             if spdx_lic - computedpkglicsperpkg:
--                bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglicsperpkg, spdx_lic))
-+                bb.warn("License for package %s is %s (source SPDX headers) vs %s (LICENSE)" % (pkg, computedpkglicsperpkg, spdx_lic))
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index dc91118340..576464cb26 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -435,3 +435,30 @@ python do_populate_lic_setscene () {
+     sstate_setscene(d)
  }
- emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
- 
+ addtask do_populate_lic_setscene
++
++
++def split_spdx_lic(d, licensestr):
++    """
++    Split the license strings and returns a set of the
++    canonicalised licenses.
++    """
++    import oe.license
++    split_lic = oe.license.list_licenses(licensestr)
++    spdx_lic = set([canonical_license(d, l) for l in split_lic])
++    return spdx_lic
++
++def rem_false_lics(d, pkglic):
++    pkglicsperpkg = set([])
++    for l in pkglic:
++        if l.endswith('-or-later'):
++            # Converts '-or-later' licenses to their canonicalised form
++            lic_ = l.replace('-or-later', '+')
++            pkglicsperpkg.add(lic_)
++        elif l.endswith(' WITH Linux-syscall-note'):
++        # Gets rid of "WITH Linux-syscall-note from license sring"
++            if d.getVar("LICENSE_WITH_LINUX_SYS") == "1":
++                lic_ = l.replace(' WITH Linux-syscall-note', '')
++                pkglicsperpkg.add(lic_)
++        else:
++            pkglicsperpkg.add(l)
++    return pkglicsperpkg
+\ No newline at end of file
 -- 
 2.25.1
 
