@@ -1,325 +1,307 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.9635.1613577563580765013
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.10182.1613579661513201767
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 07:59:23 -0800
+ Wed, 17 Feb 2021 08:34:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hbjU5uMP;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id g6so17904136wrs.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 07:59:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GItoNb0l;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: idadelm@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id jt13so23350804ejb.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 08:34:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/4XDj6TNJhsW1aK6yIU+LfhUs/hPXOIjy30rFxDgE/M=;
-        b=hbjU5uMP6o+MzPrVkVfOB4bwx5TkIydM/IMQNQGbZ15mXsSPZh9f6BwhNLIH/QNM/x
-         ku43oaloLL0ceL8170HOPtoBM3sfee9/MvGOm4pIsxws/CF+K7RBnKSGTHDjp5kXILMk
-         3AtFcmsVNvkaTMzUVfKblm3M9qn+j3N3AZShy27L3yXdir8mqUOGLCpAfqeY34xpeGv0
-         COs4sQhdCSUcAuqZK75GELMi0coxh9wGrldJ43TvdQkFYcp6d3ldtslzci7b6H2pXGPi
-         t9hfefrmT3VZIc7CCw5/fohtOWQ09prxsgTHeK919ErHRUELL8gWgGuXG2gtRkFhpqPJ
-         CU+g==
+        bh=Ps4vhOo54t/7JGafOeXH4OfyyU4s6V5uI3IsmombajU=;
+        b=GItoNb0l0f3TpB3/ys5Ew3MaWh13ziZhzsWqoKXyPAbW+ZdzpAhd0tMwrzjeH+27/b
+         9m8aom6S8yk6WujnryRr7swN/Rb2Lo0x0OlV6fyQwrj+Tks+UiZDs0FbZ844H4yVhBg0
+         rWAYG1GsuOd5rr0M7o6KDgZfFf9GeWLYJj8rS2+Hy8XkMZhf/9uU2PfaxQlVwf22n8Kp
+         WbPg7A/rudE2Lz3Ee45dMHwNRzVPEl62OxFZaTSQs4zQr4cUL2tbyTcGj6j6jiW6HclH
+         xR2soZ1sk/mx/M4jmlktoFxt9r6lMI3Lp89/tp2tDAJFE27Y1kxLV7W8vtlgCMgQkCjj
+         9UpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/4XDj6TNJhsW1aK6yIU+LfhUs/hPXOIjy30rFxDgE/M=;
-        b=dE4H64vwvqJBaBLelzOWWM1/zyAVy0D+a4PERQrbA4DOKEHym675n7RerxO9uvV4o/
-         BVc/Tor4IMhmSywg1gG1JO8WeGk8cJ+AImKtZqxu5dGJJLRObNlOy/522riXRKAtXTMe
-         5xXG2ZS2MVkSs00w6Au6O0VustgjyUPbvwWiSj4WHp0DSbV27JTjMermiEw7/OcCUOwf
-         d/rUKPL37lxTy/fw+86rqFCQvgzV9FDzGudovnVF3j0QZdk5nyBjtIN9QrhE4QEPyU5q
-         TnSixaNTfrLXqHiiyJsubJhFgCYILtfIfvEseTQzVqFVZRMSVW2osa07I+leTbYzv5Dz
-         JA6w==
-X-Gm-Message-State: AOAM531Xx5eCLq7AwVRz+frvZNqWG/kLk8WUKiatfLOaASREE1iYkNU7
-	HsZfxU037O9lrenNscAfR0RcvsEbgGIQnTtbWDadCOiP
-X-Google-Smtp-Source: ABdhPJxk9rCVMI6vvKnYrZSwuUU041u7l+QYo9/f/lHxt0WQfTZp7gVxqvrfKqiASCJtMIFaV29zBxwONLo+TR4T0rA=
-X-Received: by 2002:adf:e68d:: with SMTP id r13mr29098639wrm.303.1613577561696;
- Wed, 17 Feb 2021 07:59:21 -0800 (PST)
+        bh=Ps4vhOo54t/7JGafOeXH4OfyyU4s6V5uI3IsmombajU=;
+        b=IOJktvmFJhHuXgBg9BjH4gH4kvFSnZBfdfDwbjg6h0ru9rIagB0sU7z8P91E6Ua7Sa
+         xwAYBJNlGWtBd48bnMWSAI8p6YgITD79mDjIwda2EodaK0owgbMpUfho0IkJloIuJLzv
+         T6EjS1cZIeKQMeuycrzpkwbrKBS5kLSrrz6L02aGUDeAdEtOoLv29aIapPyijbDUsP6w
+         9fmgXfJvScK/uFPql0ZarMIgGdrC8a1IGb+4ws7M0+WR1lbqQKxF5Y9IB4dF62a5rXak
+         y+N4QRPwQ6UIrxsWJsApa6hZ0+T3mgJgaeKgogQ/x/PM0uLrNcdBnDKxpMRJgUq96jhr
+         eyqQ==
+X-Gm-Message-State: AOAM530XUvTDZMzbHccWGvFp4g+Z21ToVWyhLcIxLXI7gjFsf9LT2/+m
+	dnM6rAyynCZgMjXWmdIVTux+Px32yKn2acrWn7U=
+X-Google-Smtp-Source: ABdhPJwmSYzOnqb8W1Ck4lW7GfvAZsByJlNCETMl7YM0Kv4RiqTRiy/hR7oIX73RyqZ3o0T+Ryyaa5DIyAdSnvQCy8U=
+X-Received: by 2002:a17:907:1b06:: with SMTP id mp6mr26514323ejc.408.1613579659888;
+ Wed, 17 Feb 2021 08:34:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113211143.30425-1-JPEWhacker@gmail.com> <20201116143826.26521-1-JPEWhacker@gmail.com>
- <a3f36e65-157d-4255-7ae1-5a2094cbdd37@gmail.com>
-In-Reply-To: <a3f36e65-157d-4255-7ae1-5a2094cbdd37@gmail.com>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Wed, 17 Feb 2021 09:59:10 -0600
-Message-ID: <CAJdd5GZnxO68ir=moPXMUrQ9XmSg+wGimWYeOBMqJBzRiOB5Vg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user without polkit
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
+References: <20201015204539.24549-1-idadelm@gmail.com> <1312e9f5502bee8d7667c598ae4fc5b7de61830f.camel@linuxfoundation.org>
+In-Reply-To: <1312e9f5502bee8d7667c598ae4fc5b7de61830f.camel@linuxfoundation.org>
+From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
+Date: Wed, 17 Feb 2021 17:34:07 +0100
+Message-ID: <CAN7sTgv1q_Am=HT_h4-3Uh7CDgtVx-6Se8i1BDPx6VoPQVJigg@mail.gmail.com>
+Subject: Re: [poky][PATCH v6] Update license file to match current SPDX names
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000071cb7705bb8aca1c"
+
+--00000000000071cb7705bb8aca1c
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 18, 2020 at 4:03 PM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> On 11/16/20 8:38 AM, Joshua Watt wrote:
-> > systemd 245 introduced a regression in behavior where they removed
-> > support for non-root users to chvt from a service file. This prevents
-> > running compositors (e.g. weston) as any user other than root. The
-> > intention is for polkit to be used to allow this (and in fact the
-> > default polkit rules that ship with systemd allow this). However, polkit
-> > is a huge dependency to bring in for an embedded system, and isn't
-> > support by OE-core.
-> >
-> > The patch has been proposed upstream to restore the previous behavior of
-> > allowing a non-root user to chvt to unbreak the regression without
-> > requiring polkit.
->
-> Can this be backported to 3.2, since it affects the systemd version
-> there also?
+Okay. Thanks you.
 
-Ping on backporting this to 3.2?
+Cheers,
+Ida.
 
+On Wed, 17 Feb 2021, 12:17 pm Richard Purdie, <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Thu, 2020-10-15 at 21:45 +0100, Meh Mbeh Ida Delphine wrote:
+> > Updated mappings of license fields of meta/conf/licenses.conf to match
+> latest SPDX naming.
+> > Added missing mappings.
+> > Renamed license files that were added in license mappings eg from
+> GPL-2.0 to GPL-2.0-only.
+> > Added "or later" versions of license mappings
+> > Added "or later" versions of common license files eg GPL-2.0-or-later
+> >
+> > Fixes: [YOCTO #13320]
+> >
+> > Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
 >
-> Thanks
+> I really want to get this issue resolved so I've queued this patch.
+> There is a comment below.
 >
+> > Changes in V6:
+> >  * Added "or later" versions of common license files eg GPL-2.0-or-later
+> in meta/files/common-licenses.
 > >
-> > Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/17494]
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >   ...chvt-as-non-root-user-without-polkit.patch | 227 ++++++++++++++++++
-> >   meta/recipes-core/systemd/systemd_246.6.bb    |   1 +
-> >   2 files changed, 228 insertions(+)
-> >   create mode 100644 meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+> > Changes in V5:
+> >  * Added "or later" versions of license mappings in
+> meta/conf/licenses.conf
 > >
-> > diff --git a/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
-> > new file mode 100644
-> > index 0000000000..89ef39bc3e
-> > --- /dev/null
-> > +++ b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
-> > @@ -0,0 +1,227 @@
-> > +From 150d9cade6d475570395cb418b824524dead9577 Mon Sep 17 00:00:00 2001
-> > +From: Joshua Watt <JPEWhacker@gmail.com>
-> > +Date: Fri, 30 Oct 2020 08:15:43 -0500
-> > +Subject: [PATCH] logind: Restore chvt as non-root user without polkit
-> > +
-> > +4acf0cfd2f ("logind: check PolicyKit before allowing VT switch") broke
-> > +the ability to write user sessions that run graphical sessions (e.g.
-> > +weston/X11). This was partially amended in 19bb87fbfa ("login: allow
-> > +non-console sessions to change vt") by changing the default PolicyKit
-> > +policy so that non-root users are again allowed to switch the VT. This
-> > +makes the policy when PolKit is not enabled (as on many embedded
-> > +systems) match the default PolKit policy and allows launching graphical
-> > +sessions as a non-root user.
-> > +
-> > +Closes #17473
-> > +---
-> > + src/login/logind-dbus.c         | 11 ++-------
-> > + src/login/logind-polkit.c       | 26 +++++++++++++++++++++
-> > + src/login/logind-polkit.h       | 10 ++++++++
-> > + src/login/logind-seat-dbus.c    | 41 ++++-----------------------------
-> > + src/login/logind-session-dbus.c | 11 ++-------
-> > + src/login/meson.build           |  1 +
-> > + 6 files changed, 46 insertions(+), 54 deletions(-)
-> > + create mode 100644 src/login/logind-polkit.c
-> > + create mode 100644 src/login/logind-polkit.h
-> > +
-> > +diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
-> > +index 0f83ed99bc..a3765d88ba 100644
-> > +--- a/src/login/logind-dbus.c
-> > ++++ b/src/login/logind-dbus.c
-> > +@@ -30,6 +30,7 @@
-> > + #include "format-util.h"
-> > + #include "fs-util.h"
-> > + #include "logind-dbus.h"
-> > ++#include "logind-polkit.h"
-> > + #include "logind-seat-dbus.h"
-> > + #include "logind-session-dbus.h"
-> > + #include "logind-user-dbus.h"
-> > +@@ -1047,15 +1048,7 @@ static int method_activate_session_on_seat(sd_bus_message *message, void *userda
-> > +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT,
-> > +                                          "Session %s not on seat %s", session_name, seat_name);
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &m->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, m, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +diff --git a/src/login/logind-polkit.c b/src/login/logind-polkit.c
-> > +new file mode 100644
-> > +index 0000000000..9072570cc6
-> > +--- /dev/null
-> > ++++ b/src/login/logind-polkit.c
-> > +@@ -0,0 +1,26 @@
-> > ++/* SPDX-License-Identifier: LGPL-2.1+ */
-> > ++
-> > ++#include "bus-polkit.h"
-> > ++#include "logind-polkit.h"
-> > ++#include "missing_capability.h"
-> > ++#include "user-util.h"
-> > ++
-> > ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error) {
-> > ++#if ENABLE_POLKIT
-> > ++        return bus_verify_polkit_async(
-> > ++                        message,
-> > ++                        CAP_SYS_ADMIN,
-> > ++                        "org.freedesktop.login1.chvt",
-> > ++                        NULL,
-> > ++                        false,
-> > ++                        UID_INVALID,
-> > ++                        &manager->polkit_registry,
-> > ++                        error);
-> > ++#else
-> > ++        /* Allow chvt when polkit is not present. This allows a service to start a graphical session as a
-> > ++         * non-root user when polkit is not compiled in, matching the default polkit policy */
-> > ++        return 1;
-> > ++#endif
-> > ++}
-> > ++
-> > ++
-> > +diff --git a/src/login/logind-polkit.h b/src/login/logind-polkit.h
-> > +new file mode 100644
-> > +index 0000000000..476c077a8a
-> > +--- /dev/null
-> > ++++ b/src/login/logind-polkit.h
-> > +@@ -0,0 +1,10 @@
-> > ++/* SPDX-License-Identifier: LGPL-2.1+ */
-> > ++#pragma once
-> > ++
-> > ++#include "sd-bus.h"
-> > ++
-> > ++#include "bus-object.h"
-> > ++#include "logind.h"
-> > ++
-> > ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error);
-> > ++
-> > +diff --git a/src/login/logind-seat-dbus.c b/src/login/logind-seat-dbus.c
-> > +index a945132284..f22e9e2734 100644
-> > +--- a/src/login/logind-seat-dbus.c
-> > ++++ b/src/login/logind-seat-dbus.c
-> > +@@ -9,6 +9,7 @@
-> > + #include "bus-polkit.h"
-> > + #include "bus-util.h"
-> > + #include "logind-dbus.h"
-> > ++#include "logind-polkit.h"
-> > + #include "logind-seat-dbus.h"
-> > + #include "logind-seat.h"
-> > + #include "logind-session-dbus.h"
-> > +@@ -179,15 +180,7 @@ static int method_activate_session(sd_bus_message *message, void *userdata, sd_b
-> > +         if (session->seat != s)
-> > +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT, "Session %s not on seat %s", name, s->id);
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &s->manager->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, s->manager, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +@@ -215,15 +208,7 @@ static int method_switch_to(sd_bus_message *message, void *userdata, sd_bus_erro
-> > +         if (to <= 0)
-> > +                 return sd_bus_error_setf(error, SD_BUS_ERROR_INVALID_ARGS, "Invalid virtual terminal");
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &s->manager->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, s->manager, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +@@ -243,15 +228,7 @@ static int method_switch_to_next(sd_bus_message *message, void *userdata, sd_bus
-> > +         assert(message);
-> > +         assert(s);
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &s->manager->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, s->manager, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +@@ -271,15 +248,7 @@ static int method_switch_to_previous(sd_bus_message *message, void *userdata, sd
-> > +         assert(message);
-> > +         assert(s);
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &s->manager->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, s->manager, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +diff --git a/src/login/logind-session-dbus.c b/src/login/logind-session-dbus.c
-> > +index ccc5ac8df2..57c8a4e900 100644
-> > +--- a/src/login/logind-session-dbus.c
-> > ++++ b/src/login/logind-session-dbus.c
-> > +@@ -11,6 +11,7 @@
-> > + #include "fd-util.h"
-> > + #include "logind-brightness.h"
-> > + #include "logind-dbus.h"
-> > ++#include "logind-polkit.h"
-> > + #include "logind-seat-dbus.h"
-> > + #include "logind-session-dbus.h"
-> > + #include "logind-session-device.h"
-> > +@@ -192,15 +193,7 @@ int bus_session_method_activate(sd_bus_message *message, void *userdata, sd_bus_
-> > +         assert(message);
-> > +         assert(s);
-> > +
-> > +-        r = bus_verify_polkit_async(
-> > +-                        message,
-> > +-                        CAP_SYS_ADMIN,
-> > +-                        "org.freedesktop.login1.chvt",
-> > +-                        NULL,
-> > +-                        false,
-> > +-                        UID_INVALID,
-> > +-                        &s->manager->polkit_registry,
-> > +-                        error);
-> > ++        r = check_polkit_chvt(message, s->manager, error);
-> > +         if (r < 0)
-> > +                 return r;
-> > +         if (r == 0)
-> > +diff --git a/src/login/meson.build b/src/login/meson.build
-> > +index 0a7d3d5440..7e46be2add 100644
-> > +--- a/src/login/meson.build
-> > ++++ b/src/login/meson.build
-> > +@@ -26,6 +26,7 @@ liblogind_core_sources = files('''
-> > +         logind-device.h
-> > +         logind-inhibit.c
-> > +         logind-inhibit.h
-> > ++        logind-polkit.c
-> > +         logind-seat-dbus.c
-> > +         logind-seat-dbus.h
-> > +         logind-seat.c
-> > +--
-> > +2.28.0
-> > +
-> > diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core/systemd/systemd_246.6.bb
-> > index 1d1ff34d89..d9e7b1a00c 100644
-> > --- a/meta/recipes-core/systemd/systemd_246.6.bb
-> > +++ b/meta/recipes-core/systemd/systemd_246.6.bb
-> > @@ -23,6 +23,7 @@ SRC_URI += "file://touchscreen.rules \
-> >              file://0003-implment-systemd-sysv-install-for-OE.patch \
-> >              file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
-> >              file://selinux-hook-handling-to-enumerate-nexthop.patch \
-> > +           file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
-> >              "
+> > Changes in V4:
+> >  * Renamed license files that were added in license mappings eg from
+> GPL-2.0 to GPL-2.0-only
 > >
-> >   # patches needed by musl
+> > Changes in V3:
+> >  * Added missing mappings to meta/conf/licenses.conf
+> >
+> > Changes in V2:
+> >  * Corrected the email subject line.
+> [...]
+> >   #MPL variations
+> >  SPDXLICENSEMAP[MPL-1] = "MPL-1.0"
+> >  SPDXLICENSEMAP[MPLv1] = "MPL-1.0"
+> > +SPDXLICENSEMAP[MPL-1.0] = "MPL-1.0"
+> >  SPDXLICENSEMAP[MPLv1.1] = "MPL-1.1"
+> > +SPDXLICENSEMAP[MPL-1.1] = "MPL-1.1"
+> >  SPDXLICENSEMAP[MPLv2] = "MPL-2.0"
+> > +SPDXLICENSEMAP[MPL-2.0] = "MPL-2.0"
+> > +
+> >   #MIT variations
+> >  SPDXLICENSEMAP[MIT-X] = "MIT"
+> > @@ -48,33 +66,43 @@ SPDXLICENSEMAP[openssl] = "OpenSSL"
+> >  #PSF variations
+> >  SPDXLICENSEMAP[PSF] = "PSF-2.0"
+> >  SPDXLICENSEMAP[PSFv2] = "PSF-2.0"
+> > +SPDXLICENSEMAP[PSF-2.0] = "PSF-2.0"
+> >
+> >  #Python variations
+> >
+> >  SPDXLICENSEMAP[Python-2] = "Python-2.0"
+> > +SPDXLICENSEMAP[Python-2.0] = "Python-2.0"
+> >
+> >  #Apache variations
+> >  SPDXLICENSEMAP[Apachev2] = "Apache-2.0"
+> >  SPDXLICENSEMAP[Apache-2] = "Apache-2.0"
+> > +SPDXLICENSEMAP[Apache-2.0] = "Apache-2.0"
+> >
+> >  #Artistic variations
+> >  SPDXLICENSEMAP[Artisticv1] = "Artistic-1.0"
+> >  SPDXLICENSEMAP[Artistic-1] = "Artistic-1.0"
+> > +SPDXLICENSEMAP[Artistic-1.0] = "Artistic-1.0"
+> >   #Academic variations
+> >
+> >  SPDXLICENSEMAP[AFL-2] = "AFL-2.0"
+> > +SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
+> >  SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
+> > +SPDXLICENSEMAP[AFL-1.2] = "AFL-1.2"
+> >  SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
+> > +SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
+> >  SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
+> >
+> >  #CDDL variations
+> >  SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
+> >  SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
+> > +SPDXLICENSEMAP[CDDL-1.0] = "CDDL-1.0"
+> >   #Other variations
+> >  SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
+> > +SPDXLICENSEMAP[EPL-1.0] = "EPL-1.0"
+> >
+> >
+>
+> >  #Silicon Graphics variations
+> >  SPDXLICENSEMAP[SGIv1] = "SGI-1"
+> > +SPDXLICENSEMAP[SGI-1] = "SGI-1"
+> >
+>
+> I removed the above pieces where the piece in [] is the same as the
+> value at the end. We don't need mappings where the two pieces are
+> identical. Everything else in the patch looked ok.
+>
+> I also realised that we have recipes which reference some of the names
+> which have been renamed in LIC_FILES_CHKSUM entries. The following
+> files look to be affected:
+>
+> meta/recipes-connectivity/connman/connman-conf.bb
+> meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> meta/recipes-core/systemd/systemd-serialgetty.bb
+> meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+>
+> I've queued a patch to fix these.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--00000000000071cb7705bb8aca1c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Okay. Thanks you.<div dir=3D"auto"><br></div><div dir=3D"=
+auto">Cheers,</div><div dir=3D"auto">Ida.</div></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 17 Feb 2021, 12:17 p=
+m Richard Purdie, &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">On Thu, 2020-10-15 at 21:45 +0100, Meh Mbeh Ida Delphine wr=
+ote:<br>
+&gt; Updated mappings of license fields of meta/conf/licenses.conf to match=
+ latest SPDX naming.<br>
+&gt; Added missing mappings.<br>
+&gt; Renamed license files that were added in license mappings eg from GPL-=
+2.0 to GPL-2.0-only.<br>
+&gt; Added &quot;or later&quot; versions of license mappings<br>
+&gt; Added &quot;or later&quot; versions of common license files eg GPL-2.0=
+-or-later<br>
+&gt; <br>
+&gt; Fixes: [YOCTO #13320]<br>
+&gt; <br>
+&gt; Signed-off-by: Meh Mbeh Ida Delphine &lt;<a href=3D"mailto:idadelm@gma=
+il.com" target=3D"_blank" rel=3D"noreferrer">idadelm@gmail.com</a>&gt;<br>
+<br>
+I really want to get this issue resolved so I&#39;ve queued this patch.<br>
+There is a comment below.<br>
+<br>
+&gt; Changes in V6:<br>
+&gt; =C2=A0* Added &quot;or later&quot; versions of common license files eg=
+ GPL-2.0-or-later in meta/files/common-licenses.<br>
+&gt; <br>
+&gt; Changes in V5:<br>
+&gt; =C2=A0* Added &quot;or later&quot; versions of license mappings in met=
+a/conf/licenses.conf<br>
+&gt; <br>
+&gt; Changes in V4:<br>
+&gt; =C2=A0* Renamed license files that were added in license mappings eg f=
+rom GPL-2.0 to GPL-2.0-only<br>
+&gt; <br>
+&gt; Changes in V3:<br>
+&gt; =C2=A0* Added missing mappings to meta/conf/licenses.conf<br>
+&gt; <br>
+&gt; Changes in V2:<br>
+&gt; =C2=A0* Corrected the email subject line.<br>
+[...]<br>
+&gt; =C2=A0=C2=A0#MPL variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[MPL-1] =3D &quot;MPL-1.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[MPLv1] =3D &quot;MPL-1.0&quot;<br>
+&gt; +SPDXLICENSEMAP[MPL-1.0] =3D &quot;MPL-1.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[MPLv1.1] =3D &quot;MPL-1.1&quot;<br>
+&gt; +SPDXLICENSEMAP[MPL-1.1] =3D &quot;MPL-1.1&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[MPLv2] =3D &quot;MPL-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[MPL-2.0] =3D &quot;MPL-2.0&quot;<br>
+&gt; +<br>
+&gt; =C2=A0=C2=A0#MIT variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[MIT-X] =3D &quot;MIT&quot;<br>
+&gt; @@ -48,33 +66,43 @@ SPDXLICENSEMAP[openssl] =3D &quot;OpenSSL&quot;<br=
+>
+&gt; =C2=A0#PSF variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[PSF] =3D &quot;PSF-2.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[PSFv2] =3D &quot;PSF-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[PSF-2.0] =3D &quot;PSF-2.0&quot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0#Python variations<br>
+&gt; <br>
+&gt; =C2=A0SPDXLICENSEMAP[Python-2] =3D &quot;Python-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[Python-2.0] =3D &quot;Python-2.0&quot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0#Apache variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[Apachev2] =3D &quot;Apache-2.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[Apache-2] =3D &quot;Apache-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[Apache-2.0] =3D &quot;Apache-2.0&quot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0#Artistic variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[Artisticv1] =3D &quot;Artistic-1.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[Artistic-1] =3D &quot;Artistic-1.0&quot;<br>
+&gt; +SPDXLICENSEMAP[Artistic-1.0] =3D &quot;Artistic-1.0&quot;<br>
+&gt; =C2=A0=C2=A0#Academic variations<br>
+&gt; <br>
+&gt; =C2=A0SPDXLICENSEMAP[AFL-2] =3D &quot;AFL-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[AFL-2.0] =3D &quot;AFL-2.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[AFL-1] =3D &quot;AFL-1.2&quot;<br>
+&gt; +SPDXLICENSEMAP[AFL-1.2] =3D &quot;AFL-1.2&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[AFLv2] =3D &quot;AFL-2.0&quot;<br>
+&gt; +SPDXLICENSEMAP[AFL-2.0] =3D &quot;AFL-2.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[AFLv1] =3D &quot;AFL-1.2&quot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0#CDDL variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[CDDLv1] =3D &quot;CDDL-1.0&quot;<br>
+&gt; =C2=A0SPDXLICENSEMAP[CDDL-1] =3D &quot;CDDL-1.0&quot;<br>
+&gt; +SPDXLICENSEMAP[CDDL-1.0] =3D &quot;CDDL-1.0&quot;<br>
+&gt; =C2=A0=C2=A0#Other variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[EPLv1.0] =3D &quot;EPL-1.0&quot;<br>
+&gt; +SPDXLICENSEMAP[EPL-1.0] =3D &quot;EPL-1.0&quot;<br>
+&gt; =C2=A0<br>
+&gt; <br>
+<br>
+&gt; =C2=A0#Silicon Graphics variations<br>
+&gt; =C2=A0SPDXLICENSEMAP[SGIv1] =3D &quot;SGI-1&quot;<br>
+&gt; +SPDXLICENSEMAP[SGI-1] =3D &quot;SGI-1&quot;<br>
+&gt; <br>
+<br>
+I removed the above pieces where the piece in [] is the same as the<br>
+value at the end. We don&#39;t need mappings where the two pieces are<br>
+identical. Everything else in the patch looked ok.<br>
+<br>
+I also realised that we have recipes which reference some of the names<br>
+which have been renamed in LIC_FILES_CHKSUM entries. The following<br>
+files look to be affected:<br>
+<br>
+meta/recipes-connectivity/connman/<a href=3D"http://connman-conf.bb" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">connman-conf.bb</a><br>
+meta/recipes-core/busybox/<a href=3D"http://busybox-inittab_1.32.0.bb" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb</a><=
+br>
+meta/recipes-core/systemd/<a href=3D"http://systemd-serialgetty.bb" rel=3D"=
+noreferrer noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><br>
+meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-inittab_2.88dsf.bb" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">sysvinit-inittab_2.88dsf.bb<=
+/a><br>
+meta/recipes-kernel/make-mod-scripts/<a href=3D"http://make-mod-scripts_1.0=
+.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">make-mod-scripts_1.0.b=
+b</a>=C2=A0 =C2=A0 <br>
+<br>
+I&#39;ve queued a patch to fix these.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000071cb7705bb8aca1c--
