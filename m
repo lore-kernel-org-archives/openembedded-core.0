@@ -1,46 +1,100 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.8450.1613573162236932530
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.8527.1613573762243509224
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 06:46:02 -0800
+ Wed, 17 Feb 2021 06:56:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC044ED1
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 06:46:00 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F7EB3F73B
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 06:46:00 -0800 (PST)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rootfs_deb: handle aarch64 SDK_ARCH
-Date: Wed, 17 Feb 2021 14:45:56 +0000
-Message-Id: <20210217144556.1707181-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=aRXPniYd;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1613573763;
+  x=1645109763;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=Xdr4nP5uYpoV8Vqi/Qk6TI3l36rRKn7aRrWY0hbF3eA=;
+  b=aRXPniYd2HHZRF5nu5eiii6GgvvjupMUGfgeqTOjEIdUz4aRYkSLQVqO
+   PK5dkwwzuk+UM1n3X2IWLRJY8nJh7W/pAL8SCfY2LQh6I0EaSRlgkKlNh
+   L2QayKxTp5uXdhgVJcqi2+n387qqz7j7gGR/jw+4uLSwP5c33YzhjYje7
+   H5UnSCi0rbJ9Vj6iKI/kXyD1rZjaPFGqJbw2xC5/8d32pOdX96cdR9i0Q
+   CO1d+7za+XQE0LIvxoueEfssJ+XYyCVw+hB5qs0yAjwdawgIOzsNO8zsP
+   utE2jcdMcFhbRej9pUdPEiLvCsVxOy4ay6gNOhcVoHgZ5ng7qoxNAwqYg
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Meh Mbeh Ida Delphine
+	<idadelm@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [poky-contrib][RFC PATCH 2/5] package: Remove false positive lic warnings
+Thread-Topic: [OE-core] [poky-contrib][RFC PATCH 2/5] package: Remove false
+ positive lic warnings
+Thread-Index: AQHXBOGHlQPVmN1510mCh0cIxyHBpKpcF/GAgAA0JTA=
+Date: Wed, 17 Feb 2021 14:55:50 +0000
+Message-ID: <008095bfe41a468ba2d5fb3ba06160eb@XBOX03.axis.com>
+References: <20210217040033.21541-1-idadelm@gmail.com>
+	 <20210217040033.21541-3-idadelm@gmail.com>
+ <8bb8d2888759c8102ee35a7b3badf06fdb0eea86.camel@linuxfoundation.org>
+In-Reply-To: <8bb8d2888759c8102ee35a7b3badf06fdb0eea86.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This class maps from OE architectures to dpkg architectures, but wasn't
-handling aarch64 correctly.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/rootfs_deb.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bb=
-class
-index ef616da229..0469ba7059 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -32,4 +32,8 @@ python () {
-          d.setVar('DEB_SDK_ARCH', 'amd64')
-     elif darch =3D=3D "arm":
-          d.setVar('DEB_SDK_ARCH', 'armel')
-+    elif darch =3D=3D "aarch64":
-+         d.setVar('DEB_SDK_ARCH', 'arm64')
-+    else:
-+         bb.fatal("Unhandled SDK_ARCH %s" % darch)
- }
---=20
-2.25.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxNyBm
+ZWJydWFyaSAyMDIxIDExOjQwDQo+IFRvOiBNZWggTWJlaCBJZGEgRGVscGhpbmUgPGlkYWRlbG1A
+Z21haWwuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbcG9reS1jb250cmliXVtSRkMgUEFUQ0ggMi81XSBw
+YWNrYWdlOiBSZW1vdmUgZmFsc2UNCj4gcG9zaXRpdmUgbGljIHdhcm5pbmdzDQo+IA0KPiBPbiBX
+ZWQsIDIwMjEtMDItMTcgYXQgMDU6MDAgKzAxMDAsIE1laCBNYmVoIElkYSBEZWxwaGluZSB3cm90
+ZToNCj4gPiBXaXRoIHRoZSBJR05PUkVXSVRITElOVVhTWVNDQUxMTk9URSB2YXJpYWJsZSBzZXQg
+dG8gIjEiIGluIGxvY2FsLmNvbmYsDQo+IGl0IHJlbW92ZXMgdGhlICJXSVRIIExpbnV4IHN5c2Nh
+bGwgbm90ZSIgc3RyaW5nIGF0dGFjaGVkIHRvIHRoZSBsaWNlbnNlDQo+IHZhbHVlIGZvciBzb3Vy
+Y2VzIGJlZm9yZSBjb21wYXJpc20uDQo+ID4gVGhpcyBpcyB0byBnZXQgbW9yZSByZWNpcGUgTElD
+RU5TRVMgdG8gbWF0Y2ggd2l0aCB0aG9zZSBvZiB0aGUgc291cmNlcw0KPiBhbmQgcmVkdWNlIHRo
+ZSBudW1iZXIgb2Ygd2FybmluZ3Mgb3V0cHV0ZWQuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBJ
+ZGEgRGVscGhpbmUgPGlkYWRlbG1AZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+IMKgbWV0YS9jbGFz
+c2VzL3BhY2thZ2UuYmJjbGFzcyB8IDQgKysrKw0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
+ZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJi
+Y2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNzDQo+ID4gaW5kZXggYzMyNTkxNDZi
+Ni4uMTRjODQ3NWNmYSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNs
+YXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+IEBAIC0xNzc0
+LDYgKzE3NzQsMTAgQEAgZmkNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBpZiBsLmVuZHN3aXRoKCctb3ItbGF0ZXInKToNCj4gPiDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGxpY18gPSBsLnJlcGxhY2UoJy1vci1s
+YXRlcicsICcrJykNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGNvbXB1dGVkcGtnbGljc3BlcnBrZy5hZGQobGljXykNCj4gPiArICAgICAgICAg
+ICAgICAgICAgICBlbGlmIGwuZW5kc3dpdGgoJyBXSVRIIExpbnV4LXN5c2NhbGwtbm90ZScpOg0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBpZiBkLmdldFZhcigiSUdOT1JFV0lUSExJTlVY
+U1lTQ0FMTE5PVEUiKSA9PSAiMSI6DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBs
+aWNfID0gbC5yZXBsYWNlKCcgV0lUSCBMaW51eC1zeXNjYWxsLW5vdGUnLCAnJykNCj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbXB1dGVkcGtnbGljc3BlcnBrZy5hZGQobGljXykN
+Cj4gDQo+IEkgdGhpbmsgdGhpcyBpcyBnb2luZyB0byBicmVhayB0aGluZ3MgYW5kIGl0IHNob3Vs
+ZCBiZSBlbnRpcmVseQ0KPiByZW1vdmluZyB0aGlzIGxpY2Vuc2UgZW50cnkuDQo+IA0KPiBXaHk/
+IEhlYWRlcnMgdW5kZXIgR1BMdjIgV0lUSCBMaW51eC1zeXNjYWxsLW5vdGUgY2FuIGJlIHVzZWQg
+aW4gYSBub24tDQo+IEdQTHYyIGFwcGxpY2F0aW9uIGFuZCB0aGF0IGFwcGxpY2F0aW9uIGRvZXNu
+J3QgdGhlbiBiZWNvbWUgdW5kZXIgR1BMdjIuDQo+IA0KPiBXaGF0IHdlIHByb2JhYmx5IHdhbnQg
+aXMgYSAic2FmZSIgbGlzdCBvZiBsaWNlbnNlcyB3aGljaCBkb24ndCBoYXZlDQo+IGltcGxpY2F0
+aW9ucyBhbmQgZW50cmllcyBtYXRjaGluZyAiKiBXSVRIIExpbnV4LXN5c2NhbGwtbm90ZSIgY2Fu
+IGJlDQo+IGlnbm9yZWQsIGFzIGxvbmcgYXMgdGhleSdyZSBvbmx5IGluIGhlYWRlciBmaWxlcy4g
+UGVyaGFwcyB3ZSBhbHNvIG5lZWQNCj4gYSBjaGVjayB0byBlbnN1cmUgd2Ugb25seSBzZWUgIiog
+V0lUSCBMaW51eC1zeXNjYWxsLW5vdGUiIGluIGhlYWRlcg0KPiBmaWxlcz8NCj4gDQo+IENoZWVy
+cywNCj4gDQo+IFJpY2hhcmQNCg0KSXNuJ3QgdGhlIHByb2JsZW0gaGVyZSByZWFsbHkgdGhlIG11
+bHRpcGxlIChzb21ldGltZXMgY29udHJhZGljdG9yeSkgdXNlIA0KY2FzZXMgZm9yIHRoZSBMSUNF
+TlNFIHZhcmlhYmxlLiANCg0KMSkgSXQgaXMgdXNlZCB0byBkb2N1bWVudCB0aGUgbGljZW5zZXMg
+dGhhdCBjb3ZlciB0aGUgY29kZS4NCjIpIEl0IGlzIHVzZWQgdG8gZGV0ZXJtaW5lIGlmIHRoZSBy
+ZWNpcGUgY2FuIGJlIGJ1aWx0Lg0KMykgSXQgaXMgdXNlZCAodG9nZXRoZXIgd2l0aCBMSUNfRklM
+RVNfQ0hLU1VNKSB0byBwb3B1bGF0ZSB0aGUgbGljZW5zZXMgdGhhdCANCiAgIGdvIGludG8sIGUu
+Zy4sICR7UE59LWxpYy4NCjQpIEl0IGlzIHVzZWQgYnkgYXJjaGl2ZXIuYmJjbGFzcyB0byBkZXRl
+cm1pbmUgd2hhdCBjb2RlIHRvIGV4cG9ydC4NCg0KVG8gY29tcGx5IHdpdGggMSkgYW5kIDMpLCB5
+b3Ugd2FudCB0byBpbmNsdWRlLCBlLmcuLCAiR1BMLTMuMCBXSVRIIA0KTGludXgtc3lzY2FsbC1u
+b3RlIiwgYnV0IGZvciAyKSBhbmQgNCksIHlvdSBwcm9iYWJseSBkbyBub3Qgd2FudCBpdC4gDQoN
+ClJlbGF0ZWQgdG8gdGhpcyBpcyBhbHNvIHJlY2lwZXMgdGhhdCBoYXZlIGEgTElDRU5TRSBzdWNo
+IGFzICJGb28gfCBCYXIiIA0Kd2hlcmUgdGhlcmUgaXMgYSBjaG9pY2UgYXMgdG8gd2hpY2ggbGlj
+ZW5zZSB3ZSBhcyBhIHB1Ymxpc2hlciBvZiBiaW5hcmllcyANCmNob29zZSB3aGVuIGRpc3RyaWJ1
+dGluZyB0aGUgY29kZS4gU2luY2UgdGhpcyBjaG9pY2UgbWF5IHZhcnkgZnJvbSANCmRpc3RyaWJ1
+dG9yIHRvIGRpc3RyaWJ1dG9yIGl0IGlzIG5vdCBhcyBzaW1wbGUgYXMgdG8ganVzdCBsaXN0IHRo
+ZW0gYm90aC4NCg0KLy9QZXRlcg0KDQo=
