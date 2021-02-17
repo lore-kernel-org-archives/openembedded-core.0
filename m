@@ -1,37 +1,36 @@
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.8527.1613573762243509224
+ by mx.groups.io with SMTP id smtpd.web11.8716.1613574256142757636
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 06:56:03 -0800
+ Wed, 17 Feb 2021 07:04:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=aRXPniYd;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=opjNgHkl;
  spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1613573763;
-  x=1645109763;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1613574256;
+  x=1645110256;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=Xdr4nP5uYpoV8Vqi/Qk6TI3l36rRKn7aRrWY0hbF3eA=;
-  b=aRXPniYd2HHZRF5nu5eiii6GgvvjupMUGfgeqTOjEIdUz4aRYkSLQVqO
-   PK5dkwwzuk+UM1n3X2IWLRJY8nJh7W/pAL8SCfY2LQh6I0EaSRlgkKlNh
-   L2QayKxTp5uXdhgVJcqi2+n387qqz7j7gGR/jw+4uLSwP5c33YzhjYje7
-   H5UnSCi0rbJ9Vj6iKI/kXyD1rZjaPFGqJbw2xC5/8d32pOdX96cdR9i0Q
-   CO1d+7za+XQE0LIvxoueEfssJ+XYyCVw+hB5qs0yAjwdawgIOzsNO8zsP
-   utE2jcdMcFhbRej9pUdPEiLvCsVxOy4ay6gNOhcVoHgZ5ng7qoxNAwqYg
-   Q==;
+  bh=HsmzFgB4YY8kJpQqFfCFEJq1UXE7mVIUSgPrub0c4M8=;
+  b=opjNgHklrt2Q9YuInGMYqCmMdD3DpTKMW/0AD3HdxprN91uIZRKb4MXr
+   2ut/WmaWcxUzIlg4sfGSwrzUBavqJAZ//h7Kimr5sCzDzVICIJ+Zx5HC9
+   yDeHheJuccmCBZgWnA1Yrgvjyd+ay2YJgVvMry7YURpSEkirIhPM6JS71
+   W5xgfyyOrNxXSqGWk4Ifw2x1ja1lWqjHvZx2SiCmVoMLUpchlYvUAmB+M
+   a8FjCEbAcqfKRN5zKiaREKKsjRZfDyD4OQhRemHS0abtc8iRl0n3Hd/xJ
+   qAvepml4xwZTiwddsDfMG9CoSbIL1exgSVtbunlp6q2gcWz1h8DlqTnqM
+   g==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Meh Mbeh Ida Delphine
-	<idadelm@gmail.com>, "openembedded-core@lists.openembedded.org"
+To: Meh Mbeh Ida Delphine <idadelm@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [poky-contrib][RFC PATCH 2/5] package: Remove false positive lic warnings
-Thread-Topic: [OE-core] [poky-contrib][RFC PATCH 2/5] package: Remove false
- positive lic warnings
-Thread-Index: AQHXBOGHlQPVmN1510mCh0cIxyHBpKpcF/GAgAA0JTA=
-Date: Wed, 17 Feb 2021 14:55:50 +0000
-Message-ID: <008095bfe41a468ba2d5fb3ba06160eb@XBOX03.axis.com>
+Subject: Re: [OE-core] [poky-contrib][RFC PATCH 4/5] license.bbclass: Add functions to split and canonicalise license strings
+Thread-Topic: [OE-core] [poky-contrib][RFC PATCH 4/5] license.bbclass: Add
+ functions to split and canonicalise license strings
+Thread-Index: AQHXBOGVjF0TgksbjUKVaOctc9LLeqpccGbQ
+Date: Wed, 17 Feb 2021 15:04:14 +0000
+Message-ID: <2efffee96fae455b8cdb77d47c576bfe@XBOX03.axis.com>
 References: <20210217040033.21541-1-idadelm@gmail.com>
-	 <20210217040033.21541-3-idadelm@gmail.com>
- <8bb8d2888759c8102ee35a7b3badf06fdb0eea86.camel@linuxfoundation.org>
-In-Reply-To: <8bb8d2888759c8102ee35a7b3badf06fdb0eea86.camel@linuxfoundation.org>
+ <20210217040033.21541-5-idadelm@gmail.com>
+In-Reply-To: <20210217040033.21541-5-idadelm@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -39,62 +38,86 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxNyBm
-ZWJydWFyaSAyMDIxIDExOjQwDQo+IFRvOiBNZWggTWJlaCBJZGEgRGVscGhpbmUgPGlkYWRlbG1A
-Z21haWwuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
-Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbcG9reS1jb250cmliXVtSRkMgUEFUQ0ggMi81XSBw
-YWNrYWdlOiBSZW1vdmUgZmFsc2UNCj4gcG9zaXRpdmUgbGljIHdhcm5pbmdzDQo+IA0KPiBPbiBX
-ZWQsIDIwMjEtMDItMTcgYXQgMDU6MDAgKzAxMDAsIE1laCBNYmVoIElkYSBEZWxwaGluZSB3cm90
-ZToNCj4gPiBXaXRoIHRoZSBJR05PUkVXSVRITElOVVhTWVNDQUxMTk9URSB2YXJpYWJsZSBzZXQg
-dG8gIjEiIGluIGxvY2FsLmNvbmYsDQo+IGl0IHJlbW92ZXMgdGhlICJXSVRIIExpbnV4IHN5c2Nh
-bGwgbm90ZSIgc3RyaW5nIGF0dGFjaGVkIHRvIHRoZSBsaWNlbnNlDQo+IHZhbHVlIGZvciBzb3Vy
-Y2VzIGJlZm9yZSBjb21wYXJpc20uDQo+ID4gVGhpcyBpcyB0byBnZXQgbW9yZSByZWNpcGUgTElD
-RU5TRVMgdG8gbWF0Y2ggd2l0aCB0aG9zZSBvZiB0aGUgc291cmNlcw0KPiBhbmQgcmVkdWNlIHRo
-ZSBudW1iZXIgb2Ygd2FybmluZ3Mgb3V0cHV0ZWQuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBJ
-ZGEgRGVscGhpbmUgPGlkYWRlbG1AZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+IMKgbWV0YS9jbGFz
-c2VzL3BhY2thZ2UuYmJjbGFzcyB8IDQgKysrKw0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
-ZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJi
-Y2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNzDQo+ID4gaW5kZXggYzMyNTkxNDZi
-Ni4uMTRjODQ3NWNmYSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNs
-YXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+IEBAIC0xNzc0
-LDYgKzE3NzQsMTAgQEAgZmkNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBpZiBsLmVuZHN3aXRoKCctb3ItbGF0ZXInKToNCj4gPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGxpY18gPSBsLnJlcGxhY2UoJy1vci1s
-YXRlcicsICcrJykNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoGNvbXB1dGVkcGtnbGljc3BlcnBrZy5hZGQobGljXykNCj4gPiArICAgICAgICAg
-ICAgICAgICAgICBlbGlmIGwuZW5kc3dpdGgoJyBXSVRIIExpbnV4LXN5c2NhbGwtbm90ZScpOg0K
-PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBpZiBkLmdldFZhcigiSUdOT1JFV0lUSExJTlVY
-U1lTQ0FMTE5PVEUiKSA9PSAiMSI6DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBs
-aWNfID0gbC5yZXBsYWNlKCcgV0lUSCBMaW51eC1zeXNjYWxsLW5vdGUnLCAnJykNCj4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbXB1dGVkcGtnbGljc3BlcnBrZy5hZGQobGljXykN
-Cj4gDQo+IEkgdGhpbmsgdGhpcyBpcyBnb2luZyB0byBicmVhayB0aGluZ3MgYW5kIGl0IHNob3Vs
-ZCBiZSBlbnRpcmVseQ0KPiByZW1vdmluZyB0aGlzIGxpY2Vuc2UgZW50cnkuDQo+IA0KPiBXaHk/
-IEhlYWRlcnMgdW5kZXIgR1BMdjIgV0lUSCBMaW51eC1zeXNjYWxsLW5vdGUgY2FuIGJlIHVzZWQg
-aW4gYSBub24tDQo+IEdQTHYyIGFwcGxpY2F0aW9uIGFuZCB0aGF0IGFwcGxpY2F0aW9uIGRvZXNu
-J3QgdGhlbiBiZWNvbWUgdW5kZXIgR1BMdjIuDQo+IA0KPiBXaGF0IHdlIHByb2JhYmx5IHdhbnQg
-aXMgYSAic2FmZSIgbGlzdCBvZiBsaWNlbnNlcyB3aGljaCBkb24ndCBoYXZlDQo+IGltcGxpY2F0
-aW9ucyBhbmQgZW50cmllcyBtYXRjaGluZyAiKiBXSVRIIExpbnV4LXN5c2NhbGwtbm90ZSIgY2Fu
-IGJlDQo+IGlnbm9yZWQsIGFzIGxvbmcgYXMgdGhleSdyZSBvbmx5IGluIGhlYWRlciBmaWxlcy4g
-UGVyaGFwcyB3ZSBhbHNvIG5lZWQNCj4gYSBjaGVjayB0byBlbnN1cmUgd2Ugb25seSBzZWUgIiog
-V0lUSCBMaW51eC1zeXNjYWxsLW5vdGUiIGluIGhlYWRlcg0KPiBmaWxlcz8NCj4gDQo+IENoZWVy
-cywNCj4gDQo+IFJpY2hhcmQNCg0KSXNuJ3QgdGhlIHByb2JsZW0gaGVyZSByZWFsbHkgdGhlIG11
-bHRpcGxlIChzb21ldGltZXMgY29udHJhZGljdG9yeSkgdXNlIA0KY2FzZXMgZm9yIHRoZSBMSUNF
-TlNFIHZhcmlhYmxlLiANCg0KMSkgSXQgaXMgdXNlZCB0byBkb2N1bWVudCB0aGUgbGljZW5zZXMg
-dGhhdCBjb3ZlciB0aGUgY29kZS4NCjIpIEl0IGlzIHVzZWQgdG8gZGV0ZXJtaW5lIGlmIHRoZSBy
-ZWNpcGUgY2FuIGJlIGJ1aWx0Lg0KMykgSXQgaXMgdXNlZCAodG9nZXRoZXIgd2l0aCBMSUNfRklM
-RVNfQ0hLU1VNKSB0byBwb3B1bGF0ZSB0aGUgbGljZW5zZXMgdGhhdCANCiAgIGdvIGludG8sIGUu
-Zy4sICR7UE59LWxpYy4NCjQpIEl0IGlzIHVzZWQgYnkgYXJjaGl2ZXIuYmJjbGFzcyB0byBkZXRl
-cm1pbmUgd2hhdCBjb2RlIHRvIGV4cG9ydC4NCg0KVG8gY29tcGx5IHdpdGggMSkgYW5kIDMpLCB5
-b3Ugd2FudCB0byBpbmNsdWRlLCBlLmcuLCAiR1BMLTMuMCBXSVRIIA0KTGludXgtc3lzY2FsbC1u
-b3RlIiwgYnV0IGZvciAyKSBhbmQgNCksIHlvdSBwcm9iYWJseSBkbyBub3Qgd2FudCBpdC4gDQoN
-ClJlbGF0ZWQgdG8gdGhpcyBpcyBhbHNvIHJlY2lwZXMgdGhhdCBoYXZlIGEgTElDRU5TRSBzdWNo
-IGFzICJGb28gfCBCYXIiIA0Kd2hlcmUgdGhlcmUgaXMgYSBjaG9pY2UgYXMgdG8gd2hpY2ggbGlj
-ZW5zZSB3ZSBhcyBhIHB1Ymxpc2hlciBvZiBiaW5hcmllcyANCmNob29zZSB3aGVuIGRpc3RyaWJ1
-dGluZyB0aGUgY29kZS4gU2luY2UgdGhpcyBjaG9pY2UgbWF5IHZhcnkgZnJvbSANCmRpc3RyaWJ1
-dG9yIHRvIGRpc3RyaWJ1dG9yIGl0IGlzIG5vdCBhcyBzaW1wbGUgYXMgdG8ganVzdCBsaXN0IHRo
-ZW0gYm90aC4NCg0KLy9QZXRlcg0KDQo=
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Meh Mbeh Ida Delphine
+> Sent: den 17 februari 2021 05:01
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [poky-contrib][RFC PATCH 4/5] license.bbclass: Add
+> functions to split and canonicalise license strings
+>=20
+> These functions that will later be used in package.bbclass simply make th=
+e
+> source and recipe licenses in the same format so that they can easily be
+> compared and the ouput warnings filtered accordingly.
+> split_spdx_lic() splits the license strings and returns a set of the
+> canonicalised licenses.
+> rem_false_lics() does two things:
+> - Converts '-or-later' licenses to their canonicalised form
+> - Gets rid of "WITH Linux-syscall-note" from license string if specified
+> in local.conf
+>=20
+> Signed-off-by: Ida Delphine <idadelm@gmail.com>
+> ---
+>  meta/classes/license.bbclass | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>=20
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index dc91118340..576464cb26 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -435,3 +435,30 @@ python do_populate_lic_setscene () {
+>      sstate_setscene(d)
+>  }
+>  addtask do_populate_lic_setscene
+> +
+> +
+> +def split_spdx_lic(d, licensestr):
+> +    """
+> +    Split the license strings and returns a set of the
+> +    canonicalised licenses.
+> +    """
+> +    import oe.license
+> +    split_lic =3D oe.license.list_licenses(licensestr)
+> +    spdx_lic =3D set([canonical_license(d, l) for l in split_lic])
+> +    return spdx_lic
+> +
+> +def rem_false_lics(d, pkglic):
+> +    pkglicsperpkg =3D set([])
+> +    for l in pkglic:
+> +        if l.endswith('-or-later'):
+> +            # Converts '-or-later' licenses to their canonicalised form
+> +            lic_ =3D l.replace('-or-later', '+')
+
+Given that licenses such as "GPL-2.0+" are deprecated by SPDX, shouldn't we=
+=20
+instead introduce the canonical "GPL-2.0-only" and "GPL-2.0-or-later"?
+And then add mappings for, e.g., "GPL-2.0" to "GPL-2.0-only" and "GPL-2.0+"=
+=20
+to "GPL-2.0-or-later".
+
+> +            pkglicsperpkg.add(lic_)
+> +        elif l.endswith(' WITH Linux-syscall-note'):
+> +        # Gets rid of "WITH Linux-syscall-note from license sring"
+> +            if d.getVar("LICENSE_WITH_LINUX_SYS") =3D=3D "1":
+> +                lic_ =3D l.replace(' WITH Linux-syscall-note', '')
+
+Looking at https://spdx.org/licenses/exceptions-index.html, there is a long=
+=20
+list of predefined exceptions and "Linux-syscall-note" is just one of them.=
+=20
+We probably want a more generic solution for how to handle exceptions.
+
+> +                pkglicsperpkg.add(lic_)
+> +        else:
+> +            pkglicsperpkg.add(l)
+> +    return pkglicsperpkg
+> \ No newline at end of file
+> --
+> 2.25.1
+
+//Peter
+
