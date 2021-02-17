@@ -1,27 +1,27 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.4031.1613541139240922185
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 21:52:27 -0800
+ Tue, 16 Feb 2021 21:52:28 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: XSLTuJpqJy8hnFfYYN1zbL8Fti4BbL+iihOlIYzhlPjeZj/Vc+afq8gU+1Y1vClnWst22iWy7O
- wjL/jtDhINRA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="162247098"
+IronPort-SDR: 0m38CoJOI/7QUUNkBinCDQQgmK4a1GPKE7MUys8EnKRAuYS7anktlKLAXf/SzZMSja9j0g4Nw2
+ xIQxibqISWUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="162247106"
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="162247098"
+   d="scan'208";a="162247106"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 21:52:27 -0800
-IronPort-SDR: LWeFY2uR3rBBMvtOUL2KORZuqzFwv/dubzc5WnUWzP3rTVnpoh8nfF3Ta3wL3D2Fi5vzQRdaE9
- N0kHr1//KMiQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 21:52:28 -0800
+IronPort-SDR: VNEyrLzv1vxp/3OIk7wv19OAP/YFGR0upqiqW1dpYMd69VaO/8PmrJ3/6BPae3Z8dZaeCRoh1M
+ RyfC7mxvYlsg==
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="399825413"
+   d="scan'208";a="399825417"
 Received: from rjangidx-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.185.188])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 21:52:26 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 21:52:27 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/27] libuv: upgrade 1.40.0 -> 1.41.0
-Date: Wed, 17 Feb 2021 13:51:52 +0800
-Message-Id: <20210217055210.22019-9-anuj.mittal@intel.com>
+Subject: [PATCH 10/27] piglit: upgrade to latest revision
+Date: Wed, 17 Feb 2021 13:51:53 +0800
+Message-Id: <20210217055210.22019-10-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210217055210.22019-1-anuj.mittal@intel.com>
 References: <20210217055210.22019-1-anuj.mittal@intel.com>
@@ -30,26 +30,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../libuv/{libuv_1.40.0.bb => libuv_1.41.0.bb}                  | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.40.0.bb => libuv_1.41.0.bb} (90%)
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.40.0.bb b/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-similarity index 90%
-rename from meta/recipes-connectivity/libuv/libuv_1.40.0.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-index f793db09be..ab06a43d21 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.40.0.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 484b59df00..52c39fd681 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
--SRCREV = "4e69e333252693bd82d6338d6124f0416538dbfc"
-+SRCREV = "1dff88e5161cba5c59276d2070d2e304e4dcb242"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
+-SRCREV = "d3a6e1293c43a6d989d4bcd59132317195d420c6"
++SRCREV = "d4d9353b7290ed22cb7349226a8e4017402d3f02"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
  
- S = "${WORKDIR}/git"
 -- 
 2.29.2
 
