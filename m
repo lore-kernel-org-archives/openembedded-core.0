@@ -1,189 +1,183 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web08.2120.1613527727992694256
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.53])
+ by mx.groups.io with SMTP id smtpd.web08.2523.1613529620429225740
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Feb 2021 18:08:48 -0800
+ Tue, 16 Feb 2021 18:40:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hfBl6ASz;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id lu16so4895054ejb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Feb 2021 18:08:47 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ieFQaQwG;
+ spf=pass (domain: windriver.com, ip: 40.107.94.53, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZOxBWAGsXZUYl6CjYtI3utDS2/zjfMcnDdqp/3BUJAQtVc/sdqroFjgEySCHZ/XLJipNX/jPCSBVYYxWcAuQU5PNvLgIZZhbm8vO7/jxZLPhcX8zepYn7WSvrtufe/ilZ6KYm9dcCCqOJVf0s86H3Dk8gI980R3y1ygVg3KI/RDgXU7AiMSaVauC4p+C+j74Bw09bwaWUFA5cYEeCOlKrSwpjlz1kQy3cjqLQzSIjLG66zreJ0TTdSDEvSgK7DNqM+guW3hkMDNhXA6diPNX19J8tYJ8Zb7VhxxY50cSCqv5YsM8dlFsiQI/8e3Rz7Tb5XQnM71RDZbBeAZLl4PMBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pgc8ZG8UBnFkD9LJNY6O3dOlrP50RKQZScYwrodijOs=;
+ b=GLye+vRHuNRIxAdO2A+vu42uBXJ2S2s/PQbdGbY3csf/2tixf1WdnUdX+clvc/JA3ZKPXs7MxIFl+929IBz6BBa/xzvqkCsajtSc6CNFu+qMLzabJ4CMZmOSUYQF1Xe2xJanUjs/k7hDS07Ntt/P6DPgCo0NZlAK5bigzUkzuuGzCxHFJ6VV4rpQkrLFfDCcAnxR4eOXd59AXO+mHinLuaE12HvcARYIu7ZXdYKTgjJPVrlO31jrYbherQyGUbbmLyYiw72IDRBGO56De6iyUIB1AwUQ1o2zssNpPq9zbuI/T54l0QkIZbtfFsUzDi6fb8G0tzSZ3+y71rdhaOj8Ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ThkKPyUC6GUlz1VGurYFAGW87LRnuYlr+pA4yBsO3TI=;
-        b=hfBl6ASz/s4q8Qctjo8l9C+hLIXMwzqke28w7YjolSGbVaFxekNHFq3QMVV6g5qQNk
-         cZbPhy2upqStY7NIR1hXl3MZoJZBXQ53vbVoEcnH5VcD6sGZQBfQkEbO5YWns990yCMB
-         /pEJgcAOmLBOmikeRN/7dsQ+rGB1QFRAVuSR1kte5Bs78/JI5UCQ4EedqfqYGPakATPs
-         rdarbBikBz6e3IfqHjrAEqZeB7Ml7FbF1+PlpyvQAA99RBVDG1G5fiA7aqxK6yoIcCzx
-         +0wr+mBz+tv5I4VrPAUrgrdgV/8zgiLVANc3fOX+l6oEjeNpvRaBadmreVxwS+n/7amA
-         L23A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ThkKPyUC6GUlz1VGurYFAGW87LRnuYlr+pA4yBsO3TI=;
-        b=eZBu7mJ91Paxj63CeyiMh6BVofyv3DPWzif5AHbpVAbLpA3Vrptu11yPL3lXScIC7u
-         ++O9Ip9Bt50UOKMKspdyIzzAOcC79bpvwSL7AV9uw5IbZfmc9hrkXnyojvciOmJn+MMr
-         KYg9LvCv7nnZxfAKxOt1UUo0nz75gL4NzE+zdPgvUxusTcUmESJdUC3EqyF2u4qNEDK/
-         WXqKZxW3ATgsjjzsU7gSCk76Wo8toF5JWs4uDt3t4M29HcSnewZlafV84yXnfLI1WYMO
-         k+IRaNx7YYId0WVABBbsjpF+oXGnOHLo9n3888nSrJz0RZpO8Lc2qXqECa11vSCm7gKn
-         0jWQ==
-X-Gm-Message-State: AOAM532JlCYaGgYAn6mVLU2oBvs+tcx6COF3fRtena+kzoTb9POxF4Ip
-	hb7o7KBJ43fUmcwA0Mj+fFx75Ku6VU6RGLtOnDQ=
-X-Google-Smtp-Source: ABdhPJx6DodXtALwnPe8RIsbY78YDV5BRV+yISEyc5DWmDOeMidxcvg7aq5/tFtbdOvDJPShkY4Om6lSBLVdlTDIW+I=
-X-Received: by 2002:a17:907:2622:: with SMTP id aq2mr16431771ejc.470.1613527726466;
- Tue, 16 Feb 2021 18:08:46 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pgc8ZG8UBnFkD9LJNY6O3dOlrP50RKQZScYwrodijOs=;
+ b=ieFQaQwGJIrzkDEqIN4Oj+wHAEiCb9kHpKSI8OVomEBBQcztR4rHBTZTQKAPChQk65HqKTPpUPDSU0t7l4noks2eyvDgcobc17PQn6xumXCA9/HVpvRwJ87ldyEkRjdrAzWtCiAfhUhp76mHYLeahO/78c+hkFfpBHkmNwNe9Ik=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB4073.namprd11.prod.outlook.com (2603:10b6:5:19f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Wed, 17 Feb
+ 2021 02:40:18 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8e2:471a:7b63:1a0e]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8e2:471a:7b63:1a0e%7]) with mapi id 15.20.3846.042; Wed, 17 Feb 2021
+ 02:40:18 +0000
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>, =?UTF-8?Q?Andreas_M=c3=bcller?=
+ <schnitzeltony@gmail.com>, Vinay Kumar <vinay.kumar@blackfigtech.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Subject: meta-rust -> oe-core
+Message-ID: <e9e8693d-2e4c-40be-55ac-37ae001ec7b5@windriver.com>
+Date: Tue, 16 Feb 2021 21:40:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: SJ0PR05CA0069.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::14) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-References: <20210216230130.1516657-1-Martin.Jansa@gmail.com>
- <CAMKF1sqh0WEed86n+JGM3WHVxAM31xUZ6mR744CQpUE4Sa1ziQ@mail.gmail.com>
- <CA+chaQdoYMbPazDp8onpqJMNj9SBL7pT_5XLYE1Dv1XmJ5ZMZw@mail.gmail.com> <CAMKF1spBtFXUzDaDSnQiOYw9xYPrn_-MiOrEOnmpven940MbNQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spBtFXUzDaDSnQiOYw9xYPrn_-MiOrEOnmpven940MbNQ@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 16 Feb 2021 18:08:35 -0800
-Message-ID: <CA+chaQcKgbUi8jXH24xMT4j2SqRctYu8PiXr3WL5tpAgeWDg+Q@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] icu: backport fix for rare random genrb segmentation fault
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f8a94c05bb7eb2b0"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by SJ0PR05CA0069.namprd05.prod.outlook.com (2603:10b6:a03:332::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.14 via Frontend Transport; Wed, 17 Feb 2021 02:40:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4050262c-0c81-4d2e-5055-08d8d2ed5cd5
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4073:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB407310F99DAD2E73DC5797DCF8869@DM6PR11MB4073.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	UvtgwXZ3XU7B284TV/Fw4513bDYT+MsP/WbUL1hE8W7jou1mj+fzSGpmQipucuqoG9JamupHNp33H/sjwcputhhNe8ULljS+xA7OsHOmqZL1SCaHUQWF7Dhp6M1zI2QaGu59nWoA5n52sSvbJTShybFuMnqGJAZ4+vp5vxY0ej0P162/tHtdJaOQK4Eg/PsGo3Q26YwisKfQ571jtbpoZ5H38sQT1rGYJSetMxEjQF++k17wicg+1rsVMxNUjMpEMNflttx1Xsx23LSYRROug2OLveS4QzFYZGeWlcGDIIcQVFcpzh8Sv0LGqilnA2Mk9jRauqCxk8mvcPNh5wBXbPfGDiB4fy4juQQmqVy1N2W/JDutLR1cF8aA501JpwZehOOCApsLRa1FnbNdVkF1IHAxzB7S1ezjUKhrBFcF+NE+9PSqB74LUiiY5UUYnpt1m2n3sgI6kY42kIidN61y8T7IB78g25cM99pzX8fSvgAkTTxm2NXfI9wAN5/dZhdkDQuXMQ4Uy9xVEAx7TRmFNzqFQUujO8jpukxHdquFqF8EF++9cHWEo21lxq1Xgrago/sUs+TTTqr/gcdcJY0N6rwq4lItw0niOXoifPZ1YfEfLrcGA3csCu47RaqkbuP5TygaY1c5U5Ax9xKrjUsZZYkb9vGYNCrsoJ3EWS3CazH89NUvq2CTWQVcZqk3cFqT
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(136003)(396003)(39850400004)(366004)(36756003)(956004)(2906002)(6666004)(6486002)(31686004)(16526019)(31696002)(83380400001)(26005)(2616005)(16576012)(5660300002)(66476007)(86362001)(186003)(4326008)(66556008)(8936002)(66946007)(8676002)(478600001)(966005)(54906003)(316002)(6916009)(52116002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?M1VQdkl3MTZSLzRJeTFyU3c3bnZqVjVYeWhQWkJwUUhSNTJNekNYZllYV1U1?=
+ =?utf-8?B?M2ZHbDBCL1NpWHZsODA4SXljNDBUNTB5c0xjL2cyTlZJdW8zOXRNNFBpK3RS?=
+ =?utf-8?B?cDVFbUF1MU5sdHVhT3huaDJOeU9XdDBBa002dzdRTzAvN2RZSlMxbGlzbkpY?=
+ =?utf-8?B?dXRDU3Rsb3V4dzV0N1ZOS0x4d1VPR05LU3BjQTlWVlFZQzU0NHpFZjJITVEz?=
+ =?utf-8?B?RmJabXZHS1NpeG5KalBkZG82SmkxSDU5YmZESFVIaXpQK3poQjJOUGdrdmIz?=
+ =?utf-8?B?a1ZqV1l3Yk52cFBvTFF1NWJMdHQvNWJtNVZoaVB5dkpuRlh5Z3RZNkNBU3p3?=
+ =?utf-8?B?anIyUzNrWVdHTnJHY05SS1BsUXRjekw0dmUrbUtRaFRzbVFKOGFQYVNRL0NI?=
+ =?utf-8?B?RytNNXRtd1BveHpEbW5YTHdCeUp6QnZRZWtPbElvYTlyS2lhMzJ2RUhLMXcv?=
+ =?utf-8?B?V0ZCTUtMMStLVnNiV0FYZVRFcjJZNVFoSGs5MGhHMS9iWFdaNjFmeDhqOHlS?=
+ =?utf-8?B?QUkvYkFldnhzWU5nS1kwTVBNQ0tvM04rZEY2VkszTjVqTGpIZ2psRG9oYmZi?=
+ =?utf-8?B?R25EdWd2UnJlVXNFRFhhUXVLOGJZc0MvQTEzRGtoclgwblFwRWlqTGZuaVYw?=
+ =?utf-8?B?MkZjMTNGdmhwdXJCQjdZMzFwOWFSZStEcjhzSGtxVWtORkFCVlFMd1Fva1hq?=
+ =?utf-8?B?dStEQWhyMGVmSGozN3R4ajhCaXo1dHI1VktkTU5JWGNDT21HMzRnTmpld1dO?=
+ =?utf-8?B?MzlRL01ISFRrdTNSRzZzMGNLdnpmSjVLcnQrbndRV0paL0ZIQS9wY2g0cGJl?=
+ =?utf-8?B?eFBBc1FiNTR5QUlEV1Fmbkl5aEYzNmlHYlNoUWZZeTVVU2VCSmxXdDkyMlY0?=
+ =?utf-8?B?T1lFUmZYSEdaa1JuMVc2bFBKYzloRm9ZZWFxNEo0UHcrbVhnbFkrenh6cit2?=
+ =?utf-8?B?bUZsY01GUGJLNkVOUENYUldWTzYvTldGbXpxYXZaTlpDcnpLT0dycDV3Y2Rs?=
+ =?utf-8?B?emJQRW1PYkpRSVd1K2c0WGd3cExLS2JqYXJXdWpmQTZQQVNZVGhXWEF4VDBw?=
+ =?utf-8?B?VG1oYVFMNmxQaU9CbmdmR3JlWGcvRDRsektjcVA2T28vSkltT2YrT0RKVVpE?=
+ =?utf-8?B?QXNqSkltNzZTWnFzNmhlVFpDM2FSdklBVCt2UTBSbWlxMHFpT2pNVTZpd3FB?=
+ =?utf-8?B?TFpNTE9mTVJXU0pzWlRpemNzd1JGNWQrS3dpRktNRlltcUFIR29vYzd4dHRU?=
+ =?utf-8?B?ZTRXUlpRalVuSXpMMi9DUExEMXYxK0xoamlUVjdLckpVV3QwRTJKVWZLMGNP?=
+ =?utf-8?B?NVB6Y1NTQWhOQTJ3RXlsb1ovQ0tsS2hoeko3WFMyT2lkK1RUMFNEZzJNUzB1?=
+ =?utf-8?B?NitUNHh4N25yWlJvcnlKT09IQ3JhaUtKNEN5Szk5NjZqdUw2ZGRwdTNhbGtr?=
+ =?utf-8?B?R1g1TzZjVlRlSEwvSVQweWZIY1Q0MER1VjZpZkM1Zm4wd0M1NUpOTkZDVVht?=
+ =?utf-8?B?TFNyT3lRb1JRbjR1MjF4RFBEbWUySUJMTGJ0ZGd6MEo1ZGZPNnRKQ0RHZUZp?=
+ =?utf-8?B?QjlSYTUzVjBrRXdCMEt0UDQwdDlqejZsakNFTkYrVU9TNE9pUDhsdnVRSWxX?=
+ =?utf-8?B?MS9qK245cTZjOCtYalNjcjhZdDltbW5HOUpCbGxqYlBJckkwV2NHWGR2VUIw?=
+ =?utf-8?B?TStJVVUybGEzY0k1LzcyUnpLQkhwSzdzdVc1TUZvSkJvbFgrc0tTNVJiT2pF?=
+ =?utf-8?Q?/vpZC3MMcOdP/NP0Xq08fLneABLzLYBfUuM6yz8?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4050262c-0c81-4d2e-5055-08d8d2ed5cd5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2021 02:40:18.0670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3snAUaLfwS6zJRFYY+Vg5OuTF0V/BuX0ZHRj4Ljd97DkFBAY1X4idTmGxqtmS4zUi1b5njZhRQx0DAaz+eS++bDjrDlQkeDSaAfp7uU9U6E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4073
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
---000000000000f8a94c05bb7eb2b0
-Content-Type: text/plain; charset="UTF-8"
+I've updated poky-contrib with my merge of meta-rust to oe-core:
 
-> Generally it was done so it applied on latest data which may be
-regenerated during build
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rmacleod/rust-wip-2021-02-16
 
-Maybe I'm missing something, but
-https://git.openembedded.org/openembedded-core/commit/?id=5e5be67744d7ddf5a9ac433ecba02f697a84a325
-adds make_icudata task after do_patch and it was creating a copy from
-${WORKDIR}/data and then patching it, if it's already patched by do_patch
-task, then the patched data directory is being used even if the
-make_icudata gets re-executed during build.
+The build status is fine (shown below) aside from qemuriscv64/musl
+and qemuppc/musl.
 
-So this IMHO shouldn't have any impact on behavior, except applying the
-patch in do_patch instead of delaying (and possibly re-applying it when
-re-executed) inside make_icudata task.
+Khem is working on the qemuriscv64/musl problem with upstream rust devs.
+qemuppc/musl fails due to:
+    libunwind.cpp:66:3: error: #error Architecture not supported
 
-On Tue, Feb 16, 2021 at 4:11 PM Khem Raj <raj.khem@gmail.com> wrote:
+Known issues if someone is interested:
 
->
->
-> On Tue, Feb 16, 2021 at 3:53 PM Martin Jansa <martin.jansa@gmail.com>
-> wrote:
->
->>
->>
->> On Tue, Feb 16, 2021 at 3:33 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->>> > index 08254648e4..6ba88595df 100644
->>> > --- a/meta/recipes-support/icu/icu_66.1.bb
->>> > +++ b/meta/recipes-support/icu/icu_66.1.bb
->>> > @@ -21,10 +21,11 @@ BASE_SRC_URI = "
->>> https://github.com/unicode-org/icu/releases/download/release-${I
->>> >  DATA_SRC_URI = "
->>> https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-data.zip
->>> "
->>> >  SRC_URI = "${BASE_SRC_URI};name=code \
->>> >             ${DATA_SRC_URI};name=data \
->>> > +           file://0001-Fix-big-endian-build.patch;patchdir=${WORKDIR}
->>> \
->>>
->>  > +
->>  file://0002-ICU-21175-Add-cnvalias-as-a-dependency-of-misc_res.patch;patchdir=${WORKDIR}
->> \
->>
->>>
->>> why this change ?
->>>
->>
->> Because both these patches need to be applied on ${WORKDIR}/data
->> directory and doing it here provides slightly better error message when the
->> patch doesn't apply (e.g. in this case ${WORKDIR}/data is using dos line
->> endings, but I was preparing the patch in git repo where it's using unix
->> line endings as expected) and the patch call failing in
->> do_make_icudata_class-target is more confusing than usual do_patch failure.
->>
->> Was there any reason to apply this fix only for target builds? I haven't
->> found any.
->>
->
-> Generally it was done so it applied on latest data which may be
-> regenerated during build
->
->>
->> Cheers,
->>
->
+1. I have an updated librsvg that isn't building using autotools
+    It does build with cargo but I doubt that will produce a library
+    that is usable. See https://github.com/meta-rust/meta-rust/issues/264
 
---000000000000f8a94c05bb7eb2b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rmacleod/librsvg-broken-wip-2021-02-16
 
-<div dir=3D"ltr"><div>&gt; Generally it was done so it applied on latest da=
-ta which may be regenerated during build=C2=A0</div><div><br></div><div>May=
-be I&#39;m missing something, but</div><a href=3D"https://git.openembedded.=
-org/openembedded-core/commit/?id=3D5e5be67744d7ddf5a9ac433ecba02f697a84a325=
-">https://git.openembedded.org/openembedded-core/commit/?id=3D5e5be67744d7d=
-df5a9ac433ecba02f697a84a325</a><br><div>adds=C2=A0make_icudata task after d=
-o_patch and it was creating a copy from ${WORKDIR}/data and then patching i=
-t, if it&#39;s already patched by do_patch task, then the patched data dire=
-ctory is being used even if the make_icudata gets re-executed during build.=
-</div><div><br></div><div>So this IMHO shouldn&#39;t have any impact on beh=
-avior, except applying the patch in do_patch instead of delaying (and possi=
-bly re-applying it when re-executed) inside make_icudata task.</div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
- Feb 16, 2021 at 4:11 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
->raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 16, 2021 at 3:53 PM Martin Jan=
-sa &lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.j=
-ansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 16, 2021 at=
- 3:33 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blan=
-k">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">&gt; index 08254648e4..6ba88595df 100644<br>
-&gt; --- a/meta/recipes-support/icu/<a href=3D"http://icu_66.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">icu_66.1.bb</a><br>
-&gt; +++ b/meta/recipes-support/icu/<a href=3D"http://icu_66.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">icu_66.1.bb</a><br>
-&gt; @@ -21,10 +21,11 @@ BASE_SRC_URI =3D &quot;<a href=3D"https://github.c=
-om/unicode-org/icu/releases/download/release-$%7BI" rel=3D"noreferrer" targ=
-et=3D"_blank">https://github.com/unicode-org/icu/releases/download/release-=
-${I</a><br>
-&gt;=C2=A0 DATA_SRC_URI =3D &quot;<a href=3D"https://github.com/unicode-org=
-/icu/releases/download/release-$%7BICU_FOLDER%7D/icu4c-$%7BICU_PV%7D-data.z=
-ip" rel=3D"noreferrer" target=3D"_blank">https://github.com/unicode-org/icu=
-/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-data.zip</a>&quot;=
-<br>
-&gt;=C2=A0 SRC_URI =3D &quot;${BASE_SRC_URI};name=3Dcode \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${DATA_SRC_URI};name=3D=
-data \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-big-endian-b=
-uild.patch;patchdir=3D${WORKDIR} \<br></blockquote><div>=C2=A0&gt; +=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-ICU-21175-Add-cnvalias-as-a-d=
-ependency-of-misc_res.patch;patchdir=3D${WORKDIR} \=C2=A0</div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
-<br>
-why this change ?<br></blockquote><div><br></div><div>Because both these pa=
-tches need to be applied on ${WORKDIR}/data directory and doing it here pro=
-vides slightly better error message when the patch doesn&#39;t apply (e.g. =
-in this case ${WORKDIR}/data is using dos line endings, but I was preparing=
- the patch in git repo where it&#39;s using unix line endings as expected) =
-and the patch call failing in do_make_icudata_class-target is more confusin=
-g than usual do_patch failure.</div><div><br></div><div>Was there any reaso=
-n to apply this fix only for target builds? I haven&#39;t found any.</div><=
-/div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Gener=
-ally it was done so it applied on latest data which may be regenerated duri=
-ng build=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"auto"></div><div><br></d=
-iv><div>Cheers,</div></div></div>
-</blockquote></div></div>
-</blockquote></div>
+2. native-sdk support is broken:
+     https://github.com/meta-rust/meta-rust/issues/236
+    As shown in my OE talk last year, you can do rust application
+    development and testing without this but it would be best to
+    fix this bug and have rust behave like other YP toolchains.
 
---000000000000f8a94c05bb7eb2b0--
+3. There's an cargo-fetcher proposal sent to the bitbake
+    list from Andreas but I don't see a patch to meta-rust to
+    make the two patchsets work together. Andreas, is that something
+    that you can do, even if it's just a quick change to get started?
+
+4. We're (Vinay via WR) working on a way to use the rustc test suite.
+    More to come on that later this week.
+
+Sorry that this has dragged on for so long.
+Any help would be appreciated.
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
+
+BUILDALL-QEMU LOG FOR rust-hello-world
+START TIME: 2021-02-16_07:19:24
+HOSTNAME: ala-lpggp3
+HOST OS: Ubuntu 18.04.3 LTS
+HOST KERNEL: 5.4.0-62-generic
+===============
+BUILD RESULTS:
+[glibc]
+PASS: qemuarmv5
+PASS: qemumips
+PASS: qemux86-64
+PASS: qemuarm64
+PASS: qemumips64
+PASS: qemuarm
+PASS: qemuppc
+PASS: qemuriscv64
+PASS: qemux86
+[musl]
+PASS: qemuarmv5
+PASS: qemumips
+PASS: qemux86-64
+PASS: qemuarm64
+PASS: qemumips64
+PASS: qemuarm
+FAIL: qemuppc
+FAIL: qemuriscv64
+PASS: qemux86
+===============
+PASSED: 16
+FAILED: 2
