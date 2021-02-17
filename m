@@ -1,103 +1,84 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web12.14713.1613594982396295281
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.14712.1613595098142414284
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 12:49:42 -0800
+ Wed, 17 Feb 2021 12:51:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RgTKBBUX;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id 81so4329qkf.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 12:49:42 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S8575BPy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id t15so18753159wrx.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 12:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eq+B71swSbWKosH/cqBpG/iwpmavH5JyZOyckh152ds=;
-        b=RgTKBBUX0zU1vVBAV7zXG1lYF2GUmyuGBwizwjklmHQcm1RtFfdcF3UwSG/n9Kit0J
-         S4N3l7uhMKiyAIqUo+Ce8aw3HAS3WqRHSuMgTSKBb8EIo1lpnPnxaYRa+INql8DsmnXh
-         XY8iZmzt9Rld1xg94eITD1d3SEGbwcaP2S3czUfpl4xakpcVnytKoqsHokYxte2rIikt
-         JILIbAFHR7sTQlmj2RT/yrzXWze03cM1ATSd+bMI4MtLy1LVgM6TGWugbXTOyO5pBPe8
-         4UpAhJ72PFbDPmsGVe5G2Si4ki9I8hec7wDqKaW1tl9iDd37dw6BX/L3IRWgdXd5gul4
-         Rqhw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=SWpJ1Gf5LJqDlMCPsAzu+39ZAkHmIURjBTZx70EIA44=;
+        b=S8575BPyTjCqLcjPHyI4RAf/3EurACJvE9BYk5d2jBsma6NEfiJpJbbcJIMytFdcVJ
+         7PO9ziXqyMaLr0IxOmgTy2hr3W0khXlYrtDf6AY/lI3CJ9m1T+ZON9OO4B1wEY9weXq7
+         +0C7lzNeFjebUO5+68ao/YMOjiS4Z2nJqASVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eq+B71swSbWKosH/cqBpG/iwpmavH5JyZOyckh152ds=;
-        b=TgyVd6/A+JW1Kv2tUIQ7dNjwzKHuhS52Zk3H149gHjC6aZtP0eKMYhG83baY0JIweU
-         tTOqyZRRfu4YhuqJuTtVr/0Fzw6Q/IIiHtj5ehd8b7Xk40lE5IMg22XCqkBn1EvI6P+y
-         wUHW2xGJG2NSXnR1wvq+FASLi3zMo8mAE/hNN5oHyFF6v1ejaBHlLgRyPYLm0VRBeaHT
-         7DVvr+ZTOgtb3OE7q9rALYG48gQGbRzHrjrKJ0nVL8h5EjBQXuepfI7iBgbv1yd0iTc0
-         gmS8poDmaCYIXEXYyR82P67oiwFoQku/dgZ2MAQ4s1m2b7I/zHClJl63A8McL3UOJz4S
-         i58g==
-X-Gm-Message-State: AOAM530QaPNmx//XHu4dY90pPQbERW8845AbhG6fgGznR3nc2Obe8ctR
-	f58aLn7TexpM0L3LOV7IQ7mDvPUiZw8x2IAzEJM=
-X-Google-Smtp-Source: ABdhPJxVmDgjxRlPDH3dQpO2qmYnjBDyBaoYJqitCPpjXRVVRPfsYsCQMlaWHzawjaiiAHeUkDQ+0hCmsdAe51TnqeA=
-X-Received: by 2002:a37:e13:: with SMTP id 19mr1076908qko.119.1613594981537;
- Wed, 17 Feb 2021 12:49:41 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=SWpJ1Gf5LJqDlMCPsAzu+39ZAkHmIURjBTZx70EIA44=;
+        b=FUnmENkuOu7ij6c/V+jqO/G0RTzP6Ehkm0JwfDGUhXFnAq4LuXVLpJq2fvHrkqOkfc
+         hmd9qeXi1mShNf0wfNNhduwEhSFCsnZ4j3Zt8aeoP02E2N2Hkfh3gQgNudZlxctQAkgL
+         UlHAg7cbgGCmJK20Ri8o12I31ZNpvz0tx/YSIY1HhyZWGBvIf78SdN2PguJAWw6U66VG
+         vJyWWClbtG4GFF9iZDIEcQyuC6eFWfZNTUTylzA+CSTYgE59hCmi+2Jm3BIVg0KiJIpy
+         Zgo1tsxzb27KFRkPgaxJmQg4LMIiqGYyKayKvL85luM4cY1mSQf0y194SqcC6XOdWMrA
+         Ps1g==
+X-Gm-Message-State: AOAM532MZmOy7B31vENTtlynCdO+p+T9Rp21zOQQMZmzOP1ilqChxf9H
+	GRhAzfCgHNn1ngRZQ7582C0wxA==
+X-Google-Smtp-Source: ABdhPJxdvHKoXgOoqqItBT0wE2YOdCcOdzzVzVich0usWmvLxh1iUDEPkvBKoSGygKt+svDmqabgzA==
+X-Received: by 2002:a5d:4902:: with SMTP id x2mr955849wrq.207.1613595096495;
+        Wed, 17 Feb 2021 12:51:36 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:7504:d16b:192:2652? ([2001:8b0:aba:5f3c:7504:d16b:192:2652])
+        by smtp.gmail.com with ESMTPSA id c18sm13965441wmk.0.2021.02.17.12.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 12:51:36 -0800 (PST)
+Message-ID: <a04c7bcd2ac63ea7a9971f011c4755f741deaaed.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky-contrib][RFC PATCH 4/5] license.bbclass: Add functions to split and canonicalise license strings
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ida Delphine <idadelm@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Feb 2021 20:51:34 +0000
+In-Reply-To: <CAN7sTgsoLjsnao0ijuidAP_hjTQyibeU7MWHXybbROTU0k290g@mail.gmail.com>
+References: <20210217040033.21541-1-idadelm@gmail.com>
+	 <20210217040033.21541-5-idadelm@gmail.com>
+	 <2efffee96fae455b8cdb77d47c576bfe@XBOX03.axis.com>
+	 <06102c024bfec00745d9b2dbde8b19a7fb4207b8.camel@linuxfoundation.org>
+	 <CAN7sTgsoLjsnao0ijuidAP_hjTQyibeU7MWHXybbROTU0k290g@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210216190600.2038009-1-richard.purdie@linuxfoundation.org>
- <CAMKF1spnShJ96Xo+Laj4-aCUEXizKWAMkgO+P1Fq=kTmLX2A0A@mail.gmail.com> <cc0164c7eb45418117aca6b948116acc941ba464.camel@linuxfoundation.org>
-In-Reply-To: <cc0164c7eb45418117aca6b948116acc941ba464.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 17 Feb 2021 12:49:30 -0800
-Message-ID: <CAMKF1sr5ez1-Ty67OeiPNvbYJq4ipjPuFEmSV51GPeEG8yDutA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: Refresh mmap fixes patch status/content
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000af9b6b05bb8e5b4c"
-
---000000000000af9b6b05bb8e5b4c
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I am always on master next and rebasing my branch onto it often sometimes
-multiple times a day I am trying latest master-next and let=E2=80=99s see w=
-hat
-happens
+On Wed, 2021-02-17 at 17:55 +0100, Ida Delphine wrote:
+> Thanks for the feedback. I will get rid of the logic to take care of 
+> those licenses with "or-later" and move the functions to license.py. 
+> Does this also mean I shouldn't try removing "WITH-Linux-syscall-note" 
+> from the licences?
 
-On Wed, Feb 17, 2021 at 12:46 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+I think the idea of what you're looking at is to remove "noise" from the 
+output and see if we can identify real licence issues. Removing the 
+"XXX WITH-Linux-syscall-note" where XXX is removed is key to that but 
+XXX must me removed too.
 
-> On Wed, 2021-02-17 at 10:05 -0800, Khem Raj wrote:
-> > I am seeing musl builds are hung in qemu now, I suspect this change is
-> > causing it.
->
-> Are you using master or a master-next? I did revert this patch in one of
-> the -nexts just to test the bug reproduced ok. I did test the revised
-> patch with the change and things seemed ok.
->
-> Cheers,
->
-> Richard
->
->
+> The point of me doing that was for there to be more matches and the 
+> number of warnings reduced.
 
---000000000000af9b6b05bb8e5b4c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">I am always on master next and rebasing my branch onto it=
- often sometimes multiple times a day I am trying latest master-next and le=
-t=E2=80=99s see what happens=C2=A0</div><div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 17, 2021 at 12:46 PM Ric=
-hard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richa=
-rd.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">On Wed, 2021-02-17 at 10:05 -0800, Khem Raj wrote:<br>
-&gt; I am seeing musl builds are hung in qemu now, I suspect this change is=
-<br>
-&gt; causing it.<br>
-<br>
-Are you using master or a master-next? I did revert this patch in one of=C2=
-=A0<br>
-the -nexts just to test the bug reproduced ok. I did test the revised=C2=A0=
-<br>
-patch with the change and things seemed ok.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
+> Also there is more license-related logic in package.bbclass. Will it 
+> be okay if I move it as well to meta/lib/oe/license.py putting it 
+> in functions?
 
---000000000000af9b6b05bb8e5b4c--
+Possibly, but please do it in a separate patch which we can evaluate 
+on its own merit, I haven't looked at which code you mean so its hard 
+to tell offhand.
+
+Cheers,
+
+Richard
+
