@@ -1,175 +1,80 @@
 Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web11.3281.1613627785630581742
+ by mx.groups.io with SMTP id smtpd.web12.3467.1613629307545345938
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 21:56:25 -0800
+ Wed, 17 Feb 2021 22:21:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UmUI97Vu;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id t63so1148503qkc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 21:56:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=p37kXNT0;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: wesley.lindauer@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id t62so1150829qke.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 22:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=quyikS4Rexb2O7Ef0BARf0tOaadO5nGTISIhRFeJDEo=;
-        b=UmUI97VuGOo+qyTzluv/izQenCm0mdCOYEM+2heJvc4YVWeH+a9kAy6pG7WBNRDIcG
-         hBR8qLFPqcNyEwoPmFeo9BgO1PogS5G+adqQsGsH7ZHJydT/aJjTSF/uaaA+P41WsA0w
-         FahrtkibaQpQJ8xDvRFEJTbXRYx4l+Ka1DyRkkotSMYIQAV4/CzKpUlGYfUgAcHfL+lu
-         J7eWV/uXeX0mq3mYuBzz+23SDgwTJYkM+2Y7+IZB8SLFSvu0R9+CW5RiaBOx2at2QyXr
-         d5POOtj1m3klqfMNrJ558gssJ4yipC5ISgfzpGbttcFK5rfjPoWs+lt7bzdaBdp+Nvej
-         s1rA==
+        h=from:to:cc:subject:date:message-id;
+        bh=LAZNQacDi0uBpuE+IDVqXFEYgCPMadiBAr7SVjMCyB4=;
+        b=p37kXNT0/wjlUpHvklV+fFPs98n324X6UK6rPcFeTA8bqz7EaOuta3Kxz6vVlTuANl
+         kUGhlxsGCFMc0aVaAslg5q85S/o1Do3jE9yWC5lfZkvWd8p/t+0+rD4Xalc++FjGOH9v
+         vuAh+XMeUmBhXwT4s2PWlIUE4Wt214AmtUzL0b6hXS5FBeGvGk0y6BfC7qGYj74c0E6d
+         z3qBQlG7KLTnHk5i7fRFg90SEWqnjgTqebOhl8qtJnnCkll6rQJQEAIW2BxFe1fodm+F
+         5njNOJWA5Mj/Pgiw8cAoYG06kazu2JzdXu3N72vtP13FuVILY/mo68Th3TbYP6DzlPLy
+         YQrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=quyikS4Rexb2O7Ef0BARf0tOaadO5nGTISIhRFeJDEo=;
-        b=A7ZXfa8MSfboHzEwxqgy78m8+PT8mYkoBS6b3JRzcVqSVrZIHGqxK21IR4x7dS9PMy
-         nd80OIgUZzwh3VXu6rmhJiOUWSF6oDnunslv00JY5daLck9sU5yB9Rm/lojHDIFOuhrn
-         nUYdWxz3NiWFgD1qUjdVRkmxU3uEfxFNO6HIjky+GL5xIP6Rb/1AS7oKj6zc3eHjj/mG
-         NFoxI7e96k7ixlIYRxF5ZodxNC3Eyzs/+Wpk/w2Om0pkXK3uaA4w5umGJjLLJ18ymB2t
-         LsJAUkqo+x0ZeVpScAfYUPgEwIr7glb2X3bZ4vj5Kc0N9Hqkb+B8hx/tDb3Y1a7tiWue
-         CJVw==
-X-Gm-Message-State: AOAM530uTpdzKmmnKMCtSrevoInfl6VtY/GAZ7q31zTdrkX1zlzm+vmT
-	05xtjQ60WNXrbDkGqfvOitLNsjd4gj1+k2tr3eU=
-X-Google-Smtp-Source: ABdhPJyQj4DneAyDQemoZ2QjxNkA8rN/XJsFGZgYdadxVKApYFC3Op8ALPJK4cGuI6je5ONNlJUwerVso8WywYgOD/g=
-X-Received: by 2002:a05:620a:b95:: with SMTP id k21mr2772452qkh.125.1613627784718;
- Wed, 17 Feb 2021 21:56:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20201015204539.24549-1-idadelm@gmail.com> <1312e9f5502bee8d7667c598ae4fc5b7de61830f.camel@linuxfoundation.org>
- <CAN7sTgv1q_Am=HT_h4-3Uh7CDgtVx-6Se8i1BDPx6VoPQVJigg@mail.gmail.com> <CAMKF1sqk3_xg05mU11Ej7DOmLPjw7Eq_sE8_pTFipZtY3fth8A@mail.gmail.com>
-In-Reply-To: <CAMKF1sqk3_xg05mU11Ej7DOmLPjw7Eq_sE8_pTFipZtY3fth8A@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 17 Feb 2021 21:55:58 -0800
-Message-ID: <CAMKF1sr=rKm0UZGq0KvR+2x0_jiSWhsNhbW7FL3cvhz+EGFD2Q@mail.gmail.com>
-Subject: Re: [OE-core] [poky][PATCH v6] Update license file to match current SPDX names
-To: Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=LAZNQacDi0uBpuE+IDVqXFEYgCPMadiBAr7SVjMCyB4=;
+        b=GoNpl/Jr/9p73sswzZxNN641f4AvW9l9RHNQr+qKUhN0GdGluMTTYmk3eW83/VdmCd
+         bcn97zjXIX+mNoOtBhoRJqKk1ie0KUxCTu0dzaniaZC7OxBIywY3VKb9M/KHFrfBz6F4
+         QQFp4rAasOmKpSk56d1kcOnW/5sknP6KpC0ZRKPkFzwd0PrQLgFIDB2lahHPzoK5iPN5
+         5v339xou0AlJk4UbyF/PnLgEgItQST/BCf5LPVVzBiXcVrIXC9VwAx5k+sGNOA5xXld/
+         X+zpYYAo5/Tb8ornWK+P/HSkD+Uj2UWat7YreDlno57bcgiC6b8lBWROpjVXinDlb7NG
+         e1Tw==
+X-Gm-Message-State: AOAM531UQNLSlGgNWNFVa1nAiy/QQvqMQ728gQi3m34A0wspIQUbAr/i
+	lymXgw95pd7g2e1Kc3JL2Z3S06sQcoQ=
+X-Google-Smtp-Source: ABdhPJxPsX9VKgUsX4QjtUNjcK7sKOkzscNkb0I/5sgLWXZ2WuWj09PD4D3No3Le+K6oiN24D2DXww==
+X-Received: by 2002:a37:e108:: with SMTP id c8mr2859293qkm.250.1613629306510;
+        Wed, 17 Feb 2021 22:21:46 -0800 (PST)
+Return-Path: <wesley.lindauer@gmail.com>
+Received: from nova.wlindauer.baselinux.net (cpe-65-24-166-29.columbus.res.rr.com. [65.24.166.29])
+        by smtp.gmail.com with ESMTPSA id y190sm3329290qkb.133.2021.02.17.22.21.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 22:21:45 -0800 (PST)
+From: "Wes Lindauer" <wesley.lindauer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wes Lindauer <wesley.lindauer@gmail.com>
+Subject: [PATCH] df.py: Add feature check for read-only-rootfs
+Date: Thu, 18 Feb 2021 01:20:55 -0500
+Message-Id: <20210218062055.2465-1-wesley.lindauer@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-I have cooked a patch for meta-openembedded repos.
+From: Wes Lindauer <wesley.lindauer@gmail.com>
 
-On Wed, Feb 17, 2021 at 9:26 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> this ends with considerable fallout in meta-openembedded
->
-> https://errors.yoctoproject.org/Errors/Build/117091/
->
-> On Wed, Feb 17, 2021 at 8:34 AM Meh Mbeh Ida Delphine <idadelm@gmail.com> wrote:
-> >
-> > Okay. Thanks you.
-> >
-> > Cheers,
-> > Ida.
-> >
-> > On Wed, 17 Feb 2021, 12:17 pm Richard Purdie, <richard.purdie@linuxfoundation.org> wrote:
-> >>
-> >> On Thu, 2020-10-15 at 21:45 +0100, Meh Mbeh Ida Delphine wrote:
-> >> > Updated mappings of license fields of meta/conf/licenses.conf to match latest SPDX naming.
-> >> > Added missing mappings.
-> >> > Renamed license files that were added in license mappings eg from GPL-2.0 to GPL-2.0-only.
-> >> > Added "or later" versions of license mappings
-> >> > Added "or later" versions of common license files eg GPL-2.0-or-later
-> >> >
-> >> > Fixes: [YOCTO #13320]
-> >> >
-> >> > Signed-off-by: Meh Mbeh Ida Delphine <idadelm@gmail.com>
-> >>
-> >> I really want to get this issue resolved so I've queued this patch.
-> >> There is a comment below.
-> >>
-> >> > Changes in V6:
-> >> >  * Added "or later" versions of common license files eg GPL-2.0-or-later in meta/files/common-licenses.
-> >> >
-> >> > Changes in V5:
-> >> >  * Added "or later" versions of license mappings in meta/conf/licenses.conf
-> >> >
-> >> > Changes in V4:
-> >> >  * Renamed license files that were added in license mappings eg from GPL-2.0 to GPL-2.0-only
-> >> >
-> >> > Changes in V3:
-> >> >  * Added missing mappings to meta/conf/licenses.conf
-> >> >
-> >> > Changes in V2:
-> >> >  * Corrected the email subject line.
-> >> [...]
-> >> >   #MPL variations
-> >> >  SPDXLICENSEMAP[MPL-1] = "MPL-1.0"
-> >> >  SPDXLICENSEMAP[MPLv1] = "MPL-1.0"
-> >> > +SPDXLICENSEMAP[MPL-1.0] = "MPL-1.0"
-> >> >  SPDXLICENSEMAP[MPLv1.1] = "MPL-1.1"
-> >> > +SPDXLICENSEMAP[MPL-1.1] = "MPL-1.1"
-> >> >  SPDXLICENSEMAP[MPLv2] = "MPL-2.0"
-> >> > +SPDXLICENSEMAP[MPL-2.0] = "MPL-2.0"
-> >> > +
-> >> >   #MIT variations
-> >> >  SPDXLICENSEMAP[MIT-X] = "MIT"
-> >> > @@ -48,33 +66,43 @@ SPDXLICENSEMAP[openssl] = "OpenSSL"
-> >> >  #PSF variations
-> >> >  SPDXLICENSEMAP[PSF] = "PSF-2.0"
-> >> >  SPDXLICENSEMAP[PSFv2] = "PSF-2.0"
-> >> > +SPDXLICENSEMAP[PSF-2.0] = "PSF-2.0"
-> >> >
-> >> >  #Python variations
-> >> >
-> >> >  SPDXLICENSEMAP[Python-2] = "Python-2.0"
-> >> > +SPDXLICENSEMAP[Python-2.0] = "Python-2.0"
-> >> >
-> >> >  #Apache variations
-> >> >  SPDXLICENSEMAP[Apachev2] = "Apache-2.0"
-> >> >  SPDXLICENSEMAP[Apache-2] = "Apache-2.0"
-> >> > +SPDXLICENSEMAP[Apache-2.0] = "Apache-2.0"
-> >> >
-> >> >  #Artistic variations
-> >> >  SPDXLICENSEMAP[Artisticv1] = "Artistic-1.0"
-> >> >  SPDXLICENSEMAP[Artistic-1] = "Artistic-1.0"
-> >> > +SPDXLICENSEMAP[Artistic-1.0] = "Artistic-1.0"
-> >> >   #Academic variations
-> >> >
-> >> >  SPDXLICENSEMAP[AFL-2] = "AFL-2.0"
-> >> > +SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
-> >> >  SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
-> >> > +SPDXLICENSEMAP[AFL-1.2] = "AFL-1.2"
-> >> >  SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
-> >> > +SPDXLICENSEMAP[AFL-2.0] = "AFL-2.0"
-> >> >  SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
-> >> >
-> >> >  #CDDL variations
-> >> >  SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
-> >> >  SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
-> >> > +SPDXLICENSEMAP[CDDL-1.0] = "CDDL-1.0"
-> >> >   #Other variations
-> >> >  SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
-> >> > +SPDXLICENSEMAP[EPL-1.0] = "EPL-1.0"
-> >> >
-> >> >
-> >>
-> >> >  #Silicon Graphics variations
-> >> >  SPDXLICENSEMAP[SGIv1] = "SGI-1"
-> >> > +SPDXLICENSEMAP[SGI-1] = "SGI-1"
-> >> >
-> >>
-> >> I removed the above pieces where the piece in [] is the same as the
-> >> value at the end. We don't need mappings where the two pieces are
-> >> identical. Everything else in the patch looked ok.
-> >>
-> >> I also realised that we have recipes which reference some of the names
-> >> which have been renamed in LIC_FILES_CHKSUM entries. The following
-> >> files look to be affected:
-> >>
-> >> meta/recipes-connectivity/connman/connman-conf.bb
-> >> meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> >> meta/recipes-core/systemd/systemd-serialgetty.bb
-> >> meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> >> meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> >>
-> >> I've queued a patch to fix these.
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >>
-> >>
-> >
-> > 
-> >
+If the target is using a read-only rootfs, the available space on '/'
+will be zero. This will cause the test to incorrectly fail and skipping
+seems appropriate in this case.
+
+Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
+---
+ meta/lib/oeqa/runtime/cases/df.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/lib/oeqa/runtime/cases/df.py b/meta/lib/oeqa/runtime/cases/df.py
+index 89fd0fb901..bb155c9cf9 100644
+--- a/meta/lib/oeqa/runtime/cases/df.py
++++ b/meta/lib/oeqa/runtime/cases/df.py
+@@ -4,12 +4,14 @@
+ 
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.data import skipIfDataVar, skipIfInDataVar
+ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class DfTest(OERuntimeTestCase):
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['coreutils', 'busybox'])
++    @skipIfInDataVar('IMAGE_FEATURES', 'read-only-rootfs', 'Test case df requires a writable rootfs')
+     def test_df(self):
+         cmd = "df -P / | sed -n '2p' | awk '{print $4}'"
+         (status,output) = self.target.run(cmd)
+-- 
+2.21.3
+
