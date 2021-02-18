@@ -1,78 +1,63 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.1725.1613684649044089525
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.1020.1613689518257866211
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 13:44:09 -0800
+ Thu, 18 Feb 2021 15:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CIv10nkf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id g6so4534714wrs.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 13:44:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=4kHNtSfTvnPAkA2bErIdzzXQBG6irC65VI9EAn+0X/4=;
-        b=CIv10nkfyq5I88G9SecgLeOj/tu9jlGsqXVcTQ4QPy2luqv40NIrp80GXrY/C+USXP
-         AViIE4MO2js0m7eg6A1ncbrWjLNWwfIhXfzuORFn2Mtg0zoxDAfcBhMnFfJ72XYzhaaO
-         Au6U6Bqq0Kjg1/ag2lm/aaVHTicCtBA88JD6o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4kHNtSfTvnPAkA2bErIdzzXQBG6irC65VI9EAn+0X/4=;
-        b=SrkOS/C0iMGb5Qp6bQ3gd22rfueD1HfQHatkHWO25dStVyKjNWQ0u0ULWpeUghqi6k
-         XP9nwX8YAYDhF6D1LH6s9QWcMXQlmGDzYtd2zYxkwyH0HsEGPFYkPjWuSGJz9P1LShnk
-         FotN6Ro7gzdkFcEVsZjy6nbBi2WKgMuYTMhhmlbCboYR47Ba7g9BOHhLtO7zzfTS9uiw
-         lzjrgPrKqtwX6Mzbz0TjsHaUMY5O6VZfQL0nPNUXYrHpSvVSxAUQF6wK3qqfy/Zdi1UC
-         jGrP3EgHkZqsoPFqj/LM8bMvqND+Ji8d5eaGpSJnP4E0Bi0G2UqhPFxJknu3HXBiCQOt
-         3hLQ==
-X-Gm-Message-State: AOAM532Z+SHIYV5wPFZA3DdfPa/thI7nXrvHc9r5emfzsgW+ZrWa8OVx
-	gerFp2SOLfbLH4+SiYdQYjrJ9Q==
-X-Google-Smtp-Source: ABdhPJxZT5X4Vf9YYxjNACoRixxrhqBzLfLODuJdsMNfr8LK18EWjh3wzfjTmeNtt20vBfKEaDpsHQ==
-X-Received: by 2002:adf:de86:: with SMTP id w6mr6069016wrl.32.1613684647459;
-        Thu, 18 Feb 2021 13:44:07 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:569e:86b4:55e2:a2e9? ([2001:8b0:aba:5f3c:569e:86b4:55e2:a2e9])
-        by smtp.gmail.com with ESMTPSA id h12sm13449400wru.18.2021.02.18.13.44.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 13:44:07 -0800 (PST)
-Message-ID: <623d1b0df8dec2247f9d0c41ca8372cfb0af59e8.camel@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/2] iputils: Use STAGING_DIR_NATIVE for setcap detection
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Jate Sujjavanich
-	 <jatedev@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Feb 2021 21:44:06 +0000
-In-Reply-To: <CANNYZj9W4N0VeTi2WOQYG0c_XzwYX0EwEXD-GVkoUz_ciaoUCw@mail.gmail.com>
-References: <20210218192138.39449-1-jatedev@gmail.com>
-	 <20210218192138.39449-2-jatedev@gmail.com>
-	 <CANNYZj9W4N0VeTi2WOQYG0c_XzwYX0EwEXD-GVkoUz_ciaoUCw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=ItcqdkUy;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: mcroce@linux.microsoft.com)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 77915209F5A2
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 15:05:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 77915209F5A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1613689517;
+	bh=96BjnpaA48vY1OG6bbnXXy+2yZqgVmA42Lpbl1Q1iPo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ItcqdkUyEyVHC9OXCGT1es3mUrKz1d37UPlBWurF0J13uFLwONjsugXd51o/vHRY2
+	 8DptWSNFS3mVToaBw+0zJjsr0Iqg9hmJ32+sfS7bbDr9eBINY0wjhq0YS4DybU9kpx
+	 1211pm4lQpyP4SumBkL/cMAY21WSkcr4bh2gjx9o=
+Received: by mail-pj1-f48.google.com with SMTP id my11so3535497pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 15:05:17 -0800 (PST)
+X-Gm-Message-State: AOAM530qTWHrYliVeAn1hF6quoiLF+XXXFxCI0mbUr/Mb391dkWj3gbP
+	kCb3rgex0G+gLURvmM+2wizaQmsymyidS2R+0h4=
+X-Google-Smtp-Source: ABdhPJwIO9YgvBBMcOeSTRnGGP1lkw5bEopTp8q1MZeEbuB4hxvWOFbmjb6mwZwTsQqfJfda3KmanAglfQQ3Y7Bnr6M=
+X-Received: by 2002:a17:902:ac82:b029:e3:bca2:cca7 with SMTP id
+ h2-20020a170902ac82b02900e3bca2cca7mr1214057plr.43.1613689517061; Thu, 18 Feb
+ 2021 15:05:17 -0800 (PST)
 MIME-Version: 1.0
+References: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+ <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com>
+ <CAFnufp1BS2mZxJ5TAu6bVX7h76_k2vrnbrLDj6o83UbOCb5M_w@mail.gmail.com> <CADkTA4OsXBJk-a29_=Sx6-FBOgRAR7M3X+=RdVqju7PDLBFnmw@mail.gmail.com>
+In-Reply-To: <CADkTA4OsXBJk-a29_=Sx6-FBOgRAR7M3X+=RdVqju7PDLBFnmw@mail.gmail.com>
+From: "Matteo Croce" <mcroce@linux.microsoft.com>
+Date: Fri, 19 Feb 2021 00:04:41 +0100
+X-Gmail-Original-Message-ID: <CAFnufp1JF5te_Jq6HqYkvOT8rDJhEHKfn2V954X17gvH4p9eyA@mail.gmail.com>
+Message-ID: <CAFnufp1JF5te_Jq6HqYkvOT8rDJhEHKfn2V954X17gvH4p9eyA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-18 at 20:58 +0100, Alexander Kanavin wrote:
-> On Thu, 18 Feb 2021 at 20:22, Jate Sujjavanich <jatedev@gmail.com> wrote:
-> > +-setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
-> > ++stagingdirnative = get_option('stagingdirnative')
-> > ++setcap = find_program(stagingdirnative + '/usr/sbin/setcap', stagingdirnative + '/sbin/setcap', required
-> > : false)
-> > 
-> 
-> Just remove the hardcoded paths from find_program altogether (see meson manual), and it will take the binary
-> from PATH env var, which is exactly how native sysroots are supposed to work.
+Okay, I've addressed all comments but the test one.
 
-I'm guessing upstream does this so you can build as a normal user who
-doesn't have sbin in PATH and still use setcap during "make install".
+I pushed it to a local fork of meta-oe here:
+https://github.com/teknoraver/meta-openembedded/commit/679944b06ffc564b4b99eae5d934f742bb2a9c09
 
-We need something upstream might accept. I suspect what we need here 
-is a way to specify a specific path to the util and then fall back on 
-the current approach if the feature is enabled but no path provided. 
-Please do ensure that it won't look in the host's directories unless 
-its enabled though.
+Which kind of test needs to be done here?
+A selftest to be run with oe-selftest? A ptest? A tool copied into the image?
 
-Cheers,
+If we just need to check if the bpf() syscall is supported, there is
+bpftool packaged already, which can list the loaded programs like:
 
-Richard
+# bpftool prog
+3: cgroup_device  tag 3a32ccd9e03ea87a  gpl
+       loaded_at 2021-02-17T11:50:08+0100  uid 0
+       xlated 504B  jited 309B  memlock 4096B
+4: cgroup_skb  tag 6deef7357e7b4530  gpl
+       loaded_at 2021-02-17T11:50:08+0100  uid 0
+       xlated 64B  jited 54B  memlock 4096B
+...
 
+Regards,
+-- 
+per aspera ad upstream
