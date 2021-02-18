@@ -1,319 +1,524 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.1785.1613616535084301067
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.2331.1613620294769890471
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 18:48:55 -0800
+ Wed, 17 Feb 2021 19:51:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: urjTIyEKtasOmsjNfh6Tt2bopaGEJ+DCoJVsYkaXdqwEr1PYr2wOUZvY7G/Ga2TrWqOSrBkWCt
- PXhoSG4QUT1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="180820717"
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; 
-   d="scan'208";a="180820717"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 18:48:54 -0800
-IronPort-SDR: Ic26asGk6W6AKQq8E8Q8O8cgvx/Eq9KOUYJIknPgUeo6uDVMeG6td/dUFsZLUcYw4psdBVuTxU
- bbM2ZJa4fWIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,185,1610438400"; 
-   d="scan'208";a="419320797"
-Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2021 18:48:53 -0800
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 18 Feb 2021 10:48:51 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.002;
- Thu, 18 Feb 2021 10:48:51 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "jpewhacker@gmail.com"
-	<jpewhacker@gmail.com>
-Subject: Re: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user without polkit
-Thread-Topic: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user
- without polkit
-Thread-Index: AQHWvCYu2t2Emym5iESgYCDZoLewR6nN7tkAgI6eZgCAALWFgA==
-Date: Thu, 18 Feb 2021 02:48:51 +0000
-Message-ID: <7eeed678dff9dfda7aff7a6414636a5b90d2eb83.camel@intel.com>
-References: <20201113211143.30425-1-JPEWhacker@gmail.com>
-	 <20201116143826.26521-1-JPEWhacker@gmail.com>
-	 <a3f36e65-157d-4255-7ae1-5a2094cbdd37@gmail.com>
-	 <CAJdd5GZnxO68ir=moPXMUrQ9XmSg+wGimWYeOBMqJBzRiOB5Vg@mail.gmail.com>
-In-Reply-To: <CAJdd5GZnxO68ir=moPXMUrQ9XmSg+wGimWYeOBMqJBzRiOB5Vg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=d3onsyBb;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id lu16so1761246ejb.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 19:51:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2wZIAZC9yxZ2mDBnWjpNcEl9yGwCYZmfu5a5UnmBEgk=;
+        b=d3onsyBbgEtzSgcBV6Ws0COGWzN0vV1nW2XiVLgQDTnFU39KO6Qh6XZyDSbn87cZ9f
+         hDPdRTSes7GGkFDH2vpdQhQrvyQE/SDlh7XDE+nI7Q/Fk4ChxdGxexWWxPiJ6WWf502l
+         WPcQNDdFzfFMi+hMxa6kCk6A8NFFMpAuEzTko1uuz5skhi/y7pUDyJG9C4ohIVnvct5P
+         CW8N18hZExMENn6xABX2CjDoC0yzrlCzunKLW8DpHV+2ukyZP0JvWkn88rHT3DoBuyl3
+         CJ/ZdqQzRvEJEyGV17cBIBX8k9xzFDyIdIqLAXG1W1v5vmolq6CKoQdCFCxdD2k9OgMr
+         ZVzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2wZIAZC9yxZ2mDBnWjpNcEl9yGwCYZmfu5a5UnmBEgk=;
+        b=RtzC/dB5sYg26IEKDGsQqrTFw711hnvYoNcJgRcVfJlMYEE+vot5mL6Q+e0bp1J/od
+         huRZmeDeg6/HvmZk8suaGggCfEtU3tPShC8RcQJUvDX5m4UOGu8FIDF44eOSrKkCXd8m
+         fSsLPjUS4b0vAA+i3GRJXFMNTKq9EUVmEBkYqQkBnmztYgVhUNvsbFh3l3g43BlvI1I6
+         n/5bd+inOrAfSjw+5YO23+rQBv3j9Bt5MMv4dSYmvTa02kBOxDHsv8up30vY6HIvSojI
+         5TKGikvvUnNr15GQldRvzGU1AiRyOjsH+MW2/42SbiA6DHUBmc08Kix0JUdbf0hZrXsU
+         uPFw==
+X-Gm-Message-State: AOAM530RESzEQBB+bKgSmwJM5pb0WriEqTl4IYamSgrlGJZwwD/wpBMJ
+	TKQB33PurxDwOh2bwQhRpSqXlQQUVw0RUAlvi6U=
+X-Google-Smtp-Source: ABdhPJw+22Nid1mXd8x8AOeBAWMmaYbdiUOlhboMoElKNOM6ixt+zpp29be3BGgP1+h2i+MVjZAo3ZhG/87rKvPFQ/Q=
+X-Received: by 2002:a17:906:a295:: with SMTP id i21mr2079378ejz.334.1613620293192;
+ Wed, 17 Feb 2021 19:51:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8D5B58B7E3472240AAD0603EBA32B2D4@intel.com>
-Content-Transfer-Encoding: base64
+References: <20210208181747.44789-1-mcroce@linux.microsoft.com>
+ <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com> <CAFnufp1BS2mZxJ5TAu6bVX7h76_k2vrnbrLDj6o83UbOCb5M_w@mail.gmail.com>
+In-Reply-To: <CAFnufp1BS2mZxJ5TAu6bVX7h76_k2vrnbrLDj6o83UbOCb5M_w@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 17 Feb 2021 22:51:21 -0500
+Message-ID: <CADkTA4OsXBJk-a29_=Sx6-FBOgRAR7M3X+=RdVqju7PDLBFnmw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
+To: Matteo Croce <mcroce@linux.microsoft.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000060cea305bb944006"
 
-T24gV2VkLCAyMDIxLTAyLTE3IGF0IDA5OjU5IC0wNjAwLCBKb3NodWEgV2F0dCB3cm90ZToNCj4g
-T24gV2VkLCBOb3YgMTgsIDIwMjAgYXQgNDowMyBQTSBKb3NodWEgV2F0dCA8anBld2hhY2tlckBn
-bWFpbC5jb20+DQo+IHdyb3RlOg0KPiA+IA0KPiA+IE9uIDExLzE2LzIwIDg6MzggQU0sIEpvc2h1
-YSBXYXR0IHdyb3RlOg0KPiA+ID4gc3lzdGVtZCAyNDUgaW50cm9kdWNlZCBhIHJlZ3Jlc3Npb24g
-aW4gYmVoYXZpb3Igd2hlcmUgdGhleQ0KPiA+ID4gcmVtb3ZlZA0KPiA+ID4gc3VwcG9ydCBmb3Ig
-bm9uLXJvb3QgdXNlcnMgdG8gY2h2dCBmcm9tIGEgc2VydmljZSBmaWxlLiBUaGlzDQo+ID4gPiBw
-cmV2ZW50cw0KPiA+ID4gcnVubmluZyBjb21wb3NpdG9ycyAoZS5nLiB3ZXN0b24pIGFzIGFueSB1
-c2VyIG90aGVyIHRoYW4gcm9vdC4NCj4gPiA+IFRoZQ0KPiA+ID4gaW50ZW50aW9uIGlzIGZvciBw
-b2xraXQgdG8gYmUgdXNlZCB0byBhbGxvdyB0aGlzIChhbmQgaW4gZmFjdCB0aGUNCj4gPiA+IGRl
-ZmF1bHQgcG9sa2l0IHJ1bGVzIHRoYXQgc2hpcCB3aXRoIHN5c3RlbWQgYWxsb3cgdGhpcykuIEhv
-d2V2ZXIsDQo+ID4gPiBwb2xraXQNCj4gPiA+IGlzIGEgaHVnZSBkZXBlbmRlbmN5IHRvIGJyaW5n
-IGluIGZvciBhbiBlbWJlZGRlZCBzeXN0ZW0sIGFuZA0KPiA+ID4gaXNuJ3QNCj4gPiA+IHN1cHBv
-cnQgYnkgT0UtY29yZS4NCj4gPiA+IA0KPiA+ID4gVGhlIHBhdGNoIGhhcyBiZWVuIHByb3Bvc2Vk
-IHVwc3RyZWFtIHRvIHJlc3RvcmUgdGhlIHByZXZpb3VzDQo+ID4gPiBiZWhhdmlvciBvZg0KPiA+
-ID4gYWxsb3dpbmcgYSBub24tcm9vdCB1c2VyIHRvIGNodnQgdG8gdW5icmVhayB0aGUgcmVncmVz
-c2lvbg0KPiA+ID4gd2l0aG91dA0KPiA+ID4gcmVxdWlyaW5nIHBvbGtpdC4NCj4gPiANCj4gPiBD
-YW4gdGhpcyBiZSBiYWNrcG9ydGVkIHRvIDMuMiwgc2luY2UgaXQgYWZmZWN0cyB0aGUgc3lzdGVt
-ZCB2ZXJzaW9uDQo+ID4gdGhlcmUgYWxzbz8NCj4gDQo+IFBpbmcgb24gYmFja3BvcnRpbmcgdGhp
-cyB0byAzLjI/DQoNCkkgaGF2ZSBwaWNrZWQgdGhpcyBub3cgZm9yIG5leHQgcHVsbCByZXF1ZXN0
-Lg0KDQpUaGFua3MsDQoNCkFudWoNCg0KPiANCj4gPiANCj4gPiBUaGFua3MNCj4gPiANCj4gPiA+
-IA0KPiA+ID4gVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgWw0KPiA+ID4gaHR0cHM6Ly9naXRo
-dWIuY29tL3N5c3RlbWQvc3lzdGVtZC9wdWxsLzE3NDk0XQ0KPiA+ID4gU2lnbmVkLW9mZi1ieTog
-Sm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiDCoCAu
-Li5jaHZ0LWFzLW5vbi1yb290LXVzZXItd2l0aG91dC1wb2xraXQucGF0Y2ggfCAyMjcNCj4gPiA+
-ICsrKysrKysrKysrKysrKysrKw0KPiA+ID4gwqAgbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9z
-eXN0ZW1kXzI0Ni42LmJiwqDCoMKgIHzCoMKgIDEgKw0KPiA+ID4gwqAgMiBmaWxlcyBjaGFuZ2Vk
-LCAyMjggaW5zZXJ0aW9ucygrKQ0KPiA+ID4gwqAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
-aXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAxLQ0KPiA+ID4gbG9naW5kLVJlc3RvcmUtY2h2
-dC1hcy1ub24tcm9vdC11c2VyLXdpdGhvdXQtcG9sa2l0LnBhdGNoDQo+ID4gPiANCj4gPiA+IGRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQvMDAwMS1sb2dpbmQt
-DQo+ID4gPiBSZXN0b3JlLWNodnQtYXMtbm9uLXJvb3QtdXNlci13aXRob3V0LXBvbGtpdC5wYXRj
-aA0KPiA+ID4gYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQvMDAwMS1sb2dpbmQt
-UmVzdG9yZS1jaHZ0LWFzLQ0KPiA+ID4gbm9uLXJvb3QtdXNlci13aXRob3V0LXBvbGtpdC5wYXRj
-aA0KPiA+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+IGluZGV4IDAwMDAwMDAwMDAuLjg5
-ZWYzOWJjM2UNCj4gPiA+IC0tLSAvZGV2L251bGwNCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1j
-b3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAxLWxvZ2luZC1SZXN0b3JlLWNodnQtDQo+ID4gPiBhcy1u
-b24tcm9vdC11c2VyLXdpdGhvdXQtcG9sa2l0LnBhdGNoDQo+ID4gPiBAQCAtMCwwICsxLDIyNyBA
-QA0KPiA+ID4gK0Zyb20gMTUwZDljYWRlNmQ0NzU1NzAzOTVjYjQxOGI4MjQ1MjRkZWFkOTU3NyBN
-b24gU2VwIDE3DQo+ID4gPiAwMDowMDowMCAyMDAxDQo+ID4gPiArRnJvbTogSm9zaHVhIFdhdHQg
-PEpQRVdoYWNrZXJAZ21haWwuY29tPg0KPiA+ID4gK0RhdGU6IEZyaSwgMzAgT2N0IDIwMjAgMDg6
-MTU6NDMgLTA1MDANCj4gPiA+ICtTdWJqZWN0OiBbUEFUQ0hdIGxvZ2luZDogUmVzdG9yZSBjaHZ0
-IGFzIG5vbi1yb290IHVzZXIgd2l0aG91dA0KPiA+ID4gcG9sa2l0DQo+ID4gPiArDQo+ID4gPiAr
-NGFjZjBjZmQyZiAoImxvZ2luZDogY2hlY2sgUG9saWN5S2l0IGJlZm9yZSBhbGxvd2luZyBWVCBz
-d2l0Y2giKQ0KPiA+ID4gYnJva2UNCj4gPiA+ICt0aGUgYWJpbGl0eSB0byB3cml0ZSB1c2VyIHNl
-c3Npb25zIHRoYXQgcnVuIGdyYXBoaWNhbCBzZXNzaW9ucw0KPiA+ID4gKGUuZy4NCj4gPiA+ICt3
-ZXN0b24vWDExKS4gVGhpcyB3YXMgcGFydGlhbGx5IGFtZW5kZWQgaW4gMTliYjg3ZmJmYSAoImxv
-Z2luOg0KPiA+ID4gYWxsb3cNCj4gPiA+ICtub24tY29uc29sZSBzZXNzaW9ucyB0byBjaGFuZ2Ug
-dnQiKSBieSBjaGFuZ2luZyB0aGUgZGVmYXVsdA0KPiA+ID4gUG9saWN5S2l0DQo+ID4gPiArcG9s
-aWN5IHNvIHRoYXQgbm9uLXJvb3QgdXNlcnMgYXJlIGFnYWluIGFsbG93ZWQgdG8gc3dpdGNoIHRo
-ZQ0KPiA+ID4gVlQuIFRoaXMNCj4gPiA+ICttYWtlcyB0aGUgcG9saWN5IHdoZW4gUG9sS2l0IGlz
-IG5vdCBlbmFibGVkIChhcyBvbiBtYW55IGVtYmVkZGVkDQo+ID4gPiArc3lzdGVtcykgbWF0Y2gg
-dGhlIGRlZmF1bHQgUG9sS2l0IHBvbGljeSBhbmQgYWxsb3dzIGxhdW5jaGluZw0KPiA+ID4gZ3Jh
-cGhpY2FsDQo+ID4gPiArc2Vzc2lvbnMgYXMgYSBub24tcm9vdCB1c2VyLg0KPiA+ID4gKw0KPiA+
-ID4gK0Nsb3NlcyAjMTc0NzMNCj4gPiA+ICstLS0NCj4gPiA+ICsgc3JjL2xvZ2luL2xvZ2luZC1k
-YnVzLmPCoMKgwqDCoMKgwqDCoMKgIHwgMTEgKystLS0tLS0tDQo+ID4gPiArIHNyYy9sb2dpbi9s
-b2dpbmQtcG9sa2l0LmPCoMKgwqDCoMKgwqAgfCAyNiArKysrKysrKysrKysrKysrKysrKysNCj4g
-PiA+ICsgc3JjL2xvZ2luL2xvZ2luZC1wb2xraXQuaMKgwqDCoMKgwqDCoCB8IDEwICsrKysrKysr
-DQo+ID4gPiArIHNyYy9sb2dpbi9sb2dpbmQtc2VhdC1kYnVzLmPCoMKgwqAgfCA0MSArKysrLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gLS0tLS0tLQ0KPiA+ID4gKyBzcmMvbG9naW4vbG9n
-aW5kLXNlc3Npb24tZGJ1cy5jIHwgMTEgKystLS0tLS0tDQo+ID4gPiArIHNyYy9sb2dpbi9tZXNv
-bi5idWlsZMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxICsNCj4gPiA+ICsgNiBmaWxlcyBjaGFu
-Z2VkLCA0NiBpbnNlcnRpb25zKCspLCA1NCBkZWxldGlvbnMoLSkNCj4gPiA+ICsgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IHNyYy9sb2dpbi9sb2dpbmQtcG9sa2l0LmMNCj4gPiA+ICsgY3JlYXRlIG1vZGUg
-MTAwNjQ0IHNyYy9sb2dpbi9sb2dpbmQtcG9sa2l0LmgNCj4gPiA+ICsNCj4gPiA+ICtkaWZmIC0t
-Z2l0IGEvc3JjL2xvZ2luL2xvZ2luZC1kYnVzLmMgYi9zcmMvbG9naW4vbG9naW5kLWRidXMuYw0K
-PiA+ID4gK2luZGV4IDBmODNlZDk5YmMuLmEzNzY1ZDg4YmEgMTAwNjQ0DQo+ID4gPiArLS0tIGEv
-c3JjL2xvZ2luL2xvZ2luZC1kYnVzLmMNCj4gPiA+ICsrKysgYi9zcmMvbG9naW4vbG9naW5kLWRi
-dXMuYw0KPiA+ID4gK0BAIC0zMCw2ICszMCw3IEBADQo+ID4gPiArICNpbmNsdWRlICJmb3JtYXQt
-dXRpbC5oIg0KPiA+ID4gKyAjaW5jbHVkZSAiZnMtdXRpbC5oIg0KPiA+ID4gKyAjaW5jbHVkZSAi
-bG9naW5kLWRidXMuaCINCj4gPiA+ICsrI2luY2x1ZGUgImxvZ2luZC1wb2xraXQuaCINCj4gPiA+
-ICsgI2luY2x1ZGUgImxvZ2luZC1zZWF0LWRidXMuaCINCj4gPiA+ICsgI2luY2x1ZGUgImxvZ2lu
-ZC1zZXNzaW9uLWRidXMuaCINCj4gPiA+ICsgI2luY2x1ZGUgImxvZ2luZC11c2VyLWRidXMuaCIN
-Cj4gPiA+ICtAQCAtMTA0NywxNSArMTA0OCw3IEBAIHN0YXRpYyBpbnQNCj4gPiA+IG1ldGhvZF9h
-Y3RpdmF0ZV9zZXNzaW9uX29uX3NlYXQoc2RfYnVzX21lc3NhZ2UgKm1lc3NhZ2UsIHZvaWQNCj4g
-PiA+ICp1c2VyZGENCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
-cm4gc2RfYnVzX2Vycm9yX3NldGYoZXJyb3IsDQo+ID4gPiBCVVNfRVJST1JfU0VTU0lPTl9OT1Rf
-T05fU0VBVCwNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJTZXNzaW9uICVzIG5v
-dCBvbg0KPiA+ID4gc2VhdCAlcyIsIHNlc3Npb25fbmFtZSwgc2VhdF9uYW1lKTsNCj4gPiA+ICsN
-Cj4gPiA+ICstwqDCoMKgwqDCoMKgwqAgciA9IGJ1c192ZXJpZnlfcG9sa2l0X2FzeW5jKA0KPiA+
-ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1lc3Nh
-Z2UsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgQ0FQX1NZU19BRE1JTiwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAib3JnLmZyZWVkZXNrdG9wLmxvZ2luMS5jaHZ0IiwNCj4gPiA+ICst
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBOVUxMLA0KPiA+
-ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZhbHNl
-LA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IFVJRF9JTlZBTElELA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgICZtLT5wb2xraXRfcmVnaXN0cnksDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyb3IpOw0KPiA+ID4gKyvCoMKgwqDC
-oMKgwqDCoCByID0gY2hlY2tfcG9sa2l0X2NodnQobWVzc2FnZSwgbSwgZXJyb3IpOw0KPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgwqAgaWYgKHIgPCAwKQ0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIHJldHVybiByOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgaWYgKHIgPT0g
-MCkNCj4gPiA+ICtkaWZmIC0tZ2l0IGEvc3JjL2xvZ2luL2xvZ2luZC1wb2xraXQuYyBiL3NyYy9s
-b2dpbi9sb2dpbmQtDQo+ID4gPiBwb2xraXQuYw0KPiA+ID4gK25ldyBmaWxlIG1vZGUgMTAwNjQ0
-DQo+ID4gPiAraW5kZXggMDAwMDAwMDAwMC4uOTA3MjU3MGNjNg0KPiA+ID4gKy0tLSAvZGV2L251
-bGwNCj4gPiA+ICsrKysgYi9zcmMvbG9naW4vbG9naW5kLXBvbGtpdC5jDQo+ID4gPiArQEAgLTAs
-MCArMSwyNiBAQA0KPiA+ID4gKysvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTEdQTC0yLjEr
-ICovDQo+ID4gPiArKw0KPiA+ID4gKysjaW5jbHVkZSAiYnVzLXBvbGtpdC5oIg0KPiA+ID4gKysj
-aW5jbHVkZSAibG9naW5kLXBvbGtpdC5oIg0KPiA+ID4gKysjaW5jbHVkZSAibWlzc2luZ19jYXBh
-YmlsaXR5LmgiDQo+ID4gPiArKyNpbmNsdWRlICJ1c2VyLXV0aWwuaCINCj4gPiA+ICsrDQo+ID4g
-PiArK2ludCBjaGVja19wb2xraXRfY2h2dChzZF9idXNfbWVzc2FnZSAqbWVzc2FnZSwgTWFuYWdl
-cg0KPiA+ID4gKm1hbmFnZXIsIHNkX2J1c19lcnJvciAqZXJyb3IpIHsNCj4gPiA+ICsrI2lmIEVO
-QUJMRV9QT0xLSVQNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGJ1c192ZXJpZnlfcG9s
-a2l0X2FzeW5jKA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIG1lc3NhZ2UsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgQ0FQX1NZU19BRE1JTiwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAib3JnLmZyZWVkZXNrdG9wLmxvZ2luMS5j
-aHZ0IiwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBOVUxMLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGZhbHNlLA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIFVJRF9JTlZBTElELA0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZtYW5hZ2VyLT5wb2xraXRfcmVnaXN0cnksDQo+
-ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJy
-b3IpOw0KPiA+ID4gKysjZWxzZQ0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoCAvKiBBbGxvdyBjaHZ0
-IHdoZW4gcG9sa2l0IGlzIG5vdCBwcmVzZW50LiBUaGlzIGFsbG93cyBhDQo+ID4gPiBzZXJ2aWNl
-IHRvIHN0YXJ0IGEgZ3JhcGhpY2FsIHNlc3Npb24gYXMgYQ0KPiA+ID4gKyvCoMKgwqDCoMKgwqDC
-oMKgICogbm9uLXJvb3QgdXNlciB3aGVuIHBvbGtpdCBpcyBub3QgY29tcGlsZWQgaW4sDQo+ID4g
-PiBtYXRjaGluZyB0aGUgZGVmYXVsdCBwb2xraXQgcG9saWN5ICovDQo+ID4gPiArK8KgwqDCoMKg
-wqDCoMKgIHJldHVybiAxOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICsrfQ0KPiA+ID4gKysNCj4g
-PiA+ICsrDQo+ID4gPiArZGlmZiAtLWdpdCBhL3NyYy9sb2dpbi9sb2dpbmQtcG9sa2l0LmggYi9z
-cmMvbG9naW4vbG9naW5kLQ0KPiA+ID4gcG9sa2l0LmgNCj4gPiA+ICtuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiA+ID4gK2luZGV4IDAwMDAwMDAwMDAuLjQ3NmMwNzdhOGENCj4gPiA+ICstLS0gL2Rl
-di9udWxsDQo+ID4gPiArKysrIGIvc3JjL2xvZ2luL2xvZ2luZC1wb2xraXQuaA0KPiA+ID4gK0BA
-IC0wLDAgKzEsMTAgQEANCj4gPiA+ICsrLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IExHUEwt
-Mi4xKyAqLw0KPiA+ID4gKysjcHJhZ21hIG9uY2UNCj4gPiA+ICsrDQo+ID4gPiArKyNpbmNsdWRl
-ICJzZC1idXMuaCINCj4gPiA+ICsrDQo+ID4gPiArKyNpbmNsdWRlICJidXMtb2JqZWN0LmgiDQo+
-ID4gPiArKyNpbmNsdWRlICJsb2dpbmQuaCINCj4gPiA+ICsrDQo+ID4gPiArK2ludCBjaGVja19w
-b2xraXRfY2h2dChzZF9idXNfbWVzc2FnZSAqbWVzc2FnZSwgTWFuYWdlcg0KPiA+ID4gKm1hbmFn
-ZXIsIHNkX2J1c19lcnJvciAqZXJyb3IpOw0KPiA+ID4gKysNCj4gPiA+ICtkaWZmIC0tZ2l0IGEv
-c3JjL2xvZ2luL2xvZ2luZC1zZWF0LWRidXMuYyBiL3NyYy9sb2dpbi9sb2dpbmQtDQo+ID4gPiBz
-ZWF0LWRidXMuYw0KPiA+ID4gK2luZGV4IGE5NDUxMzIyODQuLmYyMmU5ZTI3MzQgMTAwNjQ0DQo+
-ID4gPiArLS0tIGEvc3JjL2xvZ2luL2xvZ2luZC1zZWF0LWRidXMuYw0KPiA+ID4gKysrKyBiL3Ny
-Yy9sb2dpbi9sb2dpbmQtc2VhdC1kYnVzLmMNCj4gPiA+ICtAQCAtOSw2ICs5LDcgQEANCj4gPiA+
-ICsgI2luY2x1ZGUgImJ1cy1wb2xraXQuaCINCj4gPiA+ICsgI2luY2x1ZGUgImJ1cy11dGlsLmgi
-DQo+ID4gPiArICNpbmNsdWRlICJsb2dpbmQtZGJ1cy5oIg0KPiA+ID4gKysjaW5jbHVkZSAibG9n
-aW5kLXBvbGtpdC5oIg0KPiA+ID4gKyAjaW5jbHVkZSAibG9naW5kLXNlYXQtZGJ1cy5oIg0KPiA+
-ID4gKyAjaW5jbHVkZSAibG9naW5kLXNlYXQuaCINCj4gPiA+ICsgI2luY2x1ZGUgImxvZ2luZC1z
-ZXNzaW9uLWRidXMuaCINCj4gPiA+ICtAQCAtMTc5LDE1ICsxODAsNyBAQCBzdGF0aWMgaW50DQo+
-ID4gPiBtZXRob2RfYWN0aXZhdGVfc2Vzc2lvbihzZF9idXNfbWVzc2FnZSAqbWVzc2FnZSwgdm9p
-ZCAqdXNlcmRhdGEsDQo+ID4gPiBzZF9iDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBpZiAoc2Vz
-c2lvbi0+c2VhdCAhPSBzKQ0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHJldHVybiBzZF9idXNfZXJyb3Jfc2V0ZihlcnJvciwNCj4gPiA+IEJVU19FUlJPUl9TRVNTSU9O
-X05PVF9PTl9TRUFULCAiU2Vzc2lvbiAlcyBub3Qgb24gc2VhdCAlcyIsIG5hbWUsDQo+ID4gPiBz
-LT5pZCk7DQo+ID4gPiArDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgIHIgPSBidXNfdmVyaWZ5X3Bv
-bGtpdF9hc3luYygNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBtZXNzYWdlLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIENBUF9TWVNfQURNSU4sDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9yZy5mcmVlZGVza3RvcC5sb2dpbjEu
-Y2h2dCIsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgTlVMTCwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBmYWxzZSwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBVSURfSU5WQUxJRCwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmcy0+bWFuYWdlci0+cG9sa2l0X3JlZ2lzdHJ5
-LA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGVycm9yKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAgciA9IGNoZWNrX3BvbGtpdF9jaHZ0KG1l
-c3NhZ2UsIHMtPm1hbmFnZXIsIGVycm9yKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGlmIChy
-IDwgMCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcjsN
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGlmIChyID09IDApDQo+ID4gPiArQEAgLTIxNSwxNSAr
-MjA4LDcgQEAgc3RhdGljIGludCBtZXRob2Rfc3dpdGNoX3RvKHNkX2J1c19tZXNzYWdlDQo+ID4g
-PiAqbWVzc2FnZSwgdm9pZCAqdXNlcmRhdGEsIHNkX2J1c19lcnJvDQo+ID4gPiArwqDCoMKgwqDC
-oMKgwqDCoCBpZiAodG8gPD0gMCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXR1cm4gc2RfYnVzX2Vycm9yX3NldGYoZXJyb3IsDQo+ID4gPiBTRF9CVVNfRVJST1Jf
-SU5WQUxJRF9BUkdTLCAiSW52YWxpZCB2aXJ0dWFsIHRlcm1pbmFsIik7DQo+ID4gPiArDQo+ID4g
-PiArLcKgwqDCoMKgwqDCoMKgIHIgPSBidXNfdmVyaWZ5X3BvbGtpdF9hc3luYygNCj4gPiA+ICst
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtZXNzYWdlLA0K
-PiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIENB
-UF9TWVNfQURNSU4sDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgIm9yZy5mcmVlZGVza3RvcC5sb2dpbjEuY2h2dCIsDQo+ID4gPiArLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTlVMTCwNCj4gPiA+ICst
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmYWxzZSwNCj4g
-PiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBVSURf
-SU5WQUxJRCwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAmcy0+bWFuYWdlci0+cG9sa2l0X3JlZ2lzdHJ5LA0KPiA+ID4gKy3CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVycm9yKTsNCj4gPiA+ICsrwqDC
-oMKgwqDCoMKgwqAgciA9IGNoZWNrX3BvbGtpdF9jaHZ0KG1lc3NhZ2UsIHMtPm1hbmFnZXIsIGVy
-cm9yKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGlmIChyIDwgMCkNCj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcjsNCj4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgIGlmIChyID09IDApDQo+ID4gPiArQEAgLTI0MywxNSArMjI4LDcgQEAgc3RhdGljIGludA0K
-PiA+ID4gbWV0aG9kX3N3aXRjaF90b19uZXh0KHNkX2J1c19tZXNzYWdlICptZXNzYWdlLCB2b2lk
-ICp1c2VyZGF0YSwNCj4gPiA+IHNkX2J1cw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgYXNzZXJ0
-KG1lc3NhZ2UpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgYXNzZXJ0KHMpOw0KPiA+ID4gKw0K
-PiA+ID4gKy3CoMKgwqDCoMKgwqDCoCByID0gYnVzX3ZlcmlmeV9wb2xraXRfYXN5bmMoDQo+ID4g
-PiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWVzc2Fn
-ZSwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBDQVBfU1lTX0FETUlOLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgICJvcmcuZnJlZWRlc2t0b3AubG9naW4xLmNodnQiLA0KPiA+ID4gKy3C
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5VTEwsDQo+ID4g
-PiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmFsc2Us
-DQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-VUlEX0lOVkFMSUQsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgJnMtPm1hbmFnZXItPnBvbGtpdF9yZWdpc3RyeSwNCj4gPiA+ICstwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnJvcik7DQo+ID4gPiAr
-K8KgwqDCoMKgwqDCoMKgIHIgPSBjaGVja19wb2xraXRfY2h2dChtZXNzYWdlLCBzLT5tYW5hZ2Vy
-LCBlcnJvcik7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBpZiAociA8IDApDQo+ID4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHI7DQo+ID4gPiArwqDCoMKgwqDC
-oMKgwqDCoCBpZiAociA9PSAwKQ0KPiA+ID4gK0BAIC0yNzEsMTUgKzI0OCw3IEBAIHN0YXRpYyBp
-bnQNCj4gPiA+IG1ldGhvZF9zd2l0Y2hfdG9fcHJldmlvdXMoc2RfYnVzX21lc3NhZ2UgKm1lc3Nh
-Z2UsIHZvaWQNCj4gPiA+ICp1c2VyZGF0YSwgc2QNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGFz
-c2VydChtZXNzYWdlKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGFzc2VydChzKTsNCj4gPiA+
-ICsNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqAgciA9IGJ1c192ZXJpZnlfcG9sa2l0X2FzeW5jKA0K
-PiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1l
-c3NhZ2UsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgQ0FQX1NZU19BRE1JTiwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAib3JnLmZyZWVkZXNrdG9wLmxvZ2luMS5jaHZ0IiwNCj4gPiA+
-ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBOVUxMLA0K
-PiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZh
-bHNlLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIFVJRF9JTlZBTElELA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgICZzLT5tYW5hZ2VyLT5wb2xraXRfcmVnaXN0cnksDQo+ID4gPiArLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJyb3IpOw0KPiA+
-ID4gKyvCoMKgwqDCoMKgwqDCoCByID0gY2hlY2tfcG9sa2l0X2NodnQobWVzc2FnZSwgcy0+bWFu
-YWdlciwgZXJyb3IpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgaWYgKHIgPCAwKQ0KPiA+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByOw0KPiA+ID4gK8KgwqDC
-oMKgwqDCoMKgwqAgaWYgKHIgPT0gMCkNCj4gPiA+ICtkaWZmIC0tZ2l0IGEvc3JjL2xvZ2luL2xv
-Z2luZC1zZXNzaW9uLWRidXMuYyBiL3NyYy9sb2dpbi9sb2dpbmQtDQo+ID4gPiBzZXNzaW9uLWRi
-dXMuYw0KPiA+ID4gK2luZGV4IGNjYzVhYzhkZjIuLjU3YzhhNGU5MDAgMTAwNjQ0DQo+ID4gPiAr
-LS0tIGEvc3JjL2xvZ2luL2xvZ2luZC1zZXNzaW9uLWRidXMuYw0KPiA+ID4gKysrKyBiL3NyYy9s
-b2dpbi9sb2dpbmQtc2Vzc2lvbi1kYnVzLmMNCj4gPiA+ICtAQCAtMTEsNiArMTEsNyBAQA0KPiA+
-ID4gKyAjaW5jbHVkZSAiZmQtdXRpbC5oIg0KPiA+ID4gKyAjaW5jbHVkZSAibG9naW5kLWJyaWdo
-dG5lc3MuaCINCj4gPiA+ICsgI2luY2x1ZGUgImxvZ2luZC1kYnVzLmgiDQo+ID4gPiArKyNpbmNs
-dWRlICJsb2dpbmQtcG9sa2l0LmgiDQo+ID4gPiArICNpbmNsdWRlICJsb2dpbmQtc2VhdC1kYnVz
-LmgiDQo+ID4gPiArICNpbmNsdWRlICJsb2dpbmQtc2Vzc2lvbi1kYnVzLmgiDQo+ID4gPiArICNp
-bmNsdWRlICJsb2dpbmQtc2Vzc2lvbi1kZXZpY2UuaCINCj4gPiA+ICtAQCAtMTkyLDE1ICsxOTMs
-NyBAQCBpbnQNCj4gPiA+IGJ1c19zZXNzaW9uX21ldGhvZF9hY3RpdmF0ZShzZF9idXNfbWVzc2Fn
-ZSAqbWVzc2FnZSwgdm9pZA0KPiA+ID4gKnVzZXJkYXRhLCBzZF9idXNfDQo+ID4gPiArwqDCoMKg
-wqDCoMKgwqDCoCBhc3NlcnQobWVzc2FnZSk7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBhc3Nl
-cnQocyk7DQo+ID4gPiArDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgIHIgPSBidXNfdmVyaWZ5X3Bv
-bGtpdF9hc3luYygNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBtZXNzYWdlLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIENBUF9TWVNfQURNSU4sDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIm9yZy5mcmVlZGVza3RvcC5sb2dpbjEu
-Y2h2dCIsDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgTlVMTCwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBmYWxzZSwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBVSURfSU5WQUxJRCwNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAmcy0+bWFuYWdlci0+cG9sa2l0X3JlZ2lzdHJ5
-LA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGVycm9yKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAgciA9IGNoZWNrX3BvbGtpdF9jaHZ0KG1l
-c3NhZ2UsIHMtPm1hbmFnZXIsIGVycm9yKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGlmIChy
-IDwgMCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcjsN
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGlmIChyID09IDApDQo+ID4gPiArZGlmZiAtLWdpdCBh
-L3NyYy9sb2dpbi9tZXNvbi5idWlsZCBiL3NyYy9sb2dpbi9tZXNvbi5idWlsZA0KPiA+ID4gK2lu
-ZGV4IDBhN2QzZDU0NDAuLjdlNDZiZTJhZGQgMTAwNjQ0DQo+ID4gPiArLS0tIGEvc3JjL2xvZ2lu
-L21lc29uLmJ1aWxkDQo+ID4gPiArKysrIGIvc3JjL2xvZ2luL21lc29uLmJ1aWxkDQo+ID4gPiAr
-QEAgLTI2LDYgKzI2LDcgQEAgbGlibG9naW5kX2NvcmVfc291cmNlcyA9IGZpbGVzKCcnJw0KPiA+
-ID4gK8KgwqDCoMKgwqDCoMKgwqAgbG9naW5kLWRldmljZS5oDQo+ID4gPiArwqDCoMKgwqDCoMKg
-wqDCoCBsb2dpbmQtaW5oaWJpdC5jDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBsb2dpbmQtaW5o
-aWJpdC5oDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgIGxvZ2luZC1wb2xraXQuYw0KPiA+ID4gK8Kg
-wqDCoMKgwqDCoMKgwqAgbG9naW5kLXNlYXQtZGJ1cy5jDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
-oCBsb2dpbmQtc2VhdC1kYnVzLmgNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgIGxvZ2luZC1zZWF0
-LmMNCj4gPiA+ICstLQ0KPiA+ID4gKzIuMjguMA0KPiA+ID4gKw0KPiA+ID4gZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNDYuNi5iYg0KPiA+ID4gYi9tZXRh
-L3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWRfMjQ2LjYuYmINCj4gPiA+IGluZGV4IDFkMWZm
-MzRkODkuLmQ5ZTdiMWEwMGMgMTAwNjQ0DQo+ID4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9z
-eXN0ZW1kL3N5c3RlbWRfMjQ2LjYuYmINCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5
-c3RlbWQvc3lzdGVtZF8yNDYuNi5iYg0KPiA+ID4gQEAgLTIzLDYgKzIzLDcgQEAgU1JDX1VSSSAr
-PSAiZmlsZTovL3RvdWNoc2NyZWVuLnJ1bGVzwqBcDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgDQo+ID4gPiBmaWxlOi8vMDAwMy1pbXBsbWVudC1zeXN0ZW1kLXN5c3YtaW5zdGFsbC1m
-b3ItT0UucGF0Y2jCoFwNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCANCj4gPiA+IGZp
-bGU6Ly8wMDAxLXN5c3RlbWQucGMuaW4tdXNlLVJPT1RQUkVGSVgtd2l0aG91dC1zdWZmaXhlZC1z
-bGFzaC5wYXRjaA0KPiA+ID4gwqBcDQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgDQo+
-ID4gPiBmaWxlOi8vc2VsaW51eC1ob29rLWhhbmRsaW5nLXRvLWVudW1lcmF0ZS1uZXh0aG9wLnBh
-dGNowqBcDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgDQo+ID4gPiBmaWxlOi8vMDAwMS1s
-b2dpbmQtUmVzdG9yZS1jaHZ0LWFzLW5vbi1yb290LXVzZXItd2l0aG91dC1wb2xraXQucGF0Y2gN
-Cj4gPiA+IMKgXA0KPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICINCj4gPiA+IA0KPiA+
-ID4gwqAgIyBwYXRjaGVzIG5lZWRlZCBieSBtdXNsDQoNCg==
+--00000000000060cea305bb944006
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Feb 17, 2021 at 9:32 PM Matteo Croce <mcroce@linux.microsoft.com>
+wrote:
+
+> On Mon, Feb 8, 2021 at 9:13 PM Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+> >
+> > On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce <mcroce@linux.microsoft.com>
+> wrote:
+> > >
+> > > From: Matteo Croce <mcroce@microsoft.com>
+> > >
+> > > Add a recipe to build libbpf from https://github.com/libbpf/libbpf
+> > > The only patch fixes a build issue, and it's already merged upstream.
+> >
+> > Thanks for the submission! I have a few comments / questions.
+> >
+> > To get this into oe-core, we should be commenting / documenting why it
+> > should be in core, versus another layer. The standard criteria is that
+> > there are enough varied users and that the functionality is common
+> > enough, that it belongs in core.
+> >
+> > There should also be some sort of oe-selftest for the functionality,
+> > otherwise, it is hard to detect breakages. Some sort of application
+> > that uses the library and that can be executed in qemu would be
+> > enough.
+> >
+> > What are the kernel requirements ? CONFIG_BPF is selected by other
+> > kernel configs (it has no menu entry, so it must be), is it that, or
+> > something else that is the requirement (classic BFP?). If that option
+> > is now always on, is that true for the reference kernel versions in
+> > master (5.4 and 5.10).
+> >
+>
+> Something like this will work? I see a similar trick in the uprobe recipe:
+>
+> do_compile() {
+>  if grep -q "CONFIG_BPF_SYSCALL=y" ${STAGING_KERNEL_BUILDDIR}/.config
+>  then
+>   oe_runmake
+>  else
+>   bbnote "BFP syscall is not enabled"
+>  fi
+> }
+>
+>
+Since it already depends on virtual/kernel, that will indeed work. I can't
+say
+that I'm a huge fan of checking the .config, since it leaves us open to
+changing config option names, but that is way less common now than it
+used to be, so it isn't a problem as a basic sanity check. As you mention,
+uprobe already sets the prior art on it anyway :D
+
+
+
+>
+> > Finally, does this work across all the supported architectures ? if
+> > not, we'll need compatibility settings.
+> >
+>
+> I'm adding this:
+>
+> COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64).*-linux"
+>
+>
+That's reasonable. Interested folks can add other architectures if they
+are willing to help out and support.
+
+
+
+> > >
+> > > Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> > > ---
+> > >  ...01-install-don-t-preserve-file-owner.patch | 29 +++++++++++++++++++
+> > >  meta/recipes-kernel/libbpf/libbpf_0.3.bb      | 25 ++++++++++++++++
+> > >  2 files changed, 54 insertions(+)
+> > >  create mode 100644
+> meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> > >  create mode 100644 meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> > >
+> > > diff --git
+> a/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> > > new file mode 100644
+> > > index 0000000000..4e65d8d80a
+> > > --- /dev/null
+> > > +++
+> b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> > > @@ -0,0 +1,29 @@
+> > > +From 7df10d91db6f533cc0f6c09f4ae8ad92918c6160 Mon Sep 17 00:00:00 2001
+> > > +From: Matteo Croce <mcroce@microsoft.com>
+> > > +Date: Tue, 26 Jan 2021 12:41:47 +0100
+> > > +Subject: [PATCH] install: don't preserve file owner
+> > > +
+> > > +'cp -p' preserve file ownership, this may leave files owned by the
+> > > +current in user in /lib .
+> > > +
+> >
+> > We need the upstream status documented here, not just in the commit
+> message.
+> >
+>
+> You want the upstream commit, or just saying that it will go into 0.4 is
+> enough?
+>
+>
+We normally do something like:
+
+Upstream-status: submitted (0.4 release) <link to the pull request or
+mailing list submission>
+
+That way it is abundantly clear that we aren't carrying it ourselves, and
+when we can drop it.
+
+
+
+> > > +Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> > > +---
+> > > + Makefile | 2 +-
+> > > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > +
+> > > +diff --git a/Makefile b/Makefile
+> > > +index da33613..ab66edc 100644
+> > > +--- a/Makefile
+> > > ++++ b/Makefile
+> > > +@@ -130,7 +130,7 @@ define do_s_install
+> > > +       $(Q)if [ ! -d '$(DESTDIR)$2' ]; then            \
+> > > +               $(INSTALL) -d -m 755 '$(DESTDIR)$2';    \
+> > > +       fi;
+> > > +-      $(Q)cp -fpR $1 '$(DESTDIR)$2'
+> > > ++      $(Q)cp -fR $1 '$(DESTDIR)$2'
+> > > + endef
+> > > +
+> > > + install: all install_headers install_pkgconfig
+> > > +--
+> > > +2.29.2
+> > > +
+> > > diff --git a/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> > > new file mode 100644
+> > > index 0000000000..402e57257f
+> > > --- /dev/null
+> > > +++ b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> > > @@ -0,0 +1,25 @@
+> > > +SUMMARY = "Library for BPF handling"
+> > > +DESCRIPTION = "Library for BPF handling"
+> > > +HOMEPAGE = "https://github.com/libbpf/libbpf"
+> > > +SECTION = "libs"
+> > > +LICENSE = "LGPLv2.1+"
+> > > +
+> > > +LIC_FILES_CHKSUM =
+> "file://../LICENSE.LPGL-2.1;md5=b370887980db5dd40659b50909238dbd"
+> > > +
+> > > +DEPENDS = "zlib elfutils"
+> > > +
+> > > +SRC_URI = "git://github.com/libbpf/libbpf.git;protocol=https"
+> > > +SRCREV = "051a4009f94d5633a8f734ca4235f0a78ee90469"
+> > > +
+> > > +# Backported from version 0.4
+> > > +SRC_URI += "file://0001-install-don-t-preserve-file-owner.patch"
+> > > +
+> > > +S = "${WORKDIR}/git/src"
+> > > +
+> > > +inherit pkgconfig
+> >
+> > I see inherit pkgconfig, but no PACKAGECONFIG setting. Is it actually
+> > used here ?
+> >
+> > > +
+> > > +do_install() {
+> > > +       make install DESTDIR=${D} LIBDIR=${libdir}
+> >
+> > Rather than a bare 'make' call, this should likely be oe_runmake
+> >
+>
+> Right.
+> While at it, what about adding DESTDIR and LIBDIR to ${EXTRA_OEMAKE}?
+> They are ignored in the build phase
+>
+>
+yep. that is doable. oe_runmake will pass them along if in the right
+variable.
+
+Bruce
+
+
+
+> > Bruce
+> >
+> > > +}
+> > > +
+> > > +BBCLASSEXTEND = "native"
+> > > --
+> > > 2.29.2
+> > >
+> > >
+> > > 
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>
+> Regards,
+> --
+> per aspera ad upstream
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000060cea305bb944006
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Wed, Feb 17, 2021 at 9:32 PM Matteo Croce &lt;<a=
+ href=3D"mailto:mcroce@linux.microsoft.com">mcroce@linux.microsoft.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mo=
+n, Feb 8, 2021 at 9:13 PM Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfie=
+ld@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce &lt;<a href=3D"mailto:mcr=
+oce@linux.microsoft.com" target=3D"_blank">mcroce@linux.microsoft.com</a>&g=
+t; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Matteo Croce &lt;<a href=3D"mailto:mcroce@microsoft.com" t=
+arget=3D"_blank">mcroce@microsoft.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Add a recipe to build libbpf from <a href=3D"https://github.com/=
+libbpf/libbpf" rel=3D"noreferrer" target=3D"_blank">https://github.com/libb=
+pf/libbpf</a><br>
+&gt; &gt; The only patch fixes a build issue, and it&#39;s already merged =
+upstream.<br>
+&gt;<br>
+&gt; Thanks for the submission! I have a few comments / questions.<br>
+&gt;<br>
+&gt; To get this into oe-core, we should be commenting / documenting why i=
+t<br>
+&gt; should be in core, versus another layer. The standard criteria is tha=
+t<br>
+&gt; there are enough varied users and that the functionality is common<br=
+>
+&gt; enough, that it belongs in core.<br>
+&gt;<br>
+&gt; There should also be some sort of oe-selftest for the functionality,<=
+br>
+&gt; otherwise, it is hard to detect breakages. Some sort of application<b=
+r>
+&gt; that uses the library and that can be executed in qemu would be<br>
+&gt; enough.<br>
+&gt;<br>
+&gt; What are the kernel requirements ? CONFIG_BPF is selected by other<br=
+>
+&gt; kernel configs (it has no menu entry, so it must be), is it that, or<=
+br>
+&gt; something else that is the requirement (classic BFP?). If that option=
+<br>
+&gt; is now always on, is that true for the reference kernel versions in<b=
+r>
+&gt; master (5.4 and 5.10).<br>
+&gt;<br>
+<br>
+Something like this will work? I see a similar trick in the uprobe recipe:=
+<br>
+<br>
+do_compile() {<br>
+=C2=A0if grep -q &quot;CONFIG_BPF_SYSCALL=3Dy&quot; ${STAGING_KERNEL_BUILD=
+DIR}/.config<br>
+=C2=A0then<br>
+=C2=A0 oe_runmake<br>
+=C2=A0else<br>
+=C2=A0 bbnote &quot;BFP syscall is not enabled&quot;<br>
+=C2=A0fi<br>
+}<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
+"font-size:small">Since it already depends on virtual/kernel, that will ind=
+eed work. I can&#39;t say</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">that I&#39;m a huge fan of checking the .config, since it leaves=
+ us open to</div><div class=3D"gmail_default" style=3D"font-size:small">cha=
+nging config option names, but that is way less common now than it</div><di=
+v class=3D"gmail_default" style=3D"font-size:small">used to be, so it isn&#=
+39;t a problem as a basic sanity check. As you mention,</div><div class=3D"=
+gmail_default" style=3D"font-size:small">uprobe already sets the prior art =
+on it anyway :D</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+<br>
+&gt; Finally, does this work across all the supported architectures ? if<b=
+r>
+&gt; not, we&#39;ll need compatibility settings.<br>
+&gt;<br>
+<br>
+I&#39;m adding this:<br>
+<br>
+COMPATIBLE_HOST =3D &quot;(x86_64.*|i.86.*|aarch64).*-linux&quot;<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
+"font-size:small">That&#39;s reasonable. Interested folks can add other arc=
+hitectures if they</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">are willing to help out and support.</div><br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Matteo Croce &lt;<a href=3D"mailto:mcroce@microso=
+ft.com" target=3D"_blank">mcroce@microsoft.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 ...01-install-don-t-preserve-file-owner.patch | 29 +++++++=
+++++++++++++<br>
+&gt; &gt;=C2=A0 meta/recipes-kernel/libbpf/<a href=3D"http://libbpf_0.3.bb=
+" rel=3D"noreferrer" target=3D"_blank">libbpf_0.3.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 | 25 ++++++++++++++++<br>
+&gt; &gt;=C2=A0 2 files changed, 54 insertions(+)<br>
+&gt; &gt;=C2=A0 create mode 100644 meta/recipes-kernel/libbpf/libbpf/0001-=
+install-don-t-preserve-file-owner.patch<br>
+&gt; &gt;=C2=A0 create mode 100644 meta/recipes-kernel/libbpf/<a href=3D"h=
+ttp://libbpf_0.3.bb" rel=3D"noreferrer" target=3D"_blank">libbpf_0.3.bb</a>=
+<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-kernel/libbpf/libbpf/0001-install-don-=
+t-preserve-file-owner.patch b/meta/recipes-kernel/libbpf/libbpf/0001-instal=
+l-don-t-preserve-file-owner.patch<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..4e65d8d80a<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-prese=
+rve-file-owner.patch<br>
+&gt; &gt; @@ -0,0 +1,29 @@<br>
+&gt; &gt; +From 7df10d91db6f533cc0f6c09f4ae8ad92918c6160 Mon Sep 17 00:00:=
+00 2001<br>
+&gt; &gt; +From: Matteo Croce &lt;<a href=3D"mailto:mcroce@microsoft.com" =
+target=3D"_blank">mcroce@microsoft.com</a>&gt;<br>
+&gt; &gt; +Date: Tue, 26 Jan 2021 12:41:47 +0100<br>
+&gt; &gt; +Subject: [PATCH] install: don&#39;t preserve file owner<br>
+&gt; &gt; +<br>
+&gt; &gt; +&#39;cp -p&#39; preserve file ownership, this may leave files o=
+wned by the<br>
+&gt; &gt; +current in user in /lib .<br>
+&gt; &gt; +<br>
+&gt;<br>
+&gt; We need the upstream status documented here, not just in the commit m=
+essage.<br>
+&gt;<br>
+<br>
+You want the upstream commit, or just saying that it will go into 0.4 is e=
+nough?<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
+"font-size:small">We normally do something like:</div><div class=3D"gmail_d=
+efault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">Upstream-status: submitted (0.4 release) &lt;link t=
+o the pull request or mailing list submission&gt;</div><br></div><div><div =
+class=3D"gmail_default" style=3D"font-size:small">That way it is abundantly=
+ clear that we aren&#39;t carrying it ourselves, and when we can drop it.</=
+div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+&gt; &gt; +Signed-off-by: Matteo Croce &lt;<a href=3D"mailto:mcroce@micros=
+oft.com" target=3D"_blank">mcroce@microsoft.com</a>&gt;<br>
+&gt; &gt; +---<br>
+&gt; &gt; + Makefile | 2 +-<br>
+&gt; &gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; &gt; +<br>
+&gt; &gt; +diff --git a/Makefile b/Makefile<br>
+&gt; &gt; +index da33613..ab66edc 100644<br>
+&gt; &gt; +--- a/Makefile<br>
+&gt; &gt; ++++ b/Makefile<br>
+&gt; &gt; +@@ -130,7 +130,7 @@ define do_s_install<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q)if [ ! -d &#39;$(DESTDIR)$2&#39;=
+ ]; then=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(INSTAL=
+L) -d -m 755 &#39;$(DESTDIR)$2&#39;;=C2=A0 =C2=A0 \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi;<br>
+&gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 $(Q)cp -fpR $1 &#39;$(DESTDIR)$2&#39;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 $(Q)cp -fR $1 &#39;$(DESTDIR)$2&#39;<br>
+&gt; &gt; + endef<br>
+&gt; &gt; +<br>
+&gt; &gt; + install: all install_headers install_pkgconfig<br>
+&gt; &gt; +--<br>
+&gt; &gt; +2.29.2<br>
+&gt; &gt; +<br>
+&gt; &gt; diff --git a/meta/recipes-kernel/libbpf/<a href=3D"http://libbpf=
+_0.3.bb" rel=3D"noreferrer" target=3D"_blank">libbpf_0.3.bb</a> b/meta/reci=
+pes-kernel/libbpf/<a href=3D"http://libbpf_0.3.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">libbpf_0.3.bb</a><br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..402e57257f<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-kernel/libbpf/<a href=3D"http://libbpf_0.3.bb=
+" rel=3D"noreferrer" target=3D"_blank">libbpf_0.3.bb</a><br>
+&gt; &gt; @@ -0,0 +1,25 @@<br>
+&gt; &gt; +SUMMARY =3D &quot;Library for BPF handling&quot;<br>
+&gt; &gt; +DESCRIPTION =3D &quot;Library for BPF handling&quot;<br>
+&gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/libbpf/libbpf"=
+ rel=3D"noreferrer" target=3D"_blank">https://github.com/libbpf/libbpf</a>&=
+quot;<br>
+&gt; &gt; +SECTION =3D &quot;libs&quot;<br>
+&gt; &gt; +LICENSE =3D &quot;LGPLv2.1+&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://../LICENSE.LPGL-2.1;md5=3Db37=
+0887980db5dd40659b50909238dbd&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +DEPENDS =3D &quot;zlib elfutils&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/libbpf/lib=
+bpf.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">github.com/l=
+ibbpf/libbpf.git;protocol=3Dhttps</a>&quot;<br>
+&gt; &gt; +SRCREV =3D &quot;051a4009f94d5633a8f734ca4235f0a78ee90469&quot;=
+<br>
+&gt; &gt; +<br>
+&gt; &gt; +# Backported from version 0.4<br>
+&gt; &gt; +SRC_URI +=3D &quot;file://0001-install-don-t-preserve-file-owne=
+r.patch&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +S =3D &quot;${WORKDIR}/git/src&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +inherit pkgconfig<br>
+&gt;<br>
+&gt; I see inherit pkgconfig, but no PACKAGECONFIG setting. Is it actually=
+<br>
+&gt; used here ?<br>
+&gt;<br>
+&gt; &gt; +<br>
+&gt; &gt; +do_install() {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0make install DESTDIR=3D${D} LIBDIR=
+=3D${libdir}<br>
+&gt;<br>
+&gt; Rather than a bare &#39;make&#39; call, this should likely be oe_runm=
+ake<br>
+&gt;<br>
+<br>
+Right.<br>
+While at it, what about adding DESTDIR and LIBDIR to ${EXTRA_OEMAKE}?<br>
+They are ignored in the build phase<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D=
+"font-size:small">yep. that is doable. oe_runmake will pass them along if i=
+n the right variable.</div><div class=3D"gmail_default" style=3D"font-size:=
+small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bru=
+ce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+&gt; Bruce<br>
+&gt;<br>
+&gt; &gt; +}<br>
+&gt; &gt; +<br>
+&gt; &gt; +BBCLASSEXTEND =3D &quot;native&quot;<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.29.2<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; - Thou shalt not follow the NULL pointer, for chaos and madness await=
+<br>
+&gt; thee at its end<br>
+&gt; - &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+<br>
+Regards,<br>
+-- <br>
+per aspera ad upstream<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div></div>
+
+--00000000000060cea305bb944006--
