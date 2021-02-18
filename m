@@ -1,347 +1,165 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.5941.1613650919289468010
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.45])
+ by mx.groups.io with SMTP id smtpd.web10.6439.1613653579770526485
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 04:21:59 -0800
+ Thu, 18 Feb 2021 05:06:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FNjkqIDe;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: idadelm@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id h10so4102606edl.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 04:21:59 -0800 (PST)
+ dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=eL5+Qtwd;
+ spf=pass (domain: siemens.com, ip: 40.107.20.45, mailfrom: florian.bezdeka@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bSdHR/xFakPIMaFfokfS7STWnTGlx0WJ40eyNSXi+mU/axwOvZIWHyJO1lQCe2orbz0xFYLipBzWLWr/mmTdgw4FJzKfyWr/Zdzs6RTmAdTwSD7HGU7dMq7lfeX2kEppbTJbVXZzgRTKhQ7yJNDls8sBf64riYySIetDXW63Q+cLO91Tl5L0+T7QXdOjmaV/m5hSzFeLxmOw04/DZMQwqY2mYZqeeqtSJiufYxAxz+6TCRGYzmsT7YyhpgPlrEpQTOj5Zb+bJXs+QSa7LQYQTVeLRyMVLf8fWknqnhuDwC2r4M5ZL6o11Jkut6NxUXsRpIddlotpt+3ZlD+und6WjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5NUtKw1ra9zF1BZ0zaGYcqnWuXOcpsBmJpZkDR3Ktf0=;
+ b=VWvSC27PFwsIHJ7F+ZyhX0xtpBise+SDZ6ayz3t2GOnLxiAUtA0FlNCYkirfYasfyVlxMSKnFMBynbCrichTxJ3s3Vs+6nj7/RjO427iJu9bCckA8Y9TmtQcrFTtCqv/2jyUQDEr92/K6kP1Tymbtg5w9R2vPKOJdj3aBrxqnMQ5ryvnKuTJgGTzN+3IhLE3ol+xiT9iheRDKTuAg8mPT2AQhHi7jUEQuPWlWP/+eLYTLmfWakZJX9XB2zO+PhfKa/qr7WaC1pRYfjWQMxgnxfF/wN6PkAttrbdTALIZPodfa5BTgB8CYZEjURGvrdFp/ypXsi43G+ul6OlPsWJtIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OwV/wEbwBlnMNOeyh2qKfxNdMU7a2fJM3i9WjBaGNPY=;
-        b=FNjkqIDeTKQqsKbPChlIuoi60j4jnqXatLJvswnt0bRzqF5YMzkTnjjrZF+d+uq/Nx
-         kJf8px40P0WvygTSASWck9Q6uy1/OgrW7o+pg7pCvjkqtq1S01pLanetJG1QfegKIwFj
-         2L2AE22oubVN7LpKV9vF4o/xyD3RemXtjBf4fzyK8Zb/xtTGll0wCuQHaPiBefwS77nn
-         ds1rR+D61e4hY8rTnxiSDda5WM0p7o8waDG5pUO7hZZxJYYEagbdJuernUB3bp8ToJkW
-         p/wQiEC+AAD/j05EuDZrv+ipoicz2ZJM+YLYwubQmVicnUe43VR2WQfYhI5YnJoSaFdh
-         RGWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OwV/wEbwBlnMNOeyh2qKfxNdMU7a2fJM3i9WjBaGNPY=;
-        b=CrBdodY5G+ru0FC+YeNkYuUunBm9Y8yq8EVHFYCrdIHJOD/frR5CunnpNFE1jPskZ5
-         g39x+MW+CP8CZJ0g70rT7S96jTks9rbynPE2T9NLBnCrmntyquRAiupQzdu9b4us6R+F
-         pxJ1e1jehJNrt09zCoR0V2+4ZuDmn5wXgqLP79ore9aFjxYnle4H6X2FZ5hq2yCm55F9
-         xn71N11V3jQA+EFKL89WjT6K9zVRSeTMgimeA+2XtnTSEV+hiEu1xUBPEg5FElKm1O/U
-         krpBj+OQL38UJMc/RHqlQMkZXrr6LEhpJBd4A7+jnUMIaANNkxiMBdUTPoob/758hTOh
-         6l9w==
-X-Gm-Message-State: AOAM530VvulEMuPx3IJYXdfyCtDXOeqX0WDLxCv57qtyaKxOnPxaRWQ4
-	4G+637ltO5n1Q+BOZR+t4fj2tcPbVa3YkSM1gQQ=
-X-Google-Smtp-Source: ABdhPJyyjngn6Ynn0OAHXYww2F3u449V7v7183Gpz3+4YRX7AfJUKL0zFVIWEs4OjOONLSEiZB8+2MRnTAagjNE60Dg=
-X-Received: by 2002:a50:b765:: with SMTP id g92mr3917324ede.317.1613650917640;
- Thu, 18 Feb 2021 04:21:57 -0800 (PST)
+ d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5NUtKw1ra9zF1BZ0zaGYcqnWuXOcpsBmJpZkDR3Ktf0=;
+ b=eL5+Qtwd0QIzjp3qggfbhzHIHolvTAFEmG21skxHzhDfbxX2SeJ4KJYkfiL49E7sUpx0L4vdp4oEJN/jA//0maVLQboMEKZqsBdmAKBa1a1uUDSFQTQCJ7W9qJkzE+S5sk8g1efJGwazr0UklVoAjOW9FGs8D1soQr8ySasuHdw=
+Received: from AM0PR10MB1906.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:49::10)
+ by AM8PR10MB4036.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1c9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.31; Thu, 18 Feb
+ 2021 13:06:17 +0000
+Received: from AM0PR10MB1906.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::dc9b:2590:a1cf:3301]) by AM0PR10MB1906.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::dc9b:2590:a1cf:3301%7]) with mapi id 15.20.3868.028; Thu, 18 Feb 2021
+ 13:06:17 +0000
+From: "florian.bezdeka@siemens.com" <florian.bezdeka@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "florian.bezdeka@siemens.com" <florian.bezdeka@siemens.com>
+Subject: [OE-core][PATCH 0/1] wic: warn on usage of Y2038 affected file systems
+Thread-Topic: [OE-core][PATCH 0/1] wic: warn on usage of Y2038 affected file
+ systems
+Thread-Index: AQHXBfbXdapzdhrNREqjjctgPRwPHg==
+Date: Thu, 18 Feb 2021 13:06:17 +0000
+Message-ID: <20210218130559.43404-1-florian.bezdeka@siemens.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.29.2
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=siemens.com;
+x-originating-ip: [178.27.123.43]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 06115b28-c183-4c2d-1047-08d8d40dfa8b
+x-ms-traffictypediagnostic: AM8PR10MB4036:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <AM8PR10MB4036CA5FED87A2EEBB489CD1F6859@AM8PR10MB4036.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ VzBsG+GuC85CkZVCXsXWQJ9CYd/p0/Di38qYoaCvXadKge56VNJL+Vdujl2RqLRsF605ENYGNw4SnKP9g4fzLDClkomG58ynv2Z/83uCU5X2r9vf8UBdqlNswytWDRR4JKHakipMZnChsjjA2l2SU8ccYOFETFl8JuHoUfg/AFQGMaOpQMx10O6wHGrZFrICVd9pfhvHgCMPDqspUvY2LIVHNEqyjQc+SuN7Q0KwMv++x/YILklyUjnEPREbZf/V/ZXRC2TLZ/wQfrhVmjBd/js0jimfbwi0HjlUAzxn2rplnV4fAGCmUYp9+NWJl2GFBAdes1LhBhUo3QZCpjT6ce+kLSyHiQggrXyeNgNZEhADUAkzx8ORKWGL2X5vSrxzdu0jRLRtULIyqiTuXqu2+o8Ei92cxMrGYQL6A0RX1o8WlZgmQzgKA/DE1B+SMpP8sudCN44OTstEfekrPpBw/m92XOj1bce1QWqBF1OIt24BV8srfb4aHs75eSHMJi69koMV+U5f25f2g/vqdRhtvw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB1906.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(396003)(346002)(366004)(39860400002)(66446008)(64756008)(66556008)(66476007)(6512007)(76116006)(2616005)(26005)(83380400001)(4326008)(66946007)(2906002)(5660300002)(107886003)(8676002)(316002)(91956017)(36756003)(478600001)(6916009)(1076003)(186003)(6506007)(6486002)(8936002)(86362001)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?iso-8859-1?Q?o6zApvpgm96Ykc/jVyY5YukTHMuLpQMt1Js7wg+Is2FaG57S+6g07QN1CT?=
+ =?iso-8859-1?Q?J1TdozeGfWqkFpkyTSVaHIZw3MYAqPVWEvgWRrjGS1rmUElckzGc5HNEnG?=
+ =?iso-8859-1?Q?zmnLjp4/6+UIsFMlcPsCMh6sZ8nHJ1u2RldnAcvLlkZl5mmHWQSlAzBbEG?=
+ =?iso-8859-1?Q?WJMuQ5es2Mc5a9IRL9dRl7sD6EcghB04PbNw/j5sqYyX/slWZoVPPrSlpG?=
+ =?iso-8859-1?Q?f3KK/pq+IcxZkwyNXFoRY8Lza0kKEZA78VbKdJbRVRsgvtSPbn72uNhGEd?=
+ =?iso-8859-1?Q?ojCdkuBIwk7l6OY5fjHEweU/a4pyChVckV7CRXVYn6qNZ9tmZfCJVhtMWJ?=
+ =?iso-8859-1?Q?WYJklvdnIf5eOzrRcLVLol/KdsZzscXdLSbDyk+C8O1f0SJ2DYTuH1B5rc?=
+ =?iso-8859-1?Q?OTHVey+b1sNKDu0jw7P8Sa6nKfMRzFygR2uEHiY/BXulIEM+olJQ0ES1H3?=
+ =?iso-8859-1?Q?aBcvccdco4nI0XJsBso0TxFr6Fw3HLm+RwRmZ/URkQoND9FrjLEUGgWqOK?=
+ =?iso-8859-1?Q?s5JXzCQwf4PDjA4dChBm4+rgySrCsIuPPKYKwD7rFHzRNnWSvllqPatCVi?=
+ =?iso-8859-1?Q?H2z9hzLkzAsrmzVXjfLntmu5SQs5BaDFkD8x/ni1XlpXO5UOCOP4Em7KG/?=
+ =?iso-8859-1?Q?vWZhUoZeMC37EORuxwy6SlE171M7c9YuUzb/BVEEx0eINAHYKHv3HgskNu?=
+ =?iso-8859-1?Q?T7THzaRgVhOo1IDieeY7t0SNFmCYBTvMaRjOdBG9EstRDyexaRtTE7AMN9?=
+ =?iso-8859-1?Q?NDk+pD9ZhvL+L6Cxk7GcvZPAEcF2aNBei3Ew65NkGhRe2Ru1CMy3nLKdo0?=
+ =?iso-8859-1?Q?8c/w6/baoYneGd5RWqsX3vnnUOMcsg5KAlt5FGtZW9P3uhfEGYXji7EsQi?=
+ =?iso-8859-1?Q?HWRkDjGe8oJWElznE+njX4n0kewthtL4950Pf81lstno/0hiLobHEFQTkI?=
+ =?iso-8859-1?Q?U33h0droPUY7GN1Ps1CJ1V4825w4SRSlvVE3OwBk7I8+BGt9f3oHcPRepB?=
+ =?iso-8859-1?Q?uygPWUn1O6S1XR+HCTvvz1equikjhY9gr8Zl5VBwIuU4W1m9llSm25r0GF?=
+ =?iso-8859-1?Q?uI505N96YtR9AFUdXviIXgVzBFrECy7x3quREbh/RMgGD0cHxEJA9zabZV?=
+ =?iso-8859-1?Q?AUhy5Mwu1I9wnl+TbiKbKx5rGfr3TS99orqXSd5EUm3tixGmXTFR0vVCdo?=
+ =?iso-8859-1?Q?MoDDOeNAHovzC4uoMMUlvf7dE6lYRVzwD89Y0eX4gb94oJXfnMOp/fE2K3?=
+ =?iso-8859-1?Q?qs5Vv3aH1OsHv/y6Cjo+3jjDSML51Ew/l04T/7FE5VBqYBaMgVxWRSDfPK?=
+ =?iso-8859-1?Q?MmaKpvI07igS0ajEYpG6AHfpQSi8/ipnfBDNgJTV0cZonAUOlkxrF8FYiC?=
+ =?iso-8859-1?Q?EhEPeypLAT?=
 MIME-Version: 1.0
-References: <20210217040033.21541-1-idadelm@gmail.com> <d2c6bc1c604946f799ea00ec68ee6209@XBOX03.axis.com>
- <CAN7sTgvSHSbPAMrtbHcTU1B_f+LoXBZMeetuXAb7C5mj_iAcfQ@mail.gmail.com> <60906f028ebf4e5f805108b8e6516add@XBOX03.axis.com>
-In-Reply-To: <60906f028ebf4e5f805108b8e6516add@XBOX03.axis.com>
-From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
-Date: Thu, 18 Feb 2021 13:21:46 +0100
-Message-ID: <CAN7sTgtYF3y0O2hOSfuVon7cSKcLSb8KK4xtO-q_aZufoijzYw@mail.gmail.com>
-Subject: Re: [OE-core] [poky-contrib][RFC PATCH 0/5] Suggestions for improvements?
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bccfc205bb9b6110"
-
---000000000000bccfc205bb9b6110
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB1906.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06115b28-c183-4c2d-1047-08d8d40dfa8b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2021 13:06:17.4996
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WQ0to84kmEHzto52uYdXrAP77ylTWk2tfNQoMP15B8i2DSPS67GbNhld2KZNGRQ4v3E6IB/B34uqDupjZEVeMeKQzFBQ1XbLA56VRod2bGU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR10MB4036
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-I'm using poky-contrib; checkout paule/rpurdie-license-experiments-osls
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
 
-Cheers,
-Ida
+The following patch is the summary of a nice journey through the file=20
+system jungle regarding Y2038 problem. It all began with a warning which=20
+is reported by kernels >=3D 5.4:
 
-On Thu, Feb 18, 2021 at 12:17 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+ext4 filesystem being mounted at (mountpoint) supports timestamps until
+2038 (0x7fffffff)
 
-> None of the context for the second hunk in the first patch exists. E.g.,
-> if I checkout master of poky and grep for =E2=80=9CLicense for package %s=
-=E2=80=9D (part of
-> the line that the first patch replaces), there is no match in any file.
->
->
->
-> //Peter
->
->
->
-> *From:* Ida Delphine <idadelm@gmail.com>
-> *Sent:* den 17 februari 2021 17:59
-> *To:* Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [poky-contrib][RFC PATCH 0/5] Suggestions for
-> improvements?
->
->
->
-> Please what exactly didn't match?
->
->
->
-> Ida
->
->
->
-> On Wed, Feb 17, 2021 at 4:50 PM Peter Kjellerstedt <
-> peter.kjellerstedt@axis.com> wrote:
->
-> I tried to apply these patches, but the context does not match. Are
-> there other patches I need to apply before these can be applied?
->
-> //Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Meh Mbeh Ida Delphine
-> > Sent: den 17 februari 2021 05:00
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [poky-contrib][RFC PATCH 0/5] Suggestions for
-> > improvements?
-> >
-> > Hello everyone,
-> >
-> > The following patchset is aimed at improving the Yocto Project license
-> > tracing.
-> >
-> > Initially, after a build I will come across 130 license warnings with
-> some
-> > false positives. I got rid of these by replacing "or-later" with "+" fo=
-r
-> > source licenses (computedpkglics) and also passing the recipe license
-> > through canonical_license of license.py(). As a result, some of the
-> > licenses will match during comparism hence some warnings eliminate.
-> >
-> > Though some false positive warnings were eliminated, lots of warnings
-> were
-> > ouputed as a result of several source licenses having "WITH
-> Linux-syscall-
-> > note". With the help of a variable being set in local.conf, one can
-> > chooses whether or not to get lid of the "WITH Linux-syscall-note" stri=
-ng
-> > from the source licenses. Just by doing this, several warnings are
-> dropped
-> > and now left with 118.
-> >
-> > I later on added some logic depending on "source_spdx_license" variable
-> > whether or not for the user to allow the warnings being outputed during
-> > the build. It reduces the extra processing and reduces time if the user
-> > chooses not to display warnings. It uses bb.utils.contains() to find ou=
-t
-> > if that particular vaiable is present. Also, I added
-> > package_qa_handle_error() to allow the user decide whether they want th=
-e
-> > issues treated as warnings, errors or not at all.
-> >
-> > Some of the license-related logic I added to take care of splitting
-> recipe
-> > licences before canonicalizing, getting rid of "or-later" warnings, I
-> > moved it to license.bbclass and put it in functions. I also plan on
-> fixing
-> > the variable naming since some have underscores whereas others do not
-> > have. However, I will love to move more license logic in package.bbclas=
-s
-> > to license.bbclass but I need help with the right way to go about it.
-> > Also, general suggestions on any improvements to this are highly
-> welcomed.
-> >
-> > Cheers,
-> > Ida.
-> >
-> > Ida Delphine (5):
-> >   package: Remove false positive lic warnings
-> >   package: Remove false positive lic warnings
-> >   package: Remove false positive lic warnings
-> >   license.bbclass: Add functions to split and canonicalise license
-> >     strings
-> >   package.bbclass: Remove false positive license warnings
-> >
-> >  meta/classes/license.bbclass |  27 ++++++++
-> >  meta/classes/package.bbclass | 127 +++++++++++++++++++----------------
-> >  2 files changed, 96 insertions(+), 58 deletions(-)
-> >
-> > --
-> > 2.25.1
->
->
+When reading this warning I was surprised. Shouldn't a modern file
+system like ext4 be Y2038-safe? As it turned out it depends on the
+inode size if an ext4 file system is safe or not. So why was the
+inode size not sufficient in my case?
 
---000000000000bccfc205bb9b6110
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The inode size is chosen during file system generation and depends on
+the size of the file system that is going to be created. For details
+let's have a look at `man mke2fs`:
 
-<div dir=3D"ltr"><div>I&#39;m using poky-contrib; checkout paule/rpurdie-li=
-cense-experiments-osls</div><div><br></div><div>Cheers,</div><div>Ida<br></=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Thu, Feb 18, 2021 at 12:17 PM Peter Kjellerstedt &lt;<a href=3D"mail=
-to:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+-T usage-type[,...]
+    Specify how the filesystem is going to be used, so that mke2fs can
+    choose optimal filesystem parameters for that use. The usage types
+    that are supported are defined in the configuration file
+    /etc/mke2fs.conf. The user may specify one or more usage types
+    using a comma separated list.
 
+    If this option is is not specified, mke2fs will pick a single
+    default usage type based on the size of the filesystem to be
+    created. If the filesystem size is less than 3 megabytes, mke2fs
+    will use the filesystem type floppy. If the filesystem size is
+    greater than or equal to 3 but less than 512 megabytes, mke2fs(8)
+    will use the filesystem type small.
 
+The relevant parts from /etc/mke2fs.conf:
+[fs_types]
+...
+        small =3D {
+                blocksize =3D 1024
+                inode_size =3D 128
+                inode_ratio =3D 4096
+        }
+...
 
+So whenever you create an ext4 file system with less than 512MB in
+size you will end up with 128 byte inodes and your file system is
+not Y2038-safe.
 
+Some words to the other filesystems supported by wic:
+ - ext2 and ext3 will overflow in 2038,=20
+   The user will be warned as well
+ - squashfs will overflow in 2106
+ - btrfs uses u64 for time representations, so Y2038 safe
 
-<div style=3D"overflow-wrap: break-word;" lang=3D"SV">
-<div class=3D"gmail-m_-75106000434161247WordSection1">
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-None of the context for the second hunk in the first patch exists. E.g., if=
- I checkout master of poky and grep for =E2=80=9CLicense for package %s=E2=
-=80=9D (part of the line that the first
- patch replaces), there is no match in any file. <u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-//Peter<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bord=
-er-style:none none none solid;border-width:medium medium medium 1.5pt;paddi=
-ng:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;borde=
-r-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm"=
->
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> Ida Delphine &lt;<a href=3D"mailto:idadelm@gmail.com" target=3D=
-"_blank">idadelm@gmail.com</a>&gt;
-<br>
-<b>Sent:</b> den 17 februari 2021 17:59<br>
-<b>To:</b> Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis=
-.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core] [poky-contrib][RFC PATCH 0/5] Suggestions for=
- improvements?<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">Please what exactly didn&#39;t match? <u></u><u></u>=
-</p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Ida<u></u><u></u></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Wed, Feb 17, 2021 at 4:50 PM Peter Kjellerstedt &=
-lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.k=
-jellerstedt@axis.com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-color:currentcolor currentcolor currentcolor rg=
-b(204,204,204);border-style:none none none solid;border-width:medium medium=
- medium 1pt;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">I tried to apply these =
-patches, but the context does not match. Are
-<br>
-there other patches I need to apply before these can be applied?<br>
-<br>
-//Peter<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">
-openembedded-core@lists.openembedded.org</a> &lt;openembedded-<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Meh Mbeh Ida Delphine<br>
-&gt; Sent: den 17 februari 2021 05:00<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: [OE-core] [poky-contrib][RFC PATCH 0/5] Suggestions for<br>
-&gt; improvements?<br>
-&gt; <br>
-&gt; Hello everyone,<br>
-&gt; <br>
-&gt; The following patchset is aimed at improving the Yocto Project license=
-<br>
-&gt; tracing.<br>
-&gt; <br>
-&gt; Initially, after a build I will come across 130 license warnings with =
-some<br>
-&gt; false positives. I got rid of these by replacing &quot;or-later&quot; =
-with &quot;+&quot; for<br>
-&gt; source licenses (computedpkglics) and also passing the recipe license<=
-br>
-&gt; through canonical_license of license.py(). As a result, some of the<br=
->
-&gt; licenses will match during comparism hence some warnings eliminate.<br=
->
-&gt; <br>
-&gt; Though some false positive warnings were eliminated, lots of warnings =
-were<br>
-&gt; ouputed as a result of several source licenses having &quot;WITH Linux=
--syscall-<br>
-&gt; note&quot;. With the help of a variable being set in local.conf, one c=
-an<br>
-&gt; chooses whether or not to get lid of the &quot;WITH Linux-syscall-note=
-&quot; string<br>
-&gt; from the source licenses. Just by doing this, several warnings are dro=
-pped<br>
-&gt; and now left with 118.<br>
-&gt; <br>
-&gt; I later on added some logic depending on &quot;source_spdx_license&quo=
-t; variable<br>
-&gt; whether or not for the user to allow the warnings being outputed durin=
-g<br>
-&gt; the build. It reduces the extra processing and reduces time if the use=
-r<br>
-&gt; chooses not to display warnings. It uses bb.utils.contains() to find o=
-ut<br>
-&gt; if that particular vaiable is present. Also, I added<br>
-&gt; package_qa_handle_error() to allow the user decide whether they want t=
-he<br>
-&gt; issues treated as warnings, errors or not at all.<br>
-&gt; <br>
-&gt; Some of the license-related logic I added to take care of splitting re=
-cipe<br>
-&gt; licences before canonicalizing, getting rid of &quot;or-later&quot; wa=
-rnings, I<br>
-&gt; moved it to license.bbclass and put it in functions. I also plan on fi=
-xing<br>
-&gt; the variable naming since some have underscores whereas others do not<=
-br>
-&gt; have. However, I will love to move more license logic in package.bbcla=
-ss<br>
-&gt; to license.bbclass but I need help with the right way to go about it.<=
-br>
-&gt; Also, general suggestions on any improvements to this are highly welco=
-med.<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; Ida.<br>
-&gt; <br>
-&gt; Ida Delphine (5):<br>
-&gt;=C2=A0 =C2=A0package: Remove false positive lic warnings<br>
-&gt;=C2=A0 =C2=A0package: Remove false positive lic warnings<br>
-&gt;=C2=A0 =C2=A0package: Remove false positive lic warnings<br>
-&gt;=C2=A0 =C2=A0license.bbclass: Add functions to split and canonicalise l=
-icense<br>
-&gt;=C2=A0 =C2=A0 =C2=A0strings<br>
-&gt;=C2=A0 =C2=A0package.bbclass: Remove false positive license warnings<br=
->
-&gt; <br>
-&gt;=C2=A0 meta/classes/license.bbclass |=C2=A0 27 ++++++++<br>
-&gt;=C2=A0 meta/classes/package.bbclass | 127 +++++++++++++++++++----------=
-------<br>
-&gt;=C2=A0 2 files changed, 96 insertions(+), 58 deletions(-)<br>
-&gt; <br>
-&gt; --<br>
-&gt; 2.25.1<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
+Florian Bezdeka (1):
+  wic: Warn if an ext filesystem affected by the Y2038 problem is used
 
-</blockquote></div>
+ scripts/lib/wic/misc.py      |  1 +
+ scripts/lib/wic/partition.py | 38 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
---000000000000bccfc205bb9b6110--
+--=20
+2.29.2
