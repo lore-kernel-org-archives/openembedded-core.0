@@ -1,162 +1,141 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.891.1613673385877211221
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.1272.1613674961033494532
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 10:36:26 -0800
+ Thu, 18 Feb 2021 11:02:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IMhlQrtk;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id t15so4005528wrx.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 10:36:25 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NlW1HGQO;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VHS/2A0SDzoDefKp3yIfs9RX7HFW2Kg+CqyZ1pQHUyo=;
-        b=IMhlQrtkScmAx47yheEt/o41oAHbSz8PGNwqCm/dio4D8mxYkIojrIJCVs1r9N0Q6h
-         CFFlfwjJMMs1qC+dRrSQ9t6FHVLSraMEKB2bmW/jxL3MeSbMrV9ViRTtIIG4s9p6NGum
-         387kV/xjgvQnkKtJZ0q0jxLUxQp+J9x6K0xEgXCpL0lJkjkYaMsY1rd20b26jWthAVTP
-         3+aEgJqd8G6eETCC0PurE1S6K+H4Dnxm8rFQnUXTWawJZHKBC05Lca5JXWfiIJSnmg2Q
-         tCf6Q0JmyPAg7zUZNq0HaG8aNU6w25O9wGA8FzRllobCaVKlcQ0sjHsyJ683SsOn2BwZ
-         X1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VHS/2A0SDzoDefKp3yIfs9RX7HFW2Kg+CqyZ1pQHUyo=;
-        b=qGYRLUrKq5rmGfRfQkqc7JgEIZGgZVnVPW/scNP7ncaJw0p9nFl30i8bYPqn2Gb+1z
-         xDtpHOMMvcZaSf/CL3tpOTRPPm8zNLl2WT9ThVCGwQi2YqhooR+SFP95ZtNy05UxjP6l
-         4cO5SXuoS5NXQFnsIj+SL5cKbukfYgjrjbViAkewOz29I7x+hF0isNbE1JDXib47q8JO
-         KFA2iTGaHRCvqAz659S0JpFfAD9BpaWW6gjeU2w/X4/1XFB6Ky+wjt4y4442/ZbnITLW
-         23iW92VnHGDPkc4cc5davC/L4SIYDXLhGg4g6zBjBuIwxZSn/fh57Bw+h5FpVXPdZDHk
-         bmbQ==
-X-Gm-Message-State: AOAM530DVPjvsZGlnu0sWkrpzfiu1n8/uQDFET1yySh4ehFgXqMFJVJq
-	czs8bQ5ZKjGuEy9t3jSfmdj92JRzDS8=
-X-Google-Smtp-Source: ABdhPJwaTq9FXDf2Y0hJ9dWnKXC2VlJ0pI7t2jOv/rG7MhBjbPUsNEbVkAVMC9DJ0RIKmL4fI9FPkw==
-X-Received: by 2002:adf:eb8e:: with SMTP id t14mr5518935wrn.20.1613673383410;
-        Thu, 18 Feb 2021 10:36:23 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
-        by smtp.gmail.com with ESMTPSA id f17sm9931889wrx.57.2021.02.18.10.36.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 10:36:22 -0800 (PST)
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: add hostname fallback when polkit is not available
-Date: Thu, 18 Feb 2021 18:36:20 +0000
-Message-Id: <20210218183620.1527716-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.29.2
+  d=axis.com; q=dns/txt; s=axis-central1; t=1613674961;
+  x=1645210961;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/yFgR1NO9GGR/N7H8RYdkL0Sz3smO45m3ZaGQKBfEt4=;
+  b=NlW1HGQOKarNIjUHa5dsY/xfqGeL8VBPqNKY8p1SZIeXKsksfA5XLZjL
+   DGu9CxTE1AKHVyk414V7FqnE7dzZbNM6tanUSkSwFV12Sueu2fHX9aby/
+   65XipFp1F7CI+pfdBSbPsaaBqKickkFp2mbSXcgv7GxX8zmHHUkfTKEhl
+   PVwh9POYKR3ro7L0CUigPjuYnhSqUmOmNSGkNb1IO3ET88LVM61KDpjJg
+   aaUktojUaXWlRrtRH3pK0eIMSCIk66GuEa/kV/v6t2pXlxOSDqQdDldEL
+   FvmG95AcFQ8G3TSheb7hgvr4Q6MnH5hgofXPV46GLRvzv0Tcg9ctbs8dg
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Meh Mbeh Ida Delphine <idadelm@gmail.com>
+Subject: Re: [OE-core] [PATCH 01/11] licenses: Update license file to match current SPDX names
+Thread-Topic: [OE-core] [PATCH 01/11] licenses: Update license file to match
+ current SPDX names
+Thread-Index: AQHXBhdG3gIAclqXYkSlbb91G/2qpqpeQ3/Q
+Date: Thu, 18 Feb 2021 19:02:23 +0000
+Message-ID: <2eed271bbe9d463fb892167d539e1b5c@XBOX03.axis.com>
+References: <20210218165646.2109894-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210218165646.2109894-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
-
-When polkit is not available, networkd will not have permissions
-to call hostnamed's dbus methods, as it runs without privileges.
-To solve this, when building without polkit, make a new PACKAGECONFIG
-'polkit_hostnamed_fallback' available which changes hostnamed so that
-it runs as the 'systemd-network' user, the same as networkd, so that
-the authorization works (and also with CAP_SYS_ADMIN since it loses
-root).
-Also run it with a separate 'systemd-hostname' group which also owns
-the bus, to avoid giving the 'systemd-network' additional privileges.
-
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- .../systemd/00-hostnamed-network-user.conf    |  6 ++++++
- .../org.freedesktop.hostname1_no_polkit.conf  | 11 +++++++++++
- meta/recipes-core/systemd/systemd_247.3.bb    | 19 ++++++++++++++++++-
- 3 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/00-hostnamed-network-user.conf
- create mode 100644 meta/recipes-core/systemd/systemd/org.freedesktop.hostname1_no_polkit.conf
-
-diff --git a/meta/recipes-core/systemd/systemd/00-hostnamed-network-user.conf b/meta/recipes-core/systemd/systemd/00-hostnamed-network-user.conf
-new file mode 100644
-index 0000000000..6b224ba9b9
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/00-hostnamed-network-user.conf
-@@ -0,0 +1,6 @@
-+[Service]
-+# By running with these options instead of root, networkd is allowed to request
-+# a hostname change via DBUS when policykit is not present
-+User=systemd-network
-+Group=systemd-hostname
-+AmbientCapabilities=CAP_SYS_ADMIN
-diff --git a/meta/recipes-core/systemd/systemd/org.freedesktop.hostname1_no_polkit.conf b/meta/recipes-core/systemd/systemd/org.freedesktop.hostname1_no_polkit.conf
-new file mode 100644
-index 0000000000..f4d0271cdb
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/org.freedesktop.hostname1_no_polkit.conf
-@@ -0,0 +1,11 @@
-+<?xml version="1.0"?> <!--*-nxml-*-->
-+<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-+        "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-+
-+<busconfig>
-+        <policy group="systemd-hostname">
-+                <allow own="org.freedesktop.hostname1"/>
-+                <allow send_destination="org.freedesktop.hostname1"/>
-+                <allow receive_sender="org.freedesktop.hostname1"/>
-+        </policy>
-+</busconfig>
-diff --git a/meta/recipes-core/systemd/systemd_247.3.bb b/meta/recipes-core/systemd/systemd_247.3.bb
-index a99e543a77..59e000f1dd 100644
---- a/meta/recipes-core/systemd/systemd_247.3.bb
-+++ b/meta/recipes-core/systemd/systemd_247.3.bb
-@@ -16,6 +16,8 @@ REQUIRED_DISTRO_FEATURES = "systemd"
- 
- SRC_URI += "file://touchscreen.rules \
-            file://00-create-volatile.conf \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
-            file://init \
-            file://99-default.preset \
-            file://systemd-pager.sh \
-@@ -164,6 +166,10 @@ PACKAGECONFIG[openssl] = "-Dopenssl=true,-Dopenssl=false,openssl"
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=false,libpcre2"
- PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
-+# If polkit is disabled and networkd+hostnamed are in use, enabling this option and
-+# using dbus-broker will allow networkd to be authorized to change the
-+# hostname without acquiring additional privileges
-+PACKAGECONFIG[polkit_hostnamed_fallback] = ",,,,dbus-broker,polkit"
- PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
- PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode,,qrencode"
- PACKAGECONFIG[quotacheck] = "-Dquotacheck=true,-Dquotacheck=false"
-@@ -306,6 +312,15 @@ do_install() {
- 		fi
- 	fi
- 
-+	# If polkit is not available and a fallback was requested, install a drop-in that allows networkd to
-+	# request hostname changes via DBUS without elevating its privileges
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'true', 'false', d)}; then
-+		install -d ${D}${systemd_unitdir}/system/systemd-hostnamed.service.d/
-+		install -m 0644 ${WORKDIR}/00-hostnamed-network-user.conf ${D}${systemd_unitdir}/system/systemd-hostnamed.service.d/
-+		install -d ${D}${datadir}/dbus-1/system.d/
-+		install -m 0644 ${WORKDIR}/org.freedesktop.hostname1_no_polkit.conf ${D}${datadir}/dbus-1/system.d/
-+	fi
-+
- 	# create link for existing udev rules
- 	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
- 
-@@ -370,7 +385,8 @@ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
-                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
-                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
- "
--GROUPADD_PARAM_${PN} = "-r systemd-journal"
-+GROUPADD_PARAM_${PN} = "-r systemd-journal;"
-+GROUPADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit-1 polkitd;', '', d)}"
-@@ -589,6 +605,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.resolve1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.systemd1.conf \
-+                ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '${datadir}/dbus-1/system.d/org.freedesktop.hostname1_no_polkit.conf', '', d)} \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.hostname1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.login1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.timesync1.conf \
--- 
-2.29.2
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxOCBm
+ZWJydWFyaSAyMDIxIDE3OjU3DQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+IENjOiBNZWggTWJlaCBJZGEgRGVscGhpbmUgPGlkYWRlbG1AZ21haWwuY29t
+Pg0KPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIDAxLzExXSBsaWNlbnNlczogVXBkYXRlIGxp
+Y2Vuc2UgZmlsZSB0byBtYXRjaA0KPiBjdXJyZW50IFNQRFggbmFtZXMNCj4gDQo+IEZyb206IE1l
+aCBNYmVoIElkYSBEZWxwaGluZSA8aWRhZGVsbUBnbWFpbC5jb20+DQo+IA0KPiAqIFVwZGF0ZWQg
+bWFwcGluZ3Mgb2YgbGljZW5zZSBmaWVsZHMgb2YgbWV0YS9jb25mL2xpY2Vuc2VzLmNvbmYgdG8g
+bWF0Y2gNCj4gICBsYXRlc3QgU1BEWCBuYW1pbmcuDQo+IA0KPiAqIEFkZCBtYXBwaW5ncyB0byB0
+aGUgb2xkIG5hbWVzDQo+IA0KPiAqIFJlbmFtZWQgbGljZW5zZSBmaWxlcyB0byBtYXRjaCB0aGUg
+bmV3IHByZWZlcnJlZCBuYW1lcy4NCj4gDQo+ICogQWRkZWQgIm9yIGxhdGVyIiB2ZXJzaW9ucyBv
+ZiBsaWNlbnNlIG1hcHBpbmdzDQo+IA0KPiAqIEFkZGVkICJvciBsYXRlciIgdmVyc2lvbnMgb2Yg
+Y29tbW9uIGxpY2Vuc2UgZmlsZXMgZWcgR1BMLTIuMC1vci1sYXRlcg0KPiANCj4gRml4ZXM6IFtZ
+T0NUTyAjMTMzMjBdDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNZWggTWJlaCBJZGEgRGVscGhpbmUg
+PGlkYWRlbG1AZ21haWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gLS0tDQo+ICBtZXRhL2NvbmYvbGlj
+ZW5zZXMuY29uZiAgICAgICAgICAgICAgICAgICAgICAgfCAgNDggKy0NCj4gIC4uLi97QUdQTC0z
+LjAgPT4gQUdQTC0zLjAtb25seX0gICAgICAgICAgICAgICB8ICAgMA0KPiAgbWV0YS9maWxlcy9j
+b21tb24tbGljZW5zZXMvQUdQTC0zLjAtb3ItbGF0ZXIgIHwgNjEzICsrKysrKysrKysrKysrKysr
+DQo+ICAuLi4vY29tbW9uLWxpY2Vuc2VzL3tHUEwtMS4wID0+IEdQTC0xLjAtb25seX0gfCAgIDAN
+Cj4gIG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0dQTC0xLjAtb3ItbGF0ZXIgICB8IDIzMiAr
+KysrKysrDQo+ICAuLi4vY29tbW9uLWxpY2Vuc2VzL3tHUEwtMi4wID0+IEdQTC0yLjAtb25seX0g
+fCAgIDANCj4gIG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0dQTC0yLjAtb3ItbGF0ZXIgICB8
+IDMxOSArKysrKysrKysNCj4gIC4uLi9jb21tb24tbGljZW5zZXMve0dQTC0zLjAgPT4gR1BMLTMu
+MC1vbmx5fSB8ICAgMA0KPiAgbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMvR1BMLTMuMC1vci1s
+YXRlciAgIHwgNjI1ICsrKysrKysrKysrKysrKysrKw0KPiAgLi4uL3tMR1BMLTIuMCA9PiBMR1BM
+LTIuMC1vbmx5fSAgICAgICAgICAgICAgIHwgICAwDQo+ICBtZXRhL2ZpbGVzL2NvbW1vbi1saWNl
+bnNlcy9MR1BMLTIuMC1vci1sYXRlciAgfCA0NDYgKysrKysrKysrKysrKw0KPiAgLi4uL3tMR1BM
+LTIuMSA9PiBMR1BMLTIuMS1vbmx5fSAgICAgICAgICAgICAgIHwgICAwDQo+ICBtZXRhL2ZpbGVz
+L2NvbW1vbi1saWNlbnNlcy9MR1BMLTIuMS1vci1sYXRlciAgfCA0NjggKysrKysrKysrKysrKw0K
+PiAgLi4uL3tMR1BMLTMuMCA9PiBMR1BMLTMuMC1vbmx5fSAgICAgICAgICAgICAgIHwgICAwDQo+
+ICBtZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9MR1BMLTMuMC1vci1sYXRlciAgfCAxNjMgKysr
+KysNCj4gIDE1IGZpbGVzIGNoYW5nZWQsIDI4OTcgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25z
+KC0pDQo+ICByZW5hbWUgbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMve0FHUEwtMy4wID0+IEFH
+UEwtMy4wLW9ubHl9ICgxMDAlKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvZmlsZXMvY29t
+bW9uLWxpY2Vuc2VzL0FHUEwtMy4wLW9yLWxhdGVyDQo+ICByZW5hbWUgbWV0YS9maWxlcy9jb21t
+b24tbGljZW5zZXMve0dQTC0xLjAgPT4gR1BMLTEuMC1vbmx5fSAoMTAwJSkNCj4gIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBtZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9HUEwtMS4wLW9yLWxhdGVyDQo+
+ICByZW5hbWUgbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMve0dQTC0yLjAgPT4gR1BMLTIuMC1v
+bmx5fSAoMTAwJSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL2ZpbGVzL2NvbW1vbi1saWNl
+bnNlcy9HUEwtMi4wLW9yLWxhdGVyDQo+ICByZW5hbWUgbWV0YS9maWxlcy9jb21tb24tbGljZW5z
+ZXMve0dQTC0zLjAgPT4gR1BMLTMuMC1vbmx5fSAoMTAwJSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBtZXRhL2ZpbGVzL2NvbW1vbi1saWNlbnNlcy9HUEwtMy4wLW9yLWxhdGVyDQo+ICByZW5hbWUg
+bWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMve0xHUEwtMi4wID0+IExHUEwtMi4wLW9ubHl9ICgx
+MDAlKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0xH
+UEwtMi4wLW9yLWxhdGVyDQo+ICByZW5hbWUgbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMve0xH
+UEwtMi4xID0+IExHUEwtMi4xLW9ubHl9ICgxMDAlKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1l
+dGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0xHUEwtMi4xLW9yLWxhdGVyDQo+ICByZW5hbWUgbWV0
+YS9maWxlcy9jb21tb24tbGljZW5zZXMve0xHUEwtMy4wID0+IExHUEwtMy4wLW9ubHl9ICgxMDAl
+KQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvZmlsZXMvY29tbW9uLWxpY2Vuc2VzL0xHUEwt
+My4wLW9yLWxhdGVyDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9jb25mL2xpY2Vuc2VzLmNvbmYg
+Yi9tZXRhL2NvbmYvbGljZW5zZXMuY29uZg0KPiBpbmRleCA1YjMwOWViMzg1MS4uYTQ1ODJiOWFl
+ODIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY29uZi9saWNlbnNlcy5jb25mDQo+ICsrKyBiL21ldGEv
+Y29uZi9saWNlbnNlcy5jb25mDQo+IEBAIC0xMCwyNyArMTAsNDEgQEANCj4gICMgQW55IG1hcHBp
+bmcgdG8gTVBML0xHUEwvR1BMIHNob3VsZCBiZSBmaXhlZA0KPiANCj4gICMgQUdQTCB2YXJpYXRp
+b25zDQo+IC1TUERYTElDRU5TRU1BUFtBR1BMLTNdID0gIkFHUEwtMy4wIg0KPiAtU1BEWExJQ0VO
+U0VNQVBbQUdQTHYzXSA9ICJBR1BMLTMuMCINCj4gLVNQRFhMSUNFTlNFTUFQW0FHUEx2My4wXSA9
+ICJBR1BMLTMuMCINCj4gK1NQRFhMSUNFTlNFTUFQW0FHUEwtM10gPSAiQUdQTC0zLjAtb25seSIN
+Cj4gK1NQRFhMSUNFTlNFTUFQW0FHUEx2M10gPSAiQUdQTC0zLjAtb25seSINCj4gK1NQRFhMSUNF
+TlNFTUFQW0FHUEx2My4wXSA9ICJBR1BMLTMuMC1vbmx5Ig0KPiArU1BEWExJQ0VOU0VNQVBbQUdQ
+TC0zLjBdID0gIkFHUEwtMy4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtBR1BMLTMuMCtdID0g
+IkFHUEwtMy4wLW9yLWxhdGVyIg0KPiANCj4gICMgR1BMIHZhcmlhdGlvbnMNCj4gLVNQRFhMSUNF
+TlNFTUFQW0dQTC0xXSA9ICJHUEwtMS4wIg0KPiAtU1BEWExJQ0VOU0VNQVBbR1BMdjFdID0gIkdQ
+TC0xLjAiDQo+IC1TUERYTElDRU5TRU1BUFtHUEx2MS4wXSA9ICJHUEwtMS4wIg0KPiAtU1BEWExJ
+Q0VOU0VNQVBbR1BMLTJdID0gIkdQTC0yLjAiDQo+IC1TUERYTElDRU5TRU1BUFtHUEx2Ml0gPSAi
+R1BMLTIuMCINCj4gLVNQRFhMSUNFTlNFTUFQW0dQTHYyLjBdID0gIkdQTC0yLjAiDQo+IC1TUERY
+TElDRU5TRU1BUFtHUEwtM10gPSAiR1BMLTMuMCINCj4gLVNQRFhMSUNFTlNFTUFQW0dQTHYzXSA9
+ICJHUEwtMy4wIg0KPiAtU1BEWExJQ0VOU0VNQVBbR1BMdjMuMF0gPSAiR1BMLTMuMCINCj4gK1NQ
+RFhMSUNFTlNFTUFQW0dQTC0xXSA9ICJHUEwtMS4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtH
+UEx2MV0gPSAiR1BMLTEuMC1vbmx5Ig0KPiArU1BEWExJQ0VOU0VNQVBbR1BMdjEuMF0gPSAiR1BM
+LTEuMC1vbmx5Ig0KPiArU1BEWExJQ0VOU0VNQVBbR1BMLTEuMCtdID0gIkdQTC0xLjAtb3ItbGF0
+ZXIiDQo+ICtTUERYTElDRU5TRU1BUFtHUEwtMS4wXSA9ICJHUEwtMi4wLW9ubHkiDQoNCkNoYW5n
+ZSB0bzoNCg0KU1BEWExJQ0VOU0VNQVBbR1BMLTEuMF0gPSAiR1BMLTEuMC1vbmx5Ig0KDQo+ICtT
+UERYTElDRU5TRU1BUFtHUEwtMl0gPSAiR1BMLTIuMC1vbmx5Ig0KPiArU1BEWExJQ0VOU0VNQVBb
+R1BMdjJdID0gIkdQTC0yLjAtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQW0dQTHYyLjBdID0gIkdQ
+TC0yLjAtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQW0dQTC0yLjBdID0gIkdQTC0yLjAtb25seSIN
+Cj4gK1NQRFhMSUNFTlNFTUFQW0dQTC0yLjArXSA9ICJHUEwtMi4wLW9yLWxhdGVyIg0KPiArU1BE
+WExJQ0VOU0VNQVBbR1BMLTNdID0gIkdQTC0zLjAtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQW0dQ
+THYzXSA9ICJHUEwtMy4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtHUEx2My4wXSA9ICJHUEwt
+My4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtHUEwtMy4wXSA9ICJHUEwtMy4wLW9ubHkiDQo+
+ICtTUERYTElDRU5TRU1BUFtHUEwtMy4wK10gPSAiR1BMLTMuMC1vci1sYXRlciINCj4gDQo+ICAj
+TEdQTCB2YXJpYXRpb25zDQo+IC1TUERYTElDRU5TRU1BUFtMR1BMdjJdID0gIkxHUEwtMi4wIg0K
+PiAtU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjBdID0gIkxHUEwtMi4wIg0KPiAtU1BEWExJQ0VOU0VN
+QVBbTEdQTDIuMV0gPSAiTEdQTC0yLjEiDQo+IC1TUERYTElDRU5TRU1BUFtMR1BMdjIuMV0gPSAi
+TEdQTC0yLjEiDQo+IC1TUERYTElDRU5TRU1BUFtMR1BMdjNdID0gIkxHUEwtMy4wIg0KPiArU1BE
+WExJQ0VOU0VNQVBbTEdQTHYyXSA9ICJMR1BMLTIuMC1vbmx5Ig0KPiArU1BEWExJQ0VOU0VNQVBb
+TEdQTHYyLjBdID0gIkxHUEwtMi4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtMR1BMLTIuMF0g
+PSAiTEdQTC0yLjAtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQW0xHUEwtMi4wK10gPSAiTEdQTC0y
+LjAtb3ItbGF0ZXIiDQo+ICtTUERYTElDRU5TRU1BUFtMR1BMMi4xXSA9ICJMR1BMLTIuMS1vbmx5
+Ig0KPiArU1BEWExJQ0VOU0VNQVBbTEdQTHYyLjFdID0gIkxHUEwtMi4xLW9ubHkiDQo+ICtTUERY
+TElDRU5TRU1BUFtMR1BMLTIuMV0gPSAiTEdQTC0yLjEtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQ
+W0xHUEwtMi4xK10gPSAiTEdQTC0yLjEtb3ItbGF0ZXIiDQo+ICtTUERYTElDRU5TRU1BUFtMR1BM
+djNdID0gIkxHUEwtMy4wLW9ubHkiDQo+ICtTUERYTElDRU5TRU1BUFtMR1BMLTMuMF0gPSAiTEdQ
+TC0zLjAtb25seSINCj4gK1NQRFhMSUNFTlNFTUFQW0xHUEwtMy4wK10gPSAiTEdQTC0zLjAtb3It
+bGF0ZXIiDQo+IA0KPiAgI01QTCB2YXJpYXRpb25zDQo+ICBTUERYTElDRU5TRU1BUFtNUEwtMV0g
+PSAiTVBMLTEuMCINCg0KLy9QZXRlcg0K
