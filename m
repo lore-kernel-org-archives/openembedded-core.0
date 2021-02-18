@@ -1,101 +1,136 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
- by mx.groups.io with SMTP id smtpd.web12.3961.1613634516869168438
+Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
+ by mx.groups.io with SMTP id smtpd.web09.4081.1613636560185672037
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 23:48:37 -0800
+ Thu, 18 Feb 2021 00:22:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CUw4Dmj+;
- spf=pass (domain: gmail.com, ip: 209.85.210.47, mailfrom: aehs29@gmail.com)
-Received: by mail-ot1-f47.google.com with SMTP id 80so1112985oty.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 23:48:36 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=q7C/3+Lv;
+ spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=6765223a1=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cADa9Lws3yfZkOs7TlXSQBED8kIpZhXYFWc+bmtDNVM=;
-        b=CUw4Dmj+Uoji87VThKpJ+/e+4Y/2HbTduFYgodqiy06eB6j5k+OKRBqpSVnKh4T+2G
-         7a/9adZ/GkniKWqN3cJN8Mq7dwC/K7jvC9dl7/ReSO/EdTX3mdopVSSnslzGORVFhJHr
-         9pD2e1Rho5aCK1x0TrzV58BDd6FN/49Oa/jnp0Uu4MoRL5rCBrR9Ga3ubxYj5pjQ4Quf
-         Oz9/sTbqyptPRJZiwgOADKPGxYMf2aLhcbjLrLufXlwdd8QBpsVv1XFzy/uiKmJY/f85
-         /3BvHeWnRby9Dgs2jZJZyZWLPfaAXFtF8CIJkcW2BnlYZEDiWhNEuQY9HUwpxSB8ac1i
-         btzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cADa9Lws3yfZkOs7TlXSQBED8kIpZhXYFWc+bmtDNVM=;
-        b=hPrWq02V2pvqaWEKcOXn2M0WSZQDtnkvRcTVIHBT+m9vrQ4xlDSftF2SFYT7PoKX4y
-         BeERHjdBLOuVgE1uF10RnIJzotAgHZ/Wfw92QBr65GNm0dlKHb0jEwohDtmX9z69ZtOB
-         ITMphV4u13UP1PXbMf7X47Mx+Kap/uzEYToLTCDnq6OBRyncAR6tF5liOyJaAgs8zucC
-         zaRV+u/SyH+Co29LWsJRC3oDNPNN8uzLl4ZRqHWgxXGVpjBcXaDqRamew5Dx4ZBckjHD
-         y8rwgOSfI7A9xfkCNrPooIxY4kRts2pCCFJiTzj1OQ8S8so6dazVCYYZvr44IVimen/D
-         09KQ==
-X-Gm-Message-State: AOAM532q5HYWfIhYeXe7WX4YgnVbvVB4ZcVhE7EY3wJAr4oFP9Ip4S9y
-	LD62M7WGtagRt5r/IkSWqk8Bu6j0BTBggg==
-X-Google-Smtp-Source: ABdhPJw8nD1Wuu0/Ggas478kdjx2aIIsgSsMPo+j5CzE6uRaqVImO2kklQ7mWaPOL5GOTFwNKUF/Eg==
-X-Received: by 2002:a9d:6ad2:: with SMTP id m18mr1967696otq.331.1613634515837;
-        Wed, 17 Feb 2021 23:48:35 -0800 (PST)
-Return-Path: <aehs29@gmail.com>
-Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com. [68.201.52.49])
-        by smtp.gmail.com with ESMTPSA id z30sm918597otj.61.2021.02.17.23.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 23:48:35 -0800 (PST)
-From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
-X-Google-Original-From: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-Subject: [PATCH] sstate.bbclass: Split sstate summary into locally and network found artifacts
-Date: Thu, 18 Feb 2021 00:48:25 -0700
-Message-Id: <20210218074825.3043696-1-alhe@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1613636560; x=1645172560;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=jCXd8eb62kOrDY7z1tk5NJG+nwycLsdlVG0bY9C1FGI=;
+  b=q7C/3+LvhJH8a7Akwv1a58jfjKPZOmMQuLhfu8IAOBp37MViwv1xn//6
+   6Cy6AOJvVLkRPrUZuc573ra/v7RTNsmDm6SdUTF7V2CVR5TqSFj/Nl9kQ
+   v7616QrOClvJZhj1lsnqA/RpxxA8h1rkb4n+lmu+YAkyoU64Nk3cF9Dba
+   c=;
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 18 Feb 2021 09:22:37 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw1.muc with ESMTP/TLS;
+ 18 Feb 2021 09:22:37 +0100
+Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
+ by esabb5.muc with ESMTP/TLS; 18 Feb 2021 09:22:37 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
+ (160.46.167.68) with Microsoft SMTP Server (TLS;
+ Thu, 18 Feb 2021 09:22:37 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Thu,
+ 18 Feb 2021 09:22:37 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <steve@sakoman.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] CVE's for linux-yocto
+Thread-Topic: [OE-core] CVE's for linux-yocto
+Thread-Index: AQHXBc836VkRMRGApkeh/ly8rt7V+g==
+Date: Thu, 18 Feb 2021 08:22:37 +0000
+Message-ID: <YC4jyxYG+qaKLZOu@korppu>
+References: <CAOSpxda=kB8f8ddFh0ZV2PeHSWNGVP=zjL0in4EgBSVP3oL6UA@mail.gmail.com>
+In-Reply-To: <CAOSpxda=kB8f8ddFh0ZV2PeHSWNGVP=zjL0in4EgBSVP3oL6UA@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <0E53C2DA9B258E44AE38A91623A763FB@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Modify sstate class to add extra output, differentiating
-between artifacts found locally and those found over the network.
+Hi,
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
----
- meta/classes/sstate.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Tue, Feb 16, 2021 at 08:23:31AM -1000, Steve Sakoman wrote:
+> The weekly cve reports for master, gatesgarth, and dunfell currently
+> omit linux-yocto since the CPE database for the kernel is notoriously
+> incomplete in versioning information.
+>=20
+> This morning at the YP technical team meeting we discussed this and
+> decided to see if we might, as a team, expend some effort to update
+> the CPE database to improve this situation (much as we have been doing
+> for the other packages in oe-core)
+>=20
+> The first step in this process is to shine some light on the current
+> situation, so below is a list of the current CVE hits for linux-yocto
+> in all three branches.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d08d950e76..f579168162 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -862,6 +862,8 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- 
- def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-     found = set()
-+    foundLocal = set()
-+    foundNet = set()
-     missed = set()
- 
-     def gethash(task):
-@@ -894,6 +896,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             found.add(tid)
-+            foundLocal.add(tid)
-             continue
-         else:
-             missed.add(tid)
-@@ -939,6 +942,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 fetcher.checkstatus()
-                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 found.add(tid)
-+                foundNet.add(tid)
-                 if tid in missed:
-                     missed.remove(tid)
-             except:
-@@ -1000,7 +1004,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         match = 0
-         if total:
-             match = len(found) / total * 100
--        bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
-+        bb.plain("Sstate summary: Wanted %d Local %d Network %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(foundLocal), len(foundNet),len(missed), currentcount, match, complete))
- 
-     if hasattr(bb.parse.siggen, "checkhashes"):
-         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
--- 
-2.25.1
+Please check https://github.com/nluedtke/linux_kernel_cves
 
+IMO, that information could be moved over to NVD and CPE, but AFAIK the
+scripts which generate this git repo with data aren't public.
+
+Another option would be to switch kernel CVE scans to use that git repo
+to pull in data from kernel major version and which CVEs are fixed and
+unfixed by given minor version release.
+
+That is rather simple to do for anyone who has a bit of time. Though
+as recommended by upstream developers, CVEs should never be patched
+independently and instead upstream point releases should be merged into
+product trees.
+
+For example for dunfell linux-yocto version 5.4.87 and data from
+https://github.com/nluedtke/linux_kernel_cves/blob/master/data/5.4/5.4_secu=
+rity.txt
+shows that the list of fixed CVEs is between lines 1 and 297 (note
+that 5.4.87 point release is missing from the list but previous and followi=
+ng
+releases are there, not perfect but that's what it is).
+
+Then the list of unfixed CVEs from newer point releases is:
+
+CVEs fixed in 5.4.88:
+  CVE-2020-36158: 0a49aaf4df2936bca119ee38fe5a570a7024efdc mwifiex: Fix pos=
+sible buffer overflows in mwifiex_cmd_802_11_ad_hoc_start
+
+CVEs fixed in 5.4.89:
+  CVE-2020-28374: 485e21729b1e1235e6075318225c09e76b376e81 scsi: target: Fi=
+x XCOPY NAA identifier lookup
+
+CVEs fixed in 5.4.92:
+  CVE-2021-3178: 4aef760c28e8bd1860a27fd78067b4ea77124987 nfsd4: readdirplu=
+s shouldn't return parent of export
+
+CVEs fixed in 5.4.94:
+  CVE-2020-27825: b899d5b2a42a963d6ca7e33d51a35b2eb25f6d10 tracing: Fix rac=
+e in trace_open and buffer resize call
+  CVE-2021-3347: 0dae88a92596db9405fd4a341c1915cf7d8fbad4 futex: Ensure the=
+ correct return value from futex_lock_pi()
+
+CVEs fixed in 5.4.95:
+  CVE-2021-3348: 587c6b75d7fdd366ad7dc615471006ce73c03a51 nbd: freeze the q=
+ueue while we're adding connections
+
+CVEs fixed in 5.4.97:
+  CVE-2021-20194: 9146fffc5d2a3ec49906daf18d2e983d995b3521 bpf, cgroup: Fix=
+ optlen WARN_ON_ONCE toctou
+
+And list of CVEs for which no fix is available in 5.4 branch is the long li=
+st of outstanding
+(all lines after "Outstanding CVEs") CVEs, some of which do not apply to 5.=
+4 because buggy
+code doesn't exist there, or no-one has yet backported the patches etc.
+
+This same process could apply to any kernel major version for which data ex=
+ists in this
+git tree and if the database keeps seeing updates. I've been using this man=
+ually to
+trigger updates and cross reference which point releases have fixes and I h=
+ave not
+yet found major bugs in the data. Though for updates, like I said, full mer=
+ge or rebase
+of the upstream kernel.org point releases must be done, as also Greg K-H. s=
+ays.
+
+Cheers,
+
+-Mikko=
