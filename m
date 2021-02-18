@@ -1,107 +1,196 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.1506.1613614969467385492
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.1545.1613615541085520795
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 18:22:49 -0800
+ Wed, 17 Feb 2021 18:32:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fdnu7NkG;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id g20so409456plo.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 18:22:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=OV0EoxbQYjpBHKZu0b6gQ6yVlHYztPdgpI94QptxGnQ=;
-        b=fdnu7NkGppjs+i9E4QCGJaYrZYsJhDApt6dgNnI/QDuSaue3/ZAnh21NtjhHUL8RPF
-         EDyvaz1EJ5s/OezzeVpZ6FVvKLb4qHNws0ctezZPMg9T/iO5TJttivRApwUQF4gSeeV+
-         GNLSihLsfIKz8VmRE4PP9gG1nzQY6T2PMN1K60n2SagkI+Q5QOBqx1bfNoHU+jL4mwr2
-         gzZpN6YtUaRE8CsOylLXfJzig2iTqSxfwuO+vux/nyqxdRtcFBBNPqbAgfoVh9tGIpqb
-         dJFC+ndaEGCls7AkcZk4SAbVSkMVMgP8tc+Gdh92LpRIftqw2Ga5uonrS6VWYn+BYbfu
-         uxYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=OV0EoxbQYjpBHKZu0b6gQ6yVlHYztPdgpI94QptxGnQ=;
-        b=USDQVAU3Jz81D9g0gxk/IWeHfYYoVfloaI7uJThfVWehKWSaTzWwrgPn3/+Cfwmhkr
-         rhhZa+subw2hH7mwtqBXj79BqmvpaiVWJT0sALiP4AJ/iGKaXuQ8YD7ocs7UJrIwcvAl
-         +r2w+Lugd3Ir3GhzuCsKaybJJ0OMUbeQisOcOb6+2Npb7tuKiOoiJYvb2yCqSIS47jKB
-         EoEKGTGW/+y6NpoECMZgiKiHLajQ45IQCH3hJU4nWwodVTyawSEDF/FaA2gcFwCLJ8OD
-         9tyTxx0NM2Bre9dD99Cy3Ghl+3PwJLZofpO79y+0b87Ruy2vCkLRQ+IX9jPv2LXaXsLi
-         gfIg==
-X-Gm-Message-State: AOAM532yN9QRmrA/92UvnXPNTqH8AApjMp9ZLhEx3wxPzkfpy/VEar55
-	XBmSN9Ih98zudaXlsfskeJ/Piw+6jHMKHA==
-X-Google-Smtp-Source: ABdhPJyd6+n9pP1FnJfxHxy/WZ6xhTjIeaqdSlvE+pXCBWtgzZ5BZcax+tnTma+7lfm3+yp5teC5RQ==
-X-Received: by 2002:a17:902:be06:b029:e3:7031:bef with SMTP id r6-20020a170902be06b02900e370310befmr1810944pls.19.1613614968764;
-        Wed, 17 Feb 2021 18:22:48 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:7db1:8052:decd:2a75])
-        by smtp.gmail.com with ESMTPSA id n1sm3895783pfd.212.2021.02.17.18.22.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 18:22:48 -0800 (PST)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuste@mvista.com>,
-	Armin Kuster <akuster@mvista.com>
-Subject: [dunfell][PATCH] sudo: update to 1.8.32
-Date: Wed, 17 Feb 2021 18:22:46 -0800
-Message-Id: <20210218022246.6763-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=nxVvksO/;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: mcroce@linux.microsoft.com)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5F55520B6C40
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 18:32:20 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5F55520B6C40
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1613615540;
+	bh=8nJsiyjj1QlckIc4CjhAo+wByfi6ljCrOFgSgMArYFw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nxVvksO/Lv3ICqZTfqLTcCVtwfMplTj80RVU65MHVpx7Zpwui1tcigDFW1foNcJ28
+	 n2oViQPdxuMq+KjnIifucX22OCKFnqsK8gPkGBUvsvxJIzfi1EzPTJ+xd6erDIAbGf
+	 BtOUREt2q1JAABCPFJroNpNW/QWw3OoYa6yW8LjQ=
+Received: by mail-pl1-f182.google.com with SMTP id ba1so427135plb.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 18:32:20 -0800 (PST)
+X-Gm-Message-State: AOAM533KQMH40XIjVhotpdb6E0Jy+IaX3k1/GSeUc5MPVsC60/cMPlcD
+	njUf2Zy2G33OOEbUUU1OtaMEDukwqRp2/5Wwn1w=
+X-Google-Smtp-Source: ABdhPJxzM017YTQHdbYtzie1ovbNwFebETYSDJD7wfnlKG5bJUw2B8PXpA+gLQICWyHmLX0aktMJD+9li5ZKPLA9jEs=
+X-Received: by 2002:a17:90a:4092:: with SMTP id l18mr1809350pjg.39.1613615539948;
+ Wed, 17 Feb 2021 18:32:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20210208181747.44789-1-mcroce@linux.microsoft.com> <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com>
+In-Reply-To: <CADkTA4P-kS6UdgDmT9J=FtWGy0Tmu28RtDtXHOg0M_J8z41vAQ@mail.gmail.com>
+From: "Matteo Croce" <mcroce@linux.microsoft.com>
+Date: Thu, 18 Feb 2021 03:31:44 +0100
+X-Gmail-Original-Message-ID: <CAFnufp1BS2mZxJ5TAu6bVX7h76_k2vrnbrLDj6o83UbOCb5M_w@mail.gmail.com>
+Message-ID: <CAFnufp1BS2mZxJ5TAu6bVX7h76_k2vrnbrLDj6o83UbOCb5M_w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] recipes-kernel: add libbpf
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Armin Kuster <akuste@mvista.com>
+On Mon, Feb 8, 2021 at 9:13 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Mon, Feb 8, 2021 at 1:18 PM Matteo Croce <mcroce@linux.microsoft.com> wrote:
+> >
+> > From: Matteo Croce <mcroce@microsoft.com>
+> >
+> > Add a recipe to build libbpf from https://github.com/libbpf/libbpf
+> > The only patch fixes a build issue, and it's already merged upstream.
+>
+> Thanks for the submission! I have a few comments / questions.
+>
+> To get this into oe-core, we should be commenting / documenting why it
+> should be in core, versus another layer. The standard criteria is that
+> there are enough varied users and that the functionality is common
+> enough, that it belongs in core.
+>
+> There should also be some sort of oe-selftest for the functionality,
+> otherwise, it is hard to detect breakages. Some sort of application
+> that uses the library and that can be executed in qemu would be
+> enough.
+>
+> What are the kernel requirements ? CONFIG_BPF is selected by other
+> kernel configs (it has no menu entry, so it must be), is it that, or
+> something else that is the requirement (classic BFP?). If that option
+> is now always on, is that true for the reference kernel versions in
+> master (5.4 and 5.10).
+>
 
-Source: https://www.sudo.ws
-MR: 108078, 108046, 108136
-Type: Security Fix
-Disposition: Backported from https://www.sudo.ws
-ChangeID: 3d266a182918f7a7afe40bdee01b369171125358
-Description:
+Something like this will work? I see a similar trick in the uprobe recipe:
 
-The 1.8.x series is a stable release.
-Bug fix only updates.
+do_compile() {
+ if grep -q "CONFIG_BPF_SYSCALL=y" ${STAGING_KERNEL_BUILDDIR}/.config
+ then
+  oe_runmake
+ else
+  bbnote "BFP syscall is not enabled"
+ fi
+}
 
-LIC_FILES_CHKSUM updated do to 2021 yr update
 
-see https://www.sudo.ws/legacy.html
-CVE-2021-23239
-CVE-2021-23240
-CVE-2021-3156
+> Finally, does this work across all the supported architectures ? if
+> not, we'll need compatibility settings.
+>
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-extended/sudo/sudo.inc                           | 2 +-
- meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (92%)
+I'm adding this:
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 5d27d469282..aeedfc1a23b 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-similarity index 92%
-rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
-index 39d8817c32e..6787f43e1a9 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
-@@ -7,8 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
--SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
-+SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64).*-linux"
+
+> >
+> > Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> > ---
+> >  ...01-install-don-t-preserve-file-owner.patch | 29 +++++++++++++++++++
+> >  meta/recipes-kernel/libbpf/libbpf_0.3.bb      | 25 ++++++++++++++++
+> >  2 files changed, 54 insertions(+)
+> >  create mode 100644 meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> >  create mode 100644 meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> >
+> > diff --git a/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> > new file mode 100644
+> > index 0000000000..4e65d8d80a
+> > --- /dev/null
+> > +++ b/meta/recipes-kernel/libbpf/libbpf/0001-install-don-t-preserve-file-owner.patch
+> > @@ -0,0 +1,29 @@
+> > +From 7df10d91db6f533cc0f6c09f4ae8ad92918c6160 Mon Sep 17 00:00:00 2001
+> > +From: Matteo Croce <mcroce@microsoft.com>
+> > +Date: Tue, 26 Jan 2021 12:41:47 +0100
+> > +Subject: [PATCH] install: don't preserve file owner
+> > +
+> > +'cp -p' preserve file ownership, this may leave files owned by the
+> > +current in user in /lib .
+> > +
+>
+> We need the upstream status documented here, not just in the commit message.
+>
+
+You want the upstream commit, or just saying that it will go into 0.4 is enough?
+
+> > +Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> > +---
+> > + Makefile | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/Makefile b/Makefile
+> > +index da33613..ab66edc 100644
+> > +--- a/Makefile
+> > ++++ b/Makefile
+> > +@@ -130,7 +130,7 @@ define do_s_install
+> > +       $(Q)if [ ! -d '$(DESTDIR)$2' ]; then            \
+> > +               $(INSTALL) -d -m 755 '$(DESTDIR)$2';    \
+> > +       fi;
+> > +-      $(Q)cp -fpR $1 '$(DESTDIR)$2'
+> > ++      $(Q)cp -fR $1 '$(DESTDIR)$2'
+> > + endef
+> > +
+> > + install: all install_headers install_pkgconfig
+> > +--
+> > +2.29.2
+> > +
+> > diff --git a/meta/recipes-kernel/libbpf/libbpf_0.3.bb b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> > new file mode 100644
+> > index 0000000000..402e57257f
+> > --- /dev/null
+> > +++ b/meta/recipes-kernel/libbpf/libbpf_0.3.bb
+> > @@ -0,0 +1,25 @@
+> > +SUMMARY = "Library for BPF handling"
+> > +DESCRIPTION = "Library for BPF handling"
+> > +HOMEPAGE = "https://github.com/libbpf/libbpf"
+> > +SECTION = "libs"
+> > +LICENSE = "LGPLv2.1+"
+> > +
+> > +LIC_FILES_CHKSUM = "file://../LICENSE.LPGL-2.1;md5=b370887980db5dd40659b50909238dbd"
+> > +
+> > +DEPENDS = "zlib elfutils"
+> > +
+> > +SRC_URI = "git://github.com/libbpf/libbpf.git;protocol=https"
+> > +SRCREV = "051a4009f94d5633a8f734ca4235f0a78ee90469"
+> > +
+> > +# Backported from version 0.4
+> > +SRC_URI += "file://0001-install-don-t-preserve-file-owner.patch"
+> > +
+> > +S = "${WORKDIR}/git/src"
+> > +
+> > +inherit pkgconfig
+>
+> I see inherit pkgconfig, but no PACKAGECONFIG setting. Is it actually
+> used here ?
+>
+> > +
+> > +do_install() {
+> > +       make install DESTDIR=${D} LIBDIR=${libdir}
+>
+> Rather than a bare 'make' call, this should likely be oe_runmake
+>
+
+Right.
+While at it, what about adding DESTDIR and LIBDIR to ${EXTRA_OEMAKE}?
+They are ignored in the build phase
+
+> Bruce
+>
+> > +}
+> > +
+> > +BBCLASSEXTEND = "native"
+> > --
+> > 2.29.2
+> >
+> >
+> > 
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+Regards,
 -- 
-2.17.1
-
+per aspera ad upstream
