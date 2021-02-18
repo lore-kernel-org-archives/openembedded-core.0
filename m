@@ -1,50 +1,69 @@
-Received: from mga17.intel.com (mga17.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.2597.1613622265608276454
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web08.3009.1613625665960662264
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 20:24:40 -0800
+ Wed, 17 Feb 2021 21:21:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: OMbJzXoH4QtdO3sSYu0C7yUKsePh3JCRHKJdZyiVS5EHKIccVxA0s4VQk1Y7Aw3eOG9Fj1Jpa1
- NT3XXHeuwbGg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="163178033"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: jay.shen.teoh@intel.com)
+IronPort-SDR: 400DqcIq8YZSkxJy4vj8Udz8PT9Blzh6BKMfqlGyOSbnXGLuFSCmCCm6repAJnZCiZ3sv2FJqn
+ A2OEdB9AC95w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268255372"
 X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
-   d="scan'208";a="163178033"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 20:24:40 -0800
-IronPort-SDR: 0TMvWhDubYjDhevBtESQkdUGp26ocnkugHpYfQwMdZf7vplOHDTmHq+KuYfqYZZF9FeMjyuiXi
- r5CnPmJ4ubLw==
+   d="scan'208";a="268255372"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 21:21:05 -0800
+IronPort-SDR: W+J+nV/arzgVWM6CK9JcN1oEI0ltqC9x7JiJdvWrEvkaBl4qBewK+f8nRM5dASvQY3Bz8OwFOB
+ SCrKKijBswCw==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
-   d="scan'208";a="378269237"
-Received: from zaizam-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.185.203])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 20:24:39 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+   d="scan'208";a="427853001"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2021 21:21:04 -0800
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 12/12] asciidoc: fix upstream check
-Date: Thu, 18 Feb 2021 12:24:18 +0800
-Message-Id: <20210218042418.281245-12-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210218042418.281245-1-anuj.mittal@intel.com>
-References: <20210218042418.281245-1-anuj.mittal@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] oeqa/runlevel : add test for runlevels
+Date: Thu, 18 Feb 2021 13:21:01 +0800
+Message-Id: <1613625661-5834-1-git-send-email-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-Detect versions with numbers only and ignore the pre-release versions.
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+This test mimic the boot_from_runlevel_3 and boot_from_runlevel_5 test cases from oeqa/manual/bsp-hw.json.
+The boot_from_runlevel_3 and boot_from_runlevel_5 manual test cases should be remove from oeqa/manual/bsp-hw.json if this patch get merged.
+
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 ---
- meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oeqa/runtime/cases/runlevel.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/runlevel.py
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb b/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb
-index 51d12cb8c6..4d94adec00 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb
-@@ -29,3 +29,5 @@ RDEPENDS_${PN} += "python3"
- RDEPENDS_remove_class-native = "python3"
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/lib/oeqa/runtime/cases/runlevel.py b/meta/lib/oeqa/runtime/cases/runlevel.py
+new file mode 100644
+index 0000000..3a4df8a
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/runlevel.py
+@@ -0,0 +1,22 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
 +
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
++import time
++
++class RunLevel_Test(OERuntimeTestCase):
++    
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_runlevel_3(self):
++        (status, output) = self.target.run("init 3 && sleep 5 && runlevel")
++        runlevel= '5 3'
++        self.assertEqual(output, runlevel, msg='Failed to set current runlevel to runlevel 3, current runlevel : %s' % output[-1])
++        (status, output) = self.target.run("uname -a")
++        self.assertEqual(status, 0, msg='Failed to run uname command, output: %s' % output)
++        
++    @OETestDepends(['runlevel.RunLevel_Test.test_runlevel_3']) 
++    def test_runlevel_5(self):
++        (status, output) = self.target.run("init 5 && sleep 5 && runlevel")
++        runlevel = '3 5'
++        self.assertEqual(output, runlevel, msg='Failed to set current runlevel to runlevel 5, current runlevel : %s' % output[-1])
++        (status, output) = self.target.run('export DISPLAY=:0 && x11perf -aa10text')
++        self.assertEqual(status, 0, msg='Failed to run 2D graphic test, output: %s' % output)
 -- 
-2.29.2
+2.7.4
 
