@@ -1,63 +1,84 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.9764.1613666155903559295
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.9898.1613667037413154279
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 08:35:56 -0800
+ Thu, 18 Feb 2021 08:50:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LbgjmHgr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id o82so4367097wme.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 08:35:55 -0800 (PST)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=jGkzUZVh;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.177, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f177.google.com with SMTP id c8so6109984ljd.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 08:50:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=urWe5ClZyVrCCgPiWgH+Z8ZhHJlK7Nc09IxfyP2vdoI=;
-        b=LbgjmHgr91gHIiWwARYqKYrUpwo5Sk6FWPxpsH3yrLZ5m3ownB3kvchypkBNHiqrA/
-         tH2U+O6vRGWV5eHZ4zaV4dAV52Bnt2OLvEmsCU1QwlIGp6xqu0bkoEjnw72CPpH4wOgc
-         bdm5mvqV5dh3Q0oUKEzSM+QhuBiiANms//zBQ=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BBN5moUVl4kZzUoPxbz7M50fQ5H1JXUfOH6Y9dgMe68=;
+        b=jGkzUZVhHJyFViPL5NZjBymNSWjnn3vsBJDpqirbGZ9o0eLQHbR+kmoYg/adwoPNyt
+         rYIjT8O92NgkIewzVZWN1qQzqVXvHd70cDtgWMK4inc6ay0uocUmTlLMvp9EUCp2Q3b6
+         7bh7U+d+Ga0ybN91ixVLaLldbTij00qgHYSKWWKPudjFy3jAThZs1zL6UbyUnVzlLUU0
+         5FKN8QwavT3iNr9PjrkRC9ldZaguYhFOpScp+9tt89TFHUYXE3pdg54dnsSuPQSen5Se
+         +CKLLiZAEbKb7nNlzXS9mvju8P6RLBdNioL3dgrs0P+2RmQ00UfALCA9jsHqYFpN3nif
+         lQDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=urWe5ClZyVrCCgPiWgH+Z8ZhHJlK7Nc09IxfyP2vdoI=;
-        b=E7/sW1NTpPtN/aY3tAaIG2sr2yd0oebO+cq3VUaSPoPd0qENeuXDSNUasaMEUhJido
-         DaIno4k4+oF73e+RUzXsu6Yna4rU9mBWix2MsMMaTRNu41KXo0/lvW8/o5dI2ghLA26Z
-         I+ZvwvkCcrlz5aYjt4kUB4v5T41otlPF8pU0mEm2Cz49YXoYknDib8QdcHjWxJghIJLq
-         wPK4MUUUPRXS1kcm/snsEAOXUXl2Ur/ba1W5WIXneCStfa9HbUw8tTm3PJ90VmgxhV+P
-         hqgo0ZqwgHHQ2WBWpCXkId332xU+Uul1C3c3UCN/1NG2Ei9P+eniVO1TS3wyss7b4+YM
-         9eXQ==
-X-Gm-Message-State: AOAM530HnH2LH/I3bqxOxXOEBaA1CE7TjxmRZbgqz0JpyNCFAxpImyUR
-	gIjdXBbEtRyBV9vzOh9mKlOVWw==
-X-Google-Smtp-Source: ABdhPJyOxv6hgGMNW2RvKhSQJWDPdSJs2ue7aOWr0tA9nfea06sIGBR6hjYys7RONebpkRRho5nAFA==
-X-Received: by 2002:a05:600c:2c50:: with SMTP id r16mr4309041wmg.62.1613666154214;
-        Thu, 18 Feb 2021 08:35:54 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7504:d16b:192:2652? ([2001:8b0:aba:5f3c:7504:d16b:192:2652])
-        by smtp.gmail.com with ESMTPSA id v11sm10103791wrr.3.2021.02.18.08.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 08:35:53 -0800 (PST)
-Message-ID: <daffe2a0221518c5f37419003b2107a440a1f9fa.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] iputils: Use STAGING_DIR_NATIVE for setcap detection
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jate Sujjavanich <jatedev@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2021 16:35:53 +0000
-In-Reply-To: <20210218001126.39215-1-jatedev@gmail.com>
-References: <20210218001126.39215-1-jatedev@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BBN5moUVl4kZzUoPxbz7M50fQ5H1JXUfOH6Y9dgMe68=;
+        b=S5RSgbgSV6MuZO6TmDws8RCq96hEaPMkrWzarwpcPrTbuARRTzJ7xkZR9P14rbMrya
+         de648xY8V5hVdlpZYQgVr28u9vWnsN5hM+/iT2clCf+rXxdguf6T+yZht3OD7DuVaBUH
+         CM7StIuwq3nUdoTlH95SFmCYdV6htMq8sPVe2pXG1M1Jlzh/7dQRUwMa0K9ZuPmtx5CD
+         Z7CWAkv9ZhdYLdXHZ/K4Cu1DI46rPn9ukmucW+2Zvr8GWSQivo9H9TBRFbDWc61mHVdy
+         5TmlTaqej9gKsz6EdiOVEsayrDMyqug1B8BoMte9KBuVaSN5oFxT0knffWY9YU999UpT
+         S3lQ==
+X-Gm-Message-State: AOAM532hTQBQST1IotHA7jvWahAL82yGI6E0E4I58y8M3/mM9lTf6lZx
+	svqD4LBKBXV9ttzRvf37ZJ9U58oEqt9YaFFdaUUAJw==
+X-Google-Smtp-Source: ABdhPJwxm8H8od1yzyMqFwP3AsYM8bd1a5vt3rqZI7I4VCCdok7+BsfCFAk7bymmZ8WccWX0nfOxRQR9r315cyQymxI=
+X-Received: by 2002:a05:651c:138a:: with SMTP id k10mr3025738ljb.24.1613667035436;
+ Thu, 18 Feb 2021 08:50:35 -0800 (PST)
 MIME-Version: 1.0
+References: <20210215224133.2550191-1-akuster808@gmail.com>
+In-Reply-To: <20210215224133.2550191-1-akuster808@gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Thu, 18 Feb 2021 16:50:24 +0000
+Message-ID: <CAAnfSTsYM9QwW6qyLAfC+OnKES0K0nfvH9eoTCZu1zH9-HuObA@mail.gmail.com>
+Subject: Re: [OE-core] [[PATCH] cve-check.bbclass: don't skip scanning if file not found
+To: akuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-18 at 00:11 +0000, Jate Sujjavanich wrote:
-> Search for setcap in STAGING_DIR_NATIVE to avoid host contamination. Add
-> DEPENDS for libcap-native to supply this if we select libcap for
-> PACKAGECONFIG.
+Why is the file not found though?
 
-Why does it need setcap-native, isn't the target setcap enough? It seems 
-odd that it should need it...
+Ross
 
-Cheers,
-
-Richard
-
+On Mon, 15 Feb 2021 at 22:41, akuster <akuster808@gmail.com> wrote:
+>
+> This helps avoid these errors:
+> ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found: /home/build/builds/master/tmp/work/core2-64-poky-linux/lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff
+>
+> We should continuing to scan other applied patches for CVE info.
+>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/classes/cve-check.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+> index 1bed815d8e4..e56366579d1 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -186,8 +186,8 @@ def get_patches_cves(d):
+>          patch_file = bb.fetch.decodeurl(url)[2]
+>
+>          if not os.path.isfile(patch_file):
+> -            bb.error("File Not found: %s" % patch_file)
+> -            raise FileNotFoundError
+> +            bb.warn("File Not found: %s" % patch_file)
+> +            continue
+>
+>          # Check patch file name for CVE ID
+>          fname_match = cve_file_name_match.search(patch_file)
+> --
+> 2.25.1
+>
+>
+> 
+>
