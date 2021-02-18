@@ -1,112 +1,86 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web08.5005.1613644131055994623
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+ by mx.groups.io with SMTP id smtpd.web12.5103.1613644786910821431
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 02:28:51 -0800
+ Thu, 18 Feb 2021 02:39:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m4KuTzWy;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id s24so1449676iob.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 02:28:50 -0800 (PST)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=u3nG7Xz6;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.66, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f66.google.com with SMTP id v30so5761911lfq.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 02:39:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=79g5efiMkVlmlE1bZiCEZdQnf4n0Igp7pm8azB2pPrU=;
-        b=m4KuTzWypXta1utu96z5mFLonlVUjURvTEPkLfT9wsdYX4eyEfNugDC0l/eD/EDBow
-         WMMbfDfDmBxRDfjSQ2pHHk3iu8Nny7QX/U6ZtKh+A8psMwaM0+q/Sp+LVzUNzMEKDtEg
-         yo9zCdN7HgZfRi19h+BjGH1kApDVAmwHsHzdnjjSmMCDkf49M3ZREZpQ0YmyLVh0cSpw
-         zcXpWMfzNtV8DcKuLG9i5ZArWI0nEaIcTqYSYSWQQ4JNqSN8YDqyaHev6EghM5AXI1V2
-         18DEgbNgriCDnk/jiGPGLgAcqLVyuBblP/GSudI72AWF50mUTQSbZXusuJRM1Utxm+io
-         gDug==
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5DIEkcq7StOPNtfSO3kkuibxWitPp1sx0BMdvkKMldg=;
+        b=u3nG7Xz6sPvEwxq2CqtCKMcLXuUcB6rf+tVdRUEFdU0MIc4eoN5lttOkYnCo30oy8E
+         SX3eTNU8K3DqXdibzpUrk/VmKO+EHfSdX8c1SrsimCcmoArw/reel+the3yEucTXdCr/
+         fq7ZCGIFa9gDrNgyyy3COUNVQ4mhxqucPiqnKxfbSKHuT/1aBPXaseJfMS1wJrawaqm3
+         FYK6OqzxOMM2TFQwYZ59cVZUDHOcUsvy/MWF30Mdgu294auHt0U8jyhSXoydCWQXJFFs
+         0GOm/V0J5cQ+Nc8ecp0tFNFraNZ0pxKFu0SFyHsm2S45sC57mkMEtRYz8dWEjWzqTFmN
+         fJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=79g5efiMkVlmlE1bZiCEZdQnf4n0Igp7pm8azB2pPrU=;
-        b=VXq2eTtGT0bTfX4YDi3i3pgHU4pJuKOpsW2J9Ds0V8x4UIRYgoAyvO+/INyWmvygBW
-         clPPj5AgzUVrEf6tlbu5bwjZo79DjcQjuCGag0uNTQE26W44ECvhr+ubhRPk2Fyx2wlK
-         doXd6U52O4tofzC7raeYe84s78QIQTjfJIv3JGc3km9fzKhPoHXkmX2l0dPdEK9QDx0T
-         82bNMwYEWjrDup9T4/AcZgy1vaSzNAKaXr6JzwRH1oDtDV2pYKfnHPT3skICZKZTM24O
-         5GxK0VpSPvFJMoO9H/c5twsPgD7mGdAYms/CPUvaILvfrI/52iOfwHY7CKSjcA/D/+0Z
-         ER5w==
-X-Gm-Message-State: AOAM532OooHmTSGx6RHchjEWCaxQuOe2c3/6pvGYGGVsvxdk6HqDf5v6
-	HQtf35RVAz6UwsRexWP0sSu8DoT5QpgnD56FhjU=
-X-Google-Smtp-Source: ABdhPJyM4GoaB+tHrtm3mdW6JpLy6Eag9yG39ybe6Sim9IahtUCxosSCTLrx11q4awYX7MmaP6Hy5H7hv3gjYxobhCE=
-X-Received: by 2002:a05:6638:35a3:: with SMTP id v35mr3832938jal.36.1613644130321;
- Thu, 18 Feb 2021 02:28:50 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5DIEkcq7StOPNtfSO3kkuibxWitPp1sx0BMdvkKMldg=;
+        b=eLSKIdwQXWgZHQcgRaWO7sLIUD5D2FSM9rjd1ovsBSajLtVF1Gj+Kklc4iJInmRf7J
+         1lN5zvAb5tASNyiAzdsJFt5J/y/8KaYZUvWR/shYHq+frnvzsLInlPefA/BBh95u0xbm
+         QMmjrrkxK/ZwP9KT5Zfxio6wW4OC4HuOotq/4M1jzuql3zkl7ZUQ3/jSAAe2XxRRCbCQ
+         BgBEVBy9FqxUkqeUM2Jmbi6SqL7ir7RJRuydojH4XNX+BwG9hB3p0kI1WDn7W4dt6vrt
+         8qi0r9o2sdOMlnDAKO5Crlgey8rulChA80tZ/UuUrkYaMXay1BUXBHVZsatpAT2OT0aD
+         SuTQ==
+X-Gm-Message-State: AOAM532WVkMPeijXAM6vAfV9pwnFdABxUxPNykNMg/ra+WDHZ9fJ+sam
+	6HWRTvs+KIHAOLSi+QbgJbIyJgXUQdvf8KMS
+X-Google-Smtp-Source: ABdhPJyYKn51iJCJh4l4ZaDv/mlPS4Ubfe/NKPgMWJNL+5kgdqo/fzBtV8hd11hLCwiAygYnHXJMIg==
+X-Received: by 2002:a05:6512:971:: with SMTP id v17mr2223633lft.580.1613644784323;
+        Thu, 18 Feb 2021 02:39:44 -0800 (PST)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
+        by smtp.gmail.com with ESMTPSA id w25sm559343lfe.295.2021.02.18.02.39.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Feb 2021 02:39:43 -0800 (PST)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-pygments: update to 2.8.0
+Date: Thu, 18 Feb 2021 11:39:35 +0100
+Message-Id: <20210218103935.1761071-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210217224915.23546-1-tomasz.dziendzielski@gmail.com> <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
-In-Reply-To: <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Thu, 18 Feb 2021 11:30:22 +0100
-Message-ID: <CAJkqNs1L+J1e1WVLwO46VB-PfpRgaM+aA3D1mC68ryHg86gcGw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: Add sstate-build-populate_sdk and intercept_scripts- to PSEUDO_IGNORE_PATHS
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002e876305bb99cdb2"
+Content-Transfer-Encoding: 8bit
 
---0000000000002e876305bb99cdb2
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...{python3-pygments_2.7.4.bb => python3-pygments_2.8.0.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pygments_2.7.4.bb => python3-pygments_2.8.0.bb} (76%)
 
- >> Recipes using populate_sdk.bbclass are failing with pseudo abort due to
->> path mismatch on these paths.
->>
->> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
->> ---
->>  meta/conf/bitbake.conf | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
->We build SDKs on the autobuilder and don't see this. Any idea what you
->need to do to trigger it?
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.7.4.bb b/meta/recipes-devtools/python/python3-pygments_2.8.0.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-pygments_2.7.4.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.8.0.bb
+index 24bbaaf38c..4acc2ed7f4 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.7.4.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.8.0.bb
+@@ -4,8 +4,7 @@ HOMEPAGE = "http://pygments.org/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
+ 
+-inherit setuptools3
+-SRC_URI[sha256sum] = "df49d09b498e83c1a73128295860250b0b7edd4c723a32e9bc0d295c7c2ec337"
++SRC_URI[sha256sum] = "37a13ba168a02ac54cc5891a42b1caec333e59b66addb7fa633ea8a6d73445c0"
+ 
+ DEPENDS += "\
+             ${PYTHON_PN} \
+@@ -13,7 +12,6 @@ DEPENDS += "\
+ 
+ PYPI_PACKAGE = "Pygments"
+ 
+-inherit pypi
++inherit pypi setuptools3
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-
+-- 
+2.25.1
 
-I was able to reproduce abort on sstate-build-populate_sdk on the latest
-master without any old build/ directory.
-$ . ./oe-init-build-env
-$ bitbake meta-go-toolchain
-$ bitbake meta-go-toolchain -c populate_sdk -f
-
-Please note that above commands might not fail every time, it seems to be a
-bit random. It occurs not only on rebuilds but also on the first run. If we
-build multiple SDKs at one bitbake execution the build is unlikely to
-finish successfully, because each time different (or the same) SDKs will
-fail.
-
-In our environment I also had to add ${WORKDIR}/oe-sdk-repo,${SDK_OUTPUT}
-to PSEUDO_IGNORE_PATHS to make SDKs work but I'm not sure if failures on
-these two are not related to some of our custom mechanisms.
-
-Best regards,
-Tomasz Dziendzielski
-
---0000000000002e876305bb99cdb2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span class=3D"gmail-im">
-&gt;&gt; Recipes using populate_sdk.bbclass are failing with pseudo abort d=
-ue to<br>
-&gt;&gt; path mismatch on these paths.<br>
-&gt;&gt; <br>
-&gt;&gt; Signed-off-by: Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.d=
-ziendzielski@gmail.com" target=3D"_blank">tomasz.dziendzielski@gmail.com</a=
->&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0meta/conf/bitbake.conf | 2 +-<br>
-&gt;&gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br></span>
-&gt;We build SDKs on the autobuilder and don&#39;t see this. Any idea what =
-you=C2=A0<br><div>&gt;need to do to trigger it?</div><div><br></div><div>I =
-was able to reproduce abort on sstate-build-populate_sdk on the latest mast=
-er without any old build/ directory.<br></div><div>$ . ./oe-init-build-env<=
-/div><div>$ bitbake meta-go-toolchain</div><div>$ bitbake meta-go-toolchain=
- -c populate_sdk -f</div><div><br></div><div>Please note that above command=
-s might not fail every time, it seems to be a bit random. It  occurs not on=
-ly on rebuilds but also on the first run. If we build multiple SDKs at one =
-bitbake execution the build is unlikely to finish successfully, because eac=
-h time different (or the same) SDKs will fail.<br></div><div><br></div><div=
->In our environment I also had to add ${WORKDIR}/oe-sdk-repo,${SDK_OUTPUT} =
-to PSEUDO_IGNORE_PATHS to make SDKs work but I&#39;m not sure if failures o=
-n these two are not related to some of our custom mechanisms.</div><div><br=
-></div><div>Best regards,</div><div>Tomasz Dziendzielski<br></div></div>
-
---0000000000002e876305bb99cdb2--
