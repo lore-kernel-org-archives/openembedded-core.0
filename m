@@ -1,96 +1,107 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web08.20.1613607093892950132
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web12.1506.1613614969467385492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 16:11:34 -0800
+ Wed, 17 Feb 2021 18:22:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Hq5oSgKI;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: jatedev@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id g3so163726qvl.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 16:11:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fdnu7NkG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id g20so409456plo.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 18:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yNikUINst/t5eHMoDeQh9TGoLZL1SFYs6dz0dUfDDTM=;
-        b=Hq5oSgKI5tSsG+tZihUnkKD0wBTFaEan3AIfoWw3yQdGu37RaHAU4xt1qCecI8REK/
-         Kmo6NJHMHrqy3oLN/F104mJnpP4LhU66yWO+Kt3K1heYPzdSMi8p6SLCQ8NocjVB4kMy
-         11+k8TXgsB150vHmSZLIAEiebleNjyFbFkZW6TN17tSEDraV2EfsNdHqwxRjhUiT6WdI
-         ftD6M4AdhKRuVdelu27z86krYruCm+AoUMWYYaZ9HVp1gjOFKKeJx9lsNrBQ4G9jpVa8
-         1ImomppIlf/d0wg2JGxX2opWzIP8GEuKVbfL9lHBxBTZ6woMa5O6xP6mBsw1rgIPlWmh
-         A6vg==
+        h=from:to:cc:subject:date:message-id;
+        bh=OV0EoxbQYjpBHKZu0b6gQ6yVlHYztPdgpI94QptxGnQ=;
+        b=fdnu7NkGppjs+i9E4QCGJaYrZYsJhDApt6dgNnI/QDuSaue3/ZAnh21NtjhHUL8RPF
+         EDyvaz1EJ5s/OezzeVpZ6FVvKLb4qHNws0ctezZPMg9T/iO5TJttivRApwUQF4gSeeV+
+         GNLSihLsfIKz8VmRE4PP9gG1nzQY6T2PMN1K60n2SagkI+Q5QOBqx1bfNoHU+jL4mwr2
+         gzZpN6YtUaRE8CsOylLXfJzig2iTqSxfwuO+vux/nyqxdRtcFBBNPqbAgfoVh9tGIpqb
+         dJFC+ndaEGCls7AkcZk4SAbVSkMVMgP8tc+Gdh92LpRIftqw2Ga5uonrS6VWYn+BYbfu
+         uxYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yNikUINst/t5eHMoDeQh9TGoLZL1SFYs6dz0dUfDDTM=;
-        b=BcLJq85aWgs8CMIGfzsvf2c6NsiwGmEiYM+IvhcZd6JEQtOWkjxQE79/al6duoDV2v
-         nBJp1iQ9+TiKg0OhIuuqxSvX+Do8aqZfud30/SB5bNmUMJ9CKdmlqO6cMrAhHZoyiUhF
-         azBYPIQ8tUNoh6Cik2YoKLHP2hPIs3HTiEK7zC+ytZJGawz6YbVcLCjDMle2eUNHhZ24
-         jjq+jvZOW3xuWVvX5SziPh93O4i320GFkZLLya/lfQ4L4aZM581pXIerNJzXA0WJggZn
-         p4sAvAsSVFUxwTAm+Hg2P/uq9auvU+507vZDJgJfSznzUE2zLh60hzO5BRhKHXvzSrtI
-         HXFw==
-X-Gm-Message-State: AOAM533HFsr9GwonE7icjCC7tc/Fg8xRzC/6dPDjNSgFWgPbbBJ/XgPP
-	jzdVMiH969pqrbB5zKs3x8xo9gVdAzQ=
-X-Google-Smtp-Source: ABdhPJxTpcdtYp9F2nV/nbBBUiQoE3Xa96qTHUfBT2elu3v6Sw4Vziwv8X5bBigmp0OFytGOnzAgEw==
-X-Received: by 2002:a05:6214:52:: with SMTP id c18mr1682499qvr.54.1613607092867;
-        Wed, 17 Feb 2021 16:11:32 -0800 (PST)
-Return-Path: <jatedev@gmail.com>
-Received: from localhost.localdomain ([63.148.217.19])
-        by smtp.gmail.com with ESMTPSA id v7sm2803836qkc.105.2021.02.17.16.11.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=OV0EoxbQYjpBHKZu0b6gQ6yVlHYztPdgpI94QptxGnQ=;
+        b=USDQVAU3Jz81D9g0gxk/IWeHfYYoVfloaI7uJThfVWehKWSaTzWwrgPn3/+Cfwmhkr
+         rhhZa+subw2hH7mwtqBXj79BqmvpaiVWJT0sALiP4AJ/iGKaXuQ8YD7ocs7UJrIwcvAl
+         +r2w+Lugd3Ir3GhzuCsKaybJJ0OMUbeQisOcOb6+2Npb7tuKiOoiJYvb2yCqSIS47jKB
+         EoEKGTGW/+y6NpoECMZgiKiHLajQ45IQCH3hJU4nWwodVTyawSEDF/FaA2gcFwCLJ8OD
+         9tyTxx0NM2Bre9dD99Cy3Ghl+3PwJLZofpO79y+0b87Ruy2vCkLRQ+IX9jPv2LXaXsLi
+         gfIg==
+X-Gm-Message-State: AOAM532yN9QRmrA/92UvnXPNTqH8AApjMp9ZLhEx3wxPzkfpy/VEar55
+	XBmSN9Ih98zudaXlsfskeJ/Piw+6jHMKHA==
+X-Google-Smtp-Source: ABdhPJyd6+n9pP1FnJfxHxy/WZ6xhTjIeaqdSlvE+pXCBWtgzZ5BZcax+tnTma+7lfm3+yp5teC5RQ==
+X-Received: by 2002:a17:902:be06:b029:e3:7031:bef with SMTP id r6-20020a170902be06b02900e370310befmr1810944pls.19.1613614968764;
+        Wed, 17 Feb 2021 18:22:48 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:7db1:8052:decd:2a75])
+        by smtp.gmail.com with ESMTPSA id n1sm3895783pfd.212.2021.02.17.18.22.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 16:11:32 -0800 (PST)
-From: "Jate Sujjavanich" <jatedev@gmail.com>
+        Wed, 17 Feb 2021 18:22:48 -0800 (PST)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jate Sujjavanich <jatedev@gmail.com>
-Subject: [PATCH] iputils: Use STAGING_DIR_NATIVE for setcap detection
-Date: Thu, 18 Feb 2021 00:11:26 +0000
-Message-Id: <20210218001126.39215-1-jatedev@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Armin Kuster <akuste@mvista.com>,
+	Armin Kuster <akuster@mvista.com>
+Subject: [dunfell][PATCH] sudo: update to 1.8.32
+Date: Wed, 17 Feb 2021 18:22:46 -0800
+Message-Id: <20210218022246.6763-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Search for setcap in STAGING_DIR_NATIVE to avoid host contamination. Add
-DEPENDS for libcap-native to supply this if we select libcap for
-PACKAGECONFIG.
+From: Armin Kuster <akuste@mvista.com>
 
-The previous setting of NO_SETCAP_OR_SUID broke setuid or setcap of
-/bin/ping
+Source: https://www.sudo.ws
+MR: 108078, 108046, 108136
+Type: Security Fix
+Disposition: Backported from https://www.sudo.ws
+ChangeID: 3d266a182918f7a7afe40bdee01b369171125358
+Description:
 
-Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+The 1.8.x series is a stable release.
+Bug fix only updates.
+
+LIC_FILES_CHKSUM updated do to 2021 yr update
+
+see https://www.sudo.ws/legacy.html
+CVE-2021-23239
+CVE-2021-23240
+CVE-2021-3156
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-extended/iputils/iputils_s20200821.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-extended/sudo/sudo.inc                           | 2 +-
+ meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (92%)
 
-diff --git a/meta/recipes-extended/iputils/iputils_s20200821.bb b/meta/recipes-extended/iputils/iputils_s20200821.bb
-index 8b63a23c61..feb97d5086 100644
---- a/meta/recipes-extended/iputils/iputils_s20200821.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20200821.bb
-@@ -12,6 +12,7 @@ DEPENDS = "gnutls"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 5d27d469282..aeedfc1a23b 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+similarity index 92%
+rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
+index 39d8817c32e..6787f43e1a9 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+@@ -7,8 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-+           file://0001-Add-support-for-setcap-in-STAGING_DIR_NATIVE.patch \
-            "
- SRCREV = "23c3782ae0c7f9c6ae59dbed8ad9204f8758542b"
+ PAM_SRC_URI = "file://sudo.pam"
  
-@@ -26,7 +27,7 @@ CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
- PACKAGECONFIG ??= "libcap rarpd \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod traceroute6', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
--PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap"
-+PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap libcap-native"
- PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
- PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
- PACKAGECONFIG[ninfod] = "-DBUILD_NINFOD=true,-DBUILD_NINFOD=false,"
-@@ -38,7 +39,7 @@ PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MAN
+-SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
+-SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
++SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
  
- inherit meson systemd update-alternatives
- 
--EXTRA_OEMESON += "--prefix=${root_prefix}/"
-+EXTRA_OEMESON += "--prefix=${root_prefix}/ -Dstagingdirnative=${STAGING_DIR_NATIVE}"
- 
- ALTERNATIVE_PRIORITY = "100"
- 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
-2.25.1
+2.17.1
 
