@@ -1,69 +1,112 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web09.4703.1613642106452543086
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web08.5005.1613644131055994623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 01:55:06 -0800
+ Thu, 18 Feb 2021 02:28:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F6yFuhhJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id a132so2346345wmc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 01:55:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m4KuTzWy;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id s24so1449676iob.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 02:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=txKXoizdul9+6jok2ytNdnE4Ro9SesxHm5jHgO0OLT4=;
-        b=F6yFuhhJsonRMwKLFv3Mo5u8hSxnXxsmofZ/yp+fGccYZDWypqX74WcgUEie/i3U7S
-         3hSBmMJEA0KUzMEmZywWsWqTPveX+ca5BKadP7mEHm61IRplOXx8ncLpCgFCIGuK8wZI
-         vER/qR5/pY5zJuFNEXZ7Naai46gXKfLlpK1+U=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=79g5efiMkVlmlE1bZiCEZdQnf4n0Igp7pm8azB2pPrU=;
+        b=m4KuTzWypXta1utu96z5mFLonlVUjURvTEPkLfT9wsdYX4eyEfNugDC0l/eD/EDBow
+         WMMbfDfDmBxRDfjSQ2pHHk3iu8Nny7QX/U6ZtKh+A8psMwaM0+q/Sp+LVzUNzMEKDtEg
+         yo9zCdN7HgZfRi19h+BjGH1kApDVAmwHsHzdnjjSmMCDkf49M3ZREZpQ0YmyLVh0cSpw
+         zcXpWMfzNtV8DcKuLG9i5ZArWI0nEaIcTqYSYSWQQ4JNqSN8YDqyaHev6EghM5AXI1V2
+         18DEgbNgriCDnk/jiGPGLgAcqLVyuBblP/GSudI72AWF50mUTQSbZXusuJRM1Utxm+io
+         gDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=txKXoizdul9+6jok2ytNdnE4Ro9SesxHm5jHgO0OLT4=;
-        b=Qg9BjtZVp4uusTsdeIXoHeIa4VdfVq8GZNaQKgtzf6r/Go3qbXsB178bdRvZBh/Xgg
-         ZXhetdLfy3uucJDWfeN7HKLM5YSS+32N5jV3STViD9dVJiBWVSHMDBD5LHMggSCgSLZY
-         S0uk94hnmRFB5RODe0Ryo0qTIbHj3nAv4MMuiBxh6kXr3tCBtGjK9LzpclYIIISYOGun
-         ITxDtmntdNj1dNceBsCVzPGCPy5C/me3M0JDBSnEfCwHk0IMq+gJrA8heU6L/2nC7NDp
-         2ChwIyTADLVKweIdTvCscNMYwTQrklfm4D5TBDTtz9Dr7UrqDwYYYRe5WeLOKIMuVekL
-         YqZQ==
-X-Gm-Message-State: AOAM5300QxCV9DLDJUZBYGKyPQkdHrMwOUoyI6OVwpok7MyiktOjRulN
-	0qyqQwmEaMNN2JdXPMyuT2OZig==
-X-Google-Smtp-Source: ABdhPJzvn73i0SVwKQSf3SnpbHMIJhuzx9rrtYtwNio9j5S8YpPCm503tgMW8dJ2dzcey9vNgCWHUg==
-X-Received: by 2002:a1c:20cf:: with SMTP id g198mr2655347wmg.173.1613642104825;
-        Thu, 18 Feb 2021 01:55:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7504:d16b:192:2652? ([2001:8b0:aba:5f3c:7504:d16b:192:2652])
-        by smtp.gmail.com with ESMTPSA id d5sm8175905wrp.39.2021.02.18.01.55.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 01:55:04 -0800 (PST)
-Message-ID: <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bitbake.conf: Add sstate-build-populate_sdk and intercept_scripts- to PSEUDO_IGNORE_PATHS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 18 Feb 2021 09:55:01 +0000
-In-Reply-To: <20210217224915.23546-1-tomasz.dziendzielski@gmail.com>
-References: <20210217224915.23546-1-tomasz.dziendzielski@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=79g5efiMkVlmlE1bZiCEZdQnf4n0Igp7pm8azB2pPrU=;
+        b=VXq2eTtGT0bTfX4YDi3i3pgHU4pJuKOpsW2J9Ds0V8x4UIRYgoAyvO+/INyWmvygBW
+         clPPj5AgzUVrEf6tlbu5bwjZo79DjcQjuCGag0uNTQE26W44ECvhr+ubhRPk2Fyx2wlK
+         doXd6U52O4tofzC7raeYe84s78QIQTjfJIv3JGc3km9fzKhPoHXkmX2l0dPdEK9QDx0T
+         82bNMwYEWjrDup9T4/AcZgy1vaSzNAKaXr6JzwRH1oDtDV2pYKfnHPT3skICZKZTM24O
+         5GxK0VpSPvFJMoO9H/c5twsPgD7mGdAYms/CPUvaILvfrI/52iOfwHY7CKSjcA/D/+0Z
+         ER5w==
+X-Gm-Message-State: AOAM532OooHmTSGx6RHchjEWCaxQuOe2c3/6pvGYGGVsvxdk6HqDf5v6
+	HQtf35RVAz6UwsRexWP0sSu8DoT5QpgnD56FhjU=
+X-Google-Smtp-Source: ABdhPJyM4GoaB+tHrtm3mdW6JpLy6Eag9yG39ybe6Sim9IahtUCxosSCTLrx11q4awYX7MmaP6Hy5H7hv3gjYxobhCE=
+X-Received: by 2002:a05:6638:35a3:: with SMTP id v35mr3832938jal.36.1613644130321;
+ Thu, 18 Feb 2021 02:28:50 -0800 (PST)
 MIME-Version: 1.0
+References: <20210217224915.23546-1-tomasz.dziendzielski@gmail.com> <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
+In-Reply-To: <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Thu, 18 Feb 2021 11:30:22 +0100
+Message-ID: <CAJkqNs1L+J1e1WVLwO46VB-PfpRgaM+aA3D1mC68ryHg86gcGw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bitbake.conf: Add sstate-build-populate_sdk and intercept_scripts- to PSEUDO_IGNORE_PATHS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002e876305bb99cdb2"
+
+--0000000000002e876305bb99cdb2
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-02-17 at 23:49 +0100, Tomasz Dziendzielski wrote:
-> Recipes using populate_sdk.bbclass are failing with pseudo abort due to
-> path mismatch on these paths.
-> 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+ >> Recipes using populate_sdk.bbclass are failing with pseudo abort due to
+>> path mismatch on these paths.
+>>
+>> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+>> ---
+>>  meta/conf/bitbake.conf | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>We build SDKs on the autobuilder and don't see this. Any idea what you
+>need to do to trigger it?
 
-We build SDKs on the autobuilder and don't see this. Any idea what you 
-need to do to trigger it?
+I was able to reproduce abort on sstate-build-populate_sdk on the latest
+master without any old build/ directory.
+$ . ./oe-init-build-env
+$ bitbake meta-go-toolchain
+$ bitbake meta-go-toolchain -c populate_sdk -f
 
-Cheers,
+Please note that above commands might not fail every time, it seems to be a
+bit random. It occurs not only on rebuilds but also on the first run. If we
+build multiple SDKs at one bitbake execution the build is unlikely to
+finish successfully, because each time different (or the same) SDKs will
+fail.
 
-Richard
+In our environment I also had to add ${WORKDIR}/oe-sdk-repo,${SDK_OUTPUT}
+to PSEUDO_IGNORE_PATHS to make SDKs work but I'm not sure if failures on
+these two are not related to some of our custom mechanisms.
 
+Best regards,
+Tomasz Dziendzielski
 
+--0000000000002e876305bb99cdb2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><span class=3D"gmail-im">
+&gt;&gt; Recipes using populate_sdk.bbclass are failing with pseudo abort d=
+ue to<br>
+&gt;&gt; path mismatch on these paths.<br>
+&gt;&gt; <br>
+&gt;&gt; Signed-off-by: Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.d=
+ziendzielski@gmail.com" target=3D"_blank">tomasz.dziendzielski@gmail.com</a=
+>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt; =C2=A0meta/conf/bitbake.conf | 2 +-<br>
+&gt;&gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br></span>
+&gt;We build SDKs on the autobuilder and don&#39;t see this. Any idea what =
+you=C2=A0<br><div>&gt;need to do to trigger it?</div><div><br></div><div>I =
+was able to reproduce abort on sstate-build-populate_sdk on the latest mast=
+er without any old build/ directory.<br></div><div>$ . ./oe-init-build-env<=
+/div><div>$ bitbake meta-go-toolchain</div><div>$ bitbake meta-go-toolchain=
+ -c populate_sdk -f</div><div><br></div><div>Please note that above command=
+s might not fail every time, it seems to be a bit random. It  occurs not on=
+ly on rebuilds but also on the first run. If we build multiple SDKs at one =
+bitbake execution the build is unlikely to finish successfully, because eac=
+h time different (or the same) SDKs will fail.<br></div><div><br></div><div=
+>In our environment I also had to add ${WORKDIR}/oe-sdk-repo,${SDK_OUTPUT} =
+to PSEUDO_IGNORE_PATHS to make SDKs work but I&#39;m not sure if failures o=
+n these two are not related to some of our custom mechanisms.</div><div><br=
+></div><div>Best regards,</div><div>Tomasz Dziendzielski<br></div></div>
+
+--0000000000002e876305bb99cdb2--
