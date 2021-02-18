@@ -1,111 +1,1129 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.34.1613667414375642829
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.30.1613667414826585434
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 08:56:54 -0800
+ Thu, 18 Feb 2021 08:56:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QK16zKWJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id o15so4372085wmq.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XOml/vpv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id b3so3748160wrj.5
         for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 08:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=d4cCb0pFBF0blK86V4My36Nnae2n92fKqNGSGGumtVI=;
-        b=QK16zKWJqO5o0B8my5isulp2jaORiBlIvyVeqk0dPl+AgdxPnJot3axZaPd3YUZuPH
-         iq3bagshjge/irFiMl+8SVRG1VKXrQMBaXEgOkRtIvw2d3bd+k2pTEwU2sAVHMorKyhe
-         Y6PJ5S/I2PsOQtokb3Bz1JM5PqF22kOSE6bxU=
+        bh=bpV9v4wejj1FROCx40gVdvLMzqIGy/hNvxWYmqi4MWg=;
+        b=XOml/vpv9I2Hp9iGDGGKLFEcErkiH+dGNeiX/t2q4F6j64FC6Im/THkEJyd9tNqKpe
+         jztLMcDdLDetd1YNwPA3jS/Nl9VGGwYKfyAlszP9/7UoxyuBN1tEAIMrND6uAke3xNeC
+         /ZpMng4mMjlKYN6dnvkj7ND2pqQF+3oUrWi3s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d4cCb0pFBF0blK86V4My36Nnae2n92fKqNGSGGumtVI=;
-        b=ICnrEedRso/D224geezlA+zubjZ/zqvKLaDn295O816eapWiHrSxLHy81gvcmRlJO3
-         w8vQqFhfLmc9LeJNQ9vnVIiB08bI/4EtBs095H8yL8f+3MBAbZeBLRvKe76x+UXJT5so
-         M5iSb4YG/f036Ps3rcdUzLGlvKpY1QATD/oZbHaD/ycJ/7TUouRHmX0irY8hFKI8ZNOz
-         eLXnAtPFdIS8kR7qz3X6nX3TCf+Bql+ek5aFqg+OGd55w0dU+XPkQpzvlkZrzSY+VdwG
-         /GeSj/15/chX3iKRAff3UCvZx3O5UBNDXaEItnOQSASDx7M6u1+pF4xZnWWFbEJ1N3qs
-         nTWQ==
-X-Gm-Message-State: AOAM532VGftw8zTVzJlA2MqTHR0KvgefQ4vQMIrlSauR2rvwaOl5oEpj
-	ddObe6QONIbuWBc0Pwpebj/Z56q6FypS8Q==
-X-Google-Smtp-Source: ABdhPJyq2+mijGcwqR3ICTXA4ZadBjOf7QGFKqfj2kWCUtuZ0Z/IvQ7VCcD3XiRLql09S2Pr+0zdDg==
-X-Received: by 2002:a05:600c:414a:: with SMTP id h10mr4472544wmm.144.1613667412697;
+        bh=bpV9v4wejj1FROCx40gVdvLMzqIGy/hNvxWYmqi4MWg=;
+        b=mIBskooLLy+YohNGzRS5sXaYp/3+Nr3KBRnu0BuBDgveQv9pRqCmciaTKCrYqm3rJi
+         NYMbmZ+HVGtO8/CYMna2Gzl6dZ2tikE+PwLE9ZXXqmjsIPXICgwY0qju/VrseESeafhE
+         gq95ctukd2Hwd/5i39rU30gCnso88aPSFgNn+hOahyMVODjREwRFS+WeTpvCXtq4O7iL
+         7acasWsqZUIi2dmiBacmMzHWo0AcwSgX7OaD5KMBkoQMCqECZe0ntVNjXamC7Xx1WcnC
+         tl2VgHrg376jxSozuFprEMo+oXzeNy+7zaVcerkV4TBAe/5kn19Hdjchxwt+KHm6kvwV
+         2i6w==
+X-Gm-Message-State: AOAM531Z58E1FZLSuV6lilokdeids60VwmqaYkEkmMq3vKsPdNKlJ+AL
+	PF1OkfgDJi3xsGCdPvvyskpVU6/qRczY2Q==
+X-Google-Smtp-Source: ABdhPJxG4KlRLcKDzaUvpjjwI7rity8PuozmTc3GflkylA6xwh7/OqROZkqwOLhK1V1K/cz1fnz2sA==
+X-Received: by 2002:adf:9565:: with SMTP id 92mr5171120wrs.201.1613667412230;
         Thu, 18 Feb 2021 08:56:52 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7504:d16b:192:2652])
-        by smtp.gmail.com with ESMTPSA id b13sm9290328wrs.35.2021.02.18.08.56.52
+        by smtp.gmail.com with ESMTPSA id b13sm9290328wrs.35.2021.02.18.08.56.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 08:56:52 -0800 (PST)
+        Thu, 18 Feb 2021 08:56:51 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/11] git: Fix determnism issue
-Date: Thu, 18 Feb 2021 16:56:46 +0000
-Message-Id: <20210218165646.2109894-11-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 10/11] groff: Fix determinism issue
+Date: Thu, 18 Feb 2021 16:56:45 +0000
+Message-Id: <20210218165646.2109894-10-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210218165646.2109894-1-richard.purdie@linuxfoundation.org>
 References: <20210218165646.2109894-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Sometimes bison would regenerate source files and sometimes it would not
+This is likely related to the patching of generated files by on of the
+patches.
+
+Drop those changes and force the files to regenerate in all cases since
+we depend on bison-native anyway. This ensures the results are always
+consistent.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/git/git.inc           |  3 +-
- meta/recipes-devtools/git/git/fixsort.patch | 31 +++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
+ .../groff/files/0001-Include-config.h.patch   | 1026 +----------------
+ meta/recipes-extended/groff/groff_1.22.4.bb   |    7 +
+ 2 files changed, 10 insertions(+), 1023 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 544e23c844a..586a305b278 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -7,7 +7,8 @@ DEPENDS = "openssl curl zlib expat"
- PROVIDES_append_class-native = " git-replacement-native"
+diff --git a/meta/recipes-extended/groff/files/0001-Include-config.h.patch b/meta/recipes-extended/groff/files/0001-Include-config.h.patch
+index 348a61d9df9..46065bc5131 100644
+--- a/meta/recipes-extended/groff/files/0001-Include-config.h.patch
++++ b/meta/recipes-extended/groff/files/0001-Include-config.h.patch
+@@ -17,6 +17,9 @@ In file included from TOPDIR/build/tmp/work/aarch64-yoe-linux-musl/groff/1.22.4-
+   ^
+ ./lib/math.h:40:1: error: unknown type name '_GL_INLINE_HEADER_BEGIN'
  
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
--           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
-+           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-+           file://fixsort.patch"
++We delete eqn.cpp and qen.hpp in do_configure
++to ensure they're regenerated and deterministic.
++
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+@@ -140,1029 +143,6 @@ index f95c05e..d875045 100644
+  #include <string.h>
+  #include <stdlib.h>
+  
+-diff --git a/src/preproc/eqn/eqn.cpp b/src/preproc/eqn/eqn.cpp
+-index 4ede465..fdd9484 100644
+---- a/src/preproc/eqn/eqn.cpp
+-+++ b/src/preproc/eqn/eqn.cpp
+-@@ -1,8 +1,9 @@
+--/* A Bison parser, made by GNU Bison 3.2.  */
+-+/* A Bison parser, made by GNU Bison 3.4.1.  */
+- 
+- /* Bison implementation for Yacc-like parsers in C
+- 
+--   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+-+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+-+   Inc.
+- 
+-    This program is free software: you can redistribute it and/or modify
+-    it under the terms of the GNU General Public License as published by
+-@@ -47,7 +48,7 @@
+- #define YYBISON 1
+- 
+- /* Bison version.  */
+--#define YYBISON_VERSION "3.2"
+-+#define YYBISON_VERSION "3.4.1"
+- 
+- /* Skeleton name.  */
+- #define YYSKELETON_NAME "yacc.c"
+-@@ -65,7 +66,11 @@
+- 
+- 
+- /* First part of user prologue.  */
+--#line 18 "../src/preproc/eqn/eqn.ypp" /* yacc.c:338  */
+-+#line 18 "src/preproc/eqn/eqn.ypp"
+-+
+-+#if HAVE_CONFIG_H
+-+# include <config.h>
+-+#endif
+- 
+- #include <stdio.h>
+- #include <string.h>
+-@@ -77,7 +82,8 @@ extern int non_empty_flag;
+- int yylex();
+- void yyerror(const char *);
+- 
+--#line 81 "src/preproc/eqn/eqn.cpp" /* yacc.c:338  */
+-+#line 86 "src/preproc/eqn/eqn.cpp"
+-+
+- # ifndef YY_NULLPTR
+- #  if defined __cplusplus
+- #   if 201103L <= __cplusplus
+-@@ -98,8 +104,8 @@ void yyerror(const char *);
+- # define YYERROR_VERBOSE 0
+- #endif
+- 
+--/* In a future release of Bison, this section will be replaced
+--   by #include "y.tab.h".  */
+-+/* Use api.header.include to #include this header
+-+   instead of duplicating it here.  */
+- #ifndef YY_YY_SRC_PREPROC_EQN_EQN_HPP_INCLUDED
+- # define YY_YY_SRC_PREPROC_EQN_EQN_HPP_INCLUDED
+- /* Debug traces.  */
+-@@ -237,10 +243,9 @@ extern int yydebug;
+- 
+- /* Value type.  */
+- #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+--
+- union YYSTYPE
+- {
+--#line 30 "../src/preproc/eqn/eqn.ypp" /* yacc.c:353  */
+-+#line 34 "src/preproc/eqn/eqn.ypp"
+- 
+- 	char *str;
+- 	box *b;
+-@@ -249,9 +254,9 @@ union YYSTYPE
+- 	int n;
+- 	column *col;
+- 
+--#line 253 "src/preproc/eqn/eqn.cpp" /* yacc.c:353  */
+--};
+-+#line 258 "src/preproc/eqn/eqn.cpp"
+- 
+-+};
+- typedef union YYSTYPE YYSTYPE;
+- # define YYSTYPE_IS_TRIVIAL 1
+- # define YYSTYPE_IS_DECLARED 1
+-@@ -366,6 +371,8 @@ typedef short yytype_int16;
+- #endif
+- 
+- 
+-+#define YY_ASSERT(E) ((void) (0 && (E)))
+-+
+- #if ! defined yyoverflow || YYERROR_VERBOSE
+- 
+- /* The parser invokes alloca or malloc; define the necessary symbols.  */
+-@@ -508,16 +515,16 @@ union yyalloc
+- /* YYNSTATES -- Number of states.  */
+- #define YYNSTATES  142
+- 
+--/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
+--   by yylex, with out-of-bounds checking.  */
+- #define YYUNDEFTOK  2
+- #define YYMAXUTOK   315
+- 
+-+/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+-+   as returned by yylex, with out-of-bounds checking.  */
+- #define YYTRANSLATE(YYX)                                                \
+-   ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+- 
+- /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
+--   as returned by yylex, without out-of-bounds checking.  */
+-+   as returned by yylex.  */
+- static const yytype_uint8 yytranslate[] =
+- {
+-        0,     2,     2,     2,     2,     2,     2,     2,     2,    63,
+-@@ -558,14 +565,14 @@ static const yytype_uint8 yytranslate[] =
+-   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
+- static const yytype_uint16 yyrline[] =
+- {
+--       0,   121,   121,   123,   128,   130,   141,   143,   145,   150,
+--     152,   154,   156,   158,   163,   165,   167,   169,   174,   176,
+--     181,   183,   185,   190,   192,   194,   196,   198,   200,   202,
+--     204,   206,   208,   210,   212,   214,   216,   218,   220,   222,
+--     224,   226,   228,   230,   232,   234,   236,   238,   240,   242,
+--     244,   246,   248,   250,   252,   254,   259,   269,   271,   276,
+--     278,   283,   285,   290,   292,   297,   299,   304,   306,   308,
+--     310,   314,   316,   321,   323,   325
+-+       0,   125,   125,   127,   132,   134,   145,   147,   149,   154,
+-+     156,   158,   160,   162,   167,   169,   171,   173,   178,   180,
+-+     185,   187,   189,   194,   196,   198,   200,   202,   204,   206,
+-+     208,   210,   212,   214,   216,   218,   220,   222,   224,   226,
+-+     228,   230,   232,   234,   236,   238,   240,   242,   244,   246,
+-+     248,   250,   252,   254,   256,   258,   263,   273,   275,   280,
+-+     282,   287,   289,   294,   296,   301,   303,   308,   310,   312,
+-+     314,   318,   320,   325,   327,   329
+- };
+- #endif
+- 
+-@@ -818,22 +825,22 @@ static const yytype_uint8 yyr2[] =
+- 
+- #define YYRECOVERING()  (!!yyerrstatus)
+- 
+--#define YYBACKUP(Token, Value)                                  \
+--do                                                              \
+--  if (yychar == YYEMPTY)                                        \
+--    {                                                           \
+--      yychar = (Token);                                         \
+--      yylval = (Value);                                         \
+--      YYPOPSTACK (yylen);                                       \
+--      yystate = *yyssp;                                         \
+--      goto yybackup;                                            \
+--    }                                                           \
+--  else                                                          \
+--    {                                                           \
+--      yyerror (YY_("syntax error: cannot back up")); \
+--      YYERROR;                                                  \
+--    }                                                           \
+--while (0)
+-+#define YYBACKUP(Token, Value)                                    \
+-+  do                                                              \
+-+    if (yychar == YYEMPTY)                                        \
+-+      {                                                           \
+-+        yychar = (Token);                                         \
+-+        yylval = (Value);                                         \
+-+        YYPOPSTACK (yylen);                                       \
+-+        yystate = *yyssp;                                         \
+-+        goto yybackup;                                            \
+-+      }                                                           \
+-+    else                                                          \
+-+      {                                                           \
+-+        yyerror (YY_("syntax error: cannot back up")); \
+-+        YYERROR;                                                  \
+-+      }                                                           \
+-+  while (0)
+- 
+- /* Error token number */
+- #define YYTERROR        1
+-@@ -948,7 +955,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
+-       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
+-       yy_symbol_print (stderr,
+-                        yystos[yyssp[yyi + 1 - yynrhs]],
+--                       &(yyvsp[(yyi + 1) - (yynrhs)])
+-+                       &yyvsp[(yyi + 1) - (yynrhs)]
+-                                               );
+-       YYFPRINTF (stderr, "\n");
+-     }
+-@@ -1052,7 +1059,10 @@ yytnamerr (char *yyres, const char *yystr)
+-           case '\\':
+-             if (*++yyp != '\\')
+-               goto do_not_strip_quotes;
+--            /* Fall through.  */
+-+            else
+-+              goto append;
+-+
+-+          append:
+-           default:
+-             if (yyres)
+-               yyres[yyn] = *yyp;
+-@@ -1148,10 +1158,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+-                 yyarg[yycount++] = yytname[yyx];
+-                 {
+-                   YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+--                  if (! (yysize <= yysize1
+--                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+-+                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+-+                    yysize = yysize1;
+-+                  else
+-                     return 2;
+--                  yysize = yysize1;
+-                 }
+-               }
+-         }
+-@@ -1175,9 +1185,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+- 
+-   {
+-     YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
+--    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+-+    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+-+      yysize = yysize1;
+-+    else
+-       return 2;
+--    yysize = yysize1;
+-   }
+- 
+-   if (*yymsg_alloc < yysize)
+-@@ -1303,23 +1314,33 @@ yyparse (void)
+-   yychar = YYEMPTY; /* Cause a token to be read.  */
+-   goto yysetstate;
+- 
+-+
+- /*------------------------------------------------------------.
+--| yynewstate -- Push a new state, which is found in yystate.  |
+-+| yynewstate -- push a new state, which is found in yystate.  |
+- `------------------------------------------------------------*/
+-- yynewstate:
+-+yynewstate:
+-   /* In all cases, when you get here, the value and location stacks
+-      have just been pushed.  So pushing a state here evens the stacks.  */
+-   yyssp++;
+- 
+-- yysetstate:
+-+
+-+/*--------------------------------------------------------------------.
+-+| yynewstate -- set current state (the top of the stack) to yystate.  |
+-+`--------------------------------------------------------------------*/
+-+yysetstate:
+-+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+-+  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
+-   *yyssp = (yytype_int16) yystate;
+- 
+-   if (yyss + yystacksize - 1 <= yyssp)
+-+#if !defined yyoverflow && !defined YYSTACK_RELOCATE
+-+    goto yyexhaustedlab;
+-+#else
+-     {
+-       /* Get the current used size of the three stacks, in elements.  */
+-       YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
+- 
+--#ifdef yyoverflow
+-+# if defined yyoverflow
+-       {
+-         /* Give user a chance to reallocate the stack.  Use copies of
+-            these so that the &'s don't force the real ones into
+-@@ -1338,10 +1359,7 @@ yyparse (void)
+-         yyss = yyss1;
+-         yyvs = yyvs1;
+-       }
+--#else /* no yyoverflow */
+--# ifndef YYSTACK_RELOCATE
+--      goto yyexhaustedlab;
+--# else
+-+# else /* defined YYSTACK_RELOCATE */
+-       /* Extend the stack our own way.  */
+-       if (YYMAXDEPTH <= yystacksize)
+-         goto yyexhaustedlab;
+-@@ -1357,12 +1375,11 @@ yyparse (void)
+-           goto yyexhaustedlab;
+-         YYSTACK_RELOCATE (yyss_alloc, yyss);
+-         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
+--#  undef YYSTACK_RELOCATE
+-+# undef YYSTACK_RELOCATE
+-         if (yyss1 != yyssa)
+-           YYSTACK_FREE (yyss1);
+-       }
+- # endif
+--#endif /* no yyoverflow */
+- 
+-       yyssp = yyss + yysize - 1;
+-       yyvsp = yyvs + yysize - 1;
+-@@ -1373,19 +1390,18 @@ yyparse (void)
+-       if (yyss + yystacksize - 1 <= yyssp)
+-         YYABORT;
+-     }
+--
+--  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+-+#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+- 
+-   if (yystate == YYFINAL)
+-     YYACCEPT;
+- 
+-   goto yybackup;
+- 
+-+
+- /*-----------.
+- | yybackup.  |
+- `-----------*/
+- yybackup:
+--
+-   /* Do appropriate processing given the current state.  Read a
+-      lookahead token if we need one and don't already have one.  */
+- 
+-@@ -1443,7 +1459,6 @@ yybackup:
+-   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+-   *++yyvsp = yylval;
+-   YY_IGNORE_MAYBE_UNINITIALIZED_END
+--
+-   goto yynewstate;
+- 
+- 
+-@@ -1458,7 +1473,7 @@ yydefault:
+- 
+- 
+- /*-----------------------------.
+--| yyreduce -- Do a reduction.  |
+-+| yyreduce -- do a reduction.  |
+- `-----------------------------*/
+- yyreduce:
+-   /* yyn is the number of a rule to reduce with.  */
+-@@ -1478,20 +1493,20 @@ yyreduce:
+-   YY_REDUCE_PRINT (yyn);
+-   switch (yyn)
+-     {
+--        case 3:
+--#line 124 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+  case 3:
+-+#line 128 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].b)->top_level(); non_empty_flag = 1; }
+--#line 1485 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1500 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 4:
+--#line 129 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 133 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1491 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1506 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 5:
+--#line 131 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 135 "src/preproc/eqn/eqn.ypp"
+-     {
+- 		  list_box *lb = (yyvsp[-1].b)->to_list_box();
+- 		  if (!lb)
+-@@ -1499,436 +1514,437 @@ yyreduce:
+- 		  lb->append((yyvsp[0].b));
+- 		  (yyval.b) = lb;
+- 		}
+--#line 1503 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1518 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 6:
+--#line 142 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 146 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1509 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1524 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 7:
+--#line 144 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 148 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_mark_box((yyvsp[0].b)); }
+--#line 1515 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1530 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 8:
+--#line 146 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 150 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_lineup_box((yyvsp[0].b)); }
+--#line 1521 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1536 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 9:
+--#line 151 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 155 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1527 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1542 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 10:
+--#line 153 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 157 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-2].b), 0, (yyvsp[0].b)); }
+--#line 1533 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1548 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 11:
+--#line 155 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 159 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-2].b), (yyvsp[0].b), 0); }
+--#line 1539 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1554 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 12:
+--#line 157 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 161 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-4].b), (yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1545 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1560 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 13:
+--#line 159 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 163 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-4].b), make_limit_box((yyvsp[-2].b), (yyvsp[0].b), 0), 0); }
+--#line 1551 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1566 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 14:
+--#line 164 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 168 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1557 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1572 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 15:
+--#line 166 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 170 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_sqrt_box((yyvsp[0].b)); }
+--#line 1563 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1578 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 16:
+--#line 168 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 172 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_over_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1569 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1584 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 17:
+--#line 170 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 174 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_small_over_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1575 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1590 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 18:
+--#line 175 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 179 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1581 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1596 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 19:
+--#line 177 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 181 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-2].b), 0, (yyvsp[0].b)); }
+--#line 1587 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1602 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 20:
+--#line 182 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 186 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1593 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1608 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 21:
+--#line 184 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 188 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-2].b), (yyvsp[0].b), 0); }
+--#line 1599 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1614 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 22:
+--#line 186 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 190 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-4].b), (yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1605 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1620 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 23:
+--#line 191 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 195 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = split_text((yyvsp[0].str)); }
+--#line 1611 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1626 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 24:
+--#line 193 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 197 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new quoted_text_box((yyvsp[0].str)); }
+--#line 1617 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1632 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 25:
+--#line 195 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 199 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = split_text((yyvsp[0].str)); }
+--#line 1623 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1638 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 26:
+--#line 197 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 201 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new quoted_text_box((yyvsp[0].str)); }
+--#line 1629 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1644 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 27:
+--#line 199 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 203 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new half_space_box; }
+--#line 1635 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1650 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 28:
+--#line 201 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 205 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new space_box; }
+--#line 1641 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1656 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 29:
+--#line 203 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 207 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new tab_box; }
+--#line 1647 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1662 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 30:
+--#line 205 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 209 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[-1].b); }
+--#line 1653 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1668 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 31:
+--#line 207 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 211 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(CENTER_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1659 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1674 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 32:
+--#line 209 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 213 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(LEFT_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1665 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1680 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 33:
+--#line 211 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 215 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(RIGHT_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1671 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1686 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 34:
+--#line 213 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 217 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(CENTER_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1677 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1692 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 35:
+--#line 215 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 219 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[-1].mb); }
+--#line 1683 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1698 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 36:
+--#line 217 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 221 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_delim_box((yyvsp[-3].str), (yyvsp[-2].b), (yyvsp[0].str)); }
+--#line 1689 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1704 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 37:
+--#line 219 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 223 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_delim_box((yyvsp[-1].str), (yyvsp[0].b), 0); }
+--#line 1695 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1710 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 38:
+--#line 221 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 225 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_overline_box((yyvsp[-1].b)); }
+--#line 1701 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1716 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 39:
+--#line 223 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 227 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_underline_box((yyvsp[-1].b)); }
+--#line 1707 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1722 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 40:
+--#line 225 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 229 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_prime_box((yyvsp[-1].b)); }
+--#line 1713 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1728 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 41:
+--#line 227 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 231 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_accent_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1719 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1734 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 42:
+--#line 229 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 233 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_uaccent_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1725 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1740 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 43:
+--#line 231 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 235 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_grfont()), (yyvsp[0].b)); }
+--#line 1731 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1746 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 44:
+--#line 233 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 237 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_gbfont()), (yyvsp[0].b)); }
+--#line 1737 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1752 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 45:
+--#line 235 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 239 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_gfont()), (yyvsp[0].b)); }
+--#line 1743 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1758 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 46:
+--#line 237 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 241 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new fat_box((yyvsp[0].b)); }
+--#line 1749 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1764 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 47:
+--#line 239 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 243 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1755 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1770 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 48:
+--#line 241 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 245 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new size_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1761 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1776 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 49:
+--#line 243 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 247 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new hmotion_box((yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1767 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1782 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 50:
+--#line 245 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 249 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new hmotion_box(-(yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1773 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1788 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 51:
+--#line 247 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 251 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vmotion_box((yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1779 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1794 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 52:
+--#line 249 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 253 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vmotion_box(-(yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1785 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1800 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 53:
+--#line 251 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 255 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].b)->set_spacing_type((yyvsp[-1].str)); (yyval.b) = (yyvsp[0].b); }
+--#line 1791 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1806 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 54:
+--#line 253 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 257 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vcenter_box((yyvsp[0].b)); }
+--#line 1797 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1812 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 55:
+--#line 255 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 259 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_special_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1803 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1818 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 56:
+--#line 260 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 264 "src/preproc/eqn/eqn.ypp"
+-     {
+- 		  int n;
+- 		  if (sscanf((yyvsp[0].str), "%d", &n) == 1)
+- 		    (yyval.n) = n;
+- 		  a_delete (yyvsp[0].str);
+- 		}
+--#line 1814 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1829 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 57:
+--#line 270 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 274 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.pb) = new pile_box((yyvsp[0].b)); }
+--#line 1820 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1835 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 58:
+--#line 272 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 276 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-2].pb)->append((yyvsp[0].b)); (yyval.pb) = (yyvsp[-2].pb); }
+--#line 1826 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1841 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 59:
+--#line 277 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 281 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.pb) = (yyvsp[-1].pb); }
+--#line 1832 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1847 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 60:
+--#line 279 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 283 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].pb)->set_space((yyvsp[-3].n)); (yyval.pb) = (yyvsp[-1].pb); }
+--#line 1838 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1853 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 61:
+--#line 284 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 288 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.mb) = new matrix_box((yyvsp[0].col)); }
+--#line 1844 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1859 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 62:
+--#line 286 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 290 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].mb)->append((yyvsp[0].col)); (yyval.mb) = (yyvsp[-1].mb); }
+--#line 1850 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1865 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 63:
+--#line 291 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 295 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.col) = new column((yyvsp[0].b)); }
+--#line 1856 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1871 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 64:
+--#line 293 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 297 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-2].col)->append((yyvsp[0].b)); (yyval.col) = (yyvsp[-2].col); }
+--#line 1862 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1877 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 65:
+--#line 298 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 302 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.col) = (yyvsp[-1].col); }
+--#line 1868 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1883 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 66:
+--#line 300 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 304 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].col)->set_space((yyvsp[-3].n)); (yyval.col) = (yyvsp[-1].col); }
+--#line 1874 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1889 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 67:
+--#line 305 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 309 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(CENTER_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1880 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1895 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 68:
+--#line 307 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 311 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(LEFT_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1886 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1901 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 69:
+--#line 309 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 313 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(RIGHT_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1892 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1907 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 70:
+--#line 311 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 315 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(CENTER_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1898 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1913 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 71:
+--#line 315 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 319 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1904 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1919 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 72:
+--#line 317 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 321 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1910 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1925 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 73:
+--#line 322 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 326 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1916 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1931 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 74:
+--#line 324 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 328 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = strsave("{"); }
+--#line 1922 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1937 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 75:
+--#line 326 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 330 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = strsave("}"); }
+--#line 1928 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1943 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+- 
+--#line 1932 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1947 "src/preproc/eqn/eqn.cpp"
+-+
+-       default: break;
+-     }
+-   /* User semantic actions sometimes alter yychar, and that requires
+-@@ -2042,12 +2058,10 @@ yyerrlab:
+- | yyerrorlab -- error raised explicitly by YYERROR.  |
+- `---------------------------------------------------*/
+- yyerrorlab:
+--
+--  /* Pacify compilers like GCC when the user code never invokes
+--     YYERROR and the label yyerrorlab therefore never appears in user
+--     code.  */
+--  if (/*CONSTCOND*/ 0)
+--     goto yyerrorlab;
+-+  /* Pacify compilers when the user code never invokes YYERROR and the
+-+     label yyerrorlab therefore never appears in user code.  */
+-+  if (0)
+-+    YYERROR;
+- 
+-   /* Do not reclaim the symbols of the rule whose action triggered
+-      this YYERROR.  */
+-@@ -2109,6 +2123,7 @@ yyacceptlab:
+-   yyresult = 0;
+-   goto yyreturn;
+- 
+-+
+- /*-----------------------------------.
+- | yyabortlab -- YYABORT comes here.  |
+- `-----------------------------------*/
+-@@ -2116,6 +2131,7 @@ yyabortlab:
+-   yyresult = 1;
+-   goto yyreturn;
+- 
+-+
+- #if !defined yyoverflow || YYERROR_VERBOSE
+- /*-------------------------------------------------.
+- | yyexhaustedlab -- memory exhaustion comes here.  |
+-@@ -2126,6 +2142,10 @@ yyexhaustedlab:
+-   /* Fall through.  */
+- #endif
+- 
+-+
+-+/*-----------------------------------------------------.
+-+| yyreturn -- parsing is finished, return the result.  |
+-+`-----------------------------------------------------*/
+- yyreturn:
+-   if (yychar != YYEMPTY)
+-     {
+-@@ -2155,5 +2175,5 @@ yyreturn:
+- #endif
+-   return yyresult;
+- }
+--#line 329 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1903  */
+-+#line 333 "src/preproc/eqn/eqn.ypp"
+- 
+-diff --git a/src/preproc/eqn/eqn.hpp b/src/preproc/eqn/eqn.hpp
+-index 32a32a5..9a092c1 100644
+---- a/src/preproc/eqn/eqn.hpp
+-+++ b/src/preproc/eqn/eqn.hpp
+-@@ -1,8 +1,9 @@
+--/* A Bison parser, made by GNU Bison 3.2.  */
+-+/* A Bison parser, made by GNU Bison 3.4.1.  */
+- 
+- /* Bison interface for Yacc-like parsers in C
+- 
+--   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+-+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+-+   Inc.
+- 
+-    This program is free software: you can redistribute it and/or modify
+-    it under the terms of the GNU General Public License as published by
+-@@ -170,10 +171,9 @@ extern int yydebug;
+- 
+- /* Value type.  */
+- #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+--
+- union YYSTYPE
+- {
+--#line 30 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1906  */
+-+#line 34 "src/preproc/eqn/eqn.ypp"
+- 
+- 	char *str;
+- 	box *b;
+-@@ -182,9 +182,9 @@ union YYSTYPE
+- 	int n;
+- 	column *col;
+- 
+--#line 186 "src/preproc/eqn/eqn.hpp" /* yacc.c:1906  */
+--};
+-+#line 186 "src/preproc/eqn/eqn.hpp"
+- 
+-+};
+- typedef union YYSTYPE YYSTYPE;
+- # define YYSTYPE_IS_TRIVIAL 1
+- # define YYSTYPE_IS_DECLARED 1
+ diff --git a/src/preproc/eqn/eqn.ypp b/src/preproc/eqn/eqn.ypp
+ index fb318c3..b7b647e 100644
+ --- a/src/preproc/eqn/eqn.ypp
+diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
+index 0867452ce7b..f4d957a0ef8 100644
+--- a/meta/recipes-extended/groff/groff_1.22.4.bb
++++ b/meta/recipes-extended/groff/groff_1.22.4.bb
+@@ -30,6 +30,13 @@ PARALLEL_MAKE = ""
  
- S = "${WORKDIR}/git-${PV}"
+ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no' PAGE=A4"
  
-diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
-new file mode 100644
-index 00000000000..07a487e8ca6
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/fixsort.patch
-@@ -0,0 +1,31 @@
-+[PATCH] generate-configlist.sh: Fix determinism issue
++# Delete these generated files since we depend on bison-native
++# and regenerate them. Do it deterministically (always).
++do_configure_prepend() {
++	rm -f ${S}/src/preproc/eqn/eqn.cpp
++	rm -f ${S}/src/preproc/eqn/eqn.hpp
++}
 +
-+Currently git binaries are not entirely reproducible, at least partly 
-+due to config-list.h differing in order depending on the system's
-+locale settings. Under different locales, the entries:
-+
-+"sendemail.identity",
-+"sendemail.<identity>.*",
-+
-+would differ in order for example and this leads to differences in 
-+the debug symbols for the binaries.
-+
-+This can be fixed by specifying the C locale for the sort in the
-+shell script generating the header.
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Submitted [https://public-inbox.org/git/f029a942dd3d50d85e60bd37d8e454524987842f.camel@linuxfoundation.org/T/#u]
-+
-+Index: git-2.30.0/generate-configlist.sh
-+===================================================================
-+--- git-2.30.0.orig/generate-configlist.sh
-++++ git-2.30.0/generate-configlist.sh
-+@@ -9,7 +9,7 @@ static const char *config_name_list[] =
-+ EOF
-+ 	grep -h '^[a-zA-Z].*\..*::$' Documentation/*config.txt Documentation/config/*.txt |
-+ 	sed '/deprecated/d; s/::$//; s/,  */\n/g' |
-+-	sort |
-++	LC_ALL=C sort |
-+ 	sed 's/^.*$/	"&",/'
-+ 	cat <<EOF
-+ 	NULL,
+ do_install_append() {
+ 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+ 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
 -- 
 2.27.0
 
