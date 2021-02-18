@@ -1,136 +1,121 @@
-Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
- by mx.groups.io with SMTP id smtpd.web09.4081.1613636560185672037
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.81])
+ by mx.groups.io with SMTP id smtpd.web08.4388.1613638725237996801
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 00:22:41 -0800
+ Thu, 18 Feb 2021 00:58:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=q7C/3+Lv;
- spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=6765223a1=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=nNWTUG5E;
+ spf=pass (domain: windriver.com, ip: 40.107.100.81, mailfrom: yongxin.liu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fI7Iy+/ipGCmyfdXsW0l6TcFkq6Z8fueCALLgUInpIHzBYDEFntO/ldh4h3GlsLn42hGGDMVWmkhF+V8R8CkMjemk5DLeHxvDTw/AsHQ2D+Xg4L2tr1VnZnztr6xswvrnhN6aViRIe0e/Sy5jnOrxecNqDroiw5LvaMdLfaLg+QSXVYq5g1XIijbcOT/gDwXG3b44skt/KDOc6getl1AAuuA+HWtYkyJw79yF1zLX2XlM/o78Q2kPu31x7RqUPM5QIbf5X8VLq3JtgKGKVe3j5TxeWCTArWkVWVxjmNgRlr7PuaeeXLuL9vXU6caQfd5T9jql0Gq5Z3G/oENi7op9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nr0YUZPYLcxg9DO67cXOnl+2mSTKhI7hsXsREsqHgPY=;
+ b=QqxjG9wFzy6ou2+wkYzOYHcMbTcAERp4+RLrn86b3wRpQ2Nj+8WO7elBHe41aVaKMGB1WqVQ5kbxMlF7yO67OCjMSuvMh17lowlnYc5NIZlC1lMXTPdxAwyfCqQxLhT3cFcFQoIpBRvfAS7GmUTAjZgnJ3i8oyceLf406nFpzd/v5Bqs3s0dppoqkq+JXvhueJTUQUdrbyQfkfEGT9kRXy76nYdwy3yYIwMbodIENzi+DgGOiDLlwarOHqzgs89hiQHCxEaXZr0zWA9O+aeSPSWLgmdH1wxxxJ6L5hHN0mV0mbzRaZVudf13TL6HNpvlsloWpFT5eYx4WwkA8NJlVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1613636560; x=1645172560;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=jCXd8eb62kOrDY7z1tk5NJG+nwycLsdlVG0bY9C1FGI=;
-  b=q7C/3+LvhJH8a7Akwv1a58jfjKPZOmMQuLhfu8IAOBp37MViwv1xn//6
-   6Cy6AOJvVLkRPrUZuc573ra/v7RTNsmDm6SdUTF7V2CVR5TqSFj/Nl9kQ
-   v7616QrOClvJZhj1lsnqA/RpxxA8h1rkb4n+lmu+YAkyoU64Nk3cF9Dba
-   c=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 18 Feb 2021 09:22:37 +0100
-Received: from esabb5.muc ([160.50.100.47])  by esagw1.muc with ESMTP/TLS;
- 18 Feb 2021 09:22:37 +0100
-Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
- by esabb5.muc with ESMTP/TLS; 18 Feb 2021 09:22:37 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
- (160.46.167.68) with Microsoft SMTP Server (TLS;
- Thu, 18 Feb 2021 09:22:37 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Thu,
- 18 Feb 2021 09:22:37 +0100
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <steve@sakoman.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] CVE's for linux-yocto
-Thread-Topic: [OE-core] CVE's for linux-yocto
-Thread-Index: AQHXBc836VkRMRGApkeh/ly8rt7V+g==
-Date: Thu, 18 Feb 2021 08:22:37 +0000
-Message-ID: <YC4jyxYG+qaKLZOu@korppu>
-References: <CAOSpxda=kB8f8ddFh0ZV2PeHSWNGVP=zjL0in4EgBSVP3oL6UA@mail.gmail.com>
-In-Reply-To: <CAOSpxda=kB8f8ddFh0ZV2PeHSWNGVP=zjL0in4EgBSVP3oL6UA@mail.gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nr0YUZPYLcxg9DO67cXOnl+2mSTKhI7hsXsREsqHgPY=;
+ b=nNWTUG5E+rg/VqsnwY0gLwMTTz9nTTlAJdUvIyaaIKSn8e6gGXhLSkKQ+9noVV+uQng32drYUcSrQeIonTQJ7nF4U2xxRpAEyK89Z2I5ycfpEVQ8uEGAw2T6FpKvMQ9YyBPgr5IUw1JV6QysqXccvX/JLtc40nmfcbcTwR0Ydhk=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from PH0PR11MB5175.namprd11.prod.outlook.com (2603:10b6:510:3d::8)
+ by PH0PR11MB4824.namprd11.prod.outlook.com (2603:10b6:510:38::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Thu, 18 Feb
+ 2021 08:58:42 +0000
+Received: from PH0PR11MB5175.namprd11.prod.outlook.com
+ ([fe80::8c9c:1dc9:353:8eba]) by PH0PR11MB5175.namprd11.prod.outlook.com
+ ([fe80::8c9c:1dc9:353:8eba%7]) with mapi id 15.20.3846.043; Thu, 18 Feb 2021
+ 08:58:42 +0000
+From: "Yongxin Liu" <yongxin.liu@windriver.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: [OE-core][PATCH] mesa: Allow building the iris driver
+Date: Thu, 18 Feb 2021 16:56:17 +0800
+Message-Id: <20210218085617.11205-1-yongxin.liu@windriver.com>
+X-Mailer: git-send-email 2.14.5
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR04CA0059.apcprd04.prod.outlook.com
+ (2603:1096:202:14::27) To PH0PR11MB5175.namprd11.prod.outlook.com
+ (2603:10b6:510:3d::8)
+Return-Path: yongxin.liu@windriver.com
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0E53C2DA9B258E44AE38A91623A763FB@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpggp6.wrs.com (60.247.85.82) by HK2PR04CA0059.apcprd04.prod.outlook.com (2603:1096:202:14::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend Transport; Thu, 18 Feb 2021 08:58:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d45105dc-2f33-47dd-b2db-08d8d3eb6429
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4824:
+X-Microsoft-Antispam-PRVS: 
+	<PH0PR11MB4824540930F6A225D722C92AE5859@PH0PR11MB4824.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:296;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Sp8r2ifG8IVoPJmn2y5HUNy6TEk8cokwV8EtOQST2mx7cVlfM8LiVBU8uBYvdSDPo3rrc6e5CgeN+LLLkZucViXzZ/PtRHLXCMYFc9so2HtKFbOnGFQ/OIHvat2qusRHmEfpCDUENAinB7mlW9/Es3bUAmPPhVd1cRL7b3Tk27GqxwbPwhMHiJmLT6ZTBbgEp9MlQdFUbuY6NII7OXU655pE+S0PwXBRcuA8lsRlAMaQbQ2Ac9MIPTiJwtG54rWnLJBVi9YfqWFVbeQbGJ+qIQ+Knu5VC/5l83jPA+i0uj7vlMjAKf8Mm/xmExmpBwpV8kIAOU3kBHTpkk+aWRw+sqBcdF1BtYIA5o28FbmqNIIHfew0AMH3ksik6Mjqkq60RR+rAx4EkLpbQICrfwC9YEww9pBpTVCO4/1nk/FdDA1NwwXvZn2O9RtvJqalQ/KHZlsY/m8gJ8A4MBmEo5DH+rj0WTTX9fieP5f46vcj2giq5azSJr7njqZTEQvWQY587clzGycW3gF/+eXJPhukZQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5175.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39850400004)(136003)(366004)(376002)(316002)(8676002)(16526019)(52116002)(36756003)(26005)(5660300002)(4744005)(86362001)(956004)(6486002)(8936002)(186003)(6506007)(2616005)(6512007)(66476007)(1076003)(66946007)(66556008)(44832011)(478600001)(6666004)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?QgslOONfThRCIvUO5hNyVT/MhaUjEvziM6qWyBGyEwnjnt7rQ9VgB9AAYSLc?=
+ =?us-ascii?Q?OyGb0gUqX+Tjw+M7ziCBYYCp1+XJ13/WSkbfjgsKP2WMjh1LekmZGn6JqCQ+?=
+ =?us-ascii?Q?03/ZngBsQ9f9CXZ+it4z7BOI6aqBwLKdGOnr85dObSaUfsxheZMj57mTr4UR?=
+ =?us-ascii?Q?egSHVwFGfwRvFQiyzNuuS/FXAKzhoUrPZj+nZetNDWAPOnaTsX56Hcjq6yOA?=
+ =?us-ascii?Q?rhsFkPSlflmI7eYZCn0dOV0wYhw52ncMMCr0uJNDHaKYEC/htIizWBJYxpcv?=
+ =?us-ascii?Q?TiELftcspyxzSFAS/VbAhsfIe2TBqWIAV7dIxiA14LV3IiQ+vw1TKDXhmYkM?=
+ =?us-ascii?Q?vh02FkacMncZD+UvZtBGFBINOsJ66PMaki51Lg7ee1+T99r2jAgNilWsaXf/?=
+ =?us-ascii?Q?r3Pv/5IphxSQ63vdKVSwOwTu5TQNj/SjVu04wNGzPxFKwgsP5yEQpi2TIVgU?=
+ =?us-ascii?Q?ipBKGQfUk+dOndrBWM2obWCBsa/DXHDF/G2kjjWzw+FdzePYBzT5Ch6K8qmw?=
+ =?us-ascii?Q?frscrvkzntOycXOYCabCCSVJQ57GhxJCqFov/3k18K9V8oH6cWs5WQCyxrTF?=
+ =?us-ascii?Q?HZ2hwYZtu7p022GnF+MRFVw+3QqsCq/KDzbOUtqjsPSePR22jkk8tOPJJTdR?=
+ =?us-ascii?Q?J0UelweR0s++POGFkTfzPg7tvPLoI3tumK2oeolZZj1NcIbSyrLS/UVRTI1a?=
+ =?us-ascii?Q?8mKGzukyi7RXn0PIC2WR2qRvRi+zvIl+BusWYMtpqU63W33C87D7TDsjVFLw?=
+ =?us-ascii?Q?Jxk01AHpK80+Zx5v/AT2bybkcIdNYDY4iBzkFBPp1UHwLdGGeWGekM9picNM?=
+ =?us-ascii?Q?4YWt1Przc1dGyvzM0PnPBNyFMpeePzAJxfzRisNZg/I21ZDY+xzdZWNb+swG?=
+ =?us-ascii?Q?VgmCXRpsMfVCVg+u0PGUr9sEiYdT1N3sNaVn9n09LpfwrFptmyhaiYDzRFtI?=
+ =?us-ascii?Q?hDKUiU4OaAD8Wb1RivU5AP6QoO5V8V5lvn5vKhjKztuuceQxq7ArEvPiOyo5?=
+ =?us-ascii?Q?XYR+iIBaYSruebVduidyemy0q8I7YDFUIjNsfS2UvunOXoPt/Wb8PqQKIX30?=
+ =?us-ascii?Q?lSatfClB7YRKTNrhwuj+LjEN2eQx/cUtI0InS0OCKDOVvHAyYREGz4T3Ko9H?=
+ =?us-ascii?Q?VOm9bW9MWrvvSw+9s1GW4+VbWmuGMay7ql8TPOv0oorDQB9dhAasqH0lSjlL?=
+ =?us-ascii?Q?aOWn8TPWFt4nCQWS4RHhoXgrr1uUOcgSPeHn3Bi1DDJ+d9f/3lRk7QMcRff1?=
+ =?us-ascii?Q?O3ma5hrmbtoBKaIx94EPp1qUK07TmHtmBw7msXoMN994DE/TXNBHdTBZokJO?=
+ =?us-ascii?Q?AArydv9dzBkHCK7c0jV2NWEG?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d45105dc-2f33-47dd-b2db-08d8d3eb6429
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5175.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 08:58:42.7221
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kVoPWdp/KO+PTJFaeBibDkftJpAuvC+J+8VKO0FMrPmH6BAmXq4v/T8x0/Gg04/FvFm7qZYMpZJElSqX8mPVJBHRb+mJ92Z0n2t05LRt4Uc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4824
+Content-Type: text/plain
 
-Hi,
+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Tue, Feb 16, 2021 at 08:23:31AM -1000, Steve Sakoman wrote:
-> The weekly cve reports for master, gatesgarth, and dunfell currently
-> omit linux-yocto since the CPE database for the kernel is notoriously
-> incomplete in versioning information.
->=20
-> This morning at the YP technical team meeting we discussed this and
-> decided to see if we might, as a team, expend some effort to update
-> the CPE database to improve this situation (much as we have been doing
-> for the other packages in oe-core)
->=20
-> The first step in this process is to shine some light on the current
-> situation, so below is a list of the current CVE hits for linux-yocto
-> in all three branches.
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index cb075a8b89..72e22d654e 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -168,6 +168,9 @@ GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '
+ PACKAGECONFIG[panfrost] = ""
+ GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'panfrost', ',panfrost', '', d)}"
+ 
++PACKAGECONFIG[iris] = ""
++GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'iris', ',iris', '', d)}"
++
+ OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium', 'classic', d)}"
+ PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
+ 
+-- 
+2.14.5
 
-Please check https://github.com/nluedtke/linux_kernel_cves
-
-IMO, that information could be moved over to NVD and CPE, but AFAIK the
-scripts which generate this git repo with data aren't public.
-
-Another option would be to switch kernel CVE scans to use that git repo
-to pull in data from kernel major version and which CVEs are fixed and
-unfixed by given minor version release.
-
-That is rather simple to do for anyone who has a bit of time. Though
-as recommended by upstream developers, CVEs should never be patched
-independently and instead upstream point releases should be merged into
-product trees.
-
-For example for dunfell linux-yocto version 5.4.87 and data from
-https://github.com/nluedtke/linux_kernel_cves/blob/master/data/5.4/5.4_secu=
-rity.txt
-shows that the list of fixed CVEs is between lines 1 and 297 (note
-that 5.4.87 point release is missing from the list but previous and followi=
-ng
-releases are there, not perfect but that's what it is).
-
-Then the list of unfixed CVEs from newer point releases is:
-
-CVEs fixed in 5.4.88:
-  CVE-2020-36158: 0a49aaf4df2936bca119ee38fe5a570a7024efdc mwifiex: Fix pos=
-sible buffer overflows in mwifiex_cmd_802_11_ad_hoc_start
-
-CVEs fixed in 5.4.89:
-  CVE-2020-28374: 485e21729b1e1235e6075318225c09e76b376e81 scsi: target: Fi=
-x XCOPY NAA identifier lookup
-
-CVEs fixed in 5.4.92:
-  CVE-2021-3178: 4aef760c28e8bd1860a27fd78067b4ea77124987 nfsd4: readdirplu=
-s shouldn't return parent of export
-
-CVEs fixed in 5.4.94:
-  CVE-2020-27825: b899d5b2a42a963d6ca7e33d51a35b2eb25f6d10 tracing: Fix rac=
-e in trace_open and buffer resize call
-  CVE-2021-3347: 0dae88a92596db9405fd4a341c1915cf7d8fbad4 futex: Ensure the=
- correct return value from futex_lock_pi()
-
-CVEs fixed in 5.4.95:
-  CVE-2021-3348: 587c6b75d7fdd366ad7dc615471006ce73c03a51 nbd: freeze the q=
-ueue while we're adding connections
-
-CVEs fixed in 5.4.97:
-  CVE-2021-20194: 9146fffc5d2a3ec49906daf18d2e983d995b3521 bpf, cgroup: Fix=
- optlen WARN_ON_ONCE toctou
-
-And list of CVEs for which no fix is available in 5.4 branch is the long li=
-st of outstanding
-(all lines after "Outstanding CVEs") CVEs, some of which do not apply to 5.=
-4 because buggy
-code doesn't exist there, or no-one has yet backported the patches etc.
-
-This same process could apply to any kernel major version for which data ex=
-ists in this
-git tree and if the database keeps seeing updates. I've been using this man=
-ually to
-trigger updates and cross reference which point releases have fixes and I h=
-ave not
-yet found major bugs in the data. Though for updates, like I said, full mer=
-ge or rebase
-of the upstream kernel.org point releases must be done, as also Greg K-H. s=
-ays.
-
-Cheers,
-
--Mikko=
