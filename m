@@ -1,79 +1,101 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web09.2370.1613620786466539151
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web08.2597.1613622265608276454
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Feb 2021 19:59:46 -0800
+ Wed, 17 Feb 2021 20:24:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WwCdHvil;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id t63so981311qkc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Feb 2021 19:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=d+bZzFnfyehq232ITYkJq674PE8bvPpJWvKMKNj6Svk=;
-        b=WwCdHvilK81GXX02LlmNWLBmz+56XSntufNPTQSnH89soC1XL6FNnRjKJ5Z6Ps+IS3
-         VreW8Qcx/6Mq8eTBqYiHkMY1atHZ+UEAsAjS457LJuWTPJrbADp/BbyL5WjRhOjx80gI
-         CTnIuOZRHS6LTwW7YQs27/PER/xgEGr0QfTXfVtUTRPLXxR1qMHVefZlGw3UJURD6NkQ
-         nrQ2IQPKt+7cpRWFGjS2Bi7107hPoIXyP/QiEXkFRXX8oibDWhu3sh596B++ZNKnV2OE
-         9bWsbJVNjpDNfsLOyLQgN2ZvPoHRCv/SAVWqf0xCecyG15EjpmUPtzMv+sriCtYRvYxH
-         R6Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=d+bZzFnfyehq232ITYkJq674PE8bvPpJWvKMKNj6Svk=;
-        b=IoT7/wpqRw6aKmH7EPpa+WqI2ZKxYLGr4+3PNuJCnVL8jgwCI3hkUKyrJz+nxXnz+R
-         oKbCDWP8myGyG/I4SGJ+TCWIf7wooINRNN9owE/9g4ZacCR++JXhyMEfNV3UVoV0vaxv
-         4URq1z69mZ4DxXrn0O7uqTJjvR+rS8Re/RJIPk4+R05fKkbC5uTctuKNBj9k37XLV1Wp
-         tZl+6tXK6pQuXeCsZnhEsBHjuArQ8d8a/mwu9MyymRC5SuAZUH56Zt/DCFjuZoAUKS7R
-         BIW7xx9M1XMnWFd1VNk08mOwfDwyrbNy4bKDTpCHrYDnNYtyhqHYTFN4YQJ9q9sbE6ah
-         vTUw==
-X-Gm-Message-State: AOAM533n3DkFCF5dYJRYp9DrQcM/IgOpFHbpJ6zQk18WTsAKjlXTu3dZ
-	kTGb9ScIqRVk6gDayb6yp1jaz34eRSLdQ4Bg
-X-Google-Smtp-Source: ABdhPJzvsYSebEMU4HHZXuDcUD4fL9UWgxkbOZTRFC+NLixyHGfPWWz3q1Zv2yhtFjF4Jm7NMFOd+Q==
-X-Received: by 2002:a05:620a:1523:: with SMTP id n3mr2592678qkk.85.1613620785644;
-        Wed, 17 Feb 2021 19:59:45 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id g9sm945184qth.53.2021.02.17.19.59.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 19:59:45 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-yocto-dev: bump version to v5.11+
-Date: Wed, 17 Feb 2021 22:59:38 -0500
-Message-Id: <a00dbc96e283b55312d386549477031980f07524.1613620662.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1613620662.git.bruce.ashfield@gmail.com>
-References: <cover.1613620662.git.bruce.ashfield@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: +VdDOU3UsfdqqjncafouvyjvnmF0DeSsGSeh3d+XUM66X97rbCFU50bme7jWzlgdZTcU1m8RVc
+ ADoyv7TjbLPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="163177945"
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
+   d="scan'208";a="163177945"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 20:24:25 -0800
+IronPort-SDR: R9zKLuw2dEWoMb+yZwnE4u6rC11rno8/h48ppuaqZmJigGKkrOdv3AHGFYacYRvYaUpcDRnTEN
+ Fl2IEFQpsO/g==
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
+   d="scan'208";a="378269155"
+Received: from zaizam-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.185.203])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 20:24:23 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/12] cmake: upgrade 3.19.3 -> 3.19.5
+Date: Thu, 18 Feb 2021 12:24:07 +0800
+Message-Id: <20210218042418.281245-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Drop a patch which is no longer required as the issue has been fixed
+upstream.
 
-We'll have the full v5.11 upstream kernel in linux-yocto-dev at
-the time of release, so lets drop the -rc from the PV.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ative_3.19.3.bb => cmake-native_3.19.5.bb} |  0
+ meta/recipes-devtools/cmake/cmake.inc         |  3 +--
+ ...cmake-do-not-try-to-run-the-test-bin.patch | 26 -------------------
+ .../{cmake_3.19.3.bb => cmake_3.19.5.bb}      |  0
+ 4 files changed, 1 insertion(+), 28 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.19.3.bb => cmake-native_3.19.5.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-cm_cxx_features.cmake-do-not-try-to-run-the-test-bin.patch
+ rename meta/recipes-devtools/cmake/{cmake_3.19.3.bb => cmake_3.19.5.bb} (100%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 95ac6e0a4c..2ccc0ee875 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.19.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.19.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.19.3.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.19.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index a79b3922bc..e0f59a6c67 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -20,10 +20,9 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0002-cmake-Prevent-the-detection-of-Qt5.patch \
+            file://0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+-           file://0001-cm_cxx_features.cmake-do-not-try-to-run-the-test-bin.patch \
+ "
  
--LINUX_VERSION ?= "5.11-rc+"
-+LINUX_VERSION ?= "5.11+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRC_URI[sha256sum] = "3faca7c131494a1e34d66e9f8972ff5369e48d419ea8ceaa3dc15b4c11367732"
++SRC_URI[sha256sum] = "c432296eb5dec6d71eae15d140f6297d63df44e9ffe3e453628d1dc8fc4201ce"
  
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-cm_cxx_features.cmake-do-not-try-to-run-the-test-bin.patch b/meta/recipes-devtools/cmake/cmake/0001-cm_cxx_features.cmake-do-not-try-to-run-the-test-bin.patch
+deleted file mode 100644
+index 4483bbce18..0000000000
+--- a/meta/recipes-devtools/cmake/cmake/0001-cm_cxx_features.cmake-do-not-try-to-run-the-test-bin.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From ca105727dc4862733c3aad09e9de819be63a7b6b Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sun, 27 Dec 2020 23:18:10 +0100
+-Subject: [PATCH] cm_cxx_features.cmake: do not try to run the test binary
+-
+-This causes errors when cross compiling cmake.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- Source/Checks/cm_cxx_features.cmake | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Source/Checks/cm_cxx_features.cmake b/Source/Checks/cm_cxx_features.cmake
+-index 663d89a..e8dca3b 100644
+---- a/Source/Checks/cm_cxx_features.cmake
+-+++ b/Source/Checks/cm_cxx_features.cmake
+-@@ -81,7 +81,7 @@ if(CMake_HAVE_CXX_MAKE_UNIQUE)
+- endif()
+- cm_check_cxx_feature(unique_ptr)
+- if (NOT CMAKE_CXX_STANDARD LESS "17")
+--  cm_check_cxx_feature(filesystem TRY_RUN)
+-+  cm_check_cxx_feature(filesystem)
+- else()
+-   set(CMake_HAVE_CXX_FILESYSTEM FALSE)
+- endif()
+diff --git a/meta/recipes-devtools/cmake/cmake_3.19.3.bb b/meta/recipes-devtools/cmake/cmake_3.19.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.19.3.bb
+rename to meta/recipes-devtools/cmake/cmake_3.19.5.bb
 -- 
-2.19.1
+2.29.2
 
