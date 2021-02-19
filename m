@@ -1,100 +1,101 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.12179.1613756321810290177
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.12306.1613757116406584705
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Feb 2021 09:38:42 -0800
+ Fri, 19 Feb 2021 09:51:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N4hWeAaS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id f7so8468465wrt.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Feb 2021 09:38:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hvc/RiQi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id i7so4735942wmb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Feb 2021 09:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=oC65MxRIMmpQygXxA5TpXKxwKSV1R5Ipzm3SwMSFzd4=;
-        b=N4hWeAaSO4Wok4H/DFn+hI6vHUcHPjMf98Y2pD3R5JQGmHnekFprv9C1ndtQ49b/XG
-         /6nsMgW8bdKF0gmxYJb1t3jIqK/grIJcytJ7M8Rkgvg/DJUwSe2P0W/f7F7+aQLlbjKu
-         ekGyU2+lqGSHN3oRh2+/cDErV9OpUqkIRXroM=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=m4jIIc5swcrWsbfYCBFjbKcNmmJ9pr/M6awps2etOhE=;
+        b=hvc/RiQiNjkX/9jan7oFti14g6QAmUmR0kRSH24vL0fnt3xn2RDXUe3H+MytrTfytg
+         Jwjnb8duTWa8WuMcCsAWNz7vBChHCuGGrhKXhsZ5CBu5VbMdaLYvNtzXhplkknOWtD7S
+         8gvjVq51r4ECwYhcRR84wXaXNT68RoAPlTLlo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oC65MxRIMmpQygXxA5TpXKxwKSV1R5Ipzm3SwMSFzd4=;
-        b=Vmb9bjRIKo22Q89PH+AiVmfLaHUkQe8/mmpSCP/nAVyUDQXKkUkDMr5XeXOF8/dsh6
-         hewuCoqCX3RV37uE/llVPwpIx+ubAYYfqtYfSCyNTPBWAZ82NTKN0Eyt1/nSgaJpxa6v
-         rR//GgHeWPaCf/lKWKgG8ISJTAdBma0A83uc0bQIOazc76/VHwYv5F1ClaaNpiTqztOL
-         sOp1kjQxuGfYOt7AhQSV6fZS15H0U05mx2XFFylQrPXz2DezMjpm+AT6e9VSTjPM8a0j
-         1WmoYYPb8A7T3qM5dJmcvdSsXReRQ6QVuW+VRbqoJ/VU8kCpyDHtiQokLZqRwZkMaVg8
-         R2Pg==
-X-Gm-Message-State: AOAM531nMta+p0jHdZ/drcTlcYB9O/KyTFEOC8FGKXolUIxlE6YF4oFx
-	g9RqhBRkqsb+Rj43vrKGRYChJQ==
-X-Google-Smtp-Source: ABdhPJyUNlmCsMG2HoCismAFtjhwyYyaNzQsQYlNyBLyIpK5IHAHzcQ6xs2MXdG1Jl/pLK4gcTBL0w==
-X-Received: by 2002:adf:b641:: with SMTP id i1mr10214177wre.295.1613756320493;
-        Fri, 19 Feb 2021 09:38:40 -0800 (PST)
+        bh=m4jIIc5swcrWsbfYCBFjbKcNmmJ9pr/M6awps2etOhE=;
+        b=KPen24mlnHbxP44cxMOyfMl+zFi2WHRun2ROTn+o3dd2H/gLueelCcxeCCLuIod5TZ
+         9pqhPXwzkrWXUpj5Tw04thPzcRy8yIV5Nqp3mjxB/mdbec25ywP7bxBG3yMbXfyudaDu
+         +vpHDrgz+Gauu5GU+EgPv+mHcqCGi3Z8lEREa9G8bi1SJIA4sObOlSHY4FHv4Gzeqyab
+         OAy+BR54fXKi0JZf9qtcGdvcqVhdw0mAa5vDTxwwJNs2CSGMEesISDvliD5ibgDuH+gu
+         7SzXP8449Dpq2VkF8ZTNY53HSEUS1LCFMepYtzHjaLe6MEbgKNdZTlAkjn2AdQlpdEcQ
+         OV9g==
+X-Gm-Message-State: AOAM531mS37AlJNXk5ZUyC7qmuEYknc16B/JYYbNXBatmTzZax+bIuLS
+	9ims+pPh5FxTjce/TpMdQTqcxw==
+X-Google-Smtp-Source: ABdhPJyWPGQgXfqypuCzvYNUmBmg8vWP+FouYx0RJ+9pDghEPhnZOYB8GxXQdvb3TO7yFSTpHpdhyw==
+X-Received: by 2002:a05:600c:230c:: with SMTP id 12mr9254923wmo.30.1613757114872;
+        Fri, 19 Feb 2021 09:51:54 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:569e:86b4:55e2:a2e9? ([2001:8b0:aba:5f3c:569e:86b4:55e2:a2e9])
-        by smtp.gmail.com with ESMTPSA id o13sm17444445wrs.45.2021.02.19.09.38.40
+        by smtp.gmail.com with ESMTPSA id h11sm11502056wmq.26.2021.02.19.09.51.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Feb 2021 09:38:40 -0800 (PST)
-Message-ID: <9802d27eadcf72dd628a236fb42b06834d1158e1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [Question] "global" package list used to bump up customer packages
+        Fri, 19 Feb 2021 09:51:54 -0800 (PST)
+Message-ID: <908203e58ebf8774af4afb05d147b8b3b4590ea7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bitbake.conf: Add sstate-build-populate_sdk and intercept_scripts- to PSEUDO_IGNORE_PATHS
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Mans Zigher <mans.zigher@gmail.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Feb 2021 17:38:36 +0000
-In-Reply-To: <CAEhQi8=E4K3h5Y8ui3PRXYx68Jgk=RzShj0UwQEcGupd_YMYWQ@mail.gmail.com>
-References: 
-	<CAEhQi8=E4K3h5Y8ui3PRXYx68Jgk=RzShj0UwQEcGupd_YMYWQ@mail.gmail.com>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Feb 2021 17:51:53 +0000
+In-Reply-To: <CAJkqNs1L+J1e1WVLwO46VB-PfpRgaM+aA3D1mC68ryHg86gcGw@mail.gmail.com>
+References: <20210217224915.23546-1-tomasz.dziendzielski@gmail.com>
+	 <075c7fbe4df698d6919b3c6bebbb43d83fa1c861.camel@linuxfoundation.org>
+	 <CAJkqNs1L+J1e1WVLwO46VB-PfpRgaM+aA3D1mC68ryHg86gcGw@mail.gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-02-19 at 09:53 +0100, Mans Zigher wrote:
-> Hi,
+On Thu, 2021-02-18 at 11:30 +0100, Tomasz Dziendzielski wrote:
+> > > Recipes using populate_sdk.bbclass are failing with pseudo abort due to
+> > > path mismatch on these paths.
+> > > 
+> > > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> > > ---
+> > >  meta/conf/bitbake.conf | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > We build SDKs on the autobuilder and don't see this. Any idea what you 
+> > need to do to trigger it?
 > 
-> I have a problem getting my customer to understand how to work with
-> OE. They have a set of private packages that they continuously need to
-> bump up to use the latest version. The packages are stored up in an
-> artifactory server. I have an idea of maybe helping them out by adding
-> a manifest file containing a couple of entries for each package
-> 
-> VERSION = "0.25.6"
-> SRC_URI[md5sum] = "0d6bc46bb69b2a0dce0c042d27b4f25c"
-> SRC_URI[sha256sum] =
-> "c20ea63a5e2f24e25d91e5cdfaa6b4b3735739d6170bea7b2b7d429fc397b718"
-> 
-> This manifest should then be pulled into the bitbake environment so
-> that the packages can read these entries and download what is needed.
-> Any comments regarding this potential solution would be greatly
-> appreciated.
-> 
-> Also I have a faint memory of seeing something similar solution so if
-> you know if something already exists then I would appreciate if you
-> could let me know.
+> I was able to reproduce abort on sstate-build-populate_sdk on the latest master without any old build/
+> directory.
+> $ . ./oe-init-build-env
+> $ bitbake meta-go-toolchain
+> $ bitbake meta-go-toolchain -c populate_sdk -f
 
-Are you thinking of AUTOREV? That works if the fetcher has support
-for the source control system being used, e.g. git or subversion but
-I'm not sure it would work for artifactory without a dedicated fetcher
-module.
+Which packaging backend are you using? I suspect this is package 
+backend specific.
 
-Certainly generating an include file like this is one way to handle
-this. You can use package-name overrides, e.g.:
+> Please note that above commands might not fail every time, it seems to 
+> be a bit random. It occurs not only on rebuilds but also on the first run. 
+> If we build multiple SDKs at one bitbake execution the build is unlikely 
+> to finish successfully, because each time different (or the same) SDKs will fail.
 
-VERSION_pn-somepackagename = "0.1.2"
+The "better" way to test this is to look inside WORKDIR/pseudo/files.db 
+with sqlite3 and then see which paths are in the database which you'd 
+not expect. That way you'll see the paths regardless of whether there
+was an inode reuse issue or not.
 
-although its harder to do with flags, you might have to put those via
-an intermediate variable:
+> In our environment I also had to add ${WORKDIR}/oe-sdk-repo,${SDK_OUTPUT} 
+> to PSEUDO_IGNORE_PATHS to make SDKs work but I'm not sure if failures on 
+> these two are not related to some of our custom mechanisms.
 
-SRCURISHA256_pn-somepackagename = "XXX"
+In my local build I can see WORKDIR/oe-sdk-repo, WORKDIR/apt and 
+WORKDIR/oe-rootfs-repo in files.db which look suspicious.
 
-then in the recipe:
+I don't see sstate-build-populate_sdk or intercept_scripts
+paths though :/.
 
-SRC_URI[sha256sum] = "${SRCURISHA256}"
+At the very least I think we should append these to PSEUDO_IGNORE_PATHS 
+in the classes which define them rather than globally.
 
 Cheers,
 
 Richard
-
-
 
