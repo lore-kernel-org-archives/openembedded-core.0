@@ -1,296 +1,432 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web09.3969.1613705653869667246
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.4039.1613706304831307403
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 19:34:15 -0800
+ Thu, 18 Feb 2021 19:45:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.81,189,1610380800"; 
-   d="scan'208,217";a="104626392"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 19 Feb 2021 11:34:06 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id A28704CE72F1;
-	Fri, 19 Feb 2021 11:34:03 +0800 (CST)
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 19 Feb 2021 11:34:04 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local ([fe80::65fd:3cfa:6c39:98a3])
- by G08CNEXMBPEKD06.g08.fujitsu.local ([fe80::65fd:3cfa:6c39:98a3%14]) with
- mapi id 15.00.1497.010; Fri, 19 Feb 2021 11:34:04 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] wordsize.h: This file should be the same under arm and aarch64, othersise the following error happens:
-Thread-Topic: [OE-core] [PATCH] wordsize.h: This file should be the same under
- arm and aarch64, othersise the following error happens:
-Thread-Index: AQHXBmgJuJufeeiQXEuo3rQuR+jvS6pe0tHw
-Date: Fri, 19 Feb 2021 03:34:04 +0000
-Message-ID: <259b58fcfd1548dab3564e230454ebbd@G08CNEXMBPEKD06.g08.fujitsu.local>
-References: <1613698607-114826-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <CAMKF1sou9Ju88OdEk4SKug_172NtnxAbkg-T5evqZbh-Am2sJA@mail.gmail.com>
-In-Reply-To: <CAMKF1sou9Ju88OdEk4SKug_172NtnxAbkg-T5evqZbh-Am2sJA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.35]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C2igpmPi;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id k8so1610755qvm.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 19:45:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LwMjTzgE8Nw7oWqh5exwz2IOawnHFYNGNrNuaYfw50c=;
+        b=C2igpmPiR+ebZqHjr7D+2MP9EDutxyvq1NhSeXs+hNvmj0WXEnt6Ub2DHCyhaKXMdk
+         Ljw8+sF6tpE6ePEjqCOMqRf9tjPueymVcd0VxiDzxEXQu/pGjj3CUbIynub3e5SITOn2
+         862w74ckXIJC2IVu22zyS2Ds/DCCx0VEGCv8T9PRuwCJWReCSR/fTV/SEpG/jdg1uA8p
+         rjOjsW9iXbDr9J6oRp39P5JRdDIJTEdJvBAUlA9gQe3+DUKTGp+yAg4Sx8dqm74svc/P
+         20CaVve3S9/bbTfy9n4K9twwpBAlaLca200aNQliDArnqvKnNGbL12ayMDu0Fk/v2HD9
+         QZNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LwMjTzgE8Nw7oWqh5exwz2IOawnHFYNGNrNuaYfw50c=;
+        b=JkuzC2jvw+GiAaeFJsnySfv0fvQAnPMks6bv8ux64we1GkCRWZ/cZZrTsV7Sknczam
+         dWo6aiDaDlcds4mmsphSd/QfzxKcxswKyZSFDYxU24xly7g9wOx39USIIRG+ZhVICvMx
+         gp5fWrYl7XZfv4U01KjohCcoeBZngxZvCW5Tgh1qT9YfBF45YNBUiUr4zUvvWedEFL/Z
+         Eilw4o6BFmsxcbk2cVfFxFk+JLBAOxJc8B+yW6V9BfwfJ4hvPS4MWNVUCzXgrcAc/IcC
+         BaGXFErG+ekb/3XkydxGB/xKo4YDJcjAmUeTbOlIN1rdd54M54EDvYDLBGJSkPX0iC08
+         4LUQ==
+X-Gm-Message-State: AOAM530bnOUvROFQ4DJJwJ15ncDo04zoaVznmnMHL5NxVk41pFMJ+c0Q
+	1jP7aMIcjJTVaNhfuBSJZgrZGNqjDzygsmPJeIA=
+X-Google-Smtp-Source: ABdhPJzMDUIyB0MmuF1gs6kNN6bHctKG2rpCqwhXQRad2mykU7rebwBjqp8auVVpJdiSCJJGaklSF1xn3yRuIA7T+qU=
+X-Received: by 2002:a0c:ed4f:: with SMTP id v15mr4813759qvq.55.1613706303842;
+ Thu, 18 Feb 2021 19:45:03 -0800 (PST)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: A28704CE72F1.A966C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_259b58fcfd1548dab3564e230454ebbdG08CNEXMBPEKD06g08fujit_"
+References: <1613698607-114826-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <CAMKF1sou9Ju88OdEk4SKug_172NtnxAbkg-T5evqZbh-Am2sJA@mail.gmail.com> <259b58fcfd1548dab3564e230454ebbd@G08CNEXMBPEKD06.g08.fujitsu.local>
+In-Reply-To: <259b58fcfd1548dab3564e230454ebbd@G08CNEXMBPEKD06.g08.fujitsu.local>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 18 Feb 2021 19:44:53 -0800
+Message-ID: <CAMKF1sqPs8bPyyMZaV8JrtPnyB3rf091822qVWstU9YmmxDpDQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wordsize.h: This file should be the same under arm and aarch64, othersise the following error happens:
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000032d8a05bba847f3"
 
---_000_259b58fcfd1548dab3564e230454ebbdG08CNEXMBPEKD06g08fujit_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000032d8a05bba847f3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGksDQoNClRoZSBvcmlnaW5hbCBwYXRjaCBuYW1lZCAwMDI5LXdvcmRzaXplLmgtVW5pZnktdGhl
-LWhlYWRlci1iZXR3ZWVuLWFybS1hbmQtYWFyY2g2NC5wYXRjaCBtb2RpZmllZCB0aGUgY29weXJp
-Z2h0IG9mIGFybSBmcm9tIOKAnDIwMTYtMjAyMeKAnSB0byDigJwyMDE2LTIwMjDigJ0uDQotLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KZGlmZiAtLWdpdCBhL3N5c2Rl
-cHMvYWFyY2g2NC9iaXRzL3dvcmRzaXplLmggYi9zeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmgN
-CnNpbWlsYXJpdHkgaW5kZXggODAlDQpjb3B5IGZyb20gc3lzZGVwcy9hYXJjaDY0L2JpdHMvd29y
-ZHNpemUuaA0KY29weSB0byBzeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmgNCmluZGV4IDkxZGE1
-NjZiNzQuLjM0ZmNkZWYxZjEgMTAwNjQ0DQotLS0gYS9zeXNkZXBzL2FhcmNoNjQvYml0cy93b3Jk
-c2l6ZS5oDQorKysgYi9zeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmgNCkBAIC0xLDYgKzEsNiBA
-QA0KLyogRGV0ZXJtaW5lIHRoZSB3b3Jkc2l6ZSBmcm9tIHRoZSBwcmVwcm9jZXNzb3IgZGVmaW5l
-cy4NCg0KLSAgIENvcHlyaWdodCAoQykgMjAxNi0yMDIxIEZyZWUgU29mdHdhcmUgRm91bmRhdGlv
-biwgSW5jLg0KKyAgIENvcHlyaWdodCAoQykgMjAxNi0yMDIwIEZyZWUgU29mdHdhcmUgRm91bmRh
-dGlvbiwgSW5jLg0KVGhpcyBmaWxlIGlzIHBhcnQgb2YgdGhlIEdOVSBDIExpYnJhcnkuDQotLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQpJbiBmYWN0LCB0aGUgY29u
-dGVudCBvZiBiaXRzL3dvcmRzaXplLmggb2YgYXJtIGlzIHRoZSBzYW1lIGFzIGFhcmNoNjQuIEFu
-ZCB0aGlzIGRpZmZlcmVuY2Ugb2YgY29weXJpZ2h0IGNhdXNlcyBhbiBlcnJvciB3aGVuIGVuYWJs
-ZSBtdWx0aWxpYiwgYmVjYXVzZSB0aGlzIGZpbGUgaXMgbm90IHRoZSBzYW1lIG9mIGxpYjMyLWxp
-YmM2LWRldiBhbmQgbGliYzYtZGV2Lg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCiQgZGlmZiAtTmF1ciB0bXAvd29yay9hYXJjaDY0LXViaW51eC1saW51eC9nbGli
-Yy8yLjMzLXIwL2ltYWdlL3Vzci9pbmNsdWRlL2JpdHMvd29yZHNpemUuaCB0bXAvd29yay9hcm12
-N2FoZi1uZW9uLXViaW51eG1sbGliMzItbGludXgtZ251ZWFiaS9saWIzMi1nbGliYy8yLjMzLXIw
-L2ltYWdlL3Vzci9pbmNsdWRlL2JpdHMvd29yZHNpemUuaA0KLS0tIHRtcC93b3JrL2FhcmNoNjQt
-dWJpbnV4LWxpbnV4L2dsaWJjLzIuMzMtcjAvaW1hZ2UvdXNyL2luY2x1ZGUvYml0cy93b3Jkc2l6
-ZS5oICAgICAgIDIwMjEtMDItMTggMTM6MTI6NTguNjQyNTc2MTkwICswOTAwDQorKysgdG1wL3dv
-cmsvYXJtdjdhaGYtbmVvbi11YmludXhtbGxpYjMyLWxpbnV4LWdudWVhYmkvbGliMzItZ2xpYmMv
-Mi4zMy1yMC9pbWFnZS91c3IvaW5jbHVkZS9iaXRzL3dvcmRzaXplLmggICAgMjAyMS0wMi0xOSAx
-MjoxNjoxMS4xMjk4MDY3MDMgKzA5MDANCkBAIC0xLDYgKzEsNiBAQA0KLyogRGV0ZXJtaW5lIHRo
-ZSB3b3Jkc2l6ZSBmcm9tIHRoZSBwcmVwcm9jZXNzb3IgZGVmaW5lcy4NCg0KLSAgIENvcHlyaWdo
-dCAoQykgMjAxNi0yMDIxIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwgSW5jLg0KKyAgIENvcHly
-aWdodCAoQykgMjAxNi0yMDIwIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiwgSW5jLg0KICAgIFRo
-aXMgZmlsZSBpcyBwYXJ0IG9mIHRoZSBHTlUgQyBMaWJyYXJ5Lg0KDQpUaGUgR05VIEMgTGlicmFy
-eSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3INCi0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCkkgZG9u4oCZdCBrbm93IHdo
-eSB0aGlzIHBhdGNoIG1vZGlmaWVkIGNvcHlyaWdodCBvZiBhcm0uIFNob3VsZG7igJl0IGNvcHly
-aWdodCBvZiB0aGlzIGZpbGUgb2YgYXJtIGFuZCBhYXJjaDY0IGJlIHRoZSBzYW1lPw0KU28sIEkg
-bW9kaWZpZWQgY29weXJpZ2h0IGFpbSB0byBtYWtlIGFybSB0aGUgc2FtZSBhcyBhYXJjaDY0LiBP
-ciBzaG91bGQgSSBtb2RpZmllZCB0aGUgY29weXJpZ2h0IG9mIGFhcmNoNjQgdG8g4oCcMjAxNi0y
-MDIw4oCdID8NCg0KQmVzdCByZWdhcmRzDQpaaGVuZw0KDQoNCg0KRnJvbTogS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4NClNlbnQ6IEZyaWRheSwgRmVicnVhcnkgMTksIDIwMjEgMTA6Mzcg
-QU0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYgPHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1
-LmNvbT4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJq
-ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gd29yZHNpemUuaDogVGhpcyBmaWxlIHNob3VsZCBi
-ZSB0aGUgc2FtZSB1bmRlciBhcm0gYW5kIGFhcmNoNjQsIG90aGVyc2lzZSB0aGUgZm9sbG93aW5n
-IGVycm9yIGhhcHBlbnM6DQoNCkkgZG9u4oCZdCB1bmRlcnN0YW5kIHRoaXMgY2hhbmdlIHdoeSBh
-cmUgY29weXJpZ2h0IHllYXJzIGRpZmZlcmVudCBjYW4geW91IGV4cGxhaW4NCg0KT24gVGh1LCBG
-ZWIgMTgsIDIwMjEgYXQgNTozNyBQTSB6aGVuZ3J1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0
-c3UuY29tPG1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToNCiJmaWxl
-IC91c3IvaW5jbHVkZS9iaXRzL3dvcmRzaXplLmggY29uZmxpY3RzIGJldHdlZW4gYXR0ZW1wdGVk
-IGluc3RhbGxzIG9mIGxpYjMyLWxpYmM2LWRldi0yLjMzLXIwLmFybXY3YWhmX25lb24gYW5kIGxp
-YmM2LWRldi0yLjMzLXIwLmFhcmNoNjQiDQoNClNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8
-emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXRz
-dS5jb20+Pg0KLS0tDQogLi4uMjktd29yZHNpemUuaC1VbmlmeS10aGUtaGVhZGVyLWJldHdlZW4t
-YXJtLWFuZC1hYXJjaDY0LnBhdGNoIHwgMiArLQ0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
-YmMvZ2xpYmMvMDAyOS13b3Jkc2l6ZS5oLVVuaWZ5LXRoZS1oZWFkZXItYmV0d2Vlbi1hcm0tYW5k
-LWFhcmNoNjQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy8wMDI5LXdvcmRz
-aXplLmgtVW5pZnktdGhlLWhlYWRlci1iZXR3ZWVuLWFybS1hbmQtYWFyY2g2NC5wYXRjaA0KaW5k
-ZXggNzkxMDI5YzRjMC4uMTFhNzdjZGY5MyAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1jb3Jl
-L2dsaWJjL2dsaWJjLzAwMjktd29yZHNpemUuaC1VbmlmeS10aGUtaGVhZGVyLWJldHdlZW4tYXJt
-LWFuZC1hYXJjaDY0LnBhdGNoDQorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy8w
-MDI5LXdvcmRzaXplLmgtVW5pZnktdGhlLWhlYWRlci1iZXR3ZWVuLWFybS1hbmQtYWFyY2g2NC5w
-YXRjaA0KQEAgLTUwLDcgKzUwLDcgQEAgaW5kZXggOTFkYTU2NmI3NC4uMzRmY2RlZjFmMSAxMDA2
-NDQNCiAgLyogRGV0ZXJtaW5lIHRoZSB3b3Jkc2l6ZSBmcm9tIHRoZSBwcmVwcm9jZXNzb3IgZGVm
-aW5lcy4NCg0KIC0gICBDb3B5cmlnaHQgKEMpIDIwMTYtMjAyMSBGcmVlIFNvZnR3YXJlIEZvdW5k
-YXRpb24sIEluYy4NCi0rICAgQ29weXJpZ2h0IChDKSAyMDE2LTIwMjAgRnJlZSBTb2Z0d2FyZSBG
-b3VuZGF0aW9uLCBJbmMuDQorKyAgIENvcHlyaWdodCAoQykgMjAxNi0yMDIxIEZyZWUgU29mdHdh
-cmUgRm91bmRhdGlvbiwgSW5jLg0KICAgICBUaGlzIGZpbGUgaXMgcGFydCBvZiB0aGUgR05VIEMg
-TGlicmFyeS4NCg0KICAgICBUaGUgR05VIEMgTGlicmFyeSBpcyBmcmVlIHNvZnR3YXJlOyB5b3Ug
-Y2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3INCi0tDQoyLjI1LjENCg0KDQoNCg0KDQoKCg==
+We need some way to adjust it or check it automatically since it will be
+not be the last time when the copyright year willl be upgraded
 
---_000_259b58fcfd1548dab3564e230454ebbdG08CNEXMBPEKD06g08fujit_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, Feb 18, 2021 at 7:34 PM Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com=
+>
+wrote:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTsN
-CglwYW5vc2UtMToyIDExIDUgMyAyIDIgNCAyIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFt
-aWx5OiJcQOetiee6vyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOW+rui9r+mbhem7kSI7fQ0KLyogU3R5bGUgRGVmaW5pdGlv
-bnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2lu
-OjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250
-LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJs
-aW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJ
-e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25vcm1hbDAsIGRpdi5tc29ub3JtYWww
-DQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsN
-CgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdp
-bi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsOw0KCWZvbnQtZmFtaWx5Ouetiee6vzsNCgljb2xvcjojMUY0OTdEO30NCnNwYW4uRW1haWxT
-dHlsZTE5DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLWNvbXBvc2U7DQoJZm9udC1mYW1pbHk6
-562J57q/Ow0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxl
-LXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjVwdDsNCglmb250LWZhbWlseTrnrYnn
-ur87fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdp
-bjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdl
-OldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86
-c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2Vu
-ZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVk
-aXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+
-PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1
-ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+SGksIDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
-cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGUgb3JpZ2luYWwgcGF0
-Y2ggbmFtZWQgMDAyOS13b3Jkc2l6ZS5oLVVuaWZ5LXRoZS1oZWFkZXItYmV0d2Vlbi1hcm0tYW5k
-LWFhcmNoNjQucGF0Y2ggbW9kaWZpZWQgdGhlIGNvcHlyaWdodCBvZiBhcm0gZnJvbSDigJwyMDE2
-LTIwMjHigJ0gdG8g4oCcMjAxNi0yMDIw4oCdLiZuYnNwOw0KPG86cD48L286cD48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LTxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+ZGlmZiAtLWdpdCBhL3N5c2Rl
-cHMvYWFyY2g2NC9iaXRzL3dvcmRzaXplLmggYi9zeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmg8
-bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPnNpbWlsYXJpdHkgaW5kZXggODAl
-PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5jb3B5IGZyb20gc3lzZGVwcy9h
-YXJjaDY0L2JpdHMvd29yZHNpemUuaDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+Y29weSB0byBzeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmg8bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPmluZGV4IDkxZGE1NjZiNzQuLjM0ZmNkZWYxZjEgMTAwNjQ0PG86
-cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tLS0gYS9zeXNkZXBzL2FhcmNoNjQv
-Yml0cy93b3Jkc2l6ZS5oPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQz
-OyYjNDM7JiM0MzsgYi9zeXNkZXBzL2FybS9iaXRzL3dvcmRzaXplLmg8bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPkBAIC0xLDYgJiM0MzsxLDYgQEA8bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPi8qIERldGVybWluZSB0aGUgd29yZHNpemUgZnJvbSB0aGUg
-cHJlcHJvY2Vzc29yIGRlZmluZXMuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0mbmJzcDsmbmJz
-cDsgQ29weXJpZ2h0IChDKSAyMDE2LTIwMjEgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMu
-PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzOyZuYnNwOyZuYnNwOyBD
-b3B5cmlnaHQgKEMpIDIwMTYtMjAyMCBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy48bzpw
-PjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoaXMgZmlsZSBpcyBwYXJ0IG9mIHRo
-ZSBHTlUgQyBMaWJyYXJ5LjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+LS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+SW4gZmFjdCwgdGhlIGNvbnRlbnQgb2YgYml0cy93b3Jkc2l6ZS5oIG9mIGFybSBpcyB0
-aGUgc2FtZSBhcyBhYXJjaDY0LiBBbmQgdGhpcyBkaWZmZXJlbmNlIG9mIGNvcHlyaWdodCBjYXVz
-ZXMgYW4gZXJyb3Igd2hlbiBlbmFibGUgbXVsdGlsaWIsIGJlY2F1c2UgdGhpcyBmaWxlIGlzIG5v
-dCB0aGUgc2FtZSBvZiBsaWIzMi1saWJjNi1kZXYgYW5kIGxpYmM2LWRldi48bzpwPjwvbzpwPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4kIGRpZmYgLU5h
-dXIgdG1wL3dvcmsvYWFyY2g2NC11YmludXgtbGludXgvZ2xpYmMvMi4zMy1yMC9pbWFnZS91c3Iv
-aW5jbHVkZS9iaXRzL3dvcmRzaXplLmggdG1wL3dvcmsvYXJtdjdhaGYtbmVvbi11YmludXhtbGxp
-YjMyLWxpbnV4LWdudWVhYmkvbGliMzItZ2xpYmMvMi4zMy1yMC9pbWFnZS91c3IvaW5jbHVkZS9i
-aXRzL3dvcmRzaXplLmg8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tLSB0
-bXAvd29yay9hYXJjaDY0LXViaW51eC1saW51eC9nbGliYy8yLjMzLXIwL2ltYWdlL3Vzci9pbmNs
-dWRlL2JpdHMvd29yZHNpemUuaCZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAy
-MDIxLTAyLTE4IDEzOjEyOjU4LjY0MjU3NjE5MCAmIzQzOzA5MDA8bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7JiM0MzsmIzQzOyB0bXAvd29yay9hcm12N2FoZi1uZW9u
-LXViaW51eG1sbGliMzItbGludXgtZ251ZWFiaS9saWIzMi1nbGliYy8yLjMzLXIwL2ltYWdlL3Vz
-ci9pbmNsdWRlL2JpdHMvd29yZHNpemUuaCZuYnNwOyZuYnNwOyZuYnNwOyAyMDIxLTAyLTE5IDEy
-OjE2OjExLjEyOTgwNjcwMyAmIzQzOzA5MDA8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPkBAIC0xLDYgJiM0MzsxLDYgQEA8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPi8qIERldGVybWluZSB0aGUgd29yZHNpemUgZnJvbSB0aGUgcHJlcHJvY2Vzc29yIGRl
-ZmluZXMuPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0mbmJzcDsmbmJzcDsgQ29weXJpZ2h0IChD
-KSAyMDE2LTIwMjEgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuPG86cD48L286cD48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzOyZuYnNwOyZuYnNwOyBDb3B5cmlnaHQgKEMpIDIw
-MTYtMjAyMCBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy48bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOyZuYnNwOyZuYnNwOyBUaGlzIGZpbGUgaXMgcGFydCBv
-ZiB0aGUgR05VIEMgTGlicmFyeS48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhlIEdOVSBDIExp
-YnJhcnkgaXMgZnJlZSBzb2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yPG86
-cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLTxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIGRvbuKAmXQga25v
-dyB3aHkgdGhpcyBwYXRjaCBtb2RpZmllZCBjb3B5cmlnaHQgb2YgYXJtLiBTaG91bGRu4oCZdCBj
-b3B5cmlnaHQgb2YgdGhpcyBmaWxlIG9mIGFybSBhbmQgYWFyY2g2NCBiZSB0aGUgc2FtZT8NCjxv
-OnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+U28sIEkgbW9kaWZpZWQgY29weXJp
-Z2h0IGFpbSB0byBtYWtlIGFybSB0aGUgc2FtZSBhcyBhYXJjaDY0LiBPciBzaG91bGQgSSBtb2Rp
-ZmllZCB0aGUgY29weXJpZ2h0IG9mIGFhcmNoNjQgdG8g4oCcMjAxNi0yMDIw4oCdID88bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+QmVzdCByZWdhcmRzPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5aaGVuZzxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6562J57q/O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
-eWxlPSJ0ZXh0LWFsaWduOmp1c3RpZnk7dGV4dC1qdXN0aWZ5OmludGVyLWlkZW9ncmFwaCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6562J57q/O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5Ouetiee6vztjb2xvcjojMUY0
-OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
-ZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQi
-Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFF
-MSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEto
-ZW0gUmFqICZsdDtyYWoua2hlbUBnbWFpbC5jb20mZ3Q7DQo8YnI+DQo8Yj5TZW50OjwvYj4gRnJp
-ZGF5LCBGZWJydWFyeSAxOSwgMjAyMSAxMDozNyBBTTxicj4NCjxiPlRvOjwvYj4gWmhlbmcsIFJ1
-b3Fpbi88L3NwYW4+PHNwYW4gbGFuZz0iWkgtQ04iIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O+W+rui9r+mbhem7kSZxdW90OyxzYW5zLXNlcmlmIj7pg5E8L3NwYW4+
-PHNwYW4gbGFuZz0iWkgtQ04iIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+DQo8L3NwYW4+PHNwYW4gbGFuZz0iWkgtQ04i
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O+W+rui9r+mbhem7kSZx
-dW90OyxzYW5zLXNlcmlmIj7oi6XpkqY8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gJmx0O3poZW5n
-cnEuZm5zdEBjbi5mdWppdHN1LmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1j
-b3JlXSBbUEFUQ0hdIHdvcmRzaXplLmg6IFRoaXMgZmlsZSBzaG91bGQgYmUgdGhlIHNhbWUgdW5k
-ZXIgYXJtIGFuZCBhYXJjaDY0LCBvdGhlcnNpc2UgdGhlIGZvbGxvd2luZyBlcnJvciBoYXBwZW5z
-OjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5J
-IGRvbuKAmXQgdW5kZXJzdGFuZCB0aGlzIGNoYW5nZSB3aHkgYXJlIGNvcHlyaWdodCB5ZWFycyBk
-aWZmZXJlbnQgY2FuIHlvdSBleHBsYWluJm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gVGh1LCBGZWIgMTgsIDIwMjEgYXQgNTozNyBQ
-TSB6aGVuZ3J1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1
-LmNvbSI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
-dDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxl
-ZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-bWFyZ2luLWJvdHRvbToxMi4wcHQiPiZxdW90O2ZpbGUgL3Vzci9pbmNsdWRlL2JpdHMvd29yZHNp
-emUuaCBjb25mbGljdHMgYmV0d2VlbiBhdHRlbXB0ZWQgaW5zdGFsbHMgb2YgbGliMzItbGliYzYt
-ZGV2LTIuMzMtcjAuYXJtdjdhaGZfbmVvbiBhbmQgbGliYzYtZGV2LTIuMzMtcjAuYWFyY2g2NCZx
-dW90Ozxicj4NCjxicj4NClNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiAmbHQ7PGEgaHJlZj0i
-bWFpbHRvOnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnpoZW5n
-cnEuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7Li4uMjkt
-d29yZHNpemUuaC1VbmlmeS10aGUtaGVhZGVyLWJldHdlZW4tYXJtLWFuZC1hYXJjaDY0LnBhdGNo
-IHwgMiAmIzQzOy08YnI+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oJiM0Mzsp
-LCAxIGRlbGV0aW9uKC0pPGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3Jl
-L2dsaWJjL2dsaWJjLzAwMjktd29yZHNpemUuaC1VbmlmeS10aGUtaGVhZGVyLWJldHdlZW4tYXJt
-LWFuZC1hYXJjaDY0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAyOS13
-b3Jkc2l6ZS5oLVVuaWZ5LXRoZS1oZWFkZXItYmV0d2Vlbi1hcm0tYW5kLWFhcmNoNjQucGF0Y2g8
-YnI+DQppbmRleCA3OTEwMjljNGMwLi4xMWE3N2NkZjkzIDEwMDY0NDxicj4NCi0tLSBhL21ldGEv
-cmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLzAwMjktd29yZHNpemUuaC1VbmlmeS10aGUtaGVhZGVy
-LWJldHdlZW4tYXJtLWFuZC1hYXJjaDY0LnBhdGNoPGJyPg0KJiM0MzsmIzQzOyYjNDM7IGIvbWV0
-YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAyOS13b3Jkc2l6ZS5oLVVuaWZ5LXRoZS1oZWFk
-ZXItYmV0d2Vlbi1hcm0tYW5kLWFhcmNoNjQucGF0Y2g8YnI+DQpAQCAtNTAsNyAmIzQzOzUwLDcg
-QEAgaW5kZXggOTFkYTU2NmI3NC4uMzRmY2RlZjFmMSAxMDA2NDQ8YnI+DQombmJzcDsgLyogRGV0
-ZXJtaW5lIHRoZSB3b3Jkc2l6ZSBmcm9tIHRoZSBwcmVwcm9jZXNzb3IgZGVmaW5lcy48YnI+DQo8
-YnI+DQombmJzcDstJm5ic3A7ICZuYnNwO0NvcHlyaWdodCAoQykgMjAxNi0yMDIxIEZyZWUgU29m
-dHdhcmUgRm91bmRhdGlvbiwgSW5jLjxicj4NCi0mIzQzOyZuYnNwOyAmbmJzcDtDb3B5cmlnaHQg
-KEMpIDIwMTYtMjAyMCBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIEluYy48YnI+DQomIzQzOyYj
-NDM7Jm5ic3A7ICZuYnNwO0NvcHlyaWdodCAoQykgMjAxNi0yMDIxIEZyZWUgU29mdHdhcmUgRm91
-bmRhdGlvbiwgSW5jLjxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7VGhpcyBmaWxlIGlzIHBhcnQg
-b2YgdGhlIEdOVSBDIExpYnJhcnkuPGJyPg0KPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDtUaGUg
-R05VIEMgTGlicmFyeSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBh
-bmQvb3I8YnI+DQotLSA8YnI+DQoyLjI1LjE8YnI+DQo8YnI+DQo8YnI+DQo8YnI+DQo8YnI+DQo8
-bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwv
-ZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+> Hi,
+>
+>
+>
+> The original patch named
+> 0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch modified =
+the
+> copyright of arm from =E2=80=9C2016-2021=E2=80=9D to =E2=80=9C2016-2020=
+=E2=80=9D.
+>
+> -----------------------------------------
+>
+> diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/arm/bits/wordsize=
+.h
+>
+> similarity index 80%
+>
+> copy from sysdeps/aarch64/bits/wordsize.h
+>
+> copy to sysdeps/arm/bits/wordsize.h
+>
+> index 91da566b74..34fcdef1f1 100644
+>
+> --- a/sysdeps/aarch64/bits/wordsize.h
+>
+> +++ b/sysdeps/arm/bits/wordsize.h
+>
+> @@ -1,6 +1,6 @@
+>
+> /* Determine the wordsize from the preprocessor defines.
+>
+>
+>
+> -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
+>
+> +   Copyright (C) 2016-2020 Free Software Foundation, Inc.
+>
+> This file is part of the GNU C Library.
+>
+> -----------------------------------------
+>
+>
+>
+> In fact, the content of bits/wordsize.h of arm is the same as aarch64. A=
+nd
+> this difference of copyright causes an error when enable multilib, becau=
+se
+> this file is not the same of lib32-libc6-dev and libc6-dev.
+>
+> -----------------------------------------
+>
+> $ diff -Naur
+> tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/image/usr/include/bits/words=
+ize.h
+> tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnueabi/lib32-glibc/2.33-r0/i=
+mage/usr/include/bits/wordsize.h
+>
+> ---
+> tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/image/usr/include/bits/words=
+ize.h
+> 2021-02-18 13:12:58.642576190 +0900
+>
+> +++
+> tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnueabi/lib32-glibc/2.33-r0/i=
+mage/usr/include/bits/wordsize.h
+> 2021-02-19 12:16:11.129806703 +0900
+>
+> @@ -1,6 +1,6 @@
+>
+> /* Determine the wordsize from the preprocessor defines.
+>
+>
+>
+> -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
+>
+> +   Copyright (C) 2016-2020 Free Software Foundation, Inc.
+>
+>     This file is part of the GNU C Library.
+>
+>
+>
+> The GNU C Library is free software; you can redistribute it and/or
+>
+> -----------------------------------------
+>
+>
+>
+> I don=E2=80=99t know why this patch modified copyright of arm. Shouldn=
+=E2=80=99t copyright
+> of this file of arm and aarch64 be the same?
+>
+> So, I modified copyright aim to make arm the same as aarch64. Or should =
+I
+> modified the copyright of aarch64 to =E2=80=9C2016-2020=E2=80=9D ?
+>
+>
+>
+> Best regards
+>
+> Zheng
+>
+>
+>
+>
+>
+>
+>
+> *From:* Khem Raj <raj.khem@gmail.com>
+> *Sent:* Friday, February 19, 2021 10:37 AM
+> *To:* Zheng, Ruoqin/=E9=83=91 =E8=8B=A5=E9=92=A6 <zhengrq.fnst@cn.fujits=
+u.com>
+> *Cc:* openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core] [PATCH] wordsize.h: This file should be the sam=
+e
+> under arm and aarch64, othersise the following error happens:
+>
+>
+>
+> I don=E2=80=99t understand this change why are copyright years different=
+ can you
+> explain
+>
+>
+>
+> On Thu, Feb 18, 2021 at 5:37 PM zhengruoqin <zhengrq.fnst@cn.fujitsu.com=
+>
+> wrote:
+>
+> "file /usr/include/bits/wordsize.h conflicts between attempted installs =
+of
+> lib32-libc6-dev-2.33-r0.armv7ahf_neon and libc6-dev-2.33-r0.aarch64"
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  ...29-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git
+> a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
+-arm-and-aarch64.patch
+> b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
+-arm-and-aarch64.patch
+> index 791029c4c0..11a77cdf93 100644
+> ---
+> a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
+-arm-and-aarch64.patch
+> +++
+> b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
+-arm-and-aarch64.patch
+> @@ -50,7 +50,7 @@ index 91da566b74..34fcdef1f1 100644
+>   /* Determine the wordsize from the preprocessor defines.
+>
+>  -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
+> -+   Copyright (C) 2016-2020 Free Software Foundation, Inc.
+> ++   Copyright (C) 2016-2021 Free Software Foundation, Inc.
+>      This file is part of the GNU C Library.
+>
+>      The GNU C Library is free software; you can redistribute it and/or
+> --
+> 2.25.1
+>
+>
+>
+>
+>=20
+>
+>
 
---_000_259b58fcfd1548dab3564e230454ebbdG08CNEXMBPEKD06g08fujit_--
+--000000000000032d8a05bba847f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">We need some way to adjust it or check it automatically s=
+ince it will be not be the last time when the copyright year willl be upgra=
+ded=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Feb 18, 2021 at 7:34 PM Zheng, Ruoqin &lt;<a href=
+=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;b=
+order-left-color:rgb(204,204,204)">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"m_-6808204005019111174WordSection1">
+<p class=3D"MsoNormal">Hi, <u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">The original patch named 0029-wordsize.h-Unify-the-=
+header-between-arm-and-aarch64.patch modified the copyright of arm from =E2=
+=
+=80=9C2016-2021=E2=80=9D to =E2=80=9C2016-2020=E2=80=9D.=C2=A0
+<u></u><u></u></p>
+<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal">diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysd=
+eps/arm/bits/wordsize.h<u></u><u></u></p>
+<p class=3D"MsoNormal">similarity index 80%<u></u><u></u></p>
+<p class=3D"MsoNormal">copy from sysdeps/aarch64/bits/wordsize.h<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal">copy to sysdeps/arm/bits/wordsize.h<u></u><u></u></=
+p>
+<p class=3D"MsoNormal">index 91da566b74..34fcdef1f1 100644<u></u><u></u></=
+p>
+<p class=3D"MsoNormal">--- a/sysdeps/aarch64/bits/wordsize.h<u></u><u></u>=
+</p>
+<p class=3D"MsoNormal">+++ b/sysdeps/arm/bits/wordsize.h<u></u><u></u></p>
+<p class=3D"MsoNormal">@@ -1,6 +1,6 @@<u></u><u></u></p>
+<p class=3D"MsoNormal">/* Determine the wordsize from the preprocessor def=
+ines.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">-=C2=A0=C2=A0 Copyright (C) 2016-2021 Free Software=
+ Foundation, Inc.<u></u><u></u></p>
+<p class=3D"MsoNormal">+=C2=A0=C2=A0 Copyright (C) 2016-2020 Free Software=
+ Foundation, Inc.<u></u><u></u></p>
+<p class=3D"MsoNormal">This file is part of the GNU C Library.<u></u><u></=
+u></p>
+<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">In fact, the content of bits/wordsize.h of arm is t=
+he same as aarch64. And this difference of copyright causes an error when e=
+nable multilib, because this file is not the same of lib32-libc6-dev and li=
+bc6-dev.<u></u><u></u></p>
+<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal">$ diff -Naur tmp/work/aarch64-ubinux-linux/glibc/2.=
+33-r0/image/usr/include/bits/wordsize.h tmp/work/armv7ahf-neon-ubinuxmllib3=
+2-linux-gnueabi/lib32-glibc/2.33-r0/image/usr/include/bits/wordsize.h<u></u=
+><u></u></p>
+<p class=3D"MsoNormal">--- tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/ima=
+ge/usr/include/bits/wordsize.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2021-02-=
+18 13:12:58.642576190 +0900<u></u><u></u></p>
+<p class=3D"MsoNormal">+++ tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnue=
+abi/lib32-glibc/2.33-r0/image/usr/include/bits/wordsize.h=C2=A0=C2=A0=C2=A0=
+ 2021-02-19 12:16:11.129806703 +0900<u></u><u></u></p>
+<p class=3D"MsoNormal">@@ -1,6 +1,6 @@<u></u><u></u></p>
+<p class=3D"MsoNormal">/* Determine the wordsize from the preprocessor def=
+ines.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">-=C2=A0=C2=A0 Copyright (C) 2016-2021 Free Software=
+ Foundation, Inc.<u></u><u></u></p>
+<p class=3D"MsoNormal">+=C2=A0=C2=A0 Copyright (C) 2016-2020 Free Software=
+ Foundation, Inc.<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 This file is part of the GNU C L=
+ibrary.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">The GNU C Library is free software; you can redistr=
+ibute it and/or<u></u><u></u></p>
+<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">I don=E2=80=99t know why this patch modified copyri=
+ght of arm. Shouldn=E2=80=99t copyright of this file of arm and aarch64 be =
+the same?
+<u></u><u></u></p>
+<p class=3D"MsoNormal">So, I modified copyright aim to make arm the same a=
+s aarch64. Or should I modified the copyright of aarch64 to =E2=80=9C2016-2=
+020=E2=80=9D ?<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Best regards</p></div></div><div lang=3D"EN-US" lin=
+k=3D"blue" vlink=3D"purple"><div class=3D"m_-6808204005019111174WordSection=
+1"><p class=3D"MsoNormal"><u></u><u></u></p>
+<p class=3D"MsoNormal">Zheng<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
+=
+=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"font-family:=E7=AD=89=E7=BA=BF=
+"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=E7=BA=BF"></u></span></p>
+<p class=3D"MsoNormal" style=3D"text-align:justify"><span style=3D"font-si=
+ze:10.5pt;font-family:=E7=AD=89=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"=
+font-family:=E7=AD=89=E7=BA=BF"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=
+=
+=E7=BA=BF"></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
+=
+=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"font-family:=E7=AD=89=E7=BA=BF=
+"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=E7=BA=BF"></u></span></p>
+<div style=3D"border-style:none none none solid;border-left-width:1.5pt;pa=
+dding:0cm 0cm 0cm 4pt;border-left-color:blue">
+<div>
+<div style=3D"border-style:solid none none;border-top-width:1pt;padding:3p=
+t 0cm 0cm;border-top-color:rgb(225,225,225)">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:Calibr=
+i,sans-serif">From:</span></b><span style=3D"font-size:11pt;font-family:Cal=
+ibri,sans-serif"> Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=
+=3D"_blank" style=3D"font-family:Calibri,sans-serif">raj.khem@gmail.com</a=
+>&gt;
+<br>
+<b style=3D"font-family:Calibri,sans-serif">Sent:</b> Friday, February 19,=
+ 2021 10:37 AM<br>
+<b style=3D"font-family:Calibri,sans-serif">To:</b> Zheng, Ruoqin/</span><=
+span lang=3D"ZH-CN" style=3D"font-size:11pt;font-family:=E5=BE=AE=E8=BD=AF=
+=E9=9B=85=E9=BB=91,sans-serif">=E9=83=91</span><span lang=3D"ZH-CN" style=
+=3D"font-size:11pt;font-family:Calibri,sans-serif">
+</span><span lang=3D"ZH-CN" style=3D"font-size:11pt;font-family:=E5=BE=AE=
+=E8=BD=AF=E9=9B=85=E9=BB=91,sans-serif">=E8=8B=A5=E9=92=A6</span><span sty=
+le=3D"font-size:11pt;font-family:Calibri,sans-serif"> &lt;<a href=3D"mailto=
+:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank" style=3D"font-family:Calibr=
+i,sans-serif">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
+<b style=3D"font-family:Calibri,sans-serif">Cc:</b> <a href=3D"mailto:open=
+embedded-core@lists.openembedded.org" target=3D"_blank" style=3D"font-famil=
+y:Calibri,sans-serif">openembedded-core@lists.openembedded.org</a><br>
+<b style=3D"font-family:Calibri,sans-serif">Subject:</b> Re: [OE-core] [PA=
+TCH] wordsize.h: This file should be the same under arm and aarch64, others=
+ise the following error happens:<u style=3D"font-family:Calibri,sans-serif"=
+></u><u style=3D"font-family:Calibri,sans-serif"></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">I don=E2=80=99t understand this change why are copy=
+right years different can you explain=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Thu, Feb 18, 2021 at 5:37 PM zhengruoqin &lt;<a =
+href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@=
+cn.fujitsu.com</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-style:none none none solid;border-left-width:1=
+pt;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm;border-left-c=
+olor:rgb(204,204,204)">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">&quot;file /usr/includ=
+e/bits/wordsize.h conflicts between attempted installs of lib32-libc6-dev-2=
+.33-r0.armv7ahf_neon and libc6-dev-2.33-r0.aarch64&quot;<br>
+<br>
+Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.=
+com" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0...29-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch | 2 =
++-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-heade=
+r-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0029-wordsi=
+ze.h-Unify-the-header-between-arm-and-aarch64.patch<br>
+index 791029c4c0..11a77cdf93 100644<br>
+--- a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-betwe=
+en-arm-and-aarch64.patch<br>
++++ b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-betwe=
+en-arm-and-aarch64.patch<br>
+@@ -50,7 +50,7 @@ index 91da566b74..34fcdef1f1 100644<br>
+=C2=A0 /* Determine the wordsize from the preprocessor defines.<br>
+<br>
+=C2=A0-=C2=A0 =C2=A0Copyright (C) 2016-2021 Free Software Foundation, Inc.=
+<br>
+-+=C2=A0 =C2=A0Copyright (C) 2016-2020 Free Software Foundation, Inc.<br>
+++=C2=A0 =C2=A0Copyright (C) 2016-2021 Free Software Foundation, Inc.<br>
+=C2=A0 =C2=A0 =C2=A0This file is part of the GNU C Library.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0The GNU C Library is free software; you can redistribu=
+te it and/or<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+<u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div></div>
+
+--000000000000032d8a05bba847f3--
