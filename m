@@ -1,173 +1,167 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web08.449.1613772050318167084
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web08.597.1613772745283463872
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Feb 2021 14:00:50 -0800
+ Fri, 19 Feb 2021 14:12:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=W4h+YLUu;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.196, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f196.google.com with SMTP id c8so29246373ljd.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Feb 2021 14:00:50 -0800 (PST)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=08D5gqa+;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.195, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f195.google.com with SMTP id r23so29601984ljh.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Feb 2021 14:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zRxfzC/8T4LtMBF1jEnGCMuuUC3/8fBlH7xZ4kPhVXM=;
-        b=W4h+YLUuqRRTgLPJ9zlHzNaxNAt5GK8hYKMggebbme95PoT93tFaHyasM1FTflQ9Nu
-         Y4CCwiOHti2BI1fkvlKVdwPecn9WG8Vf9lxy5q9ROXFXhIOWR4+YdSIcrUJumwPD4Kve
-         W71JmFUWsbg5hh8b90l8bOYoa3AXvWOCuMJiQwyLxG8MPVaba4NgvxwNSOBJaBaErULH
-         nzQBdyN0wN7fvjc/VtAOwyschZ9uHAAL2TymHdosP0e2fv1kDJ8WPY18LI5IBW89YgJU
-         kIDipqF1P0dGKLwpnRBJmmx1ASxHNAOvp5To7JjGI34t2bKCIjz7brq5bgbFh0Ti8W8h
-         k+2g==
+        bh=exezjWJGk4LPlZPQ3sE7U5Iy7Ni1wRsYpDoKr3w2fdk=;
+        b=08D5gqa+sOFaH8gulqrXBngn5NdQVUTj7e/zrmqDxclMMSJw1kGo7T5cnYn0modYpM
+         XwWEemAXxQpmVTNL+CaB8yKGE87XS1va1/11zSieo06yTszA8aEPTY9uQnbK53pl9qpD
+         abCGAWrl/eGN6/bOMs6j1wXihqr50PQ+neQtGZDMCbCD1gTaAT+UraYUd7kMG9N2OHc5
+         sMCgKpHnZKgt42BSrFQxgHNqNR6K4GHGpr7KdBPpdt4F3NdDf89wnCS+vPusezspvv0N
+         SR7T3gALpDV1o9cywnvEsr4/p0I5oncAeCo0cUDX3wSGcBUQ9PxZ8lwyAlDg92mTagqA
+         HF4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zRxfzC/8T4LtMBF1jEnGCMuuUC3/8fBlH7xZ4kPhVXM=;
-        b=Nv3GiPWlH/3dvlktIouWn5B408b9+gfNIhBDfdZ7T+tHo3pcyyreSgI30H+S3j8Pk7
-         8Oom1ZZRwcNIAHpf0zJV9BgOBkHrU8VTNKbIKxhu6hXdR6UhxHGzwCihcrY1egoRI5Z2
-         aXml2amM+FKeMFhKjx2zs0Bdi/yRSZD0Prm46veevWL2j25LtzgFfc4pMcJEs8GXCcHJ
-         exsyuefVSi1yluVNCMu7EVMh4/eVhydF/F+1tjmF1hWC8JxYTwsRbVaNh5yaNmZYinaI
-         f+GnXYDUPVsm/EWPX2TMyhNEwANWRZOQqRRW14Ta10YNP8TLss/B6JZZ9zjDb2Ev0WD8
-         UdLw==
-X-Gm-Message-State: AOAM532+aSpaExR/GDeEf7hGH7vBfNzDjBOncgFyVQtq8zFI1K35RXpc
-	WTc5/5ENOgwyZ2rYUPmCN5KC8eD3oQYO1QaJ
-X-Google-Smtp-Source: ABdhPJw5tPn9q460LfJYw++SVJafK6Z8F2fEXVlX4cmbzxrblMwyAsTVxlGRJF/jl/H/A01QuC7P4w==
-X-Received: by 2002:a05:6512:11e2:: with SMTP id p2mr6664898lfs.321.1613772048009;
-        Fri, 19 Feb 2021 14:00:48 -0800 (PST)
+        bh=exezjWJGk4LPlZPQ3sE7U5Iy7Ni1wRsYpDoKr3w2fdk=;
+        b=bn2iCjdDdqN2K8uPcUKKkAsLnTjsrSOsL906EmWeNTbemSyVXX+G0SnnTFeXnZMKIY
+         URfQEyVjVItK44ZI0+URDUXJ/6hdWQoQ1lR8GAfTQrs1YsOwVrY69sdHE7CXEzLHyJdv
+         RQG7ERk7aqpGFEmlmb6nVBK+g1mIxUB5/FyOa6yz7Qfm4BPxuEKulTh5UkGVjldYeE5l
+         b0/lWplx+FHGl7YLeXkYxm50r6w4H8fq6lAHCk5oI0SA9GDvCjejldgiuFcdNbv/y2mo
+         UCm3YFwzfOMbBfJeuZf6sOdRadv5/7hi3AhtxH5EwOnSQr3PaIB7biZiyrfgnyr9bFfr
+         cq8A==
+X-Gm-Message-State: AOAM5329WJ0FRfj+nNB1cHVz7BVCx6OhEZujKehvZmjVkz7V4w4vxckz
+	Gl0rfcvT/7yq9qUtsnlDszDB12seTuRKNzIE
+X-Google-Smtp-Source: ABdhPJwDG+GZYeG0PlOT1jS2g0IZ8rgCHtt+/zQh+SaP1S3/bEVRF0uJyDr1HYbv1HdH89Vs/eflVA==
+X-Received: by 2002:a19:2344:: with SMTP id j65mr7053727lfj.38.1613772742878;
+        Fri, 19 Feb 2021 14:12:22 -0800 (PST)
 Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id x14sm1043229lfg.165.2021.02.19.14.00.45
+        by smtp.gmail.com with ESMTPSA id g9sm336296ljl.57.2021.02.19.14.12.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Feb 2021 14:00:45 -0800 (PST)
+        Fri, 19 Feb 2021 14:12:22 -0800 (PST)
 From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] busybox: update 1.33.0
-Date: Fri, 19 Feb 2021 23:00:42 +0100
-Message-Id: <20210219220042.2384431-1-open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] net-tools: update to 2.10
+Date: Fri, 19 Feb 2021 23:12:20 +0100
+Message-Id: <20210219221220.2392609-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed upstreamed patch.
+Removed upstreamed patches.
+
+Added new package configs.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...1-hwclock-make-glibc-2.31-compatible.patch | 83 -------------------
- .../{busybox_1.32.0.bb => busybox_1.33.0.bb}  |  4 +-
- 2 files changed, 1 insertion(+), 86 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
- rename meta/recipes-core/busybox/{busybox_1.32.0.bb => busybox_1.33.0.bb} (90%)
+ ...075-ifconfig.c-pointtopoint_spelling.patch | 26 -------------------
+ .../Bug_541172-netstat.c-exit-codes.patch     | 22 ----------------
+ ...ols_1.60-20181103.bb => net-tools_2.10.bb} |  9 +++----
+ 3 files changed, 4 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
+ delete mode 100644 meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
+ rename meta/recipes-extended/net-tools/{net-tools_1.60-20181103.bb => net-tools_2.10.bb} (94%)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch b/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+diff --git a/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch b/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
 deleted file mode 100644
-index 8d1f272120..0000000000
---- a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+index 74d74668ce..0000000000
+--- a/meta/recipes-extended/net-tools/net-tools/Bug_443075-ifconfig.c-pointtopoint_spelling.patch
 +++ /dev/null
-@@ -1,83 +0,0 @@
--From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 2001
--From: Sakib Sajal <sakib.sajal@windriver.com>
--Date: Fri, 17 Jul 2020 17:27:21 +0000
--Subject: [PATCH] hwclock: make glibc 2.31 compatible
--
--NEWS for glibc version 2.31
--===========================
--
--Deprecated and removed features, and other changes affecting compatibility:
--
--* The settimeofday function can still be used to set a system-wide
--  time zone when the operating system supports it.  This is because
--  the Linux kernel reused the API, on some architectures, to describe
--  a system-wide time-zone-like offset between the software clock
--  maintained by the kernel, and the "RTC" clock that keeps time when
--  the system is shut down.
--
--  However, to reduce the odds of this offset being set by accident,
--  settimeofday can no longer be used to set the time and the offset
--  simultaneously.  If both of its two arguments are non-null, the call
--  will fail (setting errno to EINVAL).
--
--  Callers attempting to set this offset should also be prepared for
--  the call to fail and set errno to ENOSYS; this already happens on
--  the Hurd and on some Linux architectures.  The Linux kernel
--  maintainers are discussing a more principled replacement for the
--  reused API.  After a replacement becomes available, we will change
--  settimeofday to fail with ENOSYS on all platforms when its 'tzp'
--  argument is not a null pointer.
--
--  settimeofday itself is obsolescent according to POSIX.  Programs
--  that set the system time should use clock_settime and/or the adjtime
--  family of functions instead.  We may cease to make settimeofday
--  available to newly linked binaries after there is a replacement for
--  Linux's time-zone-like offset API.
--
--hwclock had two calls to settimeofday, in functions to_sys_clock and
--set_system_clock_timezone, where both the arguments to settimeofday
--were valid (non-null).
--Therefore, split the call, once for timezone and once for timeval.
--
--Fixes #12756
+@@ -1,26 +0,0 @@
+-Description: Accept "pointtopoint" as a synonym for "pointopoint"
+-Bug-Debian: https://bugs.debian.org/443075
+-Author: Justin Pryzby <pryzbyj@libra>
 -
 -Upstream-Status: Pending
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 -
--Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-----
-- util-linux/hwclock.c | 12 ++++++++----
-- 1 file changed, 8 insertions(+), 4 deletions(-)
+---- a/ifconfig.c
+-+++ b/ifconfig.c
+-@@ -644,14 +644,14 @@
+- 	    spp++;
+- 	    continue;
+- 	}
+--	if (!strcmp(*spp, "-pointopoint")) {
+-+	if (!strcmp(*spp, "-pointopoint") || !strcmp(*spp, "-pointtopoint")) {
+- 	    goterr |= clr_flag(ifr.ifr_name, IFF_POINTOPOINT);
+- 	    spp++;
+- 	    if (test_flag(ifr.ifr_name, IFF_POINTOPOINT) > 0)
+- 	    	fprintf(stderr, _("Warning: Interface %s still in POINTOPOINT mode.\n"), ifr.ifr_name);
+- 	    continue;
+- 	}
+--	if (!strcmp(*spp, "pointopoint")) {
+-+	if (!strcmp(*spp, "pointopoint") || !strcmp(*spp, "pointtopoint")) {
+- 	    if (*(spp + 1) != NULL) {
+- 		spp++;
+- 		safe_strncpy(host, *spp, (sizeof host));
+diff --git a/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch b/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
+deleted file mode 100644
+index 782b94bc61..0000000000
+--- a/meta/recipes-extended/net-tools/net-tools/Bug_541172-netstat.c-exit-codes.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Description: Bug#541172: netstat.c exit codes
 -
--diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c
--index dc97d8f..cf346e8 100644
----- a/util-linux/hwclock.c
--+++ b/util-linux/hwclock.c
--@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcname, int utc)
-- 
-- 	tv.tv_sec = read_rtc(pp_rtcname, NULL, utc);
-- 	tv.tv_usec = 0;
---	if (settimeofday(&tv, &tz))
---		bb_simple_perror_msg_and_die("settimeofday");
--+	if (settimeofday(NULL, &tz))
--+		bb_simple_perror_msg_and_die("settimeofday: timezone");
--+	if (settimeofday(&tv, NULL))
--+		bb_simple_perror_msg_and_die("settimeofday: timeval");
-- }
-- 
-- static void from_sys_clock(const char **pp_rtcname, int utc)
--@@ -283,8 +285,10 @@ static void set_system_clock_timezone(int utc)
-- 	gettimeofday(&tv, NULL);
-- 	if (!utc)
-- 		tv.tv_sec += tz.tz_minuteswest * 60;
---	if (settimeofday(&tv, &tz))
---		bb_simple_perror_msg_and_die("settimeofday");
--+	if (settimeofday(NULL, &tz))
--+		bb_simple_perror_msg_and_die("settimeofday: timezone");
--+	if (settimeofday(&tv, NULL))
--+		bb_simple_perror_msg_and_die("settimeofday: timeval");
-- }
-- 
-- //usage:#define hwclock_trivial_usage
---- 
--2.24.1
+-Upstream-Status: Pending
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 -
-diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
-similarity index 90%
-rename from meta/recipes-core/busybox/busybox_1.32.0.bb
-rename to meta/recipes-core/busybox/busybox_1.33.0.bb
-index 3a669444dd..1a3f218bca 100644
---- a/meta/recipes-core/busybox/busybox_1.32.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-@@ -44,11 +44,9 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
-            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
--           file://0001-hwclock-make-glibc-2.31-compatible.patch \
-            file://rev.cfg \
-            file://pgrep.cfg \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+---- a/netstat.c
+-+++ b/netstat.c
+-@@ -2237,12 +2237,14 @@
+-             parsesnmp(flag_raw, flag_tcp, flag_udp, flag_sctp);
+- #else
+-             ENOSUPP("netstat", "AF INET");
+-+            exit(1);
+- #endif
+-         } else if(!strcmp(afname, "inet6")) {
+- #if HAVE_AFINET6
+-             parsesnmp6(flag_raw, flag_tcp, flag_udp);
+- #else
+-             ENOSUPP("netstat", "AF INET6");
+-+            exit(1);
+- #endif
+-         } else {
+-           printf(_("netstat: No statistics support for specified address family: %s\n"), afname);
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+similarity index 94%
+rename from meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
+rename to meta/recipes-extended/net-tools/net-tools_2.10.bb
+index e163a6948a..de4a715971 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
++++ b/meta/recipes-extended/net-tools/net-tools_2.10.bb
+@@ -6,14 +6,11 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://ifconfig.c;beginline=11;endline=15;md5=d1ca372080ad5401e23ca0afc35cf9ba"
  
--SRC_URI[tarball.md5sum] = "9576986f1a960da471d03b72a62f13c7"
--SRC_URI[tarball.sha256sum] = "c35d87f1d04b2b153d33c275c2632e40d388a88f19a9e71727e0bbbff51fe689"
-+SRC_URI[tarball.sha256sum] = "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
+-PV = "1.60-20181103+git${SRCPV}"
+-SRCREV = "0eebece8c964e3cfa8a018f42b2e7e751a7009a0"
++SRCREV = "80d7b95067f1f22fece9537dea6dff53081f4886"
+ SRC_URI = "git://git.code.sf.net/p/net-tools/code;protocol=https \
+     file://net-tools-config.h \
+     file://net-tools-config.make \
+     file://Add_missing_headers.patch \
+-    file://Bug_443075-ifconfig.c-pointtopoint_spelling.patch \
+-    file://Bug_541172-netstat.c-exit-codes.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+@@ -28,6 +25,8 @@ PACKAGECONFIG[hostname] = ""
+ PACKAGECONFIG[arp] = ""
+ PACKAGECONFIG[serial] = ""
+ PACKAGECONFIG[plip] = ""
++PACKAGECONFIG[slattach] = ""
++PACKAGECONFIG[plipconfig] = ""
+ 
+ do_configure() {
+ 	# net-tools has its own config mechanism requiring "make config"
+@@ -119,4 +118,4 @@ ALTERNATIVE_${PN}-mii-tool = "mii-tool"
+ ALTERNATIVE_TARGET[mii-tool] = "${base_sbindir}/mii-tool"
+ ALTERNATIVE_LINK_NAME[mii-tool] = "${base_sbindir}/mii-tool"
+ 
+-BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.1
 
