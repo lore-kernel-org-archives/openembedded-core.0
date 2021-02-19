@@ -1,432 +1,244 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.4039.1613706304831307403
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.77])
+ by mx.groups.io with SMTP id smtpd.web10.4980.1613714605324289178
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Feb 2021 19:45:05 -0800
+ Thu, 18 Feb 2021 22:03:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C2igpmPi;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id k8so1610755qvm.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Feb 2021 19:45:04 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=OCshh0Lp;
+ spf=pass (domain: windriver.com, ip: 40.107.75.77, mailfrom: yifan.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=biXsG6Se53hYNiHUPvDCbLCA6fwInVd2oAT3kAgEjfHR0+zH32feg3W6LJ1zpxMkT+MqlfKTd/llPK+mghnR0Hqo0yRM4UJGIxdXrjWVgMHwlO9XKnlVpI6LtTv5YyjVhK5sGRfXU8/jRRfX03zsZ9hrt2INYTd55BSszKi3JD4yFYKeKHaTL4ztIdseSJTgPtPRVnWNG+xnE9efJ+DXIZLGR8GwyzTYofvPN5FVY8tpYSZbNwCDEkFcp66Lp+vvzglETsE2AOJqC4b/Wz03z3Jd7zxOw6PxU6wW+ehgIZGHKsEIq1FIFuVNoKcy/87Y8SS07IiGt1HzhJ1sJXtw7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rmOcS37hl013AD4veOoyYJtszUXnDTDwMeY2eoEmjtA=;
+ b=anlfwVsRUYVCZ3lK59mQV87uGkt7IYgR4OrKJdNbg4bjoR4b/qssta13J7NFRv1VE+cpFv0Lz2Fc+RyZXD0SGY4SS/tQmrVjXDh59oSNWNRBE1ASe5wUdfBhZUoLyVc9RhZt959WkjkOSw8DtIKKjDosls6S4OLZJgm0dDxsnU2IeJJgykIxbzJqdMFF2sz5NbUCJUlp8Uy/sHHcJtuPg97YmxkonQvO/DLF98bqar2McbinY2LFs62RPiS6QqQfRU5BjrW+uIyXUT1jTupGzWZO8ZPAZjTWBIqRVYOo1ETN6HVaRjqX1OJCFJS/I+Mfr2b4Hlqc11bnDUgsoiuZjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LwMjTzgE8Nw7oWqh5exwz2IOawnHFYNGNrNuaYfw50c=;
-        b=C2igpmPiR+ebZqHjr7D+2MP9EDutxyvq1NhSeXs+hNvmj0WXEnt6Ub2DHCyhaKXMdk
-         Ljw8+sF6tpE6ePEjqCOMqRf9tjPueymVcd0VxiDzxEXQu/pGjj3CUbIynub3e5SITOn2
-         862w74ckXIJC2IVu22zyS2Ds/DCCx0VEGCv8T9PRuwCJWReCSR/fTV/SEpG/jdg1uA8p
-         rjOjsW9iXbDr9J6oRp39P5JRdDIJTEdJvBAUlA9gQe3+DUKTGp+yAg4Sx8dqm74svc/P
-         20CaVve3S9/bbTfy9n4K9twwpBAlaLca200aNQliDArnqvKnNGbL12ayMDu0Fk/v2HD9
-         QZNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LwMjTzgE8Nw7oWqh5exwz2IOawnHFYNGNrNuaYfw50c=;
-        b=JkuzC2jvw+GiAaeFJsnySfv0fvQAnPMks6bv8ux64we1GkCRWZ/cZZrTsV7Sknczam
-         dWo6aiDaDlcds4mmsphSd/QfzxKcxswKyZSFDYxU24xly7g9wOx39USIIRG+ZhVICvMx
-         gp5fWrYl7XZfv4U01KjohCcoeBZngxZvCW5Tgh1qT9YfBF45YNBUiUr4zUvvWedEFL/Z
-         Eilw4o6BFmsxcbk2cVfFxFk+JLBAOxJc8B+yW6V9BfwfJ4hvPS4MWNVUCzXgrcAc/IcC
-         BaGXFErG+ekb/3XkydxGB/xKo4YDJcjAmUeTbOlIN1rdd54M54EDvYDLBGJSkPX0iC08
-         4LUQ==
-X-Gm-Message-State: AOAM530bnOUvROFQ4DJJwJ15ncDo04zoaVznmnMHL5NxVk41pFMJ+c0Q
-	1jP7aMIcjJTVaNhfuBSJZgrZGNqjDzygsmPJeIA=
-X-Google-Smtp-Source: ABdhPJzMDUIyB0MmuF1gs6kNN6bHctKG2rpCqwhXQRad2mykU7rebwBjqp8auVVpJdiSCJJGaklSF1xn3yRuIA7T+qU=
-X-Received: by 2002:a0c:ed4f:: with SMTP id v15mr4813759qvq.55.1613706303842;
- Thu, 18 Feb 2021 19:45:03 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rmOcS37hl013AD4veOoyYJtszUXnDTDwMeY2eoEmjtA=;
+ b=OCshh0LpKRj0sIhM6htylcHgOzrVIHff5CFdliTax/EE2aH/6x7UDBRbNsK8JKBPd0DfS7tYbcwCfVhEJDZG3HDKxyHwmMYq4IaXBfb1EMgsWsCA9hF5UGQG28Yf+SVPSwyH5LrpswxZ1QRcC/YFLB6fhC7uVHMV9iMZ/TRn6h0=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
+ by SA2PR11MB4970.namprd11.prod.outlook.com (2603:10b6:806:11f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27; Fri, 19 Feb
+ 2021 06:03:22 +0000
+Received: from SA0PR11MB4719.namprd11.prod.outlook.com
+ ([fe80::1c2f:159e:f6f6:36f3]) by SA0PR11MB4719.namprd11.prod.outlook.com
+ ([fe80::1c2f:159e:f6f6:36f3%8]) with mapi id 15.20.3846.042; Fri, 19 Feb 2021
+ 06:03:22 +0000
+From: "Yi Fan Yu" <yifan.yu@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] libnl: add ptest support
+Date: Fri, 19 Feb 2021 01:03:09 -0500
+Message-ID: <20210219060309.27976-1-yifan.yu@windriver.com>
+X-Mailer: git-send-email 2.29.2
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YTXPR0101CA0069.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::46) To SA0PR11MB4719.namprd11.prod.outlook.com
+ (2603:10b6:806:95::17)
+Return-Path: yifan.yu@windriver.com
 MIME-Version: 1.0
-References: <1613698607-114826-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <CAMKF1sou9Ju88OdEk4SKug_172NtnxAbkg-T5evqZbh-Am2sJA@mail.gmail.com> <259b58fcfd1548dab3564e230454ebbd@G08CNEXMBPEKD06.g08.fujitsu.local>
-In-Reply-To: <259b58fcfd1548dab3564e230454ebbd@G08CNEXMBPEKD06.g08.fujitsu.local>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 18 Feb 2021 19:44:53 -0800
-Message-ID: <CAMKF1sqPs8bPyyMZaV8JrtPnyB3rf091822qVWstU9YmmxDpDQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] wordsize.h: This file should be the same under arm and aarch64, othersise the following error happens:
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000032d8a05bba847f3"
-
---000000000000032d8a05bba847f3
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yow-lpggp3.wrs.com (128.224.252.2) by YTXPR0101CA0069.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.38 via Frontend Transport; Fri, 19 Feb 2021 06:03:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a6c97c4b-d4f3-4e00-90fc-08d8d49c0feb
+X-MS-TrafficTypeDiagnostic: SA2PR11MB4970:
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR11MB4970788CC7A574C4A6E6E8D380849@SA2PR11MB4970.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	R8Ql3jaI+9ENpSyu8Ij5kOdV6Ng5mHnAQUCbhXsnAceMmuRaa9n/D6OioTmDcuBGmF/wh2cE8TEFHYF/LntZV3JP69ivMhyILeY71M0VSJt3WbmQV8XWFPTiQINV3+h01I1sTriJFSUODEIsJq6bPIiEZERzH88bo+u4yFs6M+lz7bHIRTosIzqm4YBsWSmvVq/YKrlg79Bxiphs9LT4Y8pTAubgO60jlvIhdZdtj+0v4zbbVl07vvUEPEwqo2kYidyPo7lmF060CYqEl/1teJkeZ/AeTLqF8kCforzsIiQ4BeTA8Sh2QiwjoCeT7aQaAwNKUil/fKYyRZqRh+jx6Ml+H8KdKjDNGMphv6t4tOZEMYBlEebujidh5w2AZG/3lPsqaAPSQ/+fxHW7WbL2DCyXV2sjxXdIqdNsBLpNkFIO95erEBhnzTZhoDkE/OOYt5t+IdZXGk/GnGbMotttD/Ojm4M2AvImvz+X5fyRKm6ozdS+bGfLRtD84AEbTgmCIznzmChxbcVk/5+ZmqYkQdmBiQsRBh43fHBIFmxBvmEPH9Lv1WZ3ldWHiI8lGylcFUyC5w6h0k+ltCuSflbiO3QMNqTs24PIsyDWwTpABtc=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(376002)(396003)(39850400004)(346002)(6506007)(6916009)(316002)(52116002)(6666004)(2906002)(2616005)(6486002)(5660300002)(86362001)(8676002)(478600001)(83380400001)(16526019)(8936002)(36756003)(66946007)(1076003)(186003)(956004)(6512007)(966005)(66556008)(26005)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?3/1qqOSHtubcKyvXyUhUEO72ug3J3B02ZsPhR+xfmeGhRAIA+G5AmRP2gnm5?=
+ =?us-ascii?Q?SnyqkNU7eYPIu7sLgNkebEzI0HWc61Xhgb1xBQzDg1PY/wei6+nU9oNExKND?=
+ =?us-ascii?Q?WS6NDvPkd8ZWoa7OOnUEoZzkDy3n7RG+OTz6jgAdiNJX05MRLxvHw0M3dGZO?=
+ =?us-ascii?Q?MD8EPovs+USKa4mr5hvUxxJd9IQaTlInYyoyj9d2wY/QNLUke72ttK4YP5x5?=
+ =?us-ascii?Q?MF72QjZXpXnpvSGqJ7GnTdf/BP3iaiT0iiqMN/6RADsozv3Bz+pcXugjfQvW?=
+ =?us-ascii?Q?VqLDcfD6GNSV+YwAlfDAZh12V+9/PDvuXd4RiPsWxa/8MGnff3tUP/jsOFpE?=
+ =?us-ascii?Q?90LSQcpkqZNcGGF1ke57D9VgKVqVosJ0UZ9Idqr0aClG87l8HUCD/jQXjmGu?=
+ =?us-ascii?Q?3QlpIYdX2JVxNnW7SuxsxWY5B4Z77pK89KMqYazlln+emcTtPaBk3CrPKW/M?=
+ =?us-ascii?Q?O9SrNyyHbdgMt9QtfXMWN+ZY5cGrOJO/z1ltsCvfT3OYvHcOx/Eg02DA3ubW?=
+ =?us-ascii?Q?oi3JArYJ+V8DfG/P+Iqn2Lmlt6kD44QeCxXx1oxZaI1GKRsDsQVJwwv1E7NV?=
+ =?us-ascii?Q?teDUdySIBra8DbSoOqrpIgVWjax0MwfaAchsv94Dt6/CPfDKf1RFksLjpmHg?=
+ =?us-ascii?Q?z2dWbukpDxq2dSjcn9R1dFFl/NXLmpq1vfEqKWJSkhgnT6LCZD4cwTsr2TQe?=
+ =?us-ascii?Q?eYNzqY5Ie9HuPsDPDVpQPFihuxVQ0F+imXNUFxMYlh6TS4KVM7RQCeq/8Sbk?=
+ =?us-ascii?Q?qmqUfOHxELp/Z8NqytB/ndq67qA2zS5rqwWZIWXmWhx8XC97yENi0niiVhfY?=
+ =?us-ascii?Q?11vKML7Yi6BHOo4u861GP5B6DPglm2ARLqa88pvmVBWI40fg/MeKNSedXkoj?=
+ =?us-ascii?Q?li+7bl3HSqfAgsShi4mjAC7/lqbOBJBEJ46G7WFBLhCuG5GKtowiIQjqmoW5?=
+ =?us-ascii?Q?jkyaZwCWJryez7Xc3/UyfIXwL6F1ZFMjRALyCNAdtPB/4qQJWS52+pVO3VFS?=
+ =?us-ascii?Q?xN/NKjbEWS57mpPv8podorgWZx5g80FM5ZD+uryaJ2sgBbo2EtVjTAVY1jIx?=
+ =?us-ascii?Q?HMwBm+HO8HZl3WmhlMAzRxWnEopGuTIGx3W8nK+YzsQYJIvpnVriOiSYIsSQ?=
+ =?us-ascii?Q?l/6nDCYUJb0Dl6J0tWVspI6FXvLPDIubxykkjPxzBgvF5WQgMQ2ZiZRSJ1P0?=
+ =?us-ascii?Q?lAkf8I4iIJ3Y1i8SSqkt5JMLmN9q10z7JXyLyUVAftu6yvO2lAPnUat3S3/W?=
+ =?us-ascii?Q?ng3u39JSs4CcwAl7E+dJmzZi0524/Z/oTel5KeAzkqdyyuk3D9FPLlQGKa41?=
+ =?us-ascii?Q?s2FONulj36c4z0Ks3PHuMqym?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6c97c4b-d4f3-4e00-90fc-08d8d49c0feb
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2021 06:03:22.2208
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TkdFmw3ho6vCqHlv4K4G74Mqph3STTpwKYCKLfssalCxH0t4VkTJhsVXnRD645zi/ro52VZbZMD1A6E5aDUn5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4970
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-We need some way to adjust it or check it automatically since it will be
-not be the last time when the copyright year willl be upgraded
+All tests are installed, but only what `make check`
+runs is run, so currently that's 1 test named `check-all`
 
-On Thu, Feb 18, 2021 at 7:34 PM Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com=
->
-wrote:
+`libcheck` needs to be present for ./configure to generate
+the check* tests.
 
-> Hi,
->
->
->
-> The original patch named
-> 0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch modified =
-the
-> copyright of arm from =E2=80=9C2016-2021=E2=80=9D to =E2=80=9C2016-2020=
-=E2=80=9D.
->
-> -----------------------------------------
->
-> diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/arm/bits/wordsize=
-.h
->
-> similarity index 80%
->
-> copy from sysdeps/aarch64/bits/wordsize.h
->
-> copy to sysdeps/arm/bits/wordsize.h
->
-> index 91da566b74..34fcdef1f1 100644
->
-> --- a/sysdeps/aarch64/bits/wordsize.h
->
-> +++ b/sysdeps/arm/bits/wordsize.h
->
-> @@ -1,6 +1,6 @@
->
-> /* Determine the wordsize from the preprocessor defines.
->
->
->
-> -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
->
-> +   Copyright (C) 2016-2020 Free Software Foundation, Inc.
->
-> This file is part of the GNU C Library.
->
-> -----------------------------------------
->
->
->
-> In fact, the content of bits/wordsize.h of arm is the same as aarch64. A=
-nd
-> this difference of copyright causes an error when enable multilib, becau=
-se
-> this file is not the same of lib32-libc6-dev and libc6-dev.
->
-> -----------------------------------------
->
-> $ diff -Naur
-> tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/image/usr/include/bits/words=
-ize.h
-> tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnueabi/lib32-glibc/2.33-r0/i=
-mage/usr/include/bits/wordsize.h
->
-> ---
-> tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/image/usr/include/bits/words=
-ize.h
-> 2021-02-18 13:12:58.642576190 +0900
->
-> +++
-> tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnueabi/lib32-glibc/2.33-r0/i=
-mage/usr/include/bits/wordsize.h
-> 2021-02-19 12:16:11.129806703 +0900
->
-> @@ -1,6 +1,6 @@
->
-> /* Determine the wordsize from the preprocessor defines.
->
->
->
-> -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
->
-> +   Copyright (C) 2016-2020 Free Software Foundation, Inc.
->
->     This file is part of the GNU C Library.
->
->
->
-> The GNU C Library is free software; you can redistribute it and/or
->
-> -----------------------------------------
->
->
->
-> I don=E2=80=99t know why this patch modified copyright of arm. Shouldn=
-=E2=80=99t copyright
-> of this file of arm and aarch64 be the same?
->
-> So, I modified copyright aim to make arm the same as aarch64. Or should =
-I
-> modified the copyright of aarch64 to =E2=80=9C2016-2020=E2=80=9D ?
->
->
->
-> Best regards
->
-> Zheng
->
->
->
->
->
->
->
-> *From:* Khem Raj <raj.khem@gmail.com>
-> *Sent:* Friday, February 19, 2021 10:37 AM
-> *To:* Zheng, Ruoqin/=E9=83=91 =E8=8B=A5=E9=92=A6 <zhengrq.fnst@cn.fujits=
-u.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH] wordsize.h: This file should be the sam=
-e
-> under arm and aarch64, othersise the following error happens:
->
->
->
-> I don=E2=80=99t understand this change why are copyright years different=
- can you
-> explain
->
->
->
-> On Thu, Feb 18, 2021 at 5:37 PM zhengruoqin <zhengrq.fnst@cn.fujitsu.com=
->
-> wrote:
->
-> "file /usr/include/bits/wordsize.h conflicts between attempted installs =
-of
-> lib32-libc6-dev-2.33-r0.armv7ahf_neon and libc6-dev-2.33-r0.aarch64"
->
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  ...29-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git
-> a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
--arm-and-aarch64.patch
-> b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
--arm-and-aarch64.patch
-> index 791029c4c0..11a77cdf93 100644
-> ---
-> a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
--arm-and-aarch64.patch
-> +++
-> b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-between=
--arm-and-aarch64.patch
-> @@ -50,7 +50,7 @@ index 91da566b74..34fcdef1f1 100644
->   /* Determine the wordsize from the preprocessor defines.
->
->  -   Copyright (C) 2016-2021 Free Software Foundation, Inc.
-> -+   Copyright (C) 2016-2020 Free Software Foundation, Inc.
-> ++   Copyright (C) 2016-2021 Free Software Foundation, Inc.
->      This file is part of the GNU C Library.
->
->      The GNU C Library is free software; you can redistribute it and/or
-> --
-> 2.25.1
->
->
->
->
->=20
->
->
+An issue asking about upstream testing strategy is opened at
+https://github.com/thom311/libnl/issues/270
 
---000000000000032d8a05bba847f3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+---
+ .../libnl/files/enable-serial-tests.patch     | 28 +++++++++++++++++
+ meta/recipes-support/libnl/files/run-ptest    | 16 ++++++++++
+ meta/recipes-support/libnl/libnl_3.5.0.bb     | 30 +++++++++++++++++--
+ 3 files changed, 72 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libnl/files/enable-serial-tests.pa=
+tch
+ create mode 100755 meta/recipes-support/libnl/files/run-ptest
 
-<div dir=3D"auto">We need some way to adjust it or check it automatically s=
-ince it will be not be the last time when the copyright year willl be upgra=
-ded=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Feb 18, 2021 at 7:34 PM Zheng, Ruoqin &lt;<a href=
-=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;b=
-order-left-color:rgb(204,204,204)">
+diff --git a/meta/recipes-support/libnl/files/enable-serial-tests.patch b/m=
+eta/recipes-support/libnl/files/enable-serial-tests.patch
+new file mode 100644
+index 0000000000..8ea53f8748
+--- /dev/null
++++ b/meta/recipes-support/libnl/files/enable-serial-tests.patch
+@@ -0,0 +1,28 @@
++From b1476d89bf7a0bc6062438731ee4e9026696328b Mon Sep 17 00:00:00 2001
++From: Eric Xu <chi.xu@windriver.com>
++Date: Fri, 9 Mar 2018 03:38:49 +0000
++Subject: [PATCH] Add ptest for libnl
++
++serial-tests is required to generate those targets.
++
++Signed-off-by: Eric Xu <chi.xu@windriver.com>
++---
++ configure.ac | 2 +-
++ 1 files changed, 1 insertion(+), 1 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index dfead98..2cc8257 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -46,7 +46,7 @@ AC_INIT(libnl, [libnl_version], [], [], [http://www.infr=
+adead.org/~tgr/libnl/])
++ AC_CONFIG_HEADERS([lib/defs.h])
++ AC_CONFIG_AUX_DIR([build-aux])
++ AC_CONFIG_MACRO_DIR([m4])
++-AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
+++AM_INIT_AUTOMAKE([-Wall foreign subdir-objects serial-tests])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES(yes)], [])
++ m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
++=20
++--=20
++2.13.3
++
+diff --git a/meta/recipes-support/libnl/files/run-ptest b/meta/recipes-supp=
+ort/libnl/files/run-ptest
+new file mode 100755
+index 0000000000..e5c9eb0a32
+--- /dev/null
++++ b/meta/recipes-support/libnl/files/run-ptest
+@@ -0,0 +1,16 @@
++#!/bin/sh
++
++num_fail=3D0
++
++for test in check*
++do
++    ./"$test" \
++         && echo "PASS: $test" \
++         || {
++            echo "FAIL: $test"
++            num_fail=3D$(( ${num_fail} + 1))
++         }
++
++done
++
++exit $num_fail
+diff --git a/meta/recipes-support/libnl/libnl_3.5.0.bb b/meta/recipes-suppo=
+rt/libnl/libnl_3.5.0.bb
+index 9d0e1441a9..09d8c8611e 100644
+--- a/meta/recipes-support/libnl/libnl_3.5.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.5.0.bb
+@@ -9,19 +9,26 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c"
+=20
+ DEPENDS =3D "flex-native bison-native"
+=20
+-SRC_URI =3D "https://github.com/thom311/${BPN}/releases/download/${BPN}${@=
+d.getVar('PV').replace('.','_')}/${BP}.tar.gz"
++SRC_URI =3D " \
++           https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.=
+getVar('PV').replace('.','_')}/${BP}.tar.gz \
++           file://enable-serial-tests.patch \
++           file://run-ptest \
++          "
++
+ SRC_URI[md5sum] =3D "74ba57b1b1d6f9f92268aa8141d8e8e4"
+ SRC_URI[sha256sum] =3D "352133ec9545da76f77e70ccb48c9d7e5324d67f6474744647=
+a7ed382b5e05fa"
+=20
++
+ UPSTREAM_CHECK_URI =3D "https://github.com/thom311/${BPN}/releases"
+=20
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+=20
+ FILES_${PN} =3D "${libdir}/libnl-3.so.* \
+                ${libdir}/libnl.so.* \
+                ${sysconfdir}"
+ RREPLACES_${PN} =3D "libnl2"
+ RCONFLICTS_${PN} =3D "libnl2"
++
+ FILES_${PN}-dev +=3D "${libdir}/libnl/cli/*/*.la"
+ FILES_${PN}-staticdev +=3D "${libdir}/libnl/cli/*/*.a"
+=20
+@@ -41,4 +48,23 @@ FILES_${PN}-xfrm  =3D "${libdir}/libnl-xfrm-3.so.*"
+ RREPLACES_${PN}-genl =3D "libnl-genl2"
+ RCONFLICTS_${PN}-genl =3D "libnl-genl2"
+=20
++RDEPENDS_${PN}-ptest +=3D "libcheck"
++DEPENDS +=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'libcheck', '', d=
+)}"
++
++# make sure the tests don't link against wrong so file
++EXTRA_OECONF +=3D "${@bb.utils.contains('PTEST_ENABLED', '1', '--disable-r=
+path', '', d)}"
++
++do_compile_ptest() {
++    # hack to remove the call to `make runtest-TESTS`
++    sed -i 's/$(MAKE) $(AM_MAKEFLAGS) runtest-TESTS//g' Makefile
++    oe_runmake check
++}
++
++do_install_ptest(){
++    # legacy? tests are also installed, but ptest-runner will not run them
++    # upstream are not running these tests in their CI pipeline
++    # issue opened https://github.com/thom311/libnl/issues/270
++    install -m 0755 tests/.libs/* ${D}${PTEST_PATH}/
++}
++
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.29.2
 
-
-
-
-
-<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"m_-6808204005019111174WordSection1">
-<p class=3D"MsoNormal">Hi, <u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">The original patch named 0029-wordsize.h-Unify-the-=
-header-between-arm-and-aarch64.patch modified the copyright of arm from =E2=
-=
-=80=9C2016-2021=E2=80=9D to =E2=80=9C2016-2020=E2=80=9D.=C2=A0
-<u></u><u></u></p>
-<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal">diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysd=
-eps/arm/bits/wordsize.h<u></u><u></u></p>
-<p class=3D"MsoNormal">similarity index 80%<u></u><u></u></p>
-<p class=3D"MsoNormal">copy from sysdeps/aarch64/bits/wordsize.h<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal">copy to sysdeps/arm/bits/wordsize.h<u></u><u></u></=
-p>
-<p class=3D"MsoNormal">index 91da566b74..34fcdef1f1 100644<u></u><u></u></=
-p>
-<p class=3D"MsoNormal">--- a/sysdeps/aarch64/bits/wordsize.h<u></u><u></u>=
-</p>
-<p class=3D"MsoNormal">+++ b/sysdeps/arm/bits/wordsize.h<u></u><u></u></p>
-<p class=3D"MsoNormal">@@ -1,6 +1,6 @@<u></u><u></u></p>
-<p class=3D"MsoNormal">/* Determine the wordsize from the preprocessor def=
-ines.<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">-=C2=A0=C2=A0 Copyright (C) 2016-2021 Free Software=
- Foundation, Inc.<u></u><u></u></p>
-<p class=3D"MsoNormal">+=C2=A0=C2=A0 Copyright (C) 2016-2020 Free Software=
- Foundation, Inc.<u></u><u></u></p>
-<p class=3D"MsoNormal">This file is part of the GNU C Library.<u></u><u></=
-u></p>
-<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">In fact, the content of bits/wordsize.h of arm is t=
-he same as aarch64. And this difference of copyright causes an error when e=
-nable multilib, because this file is not the same of lib32-libc6-dev and li=
-bc6-dev.<u></u><u></u></p>
-<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal">$ diff -Naur tmp/work/aarch64-ubinux-linux/glibc/2.=
-33-r0/image/usr/include/bits/wordsize.h tmp/work/armv7ahf-neon-ubinuxmllib3=
-2-linux-gnueabi/lib32-glibc/2.33-r0/image/usr/include/bits/wordsize.h<u></u=
-><u></u></p>
-<p class=3D"MsoNormal">--- tmp/work/aarch64-ubinux-linux/glibc/2.33-r0/ima=
-ge/usr/include/bits/wordsize.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2021-02-=
-18 13:12:58.642576190 +0900<u></u><u></u></p>
-<p class=3D"MsoNormal">+++ tmp/work/armv7ahf-neon-ubinuxmllib32-linux-gnue=
-abi/lib32-glibc/2.33-r0/image/usr/include/bits/wordsize.h=C2=A0=C2=A0=C2=A0=
- 2021-02-19 12:16:11.129806703 +0900<u></u><u></u></p>
-<p class=3D"MsoNormal">@@ -1,6 +1,6 @@<u></u><u></u></p>
-<p class=3D"MsoNormal">/* Determine the wordsize from the preprocessor def=
-ines.<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">-=C2=A0=C2=A0 Copyright (C) 2016-2021 Free Software=
- Foundation, Inc.<u></u><u></u></p>
-<p class=3D"MsoNormal">+=C2=A0=C2=A0 Copyright (C) 2016-2020 Free Software=
- Foundation, Inc.<u></u><u></u></p>
-<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 This file is part of the GNU C L=
-ibrary.<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">The GNU C Library is free software; you can redistr=
-ibute it and/or<u></u><u></u></p>
-<p class=3D"MsoNormal">-----------------------------------------<u></u><u>=
-</u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">I don=E2=80=99t know why this patch modified copyri=
-ght of arm. Shouldn=E2=80=99t copyright of this file of arm and aarch64 be =
-the same?
-<u></u><u></u></p>
-<p class=3D"MsoNormal">So, I modified copyright aim to make arm the same a=
-s aarch64. Or should I modified the copyright of aarch64 to =E2=80=9C2016-2=
-020=E2=80=9D ?<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Best regards</p></div></div><div lang=3D"EN-US" lin=
-k=3D"blue" vlink=3D"purple"><div class=3D"m_-6808204005019111174WordSection=
-1"><p class=3D"MsoNormal"><u></u><u></u></p>
-<p class=3D"MsoNormal">Zheng<u></u><u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"font-family:=E7=AD=89=E7=BA=BF=
-"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=E7=BA=BF"></u></span></p>
-<p class=3D"MsoNormal" style=3D"text-align:justify"><span style=3D"font-si=
-ze:10.5pt;font-family:=E7=AD=89=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"=
-font-family:=E7=AD=89=E7=BA=BF"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=
-=
-=E7=BA=BF"></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u style=3D"font-family:=E7=AD=89=E7=BA=BF=
-"></u>=C2=A0<u style=3D"font-family:=E7=AD=89=E7=BA=BF"></u></span></p>
-<div style=3D"border-style:none none none solid;border-left-width:1.5pt;pa=
-dding:0cm 0cm 0cm 4pt;border-left-color:blue">
-<div>
-<div style=3D"border-style:solid none none;border-top-width:1pt;padding:3p=
-t 0cm 0cm;border-top-color:rgb(225,225,225)">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:Calibr=
-i,sans-serif">From:</span></b><span style=3D"font-size:11pt;font-family:Cal=
-ibri,sans-serif"> Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=
-=3D"_blank" style=3D"font-family:Calibri,sans-serif">raj.khem@gmail.com</a=
->&gt;
-<br>
-<b style=3D"font-family:Calibri,sans-serif">Sent:</b> Friday, February 19,=
- 2021 10:37 AM<br>
-<b style=3D"font-family:Calibri,sans-serif">To:</b> Zheng, Ruoqin/</span><=
-span lang=3D"ZH-CN" style=3D"font-size:11pt;font-family:=E5=BE=AE=E8=BD=AF=
-=E9=9B=85=E9=BB=91,sans-serif">=E9=83=91</span><span lang=3D"ZH-CN" style=
-=3D"font-size:11pt;font-family:Calibri,sans-serif">
-</span><span lang=3D"ZH-CN" style=3D"font-size:11pt;font-family:=E5=BE=AE=
-=E8=BD=AF=E9=9B=85=E9=BB=91,sans-serif">=E8=8B=A5=E9=92=A6</span><span sty=
-le=3D"font-size:11pt;font-family:Calibri,sans-serif"> &lt;<a href=3D"mailto=
-:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank" style=3D"font-family:Calibr=
-i,sans-serif">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
-<b style=3D"font-family:Calibri,sans-serif">Cc:</b> <a href=3D"mailto:open=
-embedded-core@lists.openembedded.org" target=3D"_blank" style=3D"font-famil=
-y:Calibri,sans-serif">openembedded-core@lists.openembedded.org</a><br>
-<b style=3D"font-family:Calibri,sans-serif">Subject:</b> Re: [OE-core] [PA=
-TCH] wordsize.h: This file should be the same under arm and aarch64, others=
-ise the following error happens:<u style=3D"font-family:Calibri,sans-serif"=
-></u><u style=3D"font-family:Calibri,sans-serif"></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal">I don=E2=80=99t understand this change why are copy=
-right years different can you explain=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Thu, Feb 18, 2021 at 5:37 PM zhengruoqin &lt;<a =
-href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@=
-cn.fujitsu.com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-style:none none none solid;border-left-width:1=
-pt;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm;border-left-c=
-olor:rgb(204,204,204)">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">&quot;file /usr/includ=
-e/bits/wordsize.h conflicts between attempted installs of lib32-libc6-dev-2=
-.33-r0.armv7ahf_neon and libc6-dev-2.33-r0.aarch64&quot;<br>
-<br>
-Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.=
-com" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0...29-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch | 2 =
-+-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-heade=
-r-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0029-wordsi=
-ze.h-Unify-the-header-between-arm-and-aarch64.patch<br>
-index 791029c4c0..11a77cdf93 100644<br>
---- a/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-betwe=
-en-arm-and-aarch64.patch<br>
-+++ b/meta/recipes-core/glibc/glibc/0029-wordsize.h-Unify-the-header-betwe=
-en-arm-and-aarch64.patch<br>
-@@ -50,7 +50,7 @@ index 91da566b74..34fcdef1f1 100644<br>
-=C2=A0 /* Determine the wordsize from the preprocessor defines.<br>
-<br>
-=C2=A0-=C2=A0 =C2=A0Copyright (C) 2016-2021 Free Software Foundation, Inc.=
-<br>
--+=C2=A0 =C2=A0Copyright (C) 2016-2020 Free Software Foundation, Inc.<br>
-++=C2=A0 =C2=A0Copyright (C) 2016-2021 Free Software Foundation, Inc.<br>
-=C2=A0 =C2=A0 =C2=A0This file is part of the GNU C Library.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0The GNU C Library is free software; you can redistribu=
-te it and/or<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</blockquote></div></div>
-
---000000000000032d8a05bba847f3--
