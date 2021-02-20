@@ -1,151 +1,139 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
- by mx.groups.io with SMTP id smtpd.web10.1358.1613783587546438373
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.49])
+ by mx.groups.io with SMTP id smtpd.web12.4615.1613811166721540472
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Feb 2021 17:13:07 -0800
+ Sat, 20 Feb 2021 00:52:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm1 header.b=DB/Qs/7j;
- spf=pass (domain: gherzan.com, ip: 64.147.123.25, mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 04D1F2DE;
-	Fri, 19 Feb 2021 20:13:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 19 Feb 2021 20:13:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm1; bh=upv1sumMG36Bc
-	NqT43oOCNYbdH2hf/Yvu7/8uNsk19k=; b=DB/Qs/7jXAKSSh6pibmSifKC5No74
-	qFJR7tMLRgVT15l6gthO1AosvxgWEm9hs1sp1aI9XdbBfoWmDe8Ynya1pP3+WQ/G
-	S8l0mwHxaAyAczlUWmPmEkQDSJ2DcGPfXZ2PvWuIPptkWIxuP/pTr9pEnfTcFJH7
-	MFdluHPmJ4shU08nb518coESQVxE0zNpwDya2bn0fhDdHCmsNxE+uQ5wTA+lvgKr
-	wmPr4ECX5noRalGuaAyDxPdIyhrVmrr+8sWgJr/kCTa+FgZhXIab+1XdintUrVsk
-	toHgp+Z+0Ugo993yLpZ5WmKFmgIPg/f0/W9zZbAEHJFFVOf31N5a2Q+xQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=upv1sumMG36BcNqT43oOCNYbdH2hf/Yvu7/8uNsk19k=; b=MprirRcZ
-	WzmjIw0ZPLgXFpDzGGyVPcZM7rp9zjy2x9P+XVTp3Ad8/WHXQZ25tfphyi6oC5vo
-	PZg7fSaSgLY+k0BNdkdd96nfCMmQ5ioxn8ogGOvLJytfYjX69A8vlOanO/oapa88
-	+masp6YOu/zqEOmVXuz1HEQp0iWnlM29nEXrpZSdqpxJyVTwznjtIpguEo/UVejN
-	bCExEnmvB+WOjcM1v5RNwl6W6fc9fSitN4aEtK76V5fqujo2IjpFAxQ1XNdekhbm
-	hxD2fVEnYVjMZDZVeQiu+q5S+77jujTbk2hEJa237oS+EzSksdk+SgC3G5u8f0qd
-	xNgcGv9yJyOzDg==
-X-ME-Sender: <xms:ImIwYEUuo-51nUI2v-vXlbsutDeYAurlu4dMolFp8sDC5pmn4oKhsA>
-    <xme:ImIwYInNnvxkZqTvX2oaRUdImIrc1pTt9O2g8gswIqNCKZCsCP3a9nGiIT4H-zr5Z
-    kqJq3ha4Z99Eq-s_Uo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeejgdeftdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
-    ertddtnecuhfhrohhmpeetnhgurhgvihcuifhhvghriigrnhcuoegrnhgurhgvihesghhh
-    vghriigrnhdrtghomheqnecuggftrfgrthhtvghrnhepvdeufedvueefudffteeffeeihf
-    efhfeuuedtudekhfekgfffvdeghedukeffgffgnecuffhomhgrihhnpehqvghmuhdrohhr
-    ghenucfkphepkeeirddufedtrddugeeirdduvddvnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:ImIwYIbx8nuUA5F0_KSXPWGWRdVaWuhIbygCJZw-RO0gRf2CmkoJMA>
-    <xmx:ImIwYDWm2ivtBE4aYQY8jtQJDLxglAdt4_QpAF_lajaXWuqiRlghxw>
-    <xmx:ImIwYOkmjIgcYSl7wJvJHdVc1jm19J-_gJTZ0L-nYZ8DAez9OhknZQ>
-    <xmx:ImIwYITIsW3x4V2txBfV6aBw0gl3pnaGFR1MBrMV6emqSHE_7hWPYw>
-Received: from qwirkle.internal (host86-130-146-122.range86-130.btcentralplus.com [86.130.146.122])
-	by mail.messagingengine.com (Postfix) with ESMTPA id DF8E724005B;
-	Fri, 19 Feb 2021 20:13:05 -0500 (EST)
-From: "Andrei Gherzan" <andrei@gherzan.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [dunfell][PATCH 4/4] qemu: Backport patch to avoid assertion fails on icache line size
-Date: Sat, 20 Feb 2021 01:12:55 +0000
-Message-Id: <20210220011255.823050-4-andrei@gherzan.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210220011255.823050-1-andrei@gherzan.com>
-References: <20210220011255.823050-1-andrei@gherzan.com>
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Sd4AreSo;
+ spf=pass (domain: windriver.com, ip: 40.107.94.49, mailfrom: liezhi.yang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R4cxqQ3Yfzob7t4VehedEe6oSkV+rpgtxt906ld6l3e6Puw9I2xQzyS9hLEQoYP2gKyJrUWRpGEp9a/9r00hYmFM8yaygnFGEEkElE7Kiip041kQF71H6UAEZ5kkerd220JrXfchsKYJXr/XhUXFrahiWjzosNKi8Zl5OG9BByBw0MuJyRIS/DTidRWbad37kKtKJDHIofmtARodkQExlr8LhoG0ls7+4cDAYyxyIq1HXpI6nw7V302uGdQKXlAZLA/QW8vRYZo9LWlZUJSRRkWBqGlJbyVpZuQ4LgtMv+oOO3hdSNFWpOur9Ur3G5v+YgtdDKxoJqeTR2pJgidCGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h/WZpd2LoiWgkooH6Edp2BlSvcXMvGsy9H6bkbrsNrY=;
+ b=lOXrtuFofoDds4MfaFfNG9l74ADNUn+nwYrdVCPVL8aBlKf0YKwC1u6MU3VJiNFIGRE/9kqkZR4RcwoxF7MTmSS4UeNJTX4vrr9nRUx6cSdhUCWmfRATokn0xOxUOWtEtxXufzXmQLB2KiGzbAywvE73sLgY8yqeEcAILlGW9LjjBd3K98gII6dFDUWndkoVqz77lecyjfuiY6SM3CBXiCmSVCDrKD2HdMu4Kr/FJlCmWLlhTlGTEGFIhULGLWKAgzT9C7ksxXVfgcWGAR9nFb1/FMPd1pyzOmaSbuAIVFnLErQ/XHXE2DsJtVi+lJnf0OUwtdDZ0nkiEm9ymG7KZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h/WZpd2LoiWgkooH6Edp2BlSvcXMvGsy9H6bkbrsNrY=;
+ b=Sd4AreSo+XNYX9S0IBS1PtMHOVxDjCl6vmaWB7nwcn1N0xhTmujzlbJSBris+GKXZ6kzhUIOWcn5XNJjqzNEo3lRVUdlVDsHd0f37hpg2wkjDXz6JBCa95Q01AKZ0jfJQB2IOtXlP0Cv7UMD52Gc3PjI8eiuCyIVjDVlVkpRMdU=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com (2603:10b6:a03:f6::10)
+ by BYAPR11MB3174.namprd11.prod.outlook.com (2603:10b6:a03:76::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.26; Sat, 20 Feb
+ 2021 08:52:44 +0000
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::dcc7:5da3:6cfe:b3d9]) by BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::dcc7:5da3:6cfe:b3d9%7]) with mapi id 15.20.3846.041; Sat, 20 Feb 2021
+ 08:52:44 +0000
+Subject: Re: [OE-core] [RFC PATCH 0/2] replace qemuboot.conf by qemuboot.json
+To: Ross Burton <ross@burtonini.com>,
+ Guillaume Champagne <champagne.guillaume.c@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20210212045335.16612-1-champagne.guillaume.c@gmail.com>
+ <CAAnfSTvUJvqH0ZNde7VpqTFdLrMC022+T1HPKigUYKDhDZc=WQ@mail.gmail.com>
+From: "Robert Yang" <liezhi.yang@windriver.com>
+Message-ID: <6a2d81ce-79f6-fba8-f8b7-b135c7032243@windriver.com>
+Date: Sat, 20 Feb 2021 16:51:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CAAnfSTvUJvqH0ZNde7VpqTFdLrMC022+T1HPKigUYKDhDZc=WQ@mail.gmail.com>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR02CA0214.apcprd02.prod.outlook.com
+ (2603:1096:201:20::26) To BYAPR11MB3736.namprd11.prod.outlook.com
+ (2603:10b6:a03:f6::10)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.198] (60.247.85.82) by HK2PR02CA0214.apcprd02.prod.outlook.com (2603:1096:201:20::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.28 via Frontend Transport; Sat, 20 Feb 2021 08:52:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b79f3bb4-79a3-4b36-7581-08d8d57ce392
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3174:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB3174C5D3119E031A5BBBACB6FF839@BYAPR11MB3174.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	dpiJj9IHINDKzcC8faJ9FOm1b9GspmYGQruBaXQe3FrV7PYMs75GmX7K0ZAZhfxD/Ed8Liyqu4gPmXuVzy7HB2omoZ9lkWUa9ZZosrcKaMb5Mb1Hi5lAqmCMinb1aZublDX3Wv5bfvaV9YKAyvnRXHKONc2tnCaIIF+r1qF0nsuP1/GAU1iKbbW3ejfyo2n4/dKPoVlQYcnsNdqMKTw78KDneGx87N+Nu+5E9AesPuYDCON+zHycCi9nsAfi2F/3xUwC/66YH14DREP2JJm2GLx3NmwKlxx7mhW3gVK7x2yidKPrqKHzHbXbtzJM+TqArk8kidJ2WLugNQmcvVazW8lL88T30/Y5FrWszL89QGqNO98saqKkdt/JvxvgtJYmXL5NbaO0kynxfuOCyzS0cXERxiTH3vS+s6Mh3ZfmsFcUD77McKfT2KC/X5p7NMELbRQrtPS0H6qufloRFXg8zFURCaFQGW/YVvsHXKlFA0DL6eXnh/8XU5FDyqA8IVcWLGRXWoT9r3tLbTgV6VradBXjQ3uynMLcv2r4okMi3A8tYYj9vBix5E3joGNrDuZaTYIfGVQp8S9LAlr76sMfd1atTCoq9KnKrl7yrgRS6WZ9HwiOCLJ4ZgJ8sEWEJ+9M
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3736.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(39850400004)(396003)(376002)(366004)(8676002)(66476007)(66556008)(31696002)(478600001)(36756003)(83380400001)(316002)(6486002)(4326008)(66946007)(186003)(6666004)(86362001)(53546011)(6706004)(2616005)(52116002)(31686004)(26005)(110136005)(16576012)(8936002)(4744005)(16526019)(956004)(5660300002)(2906002)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?Y2ZIZXRrWWR0ZXNzMjZaSVpPbjlzN0s0SGJ2Ulh0ZWtCQlZ5KzEwZXlSK21h?=
+ =?utf-8?B?Y1pYcVZ3SEl5Y25ObjhndVB4dlM5citmZ0JmZXRvc1VzcWpiYzJ4VWhUSC9l?=
+ =?utf-8?B?VmFIMTlwYzVoRUdTalFob2Z0VzVUV2FLYlJ5SzlKRzVsSmtXM21aNldWSzhz?=
+ =?utf-8?B?STh0eXBlNmo0VUlBVGJZOWRwVk4zN2xKZ095cm1CeEl4QStOWi9iWEtHek5y?=
+ =?utf-8?B?UWhNQ1dTOWhNNmxPa0tDYWxJSG5lVVFSdzFHMGxnei9WdHExUTdQZ1BFQ2Vs?=
+ =?utf-8?B?a0pwQUp0dko1Z3Y2WjRUZ2x1bndveW9uQVozNkY2UDFUeGQvV2c1eWV0bEt3?=
+ =?utf-8?B?REJzV3Yva0lOUFBMTGIwQjhiQnN3Ullia3U3QXJVd1hxK0dMK0dzT01Wb2o0?=
+ =?utf-8?B?OHpOZ2JTVjdGc0xHcTdlY3BqUjBnbW43ZFRsNGRGaEJiNnRvMHVtZnNlSS95?=
+ =?utf-8?B?U3ZaRnMrejJWbkp1bCtOWEUrK3kyWTlOZGxkeTE3c1JHUmVYdkJ4bzdvb0FG?=
+ =?utf-8?B?R3h1TlhXRzNGWi9mZGZ0TVozZVdyTXBNaXRYZTErR05WcjNNSnRDdjIyZ0M3?=
+ =?utf-8?B?Q1dKcW1mdHBsMEdsK1doOEdrUVVjdDRIRTN6ell1cXJpaDI3T00vMmFmRm5H?=
+ =?utf-8?B?S2FjdnRBaGpiRVBnYVpWSko2S0tRcWxBMklDQ3J2UnNrellrcEpQR1dZRmZB?=
+ =?utf-8?B?dk5DRlB6QmV6ZWhxaE1mbGtNdmRXdE1jekpMTEJ6akx3YlJnUlUzYitIVTFu?=
+ =?utf-8?B?dlJHeVhwYzM0RUNoQ2NLblNDbkU3aGRJR2ljelhKck1lbi9wb1RvTDVsN3JV?=
+ =?utf-8?B?ZTRyWTdtMVBhdUNVbWtWMFU1OGx0MW1nR25tN2tHTk9DNzJxTmt2YWIxSkJ0?=
+ =?utf-8?B?REE4ZGg1NVVBMDQreFIxL0JmaUZ5SEhKNGt3dDBxR24wald6Y3NwTHF4anJW?=
+ =?utf-8?B?c1plbWtMdGpDcklJOVU3d2ZsNk1rY1IrTWVHaTBtTU0ybzhXbUdpK0t4eUF5?=
+ =?utf-8?B?OXBsOHN0eVJDK3QvMDJNUWk4Qk5GWTdUR3dPNXp0cGk3YTNId0dFNTFtQVly?=
+ =?utf-8?B?OUljaUVSMjMxalVpUzhQUHo4S09wbGdFbE05NjlJL2tsT2hXMytPenZnd2Qz?=
+ =?utf-8?B?L2M5SW02bGFQNnF0VmxWa0d6NCtyMlk5YzczSUt2TmhycHZXRnNrOExxRUJQ?=
+ =?utf-8?B?VWU3aDRrdTkxejZJM0pYRXAycnFRQ0hBMnBLRDRabHRDeFRJWkk2QzFmb1Zj?=
+ =?utf-8?B?RHdsZXNvLzV5WjloNjNNQzJoL1VsdGlhTlRVSVdEeEVLemNXMWFxbnFya0xk?=
+ =?utf-8?B?Z092VXEvb0F1ekc2TnIrMDVMU0wvb0JzZGV4ZHhnT3MzVC9WWnp2VW51b2cy?=
+ =?utf-8?B?Vks4Z3pSak4zZ0ZmdnpNSWlGdS9rdFRaYUlaT1dBVGFIbHNHQ0ZPMkZVNUY4?=
+ =?utf-8?B?SkU3QjNIbmRtSEZMUFFXb29LTXNaall0U1N1Mk1tMCtucmdINTN6STFnOXdz?=
+ =?utf-8?B?c1F4bmdLc0VKTDV0TjBRcVUzbkxtT1hGWnM3SDZpdUxJOTdwaEFQNHpHMDZp?=
+ =?utf-8?B?OWxmQ2diTG5HaFFoTlVGdjJ4Mmo5a0Q1bm9ueFNaQ3J5ZitXUGMwbEpPSmZG?=
+ =?utf-8?B?K1JhcDRyK0pBczl1dGJzT2FZdGNwTDEvdi9SVmtRd1ExSlFQSDYwVU02MmRQ?=
+ =?utf-8?B?ZTVhZDkyeDE2Ujg5L2hocEUrbkxXdWVWYmRXVldyNW5wM012M2N6MXZMU0xV?=
+ =?utf-8?Q?o5VwcQst+6sJcH5+c8bIptpnODu3nX5f0Nk/b3A?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b79f3bb4-79a3-4b36-7581-08d8d57ce392
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3736.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2021 08:52:44.5691
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JFaInZpDk/1ZEw41IFka+kbxMvGD+1ghxJIi4gachgyXYIR+zz1RlgmWn7Z4hU85etm1JdyYcBVPkZIVwj6qE6gYtmEC3KnCGjrUll5A3FQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3174
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+Hi Ross,
 
-Due to a bug in glibc 2.33, the value of the icache line size is now
-reported as unsupported option. This breaks qemu at runtime with:
+On 2/12/21 7:48 PM, Ross Burton wrote:
+> On Fri, 12 Feb 2021 at 04:54, Guillaume Champagne
+> <champagne.guillaume.c@gmail.com> wrote:
+>> This fixes bug #12503. Sending this as an RFC since I'm not sure what to
+>> do with autobuilder-worker-prereq-tests. It fetches a qemuboot.conf from
+>> yoctoproject.org, but this cannot be changed yet to qemuboot.json since
+>> it doesn't exist on there.
+> 
+> I understand that you're simply fixing a newcomer bug but I just don't
+> see the rationale behind the bug in the first place.  Copying in
+> Robert for his opinion.
+> 
+> I'm unaware of any real world limitations of INI files that are a
+> problem for runqemu.  We either break compatibility with existing
+> builds, or have two separate parsing codepaths in runqemu which
+> complicates things more (as the ini path won't get tested).
 
-cacheinfo.c:182: init_cache_info: Assertion `(isize & (isize - 1)) == 0'
-failed.
-Aborted (core dumped)
+I'm fine to replace the configparser with json since json is widely used now.
 
-We haven't caught this one yet because we were already on qemu 5.2.0
-when we started to play with glibc 2.33 so it was only reproducible on
-dunfell.
+// Robert
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...fix-crash-when-compiling-with-uClibc.patch | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7a963ad57c..a1a418374f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0009-Fix-webkitgtk-builds.patch \
-            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            file://0011-hw-i386-pc-fix-regression-in-parsing-vga-cmdline-par.patch \
-+           file://0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch \
-            file://CVE-2019-15890.patch \
-            file://CVE-2020-1711.patch \
-            file://CVE-2020-7039-1.patch \
-diff --git a/meta/recipes-devtools/qemu/qemu/0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch b/meta/recipes-devtools/qemu/qemu/0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch
-new file mode 100644
-index 0000000000..741a4fce0e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch
-@@ -0,0 +1,48 @@
-+From 00b5032eaddb7193f03f0a28b10286244d2e2a7b Mon Sep 17 00:00:00 2001
-+From: Carlos Santos <casantos@redhat.com>
-+Date: Thu, 17 Oct 2019 09:37:13 -0300
-+Subject: [PATCH 1/1] util/cacheinfo: fix crash when compiling with uClibc
-+
-+uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINESIZE
-+but the corresponding sysconf calls returns -1, which is a valid result,
-+meaning that the limit is indeterminate.
-+
-+Handle this situation using the fallback values instead of crashing due
-+to an assertion failure.
-+
-+Signed-off-by: Carlos Santos <casantos@redhat.com>
-+Message-Id: <20191017123713.30192-1-casantos@redhat.com>
-+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-+
-+Upstream-status: Backport
-+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-+---
-+ util/cacheinfo.c | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-+index ea6f3e99bf..d94dc6adc8 100644
-+--- a/util/cacheinfo.c
-++++ b/util/cacheinfo.c
-+@@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsize)
-+ static void sys_cache_info(int *isize, int *dsize)
-+ {
-+ # ifdef _SC_LEVEL1_ICACHE_LINESIZE
-+-    *isize = sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-++    int tmp_isize = (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-++    if (tmp_isize > 0) {
-++        *isize = tmp_isize;
-++    }
-+ # endif
-+ # ifdef _SC_LEVEL1_DCACHE_LINESIZE
-+-    *dsize = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-++    int tmp_dsize = (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-++    if (tmp_dsize > 0) {
-++        *dsize = tmp_dsize;
-++    }
-+ # endif
-+ }
-+ #endif /* sys_cache_info */
-+-- 
-+2.30.1
-+
--- 
-2.30.1
-
+> 
+> Ross
+> 
