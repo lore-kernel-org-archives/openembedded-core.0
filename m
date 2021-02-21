@@ -1,106 +1,104 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.25578.1613940427441430078
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.26679.1613945840257559471
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 12:47:08 -0800
+ Sun, 21 Feb 2021 14:17:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=Uo633Qmy;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.170, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f170.google.com with SMTP id a17so52370439ljq.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 12:47:07 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K5D20koR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id v14so17100349wro.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 14:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zA6I0vtBf9rC92YVmRO382/PzNo8hJgt+4+KWuTKtP4=;
-        b=Uo633QmyhQVecwymyqmpoZV+ypJlgWtfXrjhLp4KhwO9nw+M5Ku8njIk6xiKidEwc0
-         eimZ6zjUrQONl5/sVjeFc6beW3dA1bSGgWWcK1GWPfe1xzOhOS7jYY9W14YGDOjNmmle
-         wQ62n1uE3cJZq2A5hoTWD7K1+AGBQmCB+dhkhGY7KmPpOMWXE2x6tYwB2DaIF3cpTt7O
-         5ZZ+NqdStYGinxdOI7XHuJuNWDd090myrKoqvxjRdFmfGgf3cH1y6zUWzSOqS6Agn7J8
-         LqiZR50zz9rGA10o+l3dmwX8Dmby7o/81B/gH+5s7GNnjxzXNigGNOrbLUSVLyROqonY
-         mpZQ==
+        bh=wxVM3ks3h5dfVAN2AwOBsR0It4bJL7fy0+54R83VO+U=;
+        b=K5D20koR4p0yxIlNkOWvwHiGyakkCBY0nF+UbRS77bebGmWtnnjokUSjI7wuTnZQwH
+         7/s2nHCMj0LwqUst9RK2LXSuwUdIQSk5bGtgrtcL/83aYD6JJqA6+avv04urFy04VEnp
+         ECc4sQuuJUR8ypxnoAPjp3fWc1flVwlvSv238=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zA6I0vtBf9rC92YVmRO382/PzNo8hJgt+4+KWuTKtP4=;
-        b=Mt50VJ3iNVFrPZUt+utdCikm5WGRqpVF1/t49jUdKJlgILjKrlQolezHQCO6gD+eQq
-         vCyizZu2UttVd2/vSd1w6PdIj++dpll1aD8hoS5XXzv314KWW7tdBsBxEP5gA1CqTANN
-         U41guCF/zPM7TUGnF7ABej9LSKQdP76Ir2XOWc2N4ncJ1sZ2y/XABJ27yOISuvyIuzp1
-         oJYrYfQBQRgKuOZooWQI9GzxNyUN8qvosBN8MBTfIRQPKrrP/JPomzSkGAfNFK9AkmOD
-         xtXmj7WbOKH9uKNWdzVfIvVQG7aGkAqVGSCryL2IBjO7EHmM+CrDT6ZM2kmHB+YL38X/
-         38NA==
-X-Gm-Message-State: AOAM531TFvRGE6pCn4dmPXUa9/rAdvdBgy4eY/cvDIaONQQL2W4AYVlc
-	d/KbwMBvCq3DfRrZ0bnZESfflNb3R27ywSsN
-X-Google-Smtp-Source: ABdhPJx53hkHAVUZKwET7Q2979SsSO0BLJHjr5p4lcO8NUrlAxuCzQIwNDdYvwAPYiHBY1CiZYn72w==
-X-Received: by 2002:a19:8111:: with SMTP id c17mr11444822lfd.574.1613940424873;
-        Sun, 21 Feb 2021 12:47:04 -0800 (PST)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id q3sm1779933ljp.108.2021.02.21.12.47.03
+        bh=wxVM3ks3h5dfVAN2AwOBsR0It4bJL7fy0+54R83VO+U=;
+        b=QX/UC+ab1fC3tMVAdW1K1NRDlg9Sl15tP8FUNYIYFjWDas1FsOzSpDiYqSmhG105Ex
+         DMo0/CrM0PRShlcjk86sQrMzXPHbFYNrVrLSh/c3f7qdYXy20DEs5SuU9WPXP+USTrBx
+         kXseDtytrBDekakqWO5qYdeyUDZwwP79tMf3ura5GkZCvuLHmZDHFP2GywEYyBSXMx3S
+         hUS7CsphDYnDBhOFd7s1hUstbwtvIX9/+JxZnbTMgLNYemmcuAm6HXRZ97Rclo7Vj2E1
+         kU9GpUBoXkytEp4TJUr6oXvkQQp2EzTMoorGNlKiYQFtvO+TEFy4CvONbRloXCth2zdY
+         VGIw==
+X-Gm-Message-State: AOAM532m60wRz9h9ICf3Dld905V3Vvixn3Fsfd2ddXfEoXfOzP7ywKsp
+	DnPupCXsY9SbDHCgGKGF3AWHeU7WE0bbSA==
+X-Google-Smtp-Source: ABdhPJy5DV2nqii3fWmGf2xRFWFTQz++sapg6KfqxEvVG1T8x+nNmefzMcqjJ32C85f9QBkI9bBKBQ==
+X-Received: by 2002:a5d:45d1:: with SMTP id b17mr3166929wrs.160.1613945838457;
+        Sun, 21 Feb 2021 14:17:18 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
+        by smtp.gmail.com with ESMTPSA id m4sm10196612wrb.87.2021.02.21.14.17.18
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Feb 2021 12:47:04 -0800 (PST)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+        Sun, 21 Feb 2021 14:17:18 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v2] cups: set rundir to /run/cups if systemd is used
-Date: Sun, 21 Feb 2021 21:47:02 +0100
-Message-Id: <20210221204702.504297-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH 1/7] rsync: Fix a file sorting determinism issue
+Date: Sun, 21 Feb 2021 22:17:11 +0000
+Message-Id: <20210221221717.3714714-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When running under systemd, cups needs to be configured with
-'--with-rundir=/run/cups', as systemd takes an exception to the
-activation socket being under /var/run and relocates it.
-
-This leads to fd duplication in cupsd and an inadvertent closure of the
-activation socket when the daemon exits due to inactivity, so that the
-daemon cannot be activated again.
-
-[YOCTO #14152]
-
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/cups/cups.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../rsync/files/determism.patch               | 28 +++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb    |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/determism.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index e7a704134c..ff1ab70be9 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -56,8 +56,11 @@ EXTRA_OECONF = " \
-                --enable-libusb \
-                --with-domainsocket=/run/cups/cups.sock \
-                DSOFLAGS='${LDFLAGS}' \
-+               ${EXTRA_OECONF_SYSTEMD} \
-                "
- 
-+EXTRA_OECONF_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES','systemd','--with-rundir=/run/cups','',d)}"
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
+new file mode 100644
+index 00000000000..53a4ca75058
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/determism.patch
+@@ -0,0 +1,28 @@
++The Makefile calls awk on a "*.c" glob. The results of this glob are sorted
++but the order depends on the locale settings, particularly whether
++"util.c" and "util2.c" sort before or after each other. In en_US.UTF-8
++they sort one way, in C, they sort the other. The sorting order changes 
++the output binaries. The behaviour also changes dependning on whether
++SHELL (/bin/sh) is dash or bash.
 +
- EXTRA_AUTORECONF += "--exclude=autoheader"
- 
- do_compile () {
-@@ -77,6 +80,7 @@ do_install () {
- 
- 	# Remove /var/run from package as cupsd will populate it on startup
- 	rm -fr ${D}/${localstatedir}/run
-+	rm -rf ${D}/run
- 	rm -fr ${D}/${localstatedir}/log
- 	rmdir ${D}/${libexecdir}/${BPN}/driver
- 
-@@ -97,6 +101,11 @@ do_install () {
- 	    install -m 0644 ${WORKDIR}/volatiles.99_cups \
- 		    ${D}${sysconfdir}/default/volatiles/99_cups
- 	fi
++Specify a C locale setting to be deterministic.
 +
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+        install -d ${D}${sysconfdir}/tmpfiles.d
-+        echo "d /run/${BPN}/cert 0755 - - - -" > ${D}${sysconfdir}/tmpfiles.d/cups.conf
-+    fi
- }
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending
++
++Index: rsync-3.2.3/Makefile.in
++===================================================================
++--- rsync-3.2.3.orig/Makefile.in
+++++ rsync-3.2.3/Makefile.in
++@@ -26,6 +26,11 @@ MKDIR_P=@MKDIR_P@
++ VPATH=$(srcdir)
++ SHELL=/bin/sh
++ 
+++# We use globbing in commands, need to be deterministic
+++unexport LC_ALL
+++LC_COLLATE=C
+++export LC_COLLATE
+++
++ .SUFFIXES:
++ .SUFFIXES: .c .o
++ 
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.3.bb b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+index b7205e5bdef..c08f93884f5 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+@@ -12,6 +12,7 @@ DEPENDS = "popt"
+ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://rsyncd.conf \
+            file://makefile-no-rebuild.patch \
++           file://determism.patch \
+            "
  
- PACKAGES =+ "${PN}-lib ${PN}-libimage"
+ SRC_URI[sha256sum] = "becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e"
 -- 
-2.25.1
+2.27.0
 
