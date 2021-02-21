@@ -1,119 +1,78 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.24159.1613934129670440065
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.24245.1613934479975074982
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 11:02:09 -0800
+ Sun, 21 Feb 2021 11:08:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OWeeovpg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id e9so6236288plh.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 11:02:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C/pc3SRn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id k22so6238707pll.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 11:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=rQE+NiBI3DmaNVdqQT21up5oGvRMH4cZqYA+bbP9MIw=;
-        b=OWeeovpgt3vmw9+fFtKMTeOdjqbCGEz1h10f5Je78C23IWLhpsnV4aqdr5MHl35JVL
-         2Jrha31vZPLXwQAkhzMJj0EEBXWHKPipB0PYM6NbUfx6G8Ly5qPDH4tK4ZT3X4wXZHdq
-         wz3h9nWk2zIBGUgOUwZmXVcwzQVZgIhmg00DQDvLCG9FbQA95Dc5ZntankePC5NJaE4y
-         g5I1QfB0XUIemKxo0sckkKqKAhsbxYAwIhmTwW2o+vzJqrUymV5y50Wx0p3uoQ9qh8nk
-         cTCRWpAD9JlfPWQe6Cw8kNShMr0s2GaVK8oL8a2bjdkFhrTb+DFyi3qeI2Ug99/KFiaM
-         O98Q==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5cyEuScJVvwRgHH2d5Il1kdFjU6zUEJdzBcNlcwuPk=;
+        b=C/pc3SRnZp+VAlsoFCyWL86lHXD65JRKI3mHaGKdnUsBkcSAQaB0hjKp4VzVCANBsF
+         lwTpk02S32YS2W0JgS9eT0xquPuTWSYPwvrznSUYWuLIxy3Z/dqJ2j7jOdor1XZ09dOV
+         Vgh0gDqE107KDPmGGlywLEGp1waVYTlt+JzpoqD3oT0wci9CwkSJk4k27D8b2kYdRLBe
+         vzOfcdrmO3b6IbMsTzzB1mFLBdXDd7WKc9DBz/XWrRR5+j9xY5p/vVJh/SE+Qor7KTf7
+         HrDa5On5RTMRkog7J0xGrF+NNShwF452DRs1nwEOynDHnfFtPxNM62YgQj12g8Qi+I3d
+         SU1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=rQE+NiBI3DmaNVdqQT21up5oGvRMH4cZqYA+bbP9MIw=;
-        b=ue28KNcoOb63CfNLey1AkOQZZOMGlBARTAXSJblLBfQemCDnKSzgxE82ysHBCBJ4tC
-         1XIW/rs+VXwbE+j5xa1nbquhLQtpJjbQWAxJ2ZRvDl+dWHFPx19hD0u4xC+V/PTRy1KC
-         j1Orro1P7Di+zCOrwIp4RgHOoertC11p00ITvum1r/UFn1YRrtcOu71gTB/Sla6yFv/3
-         qLvmxDRF//AXx9pKLImx3PA2LFZwh3ZHqMN/OF51jx9KWVxJQ6K+pCK2yZ5wKRW/94/H
-         ZDK3fm552DAHW6jFMVdK42eym9Vk7Db4qNdh6Kgs8TfRXb77tst84O8Yob+3/2xKTA2Y
-         87ng==
-X-Gm-Message-State: AOAM533sCHtAWzCFG7HOzyZGfRsqOdGncytfGpi73po6yN7/tX4Hl2UX
-	e2khN7xh+YE4a7kbWR9vlvulvNmewKJ6O43Ovck=
-X-Google-Smtp-Source: ABdhPJw8pX5vuOQWp9Sz+kWNTNG7F4qLbZZeneS3UYgqWysnRCd++HYbc59fjjAECpmwSBxYt92LyQ==
-X-Received: by 2002:a17:902:b609:b029:e3:4b8d:994 with SMTP id b9-20020a170902b609b02900e34b8d0994mr18481524pls.44.1613934128678;
-        Sun, 21 Feb 2021 11:02:08 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k9sm14597383pji.8.2021.02.21.11.02.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5cyEuScJVvwRgHH2d5Il1kdFjU6zUEJdzBcNlcwuPk=;
+        b=CzdVGFgPdSj7exFcslliE1t7G0pMC1eY5Rk/ESJQMbKxYV+vSHjxyEX/2WUTvxR73N
+         sRf8h2hKohO/IAzNqCFedjGbdmSUkxk8m3tuGXhYoHru+r1rXdLyBHMzoi4c0Z887KwC
+         F21wuFKOpA1mYqWzlo9TfYpR9Rc2N5MWBh0tXzXGJrI6diOuG5x6wel/vmI5jPM2KaCa
+         Z3rFBtF8hIjfaEKyaTipPJgsGNcreGTdAYtmrKw7B8JWm+RLorOKZ6kQR3s5MQ0ii22f
+         CEz40yXuuhigfMwhpbFwA9ncY1e7+lrnTNhh2jRUk325En0HEP4xqg8R5IH7aLD8DLv9
+         36yg==
+X-Gm-Message-State: AOAM533qBO/d/hrZN2SUTK+QoFUs017zTH3KdUy4BZbOGRPess8868rj
+	GGdg+QaT2R8Re+PhsaPQpmcLvh+N7eWvUQ==
+X-Google-Smtp-Source: ABdhPJy2IS4KsynHD/zm9//aNjNuC9+4zz8gjUFQWCnnepGUtASl4KSU/pLmvjgySi9UsamYxAhdoQ==
+X-Received: by 2002:a17:902:d2c9:b029:e1:8692:aa7c with SMTP id n9-20020a170902d2c9b02900e18692aa7cmr11308903plc.21.1613934479203;
+        Sun, 21 Feb 2021 11:07:59 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::54b4])
+        by smtp.gmail.com with ESMTPSA id 74sm16390918pfw.53.2021.02.21.11.07.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Feb 2021 11:02:08 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 0EE4296036C; Sun, 21 Feb 2021 09:02:06 -1000 (HST)
-Subject: OE-core CVE metrics for gatesgarth on Sun 21 Feb 2021 09:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210221190206.0EE4296036C@nuc.router0800d9.com>
-Date: Sun, 21 Feb 2021 09:02:06 -1000 (HST)
+        Sun, 21 Feb 2021 11:07:58 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] glibc: Build for power9 cpu when using powerpc64le tunes
+Date: Sun, 21 Feb 2021 11:07:54 -0800
+Message-Id: <20210221190754.2010193-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: gatesgarth
+This makes sure that we can compile glibc for powerp9 based machines
+irrespective of endianness or bitness
 
-New this week:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Already had this in tune files so move the change there
 
-Removed this week:
+ meta/conf/machine/include/tune-power9.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Full list:  Found 64 unpatched CVEs
-CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
-CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
-CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
-CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
-CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
-CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
-CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
-CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
-CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
-CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
-CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
-CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
-CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
-CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
-CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
-CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
-CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
-CVE-2013-0800: pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow:shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
-CVE-2020-14409: libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14409 *
-CVE-2020-14410: libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14410 *
-CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
-CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
-CVE-2020-29443: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29443 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2021-26675: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26675 *
-CVE-2021-26676: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26676 *
-CVE-2021-26937: screen https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26937 *
-CVE-2021-3114: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3114 *
-CVE-2021-3115: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3115 *
-CVE-2021-3326: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3326 *
+diff --git a/meta/conf/machine/include/tune-power9.inc b/meta/conf/machine/include/tune-power9.inc
+index 81d6e8e9bf..e33536c241 100644
+--- a/meta/conf/machine/include/tune-power9.inc
++++ b/meta/conf/machine/include/tune-power9.inc
+@@ -28,8 +28,7 @@ TUNE_PKGARCH_tune-ppc64p9le = "ppc64p9le"
+ PACKAGE_EXTRA_ARCHS_tune-ppc64p9le = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64le} ppc64p9le"
+ 
+ # glibc configure options to get power9 specific library
+-GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power9', '--with-cpu=power9', '', d)}"
+-GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power9', '--with-cpu=power9', '', d)}"
++GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'power9', '--with-cpu=power9', '', d)}"
+ 
+ # QEMU usermode fails with invalid instruction error
+ MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'power9', ' qemu-usermode', '', d)}"
+-- 
+2.30.1
+
