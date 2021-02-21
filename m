@@ -1,35 +1,35 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.26553.1613945841943947633
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.26554.1613945842370399283
  for <openembedded-core@lists.openembedded.org>;
  Sun, 21 Feb 2021 14:17:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X0UOaR1K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id n10so12691279wmq.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 14:17:21 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LJX0pbJB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id p3so1653266wmc.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 14:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WqTBNOaOxVjC8Zzejkt5etUvVJJectIChYm0rRcX5/E=;
-        b=X0UOaR1KAWpFIMO908HyftIw38vKtnrHawxvZjHOxVD+iJ6cV3Nc9gnqUynck+4365
-         5j1ffpfwRnWjNGQPsYdgwUYLSbLLpDbqcEaMr9COwcVRXLYGG35hnCa6qEpKJ3VA6nOm
-         gPM3eka1K7PW7cyRQGwJmjDuW8f06WAukHbAI=
+        bh=7hryA69ijfxTFqlfkDxSzjY0ov0uBo8L84pRJTFUzXs=;
+        b=LJX0pbJBeqPG2LuAn+6g1VbgGf9JqhnHHbzTKAzvwxCYFAM6BpOdAMc4Tl/xaQhZ0+
+         tW66LhXdiG37VWKUZZ04rwfOPvogwenaZiCFFHwyKTnWsXnUQ6RpH2t4RfOBX6C+yfih
+         7rdLppRZsv39Jo/VIdqqwzB0pABtzeNyD3Zhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WqTBNOaOxVjC8Zzejkt5etUvVJJectIChYm0rRcX5/E=;
-        b=bLjp9nnorQFfTjUKv5nML893FmxiENXMq1wqqxNYBilEyQyWNwxzqgLtMcF7B0pAFJ
-         r08LY6G0KmAfqqRr8+QmaLhCL2li533GGTFxO7ovbKp8KRSGCdI6VDybatGy+nSne1bS
-         ZArhyeIQ6KgHWLdomaGzWFGMm85DEwR1tGvWHwyVQUWLMsqJd0t4ksQHEvr4G1FlBdLM
-         dDqPATOUbIqjFf0IA11UbC6G6ad+VHPUIXKV+wgvtZghy44iq+docjaiuyhx/uwkhM0M
-         KOAV7LdWaAKD8HMftDzW2IAuSi3OkWkQYIuuCFIn6vNirnlWGuP5YNa4f4vsnQ9Dcr5p
-         Iieg==
-X-Gm-Message-State: AOAM532gUEckAJliS8ncyqugd8vb/ma7TwLYvun/LSx3WDRT4ZpUIy8e
-	DdJsnZT0Hg0ejP2wWVG6Dl+h+pCGxJCqCg==
-X-Google-Smtp-Source: ABdhPJzSgQXnfX3iIpZohUaTrkXVQMaCQs6mTwtyaiuzzEXe7mv7X42GEj/UHOem6f5xD6/gdQ3oVg==
-X-Received: by 2002:a1c:6a17:: with SMTP id f23mr6345907wmc.73.1613945840496;
+        bh=7hryA69ijfxTFqlfkDxSzjY0ov0uBo8L84pRJTFUzXs=;
+        b=Q5we/O1hi+jJqX8IZlinewaRcK+RaCvfhBbeZNE70sR7zfTXPzQtS9Xs8VHFurIkOS
+         fF23ZM7qnU50flbfgJge0hbccW85DCw+S4rm5YBgc/AjF1NvG9AxKoQQyT1YY2y2lqiF
+         NM3HFB27asYpt9hXYLgX9NOB47AjEPBF/LwBaieGIbPIu7ozBM4n5sJBgJ6rNycNCJ9v
+         iTvX13BvXlpP4E9SCjP1os/guy+UFwtU9a0wGOD3EStHYGWXmskTEuDKcerGC5KOiNxt
+         pV+8LMTIV5d+LzTD3v5Xw8yGTOuGq5oGXO/2RevC8/PDyM91W24B7ziJrstNbv/1nN6Q
+         gJhw==
+X-Gm-Message-State: AOAM530QmgIk9nz1t4VmBsEYkh8bhD00EqpmGkTU3RakhE/RssG2aM2Q
+	35FyUA+35g39LXU/WCPTrIdWQF66j6yo9Q==
+X-Google-Smtp-Source: ABdhPJwTMA1l2OGzMFD+NpyyUjjzOeCkgG5tvAlu1PqNBnK8RscZGrdpjW1aOPenvAqUH81LFBexaw==
+X-Received: by 2002:a7b:c8c5:: with SMTP id f5mr8666217wml.82.1613945840902;
         Sun, 21 Feb 2021 14:17:20 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
@@ -39,79 +39,90 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
         Sun, 21 Feb 2021 14:17:20 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/7] ca-certificates: Clean up two patches and submit upstream
-Date: Sun, 21 Feb 2021 22:17:16 +0000
-Message-Id: <20210221221717.3714714-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 7/7] libpcre: Drop old/stale patch
+Date: Sun, 21 Feb 2021 22:17:17 +0000
+Message-Id: <20210221221717.3714714-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210221221717.3714714-1-richard.purdie@linuxfoundation.org>
 References: <20210221221717.3714714-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+According to my tests this incorrect symbols resolution at runtime no
+longer happens. Ubuntu is still carrying the patch but also probably
+doesn't need to, they are also on a much older version. It sounds
+like there was once a linkage bug somewhere which has likely been
+resolved since.
+
+Drop the patch as it doesn't seem needed anymore. If it were a real
+issue it should be submitted upstream too, the status is incorrect.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../ca-certificates/sbindir.patch             | 10 +++++++--
- ...pdate-ca-certificates-support-Toybox.patch | 21 +++++++++----------
- 2 files changed, 18 insertions(+), 13 deletions(-)
+ .../libpcre/fix-pcre-name-collision.patch     | 41 -------------------
+ meta/recipes-support/libpcre/libpcre_8.44.bb  |  1 -
+ 2 files changed, 42 deletions(-)
+ delete mode 100644 meta/recipes-support/libpcre/libpcre/fix-pcre-name-collision.patch
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch b/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-index a113fa8b153..f343ebf16e0 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/sbindir.patch
-@@ -1,6 +1,12 @@
--Upstream-Status: Pending
-+sbin/Makefile: Allow the sbin path to be configurable
- 
--Let us alter the install destination of the script via SBINDIR
-+Some project sharing ca-certificates from Debian allow configuration
-+of the installation location. Make the sbin location configurable.
-+
-+Also ensure the target directory exists
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/5]
- 
- --- ca-certificates-20130119.orig/sbin/Makefile
- +++ ca-certificates-20130119/sbin/Makefile
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch b/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-index 6e2171f7584..f78790923cb 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/update-ca-certificates-support-Toybox.patch
-@@ -1,14 +1,13 @@
--From 30378026d136efa779732e3f6664e2ecf461e458 Mon Sep 17 00:00:00 2001
--From: Patrick Ohly <patrick.ohly@intel.com>
--Date: Thu, 17 Mar 2016 12:38:09 +0100
--Subject: [PATCH] update-ca-certificates: support Toybox
-+update-ca-certificates: Replace deprecated mktemp -t with mktemp --tmpdir
- 
--"mktemp -t" is deprecated and does not work when using Toybox. Replace
--with something that works also with Toybox.
-+According to coreutils docs, mktemp -t is deprecated, switch to the
-+--tmpdir option instead.
- 
--Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Submitted [https://salsa.debian.org/debian/ca-certificates/-/merge_requests/5]
- 
--Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-+[This was originally for compatibility with toybox but toybox now
-+supports -t]
- ---
-  sbin/update-ca-certificates | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
-@@ -24,9 +23,9 @@ index 79c41bb..ae9e3f1 100755
- -TEMPBUNDLE="$(mktemp -t "${CERTBUNDLE}.tmp.XXXXXX")"
- -ADDED="$(mktemp -t "ca-certificates.tmp.XXXXXX")"
- -REMOVED="$(mktemp -t "ca-certificates.tmp.XXXXXX")"
--+TEMPBUNDLE="$(mktemp -p${TMPDIR:-/tmp} "${CERTBUNDLE}.tmp.XXXXXX")"
--+ADDED="$(mktemp -p${TMPDIR:-/tmp} "ca-certificates.tmp.XXXXXX")"
--+REMOVED="$(mktemp -p${TMPDIR:-/tmp} "ca-certificates.tmp.XXXXXX")"
-++TEMPBUNDLE="$(mktemp --tmpdir "${CERTBUNDLE}.tmp.XXXXXX")"
-++ADDED="$(mktemp --tmpdir "ca-certificates.tmp.XXXXXX")"
-++REMOVED="$(mktemp --tmpdir "ca-certificates.tmp.XXXXXX")"
-  
-  # Adds a certificate to the list of trusted ones.  This includes a symlink
-  # in /etc/ssl/certs to the certificate file and its inclusion into the
+diff --git a/meta/recipes-support/libpcre/libpcre/fix-pcre-name-collision.patch b/meta/recipes-support/libpcre/libpcre/fix-pcre-name-collision.patch
+deleted file mode 100644
+index 89b44f6aa6f..00000000000
+--- a/meta/recipes-support/libpcre/libpcre/fix-pcre-name-collision.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Upstream-Status: Inappropriate [debian patch]
+-
+-This patch address a namespace collision with libc.
+-
+-Although there is no "#include <regex.h>" in the source file, at
+-runtime, it's unintentionally linked to the libc version, the regcomp of
+-libc is called instead the pcre one using pcre's data structure...
+-that looks like a disaster.
+-
+-Can patch is from Debian (and Ubuntu 11.04alpha has it also).
+-
+-[sgw: added patch comment]
+-Signed-off-by: Qing He <qing.he@intel.com>
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+---- a/pcreposix.h	2010-05-17 00:17:23.000000000 +0800
+-+++ b/pcreposix.h	2009-01-15 04:32:17.000000000 +0800
+-@@ -133,14 +130,19 @@
+- 
+- /* The functions */
+- 
+--PCREPOSIX_EXP_DECL int regcomp(regex_t *, const char *, int);
+--PCREPOSIX_EXP_DECL int regexec(const regex_t *, const char *, size_t,
+-+PCREPOSIX_EXP_DECL int pcreposix_regcomp(regex_t *, const char *, int);
+-+PCREPOSIX_EXP_DECL int pcreposix_regexec(const regex_t *, const char *, size_t,
+-                      regmatch_t *, int);
+--PCREPOSIX_EXP_DECL size_t regerror(int, const regex_t *, char *, size_t);
+--PCREPOSIX_EXP_DECL void regfree(regex_t *);
+-+PCREPOSIX_EXP_DECL size_t pcreposix_regerror(int, const regex_t *, char *, size_t);
+-+PCREPOSIX_EXP_DECL void pcreposix_regfree(regex_t *);
+- 
+- #ifdef __cplusplus
+- }   /* extern "C" */
+- #endif
+- 
+-+#define regcomp pcreposix_regcomp
+-+#define regexec pcreposix_regexec
+-+#define regerror pcreposix_regerror
+-+#define regfree pcreposix_regfree
+-+
+- #endif /* End of pcreposix.h */
+diff --git a/meta/recipes-support/libpcre/libpcre_8.44.bb b/meta/recipes-support/libpcre/libpcre_8.44.bb
+index e5471e81da3..cd80dc7345b 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.44.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.44.bb
+@@ -8,7 +8,6 @@ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=3bb381a66a5385b246d4877922e7511e"
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
+-           file://fix-pcre-name-collision.patch \
+            file://run-ptest \
+            file://Makefile \
+            "
 -- 
 2.27.0
 
