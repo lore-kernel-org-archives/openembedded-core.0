@@ -1,65 +1,54 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web11.22281.1613926295793351211
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web11.22379.1613926834094428185
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 08:51:36 -0800
+ Sun, 21 Feb 2021 09:00:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=SklVEn7I;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.195, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lj1-f195.google.com with SMTP id r23so51346863ljh.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 08:51:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lnULkgj5;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id w19so10425545qki.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 09:00:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=uRoIjNL9d5fdwwMB44fdTnA3AayTdnmKpUR+vFEEUxc=;
-        b=SklVEn7IlevaOOeaYguX7Yz3Duukr8Ok4atH/Kl90eeAb52u9xprR+GVO3mXb3WAC/
-         BJfFPULMNP9nO+szJot6JMNsEniyQ6CBlUGpBe8LBQpg6ralvsuZSBubtofNmNxWZmy9
-         dntyfVjDvykFovwOr0XS3c9oKSzGuEM84pOYUrC41TyIE50enWpVoq4ospVmZCPwjCUX
-         Vrofn+AyH8hpqDyphwjx6xGcDtBD3SesR9j6PmQJ1lp6O3Mmwjy9jZI2+/uBNLYI8plg
-         3FN1A8KR0okoqcNROH/g/Yf6K4d8nJ4ke0VcX7JqQtmWJmFfToyx3OWX2uY39Q3ApshP
-         Bv/Q==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1U9ojHqBUbjwYg72aAXf/kim9E1l8dhatd9XS/9P+z0=;
+        b=lnULkgj5ZADr6R9A4IF8ex4bOYRYz/aFBTFzi1H9JBGKgB5+Q/eRXADYkpIVxNa4ar
+         k8xhWaNaiaunBgL2dg5iIbUlPvcjdGJhhzeomxJz/dUb0Qz/lsgFDD5yIQ8oxeS4lSF3
+         zxbAoaDo3JgUNo3wcSNMgfxIWOHtZ0q2YUFoEVwdTU76280+jyOes3U1b9JHWS6ehO0C
+         mV/ab+3Z3AgUQLtYds4eqc/QNb/RGJLxERUHmeQuTD7lgRvxJIRlfDOSw9SmIJTR22PA
+         GgT5l1m222EahhuUGVdg+f2xp+K1BB/8OZpUwDSrvwXPQB5ztKbWy7etL7SH+D84eDGK
+         ZJ1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=uRoIjNL9d5fdwwMB44fdTnA3AayTdnmKpUR+vFEEUxc=;
-        b=JQ6dYNIx6cTmcxPAa7c5kmBEDzS1ojRu9esirLJsmI9D0SQETj20G+XisuX9kotmUy
-         ze9EEmEEcwZTarQAiqkib6AFhKc6r7yGx4gv+pmRfOukbSrgCwt9I342j85YgiTJAtjJ
-         VNZSoZgN9BaKDaMIDAd127KU2ActjJ/ymJ5358CVVODPo+x1Mkv1MJYlZ1+qHD1pp2nl
-         uSLd4k7z1mQlgiLrzRHByEvDC2evRukS1bGyVvmkHeRjzicut3iNgYA8uwY+sZUPKIjB
-         WktCPyR5DZItQ4KonToQZyK+VcUTl6zdtgeAHyep8N2ctypzcSHjnIZeGk/jmgrD00HR
-         yitg==
-X-Gm-Message-State: AOAM533N2JhappxweHCMuzM/2EH2ZzZN45/rLOJsh9PWGFOCmfmHMT95
-	JFK2BC2vebW1/86dTgJbd/t9rg==
-X-Google-Smtp-Source: ABdhPJxTxB3rUbM7XWgMRdM5a2PT+b4PMlMzPU85QY/S4xpeD/EyAlOQpGaqQS2NYrTnAhg+rR/zmg==
-X-Received: by 2002:a19:8503:: with SMTP id h3mr11049538lfd.488.1613926293817;
-        Sun, 21 Feb 2021 08:51:33 -0800 (PST)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from [192.168.0.8] (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id w6sm503328lfn.136.2021.02.21.08.51.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Feb 2021 08:51:33 -0800 (PST)
-Subject: Re: [PATCH] cups: set rundir to /run/cups if systemd is used
-To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com
-References: <20210221164919.389109-1-open.source@oleksandr-kravchuk.com>
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
-Message-ID: <007cf865-82b2-d5c4-6720-76e9009e8e6c@oleksandr-kravchuk.com>
-Date: Sun, 21 Feb 2021 17:51:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1U9ojHqBUbjwYg72aAXf/kim9E1l8dhatd9XS/9P+z0=;
+        b=T/dc3qcK3ozBz5yMYYDjaSbyNfyuC9JmQARnwMPpRt9K5w7Vd3W0n/k9IfHjwgOYSl
+         9hBgbu9p8En8CNb0Qb9GjV9C/yywKd9XkPIHx+sfJW93Qadq5jRBj8iQ6HFtbemIhbD8
+         QJnTucInsNFnjvx+3gTRRPSg6hE7w8P1VqP+ujELFtrdSwiHW969FwgU44FmdrmppFBe
+         Lrohl4PDNtOeM0Zl/sBKh4scnKlB50mQbm6Fttf0ASlLZxPTC39R2pnt49qfD9EMyrmj
+         wiKjI/kLZcLzQzLarO9FC4tCQ4T3626DE54cXGeA0FbooqCJJnk/GUOhDMa3OwjxKxIU
+         MbZQ==
+X-Gm-Message-State: AOAM530F+P5Ba7K0/St7RCiwuigqRc1HFt5pRgKQRgxw6POBbTh/5pXN
+	n2sGpUSeV2S+vL3fDF8j0i9cj/hZkE2Wp67AJPg=
+X-Google-Smtp-Source: ABdhPJyPcfoPdP5gbmwtjPoY0dziFt5Zd/JwkaBU9+rUlwlrD/ad8OufwkZX52pqAFkrwU5vPrRQz2J52kFQnwJ0C5Y=
+X-Received: by 2002:a05:620a:b95:: with SMTP id k21mr17376327qkh.125.1613926833239;
+ Sun, 21 Feb 2021 09:00:33 -0800 (PST)
 MIME-Version: 1.0
+References: <20210221164919.389109-1-open.source@oleksandr-kravchuk.com>
 In-Reply-To: <20210221164919.389109-1-open.source@oleksandr-kravchuk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sun, 21 Feb 2021 09:00:05 -0800
+Message-ID: <CAMKF1srD9-GcaVsJZ+AQ1ZGs6FpuFWbuCVf3PRaO7p3YWh-m_Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cups: set rundir to /run/cups if systemd is used
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Kang Kai <kai.kang@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Kai -
-
-Could you please verify and confirm the fix is correct?
-
-On 21/02/2021 17:49, Oleksandr Kravchuk wrote:
+On Sun, Feb 21, 2021 at 8:49 AM Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
 > When running under systemd, cups needs to be configured with
 > '--with-rundir=/run/cups', as systemd takes an exception to the
 > activation socket being under /var/run and relocates it.
@@ -72,31 +61,49 @@ On 21/02/2021 17:49, Oleksandr Kravchuk wrote:
 >
 > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 > ---
->   meta/recipes-extended/cups/cups.inc | 5 +++++
->   1 file changed, 5 insertions(+)
+>  meta/recipes-extended/cups/cups.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
 > diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
 > index e7a704134c..a8e8d115da 100644
 > --- a/meta/recipes-extended/cups/cups.inc
 > +++ b/meta/recipes-extended/cups/cups.inc
 > @@ -56,8 +56,11 @@ EXTRA_OECONF = " \
->                  --enable-libusb \
->                  --with-domainsocket=/run/cups/cups.sock \
->                  DSOFLAGS='${LDFLAGS}' \
+>                 --enable-libusb \
+>                 --with-domainsocket=/run/cups/cups.sock \
+>                 DSOFLAGS='${LDFLAGS}' \
 > +               ${EXTRA_OECONF_SYSTEMD} \
->                  "
->   
+>                 "
+>
 > +EXTRA_OECONF_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES','systemd','--with-rundir=/run/cups','',d)}"
 > +
->   EXTRA_AUTORECONF += "--exclude=autoheader"
->   
->   do_compile () {
+>  EXTRA_AUTORECONF += "--exclude=autoheader"
+>
+>  do_compile () {
 > @@ -105,6 +108,8 @@ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps',
->   FILES_${PN} += "${libexecdir}/cups/ \
->   	       "
->   
+>  FILES_${PN} += "${libexecdir}/cups/ \
+>                "
+>
 > +FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '/run/cups/certs', '', d)}"
 > +
->   FILES_${PN}-lib = "${libdir}/libcups.so.*"
->   
->   FILES_${PN}-libimage = "${libdir}/libcupsimage.so.*"
+
+/run dir is created/populated during runtime. you can use tmpfile
+fragment in do_install something like
+
+        if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true',
+'false', d)}; then
+               install -d ${D}${sysconfdir}/tmpfiles.d
+               echo "d /run/cups/cert 0755 - - - -" >
+${D}${sysconfdir}/tmpfiles.d/cups.conf
+       fi
+
+
+>  FILES_${PN}-lib = "${libdir}/libcups.so.*"
+>
+>  FILES_${PN}-libimage = "${libdir}/libcupsimage.so.*"
+> --
+> 2.25.1
+>
+>
+> 
+>
