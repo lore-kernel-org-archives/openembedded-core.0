@@ -1,81 +1,95 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.19017.1613906491242818414
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web12.22360.1613926169786962977
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 03:21:31 -0800
+ Sun, 21 Feb 2021 08:49:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ao3wrn+X;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id m1so11786704wml.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 03:21:31 -0800 (PST)
+ dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=OIQSSWcm;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.208.194, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f194.google.com with SMTP id g1so45327605ljj.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 08:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=CsaKRejoY84PhgqYuuEP/zeS/nwYrtyGw/8OVIPvOWk=;
-        b=ao3wrn+XUoYFK0gNKfS8+tvTtlS5dcQeO8TfZEmsWMrsNlfl3CwX0xdh+T2Eetho/Y
-         fGul0A4m9AJAVzsaPQOsMZ9bwYBXufSmaL9CJpvlfdki8jaYBgGkxCYJejoGM6ZRToVi
-         JEGMr3obDdIoy73nWoqkvWX37gPJDZ5/ft6SY=
+        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r/3wepuaccNKrQjM4OMt0/wot28W0mp0YlHGENhUg50=;
+        b=OIQSSWcmoywZNOJQwUrbK3/X52EgMszWhOjNRy+R5k+AbfVItJSzHKCFhfpq2Cunju
+         ytOH+hNCOiV/5sY30+sqtN1kzw1O4U5wob66scS7jUx/9VLBgOuIGO0qR+4KmBU3iQ5I
+         /FM8I/ci0A0EJkui7U0Vzp4OWL6iQ1j6Mu5fR1wOICBjv3AczUJLkknyIQDuiwRj4Tk+
+         Zk1T1xLKJEVpDIaw8BI5fJ73FBnot9bi1EaMvrGFIGhZfGj+n/CDPeaX/eVsUdyE0r9B
+         Yy0pW304LLawGwvljXOZiIZxsA2X9rQAztGIa7LxLPcSXkGvPHbzmDnfOFz6bySIpbQ6
+         xz7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CsaKRejoY84PhgqYuuEP/zeS/nwYrtyGw/8OVIPvOWk=;
-        b=a4CkqaRg77EriwhFG+aY7lWeP2vyjUUF0whYxI1GS84GCwHtmge9ygRwtbvtKnWRBQ
-         xhN912iY+fyIm/+k7DQIi4i+wDDn1s2Gb597Ic1VgRAXY3AEGI72pUAFXeqFfindRn2P
-         T1/J3LkbSu88rQqnix1FYdApgf/vPr7GhDdJN7lTjMtfyPBApt3URH+/8DNtS8y+A7+Z
-         tFo1nkeA2cc3kTGBiRMr5veBN0iXKV+d7OXL7Hp74KlORPv9R2BlZOHdVqnUfaxCwIEs
-         rrPDZk/OASVGQJI1cYUXTS4gQ0sL9gC4Hs+TPCQEKuhfQgi2r0Ke1VacPPW0UxxOfLiv
-         gzeg==
-X-Gm-Message-State: AOAM5325s1p2OERALGOfZUzC0DVXHt1GQ9HdqwYaGlFG3UbqULNtqoHy
-	B+E3AgN1lobA3Kt7q43FRZbzuQ==
-X-Google-Smtp-Source: ABdhPJwxH9mEtgMxV1QalDhVV0jxiBuVSgc295/RWnwwqMNiL9ZbgieINwD3eeLMuwNo5ExXiy5KEA==
-X-Received: by 2002:a05:600c:350c:: with SMTP id h12mr15558611wmq.39.1613906489580;
-        Sun, 21 Feb 2021 03:21:29 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:eeb2:36b3:1702:48df? ([2001:8b0:aba:5f3c:eeb2:36b3:1702:48df])
-        by smtp.gmail.com with ESMTPSA id b13sm23429223wrs.35.2021.02.21.03.21.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r/3wepuaccNKrQjM4OMt0/wot28W0mp0YlHGENhUg50=;
+        b=b6exmlDhjJpLMNZbavb+TbDsrY9H0RYeAIZyoJW+wuHo5X6GUpOprVxylDWjwgAvi3
+         RzZiS36dRoW5VJelwSxkvf1MwfM6NKOcHvyJg/45IIoWXyvJ3E+kz8sloJ8OHziGIwEs
+         UIYduR7sk20RNY5LaTSazitQt1yOmjVMfHV8wPn1MDTzs6mEIwmdo6gojkrrXBqX2p6y
+         zvFagdMvXBRmSCC+VoUzJntjh15DJBmQkV6GG/UGe1YZxPX45kYShEIbTYQGDzZ8yPe6
+         3DwSFSdyK18925tyzlJjAk0o/QHUxiMZq09M3WNKbJOLoKBOe3SJAWycj/C5bvoJ0RyP
+         ZsMA==
+X-Gm-Message-State: AOAM531c/cETYRz5Z9vEJwYzVsPn1stzGgVsnZaxUCmY4F02AjISPkAU
+	J1SYN3bCP/hQtoXRF2Y5fFg/Yf49kB2v2Hfq
+X-Google-Smtp-Source: ABdhPJz0JHuNGcs3HauLCQ8gzinri9sZ/cahikREREZ0ODd63Ay17jvzMgE3KglcUb8/Krz4DtSLkg==
+X-Received: by 2002:a05:651c:503:: with SMTP id o3mr12456939ljp.2.1613926167580;
+        Sun, 21 Feb 2021 08:49:27 -0800 (PST)
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
+        by smtp.gmail.com with ESMTPSA id b5sm693136lfa.189.2021.02.21.08.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Feb 2021 03:21:29 -0800 (PST)
-Message-ID: <f28ca99de869b3ab09e0f5f0543f11b12cfe67a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky-contrib][RFC PATCH 4/5] license.bbclass: Add functions to split and canonicalise license strings
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ida Delphine <idadelm@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 21 Feb 2021 11:21:27 +0000
-In-Reply-To: <CAN7sTgsLSTjyLvPrtUVjhEBxh1bOVRHkp+9DkO6rEQ4=uJtTNA@mail.gmail.com>
-References: <20210217040033.21541-1-idadelm@gmail.com>
-	 <20210217040033.21541-5-idadelm@gmail.com>
-	 <2efffee96fae455b8cdb77d47c576bfe@XBOX03.axis.com>
-	 <06102c024bfec00745d9b2dbde8b19a7fb4207b8.camel@linuxfoundation.org>
-	 <CAN7sTgsoLjsnao0ijuidAP_hjTQyibeU7MWHXybbROTU0k290g@mail.gmail.com>
-	 <a04c7bcd2ac63ea7a9971f011c4755f741deaaed.camel@linuxfoundation.org>
-	 <CAN7sTgsLSTjyLvPrtUVjhEBxh1bOVRHkp+9DkO6rEQ4=uJtTNA@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Sun, 21 Feb 2021 08:49:27 -0800 (PST)
+From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: kai.kang@windriver.com,
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] cups: set rundir to /run/cups if systemd is used
+Date: Sun, 21 Feb 2021 17:49:19 +0100
+Message-Id: <20210221164919.389109-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-02-21 at 04:04 +0100, Ida Delphine wrote:
-> About moving the functions to license.py I have some trouble importing 
-> a .bbclass file to the python file. In one of the functions I made use
-> of a function found in license.bbclass. Just wondering why it's better
->  to move the functions to license.py instead of leaving them at 
-> license.bbclass and how I will deal with this import issue
+When running under systemd, cups needs to be configured with
+'--with-rundir=/run/cups', as systemd takes an exception to the
+activation socket being under /var/run and relocates it.
 
-The functions in license.py will need to be standalone, they can't easily
-call code within a bblcass, only other functions within that module. That 
-suggests you may need to move other functions, or maybe not move them at
-all, it depends what the code is doing really.
+This leads to fd duplication in cupsd and an inadvertent closure of the
+activation socket when the daemon exits due to inactivity, so that the
+daemon cannot be activated again.
 
-We also need to be mindful about dependency tracking. Code in bbclass
-files is scanned for variable dependencies, so a getVar("XXX") will
-automatically add a dependency on XXX for the generation of task hashes.
-Once the code moves to license.py, this does not happen so we have to
-account for it manually if needed.
+[YOCTO #14152]
 
-Cheers,
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-extended/cups/cups.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Richard
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index e7a704134c..a8e8d115da 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -56,8 +56,11 @@ EXTRA_OECONF = " \
+                --enable-libusb \
+                --with-domainsocket=/run/cups/cups.sock \
+                DSOFLAGS='${LDFLAGS}' \
++               ${EXTRA_OECONF_SYSTEMD} \
+                "
+ 
++EXTRA_OECONF_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES','systemd','--with-rundir=/run/cups','',d)}"
++
+ EXTRA_AUTORECONF += "--exclude=autoheader"
+ 
+ do_compile () {
+@@ -105,6 +108,8 @@ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps',
+ FILES_${PN} += "${libexecdir}/cups/ \
+ 	       "
+ 
++FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '/run/cups/certs', '', d)}"
++
+ FILES_${PN}-lib = "${libdir}/libcups.so.*"
+ 
+ FILES_${PN}-libimage = "${libdir}/libcupsimage.so.*"
+-- 
+2.25.1
 
