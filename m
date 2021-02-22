@@ -1,77 +1,65 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web08.1653.1614033835442220347
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.1982.1614035145129202248
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 14:43:55 -0800
+ Mon, 22 Feb 2021 15:05:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=n9aD/t4I;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id s3so10512631otg.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 14:43:55 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QQYuFzER;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id 7so20778294wrz.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 15:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UYwLQ2rKkM+edKgsTDstTEYmAFtH4/ymDNR7U1w5zX4=;
-        b=n9aD/t4IzKbmuDQvEicf+ojD/8y2xBUV4ppwB/BxXSWrWOUYW+q3bfQpM7708kQnts
-         uCs2k6bG35NiTf4BHHI6R/kBDZWOdlzdElAKbLWlzzn3QnV3KiuH+H9s5413bgmJBE+o
-         UwSxtzwoAKruLskEmXKDcQ07PXuEZhDU7XNj2GuJfE3nisgbR3IkweojxmiIbtqf0Ryk
-         sUMAR7kKPyTAXTdKUGXIJRf1zr7DcLE1Cahrw0QrjhaPYtdnHAKrXwW0zLZgJ3GfXjpo
-         ExO01wDhTF4WnoKPZzIBmJHCmQ4i7FQZs+r+Di/KuuT1DqCblTG/8TuNgNKOjkk8Mopx
-         ohFw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=S453RHl8d7RMHF6Bkl6YyCryQ0J2tquJeeF3potmFqI=;
+        b=QQYuFzERM596k16SyPkVEyWdiqBstJnS93roAem7OWs2jBZDk8YkE2/Skwj/L8l2uV
+         O8wsJQ8Ehxfwp+w6bS0tnzUrOMNeEMM6kb+b579ICDlXT8SQF77K4S4tWUHRkWiUkVS4
+         MvXpp2uXUOZnCZPL7byHb3Jd2vZf/xFU8Jh4o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UYwLQ2rKkM+edKgsTDstTEYmAFtH4/ymDNR7U1w5zX4=;
-        b=Y07nu9G6EEu6UokZ+JQn5KGIJ/22GrfoXPgbzn1rA8BXUvDDMT2afkLmr+NsFcKHsY
-         iFTybXubcxvrayApIg9ycQFckwP76RodoHvUW4AswSv1iF2z3n0TPNYN5QeWZWaf/+rZ
-         EWnMUqrfMYnrHjZkBzD37a/gPOLCmrM1+sDCPNOcxQz1wCCRQUgCYsARImHb2SlScaVR
-         UtQCGyqU8qzLksKvC/Ch5kAtBXJwn/dUyTYiLJoyQc1tQiIST/P5DDXpumkgf9UyAGF4
-         9i8rbjSmlpiViYocL/6fshXX6Ydtfj1VBjEN6jglrvo3mapdxdR9J6c8anNBmfaTjTcB
-         cO/A==
-X-Gm-Message-State: AOAM531jO7+DC4SQOdmgEfKX0ZwInAQR+/EV1V94sYCjAm8KHzAFCNef
-	K1oLjjuBePMI8hSo04R0FsTzdADdsKU=
-X-Google-Smtp-Source: ABdhPJzjbsCpMtba6eTDxYJ7LqaSw6od43jI30rm4klrllOAsHqJ/GKd/gowxQ5/dbb9s3jpM+nHXg==
-X-Received: by 2002:a9d:674e:: with SMTP id w14mr16211496otm.264.1614033834509;
-        Mon, 22 Feb 2021 14:43:54 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id l4sm3662578ooq.33.2021.02.22.14.43.53
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=S453RHl8d7RMHF6Bkl6YyCryQ0J2tquJeeF3potmFqI=;
+        b=O+pdzcPxF6+J/BdYie5+6j3NY/13R0jPxTK0rB2TqHeNpwJgZFoL1b59CkhKSXBpto
+         e818SNMSl3DDuU0j/jqou70RAwS6Cx76hjWDOh5BVpo57i/aSggUAiYkFiiX+WL0bgmR
+         pFgdeuiRl84kHeXmy7pxh4nrLxrxLz+9v6iLlj9ITweEnhuFyZk1b0K+TT+njQXbhI4F
+         /arscaCGDR+ZeDO4qVyJQnV9cdZBJivDdTUBmNKvJKRFeqoqN1rQ9Wt8IPKGFA0jm6ls
+         Q7zH/oJwfPjNP6fWY0/cJD9uuVPJXqk5r04Dus1TpIkFyTHBe/mGouU4HmgaA6asqEeC
+         eXCA==
+X-Gm-Message-State: AOAM533f0ivFKKFx5q+aEqrEbeD83QdbYyub47Y+UR9Qebk0yAVRLGbS
+	iZI5EVpYyG7DL3cSPX3oqmjYgA==
+X-Google-Smtp-Source: ABdhPJwUgM4CtaHi6qURjpS4vaUchPC/6TOnXohvS+/ubuJ4NDg2GO1VepEXaIsKe6w6/M/z2G/Mmg==
+X-Received: by 2002:a5d:470e:: with SMTP id y14mr24123199wrq.140.1614035143679;
+        Mon, 22 Feb 2021 15:05:43 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:9491:94ce:53e1:ca3c? ([2001:8b0:aba:5f3c:9491:94ce:53e1:ca3c])
+        by smtp.gmail.com with ESMTPSA id c62sm674631wme.16.2021.02.22.15.05.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 14:43:54 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: jsmoeller@linuxfoundation.org,
-	richard.purdie@linuxfoundation.org,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] diffoscope: Add python3-rpm as dependency
-Date: Mon, 22 Feb 2021 16:43:47 -0600
-Message-Id: <20210222224347.26729-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        Mon, 22 Feb 2021 15:05:43 -0800 (PST)
+Message-ID: <e45373a3e9684d05ef153d75a30792c5a4da3b37.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] go: Update to 1.15.8
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>
+Cc: Khem Raj <raj.khem@gmail.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Feb 2021 23:05:42 +0000
+In-Reply-To: <CANNYZj95gnx7fvXZ-Ox3ic47zDxavKHE2yg_bVVTHBgTrBcTnQ@mail.gmail.com>
+References: <20210214084905.3353606-1-raj.khem@gmail.com>
+	 <54bd9d57-d197-7a67-6793-8b0800715362@windriver.com>
+	 <CANNYZj95gnx7fvXZ-Ox3ic47zDxavKHE2yg_bVVTHBgTrBcTnQ@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The python3-rpm package is required for diffoscope to diff RPM packages
+On Mon, 2021-02-22 at 21:39 +0100, Alexander Kanavin wrote:
+> This may take time to prepare, and freeze is getting close, so I'd rather take the minor update now.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-support/diffoscope/diffoscope_166.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The minor update already went in, its just a question of whether 1.16 
+could be ready in time.
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_166.bb b/meta/recipes-support/diffoscope/diffoscope_166.bb
-index 14c95fe5af..888694f066 100644
---- a/meta/recipes-support/diffoscope/diffoscope_166.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_166.bb
-@@ -9,7 +9,7 @@ inherit pypi setuptools3
- 
- SRC_URI[sha256sum] = "20d0b4091ae535dc7d094bf5f366e0687e0b4337a268254b11925b8e7c9ea9c4"
- 
--RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
-+RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
- 
- # Dependencies don't build for musl
- COMPATIBLE_HOST_libc-musl = 'null'
--- 
-2.30.0
+Cheers,
+
+Richard
 
