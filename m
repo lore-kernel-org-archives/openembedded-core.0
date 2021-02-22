@@ -1,111 +1,152 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.32381.1613985503977318201
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (EUR02-HE1-obe.outbound.protection.outlook.com [40.92.68.94])
+ by mx.groups.io with SMTP id smtpd.web08.32944.1613986320779035518
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 01:18:24 -0800
+ Mon, 22 Feb 2021 01:32:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uQf57YCR;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: mans.zigher@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id y7so53791011lji.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 01:18:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K8Im3yZrQjfsRAnElZKbBpHSiUjo8UVsBr5OCn2IYP0=;
-        b=uQf57YCRnULNL9UBqm9bKz6YQc2l7T9vvNdyrhgFm0B1WO6mbOi0vznOUXVawRBFjV
-         wDqCYHuj3lpr5DAMWd9PGoda4oUxphyW+IQMLFMsGOxF2blj58+5Kl1JhO96gzkdFvz3
-         3b4hmlu+QLdCaXTo1/mhDdg1IrTol6VHwP95lBobaBN8OYUP07IBkzdW4kxp7IKh9sz5
-         cfvA3bGlX8L9QqE35x3h83ZYiDv2+6gOzLwEpit5+l/dP7Dal5yGc6GToqI0+8spgLzL
-         L9rxh57RYx2Q9EF+gRkWEKWa2p99ERlgzDstSb4w+fXk2CjPXwPaiXGgeTteo90VMVvq
-         6LiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K8Im3yZrQjfsRAnElZKbBpHSiUjo8UVsBr5OCn2IYP0=;
-        b=HePsKRb8R4r/xLf14UTBWoY/9zOGGqx8bXDTk/0en7RxRasY1LMXF78R6faRkWiuuj
-         Miif9JLn7ufeiKzoZA3jOwdPw9TDG2Ua9C+j/xZiwcJdG73hDBHuXCFCYz22ZJ2FOgrN
-         TiHApIr4KACyYoN5WyUzqCNpEaTcJe0W1VipC1aTe/6EOHoz2fmFB1ItDwSyRA2SAPHX
-         1nsVQTC/VgMqXOmYq9tos/0vLNggRuIl6EdX3RunSe+3Clwz11gjWp4lxUteWqaiiI1Y
-         mCvwI+o6KEDLT3t8w3iKrmubyJfYDgHUmVQUeKyyz3C0to37ORJOJF9prfKnOoYVJHv2
-         36+Q==
-X-Gm-Message-State: AOAM532IxbFNI8tO/UKsLeAXl3ANK4Nr4k79b0urViEr9Ef3m2N14E0a
-	K8kKGUfP9XWrwocK2stkCf3kQXkgPQIbHRMl+0Y=
-X-Google-Smtp-Source: ABdhPJxbhVG15G8Q+KKIpV6p7qT8LzXTb3DElZ0gig+VRAPzUNxT/r7GyY6gF7LBqhCT/AFle1Du//qrz92xj5qgHYU=
-X-Received: by 2002:a2e:9812:: with SMTP id a18mr7153433ljj.479.1613985502139;
- Mon, 22 Feb 2021 01:18:22 -0800 (PST)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=CaeFMOBd;
+ spf=pass (domain: outlook.com, ip: 40.92.68.94, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FSanIZXGi0U3xi+pBU25Lg5HS8nZc4wzsz3ertTiDo4OcVHXfm37iEcJaoY63/ltOKpMobfhzu89c2a+g2ipIiodoP+lcYl35HN3w9CtTMe/EV533CNuurl8GyVAV8fNFR3EXSGKkUzM8rMVoZChjxr6H3XtxCFzq3CHY9f0LZYgUVs4HQtjqHSXu4vJHXCqnvbFhaNUcbqMkGvh8ulxC2zBEJSLRJokSSpX3NCEZArCiSqBjlRJ6Bajt//6Sfug9RtUHNDpwKuAxoLhnwyuU6biV64LVE5GSo4D0TXtDHa37fJlhlQzZYHyQilcUXznwL3DTqot4auXD/XgDY4c9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OKxmIIxcZxLYb61XgYGJWSi/eC7Y9RVwphrFL7u81Bw=;
+ b=XzyFM0GOeXx5ViGzIxn57Fkv7UnbWHX+kq/W6oKiSvnY25TelTk/tjDfr3F9c2q7SaIx2SvhCxtOTJHsZLeIG+s6nUubLzFcrdXg9aXprUY+2eIXqjtBXNlj2ZfIIOhBbvXBcp8Ybv/x7YIiWwOB76N6hJT2qCyVS54NyZi7eZj7+G0kSXQZEtlfZkLZ5N5POE8PQwlZIX9ZgNrXrHInZpv50qmepJclN982Q93najQKEEA7t2RceN7DNAbqLjD70DYxYizWIJDxyiib+e5algOfhlVV6guJMN8xEDA05edj18ijKAPqugPHWO0plqJ/APTcd+Ca1s4mFgb1CgauFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OKxmIIxcZxLYb61XgYGJWSi/eC7Y9RVwphrFL7u81Bw=;
+ b=CaeFMOBd3fQT/pTeZKcFFA/7J6yi/vTKWfZ9rvpMsfHlinEr8a0LJnmT9oQEksNX0JH1o6tg/PwZzUpXtPGtztAgCa1029laQ1XmNQwWcdMeCXc6fN2W9RdS6v9fUc+4s9Bu5o/k7p4QVKaCZ7qqB2p82DscmQbCxrOa1tjqYwWsl1ZDFCru2+lFFVKJhXSuqmhkudkl4Gh1dnzOpON7l4zobZCEJnR+tKyJqHwIfYRG0flcK21fpFODiG2TaL6CQAJ0KZx16xerOiMQnEa95svH8leMtsAbo9izLkTqA42cVIRycsiX3QZ7m2ewspOfzVGCFzF3WJUFR3GIdZK/Cg==
+Received: from VE1EUR02FT045.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1e::4c) by
+ VE1EUR02HT051.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1e::274)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27; Mon, 22 Feb
+ 2021 09:31:58 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e1e::46) by VE1EUR02FT045.mail.protection.outlook.com
+ (2a01:111:e400:7e1e::192) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend
+ Transport; Mon, 22 Feb 2021 09:31:58 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:A2393D9911C5639231724B9F96CFE902E5B03389DCF586D24E16186C48B5E5E0;UpperCasedChecksum:2639CEBF0A74EE32BBCC0715073E5D474F2A39D6FE2742E3F7E72B8BD343A1AD;SizeAsReceived:9199;Count:47
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::35f3:a85d:b2c5:d4b4]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::35f3:a85d:b2c5:d4b4%4]) with mapi id 15.20.3868.028; Mon, 22 Feb 2021
+ 09:31:58 +0000
+Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
+To: openembedded-core@lists.openembedded.org,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+ <AM9PR09MB46421810B3B2B59AAB545357A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <adeb07bdec1909082286a2dd6d16757adaf9098e.camel@linuxfoundation.org>
+ <AM9PR09MB46424CCD4DD40C8DC3F59403A88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <df38a497ef1c31b72445d7ae2361d3d6db676f6e.camel@linuxfoundation.org>
+ <AM9PR09MB4642F1B612B2BC92D05BC20AA88C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <75a09549ba5b0c04119f49c936af3e28e7ba9f80.camel@linuxfoundation.org>
+ <1662BA34B045612A.24722@lists.openembedded.org>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB464297663C3664FD80067A2EA8819@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Mon, 22 Feb 2021 10:31:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1662BA34B045612A.24722@lists.openembedded.org>
+X-TMN: [fLOaEnwYjRfvWQ269FV5R7QKnhL+BNAX]
+X-ClientProxiedBy: BEXP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::19)
+ To AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <59d9c101-89d9-c459-106a-0d73c714a979@outlook.com>
 MIME-Version: 1.0
-References: <CAEhQi8=E4K3h5Y8ui3PRXYx68Jgk=RzShj0UwQEcGupd_YMYWQ@mail.gmail.com>
- <9802d27eadcf72dd628a236fb42b06834d1158e1.camel@linuxfoundation.org>
-In-Reply-To: <9802d27eadcf72dd628a236fb42b06834d1158e1.camel@linuxfoundation.org>
-From: "Mans Zigher" <mans.zigher@gmail.com>
-Date: Mon, 22 Feb 2021 10:18:11 +0100
-Message-ID: <CAEhQi8n443scKapCNSRw0R5Yj_1+puUq1O-2rQua6Lcf7y64rQ@mail.gmail.com>
-Subject: Re: [OE-core] [Question] "global" package list used to bump up customer packages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.94.135) by BEXP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.8 via Frontend Transport; Mon, 22 Feb 2021 09:31:57 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: b6cbd655-10df-470b-23dd-08d8d714b2c5
+X-MS-TrafficTypeDiagnostic: VE1EUR02HT051:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	cRjUxuFJMCpigtKpA0S0BBA8upDe96ZcDgo2gaG/YaB5w80UXCcycBOEUea8JiUMh01kbrdGwhaj/0nFDe6Ycp4Yfva/dvQKKiNjyBSTUFZTn5uAjVq/FWZnw5oUiyr7vGOO3r0mmGxhMwSQyay2PItPlU2+oiDSHxSjE9DHE0rhaSxUx+YKB6shgU9itf8mtpgtSusoJG8FrGmFay0y3koCiKtJ5iRNWCA/2YOQ48cW9d/XSu1bCPq/1/O2gkksoDbi3FxqrNBkXHjIV30mNa0ac23LsrmpqnMfsmpWN9W54LxKbIBsLi7UkVKiFdff04DPGMmgeavccrtlUnv7q1ZNMf/7YOAB1LQY4OZT+z6vTEF8Iqc2eTzBF/ENcB6jlZPa+JEuIvj1BMI76Mei6iEI/UKyXczy3jq0+P0nOiVTouL/tyNrcW81NwovKyoz
+X-MS-Exchange-AntiSpam-MessageData: 
+	xr0QGEN+msrGqJBNLCBdFE8uiimNDnIR8uFXRwxp/n8yubUkJDn9tEmdAExelurr8z43hzcctnTsDAq3iwupFZq8KbYCzMZYvM8CNIThlNLSPR8ifl4uPSckVCoLUCH3CHISt0IdgNPMb+SnTDSG/g==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6cbd655-10df-470b-23dd-08d8d714b2c5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 09:31:57.9790
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR02FT045.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR02HT051
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Another point where I encounter this warning is when using devtool, as 
+externalsrc is injected via bbappend.
+After browsing through the code here [1] I was wondering if all that is 
+like it is supposed to be - if I understand the code correctly [2] the 
+bbappends should be applied before the BBCLASSEXTEND will be computed, 
+so the inherit order should be correct - just want to be sure that there 
+isn't something more subtle hidden in all that
 
-Thanks for the reply. My customer are not really interested in going
-into multiple recipes so that is why I am thinking of having a
-manifest file for them to update packages in one location. I still
-want to have some kind of step where someone approves the "pumping" so
-even if AUTOREV could be an alternative I am not sure that is the
-solution but I will investigate that. The pn-somepackage variable is
-likely part of the solution.
+[1] 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/bitbake/lib/bb/parse/ast.py#n387
+[2] 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/bitbake/lib/bb/parse/ast.py#n393
 
-BR
 
-Den fre 19 feb. 2021 kl 18:38 skrev Richard Purdie
-<richard.purdie@linuxfoundation.org>:
->
-> On Fri, 2021-02-19 at 09:53 +0100, Mans Zigher wrote:
-> > Hi,
-> >
-> > I have a problem getting my customer to understand how to work with
-> > OE. They have a set of private packages that they continuously need to
-> > bump up to use the latest version. The packages are stored up in an
-> > artifactory server. I have an idea of maybe helping them out by adding
-> > a manifest file containing a couple of entries for each package
-> >
-> > VERSION = "0.25.6"
-> > SRC_URI[md5sum] = "0d6bc46bb69b2a0dce0c042d27b4f25c"
-> > SRC_URI[sha256sum] =
-> > "c20ea63a5e2f24e25d91e5cdfaa6b4b3735739d6170bea7b2b7d429fc397b718"
-> >
-> > This manifest should then be pulled into the bitbake environment so
-> > that the packages can read these entries and download what is needed.
-> > Any comments regarding this potential solution would be greatly
-> > appreciated.
-> >
-> > Also I have a faint memory of seeing something similar solution so if
-> > you know if something already exists then I would appreciate if you
-> > could let me know.
->
-> Are you thinking of AUTOREV? That works if the fetcher has support
-> for the source control system being used, e.g. git or subversion but
-> I'm not sure it would work for artifactory without a dedicated fetcher
-> module.
->
-> Certainly generating an include file like this is one way to handle
-> this. You can use package-name overrides, e.g.:
->
-> VERSION_pn-somepackagename = "0.1.2"
->
-> although its harder to do with flags, you might have to put those via
-> an intermediate variable:
->
-> SRCURISHA256_pn-somepackagename = "XXX"
->
-> then in the recipe:
->
-> SRC_URI[sha256sum] = "${SRCURISHA256}"
->
-> Cheers,
->
-> Richard
->
->
->
+On 11.02.21 16:12, Konrad Weihmann wrote:
+> 
+> 
+> On 11.02.21 15:59, Richard Purdie wrote:
+>> On Thu, 2021-02-11 at 15:47 +0100, Konrad Weihmann wrote:
+>>>
+>>> On 11.02.21 14:04, Richard Purdie wrote:
+>>>> On Thu, 2021-02-11 at 13:10 +0100, Konrad Weihmann wrote:
+>>>>>
+>>>>> On 11.02.21 12:43, Richard Purdie wrote:
+>>>>>> On Thu, 2021-02-11 at 08:21 +0100, Konrad Weihmann wrote:
+>>>>>>> After this patch got merged I notice some "noise" in my builds.
+>>>>
+>>>> I can guarantee that making any such option available will just have
+>>>> people reach for it and use it. You clearly want to here when the
+>>>> changes needed to avoid it are probably not that difficult.
+>>>>
+>>>>> If that's not what the project wants, I'm also fine with it, but 
+>>>>> then it
+>>>>> would be really helpful to point to the bbappend as a culprit and not
+>>>>> the base recipe
+>>>>
+>>>> I understand why you'd want it, I'm just not sure if would encourage
+>>>> the right behaviour :(.
+>>>
+>>> Fair enough - guess I will go with the educating ppl (including myself)
+>>> path then
+>>
+>> One thing to remember is that you can change ERROR_QA and WARN_QA on a
+>> per recipe basis, so in theory you can disable this per recipe, or
+>> reduce it to a warning...
+>>
+>> Its not neat code to do it, but it isn't really meant to be!
+> 
+> Yeah, unfortunately all the CI tooling I use, will even reflect that 
+> back to the user - nvm I will figure out something
+> 
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+> 
+> 
+> 
+> 
