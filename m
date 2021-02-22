@@ -1,57 +1,58 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.36807.1614009685491576194
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 08:01:25 -0800
+ Mon, 22 Feb 2021 08:01:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: aM98emnhQTVkRbkTML+ngPNfLxt91RTuEmVz8L3EO56m4+AqfrxWowMc4htCe5gC08QEJCCNJS
- d+/4NvZe2v3Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="163706173"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: ln5c4Aj/B8euV3txGahnyjj103VJDV1aGBLQU95STOacGhEO94ycgWaxagOkJCZYI6Kj/8ibRy
+ sojJ9lDCFhrw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="163706207"
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="163706173"
+   d="scan'208";a="163706207"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:01:18 -0800
-IronPort-SDR: apBJbMGqma3fGfr1X5BKthJ8WfwK9YbzdqbxJpnzWlnul6xixciloucKZuYyD+CG+FtTn2Te4M
- QWIIf1v2ZnOQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:01:19 -0800
+IronPort-SDR: vpZRncuQynQyjgYM4po0SySpzqZsj5la7Fw8dQfFtw8WLCD3ehBtyrWFrfBUcX4MOTreBnFqma
+ CcK7Y8QgTceQ==
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="430302103"
+   d="scan'208";a="430302122"
 Received: from yrajendx-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.39])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:01:16 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:01:18 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 26/30] xmlto: Fix reproducibility
-Date: Tue, 23 Feb 2021 00:00:29 +0800
-Message-Id: <efbe26600076c4fe2df1f45ce3cfc20c379bdd26.1614009417.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 27/30] local.conf.sample.extended: fix double 'of' typo
+Date: Tue, 23 Feb 2021 00:00:30 +0800
+Message-Id: <c8f6e0ff5fce8be60b7187c7c3511550db7f96ca.1614009417.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614009417.git.anuj.mittal@intel.com>
 References: <cover.1614009417.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Vivien Didelot <vivien.didelot@gmail.com>
 
-Don't hardcode the host's grep path into xmlto.
+Remove the redundant 'of' word in the INITRAMFS_IMAGE comment.
 
+Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a7d78971df193c321c309481749fc30cae77788c)
+(cherry picked from commit de9544f4654510ac33821b7f170de3074205a221)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
+ meta/conf/local.conf.sample.extended | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 7d27c43c83..5ed2709e31 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -29,7 +29,7 @@ RDEPENDS_${PN}_append_class-target = " \
-                   libxslt-bin \
-                   coreutils \
- "
--CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=tail"
-+CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=tail ac_cv_path_GREP=grep"
- 
- BBCLASSEXTEND = "native"
- 
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 420b09b7d7..411717b615 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -331,7 +331,7 @@
+ # The INITRAMFS_IMAGE image variable will cause an additional recipe to
+ # be built as a dependency to the what ever rootfs recipe you might be
+ # using such as core-image-sato.  The initramfs might be needed for
+-# the initial boot of of the target system such as to load kernel
++# the initial boot of the target system such as to load kernel
+ # modules prior to mounting the root file system.
+ #
+ # INITRAMFS_IMAGE_BUNDLE variable controls if the image recipe
 -- 
 2.29.2
 
