@@ -1,186 +1,263 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web09.31952.1613975250521494558
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.88])
+ by mx.groups.io with SMTP id smtpd.web12.31682.1613975815562988915
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 22:27:30 -0800
+ Sun, 21 Feb 2021 22:36:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=odg4NmJl;
- spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: sangeeta.jain@intel.com)
-IronPort-SDR: 77gh+QZtbcsGwH/+5b2j/ULYNycw/kuJxJIucg6qj06AjZ6wNgf1RzwXqWtYyaAZ0erBFVNbIP
- hrAkLXPEiKXQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9902"; a="184460387"
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="184460387"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2021 22:27:29 -0800
-IronPort-SDR: DfILk7yyoXnq2sN2Ig23J54xDiPUi0yUhL9418VxosjJ0PLj2lOBpTye7XzVggVHPiRkiygCgt
- WJ4NsQqghm/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="389687524"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2021 22:27:29 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Sun, 21 Feb 2021 22:27:29 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Sun, 21 Feb 2021 22:27:28 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Sun, 21 Feb 2021 22:27:28 -0800
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (104.47.37.58) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Sun, 21 Feb 2021 22:27:28 -0800
+ dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=LSAn88Lq;
+ spf=pass (domain: siemens.com, ip: 40.107.13.88, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FgEdk5lkt4KIuEVZM/3J/yyeE7dotLjSYuYKYM52sWP01u8SNl5MDm6JC8eTonAXznvkcIhJEQIvdNfZ7lmKEw3FCpTdRm2fBMsxEMU5omQb/HmmsAG1w9SHxgpASp4JGgS92YOW52PitU5i1hCyea/xs77XNpw0a7dyw8HrOWG+8TotgtVmKAZRysQGwxm9vmOV1PKUlx8zRDU9b+p+Fk5my0T/KrjCJwUFowijjYdmpBvmkQDCFRGQDslRJsBYLJZ/LaT5QfLNVSaz6udOpbsnyW5zC689lg5dX7zJZabyZlINbhZtKP9JZmCRxEzXsLHMKPNhHSSSey44iafNiw==
+ b=BxEZQQim07HI/riJtKgsCHHpnKWsJOEYwzd4knc57qq3U+0le7EEZDKSPx49e4VsjNsyRa6lXJr1ajWjwbS7Nan1Hn12cc+vjgVGLxLXD8HyyfIGWlGr3GoDu+gShFKxwxJxaNdj4KZpXrAS9xUHjnwjOnYp9YANcMIoSopIcl6nSj6GcM9ZHCBVr5KQ0Ku+jV1QvwjOE/VBMmXHYfJhfiNosXaMMXNUPbhFYnhUafXJNaV68bW1xiGQrz4AitdO0ptgxr32CAEuoVrjOINo3CM/DVX9VkWZYkxVBZwVBilWqjLtMCxlDzknIaguXAes5JDzxa7o8GsHapSr2NQLrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oLWXPSlgo6hKCssWWiwCiBhx+SFv6aeI/bZGxhg5g1w=;
- b=GH2nI8fDGbePR5npXwBGwwD7QMgIl7DtW6/XAoY8vuvGGb6wnQ1lQbzSdAto0kcQVsVuRlVuaTWFtkGUfWleELF+MIRdc/QurP3A8Rb030NxAAyZPhFi1gGuUh+iCnqpSRe/YjWSd2p5MDw4Hpsl1137J+Sx/Y7/CojfOptWxdX8fogNzXLErHllI3r4nMpjAFgJ1Hs3+y9VqtsgX9MGBflrVAxkeRiEycTmWf8DfoEmoChqs+Uq1OS8zLSUpetf2eRx1JLTcW5fKDp7gb/ju1GgRg0ikN5H7URtNCq+0eJyqAvqyFAqiQ1tJINYEosAmaLPl+6iPiwGzIy7vJa82Q==
+ bh=odOIWAOH7tlIkQMJIDbDPnNI2ZQvEw8MMFbvJ6AD6XA=;
+ b=Lh7v/is50mpjm9Zxw2jcypmw0H5DOvzT8sDJN9Qr3dVhOuccUaNEFw5TBTiNyIkl0+mNrjYRS+JFRKGUzztmzZ1lpqI4i/S+SaTNHRt3gzILsw4fQ5MLkQAJ3SC2FdsKDQLiBLl+1SuY8pHGvZBi5qMk7xZyw/Jo5aMuXn02m5viQs+sL/fU6Sm7XbggVa21uvMcljbH0kqe41p/Hvz2H4b16k8CKOom9xFWWvoqrq9qZkfOlzUohXo4gVoZJPuA8aZVvMuVyEwpCJXIEaaZKvJrQTFHi8OoJ2d3jM3D0c/Z8DqzYH2y9J8S6fHcLmkwnsFL43Ngjx5sUBUx3Fuoyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oLWXPSlgo6hKCssWWiwCiBhx+SFv6aeI/bZGxhg5g1w=;
- b=odg4NmJlR0dJ2RNQS6MFzu3EbDEnacfCwGNE8kjmzdaMG8gvyb33rS0Ia6TFCjzRKsse9fLn0pzhxLyjKYg1AL7hewMMjhFXBl0Yi/CXP2pLz6DXiOVlGACrBeC2xRQni3C8nE9K7DwnFDW71UPNUs2cprvz5OsOpJ9gL8HwyUI=
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
- by SJ0PR11MB5165.namprd11.prod.outlook.com (2603:10b6:a03:2ad::16) with
+ bh=odOIWAOH7tlIkQMJIDbDPnNI2ZQvEw8MMFbvJ6AD6XA=;
+ b=LSAn88LqKpdd5jDvPaAL3nj24FMLAno7ya8v0YQmYCDfipDrD0uG0KeHubQm9dLVAHMmzaQ4KIgGL7XFG2OGrStbM/JcRD17kKLPxXjBkJ6d2/kMz1QfeP80JxQyxBnFaLkQdKhmoADu6MmCnupBFdMidYa5H0rrhJN75o7eclU=
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by DB8PR10MB3896.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:16d::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.31; Mon, 22 Feb
- 2021 06:27:27 +0000
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::92d:48c1:669e:364c]) by BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::92d:48c1:669e:364c%6]) with mapi id 15.20.3868.028; Mon, 22 Feb 2021
- 06:27:27 +0000
-From: "Sangeeta Jain" <sangeeta.jain@intel.com>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-CC: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>
-Subject: Re: [yocto] QA notification for completed autobuilder build (yocto-3.2.2.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-3.2.2.rc1)
-Thread-Index: AQHXBItgdl1jr4MEQU+S6zcoyxPJyqpjvlJw
-Date: Mon, 22 Feb 2021 06:27:27 +0000
-Message-ID: <BYAPR11MB3624A5FB811BD947302967B8E3819@BYAPR11MB3624.namprd11.prod.outlook.com>
-References: <20210216174346.29A0D2A0FA6@centos8-ty-1.yocto.io>
-In-Reply-To: <20210216174346.29A0D2A0FA6@centos8-ty-1.yocto.io>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.28; Mon, 22 Feb
+ 2021 06:36:52 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::954a:7239:f088:8c80]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::954a:7239:f088:8c80%8]) with mapi id 15.20.3868.029; Mon, 22 Feb 2021
+ 06:36:52 +0000
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] busybox: update 1.33.0
+Thread-Topic: [OE-core] [PATCH] busybox: update 1.33.0
+Thread-Index: AQHXBwq4wQQNsCEHqESEO0L9yglDOKpju6bw
+Date: Mon, 22 Feb 2021 06:36:52 +0000
+Message-ID: 
+ <DB8PR10MB3977A450622E50F79787E7FE92819@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+References: <20210219220042.2384431-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20210219220042.2384431-1-open.source@oleksandr-kravchuk.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.0.76
-dlp-product: dlpe-windows
-authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=intel.com;
-x-originating-ip: [60.53.116.239]
+msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2021-02-22T06:36:49Z;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=2142a99d-a391-4226-a95e-3fc5521974ad;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
+document_confidentiality: Restricted
+authentication-results: oleksandr-kravchuk.com; dkim=none (message not signed)
+ header.d=none;oleksandr-kravchuk.com; dmarc=none action=none
+ header.from=siemens.com;
+x-originating-ip: [165.225.200.172]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 906b92ae-a827-452f-d430-08d8d6faeca8
-x-ms-traffictypediagnostic: SJ0PR11MB5165:
-x-microsoft-antispam-prvs: <SJ0PR11MB51657768866A41766102B8C1E3819@SJ0PR11MB5165.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c0074d02-935a-4667-c552-08d8d6fc3da2
+x-ms-traffictypediagnostic: DB8PR10MB3896:
+x-microsoft-antispam-prvs: 
+ <DB8PR10MB3896181FA297290FCB00B25592819@DB8PR10MB3896.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CMVPucTM6TRomXN020CIJoeYcruoDvyuF2fP1A6AJZIEhbJCI8IydL+JTXnDJqBnnnjv+yZwMxBGyfCbcH42ptOoitBgB8k/hUxXDA1GDrHqxcdFcq2UEiqoIGafz5wWjgR2m2VeJnHuX96wSebzc+7HObp48zWoX20eThZwxK/1vmuc6gGNU++Hc/SGaycSfPyGAel4x4gHSZdwNd7eEYcrEARfneiI+7bMcHYZlFxXPuYZtHXAw7S6UtmsI9esejR1CS6MkEtbs0Gub6MI6s2TWcL5S5RlI4cRwDob6dpxiQQMi4ddhZsLaHmAXh7bSXJCBT41vRC3h0O0Qampi3P5xEqXLKC6+S39FRJx1CcwugS5Eq1hkXZU1dFwLXjmfBvd7FcBpLrrdHpgS6LPUR2bOTLEidX+aN7bBApye7G+1//ir7Puqtxx7eG7H8ZXEzWN0dZXWoHFqWLoOB4buxEpzsfdmMxilgnYXujUSHi7UY+GE9FEk13gYRKsme7k4lynMoid9R6Lf/IlHw+nJfxCNMSc0nSjdDtYpelnG26QVtxdvYoMygktJtwU/rUBBj0uQsr2xc/z7xhdCMcDIhe2H0YNy9dlE0c6JOjs4ns=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39860400002)(366004)(376002)(136003)(346002)(6506007)(9686003)(53546011)(55016002)(8936002)(8676002)(86362001)(33656002)(83380400001)(2906002)(966005)(52536014)(478600001)(15650500001)(5660300002)(110136005)(186003)(71200400001)(4326008)(66946007)(66446008)(76116006)(66476007)(7696005)(66556008)(64756008)(316002)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?uCjqaekcbgAQCbOqzJjbbYxPb4YZDoN0OmVdGe47Ji/tQfxOrWNaOQlwOmWJ?=
- =?us-ascii?Q?1gN3gTxmAJRaMN8jzc7/9I/Y8400Pw/rJwwwnuN/uDXPml9NjiPQPRB+V5nq?=
- =?us-ascii?Q?nUG9a3aXPKL4hbR6gRPFbnQ8w/wwh1by4tlKsqFCHHl8tNmgXQr7EOef2NkZ?=
- =?us-ascii?Q?4DuBTCAF0gEt7yXIupIpkpPNorOutJlvhopNYLRHluLjuM8l7adEaJgPHcBG?=
- =?us-ascii?Q?qdkecMxZIZ+x+TE+/eREcCH7JxBrVNU2XUYiP/uGRabZC8RUC2qfsEOiPPy6?=
- =?us-ascii?Q?uIv/9ukgPD6TAc8PQIYpulnjFG9BaBLs0tiJerOilfB4ox1vsSrS533NOOB/?=
- =?us-ascii?Q?Cp/jPPB2+awqiLkJfvfwiZfqEZ+AGV27nyOkrPueHQJ9VOIaisZFOyjnTa+W?=
- =?us-ascii?Q?aQfxddqaMjNqPtUMD0SbD15pEUU3EOUS1JLXZl/VaGbbKXq0gfINL40fTiW8?=
- =?us-ascii?Q?X32+8YJaUnbmUvlPKBTgCKM48hilISe60Q37jIOI6/NdFaa7sOra+/mjKwry?=
- =?us-ascii?Q?M4S915sTImZaAj8Nh9uovqqxoPiHDwB216lIRsBBKvavgOpETZ7eVoVswNu+?=
- =?us-ascii?Q?nVXZWUNAkUl69LtWeli3+zHyglG5wRdfgHdfdTkbNuDHs7UpIQ+Tz8Pn6Zrc?=
- =?us-ascii?Q?IjCz6/z4lh4UsCh5t5XKElHwHPskgYyc1WRv+sDh7zrAgKv/atCcxdcYhHBD?=
- =?us-ascii?Q?QPcy7W9WlEUWFQxeZhp8IO5hBY+Z1SlXE0B/vxBshTWPREP/hteZukGJAb47?=
- =?us-ascii?Q?L7nvz8gVpunFM+4vuLhn71a0KLqefNEN64ze8HWZFUfT7yUZxYGQIZ6WT6Vv?=
- =?us-ascii?Q?N9MKJEpxN4WNyMpV7kE701BRaWhDh7w8PPlMnzrQw6fnc5aMVtWnA7djAn5T?=
- =?us-ascii?Q?aIbVLtrw4x8S7sCbOM3SJMGaGFBR/Bysb6Lu77Rx/zrgAw+b4gE4OvM/FWo0?=
- =?us-ascii?Q?FYx0j8BR2LJX+zHo0w2uW2Q5ui29CuvoQWUXyjgCZzkYC+NBMoF1DNNgXTUm?=
- =?us-ascii?Q?RqKtcELotOcS9W2EA2zIVzGQnMgz8izxn98S5gNmJr9j9dg76FC+BG/FAu5h?=
- =?us-ascii?Q?xaQP4iFxSn2P5SQwm3NqB5kbmBvz2/rGkBgyuOSiE3/wUaQwVM7ZiHpltcwI?=
- =?us-ascii?Q?6amPCE4OgnU0MVON2RsFt5Kw/6alSblZG66PDxbzoOQvvAP0EPrtSUnuBxFp?=
- =?us-ascii?Q?GM8SOBN8RQ3Vqu/XzDb1vlT0++KrCnT2tR4X6qwwDiC7oSujufGclhg3ewk0?=
- =?us-ascii?Q?UcXL1Vm5OMz1VVLSw0xZQVWeqXAtP3QhlpuDafzI3EIsGZnYkSmC4+dCOLko?=
- =?us-ascii?Q?k69nJtUPMopqISBZ4ZhWNhm4?=
+x-microsoft-antispam-message-info: 
+ F4upLtQI9hZug1v4RPc2v7oEzUa0gRlofBR8wu2psi+MZPKwwyyYNxlXuzcXJg4XRUL+26XBOZF3OC2MIOQ7/kksHRnXRE/HjkJ0Tr1vHFT6fG+NTHyw6e5yl/esGI/c1hdaZ2SEQ51OW7t+ko4pALIqK/fewKRdk5YGY4ibNONJ+mdCd66doM7YoHfveTUDG647iCYomLPj4UAMnf/t6x9iDlmTv/sBy5ddXYKv4xgoHbuyGdJmUEH91vJNm97HzxRA1Mjg1CiAgQ8FfF6v1EP4lXCxvpZO/bEwxOXvJQuj7p0w/8KXbZESO/mjHPMJNPaYNqktt+xGch8jkApU0zIR2wnaSDEyFccX9GbwtuuPrt/+JAt5UN8YFBf7fdvanpRzWF+SyDAzu5fpV84leeLpCcAule/AzzIvi/Lt6OjXSKJUGwz7OonxL/KDOEo6Khnr5Lzv4U99O29yYlFrh06kveGGRLn/6pKZ+mu7fD5b6yLQZB/cpHoIo3Nu5O4xIvT+y7RyHZ6I7uZ+1M5DJXiq1ycKO5CY+b+vxr5itcqp/UPvRrqQVvft/4aSs4YnCSEQNn7ktge+cs6uPAryZA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(5660300002)(52536014)(316002)(2906002)(9686003)(55016002)(66556008)(66446008)(64756008)(66476007)(71200400001)(8676002)(76116006)(6506007)(110136005)(53546011)(8936002)(86362001)(15650500001)(186003)(7696005)(55236004)(26005)(33656002)(83380400001)(478600001)(66946007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?us-ascii?Q?y+b5uvYJqDf73kgVSfnRa7kB8OKk8KJ+w5Ti68rI8+P0M2+vY6TWZfSkQv9l?=
+ =?us-ascii?Q?1qbnH5LqTSU/YzU2P0CTsypnz5bKGUdw0kgCeS+jC66Rm37mNzLGT/HBcBZm?=
+ =?us-ascii?Q?BqjVpvqJV3yONcM1MIaQL8ewCURjfJesXiZuB6ySPFBRdAaZ9z5v0Y2AehWL?=
+ =?us-ascii?Q?kjSJblIbOBkwQhqN5VRdhK7wyDvTi4abAZCY7Xq2Nk8Z+xAmx4Mgm34waa66?=
+ =?us-ascii?Q?AjyGHYqitoaVPPW+cf8rJFvBawMu0bDc1jh9uubijRM21gqt8ZYzOGpTZtdd?=
+ =?us-ascii?Q?9O7edUTIxak9NTJO+tldQ1jvegR53dHRiY55qnb7wvJnfx83ech5gCV7RyJy?=
+ =?us-ascii?Q?9X3BWl4idkiv/B/UvgmhdCf4pa8j7wL9yoYQBxPnAoLAqfrX12+GdRRwe8q0?=
+ =?us-ascii?Q?/Zg9ISMJifZleJV8KZ2yP8MnSQrn9hL8TaWavuhzyQncgvWIJj9A47OIWhKJ?=
+ =?us-ascii?Q?jZZQfObqpo1iyuzzkHcE56EsyVdCcche8vPd7KUFwuqjbPtVVE4kPsZN6QzX?=
+ =?us-ascii?Q?IdHU5bQXeyXymLEWf2/G3l8JunkmnV9sD8hWGuMFegzpbNcwWX9HQkcclD5A?=
+ =?us-ascii?Q?MhC7EIm7loXUvwBoOM+8ro3amigNcI4s7sr+SS1lf6r7znz3nXQMv5WwMATn?=
+ =?us-ascii?Q?EY0iWtzJpM9XQJJ54Ctdwvp5AvOrMIQbgIEXcwJQc98IhWfcqepYMccpP/4P?=
+ =?us-ascii?Q?GGaag+oDwJRxR0ewL4C2eq/ITBFlzP9ZfSDFI2+GiBE35ucGuDdzFCC4nuv+?=
+ =?us-ascii?Q?txw6d4PI51nInwLXO+WQ+HiU4PtQhPpVLMeC5U2SDlFTpLhhQHpbUL9KWOeP?=
+ =?us-ascii?Q?0mvazE3FD7vu74v3XiJ0V1xkF4yPvVvwGnvtDsHMspiNULOsYwacIgeGMgRi?=
+ =?us-ascii?Q?bWTOLGM9ERIIR0A6kuz4pvNKUs5KNYrV3tGmH43TjxNqLsx66bCWvj8cK53W?=
+ =?us-ascii?Q?WG1ozt03xqw/t5Om+2/wbSFAuCSUJYKQlm6ZGFXr5IHW1Mzj/ObFNnA+WudC?=
+ =?us-ascii?Q?otJBPgsgzzoscjKYaUo3iZw8xLFn6oWo7nq4ZXA0V+ThQMszGi8TpNYU23r+?=
+ =?us-ascii?Q?V2MjwSzyjBQPbsNymfXh7mPSzqhTDKnwtAzlXbqRATG8R2j/B2xhKdXyFfZD?=
+ =?us-ascii?Q?xa0C/duGMPwS9O/rbUvtQ2KQsgsJSbNPcoNalfKYYYQSG5a8veHCHDOKsnQf?=
+ =?us-ascii?Q?0/HaB7xCcrM0lZh8c+IBVGkr4KeWMJZUTd559fVaOdVjKpUYbVafO5zcgpRj?=
+ =?us-ascii?Q?qkBzT87kIPTD7C5hH1ATbnPmbe7Pq304z9U86XDTXLMVOMVBEGNNstcqBqPh?=
+ =?us-ascii?Q?FnS5EUF9J4wJmpqBNIJzOIpL?=
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 906b92ae-a827-452f-d430-08d8d6faeca8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2021 06:27:27.2191
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0074d02-935a-4667-c552-08d8d6fc3da2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2021 06:36:52.4725
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vVkmzDTiaozAwU5U7uCUrvhnhlDcAphu3w2xdfWEVYn4SyJgg41JUjdaAy28idiJ/Tqhd9c5TEPTxiWw7oSSjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5165
-Return-Path: sangeeta.jain@intel.com
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: coojmnMoYGbqUMbvqCHWZi3C2uU4j1BYVuQYZHpChhkNZie967uq4PMS6oVDLyxeguHo7rOHJnhILEUQswcX+eEygM8HpStaHoYpGwEZT6c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3896
+Content-Class: 
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Hello Oleksandr,
 
-This is the full report for yocto-3.2.2.rc1: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
+Why are you upgrading to unstable version?
 
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.=20
+Cheers,
+Andrej
 
-No new issues found
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Oleksandr Kravchuk
+Sent: Friday, February 19, 2021 11:01 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [OE-core] [PATCH] busybox: update 1.33.0
 
-Thanks,
-Sangeeta
+Removed upstreamed patch.
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf
-> Of Pokybuild User
-> Sent: Wednesday, 17 February, 2021 1:44 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 3.2.2.rc1)
->=20
->=20
-> A build flagged for QA (yocto-3.2.2.rc1) was completed on the autobuilder=
- and is
-> available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-3.2.2.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 0a3bf681530bd63fc0036ca81ef868ab53fde56c
-> meta-arm: aa63e31b6edb5197764c21434219050ab51f0fbd
-> meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43
-> meta-intel: 1d866c58534eb1d317b7a674c6e6c57ab9594fb0
-> meta-kernel: f793168bd19af3d8c5a260dd35f387ed9a31794b
-> meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879
-> oecore: ebaaee50cb3ac75112827f935c48affaf622ce7f
-> poky: d5d6286a66f46f4523e35e0e3f20cd7396195fdc
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...1-hwclock-make-glibc-2.31-compatible.patch | 83 -------------------  ..=
+./{busybox_1.32.0.bb =3D> busybox_1.33.0.bb}  |  4 +-
+ 2 files changed, 1 insertion(+), 86 deletions(-)  delete mode 100644 meta/=
+recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
+ rename meta/recipes-core/busybox/{busybox_1.32.0.bb =3D> busybox_1.33.0.bb=
+} (90%)
+
+diff --git a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31=
+-compatible.patch b/meta/recipes-core/busybox/busybox/0001-hwclock-make-gli=
+bc-2.31-compatible.patch
+deleted file mode 100644
+index 8d1f272120..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compat=
+ible.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 2001
+-From: Sakib Sajal <sakib.sajal@windriver.com>
+-Date: Fri, 17 Jul 2020 17:27:21 +0000
+-Subject: [PATCH] hwclock: make glibc 2.31 compatible
+-
+-NEWS for glibc version 2.31
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+-
+-Deprecated and removed features, and other changes affecting compatibility=
+:
+-
+-* The settimeofday function can still be used to set a system-wide
+-  time zone when the operating system supports it.  This is because
+-  the Linux kernel reused the API, on some architectures, to describe
+-  a system-wide time-zone-like offset between the software clock
+-  maintained by the kernel, and the "RTC" clock that keeps time when
+-  the system is shut down.
+-
+-  However, to reduce the odds of this offset being set by accident,
+-  settimeofday can no longer be used to set the time and the offset
+-  simultaneously.  If both of its two arguments are non-null, the call
+-  will fail (setting errno to EINVAL).
+-
+-  Callers attempting to set this offset should also be prepared for
+-  the call to fail and set errno to ENOSYS; this already happens on
+-  the Hurd and on some Linux architectures.  The Linux kernel
+-  maintainers are discussing a more principled replacement for the
+-  reused API.  After a replacement becomes available, we will change
+-  settimeofday to fail with ENOSYS on all platforms when its 'tzp'
+-  argument is not a null pointer.
+-
+-  settimeofday itself is obsolescent according to POSIX.  Programs
+-  that set the system time should use clock_settime and/or the adjtime
+-  family of functions instead.  We may cease to make settimeofday
+-  available to newly linked binaries after there is a replacement for
+-  Linux's time-zone-like offset API.
+-
+-hwclock had two calls to settimeofday, in functions to_sys_clock and -set_=
+system_clock_timezone, where both the arguments to settimeofday -were valid=
+ (non-null).
+-Therefore, split the call, once for timezone and once for timeval.
+-
+-Fixes #12756
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+----
+- util-linux/hwclock.c | 12 ++++++++----
+- 1 file changed, 8 insertions(+), 4 deletions(-)
+-
+-diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c -index dc97d8f..c=
+f346e8 100644
+---- a/util-linux/hwclock.c
+-+++ b/util-linux/hwclock.c
+-@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcname, int=
+ utc)
+-=20
+- 	tv.tv_sec =3D read_rtc(pp_rtcname, NULL, utc);
+- 	tv.tv_usec =3D 0;
+--	if (settimeofday(&tv, &tz))
+--		bb_simple_perror_msg_and_die("settimeofday");
+-+	if (settimeofday(NULL, &tz))
+-+		bb_simple_perror_msg_and_die("settimeofday: timezone");
+-+	if (settimeofday(&tv, NULL))
+-+		bb_simple_perror_msg_and_die("settimeofday: timeval");
+- }
+-
+- static void from_sys_clock(const char **pp_rtcname, int utc) -@@ -283,8 +=
+285,10 @@ static void set_system_clock_timezone(int utc)
+- 	gettimeofday(&tv, NULL);
+- 	if (!utc)
+- 		tv.tv_sec +=3D tz.tz_minuteswest * 60;
+--	if (settimeofday(&tv, &tz))
+--		bb_simple_perror_msg_and_die("settimeofday");
+-+	if (settimeofday(NULL, &tz))
+-+		bb_simple_perror_msg_and_die("settimeofday: timezone");
+-+	if (settimeofday(&tv, NULL))
+-+		bb_simple_perror_msg_and_die("settimeofday: timeval");
+- }
+-
+- //usage:#define hwclock_trivial_usage
+---
+-2.24.1
+-
+diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb b/meta/recipes-cor=
+e/busybox/busybox_1.33.0.bb
+similarity index 90%
+rename from meta/recipes-core/busybox/busybox_1.32.0.bb
+rename to meta/recipes-core/busybox/busybox_1.33.0.bb
+index 3a669444dd..1a3f218bca 100644
+--- a/meta/recipes-core/busybox/busybox_1.32.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
+@@ -44,11 +44,9 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV}=
+.tar.bz2;name=3Dtarball \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.p=
+atch \=20
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-n=
+e.patch \
+-           file://0001-hwclock-make-glibc-2.31-compatible.patch \
+            file://rev.cfg \
+            file://pgrep.cfg \
+ "
+ SRC_URI_append_libc-musl =3D " file://musl.cfg "
+=20
+-SRC_URI[tarball.md5sum] =3D "9576986f1a960da471d03b72a62f13c7"
+-SRC_URI[tarball.sha256sum] =3D "c35d87f1d04b2b153d33c275c2632e40d388a88f19=
+a9e71727e0bbbff51fe689"
++SRC_URI[tarball.sha256sum] =3D "d568681c91a85edc6710770cebc1e80e042ad74d30=
+5b5c2e6d57a5f3de3b8fbd"
+--
+2.25.1
+
