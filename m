@@ -1,90 +1,113 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
- by mx.groups.io with SMTP id smtpd.web12.37642.1614011972507213204
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.web11.37381.1614012135185005060
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 08:39:32 -0800
+ Mon, 22 Feb 2021 08:42:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b0gR67g3;
- spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f46.google.com with SMTP id t15so4523760ual.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 08:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Hq86CejxOiFpwoYx1Gv4RKAnSgMnp+cQa9UfjZFv2Uc=;
-        b=b0gR67g3FBUZSOOEc9Wds0K6MhW8IpnI4Kf6bcOmqwcjG1VU1cnVXp51iiIdFTmZb3
-         SNxJyofegfUwYyyEdt0h9CysABoA27hxFPx3UK15SLuM0IYyO8rxXY24zm6UMzdb9K1L
-         051X2kSyIDEU5AXkHE2uIVHXXjO9/AWKs9CqSM2RqwIZ3bLztNKA5ZXKF2vUop9ixSTo
-         adrll3PAtsRug0mUdsvtDyHTQ8UnFqROKDpZ+NfDoL3VpyQveanbGSXW5F0sdGmOsmcr
-         gWbpOEPAsqeVaTmD7J4OFWZsmpkzpx1Qr1dN3V6KyTvwPEGQZP+1UcH6Ii1BMe/MrTs7
-         Du5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hq86CejxOiFpwoYx1Gv4RKAnSgMnp+cQa9UfjZFv2Uc=;
-        b=B6b2IcztJrFEGCYr8SDvTzEE5yEnATSCeoIBC7oV1uOTu6Be19mlHk5ijRjC7sg2Jt
-         QR0Lq0fmtLDgCg4BeOQqPoxPjn50PF+yZrgc3KXadJIYLtOK7hDBCcQVfzwoRHI0NieR
-         /NoVTLfnSeOq4bDc2BHEa2yTZH+m1H1qowWsJCNKCab1DvRz2nPJdJmrWOvyjkdM0OAw
-         2x7ebPM3gsV6AYh9ScP6eHx7MdazT+Dml+56LTVqJXE7t4pXPyG3otZnIUse2LdWRAqn
-         FfWjuXODyBtGRhsbAg458UAFVFKvBYZz65Iu3NMVSPeqIexwB9H/rS2KETL3NnAa+zgs
-         Cu4Q==
-X-Gm-Message-State: AOAM532PnhyKGN9VnjzEYOkPBPl1PQ3aiXSFFf2fBCy3aorgweqzLszQ
-	qnl/mgGSeEBxW7CprnpeDxcQ57f3GFWxaNYwhCk=
-X-Google-Smtp-Source: ABdhPJxnbgQm9hKzq8DqhATOCACKJcdkXEf8pB/TyJlo1ClJ5YOvb7eh8cW+W+GFbCtCThqKtricz3wj3aui9f0HknA=
-X-Received: by 2002:a9f:2c0f:: with SMTP id r15mr14887035uaj.93.1614011971653;
- Mon, 22 Feb 2021 08:39:31 -0800 (PST)
+ dkim=pass header.i=@cisco.com header.s=iport header.b=bnSFtSBG;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: oobitots@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=3073; q=dns/txt; s=iport;
+  t=1614012135; x=1615221735;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=25pNcxdyJ1vDgvsJzpIMG+V7xNVTSmXeAjqw1iaV8lk=;
+  b=bnSFtSBG5GAdJSPNECVsgp6hULLmzCYrT8/AmhYlLJEx6PrFnAXWVmfa
+   aalQobIz9MogiKEOYeykfbHTEGIgfNbtIqBsv5fF2ua1kS+AD+CidLnBu
+   3YH5FKzjJvDOM8S/66eiiCaW+ZB/v2lEequilX/hAiryseKgIESfmnXh9
+   Q=;
+X-IronPort-AV: E=Sophos;i="5.81,197,1610409600"; 
+   d="scan'208";a="850489283"
+Received: from alln-core-9.cisco.com ([173.36.13.129])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 22 Feb 2021 16:42:14 +0000
+Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
+	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id 11MGgDbG012381
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 22 Feb 2021 16:42:14 GMT
+Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
+	id 7D32FCC1251; Mon, 22 Feb 2021 08:42:13 -0800 (PST)
+From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] vim: Improve reproducibility
+Date: Mon, 22 Feb 2021 08:42:11 -0800
+Message-Id: <20210222164211.23449-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.26.2.Cisco
 MIME-Version: 1.0
-References: <20210222154956.27267-1-andrej.valek@siemens.com> <4462ffe940c0fa879486300e5d7d358045604133.camel@linuxfoundation.org>
-In-Reply-To: <4462ffe940c0fa879486300e5d7d358045604133.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 22 Feb 2021 17:39:20 +0100
-Message-ID: <CANNYZj_1RL9rSJxaaRTQf__mnzEr49Eze5gW44TBtJn7FEhN0Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] busybox: search stable versions for AUH
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Andrej Valek <andrej.valek@siemens.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Content-Type: multipart/alternative; boundary="0000000000003bd5bf05bbef7269"
+X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
+X-Outbound-Node: alln-core-9.cisco.com
+Content-Transfer-Encoding: 8bit
 
---0000000000003bd5bf05bbef7269
-Content-Type: text/plain; charset="UTF-8"
+Override awk and perl path to avoid
+using local absolute path.
 
-On Mon, 22 Feb 2021 at 17:02, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+---
+ .../0001-vim-Override-perl-and-awk.patch      | 34 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  3 ++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch
 
-> > +UPSTREAM_CHECK_URI = "https://busybox.net/"
-> > +UPSTREAM_CHECK_REGEX = "BusyBox\ (?P<pver>\d+\.\d+\.\d+)\ \(stable\)"
-> I just realised/wondered whether:
->
-> inherit upstream-version-is-even
->
-> would work here?
->
+diff --git a/meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch b/meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch
+new file mode 100644
+index 0000000000..1d619e0800
+--- /dev/null
++++ b/meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch
+@@ -0,0 +1,34 @@
++From 1c1ca2d6306fa4b1391f54325cdd63d56d3b7b78 Mon Sep 17 00:00:00 2001
++From: Oleksiy Obitotskyy <oobitots@cisco.com>
++Date: Mon, 22 Feb 2021 15:21:00 +0200
++Subject: [PATCH] vim: Improve reproducibility
++
++Override awk and perl path to avoid
++using local absolute path.
++
++Upstream-Status: Pending
++Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
++---
++ src/Makefile | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/src/Makefile b/src/Makefile
++index b7e2f7eef..c2e7efbde 100644
++--- a/src/Makefile
+++++ b/src/Makefile
++@@ -2510,10 +2510,8 @@ installtools: $(TOOLS) $(DESTDIR)$(exec_prefix) $(DEST_BIN) \
++ 
++ # replace the path in some tools, but not when cross-compiling
++ ifneq ($(CROSS_COMPILING),1)
++-	perlpath=`./which.sh perl` && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
++-	awkpath=`./which.sh nawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
++-		awkpath=`./which.sh gawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
++-		awkpath=`./which.sh awk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; fi; fi
+++	perlpath=$(PERL) && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
+++	awkpath=$(AWK) && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk
++ endif
++ 	-chmod $(SCRIPTMOD) `grep -l "^#!" $(DEST_TOOLS)/*`
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index d57f784da5..efe63e7a8e 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
+            file://racefix.patch \
++	   file://0001-vim-Override-perl-and-awk.patch \
+ "
+ SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+ 
+@@ -80,6 +81,8 @@ EXTRA_OECONF = " \
+     vim_cv_tgetent=non-zero \
+     vim_cv_toupper_broken=no \
+     vim_cv_tty_group=world \
++    AWK=${bindir}/awk \
++    vi_cv_path_perl=${bindir}/perl \
+     STRIP=/bin/true \
+ "
+ 
+-- 
+2.25.1
 
-I don't think so - busybox seems to declare x.y.0 as unstable, and
-everything else as stable.
-
-Alex
-
---0000000000003bd5bf05bbef7269
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Mon, 22 Feb 2021 at 17:02, Richard Purdie &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; +=
-UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://busybox.net/" rel=3D"norefe=
-rrer" target=3D"_blank">https://busybox.net/</a>&quot;<br>
-&gt; +UPSTREAM_CHECK_REGEX =3D &quot;BusyBox\ (?P&lt;pver&gt;\d+\.\d+\.\d+)=
-\ \(stable\)&quot;<br>I just realised/wondered whether:<br>
-<br>
-inherit upstream-version-is-even<br>
-<br>
-would work here?<br></blockquote><div><br></div><div>I don&#39;t think so -=
- busybox seems to declare x.y.0 as unstable, and everything else as stable.=
-</div><div><br></div><div>Alex<br></div></div></div>
-
---0000000000003bd5bf05bbef7269--
