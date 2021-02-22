@@ -1,77 +1,80 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.30623.1613968351383747427
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web08.31730.1613974143025142024
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 20:32:31 -0800
+ Sun, 21 Feb 2021 22:09:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DWSKM/7l;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id p21so9454422pgl.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 20:32:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+BGDZEnrMaNXN4a42OfB3LgVNoeqEfwZkHEHmGil+Bo=;
-        b=DWSKM/7lAG9IPHOxhm+tyK5AG+6nYD7SnUmx/0VHmrOI0hNtyHrXgD3l8lloBzpaGH
-         w/utA3VSQz/ioiRNqxp68TcXOuPA3g9HtpQM9Jx1nlS0nQqQJS/pr4xYvsWPE9N1Tojd
-         /L+baJLukURH0UXwt6t5rKJjW+CdGIOV56XChsAkBAGXmw7fg9Mpk496TV+zpFOmzYgP
-         xzmug2IXMd6bD+Pz6wLq83y38xcURClgPcCOUJTRmKNJf5zm/6y4DqFnBowZFJtvAeqr
-         iZDodDkZ68WPvuG045XRKg1jcM/juXtSWmJ1IdgIlvW15zRuogR9+xwL9dSVKXL++wTv
-         NZJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+BGDZEnrMaNXN4a42OfB3LgVNoeqEfwZkHEHmGil+Bo=;
-        b=k4xxEcElf3OsbxKgMhlLcexPwQg6GyUH/sKEnmn1tK5RaeONFoVxYaUhhLzpD5ZF4+
-         bVOhDBwD7uwx94eJvRdyvApol36dSER7ISeNgege6e1C7cw6Mh95WFFAzpA12fUbRyN/
-         LPWit0Lzjc9tPBXGofw59lmXafMI10N1GOBytfMTWs3BAF+rMBJR/eP+t9GTrWVHEGhs
-         c1393sPs22Yc7o7soBMj7nf5BvwPIQM0b3rjVQyDvKqa5Kkj03AVXriDvEbMnxqh/tBO
-         MLoFpLDNnuZkupoDK+Axu05jvmAroRI4zStBPgUIAQkwxqFa9Y6k++LyP5aL1FR4qQzK
-         OBDw==
-X-Gm-Message-State: AOAM532UnLLba6WfAsipTheILlhelMS7KgmOrS8x45HEY39btfHBsNIK
-	uWfPtMJD7+r4jT8wo50D8WyO6H2zSB5L+Q==
-X-Google-Smtp-Source: ABdhPJxX4oqeUCawVnVyf9if7FsHcTsy1vucTFG004Xb/AyOy/Pu4bNopb47Pu/0c74wlxDx2Jke2Q==
-X-Received: by 2002:a65:524b:: with SMTP id q11mr18170959pgp.207.1613968350512;
-        Sun, 21 Feb 2021 20:32:30 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::54b4])
-        by smtp.gmail.com with ESMTPSA id x22sm12769818pjr.49.2021.02.21.20.32.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Feb 2021 20:32:29 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] bitbake.conf: Do not use lib64 for baselib on musl/ppc64
-Date: Sun, 21 Feb 2021 20:32:24 -0800
-Message-Id: <20210222043224.3691568-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.1
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+Received: from [100.113.6.236] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 87/3F-08502-C7A43306; Mon, 22 Feb 2021 06:09:00 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MRqlvjZZx
+  gsG6PlMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvH8xy+2goWcFXPfn2JtYNzP0cXIxSEksJlJ
+  Yt3+86wQzglGiWMdO1i6GDk52AQ0JXq3bGHsYuTgEBHQk7j6TxQkzCygLnFpXQtYibCAjcSSU
+  z1MIDaLgKrElF1NjCA2r4CrxPxbH8FqJAQUJKY8fM8MEReUODnzCQvEHAmJgy9eMEPUKErMvt
+  wMVV8lsaZjGtsERt5ZSFpmIWlZwMi0itEyqSgzPaMkNzEzR9fQwEDX0NBY11TX0NRYL7FKN0k
+  vtVQ3OTWvpCgRKKuXWF6sV1yZm5yTopeXWrKJERhgKYWsM3cwfnr9Qe8QoyQHk5Io7+XXRglC
+  fEn5KZUZicUZ8UWlOanFhxhlODiUJHhlPY0ThASLUtNTK9Iyc4DBDpOW4OBREuHN9ABK8xYXJ
+  OYWZ6ZDpE4xKkqJ8zqC9AmAJDJK8+DaYBF2iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iwbz
+  3IFJ7MvBK46a+AFjMBLVbKMAJZXJKIkJJqYOJ4ksiySU3rkMT9lEgbZr4npQK9+4P5DiyyPfu
+  jynNPT1Ue9z6Wo4e3ujozXmm5t075gVlWldStG4UOOgdmnGpbvapl3W8LYU/LvA6HGD+ZWZEv
+  t9TOu3vPxfmxyxSlvymVX7Q2yN99EtWtvc+OM1eLnWMrv65WY7/exUlyi9cnFN+cyuztcT5zp
+  3liRGTR6/a5Jws+fp+QW6gyX2RZYfPe89fjPQ4n3UzjtHc4yWLLarhfUF1aVj5bJWp7UN+xqp
+  RrRw8kcu3+HcL4TuXDoWPh8/NN3aLS1JZfmv7S+9pj8af/bimVatyfu4gtWzjb5drDG8mfzj6
+  q4gx6VM3xjK8rpjrfa364otLpbQ/9lFiKMxINtZiLihMBbiN8GysDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-20.tower-245.messagelabs.com!1613974139!188770!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=fail
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 26290 invoked from network); 22 Feb 2021 06:09:00 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-20.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Feb 2021 06:09:00 -0000
+Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 11M68rEs021700
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 06:08:59 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 22 Feb 2021 06:08:52 +0000
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] liburcu: upgrade 0.12.1 -> 0.12.2
+Date: Mon, 22 Feb 2021 14:08:42 +0800
+Message-ID: <1613974122-13457-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
+Content-Type: text/plain
 
-musl is configured to use /lib and /usr/lib for ppc64 unlike glibc where
-it is expected to have libs in /lib64 and /usr/lib64
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/conf/bitbake.conf | 4 ++--
+ .../liburcu/{liburcu_0.12.1.bb => liburcu_0.12.2.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/liburcu/{liburcu_0.12.1.bb => liburcu_0.12.2.bb} (83%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9b833c02a3..edd081ed3b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -10,8 +10,8 @@
- baselib = "${BASELIB}"
- baselib[vardepvalue] = "${baselib}"
- BASELIB = "lib"
--BASELIB_powerpc64 = "lib64"
--BASELIB_powerpc64le = "lib64"
-+BASELIB_libc-glibc_powerpc64 = "lib64"
-+BASELIB_libc-glibc_powerpc64le = "lib64"
+diff --git a/meta/recipes-support/liburcu/liburcu_0.12.1.bb b/meta/recipes-support/liburcu/liburcu_0.12.2.bb
+similarity index 83%
+rename from meta/recipes-support/liburcu/liburcu_0.12.1.bb
+rename to meta/recipes-support/liburcu/liburcu_0.12.2.bb
+index 3a5ecbcc2d..44544b109c 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.12.1.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.12.2.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
  
- # Path prefixes
- export base_prefix = ""
+ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "5e419d7b30d0d98bffe0014c704ae936"
+-SRC_URI[sha256sum] = "bbfaead0345642b97e0de90f889dfbab4b2643a6a5e5c6bb59cd0d26fc0bcd0e"
++SRC_URI[md5sum] = "d94347df78e3f1aa744745eb85787df5"
++SRC_URI[sha256sum] = "4eefc11e4f6c212fc7d84d871e1cc139da0669a46ff3fda557a6fdd4d74ca67b"
+ 
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ inherit autotools multilib_header
 -- 
-2.30.1
+2.25.1
 
