@@ -1,59 +1,242 @@
 Received: from mga11.intel.com (mga11.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.36963.1614009640008517381
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 08:00:55 -0800
+ Mon, 22 Feb 2021 08:00:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /dgWoVSpqztVbhmCmCgPZCxwescobhXGT+74Pm+uAePaZF/AGLU0WX+BmJbSS/Ln5lTpx1lpBw
- 09c9OH+vJrtQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181049429"
+IronPort-SDR: d5leW5uuYlCvaelsbTC8ru+qwgAIFMK2E3LSBbdYnKWc2pMJn145c0ncSmzujrqxLOXp74ML0L
+ ZAwyyRS19NFQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181049466"
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="181049429"
+   d="scan'208";a="181049466"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:54 -0800
-IronPort-SDR: 0DFa8tq4MR0yBS5mbq4pyAmzwdmMoNfuXF0pkXv1jh1/7Yp/mfUo8usbwbbdIpGsrN2n4ZZ15z
- pC8kZQQqf2LQ==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:56 -0800
+IronPort-SDR: HR7M2Pnt1cNtHYHT6qLL0/ppU4oYmKxRKkioo+95/3sIfkUOLUjxEjEfMNHNkf2tOtUW6bqoLR
+ shDmiqIj8BjQ==
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="430301879"
+   d="scan'208";a="430301890"
 Received: from yrajendx-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.39])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:53 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:55 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 09/30] pseudo: Update to include fixes for glibc 2.33
-Date: Tue, 23 Feb 2021 00:00:12 +0800
-Message-Id: <9dbfeba8371e269041b0586894c6b44479adb398.1614009417.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 10/30] qemu: fix CVE-2020-29443 CVE-2020-35517
+Date: Tue, 23 Feb 2021 00:00:13 +0800
+Message-Id: <3640c0095d13cf9e9b5160920d3f834c417e9f41.1614009417.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614009417.git.anuj.mittal@intel.com>
 References: <cover.1614009417.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Pull in the changes:
-makewrappers: Fix glibc 2.33 fstatat usage issues
-ports/linux: Add wrapper for fstatat/fstatat64 in glibc 2.33
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dfcb1c5eb2690046f96c2bb6724e091028ddc3ec)
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-29443.patch            |  46 +++++++
+ .../qemu/qemu/CVE-2020-35517.patch            | 126 ++++++++++++++++++
+ 3 files changed, 174 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35517.patch
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 4287cfcf93..17bd02c27c 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-group \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 69b9a5f89e..97f110cde5 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -37,6 +37,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-25624.patch \
+            file://CVE-2020-25723.patch \
+            file://CVE-2020-28916.patch \
++	   file://CVE-2020-35517.patch \
++	   file://CVE-2020-29443.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRCREV = "d03de55845edf68908879db841834584d4724c43"
-+SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+new file mode 100644
+index 0000000000..5a3b99bb23
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+@@ -0,0 +1,46 @@
++
++m 813212288970c39b1800f63e83ac6e96588095c6 Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Tue, 1 Dec 2020 13:09:26 +0100
++Subject: [PATCH] ide: atapi: assert that the buffer pointer is in range
++
++A case was reported where s->io_buffer_index can be out of range.
++The report skimped on the details but it seems to be triggered
++by s->lba == -1 on the READ/READ CD paths (e.g. by sending an
++ATAPI command with LBA = 0xFFFFFFFF).  For now paper over it
++with assertions.  The first one ensures that there is no overflow
++when incrementing s->io_buffer_index, the second checks for the
++buffer overrun.
++
++Note that the buffer overrun is only a read, so I am not sure
++if the assertion failure is actually less harmful than the overrun.
++
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Message-id: 20201201120926.56559-1-pbonzini@redhat.com
++Reviewed-by: Kevin Wolf <kwolf@redhat.com>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=813212288970c39b1800f63e83ac6e96588095c6]
++CVE: CVE-2020-29443
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ hw/ide/atapi.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
++index 14a2b0b..e791578 100644
++--- a/hw/ide/atapi.c
+++++ b/hw/ide/atapi.c
++@@ -276,6 +276,8 @@ void ide_atapi_cmd_reply_end(IDEState *s)
++         s->packet_transfer_size -= size;
++         s->elementary_transfer_size -= size;
++         s->io_buffer_index += size;
+++        assert(size <= s->io_buffer_total_len);
+++        assert(s->io_buffer_index <= s->io_buffer_total_len);
++ 
++         /* Some adapters process PIO data right away.  In that case, we need
++          * to avoid mutual recursion between ide_transfer_start
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-35517.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-35517.patch
+new file mode 100644
+index 0000000000..f818eb3bf5
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-35517.patch
+@@ -0,0 +1,126 @@
++From ebf101955ce8f8d72fba103b5151115a4335de2c Mon Sep 17 00:00:00 2001
++From: Stefan Hajnoczi <stefanha@redhat.com>
++Date: Tue, 6 Oct 2020 10:58:26 +0100
++Subject: [PATCH] virtiofsd: avoid /proc/self/fd tempdir
++
++In order to prevent /proc/self/fd escapes a temporary directory is
++created where /proc/self/fd is bind-mounted. This doesn't work on
++read-only file systems.
++
++Avoid the temporary directory by bind-mounting /proc/self/fd over /proc.
++This does not affect other processes since we remounted / with MS_REC |
++MS_SLAVE. /proc must exist and virtiofsd does not use it so it's safe to
++do this.
++
++Path traversal can be tested with the following function:
++
++  static void test_proc_fd_escape(struct lo_data *lo)
++  {
++      int fd;
++      int level = 0;
++      ino_t last_ino = 0;
++
++      fd = lo->proc_self_fd;
++      for (;;) {
++          struct stat st;
++
++          if (fstat(fd, &st) != 0) {
++              perror("fstat");
++              return;
++          }
++          if (last_ino && st.st_ino == last_ino) {
++              fprintf(stderr, "inode number unchanged, stopping\n");
++              return;
++          }
++          last_ino = st.st_ino;
++
++          fprintf(stderr, "Level %d dev %lu ino %lu\n", level,
++                  (unsigned long)st.st_dev,
++                  (unsigned long)last_ino);
++          fd = openat(fd, "..", O_PATH | O_DIRECTORY | O_NOFOLLOW);
++          level++;
++      }
++  }
++
++Before and after this patch only Level 0 is displayed. Without
++/proc/self/fd bind-mount protection it is possible to traverse parent
++directories.
++
++Fixes: 397ae982f4df4 ("virtiofsd: jail lo->proc_self_fd")
++Cc: Miklos Szeredi <mszeredi@redhat.com>
++Cc: Jens Freimann <jfreimann@redhat.com>
++Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
++Message-Id: <20201006095826.59813-1-stefanha@redhat.com>
++Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
++Tested-by: Jens Freimann <jfreimann@redhat.com>
++Reviewed-by: Jens Freimann <jfreimann@redhat.com>
++Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
++
++
++Upstream-Status: Backport
++[https://github.com/qemu/qemu/commit/ebf101955ce8f8d72fba103b5151115a4335de2c]
++CVE: CVE-2020-35517
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ tools/virtiofsd/passthrough_ll.c | 34 +++++++++++---------------------
++ 1 file changed, 11 insertions(+), 23 deletions(-)
++
++diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
++index 477e6ee0b53..ff53df44510 100644
++--- a/tools/virtiofsd/passthrough_ll.c
+++++ b/tools/virtiofsd/passthrough_ll.c
++@@ -2393,8 +2393,6 @@ static void setup_wait_parent_capabilities(void)
++ static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
++ {
++     pid_t child;
++-    char template[] = "virtiofsd-XXXXXX";
++-    char *tmpdir;
++ 
++     /*
++      * Create a new pid namespace for *child* processes.  We'll have to
++@@ -2458,33 +2456,23 @@ static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
++         exit(1);
++     }
++ 
++-    tmpdir = mkdtemp(template);
++-    if (!tmpdir) {
++-        fuse_log(FUSE_LOG_ERR, "tmpdir(%s): %m\n", template);
++-        exit(1);
++-    }
++-
++-    if (mount("/proc/self/fd", tmpdir, NULL, MS_BIND, NULL) < 0) {
++-        fuse_log(FUSE_LOG_ERR, "mount(/proc/self/fd, %s, MS_BIND): %m\n",
++-                 tmpdir);
+++    /*
+++     * We only need /proc/self/fd. Prevent ".." from accessing parent
+++     * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
+++     * previously remounted with MS_REC | MS_SLAVE this mount change only
+++     * affects our process.
+++     */
+++    if (mount("/proc/self/fd", "/proc", NULL, MS_BIND, NULL) < 0) {
+++        fuse_log(FUSE_LOG_ERR, "mount(/proc/self/fd, MS_BIND): %m\n");
++         exit(1);
++     }
++ 
++-    /* Now we can get our /proc/self/fd directory file descriptor */
++-    lo->proc_self_fd = open(tmpdir, O_PATH);
+++    /* Get the /proc (actually /proc/self/fd, see above) file descriptor */
+++    lo->proc_self_fd = open("/proc", O_PATH);
++     if (lo->proc_self_fd == -1) {
++-        fuse_log(FUSE_LOG_ERR, "open(%s, O_PATH): %m\n", tmpdir);
+++        fuse_log(FUSE_LOG_ERR, "open(/proc, O_PATH): %m\n");
++         exit(1);
++     }
++-
++-    if (umount2(tmpdir, MNT_DETACH) < 0) {
++-        fuse_log(FUSE_LOG_ERR, "umount2(%s, MNT_DETACH): %m\n", tmpdir);
++-        exit(1);
++-    }
++-
++-    if (rmdir(tmpdir) < 0) {
++-        fuse_log(FUSE_LOG_ERR, "rmdir(%s): %m\n", tmpdir);
++-    }
++ }
++ 
++ /*
 -- 
 2.29.2
 
