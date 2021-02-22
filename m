@@ -1,79 +1,111 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web11.32339.1613985263487441737
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web10.32381.1613985503977318201
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 01:14:23 -0800
+ Mon, 22 Feb 2021 01:18:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: E/FtH3eAY2sbSNTU/hFuvzacsBxS2nBa4EoYPicUy248jrmLCV07YzgBdeu+Izr91fKVEw2M2M
- 94Kqv0y1T1ZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9902"; a="248440872"
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="248440872"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 01:14:22 -0800
-IronPort-SDR: UaMXdzSvxL9gJfQU+XobBw0YY2AEMdw0DlRfTnJFbkwZVxWmB5OSNGVP+lvKDgieYSST2PsLxw
- BnL140iIgF2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,196,1610438400"; 
-   d="scan'208";a="514728663"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga004.jf.intel.com with ESMTP; 22 Feb 2021 01:14:22 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][gatesgarth] go: Update to 1.15.8
-Date: Mon, 22 Feb 2021 17:14:21 +0800
-Message-Id: <20210222091421.83012-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uQf57YCR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: mans.zigher@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id y7so53791011lji.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 01:18:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K8Im3yZrQjfsRAnElZKbBpHSiUjo8UVsBr5OCn2IYP0=;
+        b=uQf57YCRnULNL9UBqm9bKz6YQc2l7T9vvNdyrhgFm0B1WO6mbOi0vznOUXVawRBFjV
+         wDqCYHuj3lpr5DAMWd9PGoda4oUxphyW+IQMLFMsGOxF2blj58+5Kl1JhO96gzkdFvz3
+         3b4hmlu+QLdCaXTo1/mhDdg1IrTol6VHwP95lBobaBN8OYUP07IBkzdW4kxp7IKh9sz5
+         cfvA3bGlX8L9QqE35x3h83ZYiDv2+6gOzLwEpit5+l/dP7Dal5yGc6GToqI0+8spgLzL
+         L9rxh57RYx2Q9EF+gRkWEKWa2p99ERlgzDstSb4w+fXk2CjPXwPaiXGgeTteo90VMVvq
+         6LiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K8Im3yZrQjfsRAnElZKbBpHSiUjo8UVsBr5OCn2IYP0=;
+        b=HePsKRb8R4r/xLf14UTBWoY/9zOGGqx8bXDTk/0en7RxRasY1LMXF78R6faRkWiuuj
+         Miif9JLn7ufeiKzoZA3jOwdPw9TDG2Ua9C+j/xZiwcJdG73hDBHuXCFCYz22ZJ2FOgrN
+         TiHApIr4KACyYoN5WyUzqCNpEaTcJe0W1VipC1aTe/6EOHoz2fmFB1ItDwSyRA2SAPHX
+         1nsVQTC/VgMqXOmYq9tos/0vLNggRuIl6EdX3RunSe+3Clwz11gjWp4lxUteWqaiiI1Y
+         mCvwI+o6KEDLT3t8w3iKrmubyJfYDgHUmVQUeKyyz3C0to37ORJOJF9prfKnOoYVJHv2
+         36+Q==
+X-Gm-Message-State: AOAM532IxbFNI8tO/UKsLeAXl3ANK4Nr4k79b0urViEr9Ef3m2N14E0a
+	K8kKGUfP9XWrwocK2stkCf3kQXkgPQIbHRMl+0Y=
+X-Google-Smtp-Source: ABdhPJxbhVG15G8Q+KKIpV6p7qT8LzXTb3DElZ0gig+VRAPzUNxT/r7GyY6gF7LBqhCT/AFle1Du//qrz92xj5qgHYU=
+X-Received: by 2002:a2e:9812:: with SMTP id a18mr7153433ljj.479.1613985502139;
+ Mon, 22 Feb 2021 01:18:22 -0800 (PST)
+MIME-Version: 1.0
+References: <CAEhQi8=E4K3h5Y8ui3PRXYx68Jgk=RzShj0UwQEcGupd_YMYWQ@mail.gmail.com>
+ <9802d27eadcf72dd628a236fb42b06834d1158e1.camel@linuxfoundation.org>
+In-Reply-To: <9802d27eadcf72dd628a236fb42b06834d1158e1.camel@linuxfoundation.org>
+From: "Mans Zigher" <mans.zigher@gmail.com>
+Date: Mon, 22 Feb 2021 10:18:11 +0100
+Message-ID: <CAEhQi8n443scKapCNSRw0R5Yj_1+puUq1O-2rQua6Lcf7y64rQ@mail.gmail.com>
+Subject: Re: [OE-core] [Question] "global" package list used to bump up customer packages
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Khem Raj <raj.khem@gmail.com>
+Hi,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2b724599e29808014f5d9c1fdc70d20abab9b3e5)
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/recipes-devtools/go/go-1.15.inc                          | 4 ++--
- ...{go-binary-native_1.15.6.bb => go-binary-native_1.15.8.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.15.6.bb => go-binary-native_1.15.8.bb} (83%)
+Thanks for the reply. My customer are not really interested in going
+into multiple recipes so that is why I am thinking of having a
+manifest file for them to update packages in one location. I still
+want to have some kind of step where someone approves the "pumping" so
+even if AUTOREV could be an alternative I am not sure that is the
+solution but I will investigate that. The pn-somepackage variable is
+likely part of the solution.
 
-diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
-index abe74e5eb7..7c8190f68c 100644
---- a/meta/recipes-devtools/go/go-1.15.inc
-+++ b/meta/recipes-devtools/go/go-1.15.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.15"
--PV = "1.15.6"
-+PV = "1.15.8"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
--SRC_URI[main.sha256sum] = "890bba73c5e2b19ffb1180e385ea225059eb008eb91b694875dd86ea48675817"
-+SRC_URI[main.sha256sum] = "540c0ab7781084d124991321ed1458e479982de94454a98afab6acadf38497c2"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.15.6.bb b/meta/recipes-devtools/go/go-binary-native_1.15.8.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.15.6.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.15.8.bb
-index 622557ad2b..df697e2781 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.15.6.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.15.8.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "3918e6cc85e7eaaa6f859f1bdbaac772e7a825b0eb423c63d3ae68b21f84b844"
--SRC_URI[go_linux_arm64.sha256sum] = "f87515b9744154ffe31182da9341d0a61eb0795551173d242c8cad209239e492"
-+SRC_URI[go_linux_amd64.sha256sum] = "d3379c32a90fdf9382166f8f48034c459a8cc433730bc9476d39d9082c94583b"
-+SRC_URI[go_linux_arm64.sha256sum] = "0e31ea4bf53496b0f0809730520dee98c0ae5c530f3701a19df0ba0a327bf3d2"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
--- 
-2.17.1
+BR
 
+Den fre 19 feb. 2021 kl 18:38 skrev Richard Purdie
+<richard.purdie@linuxfoundation.org>:
+>
+> On Fri, 2021-02-19 at 09:53 +0100, Mans Zigher wrote:
+> > Hi,
+> >
+> > I have a problem getting my customer to understand how to work with
+> > OE. They have a set of private packages that they continuously need to
+> > bump up to use the latest version. The packages are stored up in an
+> > artifactory server. I have an idea of maybe helping them out by adding
+> > a manifest file containing a couple of entries for each package
+> >
+> > VERSION = "0.25.6"
+> > SRC_URI[md5sum] = "0d6bc46bb69b2a0dce0c042d27b4f25c"
+> > SRC_URI[sha256sum] =
+> > "c20ea63a5e2f24e25d91e5cdfaa6b4b3735739d6170bea7b2b7d429fc397b718"
+> >
+> > This manifest should then be pulled into the bitbake environment so
+> > that the packages can read these entries and download what is needed.
+> > Any comments regarding this potential solution would be greatly
+> > appreciated.
+> >
+> > Also I have a faint memory of seeing something similar solution so if
+> > you know if something already exists then I would appreciate if you
+> > could let me know.
+>
+> Are you thinking of AUTOREV? That works if the fetcher has support
+> for the source control system being used, e.g. git or subversion but
+> I'm not sure it would work for artifactory without a dedicated fetcher
+> module.
+>
+> Certainly generating an include file like this is one way to handle
+> this. You can use package-name overrides, e.g.:
+>
+> VERSION_pn-somepackagename = "0.1.2"
+>
+> although its harder to do with flags, you might have to put those via
+> an intermediate variable:
+>
+> SRCURISHA256_pn-somepackagename = "XXX"
+>
+> then in the recipe:
+>
+> SRC_URI[sha256sum] = "${SRCURISHA256}"
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
