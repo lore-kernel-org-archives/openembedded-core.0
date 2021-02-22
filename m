@@ -1,86 +1,198 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.158.5])
- by mx.groups.io with SMTP id smtpd.web08.2164.1614023846968153971
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web11.2326.1614024032333315953
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 11:57:27 -0800
+ Mon, 22 Feb 2021 12:00:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=HvSpcd/1;
- spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.158.5, mailfrom: klaus@linux.vnet.ibm.com)
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11MJlBfn028359;
-	Mon, 22 Feb 2021 14:57:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=WE+7uYcfYG52mHy0puYuhUCp8PkwsC4Yts+e7WDQpFI=;
- b=HvSpcd/1aJdo+7ynaaVP1dwwQz6ZEQHJCW+hM8MXCEfK5ZznXd97sEjKEQ+T5zWdlXbL
- 1K4/x+rJzJvq+MLeKXOChS0Gb7GWf+7xPmXBvK2O2aPZ6OIY3DnWasebxu6loJlsh+Ir
- qG+8DTPGDmcwFT4A9wyBGCYh4TRaDCGvrnRY/CJTAn8xva3MLO+FdR+uY/RhwVPPc6d5
- 9ctY7+6kYKwH1Clv+RApohHdk1X0jW5wHircIyAhIj8HVGPrChS9ixaZCsGl7rulwLSK
- ro3NmWlfIrwZJ8LwIiccexRIAkrzP3gxSG/LlqEX8KbR/ebYJSEzBR46gkaPX0Gtra1w 9Q== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 36vk2wgh3f-20
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 Feb 2021 14:57:25 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-	by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11MIfk5e025953;
-	Mon, 22 Feb 2021 18:42:14 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-	by ppma03dal.us.ibm.com with ESMTP id 36v5y8nb4u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 22 Feb 2021 18:42:14 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
-	by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11MIgERl34013472
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Feb 2021 18:42:14 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0CBD3AE05C;
-	Mon, 22 Feb 2021 18:42:14 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 86106AE060;
-	Mon, 22 Feb 2021 18:42:13 +0000 (GMT)
-Received: from [9.85.139.253] (unknown [9.85.139.253])
-	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-	Mon, 22 Feb 2021 18:42:13 +0000 (GMT)
-Subject: Re: [OE-core] [PATCH] kernel-fitimage: Don't use unit addresses on FIT
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core@lists.openembedded.org
-References: <20210221192210.5070-1-klaus@linux.vnet.ibm.com>
- <99b61172c516c71dadbc7342da4e20a064299110.camel@linuxfoundation.org>
-From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
-Message-ID: <0c16761e-61bc-a90c-a137-fb127d04450b@linux.vnet.ibm.com>
-Date: Mon, 22 Feb 2021 15:42:12 -0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H0ygDoap;
+ spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f45.google.com with SMTP id n8so3052381vso.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 12:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I+CNH1k/bF0l2fkc5/iSnaiyiUGtM7fOrQQLeohpZtw=;
+        b=H0ygDoap8hpnNK8sD2d0Gi8yCgj+kCx2tJmjZaw8FSE6lX0yn2Vm+n4g39z6Fl9mGH
+         MylEOgmVB9YcXK1IjgtvkUlXF/3uOxTvUgxmBs616Dyej5CpdVXTDYdPvasgU3a+l/Xi
+         9KrH1m2gu8MnW7y0ZB5PXW+oab/fD/Eafegq+UDHALmh5D+cHn4kuYVDngmj+XPcRcE8
+         KlvkZ9OYsf8NZQhnRxSOrXff+XCRhDABobWGKNKd20aFO2is7/tVB411WVYUs96JpJI9
+         7oKQEiqu/Zh29vf2daTj997647GeHxRmRFNh4r65/emGphzTTIGmgjrmBh6WzO/5iTrT
+         zGyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I+CNH1k/bF0l2fkc5/iSnaiyiUGtM7fOrQQLeohpZtw=;
+        b=DUWyKv90HXphq+vxgomF+FqSqGu06l0bRUqM4iuApO/Q0cR0OLBpoRkaS8dvHubE9A
+         bvZ9JzUtiLi5rE6cdm1ukrS4Iyr/DpHpcfL69g6iFf20wweS9IhB3q2xyu4QXYl8sqpT
+         CJDtmQKaBPDvQCHcAseZkeXhPZ9433HyZuDyndSG6RCBLNkPH//VVGICFr0n2auvlFRr
+         tvjfPbuUK4h75qaFiuAxtFGNnaLlnVrgqHIIcocbOMr3pgJpBQrnDzC3wCfmobPlSUEL
+         Bfq9tiP0LBII7MDvrIz9C9bIo+vGXFW3iNTubVDG2zadAAButKoJemXQYAgHJwgHmgWe
+         VxKQ==
+X-Gm-Message-State: AOAM531SuAYmpoF4JuRaO6b8sow15MBZSWRzn0wPkoC0feWp8rEunF18
+	z/djN8KB4lvi5mKdLOJbRCnh0O439siHzkZS0eU=
+X-Google-Smtp-Source: ABdhPJzdDw7USTG3d251Hy2je0d81B0ix3cjNeKCCiA55WKNlu+kafvPxxaqmhve01Bmx25kHcz5JS0DCKUo/NuK8AI=
+X-Received: by 2002:a67:f318:: with SMTP id p24mr13604871vsf.54.1614024031532;
+ Mon, 22 Feb 2021 12:00:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <99b61172c516c71dadbc7342da4e20a064299110.camel@linuxfoundation.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-02-22_07:2021-02-22,2021-02-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxlogscore=999
- priorityscore=1501 spamscore=0 impostorscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102220173
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210222154956.27267-1-andrej.valek@siemens.com>
+ <4462ffe940c0fa879486300e5d7d358045604133.camel@linuxfoundation.org>
+ <CANNYZj_1RL9rSJxaaRTQf__mnzEr49Eze5gW44TBtJn7FEhN0Q@mail.gmail.com>
+ <9ea4df35-c70e-e03e-7fea-e56960ef17c6@gmail.com> <CANNYZj9xb3q+b4Mqng_RQoR+NvstzwOXeHRfCMrKuyCyxzyNEQ@mail.gmail.com>
+ <CAMKF1sr0cHysY1wjfmXTsKVQ-1nhzx3=avprqfMC+AVU1QWzYA@mail.gmail.com>
+In-Reply-To: <CAMKF1sr0cHysY1wjfmXTsKVQ-1nhzx3=avprqfMC+AVU1QWzYA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 22 Feb 2021 21:00:20 +0100
+Message-ID: <CANNYZj_JMoBs4KzZtRToeUuJEUorVe4fw9_j-txZah6+XAMBkA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] busybox: search stable versions for AUH
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Andrej Valek <andrej.valek@siemens.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Content-Type: multipart/alternative; boundary="0000000000000ef78205bbf24151"
 
+--0000000000000ef78205bbf24151
+Content-Type: text/plain; charset="UTF-8"
 
-> 
-> This caused some tests to fail:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1855/steps/15/logs/stdio
-> 
-> Do we need to update the tests as well?
+I am also not sure if there's actual meaning behind this unstable marker.
+It's not explained anywhere, there are no release announcements where it's
+explicitly mentioned, and the branch in git has no commits since 1.33.0
+https://git.busybox.net/busybox/log/?h=1_33_stable
 
-Thanks, I missed that completely. Adjusted the testcases for V2 and, even if locally I'm
-seeing a strange FAIL on the sign test with UBOOT_MKIMAGE_SIGN_ARGS not showing-up, I think
-it is unrelated and perhaps something of my environment (tested on another environment
-that succeeded).
+I am leaning towards just taking the .0 versions.
 
-Sent a V2.
-  
-  -Klaus
+Alex
 
--- 
-Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+On Mon, 22 Feb 2021 at 20:14, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Mon, Feb 22, 2021 at 10:44 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > Right here: https://busybox.net/
+> >
+> I see.
+> Gap between 1.32.0 and 1.32.1 release was about 6 months, I am not
+> sure if all distros are waiting for dot releases or not. I see that
+> upcoming fedora 34 ( due in April )
+> is already packaging busybox 1.33.0
+>
+> > Alex
+> >
+> >
+> > On Mon, 22 Feb 2021 at 18:37, Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >>
+> >>
+> >> On 2/22/21 8:39 AM, Alexander Kanavin wrote:
+> >> > On Mon, 22 Feb 2021 at 17:02, Richard Purdie
+> >> > <richard.purdie@linuxfoundation.org
+> >> > <mailto:richard.purdie@linuxfoundation.org>> wrote:
+> >> >
+> >> >      > +UPSTREAM_CHECK_URI = "https://busybox.net/ <
+> https://busybox.net/>"
+> >> >      > +UPSTREAM_CHECK_REGEX = "BusyBox\ (?P<pver>\d+\.\d+\.\d+)\
+> >> >     \(stable\)"
+> >> >     I just realised/wondered whether:
+> >> >
+> >> >     inherit upstream-version-is-even
+> >> >
+> >> >     would work here?
+> >> >
+> >> >
+> >> > I don't think so - busybox seems to declare x.y.0 as unstable, and
+> >> > everything else as stable.
+> >> >
+> >>
+> >> is it documented somewhere that x.y.0 is unstable ?
+> >>
+> https://git.busybox.net/busybox/commit/?id=a4c3a341394a1fb25be8c15d2ddfe3ec77cbb83c
+> >>
+> >> seems to indicate its a normal release.
+> >>
+> >> > Alex
+> >> >
+> >> >
+> >> > 
+> >> >
+>
+
+--0000000000000ef78205bbf24151
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I am also not sure if there&#39;s actual meaning behi=
+nd this unstable marker. It&#39;s not explained anywhere, there are no rele=
+ase announcements where it&#39;s explicitly mentioned, and the branch in gi=
+t has no commits since 1.33.0</div><div><a href=3D"https://git.busybox.net/=
+busybox/log/?h=3D1_33_stable">https://git.busybox.net/busybox/log/?h=3D1_33=
+_stable</a></div><div><br></div><div>I am leaning towards just taking the .=
+0 versions.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 22 Feb 2021 at 2=
+0:14, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Mon, Feb 22, 2021 at 10:44 AM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
+in@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Right here: <a href=3D"https://busybox.net/" rel=3D"noreferrer" targe=
+t=3D"_blank">https://busybox.net/</a><br>
+&gt;<br>
+I see.<br>
+Gap between 1.32.0 and 1.32.1 release was about 6 months, I am not<br>
+sure if all distros are waiting for dot releases or not. I see that<br>
+upcoming fedora 34 ( due in April )<br>
+is already packaging busybox 1.33.0<br>
+<br>
+&gt; Alex<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, 22 Feb 2021 at 18:37, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On 2/22/21 8:39 AM, Alexander Kanavin wrote:<br>
+&gt;&gt; &gt; On Mon, 22 Feb 2021 at 17:02, Richard Purdie<br>
+&gt;&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" ta=
+rget=3D"_blank">richard.purdie@linuxfoundation.org</a><br>
+&gt;&gt; &gt; &lt;mailto:<a href=3D"mailto:richard.purdie@linuxfoundation.=
+org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;&gt; wrote=
+:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; +UPSTREAM_CHECK_URI =3D &quot;<a hr=
+ef=3D"https://busybox.net/" rel=3D"noreferrer" target=3D"_blank">https://bu=
+sybox.net/</a> &lt;<a href=3D"https://busybox.net/" rel=3D"noreferrer" targ=
+et=3D"_blank">https://busybox.net/</a>&gt;&quot;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 &gt; +UPSTREAM_CHECK_REGEX =3D &quot;Bus=
+yBox\ (?P&lt;pver&gt;\d+\.\d+\.\d+)\<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0\(stable\)&quot;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0I just realised/wondered whether:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0inherit upstream-version-is-even<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0would work here?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I don&#39;t think so - busybox seems to declare x.y.0 as uns=
+table, and<br>
+&gt;&gt; &gt; everything else as stable.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt; is it documented somewhere that x.y.0 is unstable ?<br>
+&gt;&gt; <a href=3D"https://git.busybox.net/busybox/commit/?id=3Da4c3a3413=
+94a1fb25be8c15d2ddfe3ec77cbb83c" rel=3D"noreferrer" target=3D"_blank">https=
+://git.busybox.net/busybox/commit/?id=3Da4c3a341394a1fb25be8c15d2ddfe3ec77c=
+bb83c</a><br>
+&gt;&gt;<br>
+&gt;&gt; seems to indicate its a normal release.<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Alex<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; <br>
+&gt;&gt; &gt;<br>
+</blockquote></div>
+
+--0000000000000ef78205bbf24151--
