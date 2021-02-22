@@ -1,74 +1,57 @@
 Received: from mga11.intel.com (mga11.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.36963.1614009640008517381
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 08:00:47 -0800
+ Mon, 22 Feb 2021 08:00:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: g4Ca2aSEL2JBQkiWqZJ04u9DwCSHZG4rg4nnVivPJ/qvonc/EoVc7GSnaKCiFmuUEedcMitc8a
- a1IDA0EbUc0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181049323"
+IronPort-SDR: 1ltKb0bfoukyWeQoT6hpcqJY6IiyxxiMWvU3Cp/y9MteuERTg0sLNuHeOGyZQhlImZkv96/rRQ
+ KSsmbF2Ih4Gw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9903"; a="181049334"
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="181049323"
+   d="scan'208";a="181049334"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:46 -0800
-IronPort-SDR: n/OIquqn8jgeF+dJ8zbUWmqjqi3HKJuX+LNn8MVMZCRHFnZiWaKZZQsVnck66g1F8XpyzE1j6f
- yJ7/ubyg6rsg==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:47 -0800
+IronPort-SDR: CpazSEdp4rPRaWE+2hbT/3T4IhRuHJJ3an32vBC0KQRU/0M5sfhFHLMmvfOAlTiwk7LO9ufedx
+ K7zxdII53sEg==
 X-IronPort-AV: E=Sophos;i="5.81,197,1610438400"; 
-   d="scan'208";a="430301833"
+   d="scan'208";a="430301848"
 Received: from yrajendx-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.39])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:44 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2021 08:00:46 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 05/30] connman: update to 1.39
-Date: Tue, 23 Feb 2021 00:00:08 +0800
-Message-Id: <3d9e9e299bde597ba2d57887ce436a25eed920bc.1614009417.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 06/30] tcf-agent: Fix build on riscv32
+Date: Tue, 23 Feb 2021 00:00:09 +0800
+Message-Id: <1f69d289b6d7ea617cd976b40908239cdb8d3f1c.1614009417.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614009417.git.anuj.mittal@intel.com>
 References: <cover.1614009417.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: akuster <akuster808@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Bug fix only and includes two security fixes:
+LCL_STOP_SERVICES needs tcf/cpudefs-mdep.h ported
 
-CVE-2021-26675
-CVE-2021-26676
-
-Changelog:
-- Fix issue with scanning state synchronization and iwd.
-- Fix issue with invalid key with 4-way handshake offloading.
-- Fix issue with DNS proxy length checks to prevent buffer overflow.
-- Fix issue with DHCP leaking stack data via uninitialized variable.
-
-[Yocto #14231]
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eb20fd47d738f469f7bbeb4b8d85040f9163722b)
+(cherry picked from commit ed5e0de938469a7fa4e6cd725d9e0c8325d890d3)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../connman/{connman_1.38.bb => connman_1.39.bb}               | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/recipes-connectivity/connman/connman_1.39.bb
-similarity index 78%
-rename from meta/recipes-connectivity/connman/connman_1.38.bb
-rename to meta/recipes-connectivity/connman/connman_1.39.bb
-index 027c41e9af..df42e9ffb8 100644
---- a/meta/recipes-connectivity/connman/connman_1.38.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.39.bb
-@@ -9,8 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index ed14fe66b1..c1b05691b8 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -48,6 +48,7 @@ CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_powerpc64 = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_powerpc64le = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_riscv64 = " ${LCL_STOP_SERVICES}"
++CFLAGS_append_riscv32 = " ${LCL_STOP_SERVICES}"
  
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
- 
--SRC_URI[md5sum] = "1ed8745354c7254bdfd4def54833ee94"
--SRC_URI[sha256sum] = "cb30aca97c2f79ccaed8802aa2909ac5100a3969de74c0af8a9d73b85fc4932b"
-+SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
- 
- RRECOMMENDS_${PN} = "connman-conf"
- RCONFLICTS_${PN} = "networkmanager"
+ do_install() {
+ 	oe_runmake install INSTALLROOT=${D}
 -- 
 2.29.2
 
