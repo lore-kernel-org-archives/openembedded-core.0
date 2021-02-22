@@ -1,87 +1,259 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.33859.1613997402568708640
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web09.36929.1614008233721881333
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 04:36:42 -0800
+ Mon, 22 Feb 2021 07:37:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DOKWisn6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id i7so7354852wmb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 04:36:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rOZg8IWR;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: jatedev@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 75so10418747pgf.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 07:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=qM15tqmmXZJdkOlkpe80BhcIl0St8q3FIPTPOgX/Rqg=;
-        b=DOKWisn60cHzh405jnlgd+UJTDOwdslt6LQpWcKHhXc4lJ7UM8Yio5b1Bb2isbnbYx
-         sawRdp2eTRL8NPYF6XS1H5caAnci/HrEQzTqSX8aCGqZdTkUE101uqRR9twk48rNmtQD
-         CjFCzy9qgxMLQ0on504kjKQZMdcpk31MFHI08=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4tCh9RL+AdeJ4XXPMMDemJKhJ378tBsmwMYR7TuKYMg=;
+        b=rOZg8IWR8B4/Ym7Wbauw9sU7xdFQ4Bqe4WGduiaR3exCHLSoJNv0ZmxoB0XEcOgbT0
+         /Cf4LwAb7xLww8Bx4s4OP2rdI84HiQurtvIRaaw5nqHDLOkXO9+uFCNNv6Qnhs6sTvrf
+         lmerokdlcXDTfJvAhayMpf9EuUQ+Sw57si68wK8oSm+Bus0DdY2tkMVJwVhktu4cOr0N
+         vx+AYVLopeZA1a6ka39S4mAztKYpXyg0kVwXxDYlUtDVwpRuVHUWPpXRd6tXhXaFNliY
+         KnWEv5P0fKhUBpWXklL2H82F5SnrWXsFJseIx481m/j343LiyvXqCaDLhyZ1sxoTIPom
+         aHAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qM15tqmmXZJdkOlkpe80BhcIl0St8q3FIPTPOgX/Rqg=;
-        b=olQU091CgD9vSQFUFzNxJ+NoYVbW3MscqTo3DdimRfKBIqLW0Jh6j+IDTs2nfMNU3K
-         9xkl87H52000pAG6mgbCeMGvrLikVUODMJ+LgWZIb+y/d3Kcy0VzXVE+yhNGq261VbsV
-         dKY+bXBqN538bwutfxCQWGzstOk0NxxKliyKc1Pfq/p4tDnwKugjJqRV878sJNidNQYH
-         YHNq1beWHBIXtm2f8LA5kt6DJZcvt3qso2rZLGrEb+HOjZ7OWaSi5hDkQ6XcVy8Wv4E8
-         eBcCBTnr7t2ReW4+P9U+x1aRdy1oZmzT8g2q2YW9saHPZ2ZR2TzW23sTlCjbah2vbH8s
-         iSCw==
-X-Gm-Message-State: AOAM533V275CKxynJ/WAYvEd7RoYUJ+Xh75yoRH9KlqJs6j2uwa2reax
-	iRT2INAWnG/a6y6FPqqXTuZYMZRwr5G6bg==
-X-Google-Smtp-Source: ABdhPJw6fGuf4El5il4CHFsmkmnyCWf/pTRJ6U9l4Z1Z9dxyauUcrNJ+hk2Uo9hwmbUfmvipf5eCkQ==
-X-Received: by 2002:a1c:2090:: with SMTP id g138mr19985208wmg.137.1613997401100;
-        Mon, 22 Feb 2021 04:36:41 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
-        by smtp.gmail.com with ESMTPSA id c12sm17432526wru.71.2021.02.22.04.36.40
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 04:36:40 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-firmware: upgrade 20201218 -> 20210208
-Date: Mon, 22 Feb 2021 12:36:38 +0000
-Message-Id: <20210222123638.3754068-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210222123638.3754068-1-richard.purdie@linuxfoundation.org>
-References: <20210222123638.3754068-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4tCh9RL+AdeJ4XXPMMDemJKhJ378tBsmwMYR7TuKYMg=;
+        b=t/FvHmltxYyB/skWpyIuLbW7qvw4CIheOsuHNsZIgAlrMFM4KH3hzYe9mi5EaORjUD
+         glCD3oOYG4bBRHgjvbCSBqIbqSBfpZGbT1X07Ageb+XczZ8A99XNZLkCQHC8Ftq/l/zS
+         oCVt2/GzP3a4hl8rlXyUIHqWIlE5cWr+Ya/E4HDWwlq+M2zacXzK0VEh2//r68Z0e3lx
+         4hb0uQXpsPHR+6kq45ejZbV0PpZC4Sb+BXKRHvSCxGMmDKHJBx5iKJo02TJgqYKx8W0i
+         qn4DXL4HLuRvwxKORFxpfq2qPbjwf3kWfPXy2RBONkJlfw6JCtMVMdyY8DLihuRmDWqS
+         gVpg==
+X-Gm-Message-State: AOAM532+VcllSu5d2QhlrdXlvPFqRK7iJTe0QOMdMajvE/Ru7F0WyrVL
+	XUOeyR6PiPKaowKhQ29WemGbRTZP1ILPpcamquI=
+X-Google-Smtp-Source: ABdhPJzWGb3z6bIVyyBPra+b+ruMTexJKbldlcEB25k2qOOWiCwUPliOOeyEauGAafKiykOlCyuPShAbk+tGicpVx88=
+X-Received: by 2002:a63:c60b:: with SMTP id w11mr20020788pgg.215.1614008233228;
+ Mon, 22 Feb 2021 07:37:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210219175307.46218-1-jatedev@gmail.com> <20210219175307.46218-2-jatedev@gmail.com>
+ <d03dd49676e706f3806dfa902ede127541c5a757.camel@linuxfoundation.org>
+In-Reply-To: <d03dd49676e706f3806dfa902ede127541c5a757.camel@linuxfoundation.org>
+From: "Jate Sujjavanich" <jatedev@gmail.com>
+Date: Mon, 22 Feb 2021 10:37:01 -0500
+Message-ID: <CAPphmgbMCQFgsFP2A8bTSF_6ZPg=0zJwrsOdM49M0VprX0xuaA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] iputils: Fix setcap/setuid of executables
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, Jose Quaresma <quaresma.jose@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000067fb2505bbee9365"
 
-License file had a number of new additions for new firmware but no
-new licenses that didn't already exist.
+--00000000000067fb2505bbee9365
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...{linux-firmware_20201218.bb => linux-firmware_20210208.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201218.bb => linux-firmware_20210208.bb} (99%)
+I have submitted to the upstream which I believe is the github
+iputils/iputils project.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-index 700a79b118a..59ce4d51246 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
-@@ -128,7 +128,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=03f0fad70b8b557b56084e3090198021 \
-+                    file://WHENCE;md5=ef0565762eac313c409567b59dff00b2 \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -201,7 +201,7 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "a1cc1ff72c739f312b095df589e9fd639fc81c3f8f7966377ea35222dc94c04b"
-+SRC_URI[sha256sum] = "1bcb1a3944c361507754a7d26ccff40ffc28d1fb93bce711d67da26b33e785b7"
- 
- inherit allarch
- 
--- 
-2.27.0
+My previous thread had the wrong mailing list address, so I am replying to
+this question here:
+>Thinking further, how about changing the PACKAGECONFIG to:
+>
+>PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false
+-DNO_SETCAP_OR_SUID=true, libcap libcap-native"
+>
+>?
+>
+>Cheers,
+>
+>Richard
 
+This would disable the fallback to setuid if PACKAGECONFIG libcap was
+disabled.
+
+- Jate
+
+
+
+On Fri, Feb 19, 2021 at 12:57 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Fri, 2021-02-19 at 17:53 +0000, Jate Sujjavanich wrote:
+> > Limit setcap search to PATH for cross builds preventing host
+> > contamination. Add DEPENDS for libcap-native to supply this for
+> > PACKAGECONFIG libcap.
+> >
+> > The previous setting of NO_SETCAP_OR_SUID broke setuid or setcap of
+> > /bin/ping and other executables.
+> >
+> > Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+> > ---
+> >  ...tcap-search-to-PATH-for-cross-builds.patch | 33 +++++++++++++++++++
+> >  .../iputils/iputils_s20200821.bb              |  3 +-
+> >  2 files changed, 35 insertions(+), 1 deletion(-)
+> >  create mode 100644
+> meta/recipes-extended/iputils/iputils/0001-Limit-setcap-search-to-PATH-for-cross-builds.patch
+> >
+> > diff --git
+> a/meta/recipes-extended/iputils/iputils/0001-Limit-setcap-search-to-PATH-for-cross-builds.patch
+> b/meta/recipes-extended/iputils/iputils/0001-Limit-setcap-search-to-PATH-for-cross-builds.patch
+> > new file mode 100644
+> > index 0000000000..b09cdb5f13
+> > --- /dev/null
+> > +++
+> b/meta/recipes-extended/iputils/iputils/0001-Limit-setcap-search-to-PATH-for-cross-builds.patch
+> > @@ -0,0 +1,33 @@
+> > +From aedb7811d1e9b0eae5d33b5bed39f6219a06a8dc Mon Sep 17 00:00:00 2001
+> > +From: Jate Sujjavanich <jatedev@gmail.com>
+> > +Date: Thu, 18 Feb 2021 21:35:03 -0500
+> > +Subject: [PATCH] Limit setcap search to PATH for cross builds
+> > +
+> > +Upstream-Status: Pending
+> > +---
+> > + meson.build | 9 ++++++++-
+> > + 1 file changed, 8 insertions(+), 1 deletion(-)
+> > +
+> > +diff --git a/meson.build b/meson.build
+> > +index aff75a2..16bbfb6 100644
+> > +--- a/meson.build
+> > ++++ b/meson.build
+> > +@@ -215,7 +215,14 @@ config_h = configure_file(
+> > +     output : 'config.h',
+> > +     configuration : conf)
+> > +
+> > +-setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap',
+> required : false)
+> > ++if meson.is_cross_build()
+> > ++    message('limit setcap search to PATH')
+> > ++    path_setcap = ['setcap']
+> > ++else
+> > ++    message('search for setcap in PATH and admin dirs')
+> > ++    path_setcap = ['setcap', '/usr/sbin/setcap', '/sbin/setcap']
+> > ++endif
+> > ++setcap = find_program(path_setcap, required : false)
+> > + if cap_dep.found() and setcap.found()
+> > +     perm_type = 'caps'
+> > +     setcap_path = setcap.path()
+> > +--
+> >
+>
+>
+> This does look like ultimately the better solution, could you send it to
+> iputils and see what they make of it? I'm keen to try and reduce the number
+> of patches we carry and this one looks like a good candiate for them
+> covering
+> the key edge cases as far as I can tell!
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000067fb2505bbee9365
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I have submitted to the upstream which I believe is t=
+he github iputils/iputils project.<br></div><div><br></div><div>My previous=
+ thread had the wrong mailing list address, so I am replying to this questi=
+on here:</div><div>&gt;Thinking further, how about changing the=C2=A0PACKAG=
+ECONFIG to:<br>
+&gt;<br>
+&gt;PACKAGECONFIG[libcap] =3D &quot;-DUSE_CAP=3Dtrue, -DUSE_CAP=3Dfalse -DN=
+O_SETCAP_OR_SUID=3Dtrue, libcap libcap-native&quot;<br>
+&gt;<br>
+&gt;?<br>
+&gt;<br>
+&gt;Cheers,<br>
+&gt;<br>
+&gt;Richard</div><div><br></div><div>This would disable the fallback to set=
+uid if PACKAGECONFIG libcap was disabled.</div><div><br></div><div>- Jate<b=
+r></div><div><div class=3D"gmail-adL"><br><br></div></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 19, 2=
+021 at 12:57 PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2021-02-19 at 17:53=
+ +0000, Jate Sujjavanich wrote:<br>
+&gt; Limit setcap search to PATH for cross builds preventing host<br>
+&gt; contamination. Add DEPENDS for libcap-native to supply this for<br>
+&gt; PACKAGECONFIG libcap.<br>
+&gt; <br>
+&gt; The previous setting of NO_SETCAP_OR_SUID broke setuid or setcap of<br=
+>
+&gt; /bin/ping and other executables.<br>
+&gt; <br>
+&gt; Signed-off-by: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.co=
+m" target=3D"_blank">jatedev@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0...tcap-search-to-PATH-for-cross-builds.patch | 33 +++++++++++++=
+++++++<br>
+&gt; =C2=A0.../iputils/<a href=3D"http://iputils_s20200821.bb" rel=3D"noref=
+errer" target=3D"_blank">iputils_s20200821.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
+&gt; =C2=A02 files changed, 35 insertions(+), 1 deletion(-)<br>
+&gt; =C2=A0create mode 100644 meta/recipes-extended/iputils/iputils/0001-Li=
+mit-setcap-search-to-PATH-for-cross-builds.patch<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-extended/iputils/iputils/0001-Limit-setcap-s=
+earch-to-PATH-for-cross-builds.patch b/meta/recipes-extended/iputils/iputil=
+s/0001-Limit-setcap-search-to-PATH-for-cross-builds.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..b09cdb5f13<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-extended/iputils/iputils/0001-Limit-setcap-search-t=
+o-PATH-for-cross-builds.patch<br>
+&gt; @@ -0,0 +1,33 @@<br>
+&gt; +From aedb7811d1e9b0eae5d33b5bed39f6219a06a8dc Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com" targe=
+t=3D"_blank">jatedev@gmail.com</a>&gt;<br>
+&gt; +Date: Thu, 18 Feb 2021 21:35:03 -0500<br>
+&gt; +Subject: [PATCH] Limit setcap search to PATH for cross builds<br>
+&gt; +<br>
+&gt; +Upstream-Status: Pending<br>
+&gt; +---<br>
+&gt; + meson.build | 9 ++++++++-<br>
+&gt; + 1 file changed, 8 insertions(+), 1 deletion(-)<br>
+&gt; +<br>
+&gt; +diff --git a/meson.build b/meson.build<br>
+&gt; +index aff75a2..16bbfb6 100644<br>
+&gt; +--- a/meson.build<br>
+&gt; ++++ b/meson.build<br>
+&gt; +@@ -215,7 +215,14 @@ config_h =3D configure_file(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0output : &#39;config.h&#39;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0configuration : conf)<br>
+&gt; + <br>
+&gt; +-setcap =3D find_program(&#39;setcap&#39;, &#39;/usr/sbin/setcap&#39;=
+, &#39;/sbin/setcap&#39;, required : false)<br>
+&gt; ++if meson.is_cross_build()<br>
+&gt; ++=C2=A0 =C2=A0 message(&#39;limit setcap search to PATH&#39;)<br>
+&gt; ++=C2=A0 =C2=A0 path_setcap =3D [&#39;setcap&#39;]<br>
+&gt; ++else<br>
+&gt; ++=C2=A0 =C2=A0 message(&#39;search for setcap in PATH and admin dirs&=
+#39;)<br>
+&gt; ++=C2=A0 =C2=A0 path_setcap =3D [&#39;setcap&#39;, &#39;/usr/sbin/setc=
+ap&#39;, &#39;/sbin/setcap&#39;]<br>
+&gt; ++endif<br>
+&gt; ++setcap =3D find_program(path_setcap, required : false)<br>
+&gt; + if cap_dep.found() and setcap.found()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0perm_type =3D &#39;caps&#39;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0setcap_path =3D setcap.path()<br>
+&gt; +-- <br>
+&gt; <br>
+<br>
+<br>
+This does look like ultimately the better solution, could you send it to=C2=
+=A0<br>
+iputils and see what they make of it? I&#39;m keen to try and reduce the nu=
+mber<br>
+of patches we carry and this one looks like a good candiate for them coveri=
+ng<br>
+the key edge cases as far as I can tell!<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+
+--00000000000067fb2505bbee9365--
