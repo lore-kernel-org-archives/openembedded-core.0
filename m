@@ -1,70 +1,73 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.33642.1613995860911810204
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.33857.1613997400718414704
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 04:11:01 -0800
+ Mon, 22 Feb 2021 04:36:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eG9341Cz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id n10so14121756wmq.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 04:11:00 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iXF3rRHV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id x16so13373307wmk.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 04:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=VtmnfbFKDZ7GGSOiMQ9/lIMxspyylfszfTeXZHgnQFM=;
-        b=eG9341Cz7lQZ3eECVVjotiyAlphsB/MGCGNWyAS/3YNCGJY/TEpR5cqovG8vM61LTe
-         F1zpj4xjJFGhU/wGCamOSg+6JnAGWSIbM0w7QgT1lOrGHfoLWG0r8bn/crVcJceO8dOG
-         A5cdBa4nT6tPJH2K/VFgsEjR9x4argjrckXdU=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMCSai6NJqNPGf9Q3aiYuMJsR3YTayVAx/MxATYaq/w=;
+        b=iXF3rRHVH6QuKhkUp/6RGwMzYnB481rUbSpHTMjREp6BU0LVgmXYH0gP65yjgj6TEU
+         QFLx8q4QHADW5ZCoYY4M1BLYHj1eYagb4Z/Y5N4tLgn5nT9L+9qE3ge09loWFfMLNPRA
+         //b1B7HHjSopOgExiJ8xforsPLlqaheFfr8Zc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=VtmnfbFKDZ7GGSOiMQ9/lIMxspyylfszfTeXZHgnQFM=;
-        b=EiDqIGlUE5D7LnNGftQJqFvqGEpToPdOP3H9U4Y2BBQSSkFDGyVLESTYTUvkB1Uy0b
-         j/N3vr/bTeqUFDBW3i0hPVsejMVdq/FCOn+JHP8Ago9aXRwQ/M6/dCG7niEDBlz6IxB2
-         UkXLe2ymz2yQb+hJneuRRr72uONuhUpE+YZx944DlRt6wprOmI5SNl2IaxqPd+WSmD3D
-         D7ManIJ6vG93O5n8UgPVL79MABcBMHXC89x2Awt3pePV7YXyDyf+BWXdU/bBVm6zZCW1
-         o/vcvSDQxA3DWw2zxGPPCmBa1+xaGAw+kLjqNpFoKRraezFxL94eNKOwWKCCRzW8kpxg
-         XguQ==
-X-Gm-Message-State: AOAM530nEm3g/qvq1gB8cgq/8D3RMViqahfMNmUFBqDKsVfeQewNDTu7
-	MmHvLo/mxeLiforXzswsgslawQ==
-X-Google-Smtp-Source: ABdhPJx3/AN9yPevXsA+eeLsX54RCjpOzIFiEbwkmEYQytZchxHOsowh+t2IguGiWqr/XMaGyvYTjw==
-X-Received: by 2002:a05:600c:410e:: with SMTP id j14mr9315940wmi.36.1613995859376;
-        Mon, 22 Feb 2021 04:10:59 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMCSai6NJqNPGf9Q3aiYuMJsR3YTayVAx/MxATYaq/w=;
+        b=qyI52kd/f4nBbtN+IrIcQqwqe4zfDj8P1gC9acX5wxux2ivBqlHHZtqVy29e4raowH
+         4mHwblnYIAhHKJ/ch3hgrGpEaXd+nncCvXzNQ6Kl86G6tNa+20jdDOcqZUyOlpFPPd0J
+         A5/Dhr89zRDjoo/Vsbkr5Qmko1O98Rm11DV5BObGb2tr6EnLqPZ0cP1z47QQrGIY3OUc
+         ZUGkgQIsyZxunBYIp4xwkxMa0L392Mxpzne40JOcWAWlbMWM5l7+F547Lm8Eqj7FKDZ1
+         2/qdJv2WgPm7U9FRmXg7b6BYQWnOekqf0J369k45VV7nNPAh7YGHsnP4PBOzDGf3+RTE
+         XpLA==
+X-Gm-Message-State: AOAM533CLDIH6Vxq665kKykzC57LnM0jfWOVG0qyyBBVByDPXvj7Tl6B
+	g2Z/jisoBOsLRu3oYlfveCZROH1A1QhChw==
+X-Google-Smtp-Source: ABdhPJwmZkDI3yZ6pOsZgVBRo6TzcKu9OPUFn1X1cekxfsZ8ollZF7P7gOYzc+HFCgmlbBF2e3hr9Q==
+X-Received: by 2002:a05:600c:1554:: with SMTP id f20mr19843951wmg.77.1613997399066;
+        Mon, 22 Feb 2021 04:36:39 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6747:849:8224:46bc? ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
-        by smtp.gmail.com with ESMTPSA id c2sm28694044wrx.70.2021.02.22.04.10.58
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
+        by smtp.gmail.com with ESMTPSA id c12sm17432526wru.71.2021.02.22.04.36.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 04:10:59 -0800 (PST)
-Message-ID: <a11def0a14d7abe4916213795cf2c469b39b6e42.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] busybox: update 1.33.0
+        Mon, 22 Feb 2021 04:36:38 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, "Valek, Andrej"
-	 <andrej.valek@siemens.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 22 Feb 2021 12:10:56 +0000
-In-Reply-To: <6c3eae73-2ea0-6e54-3ee1-a450527f7d96@oleksandr-kravchuk.com>
-References: <20210219220042.2384431-1-open.source@oleksandr-kravchuk.com>
-	 <DB8PR10MB3977A450622E50F79787E7FE92819@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-	 <6c3eae73-2ea0-6e54-3ee1-a450527f7d96@oleksandr-kravchuk.com>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/6] rsync: Fix group name determinism issue
+Date: Mon, 22 Feb 2021 12:36:33 +0000
+Message-Id: <20210222123638.3754068-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-02-22 at 07:46 +0100, Oleksandr Kravchuk wrote:
-> I must have missed that. My apologies.
-> 
-> On 22/02/2021 07:36, Valek, Andrej wrote:
-> > Hello Oleksandr,
-> > 
-> > Why are you upgrading to unstable version?
+configure falls back to inspecting the host#s /etc/group for the
+nobody/nogroup naming. Pass the correct value to configure to
+ensure host differences don't sneak in.
 
-Could someone update the AUH regexes to ensure we don't get emails from 
-AUH about this please?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.3.bb b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+index c08f93884f5..eebd15ec8f5 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
+@@ -39,7 +39,7 @@ PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
+ CACHED_CONFIGUREVARS += "rsync_cv_can_hardlink_special=yes rsync_cv_can_hardlink_symlink=yes"
+ 
+ EXTRA_OEMAKE = 'STRIP=""'
+-EXTRA_OECONF = "--disable-simd --disable-md2man --disable-asm"
++EXTRA_OECONF = "--disable-simd --disable-md2man --disable-asm --with-nobody-group=nogroup"
+ 
+ # rsync 3.0 uses configure.sh instead of configure, and
+ # makefile checks the existence of configure.sh
+-- 
+2.27.0
 
