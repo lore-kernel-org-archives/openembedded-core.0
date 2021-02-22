@@ -1,36 +1,36 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.34444.1613997401335839510
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.34446.1613997402002212320
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 04:36:41 -0800
+ Mon, 22 Feb 2021 04:36:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y3mblfXE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id a207so14196609wmd.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AgMqY/pD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id n8so18862796wrm.10
         for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 04:36:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=FhcrOCku0jL0gl6tCYVTmAdWEde3J+BPB4VJqBUMh8o=;
-        b=Y3mblfXEC4BQtaBcYdYTkEsRw8G6Tign95ijnq/HmniqlqOKOho6kOcze0lH28MGJ8
-         rXdjA9zV0heugni9V98Xpt2Eouphjl6NnXXzsdhDQnoILZ2QXrHOGrJUWF3ViHjZ9q0R
-         zVYKky9IS5pPSfhZMiulVJBcy6G2afnn2yz4A=
+        bh=QyuI1sGtOvNjKqewz4gnvmX0LA8VTQ/ZQ4nnEXyOXh4=;
+        b=AgMqY/pDDNcrDVE1/UdW7ZZvnb9OzF/KOQaoHvpnH5uHtjgjQluuf14bx3T1e4RC5p
+         cSvMCrmPpwBA1Wefql6bToHPjeUChYo/CQkYYUe7T42XYyijVlBJH+zvCQZiRveIu7aI
+         cP9L3YzhRUEdnfAjhTaueD93tErx2CuC5l1Vk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FhcrOCku0jL0gl6tCYVTmAdWEde3J+BPB4VJqBUMh8o=;
-        b=ZrJgtLm2N7AxpGvQIxiybD0wic9LKXtft+QZF24rPtLfKSbkQqcgJnnKUeLJPxDSDU
-         nZsKJY/+yRXmeDk1LIF2MkNYZbRFlsLxG5wmST8ynJBlZhZ2/4+kLAFsSWtc+mp/R1/M
-         /JFCTNaSOeE/u2y0bqcC777Q5JSqxdcL9z7NYts0Bujs334tglk9JAfVEriG2oChh9VK
-         svFF6InC0Bi8YE02GQC1RTB8muncFllzHkeHpyqUgji0VjMvJh2fTno4jM77z4m+e1Tq
-         bPRmblEFnVM7PZht42qV4uyCzBrcnyFxPQiqLqu9P3WSwLhuLxYPspZ1wViSu4CwdmFa
-         YNcg==
-X-Gm-Message-State: AOAM533roJT70tPVjHTEcv9eQnNTCvUwH1XXPPgGmEMlkXS3x4Zqd5jJ
-	czqv4cyokxZcy0at9GSy1ZGP8pTG7l8f5w==
-X-Google-Smtp-Source: ABdhPJzOJxB212rbKR1G7cgtkY2dGs9OR+Z57gqiov/Z3pqp7K3MznLZOoxf6YzZbpHHBterQdcZuA==
-X-Received: by 2002:a05:600c:3550:: with SMTP id i16mr18918211wmq.170.1613997399770;
-        Mon, 22 Feb 2021 04:36:39 -0800 (PST)
+        bh=QyuI1sGtOvNjKqewz4gnvmX0LA8VTQ/ZQ4nnEXyOXh4=;
+        b=kwvA1vwx8ReWLpOle2j3/aOtsp3Srv7TNK5gxhxamRz2U7PTG6/wQBy+ZYhZ52R7h/
+         RZ9CBSZ1ZjWndzCGF46H09z9Hjh3e5yUiTMZPuvLYAaeMd8skGMc3NS46izOxjViUDHl
+         x4hFgvAoesRyElQajhDkoovn8MVqbHo3sd9pBJSMN+kSLBUhNoR1o+eSfuppexG4pHTw
+         d6JDFDkS6gR8Jv7Aips5MQtbsD+Dp+/ibH/5kn8FeHal1jJBS70IBAUpIaM11GDySctN
+         48sBXP/nH2ZRbK9VU3gvBL6Uarwal32K3em4U0HpwiJcpGicGum6uE5MyD9thknYP8jT
+         SmeA==
+X-Gm-Message-State: AOAM530Hbjf923I8+JO0HYYZZ5HL3JYMhDhs376VfkVA+RfPuR3UbeVD
+	ScRjt+RXjBFwBrfkbJijZ2NvpNs7ESoR5Q==
+X-Google-Smtp-Source: ABdhPJwWjpDYpVfbqPZfSKrJnFChtXistJtTXpCnuLr19G7EL/Ntn1yLCwSmACCdkG2QmXXLK3oOzw==
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr6343105wrd.126.1613997400247;
+        Mon, 22 Feb 2021 04:36:40 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
         by smtp.gmail.com with ESMTPSA id c12sm17432526wru.71.2021.02.22.04.36.39
@@ -39,81 +39,48 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
         Mon, 22 Feb 2021 04:36:39 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/6] python3-pycryptodome/pycryptodomex: upgrade 3.9.9 -> 3.10.1
-Date: Mon, 22 Feb 2021 12:36:35 +0000
-Message-Id: <20210222123638.3754068-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 4/6] python3-magic: upgrade 0.4.18 -> 0.4.20
+Date: Mon, 22 Feb 2021 12:36:36 +0000
+Message-Id: <20210222123638.3754068-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210222123638.3754068-1-richard.purdie@linuxfoundation.org>
 References: <20210222123638.3754068-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The license file dropped the APL-2 pieces but this wasn't in LICENSE
-in the first place, no code seemed to refer to it so no change was
-needed.
+License changed as there was additional copyright information added
+but the underlying license did not change.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python-pycryptodome.inc         | 2 +-
- meta/recipes-devtools/python/python3-pycryptodome_3.10.1.bb  | 5 +++++
- meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb   | 5 -----
- ...ycryptodomex_3.9.9.bb => python3-pycryptodomex_3.10.1.bb} | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.10.1.bb
- delete mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
- rename meta/recipes-devtools/python/{python3-pycryptodomex_3.9.9.bb => python3-pycryptodomex_3.10.1.bb} (69%)
+ .../{python3-magic_0.4.18.bb => python3-magic_0.4.20.bb}     | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-magic_0.4.18.bb => python3-magic_0.4.20.bb} (71%)
 
-diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
-index 68b084eb04f..48481bcf9a9 100644
---- a/meta/recipes-devtools/python/python-pycryptodome.inc
-+++ b/meta/recipes-devtools/python/python-pycryptodome.inc
-@@ -3,7 +3,7 @@ DESCRIPTION = "PyCryptodome is a self-contained Python package of low-level\
-  cryptographic primitives."
- HOMEPAGE = "http://www.pycryptodome.org"
- LICENSE = "PD & BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=6dc0e2a13d2f25d6f123c434b761faba"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=accfa6aeaceb3ba96676edf18e78302c"
+diff --git a/meta/recipes-devtools/python/python3-magic_0.4.18.bb b/meta/recipes-devtools/python/python3-magic_0.4.20.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python3-magic_0.4.18.bb
+rename to meta/recipes-devtools/python/python3-magic_0.4.20.bb
+index 101b96d31cd..be3458a792f 100644
+--- a/meta/recipes-devtools/python/python3-magic_0.4.18.bb
++++ b/meta/recipes-devtools/python/python3-magic_0.4.20.bb
+@@ -5,14 +5,13 @@ DESCRIPTION = "This module uses ctypes to access the libmagic file type \
+ HOMEPAGE = "http://github.com/ahupp/python-magic"
  
- inherit pypi
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=16a934f165e8c3245f241e77d401bb88"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=61495c152d794e6be5799a9edca149e3"
  
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.10.1.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.10.1.bb
-new file mode 100644
-index 00000000000..28448b84fe7
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.10.1.bb
-@@ -0,0 +1,5 @@
-+require python-pycryptodome.inc
-+inherit setuptools3
-+
-+SRC_URI[sha256sum] = "3e2e3a06580c5f190df843cdb90ea28d61099cf4924334d5297a995de68e4673"
-+
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
-deleted file mode 100644
-index 1e84ce4df74..00000000000
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require python-pycryptodome.inc
--inherit setuptools3
--
--SRC_URI[sha256sum] = "910e202a557e1131b1c1b3f17a63914d57aac55cf9fb9b51644962841c3995c4"
--
-diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.9.9.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.10.1.bb
-similarity index 69%
-rename from meta/recipes-devtools/python/python3-pycryptodomex_3.9.9.bb
-rename to meta/recipes-devtools/python/python3-pycryptodomex_3.10.1.bb
-index abff71efdd2..a6b3b3e935d 100644
---- a/meta/recipes-devtools/python/python3-pycryptodomex_3.9.9.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.10.1.bb
-@@ -1,7 +1,7 @@
- require python-pycryptodome.inc
- inherit setuptools3
+ PYPI_PACKAGE = "python-magic"
  
--SRC_URI[sha256sum] = "7b5b7c5896f8172ea0beb283f7f9428e0ab88ec248ce0a5b8c98d73e26267d51"
-+SRC_URI[sha256sum] = "541cd3e3e252fb19a7b48f420b798b53483302b7fe4d9954c947605d0a263d62"
+ inherit pypi setuptools3
  
- FILES_${PN}-tests = " \
-     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
+-SRC_URI[md5sum] = "5edc6caa39cc62641850f6b1b6f284ba"
+-SRC_URI[sha256sum] = "b757db2a5289ea3f1ced9e60f072965243ea43a2221430048fd8cacab17be0ce"
++SRC_URI[sha256sum] = "0cc52ccad086c377b9194014e3dbf98d94b194344630172510a6a3e716b47801"
+ 
+ RDEPENDS_${PN} += "file \
+                    ${PYTHON_PN}-ctypes \
 -- 
 2.27.0
 
