@@ -1,17 +1,17 @@
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (NAM04-CO1-obe.outbound.protection.outlook.com [40.107.69.55])
- by mx.groups.io with SMTP id smtpd.web08.29493.1613958088246080751
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (NAM04-DM6-obe.outbound.protection.outlook.com [40.107.102.80])
+ by mx.groups.io with SMTP id smtpd.web11.29084.1613958371422924200
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 17:41:28 -0800
+ Sun, 21 Feb 2021 17:46:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=CmVMJcs5;
- spf=pass (domain: windriver.com, ip: 40.107.69.55, mailfrom: kai.kang@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=YwvQ5bQ+;
+ spf=pass (domain: windriver.com, ip: 40.107.102.80, mailfrom: kai.kang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EPtWbI8NiQG4o4ZHfQZEPc3RJYrS89OCM0UapWC8n42DV+SKSmVu7MHKJgA8jAWbOTqSFb/XDlyKd3hQ+qcxyUQPCmOYpZ5lK5gelM9BWOcdeb/ACUEtYLrgHQCzu9tah9hKNZBKoh3UamjIiY0Hip52ZWzyvrKLAN1HCBWs9Y+ueshmpMYRYgjaYI1oU1qKFFL6kSPGhjmxvoCumxCkxoXK5799+L/ptZqYpzIftV3tQpxH6Qju96iYotEtnJ7VR3Fi0w1OfoZD/ip7zhZfvCFdd/r9bUWc+LGoGImbL9b8pCe9I2ZULn+DbMyq/mt+6qlRaRvO5Dj5hxRGipdO5g==
+ b=crehHPA0rPiqT8OVtnQ1v1H1HKGP8gGBDDl1bha7kvscoqqmsLCYVdw3PRVVPMlc1LFbN8VaJ3lQwvqSne2JYVGSKdjvcdRV4dIo+wDhc0ouy16Sqh81I4bQIhQyREoViUh6r4BWUsiuEHOAdhUB8VR5R8dwUvy8QjTg1bLgroyJUX/O5oANK7YiuAmN2HVgsepZT6tvE1hyHkWMa0n0wV0rlqdHbvZll8s2qm1BbTVY5K2SM7vD0CBqcND849777Zx/zB+98upei60625Z9+jeIjuGBoTyk7+MbRW/KGJWHwTFT1dMbxo5rgyt5yXXV3xXFtHGRiEVKojHzmMFtAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KlO32W6M6ekd9LyLhuZ64+Kvck3AskN5/WzQFmCdHLc=;
- b=hRhu2Jgn5WDGcD5IrnuI3bIyKjCVJQBaabIoMDpI3ZO6sksinq7Q+eBbh/iot3T9thqMqx5vSaWpTGugw2zS09Wtx/zl63Va6BZTMiRqvMEnDSUSi9ZAgkQfmulYhz5/F2xVtsqG3DVUgV+BsgH10uKhOcUetlmbnvbJWC4n1vWkKBhtEBlwv8/aH37xooEpos3n0zc5naWH1zYbdTYBtGtuVODa0/7lmogosjCuV6HJixSt2J9jeYezvJlbafdBEoDjjlnPyOGPFI7BNnITJC5jTVhoym+JGVfLXwc6xzXmpLBfoGkuzZ47XG0wOZQEuxJI+okJd6iWw7Y+yApTNg==
+ bh=8XJVYYR5f/drU5SLvX7K3wgc8mjfU2aV8qoAOt1qdT0=;
+ b=I3jVOvC0hy5udn28ScNvfGhLei3R2p+pZLB1FKdGmBFq0vRlO0hVU7beEsCm7EmPwPaGX64SZuIHIYpDar3XU9yiAeKOqFIJyNkjbCd0ntjTD3ubk+Jluba8X4Vg5D8uXMaadkrAPzAwieXcH73JPl1JhBJvmiNnOhkX114IPa7mr6uyEF2crnSZQxQE70yPxtI726E7/Fat7yJAy/BrcPxLdWHdwwZtRfzSZEZBCnmKs7XuGb/UByb0kc2o25IgmjWoRreDfbRWqyL9AdfffkgtcedzkeMg0LBfrkdFKpezdH9UFhdo+Z+bHBTk9mk/yOMeen1zw6gK+cOndeO9sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,154 +19,256 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KlO32W6M6ekd9LyLhuZ64+Kvck3AskN5/WzQFmCdHLc=;
- b=CmVMJcs5kKmrpScHicsH6iqglqdZzJE343b7aTCt1H0XrvfT2gYzeffy7DDnbJRuBXmIdvoGp+wsI3BvcqNPMAqzA3vJ1VGibQI9QaacXDqC9L0602wk9vmTqnZycqRiknOapCudSva6ijQHB32kSJ8mjibbuKsXcZKcOS1dXsE=
+ bh=8XJVYYR5f/drU5SLvX7K3wgc8mjfU2aV8qoAOt1qdT0=;
+ b=YwvQ5bQ+OwW220T+xya55OnhjBEBwMe2ciA1D85xctOqJqT+PDSQnxnEed+0mjvuvwZ7PADZ2Ip+ocUpz2r0yEq1bDCLDYvuwTyHXeH+B/AzlGjAdOEayfM1NELfYAVH29LaFRg7PB2X4dY6yPx9Dp+ITac9tJz2N3BwiktRSRU=
 Authentication-Results: windriver.com; dkim=none (message not signed)
  header.d=none;windriver.com; dmarc=none action=none
  header.from=windriver.com;
 Received: from CY4PR11MB1432.namprd11.prod.outlook.com (2603:10b6:910:5::22)
- by CY4PR1101MB2312.namprd11.prod.outlook.com (2603:10b6:910:1c::18) with
+ by CY4PR1101MB2088.namprd11.prod.outlook.com (2603:10b6:910:17::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.32; Mon, 22 Feb
- 2021 01:41:26 +0000
+ 2021 01:46:09 +0000
 Received: from CY4PR11MB1432.namprd11.prod.outlook.com
  ([fe80::5575:11f2:7054:b484]) by CY4PR11MB1432.namprd11.prod.outlook.com
  ([fe80::5575:11f2:7054:b484%4]) with mapi id 15.20.3846.045; Mon, 22 Feb 2021
- 01:41:25 +0000
-Subject: Re: [PATCH] cups: set rundir to /run/cups if systemd is used
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
- openembedded-core@lists.openembedded.org
-References: <20210221164919.389109-1-open.source@oleksandr-kravchuk.com>
- <007cf865-82b2-d5c4-6720-76e9009e8e6c@oleksandr-kravchuk.com>
+ 01:46:09 +0000
+Subject: Re: [OE-core] [PATCH v2 1/1] Customize prompt string for SDKs
 From: "kai" <kai.kang@windriver.com>
-Message-ID: <4a8968f8-0a15-9916-ee34-6d5e94137a54@windriver.com>
-Date: Mon, 22 Feb 2021 09:41:16 +0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20210108010259.25628-1-kai.kang@windriver.com>
+ <16581C35A2764503.27524@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <4a696ed8-9cd1-4486-19b3-2a738e9e21dd@windriver.com>
+Date: Mon, 22 Feb 2021 09:46:00 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <007cf865-82b2-d5c4-6720-76e9009e8e6c@oleksandr-kravchuk.com>
+In-Reply-To: <16581C35A2764503.27524@lists.openembedded.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR02CA0163.apcprd02.prod.outlook.com
- (2603:1096:201:1f::23) To CY4PR11MB1432.namprd11.prod.outlook.com
+X-ClientProxiedBy: BY3PR05CA0012.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::17) To CY4PR11MB1432.namprd11.prod.outlook.com
  (2603:10b6:910:5::22)
 Return-Path: kai.kang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.141] (60.247.85.82) by HK2PR02CA0163.apcprd02.prod.outlook.com (2603:1096:201:1f::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 01:41:23 +0000
+Received: from [128.224.162.141] (60.247.85.82) by BY3PR05CA0012.namprd05.prod.outlook.com (2603:10b6:a03:254::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.11 via Frontend Transport; Mon, 22 Feb 2021 01:46:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 50706248-8f9f-4253-5d1a-08d8d6d2f702
-X-MS-TrafficTypeDiagnostic: CY4PR1101MB2312:
+X-MS-Office365-Filtering-Correlation-Id: e7c677c3-3c95-4132-7401-08d8d6d3a050
+X-MS-TrafficTypeDiagnostic: CY4PR1101MB2088:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<CY4PR1101MB23124DABE94E750E5CCEB2CD95819@CY4PR1101MB2312.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+	<CY4PR1101MB2088B239F0A610F5BC6B0CCD95819@CY4PR1101MB2088.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:517;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	uYy+GJXzQs3o54pehQOLhF4mD8aJ4mnGKkmCyzjDCTdBtOpy42hwwsd3qcgUByuhXIADlNhN0t52vsWI0tUUOh/bWoiMJbTJN8Ia2rVlt3G9N68BNGW/JL8XO2j8E0LljwnuIp5S7oAbDMAN3RiAih3tpvZAGqIL2uvaLoD1Q55F5b56tSeuNN8ZZ6Q6aNc0VHCoZzvzdtxl5oYlwm7im99rqiQPEechE7/GY7DDhJIIisLCV5lWVaZmJ4f9/e/JI/qRiN5Ot0H2TYroUDN3TJ70hUffcVGOrG+Z+LvEDCxtpnF2CnMbrMjTZ/NIGGt6MngtXoF2+ojTxxwl8Vm21g7YmZL+hFEmo6DTq2quJI82Jj9Xt9Rs3LTFPchesKQl75lrDnWhjZjA0n3zdfxhG3mYJho8RzSwgHAD122VBQ7z5v1doDh5vQGCVkTRrxu4GaStBJOZXxy3K6tAPSyMlnvLKqCkVptO28k4gxK9VbQedQ7W8g1XxpZ27/4C6vIzYwv3u56eaC40tzgUK42+4yjDTtXzNCNgv68kfRoUMbmutfL3FLTR/ML5VkyidEntxsaFEfcJhHDfSFcR4KnVnCXEO6iWLnmsHAkD0leSaFYDVt49nz4MRZ/wMN2IEz9A
+	r/v1Hr81WP4rgi1RdHTM2rWo9a6/qCBzSI9vFHTp+2pEl1b8KpueYVbm3223PHVdK8Aq8+1clNAjQkJIzXY6W/YN4SaILslMO0Xk9fIdlYgnNWDvLXWqpULYdsh2d6w+0lp9QUuyY9FbXbATs0VYwThTRySwc8WcnE1VDHN/wzRNClNmgIpwss3Oteqjw1XCe/dueBYSNNvAcOF1OfRQ98CQDAaYkiwMFLyiuOkMjZLHzBn5/QNv1llTbV47bPPJ9oSe4UIe4p77YFrmAzAjUyMeKYtA7gYNjttCuZmPJ3PoGbIDB5nqEdFPuiFP5fY3TiTCPwBB/RJue+ZlnK2Jm6/zNFLkpHbV26g+mdA/3AGii3F4KDsiX/UzA2v811MEpheJfc6giy/H/LeXyA8MEdY1I6xSA5rkmL8EXgSCnGiZ87bb8YwGPKVMY1qCDSzh+mG0+n5yKuV8jJ+jTyhXo2nO6fWLXixpElSC/i36r7CmDvS78dFHdTt8bEef97uPStaKft5fp3uEl/ymaNmmzZkHGHkJMrklQGnUW8iCNmp0eKfzrJX7rmknGru+F662KQ1XjYZ/vKborcQqUbpx8wUKM2IIofdwxGavcpuSVKkyyaWAcmTzlqQ/9pD+KHl9Mm9mCozk8VCiYGy21L3MU3f+B5MxXUpTVvuTRYgRGEgncVvRHJDekLS1i/Ul36vuEmnkqsYlnv1wjwoz7poBug==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1432.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39830400003)(396003)(366004)(346002)(136003)(66556008)(66476007)(6706004)(956004)(2616005)(66946007)(8676002)(186003)(83380400001)(52116002)(478600001)(26005)(16526019)(31686004)(8936002)(2906002)(53546011)(5660300002)(31696002)(6486002)(316002)(16576012)(36756003)(86362001)(6666004)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1432.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(396003)(346002)(376002)(366004)(136003)(52116002)(478600001)(66946007)(6916009)(66476007)(66556008)(8676002)(186003)(16576012)(316002)(966005)(83380400001)(166002)(8936002)(33964004)(31686004)(5660300002)(6706004)(2616005)(2906002)(26005)(86362001)(53546011)(956004)(36756003)(31696002)(4326008)(16526019)(6486002)(6666004)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?O+rCdGqQGEOb2o+E2pyi2ug2D5rq1zLjSY/XrAoD/oNwbZbOhK4yGApkw/A5?=
- =?us-ascii?Q?bwjTdH+sNAktf4rNddvaTXXbEC78YP7bvauBElDkkf//GX1KpI3+JLr4mfde?=
- =?us-ascii?Q?IGW2dA7kNFZ5iAKY36XXXJNNR5M5HN6oILMKfMB+escvuZuz2y8Zxy2HY8IX?=
- =?us-ascii?Q?Yc57sXuiTvaKw1vQrxhQz8XKtFpFjZ3EqTylEWU4x77keWPbRHRrfgOvEIGK?=
- =?us-ascii?Q?e/TBZ6Qb+Ty4+YBdz7WcI0qt7cg6OztLE8x8c9WgohU8m84WqdMqGFu3UaYd?=
- =?us-ascii?Q?XUPKIwEN3HukFRJZ2Dt0GNLeQWIHWIxnGm2MrvMaaPvO2i3Cm6MMJpssQ0DQ?=
- =?us-ascii?Q?gfPKTAe/N20yyd1kgmW7mH5ie8tFl5e4tZVJKtW/rdHLAeFKzfOGmAt/Rqw0?=
- =?us-ascii?Q?IjV3fJy1SkASA0Du/j9bg5uf+UWa5TfUfH7XOxnNSYfMgFJto8a7TfQAYZ97?=
- =?us-ascii?Q?6s3vesOS1WcKm2Aby4zCGdylVEMIzb2oHKBaaIT8meQXeA7P3iOjVRemgFDi?=
- =?us-ascii?Q?YMG+FVxOlBP4CsuTQ4KBKIZHU4vtmQK2h9HaJCQX693m48DPcLk/K3MYDAxI?=
- =?us-ascii?Q?ae8hxbZ1x/XFI/EvAsfC+VGqXUlXh5t4+g+lFJZIC3DPSfd1kPNugyE8KDUO?=
- =?us-ascii?Q?NU4kIxlINqp21q88U3jGsO7xY12SY4HfVqnFp6pwukT1oe/vW8Srhldxw4QH?=
- =?us-ascii?Q?sC7Mhx7bE2BxQt8r3PQ+nHKAJNuppyREzxz4KWQtjIxgyPuY/69+GISEHIkJ?=
- =?us-ascii?Q?Sl6zsCoekAdEqmkKXsG7ggeAQShvrkQC3y95QohZ1U2gpv8eNaiZsL8OjHY/?=
- =?us-ascii?Q?lDccjChADOIRIn+kzwHvRBWjeN5Xzr0AgI4nN+I35qUC0daNPT6nJWY+3bGZ?=
- =?us-ascii?Q?KO5XznxhYo4E+T09lNsqszqcQdXUACfxPU0ozdcBVw6A4JZCOnyoD64MdkZn?=
- =?us-ascii?Q?6kRKY4DNmfZmx7Bhwg4TeTgCky2DGlVKz5EeBvzGdq9UCYewo5qqL6du+VmF?=
- =?us-ascii?Q?l9QbiqSFolFjwCJjbEYK8WXuRd4w4IDjz0q3bgMunVLW+dTGh9cuRuZGdo46?=
- =?us-ascii?Q?RkKxsvU+mtwhUC1yF4jydIcWo61+iiH1cgTuuyHcdAU/zWKRCZRkjas/Ytxw?=
- =?us-ascii?Q?ZbExXOPPx6CYq88DO5Ew6IjJ5ev7xNfnY9x9LN4xIolduxZMelDozA+mQTDc?=
- =?us-ascii?Q?tsVF3DnoOncqwSFGl017zo46m1UNUSHqmAxMyP92f1doJhnD8QjzwSBxImAq?=
- =?us-ascii?Q?c9pK76b7Cs3dJIimHBqMqoKkyDrfHq6iTR1iPoIZrlUvbPQZiB90YdY14r4W?=
- =?us-ascii?Q?6flsMcxQa2/6VDOYx8gJwe1H?=
+	=?utf-8?B?SEhUYTJCUlRUbkxqMDViZlFGcWZ4R0E3TmFEbmNKb1U0Zms0RE9zaVdEV2d3?=
+ =?utf-8?B?RFFZTWlUU2UvcGQrTGRBMzg4dXhQWjUvcWQxWnZBbXpacXpjZUJrajh4NTdJ?=
+ =?utf-8?B?OFErUkM4TzI1cTBDMkovbnV3dWQvZlVPRUYyMENjR0NtbDNjU2U3QUFkOG1P?=
+ =?utf-8?B?c09RbEpTSnpqSUxoenZGM1FOcHlyVkplTytzaEVRMjFLZC94NUJQWGVHczM5?=
+ =?utf-8?B?bWdrTHREelMrSnl0aTBZZVhBb0RWZFNMdC81RTVGRndEZXFvV2ZhemI0Unh6?=
+ =?utf-8?B?My9ISWdDK0VhNGtlY1NERWhEQnlRSUhoZTNSZUFJV0NGNTdJam5zaTZkZjZ1?=
+ =?utf-8?B?QSthMXhxWDhVSnp6QXkyeEJwRTVWdStJWTBBMWdWdkNoS2pqRXZ2ai9JZitt?=
+ =?utf-8?B?NlNIKy9ralJZN0s3b0lmTjk1dFVnNDAwdFM2dzBjMWJkRXlyQTN5Tll3eSsr?=
+ =?utf-8?B?cnkxRWtEQ2p3bm9EWWo4cWw5WXBtc0I0eU1zZXFwMkV6TmsvTlNOcmhaK1BW?=
+ =?utf-8?B?MmltSVQ0MVJYZzU2SlV0VDQxeURQNnlneThMaTlBVzh4Qkx2TzlCMnVTdW92?=
+ =?utf-8?B?Mzh4dFdsWUJDUTJyaGxBZFlwb3k2NCtZT2pEUHpHUVlSMUYxb1JlaEVXQU1w?=
+ =?utf-8?B?YjV0SFYyTWEvWlZlOTlrNURScnhCVGsxMU1DRDBSMHhSSDRxUW5yMW4wRUYw?=
+ =?utf-8?B?YWdpV0ZCUkZJZU1rdzQ4ZGRRaWRvSTd3TjZnQmtjeDlqWlFqeUl6Z1E1ZXVI?=
+ =?utf-8?B?V2ZLemxEeUsyaHVXdldaQ29jdkwwb2s1T045TkxrQmhicjdFZDB6SjQ0L1A3?=
+ =?utf-8?B?TStrN3FBM1Y5ZlBEaGZkV2pTY3FTS1R6d2FOOTRUVVBDRzVIall6cXhMOGR3?=
+ =?utf-8?B?bW9XamRRdVJTbWM2eFJ3SzcwdnE4WDNXMjFmVEtHUVFHOFhwV2VlVUI2NE5X?=
+ =?utf-8?B?azVCem1jQWNQL2xEK2xIdGhaUU1NSUNFM2NLWUZuQXlPUDF3eUw3QUxjTFBj?=
+ =?utf-8?B?d0hwMFplV0xJSGNWWGNPM21RV214MUdkUEY1b2srTFN0TnRrWk4rSGVUQTJ2?=
+ =?utf-8?B?T2IvLzZqWEx4MXE0VmdzK2Y2TFNXU0J1M1lRcGpvcmdRL3l1MUxPbjFRKzQ5?=
+ =?utf-8?B?OFQ5NWFUU0pOUENmNTkvR284Z2dnWHhaK3FJQTlzUll4eTFSeFJ2Q2pXQ2xE?=
+ =?utf-8?B?MjJES2tTZy9WcFNjSzdSTk1TMk5kdXlMOEsrR200WFYraXRzL3hSNW5waXdX?=
+ =?utf-8?B?VTJEeEQwZE05UzdEWTh4elY3ZCtzOG1GVyttNXZIZVdpZHZubVNCUlNDM2o2?=
+ =?utf-8?B?YllIQk5HWlhQWlpCbzhKZW45dWxyUm5NYjJObDVzQ0VVaktqQ0hwMmhQd1VV?=
+ =?utf-8?B?VE5JMG5FeWcvWDA1Y0ZVS29pL0Y5ZkJOQkR6cVpGZnB0R0lWUk5tYTd6SldD?=
+ =?utf-8?B?QzRwek5TaUhhV2NJVUJXelZWY0QzaUVrM0d2cGg1REZVS29NZjZENW1ubXlT?=
+ =?utf-8?B?TGZwc2RjbDVPamFIMm0xRkdjVlN2dzBuM3pYSnVwTmswZUVrdXB4d3ErTW4r?=
+ =?utf-8?B?cExKU0YvaE14K1NmcldGTEIvcWd1UHJUSmRWU1VqaDBaMUhiZ2FybGs1TW40?=
+ =?utf-8?B?YXM0SjR1UW1oNGoyWVNNRXAzK0RhVGNvY29IalRtZkJqZDhGQWt5LzY3cXY0?=
+ =?utf-8?B?ejE1QTg0Z3lvUVg5MlQ3RUJySGRlWmpZcnRQZEVvK2RxQi91NTdjWk1jZFN4?=
+ =?utf-8?Q?LbOcEcVWd08xHJ5rCuBeTS2ptP8S9fKWOi9/0+k?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50706248-8f9f-4253-5d1a-08d8d6d2f702
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7c677c3-3c95-4132-7401-08d8d6d3a050
 X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1432.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 01:41:25.5215
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 01:46:09.1674
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nx4p9MCqZRwkGIr57nFv0mPjQECv3xp5DWsLiL/2kTYs9gq1p+ImVLXKgQgZFRIOcm9Y2SZNLaLK7NuXtlradQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2312
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-UserPrincipalName: P2w0gvJ67IduSuKhxMtXZnCmDjgJ2IbLr93YeQt/2os47iFmCqWFfWdtXqyjOlr2BvfGbRitHD7QYKg95/ND3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2088
+Content-Type: multipart/alternative;
+ boundary="------------319D618288513FEA6A6977EE"
 Content-Language: en-US
 
-On 2/22/21 12:51 AM, Oleksandr Kravchuk wrote:
-> Kai -
->
-> Could you please verify and confirm the fix is correct?
+--------------319D618288513FEA6A6977EE
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-OK. I'll test the v2 patch.
+On 1/8/21 9:02 AM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Introduce a new variable SDK_PS1 to customize prompt string for SDKs
+> when source script environment-setup-script. The prompt string of SDKs
+> is set by default with something looks like:
+>
+> SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
+
+Hi Richard,
+
+It has been in master-next for a long time. Any concern about it please?
 
 Regards,
 Kai
 
 >
-> On 21/02/2021 17:49, Oleksandr Kravchuk wrote:
->> When running under systemd, cups needs to be configured with
->> '--with-rundir=3D/run/cups', as systemd takes an exception to the
->> activation socket being under /var/run and relocates it.
->>
->> This leads to fd duplication in cupsd and an inadvertent closure of the
->> activation socket when the daemon exits due to inactivity, so that the
->> daemon cannot be activated again.
->>
->> [YOCTO #14152]
->>
->> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
->> ---
->> =C2=A0 meta/recipes-extended/cups/cups.inc | 5 +++++
->> =C2=A0 1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-extended/cups/cups.inc=20
->> b/meta/recipes-extended/cups/cups.inc
->> index e7a704134c..a8e8d115da 100644
->> --- a/meta/recipes-extended/cups/cups.inc
->> +++ b/meta/recipes-extended/cups/cups.inc
->> @@ -56,8 +56,11 @@ EXTRA_OECONF =3D " \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --enable-libusb \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --with-domainsocket=3D/run/cups/cups.sock \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 DSOFLAGS=3D'${LDFLAGS}' \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 ${EXTRA_OECONF_SYSTEMD} \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 "
->> =C2=A0 +EXTRA_OECONF_SYSTEMD =3D=20
->> "${@bb.utils.contains('DISTRO_FEATURES','systemd','--with-rundir=3D/run/=
-cups','',d)}"
->> +
->> =C2=A0 EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader"
->> =C2=A0 =C2=A0 do_compile () {
->> @@ -105,6 +108,8 @@ RDEPENDS_${PN} +=3D=20
->> "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'procps',
->> =C2=A0 FILES_${PN} +=3D "${libexecdir}/cups/ \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- "
->> =C2=A0 +FILES_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'syste=
-md',=20
->> '/run/cups/certs', '', d)}"
->> +
->> =C2=A0 FILES_${PN}-lib =3D "${libdir}/libcups.so.*"
->> =C2=A0 =C2=A0 FILES_${PN}-libimage =3D "${libdir}/libcupsimage.so.*"
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/classes/toolchain-scripts.bbclass       | 1 +
+>   meta/conf/bitbake.conf                       | 1 +
+>   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>   3 files changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index db1d3215ef..88df373d0b 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -45,6 +45,7 @@ toolchain_create_sdk_env_script () {
+>   		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+>   	done
+>   	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
+> +	echo 'export PS1="${SDK_PS1}"' >>$script
+>   	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+>   	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
+>   	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index a04005b0f5..93687f9950 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -424,6 +424,7 @@ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+>   
+>   SDK_NAME_PREFIX ?= "oecore"
+>   SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TUNE_PKGARCH}"
+> +SDK_PS1 ?= "SDK-${SDK_NAME}:\\\\$ "
+>   SDKPATH = "/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}"
+>   SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+>   
+> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> index 9da81d5523..59cfc64ce8 100644
+> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> @@ -71,6 +71,7 @@ create_sdk_files_append () {
+>   	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+>   	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+>   	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+> +	echo 'export PS1="${SDK_PS1}"' >>$script
+>   
+>   	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+>   
+>
+> 
+>
 
-
---=20
+-- 
 Kai Kang
 Wind River Linux
 
+
+--------------319D618288513FEA6A6977EE
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 1/8/21 9:02 AM, kai wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:16581C35A2764503.27524@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+Introduce a new variable SDK_PS1 to customize prompt string for SDKs
+when source script environment-setup-script. The prompt string of SDKs
+is set by default with something looks like:
+
+SDK-poky-glibc-x86_64--cortexa57-qemuarm64$</pre>
+    </blockquote>
+    <p>Hi Richard,</p>
+    <p>It has been in master-next for a long time. Any concern about it
+      please?</p>
+    <p>Regards,<br>
+      Kai<br>
+    </p>
+    <blockquote type="cite" cite="mid:16581C35A2764503.27524@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+---
+ meta/classes/toolchain-scripts.bbclass       | 1 +
+ meta/conf/bitbake.conf                       | 1 +
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index db1d3215ef..88df373d0b 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -45,6 +45,7 @@ toolchain_create_sdk_env_script () {
+ 		EXTRAPATH=&quot;$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i&quot;
+ 	done
+ 	echo &quot;export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}&quot;$EXTRAPATH':$PATH' &gt;&gt; $script
++	echo 'export PS1=&quot;${SDK_PS1}&quot;' &gt;&gt;$script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' &gt;&gt; $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'&quot;$libdir&quot;'/pkgconfig:$SDKTARGETSYSROOT'&quot;$prefix&quot;'/share/pkgconfig' &gt;&gt; $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'&quot;${multimach_target_sys}&quot; &gt;&gt; $script
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a04005b0f5..93687f9950 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -424,6 +424,7 @@ PKGDATA_DIR = &quot;${TMPDIR}/pkgdata/${MACHINE}&quot;
+ 
+ SDK_NAME_PREFIX ?= &quot;oecore&quot;
+ SDK_NAME = &quot;${SDK_NAME_PREFIX}-${SDK_ARCH}-${TUNE_PKGARCH}&quot;
++SDK_PS1 ?= &quot;SDK-${SDK_NAME}:\\\\$ &quot;
+ SDKPATH = &quot;/usr/local/${SDK_NAME_PREFIX}-${SDK_ARCH}&quot;
+ SDKPATHNATIVE = &quot;${SDKPATH}/sysroots/${SDK_SYS}&quot;
+ 
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 9da81d5523..59cfc64ce8 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -71,6 +71,7 @@ create_sdk_files_append () {
+ 	echo 'export OECORE_NATIVE_SYSROOT=&quot;${SDKPATHNATIVE}&quot;' &gt;&gt; $script
+ 	echo 'export GIT_SSL_CAINFO=&quot;${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt&quot;' &gt;&gt;$script
+ 	echo 'export SSL_CERT_FILE=&quot;${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt&quot;' &gt;&gt;$script
++	echo 'export PS1=&quot;${SDK_PS1}&quot;' &gt;&gt;$script
+ 
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ 
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Kai Kang
+Wind River Linux</pre>
+  </body>
+</html>
+
+--------------319D618288513FEA6A6977EE--
