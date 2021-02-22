@@ -1,147 +1,77 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web12.29970.1613962334012723019
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.30623.1613968351383747427
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Feb 2021 18:52:14 -0800
+ Sun, 21 Feb 2021 20:32:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=c6yMqBZa;
- spf=pass (domain: konsulko.com, ip: 209.85.222.180, mailfrom: scott.murray@konsulko.com)
-Received: by mail-qk1-f180.google.com with SMTP id x124so245979qkc.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 18:52:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DWSKM/7l;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id p21so9454422pgl.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Feb 2021 20:32:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=bOctp+gJLv2cooZnPReYPxQHT/NhW2++WLa36wkiMiw=;
-        b=c6yMqBZa381M2KVx9ioC3PsU+q5g/Mvn6gnN9yxE4F+r7U2B2s7z35HvUbBuNvwLe8
-         jVLjqvG7SObytpLd6XVbgmwQu3LBbab9fDfpsNlhGInFWfuCNDCCeenr4RmZqBBfaZhG
-         j5RtWggJm27BIbuksFVZNv4Kbxgkq8bCXGkpw=
+        bh=+BGDZEnrMaNXN4a42OfB3LgVNoeqEfwZkHEHmGil+Bo=;
+        b=DWSKM/7lAG9IPHOxhm+tyK5AG+6nYD7SnUmx/0VHmrOI0hNtyHrXgD3l8lloBzpaGH
+         w/utA3VSQz/ioiRNqxp68TcXOuPA3g9HtpQM9Jx1nlS0nQqQJS/pr4xYvsWPE9N1Tojd
+         /L+baJLukURH0UXwt6t5rKJjW+CdGIOV56XChsAkBAGXmw7fg9Mpk496TV+zpFOmzYgP
+         xzmug2IXMd6bD+Pz6wLq83y38xcURClgPcCOUJTRmKNJf5zm/6y4DqFnBowZFJtvAeqr
+         iZDodDkZ68WPvuG045XRKg1jcM/juXtSWmJ1IdgIlvW15zRuogR9+xwL9dSVKXL++wTv
+         NZJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=bOctp+gJLv2cooZnPReYPxQHT/NhW2++WLa36wkiMiw=;
-        b=r7euzSzNp/sa6Mnz+xNCrhD1i6pDq/9OPTvyVbcXlvmegMObHCNZBDHF30wIUIsDXB
-         3gLZLWuiuHaA5rroHmKjT8gH+Qp9JX/rj8XHS9LQucT/BptxKvfMmLAUKNlHdr1DvyZq
-         GOsHx4ab6x2A4sQBb1jJRWFGadB9v2rwcCsR1pP/TPj5fBEkjK1iduB0hJhC3ImCAmBm
-         v01nM3Lk3WpSPBKPXSCiqSMKHMd3/UajbMRhNawlyISnCTbOtOLzj+2eT76HmOr7G6Iu
-         asZhAgwGXEbjc+gdIqyPrJp88PZYRXdgfo1/OyjGuXHds8YifrytHaeVQERfy7PwOCVi
-         +hng==
-X-Gm-Message-State: AOAM531QSi8uJ9hJLQlWEVcoIJ1+GuN9V57MfNFyefULQPbO525IQogY
-	g3oKGaynYgOso7RtPXspuXLMop5llM5v0Q==
-X-Google-Smtp-Source: ABdhPJx7kb99j486PXNuyPLOZAXJR8BjiJxRuqLIcgKYEm5GEDGYAbGGheJAGlKgaii4RockZ0MG5g==
-X-Received: by 2002:a37:6744:: with SMTP id b65mr19292362qkc.148.1613962332795;
-        Sun, 21 Feb 2021 18:52:12 -0800 (PST)
-Return-Path: <scott.murray@konsulko.com>
-Received: from ghidorah.spiteful.org (198-84-179-103.cpe.teksavvy.com. [198.84.179.103])
-        by smtp.gmail.com with ESMTPSA id 184sm7526338qkd.119.2021.02.21.18.52.12
-        for <openembedded-core@lists.openembedded.org>
+        bh=+BGDZEnrMaNXN4a42OfB3LgVNoeqEfwZkHEHmGil+Bo=;
+        b=k4xxEcElf3OsbxKgMhlLcexPwQg6GyUH/sKEnmn1tK5RaeONFoVxYaUhhLzpD5ZF4+
+         bVOhDBwD7uwx94eJvRdyvApol36dSER7ISeNgege6e1C7cw6Mh95WFFAzpA12fUbRyN/
+         LPWit0Lzjc9tPBXGofw59lmXafMI10N1GOBytfMTWs3BAF+rMBJR/eP+t9GTrWVHEGhs
+         c1393sPs22Yc7o7soBMj7nf5BvwPIQM0b3rjVQyDvKqa5Kkj03AVXriDvEbMnxqh/tBO
+         MLoFpLDNnuZkupoDK+Axu05jvmAroRI4zStBPgUIAQkwxqFa9Y6k++LyP5aL1FR4qQzK
+         OBDw==
+X-Gm-Message-State: AOAM532UnLLba6WfAsipTheILlhelMS7KgmOrS8x45HEY39btfHBsNIK
+	uWfPtMJD7+r4jT8wo50D8WyO6H2zSB5L+Q==
+X-Google-Smtp-Source: ABdhPJxX4oqeUCawVnVyf9if7FsHcTsy1vucTFG004Xb/AyOy/Pu4bNopb47Pu/0c74wlxDx2Jke2Q==
+X-Received: by 2002:a65:524b:: with SMTP id q11mr18170959pgp.207.1613968350512;
+        Sun, 21 Feb 2021 20:32:30 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::54b4])
+        by smtp.gmail.com with ESMTPSA id x22sm12769818pjr.49.2021.02.21.20.32.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Feb 2021 18:52:12 -0800 (PST)
-From: "Scott Murray" <scott.murray@konsulko.com>
+        Sun, 21 Feb 2021 20:32:29 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [master][gatesgarth][dunfell][PATCH] screen: fix CVE-2021-26937
-Date: Sun, 21 Feb 2021 21:52:06 -0500
-Message-Id: <20210222025206.1239939-1-scott.murray@konsulko.com>
-X-Mailer: git-send-email 2.26.2
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] bitbake.conf: Do not use lib64 for baselib on musl/ppc64
+Date: Sun, 21 Feb 2021 20:32:24 -0800
+Message-Id: <20210222043224.3691568-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Apply patch from Debian to fix CVE-2021-26937.
+musl is configured to use /lib and /usr/lib for ppc64 unlike glibc where
+it is expected to have libs in /lib64 and /usr/lib64
 
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../screen/screen/CVE-2021-26937.patch        | 68 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.8.0.bb  |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2021-26937.patch
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2021-26937.patch b/meta/recipes-extended/screen/screen/CVE-2021-26937.patch
-new file mode 100644
-index 0000000000..983b35c1b0
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2021-26937.patch
-@@ -0,0 +1,68 @@
-+Description: [CVE-2021-26937] Fix out of bounds array access
-+Author: Michael Schröder <mls@suse.de>
-+Bug-Debian: https://bugs.debian.org/982435
-+Bug: https://savannah.gnu.org/bugs/?60030
-+Bug: https://lists.gnu.org/archive/html/screen-devel/2021-02/msg00000.html
-+Bug-OSS-Security: https://www.openwall.com/lists/oss-security/2021/02/09/3
-+Origin: https://lists.gnu.org/archive/html/screen-devel/2021-02/msg00010.html
-+
-+CVE: CVE-2021-26937
-+Upstream-Status: Pending
-+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-+
-+--- a/encoding.c
-++++ b/encoding.c
-+@@ -43,7 +43,7 @@
-+ # ifdef UTF8
-+ static int   recode_char __P((int, int, int));
-+ static int   recode_char_to_encoding __P((int, int));
-+-static void  comb_tofront __P((int, int));
-++static void  comb_tofront __P((int));
-+ #  ifdef DW_CHARS
-+ static int   recode_char_dw __P((int, int *, int, int));
-+ static int   recode_char_dw_to_encoding __P((int, int *, int));
-+@@ -1263,6 +1263,8 @@
-+     {0x30000, 0x3FFFD},
-+   };
-+ 
-++  if (c >= 0xdf00 && c <= 0xdfff)
-++    return 1;          /* dw combining sequence */
-+   return ((bisearch(c, wide, sizeof(wide) / sizeof(struct interval) - 1)) ||
-+           (cjkwidth &&
-+            bisearch(c, ambiguous,
-+@@ -1330,11 +1332,12 @@
-+ }
-+ 
-+ static void
-+-comb_tofront(root, i)
-+-int root, i;
-++comb_tofront(i)
-++int i;
-+ {
-+   for (;;)
-+     {
-++      int root = i >= 0x700 ? 0x801 : 0x800;
-+       debug1("bring to front: %x\n", i);
-+       combchars[combchars[i]->prev]->next = combchars[i]->next;
-+       combchars[combchars[i]->next]->prev = combchars[i]->prev;
-+@@ -1396,9 +1399,9 @@
-+     {
-+       /* full, recycle old entry */
-+       if (c1 >= 0xd800 && c1 < 0xe000)
-+-        comb_tofront(root, c1 - 0xd800);
-++        comb_tofront(c1 - 0xd800);
-+       i = combchars[root]->prev;
-+-      if (c1 == i + 0xd800)
-++      if (i == 0x800 || i == 0x801 || c1 == i + 0xd800)
-+ 	{
-+ 	  /* completely full, can't recycle */
-+ 	  debug("utf8_handle_comp: completely full!\n");
-+@@ -1422,7 +1425,7 @@
-+   mc->font  = (i >> 8) + 0xd8;
-+   mc->fontx = 0;
-+   debug3("combinig char %x %x -> %x\n", c1, c, i + 0xd800);
-+-  comb_tofront(root, i);
-++  comb_tofront(i);
-+ }
-+ 
-+ #else /* !UTF8 */
-diff --git a/meta/recipes-extended/screen/screen_4.8.0.bb b/meta/recipes-extended/screen/screen_4.8.0.bb
-index 4772eb6c7a..fe640c262b 100644
---- a/meta/recipes-extended/screen/screen_4.8.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.8.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2021-26937.patch \
-           "
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9b833c02a3..edd081ed3b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -10,8 +10,8 @@
+ baselib = "${BASELIB}"
+ baselib[vardepvalue] = "${baselib}"
+ BASELIB = "lib"
+-BASELIB_powerpc64 = "lib64"
+-BASELIB_powerpc64le = "lib64"
++BASELIB_libc-glibc_powerpc64 = "lib64"
++BASELIB_libc-glibc_powerpc64le = "lib64"
  
- SRC_URI[md5sum] = "d276213d3acd10339cd37848b8c4ab1e"
+ # Path prefixes
+ export base_prefix = ""
 -- 
-2.26.2
+2.30.1
 
