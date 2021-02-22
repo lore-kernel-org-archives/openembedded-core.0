@@ -1,81 +1,87 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.2753.1614025619549807056
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.2867.1614026088352953599
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Feb 2021 12:26:59 -0800
+ Mon, 22 Feb 2021 12:34:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xoyh0ses;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id v62so442957wmg.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 12:26:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YG2jqI2E;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id y7so58436943lji.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Feb 2021 12:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=hSV8zgLL1qI2VtuejLEMkCpglPFOb3EwRIeBgdx6TNw=;
-        b=Xoyh0sesLYaVqsWvYBbAXUkdPNWGfWlUkLofwe4/1V9kkabSQd7WIhiTCnPDyJmO+y
-         fEGLpcKISUvA32PDMJgWOO0BdpDI36zkTuMUwLMwfqSoXG96Jzpx1W2NXShZKuJfMU/c
-         eJzGbVDsYsYuzVd0sEkZmV2s7IyQm8ZALa3PY=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bHZ2PwkhPIu2PqwtYg+2SzyyWOB2hyCwnO2GowoLPa8=;
+        b=YG2jqI2E+mWZdkjQptU7WsWqhL5ODUo8lggaABMY4AckGvyMkb1iV2sLoiwIpNKiS+
+         1l1n+mWrEUp8tisoX42K+sqHxKHjC+WSqzW9lMBLfHH2msmEIFbPG17DzCVgA1UmqofH
+         hiBi+T6pgVwEq53jCS7Kn7R7IOvuNIxYlrw117zxx+dZmkS6vaqxXPDnlwhr9sjsnxZK
+         uYnQCYpuB60iFeVotTlg5uuZJdSIeCtr1qQU1kfvUuy98hHUCqGwWWIAQR7+Mi6QFCPl
+         JW9kH0brrdvRXtXdrtdoAWKhny8l83MhQPWs3O8CGR/Z/6JDzZVqztdpugeWfjDBGqZ3
+         G4RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=hSV8zgLL1qI2VtuejLEMkCpglPFOb3EwRIeBgdx6TNw=;
-        b=OwR+GOf5nMfVD1zdky9AMGAcrl5v87j2j2NDq4U8+3kr0+csTblPCkLwSCo80mITuG
-         FEVJoWdJCjXnx/GRXCnH4IvonTC08081Mtx7Z5MhpA0sHAMPeJfPFCnMp0TQMkZpBzGV
-         geIWVzzDLeVfmqfNvodnmpITflCCi0A2bmYKr/tlaPEsZjagEWTx43LXcOjNK2vtAeKY
-         jDPB5yT9jQ5NATSwKfYVx6rzc3USVp8WWPbTaIn343ewi0ECxugoyp7AOc+g03sPsHn8
-         hEuBnXI7CUmaITOCQW6L18BulGkk8HggWoiNRLSbgLFDDzK87A4gFHM75YcWiQoRZJWT
-         OFvA==
-X-Gm-Message-State: AOAM531kI9BmOrq6OW6rFHYksxzBFPQuG57r0OGT0SfvIbi6jzzkPqFX
-	psYUJi7d4fnUzTuxWIwWvRLcng==
-X-Google-Smtp-Source: ABdhPJyo8VLxhjAj3+Xf9T6eihBH/DifdvrDRAxCoh0G8NXbgyoRQEiAc6/eX3M1vrlhOjtSsZdGwA==
-X-Received: by 2002:a1c:107:: with SMTP id 7mr21457658wmb.28.1614025618044;
-        Mon, 22 Feb 2021 12:26:58 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6747:849:8224:46bc? ([2001:8b0:aba:5f3c:6747:849:8224:46bc])
-        by smtp.gmail.com with ESMTPSA id k15sm28582097wrn.0.2021.02.22.12.26.57
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bHZ2PwkhPIu2PqwtYg+2SzyyWOB2hyCwnO2GowoLPa8=;
+        b=hK7weofvq5RYdcslFb4zm8SBY5ckqLLMtfZDJSLFb1k/oouBwBXYWrRJDqMsG1keV7
+         sYZVAKSdRxPqFRdr4vrgETEzS7kPfFbemG1F3VY9jQQ4UFmUSgznKQM3xTkF6w3S2yWR
+         pg2CnkazeQI8mHJbLXphzjpJNsp2q9dy6e09JXrqnY5+KuduesyXOb6H/dsatj9W9+yY
+         Cj1gSJc6chH2LRVFyXogLW02BVkmoL4HZVmd3FMVRrk6K0fdrmUy5TXToxag4WrsGO4f
+         VZEBzz5Riq5i3ph/fyL1mIlGh4PIn5ibhFfJzQxBBM5lXeDasOJEAGPoM2rnFmilOOvR
+         SrZQ==
+X-Gm-Message-State: AOAM531+tZViTDibxZc/EU/phgIIy2YYfNwLpA1KIu0JI2oaH3VmirYV
+	VDKZhcl+oOGo1UskwD6Nk+n8jMmhmaoqRA==
+X-Google-Smtp-Source: ABdhPJzLgjTJdQIOVHTTetKzZg0ckeeDaviXhGKS3z/USH+Rt3PskRqGuIwfGtFHhpz6zPYy7ZqGjg==
+X-Received: by 2002:a2e:3c13:: with SMTP id j19mr88314lja.130.1614026086426;
+        Mon, 22 Feb 2021 12:34:46 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id z64sm2094135lfa.282.2021.02.22.12.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 12:26:57 -0800 (PST)
-Message-ID: <b06711bf332e943142cdda180915add2c78c6b69.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3 2/2] iputils: Fix setcap/setuid of executables
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, Jate Sujjavanich
-	 <jatedev@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex.kanavin@gmail.com>
-Date: Mon, 22 Feb 2021 20:26:56 +0000
-In-Reply-To: <CANPvuRkSZxTOLM-gANOs_jrmkkMVZD83AJQMcJsWq5OCnhh1Lw@mail.gmail.com>
-References: <20210219175307.46218-1-jatedev@gmail.com>
-	 <20210219175307.46218-2-jatedev@gmail.com>
-	 <CANPvuRkEwbKHMDf7EzD9r8PwDR-akj8JJtc6D3-youOiYiU4Wg@mail.gmail.com>
-	 <CAPphmgayRkWXYqSmoCB-8LrTxfuSj+n+cVPX9F7HzpYe3QstCw@mail.gmail.com>
-	 <CANPvuRkSZxTOLM-gANOs_jrmkkMVZD83AJQMcJsWq5OCnhh1Lw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Mon, 22 Feb 2021 12:34:46 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: kergoth@gmail.com,
+	Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] bitbake.conf: Introduce PSEUDO_LOGFILE and FAKEROOTLOGS variables used by bitbake to print pseudo.log
+Date: Mon, 22 Feb 2021 21:37:32 +0100
+Message-Id: <20210222203732.9804-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-02-22 at 17:39 +0000, Jose Quaresma wrote:
-> Hi,
-> 
-> Jate Sujjavanich <jatedev@gmail.com> escreveu no dia segunda, 22/02/2021 à(s) 15:58:
-> > If libcap is disabled in PACKAGECONFIG, then arguments two and three mean 
-> > find_program find could setcap on the build machine. This would mean it is
-> >  not strictly determined by the recipe and it's determined by the 
-> > configuration of the build machine instead.
-> > 
-> 
-> In this case the meson will not use the setcap from the build machine because 
-> the libcap not found on the target sysroot. The libcap is a dependencie when 
-> PACKAGECONFIG+="libcap" and in this case the meson it will fallback to use
-> setuid.
-> https://github.com/iputils/iputils/blob/f0c64bbb2b1563647bfeeed8d82bc4d2d2312d8a/meson.build#L221
+Bitbake depends on these variables while looking for pseudo.log file in
+case of fakeroot task failure.
 
-Whilst it may not use libcap, I seem to remember issues with the output 
-still not being deterministic since there was something in the out which 
-indicated the presence of setcap (or not).
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/conf/bitbake.conf | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 375467d155..d0d8da6b90 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -681,6 +681,7 @@ SRC_URI = ""
+ 
+ # Use pseudo as the fakeroot implementation
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
++PSEUDO_LOGFILE ?= "${WORKDIR}/pseudo/pseudo.log"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+ PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+@@ -691,9 +692,10 @@ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+ FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_LOGFILE=${PSEUDO_LOGFILE} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
++FAKEROOTLOGS = "${PSEUDO_LOGFILE}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ 
+ ##################################################################
+-- 
+2.30.1
 
