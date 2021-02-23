@@ -1,69 +1,130 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.7247.1614069141865926392
+Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
+ by mx.groups.io with SMTP id smtpd.web11.7783.1614074214285245761
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Feb 2021 00:32:22 -0800
+ Tue, 23 Feb 2021 01:56:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VskVqDAB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id b3so21644952wrj.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Feb 2021 00:32:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=uijsOLCJMRCjjLcO31sRgYL1xSn5YSOQlMa7/dzKSxA=;
-        b=VskVqDAByQnCwc+93sj79XJIbJD6bqc67mDHjzi3QSzHaisfxgYrV/gHG+VjJz8omi
-         W81RVbor4AmAeSmZBqWd9Obx4VVv/ZvVf9Xrn1nf6EyG5wz8cthhl7Mz7rcli4fLAf9i
-         f4Y0K+nyfIa+SBxfg2+LCjJ5+z0rqw5fl42gw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=uijsOLCJMRCjjLcO31sRgYL1xSn5YSOQlMa7/dzKSxA=;
-        b=RXMnNSChyWT2+svxFQ4dNaxq/bCt506v/ssIvKYBwlXetNnpmLgkHC5KoUOHGIQIsj
-         uwslnLDLOpmXOjLJYLIU6tLV8vKx4wngfDjf0bCb9K9SgEVPLAji8kw6RODBh3ZxKBHz
-         9Re2pr46dPCa9uznOEE3NQhCC8FG4RpUXkr44+gP9TQHPM4bgb3HoK9b+hPuraalcxK6
-         S745R+F0339Q6yk2GddfkXjyrEpm1jWMuSOjFBHS3KaRmhWC+pozT84c2zy03vKjyp+3
-         H9OcMGzsvTRUSQ6YmalHoqqKXerVWxpdBolnwFjmIIXcMRxp7/irq8rZozN9WHUlVU0h
-         x+dQ==
-X-Gm-Message-State: AOAM532YbwV3NlQd4fbuarIBA0jX2n8C1DNfEWNx7ZP1sBoo+an10jV5
-	RR6YqZSkHO4pMhYHlNwANJG0Cg==
-X-Google-Smtp-Source: ABdhPJywcfXAU2OR2JEapoSyWiK6UxQ7lBGRfj53dooNrX4lVpFd7pOjRjS0hhFiRA3aHVo7BcV+UA==
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr12072722wro.113.1614069140447;
-        Tue, 23 Feb 2021 00:32:20 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:9491:94ce:53e1:ca3c? ([2001:8b0:aba:5f3c:9491:94ce:53e1:ca3c])
-        by smtp.gmail.com with ESMTPSA id a6sm1888759wmj.23.2021.02.23.00.32.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Feb 2021 00:32:20 -0800 (PST)
-Message-ID: <1ca08dfc36b0642e70bc57997db157deaddfd410.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] vim: Improve reproducibility
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: oobitots@cisco.com, openembedded-core@lists.openembedded.org
-Date: Tue, 23 Feb 2021 08:32:17 +0000
-In-Reply-To: <20210222164211.23449-1-oobitots@cisco.com>
-References: <20210222164211.23449-1-oobitots@cisco.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=fail reason="signature has expired" header.i=@basmevissen.nl header.s=default header.b=Og/fD53M;
+ spf=pass (domain: basmevissen.nl, ip: 178.18.92.162, mailfrom: abuse@basmevissen.nl)
+Received: from localhost (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id 4F82821203E;
+	Tue, 23 Feb 2021 10:56:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=basmevissen.nl;
+	 h=message-id:user-agent:references:in-reply-to:subject:subject
+	:from:from:date:date:content-transfer-encoding:content-type
+	:content-type:mime-version; s=default; t=1614074207; x=
+	1615888608; bh=FFe+8M6MJj2nSZ8rKS83GgKv3pcz5WV2wO2Ap+/q3r8=; b=O
+	g/fD53MoHUhgqJMuCrkEc2bMfHEToO8SsjdLiCuXKWP0WABBhb2bslKvko9Ap9N+
+	oKj2BsXfX2AHiA39mXWjCJgQG/MMX0+RaANEhAcOxXdRC0gQ0qsTPLAYB4/INv3H
+	DacJkGH6lDLCGlNEUqPGfB4gFOt4uXAsV8TgjO9kA1gKQpeYGSUMX3PfVm0Icc7P
+	TXU06XRSu5O80ueqPHgL/UH3miPEkWYr8xHWcP5cWUlOWvK9m6Z050J5moWqcK9w
+	1cS9WzYazAfHBqMWOeXQc/W7vX0o1tWJXGCGLOXI/GXf8G2HWH3mWR2Jn6/ip1ld
+	Y3J91cVzivQGb/PjJWuMlzvhux/hPkzMk+4lHGrnffVBIIfjK0UurnEKBdyAupjp
+	1nY/dt3JHdlDlgRk18vSFaRo6hV//wYKFekFKX3p4UNh2kCKvmoxJ6GARjkIm3Z9
+	Ea8ptinwvZHbgqsSCtM01NrqPsEZon70Y0vYpC8Hiq+efenzOsRGlfIR+x3CcYCa
+	4WZFBEjMBYG5yact6tL20RKUj6jo/AWIl9+FUHQZ4rKRTeQx5Iki3whiuoNnOMkT
+	nshz3cxaBZKncg83v2J9aqSIHtixIEDNq9+D8O092S7dUoF1CLsST00Qk/sVo2M/
+	X92UiKThsgrOLH4Z9Nmro5xVyf56QMo21hXseeZWCY=
+Received: from hosting.emcodev.net ([127.0.0.1])
+	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
+	with LMTP id C3i_bXf0ecxl; Tue, 23 Feb 2021 10:56:47 +0100 (CET)
+Received: from emcodev.nl (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id A8B47212038;
+	Tue, 23 Feb 2021 10:56:47 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Date: Tue, 23 Feb 2021 10:56:47 +0100
+From: "Bas Mevissen" <abuse@basmevissen.nl>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] busybox: search stable versions for AUH
+In-Reply-To: <CANNYZj_JMoBs4KzZtRToeUuJEUorVe4fw9_j-txZah6+XAMBkA@mail.gmail.com>
+References: <20210222154956.27267-1-andrej.valek@siemens.com>
+ <4462ffe940c0fa879486300e5d7d358045604133.camel@linuxfoundation.org>
+ <CANNYZj_1RL9rSJxaaRTQf__mnzEr49Eze5gW44TBtJn7FEhN0Q@mail.gmail.com>
+ <9ea4df35-c70e-e03e-7fea-e56960ef17c6@gmail.com>
+ <CANNYZj9xb3q+b4Mqng_RQoR+NvstzwOXeHRfCMrKuyCyxzyNEQ@mail.gmail.com>
+ <CAMKF1sr0cHysY1wjfmXTsKVQ-1nhzx3=avprqfMC+AVU1QWzYA@mail.gmail.com>
+ <CANNYZj_JMoBs4KzZtRToeUuJEUorVe4fw9_j-txZah6+XAMBkA@mail.gmail.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <189b378d449ae00705db06a45e0145e2@basmevissen.nl>
+X-Sender: abuse@basmevissen.nl
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2021-02-22 at 08:42 -0800, Oleksiy Obitotskyy via lists.openembedded.org wrote:
-> Override awk and perl path to avoid
-> using local absolute path.
+On 2021-02-22 21:00, Alexander Kanavin wrote:
+
+> I am also not sure if there's actual meaning behind this unstable 
+> marker. It's not explained anywhere, there are no release announcements 
+> where it's explicitly mentioned, and the branch in git has no commits 
+> since 1.33.0
+> https://git.busybox.net/busybox/log/?h=1_33_stable
 > 
-> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-> ---
->  .../0001-vim-Override-perl-and-awk.patch      | 34 +++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |  3 ++
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch
+> I am leaning towards just taking the .0 versions.
+> 
 
-Fails in vim-native unfortunately:
+I agree that is fine for master. The project seems to be just very 
+conservative in what it calls stable. The delta between unstable and the 
+consecutive stable is small. For the branches, they can start with the 
+then current version from master and get updated when there are stable 
+updates.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/26/steps/13/logs/stdio
+So Gatesgarth should go to 1.32.1 and master to 1.33.0 IMHO.
 
-Cheers,
+Bas.
 
-Richard
+> Alex
+> 
+> On Mon, 22 Feb 2021 at 20:14, Khem Raj <raj.khem@gmail.com> wrote:
+> 
+>> On Mon, Feb 22, 2021 at 10:44 AM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>>> 
+>>> Right here: https://busybox.net/
+>>> 
+>> I see.
+>> Gap between 1.32.0 and 1.32.1 release was about 6 months, I am not
+>> sure if all distros are waiting for dot releases or not. I see that
+>> upcoming fedora 34 ( due in April )
+>> is already packaging busybox 1.33.0
+>> 
+>>> Alex
+>>> 
+>>> 
+>>> On Mon, 22 Feb 2021 at 18:37, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> 
+>>>> 
+>>>> 
+>>>> On 2/22/21 8:39 AM, Alexander Kanavin wrote:
+>>>>> On Mon, 22 Feb 2021 at 17:02, Richard Purdie
+>>>>> <richard.purdie@linuxfoundation.org
+>>>>> <mailto:richard.purdie@linuxfoundation.org>> wrote:
+>>>>> 
+>>>>>> +UPSTREAM_CHECK_URI = "https://busybox.net/ 
+>>>>>> <https://busybox.net/>"
+>>>>>> +UPSTREAM_CHECK_REGEX = "BusyBox\ (?P<pver>\d+\.\d+\.\d+)\
+>>>>> \(stable\)"
+>>>>> I just realised/wondered whether:
+>>>>> 
+>>>>> inherit upstream-version-is-even
+>>>>> 
+>>>>> would work here?
+>>>>> 
+>>>>> 
+>>>>> I don't think so - busybox seems to declare x.y.0 as unstable, and
+>>>>> everything else as stable.
+>>>>> 
+>>>> 
+>>>> is it documented somewhere that x.y.0 is unstable ?
+>>>> https://git.busybox.net/busybox/commit/?id=a4c3a341394a1fb25be8c15d2ddfe3ec77cbb83c
+>>>> 
+>>>> seems to indicate its a normal release.
+>>>> 
+>>>>> Alex
+>>>>> 
+>>>>> 
+>>>>> 
+>>>>> 
+> 
+> 
+
 
