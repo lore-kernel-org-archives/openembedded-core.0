@@ -1,74 +1,93 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.6178.1614170559059791172
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.6454.1614171415329556565
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 04:42:39 -0800
+ Wed, 24 Feb 2021 04:56:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Daqwi43f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id 7so1768588wrz.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 04:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DvYD/LYScuVRlx9Ane7Mvd0rROGFusdtxPFM/zJyHu8=;
-        b=Daqwi43fb+8yE8AKsgIBCbWISlr4nyg3HrqTLIm4thGJevvtAIJPG8LkscPLRNVMf7
-         NNwZKgKMoWlIUv5c+BPRTpePO535JWF+Vj4vdH53V4S2A4RcvyQNo8siC7g+ZbcQWrjb
-         TO0u4sMZpL2muRxzVOG/ZB0daNMNOZVR+/DYA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DvYD/LYScuVRlx9Ane7Mvd0rROGFusdtxPFM/zJyHu8=;
-        b=S9w+YrduDjv5rwAWJx8vBV70Wbaj5dejSVr02AU+IwsRmRRXjDZG+QxMVV+Ns+71Bd
-         hJ8/tz0FWTJ3wh0TVrMGDflfW4YF5ZdA0OCj0XdNoISCnO02eh7wX/f8noDbwk67tbQM
-         yDtCU1pcwp0druPEjpnUWxy/XyIfOHr40C+448rdK7q0xy96chWNN7ewsrRGMxEwpWRl
-         b8caRb5DwT/RvZwAJ/QKOnKs/ApbMyADASQee0iz3v93zUHROr9PfOoi336csuZOeS+E
-         nfHXFblyNTIjvxYbriVFCe54d+3XmSneVP/SYtYJjcwXmBPbaAz67HRLwoZqGOsUprMi
-         3VLw==
-X-Gm-Message-State: AOAM5316kXdCaG7/0CsOQoRUWgFzQbizZMoxhRlHp2FicyhB7aLLamCe
-	0C6Ko16AYT0iwKpsh2OrN2Nj8etlwx8QVA==
-X-Google-Smtp-Source: ABdhPJxPQFSLc4DB9VSsUWALpabYVTPAeGN8ThlxPDMumqGK7+cGxsbs9oVsvmzM2iQqKCr5Z9I/FA==
-X-Received: by 2002:a5d:6c66:: with SMTP id r6mr8246570wrz.407.1614170557187;
-        Wed, 24 Feb 2021 04:42:37 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:4476:47d0:b128:f21a])
-        by smtp.gmail.com with ESMTPSA id z2sm2794883wml.30.2021.02.24.04.42.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 04:42:36 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] diffoscope: Ensure rpm is configured correctly
-Date: Wed, 24 Feb 2021 12:42:36 +0000
-Message-Id: <20210224124236.3828484-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=eJOeo4Dv;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (unknown [83.135.214.71])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 36BB420B6C40;
+	Wed, 24 Feb 2021 04:56:53 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 36BB420B6C40
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1614171413;
+	bh=ZkZxOWgUSipB1opP+F0eW/I40VexwJCWbUvGvbD6hBM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=eJOeo4DvgwuzMtRTS10B//fkBApOWtl19QHhiiKxSd1tScoVTaZU+A6tvmnsmtJ9w
+	 RYmdWymFLz63bK1IImCr0hMGXKH068Wnb264S/IXdsd4r9OPM4lc8DArcV2kRLTcIP
+	 JQARnEqK9RXpM4a2KEoaFNPBQv101UGfToDkojFM=
+Subject: Re: [OE-core] Current native SDK glibc compat
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: randy.macleod@windriver.com
+References: <4ec292a9-3723-34f2-51a5-01dd6652f651@linux.microsoft.com>
+ <1a309c4181d7de1b38497b4db6f4e1d664f18398.camel@linuxfoundation.org>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <9a8cb006-e161-b402-d496-72a1c983e90a@linux.microsoft.com>
+Date: Wed, 24 Feb 2021 13:56:51 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1a309c4181d7de1b38497b4db6f4e1d664f18398.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-diffoscope was failing as rpm wasn't configured correctly. Fix this.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/diffoscope/diffoscope_167.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On 2/24/2021 1:32 PM, Richard Purdie wrote:
+> Hi,
+>
+> On Wed, 2021-02-24 at 12:40 +0100, Anatol Belski wrote:
+>> the current master build seems to be broken with symbols unavailable
+>> from the host glibc. The following is to see on the SDK built and
+>> installed on the same host Ubuntu 18.04.5 having glibc 2.27:
+>>
+>> $ . /tmp/poky-sdk-master-00/environment-setup-core2-64-poky-linux
+>>
+>> $ ldd $(which $CC)
+>> /tmp/poky-sdk-master-00/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc:
+>> /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found
+> We change the loader path inside our SDK binaries so you can't trust the
+> output from ldd, it will find a different result to what you'd see
+> when you run the binary.
+>
+> What issue are you seeing trying to run these?
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_167.bb b/meta/recipes-support/diffoscope/diffoscope_167.bb
-index af9682e0a82..74cd8090719 100644
---- a/meta/recipes-support/diffoscope/diffoscope_167.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_167.bb
-@@ -15,7 +15,10 @@ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magi
- COMPATIBLE_HOST_libc-musl = 'null'
- 
- do_install_append_class-native() {
--	create_wrapper ${D}${bindir}/diffoscope MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc
-+	create_wrapper ${D}${bindir}/diffoscope \
-+		MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+		RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
-+		RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
- }
- 
- BBCLASSEXTEND = "native"
--- 
-2.27.0
+Initially it was sighted here appearing when a binary is actually invoked:
+
+https://github.com/meta-rust/meta-rust/pull/313#issuecomment-782784056
+
+I went digging to see similar cases.
+
+
+Regarding the loader path, are you referring to this?
+
+$ chrpath $(which $CC)
+/tmp/poky-sdk-master-00/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc: 
+RPATH=$ORIGIN/../../lib
+
+
+As the binary where the issue was sighted has this
+
+$ chrpath $(which cargo)
+/tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/cargo: 
+RUNPATH=$ORIGIN/../lib
+
+
+but then, the DSOs have no rpath set, eg.
+
+$ chrpath 
+/tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1
+/tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1: 
+no rpath or runpath tag found.
+
+
+so it might lead to the interferrence with the host. Does it perhaps 
+need both $ORIGIN/../../lib and $ORIGIN/../lib if binaries are in /usr ?
+
+Thanks
+
+Anatol
+
+
 
