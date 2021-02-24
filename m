@@ -1,355 +1,158 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web08.28.1614121142027822449
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.49])
+ by mx.groups.io with SMTP id smtpd.web12.376.1614126705763148622
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Feb 2021 14:59:02 -0800
+ Tue, 23 Feb 2021 16:31:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@broadcom.com header.s=google header.b=C9RH5bog;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.215.193, mailfrom: scott.branden@broadcom.com)
-Received: by mail-pg1-f193.google.com with SMTP id a4so149550pgc.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Feb 2021 14:59:01 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=A7DSszvN;
+ spf=pass (domain: windriver.com, ip: 40.107.92.49, mailfrom: yongxin.liu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UiENG5+L35eGO9Oc/9BJLSampU4oek4/6zU4mn0mBYlN+9zeZv10HMXfnMEiGEOMitUhLhwHYIr7UyrtvZ9IE8NF3GGQYOeVCFi1/Y2tC0e7aGWxWnFWSCdgXggzlxLji3oG0SBVZ7a29rt7Ex7bLhqy//oDy4QsMc4S7aSK2XEjKDB2fMKRWnCkO70E6sy4T7XbCPlZCJK5i3kYkxoTtwFyluz6TutSPaxLNiS6mE+AH85ylMM/LFRR+CS/vp8hO/6sNJ+PfZdA/WvxPFeHJ20i7XoP6gZR6a9Ht5vt51gv6BexrUW20FFpLobYd1IlH51sbmhuaHRS9TIdcJdl7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JuA9hcMIYvbVPHUCeBZEg/BJ/AYJgLdtRdy0yUQBPSs=;
+ b=RHXuLSAxOoRCYKNkb+w/Hkqqt6y1ugh4RIkyzbiT761+yhwKsezoKjazKj822ObQ23ageYYhVpDxKQnEPEtjR9x+X3HzftRhZFtHNDNnzoynvN/aGrSw4ofnLQwk0SiS0DtMtayK7N96wKDevqMAHAOnTPjxxFwPBZZt4g1JvEBTrU/5vrwMzBvJGjGYcEo3K2yz8kbbAUB8JqxJCxKrtNrpaWDWTccb6ER8IsrpQ/Suak2RvsI+s4SpPUr6GiPw3+zw+Rd7tBTNXUJ4uk9KuRShm/irRcTaXsRamWHaCXKZBrSTSRJJOsrVzPuUh9/mx+4a8eghhE9YrYRNGjBW1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to;
-        bh=m68fi7JrbFarCwfCDIeywqodgiERwHNcNLp5Dnzjr40=;
-        b=C9RH5bogGGYF0AG6GJVbdiRtla/ywTI2D0gVcj3im4jQ9ir1JumqHeQWEEWQB30UFt
-         0v1sKTNG4oChQa1Lqjc1C6g0gXVPrYi2SyXXXb6ylQ0eL8JI7t+eKbUjzje9J/xIxIo1
-         nEWBlafBsA2Lcar+GwTLgRk/en0noidx7Mjic=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to;
-        bh=m68fi7JrbFarCwfCDIeywqodgiERwHNcNLp5Dnzjr40=;
-        b=jyuBM/nQqE4ykr7GzpHJtaNZ/PXxNhePci49CXy2onCFme56kuqywL/1dWFIqN8u3G
-         b0Ej8Q2DkppLVqVHV5VixVYNqAmmf9Qdt3gZtjRHiz2yXwhRdmPe11fGww9wiu9BsEFo
-         Zw4IV1wxhpqNA2aXJNIrzYQLKAjItA+4KriGMRcpQGco6snK73I8AyO3wK5e52OEJSOP
-         Yl1D9WQq87JkvZuYFpxYszn9FImGdYuM6RGmsXibFxYCKVGM8OHWWpn875iGuVlCeBTl
-         CHBkTMkVpiX0ofVsFkIWcH3DImwPUB/fd6fKFmdMmUT+MTLqAMGq1jhqTNkk8DXIpgei
-         FTpw==
-X-Gm-Message-State: AOAM530VoHqR0ApEs4ZDieoX5/jj60hTzuJ8C5HxBfAubL/GDirID0ws
-	XsLOPYlnOdif/siuX2NjAXOp9w==
-X-Google-Smtp-Source: ABdhPJzA+fa76b2prB1OP2uR6LchZecu5T5Xnfx/k9GoQW76Jd06R8JBlqGxXW34AUea237ZDsbjgQ==
-X-Received: by 2002:a63:574b:: with SMTP id h11mr26121435pgm.25.1614121141204;
-        Tue, 23 Feb 2021 14:59:01 -0800 (PST)
-Return-Path: <scott.branden@broadcom.com>
-Received: from lbrmn-lnxub113.ric.broadcom.net ([192.19.228.250])
-        by smtp.gmail.com with ESMTPSA id v129sm222132pfc.110.2021.02.23.14.59.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 14:59:00 -0800 (PST)
-Subject: Re: [OE-core][PATCH] ffmpeg: add ptest install for ffmpeg
-To: suji.velupillai@broadcom.com, openembedded-core@lists.openembedded.org
-Cc: jonathan.richardson@broadcom.com
-References: <20210223011743.7996-1-suji.velupillai@broadcom.com>
-From: "Scott Branden" <scott.branden@broadcom.com>
-Message-ID: <0fe4fab1-416a-dab6-2001-ac66c064e0d3@broadcom.com>
-Date: Tue, 23 Feb 2021 14:58:58 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JuA9hcMIYvbVPHUCeBZEg/BJ/AYJgLdtRdy0yUQBPSs=;
+ b=A7DSszvN95QPH/21TZDL5D8l07FJid1NGHzE17Py+gKrY+PTGC+nC6ccbTay0vSRQZGbgrzQPgGReBMPPLS+0WuFzhirwbDadSH02lwhYjx0hHiJImJJmnksb3eg3JSJuQjNw4LAzQbIZqqIk7xdhzKxmrPCWA5Uo02eey9hrDk=
+Received: from PH0PR11MB5175.namprd11.prod.outlook.com (2603:10b6:510:3d::8)
+ by PH0PR11MB5048.namprd11.prod.outlook.com (2603:10b6:510:3d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.29; Wed, 24 Feb
+ 2021 00:31:43 +0000
+Received: from PH0PR11MB5175.namprd11.prod.outlook.com
+ ([fe80::8c9c:1dc9:353:8eba]) by PH0PR11MB5175.namprd11.prod.outlook.com
+ ([fe80::8c9c:1dc9:353:8eba%7]) with mapi id 15.20.3868.033; Wed, 24 Feb 2021
+ 00:31:43 +0000
+From: "Yongxin Liu" <yongxin.liu@windriver.com>
+To: "Liu, Yongxin" <Yongxin.Liu@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] mesa: Allow building the iris driver
+Thread-Topic: [OE-core][PATCH] mesa: Allow building the iris driver
+Thread-Index: AQHXBdRGYws5h6ejyEObq+r+fTEljapmel0Q
+Date: Wed, 24 Feb 2021 00:31:43 +0000
+Message-ID: 
+ <PH0PR11MB517551B295DA5D06BAD7A144E59F9@PH0PR11MB5175.namprd11.prod.outlook.com>
+References: <1664CBDF366E1544.31496@lists.openembedded.org>
+In-Reply-To: <1664CBDF366E1544.31496@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: windriver.com; dkim=none (message not signed)
+ header.d=none;windriver.com; dmarc=none action=none
+ header.from=windriver.com;
+x-originating-ip: [60.247.85.82]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9b499e6c-b3ae-4848-3f75-08d8d85b8f75
+x-ms-traffictypediagnostic: PH0PR11MB5048:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <PH0PR11MB5048B6DFF685A6EBA7764439E59F9@PH0PR11MB5048.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ pf8VCMVlOSqwIcQHPuBXhxfXL270+iTqTVBhparSoBa2K94UCr3APuorvZ2PxLZ+ZUGP4d3Hskc13WYWWdIDGLjw6KchlZytOTMT6ZmPYpdGCbtF+YgENBopU5qLWv2WYOOLVa2Z/QRlcxCKvttFfYv3YcbYJ8nDBrXpX+SSc5bgh+gp+JXXSflnes4pRhqeVNZ13BRdtibAJx8RkmiuRmo5DlqJjVoCNYKMZBJRLHoHRYt0jpTMmID7uL9gR9l6e+h3kUbB5ouMe7nTjI5HwIDcabUX8Tcg/zAs56oTrCQkg9o0VPjZhJhEycHngeihQs4CCgHL2XGI9ZSRRIUnELyM6DXyqWw5pnM2AZx4LtMWbY68Je8eW45cgJ30TgscQ0wDthxNoiXvnouWPfP3GRenQoHt31PuAv4vMGxnL5ppK0LdYoIv5poGyUWXeFJ1XT7Kg4ri/C73OMvgJZJV4pxZXpzAUh8bUQ5Hrq1pWXjBt8/Z7WLTFlus3nZSQbA3xHGx0OpKpisxNhpXTswEBg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5175.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(376002)(136003)(396003)(346002)(366004)(316002)(53546011)(110136005)(8676002)(7696005)(55016002)(26005)(5660300002)(64756008)(76116006)(9686003)(71200400001)(6506007)(478600001)(52536014)(8936002)(66556008)(2906002)(33656002)(66446008)(86362001)(66476007)(83380400001)(66946007)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?us-ascii?Q?MHvvQpikavezEuSwT5Bv515MhJGM79tGXSzZuaAPPr6W6AXfk1rf6Ez+PQgE?=
+ =?us-ascii?Q?QJnG6E4YFuU41b/yMowJ3YmwEhCJsSf/N4HiVuMjBf+ZJ0KrcVwUfD9enloA?=
+ =?us-ascii?Q?c1FCwNxWuW6wRtsIgdmUGLj1cvgIDCO7mfdpeclveVnsGvGIkYKU50NYc91Q?=
+ =?us-ascii?Q?DkQzWsIUUEV9QOa8c9yGQf7nk/5nvDuwquuxPYqLr7LUg+QFyBreObS5JwMJ?=
+ =?us-ascii?Q?PXj7Uphp66nXIbgb4xXzF32mZ/FsYePeY9ibBvku2xlELzJ2fFERLrHTc/a4?=
+ =?us-ascii?Q?Edi+c+7IK8gJJrAY/P/vrI7dG/GyvrQbZLOZYHAbC/LztnUj97JCDqib1qtu?=
+ =?us-ascii?Q?F2TehNjGVb8VkHivQDs7fNyKIXGbi6bNZlsnVSXPmXWPAlYMI1NZ8DT/huh3?=
+ =?us-ascii?Q?bTGfp0VUMPzvA5JojWfQg1RkfF4VlDUNu1DvE6exLesImWfR03XcZHzYAXWK?=
+ =?us-ascii?Q?O898qMXaaJbSxto/8L5l9zMmkrbsSz5/r0AvBXPfQHEFoQtxA3B2m6BjF1As?=
+ =?us-ascii?Q?FLhSM1zZDwLiDggbZ768YEBwMqrAqTJVwvlvwUkoVjs3e+N2KYd8BuQfNwGM?=
+ =?us-ascii?Q?5v1xdCUZgpTC7fVWSn3jpn9955GByQHTeDR52EFCkyPL6eQUt+vQt3QwAPZp?=
+ =?us-ascii?Q?KZVNx1fkBe/nfbxRzuFSTnJVRq2B5d9OjLjldvhKxkY+RahGie6K1NL0f1vY?=
+ =?us-ascii?Q?8GYn4n6BqayUiGvNFPjBvo2RGZn0wVzwQ/JA8xbViw8GaPHcbT+FRwrJl5wR?=
+ =?us-ascii?Q?eI5SQK33fTdCzjIdEMGIs6dfX1USZNbcYvn6qB6Yds6eriaTwUxyjJz4gK9V?=
+ =?us-ascii?Q?4DvT2/V7O3kAy5wcMBZb8n4RM8V6JEfJ1gCDCeDOV/ZdLhu3V2fqFRPqqAnl?=
+ =?us-ascii?Q?nVSB1asC0sfW3ET5icnw5AZBBDNcN1bpi5JlIGVbXis6hI244GYS3jVpEC2m?=
+ =?us-ascii?Q?naVoTzRJpKSJ2cQz1IQ1/ELEn+x3TRLIEGw4fERhBuZ7l69Q6V2yL2f7j6Lu?=
+ =?us-ascii?Q?QijUW1GtYZo90hN6eM9gCH9a1nrE2QXMyKeoUmYlmpqXrUtgMOFe9l/x0+qf?=
+ =?us-ascii?Q?nnxMIx21hf+MvP9d4MqQ+UPxQ9gZY8bxfx4cXIUyNcjlrwoESIoh4EYmiKaJ?=
+ =?us-ascii?Q?hjf3xlMlObzH0jN5pe/kNZ0ylIeWCSyolMzS9c0pm7sqdxFIjbaKyW0oezsC?=
+ =?us-ascii?Q?Vqn2HvTwm2+AlIBza1t10JypFYcoU50ObfwJ6Zy2Ci31BXn9Nd2z1WLKQP8m?=
+ =?us-ascii?Q?o5ARI5GV3a7rFkiEzM869rxyjKGeoJKhF8ohTQypui+AdqpGq7b/ZeEPPeEq?=
+ =?us-ascii?Q?QM0=3D?=
 MIME-Version: 1.0
-In-Reply-To: <20210223011743.7996-1-suji.velupillai@broadcom.com>
-X-Groupsio-MsgNum: 148525
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000046a59105bc08ddda"
-
---00000000000046a59105bc08ddda
-Content-Type: text/plain; charset=utf-8
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5175.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b499e6c-b3ae-4848-3f75-08d8d85b8f75
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2021 00:31:43.0636
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wrKA7BZrOR+IwIPCaxNs969CwrO2fAKjuUOMDjKwl8ZyXFkgzYtVBgUOl/8f46UQjl0oDpymh+WojwX+gHy6+jzQX0sHUWEYDTukvmssxDw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5048
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the work on this Suji.  We can now buidl and test ffmpeg using FATE in yocto.
 
-On 2021-02-22 5:17 p.m., suji.velupillai@broadcom.com wrote:
-> From: Suji Velupillai <suji.velupillai@broadcom.com>
-> 
-> [YOCTO #5605] Add ptest for ffmpeg
-> 
-> ffmpeg fate test requires full source code and copy of test suite
-> data to run the full test. Test data is over 1GB thus cannot be
-> included within Yocto. But it can be mounted on the target during
-> the test or fate test can run limited tests without test suite
-> data as well.
-> 
-> Add ptest install such that it will only copy ffmpeg source code
-> to the target image. The run-ptest script gets necessary
-> configuration information from the shell environment variables
-> at run time, which must be set prior to running the test.
-> 
->   FATEWORKDIR  - working directory to run fate testing,
->                  full test with samples requires about 6GB
->   FATECONFIG   - ffmpeg config options for fate
->   FATESAMPLES  - fate test suite samples directory, optional,
->                  but required for full test
->   FATEIGNORE_TESTS - list of tests to ignore during fate testing
->   FATECLEANUP - set to 1 to cleanup fate compile and install
->                 directories after testing
-> 
-> Signed-off-by: Suji Velupillai <suji.velupillai@broadcom.com>
-Acked-by: Scott Branden <scott.branden@broadcom.com>
+Iris driver supports Broadwell and newer (Gen8+) for very low CPU overhead.
+
+With this patch, user can add PACKAGECONFIG_append =3D " iris" in their bba=
+ppend file.
+
+And then iris will be added in build options, like "-Dgallium-drivers=3Dswr=
+ast,virgl,iris".
+You can check mesa/2_20.3.2-r0/build/meson-logs/meson-log.txt for this.
+
+The driver can be found in build directory: mesa/2_20.3.2-r0/image/usr/lib6=
+4/dri/iris_dri.so
+
+
+Thanks,
+Yongxin
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Yongxin Liu
+> Sent: Thursday, February 18, 2021 16:56
+> To: openembedded-core@lists.openembedded.org;
+> richard.purdie@linuxfoundation.org
+> Subject: [OE-core][PATCH] mesa: Allow building the iris driver
+>=20
+> Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
 > ---
->  .../ffmpeg/ffmpeg/run-ptest                   | 130 ++++++++++++++++++
->  .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |  16 ++-
->  2 files changed, 145 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/run-ptest
-> 
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/run-ptest b/meta/recipes-multimedia/ffmpeg/ffmpeg/run-ptest
-> new file mode 100644
-> index 0000000000..ee866a58b2
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/run-ptest
-> @@ -0,0 +1,130 @@
-> +#!/bin/sh
+>  meta/recipes-graphics/mesa/mesa.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
+> graphics/mesa/mesa.inc
+> index cb075a8b89..72e22d654e 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -168,6 +168,9 @@ GALLIUMDRIVERS_append
+> =3D"${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '
+>  PACKAGECONFIG[panfrost] =3D ""
+>  GALLIUMDRIVERS_append =3D"${@bb.utils.contains('PACKAGECONFIG', 'panfros=
+t',
+> ',panfrost', '', d)}"
+>=20
+> +PACKAGECONFIG[iris] =3D ""
+> +GALLIUMDRIVERS_append =3D"${@bb.utils.contains('PACKAGECONFIG', 'iris',
+> ',iris', '', d)}"
 > +
-> +# Following can be set in the environment to overwrite
-> +# FATEWORKDIR      - working directory for the fate test, needs about 6GB
-> +# FATECONFIG       - ffmpeg config options
-> +# FATESAMPLES      - fate test suite samples directory
-> +# FATEIGNORE_TESTS - tests to ignore during fate test run (comma separated)
-> +# FATECLEANUP      - set to 0 or 1 (default) to clean up after fate test
-> +
-> +# Following variables are set during Yocto build time
-> +VERSION=""
-> +FATECONFIG_DEFAULT=""
-> +
-> +CLEANUP_DEFAULT=1
-> +make=make
-> +src="$(dirname $(readlink -f $0))"
-> +
-> +echo "---------------------------------------------"
-> +echo "ffmpeg fate test env config info: "
-> +echo "   workdir       : [${FATEWORKDIR}]"
-> +echo "   config        : [${FATECONFIG}]"
-> +echo "   config_default: [${FATECONFIG_DEFAULT}]"
-> +echo "   samplesdir    : [${FATESAMPLES}]"
-> +echo "   ignore tests  : [${FATEIGNORE_TESTS}]"
-> +echo "   clean up      : [${FATECLEANUP}]"
-> +echo "---------------------------------------------"
-> +
-> +die() {
-> +   echo "$@"
-> +   echo "ffmpeg fate: FAILED"
-> +   exit 1
-> +}
-> +
-> +lock() {
-> +   lock=$1/fate.lock
-> +   (set -C; exec >$lock) 2>/dev/null || return
-> +   trap 'rm $lock' EXIT
-> +}
-> +
-> +prep_test_vector() {
-> +   # If samples directory not provided, run the fate without samples.
-> +   # In this case, limited test warning printed out to report by fate test.
-> +   test -f "${FATESAMPLES}/md5sum" || FATESAMPLES=""
-> +}
-> +
-> +prep_work_space() {
-> +   test -z ${FATEWORKDIR} && die "Error: empty workdir: ${FATEWORKDIR}"
-> +   test -d ${FATEWORKDIR} || die "Error: invalid workdir: ${FATEWORKDIR}"
-> +   cd ${FATEWORKDIR}
-> +   mkdir -p fatetest
-> +   FATEWORKDIR+="/fatetest"
-> +}
-> +
-> +check_version() {
-> +   # if version is not set then try to get the version from src
-> +   [ -z "${VERSION}" ] && VERSION=$(${src}/ffbuild/version.sh ${src})
-> +}
-> +
-> +configure() {
-> +   cd ${build} || return
-> +
-> +   ${src}/configure \
-> +      --prefix="${install}" \
-> +      ${FATESAMPLES:+--samples="$FATESAMPLES"} \
-> +      ${FATEIGNORE_TESTS:+--ignore-tests="$FATEIGNORE_TESTS"} \
-> +      ${FATECONFIG_DEFAULT:+$FATECONFIG_DEFAULT} \
-> +      ${FATECONFIG:+$FATECONFIG}
-> +}
-> +
-> +compile() {
-> +   cd ${build} || return
-> +   ${make} && ${make} install
-> +}
-> +
-> +fate() {
-> +   cd ${build} || return
-> +   ${make} fate
-> +}
-> +
-> +report() {
-> +   date=$(date -u +%Y%m%d%H%M%S)
-> +   echo "fate:1:${date}:${VERSION}:$1:$2" >${FATEWORKDIR}/report
-> +   cat ${build}/ffbuild/config.fate >>${FATEWORKDIR}/report
-> +   cat ${build}/tests/data/fate/*.rep >>${FATEWORKDIR}/report 2>/dev/null || \
-> +      for i in ${build}/tests/data/fate/*.rep ; do cat "$i" >>${FATEWORKDIR}/report 2>/dev/null; done
-> +   echo "fate test logs are in [${FATEWORKDIR}]"
-> +}
-> +
-> +clean() {
-> +   [ -z "${FATECLEANUP}" ] && FATECLEANUP=${CLEANUP_DEFAULT}
-> +   if [[ "${FATECLEANUP}" -eq 1 ]]; then
-> +      echo "Cleaning up fate build and install directories"
-> +      rm -rf ${build} ${install}
-> +   fi
-> +}
-> +
-> +fail() {
-> +    report "$@"
-> +    clean
-> +    echo "ffmpeg fate: FAILED"
-> +    exit 1
-> +}
-> +
-> +prep_work_space
-> +prep_test_vector
-> +
-> +lock ${FATEWORKDIR} || die "${FATEWORKDIR} locked"
-> +cd ${FATEWORKDIR} || die "cd ${FATEWORKDIR} failed"
-> +build="${FATEWORKDIR}/build"
-> +install="${FATEWORKDIR}/install"
-> +mkdir -p $build
-> +mkdir -p $install
-> +PATH="$install/bin:$PATH"
-> +LD_LIBRARY_PATH="$install/lib"
-> +
-> +check_version
-> +echo "configuring for fate test"
-> +configure >${FATEWORKDIR}/configure.log 2>&1 || fail 3 "error in fate configuring stage"
-> +echo "compiling fate test"
-> +compile   >${FATEWORKDIR}/compile.log   2>&1 || fail 2 "error in fate compiling stage"
-> +echo "fate testing in progress"
-> +fate      >${FATEWORKDIR}/test.log  2>&1 || fail 1 "error in fate testing stage"
-> +echo "generate test report"
-> +report 0 success
-> +clean
-> +if [ $? == 0 ]; then
-> +    echo "ffmpeg fate: PASSED"
-> +else
-> +    echo "ffmpeg fate: FAILED"
-> +fi
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-> index bd21552332..c374694956 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-> @@ -25,6 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->  
->  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
->             file://mips64_cpu_detection.patch \
-> +           file://run-ptest \
->             file://0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch \
->             file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
->             file://CVE-2020-35964.patch \
-> @@ -43,7 +44,7 @@ PROVIDES = "libav libpostproc"
->  
->  DEPENDS = "nasm-native"
->  
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig ptest
->  
->  PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc avresample \
->                     alsa bzlib gpl lzma pic pthreads shared theora x264 zlib \
-> @@ -141,6 +142,19 @@ do_compile_prepend_class-target() {
->          sed -i -e "s,${WORKDIR},,g" ${B}/config.h
->  }
->  
-> +RDEPENDS_${PN}-ptest += "make"
-> +
-> +do_install_ptest() {
-> +    cd ${S}
-> +    VERSION="`ffbuild/version.sh .`"
-> +    tar -c --exclude='.git*' --exclude='oe-*' . | ( cd ${D}${PTEST_PATH} && tar -xf - )
-> +    cd -
-> +
-> +    FATECONF="${PACKAGECONFIG_CONFARGS} ${EXTRA_PTESTCONF}"
-> +    sed -i "s|FATECONFIG_DEFAULT=\"\"|FATECONFIG_DEFAULT=\"${FATECONF}\"|g" ${D}${PTEST_PATH}/run-ptest
-> +    sed -i "s|VERSION=\"\"|VERSION=\"$VERSION\"|g" ${D}${PTEST_PATH}/run-ptest
-> +}
-> +
->  PACKAGES =+ "libavcodec \
->               libavdevice \
->               libavfilter \
-> 
+>  OSMESA =3D "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium',
+> 'classic', d)}"
+>  PACKAGECONFIG[osmesa] =3D "-Dosmesa=3D${OSMESA},-Dosmesa=3Dnone"
+>=20
+> --
+> 2.14.5
 
-
---00000000000046a59105bc08ddda
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-cRe0CRXA7ypOJSgxO/nOOyQoaJxT7CGg1npOeSpPjEuc3fE4xum3l0nvU85hj6MlKZu43hokdBh0
-D0nLyyhEwlR3AC/msdff/UGbM/JR9vk812RP4m/aNWZFJwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
-BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
-YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
-BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
-MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
-YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
-Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
-HREEHjAcgRpzY290dC5icmFuZGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
-BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUOhjEpl04Sz9dh5MI82E1
-V39lM/owDQYJKoZIhvcNAQELBQADggEBAA7Rlypx/esz/iq1yA4+KW7uwV/aBY344BWcXt6I+SNK
-VwFBgFWfLj5vaEud9TVv2fPSiaHJo0umemOJk+43QD+bsoqmgcFXd21PrOt7Jjs+jjVED9VC5kJq
-S4NNKUkS+BqijJwSegtVygrc/atrIlJbjI21q4qpemUo5fgwqCNm++BmBGTI8yA09vtGSNDRN42k
-lLX9hl3iEj5SBgkQqCbbnoE+ZjjKfqt7ED166WhgyQWNrl39yLcvLj+JRUB3RuvXKZjH0NQEEBII
-wZBDSkyneykLt3CBNIhSCTxKM6OWxVp936ALSa5K9FNy00TeWSpokR6NmzaW8VD/EjTgvqAxggJt
-MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
-VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgx9oXSJpKniO4dS
-Gk8wDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIDTbg1lqowjSw4BhFztKTS2VumNZ
-IPJr39wsj2kCMg0xMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIx
-MDIyMzIyNTkwMVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
-CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
-AwQCATANBgkqhkiG9w0BAQEFAASCAQAJ2XJiVK8DhN23T7eacWELq7O1O3C/0pJYDT4NDjrcOB5U
-dD2xaRTco0AHwN0g9KpyvaCyVqOTnvu45IFUjPl2IP2KMMTFNbIR84bwWwglTq9Xl/ixkT9r6PRP
-0TkUzDvH/aQPhFxqA8FNvCWmhjh1y8OWV0QDXVfXhTg7hbe4ixYLXsIcMipca1TpfrADJPZk5Bq1
-iodDsWx7LekTZS1bpUO8+yqgKvIcxow0HkaFzJ7kxwz7ktGDJ6ocuRQ8ZBV1Yc1K358lxUzWUGRZ
-CauBIDUSD6SKtjw6H+AoOvQSU1fCNPfhge5n5tC9vnvl3srYXB9OAxIejT8fDWgBFDt/
-
---00000000000046a59105bc08ddda--
