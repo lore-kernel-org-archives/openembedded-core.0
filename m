@@ -1,85 +1,151 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.4815.1614159549310134006
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web09.5559.1614165073506918530
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 01:39:09 -0800
+ Wed, 24 Feb 2021 03:11:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EVNTdk/u;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id w7so1185190wmb.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 01:39:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=lCG4d/yNBv98voU8QRYEgzKjT9mpIVNK+5eIbRvJ64A=;
-        b=EVNTdk/u4DE7FK4p3RB5lEqhaNGkC6l7RMvR0XAbW/0KLTr/3z9KXUNnbRzLs5kUlm
-         79ouajc1+1Ak0ILzOrzTH3XLhEfDqbSjEiSpCF9yQGvQwRWa3RsodFyKdx9bnvH3zaVb
-         RujHvzohzfquN3ofqyzTsYfzF+ERogbHfzFcw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lCG4d/yNBv98voU8QRYEgzKjT9mpIVNK+5eIbRvJ64A=;
-        b=Ro5wQdiDPLegqT9fErtkUKzIooiXlQvaYlkx7ZVFYSBXGvxA+F0UbCEBYI6Wqi4g6g
-         Qsghb2tcGCanX5YUAClPl3WcHQKCNmoxHEfsGOyo7QMKwCEi72cbqQ1uyjjRgU4839wf
-         EOJVXg6lv+I2/9S0LpPa3FaQtzGtu+VLeekXNPUcMoTMfny8HURysrkMzZBOhi5CNEH8
-         KW0OdRn9ERJOEp4ilbrYq4vx8vxqCWKNmiHapfxAj4uB1S3pGBxzXT12yS1i0VyPOLzW
-         3a7OyyNTREhprs8YtKIM+zDpB5oR6xTjNthBIqIhTuExMbCRLAACBwFgl2QuIETIZKk4
-         bH8A==
-X-Gm-Message-State: AOAM531xAn/qfaIheZ8VFqUCQGHiXW75xLjE4TH4ttTlTUfhK4WdyRDu
-	isYjkCApjPEopb60WXNGYx0SEg==
-X-Google-Smtp-Source: ABdhPJy5bE4s0d/IuSYwmsEjOK9T+TDXDCedP8XRhO0tzl0InzOw7gAawYqBbx4EcNNLtApmcyqy/g==
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr2956568wmb.166.1614159547489;
-        Wed, 24 Feb 2021 01:39:07 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4476:47d0:b128:f21a? ([2001:8b0:aba:5f3c:4476:47d0:b128:f21a])
-        by smtp.gmail.com with ESMTPSA id o13sm2767019wro.15.2021.02.24.01.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 01:39:07 -0800 (PST)
-Message-ID: <a373f6be54f63987eb9cb0ce994b807fcca01062.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Merge meta-rust to oe-core
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 24 Feb 2021 09:39:04 +0000
-In-Reply-To: <20210224030201.349588-1-Randy.MacLeod@windriver.com>
-References: <20210224030201.349588-1-Randy.MacLeod@windriver.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: rELMbJ5+76x91nrlAcWOY95SLOZt6YMGMjxxJipvET8rsP6wt2XMgYj65jeYfllB+oxgGZv3hS
+ qBNLCaTQlQpg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9904"; a="172787929"
+X-IronPort-AV: E=Sophos;i="5.81,202,1610438400"; 
+   d="scan'208";a="172787929"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 03:11:11 -0800
+IronPort-SDR: rgvjROXwwWY5D3YGyaHDr/GZERG5Fs2g4Q891wFU7OLpKIxNoqyHYeUD1gwInopuilDUmNymIG
+ JEUP/ikBDGUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,202,1610438400"; 
+   d="scan'208";a="364887926"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by orsmga003.jf.intel.com with ESMTP; 24 Feb 2021 03:11:09 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cve-check: produce cve-summary in JSON format
+Date: Wed, 24 Feb 2021 19:11:08 +0800
+Message-Id: <20210224111108.41864-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, 2021-02-23 at 22:01 -0500, Randy MacLeod wrote:
-> Clean-up the merge of meta-rust to oe-core by squashing most of the 
-> meta-rust history so we are left with:
-> 
->   35da4b252f rust: add a language demo image to test reproducibility
->   088374371b cargo/rust/rustfmt: exclude from world
->   7df10d2a22 meta-rust: merge commits
->   4187796cd6 rust: mv README.md to recipes-devtools/rust/README-rust.md
->   03b9c60ef4 meta-rust: move code to oe-core from meta-rust layer
->   2c62874204 libgit2: pull in updates from meta-oe
->   24cb3db88c libssh2: pull in additional commits from meta-oe
->   e9a0a3bad2 Add libgit2, libssh2 from meta-oe for rust
-> 
-> The full diffstat is below. (1)
-> 
-> I didn't really notice the scripts shown below since they are mostly harmless.
-> I'll review them and remove them in v2 if they don't make sense for oe-core.
+From: Lee Chee Yang <Chee.Yang.Lee@intel.com>
 
-This is better, thanks. My feedback from a quick glance:
+produce cve-summary in JSON format so it can be translate and consume
+by other tools.
 
-a) Need maintainer entries for the new recipes
-b) The scripts in scripts/ look at the very least inappropriately named
-   for OE-Core, I suspect we don't want/need those.
-c) Not entirely sure about the languages demo image, its not how we test
-   any other language
-d) There aren't any tests in meta/lib/oeqa!
-e) The rust README starts "This OpenEmbedded layer provides" and has a few other
-   issues.
+output json summary file use similar name as CVE_CHECK_SUMMARY_FILE_NAME
+but with .json extension.
 
-Cheers,
+[yocto#13975]
 
-Richard
+Signed-off-by: Lee Chee Yang <Chee.Yang.Lee@intel.com>
+---
+ meta/classes/cve-check.bbclass | 43 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 112ee3379d..09bd1f6597 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -66,8 +66,10 @@ CVE_VERSION_SUFFIX ??= ""
+ python cve_save_summary_handler () {
+     import shutil
+     import datetime
++    import json
+ 
+     cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
++    cve_tmp_file_json = "%s-json" % cve_tmp_file
+ 
+     cve_summary_name = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME")
+     cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
+@@ -85,6 +87,26 @@ python cve_save_summary_handler () {
+             if os.path.exists(os.path.realpath(cvefile_link)):
+                 os.remove(cvefile_link)
+             os.symlink(os.path.basename(cve_summary_file), cvefile_link)
++
++    cve_summary_file_json = os.path.join(cvelogpath, "%s-%s.json" % (cve_summary_name, timestamp))
++    # cve_tmp_file_json record each CVE in single line, consolidate them into single json file
++    if os.path.exists(cve_tmp_file_json):
++        cve_json = {}
++        cve_json['CVEs'] = []
++        f_json = open(cve_tmp_file_json,"r")
++        for line in f_json:
++            cve_json['CVEs'].append(json.loads(line))
++        f_json.close()
++
++        with open(cve_summary_file_json,"w") as f:
++            json.dump(cve_json, f, indent=4)
++
++        if cve_summary_file_json and os.path.exists(cve_summary_file_json):
++            cvefile_link = os.path.join(cvelogpath, "%s.json" % cve_summary_name)
++
++            if os.path.exists(os.path.realpath(cvefile_link)):
++                os.remove(cvefile_link)
++            os.symlink(os.path.basename(cve_summary_file_json), cvefile_link)
+ }
+ 
+ addhandler cve_save_summary_handler
+@@ -118,6 +140,7 @@ python cve_check_cleanup () {
+     Delete the file used to gather all the CVE information.
+     """
+     bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE"))
++    bb.utils.remove("%s-json" % e.data.getVar("CVE_CHECK_TMP_FILE"))
+ }
+ 
+ addhandler cve_check_cleanup
+@@ -340,7 +363,7 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+     CVE manifest if enabled.
+     """
+-
++    import json
+ 
+     cve_file = d.getVar("CVE_CHECK_LOG")
+     fdir_name  = d.getVar("FILE_DIRNAME")
+@@ -356,6 +379,7 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+         return
+ 
+     nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
++    json_string = ""
+     write_string = ""
+     unpatched_cves = []
+     bb.utils.mkdirhier(os.path.dirname(cve_file))
+@@ -370,17 +394,30 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+         write_string += "CVE: %s\n" % cve
+         if cve in whitelisted:
+             write_string += "CVE STATUS: Whitelisted\n"
++            json_string += '{"CVE STATUS": "Whitelisted"'
+         elif is_patched:
+             write_string += "CVE STATUS: Patched\n"
++            json_string += '{"CVE STATUS": "Patched"'
+         else:
+             unpatched_cves.append(cve)
+             write_string += "CVE STATUS: Unpatched\n"
++            json_string += '{"CVE STATUS": "Unpatched"'
+         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
+         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
+         write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
+         write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
+ 
++        json_string += ',"LAYER": "%s"' % layer
++        json_string += ',"PACKAGE NAME": "%s"' % d.getVar("PN")
++        json_string += ',"PACKAGE VERSION": "%s%s"' % (d.getVar("EXTENDPE"), d.getVar("PV"))
++        json_string += ',"CVE": "%s"' % cve
++        json_string += ',"CVE SUMMARY": %s' % json.dumps(cve_data[cve]["summary"])
++        json_string += ',"CVSS v2 BASE SCORE": "%s"' % cve_data[cve]["scorev2"]
++        json_string += ',"CVSS v3 BASE SCORE": "%s"' % cve_data[cve]["scorev3"]
++        json_string += ',"VECTOR": "%s"' % cve_data[cve]["vector"]
++        json_string += ',"MORE INFORMATION": "%s%s"}\n' % (nvd_link, cve)
++
+     if unpatched_cves:
+         bb.warn("Found unpatched CVE (%s), for more information check %s" % (" ".join(unpatched_cves),cve_file))
+ 
+@@ -401,3 +438,7 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+ 
+             with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
+                 f.write("%s" % write_string)
++
++            with open("%s-json" % d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
++                f.write("%s" % json_string)
++
+-- 
+2.17.1
 
