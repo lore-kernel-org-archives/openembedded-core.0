@@ -1,75 +1,74 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.6293.1614169942007104498
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.6178.1614170559059791172
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 04:32:22 -0800
+ Wed, 24 Feb 2021 04:42:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cawCk9ZF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id n4so231419wmq.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 04:32:21 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Daqwi43f;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id 7so1768588wrz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 04:42:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=iFuYiWk/ezA+TAgXGn1MOslwWPhO5y0BNI7fNTmb6So=;
-        b=cawCk9ZF/eVbrf8zkmEyvDY6YlaKo3sAFfZDUbDd7KJxyIsq5263bPjsBIrcZEMQkP
-         JMo0bqGu9i10JPRdsWjrtD9XEkA3KMZRnEV44W0okng8BEuOlFyT+SqBhu16MgfzQU66
-         lHe9PiGjc1ZFAi2we7kQTMlzUGwMVUSj7PVPQ=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DvYD/LYScuVRlx9Ane7Mvd0rROGFusdtxPFM/zJyHu8=;
+        b=Daqwi43fb+8yE8AKsgIBCbWISlr4nyg3HrqTLIm4thGJevvtAIJPG8LkscPLRNVMf7
+         NNwZKgKMoWlIUv5c+BPRTpePO535JWF+Vj4vdH53V4S2A4RcvyQNo8siC7g+ZbcQWrjb
+         TO0u4sMZpL2muRxzVOG/ZB0daNMNOZVR+/DYA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=iFuYiWk/ezA+TAgXGn1MOslwWPhO5y0BNI7fNTmb6So=;
-        b=tMgtSBnLFJ6uXmzwh7P/04x6PVmffItWdHu+F4noeSVw0jd2rvqph9St4TWpOEt1Lj
-         HMuqQLiCmRJh+e9kh1So2LVlZJrAz7WU0DPMjJ1jUksMclhGED6ayUThcer/VFNivarF
-         Ca1SGcmABQqBYptKCwnZ//azfb/3dn+T3sWtDR2UwSWUMQJ58LcvFmit73bDHcuViCd7
-         m1lt6L8YpkEVwi1eair1C0ZU/lfYPSZP/RlS09Y+6IQ9s3imBfsdWfMcBtjq5mNcXkeU
-         lvCpoFYlbagnHu2HJu27CSeUaW2v6evrVYwP6RrZYrmKZCmAVQJn3ySX8T90mvQ008y7
-         nfFA==
-X-Gm-Message-State: AOAM532kMRWcGNdsEVN9lh/LYuO2D2pXlN4l1itrEL9vN7E2B/oa95a5
-	WnDWN/aTC6xueRpvyWJ2V2PT6A==
-X-Google-Smtp-Source: ABdhPJxRyP4GWpktAHUK5OgLJImz/gU2v1PETfR16Tb2z0sAwDo3nkfaHLRtvWOLc7THL99U4PQVgw==
-X-Received: by 2002:a1c:4603:: with SMTP id t3mr3590001wma.135.1614169940198;
-        Wed, 24 Feb 2021 04:32:20 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DvYD/LYScuVRlx9Ane7Mvd0rROGFusdtxPFM/zJyHu8=;
+        b=S9w+YrduDjv5rwAWJx8vBV70Wbaj5dejSVr02AU+IwsRmRRXjDZG+QxMVV+Ns+71Bd
+         hJ8/tz0FWTJ3wh0TVrMGDflfW4YF5ZdA0OCj0XdNoISCnO02eh7wX/f8noDbwk67tbQM
+         yDtCU1pcwp0druPEjpnUWxy/XyIfOHr40C+448rdK7q0xy96chWNN7ewsrRGMxEwpWRl
+         b8caRb5DwT/RvZwAJ/QKOnKs/ApbMyADASQee0iz3v93zUHROr9PfOoi336csuZOeS+E
+         nfHXFblyNTIjvxYbriVFCe54d+3XmSneVP/SYtYJjcwXmBPbaAz67HRLwoZqGOsUprMi
+         3VLw==
+X-Gm-Message-State: AOAM5316kXdCaG7/0CsOQoRUWgFzQbizZMoxhRlHp2FicyhB7aLLamCe
+	0C6Ko16AYT0iwKpsh2OrN2Nj8etlwx8QVA==
+X-Google-Smtp-Source: ABdhPJxPQFSLc4DB9VSsUWALpabYVTPAeGN8ThlxPDMumqGK7+cGxsbs9oVsvmzM2iQqKCr5Z9I/FA==
+X-Received: by 2002:a5d:6c66:: with SMTP id r6mr8246570wrz.407.1614170557187;
+        Wed, 24 Feb 2021 04:42:37 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4476:47d0:b128:f21a? ([2001:8b0:aba:5f3c:4476:47d0:b128:f21a])
-        by smtp.gmail.com with ESMTPSA id p6sm2832318wmg.37.2021.02.24.04.32.19
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:4476:47d0:b128:f21a])
+        by smtp.gmail.com with ESMTPSA id z2sm2794883wml.30.2021.02.24.04.42.36
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 04:32:19 -0800 (PST)
-Message-ID: <1a309c4181d7de1b38497b4db6f4e1d664f18398.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Current native SDK glibc compat
+        Wed, 24 Feb 2021 04:42:36 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Anatol Belski <anbelski@linux.microsoft.com>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>
-Cc: randy.macleod@windriver.com
-Date: Wed, 24 Feb 2021 12:32:16 +0000
-In-Reply-To: <4ec292a9-3723-34f2-51a5-01dd6652f651@linux.microsoft.com>
-References: <4ec292a9-3723-34f2-51a5-01dd6652f651@linux.microsoft.com>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] diffoscope: Ensure rpm is configured correctly
+Date: Wed, 24 Feb 2021 12:42:36 +0000
+Message-Id: <20210224124236.3828484-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+diffoscope was failing as rpm wasn't configured correctly. Fix this.
 
-On Wed, 2021-02-24 at 12:40 +0100, Anatol Belski wrote:
-> the current master build seems to be broken with symbols unavailable 
-> from the host glibc. The following is to see on the SDK built and 
-> installed on the same host Ubuntu 18.04.5 having glibc 2.27:
-> 
-> $ . /tmp/poky-sdk-master-00/environment-setup-core2-64-poky-linux
-> 
-> $ ldd $(which $CC)
-> /tmp/poky-sdk-master-00/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc: 
-> /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-support/diffoscope/diffoscope_167.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-We change the loader path inside our SDK binaries so you can't trust the
-output from ldd, it will find a different result to what you'd see
-when you run the binary.
-
-What issue are you seeing trying to run these?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/diffoscope/diffoscope_167.bb b/meta/recipes-support/diffoscope/diffoscope_167.bb
+index af9682e0a82..74cd8090719 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_167.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_167.bb
+@@ -15,7 +15,10 @@ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magi
+ COMPATIBLE_HOST_libc-musl = 'null'
+ 
+ do_install_append_class-native() {
+-	create_wrapper ${D}${bindir}/diffoscope MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc
++	create_wrapper ${D}${bindir}/diffoscope \
++		MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
++		RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
++		RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
+ }
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.27.0
 
