@@ -1,170 +1,126 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web09.182.1614193534427858638
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.1293.1614197784259877857
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 11:05:34 -0800
+ Wed, 24 Feb 2021 12:16:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=guRY+nnF;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: zbodek@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id v22so3868361edx.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 11:05:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OiJwyKKQ3OH05iKaYp1MjZNB3GlSHt8W/KOIGyIeW38=;
-        b=guRY+nnFAiwUQ+NvrEA/6VH8OuHFioWN3NdpQHY8/KfHfYh+g0L4HLJ9od0MYXgqbc
-         7KFxpXftepIUn86R6MreBsYDiP+K5lXOWxP31I8TK4/dzJ7yYp6Bi9HYeQAu8ujol7RN
-         WuQrOm8fUFVXcLAUdqlAZt1iQpbxpgtGPgclmBlAAlihpQEzONc2fAiNwJj+qnMDOM93
-         Juo6ubWpa0rMM1MWlhCvdOewvQROqJZT16bEfTjYO4MprZBIPvLBgJoFSMu8W+jQsjPV
-         TWFzmIRZ/Id2rtSiWoqjjd/JMBus0QV+YbdreWk8Z8WepEk6oXwNHNUfoVKfuBuvYES4
-         UALQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OiJwyKKQ3OH05iKaYp1MjZNB3GlSHt8W/KOIGyIeW38=;
-        b=N6QnmbfR7khsAj6TNYa2ayj5GWj0SCM6Q5gBEyS7P3iUpTKGylp06QzErlP55c8+on
-         8l7EC1PXmJRuFL6VoZ5QoSWROoTX2kACAI3MATYHq+6JLfuRvMBODK1+BIsMe8TIQnSM
-         geOiX6P5oFGkqS0b/vnBk347Qbqp+OX3bhMSlLztSY7PIQSbWO9Tun5oHL2LVyySpbvV
-         DPHkKAMaeJawo6Z6J+FuOXSsmTGrRLH46H7wRZskGhiFsNspPaLeTw+VmAI7DefyWlzQ
-         nrQ4rghnMDZFHezcIwh7gioH68Gzv9WDWDokvzmJE1e8gnADAccjgs02ZEXypCLBLDLt
-         ilXg==
-X-Gm-Message-State: AOAM530gAOD1fclhRZtQXlOFdWScHBVfbNzgaqCtDMp86TwC26iqCrDM
-	B/aNWjNtKZUO0S2l4LUfK1c29pj2soCykHLoVyU=
-X-Google-Smtp-Source: ABdhPJy3AebgABW/HwG01plqPAEN+dEKo8h6LcPFbK9GrixqsPAsrCFa6RO6tTuP2k8dtULdr6QfLkXRSZgiMB96Fqs=
-X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr35169913edt.130.1614193532059;
- Wed, 24 Feb 2021 11:05:32 -0800 (PST)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=KmEzssJB;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (unknown [83.135.214.71])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7D7F020B6C40;
+	Wed, 24 Feb 2021 12:16:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7D7F020B6C40
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1614197783;
+	bh=HVaX5BBUHlfe/tMuzTLxV2LRX9lD7rQyetczx8MeWYU=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=KmEzssJBtXhoNOEd2DR/ap3c0sMEZll17Dkeng3VXgKi3jHtvsvep0QV+F9vICkL4
+	 jId7Le3RNxGzo3JEyDuMo5if68V9Tuzc0XfKxQuwKoaYg4BWOzCS5qCiRpp6erS51h
+	 L5ceEm/ThUkln/e05HqiGLxJSTFl85ugwvnOdw9k=
+Subject: Re: [OE-core] Current native SDK glibc compat
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: randy.macleod@windriver.com
+References: <4ec292a9-3723-34f2-51a5-01dd6652f651@linux.microsoft.com>
+ <1a309c4181d7de1b38497b4db6f4e1d664f18398.camel@linuxfoundation.org>
+ <9a8cb006-e161-b402-d496-72a1c983e90a@linux.microsoft.com>
+ <e4561a7e8c89fe26dd593b0412e16be67665baff.camel@linuxfoundation.org>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <ce2c3ea0-891b-8c7d-e89a-590fcd7ab12c@linux.microsoft.com>
+Date: Wed, 24 Feb 2021 21:16:20 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <166535D1ACD90C64.29685@lists.openembedded.org>
- <CALF_Tx=HuN128b_jKfo_rCxYepLMQa-k1TGfV2b9hiXtf4W4tw@mail.gmail.com>
- <8dd288691c4ec3dc0843a365cd45fa50102d0e99.camel@intel.com>
- <1666730B1A5C43B4.22789@lists.openembedded.org> <CALF_Txn4rpdz8FUmsiM+9v0tAbH32WkwjE3i_Xjq5bF2D-yLNA@mail.gmail.com>
- <CAOSpxda1rAGG0P3Dj86mLBemWDN2CUP9A6wE7HXKksXEvRb0QQ@mail.gmail.com>
-In-Reply-To: <CAOSpxda1rAGG0P3Dj86mLBemWDN2CUP9A6wE7HXKksXEvRb0QQ@mail.gmail.com>
-From: "Zbigniew Bodek" <zbodek@gmail.com>
-Date: Wed, 24 Feb 2021 20:05:21 +0100
-Message-ID: <CALF_TxnONvmdf7yPqTT1whD65i8WdVU4CVzWLe6H=84ySK6oGQ@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] wpebackend-fdo: Fix missing .so symlink when using dev package
-To: Steve Sakoman <steve@sakoman.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"andrei.gherzan@huawei.com" <andrei.gherzan@huawei.com>, 
-	"alex.kanavin@gmail.com" <alex.kanavin@gmail.com>, 
-	"wojciech.zmuda@huawei.com" <wojciech.zmuda@huawei.com>, 
-	"zbigniew.bodek@huawei.com" <zbigniew.bodek@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <e4561a7e8c89fe26dd593b0412e16be67665baff.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Thanks Steve, I appreciate it.
 
-Kind regards
-Zbigniew
+On 2/24/2021 5:49 PM, Richard Purdie wrote:
+> On Wed, 2021-02-24 at 13:56 +0100, Anatol Belski wrote:
+>> On 2/24/2021 1:32 PM, Richard Purdie wrote:
+>>> Hi,
+>>>
+>>> On Wed, 2021-02-24 at 12:40 +0100, Anatol Belski wrote:
+>>>> the current master build seems to be broken with symbols unavailable
+>>>> from the host glibc. The following is to see on the SDK built and
+>>>> installed on the same host Ubuntu 18.04.5 having glibc 2.27:
+>>>>
+>>>> $ . /tmp/poky-sdk-master-00/environment-setup-core2-64-poky-linux
+>>>>
+>>>> $ ldd $(which $CC)
+>>>> /tmp/poky-sdk-master-00/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc:
+>>>> /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found
+>>> We change the loader path inside our SDK binaries so you can't trust the
+>>> output from ldd, it will find a different result to what you'd see
+>>> when you run the binary.
+>>>
+>>> What issue are you seeing trying to run these?
+>> Initially it was sighted here appearing when a binary is actually invoked:
+>>
+>> https://github.com/meta-rust/meta-rust/pull/313#issuecomment-782784056
+>>
+>> I went digging to see similar cases.
+>>
+>>
+>> Regarding the loader path, are you referring to this?
+>>
+>> $ chrpath $(which $CC)
+>> /tmp/poky-sdk-master-00/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc:
+>> RPATH=$ORIGIN/../../lib
+> No, I mean the dynamic loader pointer.
+>
+> $ tmp/sysroots-uninative/x86_64-linux/usr/bin/patchelf-uninative python3-native/python3.9 --print-interpreter
+> [...]tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+>
+> Above I'm showing that a native binary in the build (python3-native)
+> has the interpreter (dynamic loader) set to our uninative ld.so.
+> The SDK is similar.
+>
+>> As the binary where the issue was sighted has this
+>>
+>> $ chrpath $(which cargo)
+>> /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/cargo:
+>> RUNPATH=$ORIGIN/../lib
+>>
+>>
+>> but then, the DSOs have no rpath set, eg.
+>>
+>> $ chrpath
+>> /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1
+>> /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1:
+>> no rpath or runpath tag found.
+>>
+>>
+>> so it might lead to the interferrence with the host. Does it perhaps
+>> need both $ORIGIN/../../lib and $ORIGIN/../lib if binaries are in /usr ?
+> Our dynamic loader knows how to use the specific sysroot and then
+> fall back to /usr and /lib.
 
-=C5=9Br., 24 lut 2021 o 19:14 Steve Sakoman <steve@sakoman.com> napisa=C5=
-=82(a):
->
-> On Wed, Feb 24, 2021 at 5:36 AM Zbigniew Bodek <zbodek@gmail.com> wrote:
-> >
-> > So... does anyone have some comments or anything against integrating
-> > this change?
->
-> I'm currently testing this patch for dunfell.  If all goes well it
-> will be in the patch set I send for review in the near future.
->
-> Steve
->
-> > Kind regards
-> > Zbigniew
-> >
-> > wt., 23 lut 2021 o 19:13 Zbigniew Bodek via lists.openembedded.org
-> > <zbodek=3Dgmail.com@lists.openembedded.org> napisa=C5=82(a):
-> > >
-> > > Hi Anuj,
-> > >
-> > > I just checked and yes, it's needed for gatesgarth too.
-> > >
-> > > Kind regards
-> > > Zbigniew
-> > >
-> > > wt., 23 lut 2021 o 16:33 Mittal, Anuj <anuj.mittal@intel.com> napisa=
-=
-=C5=82(a):
-> > > >
-> > > > Is this change needed for the version in gatesgarth too?
-> > > >
-> > > > Thanks,
-> > > >
-> > > > Anuj
-> > > >
-> > > > On Tue, 2021-02-23 at 13:24 +0100, Zbigniew Bodek wrote:
-> > > > > Any comments, questions, remarks to that?
-> > > > >
-> > > > > Kind regards
-> > > > > Zbigniew
-> > > > >
-> > > > > pt., 19 lut 2021 o 18:20 Zbigniew Bodek via lists.openembedded.o=
-rg
-> > > > > <zbodek=3Dgmail.com@lists.openembedded.org> napisa=C5=82(a):
-> > > > > >
-> > > > > > From: Zbigniew Bodek <zbigniew.bodek@huawei.com>
-> > > > > >
-> > > > > > Problem spotted on dunfell-23.0.4
-> > > > > >
-> > > > > > Normally, unversioned .so is removed from -dev (default) packa=
-ge
-> > > > > > however it is still being referred by other agents, such as
-> > > > > > webkitgtk.
-> > > > > > That can be observed while executing i.e. Epiphany Browser.
-> > > > > >
-> > > > > > For instance:
-> > > > > > platformInitializeWebProcess()
-> > > > > > calls
-> > > > > > wpe_loader_init("libWPEBackend-fdo-1.0.so")
-> > > > > >
-> > > > > > as a result one can see:
-> > > > > > --------------------
-> > > > > > wpe_loader_init could not load the library 'libWPEBackend-fdo-
-> > > > > > 1.0.so':
-> > > > > > libWPEBackend-fdo-1.0.so: cannot open shared object file:
-> > > > > > No such file or directory
-> > > > > > --------------------
-> > > > > >
-> > > > > > "master" branch contains a bumped-up version of webkitgtk
-> > > > > > to which this issue does not apply (the code has changed).
-> > > > > >
-> > > > > > Forcefully keep this .so symlink to resolve the problem in dun=
-fell.
-> > > > > >
-> > > > > > Signed-off-by: Zbigniew Bodek <zbigniew.bodek@huawei.com>
-> > > > > > ---
-> > > > > >  meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > >
-> > > > > > diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-> > > > > > b/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-> > > > > > index cd2f7fabda..165fc74dde 100644
-> > > > > > --- a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-> > > > > > +++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-> > > > > > @@ -15,3 +15,6 @@ REQUIRED_DISTRO_FEATURES =3D "opengl"
-> > > > > >  SRC_URI =3D "https://wpewebkit.org/releases/${BPN}-${PV}.tar.=
-xz"
-> > > > > >  SRC_URI[sha256sum] =3D
-> > > > > > "6249a0b7cbfa662206a8d2fa24e2c574e75c681ad0e93468091f1dc68ddb2=
-99d"
-> > > > > >
-> > > > > > +FILES_${PN} +=3D "${libdir}/libWPEBackend-fdo-1.0.so"
-> > > > > > +FILES_SOLIBSDEV =3D ""
-> > > > > > +INSANE_SKIP_${PN} +=3D "dev-so"
-> > > > > > --
-> > > > > > 2.17.1
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > >
-> > >
-> > >=20
-> > >
+Thanks a lot for explaining this.
+
+Getting back to the initial case led to the question, i'm now able to 
+check what is the correct dynamic loader:
+
+$ tmp/sysroots-uninative/x86_64-linux/usr/bin/patchelf-uninative 
+/tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/cargo 
+--print-interpreter
+/tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2
+
+and also could use --print-needed which would be similar to "readelf -d 
+", but it'd be still not possible to check things at the runtime? OFC 
+knowing what i know now, it's possible to locate the DSO and check 
+symbols like this:
+
+$ x86_64-poky-linux-objdump -T 
+./sysroots/x86_64-pokysdk-linux/lib/libc.so.6 | grep GLIBC_2.33
+
+just seems the catch points are quite subtle :) Perhaps there could be a 
+recommendation on a good way validating the binaries in the SDK HOST part?
+
+Thanks
+
+Anatol
+
+
+
