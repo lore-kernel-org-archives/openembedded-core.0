@@ -1,120 +1,113 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.14216.1614271924462854073
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web12.18.1614272146106191091
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 08:52:04 -0800
+ Thu, 25 Feb 2021 08:55:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NgWqcvQ9;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id e3so5891pfj.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 08:52:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PrRnh3Fh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id a11so1951388wmd.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 08:55:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MKo1kogzSm28hQ0gJsvbLPmvK4+N671qxnTFcr75qQ8=;
-        b=NgWqcvQ9Auf8cGMw1SdOKlzYQARxLbYeLGcyVnbXQcEhRfoiHbVZuWmQvuaQjLOPbm
-         H87bkrfEQjGtBucRWDWxh7dxmCfngkWubQ5YrAg0uSdk1pnK00s4JCuUiTE6EeE1slE0
-         PE+f4qBlWkBQKwHjs/0zJ9DqL72cw27eqpduse1fQvvq88cC3iFnb4D3S5e2TMSIMD40
-         xrjrVpQIaujPqY76Ei/n4tcDobIzYBqCjn8N0xSiyu5iXZFJvyJXnOJntcGxrwUT6gf9
-         3dxFrTPWHiaqYmlo0Lq5JlF6bUR09uJbqt8T2CPCfdDshCxNM4bJGOL0NFH5Nd674Afn
-         fAlA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=gMKHSptUVJFIXmO7dKu0vcL9BNOtgj5YLQMLYh+wz0w=;
+        b=PrRnh3FhkTVBgx5g84m9qhH1bhJ3lnONDXl4UfSLTgZoUwVWmlGLTos0PQ3ZkgD7Bh
+         NTS9wX6D5yED0Tinn4coUyFZWqQM0XKIh4gXCnysEVZLLxrfQL0Qf0yN6jNf2puGSOLL
+         VifFzox1+dKWjBnJzIpRibKtZVfHmgdyh3WKo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=MKo1kogzSm28hQ0gJsvbLPmvK4+N671qxnTFcr75qQ8=;
-        b=B6QP6vzZqGYxgpvLCBBsgkBG1Erfo/5EiSbDRRWpomRGnpsCRdXQcHvqjVcYfR2mII
-         PvKm7hVrBA30tTZBOHMMkKdj+KCNl3AipTpM34Ux7b7IM0bhqBPhbfGOzVQNWAQfvOYY
-         qb7KS9g6x19ed+XcgMIkgj1WkVBVcD8Ug12DEVsUihyRp7nj/ZtaaM5y7lhrljClGV/+
-         +3RxsPb7oYQqSzQo65XG3NfJ9B2uUK4H0LzbSK6Bn60SaWNUNl9j6BZyBH9vES3CFLR0
-         hBwJ8byA/r9J9yaKUtg6bF6+Pbmwro7bY7p5kFd7MG/oTMNe0+S3g3fqSnm98xYJ/B4o
-         r68A==
-X-Gm-Message-State: AOAM531SnTIXP6orvahgfQYGYgMTkAAxLJVmEUgMmbomJvEzjgUQSCDQ
-	+fCEWDHs7fjaG0K6M+DJQzReRdpNh0Tziw==
-X-Google-Smtp-Source: ABdhPJznz/NQazYkVZfePyPBSCctJ4wOjAdDP9p9JDD8pDE1GxIntr+LrDf3Tr2eymAL/Qlzmf+3JQ==
-X-Received: by 2002:a63:504a:: with SMTP id q10mr3758679pgl.188.1614271923517;
-        Thu, 25 Feb 2021 08:52:03 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
-        by smtp.gmail.com with ESMTPSA id c12sm6364088pjq.48.2021.02.25.08.52.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Feb 2021 08:52:03 -0800 (PST)
-Subject: Re: [OE-core] [qa-build-notification] QA notification for completed autobuilder build (yocto-3.1.6.rc1)
-To: openembedded-core@lists.openembedded.org
-References: <20210222224808.50B89817FA08@fedora32-ty-1.yocto.io>
- <BYAPR11MB36240D3D33192AF2180FB382E39E9@BYAPR11MB3624.namprd11.prod.outlook.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <cba7b326-e7b2-87d0-be2c-11f27ca3292a@gmail.com>
-Date: Thu, 25 Feb 2021 08:52:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=gMKHSptUVJFIXmO7dKu0vcL9BNOtgj5YLQMLYh+wz0w=;
+        b=gGqlvgXEIyr4QvsIIO3JAInbsO19xfY5QaBuxT1bqFk4S7xsjrTHqPBy4ZPKUoGnCp
+         TzO327HMQz2m9vX7MjO8l/OIqZLapjMgW3IOrRxBM1e8JrzzghwSgGlxLzcjp0Wka76l
+         ai5fXTka6+nStkuMmZ/2ru4vOXqoUCcBTDsqAzNYq/jSuo4QfJqrM8eYUYYTSUPltN+e
+         Dd1lvlj0MLPWqD8o25/oYXcd8QSOnfyfsZxgpxj6LmFyiuwTnVzbFgAMuMtCqDwkoLp2
+         M+W4nSUcldylhMGK3zHrl6AXh/4RaEvfPIE13XgXuu8EDFRBItbtPFMM71VHsKCFqzZS
+         q3WQ==
+X-Gm-Message-State: AOAM531j7IbXVJJV0cp3nt0dfECB1BQZQMq6c4UF3VqeA5I12Hw9v53J
+	2IVdPj0kpNQCWgksyvrJhzoDgA==
+X-Google-Smtp-Source: ABdhPJzAa8xkiN2Upmf8/U5pREIqrttmBB7PzWdtYyuFi5F9CikD0fDXRNjP4mpyV3LnsryzcTixSQ==
+X-Received: by 2002:a05:600c:c3:: with SMTP id u3mr4241185wmm.64.1614272144554;
+        Thu, 25 Feb 2021 08:55:44 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472? ([2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472])
+        by smtp.gmail.com with ESMTPSA id q18sm9910093wrw.91.2021.02.25.08.55.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Feb 2021 08:55:44 -0800 (PST)
+Message-ID: <ad16b82158c2fa88c01b8b0962cc0455595b5b64.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [v2] Merge meta-rust to oe-core
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 25 Feb 2021 16:55:43 +0000
+In-Reply-To: <20210225014823.397741-1-Randy.MacLeod@windriver.com>
+References: <16668FEB024AAA5B.31532@lists.openembedded.org>
+	 <20210225014823.397741-1-Randy.MacLeod@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <BYAPR11MB36240D3D33192AF2180FB382E39E9@BYAPR11MB3624.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-lgtm
+On Wed, 2021-02-24 at 20:48 -0500, Randy MacLeod wrote:
+> Added or updated these commits:
+> 
+>    86109491bc maintainers: Add myself as maintainer for rust pkgs
+>    ...
+>    b411e322b3 rust: remove container build scripts used by meta-rust
+>    c646d47ebc rust: update the README to conform to being in oe-core
+>    e19d823567 meta-rust: merge commits
+> 
+> The last commit update was just squashing a new commit from meta-rust:
+>    f8b9103 Remove checks for Rust versions we don't build anymore.
+> 
+> 
+> To Do List
+> ==========
+> 
+> 1) cargo-bitbake - the README suggest adding this using desktop
+>    cargo but once we get the SDK merged, it should be added there.
+>    Someone suggested using devtool for this rather than cargo-bitbake.
+> 
+> 2) Fix the SDK libcrypto, libstdc++ glibc-2.33 problem. I'm running a
+> git bisect using poky, meta-oe/master, meta-rust+SDK patches.
+> 
+> 3) Add a test case to either:
+>    - just build rust-hello-world or
+>    - run it in qemu
+> 
+> N) Fix *some* of the remaining bugs in:
+>       https://github.com/meta-rust/meta-rust/issues
 
-On 2/24/21 11:35 PM, Sangeeta Jain wrote:
-> Hi all,
-> 
-> This is the full report for yocto-3.1.6.rc1:
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
-> 
-> ======= Summary ========
-> No high milestone defects.
-> 
-> no new issue found
-> 
-> Thanks,
-> Sangeeta
-> 
->> -----Original Message-----
->> From: qa-build-notification@lists.yoctoproject.org <qa-build-
->> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
->> Sent: Tuesday, 23 February, 2021 6:48 AM
->> To: yocto@lists.yoctoproject.org
->> Cc: qa-build-notification@lists.yoctoproject.org
->> Subject: [qa-build-notification] QA notification for completed autobuilder build
->> (yocto-3.1.6.rc1)
->>
->>
->> A build flagged for QA (yocto-3.1.6.rc1) was completed on the autobuilder and is
->> available at:
->>
->>
->>      https://autobuilder.yocto.io/pub/releases/yocto-3.1.6.rc1
->>
->>
->> Build hash information:
->>
->> bitbake: fa94374baea75a94e3a488126ca7d8e241a77acd
->> meta-arm: 02c660521619ddb7a9495d65403aaa2636747ce8
->> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
->> meta-intel: 4bd62a7e154b8c9e8a114f452d3b062d8d058118
->> meta-kernel: f793168bd19af3d8c5a260dd35f387ed9a31794b
->> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
->> oecore: a8debddd6cbdd70db74e096d72f97fbee008ee63
->> poky: a13bda44fcda4e79e9aed39ca1495eabecb6a7b7
->>
->>
->>
->> This is an automated message from the Yocto Project Autobuilder
->> Git: git://git.yoctoproject.org/yocto-autobuilder2
->> Email: richard.purdie@linuxfoundation.org
->>
->>
->>
->>
->>
->>
->>
-> 
-> 
-> 
-> 
-> 
+I put this into master-next to see how it looked. The build hasn't completed
+yet but so far:
+
+rust-native doesn't build on debian8:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/40/steps/13/logs/stdio
+
+oe-selftest:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1855/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1887
+(others will likely show the same issues)
+
+which is basically three tests failing:
+
+oe-selftest -r sstatetests.SStateTests.test_sstate_noop_samesigs
+oe-selftest -r sstatetests.SStateTests.test_sstate_sametune_samesigs
+oe-selftest -r distrodata.Distrodata.test_maintainers
+
+so the maintainers entries aren't quite right which is easy to fix and 
+the sstate signatures aren't behaving correctly which may be more fun,
+depends what is wrong. Those tests explain they're broken (which is what
+we have the tests for) but more investigation would be needed to 
+understand how/why.
+
+Cheers,
+
+Richard
+
+
+
+
+
