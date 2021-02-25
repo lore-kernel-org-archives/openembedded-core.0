@@ -1,113 +1,179 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web12.18.1614272146106191091
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web11.112.1614272451084867836
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 08:55:46 -0800
+ Thu, 25 Feb 2021 09:00:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PrRnh3Fh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id a11so1951388wmd.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 08:55:45 -0800 (PST)
+ dkim=pass header.i=@moseleynet.net header.s=google header.b=JcHM3SIy;
+ spf=pass (domain: moseleynet.net, ip: 209.85.160.173, mailfrom: drew@moseleynet.net)
+Received: by mail-qt1-f173.google.com with SMTP id s15so4602535qtq.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 09:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=gMKHSptUVJFIXmO7dKu0vcL9BNOtgj5YLQMLYh+wz0w=;
-        b=PrRnh3FhkTVBgx5g84m9qhH1bhJ3lnONDXl4UfSLTgZoUwVWmlGLTos0PQ3ZkgD7Bh
-         NTS9wX6D5yED0Tinn4coUyFZWqQM0XKIh4gXCnysEVZLLxrfQL0Qf0yN6jNf2puGSOLL
-         VifFzox1+dKWjBnJzIpRibKtZVfHmgdyh3WKo=
+        d=moseleynet.net; s=google;
+        h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
+         :content-language;
+        bh=DPO6KCCRxis9WykeRvNzaPJvbWLnq4knwkTGe2ZaBho=;
+        b=JcHM3SIyCKDVgmTJgHHoPnVPYhZaHUnjOKa1LrsqN3PTBTVV2sybJ/KYQj2NfSK7Ur
+         k2l4WtqN4yaXQ2MnqTejIbaWEhIQwCYT+aC93sE+G5gUXpxbQGMr/6WpC9SBdiNz+Pfc
+         M234t9Nu2oTR4vHn/zESm/4pObuKpI4itvzMc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gMKHSptUVJFIXmO7dKu0vcL9BNOtgj5YLQMLYh+wz0w=;
-        b=gGqlvgXEIyr4QvsIIO3JAInbsO19xfY5QaBuxT1bqFk4S7xsjrTHqPBy4ZPKUoGnCp
-         TzO327HMQz2m9vX7MjO8l/OIqZLapjMgW3IOrRxBM1e8JrzzghwSgGlxLzcjp0Wka76l
-         ai5fXTka6+nStkuMmZ/2ru4vOXqoUCcBTDsqAzNYq/jSuo4QfJqrM8eYUYYTSUPltN+e
-         Dd1lvlj0MLPWqD8o25/oYXcd8QSOnfyfsZxgpxj6LmFyiuwTnVzbFgAMuMtCqDwkoLp2
-         M+W4nSUcldylhMGK3zHrl6AXh/4RaEvfPIE13XgXuu8EDFRBItbtPFMM71VHsKCFqzZS
-         q3WQ==
-X-Gm-Message-State: AOAM531j7IbXVJJV0cp3nt0dfECB1BQZQMq6c4UF3VqeA5I12Hw9v53J
-	2IVdPj0kpNQCWgksyvrJhzoDgA==
-X-Google-Smtp-Source: ABdhPJzAa8xkiN2Upmf8/U5pREIqrttmBB7PzWdtYyuFi5F9CikD0fDXRNjP4mpyV3LnsryzcTixSQ==
-X-Received: by 2002:a05:600c:c3:: with SMTP id u3mr4241185wmm.64.1614272144554;
-        Thu, 25 Feb 2021 08:55:44 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472? ([2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472])
-        by smtp.gmail.com with ESMTPSA id q18sm9910093wrw.91.2021.02.25.08.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 08:55:44 -0800 (PST)
-Message-ID: <ad16b82158c2fa88c01b8b0962cc0455595b5b64.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [v2] Merge meta-rust to oe-core
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2021 16:55:43 +0000
-In-Reply-To: <20210225014823.397741-1-Randy.MacLeod@windriver.com>
-References: <16668FEB024AAA5B.31532@lists.openembedded.org>
-	 <20210225014823.397741-1-Randy.MacLeod@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
+         :user-agent:mime-version:content-language;
+        bh=DPO6KCCRxis9WykeRvNzaPJvbWLnq4knwkTGe2ZaBho=;
+        b=QFXMmRYPZtLvFIS/wka/+hqjpHHgbp7s8GOGyRSqjjttYJFldBL8oc+fr9Vug7/yhb
+         WRj96XvqbuUcLBevFWrsosoSHXMUl4nMtfOszoim6ETycAmtRXLPelRVM+dxFwmpxuNN
+         3fJRJ09ljCtdfq/NUaocx1KUTfmAs0lrIoBWxDhfcKWaZAeCzXBLI6tpO1/kT7oZfRDn
+         m5Fv4BP9o7QOZOe9H/b38xc1/OUvNwJdzfJi9N0FhcRzfQob/L3etzcJzsyK2XfWtF9c
+         Wzu8KI2jnF10ez9O/kzaXVfaTyqiE0WkOieTbrfG+OzFn5iANVAaHscS+GwUQlIUDAU4
+         rCtQ==
+X-Gm-Message-State: AOAM533mzvnK6q1Gmb3Y2Ym2aLhHoPOjmP8KycCDRNDluLhONRfBzg3c
+	yCtlD+DPrrSwGIJDvhSmjLtoj0qPgjTWon/A
+X-Google-Smtp-Source: ABdhPJzzQc3Ex07KrgekydrRMcfjP009DCj8fz6g6C14cyjJOHjxVOVZXPF1byPUdh5COCy2oGox3Q==
+X-Received: by 2002:ac8:4d59:: with SMTP id x25mr3126747qtv.44.1614272448765;
+        Thu, 25 Feb 2021 09:00:48 -0800 (PST)
+Return-Path: <drew@moseleynet.net>
+Received: from aruba.home.moseleynet.net ([24.96.56.90])
+        by smtp.gmail.com with ESMTPSA id l129sm987924qkd.76.2021.02.25.09.00.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Feb 2021 09:00:48 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+From: "Drew Moseley" <drew.moseley@gmail.com>
+Subject: DTC_FLAGS with devshell
+Autocrypt: addr=drew@moseleynet.net; keydata=
+ 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
+ alb5dL99r1Dy6w==
+Message-ID: <be6caeb7-3822-a710-be04-9b57f658331e@moseleynet.net>
+Date: Thu, 25 Feb 2021 12:00:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative;
+ boundary="------------B24C5BEC7C690F4968842AA8"
+Content-Language: en-US
+
+--------------B24C5BEC7C690F4968842AA8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+I'm having difficulty using "bitbake -c devshell virtual/kernel" to
+build dtb files properly. In our case, we set "DTC_FLAGS=3D-@" in recipe
+metadata to ensure device tree overlay support is available. It all
+works fine when run as a standard build.=C2=A0 In the devshell, that vari=
+able
+is not respected by default. I do see that there is an EXTRA_OEMAKE
+environment variable with HOSTCC, HOSTCPP and DTC_FLAGS set but when I
+try to invoke "make ${EXTRA_OEMAKE} dtbs" it gets a weird argument
+parsing error presumably due to shell globbing, quotation mark
+processing etc:
+
+    # make ${EXTRA_OEMAKE} dtbs
+    make: invalid option -- 'y'
+    make: invalid option -- '/'
+    make: invalid option -- '/'
+    make: invalid option -- '/'
+    make: invalid option -- 'E'
+    make: invalid option -- '"'
+    Usage: make [options] [target] ...
+
+If I manually copy/paste the value of EXTRA_OEMAKE onto my make
+invocation it works. If I just add the DTC_FLAGS it also works (ie "make
+DTC_FLAGS=3D-@ dtbs").
+
+Is there a better mechanism for handling this?
+
+
+Drew
+
+
+
+
+--------------B24C5BEC7C690F4968842AA8
+Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-02-24 at 20:48 -0500, Randy MacLeod wrote:
-> Added or updated these commits:
-> 
->    86109491bc maintainers: Add myself as maintainer for rust pkgs
->    ...
->    b411e322b3 rust: remove container build scripts used by meta-rust
->    c646d47ebc rust: update the README to conform to being in oe-core
->    e19d823567 meta-rust: merge commits
-> 
-> The last commit update was just squashing a new commit from meta-rust:
->    f8b9103 Remove checks for Rust versions we don't build anymore.
-> 
-> 
-> To Do List
-> ==========
-> 
-> 1) cargo-bitbake - the README suggest adding this using desktop
->    cargo but once we get the SDK merged, it should be added there.
->    Someone suggested using devtool for this rather than cargo-bitbake.
-> 
-> 2) Fix the SDK libcrypto, libstdc++ glibc-2.33 problem. I'm running a
-> git bisect using poky, meta-oe/master, meta-rust+SDK patches.
-> 
-> 3) Add a test case to either:
->    - just build rust-hello-world or
->    - run it in qemu
-> 
-> N) Fix *some* of the remaining bugs in:
->       https://github.com/meta-rust/meta-rust/issues
+<html>
+  <head>
 
-I put this into master-next to see how it looked. The build hasn't completed
-yet but so far:
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello,</p>
+    <p>I'm having difficulty using "bitbake -c devshell virtual/kernel"
+      to build dtb files properly. In our case, we set "DTC_FLAGS=-@" in
+      recipe metadata to ensure device tree overlay support is
+      available. It all works fine when run as a standard build.  In the
+      devshell, that variable is not respected by default. I do see that
+      there is an EXTRA_OEMAKE environment variable with HOSTCC, HOSTCPP
+      and DTC_FLAGS set but when I try to invoke "make ${EXTRA_OEMAKE}
+      dtbs" it gets a weird argument parsing error presumably due to
+      shell globbing, quotation mark processing etc:</p>
+    <blockquote>
+      <p># make ${EXTRA_OEMAKE} dtbs<br>
+        make: invalid option -- 'y'<br>
+        make: invalid option -- '/'<br>
+        make: invalid option -- '/'<br>
+        make: invalid option -- '/'<br>
+        make: invalid option -- 'E'<br>
+        make: invalid option -- '"'<br>
+        Usage: make [options] [target] ...<br>
+      </p>
+    </blockquote>
+    <p>If I manually copy/paste the value of EXTRA_OEMAKE onto my make
+      invocation it works. If I just add the DTC_FLAGS it also works (ie
+      "make DTC_FLAGS=-@ dtbs").</p>
+    <p>Is there a better mechanism for handling this?</p>
+    <p><br>
+    </p>
+    <p>Drew<br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
 
-rust-native doesn't build on debian8:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/40/steps/13/logs/stdio
-
-oe-selftest:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1855/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1887
-(others will likely show the same issues)
-
-which is basically three tests failing:
-
-oe-selftest -r sstatetests.SStateTests.test_sstate_noop_samesigs
-oe-selftest -r sstatetests.SStateTests.test_sstate_sametune_samesigs
-oe-selftest -r distrodata.Distrodata.test_maintainers
-
-so the maintainers entries aren't quite right which is easy to fix and 
-the sstate signatures aren't behaving correctly which may be more fun,
-depends what is wrong. Those tests explain they're broken (which is what
-we have the tests for) but more investigation would be needed to 
-understand how/why.
-
-Cheers,
-
-Richard
-
-
-
-
-
+--------------B24C5BEC7C690F4968842AA8--
