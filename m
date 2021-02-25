@@ -1,120 +1,76 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.4509.1614211051162974390
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.4636.1614211597344688544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 15:57:31 -0800
+ Wed, 24 Feb 2021 16:06:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A5j3DQR3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id i9so2902391wml.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 15:57:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gbQDp/Te;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id d2so2448666pjs.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 16:06:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=80c2UFbLyEshstj7GH1S/20EsVpcnmIyrBaJCU9VNOo=;
-        b=A5j3DQR323rKGVR8dM+BpZxSn2QhqFsLleHJEefR5ysHgFOp9aW9uKu3Ntv3L9j52F
-         eycGIdFInHuGg3OEanwpkSO/RBB4OGGUTyCDxSIA4y/J3Ko1siwArzdBNaOyi4emcU9g
-         Xc8ni9HAxc9CmzLWgfrCmO+bYjcG3nAP+HfCE=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hBoeh2yC20c/juE+PZPoNnuEqqJBB0aaVZ5aUL/u9gc=;
+        b=gbQDp/Te9GVNF44K4HYVIcSsWvkbnJxOT5B0BvNqGk3jF4JLXZrC6H3P+JOh9/HOXH
+         wu+5cxktMLh3vERtgBKX3O9EKMDCAkr98eIV84LFCD/phTAOWRh457CuqHB7sn5rG8oL
+         yLGRTW/Z2XH3il3X18t72WqR9XCZiUb0c68snXtXtnTZVIw2OVa91SEXVfqXsVqFQ6hT
+         vEe79SsaVFXXizf3H1YB/8D8+I6vmNXf9erZNJMfvAIWJfgd3MIIjrxjgy8RalE41GgD
+         7Zs7slz7HwW1HbUD+dO2NCHsEuJpcNesVUGrHW9ETJ7/xHPDVGETov/wFKyEGdCYcaTt
+         O0OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=80c2UFbLyEshstj7GH1S/20EsVpcnmIyrBaJCU9VNOo=;
-        b=g9kd4GZS7WxeNA9KwWAr0USS3cr+0xB0N4GSJ3W/ymCFinWLrgncZLUqRLplPkagEb
-         SbWLB51arY+l1bPhQ5poJe4UpSGoInJbCy92/koDLoBKA3sRefl/2LznXz5C/6B6BpAF
-         MuL1/H4BWReOBGaoCgw8oqmIw6Q6kWRiX3icjxXeKM/QpyOY1/cWDVL/ZW/MwZpF+Qdt
-         Jk5wPHmaSjXUcogY8mLNLSG7kuU8eXZv0CZwyEq1sCSIoeHLQ3KWaJVknRkTIKtWF4Qy
-         raL2IMVWhdOmqQ9gWCONmPG5z8CpSR7OuSlmLdKW9pRRyM/1pAbw2BE4eEeE0rzSLCtS
-         zSng==
-X-Gm-Message-State: AOAM531b1RqmIZkwSFEPwdV0U/Gsz8qYwTyH63OKR+dXgL3maQ4i4NOO
-	jlhjFH8gFE9CV1ugp5DUdrusiA==
-X-Google-Smtp-Source: ABdhPJzD3fHLnNhmwk1k2tpFqimHlkRT2xpIY/AwjTaCe9uO8wQVlSkbkb4m92/0U+I211cVf5mZSg==
-X-Received: by 2002:a05:600c:2314:: with SMTP id 20mr439352wmo.97.1614211039881;
-        Wed, 24 Feb 2021 15:57:19 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472? ([2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472])
-        by smtp.gmail.com with ESMTPSA id t14sm6197158wru.64.2021.02.24.15.57.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hBoeh2yC20c/juE+PZPoNnuEqqJBB0aaVZ5aUL/u9gc=;
+        b=qA7vh74JNxfP+uJx8isgu0fDa+XyLlfX+mXb7Cg4TDHPKDalIbVw8QypW7bf1he3iD
+         gGFfKMHuNZ6jR7fq9di55WG7+h+M/LLinKLTWi50CCmCHcNB0bwb9nceUADydRI4+I07
+         azqVQMPW09zWrohLv0kCySfFOV+h3/Yaf7lrN/kKYFPlLOkN7vN8qSB/bPp1zc9E+EFQ
+         jm8udYNvJ8C5NECfSHxW5jCB6n02gafH0wf4V3nXbTaGjnusNm8mBd86JYdjS6j651G3
+         vB1LleXdF3wfdgPiedJ0RBm+VvyTbV1Bfr//eU6NvEUYaU3m92rC5sZZP/2810xPUlxP
+         FYvg==
+X-Gm-Message-State: AOAM5325Fbs45Ya4+jsPEV5sQpdkOpcFlYGZLmeadE3l6fyEsntIG2Gg
+	tF1WGYLp1dgmYFd1xm/OXtqkbxkEpPTF3g==
+X-Google-Smtp-Source: ABdhPJwZYbVRJjOz4na0V9tRlGWhblA9HIlCI5gwXlFgDQkTMyTmEbVy1cVDwlDyn0oqTgrfzGoycA==
+X-Received: by 2002:a17:902:bccc:b029:de:8483:506d with SMTP id o12-20020a170902bcccb02900de8483506dmr298933pls.53.1614211596300;
+        Wed, 24 Feb 2021 16:06:36 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
+        by smtp.gmail.com with ESMTPSA id z10sm3772634pjn.11.2021.02.24.16.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 15:57:19 -0800 (PST)
-Message-ID: <2961052af2e2429d0a8e2a5a26f8a0c929033794.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Current native SDK glibc compat
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Anatol Belski <anbelski@linux.microsoft.com>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>
-Cc: randy.macleod@windriver.com
-Date: Wed, 24 Feb 2021 23:57:16 +0000
-In-Reply-To: <ce2c3ea0-891b-8c7d-e89a-590fcd7ab12c@linux.microsoft.com>
-References: <4ec292a9-3723-34f2-51a5-01dd6652f651@linux.microsoft.com>
-	 <1a309c4181d7de1b38497b4db6f4e1d664f18398.camel@linuxfoundation.org>
-	 <9a8cb006-e161-b402-d496-72a1c983e90a@linux.microsoft.com>
-	 <e4561a7e8c89fe26dd593b0412e16be67665baff.camel@linuxfoundation.org>
-	 <ce2c3ea0-891b-8c7d-e89a-590fcd7ab12c@linux.microsoft.com>
-User-Agent: Evolution 3.38.1-1 
+        Wed, 24 Feb 2021 16:06:35 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] goarch: Use softfloat instead of 387 for 386 goarch
+Date: Wed, 24 Feb 2021 16:06:33 -0800
+Message-Id: <20210225000633.12644-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-02-24 at 21:16 +0100, Anatol Belski wrote:
-> On 2/24/2021 5:49 PM, Richard Purdie wrote:
-> > No, I mean the dynamic loader pointer.
-> > 
-> > $ tmp/sysroots-uninative/x86_64-linux/usr/bin/patchelf-uninative python3-native/python3.9 --print-interpreter
-> > [...]tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
-> > 
-> > Above I'm showing that a native binary in the build (python3-native)
-> > has the interpreter (dynamic loader) set to our uninative ld.so.
-> > The SDK is similar.
-> > 
-> > > As the binary where the issue was sighted has this
-> > > 
-> > > $ chrpath $(which cargo)
-> > > /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/cargo:
-> > > RUNPATH=$ORIGIN/../lib
-> > > 
-> > > 
-> > > but then, the DSOs have no rpath set, eg.
-> > > 
-> > > $ chrpath
-> > > /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1
-> > > /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/../lib/libcrypto.so.1.1:
-> > > no rpath or runpath tag found.
-> > > 
-> > > 
-> > > so it might lead to the interferrence with the host. Does it perhaps
-> > > need both $ORIGIN/../../lib and $ORIGIN/../lib if binaries are in /usr ?
-> > Our dynamic loader knows how to use the specific sysroot and then
-> > fall back to /usr and /lib.
-> 
-> Thanks a lot for explaining this.
-> 
-> Getting back to the initial case led to the question, i'm now able to 
-> check what is the correct dynamic loader:
-> 
-> $ tmp/sysroots-uninative/x86_64-linux/usr/bin/patchelf-uninative 
-> /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/usr/bin/cargo 
-> --print-interpreter
-> /tmp/rust-sdk-deploy-18/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2
-> 
-> and also could use --print-needed which would be similar to "readelf -d 
-> ", but it'd be still not possible to check things at the runtime? OFC 
-> knowing what i know now, it's possible to locate the DSO and check 
-> symbols like this:
-> 
-> $ x86_64-poky-linux-objdump -T 
-> ./sysroots/x86_64-pokysdk-linux/lib/libc.so.6 | grep GLIBC_2.33
-> 
-> just seems the catch points are quite subtle :) Perhaps there could be a 
-> recommendation on a good way validating the binaries in the SDK HOST part?
+387 has been removed from go 1.16 see [1]
 
-If you what to know what a partiular command is doing for symbols at runtime,
-you can run it as:
+[1] https://github.com/golang/go/issues/40255
 
-LD_DEBUG=all <command>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/goarch.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-which will have the loader spew out a lot of information about how it is
-resolving the symbols.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 73e13c0afe..e4e0ca37be 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -98,7 +98,7 @@ def go_map_386(a, f, d):
+         if ('core2' in f) or ('corei7' in f):
+             return 'sse2'
+         else:
+-            return '387'
++            return 'softfloat'
+     return ''
+ 
+ def go_map_mips(a, f, d):
+-- 
+2.30.1
 
