@@ -1,85 +1,64 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.9729.1614248946400538611
+Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
+ by mx.groups.io with SMTP id smtpd.web09.9687.1614250011766386463
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 02:29:06 -0800
+ Thu, 25 Feb 2021 02:46:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BXYf6X64;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id u14so4706655wri.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 02:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=5gASRwGijlTfZ9eZxPZN/BCHEpTFfcf6C1cbbmkOAEs=;
-        b=BXYf6X64JDOUeZY/bx2TfJnphcUGl40LJ6xzJcr0y7eZZg0UtjsxR6tgSaQfDiNdxi
-         pJOCKrwAeUoQKMV3B112D8G2xO4yIX3jLwGFuGpuAJofqqa5wDmsdE11D9LeyxAt8NmQ
-         Z7loJqjx5+NLs/WJWjYv1tzz0PiZfGzffRhd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=5gASRwGijlTfZ9eZxPZN/BCHEpTFfcf6C1cbbmkOAEs=;
-        b=LBdZOH2DYs8vx6Besv/sth/2TZfnyke7O8YdU3I6BgrmEkpLI234XP32EGqcxPftV4
-         ZB26FwHepvXZ96VLF35DmvYD+H4LQVHmx0VCLLbqjKEULr5L5Bh7tNgCjwvon5A1lbCk
-         eZhYICqlTe28Ahep7iPo8ShJBA9gbWrVMqAWfcuno/V9Xvdw/xIn0oXd0yM1UWK7rlUF
-         Upl8IlYRcjCCK07jh0j1OTt4sSTSqzcF1i4wx47RzwANiWLwFDGb17rTijbnA0tBjuCk
-         pDDsFI5/a/Iz6k8lV3YCf9T52uBIF7NKqdmCA+8NXuAN3iwJV/X8zqrM0jDDrUubLpaC
-         99Pw==
-X-Gm-Message-State: AOAM531dzCxOnFfZNUX4Ua1FyGoh1UCg+VwYBdi2BLKdaQcT1PBohu5t
-	BzHk1atFYHNc6Ky9tIR3PicCAw==
-X-Google-Smtp-Source: ABdhPJwh2DDMEIm/29wBEJ4VT5Q4h6T4pj8v8LGfwHFp9r2JobdyyDwU8Kqxh/kkxdR7xAk5r9Gw7w==
-X-Received: by 2002:adf:fad2:: with SMTP id a18mr2725111wrs.147.1614248944403;
-        Thu, 25 Feb 2021 02:29:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472? ([2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472])
-        by smtp.gmail.com with ESMTPSA id k4sm10517880wrd.9.2021.02.25.02.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 02:29:04 -0800 (PST)
-Message-ID: <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Pseudo Abort errors
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Phil Reid <preid@electromag.com.au>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Feb 2021 10:29:03 +0000
-In-Reply-To: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
-References: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
-User-Agent: Evolution 3.38.1-1 
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=AuRSVIMW;
+ spf=pass (domain: mcrowe.com, ip: 84.93.230.244, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id FEAOl6RTBEfgXFEAQlw5u7; Thu, 25 Feb 2021 10:46:49 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=WomwzeXv c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=qa6Q16uM49sA:10 a=-An2I_7KAAAA:8 a=TiV4sSWH4NyUlrxjU1QA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=g3mZMHQ/jCjvi9+mdFZ2ttEKLi96iKio51VD7Pq2j5E=; b=Au
+	RSVIMWV7s+AjPlh20f/ZDl12kmsu5eUFRI3SAbyVVxzNc6mgPTC4H0mG6FijYdxq48RY1odnxWDdt
+	txgyq01qW1nwywg46s3SiJC7DtFplsKHAXKIZmRyjJjkJNCpRWSa3oIjbhQn8eQjahz7cQkSpvwjV
+	4dUu2dyR7PX2Fs6f/WpCryKkg0rH1USpjC/pf/Cg0ehytHBFoiu0VWlavHLHS0lAvkIquRQL56hAo
+	MFtnQ3l9J1b/mO1tGCYr8PbFNIgRX18AOUns65Svc+TfF9yLTY7A3prvk2lau4a49bk6j0cJccdd4
+	3cBXFw00S8aedCyI8JziZph40ZzilPtQ==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1lFEAN-0001oo-JA; Thu, 25 Feb 2021 10:46:43 +0000
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] externalsrc: Pass through npmsw URIs in SRC_URI
+Date: Thu, 25 Feb 2021 10:46:27 +0000
+Message-Id: <20210225104627.10375-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJtiL0bn6zMZMcTTkxM8i1ILyTIkEa9Xm2zusWsA9XhY8SRJ/Y3oUjjoJJ/rvAcpPOJfxRdKRLy2kFMwTUUZg3aurlQRThXxJ6RTnqoLyhMLWTRh7Fqz
+ 0/qGhu2ugkBG5ATyt6opjiJPKMMTg/7xbGXKZwUsinliSNIqqZRbqbVsEs6tBZdeD4e7I6WQO1vB1A==
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-25 at 08:28 +0800, Phil Reid wrote:
-> G'day,
-> 
-> Not really sure where to look for this. But started to get random build failures
-> with the pseudo client.
-> 
-> Failures are contained to populate_sdk
-> 
-> Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
-> 
-> I've also tried a psudeo_git.bbappend with:
-> SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
-> 
-> Which looks to be a pending commit on the list.
-> Unfortunately it didn't help.
-> 
-> Here's what I think are the relevant parts of the log are below.
-> 
-> "rm -rf tmp-glibc" and a rebuild resolves the problem.
-> 
-> 
-> Any thoughts?
+NPM shrinkwrap files need to stay in SRC_URI even when using
+externalsrc so that npm_do_fetch can run to fetch the required
+dependencies.
 
-Which branch and which packaging backend are you using?
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/externalsrc.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-There is a bitbake.conf patch on the list changing PSEUDO_IGNORE_PATHS
-which would probably help but I need to understand that doesn't have 
-side effects and I don't have enough data to do that yet.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 64e94e3301..c7b2bf2f49 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -68,6 +68,7 @@ python () {
+             url_data = fetch.ud[url]
+             parm = url_data.parm
+             if (url_data.type == 'file' or
++                    url_data.type == 'npmsw' or
+                     'type' in parm and parm['type'] == 'kmeta'):
+                 local_srcuri.append(url)
+ 
+-- 
+2.20.1
 
