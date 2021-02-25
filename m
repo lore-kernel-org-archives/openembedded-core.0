@@ -1,129 +1,138 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web10.5807.1614218474195555018
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.6980.1614225873346919311
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 18:01:14 -0800
+ Wed, 24 Feb 2021 20:04:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hAIsGah1;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id f17so4332932qkl.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 18:01:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4Q/bgEh1Daz5rLM2XEkZ/PdgeQQF3MeUTWTXQGVvGtI=;
-        b=hAIsGah1U7LI+ZVhFcqS2FlKDsDS9GNB4yae7N7EL2YjagiwJrznHy7LKTAEzf+fTC
-         5kUEHb/e3EKMQx3Brdnnn5k6WmN8Z4E3wgauY+Zhm+YVDCX4+zuuJtgTZ6rHSPvlDylo
-         jsn/Yz83xLmc4ELLiMqdqkFZ7JbO8VP2013ANnY8APAV2dcdlSIcxLz+dxZIXGwr4p8s
-         8V56qGK26WWUqoJ1ClO+9zy1LteW0KzFlTk5bmDaDVYKBT9+piYh68pgB7g4VSkG6494
-         jNS3loNLyeVm7Fjy+2ocAUcszXCXFHnNTHCnxcPIwDhUSmxirRcZBl1inR5h0Zz2dxLc
-         g5Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4Q/bgEh1Daz5rLM2XEkZ/PdgeQQF3MeUTWTXQGVvGtI=;
-        b=jBL9ZxMrClky723p0bFufwBtmg+Q2r6RGDsqIBWDBA3IfM+DJAso4fDALkCiPtrzI0
-         nr7060wf4bbW3G/TRZizrVe26pucbgaGHZ/6hVzVuf0/eozjsVoRQmHEhrAhG5v5zeJt
-         p2LTthNemf6TEJIALHR4JzgpTaQvT/ta/Rc7Ei4Ky1XWJfYreaIRwJD5WccURBCqcC//
-         vJEqGETxkqSawHhCmtvYIhMMSpUPe7lhpGJTdSMblVqW/v3Q8Qj67ZckuEnyHPUfNRlQ
-         Dc8nsBg4w7IrBlI/7zX5uSonrLD1dYNZiMiXwTDt0Pn4a474iVl4IcT4a/t0scHPgzG7
-         xUzg==
-X-Gm-Message-State: AOAM533Qwn00M9+K3kU4RjRkFV8ryMrAeOO8kqeZLQuUToMkeq8ZBxWG
-	Qv8U9mmoWJ3NzWwYllc1PHTIZJRtjH8pIDJNryw=
-X-Google-Smtp-Source: ABdhPJx5QY2H+qGrgYAcsEjaagwKZmDaSEYiSrW+k2pTsqcLzbmGgmShY93Df+r0+YHyJ+yFuXtC0vXBk79R81RYEPo=
-X-Received: by 2002:a37:e13:: with SMTP id 19mr822785qko.119.1614218473063;
- Wed, 24 Feb 2021 18:01:13 -0800 (PST)
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: QVptjRD4Vt63BR0norkvLRbDzvZwGVbOUxNdN3Hj1QTDoRs5AlhYXXhDUUPYC/D8z6Dn0Ze8ad
+ E/TxiaahdqEg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="246810234"
+X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
+   d="scan'208";a="246810234"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 20:04:31 -0800
+IronPort-SDR: 1afX1s5SqC4JSnPxLgU9x0EXV/pgIvKXLe0cKlEa0Tg0axNAYQ+88Cn3c6UuFMH8sBeAQEfQrk
+ T8MMybZ+EWwQ==
+X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
+   d="scan'208";a="391932023"
+Received: from hzahari-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.186.111])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 20:04:30 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/30] pull request (cover letter only)
+Date: Thu, 25 Feb 2021 12:04:25 +0800
+Message-Id: <cover.1614225735.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210225003630.17878-1-dorindabassey@gmail.com>
-In-Reply-To: <20210225003630.17878-1-dorindabassey@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 24 Feb 2021 18:01:02 -0800
-Message-ID: <CAMKF1sqF7Z8Re07K9xRsV1obGQ8na6J6N9b_EekhFNf8xh_UYw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gdb-common.inc: add PACKAGECONFIG for debuginfod
-To: Dorinda <dorindabassey@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ad49ec05bc1f8659"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000ad49ec05bc1f8659
-Content-Type: text/plain; charset="UTF-8"
+Please merge these changes in gatesgarth.
 
-On Wed, Feb 24, 2021 at 4:36 PM Dorinda <dorindabassey@gmail.com> wrote:
+Thanks,
 
-> Added PACKAGECONFIG for debuginfod
->
+Anuj
 
-Lgtm
+The following changes since commit ebaaee50cb3ac75112827f935c48affaf622ce7f:
 
+  build-appliance-image: Update to gatesgarth head revision (2021-02-16 11:44:29 +0000)
 
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
->  meta/recipes-devtools/gdb/gdb-common.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc
-> b/meta/recipes-devtools/gdb/gdb-common.inc
-> index bfb8013d67..ccc911592c 100644
-> --- a/meta/recipes-devtools/gdb/gdb-common.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
-> @@ -36,6 +36,7 @@ PACKAGECONFIG[babeltrace] =
-> "--with-babeltrace,--without-babeltrace,babeltrace"
->  # ncurses is already a hard DEPENDS, but would be added here if it weren't
->  PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
->  PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
-> +PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod,
-> elfutils"
->
->  GDBPROPREFIX = "--program-prefix=''"
->
-> --
-> 2.17.1
->
->
-> 
->
->
+are available in the Git repository at:
 
---000000000000ad49ec05bc1f8659
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Feb 24, 2021 at 4:36 PM Dorinda &lt;<a href=3D"mai=
-lto:dorindabassey@gmail.com">dorindabassey@gmail.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">Added PACKAGECONFIG for debuginfod<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Lgtm=C2=A0</div=
-><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gmail.co=
-m" target=3D"_blank">dorindabassey@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/gdb/gdb-common.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devto=
-ols/gdb/gdb-common.inc<br>
-index bfb8013d67..ccc911592c 100644<br>
---- a/meta/recipes-devtools/gdb/gdb-common.inc<br>
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc<br>
-@@ -36,6 +36,7 @@ PACKAGECONFIG[babeltrace] =3D &quot;--with-babeltrace,--=
-without-babeltrace,babeltrace&quot;<br>
-=C2=A0# ncurses is already a hard DEPENDS, but would be added here if it w=
-eren&#39;t<br>
-=C2=A0PACKAGECONFIG[tui] =3D &quot;--enable-tui,--disable-tui&quot;<br>
-=C2=A0PACKAGECONFIG[xz] =3D &quot;--with-lzma,--without-lzma,xz&quot;<br>
-+PACKAGECONFIG[debuginfod] =3D &quot;--with-debuginfod, --without-debuginf=
-od, elfutils&quot;<br>
-<br>
-=C2=A0GDBPROPREFIX =3D &quot;--program-prefix=3D&#39;&#39;&quot;<br>
-<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
+Chee Yang Lee (1):
+  initrdscripts: init-install-efi.sh install extra files for ESP
 
---000000000000ad49ec05bc1f8659--
+Dorinda (1):
+  oe-pkgdata-util: Check if environment script is initialized
+
+Joshua Watt (7):
+  libomxil: Fix up commercial license flag
+  weston: remoting backend requires GStreamer base plugins
+  oeqa: reproducible: Fix SSTATE_MIRRORS variable
+  oeqa: reproducible: Add more logging
+  systemd: Re-enable chvt as non-root user without polkit
+  bison: Fix up file name mapping
+  acpica: Fix reproducibility issues
+
+Khem Raj (1):
+  tcf-agent: Fix build on riscv32
+
+Lee Chee Yang (3):
+  wic: debug mode to keep tmp directory
+  qemu: fix CVE-2020-29443 CVE-2020-35517
+  openssh: fix CVE-2020-14145
+
+Marek Vasut (1):
+  weston-init: Fix weston-keyboard path in weston.ini
+
+Richard Leitner (1):
+  deb: export INTERCEPT_DIR for remove actions
+
+Richard Purdie (13):
+  pseudo: Update for rename and faccessat fixes
+  pseudo: Update to include fixes for glibc 2.33
+  opkg: Fix build reproducibility issue
+  opkg: Fix patch glitches
+  cwautomacros: Ensure version is set deterministically
+  vim: Improve determinism
+  vim: Fix a race over creation of the desktop files
+  package_manager/deb: Fix image generation with package removal
+  quilt: Be determnistic about column presence
+  buildtools-extended-tarball: Add glibc-gconvs needed for build
+  watchdog: Fix determinism issue from sendmail host path
+  watchdog: Avoid reproducibility failures after fixing build
+  xmlto: Fix reproducibility
+
+Vivien Didelot (1):
+  local.conf.sample.extended: fix double 'of' typo
+
+akuster (1):
+  connman: update to 1.39
+
+ meta/conf/local.conf.sample.extended          |   2 +-
+ meta/lib/oe/package_manager/deb/__init__.py   |   6 +
+ meta/lib/oeqa/selftest/cases/reproducible.py  |   5 +-
+ meta/lib/oeqa/selftest/cases/wic.py           |   2 +
+ .../{connman_1.38.bb => connman_1.39.bb}      |   3 +-
+ .../openssh/openssh/CVE-2020-14145.patch      |  90 +++++++
+ .../openssh/openssh_8.3p1.bb                  |   1 +
+ .../initrdscripts/files/init-install-efi.sh   |   5 +
+ .../meta/buildtools-extended-tarball.bb       |  10 +
+ ...chvt-as-non-root-user-without-polkit.patch | 227 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_246.9.bb    |   1 +
+ ...001-Use-mapped-file-name-for-symbols.patch |  62 +++++
+ meta/recipes-devtools/bison/bison_3.7.2.bb    |   1 +
+ .../opkg/opkg/sourcedateepoch.patch           |  24 ++
+ meta/recipes-devtools/opkg/opkg_0.4.3.bb      |   1 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-29443.patch            |  46 ++++
+ .../qemu/qemu/CVE-2020-35517.patch            | 126 ++++++++++
+ meta/recipes-devtools/quilt/quilt.inc         |   2 +-
+ .../tcf-agent/tcf-agent_git.bb                |   1 +
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |   2 +-
+ .../acpica/acpica_20200717.bb                 |   2 +
+ .../cwautomacros/cwautomacros_20110201.bb     |   2 +-
+ .../watchdog/watchdog_5.16.bb                 |   6 +
+ .../wayland/weston-init/weston.ini            |   2 +-
+ meta/recipes-graphics/wayland/weston_9.0.0.bb |   2 +-
+ .../libomxil/libomxil_0.9.3.bb                |   6 +-
+ meta/recipes-support/vim/files/racefix.patch  |  33 +++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ scripts/lib/wic/plugins/imager/direct.py      |   6 +-
+ scripts/oe-pkgdata-util                       |   3 +
+ 32 files changed, 673 insertions(+), 13 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+ create mode 100644 meta/recipes-devtools/bison/bison/0001-Use-mapped-file-name-for-symbols.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/sourcedateepoch.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29443.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-35517.patch
+ create mode 100644 meta/recipes-support/vim/files/racefix.patch
+
+-- 
+2.29.2
+
