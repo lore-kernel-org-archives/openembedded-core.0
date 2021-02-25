@@ -1,77 +1,89 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.498.1614289540095073142
- for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 13:45:40 -0800
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.532.1614289647389929173
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 25 Feb 2021 13:47:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Lsq2OFfG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id i7so5664363wmb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 13:45:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WD4b9+ba;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id b18so201618wrn.6
+        for <Openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 13:47:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=MiDTuBejDCbJs707UeIvJjd3VhFn0nBgA/awpPqfy0M=;
-        b=Lsq2OFfGAYkHruvoiTyMNLKs7in7vYNZ5h9bXLe30gWHkgYqzpEG29U84PfK3vGIT2
-         InifjWOCXKP094SHWC3DRig/De6zcPk09hJ0Iz9GTLMD66kv5pZkE7AuSB1P/c82Ag5q
-         gQXUa1mIlu77V/EMcxMGVv2YZax52C8tBoH9I=
+        bh=bmopQyUFevH3l/LWQo7AeX1zLNPIApyjsZQZNH2gBAU=;
+        b=WD4b9+baOJpadI8ldxDZRuyYcB1rbkkAY6pVcZxnIpIuZntmIro8eeG52mBNv6XvGp
+         pjipO9uSj2ypq8yzE8Hp93tAFTzkV3FlcKS++5HmTU9UZ6FO3BtqrXY6bPmIZpPZRPny
+         DIna7juQ2DHMETWcqEY7Sqzaj+od/mrGW0zTo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=MiDTuBejDCbJs707UeIvJjd3VhFn0nBgA/awpPqfy0M=;
-        b=S/0N4J/75+CALxREgFt4Cpwg5LvX7GZ5SWQRud1EKVCooCD8gUOr90qOqaOSBJzHjm
-         ibdw4fvyW5NjpWLjQGVFR0X3Ss9fApk9I78r8V9RKSRl/E+knO0IM6xwCYU5IC+tIHIT
-         9smCiYveh0abDcLpZ0WRWGQPW0uAZN4HvctoVrKtCpUjfIz6e0T4PguqRn4Gd5T4cgar
-         rQp5u04/R0nGzc7WURY0HDKdPZthRvj3Wsi6v7kxkv08WDwaHG0CxLuaoqP7uOyHdl3+
-         nlDSeQbqIUJnt2Eltc0qPtkzZYYzbdZ9OiDnzBFy8OY9iaI6Cat2igqwbxaoO+/nuhbO
-         3K8g==
-X-Gm-Message-State: AOAM532uLHjQzN6Ha3YAOyR8Y8SmGlhXzA6+LcmSmFB5tgmbBbI+uMfM
-	0b1t5MEr9cpdcEGWNO7nypMFcg==
-X-Google-Smtp-Source: ABdhPJx7diJv/d54IyxKFBchJSjtOAAi2ziN/kD9VMqO/lLKm5SI1yxOL21+T6gqIMDDQl4pdnaO1w==
-X-Received: by 2002:a1c:b741:: with SMTP id h62mr337084wmf.85.1614289538471;
-        Thu, 25 Feb 2021 13:45:38 -0800 (PST)
+        bh=bmopQyUFevH3l/LWQo7AeX1zLNPIApyjsZQZNH2gBAU=;
+        b=H2LQbNDEERzv5rinC3W8ZSBzxAQKufdOr/sFF/ud8EC4AMyGvllQPklLCOHV6tLRQ6
+         xVwkyJhkhLb2AAvnnQPMg9693YTqninao186SUTvIcNSPbRqfRcFPbeA14wyrjTQCObo
+         J19FRNGLuZmWbU3wuAr1EctnX8zP+o3Ti/h05Y7RarYsjlURaPBomUv5fUyXNg/eULTX
+         6PCYwv0HQwTf3TlL3VP6bzmpVmYmLSPWRezQWv7ui/evNrsTdjIjfIBZ7AJ++ScV94Xz
+         //4iFGS6pTTTW7prEvtVVsihu2XjSxqUyZ8J/517FXd5eICdzludBYL994WBiYiTsC57
+         i/6w==
+X-Gm-Message-State: AOAM531kqOoXaWCQvxb3W+WGLUeVc7gQs+5PqjxNGbTzELh8zkkO2TP2
+	QMFSsi3nBV8MR00nlI2qty0N7g==
+X-Google-Smtp-Source: ABdhPJwOW8Rja2Ce390kADM6Um5jxz8Q5W8AbzqIFU4XusvgtrLwhxYYymy+LQD6NdEXYc4pdAMijQ==
+X-Received: by 2002:a5d:430a:: with SMTP id h10mr40430wrq.162.1614289645945;
+        Thu, 25 Feb 2021 13:47:25 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f? ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id j11sm9435630wrm.13.2021.02.25.13.45.38
+        by smtp.gmail.com with ESMTPSA id y10sm2027086wrl.19.2021.02.25.13.47.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 13:45:38 -0800 (PST)
-Message-ID: <48564a078483f9cf2710252df2704d293e22f39d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/pam: Fix tests to work with busybox
+        Thu, 25 Feb 2021 13:47:25 -0800 (PST)
+Message-ID: <785033d6a9db81dbc5e4241451d103c5e226f8b9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] systemd-container: sort RRECOMMENDS alphabetically
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 25 Feb 2021 21:45:37 +0000
-In-Reply-To: <20210225211758.176441-1-raj.khem@gmail.com>
-References: <20210225211758.176441-1-raj.khem@gmail.com>
+To: Vivien Didelot <vivien.didelot@gmail.com>, 
+	Openembedded-core@lists.openembedded.org
+Date: Thu, 25 Feb 2021 21:47:24 +0000
+In-Reply-To: <20210225213848.2744615-1-vdidelot@pbsc.com>
+References: <20210225213848.2744615-1-vdidelot@pbsc.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-02-25 at 13:17 -0800, Khem Raj wrote:
-> Distros may not use shadow for login manager
-> secondly login --help return 0 not 1 so adjust the check accordingly
+On Thu, 2021-02-25 at 16:38 -0500, Vivien Didelot wrote:
+> Sort packages in RRECOMMENDS_${PN}-container alphabetically to avoid
+> subjective sorting and ease future additions.
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
 > ---
->  meta/lib/oeqa/runtime/cases/pam.py | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  meta/recipes-core/systemd/systemd_244.5.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/lib/oeqa/runtime/cases/pam.py b/meta/lib/oeqa/runtime/cases/pam.py
-> index 271a1943e3..a61b5a881e 100644
-> --- a/meta/lib/oeqa/runtime/cases/pam.py
-> +++ b/meta/lib/oeqa/runtime/cases/pam.py
-> @@ -17,7 +17,7 @@ class PamBasicTest(OERuntimeTestCase):
->          status, output = self.target.run('login --help')
->          msg = ('login command does not work as expected. '
->                 'Status and output:%s and %s' % (status, output))
-> -        self.assertEqual(status, 1, msg = msg)
-> +        self.assertEqual(status, 0, msg = msg)
+> diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+> index 70700820d7..aaed047e63 100644
+> --- a/meta/recipes-core/systemd/systemd_244.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_244.5.bb
+> @@ -447,9 +447,9 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+>                          "
+>  
+> 
+> 
+> 
+>  RRECOMMENDS_${PN}-container += "\
+> -                         ${PN}-journal-upload \
+> -                         ${PN}-journal-remote \
+>                           ${PN}-journal-gatewayd \
+> +                         ${PN}-journal-remote \
+> +                         ${PN}-journal-upload \
+>                          "
+>  
+> 
 
-Surely just changing the exit status to the opposite will cause the 
-autobuilder to fail this instead?
+These look like ok changes to me but they're against an older version of
+systemd, we currently have 247.3 in master. Would you be able to send
+against that version please?
 
 Cheers,
 
 Richard
+
 
