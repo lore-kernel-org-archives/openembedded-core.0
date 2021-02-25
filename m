@@ -1,113 +1,120 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web10.14081.1614271454351886335
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.14216.1614271924462854073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 08:44:14 -0800
+ Thu, 25 Feb 2021 08:52:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EzetNJBX;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id a4so4130789pgc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 08:44:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NgWqcvQ9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id e3so5891pfj.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 08:52:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rAgOM/NpvUk3JYgJJIuVSyZxmKWY3w/vNtLmLHoHIfU=;
-        b=EzetNJBXLY7XGKmOmjOrMnxsvF16oByvZE9rqgZkAY2Hw+Yi4QYZQtZ/xBe5syt/lK
-         3d3qqAfNopIhb13JrIIp9Pxki4GzTt4UY/UNQITbTyeaktQMiAuAmbm9XSiMSKFolNOf
-         nA9SzcFX1llzBjQouaCPVoVU5T0WZSB56hJANRzAbCht5W5PegLqCeUqU45V1WvL4uk7
-         gH1BgbNihjCA72Y6pGbhg2oZbyLSw9r678JOHG0ienigwTJl9A/4Z4NJmEj+JFlyCbA6
-         pjjSZYUB4JdtMkBDxwfosDRXQCEGJTrlQufUq+vQDRaO48mCSRh+0GrBtVOzc//EAx7d
-         vzCg==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MKo1kogzSm28hQ0gJsvbLPmvK4+N671qxnTFcr75qQ8=;
+        b=NgWqcvQ9Auf8cGMw1SdOKlzYQARxLbYeLGcyVnbXQcEhRfoiHbVZuWmQvuaQjLOPbm
+         H87bkrfEQjGtBucRWDWxh7dxmCfngkWubQ5YrAg0uSdk1pnK00s4JCuUiTE6EeE1slE0
+         PE+f4qBlWkBQKwHjs/0zJ9DqL72cw27eqpduse1fQvvq88cC3iFnb4D3S5e2TMSIMD40
+         xrjrVpQIaujPqY76Ei/n4tcDobIzYBqCjn8N0xSiyu5iXZFJvyJXnOJntcGxrwUT6gf9
+         3dxFrTPWHiaqYmlo0Lq5JlF6bUR09uJbqt8T2CPCfdDshCxNM4bJGOL0NFH5Nd674Afn
+         fAlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rAgOM/NpvUk3JYgJJIuVSyZxmKWY3w/vNtLmLHoHIfU=;
-        b=WUOkHTuCJxAlLD3NsFp46nOPhiwHYnX4ceixYvqQ4wVxegIi+uvxdY6859gNuxvsgX
-         oHpSYwfSlODAHBTa4p/hdICuHTYwwwazvk9yq4DyznuJJ1T5NYZhHYQ3QaLke/9WZZwb
-         xLXxwOuju9m40+MZjsK+pmp2hbJrTkH4AR5Sdku2NcuMveQzWYd/3OWZKnat9qxeHmWz
-         tz8KUm7xrOlYCufDTAyumQ+WgNjDEi793scxa92xdbI8VUDK3X8HbDDiPAYb149hdoZp
-         6cndITWhM2bhp7+dDn6WlaqcvReIiHn0473eV+U6+MUr26Uh+Bk/Nj6dYk/DeirPzFVF
-         oyag==
-X-Gm-Message-State: AOAM533IUbvCrOjIntO5GEl3l9eS/7Y7KQKRn3jo5OixB7RE90I3yM2P
-	YUcp0ME3YOxsfQ+LrEBMSOzixkXpLUkK+g==
-X-Google-Smtp-Source: ABdhPJzvFhYXL8ql7sb75ofX6KYIYujoNlttTIRNV9egdVAMydszF1eeZ9jTctOs/EwaVMz4PyopCg==
-X-Received: by 2002:a63:ed07:: with SMTP id d7mr3855710pgi.164.1614271453380;
-        Thu, 25 Feb 2021 08:44:13 -0800 (PST)
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=MKo1kogzSm28hQ0gJsvbLPmvK4+N671qxnTFcr75qQ8=;
+        b=B6QP6vzZqGYxgpvLCBBsgkBG1Erfo/5EiSbDRRWpomRGnpsCRdXQcHvqjVcYfR2mII
+         PvKm7hVrBA30tTZBOHMMkKdj+KCNl3AipTpM34Ux7b7IM0bhqBPhbfGOzVQNWAQfvOYY
+         qb7KS9g6x19ed+XcgMIkgj1WkVBVcD8Ug12DEVsUihyRp7nj/ZtaaM5y7lhrljClGV/+
+         +3RxsPb7oYQqSzQo65XG3NfJ9B2uUK4H0LzbSK6Bn60SaWNUNl9j6BZyBH9vES3CFLR0
+         hBwJ8byA/r9J9yaKUtg6bF6+Pbmwro7bY7p5kFd7MG/oTMNe0+S3g3fqSnm98xYJ/B4o
+         r68A==
+X-Gm-Message-State: AOAM531SnTIXP6orvahgfQYGYgMTkAAxLJVmEUgMmbomJvEzjgUQSCDQ
+	+fCEWDHs7fjaG0K6M+DJQzReRdpNh0Tziw==
+X-Google-Smtp-Source: ABdhPJznz/NQazYkVZfePyPBSCctJ4wOjAdDP9p9JDD8pDE1GxIntr+LrDf3Tr2eymAL/Qlzmf+3JQ==
+X-Received: by 2002:a63:504a:: with SMTP id q10mr3758679pgl.188.1614271923517;
+        Thu, 25 Feb 2021 08:52:03 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id z13sm7363442pfk.178.2021.02.25.08.44.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 08:44:12 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
+        by smtp.gmail.com with ESMTPSA id c12sm6364088pjq.48.2021.02.25.08.52.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Feb 2021 08:52:03 -0800 (PST)
+Subject: Re: [OE-core] [qa-build-notification] QA notification for completed autobuilder build (yocto-3.1.6.rc1)
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] llvm: Upgrade to 11.1.0 release
-Date: Thu, 25 Feb 2021 08:44:11 -0800
-Message-Id: <20210225164411.3333168-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.1
+References: <20210222224808.50B89817FA08@fedora32-ty-1.yocto.io>
+ <BYAPR11MB36240D3D33192AF2180FB382E39E9@BYAPR11MB3624.namprd11.prod.outlook.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <cba7b326-e7b2-87d0-be2c-11f27ca3292a@gmail.com>
+Date: Thu, 25 Feb 2021 08:52:01 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR11MB36240D3D33192AF2180FB382E39E9@BYAPR11MB3624.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc               | 2 +-
- ...atcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch | 2 +-
- meta/recipes-devtools/llvm/llvm_git.bb                    | 8 ++++----
- 3 files changed, 6 insertions(+), 6 deletions(-)
+lgtm
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 8e454f74a5..76ada982f9 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -26,7 +26,7 @@ QEMUVERSION ?= "5.2%"
- GOVERSION ?= "1.16%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
- # llvm version being used, so always bump it with llvm recipe version bump
--LLVMVERSION ?= "10.0.1"
-+LLVMVERSION ?= "11.1.0"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-index 20eea060b1..48af6fc283 100644
---- a/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
-@@ -7,7 +7,7 @@ Otherwise, there are instances which are identical in
- every other field and therefore sort non-reproducibly
- (which breaks binary and source reproducibiliy).
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://reviews.llvm.org/D97477]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  llvm/utils/TableGen/AsmMatcherEmitter.cpp | 5 ++++-
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 43395f8cfc..86def0878c 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -19,9 +19,9 @@ inherit cmake pkgconfig
- 
- PROVIDES += "llvm${PV}"
- 
--MAJOR_VERSION = "10"
--MINOR_VERSION = "0"
--PATCH_VERSION = "1"
-+MAJOR_VERSION = "11"
-+MINOR_VERSION = "1"
-+PATCH_VERSION = "0"
- 
- PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
- 
-@@ -29,7 +29,7 @@ LLVM_RELEASE = "${PV}"
- LLVM_DIR = "llvm${LLVM_RELEASE}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "ef32c611aa214dea855364efd7ba451ec5ec3f74"
-+SRCREV = "1fdec59bffc11ae37eb51a1b9869f0696bfd5312"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
-            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
--- 
-2.30.1
-
+On 2/24/21 11:35 PM, Sangeeta Jain wrote:
+> Hi all,
+> 
+> This is the full report for yocto-3.1.6.rc1:
+> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
+> 
+> ======= Summary ========
+> No high milestone defects.
+> 
+> no new issue found
+> 
+> Thanks,
+> Sangeeta
+> 
+>> -----Original Message-----
+>> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+>> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+>> Sent: Tuesday, 23 February, 2021 6:48 AM
+>> To: yocto@lists.yoctoproject.org
+>> Cc: qa-build-notification@lists.yoctoproject.org
+>> Subject: [qa-build-notification] QA notification for completed autobuilder build
+>> (yocto-3.1.6.rc1)
+>>
+>>
+>> A build flagged for QA (yocto-3.1.6.rc1) was completed on the autobuilder and is
+>> available at:
+>>
+>>
+>>      https://autobuilder.yocto.io/pub/releases/yocto-3.1.6.rc1
+>>
+>>
+>> Build hash information:
+>>
+>> bitbake: fa94374baea75a94e3a488126ca7d8e241a77acd
+>> meta-arm: 02c660521619ddb7a9495d65403aaa2636747ce8
+>> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+>> meta-intel: 4bd62a7e154b8c9e8a114f452d3b062d8d058118
+>> meta-kernel: f793168bd19af3d8c5a260dd35f387ed9a31794b
+>> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+>> oecore: a8debddd6cbdd70db74e096d72f97fbee008ee63
+>> poky: a13bda44fcda4e79e9aed39ca1495eabecb6a7b7
+>>
+>>
+>>
+>> This is an automated message from the Yocto Project Autobuilder
+>> Git: git://git.yoctoproject.org/yocto-autobuilder2
+>> Email: richard.purdie@linuxfoundation.org
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+> 
+> 
+> 
+> 
+> 
