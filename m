@@ -1,122 +1,69 @@
-Received: from anchovy1.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
- by mx.groups.io with SMTP id smtpd.web10.4816.1614212943811232482
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.5010.1614213403139320495
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 16:29:04 -0800
+ Wed, 24 Feb 2021 16:36:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: electromag.com.au, ip: 203.30.46.145, mailfrom: preid@electromag.com.au)
-Received: (qmail 4243 invoked by uid 5089); 25 Feb 2021 00:28:51 -0000
-Received: by simscan 1.2.0 ppid: 4211, pid: 4212, t: 0.0753s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-Return-Path: <preid@electromag.com.au>
-Received: from unknown (HELO ?192.168.0.22?) (preid@electromag.com.au@203.59.235.95)
-  by anchovy1.45ru.net.au with ESMTPA; 25 Feb 2021 00:28:51 -0000
-From: "Phil Reid" <preid@electromag.com.au>
-Subject: Pseudo Abort errors
-To: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Message-ID: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
-Date: Thu, 25 Feb 2021 08:28:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-AU
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=COzoql0Z;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id l13so3384928wmg.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 16:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=edPvHjMN55HLVH1BISZAqCGuffiSqjQvy4tXrKJ7MMo=;
+        b=COzoql0Z5BDiKrEpkM3Fd67Vb9m9CEXdxMQOpil0O+dvKxohBE1eIG5+2xK9rjWELd
+         AbVdTSTng4Y7qPfRoPQyIGeqrPI0N/NTGWaq8CcdEZe8M2GVm8aRQ9w6fnvTSOkarYKm
+         oS+h50jet26WaLxyH/aVVnchV1ScCzbCFeCcQJWaFiTXmSEe4eRJBpVDeFGpuO6Wpvq6
+         +PKEoXOZNUzsn9DD6lUcu4+5bB/CWDu6JjVyVpnM4FEftT/LsgaJAQkwx1FJTjKfdkbu
+         408SBhiVHeXxG1Ca/STivQ6cND8KQmwwQfnT+d+h749NmRvnUJpcMXPDx1pR9fVt8f3E
+         IE7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=edPvHjMN55HLVH1BISZAqCGuffiSqjQvy4tXrKJ7MMo=;
+        b=SEGIGXc5jWdY+PRutkeFgPHGnrW49vuj944dfCjoH1L7IeeeNQp+Jukw8y0jmA9o0M
+         Owp60uo7ps4kFs+nlKqbPrAVNBJRW4HqlzTsEggMgEkTTMdASGunSv/+mm7j6yrAH02T
+         8ZEaEcEpjs4geF6NrnnRL4lUAqdKlf0klbK84E7QgmxTIOmn/3KHiGA06eWvnqOaV3G5
+         KMvgCegRU1m6N7/mS580v4nRkj/yY0s4AO3ON3He3zAQvVMT5uTTalqDSa47RLlf5xxp
+         SY4KmFq9xD8+bmPiwRl+qrjl5BFJ5aAAor+7mtPSxfGA8Al0njDa3AceFFVcuNzkB5/P
+         2yWQ==
+X-Gm-Message-State: AOAM533dsGElxtQbsGKKLp4COmU8hKzjsHIjw3kD4nD3JxMFuaEhy4Dn
+	a5P4ZR3wXeBIRnTJzQ498n4V/akrXvc=
+X-Google-Smtp-Source: ABdhPJwtf025QB+hRzZk/79QhF529Bvj27BDnZN+Aw/2YsMzKLEX14E9sRghqNUN/AEyvffU/DTgoA==
+X-Received: by 2002:a7b:c4d5:: with SMTP id g21mr537659wmk.161.1614213401352;
+        Wed, 24 Feb 2021 16:36:41 -0800 (PST)
+Return-Path: <dorindabassey@gmail.com>
+Received: from smtp.gmail.com. ([105.112.99.217])
+        by smtp.gmail.com with ESMTPSA id c6sm5892107wrt.26.2021.02.24.16.36.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Feb 2021 16:36:41 -0800 (PST)
+From: "Dorinda" <dorindabassey@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: dorindabassey <dorindabassey@gmail.com>
+Subject: [PATCH] gdb-common.inc: add PACKAGECONFIG for debuginfod
+Date: Thu, 25 Feb 2021 01:36:30 +0100
+Message-Id: <20210225003630.17878-1-dorindabassey@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-G'day,
+Added PACKAGECONFIG for debuginfod
 
-Not really sure where to look for this. But started to get random build failures
-with the pseudo client.
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+---
+ meta/recipes-devtools/gdb/gdb-common.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Failures are contained to populate_sdk
-
-Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
-
-I've also tried a psudeo_git.bbappend with:
-SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
-
-Which looks to be a pending commit on the list.
-Unfortunately it didn't help.
-
-Here's what I think are the relevant parts of the log are below.
-
-"rm -rf tmp-glibc" and a rebuild resolves the problem.
-
-
-Any thoughts?
-
-
-
--------------------------------------------
-One failure:
-
-abort()ing pseudo client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
-
-relevant pseudo.log:
-path mismatch [1 link]: ino 2045493 db 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sstate-build-populate_sdk/x86_64-deploy-emit-image-int-populate-sdk' 
-req 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sdk/image/usr/local/emit-x86_64/sysroots/cortexa9t2hf-neon-emit-linux-gnueabi/usr/include/php/main/php_output.h'.
-path mismatch [1 link]: ino 2045493 db 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sstate-build-populate_sdk/x86_64-deploy-emit-image-int-populate-sdk' 
-req 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sdk/image/usr/local/emit-x86_64/sysroots/cortexa9t2hf-neon-emit-linux-gnueabi/usr/include/php/main/php_output.h'.
-
-
-
-find tmp-glibc/ -iname php_output.h -exec ls -la {} \;
--rw-r--r--. 4 cb cb 9642 Feb 22 10:55 
-tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/emit-dsmain-rel/0.0+svnr52354_52332-r0/recipe-sysroot-native/usr/include/php/main/php_output.h
--rw-r--r--. 4 cb cb 9642 Feb 22 10:55 
-tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/emit-dsmain-int/0.0+svnr52354_52332-r0/recipe-sysroot-native/usr/include/php/main/php_output.h
--rw-r--r--. 4 cb cb 9642 Feb 22 10:55 
-tmp-glibc/work/x86_64-linux/php-native/7.4.9-r0/sysroot-destdir/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/x86_64-linux/php-native/7.4.9-r0/recipe-sysroot-native/usr/include/php/main/php_output.h
--rw-r--r--. 1 cb cb 0 Feb 24 02:12 
-tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sdk/image/usr/local/emit-x86_64/sysroots/cortexa9t2hf-neon-emit-linux-gnueabi/usr/include/php/main/php_output.h
--rw-r--r--. 2 cb cb 9642 Feb 22 10:59 tmp-glibc/work/cortexa9hf-neon-emit-linux-gnueabi/php/7.4.9-r0/sysroot-destdir/usr/include/php/main/php_output.h
--rw-r--r--. 4 cb cb 9642 Feb 22 10:55 tmp-glibc/sysroots-components/x86_64/php-native/usr/include/php/main/php_output.h
--rw-r--r--. 2 cb cb 9642 Feb 22 10:59 tmp-glibc/sysroots-components/cortexa9hf-neon/php/usr/include/php/main/php_output.h
-
--------------------------------------------
-And another one:
-
-abort()ing pseudo client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
-
-relevant pseudo.log:
-path mismatch [1 link]: ino 539813155 db 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sstate-build-populate_sdk/x86_64-deploy-emit-image-int-populate-sdk' 
-req 
-'/home/cb/build/workspace/soc-image-v2020.04/tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sdk/image/usr/local/emit-x86_64/sysroots/cortexa9t2hf-neon-emit-linux-gnueabi/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp'.
-d
-
-
-find tmp-glibc/ -iname recursive_lw_mutex.hpp -exec ls -la {} \;
--rw-r--r--. 4 cb cb 2100 Feb 24 09:59 
-tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/emit-dsmain-rel/0.0+svnr52371_52332-r0/recipe-sysroot/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp
--rw-r--r--. 4 cb cb 2100 Feb 24 09:59 
-tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/boost/1.72.0-r0/sysroot-destdir/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp
--rw-r--r--. 4 cb cb 2100 Feb 24 09:59 
-tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/emit-dsmain-int/0.0+svnr52371_52332-r0/recipe-sysroot/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp
--rw-r--r--. 1 cb cb 0 Feb 25 02:13 
-tmp-glibc/work/cyclone5-emit-linux-gnueabi/emit-image-int/1.0-r0/sdk/image/usr/local/emit-x86_64/sysroots/cortexa9t2hf-neon-emit-linux-gnueabi/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp
--rw-r--r--. 4 cb cb 2100 Feb 24 09:59 tmp-glibc/sysroots-components/cortexa9t2hf-neon/boost/usr/include/boost/flyweight/detail/recursive_lw_mutex.hpp
-
-
-
-
-
-
-
-
-
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index bfb8013d67..ccc911592c 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -36,6 +36,7 @@ PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+ # ncurses is already a hard DEPENDS, but would be added here if it weren't
+ PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
+ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
++PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod, elfutils"
+ 
+ GDBPROPREFIX = "--program-prefix=''"
+ 
 -- 
-Regards
-Phil Reid
+2.17.1
 
-ElectroMagnetic Imaging Technology Pty Ltd
-Development of Geophysical Instrumentation & Software
-www.electromag.com.au
-
-23 Junction Parade, Midland WA 6056, AUSTRALIA
-Ph: +61 8 9250 8100
-Fax: +61 8 9250 7100
-Email: preid@electromag.com.au
