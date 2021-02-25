@@ -1,52 +1,56 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web12.5046.1614213554923405106
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.4865.1614213558643057448
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 16:39:15 -0800
+ Wed, 24 Feb 2021 16:39:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=q/INi4gf;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id u14so3589423wri.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 16:39:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i39gc/on;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id v15so3586359wrx.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 16:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0wxiRYTJa0X3hPJ6CVft1/ie26YbfefQLgh9k3nzTeg=;
-        b=q/INi4gf+pBbzMbArRNIlEfxlDonNNCwzFD+3PPKcf+GQl1VKpDo7/asP2e8hw2Tas
-         +6IjAPkiWnZ/k57SX5CtyUfUSqEiVR0n0PEfo7i7uCJvyFe9aeT8k68mTUYHquaqaDVn
-         WA3qz7JZqE8YVZu8DVgrFCAQJ4tNBHWmUjPYw+0VRHe7C3B9kgiojmmTy8XoIccOyJ1f
-         WBW1UunB94+CNOEhbOwnAeoc95lhvV1e7lPCnmxJ72A9yXuv+HGvJYMwxUNfdrrQBH5R
-         Hi5xgHfCsXlYQyLXrOCpbluqYtSwfN6oVPA1Y9ovgkHjIGZYjxqEMYsUi/a72lJdCMx2
-         9s1A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EFO2qR/ttTcO81eZD1dMghND8XmoC/PCZ3kQRsKBUnw=;
+        b=i39gc/onNWYBG6D8Bik9IrVHEWzr2kRg0YgHOIHG72Q6XW+7Pxs1xDK6h7xa5dkz8w
+         VxsPVu3RPK13VbuLyKSapjjpTtX0I4xivMN95jgr/0RYklH1PpdZ0yIaWAURK12DQQqI
+         YzZx7hbkwVEzvW1N7BB4w7N8GQcqHjq5W16gn44Lbb6vOzzMxRi4jTue1iPiXB0pdm+L
+         M2QXvzaHZ6QysgOM6YG9KPyLbtp2his0HiGqNkmB6MF66xNrdjOrHuZzDo69vWBxsX5z
+         nunXwl3MUsSvr2nNZuuxmhz9BsgsTDbD3dxsVxWkDxUI0SxZ8EUVev9G4UeSeAx0sf7k
+         bXmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=0wxiRYTJa0X3hPJ6CVft1/ie26YbfefQLgh9k3nzTeg=;
-        b=DeahR3sKhbRqNGK3qRwaBzPP8f6aGzo2vWzgyTp8ruGLdf26ec6/vvr5b5voDXrr3Q
-         BQTxfi9X+ZryRTmLwWKnJlQEwXmd21EpvKkl3vq4XAsF7opiUhq6+qiwQkjp+GG0yOyO
-         t5ffT4jtB1sgt8EU0wHip5uprBHPDlqWFm3ctX6n8uOkTtG0cUkGAfz0gNrWsffZ/1iD
-         P0SdSxnGBbOV4OlCvY/B786jVwvtFPzaXi/9KN78KMvWXr52uTBHHZgljPglseWgdemu
-         yAn4DWmASml4nC3FUsQAEWFbi7S0vQUHX61Dtcve1OZbhcPNFf6+3cPlO/WoTxRf0/q/
-         3YfA==
-X-Gm-Message-State: AOAM533nEIJ3CdTx05d7khZ1w2z3EaLALQi8c88IpDSiNtlRZ4wojVuu
-	4rPhvuNQSPJC4JFy/hOLskFdpJRBIjs=
-X-Google-Smtp-Source: ABdhPJyxKb/zoWlzke+bE0GGBpV1TcqdSCjNBEpxYZepl/6hdGEQ6FAVKWsliwKdmeYjMi2Z0aTASQ==
-X-Received: by 2002:adf:e802:: with SMTP id o2mr579030wrm.133.1614213552956;
-        Wed, 24 Feb 2021 16:39:12 -0800 (PST)
+         :references:mime-version:content-transfer-encoding;
+        bh=EFO2qR/ttTcO81eZD1dMghND8XmoC/PCZ3kQRsKBUnw=;
+        b=aUh1QrhgxrfDWrShleSj3SnTpOo4X0PHGreInpTbEtMidwecwga0pK2ZW9dj3JtYtc
+         89DT5ZlOKyl8s0ww9VX81ItIKfkKqv2ys+Q86nSolAnpolF6L0WzrK49K7aI7g8AQidy
+         8Dbv3/of8/FMCzYrjAzYjkQtJP9MbyHJW+RNpDS4lUjiUxD58MHZt7JBFPQVdCcBt9yn
+         Qm4teFBHQMP0SWzxore9ycaOQncZs/LiN/zRbfP9qGmNdu0K8nwTjTl0Jz35TmuSR7gK
+         g7A8Gqh1aRNP5g8lnsL8zcHyV/MuqLg1EDXVyVl4AaMlh+QchDbcOcNlpDuk+BTS0qc8
+         Pdqg==
+X-Gm-Message-State: AOAM532tIleGlXpRjSPL+QQnqIASqftwCchMZMo95tctKQR95w4zxgIK
+	gZZUGSbtlIWVM0YPzJ1YdiAzYmmRM8A=
+X-Google-Smtp-Source: ABdhPJxhY/hnAH/pcfrP33i4ZUlj7hkevKuEmrKvH8uaQAZxFNaxFSuNYqfuBcSPZlZ+TBVjWw5ntQ==
+X-Received: by 2002:adf:fd85:: with SMTP id d5mr543233wrr.423.1614213556768;
+        Wed, 24 Feb 2021 16:39:16 -0800 (PST)
 Return-Path: <dorindabassey@gmail.com>
 Received: from smtp.gmail.com. ([105.112.99.217])
-        by smtp.gmail.com with ESMTPSA id a1sm5965962wrx.95.2021.02.24.16.39.11
+        by smtp.gmail.com with ESMTPSA id a1sm5965962wrx.95.2021.02.24.16.39.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 16:39:12 -0800 (PST)
+        Wed, 24 Feb 2021 16:39:16 -0800 (PST)
 From: "Dorinda" <dorindabassey@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH 2/4] meta/recipes-connectivity: Add HOMEPAGE / DESCRIPTION
-Date: Thu, 25 Feb 2021 01:38:59 +0100
-Message-Id: <20210225003901.18196-2-dorindabassey@gmail.com>
+Subject: [PATCH 3/4] meta/recipes-core: Add HOMEPAGE / DESCRIPTION
+Date: Thu, 25 Feb 2021 01:39:00 +0100
+Message-Id: <20210225003901.18196-3-dorindabassey@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210225003901.18196-1-dorindabassey@gmail.com>
 References: <20210225003901.18196-1-dorindabassey@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
 Added HOMEPAGE and DESCRIPTION for recipes with missing decriptions or homepage
 
@@ -54,80 +58,103 @@ Added HOMEPAGE and DESCRIPTION for recipes with missing decriptions or homepage
 
 Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 ---
- meta/recipes-connectivity/bind/bind_9.16.11.bb                   | 1 +
- meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb      | 1 +
- meta/recipes-connectivity/libuv/libuv_1.41.0.bb                  | 1 +
- .../mobile-broadband-provider-info_git.bb                        | 1 +
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb           | 1 +
- meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb   | 1 +
- 6 files changed, 6 insertions(+)
+ meta/recipes-core/base-passwd/base-passwd_3.5.29.bb | 1 +
+ meta/recipes-core/dbus-wait/dbus-wait_git.bb        | 1 +
+ meta/recipes-core/dropbear/dropbear.inc             | 1 +
+ meta/recipes-core/ell/ell_0.38.bb                   | 1 +
+ meta/recipes-core/fts/fts_1.2.7.bb                  | 1 +
+ meta/recipes-core/ifupdown/ifupdown_0.8.36.bb       | 1 +
+ meta/recipes-core/kbd/kbd_2.4.0.bb                  | 1 +
+ meta/recipes-core/udev/eudev_3.2.9.bb               | 1 +
+ 8 files changed, 8 insertions(+)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.11.bb b/meta/recipes-connectivity/bind/bind_9.16.11.bb
-index 3b76a1f5cd..f48cc74c2e 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.11.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.11.bb
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index d01cd7e297..65b3cd778d 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
 @@ -1,5 +1,6 @@
- SUMMARY = "ISC Internet Domain Name Server"
- HOMEPAGE = "https://www.isc.org/bind/"
-+DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+ SUMMARY = "Base system master password/group files"
+ DESCRIPTION = "The master copies of the user database files (/etc/passwd and /etc/group).  The update-passwd tool is also provided to keep the system databases synchronized with these master files."
++HOMEPAGE = "https://launchpad.net/base-passwd"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+diff --git a/meta/recipes-core/dbus-wait/dbus-wait_git.bb b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+index c24295b537..677768d35a 100644
+--- a/meta/recipes-core/dbus-wait/dbus-wait_git.bb
++++ b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "A simple tool to wait for a specific signal over DBus"
+ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/dbus-wait"
++DESCRIPTION = "${SUMMARY}"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index a30f98faa4..ed3ef3384a 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -1,5 +1,6 @@
+ SUMMARY = "A lightweight SSH and SCP implementation"
+ HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
++DESCRIPTION = "Dropbear is a relatively small SSH server and client. It runs on a variety of POSIX-based platforms. Dropbear is open source software, distributed under a MIT-style license. Dropbear is particularly useful for "embedded"-type Linux (or other Unix) systems, such as wireless routers."
  SECTION = "console/network"
  
- LICENSE = "MPL-2.0"
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-index 5e4460045b..9a83898e52 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Name Service Switch module for Multicast DNS (zeroconf) name resolution"
- HOMEPAGE = "https://github.com/lathiat/nss-mdns"
-+DESCRIPTION = "nss-mdns is a plugin for the GNU Name Service Switch (NSS) functionality of the GNU C Library (glibc) providing host name resolution via Multicast DNS (aka Zeroconf, aka Apple Rendezvous, aka Apple Bonjour), effectively allowing name resolution by common Unix/Linux programs in the ad-hoc mDNS domain .local."
- SECTION = "libs"
+ # some files are from other projects and have others license terms:
+diff --git a/meta/recipes-core/ell/ell_0.38.bb b/meta/recipes-core/ell/ell_0.38.bb
+index 11a80e16ed..7d3a339978 100644
+--- a/meta/recipes-core/ell/ell_0.38.bb
++++ b/meta/recipes-core/ell/ell_0.38.bb
+@@ -1,4 +1,5 @@
+ SUMMARY  = "Embedded Linux Library"
++HOMEPAGE = "https://01.org/ell"
+ DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
+ low-level functionality for system daemons. It typically has no \
+ dependencies other than the Linux kernel, C standard library, and \
+diff --git a/meta/recipes-core/fts/fts_1.2.7.bb b/meta/recipes-core/fts/fts_1.2.7.bb
+index 589ae0e916..ea820cb0c3 100644
+--- a/meta/recipes-core/fts/fts_1.2.7.bb
++++ b/meta/recipes-core/fts/fts_1.2.7.bb
+@@ -3,6 +3,7 @@
  
- LICENSE = "LGPLv2.1+"
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.41.0.bb b/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-index ab06a43d21..4987331dc8 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.41.0.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "A multi-platform support library with a focus on asynchronous I/O"
- HOMEPAGE = "https://github.com/libuv/libuv"
-+DESCRIPTION = "libuv is a multi-platform support library with a focus on asynchronous I/O. It was primarily developed for use by Node.js, but it's also used by Luvit, Julia, pyuv, and others."
- BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 7dccc15e03..f170cf4650 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Mobile Broadband Service Provider Database"
- HOMEPAGE = "http://live.gnome.org/NetworkManager/MobileBroadband/ServiceProviders"
-+DESCRIPTION = "Mobile Broadband Service Provider Database stores service provider specific information. When this Database is available the information can be fetched there"
- SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index b5f68951d7..b0097aa480 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Enables PPP dial-in through a serial connection"
- SECTION = "console/network"
-+DESCRIPTION = "PPP dail-in provides a point to point protocol (PPP), so that other computers can dial up to it and access connected networks."
- DEPENDS = "ppp"
- RDEPENDS_${PN} = "ppp"
- PR = "r8"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index 7cc03fef7d..2aedafe5ca 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Client for Wi-Fi Protected Access (WPA)"
- HOMEPAGE = "http://w1.fi/wpa_supplicant/"
-+DESCRIPTION = "wpa_supplicant is a WPA Supplicant for Linux, BSD, Mac OS X, and Windows with support for WPA and WPA2 (IEEE 802.11i / RSN). Supplicant is the IEEE 802.1X/WPA component that is used in the client stations. It implements key negotiation with a WPA Authenticator and it controls the roaming and IEEE 802.11 authentication/association of the wlan driver."
- BUGTRACKER = "http://w1.fi/security/"
- SECTION = "network"
+ SUMMARY = "Implementation of ftsfor musl libc packages"
+ HOMEPAGE = "https://github.com/pullmoll/musl-fts"
++DESCRIPTION = "The musl-fts package implements the fts(3) functions fts_open, fts_read, fts_children, fts_set and fts_close, which are missing in musl libc."
  LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5ffe358174aad383f1b69ce3b53da982"
+ SECTION = "libs"
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
+index 5b425da95c..c0a90a3972 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "ifupdown: basic ifup and ifdown used by initscripts"
++HOMEPAGE = "https://salsa.debian.org/debian/ifupdown"
+ DESCRIPTION = "High level tools to configure network interfaces \
+ This package provides the tools ifup and ifdown which may be used to \
+ configure (or, respectively, deconfigure) network interfaces, based on \
+diff --git a/meta/recipes-core/kbd/kbd_2.4.0.bb b/meta/recipes-core/kbd/kbd_2.4.0.bb
+index 65ba70bf47..b557d691b5 100644
+--- a/meta/recipes-core/kbd/kbd_2.4.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.4.0.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "Keytable files and keyboard utilities"
+ HOMEPAGE = "http://www.kbd-project.org/"
++DESCRIPTION = "The kbd project contains tools for managing Linux console (Linux console, virtual terminals, keyboard, etc.) – mainly, what they do is loading console fonts and keyboard maps."
+ # everything minus console-fonts is GPLv2+
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a"
+diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-core/udev/eudev_3.2.9.bb
+index f96f8cbe78..3ae91dee51 100644
+--- a/meta/recipes-core/udev/eudev_3.2.9.bb
++++ b/meta/recipes-core/udev/eudev_3.2.9.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "eudev is a fork of systemd's udev"
+ HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
++DESCRIPTION = "eudev is Gentoo's fork of udev, systemd's device file manager for the Linux kernel. It manages device nodes in /dev and handles all user space actions when adding or removing devices."
+ LICENSE = "GPLv2.0+ & LGPL-2.1+"
+ LICENSE_libudev = "LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 -- 
 2.17.1
 
