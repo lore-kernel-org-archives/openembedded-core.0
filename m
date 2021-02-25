@@ -1,183 +1,85 @@
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
- by mx.groups.io with SMTP id smtpd.web10.8642.1614241331477743550
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.9729.1614248946400538611
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 00:22:12 -0800
+ Thu, 25 Feb 2021 02:29:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.14, mailfrom: florian.bezdeka@siemens.com)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 11P8M5P8017571
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Feb 2021 09:22:05 +0100
-Received: from md2st94c.ad001.siemens.net ([167.87.20.171])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 11P8M4h3023022;
-	Thu, 25 Feb 2021 09:22:05 +0100
-From: "florian.bezdeka@siemens.com" <florian.bezdeka@siemens.com>
-To: openembedded-core@lists.openembedded.org,
-        richard.purdie@linuxfoundation.org
-Cc: henning.schild@siemens.com, jan.kiszka@siemens.com,
-        Florian Bezdeka <florian.bezdeka@siemens.com>
-Subject: [OE-core][PATCH v4] wic: Warn if an ext filesystem affected by the Y2038 problem is used
-Date: Thu, 25 Feb 2021 09:22:02 +0100
-Message-Id: <20210225082202.19089-1-florian.bezdeka@siemens.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <f2bd2b27681faf5c7e73ee0e58fdb1d5d1e457c1.camel@linuxfoundation.org>
-References: <f2bd2b27681faf5c7e73ee0e58fdb1d5d1e457c1.camel@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BXYf6X64;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id u14so4706655wri.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 02:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=5gASRwGijlTfZ9eZxPZN/BCHEpTFfcf6C1cbbmkOAEs=;
+        b=BXYf6X64JDOUeZY/bx2TfJnphcUGl40LJ6xzJcr0y7eZZg0UtjsxR6tgSaQfDiNdxi
+         pJOCKrwAeUoQKMV3B112D8G2xO4yIX3jLwGFuGpuAJofqqa5wDmsdE11D9LeyxAt8NmQ
+         Z7loJqjx5+NLs/WJWjYv1tzz0PiZfGzffRhd4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=5gASRwGijlTfZ9eZxPZN/BCHEpTFfcf6C1cbbmkOAEs=;
+        b=LBdZOH2DYs8vx6Besv/sth/2TZfnyke7O8YdU3I6BgrmEkpLI234XP32EGqcxPftV4
+         ZB26FwHepvXZ96VLF35DmvYD+H4LQVHmx0VCLLbqjKEULr5L5Bh7tNgCjwvon5A1lbCk
+         eZhYICqlTe28Ahep7iPo8ShJBA9gbWrVMqAWfcuno/V9Xvdw/xIn0oXd0yM1UWK7rlUF
+         Upl8IlYRcjCCK07jh0j1OTt4sSTSqzcF1i4wx47RzwANiWLwFDGb17rTijbnA0tBjuCk
+         pDDsFI5/a/Iz6k8lV3YCf9T52uBIF7NKqdmCA+8NXuAN3iwJV/X8zqrM0jDDrUubLpaC
+         99Pw==
+X-Gm-Message-State: AOAM531dzCxOnFfZNUX4Ua1FyGoh1UCg+VwYBdi2BLKdaQcT1PBohu5t
+	BzHk1atFYHNc6Ky9tIR3PicCAw==
+X-Google-Smtp-Source: ABdhPJwh2DDMEIm/29wBEJ4VT5Q4h6T4pj8v8LGfwHFp9r2JobdyyDwU8Kqxh/kkxdR7xAk5r9Gw7w==
+X-Received: by 2002:adf:fad2:: with SMTP id a18mr2725111wrs.147.1614248944403;
+        Thu, 25 Feb 2021 02:29:04 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472? ([2001:8b0:aba:5f3c:4258:f6b6:9d0d:f472])
+        by smtp.gmail.com with ESMTPSA id k4sm10517880wrd.9.2021.02.25.02.29.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Feb 2021 02:29:04 -0800 (PST)
+Message-ID: <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Pseudo Abort errors
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Phil Reid <preid@electromag.com.au>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Feb 2021 10:29:03 +0000
+In-Reply-To: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
+References: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We are getting closer and closer to the year 2038 where the 32 bit
-time_t overflow will happen. While products (= embedded systems) with an
-expected life time of 15 years are still save the situation may change
-if your system has to survive the next 20 years.
+On Thu, 2021-02-25 at 08:28 +0800, Phil Reid wrote:
+> G'day,
+> 
+> Not really sure where to look for this. But started to get random build failures
+> with the pseudo client.
+> 
+> Failures are contained to populate_sdk
+> 
+> Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
+> 
+> I've also tried a psudeo_git.bbappend with:
+> SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
+> 
+> Which looks to be a pending commit on the list.
+> Unfortunately it didn't help.
+> 
+> Here's what I think are the relevant parts of the log are below.
+> 
+> "rm -rf tmp-glibc" and a rebuild resolves the problem.
+> 
+> 
+> Any thoughts?
 
-ext2 and ext3 filesystems are always affected by the time overflow, so
-let's warn the user if these filesystems are still being used.
+Which branch and which packaging backend are you using?
 
-If ext4 is affected depends on the inode size chosen during filesystem
-creation. At least 256 bytes are necessary to be safe. As ext4 is
-used very often (and partitions may be created small first and extended
-later) this might be an issue for many users.
+There is a bitbake.conf patch on the list changing PSEUDO_IGNORE_PATHS
+which would probably help but I need to understand that doesn't have 
+side effects and I don't have enough data to do that yet.
 
-Some filesystems created during CI runs were already affected by the Y2038
-problem. By using `--mkfs-extraopts "-T default"` we tell mke2fs not to
-auto-detect the usage type based on the filesystem size. mke2fs will use
-the default values for tuning parameters instead. The inode size is one
-of these parameters.
+Cheers,
 
-Signed-off-by: Florian Bezdeka <florian.bezdeka@siemens.com>
----
-
-  Changes in v4:
-    - Updated the commit message to reflect current state
-    - Fixed more affected filesystems that were reported by the CI system
-      (directdisk-gpt.wks and directdisk.wks)
-    - Moving back to "-T default", so disabling usage-type detection based
-      on the filesystem size
-
-  Changes in v3:
-    - Moved to "-I 256" to become independent from the /etc/mke2fs.conf
-      file (or even from the mke2fs compiled in defaults)
-
-  Changes in v2: 
-    - Fixed a warning reported by CI system coming from a partition in
-      /scripts/lib/wic/canned-wks/mkefidisk.wks. One of the partitions was
-      already affected by the Y2038 problem.
-                                                                                    
- 
- scripts/lib/wic/canned-wks/common.wks.inc     |  2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks |  2 +-
- scripts/lib/wic/canned-wks/mkefidisk.wks      |  2 +-
- scripts/lib/wic/misc.py                       |  1 +
- scripts/lib/wic/partition.py                  | 38 +++++++++++++++++++
- 5 files changed, 42 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-index 89880b417b..4fd29fa8c1 100644
---- a/scripts/lib/wic/canned-wks/common.wks.inc
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -1,3 +1,3 @@
- # This file is included into 3 canned wks files from this directory
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-+part / --source rootfs --use-uuid --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-index 8d7d8de6ea..cf16c0c30b 100644
---- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-@@ -4,7 +4,7 @@
- 
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024 --use-uuid
- 
- bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
- 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 9f534fe184..d1878e23e5 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -4,7 +4,7 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default"  --label platform --align 1024 --use-uuid
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 75b219cd3f..57c042c503 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -26,6 +26,7 @@ logger = logging.getLogger('wic')
- 
- # executable -> recipe pairs for exec_native_cmd
- NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-+                  "dumpe2fs": "e2fsprogs",
-                   "grub-mkimage": "grub-efi",
-                   "isohybrid": "syslinux",
-                   "mcopy": "mtools",
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index e574f40c47..85f9847047 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -298,6 +298,8 @@ class Partition():
-         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-+        self.check_for_Y2038_problem(rootfs, native_sysroot)
-+
-     def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
-                              native_sysroot, pseudo):
-         """
-@@ -388,6 +390,8 @@ class Partition():
-             (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-+        self.check_for_Y2038_problem(rootfs, native_sysroot)
-+
-     def prepare_empty_partition_btrfs(self, rootfs, oe_builddir,
-                                       native_sysroot):
-         """
-@@ -449,3 +453,37 @@ class Partition():
- 
-         mkswap_cmd = "mkswap %s -U %s %s" % (label_str, self.fsuuid, path)
-         exec_native_cmd(mkswap_cmd, native_sysroot)
-+
-+    def check_for_Y2038_problem(self, rootfs, native_sysroot):
-+        """
-+        Check if the filesystem is affected by the Y2038 problem
-+        (Y2038 problem = 32 bit time_t overflow in January 2038)
-+        """
-+        def get_err_str(part):
-+            err = "The {} filesystem {} has no Y2038 support."
-+            if part.mountpoint:
-+                args = [part.fstype, "mounted at %s" % part.mountpoint]
-+            elif part.label:
-+                args = [part.fstype, "labeled '%s'" % part.label]
-+            elif part.part_name:
-+                args = [part.fstype, "in partition '%s'" % part.part_name]
-+            else:
-+                args = [part.fstype, "in partition %s" % part.num]
-+            return err.format(*args)
-+
-+        # ext2 and ext3 are always affected by the Y2038 problem
-+        if self.fstype in ["ext2", "ext3"]:
-+            logger.warn(get_err_str(self))
-+            return
-+
-+        ret, out = exec_native_cmd("dumpe2fs %s" % rootfs, native_sysroot)
-+
-+        # if ext4 is affected by the Y2038 problem depends on the inode size
-+        for line in out.splitlines():
-+            if line.startswith("Inode size:"):
-+                size = int(line.split(":")[1].strip())
-+                if size < 256:
-+                    logger.warn("%s Inodes (of size %d) are too small." %
-+                                (get_err_str(self), size))
-+                break
-+
--- 
-2.29.2
+Richard
 
