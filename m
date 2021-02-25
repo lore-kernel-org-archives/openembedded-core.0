@@ -1,73 +1,129 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web08.5579.1614217729205255132
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web10.5807.1614218474195555018
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Feb 2021 17:48:49 -0800
+ Wed, 24 Feb 2021 18:01:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 11P1mbCQ006948
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 17:48:44 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 24 Feb 2021 17:48:32 -0800
-Received: from vme.wrs.com (172.25.44.2) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2106.2 via Frontend
- Transport; Wed, 24 Feb 2021 17:48:32 -0800
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 7/7] maintainers: Add myself as maintainer for rust pkgs
-Date: Wed, 24 Feb 2021 20:48:23 -0500
-Message-ID: <20210225014823.397741-8-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210225014823.397741-1-Randy.MacLeod@windriver.com>
-References: <16668FEB024AAA5B.31532@lists.openembedded.org>
- <20210225014823.397741-1-Randy.MacLeod@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hAIsGah1;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id f17so4332932qkl.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Feb 2021 18:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Q/bgEh1Daz5rLM2XEkZ/PdgeQQF3MeUTWTXQGVvGtI=;
+        b=hAIsGah1U7LI+ZVhFcqS2FlKDsDS9GNB4yae7N7EL2YjagiwJrznHy7LKTAEzf+fTC
+         5kUEHb/e3EKMQx3Brdnnn5k6WmN8Z4E3wgauY+Zhm+YVDCX4+zuuJtgTZ6rHSPvlDylo
+         jsn/Yz83xLmc4ELLiMqdqkFZ7JbO8VP2013ANnY8APAV2dcdlSIcxLz+dxZIXGwr4p8s
+         8V56qGK26WWUqoJ1ClO+9zy1LteW0KzFlTk5bmDaDVYKBT9+piYh68pgB7g4VSkG6494
+         jNS3loNLyeVm7Fjy+2ocAUcszXCXFHnNTHCnxcPIwDhUSmxirRcZBl1inR5h0Zz2dxLc
+         g5Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Q/bgEh1Daz5rLM2XEkZ/PdgeQQF3MeUTWTXQGVvGtI=;
+        b=jBL9ZxMrClky723p0bFufwBtmg+Q2r6RGDsqIBWDBA3IfM+DJAso4fDALkCiPtrzI0
+         nr7060wf4bbW3G/TRZizrVe26pucbgaGHZ/6hVzVuf0/eozjsVoRQmHEhrAhG5v5zeJt
+         p2LTthNemf6TEJIALHR4JzgpTaQvT/ta/Rc7Ei4Ky1XWJfYreaIRwJD5WccURBCqcC//
+         vJEqGETxkqSawHhCmtvYIhMMSpUPe7lhpGJTdSMblVqW/v3Q8Qj67ZckuEnyHPUfNRlQ
+         Dc8nsBg4w7IrBlI/7zX5uSonrLD1dYNZiMiXwTDt0Pn4a474iVl4IcT4a/t0scHPgzG7
+         xUzg==
+X-Gm-Message-State: AOAM533Qwn00M9+K3kU4RjRkFV8ryMrAeOO8kqeZLQuUToMkeq8ZBxWG
+	Qv8U9mmoWJ3NzWwYllc1PHTIZJRtjH8pIDJNryw=
+X-Google-Smtp-Source: ABdhPJx5QY2H+qGrgYAcsEjaagwKZmDaSEYiSrW+k2pTsqcLzbmGgmShY93Df+r0+YHyJ+yFuXtC0vXBk79R81RYEPo=
+X-Received: by 2002:a37:e13:: with SMTP id 19mr822785qko.119.1614218473063;
+ Wed, 24 Feb 2021 18:01:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20210225003630.17878-1-dorindabassey@gmail.com>
+In-Reply-To: <20210225003630.17878-1-dorindabassey@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 24 Feb 2021 18:01:02 -0800
+Message-ID: <CAMKF1sqF7Z8Re07K9xRsV1obGQ8na6J6N9b_EekhFNf8xh_UYw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gdb-common.inc: add PACKAGECONFIG for debuginfod
+To: Dorinda <dorindabassey@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ad49ec05bc1f8659"
 
-I'm willing to do the rust package maintenance but
-if anyone else wants to sign up, that would be welcome.
+--000000000000ad49ec05bc1f8659
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/conf/distro/include/maintainers.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Wed, Feb 24, 2021 at 4:36 PM Dorinda <dorindabassey@gmail.com> wrote:
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 3d8e3d5de0..bb76d5412a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -89,6 +89,7 @@ RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-cairo = "Anuj Mittal <anuj.mittal@intel.com>"
-+RECIPE_MAINTAINER_pn-cargo = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -382,6 +383,7 @@ RECIPE_MAINTAINER_pn-libsndfile1 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER_pn-libsolv = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libsoup-2.4 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libssp-nonshared = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-libstd-rs = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER_pn-libtasn1 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libtest-needs-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libtheora = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -649,6 +651,11 @@ RECIPE_MAINTAINER_pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-ruby = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
-+RECIPE_MAINTAINER_pn-rustc = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-+RECIPE_MAINTAINER_pn-rustfmt = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-+RECIPE_MAINTAINER_pn-rust-cross = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-+RECIPE_MAINTAINER_pn-rust-hello-world = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-+RECIPE_MAINTAINER_pn-rust-llvm = "Randy MacLeod <Randy.MacLeod@windriver.com>"
- RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
--- 
-2.27.0
+> Added PACKAGECONFIG for debuginfod
+>
 
+Lgtm
+
+
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> ---
+>  meta/recipes-devtools/gdb/gdb-common.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc
+> b/meta/recipes-devtools/gdb/gdb-common.inc
+> index bfb8013d67..ccc911592c 100644
+> --- a/meta/recipes-devtools/gdb/gdb-common.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
+> @@ -36,6 +36,7 @@ PACKAGECONFIG[babeltrace] =
+> "--with-babeltrace,--without-babeltrace,babeltrace"
+>  # ncurses is already a hard DEPENDS, but would be added here if it weren't
+>  PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
+>  PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+> +PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod,
+> elfutils"
+>
+>  GDBPROPREFIX = "--program-prefix=''"
+>
+> --
+> 2.17.1
+>
+>
+> 
+>
+>
+
+--000000000000ad49ec05bc1f8659
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Feb 24, 2021 at 4:36 PM Dorinda &lt;<a href=3D"mai=
+lto:dorindabassey@gmail.com">dorindabassey@gmail.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">Added PACKAGECONFIG for debuginfod<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Lgtm=C2=A0</div=
+><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gmail.co=
+m" target=3D"_blank">dorindabassey@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/gdb/gdb-common.inc | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devto=
+ols/gdb/gdb-common.inc<br>
+index bfb8013d67..ccc911592c 100644<br>
+--- a/meta/recipes-devtools/gdb/gdb-common.inc<br>
++++ b/meta/recipes-devtools/gdb/gdb-common.inc<br>
+@@ -36,6 +36,7 @@ PACKAGECONFIG[babeltrace] =3D &quot;--with-babeltrace,--=
+without-babeltrace,babeltrace&quot;<br>
+=C2=A0# ncurses is already a hard DEPENDS, but would be added here if it w=
+eren&#39;t<br>
+=C2=A0PACKAGECONFIG[tui] =3D &quot;--enable-tui,--disable-tui&quot;<br>
+=C2=A0PACKAGECONFIG[xz] =3D &quot;--with-lzma,--without-lzma,xz&quot;<br>
++PACKAGECONFIG[debuginfod] =3D &quot;--with-debuginfod, --without-debuginf=
+od, elfutils&quot;<br>
+<br>
+=C2=A0GDBPROPREFIX =3D &quot;--program-prefix=3D&#39;&#39;&quot;<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000ad49ec05bc1f8659--
