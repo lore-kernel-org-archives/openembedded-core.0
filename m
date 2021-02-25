@@ -1,76 +1,79 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web12.106.1614288030393011609
- for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 13:20:30 -0800
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web08.370.1614289130507930965
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 25 Feb 2021 13:38:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LDiKQmCz;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id v200so4487987pfc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 13:20:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MAzC1SOn;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: vivien.didelot@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id o34so5249509qtd.11
+        for <Openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 13:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kbpifzS6+loHlgQZg5dZ0muGmUsAp5JX7KOcEFSHcVo=;
-        b=LDiKQmCzBKc/Mpi9QH02hro+s03/KMqH05S6WPXrEBBrF+xZgcw+wq4dIwMBNAfxsf
-         KVYGhowWFzjpInlZj9DlbVvA6QtXrXsXVHohB3ibo1LDX0DRKsp6P9NpvPc1dmRMF7tH
-         xVWM7FeMY4RFZw/pHQvAL4VaUBpUWytgtwzuVqOxopaOGydrigO4n1WPHG0BZueDJwe3
-         Q4MII2IbO3PaA5DwG/bjru/wKFdsYQmzpaZEgi4s80lJJMd7Ec4bZ32ZsiJHNGNto4Ws
-         2eBa3ennVehU4qgnAZuphmQ0IfBT2CZPkn30MDNQmHD4azgk/7Y30Z+IBqYf61qZG5sU
-         tALA==
+        bh=qgBRzi6Q2KKUE7E/w+LOl1pCVbvBbCkliDNTKxc5bBY=;
+        b=MAzC1SOn2qKPgFEIDqeoxKg16YudPSQKzQzAvxu/GSo4fY2EvpOCh0aZxzKBwreeg+
+         pHJevqcLLMm/Ok0fEd+/A2de+NEuLC6vBSCoEHUiZn7rTgb6Cyaeoat7Bs0+shjJvfAf
+         BL8EK/AOmqC6OCekIw4PeicfnhvyErfuRdFDKONgzPfTPNvxC77b+73c8llwkjr+8vRH
+         3PdtYlAbU/uBTUF9Mzttvf11IaDoeG5sqaqE3icR8Wua/8NwLO+qi/9aVhsH2aMjcNwh
+         t06i5dma6YSDENwRbm6flkBXvVYSVz9qdttZv5n/Mb5Q9aWiGaWUQXGCdOaMNswKp7Qs
+         QcBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kbpifzS6+loHlgQZg5dZ0muGmUsAp5JX7KOcEFSHcVo=;
-        b=IITogX+hEmEb/QjpNnRxJ881cs9Y4trkMatHeBxi1PfYC6+qI0fKcWcXbWOjL3YTr+
-         ycQSEpffUFUly5o6Szk6bRhTZcXHSExO0rqGZoQwxs90zlNiFg5J99TDgO/SVUBcKAVa
-         8+sh9XgayrMRbdx/L5TcFKyCQlsYt7si47HCzTVl5vjlPZM2rrUrCE6rOCtYbjgOLcF2
-         HgbjLQ4+qFERXp632XQMTc8sfVOE9aQylgwrG2BPMle04hC2m8wEu/2qKDv1oC7nqPmW
-         SqXmwoJRIgVAomdam7kww7a4pnurWYGcN+Amn0pqwrw18zeQncS7ME6Z1+zm6qrx06de
-         rX9A==
-X-Gm-Message-State: AOAM530+bWWxYfIBzyNeqzMi1GzjOEalkB8rBl44/utHTUtFfBhhdrIl
-	zaBd2MQZT+Z3rlARYsP1btWaeirgDgo7YA==
-X-Google-Smtp-Source: ABdhPJy8R56SsuPDCK00Q5JQ/v6JuuWT5RQIFAWEchyMefRR2KvG6FF528eIScmHIG4XwqSWlevDng==
-X-Received: by 2002:a63:d0f:: with SMTP id c15mr4661144pgl.367.1614288029334;
-        Thu, 25 Feb 2021 13:20:29 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id u22sm7163743pgh.20.2021.02.25.13.20.28
+        bh=qgBRzi6Q2KKUE7E/w+LOl1pCVbvBbCkliDNTKxc5bBY=;
+        b=H07sbsxtALQ3zMI2UayE3m9pupVhWBNa6LEsUoPZbvYP8KGmWAsZl6WnFVgosnXSlv
+         xldfFKlwl5wG1dUXNPs3ipFWTwt4IcWYgp/YhzinlnmiVbj9BFROfnxBKoSspvZY4g8i
+         1VcLXH0xxRBc569hkzCCG9ZnccVgUbbwzmwP1vVHn9MBZLGkT+geHB+BqPgLUw5HAcFC
+         efZhTFa5yKYjFtsZx89ouovW2dgKsjfsIFUg/g9J0WS/FVqJ3AG3oIttb/wUBBOdD8RZ
+         Ej1gDsF0trwV91yPoDHO9lodigrdsQA3Dem5nUsOFMkgxRACbJIbhM/6Mi6b6TQuBxcN
+         vQDg==
+X-Gm-Message-State: AOAM530E/fmlxRwVrZbWG/HMSi5JPNkdXXdkFwc5xiW3uksYe0FBtK3K
+	tyYZbzCndykYMViLZRACyn9aZyjnt74=
+X-Google-Smtp-Source: ABdhPJy4jqdTNofhMZ0wlaRAkH0MvUR6fv1GkDhdNOhTaxADLqcj0uJmm6lplLBkYk9kwF1IAwIRUA==
+X-Received: by 2002:ac8:6f21:: with SMTP id i1mr143170qtv.72.1614289129340;
+        Thu, 25 Feb 2021 13:38:49 -0800 (PST)
+Return-Path: <vivien.didelot@gmail.com>
+Received: from localhost (modemcable249.105-163-184.mc.videotron.ca. [184.163.105.249])
+        by smtp.gmail.com with ESMTPSA id p66sm4741232qkd.57.2021.02.25.13.38.48
+        for <Openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 13:20:29 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] core-image-minimal: Raise size limit to 16M
-Date: Thu, 25 Feb 2021 13:20:26 -0800
-Message-Id: <20210225212026.176719-1-raj.khem@gmail.com>
+        Thu, 25 Feb 2021 13:38:48 -0800 (PST)
+From: "Vivien Didelot" <vivien.didelot@gmail.com>
+X-Google-Original-From: Vivien Didelot <vdidelot@pbsc.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] systemd-container: sort RRECOMMENDS alphabetically
+Date: Thu, 25 Feb 2021 16:38:46 -0500
+Message-Id: <20210225213848.2744615-1-vdidelot@pbsc.com>
 X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-latest core image mimial/sysvinit has less free space
-so df tests fail with
+Sort packages in RRECOMMENDS_${PN}-container alphabetically to avoid
+subjective sorting and ease future additions.
 
-AssertionError: False is not true : Not enough space on image. Current size is 2717
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
 ---
- meta/recipes-core/images/core-image-minimal.bb | 4 ++--
+ meta/recipes-core/systemd/systemd_244.5.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
-index 19f27f8395..a48e634546 100644
---- a/meta/recipes-core/images/core-image-minimal.bb
-+++ b/meta/recipes-core/images/core-image-minimal.bb
-@@ -8,5 +8,5 @@ LICENSE = "MIT"
+diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+index 70700820d7..aaed047e63 100644
+--- a/meta/recipes-core/systemd/systemd_244.5.bb
++++ b/meta/recipes-core/systemd/systemd_244.5.bb
+@@ -447,9 +447,9 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                         "
  
- inherit core-image
+ RRECOMMENDS_${PN}-container += "\
+-                         ${PN}-journal-upload \
+-                         ${PN}-journal-remote \
+                          ${PN}-journal-gatewayd \
++                         ${PN}-journal-remote \
++                         ${PN}-journal-upload \
+                         "
  
--IMAGE_ROOTFS_SIZE ?= "8192"
--IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
-+# 16M
-+IMAGE_ROOTFS_SIZE ?= "16384"
+ FILES_${PN}-extra-utils = "\
 -- 
 2.30.1
 
