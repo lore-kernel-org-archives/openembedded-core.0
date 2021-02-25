@@ -1,86 +1,79 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.1942.1614295760094140943
+Received: from anchovy2.45ru.net.au (anchovy2.45ru.net.au [203.30.46.146])
+ by mx.groups.io with SMTP id smtpd.web10.2314.1614297384850640888
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 15:29:20 -0800
+ Thu, 25 Feb 2021 15:56:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J68/VAAC;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id t9so4499162pjl.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Feb 2021 15:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FQTQy5ghF4GzwyboAev69oscLXC1G0glhTxijkVcw4Y=;
-        b=J68/VAAC3eXQ2/q9p0hf6gSTDPTbzqjSXa/dAiH5II86mSgGFSwettXM/oGpK92UV0
-         UVkJsuvoECZG1EuOZDH1FyVqAM3Yecv8N56NfnXelQ+QGuUrPRTkrM0ycThlAmRFl7rl
-         35cqrGLhTIFBbdbf6iCzNJf9yfMiMswprEUvCux3qHUyxjrQiz/jbrbanfQ1YOzmRX2P
-         mVO+UlLyosOdGn3xG7sNI0hKNFzaZOL7e7lOZhcQTs37mfpGF21WcoQhGxOca5PSiGnv
-         6/T2ZcXbBN6+f9T6HRp28qmROzNRAyr6sArIEalaf6LZa0fqc5ar0bSgjGLU8tL0YcXo
-         mKwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FQTQy5ghF4GzwyboAev69oscLXC1G0glhTxijkVcw4Y=;
-        b=UuSw1Eb7bm0C4i9se9AqNtX3YBPabwRl+5jYQvhcSbQZYSxplLGaXyUmkQY4ujwvTO
-         edTM9aoq8BqU+jdNTMfkKv0+K20oomHjXVQwJDcWwdBUEFK4ShiuNxCKh7BnJ6U6xYre
-         TsPA2y9Y2EI/BlBH07rPegkcszz/8sTO4Ju8vMcCeIs7g8iXyAR4eLadRVUKTr8rz9+T
-         gOsfTRlPa8JfXsXWhM0tgR6kpxj2nS64d9LwwA08FIqtIG83MK2cx3pidMLe3rGkvvic
-         rVTyeHUd4q+PVjgrGia1kLZpJ2pI3w+pQrWcl1PV3z7+2hFbjDsjxZGEKzs+t237Mead
-         hXnA==
-X-Gm-Message-State: AOAM533j8AbPC9V0389poZhCM1Fh+ueqLIfoAmkFeIogGIGDfwA1Mlte
-	GXoqq2cwi9zGfpH4LDwiJsoCwhOCDsZVJQ==
-X-Google-Smtp-Source: ABdhPJykse8CDE64k8l9vki1Bty635yQfKK0atm1d82EaybW4gN2ERiAPu4QM5uvHlniPL2+uSIfzg==
-X-Received: by 2002:a17:902:8697:b029:e3:9724:e260 with SMTP id g23-20020a1709028697b02900e39724e260mr419007plo.31.1614295759310;
-        Thu, 25 Feb 2021 15:29:19 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id n21sm7414208pgf.26.2021.02.25.15.29.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 15:29:18 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] oeqa/pam: Need shadow installed for the tests
-Date: Thu, 25 Feb 2021 15:29:16 -0800
-Message-Id: <20210225232916.1646170-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: electromag.com.au, ip: 203.30.46.146, mailfrom: preid@electromag.com.au)
+Received: (qmail 11397 invoked by uid 5089); 25 Feb 2021 23:56:22 -0000
+Received: by simscan 1.2.0 ppid: 11360, pid: 11362, t: 0.0654s
+         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
+Return-Path: <preid@electromag.com.au>
+Received: from unknown (HELO ?192.168.0.22?) (preid@electromag.com.au@203.59.235.95)
+  by anchovy3.45ru.net.au with ESMTPA; 25 Feb 2021 23:56:21 -0000
+Subject: Re: [OE-core] Pseudo Abort errors
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+  "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
+ <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
+From: "Phil Reid" <preid@electromag.com.au>
+Message-ID: <a9ad3dda-2c99-f1d9-0fd4-50ef1f462ee3@electromag.com.au>
+Date: Fri, 26 Feb 2021 07:56:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-AU
+Content-Transfer-Encoding: 7bit
 
-Distros may not use shadow for login manager
-secondly login --help returns 1 only with shadow provided login
-utility, with busybox it returns normal 0, the testcase clearly
-assumes shadow being part of image, therefore add needed
-checks to ensure the pre-requisites are met
+On 25/02/2021 18:29, Richard Purdie wrote:
+> On Thu, 2021-02-25 at 08:28 +0800, Phil Reid wrote:
+>> G'day,
+>>
+>> Not really sure where to look for this. But started to get random build failures
+>> with the pseudo client.
+>>
+>> Failures are contained to populate_sdk
+>>
+>> Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
+>>
+>> I've also tried a psudeo_git.bbappend with:
+>> SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
+>>
+>> Which looks to be a pending commit on the list.
+>> Unfortunately it didn't help.
+>>
+>> Here's what I think are the relevant parts of the log are below.
+>>
+>> "rm -rf tmp-glibc" and a rebuild resolves the problem.
+>>
+>>
+>> Any thoughts?
+> 
+> Which branch and which packaging backend are you using?
+> 
+> There is a bitbake.conf patch on the list changing PSEUDO_IGNORE_PATHS
+> which would probably help but I need to understand that doesn't have
+> side effects and I don't have enough data to do that yet.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Check for dependencies instead of trying to run it without shadow
+G'day Richard,
 
- meta/lib/oeqa/runtime/cases/pam.py | 3 +++
- 1 file changed, 3 insertions(+)
+I'm on the dunfell branch, using package_ipk.
 
-diff --git a/meta/lib/oeqa/runtime/cases/pam.py b/meta/lib/oeqa/runtime/cases/pam.py
-index 271a1943e3..a482ded945 100644
---- a/meta/lib/oeqa/runtime/cases/pam.py
-+++ b/meta/lib/oeqa/runtime/cases/pam.py
-@@ -8,11 +8,14 @@
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfNotFeature
-+from oeqa.runtime.decorator.package import OEHasPackage
- 
- class PamBasicTest(OERuntimeTestCase):
- 
-     @skipIfNotFeature('pam', 'Test requires pam to be in DISTRO_FEATURES')
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(['shadow'])
-+    @OEHasPackage(['shadow-base'])
-     def test_pam(self):
-         status, output = self.target.run('login --help')
-         msg = ('login command does not work as expected. '
+I found the patch for bitbake.conf and I'll give that a go here.
+
+
+
+
 -- 
-2.30.1
+Regards
+Phil Reid
 
+ElectroMagnetic Imaging Technology Pty Ltd
+Development of Geophysical Instrumentation & Software
+www.electromag.com.au
+
+23 Junction Parade, Midland WA 6056, AUSTRALIA
+Ph: +61 8 9250 8100
+Fax: +61 8 9250 7100
+Email: preid@electromag.com.au
