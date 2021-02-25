@@ -1,70 +1,87 @@
-Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
- by mx.groups.io with SMTP id smtpd.web08.695.1614274514941238009
+Received: from avasout03.plus.net (avasout03.plus.net [])
+ by mx.groups.io with SMTP id smtpd.web11.746.1614274625780221904
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Feb 2021 09:35:15 -0800
+ Thu, 25 Feb 2021 09:37:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4Dmg0c0ZlFz5tlB;
-	Thu, 25 Feb 2021 18:35:12 +0100 (CET)
-Date: Thu, 25 Feb 2021 18:35:10 +0100
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Drew Moseley <drew.moseley@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] DTC_FLAGS with devshell
-Message-ID: <20210225173510.27uhyrgteq56kdcb@qschulz>
-References: <be6caeb7-3822-a710-be04-9b57f658331e@moseleynet.net>
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=PScHxLcH;
+ spf=fail (domain: mcrowe.com, ip: <nil>, mailfrom: mac@mcrowe.com)
+Received: from deneb.mcrowe.com ([80.229.24.9])
+	by smtp with ESMTP
+	id FKZZl6xKuEfgXFKZalwMCa; Thu, 25 Feb 2021 17:37:16 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=WomwzeXv c=1 sm=1 tr=0
+ a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+ a=qa6Q16uM49sA:10 a=-An2I_7KAAAA:8 a=pGLkceISAAAA:8 a=z7B6_g-hddE48n1r7-kA:9
+ a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	 s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=zE+kVUw/WU/UZyl/leKnKS3CSe80MfVoGE+fZinWmtA=; b=PS
+	cHxLcHK9nf6ETgf2jI078/ISHCOgqSrS7WSwW8otM54Zg42iFqQVAgBLtxl0Q34bfxhw3uyosGAW3
+	sfj0z45lZvrEmLFQDItsGnF9C3Ixt81FSwRZRYSPIYhdP8nUJ1/P0SDfpe1cMbUxtoWSR6WRmnEnS
+	JGmX8TP/TGG3UiUbkqaav1JHcZuSzaJouX7IOMhSmZIpcWztoJTWZFaVucfyy3/LFN/+s+v439RRm
+	N/DkeJVf/VQdDnKkR0OSV7byWK1GnjyrfTU2cmmFGVn6eajuEHl0FLXsGj1iDYM9LUiOFKLl7TyI4
+	CoiUMhdUi5u47E59nnYgIVnJPrgyOnOA==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1lFKZY-0000cE-AF; Thu, 25 Feb 2021 17:37:08 +0000
+From: "Mike Crowe" <yocto@mac.mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gcc-sanitizers: Move content from gcclibdir into libdir
+Date: Thu, 25 Feb 2021 17:36:53 +0000
+Message-Id: <20210225173653.2408-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <be6caeb7-3822-a710-be04-9b57f658331e@moseleynet.net>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-CMAE-Envelope: MS4wfPWW79o6HOqttPtGzKwYIu85CdZLklSY6Guy2qt9FlNSTL0AUm8qoKyQPkV1bQ4BJDt4aXkCsEyvAUR6DWA2A9AnCc1g+svwantP2b9UeDPBavAM5Oft
+ r0Lgfpa1JSuFIfDW+89cGJgUsdhB/KX8GJRVyA2yAeN3ETP6bAyIu0psmt1SfdMvT+xQ7KQFcf7dKg==
+Content-Transfer-Encoding: 8bit
 
-Hi Drew,
+In e9e5744ba8b0d43c8b874d365f83071ce20bf0a1, Khem Raj wrote:
+> OE does not use the traditional /usr/lib/gcc prefix to store
+> gcc-runtime it basically is moved into libdir, however some newer
+> files were installed by newer versions of gcc especially libgomp (
+> omp.h openacc.h ) into gcclibdir, so we have content in both
+> directories, this confuses other tools which are trying to guess the
+> gcc installation and its runtime location, since now we have two
+> directories, the tools either choose one or other and we get
+> inconsistent behavior, e.g. clang for aarch64 uses /usr/lib but same
+> clang for riscv64 chose /usr/lib/gcc
 
-On Thu, Feb 25, 2021 at 12:00:47PM -0500, Drew Moseley wrote:
-> Hello,
->=20
-> I'm having difficulty using "bitbake -c devshell virtual/kernel" to
-> build dtb files properly. In our case, we set "DTC_FLAGS=3D-@" in recip=
-e
-> metadata to ensure device tree overlay support is available. It all
-> works fine when run as a standard build.=A0 In the devshell, that varia=
-ble
-> is not respected by default. I do see that there is an EXTRA_OEMAKE
-> environment variable with HOSTCC, HOSTCPP and DTC_FLAGS set but when I
-> try to invoke "make ${EXTRA_OEMAKE} dtbs" it gets a weird argument
-> parsing error presumably due to shell globbing, quotation mark
-> processing etc:
->=20
->     # make ${EXTRA_OEMAKE} dtbs
->     make: invalid option -- 'y'
->     make: invalid option -- '/'
->     make: invalid option -- '/'
->     make: invalid option -- '/'
->     make: invalid option -- 'E'
->     make: invalid option -- '"'
->     Usage: make [options] [target] ...
->=20
-> If I manually copy/paste the value of EXTRA_OEMAKE onto my make
-> invocation it works. If I just add the DTC_FLAGS it also works (ie "mak=
-e
-> DTC_FLAGS=3D-@ dtbs").
->=20
-> Is there a better mechanism for handling this?
->=20
+> This change ensures that OE ends up with single valid location for gcc
+> runtime files
 
-There's a recent patch for this:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/classes/kerne=
-l-devicetree.bbclass?id=3Dff036cbb77124867a6c6f97ca206b4fd3ee00c70
+I think that the same thing needs to happen in gcc-sanitizers.inc,
+otherwise I get errors like:
 
-Reading the commit log, it seems you could use KERNEL_EXTRA_ARGS right
-now.
+| .../recipe-sysroot/usr/include/gpg-error-64.h:884:11: fatal error: sanitizer/lsan_interface.h: No such file or directory
 
-Cheers,
-Quentin
---=20
-StreamUnlimited Engineering GmbH
-High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
-Fax: +43 1 667 20 02 4401
-quentin.schulz@streamunlimited.com, www.streamunlimited.com
+when attempting to compile with sanitizers enabled.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index 668e14a59f..67b755edf8 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -35,6 +35,11 @@ do_compile () {
+ do_install () {
+     cd ${B}/${TARGET_SYS}/libsanitizer/
+     oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libsanitizer/ install
++    if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
++	install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include
++	mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BINV}/include
++	rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include
++    fi
+     if [ -d ${D}${infodir} ]; then
+         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+     fi
+-- 
+2.20.1
+
