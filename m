@@ -1,77 +1,80 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web09.8926.1614344480660032875
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.9088.1614345585665981241
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 05:01:21 -0800
+ Fri, 26 Feb 2021 05:19:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wo0r3bNw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id p3so7385829wmc.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:20 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L1c8bGXb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id b3so8556413wrj.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=a16cZXFUJCdEGthtdYpFDaEoiGTn2Ql2Tu0mH+QSkis=;
-        b=Wo0r3bNwTu83WOs6NNLMPe+GA6ASVpNLU80GRcyvmC6s6+4pAXeKXO3Xj+XXQuI/0L
-         tA9VlylMT/J7+90zjVJKZPWpFmsKxcSWOgokksBSBBlQkOYxw/RTXTKqXaJ1NYsj9ULy
-         vjiPbjYqriraYN6uRny8eQcIVMpDlFu8++F4s=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=M/xHeqhZysWs+HVyF739v8a/CI/EsviATV3zyzAVlCE=;
+        b=L1c8bGXbJUjODA6nTiLAyLCLY7b44nqZWX3v6fpoPyX3cVzW59NCQvdLvKeMYEHfLL
+         OhRf/Eg1SwEAIKxOuccZ0QK41jDIPgYwVH+klTheYKEs6Mgtgly7A88GLx6NM3SfbMUi
+         tr28UZQwdo2oQ1Tx8oEMhGslB5NJN1ZxDhY1I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=a16cZXFUJCdEGthtdYpFDaEoiGTn2Ql2Tu0mH+QSkis=;
-        b=MmVH3HW45R3x5kadJ32J5qSPLDgbSZS3hPiSmftpdgq/X9UYSpjnWN+ekRWu8NRZY6
-         uu1Mw053VbkkYyuN52tgqVs/70fCg/jHYXNuOU3j2G5bzCd9a945zvuQnGYHFYg7vFqF
-         gD5BRYJ93BQZUvZ8MrgoNM8NtngDT2X6viKFleENr0Fkk4QwOdzp1gt9lConF9GNRf8H
-         QhdV5Lz9XuZHjWbviO3BX6wS4BRoTaUhqc/Jg8MjwdsMzzhAV/zH8jR6SkEoyaoOaIiZ
-         odUbvkBCp6lk5ODw/EijhCgeoB3TE+aNVOkZFxkHNwQwJKso0mEozBwd7sNXYs/kVF45
-         AIEA==
-X-Gm-Message-State: AOAM531ejEngvqMm2n/n/Z8DEe+kLhtNgPx96RD026+61r9Q4EIrgFhp
-	84IakWVJCPIa0HqLy++jdmhJ0Sz88eAr5w==
-X-Google-Smtp-Source: ABdhPJyCcyqtZ5tuU8TBq2SboBCZFlGr/ecu8D1/kbL/SjCBnQKCQImKs814ZY46gE2mHb6SnaefoA==
-X-Received: by 2002:a1c:4903:: with SMTP id w3mr2767885wma.143.1614344476374;
-        Fri, 26 Feb 2021 05:01:16 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=M/xHeqhZysWs+HVyF739v8a/CI/EsviATV3zyzAVlCE=;
+        b=n4nZaLOA05qGw6WwcEhmwNV9j2WdZ8ChUXfF/jjXCtlK/Mfn0YO/qRPZXP0R0G9Esf
+         ZxsCWZXBaZPbOcdYpcXBnsTd9qOpQVX9YLML1k/7vbCYpTOGncUwWDnbek6s5nrTS5Qb
+         Ejv6xQTMAfb0P/HFOmwHXxT9aYlAE7fJYf3NJSqbuo9CJXOOtPUN7pXCf1/2PyvatLSG
+         WmXys8IOQ3P+fUE89USx4mbkEYPMSBSC3Oe2C2WEG/GJvN7LG5naVuBBN0hGvcW1MLWI
+         CQBYSCRM3LMpsjks78r5WTgRu/D7rY45tDRmW1c+rV1IOs5SbL2pJk8kJwOGJ2UpPjq7
+         9Dgg==
+X-Gm-Message-State: AOAM532Nf9tLQX6ayxzqFyAIvfMwrE8tXPc0HtCmL4P2K5+UV1nFCKhF
+	SA/an22QXepNg1jvWXbIlqBm8Q==
+X-Google-Smtp-Source: ABdhPJxeWPj2F/y5klWrUHI9CdSRcThGvItXbLM3xV7G/VTiBLutHkF6eJOWYYgV+LOKDHUN7q+7pA==
+X-Received: by 2002:adf:f0cb:: with SMTP id x11mr1849752wro.206.1614345583904;
+        Fri, 26 Feb 2021 05:19:43 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.15
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f? ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
+        by smtp.gmail.com with ESMTPSA id u4sm4844400wrm.24.2021.02.26.05.19.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 05:01:15 -0800 (PST)
+        Fri, 26 Feb 2021 05:19:43 -0800 (PST)
+Message-ID: <53900be46ea10c63824c84f999e98b874a187510.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] ffmpeg: add ptest install for ffmpeg
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/13] bitbake.conf: Split PSEUDO_IGNORE_PATHS to be more readable
-Date: Fri, 26 Feb 2021 13:01:06 +0000
-Message-Id: <20210226130106.3925837-13-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
-References: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
+To: suji.velupillai@broadcom.com
+Cc: openembedded-core@lists.openembedded.org, Jonathan Richardson
+ <jonathan.richardson@broadcom.com>, Scott Branden
+ <scott.branden@broadcom.com>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Date: Fri, 26 Feb 2021 13:19:40 +0000
+In-Reply-To: <CAJHBTCAnhk=5-EbbKeMTNY7w+98Zq+FdL4uG0yjJR7T9rGN99g@mail.gmail.com>
+References: <16663BAB94E51B8F.6890@lists.openembedded.org>
+	 <CAJHBTCAnhk=5-EbbKeMTNY7w+98Zq+FdL4uG0yjJR7T9rGN99g@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-We've had a lot of concern about the readability of diffs of this
-path setting, refactor to avoid long line length.
+On Thu, 2021-02-25 at 10:12 -0800, Suji Velupillai via lists.openembedded.org wrote:
+> This change got dropped from the master-next branch.
+> Did it break any builds? Is there anything I can do to help to get this change accepted?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Sorry, there was a bit of a mixup in the triage process and this
+took longer to work through than expected.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 48af17fbf76..ecd4d1638ea 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -683,7 +683,10 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
-+PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR}"
-+PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
-+PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
-+PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
- 
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
--- 
-2.27.0
+Yes, I'm afraid it did fail in testing, there was a reproducibility issue:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/34/steps/12/logs/stdio
+
+which says that the ffmpeg-ptest package has paths which change
+depending upon the directory it was built in.
+
+This is bad, firstly as a reproducibility problem, but secondly as
+those paths won't make sense on target so they show something else
+is wrong.
+
+I was a little concerned that it appeared you're copying the entire
+source into the ptest package too, not sure we need everything?
+
+Cheers,
+
+Richard
 
