@@ -1,130 +1,119 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.8927.1614344475186331366
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web09.8924.1614344475216524701
  for <openembedded-core@lists.openembedded.org>;
  Fri, 26 Feb 2021 05:01:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VCOoma5T;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id w11so8482016wrr.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gi9yWxsN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id 7so8516733wrz.0
         for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WM1PtK0hJWZZufVbQ7X38IGoVzk002/fu+bAuIQoGiY=;
-        b=VCOoma5T4lsVOKME/DtEEW4+AoEVeUHOlTvm6pAKA/fncgH9ZAQf2wzqSMD7tsYBah
-         44yZ1DZWd2gHh4NXcc+ixNZG0iC8E6apJPfuQqoH0fY6M8ferpthC1pppMnjV72FKYx1
-         ZE79OY65aJEmLRFC3HtHPTbY0SSw2s4d7jn0Q=
+        bh=9NmN8SeubZc4lHBTOgcPzNhpDnzAyLf4Yox9pFPBRPE=;
+        b=gi9yWxsN7jBpxS8MMsPYsr/qCRrS5rW6ilM3R9raz8Fo6vmnNrBR9Sbb8duG+O6AL1
+         ByBl95rwg0MGmKI1odFX6EAuEjX9cDoeuE52PTgUu6VhAKiXaF//ge1rVhlfVKvA5xCz
+         M1EJCpTmDSJ53+lXxzmeLm6JRioa8kunxuzpo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WM1PtK0hJWZZufVbQ7X38IGoVzk002/fu+bAuIQoGiY=;
-        b=Q7Z80KYKnJkN7tnvXdmObDUKAPcX41EK81qpy1SYAFTcQvPgepEunIrlFIRGWXAbJC
-         we094mh+9Piks9nNhGYP+0khSJlDUSX++8ydZ/3sy8rETi9ldK3HDksO42cG3UD+UjRL
-         fFQdQe+HDHKjywWNKAluWTr8117TE9W5WmHcV/jjug4eveS8BkzzUEfEuW8QS2UgpJjL
-         +oxP6ZeF0+T+pz7056pTCh46qq8bJevUBwldsQ/rYi955RIC7wEd/UQTLx+VPXT2J2cx
-         ezDeE4LE2V80zOYSnD7AtdZxkCK0RXcaKLj9Ry0CtZnZ1LQkfihrez3YG9zfOEz4V8TB
-         /95Q==
-X-Gm-Message-State: AOAM532NRugSrLfA1pk36H3ErR3bLq2bjWKapowM4CatP1NdACN+680R
-	liEsLP1ZyRE7GqrzqJiTSBWD5zMtCR48KQ==
-X-Google-Smtp-Source: ABdhPJwpgMDDaBY7VcoDvXCwPkbQMc/P9fl5iLcXVu/YKGPgQuyxCvl29DsPvXleXTTZttIgGEtHmQ==
-X-Received: by 2002:adf:a2c7:: with SMTP id t7mr3164621wra.42.1614344473474;
-        Fri, 26 Feb 2021 05:01:13 -0800 (PST)
+        bh=9NmN8SeubZc4lHBTOgcPzNhpDnzAyLf4Yox9pFPBRPE=;
+        b=rMzOQ0G+WX1Di7X+vp2o3nr9omvmcPnYOei1lmqrDC0axa5QiDXDPlfnfY3Bomd1T8
+         xGg7MP4NPd2vGoV4UQvYOSncaL7/a+B24V2utq8hugP5IwLwiGpSXamSV/lvcR57uJTS
+         tf8BIm8d/jbczr7lH0e1bnAxrKXoEwxS2murv97Zfp15TqGg+U/JiV3K3pKGhdb/ExjF
+         q+eM01x9zPeomb4FHgHzgOjDJb4tlnfItX/rR14hvSvQuz/uW7iRaIIATJBeJlUE1A4t
+         r9zDBXn8Iay97T6orSrgjJATbfAGh1S3sfntzHbjWwp5+hEztNr1F41anWuDgVh2lawl
+         ZT8g==
+X-Gm-Message-State: AOAM530u43cb/q/Xe1fMORvPFlPuhQek3+I+jZsfQP6PzuN34qpwQeML
+	O/GPygNs0++/9X8HsExB6Hq5f5CL6pzRTQ==
+X-Google-Smtp-Source: ABdhPJxhR6rkg77hO5jT9Lr9MY5ZYxTRWYLyZUftBReQJSUgrD3zhdSA8k/Vxnn1yW2Q0L7Ps9RUEQ==
+X-Received: by 2002:a05:6000:107:: with SMTP id o7mr3085063wrx.87.1614344471783;
+        Fri, 26 Feb 2021 05:01:11 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.12
+        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 05:01:13 -0800 (PST)
+        Fri, 26 Feb 2021 05:01:11 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/13] libsecret: Improve determimism
-Date: Fri, 26 Feb 2021 13:01:01 +0000
-Message-Id: <20210226130106.3925837-8-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/13] epiphany: Fix reproducibility issue
+Date: Fri, 26 Feb 2021 13:00:57 +0000
+Message-Id: <20210226130106.3925837-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 References: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+We don't want to encide BUILD_ROOT into target packages. This is used
+for build time tests but in our case those would be on target anyway
+do use the target paths.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py  |  2 -
- .../libsecret/libsecret/determinism.patch     | 37 +++++++++++++++++++
- .../libsecret/libsecret_0.20.4.bb             |  2 +
- 3 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/libsecret/libsecret/determinism.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
+ .../recipes-gnome/epiphany/epiphany_3.38.2.bb |  1 +
+ .../epiphany/files/migrator.patch             | 24 +++++++++++++++++++
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/migrator.patch
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index ec8ac0bcc84..03a29241c7d 100644
+index 9c24706c667..8af38151dd1 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -41,8 +41,6 @@ exclude_packages = [
- 	'libaprutil',
- 	'libhandy-1-src',
- 	'libid3tag',
--	'libsecret-dev',
--	'libsecret-src',
- 	'lttng-tools-dbg',
- 	'lttng-tools-ptest',
- 	'ltp',
-diff --git a/meta/recipes-gnome/libsecret/libsecret/determinism.patch b/meta/recipes-gnome/libsecret/libsecret/determinism.patch
+@@ -30,7 +30,6 @@ import datetime
+ exclude_packages = [
+ 	'bootchart2-doc',
+ 	'efivar',
+-	'epiphany',
+ 	'glide',
+ 	'go-dep',
+ 	'go-helloworld',
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+index 70148c96d8b..a9440af35ef 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+@@ -13,6 +13,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
++           file://migrator.patch \
+            "
+ SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
 new file mode 100644
-index 00000000000..ad96e8f59bf
+index 00000000000..a9a650a64ad
 --- /dev/null
-+++ b/meta/recipes-gnome/libsecret/libsecret/determinism.patch
-@@ -0,0 +1,37 @@
-+secret-enum-types.c/h.template: Fix reproducibility issue 
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -0,0 +1,24 @@
++We don't want to encide BUILD_ROOT into target packages. This is used
++for build time tests but in our case those would be on target anyway
++do use the target paths.
 +
-+When full filenames are used in generated sources it makes the resulting
-+debug packages non-reproducible. Best practise is to use basename in
-+comments instead.
++Upstream-Status: Pending
++RP 2021/2/25
 +
-+Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/68]
-+
-+Index: libsecret-0.20.4/libsecret/secret-enum-types.c.template
++Index: epiphany-3.38.2/lib/ephy-profile-utils.c
 +===================================================================
-+--- libsecret-0.20.4.orig/libsecret/secret-enum-types.c.template
-++++ libsecret-0.20.4/libsecret/secret-enum-types.c.template
-+@@ -23,8 +23,8 @@
-+ /*** END file-header ***/
++--- epiphany-3.38.2.orig/lib/ephy-profile-utils.c
+++++ epiphany-3.38.2/lib/ephy-profile-utils.c
++@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const c
++   argv[i++] = NULL;
 + 
-+ /*** BEGIN file-production ***/
-+-#include "@filename@"
-+-/* enumerations from "@filename@" */
-++#include "@basename@"
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
++ #if DEVELOPER_MODE
++-  argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
+++  argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
++ #else
++   if (debug)
++-    argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
+++    argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
++ #endif
 + 
-+ /*** BEGIN value-header ***/
-+Index: libsecret-0.20.4/libsecret/secret-enum-types.h.template
-+===================================================================
-+--- libsecret-0.20.4.orig/libsecret/secret-enum-types.h.template
-++++ libsecret-0.20.4/libsecret/secret-enum-types.h.template
-+@@ -27,7 +27,7 @@ G_BEGIN_DECLS
-+ 
-+ /*** BEGIN file-production ***/
-+ 
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
-index 96f6460181d..4b6b2172e4e 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
-@@ -13,6 +13,8 @@ inherit gnomebase gtk-doc vala gobject-introspection manpages
- 
- DEPENDS += "glib-2.0 libgcrypt gettext-native"
- 
-+SRC_URI += " file://determinism.patch"
-+
- SRC_URI[archive.sha256sum] = "325a4c54db320c406711bf2b55e5cb5b6c29823426aa82596a907595abb39d28"
- 
- GTKDOC_MESON_OPTION = 'gtk_doc'
++   g_spawn_sync (NULL, (char **)argv, envp, G_SPAWN_SEARCH_PATH,
 -- 
 2.27.0
 
