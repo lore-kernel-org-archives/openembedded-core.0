@@ -1,76 +1,105 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web11.15175.1614370193648725091
- for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 12:09:53 -0800
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web10.16509.1614375858070036724
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 26 Feb 2021 13:44:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GFGbCunA;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id q85so10373847qke.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 12:09:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pE9fiUon;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: vivien.didelot@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id b3so7696410qtj.10
+        for <Openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 13:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=PjQK4p0SkjqrDOaFY3RJmHMscJ7kIa/YCHQjrrxEcuw=;
-        b=GFGbCunAgQheVFADizk7cj/VMM2a8Y9MjrdfSJ6zz1I3z361ZS3m+P2XATya+9viRz
-         gO3GMVK9FZ8Nb/7zLZpZqqFcZMZYXY4vaRgi9q2FBVyeDs9wfayE0PXUcSH6zLCuqRQG
-         hL+WL3LsnvRAUGNroo2XT/Ejm5tRpnvBNOzInou2GA17NBGMug6CkOXYNQ57SKXiBZq7
-         5sDD0Bkb3jSIkzJihEnxiZ6W3kYJQQHSQozgYNO8vEFakybgcu5I0qac85RS92SxMPHl
-         fZWLpkUmVQUedZ5B7Q9YQA9BOJ6yezj6KRBYSUWXNVol74TYD833E49tav7lM8QjLf/W
-         Q/rQ==
+        h=date:message-id:from:to:cc:subject:in-reply-to:references
+         :mime-version:content-disposition:content-transfer-encoding;
+        bh=uN2FqhLVJG9XhjTLjfNxNLqYkxpgTZS1Z10eos+KGLw=;
+        b=pE9fiUonBee7Poz2lqLtDHugsX0SDwufebYlWrY2L359tO4+JBA6gJWLIGrg3lKHoy
+         hAmbBcTCZSsrx9MJpXbkvi+dfWcuxZnJvToT0tuWvbC/wTXMSC+uduIMrDbOeMuz02VG
+         xsFFpTncnTStTHgSe884jgXe+Jw+1aqtWSQpZ4A8FBmNul7GSThkmoK36fq7uVXp/gUL
+         7pr2lq+f2MYUA8JszppkJkPjHNvXAfuwIC3MtQO+ItHKhH/2SxeGbvjpLDizK5KT9CKZ
+         3Z2Ph2KGli2xEKJ271eQJ8uECrx8crXYHMICQxYks49SOfBltRNCMJopVpkZg2yl4H4x
+         O+jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=PjQK4p0SkjqrDOaFY3RJmHMscJ7kIa/YCHQjrrxEcuw=;
-        b=nSsWbynJcUiE6tQTGjjacquuB3AXneLtqg6v9DyuuevEYwZkZ0/AE2/NPR9RFSMiob
-         KyS7/LZsEoONC7CgDvivXEcystIUpE38wKoRPb0g939xuc/3ZFbf98QqKCbEVGVzWLd0
-         dEG6TPWrAtZ+GZxU3MvqGt2EiVmfzwfQJ37rdb9HkvGp756Rz9GZvSS0idDNPRlWoR2v
-         eslOJ+mp8q0KZnAHiN3MbxWl2uiKcoi2JOTFXgJ3b19IpCgguZv5Ufbn0arLEbjLRPPV
-         4bF84wulpD5vLZo/pQ+BNI2+RJrqJjfuESDNyjeoeE6dbGzdwFAyoBohibJnx+bEkldB
-         7zeg==
-X-Gm-Message-State: AOAM532+9UZu53BmriHhgZgQ2rgt4FGv75/v2B4MCxkEyxgD93THplb5
-	w1Gid4irtlqKas2Cg1jNKpKw1z9BauQI9dlQUuhaI+I48yFQqw==
-X-Google-Smtp-Source: ABdhPJyKhPEErnF2WbcANJ5TJMmYEBgXWEVEY0kJbFfPkgfyfvTyG9UsaTwCIGPbpDOikwe75DF1bmYWuhsA2M5PMHU=
-X-Received: by 2002:a05:620a:12ae:: with SMTP id x14mr4555878qki.25.1614370192454;
- Fri, 26 Feb 2021 12:09:52 -0800 (PST)
+        h=x-gm-message-state:date:message-id:from:to:cc:subject:in-reply-to
+         :references:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=uN2FqhLVJG9XhjTLjfNxNLqYkxpgTZS1Z10eos+KGLw=;
+        b=Q/Z0khBPFGoCvcovafVKLfX9eSqCJyM5fl6rnYFBUWuavvc4I+Sc60Uc4INCdg9U0v
+         WWY1JdkRpgzEA+opFAE1W5eKx8HAhL3CkX/cvs1pB0iPvwYVbu/TbXdughmC0KzZn25C
+         aQj/oPZr2OASqf0uM3J6uuQtFbDYgpiDQ8zb4pW76/xxd0Qqp/M13RSpreTLOrK2tNia
+         a/sPUhK5wxSiqhSak6PldHG4vEXRiihN4OQSqNf5UiKfIK+EILMnZU/gSIP7/qwOuqhE
+         aIG5Q/Fdp/44ACsUi+UScn7JZ1ao8kD4o8gvKUbNPP3cTkttAnGUPmwzbKD3yLYS1dKn
+         nJtA==
+X-Gm-Message-State: AOAM533PhLzh4n1S/PcjQIepmt9s7nwB4M9U4v98Qm99ih/CpW9DRZSP
+	ma2QLq0dDiI0WPAoMvswWXM=
+X-Google-Smtp-Source: ABdhPJzTwzoHnfXozOsu5L7uMPIQOgAjDmDSHqey/2+aB0yFtYKNvVE7ouYdRtiQ3i+GjK/zi1lrYA==
+X-Received: by 2002:aed:3165:: with SMTP id 92mr4552928qtg.233.1614375857125;
+        Fri, 26 Feb 2021 13:44:17 -0800 (PST)
+Return-Path: <vivien.didelot@gmail.com>
+Received: from localhost (modemcable249.105-163-184.mc.videotron.ca. [184.163.105.249])
+        by smtp.gmail.com with ESMTPSA id h27sm7264328qkk.49.2021.02.26.13.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Feb 2021 13:44:16 -0800 (PST)
+Date: Fri, 26 Feb 2021 16:44:16 -0500
+Message-ID: <20210226164416.GB3368366@t480s.localdomain>
+From: "Vivien Didelot" <vivien.didelot@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/3] systemd-container: sort RRECOMMENDS alphabetically
+In-Reply-To: <785033d6a9db81dbc5e4241451d103c5e226f8b9.camel@linuxfoundation.org>
+References: <20210225213848.2744615-1-vdidelot@pbsc.com>
+ <785033d6a9db81dbc5e4241451d103c5e226f8b9.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20210225212026.176719-1-raj.khem@gmail.com>
-In-Reply-To: <20210225212026.176719-1-raj.khem@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 26 Feb 2021 12:09:26 -0800
-Message-ID: <CAMKF1spAHPAgOcG_yg+yqygHL1qcySx=Nu4iJAc-aD7d+fcwEg@mail.gmail.com>
-Subject: Re: [PATCH] core-image-minimal: Raise size limit to 16M
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-this patch is not needed, for record I have
-EXTRA_IMAGE_FEATURES_append = " package-management
-ssh-server-dropbear" in config metadata which trips over the df test
+Hi Richard,
 
-On Thu, Feb 25, 2021 at 1:20 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> latest core image mimial/sysvinit has less free space
-> so df tests fail with
->
-> AssertionError: False is not true : Not enough space on image. Current size is 2717
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/images/core-image-minimal.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
-> index 19f27f8395..a48e634546 100644
-> --- a/meta/recipes-core/images/core-image-minimal.bb
-> +++ b/meta/recipes-core/images/core-image-minimal.bb
-> @@ -8,5 +8,5 @@ LICENSE = "MIT"
->
->  inherit core-image
->
-> -IMAGE_ROOTFS_SIZE ?= "8192"
-> -IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
-> +# 16M
-> +IMAGE_ROOTFS_SIZE ?= "16384"
-> --
-> 2.30.1
->
+On Thu, 25 Feb 2021 21:47:24 +0000 Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2021-02-25 at 16:38 -0500, Vivien Didelot wrote:
+> > Sort packages in RRECOMMENDS_${PN}-container alphabetically to avoid
+> > subjective sorting and ease future additions.
+> > 
+> > Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
+> > ---
+> >  meta/recipes-core/systemd/systemd_244.5.bb | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+> > index 70700820d7..aaed047e63 100644
+> > --- a/meta/recipes-core/systemd/systemd_244.5.bb
+> > +++ b/meta/recipes-core/systemd/systemd_244.5.bb
+> > @@ -447,9 +447,9 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+> >                          "
+> >  
+> > 
+> > 
+> > 
+> >  RRECOMMENDS_${PN}-container += "\
+> > -                         ${PN}-journal-upload \
+> > -                         ${PN}-journal-remote \
+> >                           ${PN}-journal-gatewayd \
+> > +                         ${PN}-journal-remote \
+> > +                         ${PN}-journal-upload \
+> >                          "
+> >  
+> > 
+> 
+> These look like ok changes to me but they're against an older version of
+> systemd, we currently have 247.3 in master. Would you be able to send
+> against that version please?
+
+Oops, I based my patches against latest "dunfell".
+
+They do apply cleanly on latest master though (containing systemd_247.3.bb).
+Do you wish me to resend them anyway?
+
+Also regarding patch 2/3, I placed "tar" in RRECOMMENDS because one can use
+machinectl without the "import-tar" subcommand, but one could argue that this
+subcommand is broken without a version of tar supporting --numeric-owner,
+thus could be a candidate for RDEPENDS. What is your view on this?
+
+
+Thank you,
+Vivien
