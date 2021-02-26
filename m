@@ -1,84 +1,89 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
- by mx.groups.io with SMTP id smtpd.web10.10070.1614349668459029557
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web08.9872.1614349673204550596
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 06:27:48 -0800
+ Fri, 26 Feb 2021 06:27:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yRQGVYrC;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.45, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f45.google.com with SMTP id u8so9749645ior.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wOxhof21;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.169, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f169.google.com with SMTP id v8so4510498ilh.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=nrraLnNj5BKJyoKSrqpWB3hBf5s49wuF0hNzkuDyu/o=;
-        b=yRQGVYrCumu316PEHaG0TykxgkH2d03y9Ty9js8zwW1mt+MpMRFaqJsCbkjskLblJV
-         6bj+602wn6+cjcFK06+u90sZRuxYhCzSobumA3UriguCfi/gw5f/dh7k8kWiKd/AueVZ
-         1oftsuVo/pBGiGxO4dqV+F9+VzXgiut4bJXdHXuQsQwDy3fDouq2EqDgSbVMbdO1o2aA
-         PTLgDZSAzsut43bM9QwGV6C1C5f/Qf72L2YZjbW2wNl8HBY4KFN2pmdMLPA8tTAPEz0X
-         n1I+BqMPzmAvrm3HgZ8qdbf6STzstbyiP4ffuWLcyOUWRDreFrxa8q0Tty6nv0drCj3b
-         KZCA==
+        bh=LP70i4ovxkzVLrsSSgCOW5NKyA6dOdtCBqCW7a5ZePc=;
+        b=wOxhof218J5WZcWywwoY0oFU7h8sIEY7sh7IPS7mErxIMvPkA3NTFMcT7hmwXX4TDz
+         uLOXJWwVmCmxl1Q9KYX2amCNqvDEJgG42Q6lnqkp1qzNO58xQJUopIcrTCmU0h+e0bhH
+         H2cJmvnAn5GBJ5aAzUIKhE8i9F9ELSvq1dFBAbqjYxKhCNZ76MxpNFEK60jz7tNRFLnP
+         SGKWiyw1oX/7g+9uOGOR7cvB6QLnzlbiY87E4ae2KrJBMMAOvHHj2PNexoECQpyAvJhZ
+         POaqJC1gSX3kCoqER1GqsEKehNzIgNXnfE05QrI/TDyzrVd7CNANkIqhDZdzxSHhkl3i
+         5ghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nrraLnNj5BKJyoKSrqpWB3hBf5s49wuF0hNzkuDyu/o=;
-        b=ljPf32NBaZrF/CE07E0cS+zkxjcWgRnaNPJO++Je28rp3bRyFAc1zCGLxIiO9dIe0E
-         T8fCCa834ui3zc50zMYJ8xS6XzoEnpKhqtPk2LZz8/Bi2vpr3o0GLpjUhXdUs1A0KLs6
-         FJVZ898nBnkQqaIJuxL03Q/rFkyuzgtFDksIWSzjNaM+vYobBI6BaCT4L6x5UGcSfhuk
-         Gm9l64aNEf0ADBOHdRtBt+ynhbXDCrAE/Bya+8LbvqDvEemI7vprnmIJ5q2xKoweBMOd
-         5kwKI0I1R1VC6nB+N35/4GMD+JR6nLPQCINbaHYjBJUGUfLT1Cy4Ckyou7YcJnemG43/
-         w0nA==
-X-Gm-Message-State: AOAM530IzE+zaM0Jwy+d0fO4ln+sZ7pW1BMi11VmYhWPKKeM+CsRtUFG
-	0ayQhL5P8R5zIgMsj6sV1E4ykdFvfP8UpteS
-X-Google-Smtp-Source: ABdhPJwRChHAxPnSmgFoffqBqJrzu+5hOyVhluSW1C/nvyTAeE4taMJA0J/TjBNz1IYLov+zyeYU8g==
-X-Received: by 2002:a02:77ca:: with SMTP id g193mr2887996jac.41.1614349667342;
-        Fri, 26 Feb 2021 06:27:47 -0800 (PST)
+        bh=LP70i4ovxkzVLrsSSgCOW5NKyA6dOdtCBqCW7a5ZePc=;
+        b=ZNcBGulmPG9EFHfO0is7/fDRKcjg/WUSMH8jCHr18DEP07wUE2mDvIMcGBqyGgCI9P
+         +eTx62UUu4EeW5aw5OOHIcYc4MK/6athBxy/NEc4MxPh2NLQ/USjg8hjuf1f9XTJjt9R
+         OlFvLEoTOeSadr+UP6UNmwsxfra2E2e5qFpbWirCpfmSVXEI7/PuqX6LIIQNX+B9usZY
+         6Q+OM//GoxcXw+P8gKoKoJMJAL1fIkpxIAy75KRR0uf14dh4Lxz7JiYa+t7TEEKHYO+A
+         iQc+G3tG75pgLVbds0Pi62v8ghA3xB6LO7B4Z0yvjdwXg9YF1Sj1Qs23SQUPh/FPrBzC
+         GrqQ==
+X-Gm-Message-State: AOAM532mZCIFsdxbrnHiYG561wKUPTJBDSMjOEWzwesl4o8Fqy4PUOIZ
+	aOwsJ8QlKsRPDV+QW1hTNYp6hRp4LJPdwGrE
+X-Google-Smtp-Source: ABdhPJygeHQkVrgyu92VA8yy3V7veFTPJZOkyjV+qXAHgODCJMtYCnnuhPgbrFCTllBorgwinzcseA==
+X-Received: by 2002:a92:c269:: with SMTP id h9mr2544544ild.239.1614349672157;
+        Fri, 26 Feb 2021 06:27:52 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.44
+        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 06:27:46 -0800 (PST)
+        Fri, 26 Feb 2021 06:27:51 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 33/40] weston-init: Fix weston-keyboard path in weston.ini
-Date: Fri, 26 Feb 2021 04:24:16 -1000
-Message-Id: <5b9cdcb3884fd999896fc18c55d3dc31c0f62f4a.1614348990.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 34/40] df.py: Add feature check for read-only-rootfs
+Date: Fri, 26 Feb 2021 04:24:17 -1000
+Message-Id: <4aff95b12879ca33fadc963fe4ab6d1172dbc971.1614348990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614348990.git.steve@sakoman.com>
 References: <cover.1614348990.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Marek Vasut <marex@denx.de>
+From: Wes Lindauer <wesley.lindauer@gmail.com>
 
-The weston-keyboard executable is installed into /usr/libexec
-instead of /usr/lib/weston , correct the path in weston.ini .
+If the target is using a read-only rootfs, the available space on '/'
+will be zero. This will cause the test to incorrectly fail and skipping
+seems appropriate in this case.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 56dee47a5ddb1da66d30f894a282d0658dcc930c)
+(cherry picked from commit af1dbea3c9b9b42a3e6803b231e425423d70e210)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/wayland/weston-init/weston.ini | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/df.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-index 1e6dff68fd..40c5195887 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -42,7 +42,7 @@ require-input=false
- #path=/build/weston-0lEgCh/weston-1.11.0/weston-flower
+diff --git a/meta/lib/oeqa/runtime/cases/df.py b/meta/lib/oeqa/runtime/cases/df.py
+index 89fd0fb901..bb155c9cf9 100644
+--- a/meta/lib/oeqa/runtime/cases/df.py
++++ b/meta/lib/oeqa/runtime/cases/df.py
+@@ -4,12 +4,14 @@
  
- #[input-method]
--#path=/usr/lib/weston/weston-keyboard
-+#path=/usr/libexec/weston-keyboard
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.data import skipIfDataVar, skipIfInDataVar
+ from oeqa.runtime.decorator.package import OEHasPackage
  
- #[output]
- #name=LVDS1
+ class DfTest(OERuntimeTestCase):
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['coreutils', 'busybox'])
++    @skipIfInDataVar('IMAGE_FEATURES', 'read-only-rootfs', 'Test case df requires a writable rootfs')
+     def test_df(self):
+         cmd = "df -P / | sed -n '2p' | awk '{print $4}'"
+         (status,output) = self.target.run(cmd)
 -- 
 2.25.1
 
