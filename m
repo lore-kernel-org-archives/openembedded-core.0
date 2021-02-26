@@ -1,104 +1,78 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.10995.1614353746172547585
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.11286.1614354778369829067
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 07:35:46 -0800
+ Fri, 26 Feb 2021 07:52:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XhtkMzUa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id n4so6737923wmq.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 07:35:45 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cF+zJ0Xg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id w11so9018886wrr.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 07:52:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=y0ISZfq87c9TzNeYsAVj9ElpOwFIKiMzJHBvtMjZgis=;
-        b=XhtkMzUaCwFO/fftOpFGXQbTOt0iQQu940Qv62SL1KK4F6v4vNRKzMFI/TcNtMFK3v
-         UK608okrQTLZa18TLUfSEpaUiG4NDxlvF1sM//NvdKSo9hSb9QJPG4TaKJgzeTYa6YWU
-         f5KleYsRRE/N494dCbWNlbbRafBwYsQ0OuotQ=
+        bh=2l72j7o3w3UaP1VCJb8Z86A2tLgq0AKtXaLfH+eiiGc=;
+        b=cF+zJ0XgLzPnbz4JHzQJT5oIWMflcaE1YsPKdTqxYBSd+mSScZlOjOh6ZVUEA10Dp6
+         UM+rpaJYjpntX6PeXaDptTwwk41aO9pcCwyWO1+APGPh+3cNOXmk/BNuTOBkfOOc87QN
+         2TLnU8WhhqbuPX+DNIKbuWrh/v25gubDqkxTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=y0ISZfq87c9TzNeYsAVj9ElpOwFIKiMzJHBvtMjZgis=;
-        b=aKdXRgeOGX/sfO5nfFL/RqKGtNg8jIT+Wu6zCup7LMHW3m2AcB15VIM9tOgzBKKDq3
-         Fo/BeMpBlrkpMeJ7GNFglWCH20so8iagb5CQa/CedHOeeF4oZm3jCu+9avN5dRC7z13L
-         1KZCRMi2cX5AYFxil3MDZPDj3d4r89yvYOyFBlyOrpyF/+BM0gbwjMNiXnKsU9iq5BcU
-         Rm02b2cOTnz0P4vbm89i9rNJNu9G9W9fNAZSFC57YwkXjoNZI+sYanNPHHy5X8lZQXL/
-         NciZVNAkJcQg0vL2upcM2zcGWE2FH6yByuJ6GBxV8Ou5J0NWaHmFCvgtZGbRm33MM4+X
-         XgGw==
-X-Gm-Message-State: AOAM532KrfwVqkIhnebM2OtOZ25rj+INamF11HVpMTPXuiOGmGpYikky
-	Y/NpODWu6bbq/44z/6PViwkMtdY1a02qIQ==
-X-Google-Smtp-Source: ABdhPJz09YdVEaLy76C6TdWOnKtCIc7vbk3QJYBlbBx8xDHgidQlRTs3KxvwyR9Q1HZF/k/bYxwQCg==
-X-Received: by 2002:a7b:c083:: with SMTP id r3mr3493180wmh.177.1614353744424;
-        Fri, 26 Feb 2021 07:35:44 -0800 (PST)
+        bh=2l72j7o3w3UaP1VCJb8Z86A2tLgq0AKtXaLfH+eiiGc=;
+        b=avf6TYwYz8ATG2upNLDlC7rPnkajBQvq/oKTABDg+OvSV7VoFXlphwC7/Lj4E4d/YW
+         G127yz0XRT0nFtFvH+M3KbxzQkT6eEgK7/XpWTUhvaVQPmh+XztyOaV+RndVVr6IiT/2
+         JKjbICTQFDt/5Dzsg4F15ysbzbYSmIW+iboA6yHROGUjL6w1Co4jFEodzQhV6z83hOE/
+         +0kOFjqPwXEhPQLP0S6JBQ5KZW6/IkO9e8+Acmb1AKDaX+bR8tRBj02whluNFDky90g0
+         I2sCHIyrUrA7OMjX9QnxOilTJ3Ka3X++0Jmj5p7tk63l7t8YhWXrwYFCXFeYTkt2mqgC
+         YL5g==
+X-Gm-Message-State: AOAM533s0WWGxR8gwllVzL15V5BElRBRQn7yOuQUTh9x9hnZgLDbMzsL
+	cUYZcV54ysqZezTO+rIYPd7vMA==
+X-Google-Smtp-Source: ABdhPJy7vbx3O/djQ1zOcEA/T4w2+OJo6zq2YCzyfeKuvgv+FeE7Q6+32p+Qe+ibQ1AwOJsoDqRtpQ==
+X-Received: by 2002:a5d:6b45:: with SMTP id x5mr3750418wrw.415.1614354776686;
+        Fri, 26 Feb 2021 07:52:56 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f? ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id z9sm13504824wrv.56.2021.02.26.07.35.44
+        by smtp.gmail.com with ESMTPSA id n5sm11585920wmq.7.2021.02.26.07.52.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 07:35:44 -0800 (PST)
-Message-ID: <bf929b0cc9adbaef4ef5c85f87c103559413c7c2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Pseudo Abort errors
+        Fri, 26 Feb 2021 07:52:56 -0800 (PST)
+Message-ID: <a20dc0e4746c01215213b7f1939a4f1198db769c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] vim: Improve reproducibility
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Phil Reid <preid@electromag.com.au>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Feb 2021 15:35:43 +0000
-In-Reply-To: <7598c82d-f65c-d2e1-828b-a1956c6e84f8@electromag.com.au>
-References: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
-	 <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
-	 <166722EB8505D42E.14505@lists.openembedded.org>
-	 <7598c82d-f65c-d2e1-828b-a1956c6e84f8@electromag.com.au>
+To: oobitots@cisco.com, openembedded-core@lists.openembedded.org
+Date: Fri, 26 Feb 2021 15:52:55 +0000
+In-Reply-To: <1666535551897E27.6890@lists.openembedded.org>
+References: <20210222164211.23449-1-oobitots@cisco.com>
+	 <1666535551897E27.6890@lists.openembedded.org>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-02-26 at 15:01 +0800, Phil Reid wrote:
-> On 26/02/2021 07:56, Phil Reid wrote:
-> > On 25/02/2021 18:29, Richard Purdie wrote:
-> > > On Thu, 2021-02-25 at 08:28 +0800, Phil Reid wrote:
-> > > > G'day,
-> > > > 
-> > > > Not really sure where to look for this. But started to get random build failures
-> > > > with the pseudo client.
-> > > > 
-> > > > Failures are contained to populate_sdk
-> > > > 
-> > > > Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
-> > > > 
-> > > > I've also tried a psudeo_git.bbappend with:
-> > > > SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
-> > > > 
-> > > > Which looks to be a pending commit on the list.
-> > > > Unfortunately it didn't help.
-> > > > 
-> > > > Here's what I think are the relevant parts of the log are below.
-> > > > 
-> > > > "rm -rf tmp-glibc" and a rebuild resolves the problem.
-> > > > 
-> > > > 
-> > > > Any thoughts?
-> > > 
-> > > Which branch and which packaging backend are you using?
-> > > 
-> > > There is a bitbake.conf patch on the list changing PSEUDO_IGNORE_PATHS
-> > > which would probably help but I need to understand that doesn't have
-> > > side effects and I don't have enough data to do that yet.
+On Tue, 2021-02-23 at 08:32 +0000, Richard Purdie via lists.openembedded.org wrote:
+> On Mon, 2021-02-22 at 08:42 -0800, Oleksiy Obitotskyy via lists.openembedded.org wrote:
+> > Override awk and perl path to avoid
+> > using local absolute path.
 > > 
-> > G'day Richard,
-> > 
-> > I'm on the dunfell branch, using package_ipk.
-> > 
-> > I found the patch for bitbake.conf and I'll give that a go here.
-> > 
+> > Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+> > ---
+> >  .../0001-vim-Override-perl-and-awk.patch      | 34 +++++++++++++++++++
+> >  meta/recipes-support/vim/vim.inc              |  3 ++
+> >  2 files changed, 37 insertions(+)
+> >  create mode 100644 meta/recipes-support/vim/files/0001-vim-Override-perl-and-awk.patch
 > 
-> With the following applied, so far today there's been no pseudo aborts.
+> Fails in vim-native unfortunately:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/26/steps/13/logs/stdio
+> 
 
-Thanks for confirming. I've added some changes in master-next which should
-have the same effect. Those should make it through the stable queue to dunfell
-but we need to get them into master to start with!
+I'm also a little puzzled as vim reproduces ok in master as far as I 
+know. Which configuration produces the issue? Is this a /usr/bin vs /bin
+issue?
 
 Cheers,
 
 Richard
+
+
 
