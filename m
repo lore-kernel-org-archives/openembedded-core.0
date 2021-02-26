@@ -1,100 +1,149 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web08.9833.1614349546488679728
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web11.9964.1614349551591629631
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 06:25:46 -0800
+ Fri, 26 Feb 2021 06:25:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mlVbo0Rn;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.173, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f173.google.com with SMTP id q9so8162994ilo.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:25:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Bko2ZAoU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.48, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f48.google.com with SMTP id e2so6493769iog.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ifNcojWIFtIviZB7yK1YaH4VsInsd/Jiq0f3BBgdCo4=;
-        b=mlVbo0RnnTS2Jyc4qiPcTRQgZ9h6Hzmy0JephnY3KUiO0lqXIBv+ly6gMtBQBmyj/j
-         FyqC13DFNB0Upz2RUPi7Wu2RjctLXJx7fbNKPsg4sck+bak58qtrzsda2U49MX3/nRmt
-         6UoAyhu0diXW+qLgqzBfTJW/laPWGPPPnO1VYi3vC9N08SRXlv5hTqEhLHwBbxuilLTq
-         FjwUUgMuv4SyhhPfqlRUIFb1+s+CuoqoE7Nsret3S04ToogpsLhqc/JedtIdkEVQQD7z
-         j10OjNnzlBX68bmAoXLSEsFsB67l0VRj80EHsa4oR5b0a0iD3ayLUPfnDh4UBkSEJfOO
-         Gs5Q==
+        bh=yh+lKp2LgGjRxlTtjxXu1zHhS706s+6TbfOG3n4/xd8=;
+        b=Bko2ZAoUC0r3VEw3ip7ngE+iV05VFi4nb17vx8EzBhJa81tt3/poi9LW4okWuLnR9R
+         Xthwa5GTB0L3v6OqBnTevIHKpRA05gPeh5Wn4yn6COY/lWH+sNwIqRcFOBsLDQcAd/q1
+         aXeR4L7i5uG3hnALTLftQXtPinmJHq4RTsTJlPuLSncVZcrKC/dUN3czxUcaSpDBYI1D
+         +XXCzvzcO6Syo8+cfL+ztrkBWSsAP/E/kKGUZeJ6WfF3bdeyDR5srwbDX4lLVQusXZJy
+         afIklr06fVbH9ZqwU7fIBgbNGQPRk61E2pHaC7pt0xu5ZbciDB2ngst0eBD5LU3xONYL
+         7lYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ifNcojWIFtIviZB7yK1YaH4VsInsd/Jiq0f3BBgdCo4=;
-        b=MclpWYoB8VQi/SVyhHfNfHHJrA1SLdLMQl4nci5PP1GIQCGgI7v9CC0oLdJHb1O/+p
-         EvDISiOOtp63oRgZeD8YdrQSIS8FVqkd80fz8WjMzFXcEfKmaHOVZeJnpKQ3PuCmZ8wo
-         G9KOQ5dv+15PjgiUTjB4JWYf8kgIE0WnLIdGHyIYeZDm7CQpdZx3Vg4wYWjTnQGjwpg4
-         SkUHRojRAEOz/5jP7WUPUCDfy2jkm4aWMpez25SnU9Cx03Q41BW2tCDVQxU9qFHcq+ob
-         i9JNzGurKpkOJzTp/CBgd8s7gczq1V+33zYargDcloqoaIqHF9WS0E3LjsGcxE9nrE1l
-         OGow==
-X-Gm-Message-State: AOAM530IuWoWLIidAuHbFfvSByroFPN59zht33NxlVcYGa8SpLlNMsMH
-	idXQbeUTOdeYXspwBQRYJa+DXPYNQKr4JVax
-X-Google-Smtp-Source: ABdhPJyxwJ3RtC+kUU79R1Vrnwf6CpBhWaOoxqd3FGEm79WZwdkAAREcWbv4LYwuT+pbimHJA1ChOA==
-X-Received: by 2002:a92:dc01:: with SMTP id t1mr2621591iln.192.1614349545313;
-        Fri, 26 Feb 2021 06:25:45 -0800 (PST)
+        bh=yh+lKp2LgGjRxlTtjxXu1zHhS706s+6TbfOG3n4/xd8=;
+        b=PsIsYuYY2JgoeWIovqfJg6qpPkmJiljycbZKXGyxmxCfb/LvOSzfBgSiwdb5GfKfM5
+         HE4Wi3Ct9al+NKluCDR1U+KNzaclDWnQUWM7jaeJ0cJKxEmr9CRG5J5OkDN9eT9Vs1am
+         Q5rXYREfgnD+JJPPUOvORU35UPQ/mvFGAzCmtVW3VUcV8B8nxNZPE2Wz5sXS1SwxYUif
+         OxOMA/uFjcq0IbPojPcGe8mtw2sYpOoqIuJOsSGHlZBgkuch339JGM3mXuzdIOnXoEfe
+         BemIikD0iisPppZ34swPeajSJ1COvJqvGpXOS8yzKZSNND6mjKmrvZO8Hla+ogZs8rJH
+         k7cg==
+X-Gm-Message-State: AOAM532RoOjYvAHeUSlX9vamJeqGnTjXkDf2qO64uMvR++PcxDmm1+Id
+	+fHPJ5dp/VNEKT/p1oiEEFqkU6P1x09/oo6q
+X-Google-Smtp-Source: ABdhPJwR2PaH0vnVh/l0ax3HCM1DflFx4fpXMCm+CzdqgTyWhES546AyfREzNFC08PzOJQfSYeDzmA==
+X-Received: by 2002:a5e:a804:: with SMTP id c4mr2990680ioa.71.1614349550363;
+        Fri, 26 Feb 2021 06:25:50 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.25.42
+        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.25.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 06:25:44 -0800 (PST)
+        Fri, 26 Feb 2021 06:25:50 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/40] connman: update to 1.39
-Date: Fri, 26 Feb 2021 04:23:52 -1000
-Message-Id: <078dcf9e389078b01fccd61747f0357ecc4af22c.1614348990.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/40] sudo: 1.8.31 -> 1.8.32
+Date: Fri, 26 Feb 2021 04:23:53 -1000
+Message-Id: <dddd33932d296d28993b13190f3886127cefb643.1614348990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614348990.git.steve@sakoman.com>
 References: <cover.1614348990.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: akuster <akuster808@gmail.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Bug fix only and includes two security fixes:
+release notes:
+https://www.sudo.ws/legacy.html#1.8.32
 
-CVE-2021-26675
-CVE-2021-26676
+updates include fixes for
+CVE-2021-23239
+CVE-2021-23240
+CVE-2021-3156
 
-Changelog:
-- Fix issue with scanning state synchronization and iwd.
-- Fix issue with invalid key with 4-way handshake offloading.
-- Fix issue with DNS proxy length checks to prevent buffer overflow.
-- Fix issue with DHCP leaking stack data via uninitialized variable.
+Also backport patch to fix build error with musl
 
-[Yocto #14231]
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eb20fd47d738f469f7bbeb4b8d85040f9163722b)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-(cherry picked from commit 1ec530801ae62bddeaa434d792ed9c2640f9eebe)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../connman/{connman_1.38.bb => connman_1.39.bb}               | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.38.bb => connman_1.39.bb} (78%)
+ meta/recipes-extended/sudo/sudo.inc           |  2 +-
+ ...Fix-includes-when-building-with-musl.patch | 29 +++++++++++++++++++
+ .../sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb}   |  5 ++--
+ 3 files changed, 33 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/sudo/sudo/0001-Fix-includes-when-building-with-musl.patch
+ rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (89%)
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/recipes-connectivity/connman/connman_1.39.bb
-similarity index 78%
-rename from meta/recipes-connectivity/connman/connman_1.38.bb
-rename to meta/recipes-connectivity/connman/connman_1.39.bb
-index 027c41e9af..df42e9ffb8 100644
---- a/meta/recipes-connectivity/connman/connman_1.38.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.39.bb
-@@ -9,8 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 5d27d46928..aeedfc1a23 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=07966675feaddba70cc812895b248230 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo/0001-Fix-includes-when-building-with-musl.patch b/meta/recipes-extended/sudo/sudo/0001-Fix-includes-when-building-with-musl.patch
+new file mode 100644
+index 0000000000..6ee2d5c11e
+--- /dev/null
++++ b/meta/recipes-extended/sudo/sudo/0001-Fix-includes-when-building-with-musl.patch
+@@ -0,0 +1,29 @@
++From f4e9e4337f8844d199515ff2b762c914dd254cbd Mon Sep 17 00:00:00 2001
++From: Dan Robertson <dan@dlrobertson.com>
++Date: Sat, 16 May 2020 00:12:44 +0000
++Subject: [PATCH] Fix includes when building with musl
++
++Include sys/types.h for mode_t and id_t in sudo_debug.h
++
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/f4e9e4337f8844d199515ff2b762c914dd254cbd]
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ include/sudo_debug.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/include/sudo_debug.h b/include/sudo_debug.h
++index 180f2096f..0124b0b19 100644
++--- a/include/sudo_debug.h
+++++ b/include/sudo_debug.h
++@@ -25,6 +25,7 @@
++ #else
++ # include "compat/stdbool.h"
++ #endif
+++#include <sys/types.h>
++ #include "sudo_queue.h"
++ 
++ /*
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+similarity index 89%
+rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.32.bb
+index 39d8817c32..8d16ec2538 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+@@ -3,12 +3,13 @@ require sudo.inc
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-Include-sys-types.h-for-id_t-definition.patch \
++           file://0001-Fix-includes-when-building-with-musl.patch \
+            "
  
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[md5sum] = "1ed8745354c7254bdfd4def54833ee94"
--SRC_URI[sha256sum] = "cb30aca97c2f79ccaed8802aa2909ac5100a3969de74c0af8a9d73b85fc4932b"
-+SRC_URI[sha256sum] = "9f62a7169b7491c670a1ff2e335b0d966308fb2f62e285c781105eb90f181af3"
+-SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
+-SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
++SRC_URI[md5sum] = "a7318202ba391079a0e32933f0fb8bd6"
++SRC_URI[sha256sum] = "5ce3c18c5efbecd5437a0945f314f1822423eaf9a2d7eb7ecf80857bc32246c5"
  
- RRECOMMENDS_${PN} = "connman-conf"
- RCONFLICTS_${PN} = "networkmanager"
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.25.1
 
