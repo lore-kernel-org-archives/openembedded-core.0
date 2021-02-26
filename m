@@ -1,128 +1,98 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.8716.1614344475955658653
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.8928.1614344476928896909
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 05:01:16 -0800
+ Fri, 26 Feb 2021 05:01:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OSh6/kas;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id v15so8517197wrx.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:15 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QKYJDUTh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id f12so4699418wrx.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=3XkR7LOsKGnvV1TpjNRWkWXnEgRMJjGKomXiIdcwuDA=;
-        b=OSh6/kasUzyo82xnFDmTh4MBdcHfF4w8rvIfRfmz1Z6Zv0m3/T2AU4+ynZBhAzYoeg
-         tFE97THtyj2kkYmJljTT43DymUC92lsxNcOVFIQ9h1ybPkuwfh/oPWQvMu3uMI1uI0FH
-         NwfDh37Fjbob6Vx6i4dcdN9v6kF2ilUJZ5QzM=
+        bh=B8AG7Uzc+yNyi3fbWRj/B57soWalxxKjJiUIjH8uHBs=;
+        b=QKYJDUThOHQEKrXZ4igCGbFLJp0Q3TxX/Zf4piEzbdcm6fXhQFjBfeffZJ0NVSGiJ1
+         L/hSL7yE77FX4VNrqhMrPvTexlfMIpeVfkNBnukg3+9Gkrfbr4gPYKU+e3xBMJNbCNRW
+         F5v/xoEJL6P+QDVXxPHM+T1g7wxvGJ2cQ6RhU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3XkR7LOsKGnvV1TpjNRWkWXnEgRMJjGKomXiIdcwuDA=;
-        b=i5ZCmoukGpn2XfUSTyaq4gmI4EsJIkUIdL7cX5P8Lf0F2BWWHEzD7ZGbiISeSWncQ1
-         /zhpFBVHVEScseHQiPSL86lfgjdoRs4H5+5Cz75seTWrH88pJ3rFN4S3hLDkzji1spGH
-         zu5DEmyQGUCwepSUXz1AVnoAKPyoBpEdAJZu8t7jS2Uek/LXtemsfUFRiDAq5Vtnabtl
-         uJL7IHdXZXMXSyKwyDT1snXeAq40YWuhaUa3xsNetcw8d6hZCzUkrJrJxuRd1rtmEMIT
-         RnUnqnwT9yqxcLHjjI2uHe+s/gmK08ZnA5KDgzPyWihRR5pzHAIVYNUFZZPb1lS2QIl5
-         5fwg==
-X-Gm-Message-State: AOAM531xfh9ayHDugYB5dhZsaSzuosP2oqzaPGADcqQM9N+HnioQr+A9
-	tTmUqm9arwjCAXfyFaYaZbzMp7bdDQF8kQ==
-X-Google-Smtp-Source: ABdhPJyHXA3w/Iu5w9KZP8bNzGh+ES4uFXY2/hUFLVYW9Wgmuyb6LLppXZKgwRQqpqWUeNCiRD6t3w==
-X-Received: by 2002:a5d:558b:: with SMTP id i11mr3083466wrv.176.1614344474254;
-        Fri, 26 Feb 2021 05:01:14 -0800 (PST)
+        bh=B8AG7Uzc+yNyi3fbWRj/B57soWalxxKjJiUIjH8uHBs=;
+        b=hYs3d8J4urTVxW7kWIigZbPmxW5FT19NZYkWwVz+vkhjQ8pQPvouor6uRc0r/jVC4A
+         WszKEPP8R4KSDWpuBUY8aCyjNQEDsg3Atd+RJEUSTm/akJR254BM6pmlWp3PSOx3KX48
+         /k/GopTXY03Ovij7ho7PtAihNm4yC/B36fQxWrRP37rbAYXLANeCZKtcwX0udXz4RP+S
+         wiFgj4OwP9JHkHVxdIbrd/xB8IQNrHub34AkQxbIT7bMyeJHXU9rClgYM6Ryl1crmqXb
+         y/MbHvX637CUI+Enbp8obuGmR9ZhpvVF3MZlqDeEfbq3hfbZVEuEzWHDJo2faDMv9xky
+         kNBA==
+X-Gm-Message-State: AOAM5337hZ7iYjMN+RNSHFuPD0Apis4aWwrUp7tw2qegGBsCRBJIk2M1
+	9a6GYOf90yFsBWFVMRKE+dxp/kxTJ+q8ww==
+X-Google-Smtp-Source: ABdhPJwi18omAdIx1DVxM/4UNxjI1DWsoCMUnw4QpI7G5LFHAAf5JyEmOuyGv5UKpMSBH0k3aO4d7Q==
+X-Received: by 2002:adf:90c2:: with SMTP id i60mr3105728wri.75.1614344472216;
+        Fri, 26 Feb 2021 05:01:12 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.13
+        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 05:01:13 -0800 (PST)
+        Fri, 26 Feb 2021 05:01:11 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/13] libhandy: Fix reproducibility issue
-Date: Fri, 26 Feb 2021 13:01:02 +0000
-Message-Id: <20210226130106.3925837-9-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 05/13] epiphany: Fix distributor contamination from /etc/os-release
+Date: Fri, 26 Feb 2021 13:00:58 +0000
+Message-Id: <20210226130106.3925837-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 References: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Set our own distro string rather than using the value from
+/etc/os-release.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
- .../libhandy/libhandy/determinism.patch       | 35 +++++++++++++++++++
- meta/recipes-gnome/libhandy/libhandy_1.0.3.bb |  3 +-
- 3 files changed, 37 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/libhandy/libhandy/determinism.patch
+ meta/recipes-gnome/epiphany/epiphany_3.38.2.bb  |  1 +
+ .../epiphany/files/distributor.patch            | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/distributor.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 03a29241c7d..ce4e8ebe06b 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -39,7 +39,6 @@ exclude_packages = [
- 	'gstreamer1.0-python',
- 	'igt-gpu-tools',
- 	'libaprutil',
--	'libhandy-1-src',
- 	'libid3tag',
- 	'lttng-tools-dbg',
- 	'lttng-tools-ptest',
-diff --git a/meta/recipes-gnome/libhandy/libhandy/determinism.patch b/meta/recipes-gnome/libhandy/libhandy/determinism.patch
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+index a9440af35ef..71b4a8a162a 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+@@ -14,6 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            file://migrator.patch \
++           file://distributor.patch \
+            "
+ SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
 new file mode 100644
-index 00000000000..7c4177f5f50
+index 00000000000..b09c9b38d2e
 --- /dev/null
-+++ b/meta/recipes-gnome/libhandy/libhandy/determinism.patch
-@@ -0,0 +1,35 @@
-+hdy-enums*.c.in: Fix reproducibility issue
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -0,0 +1,17 @@
++Don't encode the distro from /etc/os-release into the binaries.
 +
-+When full filenames are used in generated sources it makes the resulting
-+debug packages non-reproducible. Best practise is to use basename in
-+comments instead.
++Upstream-Status: Pending
++RP 2021/2/26
 +
-+Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/734]
-+
-+Index: a/src/hdy-enums-private.c.in
++Index: epiphany-3.38.2/meson.build
 +===================================================================
-+--- a/src/hdy-enums-private.c.in
-++++ b/src/hdy-enums-private.c.in
-+@@ -7,7 +7,7 @@
-+ /*** END file-header ***/
++--- epiphany-3.38.2.orig/meson.build
+++++ epiphany-3.38.2/meson.build
++@@ -15,6 +15,7 @@ if r.returncode() == 0
++ else
++   distributor_name = 'GNOME Web'
++ endif
+++distributor_name = 'OpenEmbedded'
 + 
-+ /*** BEGIN file-production ***/
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-+Index: a/src/hdy-enums.c.in
-+===================================================================
-+--- a/src/hdy-enums.c.in
-++++ b/src/hdy-enums.c.in
-+@@ -13,7 +13,7 @@
-+ /*** END file-header ***/
-+ 
-+ /*** BEGIN file-production ***/
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-diff --git a/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb b/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb
-index 4d2037411d6..f2b9ebf140b 100644
---- a/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb
-@@ -2,7 +2,8 @@ SUMMARY = "A library full of GTK+ widgets for mobile phones"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-0"
-+SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-0 \
-+           file://determinism.patch"
- SRCREV = "7126d2e8da9dcdeb5751e60ff6a74930804f9637"
- S = "${WORKDIR}/git"
- 
++ prefix = get_option('prefix')
++ datadir = join_paths(prefix, get_option('datadir'))
 -- 
 2.27.0
 
