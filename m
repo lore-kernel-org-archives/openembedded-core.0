@@ -1,90 +1,104 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.10603.1614352524352510540
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web12.10995.1614353746172547585
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 07:15:24 -0800
+ Fri, 26 Feb 2021 07:35:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OB8BMcRJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id p3so7721346wmc.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 07:15:24 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XhtkMzUa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id n4so6737923wmq.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 07:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kPT94xDjXrjRWXFMEI9gNBmyQA/qQoiCajJ55wWMR7g=;
-        b=OB8BMcRJ5TMicgJt9ELlYJjwIK6+BzAsmW4YQg+ng9f6gdvzeBT2QlCkw3f8Qq4OPg
-         yEeLYwt+fjO+L6O+6qtXct3tfM6tXviC6xgD4Aw3bz5nKglDwD1TNCcIuHxvESHBCkge
-         E2GzjuHnwIDKFDz9CEfW60e9wihJuoL+oVvmU=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=y0ISZfq87c9TzNeYsAVj9ElpOwFIKiMzJHBvtMjZgis=;
+        b=XhtkMzUaCwFO/fftOpFGXQbTOt0iQQu940Qv62SL1KK4F6v4vNRKzMFI/TcNtMFK3v
+         UK608okrQTLZa18TLUfSEpaUiG4NDxlvF1sM//NvdKSo9hSb9QJPG4TaKJgzeTYa6YWU
+         f5KleYsRRE/N494dCbWNlbbRafBwYsQ0OuotQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kPT94xDjXrjRWXFMEI9gNBmyQA/qQoiCajJ55wWMR7g=;
-        b=WaYJeQDiBQ9JD7K5JrWDMS79KAxGB5SaZrLsZknBNBaJlkLovydA8jG/P8/swzuQvj
-         eFAyTjG4QgMxE0EyblXmQieCwdjh09MfDiDZXku8wpGNXTyR2a8ihm8jpv8QrAONOwQw
-         viuJ8DMtOp73xaL7VO825HT/xWFn/sVgYAvRVLr/qJtWSY75cR5gc7Z5Q2vdLC5/oVcT
-         asKb5jl2X3wj0gMSGDqedUbb8X0pwN/fiCLLU/NN+QZnvFtBfmPKPPs0bm3zw2QjtNZI
-         N550r1tVBOJChRECvPzm6m0AqPXfld3YQWgchaDasYLBdtBTz51Gb9oUxGE9FxBFfiIl
-         76NQ==
-X-Gm-Message-State: AOAM532pPdC83WduUd4F1DFBJ4S0SpuU0sQv3eIkZ6D/ZUtqJCfao2S/
-	92a7I9M/CAdF2mwWkCi4RUHLXOdMcZiCnA==
-X-Google-Smtp-Source: ABdhPJxNVi0yXVdQUB+5VFmxlLQV17xjO4c2UQgvzZkVomhxQPqf8GG8A9Y3VBMSiTv/kYrvzluL/Q==
-X-Received: by 2002:a1c:7312:: with SMTP id d18mr3311898wmb.155.1614352522343;
-        Fri, 26 Feb 2021 07:15:22 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=y0ISZfq87c9TzNeYsAVj9ElpOwFIKiMzJHBvtMjZgis=;
+        b=aKdXRgeOGX/sfO5nfFL/RqKGtNg8jIT+Wu6zCup7LMHW3m2AcB15VIM9tOgzBKKDq3
+         Fo/BeMpBlrkpMeJ7GNFglWCH20so8iagb5CQa/CedHOeeF4oZm3jCu+9avN5dRC7z13L
+         1KZCRMi2cX5AYFxil3MDZPDj3d4r89yvYOyFBlyOrpyF/+BM0gbwjMNiXnKsU9iq5BcU
+         Rm02b2cOTnz0P4vbm89i9rNJNu9G9W9fNAZSFC57YwkXjoNZI+sYanNPHHy5X8lZQXL/
+         NciZVNAkJcQg0vL2upcM2zcGWE2FH6yByuJ6GBxV8Ou5J0NWaHmFCvgtZGbRm33MM4+X
+         XgGw==
+X-Gm-Message-State: AOAM532KrfwVqkIhnebM2OtOZ25rj+INamF11HVpMTPXuiOGmGpYikky
+	Y/NpODWu6bbq/44z/6PViwkMtdY1a02qIQ==
+X-Google-Smtp-Source: ABdhPJz09YdVEaLy76C6TdWOnKtCIc7vbk3QJYBlbBx8xDHgidQlRTs3KxvwyR9Q1HZF/k/bYxwQCg==
+X-Received: by 2002:a7b:c083:: with SMTP id r3mr3493180wmh.177.1614353744424;
+        Fri, 26 Feb 2021 07:35:44 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id f5sm5661736wrx.39.2021.02.26.07.15.22
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f? ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
+        by smtp.gmail.com with ESMTPSA id z9sm13504824wrv.56.2021.02.26.07.35.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 07:15:22 -0800 (PST)
+        Fri, 26 Feb 2021 07:35:44 -0800 (PST)
+Message-ID: <bf929b0cc9adbaef4ef5c85f87c103559413c7c2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Pseudo Abort errors
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] package/package_rpm: Disable font_provides configuration for reproducibilty
-Date: Fri, 26 Feb 2021 15:15:21 +0000
-Message-Id: <20210226151521.3932282-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+To: Phil Reid <preid@electromag.com.au>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Feb 2021 15:35:43 +0000
+In-Reply-To: <7598c82d-f65c-d2e1-828b-a1956c6e84f8@electromag.com.au>
+References: <6b813e24-a48e-5b92-fd26-4f1bd31a8bbd@electromag.com.au>
+	 <f6d954124581f233baba17e076d8a848ab998da2.camel@linuxfoundation.org>
+	 <166722EB8505D42E.14505@lists.openembedded.org>
+	 <7598c82d-f65c-d2e1-828b-a1956c6e84f8@electromag.com.au>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The host may or may not have fc-cache which is used for find provides
-information by rpmdeps. This lead to non-deterministic build output.
-Disable the font provides code so we have deterministic builds,
-we have nothing using/relying on it at this point.
+On Fri, 2021-02-26 at 15:01 +0800, Phil Reid wrote:
+> On 26/02/2021 07:56, Phil Reid wrote:
+> > On 25/02/2021 18:29, Richard Purdie wrote:
+> > > On Thu, 2021-02-25 at 08:28 +0800, Phil Reid wrote:
+> > > > G'day,
+> > > > 
+> > > > Not really sure where to look for this. But started to get random build failures
+> > > > with the pseudo client.
+> > > > 
+> > > > Failures are contained to populate_sdk
+> > > > 
+> > > > Not always the same file reported in the log and removing tmp-glibc before the build solves the problem.
+> > > > 
+> > > > I've also tried a psudeo_git.bbappend with:
+> > > > SRCREV = "60e25a36558f1f07dcce1a044fe976b475bec42b"
+> > > > 
+> > > > Which looks to be a pending commit on the list.
+> > > > Unfortunately it didn't help.
+> > > > 
+> > > > Here's what I think are the relevant parts of the log are below.
+> > > > 
+> > > > "rm -rf tmp-glibc" and a rebuild resolves the problem.
+> > > > 
+> > > > 
+> > > > Any thoughts?
+> > > 
+> > > Which branch and which packaging backend are you using?
+> > > 
+> > > There is a bitbake.conf patch on the list changing PSEUDO_IGNORE_PATHS
+> > > which would probably help but I need to understand that doesn't have
+> > > side effects and I don't have enough data to do that yet.
+> > 
+> > G'day Richard,
+> > 
+> > I'm on the dunfell branch, using package_ipk.
+> > 
+> > I found the patch for bitbake.conf and I'll give that a go here.
+> > 
+> 
+> With the following applied, so far today there's been no pseudo aborts.
 
-Need to disable this in both the rpmdeps code and in package_rpm
-itself although the latter shouldn't be being used.
+Thanks for confirming. I've added some changes in master-next which should
+have the same effect. Those should make it through the stable queue to dunfell
+but we need to get them into master to start with!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/package.bbclass     | 2 +-
- meta/classes/package_rpm.bbclass | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 417e2252979..e3f0a7060bf 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1710,7 +1710,7 @@ if [ x"$D" = "x" ]; then
- fi
- }
- 
--RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/rpmdeps --alldeps"
-+RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/rpmdeps --alldeps --define '__font_provides %{nil}'"
- 
- # Collect perfile run-time dependency metadata
- # Output:
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index c1824306ee6..84a9a6dd12f 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -689,6 +689,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
-     cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd = cmd + " --define '_buildhost reproducible'"
-+    cmd = cmd + " --define '__font_provides %{nil}'"
-     if perfiledeps:
-         cmd = cmd + " --define '__find_requires " + outdepends + "'"
-         cmd = cmd + " --define '__find_provides " + outprovides + "'"
--- 
-2.27.0
+Richard
 
