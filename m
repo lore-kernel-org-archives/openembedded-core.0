@@ -1,36 +1,36 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.8876.1614344470971403628
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.8922.1614344472445803257
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 05:01:11 -0800
+ Fri, 26 Feb 2021 05:01:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T3i0vqWh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id f12so4699027wrx.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:10 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HFlXTGwI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id b18so2017179wrn.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=aTsCxd8DfuBRNcIoDz6LipV0Gb6WUmjy4vuRLPVjEm0=;
-        b=T3i0vqWhCwhbeJjN+GIlCiG0icJRL1UTZ3VVmf7nu5y+At8Vu0zs37s2VaPH3U8YUj
-         qu4pcv8iM6B601qAuvR65Qf7aQw7p4XYVyGn9iVZt6Q3qOArWVKcNd01/YL+m5M6kHlu
-         AnlwA5k/jzFgAtQpGUncMK2eVAq4ChWvPsnJc=
+        bh=INixtwToeXLjSiJgT+Z1StJ0eRydctFOYC3CfKz82bY=;
+        b=HFlXTGwIcEAvr3VxvXXi/vb0pvm4kiYHPCQxTWkP4pPfMBdlrxNitmdUWcPHTPA/iC
+         sBltn7y6wTv4cFDGHKnkSXzhlwnLY5VfqIQsQpcMlL2fXSHdl5oCdAoV+cO5dfq5j+7n
+         y2fwJ2fqjR7u+WuAYjvjfdRlEGP5+OZrEF6yM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aTsCxd8DfuBRNcIoDz6LipV0Gb6WUmjy4vuRLPVjEm0=;
-        b=MRei1KPlMpKXBbe+utbmqA9qdn+ZJU1XcXgooGMP/YlfqRGBPyId6UDiJ+NCpWPHQG
-         kWt2vDbeVh1BWHZCNKcd9GFJyVzta94B/6Vbnzrv5Jcca/Z/9JwZ/vNXcj0pTFTvNl8u
-         9iqP156RoP5EabOpvbkbRxi1ERnrDNCzHaqd7h4R7GpXMD41HjW3krnBdrrsUy0bpFXK
-         fkLWFl2TJ8w9cTYPSrDS06TmXjnkkB9bcd/BnZlIELgIiluKWWU2k8filDatuLi1l4jr
-         kjoM9pAFM/Vah6uko1EDRw9BNJAnNK2X0EjWNwHx9tBeAzbNgaPtBI7FhmsUUwZDh3Mi
-         mGLQ==
-X-Gm-Message-State: AOAM533pr0IAhkBe8SDEfIgOvxK4ip0duTyECfxRH9hPtuPexwsOmbZj
-	4m6lqM1CyOAOKtD/lm2VbBVQD1StZZz87w==
-X-Google-Smtp-Source: ABdhPJyEw2BQ31UPu741z3RLAmxq2MwHde0vx9btjuZBeX/lKiaWD2pvhTcngwQ31cJaUf0fqV4PiA==
-X-Received: by 2002:a5d:6786:: with SMTP id v6mr3157875wru.19.1614344467528;
-        Fri, 26 Feb 2021 05:01:07 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=INixtwToeXLjSiJgT+Z1StJ0eRydctFOYC3CfKz82bY=;
+        b=gr9gZKsPpoborjSjkO/JKB8ekbaGEvIQXkLLRGCsQN4+ChAG0XrZ7nuNYdzbCR2OWh
+         QuN47LyB71SSMGj3WrYTFWsOAphrQ2FeyFABaG8nbeIL6UDh0IKTztCuodW5ueBAWnE0
+         BXReVhNVeGIVMW2re1s/+/JTUnM0a1o6IGBVmggdCUUjMTZauR8urjsmiezuiboBnmgP
+         N0pTyOQyVd+NQkc/xjRSf2PbX3r8M2Gcsc+8XRYF6WLYn6aFbJpSm2UsqxR2MRtJlMi9
+         Nd9VVlpQAUM21dsdHRVeaNI/LraKVSBBUjniCIfdFuZmCcNITTkFl6f2KJXbpS+2iHl/
+         izoQ==
+X-Gm-Message-State: AOAM5331A0HEGUJHLfT4hz1lG3Cioq2JzSaXQIls++wYCAeMJxBATsau
+	PTMLGKJHeglfsBYVCi0xmppk9Qgwo3tl+A==
+X-Google-Smtp-Source: ABdhPJzzGRzSLl1MxPrPByLan/8PX76BrVAiUunsyC0TyQBvEFmG48xJe58blk+wv5diM0aJsedRoA==
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr3112255wrs.241.1614344469951;
+        Fri, 26 Feb 2021 05:01:09 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
         by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.07
@@ -39,91 +39,42 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
         Fri, 26 Feb 2021 05:01:07 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/13] fonts: Bump HASHEQUIV_HASH_VERSION after rpmdeps change
-Date: Fri, 26 Feb 2021 13:00:54 +0000
-Message-Id: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 02/13] rsync: Update patch status
+Date: Fri, 26 Feb 2021 13:00:55 +0000
+Message-Id: <20210226130106.3925837-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
+References: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After the rpmdeps change, the output didn't change in the correct
-case and hence hashes were cross-linked. We bump the hashequiv
-version to avoid problems from this.
-
-Also bump PR to force a rebuild.
+Mark the path as submitted and effectively a backport as a different fix
+was added upstream addressing the issue.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../cantarell-fonts/cantarell-fonts_0.301.bb                 | 4 ++++
- meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb   | 4 ++++
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb   | 5 ++++-
- meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb        | 4 +++-
- 4 files changed, 15 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/rsync/files/determism.patch | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-index 890c08bf4a0..8dc4ceb399e 100644
---- a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-+++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.301.bb
-@@ -13,6 +13,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fb1ef92b6909969a472a6ea3c4e99cb7"
- inherit gnomebase meson allarch fontcache pkgconfig
- SRC_URI[archive.sha256sum] = "3d35db0ac03f9e6b0d5a53577591b714238985f4cfc31a0aa17f26cd74675e83"
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
+index 53a4ca75058..e3494fdded0 100644
+--- a/meta/recipes-devtools/rsync/files/determism.patch
++++ b/meta/recipes-devtools/rsync/files/determism.patch
+@@ -8,7 +8,13 @@ SHELL (/bin/sh) is dash or bash.
+ Specify a C locale setting to be deterministic.
  
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".2"
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending
++Submitted: https://github.com/WayneD/rsync/pull/155
 +
- EXTRA_OEMESON += "-Duseprebuilt=true -Dbuildappstream=false"
- 
- FILES_${PN} = "${datadir}/fonts ${datadir}/fontconfig"
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-index f5df9efa3b7..abc216f434e 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_2.00.1.bb
-@@ -10,6 +10,10 @@ LICENSE = "OFL-1.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f96db970a9a46c5369142b99f530366b"
- PE = "1"
- 
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".2"
++Upstream-Status: Backport [ish, see below]
 +
- inherit allarch fontcache
++After discussion upstream renamed util.c to util1.c which avoids the problem
++in a different way. This patch can be dropped when we upgrade to include:
++https://github.com/WayneD/rsync/commit/d3085f7add38a5cf833a0b31cb0637ff46c80f8d
  
- FONT_PACKAGES = "${PN}"
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 3e1ba196b58..50c79b3bf00 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -7,10 +7,13 @@ but is visibly different than normal and bold, and reasonably pleasing."
- SECTION = "x11/fonts"
- LICENSE = "BitstreamVera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
--PR = "r7"
-+PR = "r8"
- 
- inherit allarch fontcache
- 
-+# remove at next version upgrade or when output changes
-+HASHEQUIV_HASH_VERSION .= ".1"
-+
- FONT_PACKAGES = "${PN}"
- 
- SRC_URI = "${GNOME_MIRROR}/ttf-bitstream-vera/1.10/ttf-bitstream-vera-${PV}.tar.bz2"
-diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-index 6a91582068d..f0c77f33bd2 100644
---- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-+++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-@@ -13,7 +13,9 @@ SRC_URI = "file://misc"
- SOURCE_DATE_EPOCH = "1613559011"
- 
- PE = "1"
--PR = "r3"
-+PR = "r4"
-+# remove at next version upgrade or when output changes
-+HASHEQUIV_HASH_VERSION .= ".1"
- 
- inherit allarch features_check
- 
+ Index: rsync-3.2.3/Makefile.in
+ ===================================================================
 -- 
 2.27.0
 
