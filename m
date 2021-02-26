@@ -1,105 +1,85 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web11.9995.1614349648734034630
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web12.9996.1614349653266959949
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 06:27:28 -0800
+ Fri, 26 Feb 2021 06:27:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fpKssF6N;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.181, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f181.google.com with SMTP id z18so8130251ile.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=weQ1CVfQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.46, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f46.google.com with SMTP id u8so9748896ior.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vJ9XWYdPo3iDRS+2M8BwdM4yeR8TVOf5Rajt+iT27iI=;
-        b=fpKssF6No1o6Mee66oEipwktzVOO8OotjrD+GzHkZSuBdTrnSFmzOiaeJrsAF6q89m
-         FMXJEC+Mpb+dbRWZ65/87/22zmOp12sQP6RaUA6vSAM2JG+8dWATyYn0xgLfz+AGazKy
-         qMUFW8VyZK8kKeHf85AH2TYEXjMJgc2t+BXRHZfO7Sm/V8uCa+sBNRO1xmkOp7gdiyoP
-         jP3Mw6LaDozmy1jobEtmAdWnLoggog8Ymqmq4Bl6pO3CKE0k5gzEHQVMT0eKIAoiCYDj
-         gGhiNth5BEqiq9NseOE+S9p7m1N801CWdUnm2dFuWs5YP+uMLpk2/HeXBpMDlbjxgF4+
-         dIag==
+        bh=OrEjhOcr5drBAWTLUZH1Sp3VjyOmaXYpESHgA4I1sD0=;
+        b=weQ1CVfQAr6+JXYVxfzRR1OUINL+lyihjrpsgE3ddR0G6EBKjYdwOooZacF1EaKkWV
+         KEksmXwOuutZVc+K0mZ5RKrlljl1koON8neCm1QU/xLuMlm03nHPDcOy3aQMBBuONaGp
+         OxWQCcU5D9/Led6XNC0Pe4O7OKz8y0ublmN2LpolIe/OEsAvR6lcs+7UFP2lxT2iJjHC
+         uagcm/oIcGQCpcJvR24WysVVwekcDlgvvnPbvvXees35kM5RcrHIiIybQaKPFwMCPZh2
+         mgFflqJcbV11WLFR+xlPkXHnK9FL0SD11U2HndFLjLf5aRHeRakcu8yNhFpZsA/GE97K
+         o/nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vJ9XWYdPo3iDRS+2M8BwdM4yeR8TVOf5Rajt+iT27iI=;
-        b=J5KnHon1RQDtJIYhaAE00BPg9Y6Z5pChLWQB2WMdr2Lvq7EaaegNM4cP4zOL4OO9DS
-         Z5LCIPwAFKqpikq1j2NzRfSCbnwHOy1sq8bizK+EJUjRWsq9VImnJ4FJ5ngJLnBcWyg/
-         lCbpFv82Jp7msMTAJaRYVpekLpYT1bvAjEDEqXFhj5miwhqfZzbZ9n8gG4ffS3pZoMk7
-         w0id1+RqezCZ/8YH4hJlGMTytI7eOqLABIrgzaEC7bI83VbhC5F+DXJRqZ4pNdIYTY4N
-         8agR6WGrQVPqTZ+0T/RV0gQm5ynoiEDivCNZXu7TkY5wtgbi8Wru1gi0fmCglbayuuhi
-         ofzA==
-X-Gm-Message-State: AOAM530sDsg+xZXChr2utIycfMPzV0qbrVG3itFJUvk51741ezLT/bDs
-	YtjT/b8NhCbCpBIb6jLqKbKwjskS5QYtH1R/
-X-Google-Smtp-Source: ABdhPJxjJd7H7XJTAysD8vVv0DY7QQJb2PSqtHvFwH8GTAQU6KCPUDRGIpMEt2T7QWSIetx5awonzA==
-X-Received: by 2002:a92:b70c:: with SMTP id k12mr2832612ili.60.1614349647667;
-        Fri, 26 Feb 2021 06:27:27 -0800 (PST)
+        bh=OrEjhOcr5drBAWTLUZH1Sp3VjyOmaXYpESHgA4I1sD0=;
+        b=TO4Qmj67axhWyHOTSXvPu+Fqm6ooVd2RruwLbwPKGYgy5BdOrKuhjxCCiXNHvDpiSW
+         RTw5jT1ezJYNGsd5jQ6DBdCkqOP8tOIWHcnyPqkOgika1UsjatuWUuGxLXcAoRoaRQRG
+         buhlnl/K+D+lDKTpTokW5/okd1GGnBicAnjy7wZG+oThrvl69CLZ/XATmCRZFrtfEp1V
+         wOxG1dF//IbPzNMmowqkJzPMevRiFMH47S9N+K2tN1RL3Z+xMDqF5zBU2UOvAJGDmHmL
+         tV8TpJnxret351+EcnWos6ZNjvgLHHLGkrNbV5bJMnDXMFzaffjGsF7Xevo8Otc3M186
+         BVUw==
+X-Gm-Message-State: AOAM5328BWN/oZUyPqbuZzIjcPvD+HEuAti13thMMebjrWmUw51oZiUy
+	dXK+Kt25ZpJ6YYoTPNJKiUWa2c/Gy/KnvxuN
+X-Google-Smtp-Source: ABdhPJwhh5mnqhBb2q+6oe+o0pzgLToiflE8cvPZ12OX1pnRCe8awIut00/XJrCswATZcQq7rFs4vQ==
+X-Received: by 2002:a6b:d010:: with SMTP id x16mr3009301ioa.107.1614349652100;
+        Fri, 26 Feb 2021 06:27:32 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.24
+        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 06:27:27 -0800 (PST)
+        Fri, 26 Feb 2021 06:27:31 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 29/40] local.conf.sample.extended: prefer INIT_MANAGER
-Date: Fri, 26 Feb 2021 04:24:12 -1000
-Message-Id: <f444106502f504ded852a95adedcbbe0301f7f0e.1614348990.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 30/40] npm.bbclass: avoid building target nodejs for native npm recipes
+Date: Fri, 26 Feb 2021 04:24:13 -1000
+Message-Id: <a967a3c011976cf0443b4513c838452d033aced3.1614348990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614348990.git.steve@sakoman.com>
 References: <cover.1614348990.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Vivien Didelot <vdidelot@pbsc.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Since the INIT_MANAGER variable has been introduced, there is no need
-to append the distro features and set the init manager manually.
+The current recipe unconditionally RDEPENDS on nodejs (the target one).
+When building on the "-native recipe" of "BBCLASSEXTEND native" recipe,
+the target nodejs is unnecessarily built.
 
-Replace the busybox/mdev and systemd examples with the 4 values
-currently supported for the INIT_MANAGER variable.
+This patch fixes this by only RDEPENDS on nodejs when building for the target.
 
-Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 514454651522f97590d1403c50effd9c79df827a)
+(cherry picked from commit 92a9a86df9e3bcffb13d2f8b5dcbe7822170f734)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/local.conf.sample.extended | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ meta/classes/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 6fc618e7e5..3d9cecbc62 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -374,23 +374,12 @@
- #
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index f83c6e496e..bd01e247cd 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -20,7 +20,7 @@
+ inherit python3native
  
- #
--# Use busybox/mdev for system initialization
--#
--#VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
--#VIRTUAL-RUNTIME_login_manager = "busybox"
--#VIRTUAL-RUNTIME_init_manager = "busybox"
--#VIRTUAL-RUNTIME_initscripts = "initscripts"
--#VIRTUAL-RUNTIME_keymaps = "keymaps"
--#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
--
--#
--# Use systemd for system initialization
-+# System initialization
- #
--#DISTRO_FEATURES_append = " systemd"
--#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
--#VIRTUAL-RUNTIME_login_manager = "shadow-base"
--#VIRTUAL-RUNTIME_init_manager = "systemd"
--#VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-+#INIT_MANAGER = "none"
-+#INIT_MANAGER = "sysvinit"
-+#INIT_MANAGER = "systemd"
-+#INIT_MANAGER = "mdev-busybox"
+ DEPENDS_prepend = "nodejs-native "
+-RDEPENDS_${PN}_prepend = "nodejs "
++RDEPENDS_${PN}_append_class-target = " nodejs"
  
- #
- # Use a full set of packages instead of busybox for base utils
+ NPM_INSTALL_DEV ?= "0"
+ 
 -- 
 2.25.1
 
