@@ -1,86 +1,86 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.8714.1614344474661389468
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.8926.1614344475112729694
  for <openembedded-core@lists.openembedded.org>;
  Fri, 26 Feb 2021 05:01:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YhnyGYyc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id l12so8496099wry.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eJLKW/WF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id i9so7064145wml.0
         for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 05:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=xcTLnFw5QSNb20+MSOXFBGST1vvhFd4eDPVj5V31nBE=;
-        b=YhnyGYyco2rdWGvJYgj8xNGUJCENXJGQpa78CoCWMG/TbPIu0yVlYsDWfGeEBXdmHw
-         8t9evnXYJtmbHMJIk8dihZGnjIUpY4Zrg9M5ZJw569AZR+EGAbGSqc7m8OKoD6s29CXq
-         Dr/aktye1+zhUyVb/cW+IrVfpNDIpGZO5iFio=
+        bh=kPgipmbEx/iPLd5Yzer/eENNGXfFoEPJ4EtQjv8Tt/Y=;
+        b=eJLKW/WFouYyDPA5aRqnttPqwnXQ52Zaf4d153uuFFjOp7YvTuI6WdvAAKWsPzbEfK
+         TxRpt1P8o7cefb2+WmmzwSrY+xJbaov9ICZppqSsbHgbgMGxoCA1DO3F+bOJndtKpRev
+         5JyXiWSraFkGL6bwMX4Me7MeDgXlkx7/jT9D4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xcTLnFw5QSNb20+MSOXFBGST1vvhFd4eDPVj5V31nBE=;
-        b=SYDy95rpS2U8DuvALjvJGGEHomc2ZSWH00+/Yp+R2bVjHYpLGYCNCTPnvkSvxReJ7h
-         7N9iww70bdeYASHT9i2e0DRA4yPes40vsPROvZdZab0QQ1H3+xRhR2fAfW4IU0kD7vxl
-         MFjRV4y2/W3yvyapkJHVfEF5Zg3LHy/OfmVZEJtGxkPwnlXSQ2vG6vOEF/XsvEpPW8H4
-         zJX6dkJRMnV2ZsNeMvdGk/yrflMHXa60vl7oGJC1HlfOqZDNgHqgpqylUBy+zTXQ36EQ
-         dQwrrFE7VBLY6Qkkx0uEIAdGj0OcuDJdIul7l0WFZyUPIdRYmFsCiEwEm5/RTmvDOxRy
-         HAQw==
-X-Gm-Message-State: AOAM533PRvGH64Jqg95D1rG+hxSorn2CisTTXiIuOjcZxZNLHoiPMB5D
-	EuKrUCEo0X8poig55k+CBJkrbCahUYcw+w==
-X-Google-Smtp-Source: ABdhPJxrfe8D+lxiCbqkVvrYmHzYgx8lPQS8fk98Y3JC5WnHZBeMFf2zF2fbfJ7pSGpcYJ19wIOVSg==
-X-Received: by 2002:a5d:5104:: with SMTP id s4mr3012318wrt.62.1614344472889;
-        Fri, 26 Feb 2021 05:01:12 -0800 (PST)
+        bh=kPgipmbEx/iPLd5Yzer/eENNGXfFoEPJ4EtQjv8Tt/Y=;
+        b=k5Ny23Ak3yR3BFhAGfogJrSxlNkdfWSs1Leb7R8YJ2g+tSLbW7rGQWXHtbVHj/jeGw
+         VNkQD1UtHIiyZpdS9+LiGveUHvj1FP6sNsSKoFer3gidZ1d9Eh2qs+xNiQrU7Yjvcva8
+         3i+2SCsgmNPPyd/s+tkYxvirKrRZeZFZ5WBpP/Lu5TVHq9uHJClVdaEtM90IrZ9nZ2Xl
+         R4pL7FAnXxQBbjZhgRpPIDd6Ssm7heX9hqLgdNYzB92p/KtPVPcCAfC6XbtYV1eitT9m
+         1LJNGqtc/axcxCOA4uTtnT6o/FM+QU7Uw6vAiIPa2BFStuCCkp9dDz5g5zx0zUvVYdjl
+         ManA==
+X-Gm-Message-State: AOAM532ICo+HVLPOYXV53ZU7jXWR/zws1mdr0H4q61U71n371vY78eEy
+	e+YpQPw4TlWNoAmFYRiGW/4FrTCejAuuCw==
+X-Google-Smtp-Source: ABdhPJwqWU71jmd0jcB208ZgpakfoC00xWrQflULbLehrYcKUETMmFq4EpOUmMexNPo6E6YOj0B7Zg==
+X-Received: by 2002:a1c:b70b:: with SMTP id h11mr2766773wmf.10.1614344470830;
+        Fri, 26 Feb 2021 05:01:10 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e9fa:5b01:958e:e80f])
-        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.12
+        by smtp.gmail.com with ESMTPSA id q25sm11637829wmq.15.2021.02.26.05.01.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 05:01:12 -0800 (PST)
+        Fri, 26 Feb 2021 05:01:10 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/13] parted: Fix reproducibility issue
-Date: Fri, 26 Feb 2021 13:01:00 +0000
-Message-Id: <20210226130106.3925837-7-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/13] gtk-doc: Fix reproducibility issue
+Date: Fri, 26 Feb 2021 13:00:56 +0000
+Message-Id: <20210226130106.3925837-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 References: <20210226130106.3925837-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We don't use tbe BUILDINFO line of host information in the Makefile
-so remove it for reproducibility.
+config_data was including a build system path to pkg-config, fix
+this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
- meta/recipes-extended/parted/parted_3.4.bb   | 1 +
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb | 1 +
  2 files changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 2d65b1d5e6b..ec8ac0bcc84 100644
+index 81a98795f8a..9c24706c667 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -48,7 +48,6 @@ exclude_packages = [
- 	'ltp',
- 	'meson',
- 	'ovmf-shell-efi',
--	'parted-ptest',
- 	'perf',
- 	'python3-cython',
- 	'qemu',
-diff --git a/meta/recipes-extended/parted/parted_3.4.bb b/meta/recipes-extended/parted/parted_3.4.bb
-index db59189fa0e..79dad546878 100644
---- a/meta/recipes-extended/parted/parted_3.4.bb
-+++ b/meta/recipes-extended/parted/parted_3.4.bb
-@@ -39,6 +39,7 @@ do_install_ptest() {
- 	sed -i "s|^abs_srcdir =.*|abs_srcdir = \.|g" $t/tests/Makefile
- 	sed -i "s|^abs_top_srcdir =.*|abs_top_srcdir = \.\.|g" $t/tests/Makefile
- 	sed -i "s|^Makefile:.*|Makefile:|g" $t/tests/Makefile
-+	sed -i "/^BUILDINFO.*$/d" $t/tests/Makefile
- 	for i in print-align print-max print-flags dup-clobber duplicate fs-resize; \
- 	  do cp ${B}/tests/.libs/$i $t/tests/; \
- 	done
+@@ -39,7 +39,6 @@ exclude_packages = [
+ 	'go-',
+ 	'gst-devtools',
+ 	'gstreamer1.0-python',
+-	'gtk-doc',
+ 	'igt-gpu-tools',
+ 	'libaprutil',
+ 	'libhandy-1-src',
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
+index 8c925633db2..3b308318b2d 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
+@@ -39,6 +39,7 @@ do_install_append () {
+     # configure values for python3 and pkg-config encoded in scripts
+     for fn in ${bindir}/gtkdoc-depscan \
+         ${bindir}/gtkdoc-mkhtml2 \
++        ${datadir}/gtk-doc/python/gtkdoc/config_data.py \
+         ${datadir}/gtk-doc/python/gtkdoc/config.py; do
+         sed -e 's,${RECIPE_SYSROOT_NATIVE}/usr/bin/pkg-config,${bindir}/pkg-config,' \
+             -e 's,${HOSTTOOLS_DIR}/python3,${bindir}/python3,' \
 -- 
 2.27.0
 
