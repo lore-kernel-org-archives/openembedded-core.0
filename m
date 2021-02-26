@@ -1,89 +1,84 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web08.9872.1614349673204550596
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web09.10003.1614349678539372499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 06:27:53 -0800
+ Fri, 26 Feb 2021 06:27:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wOxhof21;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.169, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f169.google.com with SMTP id v8so4510498ilh.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:53 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=aYN5ajuj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.172, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f172.google.com with SMTP id f10so7591894ilq.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 06:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LP70i4ovxkzVLrsSSgCOW5NKyA6dOdtCBqCW7a5ZePc=;
-        b=wOxhof218J5WZcWywwoY0oFU7h8sIEY7sh7IPS7mErxIMvPkA3NTFMcT7hmwXX4TDz
-         uLOXJWwVmCmxl1Q9KYX2amCNqvDEJgG42Q6lnqkp1qzNO58xQJUopIcrTCmU0h+e0bhH
-         H2cJmvnAn5GBJ5aAzUIKhE8i9F9ELSvq1dFBAbqjYxKhCNZ76MxpNFEK60jz7tNRFLnP
-         SGKWiyw1oX/7g+9uOGOR7cvB6QLnzlbiY87E4ae2KrJBMMAOvHHj2PNexoECQpyAvJhZ
-         POaqJC1gSX3kCoqER1GqsEKehNzIgNXnfE05QrI/TDyzrVd7CNANkIqhDZdzxSHhkl3i
-         5ghA==
+        bh=yx+TiC08bUGYR5tpFsDu7b3jnFAptXgE0NcmJxOden4=;
+        b=aYN5ajujpo4iBifpKKAp47ZCLd/XOd8DXhpatNqp54Be6KR8wWx2UXfQSGkN+m+bdY
+         hC2C6PXkd2p5nYLXEXZq2p69kNlLOrUf10ZfaZsWil8VwFAnJ9LfnYucIHt96d+XpxDU
+         jHvkkskc4QTjcGNRFYRPAMGKc/g1U1rxI9TTfOzfynFwiIKVOwtQGdM1V2AhT9B0VPvf
+         ZvDyKrvnkqnbKRbd7VHGE0kFZstSmRhvKzdm5cVhVxT9Cq9MksFV5GnfTY87Eh3LKnmC
+         LlOzZAl0Y0g/LYYwFDstHeahaeGmPyjSkSkAhTizm/de/WfUlFggN+836KOL/CrU2IhW
+         dMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LP70i4ovxkzVLrsSSgCOW5NKyA6dOdtCBqCW7a5ZePc=;
-        b=ZNcBGulmPG9EFHfO0is7/fDRKcjg/WUSMH8jCHr18DEP07wUE2mDvIMcGBqyGgCI9P
-         +eTx62UUu4EeW5aw5OOHIcYc4MK/6athBxy/NEc4MxPh2NLQ/USjg8hjuf1f9XTJjt9R
-         OlFvLEoTOeSadr+UP6UNmwsxfra2E2e5qFpbWirCpfmSVXEI7/PuqX6LIIQNX+B9usZY
-         6Q+OM//GoxcXw+P8gKoKoJMJAL1fIkpxIAy75KRR0uf14dh4Lxz7JiYa+t7TEEKHYO+A
-         iQc+G3tG75pgLVbds0Pi62v8ghA3xB6LO7B4Z0yvjdwXg9YF1Sj1Qs23SQUPh/FPrBzC
-         GrqQ==
-X-Gm-Message-State: AOAM532mZCIFsdxbrnHiYG561wKUPTJBDSMjOEWzwesl4o8Fqy4PUOIZ
-	aOwsJ8QlKsRPDV+QW1hTNYp6hRp4LJPdwGrE
-X-Google-Smtp-Source: ABdhPJygeHQkVrgyu92VA8yy3V7veFTPJZOkyjV+qXAHgODCJMtYCnnuhPgbrFCTllBorgwinzcseA==
-X-Received: by 2002:a92:c269:: with SMTP id h9mr2544544ild.239.1614349672157;
-        Fri, 26 Feb 2021 06:27:52 -0800 (PST)
+        bh=yx+TiC08bUGYR5tpFsDu7b3jnFAptXgE0NcmJxOden4=;
+        b=Ox3eIGE1G/SXfgpqGsCean7wgN/4ObuClqGHoLfcwjYiFhpDWJ3LBeIquA7UqcGnDS
+         Lj8uyZpuWd7lk9QugD3wfLIixNHB7RVanv6V4FlPOJ7KzwEvsn2ZQLEnn6sM6k+TFPA0
+         +zoyEc3xn6v/GYEfH0BWwFjp4wz2nJezCGkiBJ3W1MLfuIQ0v5IZNQ2l6vwNeVWg4wgN
+         fAb4NMi98Gc6S1yGaPH3tTt3Y6E5LDec0JTXojx55flbLO+02jiXepNp0CrAoaUrqWos
+         3ZyEr2b+Z/V/PAmR6chPEMTjESL9j/ZtZk9/e7j0WdDNe8RnQXEGQxAVhXqSN+cQHrhS
+         Fpqw==
+X-Gm-Message-State: AOAM533ceOHENFscL5gFyogHKTD0/yZUW2wGpnFvKnU0+YOXoTCpU2IO
+	x9rfVGaYrNFXuIP01mPW4bJEpmPKnv3rBVJI
+X-Google-Smtp-Source: ABdhPJxa3MBWpYp2wfhjUqui/8MIUfQe1HEQ4gFkwyHCZI+M6nJLBhT0DcXdvbpKzCEiHVJrR0zAbQ==
+X-Received: by 2002:a92:6b11:: with SMTP id g17mr2613703ilc.163.1614349677468;
+        Fri, 26 Feb 2021 06:27:57 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.48
+        by smtp.gmail.com with ESMTPSA id i3sm5383377ioq.13.2021.02.26.06.27.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 06:27:51 -0800 (PST)
+        Fri, 26 Feb 2021 06:27:57 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 34/40] df.py: Add feature check for read-only-rootfs
-Date: Fri, 26 Feb 2021 04:24:17 -1000
-Message-Id: <4aff95b12879ca33fadc963fe4ab6d1172dbc971.1614348990.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 35/40] package_rpm: Enable use_source_date_epoch_as_buildtime in package_rpm class
+Date: Fri, 26 Feb 2021 04:24:18 -1000
+Message-Id: <eae81a669e3ca2deb86f792dcf886d215f229a6b.1614348990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614348990.git.steve@sakoman.com>
 References: <cover.1614348990.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Wes Lindauer <wesley.lindauer@gmail.com>
+From: Jan-Simon Möller <jsmoeller@linuxfoundation.org>
 
-If the target is using a read-only rootfs, the available space on '/'
-will be zero. This will cause the test to incorrectly fail and skipping
-seems appropriate in this case.
+Adding --define 'use_source_date_epoch_as_buildtime 1' to rpmbuild
+ensure that the rpm header does have a consistent BUILDTIME tag.
 
-Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
+This allows the rpms to be built reproducibly.
+
+Signed-off-by: Jan-Simon Möller <jsmoeller@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af1dbea3c9b9b42a3e6803b231e425423d70e210)
+(cherry picked from commit f16721df6b3d0d3e681d9a1b3393417bd62b6275)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/df.py | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/package_rpm.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/df.py b/meta/lib/oeqa/runtime/cases/df.py
-index 89fd0fb901..bb155c9cf9 100644
---- a/meta/lib/oeqa/runtime/cases/df.py
-+++ b/meta/lib/oeqa/runtime/cases/df.py
-@@ -4,12 +4,14 @@
- 
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.data import skipIfDataVar, skipIfInDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
- 
- class DfTest(OERuntimeTestCase):
- 
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['coreutils', 'busybox'])
-+    @skipIfInDataVar('IMAGE_FEATURES', 'read-only-rootfs', 'Test case df requires a writable rootfs')
-     def test_df(self):
-         cmd = "df -P / | sed -n '2p' | awk '{print $4}'"
-         (status,output) = self.target.run(cmd)
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 9145717f98..95731c7d8d 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -681,6 +681,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_binary_payload w6T.xzdio'"
+     cmd = cmd + " --define '_source_payload w6T.xzdio'"
+     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
++    cmd = cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
+     cmd = cmd + " --define '_buildhost reproducible'"
+     if perfiledeps:
+         cmd = cmd + " --define '__find_requires " + outdepends + "'"
 -- 
 2.25.1
 
