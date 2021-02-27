@@ -1,150 +1,113 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.1528.1614411698470177138
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.1739.1614413894454345159
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 23:41:38 -0800
+ Sat, 27 Feb 2021 00:18:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b91Yls8W;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id b15so7343917pjb.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=W5Eanw3Z;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id u11so6536752plg.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 00:18:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F1DOhXUv+I7fmO5K7WBnLELXRN6tLlcdiTMb0fZCfqg=;
-        b=b91Yls8Wu1Xv4uHYpz1vRhw+yigV2DqXSXH19NRKkonSgdo4EUqM+HVGQjbH4hJstd
-         QIt+2/a0Kvtx0KvKDzCYRhRJqLXIzqDnFsk26H8mDQbg0LvSSuPl3RKFwAXvNvUPDA7k
-         5368A262R4GwmI9+u1vLRSRE3GAkFio0Vxh+ZiycOLyZrQ7lxKpCjwJtcrqogPdZSqdf
-         WJ20M0clkJHBy5fE9SD3VirxjM+1nu+MZ4bBr0iOfJrfFz4QPC53TwJWdR5ONKJnQtCS
-         tgDbG6hOQ7vW9wCXHAxPooQDu0fMoWiuCbiT1cSWdQSLtdLVAVMnKkkPC4gNrRh/Y3uS
-         1fvw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P8weXiqThlq08vnrnGRajilgVBT1dh/276waCjL7p78=;
+        b=W5Eanw3ZGfHL70nW2puFmEs7rPuohsFcNcY7LjGp9kE9aYtSFUtgxJ8sRg60nGwRrw
+         8vG5Fa2LKZ4EOSDEgDX1ia7v4CQNmgDzetlfmajxpMq3UtNs3OmSaR9tMGfvjlDx2oBe
+         X83dI3nkNGPv8FaMEgDvalngCi1P0aEXhllUlTJpA4SlGjn3WxKc+54+WLBy8Tb6gQPg
+         rG0AZ6dLvLXE3kuBHQFYvGHOGP5XMOfGeig744Bgaxjcc0Hv0qABYXC1P/VhzPdapB3I
+         LIra23999TSNJLp7TLLcK8G+9o7rAEV6/ijfwh6OMmILcqe8u5tDIAaatU9ZB2T6tP8/
+         b+kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F1DOhXUv+I7fmO5K7WBnLELXRN6tLlcdiTMb0fZCfqg=;
-        b=Rer+swK6c0pYP/U9qL3UEmd9z5TXf7FPFD0NonZESqa8kpxh+1m/TkHljNDGRo9gIQ
-         jYbXzgt9aqPuQufKqqihjafisgCDrG+UpEItFXGb5gnTuDuuMxM6gMzm8GRvpcYi44XC
-         i2WcmrBErM655L6fFwB6jv6RA5sCwdwqRHJqi4+LWs7GcbVuCauwc5udWdmqhwLEf4td
-         floHBD1tG58dxd6U9PEPrA+s4JofxYOvw8jQt6rJwpKZJ3WF+Z8VUsT8HStUoa54zLYA
-         dO8HiwC2ZRtuz0VvsCnBZ9iBLVh3fRGy/trdxptWgVa4pW48gGO3x35y/iKQPFJLDDnN
-         FtqQ==
-X-Gm-Message-State: AOAM5308lhHPlaD+aaxt18wwGyGXGCvLlQFblaxw8clbtRqIaF9m4VAp
-	qMfn15qRDEB0O3skwhSGi8Ia6Yxj0Rd+mw==
-X-Google-Smtp-Source: ABdhPJx3maxMuBm5UpFpFc3Dva3BlCJOf3b4kQHHGUa97psx9PDfhjeamuMKmGZGaQz8j7EdP8RbfQ==
-X-Received: by 2002:a17:902:ea12:b029:e3:1b24:414f with SMTP id s18-20020a170902ea12b02900e31b24414fmr6474188plg.13.1614411697630;
-        Fri, 26 Feb 2021 23:41:37 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P8weXiqThlq08vnrnGRajilgVBT1dh/276waCjL7p78=;
+        b=Iocl9tZUEsc954jh8pTAy+6ZfjggtiO15Uhh9ecglx2Hy/TuBCpTWUdJKnOcZo+l0t
+         NPqdqJH8jl7QZE3mYxefM/2phxLSFQ1H14U27qPdYUFYyvRgwZK7PRULhHE60ZCpTzcr
+         8TYS8mdFOJ6ILGsc+ZYhxiYs8wYevhP+fFtbPm++nzRM/9zoymOVM0ql1ofAldmnxFob
+         EcCjAOQa/66zE7zs45Y7aNh3doSCdSQdOkF0MJxhrQpFv19kakXeT08mQvDWF3PLoig9
+         hi8UCaS5J69sr6Mem29Fo+O8qcsDFm0wc7sI4NOwQm21IStURaIVo4f/CcocUVQxGrzd
+         T0SQ==
+X-Gm-Message-State: AOAM531XvxHJrvDSOnv/CBX2fqWcSzx7Cmr+LQI93UIqMHOvtB2t0y2K
+	t1pgXWvYSVR/zHg9q2sjJu7krTxnEQtAxg==
+X-Google-Smtp-Source: ABdhPJw+7uJfVXpNLglCsir6/24WVxHqsoOkxJLO13+lARlFYSyU0uU+xLlCnXHSwSxxk8JcsHHtoA==
+X-Received: by 2002:a17:902:a517:b029:de:79a7:48d9 with SMTP id s23-20020a170902a517b02900de79a748d9mr6655255plq.45.1614413893446;
+        Sat, 27 Feb 2021 00:18:13 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id z137sm12462003pfc.172.2021.02.26.23.41.36
+        by smtp.gmail.com with ESMTPSA id n10sm10849673pgk.91.2021.02.27.00.18.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 23:41:37 -0800 (PST)
+        Sat, 27 Feb 2021 00:18:13 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/4] kea: Fix configure test error with gcc11
-Date: Fri, 26 Feb 2021 23:41:32 -0800
-Message-Id: <20210227074132.4029374-4-raj.khem@gmail.com>
+Subject: [PATCH] spirv-tools: Replace strncpy with memcpy
+Date: Sat, 27 Feb 2021 00:18:11 -0800
+Message-Id: <20210227081811.4076701-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210227074132.4029374-1-raj.khem@gmail.com>
-References: <20210227074132.4029374-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since the test program fails to compile, configure thinks compiler is
-not having thread support and bails out
+Fixes warnings produced with gcc 11
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...01-ax_cpp11.m4-Include-memory-header.patch | 29 +++++++++++++++++++
- .../kea/files/0001-include-limits.h.patch     | 29 +++++++++++++++++++
- meta/recipes-connectivity/kea/kea_1.8.2.bb    |  2 ++
- 3 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
- create mode 100644 meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
+ .../files/0001-fix-strncpy-bound-error.patch  | 30 +++++++++++++++++++
+ .../spir/spirv-tools_2020.6.bb                |  4 ++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+diff --git a/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch b/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
 new file mode 100644
-index 0000000000..f7f98c4d6e
+index 0000000000..bc59faa37b
 --- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
-@@ -0,0 +1,29 @@
-+From 5314a4815006e3a42f3ce265d1597db700cdb784 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
+@@ -0,0 +1,30 @@
++From 1ba007583b83468494c4146bcb7267d863de6a7b Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 26 Feb 2021 23:14:20 -0800
-+Subject: [PATCH] ax_cpp11.m4: Include <memory> header
++Date: Fri, 26 Feb 2021 23:54:10 -0800
++Subject: [PATCH] fix strncpy bound error
 +
-+This is needed for std::shared_ptr
-+GCC-11 throws errors if header is not included
++This patch fixes the following error while using gcc 11
++error: 'char* __builtin_strncpy(char*, const char*, long unsigned int)' specified bound depends on the length of the source argument [-Werror=stringop-overflow=]
 +
-+Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
++Upstream-Status: Submitted [https://github.com/KhronosGroup/SPIRV-Tools/pull/4151]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ m4macros/ax_cpp11.m4 | 1 +
-+ 1 file changed, 1 insertion(+)
++ source/diagnostic.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/m4macros/ax_cpp11.m4 b/m4macros/ax_cpp11.m4
-+index 6176728..6b14a84 100644
-+--- a/m4macros/ax_cpp11.m4
-++++ b/m4macros/ax_cpp11.m4
-+@@ -182,6 +182,7 @@ for retry in "none" "--std=c++11" "--std=c++0x" "--std=c++1x" "fail"; do
-+ 	AC_COMPILE_IFELSE(
-+ 		[AC_LANG_PROGRAM(
-+ 			[#include <thread>
-++			 #include <memory>
-+ 			 std::shared_ptr<std::thread> th;],
-+ 			[th.reset(new std::thread([[]]() { return; }));
-+ 			 th->join();])],
-+-- 
-+2.30.1
-+
-diff --git a/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
-new file mode 100644
-index 0000000000..4bb76e2344
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
-@@ -0,0 +1,29 @@
-+From 7bca122e15bbe98c7b8da851ef3e1cf9a714afd9 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 26 Feb 2021 23:31:15 -0800
-+Subject: [PATCH] include limits.h
-+
-+Fixes build with gcc11
-+backend_selector.cc:61:35: error: 'numeric_limits' is not a member of 'std'
-+
-+Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/lib/exceptions/exceptions.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/lib/exceptions/exceptions.h b/src/lib/exceptions/exceptions.h
-+index f5368c8..494ec69 100644
-+--- a/src/lib/exceptions/exceptions.h
-++++ b/src/lib/exceptions/exceptions.h
-+@@ -7,6 +7,7 @@
-+ #ifndef EXCEPTIONS_H
-+ #define EXCEPTIONS_H 1
++diff --git a/source/diagnostic.cpp b/source/diagnostic.cpp
++index edc27c8fd..77c29d70c 100644
++--- a/source/diagnostic.cpp
+++++ b/source/diagnostic.cpp
++@@ -37,7 +37,7 @@ spv_diagnostic spvDiagnosticCreate(const spv_position position,
++   diagnostic->position = *position;
++   diagnostic->isTextSource = false;
++   memset(diagnostic->error, 0, length);
++-  strncpy(diagnostic->error, message, length);
+++  memcpy(diagnostic->error, message, length);
++   return diagnostic;
++ }
 + 
-++#include <limits>
-+ #include <stdexcept>
-+ #include <string>
-+ #include <sstream>
 +-- 
 +2.30.1
 +
-diff --git a/meta/recipes-connectivity/kea/kea_1.8.2.bb b/meta/recipes-connectivity/kea/kea_1.8.2.bb
-index 3dc4f6af70..fe10d90620 100644
---- a/meta/recipes-connectivity/kea/kea_1.8.2.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.8.2.bb
-@@ -18,6 +18,8 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-            file://fix-multilib-conflict.patch \
-            file://fix_pid_keactrl.patch \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
-+           file://0001-ax_cpp11.m4-Include-memory-header.patch \
-+           file://0001-include-limits.h.patch \
-            "
- SRC_URI[sha256sum] = "486ca7abedb9d6fdf8e4344ad8688d1171f2ef0f5506d118988aadeae80a1d39"
+diff --git a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
+index 4f45c68bbe..f57a7bd357 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
+@@ -7,7 +7,9 @@ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+ SRCREV = "b27b1afd12d05bf238ac7368bb49de73cd620a8e"
+-SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git"
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git \
++           file://0001-fix-strncpy-bound-error.patch \
++          "
+ UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
+ S = "${WORKDIR}/git"
  
 -- 
 2.30.1
