@@ -1,81 +1,116 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
- by mx.groups.io with SMTP id smtpd.web10.638.1614401337777023586
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web09.1544.1614411695947447476
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 20:48:58 -0800
+ Fri, 26 Feb 2021 23:41:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 29/D9-03420-D2FC9306; Sat, 27 Feb 2021 04:48:45 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxRVfnvGW
-  CwcQJehZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bDpC72gtscFdsPn2JvYHzO3sXIxSEkMINJ
-  4sXM14wQznFGiSV/37J2MXJysAloSvRu2QKU4OAQEdCTuPpPFCTMLKAucWldCwuILSxgK/Fj7
-  QUWkBIWAVWJeXfEQcK8Aq4Sp6Z0s4PYEgIKElMevmcGsTkF3CTWX5jACGILAdV0n97FCFEvKH
-  Fy5hMWiPESEgdfvGCG6FWUmH25mQXCrpTYs/kh6wRG/llIWmYhaVnAyLSK0TKpKDM9oyQ3MTN
-  H19DAQNfQ0FgXSBob6CVW6SbqpZbqJqfmlRQlAmX1EsuL9Yorc5NzUvTyUks2MQLDMaWQoWkH
-  47tXH/QOMUpyMCmJ8jo2WyYI8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuCddxYoJ1iUmp5akZaZA
-  4wNmLQEB4+SCG/NOaA0b3FBYm5xZjpE6hSjopQ4bzRInwBIIqM0D64NFo+XGGWlhHkZGRgYhH
-  gKUotyM0tQ5V8xinMwKgnzzgMZz5OZVwI3/RXQYiagxVdizEAWlyQipKQamM45nfYSZUj2epN
-  zaLvVGf3ap5+tZrjVGrBbe3YyFu3rPzlX2U/G268+uSRkYrBr1a5auTUSUrmilR8M9/8QZC17
-  fSR/ZgyL+RKNk1zS0xZ910mwqnYutZ9pJCW9b/fEZ4sKJy+61ql+7N+ivXdWzdhRGqf+JlX+2
-  yNNK2bPF/uiba5eDI1Qm1040X7GNNfTi3li53SIbjhh8P9DddqNw/9Va3OO3qvWuPVi5hqW+3
-  b6DYoCL5Zam3fv+Sk6X5C7c6XuA3Ye41pnpcVf7ycfELJudT9e9n+HWNKVRW/2fZlbOrdhYdf
-  ixMtNKz6rSRz6Xr73t4zjCW0pv2dmpcYTPmx/pnp+u+mSt85z2g3YuZRYijMSDbWYi4oTAZiG
-  E5hCAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-22.tower-228.messagelabs.com!1614401324!780819!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=fail
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 8841 invoked from network); 27 Feb 2021 04:48:44 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-22.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 27 Feb 2021 04:48:44 -0000
-Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 11R4miO0007550
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 04:48:44 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 04:48:42 +0000
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] iproute2: upgrade 5.10.0 -> 5.11.0
-Date: Sat, 27 Feb 2021 12:48:16 +0800
-Message-ID: <1614401296-27095-4-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1614401296-27095-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1614401296-27095-1-git-send-email-wangmy@cn.fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G3a8OBV/;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id o188so1153238pfg.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NBQ9rJ6i0IhSm1cHqRlUTG6Lhh0nHkDgI9IhgXsAWdk=;
+        b=G3a8OBV/jHsm3k0i/xMDbOTKNCRxqfNsfmIoc8D9B0Gkvpkf+0pZQTvnYj1RuRqhdL
+         zTbapUJAq9lcsVMndyFRNXr0LVxRdNBU3VfyFEHm16flxuWkfE8ZCQwdELD/k27y2nf9
+         0uleOYwvUbtvB+t5wzw1Axl8UXPZRXh0knmEK3Wy40JoqwkR2zGPo5URAmbUROKoJ8KW
+         4Zf88TGtFr/cON5YFbxVxNsiuaC5rjGPRQIeZvITjBKYxDnXVyLBMPGF3dXbtpmJYJ8K
+         eWb92tjNhl1T2j/mCW+qq0kT1NvlK46vgGKkMd6xDRwoFAFTrHj5OwFOg62f+ihJjctO
+         d2hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NBQ9rJ6i0IhSm1cHqRlUTG6Lhh0nHkDgI9IhgXsAWdk=;
+        b=C+yv/P28DXYAAnLnOx7BiDBSfIsoTIujz9w9l/S7xdp9PPxH81tTlv4W9JRSo9rHGF
+         oUo7H9/qgCruEnmz0W6uEwl557QMu7mSZ1vIU7Eb0wucbGcREgkttHjNvuM7ObtixiBe
+         p2y/cStUy0k51A1LSrx+ed/qE0kT0miqor3LpGn7AwZfVBexwREhIh8pdXbmuJnFpqTy
+         GX55PHFoEJqFyoPXd2wscMyGWnjOd9n4loSLZJ54vQsdECybLF1yrSOEnyw3Uqv6DIc3
+         uqTKVgjBRihWkRZfKDCGylJdlFco12BqzxwXoCOl7MNcOgNmz/62dbgI4MQF1pfwK30i
+         eFXA==
+X-Gm-Message-State: AOAM533EOPA6BT4OuJL4LGcoDL4sCDs14H9baTUPNYEfBTPH9SLuGjxc
+	Bna9HGStoN1k2yXaqU4Rk6lXi8QFMYG/eQ==
+X-Google-Smtp-Source: ABdhPJx1IIWT7hOHIokWmJgGHEn1wgsT3sy4P55egQ58GmAf7RBycjqrP1+ofAzqKh4kRSeX1Q+eeQ==
+X-Received: by 2002:a62:68c1:0:b029:1ee:5dfa:860b with SMTP id d184-20020a6268c10000b02901ee5dfa860bmr1168178pfc.35.1614411695073;
+        Fri, 26 Feb 2021 23:41:35 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
+        by smtp.gmail.com with ESMTPSA id z137sm12462003pfc.172.2021.02.26.23.41.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Feb 2021 23:41:34 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/4] rxvt-unicode: Do not use throw specifications
+Date: Fri, 26 Feb 2021 23:41:29 -0800
+Message-Id: <20210227074132.4029374-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- R01UKEXCASM111.r01.fujitsu.local (10.183.43.167)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Fixes build with -std=c++17
+
+| ../../rxvt-unicode-9.22/src/../libev/ev++.h:379:46: error: ISO C++17 does not allow dynamic exception specifications
+|   379 |     default_loop (unsigned int flags = AUTO) throw (bad_loop)
+|       |                                              ^~~~~
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../iproute2/{iproute2_5.10.0.bb => iproute2_5.11.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_5.10.0.bb => iproute2_5.11.0.bb} (75%)
+ ...emove-deprecated-throw-specification.patch | 30 +++++++++++++++++++
+ .../rxvt-unicode/rxvt-unicode_9.22.bb         |  4 ++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.10.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb
-similarity index 75%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.10.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb
-index 4be9c82474..e27b42d232 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.10.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.11.0.bb
-@@ -4,7 +4,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
-            "
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+new file mode 100644
+index 0000000000..f10dca09d6
+--- /dev/null
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+@@ -0,0 +1,30 @@
++From 9a8f1d73e7b7e183768a8379ef32429a84f0e5c2 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Feb 2021 18:11:56 -0800
++Subject: [PATCH] libev: remove deprecated throw specification
++
++removes the throw specifications that are deprecated since C++11:
++warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libev/ev++.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libev/ev++.h b/libev/ev++.h
++index 4f0a36a..85ddf44 100644
++--- a/libev/ev++.h
+++++ b/libev/ev++.h
++@@ -376,7 +376,7 @@ namespace ev {
++ 
++   struct default_loop : loop_ref
++   {
++-    default_loop (unsigned int flags = AUTO) throw (bad_loop)
+++    default_loop (unsigned int flags = AUTO)
++ #if EV_MULTIPLICITY
++     : loop_ref (ev_default_loop (flags))
++ #endif
++-- 
++2.30.1
++
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
+index bfa8a614df..283e8d7751 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
+@@ -4,5 +4,7 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
  
--SRC_URI[sha256sum] = "a54a34ae309c0406b2d1fb3a46158613ffb83d33fefd5d4a27f0010237ac53e9"
-+SRC_URI[sha256sum] = "c5e2ea108212b3445051b35953ec267f9f3469e1d5c67ac034ab559849505c54"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+-SRC_URI[md5sum] = "93782dec27494eb079467dacf6e48185"
++SRC_URI += "file://0001-libev-remove-deprecated-throw-specification.patch"
++
+ SRC_URI[sha256sum] = "e94628e9bcfa0adb1115d83649f898d6edb4baced44f5d5b769c2eeb8b95addd"
++
 -- 
-2.25.1
+2.30.1
 
