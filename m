@@ -1,115 +1,125 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.5198.1614440103859997983
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web08.5894.1614443484676128935
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Feb 2021 07:35:04 -0800
+ Sat, 27 Feb 2021 08:31:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WYU2IeHY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id i9so9401494wml.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 07:35:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g6ao0AmI;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 15so6060304qvp.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 08:31:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ImzNMz4TB+OBp7GMgwEg/GVLkVwmboHGEkVORwg6m4s=;
-        b=WYU2IeHYeUEC1gH+IZsDKY9hDD+yjGwNYdYmi60aEEXQ2r1RnHV8OmFLic+3JLPV0G
-         xDpls/+6HA7oiPRtFqqHzDCROQp5fK2v3vobKGwPjBtZNqOsYuJ7nsvmr3qhFVEi7DXZ
-         efC2AGLcjfV4Jalmh5jfv3pRmSmiJ0UD/k8Tc=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=f7G4/8a/Njo0uszEf5OY6wPYLbn3fQh/h2opJaw6Doc=;
+        b=g6ao0AmIyApcNDFSGQeoGX6xOtQaUjo+w7EEFbRGJo1R+24ia/n3OOcioeogP75ZS0
+         4UAGjSBRYbp+TPrUiB3EIjBt5lfhNvOpfBeR+Rw9wsIUm4NomOzh12aeA/g+uzIO31m4
+         DK7FHgFfdkQsXDw03dNb3SriGY/a3fWpA751RXvcxzc+7oMy1na2nkgi2LKZxzaIrtHf
+         DnDDzzJwsFIWYUEnfLBBwGJ47UOR6wFvefmPJKECwPZK7wg/3YkA96g0TMo0Vrt6EOvU
+         F0BEgBrNbvv7gll+mbykYYqU3YUUkHG9fDwtyOcihkSlEod5PU3GBeHI2vZYWHYi/vhB
+         mllg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ImzNMz4TB+OBp7GMgwEg/GVLkVwmboHGEkVORwg6m4s=;
-        b=m0jliLCnyuNiUe3WkFqpm3bYODyUjT5fQzzZR8H8qJVpfs8FzAjIj18YwdnHwu/vPH
-         p5uNaOX33sSjQuzNwl087vVDNjHaaRezl6NcK1/SBkmoG7PykH3U7HgISkUolsCf6FMj
-         pthP9HgTLOUyUh3F82DMuxwn9oX0bjW/x3HylPv8HCclBPxiw8+8/LlTt7WLmLx7rMbE
-         02V4kC4FiLtguGo1/7sdpCBXO0f8S/YW1nnSs83Fgq2kw4E9xNiDhjdBBoXzArQo8tCy
-         WePqpuUsaywWhJ5wE6eiEkqx+vFP6dRwjMXiBUTxGtJQbCOimxZQFKVUiLwbvMne45wm
-         tVGg==
-X-Gm-Message-State: AOAM531J5Axuh9uHg1g8ZtzjGn/9E1Xm7lkGX/Xs1AKT4kTg4zU1gtDc
-	js7J286IkH0Ew9YMHVnCXzj9LdFaj61hnA==
-X-Google-Smtp-Source: ABdhPJzt6may87RXJGf8yQ0W3a8mC68ZI3L2mgV642ICsih50s8j2N0gw7cm41vSP/yweVWjsYKbUw==
-X-Received: by 2002:a05:600c:4ec6:: with SMTP id g6mr7665598wmq.72.1614440102159;
-        Sat, 27 Feb 2021 07:35:02 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:78c6:baba:ab09:bdce])
-        by smtp.gmail.com with ESMTPSA id 18sm1955708wmj.21.2021.02.27.07.35.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Feb 2021 07:35:02 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] libid3tag: Fix reproducibility issue
-Date: Sat, 27 Feb 2021 15:35:00 +0000
-Message-Id: <20210227153500.3963357-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
-References: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f7G4/8a/Njo0uszEf5OY6wPYLbn3fQh/h2opJaw6Doc=;
+        b=m5qXU4gK3YxKnUW2KSfrZBC3cOboNrn5ZRsl0xB1jWEfIKI/kvRZNhIWKjxJW6ZMiQ
+         +D3a6qkU9a6DkcK0ym0sTc7U87wkRvsngNM0e/0+hgVIGDRl0oGTpO+oDzWwwhgjsF3y
+         GHEghFyKcXw+a08r31wrZdfAQSjuVvPCW5Zbb+mR8e22rooQgBg8mDlazJ3Ji7ei0+Hv
+         WcyBMgvB+4nOhSNzAO387wMNftnbLpljrKGKlZEO5ioF/9FOTgzidQJ4wXePITMbtU6R
+         O4TjDH9P2v6aw3CGgchKloryNL52uSybiziQPM3NtW9QgNeRmkiFt5XF+3IuUc7EDtqk
+         Qhdg==
+X-Gm-Message-State: AOAM531g5nk3pcZ/OHQs8/R6gagOF0tSNRZvMeSyS9QU6DtX96NNW4iB
+	dWB2GilDWK2axdGRmsDa4Or0DiYlf600CblDXfM=
+X-Google-Smtp-Source: ABdhPJy1Y0omB+/YBcGvtX0tAvRAcHy2p1x1J0GzPA3ADTgIluPGCHK7IrcOXtZ58FTMVLj4+euL/YnqgVZuHvGM12U=
+X-Received: by 2002:a05:6214:80d:: with SMTP id df13mr1385238qvb.55.1614443483559;
+ Sat, 27 Feb 2021 08:31:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210225173653.2408-1-mac@mcrowe.com> <YDpe+v5had6dt56Z@piout.net>
+In-Reply-To: <YDpe+v5had6dt56Z@piout.net>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 27 Feb 2021 08:30:57 -0800
+Message-ID: <CAMKF1sph-7jsZ0G6Fvd9qrgEtDh7JNaVerLCncR+8KKQd+FqxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc-sanitizers: Move content from gcclibdir into libdir
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: yocto@mac.mcrowe.com, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Mike Crowe <mac@mcrowe.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Configure was swallowing our cflags meaning the resulting binaries were
-not reproducible. Tweak configure not to do that and fix reproducibility.
+thanks Alexandre
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
- .../libid3tag/libid3tag/cflags_filter.patch   | 21 +++++++++++++++++++
- .../libid3tag/libid3tag_0.15.1b.bb            |  1 +
- 3 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
+I think new dir needs to be added to FILES directive as well.
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index cb633f91177..63ffc2d4bd6 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -37,7 +37,6 @@ exclude_packages = [
- 	'go-',
- 	'gstreamer1.0-python',
- 	'libaprutil',
--	'libid3tag',
- 	'lttng-tools-dbg',
- 	'lttng-tools-ptest',
- 	'ltp',
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-new file mode 100644
-index 00000000000..0d1d0dc381c
---- /dev/null
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-@@ -0,0 +1,21 @@
-+configure contains CFLAGS filtering code which was removing our prefix-map
-+flags. We need those to generate reproducible binaries. Allow them through.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: libid3tag-0.15.1b/configure.ac
-+===================================================================
-+--- libid3tag-0.15.1b.orig/configure.ac
-++++ libid3tag-0.15.1b/configure.ac
-+@@ -99,6 +99,10 @@ do
-+ 	-mno-cygwin)
-+ 	    shift
-+ 	    ;;
-++	-fmacro-prefix-map*|-fdebug-prefix-map*)
-++	    CFLAGS="$CFLAGS $1"
-++	    shift
-++	    ;;
-+ 	-m*)
-+ 	    arch="$arch $1"
-+ 	    shift
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index 0312a610c07..80581765ac2 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
-            file://0001-Fix-gperf-3.1-incompatibility.patch \
-            file://10_utf16.patch \
-            file://unknown-encoding.patch \
-+           file://cflags_filter.patch \
-            "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
- UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
--- 
-2.27.0
-
+On Sat, Feb 27, 2021 at 7:02 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello,
+>
+> On 25/02/2021 17:36:53+0000, Mike Crowe via lists.openembedded.org wrote:
+> > In e9e5744ba8b0d43c8b874d365f83071ce20bf0a1, Khem Raj wrote:
+> > > OE does not use the traditional /usr/lib/gcc prefix to store
+> > > gcc-runtime it basically is moved into libdir, however some newer
+> > > files were installed by newer versions of gcc especially libgomp (
+> > > omp.h openacc.h ) into gcclibdir, so we have content in both
+> > > directories, this confuses other tools which are trying to guess the
+> > > gcc installation and its runtime location, since now we have two
+> > > directories, the tools either choose one or other and we get
+> > > inconsistent behavior, e.g. clang for aarch64 uses /usr/lib but same
+> > > clang for riscv64 chose /usr/lib/gcc
+> >
+> > > This change ensures that OE ends up with single valid location for gcc
+> > > runtime files
+> >
+> > I think that the same thing needs to happen in gcc-sanitizers.inc,
+> > otherwise I get errors like:
+> >
+> > | .../recipe-sysroot/usr/include/gpg-error-64.h:884:11: fatal error: sanitizer/lsan_interface.h: No such file or directory
+> >
+> > when attempting to compile with sanitizers enabled.
+> >
+> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> > Cc: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> > index 668e14a59f..67b755edf8 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> > @@ -35,6 +35,11 @@ do_compile () {
+> >  do_install () {
+> >      cd ${B}/${TARGET_SYS}/libsanitizer/
+> >      oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libsanitizer/ install
+> > +    if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
+> > +     install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+> > +     mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+> > +     rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include
+> > +    fi
+> >      if [ -d ${D}${infodir} ]; then
+> >          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+> >      fi
+>
+> This seems to result in the following erro on the autobuilders:
+>
+> ERROR: gcc-sanitizers-10.2.0-r0 do_package: QA Issue: gcc-sanitizers: Files/directories were installed but not shipped in any package:
+>   /usr/lib/i686-poky-linux
+>   /usr/lib/i686-poky-linux/10.2.0
+>   /usr/lib/i686-poky-linux/10.2.0/include
+>   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer
+>   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/common_interface_defs.h
+>   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/lsan_interface.h
+>   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/asan_interface.h
+>   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/tsan_interface.h
+> Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+> gcc-sanitizers: 8 installed and not shipped files. [installed-vs-shipped]
+> ERROR: gcc-sanitizers-10.2.0-r0 do_package: Fatal QA errors found, failing task.
+>
+> It seems to be an easy one to fix.
+>
+> Regards,
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
