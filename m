@@ -1,118 +1,111 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web09.1947.1614416101855440395
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web09.4660.1614437557243141530
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Feb 2021 00:55:02 -0800
+ Sat, 27 Feb 2021 06:52:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JCOF/euY;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id r23so13391032ljh.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 00:55:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WL8oqBFPatFb5eMUJxI5co7t10BBvv7jfPWG9PJfnXU=;
-        b=JCOF/euYEhoiSPOvabeW63Uu/GGWbcePXvJ1n+JgJew6Y+LVvhJeczG5WqlisF9KKV
-         sdOxyTokzkZIUAJWehOE1NbR8S2ED+jWU1P9O18AIusLHv5YO3ACRhx8Klw4rppstb5y
-         R8/1lyorHiQhrM72cQ1QJNSU073m1XqCEp6QUzf/V6+ZGQ4PS1sQfk5e/aXUezk2Hx76
-         P1iuig1b57/uTwRLZjceIpqhi7Vbqnfjo8nyj4gHeKhGSOVmSQ7Op6xfULlDfbUyC3gN
-         ZTR2y4nAR8JQsRmqixLTwCJURBHOB5NP0FPQcBtrsS8WWF1OXq8vTpNZhAZ/aX0gsZPU
-         EzuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WL8oqBFPatFb5eMUJxI5co7t10BBvv7jfPWG9PJfnXU=;
-        b=LMXesMzUy1gkIitGKTqEj5Y2h3IushxgWOaTrb6JK57w6mU5hm5LCrOg+jykef0jkB
-         1M8cDrjnJ23OON2An+5u5WQQyfpNK21vGbnFY3dqq1xtzTC/38QUbGQK05VatQF8oIBl
-         4QG0hDcJliXs92p5nYtNdLpEifORNpZF3OXSJ9ls4LhnQl51dWetngvlLmk7jv8yI54/
-         1XM2DvKevjJegr+3/Jys1tbBnXllN8Vx9SagPXDZidYLY7lTyAfVtlv9jTuMePKuHMSa
-         npd5sxFHIuhGYkg9FSH3KgX0ItfS4gfWqVgNWQSW393mSvjh7q7CsEOxNkcyLMRJfvMD
-         1nog==
-X-Gm-Message-State: AOAM530u8/CZRgQblPW9NbfFeyjwfdBA9n79jf62HWpiSHf5h2rhhAT8
-	onl2SL62tgl16c6djdHsNJepEXW145I2bSs6GPY=
-X-Google-Smtp-Source: ABdhPJw8S5aQC7dcFyiF3ooMMP9oWbMo/QOwXShdC6hYzLPpMcVkT6b+0ULAHERYgf8UXW1OX3HqwuUq8iHqbQ056YU=
-X-Received: by 2002:a05:651c:387:: with SMTP id e7mr3891745ljp.425.1614416099709;
- Sat, 27 Feb 2021 00:54:59 -0800 (PST)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+X-Originating-IP: 90.65.108.55
+Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
+	(Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 46CE5FF802;
+	Sat, 27 Feb 2021 14:52:24 +0000 (UTC)
+Date: Sat, 27 Feb 2021 15:52:23 +0100
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Luca Bocassi <luca.boccassi@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, bluelightning@bluelightning.org
+Subject: Re: [OE-core] [PATCH v5] util-linux: split uuid in separate recipe to allow bootstrapping
+Message-ID: <YDpcp0FCjX0B2UNo@piout.net>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+ <20210225153035.1239276-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-References: <20210227081811.4076701-1-raj.khem@gmail.com>
-In-Reply-To: <20210227081811.4076701-1-raj.khem@gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Sat, 27 Feb 2021 00:54:48 -0800
-Message-ID: <CAJ86T=VBJ0w_G6zrku+PUsf7m72Z_NaYjNqnrte94WC4Mfor5g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] spirv-tools: Replace strncpy with memcpy
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210225153035.1239276-1-luca.boccassi@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Feb 27, 2021 at 12:18 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Fixes warnings produced with gcc 11
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../files/0001-fix-strncpy-bound-error.patch  | 30 +++++++++++++++++++
->  .../spir/spirv-tools_2020.6.bb                |  4 ++-
->  2 files changed, 33 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
->
-> diff --git a/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch b/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
-> new file mode 100644
-> index 0000000000..bc59faa37b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/spir/files/0001-fix-strncpy-bound-error.patch
-> @@ -0,0 +1,30 @@
-> +From 1ba007583b83468494c4146bcb7267d863de6a7b Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Fri, 26 Feb 2021 23:54:10 -0800
-> +Subject: [PATCH] fix strncpy bound error
-> +
-> +This patch fixes the following error while using gcc 11
-> +error: 'char* __builtin_strncpy(char*, const char*, long unsigned int)' specified bound depends on the length of the source argument [-Werror=stringop-overflow=]
-> +
-> +Upstream-Status: Submitted [https://github.com/KhronosGroup/SPIRV-Tools/pull/4151]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + source/diagnostic.cpp | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/source/diagnostic.cpp b/source/diagnostic.cpp
-> +index edc27c8fd..77c29d70c 100644
-> +--- a/source/diagnostic.cpp
-> ++++ b/source/diagnostic.cpp
-> +@@ -37,7 +37,7 @@ spv_diagnostic spvDiagnosticCreate(const spv_position position,
-> +   diagnostic->position = *position;
-> +   diagnostic->isTextSource = false;
-> +   memset(diagnostic->error, 0, length);
-> +-  strncpy(diagnostic->error, message, length);
-> ++  memcpy(diagnostic->error, message, length);
+Hello,
 
-The memset() should be removed too.
-
-> +   return diagnostic;
-> + }
-> +
-> +--
-> +2.30.1
-> +
-> diff --git a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
-> index 4f45c68bbe..f57a7bd357 100644
-> --- a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
-> +++ b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
-> @@ -7,7 +7,9 @@ LICENSE  = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
->
->  SRCREV = "b27b1afd12d05bf238ac7368bb49de73cd620a8e"
-> -SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git"
-> +SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git \
-> +           file://0001-fix-strncpy-bound-error.patch \
-> +          "
->  UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
->  S = "${WORKDIR}/git"
->
-> --
-> 2.30.1
->
->
+On 25/02/2021 15:30:35+0000, Luca Bocassi wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
 > 
->
+> Recently util-linux gained an (optional) build dependency on libcryptsetup.
+> But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
+> and uuid (mandatory).
+> Split out util-linux-uuid in a different recipe to break the cycle.
+> 
+> https://github.com/karelzak/util-linux/pull/898
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+>     underway as I'm not sure if this is the best approach or if there are
+>     alternatives. Suggestions and comments very welcome. Thanks!
+> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+>     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+>     as it does not have its own autoconf switch. Delete the library manualy from
+>     the main recipe after build instead, and add dependency.
+>     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+>     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+> v3: rebased and refactored to have a common util-linux.inc file
+> v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
+> v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
+>     Removed PACKAGES_remove and instead filter out libuuid via the package generation
+>     regex.
+>     Rebased on util-linux 2.36.2.
+> 
+>  .../util-linux/util-linux-uuid_2.36.2.bb      | 22 ++++++++
+>  meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++
+>  .../util-linux/util-linux_2.36.2.bb           | 53 +++++--------------
+>  3 files changed, 75 insertions(+), 41 deletions(-)
+>  create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+>  create mode 100644 meta/recipes-core/util-linux/util-linux.inc
+> 
+
+With this patch, there is a very weird failure on the autobuilders, two
+a-full builds failed with this:
+
+ERROR: musl-1.2.2+gitAUTOINC+e5d2823631-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:extend_recipe_sysroot(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/staging.bbclass', lineno: 582, function: extend_recipe_sysroot
+     0578:                    if "/bin/" in l or "/sbin/" in l:
+     0579:                        # defer /*bin/* files until last in case they need libs
+     0580:                        binfiles[l] = (targetdir, dest)
+     0581:                    else:
+ *** 0582:                        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
+     0583:
+     0584:    # Handle deferred binfiles
+     0585:    for l in binfiles:
+     0586:        (targetdir, dest) = binfiles[l]
+File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/staging.bbclass', lineno: 157, function: staging_copyfile
+     0153:        os.symlink(linkto, dest)
+     0154:        #bb.warn(c)
+     0155:    else:
+     0156:        try:
+ *** 0157:            os.link(c, dest)
+     0158:        except OSError as err:
+     0159:            if err.errno == errno.EXDEV:
+     0160:                bb.utils.copyfile(c, dest)
+     0161:            else:
+Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sysroots-components/core2-32/libgcc/usr/lib/i686-poky-linux-musl/10.2.0/libgcc_eh.a' -> '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+gitAUTOINC+e5d2823631-r0/recipe-sysroot/usr/lib/i686-poky-linux-musl/10.2.0/libgcc_eh.a'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+gitAUTOINC+e5d2823631-r0/temp/log.do_package.4051328
+NOTE: recipe musl-1.2.2+gitAUTOINC+e5d2823631-r0: task do_package: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/poky-tiny/build/meta/recipes-core/musl/musl_git.bb:do_package) failed with exit code '1'
+
+This also happens with glibc-2.33-r0:
+
+
+ERROR: glibc-2.33-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
+[...]
+Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/sysroots-components/mips64/libgcc/usr/lib/mips64-poky-linux/10.2.0/libgcc.a' -> '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/recipe-sysroot/usr/lib/mips64-poky-linux/10.2.0/libgcc.a'
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/temp/log.do_package.29993
+NOTE: recipe glibc-2.33-r0: task do_package: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/edgerouter/build/meta/recipes-core/glibc/glibc_2.33.bb:do_package) failed with exit code '1'
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
