@@ -1,35 +1,35 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.5302.1614440103265423281
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.5197.1614440103690718459
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Feb 2021 07:35:03 -0800
+ Sat, 27 Feb 2021 07:35:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gfcIJXAz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id b3so11483923wrj.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 07:35:02 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ejYhA7h3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id p3so9723656wmc.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 07:35:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=dT90KLQH/nGurwSOSfh0o9U217yzgU5bBycKOxkh/4Q=;
-        b=gfcIJXAzX/3x200gTpJZOlCCqektdQQS0qEClUpfJx/+JP/sS0YltduccfVo5Vn62n
-         /ug11E+W4mQqocHZzlk0+BJt8gvjragKyxZrxn8dR/zFoX4zYJKm8NoQRDgPH54u0b/P
-         ts0Fv44wjpuH7SoVaZlPbhT9rAvNKaVlZtUS0=
+        bh=IHT4bf/ojqt9rd+HO1Wg7apwCJyDKTpyBzAjckrQEeY=;
+        b=ejYhA7h36z0p7/zWOymtn0r992e5nORN2gly4g36nmkcIKF9gkOU89IZRoH1vZvS1d
+         e2+pFaGtsmiNzfRrNVoHSK+Durm6BVHEaviLlLMzrzoBKxf4Vyc5Zrq7DZfCzATE6v6b
+         i8g8vtnTAqIjZmcCZ77ZG4uLvmrJsckES0UeA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dT90KLQH/nGurwSOSfh0o9U217yzgU5bBycKOxkh/4Q=;
-        b=DrNNWjM6Kqmtt4AIi5TPQVIx95PL0xIF9BFhiAAuHyKY9JA5XnU5t6KEvyr4OzMW0s
-         vMn8JHvby1Qrv6zmeIKbhbF1eU7SRZkrNhB1TCF04hb6OyMJWwcu3eglKewmLOyJGrcx
-         9fm6ccVu4Wkg4Dv1eyH4yt1l/KwTc4UQCg3DeD2bkxf/oJVOPMrj9igwpuTGGoCLfmDJ
-         5XvtupQYNCRlLT30CtaVbLQFmhDQQXqYv8apfuHUkJ9Ek+u0ZokwJGLYulFgb+K6CdqF
-         tfbpmFaVxu6H75hA1MedIynb/+iq22rmrGGvZRE3FWZeqI/UHPwk17b9Bxq4zg/ArOv3
-         +3VQ==
-X-Gm-Message-State: AOAM532HAc/J8dh7Lsd7eez2HfiUJ2dFbxRzQOAWiZcRegQzVBDL5fLH
-	s+VCHnHJKWtjZfAsdJo+uSBryYRUohTpYQ==
-X-Google-Smtp-Source: ABdhPJwYfGSF065bKeMJ+rFOk4oR4cp97wuiFE6D1eLA2uEMX38lHhbOh1UTFM4n4cSgN5jjyoYf6Q==
-X-Received: by 2002:a5d:4e85:: with SMTP id e5mr8630640wru.218.1614440101502;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IHT4bf/ojqt9rd+HO1Wg7apwCJyDKTpyBzAjckrQEeY=;
+        b=Z6lWagTfLNav+0WSplsSUO8BUKvLzE2EKLJC8rSR59vU3QoJRILu54Mq38FnfB1N52
+         +Dqi9HAgl5KwG/OhzzXPrmJXXU9hd12v6Z95vBBLFNnWjTV8UD5HwWmoJNCn7lp8tiyr
+         ht5JeNRwlB7+9QPGx6VbPv14NUaev9jNYd3T2a6Xion+sk4VJW144K97xgTZFTLMapz8
+         wbZ74hckxKEq6/rm+AHTW4xSvNo03ajiUe1J+7VBLhUZomlcLOPz/O6+WqIwwoKi7nII
+         7oF83Szy5x3pYdq+t3NhTZnWacstU++tXt0JIx5TorosY5gOXOlCfk1A9ozigVQfext7
+         /P3Q==
+X-Gm-Message-State: AOAM533PbHEbkvtkO/NGNXOIYFDF/o7mx7FsloI8IH4571Z4LJ7n5QYs
+	2x2OPlmisl+xiD2han6s9+KpqO89HPdbsA==
+X-Google-Smtp-Source: ABdhPJx8icvxoUXy1/2oklS6WDc4H531fNCDGYxUMUelUBJmHAQvFf5wXCv+6hq4WDYVAem60kLEAg==
+X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr7703127wmk.27.1614440101878;
         Sat, 27 Feb 2021 07:35:01 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:78c6:baba:ab09:bdce])
@@ -39,50 +39,105 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:78c6:baba:ab09:bdce])
         Sat, 27 Feb 2021 07:35:01 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] bootchart2: Fix manpage reproducibility issue
-Date: Sat, 27 Feb 2021 15:34:58 +0000
-Message-Id: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] igt-gpu-tools: Fix reproducibility issue
+Date: Sat, 27 Feb 2021 15:34:59 +0000
+Message-Id: <20210227153500.3963357-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
+References: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The compressed docs contained a timestamp of the original file which
-meant the SDE clamping during package creation didn't work. The
-benefits of compression are minor, decompress the files to avoid
-the reproducibility issues.
+Add a configuration option to pass in srcdir, removing hard coded
+build paths from the binaries.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py          | 1 -
- meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
+ .../igt-gpu-tools/reproducibility.patch       | 38 +++++++++++++++++++
+ .../igt-gpu-tools/igt-gpu-tools_git.bb        |  5 ++-
+ 3 files changed, 41 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index b622a33481c..10bd37cd258 100644
+index 10bd37cd258..cb633f91177 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -28,7 +28,6 @@ import datetime
- # ruby-ri-docs, meson:
- #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210215-0_td9la2/packages/diff-html/
- exclude_packages = [
--	'bootchart2-doc',
- 	'efivar',
- 	'glide',
- 	'go-dep',
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-index 6571c199387..f6a77b46060 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.9.bb
-@@ -139,6 +139,9 @@ do_install () {
- 
-    # Use python 3 instead of python 2
-    sed -i -e '1s,#!.*python.*,#!${USRBINPATH}/env python3,' ${D}${bindir}/pybootchartgui
+@@ -36,7 +36,6 @@ exclude_packages = [
+ 	'go_',
+ 	'go-',
+ 	'gstreamer1.0-python',
+-	'igt-gpu-tools',
+ 	'libaprutil',
+ 	'libid3tag',
+ 	'lttng-tools-dbg',
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
+new file mode 100644
+index 00000000000..39e36d87378
+--- /dev/null
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
+@@ -0,0 +1,38 @@
++meson: Allow source location to be configurable
 +
-+    # The timestamps embedded in compressed man pages is not reproducible
-+    gzip -d ${D}${mandir}/man1/*.gz
- }
++Hardcoding a build source path into a binary when cross compiling isn't
++appropriate and breaks build reproducibility. Allow the srcdir to be
++specified by an optional configuration option to meson.
++
++Signed-off-by: Richard Purdie <richard.purdie at linuxfoundation.org>
++Upstream-Status: Submitted [https://lists.freedesktop.org/archives/igt-dev/2021-February/029443.html]
++
++Index: git/lib/meson.build
++===================================================================
++--- git.orig/lib/meson.build
+++++ git/lib/meson.build
++@@ -122,7 +122,11 @@ if chamelium.found()
++ 	lib_sources += 'igt_chamelium_stream.c'
++ endif
++ 
++-srcdir = join_paths(meson.source_root(), 'tests')
+++if get_option('srcdir') != ''
+++    srcdir = join_paths(get_option('srcdir'), 'tests')
+++else
+++    srcdir = join_paths(meson.source_root(), 'tests')
+++endif
++ 
++ lib_version = vcs_tag(input : 'version.h.in', output : 'version.h',
++ 		      fallback : 'NO-GIT',
++Index: git/meson_options.txt
++===================================================================
++--- git.orig/meson_options.txt
+++++ git/meson_options.txt
++@@ -50,3 +50,7 @@ option('use_rpath',
++        type : 'boolean',
++        value : false,
++        description : 'Set runpath on installed executables for libigt.so')
+++
+++option('srcdir',
+++       type : 'string',
+++       description : 'Path to source code to be compiled into binaries (optional)')
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+index 89480d79d21..f25cbc06038 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+@@ -10,7 +10,8 @@ inherit meson
+ SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
+ PV = "1.25+git${SRCPV}"
  
- PACKAGES =+ "pybootchartgui"
+-SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
++SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https \
++           file://reproducibility.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -22,7 +23,7 @@ PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+ 
+ PACKAGECONFIG[chamelium] = "-Dchamelium=enabled,-Dchamelium=disabled,gsl xmlrpc-c"
+ 
+-EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled"
++EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dsrcdir=/usr/src/debug/${PN}/${PV}-${PR}/git/"
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
+ COMPATIBLE_HOST_libc-musl_class-target = "null"
+ SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
 -- 
 2.27.0
 
