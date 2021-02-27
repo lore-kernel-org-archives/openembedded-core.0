@@ -1,129 +1,152 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.4927.1614438912428429116
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web08.4962.1614438967581110447
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Feb 2021 07:15:12 -0800
+ Sat, 27 Feb 2021 07:16:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-X-Originating-IP: 90.65.108.55
-Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
-	(Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 62CAE1C0009;
-	Sat, 27 Feb 2021 15:15:09 +0000 (UTC)
-Date: Sat, 27 Feb 2021 16:15:08 +0100
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Luca Bocassi <luca.boccassi@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, bluelightning@bluelightning.org
-Subject: Re: [OE-core] [PATCH v5] util-linux: split uuid in separate recipe to allow bootstrapping
-Message-ID: <YDph/MNz185ufMZR@piout.net>
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
- <20210225153035.1239276-1-luca.boccassi@gmail.com>
- <YDpcp0FCjX0B2UNo@piout.net>
- <YDpgUIRQ9vnkUISx@piout.net>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C6FVBZ/6;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id j12so8231264pfj.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 07:16:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0c5PEAwZmV3HCt1y+sFedArM1ZP3SHBXlnymVZWE7GM=;
+        b=C6FVBZ/69V7SqpZPpXCk25Kn55LTkRxU41/qUHBkhYM0BRH64WKeu/5H+0C4aopDa3
+         SWrUimrFHZ0bElXV3XCJ4bU5+BSklEnbnmh7s1KOM7CbChWDi9w+5O7uaimusned1Qhg
+         pMgNvXbdXaOxw9fCV125eAKzBi1ezKkF+W+ervSHv5rWMDUR1S78DE9uBVSCS7wjqDIE
+         oVCeA1EGr9HnW6yIboGEG5lbUtbyKHA1wjUj18MMxhaDeA5DFoEEQ/EBF7RjiXIs+dDB
+         D0StFPzxbRcw1hXkNpfbnHEj6qSW8tqFWvRY3YlBouPnknEgYXuwP8LO2oTUnMl8R3Pu
+         r3Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0c5PEAwZmV3HCt1y+sFedArM1ZP3SHBXlnymVZWE7GM=;
+        b=ccFPdMIOBv7YhZ/bapnk5gN55j/ylsk/aWiN7jHERM6ZFwIxCDejAaLppBm7lzhom+
+         ohIsZrg1Dj9W6hcIOH0dAljQmraRV2ruxMeL7alURpSXLv9e/5L4ZxR4g28Zd/qUvOkF
+         Ed52sVqtTd1u5hW6GtS15qSFD7Mjfm78bXtLvCk0bKf1THtK4brD8n46zPmSD/NJ5PfB
+         9wulLKGjv/86IVPnHlbgpC1T1LcvvleHP4O4dy1n05nqWUX/uu2EMmOIwnwQO7DWqdXw
+         sXBpGmjb6AIS2fHNwrcIG5GC/sjAP05rx4QOhfJYmlx8egP+MRn4wQdyRLvxfpQICisK
+         FLkA==
+X-Gm-Message-State: AOAM5330QyIqoxCp2HYK45AK77aMdsqgYWefEs8nhkuyYHE7Se0n00Pf
+	lY0cAJsR1AgQd4h8RYL25nYrBgQ0MEaDkg==
+X-Google-Smtp-Source: ABdhPJyysVjmelzx4BxRvFJSAo48GzJqb+n6Aw/nscXGYRvlvf1UWZ1AkWBtjt+CcbpJctpGBd/46g==
+X-Received: by 2002:a63:304:: with SMTP id 4mr5545662pgd.280.1614438966382;
+        Sat, 27 Feb 2021 07:16:06 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
+        by smtp.gmail.com with ESMTPSA id c18sm11114941pgm.88.2021.02.27.07.16.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Feb 2021 07:16:05 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] kea: Fix configure test error with gcc11
+Date: Sat, 27 Feb 2021 07:16:03 -0800
+Message-Id: <20210227151603.157153-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <YDpgUIRQ9vnkUISx@piout.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 27/02/2021 16:08:02+0100, Alexandre Belloni wrote:
-> On 27/02/2021 15:52:25+0100, Alexandre Belloni wrote:
-> > Hello,
-> > 
-> > On 25/02/2021 15:30:35+0000, Luca Bocassi wrote:
-> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > 
-> > > Recently util-linux gained an (optional) build dependency on libcryptsetup.
-> > > But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
-> > > and uuid (mandatory).
-> > > Split out util-linux-uuid in a different recipe to break the cycle.
-> > > 
-> > > https://github.com/karelzak/util-linux/pull/898
-> > > 
-> > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > ---
-> > > v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
-> > >     underway as I'm not sure if this is the best approach or if there are
-> > >     alternatives. Suggestions and comments very welcome. Thanks!
-> > > v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
-> > >     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
-> > >     as it does not have its own autoconf switch. Delete the library manualy from
-> > >     the main recipe after build instead, and add dependency.
-> > >     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
-> > >     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
-> > > v3: rebased and refactored to have a common util-linux.inc file
-> > > v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
-> > > v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
-> > >     Removed PACKAGES_remove and instead filter out libuuid via the package generation
-> > >     regex.
-> > >     Rebased on util-linux 2.36.2.
-> > > 
-> > >  .../util-linux/util-linux-uuid_2.36.2.bb      | 22 ++++++++
-> > >  meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++
-> > >  .../util-linux/util-linux_2.36.2.bb           | 53 +++++--------------
-> > >  3 files changed, 75 insertions(+), 41 deletions(-)
-> > >  create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-> > >  create mode 100644 meta/recipes-core/util-linux/util-linux.inc
-> > > 
-> > 
-> > With this patch, there is a very weird failure on the autobuilders, two
-> > a-full builds failed with this:
-> > 
-> > ERROR: musl-1.2.2+gitAUTOINC+e5d2823631-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
-> > The stack trace of python calls that resulted in this exception/failure was:
-> > File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-> >      0001:
-> >  *** 0002:extend_recipe_sysroot(d)
-> >      0003:
-> > File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/staging.bbclass', lineno: 582, function: extend_recipe_sysroot
-> >      0578:                    if "/bin/" in l or "/sbin/" in l:
-> >      0579:                        # defer /*bin/* files until last in case they need libs
-> >      0580:                        binfiles[l] = (targetdir, dest)
-> >      0581:                    else:
-> >  *** 0582:                        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
-> >      0583:
-> >      0584:    # Handle deferred binfiles
-> >      0585:    for l in binfiles:
-> >      0586:        (targetdir, dest) = binfiles[l]
-> > File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/staging.bbclass', lineno: 157, function: staging_copyfile
-> >      0153:        os.symlink(linkto, dest)
-> >      0154:        #bb.warn(c)
-> >      0155:    else:
-> >      0156:        try:
-> >  *** 0157:            os.link(c, dest)
-> >      0158:        except OSError as err:
-> >      0159:            if err.errno == errno.EXDEV:
-> >      0160:                bb.utils.copyfile(c, dest)
-> >      0161:            else:
-> > Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/sysroots-components/core2-32/libgcc/usr/lib/i686-poky-linux-musl/10.2.0/libgcc_eh.a' -> '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+gitAUTOINC+e5d2823631-r0/recipe-sysroot/usr/lib/i686-poky-linux-musl/10.2.0/libgcc_eh.a'
-> > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+gitAUTOINC+e5d2823631-r0/temp/log.do_package.4051328
-> > NOTE: recipe musl-1.2.2+gitAUTOINC+e5d2823631-r0: task do_package: Failed
-> > ERROR: Task (/home/pokybuild/yocto-worker/poky-tiny/build/meta/recipes-core/musl/musl_git.bb:do_package) failed with exit code '1'
-> > 
-> > This also happens with glibc-2.33-r0:
-> > 
-> > 
-> > ERROR: glibc-2.33-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
-> > [...]
-> > Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/sysroots-components/mips64/libgcc/usr/lib/mips64-poky-linux/10.2.0/libgcc.a' -> '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/recipe-sysroot/usr/lib/mips64-poky-linux/10.2.0/libgcc.a'
-> > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/temp/log.do_package.29993
-> > NOTE: recipe glibc-2.33-r0: task do_package: Failed
-> > ERROR: Task (/home/pokybuild/yocto-worker/edgerouter/build/meta/recipes-core/glibc/glibc_2.33.bb:do_package) failed with exit code '1'
-> > 
-> 
-> Not sure this helps but we also get:
-> 
-> WARNING: nativesdk-util-linux-2.36.2-r0 do_package_qa: QA Issue: nativesdk-util-linux rdepends on nativesdk-util-linux-uuid, but it isn't a build dependency? [build-deps]
-> 
-> 
+Since the test program fails to compile, configure thinks compiler is
+not having thread support and bails out
 
-and I'm adding https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/3137/steps/12/logs/stdio :
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Update limits.h patch to fix .c files instead
 
-ERROR: util-linux-uuid-2.36.2-r0 do_package: QA Issue: util-linux-uuid: Files/directories were installed but not shipped in any package:
-  /usr/lib/libuuid.a
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+ ...01-ax_cpp11.m4-Include-memory-header.patch | 24 +++++++++++++
+ .../kea/files/0001-include-limits.h.patch     | 35 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_1.8.2.bb    |  2 ++
+ 3 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
 
-
+diff --git a/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+new file mode 100644
+index 0000000000..4978cae87c
+--- /dev/null
++++ b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+@@ -0,0 +1,24 @@
++From 5314a4815006e3a42f3ce265d1597db700cdb784 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Feb 2021 23:14:20 -0800
++Subject: [PATCH] ax_cpp11.m4: Include <memory> header
++
++This is needed for std::shared_ptr
++GCC-11 throws errors if header is not included
++
++Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ m4macros/ax_cpp11.m4 | 1 +
++ 1 file changed, 1 insertion(+)
++
++--- a/m4macros/ax_cpp11.m4
+++++ b/m4macros/ax_cpp11.m4
++@@ -182,6 +182,7 @@ for retry in "none" "--std=c++11" "--std
++ 	AC_COMPILE_IFELSE(
++ 		[AC_LANG_PROGRAM(
++ 			[#include <thread>
+++			 #include <memory>
++ 			 std::shared_ptr<std::thread> th;],
++ 			[th.reset(new std::thread([[]]() { return; }));
++ 			 th->join();])],
+diff --git a/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
+new file mode 100644
+index 0000000000..3856b3d523
+--- /dev/null
++++ b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
+@@ -0,0 +1,35 @@
++From 7bca122e15bbe98c7b8da851ef3e1cf9a714afd9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Feb 2021 23:31:15 -0800
++Subject: [PATCH] include limits.h
++
++Fixes build with gcc11
++backend_selector.cc:61:35: error: 'numeric_limits' is not a member of 'std'
++
++Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/lib/exceptions/exceptions.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++--- a/src/lib/database/backend_selector.cc
+++++ b/src/lib/database/backend_selector.cc
++@@ -6,7 +6,7 @@
++ 
++ #include <database/backend_selector.h>
++ #include <exceptions/exceptions.h>
++-#include <climits>
+++#include <limits>
++ #include <sstream>
++ 
++ using namespace isc::data;
++--- a/src/lib/dhcpsrv/subnet_id.h
+++++ b/src/lib/dhcpsrv/subnet_id.h
++@@ -10,6 +10,7 @@
++ #include <exceptions/exceptions.h>
++ #include <stdint.h>
++ #include <typeinfo>
+++#include <limits>
++ 
++ namespace isc {
++ namespace dhcp {
+diff --git a/meta/recipes-connectivity/kea/kea_1.8.2.bb b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+index 3dc4f6af70..fe10d90620 100644
+--- a/meta/recipes-connectivity/kea/kea_1.8.2.bb
++++ b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+@@ -18,6 +18,8 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix-multilib-conflict.patch \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
++           file://0001-ax_cpp11.m4-Include-memory-header.patch \
++           file://0001-include-limits.h.patch \
+            "
+ SRC_URI[sha256sum] = "486ca7abedb9d6fdf8e4344ad8688d1171f2ef0f5506d118988aadeae80a1d39"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.1
+
