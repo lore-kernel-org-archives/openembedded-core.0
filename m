@@ -1,116 +1,112 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web09.1544.1614411695947447476
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.1506.1614411696669487749
  for <openembedded-core@lists.openembedded.org>;
  Fri, 26 Feb 2021 23:41:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=G3a8OBV/;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id o188so1153238pfg.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AXYyCwSG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id f8so6524030plg.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NBQ9rJ6i0IhSm1cHqRlUTG6Lhh0nHkDgI9IhgXsAWdk=;
-        b=G3a8OBV/jHsm3k0i/xMDbOTKNCRxqfNsfmIoc8D9B0Gkvpkf+0pZQTvnYj1RuRqhdL
-         zTbapUJAq9lcsVMndyFRNXr0LVxRdNBU3VfyFEHm16flxuWkfE8ZCQwdELD/k27y2nf9
-         0uleOYwvUbtvB+t5wzw1Axl8UXPZRXh0knmEK3Wy40JoqwkR2zGPo5URAmbUROKoJ8KW
-         4Zf88TGtFr/cON5YFbxVxNsiuaC5rjGPRQIeZvITjBKYxDnXVyLBMPGF3dXbtpmJYJ8K
-         eWb92tjNhl1T2j/mCW+qq0kT1NvlK46vgGKkMd6xDRwoFAFTrHj5OwFOg62f+ihJjctO
-         d2hA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=w61QzY96e45WH+/zSiFgv3oje+y+rQz8GF0KLLWapmE=;
+        b=AXYyCwSGCFAgvqjmpjsjWVjSHS6voiKB+WxqOLUdUnuIAzbw3xQ5Ab3D0HHa/aEIhv
+         5wxEM3dbiCQ99quQKxh6McLVQZKIWQWgpIHulDpU/6l3lgxFris1SgUofHU9HHoDpK2y
+         uJacfUGAFakNF+8lQBNGOeT4jpNmZnEK7DqBZiXzRhvL/h8qy2rSVYnNiiCLomqLwAI9
+         738a054MyIi9iI7bXjVRXxGHjYi1krXfy/EQVXLOpQ/9Xxe2MC/izLfLZS30hphczSaK
+         Z16LgFUUJwDm80mLUnBGGDdHNOyJt06SSTx++jnSEjiUtWl02dm7p5t/ZLk7YbBPAvuh
+         XHPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NBQ9rJ6i0IhSm1cHqRlUTG6Lhh0nHkDgI9IhgXsAWdk=;
-        b=C+yv/P28DXYAAnLnOx7BiDBSfIsoTIujz9w9l/S7xdp9PPxH81tTlv4W9JRSo9rHGF
-         oUo7H9/qgCruEnmz0W6uEwl557QMu7mSZ1vIU7Eb0wucbGcREgkttHjNvuM7ObtixiBe
-         p2y/cStUy0k51A1LSrx+ed/qE0kT0miqor3LpGn7AwZfVBexwREhIh8pdXbmuJnFpqTy
-         GX55PHFoEJqFyoPXd2wscMyGWnjOd9n4loSLZJ54vQsdECybLF1yrSOEnyw3Uqv6DIc3
-         uqTKVgjBRihWkRZfKDCGylJdlFco12BqzxwXoCOl7MNcOgNmz/62dbgI4MQF1pfwK30i
-         eFXA==
-X-Gm-Message-State: AOAM533EOPA6BT4OuJL4LGcoDL4sCDs14H9baTUPNYEfBTPH9SLuGjxc
-	Bna9HGStoN1k2yXaqU4Rk6lXi8QFMYG/eQ==
-X-Google-Smtp-Source: ABdhPJx1IIWT7hOHIokWmJgGHEn1wgsT3sy4P55egQ58GmAf7RBycjqrP1+ofAzqKh4kRSeX1Q+eeQ==
-X-Received: by 2002:a62:68c1:0:b029:1ee:5dfa:860b with SMTP id d184-20020a6268c10000b02901ee5dfa860bmr1168178pfc.35.1614411695073;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=w61QzY96e45WH+/zSiFgv3oje+y+rQz8GF0KLLWapmE=;
+        b=m7LlkzKHkX5bdYpa8/e4Cetw7d9WjT9aMSWp5K56owadQDW8Boapb6JjkmaxpOpz9m
+         WaW+v95PCikrJI01/xjCJ3j2B9OY+6KBieRJf+j0J3m8eB2xu2JncUDu5dTCWVZf6MHn
+         vUEanSN5H/F4G6+3X9NrnzpCHF4y0HRaDX0WnjSY1iNKa5cEieDfNfWTREmzQ+BOS3K5
+         mQ5o1fr0QFjJ4mmX6z5+/hcKb9eog+X25iDLylBTd1OrSOLkuS5AbFzlRnU0dTPfq1XM
+         7lEmGi+J07mLOqgAoOpvLBLkn0cvdGiSt8ljfuoA4UXncnHbGNAb8Wjdh82wHqzEfxEZ
+         Gfqw==
+X-Gm-Message-State: AOAM532nlU0R0cOL9du8yiAjSL+t7UYEiB5n22cKeFdaeqP5fj7qLGuj
+	Ni8W4UM2IiE7EMVcfyFFRC0NH4rpgWwSJQ==
+X-Google-Smtp-Source: ABdhPJymhb+hfhW2UtHNUbqlrWQe3sniFwkxJzBwRAbn3qEf+A3PuKEPoPDuc+TnDk1ZncxyPVREew==
+X-Received: by 2002:a17:902:e80e:b029:e3:cc4a:549c with SMTP id u14-20020a170902e80eb02900e3cc4a549cmr6550382plg.82.1614411695879;
         Fri, 26 Feb 2021 23:41:35 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id z137sm12462003pfc.172.2021.02.26.23.41.34
+        by smtp.gmail.com with ESMTPSA id z137sm12462003pfc.172.2021.02.26.23.41.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 23:41:34 -0800 (PST)
+        Fri, 26 Feb 2021 23:41:35 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/4] rxvt-unicode: Do not use throw specifications
-Date: Fri, 26 Feb 2021 23:41:29 -0800
-Message-Id: <20210227074132.4029374-1-raj.khem@gmail.com>
+Subject: [PATCH 2/4] llvm: Fix build with c++17
+Date: Fri, 26 Feb 2021 23:41:30 -0800
+Message-Id: <20210227074132.4029374-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210227074132.4029374-1-raj.khem@gmail.com>
+References: <20210227074132.4029374-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes build with -std=c++17
-
-| ../../rxvt-unicode-9.22/src/../libev/ev++.h:379:46: error: ISO C++17 does not allow dynamic exception specifications
-|   379 |     default_loop (unsigned int flags = AUTO) throw (bad_loop)
-|       |                                              ^~~~~
+Fixes
+/benchmark_register.h:17:30: error: 'numeric_limits' is not a member of 'std'
+|   static const T kmax = std::numeric_limits<T>::max();
+|                              ^~~~~~~~~~~~~~
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...emove-deprecated-throw-specification.patch | 30 +++++++++++++++++++
- .../rxvt-unicode/rxvt-unicode_9.22.bb         |  4 ++-
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+ .../llvm/0001-nfc-Fix-missing-include.patch   | 26 +++++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |  1 +
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
+diff --git a/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch b/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
 new file mode 100644
-index 0000000000..f10dca09d6
+index 0000000000..f6dee77ab2
 --- /dev/null
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-libev-remove-deprecated-throw-specification.patch
-@@ -0,0 +1,30 @@
-+From 9a8f1d73e7b7e183768a8379ef32429a84f0e5c2 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 26 Feb 2021 18:11:56 -0800
-+Subject: [PATCH] libev: remove deprecated throw specification
++++ b/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
+@@ -0,0 +1,26 @@
++From 3b7e611bd58ba842470d17374c550e14bceca5c7 Mon Sep 17 00:00:00 2001
++From: serge-sans-paille <sguelton@redhat.com>
++Date: Tue, 10 Nov 2020 14:55:25 +0100
++Subject: [PATCH] [nfc] Fix missing include
 +
-+removes the throw specifications that are deprecated since C++11:
-+warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
-+
-+Upstream-Status: Pending
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/b498303066a63a203d24f739b2d2e0e56dca70d1]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libev/ev++.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ llvm/utils/benchmark/src/benchmark_register.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/libev/ev++.h b/libev/ev++.h
-+index 4f0a36a..85ddf44 100644
-+--- a/libev/ev++.h
-++++ b/libev/ev++.h
-+@@ -376,7 +376,7 @@ namespace ev {
++diff --git a/llvm/utils/benchmark/src/benchmark_register.h b/llvm/utils/benchmark/src/benchmark_register.h
++index 0705e219f2fa..4caa5ad4da07 100644
++--- a/llvm/utils/benchmark/src/benchmark_register.h
+++++ b/llvm/utils/benchmark/src/benchmark_register.h
++@@ -1,6 +1,7 @@
++ #ifndef BENCHMARK_REGISTER_H
++ #define BENCHMARK_REGISTER_H
 + 
-+   struct default_loop : loop_ref
-+   {
-+-    default_loop (unsigned int flags = AUTO) throw (bad_loop)
-++    default_loop (unsigned int flags = AUTO)
-+ #if EV_MULTIPLICITY
-+     : loop_ref (ev_default_loop (flags))
-+ #endif
+++#include <limits>
++ #include <vector>
++ 
++ #include "check.h"
 +-- 
 +2.30.1
 +
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-index bfa8a614df..283e8d7751 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.22.bb
-@@ -4,5 +4,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://src/main.C;beginline=1;endline=31;md5=d3600d7ee1062667fcd1193fbe6485f6"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 86def0878c..db6694339c 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -34,6 +34,7 @@ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
+            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
++           file://0001-nfc-Fix-missing-include.patch;striplevel=2 \
+            "
  
--SRC_URI[md5sum] = "93782dec27494eb079467dacf6e48185"
-+SRC_URI += "file://0001-libev-remove-deprecated-throw-specification.patch"
-+
- SRC_URI[sha256sum] = "e94628e9bcfa0adb1115d83649f898d6edb4baced44f5d5b769c2eeb8b95addd"
-+
+ UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
 -- 
 2.30.1
 
