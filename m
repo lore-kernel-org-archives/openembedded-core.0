@@ -1,143 +1,115 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.5197.1614440103690718459
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web08.5198.1614440103859997983
  for <openembedded-core@lists.openembedded.org>;
  Sat, 27 Feb 2021 07:35:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ejYhA7h3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id p3so9723656wmc.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WYU2IeHY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id i9so9401494wml.0
         for <openembedded-core@lists.openembedded.org>; Sat, 27 Feb 2021 07:35:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=IHT4bf/ojqt9rd+HO1Wg7apwCJyDKTpyBzAjckrQEeY=;
-        b=ejYhA7h36z0p7/zWOymtn0r992e5nORN2gly4g36nmkcIKF9gkOU89IZRoH1vZvS1d
-         e2+pFaGtsmiNzfRrNVoHSK+Durm6BVHEaviLlLMzrzoBKxf4Vyc5Zrq7DZfCzATE6v6b
-         i8g8vtnTAqIjZmcCZ77ZG4uLvmrJsckES0UeA=
+        bh=ImzNMz4TB+OBp7GMgwEg/GVLkVwmboHGEkVORwg6m4s=;
+        b=WYU2IeHYeUEC1gH+IZsDKY9hDD+yjGwNYdYmi60aEEXQ2r1RnHV8OmFLic+3JLPV0G
+         xDpls/+6HA7oiPRtFqqHzDCROQp5fK2v3vobKGwPjBtZNqOsYuJ7nsvmr3qhFVEi7DXZ
+         efC2AGLcjfV4Jalmh5jfv3pRmSmiJ0UD/k8Tc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IHT4bf/ojqt9rd+HO1Wg7apwCJyDKTpyBzAjckrQEeY=;
-        b=Z6lWagTfLNav+0WSplsSUO8BUKvLzE2EKLJC8rSR59vU3QoJRILu54Mq38FnfB1N52
-         +Dqi9HAgl5KwG/OhzzXPrmJXXU9hd12v6Z95vBBLFNnWjTV8UD5HwWmoJNCn7lp8tiyr
-         ht5JeNRwlB7+9QPGx6VbPv14NUaev9jNYd3T2a6Xion+sk4VJW144K97xgTZFTLMapz8
-         wbZ74hckxKEq6/rm+AHTW4xSvNo03ajiUe1J+7VBLhUZomlcLOPz/O6+WqIwwoKi7nII
-         7oF83Szy5x3pYdq+t3NhTZnWacstU++tXt0JIx5TorosY5gOXOlCfk1A9ozigVQfext7
-         /P3Q==
-X-Gm-Message-State: AOAM533PbHEbkvtkO/NGNXOIYFDF/o7mx7FsloI8IH4571Z4LJ7n5QYs
-	2x2OPlmisl+xiD2han6s9+KpqO89HPdbsA==
-X-Google-Smtp-Source: ABdhPJx8icvxoUXy1/2oklS6WDc4H531fNCDGYxUMUelUBJmHAQvFf5wXCv+6hq4WDYVAem60kLEAg==
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr7703127wmk.27.1614440101878;
-        Sat, 27 Feb 2021 07:35:01 -0800 (PST)
+        bh=ImzNMz4TB+OBp7GMgwEg/GVLkVwmboHGEkVORwg6m4s=;
+        b=m0jliLCnyuNiUe3WkFqpm3bYODyUjT5fQzzZR8H8qJVpfs8FzAjIj18YwdnHwu/vPH
+         p5uNaOX33sSjQuzNwl087vVDNjHaaRezl6NcK1/SBkmoG7PykH3U7HgISkUolsCf6FMj
+         pthP9HgTLOUyUh3F82DMuxwn9oX0bjW/x3HylPv8HCclBPxiw8+8/LlTt7WLmLx7rMbE
+         02V4kC4FiLtguGo1/7sdpCBXO0f8S/YW1nnSs83Fgq2kw4E9xNiDhjdBBoXzArQo8tCy
+         WePqpuUsaywWhJ5wE6eiEkqx+vFP6dRwjMXiBUTxGtJQbCOimxZQFKVUiLwbvMne45wm
+         tVGg==
+X-Gm-Message-State: AOAM531J5Axuh9uHg1g8ZtzjGn/9E1Xm7lkGX/Xs1AKT4kTg4zU1gtDc
+	js7J286IkH0Ew9YMHVnCXzj9LdFaj61hnA==
+X-Google-Smtp-Source: ABdhPJzt6may87RXJGf8yQ0W3a8mC68ZI3L2mgV642ICsih50s8j2N0gw7cm41vSP/yweVWjsYKbUw==
+X-Received: by 2002:a05:600c:4ec6:: with SMTP id g6mr7665598wmq.72.1614440102159;
+        Sat, 27 Feb 2021 07:35:02 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:78c6:baba:ab09:bdce])
         by smtp.gmail.com with ESMTPSA id 18sm1955708wmj.21.2021.02.27.07.35.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Feb 2021 07:35:01 -0800 (PST)
+        Sat, 27 Feb 2021 07:35:02 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] igt-gpu-tools: Fix reproducibility issue
-Date: Sat, 27 Feb 2021 15:34:59 +0000
-Message-Id: <20210227153500.3963357-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/3] libid3tag: Fix reproducibility issue
+Date: Sat, 27 Feb 2021 15:35:00 +0000
+Message-Id: <20210227153500.3963357-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
 References: <20210227153500.3963357-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a configuration option to pass in srcdir, removing hard coded
-build paths from the binaries.
+Configure was swallowing our cflags meaning the resulting binaries were
+not reproducible. Tweak configure not to do that and fix reproducibility.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
- .../igt-gpu-tools/reproducibility.patch       | 38 +++++++++++++++++++
- .../igt-gpu-tools/igt-gpu-tools_git.bb        |  5 ++-
- 3 files changed, 41 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
+ .../libid3tag/libid3tag/cflags_filter.patch   | 21 +++++++++++++++++++
+ .../libid3tag/libid3tag_0.15.1b.bb            |  1 +
+ 3 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 10bd37cd258..cb633f91177 100644
+index cb633f91177..63ffc2d4bd6 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -36,7 +36,6 @@ exclude_packages = [
- 	'go_',
+@@ -37,7 +37,6 @@ exclude_packages = [
  	'go-',
  	'gstreamer1.0-python',
--	'igt-gpu-tools',
  	'libaprutil',
- 	'libid3tag',
+-	'libid3tag',
  	'lttng-tools-dbg',
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
+ 	'lttng-tools-ptest',
+ 	'ltp',
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
 new file mode 100644
-index 00000000000..39e36d87378
+index 00000000000..0d1d0dc381c
 --- /dev/null
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
-@@ -0,0 +1,38 @@
-+meson: Allow source location to be configurable
++++ b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
+@@ -0,0 +1,21 @@
++configure contains CFLAGS filtering code which was removing our prefix-map
++flags. We need those to generate reproducible binaries. Allow them through.
 +
-+Hardcoding a build source path into a binary when cross compiling isn't
-+appropriate and breaks build reproducibility. Allow the srcdir to be
-+specified by an optional configuration option to meson.
++Upstream-Status: Pending
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +
-+Signed-off-by: Richard Purdie <richard.purdie at linuxfoundation.org>
-+Upstream-Status: Submitted [https://lists.freedesktop.org/archives/igt-dev/2021-February/029443.html]
-+
-+Index: git/lib/meson.build
++Index: libid3tag-0.15.1b/configure.ac
 +===================================================================
-+--- git.orig/lib/meson.build
-++++ git/lib/meson.build
-+@@ -122,7 +122,11 @@ if chamelium.found()
-+ 	lib_sources += 'igt_chamelium_stream.c'
-+ endif
-+ 
-+-srcdir = join_paths(meson.source_root(), 'tests')
-++if get_option('srcdir') != ''
-++    srcdir = join_paths(get_option('srcdir'), 'tests')
-++else
-++    srcdir = join_paths(meson.source_root(), 'tests')
-++endif
-+ 
-+ lib_version = vcs_tag(input : 'version.h.in', output : 'version.h',
-+ 		      fallback : 'NO-GIT',
-+Index: git/meson_options.txt
-+===================================================================
-+--- git.orig/meson_options.txt
-++++ git/meson_options.txt
-+@@ -50,3 +50,7 @@ option('use_rpath',
-+        type : 'boolean',
-+        value : false,
-+        description : 'Set runpath on installed executables for libigt.so')
-++
-++option('srcdir',
-++       type : 'string',
-++       description : 'Path to source code to be compiled into binaries (optional)')
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-index 89480d79d21..f25cbc06038 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -10,7 +10,8 @@ inherit meson
- SRCREV = "d16ad07e7f2a028e14d61f570931c87fa5ce404c"
- PV = "1.25+git${SRCPV}"
- 
--SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
-+SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https \
-+           file://reproducibility.patch"
- 
- S = "${WORKDIR}/git"
- 
-@@ -22,7 +23,7 @@ PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
- 
- PACKAGECONFIG[chamelium] = "-Dchamelium=enabled,-Dchamelium=disabled,gsl xmlrpc-c"
- 
--EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled"
-+EXTRA_OEMESON = "-Ddocs=disabled -Drunner=enabled -Dsrcdir=/usr/src/debug/${PN}/${PV}-${PR}/git/"
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64).*-linux"
- COMPATIBLE_HOST_libc-musl_class-target = "null"
- SECURITY_LDFLAGS = "${SECURITY_X_LDFLAGS}"
++--- libid3tag-0.15.1b.orig/configure.ac
+++++ libid3tag-0.15.1b/configure.ac
++@@ -99,6 +99,10 @@ do
++ 	-mno-cygwin)
++ 	    shift
++ 	    ;;
+++	-fmacro-prefix-map*|-fdebug-prefix-map*)
+++	    CFLAGS="$CFLAGS $1"
+++	    shift
+++	    ;;
++ 	-m*)
++ 	    arch="$arch $1"
++ 	    shift
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+index 0312a610c07..80581765ac2 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
++++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libid3tag-${PV}.tar.gz \
+            file://0001-Fix-gperf-3.1-incompatibility.patch \
+            file://10_utf16.patch \
+            file://unknown-encoding.patch \
++           file://cflags_filter.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/mad/files/libid3tag/"
+ UPSTREAM_CHECK_REGEX = "/projects/mad/files/libid3tag/(?P<pver>.*)/$"
 -- 
 2.27.0
 
