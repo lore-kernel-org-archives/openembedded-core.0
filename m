@@ -1,122 +1,151 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.1527.1614411697508483769
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.1528.1614411698470177138
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Feb 2021 23:41:37 -0800
+ Fri, 26 Feb 2021 23:41:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RFwbnu2/;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id o10so7683833pgg.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=b91Yls8W;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id b15so7343917pjb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Feb 2021 23:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vbZUTOVcSui0UKdC+Q4hsuQMKfv6xki7vXMMJrVI0eY=;
-        b=RFwbnu2/0r/DTaDPtHJ33BB+kpVkN02gDqPHFXJaB1dUZskAnBpg+YeI+ydi0EgOP6
-         XzWD/h9qR+Y6USyqlSlcEUwUqg3tbosdKMsn9xHj/ORVci8HyqoAgWA651OMk/FfJJF9
-         PAszczRKjEuusVcmEgxhh0S3PsSns4mJKoxsBVif4qZPoNu33D3U01riPFs0nmrLrVqg
-         omjax2IwQK8ABLWxurDuiLJeYDmWcXOaenFJMV00551XvVCtbCFula0juSj4UyGeMvkZ
-         L3TN82NfAnEmmXRzxfqnHYwQBPiJ8WfjGjRNGgu9gcPb9AXPN7iDUq3J7THp4alE03vU
-         hU0Q==
+        bh=F1DOhXUv+I7fmO5K7WBnLELXRN6tLlcdiTMb0fZCfqg=;
+        b=b91Yls8Wu1Xv4uHYpz1vRhw+yigV2DqXSXH19NRKkonSgdo4EUqM+HVGQjbH4hJstd
+         QIt+2/a0Kvtx0KvKDzCYRhRJqLXIzqDnFsk26H8mDQbg0LvSSuPl3RKFwAXvNvUPDA7k
+         5368A262R4GwmI9+u1vLRSRE3GAkFio0Vxh+ZiycOLyZrQ7lxKpCjwJtcrqogPdZSqdf
+         WJ20M0clkJHBy5fE9SD3VirxjM+1nu+MZ4bBr0iOfJrfFz4QPC53TwJWdR5ONKJnQtCS
+         tgDbG6hOQ7vW9wCXHAxPooQDu0fMoWiuCbiT1cSWdQSLtdLVAVMnKkkPC4gNrRh/Y3uS
+         1fvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vbZUTOVcSui0UKdC+Q4hsuQMKfv6xki7vXMMJrVI0eY=;
-        b=ZwwijBiOum4cKGwc5nB21ZIPUQnAjYtszyW7mZ9QBffvtwqrd38k3YNdXmXNtklG8M
-         ZpDd4tMb5U8XiQCRzi/TB3oGAEwBE5dOaaJAd8a+Z406F806cVhw0c7f3vkdJKh8Getp
-         /x+U7mMvaFpT9XlwOBhuaveRqUKuVh/Lf9QNmOxe/9Jab/wWc8NfbTc5sH8TzuljS6Wl
-         rEkV74Ic3zgoEffEKUy44xs3sIATQpTlNDD9ElRlpk8xPnAD5RdYhyp78DfiED+t56Yn
-         xU1deNrZ1h1ASRrJBZP5jtIKYPRGx1XFZra2EeAiXKNMyIxeYE8IKzztNmT3fL5kgGLO
-         uIiQ==
-X-Gm-Message-State: AOAM531FgP545GAGKoJzp0xBVH7nmWqujCT0GbRy78VrbiqBk4Khzx6z
-	5wkByzfSygOcQO911HfPOWtf9fn3gnjEMg==
-X-Google-Smtp-Source: ABdhPJwcpoIFBqSf6VL+keqKWWFbDA2Mrsm5yBMx1yj0pPwBUM6ZbasC6mCMkuXSqvatKi5e45m+0g==
-X-Received: by 2002:aa7:83cc:0:b029:1ed:446b:1ae2 with SMTP id j12-20020aa783cc0000b02901ed446b1ae2mr6735754pfn.47.1614411696717;
-        Fri, 26 Feb 2021 23:41:36 -0800 (PST)
+        bh=F1DOhXUv+I7fmO5K7WBnLELXRN6tLlcdiTMb0fZCfqg=;
+        b=Rer+swK6c0pYP/U9qL3UEmd9z5TXf7FPFD0NonZESqa8kpxh+1m/TkHljNDGRo9gIQ
+         jYbXzgt9aqPuQufKqqihjafisgCDrG+UpEItFXGb5gnTuDuuMxM6gMzm8GRvpcYi44XC
+         i2WcmrBErM655L6fFwB6jv6RA5sCwdwqRHJqi4+LWs7GcbVuCauwc5udWdmqhwLEf4td
+         floHBD1tG58dxd6U9PEPrA+s4JofxYOvw8jQt6rJwpKZJ3WF+Z8VUsT8HStUoa54zLYA
+         dO8HiwC2ZRtuz0VvsCnBZ9iBLVh3fRGy/trdxptWgVa4pW48gGO3x35y/iKQPFJLDDnN
+         FtqQ==
+X-Gm-Message-State: AOAM5308lhHPlaD+aaxt18wwGyGXGCvLlQFblaxw8clbtRqIaF9m4VAp
+	qMfn15qRDEB0O3skwhSGi8Ia6Yxj0Rd+mw==
+X-Google-Smtp-Source: ABdhPJx3maxMuBm5UpFpFc3Dva3BlCJOf3b4kQHHGUa97psx9PDfhjeamuMKmGZGaQz8j7EdP8RbfQ==
+X-Received: by 2002:a17:902:ea12:b029:e3:1b24:414f with SMTP id s18-20020a170902ea12b02900e31b24414fmr6474188plg.13.1614411697630;
+        Fri, 26 Feb 2021 23:41:37 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
         by smtp.gmail.com with ESMTPSA id z137sm12462003pfc.172.2021.02.26.23.41.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 23:41:36 -0800 (PST)
+        Fri, 26 Feb 2021 23:41:37 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] dtc: Fix array-bounds error
-Date: Fri, 26 Feb 2021 23:41:31 -0800
-Message-Id: <20210227074132.4029374-3-raj.khem@gmail.com>
+Subject: [PATCH 4/4] kea: Fix configure test error with gcc11
+Date: Fri, 26 Feb 2021 23:41:32 -0800
+Message-Id: <20210227074132.4029374-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210227074132.4029374-1-raj.khem@gmail.com>
 References: <20210227074132.4029374-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes
-| libfdt/libfdt.h:251:28: error: array subscript 'struct fdt_header[0]' is partly outside array bounds of 'unsigned char[4]' [-Werror=array-bounds]
-|   251 |                 fdth->name = cpu_to_fdt32(val); \
-|       |                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+Since the test program fails to compile, configure thinks compiler is
+not having thread support and bails out
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../dtc/0001-fdtdump-Fix-gcc11-warning.patch  | 35 +++++++++++++++++++
- meta/recipes-kernel/dtc/dtc_1.6.0.bb          |  2 ++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-kernel/dtc/dtc/0001-fdtdump-Fix-gcc11-warning.patch
+ ...01-ax_cpp11.m4-Include-memory-header.patch | 29 +++++++++++++++++++
+ .../kea/files/0001-include-limits.h.patch     | 29 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_1.8.2.bb    |  2 ++
+ 3 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
 
-diff --git a/meta/recipes-kernel/dtc/dtc/0001-fdtdump-Fix-gcc11-warning.patch b/meta/recipes-kernel/dtc/dtc/0001-fdtdump-Fix-gcc11-warning.patch
+diff --git a/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
 new file mode 100644
-index 0000000000..ec825cbf7b
+index 0000000000..f7f98c4d6e
 --- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/0001-fdtdump-Fix-gcc11-warning.patch
-@@ -0,0 +1,35 @@
-+From 4827e0db6c4f7dea7f4094f49d3bb48ef6dfdc2d Mon Sep 17 00:00:00 2001
-+From: David Gibson <david@gibson.dropbear.id.au>
-+Date: Wed, 6 Jan 2021 14:52:26 +1100
-+Subject: [PATCH] fdtdump: Fix gcc11 warning
++++ b/meta/recipes-connectivity/kea/files/0001-ax_cpp11.m4-Include-memory-header.patch
+@@ -0,0 +1,29 @@
++From 5314a4815006e3a42f3ce265d1597db700cdb784 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Feb 2021 23:14:20 -0800
++Subject: [PATCH] ax_cpp11.m4: Include <memory> header
 +
-+In one place, fdtdump abuses fdt_set_magic(), passing it just a small char
-+array instead of the full fdt header it expects.  That's relying on the
-+fact that in fact fdt_set_magic() will only actually access the first 4
-+bytes of the buffer.
++This is needed for std::shared_ptr
++GCC-11 throws errors if header is not included
 +
-+This trips a new warning in GCC 11 - and it's entirely possible it was
-+always UB.  So, don't do that.
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dtc.git/patch/?id=ca16a723fa9dde9c5da80dba567f48715000e77c]
-+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
++Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ fdtdump.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ m4macros/ax_cpp11.m4 | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/fdtdump.c b/fdtdump.c
-+index 9613bef..d9fb374 100644
-+--- a/fdtdump.c
-++++ b/fdtdump.c
-+@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
-+ 		char *p = buf;
-+ 		char *endp = buf + len;
-+ 
-+-		fdt_set_magic(smagic, FDT_MAGIC);
-++		fdt32_st(smagic, FDT_MAGIC);
-+ 
-+ 		/* poor man's memmem */
-+ 		while ((endp - p) >= FDT_MAGIC_SIZE) {
++diff --git a/m4macros/ax_cpp11.m4 b/m4macros/ax_cpp11.m4
++index 6176728..6b14a84 100644
++--- a/m4macros/ax_cpp11.m4
+++++ b/m4macros/ax_cpp11.m4
++@@ -182,6 +182,7 @@ for retry in "none" "--std=c++11" "--std=c++0x" "--std=c++1x" "fail"; do
++ 	AC_COMPILE_IFELSE(
++ 		[AC_LANG_PROGRAM(
++ 			[#include <thread>
+++			 #include <memory>
++ 			 std::shared_ptr<std::thread> th;],
++ 			[th.reset(new std::thread([[]]() { return; }));
++ 			 th->join();])],
 +-- 
 +2.30.1
 +
-diff --git a/meta/recipes-kernel/dtc/dtc_1.6.0.bb b/meta/recipes-kernel/dtc/dtc_1.6.0.bb
-index 92df70d9fc..a407137859 100644
---- a/meta/recipes-kernel/dtc/dtc_1.6.0.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.6.0.bb
-@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRCREV = "2525da3dba9beceb96651dc2986581871dbeca30"
- 
-+SRC_URI += "file://0001-fdtdump-Fix-gcc11-warning.patch"
+diff --git a/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
+new file mode 100644
+index 0000000000..4bb76e2344
+--- /dev/null
++++ b/meta/recipes-connectivity/kea/files/0001-include-limits.h.patch
+@@ -0,0 +1,29 @@
++From 7bca122e15bbe98c7b8da851ef3e1cf9a714afd9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Feb 2021 23:31:15 -0800
++Subject: [PATCH] include limits.h
 +
- S = "${WORKDIR}/git"
++Fixes build with gcc11
++backend_selector.cc:61:35: error: 'numeric_limits' is not a member of 'std'
++
++Upstream-Status: Submitted [https://github.com/isc-projects/kea/pull/120]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/lib/exceptions/exceptions.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/lib/exceptions/exceptions.h b/src/lib/exceptions/exceptions.h
++index f5368c8..494ec69 100644
++--- a/src/lib/exceptions/exceptions.h
+++++ b/src/lib/exceptions/exceptions.h
++@@ -7,6 +7,7 @@
++ #ifndef EXCEPTIONS_H
++ #define EXCEPTIONS_H 1
++ 
+++#include <limits>
++ #include <stdexcept>
++ #include <string>
++ #include <sstream>
++-- 
++2.30.1
++
+diff --git a/meta/recipes-connectivity/kea/kea_1.8.2.bb b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+index 3dc4f6af70..fe10d90620 100644
+--- a/meta/recipes-connectivity/kea/kea_1.8.2.bb
++++ b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+@@ -18,6 +18,8 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix-multilib-conflict.patch \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
++           file://0001-ax_cpp11.m4-Include-memory-header.patch \
++           file://0001-include-limits.h.patch \
+            "
+ SRC_URI[sha256sum] = "486ca7abedb9d6fdf8e4344ad8688d1171f2ef0f5506d118988aadeae80a1d39"
  
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.1
 
