@@ -1,135 +1,116 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web08.7844.1614526641203041928
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web09.7658.1614526641500114397
  for <openembedded-core@lists.openembedded.org>;
  Sun, 28 Feb 2021 07:37:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dPt9B8wq;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id ci14so4568088ejc.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Sn89DvjH;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id mj10so3426227ejb.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PYwFYEiaFv1evbOM1DhSs8fQQNQmMBPnStU73M4hqwU=;
-        b=dPt9B8wqyeCbWTgywsM6gi4dpcbg3XlnwPgNgxh9/hzH9Gonu8d2Y1loS/B28C4VjQ
-         kMYB58Jk/VCCckf8f1GZVWQP7mLPpdVJvLBMxCX45z+e99/0KnXKGsIuq4IAf+EnIFCg
-         dQmaF+nxOF+rHD7jlY/frPH2OXEI11dZnRRwQsPhGui4b5zcTTAsdRoGS7QNtuAcUoHr
-         Yy7Joh0dTVNe5l6cdX4Pkad6jGIc9cFyd7h/g+CALheSMiAjCLXOOWP70bHcK+kiyk0n
-         xd2E0t3vQDfZfMgyIPdaufQnBqYpF3fePfaZNTr7lIJTT2Mt4ZPp8pKt0FrOwK26dUiB
-         GgRQ==
+        bh=NEyuzYxrZX4x/qZRN0e/q1Kdnr2fKVwIm4XDnqdHsP0=;
+        b=Sn89DvjH1cFLBqmNl2u9/BPT7rZ1/oORk7fUOaTMQpDQxEREw6UkG5+MQWs+cRZH56
+         YUlJgDfGpfjGCY1CSqOBAZPdP5NO/YbMI2T7LzB8gXQqpsWiVSvunIh8xowU1HonTYOV
+         AvS8xbHpWOx5Dw04EuHKmNdff4FKQNqULSrXWzi4kELxEvU05iyt2/2zalwBQwpf/Xja
+         eGKwGdMGWH1Wlf0ppRRg2udirRHkBFWVyqTc3oDlT7nq8LxAUxm7hK7/2BpPYKcwue2g
+         P3XzVGSS2itVNNzz9RiFptr2iR8a+9dTRSToQCqsDOK5IDBeOi16wPKaZc/9U51evyjI
+         ElJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PYwFYEiaFv1evbOM1DhSs8fQQNQmMBPnStU73M4hqwU=;
-        b=twYKy2LvO8SEmrXsETnh4LTzGDCZVtXaIpIH4Mk1eHIrOE91U1rdau7A/xutLKVGqs
-         3IZA3BYu9c8996MC2NUR/HMKP7NhfLzZ4iCXihCTWTVT7x42y3F7Fs9dPncHLPUnkuER
-         V+IjdSpHYkfQBfiPNhZ6hWWWNBwAxzT3pygvSroBCno7uX1KoO2jE/RlPOD1H86v8K7e
-         p3xULvhBErVf619VHKpcbFCZz4WHwVJCcCnrqeNIX9ff+JPH6qLZFUdbxyd0vlXgfmdN
-         COgvJMEMznrt/t1fNKC/S0amu9swxVtDPGyzAsI6PIe51tbnrP3YScuOtV9OsKxeNEuA
-         WEAQ==
-X-Gm-Message-State: AOAM533j8R9Inr0ZRiKfYQOAxWk0Ktj5tLx5mDcvlHo93YnqMvS39pP8
-	g2S3wCDWcdjz2AjDzSZNCagO30Uml7HcdA==
-X-Google-Smtp-Source: ABdhPJyQl/tIglQB6N5wbiIq6yxyQgsZa+j8/38LxIH09fIU1Glsb5JwQ+j0HTmFcSWURZFLkDcWXw==
-X-Received: by 2002:a17:906:2803:: with SMTP id r3mr12046201ejc.50.1614526639529;
-        Sun, 28 Feb 2021 07:37:19 -0800 (PST)
+        bh=NEyuzYxrZX4x/qZRN0e/q1Kdnr2fKVwIm4XDnqdHsP0=;
+        b=fZrPbOOL4SxDZn1NrhLt2LNaHaOizh7mCrQCVRNTlT7JKUqKJ10qcJ1OA2452byMpr
+         QjnuPJRCKJ3QsESezJzB+VYjqu7oHefX2ntobBu/iuwCqxr2mlD8i3XlIpNmC+MwNAe3
+         Z7o5g2/TOdw+FUIWqNZ+r0QunLQs/D1KDzdbUbrFHKQ41d/SuscQAWafNkPYh1Lz2B49
+         wNJlb6oFOtpo4aMaiB6Wg0LPHg0KkUFscJ2e46722qwFzky0QCzprlQkErAYkHBORGbE
+         C6YAuUcd3JONZXauvlY7Y9uJVgUTl1O9XHhDWlp80h1raBKUlcfpJIpCGqLAaqW/oNxn
+         kjGA==
+X-Gm-Message-State: AOAM530cjIHsetn6ZXVliq2Y2DXgXRcmI7NeGJcnlaHucQmXWGcqmLR3
+	2vQNA4zFSaZ3L/DxyNx2YMOeMZVgwtPdGw==
+X-Google-Smtp-Source: ABdhPJye9EdizSSL4UO5O+vPAe4OozRvWOnqCKvgu9gPeQjZpZKJy0z9theKmGG4ZLhcdhy30c+ffA==
+X-Received: by 2002:a17:906:4002:: with SMTP id v2mr11999642ejj.135.1614526640158;
+        Sun, 28 Feb 2021 07:37:20 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.18
+        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 28 Feb 2021 07:37:19 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/24] perl: update 5.32.0 -> 5.32.1
-Date: Sun, 28 Feb 2021 16:36:49 +0100
-Message-Id: <20210228153702.498275-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/24] pango: update 1.48.0 -> 1.48.2
+Date: Sun, 28 Feb 2021 16:36:50 +0100
+Message-Id: <20210228153702.498275-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop perl-cross-makefile.patch as it is merged upstream.
+Drop a patch; issue fixed upstream:
+https://gitlab.gnome.org/GNOME/pango/-/commit/fcda7d6f9b6ee966f5da860be5ec0c0096193a83
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../perl/files/perl-cross-makefile.patch      | 29 -------------------
- .../perl/{perl_5.32.0.bb => perl_5.32.1.bb}   |  7 ++---
- 2 files changed, 3 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-devtools/perl/files/perl-cross-makefile.patch
- rename meta/recipes-devtools/perl/{perl_5.32.0.bb => perl_5.32.1.bb} (98%)
+ ...c-drop-assert-that-fails-with-Cantar.patch | 27 -------------------
+ .../{pango_1.48.0.bb => pango_1.48.2.bb}      |  3 +--
+ 2 files changed, 1 insertion(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-graphics/pango/pango/0001-tests-test-font.c-drop-assert-that-fails-with-Cantar.patch
+ rename meta/recipes-graphics/pango/{pango_1.48.0.bb => pango_1.48.2.bb} (90%)
 
-diff --git a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch b/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
+diff --git a/meta/recipes-graphics/pango/pango/0001-tests-test-font.c-drop-assert-that-fails-with-Cantar.patch b/meta/recipes-graphics/pango/pango/0001-tests-test-font.c-drop-assert-that-fails-with-Cantar.patch
 deleted file mode 100644
-index 5d3f998200..0000000000
---- a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
+index d8f971d914..0000000000
+--- a/meta/recipes-graphics/pango/pango/0001-tests-test-font.c-drop-assert-that-fails-with-Cantar.patch
 +++ /dev/null
-@@ -1,29 +0,0 @@
--Makefile: Avoid continual rebuilds of miniperl and associated races 
+@@ -1,27 +0,0 @@
+-From eea900ec107920bc99c9df5ab258b7bc446c0b87 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 4 Dec 2020 14:03:01 +0000
+-Subject: [PATCH] tests/test-font.c: drop assert that fails with Cantarell
+- family
 -
--In the Yocto Project, when we run "make install" we notice miniperl
--rebuilding multiple times. Usually this is harmless however sometimes
--race issues occur such as miniperl not being executable.
+-Upstream bug: https://gitlab.gnome.org/GNOME/pango/-/issues/494
 -
--The issue is that crosspatch is a phony target so it always rebuilds.
--Adding this as a dependency of miniperl means miniperl always rebuilds
--too.
+-Upstream-Status: Inappropriate [needs a proper fix by upstream that handles font faces with identical names]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- tests/test-font.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--Avoid this by injecting a direct dependency avoiding the phony target.
--miniperl is then only rebuilt when its input changes as desired.
--
--Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
--Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/95]
--
--Index: perl-5.32.0/Makefile
--===================================================================
----- perl-5.32.0.orig/Makefile
--+++ perl-5.32.0/Makefile
--@@ -56,7 +56,7 @@ crosspatch: $(CROSSPATCHED)
+-diff --git a/tests/test-font.c b/tests/test-font.c
+-index 486504f..7e45ba1 100644
+---- a/tests/test-font.c
+-+++ b/tests/test-font.c
+-@@ -217,7 +217,7 @@ test_enumerate (void)
+-   for (i = 0; i < n_faces; i++)
+-     {
+-       face = pango_font_family_get_face (families[0], pango_font_face_get_face_name (faces[i]));
+--      g_assert_true (face == faces[i]);
+-+      //g_assert_true (face == faces[i]);
+-     }
 - 
-- # A minor fix for buildroot, force crosspatching when running "make perl modules"
-- # instead of "make all".
---miniperlmain$O: crosspatch
--+miniperlmain$O: $(CROSSPATCHED)
-- 
-- # Original versions are not saved anymore; patch generally takes care of this,
-- # and if that fails, reaching for the source tarball is the safest option.
-diff --git a/meta/recipes-devtools/perl/perl_5.32.0.bb b/meta/recipes-devtools/perl/perl_5.32.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/perl/perl_5.32.0.bb
-rename to meta/recipes-devtools/perl/perl_5.32.1.bb
-index 7d88c65322..1fafc0a8c9 100644
---- a/meta/recipes-devtools/perl/perl_5.32.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.32.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
+-   desc = pango_font_description_new ();
+diff --git a/meta/recipes-graphics/pango/pango_1.48.0.bb b/meta/recipes-graphics/pango/pango_1.48.2.bb
+similarity index 90%
+rename from meta/recipes-graphics/pango/pango_1.48.0.bb
+rename to meta/recipes-graphics/pango/pango_1.48.2.bb
+index 552a44583c..1dcb43b5e1 100644
+--- a/meta/recipes-graphics/pango/pango_1.48.0.bb
++++ b/meta/recipes-graphics/pango/pango_1.48.2.bb
+@@ -18,8 +18,7 @@ inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspec
+ GIR_MESON_ENABLE_FLAG = "enabled"
+ GIR_MESON_DISABLE_FLAG = "disabled"
  
+-SRC_URI += " file://0001-tests-test-font.c-drop-assert-that-fails-with-Cantar.patch"
+-SRC_URI[archive.sha256sum] = "391f26f3341c2d7053e0fb26a956bd42360dadd825efe7088b1e9340a65e74e6"
++SRC_URI[archive.sha256sum] = "d21f8b30dc8abdfc55de25656ecb88dc1105eeeb315e5e2a980dcef8010c2c80"
  
- SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
--           https://github.com/arsv/perl-cross/releases/download/1.3.4/perl-cross-1.3.4.tar.gz;name=perl-cross \
-+           https://github.com/arsv/perl-cross/releases/download/1.3.5/perl-cross-1.3.5.tar.gz;name=perl-cross \
-            file://perl-rdepends.txt \
-            file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
-            file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
-@@ -21,7 +21,6 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
-            file://0002-Constant-Fix-up-shebang.patch \
-            file://determinism.patch  \
--           file://perl-cross-makefile.patch \
-            "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
-@@ -30,8 +29,8 @@ SRC_URI_append_class-target = " \
-            file://encodefix.patch \
- "
- 
--SRC_URI[perl.sha256sum] = "efeb1ce1f10824190ad1cadbcccf6fdb8a5d37007d0100d2d9ae5f2b5900c0b4"
--SRC_URI[perl-cross.sha256sum] = "755aa0ca8141a942188a269564f86c3c82349f82c346ed5c992495d7f35138ba"
-+SRC_URI[perl.sha256sum] = "03b693901cd8ae807231b1787798cf1f2e0b8a56218d07b7da44f784a7caeb2c"
-+SRC_URI[perl-cross.sha256sum] = "91c66f6b2b99fccfd4fee14660b677380b0c98f9456359e91449798c2ad2ef25"
- 
- S = "${WORKDIR}/perl-${PV}"
+ DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
  
 -- 
 2.29.2
