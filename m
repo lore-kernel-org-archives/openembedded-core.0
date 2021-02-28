@@ -1,124 +1,943 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.7845.1614526642831553686
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.7714.1614526643766949100
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 07:37:23 -0800
+ Sun, 28 Feb 2021 07:37:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pMjwuacu;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id g5so23563743ejt.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FkUqVSWM;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id do6so23545365ejc.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=awCK1JBHMPicETV1Tdu6CbpbtdKuiztQBPlAy6NXv8M=;
-        b=pMjwuacu81GaihIWpGEKjL5wx1kA1o+hQUh7V/ziiKsKziNDt/1TbXywRq+veHL+l8
-         XVbrYB6GIG9huw42309gcg36fDz7iLY4Cz3TRn8FNEx/RxeBMfpLDszaFebdQdra0sHb
-         mE1WvBL0h/n3uOgCkZcE41zT15A7IcvD9dzPu9l2dQ8oSMZTBS9aml1WHsEUUiSFlG4d
-         ea40lEQDHjHl/wcEgKo2b8VStTd8ASj5gp33Y83eOx5DfQPTyDHFpLcYZrmCB0z9fxnm
-         WWJKjBe5J3GqwEtQjn1gACfwbiTNJq0eFAQRwAGrZshdECNF+83xhs6Pa/8ZmpWD/CfZ
-         2aXw==
+        bh=tTXBJxtMKfidnKgOE+w/ts//NsQFE+sLTvMoE5nrACg=;
+        b=FkUqVSWMjgxtCYenpE1q+wUNhmrT5oOY2HEhRFv3kv704SY77DSwWvk82zV1ipFxWj
+         vsCOYVDvLiDZQ2byAHSoMpJeMx3lfmaEK3gol9KJjkfB/yDb5Fm4v1LHLzY9+ir3n9ZC
+         vU+o92Q4FNEl3yo1rVtD9OxbO1CdbhPtuZQNVnKzYmLK9yNRNxzmjdhLPhTqs4QVFYll
+         KxKUT5enAAC7hpHwbD/J6jNQsyZOmDa5PzYX0HO1iYm8JcJertR+vItFyN62h09XxzyG
+         pA/+TYSdVOaFxL0w4kkcs2WMWzW+y2Rs0fcZPAxrKHBewRUCFUkP4DYfC2HBNV1qm5Ps
+         nNrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=awCK1JBHMPicETV1Tdu6CbpbtdKuiztQBPlAy6NXv8M=;
-        b=KMVr+M4TD7TIyk2EcwXrzWP1FxjSApYA1ic2YC9JLHdmP3h3H1HCXTZBcWhDm1qqrz
-         d5vVN1C3CFq+NcxwhLs8h3coqlhyx8lpOBhuSKKPasqqisS4ENn77VrUXO3nhi6o8NYl
-         kxUNBitT5vlM9yTjrnVn9lp6o/oSFulyqP8Vjpt5RmWuwmzA/gxLiAKr0AsNqgxoleeJ
-         rnRBu0GyNXw2AX1UgrsI8TLXlVa8KSZs0ynSrdXtzR1r8ClVwSd+3ThyDX7Ld656114/
-         Ea42D8aOZ76xaha8Fc6EQU9VgonhwHFcbxMg56xWt0ERhkXUgXvdZBlW5v07gKFeQdTH
-         5pag==
-X-Gm-Message-State: AOAM5308rhof6UItmlVRUmOUBo1GrpQsxneHSsZuu/gdMkBMZxslrbEV
-	EhLimvLrblLgH0g+juPEh5l+Q2tJbSq9oA==
-X-Google-Smtp-Source: ABdhPJzWQGq7F35b7CYovLTHBXqVzsAloVAvMisGq99HaL9dxDH6SYMvBcnKeXzZKDExAru3+8sDtA==
-X-Received: by 2002:a17:906:7194:: with SMTP id h20mr9926001ejk.154.1614526641413;
-        Sun, 28 Feb 2021 07:37:21 -0800 (PST)
+        bh=tTXBJxtMKfidnKgOE+w/ts//NsQFE+sLTvMoE5nrACg=;
+        b=C7gmDzhrqj3V4wh4/8OHdl+ZCCyWzzhuzCGK141S6r8i9OwOLdFpBIAeYooH4r8etM
+         yslcG+yA7hK1TZAJy8PPMIv2QDraFPq6L9Ke70xWGTB7w8dzzgHk+4ArOZUxZKL4RdNT
+         uwXDp96x+P/4PpI+Pojhu0x+BcfthzgBRh81yOgqYmlGyJIfq+WpLRGCSVeHzazhliqE
+         7uPt++uim6214r+OWbn+48698qR8/9qxJo7gYrfwiFnd2DMS3iXzvS4FBrPZWGlT/JII
+         h2l+GdxDEWYs/bTgIJDDZkJl9nwEMsfoWZSOUatebzUJRC43qdogHfmBAW7JWj8Fn0PO
+         EoMQ==
+X-Gm-Message-State: AOAM5324nXfiBiBx7RxY5uLa22bzq9+gtCR8fEdmbX+BjxW1EWOgEXjH
+	iMkRRLmXj8wdx8UW8lIYhznlTRlLPF1Tbw==
+X-Google-Smtp-Source: ABdhPJzViS180fdxCSu3t5lYo36b8emBTCCuq9F3C0vOVxjVFCkW41iV4F3hPh3YP8Qtu0+RldyoOw==
+X-Received: by 2002:a17:907:3d8d:: with SMTP id he13mr12182949ejc.448.1614526642154;
+        Sun, 28 Feb 2021 07:37:22 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.20
+        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 28 Feb 2021 07:37:21 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/24] webkitgtk: update 2.30.4 -> 2.30.5
-Date: Sun, 28 Feb 2021 16:36:52 +0100
-Message-Id: <20210228153702.498275-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/24] libgcrypt: update 1.8.7 -> 1.9.2
+Date: Sun, 28 Feb 2021 16:36:53 +0100
+Message-Id: <20210228153702.498275-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Drop backports.
+
+Add a patch that inserts missing spaces in Makefiles.
+
+Drop determinism.patch: upstream has moved the git
+stuff to an external script, which has a guard that
+checkes for presence of .git/ in source tree.
+
+License-Update: additional source file listed
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch | 14 +++++++-------
- .../{webkitgtk_2.30.4.bb => webkitgtk_2.30.5.bb}   |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.30.4.bb => webkitgtk_2.30.5.bb} (98%)
+ ...0001-Makefile.am-add-a-missing-space.patch |  41 +++
+ .../0001-Prefetch-GCM-look-up-tables.patch    |  90 -----
+ ...01-libgcrypt-fix-m4-file-for-oe-core.patch |   9 +-
+ ...-tables-to-.data-section-and-unshare.patch | 332 ------------------
+ ...ilding-error-with-O2-in-sysroot-path.patch |  16 +-
+ ...-table-to-.data-section-and-unshare-.patch | 178 ----------
+ ...m-fix-undefined-reference-to-pthread.patch |  21 +-
+ .../libgcrypt/files/determinism.patch         |  32 --
+ ...{libgcrypt_1.8.7.bb => libgcrypt_1.9.2.bb} |  12 +-
+ 9 files changed, 67 insertions(+), 664 deletions(-)
+ create mode 100644 meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Prefetch-GCM-look-up-tables.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/files/determinism.patch
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.7.bb => libgcrypt_1.9.2.bb} (81%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
-index aa9a06701a..0c31c5fa21 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
+diff --git a/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch b/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
+new file mode 100644
+index 0000000000..8fbed9add6
+--- /dev/null
++++ b/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
+@@ -0,0 +1,41 @@
++From b8192ff67ed46ea2cc4282fa1856ce2868223737 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 24 Feb 2021 19:43:07 +0000
++Subject: [PATCH] Makefile.am: add a missing space
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ cipher/Makefile.am | 2 +-
++ doc/Makefile.am    | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/cipher/Makefile.am b/cipher/Makefile.am
++index 1cf5072..b3ca225 100644
++--- a/cipher/Makefile.am
+++++ b/cipher/Makefile.am
++@@ -143,7 +143,7 @@ gost-sb.h: gost-s-box
++ 
++ gost-s-box: gost-s-box.c
++ 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
++-	    $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/gost-s-box.c
+++	    $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/gost-s-box.c
++ 
++ 
++ if ENABLE_O_FLAG_MUNGING
++diff --git a/doc/Makefile.am b/doc/Makefile.am
++index fd7aac2..1703bd9 100644
++--- a/doc/Makefile.am
+++++ b/doc/Makefile.am
++@@ -43,7 +43,7 @@ man_MANS = $(myman_pages)
++ 
++ yat2m: yat2m.c
++ 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
++-	    $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/yat2m.c
+++	    $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/yat2m.c
++ 
++ .fig.png:
++ 	fig2dev -L png `test -f '$<' || echo '$(srcdir)/'`$< $@
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libgcrypt/files/0001-Prefetch-GCM-look-up-tables.patch b/meta/recipes-support/libgcrypt/files/0001-Prefetch-GCM-look-up-tables.patch
+deleted file mode 100644
+index 4df96f0011..0000000000
+--- a/meta/recipes-support/libgcrypt/files/0001-Prefetch-GCM-look-up-tables.patch
++++ /dev/null
+@@ -1,90 +0,0 @@
+-From 1374254c2904ab5b18ba4a890856824a102d4705 Mon Sep 17 00:00:00 2001
+-From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-Date: Sat, 27 Apr 2019 19:33:28 +0300
+-Subject: [PATCH 1/3] Prefetch GCM look-up tables
+-
+-* cipher/cipher-gcm.c (prefetch_table, do_prefetch_tables)
+-(prefetch_tables): New.
+-(ghash_internal): Call prefetch_tables.
+---
+-
+-Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-
+-Upstream-Status: Backport
+-[https://github.com/gpg/libgcrypt/commit/1374254c2904ab5b18ba4a890856824a102d4705]
+-
+-CVE: CVE-2019-12904
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- cipher/cipher-gcm.c | 33 +++++++++++++++++++++++++++++++++
+- 1 file changed, 33 insertions(+)
+-
+-diff --git a/cipher/cipher-gcm.c b/cipher/cipher-gcm.c
+-index c19f09f..11f119a 100644
+---- a/cipher/cipher-gcm.c
+-+++ b/cipher/cipher-gcm.c
+-@@ -118,6 +118,34 @@ static const u16 gcmR[256] = {
+-   0xbbf0, 0xba32, 0xb874, 0xb9b6, 0xbcf8, 0xbd3a, 0xbf7c, 0xbebe,
+- };
+- 
+-+static inline
+-+void prefetch_table(const void *tab, size_t len)
+-+{
+-+  const volatile byte *vtab = tab;
+-+  size_t i;
+-+
+-+  for (i = 0; i < len; i += 8 * 32)
+-+    {
+-+      (void)vtab[i + 0 * 32];
+-+      (void)vtab[i + 1 * 32];
+-+      (void)vtab[i + 2 * 32];
+-+      (void)vtab[i + 3 * 32];
+-+      (void)vtab[i + 4 * 32];
+-+      (void)vtab[i + 5 * 32];
+-+      (void)vtab[i + 6 * 32];
+-+      (void)vtab[i + 7 * 32];
+-+    }
+-+
+-+  (void)vtab[len - 1];
+-+}
+-+
+-+static inline void
+-+do_prefetch_tables (const void *gcmM, size_t gcmM_size)
+-+{
+-+  prefetch_table(gcmM, gcmM_size);
+-+  prefetch_table(gcmR, sizeof(gcmR));
+-+}
+-+
+- #ifdef GCM_TABLES_USE_U64
+- static void
+- bshift (u64 * b0, u64 * b1)
+-@@ -365,6 +393,8 @@ do_ghash (unsigned char *result, const unsigned char *buf, const u32 *gcmM)
+- #define fillM(c) \
+-   do_fillM (c->u_mode.gcm.u_ghash_key.key, c->u_mode.gcm.gcm_table)
+- #define GHASH(c, result, buf) do_ghash (result, buf, c->u_mode.gcm.gcm_table)
+-+#define prefetch_tables(c) \
+-+  do_prefetch_tables(c->u_mode.gcm.gcm_table, sizeof(c->u_mode.gcm.gcm_table))
+- 
+- #else
+- 
+-@@ -430,6 +460,7 @@ do_ghash (unsigned char *hsub, unsigned char *result, const unsigned char *buf)
+- 
+- #define fillM(c) do { } while (0)
+- #define GHASH(c, result, buf) do_ghash (c->u_mode.gcm.u_ghash_key.key, result, buf)
+-+#define prefetch_tables(c) do {} while (0)
+- 
+- #endif /* !GCM_USE_TABLES */
+- 
+-@@ -441,6 +472,8 @@ ghash_internal (gcry_cipher_hd_t c, byte *result, const byte *buf,
+-   const unsigned int blocksize = GCRY_GCM_BLOCK_LEN;
+-   unsigned int burn = 0;
+- 
+-+  prefetch_tables (c);
+-+
+-   while (nblocks)
+-     {
+-       burn = GHASH (c, result, buf);
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
+index cd8a5993b4..c873e24ed5 100644
+--- a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
++++ b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
 @@ -1,4 +1,4 @@
--From 0afc194c6446e6c3242f1d706b4564e3a9cb2cee Mon Sep 17 00:00:00 2001
-+From 4718888071e29deb8b245b88c81577fd5bac4e5e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 29 Aug 2016 16:38:11 +0300
- Subject: [PATCH] Fix racy parallel build of WebKit2-4.0.gir
-@@ -11,12 +11,12 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 5 insertions(+), 4 deletions(-)
+-From bee26d7c4ea0b4a397c289b819b89e78bc325ba0 Mon Sep 17 00:00:00 2001
++From 839f38e5ecc22b7f1b837284bbbffac8cb32ab1e Mon Sep 17 00:00:00 2001
+ From: Trevor Gamblin <trevor.gamblin@windriver.com>
+ Date: Tue, 29 Oct 2019 14:08:32 -0400
+ Subject: [PATCH] libgcrypt: fix m4 file for oe-core
+@@ -17,7 +17,7 @@ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+  1 file changed, 4 insertions(+), 86 deletions(-)
  
- diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
--index a074a80..8c6ebb5 100644
-+index a069c5f6..ea2f542b 100644
- --- a/Source/WebKit/PlatformGTK.cmake
- +++ b/Source/WebKit/PlatformGTK.cmake
--@@ -728,8 +728,9 @@ if (ENABLE_INTROSPECTION)
--     string(REGEX MATCHALL "-L[^ ]*"
--         INTROSPECTION_ADDITIONAL_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-+@@ -650,8 +650,9 @@ if (ENABLE_INTROSPECTION)
-+         set(GIR_SOURCES_TOP_DIRS "--sources-top-dirs=${CMAKE_BINARY_DIR}")
-+     endif ()
+ diff --git a/src/libgcrypt.m4 b/src/libgcrypt.m4
+-index 37dfbea2..3d2e90a8 100644
++index 19d514f..21125c7 100644
+ --- a/src/libgcrypt.m4
+ +++ b/src/libgcrypt.m4
+ @@ -29,41 +29,6 @@ dnl is added to the gpg_config_script_warn variable.
+@@ -25,7 +25,7 @@ index 37dfbea2..3d2e90a8 100644
+  AC_DEFUN([AM_PATH_LIBGCRYPT],
+  [ AC_REQUIRE([AC_CANONICAL_HOST])
+ -  AC_ARG_WITH(libgcrypt-prefix,
+--            AC_HELP_STRING([--with-libgcrypt-prefix=PFX],
++-            AS_HELP_STRING([--with-libgcrypt-prefix=PFX],
+ -                           [prefix where LIBGCRYPT is installed (optional)]),
+ -     libgcrypt_config_prefix="$withval", libgcrypt_config_prefix="")
+ -  if test x"${LIBGCRYPT_CONFIG}" = x ; then
+@@ -144,6 +144,3 @@ index 37dfbea2..3d2e90a8 100644
+      ifelse([$3], , :, [$3])
+    fi
+    AC_SUBST(LIBGCRYPT_CFLAGS)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch b/meta/recipes-support/libgcrypt/files/0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch
+deleted file mode 100644
+index c82c5b5c8a..0000000000
+--- a/meta/recipes-support/libgcrypt/files/0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch
++++ /dev/null
+@@ -1,332 +0,0 @@
+-From 119348dd9aa52ab229afb5e2d3342d2b76fe81bf Mon Sep 17 00:00:00 2001
+-From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-Date: Fri, 31 May 2019 17:18:09 +0300
+-Subject: [PATCH 2/3] AES: move look-up tables to .data section and unshare between
+- processes
+-
+-* cipher/rijndael-internal.h (ATTR_ALIGNED_64): New.
+-* cipher/rijndael-tables.h (encT): Move to 'enc_tables' structure.
+-(enc_tables): New structure for encryption table with counters before
+-and after.
+-(encT): New macro.
+-(dec_tables): Add counters before and after encryption table; Move
+-from .rodata to .data section.
+-(do_encrypt): Change 'encT' to 'enc_tables.T'.
+-(do_decrypt): Change '&dec_tables' to 'dec_tables.T'.
+-* cipher/cipher-gcm.c (prefetch_table): Make inline; Handle input
+-with length not multiple of 256.
+-(prefetch_enc, prefetch_dec): Modify pre- and post-table counters
+-to unshare look-up table pages between processes.
+---
+-
+-GnuPG-bug-id: 4541
+-Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-
+-Upstream-Status: Backport
+-[https://github.com/gpg/libgcrypt/commit/daedbbb5541cd8ecda1459d3b843ea4d92788762]
+-
+-CVE: CVE-2019-12904
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- cipher/rijndael-internal.h |   4 +-
+- cipher/rijndael-tables.h   | 155 +++++++++++++++++++++++++--------------------
+- cipher/rijndael.c          |  35 ++++++++--
+- 3 files changed, 118 insertions(+), 76 deletions(-)
+-
+-diff --git a/cipher/rijndael-internal.h b/cipher/rijndael-internal.h
+-index 160fb8c..a62d4b7 100644
+---- a/cipher/rijndael-internal.h
+-+++ b/cipher/rijndael-internal.h
+-@@ -29,11 +29,13 @@
+- #define BLOCKSIZE               (128/8)
+- 
+- 
+--/* Helper macro to force alignment to 16 bytes.  */
+-+/* Helper macro to force alignment to 16 or 64 bytes.  */
+- #ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
+- # define ATTR_ALIGNED_16  __attribute__ ((aligned (16)))
+-+# define ATTR_ALIGNED_64  __attribute__ ((aligned (64)))
+- #else
+- # define ATTR_ALIGNED_16
+-+# define ATTR_ALIGNED_64
+- #endif
+- 
+- 
+-diff --git a/cipher/rijndael-tables.h b/cipher/rijndael-tables.h
+-index 8359470..b54d959 100644
+---- a/cipher/rijndael-tables.h
+-+++ b/cipher/rijndael-tables.h
+-@@ -21,80 +21,98 @@
+- /* To keep the actual implementation at a readable size we use this
+-    include file to define the tables.  */
+- 
+--static const u32 encT[256] =
+-+static struct
+-+{
+-+  volatile u32 counter_head;
+-+  u32 cacheline_align[64 / 4 - 1];
+-+  u32 T[256];
+-+  volatile u32 counter_tail;
+-+} enc_tables ATTR_ALIGNED_64 =
+-   {
+--    0xa56363c6, 0x847c7cf8, 0x997777ee, 0x8d7b7bf6,
+--    0x0df2f2ff, 0xbd6b6bd6, 0xb16f6fde, 0x54c5c591,
+--    0x50303060, 0x03010102, 0xa96767ce, 0x7d2b2b56,
+--    0x19fefee7, 0x62d7d7b5, 0xe6abab4d, 0x9a7676ec,
+--    0x45caca8f, 0x9d82821f, 0x40c9c989, 0x877d7dfa,
+--    0x15fafaef, 0xeb5959b2, 0xc947478e, 0x0bf0f0fb,
+--    0xecadad41, 0x67d4d4b3, 0xfda2a25f, 0xeaafaf45,
+--    0xbf9c9c23, 0xf7a4a453, 0x967272e4, 0x5bc0c09b,
+--    0xc2b7b775, 0x1cfdfde1, 0xae93933d, 0x6a26264c,
+--    0x5a36366c, 0x413f3f7e, 0x02f7f7f5, 0x4fcccc83,
+--    0x5c343468, 0xf4a5a551, 0x34e5e5d1, 0x08f1f1f9,
+--    0x937171e2, 0x73d8d8ab, 0x53313162, 0x3f15152a,
+--    0x0c040408, 0x52c7c795, 0x65232346, 0x5ec3c39d,
+--    0x28181830, 0xa1969637, 0x0f05050a, 0xb59a9a2f,
+--    0x0907070e, 0x36121224, 0x9b80801b, 0x3de2e2df,
+--    0x26ebebcd, 0x6927274e, 0xcdb2b27f, 0x9f7575ea,
+--    0x1b090912, 0x9e83831d, 0x742c2c58, 0x2e1a1a34,
+--    0x2d1b1b36, 0xb26e6edc, 0xee5a5ab4, 0xfba0a05b,
+--    0xf65252a4, 0x4d3b3b76, 0x61d6d6b7, 0xceb3b37d,
+--    0x7b292952, 0x3ee3e3dd, 0x712f2f5e, 0x97848413,
+--    0xf55353a6, 0x68d1d1b9, 0x00000000, 0x2cededc1,
+--    0x60202040, 0x1ffcfce3, 0xc8b1b179, 0xed5b5bb6,
+--    0xbe6a6ad4, 0x46cbcb8d, 0xd9bebe67, 0x4b393972,
+--    0xde4a4a94, 0xd44c4c98, 0xe85858b0, 0x4acfcf85,
+--    0x6bd0d0bb, 0x2aefefc5, 0xe5aaaa4f, 0x16fbfbed,
+--    0xc5434386, 0xd74d4d9a, 0x55333366, 0x94858511,
+--    0xcf45458a, 0x10f9f9e9, 0x06020204, 0x817f7ffe,
+--    0xf05050a0, 0x443c3c78, 0xba9f9f25, 0xe3a8a84b,
+--    0xf35151a2, 0xfea3a35d, 0xc0404080, 0x8a8f8f05,
+--    0xad92923f, 0xbc9d9d21, 0x48383870, 0x04f5f5f1,
+--    0xdfbcbc63, 0xc1b6b677, 0x75dadaaf, 0x63212142,
+--    0x30101020, 0x1affffe5, 0x0ef3f3fd, 0x6dd2d2bf,
+--    0x4ccdcd81, 0x140c0c18, 0x35131326, 0x2fececc3,
+--    0xe15f5fbe, 0xa2979735, 0xcc444488, 0x3917172e,
+--    0x57c4c493, 0xf2a7a755, 0x827e7efc, 0x473d3d7a,
+--    0xac6464c8, 0xe75d5dba, 0x2b191932, 0x957373e6,
+--    0xa06060c0, 0x98818119, 0xd14f4f9e, 0x7fdcdca3,
+--    0x66222244, 0x7e2a2a54, 0xab90903b, 0x8388880b,
+--    0xca46468c, 0x29eeeec7, 0xd3b8b86b, 0x3c141428,
+--    0x79dedea7, 0xe25e5ebc, 0x1d0b0b16, 0x76dbdbad,
+--    0x3be0e0db, 0x56323264, 0x4e3a3a74, 0x1e0a0a14,
+--    0xdb494992, 0x0a06060c, 0x6c242448, 0xe45c5cb8,
+--    0x5dc2c29f, 0x6ed3d3bd, 0xefacac43, 0xa66262c4,
+--    0xa8919139, 0xa4959531, 0x37e4e4d3, 0x8b7979f2,
+--    0x32e7e7d5, 0x43c8c88b, 0x5937376e, 0xb76d6dda,
+--    0x8c8d8d01, 0x64d5d5b1, 0xd24e4e9c, 0xe0a9a949,
+--    0xb46c6cd8, 0xfa5656ac, 0x07f4f4f3, 0x25eaeacf,
+--    0xaf6565ca, 0x8e7a7af4, 0xe9aeae47, 0x18080810,
+--    0xd5baba6f, 0x887878f0, 0x6f25254a, 0x722e2e5c,
+--    0x241c1c38, 0xf1a6a657, 0xc7b4b473, 0x51c6c697,
+--    0x23e8e8cb, 0x7cdddda1, 0x9c7474e8, 0x211f1f3e,
+--    0xdd4b4b96, 0xdcbdbd61, 0x868b8b0d, 0x858a8a0f,
+--    0x907070e0, 0x423e3e7c, 0xc4b5b571, 0xaa6666cc,
+--    0xd8484890, 0x05030306, 0x01f6f6f7, 0x120e0e1c,
+--    0xa36161c2, 0x5f35356a, 0xf95757ae, 0xd0b9b969,
+--    0x91868617, 0x58c1c199, 0x271d1d3a, 0xb99e9e27,
+--    0x38e1e1d9, 0x13f8f8eb, 0xb398982b, 0x33111122,
+--    0xbb6969d2, 0x70d9d9a9, 0x898e8e07, 0xa7949433,
+--    0xb69b9b2d, 0x221e1e3c, 0x92878715, 0x20e9e9c9,
+--    0x49cece87, 0xff5555aa, 0x78282850, 0x7adfdfa5,
+--    0x8f8c8c03, 0xf8a1a159, 0x80898909, 0x170d0d1a,
+--    0xdabfbf65, 0x31e6e6d7, 0xc6424284, 0xb86868d0,
+--    0xc3414182, 0xb0999929, 0x772d2d5a, 0x110f0f1e,
+--    0xcbb0b07b, 0xfc5454a8, 0xd6bbbb6d, 0x3a16162c
+-+    0,
+-+    { 0, },
+-+    {
+-+      0xa56363c6, 0x847c7cf8, 0x997777ee, 0x8d7b7bf6,
+-+      0x0df2f2ff, 0xbd6b6bd6, 0xb16f6fde, 0x54c5c591,
+-+      0x50303060, 0x03010102, 0xa96767ce, 0x7d2b2b56,
+-+      0x19fefee7, 0x62d7d7b5, 0xe6abab4d, 0x9a7676ec,
+-+      0x45caca8f, 0x9d82821f, 0x40c9c989, 0x877d7dfa,
+-+      0x15fafaef, 0xeb5959b2, 0xc947478e, 0x0bf0f0fb,
+-+      0xecadad41, 0x67d4d4b3, 0xfda2a25f, 0xeaafaf45,
+-+      0xbf9c9c23, 0xf7a4a453, 0x967272e4, 0x5bc0c09b,
+-+      0xc2b7b775, 0x1cfdfde1, 0xae93933d, 0x6a26264c,
+-+      0x5a36366c, 0x413f3f7e, 0x02f7f7f5, 0x4fcccc83,
+-+      0x5c343468, 0xf4a5a551, 0x34e5e5d1, 0x08f1f1f9,
+-+      0x937171e2, 0x73d8d8ab, 0x53313162, 0x3f15152a,
+-+      0x0c040408, 0x52c7c795, 0x65232346, 0x5ec3c39d,
+-+      0x28181830, 0xa1969637, 0x0f05050a, 0xb59a9a2f,
+-+      0x0907070e, 0x36121224, 0x9b80801b, 0x3de2e2df,
+-+      0x26ebebcd, 0x6927274e, 0xcdb2b27f, 0x9f7575ea,
+-+      0x1b090912, 0x9e83831d, 0x742c2c58, 0x2e1a1a34,
+-+      0x2d1b1b36, 0xb26e6edc, 0xee5a5ab4, 0xfba0a05b,
+-+      0xf65252a4, 0x4d3b3b76, 0x61d6d6b7, 0xceb3b37d,
+-+      0x7b292952, 0x3ee3e3dd, 0x712f2f5e, 0x97848413,
+-+      0xf55353a6, 0x68d1d1b9, 0x00000000, 0x2cededc1,
+-+      0x60202040, 0x1ffcfce3, 0xc8b1b179, 0xed5b5bb6,
+-+      0xbe6a6ad4, 0x46cbcb8d, 0xd9bebe67, 0x4b393972,
+-+      0xde4a4a94, 0xd44c4c98, 0xe85858b0, 0x4acfcf85,
+-+      0x6bd0d0bb, 0x2aefefc5, 0xe5aaaa4f, 0x16fbfbed,
+-+      0xc5434386, 0xd74d4d9a, 0x55333366, 0x94858511,
+-+      0xcf45458a, 0x10f9f9e9, 0x06020204, 0x817f7ffe,
+-+      0xf05050a0, 0x443c3c78, 0xba9f9f25, 0xe3a8a84b,
+-+      0xf35151a2, 0xfea3a35d, 0xc0404080, 0x8a8f8f05,
+-+      0xad92923f, 0xbc9d9d21, 0x48383870, 0x04f5f5f1,
+-+      0xdfbcbc63, 0xc1b6b677, 0x75dadaaf, 0x63212142,
+-+      0x30101020, 0x1affffe5, 0x0ef3f3fd, 0x6dd2d2bf,
+-+      0x4ccdcd81, 0x140c0c18, 0x35131326, 0x2fececc3,
+-+      0xe15f5fbe, 0xa2979735, 0xcc444488, 0x3917172e,
+-+      0x57c4c493, 0xf2a7a755, 0x827e7efc, 0x473d3d7a,
+-+      0xac6464c8, 0xe75d5dba, 0x2b191932, 0x957373e6,
+-+      0xa06060c0, 0x98818119, 0xd14f4f9e, 0x7fdcdca3,
+-+      0x66222244, 0x7e2a2a54, 0xab90903b, 0x8388880b,
+-+      0xca46468c, 0x29eeeec7, 0xd3b8b86b, 0x3c141428,
+-+      0x79dedea7, 0xe25e5ebc, 0x1d0b0b16, 0x76dbdbad,
+-+      0x3be0e0db, 0x56323264, 0x4e3a3a74, 0x1e0a0a14,
+-+      0xdb494992, 0x0a06060c, 0x6c242448, 0xe45c5cb8,
+-+      0x5dc2c29f, 0x6ed3d3bd, 0xefacac43, 0xa66262c4,
+-+      0xa8919139, 0xa4959531, 0x37e4e4d3, 0x8b7979f2,
+-+      0x32e7e7d5, 0x43c8c88b, 0x5937376e, 0xb76d6dda,
+-+      0x8c8d8d01, 0x64d5d5b1, 0xd24e4e9c, 0xe0a9a949,
+-+      0xb46c6cd8, 0xfa5656ac, 0x07f4f4f3, 0x25eaeacf,
+-+      0xaf6565ca, 0x8e7a7af4, 0xe9aeae47, 0x18080810,
+-+      0xd5baba6f, 0x887878f0, 0x6f25254a, 0x722e2e5c,
+-+      0x241c1c38, 0xf1a6a657, 0xc7b4b473, 0x51c6c697,
+-+      0x23e8e8cb, 0x7cdddda1, 0x9c7474e8, 0x211f1f3e,
+-+      0xdd4b4b96, 0xdcbdbd61, 0x868b8b0d, 0x858a8a0f,
+-+      0x907070e0, 0x423e3e7c, 0xc4b5b571, 0xaa6666cc,
+-+      0xd8484890, 0x05030306, 0x01f6f6f7, 0x120e0e1c,
+-+      0xa36161c2, 0x5f35356a, 0xf95757ae, 0xd0b9b969,
+-+      0x91868617, 0x58c1c199, 0x271d1d3a, 0xb99e9e27,
+-+      0x38e1e1d9, 0x13f8f8eb, 0xb398982b, 0x33111122,
+-+      0xbb6969d2, 0x70d9d9a9, 0x898e8e07, 0xa7949433,
+-+      0xb69b9b2d, 0x221e1e3c, 0x92878715, 0x20e9e9c9,
+-+      0x49cece87, 0xff5555aa, 0x78282850, 0x7adfdfa5,
+-+      0x8f8c8c03, 0xf8a1a159, 0x80898909, 0x170d0d1a,
+-+      0xdabfbf65, 0x31e6e6d7, 0xc6424284, 0xb86868d0,
+-+      0xc3414182, 0xb0999929, 0x772d2d5a, 0x110f0f1e,
+-+      0xcbb0b07b, 0xfc5454a8, 0xd6bbbb6d, 0x3a16162c
+-+    },
+-+    0
+-   };
+- 
+--static const struct
+-+#define encT enc_tables.T
+-+
+-+static struct
+- {
+-+  volatile u32 counter_head;
+-+  u32 cacheline_align[64 / 4 - 1];
+-   u32 T[256];
+-   byte inv_sbox[256];
+--} dec_tables =
+-+  volatile u32 counter_tail;
+-+} dec_tables ATTR_ALIGNED_64 =
+-   {
+-+    0,
+-+    { 0, },
+-     {
+-       0x50a7f451, 0x5365417e, 0xc3a4171a, 0x965e273a,
+-       0xcb6bab3b, 0xf1459d1f, 0xab58faac, 0x9303e34b,
+-@@ -194,7 +212,8 @@ static const struct
+-       0xc8,0xeb,0xbb,0x3c,0x83,0x53,0x99,0x61,
+-       0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,
+-       0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d
+--    }
+-+    },
+-+    0
+-   };
+- 
+- #define decT dec_tables.T
+-diff --git a/cipher/rijndael.c b/cipher/rijndael.c
+-index 8637195..d0edab2 100644
+---- a/cipher/rijndael.c
+-+++ b/cipher/rijndael.c
+-@@ -227,11 +227,11 @@ static const char *selftest(void);
+- 
+- 
+- /* Prefetching for encryption/decryption tables. */
+--static void prefetch_table(const volatile byte *tab, size_t len)
+-+static inline void prefetch_table(const volatile byte *tab, size_t len)
+- {
+-   size_t i;
+- 
+--  for (i = 0; i < len; i += 8 * 32)
+-+  for (i = 0; len - i >= 8 * 32; i += 8 * 32)
+-     {
+-       (void)tab[i + 0 * 32];
+-       (void)tab[i + 1 * 32];
+-@@ -242,17 +242,37 @@ static void prefetch_table(const volatile byte *tab, size_t len)
+-       (void)tab[i + 6 * 32];
+-       (void)tab[i + 7 * 32];
+-     }
+-+  for (; i < len; i += 32)
+-+    {
+-+      (void)tab[i];
+-+    }
+- 
+-   (void)tab[len - 1];
+- }
+- 
+- static void prefetch_enc(void)
+- {
+--  prefetch_table((const void *)encT, sizeof(encT));
+-+  /* Modify counters to trigger copy-on-write and unsharing if physical pages
+-+   * of look-up table are shared between processes.  Modifying counters also
+-+   * causes checksums for pages to change and hint same-page merging algorithm
+-+   * that these pages are frequently changing.  */
+-+  enc_tables.counter_head++;
+-+  enc_tables.counter_tail++;
+-+
+-+  /* Prefetch look-up tables to cache.  */
+-+  prefetch_table((const void *)&enc_tables, sizeof(enc_tables));
+- }
+- 
+- static void prefetch_dec(void)
+- {
+-+  /* Modify counters to trigger copy-on-write and unsharing if physical pages
+-+   * of look-up table are shared between processes.  Modifying counters also
+-+   * causes checksums for pages to change and hint same-page merging algorithm
+-+   * that these pages are frequently changing.  */
+-+  dec_tables.counter_head++;
+-+  dec_tables.counter_tail++;
+-+
+-+  /* Prefetch look-up tables to cache.  */
+-   prefetch_table((const void *)&dec_tables, sizeof(dec_tables));
+- }
+- 
+-@@ -737,7 +757,7 @@ do_encrypt (const RIJNDAEL_context *ctx,
+- #ifdef USE_AMD64_ASM
+- # ifdef HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS
+-   return _gcry_aes_amd64_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds,
+--				       encT);
+-+				       enc_tables.T);
+- # else
+-   /* Call SystemV ABI function without storing non-volatile XMM registers,
+-    * as target function does not use vector instruction sets. */
+-@@ -757,7 +777,8 @@ do_encrypt (const RIJNDAEL_context *ctx,
+-   return ret;
+- # endif /* HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS */
+- #elif defined(USE_ARM_ASM)
+--  return _gcry_aes_arm_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds, encT);
+-+  return _gcry_aes_arm_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds,
+-+				     enc_tables.T);
+- #else
+-   return do_encrypt_fn (ctx, bx, ax);
+- #endif /* !USE_ARM_ASM && !USE_AMD64_ASM*/
+-@@ -1120,7 +1141,7 @@ do_decrypt (const RIJNDAEL_context *ctx, unsigned char *bx,
+- #ifdef USE_AMD64_ASM
+- # ifdef HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS
+-   return _gcry_aes_amd64_decrypt_block(ctx->keyschdec, bx, ax, ctx->rounds,
+--				       &dec_tables);
+-+				       dec_tables.T);
+- # else
+-   /* Call SystemV ABI function without storing non-volatile XMM registers,
+-    * as target function does not use vector instruction sets. */
+-@@ -1141,7 +1162,7 @@ do_decrypt (const RIJNDAEL_context *ctx, unsigned char *bx,
+- # endif /* HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS */
+- #elif defined(USE_ARM_ASM)
+-   return _gcry_aes_arm_decrypt_block(ctx->keyschdec, bx, ax, ctx->rounds,
+--				     &dec_tables);
+-+				     dec_tables.T);
+- #else
+-   return do_decrypt_fn (ctx, bx, ax);
+- #endif /*!USE_ARM_ASM && !USE_AMD64_ASM*/
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+index d7554f38af..f9c362431c 100644
+--- a/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
++++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+@@ -1,7 +1,7 @@
+-From 97570ef271ea1fb7b5ca903eec88f68407b0ec76 Mon Sep 17 00:00:00 2001
++From 3c6c10eae0993c8ca60879494c6650f7b8f54ebe Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 16 Aug 2017 10:44:41 +0800
+-Subject: [PATCH 2/4] libgcrypt: fix building error with '-O2' in sysroot path
++Subject: [PATCH] libgcrypt: fix building error with '-O2' in sysroot path
+ 
+ Upstream-Status: Pending
+ 
+@@ -19,23 +19,21 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ 
+ Rebase to 1.8.0
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  cipher/Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+-index 95c4510..bd52ec7 100644
++index d644005..1cf5072 100644
+ --- a/cipher/Makefile.am
+ +++ b/cipher/Makefile.am
+-@@ -116,7 +116,7 @@ gost-s-box: gost-s-box.c
++@@ -147,7 +147,7 @@ gost-s-box: gost-s-box.c
   
- -    add_custom_command(
- -        OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-@@ -26,7 +26,7 @@ index a074a80..8c6ebb5 100644
-          DEPENDS WebKit
-          DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-          COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
--@@ -773,7 +774,7 @@ if (ENABLE_INTROSPECTION)
-+@@ -699,7 +700,7 @@ if (ENABLE_INTROSPECTION)
-      add_custom_command(
-          OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-          DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-@@ -35,7 +35,7 @@ index a074a80..8c6ebb5 100644
-          COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
-              LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
-              ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
--@@ -828,7 +829,7 @@ if (ENABLE_INTROSPECTION)
-+@@ -761,7 +762,7 @@ if (ENABLE_INTROSPECTION)
   
-      add_custom_command(
-          OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.30.4.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-index a16a676d7a..2928b8e55b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.30.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-@@ -19,7 +19,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://include_array.patch \
-            file://include_xutil.patch \
-            "
--SRC_URI[sha256sum] = "d595a37c5001ff787266b155e303a5f2e5b48a6d466f2714c2f30c11392f7b24"
-+SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
+  if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([2-9s][2-9s]*\)/-O1/' -e 's/-Ofast/-O1/g'
+-+o_flag_munging = sed -e 's/ -O\([2-9s][2-9s]*\) / -O1 /' -e 's/ -Ofast / -O1 /g'
++-o_flag_munging = sed -e 's/-O\([2-9sg][2-9sg]*\)/-O1/' -e 's/-Ofast/-O1/g'
+++o_flag_munging = sed -e 's/ -O\([2-9sg][2-9sg]*\) / -O1 /' -e 's/ -Ofast / -O1 /g'
+  else
+  o_flag_munging = cat
+  endif
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch b/meta/recipes-support/libgcrypt/files/0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch
+deleted file mode 100644
+index b580b7b13c..0000000000
+--- a/meta/recipes-support/libgcrypt/files/0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch
++++ /dev/null
+@@ -1,178 +0,0 @@
+-From a4c561aab1014c3630bc88faf6f5246fee16b020 Mon Sep 17 00:00:00 2001
+-From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-Date: Fri, 31 May 2019 17:27:25 +0300
+-Subject: [PATCH 3/3] GCM: move look-up table to .data section and unshare
+- between processes
+-
+-* cipher/cipher-gcm.c (ATTR_ALIGNED_64): New.
+-(gcmR): Move to 'gcm_table' structure.
+-(gcm_table): New structure for look-up table with counters before and
+-after.
+-(gcmR): New macro.
+-(prefetch_table): Handle input with length not multiple of 256.
+-(do_prefetch_tables): Modify pre- and post-table counters to unshare
+-look-up table pages between processes.
+---
+-
+-GnuPG-bug-id: 4541
+-Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
+-
+-Upstream-Status: Backport
+-[https://github.com/gpg/libgcrypt/commit/a4c561aab1014c3630bc88faf6f5246fee16b020]
+-
+-CVE: CVE-2019-12904
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- cipher/cipher-gcm.c | 106 ++++++++++++++++++++++++++++++++++------------------
+- 1 file changed, 70 insertions(+), 36 deletions(-)
+-
+-diff --git a/cipher/cipher-gcm.c b/cipher/cipher-gcm.c
+-index 11f119a..194e2ec 100644
+---- a/cipher/cipher-gcm.c
+-+++ b/cipher/cipher-gcm.c
+-@@ -30,6 +30,14 @@
+- #include "./cipher-internal.h"
+- 
+- 
+-+/* Helper macro to force alignment to 16 or 64 bytes.  */
+-+#ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
+-+# define ATTR_ALIGNED_64  __attribute__ ((aligned (64)))
+-+#else
+-+# define ATTR_ALIGNED_64
+-+#endif
+-+
+-+
+- #ifdef GCM_USE_INTEL_PCLMUL
+- extern void _gcry_ghash_setup_intel_pclmul (gcry_cipher_hd_t c);
+- 
+-@@ -83,40 +91,54 @@ ghash_armv7_neon (gcry_cipher_hd_t c, byte *result, const byte *buf,
+- 
+- 
+- #ifdef GCM_USE_TABLES
+--static const u16 gcmR[256] = {
+--  0x0000, 0x01c2, 0x0384, 0x0246, 0x0708, 0x06ca, 0x048c, 0x054e,
+--  0x0e10, 0x0fd2, 0x0d94, 0x0c56, 0x0918, 0x08da, 0x0a9c, 0x0b5e,
+--  0x1c20, 0x1de2, 0x1fa4, 0x1e66, 0x1b28, 0x1aea, 0x18ac, 0x196e,
+--  0x1230, 0x13f2, 0x11b4, 0x1076, 0x1538, 0x14fa, 0x16bc, 0x177e,
+--  0x3840, 0x3982, 0x3bc4, 0x3a06, 0x3f48, 0x3e8a, 0x3ccc, 0x3d0e,
+--  0x3650, 0x3792, 0x35d4, 0x3416, 0x3158, 0x309a, 0x32dc, 0x331e,
+--  0x2460, 0x25a2, 0x27e4, 0x2626, 0x2368, 0x22aa, 0x20ec, 0x212e,
+--  0x2a70, 0x2bb2, 0x29f4, 0x2836, 0x2d78, 0x2cba, 0x2efc, 0x2f3e,
+--  0x7080, 0x7142, 0x7304, 0x72c6, 0x7788, 0x764a, 0x740c, 0x75ce,
+--  0x7e90, 0x7f52, 0x7d14, 0x7cd6, 0x7998, 0x785a, 0x7a1c, 0x7bde,
+--  0x6ca0, 0x6d62, 0x6f24, 0x6ee6, 0x6ba8, 0x6a6a, 0x682c, 0x69ee,
+--  0x62b0, 0x6372, 0x6134, 0x60f6, 0x65b8, 0x647a, 0x663c, 0x67fe,
+--  0x48c0, 0x4902, 0x4b44, 0x4a86, 0x4fc8, 0x4e0a, 0x4c4c, 0x4d8e,
+--  0x46d0, 0x4712, 0x4554, 0x4496, 0x41d8, 0x401a, 0x425c, 0x439e,
+--  0x54e0, 0x5522, 0x5764, 0x56a6, 0x53e8, 0x522a, 0x506c, 0x51ae,
+--  0x5af0, 0x5b32, 0x5974, 0x58b6, 0x5df8, 0x5c3a, 0x5e7c, 0x5fbe,
+--  0xe100, 0xe0c2, 0xe284, 0xe346, 0xe608, 0xe7ca, 0xe58c, 0xe44e,
+--  0xef10, 0xeed2, 0xec94, 0xed56, 0xe818, 0xe9da, 0xeb9c, 0xea5e,
+--  0xfd20, 0xfce2, 0xfea4, 0xff66, 0xfa28, 0xfbea, 0xf9ac, 0xf86e,
+--  0xf330, 0xf2f2, 0xf0b4, 0xf176, 0xf438, 0xf5fa, 0xf7bc, 0xf67e,
+--  0xd940, 0xd882, 0xdac4, 0xdb06, 0xde48, 0xdf8a, 0xddcc, 0xdc0e,
+--  0xd750, 0xd692, 0xd4d4, 0xd516, 0xd058, 0xd19a, 0xd3dc, 0xd21e,
+--  0xc560, 0xc4a2, 0xc6e4, 0xc726, 0xc268, 0xc3aa, 0xc1ec, 0xc02e,
+--  0xcb70, 0xcab2, 0xc8f4, 0xc936, 0xcc78, 0xcdba, 0xcffc, 0xce3e,
+--  0x9180, 0x9042, 0x9204, 0x93c6, 0x9688, 0x974a, 0x950c, 0x94ce,
+--  0x9f90, 0x9e52, 0x9c14, 0x9dd6, 0x9898, 0x995a, 0x9b1c, 0x9ade,
+--  0x8da0, 0x8c62, 0x8e24, 0x8fe6, 0x8aa8, 0x8b6a, 0x892c, 0x88ee,
+--  0x83b0, 0x8272, 0x8034, 0x81f6, 0x84b8, 0x857a, 0x873c, 0x86fe,
+--  0xa9c0, 0xa802, 0xaa44, 0xab86, 0xaec8, 0xaf0a, 0xad4c, 0xac8e,
+--  0xa7d0, 0xa612, 0xa454, 0xa596, 0xa0d8, 0xa11a, 0xa35c, 0xa29e,
+--  0xb5e0, 0xb422, 0xb664, 0xb7a6, 0xb2e8, 0xb32a, 0xb16c, 0xb0ae,
+--  0xbbf0, 0xba32, 0xb874, 0xb9b6, 0xbcf8, 0xbd3a, 0xbf7c, 0xbebe,
+--};
+-+static struct
+-+{
+-+  volatile u32 counter_head;
+-+  u32 cacheline_align[64 / 4 - 1];
+-+  u16 R[256];
+-+  volatile u32 counter_tail;
+-+} gcm_table ATTR_ALIGNED_64 =
+-+  {
+-+    0,
+-+    { 0, },
+-+    {
+-+      0x0000, 0x01c2, 0x0384, 0x0246, 0x0708, 0x06ca, 0x048c, 0x054e,
+-+      0x0e10, 0x0fd2, 0x0d94, 0x0c56, 0x0918, 0x08da, 0x0a9c, 0x0b5e,
+-+      0x1c20, 0x1de2, 0x1fa4, 0x1e66, 0x1b28, 0x1aea, 0x18ac, 0x196e,
+-+      0x1230, 0x13f2, 0x11b4, 0x1076, 0x1538, 0x14fa, 0x16bc, 0x177e,
+-+      0x3840, 0x3982, 0x3bc4, 0x3a06, 0x3f48, 0x3e8a, 0x3ccc, 0x3d0e,
+-+      0x3650, 0x3792, 0x35d4, 0x3416, 0x3158, 0x309a, 0x32dc, 0x331e,
+-+      0x2460, 0x25a2, 0x27e4, 0x2626, 0x2368, 0x22aa, 0x20ec, 0x212e,
+-+      0x2a70, 0x2bb2, 0x29f4, 0x2836, 0x2d78, 0x2cba, 0x2efc, 0x2f3e,
+-+      0x7080, 0x7142, 0x7304, 0x72c6, 0x7788, 0x764a, 0x740c, 0x75ce,
+-+      0x7e90, 0x7f52, 0x7d14, 0x7cd6, 0x7998, 0x785a, 0x7a1c, 0x7bde,
+-+      0x6ca0, 0x6d62, 0x6f24, 0x6ee6, 0x6ba8, 0x6a6a, 0x682c, 0x69ee,
+-+      0x62b0, 0x6372, 0x6134, 0x60f6, 0x65b8, 0x647a, 0x663c, 0x67fe,
+-+      0x48c0, 0x4902, 0x4b44, 0x4a86, 0x4fc8, 0x4e0a, 0x4c4c, 0x4d8e,
+-+      0x46d0, 0x4712, 0x4554, 0x4496, 0x41d8, 0x401a, 0x425c, 0x439e,
+-+      0x54e0, 0x5522, 0x5764, 0x56a6, 0x53e8, 0x522a, 0x506c, 0x51ae,
+-+      0x5af0, 0x5b32, 0x5974, 0x58b6, 0x5df8, 0x5c3a, 0x5e7c, 0x5fbe,
+-+      0xe100, 0xe0c2, 0xe284, 0xe346, 0xe608, 0xe7ca, 0xe58c, 0xe44e,
+-+      0xef10, 0xeed2, 0xec94, 0xed56, 0xe818, 0xe9da, 0xeb9c, 0xea5e,
+-+      0xfd20, 0xfce2, 0xfea4, 0xff66, 0xfa28, 0xfbea, 0xf9ac, 0xf86e,
+-+      0xf330, 0xf2f2, 0xf0b4, 0xf176, 0xf438, 0xf5fa, 0xf7bc, 0xf67e,
+-+      0xd940, 0xd882, 0xdac4, 0xdb06, 0xde48, 0xdf8a, 0xddcc, 0xdc0e,
+-+      0xd750, 0xd692, 0xd4d4, 0xd516, 0xd058, 0xd19a, 0xd3dc, 0xd21e,
+-+      0xc560, 0xc4a2, 0xc6e4, 0xc726, 0xc268, 0xc3aa, 0xc1ec, 0xc02e,
+-+      0xcb70, 0xcab2, 0xc8f4, 0xc936, 0xcc78, 0xcdba, 0xcffc, 0xce3e,
+-+      0x9180, 0x9042, 0x9204, 0x93c6, 0x9688, 0x974a, 0x950c, 0x94ce,
+-+      0x9f90, 0x9e52, 0x9c14, 0x9dd6, 0x9898, 0x995a, 0x9b1c, 0x9ade,
+-+      0x8da0, 0x8c62, 0x8e24, 0x8fe6, 0x8aa8, 0x8b6a, 0x892c, 0x88ee,
+-+      0x83b0, 0x8272, 0x8034, 0x81f6, 0x84b8, 0x857a, 0x873c, 0x86fe,
+-+      0xa9c0, 0xa802, 0xaa44, 0xab86, 0xaec8, 0xaf0a, 0xad4c, 0xac8e,
+-+      0xa7d0, 0xa612, 0xa454, 0xa596, 0xa0d8, 0xa11a, 0xa35c, 0xa29e,
+-+      0xb5e0, 0xb422, 0xb664, 0xb7a6, 0xb2e8, 0xb32a, 0xb16c, 0xb0ae,
+-+      0xbbf0, 0xba32, 0xb874, 0xb9b6, 0xbcf8, 0xbd3a, 0xbf7c, 0xbebe,
+-+    },
+-+    0
+-+  };
+-+
+-+#define gcmR gcm_table.R
+- 
+- static inline
+- void prefetch_table(const void *tab, size_t len)
+-@@ -124,7 +146,7 @@ void prefetch_table(const void *tab, size_t len)
+-   const volatile byte *vtab = tab;
+-   size_t i;
+- 
+--  for (i = 0; i < len; i += 8 * 32)
+-+  for (i = 0; len - i >= 8 * 32; i += 8 * 32)
+-     {
+-       (void)vtab[i + 0 * 32];
+-       (void)vtab[i + 1 * 32];
+-@@ -135,6 +157,10 @@ void prefetch_table(const void *tab, size_t len)
+-       (void)vtab[i + 6 * 32];
+-       (void)vtab[i + 7 * 32];
+-     }
+-+  for (; i < len; i += 32)
+-+    {
+-+      (void)vtab[i];
+-+    }
+- 
+-   (void)vtab[len - 1];
+- }
+-@@ -142,8 +168,16 @@ void prefetch_table(const void *tab, size_t len)
+- static inline void
+- do_prefetch_tables (const void *gcmM, size_t gcmM_size)
+- {
+-+  /* Modify counters to trigger copy-on-write and unsharing if physical pages
+-+   * of look-up table are shared between processes.  Modifying counters also
+-+   * causes checksums for pages to change and hint same-page merging algorithm
+-+   * that these pages are frequently changing.  */
+-+  gcm_table.counter_head++;
+-+  gcm_table.counter_tail++;
+-+
+-+  /* Prefetch look-up tables to cache.  */
+-   prefetch_table(gcmM, gcmM_size);
+--  prefetch_table(gcmR, sizeof(gcmR));
+-+  prefetch_table(&gcm_table, sizeof(gcm_table));
+- }
+- 
+- #ifdef GCM_TABLES_USE_U64
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
+index 8622df3ea8..5bf0c7f8a3 100644
+--- a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
++++ b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
+@@ -1,7 +1,7 @@
+-From e20dbdb0b8f0af840ef90b299c4e2277c52ddf87 Mon Sep 17 00:00:00 2001
++From cb06d218ee36e303a64f27c690f30040d5d87960 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Sun, 12 Jun 2016 04:44:29 -0400
+-Subject: [PATCH 4/4] tests/Makefile.am: fix undefined reference to
++Subject: [PATCH] tests/Makefile.am: fix undefined reference to
+  `pthread_create'
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ Add missing '-lpthread' to CFLAGS
+@@ -9,20 +9,21 @@ Add missing '-lpthread' to CFLAGS
+ Upstream-Status: Pending
  
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  tests/Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 1744ea7..04cf425 100644
++index ab201f0..1cf82d0 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -64,4 +64,4 @@ EXTRA_DIST = README rsa-16k.key cavs_tests.sh cavs_driver.pl \
+- 
+- LDADD = $(standard_ldadd) $(GPG_ERROR_LIBS)
+- t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS)
++@@ -75,7 +75,7 @@ t_mpi_bit_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
++ t_secmem_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
++ testapi_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
++ t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
+ -t_lock_CFLAGS = $(GPG_ERROR_MT_CFLAGS)
+ +t_lock_CFLAGS = $(GPG_ERROR_MT_CFLAGS) -lpthread
+--- 
+-1.8.3.1
+-
++ testdrv_LDADD = $(LDADD_FOR_TESTS_KLUDGE)
++ 
++ # Build a version of the test driver for the build platform.
+diff --git a/meta/recipes-support/libgcrypt/files/determinism.patch b/meta/recipes-support/libgcrypt/files/determinism.patch
+deleted file mode 100644
+index ad0b8c7950..0000000000
+--- a/meta/recipes-support/libgcrypt/files/determinism.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-gnutls detects our outer git trees and injects that revision into its objects.
+-That isn't deterministic so stop it. Also ensure we're not marked as a development
+-build as its git detection is faulty.
+-
+-RP 2020/2/6
+-
+-Upstream-Status: Pending
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-
+-Index: libgcrypt-1.8.5/configure.ac
+-===================================================================
+---- libgcrypt-1.8.5.orig/configure.ac
+-+++ libgcrypt-1.8.5/configure.ac
+-@@ -45,7 +45,7 @@ m4_define([mym4_revision_dec],
+- m4_define([mym4_betastring],
+-           m4_esyscmd_s([git describe --match 'libgcrypt-[0-9].*[0-9]' --long|\
+-                         awk -F- '$3!=0{print"-beta"$3}']))
+--m4_define([mym4_isgit],m4_if(mym4_betastring,[],[no],[yes]))
+-+m4_define([mym4_isgit],[no])
+- m4_define([mym4_full_version],[mym4_version[]mym4_betastring])
+- 
+- AC_INIT([libgcrypt],[mym4_full_version],[http://bugs.gnupg.org])
+-@@ -2575,7 +2575,7 @@ AM_CONDITIONAL([BUILD_DOC], [test "x$bui
+- #
+- # Provide information about the build.
+- #
+--BUILD_REVISION="mym4_revision"
+-+BUILD_REVISION="None"
+- AC_SUBST(BUILD_REVISION)
+- AC_DEFINE_UNQUOTED(BUILD_REVISION, "$BUILD_REVISION",
+-                    [GIT commit id revision used to build this package])
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.9.2.bb
+similarity index 81%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.9.2.bb
+index 7db624a09b..df49177f16 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.9.2.bb
+@@ -11,7 +11,8 @@ LICENSE_dumpsexp-dev = "GPLv3+"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
+-                    file://LICENSES;md5=840e3bcb754e5046ffeda7619034cbd8"
++                    file://LICENSES;md5=2dae15d91a37cfde72fe9eae75f8ea14 \
++                    "
+ 
+ DEPENDS = "libgpg-error"
+ 
+@@ -21,12 +22,9 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
+-           file://0001-Prefetch-GCM-look-up-tables.patch \
+-           file://0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch \
+-           file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
+-           file://determinism.patch \
+-"
+-SRC_URI[sha256sum] = "03b70f028299561b7034b8966d7dd77ef16ed139c43440925fe8782561974748"
++           file://0001-Makefile.am-add-a-missing-space.patch \
++           "
++SRC_URI[sha256sum] = "b2c10d091513b271e47177274607b1ffba3d95b188bbfa8797f948aec9053c5a"
+ 
+ # Below whitelisted CVEs are disputed and not affecting crypto libraries for any distro.
+ CVE_CHECK_WHITELIST += "CVE-2018-12433 CVE-2018-12438"
 -- 
 2.29.2
 
