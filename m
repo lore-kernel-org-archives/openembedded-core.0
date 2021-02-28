@@ -1,117 +1,115 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.1908.1614539174580273480
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web10.1903.1614539258229790957
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 11:06:14 -0800
+ Sun, 28 Feb 2021 11:07:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=2L/iUgC8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id q20so10001510pfu.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:06:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UjIao/tw;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f46.google.com with SMTP id a62so7510545vsa.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:07:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=/5wY5pZGY9EXpS6qQxRCU1+MGHo+6KzDcTSq7fVEIX4=;
-        b=2L/iUgC8eY9i8HaRySU0z3PUBvKKxm2Fg7caIehyRRggkrMOPnjSc5609CFpodWaya
-         Dtv9+WOnMUora7TcfClPkGHSrwxE93qoiSbcfI9W2qb3+vup2FzerNumd/DLRM5EQ0Ld
-         hpSIqgpwGy35YvJY3JsIYM0v9utx0HaED1T/C+q7BWo+nrQaj1RFT0fg2dhIku+Cgmrr
-         qld3NJUOHgok8E+MBQpFxWWxlUcup3a65E5sir55DlxYZMhgk4o4vLQlngEUhX4+QRd1
-         jIYg8krsUaY9xvAzN5Ks6+nczgQkIX5WFBifaQWKGngupU6pzFDqMMs9uWONBApKQcm5
-         ArpQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cNUg4+dBpjOtDQV47RhAsKWuFPcigATQkux5HpRqlr0=;
+        b=UjIao/twYpIqLopfT0Hs3sueD6DdXsTZGFLY5lDomH8ZxXBqTBC1rqE9pJr2HDcupK
+         yJfHqRUAvxAqDrOAaV84AU5ogolp8Dtr4/cqw7OFzX8ZrjldXiOjNjG7iIJPIOIdoRbw
+         Zoe0EKEU7HEH+RFpDgTz0PfG8IqdZq5dFQWvdRF6Jwn5OowbqDCZSLpVE8upxli09Xcd
+         nhou3Bb8FmhD4Iv+iBFB6o03eIgf9DKeVFFmpOAxagSeJrUmEXjq+qv58SwUIp1W8oFI
+         wadOwQ6sP8KBKxTT4eFJ6hg7CWQk5LSGC2BD0/0Xet9I2OU8+MjCRaC+ufdOMTdXAWNj
+         gLQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=/5wY5pZGY9EXpS6qQxRCU1+MGHo+6KzDcTSq7fVEIX4=;
-        b=IQaZylCWsQCu/wZ5qnziTSa/ZEQbsaFwFppKM63L7kdtwNTF4ugInwRiEty4/xfqc4
-         /fuCrGxxUMOJH+GdTIYnYJzHdquqCn/Q+4kKG58xkc43+rBav0J3wUqE6cpJQjiHpetL
-         HoTg2m9NugVbWVy1AfuhHgFXNMF/fEqjd+D2MkKR58g7IfLSm+lEfoxhHNoWF1+ZQiua
-         Mc0InV/vZND1Cx+c5zPkfnhv/A7KVV0xYvhzUski3QrZbw27Gi101sooyJjFHO39VTn7
-         HKYjMD6jkxuu3B7V6Z6jZbEPehbbM0lOjOAono+Fxc9LR9GXBi64ztmz6kbP0ITgcA00
-         YvUQ==
-X-Gm-Message-State: AOAM530sbhflZa3atTDSagRwhUQzDcK5atsS7zPogQOm2FImkJpN/7zv
-	1smSUOL+hIPPYFjXrwGDUQt+ue9YbLdqAkMPTyI=
-X-Google-Smtp-Source: ABdhPJxt1ZcXMuQ6Q6ClcUSv3qcycPkoLy6QPWlUnBApPqyKcu2rXPJdeGuCAzGX7e/SOuXQXkIsxQ==
-X-Received: by 2002:a62:1b53:0:b029:1ee:8ff8:c706 with SMTP id b80-20020a621b530000b02901ee8ff8c706mr2826376pfb.76.1614539173409;
-        Sun, 28 Feb 2021 11:06:13 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id m6sm14840130pfc.56.2021.02.28.11.06.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 11:06:12 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 83D8C96042C; Sun, 28 Feb 2021 09:06:10 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 28 Feb 2021 09:00:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210228190610.83D8C96042C@nuc.router0800d9.com>
-Date: Sun, 28 Feb 2021 09:06:10 -1000 (HST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cNUg4+dBpjOtDQV47RhAsKWuFPcigATQkux5HpRqlr0=;
+        b=END73pRh5/9CFd/NPpoWyk6V1qkrwi9mgqRVoAkY5L6zaCYwwNaH9C1t23B8ff1V2p
+         tdwJi0CaxIFq9OfgCWEbAoP4pJA/15aRs+uYk5dmrbEmP8f+qEud+BrEfzwvmxOHdvNP
+         A40pk3uVvZFU0A9hYOxEPtI3u2RV1+XWN6k+ouqA61VSRh6Vxk5hu2+UlvaURHc4aAsI
+         i2d69P9rM+8IVPa2kTMxTw/Is/sJNMadwMyfhtuBpGMx6bJtkF7trmWd49SFhUUZ63Cf
+         uZo/Er7M+v4vTDye8D2nZZaZ4rfkK/CIOqthNZw1/08S9POKDb42jCxnrM6N+broqNSX
+         7Smg==
+X-Gm-Message-State: AOAM531obPC3GElJjicx3PeE8TtMc90P3oqGAmdWzrgpBKIqvHiQiy9X
+	ggrjo0w1Krv4XCpzAj1nm34SWPggfYS//TCexEc=
+X-Google-Smtp-Source: ABdhPJxO3HLdfSbOWBAPB3xfgUz3ad7ulyjaJqhuG2fD+b07MJt033RozjJjaFBtdb0HNk2t72EcdPEkBSyRae2KcFc=
+X-Received: by 2002:a05:6102:154:: with SMTP id a20mr4792841vsr.51.1614539257152;
+ Sun, 28 Feb 2021 11:07:37 -0800 (PST)
+MIME-Version: 1.0
+References: <20210228153702.498275-1-alex.kanavin@gmail.com>
+ <20210228153702.498275-8-alex.kanavin@gmail.com> <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
+In-Reply-To: <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sun, 28 Feb 2021 20:07:26 +0100
+Message-ID: <CANNYZj_s+=u5bnArB5jvwoUsTR3kz2D_xPtgWivagxEbUy2BHg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e6088705bc6a3646"
 
-Branch: master
+--000000000000e6088705bc6a3646
+Content-Type: text/plain; charset="UTF-8"
 
-New this week:
-CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
-CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
-CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
-CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
+On Sun, 28 Feb 2021 at 20:04, Khem Raj <raj.khem@gmail.com> wrote:
 
-Removed this week:
-CVE-2021-26937: screen https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26937 *
+>
+> It seems __WORDISIZE is what is being used here, a portable way would be
+>
+> #include <limits.h>
+> #if (ULONG_MAX == 0xffffffffffffffff)
+> 64bit wordlen stuff
+> #else
+> 32bit stuff
+> #endif
+>
+> if we still want to keep using internal libc internal define __WORDSIZE
+> then for musl include sys/user.h headers under bits/ dir are usually not
+> portable and not meant for direct includes
+>
+> #include <features.h>
+> #ifdef __GLIBC__
+> #include <bits/wordsize.h>
+> #endif
+> #include <sys/user.h>
+>
 
-Full list:  Found 55 unpatched CVEs
-CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
-CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
-CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
-CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
-CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
-CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
-CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
-CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
-CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
-CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
-CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
-CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
-CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
-CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
-CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
-CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
-CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
-CVE-2013-0800: pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow:shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
-CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
-CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
+Can you send a patch upstream for this please? I have filed a ticket which
+you can reference:
+https://github.com/rpm-software-management/libdnf/issues/1146
+
+Alex
+
+--000000000000e6088705bc6a3646
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Sun, 28 Feb 2021 at 20:04, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+It seems __WORDISIZE is what is being used here, a portable way would be<br=
+>
+<br>
+#include &lt;limits.h&gt;<br>
+#if (ULONG_MAX =3D=3D 0xffffffffffffffff)<br>
+64bit wordlen stuff<br>
+#else<br>
+32bit stuff<br>
+#endif<br>
+<br>
+if we still want to keep using internal libc internal define __WORDSIZE<br>
+then for musl include sys/user.h headers under bits/ dir are usually not <b=
+r>
+portable and not meant for direct includes<br>
+<br>
+#include &lt;features.h&gt;<br>
+#ifdef __GLIBC__<br>
+#include &lt;bits/wordsize.h&gt;<br>
+#endif<br>
+#include &lt;sys/user.h&gt;<br></blockquote><div><br></div><div>Can you sen=
+d a patch upstream for this please? I have filed a ticket which you can ref=
+erence:</div><div><a href=3D"https://github.com/rpm-software-management/lib=
+dnf/issues/1146">https://github.com/rpm-software-management/libdnf/issues/1=
+146</a></div><div><br></div><div>Alex<br></div></div></div>
+
+--000000000000e6088705bc6a3646--
