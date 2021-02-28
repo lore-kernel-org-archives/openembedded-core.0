@@ -1,157 +1,117 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.1864.1614539098516797544
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.1908.1614539174580273480
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 11:04:58 -0800
+ Sun, 28 Feb 2021 11:06:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JMEOJnyl;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id d2so10194236pjs.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:04:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=2L/iUgC8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id q20so10001510pfu.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:06:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jLVNmcUJKfpsno0sWNkAXzGGPEBRA6L+1nnaiRd+7NQ=;
-        b=JMEOJnylx0pIVpiZZ7XGsVuJeQU/aij5KTQSRc3+wnPOyYCPyOTmZGFkVAm7Rksw9p
-         Twci1KAISEZriWSFtLupb/WFRwX6fIpuiCddnTMsNiRfC5PNREqpLKB6wpZfhf+TaWFo
-         i9ZSnxg0orWi9IFAUMtmA+5xWNT7pVdDlndd33nh6aQIEan6BfF6LQDpyhoZ45kY33iA
-         4smOzOZmI0Vjq5A7es9efqq/BsMSKSLY/8kTg3NiXHpxCk5Fcudra1N0UIwTww+xohIF
-         pLb9upbdbQ84YaIpbfNTm4/2XCzHlDHFlXuuf8h1oFUEfq1k8Mb7FUulzdMVgyz5LTVi
-         odSw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=/5wY5pZGY9EXpS6qQxRCU1+MGHo+6KzDcTSq7fVEIX4=;
+        b=2L/iUgC8eY9i8HaRySU0z3PUBvKKxm2Fg7caIehyRRggkrMOPnjSc5609CFpodWaya
+         Dtv9+WOnMUora7TcfClPkGHSrwxE93qoiSbcfI9W2qb3+vup2FzerNumd/DLRM5EQ0Ld
+         hpSIqgpwGy35YvJY3JsIYM0v9utx0HaED1T/C+q7BWo+nrQaj1RFT0fg2dhIku+Cgmrr
+         qld3NJUOHgok8E+MBQpFxWWxlUcup3a65E5sir55DlxYZMhgk4o4vLQlngEUhX4+QRd1
+         jIYg8krsUaY9xvAzN5Ks6+nczgQkIX5WFBifaQWKGngupU6pzFDqMMs9uWONBApKQcm5
+         ArpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=jLVNmcUJKfpsno0sWNkAXzGGPEBRA6L+1nnaiRd+7NQ=;
-        b=r1T6t/Wa+tKTDwMygH19fGxN25r4ajZ44uz3qjdVzIQrlY0cCZx+89AH1MrzR9HmDZ
-         HUg9MRKRt+vWNz0WVOMXzJKzHy7wvg4Zh/8SH5FfzSaaef3EUMUW/g1zOPFXzBdEq1p+
-         F1VPTF/3ZDoVuYxIrLng9/NAlJTcOKD7HAabRtR9Yb1EgkgEPm9B1qxJ/HM0Qs9NsgxJ
-         Rl7jalT8wo4TUwy0xbcuY2C0M74klHdHPiYYfY7DTCOMom0oNtRBJCrOVRTRmmWLVp5D
-         xg2MMdso+CwhLGMffHeQixZWFBxf4tYE0RnqR4tvTLuH3ET9aFDxmlVRSY8ZRGsbVqa/
-         2lAw==
-X-Gm-Message-State: AOAM533KuBYy5xRraNftMWcU94/88MgUtRzV9K/+luHMKLCp+rD3prV9
-	UA72S7g4Ws4V5WILmpV7glB/1hz+M3UZJA==
-X-Google-Smtp-Source: ABdhPJzvYNP5yB+nWYSqOAIgN50zMu0vm0aiHYX6rw7i8majFw2BuiefFNFvUOdG52CrtJ6vcsXgqg==
-X-Received: by 2002:a17:90a:7108:: with SMTP id h8mr12944559pjk.98.1614539097522;
-        Sun, 28 Feb 2021 11:04:57 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::5d43? ([2601:646:9200:a0f0::5d43])
-        by smtp.gmail.com with ESMTPSA id q34sm14421124pgl.92.2021.02.28.11.04.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Feb 2021 11:04:57 -0800 (PST)
-Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-8-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
-Date: Sun, 28 Feb 2021 11:04:55 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210228153702.498275-8-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=/5wY5pZGY9EXpS6qQxRCU1+MGHo+6KzDcTSq7fVEIX4=;
+        b=IQaZylCWsQCu/wZ5qnziTSa/ZEQbsaFwFppKM63L7kdtwNTF4ugInwRiEty4/xfqc4
+         /fuCrGxxUMOJH+GdTIYnYJzHdquqCn/Q+4kKG58xkc43+rBav0J3wUqE6cpJQjiHpetL
+         HoTg2m9NugVbWVy1AfuhHgFXNMF/fEqjd+D2MkKR58g7IfLSm+lEfoxhHNoWF1+ZQiua
+         Mc0InV/vZND1Cx+c5zPkfnhv/A7KVV0xYvhzUski3QrZbw27Gi101sooyJjFHO39VTn7
+         HKYjMD6jkxuu3B7V6Z6jZbEPehbbM0lOjOAono+Fxc9LR9GXBi64ztmz6kbP0ITgcA00
+         YvUQ==
+X-Gm-Message-State: AOAM530sbhflZa3atTDSagRwhUQzDcK5atsS7zPogQOm2FImkJpN/7zv
+	1smSUOL+hIPPYFjXrwGDUQt+ue9YbLdqAkMPTyI=
+X-Google-Smtp-Source: ABdhPJxt1ZcXMuQ6Q6ClcUSv3qcycPkoLy6QPWlUnBApPqyKcu2rXPJdeGuCAzGX7e/SOuXQXkIsxQ==
+X-Received: by 2002:a62:1b53:0:b029:1ee:8ff8:c706 with SMTP id b80-20020a621b530000b02901ee8ff8c706mr2826376pfb.76.1614539173409;
+        Sun, 28 Feb 2021 11:06:13 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id m6sm14840130pfc.56.2021.02.28.11.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Feb 2021 11:06:12 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 83D8C96042C; Sun, 28 Feb 2021 09:06:10 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 28 Feb 2021 09:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210228190610.83D8C96042C@nuc.router0800d9.com>
+Date: Sun, 28 Feb 2021 09:06:10 -1000 (HST)
 
+Branch: master
 
+New this week:
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
 
-On 2/28/21 7:36 AM, Alexander Kanavin wrote:
-> Sdd a patch to fix musl builds.
-> 
-   ^^^
-typo here
+Removed this week:
+CVE-2021-26937: screen https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26937 *
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   ...h-include-the-correct-header-on-musl.patch | 31 +++++++++++++++++++
->   .../{libdnf_0.55.2.bb => libdnf_0.58.0.bb}    |  3 +-
->   2 files changed, 33 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
->   rename meta/recipes-devtools/libdnf/{libdnf_0.55.2.bb => libdnf_0.58.0.bb} (93%)
-> 
-> diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
-> new file mode 100644
-> index 0000000000..734521bb3f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
-> @@ -0,0 +1,31 @@
-> +From 8cc7ada0161a7af38351d1e70516975402f3c5c5 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Fri, 26 Feb 2021 18:37:41 +0000
-> +Subject: [PATCH] libdnf/config.h: include the correct header on musl
-> +
-> +Problem reported at https://github.com/rpm-software-management/libdnf/issues/1146,
-> +but this patch isn't quite the fix.
-> +
-> +Upstream-Status: Inappropriate
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + libdnf/config.h | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/libdnf/config.h b/libdnf/config.h
-> +index 16121f6f..51623ce4 100644
-> +--- a/libdnf/config.h
-> ++++ b/libdnf/config.h
-> +@@ -18,7 +18,12 @@
-> +  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-> +  */
-> +
-> ++#include <features.h>
-> ++#ifdef __GLIBC__
-> + #include <bits/wordsize.h>
-> ++#else
-> ++#include <bits/reg.h>
-> ++#endif
-
-It seems __WORDISIZE is what is being used here, a portable way would be
-
-#include <limits.h>
-#if (ULONG_MAX == 0xffffffffffffffff)
-64bit wordlen stuff
-#else
-32bit stuff
-#endif
-
-if we still want to keep using internal libc internal define __WORDSIZE
-then for musl include sys/user.h headers under bits/ dir are usually not 
-portable and not meant for direct includes
-
-#include <features.h>
-#ifdef __GLIBC__
-#include <bits/wordsize.h>
-#endif
-#include <sys/user.h>
-
-
-> +
-> + #if __WORDSIZE == 32
-> + #include "config-32.h"
-> diff --git a/meta/recipes-devtools/libdnf/libdnf_0.55.2.bb b/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-> similarity index 93%
-> rename from meta/recipes-devtools/libdnf/libdnf_0.55.2.bb
-> rename to meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-> index b34bb5de01..eea410af4c 100644
-> --- a/meta/recipes-devtools/libdnf/libdnf_0.55.2.bb
-> +++ b/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-> @@ -11,9 +11,10 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
->              file://0001-Add-WITH_TESTS-option.patch \
->              file://0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch \
->              file://enable_test_data_dir_set.patch \
-> +           file://0001-libdnf-config.h-include-the-correct-header-on-musl.patch \
->              "
->   
-> -SRCREV = "d2d0ec98fd2e0a2623123fb1ddf8fdd8936c6046"
-> +SRCREV = "85278894f21bc1957dc47a2a09ddacf59bc3cda8"
->   UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
->   
->   S = "${WORKDIR}/git"
-> 
-> 
-> 
-> 
-> 
+Full list:  Found 55 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-0800: pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+CVE-2013-4235: shadow:shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-12433: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12437: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+CVE-2018-12438: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
