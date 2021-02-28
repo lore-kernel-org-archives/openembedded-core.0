@@ -1,77 +1,99 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web12.7685.1614526649562235401
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web08.1502.1614537348459860782
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 07:37:29 -0800
+ Sun, 28 Feb 2021 10:35:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tEaMw/w0;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id mm21so23243175ejb.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GiE/ScVA;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id s23so10155990pji.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 10:35:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4lOJ3j0Zsvv/4Am+AQop6S4ZKVtz0e6Rdws6QhK5Ojo=;
-        b=tEaMw/w0eaZ0HvTRNl0FxeMmqAgJJnECPmYcdfvJxu9Pczm82bUgAeisg5MMTbmNq+
-         TEBx9yV6tNfJf9jtvybNegBez/ZdI4ri7TcKSZGhMh5dwbTvZ/z6i231gg0G+n6C//mb
-         5EPuWy5GYZNyHkhvEFtY9S/A6f0MDO8YoSF2NtirHVKRDzdk0Kca/tSmibSfJqQTXKsH
-         sXpur4R2UhDaSHdszxK/WPFBX/W5zH/F0JxWcs79oLLCVEU/HJIWIb5mUJyrhOfFFPE8
-         NeFhotkfgyLH5VNNP76hRwgioN7ztLvLCAaVfHLrk5vHE82zZG8WEdFgzcyR2qV82bp3
-         ymfw==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0gXFNc1WCFUA1l8jzZzMyGwlo7WXWqX79pNcByITwUk=;
+        b=GiE/ScVAtGFDpROssWD/YhNuw9SzsKWXfQAG1b6PGA8vyREcZGusJ/VyfrnnNuCNep
+         nPaF+vKigk9vbeO+n02Wfzh9bLpFGFRV9AgXs9FPknq7Oqwf2QOSjILJvad//YBwbqJ/
+         kB20hu/J7Il6uH3YqcZKP+cr5g23S7EJtABjAhRpE+jxQ87tcpv3ZzncXEAvqsFv6zX3
+         ymm/W1QbkATL1SdA/F6yfXO8IjvWdqZoIpe5m1jRUE9+LFmbQd2AQWvS4P1S8maoDymZ
+         WYF0N5SExBDJJVW3XYiPGzuX2B5bYCqgjpZMVUhSS658SfX2fqopa23pf4B6SpkGkDxz
+         oJ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4lOJ3j0Zsvv/4Am+AQop6S4ZKVtz0e6Rdws6QhK5Ojo=;
-        b=YY61D9oKxXf9Q6uAeZVl9nk86ywx+A7iJeiwORhM4CmhTu9Q8o0rCoyQNng4p0MlWP
-         eaHo2gxUP8o3ez8PiVEp1BMc1y9DoCUwgTOMOuT6/quCcgHXNLob2Tjg/RYKN4CBdusg
-         bnToyY3Jo37muTU2ydV5HeSpeexSNqbWx7zwsAHvrWccY2680+Nv/LRU4WdnNMYnQz65
-         0iBkME4NG+FG/z6j/V44Ldj3i99ZrYGd5u2kNVqim0RP5Y8PLejXPPywQZ1wq0qZlFdV
-         /eV2HdBQRBrWhFlzqWbbB+5jKYEn0OeSzmeulMqm2biduBft99L81PaMMF2WjAmibc+l
-         480Q==
-X-Gm-Message-State: AOAM532J0lbzGD7OASp0yUc/S0ZDppxXkLPjcYGOKoNSIu+RZBIQeaFJ
-	z+GXFZ0NdPAQeDh5GJRMo9DTmbO3vo3dWg==
-X-Google-Smtp-Source: ABdhPJzj+GHYCCodw4JCq6V8qPI/KPEUQBeKMcTPmdYLueYv7xDjXCEx6xxJKQ9S9QeCRx5dtvuDIA==
-X-Received: by 2002:a17:906:3f96:: with SMTP id b22mr11912852ejj.478.1614526648191;
-        Sun, 28 Feb 2021 07:37:28 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 07:37:27 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 24/24] ptest-perl/run-ptest: address failures caused by perl 5.32.1
-Date: Sun, 28 Feb 2021 16:37:02 +0100
-Message-Id: <20210228153702.498275-24-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=0gXFNc1WCFUA1l8jzZzMyGwlo7WXWqX79pNcByITwUk=;
+        b=HviIyN1sJ+Dj1tIuKMNaYrG25ZwZhbheU4YRXPWhrGsheKb5MBGTxoAzPYS0vmKRi7
+         3xxBwT7aL7D6WUcV+3+eQYgjmFk2aoWa4X0MlAvCiS5DmxpHIfFEAyfjbE+1cw3Lzawz
+         hS8ZiwbEQNAoH7uzHMbLx7giCPzxjzmVELFNbVo/nItBptR8bOWc/ohC5gD9KjOiIPfs
+         ICnIEUFkyX5jLabKui+HXvkchXOIgW2InLno66p7crCmzAiHtBQFSrxBI8xtssRuAtBf
+         wB1Dt0uyDfq4xYEEWUoPi9Dr1QatUc+aVb9v+1J+TtpZ6E4Jeb7NQ1Hou8t+0pLdXtQL
+         Xtpw==
+X-Gm-Message-State: AOAM5329wIrWkmTaYr9QNNqV0JlZzlsRvpQ/hs1jQIgc6IRREX1/KKzu
+	TA1LljwoE+qw6HmqP7T8k2/W6oNZ1u6DKw==
+X-Google-Smtp-Source: ABdhPJxikSi9wNlalm2XteL0HARUjg86LYv3E9Ljlf/yTvddrIG/FTNIG16y+LMiW8i6n5BSpfIw6g==
+X-Received: by 2002:a17:90a:3b0e:: with SMTP id d14mr3786121pjc.198.1614537347576;
+        Sun, 28 Feb 2021 10:35:47 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0::5d43? ([2601:646:9200:a0f0::5d43])
+        by smtp.gmail.com with ESMTPSA id a23sm2392641pfa.142.2021.02.28.10.35.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Feb 2021 10:35:47 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 02/24] bmap-tools: upgrade 3.5 -> 3.6
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
+ <20210228153702.498275-2-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <23dd5c64-4658-f00b-1775-46de9674a4d5@gmail.com>
+Date: Sun, 28 Feb 2021 10:35:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210228153702.498275-2-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Particulary, . needs to be explicitly specified so that perl
-looks there when loading items in 'require'.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/files/ptest-perl/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/ptest-perl/run-ptest b/meta/files/ptest-perl/run-ptest
-index c9f9ca94d0..fd35357b42 100644
---- a/meta/files/ptest-perl/run-ptest
-+++ b/meta/files/ptest-perl/run-ptest
-@@ -1,7 +1,7 @@
- #!/bin/sh
- 
- for case in `find t -type f -name '*.t'`; do
--    perl $case >$case.output 2>&1
-+    perl -I . $case >$case.output 2>&1
-     ret=$?
-     cat $case.output
-     if [ $ret -ne 0 ]; then
--- 
-2.29.2
+On 2/28/21 7:36 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   .../bmap-tools/{bmap-tools_3.5.bb => bmap-tools_3.6.bb}       | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-support/bmap-tools/{bmap-tools_3.5.bb => bmap-tools_3.6.bb} (89%)
+> 
+> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
+> similarity index 89%
+> rename from meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> rename to meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
+> index fd57f8f7f0..95cf00804d 100644
+> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
+> @@ -11,13 +11,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   
+>   SRC_URI = "git://github.com/intel/${BPN}"
+>   
+> -SRCREV = "a17f0e3ff8669dd3b1c44a741ae4f8162155faed"
+> +SRCREV = "c0673962a8ec1624b5189dc1d24f33fe4f06785a"
+>   S = "${WORKDIR}/git"
+>   PV .= "+git${SRCPV}"
+>   
+>   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+>   
+> -RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
+> +RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six coreutils"
 
+what needs coreutils at runtime ? and which utilities
+
+>   
+>   inherit python3native
+>   inherit setuptools3
+> 
+> 
+> 
+> 
+> 
