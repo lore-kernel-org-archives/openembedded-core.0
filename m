@@ -1,39 +1,39 @@
 Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web08.7842.1614526639036851827
+ by mx.groups.io with SMTP id smtpd.web12.7681.1614526639589938229
  for <openembedded-core@lists.openembedded.org>;
  Sun, 28 Feb 2021 07:37:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DjpHOsWq;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n6JcoFBY;
  spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a22so23515961ejv.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:18 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id w1so23544449ejf.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=44d191s1f5w6onB+AJTb58sKMrG/6yNR/YVmizNdnFw=;
-        b=DjpHOsWqABVA4zJNKw0Aokd4dBWox45W9p+Hd7KWVQhxJzlFHQSen3KZiLlGa6RwvA
-         wZ4qexfX288PJMSttIeWWMt0l5wz1ZEFBW0dPck2T7OKt0JvjDYDE8vH0TpcY6W4RKUR
-         wlHiLwMpem+KZ9VPeB10mdQYq8R2fUtul7pNXQekv1xDQIVqOFlrBYA5lNKon69HKQEA
-         Ejc0md/eAl6Cc8rkWC/KWbOcOmqy2Ck3rX7GPjcLdGKwKVcY8P34sRn/8guEqHPz2tLg
-         O11lg2SNBsf/bP2dI31UStgqZr10mDRVbZOeSTxFG1zBDrJSECf7nXtTVn7+DUWlUoVi
-         USUg==
+        bh=MHTBR1kwkdGbvMT4ibJ8N1BGt7U+kJrPRqFTSlkuiFQ=;
+        b=n6JcoFBYEDr4DkBVwX87TKRqSuFQo8hx3qnxz0oosB9rQUlBt8TFvbUa1wBPGMOlD1
+         yDxuIIQSelVZySFlHZ5vjb+xk8Y/VaVx6hcZOvOMjk4pWbYIvhz2uRGFlFdPg/u0yuoz
+         xdWO8PGaDckegWg8Nw6h3m7meuVhQAPiPSd4cUGw0jKoqCxLeyhcaQKS2v/DAiRU9giA
+         UqXJvgOe5QWtjv2BX5H71ybOlFobeJVw5tbdbwOyIqL5DjElC1+zHLySwJnSZ+YaHrHR
+         eV4J8wjw5Z8k51+ujCWnVosFOu8A2t755S/0jWYmX2xTUPeua6SrfViK1L8bNNiDDycg
+         PxXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=44d191s1f5w6onB+AJTb58sKMrG/6yNR/YVmizNdnFw=;
-        b=pdpzUuJYc1Wf6Ad+0UOszCdtHG6uKaLV6OzNjBKejISvLjQDV2RfsJss3J9dTEKBqN
-         uawZlNactuzI+S1DuCXHECflW8kRXFlOYsN3qj01WEOGbnnAHDBoUZP22X9rX/41foMT
-         aefTZlh/TZTJP4EiAP8z58vBDKO2Jd9oXNHXcJm6knkkabJkSlaTifRZSi2VnmHNg0g2
-         LyUjuZvzP6Y1TOMRdk2x6SlTxZ3Z7NnWMzO5K/b4cG3SBxSFCUn+t+P/acn3yAof2NVA
-         na9/Z3kHkFCCikgnCcGcQGwe8zGzGnT4mKVhhFO5Wvcq03a20YdesOAT6DmVgLCjErii
-         5bmA==
-X-Gm-Message-State: AOAM5334yERgwU7E0peCV8eAqe2JFQ47rRahKLMiE3q0asgNU6S7Rc82
-	SDRINfHcnusgl1ygfgZH4LH/YGx/eWLyOQ==
-X-Google-Smtp-Source: ABdhPJwcEl0MNxXiW++4Fjfp2CWIwyhjwWs4qxE79w7zmtq71J4x+0nG5WzKHp40X3O+e1gOahEmYg==
-X-Received: by 2002:a17:906:ad96:: with SMTP id la22mr12528201ejb.237.1614526637642;
-        Sun, 28 Feb 2021 07:37:17 -0800 (PST)
+        bh=MHTBR1kwkdGbvMT4ibJ8N1BGt7U+kJrPRqFTSlkuiFQ=;
+        b=f1v1x6fOPApARlyhWBomWXS1LRmkqxjm3egKUgtea9QsLs5y0Luo2lKLVO8C2TK2qG
+         d3J7kwHwfJlsq9cA+2cPsRs9vRv5XGdpYAjRyTONMIh8p2xmvovljgDbhQzp4JFLBZZD
+         QXcSNsmwVR0u8ES3/obdnMEhchZeZxe6Hys3PrqCOG0a/AHRNMYR6kXdivnWtG5Y3e+e
+         K+Tir15USVZpbk4LYZc5abxMNCUufYb0Sc4NCkn4KbbSB4M1KsNZr3MLWUTyQQGiQ1M7
+         ZwUfpYZxqSENHV7SLK8NschzMhshnShP7albY9lwunJSK2CJFgoK6t3kQNuXXqYOTXN9
+         1fuA==
+X-Gm-Message-State: AOAM531XZY2vpmuXsHw3FUHSqow74Kd4vM6jNNza4NTsrd98rrTPgvNY
+	mrRQVqrN4k6aVEMvwza6JC4zwKZ1yDZf6g==
+X-Google-Smtp-Source: ABdhPJxmDJRdtiiyErbiPUwgZJRKID0tr43hWhDzazAOs2lTbMLg8yTGNbwn/JESqREu/S2t9okhjQ==
+X-Received: by 2002:a17:907:76b6:: with SMTP id jw22mr1927223ejc.11.1614526638241;
+        Sun, 28 Feb 2021 07:37:18 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
         by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.17
@@ -42,81 +42,121 @@ Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
-Date: Sun, 28 Feb 2021 16:36:46 +0100
-Message-Id: <20210228153702.498275-8-alex.kanavin@gmail.com>
+Subject: [PATCH 09/24] librepo: update 1.12.1 -> 1.13.0
+Date: Sun, 28 Feb 2021 16:36:47 +0100
+Message-Id: <20210228153702.498275-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sdd a patch to fix musl builds.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...h-include-the-correct-header-on-musl.patch | 31 +++++++++++++++++++
- .../{libdnf_0.55.2.bb => libdnf_0.58.0.bb}    |  3 +-
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
- rename meta/recipes-devtools/libdnf/{libdnf_0.55.2.bb => libdnf_0.58.0.bb} (93%)
+ ...tain-PYTHON_INSTALL_DIR-by-running-p.patch | 38 +++++--------------
+ ...les-with-pkg-config-not-with-cmake-m.patch |  8 ++--
+ .../{librepo_1.12.1.bb => librepo_1.13.0.bb}  |  2 +-
+ 3 files changed, 15 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.12.1.bb => librepo_1.13.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
-new file mode 100644
-index 0000000000..734521bb3f
---- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-include-the-correct-header-on-musl.patch
-@@ -0,0 +1,31 @@
-+From 8cc7ada0161a7af38351d1e70516975402f3c5c5 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 26 Feb 2021 18:37:41 +0000
-+Subject: [PATCH] libdnf/config.h: include the correct header on musl
-+
-+Problem reported at https://github.com/rpm-software-management/libdnf/issues/1146,
-+but this patch isn't quite the fix.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ libdnf/config.h | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/libdnf/config.h b/libdnf/config.h
-+index 16121f6f..51623ce4 100644
-+--- a/libdnf/config.h
-++++ b/libdnf/config.h
-+@@ -18,7 +18,12 @@
-+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-+  */
+diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+index b61f0c9324..46ab9a1132 100644
+--- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
++++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+@@ -1,4 +1,4 @@
+-From b08a3b71e716dd0485ef51036d32e4c304fb4e67 Mon Sep 17 00:00:00 2001
++From 82bd6d196a0453657cbacaaedd75b2d2fe0bf9ba Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:05:36 +0200
+ Subject: [PATCH] Do not try to obtain PYTHON_INSTALL_DIR by running python.
+@@ -7,35 +7,17 @@ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ ---
+- librepo/python/python2/CMakeLists.txt | 12 ++++++------
+- librepo/python/python3/CMakeLists.txt | 12 ++++++------
+- 2 files changed, 12 insertions(+), 12 deletions(-)
++ librepo/python/CMakeLists.txt | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
+ 
+-diff --git a/librepo/python/python2/CMakeLists.txt b/librepo/python/python2/CMakeLists.txt
+-index a0f1f9a..1665079 100644
+---- a/librepo/python/python2/CMakeLists.txt
+-+++ b/librepo/python/python2/CMakeLists.txt
+-@@ -1,9 +1,9 @@
+--EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
+--from sys import stdout
+--from distutils import sysconfig
+--path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
+--stdout.write(path)"
+--OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+-+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
+-+#from sys import stdout
+-+#from distutils import sysconfig
+-+#path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
+-+#stdout.write(path)"
+-+#OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+- INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
++diff --git a/librepo/python/CMakeLists.txt b/librepo/python/CMakeLists.txt
++index 52fc39e..2024407 100644
++--- a/librepo/python/CMakeLists.txt
+++++ b/librepo/python/CMakeLists.txt
++@@ -16,12 +16,12 @@ SET (librepomodule_SRCS
 + 
-++#include <features.h>
-++#ifdef __GLIBC__
-+ #include <bits/wordsize.h>
-++#else
-++#include <bits/reg.h>
-++#endif
-+ 
-+ #if __WORDSIZE == 32
-+ #include "config-32.h"
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.55.2.bb b/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/libdnf/libdnf_0.55.2.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-index b34bb5de01..eea410af4c 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.55.2.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-@@ -11,9 +11,10 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-            file://0001-Add-WITH_TESTS-option.patch \
-            file://0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch \
-            file://enable_test_data_dir_set.patch \
-+           file://0001-libdnf-config.h-include-the-correct-header-on-musl.patch \
++ MESSAGE("Building python bindings")
+  
+- MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+-diff --git a/librepo/python/python3/CMakeLists.txt b/librepo/python/python3/CMakeLists.txt
+-index 52ba44e..da51e10 100644
+---- a/librepo/python/python3/CMakeLists.txt
+-+++ b/librepo/python/python3/CMakeLists.txt
+-@@ -1,9 +1,9 @@
+ -EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
+ -from sys import stdout
+ -from distutils import sysconfig
+diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+index 73902e5f58..d61d8fbf85 100644
+--- a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
++++ b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+@@ -1,4 +1,4 @@
+-From f5a1dfe4c87c228165bc25e7fe464120d8139a3d Mon Sep 17 00:00:00 2001
++From 25113b34bc1aae377d7bf447e69528783e2c177e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:23:27 +0200
+ Subject: [PATCH] Set gpgme variables with pkg-config, not with cmake module
+@@ -12,13 +12,13 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index e949dbe..c954b2e 100644
++index a45d5c4..40249e6 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -31,7 +31,8 @@ PKG_CHECK_MODULES(GLIB2 glib-2.0 REQUIRED)
++@@ -32,7 +32,8 @@ PKG_CHECK_MODULES(GLIB2 glib-2.0 REQUIRED)
+  PKG_SEARCH_MODULE(LIBCRYPTO REQUIRED libcrypto openssl)
+  PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
+- FIND_PACKAGE(CURL REQUIRED)
++ FIND_PACKAGE(CURL 7.52.0 REQUIRED)
+ -FIND_PACKAGE(Gpgme REQUIRED)
+ +PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
+ +set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
+diff --git a/meta/recipes-devtools/librepo/librepo_1.12.1.bb b/meta/recipes-devtools/librepo/librepo_1.13.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/librepo/librepo_1.12.1.bb
+rename to meta/recipes-devtools/librepo/librepo_1.13.0.bb
+index e90928d2ed..0a68e0ac4f 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.12.1.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.13.0.bb
+@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
             "
  
--SRCREV = "d2d0ec98fd2e0a2623123fb1ddf8fdd8936c6046"
-+SRCREV = "85278894f21bc1957dc47a2a09ddacf59bc3cda8"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+-SRCREV = "d4ad350291f2937c0b6a3eea9e1d0c8e1051fc32"
++SRCREV = "a244d78bab11510408fb9413f1c78c2f56c69fa5"
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.29.2
 
