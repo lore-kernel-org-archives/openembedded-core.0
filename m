@@ -1,58 +1,58 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web08.1502.1614537348459860782
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web09.1566.1614537628415085359
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 10:35:48 -0800
+ Sun, 28 Feb 2021 10:40:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GiE/ScVA;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id s23so10155990pji.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 10:35:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XWEY5qMg;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id l18so10156065pji.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 10:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:organization:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0gXFNc1WCFUA1l8jzZzMyGwlo7WXWqX79pNcByITwUk=;
-        b=GiE/ScVAtGFDpROssWD/YhNuw9SzsKWXfQAG1b6PGA8vyREcZGusJ/VyfrnnNuCNep
-         nPaF+vKigk9vbeO+n02Wfzh9bLpFGFRV9AgXs9FPknq7Oqwf2QOSjILJvad//YBwbqJ/
-         kB20hu/J7Il6uH3YqcZKP+cr5g23S7EJtABjAhRpE+jxQ87tcpv3ZzncXEAvqsFv6zX3
-         ymm/W1QbkATL1SdA/F6yfXO8IjvWdqZoIpe5m1jRUE9+LFmbQd2AQWvS4P1S8maoDymZ
-         WYF0N5SExBDJJVW3XYiPGzuX2B5bYCqgjpZMVUhSS658SfX2fqopa23pf4B6SpkGkDxz
-         oJ4g==
+        bh=1CcEJrohlOIYztDsc1W6Ff1rKwRl9j/FRbYNAXxXYrc=;
+        b=XWEY5qMge0fvgYrqApy9IQ5OPmLNybtejOzzZ9FTsHwx5pvCJQHBBKEVcvPLX4N4rq
+         BcOXl/SwdtSi39bcxitC250j0NHLxFuSGu89Dqpeh1046lSj9nNI8ziqfsS65HsYpDQU
+         i2cyYDcG8QqUtj2n7DCVaAQaMQk/8Jd1Jl8hrPJL5HexUG5KnqTBgGvfIo3ztXK9chvh
+         K770Ep9efsYwz5F2nH3k8F64+R9e/eXyfm8Ty/swIQ5kRTa47Bxq/rV+16p0m36MfKTg
+         qXOvN71ZOe6vkMmwTr76n2p+DNyF9zPriBCVIII/TAkunxpsbkhKYPXU6BVuvaJYq7FY
+         V8WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=0gXFNc1WCFUA1l8jzZzMyGwlo7WXWqX79pNcByITwUk=;
-        b=HviIyN1sJ+Dj1tIuKMNaYrG25ZwZhbheU4YRXPWhrGsheKb5MBGTxoAzPYS0vmKRi7
-         3xxBwT7aL7D6WUcV+3+eQYgjmFk2aoWa4X0MlAvCiS5DmxpHIfFEAyfjbE+1cw3Lzawz
-         hS8ZiwbEQNAoH7uzHMbLx7giCPzxjzmVELFNbVo/nItBptR8bOWc/ohC5gD9KjOiIPfs
-         ICnIEUFkyX5jLabKui+HXvkchXOIgW2InLno66p7crCmzAiHtBQFSrxBI8xtssRuAtBf
-         wB1Dt0uyDfq4xYEEWUoPi9Dr1QatUc+aVb9v+1J+TtpZ6E4Jeb7NQ1Hou8t+0pLdXtQL
-         Xtpw==
-X-Gm-Message-State: AOAM5329wIrWkmTaYr9QNNqV0JlZzlsRvpQ/hs1jQIgc6IRREX1/KKzu
-	TA1LljwoE+qw6HmqP7T8k2/W6oNZ1u6DKw==
-X-Google-Smtp-Source: ABdhPJxikSi9wNlalm2XteL0HARUjg86LYv3E9Ljlf/yTvddrIG/FTNIG16y+LMiW8i6n5BSpfIw6g==
-X-Received: by 2002:a17:90a:3b0e:: with SMTP id d14mr3786121pjc.198.1614537347576;
-        Sun, 28 Feb 2021 10:35:47 -0800 (PST)
+        bh=1CcEJrohlOIYztDsc1W6Ff1rKwRl9j/FRbYNAXxXYrc=;
+        b=hcsFwPpyTroHqS4hhW/RIPo4a9iaozWUCHWtg+LBBnWnu6ZY1C4O+MY5gsVRS2kQlA
+         1souyTUybkKTCynK5S4PdNmCuYFhId9OOZSgCywwpkJXejoTDNFsljvusAJPk95fIOZ/
+         RHtMycLzYx0Xc2e02H79tXMEp63AFd2I5d8jYcD6OqUiESLbfD4T4visGO6/uVES8/L9
+         U0YFACwaMft9aVcfA+DHZjjI8tcvGSm5hIvV+XaYeGwKSGDvCPfdyG1KSeH9J/sG7zF2
+         BNRw0IpxHHEd6Nu5aoWt8m7XuZ/HcOQbS4wVpfIAaAHTkqgyLU/KdooCaDyID3J+s9uF
+         R2RA==
+X-Gm-Message-State: AOAM531N1wfK2c1BP8UmQyZU/eQ8jH7qRxPXsrf1XhyZhBA+mPKwrOp4
+	kYXdQRRzUmOdlRNE4JG37a8BwcR+gg64Fg==
+X-Google-Smtp-Source: ABdhPJy89fbOALOs/1JtCLkFL+T4C0CAULWEV0Db6enDAneSyqNLUXF3fXtrFo2DhittJfB3HuHcgA==
+X-Received: by 2002:a17:902:7887:b029:e3:8ef0:9a9d with SMTP id q7-20020a1709027887b02900e38ef09a9dmr12278596pll.2.1614537627489;
+        Sun, 28 Feb 2021 10:40:27 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:a0f0::5d43? ([2601:646:9200:a0f0::5d43])
-        by smtp.gmail.com with ESMTPSA id a23sm2392641pfa.142.2021.02.28.10.35.46
+        by smtp.gmail.com with ESMTPSA id m14sm15126138pfo.16.2021.02.28.10.40.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Feb 2021 10:35:47 -0800 (PST)
-Subject: Re: [OE-core] [PATCH 02/24] bmap-tools: upgrade 3.5 -> 3.6
+        Sun, 28 Feb 2021 10:40:27 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 05/24] dosfstools: update 4.1 -> 4.2
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
  openembedded-core@lists.openembedded.org
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-2-alex.kanavin@gmail.com>
+ <20210228153702.498275-5-alex.kanavin@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <23dd5c64-4658-f00b-1775-46de9674a4d5@gmail.com>
-Date: Sun, 28 Feb 2021 10:35:46 -0800
+Message-ID: <c2f9b05f-15e7-42d6-a63b-fa51a876e98f@gmail.com>
+Date: Sun, 28 Feb 2021 10:40:26 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210228153702.498275-2-alex.kanavin@gmail.com>
+In-Reply-To: <20210228153702.498275-5-alex.kanavin@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -60,38 +60,54 @@ Content-Transfer-Encoding: 7bit
 
 
 On 2/28/21 7:36 AM, Alexander Kanavin wrote:
+> udev support had been dropped upstream.
+> 
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->   .../bmap-tools/{bmap-tools_3.5.bb => bmap-tools_3.6.bb}       | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-support/bmap-tools/{bmap-tools_3.5.bb => bmap-tools_3.6.bb} (89%)
+>   .../{dosfstools_4.1.bb => dosfstools_4.2.bb}         | 12 ++++--------
+>   1 file changed, 4 insertions(+), 8 deletions(-)
+>   rename meta/recipes-devtools/dosfstools/{dosfstools_4.1.bb => dosfstools_4.2.bb} (68%)
 > 
-> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-> similarity index 89%
-> rename from meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-> rename to meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-> index fd57f8f7f0..95cf00804d 100644
-> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.6.bb
-> @@ -11,13 +11,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> diff --git a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb b/meta/recipes-devtools/dosfstools/dosfstools_4.2.bb
+> similarity index 68%
+> rename from meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
+> rename to meta/recipes-devtools/dosfstools/dosfstools_4.2.bb
+> index 4bd4aef099..e1d1734b99 100644
+> --- a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
+> +++ b/meta/recipes-devtools/dosfstools/dosfstools_4.2.bb
+> @@ -9,24 +9,20 @@ SECTION = "base"
+>   LICENSE = "GPLv3"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 >   
->   SRC_URI = "git://github.com/intel/${BPN}"
+> -SRC_URI = "https://github.com/dosfstools/dosfstools/releases/download/v${PV}/${BP}.tar.xz \
+> +SRC_URI = "https://github.com/dosfstools/dosfstools/releases/download/v${PV}/${BP}.tar.gz \
+>             "
+> -SRC_URI[md5sum] = "07a1050db1a898e9a2e03b0c4569c4bd"
+> -SRC_URI[sha256sum] = "e6b2aca70ccc3fe3687365009dd94a2e18e82b688ed4e260e04b7412471cc173"
+> +SRC_URI[sha256sum] = "64926eebf90092dca21b14259a5301b7b98e7b1943e8a201c7d726084809b527"
 >   
-> -SRCREV = "a17f0e3ff8669dd3b1c44a741ae4f8162155faed"
-> +SRCREV = "c0673962a8ec1624b5189dc1d24f33fe4f06785a"
->   S = "${WORKDIR}/git"
->   PV .= "+git${SRCPV}"
+>   UPSTREAM_CHECK_URI = "https://github.com/dosfstools/dosfstools/releases"
 >   
->   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
->   
-> -RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
-> +RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six coreutils"
+> -inherit autotools pkgconfig update-alternatives
+> +inherit autotools gettext pkgconfig update-alternatives
 
-what needs coreutils at runtime ? and which utilities
+is gettext new dependency ? or is it enabling something we did not do 
+before
 
 >   
->   inherit python3native
->   inherit setuptools3
+> -EXTRA_OECONF = "--without-udev --enable-compat-symlinks"
+> +EXTRA_OECONF = "--enable-compat-symlinks"
+>   
+>   CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+>   
+> -# Add codepage437 to avoid error from `dosfsck -l`
+> -RRECOMMENDS_${PN}_append_libc-glibc = " glibc-gconv-ibm437"
+> -
+>   ALTERNATIVE_PRIORITY = "100"
+>   ALTERNATIVE_${PN} = "mkfs.vfat"
+>   ALTERNATIVE_LINK_NAME[mkfs.vfat] = "${sbindir}/mkfs.vfat"
 > 
 > 
 > 
