@@ -1,90 +1,76 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web09.7661.1614526647115507469
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web12.7684.1614526647717829655
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 07:37:27 -0800
+ Sun, 28 Feb 2021 07:37:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lMwUMilI;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id g3so17301386edb.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eeZcHAnv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id v13so912664edw.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K2N77xbMHDvK0Y+q+mtt8lhXddAlaz5NMPglH4tV4qU=;
-        b=lMwUMilI6KQSZ8r1N7OT6egDs+yomL4BXDvbSukx72bZACIKrL2pwE4HCtjN95y0GS
-         aSqD8bu85zFrZ+/l3Zp0UiSZJef6/kQYTHO5tH6FSawqZUkNtoPGtYSbWBg4UnbJo7mj
-         2cMCZaREpQyR8j56wugi16vIYGwW5n1vR52Z2Q4cKWhbtd+5khgqYEN4zoSdqVdjFs/p
-         a1UXTB3Z+CJNWiHuDygeiUTf+7Op7iyfXkRnNcq+bswwJjgIPIjHtneGkS9eoz5uIqL5
-         UjVa8V5VTQ9JCmzqwH9HieSk5af/D6XW9AedbQxzVjhZxzmlxZVP1k5CJWz3vTwvKnmv
-         6ldA==
+        bh=FGamzZvtP1uoc2IVEWPw1QgL7VlEMcInETSSYeObmQc=;
+        b=eeZcHAnvoxAihW8E1ClQ5UHSYGwHOdhmSuW5KfCsqaKGwvWPp9mOdm3iMV+EkIvktD
+         TgDcu6IEDcL8bGYNly4tloXTjFtEivO1itTsCUPN9Tz63WNK3v0OqhgjXnYLnGf/Mpls
+         Db1jQh3OpdqTgiC8jJ5WoAKUTBTLvNN4n7hhv7069zrKht+OLXtVPTZRvXCtTG8957lh
+         vIEGRpWOsYsAVQ+LeP4znKJRnu/KTqUg6dYoRWGkd/qFp6u/lhKH/E2FNTOlBMQBBKvd
+         hCaOJwka4zRAE9BH3pGKknn9kxNLkfUeZcn/NLUNj2w6tKNpLXUBuQuhBu6LFcIDlthv
+         FxAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K2N77xbMHDvK0Y+q+mtt8lhXddAlaz5NMPglH4tV4qU=;
-        b=N3MSb9xJZsn7mTGAglCfQRAgu0mgFdwzgIDRpmwV+9d7TlUHusYoHtLvh2iQJ0H8w4
-         J84DFJnTINOkE85NUWtlIDn43xHgSNDrLiUzqMJF0Y8GzAgvwbbke8l5KAKSYtmN77vD
-         ikVTmwk3LyaMmmThBzclJQv0y48MlUreW1+ij46RZLprPTAjPpzI5MNeP9j8dsaEXfrC
-         AsTnuvNMzvs/iIUh7tWLKyXRldUNAa/c4JBXNSd/bOFjzdCcBFlnTwHw8JB5bM6eXrEz
-         vhxw3IXmw6tPIkb/aSkiDm8qjXrILRWwPpVAu4mwwW4RbeJqEk1JSX3/EzoFaf+KEdoX
-         rdpg==
-X-Gm-Message-State: AOAM531C/plC3j8Gp57eS/lUt5z+8iC/L3If/QLuc17QuNZycQVBtrZU
-	QTdCx+Voq+IU9tDzXxORIdtQSW87wjdDoA==
-X-Google-Smtp-Source: ABdhPJyiZM5q+O8FQWO/4lqVIw0i3rsBOVhKce3mqwkoma9ozhHeA/E/rQkDZ/ZQTK89jaGPz1Gw3g==
-X-Received: by 2002:a05:6402:4311:: with SMTP id m17mr12507281edc.123.1614526645618;
-        Sun, 28 Feb 2021 07:37:25 -0800 (PST)
+        bh=FGamzZvtP1uoc2IVEWPw1QgL7VlEMcInETSSYeObmQc=;
+        b=AHO86BrRhPoVd8dWHtKJUxaBEOSaCeQdZPZPPLL5c/I+467aDM/GyAbBDpdcA+khdU
+         uuynPo03xJ6O9Y26dWP6papnD80wDCF9mf8f808wHkCQqc2xOiOPMvTe9Fbh4D9e3nbk
+         2oQLJwoyzTQ8sVbmbrtro+2okjcXHj8rb6AIDe8gnKsyeDaaocP14fRXQXxTX6TzgcJm
+         V2QRKgD67SyA0qzGQyah1q8EGNGSBoYfpjCBfoUS6EJp7RgteNnvJVjl/uYC/WrmnvOe
+         pphM8CisvhIj9I0n5lYVQQaUTOBGAb761+NaxRg9UAPr3wK+8UdBHCZiVuOiVH7BgRCi
+         UBYQ==
+X-Gm-Message-State: AOAM5339NY2E899ZKa28H4x16lGmeQU767Mp7Jltm0GrjZue4Dj9TgYR
+	iV7idNkJgb/JDydmLth+cGDl1k34iaKy1g==
+X-Google-Smtp-Source: ABdhPJx67/MO4PjG14EhiG0Y10+y9ws8xGfglw1Le0shJg1At0y/So1V8Qk44Wh95LOPnSENqX6zQA==
+X-Received: by 2002:aa7:c804:: with SMTP id a4mr12194880edt.251.1614526646356;
+        Sun, 28 Feb 2021 07:37:26 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.24
+        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 28 Feb 2021 07:37:25 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 20/24] libbsd: udpate 0.10.0 -> 0.11.3
-Date: Sun, 28 Feb 2021 16:36:58 +0100
-Message-Id: <20210228153702.498275-20-alex.kanavin@gmail.com>
+Subject: [PATCH 21/24] syslinux: use NO_INLINE_FUNCS in CFLAGS
+Date: Sun, 28 Feb 2021 16:36:59 +0100
+Message-Id: <20210228153702.498275-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years, file lists
+This is required with latest versions of e2fsprogs.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libbsd/{libbsd_0.10.0.bb => libbsd_0.11.3.bb}          | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libbsd/{libbsd_0.10.0.bb => libbsd_0.11.3.bb} (87%)
+ meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.10.0.bb b/meta/recipes-support/libbsd/libbsd_0.11.3.bb
-similarity index 87%
-rename from meta/recipes-support/libbsd/libbsd_0.10.0.bb
-rename to meta/recipes-support/libbsd/libbsd_0.11.3.bb
-index 5b32b9af41..55ecae2ea5 100644
---- a/meta/recipes-support/libbsd/libbsd_0.10.0.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.11.3.bb
-@@ -29,14 +29,15 @@ HOMEPAGE = "https://libbsd.freedesktop.org/wiki/"
- # License: public-domain-Colin-Plumb
- LICENSE = "BSD-3-Clause & BSD-4-Clause & ISC & PD"
- LICENSE_${PN} = "BSD-3-Clause & ISC & PD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2120be0173469a06ed185b688e0e1ae0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=adf6172075bcc5837e33a8a688eb7e22"
- SECTION = "libs"
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index fbb2da7f91..8d78f62efa 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -44,6 +44,8 @@ TARGET_LDFLAGS = ""
+ SECURITY_LDFLAGS = ""
+ LDFLAGS_SECTION_REMOVAL = ""
  
- SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "ead96d240d02faa5b921c0aa50c812b5"
--SRC_URI[sha256sum] = "34b8adc726883d0e85b3118fa13605e179a62b31ba51f676136ecb2d0bc1a887"
-+SRC_URI[sha256sum] = "ff95cf8184151dacae4247832f8d4ea8800fa127dbd15033ecfe839f285b42a1"
- 
- inherit autotools pkgconfig
- 
-+DEPENDS += "libmd"
++CFLAGS_append = " -DNO_INLINE_FUNCS"
 +
- BBCLASSEXTEND = "native nativesdk"
+ EXTRA_OEMAKE = " \
+ 	BINDIR=${bindir} SBINDIR=${sbindir} LIBDIR=${libdir} \
+ 	DATADIR=${datadir} MANDIR=${mandir} INCDIR=${includedir} \
 -- 
 2.29.2
 
