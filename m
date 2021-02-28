@@ -1,120 +1,138 @@
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
- by mx.groups.io with SMTP id smtpd.web11.5746.1614515124858075378
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+ by mx.groups.io with SMTP id smtpd.web11.5901.1614516649137303194
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 04:25:26 -0800
+ Sun, 28 Feb 2021 04:50:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=jVZ31XMB;
- spf=pass (domain: mcrowe.com, ip: 212.159.14.17, mailfrom: mac@mcrowe.com)
-Received: from deneb.mcrowe.com ([80.229.24.9])
-	by smtp with ESMTP
-	id GL8TlwjOwjOtyGL8Vl590i; Sun, 28 Feb 2021 12:25:23 +0000
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=UcTKtJaN c=1 sm=1 tr=0
- a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
- a=kj9zAlcOel0A:10 a=qa6Q16uM49sA:10 a=Q4-j1AaZAAAA:8 a=-An2I_7KAAAA:8
- a=pGLkceISAAAA:8 a=HijlfyYwsqdhXUezSpsA:9 a=CjuIK1q_8ugA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	 s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=qmgkgpp8DrLO2CH4EFL0/dxQOKSh+MQM9O/Ra5ob8bk=; b=jVZ31
-	XMBn5GWvJc8so0eT/kfAOrtfMZEC2M+myachWOK+/NuDAixMhis5mlKs0QVH0G7j4bYONZPZNCz0G
-	velby0NuvDN/tPON3JxZI9gy5su7u6UP0eaNbEll/VL32Kz/dVmrLGm4ntzsGkuLJoz+cS9HSwRCm
-	Mm+9ggc/QLyiLOa7ggBpNZ1Rb7nT61ZYK+n5Dqi0SgM84r+E95NxDyHOqnTfTPNhZI+jqtOQfYP2m
-	hTh1DH1FEUo1cfr7fuxKbW4peVjcGWoHIbuWiz8anlqaSTFUCpyYyL4uVDe2saKudaHuq4P8FFi1b
-	6ESZZpDD+VBXQeK5Cf1zLKTtn8btg==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1lGL8T-0002m0-Q7; Sun, 28 Feb 2021 12:25:21 +0000
-Date: Sun, 28 Feb 2021 12:25:21 +0000
-From: "Mike Crowe" <yocto@mac.mcrowe.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc-sanitizers: Move content from gcclibdir into libdir
-Message-ID: <20210228122521.GA5878@mcrowe.com>
-References: <20210225173653.2408-1-mac@mcrowe.com>
- <YDpe+v5had6dt56Z@piout.net>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=F+OuS3Pt;
+ spf=pass (domain: gmail.com, ip: 209.85.166.174, mailfrom: flowergom@gmail.com)
+Received: by mail-il1-f174.google.com with SMTP id e7so12245526ile.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 04:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G5QCmXZPexi3tsUDq/xxLjelTSnbrA3Qx62D+IcJFaA=;
+        b=F+OuS3PtFKMhgUudlhbitXSIbm5h/NkXX448frJmbeyuDVdyaHn7sqIV95el3JIHAu
+         yKS3TDW37CbFQmHv+DsA4TIooavpvM5X7BWjpN9/LQj/5BolMvKq/azbegIdyJvOh8f1
+         tK1tGXyf+DmHy3HIV33eLUxLJRSlX6af6+XCYxAHUtREa/B1nKV2kfghADz16Xg1J2BJ
+         fp0QAVaCOhsoBlxaxw0s/lcFwd6v/m3Fr0gHalFKeQ9kYYmSfWu2MMGPo+jqRVLH5MMy
+         6816+gmSsN277hCcTEDtnYRAHDuyzGBUT4I+71fP0Iu94XTsQ+NxXN4gNiLEAArAT5ra
+         Hc8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G5QCmXZPexi3tsUDq/xxLjelTSnbrA3Qx62D+IcJFaA=;
+        b=sxzeJ+hV+iY7O8V5CUY2zcayw2a5CM1eoS18pOMyHjYVQuQ65t1WR2x8ZGCRvdWgbD
+         4j6QO5lBEq0PZ8CpwVtMoLuMZeYV6NoRnnJOKaxpA8TBApURaQ0/oWe/wXmK6Yf1C261
+         smT5sIAWXX90iY9EdSzKQZkn8BtD70YzYlwHEdhKOWUQaQ8eyec9j+U6vP3FGi9EisrQ
+         OCNUjSnUXVzRIhcBwhO5LKIdj+oEFJQV5jeQSMOH3itqtosZPkNcCRzlPr4oOEYoG/wI
+         BBj58hLtn72bVgX3lteBP+gTDglFCxeZxnECpL1l4CDF+to9OZAYIOxmYDc/q4U819zj
+         oyEQ==
+X-Gm-Message-State: AOAM532AO996ln91rjLpgub4ujswiRjLh/R2c62wRCPUPicJWSu5Y+UR
+	9fW10rtEp523hyjIX+TmyYJ8/HGww3q7Kw==
+X-Google-Smtp-Source: ABdhPJyAWDGMb7JBkXZnZl8gFSc9Cg+u/EGMVAJ3x/Mf8g5rHJRqtN/6VwSTch3nSzH3WUDOT0C3Dw==
+X-Received: by 2002:a92:c54b:: with SMTP id a11mr9705769ilj.208.1614516647938;
+        Sun, 28 Feb 2021 04:50:47 -0800 (PST)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([116.42.185.119])
+        by smtp.gmail.com with ESMTPSA id h128sm8204856ioa.32.2021.02.28.04.50.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 28 Feb 2021 04:50:47 -0800 (PST)
+From: "Minjae Kim" <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [PATCH] librepo: fix CVE-2020-14352
+Date: Sun, 28 Feb 2021 21:50:22 +0900
+Message-Id: <20210228125022.1211-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <YDpe+v5had6dt56Z@piout.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Envelope: MS4wfG7FJ6zLPUSW3CeKKkHCcIcAbf+RVwD57IIH2d58aH7m3kSi50PzjzYxz/js+CK2Dm/cQWboPolxLwrulwmdHsL+X2vlxVFMJxV9wo1qDSta4ONCoZXe
- 7jRkyEhh4/nUuwnP1VLiiiRnXUOFq6tqHpeMmsyH0t1DobZPmB85FIMGIyzttCC4FjM2ff9RZuRK7g==
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Saturday 27 February 2021 at 16:02:18 +0100, Alexandre Belloni wrote:
-> Hello,
-> 
-> On 25/02/2021 17:36:53+0000, Mike Crowe via lists.openembedded.org wrote:
-> > In e9e5744ba8b0d43c8b874d365f83071ce20bf0a1, Khem Raj wrote:
-> > > OE does not use the traditional /usr/lib/gcc prefix to store
-> > > gcc-runtime it basically is moved into libdir, however some newer
-> > > files were installed by newer versions of gcc especially libgomp (
-> > > omp.h openacc.h ) into gcclibdir, so we have content in both
-> > > directories, this confuses other tools which are trying to guess the
-> > > gcc installation and its runtime location, since now we have two
-> > > directories, the tools either choose one or other and we get
-> > > inconsistent behavior, e.g. clang for aarch64 uses /usr/lib but same
-> > > clang for riscv64 chose /usr/lib/gcc
-> > 
-> > > This change ensures that OE ends up with single valid location for gcc
-> > > runtime files
-> > 
-> > I think that the same thing needs to happen in gcc-sanitizers.inc,
-> > otherwise I get errors like:
-> > 
-> > | .../recipe-sysroot/usr/include/gpg-error-64.h:884:11: fatal error: sanitizer/lsan_interface.h: No such file or directory
-> > 
-> > when attempting to compile with sanitizers enabled.
-> > 
-> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > Cc: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> > index 668e14a59f..67b755edf8 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> > @@ -35,6 +35,11 @@ do_compile () {
-> >  do_install () {
-> >      cd ${B}/${TARGET_SYS}/libsanitizer/
-> >      oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/libsanitizer/ install
-> > +    if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
-> > +	install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include
-> > +	mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BINV}/include
-> > +	rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include
-> > +    fi
-> >      if [ -d ${D}${infodir} ]; then
-> >          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
-> >      fi
-> 
-> This seems to result in the following erro on the autobuilders:
-> 
-> ERROR: gcc-sanitizers-10.2.0-r0 do_package: QA Issue: gcc-sanitizers: Files/directories were installed but not shipped in any package:
->   /usr/lib/i686-poky-linux
->   /usr/lib/i686-poky-linux/10.2.0
->   /usr/lib/i686-poky-linux/10.2.0/include
->   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer
->   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/common_interface_defs.h
->   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/lsan_interface.h
->   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/asan_interface.h
->   /usr/lib/i686-poky-linux/10.2.0/include/sanitizer/tsan_interface.h
-> Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-> gcc-sanitizers: 8 installed and not shipped files. [installed-vs-shipped]
-> ERROR: gcc-sanitizers-10.2.0-r0 do_package: Fatal QA errors found, failing task.
-> 
-> It seems to be an easy one to fix.
+librepo: missing path validation in repomd.xml may lead to directory traversal
 
-Removing the gcc/ part of the path added to FILES_${PN} seems to solve the
-problem for me. I'm not sure why I didn't see that in the dunfell/usrmerge
-tree that I originally wrote the fix for.
+Upstream-Status: Acepted [https://github.com/rpm-software-management/librepo/commit/7daea2a2429a54dad68b1de9b37a5f65c5cf2600]
+CVE: CVE-2020-14352
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
+---
+ .../librepo/librepo/CVE-2020-14352.patch      | 55 +++++++++++++++++++
+ .../librepo/librepo_1.11.2.bb                 |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/librepo/librepo/CVE-2020-14352.patch
 
-Updated patch at:
-https://lists.openembedded.org/g/openembedded-core/topic/patch_v2_gcc_sanitizers/80970998?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,80970998
+diff --git a/meta/recipes-devtools/librepo/librepo/CVE-2020-14352.patch b/meta/recipes-devtools/librepo/librepo/CVE-2020-14352.patch
+new file mode 100644
+index 0000000000..8f4c5b73bc
+--- /dev/null
++++ b/meta/recipes-devtools/librepo/librepo/CVE-2020-14352.patch
+@@ -0,0 +1,55 @@
++From 6027d68337b537bf9a68cf810cf9b8e40dac22f8 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Wed, 12 Aug 2020 08:35:28 +0200
++Subject: [PATCH] Validate path read from repomd.xml (RhBug:1868639)
++
++= changelog =
++msg: Validate path read from repomd.xml
++type: security
++resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1868639
++
++Upstream-Status: Acepted [https://github.com/rpm-software-management/librepo/commit/7daea2a2429a54dad68b1de9b37a5f65c5cf2600]
++CVE: CVE-2020-14352
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ librepo/yum.c | 17 +++++++++++++++++
++ 1 file changed, 17 insertions(+)
++
++diff --git a/librepo/yum.c b/librepo/yum.c
++index 3059188..529257b 100644
++--- a/librepo/yum.c
+++++ b/librepo/yum.c
++@@ -23,6 +23,7 @@
++ #define  BITS_IN_BYTE 8
++ 
++ #include <stdio.h>
+++#include <libgen.h>
++ #include <assert.h>
++ #include <stdlib.h>
++ #include <errno.h>
++@@ -770,6 +771,22 @@ prepare_repo_download_targets(LrHandle *handle,
++             continue;
++ 
++         char *location_href = record->location_href;
+++
+++        char *dest_dir = realpath(handle->destdir, NULL);
+++        path = lr_pathconcat(handle->destdir, record->location_href, NULL);
+++        char *requested_dir = realpath(dirname(path), NULL);
+++        lr_free(path);
+++        if (!g_str_has_prefix(requested_dir, dest_dir)) {
+++            g_debug("%s: Invalid path: %s", __func__, location_href);
+++            g_set_error(err, LR_YUM_ERROR, LRE_IO, "Invalid path: %s", location_href);
+++            g_slist_free_full(*targets, (GDestroyNotify) lr_downloadtarget_free);
+++            free(requested_dir);
+++            free(dest_dir);
+++            return FALSE;
+++        }
+++        free(requested_dir);
+++        free(dest_dir);
+++
++         gboolean is_zchunk = FALSE;
++         #ifdef WITH_ZCHUNK
++         if (handle->cachedir && record->header_checksum)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/librepo/librepo_1.11.2.bb b/meta/recipes-devtools/librepo/librepo_1.11.2.bb
+index 6a0a59f865..b1d97eba53 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.11.2.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.11.2.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
+            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
++           file://CVE-2020-14352.patch \
+            "
+ 
+ SRCREV = "67c2d1f83f1bf87be3f26ba730fce7fbdf0c9fba"
+-- 
+2.24.3 (Apple Git-128)
 
-Thanks.
-
-Mike.
