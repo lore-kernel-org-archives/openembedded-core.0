@@ -1,80 +1,77 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.7717.1614526649020138023
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web12.7685.1614526649562235401
  for <openembedded-core@lists.openembedded.org>;
  Sun, 28 Feb 2021 07:37:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WyQhSLK1;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id k13so23541487ejs.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tEaMw/w0;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id mm21so23243175ejb.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 07:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XTaADV0abkO1XPS2BlYwTUw+IEh99N4cuv6AE3tF6Kc=;
-        b=WyQhSLK1EqIZpT5nLQ/NvGgwB9fmi/8f8QDVOTxIOFPgv2Wkr1xmmz1Tb2RygwueQf
-         ajVbeF7Ry1PvfQXIRTp+j18IuRdPjzPT51vQXtlxcWAj/eaA1dg+XJRrI1Qma3xyA/6/
-         hxSB+/Ri+ODwbGoXFvJ5s2ipA1laPxlUe0vr6L16DujbMT77FzwyoTEK/njIdHyVkoxp
-         7vz/Rd1mBmXk6ah9tsUwFMWe9M8nQayubtr2YGXA2Cyxdc7ck7nyrF4ax/qrwpvli05+
-         PObBphAsrvAgZBDZvQFRlnJl59edOd2TWlIYnwBZLMBLO1zPgZMONX9EiXnCrd3WLhLG
-         /Wng==
+        bh=4lOJ3j0Zsvv/4Am+AQop6S4ZKVtz0e6Rdws6QhK5Ojo=;
+        b=tEaMw/w0eaZ0HvTRNl0FxeMmqAgJJnECPmYcdfvJxu9Pczm82bUgAeisg5MMTbmNq+
+         TEBx9yV6tNfJf9jtvybNegBez/ZdI4ri7TcKSZGhMh5dwbTvZ/z6i231gg0G+n6C//mb
+         5EPuWy5GYZNyHkhvEFtY9S/A6f0MDO8YoSF2NtirHVKRDzdk0Kca/tSmibSfJqQTXKsH
+         sXpur4R2UhDaSHdszxK/WPFBX/W5zH/F0JxWcs79oLLCVEU/HJIWIb5mUJyrhOfFFPE8
+         NeFhotkfgyLH5VNNP76hRwgioN7ztLvLCAaVfHLrk5vHE82zZG8WEdFgzcyR2qV82bp3
+         ymfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XTaADV0abkO1XPS2BlYwTUw+IEh99N4cuv6AE3tF6Kc=;
-        b=rKNK/poWI5Lt3vQ+21RIU4izIJ5MPcLHRyhRmGv1/xSXvQYDsFzOt+0dygtElKSLtx
-         dFhu2Y/lpOjPZH7V+/3XliwlYHG+LfgmY6kU1Y5dKse1Y15/gW88Go33LDPITfpWNsLn
-         KWfSSu7JNFJcRQgcY53g3EvyVUPfToLpr1a29i4hLi3cAwtKpuVvO4tny5b/OWguzvhI
-         QAHq+treGsAXCwYWSwybfUtZ86v/SI/9/T+7j//zYJi/ge9AJpIcjswBJyaBEH94+OZL
-         7w+6WCRKrZADXOupq9d6ykbbxC7kuWbEF7Bjd4dCQX1eo+WMq9rmWnNxJr7srRrZwOXo
-         uLYg==
-X-Gm-Message-State: AOAM530F+VN8y1zXbvF2RMq9+qfYZfh0uyZus8ad5CxqmUQF7CaKrt/s
-	t4J5gc/eVzDzAOUJsTBWNcOKMvGhTAsQWA==
-X-Google-Smtp-Source: ABdhPJy3x7O9uVKWxefcpqecpjOSmjhNWgca+Uzfugqu6kekp9qWujYyY5rqsykWSqIczAkPs/BIvg==
-X-Received: by 2002:a17:906:b6cc:: with SMTP id ec12mr11998010ejb.520.1614526647513;
-        Sun, 28 Feb 2021 07:37:27 -0800 (PST)
+        bh=4lOJ3j0Zsvv/4Am+AQop6S4ZKVtz0e6Rdws6QhK5Ojo=;
+        b=YY61D9oKxXf9Q6uAeZVl9nk86ywx+A7iJeiwORhM4CmhTu9Q8o0rCoyQNng4p0MlWP
+         eaHo2gxUP8o3ez8PiVEp1BMc1y9DoCUwgTOMOuT6/quCcgHXNLob2Tjg/RYKN4CBdusg
+         bnToyY3Jo37muTU2ydV5HeSpeexSNqbWx7zwsAHvrWccY2680+Nv/LRU4WdnNMYnQz65
+         0iBkME4NG+FG/z6j/V44Ldj3i99ZrYGd5u2kNVqim0RP5Y8PLejXPPywQZ1wq0qZlFdV
+         /eV2HdBQRBrWhFlzqWbbB+5jKYEn0OeSzmeulMqm2biduBft99L81PaMMF2WjAmibc+l
+         480Q==
+X-Gm-Message-State: AOAM532J0lbzGD7OASp0yUc/S0ZDppxXkLPjcYGOKoNSIu+RZBIQeaFJ
+	z+GXFZ0NdPAQeDh5GJRMo9DTmbO3vo3dWg==
+X-Google-Smtp-Source: ABdhPJzj+GHYCCodw4JCq6V8qPI/KPEUQBeKMcTPmdYLueYv7xDjXCEx6xxJKQ9S9QeCRx5dtvuDIA==
+X-Received: by 2002:a17:906:3f96:: with SMTP id b22mr11912852ejj.478.1614526648191;
+        Sun, 28 Feb 2021 07:37:28 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2450:1011:512:45a5:1b3d:84d2:e7fc])
-        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.26
+        by smtp.gmail.com with ESMTPSA id b17sm10234780ejj.9.2021.02.28.07.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 28 Feb 2021 07:37:27 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/24] openssl: address ptest failures caused by perl 5.32.1
-Date: Sun, 28 Feb 2021 16:37:01 +0100
-Message-Id: <20210228153702.498275-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/24] ptest-perl/run-ptest: address failures caused by perl 5.32.1
+Date: Sun, 28 Feb 2021 16:37:02 +0100
+Message-Id: <20210228153702.498275-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210228153702.498275-1-alex.kanavin@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For some reason the new perl no longer has . in list of
-directories searched in 'require', and so the file
-needs to be copied where perl can find it.
+Particulary, . needs to be explicitly specified so that perl
+looks there when loading items in 'require'.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1j.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/files/ptest-perl/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-index c431f22643..181790e6ab 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-@@ -199,6 +199,10 @@ do_install_ptest () {
+diff --git a/meta/files/ptest-perl/run-ptest b/meta/files/ptest-perl/run-ptest
+index c9f9ca94d0..fd35357b42 100644
+--- a/meta/files/ptest-perl/run-ptest
++++ b/meta/files/ptest-perl/run-ptest
+@@ -1,7 +1,7 @@
+ #!/bin/sh
  
- 	install -d ${D}${PTEST_PATH}/engines
- 	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines
-+
-+        # seems to be needed with perl 5.32.1
-+        install -d ${D}${PTEST_PATH}/util/perl/recipes
-+        cp ${D}${PTEST_PATH}/test/recipes/tconversion.pl ${D}${PTEST_PATH}/util/perl/recipes/
- }
- 
- # Add the openssl.cnf file to the openssl-conf package. Make the libcrypto
+ for case in `find t -type f -name '*.t'`; do
+-    perl $case >$case.output 2>&1
++    perl -I . $case >$case.output 2>&1
+     ret=$?
+     cat $case.output
+     if [ $ret -ne 0 ]; then
 -- 
 2.29.2
 
