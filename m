@@ -1,93 +1,80 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
- by mx.groups.io with SMTP id smtpd.web09.2157.1614540096606867866
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+ by mx.groups.io with SMTP id smtpd.web12.2142.1614540218085464077
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 11:21:36 -0800
+ Sun, 28 Feb 2021 11:23:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J6qzNqLS;
- spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f182.google.com with SMTP id i27so799212vkp.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:21:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MmxJoMTS;
+ spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f42.google.com with SMTP id z65so5196379vsz.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2op1/WycYsuaOaRIrUZw/fB6I0S1ZoNzwuPwZphbq6g=;
-        b=J6qzNqLSQp2RPg9eBLfKa8k8NG5AcvfQwQI6QmHh/l4WJX5J5euWEZK4q1XlxP6i7T
-         IefBfeBXswlm/Q/+hs6lZ5OIwbSishPuYd+Iukg7f7nE9yb96oXvHxpEyGI+W00XF+Sn
-         TtWjT+9LcCMQLWRHxkCvYqG23FauXkkhU3KEjWqP2w7+fFIZtreUn08NCGRIBjxjKyG/
-         fF/x6uUR/j4Gfx7p6gbHPLRRsl9qwvGde1u8omvUEvlXM0eBEo3ectaiHnUCmdSd8m9q
-         RzuvU5eZC26zsdaks1A8zHdJoxrD7b73EjMjeso0UotIvT05vgrMnE/vfdPeJR+tUPza
-         13LA==
+        bh=R0pTbdHrZTSAae3jeVfb4Q4uyKpIN525bSfyyOAnwLw=;
+        b=MmxJoMTSvSzWSpkkhui0pJjwHVwE6EKirkibCX1kiwV2Ve53zckhbbJ1b8hWy973u4
+         U8t63p74bV+htg42XaUBrrK3SsqtXiVpKmCnDm3eMu7SFg7wv96tp4BCG16bxYIFU5/r
+         8KRa5o3PwyfCrBfXyT5qduNtGov6jWnVIbvi4ASwtJvahzyi4ciejTrTuho7CRfnzXJs
+         NWXmvQIey9bEC8Z/l6bmuDZaArj7P18WzHKYDd2kvaH+oD2LIiUbxj9L8lxrg22zTvuB
+         OFmU9NCxIC3kNabIE4JJGXgBsyaSZix6p/myzSeEzF+Fopxy/TNZiMXZiTwpbHcVWTNx
+         TRKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2op1/WycYsuaOaRIrUZw/fB6I0S1ZoNzwuPwZphbq6g=;
-        b=StNwqCkbnh9O/D1rQEnNOUeHVfeN6QhZOlJWyXqK6MtcowX6bjiRzZl8rFH5BO8SEu
-         1fMK2AjqV5M9QKdEtRyjS6Z3MG6tJmqS9mGquifKYZbc0LHygniDG9Q3J7dWaBlU4Gn3
-         Q1BfnbFbT+kZDZjgEdx2MlD9Kg668VS2aEYW2zTuGz5HnbbrYGFM1IpW1wiVUBPFoXeM
-         Aex/amKmQozdj9Ie93FoRvd1hWLB1n/uqLxEUJ+fo/lq00iCmoyuN+iJxnBD02g0U+NK
-         Rdw6NdVJGCxk0Nv9OQBB1k2vx6b24bRCPZ96otVwe8pmA+Cm64N1ThW4Gh3F/PAYkrBj
-         yDxA==
-X-Gm-Message-State: AOAM532dRHiF3zkiQ28KUsK1ulnVJJnk7Hp8gMNLG6LgvZlvIRkhSn8g
-	fbNXvycwcOYITY3ydu9gJW4sq9atFBxd9BGs3uQ=
-X-Google-Smtp-Source: ABdhPJxTL8HiAOW9jirTYxJUkBcvTk2Z9tcSmMSmCTWkgMQZPgNMeQBBz/Z5d5rZh0/19uYR6y2Uax/aYZdymYpeBCA=
-X-Received: by 2002:a1f:c786:: with SMTP id x128mr6397456vkf.10.1614540095612;
- Sun, 28 Feb 2021 11:21:35 -0800 (PST)
+        bh=R0pTbdHrZTSAae3jeVfb4Q4uyKpIN525bSfyyOAnwLw=;
+        b=kvGq3EMndZIlQArs0G4TVL+bpDaxu1lozEqz/PL1RZGWUz7n4a7B0Uc2pWYL18zjN8
+         1jWFO42pXhX1D4cbptDOcynJwWlH2Joql6J2k2GKBl328dWdj+6Du8j9xlFmxDK61YpB
+         Sgc3dKqr7iybITKqufaUkiLWbf2ep2XAqFQv6jYwP8fRnoSuDpDIq/9NUP8R1mWUk/rp
+         VDDkJL8FfqBx8tCMSG+3UrbBGWkiuQ1Dxt8oPIG0OsutfHVtd+Ebns8EL0E5wTwRnab7
+         bwJUbrz2d1usDITk4WriB0fDNfKh3b9+8fCfTl7WnzGJY4xwLkVnfXlMpLF0jElJjPV7
+         WK1g==
+X-Gm-Message-State: AOAM532KgFpIkF0/08/2Cfo9IovK67ktsvyyA5WAnnLMuqlqXh4QWzZT
+	QqnHzyCfLpxfAwWvHryVxVyKut5NdE+PW8ID2w4=
+X-Google-Smtp-Source: ABdhPJxMiX0IzL+oueG/6qMD8h0uOenXjNPaGwRc4KcyxE2oSTMtK3lYEutnXE/gWZ8lEb2tLWUt7SkFv/+ZfHXdzP4=
+X-Received: by 2002:a05:6102:902:: with SMTP id x2mr1369456vsh.31.1614540217142;
+ Sun, 28 Feb 2021 11:23:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-22-alex.kanavin@gmail.com> <ec22836e-0dd1-1238-d49a-2871b507b697@gmail.com>
-In-Reply-To: <ec22836e-0dd1-1238-d49a-2871b507b697@gmail.com>
+ <20210228153702.498275-2-alex.kanavin@gmail.com> <23dd5c64-4658-f00b-1775-46de9674a4d5@gmail.com>
+ <CANNYZj8F9j_EEr=Ak0aACDpnpbu8t74haFkjJNRKLtoAbaV0SQ@mail.gmail.com> <c92ae0ca-762d-0f75-cfbb-dc2fed47b026@gmail.com>
+In-Reply-To: <c92ae0ca-762d-0f75-cfbb-dc2fed47b026@gmail.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 28 Feb 2021 20:21:24 +0100
-Message-ID: <CANNYZj9gTX1MRR0WVnp3ZvCB18z616PVWyb0f+asziuWv6_w4g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 22/24] scripts/lib/wic/partition.py: do not set FAT size
+Date: Sun, 28 Feb 2021 20:23:25 +0100
+Message-ID: <CANNYZj_0nQD86_S2-NQs4u3JN8PNfgpEHU8+QX8vvDYEZVvMjw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/24] bmap-tools: upgrade 3.5 -> 3.6
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000dfe8b005bc6a6886"
+Content-Type: multipart/alternative; boundary="0000000000001e516605bc6a70a7"
 
---000000000000dfe8b005bc6a6886
+--0000000000001e516605bc6a70a7
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 28 Feb 2021 at 20:16, Khem Raj <raj.khem@gmail.com> wrote:
+On Sun, 28 Feb 2021 at 20:20, Khem Raj <raj.khem@gmail.com> wrote:
 
->
->
-> On 2/28/21 7:37 AM, Alexander Kanavin wrote:
-> > Modern dosfstools automatically determines the appropriate size
-> > and will error out if something that doesn't make sense is
-> > supplied on the command line.
->
-> leaving it to tool seem to make it non-deterministic, is there any
-> disadvantage of using a manual fallback default
+> OK, df is also provided by busybox so I think we will always have df in
+> rootfs, unless it specifically need df from coreutils, perhaps we dont
+> need to be specific about the rdep
 >
 
-It is fully deterministic and depends on the filesystem size. Also it's an
-internal filesystem detail no one cares about as all sizes are nowadays
-supported by all FAT drivers.
+This was added because otherwise I was getting errors with
+bmap-tools-native.
 
 Alex
 
---000000000000dfe8b005bc6a6886
+--0000000000001e516605bc6a70a7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, 28 Feb 2021 at 20:16, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+_attr">On Sun, 28 Feb 2021 at 20:20, Khem Raj &lt;<a href=3D"mailto:raj.khe=
 m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
 =3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><br>
-<br>
-On 2/28/21 7:37 AM, Alexander Kanavin wrote:<br>
-&gt; Modern dosfstools automatically determines the appropriate size<br>
-&gt; and will error out if something that doesn&#39;t make sense is<br>
-&gt; supplied on the command line.<br>
-<br>
-leaving it to tool seem to make it non-deterministic, is there any <br>
-disadvantage of using a manual fallback default<br></blockquote><div><br></=
-div><div>It is fully deterministic and depends on the filesystem size. Also=
- it&#39;s an internal filesystem detail no one cares about as all sizes are=
- nowadays supported by all FAT drivers.</div><div><br></div><div>Alex</div>=
-<br></div></div>
+b(204,204,204);padding-left:1ex">OK, df is also provided by busybox so I th=
+ink we will always have df in <br>
+rootfs, unless it specifically need df from coreutils, perhaps we dont <br>
+need to be specific about the rdep<br></blockquote><div><br></div><div>This=
+ was added because otherwise I was getting errors with bmap-tools-native.</=
+div><div><br></div><div>Alex<br></div></div></div>
 
---000000000000dfe8b005bc6a6886--
+--0000000000001e516605bc6a70a7--
