@@ -1,115 +1,88 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web10.1903.1614539258229790957
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web11.1941.1614539334575369942
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 11:07:38 -0800
+ Sun, 28 Feb 2021 11:08:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UjIao/tw;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id a62so7510545vsa.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:07:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GhaSt8mZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id c44so4885581uad.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Feb 2021 11:08:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cNUg4+dBpjOtDQV47RhAsKWuFPcigATQkux5HpRqlr0=;
-        b=UjIao/twYpIqLopfT0Hs3sueD6DdXsTZGFLY5lDomH8ZxXBqTBC1rqE9pJr2HDcupK
-         yJfHqRUAvxAqDrOAaV84AU5ogolp8Dtr4/cqw7OFzX8ZrjldXiOjNjG7iIJPIOIdoRbw
-         Zoe0EKEU7HEH+RFpDgTz0PfG8IqdZq5dFQWvdRF6Jwn5OowbqDCZSLpVE8upxli09Xcd
-         nhou3Bb8FmhD4Iv+iBFB6o03eIgf9DKeVFFmpOAxagSeJrUmEXjq+qv58SwUIp1W8oFI
-         wadOwQ6sP8KBKxTT4eFJ6hg7CWQk5LSGC2BD0/0Xet9I2OU8+MjCRaC+ufdOMTdXAWNj
-         gLQw==
+        bh=HfI2TCWp0541j6By2SMmfUmw2xHpqjr1djX4H+ao6cU=;
+        b=GhaSt8mZDGY56LxgH/IrCJRa/Bu3GDNnQM28VQ/havEk6fwE9gm/CzZAmYpNUJ29IQ
+         vpLlIrZe+EazGGWzoN7BQSmf6j/Cuda/ntLDL2JHmpw+Oe736z9whh0F4gaEdpFMZ8vs
+         sTwD84s1jwxQdIiFywfty6XWfemr0AhLapWl1KrF+GRIRGoxMOn4Xft+D9GG8W/4eQ2A
+         tLt1ERwxAm2Bo1MlqHJ+62OWR4Q8rJrJGk2qgwigFdH+bmf2E/4ErBJno5Mhq9CcsD19
+         7x0aDMRh/gysOXFNMgZXKAewWnQnGvgm+XY7+cjUkpLugA21/STA4e21qaL6SCEnVuYp
+         J+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cNUg4+dBpjOtDQV47RhAsKWuFPcigATQkux5HpRqlr0=;
-        b=END73pRh5/9CFd/NPpoWyk6V1qkrwi9mgqRVoAkY5L6zaCYwwNaH9C1t23B8ff1V2p
-         tdwJi0CaxIFq9OfgCWEbAoP4pJA/15aRs+uYk5dmrbEmP8f+qEud+BrEfzwvmxOHdvNP
-         A40pk3uVvZFU0A9hYOxEPtI3u2RV1+XWN6k+ouqA61VSRh6Vxk5hu2+UlvaURHc4aAsI
-         i2d69P9rM+8IVPa2kTMxTw/Is/sJNMadwMyfhtuBpGMx6bJtkF7trmWd49SFhUUZ63Cf
-         uZo/Er7M+v4vTDye8D2nZZaZ4rfkK/CIOqthNZw1/08S9POKDb42jCxnrM6N+broqNSX
-         7Smg==
-X-Gm-Message-State: AOAM531obPC3GElJjicx3PeE8TtMc90P3oqGAmdWzrgpBKIqvHiQiy9X
-	ggrjo0w1Krv4XCpzAj1nm34SWPggfYS//TCexEc=
-X-Google-Smtp-Source: ABdhPJxO3HLdfSbOWBAPB3xfgUz3ad7ulyjaJqhuG2fD+b07MJt033RozjJjaFBtdb0HNk2t72EcdPEkBSyRae2KcFc=
-X-Received: by 2002:a05:6102:154:: with SMTP id a20mr4792841vsr.51.1614539257152;
- Sun, 28 Feb 2021 11:07:37 -0800 (PST)
+        bh=HfI2TCWp0541j6By2SMmfUmw2xHpqjr1djX4H+ao6cU=;
+        b=H3GpqhNAXhIIxdy0BYnB/RhU+R/cpQpVmzLfh6J2/QDNu4YCc5ozCUQ2drnrzhgWqj
+         dVokPLB4eXM4nR+opDhd4Mw2mYnSoOZR2mIu6CMxYE2710XQIRBH9GusMfEB1mLtTjCr
+         FrMNeiuoe14GIUcvbmAFvqJ7ryLN04pDrw9p+ae8DwMp5raVKWlyMUua7XJCCvG+6vB0
+         jLdoA3Xo5SaUHl63GjwqjvwD1tN4klA7INxs4an6ttle2VYh9gLXBjzHvPmCxoVbKBsR
+         JHeU31AroKhEz4Atb6FCK1uUgUJlNmGDHs8YXcO7UetpVS4L65iClwP9Vb6QUBHsLHsB
+         HPCg==
+X-Gm-Message-State: AOAM532JI0hz3TyLz40PX5IOxNHaiXID/8I9BZ68IOHchC6g1Kx9MHIO
+	ntEJJ2y3yhc1XbLrQq/xjDxzbHVltkZ1pcnYAmw=
+X-Google-Smtp-Source: ABdhPJxb07VS8/l7TNFaOs6xCU43PqXYyyBXK+VaYDEQ4+Gdce1cpBej78sEy9Pgcm4tnuP4OOZQiTZHfRDY+dN4ntM=
+X-Received: by 2002:a9f:2c0f:: with SMTP id r15mr7049131uaj.93.1614539333594;
+ Sun, 28 Feb 2021 11:08:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-8-alex.kanavin@gmail.com> <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
-In-Reply-To: <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
+ <20210228153702.498275-2-alex.kanavin@gmail.com> <23dd5c64-4658-f00b-1775-46de9674a4d5@gmail.com>
+In-Reply-To: <23dd5c64-4658-f00b-1775-46de9674a4d5@gmail.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 28 Feb 2021 20:07:26 +0100
-Message-ID: <CANNYZj_s+=u5bnArB5jvwoUsTR3kz2D_xPtgWivagxEbUy2BHg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
+Date: Sun, 28 Feb 2021 20:08:42 +0100
+Message-ID: <CANNYZj8F9j_EEr=Ak0aACDpnpbu8t74haFkjJNRKLtoAbaV0SQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/24] bmap-tools: upgrade 3.5 -> 3.6
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e6088705bc6a3646"
+Content-Type: multipart/alternative; boundary="00000000000074731505bc6a3b99"
 
---000000000000e6088705bc6a3646
+--00000000000074731505bc6a3b99
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 28 Feb 2021 at 20:04, Khem Raj <raj.khem@gmail.com> wrote:
+On Sun, 28 Feb 2021 at 19:35, Khem Raj <raj.khem@gmail.com> wrote:
 
 >
-> It seems __WORDISIZE is what is being used here, a portable way would be
+> > -RDEPENDS_${PN} = "python3-core python3-compression python3-mmap
+> python3-setuptools python3-fcntl python3-six"
+> > +RDEPENDS_${PN} = "python3-core python3-compression python3-mmap
+> python3-setuptools python3-fcntl python3-six coreutils"
 >
-> #include <limits.h>
-> #if (ULONG_MAX == 0xffffffffffffffff)
-> 64bit wordlen stuff
-> #else
-> 32bit stuff
-> #endif
->
-> if we still want to keep using internal libc internal define __WORDSIZE
-> then for musl include sys/user.h headers under bits/ dir are usually not
-> portable and not meant for direct includes
->
-> #include <features.h>
-> #ifdef __GLIBC__
-> #include <bits/wordsize.h>
-> #endif
-> #include <sys/user.h>
+> what needs coreutils at runtime ? and which utilities
 >
 
-Can you send a patch upstream for this please? I have filed a ticket which
-you can reference:
-https://github.com/rpm-software-management/libdnf/issues/1146
+df, introduced here:
+https://github.com/intel/bmap-tools/commit/f1cd6ec8ef29beb556f1b725aaf6916ba29a61fe
 
 Alex
 
---000000000000e6088705bc6a3646
+--00000000000074731505bc6a3b99
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, 28 Feb 2021 at 20:04, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+_attr">On Sun, 28 Feb 2021 at 19:35, Khem Raj &lt;<a href=3D"mailto:raj.khe=
 m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
 =3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><br>
-It seems __WORDISIZE is what is being used here, a portable way would be<br=
->
+b(204,204,204);padding-left:1ex">=C2=A0 <br>
+&gt; -RDEPENDS_${PN} =3D &quot;python3-core python3-compression python3-mma=
+p python3-setuptools python3-fcntl python3-six&quot;<br>
+&gt; +RDEPENDS_${PN} =3D &quot;python3-core python3-compression python3-mma=
+p python3-setuptools python3-fcntl python3-six coreutils&quot;<br>
 <br>
-#include &lt;limits.h&gt;<br>
-#if (ULONG_MAX =3D=3D 0xffffffffffffffff)<br>
-64bit wordlen stuff<br>
-#else<br>
-32bit stuff<br>
-#endif<br>
-<br>
-if we still want to keep using internal libc internal define __WORDSIZE<br>
-then for musl include sys/user.h headers under bits/ dir are usually not <b=
-r>
-portable and not meant for direct includes<br>
-<br>
-#include &lt;features.h&gt;<br>
-#ifdef __GLIBC__<br>
-#include &lt;bits/wordsize.h&gt;<br>
-#endif<br>
-#include &lt;sys/user.h&gt;<br></blockquote><div><br></div><div>Can you sen=
-d a patch upstream for this please? I have filed a ticket which you can ref=
-erence:</div><div><a href=3D"https://github.com/rpm-software-management/lib=
-dnf/issues/1146">https://github.com/rpm-software-management/libdnf/issues/1=
-146</a></div><div><br></div><div>Alex<br></div></div></div>
+what needs coreutils at runtime ? and which utilities<br></blockquote><div>=
+<br></div><div>df, introduced here: <a href=3D"https://github.com/intel/bma=
+p-tools/commit/f1cd6ec8ef29beb556f1b725aaf6916ba29a61fe">https://github.com=
+/intel/bmap-tools/commit/f1cd6ec8ef29beb556f1b725aaf6916ba29a61fe</a></div>=
+<div><br></div><div>Alex<br> </div></div></div>
 
---000000000000e6088705bc6a3646--
+--00000000000074731505bc6a3b99--
