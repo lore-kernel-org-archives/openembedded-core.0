@@ -1,117 +1,103 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.11138.1614597794270940281
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web10.11165.1614599635231505388
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Mar 2021 03:23:14 -0800
+ Mon, 01 Mar 2021 03:53:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ISW7LY9g;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id b18so9233855wrn.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 03:23:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jebhw5m8;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f46.google.com with SMTP id b6so8452167vsf.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 03:53:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=gVgMSAgKe0COlaTXtJn+pX/GZwU8QHD9Rwe6Eul2H9Q=;
-        b=ISW7LY9gw7+0qtdu4QFpAL2LoN3VqIWZ2PwDXt9JRyrsuqNP4hep56K72CBurRH/wZ
-         n+NxqPVt/rbv/V0MRnrndXDO9lz0c9Xm+NoJKr7tu/aU/x/yb71kdCSrdOajl+kskcgz
-         41A7VTQNBtcCdemXSGufgL2vUMDbBhlhbvEJk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NqybZYIzayi0VoDQmh5zEAV9Ma5Cde/YsrBq/6tl1LY=;
+        b=Jebhw5m8sZziejuQ3o+Br1h89cBlRtioJrukr1F4QfqbnjP4t8xrTFg9WbA/sUUbN9
+         u9SOZSDudS3WPCsRV5QfJWH17/oua/kXcQA2htNTCd9OY0psBHV+KVzrYK0Y+AAZfQXT
+         61pomgvrg34o0lt7OtTcK+SKDR7bWDt5fEj0UZagLKcyAthjmrwCR7+52KEsk2EPAuje
+         OP5gzG6/v7uRs0QERgZjGh0pxLiuWUn5qTwpLSkGnlXaYKkdT/Sr1xxQfmXseZO0rQh8
+         uuuDbohelS9867bPVAbWywv9w7cA9PrZsmXRfjleEnb/UXwMfEwhEkaLD3dxQK5ai0Z9
+         Ec5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gVgMSAgKe0COlaTXtJn+pX/GZwU8QHD9Rwe6Eul2H9Q=;
-        b=gRVZHZAdfctLzfpsIYV+99qp1/igFCUpOEO0OX3yMmgDepoil8b/av8QS5E3TLIONl
-         oJeSgA9kp2GIWLWFPJ53DYicz7hVSmjHjUsS3m1epAiYEbsxyyxTwVQtEKHUO7WY+ERt
-         llXjVYnmx2X6p9bgvZcEC3HVvPnMOqHTGf2ZE7ljZTIJG1mb26QGq/fyQbJgdzavHT9P
-         v8kMnUit9s983vDIkkolQKFDIpOYEBjVywsK+bAZ5bYkNorL68M2dTxHrMI7EYCUnh4Q
-         eEMKTEKwyI1+BhD5zViYf2pxMF/5TsNXW9HiCCuk8GraACQh1lPh9EWgejEzxh+XyNzc
-         x8Eg==
-X-Gm-Message-State: AOAM531bFcEf+KiYFSgaGtCiAFFQG/KdlIiGlwM0F53YTfOknVxkHPcH
-	OogDGqRU9SyZrsLpSoHIi4fVMQ==
-X-Google-Smtp-Source: ABdhPJyPJmZUlUtFBSbt3PsFQthq5Nw99F0i1FYoFBiU12k2G+hbEoY2TLx7W68wsG8k/5GIRQfOgA==
-X-Received: by 2002:adf:e791:: with SMTP id n17mr16309773wrm.322.1614597792570;
-        Mon, 01 Mar 2021 03:23:12 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:d6b6:68f5:94dd:1b3a? ([2001:8b0:aba:5f3c:d6b6:68f5:94dd:1b3a])
-        by smtp.gmail.com with ESMTPSA id k15sm21479936wmj.6.2021.03.01.03.23.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 03:23:12 -0800 (PST)
-Message-ID: <37ae3d7799e59c96735db95b34da7eaeabe134ce.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] selftest/reproducible: Don't call sync between each file compare
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Mikko.Rapeli@bmw.de
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 01 Mar 2021 11:23:09 +0000
-In-Reply-To: <YDypMKCRf9xoJbFt@korppu>
-References: <20210226174752.3942750-1-richard.purdie@linuxfoundation.org>
-	 <YDyezaTI3Vz0mif6@korppu>
-	 <8dac13bfdbb13a7d6e6d0277c2d1ec89fe613909.camel@linuxfoundation.org>
-	 <YDypMKCRf9xoJbFt@korppu>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NqybZYIzayi0VoDQmh5zEAV9Ma5Cde/YsrBq/6tl1LY=;
+        b=ItY1McSlZbtllPUEwAU/RAaizjFZgbaw1481UR7x9eC+W82a6kkr3/nUu+AArBJ6pQ
+         awLlih/C51Ek/x9nw4cgD8K283Zg8dWR5XCdPZ9CHLDS19xIaKWHo8E7N5snnj3HMvqR
+         TX7QkanuLvmQnmwiaDWjA7jiWGA3KNzhv9rjdtXrgXlTDTwsBWaXKLe8v/iO+YkzHaZj
+         cnpInQU57Q8NLROkMuOhgdEwwmkbJxUzaSG5IvUrBHd+0i15HvlJXAfyPV82rUoWOur6
+         v7lO0T0QwdGsSvEdJ8AxkkFuWBFo+Lj2/2cLozVYh8/7nkd10wJE86QvmghM6lRMVFAr
+         riLQ==
+X-Gm-Message-State: AOAM533S4z+b6/GLQerEBgCwvAjH2nNPzrPymE55fMmlUmBLou2tOPR0
+	UN0lVJboCDfI/PcbmfgWxXIcb74rg/l1v5Yf/OQ=
+X-Google-Smtp-Source: ABdhPJwQzbYR4SJkJbULUGd4jjJsiXD2ilax6cKkRjD5wwlgyA0iwAKghAZCDcBRKofBHjnpW2P4aIIv6txDowOW3GA=
+X-Received: by 2002:a05:6102:902:: with SMTP id x2mr2458876vsh.31.1614599634321;
+ Mon, 01 Mar 2021 03:53:54 -0800 (PST)
 MIME-Version: 1.0
+References: <20210228153702.498275-1-alex.kanavin@gmail.com>
+ <20210228153702.498275-8-alex.kanavin@gmail.com> <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
+ <CANNYZj_s+=u5bnArB5jvwoUsTR3kz2D_xPtgWivagxEbUy2BHg@mail.gmail.com> <82beb9df-56ea-3081-b502-4fce8a65f4d4@gmail.com>
+In-Reply-To: <82beb9df-56ea-3081-b502-4fce8a65f4d4@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 1 Mar 2021 12:53:43 +0100
+Message-ID: <CANNYZj_88i2diRoHSTFpiEVswR-diK3Cuu6c2Nx9SJkovn=MdA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a8875d05bc7845d1"
+
+--000000000000a8875d05bc7845d1
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-03-01 at 08:43 +0000, Mikko.Rapeli@bmw.de wrote:
-> On Mon, Mar 01, 2021 at 08:37:46AM +0000, Richard Purdie wrote:
-> > On Mon, 2021-03-01 at 07:59 +0000, Mikko.Rapeli@bmw.de wrote:
-> > > On Fri, Feb 26, 2021 at 05:47:52PM +0000, Richard Purdie wrote:
-> > > 
-> > > 
-> > > Based on comment:
-> > > 
-> > >     # tests can be heavy on IO and if bitbake can't write out its caches, we see timeouts.
-> > >     # call sync around the tests to ensure the IO queue doesn't get too large, taking any IO
-> > >     # hit here rather than in bitbake shutdown.
-> > >     if sync:
-> > >         p = os.environ['PATH']
-> > >         os.environ['PATH'] = "/usr/bin:/bin:/usr/sbin:/sbin:" + p
-> > >         os.system("sync")
-> > >         os.environ['PATH'] = p
-> > > 
-> > > this looks like a workaround for some other bug.
-> > 
-> > The wider issue is the randomly failing ptests and other issues with the automated
-> > testing, particularly things running under qemu system mode. Those seemed partly to 
-> > be caused by huge IO queues building up. The idea of the sync calls was to keep the 
-> > UI backlog manageable.
-> > 
-> > In most cases we execute occasional commands so this should work/help. In the case of
-> > the reproducible ptest, we execute a cmp on every generated package which really didn't
-> > work well hence it makes sense to disable it there.
-> > 
-> > We don't see this issue with any other tests as far as I've observed. I really don't
-> > want to make the runtime testing results worse, anyone who's looked at swat or attended
-> > bug triage will know how much trouble we're having with the issues this code helps
-> > mitigate :/.
-> 
-> Ok, understood. You need to keep the system and tests running.
-> 
-> But IO flushes can take any amount of time. So sounds like timeouts are
-> too short, or should not exists at all. Also, systems are doing too much
-> parallel work or are actually short on RAM if slow IO to disk starts
-> failing things.
+On Sun, 28 Feb 2021 at 20:30, Khem Raj <raj.khem@gmail.com> wrote:
 
-I'm far from happy with where we're at with the autobuilder intermittent failures. 
-Along with the bug triage team, I've spent the best part of a couple of years trying
-to get to grips with them. The sync work around does help to a degree and that is in
-itself helpful and reduces the load on build failure handling.
+> > Can you send a patch upstream for this please? I have filed a ticket
+> > which you can reference:
+> > https://github.com/rpm-software-management/libdnf/issues/1146
+> > <https://github.com/rpm-software-management/libdnf/issues/1146>
+>
+> This is a review so please fix it as suggested in OE atleast since you
+> will have test setups I do not have rpm/dnf setups
+>
 
-We do already have a ton of memory in the workers. We're reluctant to reduce the 
-parallelism numbers as in general things work well, we 'just' see a single failure
-in every other build (where the builds report 2 million test results over 4 arches 
-each in 32+64 bit, different init systems and so on).
+Any fix we do needs to be upstreamable, so can you please write a comment
+to the upstream ticket?
+They're too telling me I need to send them a patch, and I don't want to
+send something I don't really understand.
+https://github.com/rpm-software-management/libdnf/issues/1146
 
-The "timeouts" are things like kernel rcu failures in guests, bitbake event test
-issues (where a 5s timeout increased to over 60s doesn't help). Another example is
-valgrind's ptests. Where possible we're trying to rewrite not to have the timeouts.
+Testing is easy: build libdnf with TCLIBC=musl.
 
-I'd love some help in getting to the bottom of the issues but we have already 
-tried the simpler stuff sadly :(. The issues are very very rare but annoying when
-they do happen.
+Alex
 
-Cheers,
+--000000000000a8875d05bc7845d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Sun, 28 Feb 2021 at 20:30, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">&gt; Can you send a patch upstream for thi=
+s please? I have filed a ticket <br>
+&gt; which you can reference:<br>
+&gt; <a href=3D"https://github.com/rpm-software-management/libdnf/issues/11=
+46" rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-software-ma=
+nagement/libdnf/issues/1146</a> <br>
+&gt; &lt;<a href=3D"https://github.com/rpm-software-management/libdnf/issue=
+s/1146" rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-softwar=
+e-management/libdnf/issues/1146</a>&gt;<br>
+<br>
+This is a review so please fix it as suggested in OE atleast since you <br>
+will have test setups I do not have rpm/dnf setups<br></blockquote><div><br=
+></div><div>Any fix we do needs to be upstreamable, so can you please write=
+ a comment to the upstream ticket?</div><div>They&#39;re too telling me I n=
+eed to send them a patch, and I don&#39;t want to send something I don&#39;=
+t really understand.<br></div><div><a href=3D"https://github.com/rpm-softwa=
+re-management/libdnf/issues/1146">https://github.com/rpm-software-managemen=
+t/libdnf/issues/1146</a></div><div><br></div><div>Testing is easy: build li=
+bdnf with TCLIBC=3Dmusl.</div><div><br></div><div>Alex<br> </div></div></di=
+v>
 
-
+--000000000000a8875d05bc7845d1--
