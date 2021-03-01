@@ -1,124 +1,140 @@
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web08.9583.1614585575402374135
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web08.9627.1614585858535352180
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Feb 2021 23:59:37 -0800
+ Mon, 01 Mar 2021 00:04:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=qHG0Njgd;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=687ff6bdf=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xd25aBpz;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id x124so15710234qkc.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 00:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1614585575; x=1646121575;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=GNzBC2KDpWmTwn+Waq6//ON5N93mQQboBY29xKm6cCg=;
-  b=qHG0NjgdDwImjvpLPlTnMFn4js1Lyno6fdZ9qJgSNTNx60mxUoJw1rEi
-   uVc3CcG6IrqTy+tP5I2AhYcUMBCHuLzeStdKySfzxASz+xDPytA78lpHg
-   AKatXExZSmQFtCg4qLleuhoGmJNvPjcRG+IBFkOATwhYRDVDpZINOuTeZ
-   M=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 01 Mar 2021 08:59:32 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw1.muc with ESMTP/TLS;
- 01 Mar 2021 08:59:10 +0100
-Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
- by esabb1.muc with ESMTP/TLS; 01 Mar 2021 08:59:10 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
- (160.46.167.66) with Microsoft SMTP Server (TLS;
- Mon, 1 Mar 2021 08:59:10 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Mon,
- 1 Mar 2021 08:59:10 +0100
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] selftest/reproducible: Don't call sync between each file compare
-Thread-Topic: [OE-core] [PATCH] selftest/reproducible: Don't call sync between
- each file compare
-Thread-Index: AQHXDGeM+EPnNj+qMUCK9OeEuEGHMaput/KA
-Date: Mon, 1 Mar 2021 07:59:10 +0000
-Message-ID: <YDyezaTI3Vz0mif6@korppu>
-References: <20210226174752.3942750-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210226174752.3942750-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5G8fYEpSa6wCQl9tvPq/HBjUoTMGKP/SPz8zBv8vcy8=;
+        b=Xd25aBpzHL9f6jbZKrcXRi/iZdJqeMw3r3JyjLI09EIYMWxN10NTFWxR7nFzwDrHtv
+         MClm1vqtMwSIx62nvoMozsGCgFAlaMb5w6PHUvMI28IHzwAjsy98xebqwSK0fCsjAA8q
+         rs1f7/Df/HDTAWp0gcIsaEP2R+G/Xq7p2uTtiYgE9CiDS2Np4VJ6RkuCT2Cw60jDUyZN
+         1VZScytaXoF+5apePd9zmuJIikNKFXdIsNNmm6hCegnwrV8AvjMRP3mEmbBXP+J73IRr
+         wldjk3LXsceqWPlEEq9M2WTiZj9g0A5zEGsGcUOJ92cgh7yme/HWSo+vRxQOcAVwuEpR
+         rVkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5G8fYEpSa6wCQl9tvPq/HBjUoTMGKP/SPz8zBv8vcy8=;
+        b=AF/Rxaa7+ZoqdDZTh+y80oWjv24Vc6JdnSUzE08/l5mlYprtZ+W+VOr8p87qfBjY9G
+         C1aS5FpscrlReoK8lPOPLiLMu8/DdQvPtddFGep1hkxGI1bHGi6xdBFljdozj4hbe/xv
+         dlvA+QyhFjW54Og7u0u/FTskFiAQ7NgrESuRgM9sBzPU+1+4didtRot7LEXGntlxm29t
+         7zIJyugjI65W1rGKEBf2beRFRKgaMSzocMdhIf19sHYmI/qtHiV2ywNudwnaQefR+snQ
+         rYpe9NzS+wWB3qr/jxlpCniP3kXWzgjd5/bMj4meRhdH8nNpE9bVCltcOkVnSa53Jw1S
+         Z9IA==
+X-Gm-Message-State: AOAM532nFsMhsyUXkOpVqW/JPM/RHXuRrKKdanIiuUhU/1i2ToilFanJ
+	p+DU4vkIs3wvuTyU9zk8baak78M4ShFtaQ0dj+w=
+X-Google-Smtp-Source: ABdhPJwI/SOaYGXJndlFEG/oUpx5OW7lJUOlmB32Lo5VoJDvg99QsoJGY1qvai24raiMQmIzI8vDpZTSXpTtsNtvX5E=
+X-Received: by 2002:a05:620a:124f:: with SMTP id a15mr10393077qkl.125.1614585857402;
+ Mon, 01 Mar 2021 00:04:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AA691446136513418C1469F3D50C4D2A@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+References: <20210228153702.498275-1-alex.kanavin@gmail.com> <20210228153702.498275-11-alex.kanavin@gmail.com>
+In-Reply-To: <20210228153702.498275-11-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 1 Mar 2021 00:03:51 -0800
+Message-ID: <CAMKF1sqm_E3Yc46E9D6+hFo3KWEhJ1n8hY02Dn9YY0yixZiDUg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/24] perl: update 5.32.0 -> 5.32.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+seeing few failures
 
-On Fri, Feb 26, 2021 at 05:47:52PM +0000, Richard Purdie wrote:
-> Calling sync between each file compare is horrible performance wise
-> as we compare thousands of files. We don't care about IO latency here
-> so disable.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+https://errors.yoctoproject.org/Errors/Build/117607/
+
+On Sun, Feb 28, 2021 at 7:37 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Drop perl-cross-makefile.patch as it is merged upstream.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeq=
-a/selftest/cases/reproducible.py
-> index ce4e8ebe06b..05fc4b7fa0a 100644
-> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> @@ -123,7 +123,7 @@ def compare_file(reference, test, diffutils_sysroot)=
-:
->          result.status =3D MISSING
->          return result
->  
-> -    r =3D runCmd(['cmp', '--quiet', reference, test], native_sysroot=3D=
-diffutils_sysroot, ignore_status=3DTrue)
-> +    r =3D runCmd(['cmp', '--quiet', reference, test], native_sysroot=3D=
-diffutils_sysroot, ignore_status=3DTrue, sync=3DFalse)
-
-Uh, sync is horrible for performance. Why don't we change it to false
-by default:
-
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -167,7 +167,7 @@ class Result(object):
-     pass
-=20
-=20
--def runCmd(command, ignore_status=3DFalse, timeout=3DNone, assert_error=
-=3DTrue, sync=3DTrue,
-+def runCmd(command, ignore_status=3DFalse, timeout=3DNone, assert_error=
-=3DTrue, sync=3DFalse,
-           native_sysroot=3DNone, limit_exc_output=3D0, output_log=3DNone,=
- **options):
-     result =3D Result()
-=20
-
-Based on comment:
-
-    # tests can be heavy on IO and if bitbake can't write out its caches, =
-we see timeouts.
-    # call sync around the tests to ensure the IO queue doesn't get too la=
-rge, taking any IO
-    # hit here rather than in bitbake shutdown.
-    if sync:
-        p =3D os.environ['PATH']
-        os.environ['PATH'] =3D "/usr/bin:/bin:/usr/sbin:/sbin:" + p
-        os.system("sync")
-        os.environ['PATH'] =3D p
-
-this looks like a workaround for some other bug.
-
-Cheers,
-
--Mikko
-
->      if r.status:
->          result.status =3D DIFFERENT
-> --=20
-> 2.27.0
->=20
-
->=20
->=20
->=20
+>  .../perl/files/perl-cross-makefile.patch      | 29 -------------------
+>  .../perl/{perl_5.32.0.bb => perl_5.32.1.bb}   |  7 ++---
+>  2 files changed, 3 insertions(+), 33 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/perl/files/perl-cross-makefile.patch
+>  rename meta/recipes-devtools/perl/{perl_5.32.0.bb => perl_5.32.1.bb} (98%)
+>
+> diff --git a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch b/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
+> deleted file mode 100644
+> index 5d3f998200..0000000000
+> --- a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -Makefile: Avoid continual rebuilds of miniperl and associated races
+> -
+> -In the Yocto Project, when we run "make install" we notice miniperl
+> -rebuilding multiple times. Usually this is harmless however sometimes
+> -race issues occur such as miniperl not being executable.
+> -
+> -The issue is that crosspatch is a phony target so it always rebuilds.
+> -Adding this as a dependency of miniperl means miniperl always rebuilds
+> -too.
+> -
+> -Avoid this by injecting a direct dependency avoiding the phony target.
+> -miniperl is then only rebuilt when its input changes as desired.
+> -
+> -Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
+> -Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/95]
+> -
+> -Index: perl-5.32.0/Makefile
+> -===================================================================
+> ---- perl-5.32.0.orig/Makefile
+> -+++ perl-5.32.0/Makefile
+> -@@ -56,7 +56,7 @@ crosspatch: $(CROSSPATCHED)
+> -
+> - # A minor fix for buildroot, force crosspatching when running "make perl modules"
+> - # instead of "make all".
+> --miniperlmain$O: crosspatch
+> -+miniperlmain$O: $(CROSSPATCHED)
+> -
+> - # Original versions are not saved anymore; patch generally takes care of this,
+> - # and if that fails, reaching for the source tarball is the safest option.
+> diff --git a/meta/recipes-devtools/perl/perl_5.32.0.bb b/meta/recipes-devtools/perl/perl_5.32.1.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/perl/perl_5.32.0.bb
+> rename to meta/recipes-devtools/perl/perl_5.32.1.bb
+> index 7d88c65322..1fafc0a8c9 100644
+> --- a/meta/recipes-devtools/perl/perl_5.32.0.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.32.1.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
+>
+>
+>  SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+> -           https://github.com/arsv/perl-cross/releases/download/1.3.4/perl-cross-1.3.4.tar.gz;name=perl-cross \
+> +           https://github.com/arsv/perl-cross/releases/download/1.3.5/perl-cross-1.3.5.tar.gz;name=perl-cross \
+>             file://perl-rdepends.txt \
+>             file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
+>             file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
+> @@ -21,7 +21,6 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+>             file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
+>             file://0002-Constant-Fix-up-shebang.patch \
+>             file://determinism.patch  \
+> -           file://perl-cross-makefile.patch \
+>             "
+>  SRC_URI_append_class-native = " \
+>             file://perl-configpm-switch.patch \
+> @@ -30,8 +29,8 @@ SRC_URI_append_class-target = " \
+>             file://encodefix.patch \
+>  "
+>
+> -SRC_URI[perl.sha256sum] = "efeb1ce1f10824190ad1cadbcccf6fdb8a5d37007d0100d2d9ae5f2b5900c0b4"
+> -SRC_URI[perl-cross.sha256sum] = "755aa0ca8141a942188a269564f86c3c82349f82c346ed5c992495d7f35138ba"
+> +SRC_URI[perl.sha256sum] = "03b693901cd8ae807231b1787798cf1f2e0b8a56218d07b7da44f784a7caeb2c"
+> +SRC_URI[perl-cross.sha256sum] = "91c66f6b2b99fccfd4fee14660b677380b0c98f9456359e91449798c2ad2ef25"
+>
+>  S = "${WORKDIR}/perl-${PV}"
+>
+> --
+> 2.29.2
+>
+>
+> 
+>
