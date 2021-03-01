@@ -1,103 +1,144 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web10.11165.1614599635231505388
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.12568.1614607072639806711
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Mar 2021 03:53:55 -0800
+ Mon, 01 Mar 2021 05:57:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jebhw5m8;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id b6so8452167vsf.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 03:53:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QPCnZQyz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: idadelm@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id u125so14560612wmg.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 05:57:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NqybZYIzayi0VoDQmh5zEAV9Ma5Cde/YsrBq/6tl1LY=;
-        b=Jebhw5m8sZziejuQ3o+Br1h89cBlRtioJrukr1F4QfqbnjP4t8xrTFg9WbA/sUUbN9
-         u9SOZSDudS3WPCsRV5QfJWH17/oua/kXcQA2htNTCd9OY0psBHV+KVzrYK0Y+AAZfQXT
-         61pomgvrg34o0lt7OtTcK+SKDR7bWDt5fEj0UZagLKcyAthjmrwCR7+52KEsk2EPAuje
-         OP5gzG6/v7uRs0QERgZjGh0pxLiuWUn5qTwpLSkGnlXaYKkdT/Sr1xxQfmXseZO0rQh8
-         uuuDbohelS9867bPVAbWywv9w7cA9PrZsmXRfjleEnb/UXwMfEwhEkaLD3dxQK5ai0Z9
-         Ec5w==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eclLNpkF4byq8S+YNX1AfmYfH71I1YJN3UoKiPexmZ4=;
+        b=QPCnZQyzblDSISEUBODIA4yMKoAL9EUVuDQbo5b3TGw6lxG8GPVqJiSfWKRZ3UhbJc
+         AyzEBf2cEVhDKmnvRTyW5ut/iC7cYa95cbdLaSFTfvoVzKSy9CFBIUV0yd5kGJ184XnY
+         4U3sJdTUlbO0NUlmRALrusDhmwRmsalkL1AJO7aSgioZMQLY1Kf0yKQj7quDwa0KbTAY
+         Up3QCPanupdm3vpXnzZnCw73mPdUBS8AZIOc5rV2H73wENjDTpMdQoA/F1tsb94Mt2/m
+         i5iaHgUcvjjxhqOCTTV3npT2VraZD8OVQW7WN48gtJLz1o2tJMY/W6PkIhayal3MmUw+
+         6eMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NqybZYIzayi0VoDQmh5zEAV9Ma5Cde/YsrBq/6tl1LY=;
-        b=ItY1McSlZbtllPUEwAU/RAaizjFZgbaw1481UR7x9eC+W82a6kkr3/nUu+AArBJ6pQ
-         awLlih/C51Ek/x9nw4cgD8K283Zg8dWR5XCdPZ9CHLDS19xIaKWHo8E7N5snnj3HMvqR
-         TX7QkanuLvmQnmwiaDWjA7jiWGA3KNzhv9rjdtXrgXlTDTwsBWaXKLe8v/iO+YkzHaZj
-         cnpInQU57Q8NLROkMuOhgdEwwmkbJxUzaSG5IvUrBHd+0i15HvlJXAfyPV82rUoWOur6
-         v7lO0T0QwdGsSvEdJ8AxkkFuWBFo+Lj2/2cLozVYh8/7nkd10wJE86QvmghM6lRMVFAr
-         riLQ==
-X-Gm-Message-State: AOAM533S4z+b6/GLQerEBgCwvAjH2nNPzrPymE55fMmlUmBLou2tOPR0
-	UN0lVJboCDfI/PcbmfgWxXIcb74rg/l1v5Yf/OQ=
-X-Google-Smtp-Source: ABdhPJwQzbYR4SJkJbULUGd4jjJsiXD2ilax6cKkRjD5wwlgyA0iwAKghAZCDcBRKofBHjnpW2P4aIIv6txDowOW3GA=
-X-Received: by 2002:a05:6102:902:: with SMTP id x2mr2458876vsh.31.1614599634321;
- Mon, 01 Mar 2021 03:53:54 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eclLNpkF4byq8S+YNX1AfmYfH71I1YJN3UoKiPexmZ4=;
+        b=CYe2LbhIXG53BRWn4iPEa1+Eb9DrQgLD7WFj4kcuUHkZ+gMQ9U0tMocGHmNGPG+cdz
+         ALO1vFQmBdKH2/E46jVnu1nyqg3OUWwwcN5wDwoObUvLsaZhmZ6P8n4KRzm/1GTjG+kv
+         Kxl4p2dIULsmEoOEejfkGEy1+lwUGgYKYy2269Y0KNflS7juE5T+kjL8JUYfXuRPf9ga
+         uYmVxzDcZBlxn/ERGpVWz5q79iACb6I66zi6NE1jNygvafo6KVeCWHxEJbHVj9ACrIfc
+         2CcjPXk1C455DatlveSzk5PRuy/hJPM6Fk1p8bBJfZ10G8OnGTmWwG7im7CbGLBYk8e5
+         qmRg==
+X-Gm-Message-State: AOAM530y3LmFsNccJXVAV3UuoSgbRYn3lMHZ0dPMqZAreSjbcyAYZI5v
+	LnTYfw6uITC9oGmCcdxb5/mwEX4E7prJeg==
+X-Google-Smtp-Source: ABdhPJz2S84lsuuyyStn3j+D3ijAtxk0sk7UbdU/6IDxPHjFoKgC+TGpH3fazv1cZm0+kRfMBZ3yxQ==
+X-Received: by 2002:a1c:2c05:: with SMTP id s5mr15887928wms.70.1614607070656;
+        Mon, 01 Mar 2021 05:57:50 -0800 (PST)
+Return-Path: <idadelm@gmail.com>
+Received: from localhost.localdomain ([154.72.153.131])
+        by smtp.gmail.com with ESMTPSA id d13sm17611472wro.23.2021.03.01.05.57.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 05:57:50 -0800 (PST)
+From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/6] recipes-gnome: Add missing HOMEPAGE and DESCRIPTION for recipes
+Date: Mon,  1 Mar 2021 14:57:33 +0100
+Message-Id: <20210301135738.12541-1-idadelm@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-8-alex.kanavin@gmail.com> <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
- <CANNYZj_s+=u5bnArB5jvwoUsTR3kz2D_xPtgWivagxEbUy2BHg@mail.gmail.com> <82beb9df-56ea-3081-b502-4fce8a65f4d4@gmail.com>
-In-Reply-To: <82beb9df-56ea-3081-b502-4fce8a65f4d4@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 1 Mar 2021 12:53:43 +0100
-Message-ID: <CANNYZj_88i2diRoHSTFpiEVswR-diK3Cuu6c2Nx9SJkovn=MdA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a8875d05bc7845d1"
+Content-Transfer-Encoding: 8bit
 
---000000000000a8875d05bc7845d1
-Content-Type: text/plain; charset="UTF-8"
+Fixes: [YOCTO #13471]
 
-On Sun, 28 Feb 2021 at 20:30, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Ida Delphine <idadelm@gmail.com>
+---
+ meta/recipes-gnome/epiphany/epiphany_3.38.1.bb        | 3 +++
+ meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb | 2 ++
+ meta/recipes-gnome/libhandy/libhandy_1.0.1.bb         | 8 ++++++++
+ meta/recipes-gnome/libnotify/libnotify_0.7.9.bb       | 4 ++++
+ meta/recipes-gnome/libportal/libportal_0.3.bb         | 4 ++++
+ meta/recipes-gnome/libsecret/libsecret_0.20.4.bb      | 1 +
+ 6 files changed, 22 insertions(+)
 
-> > Can you send a patch upstream for this please? I have filed a ticket
-> > which you can reference:
-> > https://github.com/rpm-software-management/libdnf/issues/1146
-> > <https://github.com/rpm-software-management/libdnf/issues/1146>
->
-> This is a review so please fix it as suggested in OE atleast since you
-> will have test setups I do not have rpm/dnf setups
->
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
+index f9daa8bfe2..19447a514d 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
+@@ -1,4 +1,7 @@
+ SUMMARY = "WebKit based web browser for GNOME"
++DESCRIPTION = "Epiphany is an open source web browser for the Linux desktop environment. \
++It provides a simple and easy-to-use internet browsing experience."
++HOMEPAGE = "https://wiki.gnome.org/Apps/Web"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/epiphany"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+index ff557978dc..a36a2b113c 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+@@ -1,4 +1,6 @@
+ SUMMARY = "GTK+ icon theme"
++DESCRIPTION = "The Adwaita icon theme is the default icon theme of the GNOME desktop \
++This package package contains an icon theme for Gtk+ 3 applications."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme/issues"
+ SECTION = "x11/gnome"
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb b/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
+index 146ef62f41..dec5e2ff42 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
+@@ -1,4 +1,12 @@
+ SUMMARY = "A library full of GTK+ widgets for mobile phones"
++DESCRIPTION = "Library with GTK widgets for mobile phones.
++Libhandy provides \
++GTK widgets and GObjects to ease developing applications for mobile phones. \
++It was developed by Purism (and used by several official GNOME projects) \
++to extend Gtk by providing mobile-friendly widgets and make the creation of \
++responsive apps easier."
++HOMEPAGE = "https://gitlab.gnome.org/GNOME/libhandy"
++BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+index 29a28272e1..1ff4b2e15f 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+@@ -1,4 +1,8 @@
+ SUMMARY = "Library for sending desktop notifications to a notification daemon"
++DESCRIPTION = "It sends desktop notifications to a notification daemon, as defined \
++in the Desktop Notifications spec. These notifications can be used to inform \
++the user about an event or display some form of information without getting \
++in the user's way."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libnotify"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libnotify/issues"
+ SECTION = "libs"
+diff --git a/meta/recipes-gnome/libportal/libportal_0.3.bb b/meta/recipes-gnome/libportal/libportal_0.3.bb
+index 022628b1ac..bc4ff3784c 100644
+--- a/meta/recipes-gnome/libportal/libportal_0.3.bb
++++ b/meta/recipes-gnome/libportal/libportal_0.3.bb
+@@ -1,4 +1,8 @@
+ SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
++DESCRIPTION = "It provides simple asynchronous wrappers for most Flatpak portals \
++with a familiar GObject API along side the D-Bus API"
++HOMEPAGE = "https://github.com/flatpak/libportal"
++BUGTRACKER = "https://github.com/flatpak/libportal/issues"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ 
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
+index 96f6460181..060d16f39f 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
+@@ -4,6 +4,7 @@ the freedesktop.org project, a cross-desktop effort to access passwords, \
+ tokens and other types of secrets. libsecret provides a convenient wrapper \
+ for these methods so consumers do not have to call the low-level DBus methods."
+ LICENSE = "LGPLv2.1"
++HOMEPAGE = "https://github.com/GNOME/libsecret"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
+ 
+-- 
+2.25.1
 
-Any fix we do needs to be upstreamable, so can you please write a comment
-to the upstream ticket?
-They're too telling me I need to send them a patch, and I don't want to
-send something I don't really understand.
-https://github.com/rpm-software-management/libdnf/issues/1146
-
-Testing is easy: build libdnf with TCLIBC=musl.
-
-Alex
-
---000000000000a8875d05bc7845d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, 28 Feb 2021 at 20:30, Khem Raj &lt;<a href=3D"mailto:raj.khe=
-m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">&gt; Can you send a patch upstream for thi=
-s please? I have filed a ticket <br>
-&gt; which you can reference:<br>
-&gt; <a href=3D"https://github.com/rpm-software-management/libdnf/issues/11=
-46" rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-software-ma=
-nagement/libdnf/issues/1146</a> <br>
-&gt; &lt;<a href=3D"https://github.com/rpm-software-management/libdnf/issue=
-s/1146" rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-softwar=
-e-management/libdnf/issues/1146</a>&gt;<br>
-<br>
-This is a review so please fix it as suggested in OE atleast since you <br>
-will have test setups I do not have rpm/dnf setups<br></blockquote><div><br=
-></div><div>Any fix we do needs to be upstreamable, so can you please write=
- a comment to the upstream ticket?</div><div>They&#39;re too telling me I n=
-eed to send them a patch, and I don&#39;t want to send something I don&#39;=
-t really understand.<br></div><div><a href=3D"https://github.com/rpm-softwa=
-re-management/libdnf/issues/1146">https://github.com/rpm-software-managemen=
-t/libdnf/issues/1146</a></div><div><br></div><div>Testing is easy: build li=
-bdnf with TCLIBC=3Dmusl.</div><div><br></div><div>Alex<br> </div></div></di=
-v>
-
---000000000000a8875d05bc7845d1--
