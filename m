@@ -1,70 +1,79 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.1925.1614617130013712452
- for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Mar 2021 08:45:30 -0800
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web09.91.1614617607329901625
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 01 Mar 2021 08:53:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DqT7o8tI;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id y22-20020a1c4b160000b029010b2094f5deso3286296wma.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 08:45:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XKqykFPK;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: vivien.didelot@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id 18so9857650qty.3
+        for <Openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 08:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=cdhhcdL5Pn2mldNmp/D4bbrBLW13UlP4JMJDopXy1Ng=;
-        b=DqT7o8tIt7VZFKViTDHT3QH6BkiAsrtSyas1VqFL1wa/aFGR3mK5Gjv7PCSvwVuOFT
-         15xTRPo+Pj7lcl56RpyImxS/4S7vM1FuzL5/+zj7UX/alljlbuj62gerQwRr/w7PI3Q1
-         sf5R3uvFdwuTWckx+X2E9gcXxN1Ud0z/8KLUUHNAayjfmZj9zATd2LNF2Kgi89yehyZ1
-         R2pSHmLP/0v/ADSh+Yx9cK1Dj2aXsf+EqlN+Brw5qNz7QZnKvQQ1gQIoKWawX5pckAeJ
-         P4XKjKW1B7tRA5o5+1Cvvo7nGGat5wiLPSrh6VUiLhHfnQ5Jpk7VnKasqrhChaZ8c/vJ
-         xCpQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3U7Wu87kko9YzVNuzXhNOXxOAx3NZZaKI9wNMHgiTo4=;
+        b=XKqykFPK7pkr0VN7Z3f088VKA/cqGMvLV74U2u9B2w4giMi6d5vbenJKc3Ucn/W2OL
+         0TQSI1SPHcEAtnQZJSjHiwTs6OB+rYM4zsiBw/srKJ5yzNK9QhNIsRO5s0n01GA095u9
+         eBlKHCiIChC+6wHOc3MVklKSzu+fACYwVgNOnpfAS6CyCf+jOlp8yoi9VHWTe75fFYol
+         SnoxeMaX34s8BSjgO63JsQBrdy+tidvGyFatzGKy6ShFAbllBUYpGHpmACONQpFJ0GBB
+         gTzsOgwWcFt6GkFhA4pzgcraDV230W5d82Jj6uEmHIN00OEp4MVnyy5T8ecgd3GC7OVg
+         +0yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=cdhhcdL5Pn2mldNmp/D4bbrBLW13UlP4JMJDopXy1Ng=;
-        b=Vtx3wzxwP2Z1VcnNVc9LfdlI7kXdObRYy2nS6AKeIo9IktPk4eqcEDOIO9p2k/WXNH
-         IXnturKdVnGX7BOD2G+8vTnOAdlyh1ZP0aNidyVgjKeCxpIT2/EWpxlUl95YHj+Y6mYa
-         YejOyf9M/ObAd3kyyGSCh1nfWB61R9hNUqGMbleWmbVhNFLFKooMh6Z9CQ5I60QXE74w
-         rb6woMjkPblv1zkTS+oyjdNJotsgY0L8W/ll6wwuqYSDFDAPUtbdQgQczqIzzyNWXSy7
-         J8qFDKDkPR406QcyiSNYgkIdTA8rW6daPojUH7StNHwq7mnsIJWH39ODtbG1DXw71fS7
-         MmMA==
-X-Gm-Message-State: AOAM531gcgO5uhNkzfCwitB/H+tiBv8b1mSSkWn6/0TXTspvL0RSYUkP
-	628CbE6zCHQMY7rSdEF3hoENOhhghuc=
-X-Google-Smtp-Source: ABdhPJyiMvsokiazk4g6rIt7Gc69jvGcYhL089mrbIIjNxMoGKQ1oQh0OnPmXYwc6VMCkk1OWAtDng==
-X-Received: by 2002:a05:600c:290a:: with SMTP id i10mr9057082wmd.91.1614617128206;
-        Mon, 01 Mar 2021 08:45:28 -0800 (PST)
-Return-Path: <dorindabassey@gmail.com>
-Received: from smtp.gmail.com. ([105.112.145.200])
-        by smtp.gmail.com with ESMTPSA id y205sm11855571wmc.18.2021.03.01.08.45.26
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3U7Wu87kko9YzVNuzXhNOXxOAx3NZZaKI9wNMHgiTo4=;
+        b=suGvSjgcjT1DXRuoLHdCdJP+UKEdJDC0pL3ISTAyG1xHtGftcmBJWf32a8aDYAe7Q6
+         2aqp/sLERZlxvCSZVwY8hjR5FAzIbTSkOCjEl+WUJL2GHxhFWm5deRhPi5diJ/MmpvRp
+         +QbgE8bsNeP1NXg2MaEYl8fMcXpSPO/1cX/YFEjyLPQg1W4PDVngIfyJEAEnWwE8lJS+
+         3M2mC9tzmtnS6l/1UWQn54NK1LfB237NBVKNbIl6h7JT44Ach2cy57gREyk1/QPmZeNA
+         KnUUjv2Xa1rMHX5Z5QCYyhz9de03Yg+XLcsjxnkXN8l24nVumMp/sv/g7nJbq4F9AQe9
+         7ePA==
+X-Gm-Message-State: AOAM531wJTZSXVlfhf/hUQ1T62txot1B/mf+dQeECnajecMIHPrbPxJ7
+	BfMz6RS8wGMWNBXTcWBPXsWBOz39WmM=
+X-Google-Smtp-Source: ABdhPJyEvafE8GZ6mRx9NXMb5ahJHchkWuWixpIBG9USzvh96wuKlltXvo3kcnO8fxBTSGBodh0yiQ==
+X-Received: by 2002:ac8:7602:: with SMTP id t2mr14079496qtq.165.1614617606028;
+        Mon, 01 Mar 2021 08:53:26 -0800 (PST)
+Return-Path: <vivien.didelot@gmail.com>
+Received: from localhost (modemcable249.105-163-184.mc.videotron.ca. [184.163.105.249])
+        by smtp.gmail.com with ESMTPSA id j6sm6126822qkm.81.2021.03.01.08.53.25
+        for <Openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 08:45:27 -0800 (PST)
-From: "Dorinda" <dorindabassey@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH] binutils: add PACKAGECONFIG for debuginfod
-Date: Mon,  1 Mar 2021 17:45:17 +0100
-Message-Id: <20210301164517.13666-1-dorindabassey@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 01 Mar 2021 08:53:25 -0800 (PST)
+From: "Vivien Didelot" <vivien.didelot@gmail.com>
+X-Google-Original-From: Vivien Didelot <vdidelot@pbsc.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] systemd-container: sort RRECOMMENDS alphabetically
+Date: Mon,  1 Mar 2021 11:53:23 -0500
+Message-Id: <20210301165325.3987311-1-vdidelot@pbsc.com>
+X-Mailer: git-send-email 2.30.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Added PACKAGECONFIG for debuginfod
+Sort packages in RRECOMMENDS_${PN}-container alphabetically to avoid
+subjective sorting and ease future additions.
 
-Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
 ---
- meta/recipes-devtools/binutils/binutils_2.36.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/systemd/systemd_247.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.36.bb b/meta/recipes-devtools/binutils/binutils_2.36.bb
-index f316eb8d1c..a50d2ee7ee 100644
---- a/meta/recipes-devtools/binutils/binutils_2.36.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.36.bb
-@@ -25,6 +25,8 @@ EXTRA_OECONF_class-native = "--enable-targets=all \
-                              --disable-sim \
-                              --disable-werror"
+diff --git a/meta/recipes-core/systemd/systemd_247.3.bb b/meta/recipes-core/systemd/systemd_247.3.bb
+index c0073ad7b0..1aac754cfc 100644
+--- a/meta/recipes-core/systemd/systemd_247.3.bb
++++ b/meta/recipes-core/systemd/systemd_247.3.bb
+@@ -485,9 +485,9 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                         "
  
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod, elfutils"
- # gcc9.0 end up mis-compiling libbfd.so with O2 which then crashes on target
- # So remove -O2 and use -Os as workaround
- SELECTED_OPTIMIZATION_remove_mipsarch = "-O2"
+ RRECOMMENDS_${PN}-container += "\
+-                         ${PN}-journal-upload \
+-                         ${PN}-journal-remote \
+                          ${PN}-journal-gatewayd \
++                         ${PN}-journal-remote \
++                         ${PN}-journal-upload \
+                         "
+ 
+ FILES_${PN}-extra-utils = "\
 -- 
-2.17.1
+2.30.1
 
