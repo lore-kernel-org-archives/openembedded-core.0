@@ -1,150 +1,123 @@
-Received: from esa13.hc324-48.eu.iphmx.com (esa13.hc324-48.eu.iphmx.com [207.54.72.35])
- by mx.groups.io with SMTP id smtpd.web09.10064.1614588213308596745
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.10743.1614596108734916403
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Mar 2021 00:43:34 -0800
+ Mon, 01 Mar 2021 02:55:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=e7mX7t0L;
- spf=pass (domain: bmw.de, ip: 207.54.72.35, mailfrom: prvs=687ff6bdf=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UWnumwLK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id m1so14022071wml.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 02:55:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1614588213; x=1646124213;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=c1F4tLnF493n2+ZEymKECT6H090fWQINkkRZjldj32o=;
-  b=e7mX7t0LgJXUL7auhpZMxvA566dFU+Ht9qVT6FXYOjw9bZaDM3yy7mZw
-   oYB3ElcOUoQXGrSWYeZfh9bo1SsVpbBXQDGJLZJn/vNoQtf7BluX8fkQf
-   C+vRceljKM8iz61lRVvhTcxwuUPCIJdvQ5k7XYCVNFLLmA8YvsmFvhF5B
-   M=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa13.hc324-48.eu.iphmx.com with ESMTP/TLS; 01 Mar 2021 09:43:30 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
- 01 Mar 2021 09:43:30 +0100
-Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
- by esabb3.muc with ESMTP/TLS; 01 Mar 2021 09:43:30 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
- (160.46.167.69) with Microsoft SMTP Server (TLS;
- Mon, 1 Mar 2021 09:43:29 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Mon,
- 1 Mar 2021 09:43:29 +0100
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] selftest/reproducible: Don't call sync between each file compare
-Thread-Topic: [OE-core] [PATCH] selftest/reproducible: Don't call sync between
- each file compare
-Thread-Index: AQHXDGeM+EPnNj+qMUCK9OeEuEGHMaput/KAgAAKygCAAAGXAA==
-Date: Mon, 1 Mar 2021 08:43:29 +0000
-Message-ID: <YDypMKCRf9xoJbFt@korppu>
-References: <20210226174752.3942750-1-richard.purdie@linuxfoundation.org>
- <YDyezaTI3Vz0mif6@korppu>
- <8dac13bfdbb13a7d6e6d0277c2d1ec89fe613909.camel@linuxfoundation.org>
-In-Reply-To: <8dac13bfdbb13a7d6e6d0277c2d1ec89fe613909.camel@linuxfoundation.org>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eY+nVn7qzP5q5pZ7WAKJaTAMKp9VPOxW8OAKwSqYk/k=;
+        b=UWnumwLKIg/Dlez3pKxG8TjWNDoCbfY+ets+HIhwziVb0vW6+eIUKZRralPhZr07ph
+         Q1HpfaWw2vrHOaKGBTUhW03C9S5C2Qho5kcHOAhtNWTugQo6bcIUFkBcx3DCZs2TxFs4
+         aBakHDa3FAcFM0UUxEuaKBsQnpeV6m8y7xiyI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eY+nVn7qzP5q5pZ7WAKJaTAMKp9VPOxW8OAKwSqYk/k=;
+        b=LApgFdSQLR12cuBAqCEoVJULItSXqD7oJiiTWqFhFyzdbE9RWxDTnklwPUyM3dGF4X
+         B63AY1/oWNhi7EH+4VnEj/LheDtXd7dkdhw68y0OHNvvQYFFR6R0wiGkTDRl4UVY18Ju
+         AEtFUOkPqscNuMrEM9xk7294bhTpp0fXh0rFTzN9oZTNkIdB5JsGhpjkZe25Ld75pvba
+         0aurXDqqNw8oU2YBk7+GBKDn9nhgxeFtFC61CKjUDX7Evjv7jLIt0MBV/CkKr9jxCBL5
+         0sXnAp3UsiCq4CcHGgO4W1e13ZZjEJ9G8WK2OPMHFIi2zN0EGNjwgy1TQy4mJyTNo873
+         my6Q==
+X-Gm-Message-State: AOAM533yg8PTIIZ+9Tez3J7cBjXLGsMRQC37z/UnbxwSqoosYu/T8Uo7
+	WSzOCFjm9H1U4FvEXVwyD/V0RAvjU+CAYg==
+X-Google-Smtp-Source: ABdhPJxKwGUu2PvPvCrM3yj4wNYvBBnFTQRI86wfa3+qwu9oR7sRI+R9VGmpIOPB9ZYqjZDSAkbGow==
+X-Received: by 2002:a1c:bac2:: with SMTP id k185mr1041804wmf.148.1614596106782;
+        Mon, 01 Mar 2021 02:55:06 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:d6b6:68f5:94dd:1b3a])
+        by smtp.gmail.com with ESMTPSA id a131sm22455807wmc.48.2021.03.01.02.55.06
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 02:55:06 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] syslinux: Fix reproducibility issues
+Date: Mon,  1 Mar 2021 10:55:02 +0000
+Message-Id: <20210301105505.2176093-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <BC16740BCB12614395108CC3962B2603@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 01, 2021 at 08:37:46AM +0000, Richard Purdie wrote:
-> On Mon, 2021-03-01 at 07:59 +0000, Mikko.Rapeli@bmw.de wrote:
-> > Hi,
-> >=20
-> > On Fri, Feb 26, 2021 at 05:47:52PM +0000, Richard Purdie wrote:
-> > > Calling sync between each file compare is horrible performance wise
-> > > as we compare thousands of files. We don't care about IO latency here
-> > > so disable.
-> > >=20
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > > =A0meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
-> > > =A01 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/=
-oeqa/selftest/cases/reproducible.py
-> > > index ce4e8ebe06b..05fc4b7fa0a 100644
-> > > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> > > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > > @@ -123,7 +123,7 @@ def compare_file(reference, test, diffutils_sysro=
-ot):
-> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0result.status =3D MISSING
-> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0return result
-> > > =A0
-> > >=20
-> > > -    r =3D runCmd(['cmp', '--quiet', reference, test], native_sysroot=
-=3Ddiffutils_sysroot, ignore_status=3DTrue)
-> > > +    r =3D runCmd(['cmp', '--quiet', reference, test], native_sysroot=
-=3Ddiffutils_sysroot, ignore_status=3DTrue, sync=3DFalse)
-> >=20
-> > Uh, sync is horrible for performance. Why don't we change it to false
-> > by default:
-> >=20
-> > --- a/meta/lib/oeqa/utils/commands.py
-> > +++ b/meta/lib/oeqa/utils/commands.py
-> > @@ -167,7 +167,7 @@ class Result(object):
-> > =A0=A0=A0=A0=A0pass
-> > =A0
-> >=20
-> > =A0
-> >=20
-> > -def runCmd(command, ignore_status=3DFalse, timeout=3DNone, assert_erro=
-r=3DTrue, sync=3DTrue,
-> > +def runCmd(command, ignore_status=3DFalse, timeout=3DNone, assert_erro=
-r=3DTrue, sync=3DFalse,
-> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0native_sysroot=3DNone, limit_exc_outpu=
-t=3D0, output_log=3DNone, **options):
-> > =A0=A0=A0=A0=A0result =3D Result()
-> > =A0
-> >=20
-> >=20
-> > Based on comment:
-> >=20
-> > =A0=A0=A0=A0# tests can be heavy on IO and if bitbake can't write out i=
-ts caches, we see timeouts.
-> > =A0=A0=A0=A0# call sync around the tests to ensure the IO queue doesn't=
- get too large, taking any IO
-> > =A0=A0=A0=A0# hit here rather than in bitbake shutdown.
-> > =A0=A0=A0=A0if sync:
-> > =A0=A0=A0=A0=A0=A0=A0=A0p =3D os.environ['PATH']
-> > =A0=A0=A0=A0=A0=A0=A0=A0os.environ['PATH'] =3D "/usr/bin:/bin:/usr/sbin=
-:/sbin:" + p
-> > =A0=A0=A0=A0=A0=A0=A0=A0os.system("sync")
-> > =A0=A0=A0=A0=A0=A0=A0=A0os.environ['PATH'] =3D p
-> >=20
-> > this looks like a workaround for some other bug.
->=20
-> The wider issue is the randomly failing ptests and other issues with the =
-automated
-> testing, particularly things running under qemu system mode. Those seemed=
- partly to=A0
-> be caused by huge IO queues building up. The idea of the sync calls was t=
-o keep the=A0
-> UI backlog manageable.
->=20
-> In most cases we execute occasional commands so this should work/help. In=
- the case of
-> the reproducible ptest, we execute a cmp on every generated package which=
- really didn't
-> work well hence it makes sense to disable it there.
->=20
-> We don't see this issue with any other tests as far as I've observed. I r=
-eally don't
-> want to make the runtime testing results worse, anyone who's looked at sw=
-at or attended
-> bug triage will know how much trouble we're having with the issues this c=
-ode helps
-> mitigate :/.
+Add sorting to wildcard expansion in the makefile to make builds
+reproducible.
 
-Ok, understood. You need to keep the system and tests running.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
+ .../syslinux/syslinux/determinism.patch       | 22 +++++++++++++++++++
+ .../syslinux/syslinux_6.04-pre2.bb            |  5 +++++
+ 3 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/syslinux/syslinux/determinism.patch
 
-But IO flushes can take any amount of time. So sounds like timeouts are
-too short, or should not exists at all. Also, systems are doing too much
-parallel work or are actually short on RAM if slow IO to disk starts
-failing things.
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 3f99359bdbe..a15601e5e5d 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -45,7 +45,6 @@ exclude_packages = [
+ 	'qemu',
+ 	'ruby-ri-docs',
+ 	'swig',
+-	'syslinux-misc',
+ 	'systemd-bootchart'
+ 	]
+ 
+diff --git a/meta/recipes-devtools/syslinux/syslinux/determinism.patch b/meta/recipes-devtools/syslinux/syslinux/determinism.patch
+new file mode 100644
+index 00000000000..2fb8c64df37
+--- /dev/null
++++ b/meta/recipes-devtools/syslinux/syslinux/determinism.patch
+@@ -0,0 +1,22 @@
++In order to build deterministic binaries, we need to sort the wildcard expansion
++so the libraries are linked in the same order each time. This fixes reproducibility
++issues within syslinux builds.
++
++Upstream-Status: Pending
++RP 2021/3/1
++
++Index: syslinux-6.04-pre2/mk/lib.mk
++===================================================================
++--- syslinux-6.04-pre2.orig/mk/lib.mk
+++++ syslinux-6.04-pre2/mk/lib.mk
++@@ -130,8 +130,8 @@ LIBENTRY_OBJS = \
++ 	exit.o
++ 
++ LIBGCC_OBJS = \
++-	  $(patsubst $(com32)/lib/%.c,%.o,$(wildcard $(com32)/lib/$(ARCH)/libgcc/*.c)) \
++-	  $(patsubst $(com32)/lib/%.S,%.o,$(wildcard $(com32)/lib/$(ARCH)/libgcc/*.S))
+++	  $(sort $(patsubst $(com32)/lib/%.c,%.o,$(wildcard $(com32)/lib/$(ARCH)/libgcc/*.c))) \
+++	  $(sort $(patsubst $(com32)/lib/%.S,%.o,$(wildcard $(com32)/lib/$(ARCH)/libgcc/*.S)))
++ 
++ LIBCONSOLE_OBJS = \
++ 	\
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 8d78f62efa0..dadba9eca9a 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -20,11 +20,16 @@ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz
+            file://0009-linux-syslinux-implement-install_bootblock.patch \
+            file://0010-Workaround-multiple-definition-of-symbol-errors.patch \
+            file://0001-install-don-t-install-obsolete-file-com32.ld.patch \
++           file://determinism.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2b31c78f087f99179feb357da312d7ec"
+ SRC_URI[sha256sum] = "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3d8f2d0a8b3fadf94"
+ 
++# remove at next version upgrade or when output changes
++PR = "r1"
++HASHEQUIV_HASH_VERSION .= ".1"
++
+ RECIPE_NO_UPDATE_REASON = "6.04-pre3 is broken"
+ UPSTREAM_CHECK_URI = "https://www.zytor.com/pub/syslinux/"
+ UPSTREAM_CHECK_REGEX = "syslinux-(?P<pver>.+)\.tar"
+-- 
+2.27.0
 
--Mikko=
