@@ -1,149 +1,100 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web12.263.1614638463908130085
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.335.1614638650659396688
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Mar 2021 14:41:04 -0800
+ Mon, 01 Mar 2021 14:44:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RjMDY3rp;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id d20so17416081qkc.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 14:41:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PY7Vso+c;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: flowergom@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id o6so564019pjf.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Mar 2021 14:44:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=96V9O1cZbhOTTyZj7EMRW9sGyLS9BoDbCrr5z5jamdo=;
-        b=RjMDY3rpWGnpQSYR5QeQvLkeZbf5ulktk5r48j4qJz0mb3Pqthp+UZDY5rDwujcciu
-         TDsqxWpUVwyfC7AwyOvIIhUswC3JBmbVWykWnqqBk7qqiRN/pxQSjXmXDHd4/qSimUGj
-         pb4Vc2peXeIGpoykXDqbJdkXwln6t+MVDsMSugKRkNaFj77KbsNdyjw4946LAWQZo9U/
-         DmpgqT5dczj9r9krCiO4o786HrcAVQNI2Vl7Q/Z3FjG5OuTcXml1Vum/2uw3qWuctioV
-         ct450z7ZqipjjRqzySeiXA6mPpjfvZqyagoc99KqpQHhHL4+vRSzeROnm9ThWlLCDkEU
-         1Fqw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NDtXcPqCB+8/WWcQCIIDfxeqRnR01WLjvu9Lwi1mo9Q=;
+        b=PY7Vso+cb/Rsqv77khMTXxecqhHchpWOc37i/tkWkGY7zRW/y1DuDLCkdeb5aQ8aJ5
+         BFQIh36yfAx8wwkJJy8LCjFWb+qvk/iR0qcgy9lZtEjSbTEOmptRNiVd2mESeW7w5ZRP
+         oW0WYbE6wWZuYk7+6mI4wh8D9s1VLRkfzaFLKhN0/GhAA6RGKqwIp34Ydd0WJXawNspS
+         XVbYwv9x/7QtayvXweW8ym/+8kngALx3qaQ1SrkypPE6oSytVk6pjL3crbCZk6JvwXB+
+         dL8Olwi4FZBv/STvATzJsexOTxq5hS3MbqgJZH8QOKK8S6VPmKKR2KuRhDT5qHLMvRzX
+         qswg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=96V9O1cZbhOTTyZj7EMRW9sGyLS9BoDbCrr5z5jamdo=;
-        b=E8+IHUCAQ29pf4CS4vP7peO9ySgJw9+g2yIdrKz2FjmT2TcInsqqvPVe14GZmtONNz
-         b78QjKrXh6hCMTKcJX43t79ufAPmsCRXdnlRRQV+lyO34BSjKX0ZsHkU1+2X+o7gJ0Up
-         JnvDJnjb0wym6U6ATWzGkvPe6ep0laShC+Z7+xVnbc388pwfb2MmjpizDb1DtAzW6evE
-         b3C0iW/WUn1pKo4SwJShbdVzAKHaqTksD2Gc91eVMiRuM2U5iof1kRvXXfqKf0sJPJcM
-         zy9mzxRp2pa7XIvlDOA1FEQrjZQBUG5OA1ZpqMCg26PWlhMAY58CVuj1W12qFpGArXcb
-         beYg==
-X-Gm-Message-State: AOAM531HG8OXtRkIzyCJmxXSrmVVjDEsXMJZ9JCiXjz8n2ui+EA5zJ4T
-	yiPXRyraOES5pJP8HXdRsLaDmp7T70ArfrVuSFk=
-X-Google-Smtp-Source: ABdhPJxoyib+HaMBJXNS6WH8ZVwgwD5j26hFE94PsMCRcIqsPfADNaK4LvxBHaZQKnfnOtzI/REim+zgFcqr0BxtXjU=
-X-Received: by 2002:ae9:eb52:: with SMTP id b79mr16849472qkg.381.1614638462870;
- Mon, 01 Mar 2021 14:41:02 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NDtXcPqCB+8/WWcQCIIDfxeqRnR01WLjvu9Lwi1mo9Q=;
+        b=jbRd4UrD92iR5mijf6YSWNSZnA+X9ks5DoDoDQ+adzuBV2TekTIg9nxKCzyp4thf1I
+         hBQNvtDgHkeBlghZQjmFTbX7idr3zH8Wuyk7BieOHpKLyYgdxE5G0whNA/oCUlRXPKd8
+         pwvHflnplLBZUYSUkwKl2Qrq2YQ5NIQuLWYv8wZIeP3Y+IGjXU3KhFsrxXXXg7x44uw5
+         pwTQ747k2osq1AwOTu0I/QYtASNtcH9I8PTj26WmAl95Zq9lTNcIK28E+ZnM9WTPmSd0
+         JY8kBSmO8azeqCD2yJ5325qzslpqsiOBY3deIEnRZnt0DBEgS4fgWufWhIpNfEMFWDOQ
+         OmDA==
+X-Gm-Message-State: AOAM531xkq/+2xUIW4oTNB5m8ZMJm/SGSqZhTxFoo3TmckTSrIeA74k5
+	fGH57FfwWp1H9g7gyqfMdNCRaBlQ/XBHUQ==
+X-Google-Smtp-Source: ABdhPJywPRN3hrNoPs5GW97HqACIHkOMMuE0e2XFv9JQmhe60H+cFH+FUZ0ggwTxLnlodN9AO3zDRw==
+X-Received: by 2002:a17:90a:3e04:: with SMTP id j4mr1127380pjc.7.1614638649814;
+        Mon, 01 Mar 2021 14:44:09 -0800 (PST)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([116.42.185.119])
+        by smtp.gmail.com with ESMTPSA id s138sm20082442pfc.135.2021.03.01.14.44.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 01 Mar 2021 14:44:09 -0800 (PST)
+From: "Minjae Kim" <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [gatesgarth][PATCH] bind: fix CVE-2020-8625
+Date: Tue,  2 Mar 2021 07:43:42 +0900
+Message-Id: <20210301224342.2898-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-References: <20210228153702.498275-1-alex.kanavin@gmail.com>
- <20210228153702.498275-11-alex.kanavin@gmail.com> <CAMKF1sqm_E3Yc46E9D6+hFo3KWEhJ1n8hY02Dn9YY0yixZiDUg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqm_E3Yc46E9D6+hFo3KWEhJ1n8hY02Dn9YY0yixZiDUg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 1 Mar 2021 14:40:36 -0800
-Message-ID: <CAMKF1spZBYs96j5oh91H4_f1BauF__Fu7RZf6LbeqhvcSwrxHA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 11/24] perl: update 5.32.0 -> 5.32.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-it would be good to mention it in notes that you might need  to export
-PERL_USE_UNSAFE_INC = "1"
-if a perl module still relies on using unsafe include dirs like ( . )
-etc. Otherwise this change can break happy users.
+BIND Operational Notification: Zone journal (.jnl) file incompatibility
 
+Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
+CVE: CVE-2020-8625
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
+---
+ .../bind/bind-9.16.7/CVE-2020-8625.patch        | 17 +++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.16.7.bb   |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
 
-On Mon, Mar 1, 2021 at 12:03 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> seeing few failures
->
-> https://errors.yoctoproject.org/Errors/Build/117607/
->
-> On Sun, Feb 28, 2021 at 7:37 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Drop perl-cross-makefile.patch as it is merged upstream.
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  .../perl/files/perl-cross-makefile.patch      | 29 -------------------
-> >  .../perl/{perl_5.32.0.bb => perl_5.32.1.bb}   |  7 ++---
-> >  2 files changed, 3 insertions(+), 33 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/perl/files/perl-cross-makefile.patch
-> >  rename meta/recipes-devtools/perl/{perl_5.32.0.bb => perl_5.32.1.bb} (98%)
-> >
-> > diff --git a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch b/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
-> > deleted file mode 100644
-> > index 5d3f998200..0000000000
-> > --- a/meta/recipes-devtools/perl/files/perl-cross-makefile.patch
-> > +++ /dev/null
-> > @@ -1,29 +0,0 @@
-> > -Makefile: Avoid continual rebuilds of miniperl and associated races
-> > -
-> > -In the Yocto Project, when we run "make install" we notice miniperl
-> > -rebuilding multiple times. Usually this is harmless however sometimes
-> > -race issues occur such as miniperl not being executable.
-> > -
-> > -The issue is that crosspatch is a phony target so it always rebuilds.
-> > -Adding this as a dependency of miniperl means miniperl always rebuilds
-> > -too.
-> > -
-> > -Avoid this by injecting a direct dependency avoiding the phony target.
-> > -miniperl is then only rebuilt when its input changes as desired.
-> > -
-> > -Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
-> > -Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/95]
-> > -
-> > -Index: perl-5.32.0/Makefile
-> > -===================================================================
-> > ---- perl-5.32.0.orig/Makefile
-> > -+++ perl-5.32.0/Makefile
-> > -@@ -56,7 +56,7 @@ crosspatch: $(CROSSPATCHED)
-> > -
-> > - # A minor fix for buildroot, force crosspatching when running "make perl modules"
-> > - # instead of "make all".
-> > --miniperlmain$O: crosspatch
-> > -+miniperlmain$O: $(CROSSPATCHED)
-> > -
-> > - # Original versions are not saved anymore; patch generally takes care of this,
-> > - # and if that fails, reaching for the source tarball is the safest option.
-> > diff --git a/meta/recipes-devtools/perl/perl_5.32.0.bb b/meta/recipes-devtools/perl/perl_5.32.1.bb
-> > similarity index 98%
-> > rename from meta/recipes-devtools/perl/perl_5.32.0.bb
-> > rename to meta/recipes-devtools/perl/perl_5.32.1.bb
-> > index 7d88c65322..1fafc0a8c9 100644
-> > --- a/meta/recipes-devtools/perl/perl_5.32.0.bb
-> > +++ b/meta/recipes-devtools/perl/perl_5.32.1.bb
-> > @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
-> >
-> >
-> >  SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-> > -           https://github.com/arsv/perl-cross/releases/download/1.3.4/perl-cross-1.3.4.tar.gz;name=perl-cross \
-> > +           https://github.com/arsv/perl-cross/releases/download/1.3.5/perl-cross-1.3.5.tar.gz;name=perl-cross \
-> >             file://perl-rdepends.txt \
-> >             file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
-> >             file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
-> > @@ -21,7 +21,6 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-> >             file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
-> >             file://0002-Constant-Fix-up-shebang.patch \
-> >             file://determinism.patch  \
-> > -           file://perl-cross-makefile.patch \
-> >             "
-> >  SRC_URI_append_class-native = " \
-> >             file://perl-configpm-switch.patch \
-> > @@ -30,8 +29,8 @@ SRC_URI_append_class-target = " \
-> >             file://encodefix.patch \
-> >  "
-> >
-> > -SRC_URI[perl.sha256sum] = "efeb1ce1f10824190ad1cadbcccf6fdb8a5d37007d0100d2d9ae5f2b5900c0b4"
-> > -SRC_URI[perl-cross.sha256sum] = "755aa0ca8141a942188a269564f86c3c82349f82c346ed5c992495d7f35138ba"
-> > +SRC_URI[perl.sha256sum] = "03b693901cd8ae807231b1787798cf1f2e0b8a56218d07b7da44f784a7caeb2c"
-> > +SRC_URI[perl-cross.sha256sum] = "91c66f6b2b99fccfd4fee14660b677380b0c98f9456359e91449798c2ad2ef25"
-> >
-> >  S = "${WORKDIR}/perl-${PV}"
-> >
-> > --
-> > 2.29.2
-> >
-> >
-> > 
-> >
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
+new file mode 100644
+index 0000000000..b0b51e7030
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Acepted [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
++CVE: CVE-2020-8625
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++
++diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
++index e61d1c600f2..753dc8049fa 100644
++--- a/lib/dns/spnego.c
+++++ b/lib/dns/spnego.c
++@@ -848,7 +848,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
++               return (ASN1_OVERRUN);
++       }
++
++-      data->components = malloc(len * sizeof(*data->components));
+++      data->components = malloc((len + 1) * sizeof(*data->components));
++       if (data->components == NULL) {
++               return (ENOMEM);
++       }
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.7.bb b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+index 5fc2c1d3cd..82c1bb66df 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.7.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8625.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "9f7d1812ebbd26a699f62b6fa8522d5dec57e4bf43af0042a0d60d39ed8314d1"
+-- 
+2.24.3 (Apple Git-128)
+
