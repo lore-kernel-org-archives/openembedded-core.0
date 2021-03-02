@@ -1,329 +1,371 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.516.1614711647656028059
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.471.1614711704528532587
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 11:00:48 -0800
+ Tue, 02 Mar 2021 11:01:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=cDqjMHVj;
- spf=pass (domain: linaro.org, ip: 209.85.128.45, mailfrom: anibal.limon@linaro.org)
-Received: by mail-wm1-f45.google.com with SMTP id o2so3316077wme.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 11:00:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WfRFB282;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id l22so3140430wme.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 11:01:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2PuuaUEZwkn/QY+g0XGZfgA69iTmQnbj8kq/U82nyMc=;
-        b=cDqjMHVj+qpfEs0VLlOhqwi3NNI6d12ep8u3jV8aNlOEQR1HKnq/Cdv1pe7gyS+t+C
-         JaM//uX5wa5fODazaf7mHF0lRDq/IVcdcCFuD6leOmmLNQ1Y/CPU61LlT3fuM+QPrB2+
-         3aQVvfQjmk0g2UTQLasp7DXmuRup6h3HfW/0X/1JuOzb3BulpfHtux+6MBtQC1UwuUn+
-         WQVfESayugvJJxjCB4i7TVDzdLXtpWIrDHbRmn6stUzQqO/92yrt7aHF2yIIu1Gtqbh5
-         wDn3EePL6AnDADRSWdvUCjtxQKx0L78Yo8r1WqJev3JKNt7tutFjpTcGlQY28uz3Taq9
-         qzeg==
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=8m7CBE6E9j59gzCBL+/jCfXJL+/a6ZO00WH8PEIZris=;
+        b=WfRFB282Dblf9xhUVExog5I93MXSwzhiACaBCHwzB0E/8B7Mdkb+AD7wxFh4yiUYuT
+         z7RFrNx2+ycGogxOUJ0CQnyzG0MW8iWjf2jIkvtEQk+lmIq3oNLXjUAoRV4VvgjkKzX2
+         kalP8Coz6JWO3ADPzCVCGHXaYU1Tm8As3cCvcvBtnS0LxaGdu/D5p4yro30nJpJWv85G
+         /iQFQFDgY0Myap5VH6dfYl5Y3jA5JEuTq0iDE7mRm3N3UP2pFwx5XeZGlm/n2cbSiPnn
+         ulGfT9NEyd3P1WDvkbocAuq/YI9Y2NJVrBV6HlLRY16vRI8kt1+kg7d+DUSBUObT/JO1
+         nEbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2PuuaUEZwkn/QY+g0XGZfgA69iTmQnbj8kq/U82nyMc=;
-        b=qJMUGWFbrsByuuQ4olulj9GE0q4rSt+4awI+H6RHWeJP60cwK8you4F7S2jincVG/8
-         0AeUVpWJrlEp77TfXvdPvhillOqICExDmrTU4rxuy4J/eFoQU7nh44qPw4cp2qNOfDnf
-         zjVB4dZYW2Afg4PRN7m1yeRxmYLj29Xb3Qai83gouN5DFDu/trcpprboNJTr/Kvq3nYL
-         U8/dqVjlbgkIf8oY2ana6NhCXB9Eu6Ab8TaYQV0FHcFAlE46+x5FBteI52VSglvyY475
-         ouI5HfDTCuASfqKr8ghBkhg64aEcMKX8B9i3RqlI2gKLdH0m6rkP1BU8pcJ7gDHm8kU5
-         vPkg==
-X-Gm-Message-State: AOAM531VIEtjinvqp8mJi1re+7Gr6ynyrhfWm4JkJHOjYDmPYS11FNMt
-	fHU2B/KjVWYvR4DPCIsSjeBWd4+MGjW8t6wXSBxOJA==
-X-Google-Smtp-Source: ABdhPJw4H6BuhMS97i0OZ8mwwbbR/120A8evs20gg8mEXiaM/v28XnoV9Cgi57NVrnTWlmbzXaG4ZfmceJptjrqnX7c=
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr5442785wmj.76.1614711645868;
- Tue, 02 Mar 2021 11:00:45 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=8m7CBE6E9j59gzCBL+/jCfXJL+/a6ZO00WH8PEIZris=;
+        b=s8ZpJcpLxKGnoZtq+r4+pzaO8CkcOj2z65hIItHfE4NG6Gq4xxELc1V1Sodx/A7tvc
+         p82d1H1XwqkD4kw7rngqWWQOQP66pHHo5FBGHgCt2TwgD+F5Xb3BaU8wltpDR3ZM1h+a
+         RkEwhO9XVtRxrvdWfSBfnORbT2psf10s97UOkF7ILo0Ng5CmiayWNXuPC0Mc7P2rr8Ce
+         7qKewWtWVaCrEzwdq0Kjh1LoyWQAnSEl1PfcKM8p1RANZPvMytFb7T10+ln7Dbgxan6p
+         R1+0ORyzApuvIkP/JHvIVburdmdgDyiDIobikKbAA5+eTUprjyCTTQR09+eGGtDPqRwi
+         NC5A==
+X-Gm-Message-State: AOAM533XqDpTjmxdkPNAfJ0vAZAkEHVrvHmPQ1EOcawFLrChBFTxeacr
+	1s1jNKz6OvLTdGC6I8xKPjebvmsJJiE=
+X-Google-Smtp-Source: ABdhPJy17EZ1Y/XK9FVUQL65GcuNmVta2wRoN2ZN5JC2lLwQnjyxHcBraGAbvufK+JNz2gcycMcTqg==
+X-Received: by 2002:a1c:1dd5:: with SMTP id d204mr5292214wmd.127.1614711702789;
+        Tue, 02 Mar 2021 11:01:42 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+        by smtp.gmail.com with ESMTPSA id h20sm3510947wmb.1.2021.03.02.11.01.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 11:01:40 -0800 (PST)
+Message-ID: <8381e86c6924947b9b7c1343cdfbf95ba57b718f.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v5] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>, Paul Eggleton
+	 <bluelightning@bluelightning.org>
+Date: Tue, 02 Mar 2021 19:01:37 +0000
+In-Reply-To: <CAMKF1sog1N1hWtSMTZtg4my86ZtPC_g=SVsD-c8MX5MKhcEwag@mail.gmail.com>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 <20210225153035.1239276-1-luca.boccassi@gmail.com>
+	 <CAMKF1sog1N1hWtSMTZtg4my86ZtPC_g=SVsD-c8MX5MKhcEwag@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-References: <20210225174516.639740-1-Martin.Jansa@gmail.com>
- <CA+_AqitMGVbVikHDF2bnimSsXSmM0tfeXBCgYjgeSpFYL2FGOA@mail.gmail.com> <CA+chaQevEWE=RaqQzXfGOaQVCSw1Jf814EQF+-Cdx4X46xO1Fg@mail.gmail.com>
-In-Reply-To: <CA+chaQevEWE=RaqQzXfGOaQVCSw1Jf814EQF+-Cdx4X46xO1Fg@mail.gmail.com>
-From: "Anibal Limon" <anibal.limon@linaro.org>
-Date: Tue, 2 Mar 2021 13:00:34 -0600
-Message-ID: <CA+_Aqiu_CEOXFCeixDjPU4Wd0qrDS4DRoTGuFb4ccH-qJV0g=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glib-2.0: replace THISDIR instead of COREBASE in find_meson_cross_files --cross-file paths
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000011271505bc925a92"
+X-Groupsio-MsgNum: 148869
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-6oyB2NzvKBD0PumeoSMr"
 
---00000000000011271505bc925a92
+--=-6oyB2NzvKBD0PumeoSMr
 Content-Type: text/plain; charset="UTF-8"
-
-On Tue, 2 Mar 2021 at 11:32, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> what's the value of COREBASE in that build? Wasn't full path already in
-> your sstate signatures - in that case this change didn't break your builds,
-> just highlighted an issue in your builds which was already there.
->
-> Our COREBASE is,
-
-  COREBASE="/home/builds/oe-rpb-master/layers/openembedded-core"
-
-Expands as follows,
-
-...
-# $COREBASE [3 operations]
-#   set
-/home/builds/oe-rpb-master/build-845c/conf/../../layers/openembedded-core/meta/conf/layer.conf:20
-#     "${@os.path.normpath("${LAYERDIR}/../")}"
-#   set data_smart.py:931 [expandVarref]
-#
-"${@os.path.normpath("/home/builds/oe-rpb-master/build-845c/conf/../../layers/openembedded-core/meta/../")}"
-#   set
-/home/builds/oe-rpb-master/build-845c/conf/../../layers/openembedded-core/meta/conf/documentation.conf:124
-#     [doc] "Specifies the parent directory of the OpenEmbedded Core
-Metadata layer (i.e. meta)."
-# pre-expansion value:
-#
-"${@os.path.normpath("/home/builds/oe-rpb-master/build-845c/conf/../../layers/openembedded-core/meta/../")}"
-COREBASE="/home/builds/oe-rpb-master/layers/openembedded-core"
-...
-
-
-> We can fix that by calling os.path.normpath on THISDIR, but I would like
-> to know the reason why THISDIR is set this way for you (also to reproduce
-> it locally to verify the fix).
->
-
-I tried it and fixes the issue,
-
--    thisdir = d.getVar("THISDIR")
-+    thisdir = os.path.normpath(d.getVar("THISDIR"))
-
-We use the next config files for bblayers and local.conf,
-
-https://github.com/96boards/oe-rpb-manifest/tree/qcom/master/conf
-
-Regards,
-Anibal
-
-
->
->
->
-> On Tue, Mar 2, 2021 at 6:14 PM Anibal Limon <anibal.limon@linaro.org>
-> wrote:
->
->> This breaks our builds,
->>
->> ...
->> ERROR: Cannot add
->> '/home/builds/oe-rpb-master/layers/openembedded-core/meta/recipes-core/glib-2.0/files/meson.cross.d/common'
->> to --cross-file, because it's not relative to THISDIR
->> '/home/builds/oe-rpb-master/build-410c-2/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0'
->> and sstate signature would contain this full path
->> ...
->>
->> In,
->>
->>
->> https://ci.linaro.org/job/lt-qcom-openembedded-rpb-master/DISTRO=rpb,MACHINE=dragonboard-410c,label=docker-buster-amd64/470/console
->>
->> Regards,
->> Anibal
->>
->> On Thu, 25 Feb 2021 at 11:45, Martin Jansa <Martin.Jansa@gmail.com>
->> wrote:
->>
->>> * COREBASE works correctly only as long as this recipe is inside of
->>>   COREBASE directory and leaves the full absolute paths if you copy
->>>   this recipe into your own layer (e.g. to backport newer version)
->>>
->>> * use THISDIR as all FILESPATH should be relative to that, unless
->>>   there is a .bbappend not only extending FILESPATH, but also adding
->>>   meson.cross.d files there (at which point it also didn't work with
->>>   COREBASE replacements as well already) - show an ERROR in such case,
->>>   I don't think it's common scenario to spend more time to support that.
->>>
->>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>> ---
->>>  meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb | 8 ++++++--
->>>  1 file changed, 6 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
->>> b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
->>> index 15e9dbaf6f..882a89da7a 100644
->>> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
->>> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
->>> @@ -31,7 +31,7 @@ def find_meson_cross_files(d):
->>>      if bb.data.inherits_class('native', d):
->>>          return ""
->>>
->>> -    corebase = d.getVar("COREBASE")
->>> +    thisdir = d.getVar("THISDIR")
->>>      import collections
->>>      sitedata = siteinfo_data(d)
->>>      # filename -> found
->>> @@ -39,7 +39,11 @@ def find_meson_cross_files(d):
->>>      for path in d.getVar("FILESPATH").split(":"):
->>>          for element in sitedata:
->>>              filename = os.path.normpath(os.path.join(path,
->>> "meson.cross.d", element))
->>> -            files[filename.replace(corebase, "${COREBASE}")] =
->>> os.path.exists(filename)
->>> +            sanitized_path = filename.replace(thisdir, "${THISDIR}")
->>> +            if sanitized_path == filename:
->>> +                bb.error("Cannot add '%s' to --cross-file, because it's
->>> not relative to THISDIR '%s' and sstate signature would contain this full
->>> path" % (filename, thisdir))
->>> +                continue
->>> +            files[filename.replace(thisdir, "${THISDIR}")] =
->>> os.path.exists(filename)
->>>
->>>      items = ["--cross-file=" + k for k,v in files.items() if v]
->>>      d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
->>> --
->>> 2.27.0
->>>
->>>
->>> 
->>>
->>>
-
---00000000000011271505bc925a92
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 2 Mar 2021 at 11:32, Martin J=
-ansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr">what&#39;s the value of COREBASE in that build? Wasn&#39;t f=
-ull path already in your sstate signatures - in that case this change didn&=
-#39;t break your builds, just highlighted an issue in your builds which was=
- already there.<div><br></div></div></blockquote><div>Our COREBASE is,</div=
-><div><br></div><div>=C2=A0 COREBASE=3D&quot;/home/builds/oe-rpb-master/lay=
-ers/openembedded-core&quot;=C2=A0</div><div><br></div><div>Expands as follo=
-ws,</div><div><br></div><div>...</div><div># $COREBASE [3 operations]<br># =
-=
-=C2=A0 set /home/builds/oe-rpb-master/build-845c/conf/../../layers/openemb=
-edded-core/meta/conf/layer.conf:20<br># =C2=A0 =C2=A0 &quot;${@os.path.norm=
-path(&quot;${LAYERDIR}/../&quot;)}&quot;<br># =C2=A0 set data_smart.py:931 =
-[expandVarref]<br># =C2=A0 =C2=A0 &quot;${@os.path.normpath(&quot;/home/bui=
-lds/oe-rpb-master/build-845c/conf/../../layers/openembedded-core/meta/../&q=
-uot;)}&quot;<br># =C2=A0 set /home/builds/oe-rpb-master/build-845c/conf/../=
-../layers/openembedded-core/meta/conf/documentation.conf:124<br># =C2=A0 =
-=C2=A0 [doc] &quot;Specifies the parent directory of the OpenEmbedded Core=
- Metadata layer (i.e. meta).&quot;<br># pre-expansion value:<br># =C2=A0 &q=
-uot;${@os.path.normpath(&quot;/home/builds/oe-rpb-master/build-845c/conf/..=
-/../layers/openembedded-core/meta/../&quot;)}&quot;<br>COREBASE=3D&quot;/ho=
-me/builds/oe-rpb-master/layers/openembedded-core&quot;<br></div><div>...</d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div></div><div>We can fix that by calling=C2=A0os.path.normpat=
-h on THISDIR, but I would like to know the reason why THISDIR is set this w=
-ay for you (also to reproduce it locally to verify the fix).</div></div></b=
-lockquote><div><br></div><div>I tried it and fixes the issue,</div><div><br=
-></div><div>- =C2=A0 =C2=A0thisdir =3D d.getVar(&quot;THISDIR&quot;)<br>+ =
-=C2=A0 =C2=A0thisdir =3D os.path.normpath(d.getVar(&quot;THISDIR&quot;))<b=
-r></div><div><br></div><div>We use the next config files for bblayers and l=
-ocal.conf,</div><div><br></div><div><a href=3D"https://github.com/96boards/=
-oe-rpb-manifest/tree/qcom/master/conf">https://github.com/96boards/oe-rpb-m=
-anifest/tree/qcom/master/conf</a><br></div><div><br></div><div>Regards,</di=
-v><div>Anibal</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><div dir=3D"ltr"><div><br></div><div><br></div><div><br></div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Tue, Mar 2, 2021 at 6:14 PM Anibal Limon &lt;<a href=3D"mailto:anibal.lim=
-on@linaro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Th=
-is breaks our builds,<div><br></div><div>...</div><div>ERROR: Cannot add &#=
-39;/home/builds/oe-rpb-master/layers/openembedded-core/meta/recipes-core/gl=
-ib-2.0/files/meson.cross.d/common&#39; to --cross-file, because it&#39;s no=
-t relative to THISDIR &#39;/home/builds/oe-rpb-master/build-410c-2/conf/../=
-../layers/openembedded-core/meta/recipes-core/glib-2.0&#39; and sstate sign=
-ature would contain this full path<br></div><div>...</div><div><br></div><d=
-iv>In,</div><div><br></div><div><a href=3D"https://ci.linaro.org/job/lt-qco=
-m-openembedded-rpb-master/DISTRO=3Drpb,MACHINE=3Ddragonboard-410c,label=3Dd=
-ocker-buster-amd64/470/console" target=3D"_blank">https://ci.linaro.org/job=
-/lt-qcom-openembedded-rpb-master/DISTRO=3Drpb,MACHINE=3Ddragonboard-410c,la=
-bel=3Ddocker-buster-amd64/470/console</a><br></div><div><br></div><div>Rega=
-rds,</div><div>Anibal</div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Thu, 25 Feb 2021 at 11:45, Martin Jansa &lt;<=
-a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">* COREBASE works correctly only as long as this recipe is inside of<b=
-r>
-=C2=A0 COREBASE directory and leaves the full absolute paths if you copy<b=
-r>
-=C2=A0 this recipe into your own layer (e.g. to backport newer version)<br=
->
-<br>
-* use THISDIR as all FILESPATH should be relative to that, unless<br>
-=C2=A0 there is a .bbappend not only extending FILESPATH, but also adding<=
-br>
-=C2=A0 meson.cross.d files there (at which point it also didn&#39;t work w=
-ith<br>
-=C2=A0 COREBASE replacements as well already) - show an ERROR in such case=
-,<br>
-=C2=A0 I don&#39;t think it&#39;s common scenario to spend more time to su=
-pport that.<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
-target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a> | 8 ++++++--<br>
-=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.=
-bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a> b/meta/reci=
-pes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=3D"noreferrer" =
-target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-index 15e9dbaf6f..882a89da7a 100644<br>
---- a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-+++ b/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-@@ -31,7 +31,7 @@ def find_meson_cross_files(d):<br>
-=C2=A0 =C2=A0 =C2=A0if bb.data.inherits_class(&#39;native&#39;, d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;&quot;<br>
-<br>
--=C2=A0 =C2=A0 corebase =3D d.getVar(&quot;COREBASE&quot;)<br>
-+=C2=A0 =C2=A0 thisdir =3D d.getVar(&quot;THISDIR&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0import collections<br>
-=C2=A0 =C2=A0 =C2=A0sitedata =3D siteinfo_data(d)<br>
-=C2=A0 =C2=A0 =C2=A0# filename -&gt; found<br>
-@@ -39,7 +39,11 @@ def find_meson_cross_files(d):<br>
-=C2=A0 =C2=A0 =C2=A0for path in d.getVar(&quot;FILESPATH&quot;).split(&quo=
-t;:&quot;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for element in sitedata:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0filename =3D os.path.normp=
-ath(os.path.join(path, &quot;meson.cross.d&quot;, element))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 files[filename.replace(corebase=
-, &quot;${COREBASE}&quot;)] =3D os.path.exists(filename)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sanitized_path =3D filename.rep=
-lace(thisdir, &quot;${THISDIR}&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if sanitized_path =3D=3D filena=
-me:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;Ca=
-nnot add &#39;%s&#39; to --cross-file, because it&#39;s not relative to THI=
-SDIR &#39;%s&#39; and sstate signature would contain this full path&quot; %=
- (filename, thisdir))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 files[filename.replace(thisdir,=
- &quot;${THISDIR}&quot;)] =3D os.path.exists(filename)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0items =3D [&quot;--cross-file=3D&quot; + k for k,v in =
-files.items() if v]<br>
-=C2=A0 =C2=A0 =C2=A0d.appendVar(&quot;EXTRA_OEMESON&quot;, &quot; &quot; +=
- &quot; &quot;.join(items))<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-</blockquote></div></div>
+On Fri, 2021-02-26 at 11:02 -0800, Khem Raj wrote:
+> seeing dependency loops
+> http://sprunge.us/E5c3NC
 
---00000000000011271505bc925a92--
+Thanks for the heads-up - didn't see when building locally with a
+minimal poky, anything in particular needed in the local.conf to
+trigger it?
+
+> On Thu, Feb 25, 2021 at 7:30 AM Luca Bocassi <luca.boccassi@gmail.com> w=
+rote:
+> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> >=20
+> > Recently util-linux gained an (optional) build dependency on libcrypts=
+etup.
+> > But libcryptsetup build-depends on util-linux for blkid (optional, can=
+ be disabled)
+> > and uuid (mandatory).
+> > Split out util-linux-uuid in a different recipe to break the cycle.
+> >=20
+> > https://github.com/karelzak/util-linux/pull/898
+> >=20
+> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> > ---
+> > v1: util-linux 2.35 is not out yet, but I'd like to get the preparator=
+y work
+> >     underway as I'm not sure if this is the best approach or if there =
+are
+> >     alternatives. Suggestions and comments very welcome. Thanks!
+> > v2: changed packages names to reflect old ones (eg: libuuid1 -> util-l=
+inux-libuuid)
+> >     and leave uuid build enable in main recipe to allow for uuidgen bu=
+ild to happen,
+> >     as it does not have its own autoconf switch. Delete the library ma=
+nualy from
+> >     the main recipe after build instead, and add dependency.
+> >     Might help to break loop python3 -> util-linux -> libselinux -> py=
+thon3, as it's
+> >     only libuuid that is needed, see https://lists.yoctoproject.org/g/=
+yocto/message/47570
+> > v3: rebased and refactored to have a common util-linux.inc file
+> > v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA=
+ warnings
+> > v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-=
+uuid.
+> >     Removed PACKAGES_remove and instead filter out libuuid via the pac=
+kage generation
+> >     regex.
+> >     Rebased on util-linux 2.36.2.
+> >=20
+> >  .../util-linux/util-linux-uuid_2.36.2.bb      | 22 ++++++++
+> >  meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++
+> >  .../util-linux/util-linux_2.36.2.bb           | 53 +++++-------------=
+-
+> >  3 files changed, 75 insertions(+), 41 deletions(-)
+> >  create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.=
+2.bb
+> >  create mode 100644 meta/recipes-core/util-linux/util-linux.inc
+> >=20
+> > diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/=
+meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+> > new file mode 100644
+> > index 0000000000..ffb2c87270
+> > --- /dev/null
+> > +++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+> > @@ -0,0 +1,22 @@
+> > +# To allow util-linux to optionally build-depend on cryptsetup, libuu=
+id is
+> > +# split out of the main recipe, as it's needed by cryptsetup
+> > +
+> > +require util-linux.inc
+> > +
+> > +inherit autotools gettext pkgconfig
+> > +
+> > +S =3D "${WORKDIR}/util-linux-${PV}"
+> > +EXTRA_OECONF +=3D "--disable-all-programs --enable-libuuid"
+> > +DEBIAN_NOAUTONAME_util-linux-libuuid =3D "1"
+> > +DEBIAN_NOAUTONAME_util-linux-libuuid-dev =3D "1"
+> > +DEBIAN_NOAUTONAME_util-linux-libuuid-dbg =3D "1"
+> > +PACKAGES =3D "util-linux-libuuid util-linux-libuuid-dev util-linux-li=
+buuid-dbg"
+> > +FILES_util-linux-libuuid =3D "${libdir}/libuuid.so.*"
+> > +FILES_util-linux-libuuid-dev =3D "${libdir}/libuuid.so ${includedir} =
+${libdir}/pkgconfig"
+> > +FILES_util-linux-libuuid-dbg =3D "/usr/src ${libdir}/.debug"
+> > +
+> > +do_install_append() {
+> > +       rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${s=
+bindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
+> > +}
+> > +
+> > +BBCLASSEXTEND =3D "native nativesdk"
+> > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipe=
+s-core/util-linux/util-linux.inc
+> > new file mode 100644
+> > index 0000000000..b4f817ed82
+> > --- /dev/null
+> > +++ b/meta/recipes-core/util-linux/util-linux.inc
+> > @@ -0,0 +1,41 @@
+> > +SUMMARY =3D "A suite of basic system administration utilities"
+> > +HOMEPAGE =3D "https://en.wikipedia.org/wiki/Util-linux"
+> > +DESCRIPTION =3D "Util-linux includes a suite of basic system administ=
+ration utilities \
+> > +commonly found on most Linux systems.  Some of the more important uti=
+lities include \
+> > +disk partitioning, kernel message management, filesystem creation, an=
+d system login."
+> > +
+> > +SECTION =3D "base"
+> > +
+> > +LICENSE =3D "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> > +LICENSE_${PN}-libblkid =3D "LGPLv2.1+"
+> > +LICENSE_${PN}-libfdisk =3D "LGPLv2.1+"
+> > +LICENSE_${PN}-libmount =3D "LGPLv2.1+"
+> > +LICENSE_${PN}-libsmartcols =3D "LGPLv2.1+"
+> > +LICENSE_${PN}-libuuid =3D "BSD-3-Clause"
+> > +
+> > +LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D0fd5c050c6187d2bf=
+0a4492b7f4e33da \
+> > +                    file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a=
+4263 \
+> > +                    file://Documentation/licenses/COPYING.GPL-2.0-or-=
+later;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> > +                    file://Documentation/licenses/COPYING.LGPL-2.1-or=
+-later;md5=3D4fbd65380cdd255951079008b364516c \
+> > +                    file://Documentation/licenses/COPYING.BSD-3-Claus=
+e;md5=3D58dcd8452651fc8b07d1f65ce07ca8af \
+> > +                    file://Documentation/licenses/COPYING.BSD-4-Claus=
+e-UC;md5=3D263860f8968d8bafa5392cab74285262 \
+> > +                    file://libuuid/COPYING;md5=3D6d2cafc999feb2c2de84=
+d4d24b23290c \
+> > +                    file://libmount/COPYING;md5=3D7c7e39fb7d70ffe5d69=
+3a643e29987c2 \
+> > +                    file://libblkid/COPYING;md5=3D693bcbbe16d3a4a4b37=
+bc906bc01cc04 \
+> > +                    file://libfdisk/COPYING;md5=3D693bcbbe16d3a4a4b37=
+bc906bc01cc04 \
+> > +                    file://libsmartcols/COPYING;md5=3D693bcbbe16d3a4a=
+4b37bc906bc01cc04 \
+> > +"
+> > +
+> > +FILESEXTRAPATHS_prepend :=3D "${THISDIR}/util-linux:"
+> > +MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+> > +BPN =3D "util-linux"
+> > +SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}=
+/${BP}.tar.xz \
+> > +           file://configure-sbindir.patch \
+> > +           file://runuser.pamd \
+> > +           file://runuser-l.pamd \
+> > +           file://ptest.patch \
+> > +           file://run-ptest \
+> > +           file://display_testname_for_subtest.patch \
+> > +           file://avoid_parallel_tests.patch \
+> > +           "
+> > +SRC_URI[sha256sum] =3D "f7516ba9d8689343594356f0e5e1a5f0da34adfbc8902=
+3437735872bb5024c5f"
+> > diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/=
+recipes-core/util-linux/util-linux_2.36.2.bb
+> > index 19950a2726..d4406695f6 100644
+> > --- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+> > +++ b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+> > @@ -1,46 +1,8 @@
+> > -SUMMARY =3D "A suite of basic system administration utilities"
+> > -HOMEPAGE =3D "https://en.wikipedia.org/wiki/Util-linux"
+> > -DESCRIPTION =3D "Util-linux includes a suite of basic system administ=
+ration utilities \
+> > -commonly found on most Linux systems.  Some of the more important uti=
+lities include \
+> > -disk partitioning, kernel message management, filesystem creation, an=
+d system login."
+> > -
+> > -SECTION =3D "base"
+> > -
+> > -LICENSE =3D "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> > -LICENSE_${PN}-libblkid =3D "LGPLv2.1+"
+> > -LICENSE_${PN}-libfdisk =3D "LGPLv2.1+"
+> > -LICENSE_${PN}-libmount =3D "LGPLv2.1+"
+> > -LICENSE_${PN}-libsmartcols =3D "LGPLv2.1+"
+> > -LICENSE_${PN}-libuuid =3D "BSD-3-Clause"
+> > -
+> > -LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D0fd5c050c6187d2bf=
+0a4492b7f4e33da \
+> > -                    file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a=
+4263 \
+> > -                    file://Documentation/licenses/COPYING.GPL-2.0-or-=
+later;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> > -                    file://Documentation/licenses/COPYING.LGPL-2.1-or=
+-later;md5=3D4fbd65380cdd255951079008b364516c \
+> > -                    file://Documentation/licenses/COPYING.BSD-3-Claus=
+e;md5=3D58dcd8452651fc8b07d1f65ce07ca8af \
+> > -                    file://Documentation/licenses/COPYING.BSD-4-Claus=
+e-UC;md5=3D263860f8968d8bafa5392cab74285262 \
+> > -                    file://libuuid/COPYING;md5=3D6d2cafc999feb2c2de84=
+d4d24b23290c \
+> > -                    file://libmount/COPYING;md5=3D7c7e39fb7d70ffe5d69=
+3a643e29987c2 \
+> > -                    file://libblkid/COPYING;md5=3D693bcbbe16d3a4a4b37=
+bc906bc01cc04 \
+> > -                    file://libfdisk/COPYING;md5=3D693bcbbe16d3a4a4b37=
+bc906bc01cc04 \
+> > -                    file://libsmartcols/COPYING;md5=3D693bcbbe16d3a4a=
+4b37bc906bc01cc04 \
+> > -"
+> > +require util-linux.inc
+> >=20
+> >  #gtk-doc is not enabled as it requires xmlto which requires util-linu=
+x
+> >  inherit autotools gettext manpages pkgconfig systemd update-alternati=
+ves python3-dir bash-completion ptest
+> > -DEPENDS =3D "libcap-ng ncurses virtual/crypt zlib"
+> > -
+> > -MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+> > -SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}=
+/${BP}.tar.xz \
+> > -           file://configure-sbindir.patch \
+> > -           file://runuser.pamd \
+> > -           file://runuser-l.pamd \
+> > -           file://ptest.patch \
+> > -           file://run-ptest \
+> > -           file://display_testname_for_subtest.patch \
+> > -           file://avoid_parallel_tests.patch \
+> > -           "
+> > -SRC_URI[sha256sum] =3D "f7516ba9d8689343594356f0e5e1a5f0da34adfbc8902=
+3437735872bb5024c5f"
+> > +DEPENDS =3D "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
+> >=20
+> >  PACKAGES =3D+ "${PN}-swaponoff"
+> >  PACKAGES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '$=
+{PN}-pylibmount', '', d)}"
+> > @@ -87,8 +49,9 @@ python util_linux_binpackages () {
+> >  # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
+> >  PACKAGE_PREPROCESS_FUNCS =3D+ "util_linux_binpackages "
+> >=20
+> > +# skip libuuid as it will be packaged by the util-linux-uuid recipe
+> >  python util_linux_libpackages() {
+> > -    do_split_packages(d, root=3Dd.getVar('UTIL_LINUX_LIBDIR'), file_r=
+egex=3Dr'^lib(.*)\.so\..*$',
+> > +    do_split_packages(d, root=3Dd.getVar('UTIL_LINUX_LIBDIR'), file_r=
+egex=3Dr'^lib(?!uuid)(.*)\.so\..*$',
+> >                        output_pattern=3D'${PN}-lib%s',
+> >                        description=3D'${PN} lib%s',
+> >                        extra_depends=3D'', prepend=3DTrue, allow_links=
+=
+=3DTrue)
+> > @@ -141,6 +104,7 @@ PACKAGECONFIG[pylibmount] =3D "--with-python=3D3 -=
+-enable-pylibmount,--without-pytho
+> >  PACKAGECONFIG[readline] =3D "--with-readline,--without-readline,readl=
+ine"
+> >  # PCRE support in hardlink
+> >  PACKAGECONFIG[pcre2] =3D ",,libpcre2"
+> > +PACKAGECONFIG[cryptsetup] =3D "--with-cryptsetup,--without-cryptsetup=
+,cryptsetup"
+> >=20
+> >  EXTRA_OEMAKE =3D "ARCH=3D${TARGET_ARCH} CPU=3D CPUOPT=3D 'OPT=3D${CFL=
+AGS}'"
+> >=20
+> > @@ -165,6 +129,8 @@ RRECOMMENDS_${PN}_class-nativesdk =3D ""
+> >  RDEPENDS_${PN}_class-native =3D ""
+> >  RDEPENDS_${PN}_class-nativesdk =3D ""
+> >=20
+> > +RDEPENDS_${PN}_append +=3D " util-linux-uuid"
+> > +
+> >  RPROVIDES_${PN}-dev =3D "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-=
+libuuid-dev"
+> >=20
+> >  RDEPENDS_${PN}-bash-completion +=3D "${PN}-lsblk"
+> > @@ -316,6 +282,11 @@ ALTERNATIVE_LINK_NAME[utmpdump.1] =3D "${mandir}/=
+man1/utmpdump.1"
+> >  ALTERNATIVE_LINK_NAME[uuid.3] =3D "${mandir}/man3/uuid.3"
+> >  ALTERNATIVE_LINK_NAME[wall.1] =3D "${mandir}/man1/wall.1"
+> >=20
+> > +# dm-verity support introduces a circular build dependency, so util-l=
+inux-uuid is split out for target builds
+> > +# Need to build libuuid for uuidgen, but then delete it and let the o=
+ther recipe ship it
+> > +do_install_append() {
+> > +    rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D=
+}${libdir}/libuuid* ${D}/lib/libuuid*
+> > +}
+> >=20
+> >  BBCLASSEXTEND =3D "native nativesdk"
+> >=20
+> > --
+> > 2.29.2
+> >=20
+> >=20
+> >=20
+> >=20
+
+
+--=-6oyB2NzvKBD0PumeoSMr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmA+i5EACgkQSylmgFB4
+UWKbLwf/Tsf4q+8eK1cucKMrAKYCvkJTRBLjQs/AEi1x6tBjQkuERolKhlA0WQTz
+zbhtLcDmaFZho7H3H4KmuoXULfDPKcgj6phX6YdsQ+6q625fcCl+LtZHqE30kPHt
+XwEc7wo4rRayvz+Cdl+VIGMP/ODb7KdoBVOTWUMRJf2JqW2UlKno8vRleDday06+
+i3kfmMOV7YL3zHwApzNgHkJgON0xg9ZEg3cABDRYb2H8ecNulpYwOqZ62TMSazdY
+vB2FPXP2wq0tmojlouvOIJmO7NX3OljI840FtbqUtlOKGCoofyeOkQHmZkt/4t5r
+LX4eTPrH+1TqAugkFEaTZj8cIcPgjA==
+=tsJE
+-----END PGP SIGNATURE-----
+
+--=-6oyB2NzvKBD0PumeoSMr--
