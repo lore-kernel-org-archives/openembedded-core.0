@@ -1,164 +1,112 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web08.8892.1614694013125019794
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web09.9112.1614695303601336358
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 06:06:53 -0800
+ Tue, 02 Mar 2021 06:28:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JvzgZGd3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id e23so2317694wmh.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 06:06:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kV9GFGRi;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: flowergom@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id o38so13897820pgm.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 06:28:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LQ/Jz5aoiSfacAIvOAVk0fKom/tqn7Dn3KQc2HlUqAU=;
-        b=JvzgZGd3XVeVtT/LgYsfjjZ1SNtE8tMD2mn52r5VpSHIAdO4LjETznEksiS0cFMrcY
-         j0qYO6d6i4j+mBlMZLyXw4zkNrqiXA4TX9w4vBYBumhVqhi9QMIbZuuQaeJ3RITKJVGW
-         swBJUUlRcENC4FOxXbutj2RDechIkvvecTcl4=
+        bh=v/PhHUwXFvlX7owKk1OGarlnRRvdtdSCIHTRpGFu6Yo=;
+        b=kV9GFGRiO/c6arMuJmrjs3ruqNRrjrM8AAKCKsPF+ZcZPRHrqXCbvhWHNH1pXbhJgd
+         vB6pVmakjCJthvxCYjxjDcHihSoKSHiKYPNM1M2ctu0ro/t/d/n8Sm4k1nd6iD8ZWota
+         2dGz3vVnIa5kmTb3a0sERfTtvXuHgDpJ1L7rBFol3TXjTF5u2M86x1yM2J8GB94od4bs
+         mQx8bV1LO8UrnnScJKJdXJiEWR6JMevYEhUjbNvWwUcOF2Eswk7UCPwrpMG9ZnOk3IJ7
+         u/NE4z/C1Mmacd3r48288mSb4CJkLbsssBil46aTheCimb+Y8D0LQRTBZtnlwJmaJc14
+         nbGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LQ/Jz5aoiSfacAIvOAVk0fKom/tqn7Dn3KQc2HlUqAU=;
-        b=DVBjpA+GVVUvLgByuDWfn7RNhhjXb5NZHe3O9lErKCu/UtypGUxXGMWc+SmL2nIiia
-         kwHEDu2gODQa8gpYb2cwqKX2xDmHABxJvQxuW49thEKE/JLdlsJfEV9qA4O77HWVk9am
-         oKONiPhyo5eLmlfFjPSfeFZEywD9Lv0xFhw8mvnb6VSwoo+8mCiJ10G2XqL9bMhbb1Pm
-         kDfXRGT1djRj2ooqlaZmt2XffAOgZYjMH+EU5Vn4bOZ2ai0IzB6VrRIvO5YhkirDHt6O
-         ngcrBQCghGFIigsJwQtIIjB4/OqpruUs3Px7Ud/5fCJ6lmyL1za/NFM/bx05ryKbfhXv
-         xmXQ==
-X-Gm-Message-State: AOAM5327m3+Dw5iIfFXOtNO5jVlcaLGuwdqEk3ZfTDCWPFWz9gHrMO2U
-	DsPC6tt3F7kLU1YJm6RKTisZdWXH4yyFhg==
-X-Google-Smtp-Source: ABdhPJzeFh5V8JGDwC2xSF8+L64zmy4/i50lo1lwOhtdepeBYx4Gll6FTrAUSU/V5KdbPD/rnMovbA==
-X-Received: by 2002:a1c:541a:: with SMTP id i26mr4065920wmb.75.1614694010837;
-        Tue, 02 Mar 2021 06:06:50 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:fd4c:95a0:62b1:7d53])
-        by smtp.gmail.com with ESMTPSA id h62sm2958445wmf.37.2021.03.02.06.06.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 06:06:50 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        bh=v/PhHUwXFvlX7owKk1OGarlnRRvdtdSCIHTRpGFu6Yo=;
+        b=VYlj8WSqmuZYjoSwpx5clnHLLxBKvTwaNy5TwhVbJkktLD9m5ziOLnvtJY74h4qklE
+         Fv80CKmH7HRPjYEhecLyP/60ZxWNxvijnm2ZQBqQxgW/GIyEFdkloaRGW1Mv3OE7L1ap
+         QeqHd9tbeQMQWIPqqYO7rHNts5cyA8gBAkXRT5XyV47ENYb9vQLhaavBTV8v1e3LQxY+
+         9acsWBrmPDvKZmuNex3pF+NaFLNkpXshU+76UFfVbX6aeBAsUdlEdLn0xdTbVwGBdm86
+         QuG2uvbcezxyKSM87nEfepES58b3rtzY89H4hQrQIAsVkQS/GyUVtPgVaVOfRu3Gcpif
+         6GrQ==
+X-Gm-Message-State: AOAM532d1M3KrHz7fTM9lnKl+kDHLk5WMhNOPniM9PA+62zkzUAC2TzC
+	2BF10zbZ6GT6GV0fbDg9fXuq8BF1eha87A==
+X-Google-Smtp-Source: ABdhPJxU2H72y4VkYiRsIQbSp4L0TjJLgdyyrrJjcK0MHQM9AlHV+Va3Ts1Z4dl+AJjqcTS5YUCPiw==
+X-Received: by 2002:aa7:9848:0:b029:1ed:ce13:71f4 with SMTP id n8-20020aa798480000b02901edce1371f4mr3543263pfq.62.1614695302480;
+        Tue, 02 Mar 2021 06:28:22 -0800 (PST)
+Return-Path: <flowergom@gmail.com>
+Received: from localhost.localdomain ([116.42.185.119])
+        by smtp.gmail.com with ESMTPSA id c10sm21907612pfj.28.2021.03.02.06.28.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Mar 2021 06:28:21 -0800 (PST)
+From: "Minjae Kim" <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] ltp: Fixing determinism issues
-Date: Tue,  2 Mar 2021 14:06:49 +0000
-Message-Id: <20210302140649.2229029-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [gatesgarth][PATCH v2] bind: fix CVE-2020-8625
+Date: Tue,  2 Mar 2021 23:28:15 +0900
+Message-Id: <20210302142815.1848-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a patch adding sorting to a couple of points in the Makefiles
-which removes most of the determinism issues in ltp.
+BIND Operational Notification: Zone journal (.jnl) file incompatibility
 
-Build swapon before the main build to ensure libswapon.o is built
-deterministically as it races with swapoff.
-
-All issues reported on the upstream mailing list.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
+CVE: CVE-2020-8625
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
- .../ltp/ltp/determinism.patch                 | 43 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20210121.bb     | 13 ++++++
- 3 files changed, 56 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/determinism.patch
+ .../bind/bind-9.16.7/CVE-2020-8625.patch      | 29 +++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.16.7.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 1d4e744250a..3d6a88314b8 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -34,7 +34,6 @@ exclude_packages = [
- 	'go-runtime',
- 	'go_',
- 	'go-',
--	'ltp',
- 	'meson',
- 	'ovmf-shell-efi',
- 	'perf',
-diff --git a/meta/recipes-extended/ltp/ltp/determinism.patch b/meta/recipes-extended/ltp/ltp/determinism.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
 new file mode 100644
-index 00000000000..76d40721b87
+index 0000000000..d3e165b9ae
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/determinism.patch
-@@ -0,0 +1,43 @@
-+open_posix_testsuite/generate-makefiles.sh: Fix determinism issue
++++ b/meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
+@@ -0,0 +1,29 @@
++From 5b671538216af78a0a7ef7464dc52ab2241ea7db Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowergom@gmail.com>
++Date: Tue, 2 Mar 2021 14:03:49 +0000
++Subject: [PATCH] BIND Operational Notification: Zone journal (.jnl) file
++ incompatibility
 +
-+Currently the list of tests is generated by the order of the files found
-+within the directories. This results in differences in the run.sh and 
-+Makefiles. Within Yocto Project this results in differing target
-+test packages. The fix is simple, just sort the output from locate-test.
++Upstream-Status: Backported [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
++CVE: CVE-2020-8625
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ lib/dns/spnego.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+mk/lib.mk: Sort wildcard expansion for determinism
-+
-+The order of the objects linked into libltp.a varies depending on the
-+order of the files found on disk. This results in most ltp binaries
-+differing depending on that order too.
-+
-+Sort the wildcard expansion of *.c which leads to reproducible binaries.
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2021-March/021272.html http://lists.linux.it/pipermail/ltp/2021-March/021273.html]
-+
-+Index: git/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
-+===================================================================
-+--- git.orig/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
-++++ git/testcases/open_posix_testsuite/scripts/generate-makefiles.sh
-+@@ -24,7 +24,7 @@ generate_locate_test_makefile() {
++diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
++index 671838c..82fd49a 100644
++--- a/lib/dns/spnego.c
+++++ b/lib/dns/spnego.c
++@@ -846,7 +846,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
++ 		return (ASN1_OVERRUN);
++ 	}
 + 
-+ 	echo "Generating $maketype Makefiles"
-+ 
-+-	locate-test --$maketype | sed -e 's,^./,,g' > make-gen.$maketype
-++	locate-test --$maketype | sed -e 's,^./,,g' | sort > make-gen.$maketype
-+ 
-+ 	generate_makefiles make-gen.$maketype $*
-+ 
-+Index: git/include/mk/lib.mk
-+===================================================================
-+--- git.orig/include/mk/lib.mk
-++++ git/include/mk/lib.mk
-+@@ -50,6 +50,7 @@ endif
-+ MAKE_TARGETS	+= $(LIB)
-+ 
-+ LIBSRCS		?= $(wildcard $(abs_srcdir)/*.c)
-++LIBSRCS		:= $(sort $(LIBSRCS))
-+ LIBSRCS		:= $(abspath $(LIBSRCS))
-+ LIBSRCS		:= $(subst $(abs_srcdir)/,,$(wildcard $(LIBSRCS)))
-+ LIBSRCS		:= $(filter-out $(FILTER_OUT_LIBSRCS),$(LIBSRCS))
-diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210121.bb
-index c541f9859fd..593f07087c4 100644
---- a/meta/recipes-extended/ltp/ltp_20210121.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210121.bb
-@@ -29,11 +29,16 @@ CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
- SRCREV = "4d005621edd109d119627eb9210b224a63bf22cb"
- 
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".1"
++-	data->components = malloc(len * sizeof(*data->components));
+++	data->components = malloc((len + 1) * sizeof(*data->components));
++ 	if (data->components == NULL) {
++ 		return (ENOMEM);
++ 	}
++-- 
++2.17.1
 +
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-build-Add-option-to-select-libc-implementation.patch \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-+           file://determinism.patch \
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.7.bb b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+index 5fc2c1d3cd..82c1bb66df 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.7.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8625.patch \
             "
  
- S = "${WORKDIR}/git"
-@@ -51,6 +56,14 @@ EXTRA_OECONF = " --with-realtime-testsuite --with-open-posix-testsuite "
- # ltp network/rpc test cases ftbfs when libtirpc is found
- EXTRA_OECONF += " --without-tirpc "
- 
-+do_compile_prepend() {
-+	# Reported at http://lists.linux.it/pipermail/ltp/2021-March/021274.html
-+	# Avoid a race over construction of libswapon.o which is built by swapon and swapoff
-+	# but the object differs depending upon which one built it
-+	# ("../swapon/libswapon.c" vs "libswapon.c" references)
-+	make -C ${B}/testcases/kernel/syscalls/swapon/
-+}
-+
- do_install(){
-     install -d ${D}${prefix}/
-     oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
+ SRC_URI[sha256sum] = "9f7d1812ebbd26a699f62b6fa8522d5dec57e4bf43af0042a0d60d39ed8314d1"
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 
