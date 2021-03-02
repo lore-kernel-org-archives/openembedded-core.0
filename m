@@ -1,83 +1,95 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.6122.1614677107541267412
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web10.6126.1614677131047931447
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 01:25:07 -0800
+ Tue, 02 Mar 2021 01:25:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RB+IdJkL;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id mj10so13795667ejb.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 01:25:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HSdZ6ZgH;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id t23so10267147vsk.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 01:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3nxnrrfZ8MfYzn2pgey4BpYUNbMPeYTZFo6JszuVrBc=;
-        b=RB+IdJkLiYDZ8her7fvXQsVe31fhn2aykRkJmIzF7VNzT8OQ1nIQfPZzeM1Waszrih
-         KhxWF/NDJDyUYZK1H/d7tpj+7UCEfrcrbnM73OupBYqv1X/LAXa59WzIUh7i/n9ubMTp
-         xmK7w6EiLw+pvcGUVCmKtKjHsYAhEcpck47fCJU0BhiBcbaKCdiMtnYRbeyicwQaTLhd
-         674Idle5z4aFppNZOEJQ0S222n/DpIl8O/jkSfm4Gpf2Gavb5GIpyndOmB9xHP2hzRlo
-         S/RzVrTkCxoYB3n1HtddeywOopCZy4ks36JhB8noL6tzk1eIZHHF5rMZajxensqIgGeF
-         2jPg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EIKIlKj8AUveutJ8rIFDcLpsYwQpDSkxVd1wSxAekjA=;
+        b=HSdZ6ZgHxOFWZ7pUy9BVOh+GE7nmTaHpRtErfBMxLPLOkmSIf+EH9NjwRQhd3PJ7Yi
+         Q0iW5kBvCCVXNj0+Tu1cAYR+yrnCUK/caIYFz6WJ9Qgiirb6RMD1mDtF2lFSYjxXCfOy
+         ErElbfDCMePtBgYhhtNQD/RLDDnaMjprrJ1OowsQG23z7pKp/QzayscTqfaFXeyuEI5L
+         d8Cn4h9OjBI2czbPC2y1yMYVV6pIJL7k1P42zLFtCAT7FSxMyPXu7HUpLkkrJexOHeJf
+         Do+KpJ+h6r+idU3b3cMYFw1B95c27Y5yEl/bG6KJ+MBVrlTqjnyl88pCYKQC+JE2Nnao
+         cj0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3nxnrrfZ8MfYzn2pgey4BpYUNbMPeYTZFo6JszuVrBc=;
-        b=BMWnaDo2L6QfVJTRHYlGuuAYwxUB635cm+sLhgDqNz2NsNQqOUW9P6PuhuQvbJFqjc
-         bAU327n603oJj/jEPxEx4GR0GoCkfIJcBFyVwatXMlpQ0FTKu2EUmP1qRZfKcF/1SFid
-         iw8YC5RWq6TsAv9R4fGoAR7ugsdkdmeM6MXFIHKt2KlcndWUSl8SojK1lZPFMis+ZL4+
-         8p8//vl4RgkE5iOYm2Z64XsbX/VPWPW9HplEvmonJ4g8hLdH5y9YAx7liVoDpZfW7SDU
-         IuLuPE+RRWF8GP1H0i4gmxaEvRtF0lPYyRY180xnf5fGorGRk/V3ScOPu1QUTeR6VPUG
-         J+Wg==
-X-Gm-Message-State: AOAM53235KJlxhexh+/IZkLopepvKzq+EfrIboydCnvG88eXrHvo5goY
-	BsleqiXdE1W7eyyX9IZPOfrYgmgvp+s=
-X-Google-Smtp-Source: ABdhPJzN8Y4yl5UOy4e/0KQQjPlM1FSD5XKhbDXbvfrZpJ1FHoDwD68BUi15CzP4eioUnXGGnHXh4A==
-X-Received: by 2002:a17:906:4f02:: with SMTP id t2mr19786270eju.121.1614677105834;
-        Tue, 02 Mar 2021 01:25:05 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id bv9sm11873273ejb.21.2021.03.02.01.25.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 01:25:05 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] coreutils: use u-a for base32
-Date: Tue,  2 Mar 2021 10:25:02 +0100
-Message-Id: <20210302092502.8771-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EIKIlKj8AUveutJ8rIFDcLpsYwQpDSkxVd1wSxAekjA=;
+        b=RwYu/5E8FKOC9UiDCEIFt9UGsVwSr7y+slRDXSPVJAyqg6qja14PsuO3r7kygcxCa/
+         Y1L7jTwII1yHBHNXpreB2F60K3oueFTiPEHgEYRX/g5M1CnkNlMNCNQUzVGU5U1rCnBI
+         k9kCrb3ECvgebH2q5l4a9uBOgHoHM5rDIpe2AdkMgqGESUS8tHa+vhqHftLtE/OCiZ09
+         JGviOk2LAceLAw3oqrG9yOs/010uDle/Pdye/UBIBPEAyQ6aIXpykP4h/uKrOrZlk7Qp
+         EiwTcYBtm68WPOKcnMsGTE30Id6M5NbpYB3jJVAbnQbbwVGqVEV3V6k6yW4piPz5XFwk
+         mjUA==
+X-Gm-Message-State: AOAM530Nrj+CnfcWNZ0QeD7qHngfra1JcDePQpCgAgWstO1viLr+rfGd
+	Io2yUE7Ppe2bYltZxX/ttunu6urBJfu6SmSbJng=
+X-Google-Smtp-Source: ABdhPJwt6ZHxMH4/XZwWV1TM0M8EEsmaFROBmq1IfrmmEGSUF0y7Xu1SDXbXLfZVORJkSImQcgSVovTlgLkxXAMuiiw=
+X-Received: by 2002:a05:6102:74a:: with SMTP id v10mr4353133vsg.20.1614677130244;
+ Tue, 02 Mar 2021 01:25:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210302062805.9917-1-yifan.yu@windriver.com>
+In-Reply-To: <20210302062805.9917-1-yifan.yu@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 2 Mar 2021 10:25:19 +0100
+Message-ID: <CANNYZj8anmqq4+5h4Fxb2p_fxC9GW2RU=-K10W4D78sXQVs+=w@mail.gmail.com>
+Subject: Re: [oe-core] cairo: Using the snapshot version instead of the stable release
+To: Yi Fan Yu <yifan.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c674d605bc8a5032"
 
-* busybox 1.33.0 added base32 applet and now do_rootfs for read-only images is failing with:
-  do_rootfs: busybox.postinst returned 1, marking as unpacked only, configuration required on target.
-  ERROR: image-devel-1.0-r2 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-         then please place them into pkg_postinst_ontarget_${PN} ().
-         Deferring to first boot via 'exit 1' is no longer supported.
-         Details of the failure are in image-devel/1.0-r2/temp/log.do_rootfs.
+--000000000000c674d605bc8a5032
+Content-Type: text/plain; charset="UTF-8"
 
-  and log.do_rootfs shows:
-  update-alternatives: Error: not linking image-devel/1.0-r2/rootfs/usr/bin/base32 to /usr/bin/busybox.nosuid since image-devel/1.0-r2/rootfs/usr/bin/base32 exists and is not a link
+On Tue, 2 Mar 2021 at 07:29, Yi Fan Yu <yifan.yu@windriver.com> wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/coreutils/coreutils_8.32.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Thoughts on if its acceptable for Yocto to use a snapshot release for
+> cairo?
+>
+> current version 1.16 was released on 2018-10-19
+>
+> Archlinux uses 1.17.4
+> Linux From Scratch recommends 1.17.2
+>
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.32.bb b/meta/recipes-core/coreutils/coreutils_8.32.bb
-index 320f93bdc2..c1962ccb90 100644
---- a/meta/recipes-core/coreutils/coreutils_8.32.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.32.bb
-@@ -117,7 +117,7 @@ inherit update-alternatives
- ALTERNATIVE_PRIORITY = "100"
- # Make hostname's priority higher than busybox but lower than net-tools
- ALTERNATIVE_PRIORITY[hostname] = "90"
--ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base64 nice printenv mktemp df"
-+ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs} base32 base64 nice printenv mktemp df"
- ALTERNATIVE_${PN}-doc = "base64.1 nice.1 mktemp.1 df.1 groups.1 kill.1 uptime.1 stat.1 hostname.1"
- 
- ALTERNATIVE_LINK_NAME[hostname.1] = "${mandir}/man1/hostname.1"
--- 
-2.30.0
+Fedora, Debian, Ubuntu, opensuse all use 1.16.0.
 
+The 1.17.4 was released in end of November, so with a little patience 1.18
+should show up soon enough.
+
+If you need the new features, you can supply the new version from a
+separate layer?
+
+Alex
+
+--000000000000c674d605bc8a5032
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 2 Mar 2021 at 07:29, Yi Fan Yu &lt;<a href=3D"mailto:yifan.y=
+u@windriver.com">yifan.yu@windriver.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><br>
+Thoughts on if its acceptable for Yocto to use a snapshot release for cairo=
+?<br>
+<br>
+current version 1.16 was released on 2018-10-19<br>
+<br>
+Archlinux uses 1.17.4<br>
+Linux From Scratch recommends 1.17.2<br></blockquote><div><br></div><div>Fe=
+dora, Debian, Ubuntu, opensuse all use 1.16.0. <br></div><div><br></div><di=
+v>The 1.17.4 was released in end of November, so with a little patience 1.1=
+8 should show up soon enough.</div><div><br></div><div>If you need the new =
+features, you can supply the new version from a separate layer?</div><div><=
+br></div><div>Alex<br></div></div></div>
+
+--000000000000c674d605bc8a5032--
