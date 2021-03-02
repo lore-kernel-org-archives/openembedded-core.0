@@ -1,110 +1,83 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.270.1614710814393429740
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 10:46:54 -0800
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web09.283.1614710955908765439
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 02 Mar 2021 10:49:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YYdOQTDv;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id d2so2616476pjs.4
-        for <Openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 10:46:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ELqoaLlytIJDWKtRY+AsRhPswJ/VTBlwXrr0TedsFfA=;
-        b=YYdOQTDvjSRMOT2vOKH0KY9REaa4HGZ5IkOm79jB5nK9m81wjQQF1ztMcx0nht30/7
-         zg9xVdasVs2Wl7zWjjwpL+fGs86gqij4KTTnCv/zD7C/TQuUJSncC33SJ9pjWKpB6gH9
-         4Ou1o41D6ldcuFA4X15Jc+OTTvB/tzZvH/1xP3Ccemr91z0azaGY3rhlXwY7ONSU1/Cu
-         OG5/FIG+OjaiaJtcfrZhRUPSan+0GbmYe3ZseCuFrpyqcW+eRih4wgLSA0YMmGFI2r0/
-         LsSUp29V+aaakTMER0goNjCTll1eESFyPMe648UE0MrAC6eriL01dImjN1dKib9fXteY
-         bFOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ELqoaLlytIJDWKtRY+AsRhPswJ/VTBlwXrr0TedsFfA=;
-        b=jgm//1gfRFX6z9k+UvQBlt0q/ZKeBysxo+e90lJa8/hN2Z+MAkmIUkS3K4kvnJEg31
-         L7sJ6s4NGrtv34HAyVxB2nL4YC2MDXz94bw3P1FtJiDlvhCjoIGyPEICjRxGpWYlxpvf
-         y8uw/B35Ewd22TOKlA5X/sbFHi6Xt7vNeYgXwjiSEQJ3MzuTE/bCSHLAgBjJoud1MHLx
-         rUNXBdrOP5wkt5SshQfLRpzvYNJEXduDR69bcwtizNbn2IYpQ0mgLDRutLtXePXF7fbb
-         eu5OSVjbLHurB1AtrWO9ylYCuTAqggzQ4+U8pH9bBUm0DNgatzijmAbT00Mr2UCh/8Ma
-         q7HQ==
-X-Gm-Message-State: AOAM532CA66P9XPnHnSDUg1GZid56TX3owO5+YQEYoJnLLlXPNtH/u9o
-	IxwNGHbiSqdyl/Y9BG7GzAE=
-X-Google-Smtp-Source: ABdhPJxSUrhCZohV25QsW1DJoJa8Odqa6WIvkWQ5agNvunVbII7008RZtBaD0rdJz6nKp5p7Zywn+w==
-X-Received: by 2002:a17:902:6b88:b029:df:ff72:7bc6 with SMTP id p8-20020a1709026b88b02900dfff727bc6mr4654013plk.23.1614710813599;
-        Tue, 02 Mar 2021 10:46:53 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:8991:b66:15e2:cd87? ([2601:646:9200:a0f0:8991:b66:15e2:cd87])
-        by smtp.gmail.com with ESMTPSA id r123sm21979796pfc.211.2021.03.02.10.46.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Mar 2021 10:46:53 -0800 (PST)
-Subject: Re: [OE-core] [PATCH 2/3] systemd-container: recommend tar
-To: Vivien Didelot <vivien.didelot@gmail.com>,
- Openembedded-core@lists.openembedded.org
-Cc: Chen Qi <Qi.Chen@windriver.com>
-References: <20210301165325.3987311-1-vdidelot@pbsc.com>
- <20210301165325.3987311-2-vdidelot@pbsc.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <a4329c47-9493-e7b6-039c-84db68f3dc50@gmail.com>
-Date: Tue, 2 Mar 2021 10:46:51 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.0
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: alexandre.belloni@bootlin.com)
+Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
+	(Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 4075E240002;
+	Tue,  2 Mar 2021 18:49:13 +0000 (UTC)
+Date: Tue, 2 Mar 2021 19:49:12 +0100
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+To: Luca Boccassi <luca.boccassi@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, bluelightning@bluelightning.org
+Subject: Re: [OE-core] [PATCH v5] util-linux: split uuid in separate recipe to allow bootstrapping
+Message-ID: <YD6IqGHLWgqTWsc4@piout.net>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+ <20210225153035.1239276-1-luca.boccassi@gmail.com>
+ <YDpcp0FCjX0B2UNo@piout.net>
+ <YDpgUIRQ9vnkUISx@piout.net>
+ <YDph/MNz185ufMZR@piout.net>
+ <a9728ba140214b6c58a3eacb87adf89889272128.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301165325.3987311-2-vdidelot@pbsc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <a9728ba140214b6c58a3eacb87adf89889272128.camel@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-we should be enabling CONFIG_LONG_OPTS=y in busybox when using systemd
+Hi,
 
-On 3/1/21 8:53 AM, Vivien Didelot wrote:
-> If systemd is configured with importd, "machinectl import-*" can be
-> used to add container trees under /var/lib/machines.
+On 02/03/2021 17:31:06+0000, Luca Boccassi wrote:
+> > > > ERROR: glibc-2.33-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
+> > > > [...]
+> > > > Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/sysroots-components/mips64/libgcc/usr/lib/mips64-poky-linux/10.2.0/libgcc.a' -> '/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/recipe-sysroot/usr/lib/mips64-poky-linux/10.2.0/libgcc.a'
+> > > > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/temp/log.do_package.29993
+> > > > NOTE: recipe glibc-2.33-r0: task do_package: Failed
+> > > > ERROR: Task (/home/pokybuild/yocto-worker/edgerouter/build/meta/recipes-core/glibc/glibc_2.33.bb:do_package) failed with exit code '1'
+> > > > 
 > 
-> But "machinectl import-tar" makes use of "tar --numeric-owner" which
-> is not supported by the busybox binary, as shown below:
+> I see those kind of errors without this patch all the time, when a
+> build directory is hosed, and normally it means it's time for a rm -rf
+> and start over. It happens quite often when building in the same
+> directory multiple times. Are you sure it's related to this particular
+> patch?
 > 
->      # machinectl import-tar /tmp/container.tar.xz
->      Enqueued transfer job 1. Press C-c to continue download in background.
->      Importing '/tmp/container.tar.xz', saving as 'container'.
->      Imported 0%.
->      tar: unrecognized option '--numeric-owner'
->      BusyBox v1.31.1 () multi-call binary.
->      Usage: tar c|x|t [-ZzJjahmvokO] [-f TARFILE] [-C DIR] [-T FILE] [-X FILE] [FILE]...
->      Failed to decode and write: Broken pipe
->      Exiting.
+
+No, not completely sure, however, the issue was gone as soon as the
+patch has been removed. Richard may have more insight.
+
+> > > Not sure this helps but we also get:
+> > > 
+> > > WARNING: nativesdk-util-linux-2.36.2-r0 do_package_qa: QA Issue: nativesdk-util-linux rdepends on nativesdk-util-linux-uuid, but it isn't a build dependency? [build-deps]
 > 
-> To fix this, recommend the standard tar package.
+> Uhm I don't understand this warning, it _is_ a build dependency? Any
+> idea?
 > 
-> Cc: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
-> ---
->   meta/recipes-core/systemd/systemd_247.3.bb | 2 ++
->   1 file changed, 2 insertions(+)
+
+This was the failing build if you want to look at the config to try to
+reproduce:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/3440
+
+> -DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
+> +DEPENDS = "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
 > 
-> diff --git a/meta/recipes-core/systemd/systemd_247.3.bb b/meta/recipes-core/systemd/systemd_247.3.bb
-> index 1aac754cfc..3454085e5f 100644
-> --- a/meta/recipes-core/systemd/systemd_247.3.bb
-> +++ b/meta/recipes-core/systemd/systemd_247.3.bb
-> @@ -484,10 +484,12 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
->                            ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
->                           "
->   
-> +# "machinectl import-tar" uses "tar --numeric-owner", not supported by busybox.
->   RRECOMMENDS_${PN}-container += "\
->                            ${PN}-journal-gatewayd \
->                            ${PN}-journal-remote \
->                            ${PN}-journal-upload \
-> +                         tar \
->                           "
->   
->   FILES_${PN}-extra-utils = "\
+> > and I'm adding https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/3137/steps/12/logs/stdio :
+> > 
+> > ERROR: util-linux-uuid-2.36.2-r0 do_package: QA Issue: util-linux-uuid: Files/directories were installed but not shipped in any package:
+> >   /usr/lib/libuuid.a
+> > Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
 > 
+> Whops, indeed I forgot the static archive, fixed now.
 > 
-> 
-> 
-> 
+> -- 
+> Kind regards,
+> Luca Boccassi
+
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
