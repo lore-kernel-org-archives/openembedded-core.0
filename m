@@ -1,1525 +1,1328 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.72.1614700133866737351
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web09.466.1614701555327941041
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 07:48:54 -0800
+ Tue, 02 Mar 2021 08:12:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WmBh9zGn;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id e3so10088683pfj.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 07:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=prhx7zocfLzilPk+jTcyb0vwVGlrD2SIZNMXyqFntQ0=;
-        b=WmBh9zGn3JHs+oKWvZVhy3K9hNITRy8FVDw35gr/WloZj5fhvtw2kvvVEgc/wmvDE/
-         SgrCAOWj188T4TRRTMESBjGS2x672iH4+1EUaMvLE4HMAPBk/FsKobNO87cwfznCgf5a
-         q71CKKE6uAl0dFDxjyueEZWJ1HF9yBATnQebRcFzNW3jO7EunC6y4HO9Gdom0UtAlUaP
-         ThLyhTINdg5RrrDxUIiau9IwkHiOXCOZs19Db9RmnrdgNIhto2SZwU0wtyRsIT7NdvUV
-         BY3B8RLoj3Zhfpy2AyI5ItMVWtGYpLwTRX9Uz8Z2Tc2T8Ua1DxhNA+CemQlMXbhWFxoM
-         vefQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=prhx7zocfLzilPk+jTcyb0vwVGlrD2SIZNMXyqFntQ0=;
-        b=oOtGBKzGLtUWfbXeanKNVKWYg46JXh5Lql+WkpXgbEHIOZDMmtKvVfHsbCW6toNlZD
-         5IiyrbVe3DYQiHMOsp4SbJZhVPovE0TTkG/Z0vPaRuHDTRiBDpOth1MLt0aYjj2OtTPE
-         xJ8FJ2MzbkRY40kfps3Kp/NK2/iir9N/FKs+6cDA2L85SyxbaQ94C/0GFiB0RH4ySE70
-         aFPQNc2rZXGUZL+HIZX8sNjnOwLICodZdWgQR3hmRMUkhLhnMmKjSbbQI3UjCayMXzNb
-         mnypKxUBal3+WhmVs8bN45PugXI2Wi9LiPfz4UYP0K2KI+4GwcGrWXZKjU9axl44x9iY
-         dmSg==
-X-Gm-Message-State: AOAM533zX2WlvKvgpCYMbCLYcmYDjmD3hkTds2D1VD0uXFs6lBLUPsam
-	XMxbWvYpos/g6xogq5uEa4B5hc+S04s=
-X-Google-Smtp-Source: ABdhPJw9FuNjEHhC4peon65uPia1mjPXc3wsloV1ndHFJ5Q7oFl7eEmMUk1M4sK6vADejfAB5+O4iw==
-X-Received: by 2002:a63:4924:: with SMTP id w36mr14419570pga.200.1614700131471;
-        Tue, 02 Mar 2021 07:48:51 -0800 (PST)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id l74sm20970734pga.86.2021.03.02.07.48.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Mar 2021 07:48:51 -0800 (PST)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Status WW09`21
-Date: Tue, 2 Mar 2021 07:48:50 -0800
-Message-ID: <164e01d70f7b$8abdfd60$a039f820$@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: PsSLFMxtbkzHGaKmtsRQ9/2Bcb6si5R6k4ERNuo9RTUTvQKeIQJSaQGhsnKIiFeJG5j4iBYM/W
+ Vd5f9d6YkPSg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="166107815"
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
+   d="scan'208";a="166107815"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2021 08:12:31 -0800
+IronPort-SDR: GJ5InNycsRWqYbI9HKVuJmk+r0UPJOAUu2c9nT+A1gbbCcm7vHEmwfl9sQAtSTclYc8iqj/tOm
+ TTwHU7lgoO+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,216,1610438400"; 
+   d="scan'208";a="406782253"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by orsmga008.jf.intel.com with ESMTP; 02 Mar 2021 08:12:24 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 1/2] python3: fix CVE-2021-3177 CVE-2021-23336
+Date: Wed,  3 Mar 2021 00:12:22 +0800
+Message-Id: <20210302161223.43040-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdcPe4osxAFiXaeURBaHSPLUKwLbYA==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_164F_01D70F38.7C9E3FD0"
-Content-Language: en-us
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_164F_01D70F38.7C9E3FD0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Current Dev Position: YP 3.3 Feature Freeze
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../python/CVE-2021-23336.patch               | 530 ++++++++++++++++++
+ .../python/python3/CVE-2021-23336.patch       | 530 ++++++++++++++++++
+ .../python/python3/CVE-2021-3177.patch        | 191 +++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   2 +
+ 4 files changed, 1253 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/CVE-2021-23336.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-3177.patch
 
-Next Deadline: 1st March 2021 YP 3.3 M3 build
-
+diff --git a/meta/recipes-devtools/python/CVE-2021-23336.patch b/meta/recipes-devtools/python/CVE-2021-23336.patch
+new file mode 100644
+index 0000000000..2a885b9d37
+--- /dev/null
++++ b/meta/recipes-devtools/python/CVE-2021-23336.patch
+@@ -0,0 +1,530 @@
++From 3ab6f812653e79d008d5eba31dc25d34f3ca7170 Mon Sep 17 00:00:00 2001
++From: Senthil Kumaran <senthil@uthcode.com>
++Date: Mon, 15 Feb 2021 10:15:02 -0800
++Subject: [PATCH] bpo-42967: only use '&' as a query string separator
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++ (GH-24297)  (#24529)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++* bpo-42967: only use '&' as a query string separator (#24297)
++
++bpo-42967: [security] Address a web cache-poisoning issue reported in
++urllib.parse.parse_qsl().
++
++urllib.parse will only us "&" as query string separator by default
++instead of both ";" and "&" as allowed in earlier versions. An optional
++argument seperator with default value "&" is added to specify the
++separator.
++
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
++Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
++
++* [3.8] bpo-42967: only use '&' as a query string separator (GH-24297)
++
++bpo-42967: [security] Address a web cache-poisoning issue reported in urllib.parse.parse_qsl().
++
++urllib.parse will only us "&" as query string separator by default instead of both ";" and "&" as allowed in earlier versions. An optional argument seperator with default value "&" is added to specify the separator.
++
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
++Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
++Co-authored-by: Éric Araujo <merwok@netwok.org>.
++(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
++
++Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
++
++* Update correct version information.
++
++* fix docs and make logic clearer
++
++Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
++Co-authored-by: Fidget-Spinner <28750310+Fidget-Spinner@users.noreply.github.com>
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/e3110c3cfbb7daa690d54d0eff6c264c870a71bf]
++CVE: CVE-2020-23336
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ Doc/library/cgi.rst                           | 11 ++-
++ Doc/library/urllib.parse.rst                  | 22 +++++-
++ Doc/whatsnew/3.6.rst                          | 13 ++++
++ Doc/whatsnew/3.7.rst                          | 13 ++++
++ Lib/cgi.py                                    | 23 ++++---
++ Lib/test/test_cgi.py                          | 29 ++++++--
++ Lib/test/test_urlparse.py                     | 68 +++++++++++++------
++ Lib/urllib/parse.py                           | 19 ++++--
++ .../2021-02-14-15-59-16.bpo-42967.YApqDS.rst  |  1 +
++ 9 files changed, 153 insertions(+), 46 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++
++diff --git a/Doc/library/cgi.rst b/Doc/library/cgi.rst
++index 4048592..880074b 100644
++--- a/Doc/library/cgi.rst
+++++ b/Doc/library/cgi.rst
++@@ -277,14 +277,16 @@ These are useful if you want more control, or if you want to employ some of the
++ algorithms implemented in this module in other circumstances.
++ 
++ 
++-.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False)
+++.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False, separator="&")
++ 
++    Parse a query in the environment or from a file (the file defaults to
++-   ``sys.stdin``).  The *keep_blank_values* and *strict_parsing* parameters are
+++   ``sys.stdin``).  The *keep_blank_values*, *strict_parsing* and *separator* parameters are
++    passed to :func:`urllib.parse.parse_qs` unchanged.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added the *separator* parameter.
++ 
++-.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace")
+++.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator="&")
++ 
++    Parse input of type :mimetype:`multipart/form-data` (for  file uploads).
++    Arguments are *fp* for the input file, *pdict* for a dictionary containing
++@@ -303,6 +305,9 @@ algorithms implemented in this module in other circumstances.
++       Added the *encoding* and *errors* parameters.  For non-file fields, the
++       value is now a list of strings, not bytes.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added the *separator* parameter.
+++
++ 
++ .. function:: parse_header(string)
++ 
++diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
++index 52f98ef..45ca03a 100644
++--- a/Doc/library/urllib.parse.rst
+++++ b/Doc/library/urllib.parse.rst
++@@ -165,7 +165,7 @@ or on combining URL components into a URL string.
++       now raise :exc:`ValueError`.
++ 
++ 
++-.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+++.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
++ 
++    Parse a query string given as a string argument (data of type
++    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
++@@ -190,6 +190,9 @@ or on combining URL components into a URL string.
++    read. If set, then throws a :exc:`ValueError` if there are more than
++    *max_num_fields* fields read.
++ 
+++   The optional argument *separator* is the symbol to use for separating the
+++   query arguments. It defaults to ``&``.
+++
++    Use the :func:`urllib.parse.urlencode` function (with the ``doseq``
++    parameter set to ``True``) to convert such dictionaries into query
++    strings.
++@@ -201,8 +204,14 @@ or on combining URL components into a URL string.
++    .. versionchanged:: 3.8
++       Added *max_num_fields* parameter.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added *separator* parameter with the default value of ``&``. Python
+++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+++      query parameter separator. This has been changed to allow only a single
+++      separator key, with ``&`` as the default separator.
+++
++ 
++-.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+++.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
++ 
++    Parse a query string given as a string argument (data of type
++    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
++@@ -226,6 +235,9 @@ or on combining URL components into a URL string.
++    read. If set, then throws a :exc:`ValueError` if there are more than
++    *max_num_fields* fields read.
++ 
+++   The optional argument *separator* is the symbol to use for separating the
+++   query arguments. It defaults to ``&``.
+++
++    Use the :func:`urllib.parse.urlencode` function to convert such lists of pairs into
++    query strings.
++ 
++@@ -235,6 +247,12 @@ or on combining URL components into a URL string.
++    .. versionchanged:: 3.8
++       Added *max_num_fields* parameter.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added *separator* parameter with the default value of ``&``. Python
+++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+++      query parameter separator. This has been changed to allow only a single
+++      separator key, with ``&`` as the default separator.
+++
++ 
++ .. function:: urlunparse(parts)
++ 
++diff --git a/Doc/whatsnew/3.6.rst b/Doc/whatsnew/3.6.rst
++index 04c1f7e..4409a3a 100644
++--- a/Doc/whatsnew/3.6.rst
+++++ b/Doc/whatsnew/3.6.rst
++@@ -2443,3 +2443,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
++ details, see the documentation for ``loop.create_datagram_endpoint()``.
++ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
++ :issue:`37228`.)
+++
+++Notable changes in Python 3.6.13
+++================================
+++
+++Earlier Python versions allowed using both ``;`` and ``&`` as
+++query parameter separators in :func:`urllib.parse.parse_qs` and
+++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+++newer W3C recommendations, this has been changed to allow only a single
+++separator key, with ``&`` as the default.  This change also affects
+++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+++functions internally. For more details, please see their respective
+++documentation.
+++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
++diff --git a/Doc/whatsnew/3.7.rst b/Doc/whatsnew/3.7.rst
++index b9b5021..8f47a9f 100644
++--- a/Doc/whatsnew/3.7.rst
+++++ b/Doc/whatsnew/3.7.rst
++@@ -2556,3 +2556,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
++ details, see the documentation for ``loop.create_datagram_endpoint()``.
++ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
++ :issue:`37228`.)
+++
+++Notable changes in Python 3.7.10
+++================================
+++
+++Earlier Python versions allowed using both ``;`` and ``&`` as
+++query parameter separators in :func:`urllib.parse.parse_qs` and
+++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+++newer W3C recommendations, this has been changed to allow only a single
+++separator key, with ``&`` as the default.  This change also affects
+++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+++functions internally. For more details, please see their respective
+++documentation.
+++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
++diff --git a/Lib/cgi.py b/Lib/cgi.py
++index 5ace46a..13255a9 100755
++--- a/Lib/cgi.py
+++++ b/Lib/cgi.py
++@@ -106,7 +106,8 @@ log = initlog           # The current logging function
++ # 0 ==> unlimited input
++ maxlen = 0
++ 
++-def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+++def parse(fp=None, environ=os.environ, keep_blank_values=0,
+++          strict_parsing=0, separator='&'):
++     """Parse a query in the environment or from a file (default stdin)
++ 
++         Arguments, all optional:
++@@ -125,6 +126,9 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++         strict_parsing: flag indicating what to do with parsing errors.
++             If false (the default), errors are silently ignored.
++             If true, errors raise a ValueError exception.
+++
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
++     """
++     if fp is None:
++         fp = sys.stdin
++@@ -145,7 +149,7 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++     if environ['REQUEST_METHOD'] == 'POST':
++         ctype, pdict = parse_header(environ['CONTENT_TYPE'])
++         if ctype == 'multipart/form-data':
++-            return parse_multipart(fp, pdict)
+++            return parse_multipart(fp, pdict, separator=separator)
++         elif ctype == 'application/x-www-form-urlencoded':
++             clength = int(environ['CONTENT_LENGTH'])
++             if maxlen and clength > maxlen:
++@@ -169,10 +173,10 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++             qs = ""
++         environ['QUERY_STRING'] = qs    # XXX Shouldn't, really
++     return urllib.parse.parse_qs(qs, keep_blank_values, strict_parsing,
++-                                 encoding=encoding)
+++                                 encoding=encoding, separator=separator)
++ 
++ 
++-def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
+++def parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator='&'):
++     """Parse multipart input.
++ 
++     Arguments:
++@@ -193,7 +197,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
++     headers.set_type(ctype)
++     headers['Content-Length'] = pdict['CONTENT-LENGTH']
++     fs = FieldStorage(fp, headers=headers, encoding=encoding, errors=errors,
++-        environ={'REQUEST_METHOD': 'POST'})
+++        environ={'REQUEST_METHOD': 'POST'}, separator=separator)
++     return {k: fs.getlist(k) for k in fs}
++ 
++ def _parseparam(s):
++@@ -303,7 +307,7 @@ class FieldStorage:
++     def __init__(self, fp=None, headers=None, outerboundary=b'',
++                  environ=os.environ, keep_blank_values=0, strict_parsing=0,
++                  limit=None, encoding='utf-8', errors='replace',
++-                 max_num_fields=None):
+++                 max_num_fields=None, separator='&'):
++         """Constructor.  Read multipart/* until last part.
++ 
++         Arguments, all optional:
++@@ -351,6 +355,7 @@ class FieldStorage:
++         self.keep_blank_values = keep_blank_values
++         self.strict_parsing = strict_parsing
++         self.max_num_fields = max_num_fields
+++        self.separator = separator
++         if 'REQUEST_METHOD' in environ:
++             method = environ['REQUEST_METHOD'].upper()
++         self.qs_on_post = None
++@@ -577,7 +582,7 @@ class FieldStorage:
++         query = urllib.parse.parse_qsl(
++             qs, self.keep_blank_values, self.strict_parsing,
++             encoding=self.encoding, errors=self.errors,
++-            max_num_fields=self.max_num_fields)
+++            max_num_fields=self.max_num_fields, separator=self.separator)
++         self.list = [MiniFieldStorage(key, value) for key, value in query]
++         self.skip_lines()
++ 
++@@ -593,7 +598,7 @@ class FieldStorage:
++             query = urllib.parse.parse_qsl(
++                 self.qs_on_post, self.keep_blank_values, self.strict_parsing,
++                 encoding=self.encoding, errors=self.errors,
++-                max_num_fields=self.max_num_fields)
+++                max_num_fields=self.max_num_fields, separator=self.separator)
++             self.list.extend(MiniFieldStorage(key, value) for key, value in query)
++ 
++         klass = self.FieldStorageClass or self.__class__
++@@ -637,7 +642,7 @@ class FieldStorage:
++                 else self.limit - self.bytes_read
++             part = klass(self.fp, headers, ib, environ, keep_blank_values,
++                          strict_parsing, limit,
++-                         self.encoding, self.errors, max_num_fields)
+++                         self.encoding, self.errors, max_num_fields, self.separator)
++ 
++             if max_num_fields is not None:
++                 max_num_fields -= 1
++diff --git a/Lib/test/test_cgi.py b/Lib/test/test_cgi.py
++index ab86771..bda03ee 100644
++--- a/Lib/test/test_cgi.py
+++++ b/Lib/test/test_cgi.py
++@@ -53,12 +53,9 @@ parse_strict_test_cases = [
++     ("", ValueError("bad query field: ''")),
++     ("&", ValueError("bad query field: ''")),
++     ("&&", ValueError("bad query field: ''")),
++-    (";", ValueError("bad query field: ''")),
++-    (";&;", ValueError("bad query field: ''")),
++     # Should the next few really be valid?
++     ("=", {}),
++     ("=&=", {}),
++-    ("=;=", {}),
++     # This rest seem to make sense
++     ("=a", {'': ['a']}),
++     ("&=a", ValueError("bad query field: ''")),
++@@ -73,8 +70,6 @@ parse_strict_test_cases = [
++     ("a=a+b&b=b+c", {'a': ['a b'], 'b': ['b c']}),
++     ("a=a+b&a=b+a", {'a': ['a b', 'b a']}),
++     ("x=1&y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++-    ("x=1;y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++-    ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++     ("Hbc5161168c542333633315dee1182227:key_store_seqid=400006&cuyer=r&view=bustomer&order_id=0bb2e248638833d48cb7fed300000f1b&expire=964546263&lobale=en-US&kid=130003.300038&ss=env",
++      {'Hbc5161168c542333633315dee1182227:key_store_seqid': ['400006'],
++       'cuyer': ['r'],
++@@ -187,6 +182,30 @@ Content-Length: 3
++                     else:
++                         self.assertEqual(fs.getvalue(key), expect_val[0])
++ 
+++    def test_separator(self):
+++        parse_semicolon = [
+++            ("x=1;y=2.0", {'x': ['1'], 'y': ['2.0']}),
+++            ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+++            (";", ValueError("bad query field: ''")),
+++            (";;", ValueError("bad query field: ''")),
+++            ("=;a", ValueError("bad query field: 'a'")),
+++            (";b=a", ValueError("bad query field: ''")),
+++            ("b;=a", ValueError("bad query field: 'b'")),
+++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+++            ("a=a+b;a=b+a", {'a': ['a b', 'b a']}),
+++        ]
+++        for orig, expect in parse_semicolon:
+++            env = {'QUERY_STRING': orig}
+++            fs = cgi.FieldStorage(separator=';', environ=env)
+++            if isinstance(expect, dict):
+++                for key in expect.keys():
+++                    expect_val = expect[key]
+++                    self.assertIn(key, fs)
+++                    if len(expect_val) > 1:
+++                        self.assertEqual(fs.getvalue(key), expect_val)
+++                    else:
+++                        self.assertEqual(fs.getvalue(key), expect_val[0])
+++
++     def test_log(self):
++         cgi.log("Testing")
++ 
++diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
++index 4ae6ed3..90c8d69 100644
++--- a/Lib/test/test_urlparse.py
+++++ b/Lib/test/test_urlparse.py
++@@ -32,16 +32,10 @@ parse_qsl_test_cases = [
++     (b"&a=b", [(b'a', b'b')]),
++     (b"a=a+b&b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
++     (b"a=1&a=2", [(b'a', b'1'), (b'a', b'2')]),
++-    (";", []),
++-    (";;", []),
++-    (";a=b", [('a', 'b')]),
++-    ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
++-    ("a=1;a=2", [('a', '1'), ('a', '2')]),
++-    (b";", []),
++-    (b";;", []),
++-    (b";a=b", [(b'a', b'b')]),
++-    (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
++-    (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+++    (";a=b", [(';a', 'b')]),
+++    ("a=a+b;b=b+c", [('a', 'a b;b=b c')]),
+++    (b";a=b", [(b';a', b'b')]),
+++    (b"a=a+b;b=b+c", [(b'a', b'a b;b=b c')]),
++ ]
++ 
++ # Each parse_qs testcase is a two-tuple that contains
++@@ -68,16 +62,10 @@ parse_qs_test_cases = [
++     (b"&a=b", {b'a': [b'b']}),
++     (b"a=a+b&b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
++     (b"a=1&a=2", {b'a': [b'1', b'2']}),
++-    (";", {}),
++-    (";;", {}),
++-    (";a=b", {'a': ['b']}),
++-    ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
++-    ("a=1;a=2", {'a': ['1', '2']}),
++-    (b";", {}),
++-    (b";;", {}),
++-    (b";a=b", {b'a': [b'b']}),
++-    (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
++-    (b"a=1;a=2", {b'a': [b'1', b'2']}),
+++    (";a=b", {';a': ['b']}),
+++    ("a=a+b;b=b+c", {'a': ['a b;b=b c']}),
+++    (b";a=b", {b';a': [b'b']}),
+++    (b"a=a+b;b=b+c", {b'a':[ b'a b;b=b c']}),
++ ]
++ 
++ class UrlParseTestCase(unittest.TestCase):
++@@ -884,10 +872,46 @@ class UrlParseTestCase(unittest.TestCase):
++     def test_parse_qsl_max_num_fields(self):
++         with self.assertRaises(ValueError):
++             urllib.parse.parse_qs('&'.join(['a=a']*11), max_num_fields=10)
++-        with self.assertRaises(ValueError):
++-            urllib.parse.parse_qs(';'.join(['a=a']*11), max_num_fields=10)
++         urllib.parse.parse_qs('&'.join(['a=a']*10), max_num_fields=10)
++ 
+++    def test_parse_qs_separator(self):
+++        parse_qs_semicolon_cases = [
+++            (";", {}),
+++            (";;", {}),
+++            (";a=b", {'a': ['b']}),
+++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+++            ("a=1;a=2", {'a': ['1', '2']}),
+++            (b";", {}),
+++            (b";;", {}),
+++            (b";a=b", {b'a': [b'b']}),
+++            (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
+++            (b"a=1;a=2", {b'a': [b'1', b'2']}),
+++        ]
+++        for orig, expect in parse_qs_semicolon_cases:
+++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+++                result = urllib.parse.parse_qs(orig, separator=';')
+++                self.assertEqual(result, expect, "Error parsing %r" % orig)
+++
+++
+++    def test_parse_qsl_separator(self):
+++        parse_qsl_semicolon_cases = [
+++            (";", []),
+++            (";;", []),
+++            (";a=b", [('a', 'b')]),
+++            ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
+++            ("a=1;a=2", [('a', '1'), ('a', '2')]),
+++            (b";", []),
+++            (b";;", []),
+++            (b";a=b", [(b'a', b'b')]),
+++            (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
+++            (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+++        ]
+++        for orig, expect in parse_qsl_semicolon_cases:
+++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+++                result = urllib.parse.parse_qsl(orig, separator=';')
+++                self.assertEqual(result, expect, "Error parsing %r" % orig)
+++
+++
++     def test_urlencode_sequences(self):
++         # Other tests incidentally urlencode things; test non-covered cases:
++         # Sequence and object values.
++diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
++index e2b6f13..5a3e847 100644
++--- a/Lib/urllib/parse.py
+++++ b/Lib/urllib/parse.py
++@@ -648,7 +648,7 @@ def unquote(string, encoding='utf-8', errors='replace'):
++ 
++ 
++ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++-             encoding='utf-8', errors='replace', max_num_fields=None):
+++             encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
++     """Parse a query given as a string argument.
++ 
++         Arguments:
++@@ -672,12 +672,15 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++         max_num_fields: int. If set, then throws a ValueError if there
++             are more than n fields read by parse_qsl().
++ 
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
+++
++         Returns a dictionary.
++     """
++     parsed_result = {}
++     pairs = parse_qsl(qs, keep_blank_values, strict_parsing,
++                       encoding=encoding, errors=errors,
++-                      max_num_fields=max_num_fields)
+++                      max_num_fields=max_num_fields, separator=separator)
++     for name, value in pairs:
++         if name in parsed_result:
++             parsed_result[name].append(value)
++@@ -687,7 +690,7 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++ 
++ 
++ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
++-              encoding='utf-8', errors='replace', max_num_fields=None):
+++              encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
++     """Parse a query given as a string argument.
++ 
++         Arguments:
++@@ -710,19 +713,25 @@ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
++         max_num_fields: int. If set, then throws a ValueError
++             if there are more than n fields read by parse_qsl().
++ 
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
+++
++         Returns a list, as G-d intended.
++     """
++     qs, _coerce_result = _coerce_args(qs)
++ 
+++    if not separator or (not isinstance(separator, (str, bytes))):
+++        raise ValueError("Separator must be of type string or bytes.")
+++
++     # If max_num_fields is defined then check that the number of fields
++     # is less than max_num_fields. This prevents a memory exhaustion DOS
++     # attack via post bodies with many fields.
++     if max_num_fields is not None:
++-        num_fields = 1 + qs.count('&') + qs.count(';')
+++        num_fields = 1 + qs.count(separator)
++         if max_num_fields < num_fields:
++             raise ValueError('Max number of fields exceeded')
++ 
++-    pairs = [s2 for s1 in qs.split('&') for s2 in s1.split(';')]
+++    pairs = [s1 for s1 in qs.split(separator)]
++     r = []
++     for name_value in pairs:
++         if not name_value and not strict_parsing:
++diff --git a/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++new file mode 100644
++index 0000000..f08489b
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++@@ -0,0 +1 @@
+++Fix web cache poisoning vulnerability by defaulting the query args separator to ``&``, and allowing the user to choose a custom separator.
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-23336.patch b/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+new file mode 100644
+index 0000000000..2a885b9d37
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+@@ -0,0 +1,530 @@
++From 3ab6f812653e79d008d5eba31dc25d34f3ca7170 Mon Sep 17 00:00:00 2001
++From: Senthil Kumaran <senthil@uthcode.com>
++Date: Mon, 15 Feb 2021 10:15:02 -0800
++Subject: [PATCH] bpo-42967: only use '&' as a query string separator
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++ (GH-24297)  (#24529)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++* bpo-42967: only use '&' as a query string separator (#24297)
++
++bpo-42967: [security] Address a web cache-poisoning issue reported in
++urllib.parse.parse_qsl().
++
++urllib.parse will only us "&" as query string separator by default
++instead of both ";" and "&" as allowed in earlier versions. An optional
++argument seperator with default value "&" is added to specify the
++separator.
++
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
++Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
++
++* [3.8] bpo-42967: only use '&' as a query string separator (GH-24297)
++
++bpo-42967: [security] Address a web cache-poisoning issue reported in urllib.parse.parse_qsl().
++
++urllib.parse will only us "&" as query string separator by default instead of both ";" and "&" as allowed in earlier versions. An optional argument seperator with default value "&" is added to specify the separator.
++
++Co-authored-by: Éric Araujo <merwok@netwok.org>
++Co-authored-by: blurb-it[bot] <43283697+blurb-it[bot]@users.noreply.github.com>
++Co-authored-by: Ken Jin <28750310+Fidget-Spinner@users.noreply.github.com>
++Co-authored-by: Éric Araujo <merwok@netwok.org>.
++(cherry picked from commit fcbe0cb04d35189401c0c880ebfb4311e952d776)
++
++Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
++
++* Update correct version information.
++
++* fix docs and make logic clearer
++
++Co-authored-by: Adam Goldschmidt <adamgold7@gmail.com>
++Co-authored-by: Fidget-Spinner <28750310+Fidget-Spinner@users.noreply.github.com>
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/e3110c3cfbb7daa690d54d0eff6c264c870a71bf]
++CVE: CVE-2020-23336
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ Doc/library/cgi.rst                           | 11 ++-
++ Doc/library/urllib.parse.rst                  | 22 +++++-
++ Doc/whatsnew/3.6.rst                          | 13 ++++
++ Doc/whatsnew/3.7.rst                          | 13 ++++
++ Lib/cgi.py                                    | 23 ++++---
++ Lib/test/test_cgi.py                          | 29 ++++++--
++ Lib/test/test_urlparse.py                     | 68 +++++++++++++------
++ Lib/urllib/parse.py                           | 19 ++++--
++ .../2021-02-14-15-59-16.bpo-42967.YApqDS.rst  |  1 +
++ 9 files changed, 153 insertions(+), 46 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++
++diff --git a/Doc/library/cgi.rst b/Doc/library/cgi.rst
++index 4048592..880074b 100644
++--- a/Doc/library/cgi.rst
+++++ b/Doc/library/cgi.rst
++@@ -277,14 +277,16 @@ These are useful if you want more control, or if you want to employ some of the
++ algorithms implemented in this module in other circumstances.
++ 
++ 
++-.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False)
+++.. function:: parse(fp=None, environ=os.environ, keep_blank_values=False, strict_parsing=False, separator="&")
++ 
++    Parse a query in the environment or from a file (the file defaults to
++-   ``sys.stdin``).  The *keep_blank_values* and *strict_parsing* parameters are
+++   ``sys.stdin``).  The *keep_blank_values*, *strict_parsing* and *separator* parameters are
++    passed to :func:`urllib.parse.parse_qs` unchanged.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added the *separator* parameter.
++ 
++-.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace")
+++.. function:: parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator="&")
++ 
++    Parse input of type :mimetype:`multipart/form-data` (for  file uploads).
++    Arguments are *fp* for the input file, *pdict* for a dictionary containing
++@@ -303,6 +305,9 @@ algorithms implemented in this module in other circumstances.
++       Added the *encoding* and *errors* parameters.  For non-file fields, the
++       value is now a list of strings, not bytes.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added the *separator* parameter.
+++
++ 
++ .. function:: parse_header(string)
++ 
++diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
++index 52f98ef..45ca03a 100644
++--- a/Doc/library/urllib.parse.rst
+++++ b/Doc/library/urllib.parse.rst
++@@ -165,7 +165,7 @@ or on combining URL components into a URL string.
++       now raise :exc:`ValueError`.
++ 
++ 
++-.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+++.. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
++ 
++    Parse a query string given as a string argument (data of type
++    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a
++@@ -190,6 +190,9 @@ or on combining URL components into a URL string.
++    read. If set, then throws a :exc:`ValueError` if there are more than
++    *max_num_fields* fields read.
++ 
+++   The optional argument *separator* is the symbol to use for separating the
+++   query arguments. It defaults to ``&``.
+++
++    Use the :func:`urllib.parse.urlencode` function (with the ``doseq``
++    parameter set to ``True``) to convert such dictionaries into query
++    strings.
++@@ -201,8 +204,14 @@ or on combining URL components into a URL string.
++    .. versionchanged:: 3.8
++       Added *max_num_fields* parameter.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added *separator* parameter with the default value of ``&``. Python
+++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+++      query parameter separator. This has been changed to allow only a single
+++      separator key, with ``&`` as the default separator.
+++
++ 
++-.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
+++.. function:: parse_qsl(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None, separator='&')
++ 
++    Parse a query string given as a string argument (data of type
++    :mimetype:`application/x-www-form-urlencoded`).  Data are returned as a list of
++@@ -226,6 +235,9 @@ or on combining URL components into a URL string.
++    read. If set, then throws a :exc:`ValueError` if there are more than
++    *max_num_fields* fields read.
++ 
+++   The optional argument *separator* is the symbol to use for separating the
+++   query arguments. It defaults to ``&``.
+++
++    Use the :func:`urllib.parse.urlencode` function to convert such lists of pairs into
++    query strings.
++ 
++@@ -235,6 +247,12 @@ or on combining URL components into a URL string.
++    .. versionchanged:: 3.8
++       Added *max_num_fields* parameter.
++ 
+++   .. versionchanged:: 3.8.8
+++      Added *separator* parameter with the default value of ``&``. Python
+++      versions earlier than Python 3.8.8 allowed using both ``;`` and ``&`` as
+++      query parameter separator. This has been changed to allow only a single
+++      separator key, with ``&`` as the default separator.
+++
++ 
++ .. function:: urlunparse(parts)
++ 
++diff --git a/Doc/whatsnew/3.6.rst b/Doc/whatsnew/3.6.rst
++index 04c1f7e..4409a3a 100644
++--- a/Doc/whatsnew/3.6.rst
+++++ b/Doc/whatsnew/3.6.rst
++@@ -2443,3 +2443,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
++ details, see the documentation for ``loop.create_datagram_endpoint()``.
++ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
++ :issue:`37228`.)
+++
+++Notable changes in Python 3.6.13
+++================================
+++
+++Earlier Python versions allowed using both ``;`` and ``&`` as
+++query parameter separators in :func:`urllib.parse.parse_qs` and
+++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+++newer W3C recommendations, this has been changed to allow only a single
+++separator key, with ``&`` as the default.  This change also affects
+++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+++functions internally. For more details, please see their respective
+++documentation.
+++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
++diff --git a/Doc/whatsnew/3.7.rst b/Doc/whatsnew/3.7.rst
++index b9b5021..8f47a9f 100644
++--- a/Doc/whatsnew/3.7.rst
+++++ b/Doc/whatsnew/3.7.rst
++@@ -2556,3 +2556,16 @@ because of the behavior of the socket option ``SO_REUSEADDR`` in UDP. For more
++ details, see the documentation for ``loop.create_datagram_endpoint()``.
++ (Contributed by Kyle Stanley, Antoine Pitrou, and Yury Selivanov in
++ :issue:`37228`.)
+++
+++Notable changes in Python 3.7.10
+++================================
+++
+++Earlier Python versions allowed using both ``;`` and ``&`` as
+++query parameter separators in :func:`urllib.parse.parse_qs` and
+++:func:`urllib.parse.parse_qsl`.  Due to security concerns, and to conform with
+++newer W3C recommendations, this has been changed to allow only a single
+++separator key, with ``&`` as the default.  This change also affects
+++:func:`cgi.parse` and :func:`cgi.parse_multipart` as they use the affected
+++functions internally. For more details, please see their respective
+++documentation.
+++(Contributed by Adam Goldschmidt, Senthil Kumaran and Ken Jin in :issue:`42967`.)
++diff --git a/Lib/cgi.py b/Lib/cgi.py
++index 5ace46a..13255a9 100755
++--- a/Lib/cgi.py
+++++ b/Lib/cgi.py
++@@ -106,7 +106,8 @@ log = initlog           # The current logging function
++ # 0 ==> unlimited input
++ maxlen = 0
++ 
++-def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
+++def parse(fp=None, environ=os.environ, keep_blank_values=0,
+++          strict_parsing=0, separator='&'):
++     """Parse a query in the environment or from a file (default stdin)
++ 
++         Arguments, all optional:
++@@ -125,6 +126,9 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++         strict_parsing: flag indicating what to do with parsing errors.
++             If false (the default), errors are silently ignored.
++             If true, errors raise a ValueError exception.
+++
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
++     """
++     if fp is None:
++         fp = sys.stdin
++@@ -145,7 +149,7 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++     if environ['REQUEST_METHOD'] == 'POST':
++         ctype, pdict = parse_header(environ['CONTENT_TYPE'])
++         if ctype == 'multipart/form-data':
++-            return parse_multipart(fp, pdict)
+++            return parse_multipart(fp, pdict, separator=separator)
++         elif ctype == 'application/x-www-form-urlencoded':
++             clength = int(environ['CONTENT_LENGTH'])
++             if maxlen and clength > maxlen:
++@@ -169,10 +173,10 @@ def parse(fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0):
++             qs = ""
++         environ['QUERY_STRING'] = qs    # XXX Shouldn't, really
++     return urllib.parse.parse_qs(qs, keep_blank_values, strict_parsing,
++-                                 encoding=encoding)
+++                                 encoding=encoding, separator=separator)
++ 
++ 
++-def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
+++def parse_multipart(fp, pdict, encoding="utf-8", errors="replace", separator='&'):
++     """Parse multipart input.
++ 
++     Arguments:
++@@ -193,7 +197,7 @@ def parse_multipart(fp, pdict, encoding="utf-8", errors="replace"):
++     headers.set_type(ctype)
++     headers['Content-Length'] = pdict['CONTENT-LENGTH']
++     fs = FieldStorage(fp, headers=headers, encoding=encoding, errors=errors,
++-        environ={'REQUEST_METHOD': 'POST'})
+++        environ={'REQUEST_METHOD': 'POST'}, separator=separator)
++     return {k: fs.getlist(k) for k in fs}
++ 
++ def _parseparam(s):
++@@ -303,7 +307,7 @@ class FieldStorage:
++     def __init__(self, fp=None, headers=None, outerboundary=b'',
++                  environ=os.environ, keep_blank_values=0, strict_parsing=0,
++                  limit=None, encoding='utf-8', errors='replace',
++-                 max_num_fields=None):
+++                 max_num_fields=None, separator='&'):
++         """Constructor.  Read multipart/* until last part.
++ 
++         Arguments, all optional:
++@@ -351,6 +355,7 @@ class FieldStorage:
++         self.keep_blank_values = keep_blank_values
++         self.strict_parsing = strict_parsing
++         self.max_num_fields = max_num_fields
+++        self.separator = separator
++         if 'REQUEST_METHOD' in environ:
++             method = environ['REQUEST_METHOD'].upper()
++         self.qs_on_post = None
++@@ -577,7 +582,7 @@ class FieldStorage:
++         query = urllib.parse.parse_qsl(
++             qs, self.keep_blank_values, self.strict_parsing,
++             encoding=self.encoding, errors=self.errors,
++-            max_num_fields=self.max_num_fields)
+++            max_num_fields=self.max_num_fields, separator=self.separator)
++         self.list = [MiniFieldStorage(key, value) for key, value in query]
++         self.skip_lines()
++ 
++@@ -593,7 +598,7 @@ class FieldStorage:
++             query = urllib.parse.parse_qsl(
++                 self.qs_on_post, self.keep_blank_values, self.strict_parsing,
++                 encoding=self.encoding, errors=self.errors,
++-                max_num_fields=self.max_num_fields)
+++                max_num_fields=self.max_num_fields, separator=self.separator)
++             self.list.extend(MiniFieldStorage(key, value) for key, value in query)
++ 
++         klass = self.FieldStorageClass or self.__class__
++@@ -637,7 +642,7 @@ class FieldStorage:
++                 else self.limit - self.bytes_read
++             part = klass(self.fp, headers, ib, environ, keep_blank_values,
++                          strict_parsing, limit,
++-                         self.encoding, self.errors, max_num_fields)
+++                         self.encoding, self.errors, max_num_fields, self.separator)
++ 
++             if max_num_fields is not None:
++                 max_num_fields -= 1
++diff --git a/Lib/test/test_cgi.py b/Lib/test/test_cgi.py
++index ab86771..bda03ee 100644
++--- a/Lib/test/test_cgi.py
+++++ b/Lib/test/test_cgi.py
++@@ -53,12 +53,9 @@ parse_strict_test_cases = [
++     ("", ValueError("bad query field: ''")),
++     ("&", ValueError("bad query field: ''")),
++     ("&&", ValueError("bad query field: ''")),
++-    (";", ValueError("bad query field: ''")),
++-    (";&;", ValueError("bad query field: ''")),
++     # Should the next few really be valid?
++     ("=", {}),
++     ("=&=", {}),
++-    ("=;=", {}),
++     # This rest seem to make sense
++     ("=a", {'': ['a']}),
++     ("&=a", ValueError("bad query field: ''")),
++@@ -73,8 +70,6 @@ parse_strict_test_cases = [
++     ("a=a+b&b=b+c", {'a': ['a b'], 'b': ['b c']}),
++     ("a=a+b&a=b+a", {'a': ['a b', 'b a']}),
++     ("x=1&y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++-    ("x=1;y=2.0&z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++-    ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
++     ("Hbc5161168c542333633315dee1182227:key_store_seqid=400006&cuyer=r&view=bustomer&order_id=0bb2e248638833d48cb7fed300000f1b&expire=964546263&lobale=en-US&kid=130003.300038&ss=env",
++      {'Hbc5161168c542333633315dee1182227:key_store_seqid': ['400006'],
++       'cuyer': ['r'],
++@@ -187,6 +182,30 @@ Content-Length: 3
++                     else:
++                         self.assertEqual(fs.getvalue(key), expect_val[0])
++ 
+++    def test_separator(self):
+++        parse_semicolon = [
+++            ("x=1;y=2.0", {'x': ['1'], 'y': ['2.0']}),
+++            ("x=1;y=2.0;z=2-3.%2b0", {'x': ['1'], 'y': ['2.0'], 'z': ['2-3.+0']}),
+++            (";", ValueError("bad query field: ''")),
+++            (";;", ValueError("bad query field: ''")),
+++            ("=;a", ValueError("bad query field: 'a'")),
+++            (";b=a", ValueError("bad query field: ''")),
+++            ("b;=a", ValueError("bad query field: 'b'")),
+++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+++            ("a=a+b;a=b+a", {'a': ['a b', 'b a']}),
+++        ]
+++        for orig, expect in parse_semicolon:
+++            env = {'QUERY_STRING': orig}
+++            fs = cgi.FieldStorage(separator=';', environ=env)
+++            if isinstance(expect, dict):
+++                for key in expect.keys():
+++                    expect_val = expect[key]
+++                    self.assertIn(key, fs)
+++                    if len(expect_val) > 1:
+++                        self.assertEqual(fs.getvalue(key), expect_val)
+++                    else:
+++                        self.assertEqual(fs.getvalue(key), expect_val[0])
+++
++     def test_log(self):
++         cgi.log("Testing")
++ 
++diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
++index 4ae6ed3..90c8d69 100644
++--- a/Lib/test/test_urlparse.py
+++++ b/Lib/test/test_urlparse.py
++@@ -32,16 +32,10 @@ parse_qsl_test_cases = [
++     (b"&a=b", [(b'a', b'b')]),
++     (b"a=a+b&b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
++     (b"a=1&a=2", [(b'a', b'1'), (b'a', b'2')]),
++-    (";", []),
++-    (";;", []),
++-    (";a=b", [('a', 'b')]),
++-    ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
++-    ("a=1;a=2", [('a', '1'), ('a', '2')]),
++-    (b";", []),
++-    (b";;", []),
++-    (b";a=b", [(b'a', b'b')]),
++-    (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
++-    (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+++    (";a=b", [(';a', 'b')]),
+++    ("a=a+b;b=b+c", [('a', 'a b;b=b c')]),
+++    (b";a=b", [(b';a', b'b')]),
+++    (b"a=a+b;b=b+c", [(b'a', b'a b;b=b c')]),
++ ]
++ 
++ # Each parse_qs testcase is a two-tuple that contains
++@@ -68,16 +62,10 @@ parse_qs_test_cases = [
++     (b"&a=b", {b'a': [b'b']}),
++     (b"a=a+b&b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
++     (b"a=1&a=2", {b'a': [b'1', b'2']}),
++-    (";", {}),
++-    (";;", {}),
++-    (";a=b", {'a': ['b']}),
++-    ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
++-    ("a=1;a=2", {'a': ['1', '2']}),
++-    (b";", {}),
++-    (b";;", {}),
++-    (b";a=b", {b'a': [b'b']}),
++-    (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
++-    (b"a=1;a=2", {b'a': [b'1', b'2']}),
+++    (";a=b", {';a': ['b']}),
+++    ("a=a+b;b=b+c", {'a': ['a b;b=b c']}),
+++    (b";a=b", {b';a': [b'b']}),
+++    (b"a=a+b;b=b+c", {b'a':[ b'a b;b=b c']}),
++ ]
++ 
++ class UrlParseTestCase(unittest.TestCase):
++@@ -884,10 +872,46 @@ class UrlParseTestCase(unittest.TestCase):
++     def test_parse_qsl_max_num_fields(self):
++         with self.assertRaises(ValueError):
++             urllib.parse.parse_qs('&'.join(['a=a']*11), max_num_fields=10)
++-        with self.assertRaises(ValueError):
++-            urllib.parse.parse_qs(';'.join(['a=a']*11), max_num_fields=10)
++         urllib.parse.parse_qs('&'.join(['a=a']*10), max_num_fields=10)
++ 
+++    def test_parse_qs_separator(self):
+++        parse_qs_semicolon_cases = [
+++            (";", {}),
+++            (";;", {}),
+++            (";a=b", {'a': ['b']}),
+++            ("a=a+b;b=b+c", {'a': ['a b'], 'b': ['b c']}),
+++            ("a=1;a=2", {'a': ['1', '2']}),
+++            (b";", {}),
+++            (b";;", {}),
+++            (b";a=b", {b'a': [b'b']}),
+++            (b"a=a+b;b=b+c", {b'a': [b'a b'], b'b': [b'b c']}),
+++            (b"a=1;a=2", {b'a': [b'1', b'2']}),
+++        ]
+++        for orig, expect in parse_qs_semicolon_cases:
+++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+++                result = urllib.parse.parse_qs(orig, separator=';')
+++                self.assertEqual(result, expect, "Error parsing %r" % orig)
+++
+++
+++    def test_parse_qsl_separator(self):
+++        parse_qsl_semicolon_cases = [
+++            (";", []),
+++            (";;", []),
+++            (";a=b", [('a', 'b')]),
+++            ("a=a+b;b=b+c", [('a', 'a b'), ('b', 'b c')]),
+++            ("a=1;a=2", [('a', '1'), ('a', '2')]),
+++            (b";", []),
+++            (b";;", []),
+++            (b";a=b", [(b'a', b'b')]),
+++            (b"a=a+b;b=b+c", [(b'a', b'a b'), (b'b', b'b c')]),
+++            (b"a=1;a=2", [(b'a', b'1'), (b'a', b'2')]),
+++        ]
+++        for orig, expect in parse_qsl_semicolon_cases:
+++            with self.subTest(f"Original: {orig!r}, Expected: {expect!r}"):
+++                result = urllib.parse.parse_qsl(orig, separator=';')
+++                self.assertEqual(result, expect, "Error parsing %r" % orig)
+++
+++
++     def test_urlencode_sequences(self):
++         # Other tests incidentally urlencode things; test non-covered cases:
++         # Sequence and object values.
++diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
++index e2b6f13..5a3e847 100644
++--- a/Lib/urllib/parse.py
+++++ b/Lib/urllib/parse.py
++@@ -648,7 +648,7 @@ def unquote(string, encoding='utf-8', errors='replace'):
++ 
++ 
++ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++-             encoding='utf-8', errors='replace', max_num_fields=None):
+++             encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
++     """Parse a query given as a string argument.
++ 
++         Arguments:
++@@ -672,12 +672,15 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++         max_num_fields: int. If set, then throws a ValueError if there
++             are more than n fields read by parse_qsl().
++ 
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
+++
++         Returns a dictionary.
++     """
++     parsed_result = {}
++     pairs = parse_qsl(qs, keep_blank_values, strict_parsing,
++                       encoding=encoding, errors=errors,
++-                      max_num_fields=max_num_fields)
+++                      max_num_fields=max_num_fields, separator=separator)
++     for name, value in pairs:
++         if name in parsed_result:
++             parsed_result[name].append(value)
++@@ -687,7 +690,7 @@ def parse_qs(qs, keep_blank_values=False, strict_parsing=False,
++ 
++ 
++ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
++-              encoding='utf-8', errors='replace', max_num_fields=None):
+++              encoding='utf-8', errors='replace', max_num_fields=None, separator='&'):
++     """Parse a query given as a string argument.
++ 
++         Arguments:
++@@ -710,19 +713,25 @@ def parse_qsl(qs, keep_blank_values=False, strict_parsing=False,
++         max_num_fields: int. If set, then throws a ValueError
++             if there are more than n fields read by parse_qsl().
++ 
+++        separator: str. The symbol to use for separating the query arguments.
+++            Defaults to &.
+++
++         Returns a list, as G-d intended.
++     """
++     qs, _coerce_result = _coerce_args(qs)
++ 
+++    if not separator or (not isinstance(separator, (str, bytes))):
+++        raise ValueError("Separator must be of type string or bytes.")
+++
++     # If max_num_fields is defined then check that the number of fields
++     # is less than max_num_fields. This prevents a memory exhaustion DOS
++     # attack via post bodies with many fields.
++     if max_num_fields is not None:
++-        num_fields = 1 + qs.count('&') + qs.count(';')
+++        num_fields = 1 + qs.count(separator)
++         if max_num_fields < num_fields:
++             raise ValueError('Max number of fields exceeded')
++ 
++-    pairs = [s2 for s1 in qs.split('&') for s2 in s1.split(';')]
+++    pairs = [s1 for s1 in qs.split(separator)]
++     r = []
++     for name_value in pairs:
++         if not name_value and not strict_parsing:
++diff --git a/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++new file mode 100644
++index 0000000..f08489b
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2021-02-14-15-59-16.bpo-42967.YApqDS.rst
++@@ -0,0 +1 @@
+++Fix web cache poisoning vulnerability by defaulting the query args separator to ``&``, and allowing the user to choose a custom separator.
+diff --git a/meta/recipes-devtools/python/python3/CVE-2021-3177.patch b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+new file mode 100644
+index 0000000000..af95b5eee1
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2021-3177.patch
+@@ -0,0 +1,191 @@
++From ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 18 Jan 2021 13:28:52 -0800
++Subject: [PATCH] closes bpo-42938: Replace snprintf with Python unicode
++ formatting in ctypes param reprs. (GH-24248)
++
++(cherry picked from commit 916610ef90a0d0761f08747f7b0905541f0977c7)
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Co-authored-by: Benjamin Peterson <benjamin@python.org>
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/ece5dfd403dac211f8d3c72701fe7ba7b7aa5b5f]
++CVE: CVE-2021-3177
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ Lib/ctypes/test/test_parameters.py            | 43 ++++++++++++++++
++ .../2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst  |  2 +
++ Modules/_ctypes/callproc.c                    | 51 +++++++------------
++ 3 files changed, 64 insertions(+), 32 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++
++diff --git a/Lib/ctypes/test/test_parameters.py b/Lib/ctypes/test/test_parameters.py
++index e4c25fd880cef..531894fdec838 100644
++--- a/Lib/ctypes/test/test_parameters.py
+++++ b/Lib/ctypes/test/test_parameters.py
++@@ -201,6 +201,49 @@ def __dict__(self):
++         with self.assertRaises(ZeroDivisionError):
++             WorseStruct().__setstate__({}, b'foo')
++ 
+++    def test_parameter_repr(self):
+++        from ctypes import (
+++            c_bool,
+++            c_char,
+++            c_wchar,
+++            c_byte,
+++            c_ubyte,
+++            c_short,
+++            c_ushort,
+++            c_int,
+++            c_uint,
+++            c_long,
+++            c_ulong,
+++            c_longlong,
+++            c_ulonglong,
+++            c_float,
+++            c_double,
+++            c_longdouble,
+++            c_char_p,
+++            c_wchar_p,
+++            c_void_p,
+++        )
+++        self.assertRegex(repr(c_bool.from_param(True)), r"^<cparam '\?' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_char.from_param(97)), "<cparam 'c' ('a')>")
+++        self.assertRegex(repr(c_wchar.from_param('a')), r"^<cparam 'u' at 0x[A-Fa-f0-9]+>$")
+++        self.assertEqual(repr(c_byte.from_param(98)), "<cparam 'b' (98)>")
+++        self.assertEqual(repr(c_ubyte.from_param(98)), "<cparam 'B' (98)>")
+++        self.assertEqual(repr(c_short.from_param(511)), "<cparam 'h' (511)>")
+++        self.assertEqual(repr(c_ushort.from_param(511)), "<cparam 'H' (511)>")
+++        self.assertRegex(repr(c_int.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_uint.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_long.from_param(20000)), r"^<cparam '[li]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulong.from_param(20000)), r"^<cparam '[LI]' \(20000\)>$")
+++        self.assertRegex(repr(c_longlong.from_param(20000)), r"^<cparam '[liq]' \(20000\)>$")
+++        self.assertRegex(repr(c_ulonglong.from_param(20000)), r"^<cparam '[LIQ]' \(20000\)>$")
+++        self.assertEqual(repr(c_float.from_param(1.5)), "<cparam 'f' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1.5)), "<cparam 'd' (1.5)>")
+++        self.assertEqual(repr(c_double.from_param(1e300)), "<cparam 'd' (1e+300)>")
+++        self.assertRegex(repr(c_longdouble.from_param(1.5)), r"^<cparam ('d' \(1.5\)|'g' at 0x[A-Fa-f0-9]+)>$")
+++        self.assertRegex(repr(c_char_p.from_param(b'hihi')), "^<cparam 'z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_wchar_p.from_param('hihi')), "^<cparam 'Z' \(0x[A-Fa-f0-9]+\)>$")
+++        self.assertRegex(repr(c_void_p.from_param(0x12)), r"^<cparam 'P' \(0x0*12\)>$")
+++
++ ################################################################
++ 
++ if __name__ == '__main__':
++diff --git a/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++new file mode 100644
++index 0000000000000..7df65a156feab
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2021-01-18-09-27-31.bpo-42938.4Zn4Mp.rst
++@@ -0,0 +1,2 @@
+++Avoid static buffers when computing the repr of :class:`ctypes.c_double` and
+++:class:`ctypes.c_longdouble` values.
++diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
++index a9b8675cd951b..de75918d49f37 100644
++--- a/Modules/_ctypes/callproc.c
+++++ b/Modules/_ctypes/callproc.c
++@@ -484,58 +484,47 @@ is_literal_char(unsigned char c)
++ static PyObject *
++ PyCArg_repr(PyCArgObject *self)
++ {
++-    char buffer[256];
++     switch(self->tag) {
++     case 'b':
++     case 'B':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.b);
++-        break;
++     case 'h':
++     case 'H':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.h);
++-        break;
++     case 'i':
++     case 'I':
++-        sprintf(buffer, "<cparam '%c' (%d)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%d)>",
++             self->tag, self->value.i);
++-        break;
++     case 'l':
++     case 'L':
++-        sprintf(buffer, "<cparam '%c' (%ld)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%ld)>",
++             self->tag, self->value.l);
++-        break;
++ 
++     case 'q':
++     case 'Q':
++-        sprintf(buffer,
++-#ifdef MS_WIN32
++-            "<cparam '%c' (%I64d)>",
++-#else
++-            "<cparam '%c' (%lld)>",
++-#endif
+++        return PyUnicode_FromFormat("<cparam '%c' (%lld)>",
++             self->tag, self->value.q);
++-        break;
++     case 'd':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.d);
++-        break;
++-    case 'f':
++-        sprintf(buffer, "<cparam '%c' (%f)>",
++-            self->tag, self->value.f);
++-        break;
++-
+++    case 'f': {
+++        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+++        if (f == NULL) {
+++            return NULL;
+++        }
+++        PyObject *result = PyUnicode_FromFormat("<cparam '%c' (%R)>", self->tag, f);
+++        Py_DECREF(f);
+++        return result;
+++    }
++     case 'c':
++         if (is_literal_char((unsigned char)self->value.c)) {
++-            sprintf(buffer, "<cparam '%c' ('%c')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('%c')>",
++                 self->tag, self->value.c);
++         }
++         else {
++-            sprintf(buffer, "<cparam '%c' ('\\x%02x')>",
+++            return PyUnicode_FromFormat("<cparam '%c' ('\\x%02x')>",
++                 self->tag, (unsigned char)self->value.c);
++         }
++-        break;
++ 
++ /* Hm, are these 'z' and 'Z' codes useful at all?
++    Shouldn't they be replaced by the functionality of c_string
++@@ -544,22 +533,20 @@ PyCArg_repr(PyCArgObject *self)
++     case 'z':
++     case 'Z':
++     case 'P':
++-        sprintf(buffer, "<cparam '%c' (%p)>",
+++        return PyUnicode_FromFormat("<cparam '%c' (%p)>",
++             self->tag, self->value.p);
++         break;
++ 
++     default:
++         if (is_literal_char((unsigned char)self->tag)) {
++-            sprintf(buffer, "<cparam '%c' at %p>",
+++            return PyUnicode_FromFormat("<cparam '%c' at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++         else {
++-            sprintf(buffer, "<cparam 0x%02x at %p>",
+++            return PyUnicode_FromFormat("<cparam 0x%02x at %p>",
++                 (unsigned char)self->tag, (void *)self);
++         }
++-        break;
++     }
++-    return PyUnicode_FromString(buffer);
++ }
++ 
++ static PyMemberDef PyCArgType_members[] = {
++
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index a448b3ed97..c870fc4f05 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -37,6 +37,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2020-14422.patch \
+            file://CVE-2020-26116.patch \
+            file://CVE-2020-27619.patch \
++           file://CVE-2021-3177.patch \
++           file://CVE-2021-23336.patch \
+            "
  
+ SRC_URI_append_class-native = " \
+-- 
+2.17.1
 
-Next Team Meetings:
-
-*	Bug Triage meeting Thursday Mar. 4th at 7:30am PDT (
-<https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>
-https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-*	Monthly Project Meeting Tuesday Mar. 2nd at 8am PDT (
-<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-<https://zoom.us/j/990892712> )
-*	Weekly Engineering Sync Tuesday Mar. 9th at 8am PDT (
-<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-<https://zoom.us/j/990892712> )
-*	Twitch -  See https://www.twitch.tv/theyoctojester
-
- 
-
-Key Status/Updates:
-
-*	YP 3.2.2 and YP 3.1.6  were released.
-*	YP 3.3 M3 is due to build soon, we are now at feature freeze
-*	Reproducibility has improved over the last week with a number of
-fixes added meaning the exclusion list has been significantly reduced. Many
-of the fixes were accepted by upstream projects too. The remaining
-reproducibility issues now have bugs open in bugzilla. In particular, meson
-and ruby have intermittent issues, perf and ovmf have hardcoded path
-problems and ltp whilst improved, still appears to have issues.
-
- <https://www.yoctoproject.org/reproducible-build-results/>
-https://www.yoctoproject.org/reproducible-build-results/
-
-*	Infrastructure issues around diffoscope and performance of
-reproducibility tests have been fixed, both by us and upstream diffoscope
-which should resolve delays in builds and improve testing throughput.
-*	Looking through some of the patches in the "Pending" state, we have
-some really old stale ones which really need decisions to be made about
-their future. It would help a lot if recipe maintainers could review recipe
-patchsets and upstream them or remove them if they are no longer relevant. 
-*	Intermittent autobuilder issues continue to occur and are now at a
-record high level. You can see the list of failures we're continuing to see
-by searching for the "AB-INT" tag in bugzilla:
-<https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
-https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
-
- 
-
-Ways to contribute:
-
-*	There are bugs identified as possible for newcomers to the project:
-<https://wiki.yoctoproject.org/wiki/Newcomers>
-https://wiki.yoctoproject.org/wiki/Newcomers
-*	There are bugs that are currently unassigned for YP 3.3. See:
-<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enha
-ncements.2FBugs>
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enhan
-cements.2FBugs
-*	We'd welcome new maintainers for recipes in OE-Core. Please see the
-list at:
-<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/mai
-ntainers.inc>
-http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/main
-tainers.inc and discuss with the existing maintainer, or ask on the OE-Core
-mailing list. We will likely move a chunk of these to "Unassigned" soon to
-help facilitate this.
-
- 
-
-YP 3.3 Milestone Dates:
-
-*	YP 3.3 M3 build date 2021/03/01
-*	YP 3.3 M3 Release date 2021/03/12
-*	YP 3.3 M4 build date 2021/04/05
-*	YP 3.3 M4 Release date 2021/04/30
-
- 
-
-Planned upcoming dot releases:
-
-*	YP 3.2.2 is released.
-*	YP 3.1.6 is released.
-*	YP 3.2.3 build date 2021/03/15
-*	YP 3.2.3 release date 2021/03/26
-*	YP 3.1.7 build date 2021/03/29
-*	YP 3.1.7 release date 2021/04/09
-*	YP 3.2.4 build date 2021/05/3
-*	YP 3.2.4 release date 2021/05/14
-*	YP 3.1.8 build date 2021/05/17
-*	YP 3.1.8 release date 2021/05/28
-
- 
-
-Tracking Metrics:
-
-*	WDD 2647 (last week 2647) (
-<https://wiki.yoctoproject.org/charts/combo.html>
-https://wiki.yoctoproject.org/charts/combo.html)
-*	Poky Patch Metrics
-
-*	Total patches found: 1280 (last week 1269)
-*	Patches in the Pending State: 484 (38%) [last week 487 (39%)]
-
- 
-
-The Yocto Project's technical governance is through its Technical Steering
-Committee, more information is available at:
-
- <https://wiki.yoctoproject.org/wiki/TSC>
-https://wiki.yoctoproject.org/wiki/TSC
-
- 
-
-The Status reports are now stored on the wiki at:
-<https://wiki.yoctoproject.org/wiki/Weekly_Status>
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
- 
-
-[If anyone has suggestions for other information you'd like to see on this
-weekly status update, let us know!]
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_164F_01D70F38.7C9E3FD0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_094E_01D709B7.EC83E150";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:260840383;
-	mso-list-template-ids:818073812;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:377978750;
-	mso-list-template-ids:-827664054;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:599071764;
-	mso-list-template-ids:-979974474;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:659699660;
-	mso-list-template-ids:-1533249460;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4
-	{mso-list-id:727414878;
-	mso-list-template-ids:-462099826;}
-@list l4:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l4:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l4:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5
-	{mso-list-id:744302887;
-	mso-list-template-ids:-447457262;}
-@list l5:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l5:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l5:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6
-	{mso-list-id:1122919043;
-	mso-list-template-ids:357173562;}
-@list l6:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l6:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l6:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7
-	{mso-list-id:1437797664;
-	mso-list-template-ids:-2054137188;}
-@list l7:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l7:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l7:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8
-	{mso-list-id:1767798992;
-	mso-list-template-ids:1055194146;}
-@list l8:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l8:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l8:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9
-	{mso-list-id:1831557966;
-	mso-list-template-ids:-229597534;}
-@list l9:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l9:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l9:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10
-	{mso-list-id:2058357419;
-	mso-list-template-ids:-428023386;}
-@list l10:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l10:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l10:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11
-	{mso-list-id:2107380746;
-	mso-list-template-ids:-897032198;}
-@list l11:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l11:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l11:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12
-	{mso-list-id:2128308164;
-	mso-list-template-ids:635616236;}
-@list l12:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l12:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l12:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
-Position: YP 3.3 Feature Freeze</span><o:p></o:p></p><p =
-style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: 1st =
-March 2021 YP 3.3 M3 build</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
-Meetings:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
-Mar. 4th at 7:30am PDT (<a =
-href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y=
-0bFd5aVpHVVZ6dz09</span></a>)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
-Mar. 2nd at 8am PDT (<a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
-1bkcrYjRrcmJsUT09</span></a><a =
-href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
-Mar. 9th at 8am PDT (<a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
-1bkcrYjRrcmJsUT09</span></a><a =
-href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
-https://www.twitch.tv/theyoctojester<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Key =
-Status/Updates:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.2 and YP 3.1.6&nbsp; =
-were released.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3 M3 is due to build soon, =
-we are now at feature freeze<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Reproducibility has improved =
-over the last week with a number of fixes added meaning the exclusion =
-list has been significantly reduced. Many of the fixes were accepted by =
-upstream projects too. The remaining reproducibility issues now have =
-bugs open in bugzilla. In particular, meson and ruby have intermittent =
-issues, perf and ovmf have hardcoded path problems and ltp whilst =
-improved, still appears to have issues.<o:p></o:p></span></li></ul><p =
-style=3D'mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin=
--left:.5in'><a =
-href=3D"https://www.yoctoproject.org/reproducible-build-results/"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://www.yoctop=
-roject.org/reproducible-build-results/</span></a><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
-level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Infrastructure issues around =
-diffoscope and performance of reproducibility tests have been fixed, =
-both by us and upstream diffoscope which should resolve delays in builds =
-and improve testing throughput.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
-level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Looking through some of the =
-patches in the &#8220;Pending&#8221; state, we have some really old =
-stale ones which really need decisions to be made about their future. It =
-would help a lot if recipe maintainers could review recipe patchsets and =
-upstream them or remove them if they are no longer =
-relevant.&nbsp;<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
-level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Intermittent autobuilder issues =
-continue to occur and are now at a record high level. You can see the =
-list of failures we&#8217;re continuing to see by searching for the =
-&#8220;AB-INT&#8221; tag in bugzilla: <a =
-href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-IN=
-T"><span =
-style=3D'color:#1155CC'>https://bugzilla.yoctoproject.org/buglist.cgi?qui=
-cksearch=3DAB-INT</span></a><o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Ways to =
-contribute:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
-lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There are bugs identified as =
-possible for newcomers to the project: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Newcomers"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Newcomers</spa=
-n></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 level1 =
-lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There are bugs that are =
-currently unassigned for YP 3.3. See: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unass=
-igned_Enhancements.2FBugs"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
-ium.2B_3.3_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
-i><li style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l9 =
-level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>We&#8217;d welcome new =
-maintainers for recipes in OE-Core. Please see the list at: <a =
-href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/i=
-nclude/maintainers.inc"><span =
-style=3D'color:#1155CC'>http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
-ta/conf/distro/include/maintainers.inc</span></a> and discuss with the =
-existing maintainer, or ask on the OE-Core mailing list. We will likely =
-move a chunk of these to &#8220;Unassigned&#8221; soon to help =
-facilitate this.<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.3 Milestone =
-Dates:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3 M3 build date =
-2021/03/01<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3 M3 Release date =
-2021/03/12<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3 M4 build date =
-2021/04/05<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3 M4 Release date =
-2021/04/30<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
-dot releases:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.2 is =
-released.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.6 is =
-released.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.3 build date =
-2021/03/15<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.3 release date =
-2021/03/26<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 build date =
-2021/03/29<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 release date =
-2021/04/09<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.4 build date =
-2021/05/3<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.4 release date =
-2021/05/14<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.8 build date =
-2021/05/17<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.8 release date =
-2021/05/28<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
-Metrics:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level1 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>WDD 2647 (last week =
-2647)</span><span style=3D'font-family:Consolas'> (</span><span =
-style=3D'font-family:"Arial",sans-serif'><a =
-href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
-span></a></span><span style=3D'font-family:Consolas'>)</span><span =
-style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level1 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Poky Patch Metrics</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level2 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Total patches found: 1280 (last =
-week 1269)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l8 level2 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
-484 (38%) [last week 487 (39%)]</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
-Project&#8217;s technical governance is through its Technical Steering =
-Committee, more information is available at:</span><o:p></o:p></p><p =
-style=3D'margin:0in'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/TSC</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
-are now stored on the wiki at: </span><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
-suggestions for other information you&#8217;d like to see on this weekly =
-status update, let us know!]</span><o:p></o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_164F_01D70F38.7C9E3FD0--
