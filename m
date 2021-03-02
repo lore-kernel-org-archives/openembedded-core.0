@@ -1,223 +1,239 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web08.28.1614705266279920570
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.64.1614706278229483189
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 09:14:26 -0800
+ Tue, 02 Mar 2021 09:31:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=kySUjRhg;
- spf=pass (domain: linaro.org, ip: 209.85.128.50, mailfrom: anibal.limon@linaro.org)
-Received: by mail-wm1-f50.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so1454718wma.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 09:14:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hpM/yQXK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id v15so20761964wrx.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 09:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BOkdJS3VX5k0pGJPRIpIkC8I28vn8/DH9ALgLP+3Wnc=;
-        b=kySUjRhguokck9BLKYtDRy5F6xqY1IYdW9T+G/BAtGvbczIpdala+fTOWNQ0Jd0qsD
-         ILLrF78LBYqGuZmOTo4STfvOkLdTbluA/6jdUKTCKK+h//9zyZgEmoAmjlgBuj4eyWli
-         03aVbNQ3Y7TBsw/tuJBJPwr6YlRVEgpkmMdG7SsNBpaLUEdBlA7irR7JHPG6YECfOGge
-         oUWaNmDpOmC99MGwxqh2FmoB2b+QpVr5LiEMVDzvV44MHc51w8VAnENf3Y/pmiFornfH
-         RcHvmb5jqmruv5R3ul53fWYGsoYI6pT5XiMcAdAHxjhX8w3hGRxF03MO5OrVnaLXZ4Iw
-         g+4A==
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=5qf8lasSZp7dMARCB2E0ShMlL+irz6lETa4KW58AgUQ=;
+        b=hpM/yQXK9H1Bo1Y0VvpSrLy3vhddTbfvKeffAw94YFvyzsTxUlpt5oYMqr07MqzqoO
+         Al+ZDYDZRwbqJTkRT8fdUhyLo+01ViMrrrLMoyjCr/V7Qel8y3c8v4gNudQ6T1OztqQf
+         iI5/020vJ0Yq/D9MaSyYfIgQJFG+5ugdIkDtLVc/KXWf7gW933wFX8GBFSB1MLL5maj+
+         mBcJt+/QBkcD7Ugym7D+qqtmbJwpcrjjKFdU16O+VNHoeeu49SJcSH/GNbD7Cy0q0YZK
+         7HI7gbzHmIW4jXCRfqF5B1rQfNzL5MGaYZmSOmG9bRoa451mNnw9TX5ds46YnCEbLmhu
+         qciA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BOkdJS3VX5k0pGJPRIpIkC8I28vn8/DH9ALgLP+3Wnc=;
-        b=hgi4UVkL53S4U+4wY8rNv5yMRJu+Mmdb7RhXG2F76NveYC1XmgQxwQiCsdnqLDcotS
-         FhZibS9Ua9GWApCnviqjOc2AhkO3pMFIpJqK2BJ/iwXwvllyBk0vl6TaVkCK8BmUqOsY
-         7AcTtj1NhcQdSP9Xn8ETzY7qxO7Ne0EAr7sq6ouF6wCyuMsGG+I+BdclWSCtIVDjuxy/
-         L8GZUC8rfyc1aOohhtcHXEkitBemXipwoVS/yO8G0JaTz9AKumMU1uhIthwbkjBXqC67
-         tTmZuGZApOB4wRWZb0/tV6HsAB80vARwpqHq/Au4spgZSBatX/BoTl4DAnKHspjRyp8E
-         VpLQ==
-X-Gm-Message-State: AOAM5335tS7pul5/7v+9Vq1dFvgsMQH70Eq+iFntrUdWaLI9ffzr8OTq
-	h0xlYpkNsVkIRopNzATMoYOQVdvNzexzrGNNbk3pXw==
-X-Google-Smtp-Source: ABdhPJw2gfHiPT2p/DNiIOMrcfPvSptBmzStYSOUlAx5/0wfGGzaHnk+uYfuR6AclsE35w6dIjKh1mvtEP3Cwt7oNpA=
-X-Received: by 2002:a7b:c242:: with SMTP id b2mr5205503wmj.119.1614705264680;
- Tue, 02 Mar 2021 09:14:24 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=5qf8lasSZp7dMARCB2E0ShMlL+irz6lETa4KW58AgUQ=;
+        b=HbwjHPUWfFuJSqbie0ACBy8aekFsUUIidSqJ/35xV74Fq+55DAAsrhJJDdkq3Eu/QP
+         dJLgMtuS0PnYcfZFVnG5+WTquhqqy8tSl8XNXbObZWo24Ebi8Md1ZQ79aGWHVXZfue6+
+         RUQdP6T6BOgn8Io/TI/q7wc0m2WE5KDvMzK3P0n/XFtv/n1zJXg438GAOF4GQ6dr7Tq8
+         KWqk/qmbRyQWPMmvw9qOLAzgoeZ8ZdkQBrbGoM7efkcrgf8+ZuNUrwPg/6f/z5EqC222
+         2x/vQUPM8UqKiqQfnLyyqvg6a1ZdY3lWgVWGPptreSOHoxY50cia/0oovisJKZf5s+/y
+         Y1zw==
+X-Gm-Message-State: AOAM533la5r8zCLwvzHMauEUA/8IIuFM4VVtdNtEPE0laAhmCShPLTUy
+	QKgzrzb06KT7Hj3iRu3SsbA=
+X-Google-Smtp-Source: ABdhPJx1nSW7VZaOpiK5XMxsrz+pVwY7V2AY5+BPzb7WqjyKheJxoQS2/TDfX6+Mrmv9xzc7ZUEFeA==
+X-Received: by 2002:adf:ef08:: with SMTP id e8mr24306935wro.200.1614706271863;
+        Tue, 02 Mar 2021 09:31:11 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+        by smtp.gmail.com with ESMTPSA id i10sm17760372wrs.11.2021.03.02.09.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 09:31:09 -0800 (PST)
+Message-ID: <a9728ba140214b6c58a3eacb87adf89889272128.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v5] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org, bluelightning@bluelightning.org
+Date: Tue, 02 Mar 2021 17:31:06 +0000
+In-Reply-To: <YDph/MNz185ufMZR@piout.net>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 <20210225153035.1239276-1-luca.boccassi@gmail.com>
+	 <YDpcp0FCjX0B2UNo@piout.net> <YDpgUIRQ9vnkUISx@piout.net>
+	 <YDph/MNz185ufMZR@piout.net>
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-References: <20210225174516.639740-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20210225174516.639740-1-Martin.Jansa@gmail.com>
-From: "Anibal Limon" <anibal.limon@linaro.org>
-Date: Tue, 2 Mar 2021 11:14:14 -0600
-Message-ID: <CA+_AqitMGVbVikHDF2bnimSsXSmM0tfeXBCgYjgeSpFYL2FGOA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glib-2.0: replace THISDIR instead of COREBASE in find_meson_cross_files --cross-file paths
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b7f30205bc90dd9d"
+X-Groupsio-MsgNum: 148859
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-r+jh/lFRR0noZ74ff9jZ"
 
---000000000000b7f30205bc90dd9d
+--=-r+jh/lFRR0noZ74ff9jZ
 Content-Type: text/plain; charset="UTF-8"
-
-This breaks our builds,
-
-...
-ERROR: Cannot add
-'/home/builds/oe-rpb-master/layers/openembedded-core/meta/recipes-core/glib-2.0/files/meson.cross.d/common'
-to --cross-file, because it's not relative to THISDIR
-'/home/builds/oe-rpb-master/build-410c-2/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0'
-and sstate signature would contain this full path
-...
-
-In,
-
-https://ci.linaro.org/job/lt-qcom-openembedded-rpb-master/DISTRO=rpb,MACHINE=dragonboard-410c,label=docker-buster-amd64/470/console
-
-Regards,
-Anibal
-
-On Thu, 25 Feb 2021 at 11:45, Martin Jansa <Martin.Jansa@gmail.com> wrote:
-
-> * COREBASE works correctly only as long as this recipe is inside of
->   COREBASE directory and leaves the full absolute paths if you copy
->   this recipe into your own layer (e.g. to backport newer version)
->
-> * use THISDIR as all FILESPATH should be relative to that, unless
->   there is a .bbappend not only extending FILESPATH, but also adding
->   meson.cross.d files there (at which point it also didn't work with
->   COREBASE replacements as well already) - show an ERROR in such case,
->   I don't think it's common scenario to spend more time to support that.
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-> b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-> index 15e9dbaf6f..882a89da7a 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-> @@ -31,7 +31,7 @@ def find_meson_cross_files(d):
->      if bb.data.inherits_class('native', d):
->          return ""
->
-> -    corebase = d.getVar("COREBASE")
-> +    thisdir = d.getVar("THISDIR")
->      import collections
->      sitedata = siteinfo_data(d)
->      # filename -> found
-> @@ -39,7 +39,11 @@ def find_meson_cross_files(d):
->      for path in d.getVar("FILESPATH").split(":"):
->          for element in sitedata:
->              filename = os.path.normpath(os.path.join(path,
-> "meson.cross.d", element))
-> -            files[filename.replace(corebase, "${COREBASE}")] =
-> os.path.exists(filename)
-> +            sanitized_path = filename.replace(thisdir, "${THISDIR}")
-> +            if sanitized_path == filename:
-> +                bb.error("Cannot add '%s' to --cross-file, because it's
-> not relative to THISDIR '%s' and sstate signature would contain this full
-> path" % (filename, thisdir))
-> +                continue
-> +            files[filename.replace(thisdir, "${THISDIR}")] =
-> os.path.exists(filename)
->
->      items = ["--cross-file=" + k for k,v in files.items() if v]
->      d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
-> --
-> 2.27.0
->
->
-> 
->
->
-
---000000000000b7f30205bc90dd9d
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This breaks our builds,<div><br></div><div>...</div><div>E=
-RROR: Cannot add &#39;/home/builds/oe-rpb-master/layers/openembedded-core/m=
-eta/recipes-core/glib-2.0/files/meson.cross.d/common&#39; to --cross-file, =
-because it&#39;s not relative to THISDIR &#39;/home/builds/oe-rpb-master/bu=
-ild-410c-2/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0&#=
-39; and sstate signature would contain this full path<br></div><div>...</di=
-v><div><br></div><div>In,</div><div><br></div><div><a href=3D"https://ci.li=
-naro.org/job/lt-qcom-openembedded-rpb-master/DISTRO=3Drpb,MACHINE=3Ddragonb=
-oard-410c,label=3Ddocker-buster-amd64/470/console">https://ci.linaro.org/jo=
-b/lt-qcom-openembedded-rpb-master/DISTRO=3Drpb,MACHINE=3Ddragonboard-410c,l=
-abel=3Ddocker-buster-amd64/470/console</a><br></div><div><br></div><div>Reg=
-ards,</div><div>Anibal</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, 25 Feb 2021 at 11:45, Martin Jansa &=
-lt;<a href=3D"mailto:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">* COREBA=
-SE works correctly only as long as this recipe is inside of<br>
-=C2=A0 COREBASE directory and leaves the full absolute paths if you copy<b=
-r>
-=C2=A0 this recipe into your own layer (e.g. to backport newer version)<br=
->
-<br>
-* use THISDIR as all FILESPATH should be relative to that, unless<br>
-=C2=A0 there is a .bbappend not only extending FILESPATH, but also adding<=
-br>
-=C2=A0 meson.cross.d files there (at which point it also didn&#39;t work w=
-ith<br>
-=C2=A0 COREBASE replacements as well already) - show an ERROR in such case=
-,<br>
-=C2=A0 I don&#39;t think it&#39;s common scenario to spend more time to su=
-pport that.<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
-target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a> | 8 ++++++--<br>
-=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.=
-bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a> b/meta/reci=
-pes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=3D"noreferrer" =
-target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-index 15e9dbaf6f..882a89da7a 100644<br>
---- a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-+++ b/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.66.7.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">glib-2.0_2.66.7.bb</a><br>
-@@ -31,7 +31,7 @@ def find_meson_cross_files(d):<br>
-=C2=A0 =C2=A0 =C2=A0if bb.data.inherits_class(&#39;native&#39;, d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;&quot;<br>
-<br>
--=C2=A0 =C2=A0 corebase =3D d.getVar(&quot;COREBASE&quot;)<br>
-+=C2=A0 =C2=A0 thisdir =3D d.getVar(&quot;THISDIR&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0import collections<br>
-=C2=A0 =C2=A0 =C2=A0sitedata =3D siteinfo_data(d)<br>
-=C2=A0 =C2=A0 =C2=A0# filename -&gt; found<br>
-@@ -39,7 +39,11 @@ def find_meson_cross_files(d):<br>
-=C2=A0 =C2=A0 =C2=A0for path in d.getVar(&quot;FILESPATH&quot;).split(&quo=
-t;:&quot;):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for element in sitedata:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0filename =3D os.path.normp=
-ath(os.path.join(path, &quot;meson.cross.d&quot;, element))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 files[filename.replace(corebase=
-, &quot;${COREBASE}&quot;)] =3D os.path.exists(filename)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sanitized_path =3D filename.rep=
-lace(thisdir, &quot;${THISDIR}&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if sanitized_path =3D=3D filena=
-me:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;Ca=
-nnot add &#39;%s&#39; to --cross-file, because it&#39;s not relative to THI=
-SDIR &#39;%s&#39; and sstate signature would contain this full path&quot; %=
- (filename, thisdir))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 files[filename.replace(thisdir,=
- &quot;${THISDIR}&quot;)] =3D os.path.exists(filename)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0items =3D [&quot;--cross-file=3D&quot; + k for k,v in =
-files.items() if v]<br>
-=C2=A0 =C2=A0 =C2=A0d.appendVar(&quot;EXTRA_OEMESON&quot;, &quot; &quot; +=
- &quot; &quot;.join(items))<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+On Sat, 2021-02-27 at 16:15 +0100, Alexandre Belloni wrote:
+> On 27/02/2021 16:08:02+0100, Alexandre Belloni wrote:
+> > On 27/02/2021 15:52:25+0100, Alexandre Belloni wrote:
+> > > Hello,
+> > >=20
+> > > On 25/02/2021 15:30:35+0000, Luca Bocassi wrote:
+> > > > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > > >=20
+> > > > Recently util-linux gained an (optional) build dependency on libcry=
+ptsetup.
+> > > > But libcryptsetup build-depends on util-linux for blkid (optional, =
+can be disabled)
+> > > > and uuid (mandatory).
+> > > > Split out util-linux-uuid in a different recipe to break the cycle.
+> > > >=20
+> > > > https://github.com/karelzak/util-linux/pull/898
+> > > >=20
+> > > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> > > > ---
+> > > > v1: util-linux 2.35 is not out yet, but I'd like to get the prepara=
+tory work
+> > > >     underway as I'm not sure if this is the best approach or if the=
+re are
+> > > >     alternatives. Suggestions and comments very welcome. Thanks!
+> > > > v2: changed packages names to reflect old ones (eg: libuuid1 -> uti=
+l-linux-libuuid)
+> > > >     and leave uuid build enable in main recipe to allow for uuidgen=
+ build to happen,
+> > > >     as it does not have its own autoconf switch. Delete the library=
+ manualy from
+> > > >     the main recipe after build instead, and add dependency.
+> > > >     Might help to break loop python3 -> util-linux -> libselinux ->=
+ python3, as it's
+> > > >     only libuuid that is needed, see https://lists.yoctoproject.org=
+/g/yocto/message/47570
+> > > > v3: rebased and refactored to have a common util-linux.inc file
+> > > > v4: added RDEPENDS on util-linux-libuuid on various packages to fix=
+ QA warnings
+> > > > v5: remove RDEPENDS and instead have util-linux RDEPEND on util-lin=
+ux-uuid.
+> > > >     Removed PACKAGES_remove and instead filter out libuuid via the =
+package generation
+> > > >     regex.
+> > > >     Rebased on util-linux 2.36.2.
+> > > >=20
+> > > >  .../util-linux/util-linux-uuid_2.36.2.bb      | 22 ++++++++
+> > > >  meta/recipes-core/util-linux/util-linux.inc   | 41 ++++++++++++++
+> > > >  .../util-linux/util-linux_2.36.2.bb           | 53 +++++----------=
+----
+> > > >  3 files changed, 75 insertions(+), 41 deletions(-)
+> > > >  create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.=
+36.2.bb
+> > > >  create mode 100644 meta/recipes-core/util-linux/util-linux.inc
+> > > >=20
+> > >=20
+> > > With this patch, there is a very weird failure on the autobuilders, t=
+wo
+> > > a-full builds failed with this:
+> > >=20
+> > > ERROR: musl-1.2.2+gitAUTOINC+e5d2823631-r0 do_package: Error executin=
+g a python function in exec_python_func() autogenerated:
+> > > The stack trace of python calls that resulted in this exception/failu=
+re was:
+> > > File: 'exec_python_func() autogenerated', lineno: 2, function: <modul=
+e>
+> > >      0001:
+> > >  *** 0002:extend_recipe_sysroot(d)
+> > >      0003:
+> > > File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/stag=
+ing.bbclass', lineno: 582, function: extend_recipe_sysroot
+> > >      0578:                    if "/bin/" in l or "/sbin/" in l:
+> > >      0579:                        # defer /*bin/* files until last in=
+ case they need libs
+> > >      0580:                        binfiles[l] =3D (targetdir, dest)
+> > >      0581:                    else:
+> > >  *** 0582:                        staging_copyfile(l, targetdir, dest=
+, postinsts, seendirs)
+> > >      0583:
+> > >      0584:    # Handle deferred binfiles
+> > >      0585:    for l in binfiles:
+> > >      0586:        (targetdir, dest) =3D binfiles[l]
+> > > File: '/home/pokybuild/yocto-worker/poky-tiny/build/meta/classes/stag=
+ing.bbclass', lineno: 157, function: staging_copyfile
+> > >      0153:        os.symlink(linkto, dest)
+> > >      0154:        #bb.warn(c)
+> > >      0155:    else:
+> > >      0156:        try:
+> > >  *** 0157:            os.link(c, dest)
+> > >      0158:        except OSError as err:
+> > >      0159:            if err.errno =3D=3D errno.EXDEV:
+> > >      0160:                bb.utils.copyfile(c, dest)
+> > >      0161:            else:
+> > > Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/=
+yocto-worker/poky-tiny/build/build/tmp/sysroots-components/core2-32/libgcc/=
+usr/lib/i686-poky-linux-musl/10.2.0/libgcc_eh.a' -> '/home/pokybuild/yocto-=
+worker/poky-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+g=
+itAUTOINC+e5d2823631-r0/recipe-sysroot/usr/lib/i686-poky-linux-musl/10.2.0/=
+libgcc_eh.a'
+> > > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/pok=
+y-tiny/build/build/tmp/work/core2-32-poky-linux-musl/musl/1.2.2+gitAUTOINC+=
+e5d2823631-r0/temp/log.do_package.4051328
+> > > NOTE: recipe musl-1.2.2+gitAUTOINC+e5d2823631-r0: task do_package: Fa=
+iled
+> > > ERROR: Task (/home/pokybuild/yocto-worker/poky-tiny/build/meta/recipe=
+s-core/musl/musl_git.bb:do_package) failed with exit code '1'
+> > >=20
+> > > This also happens with glibc-2.33-r0:
+> > >=20
+> > >=20
+> > > ERROR: glibc-2.33-r0 do_package: Error executing a python function in=
+ exec_python_func() autogenerated:
+> > > [...]
+> > > Exception: FileExistsError: [Errno 17] File exists: '/home/pokybuild/=
+yocto-worker/edgerouter/build/build/tmp/sysroots-components/mips64/libgcc/u=
+sr/lib/mips64-poky-linux/10.2.0/libgcc.a' -> '/home/pokybuild/yocto-worker/=
+edgerouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/recipe-sysr=
+oot/usr/lib/mips64-poky-linux/10.2.0/libgcc.a'
+> > > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/edg=
+erouter/build/build/tmp/work/mips64-poky-linux/glibc/2.33-r0/temp/log.do_pa=
+ckage.29993
+> > > NOTE: recipe glibc-2.33-r0: task do_package: Failed
+> > > ERROR: Task (/home/pokybuild/yocto-worker/edgerouter/build/meta/recip=
+es-core/glibc/glibc_2.33.bb:do_package) failed with exit code '1'
+> > >=20
 
---000000000000b7f30205bc90dd9d--
+I see those kind of errors without this patch all the time, when a
+build directory is hosed, and normally it means it's time for a rm -rf
+and start over. It happens quite often when building in the same
+directory multiple times. Are you sure it's related to this particular
+patch?
+
+> > Not sure this helps but we also get:
+> >=20
+> > WARNING: nativesdk-util-linux-2.36.2-r0 do_package_qa: QA Issue: native=
+sdk-util-linux rdepends on nativesdk-util-linux-uuid, but it isn't a build =
+dependency? [build-deps]
+
+Uhm I don't understand this warning, it _is_ a build dependency? Any
+idea?
+
+-DEPENDS =3D "libcap-ng ncurses virtual/crypt zlib"
++DEPENDS =3D "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
+
+> and I'm adding https://autobuilder.yoctoproject.org/typhoon/#/builders/47=
+/builds/3137/steps/12/logs/stdio :
+>=20
+> ERROR: util-linux-uuid-2.36.2-r0 do_package: QA Issue: util-linux-uuid: F=
+iles/directories were installed but not shipped in any package:
+>   /usr/lib/libuuid.a
+> Please set FILES such that these items are packaged. Alternatively if the=
+y are unneeded, avoid installing them or delete them within do_install.
+
+Whops, indeed I forgot the static archive, fixed now.
+
+--=20
+Kind regards,
+Luca Boccassi
+
+--=-r+jh/lFRR0noZ74ff9jZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmA+dloACgkQSylmgFB4
+UWLTPwf+PRh7mRIwfcAUPxVcrB80mTY2liFW2A0cqDMK4R49GrFvTa5z1/aNiD14
+0HLxNvapgLBLLQaJe9juvJbNlfY84pJ3JUYFSA06cZ4B4ZU/BnffxzYScBdzuapu
+DZxuRcTd1/Z8JoPYBBeR99XmYktWN0XmZtlu+IEHRGJHHKQ+M7S6oW+IhGMen+ZD
+EDCFU8pi33t8xEDQxGEFiaBLjH3ozC+4uSjbWbRG1BekbPTn1mwH2Tda2dOmTmNu
+FzeV8q8A7JFAf5I6fbmhtXEklzmUwsNyXA2tw3RbCSc2Xn6GkiiHZY2MV9tjTbPk
+bwfYDvBVzR/bkjrMOMvr/FXxVyiGeg==
+=zVA8
+-----END PGP SIGNATURE-----
+
+--=-r+jh/lFRR0noZ74ff9jZ--
