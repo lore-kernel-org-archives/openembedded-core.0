@@ -1,123 +1,76 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.6285.1614777090890152769
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.6286.1614777091574990791
  for <openembedded-core@lists.openembedded.org>;
  Wed, 03 Mar 2021 05:11:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bcyvYiQh;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id c10so15573578ejx.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 05:11:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TWeMPYF4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id ci14so23059250ejc.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 05:11:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jo+LNdiquaTGL3hCO9Nw/J89pRRO35ARDc+mJmFFdiA=;
-        b=bcyvYiQh0jqnQFHo9LKfK5VB80S+kZOeUaF60lGE3veHoxiFm+yqTHTB9Pc+8jU1/m
-         PV+Xtr1NKEjQivf7X68w/DxbyUxFJVYTpng8WCCzWWMnVLYpD1sWwRYS6i2/GKBlVFfp
-         5c1G/B4x3CY0S3jUdGziLSbC/if2r2WFHuNUQdN0sXyFBpRjpxhu26o8z8KBXe/ILGkY
-         ArSs2yuOfHFrPtTIZS+/veyoRrrtlCbgjtMeTTqpC4hXcOZrYowQpUgEpx2ZgmU1tY9/
-         Gr8+eccFdyxBnarnwXEjDZfZE/02lL6ULAmpVxSm5AoaaKQ5B+0jEQ5qHS+ahElhKVVv
-         1i4g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Jty7wViFTSycLql4RAcFViik/IZPv3qNvL+QYii8dzY=;
+        b=TWeMPYF4dFWyuJLkBS91YFQZ/X0CcIygKJL54ESMx7xV+i2ZfhH11JVAJXlU635kil
+         dj2lNl0r5E1rNYn3yV/kqIprpTjmy2d2sfbUle4sUkcgpEJOGIy1iDyG70ZIwobcD9Wt
+         WI7V+WPigv+PW/eWaiY8DXbITsA0VZ6ebT9FeXlG8bdasCkeW4Ln5vRtC9qHoh2KuiVN
+         lcClwM5FctjOHgZmsFKLb1xtbs4g2oDy9JV4UPEJbn4kE5tkneHfEb8PXm/CwVfax7LQ
+         NOSvaCTHuE4b1YGNWg3yDT6dbnMcRc2KT8llii5+Q/NkwMfrlFVrIapVnmMKArW5MAXk
+         C5+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jo+LNdiquaTGL3hCO9Nw/J89pRRO35ARDc+mJmFFdiA=;
-        b=kDN3D9nAy7bY7fiD2Wu4351OOOTBdneJmt/KaqzgE5531L24t+Ro1FBUzzJlOiGQkD
-         Vv8kdwZcLwhRa67m+ub0gqfYeq8PFmSHMeLuS8leEi/Kx2krpx7qKebvuMF5JosEdyg8
-         l803eq/bGwGJEPwGJJDgIVGFlOj7Y6Dju0kZygqvKi0lxbs7DEJPbjvydU0BHBNUJMhR
-         l1xm6MaM0OaXqqYIhCN+1wJv3Tu6l+66p1fsvBq9QZwjXxC1FAYKCf8Vlmvv8OuBbU10
-         MKk2i6yc/1fZXlW3mX6yQCvr/Ea7sTQ0nGgUdOLaXPPIRyEQP2L9X8K+jmUkWuHkWDf7
-         YYdA==
-X-Gm-Message-State: AOAM531pKmOyQruZP/pskqlxykV6KSYy6DO53UQEfJENQ9quasqOoUby
-	uMdbvZBvJ16dSaqp/B8IihxUELFo+LyZjA==
-X-Google-Smtp-Source: ABdhPJxy1ugQdrh0Hr8F67hQGuDbcr3tMIQfAqwBnqsdznOWz72ztbBtgShYPlQe5I5Gk7EivqaUjw==
-X-Received: by 2002:a17:906:a106:: with SMTP id t6mr25920019ejy.63.1614777089346;
-        Wed, 03 Mar 2021 05:11:29 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Jty7wViFTSycLql4RAcFViik/IZPv3qNvL+QYii8dzY=;
+        b=YnW4t1bDztEDAPINid5kbKM5TT2KUCBgbcZS6yeF3vtVNWiMh1sHwcsPW1OLt69Mb5
+         lQjE0k5A8bKAtzH5bGcQbukacObOzUNXg+qWi9nkrk5EGCIeEUviOf/mSeDS/dPnuDer
+         dGfRQ4wrGTtLImXYs9a6LpFRMr1Ho5UFreRYlSYqatcQFqS6awwsXaIqILlpDotOJFb/
+         65IkDjIxa9bx3CAwG5obcxNC8poGyKsaOl0jupcNPxQxqGTi0ZxDwNY2o3YxDx5Pji0T
+         vA9bSIfJQJ4oflGGNQpYOGdAGLp7Cz4c/bxc2uFEbhPPJ55AVn/pkgf6boblUlcGfQEJ
+         mg4Q==
+X-Gm-Message-State: AOAM5329L2ObJ6umfR1/G1LydMWUZ6VuHNmuN+6Tei/kSX8MWRoweqtk
+	yr4hvkkOjGL9277t8VlHg+G94WpHy+sCXA==
+X-Google-Smtp-Source: ABdhPJzJW6ebKZZKK6FVhapoWEXbufMGK+F11iNtdJMi9htoPWEEN3k3exwxPGd0LLKrb//buz+QEg==
+X-Received: by 2002:a17:907:7014:: with SMTP id wr20mr25897365ejb.179.1614777090138;
+        Wed, 03 Mar 2021 05:11:30 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([5.28.91.120])
-        by smtp.gmail.com with ESMTPSA id w18sm19472472ejn.23.2021.03.03.05.11.28
+        by smtp.gmail.com with ESMTPSA id w18sm19472472ejn.23.2021.03.03.05.11.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 05:11:28 -0800 (PST)
+        Wed, 03 Mar 2021 05:11:29 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/3] core-image.bbclass: add a weston IMAGE_FEATURE, similar to x11-base
-Date: Wed,  3 Mar 2021 14:06:39 +0100
-Message-Id: <20210303130641.604699-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/3] rootfs-postcommands: correctly set systemd target for weston images
+Date: Wed,  3 Mar 2021 14:06:40 +0100
+Message-Id: <20210303130641.604699-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210303130641.604699-1-alex.kanavin@gmail.com>
+References: <20210303130641.604699-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Otherwise, weston wouldn't actually start when systemd is in use.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/core-image.bbclass                     |  2 ++
- meta/recipes-graphics/images/core-image-weston.bb   |  8 +++-----
- .../packagegroups/packagegroup-core-weston.bb       | 13 +++++++++++++
- 3 files changed, 18 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
+ meta/classes/rootfs-postcommands.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 88ca272145..d81f68bd2e 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -9,6 +9,7 @@
- #
- # Available IMAGE_FEATURES:
- #
-+# - weston              - Weston Wayland compositor
- # - x11                 - X server
- # - x11-base            - X server with minimal environment
- # - x11-sato            - OpenedHand Sato environment
-@@ -37,6 +38,7 @@
- # - stateless-rootfs    - systemctl-native not run, image populated by systemd at runtime
- # - splash              - bootup splash screen
- #
-+FEATURE_PACKAGES_weston = "packagegroup-core-weston"
- FEATURE_PACKAGES_x11 = "packagegroup-core-x11"
- FEATURE_PACKAGES_x11-base = "packagegroup-core-x11-base"
- FEATURE_PACKAGES_x11-sato = "packagegroup-core-x11-sato"
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index 8d88e3bc0c..e82e4fbb3f 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -1,14 +1,12 @@
- SUMMARY = "A very basic Wayland image with a terminal"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 1f27a3d07a..e66ed5938b 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -34,7 +34,7 @@ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
+ # Set default postinst log file
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ # Set default target for systemd images
+-SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
++SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains_any("IMAGE_FEATURES", [ "x11-base", "weston" ], "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
  
--IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs"
-+IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs weston"
- 
- LICENSE = "MIT"
- 
--inherit core-image features_check
-+inherit core-image
- 
--REQUIRED_DISTRO_FEATURES = "wayland"
--
--CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples wayland-utils gtk+3-demo clutter-1.0-examples"
-+CORE_IMAGE_BASE_INSTALL += "gtk+3-demo clutter-1.0-examples"
- CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
- 
- QB_MEM = "-m 512"
-diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
-new file mode 100644
-index 0000000000..340c8e75ed
---- /dev/null
-+++ b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "Basic Weston compositor setup"
-+DESCRIPTION = "Packages required to set up a basic working Weston session"
-+PR = "r1"
-+
-+inherit packagegroup features_check
-+REQUIRED_DISTRO_FEATURES = "wayland"
-+
-+RDEPENDS_${PN} = "\
-+    weston \
-+    weston-init \
-+    weston-examples \
-+    wayland-utils \
-+    "
+ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
 -- 
 2.29.2
 
