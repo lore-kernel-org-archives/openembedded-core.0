@@ -1,367 +1,132 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.1293.1614736940944938801
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.54])
+ by mx.groups.io with SMTP id smtpd.web12.3310.1614752175299106825
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Mar 2021 18:02:21 -0800
+ Tue, 02 Mar 2021 22:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ODZNgYZp;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id m1so4622990wml.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Mar 2021 18:02:20 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=bBFgPOBa;
+ spf=pass (domain: windriver.com, ip: 40.107.236.54, mailfrom: yanfei.xu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bZ1HWYFs+PsHatWUJQpZo6hxQdeqg9T9iLE3e9KAxVrVDvT1qQOeY5f4PMxF6HepD2hUinfwsgIzGfbm1pAvYYvAPBG+KaT2pKnDnVSb3g7GWUbc29D2qgyde517rOhul0hl/oXlvM3Ug50JjpbUJMINaBFgOq/dy0gOaElwrw0uAMFZNnUkm49QPIu3eofUFIVwazcZD0T/7DPJ4qGvFwH9nSxbtn9APYw95UJgc87NRHvpHEpbPaOTqshBemqv//2k+bvS9u0JMlpseCV7YAIYBs4/O3CpfOk88wdAuEaeMDxfhyKCReOrR95hYXI9bhcPz8cGQ05Gq/TfxTpZZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PHdpPmbSfbqPxWSmeJtc80AWS3sGiaNKbrGAc3tOo5M=;
+ b=alD6vOvvumqD//gIvg0o/X4E3TQLqoXxsYx8cH3zLEH+JkHePB84rJ2GsVQolvBrkQRJLASl0DQa03LuxvgLZhXmjMmmzQtVmXxTGpMXrgtQkwxUwJGAHcMW7kbdDMHQu9w1eEX9+4aKkPXoAHdJZFKoqbJ036J/2IBtC9YeovawP8+0FMc4SsVsseN4JFAQzt4pooFXGYw8YSGPo51MF6iUiYDu+IwqzwFPy5huNrWVsndoyB6zw3o5CQMF/zmUUtVgvfl/UQc9qi1Cai8GO3HsSYczRrSi2fx44y7T6E7q9F2DD06t9+38zZuQ7L5757GNP5+QN4kUXw8FbEZH2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=x209eXoO3NgqPokmnylh1DNymyEXHKBsOj3HR5lvrSE=;
-        b=ODZNgYZpyeKdheusiDNzN9JRbYsJ5rlb08bkb20OQQwLK9SHQbxT+UtvDUXL3LdYih
-         nn19ONyFkWGR8m5fnNqxXOapNBLp/RWx6Nfz6Im87oPxolbQUDrdE5mgn16msHa5D92h
-         yOKbjYZd116fCHzzX1uM8P03B6M2PQ16VdJYB81zeXleXrMSy0waoKsc5zi2rMJT2Fbs
-         bKx61NH8Z5kt4YH4o4TK0Z19w9mqWCamQ0/wuv6R7RN3rfwQF0VFCVomLsFbOn2EIQ4D
-         wvdTv+detRXgw/nW7XrKGRVzZxOcF5cL6cVchw5xznaYdhDHW1ixfvqrhmz0qZwe68xL
-         ZNXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=x209eXoO3NgqPokmnylh1DNymyEXHKBsOj3HR5lvrSE=;
-        b=sMYwK/6NlXa1RAxnvPEkQje/n8IS79wGyKXewJRFPQ/RKhlYRzdVMy5VzjWIMTC3mx
-         iQYcbRgRWIENHWIGK32BkP3Ls0hmEhIIfctcTqV6upET5S9enEiqfp5W9o2MjaqmAvdi
-         xzDuwR5jupRYj8gtonvqcDnRB+dKtV6hiJZ8Z9+zYcQOYIF/zqCMYoku6hWiRrsdGpL5
-         enSLcZ2PjOkRlebzQZL8b9fQCq7P50WNFC/rl3jeKReQ6lzQWrb0Hf7rm5rD7J1N1oA4
-         UUSzSrTvESfcOJs827eldva0y3HSKvgfCwxrbz2eb+emDCNYpbPdwx5bGeChrfRA+PJ4
-         FMmA==
-X-Gm-Message-State: AOAM531G1L7syIf2iJQKLgKv9gILOb/dP5s7Fdh4PTPJNdc+8L8G9eL0
-	zfu2b2F7TbzVAdme5sJY2ZPC4WGuVd4=
-X-Google-Smtp-Source: ABdhPJxhsvdst1W7JkXU8iWl5bBAJW54aoqb7+1SgU1BwwCVTwNQWhlPGm6y0HTupbCHkc5ElKDMGw==
-X-Received: by 2002:a05:600c:3511:: with SMTP id h17mr6704782wmq.2.1614736938846;
-        Tue, 02 Mar 2021 18:02:18 -0800 (PST)
-Return-Path: <dorindabassey@gmail.com>
-Received: from smtp.gmail.com. ([105.112.32.149])
-        by smtp.gmail.com with ESMTPSA id g9sm31489279wrp.14.2021.03.02.18.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 18:02:18 -0800 (PST)
-From: "Dorinda" <dorindabassey@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PHdpPmbSfbqPxWSmeJtc80AWS3sGiaNKbrGAc3tOo5M=;
+ b=bBFgPOBaoZpjgohr0e0U/qd935zstov27oTc/l8TR15OrLJczK/2bEubISOetBnrImuidfKH0JNFZCIFdnAoRBoOI8cRDDN8eEXryP1E8hRvgzY5o79kof3JP95T7YcivpuYHZmMreH4Zjd4RFrF9IAg4XNfNL0RNZ6byoDCISQ=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by BYAPR11MB3479.namprd11.prod.outlook.com (2603:10b6:a03:1e::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Wed, 3 Mar
+ 2021 06:16:11 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::95a3:653e:2078:fb4]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::95a3:653e:2078:fb4%6]) with mapi id 15.20.3890.028; Wed, 3 Mar 2021
+ 06:16:11 +0000
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH 3/3] meta/recipes-extended: Add HOMEPAGE / DESCRIPTION
-Date: Wed,  3 Mar 2021 03:01:52 +0100
-Message-Id: <20210303020152.25093-3-dorindabassey@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210303020152.25093-1-dorindabassey@gmail.com>
-References: <20210303020152.25093-1-dorindabassey@gmail.com>
+Subject: [OE-core][PATCH] lttng-tools: upgrade 2.12.2->2.12.3
+Date: Wed,  3 Mar 2021 14:15:55 +0800
+Message-ID: <20210303061555.40835-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.27.0
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2P15301CA0006.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::16) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
+Return-Path: yanfei.xu@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpggp1.wrs.com (60.247.85.82) by HK2P15301CA0006.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.7 via Frontend Transport; Wed, 3 Mar 2021 06:16:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fa655c63-ae55-4002-f99f-08d8de0bd6f6
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3479:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB347954D81600F733B00F1579E4989@BYAPR11MB3479.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	O2BF9uNw0+9v9LAotb4ZKczzKPimuR/p4x6hBZeCqiVRjBKT9pjze8ReXxg8B3iQtfSKEr/Gd4tf4is39zfwuhZxZmXXBhl3tRuR5DcKHIt105b7jNl39hwDDoNXLcSjcd+J2GyeJHYIGwV9geSlBpkYYeltaSpXSqpExrBlspqq+gMg1FaMB9O6QUcTY8oHVhkonAXAqXiIlLbvKwRNXBf4I3n2mch3hyd3hmqW+ThrTGp7UorZqffdxQHQ5Pe1cg4VLpdzcZvxLtFC9jMThmjB7Nm2EnmOgHpqID1ftIiFwMn7ixztBkyfXooqFNnci5ln+HJCR75MmXbJ8zDTRSMxiq1V2HwhPUZChwchMfQqtqdLpD04cGwn+MmLgLOraMqt0w5qSbuWDDhJkqkmWFwat9XChIqSuSjRQSeshnkNcCdSbYuZ0D3w6gtNsnA/TPOg4YR3mPtg6JPeeaol6JMOjr6viNKvQVQKQFEoUWOYJNAQnD15ihg1fkUAOjsZTuDJpESMzC1Gj2JctsdlarzkRTHQeN75pF2ZB80g98RBOoXxmW07uXyVHfc4TEy7vt/q4FaCqKzZ/B5Z2i9oAyLObNBrpPzNAulD8XCTiFw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(346002)(39850400004)(376002)(136003)(66946007)(66556008)(8936002)(66476007)(8676002)(5660300002)(478600001)(86362001)(83380400001)(9686003)(2906002)(6512007)(36756003)(316002)(16526019)(186003)(6916009)(1076003)(26005)(6506007)(52116002)(6666004)(6486002)(956004)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?xF/uBanHX/l4BLslSgHAXBcHE4rtT8Iuo8e+vAOJ4bdSTj74MnZ1cp9TDATx?=
+ =?us-ascii?Q?SKshZcqUYagq89oLJgrimydo43B6gg8SkgUaqDaAwd7bAifeM3Vuu748Gnx6?=
+ =?us-ascii?Q?gkrlQuqgKyQgyNvuINWXU3FhkiyRN8nfug1KNBwIDy0Ai+zYyWYmBMBsXUS4?=
+ =?us-ascii?Q?lrHYqaRFl5DpAHXl/LbVWO8+0irgdgpBRMPVL+ZYZqpKsOThbRWTfwf1R/gs?=
+ =?us-ascii?Q?APmlYgOgOhomOcETYT6B/nOa/ATFGTC85gDzN4g2JwTRngJkQ33+O9ZeZHim?=
+ =?us-ascii?Q?EuUuBQOwbdb3FI6kFNbQjM1H9X524hjfl4y6vQFULKLFVj3Zi1catPjZQAos?=
+ =?us-ascii?Q?oUAwvhU35FSICDh79CyJBVgylSLbvYTVC5j2rDFNicOD0YZY5sHzuFJ8cN3t?=
+ =?us-ascii?Q?jFEL7pEFSBdUchF26fe55PK7TwEY2jGAMkCrkf1qU88YUQbgH35qcPD7z02y?=
+ =?us-ascii?Q?PUJ8BUkmQehKUnbKayzFzYc4Mjwf7IxjwgeufNKKuU9TvudfXG//DcQw/Y/6?=
+ =?us-ascii?Q?qUpiuUJyFrNfNURFYgULrRiApOxSCUaWYfAeumO+B+7Qpxq8srZF6RqRcciF?=
+ =?us-ascii?Q?gf6jdEMU8m6ilM5CdaA1YNopSrAIk1Yn/V2Uloq23x2zmKaZLzgayXIZhdlu?=
+ =?us-ascii?Q?951zxZnnFUXbKOfKJVBiwkCPPUpM2BizYRi7zB5NErrDN6yZIktRleqQq1YW?=
+ =?us-ascii?Q?oZuIc7ReTW0f8ueCqHpnfPQmJaa6sQop26Xi3i1WChRlzgkS7FaCQEflkZPV?=
+ =?us-ascii?Q?KhOWAw4w5vhmlvJMv8b+N+ORiLztfoGN7su18EsGCWLJVmF5l9I3kgM0RQcN?=
+ =?us-ascii?Q?9830i/vJTphRBgqy2VgxWWwU5sdV/iLOpJpSnUCKJWeeuDRaNGXOTBCEXpe+?=
+ =?us-ascii?Q?RED7R6gC/DBNkv897FLUjV1DsxcnjS2Czi5SIk/hA/j6BoASIFbb5WSjZ38k?=
+ =?us-ascii?Q?2EOteGpWcFU3eUcgo1FqL7VHa3zqZIWJ4dJqn/MuRspyYedImIKKOYNJYx6q?=
+ =?us-ascii?Q?V9P2EFmDd0VboEoaDxlMFU0Mhe756PGZncQog3acedcnbGUkZ/P4fD3VRu5b?=
+ =?us-ascii?Q?IAN3DfbNGLvQMktjXUfbHGn8mQrh4Qe6GUDNeUCUOQdSrL0whnkFtQjtXapd?=
+ =?us-ascii?Q?bXPmmCpObljdVmrgfTMTK2WJj+RXpWaLYPdLIX7aY2db45INVGydDrfsfJLY?=
+ =?us-ascii?Q?rBS2204hvS88AbxeBe9WIBTy8pYbU86YSpO6Zqk8GfC1xiYVZbNccSJoSzIw?=
+ =?us-ascii?Q?3FRrAhlkW3S93k2Xd3hkX6MAB4f3f5kLnQRP+c+gaRGlhGQqwEV8F64rRI59?=
+ =?us-ascii?Q?vJB0kO3Ot20rjy5pKVY4PWeD?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa655c63-ae55-4002-f99f-08d8de0bd6f6
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2021 06:16:11.3996
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v6sVfKVDlIHtMvQtCL+JRrthB+2bYwIWBNQU9HacrFeAwBH4/ZbEVNLm0W7B3CrDaiJttZk6penUGw/t1LR3kQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3479
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Added HOMEPAGE and DESCRIPTION for recipes with missing decriptions or homepage
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-[YOCTO #13471]
-
-Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 ---
- meta/recipes-extended/bash/bash.inc                            | 1 +
- meta/recipes-extended/bc/bc_1.07.1.bb                          | 1 +
- meta/recipes-extended/cracklib/cracklib_2.9.5.bb               | 3 ++-
- meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb    | 1 +
- meta/recipes-extended/ed/ed_1.17.bb                            | 1 +
- meta/recipes-extended/grep/grep_3.6.bb                         | 1 +
- meta/recipes-extended/libsolv/libsolv_0.7.17.bb                | 1 +
- meta/recipes-extended/lighttpd/lighttpd_1.4.59.bb              | 1 +
- meta/recipes-extended/logrotate/logrotate_3.18.0.bb            | 3 ++-
- meta/recipes-extended/lzip/lzip_1.22.bb                        | 1 +
- meta/recipes-extended/man-db/man-db_2.9.4.bb                   | 1 +
- meta/recipes-extended/mc/mc_4.8.26.bb                          | 1 +
- meta/recipes-extended/mdadm/mdadm_4.1.bb                       | 1 +
- meta/recipes-extended/mingetty/mingetty_1.08.bb                | 1 +
- meta/recipes-extended/parted/parted_3.4.bb                     | 1 +
- meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb        | 2 ++
- meta/recipes-extended/perl/libtimedate-perl_2.30.bb            | 1 +
- meta/recipes-extended/quota/quota_4.06.bb                      | 1 +
- meta/recipes-extended/sed/sed_4.8.bb                           | 1 +
- meta/recipes-extended/shadow/shadow.inc                        | 1 +
- .../texinfo-dummy-native/texinfo-dummy-native.bb               | 1 +
- meta/recipes-extended/unzip/unzip_6.0.bb                       | 1 +
- meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb                | 1 +
- meta/recipes-extended/xz/xz_5.2.5.bb                           | 1 +
- meta/recipes-extended/zip/zip_3.0.bb                           | 1 +
- 25 files changed, 28 insertions(+), 2 deletions(-)
+ .../lttng/{lttng-tools_2.12.2.bb =3D> lttng-tools_2.12.3.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.12.2.bb =3D> lttng-tools_2=
+.12.3.bb} (98%)
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index db326660ea..d3e1dfdb30 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -1,5 +1,6 @@
- SUMMARY = "An sh-compatible command language interpreter"
- HOMEPAGE = "http://tiswww.case.edu/php/chet/bash/bashtop.html"
-+DESCRIPTION = "Bash is the GNU Project's Bourne Again SHell, a complete implementation of the IEEE POSIX and Open Group shell specification with interactive command line editing, job control on architectures that support it, csh-like features such as history substitution and brace expansion, and a slew of other features."
- SECTION = "base/shell"
- 
- DEPENDS = "ncurses bison-native virtual/libiconv"
-diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
-index 4a51302492..ff3e8f4409 100644
---- a/meta/recipes-extended/bc/bc_1.07.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.07.1.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Arbitrary precision calculator language"
- HOMEPAGE = "http://www.gnu.org/software/bc/bc.html"
-+DESCRIPTION = "bc is an arbitrary precision numeric processing language. Syntax is similar to C, but differs in many substantial areas. It supports interactive execution of statements."
- 
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-index 82995219dc..9cdb71f1a1 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Password strength checker library"
--HOMEPAGE = "http://sourceforge.net/projects/cracklib"
-+HOMEPAGE = "https://github.com/cracklib/cracklib"
-+DESCRIPTION = "${SUMMARY}"
- 
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
-diff --git a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb b/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
-index 02b016fdf1..e726899c52 100644
---- a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
-+++ b/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
-@@ -1,6 +1,7 @@
- SUMMARY = "Collection of autoconf m4 macros"
- SECTION = "base"
- HOMEPAGE = "http://sourceforge.net/projects/cwautomacros.berlios/"
-+DESCRIPTION = "A collection of autoconf macros, plus an autogen.sh script that can be used with them."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=eb723b61539feef013de476e68b5c50a"
- 
-diff --git a/meta/recipes-extended/ed/ed_1.17.bb b/meta/recipes-extended/ed/ed_1.17.bb
-index e905eed3c7..addf652d52 100644
---- a/meta/recipes-extended/ed/ed_1.17.bb
-+++ b/meta/recipes-extended/ed/ed_1.17.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Line-oriented text editor"
- HOMEPAGE = "http://www.gnu.org/software/ed/"
-+DESCRIPTION = "GNU ed is a line-oriented text editor. It is used to create, display, modify and otherwise manipulate text files, both interactively and via shell scripts. A restricted version of ed, red, can only edit files in the current directory and cannot execute shell commands."
- 
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c7051aef9219dc7237f206c5c4179a7 \
-diff --git a/meta/recipes-extended/grep/grep_3.6.bb b/meta/recipes-extended/grep/grep_3.6.bb
-index cb009b9132..c17b96d7bd 100644
---- a/meta/recipes-extended/grep/grep_3.6.bb
-+++ b/meta/recipes-extended/grep/grep_3.6.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "GNU grep utility"
- HOMEPAGE = "http://savannah.gnu.org/projects/grep/"
-+DESCRIPTION = "Grep searches one or more input files for lines containing a match to a specified pattern. By default, grep prints the matching lines."
- BUGTRACKER = "http://savannah.gnu.org/bugs/?group=grep"
- SECTION = "console/utils"
- LICENSE = "GPLv3"
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.17.bb b/meta/recipes-extended/libsolv/libsolv_0.7.17.bb
-index 8597ea3edb..fa6e8a3c4d 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.17.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.17.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Library for solving packages and reading repositories"
-+DESCRIPTION = "This is libsolv, a free package dependency solver using a satisfiability algorithm for solving packages and reading repositories"
- HOMEPAGE = "https://github.com/openSUSE/libsolv"
- BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
- SECTION = "devel"
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.59.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.59.bb
-index 705ece8e19..cf7f478915 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.59.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.59.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Lightweight high-performance web server"
- HOMEPAGE = "http://www.lighttpd.net/"
-+DESCRIPTION = "Lightweight high-performance web server is designed and optimized for high performance environments. With a small memory footprint compared to other web-servers, effective management of the cpu-load, and advanced feature set (FastCGI, SCGI, Auth, Output-Compression, URL-Rewriting and many more)"
- BUGTRACKER = "http://redmine.lighttpd.net/projects/lighttpd/issues"
- 
- LICENSE = "BSD-3-Clause"
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.18.0.bb b/meta/recipes-extended/logrotate/logrotate_3.18.0.bb
-index 270052f46f..55684ac9fb 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.18.0.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.18.0.bb
-@@ -1,6 +1,7 @@
- SUMMARY = "Rotates, compresses, removes and mails system log files"
- SECTION = "console/utils"
--HOMEPAGE = "https://github.com/logrotate/logrotate/issues"
-+HOMEPAGE = "https://github.com/logrotate/logrotate/"
-+DESCRIPTION = "The logrotate utility is designed to simplify the administration of log files on a system which generates a lot of log files."
- LICENSE = "GPLv2"
- 
- # TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
-diff --git a/meta/recipes-extended/lzip/lzip_1.22.bb b/meta/recipes-extended/lzip/lzip_1.22.bb
-index d21c36a3f4..3360269454 100644
---- a/meta/recipes-extended/lzip/lzip_1.22.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.22.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Lossless data compressor based on the LZMA algorithm"
- HOMEPAGE = "http://lzip.nongnu.org/lzip.html"
-+DESCRIPTION = "Lzip is a lossless data compressor with a user interface similar to the one of gzip or bzip2. Lzip uses a simplified form of the Lempel-Ziv-Markov chain-Algorithm (LZMA) stream format, chosen to maximize safety and interoperability."
- SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
-diff --git a/meta/recipes-extended/man-db/man-db_2.9.4.bb b/meta/recipes-extended/man-db/man-db_2.9.4.bb
-index 432953a1bc..cfa6561769 100644
---- a/meta/recipes-extended/man-db/man-db_2.9.4.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.9.4.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "An implementation of the standard Unix documentation system accessed using the man command"
- HOMEPAGE = "http://man-db.nongnu.org/"
-+DESCRIPTION = "man-db is an implementation of the standard Unix documentation system accessed using the man command. It uses a Berkeley DB database in place of the traditional flat-text whatis databases."
- LICENSE = "LGPLv2.1 & GPLv2"
- LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://docs/COPYING;md5=eb723b61539feef013de476e68b5c50a"
-diff --git a/meta/recipes-extended/mc/mc_4.8.26.bb b/meta/recipes-extended/mc/mc_4.8.26.bb
-index 3eb19309b7..5c5e6790d8 100644
---- a/meta/recipes-extended/mc/mc_4.8.26.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.26.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Midnight Commander is an ncurses based file manager"
- HOMEPAGE = "http://www.midnight-commander.org/"
-+DESCRIPTION = "GNU Midnight Commander is a visual file manager, licensed under GNU General Public License and therefore qualifies as Free Software. It's a feature rich full-screen text mode application that allows you to copy, move and delete files and whole directory trees, search for files and run commands in the subshell. Internal viewer and editor are included."
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
- SECTION = "console/utils"
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 001d3331a7..bb77759cf9 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Tool for managing software RAID under Linux"
- HOMEPAGE = "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
-+DESCRIPTION = "mdadm is a Linux utility used to manage and monitor software RAID devices."
- 
- # Some files are GPLv2+ while others are GPLv2.
- LICENSE = "GPLv2 & GPLv2+"
-diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-index 491b892093..9822e86b0e 100644
---- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
-+++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-@@ -1,6 +1,7 @@
- SUMMARY = "Compact getty terminal handler for virtual consoles only"
- SECTION = "console/utils"
- HOMEPAGE = "http://sourceforge.net/projects/mingetty/"
-+DESCRIPTION = "This is a small Linux console getty that is started on the Linux text console, asks for a login name and then tranfers over to login directory. Is extended to allow automatic login and starting any app."
- LICENSE = "GPLv2"
- PR = "r3"
- 
-diff --git a/meta/recipes-extended/parted/parted_3.4.bb b/meta/recipes-extended/parted/parted_3.4.bb
-index 79dad54687..c15f5aeb0b 100644
---- a/meta/recipes-extended/parted/parted_3.4.bb
-+++ b/meta/recipes-extended/parted/parted_3.4.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Disk partition editing/resizing utility"
- HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
-+DESCRIPTION = "GNU Parted manipulates partition tables. This is useful for creating space for new operating systems, reorganizing disk usage, copying data on hard disks and disk imaging."
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
- SECTION = "console/tools"
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-index 9f992d3e83..409a8f3896 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-@@ -1,5 +1,7 @@
- SUMMARY = "Convert::ASN1 - Perl ASN.1 Encode/Decode library"
- SECTION = "libs"
-+HOMEPAGE = "https://metacpan.org/source/GBARR/Convert-ASN1-0.27"
-+DESCRIPTION = "Convert::ASN1 is a perl library for encoding/decoding data using ASN.1 definitions."
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8e8e0d3d23e096a63f"
- 
-diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-index d42eadb586..46843bfc8a 100644
---- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-+++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Perl modules useful for manipulating date and time information"
- HOMEPAGE = "https://metacpan.org/release/TimeDate"
-+DESCRIPTION = "This is the perl5 TimeDate distribution. It requires perl version 5.003 or later."
- SECTION = "libs"
- # You can redistribute it and/or modify it under the same terms as Perl itself.
- LICENSE = "Artistic-1.0 | GPL-1.0+"
-diff --git a/meta/recipes-extended/quota/quota_4.06.bb b/meta/recipes-extended/quota/quota_4.06.bb
-index 19ccbd588a..027b0811f7 100644
---- a/meta/recipes-extended/quota/quota_4.06.bb
-+++ b/meta/recipes-extended/quota/quota_4.06.bb
-@@ -1,6 +1,7 @@
- SUMMARY = "Tools for monitoring & limiting user disk usage per filesystem"
- SECTION = "base"
- HOMEPAGE = "http://sourceforge.net/projects/linuxquota/"
-+DESCRIPTION = "Tools and patches for the Linux Diskquota system as part of the Linux kernel"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=18136&atid=118136"
- LICENSE = "BSD & GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://rquota_server.c;beginline=1;endline=20;md5=fe7e0d7e11c6f820f8fa62a5af71230f \
-diff --git a/meta/recipes-extended/sed/sed_4.8.bb b/meta/recipes-extended/sed/sed_4.8.bb
-index 048db47e14..57a769e8c9 100644
---- a/meta/recipes-extended/sed/sed_4.8.bb
-+++ b/meta/recipes-extended/sed/sed_4.8.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Stream EDitor (text filtering utility)"
- HOMEPAGE = "http://www.gnu.org/software/sed/"
-+DESCRIPTION = "sed (stream editor) is a non-interactive command-line text editor."
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
-                     file://sed/sed.h;beginline=1;endline=15;md5=fb3c7e6fbca6f66943859153d4be8efe \
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 4ae7a78c52..2278541f6b 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -1,5 +1,6 @@
- SUMMARY = "Tools to change and administer password and group data"
- HOMEPAGE = "http://github.com/shadow-maint/shadow"
-+DESCRIPTION = "${SUMMARY}"
- BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
- SECTION = "base/utils"
- LICENSE = "BSD | Artistic-1.0"
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-index ec04bfe390..a942ac2991 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Fake version of the texinfo utility suite"
- SECTION = "console/utils"
-+DESCRIPTION = "${SUMMARY}"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d6bb62e73ca8b901d3f2e9d71542f4bb"
- DEPENDS = ""
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index c1ea0a9a2c..0c56a39d92 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Utilities for extracting and viewing files in .zip archives"
- HOMEPAGE = "http://www.info-zip.org"
-+DESCRIPTION = "Info-ZIP's purpose is to provide free, portable, high-quality versions of the Zip and UnZip compressor-archiver utilities that are compatible with the DOS-based PKZIP by PKWARE, Inc."
- SECTION = "console/utils"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-index 4f0f9531a1..2787b270fa 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Socket-based service activation daemon"
- HOMEPAGE = "https://github.com/xinetd-org/xinetd"
-+DESCRIPTION = "xinetd is a powerful replacement for inetd, xinetd has access control mechanisms, extensive logging capabilities, the ability to make services available based on time, can place limits on the number of servers that can be started, and has deployable defence mechanisms to protect against port scanners, among other things."
- 
- # xinetd is a BSD-like license
- # Apple and Gentoo say BSD here.
-diff --git a/meta/recipes-extended/xz/xz_5.2.5.bb b/meta/recipes-extended/xz/xz_5.2.5.bb
-index af21b60563..f5f5c318fd 100644
---- a/meta/recipes-extended/xz/xz_5.2.5.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.5.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Utilities for managing LZMA compressed files"
- HOMEPAGE = "https://tukaani.org/xz/"
-+DESCRIPTION = "XZ Utils is free general-purpose data compression software with a high compression ratio. XZ Utils were written for POSIX-like systems, but also work on some not-so-POSIX systems. XZ Utils are the successor to LZMA Utils."
- SECTION = "base"
- 
- # The source includes bits of PD, GPLv2, GPLv3, LGPLv2.1+, but the only file
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 97e5e57533..18b5d8648e 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Compressor/archiver for creating and modifying .zip files"
- HOMEPAGE = "http://www.info-zip.org"
-+DESCRIPTION = "Info-ZIP's purpose is to provide free, portable, high-quality versions of the Zip and UnZip compressor-archiver utilities that are compatible with the DOS-based PKZIP by PKWARE, Inc."
- SECTION = "console/utils"
- 
- LICENSE = "BSD-3-Clause"
--- 
-2.17.1
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes=
+-kernel/lttng/lttng-tools_2.12.3.bb
+similarity index 98%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
+index 0787e04d19..eae95da2ed 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
+@@ -37,7 +37,7 @@ SRC_URI =3D "https://lttng.org/files/lttng-tools/lttng-to=
+ols-${PV}.tar.bz2 \
+            file://0001-tests-regression-disable-the-tools-live-tests.patch=
+ \
+            "
+=20
+-SRC_URI[sha256sum] =3D "9ed9161795ff023b076f9f95afaa4f1f822ec42495c0fa04c5=
+86ab8fa74e84f1"
++SRC_URI[sha256sum] =3D "2890da230edd523fcf497e9eb28133b7606d64fa01bcbffadb=
+fcba42104db153"
+=20
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+=20
+--=20
+2.27.0
 
