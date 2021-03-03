@@ -1,17 +1,17 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.86])
- by mx.groups.io with SMTP id smtpd.web08.547.1614797608774354138
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.81])
+ by mx.groups.io with SMTP id smtpd.web11.578.1614797646836633703
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 10:53:29 -0800
+ Wed, 03 Mar 2021 10:54:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=djAP9tw8;
- spf=pass (domain: windriver.com, ip: 40.107.236.86, mailfrom: stefan.ghinea@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=CpzVt2RL;
+ spf=pass (domain: windriver.com, ip: 40.107.75.81, mailfrom: stefan.ghinea@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BU5ndj2ZiMJ7xTW8Q0UgKroXfAX4FQT/tQ4YkCmPAVxtCYlp6HLzPAPkHvi4kbgxpTiZ7NMYM6WiZKfHhSOFykGXfa39wB3vFnD1F94oHJfP8Qutc8zfHZ5NWLn3acAHiu4U0PjCry6EvByZ5pSXbb5bD2dPrB4k96k8Z5UXYSR/Ew6AD7m0xcPwHk9ITIrwDQSlh2ZPW7keh4xUpo/EI2M2Bj59D5/fIGhc9+q29OjdKwdFAccldcuWb1BketVPFS2m6DgSt1pm2aWQINO5+65EdZ77avof99uigOvKHU+tQ4kLnGo9CYENBIcZDI2Jl6vNSvTBTrZr0O/ZPgT0fQ==
+ b=S6wJd3PqYNwGVx1oZS3utNGPIdrFB/FOkxcKqJPFi2ZuvD0XucV+FLPqcR2cK1v9hehSNOnX7mBQtu/JU20i+eYy/jXgGXHT+QgYoLk9hlt0Kyuiz1w/LR0pY65Aff9lklSHZNUO/y0jOd0SFHmBYcTiy2C7Vp+Y5SJKpSyL7dhiYhDL2rHmFH+5+UJ5tbW7UHxAjVAShSFn/zDARmzEXF+EwGscfaZOeUIGzz5F/eqTyiAMGEEFBll9qfTLzSb2SEh/Ehj613l8E2YpsdU6yNlaaEnZORUhKhuxtejZqDhtfjoBwLXn2QYyO3oZhpMgOXsZFXa/S5LfhbyW5i7f1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/mFI+OxLxJk9PznGwngeteKcggxienRlBLwurK2T9yg=;
- b=TOaU0MqDldoAKFCEEIRguoEaCPsxnygVplW1q3L14AlKVN7RE6ZtnaV7l4cN01efdbT6XQuWhBv3RX2mqhjl5dfTX+hA4XzKm2M8so4t6ydQEHt2Fk8+o+ajusMbRNRvw/7ZrWVnz+kvg267pwGXsgu5F/qODuheG6qUU4usD5XLxnmTK2zKMEA54WoOwzfF0djBQX2wsWNDhkX1QTX6bWEEYi590FXmEiItkK/8Nr9JWxcIR5YkP82uZA4ItMaZBr5p/OJfgJTRXyGcZKhKOD9rfur4pQr0SmFfMX+PM8on7Vnurp/hiaOjpdi7z6fxZOu3r6tYYPy7UjGtY9gwJg==
+ bh=z0OQSHrAzsfjLeFs29I1TpQvssYgoh32TsshQYj1ciM=;
+ b=GhjE2ntpfnHXaaYYSlvKGGN4kWFFZhUxqtkfdj2753IRzT0H7u0B1sCGZzFHh6aaqj7vrDHEfexgAJkFcIkf1c3VSiVM5I9kbdSv66k6ibz8UPpAc4S8WB1fSraYPQ/vPTgWiB74Yl+Jnb1U8dQ01KCxZGo+QtADzT4xltVxBNKCnuXtzAcFkNq3YP4Tt4tKHpzebnRy9lsNgAUdPeBvnhJWDwVEDn8cMKCQedv9EGMV+8moqhe5LKFNkXsltdNiQkSR8i/P6ysbcxdIx3HWjJE1iPRS4QeSI81rIi8fdj0VsxsaxezTKQfPEbCTJ7pIxqM5RS54ZZPRaBUHt1MdFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,81 +19,81 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/mFI+OxLxJk9PznGwngeteKcggxienRlBLwurK2T9yg=;
- b=djAP9tw8rlJZp+n/wPYudUSCJbPzg2c+Ig4dkd8vIhTwUWEiOqifdNGSUG/36sTxT9pAFi4t02JboS//P0jgNE16WxXVmazFtrbK2ymPOp76dQSOGP+opYHRRp58Kyh5Zyowb6tu7X08is3/2aSLGW3B5ryh3SGtjBJs6iNA5r4=
+ bh=z0OQSHrAzsfjLeFs29I1TpQvssYgoh32TsshQYj1ciM=;
+ b=CpzVt2RL1cY23+3eAA4G64EDp2fpXkd2TGgI9lEoeSeYZkUzouDM5n4IToUmw0WJs9wzzguufOQ9N9hCNveOCzNHJa1Dbsg+WPUU448KR9YWTyPVoDoS5jlZMaAMk9DoFIQZwGJ7TKCvrq0S6nj22I56/XwFAVQXQcaZmdplCp8=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from SJ0PR11MB4989.namprd11.prod.outlook.com (2603:10b6:a03:2d9::22)
- by BYAPR11MB2855.namprd11.prod.outlook.com (2603:10b6:a02:ca::26) with
+ by BYAPR11MB2870.namprd11.prod.outlook.com (2603:10b6:a02:cb::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.31; Wed, 3 Mar
- 2021 18:53:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Wed, 3 Mar
+ 2021 18:54:03 +0000
 Received: from SJ0PR11MB4989.namprd11.prod.outlook.com
  ([fe80::31f5:2e4:c15a:6df0]) by SJ0PR11MB4989.namprd11.prod.outlook.com
  ([fe80::31f5:2e4:c15a:6df0%6]) with mapi id 15.20.3912.017; Wed, 3 Mar 2021
- 18:53:23 +0000
+ 18:54:03 +0000
 From: "Stefan Ghinea" <stefan.ghinea@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] [OE-core] wpa-supplicant: fix CVE-2021-27803
-Date: Wed,  3 Mar 2021 20:53:08 +0200
-Message-Id: <20210303185308.32029-1-stefan.ghinea@windriver.com>
+Subject: [PATCH] [OE-core] [meta-openembedded] hostapd: fix CVE-2021-27803
+Date: Wed,  3 Mar 2021 20:53:41 +0200
+Message-Id: <20210303185341.32122-1-stefan.ghinea@windriver.com>
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [89.137.231.29]
-X-ClientProxiedBy: VI1PR0902CA0033.eurprd09.prod.outlook.com
- (2603:10a6:802:1::22) To SJ0PR11MB4989.namprd11.prod.outlook.com
+X-ClientProxiedBy: VI1PR0701CA0048.eurprd07.prod.outlook.com
+ (2603:10a6:800:90::34) To SJ0PR11MB4989.namprd11.prod.outlook.com
  (2603:10b6:a03:2d9::22)
 Return-Path: stefan.ghinea@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (89.137.231.29) by VI1PR0902CA0033.eurprd09.prod.outlook.com (2603:10a6:802:1::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Wed, 3 Mar 2021 18:53:22 +0000
+Received: from localhost.localdomain (89.137.231.29) by VI1PR0701CA0048.eurprd07.prod.outlook.com (2603:10a6:800:90::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Wed, 3 Mar 2021 18:54:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95369929-d05b-48e3-3abb-08d8de759edd
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2855:
+X-MS-Office365-Filtering-Correlation-Id: 0f78b241-4d00-4054-ef8a-08d8de75b6d1
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2870:
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB2855E5E22621DDC0BCD5796BF2989@BYAPR11MB2855.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+	<BYAPR11MB28703816E84ACC9B7B8C5ECDF2989@BYAPR11MB2870.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	37qDc5cq2y8+OovaGurBS70rnHrKXiTDo94SpxAZKCKCAGhvKthLCcCNJWz5BC8pPJrfaAx9kzAxqndPq8YBX30ULN+ZCYsRbzeOrfEdgQ2WWugDjOeojDb9jtVSoF20rbuAoYwOJVo+yqC3kssPi8a7OBla/RqzuBwM6pcBvbG29uyJTs22ouoJpZLj96nwvvLLgdpIS/VSg9nyLzqcBkQ8xUp0qb9YjxfCICnSJI1YiuFZu/xAVK/RjoB33YIO8haUHDaaMgyXSG0vE2e8gWqZXHGwNAsFcwu1dp1c5+EH2ZlcR4F+t/J4Pxh9orMZD+8JsHO9O8zvHnsaMqVfWjhvCDwA8cCqdfsLTcA9Mv5QpeOAbVfSpE2IcGHNACccmActRdMfoJD3HVXmzh4/iBOjpixESJ7Gp4BUK3i5DSs2DYAjeBRtcBC+lpwbuTQsW/RtLqBMuYtNksM0iRA7l9EDhdoczymyWE+Sb1kEgGPpApTjG7yrpy7KsILQtc9tLAXsiGoldAe+W9v0R7DEaD7j4jVSoZOqx+o/QvWEvQOMw2mUDywK+OIl7zqdUGg1ZmDivtZ++IeJi+7oini/3wUx3TcwWfHMM1lDOiH4zSr1v8Acn/l9oRFlUIQ9bcIjnoM4p3A2QaacRGcR46WNNkMs962MWoS24bqan3W5PV9PZ34nwcS2alTD4sj75u6X
+	JnYAT92maAUwqNQuPCLz8BSxurz8Al0adjLEg5IqCj1dlKDlkUlM/ZAt8xPJxcfsAI8iX1YbD9gT9nViLyFs6dAyJX94loy+80lNdaJxZ/O2T1OzmQj1oIvipUe08GPWueih1zrURkCDJ2glA8BRlNraI3s5LS7hw/vuomyU6iMo2UHrMHhoQmtuiy6hPcK5qQQVW1OFzHKb7fDQJOUzfitQJRnJquEOEERrLJgDGhlotFndFBMwd0tmZxR3c7Lqfe+nRgx6EI6pIgxwuPoEiVnPdCFaS85Pd6LDORI7sigFzfYdftGXOmfIFfJAw50Ndm3we4XU+BtN6B/hwBzNRpkjh+LQ/ViegX68ofs/xoJOaufMDomAaZk9nCElzVm7z+gLm3OixGcPRdVyHtzs1zePaGYd4uWSY7xNKg6KjmXmui9cKRFfjcUxSXI92feOMYqLq0v82EZQv+8En/mwXBMv7ofEDfHQ/x88jizj7ygw7CwXQ/WcWVcFpcjOrvqAkBxnnnwKH3/slgGvfzL7Jec+x0R9uAK+SBsq10IM9+o/zwl3i5835528adxM9UwgZqYS4t2ScJpdyRKcdBYmZ7r/vPERKNdla2rfBOXGOk+EY7KiGiYXIH+/mqMJDp9pjIhFxkm/4Ejjl20Mno7j/g==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4989.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39850400004)(6486002)(6916009)(2616005)(6666004)(52116002)(6512007)(8676002)(956004)(966005)(69590400012)(16526019)(186003)(6506007)(5660300002)(1076003)(478600001)(26005)(44832011)(8936002)(2906002)(66476007)(66946007)(86362001)(66556008)(83380400001)(316002)(36756003)(10090945008);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4989.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(346002)(39850400004)(376002)(186003)(6506007)(2906002)(26005)(6512007)(1076003)(86362001)(956004)(66556008)(2616005)(6666004)(66946007)(316002)(8936002)(36756003)(5660300002)(66476007)(16526019)(52116002)(8676002)(966005)(6486002)(83380400001)(478600001)(69590400012)(6916009)(44832011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?usbQd1nejFKqcQOeJjejKBPYXQdCtpxRmXOzAhNAdm7mjvgtakj7yN4YsI+B?=
- =?us-ascii?Q?dTc7bieaH+BgW+rV2AGkvj45LRcWGFsh+V1GJsKB8U2AvvXK2zwr5/kfTOWU?=
- =?us-ascii?Q?MlCCyynY6fXF7QaaYZeT/F9ucIIQlytFIrWCxbMId7dYWB3xrlZg9dWPUD93?=
- =?us-ascii?Q?J201pxF5QmntnMQtufaJA0ePK4XZaePD7XXSzDB9SFz6oeWwDrQTL/Ia2SpS?=
- =?us-ascii?Q?PSbgUg2Un6ylzXH2KRl86LJBmqK0MzT8X916qt35QHsLuFzUFG9lM2STEEoW?=
- =?us-ascii?Q?hURsA8vvsdHhmOTDHvamuWNRSs5pInSGXFrHqwHMKVkb4eJM1OqEBfLVvZ4b?=
- =?us-ascii?Q?IDlYyAsd8gST3+ShUggrHztQuJ3f0ukOh3s4L5vjOVNbCDmsk/zo+U+4egd3?=
- =?us-ascii?Q?wIWQ6ffe28bywe5X8ph03yIg4lDmf54mL/St3sfmiZI0HtQZOmZA29xs+1UI?=
- =?us-ascii?Q?+Bd0QIpTlXhAF7+RtDOd4rie2vy15woVs4cG+bmGs11DxamB5THJll82aOq3?=
- =?us-ascii?Q?SmW/n/jDax/0C0dws5gOZWZOrZprle+4xmj/XC5rs7J2NMcSEhiu1i+qHZBf?=
- =?us-ascii?Q?Sd4M/ckvP+atF5z0SaevXm1rOtK08KSq0JYj1nk5vgif+VK7BMdWJfUpXEqX?=
- =?us-ascii?Q?/i5x0hgYt1tauH+C93pIRgnll6ZXDELG/kfE50/7g1+ppajl85WVrBspJENg?=
- =?us-ascii?Q?sb9aOEWzrwHv9/Gmfa+1v03AfJLqLvkzEjUitDGOZhTegYJUcAmiTmzmwSwX?=
- =?us-ascii?Q?DyUQ5Ajq6rfeJ8UeqveCzKxlwzBxQRVxOBTgEkdq+LCYVQRCSRj1t7Cckl14?=
- =?us-ascii?Q?2I9w8XOA2ZviV5cJ09jr7LTwh5RFOL2LvFPMMD4/pjZscS2vk7n1E85ztiv1?=
- =?us-ascii?Q?BwhZB6BkSQeApWdeR8gurZjpobp8i+C+7bH1l0Jfkl8WiH677pxLFDdPZNLl?=
- =?us-ascii?Q?0dteWwHr7HUD0+ccptaMPJ8mH5wjhkX1l/svFe9itiVmE019DX6uOmqjn6NC?=
- =?us-ascii?Q?3XfMzFW3HWqTZUqUGfu8zhc0SKT7LMi23RBbbwXuPhNjNV2ufbe+5vnzIBI/?=
- =?us-ascii?Q?IPqU/jhgBzTx2WT5yJgiFfItwwb/5pJnyf+Cj5N+Jq8XZn1fsK7H524jv5o3?=
- =?us-ascii?Q?t2PwfHUCqwgQo0nbS8wJXykET3PFft/oPHki/RBpLuXkK/lJbzzkHjNrxQIn?=
- =?us-ascii?Q?/uaExac31CowCWc8rV/xhAYH/XcHqanm+oglzO3DeneY5Fu8KQISyJg+ZWoa?=
- =?us-ascii?Q?W5+xotxoUnA0K1rPE02xcUw/58eDQURML3n/1kU123qnAESEWXyVI2TBQhiZ?=
- =?us-ascii?Q?hjsE4V9G/6/nYY/AablVS59d?=
+	=?us-ascii?Q?RjTG4u9rIpbsND2QJGzqwyO9ftuaFv2PSZ6XGJmIbCyZ43aSAM3hVQHpKmBD?=
+ =?us-ascii?Q?6NSOLr7yA6UEgQFw5jMZXOrO7wD7D/XLcpxCvUHAQgB7RXXUYvJsfBMroQbx?=
+ =?us-ascii?Q?pIiUSDH+TA28uLnONi3EOUOSIaxUlbALpQ7eCD1fbjLiW9zsJxpCj8dbWXMX?=
+ =?us-ascii?Q?UtKenV7SoAA1k0PFBlvnfITeICsnWKL6i0jNqEHNq/1zdRhObyLFLhi4kDCT?=
+ =?us-ascii?Q?imb4etE062UfrFpdW0ss5kNqxFNpPKIik0bh+uaWv2lb4znbYrrqwrUwlgYp?=
+ =?us-ascii?Q?qbwknuJ7LKffXkl1IT6w4tWb6/C3Q5thR7sA9fv3F1jgHf8SXRtkOiWmriQk?=
+ =?us-ascii?Q?9GDtwr+IYyDjjsVDRGDdHBL06D45SQSg9VmSzI6Fbw79XDGG9F1anrhgG+6N?=
+ =?us-ascii?Q?Hb7AeI12LwhLwamVuzUkz04anwEJU6Zf/sQ4ARX27jucYH/sV1ywv9xrhmWN?=
+ =?us-ascii?Q?QHNeiPBL2rEVy/hqkzjPIfXHoRqJN/hreQ+XgIwAfCpbVYwSETUEQSzDx120?=
+ =?us-ascii?Q?roWyzcwOvh9vwNI4SNO9QQ3l5V066S80AhvB8hU5wuHjL/Y494er6zbtycX5?=
+ =?us-ascii?Q?ACvdkGe9RTtdb5iqSEjd4g/DBK3FjXt5LW4rKaBb3LOT/GvbHn0kEnZRQKGi?=
+ =?us-ascii?Q?p/Yf9z3jl/1T6bxyWlS8U1AzZfjhrin6pf3qqCTl+JDiEcaOL1sNQ6XXizCC?=
+ =?us-ascii?Q?HpOhWpvEJFNunwOvMGmcD1STRMn8eFJ4TVgX4CuuJkb/ANmvqKSeDxshuHLS?=
+ =?us-ascii?Q?8jKmdjFmCNA5aC07BEiTvHmZ219ItwOBJ/Yt/kk/s2i16QppXDvSyJJI7lOs?=
+ =?us-ascii?Q?YdO3uY8fqSo/JQMvDgzsbONFtIcNQE1xTO5o+nfI0Hd122X4kl4GrARxeo3q?=
+ =?us-ascii?Q?5OfpBDN93DKqVakiF77Fy/q8QdjRgh43szkYiRP5vkrudgMidX1Yub5qM94b?=
+ =?us-ascii?Q?hRI154+Ip/zYA7jJUhj8XdCk6QFHqT1pao/sCA33bA1Ty+fqD2IJz6+KxM9O?=
+ =?us-ascii?Q?d8lC12apjmfp4TTwfoK22bTKEVsIYOl1f777lyxE4weEj58DgT/48/aerYJT?=
+ =?us-ascii?Q?Zk5EX9jXj4vdIFpk/FCXBxdAew7ifPR7gRPN9GEkVNpC8QFXpFuBFoPTyo5S?=
+ =?us-ascii?Q?WVG67PqAHhLRVExRP30tts8i2WOw6acTgbMram32/2unyG+rtt/Zeav6mLVV?=
+ =?us-ascii?Q?HzoG9O6miQ1Ll1jATDl62dQlRPX3LZ8p7MCE16qnOrfpJYpbefTznS5h/gIZ?=
+ =?us-ascii?Q?t/68ua/+u9nLG9guUaOQ4hHpzCzaDvkzvnQsZwjzcLOdwNY0kt/BmfVkN85d?=
+ =?us-ascii?Q?jLJZlEsBhgbYJcC4sqoUyoyu?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95369929-d05b-48e3-3abb-08d8de759edd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f78b241-4d00-4054-ef8a-08d8de75b6d1
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4989.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2021 18:53:23.2715
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2021 18:54:03.4807
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NZNAd/Q54aJCalln9teFmsu9xGbqTE8dcdRjm7deMoQHAlmmxqgXCheUrxVi/mgatOylWvPvqUHVYAmv1xs1jOSpYHDkP4hlhtIxKHCewbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2855
+X-MS-Exchange-CrossTenant-UserPrincipalName: BDsZeesFBHm8S3joUM0JbvGNnOIlI8vCVVL68iF9qsclxWCtmqbx0N2MsdzBkjuQodd9j1HpUH6RUtDcLk5TGFcjLX8r3li+45mCqvePLL4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2870
 Content-Type: text/plain
 
 A vulnerability was discovered in how p2p/p2p_pd.c in wpa_supplicant
@@ -109,16 +109,16 @@ https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32
 
 Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 ---
- .../wpa-supplicant/CVE-2021-27803.patch       | 58 +++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |  1 +
+ .../hostapd/hostapd/CVE-2021-27803.patch      | 58 +++++++++++++++++++
+ .../hostapd/hostapd_2.9.bb                    |  1 +
  2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+ create mode 100644 meta-oe/recipes-connectivity/hostapd/hostapd/CVE-2021-27803.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+diff --git a/meta-oe/recipes-connectivity/hostapd/hostapd/CVE-2021-27803.patch b/meta-oe/recipes-connectivity/hostapd/hostapd/CVE-2021-27803.patch
 new file mode 100644
-index 0000000000..004b1dbd19
+index 000000000..004b1dbd1
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
++++ b/meta-oe/recipes-connectivity/hostapd/hostapd/CVE-2021-27803.patch
 @@ -0,0 +1,58 @@
 +From 8460e3230988ef2ec13ce6b69b687e941f6cdb32 Mon Sep 17 00:00:00 2001
 +From: Jouni Malinen <jouni@codeaurora.org>
@@ -178,18 +178,18 @@ index 0000000000..004b1dbd19
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index caa6018ce8..357c28634a 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -31,6 +31,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch \
-            file://0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch \
-            file://CVE-2021-0326.patch \
-+           file://CVE-2021-27803.patch \
-           "
- SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
- SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
+diff --git a/meta-oe/recipes-connectivity/hostapd/hostapd_2.9.bb b/meta-oe/recipes-connectivity/hostapd/hostapd_2.9.bb
+index 68dc12370..ae497b6ae 100644
+--- a/meta-oe/recipes-connectivity/hostapd/hostapd_2.9.bb
++++ b/meta-oe/recipes-connectivity/hostapd/hostapd_2.9.bb
+@@ -12,6 +12,7 @@ SRC_URI = " \
+     file://init \
+     file://hostapd.service \
+     file://CVE-2019-16275.patch \
++    file://CVE-2021-27803.patch \
+ "
+ 
+ SRC_URI[md5sum] = "f188fc53a495fe7af3b6d77d3c31dee8"
 -- 
 2.17.1
 
