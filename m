@@ -1,46 +1,46 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.9696.1614790891491733821
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.54.1614791388471745987
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 09:01:32 -0800
+ Wed, 03 Mar 2021 09:09:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@enlyze-com.20150623.gappssmtp.com header.s=20150623 header.b=sfLcRel9;
- spf=none, err=permanent DNS error (domain: enlyze.com, ip: 209.85.221.44, mailfrom: c.finck@enlyze.com)
-Received: by mail-wr1-f44.google.com with SMTP id l12so24472199wry.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 09:01:31 -0800 (PST)
+ dkim=pass header.i=@enlyze-com.20150623.gappssmtp.com header.s=20150623 header.b=0/3ICDv7;
+ spf=none, err=permanent DNS error (domain: enlyze.com, ip: 209.85.128.47, mailfrom: c.finck@enlyze.com)
+Received: by mail-wm1-f47.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so3222769wma.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 09:09:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=enlyze-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding;
-        bh=sc+5zd+HgREaWnTy3Rh0oxp5u+UBzY81IWgPHmA8hic=;
-        b=sfLcRel9nmU4vJHeHbPcHsXwwPrpc54Q7oc/pK0Rrw4s5w521bi7FHnZCkg7/igWNo
-         8za6h4qdp+mNDUBjgd1+w4nReMM2pMtmP2GC6KXlzeDqkY4w6dUfi6l1oSyeA1FVKWKe
-         XPzMz6hwpejP3rlRif3k7SrUvGOW7K6u5c5fzzpx4b4ZGFJnGzfLXQXNM0dtfl+R/uB9
-         4OVYy05ny/zwusw15ZqTpYGqNuIua1LCKe8Y0+E0fnFQZvL+tL5+ZlBI7PPl6c1pLuVr
-         BLyWGj3zFNv0WJs7NDqVMFg8P7py+RHqCUAzLnJjJc6JpUCXyyzQJXOaxIwFWhJprLZD
-         0gAQ==
+        bh=PJTNdHD4suNb9xAChNyDf4rgrSmCYrycHSZhVB37/I8=;
+        b=0/3ICDv7cOoaUwi4Sl9+5s08R9d1xYm5aKSnm4Hg85qdDgt52rjuKe6dSptf9bUpts
+         AWslLUQw0IgJHDmgA+gnzcfDeLjm3uqJtSmR44yLrXEfV1pJTebkCkSjC81zcmTqvpLL
+         Ax9yRi8MgYaGSHJT7ZF+feDLNE9blAUnswH6EKC0cH+7oDQ0u3KeJDnZyxl/3LGyxhsi
+         XKju6tyvT6XeIEweg9S6NKKYUPFyjUh5/LAXaXoo9XvVdaPrl4RHMjs5ripXgaFaiJnQ
+         jKbD2OWc2uVdq39Z9mUpg3AaxKna0TE8/nyjFO9FSOhdZ93bSHkb+bPaXt7A/CUtD8xK
+         f/uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=sc+5zd+HgREaWnTy3Rh0oxp5u+UBzY81IWgPHmA8hic=;
-        b=gfmtfZDErK1EcLc07SefUj70xOJsZUwpfAe9mNWRN0R0jwV9xuDbOKKVPEBG/RNQIL
-         ztzarsJwNe0m3x+9WHP8zNxPj31sGjoeB2EVfmXJL0DI0/EMZaDpTtkhQo+8BUj+cAOT
-         1MQ6U1V3IvPQLirldmzer7pJoyIoQK3j1T2Jf6J4Gs9VWIU5oTvENThXtFtZC3pqJxAA
-         YDKiV8H5D5ez2vz7tOqA9dPDZS/O5KB7AFGa8ngy+tgHbfNeO5ZXReGhvnx2zsHvMiqJ
-         ac3VdttS+ywVluoGG+zGSENnKguZA2h+85PRz9DhLTzh4LvBZdsHxQ2j6wtphJ5bcfou
-         iRQQ==
-X-Gm-Message-State: AOAM532fcGB4mvlV821Q2ZCWIISy+w3eotT3Kh3QffNO0zBJ5r0gYDxF
-	9Vk2t+DiB4AdvzOP4xUZLeRtWQ==
-X-Google-Smtp-Source: ABdhPJwauwiThkUOx+Qp05jjX6JV0R/6x3D7qIns/D/Q3qEECkbbBkARr7pmZjxYL9fAAWI96i+rEw==
-X-Received: by 2002:a5d:4f0e:: with SMTP id c14mr2302557wru.78.1614790889959;
-        Wed, 03 Mar 2021 09:01:29 -0800 (PST)
+        bh=PJTNdHD4suNb9xAChNyDf4rgrSmCYrycHSZhVB37/I8=;
+        b=M9100JiXZU00RR1Qu6wyQmUeiJPbiDCTQywtmfgsn4TmFCOoG7FI/3z278s8kVQ7iu
+         ToCZTRb3mVgMB4nRssbfjX4/04cJHCsC57eY6qDqB2qaAoQOuynKuDEK3Cpea2Xve8he
+         CugbCKFE3vCxBKBiHT3VafhXSEMiVSFSECVYKJeZWQjLpfojqEQ5FlU0H9mRnxDOK8kr
+         CwT8wDLmyIaNcbQe1IKMgz9w2UM3RaB8jJ+PQG12hLW0W0kI/FP1W1L4MZd4EU6qYUTA
+         oCi88bddrUEvCt891OXXRIjcS59ZLe34Ik4FFZQ5VxLi9cxdhlA4pbY548hwHJ9ZxiLd
+         Jp+A==
+X-Gm-Message-State: AOAM531YwI0KH4oVEs9dsD/XN0yXragSH7YJo12hC2QCTBOz3X2giGZC
+	3UD/Wi1WqWYhYj5JhUiQxBnqXg==
+X-Google-Smtp-Source: ABdhPJxt/GWl/yVqSuswG71kSTc91eWr7doOhv6wpu0xmdUpRf9OzUVGg7Vv+ZBwJovTflFWCY5QVg==
+X-Received: by 2002:a1c:9d85:: with SMTP id g127mr9861275wme.161.1614791386772;
+        Wed, 03 Mar 2021 09:09:46 -0800 (PST)
 Return-Path: <c.finck@enlyze.com>
 Received: from [10.24.0.160] (xdsl-81-173-161-42.nc.de. [81.173.161.42])
-        by smtp.gmail.com with ESMTPSA id j6sm2530380wmq.16.2021.03.03.09.01.29
+        by smtp.gmail.com with ESMTPSA id a14sm36990885wrg.84.2021.03.03.09.09.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 09:01:29 -0800 (PST)
+        Wed, 03 Mar 2021 09:09:46 -0800 (PST)
 Subject: Re: [OE-core] [PATCH 05/24] dosfstools: update 4.1 -> 4.2
-To: Khem Raj <raj.khem@gmail.com>, Martin Jansa <Martin.Jansa@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
  OE-core <openembedded-core@lists.openembedded.org>,
  Steve Sakoman <steve@sakoman.com>
@@ -49,43 +49,55 @@ References: <CANNYZj8ynCZ5fF4=rzdAkv=yGFyOtF97WD-c5MknNON_9HMxfA@mail.gmail.com>
  <CANNYZj81J+HqeEGRBesa2VW=+UDA6+bpp=0M7=MXjRzGUuwLYw@mail.gmail.com>
  <CA+chaQfg4EKGfTu1d-ZXrfeE=eKwD=YYJFt7ydLP3ANZ7eWStw@mail.gmail.com>
  <CAMKF1soua2c_EkEXDgPOiCaqH0W4+_UKVYjUtu9iXZGMs1pHVQ@mail.gmail.com>
+ <20210303165831.vg4rzrxyhzrxpf2l@jama>
 From: "Colin Finck" <c.finck@enlyze.com>
-Message-ID: <0e6ba13e-886b-2dfc-ef83-0099116465c0@enlyze.com>
-Date: Wed, 3 Mar 2021 18:01:27 +0100
+Message-ID: <5f90d28a-1670-18e8-7653-cd2f56f5bc65@enlyze.com>
+Date: Wed, 3 Mar 2021 18:09:45 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soua2c_EkEXDgPOiCaqH0W4+_UKVYjUtu9iXZGMs1pHVQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210303165831.vg4rzrxyhzrxpf2l@jama>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Am 03.03.2021 um 17:34 schrieb Khem Raj:
-> On Wed, Mar 3, 2021 at 8:16 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->>
->> Steve, Colin:
->>
->> keep in mind that this version also introduces some new restrictions, e.g. rpi-sdimg IMAGE_FSTYPE in meta-raspberrypi is now failing with:
->>
->> mkfs.vfat: Label can be no longer than 11 characters
->>
->> not sure how common this will be in other BSPs, but people might be surprised with such failures in LTS (like they were from the need to update oe-core/dunfell checkout to get python3targetconfig.bbclass recently when other layers started to require it).
-> 
-> thanks for this info Martin, 4.1 was released in 2017, so 4.2 is not a
-> bugfix only release by any means. It should be out of policy for LTS
-> backport. since we have different tools and techniques to partition
-> storage media
-> this tool plays a vital role and we should be very careful making
-> changes to it, especially in releases.
+Am 03.03.2021 um 17:58 schrieb Martin Jansa:> If I understood Colin 
+correctly, then older dosfstools would break even
+> older partitions created by mtools (e.g. if you (let automatically) run fsck.vfat from
+> dunfell based image on device with /boot partition originally created with mtools
+> from warrior days)
 
-Thanks for all your feedback!
-I understand that an upgrade from 4.1 to 4.2 may look like a risky 
-undertaking. On the other hand, who else except for the original author 
-is qualified to decide if a single change can be cherry-picked and 
-backported to 4.1?
+Exactly. Let me quote from the bug I reported to Mender: 
+https://tracker.mender.io/browse/MEN-4497
 
-I have been advocating for a full upgrade to dosfstools 4.2 not in spite 
-but actually because filesystem creation and checking is crucial, and 
-should not be performed by our own frankenstein build of dosfstools.
+===========================================================================
+* Mender is using mcopy from the mtools package to create the boot 
+partition for Raspberry Pi and UEFI images: 
+https://github.com/mendersoftware/meta-mender/blob/50e8188f6c69d5e16363a37c2bb6e3abf9542bbb/meta-mender-core/classes/mender-bootimg.bbclass#L35
+* mtools had a bug until 4.0.20, where it wrote uninitialized bytes into 
+newly created entries: 
+https://svn.savannah.gnu.org/viewvc/mtools/trunk/direntry.c?r1=363&r2=452
+* dosfsck from the dosfstools package had another bug until 4.2, where 
+it regarded unexpected bytes in the reserved part of the entry as bad 
+and "corrected" this by removing affected directories: 
+https://github.com/dosfstools/dosfstools/commit/87a8f29785bb605350821f1638a42e6cf3e49ce3
+
+The combination of all 3 renders devices unbootable once dosfsck is used 
+on the boot partition created by an affected mtools version (= created 
+by Yocto Warrior and earlier).
+This is also a problem for newer Yocto releases, because the boot 
+partition stays unchanged when upgrading a Warrior device to Zeus or 
+Dunfell.
+This problem is especially crucial considering that Mender reenabled 
+automatic filesystem repairs in Zeus and Dunfell during boot: 
+https://github.com/mendersoftware/meta-mender/commit/0552891c504ecacb0d99f4618694c03f5bc08f83
+===========================================================================
+
+The meta-raspberrypi crate you just linked also uses mcopy, so the same 
+applies to it.
+
+I have linked some related commits in my bug report, but I cannot and 
+will not guarantee that these commits alone fix the problem.
+Which is why I still favor a full upgrade to dosfstools 4.2.
 
 
 Cheers,
