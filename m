@@ -1,92 +1,123 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web12.6254.1614777034533255009
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.6285.1614777090890152769
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 05:10:34 -0800
+ Wed, 03 Mar 2021 05:11:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Luswd8Yg;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id hs11so42091544ejc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 05:10:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bcyvYiQh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id c10so15573578ejx.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 05:11:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UOOKdUJQwG47ZuocTyJG/e0iARW0N71/g2dBg168qEw=;
-        b=Luswd8YgoEQ+zIbo39LQZP5R3qYAxDKLADu2E0pHYS5wxV1Jgk2AVQmQvO6ajNFb9w
-         A7taa2CvgqBRftSNLZz62GiK1K9FvBlTYmiOIlmOHqV3IUBvaLfWbVUHciVzHppibV72
-         r7a9DV1nO/Pk3mQLKc3giiP1V1z9ewlTv9H4cFES3WeOlt70bgoffUnQlBcic+w39KLP
-         4ooVCHOTxt7vRZ+BjLL30U1wBwG4YM0xoAJzZ5HKmTdWDdl8qJBN9mYc85st8TEkRUR3
-         8FSx4NwQZWWVEFZyZGP489gsvRFkElfhq7EP5on1Px84xcUKcnlqQ4UkNMfojuX5duIY
-         sxUQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jo+LNdiquaTGL3hCO9Nw/J89pRRO35ARDc+mJmFFdiA=;
+        b=bcyvYiQh0jqnQFHo9LKfK5VB80S+kZOeUaF60lGE3veHoxiFm+yqTHTB9Pc+8jU1/m
+         PV+Xtr1NKEjQivf7X68w/DxbyUxFJVYTpng8WCCzWWMnVLYpD1sWwRYS6i2/GKBlVFfp
+         5c1G/B4x3CY0S3jUdGziLSbC/if2r2WFHuNUQdN0sXyFBpRjpxhu26o8z8KBXe/ILGkY
+         ArSs2yuOfHFrPtTIZS+/veyoRrrtlCbgjtMeTTqpC4hXcOZrYowQpUgEpx2ZgmU1tY9/
+         Gr8+eccFdyxBnarnwXEjDZfZE/02lL6ULAmpVxSm5AoaaKQ5B+0jEQ5qHS+ahElhKVVv
+         1i4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UOOKdUJQwG47ZuocTyJG/e0iARW0N71/g2dBg168qEw=;
-        b=ao73Q+2wuXqlDBXg04Oi4jD2c7JagJMDtqKwOGlsPhfO/mxuGsYTqreFYXa0rpY3Jn
-         k87KBcCTrW1TgjRmOff1A3YqVltcLkW3jIfuldjeM+wD0H30T7y/eq4W7GvWPuH+Un04
-         fOrebGAaVLWow92uQQVxjDq6KEKQiLBek4ZN9T14doxmKHl10eN5AOVAWdWB4vjD8uh/
-         hjmUAN2GOqOAajL0eyRo0j5ReLKOkZhohmACn+MsmMbrUIMumolt3sxPbutbBe+uEjTR
-         WUcDbCfAHjrDfW2GKVRzF6nfPRUDT/RUqj2vN99eV0r/525iOQrORfFQ09Xf5LtjYlBR
-         +lWg==
-X-Gm-Message-State: AOAM533couVzn12GJusGHdRLqhRWEKpde63CxLZtKuHBXZ2ewxAIlF9Q
-	FQ++rrzCsfeOqmW4Y/2CPtgj2YoCQR8ql+k2z3E=
-X-Google-Smtp-Source: ABdhPJw0JE2RuP+MExZgiggoVCh2Fo0A/yy3icN2DfWzOUtnA4QyZ98g8P9vNN2OVKXiQrEJKWIguDSmuTVUGKRprNk=
-X-Received: by 2002:a17:906:11d1:: with SMTP id o17mr22083106eja.517.1614777032853;
- Wed, 03 Mar 2021 05:10:32 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jo+LNdiquaTGL3hCO9Nw/J89pRRO35ARDc+mJmFFdiA=;
+        b=kDN3D9nAy7bY7fiD2Wu4351OOOTBdneJmt/KaqzgE5531L24t+Ro1FBUzzJlOiGQkD
+         Vv8kdwZcLwhRa67m+ub0gqfYeq8PFmSHMeLuS8leEi/Kx2krpx7qKebvuMF5JosEdyg8
+         l803eq/bGwGJEPwGJJDgIVGFlOj7Y6Dju0kZygqvKi0lxbs7DEJPbjvydU0BHBNUJMhR
+         l1xm6MaM0OaXqqYIhCN+1wJv3Tu6l+66p1fsvBq9QZwjXxC1FAYKCf8Vlmvv8OuBbU10
+         MKk2i6yc/1fZXlW3mX6yQCvr/Ea7sTQ0nGgUdOLaXPPIRyEQP2L9X8K+jmUkWuHkWDf7
+         YYdA==
+X-Gm-Message-State: AOAM531pKmOyQruZP/pskqlxykV6KSYy6DO53UQEfJENQ9quasqOoUby
+	uMdbvZBvJ16dSaqp/B8IihxUELFo+LyZjA==
+X-Google-Smtp-Source: ABdhPJxy1ugQdrh0Hr8F67hQGuDbcr3tMIQfAqwBnqsdznOWz72ztbBtgShYPlQe5I5Gk7EivqaUjw==
+X-Received: by 2002:a17:906:a106:: with SMTP id t6mr25920019ejy.63.1614777089346;
+        Wed, 03 Mar 2021 05:11:29 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([5.28.91.120])
+        by smtp.gmail.com with ESMTPSA id w18sm19472472ejn.23.2021.03.03.05.11.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 05:11:28 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/3] core-image.bbclass: add a weston IMAGE_FEATURE, similar to x11-base
+Date: Wed,  3 Mar 2021 14:06:39 +0100
+Message-Id: <20210303130641.604699-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210303061555.40835-1-yanfei.xu@windriver.com>
-In-Reply-To: <20210303061555.40835-1-yanfei.xu@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 3 Mar 2021 08:10:21 -0500
-Message-ID: <CADkTA4OmhPPijicVGb7Vm6WB6GKxtAfEPOsUo9MsVcOANnZLFw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] lttng-tools: upgrade 2.12.2->2.12.3
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 3, 2021 at 1:16 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
->
-> From: Yanfei Xu <yanfei.xu@windriver.com>
->
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/classes/core-image.bbclass                     |  2 ++
+ meta/recipes-graphics/images/core-image-weston.bb   |  8 +++-----
+ .../packagegroups/packagegroup-core-weston.bb       | 13 +++++++++++++
+ 3 files changed, 18 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
 
-We should get into the habit of summarizing the changes in version
-bump commits, along with a comment explaining if it is a bug fix
-release, features, etc.
-
-Bruce
-
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> ---
->  .../lttng/{lttng-tools_2.12.2.bb => lttng-tools_2.12.3.bb}      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/lttng/{lttng-tools_2.12.2.bb => lttng-tools_2.12.3.bb} (98%)
->
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> similarity index 98%
-> rename from meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-> rename to meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> index 0787e04d19..eae95da2ed 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> @@ -37,7 +37,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->             file://0001-tests-regression-disable-the-tools-live-tests.patch \
->             "
->
-> -SRC_URI[sha256sum] = "9ed9161795ff023b076f9f95afaa4f1f822ec42495c0fa04c586ab8fa74e84f1"
-> +SRC_URI[sha256sum] = "2890da230edd523fcf497e9eb28133b7606d64fa01bcbffadbfcba42104db153"
->
->  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
->
-> --
-> 2.27.0
->
->
-> 
->
-
-
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 88ca272145..d81f68bd2e 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -9,6 +9,7 @@
+ #
+ # Available IMAGE_FEATURES:
+ #
++# - weston              - Weston Wayland compositor
+ # - x11                 - X server
+ # - x11-base            - X server with minimal environment
+ # - x11-sato            - OpenedHand Sato environment
+@@ -37,6 +38,7 @@
+ # - stateless-rootfs    - systemctl-native not run, image populated by systemd at runtime
+ # - splash              - bootup splash screen
+ #
++FEATURE_PACKAGES_weston = "packagegroup-core-weston"
+ FEATURE_PACKAGES_x11 = "packagegroup-core-x11"
+ FEATURE_PACKAGES_x11-base = "packagegroup-core-x11-base"
+ FEATURE_PACKAGES_x11-sato = "packagegroup-core-x11-sato"
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
+index 8d88e3bc0c..e82e4fbb3f 100644
+--- a/meta/recipes-graphics/images/core-image-weston.bb
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -1,14 +1,12 @@
+ SUMMARY = "A very basic Wayland image with a terminal"
+ 
+-IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs"
++IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs weston"
+ 
+ LICENSE = "MIT"
+ 
+-inherit core-image features_check
++inherit core-image
+ 
+-REQUIRED_DISTRO_FEATURES = "wayland"
+-
+-CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples wayland-utils gtk+3-demo clutter-1.0-examples"
++CORE_IMAGE_BASE_INSTALL += "gtk+3-demo clutter-1.0-examples"
+ CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland matchbox-terminal', '', d)}"
+ 
+ QB_MEM = "-m 512"
+diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
+new file mode 100644
+index 0000000000..340c8e75ed
+--- /dev/null
++++ b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "Basic Weston compositor setup"
++DESCRIPTION = "Packages required to set up a basic working Weston session"
++PR = "r1"
++
++inherit packagegroup features_check
++REQUIRED_DISTRO_FEATURES = "wayland"
++
++RDEPENDS_${PN} = "\
++    weston \
++    weston-init \
++    weston-examples \
++    wayland-utils \
++    "
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.29.2
+
