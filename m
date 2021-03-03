@@ -1,236 +1,273 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web09.81.1614791721519052340
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web09.607.1614793657429036733
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 09:15:21 -0800
+ Wed, 03 Mar 2021 09:47:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=R8A7Nj3y;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.48, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f48.google.com with SMTP id n4so7039068wmq.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 09:15:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jsy2jdgR;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: jatedev@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id j12so16746123pfj.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 09:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=beQALovDmZGI6evzj1fCFNz0MMLdlpvW46aPtdEcw70=;
-        b=R8A7Nj3ywBtLatzjwhEFde9qBLMeQ0yLjnEiGf552Zj6VYMGsrGpngfUip2KMBcysg
-         rrHpVG8Afnc+97005WNIJl2B8U2o/npylAl+JvXFyyUpRx7vuUxAE8230LiJR2YrTzbM
-         tiV1daeXrkXYlN38Svb8G9F6/slJc666WCH7DI+4GlK+fIwCZlrpY6uCp6ZoCzS6bv8J
-         vVbL5bVxbSsGR/5oUd7W/0TGh7ifi8VktFm7eAf/doSWXcqsg8yIuTNKf1X+4mCNxuLg
-         6txo0F0Sk5XugG3viIG40pygzxragLtYJ0VVTCNh9eYLIWxH8X1Fce7mc6KUNc4TODU5
-         AMaA==
+         :cc;
+        bh=S63SuBtn+foFLgrTbHK8AovDT3TZ3dCU0vVOYveDtRU=;
+        b=Jsy2jdgRSUvWgozcqJ9sW/FmtUSDV3SbtZJZ4qIXxAjZ6j4LS52Q6ieNucN8InNtcF
+         +U288P6zdVm26fFQ2LfymQtdVR6L6uW9LOChzs+acjCli5cAb9RzvwRwPoNWYHPlHfql
+         WflyBUWNs5n+meXNHzlFBvcQpitLpGjUC/KGXqzuZyM0393eHK4h0AexoVNKd9kHGAPj
+         YnQu5wCZ8fjY5wpfpfuptKFobB/Y5e2cDSK/IIMlcVz2wtorSCC8cZbvcYqmHaIu93y2
+         aalXcsrjaW1pPL1zaRoH+tN/JDQ34k2JjD3WEqYiVufofIXLfHI1sz+I+ERecgHnepZ1
+         WHXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=beQALovDmZGI6evzj1fCFNz0MMLdlpvW46aPtdEcw70=;
-        b=oGz8wDWB8m16X9bZDjzQ8vyMtszejgzU8wLXm62pK05Yt3PEHKv3u1tmdjmWLwfDKP
-         Uiaoh55gRcwQ67JSV6bygLq2kp3C+zfCT4mqfmzBJ4mhkk59O5y//HG9GRYELnGu48kh
-         5t3o3yQSm8Tkq8gnzc56Ld5azJBSolf+A1ihWF5E66uIOvlEL4Kp3+eYfiQMfByX8b9T
-         9EBgbH96wCBvVgoKZq+D9cO7eGReHc1N+ayp8tf1EbnlluRv4dBiqgb97L/l+3LBArTk
-         pYdY5iuOEcdx7pFfIpBq5yi7+tq+EaN8mpYxDzuHggH+W06kZ/WJ5JcY5WfHZGeT9iEv
-         e+Zg==
-X-Gm-Message-State: AOAM532XGz7PyrpXuPZBI7G0OcS4qf+ECfyVcauHQ0dYiO5oCDSY5a3G
-	RNDcmXbDEGzWvz7K4Rro+C0CeFEofYXzTFW6DczsNw==
-X-Google-Smtp-Source: ABdhPJyEcgJ4thuVNa71GfFhM1nZfaX/LGJH38gNWi4zS5MAmfrIrTa6kvNOo1OjGwannI7KIdABWOq4nRBDRd05xaw=
-X-Received: by 2002:a1c:2cc4:: with SMTP id s187mr81344wms.4.1614791719895;
- Wed, 03 Mar 2021 09:15:19 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=S63SuBtn+foFLgrTbHK8AovDT3TZ3dCU0vVOYveDtRU=;
+        b=fAkt6Sus7HKbteIT8En+gRwClcPEokz32cwWg9QpJF2sGkpGKByKYy+SNQIHW2D4nf
+         EADs5k2EiJFS2palMHg47ncyi9NP+ABUo6ZE5md+1Z7ATuFSvRPPzL4p7IWdDM4dtbzQ
+         allDBiFvM+aYtGEpvqbFgPw6UUWwZlfiNrOWe3fh9Gbnonta6+/5NQNjJEQxPKSi8c4p
+         aOjpNxC/o/oTFVnGbul+Z7EvN1DKEwufnCnfXCabBwfU9vYV042ffgT7kwdGL4rzRaPG
+         S9pB40vRGZCIQWxeKFE4OCqBQZY/IdGJCEUw2AnGwOkpUxoZEgRKgxjUMycTJOlCqXsg
+         F2Jw==
+X-Gm-Message-State: AOAM530KaLiG2XUSMO6xz9YFkp8JGx1F1i9RgTWJRbL72tVVBOhWolQo
+	hrTpIVXPAiRgYWIHluciuGPT3ai+CMLr2Nn843M=
+X-Google-Smtp-Source: ABdhPJyHq6DNZpxTNLjvF/Ky12a1kSTkDv/MICMBfGAth7WwHW4yhHePytlIAvGgdqsWWyQnNAuapR2vQ+pkALKSOjQ=
+X-Received: by 2002:a05:6a00:80e:b029:1b6:39dd:8b2a with SMTP id
+ m14-20020a056a00080eb02901b639dd8b2amr4012378pfk.23.1614793656950; Wed, 03
+ Mar 2021 09:47:36 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1614780812.git.steve@sakoman.com> <CAMKF1sr9mfJPigoX+ShJQn+F3ZVu2tHOQ=c4MgmJK6pBmiOk1w@mail.gmail.com>
-In-Reply-To: <CAMKF1sr9mfJPigoX+ShJQn+F3ZVu2tHOQ=c4MgmJK6pBmiOk1w@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 3 Mar 2021 07:15:06 -1000
-Message-ID: <CAOSpxdacjFaFcarORNkBttWtgPxQ=1sOYy2402BYgtX1+DGWjw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/41] Pull request (cover letter only)
-To: Khem Raj <raj.khem@gmail.com>, Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20210219175307.46218-1-jatedev@gmail.com> <20210219175307.46218-2-jatedev@gmail.com>
+ <CANPvuRkEwbKHMDf7EzD9r8PwDR-akj8JJtc6D3-youOiYiU4Wg@mail.gmail.com>
+ <CAPphmgayRkWXYqSmoCB-8LrTxfuSj+n+cVPX9F7HzpYe3QstCw@mail.gmail.com>
+ <CANPvuRkSZxTOLM-gANOs_jrmkkMVZD83AJQMcJsWq5OCnhh1Lw@mail.gmail.com>
+ <b06711bf332e943142cdda180915add2c78c6b69.camel@linuxfoundation.org>
+ <CAPphmgZSqnYxV8K-jYZGvDxREAu5X--rMX7BODra6opYzg6e3g@mail.gmail.com> <CANPvuRk30a7kfUoZEc+_hoXkS4TTzGRwu3V8496=bfc7FweQdg@mail.gmail.com>
+In-Reply-To: <CANPvuRk30a7kfUoZEc+_hoXkS4TTzGRwu3V8496=bfc7FweQdg@mail.gmail.com>
+From: "Jate Sujjavanich" <jatedev@gmail.com>
+Date: Wed, 3 Mar 2021 12:47:25 -0500
+Message-ID: <CAPphmgYU9uPtnbknkcSyuzvJiHQHDtZw5JqjWLUT+LFofKNehg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] iputils: Fix setcap/setuid of executables
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000004ee5cf05bca572b0"
+
+--0000000000004ee5cf05bca572b0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 3, 2021 at 6:40 AM Khem Raj <raj.khem@gmail.com> wrote:
+Jose,
+
+Yes, I forgot to add a sentence saying that my testing confirmed what you
+said. Your explanation was helpful in learning about this meson build.
+
+- Jate
+
+On Wed, Mar 3, 2021 at 8:41 AM Jose Quaresma <quaresma.jose@gmail.com>
+wrote:
+
+> Hi Jate,
 >
-> On Wed, Mar 3, 2021 at 6:17 AM Steve Sakoman <steve@sakoman.com> wrote:
-> >
-> > The following changes since commit a8debddd6cbdd70db74e096d72f97fbee00=
-8ee63:
-> >
-> >   build-appliance-image: Update to dunfell head revision (2021-02-18 2=
-3:43:04 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-=
-next
-> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dstab=
-le/dunfell-next
-> >
-> > Alexander Kanavin (1):
-> >   connman: update to 1.38
-> >
+> Is that behavior that you explain that I am trying to said.
 >
-> connman changes will impact iwd and also depend on ell version. Many
-> times they go in lock steps.
+> Jate Sujjavanich <jatedev@gmail.com> escreveu no dia quarta, 24/02/2021
+> =C3=A0(s) 17:19:
+>
+>> I tested removing the cross-compile detection patch and removing libcap
+>> from PACKAGECONFIG. The build does find setcap on the build machine.
+>>
+>> log.do_configure:
+>> CONFIGURATION
+>> Capatiblity (with libcap): false
+>> ...
+>> Program /usr/sbin/setcap found: YES (/usr/sbin/setcap)
+>>
+>> However, meson did pass perm_type =3D setuid to setcap-setuid.sh.
+>>
+>> log.do_install
+>> [1/2]
+>> /workdir/poky/build/tmp/work/core2-64-poky-linux/iputils/s20200821-r0/re=
+ci
+>> pe-sysroot-native/usr/bin/meson install --no-rebuild
+>> setcap-setuid.sh: changing
+>> '/workdir/poky/build/tmp/work/core2-64-poky-linux/ipu
+>> tils/s20200821-r0/image//bin/ping' to be setuid root executable
+>> ownership of
+>> '/workdir/poky/build/tmp/work/core2-64-poky-linux/iputils/s20200821-r0/i=
+mage//bin/ping'
+>> retained as root
+>>
+>> The conditional code in meson.build does fall back to setuid mode based
+>> on the presence of libcap stored in cap_dep.found(). So I think you are
+>> right, Jose.
+>> if cap_dep.found() and setcap.found()
+>>         perm_type =3D 'caps'
+>>         setcap_path =3D setcap.path()
+>> else
+>>         perm_type =3D 'setuid'
+>>         setcap_path =3D '/dev/null'
+>> endif
+>>
+>> And setcap-setuid.sh uses a simple chown and chmod. I *think* these are
+>> universal in posix and that we don't have to worry about host contaminat=
+ion.
+>>         setuid)
+>>                 _log "changing '$exec_path' to be setuid root executable=
+"
+>>                 chown -v root "$exec_path"
+>>                 chmod -v u+s "$exec_path"
+>>
+>> - Jate
+>>
+>>
+>> On Mon, Feb 22, 2021 at 3:26 PM Richard Purdie <
+>> richard.purdie@linuxfoundation.org> wrote:
+>>
+>>> On Mon, 2021-02-22 at 17:39 +0000, Jose Quaresma wrote:
+>>> > Hi,
+>>> >
+>>> > Jate Sujjavanich <jatedev@gmail.com> escreveu no dia segunda,
+>>> 22/02/2021 =C3=A0(s) 15:58:
+>>> > > If libcap is disabled in PACKAGECONFIG, then arguments two and thre=
+e
+>>> mean
+>>> > > find_program find could setcap on the build machine. This would mea=
+n
+>>> it is
+>>> > >  not strictly determined by the recipe and it's determined by the
+>>> > > configuration of the build machine instead.
+>>> > >
+>>> >
+>>> > In this case the meson will not use the setcap from the build machine
+>>> because
+>>> > the libcap not found on the target sysroot. The libcap is a
+>>> dependencie when
+>>> > PACKAGECONFIG+=3D"libcap" and in this case the meson it will fallback=
+ to
+>>> use
+>>> > setuid.
+>>> >
+>>> https://github.com/iputils/iputils/blob/f0c64bbb2b1563647bfeeed8d82bc4d=
+2d2312d8a/meson.build#L221
+>>>
+>>> Whilst it may not use libcap, I seem to remember issues with the output
+>>> still not being deterministic since there was something in the out whic=
+h
+>>> indicated the presence of setcap (or not).
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+>
 
-Armin specifically requested these connman version update patches for
-dunfell. Armin, can you comment on Khem's concerns?
+--0000000000004ee5cf05bca572b0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Steve
+<div dir=3D"ltr"><div>Jose,</div><div><br></div><div>Yes, I forgot to add a=
+ sentence saying that my testing confirmed what you said. Your explanation =
+was helpful in learning about this meson build.</div><div><br></div><div>- =
+Jate<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Mar 3, 2021 at 8:41 AM Jose Quaresma &lt;<a href=3D=
+"mailto:quaresma.jose@gmail.com">quaresma.jose@gmail.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
+iv>Hi Jate,</div><div><br></div><div>Is that behavior that you explain that=
+ I am trying to said.<br></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">Jate Sujjavanich &lt;<a href=3D"mailto:jated=
+ev@gmail.com" target=3D"_blank">jatedev@gmail.com</a>&gt; escreveu no dia q=
+uarta, 24/02/2021 =C3=A0(s) 17:19:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div>I tested removing the cross-compil=
+e detection patch and removing libcap from PACKAGECONFIG. The build does fi=
+nd setcap on the build machine.<br></div><div><br></div><div>log.do_configu=
+re:<br></div><div style=3D"margin-left:40px"><span style=3D"font-family:mon=
+ospace">CONFIGURATION</span></div><div style=3D"margin-left:40px"><span sty=
+le=3D"font-family:monospace">Capatiblity (with libcap): false</span></div><=
+div style=3D"margin-left:40px"><span style=3D"font-family:monospace">...<br=
+></span></div><div style=3D"margin-left:40px"><span style=3D"font-family:mo=
+nospace">Program /usr/sbin/setcap found: YES (/usr/sbin/setcap)</span></div=
+><div><br></div><div>However, meson did pass perm_type =3D setuid to setcap=
+-setuid.sh.<br></div><div><br></div><div>log.do_install</div><div style=3D"=
+margin-left:40px"><span style=3D"font-family:monospace">[1/2] /workdir/poky=
+/build/tmp/work/core2-64-poky-linux/iputils/s20200821-r0/reci<br>pe-sysroot=
+-native/usr/bin/meson install --no-rebuild<br>setcap-setuid.sh: changing &#=
+39;/workdir/poky/build/tmp/work/core2-64-poky-linux/ipu<br>tils/s20200821-r=
+0/image//bin/ping&#39; to be setuid root executable<br>ownership of &#39;/w=
+orkdir/poky/build/tmp/work/core2-64-poky-linux/iputils/s20200821-r0/image//=
+bin/ping&#39; retained as root</span></div><span style=3D"font-family:monos=
+pace"></span><div><br></div><div>The conditional code in meson.build does f=
+all back to setuid mode based on the presence of libcap stored in cap_dep.f=
+ound(). So I think you are right, Jose.<br></div><div style=3D"margin-left:=
+40px"><span style=3D"font-family:monospace">if cap_dep.found() and setcap.f=
+ound()<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 perm_type =3D &#39;caps&#39;<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 setcap_path =3D setcap.path()<br>else<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 perm_type =3D &#39;setuid&#39;<br>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 setcap_path =3D &#39;/dev/null&#39;<br>endif</span></div><span styl=
+e=3D"font-family:monospace"></span><div><br></div><div>And setcap-setuid.sh=
+ uses a simple chown and chmod. I *think* these are universal in posix and =
+that we don&#39;t have to worry about host contamination.<br></div><div sty=
+le=3D"margin-left:40px"><span style=3D"font-family:monospace">=C2=A0 =C2=A0=
+ =C2=A0=C2=A0=C2=A0 setuid)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 _log &quot;changing &#39;$exec_path&#39; to be setuid root ex=
+ecutable&quot;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c=
+hown -v root &quot;$exec_path&quot;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 chmod -v u+s &quot;$exec_path&quot;</span></div><span =
+style=3D"font-family:monospace"></span><div><br></div><div>- Jate <br></div=
+><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Feb 22, 2021 at 3:26 PM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">On Mon, 2021-02-22 at 17:39 +0000, Jose Quaresma wr=
+ote:<br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com" target=3D"_b=
+lank">jatedev@gmail.com</a>&gt; escreveu no dia segunda, 22/02/2021 =C3=A0(=
+s) 15:58:<br>
+&gt; &gt; If libcap is disabled in PACKAGECONFIG, then arguments two and th=
+ree mean=C2=A0<br>
+&gt; &gt; find_program find could setcap on the build machine. This would m=
+ean it is<br>
+&gt; &gt;=C2=A0 not strictly determined by the recipe and it&#39;s determin=
+ed by the=C2=A0<br>
+&gt; &gt; configuration of the build machine instead.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; In this case the meson will not use the setcap from the build machine =
+because=C2=A0<br>
+&gt; the libcap not found on the target sysroot. The libcap is a dependenci=
+e when=C2=A0<br>
+&gt; PACKAGECONFIG+=3D&quot;libcap&quot; and in this case the meson it will=
+ fallback to use<br>
+&gt; setuid.<br>
+&gt; <a href=3D"https://github.com/iputils/iputils/blob/f0c64bbb2b1563647bf=
+eeed8d82bc4d2d2312d8a/meson.build#L221" rel=3D"noreferrer" target=3D"_blank=
+">https://github.com/iputils/iputils/blob/f0c64bbb2b1563647bfeeed8d82bc4d2d=
+2312d8a/meson.build#L221</a><br>
+<br>
+Whilst it may not use libcap, I seem to remember issues with the output=C2=
+=A0<br>
+still not being deterministic since there was something in the out which=C2=
+=A0<br>
+indicated the presence of setcap (or not).<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr"><div dir=
+=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div>
+</blockquote></div>
 
-
-
-
-> > Andrei Gherzan (2):
-> >   oe/recipeutils: Fix copying patches when BBLAYERS entries are not
-> >     normalised
-> >   qemu: Backport patch to avoid assertion fails on icache line size
-> >
-> > Bruce Ashfield (2):
-> >   linux-yocto/5.4: update to v5.4.96
-> >   linux-yocto/5.4: update to v5.4.98
-> >
-> > Chris Laplante (2):
-> >   cve-check: introduce CVE_CHECK_RECIPE_FILE variable to allow changin=
-g
-> >     of per-recipe check file
-> >   cve-check: add CVE_CHECK_REPORT_PATCHED variable to suppress reporti=
-ng
-> >     of patched CVEs
-> >
-> > Jan-Simon M=C3=B6ller (1):
-> >   package_rpm: Enable use_source_date_epoch_as_buildtime in package_rp=
-m
-> >     class
-> >
-> > Joshua Watt (3):
-> >   oeqa: reproducible: Fix SSTATE_MIRRORS variable
-> >   oeqa: reproducible: Add more logging
-> >   libomxil: Fix up commercial license flag
-> >
-> > Lee Chee Yang (2):
-> >   sudo: 1.8.31 -> 1.8.32
-> >   go: update to 1.14.15
-> >
-> > Marek Vasut (1):
-> >   weston-init: Fix weston-keyboard path in weston.ini
-> >
-> > Martin Jansa (1):
-> >   icu: backport fix for rare random genrb segmentation fault
-> >
-> > Richard Purdie (16):
-> >   pseudo: Update to work with glibc 2.33
-> >   pseudo: Update for rename and faccessat fixes
-> >   pseudo: Update to include fixes for glibc 2.33
-> >   quilt: Be determnistic about column presence
-> >   buildtools-extended-tarball: Add glibc-gconvs needed for build
-> >   cwautomacros: Ensure version is set deterministically
-> >   vim: Improve determinism
-> >   vim: Fix a race over creation of the desktop files
-> >   watchdog: Fix determinism issue from sendmail host path
-> >   watchdog: Avoid reproducibility failures after fixing build
-> >   xorg-fonts-minimal: Fix reproducibility
-> >   xorg-minimal-fonts: Really fix determinism
-> >   xmlto: Fix reproducibility
-> >   groff: Fix determinism issue
-> >   oeqa/commands: Fix compatibility with python 3.9
-> >   selftest/reproducible: Don't call sync between each file compare
-> >
-> > Scott Murray (1):
-> >   u-boot: fix CVE-2020-8432 and CVE-2020-10648
-> >
-> > Teoh Jay Shen (1):
-> >   oeqa/runlevel : add test for runlevels
-> >
-> > Thomas Viehweger (1):
-> >   mtd-utils: Remove duplicate assignments to alternative link names
-> >
-> > Vivien Didelot (2):
-> >   local.conf.sample.extended: fix double 'of' typo
-> >   local.conf.sample.extended: prefer INIT_MANAGER
-> >
-> > Wes Lindauer (1):
-> >   df.py: Add feature check for read-only-rootfs
-> >
-> > Yoann Congal (1):
-> >   npm.bbclass: avoid building target nodejs for native npm recipes
-> >
-> > Zbigniew Bodek (1):
-> >   wpebackend-fdo: Fix missing .so symlink when using dev package
-> >
-> > akuster (2):
-> >   cve-check.bbclass: add layer to cve log
-> >   connman: update to 1.39
-> >
-> >  meta/classes/cve-check.bbclass                |   46 +-
-> >  meta/classes/npm.bbclass                      |    2 +-
-> >  meta/classes/package_rpm.bbclass              |    1 +
-> >  meta/conf/local.conf.sample.extended          |   23 +-
-> >  meta/lib/oe/recipeutils.py                    |    2 +-
-> >  meta/lib/oeqa/runtime/cases/df.py             |    2 +
-> >  meta/lib/oeqa/runtime/cases/runlevel.py       |   22 +
-> >  meta/lib/oeqa/selftest/cases/reproducible.py  |    7 +-
-> >  meta/lib/oeqa/utils/commands.py               |    4 +-
-> >  .../u-boot/files/CVE-2020-10648-1.patch       |   98 ++
-> >  .../u-boot/files/CVE-2020-10648-2.patch       |   52 +
-> >  .../u-boot/files/CVE-2020-8432.patch          |  114 ++
-> >  meta/recipes-bsp/u-boot/u-boot-common.inc     |    3 +
-> >  meta/recipes-connectivity/connman/connman.inc |    1 +
-> >  ...-gweb-fix-segfault-with-musl-v1.1.21.patch |   34 -
-> >  ...ve-musl-does-not-implement-res_ninit.patch |   20 +-
-> >  .../connman/connman_1.37.bb                   |   17 -
-> >  .../connman/connman_1.39.bb                   |   15 +
-> >  .../meta/buildtools-extended-tarball.bb       |   10 +
-> >  meta/recipes-devtools/go/go-1.14.inc          |    5 +-
-> >  ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch |   98 --
-> >  meta/recipes-devtools/mtd/mtd-utils_git.bb    |    2 -
-> >  meta/recipes-devtools/pseudo/pseudo_git.bb    |    2 +-
-> >  meta/recipes-devtools/qemu/qemu.inc           |    1 +
-> >  ...fix-crash-when-compiling-with-uClibc.patch |   48 +
-> >  meta/recipes-devtools/quilt/quilt.inc         |    2 +-
-> >  meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |    2 +-
-> >  .../cwautomacros/cwautomacros_20110201.bb     |    2 +-
-> >  .../groff/files/0001-Include-config.h.patch   | 1026 +---------------=
--
-> >  meta/recipes-extended/groff/groff_1.22.4.bb   |   11 +
-> >  meta/recipes-extended/sudo/sudo.inc           |    2 +-
-> >  ...Fix-includes-when-building-with-musl.patch |   29 +
-> >  .../sudo/{sudo_1.8.31.bb =3D> sudo_1.8.32.bb}   |    5 +-
-> >  .../watchdog/watchdog_5.15.bb                 |    6 +
-> >  .../wayland/weston-init/weston.ini            |    2 +-
-> >  .../xorg-font/xorg-minimal-fonts.bb           |    8 +-
-> >  .../linux/linux-yocto-rt_5.4.bb               |    6 +-
-> >  .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
-> >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
-> >  .../libomxil/libomxil_0.9.3.bb                |    6 +-
-> >  .../webkit/wpebackend-fdo_1.4.1.bb            |    3 +
-> >  ...cnvalias-as-a-dependency-of-misc_res.patch |   24 +
-> >  meta/recipes-support/icu/icu_66.1.bb          |    4 +-
-> >  meta/recipes-support/vim/files/racefix.patch  |   33 +
-> >  meta/recipes-support/vim/vim.inc              |    3 +
-> >  45 files changed, 574 insertions(+), 1259 deletions(-)
-> >  create mode 100644 meta/lib/oeqa/runtime/cases/runlevel.py
-> >  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-10648-1.pat=
-ch
-> >  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-10648-2.pat=
-ch
-> >  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-8432.patch
-> >  delete mode 100644 meta/recipes-connectivity/connman/connman/0001-gwe=
-b-fix-segfault-with-musl-v1.1.21.patch
-> >  delete mode 100644 meta/recipes-connectivity/connman/connman_1.37.bb
-> >  create mode 100644 meta/recipes-connectivity/connman/connman_1.39.bb
-> >  delete mode 100644 meta/recipes-devtools/go/go-1.14/0010-cmd-go-permi=
-t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
-> >  create mode 100644 meta/recipes-devtools/qemu/qemu/0012-util-cacheinf=
-o-fix-crash-when-compiling-with-uClibc.patch
-> >  create mode 100644 meta/recipes-extended/sudo/sudo/0001-Fix-includes-=
-when-building-with-musl.patch
-> >  rename meta/recipes-extended/sudo/{sudo_1.8.31.bb =3D> sudo_1.8.32.bb=
-} (89%)
-> >  create mode 100644 meta/recipes-support/icu/icu/0002-ICU-21175-Add-cn=
-valias-as-a-dependency-of-misc_res.patch
-> >  create mode 100644 meta/recipes-support/vim/files/racefix.patch
-> >
-> > --
-> > 2.25.1
-> >
-> >
-> >=20
-> >
+--0000000000004ee5cf05bca572b0--
