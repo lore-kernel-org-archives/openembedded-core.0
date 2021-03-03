@@ -1,205 +1,107 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web12.7123.1614780952962678238
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web11.7670.1614783363987558052
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 06:15:53 -0800
+ Wed, 03 Mar 2021 06:56:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cFs4+P8E;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id t16so4138368ott.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 06:15:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jS7YFtJy;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id w1so17714209qto.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 06:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RZP/xcgN28pzLsEKV9daNjebLpLsrwVIrIRzwLeTt4E=;
-        b=cFs4+P8ENmivS99U7Adv1yyWORklJgJx6YJyD7+3HvLGg9CUJxgXlsd/IVFIzxOcSG
-         jckk8ocbacPIiLLfPYcoyYzEMePlkI/dy9v1sozrtP+uWhA1R2cicSAtNnGbGOo79qxK
-         ts/ZJeX6jUj+/N3A0teNKZOLfeEPfAj/eCgp9ZQf2tVvVvZ89BkIxnTo2hcT+56h+YMl
-         njWEW8fO450XI+L3ftqgMVSUDhsgO8joCD6OKHBpkT7woN8Mf/teQQ/b1/Kx1ThnEopT
-         Rz8zVu//9iqQUvOrimx7HBMa0khH358IRXiOB0TwOVTO7WCtnA5+zWzulPKAokfNpBKq
-         5Eow==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Sy6B7blxudcagHhvoWh014MRUbgYohBX7Ln/ii6zlZ8=;
+        b=jS7YFtJyeojlJCdu0Nh3+YImMbk4qTeVGnYBqMEKqe7xqNO7a1w8woBNLHtr2yjIH3
+         El5YcPBrusUGY5FnoMvVRnYbvmPbahSvYn0PP5Nk0zPRJu6MKkjPK8WrBtieZVtzkmVM
+         UuFl8rZM98fQdk5lp8BNXCdwj5GFuJWp0fcdaRAWcajzBmkKSkgqj7kWbJFK3m9RJCem
+         XTpErQtvEuQCkWi5XR+CHa/CgNScEuW20+e/VdoOHro33dzTsoajYcrktrtRwhsPGMQG
+         vDQWKTEGt8Yj6KoMfAx+deyyHg7FEL0J3FStb4Ih6x92/z8z/ytK5FtFANqYW+NwnTRY
+         WJoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RZP/xcgN28pzLsEKV9daNjebLpLsrwVIrIRzwLeTt4E=;
-        b=Nx+Kz8/Tn8YWdoZ3aYZxqYtzxndIwrMDCtfOHukpG0TWB0dzcpIe55o7pmHftVyNou
-         IqoJS0O4Oc56Hh3+hzdKvLZifmhCYsr+nVSOMgxcaItQE2f6eP/Z3Lu+GhGV62t1xNTQ
-         sZDk39xAtkHFHONMMVmgD+DrNl/aZlHh/mlJGjUasM00fhrxuurTIGha4TEtAgu7wOBA
-         bb0VZ3iyVXOS/8MOFAVDyP+jy6qDlQCBEvKFTBIE9wXn7wghHaDVFXg3kT3XOelCojSa
-         yBQ4nEqrudBqeIoEdWTz3cRm7GSPDdSkfXHafMF/nE202DiwqMVyBd/htT9fIqeIuJiB
-         Rtjw==
-X-Gm-Message-State: AOAM530oeDiyXzNvbsxQ8hU4Eskt75IjNHe0SRuT9KwuP5IG/0fc//ti
-	C/Pe6nCPKBJYVTVo5PvrQ+uCyeqrMqCxEy5g
-X-Google-Smtp-Source: ABdhPJyIkEHB0UVyrNFvEoAUyX/aAUH14nbwJQ976/QaHE6BQIqYQVBBTq/0QZxuiz7TsOIcveWqng==
-X-Received: by 2002:a9d:225:: with SMTP id 34mr22340390otb.337.1614780946452;
-        Wed, 03 Mar 2021 06:15:46 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id g17sm5003386ots.68.2021.03.03.06.15.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 06:15:45 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/41] Pull request (cover letter only)
-Date: Wed,  3 Mar 2021 04:15:15 -1000
-Message-Id: <cover.1614780812.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Sy6B7blxudcagHhvoWh014MRUbgYohBX7Ln/ii6zlZ8=;
+        b=rVoOuAZrXa53NeVfxho3z6Ql9FqlOOQ7uhR22L7wlTDgBTnT10BGEVejA0aAEp7HaJ
+         7lVxxNi4PuyF40k7DBiwfbiclKtIgoyBB/PlI1fgCNydJwchot4sqHaw3Pr7CVFE6SJX
+         iVs/pG9RI5qKRL32hmo202HFQWHgpF1loScjuzs2v0kAT08DBh1T694evAI5dHPKRUy2
+         MKq/OVTBacTaq3gyykbn94n/qcbVudf87S5JOhM6eT+T0URNa6zUyJXzLjqkAAITd0Zz
+         758mDsRP92B6MiXSHM7ZzXQnXcyXRFHQGC8hvrad31fCnZ6fwA44Ooia2LaMhjWzO8QV
+         WNKQ==
+X-Gm-Message-State: AOAM532vayc5BMNeWG/rQ4fX7QGpsx/Q+nMRWSNOfHcM8riggC0s+F0+
+	xV++aaIwIGjgaYgRJoYT6StT+leGE++Ms/v8L1c=
+X-Google-Smtp-Source: ABdhPJyAv4RULPj7iDiMDKxwEeEYV/VTAg88BezzlNuADmxYBso3zx6kPtJJHOOapA/1cDaP/Lo8WAL5f8aSBqsfSJ8=
+X-Received: by 2002:ac8:74c9:: with SMTP id j9mr23218278qtr.369.1614783362944;
+ Wed, 03 Mar 2021 06:56:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210302135920.2228759-1-richard.purdie@linuxfoundation.org> <20210302135920.2228759-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210302135920.2228759-2-richard.purdie@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 3 Mar 2021 06:55:35 -0800
+Message-ID: <CAMKF1sqF4TUyshZjUoS1Pjrx9-LFfqpREDhT4=8gNnstVWbsDA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3-cython: Remove build paths from debug sources
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit a8debddd6cbdd70db74e096d72f97fbee008ee63:
+On Tue, Mar 2, 2021 at 5:59 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> There are build paths which are in generated sources injected
+> into ${PN}-src. These are in generated files and don't influence the
+> binary output. As such we can correct them at do_package time by
+> tweaking in an appropriately injected function. This fixes
+> the reproducbility of the recipe.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/reproducible.py      |  1 -
+>  .../python/python3-cython_0.29.21.bb              | 15 +++++++++++++++
+>  2 files changed, 15 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+> index 3d6a88314b8..0d0259477e3 100644
+> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> @@ -37,7 +37,6 @@ exclude_packages = [
+>         'meson',
+>         'ovmf-shell-efi',
+>         'perf',
+> -       'python3-cython',
+>         'ruby-ri-docs'
+>         ]
+>
+> diff --git a/meta/recipes-devtools/python/python3-cython_0.29.21.bb b/meta/recipes-devtools/python/python3-cython_0.29.21.bb
+> index 2ce6bdbd68b..01f716c16f5 100644
+> --- a/meta/recipes-devtools/python/python3-cython_0.29.21.bb
+> +++ b/meta/recipes-devtools/python/python3-cython_0.29.21.bb
+> @@ -16,3 +16,18 @@ do_install_append() {
+>      mv ${D}${bindir}/cythonize ${D}${bindir}/cythonize3
+>      mv ${D}${bindir}/cygdb ${D}${bindir}/cygdb3
+>  }
+> +
+> +PACKAGEBUILDPKGD += "cython_fix_sources"
+> +
+> +cython_fix_sources () {
+> +       sed -i -e 's#${WORKDIR}#/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}#g' \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/FlowControl.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/FusedNode.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/Scanning.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/Visitor.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Plex/Actions.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Plex/Scanners.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Runtime/refnanny.c \
+> +               ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Tempita/_tempita.c \
+> +               ${PKGD}${libdir}/${PYTHON_DIR}/site-packages/Cython*/SOURCES.txt
+> +}
 
-  build-appliance-image: Update to dunfell head revision (2021-02-18 23:43:04 +0000)
+this fails build on clang
+https://errors.yoctoproject.org/Errors/Details/573408/
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alexander Kanavin (1):
-  connman: update to 1.38
-
-Andrei Gherzan (2):
-  oe/recipeutils: Fix copying patches when BBLAYERS entries are not
-    normalised
-  qemu: Backport patch to avoid assertion fails on icache line size
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.96
-  linux-yocto/5.4: update to v5.4.98
-
-Chris Laplante (2):
-  cve-check: introduce CVE_CHECK_RECIPE_FILE variable to allow changing
-    of per-recipe check file
-  cve-check: add CVE_CHECK_REPORT_PATCHED variable to suppress reporting
-    of patched CVEs
-
-Jan-Simon Möller (1):
-  package_rpm: Enable use_source_date_epoch_as_buildtime in package_rpm
-    class
-
-Joshua Watt (3):
-  oeqa: reproducible: Fix SSTATE_MIRRORS variable
-  oeqa: reproducible: Add more logging
-  libomxil: Fix up commercial license flag
-
-Lee Chee Yang (2):
-  sudo: 1.8.31 -> 1.8.32
-  go: update to 1.14.15
-
-Marek Vasut (1):
-  weston-init: Fix weston-keyboard path in weston.ini
-
-Martin Jansa (1):
-  icu: backport fix for rare random genrb segmentation fault
-
-Richard Purdie (16):
-  pseudo: Update to work with glibc 2.33
-  pseudo: Update for rename and faccessat fixes
-  pseudo: Update to include fixes for glibc 2.33
-  quilt: Be determnistic about column presence
-  buildtools-extended-tarball: Add glibc-gconvs needed for build
-  cwautomacros: Ensure version is set deterministically
-  vim: Improve determinism
-  vim: Fix a race over creation of the desktop files
-  watchdog: Fix determinism issue from sendmail host path
-  watchdog: Avoid reproducibility failures after fixing build
-  xorg-fonts-minimal: Fix reproducibility
-  xorg-minimal-fonts: Really fix determinism
-  xmlto: Fix reproducibility
-  groff: Fix determinism issue
-  oeqa/commands: Fix compatibility with python 3.9
-  selftest/reproducible: Don't call sync between each file compare
-
-Scott Murray (1):
-  u-boot: fix CVE-2020-8432 and CVE-2020-10648
-
-Teoh Jay Shen (1):
-  oeqa/runlevel : add test for runlevels
-
-Thomas Viehweger (1):
-  mtd-utils: Remove duplicate assignments to alternative link names
-
-Vivien Didelot (2):
-  local.conf.sample.extended: fix double 'of' typo
-  local.conf.sample.extended: prefer INIT_MANAGER
-
-Wes Lindauer (1):
-  df.py: Add feature check for read-only-rootfs
-
-Yoann Congal (1):
-  npm.bbclass: avoid building target nodejs for native npm recipes
-
-Zbigniew Bodek (1):
-  wpebackend-fdo: Fix missing .so symlink when using dev package
-
-akuster (2):
-  cve-check.bbclass: add layer to cve log
-  connman: update to 1.39
-
- meta/classes/cve-check.bbclass                |   46 +-
- meta/classes/npm.bbclass                      |    2 +-
- meta/classes/package_rpm.bbclass              |    1 +
- meta/conf/local.conf.sample.extended          |   23 +-
- meta/lib/oe/recipeutils.py                    |    2 +-
- meta/lib/oeqa/runtime/cases/df.py             |    2 +
- meta/lib/oeqa/runtime/cases/runlevel.py       |   22 +
- meta/lib/oeqa/selftest/cases/reproducible.py  |    7 +-
- meta/lib/oeqa/utils/commands.py               |    4 +-
- .../u-boot/files/CVE-2020-10648-1.patch       |   98 ++
- .../u-boot/files/CVE-2020-10648-2.patch       |   52 +
- .../u-boot/files/CVE-2020-8432.patch          |  114 ++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |    3 +
- meta/recipes-connectivity/connman/connman.inc |    1 +
- ...-gweb-fix-segfault-with-musl-v1.1.21.patch |   34 -
- ...ve-musl-does-not-implement-res_ninit.patch |   20 +-
- .../connman/connman_1.37.bb                   |   17 -
- .../connman/connman_1.39.bb                   |   15 +
- .../meta/buildtools-extended-tarball.bb       |   10 +
- meta/recipes-devtools/go/go-1.14.inc          |    5 +-
- ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch |   98 --
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |    2 -
- meta/recipes-devtools/pseudo/pseudo_git.bb    |    2 +-
- meta/recipes-devtools/qemu/qemu.inc           |    1 +
- ...fix-crash-when-compiling-with-uClibc.patch |   48 +
- meta/recipes-devtools/quilt/quilt.inc         |    2 +-
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |    2 +-
- .../cwautomacros/cwautomacros_20110201.bb     |    2 +-
- .../groff/files/0001-Include-config.h.patch   | 1026 +----------------
- meta/recipes-extended/groff/groff_1.22.4.bb   |   11 +
- meta/recipes-extended/sudo/sudo.inc           |    2 +-
- ...Fix-includes-when-building-with-musl.patch |   29 +
- .../sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb}   |    5 +-
- .../watchdog/watchdog_5.15.bb                 |    6 +
- .../wayland/weston-init/weston.ini            |    2 +-
- .../xorg-font/xorg-minimal-fonts.bb           |    8 +-
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../libomxil/libomxil_0.9.3.bb                |    6 +-
- .../webkit/wpebackend-fdo_1.4.1.bb            |    3 +
- ...cnvalias-as-a-dependency-of-misc_res.patch |   24 +
- meta/recipes-support/icu/icu_66.1.bb          |    4 +-
- meta/recipes-support/vim/files/racefix.patch  |   33 +
- meta/recipes-support/vim/vim.inc              |    3 +
- 45 files changed, 574 insertions(+), 1259 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/cases/runlevel.py
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-10648-1.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-10648-2.patch
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2020-8432.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/0001-gweb-fix-segfault-with-musl-v1.1.21.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman_1.37.bb
- create mode 100644 meta/recipes-connectivity/connman/connman_1.39.bb
- delete mode 100644 meta/recipes-devtools/go/go-1.14/0010-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0012-util-cacheinfo-fix-crash-when-compiling-with-uClibc.patch
- create mode 100644 meta/recipes-extended/sudo/sudo/0001-Fix-includes-when-building-with-musl.patch
- rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.8.32.bb} (89%)
- create mode 100644 meta/recipes-support/icu/icu/0002-ICU-21175-Add-cnvalias-as-a-dependency-of-misc_res.patch
- create mode 100644 meta/recipes-support/vim/files/racefix.patch
-
--- 
-2.25.1
-
+> --
+> 2.27.0
+>
+>
+> 
+>
