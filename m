@@ -1,127 +1,80 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web08.1177.1614814591618053913
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
+ by mx.groups.io with SMTP id smtpd.web12.1840.1614817620582074384
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Mar 2021 15:36:31 -0800
+ Wed, 03 Mar 2021 16:27:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NBPHOYVn;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id d9so26496562ybq.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Mar 2021 15:36:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6GnCAwu4weHEBy2NnYK4Ak64TYOCOdkMv4x8Fv9xYaY=;
-        b=NBPHOYVn5q5CDCtmjfMmiiBZxqG/utt8GcmGIG5R+t/TprwFdlOBpG0GPd8qRIJYuW
-         UBlpuu6KRhZ1/uyOI1RQ7bHltC3Rq1hm7TRPyFmXxcXvTw+H3m/ao8lctyJ+CvLz7JIT
-         n4/XdKntxhYW7J1HEHo4cg+bSA4pxD9EowuwGQLUZ6rFCs7at1GPoTJP1jTNScjHS890
-         rKo82qND4A8I9v+t1Gx0OxQikvLfH42F9vJd8Z3XaJE08Ubrj7N2w5nTzDN22G43Pm/C
-         iAcRQ/GHrVYynPJRhPWjHwcousUlLDATZpexvC7sPVrCjqErJLgrnpfuC/kbhlll92Oo
-         XiZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6GnCAwu4weHEBy2NnYK4Ak64TYOCOdkMv4x8Fv9xYaY=;
-        b=p6TeKebAJOyOnOxEDRyaqP8wmrjUngWOELRYMnlppEF+kbXFxxJML6d6F3tQeZVtdg
-         43KtYZogiFKtFbMnWAXRfzK6E7rcc/5OrtyZmBVzofzk/Gg4efNfphjeTWb4iPMFtOeQ
-         reiAVg8IWaSjiydciyFT6j7hhJMzHxNs9qo4uiJuVQg3B8Vp3hhQiIso43nYSDx1HF35
-         YFMvHSscK0TdKTC8bPkAZ6j5k4i0EsYghOL1S5xr1YUW5+8dcrK3bV+RVUFV3NctkX6u
-         lCHrEJzTl32cZlSnryttYQr7roSGiUZhACLs8SisMZ4tpzgb//DzdqMygFE7td9iY7rU
-         /5dg==
-X-Gm-Message-State: AOAM533CLhSqRsO5k+5lHYQ3bqA7JVpFHgxl6/MzDY9fA1knfdFjfzZb
-	IJJMgSDV/Wn3QAT6kKYcG6qcSyEn1ug5GmspWdo=
-X-Google-Smtp-Source: ABdhPJxgAoxJzE68MdWfucbReNUCzfGc1OxNWrMC/JZSqTIB5bCv5y+Trj0wiQo4IQ4eBaIHX8suKTI7doZu690hQfY=
-X-Received: by 2002:a25:fc1d:: with SMTP id v29mr2637470ybd.472.1614814590742;
- Wed, 03 Mar 2021 15:36:30 -0800 (PST)
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+Received: from [100.113.4.174] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 7D/57-44603-25920406; Thu, 04 Mar 2021 00:26:58 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MxVTdQ0yH
+  B4N0FU4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWP2xBdsBUs5K2adfMnawLiZo4uRi0NIYBOT
+  xKTTU5khnOOMEvduHWXtYuTkYBPQlOjdsoWxi5GDQ0RAT+LqP1GQMLOAusSldS0sILawgIfE7
+  I2bmUBKWARUJP6sjgQJ8wq4Svz8cApsioSAgsSUh++ZIeKCEidnPmGBGCMhcfDFC2aIGkWJ2Z
+  ebWSDsKok1HdPYJjDyzkLSMgtJywJGplWMFklFmekZJbmJmTm6hgYGuoaGxrpmQJZeYpVukl5
+  qqW5yal5JUSJQUi+xvFivuDI3OSdFLy+1ZBMjMLhSCtm4djA+ff1B7xCjJAeTkijvgS/2CUJ8
+  SfkplRmJxRnxRaU5qcWHGGU4OJQkeCU0HBKEBItS01Mr0jJzgIEOk5bg4FES4VVTA0rzFhck5
+  hZnpkOkTjEqSonzHgPpEwBJZJTmwbXBousSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWFeTn
+  WgKTyZeSVw018BLWYCWjzLzQ5kcUkiQkqqgWnf9JMHP5WfqTA2sg33mqnT2WGrxGA2PSHyoWb
+  NZNOiRL8jX69qOKkWT+1aYdpXu8Us+g//CdstB/eZNKVoH/j+v8qigbH5ZKpK67sj7rG36u2e
+  L7vAevrSY5ZMw9Vftrb9VHzvoVFgkX8gnnVzu5GaoKXV5ZRF1h+l3i3duFvLMp87+OveD9s/G
+  C7lWy09K/TdlfN1Aj9KX57d/PSvdvnL5RxfZyYkfOe1fM8Q0r/k1vyrTB675gqtj1pTJRnroP
+  3d1E9WLCsnevkx5v6D1hpacgf9tz67wKPZJ37cmYXtj/X95lcuFu8FHdvdDwQ1Rc6YkMJy90u
+  +ueXlPc7LZzZc+m/2y8qWTXfmKXfTnUosxRmJhlrMRcWJALYiazQpAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-26.tower-238.messagelabs.com!1614817616!1848859!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=fail
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 15752 invoked from network); 4 Mar 2021 00:26:57 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-26.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 4 Mar 2021 00:26:57 -0000
+Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1240QpsB013595
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Mar 2021 00:26:56 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 4 Mar 2021 00:26:49 +0000
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] libedit: upgrade 20191231-3.1 -> 20210216-3.1
+Date: Thu, 4 Mar 2021 08:26:34 +0800
+Message-ID: <1614817602-40383-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210222214508.119351-1-anibal.limon@linaro.org>
- <YDSpCzlBJy8y99EJ@apalos.home> <CA+_Aqisi1h7Ytdr0qVOo6zxRdw0+N5iA1L4-CWKEZ-z_HpEzfQ@mail.gmail.com>
-In-Reply-To: <CA+_Aqisi1h7Ytdr0qVOo6zxRdw0+N5iA1L4-CWKEZ-z_HpEzfQ@mail.gmail.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Wed, 3 Mar 2021 13:36:19 -1000
-Message-ID: <CAGDS+n=Yt28QK-gCPoUyiO32KiAJjkP_bvoU7um1exH6qPFKug@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] pseudo: Bump to rev 60e25a3
-To: Anibal Limon <anibal.limon@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
+Content-Type: text/plain
 
-On Wed, Mar 3, 2021 at 12:31 PM Anibal Limon <anibal.limon@linaro.org> wrot=
-e:
->
-> I'm still getting this error, I don't know if this patch will be applied=
-.
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../{libedit_20191231-3.1.bb => libedit_20210216-3.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/libedit/{libedit_20191231-3.1.bb => libedit_20210216-3.1.bb} (82%)
 
-No, not this particular patch, but if you look at the dunfell patches
-I've posted for review you'll see that I have pseudo patches there
-that address this issue.
+diff --git a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb b/meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
+similarity index 82%
+rename from meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+rename to meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
+index 8d2d57a930..f62d621c11 100644
+--- a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
++++ b/meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
+@@ -13,8 +13,8 @@ inherit autotools
+ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
+            file://stdc-predef.patch \
+           "
+-SRC_URI[md5sum] = "2e22a51131de94ff2df24901f7cfe416"
+-SRC_URI[sha256sum] = "dbb82cb7e116a5f8025d35ef5b4f7d4a3cdd0a3909a146a39112095a2d229071"
++SRC_URI[md5sum] = "e1ccc7a5f67eedf1fb69db66315f8bd7"
++SRC_URI[sha256sum] = "2283f741d2aab935c8c52c04b57bf952d02c2c02e651172f8ac811f77b1fc77a"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.25.1
 
-So this should be fixed for you soon!
-
-Steve
-
-> On Tue, 23 Feb 2021 at 01:04, Ilias Apalodimas <ilias.apalodimas@linaro.=
-org> wrote:
->>
->> On Mon, Feb 22, 2021 at 03:45:08PM -0600, An=C3=ADbal Lim=C3=B3n wrote:
->> > Changes,
->> >
->> > 60e25a3 (HEAD -> oe-core, origin/oe-core) makewrappers: Fix glibc 2.3=
-3 fstatat usage issues
->> > 77d2898 ports/linux: Add wrapper for fstatat/fstatat64 in glibc 2.33
->> > d03de55 ports/rename/renameat: Avoid race when renaming files
->> > c838d8c ports/unix: Add faccessat and faccessat2
->> > 7720723 ports/access.c: Use EACCES, not EPERM
->> > f332f56 linux/portdefs.h: Fix pseudo to work with glibc 2.33
->> >
->> > Fixes,
->> >
->> > ...
->> > Exception: subprocess.CalledProcessError: Command 'tar -cf - -C /home=
-/builds/oe-rpb-dunfell/build-410c/tmp-rpb-glibc/work/all-linaro-linux/os-re=
-lease/1.0-r0/image -p -S . | tar -xf - -C /home/builds/oe-rpb-dunfell/build=
--410c/tmp-rpb-glibc/work/all-linaro-linux/os-release/1.0-r0/package' return=
-ed non-zero exit status 134.
->> >
->> > Subprocess output:
->> > abort()ing pseudo client by server request. See https://wiki.yoctopro=
-ject.org/wiki/Pseudo_Abort for more details on this.
->> > Check logfile: /home/builds/oe-rpb-dunfell/build-410c/tmp-rpb-glibc/w=
-ork/all-linaro-linux/os-release/1.0-r0/pseudo//pseudo.log
->> > Aborted
->> > ...
->> >
->> > Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
->> > ---
->> >  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipe=
-s-devtools/pseudo/pseudo_git.bb
->> > index 0ba7b50355..17bd02c27c 100644
->> > --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
->> > +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
->> > @@ -6,7 +6,7 @@ SRC_URI =3D "git://git.yoctoproject.org/pseudo;branch=
-=
-=3Doe-core \
->> >             file://fallback-group \
->> >             "
->> >
->> > -SRCREV =3D "8317c0ab172db47dabcef909bae02cd77b1f1010"
->> > +SRCREV =3D "60e25a36558f1f07dcce1a044fe976b475bec42b"
->> >  S =3D "${WORKDIR}/git"
->> >  PV =3D "1.9.0+git${SRCPV}"
->> >
->> > --
->> > 2.30.1
->> >
->>
->> FWIW
->> Tested-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
->
->
->=20
->
