@@ -1,138 +1,194 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web10.4372.1614899531021724966
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.89])
+ by mx.groups.io with SMTP id smtpd.web12.4714.1614900774868891352
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 15:12:11 -0800
+ Thu, 04 Mar 2021 15:32:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jiSxDLFo;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: akuster808@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id j8so3615634otc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Mar 2021 15:12:10 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=BJ6AMKXc;
+ spf=pass (domain: windriver.com, ip: 40.107.76.89, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lrDH/drrp3QXHHFd5R+Gr1yTRq60kKQ0g8hHB7l1yDlaecz6o5vShjRbgE2XoIVt1lGFvzOv3351asPGCYcft+SK/+vf52LnQd9CyrGb+x5OQ1cKVGuJtA4KZTBni45UYdBlqVlmWsDp0YirUyRe9qYEUm3TJk26QRx2/u2/SNtkWuM6LHdg/FGQZe1r8KekEU1Zct61uA5Wh8Udi3xSxpdxHCNnJ/f5/lp2rewUEsf6V4+iU1//iccaMpB6NzwUQbymvqgz2bvVG6NaOrWP5doJ5BeK+LyChUt8Th0I/2Z6cSpB43ad/GNLvzghnFawppQf79bFoKJqOwdKJSLJzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYkvapmRVzEuqM65uWkDZKTJSwrge5WqPZ5JLSPWtFo=;
+ b=QXipkqNn4BJGh7ESftoEkwtntrtBotPBgSKxwMDgy6XogICiNqA5kPempRkQpMT66SK1ZnBo0Viokl7o6xRAiaqhzMPF7EN5Na+dGy7cYmEvr5zMwKC33y5qY+G33AylmV9ptPvxpBRL9wZzDoJdwMWatduHDUFNiOpZDvoyIID66iRTyeHwIP/RiuQeHkPavRufQiGohpGrRzavAkiKJNx3oDIiXzC7ImZ3U7HNxMAs7rAjvpBdh/FNmfkSJl8UD2XfNU8OUqnPYAUl+gtDvupWIe3nP8/UCPEOUfK1JW5PUwbLS9Lbd3xxtgX/QgWfT2l9BOX08kGjYDThLwmWhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=3LTCh9n1+T1G+XvEDyehUdzgz3XPaVVoFO+5u3TAt8w=;
-        b=jiSxDLForMnpIatYo3HaNLA4agOkp5NBLnK3QQbZyhqqCnKWQLDIB2MS/ckW/wAf1a
-         1wtXOuNbZ39wTG3VjXG6XpJP/Mv+vIdpomEDgmVUiJJhraRGrLqr383f6B3vOhtDxcvo
-         /KhZoZfjeOy7YqEEVTJv42BACtyNu8QycDCJfoFuuwSGmHq5Sj7EDgdrELp9tNgTShSZ
-         Bddw2M62+RS+KD/6z+6O2EaIvVOA182WYSpjd4DIwKqG0LMMPHBHHuegf7fFOG0HaBMw
-         qAytW7HAz9Mb+xetwoRkDSbsnecjHGRKt6EHwNAeRiAJK7GrslJRR1nNatG6n8ws/JMl
-         +LWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=3LTCh9n1+T1G+XvEDyehUdzgz3XPaVVoFO+5u3TAt8w=;
-        b=IlApKJdFrhwVvyE0HEZSPJld3lUAaREdKmLjb5CD4vSE6KBbgFLPK8XBD2u7JgWCO6
-         v1Mk2aDyFfey6I6z+jECM+B5SN9i5CvMihaUzTD646TrcgNKTPgLBxc+h1ln3nBvHPRO
-         r0l0dw6MlKRkI1v/gXur5zzr/uwDGkFutZjMUTCtiKOg9d7yLqwUX41D681XrZ2H1ULh
-         V/fCuQ/ZMoLpL1fiaLQ0x/f7R+nVaHEzdAGfIJYwRGkQt4yGYr2zRIp1iRJudYBosnnc
-         nGFmrH7urbF25GVieUEG3TVQXaSDj6l65qMtAbrugFI2Gp4bSl+uxcU4P3BsnbK9S85t
-         FF5g==
-X-Gm-Message-State: AOAM531AYQn0baQK/8yaejARICaS/IAcdJ1kIMFC2Q4Fj298QX4ZNtKv
-	3/mxxG0JsN02Jw2ai52KoqGErUFYY4o=
-X-Google-Smtp-Source: ABdhPJzfnlWn+zjt63rrDTBzhzq/B/d3A7T2tpWSNefuxzKW7hMEH5c0CdswMQbpK/aqYf9fTG9DRw==
-X-Received: by 2002:a9d:7196:: with SMTP id o22mr5367540otj.107.1614899530073;
-        Thu, 04 Mar 2021 15:12:10 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:819c:344d:6859:4a23? ([2601:202:4180:a5c0:819c:344d:6859:4a23])
-        by smtp.gmail.com with ESMTPSA id b7sm137871oiy.29.2021.03.04.15.12.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Mar 2021 15:12:09 -0800 (PST)
-Subject: Re: [OE-core] [PATCH] lttng-tools: upgrade 2.12.2 -> 2.12.3
-To: Wang Mingyu <wangmy@cn.fujitsu.com>,
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYkvapmRVzEuqM65uWkDZKTJSwrge5WqPZ5JLSPWtFo=;
+ b=BJ6AMKXc+D/fKzvBNXdCoOMgk1C5tF7HRZ0XRESckNrZC6LQbzLwkv7h0fJ/kF1KEYS7ejmv3E0nybV5frHd5C7Q8fi4jvODzWZpuVwxfUtW6tS97mNLnwPNXPQ8MCeK7PdkR6PZutTOHz7lM85GSs6KVCIdBnBSZdBwauvSHjo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB3290.namprd11.prod.outlook.com (2603:10b6:5:59::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Thu, 4 Mar
+ 2021 23:32:52 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::f17d:2de1:291f:80a9]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::f17d:2de1:291f:80a9%4]) with mapi id 15.20.3890.032; Thu, 4 Mar 2021
+ 23:32:52 +0000
+Subject: Re: [OE-core] GCC crashes on aarch64 since gatesgarth
+To: Mike Looijmans <mike.looijmans@topic.nl>,
  openembedded-core@lists.openembedded.org
-References: <1614817602-40383-1-git-send-email-wangmy@cn.fujitsu.com>
- <1614817602-40383-3-git-send-email-wangmy@cn.fujitsu.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <c9a7aabb-3190-9c00-c57e-bdd877289c54@gmail.com>
-Date: Thu, 4 Mar 2021 15:12:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.443c6779-935d-4b0c-bd2a-e7ccda1d0c4a@emailsignatures365.codetwo.com>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.1d651819-d3eb-4e73-bb7d-d97ad0bed5fe@emailsignatures365.codetwo.com>
+ <165E1F647C435468.32571@lists.openembedded.org>
+ <cf285d04-d8e1-e3a2-25de-9c3f02ad0678@topic.nl>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <086cde14-14c7-0c28-1cc4-33156b45bf0a@windriver.com>
+Date: Thu, 4 Mar 2021 18:32:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <cf285d04-d8e1-e3a2-25de-9c3f02ad0678@topic.nl>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: SJ0PR13CA0029.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c0::34) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-In-Reply-To: <1614817602-40383-3-git-send-email-wangmy@cn.fujitsu.com>
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by SJ0PR13CA0029.namprd13.prod.outlook.com (2603:10b6:a03:2c0::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.16 via Frontend Transport; Thu, 4 Mar 2021 23:32:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1c9770cf-6d25-44d0-357b-08d8df65d457
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3290:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB32900315FA56DC4EE38C4F55F8979@DM6PR11MB3290.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6YB5A6jDuYnwXyEoATKGqlZnfJV2FJZk0Ow2BE0+HX6nbjdYG02GiFKGXr7wyLzwRIYxlKsvan1aVLDIFHgiyVx2vPXbEZOuLu0xo/P2dnL72BpCE9cMGPlxqn8kIbWToHrzBtG6VnQEHva8kibTclK+Gurk8vKL3gGFSGNFxABlEzr8Cl8iyFncLDFXHldc7HNaveHww+oLhglgk9az632X+v1Kz//W5x2GsW6srRS/yurzxO49Uqa+3+eYM4SqgRQ1AUB4Dsh+I/UqxM70+fu+8pFYA1t8eWV8UcqL5jEi9WpxzqJrbgL01SpLcciETqqZLp8qJJ/Pltc3xhalxeRgpy4qLBLX5Ic3s3xVdWIXfcinJgTfjOV74OM/o8GpZJ70LlVHKr1rB49RrVkURHJ1ZB8r1l+qmzL+zKS7KWPzgR5EmNDXzVF9urF4UIcv8IG/o6KzP46J2bjRGXdHOkPOpde8YrKiiMZDqiyoWB5jFbOVnbqJtPNWEKj2R50eeKdTgZc797g1XmVR0E4/V08TpxfTj6QZe3IJTkzX7N9JHn0s5LXzDR8yeAB1cuZYFUEfqSWRQK+t4/T5sAvnDoRM+Cvu4UadvfJiLkEdAgIFGRYMRAcsvYUdJ67DTNVKKaB9H+4GJS/ycmdqi87Qxmt8Y8qs9SIW3/QXOfwZsotGjg9mMPfceP9GyFa7AJeT
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(346002)(366004)(136003)(396003)(376002)(478600001)(2616005)(52116002)(31696002)(6666004)(36756003)(8936002)(8676002)(966005)(66556008)(6486002)(2906002)(86362001)(5660300002)(956004)(31686004)(66946007)(66476007)(53546011)(316002)(186003)(26005)(16526019)(16576012)(15974865002)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?TFZ0UEVHYVM5QnZCYzVsdWk5bzd0ZjlzUStlc1U4Mk5ESzhrVG9OdkQxenBJ?=
+ =?utf-8?B?bGU0bW1ILzBRRXFTQVVEdGtZcXpxM3FGMytPTE5kVk1DNitYYnpXTCtLcGJn?=
+ =?utf-8?B?MUlEMFlqNFU3eSs2TE5NNXBoNWttWGF0MXQzRTBnUFRSaEd1WUJGVWdsZy9h?=
+ =?utf-8?B?RGtqMkF3YURzTHd6QTdHVGd0bnBYNUhYRnk5N2N4MUFMQjQxRStucmNJNnNU?=
+ =?utf-8?B?TWE4MGxSSU5vRkpCdGZvQS9ORlNENmQxai90dFcxZ3RmTUhCajhVTktRa1hp?=
+ =?utf-8?B?ejh3TVNHc29tMEVKR0R5UlZwRStsWTRHQWZ2amVyZENsYkFwdU1MVGd4dGI4?=
+ =?utf-8?B?K0JKbThMcjhvSExVbzdKV0VPTTZmZnZ5NXJ6cEIrMVl6OGwzU1FkbVFWOW1x?=
+ =?utf-8?B?OTFNc3pCajdNdUZERnVVNlhzcUhnZ25PRG1ncnpIcGRSSTh1SDhCQllYNmVV?=
+ =?utf-8?B?NWQ1VkJWMTVoaEI2bkJNWTg5N3R6V3dhM3ovZC9WMG5xL2xCNTQ1WnF6Zllj?=
+ =?utf-8?B?ZWg3NFRMV2tlQnZNWm9FVEQvR2xGWEJENVhLSDlnUUEzYlNlK05jVUFYNU0y?=
+ =?utf-8?B?a0NRUGdmaFJHMUdJVXUwVTlBNDBLL0dpTUY4dnY2UUF6WXJyYXVxTmF1ZUNa?=
+ =?utf-8?B?Q1pVV01FN21FUThkaVR3SDdJbzVuaFBPZHFSSXkvRVBkRnhsL2RJY2pxRmRi?=
+ =?utf-8?B?b3dxa04xRXcxTzVQb3NvNVptMkhHSjhPNytYeExMSjhOTDhkRWR5OHowS0VR?=
+ =?utf-8?B?WG92OEpKYWJWS3FQQm5Sa2srZXpCY2RiMEp5N0MxWjMwUTNhVDc4UWtZRVda?=
+ =?utf-8?B?WUI2SXVqQS9UWGlSb1AzazVyUzdLSURaYUdXRkZ4cmd5U3BpWTQwWkdSUThw?=
+ =?utf-8?B?eFpUbmFJaFFGTE1abXkvcXg4d1pGdWRoZGx0VGZ6OTJERHYzaUZrNEUzYXdt?=
+ =?utf-8?B?L3BEOWJOaEVqQnJKVyswUjUvV3ZsOFpkZEZKNEVDeEQ0OVVyZk5OVUNUMlAx?=
+ =?utf-8?B?TjJYVFhiRU45aU94dXJkRW5HK09ZODFYNy9KaFY5QzVKTXk5TGcvRnJ2ZHZU?=
+ =?utf-8?B?cEJObzR0YU85UkpjOGFkOTVBK0VabWRMS0tHZVB1YTFqbWJzUDB0MzRFRFQv?=
+ =?utf-8?B?SVZiWXpYNnN6OUxNQ3BwU1V2b1FMbno3OHBvL3haQm5TVE5uOURoWGNNdjIx?=
+ =?utf-8?B?M0l1RUlzeUpnODhZaU04MTdHWUhyMUtEYm1PVnFDVUJtb1VuK0RLVGoyYTc1?=
+ =?utf-8?B?ZWNtTGtnbEVwRHpJMUNOcW5leEx3WE45VCtwZEZwclBvYXJZQ0NlSEs0VFVK?=
+ =?utf-8?B?WGtES0ZFWWw3cWJ2T0h0TVRubjJzdCtKNEdlY0NMRCtXK2IvS2dGeUhPeWlt?=
+ =?utf-8?B?T0NSMlV1cnBUdVI3VVFOVEk5UnpSNEt6UWtsRDlYeEZJVUpFRHZHNGZkcHJo?=
+ =?utf-8?B?OTFpblEyb1Z3S1VqTHZOQjZhUVcxMmJYT1VFZ2txcmZ4R2Rha3JNY2NvaUxh?=
+ =?utf-8?B?T3ZRV3kxd2ZHVmNERUFaZDFBb2FDMnRGMUxaVnJpYWQzTGlTOEdOVVZ6TEVS?=
+ =?utf-8?B?bjhQcjF0YWw1a1c5OXp0dlRNTFRXY1YxaCtzUlVHdDNqK1FMQm16Z2RpY1Az?=
+ =?utf-8?B?cVBHNktCMnpSREU2UHdka2p3Mll5QnpUMmVsV3hJcDVweHJtbkJsZVdIcFcr?=
+ =?utf-8?B?cFM5QndjOGJHdE1hN3pnRlRGMnZZQnNYWUx2MEZLZHNiVmQxRTB0akxNaVBR?=
+ =?utf-8?Q?5XIFR8lHjbbm5iK/PhSwfMDTA8F2myr6NVQ4GWS?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c9770cf-6d25-44d0-357b-08d8df65d457
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2021 23:32:52.1190
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yI9JhR+f0E29bTGJmTMBd5QtfmtPpsUQgCoEDXEBVxwaBQMNvwZhRoaT+U4igcaOGJUEUYjwJTlWa85W40WyJM217NONyoo64lbY2dXW0kM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3290
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
-
-
-On 3/3/21 4:26 PM, Wang Mingyu wrote:
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-
-There is an open Yocto bug
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14263
-
-Any data if this ptest passes with this update or can you help look into
-the failure noted in the bug?
-
--armin
-> ---
->  .../lttng/{lttng-tools_2.12.2.bb => lttng-tools_2.12.3.bb}      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/lttng/{lttng-tools_2.12.2.bb => lttng-tools_2.12.3.bb} (98%)
->
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> similarity index 98%
-> rename from meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-> rename to meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> index 52bfd36370..7074096ee7 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-> @@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->             file://determinism.patch \
->             "
->  
-> -SRC_URI[sha256sum] = "9ed9161795ff023b076f9f95afaa4f1f822ec42495c0fa04c586ab8fa74e84f1"
-> +SRC_URI[sha256sum] = "2890da230edd523fcf497e9eb28133b7606d64fa01bcbffadbfcba42104db153"
->  
->  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
->  
->
+On 2021-02-05 2:49 a.m., Mike Looijmans wrote:
+> I've been doing quite some tests and things last week, my conclusion so 
+> far is that the latest gcc seems to trigger a bug particular to this 
+> CPU. Maybe even this particular batch.
 > 
->
+> Hours of testing found no issues with RAM.
+> 
+> I've also done huge amounts of builds with zeus, no problems.
+> 
+> Then googling for "illegal instruction gcc ryzen 1700" reveals quite a 
+> few threads on something that sounds suspiciously similar. Though it 
+> makes me wonder why I never encountered it before, since these are all 
+> many years old. I did try a bunch of the suggestions done there, but so 
+> far no luck.
+> 
+> 
 
+Any update on this bug Mike?
+Have you opened a YP bug? If not please do.
+I'd like to see if the problem still happens on master.
+
+../Randy
+
+
+> 
+> Met vriendelijke groet / kind regards,
+> 
+> Mike Looijmans
+> System Expert
+> 
+> 
+> TOPIC Embedded Products B.V.
+> Materiaalweg 4, 5681 RJ Best
+> The Netherlands
+> 
+> T: +31 (0) 499 33 69 69
+> E: mike.looijmans@topicproducts.com
+> W: www.topicproducts.com
+> 
+> Please consider the environment before printing this e-mail
+> On 27-01-2021 16:10, Mike Looijmans via lists.openembedded.org wrote:
+>> When doing large builds, the GCC compiler tends to crash on random 
+>> spots in the code. There are a few common denominators though.
+>>
+>> It only happens when compiling for aarch64 (cortex-A53), not for 
+>> 32-bit arm (cortex-A9)
+>>
+>> It's random and usually happens on "big" sets like kernel, openssl, 
+>> boost, u-boot etc.
+>>
+>> It always reports "during GIMPLE pass: ealias" in the error, for example:
+>>
+>> | during GIMPLE pass: ealias
+>> | ../openssl-1.1.1i/crypto/x509v3/v3_utl.c: In function 'do_x509_check':
+>> | ../openssl-1.1.1i/crypto/x509v3/v3_utl.c:1239:1: internal compiler 
+>> error: Illegal instruction
+>> | 1239 | }
+>>
+>> Compiling the same thing again usually goes fine.
+>>
+>> I've never experienced this with the zeus and older branches of OE.
+>>
+>>
+>> I've already tried upgrading to the latest gatesgarth status, and 
+>> cleaning out everything and start from scratch. I've also run "mprime" 
+>> test on my machine (over one hour) just to be confident that the 
+>> system itself is really okay.
+>>
+>>
+>> Ideas to diagnose, fix or reliably reprodruce are more than welcome. 
+> 
+> 
+> 
+> 
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
