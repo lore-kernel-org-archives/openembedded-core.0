@@ -1,318 +1,158 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web12.4513.1614853330177369529
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.79])
+ by mx.groups.io with SMTP id smtpd.web09.4744.1614854253529175918
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 02:22:10 -0800
+ Thu, 04 Mar 2021 02:37:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RA0J8jzd;
- spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id l192so14279927vsd.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Mar 2021 02:22:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qvLq7gFqjtdhpdtu6FyB7ciNVPnKJB4S/oMvIRWcDh4=;
-        b=RA0J8jzdASIs5dl6PzXpQ1u+Q23jL1WZDtM5Ch2Iggs7RF1VVAk+KRyWj0HyGMV8KJ
-         GR2jouzWrCKmpJXDjuyikLl0kk6+FLddrqfMK+36tdUpTmfkF9Hg2f+2yZEmcnZiIsQu
-         mloxD/F4W12pjnfvTfjNClgcp3oIcJqpqeMXSWg1wIMvlEvYz3y157yPivWoQP0Oqjgy
-         1NATqZF09Aw9MjMHtmsvQwSIz6dSIt7FKeCWe5J18oHV4gUkgo7GvV2iNQTHszcCJxxq
-         A10+hVpSPx8y0RQKLSldFQLbMMRugt6Xb6YCAHIMe5wzf+EmqvTiMk9eT2P4xbudVbox
-         pPFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qvLq7gFqjtdhpdtu6FyB7ciNVPnKJB4S/oMvIRWcDh4=;
-        b=dpisZl5pU9pxdYhxhQc/XVOCHKGC2ppEIyMvVjI9KU7avTvz6HKgfOOvuDy43dOgXh
-         3No2QKKkDESxIJ8idXrDBITnCJf9pbIsd+5NVqDxlUVwXuBuvCH/Rj3VDxJerggm9T84
-         nK54JXtxfR2ayfrWixjgI6GcX6zLLupBPpFvwXInAuqJMh3Bfs4NpOMpU5O/PxWJikP+
-         TlRNeXA0dyQsnF02fVgt5BIDwyqmo8pPkVKRQlQES+2om76jJoTu1NitzbNYy9hhFnCj
-         5nfUaJ2IDQYk5rauRHEkgG6J49krUueRpi4/C/pJM54KDptbmXtZvSxhnqRHhYX/+pSA
-         8JOg==
-X-Gm-Message-State: AOAM530JAe/6dSf9cWD1bp6t310cGF/8P3psanc5GaMXiIlnErYSyN0a
-	blwdFesKPTND15CM28mEi9KRlZmTLHhibm53s68=
-X-Google-Smtp-Source: ABdhPJzMI9WRUvc0Mn5jvDwkjmqtuA3J5Yc7NQd+vbxcyYdo7+QffNsDxrJVAfl7yd8/sbDC6ZGQ4kOCz/uIk/rMjmo=
-X-Received: by 2002:a05:6102:902:: with SMTP id x2mr2061547vsh.31.1614853329196;
- Thu, 04 Mar 2021 02:22:09 -0800 (PST)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=HwV08GlG;
+ spf=pass (domain: kpit.com, ip: 40.107.138.79, mailfrom: saloni.jain@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ajxQypjpa7fq0Mm0L9TzNvJeb6BgnTYmL0VjafX57tR/VwKmRnTZ7lclrQz9Ejos3jIkX3hcJrR5yentZm55/VGUDtGGAJLvG/EAwhVnLWiaewrFLdv/3Z47VdFKeA5QD6HgseTaF0Tf5yZhAG/kr78SDC/p97i0t16LKprikStXNXDD7fL0+TbEVAYsVRChsD8Cf17XY10kIHn0UB/s54jFTcVuFciKD6oBqYmRew/3pe8XSJFeRwf5PpVjFdCD5aXadq3bubNzQx+qp/OwCDaA1cyyOtN7th7/lQiry+mrRrx+cPWsXzPcJG9NOoHUUQDZ48Xki5YkB+azsth+7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HTNBia87TWcyeSYziM2MI7AB2ywkhg3Tyvdh5gqFK84=;
+ b=T5nmxFP7gKtMsQ9a8w3i3C/G9GVUsBTpLhlmkPQJywEGikzg52i0Vk1dhA8Sik3y3M9yZ3mrM+NBH4f6GHq9DSg9/rnZzMZzUjs1cs5UlTT3W0GdP9DhE/iCPmi/iAo4ShSLmpbOkELOd5oTIv0T4gj0eSYhSAEFJy2+iTG3wHRpakqVTwH93DDA7JXw3zZ/s1H7yjsH57mmB4AAZzCim4ZfdxY9c8IeYk5l3BuKz2RVTJP7YruNRfwJr8NlzkQ4xNeEGYDSYp6gDp3UOwP9ApXtDJQvyH0/rQSkbVLWbxXWdammBdMJiV1lZAvi58o3hNBjIatdKDBJyNHSZ0nfFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HTNBia87TWcyeSYziM2MI7AB2ywkhg3Tyvdh5gqFK84=;
+ b=HwV08GlGbR3rYBwmqn9S8lQ7K07OSB5tVAa19pf9uVcxIK11p16VxQxHRBpyoKm7xTRIgUFbsjcEeBtvwpng2iH7oso1yOrJSdbJ1qLahTX068SEBA57182kKao7XAGvhNW2DnVPCZL9e5MtUjH17RPPQdvllBR5+1jAWTWKpRQ=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:7a::13)
+ by BM1PR01MB2131.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:47::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Thu, 4 Mar
+ 2021 10:37:22 +0000
+Received: from BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f8d6:c7c6:31a0:41f1]) by BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f8d6:c7c6:31a0:41f1%7]) with mapi id 15.20.3890.031; Thu, 4 Mar 2021
+ 10:37:22 +0000
+From: "saloni" <saloni.jain@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	"Saloni.Jain" <Saloni.Jain@kpit.com>
+Subject: [poky][dunfell][PATCH] openssl: whitelisted CVE-2018-12433, CVE-2018-12437, CVE-2018-12438
+Date: Thu,  4 Mar 2021 16:07:08 +0530
+Message-Id: <20210304103708.21368-1-Saloni.Jain@kpit.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [2409:4043:2510:331c:5c9f:39db:d1dd:d8f1]
+X-ClientProxiedBy: BM1PR0101CA0061.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:19::23) To BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:7a::13)
+Return-Path: Saloni.Jain@kpit.com
 MIME-Version: 1.0
-References: <1614852025-42153-1-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1614852025-42153-1-git-send-email-wangmy@cn.fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 4 Mar 2021 11:21:57 +0100
-Message-ID: <CANNYZj9qu+LBrzYdo9cy5ifQ-K_XSu+sN1AG1emUmUU3z74t7g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] procps: upgrade 3.3.16 -> 3.3.17
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000d1cb405bcb357f1"
-
---0000000000000d1cb405bcb357f1
-Content-Type: text/plain; charset="UTF-8"
-
-Thanks, I already sent the same version update earlier and it is being
-tested in master-next. When you add a custom patch, remember to add
-Upstream-Status, and for issues like musl compatibility, submit it upstream.
-
-Alex
-
-On Thu, 4 Mar 2021 at 11:00, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
-
-> Add patch to fix bug of compile under musl:
-> 0001-Fix-compile-bug-of-musl.patch
->
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../procps/0001-Fix-compile-bug-of-musl.patch | 52 +++++++++++++++++++
->  .../{procps_3.3.16.bb => procps_3.3.17.bb}    |  5 +-
->  2 files changed, 55 insertions(+), 2 deletions(-)
->  create mode 100644
-> meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-musl.patch
->  rename meta/recipes-extended/procps/{procps_3.3.16.bb => procps_3.3.17.bb}
-> (95%)
->
-> diff --git
-> a/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-musl.patch
-> b/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-musl.patch
-> new file mode 100644
-> index 0000000000..98186c7d78
-> --- /dev/null
-> +++
-> b/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-musl.patch
-> @@ -0,0 +1,52 @@
-> +From 4ceaef8b624042d510492864cb5ee0179452312b Mon Sep 17 00:00:00 2001
-> +From: Wang Mingyu <wangmy@cn.fujitsu.com>
-> +Date: Thu, 4 Mar 2021 17:16:03 +0900
-> +Subject: [PATCH] Fix compile bug of musl
-> +
-> +It solves the problem that the variable definition cannot be found
-> because the header file cannot be included under musl
-> +
-> +Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> +---
-> + proc/escape.c |  2 +-
-> + w.c           | 12 ++++++++----
-> + 2 files changed, 9 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/proc/escape.c b/proc/escape.c
-> +index 2e8fb7d..21ccdc6 100644
-> +--- a/proc/escape.c
-> ++++ b/proc/escape.c
-> +@@ -25,7 +25,7 @@
-> + #include "escape.h"
-> + #include "readproc.h"
-> +
-> +-#if (__GNU_LIBRARY__ >= 6) && (!defined(__UCLIBC__) ||
-> defined(__UCLIBC_HAS_WCHAR__))
-> ++#if (__GNU_LIBRARY__ >= 6) && (!defined(__UCLIBC__) ||
-> defined(__UCLIBC_HAS_WCHAR__)) || (DEFAULT_LIBC == LIBC_UCLIBC)
-> + # include <wchar.h>
-> + # include <wctype.h>
-> + # include <stdlib.h>  /* MB_CUR_MAX */
-> +diff --git a/w.c b/w.c
-> +index 9d07ac9..722b612 100644
-> +--- a/w.c
-> ++++ b/w.c
-> +@@ -56,10 +56,14 @@
-> + #include <time.h>
-> + #include <unistd.h>
-> + #ifdef HAVE_UTMPX_H
-> +-#     include <utmpx.h>
-> +-#else
-> +-#     include <utmp.h>
-> +-#endif
-> ++#  if HAVE_UTMP_H
-> ++   /* needs utmp.h, for the definition of e.g., UT_HOSTSIZE.  */
-> ++#   include <utmp.h>
-> ++#  endif
-> ++#  include <utmpx.h>
-> ++#elif HAVE_UTMP_H
-> ++#  include <utmp.h>
-> ++#endif
-> + #include <arpa/inet.h>
-> +
-> + static int ignoreuser = 0;    /* for '-u' */
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-extended/procps/procps_3.3.16.bb
-> b/meta/recipes-extended/procps/procps_3.3.17.bb
-> similarity index 95%
-> rename from meta/recipes-extended/procps/procps_3.3.16.bb
-> rename to meta/recipes-extended/procps/procps_3.3.17.bb
-> index ef3ac86e97..c1d3fee4d2 100644
-> --- a/meta/recipes-extended/procps/procps_3.3.16.bb
-> +++ b/meta/recipes-extended/procps/procps_3.3.17.bb
-> @@ -14,8 +14,9 @@ inherit autotools gettext pkgconfig update-alternatives
->
->  SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https \
->             file://sysctl.conf \
-> +           file://0001-Fix-compile-bug-of-musl.patch \
->             "
-> -SRCREV = "59c88e18f29000ceaf7e5f98181b07be443cf12f"
-> +SRCREV = "19a508ea121c0c4ac6d0224575a036de745eaaf8"
->
->  S = "${WORKDIR}/git"
->
-> @@ -98,4 +99,4 @@ ALTERNATIVE_LINK_NAME[ps] = "${base_bindir}/ps"
->
->  ALTERNATIVE_${PN}-sysctl = "sysctl"
->  ALTERNATIVE_TARGET[sysctl] = "${base_sbindir}/sysctl"
-> -ALTERNATIVE_LINK_NAME[sysctl] = "${base_sbindir}/sysctl"
-> \ No newline at end of file
-> +ALTERNATIVE_LINK_NAME[sysctl] = "${base_sbindir}/sysctl"
-> --
-> 2.25.1
->
->
-> 
->
->
-
---0000000000000d1cb405bcb357f1
-Content-Type: text/html; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (2409:4043:2510:331c:5c9f:39db:d1dd:d8f1) by BM1PR0101CA0061.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:19::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Thu, 4 Mar 2021 10:37:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: eedd2489-3a6d-46df-60cf-08d8def97e3c
+X-MS-TrafficTypeDiagnostic: BM1PR01MB2131:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<BM1PR01MB213169FEECC13C9671E1689587979@BM1PR01MB2131.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:843;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ETZ4rTWe9kLwV39iEGohScB4pGcIqWN0pThbXm7loqcZlX9SVSE/zM65d862but7EqU8jTV7nkbEyyiCcDGY5HuOtwWvNcSbJU2+t4GadE0SUQSp4Ua1HixDdw+hkMP2A7Z9YD1ncXCLbTr/cYjWwI1fjQ4bpRnB5eRHJPKCwZ0duDe4Bxg3udFAGiv8N0ezSNgpm0QbEdb4mUj9PsTm8h+58Q/qKUHikTFnaOzgS/NGM+A/Fq4tul1PxekGD6EvEDePJt1S8zp16x/78cWD5msXSPHzIxS2RSxXXT1faM0Wad/VcBxCuorAEzFl9xIYoeMZqkAM4mL7jvfhze45Shmcvz6ENJmnE85UU50ddKIV7k35g1tE3hPRbU6Su8CQMwsbex8YcmXqo/eL8CKpom2L9qOCHn+CWWgaMRkWs8SC2Y4cadnwHlQAT63XdQcJae6joSgRZGkgTdeRqQ8yKp/IO6pXEKbm9VPD5plDseDPXPNyOpejQuiq+XWYJDllNAbMwGmDJbumqD0NwqJj9kbKDuoz0l142/DhVqr3a7oDW/+9PsG9k3mOVihT31xt1u2cWYZAnCHkKWY5T3w6+4mWcXslz8ETugIXN4lQ2C/0bH7giCd78l8QwsgDEziiv3cmTypTvXG5OUCAJHFTQ/G2sFzhkiXP1lZF2VaGO2k=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(366004)(396003)(136003)(376002)(6512007)(52116002)(478600001)(66946007)(107886003)(16526019)(36756003)(4326008)(6506007)(966005)(86362001)(8936002)(8676002)(2616005)(316002)(83380400001)(186003)(6486002)(66476007)(5660300002)(66556008)(6666004)(1076003)(2906002)(69590400012)(66574015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?aafO2AYh6KrMb8M1ndOO9Vx7/S5OBfGPS/fR5Ea61dtvPUsnf2BRo2LfJ7NR?=
+ =?us-ascii?Q?J4VcMyAFMo8FU2u1mU0XKMeAt5vRl3XQoRpKx1p0lrG4EpwgDWOs6U3L2qSb?=
+ =?us-ascii?Q?Iuuut5ECTdsuZbHYdCYR0WYjYZzn/pWz0zlpjxPAtgcjgHYxfaFtQYQLjGQk?=
+ =?us-ascii?Q?dOg3Wf8KpdaUzNWoT8aA+ITqCU46nwB4Dg8I2V/gpdrBlJNA0INu/y0X92Vn?=
+ =?us-ascii?Q?EAYhxZAJJrTZh3kPwvvP+mwyhWDEKCzHTzG+3wD/vhqY3EBXXSVlSltizU43?=
+ =?us-ascii?Q?5wv8x++aK1PsEK9MsY4wJWjpPnE41PgyBuNtLGotWCDg6S/3MMxhxK6mFbUB?=
+ =?us-ascii?Q?cefGMHxXPRQfzuhm9ufbadsG3gzfY2xdzEIbO7u8G2ediJnSjvhKHwhzronz?=
+ =?us-ascii?Q?8kmj2cpyPnCE3x2x2rUdHxDI7cQLoqD96M0SI8AWw5D6+qhOgtLYCwc2EHiZ?=
+ =?us-ascii?Q?36jGfAt7LJRy5VMrV0MmsJCz3fB2WsNnxwa7Bj0wgxpSI3Q8ZP9KKpY0Eq88?=
+ =?us-ascii?Q?7elP0EDEkz/qNNnp6pB/KRSWvq0u0Fv6M3gS9exgPNdmEBW2NB7TqkI9dMeE?=
+ =?us-ascii?Q?fLTi2TLzMxkIlt9/Lfj6xGnLInj95I57crvLIt2+OvkLp5XnHt9GwXoxPjgf?=
+ =?us-ascii?Q?+jmTbcDfIiDwBt/trYAbb6I21AQ7w6bJTB5Qzj/WMRKA6PTCWDPLLq0z2D1Y?=
+ =?us-ascii?Q?TcbXpQvufirSCC9jKbB+mBpIhQcBi97IXikATOaG1o9XWT2aMD+3vezMObDV?=
+ =?us-ascii?Q?wLPvJuezvN6ZiyCLQy6MNMXQpQwyVNEm830ACx7XvMlixLC/Ij0VkG00PW5h?=
+ =?us-ascii?Q?h9Ynn7oWKcozmFS7Ixy25fvicWame13blwY4h1dFMtVr01sTNXdOad7yzJR9?=
+ =?us-ascii?Q?pUM+OrtVdW1eKShgih4yRzKqoXC7P+SEtioaNoar8rjKoD0OF0/9M2Ul4TTJ?=
+ =?us-ascii?Q?UcOC1n9uXLtA8yysRuZaNxJOp6cd34bvJkDRIQ4uNZuA6FeiXtm6rKke8yXZ?=
+ =?us-ascii?Q?kYBJG7WkOkcCpmBaijYCVF07fegFvzqxl1LxFc6Ww3PuaNy5vSy/3yzDUz8X?=
+ =?us-ascii?Q?XLvZ1JN6S0trk4tEh/VFlYT/8eEAvxemqTeQIOZDevZtNzwXZJt6THqPhdyo?=
+ =?us-ascii?Q?ObTHBXAQTZNttlKNSwbrJRIZFtwQTwpO0V4KADEmCsAJanuhqaY6nPBnUCPv?=
+ =?us-ascii?Q?mRyjVsdw6iNnB+bmYdXDp9kcu9Z+UzVjYzJW33lAE10k3rgtCrLuznDs+kCR?=
+ =?us-ascii?Q?Sm1wbOJZ/pJGqZap3+U8F1Y7XgJKw7zoCV1JybQABo4rj3vtiJKNuGdV+unn?=
+ =?us-ascii?Q?zIz1yJ2fVtCb21IW4iQUzvDcPgo0YwR9e3nfD44OJv+n1wYQEIV3/KVuHZsQ?=
+ =?us-ascii?Q?aZvzP3XhOR6saM+FZmWL5YKDFoHT?=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eedd2489-3a6d-46df-60cf-08d8def97e3c
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB3251.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2021 10:37:22.1512
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vG1C6cYGCWUXHh4Covi6GlA0RPCGtuhZuDuNI4WEburc3/oCaAThNYudPomV+S1x9FsKT3LVFS2HI0lUr5xHSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2131
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thanks, I already sent the same version update earlie=
-r and it is being tested in master-next. When you add a custom patch, remem=
-ber to add Upstream-Status, and for issues like musl compatibility, submit =
-it upstream.</div><div><br></div><div>Alex<br></div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 4 Mar 2021 at 1=
-1:00, Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com">wangmy@cn.fu=
-jitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Add patch to fix bug of compile under musl:<br>
-0001-Fix-compile-bug-of-musl.patch<br>
-<br>
-Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" ta=
-rget=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0.../procps/0001-Fix-compile-bug-of-musl.patch | 52 +++++++++++++++++=
-++<br>
-=C2=A0.../{<a href=3D"http://procps_3.3.16.bb" rel=3D"noreferrer" target=
-=3D"_blank">procps_3.3.16.bb</a> =3D&gt; <a href=3D"http://procps_3.3.17.b=
-b" rel=3D"noreferrer" target=3D"_blank">procps_3.3.17.bb</a>}=C2=A0 =C2=A0 =
-|=C2=A0 5 +-<br>
-=C2=A02 files changed, 55 insertions(+), 2 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-extended/procps/procps/0001-Fix-comp=
-ile-bug-of-musl.patch<br>
-=C2=A0rename meta/recipes-extended/procps/{<a href=3D"http://procps_3.3.16=
-.bb" rel=3D"noreferrer" target=3D"_blank">procps_3.3.16.bb</a> =3D&gt; <a h=
-ref=3D"http://procps_3.3.17.bb" rel=3D"noreferrer" target=3D"_blank">procps=
-_3.3.17.bb</a>} (95%)<br>
-<br>
-diff --git a/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-m=
-usl.patch b/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-mus=
-l.patch<br>
-new file mode 100644<br>
-index 0000000000..98186c7d78<br>
---- /dev/null<br>
-+++ b/meta/recipes-extended/procps/procps/0001-Fix-compile-bug-of-musl.pat=
-ch<br>
-@@ -0,0 +1,52 @@<br>
-+From 4ceaef8b624042d510492864cb5ee0179452312b Mon Sep 17 00:00:00 2001<br=
->
-+From: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" target=3D"=
-_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-+Date: Thu, 4 Mar 2021 17:16:03 +0900<br>
-+Subject: [PATCH] Fix compile bug of musl<br>
-+<br>
-+It solves the problem that the variable definition cannot be found becaus=
-e the header file cannot be included under musl<br>
-+<br>
-+Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" t=
-arget=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-+---<br>
-+ proc/escape.c |=C2=A0 2 +-<br>
-+ w.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++++----<br>
-+ 2 files changed, 9 insertions(+), 5 deletions(-)<br>
-+<br>
-+diff --git a/proc/escape.c b/proc/escape.c<br>
-+index 2e8fb7d..21ccdc6 100644<br>
-+--- a/proc/escape.c<br>
-++++ b/proc/escape.c<br>
-+@@ -25,7 +25,7 @@<br>
-+ #include &quot;escape.h&quot;<br>
-+ #include &quot;readproc.h&quot;<br>
-+ <br>
-+-#if (__GNU_LIBRARY__ &gt;=3D 6) &amp;&amp; (!defined(__UCLIBC__) || defi=
-ned(__UCLIBC_HAS_WCHAR__))<br>
-++#if (__GNU_LIBRARY__ &gt;=3D 6) &amp;&amp; (!defined(__UCLIBC__) || defi=
-ned(__UCLIBC_HAS_WCHAR__)) || (DEFAULT_LIBC =3D=3D LIBC_UCLIBC)<br>
-+ # include &lt;wchar.h&gt;<br>
-+ # include &lt;wctype.h&gt;<br>
-+ # include &lt;stdlib.h&gt;=C2=A0 /* MB_CUR_MAX */<br>
-+diff --git a/w.c b/w.c<br>
-+index 9d07ac9..722b612 100644<br>
-+--- a/w.c<br>
-++++ b/w.c<br>
-+@@ -56,10 +56,14 @@<br>
-+ #include &lt;time.h&gt;<br>
-+ #include &lt;unistd.h&gt;<br>
-+ #ifdef HAVE_UTMPX_H<br>
-+-#=C2=A0 =C2=A0 =C2=A0include &lt;utmpx.h&gt;<br>
-+-#else<br>
-+-#=C2=A0 =C2=A0 =C2=A0include &lt;utmp.h&gt;<br>
-+-#endif<br>
-++#=C2=A0 if HAVE_UTMP_H<br>
-++=C2=A0 =C2=A0/* needs utmp.h, for the definition of e.g., UT_HOSTSIZE.=
-=C2=A0 */<br>
-++#=C2=A0 =C2=A0include &lt;utmp.h&gt;<br>
-++#=C2=A0 endif<br>
-++#=C2=A0 include &lt;utmpx.h&gt;<br>
-++#elif HAVE_UTMP_H<br>
-++#=C2=A0 include &lt;utmp.h&gt;<br>
-++#endif<br>
-+ #include &lt;arpa/inet.h&gt;<br>
-+ <br>
-+ static int ignoreuser =3D 0;=C2=A0 =C2=A0 /* for &#39;-u&#39; */<br>
-+-- <br>
-+2.25.1<br>
-+<br>
-diff --git a/meta/recipes-extended/procps/<a href=3D"http://procps_3.3.16.=
-bb" rel=3D"noreferrer" target=3D"_blank">procps_3.3.16.bb</a> b/meta/recipe=
-s-extended/procps/<a href=3D"http://procps_3.3.17.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">procps_3.3.17.bb</a><br>
-similarity index 95%<br>
-rename from meta/recipes-extended/procps/<a href=3D"http://procps_3.3.16.b=
-b" rel=3D"noreferrer" target=3D"_blank">procps_3.3.16.bb</a><br>
-rename to meta/recipes-extended/procps/<a href=3D"http://procps_3.3.17.bb"=
- rel=3D"noreferrer" target=3D"_blank">procps_3.3.17.bb</a><br>
-index ef3ac86e97..c1d3fee4d2 100644<br>
---- a/meta/recipes-extended/procps/<a href=3D"http://procps_3.3.16.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">procps_3.3.16.bb</a><br>
-+++ b/meta/recipes-extended/procps/<a href=3D"http://procps_3.3.17.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">procps_3.3.17.bb</a><br>
-@@ -14,8 +14,9 @@ inherit autotools gettext pkgconfig update-alternatives<=
-br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://gitlab.com/procps-ng/procp=
-s.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">gitlab.com/pro=
-cps-ng/procps.git;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://sysctl.conf \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-compile-bug-of-m=
-usl.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--SRCREV =3D &quot;59c88e18f29000ceaf7e5f98181b07be443cf12f&quot;<br>
-+SRCREV =3D &quot;19a508ea121c0c4ac6d0224575a036de745eaaf8&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-@@ -98,4 +99,4 @@ ALTERNATIVE_LINK_NAME[ps] =3D &quot;${base_bindir}/ps&qu=
-ot;<br>
-<br>
-=C2=A0ALTERNATIVE_${PN}-sysctl =3D &quot;sysctl&quot;<br>
-=C2=A0ALTERNATIVE_TARGET[sysctl] =3D &quot;${base_sbindir}/sysctl&quot;<br=
->
--ALTERNATIVE_LINK_NAME[sysctl] =3D &quot;${base_sbindir}/sysctl&quot;<br>
-\ No newline at end of file<br>
-+ALTERNATIVE_LINK_NAME[sysctl] =3D &quot;${base_sbindir}/sysctl&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+From: "Saloni.Jain" <Saloni.Jain@kpit.com>
 
---0000000000000d1cb405bcb357f1--
+Whitelisted below CVEs:
+1. CVE-2018-12433 is disputed and reported for
+crypt libraries.
+Link: https://security-tracker.debian.org/tracker/CVE-2018-12433
+Link: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2018-12433
+
+2. CVE-2018-12437 is reported for libtomcrypt and
+is duplicate of CVE-2018-0495.
+Link: https://security-tracker.debian.org/tracker/CVE-2018-12437
+Link: https://github.com/libtom/libtomcrypt/pull/408
+Link: https://access.redhat.com/security/cve/CVE-2018-12437
+
+3. CVE-2018-12438 is also reported for crypt libraries and
+no details are available for which versions are affected.
+Link: https://security-tracker.debian.org/tracker/CVE-2018-12438
+Link: https://ubuntu.com/security/CVE-2018-12438
+
+Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.1j.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb b/meta/rec=
+ipes-connectivity/openssl/openssl_1.1.1j.bb
+index 181790e6ab..3d96533580 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
+@@ -241,3 +241,13 @@ CVE_VERSION_SUFFIX =3D "alphabetical"
+ # Only affects OpenSSL >=3D 1.1.1 in combination with Apache < 2.4.37
+ # Apache in meta-webserver is already recent enough
+ CVE_CHECK_WHITELIST +=3D "CVE-2019-0190"
++
++# CVE-2018-12433 is disputed and reported for crypt libraries
++CVE_CHECK_WHITELIST +=3D "CVE-2018-12433"
++
++# CVE-2018-12437 is reported for libtomcrypt and is duplicate of CVE-2018-=
+0495
++CVE_CHECK_WHITELIST +=3D "CVE-2018-12437"
++
++# CVE-2018-12438 is also reported for crypt libraries and no details are
++# available for which versions are affected.
++CVE_CHECK_WHITELIST +=3D "CVE-2018-12438"
+--
+2.17.1
+
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
