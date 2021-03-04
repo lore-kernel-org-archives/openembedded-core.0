@@ -1,31 +1,71 @@
-Subject: Re: [master][dunfell][gatesgarth][PATCH 2/2] bitbake-bblayers/create: Add optional layerid argument
+Received: from proxima.lasnet.de (proxima.lasnet.de [78.47.171.185])
+ by mx.groups.io with SMTP id smtpd.web12.1263.1614886582205016935
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 04 Mar 2021 11:36:22 -0800
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=pass (domain: datenfreihafen.org, ip: 78.47.171.185, mailfrom: stefan@datenfreihafen.org)
+Received: from localhost.localdomain (p200300e9d7378f8d2268e10e110db780.dip0.t-ipconnect.de [IPv6:2003:e9:d737:8f8d:2268:e10e:110d:b780])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: stefan@sostec.de)
+	by proxima.lasnet.de (Postfix) with ESMTPSA id DDA51C05FB;
+	Thu,  4 Mar 2021 20:36:18 +0100 (CET)
+From: "Stefan Schmidt" <stefan@datenfreihafen.org>
 To: openembedded-core@lists.openembedded.org
-From: "Charlie Davies" <charles.davies@whitetree.xyz>
-X-Originating-Location: London, England, GB (85.203.46.154)
-X-Originating-Platform: Linux Chrome 89
-User-Agent: GROUPS.IO Web Poster
+Cc: Stefan Schmidt <stefan@datenfreihafen.org>,
+	Stefan Schmidt <stefan.schmidt@huawei.com>
+Subject: [oe-core][PATCH] systemd-conf: do not ask for DHCP if configured on kernel command line
+Date: Thu,  4 Mar 2021 20:35:40 +0100
+Message-Id: <20210304193540.2069255-1-stefan@datenfreihafen.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Date: Thu, 04 Mar 2021 08:43:34 -0800
-References: <20210215200744.20802-2-charles.davies@whitetree.xyz>
-In-Reply-To: <20210215200744.20802-2-charles.davies@whitetree.xyz>
-Message-ID: <16490.1614876214585141532@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="JVNACpngmat7eOD0KzMb"
-
---JVNACpngmat7eOD0KzMb
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Ping - patch not addressed on first submission.
+From: Stefan Schmidt <stefan.schmidt@huawei.com>
 
-Thanks,
+In cases where we configure the IP address and more on the kernel
+command line with ip=3D we should not ask for DHCP with systemd-networkd
+later on. We have such a setup with our runqemu script.
 
-Charlie
+With this match in place we can also deploy this unit on qemu systems.
 
---JVNACpngmat7eOD0KzMb
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Stefan Schmidt <stefan.schmidt@huawei.com>
+---
+ meta/recipes-core/systemd/systemd-conf/wired.network | 1 +
+ meta/recipes-core/systemd/systemd-conf_247.3.bb      | 3 ---
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-Ping - patch not addressed on first submission.<br /><br />Thanks,<br /><br=
- />Charlie
+diff --git a/meta/recipes-core/systemd/systemd-conf/wired.network b/meta/=
+recipes-core/systemd/systemd-conf/wired.network
+index 09367edb10..e7b69970d6 100644
+--- a/meta/recipes-core/systemd/systemd-conf/wired.network
++++ b/meta/recipes-core/systemd/systemd-conf/wired.network
+@@ -1,6 +1,7 @@
+ [Match]
+ Type=3Dether
+ KernelCommandLine=3D!nfsroot
++KernelCommandLine=3D!ip
+=20
+ [Network]
+ DHCP=3Dyes
+diff --git a/meta/recipes-core/systemd/systemd-conf_247.3.bb b/meta/recip=
+es-core/systemd/systemd-conf_247.3.bb
+index 944b56ff82..ea35e83f4f 100644
+--- a/meta/recipes-core/systemd/systemd-conf_247.3.bb
++++ b/meta/recipes-core/systemd/systemd-conf_247.3.bb
+@@ -29,9 +29,6 @@ do_install() {
+ # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa28=
+67be31759c1b52
+ do_install_append_qemuall() {
+ 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}=
+/system.conf.d/01-${PN}.conf
+-
+-	# Do not install wired.network for qemu bsps
+-	rm -rf ${D}${systemd_unitdir}/network
+ }
+=20
+ PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+--=20
+2.29.2
 
---JVNACpngmat7eOD0KzMb--
