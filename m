@@ -1,58 +1,57 @@
-Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.7836.1614918119443975246
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web09.7663.1614918143328449753
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:22:01 -0800
+ Thu, 04 Mar 2021 20:22:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: DQTgnyS7FKiITYEgN4ZJ2diKy+agGku9C4rOYpmIKIsH7pfwZlOfVYUks2tHv/QmtQzzgLqUgD
- TGlzXJJ5h8KQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670823"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Q2BgyyuoQ+yUvHxsJPBBB6MS1k9AzvQKZkKydYBJkA0bP5J7qrEB1XpxamPg8Znb92KPdRewja
+ 6a9ANQzHpusQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670840"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187670823"
+   d="scan'208";a="187670840"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:01 -0800
-IronPort-SDR: Eui+ctzFCJG4hHhuB0PTdYPMvGomGA4Vri08cKsqJBx0mFncETk/AI4E/ZPjnB7a8iGdUF50nY
- 3NTUtzz2nRlw==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:02 -0800
+IronPort-SDR: MzKxBG2JoAYfXHQN6JmERIQI6nFoHQ05jpUJ85TMlMcwD5Bjc8fo5bZdJdjcYe5hILj1FwW6/l
+ sNrtEXuBYVvw==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408128752"
+   d="scan'208";a="408128757"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:21:59 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:01 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 02/52] rootfs_deb: handle aarch64 SDK_ARCH
-Date: Fri,  5 Mar 2021 12:20:38 +0800
-Message-Id: <81f23701521ca32b67049a14f41079889b102ad5.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 03/52] xorg-fonts-minimal: Fix reproducibility
+Date: Fri,  5 Mar 2021 12:20:39 +0800
+Message-Id: <3e33ea43d6357994200f01b7231484fdc9f07de1.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This class maps from OE architectures to dpkg architectures, but wasn't
-handling aarch64 correctly.
+When installing the font files, preserve their timestamp rather than using
+the current time which fixes reproducibility issues.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 315fe8ab3b5bb8a709be98cd8998d4525fbe8725)
+(cherry picked from commit a0c4f4b0182a995f0eb2709cc9b3c852527ab936)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/rootfs_deb.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index ef616da229..0469ba7059 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -32,4 +32,8 @@ python () {
-          d.setVar('DEB_SDK_ARCH', 'amd64')
-     elif darch == "arm":
-          d.setVar('DEB_SDK_ARCH', 'armel')
-+    elif darch == "aarch64":
-+         d.setVar('DEB_SDK_ARCH', 'arm64')
-+    else:
-+         bb.fatal("Unhandled SDK_ARCH %s" % darch)
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index 1ea08a6c99..e1e470bf34 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -26,7 +26,7 @@ RDEPENDS_${PN} += "font-alias"
+ 
+ do_install() {
+ 	install -d ${D}/${datadir}/fonts/X11/misc
+-	install -m 0644 ${S}/* ${D}/${datadir}/fonts/X11/misc/
++	install -m 0644 -p ${S}/* ${D}/${datadir}/fonts/X11/misc/
+ 	install -d ${D}/${libdir}/X11
+ 	ln -sf ${datadir}/fonts/X11/ ${D}/${libdir}/X11/fonts -s
  }
 -- 
 2.29.2
