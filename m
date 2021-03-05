@@ -4,24 +4,24 @@ Received: from mga09.intel.com (mga09.intel.com [])
  Thu, 04 Mar 2021 20:22:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Ojq8DObaauRvJk8ecZIKV0LKbfQjTxq7epvOsZHWjdIbCl3L3bUjeDo+HOCS4ED2x7QJrm662L
- ZwRZnMmBcosw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670848"
+IronPort-SDR: ZVfTcCxHRn4HMhVC27yQ5OC7ZsJoMv374d4FLUNmZdjiSAzl6Vd7hX+nWlVcsI7vRrIdPUi7m+
+ Y1+x4eFKPnnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670855"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187670848"
+   d="scan'208";a="187670855"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:03 -0800
-IronPort-SDR: 7DF4stTxb57e5R2+AmY4sGTBefe8UjL5DJsbc/rv6i6RKMztUZbMmPMsagAe0qsPgpzoUMe92H
- 0va3jiF1qyrg==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:05 -0800
+IronPort-SDR: +vwxv6yAW+07FtU+BrOFuiw9RL0CG2OFNxay7xpjhQVxdmhA466gNRfDOdNHi5+2oiUO9Ola2U
+ xNzxwEEbrWeA==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408128764"
+   d="scan'208";a="408128767"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:02 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:04 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 04/52] xorg-minimal-fonts: Really fix determinism
-Date: Fri,  5 Mar 2021 12:20:40 +0800
-Message-Id: <d3019a718b5f6250fa3486d69af0b1fc9a011dfd.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 05/52] git: Fix determinism issue
+Date: Fri,  5 Mar 2021 12:20:41 +0800
+Message-Id: <2cd9be5a0ea9e8532259a77cf4308ebb6991268d.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
@@ -30,46 +30,66 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-My previous fix wasn't correct as the file timestamps do vary by git checkout
-or modification time and aren't correct here. Instead use a specific
-date/time for the files to be deterministic.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 725a30a30052540a4b7fc2933396fe9eb946eeac)
+(cherry picked from commit 9ae740939f8315c64fe7571f912404127a29dc89)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/git/git.inc           |  3 +-
+ meta/recipes-devtools/git/git/fixsort.patch | 31 +++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
 
-diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-index e1e470bf34..bf8385fe6d 100644
---- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-+++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-@@ -10,8 +10,12 @@ LIC_FILES_CHKSUM = "file://../misc/fonts.dir;md5=82a143d94d6a974aafe97132d2d519a
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 544e23c844..586a305b27 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -7,7 +7,8 @@ DEPENDS = "openssl curl zlib expat"
+ PROVIDES_append_class-native = " git-replacement-native"
  
- SRC_URI = "file://misc"
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+-           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
++           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
++           file://fixsort.patch"
  
-+SOURCE_DATE_EPOCH = "1613559011"
+ S = "${WORKDIR}/git-${PV}"
+ 
+diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
+new file mode 100644
+index 0000000000..07a487e8ca
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/fixsort.patch
+@@ -0,0 +1,31 @@
++[PATCH] generate-configlist.sh: Fix determinism issue
 +
- PE = "1"
--PR = "r2"
-+PR = "r3"
-+HASHEQUIV_HASH_VERSION .= ".1"
++Currently git binaries are not entirely reproducible, at least partly 
++due to config-list.h differing in order depending on the system's
++locale settings. Under different locales, the entries:
 +
- 
- inherit allarch features_check
- 
-@@ -26,7 +30,9 @@ RDEPENDS_${PN} += "font-alias"
- 
- do_install() {
- 	install -d ${D}/${datadir}/fonts/X11/misc
--	install -m 0644 -p ${S}/* ${D}/${datadir}/fonts/X11/misc/
-+	install -m 0644 ${S}/* ${D}/${datadir}/fonts/X11/misc/
-+	# Pick a date/time as otherwise it would be the git checkout/modify time
-+	touch -d @1613559011 ${D}/${datadir}/fonts/X11/misc/*
- 	install -d ${D}/${libdir}/X11
- 	ln -sf ${datadir}/fonts/X11/ ${D}/${libdir}/X11/fonts -s
- }
++"sendemail.identity",
++"sendemail.<identity>.*",
++
++would differ in order for example and this leads to differences in 
++the debug symbols for the binaries.
++
++This can be fixed by specifying the C locale for the sort in the
++shell script generating the header.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Submitted [https://public-inbox.org/git/f029a942dd3d50d85e60bd37d8e454524987842f.camel@linuxfoundation.org/T/#u]
++
++Index: git-2.30.0/generate-configlist.sh
++===================================================================
++--- git-2.30.0.orig/generate-configlist.sh
+++++ git-2.30.0/generate-configlist.sh
++@@ -9,7 +9,7 @@ static const char *config_name_list[] =
++ EOF
++ 	grep -h '^[a-zA-Z].*\..*::$' Documentation/*config.txt Documentation/config/*.txt |
++ 	sed '/deprecated/d; s/::$//; s/,  */\n/g' |
++-	sort |
+++	LC_ALL=C sort |
++ 	sed 's/^.*$/	"&",/'
++ 	cat <<EOF
++ 	NULL,
 -- 
 2.29.2
 
