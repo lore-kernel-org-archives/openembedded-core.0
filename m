@@ -1,27 +1,27 @@
 Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.7839.1614918154051973024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:22:52 -0800
+ Thu, 04 Mar 2021 20:22:54 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: BPJZ23vZK9dF8/n4uEl4UH5fNxkq7ELntNioyi3nErWnvLjGuEz7QulFdr4AMtzXGUCdEV60Ra
- Vrvbv/VoejRw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671179"
+IronPort-SDR: eRhkB3mFj64/9OQRThz/jAwrSUyI3jhpQhlsJBH7GAIv4FoosoDMt1J3lCNDYwK2I4p7RDvOoJ
+ sRPuonKO8TZA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671189"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187671179"
+   d="scan'208";a="187671189"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:52 -0800
-IronPort-SDR: 51vcs7Pq8s0v+LAKSpuDGTnrXmLGe7qc/tC6Nczq4yIaTms9VFE9wrFwj7C4oZxDvbcT3dGA7H
- UoNeEfOg9WXA==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:54 -0800
+IronPort-SDR: eQxJXyFJBrLtpFKRA/lAYndh1VuKmQYi+r2bbW0rAmlcaRAi4xLUtYuyUgXZRVJ7nSzZUH2zJy
+ B6R3kHlo9uCg==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408129109"
+   d="scan'208";a="408129116"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:51 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:52 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 40/52] epiphany: Fix distributor contamination from /etc/os-release
-Date: Fri,  5 Mar 2021 12:21:16 +0800
-Message-Id: <26bb8ebdcb19df55f5bad8102eb2d4380d450a30.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 41/52] image: Add directories to PSEUDO_IGNORE_PATHS
+Date: Fri,  5 Mar 2021 12:21:17 +0800
+Message-Id: <5f40d80bad9d997e59d2a78f18114043740f054d.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
@@ -30,53 +30,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Set our own distro string rather than using the value from
-/etc/os-release.
+Some paths used in image construction shouldn't be tracked under pseudo
+so list these.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 77f23ece471e8855bfd8be06951f21cabce25545)
+(cherry picked from commit 9463be2292b942a1072eea88881b9644e55aadb9)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.36.4.bb  |  1 +
- .../epiphany/files/distributor.patch            | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-gnome/epiphany/files/distributor.patch
+ meta/classes/image.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-index dcb337f4cb..0c22a67bde 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-@@ -14,6 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            file://migrator.patch \
-+           file://distributor.patch \
-            "
- SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 045f4494c8..6d3d5692da 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -180,6 +180,8 @@ IMAGE_LOCALES_ARCHIVE ?= '1'
+ # aren't yet available.
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
  
-diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
-new file mode 100644
-index 0000000000..b09c9b38d2
---- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/distributor.patch
-@@ -0,0 +1,17 @@
-+Don't encode the distro from /etc/os-release into the binaries.
++PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/intercept_scripts,${WORKDIR}/oe-rootfs-repo"
 +
-+Upstream-Status: Pending
-+RP 2021/2/26
-+
-+Index: epiphany-3.38.2/meson.build
-+===================================================================
-+--- epiphany-3.38.2.orig/meson.build
-++++ epiphany-3.38.2/meson.build
-+@@ -15,6 +15,7 @@ if r.returncode() == 0
-+ else
-+   distributor_name = 'GNOME Web'
-+ endif
-++distributor_name = 'OpenEmbedded'
-+ 
-+ prefix = get_option('prefix')
-+ datadir = join_paths(prefix, get_option('datadir'))
+ PACKAGE_EXCLUDE ??= ""
+ PACKAGE_EXCLUDE[type] = "list"
+ 
 -- 
 2.29.2
 
