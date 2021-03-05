@@ -1,60 +1,63 @@
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web08.13776.1614959349650411061
+ by mx.groups.io with SMTP id smtpd.web11.13894.1614959349701362227
  for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Mar 2021 07:49:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm1 header.b=HYMYfJVc;
+ dkim=pass header.i=@gherzan.com header.s=fm1 header.b=d/HKp/Dh;
  spf=pass (domain: gherzan.com, ip: 64.147.123.19, mailfrom: andrei@gherzan.com)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id 5DD012A38;
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 7F3802A39;
 	Fri,  5 Mar 2021 10:49:08 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 05 Mar 2021 10:49:08 -0500
+  by compute3.internal (MEProxy); Fri, 05 Mar 2021 10:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm1; bh=3SuS/QKr1IzJ/py0FwqpTF3slU
-	cHknwKR5FEmXxAWY8=; b=HYMYfJVcXy+uCGD9jYd3XtB50vr7FKsAhqQ+esnrDY
-	LgzUAogdwIpCb7VMkif+gZnWTAhbKpyh5YWrrJ1tmDWoEBFxlSN365hOD57r/CPG
-	ccFgMMy5T6ExfibbgbFz1bLeGgQbQoeZo9Lg5vQTrs8kpZ71R7i5UtUPDGyq0ZeX
-	NDk+UwVABIP3hB8GYYRHSYEhk2zyja3DewITr2V1E7o+My+CRXx7Td1FdD7RMjBY
-	3yu0pPZz+iI95i7bThVutev7tjeyaBnmLn8vnGc6MwRkSC9oQF6HPiOX+FygFqqo
-	hcdCijx0wF+BdrgmUKvZuGWJp8vGxgK+uqk9iP25xqhQ==
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=fm1; bh=SlEb83VoYJyyZ
+	roZrPJc/KV1qtjFDojI0Y6bhi6/S1c=; b=d/HKp/DhHiCNTpQdZUSYwsdyEFXBG
+	MAg6AJxFk2WsJT7kx9y5IXaFA52Ox0p3WqO1WEff/2C9j954D+NKT+5dpI63iNpp
+	D+YJl/NOLpVdaueVAan3xrC8/j3/OCwupJw/wIBmW+LbyK4zkKmNaj7htY93T24q
+	0CWqBB1KpXd/gzI8wLzGOBmaIWWapJdqhcHTgCkPVMG1PUS8crWKudesJood343t
+	9Tk8vFad2yvfqgBHC9Yhd7AKGTOz8h1RKPSp3A9qB9qf2E9x6mGotvolpg2xM/3Y
+	VmTzM6U95lXGzsjGPONfqvp2VTGMUqbk9aLV2Rgfm0UjNbCUtZdl3CZ+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3SuS/QKr1IzJ/py0F
-	wqpTF3slUcHknwKR5FEmXxAWY8=; b=YFWBr+G6ZqNcdu9PJ5QkHp99eUVb1jhgz
-	JmfS3/OXBidn9nWN2ETTKHD7ciNB2FVRpj2/oyaP7GboQSbN6oxC/q5yU+Z0Yr/4
-	/EOYKynEhQIYFqMR8wgJzx8yPQcjC66JYB1O6jN9V3zuuej1N9fp8/Hg4+94xM3e
-	TD09odBf6RWx5gd+Bv8k3F0lqA24eWGZ3OdWBmfxqE8mQ/TnT85AQGK+qehDwrhW
-	c8iYYpWD1k+XQykO7lK5PckTCGRDEacqnJQGLapztNLydqXpzYlSWVKrLGPLw2bx
-	+MxOcJyVmVQKyVQjkwNi/gENhsJBrTfhnUZbw9+NG6HEvuJ5shzIQ==
-X-ME-Sender: <xms:8lJCYF2wSAnYBoIe1EhpGp9ZRzi-DKdTY9FNFZhS_12JyQOFQVnWoA>
-    <xme:8lJCYMgYzbHkvEweeNzTIu3HQ8uunD4gJ8M_LZdeTamraB87JKlZXdRbVrPDIQ2PX
-    40p5P8OUEnKkPVw7Hw>
+	:in-reply-to:message-id:mime-version:references:subject:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; bh=SlEb83VoYJyyZroZrPJc/KV1qtjFDojI0Y6bhi6/S1c=; b=GkGr0/J+
+	vEZggE0I/CZtepFkpajP8RVQdafU05jadBGWL3vfL9LdvMlcwz24P7eJGRVhE5id
+	p5vluegqldRAFGOCX1Jeh6Ylvt9dFQp1ql2D3N2r6vQEXHBssomnRUxnIw8aqngm
+	NrjxgSQcd6hErHzAI9p7n/z4qTgznYitHFtOD1beyIuVLSSoul/XDi+V+ghAt2Gs
+	4LcN+WqBZyEp+woUKowOBAq0yrzVHThTqI5/yZAlhGDKkMfYNFmFUmqWtbzW+PbL
+	fcRacubV1+pKT1ECzbiPUHGJHxC6qwwKlpxqG2HgNAe5o4FlgMEugJ63tjRgh6Oa
+	q7NoWsygPFtLRQ==
+X-ME-Sender: <xms:9FJCYHJjN8AuaackewxklvgXc3ddUhrjeqzumAPiH8vs-0ipcIVp3A>
+    <xme:9FJCYH0PsDEfuAIjRFS99VDpM1ACJHqrNMAye8Ea8RDnOzFoNuxcRsAeClcVG64Mu
+    YIg2P3HN4aaKz54CeE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtiedgjeegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
-    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfdtffehkeetieefjefhgeeuud
-    ehueekhedvgfdujedvtdfgudeltdelheekgfenucffohhmrghinhepghhnohhmvgdrohhr
-    ghenucfkphepuddtledrudegiedrfeejrddukedvnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:8lJCYFqt2qHLlau86qdlSzOb69Mju1Kk8TQllItLK7GuDUdVpqGbkQ>
-    <xmx:8lJCYPN6ZJPMZMvl_ammK7jd4qXuU2T6vEq4FIJy_bPKiV8SSjVkbg>
-    <xmx:8lJCYB227TRPT7F0CdM_sKzfrWR16iVfhk9kkKWpHou9ZGnQCKU9aQ>
-    <xmx:81JCYP6p4QTlZuLIJngYHzc6gLt30U8oDBUqmRbZyGwXADt92zyrjA>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
+    dtredttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehg
+    hhgvrhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeettddvffefkeetveekteeive
+    eggeevieeiudejfeeitedvkeelvdekheejlefffeenucfkphepuddtledrudegiedrfeej
+    rddukedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:9FJCYDnJCn1_tQjnS_rX5qlUYvEX3o3QDg3sC3e9iB17410pdWs_rw>
+    <xmx:9FJCYKjWsnoVNfSjCIkSitEE0xtN7l_G2NL6yUjKjv_Y3YQqHB6rqQ>
+    <xmx:9FJCYCSjV0VYyDuPykVEgEgfEqgo0nFBXKb_1wVOtLea9AMX_cvX7g>
+    <xmx:9FJCYJESjdbvfK9ND7nDtUe9gx9gTjHw_08oCz2W-Aq3rs_i7r9ArA>
 Received: from qwirkle.internal (host109-146-37-182.range109-146.btcentralplus.com [109.146.37.182])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 5D4021080063;
-	Fri,  5 Mar 2021 10:49:06 -0500 (EST)
+	by mail.messagingengine.com (Postfix) with ESMTPA id 4ECC3108005C;
+	Fri,  5 Mar 2021 10:49:07 -0500 (EST)
 From: "Andrei Gherzan" <andrei@gherzan.com>
 To: openembedded-core@lists.openembedded.org
 Cc: andrei@gherzan.com,
 	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH v2 1/2] gcr: Add support for building without x11
-Date: Fri,  5 Mar 2021 15:49:02 +0000
-Message-Id: <20210305154903.3315094-1-andrei@gherzan.com>
+Subject: [PATCH v2 2/2] epiphany: Add package configuration for building in developer mode
+Date: Fri,  5 Mar 2021 15:49:03 +0000
+Message-Id: <20210305154903.3315094-2-andrei@gherzan.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210305154903.3315094-1-andrei@gherzan.com>
+References: <20210305154903.3315094-1-andrei@gherzan.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
@@ -62,37 +65,22 @@ From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
 Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
 ---
- meta/recipes-gnome/gcr/gcr_3.38.1.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/epiphany/epiphany_3.38.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.38.1.bb b/meta/recipes-gnome/gcr/gcr_3.38.1.bb
-index fe80439b00..563087a360 100644
---- a/meta/recipes-gnome/gcr/gcr_3.38.1.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.38.1.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+index 7fedc43a99..04f340f133 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+@@ -21,5 +21,8 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
+            "
+ SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
  
--DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt gnupg-native \
-+DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
-            ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
-@@ -16,11 +16,12 @@ CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
- GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
--# depends on gtk+3, but also x11 through gtk+-x11
--REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRC_URI[archive.sha256sum] = "17fcaf9c4a93a65fb1c72b82643bb102c13344084687d5886ea66313868d9ec9"
- 
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)}"
-+PACKAGECONFIG[gtk] = "-Dgtk=true,-Dgtk=false,gtk+3"
++# Developer mode enables debugging
++PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
 +
- FILES_${PN} += " \
-     ${datadir}/dbus-1 \
-     ${datadir}/gcr-3 \
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
 2.30.1
 
