@@ -1,60 +1,71 @@
 Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.7767.1614918149829465790
+ by mx.groups.io with SMTP id smtpd.web11.7722.1614918147768864035
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Mar 2021 20:22:30 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: unlEPnoe2rPEstRbAF7xpuwUQ1b7USahAonkoM2g/XpUYwCOvUTYRLq8EZjL8uhluSd+XUEICQ
- 3BKa6meFSu7Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671040"
+IronPort-SDR: RBKIwhM8EeMEiSlVzTKjXJ8G+gFCNuzsqUHMs5sbj4rJu1ddqoIWVkZOvXI5mYji3QbZ3O5QsQ
+ Ea0ZDdfBw3pA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671018"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187671040"
+   d="scan'208";a="187671018"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:30 -0800
-IronPort-SDR: Umsw1lJc9s82IBs0+WXmXKRAEORtdahbnl9G8eDafX50rxqbA3bLqI0jAPETZQuq4l5azVFVsb
- bn+OnzDVeLiA==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:27 -0800
+IronPort-SDR: wGXZdIbFi+rsvHWHO9aB5RAqed+jP2G3Qw4R8npf52qyl/Gg5xJBqXVGFr3HPNptVBKxZuZvxW
+ z+mXSGWYAxjg==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408128880"
+   d="scan'208";a="408128871"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:28 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:25 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 23/52] openssl: upgrade 1.1.1i -> 1.1.1j
-Date: Fri,  5 Mar 2021 12:20:59 +0800
-Message-Id: <22d339bd8107c3ba5ba8a1c44e5d5f5fb968342b.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 21/52] linux-firmware: upgrade 20201218 -> 20210208
+Date: Fri,  5 Mar 2021 12:20:57 +0800
+Message-Id: <640acdfc770d8a6ed77eaaf7bece23a19eee96bf.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+License file had a number of new additions for new firmware but no
+new licenses that didn't already exist.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a67635ca2c7a016efcf450e4011f2032883e995d)
+(cherry picked from commit eab46e65feae24311f0ee0cd05b7ebb2e3b07363)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../openssl/{openssl_1.1.1i.bb => openssl_1.1.1j.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1i.bb => openssl_1.1.1j.bb} (98%)
+ ...{linux-firmware_20201218.bb => linux-firmware_20210208.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201218.bb => linux-firmware_20210208.bb} (99%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-index 5d22c511aa..f054d2fdba 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
+index 700a79b118..59ce4d5124 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
+@@ -128,7 +128,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=03f0fad70b8b557b56084e3090198021 \
++                    file://WHENCE;md5=ef0565762eac313c409567b59dff00b2 \
+                     "
  
--SRC_URI[sha256sum] = "e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242"
-+SRC_URI[sha256sum] = "aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -201,7 +201,7 @@ PE = "1"
  
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "a1cc1ff72c739f312b095df589e9fd639fc81c3f8f7966377ea35222dc94c04b"
++SRC_URI[sha256sum] = "1bcb1a3944c361507754a7d26ccff40ffc28d1fb93bce711d67da26b33e785b7"
+ 
+ inherit allarch
+ 
 -- 
 2.29.2
 
