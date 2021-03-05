@@ -1,50 +1,50 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web09.12824.1614955751315363023
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web09.12826.1614955756722145943
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Mar 2021 06:49:11 -0800
+ Fri, 05 Mar 2021 06:49:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ExIor0vZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id b15so2005344pjb.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Mar 2021 06:49:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LnesoJuc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id o38so1521288pgm.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Mar 2021 06:49:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=aTkpT6aYfxyWfTQcBOdnl4IjDCs/KYogCco0wysjSW8=;
-        b=ExIor0vZpDAYPlPKGTXJ0y2qeN4m3W+KKW8SodupudH6ZOZZgLLdqyYzPfsCIJZ847
-         jNRieHbxJHITvys45mJob5ls6FYhvr1Jg84HN77Ip+ODZ5OHJbpJEdFdlgzMgO37Tdzk
-         K8fZd0w0km/vjecZbJ+Uen4y9VXq2UtnOSLG5vKQA/vVAWfT0TNHkplqXX7pc8IIMYqj
-         qJfjf+FAs9Dfp6j782pyk+a74M24A3eceRMW/94ixhDVG8akjeSATmEdx7k4sza8DIiU
-         Hwxf00J88ycul9R4NiITDuTd0sdL7LxLF3oVMUo/+ivylu3FTTW34RrVkP+cQLH1PQPY
-         y5kg==
+        bh=pc0uy1tAHaUEhzNcD1VcyiCNtxNeoIBh9Mq/6AtanXA=;
+        b=LnesoJucK5vudm+sm0Up+wzADl+WlzIhSK8sVG09AeqRg4mUwDabLjV/YXTe7nX7U9
+         9X0FAkFuz4SqENGfTmu6zseSz6VhCGwXLqZo6R0CuHW81qzr2K5kJEN7cCV9Hg607Ehu
+         tHSC/RZMBUiasxrdv6wNet9TrKgWVuaaYb/Y24J0JPy7tq9gW7aeUbE91WjV1dIsORwc
+         wE1FeTWp+nxJBj3t82JMUHJ6Nq8NBHXA9KFkudNoE2VCondw8fI+dueDkrEb8PREaNun
+         xcTzZaTszsPqenSdWxzN6tgBDVXBvstYFMtpRipkHCSvl7mr49ehw3e0yE5mjib3WBEb
+         7S4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aTkpT6aYfxyWfTQcBOdnl4IjDCs/KYogCco0wysjSW8=;
-        b=VG27wqIbBRfglpda4fzhVmpKoVeaOc3MbganltT3iqOIYkV8uLS1rp46jtAXgCsrnK
-         FYvCqXHQ/vNlcrDdiNB58MaJHGFDs4FM+2w9qG7iNE/6NaaenXW6Kzi1EhD/4is8c46m
-         S8cz9NXu4jKzsanxw+MzEHjv7CQL1Z37cETS5h10KS4OCELmahx6uph4GP5heRJLgblS
-         Mu3eowp5vji6fKC5H+sNaEvRmgW0RTXx/Q8s2W0l8+ySME2VfYyPR52sO6y9MddUHnu5
-         ZbGhAkzkUIKVvlWT0NgrPvNHDiR1BQWoxFdlcjSlCTUdY7LguULn23z3wk92skH7doJJ
-         0yDQ==
-X-Gm-Message-State: AOAM533JT1EHKE3OGASrUKyeqrIA0GPiPxhq39dkq6dpkGw8MAX8yiqe
-	7WZu8c1G94xl6ZyTlArYIMs5sV3Rtjthjkub
-X-Google-Smtp-Source: ABdhPJwrugG+agefWvFVI4/mGXoaSWCtIAmOvcdf9gHZZupHgwxT51VQSqFNTIv+CqE1JrDGtLdOiA==
-X-Received: by 2002:a17:90a:c588:: with SMTP id l8mr10534882pjt.120.1614955750227;
-        Fri, 05 Mar 2021 06:49:10 -0800 (PST)
+        bh=pc0uy1tAHaUEhzNcD1VcyiCNtxNeoIBh9Mq/6AtanXA=;
+        b=NZ4b2BIOq3n6/SgHtJD86UNAlpQgkJBcKrFOPltwhN7xOXnin//CDFpH9OnNk+WfQg
+         UxD2h9l9+icYVUQkPvA46gckVl7th2D9Lf159OoAkBcTcYHodijnBC+1LVPy1hDC2owx
+         pQ3gGYBVqmcU5rminHDuBP62yFEGKS/gfKgwslEQd4qzVg6EyDst56Z4WwFSeSBCqpWD
+         7eL/c/W+po7ExQDuO4sdihg7g4q+VZnPwmBsW+Og/apYTNEjuCbXG/8+wXyRvCurbN+j
+         X5uZsFpi2QO/phB+QYndqbYVIozCniueP3HI/iICmmN/8J9vEfAHhqm+feCatbVlRAxS
+         3mrA==
+X-Gm-Message-State: AOAM531x2gGbOODtGKiqcCRh91klksHwan3y73wWOZJaooGlepP6nD+X
+	tI7AfTJiqY848ap1flOJKm3Vg6aM14Ekdc4/
+X-Google-Smtp-Source: ABdhPJyAE6resSUGPDc/4vLzonqy04cY7gKnxm/3ypUf4feEhfXeeV6UCmLKbHfLhFmU6BtNKQbG3A==
+X-Received: by 2002:aa7:8758:0:b029:1ed:c13f:f645 with SMTP id g24-20020aa787580000b02901edc13ff645mr9508356pfo.50.1614955755801;
+        Fri, 05 Mar 2021 06:49:15 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id c72sm2659261pfb.165.2021.03.05.06.49.07
+        by smtp.gmail.com with ESMTPSA id c72sm2659261pfb.165.2021.03.05.06.49.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 06:49:09 -0800 (PST)
+        Fri, 05 Mar 2021 06:49:15 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 24/27] meta/recipes-bsp: Add HOMEPAGE / DESCRIPTION
-Date: Fri,  5 Mar 2021 04:46:33 -1000
-Message-Id: <ef228792632585d3e13cdebe7313c945b966354f.1614955420.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 25/27] meta/recipes-connectivity: Add HOMEPAGE / DESCRIPTION
+Date: Fri,  5 Mar 2021 04:46:34 -1000
+Message-Id: <a2658937bcb987b061cd9866d726d9d66623e93c.1614955420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614955420.git.steve@sakoman.com>
 References: <cover.1614955420.git.steve@sakoman.com>
@@ -59,47 +59,71 @@ Added HOMEPAGE and DESCRIPTION for recipes with missing decriptions or homepage
 
 Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1ce7e76551b3b2f4477f780e67cf894f760529e5)
+(cherry picked from commit ecf8922e6bb12a2facc59bbe794b575101fce1dc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb | 1 +
- meta/recipes-bsp/opensbi/opensbi_0.6.bb    | 1 +
- meta/recipes-bsp/v86d/v86d_0.1.10.bb       | 1 +
- 3 files changed, 3 insertions(+)
+ meta/recipes-connectivity/bind/bind_9.11.22.bb                   | 1 +
+ meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb      | 1 +
+ .../mobile-broadband-provider-info_git.bb                        | 1 +
+ meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb           | 1 +
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb   | 1 +
+ 5 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb
-index 9954d7f57a..191b0bc176 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.22.bb b/meta/recipes-connectivity/bind/bind_9.11.22.bb
+index e3b9cacc15..5598ba976d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.22.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.22.bb
 @@ -1,5 +1,6 @@
- SUMMARY = "Libraries for producing EFI binaries"
- HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
-+DESCRIPTION = "GNU-EFI aims to Develop EFI applications for ARM-64, ARM-32, x86_64, IA-64 (IPF), IA-32 (x86), and MIPS platforms using the GNU toolchain and the EFI development environment."
- SECTION = "devel"
- LICENSE = "GPLv2+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=e582764a4776e60c95bf9ab617343d36 \
-diff --git a/meta/recipes-bsp/opensbi/opensbi_0.6.bb b/meta/recipes-bsp/opensbi/opensbi_0.6.bb
-index 56f2d4b915..d8910c0ff1 100644
---- a/meta/recipes-bsp/opensbi/opensbi_0.6.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_0.6.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "RISC-V Open Source Supervisor Binary Interface (OpenSBI)"
- DESCRIPTION = "OpenSBI aims to provide an open-source and extensible implementation of the RISC-V SBI specification for a platform specific firmware (M-mode) and a general purpose OS, hypervisor or bootloader (S-mode or HS-mode). OpenSBI implementation can be easily extended by RISC-V platform or System-on-Chip vendors to fit a particular hadware configuration."
-+HOMEPAGE = "https://github.com/riscv/opensbi"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING.BSD;md5=42dd9555eb177f35150cf9aa240b61e5"
+ SUMMARY = "ISC Internet Domain Name Server"
+ HOMEPAGE = "https://www.isc.org/bind/"
++DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+ SECTION = "console/network"
  
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index a8df80fdd6..e614de0c48 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+ LICENSE = "ISC & BSD"
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
+index 5e4460045b..9a83898e52 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
 @@ -1,5 +1,6 @@
- SUMMARY = "User support binary for the uvesafb kernel module"
- HOMEPAGE = "https://tracker.debian.org/pkg/v86d"
-+DESCRIPTION = "v86d provides a backend for kernel drivers that need to execute x86 BIOS code. The code is executed in a controlled environment and the results are passed back to the kernel via the netlink interface."
+ SUMMARY = "Name Service Switch module for Multicast DNS (zeroconf) name resolution"
+ HOMEPAGE = "https://github.com/lathiat/nss-mdns"
++DESCRIPTION = "nss-mdns is a plugin for the GNU Name Service Switch (NSS) functionality of the GNU C Library (glibc) providing host name resolution via Multicast DNS (aka Zeroconf, aka Apple Rendezvous, aka Apple Bonjour), effectively allowing name resolution by common Unix/Linux programs in the ad-hoc mDNS domain .local."
+ SECTION = "libs"
  
- # the copyright info is at the bottom of README, expect break
- LICENSE = "GPLv2"
+ LICENSE = "LGPLv2.1+"
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 7dccc15e03..f170cf4650 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "Mobile Broadband Service Provider Database"
+ HOMEPAGE = "http://live.gnome.org/NetworkManager/MobileBroadband/ServiceProviders"
++DESCRIPTION = "Mobile Broadband Service Provider Database stores service provider specific information. When this Database is available the information can be fetched there"
+ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
+index b5f68951d7..b0097aa480 100644
+--- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
++++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "Enables PPP dial-in through a serial connection"
+ SECTION = "console/network"
++DESCRIPTION = "PPP dail-in provides a point to point protocol (PPP), so that other computers can dial up to it and access connected networks."
+ DEPENDS = "ppp"
+ RDEPENDS_${PN} = "ppp"
+ PR = "r8"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+index 85ac28d881..caa6018ce8 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "Client for Wi-Fi Protected Access (WPA)"
+ HOMEPAGE = "http://w1.fi/wpa_supplicant/"
++DESCRIPTION = "wpa_supplicant is a WPA Supplicant for Linux, BSD, Mac OS X, and Windows with support for WPA and WPA2 (IEEE 802.11i / RSN). Supplicant is the IEEE 802.1X/WPA component that is used in the client stations. It implements key negotiation with a WPA Authenticator and it controls the roaming and IEEE 802.11 authentication/association of the wlan driver."
+ BUGTRACKER = "http://w1.fi/security/"
+ SECTION = "network"
+ LICENSE = "BSD-3-Clause"
 -- 
 2.25.1
 
