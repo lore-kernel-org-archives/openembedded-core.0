@@ -1,140 +1,79 @@
-Received: from mga01.intel.com (mga01.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.7848.1614918187786054725
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web09.9033.1614931274038680367
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:23:10 -0800
+ Fri, 05 Mar 2021 00:01:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: G5r/uajBuB7Mabt+VmSLGHs5qMhNwCMYEX2vtaESR9NBPNM+84nENC+F+bj0AA6qD3IrwGeSvD
- XweAVlSdmFug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="207289882"
-X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="207289882"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:23:10 -0800
-IronPort-SDR: 0GG/HYuxj4/RKJJHqqkS4B32k+Ptl2UdvDYxMeRKk+XfMqpVh25rCznfsB0G9/FOQCDYcsgeu7
- u35Tthch1lsQ==
-X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408129243"
-Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:23:09 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 52/52] libsdl2: fix CVE-2020-14409 CVE-2020-14410
-Date: Fri,  5 Mar 2021 12:21:28 +0800
-Message-Id: <dc0b4f91a86315bb2b8bd32bc30ac49e41c3c3ad.1614917620.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
-References: <cover.1614917620.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sVPoAESW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 2so579200qvd.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Mar 2021 00:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cQt80aCtbtHEPMJK0F92vzcR8aTc38GdjE6KRf32Ee0=;
+        b=sVPoAESWi/CL7DgAZZVB+R+TnZGIkI52NnUQPJ3VKnbUQeazy1tlLu/g00kU+Kob68
+         /XvqW9y70eMzbkQ6dDWzsugwe1rWkVn92MinzlVsfoenUSuCrJpPYot4nph3eGXn5rpV
+         ce5NDHIT7frly0l7JTrzu8Bxeb6axVX6NmQzesjjJ/g2AoieVIigcbv65dvGoQ5h2a0L
+         rKlPw493h09xjUxiVO5yd1iPSgG/l9rW2FfxxG7SiZ01LfWZKl4qlU4KOtmDk0sxGbdM
+         CKmkBGZKpVMOg6LXc7qavtq8K2Ovm18YuWiYemDuWn5cVN17pHxuMx7okcBAqsNxqPeQ
+         sqDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cQt80aCtbtHEPMJK0F92vzcR8aTc38GdjE6KRf32Ee0=;
+        b=D9hWDDuweB7hNnq7wLWMgJ9XiTCVRHMcUXUlkBZfhEPv85jG+r5iGDOTU668ElFZqE
+         lAh1h/cO3XXSB36GqydjhowyCGAIEFlnovHIgkXIGJjtxlyqzZEY5jsfSJljzqWxXdAH
+         aIwWWd2WfQSIZAoATcAOqIztNSGfga5fq1JtIYtYyfaiXZNEeP6UVec+ch6ub5J+obet
+         LPBqLjPIQ0Ea63LippjFNtjUqjhbmdiZSGtYoL3Kifsn+m46iD2YB6mq9y76gckaTnmY
+         3Hvn0z0Rz6/lfWof8b72KpOjhfYf+eQj3qwEq9DffIR6CotJK/dVUWfELwUzqtyUWee1
+         acXg==
+X-Gm-Message-State: AOAM5337Yd/grpOl/JyeVmNl4iSUc6fELzm1f3QpbBp4ALPdNYg+RhlK
+	rwAlpjT/s1vX0a8bBG/ILHlZYTtYzHUfJPczSxg=
+X-Google-Smtp-Source: ABdhPJxNgsJI5PmzCKu1N0vf219rZBsGwSuwVfSBAh8Oure5Ade37A5b/f2KpRw5szLPHzGBtlB+zZ3ntrUNkyPbOFc=
+X-Received: by 2002:a05:6214:1c47:: with SMTP id if7mr7690577qvb.50.1614931273077;
+ Fri, 05 Mar 2021 00:01:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210304233526.3373832-1-andrei@gherzan.com> <20210304233526.3373832-2-andrei@gherzan.com>
+In-Reply-To: <20210304233526.3373832-2-andrei@gherzan.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 5 Mar 2021 00:00:46 -0800
+Message-ID: <CAMKF1spAuYuGXKxps1MzP3cEPZAFKSnnaRDbc1UPbtswEXh5uw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] epiphany: Add package configuration for building in developer mode
+To: Andrei Gherzan <andrei@gherzan.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Thu, Mar 4, 2021 at 3:36 PM Andrei Gherzan <andrei@gherzan.com> wrote:
+>
+> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+> ---
+>  meta/recipes-gnome/epiphany/epiphany_3.38.2.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+> index 7fedc43a99..8e697b4a44 100644
+> --- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+> +++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+> @@ -21,5 +21,8 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
+>             "
+>  SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
+>
+> +# Developer mode enables debugging
+> +PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true"
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../libsdl2/CVE-2020-14409-14410.patch        | 79 +++++++++++++++++++
- .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch
+add else case to define it to false as well.
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch
-new file mode 100644
-index 0000000000..d8fa24bc65
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch
-@@ -0,0 +1,79 @@
-+From a7ff6e96155f550a5597621ebeddd03c98aa9294 Mon Sep 17 00:00:00 2001
-+From: Sam Lantinga <slouken@libsdl.org>
-+Date: Wed, 17 Jun 2020 08:44:45 -0700
-+Subject: [PATCH] Fixed overflow in surface pitch calculation
-+
-+
-+Upstream-Status: Backport
-+[https://github.com/libsdl-org/SDL/commit/a7ff6e96155f550a5597621ebeddd03c98aa9294]
-+CVE: CVE-2020-14409 CVE-2020-14410
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ src/video/SDL_surface.c | 23 +++++++++++++++--------
-+ 1 file changed, 15 insertions(+), 8 deletions(-)
-+
-+diff --git a/src/video/SDL_surface.c b/src/video/SDL_surface.c
-+index 085d9ff1e..bff826f7c 100644
-+--- a/src/video/SDL_surface.c
-++++ b/src/video/SDL_surface.c
-+@@ -28,24 +28,23 @@
-+ #include "SDL_yuv_c.h"
-+ 
-+ 
-+-/* Check to make sure we can safely check multiplication of surface w and pitch and it won't overflow size_t */
-+-SDL_COMPILE_TIME_ASSERT(surface_size_assumptions,
-+-    sizeof(int) == sizeof(Sint32) && sizeof(size_t) >= sizeof(Sint32));
-++/* Check to make sure we can safely check multiplication of surface w and pitch and it won't overflow Sint64 */
-++SDL_COMPILE_TIME_ASSERT(surface_size_assumptions, sizeof(int) == sizeof(Sint32));
-+ 
-+ /* Public routines */
-+ 
-+ /*
-+  * Calculate the pad-aligned scanline width of a surface
-+  */
-+-static int
-++static Sint64
-+ SDL_CalculatePitch(Uint32 format, int width)
-+ {
-+-    int pitch;
-++    Sint64 pitch;
-+ 
-+     if (SDL_ISPIXELFORMAT_FOURCC(format) || SDL_BITSPERPIXEL(format) >= 8) {
-+-        pitch = (width * SDL_BYTESPERPIXEL(format));
-++        pitch = ((Sint64)width * SDL_BYTESPERPIXEL(format));
-+     } else {
-+-        pitch = ((width * SDL_BITSPERPIXEL(format)) + 7) / 8;
-++        pitch = (((Sint64)width * SDL_BITSPERPIXEL(format)) + 7) / 8;
-+     }
-+     pitch = (pitch + 3) & ~3;   /* 4-byte aligning for speed */
-+     return pitch;
-+@@ -59,11 +58,19 @@ SDL_Surface *
-+ SDL_CreateRGBSurfaceWithFormat(Uint32 flags, int width, int height, int depth,
-+                                Uint32 format)
-+ {
-++    Sint64 pitch;
-+     SDL_Surface *surface;
-+ 
-+     /* The flags are no longer used, make the compiler happy */
-+     (void)flags;
-+ 
-++    pitch = SDL_CalculatePitch(format, width);
-++    if (pitch < 0 || pitch > SDL_MAX_SINT32) {
-++        /* Overflow... */
-++        SDL_OutOfMemory();
-++        return NULL;
-++    }
-++
-+     /* Allocate the surface */
-+     surface = (SDL_Surface *) SDL_calloc(1, sizeof(*surface));
-+     if (surface == NULL) {
-+@@ -78,7 +85,7 @@ SDL_CreateRGBSurfaceWithFormat(Uint32 flags, int width, int height, int depth,
-+     }
-+     surface->w = width;
-+     surface->h = height;
-+-    surface->pitch = SDL_CalculatePitch(format, width);
-++    surface->pitch = (int)pitch;
-+     SDL_SetClipRect(surface, NULL);
-+ 
-+     if (SDL_ISPIXELFORMAT_INDEXED(surface->format->format)) {
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-index 1513746492..639a465567 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-            file://directfb-spurious-curly-brace-missing-e.patch \
-            file://directfb-renderfillrect-fix.patch \
-+           file://CVE-2020-14409-14410.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
--- 
-2.29.2
-
+> +
+>  FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+>  RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+> --
+> 2.30.1
+>
+>
+> 
+>
