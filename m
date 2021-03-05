@@ -1,157 +1,105 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.12918.1614955640467390964
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.12919.1614955645582764701
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Mar 2021 06:47:20 -0800
+ Fri, 05 Mar 2021 06:47:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vgzPwGGP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id z7so1520690plk.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Mar 2021 06:47:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1HLUJcPw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id o6so2151471pjf.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Mar 2021 06:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gP1Ex0RBSjVZ5Gv/1AMKqqsg257AX/xw4VgOF3agdxE=;
-        b=vgzPwGGP2q1OAsHlMMQYxc/UQ5lKoO9ubzScBqg6UHO0WgNTZq+PP5vYz93QdEU3i/
-         yU69bAasXrhBcToQjLZ9/Vk+ePBQHK3KR7Xzekpimg3jKyXluiXi2HZOIwIf1g3FpHwy
-         lA9uLlVmLqIyZS3yfs2b6b0lMe90/ahNJcv+kyyAVevjSD7VMnQynUf5Z9DUz/FTL537
-         D/nhVd2Fa148jCSvc0p17AEd1EfztyuaoZkG++YQGn+HkRKwooNTNk3dm1ZVJ3ioSTMo
-         GF71ZHC8Ay0o6eGZ5BVgpr898UHDcGazDzKGTSDBG/MWz+7y5+slsmvChgNWXD4sgUkq
-         cQLg==
+        bh=FkrBkl8pL51kZmS3td5W/uCVSwLDcLjuJIKNqu9WCZk=;
+        b=1HLUJcPwqLtlLT/q7faCXoVrb+g+C4e1kftHcNt5qeQYzMibw2hIGNspCqjcwfY6su
+         ews5vpSEbL9RqtmEHaFdxxPYQyW6sBvHxduK54BvUBMozhK42zsPrhbQP9oJ/8njduxK
+         oItkeYo6ia3QqUpw/y1p+qI7DLo5PX8kF6zDLGnU0AnP1J2xgKXuM2SCYafmNZ6JCKmI
+         SBaO9bijF9Kq6xJkiOo0X+NQ1X3d0npnimik801/V+cSS0Kotc5zJpPqqEM22Cea4bJh
+         0EVhefGcLjV0PiQnzhZ1ZuzIWzwGhvamEr/j6b4NMEaYfnNA6GhcrdIR3B5o2bvF1xY1
+         xiXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gP1Ex0RBSjVZ5Gv/1AMKqqsg257AX/xw4VgOF3agdxE=;
-        b=gWLeGBK/qvumCo0SztKoebl5bj5W9GEpumc+N8usHcxn5jznkObPik3B1g2ezyDr6j
-         /eP2YpZMg9mPdmzDfn86M10SzJ1n+RngqyIXukLO0qOwYCkKA6uS5T4v+d2Ytecbd5EW
-         Grbcu9xlOvTLL03NU71WrAEKf+PHDt7UeoModrztxJ5PbUgPFhSeFG5Yh5iBX5EXTOdf
-         K2Y2Io8neWPwLqnlFmMWpe9rVKiT7Lq0/pGDJ0Xb4V+KeY8Gx2dmEbEU1D614hkhWmnx
-         OY4msXz7x1Vjd2GuJVr4b9UqIjO2VWr6OUmsb8XLYN5M5NxNjilmwgZBdA1ni0s9wNcO
-         FD3A==
-X-Gm-Message-State: AOAM531BV0/8h4E0iZ57EA5z4MfJB5S94W0wieb4vx/Di/tuwIk3jwnm
-	eNVHWFGuO1silrLBWbR0x88TE/r5FLDlTl5i
-X-Google-Smtp-Source: ABdhPJx0tFl0kSc6ET+3vqH8cDN8vfDibXgKUIFwQl/ung2xouG1LH3iJT0zHyadYeFH1lWJBZ3xIg==
-X-Received: by 2002:a17:902:509:b029:e5:9944:f763 with SMTP id 9-20020a1709020509b02900e59944f763mr9268805plf.35.1614955639343;
-        Fri, 05 Mar 2021 06:47:19 -0800 (PST)
+        bh=FkrBkl8pL51kZmS3td5W/uCVSwLDcLjuJIKNqu9WCZk=;
+        b=VxxPHbW5Fs1rxpCRjDkPxhm3vDneCBgeguGCZ0kEAznegpjbsmQOr8sq4avgrN9YVL
+         WejAhA7lFwWSo1DenOQjlpASWNiysUIftCnM+B1kT4waRvPHZogKrgbuMuJFjY5IrUl7
+         M3r6NzYnqLgoVoxT4qNTi+thrn5kGh9cPAe8XnD3US1QyD26jM6BU1ZdK1Y+PRxyFX67
+         4e+dQOHn6BC5VBDPO0xNSeVPUvZ2IsO+m5KI2TiGuXzetUseE0OA5B+ASQcqUZTz6jbO
+         y99AR26YrtAC2OcSPVB3F1t5gmIWyNXcxZTd9ZkCNqvp3Y5CYbb4jvXbuQ+LGQDOh0WQ
+         2mTA==
+X-Gm-Message-State: AOAM531pVYcqBCx8WlaOfJyiUU00f/3EYLXGWPTI0RXgSf+xSy62CkDd
+	75K3uD2q7USvXrW+8lz11oJXnf3GXjUxOx9j
+X-Google-Smtp-Source: ABdhPJxwqjzBevVzM55Zgv7+2kJZkB2e3pQ6/a0ExPQB0P94/SxcgZyFPiS0Qu4efDZNUmmPfq+qBg==
+X-Received: by 2002:a17:902:6b84:b029:e5:d94f:d317 with SMTP id p4-20020a1709026b84b02900e5d94fd317mr8330263plk.22.1614955644469;
+        Fri, 05 Mar 2021 06:47:24 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id c72sm2659261pfb.165.2021.03.05.06.47.15
+        by smtp.gmail.com with ESMTPSA id c72sm2659261pfb.165.2021.03.05.06.47.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 06:47:18 -0800 (PST)
+        Fri, 05 Mar 2021 06:47:24 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/27] screen: fix CVE-2021-26937
-Date: Fri,  5 Mar 2021 04:46:13 -1000
-Message-Id: <1927fb88bf484fe90b37367c3c63db2b88185bcc.1614955420.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/27] bind: fix CVE-2020-8625
+Date: Fri,  5 Mar 2021 04:46:14 -1000
+Message-Id: <dcce323a1b651a875da8e51f02f015de442d7d49.1614955420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1614955420.git.steve@sakoman.com>
 References: <cover.1614955420.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Scott Murray <scott.murray@konsulko.com>
+From: Minjae Kim <flowergom@gmail.com>
 
-Apply patch from Debian to fix CVE-2021-26937.
+BIND Operational Notification: Zone journal (.jnl) file incompatibility
 
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6d688cc8672b1830ba10966492ab3f8a12d32e17)
+Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
+CVE: CVE-2020-8625
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../screen/screen/CVE-2021-26937.patch        | 68 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.8.0.bb  |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2021-26937.patch
+ .../bind/bind/CVE-2020-8625.patch               | 17 +++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.11.22.bb  |  1 +
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2021-26937.patch b/meta/recipes-extended/screen/screen/CVE-2021-26937.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
 new file mode 100644
-index 0000000000..983b35c1b0
+index 0000000000..9078f2448e
 --- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2021-26937.patch
-@@ -0,0 +1,68 @@
-+Description: [CVE-2021-26937] Fix out of bounds array access
-+Author: Michael Schröder <mls@suse.de>
-+Bug-Debian: https://bugs.debian.org/982435
-+Bug: https://savannah.gnu.org/bugs/?60030
-+Bug: https://lists.gnu.org/archive/html/screen-devel/2021-02/msg00000.html
-+Bug-OSS-Security: https://www.openwall.com/lists/oss-security/2021/02/09/3
-+Origin: https://lists.gnu.org/archive/html/screen-devel/2021-02/msg00010.html
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8625.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Backporting [https://downloads.isc.org/isc/bind9/9.16.12/patches/CVE-2020-8625.patch]
++CVE: CVE-2020-8625
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
 +
-+CVE: CVE-2021-26937
-+Upstream-Status: Pending
-+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-+
-+--- a/encoding.c
-++++ b/encoding.c
-+@@ -43,7 +43,7 @@
-+ # ifdef UTF8
-+ static int   recode_char __P((int, int, int));
-+ static int   recode_char_to_encoding __P((int, int));
-+-static void  comb_tofront __P((int, int));
-++static void  comb_tofront __P((int));
-+ #  ifdef DW_CHARS
-+ static int   recode_char_dw __P((int, int *, int, int));
-+ static int   recode_char_dw_to_encoding __P((int, int *, int));
-+@@ -1263,6 +1263,8 @@
-+     {0x30000, 0x3FFFD},
-+   };
++diff --git a/lib/dns/spnego.c b/lib/dns/spnego.c
++index e61d1c600f2..753dc8049fa 100644
++--- a/lib/dns/spnego.c
+++++ b/lib/dns/spnego.c
++@@ -848,7 +848,7 @@ der_get_oid(const unsigned char *p, size_t len, oid *data, size_t *size) {
++ 		return (ASN1_OVERRUN);
++ 	}
 + 
-++  if (c >= 0xdf00 && c <= 0xdfff)
-++    return 1;          /* dw combining sequence */
-+   return ((bisearch(c, wide, sizeof(wide) / sizeof(struct interval) - 1)) ||
-+           (cjkwidth &&
-+            bisearch(c, ambiguous,
-+@@ -1330,11 +1332,12 @@
-+ }
-+ 
-+ static void
-+-comb_tofront(root, i)
-+-int root, i;
-++comb_tofront(i)
-++int i;
-+ {
-+   for (;;)
-+     {
-++      int root = i >= 0x700 ? 0x801 : 0x800;
-+       debug1("bring to front: %x\n", i);
-+       combchars[combchars[i]->prev]->next = combchars[i]->next;
-+       combchars[combchars[i]->next]->prev = combchars[i]->prev;
-+@@ -1396,9 +1399,9 @@
-+     {
-+       /* full, recycle old entry */
-+       if (c1 >= 0xd800 && c1 < 0xe000)
-+-        comb_tofront(root, c1 - 0xd800);
-++        comb_tofront(c1 - 0xd800);
-+       i = combchars[root]->prev;
-+-      if (c1 == i + 0xd800)
-++      if (i == 0x800 || i == 0x801 || c1 == i + 0xd800)
-+ 	{
-+ 	  /* completely full, can't recycle */
-+ 	  debug("utf8_handle_comp: completely full!\n");
-+@@ -1422,7 +1425,7 @@
-+   mc->font  = (i >> 8) + 0xd8;
-+   mc->fontx = 0;
-+   debug3("combinig char %x %x -> %x\n", c1, c, i + 0xd800);
-+-  comb_tofront(root, i);
-++  comb_tofront(i);
-+ }
-+ 
-+ #else /* !UTF8 */
-diff --git a/meta/recipes-extended/screen/screen_4.8.0.bb b/meta/recipes-extended/screen/screen_4.8.0.bb
-index 4772eb6c7a..fe640c262b 100644
---- a/meta/recipes-extended/screen/screen_4.8.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.8.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2021-26937.patch \
-           "
++-	data->components = malloc(len * sizeof(*data->components));
+++	data->components = malloc((len + 1) * sizeof(*data->components));
++ 	if (data->components == NULL) {
++ 		return (ENOMEM);
++ 	}
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.22.bb b/meta/recipes-connectivity/bind/bind_9.11.22.bb
+index 3b4a299b36..e3b9cacc15 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.22.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.22.bb
+@@ -18,6 +18,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8625.patch \
+            "
  
- SRC_URI[md5sum] = "d276213d3acd10339cd37848b8c4ab1e"
+ SRC_URI[sha256sum] = "afc6d8015006f1cabf699ff19f517bb8fd9c1811e5231f26baf51c3550262ac9"
 -- 
 2.25.1
 
