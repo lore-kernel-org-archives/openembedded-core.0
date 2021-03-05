@@ -1,227 +1,1124 @@
 Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.7720.1614918144509118322
+ by mx.groups.io with SMTP id smtpd.web09.7663.1614918143328449753
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Mar 2021 20:22:25 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: eU9FZ60VvnDN7trbKBFmlj+Dmr4E6fLjMz6opSwkNe5M2sNqg4/jPlHWOR9LHa580tzqklKhlD
- xAglTm1yYECA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670883"
+IronPort-SDR: W0Whbsh8W3n/NpKIVyapKDeAi1zJ9Jir2KgSYa9nisyfruWt4V01Toe4vzfuxp3Nr5PIPtWocs
+ IcthzkIqhW1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670894"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187670883"
+   d="scan'208";a="187670894"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:09 -0800
-IronPort-SDR: yGW/A0stzGB1ir1rL5UlWXXlvEDuR2qJzNR862zKK1f7DpAXdzTteNQAcmt2wlmZttILNEeN33
- V0b5CDcN3rUw==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:11 -0800
+IronPort-SDR: woO6yZT+KF/KUE4MwabpCI5cnXee6tpffreOmZxfXROdV1bl9BJfbeOSrNby/Ctj9gSxUMo3Jr
+ od32nLeJ5hjg==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408128795"
+   d="scan'208";a="408128802"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:08 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:09 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 08/52] linux-yocto/5.4: update to v5.4.98
-Date: Fri,  5 Mar 2021 12:20:44 +0800
-Message-Id: <aa10b5cd8016063626240b0ca888950d106c7dd1.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 09/52] groff: Fix determinism issue
+Date: Fri,  5 Mar 2021 12:20:45 +0800
+Message-Id: <087290564221fd1968c2ab8c506a0bcdac0c1c12.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+Sometimes bison would regenerate source files and sometimes it would not
+This is likely related to the patching of generated files by on of the
+patches.
 
-    5b9a4104c902 Linux 5.4.98
-    3654a0ed0bdc squashfs: add more sanity checks in xattr id lookup
-    d78a70667738 squashfs: add more sanity checks in inode lookup
-    a814355e7057 squashfs: add more sanity checks in id lookup
-    848bcb0a1d96 Fix unsynchronized access to sev members through svm_register_enc_region
-    78e2f71b89b2 bpf: Fix 32 bit src register truncation on div/mod
-    8589eda99cb1 regulator: Fix lockdep warning resolving supplies
-    513fee2aee13 blk-cgroup: Use cond_resched() when destroy blkgs
-    d1eb41833408 i2c: mediatek: Move suspend and resume handling to NOIRQ phase
-    618b65dbde7a SUNRPC: Handle 0 length opaque XDR object data properly
-    19b56e8433e7 SUNRPC: Move simple_get_bytes and simple_get_netobj into private header
-    fa758032a546 iwlwifi: mvm: guard against device removal in reprobe
-    2fa76f19dc15 iwlwifi: mvm: invalidate IDs of internal stations at mvm start
-    c82793ef4f3b iwlwifi: pcie: fix context info memory leak
-    b301eaf27f86 iwlwifi: pcie: add a NULL check in iwl_pcie_txq_unmap
-    01742ade9286 iwlwifi: mvm: take mutex for calling iwl_mvm_get_sync_time()
-    8f630ed7e98e iwlwifi: mvm: skip power command when unbinding vif during CSA
-    589cf152fe47 ASoC: ak4458: correct reset polarity
-    e96d10250227 pNFS/NFSv4: Try to return invalid layout in pnfs_layout_process()
-    a5c70e57c4c1 chtls: Fix potential resource leak
-    8b6d5013cd70 ASoC: Intel: Skylake: Zero snd_ctl_elem_value
-    db272cd2bc9e mac80211: 160MHz with extended NSS BW in CSA
-    26548561cb92 regulator: core: avoid regulator_resolve_supply() race condition
-    03d76df5f164 af_key: relax availability checks for skb size calculation
-    968b1b034136 tracing/kprobe: Fix to support kretprobe events on unloaded modules
-    5e1942063dc3 Linux 5.4.97
-    40af962eb1d4 usb: host: xhci: mvebu: make USB 3.0 PHY optional for Armada 3720
-    76ab33055fbc net: sched: replaced invalid qdisc tree flush helper in qdisc_replace
-    e65d331755de net: dsa: mv88e6xxx: override existent unicast portvec in port_fdb_add
-    5d3007b6cc7b net: ip_tunnel: fix mtu calculation
-    90d7459d24b8 neighbour: Prevent a dead entry from updating gc_list
-    271ea7072901 igc: Report speed and duplex as unknown when device is runtime suspended
-    7018edb19a92 md: Set prev_flush_start and flush_bio in an atomic way
-    e857e21eb200 iommu/vt-d: Do not use flush-queue when caching-mode is on
-    5fdf672759e9 Input: xpad - sync supported devices with fork on GitHub
-    03d56dab56ae iwlwifi: mvm: don't send RFH_QUEUE_CONFIG_CMD with no queues
-    2d5705150707 x86/apic: Add extra serialization for non-serializing MSRs
-    bc1a3aeeff0f x86/build: Disable CET instrumentation in the kernel
-    40d0fff29761 mm: thp: fix MADV_REMOVE deadlock on shmem THP
-    56d61cd652dd mm, compaction: move high_pfn to the for loop scope
-    90ef21e5806f mm: hugetlb: remove VM_BUG_ON_PAGE from page_huge_active
-    af5508b1e862 mm: hugetlb: fix a race between isolating and freeing page
-    3264a763174f mm: hugetlb: fix a race between freeing and dissolving the page
-    108f56ed354f mm: hugetlbfs: fix cannot migrate the fallocated HugeTLB page
-    75be4852490f ARM: footbridge: fix dc21285 PCI configuration accessors
-    b2640b08c43c KVM: x86: Update emulator context mode if SYSENTER xfers to 64-bit mode
-    6d3201c77be5 KVM: SVM: Treat SVM as unsupported when running as an SEV guest
-    f9be9445e494 nvme-pci: avoid the deepest sleep state on Kingston A2000 SSDs
-    f9034fcb27c0 drm/amd/display: Revert "Fix EDID parsing after resume from suspend"
-    6844143e2198 mmc: core: Limit retries when analyse of SDIO tuples fails
-    68c825bd2726 smb3: fix crediting for compounding when only one request in flight
-    eaf2f835b52c smb3: Fix out-of-bounds bug in SMB2_negotiate()
-    00f581964b66 cifs: report error instead of invalid when revalidating a dentry fails
-    fd6dc98f66ef xhci: fix bounce buffer usage for non-sg list case
-    f6a47f2ce090 genirq/msi: Activate Multi-MSI early when MSI_FLAG_ACTIVATE_EARLY is set
-    c9654bbe52b5 libnvdimm/dimm: Avoid race between probe and available_slots_show()
-    d0f36951ead4 kretprobe: Avoid re-registration of the same kretprobe earlier
-    e80f9021d5be fgraph: Initialize tracing_graph_pause at task creation
-    efa17285b338 mac80211: fix station rate table updates on assoc
-    ecdd962c4b9b ovl: fix dentry leak in ovl_get_redirect
-    6b9a2e5c0c42 usb: host: xhci-plat: add priv quirk for skip PHY initialization
-    ddc682d33024 usb: xhci-mtk: break loop when find the endpoint to drop
-    32410786279f usb: xhci-mtk: skip dropping bandwidth of unchecked endpoints
-    f4e4f067f94c usb: xhci-mtk: fix unreleased bandwidth data
-    1f9e9c1048b8 usb: dwc3: fix clock issue during resume in OTG mode
-    9d058a06149b usb: dwc2: Fix endpoint direction check in ep_from_windex
-    2a968ab0d2dd usb: renesas_usbhs: Clear pipe running flag in usbhs_pkt_pop()
-    4d1d959348c1 USB: usblp: don't call usb_set_interface if there's a single alt
-    522567fe540d USB: gadget: legacy: fix an error code in eth_bind()
-    e57d70c59bb7 memblock: do not start bottom-up allocations with kernel_end
-    7e6dcaeadc0e nvmet-tcp: fix out-of-bounds access when receiving multiple h2cdata PDUs
-    f1c87b4b2c7b ARM: dts: sun7i: a20: bananapro: Fix ethernet phy-mode
-    d97a821b2e9c r8169: fix WoL on shutdown if CONFIG_DEBUG_SHIRQ is set
-    c545879e8080 net: mvpp2: TCAM entry enable should be written after SRAM data
-    bf0507fb2073 net: lapb: Copy the skb before sending a packet
-    1cef1d46add8 net/mlx5: Fix leak upon failure of rule creation
-    67b7f73bbe3f i40e: Revert "i40e: don't report link up for a VF who hasn't enabled queues"
-    6380ef64b9eb igc: check return value of ret_val in igc_config_fc_after_link_up
-    ec68581f7479 igc: set the default return value to -IGC_ERR_NVM in igc_write_nvm_srwr
-    5ce999efcaa7 arm64: dts: ls1046a: fix dcfg address range
-    68e798fa3c0e rxrpc: Fix deadlock around release of dst cached on udp tunnel
-    98650c3d0e33 um: virtio: free vu_dev only with the contained struct device
-    02531b5549eb bpf, cgroup: Fix problematic bounds check
-    9146fffc5d2a bpf, cgroup: Fix optlen WARN_ON_ONCE toctou
-    4921f81ce65a arm64: dts: rockchip: fix vopl iommu irq on px30
-    831132b13f0d arm64: dts: amlogic: meson-g12: Set FL-adj property value
-    829bf438cb39 Input: i8042 - unbreak Pegatron C15B
-    0d6e0a192e2e arm64: dts: qcom: c630: keep both touchpad devices enabled
-    96dcfabef504 USB: serial: option: Adding support for Cinterion MV31
-    5ad95c521fd5 USB: serial: cp210x: add new VID/PID for supporting Teraoka AD2000
-    dfa820563c67 USB: serial: cp210x: add pid/vid for WSDA-200-USB
+Drop those changes and force the files to regenerate in all cases since
+we depend on bison-native anyway. This ensures the results are always
+consistent.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 98bb6a3cb528abe02b6edc291d05e240985ca80e)
+(cherry picked from commit 4449fa226e94f7124215c5ead43aadda7967f3af)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../groff/files/0001-Include-config.h.patch   | 1026 +----------------
+ meta/recipes-extended/groff/groff_1.22.4.bb   |   11 +
+ 2 files changed, 14 insertions(+), 1023 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 0047667c0d..d5b6b642e5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-extended/groff/files/0001-Include-config.h.patch b/meta/recipes-extended/groff/files/0001-Include-config.h.patch
+index 348a61d9df..46065bc513 100644
+--- a/meta/recipes-extended/groff/files/0001-Include-config.h.patch
++++ b/meta/recipes-extended/groff/files/0001-Include-config.h.patch
+@@ -17,6 +17,9 @@ In file included from TOPDIR/build/tmp/work/aarch64-yoe-linux-musl/groff/1.22.4-
+   ^
+ ./lib/math.h:40:1: error: unknown type name '_GL_INLINE_HEADER_BEGIN'
  
--SRCREV_machine ?= "d713e8f61a93d8f6e8c1960b2478f19ba616f1e1"
--SRCREV_meta ?= "ab2e5b4ded74e18c58efd99ca6f1661a4f299255"
-+SRCREV_machine ?= "0406e600800a40015d02b16ee6a4a46c6673c66f"
-+SRCREV_meta ?= "4f6d6c23cc8ca5d9c39b1efc2619b1dfec1ef2bc"
++We delete eqn.cpp and qen.hpp in do_configure
++to ensure they're regenerated and deterministic.
++
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+@@ -140,1029 +143,6 @@ index f95c05e..d875045 100644
+  #include <string.h>
+  #include <stdlib.h>
+  
+-diff --git a/src/preproc/eqn/eqn.cpp b/src/preproc/eqn/eqn.cpp
+-index 4ede465..fdd9484 100644
+---- a/src/preproc/eqn/eqn.cpp
+-+++ b/src/preproc/eqn/eqn.cpp
+-@@ -1,8 +1,9 @@
+--/* A Bison parser, made by GNU Bison 3.2.  */
+-+/* A Bison parser, made by GNU Bison 3.4.1.  */
+- 
+- /* Bison implementation for Yacc-like parsers in C
+- 
+--   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+-+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+-+   Inc.
+- 
+-    This program is free software: you can redistribute it and/or modify
+-    it under the terms of the GNU General Public License as published by
+-@@ -47,7 +48,7 @@
+- #define YYBISON 1
+- 
+- /* Bison version.  */
+--#define YYBISON_VERSION "3.2"
+-+#define YYBISON_VERSION "3.4.1"
+- 
+- /* Skeleton name.  */
+- #define YYSKELETON_NAME "yacc.c"
+-@@ -65,7 +66,11 @@
+- 
+- 
+- /* First part of user prologue.  */
+--#line 18 "../src/preproc/eqn/eqn.ypp" /* yacc.c:338  */
+-+#line 18 "src/preproc/eqn/eqn.ypp"
+-+
+-+#if HAVE_CONFIG_H
+-+# include <config.h>
+-+#endif
+- 
+- #include <stdio.h>
+- #include <string.h>
+-@@ -77,7 +82,8 @@ extern int non_empty_flag;
+- int yylex();
+- void yyerror(const char *);
+- 
+--#line 81 "src/preproc/eqn/eqn.cpp" /* yacc.c:338  */
+-+#line 86 "src/preproc/eqn/eqn.cpp"
+-+
+- # ifndef YY_NULLPTR
+- #  if defined __cplusplus
+- #   if 201103L <= __cplusplus
+-@@ -98,8 +104,8 @@ void yyerror(const char *);
+- # define YYERROR_VERBOSE 0
+- #endif
+- 
+--/* In a future release of Bison, this section will be replaced
+--   by #include "y.tab.h".  */
+-+/* Use api.header.include to #include this header
+-+   instead of duplicating it here.  */
+- #ifndef YY_YY_SRC_PREPROC_EQN_EQN_HPP_INCLUDED
+- # define YY_YY_SRC_PREPROC_EQN_EQN_HPP_INCLUDED
+- /* Debug traces.  */
+-@@ -237,10 +243,9 @@ extern int yydebug;
+- 
+- /* Value type.  */
+- #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+--
+- union YYSTYPE
+- {
+--#line 30 "../src/preproc/eqn/eqn.ypp" /* yacc.c:353  */
+-+#line 34 "src/preproc/eqn/eqn.ypp"
+- 
+- 	char *str;
+- 	box *b;
+-@@ -249,9 +254,9 @@ union YYSTYPE
+- 	int n;
+- 	column *col;
+- 
+--#line 253 "src/preproc/eqn/eqn.cpp" /* yacc.c:353  */
+--};
+-+#line 258 "src/preproc/eqn/eqn.cpp"
+- 
+-+};
+- typedef union YYSTYPE YYSTYPE;
+- # define YYSTYPE_IS_TRIVIAL 1
+- # define YYSTYPE_IS_DECLARED 1
+-@@ -366,6 +371,8 @@ typedef short yytype_int16;
+- #endif
+- 
+- 
+-+#define YY_ASSERT(E) ((void) (0 && (E)))
+-+
+- #if ! defined yyoverflow || YYERROR_VERBOSE
+- 
+- /* The parser invokes alloca or malloc; define the necessary symbols.  */
+-@@ -508,16 +515,16 @@ union yyalloc
+- /* YYNSTATES -- Number of states.  */
+- #define YYNSTATES  142
+- 
+--/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
+--   by yylex, with out-of-bounds checking.  */
+- #define YYUNDEFTOK  2
+- #define YYMAXUTOK   315
+- 
+-+/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+-+   as returned by yylex, with out-of-bounds checking.  */
+- #define YYTRANSLATE(YYX)                                                \
+-   ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+- 
+- /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
+--   as returned by yylex, without out-of-bounds checking.  */
+-+   as returned by yylex.  */
+- static const yytype_uint8 yytranslate[] =
+- {
+-        0,     2,     2,     2,     2,     2,     2,     2,     2,    63,
+-@@ -558,14 +565,14 @@ static const yytype_uint8 yytranslate[] =
+-   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
+- static const yytype_uint16 yyrline[] =
+- {
+--       0,   121,   121,   123,   128,   130,   141,   143,   145,   150,
+--     152,   154,   156,   158,   163,   165,   167,   169,   174,   176,
+--     181,   183,   185,   190,   192,   194,   196,   198,   200,   202,
+--     204,   206,   208,   210,   212,   214,   216,   218,   220,   222,
+--     224,   226,   228,   230,   232,   234,   236,   238,   240,   242,
+--     244,   246,   248,   250,   252,   254,   259,   269,   271,   276,
+--     278,   283,   285,   290,   292,   297,   299,   304,   306,   308,
+--     310,   314,   316,   321,   323,   325
+-+       0,   125,   125,   127,   132,   134,   145,   147,   149,   154,
+-+     156,   158,   160,   162,   167,   169,   171,   173,   178,   180,
+-+     185,   187,   189,   194,   196,   198,   200,   202,   204,   206,
+-+     208,   210,   212,   214,   216,   218,   220,   222,   224,   226,
+-+     228,   230,   232,   234,   236,   238,   240,   242,   244,   246,
+-+     248,   250,   252,   254,   256,   258,   263,   273,   275,   280,
+-+     282,   287,   289,   294,   296,   301,   303,   308,   310,   312,
+-+     314,   318,   320,   325,   327,   329
+- };
+- #endif
+- 
+-@@ -818,22 +825,22 @@ static const yytype_uint8 yyr2[] =
+- 
+- #define YYRECOVERING()  (!!yyerrstatus)
+- 
+--#define YYBACKUP(Token, Value)                                  \
+--do                                                              \
+--  if (yychar == YYEMPTY)                                        \
+--    {                                                           \
+--      yychar = (Token);                                         \
+--      yylval = (Value);                                         \
+--      YYPOPSTACK (yylen);                                       \
+--      yystate = *yyssp;                                         \
+--      goto yybackup;                                            \
+--    }                                                           \
+--  else                                                          \
+--    {                                                           \
+--      yyerror (YY_("syntax error: cannot back up")); \
+--      YYERROR;                                                  \
+--    }                                                           \
+--while (0)
+-+#define YYBACKUP(Token, Value)                                    \
+-+  do                                                              \
+-+    if (yychar == YYEMPTY)                                        \
+-+      {                                                           \
+-+        yychar = (Token);                                         \
+-+        yylval = (Value);                                         \
+-+        YYPOPSTACK (yylen);                                       \
+-+        yystate = *yyssp;                                         \
+-+        goto yybackup;                                            \
+-+      }                                                           \
+-+    else                                                          \
+-+      {                                                           \
+-+        yyerror (YY_("syntax error: cannot back up")); \
+-+        YYERROR;                                                  \
+-+      }                                                           \
+-+  while (0)
+- 
+- /* Error token number */
+- #define YYTERROR        1
+-@@ -948,7 +955,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
+-       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
+-       yy_symbol_print (stderr,
+-                        yystos[yyssp[yyi + 1 - yynrhs]],
+--                       &(yyvsp[(yyi + 1) - (yynrhs)])
+-+                       &yyvsp[(yyi + 1) - (yynrhs)]
+-                                               );
+-       YYFPRINTF (stderr, "\n");
+-     }
+-@@ -1052,7 +1059,10 @@ yytnamerr (char *yyres, const char *yystr)
+-           case '\\':
+-             if (*++yyp != '\\')
+-               goto do_not_strip_quotes;
+--            /* Fall through.  */
+-+            else
+-+              goto append;
+-+
+-+          append:
+-           default:
+-             if (yyres)
+-               yyres[yyn] = *yyp;
+-@@ -1148,10 +1158,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+-                 yyarg[yycount++] = yytname[yyx];
+-                 {
+-                   YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+--                  if (! (yysize <= yysize1
+--                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+-+                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+-+                    yysize = yysize1;
+-+                  else
+-                     return 2;
+--                  yysize = yysize1;
+-                 }
+-               }
+-         }
+-@@ -1175,9 +1185,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+- 
+-   {
+-     YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
+--    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+-+    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+-+      yysize = yysize1;
+-+    else
+-       return 2;
+--    yysize = yysize1;
+-   }
+- 
+-   if (*yymsg_alloc < yysize)
+-@@ -1303,23 +1314,33 @@ yyparse (void)
+-   yychar = YYEMPTY; /* Cause a token to be read.  */
+-   goto yysetstate;
+- 
+-+
+- /*------------------------------------------------------------.
+--| yynewstate -- Push a new state, which is found in yystate.  |
+-+| yynewstate -- push a new state, which is found in yystate.  |
+- `------------------------------------------------------------*/
+-- yynewstate:
+-+yynewstate:
+-   /* In all cases, when you get here, the value and location stacks
+-      have just been pushed.  So pushing a state here evens the stacks.  */
+-   yyssp++;
+- 
+-- yysetstate:
+-+
+-+/*--------------------------------------------------------------------.
+-+| yynewstate -- set current state (the top of the stack) to yystate.  |
+-+`--------------------------------------------------------------------*/
+-+yysetstate:
+-+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+-+  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
+-   *yyssp = (yytype_int16) yystate;
+- 
+-   if (yyss + yystacksize - 1 <= yyssp)
+-+#if !defined yyoverflow && !defined YYSTACK_RELOCATE
+-+    goto yyexhaustedlab;
+-+#else
+-     {
+-       /* Get the current used size of the three stacks, in elements.  */
+-       YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
+- 
+--#ifdef yyoverflow
+-+# if defined yyoverflow
+-       {
+-         /* Give user a chance to reallocate the stack.  Use copies of
+-            these so that the &'s don't force the real ones into
+-@@ -1338,10 +1359,7 @@ yyparse (void)
+-         yyss = yyss1;
+-         yyvs = yyvs1;
+-       }
+--#else /* no yyoverflow */
+--# ifndef YYSTACK_RELOCATE
+--      goto yyexhaustedlab;
+--# else
+-+# else /* defined YYSTACK_RELOCATE */
+-       /* Extend the stack our own way.  */
+-       if (YYMAXDEPTH <= yystacksize)
+-         goto yyexhaustedlab;
+-@@ -1357,12 +1375,11 @@ yyparse (void)
+-           goto yyexhaustedlab;
+-         YYSTACK_RELOCATE (yyss_alloc, yyss);
+-         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
+--#  undef YYSTACK_RELOCATE
+-+# undef YYSTACK_RELOCATE
+-         if (yyss1 != yyssa)
+-           YYSTACK_FREE (yyss1);
+-       }
+- # endif
+--#endif /* no yyoverflow */
+- 
+-       yyssp = yyss + yysize - 1;
+-       yyvsp = yyvs + yysize - 1;
+-@@ -1373,19 +1390,18 @@ yyparse (void)
+-       if (yyss + yystacksize - 1 <= yyssp)
+-         YYABORT;
+-     }
+--
+--  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+-+#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+- 
+-   if (yystate == YYFINAL)
+-     YYACCEPT;
+- 
+-   goto yybackup;
+- 
+-+
+- /*-----------.
+- | yybackup.  |
+- `-----------*/
+- yybackup:
+--
+-   /* Do appropriate processing given the current state.  Read a
+-      lookahead token if we need one and don't already have one.  */
+- 
+-@@ -1443,7 +1459,6 @@ yybackup:
+-   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+-   *++yyvsp = yylval;
+-   YY_IGNORE_MAYBE_UNINITIALIZED_END
+--
+-   goto yynewstate;
+- 
+- 
+-@@ -1458,7 +1473,7 @@ yydefault:
+- 
+- 
+- /*-----------------------------.
+--| yyreduce -- Do a reduction.  |
+-+| yyreduce -- do a reduction.  |
+- `-----------------------------*/
+- yyreduce:
+-   /* yyn is the number of a rule to reduce with.  */
+-@@ -1478,20 +1493,20 @@ yyreduce:
+-   YY_REDUCE_PRINT (yyn);
+-   switch (yyn)
+-     {
+--        case 3:
+--#line 124 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+  case 3:
+-+#line 128 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].b)->top_level(); non_empty_flag = 1; }
+--#line 1485 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1500 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 4:
+--#line 129 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 133 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1491 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1506 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 5:
+--#line 131 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 135 "src/preproc/eqn/eqn.ypp"
+-     {
+- 		  list_box *lb = (yyvsp[-1].b)->to_list_box();
+- 		  if (!lb)
+-@@ -1499,436 +1514,437 @@ yyreduce:
+- 		  lb->append((yyvsp[0].b));
+- 		  (yyval.b) = lb;
+- 		}
+--#line 1503 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1518 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 6:
+--#line 142 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 146 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1509 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1524 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 7:
+--#line 144 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 148 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_mark_box((yyvsp[0].b)); }
+--#line 1515 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1530 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 8:
+--#line 146 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 150 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_lineup_box((yyvsp[0].b)); }
+--#line 1521 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1536 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 9:
+--#line 151 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 155 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1527 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1542 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 10:
+--#line 153 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 157 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-2].b), 0, (yyvsp[0].b)); }
+--#line 1533 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1548 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 11:
+--#line 155 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 159 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-2].b), (yyvsp[0].b), 0); }
+--#line 1539 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1554 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 12:
+--#line 157 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 161 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-4].b), (yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1545 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1560 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 13:
+--#line 159 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 163 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_limit_box((yyvsp[-4].b), make_limit_box((yyvsp[-2].b), (yyvsp[0].b), 0), 0); }
+--#line 1551 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1566 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 14:
+--#line 164 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 168 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1557 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1572 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 15:
+--#line 166 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 170 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_sqrt_box((yyvsp[0].b)); }
+--#line 1563 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1578 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 16:
+--#line 168 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 172 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_over_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1569 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1584 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 17:
+--#line 170 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 174 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_small_over_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1575 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1590 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 18:
+--#line 175 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 179 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1581 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1596 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 19:
+--#line 177 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 181 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-2].b), 0, (yyvsp[0].b)); }
+--#line 1587 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1602 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 20:
+--#line 182 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 186 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[0].b); }
+--#line 1593 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1608 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 21:
+--#line 184 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 188 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-2].b), (yyvsp[0].b), 0); }
+--#line 1599 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1614 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 22:
+--#line 186 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 190 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_script_box((yyvsp[-4].b), (yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1605 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1620 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 23:
+--#line 191 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 195 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = split_text((yyvsp[0].str)); }
+--#line 1611 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1626 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 24:
+--#line 193 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 197 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new quoted_text_box((yyvsp[0].str)); }
+--#line 1617 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1632 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 25:
+--#line 195 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 199 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = split_text((yyvsp[0].str)); }
+--#line 1623 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1638 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 26:
+--#line 197 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 201 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new quoted_text_box((yyvsp[0].str)); }
+--#line 1629 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1644 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 27:
+--#line 199 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 203 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new half_space_box; }
+--#line 1635 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1650 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 28:
+--#line 201 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 205 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new space_box; }
+--#line 1641 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1656 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 29:
+--#line 203 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 207 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new tab_box; }
+--#line 1647 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1662 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 30:
+--#line 205 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 209 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[-1].b); }
+--#line 1653 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1668 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 31:
+--#line 207 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 211 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(CENTER_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1659 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1674 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 32:
+--#line 209 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 213 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(LEFT_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1665 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1680 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 33:
+--#line 211 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 215 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(RIGHT_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1671 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1686 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 34:
+--#line 213 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 217 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].pb)->set_alignment(CENTER_ALIGN); (yyval.b) = (yyvsp[0].pb); }
+--#line 1677 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1692 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 35:
+--#line 215 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 219 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = (yyvsp[-1].mb); }
+--#line 1683 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1698 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 36:
+--#line 217 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 221 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_delim_box((yyvsp[-3].str), (yyvsp[-2].b), (yyvsp[0].str)); }
+--#line 1689 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1704 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 37:
+--#line 219 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 223 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_delim_box((yyvsp[-1].str), (yyvsp[0].b), 0); }
+--#line 1695 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1710 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 38:
+--#line 221 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 225 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_overline_box((yyvsp[-1].b)); }
+--#line 1701 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1716 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 39:
+--#line 223 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 227 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_underline_box((yyvsp[-1].b)); }
+--#line 1707 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1722 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 40:
+--#line 225 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 229 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_prime_box((yyvsp[-1].b)); }
+--#line 1713 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1728 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 41:
+--#line 227 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 231 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_accent_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1719 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1734 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 42:
+--#line 229 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 233 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_uaccent_box((yyvsp[-2].b), (yyvsp[0].b)); }
+--#line 1725 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1740 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 43:
+--#line 231 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 235 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_grfont()), (yyvsp[0].b)); }
+--#line 1731 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1746 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 44:
+--#line 233 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 237 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_gbfont()), (yyvsp[0].b)); }
+--#line 1737 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1752 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 45:
+--#line 235 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 239 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box(strsave(get_gfont()), (yyvsp[0].b)); }
+--#line 1743 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1758 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 46:
+--#line 237 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 241 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new fat_box((yyvsp[0].b)); }
+--#line 1749 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1764 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 47:
+--#line 239 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 243 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new font_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1755 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1770 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 48:
+--#line 241 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 245 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new size_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1761 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1776 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 49:
+--#line 243 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 247 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new hmotion_box((yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1767 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1782 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 50:
+--#line 245 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 249 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new hmotion_box(-(yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1773 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1788 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 51:
+--#line 247 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 251 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vmotion_box((yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1779 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1794 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 52:
+--#line 249 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 253 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vmotion_box(-(yyvsp[-1].n), (yyvsp[0].b)); }
+--#line 1785 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1800 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 53:
+--#line 251 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 255 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].b)->set_spacing_type((yyvsp[-1].str)); (yyval.b) = (yyvsp[0].b); }
+--#line 1791 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1806 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 54:
+--#line 253 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 257 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = new vcenter_box((yyvsp[0].b)); }
+--#line 1797 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1812 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 55:
+--#line 255 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 259 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.b) = make_special_box((yyvsp[-1].str), (yyvsp[0].b)); }
+--#line 1803 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1818 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 56:
+--#line 260 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 264 "src/preproc/eqn/eqn.ypp"
+-     {
+- 		  int n;
+- 		  if (sscanf((yyvsp[0].str), "%d", &n) == 1)
+- 		    (yyval.n) = n;
+- 		  a_delete (yyvsp[0].str);
+- 		}
+--#line 1814 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1829 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 57:
+--#line 270 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 274 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.pb) = new pile_box((yyvsp[0].b)); }
+--#line 1820 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1835 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 58:
+--#line 272 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 276 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-2].pb)->append((yyvsp[0].b)); (yyval.pb) = (yyvsp[-2].pb); }
+--#line 1826 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1841 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 59:
+--#line 277 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 281 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.pb) = (yyvsp[-1].pb); }
+--#line 1832 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1847 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 60:
+--#line 279 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 283 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].pb)->set_space((yyvsp[-3].n)); (yyval.pb) = (yyvsp[-1].pb); }
+--#line 1838 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1853 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 61:
+--#line 284 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 288 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.mb) = new matrix_box((yyvsp[0].col)); }
+--#line 1844 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1859 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 62:
+--#line 286 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 290 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].mb)->append((yyvsp[0].col)); (yyval.mb) = (yyvsp[-1].mb); }
+--#line 1850 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1865 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 63:
+--#line 291 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 295 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.col) = new column((yyvsp[0].b)); }
+--#line 1856 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1871 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 64:
+--#line 293 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 297 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-2].col)->append((yyvsp[0].b)); (yyval.col) = (yyvsp[-2].col); }
+--#line 1862 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1877 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 65:
+--#line 298 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 302 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.col) = (yyvsp[-1].col); }
+--#line 1868 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1883 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 66:
+--#line 300 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 304 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[-1].col)->set_space((yyvsp[-3].n)); (yyval.col) = (yyvsp[-1].col); }
+--#line 1874 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1889 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 67:
+--#line 305 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 309 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(CENTER_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1880 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1895 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 68:
+--#line 307 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 311 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(LEFT_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1886 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1901 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 69:
+--#line 309 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 313 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(RIGHT_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1892 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1907 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 70:
+--#line 311 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 315 "src/preproc/eqn/eqn.ypp"
+-     { (yyvsp[0].col)->set_alignment(CENTER_ALIGN); (yyval.col) = (yyvsp[0].col); }
+--#line 1898 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1913 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 71:
+--#line 315 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 319 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1904 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1919 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 72:
+--#line 317 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 321 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1910 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1925 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 73:
+--#line 322 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 326 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = (yyvsp[0].str); }
+--#line 1916 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1931 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 74:
+--#line 324 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 328 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = strsave("{"); }
+--#line 1922 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1937 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+-   case 75:
+--#line 326 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1645  */
+-+#line 330 "src/preproc/eqn/eqn.ypp"
+-     { (yyval.str) = strsave("}"); }
+--#line 1928 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1943 "src/preproc/eqn/eqn.cpp"
+-     break;
+- 
+- 
+--#line 1932 "src/preproc/eqn/eqn.cpp" /* yacc.c:1645  */
+-+#line 1947 "src/preproc/eqn/eqn.cpp"
+-+
+-       default: break;
+-     }
+-   /* User semantic actions sometimes alter yychar, and that requires
+-@@ -2042,12 +2058,10 @@ yyerrlab:
+- | yyerrorlab -- error raised explicitly by YYERROR.  |
+- `---------------------------------------------------*/
+- yyerrorlab:
+--
+--  /* Pacify compilers like GCC when the user code never invokes
+--     YYERROR and the label yyerrorlab therefore never appears in user
+--     code.  */
+--  if (/*CONSTCOND*/ 0)
+--     goto yyerrorlab;
+-+  /* Pacify compilers when the user code never invokes YYERROR and the
+-+     label yyerrorlab therefore never appears in user code.  */
+-+  if (0)
+-+    YYERROR;
+- 
+-   /* Do not reclaim the symbols of the rule whose action triggered
+-      this YYERROR.  */
+-@@ -2109,6 +2123,7 @@ yyacceptlab:
+-   yyresult = 0;
+-   goto yyreturn;
+- 
+-+
+- /*-----------------------------------.
+- | yyabortlab -- YYABORT comes here.  |
+- `-----------------------------------*/
+-@@ -2116,6 +2131,7 @@ yyabortlab:
+-   yyresult = 1;
+-   goto yyreturn;
+- 
+-+
+- #if !defined yyoverflow || YYERROR_VERBOSE
+- /*-------------------------------------------------.
+- | yyexhaustedlab -- memory exhaustion comes here.  |
+-@@ -2126,6 +2142,10 @@ yyexhaustedlab:
+-   /* Fall through.  */
+- #endif
+- 
+-+
+-+/*-----------------------------------------------------.
+-+| yyreturn -- parsing is finished, return the result.  |
+-+`-----------------------------------------------------*/
+- yyreturn:
+-   if (yychar != YYEMPTY)
+-     {
+-@@ -2155,5 +2175,5 @@ yyreturn:
+- #endif
+-   return yyresult;
+- }
+--#line 329 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1903  */
+-+#line 333 "src/preproc/eqn/eqn.ypp"
+- 
+-diff --git a/src/preproc/eqn/eqn.hpp b/src/preproc/eqn/eqn.hpp
+-index 32a32a5..9a092c1 100644
+---- a/src/preproc/eqn/eqn.hpp
+-+++ b/src/preproc/eqn/eqn.hpp
+-@@ -1,8 +1,9 @@
+--/* A Bison parser, made by GNU Bison 3.2.  */
+-+/* A Bison parser, made by GNU Bison 3.4.1.  */
+- 
+- /* Bison interface for Yacc-like parsers in C
+- 
+--   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+-+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+-+   Inc.
+- 
+-    This program is free software: you can redistribute it and/or modify
+-    it under the terms of the GNU General Public License as published by
+-@@ -170,10 +171,9 @@ extern int yydebug;
+- 
+- /* Value type.  */
+- #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+--
+- union YYSTYPE
+- {
+--#line 30 "../src/preproc/eqn/eqn.ypp" /* yacc.c:1906  */
+-+#line 34 "src/preproc/eqn/eqn.ypp"
+- 
+- 	char *str;
+- 	box *b;
+-@@ -182,9 +182,9 @@ union YYSTYPE
+- 	int n;
+- 	column *col;
+- 
+--#line 186 "src/preproc/eqn/eqn.hpp" /* yacc.c:1906  */
+--};
+-+#line 186 "src/preproc/eqn/eqn.hpp"
+- 
+-+};
+- typedef union YYSTYPE YYSTYPE;
+- # define YYSTYPE_IS_TRIVIAL 1
+- # define YYSTYPE_IS_DECLARED 1
+ diff --git a/src/preproc/eqn/eqn.ypp b/src/preproc/eqn/eqn.ypp
+ index fb318c3..b7b647e 100644
+ --- a/src/preproc/eqn/eqn.ypp
+diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
+index 0867452ce7..7bb393e09c 100644
+--- a/meta/recipes-extended/groff/groff_1.22.4.bb
++++ b/meta/recipes-extended/groff/groff_1.22.4.bb
+@@ -18,6 +18,10 @@ SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+ SRC_URI[md5sum] = "08fb04335e2f5e73f23ea4c3adbf0c5f"
+ SRC_URI[sha256sum] = "e78e7b4cb7dec310849004fa88847c44701e8d133b5d4c13057d876c1bad0293"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
++# Remove at the next upgrade
++PR = "r1"
++HASHEQUIV_HASH_VERSION .= ".1"
++
+ DEPENDS = "bison-native"
+ RDEPENDS_${PN} += "perl sed"
  
--LINUX_VERSION ?= "5.4.96"
-+LINUX_VERSION ?= "5.4.98"
+@@ -30,6 +34,13 @@ PARALLEL_MAKE = ""
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no' PAGE=A4"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 63e452641c..ff03fd4197 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.96"
-+LINUX_VERSION ?= "5.4.98"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "7ddf91d07b54aaf7d9160375b7a084dd115684b1"
--SRCREV_machine ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_meta ?= "ab2e5b4ded74e18c58efd99ca6f1661a4f299255"
-+SRCREV_machine_qemuarm ?= "fc95a485415d22eb772359b8d350c03b85c0cd1b"
-+SRCREV_machine ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_meta ?= "4f6d6c23cc8ca5d9c39b1efc2619b1dfec1ef2bc"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 73cc1e909c..7fdb1e93e9 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "e35ee9d9faf9994d4987746db31e9122732d4066"
--SRCREV_machine_qemuarm64 ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_machine_qemumips ?= "76bd925d349e98d13f23aed590d3cdb811beea7d"
--SRCREV_machine_qemuppc ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_machine_qemuriscv64 ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_machine_qemux86 ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_machine_qemux86-64 ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_machine_qemumips64 ?= "6da088d17f3a6038e01627b47e499899be55f6e2"
--SRCREV_machine ?= "621e232db8554748a51c80f522ec759303cde5d2"
--SRCREV_meta ?= "ab2e5b4ded74e18c58efd99ca6f1661a4f299255"
-+SRCREV_machine_qemuarm ?= "28bc6b294bb1e49da671b2848234f9011efcad88"
-+SRCREV_machine_qemuarm64 ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_machine_qemumips ?= "105568d1696f86625cf7bc30d8c5c921732de2f4"
-+SRCREV_machine_qemuppc ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_machine_qemuriscv64 ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_machine_qemux86 ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_machine_qemux86-64 ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_machine_qemumips64 ?= "c76ba20ee1b1de859736f85f0210459c2104b8df"
-+SRCREV_machine ?= "2d0a4ea86fe97f13a4bc2a92a097e4edb51d737d"
-+SRCREV_meta ?= "4f6d6c23cc8ca5d9c39b1efc2619b1dfec1ef2bc"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.96"
-+LINUX_VERSION ?= "5.4.98"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
++# Delete these generated files since we depend on bison-native
++# and regenerate them. Do it deterministically (always).
++do_configure_prepend() {
++	rm -f ${S}/src/preproc/eqn/eqn.cpp
++	rm -f ${S}/src/preproc/eqn/eqn.hpp
++}
++
+ do_install_append() {
+ 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+ 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
 -- 
 2.29.2
 
