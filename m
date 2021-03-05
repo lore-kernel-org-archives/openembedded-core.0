@@ -1,75 +1,70 @@
-Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.7722.1614918147768864035
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web12.7767.1614918149829465790
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:22:29 -0800
+ Thu, 04 Mar 2021 20:22:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: TJxKXbgTxJEu5DQxRu0Ko7e5m9bF1fcHvqA55xxLWPmZJlOvVlCmA9vuBQdseqqXUQqyKc5+qs
- 1dDtI5ceBMdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187670997"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Ug2q6FEZPc6MQMnXhkY1ImYC/2bm/X/iplmZyayFEfEw0bO/JGwMkaO0oPxLmdkBaTwZyhYPmb
+ iwAyoeV3/o4g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671036"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187670997"
+   d="scan'208";a="187671036"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:25 -0800
-IronPort-SDR: AJVT8C8twL3ilRXBFmY8LwTKvNFvY3EXiEuo3tyrNxqZEhk42dmwk0m40XBQsx1qEQjdu3t6Oy
- pAJF1gwIsdvw==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:28 -0800
+IronPort-SDR: ZXGV2GeTM2QUdBuIMWD6TCcV9o6WN3bbHEBCxXChe/fVk27xU2F/WtTuZfkpx5VPfYQ1lTsfjK
+ tM6qRpklly3w==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408128870"
+   d="scan'208";a="408128872"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:24 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:27 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 20/52] wpebackend-fdo: Fix missing .so symlink when using dev package
-Date: Fri,  5 Mar 2021 12:20:56 +0800
-Message-Id: <1d933a163fa306164bd7990fe3a734f8b39c2c40.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 22/52] systemd: Fix importd requirements comment
+Date: Fri,  5 Mar 2021 12:20:58 +0800
+Message-Id: <2b3f0e7d08b29095ffb883e317a56f53e602cd26.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Zbigniew Bodek <zbigniew.bodek@huawei.com>
+From: Vivien Didelot <vdidelot@pbsc.com>
 
-Problem spotted on dunfell-23.0.4
+The comment above the importd config states curl, which does not
+exist in PACKAGECONFIG. Adding it results in the following error
+(and then misleading compilation failures):
 
-Normally, unversioned .so is removed from -dev (default) package
-however it is still being referred by other agents, such as webkitgtk.
-That can be observed while executing i.e. Epiphany Browser.
+    WARNING: systemd-1_244.5-r0 do_configure: QA Issue: systemd: invalid PACKAGECONFIG: curl [invalid-packageconfig]
 
-For instance:
-platformInitializeWebProcess()
-calls
-wpe_loader_init("libWPEBackend-fdo-1.0.so")
+Support for curl is currently enabled through journal-upload:
 
-as a result one can see:
---------------------
-wpe_loader_init could not load the library 'libWPEBackend-fdo-1.0.so':
-libWPEBackend-fdo-1.0.so: cannot open shared object file:
-No such file or directory
---------------------
+    PACKAGECONFIG[journal-upload] = "-Dlibcurl=true,-Dlibcurl=false,curl"
 
-"master" branch contains a bumped-up version of webkitgtk
-to which this issue does not apply (the code has changed).
+While it might be more appropriate to deprecate "journal-upload"
+in favor of a "curl" PACKAGECONFIG entry, simply fix the importd
+comment for now by stating upload-journal instead of curl.
 
-Forcefully keep this .so symlink to resolve the problem in dunfell.
-
-Signed-off-by: Zbigniew Bodek <zbigniew.bodek@huawei.com>
+Signed-off-by: Vivien Didelot <vdidelot@pbsc.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e6a0bced605da58ff43ff06ea6a1d67e84c98d91)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/systemd/systemd_246.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-index 519762d125..15f4f4276c 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-@@ -15,3 +15,6 @@ REQUIRED_DISTRO_FEATURES = "opengl"
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
- SRC_URI[sha256sum] = "9b980a73ea4e3762266c48f81ded56d9dcad4acf32bad9bd05d0dffdd454c6f5"
- 
-+FILES_${PN} += "${libdir}/libWPEBackend-fdo-1.0.so"
-+FILES_SOLIBSDEV = ""
-+INSANE_SKIP_${PN} += "dev-so"
+diff --git a/meta/recipes-core/systemd/systemd_246.9.bb b/meta/recipes-core/systemd/systemd_246.9.bb
+index daee795cc2..6524b8216a 100644
+--- a/meta/recipes-core/systemd/systemd_246.9.bb
++++ b/meta/recipes-core/systemd/systemd_246.9.bb
+@@ -135,7 +135,7 @@ PACKAGECONFIG[hibernate] = "-Dhibernate=true,-Dhibernate=false"
+ PACKAGECONFIG[hostnamed] = "-Dhostnamed=true,-Dhostnamed=false"
+ PACKAGECONFIG[idn] = "-Didn=true,-Didn=false"
+ PACKAGECONFIG[ima] = "-Dima=true,-Dima=false"
+-# importd requires curl/xz/zlib/bzip2/gcrypt
++# importd requires journal-upload/xz/zlib/bzip2/gcrypt
+ PACKAGECONFIG[importd] = "-Dimportd=true,-Dimportd=false"
+ # Update NAT firewall rules
+ PACKAGECONFIG[iptc] = "-Dlibiptc=true,-Dlibiptc=false,iptables"
 -- 
 2.29.2
 
