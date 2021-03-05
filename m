@@ -1,27 +1,27 @@
 Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.7839.1614918154051973024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:22:51 -0800
+ Thu, 04 Mar 2021 20:22:52 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: wtAV3orj8ZTbcKmBLyfQHpylZiTRJxepCbAhPFlMcXCeQljLq7Bt/czoU8HF3awbowHDEeXcgq
- M7PYHUWEBpIA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671166"
+IronPort-SDR: BPJZ23vZK9dF8/n4uEl4UH5fNxkq7ELntNioyi3nErWnvLjGuEz7QulFdr4AMtzXGUCdEV60Ra
+ Vrvbv/VoejRw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671179"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187671166"
+   d="scan'208";a="187671179"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:51 -0800
-IronPort-SDR: eXV5FFwF26t5E13L6beSObYjHUF8hxaooNcLXm8LVNfI0JmrVBAbUdJ17zBLAnRk3GLtC2dBqY
- 7nrUbX9j9vGQ==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:52 -0800
+IronPort-SDR: 51vcs7Pq8s0v+LAKSpuDGTnrXmLGe7qc/tC6Nczq4yIaTms9VFE9wrFwj7C4oZxDvbcT3dGA7H
+ UoNeEfOg9WXA==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408129093"
+   d="scan'208";a="408129109"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:50 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:51 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 39/52] epiphany: Fix reproducibility issue
-Date: Fri,  5 Mar 2021 12:21:15 +0800
-Message-Id: <5004bee2e5b1ea903b9a935ce439bc9eb0896974.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 40/52] epiphany: Fix distributor contamination from /etc/os-release
+Date: Fri,  5 Mar 2021 12:21:16 +0800
+Message-Id: <26bb8ebdcb19df55f5bad8102eb2d4380d450a30.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
@@ -30,61 +30,53 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We don't want to encide BUILD_ROOT into target packages. This is used
-for build time tests but in our case those would be on target anyway
-do use the target paths.
+Set our own distro string rather than using the value from
+/etc/os-release.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2818dc90bd62487879e7da2c68357b39282415b0)
+(cherry picked from commit 77f23ece471e8855bfd8be06951f21cabce25545)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../recipes-gnome/epiphany/epiphany_3.36.4.bb |  1 +
- .../epiphany/files/migrator.patch             | 24 +++++++++++++++++++
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-gnome/epiphany/files/migrator.patch
+ meta/recipes-gnome/epiphany/epiphany_3.36.4.bb  |  1 +
+ .../epiphany/files/distributor.patch            | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/distributor.patch
 
 diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-index 4c3b18331a..dcb337f4cb 100644
+index dcb337f4cb..0c22a67bde 100644
 --- a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
 +++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
-@@ -13,6 +13,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
+@@ -14,6 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
  SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
             file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-+           file://migrator.patch \
+            file://migrator.patch \
++           file://distributor.patch \
             "
  SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
  
-diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
 new file mode 100644
-index 0000000000..a9a650a64a
+index 0000000000..b09c9b38d2
 --- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/migrator.patch
-@@ -0,0 +1,24 @@
-+We don't want to encide BUILD_ROOT into target packages. This is used
-+for build time tests but in our case those would be on target anyway
-+do use the target paths.
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -0,0 +1,17 @@
++Don't encode the distro from /etc/os-release into the binaries.
 +
 +Upstream-Status: Pending
-+RP 2021/2/25
++RP 2021/2/26
 +
-+Index: epiphany-3.38.2/lib/ephy-profile-utils.c
++Index: epiphany-3.38.2/meson.build
 +===================================================================
-+--- epiphany-3.38.2.orig/lib/ephy-profile-utils.c
-++++ epiphany-3.38.2/lib/ephy-profile-utils.c
-+@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const c
-+   argv[i++] = NULL;
++--- epiphany-3.38.2.orig/meson.build
+++++ epiphany-3.38.2/meson.build
++@@ -15,6 +15,7 @@ if r.returncode() == 0
++ else
++   distributor_name = 'GNOME Web'
++ endif
+++distributor_name = 'OpenEmbedded'
 + 
-+ #if DEVELOPER_MODE
-+-  argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
-++  argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
-+ #else
-+   if (debug)
-+-    argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
-++    argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
-+ #endif
-+ 
-+   g_spawn_sync (NULL, (char **)argv, envp, G_SPAWN_SEARCH_PATH,
++ prefix = get_option('prefix')
++ datadir = join_paths(prefix, get_option('datadir'))
 -- 
 2.29.2
 
