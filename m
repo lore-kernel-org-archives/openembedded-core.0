@@ -1,173 +1,90 @@
 Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.7839.1614918154051973024
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Mar 2021 20:22:50 -0800
+ Thu, 04 Mar 2021 20:22:51 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: VevexyI/fK0PrP9mYYJMBnUqZb5Pj25ww1FqGg6jXlQGg2eAdDgnohRld5uJ5n5ui6N9KtJSEN
- 51D1lbBfYRqQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671157"
+IronPort-SDR: wtAV3orj8ZTbcKmBLyfQHpylZiTRJxepCbAhPFlMcXCeQljLq7Bt/czoU8HF3awbowHDEeXcgq
+ M7PYHUWEBpIA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="187671166"
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="187671157"
+   d="scan'208";a="187671166"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:49 -0800
-IronPort-SDR: 8C4zgeOfuA2lDPWLCCeyDXC1tFaisPSDGTDwdMjes8DSDyAuwhR9AliqqZGF9Z7avSrOZElKiq
- D6nDCHn4UG+Q==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:51 -0800
+IronPort-SDR: eXV5FFwF26t5E13L6beSObYjHUF8hxaooNcLXm8LVNfI0JmrVBAbUdJ17zBLAnRk3GLtC2dBqY
+ 7nrUbX9j9vGQ==
 X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="408129066"
+   d="scan'208";a="408129093"
 Received: from selvan2x-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.147.249])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:48 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 20:22:50 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 38/52] wic: Warn if an ext filesystem affected by the Y2038 problem is used
-Date: Fri,  5 Mar 2021 12:21:14 +0800
-Message-Id: <2250430d555fcae3df71d1dff079e52c093d000c.1614917620.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 39/52] epiphany: Fix reproducibility issue
+Date: Fri,  5 Mar 2021 12:21:15 +0800
+Message-Id: <5004bee2e5b1ea903b9a935ce439bc9eb0896974.1614917620.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1614917620.git.anuj.mittal@intel.com>
 References: <cover.1614917620.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Florian Bezdeka <florian.bezdeka@siemens.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We are getting closer and closer to the year 2038 where the 32 bit
-time_t overflow will happen. While products (= embedded systems) with an
-expected life time of 15 years are still save the situation may change
-if your system has to survive the next 20 years.
+We don't want to encide BUILD_ROOT into target packages. This is used
+for build time tests but in our case those would be on target anyway
+do use the target paths.
 
-ext2 and ext3 filesystems are always affected by the time overflow, so
-let's warn the user if these filesystems are still being used.
-
-If ext4 is affected depends on the inode size chosen during filesystem
-creation. At least 256 bytes are necessary to be safe. As ext4 is
-used very often (and partitions may be created small first and extended
-later) this might be an issue for many users.
-
-Some filesystems created during CI runs were already affected by the Y2038
-problem. By using `--mkfs-extraopts "-T default"` we tell mke2fs not to
-auto-detect the usage type based on the filesystem size. mke2fs will use
-the default values for tuning parameters instead. The inode size is one
-of these parameters.
-
-Signed-off-by: Florian Bezdeka <florian.bezdeka@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eecbe625558406680121d2a7e84917fea45ea9dc)
+(cherry picked from commit 2818dc90bd62487879e7da2c68357b39282415b0)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/wic/canned-wks/common.wks.inc     |  2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks |  2 +-
- scripts/lib/wic/canned-wks/mkefidisk.wks      |  2 +-
- scripts/lib/wic/misc.py                       |  1 +
- scripts/lib/wic/partition.py                  | 38 +++++++++++++++++++
- 5 files changed, 42 insertions(+), 3 deletions(-)
+ .../recipes-gnome/epiphany/epiphany_3.36.4.bb |  1 +
+ .../epiphany/files/migrator.patch             | 24 +++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/migrator.patch
 
-diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
-index 89880b417b..4fd29fa8c1 100644
---- a/scripts/lib/wic/canned-wks/common.wks.inc
-+++ b/scripts/lib/wic/canned-wks/common.wks.inc
-@@ -1,3 +1,3 @@
- # This file is included into 3 canned wks files from this directory
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
-+part / --source rootfs --use-uuid --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024
-diff --git a/scripts/lib/wic/canned-wks/directdisk-gpt.wks b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-index 8d7d8de6ea..cf16c0c30b 100644
---- a/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/wic/canned-wks/directdisk-gpt.wks
-@@ -4,7 +4,7 @@
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+index 4c3b18331a..dcb337f4cb 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+@@ -13,6 +13,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
  
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
++           file://migrator.patch \
+            "
+ SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
  
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default" --label platform --align 1024 --use-uuid
- 
- bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0 console=ttyS0,115200n8"
- 
-diff --git a/scripts/lib/wic/canned-wks/mkefidisk.wks b/scripts/lib/wic/canned-wks/mkefidisk.wks
-index 9f534fe184..d1878e23e5 100644
---- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-@@ -4,7 +4,7 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --mkfs-extraopts "-T default"  --label platform --align 1024 --use-uuid
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 75b219cd3f..57c042c503 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -26,6 +26,7 @@ logger = logging.getLogger('wic')
- 
- # executable -> recipe pairs for exec_native_cmd
- NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-+                  "dumpe2fs": "e2fsprogs",
-                   "grub-mkimage": "grub-efi",
-                   "isohybrid": "syslinux",
-                   "mcopy": "mtools",
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index e574f40c47..85f9847047 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -298,6 +298,8 @@ class Partition():
-         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-+        self.check_for_Y2038_problem(rootfs, native_sysroot)
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+new file mode 100644
+index 0000000000..a9a650a64a
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -0,0 +1,24 @@
++We don't want to encide BUILD_ROOT into target packages. This is used
++for build time tests but in our case those would be on target anyway
++do use the target paths.
 +
-     def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
-                              native_sysroot, pseudo):
-         """
-@@ -388,6 +390,8 @@ class Partition():
-             (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-+        self.check_for_Y2038_problem(rootfs, native_sysroot)
++Upstream-Status: Pending
++RP 2021/2/25
 +
-     def prepare_empty_partition_btrfs(self, rootfs, oe_builddir,
-                                       native_sysroot):
-         """
-@@ -449,3 +453,37 @@ class Partition():
- 
-         mkswap_cmd = "mkswap %s -U %s %s" % (label_str, self.fsuuid, path)
-         exec_native_cmd(mkswap_cmd, native_sysroot)
-+
-+    def check_for_Y2038_problem(self, rootfs, native_sysroot):
-+        """
-+        Check if the filesystem is affected by the Y2038 problem
-+        (Y2038 problem = 32 bit time_t overflow in January 2038)
-+        """
-+        def get_err_str(part):
-+            err = "The {} filesystem {} has no Y2038 support."
-+            if part.mountpoint:
-+                args = [part.fstype, "mounted at %s" % part.mountpoint]
-+            elif part.label:
-+                args = [part.fstype, "labeled '%s'" % part.label]
-+            elif part.part_name:
-+                args = [part.fstype, "in partition '%s'" % part.part_name]
-+            else:
-+                args = [part.fstype, "in partition %s" % part.num]
-+            return err.format(*args)
-+
-+        # ext2 and ext3 are always affected by the Y2038 problem
-+        if self.fstype in ["ext2", "ext3"]:
-+            logger.warn(get_err_str(self))
-+            return
-+
-+        ret, out = exec_native_cmd("dumpe2fs %s" % rootfs, native_sysroot)
-+
-+        # if ext4 is affected by the Y2038 problem depends on the inode size
-+        for line in out.splitlines():
-+            if line.startswith("Inode size:"):
-+                size = int(line.split(":")[1].strip())
-+                if size < 256:
-+                    logger.warn("%s Inodes (of size %d) are too small." %
-+                                (get_err_str(self), size))
-+                break
-+
++Index: epiphany-3.38.2/lib/ephy-profile-utils.c
++===================================================================
++--- epiphany-3.38.2.orig/lib/ephy-profile-utils.c
+++++ epiphany-3.38.2/lib/ephy-profile-utils.c
++@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const c
++   argv[i++] = NULL;
++ 
++ #if DEVELOPER_MODE
++-  argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
+++  argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
++ #else
++   if (debug)
++-    argv[0] = BUILD_ROOT "/src/" EPHY_PROFILE_MIGRATOR;
+++    argv[0] = PKGLIBEXECDIR "/" EPHY_PROFILE_MIGRATOR;
++ #endif
++ 
++   g_spawn_sync (NULL, (char **)argv, envp, G_SPAWN_SEARCH_PATH,
 -- 
 2.29.2
 
