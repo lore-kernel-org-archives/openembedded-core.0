@@ -1,163 +1,305 @@
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.92.74.98])
- by mx.groups.io with SMTP id smtpd.web10.13134.1615065033832880103
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web10.13444.1615066406213796406
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Mar 2021 13:10:34 -0800
+ Sat, 06 Mar 2021 13:33:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=pS8QtWK3;
- spf=pass (domain: outlook.com, ip: 40.92.74.98, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j9nuPfOu/LBuXpc1AUa0Nyb/rrqJsJ36bJ58LuhHqk8PoPLHtWIayXsNjsFARiEVGku5NCtS02sJ2Byi+PWVSZI68U5TIyDQMizicCYokL4KE/DP+7RXRSyVZPf2XwCI+aK7ynmmJoEI/+hRy3RNxji73IRPI8lQpQkZlkISTJ9aPQGBF2ghCV0+r9/1xwbwiFpnABEzYBKY7Ss0GkRzrYgM/ppUWWsMwzq/jn53zHLa413orzDdo46r4DKB24L9jvkEKnpJ3sy6M6eOkZybQ9hQpbK7ApyE1TVsHMXsxUQTj1ee9bV8JYiawUCVbHIKY0xnSDepOVrtGBA92ukjTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=szyY4ePKXKVzA0ixbMFQ0db4Kqy3XFoNAGkY/t7NgPc=;
- b=WxGpuMezGS1tcNEAZwa4q63mt1pPdfus1DKhDkzazkRjPC2Y6i0iEE8BzsBMoNqkbakZNqkSag/TnWqQyljh3gTaHzUfkNA0VqJYJcqsUHt/8rcaO2PpToKtnEE1Ny4q1rcJfdK7U0ZQc7kRoZAKN/loYqm0YF2wGCdI/Jk1uw6M+/TDqoympYVn77k8M2OsmJe7NEmjQT40MTrMceZK2Nf6iAae9OfVpcqgjcUj/EDn/bif+I/kjyHQNyq5Mu1/0AwmLNOyt2f3NBmc0llllGL8LbawO+wQduUEMufdC9kj0k0hZXUuVZsY9JH/lhISgupN19PNG2Irbyb1kvZOgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=szyY4ePKXKVzA0ixbMFQ0db4Kqy3XFoNAGkY/t7NgPc=;
- b=pS8QtWK3wV/103Am/KQuGdDHdr28Ak1pj6/WIqrtij3rWABsWbcO7pTGAte02mb1dLnfCXQvwESIEoyx4YYuC6gyEugSEZwa89xN5TfoLyratvCB0dNnKlom7NNwbhv2eM5vcauk6CD5RfcDZ9hD6dGtNnB2KhUCKnOOkeFQ5C5u1QyHJ0rBQ7vQ/x9+d3oL5CHpLIz6ZdTO9+gvNuO50cSMhnuDSox4WlUeeXBU8u1VgZRT2vtwqWkqoVHHUdGpoxQyNVFD0/n916fkBK66E6mSwEJUktZufkHrYqRGQhCMkgRxD+GGhyji/cw+UjrigiGZMiCDT1Lxq690592ptw==
-Received: from VI1EUR04FT041.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0e::4b) by
- VI1EUR04HT043.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::443)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Sat, 6 Mar
- 2021 21:10:31 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- (2a01:111:e400:7e0e::4e) by VI1EUR04FT041.mail.protection.outlook.com
- (2a01:111:e400:7e0e::346) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Sat, 6 Mar 2021 21:10:31 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:B37ABD6D8E26AB6E8CB9C68C4F17F02D549AFF206BC0769FE80D7ED0ADC0AF74;UpperCasedChecksum:10A4E19CD6F786D3EDCE78D502BD778E1191966AE317FCC5ABD3A2FEFB34CE11;SizeAsReceived:8687;Count:48
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::35f3:a85d:b2c5:d4b4]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::35f3:a85d:b2c5:d4b4%4]) with mapi id 15.20.3912.026; Sat, 6 Mar 2021
- 21:10:31 +0000
-Subject: Re: [OE-core] [RFC] distrodata.py: Test to track recipes without HOMEPAGE or DESCRIPTION
-To: openembedded-core@lists.openembedded.org
-References: <20210306205320.28581-1-dorindabassey@gmail.com>
-Cc: dorindabassey@gmail.com
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB464269F1F1334AFA87C645B6A8959@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Sat, 6 Mar 2021 22:10:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210306205320.28581-1-dorindabassey@gmail.com>
-X-TMN: [V/to4OvWOg7FZI4pBjD2qAR1z8f53e/Y]
-X-ClientProxiedBy: AM6PR0502CA0053.eurprd05.prod.outlook.com
- (2603:10a6:20b:56::30) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <b37aad1a-e6ed-f33e-8abe-9e19cdd32577@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IOqxL8tB;
+ spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: dorindabassey@gmail.com)
+Received: by mail-il1-f176.google.com with SMTP id c10so5368595ilo.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Mar 2021 13:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=diL1SmrawjDfLKiiOFzwhGAgHTD59mcs1erYGQWYWG8=;
+        b=IOqxL8tBw5/m1YY35OKvqyHTd7gUrLsZVMbemL54Cg8foPGElf0sx7khsG69pDncYW
+         69YLo97/tifSNmP8AtHkpIaE3Eqm6mrnhGzfMCKaO5nnW7/Oge22Gj+mr//G2jKtMRHa
+         e6gcwJ6FrZ7rCjJ9g+XkPNDUk9B6apGAcU6+sazLGCiBW/MH2ZzZLkzZJktJREyTj+M1
+         AanD3lwbI3C210MY67WuTfPVVC+jJlp/MCyhO5vlR4ZcscWBkhrk7dod8dHNz6XBh0GH
+         StFR5whj//cF0p+P1Lsx3jllClsTwjrJkH8gYqbZkQ60rEC+5sFfSIxfE+fedZcEg90o
+         qATQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=diL1SmrawjDfLKiiOFzwhGAgHTD59mcs1erYGQWYWG8=;
+        b=GA1Q5S5yHN2I912rqU19hPQQOrbW245XiqqG7FM1jvLfWMSrfUgHAS2rPDG7KmwY78
+         jrCF9k4xfrJWM9x1DwMEi5uUfyhiVWEuCZlToQ2Wc+gM52RDbH6cJvWjWqvk7FeTQ2Hb
+         lKKax1ZUbxi2sZeXVrXrwd5NEFO6t1f4hBS4Wa5VBrIDs4lRe29GidOYUvNq4b7quYPB
+         LdJgRZhw8g2JLozcrw1/kMe3LNWGHoNdyTaWwgBN5440h/JYYm57uzxcMZbptZjGGRPL
+         AZrpiqjLJWrxZaaftUjUOcwbsvS51H2JR1Xreflu5jkO2ZoZIcIgUfmj06uqSBV+yuKS
+         8G4A==
+X-Gm-Message-State: AOAM530SGf0S9Znfg9xcoj94IT2WPa1k7a0u7ez0EH68SAYpCuBnbULo
+	ObAOgIF23kKhF/0PTkrelu1pTccXkOAktbMZ0Z4=
+X-Google-Smtp-Source: ABdhPJzXEXzzU36NcXv9QkyVzOUw5QK4ps4ggtRYzfM87cyYbkBFOXRmlzrbnjO5P3cd8msSmzDB9alWcaQTynG1mQo=
+X-Received: by 2002:a05:6e02:1a4d:: with SMTP id u13mr14284733ilv.176.1615066405610;
+ Sat, 06 Mar 2021 13:33:25 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (79.215.0.70) by AM6PR0502CA0053.eurprd05.prod.outlook.com (2603:10a6:20b:56::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Sat, 6 Mar 2021 21:10:30 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 5e071e9e-88d5-4d07-2784-08d8e0e44645
-X-MS-TrafficTypeDiagnostic: VI1EUR04HT043:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	bPR2ufF3lubDyzYdvmdKcAoisgMPagtueXE0dJ5QRMv5jSVPIzCvbgRvFr4YgdNdUA1Qhut8DXN5LAM+Mr6IdBpMF0aYDHGRCwXncG31mS3Vmq9sk3gElAq/Tggk8E7BY5kjrOLJZ73SRUfhB0COu4RUagqWDsxZweddHWasDhncjCzrf3ANxl9GdvXtWgRJ1w9nKveJcQr2AJjSGTvm/QgbCwkT6H9l8epUpmILWFIzcWZuF1QY+1nUNWmjrfbT7EkiZO3DsG/csv7Er1YMZO6uWuMsYTXZE6h8n7/BBoBvPitwBy6df0nm1TYzHPZbwxoiAnXElNUk+xvKNlYn40yTsfM5VyEP90wUcszcA9bpWhhSeu4AR79WCA6mxNuP8C0ArCJ3GsLv8Yuu+7mCaLFoisTBG+Yseu6I4e9Y5rkY9Uq33P+504ordMpkvfy8
-X-MS-Exchange-AntiSpam-MessageData: 
-	s2JY0ROShBnRaZ8boRHMdaOGS/Om7yLvNFxndVTITb0unkBSfNUoT8CgWl0iOitPcXEKrQvh0QCtkyHWKDZTZe4VaBbDK2JEH7c4TIFEmAcepYDfWva2xm6KEqYzkJZKBMJm5guJhlCm43WnMn8a7A==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e071e9e-88d5-4d07-2784-08d8e0e44645
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2021 21:10:31.1496
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VI1EUR04FT041.eop-eur04.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT043
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210306205320.28581-1-dorindabassey@gmail.com> <AM9PR09MB464269F1F1334AFA87C645B6A8959@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: <AM9PR09MB464269F1F1334AFA87C645B6A8959@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: "Dorinda" <dorindabassey@gmail.com>
+Date: Sat, 6 Mar 2021 22:33:13 +0100
+Message-ID: <CAJSnhzvqhm6ZerWiC67mwNtqcF1=4W3W9ty2JR9iy2jw5yDiDQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] distrodata.py: Test to track recipes without HOMEPAGE or DESCRIPTION
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006528ae05bce4f3a7"
 
-some nitpick below
+--0000000000006528ae05bce4f3a7
+Content-Type: text/plain; charset="UTF-8"
 
-On 06.03.21 21:53, Dorinda wrote:
-> [YOCTO #13471]
-> 
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
->   meta/lib/oeqa/selftest/cases/distrodata.py | 34 ++++++++++++++++++++++
->   1 file changed, 34 insertions(+)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-> index e1cfc3b621..d8df0b530c 100644
-> --- a/meta/lib/oeqa/selftest/cases/distrodata.py
-> +++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-> @@ -40,6 +40,40 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
->   """ + "\n".join(regressed_successes)
->           self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
->   
-> +    def test_missing_homepg(self):
-> +        """
-> +        Summary:     Test for oe-core recipes that don't have a HOMEPAGE or DESCRIPTION
-> +        Expected:    All oe-core recipes should have a DESCRIPTION entry
-> +        Expected:    All oe-core recipes should have a HOMEPAGE entry except for recipes that are not fetched from external sources.
-> +        Product:     oe-core
-> +        """
-> +        with bb.tinfoil.Tinfoil() as tinfoil:
-> +            tinfoil.prepare(config_only=False)
-> +            no_description = []
-> +            no_homepage = []
-> +            for fn in tinfoil.all_recipe_files(variants=False):
-> +                if not '/meta/recipes-' in fn:
-> +                    # We are only interested in OE-Core
-> +                    continue
-> +                rd = tinfoil.parse_recipe_file(fn, appends=False)
-> +                pn = rd.getVar('PN')
+Alright, Thank you for the feedback.
 
-shouldn't it be BPN, otherwise we would get the same warning for 
-native/cross/nativesdk and target configuration.
-Also I would advise to used set() instead of lists for `no_description` 
-and `no_homepage`, just to rule out any double postings
-
-> +                srcfile = rd.getVar('SRC_URI').split()
-> +                if not rd.getVar('DESCRIPTION'):
-> +                    no_description.append((pn, fn))
-> +                if not rd.getVar('HOMEPAGE'):
-> +                    if len(srcfile) > 0 and srcfile[0].startswith('file') or not rd.getVar('SRC_URI'):
-
-`if len(x) > 0` is a bad pattern - a pythonic way would be `if x:`
-
-> +                        # We are only interested in recipes SRC_URI fetched from external sources
-> +                        continue
-> +                    no_homepage.append((pn, fn))
-> +        if no_homepage:
-> +            self.fail("""
-> +The following recipes do not have a HOMEPAGE. Please add an entry for HOMEPAGE in the recipe.
-> +""" + "\n".join(['%s (%s)' % i for i in no_homepage]))
-> +        if no_description:
-> +            self.fail("""
-> +The following recipes do not have a DESCRIPTION. Please add an entry for DESCRIPTION in the recipe.
-> +""" + "\n".join(['%s (%s)' % i for i in no_description]))
-
-the currently valid edition 
-(https://www.openembedded.org/wiki/Styleguide) of the the style guide 
-claims that DESCRIPTION defaults to SUMMARY. So I personally would 
-rather check that SUMMARY != DESCRIPTION in case DESCRIPTION is set - by 
-default DESCRIPTION isn't mandatory IMO (or the styleguide needs to be 
+the currently valid edition
+(https://www.openembedded.org/wiki/Styleguide) of the the style guide
+claims that DESCRIPTION defaults to SUMMARY. So I personally would
+rather check that SUMMARY != DESCRIPTION in case DESCRIPTION is set - by
+default DESCRIPTION isn't mandatory IMO (or the styleguide needs to be
 updated)
+I now see why I didn't get reports on recipes without DESCRIPTION.
 
-> +
->       def test_maintainers(self):
->           """
->           Summary:     Test that oe-core recipes have a maintainer and entries in maintainers list have a recipe
-> 
-> 
-> 
-> 
-> 
+Thanks,
+Dorinda.
+
+
+On Sat, Mar 6, 2021, 22:10 Konrad Weihmann <kweihmann@outlook.com> wrote:
+
+> some nitpick below
+>
+> On 06.03.21 21:53, Dorinda wrote:
+> > [YOCTO #13471]
+> >
+> > Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> > ---
+> >   meta/lib/oeqa/selftest/cases/distrodata.py | 34 ++++++++++++++++++++++
+> >   1 file changed, 34 insertions(+)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py
+> b/meta/lib/oeqa/selftest/cases/distrodata.py
+> > index e1cfc3b621..d8df0b530c 100644
+> > --- a/meta/lib/oeqa/selftest/cases/distrodata.py
+> > +++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+> > @@ -40,6 +40,40 @@ but their recipes claim otherwise by setting
+> UPSTREAM_VERSION_UNKNOWN. Please re
+> >   """ + "\n".join(regressed_successes)
+> >           self.assertTrue(len(regressed_failures) == 0 and
+> len(regressed_successes) == 0, msg)
+> >
+> > +    def test_missing_homepg(self):
+> > +        """
+> > +        Summary:     Test for oe-core recipes that don't have a
+> HOMEPAGE or DESCRIPTION
+> > +        Expected:    All oe-core recipes should have a DESCRIPTION entry
+> > +        Expected:    All oe-core recipes should have a HOMEPAGE entry
+> except for recipes that are not fetched from external sources.
+> > +        Product:     oe-core
+> > +        """
+> > +        with bb.tinfoil.Tinfoil() as tinfoil:
+> > +            tinfoil.prepare(config_only=False)
+> > +            no_description = []
+> > +            no_homepage = []
+> > +            for fn in tinfoil.all_recipe_files(variants=False):
+> > +                if not '/meta/recipes-' in fn:
+> > +                    # We are only interested in OE-Core
+> > +                    continue
+> > +                rd = tinfoil.parse_recipe_file(fn, appends=False)
+> > +                pn = rd.getVar('PN')
+>
+> shouldn't it be BPN, otherwise we would get the same warning for
+> native/cross/nativesdk and target configuration.
+> Also I would advise to used set() instead of lists for `no_description`
+> and `no_homepage`, just to rule out any double postings
+>
+> > +                srcfile = rd.getVar('SRC_URI').split()
+> > +                if not rd.getVar('DESCRIPTION'):
+> > +                    no_description.append((pn, fn))
+> > +                if not rd.getVar('HOMEPAGE'):
+> > +                    if len(srcfile) > 0 and
+> srcfile[0].startswith('file') or not rd.getVar('SRC_URI'):
+>
+> `if len(x) > 0` is a bad pattern - a pythonic way would be `if x:`
+>
+> > +                        # We are only interested in recipes SRC_URI
+> fetched from external sources
+> > +                        continue
+> > +                    no_homepage.append((pn, fn))
+> > +        if no_homepage:
+> > +            self.fail("""
+> > +The following recipes do not have a HOMEPAGE. Please add an entry for
+> HOMEPAGE in the recipe.
+> > +""" + "\n".join(['%s (%s)' % i for i in no_homepage]))
+> > +        if no_description:
+> > +            self.fail("""
+> > +The following recipes do not have a DESCRIPTION. Please add an entry
+> for DESCRIPTION in the recipe.
+> > +""" + "\n".join(['%s (%s)' % i for i in no_description]))
+>
+> the currently valid edition
+> (https://www.openembedded.org/wiki/Styleguide) of the the style guide
+> claims that DESCRIPTION defaults to SUMMARY. So I personally would
+> rather check that SUMMARY != DESCRIPTION in case DESCRIPTION is set - by
+> default DESCRIPTION isn't mandatory IMO (or the styleguide needs to be
+> updated)
+>
+> > +
+> >       def test_maintainers(self):
+> >           """
+> >           Summary:     Test that oe-core recipes have a maintainer and
+> entries in maintainers list have a recipe
+> >
+> >
+> >
+> > 
+> >
+>
+
+--0000000000006528ae05bce4f3a7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div dir=3D"auto">Alright, Thank you for the feedbac=
+k.</div><div dir=3D"auto"><br><span style=3D"font-family:sans-serif;font-si=
+ze:13.696px">the currently valid edition=C2=A0</span><br style=3D"font-fami=
+ly:sans-serif;font-size:13.696px"><span style=3D"font-family:sans-serif;fon=
+t-size:13.696px">(</span><a href=3D"https://www.openembedded.org/wiki/Style=
+guide" style=3D"text-decoration:none;color:rgb(66,133,244);font-family:sans=
+-serif;font-size:13.696px">https://www.openembedded.org/wiki/Styleguide</a>=
+<span style=3D"font-family:sans-serif;font-size:13.696px">) of the the styl=
+e guide=C2=A0</span><br style=3D"font-family:sans-serif;font-size:13.696px"=
+><span style=3D"font-family:sans-serif;font-size:13.696px">claims that DESC=
+RIPTION defaults to SUMMARY. So I personally would=C2=A0</span><br style=3D=
+"font-family:sans-serif;font-size:13.696px"><span style=3D"font-family:sans=
+-serif;font-size:13.696px">rather check that SUMMARY !=3D DESCRIPTION in ca=
+se DESCRIPTION is set - by=C2=A0</span><br style=3D"font-family:sans-serif;=
+font-size:13.696px"><span style=3D"font-family:sans-serif;font-size:13.696p=
+x">default DESCRIPTION isn&#39;t mandatory IMO (or the styleguide needs to =
+be=C2=A0</span><br style=3D"font-family:sans-serif;font-size:13.696px"><spa=
+n style=3D"font-family:sans-serif;font-size:13.696px">updated)</span><br></=
+div><div dir=3D"auto">I now see why I didn&#39;t get reports on recipes wit=
+hout DESCRIPTION.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks=
+,</div><div dir=3D"auto">Dorinda.</div><br><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 6, 2021, 22:10 Konrad Weih=
+mann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">some nitpick below<br>
+<br>
+On 06.03.21 21:53, Dorinda wrote:<br>
+&gt; [YOCTO #13471]<br>
+&gt; <br>
+&gt; Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dorindabassey@gma=
+il.com" target=3D"_blank" rel=3D"noreferrer">dorindabassey@gmail.com</a>&gt=
+;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/lib/oeqa/selftest/cases/distrodata.py | 34 +++++++++=
++++++++++++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 34 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oe=
+qa/selftest/cases/distrodata.py<br>
+&gt; index e1cfc3b621..d8df0b530c 100644<br>
+&gt; --- a/meta/lib/oeqa/selftest/cases/distrodata.py<br>
+&gt; +++ b/meta/lib/oeqa/selftest/cases/distrodata.py<br>
+&gt; @@ -40,6 +40,40 @@ but their recipes claim otherwise by setting UPSTR=
+EAM_VERSION_UNKNOWN. Please re<br>
+&gt;=C2=A0 =C2=A0&quot;&quot;&quot; + &quot;\n&quot;.join(regressed_succes=
+ses)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertTrue(len(regressed=
+_failures) =3D=3D 0 and len(regressed_successes) =3D=3D 0, msg)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 def test_missing_homepg(self):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 Summary:=C2=A0 =C2=A0 =C2=A0Test for oe-=
+core recipes that don&#39;t have a HOMEPAGE or DESCRIPTION<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 =C2=A0 All oe-core recip=
+es should have a DESCRIPTION entry<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 =C2=A0 All oe-core recip=
+es should have a HOMEPAGE entry except for recipes that are not fetched fro=
+m external sources.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 Product:=C2=A0 =C2=A0 =C2=A0oe-core<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with bb.tinfoil.Tinfoil() as tinfoil:<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tinfoil.prepare(config_onl=
+y=3DFalse)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 no_description =3D []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 no_homepage =3D []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for fn in tinfoil.all_reci=
+pe_files(variants=3DFalse):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not &#39;=
+/meta/recipes-&#39; in fn:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 # We are only interested in OE-Core<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rd =3D tinfo=
+il.parse_recipe_file(fn, appends=3DFalse)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pn =3D rd.ge=
+tVar(&#39;PN&#39;)<br>
+<br>
+shouldn&#39;t it be BPN, otherwise we would get the same warning for <br>
+native/cross/nativesdk and target configuration.<br>
+Also I would advise to used set() instead of lists for `no_description` <b=
+r>
+and `no_homepage`, just to rule out any double postings<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 srcfile =3D =
+rd.getVar(&#39;SRC_URI&#39;).split()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not rd.ge=
+tVar(&#39;DESCRIPTION&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 no_description.append((pn, fn))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not rd.ge=
+tVar(&#39;HOMEPAGE&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if len(srcfile) &gt; 0 and srcfile[0].startswith(&#39;file&#39;) or no=
+t rd.getVar(&#39;SRC_URI&#39;):<br>
+<br>
+`if len(x) &gt; 0` is a bad pattern - a pythonic way would be `if x:`<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 # We are only interested in recipes SRC_URI fetched from=
+ external sources<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 continue<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 no_homepage.append((pn, fn))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if no_homepage:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(&quot;&quot;&quo=
+t;<br>
+&gt; +The following recipes do not have a HOMEPAGE. Please add an entry fo=
+r HOMEPAGE in the recipe.<br>
+&gt; +&quot;&quot;&quot; + &quot;\n&quot;.join([&#39;%s (%s)&#39; % i for =
+i in no_homepage]))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if no_description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(&quot;&quot;&quo=
+t;<br>
+&gt; +The following recipes do not have a DESCRIPTION. Please add an entry=
+ for DESCRIPTION in the recipe.<br>
+&gt; +&quot;&quot;&quot; + &quot;\n&quot;.join([&#39;%s (%s)&#39; % i for =
+i in no_description]))<br>
+<br>
+the currently valid edition <br>
+(<a href=3D"https://www.openembedded.org/wiki/Styleguide" rel=3D"noreferre=
+r noreferrer" target=3D"_blank">https://www.openembedded.org/wiki/Styleguid=
+e</a>) of the the style guide <br>
+claims that DESCRIPTION defaults to SUMMARY. So I personally would <br>
+rather check that SUMMARY !=3D DESCRIPTION in case DESCRIPTION is set - by=
+ <br>
+default DESCRIPTION isn&#39;t mandatory IMO (or the styleguide needs to be=
+ <br>
+updated)<br>
+<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0def test_maintainers(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Summary:=C2=A0 =C2=A0 =C2=A0T=
+est that oe-core recipes have a maintainer and entries in maintainers list =
+have a recipe<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+</blockquote></div></div></div>
+
+--0000000000006528ae05bce4f3a7--
