@@ -1,83 +1,105 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.9927.1615050238018723552
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.13132.1615064010566754135
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Mar 2021 09:03:58 -0800
+ Sat, 06 Mar 2021 12:53:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MqmCVA8L;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id v3so4388203qtw.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Mar 2021 09:03:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WCoaP8Is;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id m20-20020a7bcb940000b029010cab7e5a9fso1448271wmi.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Mar 2021 12:53:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=U2RHd9msq/EBVZhFuB33kQ9vIqBcTtjBxEm9zozqH+g=;
-        b=MqmCVA8LpTDiasNcVdTglEgVZTYjsarKDDWKkoPXaevLo/8SUZs83K4HhgWX3ky++Q
-         U+Iil48uqDU3Ltt+YztfbfQxrIOEDyfEEOoqy53FFrL5o1vCzgq0BiGIj9zRiAxe1f9P
-         a29/w9uCvbQCyCFje+HOGIBBpZBoSqZxSZdjhuXi4Xc9R5CG1gZf4jOV8d8pqO2pf4Qj
-         dTwf4UnivdqvnXm41o66jAV8CM6xHzD3WwI24nafscwhR4nLLehnph2J3kEpOtr1IvL4
-         MuW+jUeLlx8uNeMd5Yrsiex7wVA/qU8QQznu5nzP5P01nEwJ42VFrieG2wrKbCs2XLBM
-         kJGw==
+        h=from:to:cc:subject:date:message-id;
+        bh=ujJuF0ddECLVv3CfR4Z0qcwC6j4/SF6QNkQEkCTizc8=;
+        b=WCoaP8IsE8dCZ58udnGYwZZ5Yqi98iwGjc21GDdUj4tazczXU9dLp0Nj7kmPnFucRu
+         s28hiHsWHXkKKVu7rCK8qE54BDorup+dsZuFTLkgq+DqMGSLf324IPqm93kL3/ErBd8j
+         9v3a+45MZaLXi116jUFfxIC0db1dhZw7ENuFSVu3HRb+yDhThFR4HPPL7ZWtmmONcYXF
+         3cWceW2p5OVbtwrEblhlX5s8HuGj1GqkOQViiwMReEiQqTxLVw6UcLv4ExOBdaqzHzwx
+         yuZtBkkodqWyoUiSoz/L+IDfOrBW+qiaM+M7aEgg7Lbo0JDi2SDl4cvrTOV7OyOGh3hr
+         OUqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U2RHd9msq/EBVZhFuB33kQ9vIqBcTtjBxEm9zozqH+g=;
-        b=TJVr4pAciweVxOf3hZceyLJyaM0P+nd0axy55Na3kKCR0uer4949+niRGT7Rzssyck
-         HeejL92NCpL5VUMugPvTg7AcRclDUzvQVj5Ll5TaZ8J0a9kAQv1ixdJAf6tpcI8Xielk
-         fTugKI2kkFsEt0X8NuD/CaGpXwmrtiR6MWW5Y8MU0rxUWdy74WYmkNJkuCmdhY0SziwN
-         kQWcYLxw2AzD8KKvtN9lICfZThVAsyfAqU8PpS3DUeHkMQbrX5VWHoy18jOLVQwWl5/q
-         HVzfuukTt33UZz/CKn67KQ1eTXUOdmK2psiazRQ5xm/Wrqrv0rjjRrqZ97XP+i+sTmro
-         vmpA==
-X-Gm-Message-State: AOAM530alx0byf7XfHjnYMpwVniGiIBoALp7bEpeqIyLV9ca+nJNzEfM
-	p8yl65KOx9aW1Rb3d081oTA07UiY+7rZqv5zqKc=
-X-Google-Smtp-Source: ABdhPJw6LkLE2V7hP3qLO1wLiNAPy7ATHHmfll+3/0VMh2vawhKNusjdY5+TIQCCeZDLy0xHWG2KAPPjKyuQZili/vY=
-X-Received: by 2002:ac8:d4f:: with SMTP id r15mr14045947qti.289.1615050236964;
- Sat, 06 Mar 2021 09:03:56 -0800 (PST)
-MIME-Version: 1.0
-References: <1614817826-40571-1-git-send-email-wangmy@cn.fujitsu.com> <CAMKF1sqwAAyw1spRROMWXvW_pQWmTyzB-DiOOFq-rbUPo1k1xg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqwAAyw1spRROMWXvW_pQWmTyzB-DiOOFq-rbUPo1k1xg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 6 Mar 2021 09:03:29 -0800
-Message-ID: <CAMKF1spKzCGewhO06yGJMSi9u3wqs_eyb4m3A7JzYKX-ipa5xQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vala: upgrade 0.50.3 -> 0.50.4
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ujJuF0ddECLVv3CfR4Z0qcwC6j4/SF6QNkQEkCTizc8=;
+        b=P2PqPWuXhpoc14Xuyhiy6uyHftj968aRz9b5BMgcFG9fbm0T8IP3mHGOwOhZ/nMfn8
+         KEu4XoAyjxyW0kJQ+Mhb7S2jwxUpPPB7/Lrui7StEZetlh1HTK2q4x22m+G5Cte6S3H2
+         LlFQoBliGk0bl9lTC0QgbJPqkEVS9NXLsjDzGn2OKGjoRP12elrYth2L11xJoSuNeTQ8
+         HCR3WeC93dLhITTHgzdfkkP4SNWHJl8HzYiskRs82rUgStnSHAd1qkTLtqrq2vTkshvm
+         gQ/2MES72KDZfeYGrakR7KKDQipHBAycl7svpHUg/6Db6LLsx1eL0nWYvjNNyhhYQeWv
+         JWYg==
+X-Gm-Message-State: AOAM530jZrcr5TQJsoTwOAF8Prmhq5N6uPr+B3lkVhLyT2G+zSWsdd/+
+	OuUcHXe/DQHGkTWWIMaTouHSzT685pU=
+X-Google-Smtp-Source: ABdhPJwC/VxtXmNyin0F80zQnqtyzsGPIt6B+53UR/PborJCgJWjFFVT4QFhjZJ1oX3eU8CW8aw5Mw==
+X-Received: by 2002:a1c:5455:: with SMTP id p21mr15036350wmi.138.1615064008727;
+        Sat, 06 Mar 2021 12:53:28 -0800 (PST)
+Return-Path: <dorindabassey@gmail.com>
+Received: from smtp.gmail.com. ([105.112.70.143])
+        by smtp.gmail.com with ESMTPSA id h22sm10744179wmb.36.2021.03.06.12.53.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Mar 2021 12:53:28 -0800 (PST)
+From: "Dorinda" <dorindabassey@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: dorindabassey <dorindabassey@gmail.com>
+Subject: [RFC] distrodata.py: Test to track recipes without HOMEPAGE or DESCRIPTION
+Date: Sat,  6 Mar 2021 21:53:20 +0100
+Message-Id: <20210306205320.28581-1-dorindabassey@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-I have sent a fix to dconf-editor
-https://lists.openembedded.org/g/openembedded-devel/topic/meta_gnome_patch/81130660?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,81130660
+This test is to keep track of recipes that do not have a HOMEPAGE or DESCRIPTION,
+with exceptions to recipes whose SRC_URI are not linked to external sources.
 
-On Sat, Mar 6, 2021 at 7:47 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> this break dconf-editor in meta-openembedded
->
-> https://errors.yoctoproject.org/Errors/Details/573677/
->
-> On Wed, Mar 3, 2021 at 4:33 PM Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> > ---
-> >  meta/recipes-devtools/vala/{vala_0.50.3.bb => vala_0.50.4.bb} | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/vala/{vala_0.50.3.bb => vala_0.50.4.bb} (50%)
-> >
-> > diff --git a/meta/recipes-devtools/vala/vala_0.50.3.bb b/meta/recipes-devtools/vala/vala_0.50.4.bb
-> > similarity index 50%
-> > rename from meta/recipes-devtools/vala/vala_0.50.3.bb
-> > rename to meta/recipes-devtools/vala/vala_0.50.4.bb
-> > index 302f562549..4381635517 100644
-> > --- a/meta/recipes-devtools/vala/vala_0.50.3.bb
-> > +++ b/meta/recipes-devtools/vala/vala_0.50.4.bb
-> > @@ -2,4 +2,4 @@ require ${BPN}.inc
-> >
-> >  SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
-> >
-> > -SRC_URI[sha256sum] = "6165c1b42beca4856e2fb9a31c5e81949d76fa670e2f0cfc8389ce9b95eca5db"
-> > +SRC_URI[sha256sum] = "58fc31fa8bf492035b11d1a7d514801710afc65bd458b24c0f8d00280a92a38c"
-> > --
-> > 2.25.1
-> >
-> >
-> > 
-> >
+[YOCTO #13471]
+
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/distrodata.py | 34 ++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index e1cfc3b621..d8df0b530c 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -40,6 +40,40 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+ """ + "\n".join(regressed_successes)
+         self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
+ 
++    def test_missing_homepg(self):
++        """
++        Summary:     Test for oe-core recipes that don't have a HOMEPAGE or DESCRIPTION
++        Expected:    All oe-core recipes should have a DESCRIPTION entry
++        Expected:    All oe-core recipes should have a HOMEPAGE entry except for recipes that are not fetched from external sources.
++        Product:     oe-core
++        """
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False)
++            no_description = []
++            no_homepage = []
++            for fn in tinfoil.all_recipe_files(variants=False):
++                if not '/meta/recipes-' in fn:
++                    # We are only interested in OE-Core
++                    continue
++                rd = tinfoil.parse_recipe_file(fn, appends=False)
++                pn = rd.getVar('PN')
++                srcfile = rd.getVar('SRC_URI').split()
++                if not rd.getVar('DESCRIPTION'):
++                    no_description.append((pn, fn))
++                if not rd.getVar('HOMEPAGE'):
++                    if len(srcfile) > 0 and srcfile[0].startswith('file') or not rd.getVar('SRC_URI'):
++                        # We are only interested in recipes SRC_URI fetched from external sources
++                        continue
++                    no_homepage.append((pn, fn))
++        if no_homepage:
++            self.fail("""
++The following recipes do not have a HOMEPAGE. Please add an entry for HOMEPAGE in the recipe.
++""" + "\n".join(['%s (%s)' % i for i in no_homepage]))
++        if no_description:
++            self.fail("""
++The following recipes do not have a DESCRIPTION. Please add an entry for DESCRIPTION in the recipe.
++""" + "\n".join(['%s (%s)' % i for i in no_description]))
++
+     def test_maintainers(self):
+         """
+         Summary:     Test that oe-core recipes have a maintainer and entries in maintainers list have a recipe
+-- 
+2.17.1
+
