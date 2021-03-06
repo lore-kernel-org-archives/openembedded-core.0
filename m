@@ -1,209 +1,88 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.158.5])
- by mx.groups.io with SMTP id smtpd.web11.6239.1615030128947701164
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.7412.1615038390289031837
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Mar 2021 03:28:49 -0800
+ Sat, 06 Mar 2021 05:46:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=qjvRq75b;
- spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.158.5, mailfrom: klaus@linux.vnet.ibm.com)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 126BETuF035554;
-	Sat, 6 Mar 2021 06:28:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=dnfrhUkxLkPe7WjPOQql5KkwKPLuTTKMtuvA/fcqXSU=;
- b=qjvRq75bfI6RChVxr4Uoq+gwHVljT9HyOITRH6PdJYX7a5LERtHkV2T4aWHWLrEy/ZTW
- l6b8qFdCEvo7HVJeySvd7dUlRe5zDhf3+nVUBFP9bJDUK9O9buHrzYf6Chw33VpS7vq4
- IAkyurSyU/z2KSGjh0bWiBX8usoUOEA9HucyiMlqMBIDlQVHA9GZtPLZyuSAIEUnZ6KJ
- SDqx5y0amhTRO90ntY8iDfmuj3I1P9L0K7KQzJOfxv+pekHftCBKgU7qljAe/u7phtyy
- 9bX4Fly0J54swLeTaBNNgodkmtu0+fEyqPm5CfMJJCYS9li2DwHRdmWka+mrGxmQtDSW AQ== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 3748pe85ba-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 06 Mar 2021 06:28:46 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
-	by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 126BSe2Y020657;
-	Sat, 6 Mar 2021 11:28:46 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
-	by ppma04wdc.us.ibm.com with ESMTP id 3741c920bh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 06 Mar 2021 11:28:46 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
-	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 126BSjOS24772970
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 6 Mar 2021 11:28:45 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 97A86AE06D;
-	Sat,  6 Mar 2021 11:28:45 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 900B4AE060;
-	Sat,  6 Mar 2021 11:28:44 +0000 (GMT)
-Received: from T480-KlausKiwi.localdomain (unknown [9.85.167.17])
-	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-	Sat,  6 Mar 2021 11:28:44 +0000 (GMT)
-From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org,
-        Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-Subject: [oe-core][RFC 3/3] u-boot: Use a different Key for SPL signing
-Date: Sat,  6 Mar 2021 08:28:22 -0300
-Message-Id: <20210306112822.11668-4-klaus@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210306112822.11668-1-klaus@linux.vnet.ibm.com>
-References: <20210306112822.11668-1-klaus@linux.vnet.ibm.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=ZGdr15fj;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615038390;
+  x=1646574390;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8g5HB/+epcv8afA6Y+6i1LBvzf9+c1i98HxlCMqtc0c=;
+  b=ZGdr15fjAWssS1IOfbqb0Mu/4jmFAP5hNXVVArzDrX6zrJZXiHQ7rqgn
+   Jb1Awg66WaotY9i4FOVU+zsHKW3Ny/1FMbwdGf/1KkqY/+XhOxvw6zUAa
+   5qQQcVtZuBuXHZz1xn5bled0HzFO9RlsjHnD6rh98sQk6AbuJlIJFTU66
+   OGfy1ycK3Q1YkUWjvWUSqk8q6j8NICopX+56T9x8ACgG1b9lWRRNNRrkH
+   ik9Lu61yIkz08yn7nEEh2I0xL+7Qcl1qCjmLSWMoVx11SPw7/+qdA498Z
+   cz3nMXY0040sGjhugkSVd9gC+J0mq8QngxXL+E/yqhOXhHczRKGRoR5XB
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] meson: Correctly set uid/gid of installed files
+Date: Sat, 6 Mar 2021 14:46:22 +0100
+Message-ID: <20210306134622.16988-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-06_05:2021-03-03,2021-03-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- impostorscore=0 bulkscore=0 spamscore=0 clxscore=1015 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103060068
+Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Duplicate the variables governing u-boot signing so that we can have a
-different set of keys/parameters signing the SPL.
+In 0.57.0, the uid and gid arguments passed to os.chown() when using
+install_mode were accidentally swapped, causing files to end up with
+incorrect owner/group if the owner and group are not the same.
 
-Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/uboot-config.bbclass |  2 ++
- meta/classes/uboot-sign.bbclass   | 55 ++++++++++++++++++++++++-------
- 2 files changed, 46 insertions(+), 11 deletions(-)
+ meta/recipes-devtools/meson/meson.inc         |  1 +
+ ...ectly-set-uid-gid-of-installed-files.patch | 28 +++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 31487c1418..3bba02828b 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -61,6 +61,7 @@ UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 622c22affd..8454d18c28 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -14,6 +14,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://disable-rpath-handling.patch \
+            file://cross-prop-default.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
++           file://0001-minstall-Correctly-set-uid-gid-of-installed-files.patch \
+            "
+ SRC_URI[sha256sum] = "72e1c782ba9bda204f4a1ed57f98d027d7b6eb9414c723eebbd6ec7f1955c8a6"
  
- # Options for the device tree compiler passed to mkimage '-D' feature:
- UBOOT_MKIMAGE_DTCOPTS ??= ""
-+SPL_MKIMAGE_DTCOPTS ??= ""
- 
- # mkimage command
- UBOOT_MKIMAGE ?= "uboot-mkimage"
-@@ -68,6 +69,7 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
- 
- # Arguments passed to mkimage for signing
- UBOOT_MKIMAGE_SIGN_ARGS ?= ""
-+SPL_MKIMAGE_SIGN_ARGS ?= ""
- 
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE")
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index c362cbfd9c..23186f1491 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -56,27 +56,34 @@ SPL_NODTB_IMAGE ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${
- SPL_NODTB_BINARY ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[1]}"
- SPL_NODTB_SYMLINK ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${MACHINE}${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[1]}"
- 
--# fitImage Hash Algo
-+# Kernel / U-Boot fitImage Hash Algo
- FIT_HASH_ALG ?= "sha256"
-+UBOOT_FIT_HASH_ALG ?= "sha256"
- 
--# fitImage Signature Algo
-+# Kernel / U-Boot fitImage Signature Algo
- FIT_SIGN_ALG ?= "rsa2048"
-+UBOOT_FIT_SIGN_ALG ?= "rsa2048"
- 
--# Generate keys for signing fitImage
-+# Generate keys for signing Kernel / U-Boot fitImage
- FIT_GENERATE_KEYS ?= "0"
-+UBOOT_FIT_GENERATE_KEYS ?= "0"
- 
--# Size of private key in number of bits
-+# Size of private keys in number of bits
- FIT_SIGN_NUMBITS ?= "2048"
-+UBOOT_FIT_SIGN_NUMBITS ?= "2048"
- 
- # args to openssl genrsa (Default is just the public exponent)
- FIT_KEY_GENRSA_ARGS ?= "-F4"
-+UBOOT_FIT_KEY_GENRSA_ARGS ?= "-F4"
- 
- # args to openssl req (Default is -batch for non interactive mode and
- # -new for new certificate)
- FIT_KEY_REQ_ARGS ?= "-batch -new"
-+UBOOT_FIT_KEY_REQ_ARGS ?= "-batch -new"
- 
- # Standard format for public key certificate
- FIT_KEY_SIGN_PKCS ?= "-x509"
-+UBOOT_FIT_KEY_SIGN_PKCS ?= "-x509"
- 
- # Functions on this bbclass can apply to either U-boot or Kernel,
- # depending on the scenario
-@@ -276,6 +283,32 @@ do_generate_rsa_keys() {
- 				-out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
- 		fi
- 	fi
+diff --git a/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch b/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
+new file mode 100644
+index 0000000000..d55b7cc7c7
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
+@@ -0,0 +1,28 @@
++From 3f6f4964dc79ae986f44afe1687922381f237edd Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Wed, 3 Mar 2021 12:47:28 +0100
++Subject: [PATCH] minstall: Correctly set uid/gid of installed files
 +
-+	if [ "${SPL_SIGN_ENABLE}" = "0" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
-+		bbwarn "UBOOT_FIT_GENERATE_KEYS is set to 1 eventhough SPL_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
-+	fi
++In commit caab4d3d, the uid and gid arguments passed to os.chown() by
++set_chown() were accidentally swapped, causing files to end up with
++incorrect owner/group if the owner and group are not the same.
 +
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
++Upstream-Status: Backport [https://github.com/mesonbuild/meson/commit/6226ac26ef63335bfb817db02b3f295c78214a82]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ mesonbuild/minstall.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+		# Generate keys only if they don't already exist
-+		if [ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key ] || \
-+			[ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt ]; then
-+
-+			# make directory if it does not already exist
-+			mkdir -p "${SPL_SIGN_KEYDIR}"
-+
-+			echo "Generating RSA private key for signing U-Boot fitImage"
-+			openssl genrsa ${UBOOT_FIT_KEY_GENRSA_ARGS} -out \
-+				"${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
-+				"${UBOOT_FIT_SIGN_NUMBITS}"
-+
-+			echo "Generating certificate for signing U-Boot fitImage"
-+			openssl req ${FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
-+				-key "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
-+				-out "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt
-+		fi
-+	fi
-+
- }
- 
- addtask generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
-@@ -288,9 +321,9 @@ uboot_fitimage_assemble() {
- 	uboot_dtb="${3}"
- 	uboot_bin="${4}"
- 	spl_dtb="${5}"
--	uboot_csum="${FIT_HASH_ALG}"
--	uboot_sign_algo="${FIT_SIGN_ALG}"
--	uboot_sign_keyname="${UBOOT_SIGN_KEYNAME}"
-+	uboot_csum="${UBOOT_FIT_HASH_ALG}"
-+	uboot_sign_algo="${UBOOT_FIT_SIGN_ALG}"
-+	uboot_sign_keyname="${SPL_SIGN_KEYNAME}"
- 
- 	rm -f ${uboot_its} ${uboot_bin}
- 
-@@ -359,7 +392,7 @@ EOF
- 	# Assemble the U-boot FIT image
- 	#
- 	${UBOOT_MKIMAGE} \
--		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-+		${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
- 		-f ${uboot_its} \
- 		${uboot_bin}
- 
-@@ -367,11 +400,11 @@ EOF
- 	# Sign the U-boot FIT image and add public key to SPL dtb
- 	#
- 	${UBOOT_MKIMAGE_SIGN} \
--		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
--		-F -k "${UBOOT_SIGN_KEYDIR}" \
-+		${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
-+		-F -k "${SPL_SIGN_KEYDIR}" \
- 		-K "${spl_dtb}" \
- 		-r ${uboot_bin} \
--		${UBOOT_MKIMAGE_SIGN_ARGS}
-+		${SPL_MKIMAGE_SIGN_ARGS}
- 
- }
- 
--- 
-2.25.1
-
++diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
++index 785ff5869..07da408aa 100644
++--- a/mesonbuild/minstall.py
+++++ b/mesonbuild/minstall.py
++@@ -148,7 +148,7 @@ def set_chown(path: str, user: T.Optional[str] = None, group: T.Optional[str] =
++         Use a real function rather than a lambda to help mypy out. Also real
++         functions are faster.
++         """
++-        real_os_chown(path, gid, uid, dir_fd=dir_fd, follow_symlinks=follow_symlinks)
+++        real_os_chown(path, uid, gid, dir_fd=dir_fd, follow_symlinks=follow_symlinks)
++ 
++     try:
++         os.chown = chown
