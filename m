@@ -1,114 +1,91 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.14113.1615070047045700625
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web12.17039.1615087137746600537
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Mar 2021 14:34:07 -0800
+ Sat, 06 Mar 2021 19:18:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YJfSFuiO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id y124-20020a1c32820000b029010c93864955so1531726wmy.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 06 Mar 2021 14:34:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a7F+6VjD;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id s7so3287321plg.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Mar 2021 19:18:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=BUOBriIGGU2npxSLR+dHarCqWeQ5u/hrMNcEaKgz084=;
-        b=YJfSFuiOSO4PCTBv4A0GcgTXBonnsED71srisaUpxZ6KbAdDcyf8intoQrOhlQywNx
-         g8wlJe4WOx8vRGAJvukkb6w1HBKgQqf7+mKnH6/sLGdV76ApRqkJ89tSDW5nyUo/FAPI
-         2I1PeFlEz2W5WLPQ761fn3cKWeQ+oH+7z15pI=
+        bh=RJYGIa40FI61SxJUod1M+Hse5FSAZjkxBMuOFe6EGUw=;
+        b=a7F+6VjDOfAKywgQyZclPQE4EHLsd8vY7BYUcpn+3qIw8nRVguR3AtwTXCYPbXWhAc
+         bhojQ5bhlRXRtCD8mRY38EbskPxYRMrhmEhyvAnJ1PmnlUjmZpJFrE2UvhBLjULFQh20
+         xUL5TGpLyz93HlL2p5vufH8EfKYmbyaGkeqRc0MACJ0UcY63L8frVTN4KMr5Iq4YhcmC
+         PkcJzsuXCcWQu8WFPHqLaGOy4P8rEH9GERW6g1t3gKGtMuTdT6Zt3nRVYCatyjUXJ5Zm
+         53W0y4P3LO0iJFNffjcMOdZynJ4+0LoPm3oeWYPiBxft7aHEtIZ0irFxcozg7kPV875Q
+         1aUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=BUOBriIGGU2npxSLR+dHarCqWeQ5u/hrMNcEaKgz084=;
-        b=VDgQOeDJ3eO1niSrwRQ77Qb8PfSEXGCZwJTXOs67ZorfDoLsKQrcGQC8WtydKMHGKo
-         RDShJaMts8kfZsj6NvmKcPUUNmBbey9gZQuHPhqdQmfyOLxEJtv4dClxW7THpbLwsVl4
-         sVcvj4xuD5+GOdVY1lIU0h6llgokH/+R08za1cNOU5P7MIDR4V/1sYDShlgcUFDEKyBQ
-         XmUlAlq2PVk6ykSN/iF2UQueRzLmqYqY9OtdV+XoeG057vTYcdgOxCD9MWBmaDk+uUND
-         U08riOrDkx0Fwybo7XhJsrmm2qfuO9CbGLXyDEdrpcge57y6kjOIfBfSTEI16q0XrjxK
-         pV2A==
-X-Gm-Message-State: AOAM532L/GIHLckbxO8g/J6PKRlyoRN7CplA0x9QoCZ751EAFfSAvXVU
-	154IptjZaQzW5BzYczrXakvKmfXVV2Qy2g==
-X-Google-Smtp-Source: ABdhPJxi+O9H4dVX33SMU6Cbzj5AYb3Vp6dy6uyixG8wQtdP5+j+KPkMC7NP415lslkC4kQS+zYqng==
-X-Received: by 2002:a1c:9854:: with SMTP id a81mr14570653wme.19.1615070045189;
-        Sat, 06 Mar 2021 14:34:05 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:ce4f:1a87:b380:4c7d])
-        by smtp.gmail.com with ESMTPSA id c26sm11782688wrb.87.2021.03.06.14.34.04
-        for <openembedded-core@lists.openembedded.org>
+        bh=RJYGIa40FI61SxJUod1M+Hse5FSAZjkxBMuOFe6EGUw=;
+        b=dPPt/O3RYzliR6XRXx31ASEMKDkgDq87nNRGyFhQDhV3lL6ajW+g6XVd1GoYLgV0KL
+         oMvEabRhS91AUX0WKSETb9ScxQBsX8aZgWnEgjv7O2IwqRqVIOEc+nePmv1sH9USH/0O
+         97rcKDOCvjas/TnQi54uV8Ecchxc/9/TL/+q8zaYWgbeoO9tgtXKiEdSYdxbQszOhXUO
+         p7vBCa9ZfrUu+B/I+C+sZ9DoUe7wQyT0TIyGXXpFVqgGgHQwxbVdzZCgDWxtza9acq5O
+         3/1TtefufiKD6FmMjlEgZQI/O36VY/KpuDqmoaGMSdN5LlZo80QSmoyJKIuSFgk75r7y
+         fX3w==
+X-Gm-Message-State: AOAM531e40Zln2vqqcbN6S1V7xLUMfxR5fKdhTYBXHK8if9KEJK8Chzk
+	6UuTEKodOswgYLIT/rjWNiO5/FAJj6vumQ==
+X-Google-Smtp-Source: ABdhPJzkpkHSaSzUiXEDKbleSiBrgfjdiUaoavAOB+XvUZbuJHpCe9QZTvW+6hbo32J7qcDaicqdeg==
+X-Received: by 2002:a17:90a:5417:: with SMTP id z23mr17698546pjh.111.1615087136668;
+        Sat, 06 Mar 2021 19:18:56 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
+        by smtp.gmail.com with ESMTPSA id mr5sm5445709pjb.53.2021.03.06.19.18.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Mar 2021 14:34:05 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Sat, 06 Mar 2021 19:18:56 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ltp: Fix another determinism issue
-Date: Sat,  6 Mar 2021 22:34:04 +0000
-Message-Id: <20210306223404.2361411-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] python3-cython: Check for files before editing
+Date: Sat,  6 Mar 2021 19:18:53 -0800
+Message-Id: <20210307031853.1720080-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After the other fixes there remained occasional problems. Fix another makefile
-sorting problem affecting the disktest binary.
+If using debug-without-src policy then usr/src/debug won't exist,
+therefore the function will fail due to missing files, adding a check
+for files to exist before editing them fixes it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ltp/ltp/determinism2.patch                | 24 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20210121.bb     |  5 ++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/determinism2.patch
+v2: Check if file exists instead of checking for debug split style
+    makes it more generic
 
-diff --git a/meta/recipes-extended/ltp/ltp/determinism2.patch b/meta/recipes-extended/ltp/ltp/determinism2.patch
-new file mode 100644
-index 00000000000..ab08e8e5172
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/determinism2.patch
-@@ -0,0 +1,24 @@
-+testcases/kernel/io/disktest: Fix determinism issue
-+
-+The order of the objects linked into the test varies depending on the
-+order of the files found on disk. This results in the disktest binary
-+differing depending on that order.
-+
-+Sort the wildcard expansion of *.c which leads to reproducible binaries.
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Pending
-+
-+Index: git/testcases/kernel/io/disktest/Makefile
-+===================================================================
-+--- git.orig/testcases/kernel/io/disktest/Makefile
-++++ git/testcases/kernel/io/disktest/Makefile
-+@@ -209,7 +209,7 @@ LDLIBS		+= -lpthread
-+ 
-+ MAKE_TARGETS	:= disktest
-+ 
-+-OBJS		:= $(patsubst $(abs_srcdir)/%.c,%.o,$(wildcard $(abs_srcdir)/*.c))
-++OBJS		:= $(patsubst $(abs_srcdir)/%.c,%.o,$(sort $(wildcard $(abs_srcdir)/*.c)))
-+ 
-+ disktest-$(VER):
-+ 	mkdir -p "$@"
-diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210121.bb
-index 593f07087c4..325574a50e9 100644
---- a/meta/recipes-extended/ltp/ltp_20210121.bb
-+++ b/meta/recipes-extended/ltp/ltp_20210121.bb
-@@ -30,8 +30,8 @@ CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
- SRCREV = "4d005621edd109d119627eb9210b224a63bf22cb"
+ meta/recipes-devtools/python/python3-cython_0.29.22.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.22.bb b/meta/recipes-devtools/python/python3-cython_0.29.22.bb
+index 01f716c16f..2ec4033fa0 100644
+--- a/meta/recipes-devtools/python/python3-cython_0.29.22.bb
++++ b/meta/recipes-devtools/python/python3-cython_0.29.22.bb
+@@ -20,8 +20,7 @@ do_install_append() {
+ PACKAGEBUILDPKGD += "cython_fix_sources"
  
- # remove at next version upgrade or when output changes
--PR = "r1"
--HASHEQUIV_HASH_VERSION .= ".1"
-+PR = "r2"
-+HASHEQUIV_HASH_VERSION .= ".2"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-build-Add-option-to-select-libc-implementation.patch \
-@@ -39,6 +39,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-            file://determinism.patch \
-+           file://determinism2.patch \
-            "
- 
- S = "${WORKDIR}/git"
+ cython_fix_sources () {
+-	sed -i -e 's#${WORKDIR}#/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}#g' \
+-		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/FlowControl.c \
++	for f in ${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/FlowControl.c \
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/FusedNode.c \
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/Scanning.c \
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Compiler/Visitor.c \
+@@ -29,5 +28,9 @@ cython_fix_sources () {
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Plex/Scanners.c \
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Runtime/refnanny.c \
+ 		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython-${PV}/Cython/Tempita/_tempita.c \
+-		${PKGD}${libdir}/${PYTHON_DIR}/site-packages/Cython*/SOURCES.txt
++		${PKGD}${libdir}/${PYTHON_DIR}/site-packages/Cython*/SOURCES.txt; do
++		if [ -e $f ]; then
++			sed -i -e 's#${WORKDIR}#/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}#g' $f
++		fi
++	done
+ }
 -- 
-2.27.0
+2.30.1
 
