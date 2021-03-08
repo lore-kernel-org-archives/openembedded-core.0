@@ -1,156 +1,120 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web09.37221.1615216281591673430
- for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 07:11:21 -0800
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.37839.1615219689065475497
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 08 Mar 2021 08:08:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O+ILL0qZ;
- spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: flowergom@gmail.com)
-Received: by mail-ot1-f51.google.com with SMTP id v12so9452330ott.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 07:11:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=agJcPf8y;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so3391944pjv.1
+        for <Openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 08:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IhI5ukMD8eMfNUASCzbQGySo3VllGM0Ansj3/izWqXY=;
-        b=O+ILL0qZBWOJtVD07nm+VHWx6xSTHor2NlSQpJMW6HRGhA//iz/YqIZErrgHUS2m3/
-         ew43x/jtuqoFQ1lIDlMVih/U0gS1te9Gm92K50bTHe7IQzoOPEH+mLI8E6L8YWbNQKzk
-         wabRDERdvN5iphi2O9IJauoRFuCFw21X03aG9yhenAQKBTFGtIvmEU52m3EeRX7nLKDR
-         bJTQj4V5N35H4N+StQKYmpNxxPnz3vA29cAVw0H5Se2dUDIhp7AKfVWMGQt7jXnRxCpe
-         7ejZ9hQTjAXohXgtgoJnPik96VpjCoMh205jDssA2z8Rc4v7lDRjyI84Bi19NzADjc+U
-         4vnQ==
+        bh=kMGLcPQKl6MaM9V64czYzdDN6LeqBoddllhz4LyDz6w=;
+        b=agJcPf8y5Zo+u6cMegeSrbS0anxcToQIzYDyPDe6r980dOJ0Hx2a4zSA3EAXN4LUpq
+         qFmbB46rXnLHvq+6wP+d8oTxN0boy2ggKat6c1E8VR8bnIH1IvVNsQa/6USdxBbA8doy
+         WYtq1E5HrHsrjSABw+X1++kv56V0IpC+PeDCi+rr/nIU+Dwz6W0Am4r/ys9ehN7lAyzX
+         7X2zB2tEh9Ub+Uf0N3FjSnCcqPwd8SXtjYlHbw1zfaHPu3OibMfORTUbNAP0da7kf0J0
+         EeK5xebA38gUQ5HtTQBfRCBHSU0QDfJhBgpJh+PA0jj6WKl3J6T827oHv8lmx6CQIuBz
+         yaJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IhI5ukMD8eMfNUASCzbQGySo3VllGM0Ansj3/izWqXY=;
-        b=LUQbhRHGuPTXElniz8xbHhTg9I/LxdzzNid64Ub7qCcKJ99ojWO40AxwjGNBJkzL5r
-         npiAxJgn3efby9jee7w1raof2a40zZa8ILVyohFBDzdRn/SvRZzcw6RuHj/hw6/SvxIz
-         zi1d19QWwoes9f79UCi7gnhF+84kEDQAAtCsfFp4v8sdDn1bFcXC86G6mVmNo9kYwBcw
-         mpQIkhowP7nVW2zNUtu/QcJAhOeUpCxL6/ivFEujHoAqdQ/5MBArln+VBvP7bpm2BVRa
-         XIiAc1g/DADvH5/jQGCo57kbWNKgB8vWcxYS5wMVSQuhoqkIfdjlgr7HttJKGnAnwBJl
-         nSRQ==
-X-Gm-Message-State: AOAM533+krZ3DNyU5PDdfjE9KuqIcI/+/SQz13OvQ3FUbzo1zxQu/ole
-	gQP1ITrPLSXmnxlwC9rOt73sLYBXAT9d4A==
-X-Google-Smtp-Source: ABdhPJxRuVQeSDfAiG/LltyIc+3lBvO+NaZfz184BGIMCb83TYtGgD5pod7a5VhjAGN1VBg64AQyrQ==
-X-Received: by 2002:a9d:bd6:: with SMTP id 80mr20974753oth.98.1615216280475;
-        Mon, 08 Mar 2021 07:11:20 -0800 (PST)
-Return-Path: <flowergom@gmail.com>
-Received: from localhost.localdomain ([116.42.185.119])
-        by smtp.gmail.com with ESMTPSA id j35sm2575506ota.54.2021.03.08.07.11.18
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Mar 2021 07:11:19 -0800 (PST)
-From: "Minjae Kim" <flowergom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [PATCH] qemu: fix CVE-2021-20203
-Date: Tue,  9 Mar 2021 00:11:08 +0900
-Message-Id: <20210308151108.2082-1-flowergom@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=kMGLcPQKl6MaM9V64czYzdDN6LeqBoddllhz4LyDz6w=;
+        b=X6G+3OQ09OBDLRcxItyqqqYyhwm1Gvbw72ynIGix+8gP7Uh2l942DMedkxbx0PeBBi
+         S76gGHdXl5WYKR3zd+qHuR3ZPk3nlXIOqiXYcgxMWFbw12ORtaQWIx++ucwcxrKvub28
+         Th8M/v5sPhBgF3tSyyZC01tnC0mt3fT1hO42lkedRDoQy2F6HgfqTkasL2CD0NqARFYX
+         sM/g5TrOMRYwn3mag8+cesXX9tSlxKA1ctfcJeGuBGVS+AVCZWm7mGog3afMysFx7sBb
+         n0Vqh+FiiWHB2ZjV2JLUmc59+MyUXqBbzv6rh3qXvrclCq8nvTb7Uobq6+gyrG/rODYo
+         4V5A==
+X-Gm-Message-State: AOAM532OvDmaWnjBjylctDOJFpeVSipX2s0dFgpVJJQCWTgCzBAMNZq/
+	HZRgk6uPTYA1a8B4eTXhYW4=
+X-Google-Smtp-Source: ABdhPJxtyjmlGIHYo5tGkn2dpkmSNMSIP60jjkXbtMU9bKo3GVqiFmI11ApfkGbrlFk2blqlWSRk3A==
+X-Received: by 2002:a17:902:c192:b029:e4:5c61:3883 with SMTP id d18-20020a170902c192b02900e45c613883mr21567640pld.69.1615219688363;
+        Mon, 08 Mar 2021 08:08:08 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
+        by smtp.gmail.com with ESMTPSA id v2sm11263895pjg.34.2021.03.08.08.08.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Mar 2021 08:08:08 -0800 (PST)
+Subject: Re: [OE-core][meta-oe][dunfell][PATCH] mdns: Whitelisted CVE-2007-0613 for mdns
+To: Sana Kazi <Sana.Kazi@kpit.com>, Openembedded-core@lists.openembedded.org
+Cc: nisha.parrakat@kpit.com, Aditya.Tayade@kpit.com,
+ Harpritkaur.Bhandari@kpit.com
+References: <20210308055859.8945-1-Sana.Kazi@kpit.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <3e757411-d7d9-1676-d7b4-9cce94ab98bb@gmail.com>
+Date: Mon, 8 Mar 2021 08:08:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210308055859.8945-1-Sana.Kazi@kpit.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-net: vmxnet3: validate configuration values during activate
+Hi Sana
 
-Upstream-Status: Acepted [https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07935.html]
-CVE: CVE-2021-20203
-Signed-off-by: Minjae Kim <flowergom@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20203.patch            | 73 +++++++++++++++++++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
+Thanks for your contribution. this patch needs a bit of rework, please 
+apply it to master branch of meta-openembedded repository, this recipe 
+is from meta-networking layer therefore prefix your subject line with 
+[meta-networking] and meta-openembedded repo patches are sent to 
+oe-devel mailing list not oe-core
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a6dc941624..a625809597 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://mmap2.patch \
-            file://determinism.patch \
-            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
-+	   file://CVE-2021-20203.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
-new file mode 100644
-index 0000000000..269c6f1294
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
-@@ -0,0 +1,73 @@
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+
-+While activating device in vmxnet3_acticate_device(), it does not
-+validate guest supplied configuration values against predefined
-+minimum - maximum limits. This may lead to integer overflow or
-+OOB access issues. Add checks to avoid it.
-+
-+Fixes: CVE-2021-20203
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913873
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+
-+Upstream-Status: Acepted [https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07935.html]
-+CVE: CVE-2021-20203
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+---
-+ hw/net/vmxnet3.c | 13 +++++++++++++
-+ 1 file changed, 13 insertions(+)
-+
-+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-+index eff299f629..4a910ca971 100644
-+--- a/hw/net/vmxnet3.c
-++++ b/hw/net/vmxnet3.c
-+@@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+     vmxnet3_setup_rx_filtering(s);
-+     /* Cache fields from shared memory */
-+     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
-++    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
-+     VMW_CFPRN("MTU is %u", s->mtu);
-+ 
-+     s->max_rx_frags =
-+@@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* Read rings memory locations for TX queues */
-+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBasePA);
-+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRingSize);
-++        if (size > VMXNET3_TX_RING_MAX_SIZE) {
-++            size = VMXNET3_TX_RING_MAX_SIZE;
-++        }
-+ 
-+         vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
-+                           sizeof(struct Vmxnet3_TxDesc), false);
-+@@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* TXC ring */
-+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRingBasePA);
-+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRingSize);
-++        if (size > VMXNET3_TC_RING_MAX_SIZE) {
-++            size = VMXNET3_TC_RING_MAX_SIZE;
-++        }
-+         vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
-+                           sizeof(struct Vmxnet3_TxCompDesc), true);
-+         VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_ring);
-+@@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+             /* RX rings */
-+             pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
-+             size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
-++            if (size > VMXNET3_RX_RING_MAX_SIZE) {
-++                size = VMXNET3_RX_RING_MAX_SIZE;
-++            }
-+             vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
-+                               sizeof(struct Vmxnet3_RxDesc), false);
-+             VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
-+@@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* RXC ring */
-+         pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBasePA);
-+         size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSize);
-++        if (size > VMXNET3_RC_RING_MAX_SIZE) {
-++            size = VMXNET3_RC_RING_MAX_SIZE;
-++        }
-+         vmxnet3_ring_init(d, &s->rxq_descr[i].comp_ring, pa, size,
-+                           sizeof(struct Vmxnet3_RxCompDesc), true);
-+         VMW_CFPRN("RXC queue %d: Base: %" PRIx64 ", Size: %d", i, pa, size);
-+-- 
-+2.29.2
--- 
-2.24.3 (Apple Git-128)
+here are OE patch submission guideline whic h will be helpful
 
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+
+On 3/7/21 9:58 PM, Sana Kazi wrote:
+> CVE-2007-0613 is not applicable as it only affects Apple products
+> i.e. ichat,mdnsresponder, instant message framework and MacOS.
+> Also, https://www.exploit-db.com/exploits/3230 shows the part of code
+> affected by CVE-2007-0613 which is not preset in upstream source code.
+> Hence, CVE-2007-0613 does not affect other Yocto implementations and
+> is not reported for other distros can be marked whitelisted.
+> Links:
+> https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
+> https://www.incibe-cert.es/en/early-warning/vulnerabilities/cve-2007-0613
+> https://security-tracker.debian.org/tracker/CVE-2007-0613
+> https://ubuntu.com/security/CVE-2007-0613
+> https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
+> ---
+>   .../recipes-protocols/mdns/mdns_878.270.2.bb        | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb b/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
+> index 0f8dc92df3..ce31233264 100644
+> --- a/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
+> +++ b/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
+> @@ -26,6 +26,19 @@ SRC_URI = "https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-${P
+>   SRC_URI[md5sum] = "4e139a8e1133349006b0436291c9e29b"
+>   SRC_URI[sha256sum] = "2cef0ee9900504c5277fb81de0a28e6c0835fe482ebecf1067c6864f5c4eda74"
+> 
+> +# CVE-2007-0613 is not applicable as it only affects Apple products
+> +# i.e. ichat,mdnsresponder, instant message framework and MacOS.
+> +# Also, https://www.exploit-db.com/exploits/3230 shows the part of code
+> +# affected by CVE-2007-0613 which is not preset in upstream source code.
+> +# Hence, CVE-2007-0613 does not affect other Yocto implementations and
+> +# is not reported for other distros can be marked whitelisted.
+> +# Links:
+> +# https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
+> +# https://www.incibe-cert.es/en/early-warning/vulnerabilities/cve-2007-0613
+> +# https://security-tracker.debian.org/tracker/CVE-2007-0613
+> +# https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
+> +CVE_CHECK_WHITELIST += "CVE-2007-0613"
+> +
+>   PARALLEL_MAKE = ""
+> 
+>   S = "${WORKDIR}/mDNSResponder-${PV}/mDNSPosix"
+> --
+> 2.17.1
+> 
+> This message contains information that may be privileged or confidential and is the property of the KPIT Technologies Ltd. It is intended only for the person to whom it is addressed. If you are not the intended recipient, you are not authorized to read, print, retain copy, disseminate, distribute, or use this message or any part thereof. If you receive this message in error, please notify the sender immediately and delete all copies of this message. KPIT Technologies Ltd. does not accept any liability for virus infected mails.
+> 
