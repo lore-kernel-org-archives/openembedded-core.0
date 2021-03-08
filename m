@@ -1,120 +1,274 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.37839.1615219689065475497
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 08:08:09 -0800
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web08.38642.1615220226726460963
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 08 Mar 2021 08:17:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=agJcPf8y;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so3391944pjv.1
-        for <Openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 08:08:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JNy08+wS;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id z5so5107019plg.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 08:17:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kMGLcPQKl6MaM9V64czYzdDN6LeqBoddllhz4LyDz6w=;
-        b=agJcPf8y5Zo+u6cMegeSrbS0anxcToQIzYDyPDe6r980dOJ0Hx2a4zSA3EAXN4LUpq
-         qFmbB46rXnLHvq+6wP+d8oTxN0boy2ggKat6c1E8VR8bnIH1IvVNsQa/6USdxBbA8doy
-         WYtq1E5HrHsrjSABw+X1++kv56V0IpC+PeDCi+rr/nIU+Dwz6W0Am4r/ys9ehN7lAyzX
-         7X2zB2tEh9Ub+Uf0N3FjSnCcqPwd8SXtjYlHbw1zfaHPu3OibMfORTUbNAP0da7kf0J0
-         EeK5xebA38gUQ5HtTQBfRCBHSU0QDfJhBgpJh+PA0jj6WKl3J6T827oHv8lmx6CQIuBz
-         yaJg==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=/Yjgydt01e8SBSxFaJkCxyXwjmRTfw2NhDhWYcDqxSg=;
+        b=JNy08+wSm0GHJ3H59ROBYWpY+JXSRavD703OBCc3j4d1WyuRfbluvzx6dY9K/eV2I6
+         DKY2txd7AbuSuKjgQYhoUoHa+AYLhPp8p+rG6FYFbknSALbfEHY+Ljen2ZAC5kqB44qz
+         D0x7QymEt8bopg1BcoybHmHMFD96L4c93Ri5hdQimxoh0+EKlnFEanIgnNqicF0d8zoU
+         WteGrPibcIYp9Mc1R84vfnfxNvSw0J4xYDvecON+ikAp6LdrVZIZ3g6ws606LkjTd+rN
+         0H2svik5acK/BrCJ3UYroRGQDHXmfWMv6M4p2Ttt7TKolbiXNMq8q0vaANQTwd0v+8Oj
+         Porw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=kMGLcPQKl6MaM9V64czYzdDN6LeqBoddllhz4LyDz6w=;
-        b=X6G+3OQ09OBDLRcxItyqqqYyhwm1Gvbw72ynIGix+8gP7Uh2l942DMedkxbx0PeBBi
-         S76gGHdXl5WYKR3zd+qHuR3ZPk3nlXIOqiXYcgxMWFbw12ORtaQWIx++ucwcxrKvub28
-         Th8M/v5sPhBgF3tSyyZC01tnC0mt3fT1hO42lkedRDoQy2F6HgfqTkasL2CD0NqARFYX
-         sM/g5TrOMRYwn3mag8+cesXX9tSlxKA1ctfcJeGuBGVS+AVCZWm7mGog3afMysFx7sBb
-         n0Vqh+FiiWHB2ZjV2JLUmc59+MyUXqBbzv6rh3qXvrclCq8nvTb7Uobq6+gyrG/rODYo
-         4V5A==
-X-Gm-Message-State: AOAM532OvDmaWnjBjylctDOJFpeVSipX2s0dFgpVJJQCWTgCzBAMNZq/
-	HZRgk6uPTYA1a8B4eTXhYW4=
-X-Google-Smtp-Source: ABdhPJxtyjmlGIHYo5tGkn2dpkmSNMSIP60jjkXbtMU9bKo3GVqiFmI11ApfkGbrlFk2blqlWSRk3A==
-X-Received: by 2002:a17:902:c192:b029:e4:5c61:3883 with SMTP id d18-20020a170902c192b02900e45c613883mr21567640pld.69.1615219688363;
-        Mon, 08 Mar 2021 08:08:08 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
-        by smtp.gmail.com with ESMTPSA id v2sm11263895pjg.34.2021.03.08.08.08.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Mar 2021 08:08:08 -0800 (PST)
-Subject: Re: [OE-core][meta-oe][dunfell][PATCH] mdns: Whitelisted CVE-2007-0613 for mdns
-To: Sana Kazi <Sana.Kazi@kpit.com>, Openembedded-core@lists.openembedded.org
-Cc: nisha.parrakat@kpit.com, Aditya.Tayade@kpit.com,
- Harpritkaur.Bhandari@kpit.com
-References: <20210308055859.8945-1-Sana.Kazi@kpit.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <3e757411-d7d9-1676-d7b4-9cce94ab98bb@gmail.com>
-Date: Mon, 8 Mar 2021 08:08:06 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=/Yjgydt01e8SBSxFaJkCxyXwjmRTfw2NhDhWYcDqxSg=;
+        b=nkkOecF7z6jfRAmohgUco3wosrXsZbZlMWdQj5irgCnRapJZj7I7cGOPfpYo8eTh8r
+         MDwYoIrTF+sedoTTeQWm1m5JYDPCMSzFefM7o2B9L8jITlbF+gvyCVbU1HulIJYe5/V2
+         cKXduauIbx9Cc7zP0JtgU/WJfjGhGteYgM9WW2SBC2vUXtEA2umHctG/jCIHfPFjLMYn
+         cszCBSfUgnO10jXfMl1vFPbdRsw5NIV68ArXhrL2l0TVIO6OWn5FcYgn1etIXRbfimSQ
+         suD1Jpd3JElQZfRcH4MT0w17yLTaVZ8GLuo9wA2+4J0iSjxDLANwWiXjHlGO6oota57o
+         jpFA==
+X-Gm-Message-State: AOAM531pDOJH3I29Vs4iQaQ+oIq1umsgW3wlWnDKaVKlZL2WiV04oTjR
+	TLkknDjeQ0ow0s0O3Tg1tzE=
+X-Google-Smtp-Source: ABdhPJw5uoItQdgAYSzIBSDkqy/QNOeRBju98YDLRabn6zmw1//m1en4BY3vWRxMdhwXZGgaHXzgVg==
+X-Received: by 2002:a17:90b:4aca:: with SMTP id mh10mr18890471pjb.185.1615220226052;
+        Mon, 08 Mar 2021 08:17:06 -0800 (PST)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id v7sm11031415pfv.93.2021.03.08.08.17.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Mar 2021 08:17:05 -0800 (PST)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 8 Mar 2021 08:17:05 -0800
+Message-ID: <149a01d71436$7b438110$71ca8330$@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210308055859.8945-1-Sana.Kazi@kpit.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKMEVA2StbPO6CW2vNU20trEQX7+g==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_149B_01D713F3.6D21EEC0"
+Content-Language: en-us
+
+------=_NextPart_000_149B_01D713F3.6D21EEC0
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Hi Sana
+All,
 
-Thanks for your contribution. this patch needs a bit of rework, please 
-apply it to master branch of meta-openembedded repository, this recipe 
-is from meta-networking layer therefore prefix your subject line with 
-[meta-networking] and meta-openembedded repo patches are sent to 
-oe-devel mailing list not oe-core
+ 
 
-here are OE patch submission guideline whic h will be helpful
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 367
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
-On 3/7/21 9:58 PM, Sana Kazi wrote:
-> CVE-2007-0613 is not applicable as it only affects Apple products
-> i.e. ichat,mdnsresponder, instant message framework and MacOS.
-> Also, https://www.exploit-db.com/exploits/3230 shows the part of code
-> affected by CVE-2007-0613 which is not preset in upstream source code.
-> Hence, CVE-2007-0613 does not affect other Yocto implementations and
-> is not reported for other distros can be marked whitelisted.
-> Links:
-> https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
-> https://www.incibe-cert.es/en/early-warning/vulnerabilities/cve-2007-0613
-> https://security-tracker.debian.org/tracker/CVE-2007-0613
-> https://ubuntu.com/security/CVE-2007-0613
-> https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
-> ---
->   .../recipes-protocols/mdns/mdns_878.270.2.bb        | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb b/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
-> index 0f8dc92df3..ce31233264 100644
-> --- a/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
-> +++ b/meta-networking/recipes-protocols/mdns/mdns_878.270.2.bb
-> @@ -26,6 +26,19 @@ SRC_URI = "https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-${P
->   SRC_URI[md5sum] = "4e139a8e1133349006b0436291c9e29b"
->   SRC_URI[sha256sum] = "2cef0ee9900504c5277fb81de0a28e6c0835fe482ebecf1067c6864f5c4eda74"
-> 
-> +# CVE-2007-0613 is not applicable as it only affects Apple products
-> +# i.e. ichat,mdnsresponder, instant message framework and MacOS.
-> +# Also, https://www.exploit-db.com/exploits/3230 shows the part of code
-> +# affected by CVE-2007-0613 which is not preset in upstream source code.
-> +# Hence, CVE-2007-0613 does not affect other Yocto implementations and
-> +# is not reported for other distros can be marked whitelisted.
-> +# Links:
-> +# https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
-> +# https://www.incibe-cert.es/en/early-warning/vulnerabilities/cve-2007-0613
-> +# https://security-tracker.debian.org/tracker/CVE-2007-0613
-> +# https://vulmon.com/vulnerabilitydetails?qid=CVE-2007-0613
-> +CVE_CHECK_WHITELIST += "CVE-2007-0613"
-> +
->   PARALLEL_MAKE = ""
-> 
->   S = "${WORKDIR}/mDNSResponder-${PV}/mDNSPosix"
-> --
-> 2.17.1
-> 
-> This message contains information that may be privileged or confidential and is the property of the KPIT Technologies Ltd. It is intended only for the person to whom it is addressed. If you are not the intended recipient, you are not authorized to read, print, retain copy, disseminate, distribute, or use this message or any part thereof. If you receive this message in error, please notify the sender immediately and delete all copies of this message. KPIT Technologies Ltd. does not accept any liability for virus infected mails.
-> 
+------=_NextPart_000_149B_01D713F3.6D21EEC0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_12B4_01D70ECA.B6682460";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 367 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_149B_01D713F3.6D21EEC0--
