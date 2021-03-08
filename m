@@ -1,80 +1,78 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.39260.1615224827865089169
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.258.1615226522894022255
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 09:33:48 -0800
+ Mon, 08 Mar 2021 10:02:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CuC6JUM4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id h98so12289810wrh.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 09:33:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=oJgBdznApVdWXMiQC/c8I6IJ7BndBc0D/uOn8xFWWiI=;
-        b=CuC6JUM4vIc46j6JrnmFLs1o5eg8VHY/X3pkFZLP8sN4S1ZoJJQDP3HJJBuxvaRs6G
-         bdv/TiWFXT/KQKMPz0raK4EaqzaZo2Kel4MRArAQiZ7JfhhwY6M5VbzvNuWqNQS39PII
-         FuRgL+eduROddH584VeDCZvXTccRGSlf8H7EA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oJgBdznApVdWXMiQC/c8I6IJ7BndBc0D/uOn8xFWWiI=;
-        b=KKIOeMi+nP7z8bREimWrTWdWGVxyHq1RNi2gpFWuDf39oLFkQ41c7qssJDERG3hYLg
-         DmGqMY0f1mrjJVfiQlb+aYaYJ5KCQ95lred4uqM71ATU11qBUH+Si/q3+KxzDz5weYT6
-         3DcC790Fffmy9+ny67j60lNh4IJL/RN6kjDcvtQIipfl57wLbHt+uNItd3O98KbQVINQ
-         SMUCNFF2faIETw12T8//XPzIVimztHBLZ2/7BIAJzd8f74GF0oeS1dWgYQDXGTVsfuwV
-         OflxEydQ2RnMS7QRz7C8HnZlVlh3EoUtzVwI+tsRXIukH9wrQQ0eT1spnHv6yBRnanOC
-         SPOw==
-X-Gm-Message-State: AOAM532xJyy3918EnQBvp8etQJ7NSaZWSwQ6WX5el+RrAb6PK4tx2Twd
-	+5VN9zVyF65o1RgCnlcXq5mOwA==
-X-Google-Smtp-Source: ABdhPJzTmTD6buXYIMRTlRDDeKaqHizi6P9/nBcegKnWRY9QVXw3wWMl8KhcW9XbP6iFMyU1imd4wQ==
-X-Received: by 2002:a05:6000:1547:: with SMTP id 7mr24065723wry.301.1615224826214;
-        Mon, 08 Mar 2021 09:33:46 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:3242:e265:217d:9509? ([2001:8b0:aba:5f3c:3242:e265:217d:9509])
-        by smtp.gmail.com with ESMTPSA id v9sm20331924wrn.86.2021.03.08.09.33.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 09:33:45 -0800 (PST)
-Message-ID: <847ee37ec1bc1545e0a13d11c4eeac6358ef3fa8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] scripts/oe-timeout-dd-test.sh: add script
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
-	 <sakib.sajal@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 08 Mar 2021 17:33:43 +0000
-In-Reply-To: <a8d69435-a6cc-4daf-a22a-cb190c04f781@windriver.com>
-References: <20210307205817.5679-1-sakib.sajal@windriver.com>
-	 <a8d69435-a6cc-4daf-a22a-cb190c04f781@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2955106F
+	for <openembedded-core@lists.openembedded.org>; Mon,  8 Mar 2021 10:01:57 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D7F63F71B
+	for <openembedded-core@lists.openembedded.org>; Mon,  8 Mar 2021 10:01:57 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 4/4] oeqa/selftest: add test to verify that poisoned sysroots are detected
+Date: Mon,  8 Mar 2021 18:01:52 +0000
+Message-Id: <20210308180152.3515502-4-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210308180152.3515502-1-ross.burton@arm.com>
+References: <20210308180152.3515502-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2021-03-08 at 09:50 -0500, Randy MacLeod wrote:
-> On 2021-03-07 3:58 p.m., Sakib Sajal wrote:
-> > +timeout $1 dd if=/dev/zero of=/tmp/foo bs=1024 count=$2 >/dev/null 2>&1
-> > +
-> > +if [ $? -ne 0 ]
-> > +then
-> > +        top -b -n 1
-> > +else
-> > +        echo "success"
-> 
-> Do we need this else part? It'll just fill up the logs?
-> 
-> > +fi
-> > +
-> 
-> What values have you tried and how did that work out?
-> On Friday, a build with 100KB and was it .5 seconds and didn't
-> see any event exceed the timeout, right? We also ran several builds
-> out of a shared local sstate-cache and didn't see any event exceed the 
-> timeout, iirc.
+Add a recipe that explicitly searches /usr/include, and use that in
+oe-selftest to verify that host include paths are correctly causing
+build failures.
 
-It would really help me to have an idea of what we're proposing we configure
-on the autobuilder and how to capture the result...
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta-selftest/recipes-test/poison/poison.bb  | 16 ++++++++++++++++
+ meta/lib/oeqa/selftest/cases/buildoptions.py |  6 ++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/poison/poison.bb
 
-Cheers,
-
-Richard
+diff --git a/meta-selftest/recipes-test/poison/poison.bb b/meta-selftest/=
+recipes-test/poison/poison.bb
+new file mode 100644
+index 0000000000..7ace901cc3
+--- /dev/null
++++ b/meta-selftest/recipes-test/poison/poison.bb
+@@ -0,0 +1,16 @@
++SUMMARY =3D "Sysroot poisoning test"
++LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
++
++LICENSE =3D "MIT"
++
++inherit nopackages
++
++# This test confirms that compiling code that searches /usr/include for =
+headers
++# will result in compiler errors.  This recipe should will fail to build=
+ and
++# oe-selftest has a test that verifies that.
++do_compile() {
++    touch empty.c
++    ${CPP} ${CFLAGS} -I/usr/include empty.c
++}
++
++EXCLUDE_FROM_WORLD =3D "1"
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa=
+/selftest/cases/buildoptions.py
+index 3495bee986..20fe8ed8f6 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -197,3 +197,9 @@ PREMIRRORS =3D "\\
+=20
+         bitbake("world --runall fetch")
+=20
++
++class Poisoning(OESelftestTestCase):
++    def test_poisoning(self):
++        res =3D bitbake("poison", ignore_status=3DTrue)
++        self.assertNotEqual(res.status, 0)
++        self.assertTrue("is unsafe for cross-compilation" in res.output)
+--=20
+2.25.1
 
