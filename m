@@ -1,143 +1,99 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web08.1407.1615230692819500935
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.1718.1615231763356719367
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 11:11:33 -0800
+ Mon, 08 Mar 2021 11:29:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 128JBS0p010268
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Mon, 8 Mar 2021 13:11:29 -0600
-Subject: Re: [OE-core] [PATCH 1/1] extrausers: Add ability to force password change on first login
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20210308180836.144245-1-mark.hatle@kernel.crashing.org>
- <20210308180836.144245-2-mark.hatle@kernel.crashing.org>
- <5e4a3970-879f-5b8b-77d4-bd8b4ec7ed73@gmail.com>
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <f299f5a0-9b27-dbf5-999a-fcb8c0040494@kernel.crashing.org>
-Date: Mon, 8 Mar 2021 13:11:26 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YLhUIzfp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id y124-20020a1c32820000b029010c93864955so4505224wmy.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 11:29:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=RcVx6cTR1CQqAk9RATHlG5wd0tkbNJImwWHknTiBrUw=;
+        b=YLhUIzfpw+4cGRB33if6olc0dOusQRrRTpHOlQxNPU9CpaopmQEMU8YkHePaSonwhU
+         OxYkO6XI9aWJHNCE54CpBVpPvGsJogvUHG4oMhWtZXDV/lNbMH6aWV+Esh7W2tFnP7M0
+         vlj3H0Oo3WvhCp1WKhODo+QNabA41XTbNMoFQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=RcVx6cTR1CQqAk9RATHlG5wd0tkbNJImwWHknTiBrUw=;
+        b=SHEFfo94uYACPEylCpzTt+N8ZxoeLHp0tAIUqimxqnULRHyy2a9kdUJC7gjVY9DsTL
+         4MuyuGmraCPjhXZgBUsg/T8gDAhqId6Si3jVxPOpnvN2exceco68kKXM+nP9g+6UaG+e
+         iVLAzmszhM6qq4Jfe+6ETlZatI5KJ/fDwPIRu9QyybTJQ9eMeEmcBiJ+xRBYK3ol+I7N
+         F9gIRPyfrcGtLlk9fG1ShPb7eCxoQEDyOCo12h4PN4P69DDG3OMV+dUFEJUANCTOn6Es
+         Eazm0VZSMu+IlRuJ5HtvcNVrnnwy7Vp2IE1OWou9+fq8mk+Jbz4Oq9gIIYCX3YoAl13Z
+         WhGg==
+X-Gm-Message-State: AOAM533YJei+7v+mWPIsDIFBdPAN1p9XVCrw5oPOrzfXiOrOSldja/CQ
+	n09Wq9zBbve8A1LMHugFWTHkOg==
+X-Google-Smtp-Source: ABdhPJxD4s7OCvlm8uJ5YTxoofB1FeQ5NF7E5mG+84iUoiQZfvTPvgl7h/MbPIxGYQ/Thr5e1rlVkg==
+X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr303263wmk.123.1615231761790;
+        Mon, 08 Mar 2021 11:29:21 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:eedb:fc13:9637:3816? ([2001:8b0:aba:5f3c:eedb:fc13:9637:3816])
+        by smtp.gmail.com with ESMTPSA id 4sm533275wma.0.2021.03.08.11.29.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 11:29:21 -0800 (PST)
+Message-ID: <58bcb66c9e15d4121defef93cb6b34266fd89037.camel@linuxfoundation.org>
+Subject: Re: [PATCH v7] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
+Cc: bluelightning@bluelightning.org, Kory Maincent
+ <kory.maincent@bootlin.com>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Date: Mon, 08 Mar 2021 19:29:20 +0000
+In-Reply-To: <20210305110218.24635-1-luca.boccassi@gmail.com>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 <20210305110218.24635-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <5e4a3970-879f-5b8b-77d4-bd8b4ec7ed73@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-
-
-On 3/8/21 12:50 PM, Khem Raj wrote:
+On Fri, 2021-03-05 at 11:02 +0000, luca.boccassi@gmail.com wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
 > 
+> Recently util-linux gained an (optional) build dependency on libcryptsetup.
+> But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
+> and uuid (mandatory).
+> Split out util-linux-uuid in a different recipe to break the cycle.
 > 
-> On 3/8/21 10:08 AM, Mark Hatle wrote:
->> From: Mark Hatle <mark.hatle@xilinx.com>
->>
->> As documented in shadow(5), the third parameter is the last login time.  A
->> special value of '0' is defined which causes the password system to force
->> a password change on next login.
->>
->> Adding the variable "EXTRA_FORCE_PASSWORD_CHANGE", a space separated list of
->> user names, we can use this to adjust the shadow file's third value for the
->> listed users.
->>
->> Note: This does have the same dependencies as other usages of extrausers,
->> specifically base-passwd and shadow.
->>
+> https://github.com/karelzak/util-linux/pull/898
 > 
-> I think it should check for r/w rootfs feature perhaps. unrelated to 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+>     underway as I'm not sure if this is the best approach or if there are
+>     alternatives. Suggestions and comments very welcome. Thanks!
+> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+>     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+>     as it does not have its own autoconf switch. Delete the library manualy from
+>     the main recipe after build instead, and add dependency.
+>     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+>     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+> v3: rebased and refactored to have a common util-linux.inc file
+> v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
+> v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
+>     Removed PACKAGES_remove and instead filter out libuuid via the package generation
+>     regex.
+>     Rebased on util-linux 2.36.2.
+> v6: install libuuid.a in libuuid-dev
+>     change rdepends on uuid to use binary package rather than source
+>     add rdepends on uuid-dev to libuuid-dev
+>     remove rprovides of libuuid-dev from uuid-dev
+> v7: do not use '_append' for RDEPENDS, as it is not supported by BBCLASSEXTEND, use
+>     simply '+='
 
-Is there a standard way to check for a r/w roots?  If there is, easy to add.
+This is looking closer but not there yet I'm afraid. Testing showed:
 
-> this change but it seems it adds a dep on shadow disregarding DISTRO 
-> policies where user might have chosen a different login managager, it 
-> should perhaps warn about it.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/3152
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/3188
 
-The dep on shadow is the same as any extrauser call.  The dependency sets the
-minimum login manager, but any login manager that supports proper shadow
-password handling will work.  If it doesn't support shadow password handling
-then nothing breaks -- it just won't do anything.  (Really nothing here that can
-be enforced in this code block.)
+so far.
 
-util-linux login + pam for instance used to work.  (I've not tested it though in
-a few years.)
+Cheers,
 
---Mark
+Richard
 
->> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
->> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
->> ---
->>   meta/classes/extrausers.bbclass | 29 +++++++++++++++++++++++++++--
->>   meta/conf/documentation.conf    |  1 +
->>   2 files changed, 28 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
->> index 90811bfe2a..e9d9358bef 100644
->> --- a/meta/classes/extrausers.bbclass
->> +++ b/meta/classes/extrausers.bbclass
->> @@ -14,10 +14,10 @@
->>   
->>   inherit useradd_base
->>   
->> -PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
->> +PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS')) or bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
->>   
->>   # Image level user / group settings
->> -ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
->> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', ' set_user_group;'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
->>   
->>   # Image level user / group settings
->>   set_user_group () {
->> @@ -66,6 +66,31 @@ set_user_group () {
->>   	done
->>   }
->>   
->> +# Image level force a specific user/users to reset their password on first login
->> +# Note: this requires shadow passwords and login programs that respect the shadow
->> +# expiration field.
->> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', ' force_password_change;'][bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
->> +
->> +# Works by setting 'date of last password change' to 0, which has a special
->> +# meaning of 'user should change her password the next time she will log in the
->> +# system' See: shadow (5)
->> +force_password_change () {
->> +	if [ ! -e ${IMAGE_ROOTFS}/etc/shadow ]; then
->> +		bberror "/etc/shadow does not exist in the image, unable to set password change on login."
->> +		return
->> +	fi
->> +	passwd_change_users="${EXTRA_FORCE_PASSWORD_CHANGE}"
->> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
->> +	for name in $passwd_change_users; do
->> +		if ! grep -q '^'$name':' ${IMAGE_ROOTFS}/etc/shadow ; then
->> +			bberror "Unable to find user $name in /etc/shadow, unable to set password change on login."
->> +		fi
->> +		bbnote "Set user $name to need a password change on first login."
->> +		cmd="sed -i ${IMAGE_ROOTFS}/etc/shadow -e 's,^'$name':\\([^:]*\\):[^:]*:,'$name':\\1:0:,'"
->> +		eval flock -x ${IMAGE_ROOTFS}${sysconfdir} -c \"$PSEUDO $cmd\" || true
->> +	done
->> +}
->> +
->>   USERADDEXTENSION ?= ""
->>   
->>   inherit ${USERADDEXTENSION}
->> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
->> index c5a38b0764..d1c5b8b1a3 100644
->> --- a/meta/conf/documentation.conf
->> +++ b/meta/conf/documentation.conf
->> @@ -169,6 +169,7 @@ EXTRA_OESCONS[doc] = "When a recipe inherits the scons class, this variable spec
->>   EXTRA_QMAKEVARS_POST[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be after the .pro file list on the command line."
->>   EXTRA_QMAKEVARS_PRE[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be before the .pro file list on the command line."
->>   EXTRA_USERS_PARAMS[doc] = "When a recipe inherits the extrausers class, this variable provides image level user and group operations."
->> +EXTRA_FORCE_PASSWORD_CHANGE[doc] = "When a recipe inherits the extrausers class, this variable causes the specified users to require a password change on first login."
->>   
->>   #F
->>   
->>
->>
->>
->>
->>
->>
->>
->> 
->>
