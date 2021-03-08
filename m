@@ -1,87 +1,90 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web09.4203.1615241483321911473
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web12.4136.1615241493092542626
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 14:11:23 -0800
+ Mon, 08 Mar 2021 14:11:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=h9ZfWbrc;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id x4so16905049lfu.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 14:11:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EfQU6hGp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id a18so13043709wrc.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 14:11:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AGCHEHOXihPGfBdHdo+xu+N0e2SaEJyr0HLY7NcjCnw=;
-        b=h9ZfWbrcZU9X3SWU7ipeUvy8T655+kTSVKJzhVRze248MLpBy7zbir5HCQOTa4916K
-         wk6LVst9jLZRaZbvA/acKZn6dZoVs86/LfQekslvvJFW8uqONwWZiFYdZFiOY0kvxzR1
-         TvjyE+IV1EcBi+43w12qn6/ybvHnqx1mpZ5V5YiMJobdFrw3ZL41Cjkaz70WBcXaH5AV
-         CkZ1+fu9BQyGyagpPpt+/Z/kPLkSC4cM3fJQJywiTgQUrUN4Kcx41NHWf6djn0odXtfh
-         YdRFNUNSLy6PIsd6liGG9sXYTajoYJdtSFitmFI9HjnprhbJdSLjP0uwaVdl0VyKbOue
-         oAsA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=bltw8/M1zHlaVgFggXS23L7rHlm5P26+df9G7wn47vo=;
+        b=EfQU6hGpdY76M7eP9OvIMlhHnKmDN0Vv1Dqn5jQa5cYNiEeYcP3U//o02pzPanNw0z
+         glVRGLu9zDifUBuDkGXYxP6XDnNvMMX9maoKi/9WdEyPj8ZpmppZbkJTpF/W9PExAerU
+         B/CMeIHQxmlyo4LOYNiuyl+Oq/GlXYd4z1OLc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AGCHEHOXihPGfBdHdo+xu+N0e2SaEJyr0HLY7NcjCnw=;
-        b=T4sBZM9tcBnVZySpL15YjmcxYa1mf7jyubAKHr5HvYCsvTjSWxlxUCLxXrxOydL0xq
-         l3i6VytrGAPDUIKmBjLMAT3DyEwOQmdInGXAoytX/gM04RfxOgWEPAMfoyVDhpJh4eLe
-         Bxn+1FDWB4DjHvPb4OxMx/krqNpeX+6SY6a1mtCLB5gphJJCUWjROOD2aJYDFHBkJuvQ
-         sq2dXd55RcSTlv5OaS1KMicJyJ7ZtJDr2o5Ogm88o/rlZJEXQ6fZO+F86MV50mWq5RR5
-         0uYa6uyVEUt6AZgrr56hNzNjK8vw4JIrmO5SJzcs11PNOrc4xJ4aKsI1nMhkxwlZnTJq
-         f8Ew==
-X-Gm-Message-State: AOAM530A0J7KTva1D6eWzL4IMOf5YT1SMRPu4BgNIsPNSOFN4FxXsXVw
-	5d8Z7FKBpgH7m09B5e+2h3WT7+oH8Gl2CbIBXNE=
-X-Google-Smtp-Source: ABdhPJxAl0O3XCLqxlQiHxRai6+j6cSvwy0u8EvACQowr2qkVPN7excD0ahZNAyRmfdgB4AHEppiB9KQ9I80aNxabS8=
-X-Received: by 2002:a05:6512:3081:: with SMTP id z1mr15642428lfd.257.1615241481295;
- Mon, 08 Mar 2021 14:11:21 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=bltw8/M1zHlaVgFggXS23L7rHlm5P26+df9G7wn47vo=;
+        b=ZlxU+L0QBxDCeIAq0Wg+JI7jtZn0GWjUU5Bj89YOGa13vIrmisf5zeXgVt0+jlv9zf
+         +HqVa/JOy6fPzIM4Ah0hdPtkOxVUPuguzMIO7xr05w6VMw5pK6XCpuoqCmsBkgHsXYoY
+         ABI4CKL2AIlDCtf5PSH6Fnt+VFn5ZoEp1EAZLSAvNk6HJBKXZdb+hNM9nDV6UO3m3d+b
+         xekI/poejAxCOVD3CC0BEbtqZgyBu08SdSJ9Fjjng1EGY7pvTjh5SBNTCBKaLQS6iWps
+         s4/k6YGkccjFndOrwO7fFzlOzU16sc2AnPHPB3fU7p4U50m8sSVZJCmY8RzVgxBjbD5+
+         2mIQ==
+X-Gm-Message-State: AOAM533Ft39UDnClIFs2Qt0BfzuNaXAgmAcwyoHgvzGcx/1hbPjzaZVS
+	gOq6Xemk2Yxou9DeoFTps0M+4A==
+X-Google-Smtp-Source: ABdhPJw2yhS0RC4DENdPdbb19c9dDtsHXmqk7IAGGE846oHCrrdKMLNzCudnIKVBFUvpo8bDDDOi+g==
+X-Received: by 2002:adf:d0c9:: with SMTP id z9mr25913949wrh.396.1615241491517;
+        Mon, 08 Mar 2021 14:11:31 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from [192.168.1.6] (dan.rpsys.net. [217.169.23.60])
+        by smtp.gmail.com with ESMTPSA id k4sm26043806wrd.9.2021.03.08.14.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 14:11:31 -0800 (PST)
+Message-ID: <78d7c30d3d642353fbd52202beb49e1dd74fb7f2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] scripts/oe-timeout-dd-test.sh: add script
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 08 Mar 2021 22:10:00 +0000
+In-Reply-To: <2b197274-5e89-2648-5881-4f2671a1e6aa@windriver.com>
+References: <20210307205817.5679-1-sakib.sajal@windriver.com>
+	 <a8d69435-a6cc-4daf-a22a-cb190c04f781@windriver.com>
+	 <847ee37ec1bc1545e0a13d11c4eeac6358ef3fa8.camel@linuxfoundation.org>
+	 <2b197274-5e89-2648-5881-4f2671a1e6aa@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210308193028.34418-1-raj.khem@gmail.com>
-In-Reply-To: <20210308193028.34418-1-raj.khem@gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 8 Mar 2021 14:11:09 -0800
-Message-ID: <CAJ86T=WW59ZDOpvgEQXRCqwnJKCKpmVsUeFVPk8kUC5m8zCz=g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] resolvconf: add missing dependencies to RDEPENDS
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 8, 2021 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> From: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
->
-> resolvconf uses flock and readlink.
-> So explicitly added dependencies on util-linux (for flock) and coreutils
-> (for readlink).
-> Note that the options used with flock and readlink are not part of the
-> busybox implementations so full-fledged implementations are needed.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> index 6df96b699c..6da8cd6023 100644
-> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> @@ -9,7 +9,7 @@ LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
->  AUTHOR = "Thomas Hood"
->  HOMEPAGE = "http://packages.debian.org/resolvconf"
-> -RDEPENDS_${PN} = "bash"
-> +RDEPENDS_${PN} = "bash coreutils util-linux"
+Hi Sakib,
 
-util-linux-flock has its own package.
+On Mon, 2021-03-08 at 15:46 -0500, Sakib Sajal wrote:
+> Randy and I could directly use autobuilders and make the necessary 
+> changes to run the tests/experiments, if you prefer to do it yourself, 
+> read on for more details.
 
-Patching resolvconf to use readlink -f (instead of readlink -m) should
-be sufficient to allow it to work with busybox readlink.
+I'm happy to have the help. I'm thinking that rather than instrument 
+one build or a specific test case, we should add something to 
+yocto-autobuilder-helper on a test branch, that way we can run an 
+"a-full" or "a-quick" target on the autobuilder under the test and see
+if we can get any interesting data.
 
->  SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
->             file://fix-path-for-busybox.patch \
-> --
-> 2.30.1
->
->
-> 
->
+The autobuilders have a shared output directory we could use to collate
+the information, it is exported to the environment as 
+OEQA_DEBUGGING_SAVED_OUTPUT in config.json in -helper.
+
+I think we therefore need:
+
+a) poky-contrib branch with this change in
+b) yocto-autobuilder-helper branch with the config enabled in config.json
+c) a further patch to collect up any interesting data and save it to
+OEQA_DEBUGGING_SAVED_OUTPUT as a post build event handler for further
+analysis. We may be able to patch the existing results collection script
+to do this in helper? Obviously the naming of the files on 
+OEQA_DEBUGGING_SAVED_OUTPUT needs to be multi build safe.
+
+Does that sound like a reasonable approach?
+
+Cheers,
+
+Richard
+
+
+
+
