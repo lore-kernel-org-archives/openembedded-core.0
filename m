@@ -1,112 +1,117 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.472.1615243635049357920
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.1003.1615245964890357226
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 14:47:15 -0800
+ Mon, 08 Mar 2021 15:26:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YatssrtV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id f12so13150022wrx.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 14:47:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eGySPX/V;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id c16so5645805ply.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 15:26:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Vz4lcdvOkAGJv6RXppJD7lU7FCCuXfHK2eeMrOVEIgk=;
-        b=YatssrtVcgm/g+0OYPJoqUG/EyBZD2to3yvvzx4RNXD7hDHUpH7kT3qxAHVutckrzl
-         loTNQtUOEBG/FFtV+9eHyye0Be2WAHF8RZk8IqKlwLHWt7HE4pueZT+lMZM2vv13aK81
-         E5z2/HjABiHvo3FHvWDqPTj4oZbvJ4uyxO/gY=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GjyzSJnXLW3nQZ+6wvtuoLwe3iDMtsANj7zL1QnJ5qg=;
+        b=eGySPX/VyQuz91XQ5rMt6M/xsEwHdsuzYlTn6uMyHkB2UdiOwRCbaXR+pF3JZvOIdl
+         w5RsUZngBF/SAyiKem4URWdHw1mNaoQGgha0SE7QVFXHfvzdouQf9K0OeRef9mju7NSz
+         8ZPYYkJ0ggy8pKYeZJVGNtsIUi+9BDtDRXSYNUnSjrV0drPnl5wmgWTR5eA0bMvXTHid
+         iNxFcROCQjojBWnbYMKWx8blux6YL3wMcKANfxr41wM8tenZYnG1khbB+IpxdxdtBiJw
+         e/coj8PjYTHCn/z5znnRQ00hZAZEvvqMqGBn0IYkqFfapF58+aMb3wUMt/wusd04Bbbx
+         gZ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Vz4lcdvOkAGJv6RXppJD7lU7FCCuXfHK2eeMrOVEIgk=;
-        b=b5WKJLnEJFxx2yhi/6eWM0nlpICXDsOktHbrf8rdbdF7xRo2JZJEdyJIY+Rs4gvQzD
-         /0rY3DBYmXsJ27HLEpNATICCSErW/veEIToXdTXDH82D8CbJxBUwyqVr17/g61i3dtT1
-         D5wyZTbp0gJJgotI4QJPAqrfbi3AlR81hThuFu++/Aez9dQ914kvJ8AYMLvTkMEOEnMm
-         yv+VITmto9aSFc1ea+Sfyvt5+RPbCYv9pF2m8jtMerOeKBtCjGTJHolFkDlqOXWe0rrl
-         QbIXh4gWSEcuxA0xiDkE4VX1Z11vJNViSp1YO9VcRcZNl0qT+zmy7ZLrANS/w19JJzRc
-         lhGQ==
-X-Gm-Message-State: AOAM532GsHrsVRBY7vjNG0uoBEqLyRRK4qvGHJFiqu+JYwkPlkcoPXsh
-	hKTHpHvde1nwV8wvpflJqk1uGQ==
-X-Google-Smtp-Source: ABdhPJzZhLPKJ2gt7QZvu6yzMUtEBv259Ts/AAsFVmS2M042NMWmHjcnofYXBx/AGW35oR25JqhC6g==
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr24644356wrn.213.1615243633288;
-        Mon, 08 Mar 2021 14:47:13 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from [192.168.1.6] (dan.rpsys.net. [217.169.23.60])
-        by smtp.gmail.com with ESMTPSA id i10sm19644956wrs.11.2021.03.08.14.47.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 14:47:12 -0800 (PST)
-Message-ID: <c4173a2a3bd58afdf3cc38fbb25d4b99e3d0a3d2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 18/24] procps: update 3.3.16 -> 3.3.17
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin
- <alex.kanavin@gmail.com>,  openembedded-core@lists.openembedded.org
-Date: Mon, 08 Mar 2021 22:47:12 +0000
-In-Reply-To: <c6f58a09-04d1-16d3-e162-88e24a6c6814@gmail.com>
-References: <20210228153702.498275-1-alex.kanavin@gmail.com>
-	 <20210228153702.498275-18-alex.kanavin@gmail.com>
-	 <c6f58a09-04d1-16d3-e162-88e24a6c6814@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=GjyzSJnXLW3nQZ+6wvtuoLwe3iDMtsANj7zL1QnJ5qg=;
+        b=T30p4s46r+QDQtDXWb4mhcrszA0Xhjh8Q7Do5XJEjcV3MINUyQIDXN1he8+mearRnI
+         o7VVkVdV75wicQSAyVCqVrTk/PpuTGxHZCarp8hDOOGDPSQc3S/4eROqIgwQx8CKmECv
+         ssdVMzUDeslXi7NNoUtCzCO06KXU+mgrRFohWetAkpfYc066BXn0itcqFiOFMqHxtx5h
+         YYjxOFiMwct11yO8w5DAD7ccod322/eBcy+KAoOU/X6UzGWZdQUbPRWmlx7MmVhGGI8J
+         T4tNJ+4TwJEmgvC1RKLMLHn7iAeLBxu+nXzMY8W49YhhSzAUkFpiKvz7q2xjb5DKPcX6
+         4BSQ==
+X-Gm-Message-State: AOAM530tDN1QuQ8kFL6qpPRZ72Vx5CcMx7i+nEoM0fXH4SUVjZqLEG9y
+	q7MyEx5+KtNpNggzEOvQ0f4=
+X-Google-Smtp-Source: ABdhPJxa9F8Q6GeDZdpULIiK874WN8LsN83q1Zsg9URRz0RjTBDDgjhmlznod4gsMyssey85IKwo1A==
+X-Received: by 2002:a17:902:cb0b:b029:e5:b670:d905 with SMTP id c11-20020a170902cb0bb02900e5b670d905mr23747297ply.18.1615245964103;
+        Mon, 08 Mar 2021 15:26:04 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:e039:b4fe:1680:1244? ([2601:646:9200:a0f0:e039:b4fe:1680:1244])
+        by smtp.gmail.com with ESMTPSA id mp19sm339369pjb.2.2021.03.08.15.26.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Mar 2021 15:26:03 -0800 (PST)
+Subject: Re: [OE-core] [PATCH] resolvconf: add missing dependencies to RDEPENDS
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+ Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
+References: <20210308193028.34418-1-raj.khem@gmail.com>
+ <CAJ86T=WW59ZDOpvgEQXRCqwnJKCKpmVsUeFVPk8kUC5m8zCz=g@mail.gmail.com>
+ <2a597a00-fbc0-470e-0f43-1d710c74aeaa@gmail.com>
+ <CAJ86T=UbEJ730gFbj=WtrGUO2=6+bbgHpuxcuSChV6uGxve3-Q@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <71abca0e-fcf6-ecc3-ed79-d2269364884b@gmail.com>
+Date: Mon, 8 Mar 2021 15:26:02 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ86T=UbEJ730gFbj=WtrGUO2=6+bbgHpuxcuSChV6uGxve3-Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2021-02-28 at 11:10 -0800, Khem Raj wrote:
+
+
+On 3/8/21 2:25 PM, Andre McCurdy wrote:
+> On Mon, Mar 8, 2021 at 2:15 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On 3/8/21 2:11 PM, Andre McCurdy wrote:
+>>> On Mon, Mar 8, 2021 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>>>
+>>>> From: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
+>>>>
+>>>> resolvconf uses flock and readlink.
+>>>> So explicitly added dependencies on util-linux (for flock) and coreutils
+>>>> (for readlink).
+>>>> Note that the options used with flock and readlink are not part of the
+>>>> busybox implementations so full-fledged implementations are needed.
+>>>>
+>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>> ---
+>>>>    meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+>>>> index 6df96b699c..6da8cd6023 100644
+>>>> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+>>>> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+>>>> @@ -9,7 +9,7 @@ LICENSE = "GPLv2+"
+>>>>    LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+>>>>    AUTHOR = "Thomas Hood"
+>>>>    HOMEPAGE = "http://packages.debian.org/resolvconf"
+>>>> -RDEPENDS_${PN} = "bash"
+>>>> +RDEPENDS_${PN} = "bash coreutils util-linux"
+>>>
+>>> util-linux-flock has its own package.
+>>
+>> yeah and busybox also provides flock too. Lets drop it
 > 
-> On 2/28/21 7:36 AM, Alexander Kanavin wrote:
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >   .../procps/0001-w.c-correct-musl-builds.patch | 44 +++++++++++++++++++
-> >   ...02-proc-escape.c-add-missing-include.patch | 23 ++++++++++
-> >   .../{procps_3.3.16.bb => procps_3.3.17.bb}    |  4 +-
-> >   3 files changed, 70 insertions(+), 1 deletion(-)
-> >   create mode 100644 meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
-> >   create mode 100644 meta/recipes-extended/procps/procps/0002-proc-escape.c-add-missing-include.patch
-> >   rename meta/recipes-extended/procps/{procps_3.3.16.bb => procps_3.3.17.bb} (94%)
-> > 
-> > diff --git a/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch b/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
-> > new file mode 100644
-> > index 0000000000..c92ad28e4f
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
-> > @@ -0,0 +1,44 @@
-> > +From 22f8d25567b8d64bdbab0fb0b4915b4362561d9b Mon Sep 17 00:00:00 2001
-> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > +Date: Wed, 24 Feb 2021 21:14:31 +0000
-> > +Subject: [PATCH] w.c: correct musl builds
-> > +
-> > +No need to redefine UT_ stuff to something that does not exist.
-> > +
-> > +UT_ is already provided in musl but via utmp.h header, so include
-> > +it always.
-> > +
-> > +Upstream-Status: Submitted [https://gitlab.com/procps-ng/procps/-/merge_requests/126]
-> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > +---
-> > + w.c | 9 +--------
-> > + 1 file changed, 1 insertion(+), 8 deletions(-)
-> > +
-> > +diff --git a/w.c b/w.c
-> > +index 9d07ac9..d10639b 100644
-> > +--- a/w.c
-> > ++++ b/w.c
-> > +@@ -57,9 +57,8 @@
-> > + #include <unistd.h>
-> > + #ifdef HAVE_UTMPX_H
-> > + #	include <utmpx.h>
-> > +-#else
-> > +-#	include <utmp.h>
-> > + #endif
-> > ++#include <utmp.h>
+> Busybox provides flock, but it doesn't support the -w option (wait
+> with timeout). Either the util-linux flock is required or resolvconf
+> needs to be patched to drop the -w option.
 > 
-> this would mean when utmpx.h is provided ( e.g. ) it will now include 
-> both, which is a change perhaps to look more into, it might want them to 
-> be exclusive.
 
-This one is worrying me a bit as it does seem to change behaviour on glibc.
-Was anyone able to look into it further?
+right, its to explore possibilities to avoid the deps.
 
-Cheers,
-
-Richard
-
+>>> Patching resolvconf to use readlink -f (instead of readlink -m) should
+>>> be sufficient to allow it to work with busybox readlink.
+>>>
+>>>>    SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
+>>>>               file://fix-path-for-busybox.patch \
+>>>> --
+>>>> 2.30.1
+>>>>
+>>>>
+>>>> 
+>>>>
