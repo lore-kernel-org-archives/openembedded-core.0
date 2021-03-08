@@ -1,53 +1,51 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web12.35928.1615211172979986113
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.35963.1615213092773222116
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 05:46:13 -0800
+ Mon, 08 Mar 2021 06:18:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C3RMj790;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: flowergom@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id cl21-20020a17090af695b02900c61ac0f0e9so4061873pjb.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 05:46:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lmQYgHGx;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: flowergom@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id s16so4920935plr.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 06:18:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=W0jHNrdLB0J2KWKG3iz1oDunYIWB/8Ij3yXky+xeeL8=;
-        b=C3RMj790i+3YvRTU4H5W0AquJg68rHMR6HrnLuxCyy58a/YstCjtcVfHpy90fGNHTW
-         6ihgRVNtvjWIzTuNwtgTXTKy1+MGygvhYfSpTDieBeUThU19StB+XFoqmhT1lb7OUL4e
-         ln5f8XokAU1+XMgx1O8U36PLHZNM98Ae+r31Snxhec/6JES8NyajgBDGgp+9AT+K1tLl
-         SXkdTuM8fdKzcDgS5tVWXycab0buPlpd7z8t4J0VLMgFbczAD3buBwwFnFQzCWcjNzN+
-         W22iv9d86TeL8ih1KcgEEhccc+V020dzb28BdFOFqHihaghnCG7rf1Pjwt/hRdO1DYGz
-         t+Eg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Oa5iMphYazGwMAWsknArGbGpjg8rxvyxu6dhs1BY0Mw=;
+        b=lmQYgHGxa3saCdelCR9BfkPQIZSnGGAGVWLuWTzE5huZZd2UpWeXp7+hG2qlbxOmEl
+         94u12j03yNNGCZoiGilCbPjd3up2dkKYdYBSTG1YhnPZ5ZwoXByW10G4SnxOUMOEPjXs
+         IryQ+IZZfuJS+8OQe8KyJdm1KxtietIbchHtPJ38tZRq3kc6l38s+VOUx/ZeTE0thF4m
+         hxVlPVlqopb4vfkJar6zI5wnaJVTatzEuhPSRcQRA74z3JSa2n2n855iGaWpanHyLY7U
+         V2RDGTKRQM61+1te0aRZRZOnJk6eP8tqiVtqMOZjy2DJCUG9ae1s1qQH+xhesMGv4RZe
+         8NvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=W0jHNrdLB0J2KWKG3iz1oDunYIWB/8Ij3yXky+xeeL8=;
-        b=sWWrDQbLlGFq4SPs6EOCKmEowFqDhdBhdqtiTMEZ8DqebkRL9SYTYFg3WuDp5/BHMr
-         fiRnphOvnORmW411oYbTKPEjmy9AQlPQcKkZM3b+OPQj0j7q3XqUKeck60lIbZs2t0cP
-         UmtRSDLNeFNn+O8jgERXDZj0HiwL9jKgZiLshf5+zEyV/UzITL2iMuuZ4m58HBq0pynq
-         QD5SLIU9W9oErzU9BtpA4YW7Sz6ZUYFKr9xhEtrAsA/60Y6RqMOnJmLT8tjk7yjcC1AX
-         rouUyu1wI1yZ0WBUlNm0Xe3AMO0/2p3ky3GoXAhuUudEUEp1/C9xsxCKYu3cPMaK7DQj
-         C/DQ==
-X-Gm-Message-State: AOAM532X0t6phYovctfr73TCbVvxtPaULNKgI+GZAb3M1wPB0Wk24Sq6
-	Dqtgrodd4byNpXRpZ+g8JGxQxbkta3uuXw==
-X-Google-Smtp-Source: ABdhPJwrLPLxwjadOQEFRCAj01TuXz3/9KvECR9ycb4PU2u5G/fT0xp/E7+8ne7HtysQmvAvVDFdpQ==
-X-Received: by 2002:a17:90b:388d:: with SMTP id mu13mr10256920pjb.34.1615211172106;
-        Mon, 08 Mar 2021 05:46:12 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Oa5iMphYazGwMAWsknArGbGpjg8rxvyxu6dhs1BY0Mw=;
+        b=gTkEIzlBLyNeDJ1EKqffzyC7rgOsXOwND46uCirT+M8Mb1IEmELbYVFAKLV2YeuOBs
+         i77LWYuj8cTfAiS8JNtvbMjl5w27ndvsOHK/8jrUXrm4CVwJhczoGtldx8WA2+y+BNRu
+         qpcckbsVki/i/FbzF+3LGvO4QF3u1LueSu9qAKQG2DeGRJ7X/aiMXKN1kJoh5Xr9sSlj
+         cA8xRNS7l3Nb/GmppVc50e6HXAmwhFl53SHnHPANk4w/4wfAZq5AOL4akwdUPfaiZrou
+         TleRhG8XM9xlgVpsIWxFM59+/XcqwV0GIsIkB+srjsmRBm0Qa0ba8LlDzwqMoxCWNvoQ
+         n1jg==
+X-Gm-Message-State: AOAM531iyG9uU1k8zTjhPmpZmup28+pDo3ACiREYH8HKIsADXipemCSL
+	aEMYIP/lXMKwMQwUk0tWSuy35GH4ne5cVw==
+X-Google-Smtp-Source: ABdhPJzlXucE5ajtZa/Cq5vS/5xYCeuchYqJRhP2S2MOAXoXqLfJ0NGwfk90azwheWGxP+mKa8kcvA==
+X-Received: by 2002:a17:902:f54e:b029:e6:3d74:eb3 with SMTP id h14-20020a170902f54eb02900e63d740eb3mr1470155plf.14.1615213091556;
+        Mon, 08 Mar 2021 06:18:11 -0800 (PST)
 Return-Path: <flowergom@gmail.com>
 Received: from localhost.localdomain ([116.42.185.119])
-        by smtp.gmail.com with ESMTPSA id w25sm10431513pfn.106.2021.03.08.05.46.10
+        by smtp.gmail.com with ESMTPSA id z2sm10764598pfc.8.2021.03.08.06.18.09
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Mar 2021 05:46:11 -0800 (PST)
+        Mon, 08 Mar 2021 06:18:10 -0800 (PST)
 From: "Minjae Kim" <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH 2/2] qemu: fix CVE-2021-20203
-Date: Mon,  8 Mar 2021 22:45:53 +0900
-Message-Id: <20210308134553.1250-2-flowergom@gmail.com>
+Subject: [gatesgarth][PATCH] qemu: fix CVE-2021-20203
+Date: Mon,  8 Mar 2021 23:18:03 +0900
+Message-Id: <20210308141803.1632-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210308134553.1250-1-flowergom@gmail.com>
-References: <20210308134553.1250-1-flowergom@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
@@ -63,15 +61,15 @@ Signed-off-by: Minjae Kim <flowergom@gmail.com>
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a1a418374f..5e8d3e09ff 100644
+index 97f110cde5..482ca3d6e5 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -53,6 +53,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2019-20175.patch \
- 	   file://CVE-2020-24352.patch \
- 	   file://CVE-2020-25723.patch \
+@@ -39,6 +39,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-28916.patch \
+ 	   file://CVE-2020-35517.patch \
+ 	   file://CVE-2020-29443.patch \
 +	   file://CVE-2021-20203.patch \
- 	   "
+            "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
 diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
