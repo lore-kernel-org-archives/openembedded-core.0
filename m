@@ -1,84 +1,112 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.178.1615242587551177040
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.472.1615243635049357920
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 14:29:47 -0800
+ Mon, 08 Mar 2021 14:47:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FF7FM22Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id a18so13080930wrc.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 14:29:47 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YatssrtV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id f12so13150022wrx.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 14:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BEhZ2U6Iu5RpiHQAX2Q2oT0RqrQN8YbIc9E7xckl96c=;
-        b=FF7FM22QnHwexBDCklmuX8fmj+CTT0OAbmpBLh10nP8gOzSYAg3wDkuJqLkZrLjJzm
-         giP9u/GZAgIwbj1nxlTBgWeu5Mh0i+AMUgOXGMJUQ1+w3SMLAOKRBSkLDaFug0DpfLgu
-         K4vpWDhIhsoi4Oj66ewmrHh2XPcq7LlWNjbds=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Vz4lcdvOkAGJv6RXppJD7lU7FCCuXfHK2eeMrOVEIgk=;
+        b=YatssrtVcgm/g+0OYPJoqUG/EyBZD2to3yvvzx4RNXD7hDHUpH7kT3qxAHVutckrzl
+         loTNQtUOEBG/FFtV+9eHyye0Be2WAHF8RZk8IqKlwLHWt7HE4pueZT+lMZM2vv13aK81
+         E5z2/HjABiHvo3FHvWDqPTj4oZbvJ4uyxO/gY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BEhZ2U6Iu5RpiHQAX2Q2oT0RqrQN8YbIc9E7xckl96c=;
-        b=aA5VGkfssr/CR6iMIsf9OvFPPBBM8T8CpiybypjwDJHCsmkIhyxBXM7OHjH4Km7dzA
-         YdsLz7bUqTzhqvAks1fFCWmjkFdmspQ7POc9csUUkc4uFA7Vazijf1Y6QTDWW7PIyXCV
-         Wufe7bn9XBChc2nXC1OUvxmrOYJpK0dga2vajLpSf28lhH/qyOTJTKwKqZ0fjA40aDFT
-         69VfHmxS25ifmyei+3ss97aApWbz3e08X/P5lvhuhiiIdQHhgF+aohgDXfeQsNoRkyBa
-         TxbGjwaBQjxjxCeQ/XdGhIyhswdOBaLbfLFCiigSbG5ci8/5TFsseyqdogHV6v+qQN0O
-         M+sw==
-X-Gm-Message-State: AOAM5308P59zWBhuwMjjXumFHsbAfWBhTkB97hB0j1d3BGdqwt6JJHuG
-	mI2yT7OXvFGReAYffr5MQw4rRg==
-X-Google-Smtp-Source: ABdhPJxLnlaVf1f8gW2Rhvab4hqseRpygrkwFg+QBabniK9PHKVsKm4GvvwzIkOVSTx6ndvTcg6srw==
-X-Received: by 2002:a5d:4b06:: with SMTP id v6mr14826671wrq.41.1615242586073;
-        Mon, 08 Mar 2021 14:29:46 -0800 (PST)
+        bh=Vz4lcdvOkAGJv6RXppJD7lU7FCCuXfHK2eeMrOVEIgk=;
+        b=b5WKJLnEJFxx2yhi/6eWM0nlpICXDsOktHbrf8rdbdF7xRo2JZJEdyJIY+Rs4gvQzD
+         /0rY3DBYmXsJ27HLEpNATICCSErW/veEIToXdTXDH82D8CbJxBUwyqVr17/g61i3dtT1
+         D5wyZTbp0gJJgotI4QJPAqrfbi3AlR81hThuFu++/Aez9dQ914kvJ8AYMLvTkMEOEnMm
+         yv+VITmto9aSFc1ea+Sfyvt5+RPbCYv9pF2m8jtMerOeKBtCjGTJHolFkDlqOXWe0rrl
+         QbIXh4gWSEcuxA0xiDkE4VX1Z11vJNViSp1YO9VcRcZNl0qT+zmy7ZLrANS/w19JJzRc
+         lhGQ==
+X-Gm-Message-State: AOAM532GsHrsVRBY7vjNG0uoBEqLyRRK4qvGHJFiqu+JYwkPlkcoPXsh
+	hKTHpHvde1nwV8wvpflJqk1uGQ==
+X-Google-Smtp-Source: ABdhPJzZhLPKJ2gt7QZvu6yzMUtEBv259Ts/AAsFVmS2M042NMWmHjcnofYXBx/AGW35oR25JqhC6g==
+X-Received: by 2002:adf:ec46:: with SMTP id w6mr24644356wrn.213.1615243633288;
+        Mon, 08 Mar 2021 14:47:13 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from [192.168.1.6] (dan.rpsys.net. [217.169.23.60])
-        by smtp.gmail.com with ESMTPSA id z21sm946729wma.29.2021.03.08.14.29.45
+        by smtp.gmail.com with ESMTPSA id i10sm19644956wrs.11.2021.03.08.14.47.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 14:29:45 -0800 (PST)
-Message-ID: <0db2c5cd53d62ba364d69958e76f377428f7b0b1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 08/24] libdnf: update 0.55.2 -> 0.58.0
+        Mon, 08 Mar 2021 14:47:12 -0800 (PST)
+Message-ID: <c4173a2a3bd58afdf3cc38fbb25d4b99e3d0a3d2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 18/24] procps: update 3.3.16 -> 3.3.17
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 08 Mar 2021 22:29:44 +0000
-In-Reply-To: <CANNYZj_88i2diRoHSTFpiEVswR-diK3Cuu6c2Nx9SJkovn=MdA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin
+ <alex.kanavin@gmail.com>,  openembedded-core@lists.openembedded.org
+Date: Mon, 08 Mar 2021 22:47:12 +0000
+In-Reply-To: <c6f58a09-04d1-16d3-e162-88e24a6c6814@gmail.com>
 References: <20210228153702.498275-1-alex.kanavin@gmail.com>
-	 <20210228153702.498275-8-alex.kanavin@gmail.com>
-	 <9d7090a0-433c-42e0-98b9-9be7dd0c2cba@gmail.com>
-	 <CANNYZj_s+=u5bnArB5jvwoUsTR3kz2D_xPtgWivagxEbUy2BHg@mail.gmail.com>
-	 <82beb9df-56ea-3081-b502-4fce8a65f4d4@gmail.com>
-	 <CANNYZj_88i2diRoHSTFpiEVswR-diK3Cuu6c2Nx9SJkovn=MdA@mail.gmail.com>
+	 <20210228153702.498275-18-alex.kanavin@gmail.com>
+	 <c6f58a09-04d1-16d3-e162-88e24a6c6814@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-03-01 at 12:53 +0100, Alexander Kanavin wrote:
-> On Sun, 28 Feb 2021 at 20:30, Khem Raj <raj.khem@gmail.com> wrote:
-> > > Can you send a patch upstream for this please? I have filed a ticket 
-> > > which you can reference:
-> > > https://github.com/rpm-software-management/libdnf/issues/1146 
-> > > <https://github.com/rpm-software-management/libdnf/issues/1146>
-> > 
-> > This is a review so please fix it as suggested in OE atleast since you 
-> > will have test setups I do not have rpm/dnf setups
-> > 
+On Sun, 2021-02-28 at 11:10 -0800, Khem Raj wrote:
 > 
-> Any fix we do needs to be upstreamable, so can you please write a comment to the upstream ticket?
-> They're too telling me I need to send them a patch, and I don't want to send something I don't really
-> understand.
-> https://github.com/rpm-software-management/libdnf/issues/1146
+> On 2/28/21 7:36 AM, Alexander Kanavin wrote:
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >   .../procps/0001-w.c-correct-musl-builds.patch | 44 +++++++++++++++++++
+> >   ...02-proc-escape.c-add-missing-include.patch | 23 ++++++++++
+> >   .../{procps_3.3.16.bb => procps_3.3.17.bb}    |  4 +-
+> >   3 files changed, 70 insertions(+), 1 deletion(-)
+> >   create mode 100644 meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
+> >   create mode 100644 meta/recipes-extended/procps/procps/0002-proc-escape.c-add-missing-include.patch
+> >   rename meta/recipes-extended/procps/{procps_3.3.16.bb => procps_3.3.17.bb} (94%)
+> > 
+> > diff --git a/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch b/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
+> > new file mode 100644
+> > index 0000000000..c92ad28e4f
+> > --- /dev/null
+> > +++ b/meta/recipes-extended/procps/procps/0001-w.c-correct-musl-builds.patch
+> > @@ -0,0 +1,44 @@
+> > +From 22f8d25567b8d64bdbab0fb0b4915b4362561d9b Mon Sep 17 00:00:00 2001
+> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > +Date: Wed, 24 Feb 2021 21:14:31 +0000
+> > +Subject: [PATCH] w.c: correct musl builds
+> > +
+> > +No need to redefine UT_ stuff to something that does not exist.
+> > +
+> > +UT_ is already provided in musl but via utmp.h header, so include
+> > +it always.
+> > +
+> > +Upstream-Status: Submitted [https://gitlab.com/procps-ng/procps/-/merge_requests/126]
+> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > +---
+> > + w.c | 9 +--------
+> > + 1 file changed, 1 insertion(+), 8 deletions(-)
+> > +
+> > +diff --git a/w.c b/w.c
+> > +index 9d07ac9..d10639b 100644
+> > +--- a/w.c
+> > ++++ b/w.c
+> > +@@ -57,9 +57,8 @@
+> > + #include <unistd.h>
+> > + #ifdef HAVE_UTMPX_H
+> > + #	include <utmpx.h>
+> > +-#else
+> > +-#	include <utmp.h>
+> > + #endif
+> > ++#include <utmp.h>
 > 
-> Testing is easy: build libdnf with TCLIBC=musl.
+> this would mean when utmpx.h is provided ( e.g. ) it will now include 
+> both, which is a change perhaps to look more into, it might want them to 
+> be exclusive.
 
-I've been holding this in -next since I'd really like to try and match what
-happens upstream if we can. Since upstream seem receptive, could we get 
-them a pull request open for the replacement for __WORDSIZE and update 
-the OE patch too to track things?
+This one is worrying me a bit as it does seem to change behaviour on glibc.
+Was anyone able to look into it further?
 
 Cheers,
 
 Richard
-
 
