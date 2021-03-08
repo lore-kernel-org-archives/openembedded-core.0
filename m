@@ -1,48 +1,53 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.278.1615226527451804866
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web09.374.1615226919752979957
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 10:02:07 -0800
+ Mon, 08 Mar 2021 10:08:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BCE11063
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Mar 2021 10:01:57 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAC1F3F71B
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Mar 2021 10:01:56 -0800 (PST)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.168.0.2])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 128I8bIu009574
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Mar 2021 12:08:38 -0600
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] gcc-cross: make use of the system include directories fatal
-Date: Mon,  8 Mar 2021 18:01:51 +0000
-Message-Id: <20210308180152.3515502-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210308180152.3515502-1-ross.burton@arm.com>
-References: <20210308180152.3515502-1-ross.burton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH 0/1] Enable the ability to force a password change on boot
+Date: Mon,  8 Mar 2021 12:08:35 -0600
+Message-Id: <20210308180836.144245-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-When building the cross GCC, configure it so that including the host
-system include directories is fatal, not just a warning.
+As noted in the commit message, the shadow(5) indicates that the third
+parameter of the /etc/shadow file, when set to 0, can be used to force
+a password change on login.  Note, a login program that supports this
+behavior is required.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/gcc/gcc-cross.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It was added to extrausers.bbclass as it has the same dependencies as
+the other components of extrausers and should often be used in with
+adding/creating new accounts.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-index 6fa8c274cd..e08807afad 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -21,7 +21,7 @@ require gcc-configure-common.inc
- # gnu) will hit a QA failure.
- LINKER_HASH_STYLE ?=3D "sysv"
-=20
--EXTRA_OECONF +=3D "--enable-poison-system-directories"
-+EXTRA_OECONF +=3D "--enable-poison-system-directories=3Derror"
- EXTRA_OECONF_append_sh4 =3D " \
-     --with-multilib-list=3D \
-     --enable-incomplete-targets \
---=20
-2.25.1
+This was verified by adding the following to the conf/local.conf:
+
+INHERIT += "extrausers"
+
+EXTRA_FORCE_PASSWORD_CHANGE_append = " root"
+
+$ bitbake core-image-minimal
+$ runqemu
+
+Login as root, and it should prompt for a password change.
+
+This was further verified by setting a default root password, as well
+as adding a new user to the system.  In both cases it worked as expected.
+
+Finally adding an invalid user to the list, and an appropriate error is
+generated.
+
+
+Mark Hatle (1):
+  extrausers: Add ability to force password change on first login
+
+ meta/classes/extrausers.bbclass | 29 +++++++++++++++++++++++++++--
+ meta/conf/documentation.conf    |  1 +
+ 2 files changed, 28 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
 
