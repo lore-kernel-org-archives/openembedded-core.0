@@ -1,83 +1,93 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web09.12685.1615311145160325616
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.13781.1615315250268177836
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 09:32:25 -0800
+ Tue, 09 Mar 2021 10:40:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gyj1grMm;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so5581820pjb.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 09:32:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uK7o57ob;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id h98so17679274wrh.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 10:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZoLGo6XS9xSmX2bCrU6qGaAIxpinEz3VvexziAUGSSY=;
-        b=Gyj1grMmZXB6sevnQ8CWkhwCzdgS/tp9gsQE7+ANwX+2u9sA8RuhGp432xcfXAJQ+P
-         WZc5mPIflgQup8te1FbkXN5uLlhumqeuV/Z30gZTYwbPZyRSd2H6D94tOoVH1y/39nMZ
-         0HgQypYANsqJpczgNhr8s3+Ts1ZjD/m8Gi0HO3E3NfvXjfrFTBqvcj203Qka2imdhaa+
-         p1OX6XIWHtWa3bWhjl7AWYCTmMFZ6/xO2J7qTwWMUm7VT0ZwYuARtpTIQbe3atBhEV3k
-         mJxoSnznBycVB7lPBQlb2zarMqL63yxo19x9XzDYfli4tH4ZwBQ8AtWc42zh2/p/2WFl
-         JVbw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ygY9UoNrkZ/ETeE0gS+QxEpwv7qDs6plWl5LslnXdnM=;
+        b=uK7o57ob+dO+Ws7Ob1cVRYl3kR8o15OqDceNjnMDZRPh3A5KP8UXyjXOTyPe6BCBlF
+         ZP7CQCcZGLIXaK/v2YZqObd50MIW7yuFtUBVNa40yCRGrRe58uNgaoTXAZ3KNyYaQRFm
+         TnsryW7gg3TaYRsnBJ8u0Kj8rtva9XBhhFiYvsT3A2eCY79EO5xAGdd04ayrMyVgXHeu
+         eCpxksYAiBMx+JlyJal489jkfFXN9vc6BFZNCNZkRkOuSrlh75NGqy9FK15c2uArqBos
+         jrosD8PkQRlBeq9T/6i9ayp5LIsHNlaCT8B0m1W65esHhHwZeFBdmQzVfu6TrrfEpQnp
+         XZ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZoLGo6XS9xSmX2bCrU6qGaAIxpinEz3VvexziAUGSSY=;
-        b=U2+bGi1cOAvmETKQrTAVsXk9u/zvUZP+aASqgFsTVmgA/xL2wtSPKDHZKI8sTd6IE/
-         i9SLFNlgt9S4c4oGHmy+VwrWXFjGgPNiAqptSG78XZg2NABPUmz0+5lt10wxNHWkahAn
-         yqnJHo92ZcqgBY4WPB82CFqqohUy1id8h0fXLI3gO/Ygl0LNgQdPIn0SY4u9udi8Gqeo
-         98uy5TZANcUrF+YrtSsvbkoP+FVCBirH850JYydtsrh7g09bVKycrof6F2Mv96ZKfrth
-         4ZmtKXop6emTGb7k1NDPwqx93cPz6DCuLe+DG7UPFdx28FPF4nGpsRHLRCvgWZmso9gc
-         v6+w==
-X-Gm-Message-State: AOAM530AV577fnidpGUEEwwGYoGRU+sO1x9N12dY8qx2w33FAPbXb8bv
-	A95ZlnWdCdrUwRjNyor18wrcgdFR4Vsyxg==
-X-Google-Smtp-Source: ABdhPJzZnLvjNOCMM1x2HYb4mW4YpkdKJEXhxcYo4EzQe2MeUdd992ZJkM2oMk/g9ODibWC0iYoSWg==
-X-Received: by 2002:a17:902:b60f:b029:e5:e0e6:b643 with SMTP id b15-20020a170902b60fb02900e5e0e6b643mr24344781pls.64.1615311144503;
-        Tue, 09 Mar 2021 09:32:24 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id k128sm13541568pfd.137.2021.03.09.09.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 09:32:24 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/5] parselogs: Allow expected kernel messages for qemuppc64
-Date: Tue,  9 Mar 2021 09:32:10 -0800
-Message-Id: <20210309173210.295033-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210309173210.295033-1-raj.khem@gmail.com>
-References: <20210309173210.295033-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ygY9UoNrkZ/ETeE0gS+QxEpwv7qDs6plWl5LslnXdnM=;
+        b=ThML5KZElhRzFzoB/Xk3IMUTzdY4e9j7NKG2imE6Jx0zSdYuosPTFCvw+YzGot9ZQI
+         LZZ9x1Xg0CJ6ZeTSpP3pDqY6PZ3svxvQEddkKcm40N1yZl5cbitaI7BMCdebdZ93UMoh
+         YMOO9VNSNju5zrPgPIpSdaPaEYlmC+PWgU40KfalhZfrQt8GESf+2kGpySGCx6+34Il3
+         peiU5NVMDiTxnBSEtRbjIokIyL6cygRuwEAo79hMzcVvLocLz7KDhxxgZ5IiUYmqNH6N
+         Pqg9ZpAi9tsQZq/fGYKk6zeZ/IgpS0z9kOCK4YcjdvGcGRtpnomguBdVoOq6b0aMNZns
+         EJRQ==
+X-Gm-Message-State: AOAM532l/54zXu3WBX0fMTkK3SkoJsGhuE7otS4GZKl/1QrzO/UVmwcP
+	/xlaz27w24cYkJNlXv9M0kqudFVoZjsQ7j8H7AY=
+X-Google-Smtp-Source: ABdhPJwxY5hEP9qRlGiQZDWhq4Vz7hbpV3GhSMbcx8D0WotQ+YXCAaGo9F2/hr2VPZO3vjSElVBcPt8AWAaal9aYOFU=
+X-Received: by 2002:a5d:46c4:: with SMTP id g4mr29868800wrs.241.1615315248744;
+ Tue, 09 Mar 2021 10:40:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210308214228.1682-1-anmolbir.mann@windriver.com> <0169fb3a33bdab139ff206d122cc7db96b829308.camel@linuxfoundation.org>
+In-Reply-To: <0169fb3a33bdab139ff206d122cc7db96b829308.camel@linuxfoundation.org>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Tue, 9 Mar 2021 12:40:37 -0600
+Message-ID: <CAJdd5GabiyZFigVgA0vfT+irrjRfGNZkG=GTx_UHPSLZvw5-5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mingw: Remove 'nativesdk-glibc-utils' for windows sdk
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Anmolbir Mann <anmolbir.mann@windriver.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-pseries machine emulation ends up with these three messages in kernel
-logs which are harmless, so ignore them for now
+On Tue, Mar 9, 2021 at 10:50 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2021-03-08 at 13:42 -0800, Anmolbir Mann wrote:
+> > From: amann <anmolbir.mann@windriver.com>
+> >
+> > Certain recipes require the "glibc-utils" recipe to include Glibc utility tools.
+> > However, the native version is incompatible with the Windows host, and thus these
+> > recipes will cause the Windows SDK to fail to build, particularly the kernel
+> > development recipes.
+> >
+> > [YOCTO #14286]
+> >
+> > Signed-off-by: amann <anmolbir.mann@windriver.com>
+> > Signed-off-by: dreyna <david.reyna@windriver.com>
+> > ---
+> >  conf/machine-sdk/include/mingw32-common.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/conf/machine-sdk/include/mingw32-common.inc b/conf/machine-sdk/include/mingw32-common.inc
+> > index bc6c91e..0109e75 100644
+> > --- a/conf/machine-sdk/include/mingw32-common.inc
+> > +++ b/conf/machine-sdk/include/mingw32-common.inc
+> > @@ -24,6 +24,7 @@ SDK_PACKAGING_FUNC = "do_compile"
+> >  SDKUSE_NLS = "no"
+> >  SDKIMAGE_LINGUAS = ""
+> >  SDK_DEPENDS_remove = "nativesdk-glibc-locale"
+> > +SDK_DEPENDS_remove = "nativesdk-glibc-utils"
+> >
+> >
+> >  SDKPKGSUFFIX = "nativesdk-mingw32"
+> >
+>
+> I think meta-mingw patches need to go to the yocto mailing list with
+> [meta-mingw] in the subject.
 
-https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg5600561.html
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1827162
+Thanks Richard.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 5 +++++
- 1 file changed, 5 insertions(+)
+I pushed this to master-next for testing.
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index a1791b5cca..4714741aff 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -114,6 +114,11 @@ ignore_errors = {
-         'can\'t handle BAR above 4GB',
-         'Cannot reserve Legacy IO',
-         ] + common_errors,
-+    'qemuppc64' : [
-+        'vio vio: uevent: failed to send synthetic uevent',
-+        'synth uevent: /devices/vio: failed to send uevent',
-+        'PCI 0000:00 Cannot reserve Legacy IO [io  0x10000-0x10fff]',
-+        ] + common_errors,
-     'qemuarm' : [
-         'mmci-pl18x: probe of fpga:05 failed with error -22',
-         'mmci-pl18x: probe of fpga:0b failed with error -22',
--- 
-2.30.1
-
+>
+> Cheers,
+>
+> Richard
+>
