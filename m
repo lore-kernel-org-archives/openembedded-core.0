@@ -1,93 +1,134 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web09.13781.1615315250268177836
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web10.14056.1615315566456903174
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 10:40:50 -0800
+ Tue, 09 Mar 2021 10:46:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uK7o57ob;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: jpewhacker@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id h98so17679274wrh.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 10:40:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ygY9UoNrkZ/ETeE0gS+QxEpwv7qDs6plWl5LslnXdnM=;
-        b=uK7o57ob+dO+Ws7Ob1cVRYl3kR8o15OqDceNjnMDZRPh3A5KP8UXyjXOTyPe6BCBlF
-         ZP7CQCcZGLIXaK/v2YZqObd50MIW7yuFtUBVNa40yCRGrRe58uNgaoTXAZ3KNyYaQRFm
-         TnsryW7gg3TaYRsnBJ8u0Kj8rtva9XBhhFiYvsT3A2eCY79EO5xAGdd04ayrMyVgXHeu
-         eCpxksYAiBMx+JlyJal489jkfFXN9vc6BFZNCNZkRkOuSrlh75NGqy9FK15c2uArqBos
-         jrosD8PkQRlBeq9T/6i9ayp5LIsHNlaCT8B0m1W65esHhHwZeFBdmQzVfu6TrrfEpQnp
-         XZ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ygY9UoNrkZ/ETeE0gS+QxEpwv7qDs6plWl5LslnXdnM=;
-        b=ThML5KZElhRzFzoB/Xk3IMUTzdY4e9j7NKG2imE6Jx0zSdYuosPTFCvw+YzGot9ZQI
-         LZZ9x1Xg0CJ6ZeTSpP3pDqY6PZ3svxvQEddkKcm40N1yZl5cbitaI7BMCdebdZ93UMoh
-         YMOO9VNSNju5zrPgPIpSdaPaEYlmC+PWgU40KfalhZfrQt8GESf+2kGpySGCx6+34Il3
-         peiU5NVMDiTxnBSEtRbjIokIyL6cygRuwEAo79hMzcVvLocLz7KDhxxgZ5IiUYmqNH6N
-         Pqg9ZpAi9tsQZq/fGYKk6zeZ/IgpS0z9kOCK4YcjdvGcGRtpnomguBdVoOq6b0aMNZns
-         EJRQ==
-X-Gm-Message-State: AOAM532l/54zXu3WBX0fMTkK3SkoJsGhuE7otS4GZKl/1QrzO/UVmwcP
-	/xlaz27w24cYkJNlXv9M0kqudFVoZjsQ7j8H7AY=
-X-Google-Smtp-Source: ABdhPJwxY5hEP9qRlGiQZDWhq4Vz7hbpV3GhSMbcx8D0WotQ+YXCAaGo9F2/hr2VPZO3vjSElVBcPt8AWAaal9aYOFU=
-X-Received: by 2002:a5d:46c4:: with SMTP id g4mr29868800wrs.241.1615315248744;
- Tue, 09 Mar 2021 10:40:48 -0800 (PST)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 129Ik209027275
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Tue, 9 Mar 2021 12:46:04 -0600
+Subject: Re: [OE-core] [PATCH 1/1] extrausers: Add ability to force password change on first login
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20210308180836.144245-1-mark.hatle@kernel.crashing.org>
+ <20210308180836.144245-2-mark.hatle@kernel.crashing.org>
+ <7e9765f3-7786-fcb3-ef59-9315817213ec@windriver.com>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Message-ID: <6e0a5eaf-457f-027b-5908-01102d8ad807@kernel.crashing.org>
+Date: Tue, 9 Mar 2021 12:46:02 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210308214228.1682-1-anmolbir.mann@windriver.com> <0169fb3a33bdab139ff206d122cc7db96b829308.camel@linuxfoundation.org>
-In-Reply-To: <0169fb3a33bdab139ff206d122cc7db96b829308.camel@linuxfoundation.org>
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-Date: Tue, 9 Mar 2021 12:40:37 -0600
-Message-ID: <CAJdd5GabiyZFigVgA0vfT+irrjRfGNZkG=GTx_UHPSLZvw5-5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mingw: Remove 'nativesdk-glibc-utils' for windows sdk
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Anmolbir Mann <anmolbir.mann@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7e9765f3-7786-fcb3-ef59-9315817213ec@windriver.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 9, 2021 at 10:50 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2021-03-08 at 13:42 -0800, Anmolbir Mann wrote:
-> > From: amann <anmolbir.mann@windriver.com>
-> >
-> > Certain recipes require the "glibc-utils" recipe to include Glibc utility tools.
-> > However, the native version is incompatible with the Windows host, and thus these
-> > recipes will cause the Windows SDK to fail to build, particularly the kernel
-> > development recipes.
-> >
-> > [YOCTO #14286]
-> >
-> > Signed-off-by: amann <anmolbir.mann@windriver.com>
-> > Signed-off-by: dreyna <david.reyna@windriver.com>
-> > ---
-> >  conf/machine-sdk/include/mingw32-common.inc | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/conf/machine-sdk/include/mingw32-common.inc b/conf/machine-sdk/include/mingw32-common.inc
-> > index bc6c91e..0109e75 100644
-> > --- a/conf/machine-sdk/include/mingw32-common.inc
-> > +++ b/conf/machine-sdk/include/mingw32-common.inc
-> > @@ -24,6 +24,7 @@ SDK_PACKAGING_FUNC = "do_compile"
-> >  SDKUSE_NLS = "no"
-> >  SDKIMAGE_LINGUAS = ""
-> >  SDK_DEPENDS_remove = "nativesdk-glibc-locale"
-> > +SDK_DEPENDS_remove = "nativesdk-glibc-utils"
-> >
-> >
-> >  SDKPKGSUFFIX = "nativesdk-mingw32"
-> >
->
-> I think meta-mingw patches need to go to the yocto mailing list with
-> [meta-mingw] in the subject.
+On 3/8/21 8:02 PM, Chen Qi wrote:
+> Hi Mark,
+> 
+> Is it something similar to 'passwd-expire' in this extrausers.bbclass?
 
-Thanks Richard.
+I wasn't aware of that evening existing.  Yes it looks like it does the same thing.
 
-I pushed this to master-next for testing.
+I can withdraw my change then, but we may want to considering adding something
+to the documentation about security practices.  For accounts that are created by
+the build system, it's best practices to either not make them able to be logged
+in with (login locked out '-P *' on the adduser) or force the password to be
+reset on next login (using passwd-expire).
 
->
-> Cheers,
->
-> Richard
->
+--Mark
+
+> Best Regards,
+> Chen Qi
+> 
+> On 03/09/2021 02:08 AM, Mark Hatle wrote:
+>> As documented in shadow(5), the third parameter is the last login time.  A
+>> special value of '0' is defined which causes the password system to force
+>> a password change on next login.
+>>
+>> Adding the variable "EXTRA_FORCE_PASSWORD_CHANGE", a space separated list of
+>> user names, we can use this to adjust the shadow file's third value for the
+>> listed users.
+>>
+>> Note: This does have the same dependencies as other usages of extrausers,
+>> specifically base-passwd and shadow.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+>> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+>> ---
+>>  meta/classes/extrausers.bbclass | 29 +++++++++++++++++++++++++++--
+>>  meta/conf/documentation.conf    |  1 +
+>>  2 files changed, 28 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
+>> index 90811bfe2a..e9d9358bef 100644
+>> --- a/meta/classes/extrausers.bbclass
+>> +++ b/meta/classes/extrausers.bbclass
+>> @@ -14,10 +14,10 @@
+>>  
+>>  inherit useradd_base
+>>  
+>> -PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
+>> +PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS')) or bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
+>>  
+>>  # Image level user / group settings
+>> -ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
+>> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', ' set_user_group;'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
+>>  
+>>  # Image level user / group settings
+>>  set_user_group () {
+>> @@ -66,6 +66,31 @@ set_user_group () {
+>>  	done
+>>  }
+>>  
+>> +# Image level force a specific user/users to reset their password on first login
+>> +# Note: this requires shadow passwords and login programs that respect the shadow
+>> +# expiration field.
+>> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', '
+>> force_password_change;'][bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
+>> +
+>> +# Works by setting 'date of last password change' to 0, which has a special
+>> +# meaning of 'user should change her password the next time she will log in the
+>> +# system' See: shadow (5)
+>> +force_password_change () {
+>> +	if [ ! -e ${IMAGE_ROOTFS}/etc/shadow ]; then
+>> +		bberror "/etc/shadow does not exist in the image, unable to set password change on login."
+>> +		return
+>> +	fi
+>> +	passwd_change_users="${EXTRA_FORCE_PASSWORD_CHANGE}"
+>> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
+>> +	for name in $passwd_change_users; do
+>> +		if ! grep -q '^'$name':' ${IMAGE_ROOTFS}/etc/shadow ; then
+>> +			bberror "Unable to find user $name in /etc/shadow, unable to set password change on login."
+>> +		fi
+>> +		bbnote "Set user $name to need a password change on first login."
+>> +		cmd="sed -i ${IMAGE_ROOTFS}/etc/shadow -e 's,^'$name':\\([^:]*\\):[^:]*:,'$name':\\1:0:,'"
+>> +		eval flock -x ${IMAGE_ROOTFS}${sysconfdir} -c \"$PSEUDO $cmd\" || true
+>> +	done
+>> +}
+>> +
+>>  USERADDEXTENSION ?= ""
+>>  
+>>  inherit ${USERADDEXTENSION}
+>> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>> index c5a38b0764..d1c5b8b1a3 100644
+>> --- a/meta/conf/documentation.conf
+>> +++ b/meta/conf/documentation.conf
+>> @@ -169,6 +169,7 @@ EXTRA_OESCONS[doc] = "When a recipe inherits the scons class, this variable spec
+>>  EXTRA_QMAKEVARS_POST[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be after the .pro file list on the command line."
+>>  EXTRA_QMAKEVARS_PRE[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be before the .pro file list on the command line."
+>>  EXTRA_USERS_PARAMS[doc] = "When a recipe inherits the extrausers class, this variable provides image level user and group operations."
+>> +EXTRA_FORCE_PASSWORD_CHANGE[doc] = "When a recipe inherits the extrausers class, this variable causes the specified users to require a password change on first login."
+>>  
+>>  #F
+>>  
+>>
+>>
+> 
+> 
+> 
+> 
+> 
