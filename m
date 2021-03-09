@@ -1,107 +1,152 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web09.14440.1615317824818072707
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web12.14529.1615317825599963785
  for <openembedded-core@lists.openembedded.org>;
  Tue, 09 Mar 2021 11:23:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hGcUvSh0;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id 130so14235348qkh.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 11:23:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eA0ZhaD5;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d11so11101377qtx.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 11:23:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gXWysJFTBzyumPSwVqFlKn0yrQRzBHy8/iygG9L/TVA=;
-        b=hGcUvSh0w44CcGBM2PJLJPcXMUaurBZlnNxo8Z885ldBk1/pZZ33p1wNOYSLmOK8oe
-         akjuNTMIiI5GsQ1bMA3uBf3CygwfMfSXn0ThAtOlPrw6zy1qypJYJsDC+EkpGVOWAoQk
-         rDJnabo5ntoOpjNUCxVlV9R97pTwUuQ+ksntvE3M3PXeJzzObH81raHMWH8tAQE5a+ii
-         s0vJDEhmJxygnj3c985KiMTvisBVnuOD6/D4dG4QZuqSSA4V6jeftKLcim31MW3ua5B8
-         dGSd/5ozTvT36JshE6qBcxIlW+7XT3OS5i8Q3hhFg6P8XutjKMf5Xg43Eavtc2yNSVj9
-         T+Bg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ebhNMEkpX0rLAU6GqxeX126R37fzt5QK0+2pP23zwZY=;
+        b=eA0ZhaD5FXbMFMoizvA4vysIikbSyN4JL65oCF2hXhOnRPSRmAdLjqWXYLCo7uu0kj
+         tVHc6L/QlWCIq4lYsliIY3Da7SiRwu7B9k8XsqeMGQrnxIUo4yXPoROsnjydhFfBFwte
+         EcbA4R/g+7e1hRSrqi5wutaEzGp1buKz2xNgVHX6CbEdUJBPfPR+MMl1JBKZY1VqK0wD
+         NBHnEFfPt6tQ1HToXckxRb8rjVXXy4iCVDjIcRXV8HMQX1JHxh5R1HLFLIddLjAHGLiP
+         ICKDAyHIRDeFj0Bzk2Ygxlc56EiNBa4WM0GErihnX6fxyXHtR246/TnbZeUxLdoUoz+Q
+         hAgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gXWysJFTBzyumPSwVqFlKn0yrQRzBHy8/iygG9L/TVA=;
-        b=oDm1rso4Ypgc2YvOloRyk1mBDS5D8u47LVrpPxUAF6uaD4iuLkwss+mKGbyfOha5bu
-         WXCkqO1rBynGh5lA7Iz4yzn7fy/tu2rxVOo4ayML9wK+QOY3e/kcoTFZWS34vL3gokRd
-         K2mLwXbgf+ho00TZn9rNUrnZp3cD4OP/O6N4m6JCo+4C85Aayj1o73rpaTCGl1wAuMcO
-         9mnKJtkfl4B8RUOjeowQZhoxYhFbPRFoiXPihjS3JiDq7+wgpRFxDXj3HGcT00ye0TTk
-         1IoMrF8ZhCOjrhY0fse9hPOUTCAzMa28qSTAbxp6vwqYRpfEFYfc+LPTnKFCK9mTRoa8
-         DdSg==
-X-Gm-Message-State: AOAM5314iWr34pdTWIzMfoIcxvQ43dJRV6FGHelg2bla28FsGuJYRoig
-	JYzPmqXpXRuPRn9BYjJuxOo=
-X-Google-Smtp-Source: ABdhPJwp/UCIelHhZD/fZiWpee7pLzba5NLOygNxnct4TyQURnUm93a18UzWnoP11Raaqjx47ugvnQ==
-X-Received: by 2002:a05:620a:152c:: with SMTP id n12mr2487618qkk.334.1615317823792;
-        Tue, 09 Mar 2021 11:23:43 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ebhNMEkpX0rLAU6GqxeX126R37fzt5QK0+2pP23zwZY=;
+        b=OuMWhLBrsk9YNlB/QyhPC8INgxmT8jeaI/+04FW1GtrwcCyEd8xfEWd32xYvPz4gRW
+         OTKt4jApaPD9TJrf/IudOhXJXmRHN+g9DQ7A565Rp9iehqYOS1WqV721ejnbL1lBqDbg
+         4zvCg3boHZ3tjxmfnDBy7U6TFbTc6L5byCDcwMzb65umsQGTZHmq3Dm7FAzRoaDK9M67
+         ao9AmdzT27ohI97ZDaMmgfED7vi47SwvcUop+KdRwE4fQKYaSu7hcWbgckbQUSCPQods
+         5sMEcjh9bWxA3yoiBwVIstLge4c97KPXvKUpyxxanIhdQE9qgNRT6cGZ17JfuX09VuKS
+         XvcA==
+X-Gm-Message-State: AOAM532LebmpQa4zUH17yQ58QDI7bPXm978B1aj44/dLBbVcC1H+MPdk
+	g3Rn4nkwURkgC9IuiXZi43Y=
+X-Google-Smtp-Source: ABdhPJzMhkf9vPWj+j8ff3XyUKcZQXNIudQ26dX3KociR61iGgMf0Es4mcvZMzbGjqv/e/PYwISuow==
+X-Received: by 2002:ac8:519a:: with SMTP id c26mr19538840qtn.342.1615317824677;
+        Tue, 09 Mar 2021 11:23:44 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
         by smtp.gmail.com with ESMTPSA id f13sm5713377qtf.57.2021.03.09.11.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 11:23:43 -0800 (PST)
+        Tue, 09 Mar 2021 11:23:44 -0800 (PST)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/6] kernel: consolidated pull request
-Date: Tue,  9 Mar 2021 14:23:35 -0500
-Message-Id: <cover.1615317549.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 1/6] perf: fix reproducibility issues
+Date: Tue,  9 Mar 2021 14:23:36 -0500
+Message-Id: <0e2ab3111ac8446d0657e8f4d8d400f50f4e245b.1615317549.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1615317549.git.bruce.ashfield@gmail.com>
+References: <cover.1615317549.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+perf has been failing our reproducible testing due to multiple symbols
+containg build paths.
 
-Here's my latest set of kernel changes. They are a bit more varied than
-at times:
+With this commit, we fix the issues:
 
-  - stable updates. These shouldn't be an issue
-  - kern-tools: minor fixes from the list
+ 1) The following line in the Makefle:
 
-The more time consuming change is the perf reproducibility changes. They
-are passing locally for me, so could use some time on the AB to see if
-that is truely the case. As usual, we don't patch perf, so these take the
-form of various sed changes to the source. They shouldn't cause issues on
-older versions of perf, but I haven't tested that extensively.
+     override PYTHON := $(call get-executable-or-default,PYTHON,$(PYTHON_AUTO))
 
-The changes are specific to our builds, and I need to re-consider them
-in the context of upstream (since quite honestly, I don't know why some
-of the paths that were being captured were being captured at all). I've
-marked them as such in commit header and in the recipe.
+ "PYTHON" / "PYTHON_AUTO" have the full path as part of the variable. We've
+ ensure that the environment is setup and we do not need the full path to be
+ captured, since the symbol gets built into the executable, making it not
+ reproducible.
 
-Cheers,
+ 2) The following line:
 
-Bruce
+    srcdir_SQ = $(patsubst %tools/perf,tools/perf,$(subst ','\'',$(srcdir))),
 
-The following changes since commit 281eba70c2c3beef556949980d7f81e7461ba5dd:
+ Captures the full src path of perf, which of course makes it not
+ reproducible. We really only need the relative location 'tools/perf', so we
+ change the Makefile line to remove everything before 'tools/perf'
 
-  bitbake: __init__.py: Fix bitbake debug log handling (2021-03-09 00:02:41 +0000)
+ 3) OUTPUT is the full path, we have python on the path so we remove it from the
+ definition. This is captured in the perf binary, so breaks reproducibility
 
-are available in the Git repository at:
+     PYTHONPATH="BUILD_STR(python)
 
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+ 4) To avoid bison generating #ifdefs that have captured paths, we make sure
+ all the calls have YFLAGS, which contains prefix mapping information.
 
-Bruce Ashfield (6):
-  perf: fix reproducibility issues
-  reproducibile: remove perf from exclusions
-  linux-yocto/5.10: update to v5.10.21
-  linux-yocto/5.4: update to v5.4.103
-  linux-yocto/qemuarmv5: fix configuration warning
-  kern-tools: symbol-why fix and README update
+Upstream-status: OE specific to our cross/build environments. Variants
+                 will be developed for upstream
 
- meta/lib/oeqa/selftest/cases/reproducible.py  |  1 -
- .../kern-tools/kern-tools-native_git.bb       |  2 +-
- .../linux/linux-yocto-rt_5.10.bb              |  6 +--
- .../linux/linux-yocto-rt_5.4.bb               |  6 +--
- .../linux/linux-yocto-tiny_5.10.bb            |  8 ++--
- .../linux/linux-yocto-tiny_5.4.bb             |  8 ++--
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 22 +++++------
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++------
- meta/recipes-kernel/perf/perf.bb              | 38 +++++++++++++++++++
- 9 files changed, 75 insertions(+), 38 deletions(-)
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 38 ++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 868cde7353..2beb404c03 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -81,6 +81,7 @@ EXTRA_OEMAKE = '\
+     AR="${AR}" \
+     LD="${LD}" \
+     EXTRA_CFLAGS="-ldw" \
++    YFLAGS='-y --file-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}' \
+     EXTRA_LDFLAGS="${PERF_EXTRA_LDFLAGS}" \
+     perfexecdir=${libexecdir} \
+     NO_GTK2=1 \
+@@ -214,6 +215,43 @@ do_configure_prepend () {
+             ${S}/tools/build/Makefile.build
+     fi
+ 
++    # start reproducibility substitutions
++    if [ -e "${S}/tools/perf/Makefile.config" ]; then
++        # The following line in the Makefle:
++        #     override PYTHON := $(call get-executable-or-default,PYTHON,$(PYTHON_AUTO))
++        # "PYTHON" / "PYTHON_AUTO" have the full path as part of the variable. We've
++        # ensure that the environment is setup and we do not need the full path to be
++        # captured, since the symbol gets built into the executable, making it not
++        # reproducible.
++        sed -i -e 's,$(call get-executable-or-default\,PYTHON\,$(PYTHON_AUTO)),$(notdir $(call get-executable-or-default\,PYTHON\,$(PYTHON_AUTO))),g' \
++            ${S}/tools/perf/Makefile.config
++
++        # The following line:
++        #     srcdir_SQ = $(patsubst %tools/perf,tools/perf,$(subst ','\'',$(srcdir))),
++        # Captures the full src path of perf, which of course makes it not
++        # reproducible. We really only need the relative location 'tools/perf', so we
++        # change the Makefile line to remove everything before 'tools/perf'
++        sed -i -e "s%srcdir_SQ = \$(subst ','\\\'',\$(srcdir))%srcdir_SQ = \$(patsubst \%tools/perf,tools/perf,\$(subst ','\\\'',\$(srcdir)))%g" \
++            ${S}/tools/perf/Makefile.config
++    fi
++    if [ -e "${S}/tools/perf/tests/Build" ]; then
++        # OUTPUT is the full path, we have python on the path so we remove it from the
++        # definition. This is captured in the perf binary, so breaks reproducibility
++        sed -i -e 's,PYTHONPATH="BUILD_STR($(OUTPUT)python)",PYTHONPATH="BUILD_STR(python)",g' \
++            ${S}/tools/perf/tests/Build
++    fi
++    if [ -e "${S}/tools/perf/util/Build" ]; then
++        # To avoid bison generating #ifdefs that have captured paths, we make sure
++        # all the calls have YFLAGS, which contains prefix mapping information.
++        sed -i -e 's,$(BISON),$(BISON) $(YFLAGS),g' ${S}/tools/perf/util/Build
++    fi
++    if [ -e "${S}/scripts/Makefile.host" ]; then
++        # To avoid yacc (bison) generating #ifdefs that have captured paths, we make sure
++        # all the calls have YFLAGS, which contains prefix mapping information.
++        sed -i -e 's,$(YACC),$(YACC) $(YFLAGS),g' ${S}/scripts/Makefile.host
++    fi
++    # end reproducibility substitutions
++
+     # We need to ensure the --sysroot option in CC is preserved
+     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
 -- 
 2.19.1
 
