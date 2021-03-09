@@ -1,91 +1,83 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web12.12831.1615311144532572875
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web09.12685.1615311145160325616
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 09:32:24 -0800
+ Tue, 09 Mar 2021 09:32:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=a1Yh+2eV;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id jx13so1246343pjb.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 09:32:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gyj1grMm;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so5581820pjb.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 09:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LIVuhRS4mw+uEQmtY3pT4gb1qbWVkQPk+blSL30SMCE=;
-        b=a1Yh+2eVq+yAiOtONBOGC/Zk3QJnnKGu/3joxvAFGsfihFIEMH+2VVVHm49QB/9vQX
-         OYDiNPwObmIprwYzGHQeVoYlqBuLRBfEvwYYXsQ9GzQNWN8qI/wjRG0en7SF8fFRY0wY
-         xkINJJQwxDEj1Fyarm58Y/Fu0z0/qq3MNhiAPOQv6jOV64pLKcUQ9K/YBoEepXt4js94
-         iONXhJ7cE98VGvexZDUyhVNB0+ceAxEYfMSmpa/FaN5C/jXGZkUmYQaH1/oob26aZBU3
-         11Dc5TMZmexDSfx2dInTavHj8vnkjK62f4bMPwo/sD2rES1DnWTGzvjxt4GOOx0SUvsF
-         f/Gg==
+        bh=ZoLGo6XS9xSmX2bCrU6qGaAIxpinEz3VvexziAUGSSY=;
+        b=Gyj1grMmZXB6sevnQ8CWkhwCzdgS/tp9gsQE7+ANwX+2u9sA8RuhGp432xcfXAJQ+P
+         WZc5mPIflgQup8te1FbkXN5uLlhumqeuV/Z30gZTYwbPZyRSd2H6D94tOoVH1y/39nMZ
+         0HgQypYANsqJpczgNhr8s3+Ts1ZjD/m8Gi0HO3E3NfvXjfrFTBqvcj203Qka2imdhaa+
+         p1OX6XIWHtWa3bWhjl7AWYCTmMFZ6/xO2J7qTwWMUm7VT0ZwYuARtpTIQbe3atBhEV3k
+         mJxoSnznBycVB7lPBQlb2zarMqL63yxo19x9XzDYfli4tH4ZwBQ8AtWc42zh2/p/2WFl
+         JVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LIVuhRS4mw+uEQmtY3pT4gb1qbWVkQPk+blSL30SMCE=;
-        b=G227QFR6pFlybpAzMTGddJ60NSG9DOXUW4aGd5PKqCqQCkKSYeset2iKPO8ljD5gNH
-         MI8Dabylb50QigOICbMQprt3bTu82rYP6e9+A73UZtDIzWe1ckXLw5x5v08UjRRfWnXe
-         OuMel7GMynjxpkTby61LOoxN1chmc3vDMc+kanVh9Ehl/BH78AYOYeVvH+n13xYkkkLn
-         FGAMG1h07HqK3L24Wy9V7PCFIzdki90oW+SVKxxuiPVf+InZ2eqFj0pE/4j6CcTnPUxS
-         7mDsKYeN/ut4PPKvo+gnUct8VT8onbEblmeno7YotdnVSeZLLnAnI83sAn7nrr2L6/DJ
-         YQsA==
-X-Gm-Message-State: AOAM531uU8hYHL5EEgIGThduX3A8ckuYUxIYU+TTH9fJhmEXony4AAxw
-	CQWNVhZHBKuIzCe+WDVNXf3nDolSHUrvxw==
-X-Google-Smtp-Source: ABdhPJyxM5qdlLxUCBuxQuCoWqr2/RpLfFpJgpJ6LQNXugTqzXwFjNyKYjDA0VIRHJki1L/e4gWI6A==
-X-Received: by 2002:a17:902:edc6:b029:e4:6dba:415e with SMTP id q6-20020a170902edc6b02900e46dba415emr26641701plk.65.1615311143793;
-        Tue, 09 Mar 2021 09:32:23 -0800 (PST)
+        bh=ZoLGo6XS9xSmX2bCrU6qGaAIxpinEz3VvexziAUGSSY=;
+        b=U2+bGi1cOAvmETKQrTAVsXk9u/zvUZP+aASqgFsTVmgA/xL2wtSPKDHZKI8sTd6IE/
+         i9SLFNlgt9S4c4oGHmy+VwrWXFjGgPNiAqptSG78XZg2NABPUmz0+5lt10wxNHWkahAn
+         yqnJHo92ZcqgBY4WPB82CFqqohUy1id8h0fXLI3gO/Ygl0LNgQdPIn0SY4u9udi8Gqeo
+         98uy5TZANcUrF+YrtSsvbkoP+FVCBirH850JYydtsrh7g09bVKycrof6F2Mv96ZKfrth
+         4ZmtKXop6emTGb7k1NDPwqx93cPz6DCuLe+DG7UPFdx28FPF4nGpsRHLRCvgWZmso9gc
+         v6+w==
+X-Gm-Message-State: AOAM530AV577fnidpGUEEwwGYoGRU+sO1x9N12dY8qx2w33FAPbXb8bv
+	A95ZlnWdCdrUwRjNyor18wrcgdFR4Vsyxg==
+X-Google-Smtp-Source: ABdhPJzZnLvjNOCMM1x2HYb4mW4YpkdKJEXhxcYo4EzQe2MeUdd992ZJkM2oMk/g9ODibWC0iYoSWg==
+X-Received: by 2002:a17:902:b60f:b029:e5:e0e6:b643 with SMTP id b15-20020a170902b60fb02900e5e0e6b643mr24344781pls.64.1615311144503;
+        Tue, 09 Mar 2021 09:32:24 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
         by smtp.gmail.com with ESMTPSA id k128sm13541568pfd.137.2021.03.09.09.32.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 09:32:23 -0800 (PST)
+        Tue, 09 Mar 2021 09:32:24 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/5] inittab: Add getty launch on hvc0 for qemuppc64
-Date: Tue,  9 Mar 2021 09:32:09 -0800
-Message-Id: <20210309173210.295033-4-raj.khem@gmail.com>
+Subject: [PATCH 5/5] parselogs: Allow expected kernel messages for qemuppc64
+Date: Tue,  9 Mar 2021 09:32:10 -0800
+Message-Id: <20210309173210.295033-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309173210.295033-1-raj.khem@gmail.com>
 References: <20210309173210.295033-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+pseries machine emulation ends up with these three messages in kernel
+logs which are harmless, so ignore them for now
+
+https://www.mail-archive.com/ubuntu-bugs@lists.ubuntu.com/msg5600561.html
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1827162
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/busybox/busybox-inittab_1.32.0.bb    | 3 +++
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 4 ++++
- 2 files changed, 7 insertions(+)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-index 3804f4f7b2..0021e45511 100644
---- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-+++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-@@ -44,6 +44,9 @@ EOF
- 	fi
- 
- }
-+do_install_append_qemuppc64 () {
-+            echo "9:12345:respawn:${base_sbindir}/getty 38400 hvc0" >> ${D}${sysconfdir}/inittab
-+}
- 
- pkg_postinst_${PN} () {
- # run this on host and on target
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index d95d1a63f5..0af116f35c 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -53,6 +53,10 @@ EOF
-     fi
- }
- 
-+do_install_append_qemuppc64 () {
-+            echo "9:12345:respawn:${base_sbindir}/getty 38400 hvc0" >> ${D}${sysconfdir}/inittab
-+}
-+
- pkg_postinst_${PN} () {
- # run this on host and on target
- if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index a1791b5cca..4714741aff 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -114,6 +114,11 @@ ignore_errors = {
+         'can\'t handle BAR above 4GB',
+         'Cannot reserve Legacy IO',
+         ] + common_errors,
++    'qemuppc64' : [
++        'vio vio: uevent: failed to send synthetic uevent',
++        'synth uevent: /devices/vio: failed to send uevent',
++        'PCI 0000:00 Cannot reserve Legacy IO [io  0x10000-0x10fff]',
++        ] + common_errors,
+     'qemuarm' : [
+         'mmci-pl18x: probe of fpga:05 failed with error -22',
+         'mmci-pl18x: probe of fpga:0b failed with error -22',
 -- 
 2.30.1
 
