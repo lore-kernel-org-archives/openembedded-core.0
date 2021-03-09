@@ -1,234 +1,224 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web08.3329.1615257134295254036
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+ by mx.groups.io with SMTP id smtpd.web09.4159.1615261854774623308
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 18:32:14 -0800
+ Mon, 08 Mar 2021 19:50:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: JNXyP/1OfNW8QROzMIOlnTm4f4euAK0UcxMj+LBFujsGOglvle6iOY8+Y6/zEhOwggSCY0tDsb
- wPfqc7O/BDQg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="188251773"
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
-   d="scan'208";a="188251773"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 18:32:11 -0800
-IronPort-SDR: ojAgooqAWvvcCg3DX2/LdovkZ4GZZWyCXCuxmi4vWGFmDR0wu1f+vMA0fQ8T66wutgMDd7XxSK
- CUW9nb0PSzxQ==
-X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
-   d="scan'208";a="437527814"
-Received: from aelgend-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.148.19])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 18:32:09 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Subject: [gatesgarth][PATCH 00/52] pull request (cover letter only)
-Date: Tue,  9 Mar 2021 10:32:06 +0800
-Message-Id: <cover.1615256921.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KK71GqSP;
+ spf=pass (domain: gmail.com, ip: 209.85.217.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f43.google.com with SMTP id e21so4087627vsh.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 19:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=d4jVSee2cU6ToJ2QGlwl/C1VPnwR7mEpnLpf6tQy7tY=;
+        b=KK71GqSPOH57w0Vr1397gVh1cRoojAZ10iMRHEhMpeXM7SHuML6A6Y29m50XsvfMp4
+         6TCJL3n03/n+7UMsfN+LsmcLpnBI1rJGspGhGjJ2H2mBpHnqPUG8KReX75oXd+ZWVqQa
+         AlnF6G9JL4vQG3uZSZhHWGm9DTVDG3Io33W0s5ZI99BxKCYtY9ejZlKAbjeOAOH5arV9
+         fWtGPN0mMZWMJj1HN29OLJtxrPxLTkZ+JB/hWPDPFt3pbxBC72rlz9kZr1OlBP0hyBqj
+         2ygyr2i5d0RLDIPPdNT1TkGw1daKnnKpDxep0LVZDkZf/AE2eYVbcVq8T8LX6+hUiw+T
+         y5Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d4jVSee2cU6ToJ2QGlwl/C1VPnwR7mEpnLpf6tQy7tY=;
+        b=nT0Vgd6dvKunb7zQOh931zMbHMN2KX35GvI7axXj+/tzIsZ9MBnkki3PmrpYuYn4OT
+         icIA16YUhCe3VQYgigKlIrGH6BbZqKVQldbY/8ISoWIzFbE5aT0G0gwCA1KqSMoBfQXf
+         BbEdHnIZqIOSjTGindDr2gxOJp0hhEy6cvX57XfBDGyIgAKpK57l1Ph2WXs03bhcJSRC
+         Du/u4mXjTbaYHrUEZTK0GekczBSPYYDfFZDBqB508ncSezjdP8n76M8sNrErR3jnpWtr
+         XzBazT2EgkU25DQKwlkFFvS2SEHvOI4uwG7xAH6eHIILDbdcIu613rbZAPdNXcLXLEpd
+         NcJw==
+X-Gm-Message-State: AOAM531D58r3yVJNPcG8tY0/561N/boHFW4TaV9HcL6RJJ+kkyEW/wTf
+	2VgF+dcurX0UGW8cNyB5JwJMno6NJhT7ZYhH2N8=
+X-Google-Smtp-Source: ABdhPJwmEOTUVG8fviy21ShxcIzOkbBrh89QJk1WpRmgwTeKE61AUPsYuCJPYREX2i79cedPVKaOYc+Pjjzj9PqfUgQ=
+X-Received: by 2002:a67:bc11:: with SMTP id t17mr13349444vsn.51.1615261853891;
+ Mon, 08 Mar 2021 19:50:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210308235953.2230531-1-raj.khem@gmail.com>
+In-Reply-To: <20210308235953.2230531-1-raj.khem@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 9 Mar 2021 04:50:43 +0100
+Message-ID: <CANNYZj-bjpj0VFu-Db-x917m07nQLaVKNuvs-=UaLd=H-=h=VQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] webkitgtk: Use linker options to reduce memory overhead during linking
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000005414605bd12754b"
 
-Please merge these changes in gatesgarth.
+--00000000000005414605bd12754b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+Can you please explain the context for this? Why would we want to support
+building webkit on such constrained machines? 8g of ram means they can=E2=
+=80=99t
+run more than 4-6 gcc processes, so webkit builds will be unbearably slow
+anyway.
 
-Anuj
+Alex
 
-The following changes since commit 0e5605af9ebbfceffd510e42013d4eaa76c4e820:
+On Tue 9. Mar 2021 at 1.00, Khem Raj <raj.khem@gmail.com> wrote:
 
-  acpica: Fix reproducibility issues (2021-02-22 23:53:37 +0800)
+> Helps builds on machines with less RAM ( 8G )
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../webkitgtk/reduce-memory-overheads.patch   | 22 +++++++++++++++++++
+>  meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  1 +
+>  2 files changed, 23 insertions(+)
+>  create mode 100644
+> meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+>
+> diff --git
+> a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> new file mode 100644
+> index 0000000000..0493150a91
+> --- /dev/null
+> +++ b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> @@ -0,0 +1,22 @@
+> +From: Alberto Garcia <berto@igalia.com>
+> +Subject: Reduce memory usage when not using the Gold linker
+> +Bug-Debian: https://bugs.debian.org/949621
+> +Forwarded: no
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +--- a/Source/cmake/OptionsCommon.cmake
+> ++++ b/Source/cmake/OptionsCommon.cmake
+> +@@ -95,6 +95,12 @@ option(GCC_OFFLINEASM_SOURCE_MAP
+> +   "Produce debug line information for offlineasm-generated code"
+> +   ${GCC_OFFLINEASM_SOURCE_MAP_DEFAULT})
+> +
+> ++# Pass --reduce-memory-overheads to the bfd linker in order to save
+> memory
+> ++if (NOT USE_LD_GOLD)
+> ++    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}
+> -Wl,--reduce-memory-overheads")
+> ++    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}
+> -Wl,--reduce-memory-overheads")
+> ++endif ()
+> ++
+> + # Enable the usage of OpenMP.
+> + #  - At this moment, OpenMP is only used as an alternative implementat=
+ion
+> + #    to native threads for the parallelization of the SVG filters.
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> index 2928b8e55b..a1dd76ce81 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> @@ -18,6 +18,7 @@ SRC_URI =3D "
+> https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+>             file://0001-Fix-build-with-musl.patch \
+>             file://include_array.patch \
+>             file://include_xutil.patch \
+> +           file://reduce-memory-overheads.patch \
+>             "
+>  SRC_URI[sha256sum] =3D
+> "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
+>
+> --
+> 2.30.1
+>
+>
+>=20
+>
+>
 
-are available in the Git repository at:
+--00000000000005414605bd12754b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+<div dir=3D"auto">Can you please explain the context for this? Why would we=
+ want to support building webkit on such constrained machines? 8g of ram me=
+ans they can=E2=80=99t run more than 4-6 gcc processes, so webkit builds wi=
+ll be unbearably slow anyway.</div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue 9. Mar 2021 at 1.00, Khem Raj &lt;<a href=3D"mailto=
+:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
+1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
+204)">Helps builds on machines with less RAM ( 8G )<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../webkitgtk/reduce-memory-overheads.patch=C2=A0 =C2=A0| 22 +++++++=
+++++++++++++<br>
+=C2=A0meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a>=C2=A0 |=C2=A0 1 =
++<br>
+=C2=A02 files changed, 23 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-sato/webkit/webkitgtk/reduce-memory-=
+overheads.patch<br>
+<br>
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.pa=
+tch b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch<br>
+new file mode 100644<br>
+index 0000000000..0493150a91<br>
+--- /dev/null<br>
++++ b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch<br>
+@@ -0,0 +1,22 @@<br>
++From: Alberto Garcia &lt;<a href=3D"mailto:berto@igalia.com" target=3D"_b=
+lank">berto@igalia.com</a>&gt;<br>
++Subject: Reduce memory usage when not using the Gold linker<br>
++Bug-Debian: <a href=3D"https://bugs.debian.org/949621" rel=3D"noreferrer"=
+ target=3D"_blank">https://bugs.debian.org/949621</a><br>
++Forwarded: no<br>
++<br>
++Upstream-Status: Pending<br>
++Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
++--- a/Source/cmake/OptionsCommon.cmake<br>
+++++ b/Source/cmake/OptionsCommon.cmake<br>
++@@ -95,6 +95,12 @@ option(GCC_OFFLINEASM_SOURCE_MAP<br>
++=C2=A0 =C2=A0&quot;Produce debug line information for offlineasm-generate=
+d code&quot;<br>
++=C2=A0 =C2=A0${GCC_OFFLINEASM_SOURCE_MAP_DEFAULT})<br>
++ <br>
+++# Pass --reduce-memory-overheads to the bfd linker in order to save memo=
+ry<br>
+++if (NOT USE_LD_GOLD)<br>
+++=C2=A0 =C2=A0 set(CMAKE_EXE_LINKER_FLAGS &quot;${CMAKE_EXE_LINKER_FLAGS}=
+ -Wl,--reduce-memory-overheads&quot;)<br>
+++=C2=A0 =C2=A0 set(CMAKE_SHARED_LINKER_FLAGS &quot;${CMAKE_EXE_LINKER_FLA=
+GS} -Wl,--reduce-memory-overheads&quot;)<br>
+++endif ()<br>
+++<br>
++ # Enable the usage of OpenMP.<br>
++ #=C2=A0 - At this moment, OpenMP is only used as an alternative implemen=
+tation<br>
++ #=C2=A0 =C2=A0 to native threads for the parallelization of the SVG filt=
+ers.<br>
+diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.b=
+b" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a> b/meta/reci=
+pes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">webkitgtk_2.30.5.bb</a><br>
+index 2928b8e55b..a1dd76ce81 100644<br>
+--- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a><br>
++++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a><br>
+@@ -18,6 +18,7 @@ SRC_URI =3D &quot;<a href=3D"https://www.webkitgtk.org/r=
+eleases/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Fix-build-with-musl.=
+patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://include_array.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://include_xutil.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://reduce-memory-overheads.p=
+atch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;7d0dab08e3c5ae07bec80b2822ef42e952765d5=
+724cac86eb23999bfed5a7f1f&quot;<br>
+<br>
+-- <br>
+2.30.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
-Andrei Gherzan (1):
-  oe/recipeutils: Fix copying patches when BBLAYERS entries are not
-    normalised
-
-Bruce Ashfield (2):
-  linux-yocto/5.4: update to v5.4.96
-  linux-yocto/5.4: update to v5.4.98
-
-Florian Bezdeka (1):
-  wic: Warn if an ext filesystem affected by the Y2038 problem is used
-
-Jan-Simon Möller (1):
-  package_rpm: Enable use_source_date_epoch_as_buildtime in package_rpm
-    class
-
-Khem Raj (2):
-  go: Update to 1.15.8
-  oeqa/pam: Need shadow installed for the tests
-
-Lee Chee Yang (2):
-  python3: fix CVE-2021-23336
-  libsdl2: fix CVE-2020-14409 CVE-2020-14410
-
-Martin Jansa (1):
-  sstatesig.py: show an error instead of warning when sstate manifest
-    isn't found
-
-Michael Halstead (2):
-  yocto-uninative.inc: version 2.11 updates glibc to 2.33
-  yocto-uninative.inc: version 3.0 incorporate seccomp filter workaround
-
-Mike Crowe (1):
-  externalsrc: Pass through npmsw URIs in SRC_URI
-
-Milan Shah (1):
-  report-error.bbclass: Add layer and bitbake version info to error
-    report
-
-Mingli Yu (1):
-  python3: Fix python interpreter line length for nativesdk
-
-Minjae Kim (1):
-  bind: fix CVE-2020-8625
-
-Peter Kjellerstedt (1):
-  asciidoc: Switch to using the main branch
-
-Richard Purdie (19):
-  xorg-fonts-minimal: Fix reproducibility
-  xorg-minimal-fonts: Really fix determinism
-  git: Fix determinism issue
-  groff: Fix determinism issue
-  oeqa/commands: Fix compatibility with python 3.9
-  linux-firmware: upgrade 20201218 -> 20210208
-  rsync: Fix a file sorting determinism issue
-  rsync: Fix group name determinism issue
-  libevdev: Update patch status to backport
-  babeltrace2: Fix reproducibility
-  cups: Fix reproducibility issues
-  gcr: Fix reproducibility issue
-  epiphany: Fix reproducibility issue
-  epiphany: Fix distributor contamination from /etc/os-release
-  image: Add directories to PSEUDO_IGNORE_PATHS
-  populate_sdk: Add directories to PSEUDO_IGNORE_PATHS
-  bitbake.conf/image: Move image specific PSEUDO_IGNORE_PATHS to image
-    class
-  bitbake.conf: Split PSEUDO_IGNORE_PATHS to be more readable
-  parted: Fix reproducibility issue
-
-Ross Burton (1):
-  rootfs_deb: handle aarch64 SDK_ARCH
-
-Scott Murray (1):
-  screen: fix CVE-2021-26937
-
-Stefan Ghinea (2):
-  wpa-supplicant: fix CVE-2021-0326
-  cups: fix CVE-2020-10001
-
-Thomas Viehweger (1):
-  mtd-utils: Remove duplicate assignments to alternative link names
-
-Tomasz Dziendzielski (1):
-  bitbake.conf: Introduce FAKEROOTLOGS variable used by bitbake to print
-    pseudo.log
-
-Vivien Didelot (2):
-  local.conf.sample.extended: prefer INIT_MANAGER
-  systemd: Fix importd requirements comment
-
-Wang Mingyu (1):
-  openssl: upgrade 1.1.1i -> 1.1.1j
-
-Wes Lindauer (1):
-  df.py: Add feature check for read-only-rootfs
-
-Yi Fan Yu (2):
-  valgrind: Disable ptest nlcontrolc for x86-64
-  valgrind: Increase timeout duration 30 -> 90 s
-
-Yoann Congal (1):
-  npm.bbclass: avoid building target nodejs for native npm recipes
-
-Zbigniew Bodek (1):
-  wpebackend-fdo: Fix missing .so symlink when using dev package
-
-akuster (2):
-  cve-check.bbclass: add layer to cve log
-  cve-check: add include/exclude layers
-
- meta/classes/cve-check.bbclass                |   21 +
- meta/classes/externalsrc.bbclass              |    1 +
- meta/classes/image.bbclass                    |    2 +
- meta/classes/npm.bbclass                      |    2 +-
- meta/classes/package_rpm.bbclass              |    1 +
- meta/classes/populate_sdk_base.bbclass        |    2 +-
- meta/classes/report-error.bbclass             |    4 +
- meta/classes/rootfs_deb.bbclass               |    4 +
- meta/conf/bitbake.conf                        |    6 +-
- meta/conf/distro/include/yocto-uninative.inc  |   10 +-
- meta/conf/local.conf.sample.extended          |   21 +-
- meta/lib/oe/recipeutils.py                    |    2 +-
- meta/lib/oe/sstatesig.py                      |    2 +-
- meta/lib/oeqa/runtime/cases/df.py             |    2 +
- meta/lib/oeqa/runtime/cases/pam.py            |    3 +
- meta/lib/oeqa/utils/commands.py               |    4 +-
- .../bind/bind-9.16.7/CVE-2020-8625.patch      |   29 +
- meta/recipes-connectivity/bind/bind_9.16.7.bb |    1 +
- .../{openssl_1.1.1i.bb => openssl_1.1.1j.bb}  |    2 +-
- .../wpa-supplicant/CVE-2021-0326.patch        |   45 +
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |    1 +
- meta/recipes-core/systemd/systemd_246.9.bb    |    2 +-
- meta/recipes-devtools/git/git.inc             |    3 +-
- meta/recipes-devtools/git/git/fixsort.patch   |   31 +
- meta/recipes-devtools/go/go-1.15.inc          |    4 +-
- ...e_1.15.6.bb => go-binary-native_1.15.8.bb} |    4 +-
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |    2 -
- .../python/python3/CVE-2021-23336.patch       |  548 +++++++++
- meta/recipes-devtools/python/python3_3.8.5.bb |    5 +
- .../rsync/files/determism.patch               |   28 +
- meta/recipes-devtools/rsync/rsync_3.2.3.bb    |    3 +-
- ...Disable-nlcontrolc.vgtest-for-x86-64.patch |   36 +
- ...est-wrapper-to-support-PTEST-formats.patch |    9 +-
- .../valgrind/valgrind_3.16.1.bb               |    1 +
- .../asciidoc/asciidoc_9.0.2.bb                |    2 +-
- meta/recipes-extended/cups/cups.inc           |    3 +
- .../cups/cups/CVE-2020-10001.patch            |   74 ++
- .../groff/files/0001-Include-config.h.patch   | 1026 +----------------
- meta/recipes-extended/groff/groff_1.22.4.bb   |   11 +
- meta/recipes-extended/parted/parted_3.3.bb    |    1 +
- .../screen/screen/CVE-2021-26937.patch        |   68 ++
- meta/recipes-extended/screen/screen_4.8.0.bb  |    1 +
- .../recipes-gnome/epiphany/epiphany_3.36.4.bb |    2 +
- .../epiphany/files/distributor.patch          |   17 +
- .../epiphany/files/migrator.patch             |   24 +
- meta/recipes-gnome/gcr/gcr_3.36.0.bb          |   10 +
- .../libsdl2/CVE-2020-14409-14410.patch        |   79 ++
- .../libsdl2/libsdl2_2.0.12.bb                 |    1 +
- .../xorg-font/xorg-minimal-fonts.bb           |    8 +-
- ...20201218.bb => linux-firmware_20210208.bb} |    4 +-
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../recipes-kernel/lttng/babeltrace2_2.0.3.bb |    2 +-
- .../webkit/wpebackend-fdo_1.7.1.bb            |    3 +
- .../libevdev/libevdev/determinism.patch       |    3 +-
- scripts/lib/wic/canned-wks/common.wks.inc     |    2 +-
- scripts/lib/wic/canned-wks/directdisk-gpt.wks |    2 +-
- scripts/lib/wic/canned-wks/mkefidisk.wks      |    2 +-
- scripts/lib/wic/misc.py                       |    1 +
- scripts/lib/wic/partition.py                  |   38 +
- 61 files changed, 1171 insertions(+), 1090 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1i.bb => openssl_1.1.1j.bb} (98%)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-0326.patch
- create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
- rename meta/recipes-devtools/go/{go-binary-native_1.15.6.bb => go-binary-native_1.15.8.bb} (83%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
- create mode 100644 meta/recipes-devtools/rsync/files/determism.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-gdbserver_tests-Disable-nlcontrolc.vgtest-for-x86-64.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2020-10001.patch
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2021-26937.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/distributor.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/migrator.patch
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201218.bb => linux-firmware_20210208.bb} (99%)
-
--- 
-2.29.2
-
+--00000000000005414605bd12754b--
