@@ -1,321 +1,234 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.57])
- by mx.groups.io with SMTP id smtpd.web12.2942.1615254778603105307
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web08.3329.1615257134295254036
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 17:52:59 -0800
+ Mon, 08 Mar 2021 18:32:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=NFzflfh3;
- spf=pass (domain: windriver.com, ip: 40.107.244.57, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NmjHMOGMAdO9bLzvQrnlMahmNTVeVv+H/qmBbVUTULuGW0SGjWe+JWVlvOGz48oBss8TADOxS/ycu4+6LGflczQPwM5bWk8+rykX/is+G+w5rMoBiHtBxxOOiTiwv4goW+E2j4oNdEThD/uraUR3SM1ZVfsP6Qblk14JEuJIoElmqGXfYPSfv8vbo73r1CFvQ63BwJvJGy3Fp+01W9UHAsCH6n+J1JzOn3qOVnby5M6Do7rj4lXKDIefq/3/oSaWn402lgrKpo57G196AF7BLtkK613bAOhx73c8dyQiS4lvf3/GpXS1mLUYJ6s1PrCUrr02sBw7UgWTFLGcNqfCOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JMbOnaCuvaZO2uChdzHB38KffQCeqcVrh96B3T6tV3A=;
- b=N/eHOq4RYDvTwyKHiIxfS5JjQ0xmJR/RqIYyrPHzwIZpcDpE7Rh79eUgM+d63+4F3lRR/F7nTxr4EIjRRNE9fb3tekjvyDc/s7pbkdWySAdosEd2s4NKRTRRb+E3G+sPhepbn92YNgWu0oDgvto0gg3J6WtvHZm+li4d1emEv7EB14Raqy8N8JfY7EtLx/YYrBz8m+SzVNRS5jvQ8uUQo8QnjHtoHL37un3oMxUtZv2oEZOh9l+cITr4AjC0cMiOt/mAGSOiGVhQaVd7BDjs+9cD3pHm9J2lmd5GafuWUvEfvHi22F+mq06Bpy2ZSmStCGEoSZca4cGKdut40pHPjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JMbOnaCuvaZO2uChdzHB38KffQCeqcVrh96B3T6tV3A=;
- b=NFzflfh3S3/I0SrLoxifgiQgUZbRmlkzWXppGqqtjHIuWqQkXKrNiVSA7+fHK55V4vcfDIHeEKy+z2lhChqZDRCjzia1Wnb85IBZTYmdbl4o2mgmG4M/eOvnYKsCNQAPa7CrUjG0mLUqbJ8T8DqHaIrr+nlth1ZQs6bXUYTrvHA=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BYAPR11MB2535.namprd11.prod.outlook.com (2603:10b6:a02:be::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.28; Tue, 9 Mar
- 2021 01:52:56 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60%7]) with mapi id 15.20.3890.038; Tue, 9 Mar 2021
- 01:52:56 +0000
-Subject: Re: [OE-core] [PATCH 1/1] extrausers: Add ability to force password change on first login
-To: Mark Hatle <mark.hatle@kernel.crashing.org>,
- openembedded-core@lists.openembedded.org
-References: <20210308180836.144245-1-mark.hatle@kernel.crashing.org>
- <20210308180836.144245-2-mark.hatle@kernel.crashing.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <7e9765f3-7786-fcb3-ef59-9315817213ec@windriver.com>
-Date: Tue, 9 Mar 2021 10:02:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <20210308180836.144245-2-mark.hatle@kernel.crashing.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0075.apcprd04.prod.outlook.com
- (2603:1096:202:15::19) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: JNXyP/1OfNW8QROzMIOlnTm4f4euAK0UcxMj+LBFujsGOglvle6iOY8+Y6/zEhOwggSCY0tDsb
+ wPfqc7O/BDQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="188251773"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
+   d="scan'208";a="188251773"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 18:32:11 -0800
+IronPort-SDR: ojAgooqAWvvcCg3DX2/LdovkZ4GZZWyCXCuxmi4vWGFmDR0wu1f+vMA0fQ8T66wutgMDd7XxSK
+ CUW9nb0PSzxQ==
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
+   d="scan'208";a="437527814"
+Received: from aelgend-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.148.19])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 18:32:09 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: [gatesgarth][PATCH 00/52] pull request (cover letter only)
+Date: Tue,  9 Mar 2021 10:32:06 +0800
+Message-Id: <cover.1615256921.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR04CA0075.apcprd04.prod.outlook.com (2603:1096:202:15::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3912.17 via Frontend Transport; Tue, 9 Mar 2021 01:52:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4021bc95-f8ae-4c63-c4f5-08d8e29e0f3e
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2535:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB2535D9EE06A1CC01143FE695ED929@BYAPR11MB2535.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	mTpWn6HSVM7LIynh/2AnrUBNLV8cgCIV4FjUWjN+HaCONUnVQN0TH6MAr4FiwGBUErsDeASZDu0xsjIKkapvF9rqK/nZUZKF+L+71NDAnEOOiUWLsjzwi2b/TTZjA1ge8cDbiW6PWS6lMexXIIdJdGWbfZRilR3z68w6JIoTZukzI2qVT2ByfhYd/2O6+hmrzB1PkrCSQ8QGQ+NkHy0q58a3GCw0G9HjHxCNFUwL97o5BkE8zPcM+JbtS8/NpYY6v9fMMIfgCjJHEp8Fa+esXrKCLOPd/JSJAzDeQne5/PfZMJUcBb3VoQirD8oI1n6+r3lQsqDlvS+3vBB10zelOHzehJBN6ts/cmxyGZvGK4L7C2EC31CQ0+H4qGVvPc/1KO8RgAJX88fED7Qd8baIEoOKRdYfsrrPGzki0gZceJ+vBhwYyH49cPwKUbsqI5SfhVOWwb1HWj3ydcEfsg1KhBmY9TAbI+xqkn1T7UV8aF9+8xSSpe5RAMxIjhtjjXW9jPrL+ni+xTgbrvEvj25vc/j4JTHOu5H+IKTp+CYgTsd25OPSSDn7tgIFY8xHhYyKvb20iIh364TzSCO/6H7OClIMfW0UD03bA5QrFGl4y7G3clQ9Np/KKypT+Q9W7inEJaxzVHf7yffnGZBVzzkpsWeB/Og6oNPDLuxhCvfNviBbenPft7LS+MaG0spQZtl0MwcYMyWUyjoYO5FcXRYudg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39850400004)(366004)(346002)(396003)(376002)(66476007)(966005)(6706004)(53546011)(316002)(26005)(33964004)(36756003)(186003)(478600001)(166002)(16576012)(52116002)(8676002)(2906002)(956004)(2616005)(86362001)(66556008)(8936002)(5660300002)(16526019)(31696002)(83380400001)(6486002)(31686004)(66946007)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?LzhhK05vQVl6MStGRDBnbWhBcHU3YThBcUdjWkFuN1l1NisxdHJiUjBERFdt?=
- =?utf-8?B?a0NlR01obUJ1cW9Qbk1HU2lISVBaRFJvQnZZNmcyK3BmaTlSV2psUGVnajZt?=
- =?utf-8?B?QmU2ZkpXdE1oU2JNSTZwUy9Ic2liNWw2OG5kNjcvakNocHRSdDlwSEVNMCta?=
- =?utf-8?B?blNMNXZnN0Zqajh2dGcvSjJURS9lazRtSjVkbUtkK0c2d2pOYm5ZOCtrcTRk?=
- =?utf-8?B?Q01USmFySVVOdFJjc0ZQSVZPdUdRQjRKYmhDSlpGZU1SbmVLY3RFQ3BHeUFG?=
- =?utf-8?B?azVWSWp6dGxrKy9STWIrL24zUUQ2b0N2OUlscXJ6UUN1TDBWc1lxWVhBM2Fj?=
- =?utf-8?B?QTZoNUtXYWpBb3BoaWVORGUvbStoNmd0eWN1TWJBckQ3cU0rN2U2Yk5TTEEy?=
- =?utf-8?B?K0NQRFNSU2lzUklOTC9rOFR3TExSdlUxclVrQXJkWmZheEFaUzdxdUpYNEZE?=
- =?utf-8?B?b001MzYyeHNTZXJlU0dPd0RKLzcrdW9qQk12Z2FsanpwTkIraEpvTCt4Qndn?=
- =?utf-8?B?WGRGT2dpTU9pN0dtNEhwSmNWMEhtYkpveVE0RU1xa0RONFduVXVKeEJWK1dh?=
- =?utf-8?B?eXlPb2xyMzVFYnpUanhCNUNMNElQZkwrSGJ0aWplOUdVNTZPd2RaMzZXMFY0?=
- =?utf-8?B?R2RaOHNaQzBnY2QvQVF3TG9qU3V2TElIUzBjRkgyQ0pIMTdVWUg0L2xQaXo2?=
- =?utf-8?B?NUpOMnZGUTNENE5BWmJsK0x3VUUzU01NbkRsK1R5d2hzaVdNZ3pXUVErK3Vm?=
- =?utf-8?B?d3oxZ2JHWVFRTDJjcHp6RE5vSkhwZmE4SHRQeExxSVloY2V0ZUlpZkg2QkpM?=
- =?utf-8?B?dTYrRXNLOEY3MTZTallrL1RPWHVQUWJHZTNZN1dsaUZ1ZGNUMEJqdTNsUWNq?=
- =?utf-8?B?TTQya1pxRGlzcnZTUHMrOUxJVVcrSHJiNFBvY2xhenZYaVllZThpSTNPOHp5?=
- =?utf-8?B?Mk9yWnhXNVVraVBNK285OWVOYjR3TzladUo1US8xZUFGVlZRMGNkWEZreS90?=
- =?utf-8?B?QVRvbFRNb0pUYWdDdFJzOW9kS1JQQ0ZrMU1QZFo3bkJKUXB4QldDVitKOVox?=
- =?utf-8?B?SWo5am9ENXl1NVQ3SktaQ2JrRjErc01hRE1Nd3FNY1FXTlZqZnFlTHNSeTY3?=
- =?utf-8?B?Z0sreHdvMWhCVFJCN0o4aDRnb3VUKzNxK3YvMS9lNWRzTVFuMkx1QTNKYXdp?=
- =?utf-8?B?eGVMUGswcXVFSU5nUm9GREJ0Z215RDBuL3VQSWxyT0RNLzE5MWlsK0lXK0pr?=
- =?utf-8?B?OWEwWDZ4NGQwU0VWZ3A2OUlqNHJEcTRLMDZtYVBMd1RNL0VWbkdnTWpMa0ZC?=
- =?utf-8?B?NENDRmFzMTdjb1FmNnNnMXUwd08wTDl2NWw3WnpsY2VzblJ0WExvak5pNHVR?=
- =?utf-8?B?SXRSMjdrMVgxWW9BVTlmais5ODRETVE4bXpURkdsekowUEFzVFJOdUVtOEta?=
- =?utf-8?B?Tm1TaXgrRHNUenZMY1hJTWk0VDZxajh4Y2JmTzh6M0oycElHVWRLK216RnpP?=
- =?utf-8?B?NGNLMkJ3dDJnN2o2TlVWcENqTEVEN2NqcnNsL0diaktVMlBPSG1hUzd4blFO?=
- =?utf-8?B?NXpURjJQZ2kwL2NiTDJxc2tGQWw2YUpGUGV2eUJWSTJLZFFOZGZPQS9YWmx3?=
- =?utf-8?B?S1lTWEY0Tm9YajlpUG5LNVU3SWlkQWNJY0tDbzhzWkFlVlkzb1lYUGlQSlND?=
- =?utf-8?B?bDQ2THN5YXB4ZWRaQWpuckd3ODdRUWk2RThYTkxtRFdreHlmUW4xdmpuTzFr?=
- =?utf-8?Q?Y72IudCmCd+EX7rAx7z7FQsJl+RUh/RdRA7HLTt?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4021bc95-f8ae-4c63-c4f5-08d8e29e0f3e
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 01:52:56.4445
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HDv2baqlSO4aIWk4a30BsRPLPykgRY/Sj3qZqt7HIZK0kYAOAQhuJNMWzrIDQgMICCzYSzct4GJy4pRQukq2pQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2535
-Content-Type: multipart/alternative;
- boundary="------------F281F0F84B8265230B355B23"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---------------F281F0F84B8265230B355B23
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Please merge these changes in gatesgarth.
 
-Hi Mark,
+Thanks,
 
-Is it something similar to 'passwd-expire' in this extrausers.bbclass?
+Anuj
 
-Best Regards,
-Chen Qi
+The following changes since commit 0e5605af9ebbfceffd510e42013d4eaa76c4e820:
 
-On 03/09/2021 02:08 AM, Mark Hatle wrote:
-> As documented in shadow(5), the third parameter is the last login time.  A
-> special value of '0' is defined which causes the password system to force
-> a password change on next login.
->
-> Adding the variable "EXTRA_FORCE_PASSWORD_CHANGE", a space separated list of
-> user names, we can use this to adjust the shadow file's third value for the
-> listed users.
->
-> Note: This does have the same dependencies as other usages of extrausers,
-> specifically base-passwd and shadow.
->
-> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> ---
->   meta/classes/extrausers.bbclass | 29 +++++++++++++++++++++++++++--
->   meta/conf/documentation.conf    |  1 +
->   2 files changed, 28 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
-> index 90811bfe2a..e9d9358bef 100644
-> --- a/meta/classes/extrausers.bbclass
-> +++ b/meta/classes/extrausers.bbclass
-> @@ -14,10 +14,10 @@
->   
->   inherit useradd_base
->   
-> -PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
-> +PACKAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS')) or bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
->   
->   # Image level user / group settings
-> -ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
-> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', ' set_user_group;'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}"
->   
->   # Image level user / group settings
->   set_user_group () {
-> @@ -66,6 +66,31 @@ set_user_group () {
->   	done
->   }
->   
-> +# Image level force a specific user/users to reset their password on first login
-> +# Note: this requires shadow passwords and login programs that respect the shadow
-> +# expiration field.
-> +ROOTFS_POSTPROCESS_COMMAND_append = "${@['', ' force_password_change;'][bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}"
-> +
-> +# Works by setting 'date of last password change' to 0, which has a special
-> +# meaning of 'user should change her password the next time she will log in the
-> +# system' See: shadow (5)
-> +force_password_change () {
-> +	if [ ! -e ${IMAGE_ROOTFS}/etc/shadow ]; then
-> +		bberror "/etc/shadow does not exist in the image, unable to set password change on login."
-> +		return
-> +	fi
-> +	passwd_change_users="${EXTRA_FORCE_PASSWORD_CHANGE}"
-> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-> +	for name in $passwd_change_users; do
-> +		if ! grep -q '^'$name':' ${IMAGE_ROOTFS}/etc/shadow ; then
-> +			bberror "Unable to find user $name in /etc/shadow, unable to set password change on login."
-> +		fi
-> +		bbnote "Set user $name to need a password change on first login."
-> +		cmd="sed -i ${IMAGE_ROOTFS}/etc/shadow -e 's,^'$name':\\([^:]*\\):[^:]*:,'$name':\\1:0:,'"
-> +		eval flock -x ${IMAGE_ROOTFS}${sysconfdir} -c \"$PSEUDO $cmd\" || true
-> +	done
-> +}
-> +
->   USERADDEXTENSION ?= ""
->   
->   inherit ${USERADDEXTENSION}
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index c5a38b0764..d1c5b8b1a3 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -169,6 +169,7 @@ EXTRA_OESCONS[doc] = "When a recipe inherits the scons class, this variable spec
->   EXTRA_QMAKEVARS_POST[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be after the .pro file list on the command line."
->   EXTRA_QMAKEVARS_PRE[doc] = "Configuration variables or options you want to pass to qmake when the arguments need to be before the .pro file list on the command line."
->   EXTRA_USERS_PARAMS[doc] = "When a recipe inherits the extrausers class, this variable provides image level user and group operations."
-> +EXTRA_FORCE_PASSWORD_CHANGE[doc] = "When a recipe inherits the extrausers class, this variable causes the specified users to require a password change on first login."
->   
->   #F
->   
->
->
-> 
->
+  acpica: Fix reproducibility issues (2021-02-22 23:53:37 +0800)
 
+are available in the Git repository at:
 
---------------F281F0F84B8265230B355B23
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Hi Mark,<br>
-      <br>
-      Is it something similar to 'passwd-expire' in this
-      extrausers.bbclass?<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      On 03/09/2021 02:08 AM, Mark Hatle wrote:<br>
-    </div>
-    <blockquote cite="mid:20210308180836.144245-2-mark.hatle@kernel.crashing.org" type="cite">
-      <pre wrap="">As documented in shadow(5), the third parameter is the last login time.  A
-special value of '0' is defined which causes the password system to force
-a password change on next login.
+Andrei Gherzan (1):
+  oe/recipeutils: Fix copying patches when BBLAYERS entries are not
+    normalised
 
-Adding the variable &quot;EXTRA_FORCE_PASSWORD_CHANGE&quot;, a space separated list of
-user names, we can use this to adjust the shadow file's third value for the
-listed users.
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.96
+  linux-yocto/5.4: update to v5.4.98
 
-Note: This does have the same dependencies as other usages of extrausers,
-specifically base-passwd and shadow.
+Florian Bezdeka (1):
+  wic: Warn if an ext filesystem affected by the Y2038 problem is used
 
-Signed-off-by: Mark Hatle <a class="moz-txt-link-rfc2396E" href="mailto:mark.hatle@xilinx.com">&lt;mark.hatle@xilinx.com&gt;</a>
-Signed-off-by: Mark Hatle <a class="moz-txt-link-rfc2396E" href="mailto:mark.hatle@kernel.crashing.org">&lt;mark.hatle@kernel.crashing.org&gt;</a>
----
- meta/classes/extrausers.bbclass | 29 +++++++++++++++++++++++++++--
- meta/conf/documentation.conf    |  1 +
- 2 files changed, 28 insertions(+), 2 deletions(-)
+Jan-Simon Möller (1):
+  package_rpm: Enable use_source_date_epoch_as_buildtime in package_rpm
+    class
 
-diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
-index 90811bfe2a..e9d9358bef 100644
---- a/meta/classes/extrausers.bbclass
-+++ b/meta/classes/extrausers.bbclass
-@@ -14,10 +14,10 @@
- 
- inherit useradd_base
- 
--PACKAGE_INSTALL_append = &quot; ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}&quot;
-+PACKAGE_INSTALL_append = &quot; ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS')) or bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}&quot;
- 
- # Image level user / group settings
--ROOTFS_POSTPROCESS_COMMAND_append = &quot; set_user_group;&quot;
-+ROOTFS_POSTPROCESS_COMMAND_append = <a class="moz-txt-link-rfc2396E" href="mailto:${@['','set_user_group;'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}">&quot;${@['', ' set_user_group;'][bool(d.getVar('EXTRA_USERS_PARAMS'))]}&quot;</a>
- 
- # Image level user / group settings
- set_user_group () {
-@@ -66,6 +66,31 @@ set_user_group () {
- 	done
- }
- 
-+# Image level force a specific user/users to reset their password on first login
-+# Note: this requires shadow passwords and login programs that respect the shadow
-+# expiration field.
-+ROOTFS_POSTPROCESS_COMMAND_append = <a class="moz-txt-link-rfc2396E" href="mailto:${@['','force_password_change;'][bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}">&quot;${@['', ' force_password_change;'][bool(d.getVar('EXTRA_FORCE_PASSWORD_CHANGE'))]}&quot;</a>
-+
-+# Works by setting 'date of last password change' to 0, which has a special
-+# meaning of 'user should change her password the next time she will log in the
-+# system' See: shadow (5)
-+force_password_change () {
-+	if [ ! -e ${IMAGE_ROOTFS}/etc/shadow ]; then
-+		bberror &quot;/etc/shadow does not exist in the image, unable to set password change on login.&quot;
-+		return
-+	fi
-+	passwd_change_users=&quot;${EXTRA_FORCE_PASSWORD_CHANGE}&quot;
-+	export PSEUDO=&quot;${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo&quot;
-+	for name in $passwd_change_users; do
-+		if ! grep -q '^'$name':' ${IMAGE_ROOTFS}/etc/shadow ; then
-+			bberror &quot;Unable to find user $name in /etc/shadow, unable to set password change on login.&quot;
-+		fi
-+		bbnote &quot;Set user $name to need a password change on first login.&quot;
-+		cmd=&quot;sed -i ${IMAGE_ROOTFS}/etc/shadow -e 's,^'$name':\\([^:]*\\):[^:]*:,'$name':\\1:0:,'&quot;
-+		eval flock -x ${IMAGE_ROOTFS}${sysconfdir} -c \&quot;$PSEUDO $cmd\&quot; || true
-+	done
-+}
-+
- USERADDEXTENSION ?= &quot;&quot;
- 
- inherit ${USERADDEXTENSION}
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index c5a38b0764..d1c5b8b1a3 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -169,6 +169,7 @@ EXTRA_OESCONS[doc] = &quot;When a recipe inherits the scons class, this variable spec
- EXTRA_QMAKEVARS_POST[doc] = &quot;Configuration variables or options you want to pass to qmake when the arguments need to be after the .pro file list on the command line.&quot;
- EXTRA_QMAKEVARS_PRE[doc] = &quot;Configuration variables or options you want to pass to qmake when the arguments need to be before the .pro file list on the command line.&quot;
- EXTRA_USERS_PARAMS[doc] = &quot;When a recipe inherits the extrausers class, this variable provides image level user and group operations.&quot;
-+EXTRA_FORCE_PASSWORD_CHANGE[doc] = &quot;When a recipe inherits the extrausers class, this variable causes the specified users to require a password change on first login.&quot;
- 
- #F
- 
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
+Khem Raj (2):
+  go: Update to 1.15.8
+  oeqa/pam: Need shadow installed for the tests
 
+Lee Chee Yang (2):
+  python3: fix CVE-2021-23336
+  libsdl2: fix CVE-2020-14409 CVE-2020-14410
 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
+Martin Jansa (1):
+  sstatesig.py: show an error instead of warning when sstate manifest
+    isn't found
 
---------------F281F0F84B8265230B355B23--
+Michael Halstead (2):
+  yocto-uninative.inc: version 2.11 updates glibc to 2.33
+  yocto-uninative.inc: version 3.0 incorporate seccomp filter workaround
+
+Mike Crowe (1):
+  externalsrc: Pass through npmsw URIs in SRC_URI
+
+Milan Shah (1):
+  report-error.bbclass: Add layer and bitbake version info to error
+    report
+
+Mingli Yu (1):
+  python3: Fix python interpreter line length for nativesdk
+
+Minjae Kim (1):
+  bind: fix CVE-2020-8625
+
+Peter Kjellerstedt (1):
+  asciidoc: Switch to using the main branch
+
+Richard Purdie (19):
+  xorg-fonts-minimal: Fix reproducibility
+  xorg-minimal-fonts: Really fix determinism
+  git: Fix determinism issue
+  groff: Fix determinism issue
+  oeqa/commands: Fix compatibility with python 3.9
+  linux-firmware: upgrade 20201218 -> 20210208
+  rsync: Fix a file sorting determinism issue
+  rsync: Fix group name determinism issue
+  libevdev: Update patch status to backport
+  babeltrace2: Fix reproducibility
+  cups: Fix reproducibility issues
+  gcr: Fix reproducibility issue
+  epiphany: Fix reproducibility issue
+  epiphany: Fix distributor contamination from /etc/os-release
+  image: Add directories to PSEUDO_IGNORE_PATHS
+  populate_sdk: Add directories to PSEUDO_IGNORE_PATHS
+  bitbake.conf/image: Move image specific PSEUDO_IGNORE_PATHS to image
+    class
+  bitbake.conf: Split PSEUDO_IGNORE_PATHS to be more readable
+  parted: Fix reproducibility issue
+
+Ross Burton (1):
+  rootfs_deb: handle aarch64 SDK_ARCH
+
+Scott Murray (1):
+  screen: fix CVE-2021-26937
+
+Stefan Ghinea (2):
+  wpa-supplicant: fix CVE-2021-0326
+  cups: fix CVE-2020-10001
+
+Thomas Viehweger (1):
+  mtd-utils: Remove duplicate assignments to alternative link names
+
+Tomasz Dziendzielski (1):
+  bitbake.conf: Introduce FAKEROOTLOGS variable used by bitbake to print
+    pseudo.log
+
+Vivien Didelot (2):
+  local.conf.sample.extended: prefer INIT_MANAGER
+  systemd: Fix importd requirements comment
+
+Wang Mingyu (1):
+  openssl: upgrade 1.1.1i -> 1.1.1j
+
+Wes Lindauer (1):
+  df.py: Add feature check for read-only-rootfs
+
+Yi Fan Yu (2):
+  valgrind: Disable ptest nlcontrolc for x86-64
+  valgrind: Increase timeout duration 30 -> 90 s
+
+Yoann Congal (1):
+  npm.bbclass: avoid building target nodejs for native npm recipes
+
+Zbigniew Bodek (1):
+  wpebackend-fdo: Fix missing .so symlink when using dev package
+
+akuster (2):
+  cve-check.bbclass: add layer to cve log
+  cve-check: add include/exclude layers
+
+ meta/classes/cve-check.bbclass                |   21 +
+ meta/classes/externalsrc.bbclass              |    1 +
+ meta/classes/image.bbclass                    |    2 +
+ meta/classes/npm.bbclass                      |    2 +-
+ meta/classes/package_rpm.bbclass              |    1 +
+ meta/classes/populate_sdk_base.bbclass        |    2 +-
+ meta/classes/report-error.bbclass             |    4 +
+ meta/classes/rootfs_deb.bbclass               |    4 +
+ meta/conf/bitbake.conf                        |    6 +-
+ meta/conf/distro/include/yocto-uninative.inc  |   10 +-
+ meta/conf/local.conf.sample.extended          |   21 +-
+ meta/lib/oe/recipeutils.py                    |    2 +-
+ meta/lib/oe/sstatesig.py                      |    2 +-
+ meta/lib/oeqa/runtime/cases/df.py             |    2 +
+ meta/lib/oeqa/runtime/cases/pam.py            |    3 +
+ meta/lib/oeqa/utils/commands.py               |    4 +-
+ .../bind/bind-9.16.7/CVE-2020-8625.patch      |   29 +
+ meta/recipes-connectivity/bind/bind_9.16.7.bb |    1 +
+ .../{openssl_1.1.1i.bb => openssl_1.1.1j.bb}  |    2 +-
+ .../wpa-supplicant/CVE-2021-0326.patch        |   45 +
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |    1 +
+ meta/recipes-core/systemd/systemd_246.9.bb    |    2 +-
+ meta/recipes-devtools/git/git.inc             |    3 +-
+ meta/recipes-devtools/git/git/fixsort.patch   |   31 +
+ meta/recipes-devtools/go/go-1.15.inc          |    4 +-
+ ...e_1.15.6.bb => go-binary-native_1.15.8.bb} |    4 +-
+ meta/recipes-devtools/mtd/mtd-utils_git.bb    |    2 -
+ .../python/python3/CVE-2021-23336.patch       |  548 +++++++++
+ meta/recipes-devtools/python/python3_3.8.5.bb |    5 +
+ .../rsync/files/determism.patch               |   28 +
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb    |    3 +-
+ ...Disable-nlcontrolc.vgtest-for-x86-64.patch |   36 +
+ ...est-wrapper-to-support-PTEST-formats.patch |    9 +-
+ .../valgrind/valgrind_3.16.1.bb               |    1 +
+ .../asciidoc/asciidoc_9.0.2.bb                |    2 +-
+ meta/recipes-extended/cups/cups.inc           |    3 +
+ .../cups/cups/CVE-2020-10001.patch            |   74 ++
+ .../groff/files/0001-Include-config.h.patch   | 1026 +----------------
+ meta/recipes-extended/groff/groff_1.22.4.bb   |   11 +
+ meta/recipes-extended/parted/parted_3.3.bb    |    1 +
+ .../screen/screen/CVE-2021-26937.patch        |   68 ++
+ meta/recipes-extended/screen/screen_4.8.0.bb  |    1 +
+ .../recipes-gnome/epiphany/epiphany_3.36.4.bb |    2 +
+ .../epiphany/files/distributor.patch          |   17 +
+ .../epiphany/files/migrator.patch             |   24 +
+ meta/recipes-gnome/gcr/gcr_3.36.0.bb          |   10 +
+ .../libsdl2/CVE-2020-14409-14410.patch        |   79 ++
+ .../libsdl2/libsdl2_2.0.12.bb                 |    1 +
+ .../xorg-font/xorg-minimal-fonts.bb           |    8 +-
+ ...20201218.bb => linux-firmware_20210208.bb} |    4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |    6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
+ .../recipes-kernel/lttng/babeltrace2_2.0.3.bb |    2 +-
+ .../webkit/wpebackend-fdo_1.7.1.bb            |    3 +
+ .../libevdev/libevdev/determinism.patch       |    3 +-
+ scripts/lib/wic/canned-wks/common.wks.inc     |    2 +-
+ scripts/lib/wic/canned-wks/directdisk-gpt.wks |    2 +-
+ scripts/lib/wic/canned-wks/mkefidisk.wks      |    2 +-
+ scripts/lib/wic/misc.py                       |    1 +
+ scripts/lib/wic/partition.py                  |   38 +
+ 61 files changed, 1171 insertions(+), 1090 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.7/CVE-2020-8625.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1i.bb => openssl_1.1.1j.bb} (98%)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-0326.patch
+ create mode 100644 meta/recipes-devtools/git/git/fixsort.patch
+ rename meta/recipes-devtools/go/{go-binary-native_1.15.6.bb => go-binary-native_1.15.8.bb} (83%)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2021-23336.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/determism.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-gdbserver_tests-Disable-nlcontrolc.vgtest-for-x86-64.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2020-10001.patch
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2021-26937.patch
+ create mode 100644 meta/recipes-gnome/epiphany/files/distributor.patch
+ create mode 100644 meta/recipes-gnome/epiphany/files/migrator.patch
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/CVE-2020-14409-14410.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201218.bb => linux-firmware_20210208.bb} (99%)
+
+-- 
+2.29.2
+
