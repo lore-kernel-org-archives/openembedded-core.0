@@ -1,93 +1,109 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.1258.1615332710357890339
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.1314.1615332711683551936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 15:31:50 -0800
+ Tue, 09 Mar 2021 15:31:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=slBDk70t;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: idadelm@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id k12so23065002ljg.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:31:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WQ98eEGy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: idadelm@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id p21so30172797lfu.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:31:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=VCZkTw1hWjE5eN5qNNug79hkmbzVU6AJjvAPdsC0uZ4=;
-        b=slBDk70tMxQ2e9hl7ERpkDjYW9W/YBoGN69WEXg4I4jmqJ0QrFiofMKd82bpTPxV5O
-         2yZZ0yHwhEIiJAA+7HVUzyFrpxm71YyDWI+TVPivA6o2ZW8iwKEkXty9zNxc4lcrdXps
-         LreuT1Wl2oK7s3tVthCnIjMh158hc6KNlfJqU8i0wDv4qLmB0bj/k17SBZXJIilp7PRb
-         4+J81tjNMT1kW7Uj7Ake3ltyiqZ/qhRmkIBNMMH3bi71KlKiRYBSAMHoE3L2UIhJioUJ
-         WzqVHkLmHkrXjfNKWuvHepxt0Z4Rmw8CRBRCynytMlNCdEt0s/qjs/QlSocomHQhFXnD
-         bpwQ==
+        bh=dlR30mmcDyBKQGHk7r9sgAbLz/84RnOzKcgdQxpsEMU=;
+        b=WQ98eEGy0O8PLvEVS2osjGYFqbZTqY96NfxIp39VvaAelZZw3u0cNzDXblVdhwlrIC
+         Eog6iWzmycu9YS8005dTqM6UCt/r0CqccxVwzDpPHaR9MCnLc9L4AGyHiUlQRnNSX3wW
+         Vo5ex69vO309m/XSWhf2a5bEGYFb73NKsi1yzqG3UWYyJDQJgL0RtrvjSUSO1J2718A8
+         kRgeamDIcxx+w5tG/aM1OhEQ4bBZwORpK1+o6P32dXXAbHIq1FwT9GAODi7w1Bp1Tv0R
+         SbBqevJpQKIGDkyVHYT5Xe3npDkwcVocbAFmdlz2V0MPGqU6WNnxt3leIPYFvoERRJdg
+         PU+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VCZkTw1hWjE5eN5qNNug79hkmbzVU6AJjvAPdsC0uZ4=;
-        b=Vw7yuk1rKvwRNhmMb3yh1zX7NmJ6FCIbaAPx/cPZPJM16nSl9j8x2uzk4HUelFLARP
-         O+CKvPCByutPMof86CizyvoegD0FGh2cSkPZU6rII2Edpx9oy5IZcmJbhXjSgCljV/J5
-         9INswNWYoK+Pa9cVKvqKJ8M9EO0j+so3BARPO9rz7hLOS1SfDyGUDIKfhVc4HqqXgKJ7
-         dpjUaKZLNaugakMuU7nFUB061SOkz6rocABoWVsF/ptEEkBX/skoNcc2aI5EI9VM0qo6
-         gAZxUedZfDhX8O+iXManV9mhlkcJuM/FKXjfpX/UHO4zWceKaxKUje0+dZwe8UG017DC
-         cEPA==
-X-Gm-Message-State: AOAM530qxdHzFXM9jsha5DA1Iw8jKxSBopIj6akby2dH2ssTdo5qp/pO
-	wYQh4+5XcBBbcfOuqzup1yfIXNXK2wwrvw==
-X-Google-Smtp-Source: ABdhPJwKEP1eZukuUXoFueZ1JIG5WIRsUZo/e4LWD5ldURS5C3sg4Q1jcaIUJqIs57CZqrXjyMToJA==
-X-Received: by 2002:a2e:b175:: with SMTP id a21mr68148ljm.5.1615332708004;
-        Tue, 09 Mar 2021 15:31:48 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dlR30mmcDyBKQGHk7r9sgAbLz/84RnOzKcgdQxpsEMU=;
+        b=FpqW5Djb5NvctNUVYGTOKphIsk1NNpGy2GOtxeB9iLEFSLPi79a7rui3CvpDzXHxcM
+         mwoCDDR5F8QoRT36xTnSfBjzNzN/0qhcCqKwbzU1Tca1lG6l4Aw4wd0suQuwWrXnzfAa
+         OPfrLsTcEZBF7OS1Osr0N6obiWjWKqF5YLWpIB4DHKkPlO5fYGy3SEn0auCyQXhWqf7h
+         5wWraOoKnjam0oYgOwhAJq9tMURsNqPYJ0xyC/puSpyYLA3iT7q1mrMWSp0tpuTq5bvJ
+         /4BQWfaxHYiGwL9NQnZ5zYx9UOahmRC/L05ROqIw9+bIvxYf1rsvY+Hy+opWVIa8h1O2
+         pnWg==
+X-Gm-Message-State: AOAM531ccSOzGM7LywAjDuGdLohk7G2S7m4xaRPrppCqcAWgcC1P/iuo
+	g2dmyA0PsFr0541yWBxJWIFF3+qGfTvuMQ==
+X-Google-Smtp-Source: ABdhPJx7bEXv3MuVu2d+Ywe9LeGXOILoMmjQ0/iZneGWzwZvqTofi2+1BOii9KOfMhHYsjq6Sh67vQ==
+X-Received: by 2002:a19:7504:: with SMTP id y4mr261547lfe.616.1615332709369;
+        Tue, 09 Mar 2021 15:31:49 -0800 (PST)
 Return-Path: <idadelm@gmail.com>
 Received: from ida-pc.lan ([129.0.101.11])
-        by smtp.gmail.com with ESMTPSA id h19sm2261765lfc.87.2021.03.09.15.31.46
+        by smtp.gmail.com with ESMTPSA id h19sm2261765lfc.87.2021.03.09.15.31.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 15:31:47 -0800 (PST)
+        Tue, 09 Mar 2021 15:31:49 -0800 (PST)
 From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky-contrib][PATCH 1/4] oe.license: Add functions to split and canonicalise license strings.
-Date: Wed, 10 Mar 2021 00:31:27 +0100
-Message-Id: <20210309233130.104839-1-idadelm@gmail.com>
+Subject: [poky-contrib][PATCH 2/4] package.bbclass: Displays warnings for just licences in recipes.
+Date: Wed, 10 Mar 2021 00:31:28 +0100
+Message-Id: <20210309233130.104839-2-idadelm@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210309233130.104839-1-idadelm@gmail.com>
+References: <20210309233130.104839-1-idadelm@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These functions ensures recipe LICENSE strings are split into their individual licenses and then canonicalised to easily enable their matching with licenses of sources during the packaging process.
+After the comparism between computedpkglics and recipe lics, the warnings are displayed if and only if there are licenses in the recipes not found in the sources.
 
 Signed-off-by: Ida Delphine <idadelm@gmail.com>
 ---
- meta/lib/oe/license.py | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ meta/classes/package.bbclass | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 665d32ecbb..9e9957be1d 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -236,3 +236,26 @@ def list_licenses(licensestr):
-     except SyntaxError as exc:
-         raise LicenseSyntaxError(licensestr, exc)
-     return visitor.licenses
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index c127178f95..4e1be661b3 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1551,6 +1551,7 @@ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+ 
+ python emit_pkgdata() {
++    import oe.license
+     from glob import glob
+     import json
+     import subprocess
+@@ -1748,8 +1749,8 @@ fi
+                     if r[0] not in computedlics:
+                         computedlics[r[0]] = set()
+                     computedlics[r[0]].add(filelics[subf])
+-        #if computedlics:
+-        #    bb.warn(str(computedlics))
++        
++        
+         dvar = d.getVar('PKGD')
+         for f in computedlics:
+             shortf = f.replace(dvar, "")
+@@ -1762,13 +1763,19 @@ fi
+                     computedpkglics[pkg].update(computedlics[f])
+             if not found:
+                 bb.warn("%s not in %s" % (f, str(filemap)))
+-        #if computedpkglics:
+-        #    bb.warn(str(computedpkglics))
++        
+         for pkg in computedpkglics:
+             lic = d.getVar('LICENSE_%s' % (pkg))
+             if not lic:
+                 lic = d.getVar('LICENSE')
+-            bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], lic))
 +
-+def canonical_license(license, d):
-+    """
-+    Return the canonical (SPDX) form of the license if available (so GPLv3
-+    becomes GPL-3.0), for the license named 'X+', return canonical form of
-+    'X' if available and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
-+    or the passed license if there is no canonical form.
-+    """
-+    lic = d.getVarFlag('SPDXLICENSEMAP', license) or ""
-+    if not lic and license.endswith('+'):
-+        lic = d.getVarFlag('SPDXLICENSEMAP', license.rstrip('+'))
-+        if lic:
-+            lic += '+'
-+    return lic or license
-+
-+def split_spdx_lic(licensestr,d):
-+    """
-+    Split the license strings and returns a set of the
-+    canonicalised licenses.
-+    """
-+    split_lic = list_licenses(licensestr)
-+    spdx_lic = set([canonical_license(l, d) for l in split_lic])
-+    return spdx_lic
-\ No newline at end of file
++            # Splits the LICENSE values and canonicalise each license
++            # in the set of split license(s)
++            spdx_lic = oe.license.split_spdx_lic(lic, d)    
++            
++            # Displays warnings for licenses found in the recipes and not sources
++            if spdx_lic - computedpkglics[pkg]:
++                bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], spdx_lic))
+ }
+ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
+ 
 -- 
 2.25.1
 
