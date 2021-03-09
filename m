@@ -1,147 +1,119 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.1305.1615332713945874754
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web08.1357.1615332852384296269
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 15:31:54 -0800
+ Tue, 09 Mar 2021 15:34:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IEU8bieV;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: idadelm@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id m22so30208174lfg.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:31:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kSNBJ/Iw;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id r3so22053109lfc.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Ou39uoAUsQwDKOzegVufNyaDF2/njUXUysxBnLJSXDI=;
-        b=IEU8bieVjfzJcX9gGOpN9CtpInSh7iKE1i/fTP09Rf6TUxA02S9kKXDY8Ad/R4QxbZ
-         iOSi5tS2D85N63ZMAQ36u3oybSbMHekj3aTyKIKxLoE29s5D8qXE8FA3MqhNsA+8CilJ
-         Jt4lPYyoTLGiMI9f+w68RnUQ4Csy9tamQ+bXv+AYJmKfTQIfA8AHRgAEkoSEYcGd0MVQ
-         TS7oMKj1KFVqJPGg/JxgIMA98u4BvZf02qLUpsnIGS4MTAVuTGk64HIC3b3ab/eaHs29
-         Z8BS15Lgp7h+Q2ue4FKsl53I43jA5qTobaSh580op5R1JL/blyGnhGkSeoiVhlu231nZ
-         ea9g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LFci3hwrGaBlX+iZvItTinBSQe5L1By6d6SMQcAv18c=;
+        b=kSNBJ/Iwm5ydTedomAETakCMCGmbmdoCP93Z6ly7Fny43fkJlRXVnO7bYkdN+RNGIQ
+         fpUKp7ONCJYQNeZXDMWxIHdMQuftPbP+NjRFPsiqGCOq5CpsVDVPE5uV+MD2AEN3lgvb
+         XxqmNdtrKwIqmTCDzEv946D8U3iuTofye8IJdn+a2j32IFVaKWqBL6MpPXL4Qlmp3E9g
+         /AywI4mCughdopr6AALgozdS8p8Erra6/SMAxoN/qZSLBHykOescgDhCe3MnzQSZ6ecm
+         cXzUIuU8PTDr2LnvOIh07gkdbZhSzootim8AOkFO8gy4ablCVD5VDAIXrerlMGWAfmGH
+         8VSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ou39uoAUsQwDKOzegVufNyaDF2/njUXUysxBnLJSXDI=;
-        b=RN4HIcWlO1v9/pMUxJKkajxytY9DAhxdE29+HJLMXy4AhIxc9gRRthFgaEw5stNR3c
-         lbfQblR+YvqiVjNa/didUVxjhVMgxU5tUJh0CE392HPGnnSK2L35NgGBeGfmFghC4Sp3
-         I8F6rfk3gpIMnSNJZzzj/6TVy3rh2i53Rr8hczYhATzop+tZGKz3+CgXpxEDF5WAdmpu
-         ZJLMdI+mnrjDGnruoxDaV9DpgdBbG28nzV1y5lHzF8vQc/gTFYquU/67jF9FnjCTDvup
-         6TloLTkWvVhXYz51vn+bWAB7g52aLMbtpSJP85HYgyrtc35wVdP5wQx7LzLS8bnEXoJb
-         uWKQ==
-X-Gm-Message-State: AOAM530vPnKJoDdfHj6OLoM+Lb7Tf2Kawe9O5azr3VhrDnUzycgniIhV
-	EZhq1LEFqbyDLR3GEV+MhAeeoWYl3ujWtA==
-X-Google-Smtp-Source: ABdhPJym/bhuZ5utduUudB2WW7rlMpqFVuzJcyrjYNLRTB3zBCyxuR4dnprqBbzctWKAYRxCnXIyuA==
-X-Received: by 2002:a19:6801:: with SMTP id d1mr245020lfc.561.1615332712005;
-        Tue, 09 Mar 2021 15:31:52 -0800 (PST)
-Return-Path: <idadelm@gmail.com>
-Received: from ida-pc.lan ([129.0.101.11])
-        by smtp.gmail.com with ESMTPSA id h19sm2261765lfc.87.2021.03.09.15.31.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 15:31:51 -0800 (PST)
-From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [poky-contrib][PATCH 4/4] Moved logic to get filelics from package.bbclass to license.py
-Date: Wed, 10 Mar 2021 00:31:30 +0100
-Message-Id: <20210309233130.104839-4-idadelm@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210309233130.104839-1-idadelm@gmail.com>
-References: <20210309233130.104839-1-idadelm@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LFci3hwrGaBlX+iZvItTinBSQe5L1By6d6SMQcAv18c=;
+        b=NNL7wGLIfoXt0ZWDVOBZPv5yS73Dc+T6nGvLkDIAkJPPeOCj1mPwN6Sk4mla+hszaU
+         nSYmsyT0zyyFe51uuecKiohK1NMerjS8f5Rl/SPkMDnXosQht1BiNBV7zKvPO0NlI+di
+         3zUBt68Z3DCTx0lioZyDK0z83GjQ5jfG7mYBGj3LFkCKC7tJcHL22Ex6sA/M4HZgsXAc
+         yKATRFp5zunJvR7b3KlueZTs8YWySR089x39pFSJ1ZJ0wJ7moMKRXG3561xR3yh3kB7f
+         7gnHuhYZ/dhTMh7vpc92Xl0KtkUiPb03IQ+2lFUesvy1MhV2nkg/GO7poCofmuPbLxpD
+         1sWA==
+X-Gm-Message-State: AOAM533NuBEWvio1G9WOoLpssv0uSuL1NXwIWU0kCI5l9phxKbVg+twV
+	0EiAVEP0g4XI6edbSkT/eT9ai9l02CHNv4HISCk=
+X-Google-Smtp-Source: ABdhPJzd3lmAipDpEWQeGzUb0TpMTteMJgONyy3rB1+o6LxJ3P1nSMSuZ3YgKDCe1VixfsBnxBMc9YFqgyGRPeGgvI4=
+X-Received: by 2002:a05:6512:3081:: with SMTP id z1mr261960lfd.257.1615332850669;
+ Tue, 09 Mar 2021 15:34:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210308193028.34418-1-raj.khem@gmail.com> <CAJ86T=WW59ZDOpvgEQXRCqwnJKCKpmVsUeFVPk8kUC5m8zCz=g@mail.gmail.com>
+ <2a597a00-fbc0-470e-0f43-1d710c74aeaa@gmail.com> <CAJ86T=UbEJ730gFbj=WtrGUO2=6+bbgHpuxcuSChV6uGxve3-Q@mail.gmail.com>
+ <71abca0e-fcf6-ecc3-ed79-d2269364884b@gmail.com> <1398197321.1706949.1615303386483@mail.yahoo.com>
+In-Reply-To: <1398197321.1706949.1615303386483@mail.yahoo.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 9 Mar 2021 15:33:59 -0800
+Message-ID: <CAJ86T=V-MRtK81ZXRG=Ry0YKt3MgBZu9C4TpCghbc5--Ng3McQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] resolvconf: add missing dependencies to RDEPENDS
+To: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The logic to obtain filelics is moved from package.bbclass to license.py as a standalone function.
-Also, the check in package.bbclass after obtaining filelics ensures licenses with * WITH Linux-syscall-note" are ignored, as long as they're only in header files.
+On Tue, Mar 9, 2021 at 7:23 AM Frans Meulenbroeks
+<fransmeulenbroeks@yahoo.com> wrote:
+>
+> Freaking yahoo email seems to have no option any more to quote decently.
+> Guess it is time for a new email provider :-)
+> Anyway my response below prefixed with FM:
+>
+> Op dinsdag 9 maart 2021 00:26:05 CET schreef Khem Raj <raj.khem@gmail.com>:
+> On 3/8/21 2:25 PM, Andre McCurdy wrote:
+> > On Mon, Mar 8, 2021 at 2:15 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> On 3/8/21 2:11 PM, Andre McCurdy wrote:
+> >>> On Mon, Mar 8, 2021 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >>>>
+> >>>> From: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
+> >>>>
+> >>>> resolvconf uses flock and readlink.
+> >>>> So explicitly added dependencies on util-linux (for flock) and coreutils
+> >>>> (for readlink).
+> >>>> Note that the options used with flock and readlink are not part of the
+> >>>> busybox implementations so full-fledged implementations are needed.
+> >>>>
+> >>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >>>> ---
+> >>>>    meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb | 2 +-
+> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+> >>>> index 6df96b699c..6da8cd6023 100644
+> >>>> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+> >>>> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
+> >>>> @@ -9,7 +9,7 @@ LICENSE = "GPLv2+"
+> >>>>    LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+> >>>>    AUTHOR = "Thomas Hood"
+> >>>>    HOMEPAGE = "http://packages.debian.org/resolvconf"
+> >>>> -RDEPENDS_${PN} = "bash"
+> >>>> +RDEPENDS_${PN} = "bash coreutils util-linux"
+> >>>
+> >>> util-linux-flock has its own package.
+> >>
+> >> yeah and busybox also provides flock too. Lets drop it
+> >
+> > Busybox provides flock, but it doesn't support the -w option (wait
+> > with timeout). Either the util-linux flock is required or resolvconf
+> > needs to be patched to drop the -w option.
+>
+> right, its to explore possibilities to avoid the deps.
+>
+> FM: While I am all in favor of avoiding these dependencies, I'm not versed enough in the resolvconf code to judge the impact of dropping -w, so my preference would be to depend on util-linux-flock.
 
-Signed-off-by: Ida Delphine <idadelm@gmail.com>
----
- meta/classes/package.bbclass | 24 ++++++------------------
- meta/lib/oe/license.py       | 29 ++++++++++++++++++++++++++++-
- 2 files changed, 34 insertions(+), 19 deletions(-)
+Agreed. Adding a runtime dependency on util-linux-flock is the safest fix.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 8c0a49ad76..a2e0eab848 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1721,25 +1721,13 @@ fi
-             with open(data_file + ".srclist", 'w') as f:
-                 f.write(json.dumps(sources, sort_keys=True))
- 
-+            flics = oe.license.get_filelics([d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')])
-             filelics = {}
--            for dirent in [d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')]:
--                p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R', '-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
--                out, err = p.communicate()
--                if p.returncode == 0:
--                    for l in out.decode("utf-8").split("\n"):
--                        l = l.strip()
--                        if not l:
--                            continue
--                        l = l.split(":")
--                        if len(l) < 3:
--                            bb.warn(str(l))
--                            continue
--                        fn = "/" + l[0]
--                        lic = l[2].strip()
--                        if lic.endswith("*/"):
--                            lic = lic[:-2]
--                        lic = lic.strip()
--                        filelics[fn] = lic
-+            for k, v in flics.items():
-+                if k.endswith(".h") and v.endswith("WITH Linux-syscall-note"):
-+                    continue
-+                else:
-+                    filelics[k] = v
-             with open(data_file + ".filelics", 'w') as f:
-                 f.write(json.dumps(filelics, sort_keys=True))
- 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 9e9957be1d..3c40fa73eb 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -3,6 +3,8 @@
- #
- """Code for parsing OpenEmbedded license strings"""
- 
-+import subprocess
-+import bb
- import ast
- import re
- from fnmatch import fnmatchcase as fnmatch
-@@ -258,4 +260,29 @@ def split_spdx_lic(licensestr,d):
-     """
-     split_lic = list_licenses(licensestr)
-     spdx_lic = set([canonical_license(l, d) for l in split_lic])
--    return spdx_lic
-\ No newline at end of file
-+    return spdx_lic
-+
-+def get_filelics(dirs):
-+    """"
-+    This function returns a dictionary of file paths (keys) and their corresponding SPDX header identifiers (values).
-+    """
-+    filelics = {}
-+    for dirent in dirs:
-+        p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R','-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
-+        out, err = p.communicate()
-+        if p.returncode == 0:
-+            for l in out.decode("utf-8").split("\n"):
-+                l = l.strip()
-+                if not l:
-+                    continue
-+                l = l.split(":")
-+                if len(l) < 3:
-+                    bb.warn(str(l))
-+                    continue
-+                fn = "/" + l[0]
-+                lic = l[2].strip()
-+                if lic.endswith("*/"):
-+                    lic = lic[:-2]
-+                lic = lic.strip()
-+                filelics[fn] = lic
-+    return filelics
-\ No newline at end of file
--- 
-2.25.1
+> >>> Patching resolvconf to use readlink -f (instead of readlink -m) should
+> >>> be sufficient to allow it to work with busybox readlink.
+>
+> FM: this will most likely work. I can make a patch for that, no problem.
 
+For reference, there's a patch which does that here:
+
+  https://github.com/lgirdk/meta-mng/blob/ofw/recipes-misc/resolvconf/resolvconf/0001-try-to-support-busybox-readlink.patch
+
+> >>>>    SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
+> >>>>              file://fix-path-for-busybox.patch \
+> >>>> --
+> >>>> 2.30.1
+>
+> On a general note: in the current form the package is broken, so some fix is desirable.
+
+Agreed.
