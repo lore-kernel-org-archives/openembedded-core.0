@@ -1,130 +1,109 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.4713.1615266702771553766
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.5513.1615274300708397170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Mar 2021 21:11:42 -0800
+ Mon, 08 Mar 2021 23:18:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tE1INO5B;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id v3so9428288qtw.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Mar 2021 21:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=tbyAqyL3+qiPlgAiX2XL3wBJGtLbkFXY9txvHg+prZM=;
-        b=tE1INO5B1N8+Vk1ZPHdPZKAWVwtBNUu94zmt3yhQUnHpz2BbkAHr/OnGe5lPATseE+
-         xb3tDqBEHSxXytlUIUZjlnYLXRpWyiNrZwbwtSapqlPeBFfxxel0CI6luBO+ki2Rr+al
-         qwSmq56J6peS04uYeJ0SKkGjYOCvwzmB8B6Y2Watv099JlY0So/MUK5nH/QK5CL7uUuX
-         KkP6R7Yv+8a3+zNTKdEBnOabZjBMhqMQ9fpPRDBokPn2CRFFgo9tWBMPtGzDM+Mrc3Yp
-         uQCgw8qRrWuIS+Y2A7yXMwm05Ku5UM/a8/KpDIXIIe1JeiW+/0Vg/gCKvXLJpNtYwY9X
-         J7sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tbyAqyL3+qiPlgAiX2XL3wBJGtLbkFXY9txvHg+prZM=;
-        b=Ja1Xep2SEkuTCoDnNnmHbQaAnluH55Dr9ovXhKwPCNngCBnvMwZdSJBb+nqLIOXOeS
-         mPu04kCNmJn2hq18kE82QeJDcr9qZguyJPtvLn/Rk/lYgAMjsUIZIdNfV2N7pIkkZwHJ
-         YOrhBmm7p+W+YpATlS/97Gi3LfJE+HFzuctt8GH5GzrWA7JxWA2eUh1/6nelmf1VoYR0
-         FqZQRQdVvbQqFIlX76ASGZH1AJ2UmBeFYe0+jntTyimp+1n9DjGxBRFVdPz6Gwuo9A8X
-         XFtkl1zIVRu5nE47dr2qbHWmZMP8rkg9PnfXJTcFBb5YBqk+rc/UAXR8ha/AliovDaKf
-         lHEA==
-X-Gm-Message-State: AOAM532fGczkdDf3nwuJhcSDmP91dHNcOAkL1nht/08H0Bwa+brbNBay
-	L7+sqJm90kj7BKIz1WVymQ/KDxnDl9cUsXUGx8c=
-X-Google-Smtp-Source: ABdhPJwkI6OEQewtySI022lEUN57GEiL5l334iNpeXrgJfBjAUPmR1r+0s2JkgctAbSXszIeNqlqygjoMLkUaH6iLZs=
-X-Received: by 2002:ac8:a42:: with SMTP id f2mr8515218qti.214.1615266701772;
- Mon, 08 Mar 2021 21:11:41 -0800 (PST)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: sakib.sajal@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 1297I1nE008510
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Mar 2021 23:18:09 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 8 Mar 2021 23:17:52 -0800
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2106.2 via Frontend Transport; Mon, 8 Mar 2021 23:17:52 -0800
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] buildstats.bbclass: improve timeout handling
+Date: Tue, 9 Mar 2021 02:17:43 -0500
+Message-ID: <20210309071743.32820-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210309035410.757604-1-raj.khem@gmail.com> <CANNYZj_LvT0=HijEcDMQY=4aoKf26Z0nau=MBucRoFoYAog4pQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_LvT0=HijEcDMQY=4aoKf26Z0nau=MBucRoFoYAog4pQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 8 Mar 2021 21:11:15 -0800
-Message-ID: <CAMKF1sp=bs6VfBQ=4yz11U32C3n55E41BdGnRePPY+0SVw70fQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] webkitgtk: Link libatomic on RISCV
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-upstream is informed about this via
-https://bugs.webkit.org/show_bug.cgi?id=3D222959
+The subprocess that runs the commands periodically
+times out prematurely even when there is sufficient
+time available within the given interval for the
+commands to run.
 
-On Mon, Mar 8, 2021 at 7:58 PM Alexander Kanavin <alex.kanavin@gmail.com> =
-wrote:
->
-> Please send the patches upstream first, I wouldn=E2=80=99t normally ask =
-for it explicitly, but there=E2=80=99s a history of webkit patches that are=
- forever pending and cause pain on version updates.
->
-> Alex
->
-> On Tue 9. Mar 2021 at 4.54, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> This fixes linking failures
->> Source/WTF/wtf/text/StringImpl.h:1115: undefined reference to `__atomic=
-_compare_exchange_1'
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  .../webkitgtk/webdriver-libatomic.patch       | 23 +++++++++++++++++++
->>  meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  3 +++
->>  2 files changed, 26 insertions(+)
->>  create mode 100644 meta/recipes-sato/webkit/webkitgtk/webdriver-libato=
-mic.patch
->>
->> diff --git a/meta/recipes-sato/webkit/webkitgtk/webdriver-libatomic.pat=
-ch b/meta/recipes-sato/webkit/webkitgtk/webdriver-libatomic.patch
->> new file mode 100644
->> index 0000000000..bd9ac9d1f5
->> --- /dev/null
->> +++ b/meta/recipes-sato/webkit/webkitgtk/webdriver-libatomic.patch
->> @@ -0,0 +1,23 @@
->> +link with libatomic
->> +
->> +This fixes build with C11
->> +
->> +lib/../Source/WTF/wtf/CMakeFiles/WTF.dir/Assertions.cpp.o:/usr/include=
-/c++/11.0.1/bits/atomic_base.h:520: more undefined references to `__atomic_=
-compare_exchange_1' follow
->> +| collect2: error: ld returned 1 exit status
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +
->> +--- a/Source/WTF/wtf/CMakeLists.txt
->> ++++ b/Source/WTF/wtf/CMakeLists.txt
->> +@@ -529,6 +529,10 @@ list(APPEND WTF_LIBRARIES
->> +     ICU::uc
->> + )
->> +
->> ++list(APPEND WTF_LIBRARIES
->> ++     -Wl,--as-needed -Wl,-latomic -Wl,--no-as-needed
->> ++)
->> ++
->> + set(WTF_INTERFACE_LIBRARIES WTF)
->> + set(WTF_INTERFACE_INCLUDE_DIRECTORIES ${WTF_FRAMEWORK_HEADERS_DIR})
->> + set(WTF_INTERFACE_DEPENDENCIES WTF_CopyHeaders)
->> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipe=
-s-sato/webkit/webkitgtk_2.30.5.bb
->> index a1dd76ce81..3daf31f7d3 100644
->> --- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
->> +++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
->> @@ -20,6 +20,9 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN=
-}-${PV}.tar.xz \
->>             file://include_xutil.patch \
->>             file://reduce-memory-overheads.patch \
->>             "
->> +SRC_URI_append_riscv64 =3D " file://webdriver-libatomic.patch"
->> +SRC_URI_append_riscv32 =3D " file://webdriver-libatomic.patch"
->> +
->>  SRC_URI[sha256sum] =3D "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac8=
-6eb23999bfed5a7f1f"
->>
->>  inherit cmake pkgconfig gobject-introspection perlnative features_chec=
-k upstream-version-is-even gtk-doc
->> --
->> 2.30.1
->>
->>
->>=20
->>
+This change improves timeout handling and give all the
+commands equal time to run.
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/classes/buildstats.bbclass | 42 +++++++++++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index a8ee6e69a6..8e03039aeb 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -106,26 +106,54 @@ def write_task_data(status, logfile, e, d):
+ 
+ def write_host_data(logfile, e, d):
+     import subprocess, os, datetime
++    # minimum time allowed for each command to run, in seconds
++    time_threshold = 0.5
++    # the total number of commands
++    num_cmds = 0
++    # interval at which data will be logged
++    interval = int(d.getVar("BB_HEARTBEAT_EVENT", False))
++    # the commands to be run at each interval
+     cmds = d.getVar('BB_LOG_HOST_STAT_CMDS')
++    # if no commands are passed, issue a warning and return
+     if cmds is None:
+         d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
+         d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
+-        bb.warn("buildstats: Collecting host data failed. Set BB_LOG_HOST_STAT_CMDS=\"command1 ; command2 ; ... \" in conf\/local.conf\n")
++        bb.warn("buildstats: Collecting host data failed. Set BB_LOG_HOST_STAT_CMDS=\"command1 ; command2 ; ... \" in conf/local.conf\n")
+         return
++    # find the total commands
++    c_san = []
++    for cmd in cmds.split(";"):
++        if len(cmd) == 0:
++            continue
++        num_cmds += 1
++        c_san.append(cmd)
++    if num_cmds <= 0:
++        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
++        return
++
++    # return if the interval is not enough to run all commands within the specified BB_HEARTBEAT_EVENT interval
++    limit = interval / num_cmds
++    if limit <= time_threshold:
++        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
++        bb.warn("buildstats: Collecting host data failed. BB_HEARTBEAT_EVENT interval not enough to run the specified commands. HINT: Increase value of BB_HEARTBEAT_EVENT in conf/local.conf\n")
++        return
++
++    # set the environment variables 
+     path = d.getVar("PATH")
+     opath = d.getVar("BB_ORIGENV", False).getVar("PATH")
+     ospath = os.environ['PATH']
+     os.environ['PATH'] = path + ":" + opath + ":" + ospath
+     with open(logfile, "a") as f:
+         f.write("Event Time: %f\nDate: %s\n" % (e.time, datetime.datetime.now()))
+-        for cmd in cmds.split(";"):
+-            if len(cmd) == 0:
+-                continue
++        for c in c_san:
+             try:
+-                output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT, timeout=1).decode('utf-8')
++                output = subprocess.check_output(c.split(), stderr=subprocess.STDOUT, timeout=limit).decode('utf-8')
+             except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as err:
+-                output = "Error running command: %s\n%s\n" % (cmd, err)
+-            f.write("%s\n%s\n" % (cmd, output))
++                output = "Error running command: %s\n%s\n" % (c, err)
++            f.write("%s\n%s\n" % (c, output))
++    # reset the environment
+     os.environ['PATH'] = ospath
+ 
+ python run_buildstats () {
+-- 
+2.29.2
+
