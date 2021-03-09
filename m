@@ -1,59 +1,163 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web09.1071.1615324993478242146
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.545.1615329660946853377
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 13:23:13 -0800
+ Tue, 09 Mar 2021 14:41:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=p4ko4V09;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so5943939pjb.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 13:23:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=N/ubzBUr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d23so4180919plq.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 14:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tTiYFA1REZVJfeC3l1M8OAqQj38s4Wq0odjbIB/KMh0=;
-        b=p4ko4V09tDQKXImNvYV0+qay9MRzRZILqbM90nj0nq4hwlQVN8DBgZQHaGgd/562aA
-         joZ/466er9quM2uowtBz9afYWxRE2/x6bAgV9DpxhJKBlAANO/Tj19DSzgJmftSLguGo
-         n24dkEhS9T/TJmx/STXOVqvsoTAwKZdghSX8TjC7SBcJRrQOsavjiklhA42ZnIuOm0oT
-         hMoGJ8vONVK2E5EVB4amm1Ik7BxB3JFIuED1fPk1u/i6bx3U4KuuTH/DMNf3+NsFZJVv
-         zPWecmd6YdBe2gsA+9ITusRShtbjRrJJ0JTFzBRncOYHtRFSIQd/KPvPD0Vid7w8mpTb
-         d6wg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c/s+hDWBdKdvpZ48ljrI3i0Sk7xGJbMn/QfcjDiOzHo=;
+        b=N/ubzBUr/hvZdXQtATG9QeKEqt3P7ShRzcqko9Gq6tMrWW7AR3D/uaNTBo8r/9pg9O
+         NkXavFAHxJTOolNQN5oElo2C68G7Gne6+yl3fCXyzV9CC02svn9JkT/NV+iT/oKbpArO
+         r83TzMthCeDrCuZcLq6yhp+25EdFxYDw3UFV/EHtc92auNa/T/33J8q5kMIJ42p1KsBK
+         jL2IXKon7QMo8LClkLAf/Jd56iQNSndT4oY+v3uirwSz+U8qv131sgr1souV2P9hgIJ5
+         NPpHo8kfIhSybYDQzn8wS1jSR09HgA5aFAQNh+g0QRLYKogWhQ0KxNu1rfBYlH3J7AR/
+         8xHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tTiYFA1REZVJfeC3l1M8OAqQj38s4Wq0odjbIB/KMh0=;
-        b=ZTT/4dvkLFc7fz6LhlH6T8oKZ+MKD0C1rucZ9SS19HvyNUQKE36wN4WOe1SzaahGd1
-         BPvfZAUuBkiNMe1Lem3F17THmzyD7oxnN2GH0Y6M3wt04+j8dFbxiQPzIf/xBdjJJnZO
-         40VzFkBMAqZRKZSuy8cL33DxLPe3xCxKkCX3MY36VpglTpTY5sSEh1vqcmsJpXN+Cs8K
-         w45E8+9yF6YY9fBZEoYtAqwKf0ZqshSK0sFnNPGY/AZ/tKGIZZOU5tRlc6AuJM8V/jld
-         hZNOU0472fJmcNYD8e4gi1e3yhz9q1AxAJ/ex58H+zRpSyOX5Hx5GS9zj8mnV6pXMiZ4
-         HBQQ==
-X-Gm-Message-State: AOAM533SbfWxVzsyvp5R/6IYmVOHO/nQjXehwoMEH/NEum7D8yMcJai5
-	gkOlLzy9ahPKr/3Wp/fa9ipMxf8wG/PN7Fq5EJk=
-X-Google-Smtp-Source: ABdhPJznagEOKrlmTItsY4AImNiWuWSccJstDV4bIqddvY9iSPXpWyvZxm7YlSbUnIMgqRkOC5fbhNXq31iGnSVxg50=
-X-Received: by 2002:a17:90a:a414:: with SMTP id y20mr6604331pjp.77.1615324993000;
- Tue, 09 Mar 2021 13:23:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c/s+hDWBdKdvpZ48ljrI3i0Sk7xGJbMn/QfcjDiOzHo=;
+        b=hDYa5QDaCNb6AF6BQH/xovJ4SfF2hC/rxcwOyWtuFQfRFKkJi4XqGKEAGhHSG1ERDr
+         cI/7ajJ5XxBPNCGdzZAvJYuYLKYy87KNImEN+iGcvh2Es1WQdHoraQOVSpQK4epx8cZl
+         Jk76E33pzVtyV2k3xBfnhNOUHMiMfhB1vV7dXkh7icbqiQTlaGYAyPmA+d6AwS2DKG3i
+         TQO2gY9lQ+QlvV2zRGaknlzxKKmLQNWS1vUcyoUDXBb8PVkxojcYZn6oKlJZfUoOHtY9
+         tTjp8AXixfTog9PsXjL3akYIDfIgT/eMt8MlETm2O8pVSk7k6HYmf2hW7LfAxEpTrN6e
+         35qg==
+X-Gm-Message-State: AOAM5326n9tYxWpKKCoekrZgyH3DYdpex/0Ywd2CHUarcqPss/p2jUt3
+	/GSqWqwvH3S+57Chu9MRYs5u9YuAdVppiw==
+X-Google-Smtp-Source: ABdhPJxBU6ODOr+DEeRweVZF8fqXFcZrvwGZS8nsoYXHBDjLkDlV0qyYmdlbHuBARptCwtYIQ37D1A==
+X-Received: by 2002:a17:90a:8594:: with SMTP id m20mr119309pjn.215.1615329660067;
+        Tue, 09 Mar 2021 14:41:00 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
+        by smtp.gmail.com with ESMTPSA id mz11sm3892032pjb.6.2021.03.09.14.40.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Mar 2021 14:40:59 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] webkitgtk: Enhance check for atomics to include 1 byte CAS
+Date: Tue,  9 Mar 2021 14:40:57 -0800
+Message-Id: <20210309224057.3236584-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-References: <20210308235953.2230531-1-raj.khem@gmail.com> <CANNYZj-bjpj0VFu-Db-x917m07nQLaVKNuvs-=UaLd=H-=h=VQ@mail.gmail.com>
- <CAMKF1sp7iP4sT4HWWeBhEPnanaEy4cEdoPP90sGYPe22dCFu=Q@mail.gmail.com> <CANNYZj-0eTz84WfXGQP-f9uf6V4_AeAT8QiNXJziLeCm1uv3Zw@mail.gmail.com>
-In-Reply-To: <CANNYZj-0eTz84WfXGQP-f9uf6V4_AeAT8QiNXJziLeCm1uv3Zw@mail.gmail.com>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Tue, 9 Mar 2021 22:23:01 +0100
-Message-ID: <CALbNGRQDHb12iG+nxfFjvrsbs3191u6YhO2GXEoJnAft7bJj5A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] webkitgtk: Use linker options to reduce memory overhead during linking
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 9, 2021 at 1:01 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Thanks Khem, this makes sense.
->
-> Alex
->
-webkitgtk is one of the top swappers for my (very old) machines -
-would be cool if this has an end
+This fixes linking failures
+Source/WTF/wtf/text/StringImpl.h:1115: undefined reference to `__atomic_compare_exchange_1'
 
-Andreas
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Switch to upstream submitted patch instead of making RISCV specific
+
+ ...ics-check-to-include-1-byte-CAS-test.patch | 77 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  2 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+new file mode 100644
+index 0000000000..93bda4d754
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+@@ -0,0 +1,77 @@
++From 40520b0de69d8ca8e659248f5ffe641f33cc6dee Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 9 Mar 2021 14:16:58 -0800
++Subject: [PATCH] Extend atomics check to include 1-byte CAS test
++
++Rename ATOMIC_INT64_REQUIRES_LIBATOMIC to ATOMICS_REQUIRE_LIBATOMIC so
++it can reflect broader range which is now checked
++
++Rename ATOMIC_INT64_IS_BUILTIN to ATOMICS_ARE_BUILTIN
++
++Upstream-Status: Submitted [https://bugs.webkit.org/attachment.cgi?bugid=222959]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Source/JavaScriptCore/CMakeLists.txt   |  2 +-
++ Source/WebKit/CMakeLists.txt           |  2 +-
++ Source/cmake/WebKitCompilerFlags.cmake | 15 ++++++++++-----
++ 3 files changed, 12 insertions(+), 7 deletions(-)
++
++--- a/Source/JavaScriptCore/CMakeLists.txt
+++++ b/Source/JavaScriptCore/CMakeLists.txt
++@@ -129,7 +129,7 @@ if (USE_CAPSTONE)
++     list(APPEND JavaScriptCore_LIBRARIES capstone)
++ endif ()
++ 
++-if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
+++if (ATOMICS_REQUIRE_LIBATOMIC)
++     list(APPEND JavaScriptCore_LIBRARIES atomic)
++ endif ()
++ 
++--- a/Source/WebKit/CMakeLists.txt
+++++ b/Source/WebKit/CMakeLists.txt
++@@ -337,7 +337,7 @@ if (USE_LIBWEBRTC)
++     list(APPEND WebKit_LIBRARIES webrtc)
++ endif ()
++ 
++-if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
+++if (ATOMICS_REQUIRE_LIBATOMIC)
++     list(APPEND WebKit_PRIVATE_LIBRARIES atomic)
++ endif ()
++ 
++--- a/Source/cmake/WebKitCompilerFlags.cmake
+++++ b/Source/cmake/WebKitCompilerFlags.cmake
++@@ -280,12 +280,17 @@ endif ()
++ if (COMPILER_IS_GCC_OR_CLANG)
++     set(ATOMIC_TEST_SOURCE "
++         #include <atomic>
++-        int main() { std::atomic<int64_t> i(0); i++; return 0; }
+++        int main() {
+++          std::atomic<int64_t> i(0);
+++          std::atomic<int8_t> j(0);
+++          i++; j++;
+++          return 0;
+++        }
++     ")
++-    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_IS_BUILTIN)
++-    if (NOT ATOMIC_INT64_IS_BUILTIN)
+++    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_ARE_BUILTIN)
+++    if (NOT ATOMICS_ARE_BUILTIN)
++         set(CMAKE_REQUIRED_LIBRARIES atomic)
++-        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_REQUIRES_LIBATOMIC)
+++        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_REQUIRE_LIBATOMIC)
++         unset(CMAKE_REQUIRED_LIBRARIES)
++     endif ()
++ endif ()
++--- a/Source/WTF/wtf/CMakeLists.txt
+++++ b/Source/WTF/wtf/CMakeLists.txt
++@@ -529,6 +529,10 @@ list(APPEND WTF_LIBRARIES
++     ICU::uc
++ )
++ 
+++if (ATOMICS_REQUIRE_LIBATOMIC)
+++    list(APPEND WTF_LIBRARIES atomic)
+++endif ()
+++
++ set(WTF_INTERFACE_LIBRARIES WTF)
++ set(WTF_INTERFACE_INCLUDE_DIRECTORIES ${WTF_FRAMEWORK_HEADERS_DIR})
++ set(WTF_INTERFACE_DEPENDENCIES WTF_CopyHeaders)
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+index a1dd76ce81..d0a41f48c7 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+@@ -19,7 +19,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://include_array.patch \
+            file://include_xutil.patch \
+            file://reduce-memory-overheads.patch \
++           file://0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch \
+            "
++
+ SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+-- 
+2.30.1
+
