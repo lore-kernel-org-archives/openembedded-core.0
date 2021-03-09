@@ -1,84 +1,85 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web10.14619.1615317830404068827
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.14579.1615317981704163534
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 11:23:50 -0800
+ Tue, 09 Mar 2021 11:26:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RtjcUiFF;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id t4so14310487qkp.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 11:23:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qr/mDrWx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id bd6so22541686edb.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 11:26:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eWNJpgH9JE20ujZB+3X9NKbTnC/w0RK/PELEZYF97sk=;
-        b=RtjcUiFF0FcJWbEnAwB2gLKnhmd6MY2AMxDG/gYjiiVNjjVOGBO+HwrBaOXCfhIp/M
-         doCKfKnoFC4qnTIHnkbYQQEpnn1P0TnW/Uu6mj+cG7GCUZwzzpQsxh9ZJKFky4CD5Kbi
-         qwlSUd/FOZfDyPeP6FiBCxTKqQhVkXZSJcHEjpNcM2jGPuqLlTihu+3Wqg6+P5aiMQA7
-         f56Gjc7hypVAJYkfJulMXVn76OAr9bkHCWMpE/Glxc4ElpOfFO7+R4BvUvTt9Qvi2G+W
-         V6pUoU0NmvFm/9fmnfmAhGanSh4UOrn0P1Kmu+uxx4CfHLH/FU3XiMe56LcXqZnUYDcm
-         Ienw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B46iWrfjuoMSBXS/u5mNsNbvEKpnCMEdW7bk4odRqqk=;
+        b=qr/mDrWxiu7OVvmM50Oo2HJI9GHR0yXCwfhjdbS8JSWi5htS4Xq71cICel9dmkNiDJ
+         nM/vaKF+x2PT2BJzwU2+GGeKqEjklX9y8Ra/Ynu0CKRtX1kjoCb9F50KBqML2fS2p4ne
+         95p2CJgJKLWX5fyJkzm2fQAEnJB8+cZITsDel22O0zzgvjdwz+tWMs6wswdX5FNZHqkU
+         SGFAEgS3m2I9piX1+k34OinNDS6zXMHYJP+QVwveb4usaui76HLgwR6yifXtypPmPbgX
+         mvwkckT+u6C32sArqxp2lBMhUxy0G1zp+9+UT6OI1yincSA+4PkT0xj4foIJ4tegl2HJ
+         ibWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eWNJpgH9JE20ujZB+3X9NKbTnC/w0RK/PELEZYF97sk=;
-        b=pPZIFnDc7qByNPEk7MLHgK0He6OjeIvnmc4koOHMVar/2tY0Ct7a1giuv9VVMI+fr8
-         9jDbU/eKmX10GtcH2hN5RQQNfDWNAnbAWc9KnBYzrI74wFjFwtLtKA3SHBhHpIkKxWGI
-         9UQciAbcJVlTBDEd491G5uC2/IOBwdqCAraCxJqhhRlSXrJRLzPhdYBCwL2cWNXZ7Ti0
-         wInaTNVkogNOqcZRTym0E/G4GfSKE3TDrHbU3qHKr1JO6YX5lYahU9k/jip/iH6jheQD
-         lvTiSa60eq3drcevkMR/KCaPdNMGBF4l4yYmISlIhFjnb+WyJDu0EOUOJt6/ch/baE6H
-         rdpQ==
-X-Gm-Message-State: AOAM530Zr5R9GM8BsEokDSxuK4CxAuJ0xmqAiXYnD3d9VipuyqvV44Qr
-	Mn6wd3/kmlKI6UjeMCbL0to=
-X-Google-Smtp-Source: ABdhPJza40ceuK4jhHND95DrfvmdsZ2UMZQfivhsw5dKu1BuE4ZvxCvqDYT74RrF2AHPgEN4HoyzdQ==
-X-Received: by 2002:a37:8544:: with SMTP id h65mr26820554qkd.200.1615317829374;
-        Tue, 09 Mar 2021 11:23:49 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id f13sm5713377qtf.57.2021.03.09.11.23.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 11:23:49 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] kern-tools: symbol-why fix and README update
-Date: Tue,  9 Mar 2021 14:23:41 -0500
-Message-Id: <dc0b4f5c195991bdbedd1ad1116cddb24ee63b79.1615317549.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1615317549.git.bruce.ashfield@gmail.com>
-References: <cover.1615317549.git.bruce.ashfield@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B46iWrfjuoMSBXS/u5mNsNbvEKpnCMEdW7bk4odRqqk=;
+        b=UUOSWYnCzG+Rbp9oqNgYIOBP4OeqljceFSieik4mPj5N2/nM3v4UhkcI9fLC0HXMtj
+         Pp7NGSQHPumDOwutB2lC3BD/fNpqIdI4YDAGwYqYPyiIq8hrQapaQcsPexN+PQVwOHbv
+         d9DMMq+I22e1hUR8WAkdhgjd+y+TpEs6tEKvisWlofRmHuxKoopP9073jITCXkdDo7bF
+         a6GDBLp5OxXCyD26hCMjxF+ygTk9gy1IYmj5wAxGorC/V4IJa2k96SXgqC+GdJS8o1Pw
+         VVHqELXisHfACegkgf11JV9BBDf7OIu70IEoRQv0tGxxagy24uSMJ7vWZdsZZSOHkNze
+         5fWA==
+X-Gm-Message-State: AOAM5313LZDQwQVJ+zqjKc+WWVcaeGR6ZBkwng648uV7f+srHEM+Atqt
+	l5oJMTkmYBG0sCxQiQmqKkzcOdGw5K1cDIV4w+c=
+X-Google-Smtp-Source: ABdhPJwm9/bEmJXx/ez4h4J9UBXHlQzEPK74Q6aliXVRu8oUx+0BPyxCp+XxDZDifwF4he30id/lAiS74sGeaApAjaQ=
+X-Received: by 2002:aa7:d547:: with SMTP id u7mr6033331edr.347.1615317980220;
+ Tue, 09 Mar 2021 11:26:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1615317549.git.bruce.ashfield@gmail.com> <d30604303763138aeec2743647b93037afb046c2.1615317549.git.bruce.ashfield@gmail.com>
+In-Reply-To: <d30604303763138aeec2743647b93037afb046c2.1615317549.git.bruce.ashfield@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 9 Mar 2021 14:26:09 -0500
+Message-ID: <CADkTA4OpPh-bc4z0rGHY21gjsywGkXCFSRZc+74Cg6S-a96cAg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] reproducibile: remove perf from exclusions
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+And now on send, I see that I can't spell 'reproducible', I can send a
+v2, or feel free to correct my typo.
 
-There was a bad indent in symbol_why, which we fix with a submitted
-patch. As part of getting that patch, it was pointed out that there's
-no README telling people where to send changes. So we add a basic
-README to avoid that in the future:
+Bruce
 
-   8f6aaab docs: add README for patch submission
-   9f1a6cb symbol_why: fix incorrect indentation of sys.exit(1)
+On Tue, Mar 9, 2021 at 2:23 PM <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> We have fixes for perf reproducibility, so we can drop it from the
+> exclusion list.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+> index 0d0259477e..86cf6c5daa 100644
+> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> @@ -36,7 +36,6 @@ exclude_packages = [
+>         'go-',
+>         'meson',
+>         'ovmf-shell-efi',
+> -       'perf',
+>         'ruby-ri-docs'
+>         ]
+>
+> --
+> 2.19.1
+>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 70b2908fd4..1d900d85fa 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
- 
- DEPENDS = "git-native"
- 
--SRCREV = "73f813024d33432116a122524fd2ae48afc910c7"
-+SRCREV = "8f6aaab7f64c6de30d267e31a73f7c3bb30125a9"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
 -- 
-2.19.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
