@@ -1,163 +1,93 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.545.1615329660946853377
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.1258.1615332710357890339
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 14:41:01 -0800
+ Tue, 09 Mar 2021 15:31:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=N/ubzBUr;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d23so4180919plq.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 14:41:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=slBDk70t;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: idadelm@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id k12so23065002ljg.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=c/s+hDWBdKdvpZ48ljrI3i0Sk7xGJbMn/QfcjDiOzHo=;
-        b=N/ubzBUr/hvZdXQtATG9QeKEqt3P7ShRzcqko9Gq6tMrWW7AR3D/uaNTBo8r/9pg9O
-         NkXavFAHxJTOolNQN5oElo2C68G7Gne6+yl3fCXyzV9CC02svn9JkT/NV+iT/oKbpArO
-         r83TzMthCeDrCuZcLq6yhp+25EdFxYDw3UFV/EHtc92auNa/T/33J8q5kMIJ42p1KsBK
-         jL2IXKon7QMo8LClkLAf/Jd56iQNSndT4oY+v3uirwSz+U8qv131sgr1souV2P9hgIJ5
-         NPpHo8kfIhSybYDQzn8wS1jSR09HgA5aFAQNh+g0QRLYKogWhQ0KxNu1rfBYlH3J7AR/
-         8xHg==
+        bh=VCZkTw1hWjE5eN5qNNug79hkmbzVU6AJjvAPdsC0uZ4=;
+        b=slBDk70tMxQ2e9hl7ERpkDjYW9W/YBoGN69WEXg4I4jmqJ0QrFiofMKd82bpTPxV5O
+         2yZZ0yHwhEIiJAA+7HVUzyFrpxm71YyDWI+TVPivA6o2ZW8iwKEkXty9zNxc4lcrdXps
+         LreuT1Wl2oK7s3tVthCnIjMh158hc6KNlfJqU8i0wDv4qLmB0bj/k17SBZXJIilp7PRb
+         4+J81tjNMT1kW7Uj7Ake3ltyiqZ/qhRmkIBNMMH3bi71KlKiRYBSAMHoE3L2UIhJioUJ
+         WzqVHkLmHkrXjfNKWuvHepxt0Z4Rmw8CRBRCynytMlNCdEt0s/qjs/QlSocomHQhFXnD
+         bpwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=c/s+hDWBdKdvpZ48ljrI3i0Sk7xGJbMn/QfcjDiOzHo=;
-        b=hDYa5QDaCNb6AF6BQH/xovJ4SfF2hC/rxcwOyWtuFQfRFKkJi4XqGKEAGhHSG1ERDr
-         cI/7ajJ5XxBPNCGdzZAvJYuYLKYy87KNImEN+iGcvh2Es1WQdHoraQOVSpQK4epx8cZl
-         Jk76E33pzVtyV2k3xBfnhNOUHMiMfhB1vV7dXkh7icbqiQTlaGYAyPmA+d6AwS2DKG3i
-         TQO2gY9lQ+QlvV2zRGaknlzxKKmLQNWS1vUcyoUDXBb8PVkxojcYZn6oKlJZfUoOHtY9
-         tTjp8AXixfTog9PsXjL3akYIDfIgT/eMt8MlETm2O8pVSk7k6HYmf2hW7LfAxEpTrN6e
-         35qg==
-X-Gm-Message-State: AOAM5326n9tYxWpKKCoekrZgyH3DYdpex/0Ywd2CHUarcqPss/p2jUt3
-	/GSqWqwvH3S+57Chu9MRYs5u9YuAdVppiw==
-X-Google-Smtp-Source: ABdhPJxBU6ODOr+DEeRweVZF8fqXFcZrvwGZS8nsoYXHBDjLkDlV0qyYmdlbHuBARptCwtYIQ37D1A==
-X-Received: by 2002:a17:90a:8594:: with SMTP id m20mr119309pjn.215.1615329660067;
-        Tue, 09 Mar 2021 14:41:00 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::e641])
-        by smtp.gmail.com with ESMTPSA id mz11sm3892032pjb.6.2021.03.09.14.40.59
+        bh=VCZkTw1hWjE5eN5qNNug79hkmbzVU6AJjvAPdsC0uZ4=;
+        b=Vw7yuk1rKvwRNhmMb3yh1zX7NmJ6FCIbaAPx/cPZPJM16nSl9j8x2uzk4HUelFLARP
+         O+CKvPCByutPMof86CizyvoegD0FGh2cSkPZU6rII2Edpx9oy5IZcmJbhXjSgCljV/J5
+         9INswNWYoK+Pa9cVKvqKJ8M9EO0j+so3BARPO9rz7hLOS1SfDyGUDIKfhVc4HqqXgKJ7
+         dpjUaKZLNaugakMuU7nFUB061SOkz6rocABoWVsF/ptEEkBX/skoNcc2aI5EI9VM0qo6
+         gAZxUedZfDhX8O+iXManV9mhlkcJuM/FKXjfpX/UHO4zWceKaxKUje0+dZwe8UG017DC
+         cEPA==
+X-Gm-Message-State: AOAM530qxdHzFXM9jsha5DA1Iw8jKxSBopIj6akby2dH2ssTdo5qp/pO
+	wYQh4+5XcBBbcfOuqzup1yfIXNXK2wwrvw==
+X-Google-Smtp-Source: ABdhPJwKEP1eZukuUXoFueZ1JIG5WIRsUZo/e4LWD5ldURS5C3sg4Q1jcaIUJqIs57CZqrXjyMToJA==
+X-Received: by 2002:a2e:b175:: with SMTP id a21mr68148ljm.5.1615332708004;
+        Tue, 09 Mar 2021 15:31:48 -0800 (PST)
+Return-Path: <idadelm@gmail.com>
+Received: from ida-pc.lan ([129.0.101.11])
+        by smtp.gmail.com with ESMTPSA id h19sm2261765lfc.87.2021.03.09.15.31.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 14:40:59 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Tue, 09 Mar 2021 15:31:47 -0800 (PST)
+From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] webkitgtk: Enhance check for atomics to include 1 byte CAS
-Date: Tue,  9 Mar 2021 14:40:57 -0800
-Message-Id: <20210309224057.3236584-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.1
+Subject: [poky-contrib][PATCH 1/4] oe.license: Add functions to split and canonicalise license strings.
+Date: Wed, 10 Mar 2021 00:31:27 +0100
+Message-Id: <20210309233130.104839-1-idadelm@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This fixes linking failures
-Source/WTF/wtf/text/StringImpl.h:1115: undefined reference to `__atomic_compare_exchange_1'
+These functions ensures recipe LICENSE strings are split into their individual licenses and then canonicalised to easily enable their matching with licenses of sources during the packaging process.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ida Delphine <idadelm@gmail.com>
 ---
-v2: Switch to upstream submitted patch instead of making RISCV specific
+ meta/lib/oe/license.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
- ...ics-check-to-include-1-byte-CAS-test.patch | 77 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  2 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
-new file mode 100644
-index 0000000000..93bda4d754
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
-@@ -0,0 +1,77 @@
-+From 40520b0de69d8ca8e659248f5ffe641f33cc6dee Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 9 Mar 2021 14:16:58 -0800
-+Subject: [PATCH] Extend atomics check to include 1-byte CAS test
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 665d32ecbb..9e9957be1d 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -236,3 +236,26 @@ def list_licenses(licensestr):
+     except SyntaxError as exc:
+         raise LicenseSyntaxError(licensestr, exc)
+     return visitor.licenses
 +
-+Rename ATOMIC_INT64_REQUIRES_LIBATOMIC to ATOMICS_REQUIRE_LIBATOMIC so
-+it can reflect broader range which is now checked
++def canonical_license(license, d):
++    """
++    Return the canonical (SPDX) form of the license if available (so GPLv3
++    becomes GPL-3.0), for the license named 'X+', return canonical form of
++    'X' if available and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
++    or the passed license if there is no canonical form.
++    """
++    lic = d.getVarFlag('SPDXLICENSEMAP', license) or ""
++    if not lic and license.endswith('+'):
++        lic = d.getVarFlag('SPDXLICENSEMAP', license.rstrip('+'))
++        if lic:
++            lic += '+'
++    return lic or license
 +
-+Rename ATOMIC_INT64_IS_BUILTIN to ATOMICS_ARE_BUILTIN
-+
-+Upstream-Status: Submitted [https://bugs.webkit.org/attachment.cgi?bugid=222959]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/JavaScriptCore/CMakeLists.txt   |  2 +-
-+ Source/WebKit/CMakeLists.txt           |  2 +-
-+ Source/cmake/WebKitCompilerFlags.cmake | 15 ++++++++++-----
-+ 3 files changed, 12 insertions(+), 7 deletions(-)
-+
-+--- a/Source/JavaScriptCore/CMakeLists.txt
-++++ b/Source/JavaScriptCore/CMakeLists.txt
-+@@ -129,7 +129,7 @@ if (USE_CAPSTONE)
-+     list(APPEND JavaScriptCore_LIBRARIES capstone)
-+ endif ()
-+ 
-+-if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
-++if (ATOMICS_REQUIRE_LIBATOMIC)
-+     list(APPEND JavaScriptCore_LIBRARIES atomic)
-+ endif ()
-+ 
-+--- a/Source/WebKit/CMakeLists.txt
-++++ b/Source/WebKit/CMakeLists.txt
-+@@ -337,7 +337,7 @@ if (USE_LIBWEBRTC)
-+     list(APPEND WebKit_LIBRARIES webrtc)
-+ endif ()
-+ 
-+-if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
-++if (ATOMICS_REQUIRE_LIBATOMIC)
-+     list(APPEND WebKit_PRIVATE_LIBRARIES atomic)
-+ endif ()
-+ 
-+--- a/Source/cmake/WebKitCompilerFlags.cmake
-++++ b/Source/cmake/WebKitCompilerFlags.cmake
-+@@ -280,12 +280,17 @@ endif ()
-+ if (COMPILER_IS_GCC_OR_CLANG)
-+     set(ATOMIC_TEST_SOURCE "
-+         #include <atomic>
-+-        int main() { std::atomic<int64_t> i(0); i++; return 0; }
-++        int main() {
-++          std::atomic<int64_t> i(0);
-++          std::atomic<int8_t> j(0);
-++          i++; j++;
-++          return 0;
-++        }
-+     ")
-+-    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_IS_BUILTIN)
-+-    if (NOT ATOMIC_INT64_IS_BUILTIN)
-++    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_ARE_BUILTIN)
-++    if (NOT ATOMICS_ARE_BUILTIN)
-+         set(CMAKE_REQUIRED_LIBRARIES atomic)
-+-        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_REQUIRES_LIBATOMIC)
-++        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_REQUIRE_LIBATOMIC)
-+         unset(CMAKE_REQUIRED_LIBRARIES)
-+     endif ()
-+ endif ()
-+--- a/Source/WTF/wtf/CMakeLists.txt
-++++ b/Source/WTF/wtf/CMakeLists.txt
-+@@ -529,6 +529,10 @@ list(APPEND WTF_LIBRARIES
-+     ICU::uc
-+ )
-+ 
-++if (ATOMICS_REQUIRE_LIBATOMIC)
-++    list(APPEND WTF_LIBRARIES atomic)
-++endif ()
-++
-+ set(WTF_INTERFACE_LIBRARIES WTF)
-+ set(WTF_INTERFACE_INCLUDE_DIRECTORIES ${WTF_FRAMEWORK_HEADERS_DIR})
-+ set(WTF_INTERFACE_DEPENDENCIES WTF_CopyHeaders)
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-index a1dd76ce81..d0a41f48c7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
-@@ -19,7 +19,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://include_array.patch \
-            file://include_xutil.patch \
-            file://reduce-memory-overheads.patch \
-+           file://0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch \
-            "
-+
- SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
++def split_spdx_lic(licensestr,d):
++    """
++    Split the license strings and returns a set of the
++    canonicalised licenses.
++    """
++    split_lic = list_licenses(licensestr)
++    spdx_lic = set([canonical_license(l, d) for l in split_lic])
++    return spdx_lic
+\ No newline at end of file
 -- 
-2.30.1
+2.25.1
 
