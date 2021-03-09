@@ -1,119 +1,110 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web08.1357.1615332852384296269
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.1420.1615333403016966208
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 15:34:12 -0800
+ Tue, 09 Mar 2021 15:43:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kSNBJ/Iw;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id r3so22053109lfc.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:34:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YVRzCmxZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id l22so4440774wme.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 15:43:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LFci3hwrGaBlX+iZvItTinBSQe5L1By6d6SMQcAv18c=;
-        b=kSNBJ/Iwm5ydTedomAETakCMCGmbmdoCP93Z6ly7Fny43fkJlRXVnO7bYkdN+RNGIQ
-         fpUKp7ONCJYQNeZXDMWxIHdMQuftPbP+NjRFPsiqGCOq5CpsVDVPE5uV+MD2AEN3lgvb
-         XxqmNdtrKwIqmTCDzEv946D8U3iuTofye8IJdn+a2j32IFVaKWqBL6MpPXL4Qlmp3E9g
-         /AywI4mCughdopr6AALgozdS8p8Erra6/SMAxoN/qZSLBHykOescgDhCe3MnzQSZ6ecm
-         cXzUIuU8PTDr2LnvOIh07gkdbZhSzootim8AOkFO8gy4ablCVD5VDAIXrerlMGWAfmGH
-         8VSA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=iaxZ29dEZQHpd8wHTLb7/GTrCNvwqKw60YCAsBzidOk=;
+        b=YVRzCmxZOXhRkuL++GYZYhfm5o7dCH4nLgnK3Yeg5/GCOcC0N43o8EAp6GzKZ+J9Ov
+         r65qJJRxLbvRmvMeMveBIZeS5Dh9mOfx/0V+xdTung6dU5d38KyK4EgpH7x0E0DAbJif
+         0PBr8rq0Y8hajmfIW3rgetOpUigWp4RDdH4Yg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LFci3hwrGaBlX+iZvItTinBSQe5L1By6d6SMQcAv18c=;
-        b=NNL7wGLIfoXt0ZWDVOBZPv5yS73Dc+T6nGvLkDIAkJPPeOCj1mPwN6Sk4mla+hszaU
-         nSYmsyT0zyyFe51uuecKiohK1NMerjS8f5Rl/SPkMDnXosQht1BiNBV7zKvPO0NlI+di
-         3zUBt68Z3DCTx0lioZyDK0z83GjQ5jfG7mYBGj3LFkCKC7tJcHL22Ex6sA/M4HZgsXAc
-         yKATRFp5zunJvR7b3KlueZTs8YWySR089x39pFSJ1ZJ0wJ7moMKRXG3561xR3yh3kB7f
-         7gnHuhYZ/dhTMh7vpc92Xl0KtkUiPb03IQ+2lFUesvy1MhV2nkg/GO7poCofmuPbLxpD
-         1sWA==
-X-Gm-Message-State: AOAM533NuBEWvio1G9WOoLpssv0uSuL1NXwIWU0kCI5l9phxKbVg+twV
-	0EiAVEP0g4XI6edbSkT/eT9ai9l02CHNv4HISCk=
-X-Google-Smtp-Source: ABdhPJzd3lmAipDpEWQeGzUb0TpMTteMJgONyy3rB1+o6LxJ3P1nSMSuZ3YgKDCe1VixfsBnxBMc9YFqgyGRPeGgvI4=
-X-Received: by 2002:a05:6512:3081:: with SMTP id z1mr261960lfd.257.1615332850669;
- Tue, 09 Mar 2021 15:34:10 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=iaxZ29dEZQHpd8wHTLb7/GTrCNvwqKw60YCAsBzidOk=;
+        b=QqutQl0I11agdXDtCmXB4ATlfqvVYbc4cVXb28sGkWU0eCKnK/vgO0EDyubkDsyy9K
+         fGG3+R0Q1oOcmTTlWeT+vmhqa6H2Yncj3U9yNxIOc+BvxifIh0D9XryygeKJret4aO3L
+         bLHlpitXpC04WlOQ8nAzkjVPSlrVqdsLA3adli1eWjnaPfgF2i1BaiKsPymlkSbJubpX
+         vzHerFmxanPWBtlnSdZwjjUy3tVAJSAHR4p+FUU6jr/OiskCuYkjNnx0RGfCpevA/CBh
+         S8vZ+8Bx9VLoiQXwN9Ew4KMkYw1ouRnLS3YRHiavhZHCfJB/pcwt+hZF3l9edTnvm2zN
+         hMHQ==
+X-Gm-Message-State: AOAM533/HLmL2bPlZFfKcSguF2Y1Gglm2DCZOPctObLbMLODDRUv9tyZ
+	xurmJ3rXKch9beTU2lX/j9iRuw==
+X-Google-Smtp-Source: ABdhPJy6iEHLYaa+/tx6oL4NHdsvwsqaaZCRX9ALZZt002bPgSmrXbjI/lxESieheIBGXVi0+YpQpg==
+X-Received: by 2002:a1c:3c02:: with SMTP id j2mr342251wma.92.1615333401332;
+        Tue, 09 Mar 2021 15:43:21 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:723d:6f27:5f9:3d7b? ([2001:8b0:aba:5f3c:723d:6f27:5f9:3d7b])
+        by smtp.gmail.com with ESMTPSA id u15sm5606161wmq.4.2021.03.09.15.43.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Mar 2021 15:43:20 -0800 (PST)
+Message-ID: <681b7ba8baca230a2b95f5c1fc40e1b5108e9a70.camel@linuxfoundation.org>
+Subject: Re: [PATCH v9] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
+Cc: bluelightning@bluelightning.org, Kory Maincent
+ <kory.maincent@bootlin.com>
+Date: Tue, 09 Mar 2021 23:43:19 +0000
+In-Reply-To: <20210309135606.508593-1-luca.boccassi@gmail.com>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 <20210309135606.508593-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210308193028.34418-1-raj.khem@gmail.com> <CAJ86T=WW59ZDOpvgEQXRCqwnJKCKpmVsUeFVPk8kUC5m8zCz=g@mail.gmail.com>
- <2a597a00-fbc0-470e-0f43-1d710c74aeaa@gmail.com> <CAJ86T=UbEJ730gFbj=WtrGUO2=6+bbgHpuxcuSChV6uGxve3-Q@mail.gmail.com>
- <71abca0e-fcf6-ecc3-ed79-d2269364884b@gmail.com> <1398197321.1706949.1615303386483@mail.yahoo.com>
-In-Reply-To: <1398197321.1706949.1615303386483@mail.yahoo.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Tue, 9 Mar 2021 15:33:59 -0800
-Message-ID: <CAJ86T=V-MRtK81ZXRG=Ry0YKt3MgBZu9C4TpCghbc5--Ng3McQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] resolvconf: add missing dependencies to RDEPENDS
-To: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 9, 2021 at 7:23 AM Frans Meulenbroeks
-<fransmeulenbroeks@yahoo.com> wrote:
->
-> Freaking yahoo email seems to have no option any more to quote decently.
-> Guess it is time for a new email provider :-)
-> Anyway my response below prefixed with FM:
->
-> Op dinsdag 9 maart 2021 00:26:05 CET schreef Khem Raj <raj.khem@gmail.com>:
-> On 3/8/21 2:25 PM, Andre McCurdy wrote:
-> > On Mon, Mar 8, 2021 at 2:15 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> On 3/8/21 2:11 PM, Andre McCurdy wrote:
-> >>> On Mon, Mar 8, 2021 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >>>>
-> >>>> From: Frans Meulenbroeks <fransmeulenbroeks@yahoo.com>
-> >>>>
-> >>>> resolvconf uses flock and readlink.
-> >>>> So explicitly added dependencies on util-linux (for flock) and coreutils
-> >>>> (for readlink).
-> >>>> Note that the options used with flock and readlink are not part of the
-> >>>> busybox implementations so full-fledged implementations are needed.
-> >>>>
-> >>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >>>> ---
-> >>>>    meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb | 2 +-
-> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> >>>> index 6df96b699c..6da8cd6023 100644
-> >>>> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> >>>> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.87.bb
-> >>>> @@ -9,7 +9,7 @@ LICENSE = "GPLv2+"
-> >>>>    LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
-> >>>>    AUTHOR = "Thomas Hood"
-> >>>>    HOMEPAGE = "http://packages.debian.org/resolvconf"
-> >>>> -RDEPENDS_${PN} = "bash"
-> >>>> +RDEPENDS_${PN} = "bash coreutils util-linux"
-> >>>
-> >>> util-linux-flock has its own package.
-> >>
-> >> yeah and busybox also provides flock too. Lets drop it
-> >
-> > Busybox provides flock, but it doesn't support the -w option (wait
-> > with timeout). Either the util-linux flock is required or resolvconf
-> > needs to be patched to drop the -w option.
->
-> right, its to explore possibilities to avoid the deps.
->
-> FM: While I am all in favor of avoiding these dependencies, I'm not versed enough in the resolvconf code to judge the impact of dropping -w, so my preference would be to depend on util-linux-flock.
+On Tue, 2021-03-09 at 13:56 +0000, luca.boccassi@gmail.com wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> Recently util-linux gained an (optional) build dependency on libcryptsetup.
+> But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
+> and uuid (mandatory).
+> Split out util-linux-uuid in a different recipe to break the cycle.
+> 
+> https://github.com/karelzak/util-linux/pull/898
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+>     underway as I'm not sure if this is the best approach or if there are
+>     alternatives. Suggestions and comments very welcome. Thanks!
+> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+>     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+>     as it does not have its own autoconf switch. Delete the library manualy from
+>     the main recipe after build instead, and add dependency.
+>     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+>     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+> v3: rebased and refactored to have a common util-linux.inc file
+> v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
+> v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
+>     Removed PACKAGES_remove and instead filter out libuuid via the package generation
+>     regex.
+>     Rebased on util-linux 2.36.2.
+> v6: install libuuid.a in libuuid-dev
+>     change rdepends on uuid to use binary package rather than source
+>     add rdepends on uuid-dev to libuuid-dev
+>     remove rprovides of libuuid-dev from uuid-dev
+> v7: do not use '_append' for RDEPENDS, as it is not supported by BBCLASSEXTEND, use
+>     simply '+='
+> v8: added missing libuuid-staticdev package
+>     remove libx32/libuuid* too
+> v9: set RECIPE_MAINTAINER_pn-util-linux-uuid, same value as RECIPE_MAINTAINER_pn-util-linux
 
-Agreed. Adding a runtime dependency on util-linux-flock is the safest fix.
+Sorry, there are still issues:
 
-> >>> Patching resolvconf to use readlink -f (instead of readlink -m) should
-> >>> be sufficient to allow it to work with busybox readlink.
->
-> FM: this will most likely work. I can make a patch for that, no problem.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/3207
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1608
+https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/3159
 
-For reference, there's a patch which does that here:
+:(
 
-  https://github.com/lgirdk/meta-mng/blob/ofw/recipes-misc/resolvconf/resolvconf/0001-try-to-support-busybox-readlink.patch
+I really want to get this into the release but we're past feature freeze and
+running out of opportunity as each broken test run is delaying other patches.
 
-> >>>>    SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
-> >>>>              file://fix-path-for-busybox.patch \
-> >>>> --
-> >>>> 2.30.1
->
-> On a general note: in the current form the package is broken, so some fix is desirable.
+I'm a little unclear if debian renaming was allowed before the split and if
+so, why it is disabled in the split version. I suspect there is a missing
+MLPREFIX somewhere causing the multilib issue too.
 
-Agreed.
+Cheers,
+
+Richard
+
+
