@@ -1,73 +1,273 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.7295.1615289805568253057
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.web08.7539.1615291287863514736
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Mar 2021 03:36:45 -0800
+ Tue, 09 Mar 2021 04:01:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QmZ8FvJX;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so5725867wml.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 03:36:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UT43XVyq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f42.google.com with SMTP id o20so4423180uaj.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Mar 2021 04:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cWWX15FFYK6ScWWIyKTfqKYCn1iq+2LJlAShAf820yc=;
-        b=QmZ8FvJXq0yg8AELZixCWMlw7/u0zvD+fxfsQgkWT3aqhDR4HTowAXYrU2VLIiW5jC
-         qMWueDhUk7LoogngWImVEmCst1stpTH4cEJOSQp6n/T5un+C2Ji+WnL0F9Spf2iEr4iT
-         bRtaJVMfEx6kJuC7d5FcqneafYW2W39yIlRU9mXf0BYZLDEUPVj2B2pXfYyo/wsjiSMD
-         QWcpGCE8UKlaHsLC+PvVPDTR3BFcSoA2s5zKJMLIHhFGvluoePNO0uiLCwZk5jTA/r4D
-         eoLnGYe3BbiDrvZ9yRaHKlDYliVv94az0iJlFEYTOHV7mfWrfPCo/DHt6P3K8u5ccdsk
-         vYdA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qSKIywtOcE4T89ZnJXOPpp7zwYMJvzKp6hyhws8Vqm4=;
+        b=UT43XVyqeH4dIqnzbK58QZLZ/jYIXKwE6sdlzzAGcb9wSXPFf183ULpXi+bDVThfvV
+         C7tA0+uE0TrYoPo1Plc+9PqUmiCNrsbEfmgBaCCTfkRE8Rn1OpBScNglykT5j53cEwMM
+         O0jLT0eHukYgGwXyKqFAeqrUqTJWf4zt+PKogMSvo1oJ88AD74k/ZZkkRB2kqWfv2YiN
+         WoVuJ8qaTQP990neIL7ZRm5nN5jRNNu+z62iRQ83yAZsXr8ns2Iss9IFXF59h/KMBH4c
+         KHCM3yFlFz/koxCKwIL/ibV6/++LSfIMBHnYTu60sn1LzomxExKeud+RCcgcNBWfwbOC
+         wA2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=cWWX15FFYK6ScWWIyKTfqKYCn1iq+2LJlAShAf820yc=;
-        b=mRhbAnNGvUOom3kDOQ7niKNtR4GFkyWwrwiANZ5mYOSXrJ10mjG+1WCFdPDXnS2S/u
-         NOs5AZ4N4UnoyVvbXJwydF5u1yg94O5H9wcODGsISir3NvE9E3htiMszkzqJ/Of/bz+3
-         QWtvx+UVLLtSfcD5AW9scv+zmqk4viuVFRrFcpbiinb4cDVgu+MnoEh0sxWrsA/4kSIZ
-         +8AG1B5QzU9sqMZNR1o3LGqNhUowTxaPGZzOzkWtPA1bVNWxzyokUHaxgLO38lK8y9OR
-         SjgD8gjmxRnz48r96HTNvw+yO6yjIm4qqcJYwq3UPtgFaPufj4cHA4DN6W8r5qbJ9Nul
-         x/Hw==
-X-Gm-Message-State: AOAM5334hZPW3FUVA3dct03/1MNwJ3V9cZLD8KW76omZ/7T4tzBCU8KR
-	7o1MF2XuGhEAkBoOzPBhdk5KwKKpjECakA==
-X-Google-Smtp-Source: ABdhPJxoWBuz2RUFIhikrvOwe93qTazu8pzVyrHgistlEgGWHFVBHlspjWlfbgMPbOAQe9cJMT3F6Q==
-X-Received: by 2002:a1c:b687:: with SMTP id g129mr3576551wmf.165.1615289803978;
-        Tue, 09 Mar 2021 03:36:43 -0800 (PST)
-Return-Path: <dorindabassey@gmail.com>
-Received: from smtp.gmail.com. ([105.112.33.166])
-        by smtp.gmail.com with ESMTPSA id x11sm3804289wme.9.2021.03.09.03.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 03:36:43 -0800 (PST)
-From: "Dorinda" <dorindabassey@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH 5/5] meta/recipes-graphics: Add HOMEPAGE / DESCRIPTION
-Date: Tue,  9 Mar 2021 12:35:51 +0100
-Message-Id: <20210309113551.13691-5-dorindabassey@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210309113551.13691-1-dorindabassey@gmail.com>
-References: <20210309113551.13691-1-dorindabassey@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qSKIywtOcE4T89ZnJXOPpp7zwYMJvzKp6hyhws8Vqm4=;
+        b=UPTqKtuK/lHekIni0swz+wWSx6rD0MPkhGBu3FyL6HRbrXdDRKjYeAlE5TmJJqWb5S
+         anCNpjDAEzbRdYKdIkz4T28e9/A3MShc7rHT1PhTslgmfgW+/OjNvQyHHiTegGNkHCfJ
+         UaGDzokYhfymA51CgSeFuWa+HuZhwruyopiSAjoIesTupaKb5DTfOzBwfKtTojYa3W3D
+         BMBwhuGj67LGhUk87y1fi4b9qCwdizAKUMxOSOzkUVy/Y4nxbv6vNsx/vLJKs/xb5dvx
+         LqoAsb2/ro5UV2skAdCsHjQHZyZUoEAH378WljkRnLI1S3cFmUUoDGPEcJFqDucLuxUj
+         vSmw==
+X-Gm-Message-State: AOAM530ZLaP8swjlpQe1tCUE6qO+YIm2FvqqP/tofOFVt7mDLp6eYsrk
+	n/23dBKmKIKY2OT/OPTWjD8q0Jx7xDqNMDgIo8c=
+X-Google-Smtp-Source: ABdhPJwpKk9FLWr+GYbNV4cv4+vxsw800R6Za9Mn1sHxg+++RgRGK9woawFz5R/VsK0jqinzm7w2FyPJD/0fMthOlN8=
+X-Received: by 2002:ab0:6045:: with SMTP id o5mr16019000ual.100.1615291286785;
+ Tue, 09 Mar 2021 04:01:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20210308235953.2230531-1-raj.khem@gmail.com> <CANNYZj-bjpj0VFu-Db-x917m07nQLaVKNuvs-=UaLd=H-=h=VQ@mail.gmail.com>
+ <CAMKF1sp7iP4sT4HWWeBhEPnanaEy4cEdoPP90sGYPe22dCFu=Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sp7iP4sT4HWWeBhEPnanaEy4cEdoPP90sGYPe22dCFu=Q@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 9 Mar 2021 13:01:15 +0100
+Message-ID: <CANNYZj-0eTz84WfXGQP-f9uf6V4_AeAT8QiNXJziLeCm1uv3Zw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] webkitgtk: Use linker options to reduce memory overhead during linking
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005b92f605bd194f53"
 
-Added missing HOMEPAGE and DESCRIPTION found using the test command
-`oe-selftest -r distrodata.Distrodata.test_missing_homepg`
+--0000000000005b92f605bd194f53
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #13471]
+Thanks Khem, this makes sense.
 
-Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
----
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 1 +
- 1 file changed, 1 insertion(+)
+Alex
 
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 50c79b3bf0..5226e84266 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "The Bitstream Vera fonts - TTF Edition"
-+HOMEPAGE = "https://www.gnome.org/fonts/"
- DESCRIPTION = "The Bitstream Vera fonts include four monospace and sans \
- faces (normal, oblique, bold, bold oblique) and two serif faces (normal \
- and bold).  In addition Fontconfig/Xft2 can artificially oblique the \
--- 
-2.17.1
+On Tue, 9 Mar 2021 at 05:05, Khem Raj <raj.khem@gmail.com> wrote:
 
+> On Mon, Mar 8, 2021 at 7:50 PM Alexander Kanavin <alex.kanavin@gmail.com=
+>
+> wrote:
+> >
+> > Can you please explain the context for this? Why would we want to
+> support building webkit on such constrained machines? 8g of ram means th=
+ey
+> can=E2=80=99t run more than 4-6 gcc processes, so webkit builds will be =
+unbearably
+> slow anyway.
+> >
+>
+> this helps to avoid unwanted build breaks since gcc crashes when
+> memory pressure is too high,
+> when doing parallel builds this can happen very often since there are
+> other tasks running in parallel, so these situations can arise often
+> we have seen this happen on machines with 16GB RAM
+> therefore saving some of the memory during linking helps reduce these
+> breakages. they can still happen if say machine was doing more than 1
+> builds in parallel but at least tools have done what they could.
+>
+> > Alex
+> >
+> > On Tue 9. Mar 2021 at 1.00, Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> Helps builds on machines with less RAM ( 8G )
+> >>
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >>  .../webkitgtk/reduce-memory-overheads.patch   | 22 +++++++++++++++++=
+++
+> >>  meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  1 +
+> >>  2 files changed, 23 insertions(+)
+> >>  create mode 100644
+> meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> >>
+> >> diff --git
+> a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+> >> new file mode 100644
+> >> index 0000000000..0493150a91
+> >> --- /dev/null
+> >> +++ b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patc=
+h
+> >> @@ -0,0 +1,22 @@
+> >> +From: Alberto Garcia <berto@igalia.com>
+> >> +Subject: Reduce memory usage when not using the Gold linker
+> >> +Bug-Debian: https://bugs.debian.org/949621
+> >> +Forwarded: no
+> >> +
+> >> +Upstream-Status: Pending
+> >> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> +--- a/Source/cmake/OptionsCommon.cmake
+> >> ++++ b/Source/cmake/OptionsCommon.cmake
+> >> +@@ -95,6 +95,12 @@ option(GCC_OFFLINEASM_SOURCE_MAP
+> >> +   "Produce debug line information for offlineasm-generated code"
+> >> +   ${GCC_OFFLINEASM_SOURCE_MAP_DEFAULT})
+> >> +
+> >> ++# Pass --reduce-memory-overheads to the bfd linker in order to save
+> memory
+> >> ++if (NOT USE_LD_GOLD)
+> >> ++    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}
+> -Wl,--reduce-memory-overheads")
+> >> ++    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}
+> -Wl,--reduce-memory-overheads")
+> >> ++endif ()
+> >> ++
+> >> + # Enable the usage of OpenMP.
+> >> + #  - At this moment, OpenMP is only used as an alternative
+> implementation
+> >> + #    to native threads for the parallelization of the SVG filters.
+> >> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> >> index 2928b8e55b..a1dd76ce81 100644
+> >> --- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> >> +++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+> >> @@ -18,6 +18,7 @@ SRC_URI =3D "
+> https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+> >>             file://0001-Fix-build-with-musl.patch \
+> >>             file://include_array.patch \
+> >>             file://include_xutil.patch \
+> >> +           file://reduce-memory-overheads.patch \
+> >>             "
+> >>  SRC_URI[sha256sum] =3D
+> "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
+> >>
+> >> --
+> >> 2.30.1
+> >>
+> >>
+> >>=20
+> >>
+>
+
+--0000000000005b92f605bd194f53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks Khem, this makes sense.</div><div><br></div><d=
+iv>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Tue, 9 Mar 2021 at 05:05, Khem Raj &lt;<a href=3D"mailt=
+o:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Mon, Mar 8, 2021 at 7:50 PM Alex=
+ander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blan=
+k">alex.kanavin@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Can you please explain the context for this? Why would we want to sup=
+port building webkit on such constrained machines? 8g of ram means they can=
+=
+=E2=80=99t run more than 4-6 gcc processes, so webkit builds will be unbea=
+rably slow anyway.<br>
+&gt;<br>
+<br>
+this helps to avoid unwanted build breaks since gcc crashes when<br>
+memory pressure is too high,<br>
+when doing parallel builds this can happen very often since there are<br>
+other tasks running in parallel, so these situations can arise often<br>
+we have seen this happen on machines with 16GB RAM<br>
+therefore saving some of the memory during linking helps reduce these<br>
+breakages. they can still happen if say machine was doing more than 1<br>
+builds in parallel but at least tools have done what they could.<br>
+<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; On Tue 9. Mar 2021 at 1.00, Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
+mail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Helps builds on machines with less RAM ( 8G )<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
+ target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 .../webkitgtk/reduce-memory-overheads.patch=C2=A0 =C2=A0| 2=
+2 +++++++++++++++++++<br>
+&gt;&gt;=C2=A0 meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a>=C2=A0 |=
+=C2=A0 1 +<br>
+&gt;&gt;=C2=A0 2 files changed, 23 insertions(+)<br>
+&gt;&gt;=C2=A0 create mode 100644 meta/recipes-sato/webkit/webkitgtk/reduc=
+e-memory-overheads.patch<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-ove=
+rheads.patch b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.p=
+atch<br>
+&gt;&gt; new file mode 100644<br>
+&gt;&gt; index 0000000000..0493150a91<br>
+&gt;&gt; --- /dev/null<br>
+&gt;&gt; +++ b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.=
+patch<br>
+&gt;&gt; @@ -0,0 +1,22 @@<br>
+&gt;&gt; +From: Alberto Garcia &lt;<a href=3D"mailto:berto@igalia.com" tar=
+get=3D"_blank">berto@igalia.com</a>&gt;<br>
+&gt;&gt; +Subject: Reduce memory usage when not using the Gold linker<br>
+&gt;&gt; +Bug-Debian: <a href=3D"https://bugs.debian.org/949621" rel=3D"no=
+referrer" target=3D"_blank">https://bugs.debian.org/949621</a><br>
+&gt;&gt; +Forwarded: no<br>
+&gt;&gt; +<br>
+&gt;&gt; +Upstream-Status: Pending<br>
+&gt;&gt; +Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com=
+" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt;&gt; +--- a/Source/cmake/OptionsCommon.cmake<br>
+&gt;&gt; ++++ b/Source/cmake/OptionsCommon.cmake<br>
+&gt;&gt; +@@ -95,6 +95,12 @@ option(GCC_OFFLINEASM_SOURCE_MAP<br>
+&gt;&gt; +=C2=A0 =C2=A0&quot;Produce debug line information for offlineasm=
+-generated code&quot;<br>
+&gt;&gt; +=C2=A0 =C2=A0${GCC_OFFLINEASM_SOURCE_MAP_DEFAULT})<br>
+&gt;&gt; +<br>
+&gt;&gt; ++# Pass --reduce-memory-overheads to the bfd linker in order to =
+save memory<br>
+&gt;&gt; ++if (NOT USE_LD_GOLD)<br>
+&gt;&gt; ++=C2=A0 =C2=A0 set(CMAKE_EXE_LINKER_FLAGS &quot;${CMAKE_EXE_LINK=
+ER_FLAGS} -Wl,--reduce-memory-overheads&quot;)<br>
+&gt;&gt; ++=C2=A0 =C2=A0 set(CMAKE_SHARED_LINKER_FLAGS &quot;${CMAKE_EXE_L=
+INKER_FLAGS} -Wl,--reduce-memory-overheads&quot;)<br>
+&gt;&gt; ++endif ()<br>
+&gt;&gt; ++<br>
+&gt;&gt; + # Enable the usage of OpenMP.<br>
+&gt;&gt; + #=C2=A0 - At this moment, OpenMP is only used as an alternative=
+ implementation<br>
+&gt;&gt; + #=C2=A0 =C2=A0 to native threads for the parallelization of the=
+ SVG filters.<br>
+&gt;&gt; diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk=
+_2.30.5.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a> b/=
+meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5.bb" rel=3D"nore=
+ferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a><br>
+&gt;&gt; index 2928b8e55b..a1dd76ce81 100644<br>
+&gt;&gt; --- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a><br>
+&gt;&gt; +++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.30.5.bb</a><br>
+&gt;&gt; @@ -18,6 +18,7 @@ SRC_URI =3D &quot;<a href=3D"https://www.webkit=
+gtk.org/releases/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"=
+_blank">https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz</a> \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-bu=
+ild-with-musl.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://include_arr=
+ay.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://include_xut=
+il.patch \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://reduce-memory-ov=
+erheads.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;7d0dab08e3c5ae07bec80b2822ef42=
+e952765d5724cac86eb23999bfed5a7f1f&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.30.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; <br>
+&gt;&gt;<br>
+</blockquote></div>
+
+--0000000000005b92f605bd194f53--
