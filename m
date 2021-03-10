@@ -1,74 +1,103 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web08.7787.1615378323995663958
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.8253.1615380865468252241
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 04:12:04 -0800
+ Wed, 10 Mar 2021 04:54:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f42my+tg;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id z65so8580107vsz.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 04:12:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=u9mV+GMf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id x9so27831623edd.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 04:54:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S66+1cdFTJrLLSAYK5B3l0zAc73T44tfexhaHBWbV9Q=;
-        b=f42my+tgGHCVIiP96/i+nkNjFgVbS7Ti4X9wrjzM74z+E50gFCpKHSTBKrAZ4S/45x
-         BYtogiOEBQKyCNHJG9TPvy9pmBpgGZJNH0lJu1hmjmrq0zO4RF5gBPDKDCueybpZvI94
-         ZevSPLIOacvSXugpdztCsyar3N1snuvE2t9owqobIhmC0McBsXKHpeV8dyL+7aFuhl57
-         NEFeCuLHhoqxmBbfpkMDg2HNN9f0nUHY+eDxG3eCWUv8NhuvEfwnB/VUYZC+90JOwjg5
-         zcFfvDkgyERW9jIcjUcPRijscmuAefbcmp/zLIkwejFEeTAM7iwkhnR+cGKt44djBIik
-         hkLA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=51KBRidCgGEzV+YuGLsgWf9Rz4+Sh0D7zyhbDJ4VUmc=;
+        b=u9mV+GMfCQCU9Bqd/Cx4Qe8BYzFP7FkS4O+skcQge1Ysa1KDrAtUukEbQsmT4jVG2b
+         5ds3t/gIoxLUzGqP/Jse9Bs4ivd7jBhiPnaq+srsNwww02piTqRzpCwSwQbUQSriW/b/
+         f4ES8y6ozxsOEUr+K21sfTzViBfbSnpVPzqshF8czqjp5VAafRzKIGuHGZBhiFlvE4PV
+         PMYixkii8DWG4+VnU5SEuwb5BTHO0VniICmJvJu919xcld2Pjqx17NPq00PTENqsyACY
+         7N8cxyGnZHPtriWczrbxeoN3kvxAR4bTAShPEWuuszQ6njrDnEl7pqfWh9GlJ5fNGNh7
+         xq6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S66+1cdFTJrLLSAYK5B3l0zAc73T44tfexhaHBWbV9Q=;
-        b=OMJInqwApZXnfFES62xebo7MYXq5JyFk5tYmR/Ueh4+F09yfL3vawc3mpzxzLUY6vb
-         jUjWbbeDFYGdcg1w1tEVAMoFEXtDS162ZYdyo5HCXt5zqrXZ8CQVHLFX/CzHhT9HFlP0
-         V24bnh2gJH9XOLD3wDAlxeHOuuQ+5KZkznVvgbaWj1h43mQ5kVTlNv5xcw+qu3dwfNxI
-         cgSp15mko2e8XL5/fLjhBi8kEdhs5G53EGdbIpydgQ1O0GDbnJ2eabYvmmmkF+e9Hf6S
-         rpojlz6WKnZ5hafMDY+N8EpeRXuH1uVqcdYOlsbt4MGLYfjOIcxonLBXAqD/Cfy75y8P
-         dwdw==
-X-Gm-Message-State: AOAM533LhfLpU3nzVLZEk++Lgam8Q3Nrz2JAqCaKb3quiD9k0YS/RNP5
-	4ihM6ahePxHFVNcR8f6wD6wlVE2H1ycCc4t1II0=
-X-Google-Smtp-Source: ABdhPJyWSgGApsJ6S+Nglp02cCOwq/z2rwCjDPwnJTdhhiFyk7DwxQgZlHVv2/fZrtnYx1qXl7EGmnTIuTyjQuMG6Go=
-X-Received: by 2002:a05:6102:74a:: with SMTP id v10mr1243443vsg.20.1615378323085;
- Wed, 10 Mar 2021 04:12:03 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=51KBRidCgGEzV+YuGLsgWf9Rz4+Sh0D7zyhbDJ4VUmc=;
+        b=JRu0/rwi9HalcNeElGD7Ov4KYgZCcj449ikM2fmqYzVcfLERTda8FYLDGDDr3oOeh5
+         2c64r+KaoszuSq4JNhxLIhd4VjryLlKOtI/kM+cKxikJJItIdD4FpZy9fE+XFFukx8rX
+         qMYZODqDe0bQiekgeqHwrflseWYcZa8D27Z83vwHx2biqtK95SnItg+Ig/O8ZstgPfPt
+         1PuoBJK1Nwwlnz/SaCzVXyiOxKM5iF7oL2AYpyfAJamd+PHsifKqGQwTC3VE9vOX8I1d
+         GvC8PT0gptoJnB9wcggWvMkwEPMY59MhaSzM4eKsqQG10TdFeXXxJ8xHqIKG90XzQkoT
+         qYMg==
+X-Gm-Message-State: AOAM530QV1BJxC8yJLYEHyo3k3rFNx1ARojcPxCh7Rv/hVu/2Vo0r0Mt
+	l3xf3PFjWvJ/73rk/Tvzhb6rIdEN1iQ=
+X-Google-Smtp-Source: ABdhPJwGoYFbKlficjH07tvNBeUUXWV825eWndIjWXk1ZudJg5F9oKareuS1ejuy8eNUsYQhXdjQzg==
+X-Received: by 2002:a05:6402:104c:: with SMTP id e12mr3010052edu.108.1615380863956;
+        Wed, 10 Mar 2021 04:54:23 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id h10sm11102139edk.17.2021.03.10.04.54.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 04:54:23 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: anibal.limon@linaro.org,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [gatesgarth][PATCH] xcb-proto: update to 1.14.1
+Date: Wed, 10 Mar 2021 13:54:20 +0100
+Message-Id: <20210310125420.4001190-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-References: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com> <1615376771-3093-5-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1615376771-3093-5-git-send-email-wangmy@cn.fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 10 Mar 2021 13:11:51 +0100
-Message-ID: <CANNYZj_0W87FVS+yg2amwUJoSMkHBDNQbvVP6C4s79hbBEeB_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] jquery: upgrade 3.5.1 -> 3.6.0
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000201ecc05bd2d9324"
+Content-Transfer-Encoding: 8bit
 
---000000000000201ecc05bd2d9324
-Content-Type: text/plain; charset="UTF-8"
+From: Richard Leitner <richard.leitner@skidata.com>
 
-On Wed, 10 Mar 2021 at 12:47, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
+This fixes [1] the following build error for nativesdk on Fedora 33
+which is caused by the removal of fractions.gcd() in favor of math.gcd()
+in python 3.9 [2]:
 
-> License file updated
->
+ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
 
-There has to be an explanation of what exactly was updated. The checksum is
-in place to ensure we don't miss license terms changes.
+Furthermore the SRC_URI is adapted as the old one doesn't provide the
+1.14.1 archive.
 
-Alex
+[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
+[2] https://bugs.python.org/issue39350
 
---000000000000201ecc05bd2d9324
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It's needed in gatesgarth and possibly dunfell as well to support
+distributions with python-3.9 as we build libxcb-native, which is
+failing with xcb-proto-1.14.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 10 Mar 2021 at 12:47, Wang Mingyu &lt;<a href=3D"mailto:wang=
-my@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">License file updated<br></blockquot=
-e><div><br></div><div>There has to be an explanation of what exactly was up=
-dated. The checksum is in place to ensure we don&#39;t miss license terms c=
-hanges.</div><div><br></div><div>Alex<br></div></div></div>
+1.14.1 is a bug fix release:
+https://lists.x.org/archives/xorg-announce/2020-October/003061.html
 
---000000000000201ecc05bd2d9324--
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
+
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+similarity index 84%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+index 6de30098d6..52e474a2e9 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+@@ -11,8 +11,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+ 
+-SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f36f1ecc79834416a605"
++SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz"
++SRC_URI[sha256sum] = "f04add9a972ac334ea11d9d7eb4fc7f8883835da3e4859c9afa971efdf57fcc3"
+ 
+ inherit autotools pkgconfig python3native
+ 
+-- 
+2.30.1
+
