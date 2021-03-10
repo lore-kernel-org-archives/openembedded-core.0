@@ -1,50 +1,50 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web12.7523.1615376830938051853
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
+ by mx.groups.io with SMTP id smtpd.web12.7524.1615376831624833368
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 03:47:11 -0800
+ Wed, 10 Mar 2021 03:47:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
-Received: from [100.112.192.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 4D/F7-53635-CB1B8406; Wed, 10 Mar 2021 11:47:08 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRqrtno0e
-  CwbfdqhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bGw8dZCq5xVDy9eoS9gfEdexcjF4eQwAwm
-  iUMPJ7JCOMcZJVpeLmXpYuTkYBPQlOjdsoWxi5GDQ0RAT+LqP1GQMLOAusSldS1gJcICNhJ31
-  y1hArFZBFQlNs64BmbzCrhIXG57xg5iSwgoSEx5+J4ZxOYUcJXou38FzBYCqnm7ZQUjRL2gxM
-  mZT1gg5ktIHHzxghmiV1Fi9uVmFgi7UmLP5oesExj5ZyFpmYWkZQEj0ypGi6SizPSMktzEzBx
-  dQwMDXUNDI11DSyA2MtNLrNJN1Est1S1PLS7RNdRLLC/WK67MTc5J0ctLLdnECAzHlIIDdTsY
-  H7z+oHeIUZKDSUmUt6/AI0GILyk/pTIjsTgjvqg0J7X4EKMMB4eSBG/gEqCcYFFqempFWmYOM
-  DZg0hIcPEoivH0bgNK8xQWJucWZ6RCpU4yKUuK869YDJQRAEhmleXBtsHi8xCgrJczLyMDAIM
-  RTkFqUm1mCKv+KUZyDUUmYVwQY3UI8mXklcNNfAS1mAlqsYOAGsrgkESEl1cAkkaddIz1ndlj
-  67JopHx1EWjQOLty03j3V9fCRw/Pe2r9ZI33gg72CfVXhn5ZvleVbWbevjWLZf0uKXTY+Pev0
-  ruzOavtfFY826G65Jnc2yZTjTE/pZwOdYwra/kJCDiZfslT578RVRmmJuG4wvHtxpvrDtNgFk
-  /qNb/6KFd49YyHfkTP/FjWt5cyLzHGufxon/PhB4Vd1peL+F7qfHr661Bn1/eqnTYHVgo5sE8
-  7LJc5e90WKp29mP3tQrabY9HM58R/umW1nbi3uCbN6rOu5yIErc8q8VZHGvC8U/k36orApfV3
-  kg7TdD3KWb/p7M1zM50VN1oOciy6lP9ymJFzPZH418dnV/DNdyrWzLixRYinOSDTUYi4qTgQA
-  s0L5mUIDAAA=
+Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 1A/D2-03420-CB1B8406; Wed, 10 Mar 2021 11:47:08 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRortno0e
+  Cwez/chZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aqlZ1sBdM4KtbOaWRvYNzL3sXIySEkMINJ
+  4u5N/y5GLiD7OKPErpXLGEESbAKaEr1btgDZHBwiAnoSV/+JgoSZBdQlLq1rYQEJCwvYSsw7X
+  g1isgioSsyfHAVSwSvgIrHu7T82EFtCQEFiysP3zCA2p4CrRN/9K8wQW10k3m5ZwQhRLyhxcu
+  YTFojpEhIHX7xghuhVlJh9uZkFwq6U2LP5IesERv5ZSFpmIWlZwMi0itEyqSgzPaMkNzEzR9f
+  QwEDX0NBY1xBImuslVukm6qWW6ian5pUUJQJl9RLLi/WKK3OTc1L08lJLNjECQzGlkLF0B+O0
+  Nx/0DjFKcjApifL2FXgkCPEl5adUZiQWZ8QXleakFh9ilOHgUJLgDVwClBMsSk1PrUjLzAHGB
+  UxagoNHSYS3bwNQmre4IDG3ODMdInWKUVFKnHfdeqCEAEgiozQPrg0Wi5cYZaWEeRkZGBiEeA
+  pSi3IzS1DlXzGKczAqCfOKACNbiCczrwRu+iugxUxAixUM3EAWlyQipKQamHZzfHpduO6Yp/d
+  9BrU58RUrGAW9Veq3S1ytEM7c0z09/c3kucUpq8u9rXzE+tt7xfIXtHIxWDUtThf7fIz50KHr
+  8Q+mGnJURq1wKxOVsC4oicy/eG1ubMg++/mrX6hv5LrIaXDMws9nz/Xzd9/GMp/Mf1Kt83pvz
+  5K3ViYpl6YJH/xwzWP3l298b41/FV9mqxNPqTqgm/+0Y+W6x2aqL7YpmrUbdE3Z9/Lz32/MX7
+  bssznm23/O5+5yB5bDvime/21Wl5ZcOXXH1fu0a8ATzrNLeV87L1e5bcdi6LBRN4ZHYGvU1pq
+  9Ajb1H/bPLfvQdzHCxC5n+puimck6DI83LTSVtRDYKvXiVP7cHws9ViuxFGckGmoxFxUnAgBL
+  wYGjQAMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-267.messagelabs.com!1615376828!181425!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-20.tower-228.messagelabs.com!1615376827!1698559!1
+X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=fail
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 12444 invoked from network); 10 Mar 2021 11:47:08 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-7.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:47:08 -0000
+Received: (qmail 2535 invoked from network); 10 Mar 2021 11:47:08 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-20.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:47:08 -0000
 Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABl7cJ025942
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABl2kZ024118
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 11:47:07 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:47:06 +0000
+ (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:47:03 +0000
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] iso-codes: upgrade 4.5.0 -> 4.6.0
-Date: Wed, 10 Mar 2021 19:46:05 +0800
-Message-ID: <1615376771-3093-4-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] help2man: upgrade 1.48.1 -> 1.48.2
+Date: Wed, 10 Mar 2021 19:46:04 +0800
+Message-ID: <1615376771-3093-3-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com>
 References: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com>
@@ -56,26 +56,26 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../iso-codes/{iso-codes_4.5.0.bb => iso-codes_4.6.0.bb}        | 2 +-
+ .../help2man/{help2man_1.48.1.bb => help2man_1.48.2.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/iso-codes/{iso-codes_4.5.0.bb => iso-codes_4.6.0.bb} (93%)
+ rename meta/recipes-devtools/help2man/{help2man_1.48.1.bb => help2man_1.48.2.bb} (89%)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_4.5.0.bb b/meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-similarity index 93%
-rename from meta/recipes-support/iso-codes/iso-codes_4.5.0.bb
-rename to meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-index 9e02a0fa12..960989281d 100644
---- a/meta/recipes-support/iso-codes/iso-codes_4.5.0.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-devtools/help2man/help2man_1.48.1.bb b/meta/recipes-devtools/help2man/help2man_1.48.2.bb
+similarity index 89%
+rename from meta/recipes-devtools/help2man/help2man_1.48.1.bb
+rename to meta/recipes-devtools/help2man/help2man_1.48.2.bb
+index bdea59d964..3e9b509ed4 100644
+--- a/meta/recipes-devtools/help2man/help2man_1.48.1.bb
++++ b/meta/recipes-devtools/help2man/help2man_1.48.2.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
  
- SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;"
--SRCREV = "a36019e5014bff251f83d522ddcfebaecf52afd3"
-+SRCREV = "3c012d266acaeda93d3e61ec11b8c18c1964fce1" 
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "de8a74740bd058646567b92ab4ecdeb9da9f1a07cc7c4f607a3c14dd38d10799"
++SRC_URI[sha256sum] = "20cb36111df91d61741a20680912ab0e4c59da479c3fb05837c6f0a8cb7cb467"
  
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+ inherit autotools
+ 
 -- 
 2.25.1
 
