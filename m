@@ -1,381 +1,764 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.68])
- by mx.groups.io with SMTP id smtpd.web08.5933.1615364463994763704
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+ by mx.groups.io with SMTP id smtpd.web09.6021.1615365343253302432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 00:21:04 -0800
+ Wed, 10 Mar 2021 00:35:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=e94nw2vu;
- spf=pass (domain: windriver.com, ip: 40.107.223.68, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cmT5gBDbhrbP3t+GfrAMcVe3PDq1Qi+JPQl183CCnTkTSmCF9FompnOTZ6rFn+u5lieD399iCY+8Hqe/uOqxN4SID3v/4pRqZ9F2MgfWqdi2vXS3uoYw6/26iHp7WCbNF5JqYD75TePn46WgFj/bUAxHjH5QJdGmDWPYiBpyIxOgLoniO6ioDvunFEC+10C+/6ZgcZrM7g/LEv/gtgkUjfdK4B43MW7gZaH/podjJ3KIawJCdNlJfeYfU0hSDCyxSA1bmBAW6tU3Yg/PgGgjq3mh6nY3zDbhOFRhBK5sU+lYLZW7hQbKAqlasy7ywvj8QHWBW43W1jS8Pj+ILF9b1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HSfOw4asK2j89KCpF1MxnDGKNWlWj5H7IKMfjfiuzJE=;
- b=DphGIMiOpAHaT25Y7LaoXTFoexKjxt6F7ofrGCKKy/1XPCY6PIqKxea40+55FR6Rko3zU2kRY6NSwz3Nn/GmlkG8jwvyuW/yOrVG4IOIuNYYNwIa8xf5zoG5V/MWafsi8RETiUKI598pfOkEIwJXFey7mEh5gIUSpFKh6jEdXgzdSYn7IBF1NPaB0XS7j6RlI3LucXQK42fTe2xQw0Fpy/qQKX86I8WXsy2Gb7n2uxynzkTflTnjQ0f4Jzmm+cOQjA2ieZlGQWCR3u5lUIJ1bc7VuoXpitW8LYTwLga8VfHPknIysg1jZUOngpE3Z1qXyd/+b0A7nTeDWgh3c3kGUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PqOjRwvL;
+ spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f52.google.com with SMTP id d3so5509159uap.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 00:35:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HSfOw4asK2j89KCpF1MxnDGKNWlWj5H7IKMfjfiuzJE=;
- b=e94nw2vulb94z2aaJPCTzOTuh+z1msmLKusHoeUdolCyfjP/YTK4a5C8lLXgN4WwKpIZdGpYZyRXLUOQzS4rDs/bNF9dQE6nocvwy2slhrgtYsxXCnmeTARLv5WDIKXnlqX8qPtYLdudeL0kjddOjpEJZ01kBAT3ikj3BCHiJwI=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by SJ0PR11MB5134.namprd11.prod.outlook.com (2603:10b6:a03:2de::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Wed, 10 Mar
- 2021 08:21:01 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60%7]) with mapi id 15.20.3890.038; Wed, 10 Mar 2021
- 08:21:01 +0000
-Subject: Re: [OE-core][PATCH] populate_sdk_ext: record METADATA_REVISION
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org, seebs@seebs.net, mghatle@gmail.com
-References: <20210305101040.822-1-Qi.Chen@windriver.com>
- <47f42aa6bef23d8c98ea9cf2a8029f6900dd7d61.camel@linuxfoundation.org>
- <166A3C91F1FD80D0.3944@lists.openembedded.org>
- <166A488578ED5898.3944@lists.openembedded.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <089597c0-e61a-f775-5ab8-992b3942b185@windriver.com>
-Date: Wed, 10 Mar 2021 16:31:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <166A488578ED5898.3944@lists.openembedded.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR03CA0011.apcprd03.prod.outlook.com
- (2603:1096:203:c8::16) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+GKZqmtIj9mmRZVsjSaWETfJtfC6EO1I4/H8i++2gGM=;
+        b=PqOjRwvLjoUI0ev3SVteqzHZ4R1MYdEx1AbCKBwq4NRzZNOgnpWqhOAAbp0e9rARg3
+         7TCXlUPAuKZ9wSzi0NM+MJ0dZ4/XP1ATbnt+aey62oZkuz3CStBi14aQwikds+82ImYR
+         rq9y9Yx2e1ryy1PW9YW0KuXL03IgHeRsxSMqCyopp+d/w4w6HfrrbSVJZ8hEnbKwdyeQ
+         YQ0FH8reP2K1rfP8+5WI5QuN9WvxVYEB6Az5kD4J5LKMjjGxx7p2zVZhR+/9jIK9MD8F
+         97QnS7jDTD4X08Tp8dV0eWXkz7npMiTE60bP9pCV7MvOi2HVOXaglfThh7Ug5F1a/o5y
+         l1OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+GKZqmtIj9mmRZVsjSaWETfJtfC6EO1I4/H8i++2gGM=;
+        b=onFzY8gzMu7i5IfG8LrZVf0EnXCbmzsHYxuO3pdWgfl/zQ5y3SiyMlxN+VEKkDN6+e
+         rILhtm1YVJOiZygfk1u61XbWFiFIOiw1bMvl9c+Ze4v6/rJoqg6W/mmZMzXPZGov6kIN
+         z+O0DPtVftohmleQc/QwyuTOGjFdkKGoJKJRYqDPmA+K4krKNkQOCgBw+oXC1FXyaQ/C
+         /GppISW4CR1tlXtbpa1Ckp2fRjyAIS0Zy+GRr1NSyb3Ouw2UEvISufF0ohu6Y2V+6uxH
+         wMX4cu+btiunLW/eiNWdq3gIv/WyllYLtSL8X4vwFJEqw4m9azfX4Udb4HvXK/qHravD
+         T/sQ==
+X-Gm-Message-State: AOAM530J10uCWBlzJcxH/XYviwwp/GwLFPpYxxpzAcAZ3OWcCGNBvfz+
+	ct/m/pueS21XgtsaXKwSlNlO9NjJhisW5jfLJdA=
+X-Google-Smtp-Source: ABdhPJz3T8hEql/9oyQhbDbun990NanK8w3leDMOKCHNCKAaONRl6O0DOdOm5xoZkg0tZRHxtuHqnGuboOPhIeNf2JU=
+X-Received: by 2002:a9f:2c0f:: with SMTP id r15mr1017281uaj.93.1615365342221;
+ Wed, 10 Mar 2021 00:35:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HKAPR03CA0011.apcprd03.prod.outlook.com (2603:1096:203:c8::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3933.23 via Frontend Transport; Wed, 10 Mar 2021 08:20:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42085f9b-8699-4e97-5a9c-08d8e39d70a3
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5134:
-X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB513418400E9303880C4F4EE6ED919@SJ0PR11MB5134.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	g+ZbvXiWGB3iPZgNB1CjXjOx7EuhtyOG4Cb0kSfzW9oS/Xy+PL+WNyJ/Vboqc6hjAuVYSZGLd0vIw+iSaKPJHroACNCbhKsB0MTy/sJ1gAXsE3bgcSWBdaFlncXtMv03wBveFO6iPaLzoBQihZmEITu7fMZQJ/754wq3AkghUD7NyOmDnWiVIbaY7i+5ngiuzwdHYawnssFB8Q8V6B+sB6nPW0QCmxzwWMhNU9rX5daaSHusc3NZVMZIcgH+qzNGZ4IXaXlL39yJh2Zx1olgSscTlEaK/ml8iTy67NTkKbVM1I9GbJcdeMIj8QiIPpIt7QwbrYCO2GnJ2rCWa0dLAE+Z5stMshrzKT+w0rraFnI5cZyD+MEefGHfoUODccBHUCuMFrXRz61xtqBIDmQfzmFDPDPAZj0oOJXl7LWJInMiyAuXfl6JNZRBgotwOirFF2sTr7BCYvZofGzpxY/4CmX0FNu4Tf4clg4zs6YlTgAd+lV8os1LjLeD3cKylsXfvaXJwiTUM7lW3kWxR6NUBVbHcazE8zLemN7IEepIOBacSH4AhiDTRDempMkEjquWrmfhDEL5EpoUB7Fuwh/qHopNEdab7FxJzCxZM+xg0i1HkP+G+0coAsrZAR2j5GlQ4lfdeGw8lICRV61G9rWKvwIjjD4ffKtpbG9Dh7uhvsqQpGtlCpjM7JSqXve+nH6ChWETBk1KU2NGg9LbNhK3lw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(39840400004)(396003)(376002)(136003)(16526019)(33964004)(186003)(6486002)(36756003)(53546011)(5660300002)(6706004)(478600001)(966005)(26005)(52116002)(166002)(31696002)(86362001)(66556008)(316002)(83380400001)(66476007)(66946007)(8936002)(6666004)(31686004)(956004)(8676002)(2616005)(16576012)(2906002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?d2VTU2tZMEZYMlV3MkJtdHB0UGRzN3phdjM2TDdaSUNkVURnMmZSMXBDaXhj?=
- =?utf-8?B?L2JRNHZMODRXcHVOL0xlZTh2MFZaTElYVzBSeU9FN1EwNnNSTlQyOW54N2g1?=
- =?utf-8?B?eUx1NktGK05velJZK0ZvZUM3VTJRQWM4SjdaYVZ4elp0eDlTVHkySkpFUWRp?=
- =?utf-8?B?Q2tVNkl0RUJoNHJZbVJYN2NQN0RpS09oNnpLYjM4RE9wcmVSd0xzWnJpWENN?=
- =?utf-8?B?QkFWb2dkcUVxeURJRk4vc1pUQS83WjkwSHFaY3NoRWx4NjN4UHU4Zk8wU1JS?=
- =?utf-8?B?ZjJCcXVxWk9jTGo1YW8rUXA3MmNYektNazF3VllSUWgyOFFVRWhKSWYrUkto?=
- =?utf-8?B?M256aW5GMGhtUC9ZVlRTRFE2TEhyT0p1djhwVnRISTI4bnlRZ25zMU9adkFJ?=
- =?utf-8?B?WlBzSENmTHFBQXFUcnBtY1djdVNQNjRnLzF6SG9UNEIrdk5xSlVwdE0vU1Rr?=
- =?utf-8?B?V285bVE0UHJMZnZRNzdTaFhTWm9xVTVMUE9GdktSSEw2V3BpRU9EOXAwUVVn?=
- =?utf-8?B?WXdycnhCN0NMWURQL2w0aXVuV2lRTHpLYndRMTFPWHd2dk5sL3ZUN2QzamJt?=
- =?utf-8?B?NzZQY21VVS9QUEVmVytFOFZXeUtraDVlbHU0Y2UraXhQS3VHSkJoeXMzV3BR?=
- =?utf-8?B?dEhxTVM1S1UzR3g5UDlpcmo3Nnp6NEp0R09wSHJTQVFtbkxqRVMrY2dLcFJj?=
- =?utf-8?B?K0xDUTVPL2dlTnd1akUwYUFJYkdGeHFjdndaako3WVUrMVJ6OGo5bzZBZkFj?=
- =?utf-8?B?Y1huME4xelFVYmVMbTdyaklQVERXY2JwT3F5RDRxdmtnU0FwZjk3bk9Jam4y?=
- =?utf-8?B?VEFGVFhJdExEUWlrUGYzTjhLQmJNdmsyODAzVjFzU2Yybi9Ta1Q2TWlxRjVk?=
- =?utf-8?B?aFFMZ3RyQXRWeVVIazVSMDJXWXVXZXNuWVFxbm9wd253aUpKOWhEcUxtKzVU?=
- =?utf-8?B?ZC83dG4vTUNhRlVac2kxckVRaXlyV0NNNWpXV2tZRndZT0pFWDVxM015TmJ4?=
- =?utf-8?B?eXo1L1VCUmlsU1JUQnZoVVp2VnZ2aGwrREJrVXlrYVFKcWNQdE1WU1NwV2xQ?=
- =?utf-8?B?ZnNkR3BNbFpJNGFQTzZmRDBFeEFwZlhLWWZxNVRlaTBidUlCYWRDMElrWi8w?=
- =?utf-8?B?NzFQSFlyUlpNVktlYXlvSFA5RVdjS3JqTy94OGxuNDVEL3RKZTM1T08vNC9r?=
- =?utf-8?B?UVJkQ3JXTThiTG0xakFhRVBYYzlrQXRrWTFkSUtTNnpYNk1mL2x0bVA1K1Z1?=
- =?utf-8?B?Z3I5dzhualFkTzY3RUI5MFI1QmVUT0U0d3BuZnlnNlBzVVlyc2NVTUFvZnNv?=
- =?utf-8?B?NTdUUkJEZFU2MWlQRUlYdlZTK211Mjd4WmMxYU9MbFJiZUx5ZUtheldKOStz?=
- =?utf-8?B?RnBCUWtzUW5XOEhmMlJaYVV2ZjU4QVdpMUszWnBsN2swUEpIVTkwUks5WFV6?=
- =?utf-8?B?ZG0vWHlmdUVRam5TKys5Qy9yendkTy9rcVlkRFZ4NmlUY3FtSUlneTlQRmY3?=
- =?utf-8?B?SVhjVlgvL2xOWVd2ZEpRMmpmNTk2MjhwbjZGRXVnUXNKaXVIaHFnSGxIaWJu?=
- =?utf-8?B?aHYvVXNsUzYrSHRIeEFPc0U4WTEzOERYbXcwc1N4NW9yc25ZRzJDSGpoY0FP?=
- =?utf-8?B?NS9pbk5HSWVQN1hoa0RzS2ZmTm9NdWpZWWU4RjNjTXNWaGNFck5TTUhQZzFY?=
- =?utf-8?B?c1lCTnVEYXl0M2hlYXphRjg2a3ZDR2tDTUJPaGpxRVNzeEZPUXowckN5YUpQ?=
- =?utf-8?Q?r/tLy+VkLDSmeLdsOYNvvEDQFUmTYgeopClhy4g?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42085f9b-8699-4e97-5a9c-08d8e39d70a3
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2021 08:21:01.4708
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0oDgsV2za9sFmaOYYHjmuH/t6s6786qgSH1ypDBlyuRbIJqPEQjptAqDN7PDi/51UcglaqICwF/F4UIIkWpRww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5134
-Content-Type: multipart/alternative;
- boundary="------------D7D9A7C443145FFF3AE385EA"
+References: <20210310070810.20295-1-crg7475@mailbox.org>
+In-Reply-To: <20210310070810.20295-1-crg7475@mailbox.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 10 Mar 2021 09:35:31 +0100
+Message-ID: <CANNYZj__UMPf97d-5q0oHSdfOm_-OEdqfTdqFW3-9t50tuzrmQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pipewire: add recipe from meta-openembedded and upgrade to 0.3.23
+To: Carlos Rafael Giani <crg7475@mailbox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000067d8a405bd2a8ddb"
 
---------------D7D9A7C443145FFF3AE385EA
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--00000000000067d8a405bd2a8ddb
+Content-Type: text/plain; charset="UTF-8"
 
-On 03/08/2021 02:09 PM, Chen Qi wrote:
-> On 03/08/2021 10:30 AM, Chen Qi wrote:
->> On 03/06/2021 07:29 AM, Richard Purdie wrote:
->>> On Fri, 2021-03-05 at 18:10 +0800, Chen Qi wrote:
->>>> As we delete the .git/ directory, it's impossible to get METADATA_REVISION
->>>> inside eSDK. Because of this, we meet the following warning when installing eSDK.
->>>>
->>>>    WARNING: The base-files:do_install sig is computed to be 16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0, \
->>>>    but the sig is locked to 6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36 in SIGGEN_LOCKEDSIGS_t-qemux86-64
->>>>
->>>> So we record METADATA_REVISION in eSDK generation time to fix this problem.
->>>>
->>>> Signed-off-by: Chen Qi<Qi.Chen@windriver.com>
->>>> ---
->>>>   meta/classes/populate_sdk_ext.bbclass | 3 +++
->>>>   1 file changed, 3 insertions(+)
->>> I have to wonder why base-files is depending on the metadata-revision? That
->>> implies that base-files and hence anything that depends upon it would rebuild
->>> each time you update to a new revision. Is that really what you want?
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>>
->> Hi Richard,
->>
->> I tested it on pure yocto project. No extra layer or configuration.
->> I'm also wondering why base-files do_install depends on 
->> METADATA_REVISION. The strange thing is that things do not rebuild at 
->> eSDK installation time. There's only a warning about base-files 
->> do_install signature.
->>
+But why should it be in oe-core?
+
+Alex
+
+On Wed, 10 Mar 2021 at 08:09, Carlos Rafael Giani via lists.openembedded.org
+<crg7475=mailbox.org@lists.openembedded.org> wrote:
+
+> PipeWire is a new multimedia daemon that aims to be a replacement for
+> both JACK and PulseAudio. Additionally, it provides IO and routing
+> functionality for video. It also has PulseAudio shim to act as a drop-in
+> replacement.
 >
-> Just found answer for the above problem.
-> A previous commit changes poky.conf to make DISTRO_VERSION contain 
-> METADATA_REVISION.
-> """
-> poky.conf: do not write current date into distro version, use git hash instead
+> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+> ---
+>  .../pipewire/pipewire_0.3.23.bb               | 272 ++++++++++++++++++
+>  1 file changed, 272 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/pipewire/pipewire_0.3.23.bb
 >
-> """
->
-> I also confirmed that merely updating the git revision will result in 
-> a rebuild of base-files.
-> Rebuild of base-files does not result in rebuild of other recipes 
-> because we have 'base-files' in SIGGEN_EXCLUDERECIPES_ABISAFE.
->
-> For the problem below, I haven't found the root cause, still working 
-> on it.
->
-> Best Regards,
-> Chen Qi
->
->> In fact, this is a problem I found when I was dealing with another 
->> problem with eSDK.
->> *Yocto's current eSDK cannot be successfully installed on a different 
->> distro.* For example, you build esdk on ubunt18 and install the esdk 
->> on ubuntu20, then you'll get an error of pseudo do_fetch task re-run 
->> unexpectedly.
->> I think it might be related to NATIVELSBSTRING, but I haven't found 
->> out why.
->> Manually setting NATIVELSBSTRING to some fixed string such as 'Linux' 
->> will solve the above problem.
->>
->> I'm still checking the codes. If you have some idea/suggestion, 
->> please let me know.
->>
-
-I think I've found the problem.
-
-"""
-commit 3ecf5d9692fec97b37af6a4e6c747a4e2c2ca292
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Sat Nov 21 16:16:40 2020 +0000
-
-     uninative: Don't use single sstate for pseudo-native
-
-     pseudo-native is a bit special. It conditionally compiles in 
-support for
-     xattr, statx and statvfs amongst other options. If a pseudo-native 
-binary is
-     used on a system where these functions are present but it wasn't 
-compiled in
-     we see hard to debug permissions problems.
-[snip]
-"""
-
-This commit effectively says that the pseudo-native's sstate cache 
-should not be shared among hosts with different distros, as it's 
-appending ${ORIGLSBSTRING} to SSTATE_PKGARCH for pseudo-native.
-
-I'm not familiar with the pseudo's codes. But I'm wondering if it's 
-possible for pseudo to always build in attr support and behave 
-differently on different hosts/filesystems.
-
-Best Regards,
-Chen Qi
-
->> Best Regards,
->> Chen Qi
->>
->>
->>
->
+> diff --git a/meta/recipes-multimedia/pipewire/pipewire_0.3.23.bb
+> b/meta/recipes-multimedia/pipewire/pipewire_0.3.23.bb
+> new file mode 100644
+> index 0000000000..1c226b3faf
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/pipewire/pipewire_0.3.23.bb
+> @@ -0,0 +1,272 @@
+> +SUMMARY = "Multimedia processing server for Linux"
+> +DESCRIPTION = "Linux server for handling and routing audio and video
+> streams between applications and multimedia I/O devices"
+> +HOMEPAGE = "https://pipewire.org/"
+> +BUGTRACKER  = "https://gitlab.freedesktop.org/pipewire/pipewire/issues"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = " \
+> +    file://LICENSE;md5=e2c0b7d86d04e716a3c4c9ab34260e69 \
+> +    file://COPYING;md5=97be96ca4fab23e9657ffa590b931c1a \
+> +"
+> +SECTION = "multimedia"
+> +
+> +DEPENDS = "dbus"
+> +
+> +SRCREV = "68f6c75caed047af32320ab4de0c06457457be54"
+> +SRC_URI = "git://
+> gitlab.freedesktop.org/pipewire/pipewire.git;branch=master;protocol=https"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit meson pkgconfig systemd manpages gettext useradd
+> +
+> +USERADD_PACKAGES = "${PN}"
+> +
+> +GROUPADD_PARAM_${PN} = "--system pipewire"
+> +
+> +USERADD_PARAM_${PN} = "--system --home / --no-create-home \
+> +                       --comment 'PipeWire multimedia daemon' \
+> +                       --gid pipewire --groups audio,video \
+> +                       pipewire"
+> +
+> +# For "EVL", look up https://evlproject.org/ . It involves
+> +# a specially prepared kernel, and is currently unavailable
+> +# in Yocto.
+> +# FFmpeg and Vulkan aren't really supported - at the current
+> +# stage (version 0.3.23), these are just experiments, not
+> +# actual features.
+> +# libcamera support currently does not build successfully.
+> +# systemd user service files are disabled because per-user
+> +# PipeWire instances aren't really something that makes
+> +# much sense in an embedded environment. A system-wide
+> +# instance does.
+> +EXTRA_OEMESON += " \
+> +    -Daudiotestsrc=true \
+> +    -Devl=false \
+> +    -Dsystemd-user-service=false \
+> +    -Dtests=false \
+> +    -Dudevrulesdir=${nonarch_base_libdir}/udev/rules.d/ \
+> +    -Dvideotestsrc=true \
+> +    -Dffmpeg=false \
+> +    -Dvulkan=false \
+> +    -Dlibcamera=false \
+> +"
+> +
+> +PACKAGECONFIG ??= "\
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)}
+> \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa systemd', d)} \
+> +    gstreamer jack v4l2 \
+> +"
+> +
+> +# "jack" and "pipewire-jack" packageconfigs cannot be both enabled,
+> +# since "jack" imports libjack, and "pipewire-jack" generates
+> +# libjack.so* files, thus colliding with the libpack package. This
+> +# is why these two are marked in their respective packageconfigs
+> +# as being in conflict.
+> +
+> +PACKAGECONFIG[alsa] = "-Dalsa=true,-Dalsa=false,alsa-lib udev"
+> +PACKAGECONFIG[bluez] = "-Dbluez5=true,-Dbluez5=false,bluez5 sbc"
+> +PACKAGECONFIG[docs] = "-Ddocs=true,-Ddocs=false,doxygen"
+> +PACKAGECONFIG[gstreamer] = "-Dgstreamer=true,-Dgstreamer=false,glib-2.0
+> gstreamer1.0 gstreamer1.0-plugins-base"
+> +PACKAGECONFIG[jack] = "-Djack=true,-Djack=false,jack,,,pipewire-jack"
+> +PACKAGECONFIG[manpages] =
+> "-Dman=true,-Dman=false,libxml-parser-perl-native"
+> +PACKAGECONFIG[sdl2] = "-Dsdl2=enabled,-Dsdl2=disabled,virtual/libsdl2"
+> +PACKAGECONFIG[sndfile] =
+> "-Dsndfile=enabled,-Dsndfile=disabled,libsndfile1"
+> +PACKAGECONFIG[systemd] = "-Dsystemd=true -Dsystemd-system-service=true
+> ,-Dsystemd=false -Dsystemd-system-service=false,systemd"
+> +PACKAGECONFIG[v4l2] = "-Dv4l2=true,-Dv4l2=false,udev"
+> +PACKAGECONFIG[pipewire-alsa] =
+> "-Dpipewire-alsa=true,-Dpipewire-alsa=false,alsa-lib"
+> +PACKAGECONFIG[pipewire-jack] = "-Dpipewire-jack=true
+> -Dlibjack-path=${libdir}/${PW_MODULE_SUBDIR}/jack,-Dpipewire-jack=false,jack,,,jack"
+> +
+> +PACKAGESPLITFUNCS_prepend = " split_dynamic_packages "
+> +PACKAGESPLITFUNCS_append = " set_dynamic_metapkg_rdepends "
+> +
+> +SPA_SUBDIR = "spa-0.2"
+> +PW_MODULE_SUBDIR = "pipewire-0.3"
+> +
+> +remove_unused_installed_files() {
+> +    # jack.conf is used by pipewire-jack (not the JACK SPA plugin).
+> +    # Remove it if pipewire-jack is not built to avoid creating the
+> +    # pipewire-jack package.
+> +    if ${@bb.utils.contains('PACKAGECONFIG', 'pipewire-jack', 'false',
+> 'true', d)}; then
+> +        rm -f "${D}${sysconfdir}/pipewire/jack.conf"
+> +    fi
+> +}
+> +
+> +do_install[postfuncs] += "remove_unused_installed_files"
+> +
+> +python split_dynamic_packages () {
+> +    # Create packages for each SPA plugin. These plugins are located
+> +    # in individual subdirectories, so a recursive search is needed.
+> +    spa_libdir = d.expand('${libdir}/${SPA_SUBDIR}')
+> +    do_split_packages(d, spa_libdir, r'^libspa-(.*)\.so$',
+> d.expand('${PN}-spa-plugins-%s'), 'PipeWire SPA plugin for %s',
+> extra_depends='', recursive=True)
+> +
+> +    # Create packages for each PipeWire module.
+> +    pw_module_libdir = d.expand('${libdir}/${PW_MODULE_SUBDIR}')
+> +    do_split_packages(d, pw_module_libdir,
+> r'^libpipewire-module-(.*)\.so$', d.expand('${PN}-modules-%s'), 'PipeWire
+> %s module', extra_depends='', recursive=False)
+> +}
+> +
+> +python set_dynamic_metapkg_rdepends () {
+> +    import os
+> +    import oe.utils
+> +
+> +    # Go through all generated SPA plugin and PipeWire module packages
+> +    # (excluding the main package and the -meta package itself) and
+> +    # add them to the -meta package as RDEPENDS.
+> +
+> +    base_pn = d.getVar('PN')
+> +
+> +    spa_pn = base_pn + '-spa-plugins'
+> +    spa_metapkg =  spa_pn + '-meta'
+> +
+> +    pw_module_pn = base_pn + '-modules'
+> +    pw_module_metapkg =  pw_module_pn + '-meta'
+> +
+> +    d.setVar('ALLOW_EMPTY_' + spa_metapkg, "1")
+> +    d.setVar('FILES_' + spa_metapkg, "")
+> +
+> +    d.setVar('ALLOW_EMPTY_' + pw_module_metapkg, "1")
+> +    d.setVar('FILES_' + pw_module_metapkg, "")
+> +
+> +    blacklist = [ spa_pn, spa_metapkg, pw_module_pn, pw_module_metapkg ]
+> +    spa_metapkg_rdepends = []
+> +    pw_module_metapkg_rdepends = []
+> +    pkgdest = d.getVar('PKGDEST')
+> +
+> +    for pkg in oe.utils.packages_filter_out_system(d):
+> +        if pkg in blacklist:
+> +            continue
+> +
+> +        is_spa_pkg = pkg.startswith(spa_pn)
+> +        is_pw_module_pkg = pkg.startswith(pw_module_pn)
+> +        if not is_spa_pkg and not is_pw_module_pkg:
+> +            continue
+> +
+> +        if pkg in spa_metapkg_rdepends or pkg in
+> pw_module_metapkg_rdepends:
+> +            continue
+> +
+> +        # See if the package is empty by looking at the contents of its
+> +        # PKGDEST subdirectory. If this subdirectory is empty, then then
+> +        # package is empty as well. Empty packages do not get added to
+> +        # the meta package's RDEPENDS.
+> +        pkgdir = os.path.join(pkgdest, pkg)
+> +        if os.path.exists(pkgdir):
+> +            dir_contents = os.listdir(pkgdir) or []
+> +        else:
+> +            dir_contents = []
+> +        is_empty = len(dir_contents) == 0
+> +        if not is_empty:
+> +            if is_spa_pkg:
+> +                spa_metapkg_rdepends.append(pkg)
+> +            if is_pw_module_pkg:
+> +                pw_module_metapkg_rdepends.append(pkg)
+> +
+> +    d.setVar('RDEPENDS_' + spa_metapkg, ' '.join(spa_metapkg_rdepends))
+> +    d.setVar('DESCRIPTION_' + spa_metapkg, spa_pn + ' meta package')
+> +
+> +    d.setVar('RDEPENDS_' + pw_module_metapkg, '
+> '.join(pw_module_metapkg_rdepends))
+> +    d.setVar('DESCRIPTION_' + pw_module_metapkg, pw_module_pn + ' meta
+> package')
+> +}
+> +
+> +PACKAGES =+ "\
+> +    libpipewire \
+> +    ${PN}-tools \
+> +    ${PN}-pulse \
+> +    ${PN}-alsa \
+> +    ${PN}-jack \
+> +    ${PN}-media-session \
+> +    ${PN}-spa-plugins \
+> +    ${PN}-spa-plugins-meta \
+> +    ${PN}-spa-tools \
+> +    ${PN}-modules \
+> +    ${PN}-modules-meta \
+> +    ${PN}-alsa-card-profile \
+> +    gstreamer1.0-pipewire \
+> +"
+> +
+> +PACKAGES_DYNAMIC = "^${PN}-spa-plugins.* ^${PN}-modules.*"
+> +
+> +SYSTEMD_SERVICE_${PN} = "pipewire.service"
+> +CONFFILES_${PN} += "${sysconfdir}/pipewire/pipewire.conf"
+> +FILES_${PN} = " \
+> +    ${sysconfdir}/pipewire/pipewire.conf \
+> +    ${systemd_system_unitdir}/pipewire.* \
+> +    ${bindir}/pipewire \
+> +"
+> +
+> +FILES_${PN}-dev += " \
+> +    ${libdir}/${PW_MODULE_SUBDIR}/jack/libjack*.so \
+> +"
+> +
+> +CONFFILES_libpipewire += "${sysconfdir}/pipewire/client.conf"
+> +FILES_libpipewire = " \
+> +    ${sysconfdir}/pipewire/client.conf \
+> +    ${libdir}/libpipewire-*.so.* \
+> +"
+> +# Add the bare minimum modules and plugins required to be able
+> +# to use libpipewire. Without these, it is essentially unusable.
+> +RDEPENDS_libpipewire += " \
+> +    ${PN}-modules-client-node \
+> +    ${PN}-modules-protocol-native \
+> +    ${PN}-spa-plugins-support \
+> +"
+> +
+> +FILES_${PN}-tools = " \
+> +    ${bindir}/pw-* \
+> +"
+> +
+> +# This is a shim daemon that is intended to be used as a
+> +# drop-in PulseAudio replacement, providing a pulseaudio-compatible
+> +# socket that can be used by applications that use libpulse.
+> +CONFFILES_${PN}-pulse += "${sysconfdir}/pipewire/pipewire-pulse.conf"
+> +FILES_${PN}-pulse = " \
+> +    ${sysconfdir}/pipewire/pipewire-pulse.conf \
+> +    ${bindir}/pipewire-pulse \
+> +"
+> +RDEPENDS_${PN}-pulse += " \
+> +    ${PN}-modules-protocol-pulse \
+> +"
+> +
+> +# alsa plugin to redirect audio to pipewire
+> +FILES_${PN}-alsa = "\
+> +    ${libdir}/alsa-lib/* \
+> +    ${datadir}/alsa/alsa.conf.d/* \
+> +"
+> +
+> +# jack drop-in libraries to redirect audio to pipewire
+> +CONFFILES_${PN}-jack = "${sysconfdir}/pipewire/jack.conf"
+> +FILES_${PN}-jack = "\
+> +    ${sysconfdir}/pipewire/jack.conf \
+> +    ${libdir}/${PW_MODULE_SUBDIR}/jack/libjack*.so.* \
+> +"
+> +
+> +# Example session manager. Not intended for use in production.
+> +CONFFILES_${PN}-media-session = "${sysconfdir}/pipewire/media-session.d/*"
+> +FILES_${PN}-media-session = " \
+> +    ${bindir}/pipewire-media-session \
+> +    ${sysconfdir}/pipewire/media-session.d/* \
+> +"
+> +RPROVIDES_${PN}-media-session = "virtual/pipewire-sessionmanager"
+> +
+> +# Dynamic packages (see set_dynamic_metapkg_rdepends).
+> +FILES_${PN}-spa-plugins = ""
+> +RRECOMMENDS_${PN}-spa-plugins += "${PN}-spa-plugins-meta"
+> +
+> +FILES_${PN}-spa-tools = " \
+> +    ${bindir}/spa-* \
+> +"
+> +
+> +# Dynamic packages (see set_dynamic_metapkg_rdepends).
+> +FILES_${PN}-modules = ""
+> +RRECOMMENDS_${PN}-modules += "${PN}-modules-meta"
+> +
+> +CONFFILES_${PN}-modules-rtkit = "${sysconfdir}/pipewire/client-rt.conf"
+> +FILES_${PN}-modules-rtkit += " \
+> +    ${sysconfdir}/pipewire/client-rt.conf \
+> +    "
+> +
+> +FILES_${PN}-alsa-card-profile = " \
+> +    ${datadir}/alsa-card-profile/* \
+> +    ${nonarch_base_libdir}/udev/rules.d/90-pipewire-alsa.rules \
+> +"
+> +
+> +FILES_gstreamer1.0-pipewire = " \
+> +    ${libdir}/gstreamer-1.0/* \
+> +"
+> --
+> 2.25.1
 >
 >
 > 
 >
+>
 
+--00000000000067d8a405bd2a8ddb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------D7D9A7C443145FFF3AE385EA
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+<div dir=3D"ltr"><div>But why should it be in oe-core?</div><div><br></div>=
+<div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Wed, 10 Mar 2021 at 08:09, Carlos Rafael Giani via <a=
+ href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;crg7=
+475=3D<a href=3D"mailto:mailbox.org@lists.openembedded.org">mailbox.org@lis=
+ts.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">PipeWire is a new multimedia daemon that aims to be a re=
+placement for<br>
+both JACK and PulseAudio. Additionally, it provides IO and routing<br>
+functionality for video. It also has PulseAudio shim to act as a drop-in<b=
+r>
+replacement.<br>
+<br>
+Signed-off-by: Carlos Rafael Giani &lt;<a href=3D"mailto:crg7475@mailbox.o=
+rg" target=3D"_blank">crg7475@mailbox.org</a>&gt;<br>
+---<br>
+=C2=A0.../pipewire/<a href=3D"http://pipewire_0.3.23.bb" rel=3D"noreferrer=
+" target=3D"_blank">pipewire_0.3.23.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 272 ++++++++++++++++++<br>
+=C2=A01 file changed, 272 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-multimedia/pipewire/<a href=3D"http:=
+//pipewire_0.3.23.bb" rel=3D"noreferrer" target=3D"_blank">pipewire_0.3.23.=
+bb</a><br>
+<br>
+diff --git a/meta/recipes-multimedia/pipewire/<a href=3D"http://pipewire_0=
+.3.23.bb" rel=3D"noreferrer" target=3D"_blank">pipewire_0.3.23.bb</a> b/met=
+a/recipes-multimedia/pipewire/<a href=3D"http://pipewire_0.3.23.bb" rel=3D"=
+noreferrer" target=3D"_blank">pipewire_0.3.23.bb</a><br>
+new file mode 100644<br>
+index 0000000000..1c226b3faf<br>
+--- /dev/null<br>
++++ b/meta/recipes-multimedia/pipewire/<a href=3D"http://pipewire_0.3.23.b=
+b" rel=3D"noreferrer" target=3D"_blank">pipewire_0.3.23.bb</a><br>
+@@ -0,0 +1,272 @@<br>
++SUMMARY =3D &quot;Multimedia processing server for Linux&quot;<br>
++DESCRIPTION =3D &quot;Linux server for handling and routing audio and vid=
+eo streams between applications and multimedia I/O devices&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://pipewire.org/" rel=3D"noreferrer" t=
+arget=3D"_blank">https://pipewire.org/</a>&quot;<br>
++BUGTRACKER=C2=A0 =3D &quot;<a href=3D"https://gitlab.freedesktop.org/pipe=
+wire/pipewire/issues" rel=3D"noreferrer" target=3D"_blank">https://gitlab.f=
+reedesktop.org/pipewire/pipewire/issues</a>&quot;<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot; \<br>
++=C2=A0 =C2=A0 file://LICENSE;md5=3De2c0b7d86d04e716a3c4c9ab34260e69 \<br>
++=C2=A0 =C2=A0 file://COPYING;md5=3D97be96ca4fab23e9657ffa590b931c1a \<br>
++&quot;<br>
++SECTION =3D &quot;multimedia&quot;<br>
++<br>
++DEPENDS =3D &quot;dbus&quot;<br>
++<br>
++SRCREV =3D &quot;68f6c75caed047af32320ab4de0c06457457be54&quot;<br>
++SRC_URI =3D &quot;git://<a href=3D"http://gitlab.freedesktop.org/pipewire=
+/pipewire.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=
+=3D"_blank">gitlab.freedesktop.org/pipewire/pipewire.git;branch=3Dmaster;p=
+rotocol=3Dhttps</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++inherit meson pkgconfig systemd manpages gettext useradd<br>
++<br>
++USERADD_PACKAGES =3D &quot;${PN}&quot;<br>
++<br>
++GROUPADD_PARAM_${PN} =3D &quot;--system pipewire&quot;<br>
++<br>
++USERADD_PARAM_${PN} =3D &quot;--system --home / --no-create-home \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0--comment &#39;PipeWire multimedia daemon&#39; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0--gid pipewire --groups audio,video \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0pipewire&quot;<br>
++<br>
++# For &quot;EVL&quot;, look up <a href=3D"https://evlproject.org/" rel=3D=
+"noreferrer" target=3D"_blank">https://evlproject.org/</a> . It involves<br=
+>
++# a specially prepared kernel, and is currently unavailable<br>
++# in Yocto.<br>
++# FFmpeg and Vulkan aren&#39;t really supported - at the current<br>
++# stage (version 0.3.23), these are just experiments, not<br>
++# actual features.<br>
++# libcamera support currently does not build successfully.<br>
++# systemd user service files are disabled because per-user<br>
++# PipeWire instances aren&#39;t really something that makes<br>
++# much sense in an embedded environment. A system-wide<br>
++# instance does.<br>
++EXTRA_OEMESON +=3D &quot; \<br>
++=C2=A0 =C2=A0 -Daudiotestsrc=3Dtrue \<br>
++=C2=A0 =C2=A0 -Devl=3Dfalse \<br>
++=C2=A0 =C2=A0 -Dsystemd-user-service=3Dfalse \<br>
++=C2=A0 =C2=A0 -Dtests=3Dfalse \<br>
++=C2=A0 =C2=A0 -Dudevrulesdir=3D${nonarch_base_libdir}/udev/rules.d/ \<br>
++=C2=A0 =C2=A0 -Dvideotestsrc=3Dtrue \<br>
++=C2=A0 =C2=A0 -Dffmpeg=3Dfalse \<br>
++=C2=A0 =C2=A0 -Dvulkan=3Dfalse \<br>
++=C2=A0 =C2=A0 -Dlibcamera=3Dfalse \<br>
++&quot;<br>
++<br>
++PACKAGECONFIG ??=3D &quot;\<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;blueto=
+oth&#39;, &#39;bluez&#39;, &#39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;alsa sys=
+temd&#39;, d)} \<br>
++=C2=A0 =C2=A0 gstreamer jack v4l2 \<br>
++&quot;<br>
++<br>
++# &quot;jack&quot; and &quot;pipewire-jack&quot; packageconfigs cannot be=
+ both enabled,<br>
++# since &quot;jack&quot; imports libjack, and &quot;pipewire-jack&quot; g=
+enerates<br>
++# libjack.so* files, thus colliding with the libpack package. This<br>
++# is why these two are marked in their respective packageconfigs<br>
++# as being in conflict.<br>
++<br>
++PACKAGECONFIG[alsa] =3D &quot;-Dalsa=3Dtrue,-Dalsa=3Dfalse,alsa-lib udev&=
+quot;<br>
++PACKAGECONFIG[bluez] =3D &quot;-Dbluez5=3Dtrue,-Dbluez5=3Dfalse,bluez5 sb=
+c&quot;<br>
++PACKAGECONFIG[docs] =3D &quot;-Ddocs=3Dtrue,-Ddocs=3Dfalse,doxygen&quot;<=
+br>
++PACKAGECONFIG[gstreamer] =3D &quot;-Dgstreamer=3Dtrue,-Dgstreamer=3Dfalse=
+,glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base&quot;<br>
++PACKAGECONFIG[jack] =3D &quot;-Djack=3Dtrue,-Djack=3Dfalse,jack,,,pipewir=
+e-jack&quot;<br>
++PACKAGECONFIG[manpages] =3D &quot;-Dman=3Dtrue,-Dman=3Dfalse,libxml-parse=
+r-perl-native&quot;<br>
++PACKAGECONFIG[sdl2] =3D &quot;-Dsdl2=3Denabled,-Dsdl2=3Ddisabled,virtual/=
+libsdl2&quot;<br>
++PACKAGECONFIG[sndfile] =3D &quot;-Dsndfile=3Denabled,-Dsndfile=3Ddisabled=
+,libsndfile1&quot;<br>
++PACKAGECONFIG[systemd] =3D &quot;-Dsystemd=3Dtrue -Dsystemd-system-servic=
+e=3Dtrue ,-Dsystemd=3Dfalse -Dsystemd-system-service=3Dfalse,systemd&quot;<=
+br>
++PACKAGECONFIG[v4l2] =3D &quot;-Dv4l2=3Dtrue,-Dv4l2=3Dfalse,udev&quot;<br>
++PACKAGECONFIG[pipewire-alsa] =3D &quot;-Dpipewire-alsa=3Dtrue,-Dpipewire-=
+alsa=3Dfalse,alsa-lib&quot;<br>
++PACKAGECONFIG[pipewire-jack] =3D &quot;-Dpipewire-jack=3Dtrue -Dlibjack-p=
+ath=3D${libdir}/${PW_MODULE_SUBDIR}/jack,-Dpipewire-jack=3Dfalse,jack,,,jac=
+k&quot;<br>
++<br>
++PACKAGESPLITFUNCS_prepend =3D &quot; split_dynamic_packages &quot;<br>
++PACKAGESPLITFUNCS_append =3D &quot; set_dynamic_metapkg_rdepends &quot;<b=
+r>
++<br>
++SPA_SUBDIR =3D &quot;spa-0.2&quot;<br>
++PW_MODULE_SUBDIR =3D &quot;pipewire-0.3&quot;<br>
++<br>
++remove_unused_installed_files() {<br>
++=C2=A0 =C2=A0 # jack.conf is used by pipewire-jack (not the JACK SPA plug=
+in).<br>
++=C2=A0 =C2=A0 # Remove it if pipewire-jack is not built to avoid creating=
+ the<br>
++=C2=A0 =C2=A0 # pipewire-jack package.<br>
++=C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;pipew=
+ire-jack&#39;, &#39;false&#39;, &#39;true&#39;, d)}; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f &quot;${D}${sysconfdir}/pipewire/jack.c=
+onf&quot;<br>
++=C2=A0 =C2=A0 fi<br>
++}<br>
++<br>
++do_install[postfuncs] +=3D &quot;remove_unused_installed_files&quot;<br>
++<br>
++python split_dynamic_packages () {<br>
++=C2=A0 =C2=A0 # Create packages for each SPA plugin. These plugins are lo=
+cated<br>
++=C2=A0 =C2=A0 # in individual subdirectories, so a recursive search is ne=
+eded.<br>
++=C2=A0 =C2=A0 spa_libdir =3D d.expand(&#39;${libdir}/${SPA_SUBDIR}&#39;)<=
+br>
++=C2=A0 =C2=A0 do_split_packages(d, spa_libdir, r&#39;^libspa-(.*)\.so$&#3=
+9;, d.expand(&#39;${PN}-spa-plugins-%s&#39;), &#39;PipeWire SPA plugin for =
+%s&#39;, extra_depends=3D&#39;&#39;, recursive=3DTrue)<br>
++<br>
++=C2=A0 =C2=A0 # Create packages for each PipeWire module.<br>
++=C2=A0 =C2=A0 pw_module_libdir =3D d.expand(&#39;${libdir}/${PW_MODULE_SU=
+BDIR}&#39;)<br>
++=C2=A0 =C2=A0 do_split_packages(d, pw_module_libdir, r&#39;^libpipewire-m=
+odule-(.*)\.so$&#39;, d.expand(&#39;${PN}-modules-%s&#39;), &#39;PipeWire %=
+s module&#39;, extra_depends=3D&#39;&#39;, recursive=3DFalse)<br>
++}<br>
++<br>
++python set_dynamic_metapkg_rdepends () {<br>
++=C2=A0 =C2=A0 import os<br>
++=C2=A0 =C2=A0 import oe.utils<br>
++<br>
++=C2=A0 =C2=A0 # Go through all generated SPA plugin and PipeWire module p=
+ackages<br>
++=C2=A0 =C2=A0 # (excluding the main package and the -meta package itself)=
+ and<br>
++=C2=A0 =C2=A0 # add them to the -meta package as RDEPENDS.<br>
++<br>
++=C2=A0 =C2=A0 base_pn =3D d.getVar(&#39;PN&#39;)<br>
++<br>
++=C2=A0 =C2=A0 spa_pn =3D base_pn + &#39;-spa-plugins&#39;<br>
++=C2=A0 =C2=A0 spa_metapkg =3D=C2=A0 spa_pn + &#39;-meta&#39;<br>
++<br>
++=C2=A0 =C2=A0 pw_module_pn =3D base_pn + &#39;-modules&#39;<br>
++=C2=A0 =C2=A0 pw_module_metapkg =3D=C2=A0 pw_module_pn + &#39;-meta&#39;<=
+br>
++<br>
++=C2=A0 =C2=A0 d.setVar(&#39;ALLOW_EMPTY_&#39; + spa_metapkg, &quot;1&quot=
+;)<br>
++=C2=A0 =C2=A0 d.setVar(&#39;FILES_&#39; + spa_metapkg, &quot;&quot;)<br>
++<br>
++=C2=A0 =C2=A0 d.setVar(&#39;ALLOW_EMPTY_&#39; + pw_module_metapkg, &quot;=
+1&quot;)<br>
++=C2=A0 =C2=A0 d.setVar(&#39;FILES_&#39; + pw_module_metapkg, &quot;&quot;=
+)<br>
++<br>
++=C2=A0 =C2=A0 blacklist =3D [ spa_pn, spa_metapkg, pw_module_pn, pw_modul=
+e_metapkg ]<br>
++=C2=A0 =C2=A0 spa_metapkg_rdepends =3D []<br>
++=C2=A0 =C2=A0 pw_module_metapkg_rdepends =3D []<br>
++=C2=A0 =C2=A0 pkgdest =3D d.getVar(&#39;PKGDEST&#39;)<br>
++<br>
++=C2=A0 =C2=A0 for pkg in oe.utils.packages_filter_out_system(d):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if pkg in blacklist:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 is_spa_pkg =3D pkg.startswith(spa_pn)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 is_pw_module_pkg =3D pkg.startswith(pw_module=
+_pn)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not is_spa_pkg and not is_pw_module_pkg:<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if pkg in spa_metapkg_rdepends or pkg in pw_m=
+odule_metapkg_rdepends:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # See if the package is empty by looking at t=
+he contents of its<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # PKGDEST subdirectory. If this subdirectory =
+is empty, then then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # package is empty as well. Empty packages do=
+ not get added to<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # the meta package&#39;s RDEPENDS.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgdir =3D os.path.join(pkgdest, pkg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(pkgdir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_contents =3D os.listdir(pkg=
+dir) or []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_contents =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 is_empty =3D len(dir_contents) =3D=3D 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not is_empty:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if is_spa_pkg:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spa_metapkg_rdepe=
+nds.append(pkg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if is_pw_module_pkg:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pw_module_metapkg=
+_rdepends.append(pkg)<br>
++<br>
++=C2=A0 =C2=A0 d.setVar(&#39;RDEPENDS_&#39; + spa_metapkg, &#39; &#39;.joi=
+n(spa_metapkg_rdepends))<br>
++=C2=A0 =C2=A0 d.setVar(&#39;DESCRIPTION_&#39; + spa_metapkg, spa_pn + &#3=
+9; meta package&#39;)<br>
++<br>
++=C2=A0 =C2=A0 d.setVar(&#39;RDEPENDS_&#39; + pw_module_metapkg, &#39; &#3=
+9;.join(pw_module_metapkg_rdepends))<br>
++=C2=A0 =C2=A0 d.setVar(&#39;DESCRIPTION_&#39; + pw_module_metapkg, pw_mod=
+ule_pn + &#39; meta package&#39;)<br>
++}<br>
++<br>
++PACKAGES =3D+ &quot;\<br>
++=C2=A0 =C2=A0 libpipewire \<br>
++=C2=A0 =C2=A0 ${PN}-tools \<br>
++=C2=A0 =C2=A0 ${PN}-pulse \<br>
++=C2=A0 =C2=A0 ${PN}-alsa \<br>
++=C2=A0 =C2=A0 ${PN}-jack \<br>
++=C2=A0 =C2=A0 ${PN}-media-session \<br>
++=C2=A0 =C2=A0 ${PN}-spa-plugins \<br>
++=C2=A0 =C2=A0 ${PN}-spa-plugins-meta \<br>
++=C2=A0 =C2=A0 ${PN}-spa-tools \<br>
++=C2=A0 =C2=A0 ${PN}-modules \<br>
++=C2=A0 =C2=A0 ${PN}-modules-meta \<br>
++=C2=A0 =C2=A0 ${PN}-alsa-card-profile \<br>
++=C2=A0 =C2=A0 gstreamer1.0-pipewire \<br>
++&quot;<br>
++<br>
++PACKAGES_DYNAMIC =3D &quot;^${PN}-spa-plugins.* ^${PN}-modules.*&quot;<br=
+>
++<br>
++SYSTEMD_SERVICE_${PN} =3D &quot;pipewire.service&quot;<br>
++CONFFILES_${PN} +=3D &quot;${sysconfdir}/pipewire/pipewire.conf&quot;<br>
++FILES_${PN} =3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/pipewire.conf \<br>
++=C2=A0 =C2=A0 ${systemd_system_unitdir}/pipewire.* \<br>
++=C2=A0 =C2=A0 ${bindir}/pipewire \<br>
++&quot;<br>
++<br>
++FILES_${PN}-dev +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${libdir}/${PW_MODULE_SUBDIR}/jack/libjack*.so \<br>
++&quot;<br>
++<br>
++CONFFILES_libpipewire +=3D &quot;${sysconfdir}/pipewire/client.conf&quot;=
+<br>
++FILES_libpipewire =3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/client.conf \<br>
++=C2=A0 =C2=A0 ${libdir}/libpipewire-*.so.* \<br>
++&quot;<br>
++# Add the bare minimum modules and plugins required to be able<br>
++# to use libpipewire. Without these, it is essentially unusable.<br>
++RDEPENDS_libpipewire +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${PN}-modules-client-node \<br>
++=C2=A0 =C2=A0 ${PN}-modules-protocol-native \<br>
++=C2=A0 =C2=A0 ${PN}-spa-plugins-support \<br>
++&quot;<br>
++<br>
++FILES_${PN}-tools =3D &quot; \<br>
++=C2=A0 =C2=A0 ${bindir}/pw-* \<br>
++&quot;<br>
++<br>
++# This is a shim daemon that is intended to be used as a<br>
++# drop-in PulseAudio replacement, providing a pulseaudio-compatible<br>
++# socket that can be used by applications that use libpulse.<br>
++CONFFILES_${PN}-pulse +=3D &quot;${sysconfdir}/pipewire/pipewire-pulse.co=
+nf&quot;<br>
++FILES_${PN}-pulse =3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/pipewire-pulse.conf \<br>
++=C2=A0 =C2=A0 ${bindir}/pipewire-pulse \<br>
++&quot;<br>
++RDEPENDS_${PN}-pulse +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${PN}-modules-protocol-pulse \<br>
++&quot;<br>
++<br>
++# alsa plugin to redirect audio to pipewire<br>
++FILES_${PN}-alsa =3D &quot;\<br>
++=C2=A0 =C2=A0 ${libdir}/alsa-lib/* \<br>
++=C2=A0 =C2=A0 ${datadir}/alsa/alsa.conf.d/* \<br>
++&quot;<br>
++<br>
++# jack drop-in libraries to redirect audio to pipewire<br>
++CONFFILES_${PN}-jack =3D &quot;${sysconfdir}/pipewire/jack.conf&quot;<br>
++FILES_${PN}-jack =3D &quot;\<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/jack.conf \<br>
++=C2=A0 =C2=A0 ${libdir}/${PW_MODULE_SUBDIR}/jack/libjack*.so.* \<br>
++&quot;<br>
++<br>
++# Example session manager. Not intended for use in production.<br>
++CONFFILES_${PN}-media-session =3D &quot;${sysconfdir}/pipewire/media-sess=
+ion.d/*&quot;<br>
++FILES_${PN}-media-session =3D &quot; \<br>
++=C2=A0 =C2=A0 ${bindir}/pipewire-media-session \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/media-session.d/* \<br>
++&quot;<br>
++RPROVIDES_${PN}-media-session =3D &quot;virtual/pipewire-sessionmanager&q=
+uot;<br>
++<br>
++# Dynamic packages (see set_dynamic_metapkg_rdepends).<br>
++FILES_${PN}-spa-plugins =3D &quot;&quot;<br>
++RRECOMMENDS_${PN}-spa-plugins +=3D &quot;${PN}-spa-plugins-meta&quot;<br>
++<br>
++FILES_${PN}-spa-tools =3D &quot; \<br>
++=C2=A0 =C2=A0 ${bindir}/spa-* \<br>
++&quot;<br>
++<br>
++# Dynamic packages (see set_dynamic_metapkg_rdepends).<br>
++FILES_${PN}-modules =3D &quot;&quot;<br>
++RRECOMMENDS_${PN}-modules +=3D &quot;${PN}-modules-meta&quot;<br>
++<br>
++CONFFILES_${PN}-modules-rtkit =3D &quot;${sysconfdir}/pipewire/client-rt.=
+conf&quot;<br>
++FILES_${PN}-modules-rtkit +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${sysconfdir}/pipewire/client-rt.conf \<br>
++=C2=A0 =C2=A0 &quot;<br>
++<br>
++FILES_${PN}-alsa-card-profile =3D &quot; \<br>
++=C2=A0 =C2=A0 ${datadir}/alsa-card-profile/* \<br>
++=C2=A0 =C2=A0 ${nonarch_base_libdir}/udev/rules.d/90-pipewire-alsa.rules =
+\<br>
++&quot;<br>
++<br>
++FILES_gstreamer1.0-pipewire =3D &quot; \<br>
++=C2=A0 =C2=A0 ${libdir}/gstreamer-1.0/* \<br>
++&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 03/08/2021 02:09 PM, Chen Qi wrote:<br>
-    </div>
-    <blockquote cite="mid:166A488578ED5898.3944@lists.openembedded.org" type="cite">
-      
-      <div class="moz-cite-prefix">On 03/08/2021 10:30 AM, Chen Qi
-        wrote:<br>
-      </div>
-      <blockquote cite="mid:166A3C91F1FD80D0.3944@lists.openembedded.org" type="cite">
-        <div class="moz-cite-prefix">On 03/06/2021 07:29 AM, Richard
-          Purdie wrote:<br>
-        </div>
-        <blockquote cite="mid:47f42aa6bef23d8c98ea9cf2a8029f6900dd7d61.camel@linuxfoundation.org" type="cite">
-          <pre wrap="">On Fri, 2021-03-05 at 18:10 +0800, Chen Qi wrote:
-</pre>
-          <blockquote type="cite">
-            <pre wrap="">As we delete the .git/ directory, it's impossible to get METADATA_REVISION
-inside eSDK. Because of this, we meet the following warning when installing eSDK.
-
-&nbsp;&nbsp;WARNING: The base-files:do_install sig is computed to be 16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0, \
-&nbsp;&nbsp;but the sig is locked to 6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36 in SIGGEN_LOCKEDSIGS_t-qemux86-64
-
-So we record METADATA_REVISION in eSDK generation time to fix this problem.
-
-Signed-off-by: Chen Qi <a moz-do-not-send="true" class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
----
-&nbsp;meta/classes/populate_sdk_ext.bbclass | 3 +++
-&nbsp;1 file changed, 3 insertions(+)
-</pre>
-          </blockquote>
-          <pre wrap="">I have to wonder why base-files is depending on the metadata-revision? That
-implies that base-files and hence anything that depends upon it would rebuild
-each time you update to a new revision. Is that really what you want?
-
-Cheers,
-
-Richard
-
-
-
-
-</pre>
-        </blockquote>
-        Hi Richard,<br>
-        <br>
-        I tested it on pure yocto project. No extra layer or
-        configuration.<br>
-        I'm also wondering why base-files do_install depends on
-        METADATA_REVISION. The strange thing is that things do not
-        rebuild at eSDK installation time. There's only a warning about
-        base-files do_install signature.<br>
-        <br>
-      </blockquote>
-      <br>
-      Just found answer for the above problem.<br>
-      A previous commit changes poky.conf to make DISTRO_VERSION contain
-      METADATA_REVISION.<br>
-      &quot;&quot;&quot;<br>
-      <pre wrap="">poky.conf: do not write current date into distro version, use git hash instead</pre>
-      <br>
-      &quot;&quot;&quot;<br>
-      <br>
-      I also confirmed that merely updating the git revision will result
-      in a rebuild of base-files.<br>
-      Rebuild of base-files does not result in rebuild of other recipes
-      because we have 'base-files' in SIGGEN_EXCLUDERECIPES_ABISAFE.<br>
-      <br>
-      For the problem below, I haven't found the root cause, still
-      working on it.<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      <blockquote cite="mid:166A3C91F1FD80D0.3944@lists.openembedded.org" type="cite"> In fact, this is a problem I found when I was
-        dealing with another problem with eSDK.<br>
-        <b>Yocto's current eSDK cannot be successfully installed on a
-          different distro.</b> For example, you build esdk on ubunt18
-        and install the esdk on ubuntu20, then you'll get an error of
-        pseudo do_fetch task re-run unexpectedly.<br>
-        I think it might be related to NATIVELSBSTRING, but I haven't
-        found out why.<br>
-        Manually setting NATIVELSBSTRING to some fixed string such as
-        'Linux' will solve the above problem.<br>
-        <br>
-        I'm still checking the codes. If you have some idea/suggestion,
-        please let me know.<br>
-        <br>
-      </blockquote>
-    </blockquote>
-    <br>
-    I think I've found the problem.<br>
-    <br>
-    &quot;&quot;&quot;<br>
-    commit 3ecf5d9692fec97b37af6a4e6c747a4e2c2ca292<br>
-    Author: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a><br>
-    Date:&nbsp;&nbsp; Sat Nov 21 16:16:40 2020 +0000<br>
-    <br>
-    &nbsp;&nbsp;&nbsp; uninative: Don't use single sstate for pseudo-native<br>
-    &nbsp;&nbsp;&nbsp; <br>
-    &nbsp;&nbsp;&nbsp; pseudo-native is a bit special. It conditionally compiles in
-    support for<br>
-    &nbsp;&nbsp;&nbsp; xattr, statx and statvfs amongst other options. If a
-    pseudo-native binary is<br>
-    &nbsp;&nbsp;&nbsp; used on a system where these functions are present but it wasn't
-    compiled in<br>
-    &nbsp;&nbsp;&nbsp; we see hard to debug permissions problems.<br>
-    [snip] &nbsp;&nbsp; <br>
-    &quot;&quot;&quot;<br>
-    <br>
-    This commit effectively says that the pseudo-native's sstate cache
-    should not be shared among hosts with different distros, as it's
-    appending ${ORIGLSBSTRING} to SSTATE_PKGARCH for pseudo-native.<br>
-    <br>
-    I'm not familiar with the pseudo's codes. But I'm wondering if it's
-    possible for pseudo to always build in attr support and behave
-    differently on different hosts/filesystems.<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote cite="mid:166A488578ED5898.3944@lists.openembedded.org" type="cite">
-      <blockquote cite="mid:166A3C91F1FD80D0.3944@lists.openembedded.org" type="cite"> Best Regards,<br>
-        Chen Qi<br>
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <br>
-        <pre wrap="">
-
-</pre>
-      </blockquote>
-      <p><br>
-      </p>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------D7D9A7C443145FFF3AE385EA--
+--00000000000067d8a405bd2a8ddb--
