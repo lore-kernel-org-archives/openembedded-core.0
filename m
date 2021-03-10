@@ -1,93 +1,83 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web12.8592.1615383366392386232
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web08.8673.1615383455466542305
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 05:36:06 -0800
+ Wed, 10 Mar 2021 05:37:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B68wm3vL;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id t1so28088931eds.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 05:36:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZAG1fSTk;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id b7so28107123edz.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 05:37:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=CeDIqWlF8r1d0kYLG2pibfCwalNYQQ8Crmryv6nqbb8=;
-        b=B68wm3vLi1ChUPmkZPIbs1hDpLR6cMGwJcM9n5oLjlGOXX0ux8Q0CKWpLLpx4YOzKO
-         Rwr/RRBBZuGT1lufLDZRcOwXEp0Q5rB8G/7FWHcKavodN4RFHtQbn5tSorOR88tSlnnO
-         fPu6lJMV4wXMQAlEXjcRGGlx9P+AyaP+yQPkRVLQVfJGuthzQMm6Z6m3nhx8wDHC9Flm
-         KL57YreIyqz9hipIP5Epjva05b7cT7HDsYEVgwr2JkDj27HEm2QeIvIv9veDriEx4t4X
-         NhdTXLfpKIP9DjiNLdH0s7XDAj4BW2OQiA40+VsdSsMmrm09zo/WWCY1idNKnq0TM2pt
-         FH5A==
+        bh=VZbUwo+ZaFPTiQGEsgOCB/DjNya111NONU3EJcWJci0=;
+        b=ZAG1fSTkWSwEXI7cmQI994NYIi2Fi9g2js2fuMkglnH0Yxu50chrF1DZR18e/+59iB
+         0yka2g2XoT75crn72Y3gw4UsDi/oGDqofFhdZnjReAJJbKZmKzNvEN79A5KjcHBpWzPe
+         KvstrJ5DR8dJ6n3Mj4omkdiUKgIfjYE81wYBk7ejWJl2wmR+lmBt2tGxl7jN8B51aC8v
+         HV152BcZUPtiTRhJl2k+VNo7YtyWzi+QOizjBThKBh04D3SwjgYCLuNo6JslamBERUB+
+         n0Mowd8tHYAkRJQPu5dh3X2Ndwruhb6QtfjKvganWq5hFN+X+HnV+ng1zykOIQQfjiDt
+         SoFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CeDIqWlF8r1d0kYLG2pibfCwalNYQQ8Crmryv6nqbb8=;
-        b=I0lPm3AN0zw0Suht49nZCN+uCm0lUv02h11fB8Ibz17dbgUn9804nOb7VYyFfqzzUl
-         9Tss5CJ73qC6Gn9ko1XMdviO4ktp9rwJUm7yd7V384YHYj9Kvzp3tpgt5HrDfxHinvvX
-         YM8n5nVQGq4EIiM0hNcLyZ6i7LtEwYX3j6o6h65/wDHA7z7w5oIo2nkXkY3quVZKVZUR
-         3l+ypuk44bK/6HIGRDb161aRoXB0YclVSwvhE2Rntx1oQ9TjZxghcPlskHj1vetmVUHr
-         mydYi5IlbIB+Yd+2MMKEx3QhX35uJCougS+CGlEtbrg83PpO+yanzKUENRo4h9sAl/J9
-         imIQ==
-X-Gm-Message-State: AOAM532IMOkxvfhT0PfM8cHF+sjRBiTK0x28fpINQ7CwfPp+VEDJMJz1
-	EvSvqaOcBDnDPImfbHtHra7WQxJu9hhcNznpTq8=
-X-Google-Smtp-Source: ABdhPJzIGj8WDz+lpLNg+hP2tPf3n+pRo4b6U2DTnu7DJgcuwVf96ZiubK6g/kZWBXDLSEgutj2oyiT6B/GjSY+fECI=
-X-Received: by 2002:aa7:d98b:: with SMTP id u11mr3398441eds.352.1615383364529;
- Wed, 10 Mar 2021 05:36:04 -0800 (PST)
+        bh=VZbUwo+ZaFPTiQGEsgOCB/DjNya111NONU3EJcWJci0=;
+        b=nthujkbGIWW3DJQh/13xeE37SjuRkdfX8UTBVHM77NUPfABBuqMKqGURJuDiYvGE81
+         ZonSTvRH//8mCXRpinbdUXj/PyKbpolmOn4oDBf9awPZhh5ha+Hu5kce3dmM3ioEW4qk
+         eGOeBjaQCJPWoms2TILiPssYqbeLboMFrjm0T9TTr4ZO7TSyCSHLsUZjRySfvey47o6K
+         3Kvij9QqJEXi8AeoxBmdtIkoFNycpnQMGHjSrvTWLQrOmeTnQ5JnnHAGQcAXU/KbRIMt
+         xllKOrEDFXH+HMt9ot4B0miCe9WnwKRW7I2unvB++D5z/3gNebMuELqu3lNGckr8NlDJ
+         hihA==
+X-Gm-Message-State: AOAM5326xcg/DTVyQHiwBhDmVvyYyAO3gdIpks1s/dgr9jtWogav/b7R
+	d9ykSo8B9GiCmwuhxuCBgIFjIPFSBZX9pcBkpcU=
+X-Google-Smtp-Source: ABdhPJx8O+cmE+K1ddGuysKbqEVS0mTFa0cCT/QWqR8MgUIm2WwwG4feuFBsawSfZJ4tsmcZQZBMkITYPdX+8Yv/I30=
+X-Received: by 2002:aa7:d98b:: with SMTP id u11mr3405959eds.352.1615383453834;
+ Wed, 10 Mar 2021 05:37:33 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1615317549.git.bruce.ashfield@gmail.com>
- <c15444b65a82b76332dc30a1120888e5828b91a8.1615317549.git.bruce.ashfield@gmail.com>
- <20210310113254.71b29092@kmaincent-XPS-13-7390>
-In-Reply-To: <20210310113254.71b29092@kmaincent-XPS-13-7390>
+ <0e2ab3111ac8446d0657e8f4d8d400f50f4e245b.1615317549.git.bruce.ashfield@gmail.com>
+ <20210310114234.1b838cd8@kmaincent-XPS-13-7390>
+In-Reply-To: <20210310114234.1b838cd8@kmaincent-XPS-13-7390>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 10 Mar 2021 08:35:53 -0500
-Message-ID: <CADkTA4P-aqtap-3xkLN6HimS6UVbqL8cNvTCKkL=yVq2g7a+LA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/6] linux-yocto/5.10: update to v5.10.21
+Date: Wed, 10 Mar 2021 08:37:22 -0500
+Message-ID: <CADkTA4PFwiJM+TBiC3457jNa-GOtiGYa3-g9iy7DKCAcsfyK8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/6] perf: fix reproducibility issues
 To: =?UTF-8?Q?K=C3=B6ry_Maincent?= <kory.maincent@bootlin.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Fix was already sent in my v2.
+I'm unfortunately out of time on this, so obviously this can be
+dropped and I'll work on it again for next release.
 
-Cheers,
+bruce
 
-Bruce
-
-On Wed, Mar 10, 2021 at 5:32 AM K=C3=B6ry Maincent <kory.maincent@bootlin.c=
+On Wed, Mar 10, 2021 at 5:42 AM K=C3=B6ry Maincent <kory.maincent@bootlin.c=
 om> wrote:
 >
 > Hello Bruce,
 >
-> On Tue,  9 Mar 2021 14:23:38 -0500
+> On Tue,  9 Mar 2021 14:23:36 -0500
 > "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
 >
 > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
 > >
-> > Updating linux-yocto/5.10 to the latest korg -stable release that compr=
-ises
-> > the following commits:
+> > perf has been failing our reproducible testing due to multiple symbols
+> > containg build paths.
 >
-> Got this error:
+> There is still reproducible issues:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/119/builds/89/ste=
+ps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/84/ste=
+ps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/86/ste=
+ps/13/logs/stdio
 >
-> /home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work-shared/edger=
-outer/kernel-source/arch/mips/cavium-octeon/setup.c: In function 'device_tr=
-ee_init':
-> /home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work-shared/edger=
-outer/kernel-source/arch/mips/cavium-octeon/setup.c:1168:2: error: #endif w=
-ithout #if
->  1168 | #endif
->       |  ^~~~~
->   CC      arch/mips/cavium-octeon/executive/octeon-model.o
-> make[3]: *** [/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/wor=
-k-shared/edgerouter/kernel-source/scripts/Makefile.build:279: arch/mips/cav=
-ium-octeon/setup.o] Error 1
-> make[3]: *** Waiting for unfinished jobs....
->
-> Here is the autobuilder log error:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/3180/st=
-eps/11/logs/stdio
+> Here is the diffoscope log:
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210310-pc9v=
+zt2k/packages/diff-html/
 >
 > Regards,
 >
