@@ -1,479 +1,69 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web09.8726.1615383462289587916
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.8843.1615384715495021793
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 05:37:42 -0800
+ Wed, 10 Mar 2021 05:58:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qYoC+pt+;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id m20-20020a7bcb940000b029010cab7e5a9fso11019975wmi.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 05:37:35 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RkhgXoLt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id u187so7157701wmg.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 05:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zBsMsUDXtOBdfMGuCJ0Y8IxdpQwZc1I5SgKePAjrC3E=;
-        b=qYoC+pt+/5e9+U5wJZAece6iOvFtf3fBh3A7H9f1XcWGri7j9WV4j6oN9m7r/RxYZb
-         cAw9YjBslLUgFz4ZDyjZpwaiXp6TOdnBwxEYy7IAw10nN43cZ+cvVQusq1asTIfnDKSC
-         zV9MFi3Uk6qejEn0r1r5EW0tf/8+icfaG2lm1CqhZz0SR9Uc6fYiMM6PHVVb/QBqNVfO
-         8dVDq+vZDaK87mzv3bGilqhkg6voaw1o9zofvtIIs1ZB1OQbmzvP+Hwiv5P/pijklrYx
-         1F2HdfAl86f6JGkTwf1C5K6S2XHbVgrkEwW3UqBkuutYT0lIzoHd09sXLR9n1g3optiX
-         5LCA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=z7I9f19Gs+SG9zwB/Ki9znvD1zQw1Izxo3NWmsKbdqA=;
+        b=RkhgXoLt3WrKZ26NxqQqg4eFlZqueOLOEip3POUbbZXghRjvBtMf3TEbMcspxROGdA
+         qP1rT9AJIy+/8BL1VZJ3dA7SVZbl5v1aZ9ejPQZ4KTVgGXYY17v1PTEOVBY/H8fgxwac
+         dWfEtcw0M4NBN2fvkaldihsolWTc9bXuU9T9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zBsMsUDXtOBdfMGuCJ0Y8IxdpQwZc1I5SgKePAjrC3E=;
-        b=rB31CHzYwjROquvDw1D4SFYnQ1rjzU5x8ezEmaLpzH1ppncFezcwFKVE3CnQVPZJft
-         IfjR89MS8Z6cPBQ/QUiANIcQBoUVAo2KhAoSbBkj2BcOGN+sFECvFLySHVegBcwTfFAI
-         trSTNiSKczgy42NvPvv8JtY0zBugOxWlOVzQhFAMryzL/HDq9aPA6x3s7IfL0b+k2oN4
-         ixKSFrFvoYtnXdtK3Hd76y4336wg0aVTIY4lOD8RhvUsxqS4uVwbvD8luvqIkTekKA9F
-         d0u++vVY+Rhzzwr9wQZaOP/7/mWd9OsBhWY7sjfDqFgV2bdnWqXJqCssx0VeBkDlfuBX
-         AGHg==
-X-Gm-Message-State: AOAM531vyCLN532L9k4p03MhjlXwlFrW0qTHRwqj+B+rtHwKHmhVlUZw
-	oWuToMHI0sGiHn5i8vHJ/ZBRkVitMnU=
-X-Google-Smtp-Source: ABdhPJxpsj4K1LY8b+uTO8y4sbeuuVbeL9lNjszKhlEIlFHzzbj1DhdDhY+8JWlLMRdN+uO8pdMMFQ==
-X-Received: by 2002:a1c:6543:: with SMTP id z64mr3476364wmb.50.1615383454482;
-        Wed, 10 Mar 2021 05:37:34 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id k12sm23865535wrx.7.2021.03.10.05.37.33
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=z7I9f19Gs+SG9zwB/Ki9znvD1zQw1Izxo3NWmsKbdqA=;
+        b=V/kJlWZ2II8dWOXTdD19mRznSzJq44afJpVs1hQXGqVhYk652dR+pWvewRjGBfFt4C
+         cPQb2prWJp+Np31hYLKqNsMepC8d9xb1jbkrlAn4WePUTrY7IuYnQmbl2ulJ8rx3jurM
+         D93ryH4+MEiZOF9c+MT1x3sWvlXRmIb+x8sHETzVVOnuOg/b5iFBm6qKVHsVTRCK0zXC
+         /jzKrpLvfZ1ruPEoCUBe8W+BIBcjr3ki0gt8Ym0ymrCZiIpTKFK7TngifSFS3quWIwvY
+         tNhXF5dmlBSAbfInAHBxzqj6WqubxiWHE4Lsf50QvfC0mgVRdbW9KqN9IR9JAVva3UBS
+         0dpA==
+X-Gm-Message-State: AOAM533O+9o/83WGfBaAY/4OZCX5xTq+kR0So0Vmy1s7NKUPykK1u/rF
+	IB8jAE2s/kC48eONdTZOlevaMQ==
+X-Google-Smtp-Source: ABdhPJzH2NafrcxqHrQEscjPl4xJ9DwsbCbXHalMPhhaKDFLt4lCRFYMizEJ8M1CZ+DDe/1jKHuzuA==
+X-Received: by 2002:a1c:a543:: with SMTP id o64mr3486679wme.107.1615384713916;
+        Wed, 10 Mar 2021 05:58:33 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:723d:6f27:5f9:3d7b? ([2001:8b0:aba:5f3c:723d:6f27:5f9:3d7b])
+        by smtp.gmail.com with ESMTPSA id s18sm25910702wrr.27.2021.03.10.05.58.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 05:37:33 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 1/2] busybox: refresh the defconfig from 1.33.0
-Date: Wed, 10 Mar 2021 14:37:30 +0100
-Message-Id: <20210310133731.1890031-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.1
+        Wed, 10 Mar 2021 05:58:33 -0800 (PST)
+Message-ID: <8d673369cf2afb9a9c4eb0c7178525b1d11e5913.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/6] perf: fix reproducibility issues
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, =?ISO-8859-1?Q?K=F6ry?=
+	Maincent <kory.maincent@bootlin.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Mar 2021 13:58:31 +0000
+In-Reply-To: <CADkTA4PFwiJM+TBiC3457jNa-GOtiGYa3-g9iy7DKCAcsfyK8g@mail.gmail.com>
+References: <cover.1615317549.git.bruce.ashfield@gmail.com>
+	 <0e2ab3111ac8446d0657e8f4d8d400f50f4e245b.1615317549.git.bruce.ashfield@gmail.com>
+	 <20210310114234.1b838cd8@kmaincent-XPS-13-7390>
+	 <CADkTA4PFwiJM+TBiC3457jNa-GOtiGYa3-g9iy7DKCAcsfyK8g@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/busybox/busybox/defconfig | 133 +++++++++++---------
- 1 file changed, 76 insertions(+), 57 deletions(-)
+On Wed, 2021-03-10 at 08:37 -0500, Bruce Ashfield wrote:
+> I'm unfortunately out of time on this, so obviously this can be
+> dropped and I'll work on it again for next release.
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 4334a9d738..701d48d625 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -1,7 +1,7 @@
- #
- # Automatically generated make config: don't edit
--# Busybox version: 1.30.1
--# Sun Feb 17 18:12:27 2019
-+# Busybox version: 1.33.0
-+# Wed Mar 10 13:29:25 2021
- #
- CONFIG_HAVE_DOT_CONFIG=y
- 
-@@ -34,8 +34,8 @@ CONFIG_FEATURE_SUID_CONFIG_QUIET=y
- CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
- # CONFIG_SELINUX is not set
- # CONFIG_FEATURE_CLEAN_UP is not set
-+CONFIG_FEATURE_SYSLOG_INFO=y
- CONFIG_FEATURE_SYSLOG=y
--CONFIG_PLATFORM_LINUX=y
- 
- #
- # Build Options
-@@ -54,6 +54,7 @@ CONFIG_EXTRA_LDFLAGS=""
- CONFIG_EXTRA_LDLIBS=""
- # CONFIG_USE_PORTABLE_CODE is not set
- CONFIG_STACK_OPTIMIZATION_386=y
-+CONFIG_STATIC_LIBGCC=y
- 
- #
- # Installation Options ("make install" behavior)
-@@ -75,6 +76,7 @@ CONFIG_PREFIX="./_install"
- # CONFIG_DEBUG_SANITIZE is not set
- # CONFIG_UNIT_TEST is not set
- # CONFIG_WERROR is not set
-+# CONFIG_WARN_SIMPLE_MSG is not set
- CONFIG_NO_DEBUG_LIB=y
- # CONFIG_DMALLOC is not set
- # CONFIG_EFENCE is not set
-@@ -108,13 +110,13 @@ CONFIG_FEATURE_EDITING_FANCY_PROMPT=y
- # CONFIG_FEATURE_EDITING_WINCH is not set
- # CONFIG_FEATURE_EDITING_ASK_TERMINAL is not set
- # CONFIG_LOCALE_SUPPORT is not set
--# CONFIG_UNICODE_SUPPORT is not set
-+CONFIG_UNICODE_SUPPORT=y
- # CONFIG_UNICODE_USING_LOCALE is not set
--# CONFIG_FEATURE_CHECK_UNICODE_IN_ENV is not set
--CONFIG_SUBST_WCHAR=0
--CONFIG_LAST_SUPPORTED_WCHAR=0
--# CONFIG_UNICODE_COMBINING_WCHARS is not set
--# CONFIG_UNICODE_WIDE_WCHARS is not set
-+CONFIG_FEATURE_CHECK_UNICODE_IN_ENV=y
-+CONFIG_SUBST_WCHAR=63
-+CONFIG_LAST_SUPPORTED_WCHAR=767
-+CONFIG_UNICODE_COMBINING_WCHARS=y
-+CONFIG_UNICODE_WIDE_WCHARS=y
- # CONFIG_UNICODE_BIDI_SUPPORT is not set
- # CONFIG_UNICODE_NEUTRAL_TABLE is not set
- # CONFIG_UNICODE_PRESERVE_BROKEN is not set
-@@ -155,6 +157,7 @@ CONFIG_LZCAT=y
- CONFIG_XZCAT=y
- # CONFIG_XZ is not set
- CONFIG_BZIP2=y
-+CONFIG_BZIP2_SMALL=8
- CONFIG_FEATURE_BZIP2_DECOMPRESS=y
- CONFIG_CPIO=y
- # CONFIG_FEATURE_CPIO_O is not set
-@@ -235,7 +238,6 @@ CONFIG_EXPR_MATH_SUPPORT_64=y
- # CONFIG_FACTOR is not set
- CONFIG_FALSE=y
- # CONFIG_FOLD is not set
--# CONFIG_FSYNC is not set
- CONFIG_HEAD=y
- # CONFIG_FEATURE_FANCY_HEAD is not set
- # CONFIG_HOSTID is not set
-@@ -257,8 +259,8 @@ CONFIG_FEATURE_LS_USERNAME=y
- CONFIG_FEATURE_LS_COLOR=y
- # CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
- CONFIG_MD5SUM=y
--# CONFIG_SHA1SUM is not set
--# CONFIG_SHA256SUM is not set
-+CONFIG_SHA1SUM=y
-+CONFIG_SHA256SUM=y
- # CONFIG_SHA512SUM is not set
- # CONFIG_SHA3SUM is not set
- 
-@@ -302,6 +304,7 @@ CONFIG_STTY=y
- # CONFIG_SUM is not set
- CONFIG_SYNC=y
- # CONFIG_FEATURE_SYNC_FANCY is not set
-+# CONFIG_FSYNC is not set
- # CONFIG_TAC is not set
- CONFIG_TAIL=y
- CONFIG_FEATURE_FANCY_TAIL=y
-@@ -328,14 +331,15 @@ CONFIG_UNIQ=y
- CONFIG_UNLINK=y
- CONFIG_USLEEP=y
- # CONFIG_UUDECODE is not set
-+CONFIG_BASE32=y
- # CONFIG_BASE64 is not set
- # CONFIG_UUENCODE is not set
- CONFIG_WC=y
- # CONFIG_FEATURE_WC_LARGE is not set
--CONFIG_WHOAMI=y
- CONFIG_WHO=y
- # CONFIG_W is not set
- CONFIG_USERS=y
-+CONFIG_WHOAMI=y
- CONFIG_YES=y
- 
- #
-@@ -375,8 +379,8 @@ CONFIG_DEFAULT_SETFONT_DIR=""
- CONFIG_LOADKMAP=y
- CONFIG_OPENVT=y
- CONFIG_RESET=y
--# CONFIG_RESIZE is not set
--# CONFIG_FEATURE_RESIZE_PRINT is not set
-+CONFIG_RESIZE=y
-+CONFIG_FEATURE_RESIZE_PRINT=y
- CONFIG_SETCONSOLE=y
- # CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS is not set
- # CONFIG_SETKEYCODES is not set
-@@ -460,6 +464,7 @@ CONFIG_FEATURE_FIND_SIZE=y
- CONFIG_FEATURE_FIND_PRUNE=y
- CONFIG_FEATURE_FIND_QUIT=y
- # CONFIG_FEATURE_FIND_DELETE is not set
-+CONFIG_FEATURE_FIND_EMPTY=y
- CONFIG_FEATURE_FIND_PATH=y
- CONFIG_FEATURE_FIND_REGEX=y
- # CONFIG_FEATURE_FIND_CONTEXT is not set
-@@ -488,32 +493,32 @@ CONFIG_FEATURE_XARGS_SUPPORT_REPL_STR=y
- CONFIG_REBOOT=y
- # CONFIG_FEATURE_WAIT_FOR_INIT is not set
- # CONFIG_FEATURE_CALL_TELINIT is not set
--# CONFIG_TELINIT_PATH is not set
-+CONFIG_TELINIT_PATH=""
- # CONFIG_INIT is not set
- # CONFIG_LINUXRC is not set
- # CONFIG_FEATURE_USE_INITTAB is not set
- # CONFIG_FEATURE_KILL_REMOVED is not set
--# CONFIG_FEATURE_KILL_DELAY is not set
-+CONFIG_FEATURE_KILL_DELAY=0
- # CONFIG_FEATURE_INIT_SCTTY is not set
- # CONFIG_FEATURE_INIT_SYSLOG is not set
- # CONFIG_FEATURE_INIT_QUIET is not set
- # CONFIG_FEATURE_INIT_COREDUMPS is not set
--# CONFIG_INIT_TERMINAL_TYPE is not set
-+CONFIG_INIT_TERMINAL_TYPE=""
- # CONFIG_FEATURE_INIT_MODIFY_CMDLINE is not set
- 
- #
- # Login/Password Management Utilities
- #
--# CONFIG_FEATURE_SHADOWPASSWDS is not set
-+CONFIG_FEATURE_SHADOWPASSWDS=y
- # CONFIG_USE_BB_PWD_GRP is not set
- # CONFIG_USE_BB_SHADOW is not set
- CONFIG_USE_BB_CRYPT=y
- # CONFIG_USE_BB_CRYPT_SHA is not set
--# CONFIG_ADDGROUP is not set
--# CONFIG_FEATURE_ADDUSER_TO_GROUP is not set
- # CONFIG_ADD_SHELL is not set
- # CONFIG_REMOVE_SHELL is not set
--# CONFIG_ADDUSER is not set
-+CONFIG_ADDGROUP=y
-+# CONFIG_FEATURE_ADDUSER_TO_GROUP is not set
-+CONFIG_ADDUSER=y
- # CONFIG_FEATURE_CHECK_NAMES is not set
- CONFIG_LAST_ID=60000
- CONFIG_FIRST_SYSTEM_ID=100
-@@ -522,23 +527,23 @@ CONFIG_LAST_SYSTEM_ID=999
- CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
- # CONFIG_CRYPTPW is not set
- # CONFIG_MKPASSWD is not set
--# CONFIG_DELUSER is not set
--# CONFIG_DELGROUP is not set
-+CONFIG_DELUSER=y
-+CONFIG_DELGROUP=y
- # CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set
--# CONFIG_GETTY is not set
--# CONFIG_LOGIN is not set
-+CONFIG_GETTY=y
-+CONFIG_LOGIN=y
- # CONFIG_LOGIN_SESSION_AS_CHILD is not set
- # CONFIG_LOGIN_SCRIPTS is not set
- # CONFIG_FEATURE_NOLOGIN is not set
- # CONFIG_FEATURE_SECURETTY is not set
--# CONFIG_PASSWD is not set
-+CONFIG_PASSWD=y
- # CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set
--# CONFIG_SU is not set
-+CONFIG_SU=y
- # CONFIG_FEATURE_SU_SYSLOG is not set
- # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
- # CONFIG_FEATURE_SU_BLANK_PW_NEEDS_SECURE_TTY is not set
--# CONFIG_SULOGIN is not set
--# CONFIG_VLOCK is not set
-+CONFIG_SULOGIN=y
-+CONFIG_VLOCK=y
- 
- #
- # Linux Ext2 FS Progs
-@@ -585,8 +590,8 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
- # CONFIG_ACPID is not set
- # CONFIG_FEATURE_ACPID_COMPAT is not set
- # CONFIG_BLKDISCARD is not set
--# CONFIG_BLKID is not set
--# CONFIG_FEATURE_BLKID_TYPE is not set
-+CONFIG_BLKID=y
-+CONFIG_FEATURE_BLKID_TYPE=y
- # CONFIG_BLOCKDEV is not set
- # CONFIG_CAL is not set
- # CONFIG_CHRT is not set
-@@ -616,10 +621,9 @@ CONFIG_FLOCK=y
- # CONFIG_FSCK_MINIX is not set
- # CONFIG_FSFREEZE is not set
- CONFIG_FSTRIM=y
--# CONFIG_GETOPT is not set
--# CONFIG_FEATURE_GETOPT_LONG is not set
-+CONFIG_GETOPT=y
-+CONFIG_FEATURE_GETOPT_LONG=y
- CONFIG_HEXDUMP=y
--# CONFIG_FEATURE_HEXDUMP_REVERSE is not set
- # CONFIG_HD is not set
- # CONFIG_XXD is not set
- CONFIG_HWCLOCK=y
-@@ -638,6 +642,7 @@ CONFIG_LOSETUP=y
- # CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
- # CONFIG_FEATURE_MDEV_EXEC is not set
- # CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
-+# CONFIG_FEATURE_MDEV_DAEMON is not set
- CONFIG_MESG=y
- # CONFIG_FEATURE_MESG_ENABLE_ONLY_GROUP is not set
- # CONFIG_MKE2FS is not set
-@@ -654,7 +659,7 @@ CONFIG_MOUNT=y
- # CONFIG_FEATURE_MOUNT_FAKE is not set
- # CONFIG_FEATURE_MOUNT_VERBOSE is not set
- # CONFIG_FEATURE_MOUNT_HELPERS is not set
--# CONFIG_FEATURE_MOUNT_LABEL is not set
-+CONFIG_FEATURE_MOUNT_LABEL=y
- # CONFIG_FEATURE_MOUNT_NFS is not set
- # CONFIG_FEATURE_MOUNT_CIFS is not set
- CONFIG_FEATURE_MOUNT_FLAGS=y
-@@ -669,7 +674,7 @@ CONFIG_RDATE=y
- # CONFIG_RDEV is not set
- # CONFIG_READPROFILE is not set
- CONFIG_RENICE=y
--# CONFIG_REV is not set
-+CONFIG_REV=y
- # CONFIG_RTCWAKE is not set
- # CONFIG_SCRIPT is not set
- # CONFIG_SCRIPTREPLAY is not set
-@@ -689,6 +694,7 @@ CONFIG_SWAPOFF=y
- CONFIG_SWITCH_ROOT=y
- # CONFIG_TASKSET is not set
- # CONFIG_FEATURE_TASKSET_FANCY is not set
-+# CONFIG_FEATURE_TASKSET_CPULIST is not set
- # CONFIG_UEVENT is not set
- CONFIG_UMOUNT=y
- CONFIG_FEATURE_UMOUNT_ALL=y
-@@ -701,18 +707,19 @@ CONFIG_FEATURE_UMOUNT_ALL=y
- CONFIG_FEATURE_MOUNT_LOOP=y
- CONFIG_FEATURE_MOUNT_LOOP_CREATE=y
- # CONFIG_FEATURE_MTAB_SUPPORT is not set
--# CONFIG_VOLUMEID is not set
-+CONFIG_VOLUMEID=y
- 
- #
- # Filesystem/Volume identification
- #
- # CONFIG_FEATURE_VOLUMEID_BCACHE is not set
--# CONFIG_FEATURE_VOLUMEID_BTRFS is not set
-+CONFIG_FEATURE_VOLUMEID_BTRFS=y
- # CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
-+CONFIG_FEATURE_VOLUMEID_EROFS=y
- # CONFIG_FEATURE_VOLUMEID_EXFAT is not set
--# CONFIG_FEATURE_VOLUMEID_EXT is not set
--# CONFIG_FEATURE_VOLUMEID_F2FS is not set
--# CONFIG_FEATURE_VOLUMEID_FAT is not set
-+CONFIG_FEATURE_VOLUMEID_EXT=y
-+CONFIG_FEATURE_VOLUMEID_F2FS=y
-+CONFIG_FEATURE_VOLUMEID_FAT=y
- # CONFIG_FEATURE_VOLUMEID_HFS is not set
- # CONFIG_FEATURE_VOLUMEID_ISO9660 is not set
- # CONFIG_FEATURE_VOLUMEID_JFS is not set
-@@ -726,7 +733,7 @@ CONFIG_FEATURE_MOUNT_LOOP_CREATE=y
- # CONFIG_FEATURE_VOLUMEID_OCFS2 is not set
- # CONFIG_FEATURE_VOLUMEID_REISERFS is not set
- # CONFIG_FEATURE_VOLUMEID_ROMFS is not set
--# CONFIG_FEATURE_VOLUMEID_SQUASHFS is not set
-+CONFIG_FEATURE_VOLUMEID_SQUASHFS=y
- # CONFIG_FEATURE_VOLUMEID_SYSV is not set
- # CONFIG_FEATURE_VOLUMEID_UBIFS is not set
- # CONFIG_FEATURE_VOLUMEID_UDF is not set
-@@ -769,10 +776,10 @@ CONFIG_FEATURE_CROND_DIR=""
- # CONFIG_FEATURE_DEVFS is not set
- # CONFIG_DEVMEM is not set
- # CONFIG_FBSPLASH is not set
--# CONFIG_FLASHCP is not set
- # CONFIG_FLASH_ERASEALL is not set
- # CONFIG_FLASH_LOCK is not set
- # CONFIG_FLASH_UNLOCK is not set
-+# CONFIG_FLASHCP is not set
- # CONFIG_HDPARM is not set
- # CONFIG_FEATURE_HDPARM_GET_IDENTITY is not set
- # CONFIG_FEATURE_HDPARM_HDIO_SCAN_HWIF is not set
-@@ -806,6 +813,7 @@ CONFIG_FEATURE_LESS_FLAGS=y
- # CONFIG_FEATURE_MAKEDEVS_TABLE is not set
- # CONFIG_MAN is not set
- CONFIG_MICROCOM=y
-+# CONFIG_MIM is not set
- # CONFIG_MT is not set
- # CONFIG_NANDWRITE is not set
- # CONFIG_NANDDUMP is not set
-@@ -819,14 +827,15 @@ CONFIG_RFKILL=y
- # CONFIG_SETSERIAL is not set
- CONFIG_STRINGS=y
- CONFIG_TIME=y
-+CONFIG_TS=y
- # CONFIG_TTYSIZE is not set
--# CONFIG_UBIRENAME is not set
- # CONFIG_UBIATTACH is not set
- # CONFIG_UBIDETACH is not set
- # CONFIG_UBIMKVOL is not set
- # CONFIG_UBIRMVOL is not set
- # CONFIG_UBIRSVOL is not set
- # CONFIG_UBIUPDATEVOL is not set
-+# CONFIG_UBIRENAME is not set
- # CONFIG_VOLNAME is not set
- # CONFIG_WATCHDOG is not set
- 
-@@ -866,6 +875,10 @@ CONFIG_DNSDOMAINNAME=y
- # CONFIG_FEATURE_HTTPD_ERROR_PAGES is not set
- # CONFIG_FEATURE_HTTPD_PROXY is not set
- # CONFIG_FEATURE_HTTPD_GZIP is not set
-+# CONFIG_FEATURE_HTTPD_ETAG is not set
-+# CONFIG_FEATURE_HTTPD_LAST_MODIFIED is not set
-+# CONFIG_FEATURE_HTTPD_DATE is not set
-+# CONFIG_FEATURE_HTTPD_ACL_IP is not set
- CONFIG_IFCONFIG=y
- CONFIG_FEATURE_IFCONFIG_STATUS=y
- # CONFIG_FEATURE_IFCONFIG_SLIP is not set
-@@ -946,6 +959,7 @@ CONFIG_FEATURE_TELNET_WIDTH=y
- # CONFIG_FEATURE_TELNETD_INETD_WAIT is not set
- CONFIG_TFTP=y
- # CONFIG_FEATURE_TFTP_PROGRESS_BAR is not set
-+CONFIG_FEATURE_TFTP_HPA_COMPAT=y
- # CONFIG_TFTPD is not set
- CONFIG_FEATURE_TFTP_GET=y
- CONFIG_FEATURE_TFTP_PUT=y
-@@ -990,6 +1004,7 @@ CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
- # CONFIG_FEATURE_UDHCP_PORT is not set
- CONFIG_UDHCP_DEBUG=0
- CONFIG_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
-+CONFIG_FEATURE_UDHCP_RFC3397=y
- # CONFIG_FEATURE_UDHCP_8021Q is not set
- CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -b"
- 
-@@ -1023,7 +1038,7 @@ CONFIG_KILLALL=y
- # CONFIG_LSOF is not set
- # CONFIG_MPSTAT is not set
- # CONFIG_NMETER is not set
--# CONFIG_PGREP is not set
-+CONFIG_PGREP=y
- # CONFIG_PKILL is not set
- CONFIG_PIDOF=y
- # CONFIG_FEATURE_PIDOF_SINGLE is not set
-@@ -1093,6 +1108,7 @@ CONFIG_SH_IS_ASH=y
- # CONFIG_BASH_IS_ASH is not set
- # CONFIG_BASH_IS_HUSH is not set
- CONFIG_BASH_IS_NONE=y
-+CONFIG_SHELL_ASH=y
- CONFIG_ASH=y
- CONFIG_ASH_OPTIMIZE_FOR_SIZE=y
- CONFIG_ASH_INTERNAL_GLOB=y
-@@ -1113,6 +1129,7 @@ CONFIG_ASH_GETOPTS=y
- CONFIG_ASH_CMDCMD=y
- # CONFIG_CTTYHACK is not set
- # CONFIG_HUSH is not set
-+# CONFIG_SHELL_HUSH is not set
- # CONFIG_HUSH_BASH_COMPAT is not set
- # CONFIG_HUSH_BRACE_EXPANSION is not set
- # CONFIG_HUSH_LINENO_VAR is not set
-@@ -1154,6 +1171,7 @@ CONFIG_ASH_CMDCMD=y
- #
- CONFIG_FEATURE_SH_MATH=y
- # CONFIG_FEATURE_SH_MATH_64 is not set
-+CONFIG_FEATURE_SH_MATH_BASE=y
- CONFIG_FEATURE_SH_EXTRA_QUIET=y
- # CONFIG_FEATURE_SH_STANDALONE is not set
- # CONFIG_FEATURE_SH_NOFORK is not set
-@@ -1171,14 +1189,15 @@ CONFIG_KLOGD=y
- #
- CONFIG_FEATURE_KLOGD_KLOGCTL=y
- CONFIG_LOGGER=y
--# CONFIG_LOGREAD is not set
--# CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
--# CONFIG_SYSLOGD is not set
--# CONFIG_FEATURE_ROTATE_LOGFILE is not set
--# CONFIG_FEATURE_REMOTE_LOG is not set
--# CONFIG_FEATURE_SYSLOGD_DUP is not set
--# CONFIG_FEATURE_SYSLOGD_CFG is not set
--CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=0
--# CONFIG_FEATURE_IPC_SYSLOG is not set
--CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=0
--# CONFIG_FEATURE_KMSG_SYSLOG is not set
-+CONFIG_LOGREAD=y
-+CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
-+CONFIG_SYSLOGD=y
-+CONFIG_FEATURE_ROTATE_LOGFILE=y
-+CONFIG_FEATURE_REMOTE_LOG=y
-+CONFIG_FEATURE_SYSLOGD_DUP=y
-+CONFIG_FEATURE_SYSLOGD_CFG=y
-+# CONFIG_FEATURE_SYSLOGD_PRECISE_TIMESTAMPS is not set
-+CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
-+CONFIG_FEATURE_IPC_SYSLOG=y
-+CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
-+CONFIG_FEATURE_KMSG_SYSLOG=y
--- 
-2.30.1
+I'll merge it since this is an incremental improvement, I just won't drop
+perf from the exclusion list yet. Its a great step forward, I think
+there is some remaining linking order issue lurking somewhere.
+
+Cheers,
+
+Richard
+
 
