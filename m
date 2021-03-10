@@ -1,173 +1,207 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web09.11830.1615394150980568389
+Received: from mailrelay4-3.pub.mailoutpod1-cph3.one.com (mailrelay4-3.pub.mailoutpod1-cph3.one.com [46.30.212.13])
+ by mx.groups.io with SMTP id smtpd.web08.110.1615395829910186150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 08:35:51 -0800
+ Wed, 10 Mar 2021 09:03:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uFds0sYW;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id t16so1053933qvr.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 08:35:50 -0800 (PST)
+ dkim=pass header.i=@embexus.com header.s=20191106 header.b=0UdVv0hE;
+ spf=none, err=permanent DNS error (domain: embexus.com, ip: 46.30.212.13, mailfrom: ayoub.zaki@embexus.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X5SPhVeG/wBpmpXJTTbUfNFuemkHyOdrgyV8E5mCBUo=;
-        b=uFds0sYWT3/v8fzSL7vF0R3qYYdVmuiMOfBtEyAbQoMvPgEYISyun7HgkEjK7l96Jn
-         Vk0+V7OB4wPL70f+IFtuGFK3/76Fta7GfEeSLk8Gz4aLqwMYkWmRtLwsJFEAp+mfX4l6
-         vzt2G6rTG0T44f8DUs0Yzgn8+gFS/MwYQ30MaXWFty/OD4a9+J/LTYWGgC5+2JuauW/S
-         RIxglRt6I8o40a5Ma/MapFVq3PN5vx9dTXVjpSXQEzHz1T+EszFpj9XQd02tiq9ILEez
-         o//gX5wyosX+IHQ+yxKWTqhVfBsEzInHWOMiz/n1HF6MIyO6BHCCXxzVP9h6WqAr/RRI
-         sDZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X5SPhVeG/wBpmpXJTTbUfNFuemkHyOdrgyV8E5mCBUo=;
-        b=Inp5J6Ndi1XhnxKKEPpBZlH5x7CfHpCWJFtu7hzhAufKiIYQHNSjz3pyE72H56yTUV
-         a9LlBu/XSTn9RbveSwKDgpPQv500VVS1auGc0JHQU6x3SignDR48xGwA6+/7lxmYEQNT
-         hUFSYfFPwKNxT5pdl8CXHpYdS+EL0KNVUmbS+SoKYKlYWfeQ6Vf4QDw7b6vISde14FFv
-         bciaFPEpHCKuMUv6QkovAfJCOCEk2BhPOuJUtfHwIaqL5LD38OuSMp06yu68bP9PC/Di
-         xnrdmmDFniqdSU0nhj2vEa5bAb3be6rJv+spX3KMRyF2KD1ItgT/+JjIzko6T7oaObtE
-         pDtQ==
-X-Gm-Message-State: AOAM532Lk1LjfL9XM+IHKqY5foKO3xpfSvqV6jZFCOgAUD0PidFbdLKX
-	bo5J9ekSMJGhEOyoyleM/onOMt+ricni7XLTagKbvTTZBUg=
-X-Google-Smtp-Source: ABdhPJy4QFW2Z1eKABtL/mSKPF0LqH5Ny86nsgirLoQ9MCI0eenjiMcDQoFAmgaI/oJky2F5j7hBE/mU5pUEw6HlgWc=
-X-Received: by 2002:a05:6214:80d:: with SMTP id df13mr3590809qvb.55.1615394149950;
- Wed, 10 Mar 2021 08:35:49 -0800 (PST)
+	d=embexus.com; s=20191106;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:to:
+	 subject:from;
+	bh=DUiJQKuZeF2F3tfMC9YRjqV4fIm40vdg+RFVmZRl+hA=;
+	b=0UdVv0hEfHGmp2lphsQL/hjNoWk/cdeCfHGFgTQ6ulVSSQCA9K2XaZja8kp+WtKXvgmT9BSwHW7fn
+	 XjxQoPugiHUmKnP88w54Gkb461KFt0VZVkOPWfNX5CCWZR3mJ24erBdysdmWLq/lcmRtcB0Svl37nr
+	 pNCqOhXyD0sTvjRa49JZlFIUmxm/VfIFgbFThMp1ba7qQOzt7WqlPInmj20zvaIgYlw5U07yLAB1KE
+	 LILpT+xfTr1jEdhtLWSNuyYcrFB0Nr5F9zNYY+VKFFdxD+b7ydVBaYJF1D31h2aP3ymmUdNpJwZMEA
+	 v3ojZJzDl2JEuDdRxhwNo0MdVuMxGnw==
+X-HalOne-Cookie: 6ae6c036cb89980572d44a3c92e7a1d1478d9b0f
+X-HalOne-ID: 93e7aac0-81c2-11eb-a8f8-d0431ea8bb10
+Received: from [192.168.178.41] (x4db63d71.dyn.telefonica.de [77.182.61.113])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 93e7aac0-81c2-11eb-a8f8-d0431ea8bb10;
+	Wed, 10 Mar 2021 17:03:47 +0000 (UTC)
+Subject: Re: [oe-core][RFC 0/3] u-boot: Support SPL Verified Boot
+To: openembedded-core@lists.openembedded.org
+References: <20210306112822.11668-1-klaus@linux.vnet.ibm.com>
+From: "Ayoub Zaki" <ayoub.zaki@embexus.com>
+Message-ID: <0ef798a2-c67a-e023-a9b0-917bf7597f4f@embexus.com>
+Date: Wed, 10 Mar 2021 18:03:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <b0117e87-c17f-e22f-c2b9-868dd12ea09@crashcourse.ca>
- <cf23928e-ea00-6f4e-78b3-82bed1658fc1@gmail.com> <ed7fc1ff-d861-a0b9-e749-627193f3db66@crashcourse.ca>
-In-Reply-To: <ed7fc1ff-d861-a0b9-e749-627193f3db66@crashcourse.ca>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 10 Mar 2021 08:35:39 -0800
-Message-ID: <CAMKF1soLYJS7Gn8f6mYxhnesv5uXd2uA+NLZ=bNoixFdLMypRQ@mail.gmail.com>
-Subject: Re: [OE-core] any reason for "cmake_" prefix on cmake_runcmake_build()?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007ae99705bd3142d5"
+In-Reply-To: <20210306112822.11668-1-klaus@linux.vnet.ibm.com>
+Content-Type: multipart/alternative;
+ boundary="------------974CFD67720B4AE3081BAA77"
+Content-Language: en-US
 
---0000000000007ae99705bd3142d5
-Content-Type: text/plain; charset="UTF-8"
+--------------974CFD67720B4AE3081BAA77
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 10, 2021 at 3:38 AM Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
-
-> On Mon, 8 Mar 2021, Khem Raj wrote:
->
-> >
-> >
-> > On 3/8/21 3:22 AM, Robert P. J. Day wrote:
-> > >
-> > >    collecting some examples of inheritance of class functions using
-> > > EXPORT_FUNCTIONS, and ran across this routine in cmake.bbclass:
-> > >
-> > >    ... snip ...
-> > >    cmake_runcmake_build() {
-> > >  bbnote ...
-> > >  eval ...
-> > >    }
-> > >
-> > >    cmake_do_compile()  {
-> > >          cmake_runcmake_build --target ${OECMAKE_TARGET_COMPILE}
-> > >    }
-> > >    ... snip ...
-> > >
-> > > what puzzles me is that the routine cmake_runcmake_build(), despite
-> > > having a "cmake_" prefix, is not being exported with EXPORT_FUNCTIONS,
-> > > so while that's a perfectly respectable function, it's not clear why
-> > > it would have a "cmake_" prefix. is there some value to that prefix,
-> > > or is it just arbitrary?
-> >
-> > it does not intend to provide a default function like do_compile
-> do_install
-> > exporting it is not necessary
->
->   no, that part i understand ... the nitpicky observation was the use
-> of the "cmake_" prefix for a function which was not intended to be
-> exported for the purpose of inheritance. sure, it's perfectly legal,
-> but in a stylistic sense, it just leaves open the possibility of
-> misinterpretation by someone reading the code.
->
->   a simpler style rule might be, "reserve classname_ prefixes for only
-> those routines you plan on exporting." but i admit this is a quibble.
+Hello,
 
 
-This is more towards code styling issue and we have not really bothered to
-define such namespaces they cause more confusion than the problem they
-solve since such things should be checked by linters other wise they fall
-apart
+On 3/6/21 12:28 PM, Klaus Heinrich Kiwi wrote:
+> This patch series aims at extending U-Boot's verified boot support to
+> also include SPL signing.
+
+
+If u-boot is signed, which part is responsible of the signature 
+verification ?
+
+doesn't each CPU vendor provide it's own way of signing the first 
+component that will be loader by the ROM code ?
+
+so I'm wondering in which case does this apply ?
+
 
 >
+> The proposal is to some of the infrastructure (variables, functions)
+> used to sign the Kernel FitImage to more common locations, and then
+> essentially duplicate the method currently used to sign the Kernel
+> fitImage to also sign the U-Boot fitImage.
 >
-> rday
+> In the UBOOT_SIGN_ENABLE = "1" scenario, nothing really changes: The
+> Kernel fitImage is created, then signed, and the pubkey is added to
+> u-boot.dtb which is concatenated with the u-boot-nodtb.bin to create the
+> u-boot final image.
 >
+> In case SPL_SIGN_ENABLE = "1", The U-Boot PN will take care of (re-)
+> creating the U-Boot fitImage (using custom .its script) after compile,
+> sign it, and contatenate the u-boot-spl.dtb (with the public key) with
+> u-boot-spl-nodtb.bin to create the final U-Boot SPl on deploy.
+>
+> In case both UBOOT_SIGN_ENABLE and SPL_SIGN_ENABLE are set, the Kernel
+> PN will take care of creating and signing the U-Boot fitImage (becase we
+> need to also sign the FDT image containing the Kernel pubkey), and take
+> care of deploying it.
+>
+> I tested all three scenarios using OpenBMC upstream, and although there
+> might be some areas of improvement (like deploying the new binaries and
+> symlinks with more useful names), it appears to work well.
+>
+> One caveat is that when moving between the scenarios above, the user
+> might need to remove the tmp/ directory, since there could be a
+> collision for some of the files deployed into the images directory,
+> since the configuration may determine which PN does that.
+>
+> Reviews, thoughts and comments are very very welcome,
+>
+> Thanks,
+>
+>   -Klaus
+>
+>
+>
+> 
+>
+Mit freundlichen Grüßen / Kind regards
 
---0000000000007ae99705bd3142d5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Mar 10, 2021 at 3:38 AM Robert P. J. Day &lt;<a hre=
-f=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">On Mon, 8 Mar 2021, Khem Raj wrote:<br=
->
-<br>
-&gt;<br>
-&gt;<br>
-&gt; On 3/8/21 3:22 AM, Robert P. J. Day wrote:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 collecting some examples of inheritance of class fun=
-ctions using<br>
-&gt; &gt; EXPORT_FUNCTIONS, and ran across this routine in cmake.bbclass:<b=
-r>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 ... snip ...<br>
-&gt; &gt;=C2=A0 =C2=A0 cmake_runcmake_build() {<br>
-&gt; &gt;=C2=A0 bbnote ...<br>
-&gt; &gt;=C2=A0 eval ...<br>
-&gt; &gt;=C2=A0 =C2=A0 }<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 cmake_do_compile()=C2=A0 {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmake_runcmake_build --target $=
-{OECMAKE_TARGET_COMPILE}<br>
-&gt; &gt;=C2=A0 =C2=A0 }<br>
-&gt; &gt;=C2=A0 =C2=A0 ... snip ...<br>
-&gt; &gt;<br>
-&gt; &gt; what puzzles me is that the routine cmake_runcmake_build(), despi=
-te<br>
-&gt; &gt; having a &quot;cmake_&quot; prefix, is not being exported with EX=
-PORT_FUNCTIONS,<br>
-&gt; &gt; so while that&#39;s a perfectly respectable function, it&#39;s no=
-t clear why<br>
-&gt; &gt; it would have a &quot;cmake_&quot; prefix. is there some value to=
- that prefix,<br>
-&gt; &gt; or is it just arbitrary?<br>
-&gt;<br>
-&gt; it does not intend to provide a default function like do_compile do_in=
-stall<br>
-&gt; exporting it is not necessary<br>
-<br>
-=C2=A0 no, that part i understand ... the nitpicky observation was the use<=
-br>
-of the &quot;cmake_&quot; prefix for a function which was not intended to b=
-e<br>
-exported for the purpose of inheritance. sure, it&#39;s perfectly legal,<br=
->
-but in a stylistic sense, it just leaves open the possibility of<br>
-misinterpretation by someone reading the code.<br>
-<br>
-=C2=A0 a simpler style rule might be, &quot;reserve classname_ prefixes for=
- only<br>
-those routines you plan on exporting.&quot; but i admit this is a quibble.<=
-/blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This is more towa=
-rds code styling issue and we have not really bothered to define such names=
-paces they cause more confusion than the problem they solve since such thin=
-gs should be checked by linters other wise they fall apart=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-rday<br>
-</blockquote></div></div>
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
 
---0000000000007ae99705bd3142d5--
+Mobile   : +4917662901545
+Email    : ayoub.zaki@embexus.com
+Homepage : https://embexus.com
+VAT No.  : DE313902634
+
+
+--------------974CFD67720B4AE3081BAA77
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello,</p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 3/6/21 12:28 PM, Klaus Heinrich Kiwi
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210306112822.11668-1-klaus@linux.vnet.ibm.com">
+      <pre class="moz-quote-pre" wrap="">This patch series aims at extending U-Boot's verified boot support to
+also include SPL signing.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>If u-boot is signed, which part is responsible of the signature
+      verification ?</p>
+    <p>doesn't each CPU vendor provide it's own way of signing the first
+      component that will be loader by the ROM code ?</p>
+    <p>so I'm wondering in which case does this apply ?</p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20210306112822.11668-1-klaus@linux.vnet.ibm.com">
+      <pre class="moz-quote-pre" wrap="">
+
+The proposal is to some of the infrastructure (variables, functions)
+used to sign the Kernel FitImage to more common locations, and then
+essentially duplicate the method currently used to sign the Kernel
+fitImage to also sign the U-Boot fitImage.
+
+In the UBOOT_SIGN_ENABLE = "1" scenario, nothing really changes: The
+Kernel fitImage is created, then signed, and the pubkey is added to
+u-boot.dtb which is concatenated with the u-boot-nodtb.bin to create the
+u-boot final image.
+
+In case SPL_SIGN_ENABLE = "1", The U-Boot PN will take care of (re-)
+creating the U-Boot fitImage (using custom .its script) after compile,
+sign it, and contatenate the u-boot-spl.dtb (with the public key) with
+u-boot-spl-nodtb.bin to create the final U-Boot SPl on deploy.
+
+In case both UBOOT_SIGN_ENABLE and SPL_SIGN_ENABLE are set, the Kernel
+PN will take care of creating and signing the U-Boot fitImage (becase we
+need to also sign the FDT image containing the Kernel pubkey), and take
+care of deploying it.
+
+I tested all three scenarios using OpenBMC upstream, and although there
+might be some areas of improvement (like deploying the new binaries and
+symlinks with more useful names), it appears to work well.
+
+One caveat is that when moving between the scenarios above, the user
+might need to remove the tmp/ directory, since there could be a
+collision for some of the files deployed into the images directory,
+since the configuration may determine which PN does that.
+
+Reviews, thoughts and comments are very very welcome,
+
+Thanks,
+
+ -Klaus
+
+
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+
+
+</pre>
+    </blockquote>
+    <pre class="moz-signature" cols="72">Mit freundlichen Grüßen / Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+Mobile   : +4917662901545
+Email    : <a class="moz-txt-link-abbreviated" href="mailto:ayoub.zaki@embexus.com">ayoub.zaki@embexus.com</a>
+Homepage : <a class="moz-txt-link-freetext" href="https://embexus.com">https://embexus.com</a>
+VAT No.  : DE313902634</pre>
+  </body>
+</html>
+
+--------------974CFD67720B4AE3081BAA77--
