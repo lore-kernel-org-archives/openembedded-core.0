@@ -1,50 +1,50 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [])
  by mx.groups.io with SMTP id smtpd.web12.7524.1615376831624833368
  for <openembedded-core@lists.openembedded.org>;
  Wed, 10 Mar 2021 03:47:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
+ dkim=missing; spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 1A/D2-03420-CB1B8406; Wed, 10 Mar 2021 11:47:08 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRortno0e
-  Cwez/chZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aqlZ1sBdM4KtbOaWRvYNzL3sXIySEkMINJ
-  4u5N/y5GLiD7OKPErpXLGEESbAKaEr1btgDZHBwiAnoSV/+JgoSZBdQlLq1rYQEJCwvYSsw7X
-  g1isgioSsyfHAVSwSvgIrHu7T82EFtCQEFiysP3zCA2p4CrRN/9K8wQW10k3m5ZwQhRLyhxcu
-  YTFojpEhIHX7xghuhVlJh9uZkFwq6U2LP5IesERv5ZSFpmIWlZwMi0itEyqSgzPaMkNzEzR9f
-  QwEDX0NBY1xBImuslVukm6qWW6ian5pUUJQJl9RLLi/WKK3OTc1L08lJLNjECQzGlkLF0B+O0
-  Nx/0DjFKcjApifL2FXgkCPEl5adUZiQWZ8QXleakFh9ilOHgUJLgDVwClBMsSk1PrUjLzAHGB
-  UxagoNHSYS3bwNQmre4IDG3ODMdInWKUVFKnHfdeqCEAEgiozQPrg0Wi5cYZaWEeRkZGBiEeA
-  pSi3IzS1DlXzGKczAqCfOKACNbiCczrwRu+iugxUxAixUM3EAWlyQipKQamHZzfHpduO6Yp/d
-  9BrU58RUrGAW9Veq3S1ytEM7c0z09/c3kucUpq8u9rXzE+tt7xfIXtHIxWDUtThf7fIz50KHr
-  8Q+mGnJURq1wKxOVsC4oicy/eG1ubMg++/mrX6hv5LrIaXDMws9nz/Xzd9/GMp/Mf1Kt83pvz
-  5K3ViYpl6YJH/xwzWP3l298b41/FV9mqxNPqTqgm/+0Y+W6x2aqL7YpmrUbdE3Z9/Lz32/MX7
-  bssznm23/O5+5yB5bDvime/21Wl5ZcOXXH1fu0a8ATzrNLeV87L1e5bcdi6LBRN4ZHYGvU1pq
-  9Ajb1H/bPLfvQdzHCxC5n+puimck6DI83LTSVtRDYKvXiVP7cHws9ViuxFGckGmoxFxUnAgBL
-  wYGjQAMAAA==
+	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id E9/D2-03420-CB1B8406; Wed, 10 Mar 2021 11:47:08 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRWlGSWpSXmKPExsViZ8MRortno0e
+  CwbfDMhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a5hXNZC/o5K05MfcncwDiDo4uRi0NIYAaT
+  xN2O52wQznFGiTVn9wI5nBxsApoSvVu2MHYxcnCICOhJXP0nChJmFlCXuLSuhQXEFhawkZi0t
+  I8dxGYRUJV4eGQ3WJxXwEVi+tFtYGMkBBQkpjx8zwxicwq4SvTdvwJmCwHVvN2yghGiXlDi5M
+  wnLBDzJSQOvnjBDNGrKDH7cjMLhF0psWfzQ9YJjPyzkLTMQtKygJFpFaNlUlFmekZJbmJmjq6
+  hgYGuoaGxrrGuoaWJXmKVbqJeaqlucmpeSVEiUFYvsbxYr7gyNzknRS8vtWQTIzAgUwqZD+1g
+  fPL6g94hRkkOJiVR3r4CjwQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKEryBS4BygkWp6akVaZk5w
+  OiASUtw8CiJ8PZtAErzFhck5hZnpkOkTjEqSonzOgFjSkgAJJFRmgfXBovIS4yyUsK8jAwMDE
+  I8BalFuZklqPKvGMU5GJWEeUVApvBk5pXATX8FtJgJaLGCgRvI4pJEhJRUA9NpFfVHSe1r3Np
+  Xdd7VlTq8/tBynism0h6nxW9NWMG4PvPGZwuppdwXPE3dsy15JMt0l/3u+sJ6U55vlf6xQqfo
+  VfYpFUe1Z8od2nO/4ti22b7+rdxvdZ3zN00Nvfq7sk/mtFKAaEe3Srj3I4FbfibzRHbPMYqe7
+  pAf/HrHaQWGzNrvr9kfTrg8m6FoW7y1K4dC13SehSslC9p+5y3ke/GRw7nOlePP0ncNJlf6D7
+  EfuTMjtmz2oe7w6QyJH3uOh7DcWyFksD53mruK/JmtUw/a3K7Ql5bjrQ08cGHWvNW2C5+W/Wf
+  rezzpz/ScV/6X1N5FuPobVjzqyRbZnNTe6/Noy5e5DLNUX604/PZxwislluKMREMt5qLiRACt
+  lNjlQwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-20.tower-228.messagelabs.com!1615376827!1698559!1
+X-Msg-Ref: server-21.tower-226.messagelabs.com!1615376827!95626!1
 X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=fail
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 2535 invoked from network); 10 Mar 2021 11:47:08 -0000
+Received: (qmail 32437 invoked from network); 10 Mar 2021 11:47:08 -0000
 Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-20.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:47:08 -0000
+  by server-21.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:47:08 -0000
 Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABl2kZ024118
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABl2kY024118
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 11:47:07 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:47:03 +0000
+ (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:47:00 +0000
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] help2man: upgrade 1.48.1 -> 1.48.2
-Date: Wed, 10 Mar 2021 19:46:04 +0800
-Message-ID: <1615376771-3093-3-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] gnu-efi: upgrade 3.0.12 -> 3.0.13
+Date: Wed, 10 Mar 2021 19:46:03 +0800
+Message-ID: <1615376771-3093-2-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com>
 References: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com>
@@ -56,26 +56,28 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../help2man/{help2man_1.48.1.bb => help2man_1.48.2.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/help2man/{help2man_1.48.1.bb => help2man_1.48.2.bb} (89%)
+ .../gnu-efi/{gnu-efi_3.0.12.bb => gnu-efi_3.0.13.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.12.bb => gnu-efi_3.0.13.bb} (95%)
 
-diff --git a/meta/recipes-devtools/help2man/help2man_1.48.1.bb b/meta/recipes-devtools/help2man/help2man_1.48.2.bb
-similarity index 89%
-rename from meta/recipes-devtools/help2man/help2man_1.48.1.bb
-rename to meta/recipes-devtools/help2man/help2man_1.48.2.bb
-index bdea59d964..3e9b509ed4 100644
---- a/meta/recipes-devtools/help2man/help2man_1.48.1.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.48.2.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
+similarity index 95%
+rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
+rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
+index d27126603f..6b8b910946 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
+            file://gnu-efi-3.0.9-fix-clang-build.patch \
+            "
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "de8a74740bd058646567b92ab4ecdeb9da9f1a07cc7c4f607a3c14dd38d10799"
-+SRC_URI[sha256sum] = "20cb36111df91d61741a20680912ab0e4c59da479c3fb05837c6f0a8cb7cb467"
+-SRC_URI[md5sum] = "926763ff37bc9db3a9035cec41eb2f45"
+-SRC_URI[sha256sum] = "0196f2e1fd3c334b66e610a608a0e59233474c7a01bec7bc53989639aa327669"
++SRC_URI[md5sum] = "8ec4221f505c78e6fc375c2fd7f0c549"
++SRC_URI[sha256sum] = "2fccf715279c46ee69c4859186af8150d07a13f4d19876e5459cd65be82d3b7d"
  
- inherit autotools
- 
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
+ COMPATIBLE_HOST_armv4 = 'null'
 -- 
 2.25.1
 
