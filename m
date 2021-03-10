@@ -1,53 +1,51 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [])
- by mx.groups.io with SMTP id smtpd.web08.7582.1615376958231430243
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
+ by mx.groups.io with SMTP id smtpd.web08.7583.1615376974188377897
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 03:49:19 -0800
+ Wed, 10 Mar 2021 03:49:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
-Received: from [100.112.198.228] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id 4B/8A-64503-E32B8406; Wed, 10 Mar 2021 11:49:18 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MxVdduk0e
-  CwYF74hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bTyzsZCxZyVkxofc7awHico4uRi0NIYAaT
-  xLMPTYwQznFGiR9931i7GDk52AQ0JXq3bAFKcHCICOhJXP0nChJmFlCXuLSuhQXEFhawlzi+b
-  R4ziM0ioCrx5eZqsDivgIvExY6LYHEJAQWJKQ/fg9mcAq4S13u/M4GMFAKqaZiRAFEuKHFy5h
-  MWiPESEgdfvIBqVZSYfbmZBcKulNiz+SHrBEb+WUhaZiFpWcDItIrRPKkoMz2jJDcxM0fX0MB
-  A19DQSNfQ0kzXzEQvsUo3SS+1VLc8tbhE11AvsbxYr7gyNzknRS8vtWQTIzAUUwqOOOxgvP/6
-  g94hRkkOJiVR3r4CjwQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKEryBS4BygkWp6akVaZk5wLiAS
-  Utw8CiJ8PZtAErzFhck5hZnpkOkTjEqSonzOm0ESgiAJDJK8+DaYLF4iVFWSpiXkYGBQYinIL
-  UoN7MEVf4VozgHo5IwrwjIFJ7MvBK46a+AFjMBLVYwcANZXJKIkJJqYBIomb6tk29VwXHOKWV
-  vimbVfnaofSo86/mcr7ttZPe6XH3i+bVuoXC76sPSg/u+RhmEuOV0Pvy0P/x9W03o6gNeZ43X
-  3y/byX77R+CbxL9HNiZ1vp73R5fhxjplFkdd3tLvz3x+6s+8r7WtbMPDuENf1bQPl+TJPbbJ/
-  cVf792ZPbNhYo8vZzjjs/gVN88zfT8qeVTe7VBibNKmncV2rw8/X7Ov5PLc2uYfcrIbgk/fdP
-  XYIB4c0JPt+2O24bWdj5bZq8yU40jlFS1aOmtlyYw57Xt36Z/zWn/avNGp971wzLbi/tsbZXe
-  6lstHb5vbttb546W7L2extOSmBM9esOnFfaOLfaWvjf/M/N03P9NZiaU4I9FQi7moOBEAfZdg
-  ZUADAAA=
+Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id D8/9A-03420-C42B8406; Wed, 10 Mar 2021 11:49:32 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRWlGSWpSXmKPExsViZ8MRquuzySP
+  BYME9Zos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWNf13OWgqXsFS0vH7A3MG5l62Lk4hASmMEk
+  cXjpN3YI5zijxKxnL5i7GDk52AQ0JXq3bGHsYuTgEBHQk7j6TxQkzCygLnFpXQsLiC0sYC3Re
+  f0ZG4jNIqAqsffBIyYQm1fARWJX6x6wMRICChJTHr5nhogLSpyc+YQFYo6ExMEXL6BqFCVmX2
+  5mgbArJfZsfsg6gZF3FpKWWUhaFjAyrWK0TCrKTM8oyU3MzNE1NDDQNTQ01jXUNTIw10us0k3
+  USy3VTU7NKylKBMrqJZYX6xVX5ibnpOjlpZZsYgQGWEoh4/kdjFPffNA7xCjJwaQkyttX4JEg
+  xJeUn1KZkVicEV9UmpNafIhRhoNDSYI3cAlQTrAoNT21Ii0zBxjsMGkJDh4lEd6+DUBp3uKCx
+  NzizHSI1ClGe443a5csYuZou3cXSM5ccHA1M8f99kOrmYVY8vLzUqXEeZ02ArUJgLRllObBDY
+  VF5yVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrwiIFN4MvNK4Ha/AjqLCegsBQM3kLNKEhF
+  SUg1MlnryDfUf185S3eHq/P1GhESIkOTxie3nZNZJCm2eqz/NPeym2cq0WKfj0jLC5+0jX0jY
+  y855sor/+J5Avd5kjej0TSc3cvB3r5J0T7V5OPeTp+vvB0/VH/i8EtKdf1hyqbGL8MWmpTX2D
+  8w2v3eJnxxW87YuLDNXW/7js5aqQIaphezlcx7x+m2Xc5qwyOSkibCXWNSXggWB6g/5Q/8cWG
+  O75qvgquXXVfdviOgXdb+yLHfqJZYzLQn3hU//39qU8eGlibW6XEvZATumaz+C/j8Ker27zyS
+  pbG/RIjflb0HiDcrq7U3b5nEdeCW91XLn/Aj2q3fEVOMVrieYKJceW9J4Q4913qcshmO/a9Yp
+  sRRnJBpqMRcVJwIALtZEmkkDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-18.tower-285.messagelabs.com!1615376958!1644692!1
-X-Originating-IP: [62.60.8.149]
+X-Msg-Ref: server-15.tower-228.messagelabs.com!1615376971!379959!1
+X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=fail
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3665 invoked from network); 10 Mar 2021 11:49:18 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-18.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:49:18 -0000
+Received: (qmail 19924 invoked from network); 10 Mar 2021 11:49:31 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-15.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 Mar 2021 11:49:31 -0000
 Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABnHak024511
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ABnVZL027427
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 11:49:17 GMT
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 11:49:31 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:49:16 +0000
+ (TLS) id 15.0.1497.2; Wed, 10 Mar 2021 11:49:29 +0000
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] python3-zipp: upgrade 3.4.0 -> 3.4.1
-Date: Wed, 10 Mar 2021 19:49:06 +0800
-Message-ID: <1615376946-3261-2-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] sysklogd: upgrade 2.2.1 -> 2.2.2
+Date: Wed, 10 Mar 2021 19:49:21 +0800
+Message-ID: <1615376961-3303-1-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1615376946-3261-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1615376946-3261-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
@@ -56,27 +54,25 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../python/{python3-zipp_3.4.0.bb => python3-zipp_3.4.1.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-zipp_3.4.0.bb => python3-zipp_3.4.1.bb} (77%)
+ .../sysklogd/{sysklogd_2.2.1.bb => sysklogd_2.2.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/sysklogd/{sysklogd_2.2.1.bb => sysklogd_2.2.2.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.4.0.bb b/meta/recipes-devtools/python/python3-zipp_3.4.1.bb
-similarity index 77%
-rename from meta/recipes-devtools/python/python3-zipp_3.4.0.bb
-rename to meta/recipes-devtools/python/python3-zipp_3.4.1.bb
-index 97523e8e7c..191d3b38ad 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.4.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.4.1.bb
-@@ -3,8 +3,8 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb b/meta/recipes-extended/sysklogd/sysklogd_2.2.2.bb
+similarity index 96%
+rename from meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb
+rename to meta/recipes-extended/sysklogd/sysklogd_2.2.2.bb
+index aa3f126fbc..5dfeca5326 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd_2.2.1.bb
++++ b/meta/recipes-extended/sysklogd/sysklogd_2.2.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+            file://sysklogd \
+            "
  
--SRC_URI[md5sum] = "ae81f228995578b840d76d1b7d87fede"
--SRC_URI[sha256sum] = "ed5eee1974372595f9e416cc7bbeeb12335201d8081ca8a0743c954d4446e5cb"
-+SRC_URI[md5sum] = "3d91c7ab73b62ac3674210df94df600a"
-+SRC_URI[sha256sum] = "3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76"
+-SRCREV = "b115c7ec4e6d9f3587ac8d212bfc454bfbfe7023"
++SRCREV = "f507ed8ff3f1e9d71bb6f85acbf5d14b2fa4e5f7"
  
- DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+ S = "${WORKDIR}/git"
  
 -- 
 2.25.1
