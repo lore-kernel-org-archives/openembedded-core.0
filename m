@@ -1,60 +1,72 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web08.6929.1615372378703470417
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.7005.1615372916067291447
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 02:32:59 -0800
+ Wed, 10 Mar 2021 02:41:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: kory.maincent@bootlin.com)
-Received: from kmaincent-XPS-13-7390 (92.208.113.78.rev.sfr.net [78.113.208.92])
-	(Authenticated sender: kory.maincent@bootlin.com)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id D05C1200013;
-	Wed, 10 Mar 2021 10:32:55 +0000 (UTC)
-Date: Wed, 10 Mar 2021 11:32:54 +0100
-From: "Kory Maincent" <kory.maincent@bootlin.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/6] linux-yocto/5.10: update to v5.10.21
-Message-ID: <20210310113254.71b29092@kmaincent-XPS-13-7390>
-In-Reply-To: <c15444b65a82b76332dc30a1120888e5828b91a8.1615317549.git.bruce.ashfield@gmail.com>
-References: <cover.1615317549.git.bruce.ashfield@gmail.com>
-	<c15444b65a82b76332dc30a1120888e5828b91a8.1615317549.git.bruce.ashfield@gmail.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=bel+PSkb;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.46, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f46.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so10402935wmi.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 02:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n6sqfJ31RZPipE1y7xjN545yQuM58eVPq9/mMxDO3tg=;
+        b=bel+PSkbOeaINygb7+5I8IQqARnwsyzcA6SaXqsox8v+CJtyXjN9UODwuTsXBd7qG8
+         vi09/7Fpw5IFsdIYaZ7pOTDkyK6Rzhvc138bsYS+bPJELP8E3mdH/ksrHzlVs6ovh6ux
+         7Vmg/doNmyjoBh/2EZZVApzgrcdH2fTAwKpgocrUm5LhvUOywWGjLpHqS2GGl3soa/eJ
+         jAYRrt6S8QS8ApoanQ4MH3mg3geET0LdRQXtBLy0q+0bYbRynXMQdDU2oFD5TNgLIp8N
+         hakg3v2XCh+nZBOqFJcE29YynUoaCm2gficKttup1XGPpjOr0MRF661m+w8TAbCU/b0B
+         GKGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n6sqfJ31RZPipE1y7xjN545yQuM58eVPq9/mMxDO3tg=;
+        b=FZcLMjNL3clcGWSFcV/+Yrq7iTrLrdMNDjQUWTMocuk+Z8lsrl+W/Rhhjz8vpfiv3+
+         yY6C/rgI3WbDKTBbCD0Nlm7cLkYbJs6F330ciA1tJ6FYZXBMYfiyE3qw0oYSIukE495x
+         e4d+pEKvfzCXbF4zr4FzZLeaqODa/8Y5xhHMpFjDFwOT4MxszOdnxbG8jvzX9Jj1KC8Y
+         x7fUrWahYYYZGQ9wYf48jG9449CAF/n25rbJSWq27aqv9piotD3bso+IQG3mEKtUuDjQ
+         CubXW7BqVYLMUVjC3qTAKrF6LUriCKnYSUorNtVauTh2m90kBoLqz+D2XZL9BwoJIV2h
+         lUAw==
+X-Gm-Message-State: AOAM530y1Robd0eHKCiuTIj1ZSLsGTVDyxeJmOwKB2kAkL0b7X8ofxCW
+	TN4yclryEVfTIqIXMdIwKOFw2CyDZLR7plyo1kyLrQ==
+X-Google-Smtp-Source: ABdhPJyR22ViYsuuFeASlOk/lIkYa/gHL803AAg83lySpfjUo6922VKQEj5f42pzLHeIr2ouQrIueaWP5jqFhjxMTXA=
+X-Received: by 2002:a1c:2016:: with SMTP id g22mr2715452wmg.137.1615372914375;
+ Wed, 10 Mar 2021 02:41:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20210310070810.20295-1-crg7475@mailbox.org>
+In-Reply-To: <20210310070810.20295-1-crg7475@mailbox.org>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 10 Mar 2021 10:41:43 +0000
+Message-ID: <CAAnfSTs5NuLR0MZcJ--8-bFQZOrpH0aKcE0U713iRenPUNTxFg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pipewire: add recipe from meta-openembedded and upgrade to 0.3.23
+To: crg7475@mailbox.org
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Bruce,
+On Wed, 10 Mar 2021 at 07:09, Carlos Rafael Giani via
+lists.openembedded.org <crg7475=mailbox.org@lists.openembedded.org>
+wrote:
+> +python set_dynamic_metapkg_rdepends () {
+> +    import os
+> +    import oe.utils
+> +
+> +    # Go through all generated SPA plugin and PipeWire module packages
+> +    # (excluding the main package and the -meta package itself) and
+> +    # add them to the -meta package as RDEPENDS.
+[ ...]
 
-On Tue,  9 Mar 2021 14:23:38 -0500
-"Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+do_split_packages() returns the packages it generated, so what does
+this Python do differently?
 
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> Updating linux-yocto/5.10 to the latest korg -stable release that compris=
-es
-> the following commits:
+I tend to agree with Alex: adding it to oe-core now without a
+migration path seems early.  If you were in a series that removed
+PulseAudio then that would be a different conversation, but currently
+you're just moving a recipe from meta-multimedia to oe-core.
 
-Got this error:
+Oh, and I recommend only sending the removal patch when the addition
+patch has been merged: too often I've seen the removal merge before
+the addition...
 
-/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work-shared/edgerou=
-ter/kernel-source/arch/mips/cavium-octeon/setup.c: In function 'device_tree=
-_init':
-/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work-shared/edgerou=
-ter/kernel-source/arch/mips/cavium-octeon/setup.c:1168:2: error: #endif wit=
-hout #if
- 1168 | #endif
-      |  ^~~~~
-  CC      arch/mips/cavium-octeon/executive/octeon-model.o
-make[3]: *** [/home/pokybuild/yocto-worker/edgerouter/build/build/tmp/work-=
-shared/edgerouter/kernel-source/scripts/Makefile.build:279: arch/mips/caviu=
-m-octeon/setup.o] Error 1
-make[3]: *** Waiting for unfinished jobs....
-
-Here is the autobuilder log error:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/3180/step=
-s/11/logs/stdio
-
-Regards,
-
-K=C3=B6ry
+Ross
