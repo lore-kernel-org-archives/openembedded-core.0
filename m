@@ -1,286 +1,108 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.7504.1615475403829994400
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.7511.1615475427938138615
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 07:10:04 -0800
+ Thu, 11 Mar 2021 07:10:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CPSC75yr;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so13422758wml.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 07:10:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zkx26oR6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id j2so2241268wrx.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 07:10:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pvYs4kGxDH73ZwOrFYGFZKnDVfi4GVJSMutw1sx1KAM=;
-        b=CPSC75yrvluYYQF+v+8heZ79Vu3imiiapzAa38Irc1IbpoX9skkMHhi/i/Be6amHu4
-         JAscRZcUalDku7tbDV+jBvlWkhotlj5eS0hhwb8kkybeCaI/VffVh3PiAl51oNBThsjH
-         0fXM0DxlvaLc4zoYWiEOlE3z9wrY/p5fOp6zjjWP7XPhkhD8ObRqZ8SkVzP5YdU62gZb
-         k09eFdRPlCohG9zdSHzMLv6QYGV+lZ63hE7ZGgFhYYY7m9gDzuAc7NbYo0VaxqHn9zzD
-         J+R2z4ariNUHhe6ypHiO+dkKBtCSZWkObYvfG/uwFDC/bzGgtphhPG+LhKrXpIDH8HU1
-         Pbjw==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=z9A0y3c/eWeQ2kcoFOLIWmeSi0AT/UAn57r37H3iy08=;
+        b=Zkx26oR6xe9gGb35yCOfrKxW5C3kJGCUlyo0KN7unP9Knf892/2p+3ek9hKHj6hTAE
+         Q0kWRcXWO0sb3zeV1adHLO8rzL8TrWoMlGfFNgWbMI01SGRgOZaVR65aUd87b5++jEbZ
+         ubJIG33GhXfOWSBw9XUNTqr4H5baD9Fd5KwsCeOLPFavJ8eRdCxqHlWPaV+MgZsH96Td
+         2zVXOFFp7gkWbWLJK0ai0WHrNXwWCwLIiSZWftNVHT1gfX6AO/QKY1q2nhBgJ8V6XPTk
+         u73BE/UwL7FLDSc11XLtkS9yuPAB9vthbR6HNsHZvdzCaRLIJlduBjjr1uwu3nscQLWD
+         Vo1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pvYs4kGxDH73ZwOrFYGFZKnDVfi4GVJSMutw1sx1KAM=;
-        b=T+J3TpdbHXpB9rmUp1OBwCMawwdo7IQJBfnWpN0NusMqqhdTdJRdvAbZoNqLcQNsEC
-         AZeGe0utW7c+h/9CmFWzPCuqjQslbrKmUGtGi1akh/rpN3ANN4nlLjkpG/rEe2uuswWw
-         QXeMWsnDh375eR4WFhlFP0YGIC0JqOnrEbl5didaLYeO+KjgwhQ9O1M9gFL8y/5tJg8c
-         sa4tHOpAnoZYHRYY+hvZ2AmrMlcRORSsbbfOT2e7P071LBFX3HNXFxVyo+fKtop/SK6h
-         8FETIDRrwlReuiwHM34xDnAPsIfAcFQg3QB7RB1nJ52zRcxsa/uxXK4/0pG0mNBgjHrr
-         SdYw==
-X-Gm-Message-State: AOAM531DIhiIKRda22xF86OrdjHFUW2+yGWwnPzOdvPKmZTUxxn452v4
-	niVY1OcMP6EkBzaDcLEmaKLBLHA+Sxg=
-X-Google-Smtp-Source: ABdhPJwRUHWz5U+/ahEqw2h6IvUHEIGrGlqtRApP4UECeW2q/Db4uWN44Cjgr4ZuDFRh4Bqgkiv0MQ==
-X-Received: by 2002:a05:600c:2945:: with SMTP id n5mr8733311wmd.78.1615475401758;
-        Thu, 11 Mar 2021 07:10:01 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=z9A0y3c/eWeQ2kcoFOLIWmeSi0AT/UAn57r37H3iy08=;
+        b=dh7mxwNCkr/7emrNPEV7vpG0IJgehd/TA3nT/UrZuWvwOY67n0cUp7dK4jPCV2dfOZ
+         r8cTndkzok5S4ZppmVjkzl/w1C9qCB8ctc+MWQt5SHy2Sjw1YRPJX8StUDIwl/WxwJc0
+         BAFMzpZ7x/Z7rIkU7JVVv09RDaKjHTf9wLGx0RJYcIBxVNyBP/k5OYP5aE2Hz4GV3zK1
+         dIzsDFhe7K8SJ+Kh52x3lsO1nUGbFXlKn0JWPfWHLYDPl5o1gBXE4lcP3Hv9Wbr8Fmb4
+         +BDea6WSaLXy471FcAWwGNZ8gPT8qMT6fYRYpkLBksL89RjqP0oKnePdZf3VHs7KK0I3
+         jVAA==
+X-Gm-Message-State: AOAM531vodzrU/OsjYWbrcVd3YlJxDoT/3YhcWCnMqg8TKLtSxa+3yxP
+	K+Aewl54E13uicanpFsPJYI=
+X-Google-Smtp-Source: ABdhPJzPQwQYDbopf/LcSLzpEF9L3fFER3kQN+SBgp2mpeDcG26mU09vC9jbvKvJ0V36AuZdWY635A==
+X-Received: by 2002:a5d:6602:: with SMTP id n2mr9333518wru.262.1615475426531;
+        Thu, 11 Mar 2021 07:10:26 -0800 (PST)
 Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id n66sm3956800wmn.25.2021.03.11.07.10.01
+Received: from bluca-lenovo ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id m9sm4271289wro.52.2021.03.11.07.10.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 07:10:01 -0800 (PST)
+        Thu, 11 Mar 2021 07:10:25 -0800 (PST)
+Message-ID: <d115858235187a8af6d9e566d7c3ad54ca51214e.camel@gmail.com>
+Subject: Re: [PATCH v10] util-linux: split uuid in separate recipe to allow bootstrapping
 From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	bluelightning@bluelightning.org
-Subject: [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-Date: Thu, 11 Mar 2021 15:09:59 +0000
-Message-Id: <20210311150959.782186-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: bluelightning@bluelightning.org
+Date: Thu, 11 Mar 2021 15:10:24 +0000
+In-Reply-To: <f25a7ae612bdb191e436beb726d17581e2ebb628.camel@linuxfoundation.org>
 References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 <20210311143848.777532-1-luca.boccassi@gmail.com>
+	 <f25a7ae612bdb191e436beb726d17581e2ebb628.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Groupsio-MsgNum: 149292
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-qgo+Ysya6+z8PSi0KQMi"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--=-qgo+Ysya6+z8PSi0KQMi
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Recently util-linux gained an (optional) build dependency on libcryptsetup.
-But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
-and uuid (mandatory).
-Split out util-linux-uuid in a different recipe to break the cycle.
+On Thu, 2021-03-11 at 14:44 +0000, Richard Purdie wrote:
+> On Thu, 2021-03-11 at 14:38 +0000, luca.boccassi@gmail.com wrote:
+> > +# dm-verity support introduces a circular build dependency, so util-li=
+nux-uuid is split out for target builds
+> > +# Need to build libuuid for uuidgen, but then delete it and let the ot=
+her recipe ship it
+> > +do_install_append () {
+> > +	rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${l=
+ibdir}/libuuid* ${D}/lib/libuuid* ${D}/libx32/libuuid* ${D}/lib64/libuuid*
+> > +}
+> > +
+>=20
+> I think you can replace:
+>=20
+> ${D}/lib/libuuid* ${D}/libx32/libuuid* ${D}/lib64/libuuid*
+>=20
+> with=20
+>=20
+> ${D}${base_libdir}/libuuid*
+>=20
+> ?
 
-https://github.com/karelzak/util-linux/pull/898
+Thanks, seems to work locally, sent v11
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
-    underway as I'm not sure if this is the best approach or if there are
-    alternatives. Suggestions and comments very welcome. Thanks!
-v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
-    and leave uuid build enable in main recipe to allow for uuidgen build to happen,
-    as it does not have its own autoconf switch. Delete the library manualy from
-    the main recipe after build instead, and add dependency.
-    Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
-    only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
-v3: rebased and refactored to have a common util-linux.inc file
-v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
-v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
-    Removed PACKAGES_remove and instead filter out libuuid via the package generation
-    regex.
-    Rebased on util-linux 2.36.2.
-v6: install libuuid.a in libuuid-dev
-    change rdepends on uuid to use binary package rather than source
-    add rdepends on uuid-dev to libuuid-dev
-    remove rprovides of libuuid-dev from uuid-dev
-v7: do not use '_append' for RDEPENDS, as it is not supported by BBCLASSEXTEND, use
-    simply '+='
-v8: added missing libuuid-staticdev package
-    remove libx32/libuuid* too
-v9: set RECIPE_MAINTAINER_pn-util-linux-uuid, same value as RECIPE_MAINTAINER_pn-util-linux
-v10: removed DEBIAN_NOAUTONAME
-     remove lib64/libuuid* too
-v11: use ${D}${base_libdir}/libuuid* instead of manually specifying /lib|/libx32|/lib64
+--=20
+Kind regards,
+Luca Boccassi
 
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../util-linux/util-linux-uuid_2.36.2.bb      | 20 +++++++
- meta/recipes-core/util-linux/util-linux.inc   | 41 +++++++++++++
- .../util-linux/util-linux_2.36.2.bb           | 57 +++++--------------
- 4 files changed, 77 insertions(+), 42 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
- create mode 100644 meta/recipes-core/util-linux/util-linux.inc
+--=-qgo+Ysya6+z8PSi0KQMi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 3d8e3d5de0..c6a97bc280 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -720,6 +720,7 @@ RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
-+RECIPE_MAINTAINER_pn-util-linux-uuid = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-v86d = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-vala = "Alexander Kanavin <alex.kanavin@gmail.com>"
-diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-new file mode 100644
-index 0000000000..65e4d23b7e
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-@@ -0,0 +1,20 @@
-+# To allow util-linux to optionally build-depend on cryptsetup, libuuid is
-+# split out of the main recipe, as it's needed by cryptsetup
-+
-+require util-linux.inc
-+
-+inherit autotools gettext pkgconfig
-+
-+S = "${WORKDIR}/util-linux-${PV}"
-+EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
-+PACKAGES = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-staticdev util-linux-libuuid-dbg"
-+FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
-+FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${includedir} ${libdir}/pkgconfig"
-+FILES_util-linux-libuuid-staticdev = "${libdir}/libuuid.a"
-+FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug"
-+
-+do_install_append() {
-+	rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${sbindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-new file mode 100644
-index 0000000000..b4f817ed82
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -0,0 +1,41 @@
-+SUMMARY = "A suite of basic system administration utilities"
-+HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
-+DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
-+commonly found on most Linux systems.  Some of the more important utilities include \
-+disk partitioning, kernel message management, filesystem creation, and system login."
-+
-+SECTION = "base"
-+
-+LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-+LICENSE_${PN}-libblkid = "LGPLv2.1+"
-+LICENSE_${PN}-libfdisk = "LGPLv2.1+"
-+LICENSE_${PN}-libmount = "LGPLv2.1+"
-+LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
-+LICENSE_${PN}-libuuid = "BSD-3-Clause"
-+
-+LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-+                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-+                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
-+                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
-+                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
-+                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
-+                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+"
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
-+MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-+BPN = "util-linux"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
-+           file://configure-sbindir.patch \
-+           file://runuser.pamd \
-+           file://runuser-l.pamd \
-+           file://ptest.patch \
-+           file://run-ptest \
-+           file://display_testname_for_subtest.patch \
-+           file://avoid_parallel_tests.patch \
-+           "
-+SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-index 19950a2726..50a70cd452 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-@@ -1,46 +1,8 @@
--SUMMARY = "A suite of basic system administration utilities"
--HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
--DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
--commonly found on most Linux systems.  Some of the more important utilities include \
--disk partitioning, kernel message management, filesystem creation, and system login."
--
--SECTION = "base"
--
--LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
--LICENSE_${PN}-libblkid = "LGPLv2.1+"
--LICENSE_${PN}-libfdisk = "LGPLv2.1+"
--LICENSE_${PN}-libmount = "LGPLv2.1+"
--LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
--LICENSE_${PN}-libuuid = "BSD-3-Clause"
--
--LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
--                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
--                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
--                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
--                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
--                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
--                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--"
-+require util-linux.inc
- 
- #gtk-doc is not enabled as it requires xmlto which requires util-linux
- inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
--DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
--
--MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
--           file://configure-sbindir.patch \
--           file://runuser.pamd \
--           file://runuser-l.pamd \
--           file://ptest.patch \
--           file://run-ptest \
--           file://display_testname_for_subtest.patch \
--           file://avoid_parallel_tests.patch \
--           "
--SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
-+DEPENDS = "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
- 
- PACKAGES =+ "${PN}-swaponoff"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
-@@ -87,8 +49,9 @@ python util_linux_binpackages () {
- # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
- PACKAGE_PREPROCESS_FUNCS =+ "util_linux_binpackages "
- 
-+# skip libuuid as it will be packaged by the util-linux-uuid recipe
- python util_linux_libpackages() {
--    do_split_packages(d, root=d.getVar('UTIL_LINUX_LIBDIR'), file_regex=r'^lib(.*)\.so\..*$',
-+    do_split_packages(d, root=d.getVar('UTIL_LINUX_LIBDIR'), file_regex=r'^lib(?!uuid)(.*)\.so\..*$',
-                       output_pattern='${PN}-lib%s',
-                       description='${PN} lib%s',
-                       extra_depends='', prepend=True, allow_links=True)
-@@ -141,6 +104,7 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- # PCRE support in hardlink
- PACKAGECONFIG[pcre2] = ",,libpcre2"
-+PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
- 
- EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
- 
-@@ -165,7 +129,10 @@ RRECOMMENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
- 
--RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
-+RDEPENDS_${PN} += " util-linux-libuuid"
-+RDEPENDS_${PN}-dev += " util-linux-libuuid-dev"
-+
-+RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
- 
- RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
- RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
-@@ -234,6 +201,12 @@ do_install_append_class-native () {
- 	rm -f ${D}${base_bindir}/kill
- }
- 
-+# dm-verity support introduces a circular build dependency, so util-linux-uuid is split out for target builds
-+# Need to build libuuid for uuidgen, but then delete it and let the other recipe ship it
-+do_install_append () {
-+	rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/libuuid* ${D}${base_libdir}/libuuid*
-+}
-+
- ALTERNATIVE_PRIORITY = "80"
- 
- ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
--- 
-2.29.2
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmBKMuAACgkQSylmgFB4
+UWLIlAf/fycIuCrRFiz8PWzjLzolTI1DaT+d5nlzu85lSbfssq6JQkej2s5S6M/H
+Q9CtbiJlNA2+h+FA5yBdoZwfd3gd+nxTwHUANUsgrDzndA4MeEg+FJ5UmK123F9k
+OGlQIiAazXUzXofmbHQhDRSCSJtQHbmO3dxiP1nHEC+JM9UlWec3QaChnenQMoyX
+yf+QMK3FCQyNH8rftFlFAqEXLAJdGF4LhQLBiTT8KRx+yV5hG2PkxdqEVquDdvWJ
+dL+mKF9nG7SAnLIIr0f3itYUU2myS3gGJaSPnxDCfTAj1Ln++7lQpXAKCs8n0rRV
+nuETTmGSWftNAHUKb2b1Ms987T/5Dw==
+=Upuy
+-----END PGP SIGNATURE-----
+
+--=-qgo+Ysya6+z8PSi0KQMi--
