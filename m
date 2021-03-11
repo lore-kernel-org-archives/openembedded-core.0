@@ -1,109 +1,139 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web12.1151.1615506530621304101
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.1226.1615506961944195740
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 15:48:50 -0800
+ Thu, 11 Mar 2021 15:56:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iqNdGJ0C;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id 6so2532694qty.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 15:48:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eLXgKHMc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id g185so22621844qkf.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 15:56:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=C55+fmntIwwMrDoeZ6ZmEVMJ7tw+OtCuC/B/ARaMEsw=;
-        b=iqNdGJ0CSGgWzC+K59BUYTaelmzM50QxP7mvHDgp1vh2EZaJTMtaxuP+OBggAOqO/u
-         v6EH9pGIPV8r1fOOmG7ZPFxNkar9Xuwjm+H60yAjnAYP7ugSGviS9ZI8AZ0k1Z74p4O3
-         hQtsCxXcw+qOHlQRlGJIjiuyTkODjF6K/kUAUADpk7r4+InGN8qZ8zMj4MFtBnZ+W0Ma
-         MVI137mXfGTzSy0Jy3okLtdc23PqWY+q0J+p21NnVrRMOmOYXjyrdFHf3cGE1E5i+75N
-         /5M/dQZL5zfleW2BorwZI6BK9q/25RDp1+dvVVp/A7mixlXkKZiQD/GCTrGG6XFNXZQL
-         gf4w==
+        bh=tYkLKVKLZqUnTQEiYjhYbhcYbcc1pLc11FrO1sNMdTE=;
+        b=eLXgKHMc740hBfOcBzwP1QO2cu80CtTb2poSr6o555Pt1qnUMfg7xQDPLtfBb+/bLc
+         kFTk4hSkdDwaJXFNh4n9LBNj+tiI9IA10sXHGKHwJpLff42AXB+5MuDfE5yZC5+Zk7Gq
+         6SLl1y2MDd1G+ezLSbtwnxE3cpd13zm8zEHmtne2l543/CnPnyyYshYA5uGY2CiJOW4c
+         ZOpRogJ93hoxqa3xmT1W/wojM2p2eWVSyA7yk6jQGvgHedH8SQohdyBXlvaWa+emRkR3
+         d4NlpAWU6RS/A9mU1SJI017kodDO1MrzVYDzKHjfVPqPUtsc6ltqJ1rr2GiNaTrZbhFQ
+         r8gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C55+fmntIwwMrDoeZ6ZmEVMJ7tw+OtCuC/B/ARaMEsw=;
-        b=kbcu6tW+Az35ik6GEFRxo08/3vJ5Asgbsad5HkWNB5I1bsSqKpJS395/pPiij/hEnf
-         v32c5GOlACOXg2PdCMieN9k0RPWFxtczsQbL89gdS5hWWzU8sgIweHsNoW95xg7SkA6J
-         UayojLtd6aTnQLY6GqIu6qRT7/cUQcPJEI5hGor6lB45oR26SxM9ILjxlmcCbFHPmPmd
-         qZdFNgc5U8OyA6HF1VyJEE3hrz/JPxVUTL0dduv+n5pDkmuqW1FCIWEuJq7ylGWo5xF3
-         mswtkAl5lTc/AQeXbfN00N1Oxlg/AHCpt0py65kSWWIrhx2DbS67dIMcGWnaR+K8I+Wi
-         usWg==
-X-Gm-Message-State: AOAM531F6CeBMFyk3NSskqbPtoDe435NQLlKQEijWmlBHwREdvQWSrx/
-	Ypa1u11LuzT7kwi5xBK/g+h3aQUzSF08Bk/6B2c=
-X-Google-Smtp-Source: ABdhPJww19MMyzAUQa7ao934jFCcPwW9PXLL+tCAo72kFKLz6f3SFBdDvLtfwGNKj1fCBImseqXBjfsdpeowWrprVTM=
-X-Received: by 2002:ac8:4b6d:: with SMTP id g13mr9632877qts.369.1615506529640;
- Thu, 11 Mar 2021 15:48:49 -0800 (PST)
+        bh=tYkLKVKLZqUnTQEiYjhYbhcYbcc1pLc11FrO1sNMdTE=;
+        b=IOS39gZrmHfuHik4O3KhBM1eCvEMJfVky8gUQSqrKSY5idAsXv4Hb/GUE44FjXrYkK
+         vzLIa9YDEUU1DeeWfX9Uq1X0X6Nl4xe5N8KDPZyB+VvXdcYvXnFqMVcJS2faALH5+Se5
+         zT1oh6ZP6Dg7s4s4008GtumNRWfLz62GCqVrpqrj+qss6z3pKL0zVlYzSUVWlKPQJinw
+         kconQX3eJv2JdQcSmTXcx+iYVucTkBZHC41vsjoX4Pm0D7LAAHv9GmKElH9R8g+7CTWF
+         ZzNJEcIx4Y5v32HxOJKMdmyU7IuccWenO9huqEdAz3egXMuDhVdRMkjU8/fX5jQlX9TM
+         NmxA==
+X-Gm-Message-State: AOAM531g3HOEzhS/+HnCdcWJ0X5Fd6DKhaRu4kXeVMy2QOt1Pccmojpc
+	dabeidsIIA1l4KXtrDdOo53gmVpg9yeqH18qtXI=
+X-Google-Smtp-Source: ABdhPJwobdpNm5JFmBWu/3yP0oClm6NRdLEG1oC4jsZipcuQNalaJKDm6n3MxlBY0TK0b4kb+oOYxuYYfhCGCbA7TVM=
+X-Received: by 2002:a37:8ec4:: with SMTP id q187mr10243281qkd.381.1615506960933;
+ Thu, 11 Mar 2021 15:56:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20210311120512.287214-1-alex.kanavin@gmail.com>
-In-Reply-To: <20210311120512.287214-1-alex.kanavin@gmail.com>
+References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+In-Reply-To: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 11 Mar 2021 15:48:23 -0800
-Message-ID: <CAMKF1spZ5tYHOVeyPV7xb+KNkdyh5QUgD=UQP9Yaj8VaRH7wpA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/2] xwayland: add a standalone recipe
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 11 Mar 2021 15:55:34 -0800
+Message-ID: <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+To: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 11, 2021 at 4:05 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+On Thu, Mar 11, 2021 at 7:21 AM Jamaluddin, Khairul Rohaizzat
+<khairul.rohaizzat.jamaluddin@intel.com> wrote:
 >
-> Please see here for the rationale for splitting XWayland out of
-> main xserver-xorg tree:
-> https://fedoraproject.org/wiki/Changes/XwaylandStandalone
+> From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+>
+> CVE:
+> CVE-2021-27645
 >
 
-I think this is a good change. Should we disable xwayland
-packageconfig in xserver-xorg recipe as well
-since I see that it gets activated with opengl wayland being in distro features.
-so I wonder if we can completely turn it off
+lgtm. Do we need it for dunfell and gatesgarth as well ?
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 > ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../xwayland/xwayland_21.0.99.902.bb          | 19 +++++++++++++++++++
->  2 files changed, 20 insertions(+)
->  create mode 100644 meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
+>  .../glibc/glibc/CVE-2021-27645.patch          | 51 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
+>  2 files changed, 52 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
 >
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 9093f2d7fd..d507c70091 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -797,6 +797,7 @@ RECIPE_MAINTAINER_pn-xset = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
-> +RECIPE_MAINTAINER_pn-xwayland = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denis@denix.org>"
->  RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denis@denix.org>"
-> diff --git a/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb b/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
 > new file mode 100644
-> index 0000000000..75daa71902
+> index 0000000000..26c5c0d2a9
 > --- /dev/null
-> +++ b/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
-> @@ -0,0 +1,19 @@
-> +SUMMARY = "XWayland is an X Server that runs under Wayland."
-> +DESCRIPTION = "XWayland is an X Server running as a Wayland client, \
-> +and thus is capable of displaying native X11 client applications in a \
-> +Wayland compositor environment. The goal of XWayland is to facilitate \
-> +the transition from X Window System to Wayland environments, providing \
-> +a way to run unported applications in the meantime."
-> +HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
+> @@ -0,0 +1,51 @@
+> +From dca565886b5e8bd7966e15f0ca42ee5cff686673 Mon Sep 17 00:00:00 2001
+> +From: DJ Delorie <dj@redhat.com>
+> +Date: Thu, 25 Feb 2021 16:08:21 -0500
+> +Subject: [PATCH] nscd: Fix double free in netgroupcache [BZ #27462]
 > +
-> +LICENSE = "MIT-X"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+> +In commit 745664bd798ec8fd50438605948eea594179fba1 a use-after-free
+> +was fixed, but this led to an occasional double-free.  This patch
+> +tracks the "live" allocation better.
 > +
-> +SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
-> +SRC_URI[sha256sum] = "799491dd99cb2c6dbdf05162441d0469a2a9b36e089755eb59729dd38f44adce"
+> +Tested manually by a third party.
 > +
-> +inherit meson
+> +Related: RHBZ 1927877
 > +
-> +DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy"
+> +Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
+> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
 > +
-> +FILES_${PN} += "${libdir}/xorg/protocol.txt"
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=dca565886b5e8bd7966e15f0ca42ee5cff686673]
+> +
+> +CVE: CVE-2021-27645
+> +
+> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> +Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+> +---
+> + nscd/netgroupcache.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/nscd/netgroupcache.c b/nscd/netgroupcache.c
+> +index dba6ceec1b..ad2daddafd 100644
+> +--- a/nscd/netgroupcache.c
+> ++++ b/nscd/netgroupcache.c
+> +@@ -248,7 +248,7 @@ addgetnetgrentX (struct database_dyn *db, int fd, request_header *req,
+> +                                            : NULL);
+> +                                   ndomain = (ndomain ? newbuf + ndomaindiff
+> +                                              : NULL);
+> +-                                  buffer = newbuf;
+> ++                                  *tofreep = buffer = newbuf;
+> +                                 }
+> +
+> +                               nhost = memcpy (buffer + bufused,
+> +@@ -319,7 +319,7 @@ addgetnetgrentX (struct database_dyn *db, int fd, request_header *req,
+> +                   else if (status == NSS_STATUS_TRYAGAIN && e == ERANGE)
+> +                     {
+> +                       buflen *= 2;
+> +-                      buffer = xrealloc (buffer, buflen);
+> ++                      *tofreep = buffer = xrealloc (buffer, buflen);
+> +                     }
+> +                   else if (status == NSS_STATUS_RETURN
+> +                            || status == NSS_STATUS_NOTFOUND
+> +--
+> +2.27.0
+> +
+> diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+> index c47826a51e..d0a290822b 100644
+> --- a/meta/recipes-core/glibc/glibc_2.33.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.33.bb
+> @@ -45,6 +45,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+>             file://0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch \
+>             file://0032-string-Work-around-GCC-PR-98512-in-rawmemchr.patch \
+> +           file://CVE-2021-27645.patch \
+>             "
+>  S = "${WORKDIR}/git"
+>  B = "${WORKDIR}/build-${TARGET_SYS}"
 > --
-> 2.29.2
+> 2.29.0
 >
 >
 > 
