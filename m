@@ -1,117 +1,79 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web08.3328.1615451445968230704
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web12.3373.1615451454229716060
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 00:30:46 -0800
+ Thu, 11 Mar 2021 00:30:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CdNxzgGP;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id dx17so44448910ejb.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 00:30:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GHIFygxC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id q204so13915913pfq.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 00:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sl57p1ooY30N6pvqRQ2rOBut26nF1jK9c0xH0ZySwl4=;
-        b=CdNxzgGP42CI5rfJp0jQu3YR7H1Ha4mOSaMLsQqIL4X1QRNNOaKZvk2vX25EcBQ7Vp
-         zBkXeDzUsOwqJwcDYP8F/uAeyKeQB8Unb8F//zBNMwLk62HWsGMUK3W+y563qV/IVmct
-         pnL4jPilRS4yp5qHKWNQ4GyDmgQ7oAKn2gV0WvbVLQZU9vzxcgSS/ctuvJZA0KG/4Yey
-         nliZ2MfgW4G7Aq8sm/vrP1r8IF0BpCEbiX4msgkZn4nN4Jx2Ho2iTcjS3Xbxv76pHizv
-         v3QZoLDmG9aTZSH1aIIwtWhqahAXYSLLotNAq492q0/MUIcQHNBlXCqP9CGeDZyOyOoc
-         KpGA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3C2cM/z+TMWiCTDtmvn1pd47Xy+PjqyrWRU7IOluzN8=;
+        b=GHIFygxC3zh++tAVyVLDCrYD3twC7HvfYMa1wlxqxaovrSEoJH3D+2cSqstT11ajZu
+         tpLERlvcpAXSfkGWCH5yl1J6T2UrOGkvQK7+zLfhvn0t+6f0mL6aXUrFK1FZg3C1oW8A
+         5vrQssQoEicZfHC6+20TgbdBHMvz4grvh8RPTWMxFXGzKtTQ3Y3f7vgsTpWs9dzg6Y3i
+         7S4fivnJai4u4YJ46+DmiRHXNMsB3OalY39+RuI8WcEKthvfzQZC0Sy/XuOpDvdtV+sI
+         KHZIkxpB2IBvTtcWPfFZsRJPl/2LdkzDEyU5vzYCjMNScPcMta+CiSEtA3h+CYiaow8Q
+         EVyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sl57p1ooY30N6pvqRQ2rOBut26nF1jK9c0xH0ZySwl4=;
-        b=IzsodiW26g3mRQdZJhg05p7XA1xqPyHAceh5Euh8Gm3aYqgVJOZS54GNJAdCvbWYnx
-         LQAsrcdwPqNamt8lI725ywIYFpQNtvggVOkywLYBjiM+PTVPLH6ZhYXw/esYIhLhNxKl
-         g6cdr40ouCexVqp+4YGFtcGoR+RrxJabV64XkDNk6DXaYiJjwGCoGPtHRT9Akw7qQH7/
-         31J0XXtXLZy5Ku79apXAFTkrFIMVbAyMEnJqsXC+aPZGDr1FcxIY7ILHf6fPdQipseSe
-         eAhEv3D9TXiWKCQc0rAATLZqW6bPlWv0ZVyE0aev3JdVcmM26UMAyxiXZ14qBxvxa21t
-         ItSQ==
-X-Gm-Message-State: AOAM533a8ooIvdQgcw+A/KCyCozcDtebMAWRkF/AFDYHNRKOfoa+Bl/l
-	6AYzAunzOfycP/Q+5GYMshU=
-X-Google-Smtp-Source: ABdhPJwN6CoYLnFSMMZKGE/z2n9MKoxa99U1rVXCmthByODvQtP6ZDk4HrZ79B66AcOg0sWr77KZ6Q==
-X-Received: by 2002:a17:907:7699:: with SMTP id jv25mr1212565ejc.363.1615451444254;
-        Thu, 11 Mar 2021 00:30:44 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id u59sm878602edc.73.2021.03.11.00.30.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3C2cM/z+TMWiCTDtmvn1pd47Xy+PjqyrWRU7IOluzN8=;
+        b=mJR5Esu9RhFR3xa7o73mLXfojFQMdnPD5PWkpY7y7ShPsakO4zfrGU90ZvuZH/Y1u2
+         6LwnWhd2Vr1tpMtCl4N3Wly2PxuLF3Y0rr7Wi2ooa9hv1/vsZBjFcK8i01xlZAW63Pd1
+         JcS6EqVcH9LDojVTaMeFEYn8BxrNxzlcgxZd8PCFJshYXHyymLRqI7jzTdQfgQ7kTS63
+         ehbkEcBjvd8KWgiwa8vW1zKbHJWsn3Bq4qrMC5YB3IJaAHc7cN7n3Zyll2EypCwfUlEI
+         /9gpU+L6ttrhTIMeywSsvwWr7SwPVyG316PknbslZH5gWt6fFjbTqFuYPJ+nuJEKHfVf
+         506A==
+X-Gm-Message-State: AOAM533VhfMXvy8Ebzp+M81q/55Ny7jZTxtM5JytvnBaTkNOGk9FttW2
+	Dv9sHkYB7eDhwDTI7UxNlNyteW5HQ6f1zQ==
+X-Google-Smtp-Source: ABdhPJw0r5oJ9K/Sj17w2lsRo3gYemrzCkLlucHeCpH8C9449bR2I2Dfr59UlsXiH7LTj7PMaoGxBg==
+X-Received: by 2002:a63:f808:: with SMTP id n8mr6348003pgh.115.1615451453349;
+        Thu, 11 Mar 2021 00:30:53 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::fde0])
+        by smtp.gmail.com with ESMTPSA id q205sm1791444pfc.126.2021.03.11.00.30.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 00:30:43 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Mar 2021 09:30:43 +0100
-To: Phil Reid <preid@electromag.com.au>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] INITRAMFS_IMAGE Manifest packagedata not found
-Message-ID: <20210311083043.dpreym6g7xiijhbb@jama>
-References: <fe33bbac-fdfa-abd6-5e05-b716449dd7ec@electromag.com.au>
+        Thu, 11 Mar 2021 00:30:53 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-setuptools: Upgrade 54.1.0 -> 54.1.1
+Date: Thu, 11 Mar 2021 00:30:45 -0800
+Message-Id: <20210311083045.1923305-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <fe33bbac-fdfa-abd6-5e05-b716449dd7ec@electromag.com.au>
-X-Groupsio-MsgNum: 149268
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="454qvebmli2zjjjs"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---454qvebmli2zjjjs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes [1]
+[1] https://github.com/pypa/setuptools/commit/d2ae3cd2cfc66c300bc6661ca33f0ba1f651fd56
 
-On Thu, Mar 11, 2021 at 12:14:08PM +0800, Phil Reid wrote:
-> oe branch: dunfell
->=20
-> Or kernel uses a simple initramfs, no modules are package so there's no c=
-ircular dependencies.
-> And this approach seems simplest for a one pass build.
->=20
-> So it includes this:
-> INITRAMFS_IMAGE =3D "emit-image-init"
-> INITRAMFS_TASK =3D  "emit-image-init:do_image_complete"
->=20
-> Previously this seemed to be just a warning, but now we are getting an er=
-ror that aborts the build:
->=20
-> NOTE: recipe emit-linux-rel-5.1.7+gitAUTOINC+d2b6c25422-r0: task do_popul=
-ate_sysroot: Started
-> ERROR: emit-linux-rel-5.1.7+gitAUTOINC+d2b6c25422-r0 do_package: Manifest=
- /home/cleanbuild/build/workspace/soc-image-v2020.04/tmp-glibc/sstate-contr=
-ol/manifest-x86_64_x86_64-nativesdk-emit-image-init.packagedata
-> not found in cyclone5 cortexa9t2hf-neon cortexa9t2hf-vfp cortexa9hf-neon
-> cortexa9hf-vfp armv7at2hf-neon armv7ahf-neon armv7at2hf-vfp armv7ahf-vfp
-> armv6thf-vfp armv6hf-vfp armv5tehf-vfp armv5ehf-vfp armv5thf-vfp armv5hf-=
-vfp
-> allarch x86_64_x86_64-nativesdk (variant '')?
->=20
->=20
-> And sure enough there is no packagedata file being generated.
->=20
-> Not sure what the solution is here.
->=20
-> image.bbclass sets: do_packagedata[noexec] =3D "1"
-> So I tried do_packagedata[noexec] =3D "0" in the emit-image-init recipe b=
-ut that had no effect.
->=20
-> Any suggestions appreciated.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...ython3-setuptools_54.1.0.bb => python3-setuptools_54.1.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_54.1.0.bb => python3-setuptools_54.1.1.bb} (94%)
 
-Hi,
+diff --git a/meta/recipes-devtools/python/python3-setuptools_54.1.0.bb b/meta/recipes-devtools/python/python3-setuptools_54.1.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_54.1.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_54.1.1.bb
+index 153258d3ec..74264a3814 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_54.1.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_54.1.1.bb
+@@ -10,7 +10,7 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ 
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ 
+-SRC_URI[sha256sum] = "36bc07925c77dd6e30c64c91c2d080212a46910aa79073990c11d4c48a006240"
++SRC_URI[sha256sum] = "1ce82798848a978696465866bb3aaab356003c42d6143e1111fcf069ac838274"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+-- 
+2.30.2
 
-this is the same corner case I've reported yesterday in:
-https://lists.openembedded.org/g/openembedded-core/message/149257
-
-but I've deleted the packagedata task instead of executing it.
-
-Regards,
-
---454qvebmli2zjjjs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEnVMQAKCRA3VSO3ZXaA
-HNmqAJ9oHybqXufIaMOI9O0rM76BExUY5ACgi0EcqhJykfR92izKgR5j8iuY75U=
-=6THs
------END PGP SIGNATURE-----
-
---454qvebmli2zjjjs--
