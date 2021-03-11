@@ -1,138 +1,160 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.3575.1615453339119637686
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.3664.1615454071000773642
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 01:02:19 -0800
+ Thu, 11 Mar 2021 01:14:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VeD8t+CQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id w18so1577009edc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 01:02:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A6eavLj/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id ci14so44552389ejc.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 01:14:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=uTUaiBS3epgkp8VRhVn+cyBAdq6lsE3ieVU0MjfO0vU=;
-        b=VeD8t+CQDathOnDrWX8WyEbPtf7yJv7mXDbstma5owFqShXhAnTX2CGnvc630AKRgO
-         zPN2bo3BcyExmxlEA7epzPGCzrdicmeh9AiluQTnE+q/VAtxPaH8PzkfSWrCwRKG0Fb/
-         lsma/XI2YCh5OQnBYy718B0K/mtVrEjXOUHECii1OPWReESPTuqsc60AZeTcZ+0WiL1r
-         pDHTNDfrPAnSVbUh7bWqEX+o9UarY8b8hpA+1/HT/8dCoKlAZJvWgZpoMRh+0Agnd44x
-         SCno6JysdB9dGPHQSM50IPl/LH2DAwk/5pvwHMARVkNrDvFJ9iDrBGnlozBdx0kPXygL
-         mP4A==
+        bh=8ESqesZ+CyD5Zl35qH/b8hsJ7SHhzhAm2btQJ2PbLHo=;
+        b=A6eavLj/6k2QHnADr4u31cS/AVC/fsxnPQZTsxtsj34cC47uJwfXWCQLheSDYq1YFB
+         muHcPfKearJCJqhS23Kpbkz4YVgBlmx1pKvTx+Yb5qhSgdBRgK7xTwuRXU0AC/w7O4lb
+         AleWId5WzdUek6VVW1dgDWyPtUZecr4+RAE36yebw+XSa61ox3nEYrlucVhi+vfolq2F
+         Yv4MC63MPKQn/ESJ/pIemZdmhQHcmJlWv4TpkF59zxHPE5sXb6M0+M5Ij5EJZx8TpZJ7
+         UO6+cTLSAw7CcC+nFn+0Y4Jz2t8ZFZBaQw5lTEcHA9H+twzCKMaoHEW8h13BGV6BrQlr
+         A8gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:date:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=uTUaiBS3epgkp8VRhVn+cyBAdq6lsE3ieVU0MjfO0vU=;
-        b=YbhaULAq02I4QJ7Ylb79k17FEFJucoMhdwWSY9VYOxrhqLLb9PTe21uZgXLHFPA5YV
-         lUBJWnmzqFkK86PIjzut7l1zJbp+hq/vaylqSHZe1bfGtdBVE7nwF30wwl+eJ636rwLM
-         AbQHILSrqG386JuKkPRiGoL3tk5yfNO3QFEjS0Z891Ah6gt2e7vWsIlnpXzQsWtsf5z3
-         +QpsdSJT9l0UC6Esvf1NB141AmUg0+7McgQwTbpuq9CYesEjYREB5aDFSi5nlhGgpgPU
-         fSyIaJZRegUo4EdwRaN3eN9ADGIpNjS315VlEP6/KvdwHrkh4ITTRhUiMn1pnoQK1fvX
-         3VRA==
-X-Gm-Message-State: AOAM530zasBzOR00z60BEEMyXDgZiXIhRi4k3dAkfuv9oChaItkLLsv3
-	GJduw54stBbcrCmtVSJ8244=
-X-Google-Smtp-Source: ABdhPJyNMlwwjngl9wZ2y1emNxCYuqUCNjZJj91cTdpjMCY0j9Rx4Hzb9fDZXdTw28IYDLJgbdqSoA==
-X-Received: by 2002:a05:6402:110b:: with SMTP id u11mr7726681edv.356.1615453321855;
-        Thu, 11 Mar 2021 01:02:01 -0800 (PST)
+        bh=8ESqesZ+CyD5Zl35qH/b8hsJ7SHhzhAm2btQJ2PbLHo=;
+        b=YaEf+cY9EuJ3UmPwKCD3/mFtT5E3AjG1bOsZ0xVz8LxIRiCRL5kBb/aTp5naVQll9p
+         0hFdQV7qYKXwICO9PSrJb0SfObd7RQaMbV6ahsN4QCLaj6F90ztttPh4Oz7E6BwpqvtO
+         U/GrRFkLNyXOTGeN235BaheJ7Mledyt37Tz6REao301gQ0SXpVkCCZqF0NDDLk8WUAAt
+         2U37N32HRPgHuZ6xxrdG4+jTfx9pgFALZ0+NYA4VQemH4osHNrBj+gtm2m0NflY9DOu+
+         4tl6eIHkKIKvlbQXxhKvFZMxvmiryqjClJJAGIfGgjANuew782uAKNoo/b1DyeTLFrDY
+         EDtw==
+X-Gm-Message-State: AOAM531MRw0uBpk5AKxcUhWRk/3K2E9zcpG1uNz7fWfANgjToUVYzTDl
+	XRUkJnME5Y7VAcQ9NMnfJYY=
+X-Google-Smtp-Source: ABdhPJzT6cHMorNMDzO9JAaA6QZRomqrDbiQ6rpbabUM1Jdq1zerzKtzPAG5/XuIHZfr/0vizi5kEQ==
+X-Received: by 2002:a17:906:8443:: with SMTP id e3mr2096902ejy.370.1615454069509;
+        Thu, 11 Mar 2021 01:14:29 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id l61sm930735edl.37.2021.03.11.01.02.01
+        by smtp.gmail.com with ESMTPSA id cy5sm960246edb.46.2021.03.11.01.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 01:02:01 -0800 (PST)
+        Thu, 11 Mar 2021 01:14:29 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Mar 2021 10:02:00 +0100
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com,
-	anibal.limon@linaro.org
-Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
-Message-ID: <20210311090200.33p3mptsfwusspwa@jama>
-References: <cover.1615452338.git.liezhi.yang@windriver.com>
- <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+Date: Thu, 11 Mar 2021 10:14:28 +0100
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	Anibal Limon <anibal.limon@linaro.org>,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH] xcb-proto: update to 1.14.1
+Message-ID: <20210311091428.2a3nissv6eebjpzq@jama>
+References: <20210310125420.4001190-1-Martin.Jansa@gmail.com>
+ <CAGDS+nkxMnKEaEx514-5u_v7LKJq_yhuLTc_uaGRs5X92WjobQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
-X-Groupsio-MsgNum: 149273
+In-Reply-To: <CAGDS+nkxMnKEaEx514-5u_v7LKJq_yhuLTc_uaGRs5X92WjobQ@mail.gmail.com>
+X-Groupsio-MsgNum: 149274
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="gbqcr2yq4msczm4l"
+	protocol="application/pgp-signature"; boundary="nresoayngrsv7zby"
 Content-Disposition: inline
 
---gbqcr2yq4msczm4l
+--nresoayngrsv7zby
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
-> This can fix a do_package error when compile with meta-secure-core layer=
-:
-> http://layers.openembedded.org/layerindex/branch/master/layer/meta-secur=
-e-core/
+On Wed, Mar 10, 2021 at 04:33:02AM -1000, Steve Sakoman wrote:
+> On Wed, Mar 10, 2021 at 2:54 AM Martin Jansa <Martin.Jansa@gmail.com> wr=
+ote:
+> >
+> > From: Richard Leitner <richard.leitner@skidata.com>
+> >
+> > This fixes [1] the following build error for nativesdk on Fedora 33
+> > which is caused by the removal of fractions.gcd() in favor of math.gcd=
+()
+> > in python 3.9 [2]:
+> >
+> > ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/pyt=
+hon3.9/fractions.py)
+> >
+> > Furthermore the SRC_URI is adapted as the old one doesn't provide the
+> > 1.14.1 archive.
+> >
+> > [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae3=
+5bee1fa0fdb8b5120b1dcd20cee6e34512
+> > [2] https://bugs.python.org/issue39350
+> >
+> > It's needed in gatesgarth and possibly dunfell as well to support
+> > distributions with python-3.9 as we build libxcb-native, which is
+> > failing with xcb-proto-1.14.
+> >
+> > 1.14.1 is a bug fix release:
+> > https://lists.x.org/archives/xorg-announce/2020-October/003061.html
 >=20
-> $ bitbake kernel-initramfs
-> [snip]
-> WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
-> build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-c=
-ore-image-initramfs.packagedata
-> not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_6=
-4-nativesdk (variant '')?
-> [snip]
->=20
-> This is because kernel-initramfs wants to pack an initramfs image into
-> kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to d=
-o this:
->=20
-> d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_c=
-omplete')
->=20
-> This causes kernel-initramfs' do_package depends on
-> ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get =
-the
-> error. Delete do_packagedata as other do_package relelated tasks for the=
- image
-> recipe will fix the error.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Dunfell is still at version 1.13, so this wouldn't be a bug fix version =
+bump.
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+I see, well luckily 1.14 doesn't look too scary as well:
+https://lists.x.org/archives/xorg-announce/2020-February/003038.html
+https://git.openembedded.org/openembedded-core/commit/?h=3Dgatesgarth&id=
+=3Dbf4ef2e3b376744b16c2f57725104207d23c28c6
 
-I went a bit further and inheritted nopackages, but RP mentioned that it
-might be removing too much. Nothing failed with nopackages over night,
-but still this smaller version will be safer as this needs to got to
-gatesgarth and dunfell as well now.
+If this is the only issue for building dunfell with host distro with
+python-3.9 then I think it should be considered.
 
-> ---
->  meta/classes/image.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 41fc3291781..b5586536355 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -612,7 +612,7 @@ deltask do_populate_lic
->  deltask do_populate_sysroot
->  do_package[noexec] =3D "1"
->  deltask do_package_qa
-> -do_packagedata[noexec] =3D "1"
-> +deltask do_packagedata
->  deltask do_package_write_ipk
->  deltask do_package_write_deb
->  deltask do_package_write_rpm
-> --=20
-> 2.17.1
->=20
+Isn't autobuilder using some new host distro with python-3.9 already?
 
->=20
->=20
->=20
+FYI: I was seeing this with ubuntu 21.04, I'll trigger dunfell build on
+it now.
 
+> > Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  .../xorg-proto/{xcb-proto_1.14.bb =3D> xcb-proto_1.14.1.bb}     | 4 +=
++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb =3D> xcb-p=
+roto_1.14.1.bb} (84%)
+> >
+> > diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb b/meta=
+/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+> > similarity index 84%
+> > rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
+> > rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+> > index 6de30098d6..52e474a2e9 100644
+> > --- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
+> > +++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+> > @@ -11,8 +11,8 @@ LICENSE =3D "MIT"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd763b081cb10c223435b01e00d=
+c0aba7 \
+> >                      file://src/dri2.xml;beginline=3D2;endline=3D28;md=
+5=3Df8763b13ff432e8597e0d610cf598e65"
+> >
+> > -SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
+> > -SRC_URI[sha256sum] =3D "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f=
+36f1ecc79834416a605"
+> > +SRC_URI =3D "https://xorg.freedesktop.org/archive/individual/proto/${=
+BP}.tar.xz"
+> > +SRC_URI[sha256sum] =3D "f04add9a972ac334ea11d9d7eb4fc7f8883835da3e485=
+9c9afa971efdf57fcc3"
+> >
+> >  inherit autotools pkgconfig python3native
+> >
+> > --
+> > 2.30.1
+> >
+> >
+> >=20
+> >
 
---gbqcr2yq4msczm4l
+--nresoayngrsv7zby
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEnchgAKCRA3VSO3ZXaA
-HAnxAKCm31x5b+hSunLsQCFTqGsIqGRLiACfXfg7btCfQ6IJFFl+e3CX5emQWSQ=
-=68fP
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEnfdAAKCRA3VSO3ZXaA
+HBeSAJ4naVjWiDBXEMLfnAj5hbQduubSIwCfb5qf0Hpf3RhFhk5W5ZY96xseLzQ=
+=1tym
 -----END PGP SIGNATURE-----
 
---gbqcr2yq4msczm4l--
+--nresoayngrsv7zby--
