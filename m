@@ -1,156 +1,133 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.7831.1615476560274463920
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web08.7971.1615476964118367073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 07:29:20 -0800
+ Thu, 11 Mar 2021 07:36:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KrnHTVTU;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id hs11so47039334ejc.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 07:29:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qqzpGl6b;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id dx17so47098138ejb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 07:36:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=5CL9q5UzpS/IIltQ+v7aSfmFxUHsSV4TfMVMNnOTFbo=;
-        b=KrnHTVTUqMic9S3+E9ufFNyxeaAdoQl9XTPKLOzFp7CbOzzGqD/18x/soMBVe+vduc
-         HtvQsMOEZn/r5FOcJpKD0UYCSpGUD16gf+GqZfZtT1ZLkcdf1tVKM/NSacAPETLNkWUz
-         tCFwCZJ1DVgGnRCtG66FT2X+jHYscBK9e0Stiov4WlhTcVLGmUu3e7fLp8O2A8XFKyeD
-         QTFSH/f/GsKYl2i0+kPQ0ejnfYxs8PgzL7NKKHpk0GJkqgoFCjisdNreQV1NO9mEfiIe
-         ggGnSXfX7IizlRQiSy3M7wdh3gDrpH4vA7Ua+2umllBvkSBY1+sbbo3RdRAF31YfpEMk
-         Rr4w==
+        bh=Q+/lpLMIlAFWjeGN7AE0VCWpVOoBydpMjbQw9BZg84Q=;
+        b=qqzpGl6bIAPCMn8C2/gT3n5QIUJopBqksLUAcgQFbPZFFHO6TJp4HGi9+jTQpi76S8
+         S8MRIsx2OJTSJPBn7N9pOEevtCKKKBW0DRCj1gCW9bx/SEqWYTfyW9qOdR9/sSNbh+Nn
+         m/utF8aym8OI0/7iGlvJDq2nT/Yh+89i9nryokntn3cBRdP1t583/9GsQ8m/NgGJZyCX
+         c8eiko1LwZ67/WFLTgELrT0M6JCft1ikXNh821M2lf+6M7SecgYyGQZhH9FUtayubkMx
+         bmRzwm+jochTmgV/K6ygFikzarcG2gT6ntgB3mPXpzR/b8Y7l0Iwyy6+oTGtT0MXpF5U
+         X7Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:date:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=5CL9q5UzpS/IIltQ+v7aSfmFxUHsSV4TfMVMNnOTFbo=;
-        b=q5gxtfavQ+jQ6dHN8V9nTVufNuKAJFumw9vPikCoCz/MDPzurHDifKUqJzFeP6o3fj
-         ovgW/bX5LmXHTlNyGBJZS7CHJvWRAJRGC233sjZ47la1fueTzNQQ+ytjTY6h6+03liis
-         /sYB8SQibjROCGbTPwH0xg5gK0PxfyYTubktOxLW9fSdgL+KkY+rMY+mCYpGKm5dpQV9
-         FteM3Jdvs3RyBZphIsuyZN/Fz9/ck4+a7fMJBooqv+3ZXBRyr5mdmCmCU8kAi5l9t19+
-         r9p7hv1Hljnt8QfNTlhXiRwuJYujIorlbZC75O1L3ztuFXtywCjfR7hzP8HJUVkAzrJm
-         0wKg==
-X-Gm-Message-State: AOAM5336O7RshzLMaosctXwfeWPGToKT3RH2plL8c3BKXEg6y1UpepTV
-	I5tiyouvqA7I0Bua+MvVrtY=
-X-Google-Smtp-Source: ABdhPJymUF9KqbpgtoDZaw5c7SPCT945sbzfOYjn5dPmA8VfiJKI7xazsppH/8WzXKPsmtZbGFbh6w==
-X-Received: by 2002:a17:906:5498:: with SMTP id r24mr3673933ejo.29.1615476558619;
-        Thu, 11 Mar 2021 07:29:18 -0800 (PST)
+        bh=Q+/lpLMIlAFWjeGN7AE0VCWpVOoBydpMjbQw9BZg84Q=;
+        b=tfKEX7eawubIaoZ4VexWHXgHwnnygFnOT65HTynsMug2Sd4i9dctTnwfZKkQo0SYV8
+         b7LNg8HF8S2n4iz6viiBcWdczROv5mBHVw3BJN6ukbgNTrJo+S2HgXScqbZLz9GwB1QS
+         qBik9X0k2IFQ5njGgnTeEwk/VCt2V/Df4SIORa/utGtqwDXVtWu0Cv0pmYAi2HjKGxmL
+         7rxd78Q6O+Oi8S3gHYNpiYC6vlhvprMJCY08en8CZ65IbI93d9Gr1lt/CmM9V8ujgUgT
+         S3mosfieHWVWFGJ23MK0XUSfKS7JGGoxD7aWol8+xLESR9I5g9BXD0cb2ezGQ5ZHlmbb
+         KqAg==
+X-Gm-Message-State: AOAM532wN60YQeWg6BrGfK5Rk+nHSvjaX4jSyxSVy9VqHg5DuyvOEU+D
+	aVll6mlGRB/gA7TYDWLG/0k=
+X-Google-Smtp-Source: ABdhPJyGipCydSSW+wx6gq+Gdh3dSxLbkv8JI1X6yU/MRCbitugS0Fi/ru87VeFkumy9AKmcl+KCug==
+X-Received: by 2002:a17:906:f01:: with SMTP id z1mr3778783eji.235.1615476962478;
+        Thu, 11 Mar 2021 07:36:02 -0800 (PST)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id r17sm1462128edt.70.2021.03.11.07.29.18
+        by smtp.gmail.com with ESMTPSA id n2sm1504582ejl.1.2021.03.11.07.36.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 07:29:18 -0800 (PST)
+        Thu, 11 Mar 2021 07:36:01 -0800 (PST)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Mar 2021 16:29:17 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org, steve@sakoman.com,
-	anibal.limon@linaro.org
-Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
-Message-ID: <20210311152917.3culjzy64ltjthgn@jama>
-References: <cover.1615452338.git.liezhi.yang@windriver.com>
- <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
- <20210311090200.33p3mptsfwusspwa@jama>
- <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
- <20210311151051.pjdkjyaj5ojax2ya@jama>
- <166B52CA91D6C66C.28467@lists.openembedded.org>
- <30cf5ee761a17704e5e223d298869c16f13bf058.camel@linuxfoundation.org>
+Date: Thu, 11 Mar 2021 16:36:01 +0100
+To: Steve Sakoman <sakoman@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	Anibal Limon <anibal.limon@linaro.org>,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH] xcb-proto: update to 1.14.1
+Message-ID: <20210311153601.ootfsyrek7lmebu5@jama>
+References: <20210310125420.4001190-1-Martin.Jansa@gmail.com>
+ <CAGDS+nkxMnKEaEx514-5u_v7LKJq_yhuLTc_uaGRs5X92WjobQ@mail.gmail.com>
+ <20210311091428.2a3nissv6eebjpzq@jama>
 MIME-Version: 1.0
-In-Reply-To: <30cf5ee761a17704e5e223d298869c16f13bf058.camel@linuxfoundation.org>
-X-Groupsio-MsgNum: 149298
+In-Reply-To: <20210311091428.2a3nissv6eebjpzq@jama>
+X-Groupsio-MsgNum: 149299
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="l44elhu5v6cyrarn"
+	protocol="application/pgp-signature"; boundary="tix6cwxx6uh4ewrt"
 Content-Disposition: inline
 
---l44elhu5v6cyrarn
-Content-Type: text/plain; charset=iso-8859-1
+--tix6cwxx6uh4ewrt
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 11, 2021 at 03:21:30PM +0000, Richard Purdie wrote:
-> On Thu, 2021-03-11 at 15:18 +0000, Richard Purdie via lists.openembedded.=
-org wrote:
-> > On Thu, 2021-03-11 at 16:10 +0100, Martin Jansa wrote:
-> > > On Thu, Mar 11, 2021 at 02:38:16PM +0000, Richard Purdie wrote:
-> > > > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
-> > > > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
-> > > > > > This can fix a do_package error when compile with meta-secure-c=
-ore layer:
-> > > > > > http://layers.openembedded.org/layerindex/branch/master/layer/m=
-eta-secure-core/
-> > > > > >=20
-> > > > > > $ bitbake kernel-initramfs
-> > > > > > [snip]
-> > > > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
-> > > > > > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk=
--secure-core-image-initramfs.packagedata
-> > > > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86=
-_64_x86_64-nativesdk (variant '')?
-> > > > > > [snip]
-> > > > > >=20
-> > > > > > This is because kernel-initramfs wants to pack an initramfs ima=
-ge into
-> > > > > > kernel-initramfs.rpm which adds a dependency in kernel-initramf=
-s.bb to do this:
-> > > > > >=20
-> > > > > > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:d=
-o_image_complete')
-> > > > > >=20
-> > > > > > This causes kernel-initramfs' do_package depends on
-> > > > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we =
-will get the
-> > > > > > error. Delete do_packagedata as other do_package relelated task=
-s for the image
-> > > > > > recipe will fix the error.
-> > > > > >=20
-> > > > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > > > >=20
-> > > > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > >=20
-> > > > > I went a bit further and inheritted nopackages, but RP mentioned =
-that it
-> > > > > might be removing too much. Nothing failed with nopackages over n=
-ight,
-> > > > > but still this smaller version will be safer as this needs to got=
- to
-> > > > > gatesgarth and dunfell as well now.
-> > > >=20
-> > > > This has side effects and there was a reason this wasn't done origi=
-nally.=A0The=A0
-> > > > trouble is that nobody is testing for that, just wanting to fix the=
- problem=A0
-> > > > they see. To prove this isn't straightforward, I tested this locall=
-y, comparing
-> > > > task-depends.dot from "bitbake core-image-sato -g" before and after=
- this patch.
-> > >=20
-> > > The trouble for me is that seeing this "bitbake -g" again, doesn't=A0
-> > > look wrong to me and:
+On Thu, Mar 11, 2021 at 10:14:28AM +0100, Martin Jansa wrote:
+> On Wed, Mar 10, 2021 at 04:33:02AM -1000, Steve Sakoman wrote:
+> > On Wed, Mar 10, 2021 at 2:54 AM Martin Jansa <Martin.Jansa@gmail.com> w=
+rote:
+> > >
+> > > From: Richard Leitner <richard.leitner@skidata.com>
+> > >
+> > > This fixes [1] the following build error for nativesdk on Fedora 33
+> > > which is caused by the removal of fractions.gcd() in favor of math.gc=
+d()
+> > > in python 3.9 [2]:
+> > >
+> > > ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/py=
+thon3.9/fractions.py)
+> > >
+> > > Furthermore the SRC_URI is adapted as the old one doesn't provide the
+> > > 1.14.1 archive.
+> > >
+> > > [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae=
+35bee1fa0fdb8b5120b1dcd20cee6e34512
+> > > [2] https://bugs.python.org/issue39350
+> > >
+> > > It's needed in gatesgarth and possibly dunfell as well to support
+> > > distributions with python-3.9 as we build libxcb-native, which is
+> > > failing with xcb-proto-1.14.
+> > >
+> > > 1.14.1 is a bug fix release:
+> > > https://lists.x.org/archives/xorg-announce/2020-October/003061.html
 > >=20
-> > It is a change of behaviour and it is not mentioned in the commit messa=
-ge
-> > so it would silently break anyone using SRC_URI in image recipes (among=
-st=A0
-> > other possible failure modes). Whether they should be doing that is a=A0
-> > different question.
+> > Dunfell is still at version 1.13, so this wouldn't be a bug fix version=
+ bump.
 >=20
-> I would add that anyone actually depending on that behaviour actually alr=
-eady
-> has a race issue since do_install and friends only has to happen before=A0
-> do_build so can happen long after do_image_complete...
+> I see, well luckily 1.14 doesn't look too scary as well:
+> https://lists.x.org/archives/xorg-announce/2020-February/003038.html
+> https://git.openembedded.org/openembedded-core/commit/?h=3Dgatesgarth&id=
+=3Dbf4ef2e3b376744b16c2f57725104207d23c28c6
+>=20
+> If this is the only issue for building dunfell with host distro with
+> python-3.9 then I think it should be considered.
+>=20
+> Isn't autobuilder using some new host distro with python-3.9 already?
+>=20
+> FYI: I was seeing this with ubuntu 21.04, I'll trigger dunfell build on
+> it now.
 
-And according to your answer here:
-https://stackoverflow.com/questions/51952495/yocto-image-recipe-and-src-uri
-they also need to do few more steps to fetch the files.
+At least for LuneOS images this was the only build issue I've seen with 21.=
+04.
 
---l44elhu5v6cyrarn
+Together with an warning about glibc:
+WARNING: Your host glibc version (2.33) is newer than that in uninative (2.=
+32). Disabling uninative so that sstate is not corrupted.
+
+which I see you're going to address in new PR with uninative upgrade.
+
+Cheers,
+
+--tix6cwxx6uh4ewrt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEo3TQAKCRA3VSO3ZXaA
-HBusAJ964OyJeLQZ9ob3AQmEBh+tXPa1egCdFa8HSXdtDs8B+eFCFEVKi4l1+QI=
-=BZl1
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEo44QAKCRA3VSO3ZXaA
+HIGJAKCY4DdCcdQb+isE5yhr7F8cKUa+PwCgjw7flyEYp7JkzLnuEieM78cG6UQ=
+=L58Z
 -----END PGP SIGNATURE-----
 
---l44elhu5v6cyrarn--
+--tix6cwxx6uh4ewrt--
