@@ -1,244 +1,207 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web09.6299.1615470364863073043
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web08.6353.1615471096988044679
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 05:46:05 -0800
+ Thu, 11 Mar 2021 05:58:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aUe4ckOY;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id w11so1914209wrr.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 05:46:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ay8hztuo;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id 73so1152524qtg.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 05:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=rveybxz9HL0eWCj3HcNkCXL+WeJQXtdyQmqXG1Apn1I=;
-        b=aUe4ckOYuIoO8JZ2DXeP2y6tXn3uA4CzHRHUspJMV2UVoYCvl9rZ4OFIt3kWYdYaxV
-         rhitE5MOaSCmACB/r61H12A8dTXyrkuSVJxrI1aVsyOa/QaeX3bKijSuOGwIk0L0FQWF
-         n3mo3Gk+dgzV+ZZkXc5E05t8CkA08Ft9idENp2G4EDVjzABNQ37bMhF4dUKTQviIHGdE
-         Ky9iu0orT3rNaNKgDf87Gvo3L7yOlsc+JpdX4TLJfVRoVBYp/HI938QuKTrYPMpjm6bi
-         wHAAnZzsgCxGXbA615ZnfgkzCPohynhVgGkh29svmEsX4OImI+DEayXKXuLvHMGJKKcX
-         wZiQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B4lAwLIVNRV2Ua5ih/SJtISgxgZgnG+cevRi9ycgwp4=;
+        b=Ay8hztuojBONMaiQbgSTJ3KceiEcKnAky9JxpJmBbR5HpS57WkjJXCg+745jfMNtMi
+         k9ISLeDwbcfr4RykPJCcQBw3haXlnkc+c+qomQ/6C6F2O82k5iZrA0OB7QtmmIOtBGRR
+         +sUiC63DFyZ+aboGl9jQORMn4P2KWGGaCL5dqInJQQpDJ0+XEh+fx54eTXxMdtJX0LYL
+         xJWhUMEzGq98wdXXNkMDzTJ/EnrkP87pg8Nl+ffcQMMFgbR5mpmHO7kkqv07odmoj8f3
+         DjJnt4CUjZA/IlBxwANDgyjTS/9yEwtZP4apS7NwGvJYitbXhg83lFJ22J1mSPmbzoJ6
+         0r/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rveybxz9HL0eWCj3HcNkCXL+WeJQXtdyQmqXG1Apn1I=;
-        b=kb5/PZPS5DKezbJgSNpnXXn/h0HpFgAc9sKgOPb0KbD+NnZDohjLDtOi9Ao/YYYKDv
-         na6hrd30QqZD9MA1TBQYFK2wfKP66z9un1OujTt0oogz2k6dh9cudI79zmnR89JR1mSp
-         ar/qUYqJFLSEFp1MeuaZVmBlzl98c6/3jefr4qp66ps63HDS2Fac8anxTWrklgxjM3Tp
-         Tm0T8dx9j8NjtW2K1muaGF6iO1BoInL+r+DsAXmDqw5dNrH5tD1OMUWOkmR6077Ka/lI
-         XzdVuK9VmmOZr+efrbTsqJW5UbjocZdF8pPaCszvpj7hBGJxJiXySSg1tEDxcRPTA+Eu
-         6IKw==
-X-Gm-Message-State: AOAM531iSPW6+S6E2bpaTrUhnUrqHfSXCmy38Z5kXxAgoBdcizUOtZH0
-	mcyd2h+tKp6GasCVM9ihmvM=
-X-Google-Smtp-Source: ABdhPJwB+FNK6Y0GechmVGbqmvzOu/0MyfqYXSJyplF8ZQWXo9afd2WdizS6uV6UfWKLtLF4z3PD8A==
-X-Received: by 2002:adf:e84f:: with SMTP id d15mr8849835wrn.394.1615470362862;
-        Thu, 11 Mar 2021 05:46:02 -0800 (PST)
-Return-Path: <max.oss.09@gmail.com>
-Received: from Saturn.fritz.box ([81.221.211.103])
-        by smtp.googlemail.com with ESMTPSA id p27sm4103660wmi.12.2021.03.11.05.46.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B4lAwLIVNRV2Ua5ih/SJtISgxgZgnG+cevRi9ycgwp4=;
+        b=AzBEuVs791jjQ4fjQbDJiwvtruRIMBk+clWgEvYgKtnF9G4QZUHOtwJLQNJdGJAqwK
+         2an2HZOAwmjRTI7pV1uU654F1RqhIoXRZH7sxiirjLyygPGEQ9n6N/SZtDMNEdkAWYJd
+         nhQLgne8gzk/aZgUbcuCFFiUgGQ2+WU4mo8vews1uRpzMl1VXF7zcOwmVL79i/2+KB1P
+         /OFypeKIvVT6uMlrI6UbnJa0O8Qjhl9A96EJApHbZ1SgZzXQ5dapkjfhXuxuwL7PkNCk
+         mMTtnYGSzgnfJQNPESzplZNQT7S+NsTDfeUpKgjCvCGjiTwu4bhn7f56p/GhlTneQvLt
+         C9OQ==
+X-Gm-Message-State: AOAM533ms9WdLCr0GCxyu7asxvqNEtMq25umCpsyBw/l6t3sBfXn0LRO
+	/LWoEX0mw5/XnKws5jPqHTc=
+X-Google-Smtp-Source: ABdhPJzWDovdDvJsp61zH0PbUsZFjK/8KpMnVp8usrZ3UpQrF3xcIkV8csGIXCsta3eIfTPS6HFgZA==
+X-Received: by 2002:ac8:4e86:: with SMTP id 6mr7378924qtp.213.1615471095998;
+        Thu, 11 Mar 2021 05:58:15 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id m3sm1894550qkk.15.2021.03.11.05.58.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 05:46:02 -0800 (PST)
-Message-ID: <bb16f37aed05ab72e4ed8a3b68f0d68671c14a22.camel@gmail.com>
-Subject: Re: [OE-core] GCC crashes on aarch64 since gatesgarth
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>, Randy MacLeod
-	 <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 11 Mar 2021 14:46:01 +0100
-In-Reply-To: <4a1bc66d-f5d1-a781-3488-32da37f503de@topic.nl>
-References: 
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.443c6779-935d-4b0c-bd2a-e7ccda1d0c4a@emailsignatures365.codetwo.com>
-	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.1d651819-d3eb-4e73-bb7d-d97ad0bed5fe@emailsignatures365.codetwo.com>
-	 <165E1F647C435468.32571@lists.openembedded.org>
-	 <cf285d04-d8e1-e3a2-25de-9c3f02ad0678@topic.nl>
-	 <086cde14-14c7-0c28-1cc4-33156b45bf0a@windriver.com>
-	 <4a1bc66d-f5d1-a781-3488-32da37f503de@topic.nl>
-User-Agent: Evolution 3.34.4 
+        Thu, 11 Mar 2021 05:58:15 -0800 (PST)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perf: reproducibility fixes for pmu-events.c
+Date: Thu, 11 Mar 2021 08:58:14 -0500
+Message-Id: <20210311135814.38512-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Mike
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Am Donnerstag, den 11.03.2021, 10:43 +0100 schrieb Mike Looijmans:
-> Met vriendelijke groet / kind regards,
-> 
-> Mike Looijmans
-> System Expert
-> 
-> 
-> TOPIC Embedded Products B.V.
-> Materiaalweg 4, 5681 RJ Best
-> The Netherlands
-> 
-> T: +31 (0) 499 33 69 69
-> E: mike.looijmans@topicproducts.com
-> W: www.topicproducts.com
-> 
-> Please consider the environment before printing this e-mail
-> On 05-03-2021 00:32, Randy MacLeod wrote:
-> > On 2021-02-05 2:49 a.m., Mike Looijmans wrote:
-> > > I've been doing quite some tests and things last week, my conclusion so far 
-> > > is that the latest gcc seems to trigger a bug particular to this CPU. Maybe 
-> > > even this particular batch.
-> > > 
-> > > Hours of testing found no issues with RAM.
-> > > 
-> > > I've also done huge amounts of builds with zeus, no problems.
-> > > 
-> > > Then googling for "illegal instruction gcc ryzen 1700" reveals quite a few 
-> > > threads on something that sounds suspiciously similar. Though it makes me 
-> > > wonder why I never encountered it before, since these are all many years 
-> > > old. I did try a bunch of the suggestions done there, but so far no luck.
-> > > 
-> > > 
-> > 
-> > Any update on this bug Mike?
-> > Have you opened a YP bug? If not please do.
-> > I'd like to see if the problem still happens on master.
-> 
-> So far I've discovered that this only happens when compiling for an aarch64. 
-> When targetting 32-bit ARM the compiler crash does not occur.
-> 
-> I've contacted AMD for an RMA for my CPU, but it's out of warranty now. I plan 
-> to borrow a compatible CPU to see if that makes the problem go away. If it 
-> does I'll just buy a new CPU...
-> 
-> As an example, if I take the current gatesgarth branch and meta-raspberrypi, 
-> then building for "raspberrypi4" runs without a hitch. If I chose 
-> "raspberrypi4-64" as MACHINE, the build will crash multiple times, typically 
-> on large components like the linux kernel, qt and boost. It happens on both 
-> plain C (kernel, u-boot) and on C++ code (boost, Qt). The same applies to e.g. 
-> the Xilinx Zynq, building for the 7-series (cortex A9) is fine but building 
-> for the MPSoC (cortex A53) will crash.
-> 
-> A silly workaround is to run "while ! bitbake ... ; do echo again; done" which 
-> will retry until it succeeds.
-> 
-> I'd be very interested if there's anyone with Ryzen setup who can reproduce 
-> this, or fail to, which is also interesting to know.
-> 
-> I also tried building in tmpfs and on a different SSD to rule out the NVME as 
-> a cause.
-> 
-> I'll try the master branch too, and report back on that (tomorrow probably).
-> 
-> 
-> > ../Randy
-> > 
-> > 
-> > > Met vriendelijke groet / kind regards,
-> > > 
-> > > Mike Looijmans
-> > > System Expert
-> > > 
-> > > 
-> > > TOPIC Embedded Products B.V.
-> > > Materiaalweg 4, 5681 RJ Best
-> > > The Netherlands
-> > > 
-> > > T: +31 (0) 499 33 69 69
-> > > E: mike.looijmans@topicproducts.com
-> > > W: www.topicproducts.com
-> > > 
-> > > Please consider the environment before printing this e-mail
-> > > On 27-01-2021 16:10, Mike Looijmans via lists.openembedded.org wrote:
-> > > > When doing large builds, the GCC compiler tends to crash on random spots in 
-> > > > the code. There are a few common denominators though.
-> > > > 
-> > > > It only happens when compiling for aarch64 (cortex-A53), not for 32-bit arm 
-> > > > (cortex-A9)
-> > > > 
-> > > > It's random and usually happens on "big" sets like kernel, openssl, boost, 
-> > > > u-boot etc.
-> > > > 
-> > > > It always reports "during GIMPLE pass: ealias" in the error, for example:
-> > > > 
-> > > > > during GIMPLE pass: ealias
-> > > > > ../openssl-1.1.1i/crypto/x509v3/v3_utl.c: In function 'do_x509_check':
-> > > > > ../openssl-1.1.1i/crypto/x509v3/v3_utl.c:1239:1: internal compiler error: 
-> > > > Illegal instruction
-> > > > > 1239 | }
-> > > > 
-> > > > Compiling the same thing again usually goes fine.
-> > > > 
-> > > > I've never experienced this with the zeus and older branches of OE.
-> > > > 
-> > > > 
-> > > > I've already tried upgrading to the latest gatesgarth status, and cleaning 
-> > > > out everything and start from scratch. I've also run "mprime" test on my 
-> > > > machine (over one hour) just to be confident that the system itself is 
-> > > > really okay.
-> > > > 
-> > > > 
-> > > > Ideas to diagnose, fix or reliably reprodruce are more than welcome. 
-> > > 
-> > > 
+perf generates pmu-events.c as part of the build process. The
+code that generates the events is doing tree walks and potentially
+other non-determinstic things.
 
-For me a build of core-image-weston on a AMD Ryzen 7 3700X succeeded. The build run trough without
-any hick-ups. openssl-1.1.1i is built as part of that image.
-I used HEAD of today's gatesgarth.
-So the issue seems to not affect all Ryzen CPUs.
+We'd rather not mess with that implementation, so we add a script
+that knows how to read the pmu-events.c, sort the entries and then
+copy it over the generated one.
 
-Max
+With this, we should always have events in the same order, improving
+reproducibility.
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/perf/perf.bb              | 16 ++++
+ .../perf/perf/sort-pmuevents.py               | 93 +++++++++++++++++++
+ 2 files changed, 109 insertions(+)
+ create mode 100755 meta/recipes-kernel/perf/perf/sort-pmuevents.py
 
-MACHINE=raspberrypi4-64 bitbake core-image-weston
-WARNING: Host distribution "opensuseleap-15.2" has not been validated with this version of the build
-system; you may possibly experience unexpected failures. It is recommended that you use a tested
-distribution.
-Loading cache: 100%
-|                                                                                                   
-                                                                            | ETA:  --:--:--
-Loaded 0 entries from dependency cache.
-Parsing recipes: 100% |#####################################################| Time: 0:00:43
-Parsing of 2884 .bb files complete (0 cached, 2884 parsed). 4160 targets, 288 skipped, 0 masked, 0
-errors.
-WARNING: No recipes in default available for:
-  /mnt/devel/oe-disk/oe-core_gatesgarth/build/../layers/meta-raspberrypi/recipes-
-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.%.bbappend
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "aarch64-tdx-linux"
-MACHINE              = "raspberrypi4-64"
-DISTRO               = "tdx-xwayland"
-DISTRO_VERSION       = "0.0.0-devel-20210311125851+build.0"
-TUNE_FEATURES        = "aarch64 armv8a crc crypto cortexa72"
-TARGET_FPU           = ""
-meta-toradex-nxp     = "HEAD:b8187ed55f204f50dea60c27f6cc79e9d2f1081b"
-meta-freescale       = "gatesgarth:1acf098972f9f86b26eee815827667dbd2fcdeaf"
-meta-freescale-3rdparty = "gatesgarth:efef93a0dc5be90c5bdc81dae252516887c95586"
-meta-toradex-tegra   = "HEAD:627949f52b58d54ec2b5992b327bb33123cc53b2"
-meta-toradex-bsp-common = "HEAD:e06c552ef433689b12caef0bf1f589d0cab180f9"
-meta-raspberrypi     = "master:fdf02accfe3f68d11fa178d72eb377f9ca96411c"
-meta-oe              
-meta-filesystems     
-meta-gnome           
-meta-xfce            
-meta-initramfs       
-meta-networking      
-meta-multimedia      
-meta-python          = "gatesgarth:945f062ff098dc9c8ba8d22c5eef88adec60730d"
-meta-freescale-distro = "gatesgarth:50eb2b32e7702bc435049bfe0a98fc65c864c106"
-meta-toradex-demos   = "HEAD:4ffac94ed18c8701511385dcfc363a3051855fd7"
-meta-qt5             = "gatesgarth:2b33a5d5e888370bb56685b86aa82b73624f19f0"
-meta-toradex-distro  = "HEAD:6ddae219515fda5e6ffb0ad6a2fdc5430d9fa926"
-meta-poky            = "gatesgarth:ac4a956f606d9cb4e025af80e6f4dcb74cbfd941"
-meta                 = "gatesgarth:6311cb4930bd0add7aec61e5e0df6bb7ae0c4481"
-
-Initialising tasks: 100%
-|###########################################################################| Time: 0:00:04
-Sstate summary: Wanted 1109 Found 142 Missed 967 Current 702 (12% match, 46% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 5358 tasks of which 2483 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 12 seconds
-
-Summary: There were 2 WARNING messages shown.
-
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 2beb404c03..c7653e523c 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -250,6 +250,14 @@ do_configure_prepend () {
+         # all the calls have YFLAGS, which contains prefix mapping information.
+         sed -i -e 's,$(YACC),$(YACC) $(YFLAGS),g' ${S}/scripts/Makefile.host
+     fi
++    if [ -e "${S}/tools/perf/pmu-events/Build" ]; then
++        target='$(OUTPUT)pmu-events/pmu-events.c $(V)'
++        replacement1='$(OUTPUT)pmu-events/pmu-events.c $(V)\n'
++        replacement2='\t$(srctree)/sort-pmuevents.py $(OUTPUT)pmu-events/pmu-events.c $(OUTPUT)pmu-events/pmu-events.c.new\n'
++        replacement3='\tcp $(OUTPUT)pmu-events/pmu-events.c.new $(OUTPUT)pmu-events/pmu-events.c'
++        sed -i -e "s,$target,$replacement1$replacement2$replacement3,g" \
++                       "${S}/tools/perf/pmu-events/Build"
++    fi
+     # end reproducibility substitutions
+ 
+     # We need to ensure the --sysroot option in CC is preserved
+@@ -292,6 +300,14 @@ do_configure_prepend () {
+     # so we copy it from the sysroot unistd.h to the perf unistd.h
+     install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
+     install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/include/uapi/asm-generic/unistd.h
++
++    # the fetcher is inhibited by the 'inherit kernelsrc', so we do a quick check and
++    # copy for a helper script we need
++    for p in $(echo ${FILESPATH} | tr ':' '\n'); do
++	if [ -e $p/sort-pmuevents.py ]; then
++	    cp $p/sort-pmuevents.py ${S}
++	fi
++    done
+ }
+ 
+ python do_package_prepend() {
+diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+new file mode 100755
+index 0000000000..5ddf0f144f
+--- /dev/null
++++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+@@ -0,0 +1,93 @@
++#!/usr/bin/env python3
++
++# perf pmu-events sorting tool
++#
++# Copyright (C) 2021 Bruce Ashfield
++#
++# SPDX-License-Identifier: MIT
++#
++
++import sys
++import os
++import re
++from collections import OrderedDict
++
++if len(sys.argv) < 2:
++    print( "[ERROR]: input and output pmu files missing" )
++    sys.exit(1)
++
++if len(sys.argv) < 3:
++    print( "[ERROR]: output pmu file missing" )
++    sys.exit(1)
++
++infile = sys.argv[1]
++outfile = sys.argv[2]
++
++if not os.path.exists(infile):
++    print( "ERROR. input file does not exist: %s" % infile )
++    sys.exit(1)
++
++if os.path.exists(outfile):
++    print( "WARNING. output file will be overwritten: %s" % infile )
++
++with open(infile, 'r') as file:
++    data = file.read()
++
++preamble_regex = re.compile( '^(.*?)^struct', re.MULTILINE | re.DOTALL )
++
++preamble = re.search( preamble_regex, data )
++struct_block_regex = re.compile( '^struct.*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
++field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
++cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
++name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
++
++# create a dictionary structure to store all the structs, their
++# types and then their fields.
++entry_dict = {}
++for struct in re.findall( struct_block_regex, data ):
++    # print( "struct: %s %s" % (struct[0],struct[1]) )
++    entry_dict[struct[1]] = {}
++    entry_dict[struct[1]]['type'] = struct[0]
++    entry_dict[struct[1]]['fields'] = {}
++    for entry in re.findall( field_regex, struct[2] ):
++        #print( "    entry: %s" % entry )
++        cpuid = re.search( cpuid_regex, entry )
++        if cpuid:
++            #print( "    cpuid found: %s" % cpuid.group(1) )
++            entry_dict[struct[1]]['fields'][cpuid.group(1)] = entry
++            
++        name = re.search( name_regex, entry )
++        if name:
++            #print( "    name found: %s" % name.group(1) )
++            entry_dict[struct[1]]['fields'][name.group(1)] = entry
++        
++
++# created ordered dictionaries from the captured values. These are ordered by
++# a sorted() iteration of the keys. We don't care about the order we read
++# things, just the sorted order. Hency why we couldn't create these during
++# reading.
++#
++# yes, there's a more concise way to do this, but our nested dictionaries of
++# fields make it complex enough that it becomes unreadable.
++entry_dict_sorted = OrderedDict()
++for i in sorted(entry_dict.keys()):
++    entry_dict_sorted[i] = {}
++    entry_dict_sorted[i]['type'] = entry_dict[i]['type']
++    entry_dict_sorted[i]['fields'] = {}
++    for f in sorted(entry_dict[i]['fields'].keys()):
++        entry_dict_sorted[i]['fields'][f] = entry_dict[i]['fields'][f] 
++
++# dump the sorted elements to the outfile
++outf = open( outfile, 'w' )
++
++print( preamble.group(1) )
++outf.write( preamble.group(1) )
++for d in entry_dict_sorted:
++    outf.write( "struct %s %s[] = {\n" % (entry_dict_sorted[d]['type'],d) )
++    for f in entry_dict_sorted[d]['fields']:
++        outf.write( entry_dict_sorted[d]['fields'][f] + '\n' )
++
++    outf.write( "};\n" )
++
++outf.close()
++    
+-- 
+2.19.1
 
