@@ -1,116 +1,115 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web12.1679.1615435157944478841
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web09.1735.1615435524553297219
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Mar 2021 19:59:18 -0800
+ Wed, 10 Mar 2021 20:05:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WsoWMgy9;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id 18so13607358pfo.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 19:59:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DeCCjRF3;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id r20so368831ljk.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Mar 2021 20:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sr44iteO468Qo1MjAHX9i4+u2H7nHitfOLgzbm0WphI=;
-        b=WsoWMgy9pM7mzuUD+vJivvRQua86m8n0dFpRH3+eVCZtHEcBcHB0q9pYnxpehuZlhR
-         r/pjt1Hw/lb0jnSx3ZnFPKMom9jwCtCf2xpR6h3GrDm4ehFBTct25/wlT2vcKuBDTF3k
-         pv/o6wZi9CjjxlV22IIXHqx6c0u46JnLDKnojgDgW2NcGVs7EoTI/xWe27Ul/ji6EQJp
-         mbiHOwo+GGoQ3EutkHZ6ZQcFLaTUupH03wLLRUob92X4//Ada/oknVWCt1hqt42Pu8Hq
-         1uEvBXMACcosfz+ytt9Ie5T+jAy2y2SjwRikkFZOJJjd6+FiOGJt4/S4CKiRMnlY+NAk
-         h1Jg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HtIkkLVi9908hHUsEBsLPwGNsjNkwiWe3gLUQ7U7dqQ=;
+        b=DeCCjRF3eQWcyMetNkqOqMR7dZYGdZwxdW7ELchmc+vK9yjKZDssfduC+Piw1a5slf
+         SW0W4MK9j6FrjtJcMK3hJpBaMbpU8C0tuASesBOyTjJxhKF7uXJM1ONL/KBcM8ygi68M
+         YOpgkcEgJDJybj4slFfZBUrL32zLrfllR9Rw4Q3kpldYSGpRGRPm15oNxpyfZX32MmLY
+         Onmst78hcCyOAayfyOC7XL2YCGLYnc9TuTu21UTYkBLNbYz623TGfouCnwKJwgYdsQ15
+         2Ki1qO6lUsHEEtVbrHUfFZQTsLG6veDF2U7MWXgs+CiA3JKhlnkMUrgL5Zr3+9tzDOw2
+         oIsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=sr44iteO468Qo1MjAHX9i4+u2H7nHitfOLgzbm0WphI=;
-        b=Cms+42y6g3fFh8RYWCMNqwpJhiku+mADvrNdRKYCnsV++9XcjO66VyrFEVwv6iPbQl
-         Rz5Kun4DlggI8kX65J6sdz8Y7VvzZKLxdHh8TDSe7SX/NURoswUefm56Wb2VaDdqBqru
-         iV0q3g0/GrQaVMXpr6UXygbwu3tV3msYgiDbZ7PPLwY/g96vC7jkW8Jdqm3PlPP8pkPX
-         esnN8GQoXvEMLmRQ/MUlQJmUkgu1edJmxalRH/rE+cNnt7MXisDaLz2DXcvJ9/fWwpCd
-         VpLjHnJLuTwZPw1AHaQ63J4iAaQEwF2yoQ2wblumZWl8zKBtxbfFfuSNl1+wcI+L3n2a
-         E1Ng==
-X-Gm-Message-State: AOAM532qk9h5yrvuZXZss4MwI3u2KJHToGc6Thl13EKKUyb0dZLlUmPi
-	sRM+xGgoc1irRxokFonC7vc=
-X-Google-Smtp-Source: ABdhPJyloSuxbS+DWYoJlNjXt3tk6A8HimqWNcK340gQeb1z/TeiYixKbt6Fo8NCRluNOSIUULpI7Q==
-X-Received: by 2002:aa7:9182:0:b029:1de:e96f:a866 with SMTP id x2-20020aa791820000b02901dee96fa866mr5863273pfa.67.1615435157226;
-        Wed, 10 Mar 2021 19:59:17 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
-        by smtp.gmail.com with ESMTPSA id w203sm873418pff.59.2021.03.10.19.59.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Mar 2021 19:59:16 -0800 (PST)
-Subject: Re: [OE-core] [PATCH 2/2] core-image-sato: qemuarmv5 doesn't work with >256M RAM
-To: Jon Mason <jdmason@kudzu.us>, Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
- Jon Mason <jon.mason@arm.com>
-References: <20210310230433.29983-1-jdmason@kudzu.us>
- <20210310230433.29983-2-jdmason@kudzu.us>
- <CAJ86T=VPLEr=u5O=D1bo6du0nBw3fOnN5O1i_tja0hoJxca-sg@mail.gmail.com>
- <CAPoiz9xVGGS6S5LpjO3OX-Zg9A56u6NJAq=oRbFYVmN4hBSZ=g@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <622f75d8-819f-5c6d-ef56-5c7780f1cccf@gmail.com>
-Date: Wed, 10 Mar 2021 19:59:15 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HtIkkLVi9908hHUsEBsLPwGNsjNkwiWe3gLUQ7U7dqQ=;
+        b=XvM5mu7delpH402ch2/H/X6g6maX4RhG2Ult4xDBLmyUc3mvxsmcMwoxCkOkHk/n/B
+         F1Grb4p63I9wed5wleVatdi7YktAyqPB2F5k+cxuIxRJWW6BKUFWWhUM14eqd/S3YPmF
+         F9TzKyfDFrCyyhAUtmTkWxrME8poofmmG9bvSEXXTy9gwhB9D5wyg88PrgxQoRrjVzmD
+         Tz8M2uCV4quIo7nR8g15P8F+C11bGxOWro4z6GSrW+NvpAQDjJMe1tOrVpO8fhsEmkyt
+         OBNR7epN+XDeB9ritS5YYM0TyUAf3BeQ2g+4ootkV5bW1mDIgKaCXTG9OkFcVadtomRr
+         EBBQ==
+X-Gm-Message-State: AOAM530gnt3qcKV8wJ8sgj/2I+h++bAgQrzdci2Omx5GLMEYunywxMmq
+	vtyyylJeEngkb7xUXzeYBBZA9HT0yvAhJkBnAIo=
+X-Google-Smtp-Source: ABdhPJw7CD+snAXG7QvbyyKIj/uBr9U0IIHNps38b6t02Kl9KsQsIIgV/64FDsm1/CzrfzHyOpqdWiuCuKO4SzKwtB0=
+X-Received: by 2002:a2e:7a11:: with SMTP id v17mr3742619ljc.403.1615435522333;
+ Wed, 10 Mar 2021 20:05:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAPoiz9xVGGS6S5LpjO3OX-Zg9A56u6NJAq=oRbFYVmN4hBSZ=g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210310230433.29983-1-jdmason@kudzu.us> <CAJ86T=XDpdxFY_dLtpOf7b=gZ8N_jHe0Yp1Frhw+h4uqzWpRhw@mail.gmail.com>
+ <CAPoiz9zB51u-E5Jf8ASoMkt-m2PcwTpwGku3cps8poHM4sVzKQ@mail.gmail.com>
+In-Reply-To: <CAPoiz9zB51u-E5Jf8ASoMkt-m2PcwTpwGku3cps8poHM4sVzKQ@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 10 Mar 2021 20:05:11 -0800
+Message-ID: <CAJ86T=XxPkoXTej6mtFM+WE29ecj7ZaNzx4WbryiybG8i41P4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] qemuarmv5: add softfp
+To: Jon Mason <jdmason@kudzu.us>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Jon Mason <jon.mason@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, Mar 10, 2021 at 7:09 PM Jon Mason <jdmason@kudzu.us> wrote:
+>
+> On Wed, Mar 10, 2021 at 6:25 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+> >
+> > On Wed, Mar 10, 2021 at 3:04 PM Jon Mason <jdmason@kudzu.us> wrote:
+> > >
+> > > pulseaudio-14.2 is throwing the following error when compiling for
+> > > machine qemuarmv5
+> > > "NEON intrinsics not available with the soft-float ABI.  Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+> > >
+> > > Using softfp to resolve this issue.
+> >
+> > Wouldn't "sidestep" be a more accurate description then "resolve" ?
+> >
+> > Either way I'm not sure that changing qemuarmv5 just to workaround one
+> > broken package is the right approach. Doesn't it mean OE will no
+> > longer have any test coverage for ARM soft float?
+>
+> With these obvious issues, no one is even compiling these, let alone
+> testing qemuarmv5.  And these issues have probably been around for
+> months.  Even after getting all of these issues addressed, qemuarmv5
+> is still failing testimage.  Honestly, it should be dropped since it's
+> not really being used.  If you are only worried about compiling, there
+> are other machines in other layers that can be used for this.
 
+The issue with pulseaudio has been discussed on the list and bugs have
+been raised upstream. It's due to pulseaudio's switch to meson (ie the
+autotools build still correctly detects ARM soft float, although
+switching back to the autotools build obviously isn't a good long term
+solution).
 
-On 3/10/21 7:16 PM, Jon Mason wrote:
-> On Wed, Mar 10, 2021 at 6:30 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Wed, Mar 10, 2021 at 3:04 PM Jon Mason <jdmason@kudzu.us> wrote:
->>>
->>> Currently seeing the following error when running runqemu on qemuarmv5:
->>> runqemu - ERROR - Failed to run qemu: qemu-system-arm: versatilepb: memory size must not exceed 256MB
->>>
->>> This is due to the memory size being set to 512 instead of the max
->>> allowable of 256.  Limit to this and everything is happy.
->>>
->>> Signed-off-by: Jon Mason <jon.mason@arm.com>
->>> Change-Id: I3339e50a53464b95f52a987ed37868ebf0935b07
->>> ---
->>>   meta/recipes-sato/images/core-image-sato.bb | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
->>> index e50b24a47691..8ed8f75e9f92 100644
->>> --- a/meta/recipes-sato/images/core-image-sato.bb
->>> +++ b/meta/recipes-sato/images/core-image-sato.bb
->>> @@ -14,3 +14,4 @@ TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesd
->>>
->>>   QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
->>>   QB_MEM_qemumips = "-m 256"
->>> +QB_MEM_qemuarmv5 = "-m 256"
->>
->> Grepping for QB_MEM suggests there are other images which need the
->> same fix. Maybe good to fix all of them at once rather than one at a
->> time.
-> 
-> I do not know if other machines have this same issue with qemu, and
-> this is probably not the best way to resolve this (as I really think
-> this should be part of the machine config file, and have runqemu be
-> smarter logic about setting the memory size).  I can open a bug in
-> bugzilla and get back to it later.
+If you want to drop soft float support in qemuarmv5 or drop the
+machine config entirely then there may be valid arguments for doing
+that, but a bug in the pulseaudio meson build doesn't seem to be one
+of them (since it's completely independent of qemuarmv5).
 
-perhaps we should define MAX_MEMORY to define this limit for every 
-emulated machine and present a diagnostic if QB_MEM exceded MAX value
+> > > Signed-off-by: Jon Mason <jon.mason@arm.com>
+> > > Change-Id: I513ed523f03ed091507a099e3f80fa95a6fc7ca9
+> >
+> > Not sure if there's an official policy for this, but personally I'd
+> > say your own private gerrit IDs should be stripped before pushing
+> > changes upstream.
+>
+> These can be dropped if they are problematic.  I haven't heard they
+> are forbidden.
 
-> 
->>
->>> 2.20.1
->>>
->>>
->>>
->>>
->>>
->>>
->>> 
->>>
+I haven't heard they are forbidden either, I was just giving my opinion.
+
+> > > ---
+> > >  meta/conf/machine/qemuarmv5.conf | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+> > > index dfe2a89573b2..29bcc1199ea1 100644
+> > > --- a/meta/conf/machine/qemuarmv5.conf
+> > > +++ b/meta/conf/machine/qemuarmv5.conf
+> > > @@ -18,3 +18,4 @@ PREFERRED_VERSION_linux-yocto ??= "5.10%"
+> > >  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+> > >
+> > >  KMACHINE_qemuarmv5 = "qemuarm"
+> > > +TUNE_CCARGS_MFLOAT = "softfp"
+> > > --
+> > > 2.20.1
+> > >
+> > >
+> > > 
+> > >
