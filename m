@@ -1,214 +1,138 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web12.3482.1615452563079314960
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.3575.1615453339119637686
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 00:49:23 -0800
+ Thu, 11 Mar 2021 01:02:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kdE0ymz/;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id j12so8023369vsm.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 00:49:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VeD8t+CQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id w18so1577009edc.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 01:02:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JAh5GZikyJMfgFSSssJIrjGATMPE5VDOkNJT/N+oqP0=;
-        b=kdE0ymz/D2zS+mhsRHkjIJPIQk1WzwcsThu11B3viABTNEjtWFJXborFzzcn5c4RrT
-         UvfaYEvkPHCL1QXzjQgA/Q0xSqCRJj0joH19EpnsPQ5fKVt+KxJrhvbBJb3Nj9HDPHOS
-         hMBiGe379uroulYIPQN7lzUTg1SCphhP60yRYI8G38EwBIxnp/KB96LvmXJjDioQIzF2
-         w7bgteLNUK27FJCWXIvo2j2z+folMEUoSxZw3HHONrIHjOhTziStEQIUdocDaHJvfkMa
-         KZBrZ0LvBr/Xfmz5QUfjjUL6CEFzhJi7ImA74NT8eEUB/aVIScAsBbMb1X3wmaWZdy/I
-         kPAA==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uTUaiBS3epgkp8VRhVn+cyBAdq6lsE3ieVU0MjfO0vU=;
+        b=VeD8t+CQDathOnDrWX8WyEbPtf7yJv7mXDbstma5owFqShXhAnTX2CGnvc630AKRgO
+         zPN2bo3BcyExmxlEA7epzPGCzrdicmeh9AiluQTnE+q/VAtxPaH8PzkfSWrCwRKG0Fb/
+         lsma/XI2YCh5OQnBYy718B0K/mtVrEjXOUHECii1OPWReESPTuqsc60AZeTcZ+0WiL1r
+         pDHTNDfrPAnSVbUh7bWqEX+o9UarY8b8hpA+1/HT/8dCoKlAZJvWgZpoMRh+0Agnd44x
+         SCno6JysdB9dGPHQSM50IPl/LH2DAwk/5pvwHMARVkNrDvFJ9iDrBGnlozBdx0kPXygL
+         mP4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JAh5GZikyJMfgFSSssJIrjGATMPE5VDOkNJT/N+oqP0=;
-        b=jdqcjDuQoiTEf/HhEdktYcKC8wsScyLxXSmE6wjFfiVj18vI8/8J8fldZhbziwa0QL
-         zcciHRZCm9/9eUisDHDqYeRnFyHQmcGxzWK+jT+Pp/TXTEbdYrLkkJtJ7RJAwvxtaScC
-         rDu0NhZHAgg2SijvOOFaADBmjR7BQW7vjDAniqHPZ0wa/PEKM0xAT/ek8WhDoSbzk3La
-         Pv1J2vbAOZiy7NAMi8oNvpg+RTkQO3VQVVRaDYexSOSpZCCcPZyPdKchdvAfOvqThN1x
-         blVTW28PHlIWp54cO2858ZbCkXvZppsZ5W9xFPhu56ilsR5q0uE+My09sgL626Nlxphx
-         14/g==
-X-Gm-Message-State: AOAM531TxrzAg0NludwU+Z+uyTFlGkgIkSL2Wf54CTq/fcwvac9gqnOL
-	jGD0p5FDdJXgEc5DNwMcOMsXR7ZU9Z+wnjLc1d0=
-X-Google-Smtp-Source: ABdhPJxd59+QBD8R8K1h4UEbOyBTEat/mFn+vbjSxAhIqc2X/v8Gpgh9AJsbML0lPJZ/WSpHjhosZbafJXRFEhs7tak=
-X-Received: by 2002:a05:6102:74a:: with SMTP id v10mr4183854vsg.20.1615452562062;
- Thu, 11 Mar 2021 00:49:22 -0800 (PST)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uTUaiBS3epgkp8VRhVn+cyBAdq6lsE3ieVU0MjfO0vU=;
+        b=YbhaULAq02I4QJ7Ylb79k17FEFJucoMhdwWSY9VYOxrhqLLb9PTe21uZgXLHFPA5YV
+         lUBJWnmzqFkK86PIjzut7l1zJbp+hq/vaylqSHZe1bfGtdBVE7nwF30wwl+eJ636rwLM
+         AbQHILSrqG386JuKkPRiGoL3tk5yfNO3QFEjS0Z891Ah6gt2e7vWsIlnpXzQsWtsf5z3
+         +QpsdSJT9l0UC6Esvf1NB141AmUg0+7McgQwTbpuq9CYesEjYREB5aDFSi5nlhGgpgPU
+         fSyIaJZRegUo4EdwRaN3eN9ADGIpNjS315VlEP6/KvdwHrkh4ITTRhUiMn1pnoQK1fvX
+         3VRA==
+X-Gm-Message-State: AOAM530zasBzOR00z60BEEMyXDgZiXIhRi4k3dAkfuv9oChaItkLLsv3
+	GJduw54stBbcrCmtVSJ8244=
+X-Google-Smtp-Source: ABdhPJyNMlwwjngl9wZ2y1emNxCYuqUCNjZJj91cTdpjMCY0j9Rx4Hzb9fDZXdTw28IYDLJgbdqSoA==
+X-Received: by 2002:a05:6402:110b:: with SMTP id u11mr7726681edv.356.1615453321855;
+        Thu, 11 Mar 2021 01:02:01 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id l61sm930735edl.37.2021.03.11.01.02.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 01:02:01 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 11 Mar 2021 10:02:00 +0100
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com,
+	anibal.limon@linaro.org
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+Message-ID: <20210311090200.33p3mptsfwusspwa@jama>
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+ <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-References: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com> <CAMKF1somxbuSmVp+EH0jJeBseGZo2Ndk_c=T+wO+cKyJkLzqSw@mail.gmail.com>
-In-Reply-To: <CAMKF1somxbuSmVp+EH0jJeBseGZo2Ndk_c=T+wO+cKyJkLzqSw@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 11 Mar 2021 09:49:10 +0100
-Message-ID: <CANNYZj-Cr0ym3gwp28QfOCjv+WY8bMNbPzhzSu-v8iEJMTnz-g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] createrepo-c: upgrade 0.17.0 -> 0.17.1
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001d014705bd3edcfc"
+In-Reply-To: <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+X-Groupsio-MsgNum: 149273
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gbqcr2yq4msczm4l"
+Content-Disposition: inline
 
---0000000000001d014705bd3edcfc
-Content-Type: text/plain; charset="UTF-8"
-
-Wang, please do use 'devtool upgrade' for version updates. That way you
-will avoid patch fuzz problems, there will be help with rebasing patches,
-and devtool will also write the license diffs into a recipe, which you can
-then summarize into a commit message. I do not understand why you do these
-updates by hand, with all the issues and extra work that brings.
-
-Alex
-
-On Thu, 11 Mar 2021 at 09:15, Khem Raj <raj.khem@gmail.com> wrote:
-
-> seeing
->
-> ERROR: createrepo-c-0.17.1-r0 do_patch: Fuzz detected:
->
-> Applying patch 0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-> patching file src/python/CMakeLists.txt
-> Hunk #1 succeeded at 14 with fuzz 1.
->
->
-> The context lines in the patches can be updated with devtool:
->
->     devtool modify createrepo-c
->     devtool finish --force-patch-refresh createrepo-c <layer_path>
->
-> Don't forget to review changes done by devtool!
->
-> ERROR: createrepo-c-0.17.1-r0 do_patch: QA Issue: Patch log indicates
-> that patches do not apply cleanly. [patch-fuzz]
->
-> On Wed, Mar 10, 2021 at 3:47 AM Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> > ---
-> >  .../{createrepo-c_0.17.0.bb => createrepo-c_0.17.1.bb}          | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.17.0.bb =>
-> createrepo-c_0.17.1.bb} (96%)
-> >
-> > diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-> b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.1.bb
-> > similarity index 96%
-> > rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-> > rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.17.1.bb
-> > index e0433806b2..f621bff8a1 100644
-> > --- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.0.bb
-> > +++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.17.1.bb
-> > @@ -8,7 +8,7 @@ SRC_URI = "git://
-> github.com/rpm-software-management/createrepo_c \
-> >
->  file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-> >             "
-> >
-> > -SRCREV = "909a0636665ed96f97babc3b887f9badc88875c3"
-> > +SRCREV = "956a318b427e2489ccac754d199a09d32690ddc3"
-> >
-> >  S = "${WORKDIR}/git"
-> >
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
->
-> 
->
->
-
---0000000000001d014705bd3edcfc
-Content-Type: text/html; charset="UTF-8"
+--gbqcr2yq4msczm4l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Wang, please do use &#39;devtool upgrade&#39; for ver=
-sion updates. That way you will avoid patch fuzz problems, there will be he=
-lp with rebasing patches, and devtool will also write the license diffs int=
-o a recipe, which you can then summarize into a commit message. I do not un=
-derstand why you do these updates by hand, with all the issues and extra wo=
-rk that brings.</div><div><br></div><div>Alex<br></div></div><br><div class=
-=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 11 Mar 2021=
- at 09:15, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">seeing<br>
-<br>
-ERROR: createrepo-c-0.17.1-r0 do_patch: Fuzz detected:<br>
-<br>
-Applying patch 0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch<=
-br>
-patching file src/python/CMakeLists.txt<br>
-Hunk #1 succeeded at 14 with fuzz 1.<br>
-<br>
-<br>
-The context lines in the patches can be updated with devtool:<br>
-<br>
-=C2=A0 =C2=A0 devtool modify createrepo-c<br>
-=C2=A0 =C2=A0 devtool finish --force-patch-refresh createrepo-c &lt;layer_=
-path&gt;<br>
-<br>
-Don&#39;t forget to review changes done by devtool!<br>
-<br>
-ERROR: createrepo-c-0.17.1-r0 do_patch: QA Issue: Patch log indicates<br>
-that patches do not apply cleanly. [patch-fuzz]<br>
-<br>
-On Wed, Mar 10, 2021 at 3:47 AM Wang Mingyu &lt;<a href=3D"mailto:wangmy@c=
-n.fujitsu.com" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.co=
-m" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../{<a href=3D"http://createrepo-c_0.17.0.bb" rel=3D"noreferre=
-r" target=3D"_blank">createrepo-c_0.17.0.bb</a> =3D&gt; <a href=3D"http://c=
-reaterepo-c_0.17.1.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.=
-17.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;=C2=A0 rename meta/recipes-devtools/createrepo-c/{<a href=3D"http://cr=
-eaterepo-c_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.1=
-7.0.bb</a> =3D&gt; <a href=3D"http://createrepo-c_0.17.1.bb" rel=3D"norefer=
-rer" target=3D"_blank">createrepo-c_0.17.1.bb</a>} (96%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/createrepo-c/<a href=3D"http://cre=
-aterepo-c_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17=
-.0.bb</a> b/meta/recipes-devtools/createrepo-c/<a href=3D"http://createrepo=
--c_0.17.1.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17.1.bb</=
-a><br>
-&gt; similarity index 96%<br>
-&gt; rename from meta/recipes-devtools/createrepo-c/<a href=3D"http://crea=
-terepo-c_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17.=
-0.bb</a><br>
-&gt; rename to meta/recipes-devtools/createrepo-c/<a href=3D"http://create=
-repo-c_0.17.1.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17.1.=
-bb</a><br>
-&gt; index e0433806b2..f621bff8a1 100644<br>
-&gt; --- a/meta/recipes-devtools/createrepo-c/<a href=3D"http://createrepo=
--c_0.17.0.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17.0.bb</=
-a><br>
-&gt; +++ b/meta/recipes-devtools/createrepo-c/<a href=3D"http://createrepo=
--c_0.17.1.bb" rel=3D"noreferrer" target=3D"_blank">createrepo-c_0.17.1.bb</=
-a><br>
-&gt; @@ -8,7 +8,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/=
-rpm-software-management/createrepo_c" rel=3D"noreferrer" target=3D"_blank">=
-github.com/rpm-software-management/createrepo_c</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Do-not-set=
--PYTHON_INSTALL_DIR-by-running-python.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;<br>
-&gt; -SRCREV =3D &quot;909a0636665ed96f97babc3b887f9badc88875c3&quot;<br>
-&gt; +SRCREV =3D &quot;956a318b427e2489ccac754d199a09d32690ddc3&quot;<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+> This can fix a do_package error when compile with meta-secure-core layer=
+:
+> http://layers.openembedded.org/layerindex/branch/master/layer/meta-secur=
+e-core/
+>=20
+> $ bitbake kernel-initramfs
+> [snip]
+> WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+> build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-c=
+ore-image-initramfs.packagedata
+> not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_6=
+4-nativesdk (variant '')?
+> [snip]
+>=20
+> This is because kernel-initramfs wants to pack an initramfs image into
+> kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to d=
+o this:
+>=20
+> d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_c=
+omplete')
+>=20
+> This causes kernel-initramfs' do_package depends on
+> ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get =
+the
+> error. Delete do_packagedata as other do_package relelated tasks for the=
+ image
+> recipe will fix the error.
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 
---0000000000001d014705bd3edcfc--
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+I went a bit further and inheritted nopackages, but RP mentioned that it
+might be removing too much. Nothing failed with nopackages over night,
+but still this smaller version will be safer as this needs to got to
+gatesgarth and dunfell as well now.
+
+> ---
+>  meta/classes/image.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 41fc3291781..b5586536355 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -612,7 +612,7 @@ deltask do_populate_lic
+>  deltask do_populate_sysroot
+>  do_package[noexec] =3D "1"
+>  deltask do_package_qa
+> -do_packagedata[noexec] =3D "1"
+> +deltask do_packagedata
+>  deltask do_package_write_ipk
+>  deltask do_package_write_deb
+>  deltask do_package_write_rpm
+> --=20
+> 2.17.1
+>=20
+
+>=20
+>=20
+>=20
+
+
+--gbqcr2yq4msczm4l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEnchgAKCRA3VSO3ZXaA
+HAnxAKCm31x5b+hSunLsQCFTqGsIqGRLiACfXfg7btCfQ6IJFFl+e3CX5emQWSQ=
+=68fP
+-----END PGP SIGNATURE-----
+
+--gbqcr2yq4msczm4l--
