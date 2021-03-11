@@ -1,165 +1,285 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.7039.1615473498700686948
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.7113.1615473532548171939
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 06:38:19 -0800
+ Thu, 11 Mar 2021 06:38:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T5HuFwGx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id l11so2126713wrp.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 06:38:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dDw4mVoJ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id d15so2128021wrv.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 06:38:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=J46OCDCZXrxMusJljJs9Rzou6d/nhM7dj45pvVgzj8Q=;
-        b=T5HuFwGxcKw8+3batjJUZ24Jvul9yDHtMf0dZRgxxJQs/bWupIWiDKU/5t0/oB2vF7
-         kg7DeddFoG/BYUl+aAhdqUZjHekWfzJtrSZOKGcuVffICculCwF+y8reDqZhuDiHKjaW
-         t1Ruh1iZ4AC8AJkFhtHInN/0WUE+4I8f5YEbA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5NmyrdK20jXWjS1GFbmV7kqtYiFtzTlFRBG/yoyzrDc=;
+        b=dDw4mVoJNGxD7sJOoLoJg324lQIDVFTgb8sKvPDOUNfOMumj3tKUqdODLYHxNAAF51
+         wTT/p6A9guNktbUzfeoPkF6YoMaFOuMduU4rVF6LiE9JUXAIHUpIA14tp3eoCkYCKdZy
+         MuglkyvqLuyq6poZXkEHBGMlTyzwctQ6UdrmlGWYhpxSpJY7iQYsIkFmJDlJu//8A+iH
+         yspeazXt9K6l3XAAXYpQaOU1ma7OWC9Ozn1ps3J+l9gj1hLPwgOt4I8uOWN8nD88vSPk
+         UBvtRfi5Rj4ts5vOPNBKCKMNbQWQZcmXKyHRkLXaqqF1hh7+bIUa1FuFhPlaZdYk4c4d
+         k0AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=J46OCDCZXrxMusJljJs9Rzou6d/nhM7dj45pvVgzj8Q=;
-        b=LeG97GyGSM1Adsu6ZBcUlR8LkAKSYbSbmVY0PK820wgDfozXty7C5w6UInSXgEtRP0
-         Ns/YQQL4tj++AoRCPw7Mo8ehRtjwyi3RYB2rrdxgakAW3pCHleF9cGAqxBm4S+7wvw2q
-         UaDwxfA0fudd5jeCKmFIlfPDICFZZiH4MT9eVW7yIzQdkD6dZ3Npsz4Da/DyQuXXk+sk
-         fZC1DZqi7qhgAlW5btLFeM+GZP62cuuePJbdrlt3XY/7BMOfaSM55esCz/a0eJVyNNL3
-         M75gt85VaZRhFJFrguU1Pdhr885Q6JpCqJ9rQu4dl5jqG22GCO0vV+x28gHCfd/qVvQo
-         LWqw==
-X-Gm-Message-State: AOAM5316h5OH61+73tPUM8sBWYkYMM8f7EdLepKSrs8E63S9OT2cHRSs
-	vVBQdox1SFi/Ib+pKxuoowrg98K9sUIy4Q==
-X-Google-Smtp-Source: ABdhPJyKg00g+mAipCp8gjHAv83D5BqOE50Phzp9Oy8Jljft/tAlpqx+qt8u9hDUBSNQpibHp2aSOw==
-X-Received: by 2002:adf:e391:: with SMTP id e17mr8977347wrm.285.1615473497258;
-        Thu, 11 Mar 2021 06:38:17 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:79d1:e29:deac:3ff5? ([2001:8b0:aba:5f3c:79d1:e29:deac:3ff5])
-        by smtp.gmail.com with ESMTPSA id h20sm3799628wmp.38.2021.03.11.06.38.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5NmyrdK20jXWjS1GFbmV7kqtYiFtzTlFRBG/yoyzrDc=;
+        b=XpSAH+ttJMM9OPS0bGx7tUg4ByrJVvyx7aVdrpomcZZsG/ofOgzl8RVHy8N/k8jnH/
+         YlrFLr4qknpfEgnThahvHlCPh7UGHAxuRwpIZjyJZNPGw5AYIQHfjGKaab/RG2jDUcRM
+         cS8UEDiAfBmlPgnfuWaboFjCRmiJIMA6aRn3Qn2DhDxs5hEgn3tEKKbAUfRuzgSqjpnM
+         9olKz4X7rQMZ1X9/CFyfJAYub/Oa9zXg+MLqJEA9MLS+HZ0vDjoRsvHY2qLlQUy5INdj
+         SIRF5q9GqVLevRWMpY0hXTwsy1Ia57ZCaJCy0pAdcClUpAtevFAH6XhS+n0cUybaqKZY
+         L3iA==
+X-Gm-Message-State: AOAM5308Mm55lodOeAp9xO7YGc5wM9lt1EwunYFYJ2+7pd9ZmXLM/w7a
+	IGI1VjrlvO31MCI1Ffv4ikznCkUcbDg=
+X-Google-Smtp-Source: ABdhPJzun+iLJ+AQND0NqZ6xJMM9wPzgWhUnHlkYGilCsxpuczGr+eZQLvTkn9dN19ryshf2fvzpBg==
+X-Received: by 2002:a5d:564b:: with SMTP id j11mr9214163wrw.326.1615473530411;
+        Thu, 11 Mar 2021 06:38:50 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id y1sm3953652wmq.29.2021.03.11.06.38.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 06:38:17 -0800 (PST)
-Message-ID: <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, Robert Yang
-	 <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
-	anibal.limon@linaro.org
-Date: Thu, 11 Mar 2021 14:38:16 +0000
-In-Reply-To: <20210311090200.33p3mptsfwusspwa@jama>
-References: <cover.1615452338.git.liezhi.yang@windriver.com>
-	 <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
-	 <20210311090200.33p3mptsfwusspwa@jama>
-User-Agent: Evolution 3.38.1-1 
+        Thu, 11 Mar 2021 06:38:49 -0800 (PST)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	bluelightning@bluelightning.org
+Subject: [PATCH v10] util-linux: split uuid in separate recipe to allow bootstrapping
+Date: Thu, 11 Mar 2021 14:38:48 +0000
+Message-Id: <20210311143848.777532-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
-> On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
-> > This can fix a do_package error when compile with meta-secure-core layer:
-> > http://layers.openembedded.org/layerindex/branch/master/layer/meta-secure-core/
-> > 
-> > $ bitbake kernel-initramfs
-> > [snip]
-> > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
-> > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-core-image-initramfs.packagedata
-> > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_64-nativesdk (variant '')?
-> > [snip]
-> > 
-> > This is because kernel-initramfs wants to pack an initramfs image into
-> > kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to do this:
-> > 
-> > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> > 
-> > This causes kernel-initramfs' do_package depends on
-> > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get the
-> > error. Delete do_packagedata as other do_package relelated tasks for the image
-> > recipe will fix the error.
-> > 
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> 
-> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-> 
-> I went a bit further and inheritted nopackages, but RP mentioned that it
-> might be removing too much. Nothing failed with nopackages over night,
-> but still this smaller version will be safer as this needs to got to
-> gatesgarth and dunfell as well now.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-This has side effects and there was a reason this wasn't done originally. The 
-trouble is that nobody is testing for that, just wanting to fix the problem 
-they see. To prove this isn't straightforward, I tested this locally, comparing
-task-depends.dot from "bitbake core-image-sato -g" before and after this patch.
+Recently util-linux gained an (optional) build dependency on libcryptsetup.
+But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
+and uuid (mandatory).
+Split out util-linux-uuid in a different recipe to break the cycle.
 
-The differences were:
+https://github.com/karelzak/util-linux/pull/898
 
-@@ -11036,7 +11036,6 @@
- "core-image-sato.do_build" -> "connman.do_build"
- "core-image-sato.do_build" -> "consolekit.do_build"
- "core-image-sato.do_build" -> "core-image-sato.do_image_complete"
--"core-image-sato.do_build" -> "core-image-sato.do_packagedata"
- "core-image-sato.do_build" -> "core-image-sato.do_populate_lic_deploy"
- "core-image-sato.do_build" -> "coreutils.do_build"
- "core-image-sato.do_build" -> "cross-localedef-native.do_build"
-@@ -11459,14 +11458,6 @@
- "core-image-sato.do_build" -> "zip.do_build"
- "core-image-sato.do_build" -> "zlib-native.do_build"
- "core-image-sato.do_build" -> "zlib.do_build"
--"core-image-sato.do_compile" [label="core-image-sato do_compile\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_compile" -> "core-image-sato.do_configure"
--"core-image-sato.do_configure" [label="core-image-sato do_configure\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_configure" -> "core-image-sato.do_deploy_source_date_epoch"
--"core-image-sato.do_configure" -> "core-image-sato.do_patch"
--"core-image-sato.do_configure" -> "core-image-sato.do_prepare_recipe_sysroot"
--"core-image-sato.do_deploy_source_date_epoch" [label="core-image-sato do_deploy_source_date_epoch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_deploy_source_date_epoch" -> "core-image-sato.do_patch"
- "core-image-sato.do_fetch" [label="core-image-sato do_fetch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
- "core-image-sato.do_flush_pseudodb" [label="core-image-sato do_flush_pseudodb\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
- "core-image-sato.do_flush_pseudodb" -> "core-image-sato.do_rootfs"
-@@ -11489,18 +11480,6 @@
- "core-image-sato.do_image_qa" -> "core-image-sato.do_rootfs"
- "core-image-sato.do_image_tar" [label="core-image-sato do_image_tar\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
- "core-image-sato.do_image_tar" -> "core-image-sato.do_image"
--"core-image-sato.do_install" [label="core-image-sato do_install\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_install" -> "core-image-sato.do_compile"
--"core-image-sato.do_install" -> "pseudo-native.do_populate_sysroot"
--"core-image-sato.do_package" [label="core-image-sato do_package\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_package" -> "core-image-sato.do_install"
--"core-image-sato.do_package" -> "pseudo-native.do_populate_sysroot"
--"core-image-sato.do_packagedata" [label="core-image-sato do_packagedata\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_packagedata" -> "core-image-sato.do_package"
--"core-image-sato.do_patch" [label="core-image-sato do_patch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_patch" -> "core-image-sato.do_unpack"
--"core-image-sato.do_patch" -> "patch-native.do_populate_sysroot"
--"core-image-sato.do_patch" -> "quilt-native.do_populate_sysroot"
- "core-image-sato.do_populate_lic_deploy" [label="core-image-sato do_populate_lic_deploy\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
- "core-image-sato.do_populate_lic_deploy" -> "acl-native.do_populate_lic"
- "core-image-sato.do_populate_lic_deploy" -> "acl.do_populate_lic"
-@@ -12036,7 +12015,6 @@
- "core-image-sato.do_rootfs" -> "consolekit.do_package_write_ipk"
- "core-image-sato.do_rootfs" -> "consolekit.do_packagedata"
- "core-image-sato.do_rootfs" -> "consolekit.do_populate_lic"
--"core-image-sato.do_rootfs" -> "core-image-sato.do_packagedata"
- "core-image-sato.do_rootfs" -> "core-image-sato.do_prepare_recipe_sysroot"
- "core-image-sato.do_rootfs" -> "coreutils.do_package_qa"
- "core-image-sato.do_rootfs" -> "coreutils.do_package_write_ipk"
-@@ -13257,8 +13235,6 @@
- "core-image-sato.do_rootfs" -> "zlib.do_package_write_ipk"
- "core-image-sato.do_rootfs" -> "zlib.do_packagedata"
- "core-image-sato.do_rootfs" -> "zlib.do_populate_lic"
--"core-image-sato.do_unpack" [label="core-image-sato do_unpack\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
--"core-image-sato.do_unpack" -> "core-image-sato.do_fetch"
- "core-image-sato.do_write_qemuboot_conf" [label="core-image-sato do_write_qemuboot_conf\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
- "core-image-sato.do_write_qemuboot_conf" -> "core-image-sato.do_rootfs"
- "coreutils.do_build" [label="coreutils do_build\n:8.32-r0\n/media/build1/poky/meta/recipes-core/coreutils/coreutils_8.32.bb"]
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+    underway as I'm not sure if this is the best approach or if there are
+    alternatives. Suggestions and comments very welcome. Thanks!
+v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+    and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+    as it does not have its own autoconf switch. Delete the library manualy from
+    the main recipe after build instead, and add dependency.
+    Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+    only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+v3: rebased and refactored to have a common util-linux.inc file
+v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
+v5: remove RDEPENDS and instead have util-linux RDEPEND on util-linux-uuid.
+    Removed PACKAGES_remove and instead filter out libuuid via the package generation
+    regex.
+    Rebased on util-linux 2.36.2.
+v6: install libuuid.a in libuuid-dev
+    change rdepends on uuid to use binary package rather than source
+    add rdepends on uuid-dev to libuuid-dev
+    remove rprovides of libuuid-dev from uuid-dev
+v7: do not use '_append' for RDEPENDS, as it is not supported by BBCLASSEXTEND, use
+    simply '+='
+v8: added missing libuuid-staticdev package
+    remove libx32/libuuid* too
+v9: set RECIPE_MAINTAINER_pn-util-linux-uuid, same value as RECIPE_MAINTAINER_pn-util-linux
+v10: removed DEBIAN_NOAUTONAME
+     remove lib64/libuuid* too
 
-i.e. it "disconnects" do_rootfs from the existing unpack/patch/configure/compile
-/install/package tasks. I know last time we tried this I got several complaints
-from users who use these tasks for things.
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../util-linux/util-linux-uuid_2.36.2.bb      | 20 +++++++
+ meta/recipes-core/util-linux/util-linux.inc   | 41 +++++++++++++
+ .../util-linux/util-linux_2.36.2.bb           | 57 +++++--------------
+ 4 files changed, 77 insertions(+), 42 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+ create mode 100644 meta/recipes-core/util-linux/util-linux.inc
 
-I'm not sure how we fix this but it isn't straightforward, particularly for
-something which people are going to want backports into the LTS for.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 3d8e3d5de0..c6a97bc280 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -720,6 +720,7 @@ RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER_pn-util-linux-uuid = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-v86d = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-vala = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+new file mode 100644
+index 0000000000..65e4d23b7e
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+@@ -0,0 +1,20 @@
++# To allow util-linux to optionally build-depend on cryptsetup, libuuid is
++# split out of the main recipe, as it's needed by cryptsetup
++
++require util-linux.inc
++
++inherit autotools gettext pkgconfig
++
++S = "${WORKDIR}/util-linux-${PV}"
++EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
++PACKAGES = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-staticdev util-linux-libuuid-dbg"
++FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
++FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${includedir} ${libdir}/pkgconfig"
++FILES_util-linux-libuuid-staticdev = "${libdir}/libuuid.a"
++FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug"
++
++do_install_append() {
++	rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${sbindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
++}
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+new file mode 100644
+index 0000000000..b4f817ed82
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -0,0 +1,41 @@
++SUMMARY = "A suite of basic system administration utilities"
++HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
++DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
++commonly found on most Linux systems.  Some of the more important utilities include \
++disk partitioning, kernel message management, filesystem creation, and system login."
++
++SECTION = "base"
++
++LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
++LICENSE_${PN}-libblkid = "LGPLv2.1+"
++LICENSE_${PN}-libfdisk = "LGPLv2.1+"
++LICENSE_${PN}-libmount = "LGPLv2.1+"
++LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
++LICENSE_${PN}-libuuid = "BSD-3-Clause"
++
++LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
++                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
++                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
++                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
++                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
++                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
++                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++"
++
++FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
++MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
++BPN = "util-linux"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
++           file://configure-sbindir.patch \
++           file://runuser.pamd \
++           file://runuser-l.pamd \
++           file://ptest.patch \
++           file://run-ptest \
++           file://display_testname_for_subtest.patch \
++           file://avoid_parallel_tests.patch \
++           "
++SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+index 19950a2726..34b353efbd 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+@@ -1,46 +1,8 @@
+-SUMMARY = "A suite of basic system administration utilities"
+-HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
+-DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
+-commonly found on most Linux systems.  Some of the more important utilities include \
+-disk partitioning, kernel message management, filesystem creation, and system login."
+-
+-SECTION = "base"
+-
+-LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+-LICENSE_${PN}-libblkid = "LGPLv2.1+"
+-LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+-LICENSE_${PN}-libmount = "LGPLv2.1+"
+-LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+-LICENSE_${PN}-libuuid = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+-                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+-                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
+-                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
+-                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
+-                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
+-                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-"
++require util-linux.inc
+ 
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+ inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+-DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
+-
+-MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+-           file://configure-sbindir.patch \
+-           file://runuser.pamd \
+-           file://runuser-l.pamd \
+-           file://ptest.patch \
+-           file://run-ptest \
+-           file://display_testname_for_subtest.patch \
+-           file://avoid_parallel_tests.patch \
+-           "
+-SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
++DEPENDS = "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
+ 
+ PACKAGES =+ "${PN}-swaponoff"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
+@@ -87,8 +49,9 @@ python util_linux_binpackages () {
+ # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
+ PACKAGE_PREPROCESS_FUNCS =+ "util_linux_binpackages "
+ 
++# skip libuuid as it will be packaged by the util-linux-uuid recipe
+ python util_linux_libpackages() {
+-    do_split_packages(d, root=d.getVar('UTIL_LINUX_LIBDIR'), file_regex=r'^lib(.*)\.so\..*$',
++    do_split_packages(d, root=d.getVar('UTIL_LINUX_LIBDIR'), file_regex=r'^lib(?!uuid)(.*)\.so\..*$',
+                       output_pattern='${PN}-lib%s',
+                       description='${PN} lib%s',
+                       extra_depends='', prepend=True, allow_links=True)
+@@ -141,6 +104,7 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ # PCRE support in hardlink
+ PACKAGECONFIG[pcre2] = ",,libpcre2"
++PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
+ 
+ EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+ 
+@@ -165,7 +129,10 @@ RRECOMMENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+ 
+-RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
++RDEPENDS_${PN} += " util-linux-libuuid"
++RDEPENDS_${PN}-dev += " util-linux-libuuid-dev"
++
++RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
+ 
+ RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
+ RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
+@@ -234,6 +201,12 @@ do_install_append_class-native () {
+ 	rm -f ${D}${base_bindir}/kill
+ }
+ 
++# dm-verity support introduces a circular build dependency, so util-linux-uuid is split out for target builds
++# Need to build libuuid for uuidgen, but then delete it and let the other recipe ship it
++do_install_append () {
++	rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/libuuid* ${D}/lib/libuuid* ${D}/libx32/libuuid* ${D}/lib64/libuuid*
++}
++
+ ALTERNATIVE_PRIORITY = "80"
+ 
+ ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
+-- 
+2.29.2
 
