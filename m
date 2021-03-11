@@ -1,137 +1,165 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.7025.1615473470214295759
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.7039.1615473498700686948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 06:37:50 -0800
+ Thu, 11 Mar 2021 06:38:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=d6jFfxdL;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id e10so2107691wro.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 06:37:49 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T5HuFwGx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id l11so2126713wrp.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 06:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:in-reply-to:references:mime-version
-         :date:user-agent;
-        bh=z4k5bM+frGl93YzMaA3EorX1Raah0Mz76UEnX6I0Wqk=;
-        b=d6jFfxdLcu0TF4gshBGeAXGS45CX8yC9R6g20Ma+abxZSuaNwo0ubWKczfSREAkcoR
-         VycRZXhHujXmUxHo1PY9xe2+dGLHduPsOZbcIVLh6BJNZlDti9oPUJVweArQT6md1S2i
-         8+OjIrEbQq4IIXsNvTReMu5YWbu647zTo6wfCE5i7FCYSbEG50cRJFBOaGCex9uP53Gk
-         71Q454X36puNcoO6seFqLXzoDcHUeAkZDj6JHOmjXt1mn/L8emGmq1jmyiz4aRD42fB/
-         kXB9x0UeNliZQXZXsL6d5kgDl8cD504r8CFrpy2t4qakR2ivZA53Suc42nmh1aZqwqxM
-         lJwA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=J46OCDCZXrxMusJljJs9Rzou6d/nhM7dj45pvVgzj8Q=;
+        b=T5HuFwGxcKw8+3batjJUZ24Jvul9yDHtMf0dZRgxxJQs/bWupIWiDKU/5t0/oB2vF7
+         kg7DeddFoG/BYUl+aAhdqUZjHekWfzJtrSZOKGcuVffICculCwF+y8reDqZhuDiHKjaW
+         t1Ruh1iZ4AC8AJkFhtHInN/0WUE+4I8f5YEbA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:in-reply-to
-         :references:mime-version:date:user-agent;
-        bh=z4k5bM+frGl93YzMaA3EorX1Raah0Mz76UEnX6I0Wqk=;
-        b=P2EIJxEwR+eNzErK0ABLMxM1mZqG8o220FZncAGbQKdCOC7Vyuy92uBtGOMjuOPrpr
-         YmtzLSEr8ut/yztc3DEPnwV45hyPpaGQL5HRmkjhfgafKgD5kTGtemKHIPfHHQkMsLrC
-         UiKiw4ys+OVr0BJ7wO9L+ke6ScjMGswfSJS9TrgcPTXgUsN70jBIc7MKnQub4uz4zPkM
-         DCWyf+hvmhvAi3KqA6j02Op0RhT4PylgHuQaF9lknk2RU7oCf1CMwO9DMd48JRTz+xBj
-         2M9G5EDP0RsVN/2+6cloqEszMGlvRCqCKUJtsNcB50jlFHJG15wvmIb/DGIsVqbpWTjZ
-         YhgA==
-X-Gm-Message-State: AOAM531AMn+gi7QX60+bcqPftOLGnJRn2WXF/msAyYsbJOcM9zme3YC5
-	Epft1ZsKEBOKGuYbItAY3b4=
-X-Google-Smtp-Source: ABdhPJxin1NZ7uyfHHkmXgV1OcClfhwJEay/5FOnV67lks9rAVFayjGol2VJxlZ2eAtZ5Avy6vYX3A==
-X-Received: by 2002:a5d:534b:: with SMTP id t11mr8907044wrv.186.1615473468756;
-        Thu, 11 Mar 2021 06:37:48 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id u3sm3903671wrt.82.2021.03.11.06.37.47
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=J46OCDCZXrxMusJljJs9Rzou6d/nhM7dj45pvVgzj8Q=;
+        b=LeG97GyGSM1Adsu6ZBcUlR8LkAKSYbSbmVY0PK820wgDfozXty7C5w6UInSXgEtRP0
+         Ns/YQQL4tj++AoRCPw7Mo8ehRtjwyi3RYB2rrdxgakAW3pCHleF9cGAqxBm4S+7wvw2q
+         UaDwxfA0fudd5jeCKmFIlfPDICFZZiH4MT9eVW7yIzQdkD6dZ3Npsz4Da/DyQuXXk+sk
+         fZC1DZqi7qhgAlW5btLFeM+GZP62cuuePJbdrlt3XY/7BMOfaSM55esCz/a0eJVyNNL3
+         M75gt85VaZRhFJFrguU1Pdhr885Q6JpCqJ9rQu4dl5jqG22GCO0vV+x28gHCfd/qVvQo
+         LWqw==
+X-Gm-Message-State: AOAM5316h5OH61+73tPUM8sBWYkYMM8f7EdLepKSrs8E63S9OT2cHRSs
+	vVBQdox1SFi/Ib+pKxuoowrg98K9sUIy4Q==
+X-Google-Smtp-Source: ABdhPJyKg00g+mAipCp8gjHAv83D5BqOE50Phzp9Oy8Jljft/tAlpqx+qt8u9hDUBSNQpibHp2aSOw==
+X-Received: by 2002:adf:e391:: with SMTP id e17mr8977347wrm.285.1615473497258;
+        Thu, 11 Mar 2021 06:38:17 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:79d1:e29:deac:3ff5? ([2001:8b0:aba:5f3c:79d1:e29:deac:3ff5])
+        by smtp.gmail.com with ESMTPSA id h20sm3799628wmp.38.2021.03.11.06.38.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 06:37:47 -0800 (PST)
-Message-ID: <ba3011b9f5cc6938e96b10d21a0b5510880e6f38.camel@gmail.com>
-Subject: Re: [PATCH v9] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: bluelightning@bluelightning.org, Kory Maincent
- <kory.maincent@bootlin.com>
-In-Reply-To: <bf29e1132e8959b1e9b22f8131f0785f0200f0f5.camel@linuxfoundation.org>
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-	 <20210309135606.508593-1-luca.boccassi@gmail.com>
-	 <681b7ba8baca230a2b95f5c1fc40e1b5108e9a70.camel@linuxfoundation.org>
-	 <539920c0108d13a48eb63650be96c97435c11dca.camel@gmail.com>
-	 <291a86bde929406603821b08b1fe36cfecf19103.camel@gmail.com>
-	 <bf29e1132e8959b1e9b22f8131f0785f0200f0f5.camel@linuxfoundation.org>
+        Thu, 11 Mar 2021 06:38:17 -0800 (PST)
+Message-ID: <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <Martin.Jansa@gmail.com>, Robert Yang
+	 <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
+	anibal.limon@linaro.org
+Date: Thu, 11 Mar 2021 14:38:16 +0000
+In-Reply-To: <20210311090200.33p3mptsfwusspwa@jama>
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+	 <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+	 <20210311090200.33p3mptsfwusspwa@jama>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Date: Thu, 11 Mar 2021 14:37:40 +0000
-User-Agent: Evolution 3.30.5-1.2 
-X-Groupsio-MsgNum: 149287
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-N1DOrLteozgwgnBWF+sV"
-
---=-N1DOrLteozgwgnBWF+sV
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-03-11 at 10:31 +0000, Richard Purdie wrote:
-> On Thu, 2021-03-11 at 10:15 +0000, Luca Boccassi wrote:
-> > On Wed, 2021-03-10 at 18:28 +0000, Luca Boccassi wrote:
-> > > On Tue, 2021-03-09 at 23:43 +0000, Richard Purdie wrote:
-> > >=20
-> > >=20
-> > > No problem at all, it's absolutely fine to postpone, I am in no
-> > > immediate rush as I have local backports in use. As long as we get
-> > > things sorted at some point it's all good for me, so please don't del=
-ay
-> > > other patches because of this.
-> > >=20
-> > > > I'm a little unclear if debian renaming was allowed before the spli=
-t and if
-> > > > so, why it is disabled in the split version. I suspect there is a m=
-issing
-> > > > MLPREFIX somewhere causing the multilib issue too.
-> > >=20
-> > > I do not remember why the DEBIAN_NOAUTONAME was added at this point.
-> > > I'll try to send a new version tomorrow.
-> >=20
-> > So without DEBIAN_NOAUTONAME these are the package names:
-> >=20
-> > libuuid1-2.36.2-r0.core2_64.rpm
-> > libuuid-dbg-2.36.2-r0.core2_64.rpm
-> > libuuid-dev-2.36.2-r0.core2_64.rpm
-> > util-linux-uuid-src-2.36.2-r0.core2_64.rpm
-> >=20
-> > that's going to be a problem as they don't match anymore, right? Since
-> > they used to be util-linux-libuuid, etc. Although the poky image build
-> > completed just fine...
->=20
-> The above looks fine, they don't have to match. I think this would match=
-=20
-> what happens to the package before your patch too although I've not=20
-> checked.
->=20
+On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
+> On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+> > This can fix a do_package error when compile with meta-secure-core layer:
+> > http://layers.openembedded.org/layerindex/branch/master/layer/meta-secure-core/
+> > 
+> > $ bitbake kernel-initramfs
+> > [snip]
+> > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+> > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-core-image-initramfs.packagedata
+> > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_64-nativesdk (variant '')?
+> > [snip]
+> > 
+> > This is because kernel-initramfs wants to pack an initramfs image into
+> > kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to do this:
+> > 
+> > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+> > 
+> > This causes kernel-initramfs' do_package depends on
+> > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get the
+> > error. Delete do_packagedata as other do_package relelated tasks for the image
+> > recipe will fix the error.
+> > 
+> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> 
+> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> 
+> I went a bit further and inheritted nopackages, but RP mentioned that it
+> might be removing too much. Nothing failed with nopackages over night,
+> but still this smaller version will be safer as this needs to got to
+> gatesgarth and dunfell as well now.
 
-Ok, sent v10.
+This has side effects and there was a reason this wasn't done originally. The 
+trouble is that nobody is testing for that, just wanting to fix the problem 
+they see. To prove this isn't straightforward, I tested this locally, comparing
+task-depends.dot from "bitbake core-image-sato -g" before and after this patch.
 
-The other issue was a missing rm -f ${D}/lib64/libuuid* - is there a
-better way to handle all of this than this line? ${libdir} doesn't seem
-to match in some cases so I have to manually specify lib/libx32/lib64,
-is there a better variable to use?
+The differences were:
 
-do_install_append () {
-	rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir=
-}/libuuid* ${D}/lib/libuuid* ${D}/libx32/libuuid* ${D}/lib64/libuuid*
-}
+@@ -11036,7 +11036,6 @@
+ "core-image-sato.do_build" -> "connman.do_build"
+ "core-image-sato.do_build" -> "consolekit.do_build"
+ "core-image-sato.do_build" -> "core-image-sato.do_image_complete"
+-"core-image-sato.do_build" -> "core-image-sato.do_packagedata"
+ "core-image-sato.do_build" -> "core-image-sato.do_populate_lic_deploy"
+ "core-image-sato.do_build" -> "coreutils.do_build"
+ "core-image-sato.do_build" -> "cross-localedef-native.do_build"
+@@ -11459,14 +11458,6 @@
+ "core-image-sato.do_build" -> "zip.do_build"
+ "core-image-sato.do_build" -> "zlib-native.do_build"
+ "core-image-sato.do_build" -> "zlib.do_build"
+-"core-image-sato.do_compile" [label="core-image-sato do_compile\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_compile" -> "core-image-sato.do_configure"
+-"core-image-sato.do_configure" [label="core-image-sato do_configure\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_configure" -> "core-image-sato.do_deploy_source_date_epoch"
+-"core-image-sato.do_configure" -> "core-image-sato.do_patch"
+-"core-image-sato.do_configure" -> "core-image-sato.do_prepare_recipe_sysroot"
+-"core-image-sato.do_deploy_source_date_epoch" [label="core-image-sato do_deploy_source_date_epoch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_deploy_source_date_epoch" -> "core-image-sato.do_patch"
+ "core-image-sato.do_fetch" [label="core-image-sato do_fetch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+ "core-image-sato.do_flush_pseudodb" [label="core-image-sato do_flush_pseudodb\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+ "core-image-sato.do_flush_pseudodb" -> "core-image-sato.do_rootfs"
+@@ -11489,18 +11480,6 @@
+ "core-image-sato.do_image_qa" -> "core-image-sato.do_rootfs"
+ "core-image-sato.do_image_tar" [label="core-image-sato do_image_tar\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+ "core-image-sato.do_image_tar" -> "core-image-sato.do_image"
+-"core-image-sato.do_install" [label="core-image-sato do_install\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_install" -> "core-image-sato.do_compile"
+-"core-image-sato.do_install" -> "pseudo-native.do_populate_sysroot"
+-"core-image-sato.do_package" [label="core-image-sato do_package\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_package" -> "core-image-sato.do_install"
+-"core-image-sato.do_package" -> "pseudo-native.do_populate_sysroot"
+-"core-image-sato.do_packagedata" [label="core-image-sato do_packagedata\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_packagedata" -> "core-image-sato.do_package"
+-"core-image-sato.do_patch" [label="core-image-sato do_patch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_patch" -> "core-image-sato.do_unpack"
+-"core-image-sato.do_patch" -> "patch-native.do_populate_sysroot"
+-"core-image-sato.do_patch" -> "quilt-native.do_populate_sysroot"
+ "core-image-sato.do_populate_lic_deploy" [label="core-image-sato do_populate_lic_deploy\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+ "core-image-sato.do_populate_lic_deploy" -> "acl-native.do_populate_lic"
+ "core-image-sato.do_populate_lic_deploy" -> "acl.do_populate_lic"
+@@ -12036,7 +12015,6 @@
+ "core-image-sato.do_rootfs" -> "consolekit.do_package_write_ipk"
+ "core-image-sato.do_rootfs" -> "consolekit.do_packagedata"
+ "core-image-sato.do_rootfs" -> "consolekit.do_populate_lic"
+-"core-image-sato.do_rootfs" -> "core-image-sato.do_packagedata"
+ "core-image-sato.do_rootfs" -> "core-image-sato.do_prepare_recipe_sysroot"
+ "core-image-sato.do_rootfs" -> "coreutils.do_package_qa"
+ "core-image-sato.do_rootfs" -> "coreutils.do_package_write_ipk"
+@@ -13257,8 +13235,6 @@
+ "core-image-sato.do_rootfs" -> "zlib.do_package_write_ipk"
+ "core-image-sato.do_rootfs" -> "zlib.do_packagedata"
+ "core-image-sato.do_rootfs" -> "zlib.do_populate_lic"
+-"core-image-sato.do_unpack" [label="core-image-sato do_unpack\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+-"core-image-sato.do_unpack" -> "core-image-sato.do_fetch"
+ "core-image-sato.do_write_qemuboot_conf" [label="core-image-sato do_write_qemuboot_conf\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+ "core-image-sato.do_write_qemuboot_conf" -> "core-image-sato.do_rootfs"
+ "coreutils.do_build" [label="coreutils do_build\n:8.32-r0\n/media/build1/poky/meta/recipes-core/coreutils/coreutils_8.32.bb"]
 
---=20
-Kind regards,
-Luca Boccassi
+i.e. it "disconnects" do_rootfs from the existing unpack/patch/configure/compile
+/install/package tasks. I know last time we tried this I got several complaints
+from users who use these tasks for things.
 
---=-N1DOrLteozgwgnBWF+sV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+I'm not sure how we fix this but it isn't straightforward, particularly for
+something which people are going to want backports into the LTS for.
 
------BEGIN PGP SIGNATURE-----
+Cheers,
 
-iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmBKKw8ACgkQSylmgFB4
-UWIUaQf/f9YI3B6Sf+PiFPn4M4OwMVPy1kLhm/ggm0MNTQZa9PD3e6cafwmG8TH/
-HiRt8FxMRWk/y8jo1ogptuYKhNKO4mPkRbGSGtBAOshjxGDQiYGlGQwQ5uWWetrr
-akMHjLlh2JthO8HmbuwWwTbR08NdzXLkyWRUI0cH+2xuAZJL9WMGWyulsK4OKQjC
-iPYISUbxzHzr1nOnOSZG3B/Fvob0sEL6ZeNAgTd7vl4VyWtVZajwaK+U3xrHMJnB
-/fERsvsQC5C0yYtdH215PB92iNM11Bo45j0V6zQhSN5kqcPigdS0sc4EGJD3t7ML
-mh1ypONXvDj4DvuKopNjiBuO5mm5VA==
-=EXuO
------END PGP SIGNATURE-----
+Richard
 
---=-N1DOrLteozgwgnBWF+sV--
+
