@@ -1,94 +1,102 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web09.4227.1615458712002509918
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.5062.1615464327602877083
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 02:31:52 -0800
+ Thu, 11 Mar 2021 04:05:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QMQS+t5S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id d15so1238318wrv.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 02:31:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gVuZJONg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id w18so2365050edc.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 04:05:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=j+79oky5lJ3zumj27XmGkQGibpg0CbQO3XfzoAnAFGE=;
-        b=QMQS+t5SdA1ivCaZMI4oyAdG1dwmOQKusjUfB954AbNIPWB4d4flFQqT7+W1ZtKKuH
-         cM2FKXkmCjp3sKvSUdk8skRU0TqEoBuh3wfQVjTiKuJIU7bOaZmPJc+GyTKRVrg2BlxO
-         TSVguTuDL3vvqFJmyxkGZfzf2Oknw5503Czwk=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X6ap0aTCwyNmUxJrVC5onX1BBNjHBZ8JZaA94KN+MPI=;
+        b=gVuZJONg/etE3ZsMvn2FzDE35YYFxxW/1rvhx0IgodFiFuA+e+K8gsSFFJUdIuxZ1+
+         M+LJkaa/DTst9E7P7gIATpBJd3SzZkruY5v67ERX2swNGFTqavKKVbX4pN2UHDSp7WRk
+         h2oSjqPvrHdgMHSqRSUxeqLDtP4oQzD0KO7WtYYbH8V2Kn/3/O5+5flezL40SXFQv5vJ
+         4ekzNtae9pW5BeYj2b3pycPj3VwGPp8uZ0OpJMT4KLQUWMO3CuBcVqoDM7bESJvCNOwT
+         Lt4N0YCCg56DuazjSlCcTQrkNv2GAw+kcjQ5V47ZCO7UMp69yDla4Z8YT+Lyus+t3Mpk
+         Jl/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=j+79oky5lJ3zumj27XmGkQGibpg0CbQO3XfzoAnAFGE=;
-        b=mjYbLU+rYWouGRS/AGBY3h09h2fShbU1wpTmAUBLISl74cCRavI9fRV9mpzT2tF86W
-         JHdnP4uyfY2Gg71li1hmNB/r9A54a6qG7kmHjWQbKFlwLf+Ct6TPO6Ysw+5TJAJj+RkG
-         1y+uPeKz5FyMrq+kuSPMWM2pMQLOl9w6d4yyaz4O32QGRoYz/x5ofUihSUNeuEAf1qoQ
-         MfdoUH7iblMRvLzvhLd/niCH2J1JgcyMcZLpYmV6Wt64AWI8VplK2EG+HtTQLl3tkqVF
-         owim661vw+5YV+eW2IYzJF7tDYJxOOISA4fwEd6ZDs+OptD+hRaRvfvl2NhEVJ4iOOZz
-         iYkg==
-X-Gm-Message-State: AOAM531o2SE8piXL01pqVp2XpN2GeYqV5UBXkjcChfXpGkazQzaWdtzm
-	uNk+22l6+IITEZsQGpin3C91cg==
-X-Google-Smtp-Source: ABdhPJzJHVWptVuOVQpHXJes9HFRgY4b1a1IQxxyuLcHSEl0tm29BGjYfWprAupXvnRao7zsM0jg9w==
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr7863235wrr.93.1615458710447;
-        Thu, 11 Mar 2021 02:31:50 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:79d1:e29:deac:3ff5? ([2001:8b0:aba:5f3c:79d1:e29:deac:3ff5])
-        by smtp.gmail.com with ESMTPSA id c16sm3609995wrs.81.2021.03.11.02.31.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X6ap0aTCwyNmUxJrVC5onX1BBNjHBZ8JZaA94KN+MPI=;
+        b=rh/V0zJUqFB5auEvhl8Z8acZ04syTWm03t2ywk5cUPKRZc8ZzYebFGzcu640k95has
+         xI93/IA/HifQN7lGOcgOxDblcmTyHv0Foc+Cs9/8yAHzHeBbV8FnqqwEcFldelt85zlC
+         GHG8gHuD8SaQ9VY/1pP95Ay4s91F3OPGuRI3Z6xF46p4b27puTFtyfB6/Xk8roADGbor
+         3L48rH1bDz7F9VmlxzID79bQpjnNSAGwjaWVmgyTO1rookGdPqxHJbBaGUiZPQoGFsTw
+         4ahcqVT245m5/w3tJxCtwkLeWSMz7mO96jNM/R+5p3vP+iaFtUq6wNLrPpb3vAswoz8I
+         RlkA==
+X-Gm-Message-State: AOAM531i0kKlmZA9O07zNaDvqs8y11D+cwF5tPwEha8cEZ+b2jb471z9
+	qmqZGNf9EdOcLgyOqccG2KdTxBTvWUPGMA==
+X-Google-Smtp-Source: ABdhPJzykskSU32iegztVKNMXd5guy1ZVfSZI8N3VJ96FAD4wmCtriMHisVNeVa8GAc7TCaT6uN5wA==
+X-Received: by 2002:a05:6402:888:: with SMTP id e8mr7995264edy.51.1615464325934;
+        Thu, 11 Mar 2021 04:05:25 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id y17sm1229370ejf.116.2021.03.11.04.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 02:31:50 -0800 (PST)
-Message-ID: <bf29e1132e8959b1e9b22f8131f0785f0200f0f5.camel@linuxfoundation.org>
-Subject: Re: [PATCH v9] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: bluelightning@bluelightning.org, Kory Maincent
- <kory.maincent@bootlin.com>
-Date: Thu, 11 Mar 2021 10:31:48 +0000
-In-Reply-To: <291a86bde929406603821b08b1fe36cfecf19103.camel@gmail.com>
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-	 <20210309135606.508593-1-luca.boccassi@gmail.com>
-	 <681b7ba8baca230a2b95f5c1fc40e1b5108e9a70.camel@linuxfoundation.org>
-	 <539920c0108d13a48eb63650be96c97435c11dca.camel@gmail.com>
-	 <291a86bde929406603821b08b1fe36cfecf19103.camel@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Thu, 11 Mar 2021 04:05:25 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [RFC PATCH 1/2] xwayland: add a standalone recipe
+Date: Thu, 11 Mar 2021 13:05:11 +0100
+Message-Id: <20210311120512.287214-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-03-11 at 10:15 +0000, Luca Boccassi wrote:
-> On Wed, 2021-03-10 at 18:28 +0000, Luca Boccassi wrote:
-> > On Tue, 2021-03-09 at 23:43 +0000, Richard Purdie wrote:
-> > 
-> > 
-> > No problem at all, it's absolutely fine to postpone, I am in no
-> > immediate rush as I have local backports in use. As long as we get
-> > things sorted at some point it's all good for me, so please don't delay
-> > other patches because of this.
-> > 
-> > > I'm a little unclear if debian renaming was allowed before the split and if
-> > > so, why it is disabled in the split version. I suspect there is a missing
-> > > MLPREFIX somewhere causing the multilib issue too.
-> > 
-> > I do not remember why the DEBIAN_NOAUTONAME was added at this point.
-> > I'll try to send a new version tomorrow.
-> 
-> So without DEBIAN_NOAUTONAME these are the package names:
-> 
-> libuuid1-2.36.2-r0.core2_64.rpm
-> libuuid-dbg-2.36.2-r0.core2_64.rpm
-> libuuid-dev-2.36.2-r0.core2_64.rpm
-> util-linux-uuid-src-2.36.2-r0.core2_64.rpm
-> 
-> that's going to be a problem as they don't match anymore, right? Since
-> they used to be util-linux-libuuid, etc. Although the poky image build
-> completed just fine...
+Please see here for the rationale for splitting XWayland out of
+main xserver-xorg tree:
+https://fedoraproject.org/wiki/Changes/XwaylandStandalone
 
-The above looks fine, they don't have to match. I think this would match 
-what happens to the package before your patch too although I've not 
-checked.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../xwayland/xwayland_21.0.99.902.bb          | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
 
-Cheers,
-
-Richard
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 9093f2d7fd..d507c70091 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -797,6 +797,7 @@ RECIPE_MAINTAINER_pn-xset = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
++RECIPE_MAINTAINER_pn-xwayland = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denis@denix.org>"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb b/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
+new file mode 100644
+index 0000000000..75daa71902
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland_21.0.99.902.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "XWayland is an X Server that runs under Wayland."
++DESCRIPTION = "XWayland is an X Server running as a Wayland client, \
++and thus is capable of displaying native X11 client applications in a \
++Wayland compositor environment. The goal of XWayland is to facilitate \
++the transition from X Window System to Wayland environments, providing \
++a way to run unported applications in the meantime."
++HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
++
++LICENSE = "MIT-X"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
++
++SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
++SRC_URI[sha256sum] = "799491dd99cb2c6dbdf05162441d0469a2a9b36e089755eb59729dd38f44adce"
++
++inherit meson
++
++DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy"
++
++FILES_${PN} += "${libdir}/xorg/protocol.txt"
+-- 
+2.29.2
 
