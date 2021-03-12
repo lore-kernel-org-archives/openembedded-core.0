@@ -1,68 +1,126 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.903.1615568126940400625
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.961.1615568276579767756
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 08:55:27 -0800
+ Fri, 12 Mar 2021 08:57:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CQbhwiTc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id e9so2148378wrw.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 08:55:26 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=PYyNMgm8;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=7irvLmc56SJBXGyYLOo3P1NKetRk9v4e6bYtjroDt7k=;
-        b=CQbhwiTcalHRanbQzFTqy4Q87whnPKtetYci3mmEnCFU8FD4nrmbzG2xIGEiapEOqV
-         ki5vqvHXmSoaTcQx2OdmwGKpS+vvhOOZ8E8kEcVj/8HIk4hKBUqMmE5UyLybAD2RJArq
-         1u00Ni0qZe6n5Sth4ZmTsctaS5ks5/CLL7wOY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7irvLmc56SJBXGyYLOo3P1NKetRk9v4e6bYtjroDt7k=;
-        b=CX2zP9X89VUhp4cgey80v844SnF3Xg5DPG/iHxPxVzLgGNNIRtpPz5B5hMuXPw1b90
-         REKUaOCB4Hkv8eHCgV2ipjh+j3jJTdNYXe0s/YiLcwXBtLg6P86zMKbzLZ7xLJAW55D/
-         JqLdJ90GmSW6ap+eBitIYRa7r/b26Ev200AfZVu++Mw2+8I3nzsr9fRfFvkC9l2eiOXu
-         qA9YlslEHlLI2ZJ2pMY1fa5JcOhf4MO6oHn94jrdBwknnkef36PFpVkRVyWZsh9LmS8q
-         r/cC44x2Dl/5CXm7v95zexn5jzgisWH5oeN8V7Blaw9sJo6aL+70VBG6tV0aqq+EwFAw
-         XTag==
-X-Gm-Message-State: AOAM532OA8yp+N4cXfZpbhFyf2lJPstX4/buhusTQCpIObBqLSkQRKIY
-	ne33u5qoXSOvaSIqx7IAHM/DNQ==
-X-Google-Smtp-Source: ABdhPJz/gfYW4WWp5BJF2W4keYVvEyxoIuHjOdft5n1oHBSYsqjjQjnJzOQEJmtkoKP+X7QJtuo5BQ==
-X-Received: by 2002:a5d:4523:: with SMTP id j3mr15464294wra.288.1615568125493;
-        Fri, 12 Mar 2021 08:55:25 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:7cc6:73c3:839f:86be? ([2001:8b0:aba:5f3c:7cc6:73c3:839f:86be])
-        by smtp.gmail.com with ESMTPSA id p16sm10201212wrt.54.2021.03.12.08.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 08:55:25 -0800 (PST)
-Message-ID: <09f4663de2447ed8a6cf3ca16e1cef921987f368.camel@linuxfoundation.org>
-Subject: Re: [PATCH] linux-firmware: Package RSI RS911x WiFi firmware
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 12 Mar 2021 16:55:22 +0000
-In-Reply-To: <20210312153049.96411-1-marex@denx.de>
-References: <20210312153049.96411-1-marex@denx.de>
-User-Agent: Evolution 3.38.1-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615568277;
+  x=1647104277;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=R538TONxcmpz9L+u86E6qD96ACq7z78Wn8G6wIm90MU=;
+  b=PYyNMgm8BGcXbso3MtiWzU8pe626KwTj0FFTwkjEpuAKSJjaPfK0O+Kt
+   IJi1HU3RNNFXxeu7rzUTf+ymrRtiHdKPhvZ/vhQAkmBb7RYET0P0MEVl9
+   BJaHV30WYF2ndNeSQNp0Jr1YuZXDDdIqaslJiVRkSfrCFwhnf/giRwgwl
+   r8L4v4Hy0Bti49ZtVrnmdPFA1FFcCMxHNHRkOnK9iqF0vlQ92OfnoKFL+
+   VC/duGoOzqRFDneK1pbH8jjymDQHhtkUuIFG6PdPjwnf/vmucoN2/6tRV
+   RHZaKPNEPO1jS7JrhLvm4PhNsAm2jSaX2EcRriWteFEfwJmkwv9dlBeS/
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Meh Mbeh Ida Delphine <idadelm@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [poky-contrib][PATCH 2/4] package.bbclass: Displays warnings for just licences in recipes.
+Thread-Topic: [OE-core] [poky-contrib][PATCH 2/4] package.bbclass: Displays
+ warnings for just licences in recipes.
+Thread-Index: AQHXFTxouXxvxDKmuU6jYjXDYtlXIqqAk9Eg
+Date: Fri, 12 Mar 2021 16:57:54 +0000
+Message-ID: <ce71f7e3ef024d27989c5b8c1a0dc1b0@XBOX03.axis.com>
+References: <20210309233130.104839-1-idadelm@gmail.com>
+ <20210309233130.104839-2-idadelm@gmail.com>
+In-Reply-To: <20210309233130.104839-2-idadelm@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2021-03-12 at 16:30 +0100, Marek Vasut wrote:
-> The RSI 911x WiFi firmware is already part of the linux-firmware
-> repository, package it to make it easily available.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Steve Sakoman <steve@sakoman.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Meh Mbeh Ida Delphine
+> Sent: den 10 mars 2021 00:31
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [poky-contrib][PATCH 2/4] package.bbclass: Displays
+> warnings for just licences in recipes.
+>=20
+> After the comparism between computedpkglics and recipe lics, the warnings
+> are displayed if and only if there are licenses in the recipes not found
+> in the sources.
+>=20
+> Signed-off-by: Ida Delphine <idadelm@gmail.com>
 > ---
->  .../linux-firmware/linux-firmware_20201218.bb         | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  meta/classes/package.bbclass | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index c127178f95..4e1be661b3 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1551,6 +1551,7 @@ PKGDESTWORK =3D "${WORKDIR}/pkgdata"
+>  PKGDATA_VARS =3D "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY=
+ RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG =
+ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pk=
+g_postrm pkg_preinst pkg_prerm"
+>=20
+>  python emit_pkgdata() {
+> +    import oe.license
+>      from glob import glob
+>      import json
+>      import subprocess
+> @@ -1748,8 +1749,8 @@ fi
+>                      if r[0] not in computedlics:
+>                          computedlics[r[0]] =3D set()
+>                      computedlics[r[0]].add(filelics[subf])
+> -        #if computedlics:
+> -        #    bb.warn(str(computedlics))
+> +
+> +
 
-Doesn't seem to apply against master?
+One empty line is enough.
 
-Cheers,
+>          dvar =3D d.getVar('PKGD')
+>          for f in computedlics:
+>              shortf =3D f.replace(dvar, "")
+> @@ -1762,13 +1763,19 @@ fi
+>                      computedpkglics[pkg].update(computedlics[f])
+>              if not found:
+>                  bb.warn("%s not in %s" % (f, str(filemap)))
+> -        #if computedpkglics:
+> -        #    bb.warn(str(computedpkglics))
+> +
+>          for pkg in computedpkglics:
+>              lic =3D d.getVar('LICENSE_%s' % (pkg))
+>              if not lic:
+>                  lic =3D d.getVar('LICENSE')
+> -            bb.warn("License for package %s is %s vs %s" % (pkg, compute=
+dpkglics[pkg], lic))
+> +
+> +            # Splits the LICENSE values and canonicalise each license
+> +            # in the set of split license(s)
+> +            spdx_lic =3D oe.license.split_spdx_lic(lic, d)
+> +
+> +            # Displays warnings for licenses found in the recipes and no=
+t sources
+> +            if spdx_lic - computedpkglics[pkg]:
+> +                bb.warn("License for package %s is %s vs %s" % (pkg, com=
+putedpkglics[pkg], spdx_lic))
+>  }
+>  emit_pkgdata[dirs] =3D "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-re=
+verse ${PKGDESTWORK}/runtime-rprovides"
 
-Richard
+Since you are now using a function from oe.license that references=20
+Bitbake variables, I believe you should add emit_pkgdata[vardeps]=20
+for those variables as bitbake will not pick them up automatically.
+
+>=20
+> --
+> 2.25.1
+
+//Peter
 
