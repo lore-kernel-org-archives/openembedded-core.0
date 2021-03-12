@@ -1,64 +1,93 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.3576.1615519151809951508
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.3602.1615519291265174991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 19:19:12 -0800
+ Thu, 11 Mar 2021 19:21:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=mk5JIUZ3;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=pveZIWRE;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1615519152;
-  x=1647055152;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=BqZEBDg8HuLUVComrQWsRokaEEfgFzSrPNx9gcWuHzw=;
-  b=mk5JIUZ3nmht5WslwMCtC4pU7vIkC0lYBLaDr2PIaA/3Qq6fTdV7B4uA
-   WP4b5urUBbG6s/a28BxMW3rxYGMPXhTxod92S6RH9XqZRP+Jlxs/v6YSK
-   BuIfCxrEJJy6f+RaFKU50+YODfVJNl5r2URoF1c7UgQsdpr4VtEl2rEj0
-   fbpST0zSs8XAfCwBE/zPOjuFjramECI2+AaL8sZGUeRCVSBSmfDpXkxFM
-   JNECY2PEIEJVGZmr/CEmeEOrCqKpXACqQkpS0XAu8N/Kkyu4eSZpDZVp/
-   HaMssnhjharUWWQK9+mFl5L6Omx7BOr4JH204EFwOx6nbbiIY51J2+5Oa
-   w==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615519291;
+  x=1647055291;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=wVdcCstGRqw/aSgiZ/IWGqAbPTnwgyP2uCpzDiYAAFc=;
+  b=pveZIWRETpUaGN6QgrKQ8z6HbCDlvCgJOt1DHS7tEAtsmePh7OzmkaPn
+   0pOxFL5M5bfapBb0HpjesX71obEC010Gsi9EWYGftQ48qoSSkrSO6kiLJ
+   j4YPsBo0oW9C60O7wCaYnyZvFaKhGKGgIEelzc3+LULhE8JvEM23Z4DmL
+   mr/Ou8klc6U/WowN+LcdYJR3R0bJQgNjHX5RRCtZMOZYqVv5xgAiG3Kqt
+   YVTdCrqea0Bp+bw3hTDdvAgstfkTlM381vlm+ZOUP8g4T+0xWXvGdpSjC
+   j3wAwrBL9PCE6ZH9hs+I97gdt5SRzphAkQW/86CsNqNY8iUdhZL1LfRzG
+   g==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] metadata_scm.bbclass: Use immediate expansion for the METADATA_* variables
-Date: Fri, 12 Mar 2021 04:18:53 +0100
-Message-ID: <20210312031853.7328-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20210312031853.7328-1-pkj@axis.com>
-References: <20210312031853.7328-1-pkj@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] license.bbclass: Improve parsing time when INCOMPATIBLE_LICENSES is big
+Thread-Topic: [OE-core] [PATCH 1/2] license.bbclass: Improve parsing time when
+ INCOMPATIBLE_LICENSES is big
+Thread-Index: AQHXFu5+q2Vtu0id3Emc/LI2t+Nceqp/r4hQ
+Date: Fri, 12 Mar 2021 03:21:29 +0000
+Message-ID: <ecc8caafdc6f4f2388824106b12a2edd@XBOX03.axis.com>
+References: <166B7A1BE6E395FA.480@lists.openembedded.org>
+In-Reply-To: <166B7A1BE6E395FA.480@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Define METADATA_BRANCH and METADATA_REVISION using immediate expansion.
-This avoids running `git rev-parse HEAD` multiple times during recipe
-parsing.
+Sorry, wrong list.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/metadata_scm.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+//Peter
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 2608a7ef7b..47cb969b8d 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -1,8 +1,3 @@
--METADATA_BRANCH ?= "${@base_detect_branch(d)}"
--METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
--METADATA_REVISION ?= "${@base_detect_revision(d)}"
--METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
--
- def base_detect_revision(d):
-     path = base_get_scmbasepath(d)
-     return base_get_metadata_git_revision(path, d)
-@@ -42,3 +37,8 @@ def base_get_metadata_git_revision(path, d):
-     except bb.process.ExecutionError:
-         rev = '<unknown>'
-     return rev.strip()
-+
-+METADATA_BRANCH := "${@base_detect_branch(d)}"
-+METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
-+METADATA_REVISION := "${@base_detect_revision(d)}"
-+METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 12 mars 2021 04:19
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/2] license.bbclass: Improve parsing time when
+> INCOMPATIBLE_LICENSES is big
+>=20
+> The commit 08cbf1748 (licenses: Update INCOMPATIBLE_LICENSE for
+> 'or-later' handling) increased the parsing time considerably if there
+> are many licenses in INCOMPATIBLE_LICENSE. Reorganize the code to get
+> almost all the time back.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/classes/license.bbclass | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index bcea0b3cb5..f7978e266b 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -282,16 +282,15 @@ def expand_wildcard_licenses(d, wildcard_licenses):
+>      """
+>      import fnmatch
+>=20
+> -    # Assume if we're passed "GPLv3" or "*GPLv3" it means -or-later as
+> well
+> -    for lic in wildcard_licenses[:]:
+> -        if not lic.endswith(("-or-later", "-only", "*")):
+> -            wildcard_licenses.append(lic + "+")
+> -
+>      licenses =3D wildcard_licenses[:]
+>      spdxmapkeys =3D d.getVarFlags('SPDXLICENSEMAP').keys()
+>      for wld_lic in wildcard_licenses:
+>          spdxflags =3D fnmatch.filter(spdxmapkeys, wld_lic)
+>          licenses +=3D [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in
+> spdxflags]
+> +        # Assume if we're passed "GPLv3" or "*GPLv3" it means -or-later
+> as well
+> +        if not wld_lic.endswith(("-or-later", "-only", "*", "+")):
+> +            spdxflags =3D fnmatch.filter(spdxmapkeys, wld_lic + "+")
+> +            licenses +=3D [d.getVarFlag('SPDXLICENSEMAP', flag) for flag=
+ in
+> spdxflags]
+>=20
+>      spdx_lics =3D d.getVar('AVAILABLE_LICENSES').split()
+>      for wld_lic in wildcard_licenses:
