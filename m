@@ -1,88 +1,109 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web08.5149.1615533990255799030
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web08.5196.1615534412375641559
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 23:26:30 -0800
+ Thu, 11 Mar 2021 23:33:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=V75MkgZw;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id a188so1258428pfb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 23:26:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YxT1EOe9;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id g185so23391973qkf.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 23:33:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w66urxq6f49AdmHPgLTKIfpRJrEEuZjep+Z7ODfqoXg=;
-        b=V75MkgZwsb6tPgcqq1mARplPuufzwkIKR5p2Xbo9GQzlMhi70Le4uR7kWfEvUgLKJ+
-         6maqymgdC9gNNr1D0oINDXIiH6Y1o3RS2N34N/L7DbgaAY+DOPkRXGv/4j8KCf7qOYyR
-         t/Mqs2wRyzPKP4jv782dFSfpMtNP3sCLJrc0dvX5x4MM25z9vMUk/aD7gqiRPQjFwBgd
-         JtYXCmEwjfVSvV+rsUWhGkoybPIhcQbKC3l6edHbwZDbyYNP8TH91S83zVEjCX5vCbW7
-         OI8/NbeVkBqiasTUrs9qyS9jh5lApvRpOxRPMOcoqcl2Qhmzs86jyi7JuvHrm9liXfii
-         GuPQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/Dxp++GyGwPWeW02m14ou1y6ezPH2d1h3kSCDAjlpJY=;
+        b=YxT1EOe9XhRjX26mwPY1qw61BDiytWOCbp0IFsGNNqlM+EN1beGJJ9JvbqXsNgJQku
+         iBn8nggHYkdJOkfvG/hkq6GBOoOfWCllrDo55LnvC9y+amCs50j7Bi7YdUKGV/5lbZey
+         5V+kgWA7A2rlXrBqY0o5nq+6mYSKSvQCjPWsImuE7Bb6DAPoSsfAGv9ioEyJzNlIO7Yo
+         Sd6YjtFMleYrKLA0Xf3tFLlYjz+1ZdPG9K/olQkRdib9fD144r0fUtLJyMThEkxnv461
+         gvEhHEyyi0h/yXoTFW6SD94uqDaxDrhuJUvtbslCr5jV5AGXpq7SZmrmlsZE0glVcrzJ
+         J/hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w66urxq6f49AdmHPgLTKIfpRJrEEuZjep+Z7ODfqoXg=;
-        b=OImvKIPILorIIwqyJjVQwpR7sN7HgyNtUIxBiEjovH00+xX7WZdVmmT4ujxJRwxu0K
-         3IFgsrMPQ0EM0Mv97V7lVfSR+IQza92R/ktI6edCDrLExV9KgxjI5C3pfWAEXLDVQxdS
-         STwfXqhZyw4p7GupX3izxcANeU99wK2uB+YCBp8ruClIESxrmmtzKj2zU150Tzp5PjtG
-         nakFxgCxGnDAJW3dJ275jPJqrAC9hwSQUU9bq9H9lETX82IpowIvSvl+5bbQ41k6thqJ
-         092Ta4LJ69MkWllDBOH/AWHiuiwzm/U7FCYxLY71BFfJ6q7+2rin5zafCk4NyIK4Ze5m
-         K6HQ==
-X-Gm-Message-State: AOAM533B2s4x5+W7R15sZ5u0jGDan7ZEXjT597tbWy2dRU+2ICLcp2sX
-	zqUCQ358ZkuG7+VNUNZNzXTaYNmgcJH0dw==
-X-Google-Smtp-Source: ABdhPJxIWbCqG3NqTQOKQ03v+xxEtRjnkqWxviYtz7RuB4h1t8nTbJvHHCb0AfkcTWZOzBLPxBTPNw==
-X-Received: by 2002:a63:4f57:: with SMTP id p23mr10496264pgl.281.1615533989313;
-        Thu, 11 Mar 2021 23:26:29 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::c2dd])
-        by smtp.gmail.com with ESMTPSA id t6sm1196667pjs.26.2021.03.11.23.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 23:26:28 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libunwind: Link with libucontext on musl
-Date: Thu, 11 Mar 2021 23:26:25 -0800
-Message-Id: <20210312072625.1667879-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/Dxp++GyGwPWeW02m14ou1y6ezPH2d1h3kSCDAjlpJY=;
+        b=Rib6zUR3SKCJy4BTu09XkhhPfiYUbY/yypSNUpBunGj6xgseri/uOr9u07LoMOa50F
+         lWPMLrJEt2J4LogzVZ5rstDT06hrUiefyftHZzO1YGDwESt0wwHetVMQ9g4oNAeNPP8R
+         f70LhU0fawFYJnkx8Pc0tL6F5yyuSawzXAnv24ZiHLX/seoiKkScPS5/LezzsuOd0jmd
+         rfPMoywTF8axYgrctLVOLxGDvAhYJoo3SXXIcsAKjEZXnAcoM1VoFYxQGF8Pl1t613Vi
+         NwFasEO+c4KgwlA4JDvjBcNEuNbC+hxd9so2tJ+n4TwyZD3ML/3/jtEpA8I8VpLak+cc
+         HG/w==
+X-Gm-Message-State: AOAM533RuDbVYhyWupWB9qKG+OBva92ig3Kn0YZPNeXritUemGJAgWnu
+	fNHnxwHS1bxtJO3SMTFAG7X3Oa9xS5es4jyWxjY=
+X-Google-Smtp-Source: ABdhPJwls6ndx2euxil9fuKZEMtepd542u/khTeMlzWJNENc01Mm4x54AOLhBkOVnKGpNpwlLEoYGIM1DYob5CvyC1A=
+X-Received: by 2002:a05:620a:124f:: with SMTP id a15mr11234381qkl.125.1615534411342;
+ Thu, 11 Mar 2021 23:33:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.443c6779-935d-4b0c-bd2a-e7ccda1d0c4a@emailsignatures365.codetwo.com>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.1d651819-d3eb-4e73-bb7d-d97ad0bed5fe@emailsignatures365.codetwo.com>
+ <165E1F647C435468.32571@lists.openembedded.org> <cf285d04-d8e1-e3a2-25de-9c3f02ad0678@topic.nl>
+ <086cde14-14c7-0c28-1cc4-33156b45bf0a@windriver.com> <9af0d495-c07f-2ea4-4084-bb24fad59747@topic.nl>
+In-Reply-To: <9af0d495-c07f-2ea4-4084-bb24fad59747@topic.nl>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 11 Mar 2021 23:33:05 -0800
+Message-ID: <CAMKF1sqj+tfjzHDeJbaNjeg139CQgNKvhrb0gejDbuxk4TN-LA@mail.gmail.com>
+Subject: Re: [OE-core] GCC crashes on aarch64 since gatesgarth
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Randy MacLeod <randy.macleod@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Functions like unw_getcontext in libunwind call getcontext() which are
-not part of musl C library like glibc, however there is a supplimental
-library providing these functions called libucontext, therefore link
-libunwind with a static version of this library to resolve such symbols,
-this inturn helps packages needing libunwind, who look for certain
-APIs in libunwind during configure e.g. heaptrack
+On Thu, Mar 11, 2021 at 11:22 PM Mike Looijmans <mike.looijmans@topic.nl> wrote:
+>
+>
+> Met vriendelijke groet / kind regards,
+>
+> Mike Looijmans
+> System Expert
+>
+>
+> TOPIC Embedded Products B.V.
+> Materiaalweg 4, 5681 RJ Best
+> The Netherlands
+>
+> T: +31 (0) 499 33 69 69
+> E: mike.looijmans@topicproducts.com
+> W: www.topicproducts.com
+>
+> Please consider the environment before printing this e-mail
+> On 05-03-2021 00:32, Randy MacLeod wrote:
+> > On 2021-02-05 2:49 a.m., Mike Looijmans wrote:
+> >> I've been doing quite some tests and things last week, my conclusion
+> >> so far is that the latest gcc seems to trigger a bug particular to
+> >> this CPU. Maybe even this particular batch.
+> >>
+> >> Hours of testing found no issues with RAM.
+> >>
+> >> I've also done huge amounts of builds with zeus, no problems.
+> >>
+> >> Then googling for "illegal instruction gcc ryzen 1700" reveals quite
+> >> a few threads on something that sounds suspiciously similar. Though
+> >> it makes me wonder why I never encountered it before, since these are
+> >> all many years old. I did try a bunch of the suggestions done there,
+> >> but so far no luck.
+> >>
+> >>
+> >
+> > Any update on this bug Mike?
+> > Have you opened a YP bug? If not please do.
+> > I'd like to see if the problem still happens on master.
+>
+> Interesting.
+>
+> I just built the 64-kernel using OE master and no crashes, everything
+> went fine. With the gatesgarth branch, it'd crash at least two times
+> during kernel compilation.
+>
+> So something has been fixed since then?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/libunwind/libunwind.inc      | 1 +
- meta/recipes-support/libunwind/libunwind_1.5.0.bb | 1 +
- 2 files changed, 2 insertions(+)
+can you try by disabling uninative ?
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index 76a1bf6246..17ba151933 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -4,6 +4,7 @@ HOMEPAGE = "http://www.nongnu.org/libunwind"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2d80c8ed4062b8339b715f90fa68cc9f"
- DEPENDS += "libatomic-ops"
-+DEPENDS_append_libc-musl = " libucontext"
- 
- inherit autotools multilib_header
- 
-diff --git a/meta/recipes-support/libunwind/libunwind_1.5.0.bb b/meta/recipes-support/libunwind/libunwind_1.5.0.bb
-index 887a35708e..6392cac5c9 100644
---- a/meta/recipes-support/libunwind/libunwind_1.5.0.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.5.0.bb
-@@ -25,3 +25,4 @@ COMPATIBLE_HOST_riscv32 = "null"
- LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
- 
- SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared"
-+CACHED_CONFIGUREVARS_append_libc-musl = " LDFLAGS='${LDFLAGS} -lucontext'"
--- 
-2.30.2
-
+>
+>
+> --
+> Mike Looijmans
+>
+>
+> 
+>
