@@ -1,56 +1,81 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by mx.groups.io with SMTP id smtpd.web08.740.1615582730242621860
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web12.1195.1615584747153674029
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 12:58:50 -0800
+ Fri, 12 Mar 2021 13:32:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.9, mailfrom: marex@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4Dxypc2pxXz1qs3D;
-	Fri, 12 Mar 2021 21:58:48 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4Dxypc2THSz1qr5L;
-	Fri, 12 Mar 2021 21:58:48 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id O6EexFZE_qCZ; Fri, 12 Mar 2021 21:58:47 +0100 (CET)
-X-Auth-Info: Gx+0PE5v4Zjwxx3y7bJV42qExrmnh25RNfYbTkKmies=
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 12 Mar 2021 21:58:47 +0100 (CET)
-Subject: Re: [PATCH] linux-firmware: Package RSI RS911x WiFi firmware
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>
-References: <20210312153049.96411-1-marex@denx.de>
- <09f4663de2447ed8a6cf3ca16e1cef921987f368.camel@linuxfoundation.org>
-From: "Marek Vasut" <marex@denx.de>
-Message-ID: <77a5b4a4-6a61-07ae-eacf-088e3d926126@denx.de>
-Date: Fri, 12 Mar 2021 21:58:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jSePc+Fv;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id 81so27256214iou.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 13:32:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VomiJ1Z1xed8r4VEML0BGPjzxTUEEDFDLCLpXNCGPHQ=;
+        b=jSePc+Fvad5tZA4vtETdYDR9V8UpmVQR89PJdri+LKXImUSa11ROnBohkS/BYSZtOK
+         20eMPWjP41aFswvYr8RRA2C0sVgnJPJh+FC3bgTCkRL4KwcCPeAcLWtERQcKf2xhR0GD
+         WgwEh4czOvZAJxxjfHi7CUgdse974MNx3XqPmxdX3Px1D8jTYaUVSDnj5tvIbJx9dR2K
+         TPvlBXslWtyGTS6qefR4klUg+UeBdhzpmFWnujh4beiZeG65U2smpkYD8C0vR8zyBzWq
+         YLL2GJeQNTtl4WFKJjQwze4eomwBsyqIbRB/uJT1lyy4ZpR9O6ARnDKQcs+3FCSPvBUA
+         Vtwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VomiJ1Z1xed8r4VEML0BGPjzxTUEEDFDLCLpXNCGPHQ=;
+        b=dTxezRv7Vf40clddR0XUIR4U0nWghQs24+D+vJ4I3gXPpP7B33VM84a0RHWiOnUW83
+         IaGc7sscCorqGZ3O6gHVC3jYDjUGuZ0kUQsWdtJkoqcKVl6RYfoLhvQTlWjYspAR8GE2
+         r1wANHe+zc+EADIsy3/OkWMTGEOxvxn+arcPeDjLfZY+r6Kx5if43TOimCAr97d5MIr9
+         cJvf0H4FxCxufxVc5MOt2RhwpW8cXttcnILcMeWLNR0SWhfX/zi6aoT8uHeqTb4xMb1T
+         D46k9k85JbSigEyGRxq0JruZ1AvYfcmhoscQr8BJFIg4fV1lYhTRh5/gLijO5dkN7Brg
+         7s3A==
+X-Gm-Message-State: AOAM533TuiFBa9EkFFi+QPYZA0VG++zW+gBOiQrF15tPOc9seQ+OjaBC
+	620HF4lXc1Y/QPwQsqcyrbC6VfCE0LFAvCJeltI=
+X-Google-Smtp-Source: ABdhPJx0hGmEXY0GNaHfeRGQ56Nsw95S/cKj0XtWI6r6Vr//1rJnSq10KIxI7Nv6sm839Q8SxzDKoKF0yTmz8DXACGw=
+X-Received: by 2002:a05:6602:14cb:: with SMTP id b11mr886567iow.175.1615584746594;
+ Fri, 12 Mar 2021 13:32:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <09f4663de2447ed8a6cf3ca16e1cef921987f368.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+References: <20210312013626.44204-1-raj.khem@gmail.com>
+In-Reply-To: <20210312013626.44204-1-raj.khem@gmail.com>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Fri, 12 Mar 2021 16:30:52 -0500
+Message-ID: <CAKmqyKNDbdwbRbfkSfsco2R4TiJonjNo--vmTGC5MugcW4MuHA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perf: Remove libunwind for rv32
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 3/12/21 5:55 PM, Richard Purdie wrote:
-> On Fri, 2021-03-12 at 16:30 +0100, Marek Vasut wrote:
->> The RSI 911x WiFi firmware is already part of the linux-firmware
->> repository, package it to make it easily available.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Cc: Steve Sakoman <steve@sakoman.com>
->> ---
->>  =C2=A0.../linux-firmware/linux-firmware_20201218.bb         | 11 ++++=
-+++++++
->>  =C2=A01 file changed, 11 insertions(+)
->=20
-> Doesn't seem to apply against master?
+On Thu, Mar 11, 2021 at 8:36 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> libunwind is not yet ported to RISCV32
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
 
-Argh, I rebased and sent V2. That should work better, sorry for the=20
-inconvenience.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  meta/recipes-kernel/perf/perf.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index c7653e523c..edb1335154 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -32,6 +32,7 @@ PACKAGECONFIG[coresight] = "CORESIGHT=1,,opencsd"
+>  # libunwind is not yet ported for some architectures
+>  PACKAGECONFIG_remove_arc = "libunwind"
+>  PACKAGECONFIG_remove_riscv64 = "libunwind"
+> +PACKAGECONFIG_remove_riscv32 = "libunwind"
+>
+>  DEPENDS = " \
+>      virtual/${MLPREFIX}libc \
+> --
+> 2.30.2
+>
+>
+> 
+>
