@@ -1,95 +1,89 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web09.5969.1615541717624187854
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.6176.1615542966005162166
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 01:35:18 -0800
+ Fri, 12 Mar 2021 01:56:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: kory.maincent@bootlin.com)
-Received: from kmaincent-XPS-13-7390 (92.208.113.78.rev.sfr.net [78.113.208.92])
-	(Authenticated sender: kory.maincent@bootlin.com)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 69396200002;
-	Fri, 12 Mar 2021 09:35:13 +0000 (UTC)
-Date: Fri, 12 Mar 2021 10:35:12 +0100
-From: "Kory Maincent" <kory.maincent@bootlin.com>
-To: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: <openembedded-core@lists.openembedded.org>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libxcrypt-compat: upgrade 4.4.17 -> 4.4.18
-Message-ID: <20210312103512.092257bb@kmaincent-XPS-13-7390>
-In-Reply-To: <1614658313-64713-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1614658313-64713-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: li.wang@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 12C9tt09008819
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 01:56:05 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 12 Mar 2021 01:55:59 -0800
+Received: from pek-lwang1-u1404.wrs.com (128.224.155.118) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2106.2 via Frontend Transport; Fri, 12 Mar 2021 01:55:58 -0800
+From: "Li Wang" <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <li.wang@windriver.com>
+Subject: [OE-core][PATCH] linux-dummy: add empty dependent packages
+Date: Fri, 12 Mar 2021 17:52:50 +0800
+Message-ID: <1615542770-26280-1-git-send-email-li.wang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hello,
+some kernel includes kernel-image-image and kernel-devicetree packages.
+these patckages are defined in kernel.bbclass
+but, when use linux-dummy, these packages are not defined.
+so, define them as empty packages for avoiding compile error:
 
-On Tue, 2 Mar 2021 12:11:53 +0800
-"zhengruoqin" <zhengrq.fnst@cn.fujitsu.com> wrote:
+ERROR: Nothing RPROVIDES 'kernel-devicetree'
 
-> When the libxcrypt version is updated, libxcrypt-compat is omitted.
->=20
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  .../{libxcrypt-compat_4.4.17.bb =3D> libxcrypt-compat_4.4.18.bb}    | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.17.bb =3D>
-> libxcrypt-compat_4.4.18.bb} (100%)
->=20
-> diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.17.bb
-> b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb similarity index=
- 100%
-> rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.17.bb
-> rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ meta/classes/linux-dummy.bbclass         | 26 ++++++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-dummy.bb |  2 +-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes/linux-dummy.bbclass
 
-Got a build error on nativesdk recipe:
+diff --git a/meta/classes/linux-dummy.bbclass b/meta/classes/linux-dummy.bbclass
+new file mode 100644
+index 0000000..cd87915
+--- /dev/null
++++ b/meta/classes/linux-dummy.bbclass
+@@ -0,0 +1,26 @@
++
++python __anonymous () {
++    if d.getVar('PREFERRED_PROVIDER_virtual/kernel') == 'linux-dummy':
++        # copy part codes from kernel.bbclass
++        kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
++
++        # set an empty package of kernel-devicetree
++        d.appendVar('PACKAGES', ' %s-devicetree' % kname)
++        d.setVar('ALLOW_EMPTY_%s-devicetree' % kname, '1')
++
++        # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
++        type = d.getVar('KERNEL_IMAGETYPE') or ""
++        alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
++        types = d.getVar('KERNEL_IMAGETYPES') or ""
++        if type not in types.split():
++            types = (type + ' ' + types).strip()
++        if alttype not in types.split():
++            types = (alttype + ' ' + types).strip()
++
++        # set empty packages of kernel-image-*
++        for type in types.split():
++            typelower = type.lower()
++            d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
++            d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
++}
++
+diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+index 95dc85f..c56f899 100644
+--- a/meta/recipes-kernel/linux/linux-dummy.bb
++++ b/meta/recipes-kernel/linux/linux-dummy.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ PROVIDES += "virtual/kernel"
+ 
+-inherit deploy
++inherit deploy linux-dummy
+ 
+ PACKAGES_DYNAMIC += "^kernel-module-.*"
+ PACKAGES_DYNAMIC += "^kernel-image-.*"
+-- 
+2.7.4
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/3504/step=
-s/11/logs/stdio
-
-ERROR: nativesdk-libxcrypt-compat-4.4.18-r0 do_compile: Execution of
-'/home/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-native=
-sdk-pokysdk-linux/nativesdk-libxcrypt-compat/4.4.18-r0/temp/run.do_compile.=
-2466'
-failed with exit code 1: Makefile:3646: Makefile.deps: No such file or
-directory
-LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
-s/perl
-\ ../git/build-aux/gen-crypt-hashes-h
-\ ../git/lib/hashes.conf ,bcrypt,bcrypt_a,bcrypt_x,bcrypt_y,bigcrypt,bsdicr=
-ypt,descrypt,gost_yescrypt,md5crypt,nt,scrypt,sha1crypt,sha256crypt,sha512c=
-rypt,sunmd5,yescrypt,
-> crypt-hashes.h.T
-> LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hostto=
-ols/perl
-> \ ../git/build-aux/gen-crypt-symbol-vers-h \ SYMVER_MIN=3DGLIBC_2.0 \
-  SYMVER_FLOOR=3D \
-  COMPAT_ABI=3Dyes \
-     ../git/lib/libcrypt.map.in > crypt-symbol-vers.h.T
-LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
-s/perl
-\ ../git/build-aux/gen-crypt-h \
-  ../git/lib/crypt.h.in config.h \
-  ../git/lib/hashes.conf ,bcrypt,bcrypt_a,bcrypt_x,bcrypt_y,bigcrypt,bsdicr=
-ypt,descrypt,gost_yescrypt,md5crypt,nt,scrypt,sha1crypt,sha256crypt,sha512c=
-rypt,sunmd5,yescrypt,
-\ > crypt.h.T
-LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
-s/perl
-\ ../git/build-aux/gen-crypt-h \
-  ../git/lib/xcrypt.h.in config.h \
-  > xcrypt.h.T
-gen-crypt-symbol-vers-h: usage: SYMVER_MIN=3Dvalue SYMVER_FLOOR=3Dvalue
-COMPAT_ABI=3Dvalue libcrypt.map.in Makefile:3577: recipe for target
-'crypt-symbol-vers.h' failed make: *** [crypt-symbol-vers.h] Error 1
-make: *** Waiting for unfinished jobs....
-mv -f crypt-hashes.h.T crypt-hashes.h
-mv -f crypt.h.T crypt.h
-mv -f xcrypt.h.T xcrypt.h
-WARNING: exit code 1 from a shell command.
-
-
-Regards,
-
-K=C3=B6ry
