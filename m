@@ -1,73 +1,71 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web08.903.1615568278754432558
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.976.1615568344241225739
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 08:57:58 -0800
+ Fri, 12 Mar 2021 08:59:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MSa6dhe7;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id z190so24897382qka.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 08:57:58 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QH/wIPct;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id g8so4215747wmd.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 08:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X1FWN6i9z24ODCY5YllCv3O3RzJ47S00jAtr6QMq2lY=;
-        b=MSa6dhe7ME+KhnS3cglslssj70KYtJfcuvxBjpyWjKbSZj8IXS6pGz4Nphn2CUfN+Y
-         ohq46vPm1uTlcBeqxqhDrP9OdZ2s/d1JhPJ4PkkAC4Un9GncRBQfURRdfyUsK8Igbaqf
-         XuiVUaszBwiNAd7pAA9q/wYzx8H4vEiFZxo4JtcoEf11B7i9RPCrhCUVDSlC4JQg8/Z6
-         oR4Qy6ZpsQAfJ6JGrCYldEYJUcdf2zj3tmeymVQ3wUwFw1vPrh6Djt5bFx9f7hj2WqZb
-         wCeRiUIsk3XAUaIzib1qYu9gB1ok6j+fzfBq8/EIn6bZe4rPxUedlWMjMJq/EGU0stAt
-         yxig==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=HswxFJTYA/QkivbNbXfH0sUGVLssSVwHDxWcZLHGQU4=;
+        b=QH/wIPctJ7xtwgOR6EoK/uRIMdsbi9uVWk5e6Pd7I1JDMpcVQsTNKlOtRbun1bF0W2
+         8/RBK9yXuUh11jD3vQehLXbcjNamBSxKnAFxVkPDS4H6hZ0jCJicZjVZiBh2C0Iy94NH
+         IjIDOzAsfnNjcpOFdMeDbCYlRh181a01eJ/VA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X1FWN6i9z24ODCY5YllCv3O3RzJ47S00jAtr6QMq2lY=;
-        b=qBs/XUJDDh5IxNZJ9yNOPjElf13/W3DEzJHvbJHw+dm2j/cc/O3VsJrTLorfODuCMq
-         0/I11ajUyzqF6fj1jJzOgQ76H4Lnhr3qdpuRVYXdTs23VZWRQhdvrZFHARaBHTOZwG5a
-         p2HhPr3T5kUpEgH5I3mzQ2GNwZa73v3wkYw7DDVFMMo096FuWE4IjoM4e7H+UOXIVyOa
-         VYDbyzYXCAQe9ckpENGD8yr3fzqSDf1PHeTrlvP5LlmDPqQhkpBA6cGKZu3MfFSGcvbC
-         DUxrNr06XgNX/s1XXzHhBrTZuDmd07oUyyQ0Rj4cK24aII/pzvjX0TzCWkRXhNeRyE53
-         evmw==
-X-Gm-Message-State: AOAM533D1nXRpbqCoe3ZHEmwXVrHViX9bguQs14RDnTbTLwujXdCDoxB
-	E5VkHRSuPcVG7YppL2kqssjXIxIvj23HbKPbduE=
-X-Google-Smtp-Source: ABdhPJxnr2+Zyt4XooKlNEDRg5+2Z7CnBBxbce4yA0Wb/BBkFaEqHypKap3LUspnaJjnRmT1D2M7+7gNemhaeEJgqlY=
-X-Received: by 2002:a37:a350:: with SMTP id m77mr13247053qke.146.1615568277847;
- Fri, 12 Mar 2021 08:57:57 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HswxFJTYA/QkivbNbXfH0sUGVLssSVwHDxWcZLHGQU4=;
+        b=djuenxB05s02e5UnAPVldiLc3LklWbZLKjtlTr3dig7VYwCatY3K+qLU3ETjlKLDZ7
+         ep9VtUh7n7fjzd1HM4v6zvLQzGwRI4FT4/8rFKL4Lqp8wcWwBcTqmHrJFFNV8ADTS03O
+         krgVz0q0zf+rf+5oQbvzGkfD6/Dtn6lmKiUbJNbuh6bMk+vFU1kU5fJMPwQ8TJbM5nWf
+         StIIRpW+aH6ei67djE6IzJo3kBtlrjf8EPw03qF1bax0lTTHQNwbxH03+2cRS4k5Lawn
+         ca7j1Eqabl9m+EX3hP8eurpJqLNlqCgw0gm+O3CFgOkxORaLHTPcldbfKhkLMemjhU+0
+         aiaw==
+X-Gm-Message-State: AOAM531e0BSHHELHmh9jT7OurlgRYYjDrmWbPle4qJ37elrtC5J7oteQ
+	UMrbCS/zu9a7Yn+PZ3yoJTJCBA==
+X-Google-Smtp-Source: ABdhPJy+4TnUyvUUqhPDz+i/2mUI9+343TT8oGzrFwKrN7Yv6wIr/Seu8LkSlcm0yjC90bOVmeYVwg==
+X-Received: by 2002:a1c:b687:: with SMTP id g129mr14321818wmf.165.1615568342773;
+        Fri, 12 Mar 2021 08:59:02 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:7cc6:73c3:839f:86be? ([2001:8b0:aba:5f3c:7cc6:73c3:839f:86be])
+        by smtp.gmail.com with ESMTPSA id u20sm9293280wru.6.2021.03.12.08.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 08:59:02 -0800 (PST)
+Message-ID: <9e6ab3f507f8325cb41a6caff9c1dcaca8c9b23d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky-contrib][PATCH 3/4] package.bbclass: Add handle_qa_error check
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>, Peter Kjellerstedt
+	 <peter.kjellerstedt@axis.com>
+Cc: Meh Mbeh Ida Delphine <idadelm@gmail.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Mar 2021 16:59:01 +0000
+In-Reply-To: <CABcZAN=e_-OTy0x8jsiEb1-ysqfP6fqf27BoG9ZE63dzkGm_Ug@mail.gmail.com>
+References: <20210309233130.104839-1-idadelm@gmail.com>
+	 <20210309233130.104839-3-idadelm@gmail.com>
+	 <0e7e667066734d1c9276c1730742c659@XBOX03.axis.com>
+	 <CABcZAN=e_-OTy0x8jsiEb1-ysqfP6fqf27BoG9ZE63dzkGm_Ug@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210311120512.287214-1-alex.kanavin@gmail.com>
- <CAMKF1spZ5tYHOVeyPV7xb+KNkdyh5QUgD=UQP9Yaj8VaRH7wpA@mail.gmail.com> <CANNYZj_UPO8RpmNC=-E_8=Jzw5+e1VFfw==GjthsVPZPDbj=OQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_UPO8RpmNC=-E_8=Jzw5+e1VFfw==GjthsVPZPDbj=OQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 12 Mar 2021 08:57:31 -0800
-Message-ID: <CAMKF1srfO79nQpfO+rJYD_uZ-H3+0j9kA0KMU2qGf0iWvcLWWQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/2] xwayland: add a standalone recipe
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Ok, thanks.
+On Fri, 2021-03-12 at 09:54 -0700, Christopher Larson wrote:
+> Indeed, bitbake only requires python 3.5.0 right now, we can't use
+>  3.6 or 3.7 features in it or oe-core at this time.
 
-On Fri, Mar 12, 2021 at 1:30 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
->
-> On Fri, 12 Mar 2021 at 00:48, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Thu, Mar 11, 2021 at 4:05 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > Please see here for the rationale for splitting XWayland out of
->> > main xserver-xorg tree:
->> > https://fedoraproject.org/wiki/Changes/XwaylandStandalone
->> >
->>
->> I think this is a good change. Should we disable xwayland
->> packageconfig in xserver-xorg recipe as well
->> since I see that it gets activated with opengl wayland being in distro features.
->> so I wonder if we can completely turn it off
->
->
-> That's done in the second patch, as it has to be atomic with dependency adjustment in weston.
->
-> Alex
+We did increase the version requirement to 3.6:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=c08279f9c3a0260f80fb0948520a24bf2fcdb422
+
+at least in OE-Core.
+
+Cheers,
+
+Richard
+
