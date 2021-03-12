@@ -1,114 +1,79 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.1394.1615570170364124983
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.1610.1615570760083686688
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 09:29:30 -0800
+ Fri, 12 Mar 2021 09:39:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZE648ymz;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: idadelm@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id k16so1298171ejx.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 09:29:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vI5fxk6w5b4h3e496zMjuDDbxraGZsSvK/1BdfwNoyM=;
-        b=ZE648ymzY+h5iZBa+6jukzY3I0QAVy/TmONFeJ6x+Lm3iBQHmG5Y2oWf3yKTTGrJqD
-         0i4VaJzy/FSn7AyAJq2w3vJ7hLuqxkUtYzy/BacGx+7tDdzZu3Wf5HYpVypi/MPYyoOt
-         B0pp5iuwjUKvfzP3nroO1kbWnjWxf4Zw8ZdX5iBTD6icx6nlphPfkGgC2+wTPCknrddd
-         Dr/mSvXnLClkospuTBEpGIIxXVc1autZZiA3jdm+SnefUhyspyfnNT3eo7aGaAlm6CAR
-         2AYomxoxaoDMaPgMn+0LtE1DB1bdQXEovD6lpXQGfl6yy7RDV4BO5/prRC9XJ3mq3+jF
-         PINQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vI5fxk6w5b4h3e496zMjuDDbxraGZsSvK/1BdfwNoyM=;
-        b=VSEEiPzi/VGPw+qs9a0wpmU4GGEP6Da7o6YoiE64Um7wloBMFKOMdIO9dauUU/oCye
-         S4/a4oZHartMyDbI43r+VKh3GJjmSZNe2rpZUv0QcF3xfxaObra2N5CAH3VGNw2lMIWe
-         9akJi2d8D6gwQYoEigYxXG3drRTkGt+7N06yBNkZftUwve3jqzYSN/JySDL2PoEsZPC7
-         IoOZy7972bPhF7UU1wwYy/JEq/OYE98KIHt5ek6d4UJ2wjCjdQcGtxtHSAi+8WzQnKC+
-         t+oiBUlDVmFbTXqZ31ZJDB75pEvLHyosXnJnFAi5Exhp+FODBNL1sHT03Z6XHgR5TUtr
-         s3zQ==
-X-Gm-Message-State: AOAM531dTu2NpsusT8fjyQuddNtuRAn6rQqN1csSFvHskurxmyt3EI0B
-	ERfa9jO/bVgIaLZybsezZGkAtKy7PoQb8Rg12O0=
-X-Google-Smtp-Source: ABdhPJz9C/y0Dp0CP0F3+eKUqIevEANkfq2UA0i0Yk9eA4ikYKCH0c2JycnMdpvDHQ+QmP2HOMWIxXvEVfCnqynijh8=
-X-Received: by 2002:a17:906:780b:: with SMTP id u11mr9928587ejm.492.1615570168866;
- Fri, 12 Mar 2021 09:29:28 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=gQg+7DmF;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 171DF20B3754;
+	Fri, 12 Mar 2021 09:39:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 171DF20B3754
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1615570759;
+	bh=I+NkEeqJla+Uv7QqoBvDtwvq84Zs+pLQ8gmibE3fyzI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gQg+7DmF3kEXta2r+zIE8tdt8peig0eeafekMGHv+wfzy2W/i7vUtdZIi+o4Ixh2Z
+	 injZWee6/RuuGpJBC+35nth6hgmG9MeBijdxhY4hcTHPzUo5c9/rYDPtBTSqSfRDg8
+	 a43EOvlEFMM0NcqlqEFEbnsegz0C6gYkhbCH1Gbk=
+From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+Subject: [PATCH] devtool: Fix do_kernel_configme task
+Date: Fri, 12 Mar 2021 10:39:15 -0700
+Message-Id: <20210312173915.3028116-1-alhe@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210309233130.104839-1-idadelm@gmail.com> <20210309233130.104839-3-idadelm@gmail.com>
- <0e7e667066734d1c9276c1730742c659@XBOX03.axis.com> <CABcZAN=e_-OTy0x8jsiEb1-ysqfP6fqf27BoG9ZE63dzkGm_Ug@mail.gmail.com>
- <9e6ab3f507f8325cb41a6caff9c1dcaca8c9b23d.camel@linuxfoundation.org>
-In-Reply-To: <9e6ab3f507f8325cb41a6caff9c1dcaca8c9b23d.camel@linuxfoundation.org>
-From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
-Date: Fri, 12 Mar 2021 18:29:16 +0100
-Message-ID: <CAN7sTgsA=9=JSsAkGgKJRy0Wdz3=dc+3CVZPcPiP=TavFw6=BA@mail.gmail.com>
-Subject: Re: [OE-core] [poky-contrib][PATCH 3/4] package.bbclass: Add handle_qa_error check
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Christopher Larson <kergoth@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000066be605bd5a3e05"
-
---000000000000066be605bd5a3e05
-Content-Type: text/plain; charset="UTF-8"
-
-Thanks for the feedback. I will make the changes accordingly. I was hoping
-to document a in the manual after getting feedback in case there are
-corrections that need to be made.
-
-Cheers,
-Ida.
-
-On Fri, 12 Mar 2021, 5:59 pm Richard Purdie, <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2021-03-12 at 09:54 -0700, Christopher Larson wrote:
-> > Indeed, bitbake only requires python 3.5.0 right now, we can't use
-> >  3.6 or 3.7 features in it or oe-core at this time.
->
-> We did increase the version requirement to 3.6:
->
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=c08279f9c3a0260f80fb0948520a24bf2fcdb422
->
-> at least in OE-Core.
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000066be605bd5a3e05
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Thanks for the feedback. I will make the changes accordin=
-gly. I was hoping to document a in the manual after getting feedback in cas=
-e there are corrections that need to be made.<div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Cheers,</div><div dir=3D"auto">Ida.</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 12 Mar 202=
-1, 5:59 pm Richard Purdie, &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On Fri, 2021-03-12 at 09:54 -0700, Christopher Lar=
-son wrote:<br>
-&gt; Indeed, bitbake only requires python 3.5.0 right now, we can&#39;t use=
-<br>
-&gt;=C2=A0 3.6 or 3.7 features in it or oe-core at this time.<br>
-<br>
-We did increase the version requirement to 3.6:<br>
-<br>
-<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dc08279f9c=
-3a0260f80fb0948520a24bf2fcdb422" rel=3D"noreferrer noreferrer" target=3D"_b=
-lank">http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dc08279f9c3a026=
-0f80fb0948520a24bf2fcdb422</a><br>
-<br>
-at least in OE-Core.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
+The do_kernel_configme task is no longer part of SRCTREECOVEREDTASKS,
+its been removed from the kernel-yocto.bbclass since b72dbb2e4, but
+there wasnt a matching patch for devtool for those changes.
 
---000000000000066be605bd5a3e05--
+This patch enables us to invoke the do_kernel_configme task when
+using a devtool workspace, it also prepends a check for an existing
+.config file in the source directory and moves it if thats the case,
+since when using devtool modify a .config is created and
+do_kernel_configme complains about it, this is not the case when
+using bitbake since the .config file would be on B instead.
+
+Alowing do_kernel_configme to run also fixes the flow where testing a
+new config fragment from devtool workspace isnt added properly
+(config queue shows it as ///frg.cfg) and as a side effect it never
+gets merged into the final config.
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsof=
+t.com>
+---
+ scripts/lib/devtool/standard.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
+rd.py
+index 7b62b7e7b8..f364a45283 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -953,12 +953,17 @@ def modify(args, config, basepath, workspace):
+=20
+             if bb.data.inherits_class('kernel', rd):
+                 f.write('SRCTREECOVEREDTASKS =3D "do_validate_branches d=
+o_kernel_checkout '
+-                        'do_fetch do_unpack do_kernel_configme do_kernel=
+_configcheck"\n')
++                        'do_fetch do_unpack do_kernel_configcheck"\n')
+                 f.write('\ndo_patch[noexec] =3D "1"\n')
+                 f.write('\ndo_configure_append() {\n'
+                         '    cp ${B}/.config ${S}/.config.baseline\n'
+                         '    ln -sfT ${B}/.config ${S}/.config.new\n'
+                         '}\n')
++                f.write('\ndo_kernel_configme_prepend() {\n'
++                        '    if [ -e ${S}/.config ]; then\n'
++                        '        mv ${S}/.config ${S}/.config.old\n'
++                        '    fi\n'
++                        '}\n')
+             if rd.getVarFlag('do_menuconfig','task'):
+                 f.write('\ndo_configure_append() {\n'
+                 '    if [ ! ${DEVTOOL_DISABLE_MENUCONFIG} ]; then\n'
+--=20
+2.25.1
+
