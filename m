@@ -1,26 +1,26 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.9372.1615560786262818984
+ by mx.groups.io with SMTP id smtpd.web12.9431.1615560874752754837
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 06:53:06 -0800
+ Fri, 12 Mar 2021 06:54:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=Xi2XchlQ;
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=XDbXLA8Y;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
 Received: from anbelski-lsg-linux-yocto-1.irsgb21fvobu5fvmalxug44hib.xx.internal.cloudapp.net (unknown [52.247.218.173])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3D12920B39C5
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 06:53:05 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3D12920B39C5
+	by linux.microsoft.com (Postfix) with ESMTPSA id 29EC120B3754
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 06:54:34 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 29EC120B3754
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1615560785;
+	s=default; t=1615560874;
 	bh=AqxGcVvbUBg3Cb+mOGh6oY43HtYttekaeoffj1WbcFs=;
 	h=From:To:Subject:Date:From;
-	b=Xi2XchlQQQ+fqBLahPe9/YR00Zes2fegdAH7h6UVB5nl68ejQ3CMbMs/AxnOxoaiq
-	 7XCIHMGP9TfHj7XvUzghTAi/vwF9q/ayXC9SNZNWlxKP3/LBH82LY8Ne/+hzJ92H0Z
-	 O++lIAs2PSh2BgkF+5Dk7usPQ9c9iUumuHk/K+y4=
+	b=XDbXLA8YFvzmoDIlqX48Iplsi4vfSiar2oJEZhoZA2nxwieFG2acbd+50wPxjSFSh
+	 7hVjwdHIcLdwMuMs2QHNs/s382n96lwSxyyZ4QFT+OwLq5FDPJ8QrsMoTJp1HeAGFa
+	 fS7pPdxSIniOV8OSHUFkj+1uViIHfbbp9r3ZEvJc=
 From: "Anatol Belski" <anbelski@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glib-2.0: Fix CVE-2021-27219
-Date: Fri, 12 Mar 2021 14:52:47 +0000
-Message-Id: <20210312145247.14274-1-anbelski@linux.microsoft.com>
+Subject: [dunfell][PATCH v2] glib-2.0: Fix CVE-2021-27219
+Date: Fri, 12 Mar 2021 14:54:25 +0000
+Message-Id: <20210312145425.14341-1-anbelski@linux.microsoft.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
