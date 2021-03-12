@@ -1,222 +1,276 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.63])
- by mx.groups.io with SMTP id smtpd.web10.5232.1615534666869216706
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (NAM04-MW2-obe.outbound.protection.outlook.com [40.107.101.66])
+ by mx.groups.io with SMTP id smtpd.web08.5334.1615536030971920764
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 23:37:48 -0800
+ Fri, 12 Mar 2021 00:00:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@topicbv.onmicrosoft.com header.s=selector2-topicbv-onmicrosoft-com header.b=NDBBR5Mu;
- spf=pass (domain: topicproducts.com, ip: 40.107.20.63, mailfrom: mike.looijmans@topicproducts.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=topicbv.onmicrosoft.com; s=selector2-topicbv-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g6MpBoXedUIW15ZU0XQa5/0Xe27eavUZTKunwm1nPWg=;
- b=NDBBR5MuUKzWQfPliWs8sSf8OBky21bTNMVKeXgBFsShFwgP9cV14bm7tzkGZFijoLm75CBH+VZM5YVFbT6uAs7QEvAIlMLZ7Qx3zd+Q4n1MEuC34548rBGovP5/eaSI+FLbkSeGqCYFLz3QqCVkYfUj4y2JLSDxZw6a+01a+qQ=
-Received: from DB6PR0301CA0014.eurprd03.prod.outlook.com (2603:10a6:4:3e::24)
- by DB7PR04MB4875.eurprd04.prod.outlook.com (2603:10a6:10:1b::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
- 2021 07:37:44 +0000
-Received: from DB5EUR01FT009.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:4:3e:cafe::3b) by DB6PR0301CA0014.outlook.office365.com
- (2603:10a6:4:3e::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Fri, 12 Mar 2021 07:37:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 40.68.112.65)
- smtp.mailfrom=topicproducts.com; lists.openembedded.org; dkim=none (message
- not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
- designates 40.68.112.65 as permitted sender) receiver=protection.outlook.com;
- client-ip=40.68.112.65; helo=westeu12-emailsignatures-cloud.codetwo.com;
-Received: from westeu12-emailsignatures-cloud.codetwo.com (40.68.112.65) by
- DB5EUR01FT009.mail.protection.outlook.com (10.152.4.124) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.31 via Frontend Transport; Fri, 12 Mar 2021 07:37:44 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (104.47.17.107) by westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Fri, 12 Mar 2021 07:37:42 +0000
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=E/C9BXnx;
+ spf=pass (domain: windriver.com, ip: 40.107.101.66, mailfrom: liezhi.yang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jSC5nMllpmNktQKUKc/tDxUlWqPGkXCxcIZb/EXcwWFfbd1Ym2v/miCXUVOflfGaWh84B6ZBfgGW9+6mrZP+DIpbgpeL4H6WJwOWWGB+a4vlWl+icWLNLtVGSSN9ghq7fSpR3SZro/Oyh6cb7MUnF8IjFQEmQGxRCRcv3nggC0kw703BOCeLUtrgx7i+JgUDHKaBuc7S79TIOxyrpGdUjvZ+OcrGGmSY8A9jhVd0R9j82xrKAlzVVnRY3rDlz4qyPeMHfshs6GbCm8EUyd8aCEnQvXpjHW5qADIIBfaSUpb0zC/X6d5zAIH3Cjq79mWMzc+KeyJgpG8gLC7Femahhw==
+ b=CHKmmAoXzwrNK3Uxclh19cG+RZgvM5gYoi2dzjxQ/SL7FKIWNK5JNDKCoIFRpVzkIRKhzu4XHzvBD4P4Ja/P6X4sSOk3xM2yRJ48lFA9afFWw04BhDWxgarmRIZM3MWBQPdA194VuGI1ZYYvB1qsxJBwOCL5cf2z8yefCVLyf84Xmt5bTz+9L9V0Ds6cNePWMGBY2ThCrkEFfo/jjA23EXuoFEfCRE13WnfaCRJp3mQD2305Zy5HYTX0CLMrBcziJ1c3YK1HAT+angiRIMvdBZ4aEP0PQLlhPVX4CQMQDCbKxzRStaA8a94+BJPZcRbgYpM+qWYG9h9z24zzRROZaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pkUALDFVYZRYXfL1uiPH8I0apNx4Y/CprCR61QOjMSk=;
- b=Qf8zPhbrIvxVZFyCkZmgM8q7orAkwaX21Mg2HLD14WLAWWEHI3/TsUGgBK7dwoz6iT8zaxURNcaIoTdYJ8dEaMjnt74jVtJXHwlsSesiyCSZrp6vhQqMAsN8KIzJuHUh2CesGa2RgwjWeNFadMdrRhGbT9zSaqXhhNgvYLwguTST5ACgrXWmlfDFzeonCxUfSGflQfqjyfCf9dzrC0vTOInHaNix/0Dbg7UJ4zHV5Ar+eDLBeG16lZ57CPdD3SnFq7qQrLPUv8Pj4YGAXxTfJiso3p8wV+PZ0pCYTd+IsmN3tcFlKEgXafwD15d6Xrnk23nvfrXQjgpYHYv8m9lcjQ==
+ bh=tDaP/LC1uilsazjUNrgfUejrKR95K27DrhaUcFJHoIQ=;
+ b=FNzGaG4lN5ilIK+ITJiBIYdoVIdVTVp4Su9+7SnLZh9WIqOsDLmbLG2flGrweNjSBmHorAZcbAD3PFV6LJPkLJkyan2wwZAiATJAeh08yAcAwQ8TAokKrFTrOuYLgijSt6onF7QpXklh7SHi6D8Z3T+r9AtNzkWIroxflBOb7Iz7CuvZlDBuJYsVfMvuyyb6Pk/kVvW08XzVLiRhzmO65iO3apdQobXS2cjH3JYuk69NRgVeOppZMZRwVoi9t5PpMDD8HDU8YKnVMnljQFlL0Lc30nSpN1LWhRFk6zj4yggKp8wFbQg+r6lzr4iev4RT7HQF1nNZBZpVljKyeU9cPw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=topicproducts.com; dmarc=pass action=none header.from=topic.nl;
- dkim=pass header.d=topic.nl; arc=none
-Authentication-Results-Original: lists.openembedded.org; dkim=none (message
- not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=topic.nl;
-Received: from DB8PR04MB6523.eurprd04.prod.outlook.com (2603:10a6:10:10f::26)
- by DBBPR04MB7963.eurprd04.prod.outlook.com (2603:10a6:10:1e1::8) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tDaP/LC1uilsazjUNrgfUejrKR95K27DrhaUcFJHoIQ=;
+ b=E/C9BXnxg0AvGE2rxcplXuukSwcgTJIk7dd67Nz7e9myX2ppx3+PYHetNNEuYvfuu7Qjai8VYwnuwk3rJ0J3ymoQQS5yn6Dq5ovSoTyfmmtGxd8AAhBZXQQFSvmRsE+eUYrfS6/FVRrp0FJjbxtnYY3tPOqBPyGsfdzzy3NkwN0=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=windriver.com;
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com (2603:10b6:a03:f6::10)
+ by SJ0PR11MB4958.namprd11.prod.outlook.com (2603:10b6:a03:2ae::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.28; Fri, 12 Mar
- 2021 07:37:42 +0000
-Received: from DB8PR04MB6523.eurprd04.prod.outlook.com
- ([fe80::38d2:189b:f7da:b988]) by DB8PR04MB6523.eurprd04.prod.outlook.com
- ([fe80::38d2:189b:f7da:b988%7]) with mapi id 15.20.3933.031; Fri, 12 Mar 2021
- 07:37:42 +0000
-Subject: Re: [OE-core] GCC crashes on aarch64 since gatesgarth
-To: Khem Raj <raj.khem@gmail.com>
-CC: Randy MacLeod <randy.macleod@windriver.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.443c6779-935d-4b0c-bd2a-e7ccda1d0c4a@emailsignatures365.codetwo.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.1d651819-d3eb-4e73-bb7d-d97ad0bed5fe@emailsignatures365.codetwo.com>
- <165E1F647C435468.32571@lists.openembedded.org>
- <cf285d04-d8e1-e3a2-25de-9c3f02ad0678@topic.nl>
- <086cde14-14c7-0c28-1cc4-33156b45bf0a@windriver.com>
- <9af0d495-c07f-2ea4-4084-bb24fad59747@topic.nl>
- <CAMKF1sqj+tfjzHDeJbaNjeg139CQgNKvhrb0gejDbuxk4TN-LA@mail.gmail.com>
-From: "Mike Looijmans" <mike.looijmans@topic.nl>
-Organization: Topic
-Message-ID: <bffa6d6f-2620-889c-a984-46ac00d7ffef@topic.nl>
-Date: Fri, 12 Mar 2021 08:37:40 +0100
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Fri, 12 Mar
+ 2021 08:00:29 +0000
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::dcc7:5da3:6cfe:b3d9]) by BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::dcc7:5da3:6cfe:b3d9%7]) with mapi id 15.20.3890.041; Fri, 12 Mar 2021
+ 08:00:29 +0000
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Martin Jansa <Martin.Jansa@gmail.com>
+CC: openembedded-core@lists.openembedded.org, steve@sakoman.com,
+ anibal.limon@linaro.org
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+ <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+ <20210311090200.33p3mptsfwusspwa@jama>
+ <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+From: "Robert Yang" <liezhi.yang@windriver.com>
+Message-ID: <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com>
+Date: Fri, 12 Mar 2021 15:59:20 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <CAMKF1sqj+tfjzHDeJbaNjeg139CQgNKvhrb0gejDbuxk4TN-LA@mail.gmail.com>
-X-Originating-IP: [83.128.90.119]
-X-ClientProxiedBy: AM0PR01CA0101.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::42) To DB8PR04MB6523.eurprd04.prod.outlook.com
- (2603:10a6:10:10f::26)
-Return-Path: mike.looijmans@topicproducts.com
+In-Reply-To: <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK0PR01CA0063.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::27) To BYAPR11MB3736.namprd11.prod.outlook.com
+ (2603:10b6:a03:f6::10)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.130] (83.128.90.119) by AM0PR01CA0101.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Fri, 12 Mar 2021 07:37:41 +0000
+Received: from [128.224.162.198] (60.247.85.82) by HK0PR01CA0063.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend Transport; Fri, 12 Mar 2021 08:00:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa12f6fa-1c54-4929-cb6a-08d8e529b97a
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7963:|DB7PR04MB4875:
+X-MS-Office365-Filtering-Correlation-Id: b1d2e48d-6b56-464a-871e-08d8e52ce6cf
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4958:
 X-Microsoft-Antispam-PRVS: 
-	<DB7PR04MB48752987DD79930D83B02255966F9@DB7PR04MB4875.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;OLM:7691;
+	<SJ0PR11MB4958E7A5DBEE93A08F27A265FF6F9@SJ0PR11MB4958.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- K6bb7R31BtGjD29rkkFAhOsi5WzyITGXF/f4LkSb7ZfTUa40PrPWyJu8kgXCojIInLtw40oLR4rkCWEBD3IerrmjemSjpCQRkXb7ntE3/vU7zR4t2lEVnv2y61+4dhrnk5OTOi8KrnKsXRxI0s/SOWfx4pN4cBfkR2xHyjGOTC1pGa82hmbHZ2ivlHC893NPlYka4BS/03DyInP7aYjRFNcrHHREa3dE4IUSfrr5SREJTb3T2fvfOuBNSE4/uXB5UfRbR0XPAds3XM3mL+RbT+EDJOt6F/W7XWdoxkhajvctEZJ8pLFBWJ7hz1+dW6MJ+3GTvw87Mzi3tGbQ0tFB8iUXovnNX5Ud1gfgZFdzaxgqLFNqdwsRCEw3POtsmJerWzRpMhpJsMZT7BBh/BIpJ02rWJjPZnSj7ntEOQwXlTphyijwQArjkNrsjbyvrstUGKh/LZYGXqVxnUDNNYl/HRDSTeNAqxtcEQ8WqMixvSLJOG8e0y2x+SyKsQjJv1LxWBAnibFRTjk9y7s2VU6dQmzBuZv54MI3cBmfraqAloWjirjfabwDtMjxdSxTbWCydjn1FhQ9aDluaKuqJ0YrVZGH9f2SihbV0+dWusJHwgGEVE9T2w5iSbIScZcllk8PZ3P+BUF+DGfXtn7c7YwiNqGRyzIzx0AOmiSLvW546pA=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6523.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(346002)(396003)(39830400003)(376002)(136003)(956004)(6486002)(5660300002)(16576012)(66946007)(31686004)(31696002)(53546011)(15974865002)(36756003)(36916002)(52116002)(66476007)(66556008)(478600001)(16526019)(4326008)(42882007)(26005)(186003)(316002)(8676002)(44832011)(54906003)(8936002)(83380400001)(6916009)(83170400001)(2906002)(2616005)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VlJVWEovV0xnYnVuK1I5MmJrZTJqL0poZ0dBUTBxZWN4UFQvMEVmd01BT2Uv?=
- =?utf-8?B?NTFlV2h0bWx4cmVxRTZwajVhU3ZCK2tEOHRYRUZmYXhId1IrRktsNS9FQ3Vw?=
- =?utf-8?B?NFFuWG9CbWorQ1EwTFZUck93bUoyRHBRN2p6QWZIaCt3V0VXV0pSZlV5UDhJ?=
- =?utf-8?B?cUwyemQybW9CTTY5eStueGpRNEJqdktkaWNZb2E3ZlZ2UW53bUkrcVVvdmM2?=
- =?utf-8?B?eE1Lc0plZjdiemhLcXd0Y3dsd2FmYTdUeUwyZlVlN3g5UE03dHEzcml6QUJy?=
- =?utf-8?B?ako4RTdzNGoxZ21XVWNMUGh3UGRIY3R6V24vUWVZWmVKZDRlMjJONkRwR2pT?=
- =?utf-8?B?QXFlbEZLVDh3MVFCcTFmSXIwcFFtWmdQd1VIb2N4d0ZoNmFKMk4zeU8xcnRn?=
- =?utf-8?B?Z3VRNjVLdmNvK25jZm51V0xLRWF6WUlwRGsvbElTcW5pZXB1UUVtZEx4V2dB?=
- =?utf-8?B?YUJIaThBLzRMeDQ5WFZkdDV6c2RyLzRRUjJ6a0dZckU2b1l1Y2V3Mzh4SnpE?=
- =?utf-8?B?bVhYL09yc216ZXpPSkpzcTd3aEpwTXlMWGNWYnMzVGJVa1FoY1gwS2tPQVB0?=
- =?utf-8?B?Um1mMjZpWFErVGU3YkFjSFBsQzYwOHFUYWZXaFN1WnhiRmhoZ1pGanhLc2pE?=
- =?utf-8?B?cmUrYUUzMU5OeXoyaE9aRm1jazNkL3NOTVpvR3NadlA2ZGI0a05pODZiRVNZ?=
- =?utf-8?B?bFZRcWZVem5XRVhZUEU1cTlOOFF5WFdicld4d1hKck11ZDl6MWVWME5yc2ln?=
- =?utf-8?B?UFc1VUhVQUNJRXEweG9QOWozY0lMb3haQmRESDFCMy8wYm9sRm4yMVVLbDJr?=
- =?utf-8?B?SmxLd1c3emxWT0IyUFBtUm5mUUloREtVczF5bHpKVk8rUW1ocXBFWkZzRk50?=
- =?utf-8?B?b3pGUVp0T0daVVRXN0JYdXVZVEdCOHNPZUcvQjQ1NWNnSUd4RTZuM0dCaHRC?=
- =?utf-8?B?RHhOdjFpblF1TGd1bkpRdWlmMU51MkxZTVlnTjgvOGVrTXZhYk83NGVKU2Va?=
- =?utf-8?B?c09VZ3lsdWozY1V5YkY5SUZZb2VxOEl0Tmdmeno3cDlhVDZJVGJFQzFjYUxU?=
- =?utf-8?B?Q1NGLzRqRVhacGFNQlJzWGRKNkV6YzdORWtRZk1MS1RhM1dDajIwbnEzamFO?=
- =?utf-8?B?VVA5TmZCQ3NNOUZoZlp5VVVwY3JoSkN6TTFRYVlWQ3lmTE5mdWpqNDNWeWdp?=
- =?utf-8?B?d0laSktXT3ZTVk1ZeWVlZWRYSWRFREhTRmpwdWM3VGpGanZtemc3cWR3ZGpN?=
- =?utf-8?B?ZmFHQ2ZsVkR4a0I2R09oZXBoTWI2MGU1L3FsN0JVZDhRVGN6VDh0Wld1L3B0?=
- =?utf-8?B?emZrLy85K2tRam9XbDVTZ0R1eGtHQlVCanpaMklScXdUZG5YeVpsQ28yaGwz?=
- =?utf-8?B?ekYvcWI5VVdtQTd0UFk0L3M0bk44ZEI3YnZRVTZ5MDlmUXhxMXZPdEpKRjNQ?=
- =?utf-8?B?QWxBL0hYTVVVNGM2N29JWDlhakxVbFVFbUNHT3Q1ODJ3SjVhVVgzMitQcjlP?=
- =?utf-8?B?SnNyZGJ0YnNoS0ZEbFd6V0dqOFlFS2RRRFVmU1dkejRrWjhtRlRsd2VjamRy?=
- =?utf-8?B?M1FQYVRXMWJtVm4rZDM5M3BLM2VlSjlkQmdQcmZ4MnZiRFM4WG8ycHJXdmpx?=
- =?utf-8?B?eGtwNWdTZXRTRHFUbnlRT1ZtbWdoWmZET1BrbU1WUXdWbmg2cjQzZWliNHpH?=
- =?utf-8?B?WmttK0cvYlZHYW5QWjVCUWhZZ2dic2tOVjJwTEFuaVIyU1ZQSWUvMk1ta3ZM?=
- =?utf-8?Q?ki6UWTbV4nHT04V9vlqs/e3zYz6N9pUQ72VFAOg?=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7963
-X-CodeTwo-MessageID: bc4f5ed6-2ddb-4231-9e3b-5352b71dae82.20210312073742@westeu12-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR01FT009.eop-EUR01.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9556f431-b6aa-428b-dff7-08d8e529b833
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	9FdiF/DzGetapsBmIqFvjeWjxbzMJEDr2v76ZcPoWDIyVC9gAq4LaISTB8A+VO/IaDYAff3or9p9qV96KXRtBLGUgkZoSKzznv2/E71TbhUz3jJMaYI9IM+Zfo+oqOGMK404hzteRSZOhtEyLMFDnon69lAbwcXxgdroj3B7mxjni9lJC5FYo6Ucms00dcDzbkdISlViOctr7nQOzKjVk51ubFAsRoEFcASrVTF9beQS0cIDQDA+6mjjEzREHEtAR4waPB6PMOyr2AO6S8o4XUxRGPRt33vpmQwvhTePpNO0J9VvGY9w/jRGp8JqN2l/cikkhGokRqFDbetRxAhYn3AbSbYB79DeCr1vAN8UnWhVOVBkF+tBWazd28XAjXVW71tvoEKfy2CzNjgPqp/273KEt9F5NpeO1YUowIdmc1sBT1GhNBJTtTtXHyAgsQZi0ZI35fqRl1rO8EXVGTvaylJvFDpgTU/BlKIut1jQ5zIfubgv9gwB67kd3cDAxg6h/UpGK399kHaSME2WAq9d7+UV9SNwMYcO//A3JDW2jsaZ2fPTTI8PkVVT6s3Dg24GHba6XGo/p3YuCp4sw+i+G3xqBgllEwXIgii6MOblOxWr5yR6ty77g7Im8nS4MnOl2gRLgjZT/v6YkLb6jefjV9P8JhyIyjssYM1lkU8Fgi0PAgUokATDeIXP834a09o/l85siXTbwxJkqkcfiHoIMHXkU7CM4hbyci9HaAa80jL+9OHgSaMcJwkhohoFaBZNqVlhfjyg2KFmYtSRdwMuMA==
+	Kasryvy+whTTvf9Ws1GFDVm6LekHvS3Pg6/ksrLhq6ReIZa39KzGrN+M9s2oAmkMyrWuxuHJEtwnh1m8PI2lZQDsn/Kiuwqk4VaenLxNYmLDjm6R9bGE37AeiUKTqhXZSlDtyL1gI9P63pyNKxHn5uO+QAG5yJrOiruEhwGBSiN78Vau3fRo3s/qfyMMCGRYt2/+m/m3sXd06rkCtfMlJgMUU7to+PwVFiLEt7gtOBMXzw7u17+1gN9lEBSiHOe0id6XMUrnYAh9a7c/gFgxoU5hEpeaYEGmp6+2J/nygtgWQyh1CtbrBU6S1/LV8TL/aoPgWBMIjidO00nKfcUBkYuqKClqJAFNlibyU/q/gru4N4RY1F7fFZ1Dwj2bF8d6AB8Bot/oxACz7ZaNHvTmG4dUVGu+VSuXeh4AoYyPHKbaNpsJCec8M1rmNC1YOjJ71N7Z6CzNG9ziKeiQp8qdcvlbhqWWyUUDJQmoGEq34V38cwd0stUcggUKg88B4q2lTc+XLcMXmiF+bZPN948DxoawMv5ChhEQAXL89bqIC5Knbwj1oUQ6Z48ou1atuHYO6UvYFO35KucZpFCMbmBYIRwFnU05NMTQSZmIIhQKFi8kDsFZYQF8TxMY9j6P4Mm94XrfSyJoTcr1Vjx4XTO56zRKQJjCyNaY+aJqs63xhgDo9SYa4nCOvXDlv7lYK8H/VDnpwZCTBk9KaPo5z2L2qg==
 X-Forefront-Antispam-Report: 
-	CIP:40.68.112.65;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:westeu12-emailsignatures-cloud.codetwo.com;PTR:westeu12-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(346002)(376002)(396003)(136003)(39830400003)(46966006)(36840700001)(83170400001)(36756003)(336012)(6916009)(70586007)(15974865002)(8936002)(478600001)(70206006)(2616005)(4326008)(186003)(42882007)(2906002)(26005)(83380400001)(36916002)(16526019)(7636003)(316002)(8676002)(82310400003)(47076005)(6486002)(36860700001)(31686004)(44832011)(31696002)(53546011)(356005)(956004)(5660300002)(16576012)(7596003)(54906003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 07:37:44.0387
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3736.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39850400004)(66556008)(478600001)(186003)(5660300002)(966005)(16526019)(8676002)(53546011)(66476007)(8936002)(316002)(26005)(6706004)(110136005)(16576012)(66946007)(4326008)(6666004)(83380400001)(2906002)(2616005)(956004)(31696002)(36756003)(6486002)(86362001)(31686004)(52116002)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?YKlT903bc6Ikg8/jgQHRbySw/g89gYA8+CvFMFDRt4XNWRNnB8i4YVZZuUYM?=
+ =?us-ascii?Q?2oRoMmaSg8MuAaj5TJrjOOJYNJm5ltmT0yocAVIZwTjMZFOSO0H8tYZuaBhI?=
+ =?us-ascii?Q?O0jDBeACxgwFsTaXFALqUIvOHTP7z5OhSJz09pzZhASS/xAHmr+/2CiVyGEb?=
+ =?us-ascii?Q?1qm4nvrL+4Fbu0fS4uYoqN0QCt/uCCQDbddGmE98pAfY8z/1s7JB4Jp/mU8U?=
+ =?us-ascii?Q?zSOCLFBCwrmp2usATquTD1imOsoC48fDT8JeKJfeSL6MRYLZ+vFa16RfbnV9?=
+ =?us-ascii?Q?ZSoOHZKNklDudYKKDphdrVameQGaUw2Kfjq60dCZyz71hISduptvwek0D7kN?=
+ =?us-ascii?Q?zyK4EqObLlBhVxEd1zMG3fdx1GIJZeBds6xlwRTbQ3qK65xtNyzQPbPzxcQW?=
+ =?us-ascii?Q?OaccMbxNuJxRCYDwwPL4smy6vi37NwiS46EEXM4RpfwpaYYDeLgcv0u4eUJ9?=
+ =?us-ascii?Q?+umuq2sBie38XCETyEtUzOG11uMwkruFiOhskUNKiImZ/rM2MwIMzWdZ64A/?=
+ =?us-ascii?Q?1Zd20MqTeG21sRzFlsy0JIXkynxgL3CyYkmIdaRvLj1uwODxzVnSD7rSQgjk?=
+ =?us-ascii?Q?Vrhslo19l4MXQ72OEVV9oXtddFzH688nlvf9qJPkV38qGqgF/3DAeLKg2mmC?=
+ =?us-ascii?Q?h4qa9DKXPg2ZmSt2EonZZRKXRW9dXjngi26ukXkwZI8YzU0mZk27AoswymQn?=
+ =?us-ascii?Q?eq69wxzoWX0TFYCTucVyV1oEJ8aK6MXKeJzcWIRue8zd4AXFXTpQfeP0CBEG?=
+ =?us-ascii?Q?Pb1Hiy+sPqNE8dKMn1VdesvABj+B+ZuiHXpAAKr12EVQnPwR16YLQjkxig0g?=
+ =?us-ascii?Q?vNs8GfRb1vwlCI+pdwHYJNSOCH81IkqXLjykjHzT6EaHVmYiKg0F+vkHk95V?=
+ =?us-ascii?Q?pNdYgu6XWZVd2lXLZ9aArtXo+0eL9PW1ezqr12YMkr1qzoxLlfikK+jQVjlV?=
+ =?us-ascii?Q?KsC1l7fTWEVf4BNRVdgK037/+8sZZjIAeneYMN6WqU+GRea72ZWyKr0XGeb9?=
+ =?us-ascii?Q?kqh9T6M9u++S456YWm0r/AqpY9InQEoaELt72JTS1Jj/8fVR9dG3v+EimTCE?=
+ =?us-ascii?Q?tEvnUpYpDyaaXoQFydv/oHYv4cIaz/d9a6f55dsB21hlBPSvem6xVT9d+5kd?=
+ =?us-ascii?Q?54Hz3uVo3YLPU2fKFKiSmwBRXllAKW4oi8uwP0hNLbdzmds3Qi4KuCH3WIBI?=
+ =?us-ascii?Q?zlawRkiPQtRBapjekLM1KQrTkoXcY3Lk96o+eVCiAgCcls9Ym5eofRQOMNfW?=
+ =?us-ascii?Q?dyvaOBnejT8k8pWU6he+odtF417/yZH6klUgue3hfY459F+HE3UOe7k1ymk6?=
+ =?us-ascii?Q?+JqSQ4+TSIbH2Bz2sgHpTf9R?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1d2e48d-6b56-464a-871e-08d8e52ce6cf
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3736.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 08:00:29.0474
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa12f6fa-1c54-4929-cb6a-08d8e529b97a
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;Ip=[40.68.112.65];Helo=[westeu12-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR01FT009.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4875
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W/GcoCefQXxdXmnX/hE8NZFBv5iiN9PoKaYbHtqK8he8rxgfxwdBNK6P2Fcy7zVtUThPY1fcf6xZTGOunRjtraCG0gzUfoCE+dC6yyeH1SA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4958
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi RP,
+
+On 3/11/21 10:38 PM, Richard Purdie wrote:
+> On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
+>> On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+>>> This can fix a do_package error when compile with meta-secure-core laye=
+r:
+>>> http://layers.openembedded.org/layerindex/branch/master/layer/meta-secu=
+re-core/
+>>>
+>>> $ bitbake kernel-initramfs
+>>> [snip]
+>>> WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+>>> build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-=
+core-image-initramfs.packagedata
+>>> not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_=
+64-nativesdk (variant '')?
+>>> [snip]
+>>>
+>>> This is because kernel-initramfs wants to pack an initramfs image into
+>>> kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to =
+do this:
+>>>
+>>> d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_=
+complete')
+>>>
+>>> This causes kernel-initramfs' do_package depends on
+>>> ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get=
+ the
+>>> error. Delete do_packagedata as other do_package relelated tasks for th=
+e image
+>>> recipe will fix the error.
+>>>
+>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>
+>> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>
+>> I went a bit further and inheritted nopackages, but RP mentioned that it
+>> might be removing too much. Nothing failed with nopackages over night,
+>> but still this smaller version will be safer as this needs to got to
+>> gatesgarth and dunfell as well now.
+>=20
+> This has side effects and there was a reason this wasn't done originally.=
+=C2=A0The
+> trouble is that nobody is testing for that, just wanting to fix the probl=
+em
+> they see. To prove this isn't straightforward, I tested this locally, com=
+paring
+> task-depends.dot from "bitbake core-image-sato -g" before and after this =
+patch.
 
 
-Met vriendelijke groet / kind regards,=0A=
-=0A=
-Mike Looijmans=0A=
-System Expert=0A=
-=0A=
-=0A=
-TOPIC Embedded Products B.V.=0A=
-Materiaalweg 4, 5681 RJ Best=0A=
-The Netherlands=0A=
-=0A=
-T: +31 (0) 499 33 69 69=0A=
-E: mike.looijmans@topicproducts.com=0A=
-W: www.topicproducts.com=0A=
-=0A=
-Please consider the environment before printing this e-mail=0A=
-On 12-03-2021 08:33, Khem Raj wrote:
-> On Thu, Mar 11, 2021 at 11:22 PM Mike Looijmans <mike.looijmans@topic.nl>=
- wrote:
->>
->> Met vriendelijke groet / kind regards,
->>
->> Mike Looijmans
->> System Expert
->>
->>
->> TOPIC Embedded Products B.V.
->> Materiaalweg 4, 5681 RJ Best
->> The Netherlands
->>
->> T: +31 (0) 499 33 69 69
->> E: mike.looijmans@topicproducts.com
->> W: www.topicproducts.com
->>
->> Please consider the environment before printing this e-mail
->> On 05-03-2021 00:32, Randy MacLeod wrote:
->>> On 2021-02-05 2:49 a.m., Mike Looijmans wrote:
->>>> I've been doing quite some tests and things last week, my conclusion
->>>> so far is that the latest gcc seems to trigger a bug particular to
->>>> this CPU. Maybe even this particular batch.
->>>>
->>>> Hours of testing found no issues with RAM.
->>>>
->>>> I've also done huge amounts of builds with zeus, no problems.
->>>>
->>>> Then googling for "illegal instruction gcc ryzen 1700" reveals quite
->>>> a few threads on something that sounds suspiciously similar. Though
->>>> it makes me wonder why I never encountered it before, since these are
->>>> all many years old. I did try a bunch of the suggestions done there,
->>>> but so far no luck.
->>>>
->>>>
->>> Any update on this bug Mike?
->>> Have you opened a YP bug? If not please do.
->>> I'd like to see if the problem still happens on master.
->> Interesting.
->>
->> I just built the 64-kernel using OE master and no crashes, everything
->> went fine. With the gatesgarth branch, it'd crash at least two times
->> during kernel compilation.
->>
->> So something has been fixed since then?
-> can you try by disabling uninative ?
+If we want to avoid disconnecting them, it seems that a better way is fixin=
+g=20
+this in the recipes which has this problem? For example, I got this error i=
+n
+secure-core-image-initramfs.bb, then we can add "deltask do_packagedata" in=
+ the
+recipe to fix the problem.
 
-Probably, if only I knew what you mean by that?
+@Martin maybe we shouldn't backport this patch to gatesgarth or dunfell sin=
+ce
+it may suprise the users.
 
-What do I have to configure where?
+// Robert
 
-
+>=20
+> The differences were:
+>=20
+> @@ -11036,7 +11036,6 @@
+>   "core-image-sato.do_build" -> "connman.do_build"
+>   "core-image-sato.do_build" -> "consolekit.do_build"
+>   "core-image-sato.do_build" -> "core-image-sato.do_image_complete"
+> -"core-image-sato.do_build" -> "core-image-sato.do_packagedata"
+>   "core-image-sato.do_build" -> "core-image-sato.do_populate_lic_deploy"
+>   "core-image-sato.do_build" -> "coreutils.do_build"
+>   "core-image-sato.do_build" -> "cross-localedef-native.do_build"
+> @@ -11459,14 +11458,6 @@
+>   "core-image-sato.do_build" -> "zip.do_build"
+>   "core-image-sato.do_build" -> "zlib-native.do_build"
+>   "core-image-sato.do_build" -> "zlib.do_build"
+> -"core-image-sato.do_compile" [label=3D"core-image-sato do_compile\n:1.0-=
+r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_compile" -> "core-image-sato.do_configure"
+> -"core-image-sato.do_configure" [label=3D"core-image-sato do_configure\n:=
+1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_configure" -> "core-image-sato.do_deploy_source_date=
+_epoch"
+> -"core-image-sato.do_configure" -> "core-image-sato.do_patch"
+> -"core-image-sato.do_configure" -> "core-image-sato.do_prepare_recipe_sys=
+root"
+> -"core-image-sato.do_deploy_source_date_epoch" [label=3D"core-image-sato =
+do_deploy_source_date_epoch\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/=
+images/core-image-sato.bb"]
+> -"core-image-sato.do_deploy_source_date_epoch" -> "core-image-sato.do_pat=
+ch"
+>   "core-image-sato.do_fetch" [label=3D"core-image-sato do_fetch\n:1.0-r0\=
+n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+>   "core-image-sato.do_flush_pseudodb" [label=3D"core-image-sato do_flush_=
+pseudodb\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-s=
+ato.bb"]
+>   "core-image-sato.do_flush_pseudodb" -> "core-image-sato.do_rootfs"
+> @@ -11489,18 +11480,6 @@
+>   "core-image-sato.do_image_qa" -> "core-image-sato.do_rootfs"
+>   "core-image-sato.do_image_tar" [label=3D"core-image-sato do_image_tar\n=
+:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+>   "core-image-sato.do_image_tar" -> "core-image-sato.do_image"
+> -"core-image-sato.do_install" [label=3D"core-image-sato do_install\n:1.0-=
+r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_install" -> "core-image-sato.do_compile"
+> -"core-image-sato.do_install" -> "pseudo-native.do_populate_sysroot"
+> -"core-image-sato.do_package" [label=3D"core-image-sato do_package\n:1.0-=
+r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_package" -> "core-image-sato.do_install"
+> -"core-image-sato.do_package" -> "pseudo-native.do_populate_sysroot"
+> -"core-image-sato.do_packagedata" [label=3D"core-image-sato do_packagedat=
+a\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"=
+]
+> -"core-image-sato.do_packagedata" -> "core-image-sato.do_package"
+> -"core-image-sato.do_patch" [label=3D"core-image-sato do_patch\n:1.0-r0\n=
+/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_patch" -> "core-image-sato.do_unpack"
+> -"core-image-sato.do_patch" -> "patch-native.do_populate_sysroot"
+> -"core-image-sato.do_patch" -> "quilt-native.do_populate_sysroot"
+>   "core-image-sato.do_populate_lic_deploy" [label=3D"core-image-sato do_p=
+opulate_lic_deploy\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/co=
+re-image-sato.bb"]
+>   "core-image-sato.do_populate_lic_deploy" -> "acl-native.do_populate_lic=
+"
+>   "core-image-sato.do_populate_lic_deploy" -> "acl.do_populate_lic"
+> @@ -12036,7 +12015,6 @@
+>   "core-image-sato.do_rootfs" -> "consolekit.do_package_write_ipk"
+>   "core-image-sato.do_rootfs" -> "consolekit.do_packagedata"
+>   "core-image-sato.do_rootfs" -> "consolekit.do_populate_lic"
+> -"core-image-sato.do_rootfs" -> "core-image-sato.do_packagedata"
+>   "core-image-sato.do_rootfs" -> "core-image-sato.do_prepare_recipe_sysro=
+ot"
+>   "core-image-sato.do_rootfs" -> "coreutils.do_package_qa"
+>   "core-image-sato.do_rootfs" -> "coreutils.do_package_write_ipk"
+> @@ -13257,8 +13235,6 @@
+>   "core-image-sato.do_rootfs" -> "zlib.do_package_write_ipk"
+>   "core-image-sato.do_rootfs" -> "zlib.do_packagedata"
+>   "core-image-sato.do_rootfs" -> "zlib.do_populate_lic"
+> -"core-image-sato.do_unpack" [label=3D"core-image-sato do_unpack\n:1.0-r0=
+\n/media/build1/poky/meta/recipes-sato/images/core-image-sato.bb"]
+> -"core-image-sato.do_unpack" -> "core-image-sato.do_fetch"
+>   "core-image-sato.do_write_qemuboot_conf" [label=3D"core-image-sato do_w=
+rite_qemuboot_conf\n:1.0-r0\n/media/build1/poky/meta/recipes-sato/images/co=
+re-image-sato.bb"]
+>   "core-image-sato.do_write_qemuboot_conf" -> "core-image-sato.do_rootfs"
+>   "coreutils.do_build" [label=3D"coreutils do_build\n:8.32-r0\n/media/bui=
+ld1/poky/meta/recipes-core/coreutils/coreutils_8.32.bb"]
+>=20
+> i.e. it "disconnects" do_rootfs from the existing unpack/patch/configure/=
+compile
+> /install/package tasks. I know last time we tried this I got several comp=
+laints
+> from users who use these tasks for things.
+>=20
+> I'm not sure how we fix this but it isn't straightforward, particularly f=
+or
+> something which people are going to want backports into the LTS for.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
