@@ -1,162 +1,98 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.8068.1615555541249142116
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.8704.1615558400934391728
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 05:25:41 -0800
+ Fri, 12 Mar 2021 06:13:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vNYdcZ1p;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id b18so4801375wrn.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 05:25:40 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Mz4TxINC;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GHr5iUmEd5yn2UEKxHBMq1GHuDibkP+ug09gB4rD7Fs=;
-        b=vNYdcZ1p28YgjI8hcEexZ3SSlnXlgbgAb43LPm8TioAduva1gvpbskauMRcvarLipw
-         0mtJtPx7yuQQCOnxInx7PJUaF3GHRKM4lQgVlu0wzm+G2/v/Lvgvhs4XbG7JhIPc+Dii
-         grISc+NTairbDVnDwV/bNmksso5r9TlgvusWRMMjwJM21UVY3ZyS+eQ4E1Ku02r8p8dX
-         pIW0DsbcETR3bZM/WK0ZAlb6yGcOq/hUr+A2wRx0/aUJJVJRWw1KudZUrjC6GlYCLnGq
-         f5Ne6sGqoggk4WD4uCOsHAHDBFRwNoTjYj8PpSu9qzmnNrPPn+kUPvpjdm58DXmXCKzT
-         qmfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GHr5iUmEd5yn2UEKxHBMq1GHuDibkP+ug09gB4rD7Fs=;
-        b=VMA2btf7arm6Jm8YQsVGq2A+wFo4bxG+NPnhgwhm1QDyjnjwYtaXw2bSo3JzftVSzM
-         vxe5nJV5M6Hra1xAHdHKCiYLC+Vm1p8XOiVIQ5OZ7zfaAn9/pNzLIRhoWXvU0HkXxn3i
-         UFrpNOYyT2dw57a+cGQyRmZ9hFHFtXjras1oFKr+j6SulNEAB5oHkkA/rrdRi+RynFq2
-         FbvZcXsOy4nJBHh5BfRFzCQhx/HmWPs4rGCkZPqVeSgTzSET595R+35Y53VSrrEKQZ2L
-         g5ZcrnM+K4lrKkHBgf3kC2wdYixgNuVcX4xcnuoF2NrUqoG4pKOkXpk6aMsxyCd+lkti
-         +QFA==
-X-Gm-Message-State: AOAM533TksDdo2bnkb6gAQXAN7ThjVXofo45mvFZjnTM7Wf9sfl8dDQ5
-	7fIe7pQzHxvAgWMoXxEFxZw=
-X-Google-Smtp-Source: ABdhPJwu8KLXAHDx5yMTiM8eeDI7E+JKOPubhk1ZWXK4gaMkEWaa+sgBLIZAoG9ho9ih/K3wTRhGhw==
-X-Received: by 2002:adf:e582:: with SMTP id l2mr14124668wrm.207.1615555539550;
-        Fri, 12 Mar 2021 05:25:39 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y18sm8051750wrw.39.2021.03.12.05.25.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 05:25:38 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 12 Mar 2021 14:25:37 +0100
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Steve Sakoman <sakoman@gmail.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
-	Anibal Limon <anibal.limon@linaro.org>,
-	Richard Leitner <richard.leitner@skidata.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [gatesgarth][PATCH] xcb-proto: update to 1.14.1
-Message-ID: <20210312132537.uiu3kayoezu5wgo5@jama>
-References: <20210310125420.4001190-1-Martin.Jansa@gmail.com>
- <CAGDS+nkxMnKEaEx514-5u_v7LKJq_yhuLTc_uaGRs5X92WjobQ@mail.gmail.com>
- <20210311091428.2a3nissv6eebjpzq@jama>
- <20210311153601.ootfsyrek7lmebu5@jama>
- <CAOSpxdahY=mG1A2Bx_cfm5FT6iiCJLmH9igiHPnHGy+fCER1kQ@mail.gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615558401;
+  x=1647094401;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=1gpTyRUdMUQFey/tnIMgKCFJZ+whMp2BKDFNJGCcl3g=;
+  b=Mz4TxINCVPxo+g93v/qZRR0pEDnDNkbiTCn7CLIaBKQ9AfwhegFYYRKd
+   4p3i8IFTeF5oQ4SBD4rzAmB7xndn+SgmNzYrB3CvID8LliLn6CPJ26j8z
+   bXYGbAIN6eBkoCwSLvW+XRE69K+2Esop5sVSp0JI/cSlEW7R8SRBLIiGs
+   tNuD/kGhhCcWIqEP1C9eaa3XMmvGJn4xacW3h75BkXUCX9aYwzE0wvyV3
+   QuxwZJ4VuIS0up6mdCCGdyD1x/3gJj1nlnqzFgUHeeWI2mQRrMY1aPYNZ
+   C2KxyyV5ALZLF1etw07lTs8PrE8eqcYkMvnFEqAe39OjtxYSVjw5BQi2U
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a warning when login with root is disabled
+Thread-Topic: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a
+ warning when login with root is disabled
+Thread-Index: AQHXEaJAFlaSBNRe3Umg6Mc/Bc9OP6p1KqKwgAYergCABSXggA==
+Date: Fri, 12 Mar 2021 14:13:17 +0000
+Message-ID: <e67217d10fc244b58cb3ef73815cf37f@XBOX03.axis.com>
+References: <cover.1614916931.git.liezhi.yang@windriver.com>
+ <870b35befc0b8fa9cd1c3a03fcfd2395440c2f41.1614916931.git.liezhi.yang@windriver.com>
+ <f23d196c13f24731a5a7e00ff139aa42@XBOX03.axis.com>
+ <975479fc-e8f4-dccd-56c9-3d830cc5dc54@windriver.com>
+In-Reply-To: <975479fc-e8f4-dccd-56c9-3d830cc5dc54@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdahY=mG1A2Bx_cfm5FT6iiCJLmH9igiHPnHGy+fCER1kQ@mail.gmail.com>
-X-Groupsio-MsgNum: 149344
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wibazmbgptuyvxno"
-Content-Disposition: inline
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---wibazmbgptuyvxno
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Mar 11, 2021 at 07:50:45AM -1000, Steve Sakoman wrote:
-> On Thu, Mar 11, 2021 at 5:36 AM Martin Jansa <Martin.Jansa@gmail.com> wr=
-ote:
-> >
-> > On Thu, Mar 11, 2021 at 10:14:28AM +0100, Martin Jansa wrote:
-> > > On Wed, Mar 10, 2021 at 04:33:02AM -1000, Steve Sakoman wrote:
-> > > > On Wed, Mar 10, 2021 at 2:54 AM Martin Jansa <Martin.Jansa@gmail.c=
-om> wrote:
-> > > > >
-> > > > > From: Richard Leitner <richard.leitner@skidata.com>
-> > > > >
-> > > > > This fixes [1] the following build error for nativesdk on Fedora=
- 33
-> > > > > which is caused by the removal of fractions.gcd() in favor of ma=
-th.gcd()
-> > > > > in python 3.9 [2]:
-> > > > >
-> > > > > ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib=
-64/python3.9/fractions.py)
-> > > > >
-> > > > > Furthermore the SRC_URI is adapted as the old one doesn't provid=
-e the
-> > > > > 1.14.1 archive.
-> > > > >
-> > > > > [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/=
-426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
-> > > > > [2] https://bugs.python.org/issue39350
-> > > > >
-> > > > > It's needed in gatesgarth and possibly dunfell as well to suppor=
-t
-> > > > > distributions with python-3.9 as we build libxcb-native, which i=
-s
-> > > > > failing with xcb-proto-1.14.
-> > > > >
-> > > > > 1.14.1 is a bug fix release:
-> > > > > https://lists.x.org/archives/xorg-announce/2020-October/003061.h=
-tml
-> > > >
-> > > > Dunfell is still at version 1.13, so this wouldn't be a bug fix ve=
-rsion bump.
-> > >
-> > > I see, well luckily 1.14 doesn't look too scary as well:
-> > > https://lists.x.org/archives/xorg-announce/2020-February/003038.html
-> > > https://git.openembedded.org/openembedded-core/commit/?h=3Dgatesgart=
-h&id=3Dbf4ef2e3b376744b16c2f57725104207d23c28c6
-> > >
-> > > If this is the only issue for building dunfell with host distro with
-> > > python-3.9 then I think it should be considered.
-> > > Isn't autobuilder using some new host distro with python-3.9 already=
-?
-> > >
-> > > FYI: I was seeing this with ubuntu 21.04, I'll trigger dunfell build=
- on
-> > > it now.
-> >
-> > At least for LuneOS images this was the only build issue I've seen wit=
-h 21.04.
->=20
-> I'll add the version bump to my next set of patches for testing.
-
-Steve: I'm sorry, please forget what I said about upgrade, 1.13 version in=
- dunfell already
-has this fix for python-3.9 backported in:
-https://git.openembedded.org/openembedded-core/commit/?h=3D0f688c1419b1e2d=
-fddff3c985f89a3f1949fc9fb
-
-so only 1.14 version in gatesgarth is affected.
-
-If you already have those updates in queue, then they shouldn't harm,
-but aren't so necessary thanks to this backport.
-
-> > Together with an warning about glibc:
-> > WARNING: Your host glibc version (2.33) is newer than that in uninativ=
-e (2.32). Disabling uninative so that sstate is not corrupted.
-> >
-> > which I see you're going to address in new PR with uninative upgrade.
-> >
-> > Cheers,
-> >
-> >=20
-> >
-
---wibazmbgptuyvxno
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEtrzwAKCRA3VSO3ZXaA
-HGwHAJ9Io5JCxMlLeymnlEAmGWIzHS7tswCeMb8BQFOYkr1tQceuYQYtAgvp6mg=
-=t9Gh
------END PGP SIGNATURE-----
-
---wibazmbgptuyvxno--
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2JlcnQgWWFuZyA8bGllemhp
+LnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gU2VudDogZGVuIDkgbWFycyAyMDIxIDA5OjMyDQo+IFRv
+OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IG9wZW5l
+bWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIIDEvMV0gcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzOiBQcmludCBh
+DQo+IHdhcm5pbmcgd2hlbiBsb2dpbiB3aXRoIHJvb3QgaXMgZGlzYWJsZWQNCj4gDQo+IEhpIFBl
+dGVyLA0KPiANCj4gT24gMy81LzIxIDY6MTggUE0sIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToN
+Cj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogb3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+PiBjb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBSb2JlcnQgWWFuZw0KPiA+PiBTZW50
+OiBkZW4gNSBtYXJzIDIwMjEgMDk6NDkNCj4gPj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCAxLzFdIHJv
+b3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczogUHJpbnQgYQ0KPiB3YXJuaW5nIHdoZW4gbG9naW4g
+d2l0aCByb290IGlzIGRpc2FibGVkDQo+ID4+DQo+ID4+IEZpeGVkOg0KPiA+PiBFWFRSQV9JTUFH
+RV9GRUFUVVJFU19yZW1vdmUgPSAiZGVidWctdHdlYWtzIg0KPiA+PiAkIGJpdGJha2UgY29yZS1p
+bWFnZS1taW5pbWFsDQo+ID4+DQo+ID4+IFRoZW4gd2UgY2FuJ3QgbG9naW4gdG8gdGhlIHN5c3Rl
+bSB3aXRoIHJvb3Qgd2l0aG91dCBhbnkgbWVzc2FnZXMuIEFkZCBhDQo+IHdhcm5pbmcNCj4gPj4g
+bWFrZXMgaXQgZWFzeSB0byBkZWJ1Zy4NCj4gPj4NCj4gPj4gU2lnbmVkLW9mZi1ieTogUm9iZXJ0
+IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+DQo+ID4+IC0tLQ0KPiA+PiAgIG1ldGEv
+Y2xhc3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MgfCA2ICsrKysrLQ0KPiA+PiAgIDEg
+ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPj4NCj4gPj4g
+ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MNCj4g
+Yi9tZXRhL2NsYXNzZXMvcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzDQo+ID4+IGluZGV4IDFm
+MjdhM2QwN2EuLmU0ZmU0MTZhYzkgMTAwNjQ0DQo+ID4+IC0tLSBhL21ldGEvY2xhc3Nlcy9yb290
+ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MNCj4gPj4gKysrIGIvbWV0YS9jbGFzc2VzL3Jvb3Rmcy1w
+b3N0Y29tbWFuZHMuYmJjbGFzcw0KPiA+PiBAQCAtMTQ3LDcgKzE0NywxMSBAQCByZWFkX29ubHlf
+cm9vdGZzX2hvb2sgKCkgew0KPiA+PiAgIHphcF9lbXB0eV9yb290X3Bhc3N3b3JkICgpIHsNCj4g
+Pj4gICAJaWYgWyAtZSAke0lNQUdFX1JPT1RGU30vZXRjL3NoYWRvdyBdOyB0aGVuDQo+ID4+ICAg
+CQlzZWQgLWkgJ3MlXnJvb3Q6OiVyb290Oio6JScNCj4gJHtJTUFHRV9ST09URlN9L2V0Yy9zaGFk
+b3cNCj4gPj4gLSAgICAgICAgZmkNCj4gPj4gKwkJZ3JlcCAtcSAnXnJvb3Q6KjonICR7SU1BR0Vf
+Uk9PVEZTfS9ldGMvc2hhZG93DQo+ID4NCj4gPiBUaGF0IHdpbGwgbWF0Y2ggYW55IC9ldGMvc2hh
+ZG93IGZpbGUgd2l0aCAicm9vdDoiIGluIGl0LiBDaGFuZ2UgaXQgdG86DQo+ID4NCj4gPiAJCWdy
+ZXAgLXEgJ15yb290OlwqOicgJHtJTUFHRV9ST09URlN9L2V0Yy9zaGFkb3cNCj4gDQo+IFRoYW5r
+cywgSSB3aWxsIHVwZGF0ZSBpdC4NCj4gDQo+ID4NCj4gPiBBbmQgbWFrZSB0aGlzIG9wdGlvbmFs
+LiBXZSBpbnRlbnRpb25hbGx5IGRvIG5vdCBoYXZlIGEgcm9vdCBwYXNzd29yZCBzZXQNCj4gaW4g
+b3VyDQo+IA0KPiBJIGRvbid0IHF1aXRlIHVuZGVyc3RhbmQgYWJvdXQgIm9wdGlvbmFsIiwgd2hl
+biB0aGUgY29tbWFuZCBpczoNCj4gDQo+IGdyZXAgLXEgJ15yb290OlwqOicgJHtJTUFHRV9ST09U
+RlN9L2V0Yy9zaGFkb3cNCj4gDQo+IFRoZW4gZW1wdHkgcm9vdCBwYXNzd29yZCBpbiBzaGFkb3cg
+aXM6DQo+IHJvb3Q6Og0KPiANCj4gc28gZW1wdHkgcm9vdCBwYXNzd29yZCB3b24ndCBiZSBtYXRj
+aGVkPw0KDQpTb3JyeSwgSSB3YXMgdW5jbGVhci4gV2UgZG8gbm90IGhhdmUgYW4gZW1wdHkgcGFz
+c3dvcmQsIHdlIGhhdmUgDQoicm9vdDoqOi4uLiIgaW4gL2V0Yy9zaGFkb3csIGFuZCB3ZSBvYnZp
+b3VzbHkgZG8gbm90IHdhbnQgdGhpcyB3YXJuaW5nLg0KDQo+IC8vIFJvYmVydA0KDQovL1BldGVy
+DQoNCj4gPiBwcm9kdWN0cyB3aGVuIHRoZXkgYXJlIGRlbGl2ZXJlZCBkdWUgdG8gdGhlIHN0YXRl
+IGxhdyAoU0ItMzI3KSB0aGF0IHdlbnQNCj4gaW50bw0KPiA+IGVmZmVjdCBvbiBKYW51YXJ5IDEs
+IDIwMjAgaW4gQ2FsaWZvcm5pYSwgd2hpY2ggcHJvaGliaXRzIGRlZmF1bHQNCj4gcGFzc3dvcmRz
+IHRvDQo+ID4gYmUgdXNlZCBpbiBJb1QgcHJvZHVjdHMuDQo+ID4NCj4gPj4gKwkJaWYgWyAkPyAt
+ZXEgMCBdOyB0aGVuDQo+ID4+ICsJCQliYndhcm4gIkxvZ2luIHdpdGggcm9vdCB1c2VyIGlzIGRp
+c2FibGVkDQo+IHNpbmNlIHphcF9lbXB0eV9yb290X3Bhc3N3b3JkIGlzIGVuYWJsZWQiDQo+ID4+
+ICsJCWZpDQo+ID4+ICsJZmkNCj4gPj4gICAJaWYgWyAtZSAke0lNQUdFX1JPT1RGU30vZXRjL3Bh
+c3N3ZCBdOyB0aGVuDQo+ID4+ICAgCQlzZWQgLWkgJ3MlXnJvb3Q6OiVyb290Oio6JScNCj4gJHtJ
+TUFHRV9ST09URlN9L2V0Yy9wYXNzd2QNCj4gPj4gICAJZmkNCj4gPj4gLS0NCj4gPj4gMi4xNy4x
+DQo+ID4NCj4gPiAvL1BldGVyDQo+ID4NCg==
