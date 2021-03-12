@@ -1,89 +1,155 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.6176.1615542966005162166
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web08.6745.1615547831146371179
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 01:56:06 -0800
+ Fri, 12 Mar 2021 03:17:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: li.wang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 12C9tt09008819
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 01:56:05 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 12 Mar 2021 01:55:59 -0800
-Received: from pek-lwang1-u1404.wrs.com (128.224.155.118) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Fri, 12 Mar 2021 01:55:58 -0800
-From: "Li Wang" <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <li.wang@windriver.com>
-Subject: [OE-core][PATCH] linux-dummy: add empty dependent packages
-Date: Fri, 12 Mar 2021 17:52:50 +0800
-Message-ID: <1615542770-26280-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mRvD4dRF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id e19so52709926ejt.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 03:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lrt53LvW7+mX/dcBCHurosXL17MRT0EoyONL4cAEiSI=;
+        b=mRvD4dRF/3wa9+OhQ9t7l8bmO0gamFpWRMccpgKcY5rgCllcChDQrVhNEkek9b4MTT
+         7PX7VOWItf23lIMxh3z3QO1b2uC12L7K2YvX0t0jciRXT+HX+XVCi/tUbCLzYMS0texY
+         VVw11HMydfd41NyOForqiJjOTx0WThVWqXdVdVk3/8IhZFPZVWNgaXSdL9gJV3QGSgz/
+         MwiXSsiTetjO6soBSJGcNjhHiQTv/IXqjsJgVw15MrQ9j8hE8wOb/VqVuUAY1BmsjaEP
+         NhJNxmwoHlM9hKKPWjB++7AEVVnFMO6mYxX2yGt8cRCX0qQM5bAHvYjkLs5y1YDscE4Y
+         t1Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lrt53LvW7+mX/dcBCHurosXL17MRT0EoyONL4cAEiSI=;
+        b=jSiho4jofevtjz1/4yv5A5TAv7nFpftMTmeRaD2sv857R3hcLeAqy/Xrj31iz9K7MC
+         A+PyN3aAM46HxGWKdH0xFYLTcPh+8ZX2+kCu7wSOTnfmBcmyCkmAPGBPfuOH88ZqqP+P
+         gE7fhrZYHe85n2Q4EYglzOVAd++9REndv+jMdOheoe3UeJRtLRAkOD8LS0LLd5wd8+4j
+         NOwoRv/fj66QM16vpnRCtdlsDJ568BIwgB/YqpkyO4dsfJQ5sQgVXEL9VOchnFKG/R0u
+         liEOZ/XzH7KwExtRp3RoC5OHMzQmA0zxlxLDiiSF6WSEpR2TRBhh6ozR72SxcsAvM6cu
+         cR6Q==
+X-Gm-Message-State: AOAM5331cEjNis/QZ/K+qH10VcooUKGK+s1LUlh/x5IAtKz72p/2lKAr
+	lE22Z+YwfS+mu5Vc8v371TU=
+X-Google-Smtp-Source: ABdhPJwD3gtfgFYfStNsmbaAbC9lKVx5gX00kWwYWEEEwd8EjMOpWHZ8YDGlshQK0zbye6BWyC3BGw==
+X-Received: by 2002:a17:906:9501:: with SMTP id u1mr8087463ejx.324.1615547829617;
+        Fri, 12 Mar 2021 03:17:09 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id y24sm2786519eds.23.2021.03.12.03.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 03:17:08 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 12 Mar 2021 12:17:08 +0100
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org, steve@sakoman.com,
+	anibal.limon@linaro.org
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+Message-ID: <20210312111708.zgj3qjikjcekj4y6@jama>
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+ <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+ <20210311090200.33p3mptsfwusspwa@jama>
+ <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+ <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com>
+X-Groupsio-MsgNum: 149342
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3vys534z6vlwzcai"
+Content-Disposition: inline
 
-some kernel includes kernel-image-image and kernel-devicetree packages.
-these patckages are defined in kernel.bbclass
-but, when use linux-dummy, these packages are not defined.
-so, define them as empty packages for avoiding compile error:
+--3vys534z6vlwzcai
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: Nothing RPROVIDES 'kernel-devicetree'
+On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:
+> Hi RP,
+>=20
+> On 3/11/21 10:38 PM, Richard Purdie wrote:
+> > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
+> > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+> > > > This can fix a do_package error when compile with meta-secure-core =
+layer:
+> > > > http://layers.openembedded.org/layerindex/branch/master/layer/meta-=
+secure-core/
+> > > >=20
+> > > > $ bitbake kernel-initramfs
+> > > > [snip]
+> > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+> > > > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-sec=
+ure-core-image-initramfs.packagedata
+> > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_=
+x86_64-nativesdk (variant '')?
+> > > > [snip]
+> > > >=20
+> > > > This is because kernel-initramfs wants to pack an initramfs image i=
+nto
+> > > > kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb=
+ to do this:
+> > > >=20
+> > > > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_im=
+age_complete')
+> > > >=20
+> > > > This causes kernel-initramfs' do_package depends on
+> > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will=
+ get the
+> > > > error. Delete do_packagedata as other do_package relelated tasks fo=
+r the image
+> > > > recipe will fix the error.
+> > > >=20
+> > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > >=20
+> > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > >=20
+> > > I went a bit further and inheritted nopackages, but RP mentioned that=
+ it
+> > > might be removing too much. Nothing failed with nopackages over night,
+> > > but still this smaller version will be safer as this needs to got to
+> > > gatesgarth and dunfell as well now.
+> >=20
+> > This has side effects and there was a reason this wasn't done originall=
+y.=A0The
+> > trouble is that nobody is testing for that, just wanting to fix the pro=
+blem
+> > they see. To prove this isn't straightforward, I tested this locally, c=
+omparing
+> > task-depends.dot from "bitbake core-image-sato -g" before and after thi=
+s patch.
+>=20
+>=20
+> If we want to avoid disconnecting them, it seems that a better way is fix=
+ing
+> this in the recipes which has this problem? For example, I got this error=
+ in
+> secure-core-image-initramfs.bb, then we can add "deltask do_packagedata" =
+in the
+> recipe to fix the problem.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- meta/classes/linux-dummy.bbclass         | 26 ++++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-dummy.bb |  2 +-
- 2 files changed, 27 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/linux-dummy.bbclass
+That's what I did in initramfs-android-image (which was triggering this
+for me as reported on ML)
+https://github.com/shr-distribution/meta-smartphone/commit/732dd29325d882a9=
+b3414764ad4c7a254dae3f03
 
-diff --git a/meta/classes/linux-dummy.bbclass b/meta/classes/linux-dummy.bbclass
-new file mode 100644
-index 0000000..cd87915
---- /dev/null
-+++ b/meta/classes/linux-dummy.bbclass
-@@ -0,0 +1,26 @@
-+
-+python __anonymous () {
-+    if d.getVar('PREFERRED_PROVIDER_virtual/kernel') == 'linux-dummy':
-+        # copy part codes from kernel.bbclass
-+        kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-+
-+        # set an empty package of kernel-devicetree
-+        d.appendVar('PACKAGES', ' %s-devicetree' % kname)
-+        d.setVar('ALLOW_EMPTY_%s-devicetree' % kname, '1')
-+
-+        # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-+        type = d.getVar('KERNEL_IMAGETYPE') or ""
-+        alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-+        types = d.getVar('KERNEL_IMAGETYPES') or ""
-+        if type not in types.split():
-+            types = (type + ' ' + types).strip()
-+        if alttype not in types.split():
-+            types = (alttype + ' ' + types).strip()
-+
-+        # set empty packages of kernel-image-*
-+        for type in types.split():
-+            typelower = type.lower()
-+            d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
-+            d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-+}
-+
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 95dc85f..c56f899 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
- 
- PROVIDES += "virtual/kernel"
- 
--inherit deploy
-+inherit deploy linux-dummy
- 
- PACKAGES_DYNAMIC += "^kernel-module-.*"
- PACKAGES_DYNAMIC += "^kernel-image-.*"
--- 
-2.7.4
+> @Martin maybe we shouldn't backport this patch to gatesgarth or dunfell s=
+ince
+> it may suprise the users.
 
+Unfortunately
+https://git.openembedded.org/openembedded-core/commit/?h=3Ddunfell&id=3De0c=
+1db170fdd6c1d78fdfce017feae26c96fac29
+was already backported to both gatesgarth and dunfell.
+
+--3vys534z6vlwzcai
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEtNsgAKCRA3VSO3ZXaA
+HA4BAJ0cACjZpexGkUeYcdIeRmkx6ny8+wCgj4+3ooyvMPDByji2BM0yu2PAWfc=
+=EL6E
+-----END PGP SIGNATURE-----
+
+--3vys534z6vlwzcai--
