@@ -1,139 +1,81 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.1226.1615506961944195740
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web08.1303.1615507267255267446
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Mar 2021 15:56:02 -0800
+ Thu, 11 Mar 2021 16:01:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eLXgKHMc;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id g185so22621844qkf.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 15:56:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cJH/aa9b;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f176.google.com with SMTP id j7so2560988qtx.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Mar 2021 16:01:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tYkLKVKLZqUnTQEiYjhYbhcYbcc1pLc11FrO1sNMdTE=;
-        b=eLXgKHMc740hBfOcBzwP1QO2cu80CtTb2poSr6o555Pt1qnUMfg7xQDPLtfBb+/bLc
-         kFTk4hSkdDwaJXFNh4n9LBNj+tiI9IA10sXHGKHwJpLff42AXB+5MuDfE5yZC5+Zk7Gq
-         6SLl1y2MDd1G+ezLSbtwnxE3cpd13zm8zEHmtne2l543/CnPnyyYshYA5uGY2CiJOW4c
-         ZOpRogJ93hoxqa3xmT1W/wojM2p2eWVSyA7yk6jQGvgHedH8SQohdyBXlvaWa+emRkR3
-         d4NlpAWU6RS/A9mU1SJI017kodDO1MrzVYDzKHjfVPqPUtsc6ltqJ1rr2GiNaTrZbhFQ
-         r8gw==
+        bh=RSyWHZEVhG4SKm0lr6jIDlpapAWbMk9FkdT+Tx+b3lQ=;
+        b=cJH/aa9bJHMlMOAIZGILQ0IZtdF75D6lCurvLkFHQ/22zE+FUKo2aWbcWJMFlT6+BR
+         HPsA2UYI+cq1RMAAB49ZRNc1iSJC2gss7mUIYOVyjvU+ttdEyGeYp2xiEv8KYWZPYpI/
+         PRKDLVTd/QMJAp1ciAqVdQSjehe8fD6CWKMeddPGxTw8U0Q4RV7UPjUMNyaHX4p6fozj
+         mBEpfp6lLyHF+/GvHDyAdtgbYgRDU62uLQ+DBOb05RxZcnVEDUdDENcPYqcE8k/J/tG/
+         BxInPIHHxe0ttHXqVn0bCYNO0h7zfG2D5jP6FKlcmCFRtvO5kZEN2LvovdDzg70DMycW
+         QNpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tYkLKVKLZqUnTQEiYjhYbhcYbcc1pLc11FrO1sNMdTE=;
-        b=IOS39gZrmHfuHik4O3KhBM1eCvEMJfVky8gUQSqrKSY5idAsXv4Hb/GUE44FjXrYkK
-         vzLIa9YDEUU1DeeWfX9Uq1X0X6Nl4xe5N8KDPZyB+VvXdcYvXnFqMVcJS2faALH5+Se5
-         zT1oh6ZP6Dg7s4s4008GtumNRWfLz62GCqVrpqrj+qss6z3pKL0zVlYzSUVWlKPQJinw
-         kconQX3eJv2JdQcSmTXcx+iYVucTkBZHC41vsjoX4Pm0D7LAAHv9GmKElH9R8g+7CTWF
-         ZzNJEcIx4Y5v32HxOJKMdmyU7IuccWenO9huqEdAz3egXMuDhVdRMkjU8/fX5jQlX9TM
-         NmxA==
-X-Gm-Message-State: AOAM531g3HOEzhS/+HnCdcWJ0X5Fd6DKhaRu4kXeVMy2QOt1Pccmojpc
-	dabeidsIIA1l4KXtrDdOo53gmVpg9yeqH18qtXI=
-X-Google-Smtp-Source: ABdhPJwobdpNm5JFmBWu/3yP0oClm6NRdLEG1oC4jsZipcuQNalaJKDm6n3MxlBY0TK0b4kb+oOYxuYYfhCGCbA7TVM=
-X-Received: by 2002:a37:8ec4:: with SMTP id q187mr10243281qkd.381.1615506960933;
- Thu, 11 Mar 2021 15:56:00 -0800 (PST)
+        bh=RSyWHZEVhG4SKm0lr6jIDlpapAWbMk9FkdT+Tx+b3lQ=;
+        b=uiMuwuC9Qa9A0/KzpR6e01IRYGCu/l3CMsGNvhWZSEdHQPbJy39xZXeJmlznKf7EmE
+         yjj5KPYclSZBrFp5e1+4kkrCF9QwUx0JDd4Qws7yJrILefk4saY/qYWIXCrjSs/neA9L
+         wA3zsAP3sGPGxNdGlFRvZEffaGOFQ5dF/Vntf0ewO6R2T0FNBYi1HjZkrozuaIdMOPjF
+         Fd3WU1ccl6EYMlYQ6qsPu5esNC52+LBHNWt4mUkWimElGKp9eH8iJ4yqkmEzDigU5qj8
+         UcddT/keP27Pjs53fcgDqvSIk5ho1JBLr2/DFfMgVrkJTlkPc/gHlcmM0VQQk1hbVGJP
+         d4HA==
+X-Gm-Message-State: AOAM533BMZe1XLticTOFho2ye6yG5d3QGFGQYhZGDmChfkY28LXWqso4
+	wNL2kt/3P9S9NAhKuJcjvXL0qmN2GQCbyG0gCwM=
+X-Google-Smtp-Source: ABdhPJxOKWAuBXPlEUbBRCkPSyC712NxTQoJJwWcK7YXNSBlaIKYC64QVlXYm0EWVSqn5FTEfI9snuzTl6TBsQpFaxo=
+X-Received: by 2002:ac8:4b6d:: with SMTP id g13mr9663254qts.369.1615507266282;
+ Thu, 11 Mar 2021 16:01:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
-In-Reply-To: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+References: <20210311185641.24754-1-stefan.ghinea@windriver.com>
+In-Reply-To: <20210311185641.24754-1-stefan.ghinea@windriver.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 11 Mar 2021 15:55:34 -0800
-Message-ID: <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
-To: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+Date: Thu, 11 Mar 2021 16:00:40 -0800
+Message-ID: <CAMKF1sqV5hz7w72_et_iT+ZDoYQObBUT+e1EphTsoFwv7zY2AA@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [meta-openembedded] quagga: fix do_fetch warning
+To: Stefan Ghinea <stefan.ghinea@windriver.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 11, 2021 at 7:21 AM Jamaluddin, Khairul Rohaizzat
-<khairul.rohaizzat.jamaluddin@intel.com> wrote:
->
-> From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
->
-> CVE:
-> CVE-2021-27645
->
+oe-core mailing list is only for oe-core patches, this one is for
+meta-networking layer in meta-openembedded so please send this patch
+to oe-devel mailing list.
 
-lgtm. Do we need it for dunfell and gatesgarth as well ?
-
-> Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+On Thu, Mar 11, 2021 at 10:57 AM Stefan Ghinea
+<stefan.ghinea@windriver.com> wrote:
+>
+> WARNING: quagga-1.2.4-r0 do_fetch: Failed to fetch URL
+> https://download.savannah.gnu.org/releases/quagga/quagga-1.2.4.tar.gz;,
+> attempting MIRRORS if available
+>
+> Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 > ---
->  .../glibc/glibc/CVE-2021-27645.patch          | 51 +++++++++++++++++++
->  meta/recipes-core/glibc/glibc_2.33.bb         |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
+>  meta-networking/recipes-protocols/quagga/quagga.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
-> new file mode 100644
-> index 0000000000..26c5c0d2a9
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
-> @@ -0,0 +1,51 @@
-> +From dca565886b5e8bd7966e15f0ca42ee5cff686673 Mon Sep 17 00:00:00 2001
-> +From: DJ Delorie <dj@redhat.com>
-> +Date: Thu, 25 Feb 2021 16:08:21 -0500
-> +Subject: [PATCH] nscd: Fix double free in netgroupcache [BZ #27462]
-> +
-> +In commit 745664bd798ec8fd50438605948eea594179fba1 a use-after-free
-> +was fixed, but this led to an occasional double-free.  This patch
-> +tracks the "live" allocation better.
-> +
-> +Tested manually by a third party.
-> +
-> +Related: RHBZ 1927877
-> +
-> +Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=dca565886b5e8bd7966e15f0ca42ee5cff686673]
-> +
-> +CVE: CVE-2021-27645
-> +
-> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-> +Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-> +---
-> + nscd/netgroupcache.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/nscd/netgroupcache.c b/nscd/netgroupcache.c
-> +index dba6ceec1b..ad2daddafd 100644
-> +--- a/nscd/netgroupcache.c
-> ++++ b/nscd/netgroupcache.c
-> +@@ -248,7 +248,7 @@ addgetnetgrentX (struct database_dyn *db, int fd, request_header *req,
-> +                                            : NULL);
-> +                                   ndomain = (ndomain ? newbuf + ndomaindiff
-> +                                              : NULL);
-> +-                                  buffer = newbuf;
-> ++                                  *tofreep = buffer = newbuf;
-> +                                 }
-> +
-> +                               nhost = memcpy (buffer + bufused,
-> +@@ -319,7 +319,7 @@ addgetnetgrentX (struct database_dyn *db, int fd, request_header *req,
-> +                   else if (status == NSS_STATUS_TRYAGAIN && e == ERANGE)
-> +                     {
-> +                       buflen *= 2;
-> +-                      buffer = xrealloc (buffer, buflen);
-> ++                      *tofreep = buffer = xrealloc (buffer, buflen);
-> +                     }
-> +                   else if (status == NSS_STATUS_RETURN
-> +                            || status == NSS_STATUS_NOTFOUND
-> +--
-> +2.27.0
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-> index c47826a51e..d0a290822b 100644
-> --- a/meta/recipes-core/glibc/glibc_2.33.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.33.bb
-> @@ -45,6 +45,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
->             file://0031-x86-Require-full-ISA-support-for-x86-64-level-marker.patch \
->             file://0032-string-Work-around-GCC-PR-98512-in-rawmemchr.patch \
-> +           file://CVE-2021-27645.patch \
->             "
->  S = "${WORKDIR}/git"
->  B = "${WORKDIR}/build-${TARGET_SYS}"
+> diff --git a/meta-networking/recipes-protocols/quagga/quagga.inc b/meta-networking/recipes-protocols/quagga/quagga.inc
+> index 6df72427b..6680fec01 100644
+> --- a/meta-networking/recipes-protocols/quagga/quagga.inc
+> +++ b/meta-networking/recipes-protocols/quagga/quagga.inc
+> @@ -20,7 +20,7 @@ SNMP_CONF="${@bb.utils.contains('DISTRO_FEATURES', 'snmp', '--enable-snmp', '',
+>  # the "ip" command from busybox is not sufficient (flush by protocol flushes all routes)
+>  RDEPENDS_${PN} += "iproute2"
+>
+> -SRC_URI = "${SAVANNAH_GNU_MIRROR}/quagga/quagga-${PV}.tar.gz; \
+> +SRC_URI = "https://github.com/Quagga/quagga/releases/download/${BP}/${BP}.tar.gz; \
+>             file://quagga.init \
+>             file://quagga.default \
+>             file://watchquagga.init \
 > --
-> 2.29.0
+> 2.17.1
 >
 >
 > 
