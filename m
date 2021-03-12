@@ -1,74 +1,95 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web12.6013.1615541523188613701
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web09.5969.1615541717624187854
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 01:32:03 -0800
+ Fri, 12 Mar 2021 01:35:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JMfkkPRL;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id ox4so36448871ejb.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 01:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sn+5pojm4i0K5IEms79AJ+ti8oGIv8cLRHnkimWcH4s=;
-        b=JMfkkPRLySFtliwxMqwAre5OAU7J40v+ccNIQ7OQxKZF/fCELnMidhQNfOLJtm2dQM
-         f3aq2Ewn454zMtpa69o6/y75e4aVwFXy0QdfLYfPjZc0RHpqRFPedTqQ4gLY+0Qmdxcy
-         le0Dn+xsK3AhbGafLusyMXPrv1rYd9vyUQDR9lI4tRo/hKKMWGVHAd1o8ueKztazIi4G
-         UycdDBO12kEMGuo3XbBjji4hhQSUPf8emQ7wOf7IFlsLIiu7L2FPT+4NCXI4M9JOOec8
-         IqW8x7lKNGrle0C3O1vQ6IBORa9UwdKVKKh30NsO7dEnBIDS2dxkNnab3Fgudc1tOeuh
-         Ji6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sn+5pojm4i0K5IEms79AJ+ti8oGIv8cLRHnkimWcH4s=;
-        b=jVmfPHST5mg0phgB8N6vaywcTpPtM9OewLP9XhMkbbyLJ3ek7Kv/WYS6Db2LHV/ZNJ
-         xSpSgJk8zaOf+6vwSnolK4bvGFqpzX3msvLb2fO7VjxPGnUF4IQLki4l0jsQpsG0Pdvo
-         n7SiRaNcsIZL07uv3cR8duNQzV3YYVgQOJ/t0Im8/nyR2c82Amfq5iqsIOSl5Ic1j3WK
-         MUD8xuaFzhNWPRuCbCt9IirFb1YuEQcSc7Sbm4KkaN3qYkBcXs5vChHvGttyJkAD3Nri
-         dVgdXWSBi6ttv3l6S5pVsyEiAN8lpOqq7Bz+k7MwLSp4nlJke2OfveYJ6Ny+CnFXbl4w
-         kxhw==
-X-Gm-Message-State: AOAM532pLnBNoH8e2j1IMDvpTodPZuzCNScY1yjIlYHdD/onw/kN4CLD
-	AnzW35DBh3R3yxOlcRlk73nDMXzPngtXSQ==
-X-Google-Smtp-Source: ABdhPJyOmtBt7avEczPJqKjZiPefLAiXlMuP9uY8GncrmPjVFuW803biwlHUKq4I9xCZwtYuYNAymg==
-X-Received: by 2002:a17:906:f296:: with SMTP id gu22mr7449842ejb.20.1615541521757;
-        Fri, 12 Mar 2021 01:32:01 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id a9sm2635831edt.82.2021.03.12.01.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 01:32:01 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [RFC PATCH 7/7] poky.conf: remove wayland/opengl from distro features, as it is now oe-core default
-Date: Fri, 12 Mar 2021 10:31:39 +0100
-Message-Id: <20210312093139.318889-7-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210312093139.318889-1-alex.kanavin@gmail.com>
-References: <20210312093139.318889-1-alex.kanavin@gmail.com>
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.178.232, mailfrom: kory.maincent@bootlin.com)
+Received: from kmaincent-XPS-13-7390 (92.208.113.78.rev.sfr.net [78.113.208.92])
+	(Authenticated sender: kory.maincent@bootlin.com)
+	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 69396200002;
+	Fri, 12 Mar 2021 09:35:13 +0000 (UTC)
+Date: Fri, 12 Mar 2021 10:35:12 +0100
+From: "Kory Maincent" <kory.maincent@bootlin.com>
+To: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+Cc: <openembedded-core@lists.openembedded.org>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libxcrypt-compat: upgrade 4.4.17 -> 4.4.18
+Message-ID: <20210312103512.092257bb@kmaincent-XPS-13-7390>
+In-Reply-To: <1614658313-64713-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1614658313-64713-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Organization: bootlin
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-poky/conf/distro/poky.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-index 4e416c0c85..24e046c60a 100644
---- a/meta-poky/conf/distro/poky.conf
-+++ b/meta-poky/conf/distro/poky.conf
-@@ -13,7 +13,7 @@ TARGET_VENDOR = "-poky"
- LOCALCONF_VERSION = "1"
- 
- # Override these in poky based distros
--POKY_DEFAULT_DISTRO_FEATURES = "largefile opengl ptest multiarch wayland vulkan"
-+POKY_DEFAULT_DISTRO_FEATURES = "largefile ptest multiarch vulkan"
- POKY_DEFAULT_EXTRA_RDEPENDS = "packagegroup-core-boot"
- POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
- 
--- 
-2.29.2
+On Tue, 2 Mar 2021 12:11:53 +0800
+"zhengruoqin" <zhengrq.fnst@cn.fujitsu.com> wrote:
 
+> When the libxcrypt version is updated, libxcrypt-compat is omitted.
+>=20
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  .../{libxcrypt-compat_4.4.17.bb =3D> libxcrypt-compat_4.4.18.bb}    | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.17.bb =3D>
+> libxcrypt-compat_4.4.18.bb} (100%)
+>=20
+> diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.17.bb
+> b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb similarity index=
+ 100%
+> rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.17.bb
+> rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb
+
+Got a build error on nativesdk recipe:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/3504/step=
+s/11/logs/stdio
+
+ERROR: nativesdk-libxcrypt-compat-4.4.18-r0 do_compile: Execution of
+'/home/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-native=
+sdk-pokysdk-linux/nativesdk-libxcrypt-compat/4.4.18-r0/temp/run.do_compile.=
+2466'
+failed with exit code 1: Makefile:3646: Makefile.deps: No such file or
+directory
+LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
+s/perl
+\ ../git/build-aux/gen-crypt-hashes-h
+\ ../git/lib/hashes.conf ,bcrypt,bcrypt_a,bcrypt_x,bcrypt_y,bigcrypt,bsdicr=
+ypt,descrypt,gost_yescrypt,md5crypt,nt,scrypt,sha1crypt,sha256crypt,sha512c=
+rypt,sunmd5,yescrypt,
+> crypt-hashes.h.T
+> LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hostto=
+ols/perl
+> \ ../git/build-aux/gen-crypt-symbol-vers-h \ SYMVER_MIN=3DGLIBC_2.0 \
+  SYMVER_FLOOR=3D \
+  COMPAT_ABI=3Dyes \
+     ../git/lib/libcrypt.map.in > crypt-symbol-vers.h.T
+LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
+s/perl
+\ ../git/build-aux/gen-crypt-h \
+  ../git/lib/crypt.h.in config.h \
+  ../git/lib/hashes.conf ,bcrypt,bcrypt_a,bcrypt_x,bcrypt_y,bigcrypt,bsdicr=
+ypt,descrypt,gost_yescrypt,md5crypt,nt,scrypt,sha1crypt,sha256crypt,sha512c=
+rypt,sunmd5,yescrypt,
+\ > crypt.h.T
+LC_ALL=3DC /home/pokybuild/yocto-worker/buildtools/build/build/tmp/hosttool=
+s/perl
+\ ../git/build-aux/gen-crypt-h \
+  ../git/lib/xcrypt.h.in config.h \
+  > xcrypt.h.T
+gen-crypt-symbol-vers-h: usage: SYMVER_MIN=3Dvalue SYMVER_FLOOR=3Dvalue
+COMPAT_ABI=3Dvalue libcrypt.map.in Makefile:3577: recipe for target
+'crypt-symbol-vers.h' failed make: *** [crypt-symbol-vers.h] Error 1
+make: *** Waiting for unfinished jobs....
+mv -f crypt-hashes.h.T crypt-hashes.h
+mv -f crypt.h.T crypt.h
+mv -f xcrypt.h.T xcrypt.h
+WARNING: exit code 1 from a shell command.
+
+
+Regards,
+
+K=C3=B6ry
