@@ -1,102 +1,160 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
- by mx.groups.io with SMTP id smtpd.web11.6010.1615541420967795473
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.5922.1615541519049384891
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 01:30:21 -0800
+ Fri, 12 Mar 2021 01:31:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=q6RhlrlT;
- spf=pass (domain: gmail.com, ip: 209.85.222.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f44.google.com with SMTP id q18so1096008uas.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 01:30:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xl303V6u;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id r17so52033713ejy.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 01:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZYREsJhTdQU/DHSld8Aq9i5UcPq8RWsVbEkn9F6oUNE=;
-        b=q6RhlrlTpil/UPTPgvH7f/mDV5+bwL5sEbqfoburRUWUE6VqM0I1Q16T18k6vZE/D+
-         j1AznMC/LfNRGfBBMYyMOlGT7eVPAP0sJTouLwzjL65uyK4gai3//zk5DT/GffrWxJNn
-         OUcOTQMkabI3za5Ziq9Yz/yYZnbhl5Pm08BsFKEhHpbEBZJrSU5UuCyWuGR5xnSJiIyv
-         yIa0q9ZmssXToDrIg6XsrcPWQdXsN8mommqvxwUte9VRyrgi2wxhjGFlzqC1i35qFE60
-         KIsd4/GgXkfyJNNPtk8u8AyJHu1BvDxVTwozdU0iQDnf6EZR8CjDwVVEusEcDgGSY/jf
-         nBDQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+6erYx/0oH0ljjFrsiQxBuxJG3WcdjnCeF302YVHl60=;
+        b=Xl303V6u4x83VAD9fp8rmRKiksnzQVxfDmCbehDHQfsWzEeI1bNPjoytHXKnf6B6DF
+         kLB4bVxk9UThkGcwngXpbNUgLdFgUP/yY2fPRob9GEQ/ijRxqjIC4BKIme+qihN7/Eym
+         BJkoJnr2OgNxAzvS+XpwiiY7Gg8YmYkBTszO5y6kuwD8RgpIt8emgrCgSDZRGSE80kzu
+         1Bo54pjCiLGBjqTIz8lMD8sKwKMMImWCObzwVEKH/VV5nKGZ/m/qFDY1aF3yNTcRHdNn
+         Zm52skVAaBplb2hmrSZzv9XI5mf3XJinBEBaIV7KBPLlAuTDwIK5iY9SIRXC1XVEZu3c
+         LAvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZYREsJhTdQU/DHSld8Aq9i5UcPq8RWsVbEkn9F6oUNE=;
-        b=VBpwgsxHBGa+8GLFZ5+BI+Zqu2iL0PMDNVUzHREq9bvpuTgApy1LJlpjw/c9zb86vW
-         mO7HCtzDjWfEDb8xpp+9ivtv3K144L8aNssWM5VjT8qELbooTX0izwhdBst0cgEToBlZ
-         6l+l9vXcCqZZNKq4w46B31SWAKmKWV89THRpDh17WQ5Rafkyc3t5JcF1PaoSHhzuL27z
-         CGCl/1RXxHCRpSQASD7yr0dPREKm3mQHFSLN+YYe4LE+SkxRUBthz+orQR999c4ClAGQ
-         lmjVua3yXKAYDOYS7X2JwwiIaltDP5iZ6jOET+glf9VYOtOVAMa1I3NKhtl+3U/kKMAD
-         Jr4A==
-X-Gm-Message-State: AOAM533XcNsarjY2EH+R6ReK5j/uQWvPZLu/+91aE9wwWBMS1NFd5asf
-	c9ijbEMUO2SAj0N/R++QpyP7aiM5b8B3o+bWpdM=
-X-Google-Smtp-Source: ABdhPJzZEyaNch0Kxh7w3RW5Okq/zJKOZhgEvkDk/fhIAKMNLmUuQsIdUzL+wWJCnFpjnvKvd3ywPDqcQnzaDBLlA0I=
-X-Received: by 2002:ab0:7150:: with SMTP id k16mr6500502uao.71.1615541420051;
- Fri, 12 Mar 2021 01:30:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20210311120512.287214-1-alex.kanavin@gmail.com> <CAMKF1spZ5tYHOVeyPV7xb+KNkdyh5QUgD=UQP9Yaj8VaRH7wpA@mail.gmail.com>
-In-Reply-To: <CAMKF1spZ5tYHOVeyPV7xb+KNkdyh5QUgD=UQP9Yaj8VaRH7wpA@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+6erYx/0oH0ljjFrsiQxBuxJG3WcdjnCeF302YVHl60=;
+        b=sV1pups8SVVsVbmXcrG2lNaKVjr6KHTdA/fDWx2Qw/nG95cYCLrjlBpEtrgRczIkRb
+         5UaY3ui3jiWgMlHPP/uSA4dazNN3T1kb3lMEy40P7DF7bPAy1QUK7U1p6BDhemrR34H6
+         a8Wso3UaK+JDJ5H6xmoN71+x7YQk6QV3iKE4Yl6oMlY9OjFm3P656MIkpwKBXaqnV4u3
+         c18zi5Xny4xGrcZj+4Rqib8XDHln3wsR++OUs3UaTgL+3urv7WAFh9AVpacFq1tlO1rH
+         yEdetSiPfNn0dHybGetch66hn1wkrdhL/1lDqHalpk/+YQMWPpVBf5CbEIhfRzUbhz6r
+         ijLA==
+X-Gm-Message-State: AOAM533qKhazuI+0G7fiZxJ47wAHNNj4W6/gyFtWJyLrIWoO8L+Vl5mi
+	QCXcOEAoGOkj00blc+37JIydHiNC8AzTvw==
+X-Google-Smtp-Source: ABdhPJwjqxX0401CQX5dT9ZVxqhLwrmQhHij3/PPw9leCp+M2EK2wCTCMw6vP/DJJYen75Ek3hbvkQ==
+X-Received: by 2002:a17:906:13c4:: with SMTP id g4mr7643481ejc.390.1615541517473;
+        Fri, 12 Mar 2021 01:31:57 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id a9sm2635831edt.82.2021.03.12.01.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Mar 2021 01:31:57 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 12 Mar 2021 10:30:08 +0100
-Message-ID: <CANNYZj_UPO8RpmNC=-E_8=Jzw5+e1VFfw==GjthsVPZPDbj=OQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 1/2] xwayland: add a standalone recipe
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000076527f05bd538c37"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [RFC PATCH 1/7] core-image-weston: add sdk/ptest images
+Date: Fri, 12 Mar 2021 10:31:33 +0100
+Message-Id: <20210312093139.318889-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---00000000000076527f05bd538c37
-Content-Type: text/plain; charset="UTF-8"
+This is the first step towards rebasing the AB matrix from sato to
+weston; the eventual goal is to keep sato only in core-image-sato
+image.
 
-On Fri, 12 Mar 2021 at 00:48, Khem Raj <raj.khem@gmail.com> wrote:
+The broader rationale is that X11 is effectively deprecated technology
+at this point with only minimal maintenance; standalone X server will not
+be developed any further, and all attention currently is towards making
+it work well under Wayland.
 
-> On Thu, Mar 11, 2021 at 4:05 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Please see here for the rationale for splitting XWayland out of
-> > main xserver-xorg tree:
-> > https://fedoraproject.org/wiki/Changes/XwaylandStandalone
-> >
->
-> I think this is a good change. Should we disable xwayland
-> packageconfig in xserver-xorg recipe as well
-> since I see that it gets activated with opengl wayland being in distro
-> features.
-> so I wonder if we can completely turn it off
->
+I believe YP should be defaulting to Wayland and not X11.
 
-That's done in the second patch, as it has to be atomic with dependency
-adjustment in weston.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  3 +++
+ .../images/core-image-weston-ptest-all.bb     | 21 +++++++++++++++++++
+ .../images/core-image-weston-ptest-fast.bb    | 20 ++++++++++++++++++
+ .../images/core-image-weston-sdk.bb           | 11 ++++++++++
+ 4 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-graphics/images/core-image-weston-ptest-all.bb
+ create mode 100644 meta/recipes-graphics/images/core-image-weston-ptest-fast.bb
+ create mode 100644 meta/recipes-graphics/images/core-image-weston-sdk.bb
 
-Alex
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 9093f2d7fd..eafbd5e56a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -117,6 +117,9 @@ RECIPE_MAINTAINER_pn-core-image-testmaster-initramfs = "Richard Purdie <richard.
+ RECIPE_MAINTAINER_pn-core-image-testmaster = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-clutter = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-weston = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER_pn-core-image-weston-ptest-all = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER_pn-core-image-weston-ptest-fast = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER_pn-core-image-weston-sdk = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-x11 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-sato-dev = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-sato-ptest-fast = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+diff --git a/meta/recipes-graphics/images/core-image-weston-ptest-all.bb b/meta/recipes-graphics/images/core-image-weston-ptest-all.bb
+new file mode 100644
+index 0000000000..a622779e6a
+--- /dev/null
++++ b/meta/recipes-graphics/images/core-image-weston-ptest-all.bb
+@@ -0,0 +1,21 @@
++require core-image-weston-sdk.bb
++require conf/distro/include/ptest-packagelists.inc
++
++DESCRIPTION += "Also includes ptest packages."
++
++# Include the full set of ptests
++IMAGE_INSTALL += "${PTESTS_FAST} ${PTESTS_SLOW}"
++
++# This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
++# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
++# box) and explicitly add just 1100MB.
++# strace-ptest in particular needs more than 500MB
++IMAGE_OVERHEAD_FACTOR = "1.0"
++IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
++
++# ptests need more memory than standard to avoid the OOM killer
++# also lttng-tools needs /tmp that has at least 1G
++QB_MEM = "-m 2048"
++
++# Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
++PTEST_EXPECT_FAILURE = "1"
+diff --git a/meta/recipes-graphics/images/core-image-weston-ptest-fast.bb b/meta/recipes-graphics/images/core-image-weston-ptest-fast.bb
+new file mode 100644
+index 0000000000..df02befb66
+--- /dev/null
++++ b/meta/recipes-graphics/images/core-image-weston-ptest-fast.bb
+@@ -0,0 +1,20 @@
++require core-image-weston-sdk.bb
++require conf/distro/include/ptest-packagelists.inc
++
++# Include only fast (< 30 sec) ptests
++IMAGE_INSTALL += "${PTESTS_FAST}"
++
++DESCRIPTION += "Also includes ptest packages with fast execution times to allow for more automated QA."
++
++# This image is sufficiently large (~1.8GB) that it can't actually fit in a live
++# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
++# box) and explicitly add just 1500MB.
++# strace-ptest in particular needs more than 500MB
++IMAGE_OVERHEAD_FACTOR = "1.0"
++IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
++
++# ptests need more memory than standard to avoid the OOM killer
++QB_MEM = "-m 1024"
++
++# Sadly at the moment the fast set of ptests is not robust enough and sporadically fails in a couple of places
++PTEST_EXPECT_FAILURE = "1"
+diff --git a/meta/recipes-graphics/images/core-image-weston-sdk.bb b/meta/recipes-graphics/images/core-image-weston-sdk.bb
+new file mode 100644
+index 0000000000..f5f7dade54
+--- /dev/null
++++ b/meta/recipes-graphics/images/core-image-weston-sdk.bb
+@@ -0,0 +1,11 @@
++require core-image-weston.bb
++
++DESCRIPTION = "Image with Weston support that includes everything within \
++core-image-weston plus meta-toolchain, development headers and libraries to \
++form a standalone SDK."
++
++IMAGE_FEATURES += "dev-pkgs tools-sdk \
++	tools-debug eclipse-debug tools-profile tools-testapps debug-tweaks ssh-server-openssh"
++
++IMAGE_INSTALL += "kernel-devsrc"
++
+-- 
+2.29.2
 
---00000000000076527f05bd538c37
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Fri, 12 Mar 2021 at 00:48, Khem Raj &lt;<a href=3D"mailto:raj=
-.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">On Thu, Mar 11, 2021 at 4:05 AM Alexande=
-r Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Please see here for the rationale for splitting XWayland out of<br>
-&gt; main xserver-xorg tree:<br>
-&gt; <a href=3D"https://fedoraproject.org/wiki/Changes/XwaylandStandalone" =
-rel=3D"noreferrer" target=3D"_blank">https://fedoraproject.org/wiki/Changes=
-/XwaylandStandalone</a><br>
-&gt;<br>
-<br>
-I think this is a good change. Should we disable xwayland<br>
-packageconfig in xserver-xorg recipe as well<br>
-since I see that it gets activated with opengl wayland being in distro feat=
-ures.<br>
-so I wonder if we can completely turn it off<br></blockquote><div><br></div=
->That&#39;s done in the second patch, as it has to be atomic with dependenc=
-y adjustment in weston.</div><div class=3D"gmail_quote"><br></div><div clas=
-s=3D"gmail_quote">Alex<br></div></div>
-
---00000000000076527f05bd538c37--
