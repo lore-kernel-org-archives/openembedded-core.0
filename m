@@ -1,199 +1,124 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.9100.1615559487507054044
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.9013.1615559528847411827
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 06:31:27 -0800
+ Fri, 12 Mar 2021 06:32:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fDDuFgzE;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id p7so42406215eju.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 06:31:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ItjU4cgH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.49, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f49.google.com with SMTP id b18so4921037wrn.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 06:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WKLrknUvaMeWE3QWrXEOWlnOpitY7ffuci+RAS8lT8I=;
-        b=fDDuFgzEo3wePHHvVXU8a2166wfh5+0FYzGRcNXauGtH/KIUsEkRNkWtbFEaw1OCgP
-         bW1d4KGQGdTEfXVspFIXKtF7SYkl7iJjnJboHLtfnwuenhzZ9SGs4M1wYJmlZjbs0D7T
-         Qm4cX5CO1W55BHIdPFUP3qn+eAHBD7xtj1xVbz7I3z8OKNxpiqt18SX1/dK3KD/zYKuN
-         Ka1TwbFmUsKOANl4bfyFrfky/KZNt1d9i8+djK0sCn7ECuWnxwvP1xnKtMcd3ZKJM1D4
-         4AMN6qynqGemtO8js73DYeIoQ1iaSWfh4eeYQGPlHUXNyi1FQ5m1sgvaPtWSrPPHqQ/I
-         ztMw==
+        bh=M0HBOFWYwxwONxU7qPCL1fr2jdeUz8w4mSao+PaTdFo=;
+        b=ItjU4cgHbpkTuX+YU3Hu9c7a8yuvjUr0oBGn3v9KpdXQBoVxueqFaEumO1N4vccvDN
+         DIlLYgW5AVGlCN+lKVocdYxQq1OSUAAVaqZlEJuz3hMWWjKZCdra68la+u9tJDy9Hm58
+         ktoBG6BF0RUQ2eSnAP5fJgStM7VI6tk9bM122fo5wIQtIYqm2AGL+dWaR1xaEV5UXqvE
+         T52aoWOqepsZfCa3yfrtHHHqKcYTEkcm8DiRncEWxjKAT+OyujuzXFzZ1uY96V1QBVxq
+         9MR4bXzy8yTF46l+bK/ib8qf3NTeDwAKIUyJzc7N8/0FKIK1kqH4UkAZDUoWr2VTrOuz
+         9+mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WKLrknUvaMeWE3QWrXEOWlnOpitY7ffuci+RAS8lT8I=;
-        b=KoCauou3Q27utcxSqAcaE6w+96j6Fgiq9SZ8pFWumatvNZnZmFjfY5JbUMBD2ZJMoX
-         8vjM1t8GbtSNaOmeB4UlY5D01NRs+9UOXmWRJFKLlHY5fAEF35UtFZyZPoiQtyS26sRg
-         RKJhxwI4WnLy8MqwAK09zSMExI4FiwJSwbs1mn00srcULQ/JPf+FKmncVs0lVp5AcaB6
-         VqX0peNbDR33J2w3B2LiS2PFuNwgm53EUd8gHnVWqEByy7QGE2wamzB3MfnMpuVCWD3m
-         jbAfJBftpGZFKQZ5XEZKQC1ZqV+1nkTcyXhDARa+3VT5bQ02Iq8luAIh7QsJS8uz4wkS
-         jCOQ==
-X-Gm-Message-State: AOAM533lVGBo+bEa5BJXe3XPBwemh72aAfPlJZerqtvMjXn+AKOVEdI3
-	Z2jCDtIHj0B7FXadgMkvF40TqTdjTmQSzD3AKBA=
-X-Google-Smtp-Source: ABdhPJzPfH/1OiF5kTZr5Loi0S7CjOnoWa67BZfYTAvUAsgR35bTYktCXDSgsIbNa67FMtJLMUznGNG89oWAjXD1LR8=
-X-Received: by 2002:a17:906:32d1:: with SMTP id k17mr8757564ejk.94.1615559485792;
- Fri, 12 Mar 2021 06:31:25 -0800 (PST)
+        bh=M0HBOFWYwxwONxU7qPCL1fr2jdeUz8w4mSao+PaTdFo=;
+        b=iPI4RjN12BdFiOziAPJbzl8mZf6/WEgJjDCIjwi5flzwoyOClO7lTb27vXfple0uLH
+         kTddVuJZycMUP2yN2tFQj6HbYg/AUiTrnC9Acvi13KWw6pzep4yZJfE+9uVrSSdQt1bw
+         zhJ4eF9y3/EkRJMvvXK/Y1Dh4h87LO7yHNsYRkA4B9xMsQXbulazAUXNbqLgoJQg+70y
+         QygtUZslmhg0qG0AYvJeHJzUO7aW51lU+iTA72hJ+ws8l+27FPvb1Nd450kPxKrKUzXm
+         TaHC2xE3FBfpgKwocN/zZm3o1W9380Cp46PPn8lKTZ32xZJfxMwtAY6fqa9GxLhK5peV
+         hTFg==
+X-Gm-Message-State: AOAM533Cm0RcPcURdh5BAJNU345ZHRqSzqT39opR0lrEmzbeNwBCviiE
+	6k9TI5ve5TVMN0QMuLPS9k5HSfqEJhFfcsVObqcYqA==
+X-Google-Smtp-Source: ABdhPJzBcCco2B/RwJ67460s9jf2m0hGtn79RmeSBIgeuY8Emf2V/8vvtsyHuXhMuYTqERKLylVLOGbOdhAyfCgFdIg=
+X-Received: by 2002:a5d:54c4:: with SMTP id x4mr14121452wrv.329.1615559527246;
+ Fri, 12 Mar 2021 06:32:07 -0800 (PST)
 MIME-Version: 1.0
-References: <1615376771-3093-1-git-send-email-wangmy@cn.fujitsu.com> <1615376771-3093-4-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1615376771-3093-4-git-send-email-wangmy@cn.fujitsu.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 12 Mar 2021 15:31:14 +0100
-Message-ID: <CA+chaQceL8djA0_Mgi5sQ5+GWU0DCsnkVvdEtsj=k0CeDscqsA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] iso-codes: upgrade 4.5.0 -> 4.6.0
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000043a3d105bd57c130"
-
---00000000000043a3d105bd57c130
+References: <20210310125420.4001190-1-Martin.Jansa@gmail.com>
+ <CAGDS+nkxMnKEaEx514-5u_v7LKJq_yhuLTc_uaGRs5X92WjobQ@mail.gmail.com>
+ <20210311091428.2a3nissv6eebjpzq@jama> <20210311153601.ootfsyrek7lmebu5@jama>
+ <CAOSpxdahY=mG1A2Bx_cfm5FT6iiCJLmH9igiHPnHGy+fCER1kQ@mail.gmail.com> <20210312132537.uiu3kayoezu5wgo5@jama>
+In-Reply-To: <20210312132537.uiu3kayoezu5wgo5@jama>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Fri, 12 Mar 2021 04:31:56 -1000
+Message-ID: <CAOSpxdbOJnbTdZyjUOXEvYrRkq7AtuBtPY-+TFe25qAb_e6U6w@mail.gmail.com>
+Subject: Re: [OE-core] [gatesgarth][PATCH] xcb-proto: update to 1.14.1
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Steve Sakoman <sakoman@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anibal Limon <anibal.limon@linaro.org>, Richard Leitner <richard.leitner@skidata.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 
-When rebuilding this upgrade I've noticed:
-WARNING: iso-codes-4.6.0-r0 do_fetch: Failed to fetch URL git://
-salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;,
-attempting MIRRORS if available
-
-The protocol should probably be changed to https, like all other
-salsa.debian.org pulls are, so that it doesn't depend on mirrors.bbclass to
-resolve this.
-
-meta/classes/mirrors.bbclass:git://salsa.debian.org/.*     git://
-salsa.debian.org/PATH;protocol=https \n \
-
-from log.do_fetch:
-
-DEBUG: Fetcher accessed the network with the command LANG=C git -c
-core.fsyncobjectfiles=0 fetch -f --progress
-http://salsa.debian.org/iso-codes-team/iso-codes.git refs/*:refs/*
-fatal: unable to access '
-http://salsa.debian.org/iso-codes-team/iso-codes.git/': Couldn't connect to
-server
-WARNING: Failed to fetch URL git://
-salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;,
-attempting MIRRORS if available
-...
-warning: redirecting to
-https://salsa.debian.org/iso-codes-team/iso-codes.git/
-
-Will send a patch shortly.
-
-On Wed, Mar 10, 2021 at 12:47 PM Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
-
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../iso-codes/{iso-codes_4.5.0.bb => iso-codes_4.6.0.bb}        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/iso-codes/{iso-codes_4.5.0.bb =>
-> iso-codes_4.6.0.bb} (93%)
+On Fri, Mar 12, 2021 at 3:25 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> diff --git a/meta/recipes-support/iso-codes/iso-codes_4.5.0.bb
-> b/meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-> similarity index 93%
-> rename from meta/recipes-support/iso-codes/iso-codes_4.5.0.bb
-> rename to meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-> index 9e02a0fa12..960989281d 100644
-> --- a/meta/recipes-support/iso-codes/iso-codes_4.5.0.bb
-> +++ b/meta/recipes-support/iso-codes/iso-codes_4.6.0.bb
-> @@ -9,7 +9,7 @@ LICENSE = "LGPLv2.1"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> On Thu, Mar 11, 2021 at 07:50:45AM -1000, Steve Sakoman wrote:
+> > On Thu, Mar 11, 2021 at 5:36 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+> > >
+> > > On Thu, Mar 11, 2021 at 10:14:28AM +0100, Martin Jansa wrote:
+> > > > On Wed, Mar 10, 2021 at 04:33:02AM -1000, Steve Sakoman wrote:
+> > > > > On Wed, Mar 10, 2021 at 2:54 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+> > > > > >
+> > > > > > From: Richard Leitner <richard.leitner@skidata.com>
+> > > > > >
+> > > > > > This fixes [1] the following build error for nativesdk on Fedora 33
+> > > > > > which is caused by the removal of fractions.gcd() in favor of math.gcd()
+> > > > > > in python 3.9 [2]:
+> > > > > >
+> > > > > > ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
+> > > > > >
+> > > > > > Furthermore the SRC_URI is adapted as the old one doesn't provide the
+> > > > > > 1.14.1 archive.
+> > > > > >
+> > > > > > [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
+> > > > > > [2] https://bugs.python.org/issue39350
+> > > > > >
+> > > > > > It's needed in gatesgarth and possibly dunfell as well to support
+> > > > > > distributions with python-3.9 as we build libxcb-native, which is
+> > > > > > failing with xcb-proto-1.14.
+> > > > > >
+> > > > > > 1.14.1 is a bug fix release:
+> > > > > > https://lists.x.org/archives/xorg-announce/2020-October/003061.html
+> > > > >
+> > > > > Dunfell is still at version 1.13, so this wouldn't be a bug fix version bump.
+> > > >
+> > > > I see, well luckily 1.14 doesn't look too scary as well:
+> > > > https://lists.x.org/archives/xorg-announce/2020-February/003038.html
+> > > > https://git.openembedded.org/openembedded-core/commit/?h=gatesgarth&id=bf4ef2e3b376744b16c2f57725104207d23c28c6
+> > > >
+> > > > If this is the only issue for building dunfell with host distro with
+> > > > python-3.9 then I think it should be considered.
+> > > > Isn't autobuilder using some new host distro with python-3.9 already?
+> > > >
+> > > > FYI: I was seeing this with ubuntu 21.04, I'll trigger dunfell build on
+> > > > it now.
+> > >
+> > > At least for LuneOS images this was the only build issue I've seen with 21.04.
+> >
+> > I'll add the version bump to my next set of patches for testing.
 >
->  SRC_URI = "git://
-> salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;"
-> -SRCREV = "a36019e5014bff251f83d522ddcfebaecf52afd3"
-> +SRCREV = "3c012d266acaeda93d3e61ec11b8c18c1964fce1"
->
->  # inherit gettext cannot be used, because it adds gettext-native to
-> BASEDEPENDS which
->  # are inhibited by allarch
-> --
-> 2.25.1
->
->
-> 
->
->
+> Steve: I'm sorry, please forget what I said about upgrade, 1.13 version in dunfell already
+> has this fix for python-3.9 backported in:
+> https://git.openembedded.org/openembedded-core/commit/?h=0f688c1419b1e2dfddff3c985f89a3f1949fc9fb
 
---00000000000043a3d105bd57c130
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Ah, yes, I remember that now!  Good catch.
 
-<div dir=3D"ltr"><div>When rebuilding this upgrade I&#39;ve noticed:</div><=
-div>WARNING: iso-codes-4.6.0-r0 do_fetch: Failed to fetch URL git://<a href=
-=
-=3D"http://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=3Dhttp;b=
-ranch=3Dmain">salsa.debian.org/iso-codes-team/iso-codes.git;protocol=3Dhttp=
-;branch=3Dmain</a>;, attempting MIRRORS if available<br></div><div><br></di=
-v>The protocol should probably be changed to https, like all other <a href=
-=3D"http://salsa.debian.org">salsa.debian.org</a> pulls are, so that it do=
-esn&#39;t depend on mirrors.bbclass to resolve this.<div><br></div><div>met=
-a/classes/mirrors.bbclass:git://<a href=3D"http://salsa.debian.org/.*">sals=
-a.debian.org/.*</a> =C2=A0 =C2=A0 git://<a href=3D"http://salsa.debian.org/=
-PATH;protocol=3Dhttps">salsa.debian.org/PATH;protocol=3Dhttps</a> \n \<br><=
-/div><div><br></div><div>from log.do_fetch:</div><div><br></div><div>DEBUG:=
- Fetcher accessed the network with the command LANG=3DC git -c core.fsyncob=
-jectfiles=3D0 fetch -f --progress <a href=3D"http://salsa.debian.org/iso-co=
-des-team/iso-codes.git">http://salsa.debian.org/iso-codes-team/iso-codes.gi=
-t</a> refs/*:refs/*<br></div><div>fatal: unable to access &#39;<a href=3D"h=
-ttp://salsa.debian.org/iso-codes-team/iso-codes.git/">http://salsa.debian.o=
-rg/iso-codes-team/iso-codes.git/</a>&#39;: Couldn&#39;t connect to server<b=
-r></div><div>WARNING: Failed to fetch URL git://<a href=3D"http://salsa.deb=
-ian.org/iso-codes-team/iso-codes.git;protocol=3Dhttp;branch=3Dmain">salsa.d=
-ebian.org/iso-codes-team/iso-codes.git;protocol=3Dhttp;branch=3Dmain</a>;, =
-attempting MIRRORS if available<br></div><div>...</div><div>warning: redire=
-cting to <a href=3D"https://salsa.debian.org/iso-codes-team/iso-codes.git/"=
->https://salsa.debian.org/iso-codes-team/iso-codes.git/</a><br></div><div><=
-br></div><div>Will send a patch shortly.</div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 10, 2021 at 12:47=
- PM Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com">wangmy@cn.fuji=
-tsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.c=
-om" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0.../iso-codes/{<a href=3D"http://iso-codes_4.5.0.bb" rel=3D"noreferr=
-er" target=3D"_blank">iso-codes_4.5.0.bb</a> =3D&gt; <a href=3D"http://iso-=
-codes_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">iso-codes_4.6.0.bb</a>=
-}=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-support/iso-codes/{<a href=3D"http://iso-codes_4=
-.5.0.bb" rel=3D"noreferrer" target=3D"_blank">iso-codes_4.5.0.bb</a> =3D&gt=
-; <a href=3D"http://iso-codes_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank=
-">iso-codes_4.6.0.bb</a>} (93%)<br>
-<br>
-diff --git a/meta/recipes-support/iso-codes/<a href=3D"http://iso-codes_4.=
-5.0.bb" rel=3D"noreferrer" target=3D"_blank">iso-codes_4.5.0.bb</a> b/meta/=
-recipes-support/iso-codes/<a href=3D"http://iso-codes_4.6.0.bb" rel=3D"nore=
-ferrer" target=3D"_blank">iso-codes_4.6.0.bb</a><br>
-similarity index 93%<br>
-rename from meta/recipes-support/iso-codes/<a href=3D"http://iso-codes_4.5=
-.0.bb" rel=3D"noreferrer" target=3D"_blank">iso-codes_4.5.0.bb</a><br>
-rename to meta/recipes-support/iso-codes/<a href=3D"http://iso-codes_4.6.0=
-.bb" rel=3D"noreferrer" target=3D"_blank">iso-codes_4.6.0.bb</a><br>
-index 9e02a0fa12..960989281d 100644<br>
---- a/meta/recipes-support/iso-codes/<a href=3D"http://iso-codes_4.5.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">iso-codes_4.5.0.bb</a><br>
-+++ b/meta/recipes-support/iso-codes/<a href=3D"http://iso-codes_4.6.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">iso-codes_4.6.0.bb</a><br>
-@@ -9,7 +9,7 @@ LICENSE =3D &quot;LGPLv2.1&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4fbd65380cdd25595107=
-9008b364516c&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://salsa.debian.org/iso-codes=
--team/iso-codes.git;protocol=3Dhttp;branch=3Dmain" rel=3D"noreferrer" targe=
-t=3D"_blank">salsa.debian.org/iso-codes-team/iso-codes.git;protocol=3Dhttp;=
-branch=3Dmain</a>;&quot;<br>
--SRCREV =3D &quot;a36019e5014bff251f83d522ddcfebaecf52afd3&quot;<br>
-+SRCREV =3D &quot;3c012d266acaeda93d3e61ec11b8c18c1964fce1&quot; <br>
-<br>
-=C2=A0# inherit gettext cannot be used, because it adds gettext-native to =
-BASEDEPENDS which<br>
-=C2=A0# are inhibited by allarch<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+> so only 1.14 version in gatesgarth is affected.
+>
+> If you already have those updates in queue, then they shouldn't harm,
+> but aren't so necessary thanks to this backport.
 
---00000000000043a3d105bd57c130--
+I haven't started testing with them yet, so I'll drop them.
+
+Steve
+
+> > > Together with an warning about glibc:
+> > > WARNING: Your host glibc version (2.33) is newer than that in uninative (2.32). Disabling uninative so that sstate is not corrupted.
+> > >
+> > > which I see you're going to address in new PR with uninative upgrade.
+> > >
+> > > Cheers,
+> > >
+> > > 
+> > >
