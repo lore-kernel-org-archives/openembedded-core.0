@@ -1,50 +1,50 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web11.2554.1615661479726197976
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web10.2592.1615661484337154395
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Mar 2021 10:51:19 -0800
+ Sat, 13 Mar 2021 10:51:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bIuc6yH3;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.49, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f49.google.com with SMTP id h3-20020a4ae8c30000b02901b68b39e2d3so2381080ooe.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:51:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jFE5G9Gu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f169.google.com with SMTP id w195so23786237oif.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=geJJO3pcOzvhWvlFQbnkRGJCK5f+/2siaV2JRtABFm8=;
-        b=bIuc6yH30mkUa7F9YVzeBe2Q0Fk9wsbPRKBlzAachzseLDiJDb47O9EzicK66YlGfy
-         OmHCJn1muUWOgYSbKIzcTHEu2Ve/5+3MLGhw7aSaTjRCsJkGuBHc/ixQ4o6qe/4sSO/N
-         C+rwoSynOabh4HTlwpk+y5TQV81uPIiLxeLD8psN1pheINwjQaO9x8FlgezIvfRZfsJ/
-         bO4yrUIBAlTmbXZW17ugWe+nKNOr02LhY/x6MU3hgGaSUxfUIuxznnO65bgQ0HC6g5eU
-         pov0dMO9uptjHltR1FpTuIMepAZrZTWvzX58LhzitXleuH/Jz0KKwX+qDNoT2HnZ+spT
-         fFMA==
+        bh=ynJbDkiIlqozAKvgbHBki+y2nYNdqaqEzqTWIScPji4=;
+        b=jFE5G9GuxVmYeI1wKGDP2iilbwK1d6gy8SW6l626gvx6y+tSyELOkNXKvmQGrpkdiu
+         BNcQirDLGN8AHVpKgWTYcogMeQYekOo8yr3kfJZSQSLTiJClBqMJbBMYYm03sD+vWg5Y
+         TmhD1OaKqe6sJAUCJaEgvY/Jo6UOjChDhM/1suxygUJ9V+MBpmEQxSbcqHPHtyCKqu07
+         91A52pzRS9nHvVwFt360oI7oRQ+EwlbNsOdeozd6mw/GMNSiyqHaEmb1C2KO81Tv6lgI
+         qxaQYxFdXbhVZLKTGbuC0Ne4avSQnd5tKBzdnmVyQ99Ryh2SgqdvsRBjFIH2Jbwcyhvl
+         rp3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=geJJO3pcOzvhWvlFQbnkRGJCK5f+/2siaV2JRtABFm8=;
-        b=VzghUcF4kUpEuCzx5dTNc4AbkbbpBalU2mCVWLaRR5NRoMVNrMMamaPzc6aP1gBcpn
-         pL7JKktx9QlF0EOohz82FCZvTgMjOy+onceOvz8WlzxzrPEuZhxcv7qZhJSjbqM8ddMn
-         vPQIl5tYVMXDv2414bAqvvI+q9W+oWx66bVn2Bx/BOHSjcL7hUa03raGpiDFGhSU/7rY
-         kSMotvfvrhk6V/0f7ZOQTua6PU4fDA8nyG3WgEJVuGH1/jwUNl7N+A8bC5dHLynmMY1f
-         C03M7EEnYNohGBryU6P5E+/TmxeuL6AAuEyj4lJAJKMEIV0j2cDdFiRxNc1BD8RpOTV1
-         Zocg==
-X-Gm-Message-State: AOAM530rZCm4Ob8RT+SZCiPS57Y/AvZ6GyJOY0dBm4IBndJOfyBtupft
-	+ARSiJc3M51/b2YsT3d0LgY8Vf/pUek0y+RC
-X-Google-Smtp-Source: ABdhPJyzwozSoRLM6UnlmwDaRYqrsMLSmSEFmzkqjSnhct3dfK8g7FuLcHQjes6r6QOP8e8RMuI2RQ==
-X-Received: by 2002:a4a:e4c4:: with SMTP id w4mr905491oov.68.1615661478554;
-        Sat, 13 Mar 2021 10:51:18 -0800 (PST)
+        bh=ynJbDkiIlqozAKvgbHBki+y2nYNdqaqEzqTWIScPji4=;
+        b=KXjphMy08SYa9cB5UEOR73jln7wPBJsS2Cx/Z9vjzW/91gNSyNod5x5AFoR3fD5NMG
+         KLft4bBqdWM+Op+EWIEMRYcLtltpoDWbpLMnL3AqsNiJVZba5N8e4zQ0ts7cdk/PvSry
+         I0Tzm400AGp97nQ8oDMcQZOWji5dTTDIPRZPxUslk2kLOgi+S3EQ6P5+6VcmzOfY5fel
+         93MYshZTkBXIGoZthUdRrX/EVrDjbIo4bOsK4CAwJtwIKYL2YUpOFV9tJ0N79S1+N0Ak
+         P+HekmEneAsIJYXrW50TAEYpcIGE+7SO0zWW17U+j69TcWIZON4OYAV9T5r+BTX9A56v
+         pMGA==
+X-Gm-Message-State: AOAM533OuoA2v4jMRbHHXhBmTp93xsYbrPiijwnfyAibAxh+u8xOti7l
+	sEaBIDCiu3DrKTsKJVoxMoR0BQL87QBwIPOi
+X-Google-Smtp-Source: ABdhPJwNirtBDLaz8I+QyZe4i+HYZXO1AGWHdLYHz1pWfX//TYBt9wgmTJ1im0s81cUZq6IcPtJ73w==
+X-Received: by 2002:aca:4fc1:: with SMTP id d184mr13711928oib.31.1615661483123;
+        Sat, 13 Mar 2021 10:51:23 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.51.15
+        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.51.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 10:51:18 -0800 (PST)
+        Sat, 13 Mar 2021 10:51:22 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/38] meta/recipes-support: Add HOMEPAGE / DESCRIPTION
-Date: Sat, 13 Mar 2021 08:49:06 -1000
-Message-Id: <41b106617387a642338ab2ef3565ea5d48ce5685.1615661221.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 18/38] meta/recipes-kernel: Add HOMEPAGE / DESCRIPTION
+Date: Sat, 13 Mar 2021 08:49:07 -1000
+Message-Id: <2f2fb08e0d312d82749bea147306897c00df650e.1615661221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1615661221.git.steve@sakoman.com>
 References: <cover.1615661221.git.steve@sakoman.com>
@@ -60,49 +60,45 @@ Added missing HOMEPAGE and DESCRIPTION found using the test command
 
 Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 325db7fea11315e8dd53274853f33b716247d1bf)
+(cherry picked from commit 693988ec423341b930e93d604638826cccba9e37)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/lz4/lz4_1.9.2.bb   | 1 +
- meta/recipes-support/lzop/lzop_1.04.bb  | 1 +
- meta/recipes-support/serf/serf_1.3.9.bb | 1 +
- 3 files changed, 3 insertions(+)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb | 1 +
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 +
+ meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb        | 2 +-
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
-index 455d2a5141..20719fcc58 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
-+HOMEPAGE = "https://github.com/lz4/lz4"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
+index 0013e24580..1881a8e065 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210208.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Firmware files for use with Linux kernel"
++HOMEPAGE = "https://www.kernel.org/"
+ DESCRIPTION = "Linux firmware is a package distributed alongside the Linux kernel \
+ that contains firmware binary blobs necessary for partial or full functionality \
+ of certain hardware devices."
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index b59f57b139..2d4429b6b4 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -1,4 +1,5 @@
+ SUMMARY = "Sanitized set of kernel headers for the C library's use"
++HOMEPAGE = "https://www.kernel.org/"
+ DESCRIPTION = "Designed to maintain an Application Programming Interface (API) stable version of the Linux headers"
+ SECTION = "devel"
+ LICENSE = "GPLv2"
+diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+index 46820ef489..6ee0be5e3e 100644
+--- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "UProbes kernel module for SystemTap"
+-
++HOMEPAGE = "https://sourceware.org/systemtap/"
+ require systemtap_git.inc
  
- LICENSE = "BSD | BSD-2-Clause | GPL-2.0"
- LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc \
-diff --git a/meta/recipes-support/lzop/lzop_1.04.bb b/meta/recipes-support/lzop/lzop_1.04.bb
-index b50c230437..59c2003b74 100644
---- a/meta/recipes-support/lzop/lzop_1.04.bb
-+++ b/meta/recipes-support/lzop/lzop_1.04.bb
-@@ -5,6 +5,7 @@ gzip are much higher compression and decompression speed at the cost of some \n\
- compression ratio. The lzop compression utility was designed with the goals \n\
- of reliability, speed, portability and with reasonable drop-in compatibility \n\
- to gzip."
-+HOMEPAGE = "http://www.lzop.org/"
- DEPENDS += "lzo"
- 
- LICENSE = "GPLv2+"
-diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
-index dc917fa166..3276d40df6 100644
---- a/meta/recipes-support/serf/serf_1.3.9.bb
-+++ b/meta/recipes-support/serf/serf_1.3.9.bb
-@@ -3,6 +3,7 @@ DESCRIPTION = "The Apache Serf library is a C-based HTTP client library built up
- Portable Runtime (APR) library. It multiplexes connections, running the \
- read/write communication asynchronously. Memory copies and transformations are \
- kept to a minimum to provide high performance operation."
-+HOMEPAGE = "http://serf.apache.org/"
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://norpath.patch \
-            file://env.patch \
+ DEPENDS = "systemtap virtual/kernel"
 -- 
 2.25.1
 
