@@ -1,114 +1,84 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web10.2617.1615661575382537933
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web09.2586.1615661579435255995
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Mar 2021 10:52:55 -0800
+ Sat, 13 Mar 2021 10:52:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NNzmEPAZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id r24so5145077otp.12
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:52:55 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zd67cOSy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f44.google.com with SMTP id n23so5184756otq.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:52:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6piq8NDJqBChBtasVmki5RJni5sYMaIUj52X4N3BaU0=;
-        b=NNzmEPAZGLbkZJj63Y+qfCgbefuia8pjhKfp3vI5VidCSSHh6ZgBfY796HBqbCQDBq
-         fLb7zj2AfpnkuPA/PjgJwuefdSPi1aVkXCa98UkLZjYCIR+fEcnwaiB1Mt0I42oXrXhG
-         A0GE3qnHgqH2PENqbC6HkCTwusF28y3g96DCF2JCOwiyHUUfOszyVDxcVaCxPB4j+KG1
-         Z6innT2A67RIVhJUsBRb1+86oIc9LNmhe4p3mYvlgVYofp6mmyme8zEjDkLP9poFuuP3
-         OTn6pZ0jAvGpOqtpdXE5tCrt09b3XcxTLC5ehka5w+HjWh+PenBQyNHoNPb9t1XZXdpj
-         GQcA==
+        bh=xyuNhnXDJ5gesL5YdCmXtlv7nmZ/S75DW0V06M1j97w=;
+        b=zd67cOSyi/CaYfHO6j2Gw5j75mHzVRfgumECbnrdyyNy1W9UZ7Mt4uaj/H56xoPsgL
+         N+Nu/E/LZ5pKYRLSOfZDd72zBSTarwCCLF5OGyKdYKTaEfavWZ6p4EfLJJWYPN9D453p
+         u77t4DpMuxfdrFmtWGEjBTiaTO9K9fT99X04BwP+LpwoPifriw67NRQvIodO44lRwr9X
+         MOK7NiskCREU4aY2yNrZTGyVfsEZ/si0/peDU7LdXLs5ZunH06cz2eYy8cZYUUXGUIEa
+         q+9ZQz+bFPf/DYdkF6h1rE956pQlvlA0SOkT54TgMO4qD8MOHeEbX22b6kxrBfTrh8VU
+         UOTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6piq8NDJqBChBtasVmki5RJni5sYMaIUj52X4N3BaU0=;
-        b=fauauv4UmgA7KP+Gcp7g7TaHMaAohAzursjmpm9k9YjH+l3WxATTjcrabYpFd3kj8B
-         1oRAXE6/+gTmoVq6gi3Z+1KIQQKUXKAT2ALkU3607k6EuU00WzHETrSg0GDgeRVNGNnA
-         ZiVPRfXuWBJhczbBZQ4gyVrJi6vLxNK6mqKIv568k3/2oUxSEbLY2PI3N+spWEp68wos
-         ZoA77cHr1nfsiTYApZ2zfgzKyqnzPDFSjuVH/KJPo1ecvqcikdfUw0lcdgpFQPRICglX
-         gBDGPgqhpOQqah2LjvfInnNNv8zwIJ1tvmMOlh/z9EfKRvWHPcwwLJx3hDt7FXvN3FJC
-         YCKQ==
-X-Gm-Message-State: AOAM531EdNqX0tjN8PU9iHcxbAE1BD7kLZM42ioGYkIzwz1dWDtErYkP
-	guwMpG2QmBeaI+uZkkRjHwCTxHAbBiJ5FDGP
-X-Google-Smtp-Source: ABdhPJwroRgrpqF4+cv/fvsDSUyx/xg/Z6mEM8fZvOxFJOqn2N4/7DMSfuZsw0TwmGRQU1BVr87Zlw==
-X-Received: by 2002:a9d:2062:: with SMTP id n89mr7970175ota.297.1615661574196;
-        Sat, 13 Mar 2021 10:52:54 -0800 (PST)
+        bh=xyuNhnXDJ5gesL5YdCmXtlv7nmZ/S75DW0V06M1j97w=;
+        b=t4v21tJIc2admnrYNnQLsTUvVMt988dlbX6NMJHWLxapDWSwKSoS/SSpfeNHjjzPjQ
+         zCydesTYhKJOMa431AACXUBDzxV9VuQ3Z8n6EhaT8PGAbq+o6d16P5G2JzEtjOY/YrOz
+         /Gm3lQAuEQ48vI4zlUN5Of+QXdC5crctZawL2L0Xj0Qw7F8bCaiE/0Lr6z/dDkgecvtU
+         TUL/VxcXLloL28DXqVsX5fvj8qM/MOf7Vcr0qijl7ounEEKDOT4183PfSEeB18qIb+rH
+         l08AJyz69B2nFmUmSLFgnGNBk/z3YPXYliQmt1O+9NgSyGdofZqjuck1ntm/Q/Dfj9MB
+         eLxg==
+X-Gm-Message-State: AOAM533nbHLYruEQRpyr+1vQc7FlhZ0MSBKln8HekbW7F16yNLxYR1sa
+	uvNWlByFyTsEE8UTnKFhNNHGCkoPmy1bnG3F
+X-Google-Smtp-Source: ABdhPJzlrWQm84sjl6oLNxqboEQ1cbDJKFDMBzV9mQZCm6oXyql26wrJaZknMjhThmA8pLB6PLHmIQ==
+X-Received: by 2002:a9d:20c6:: with SMTP id x64mr7937334ota.262.1615661578291;
+        Sat, 13 Mar 2021 10:52:58 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.52.51
+        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.52.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 10:52:53 -0800 (PST)
+        Sat, 13 Mar 2021 10:52:57 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 37/38] insane: don't check for a warning string that is never output
-Date: Sat, 13 Mar 2021 08:49:26 -1000
-Message-Id: <32c49bc10013ece820c9168b690d14a5a9fd1f13.1615661221.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 38/38] cups: use /run instead /var/run in systemd's unit file
+Date: Sat, 13 Mar 2021 08:49:27 -1000
+Message-Id: <7c88d52eaca62237afcda606a3078ec483992213.1615661221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1615661221.git.steve@sakoman.com>
 References: <cover.1615661221.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-insane has checks that the compiler isn't printing "CROSS COMPILE
-Badness" during configure/compile/install, but this message hasn't been
-output by GCC since 2010 (23f522e7).
+/var/run has been deprecated by systemd, so use /run instead,
+as suggested by systemd.
 
-The current warning is "include location [...] is unsafe for cross-
-compilation" and as that is a proper GCC warning, we can make it fatal
-in follow-up patches.
+[Yocto #14152]
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a67e9ebfd5b8002fd4a7d8d27ff0d997817f76e1)
+(cherry picked from commit 6c3f56020da7a26c2daea73e39c2f324f1f597db)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/insane.bbclass | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+ meta/recipes-extended/cups/cups.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b5c6b2186f..09e8fbd8e4 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1012,26 +1012,6 @@ python do_package_qa () {
-     logdir = d.getVar('T')
-     pn = d.getVar('PN')
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 12780cf702..acad3c98c1 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -54,6 +54,7 @@ EXTRA_OECONF = " \
+                --enable-libusb \
+                --with-system-groups=lpadmin \
+                --with-cups-group=lp \
++               --with-domainsocket=/run/cups/cups.sock \
+                DSOFLAGS='${LDFLAGS}' \
+                "
  
--    # Check the compile log for host contamination
--    compilelog = os.path.join(logdir,"log.do_compile")
--
--    if os.path.exists(compilelog):
--        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % compilelog
--        if subprocess.call(statement, shell=True) == 0:
--            msg = "%s: The compile log indicates that host include and/or library paths were used.\n \
--        Please check the log '%s' for more information." % (pn, compilelog)
--            package_qa_handle_error("compile-host-path", msg, d)
--
--    # Check the install log for host contamination
--    installlog = os.path.join(logdir,"log.do_install")
--
--    if os.path.exists(installlog):
--        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % installlog
--        if subprocess.call(statement, shell=True) == 0:
--            msg = "%s: The install log indicates that host include and/or library paths were used.\n \
--        Please check the log '%s' for more information." % (pn, installlog)
--            package_qa_handle_error("install-host-path", msg, d)
--
-     # Scan the packages...
-     pkgdest = d.getVar('PKGDEST')
-     packages = set((d.getVar('PACKAGES') or '').split())
-@@ -1210,7 +1190,7 @@ python do_qa_configure() {
-     if bb.data.inherits_class('autotools', d) and not skip_configure_unsafe:
-         bb.note("Checking autotools environment for common misconfiguration")
-         for root, dirs, files in os.walk(workdir):
--            statement = "grep -q -F -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s" % \
-+            statement = "grep -q -F -e 'is unsafe for cross-compilation' %s" % \
-                         os.path.join(root,"config.log")
-             if "config.log" in files:
-                 if subprocess.call(statement, shell=True) == 0:
 -- 
 2.25.1
 
