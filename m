@@ -1,149 +1,77 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.77.1615591281071247964
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web08.1971.1615606660192613793
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Mar 2021 15:21:21 -0800
+ Fri, 12 Mar 2021 19:37:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W2ADN8x3;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id d15so5671143wrv.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 15:21:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hCjUOvAB;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id u18so12790327plc.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Mar 2021 19:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=z5CrsiblsUPfJPN/JapmWNPdlMIzEKDbZ7ujJp0NbKA=;
-        b=W2ADN8x3UK5mGteIjGd6jPx1V4HjOMv/0hv53J4YdoufJbUGbP4bnc55Y+sGKh79sL
-         hsI7WFGYEQwHzprcq/vkSlzHuPDZrS8CbdG4ez/NJeQeWyagASJSrMNQVjWGRl9XTk+2
-         zMEYRTynv3v/fpbyJAzepD78iTyMZWFMbaRocE4TKtwIXExDb+6sd7sneEZgQntu43NX
-         2M8bsEzhvPOTgSNz5KOvMVMBAL1IwK7P0/Zu8RTzyDY7d2Wi07MyE8lT0g1Bbed7+G14
-         ea7n6k7JBuf7KF3UAkQP3U3v/liEUvnINGXBwbe/hMKKGE2qMlJHeqSCNQZXULFgMDBi
-         RzCg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1BAillVPq7VcBek7TFXrfna8v80sQB+Mzyg9G9fYPkU=;
+        b=hCjUOvABmYhb5W82UBkRLmHVW10aPTuR6stxoYflB1M3k0uQUA3nZtMJPxu3SJYhPg
+         TlMkr3+OSUVjPnXI8Uu4wyBFo4usNH38lauPj9kLIJ3HvPRImNOsRz4WixbcBOOs1B0X
+         7v9vjWYn8acDlio2Gc4O1eyYF4FIsbzPouaFdcyLIFIV8XCEvp4HJvMjqk1lL/IM+Sev
+         +FeBn+2cMDLUZRwxJ3zNRxyN8ykPBW4aHC5G+a1+RCMHqzAPkfMsokI+T3NjdErCk1wW
+         C3GX4CM1DG9mQhpprVHXSyI+qWlS8aUjBpbEDX1qKAqTUieuBHR7ghF/7T051CsoMJzI
+         nBAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=z5CrsiblsUPfJPN/JapmWNPdlMIzEKDbZ7ujJp0NbKA=;
-        b=hiaENJa0p54QAVJpatPnGKt9Ml6KZmV704Kl4m7aP0AvggmzsXQ7D4sCxRQxoM2UpG
-         RKPsgikwomOUPOJECjQ/LoH2ok0Mq2fzmnBIUQ8XhCNNhEcM3Ow5kNigz0Z/xIYN51/b
-         cxyzgmmKYBC7zHHuFTncimiPTF4IlwOA/VGmnBRHkyFqmOJWzlDSuJIn3GLa3XzNz78U
-         NRfHJnsNnTt8bNpUx1JqVNvEONmNNLIbLks1ILSJa4AgabksLXUl0zV5wNvaIODdKF/H
-         PjaaX1Gvt6gsGoNlcUW/iG5aLEMD/LUB4GNdskRUfXuwqct2H60btu32rFOCEg7kTJTB
-         jbQw==
-X-Gm-Message-State: AOAM533ov8dSZ6tPYmxvQL9afbH63ztS5BRfugl96hKoB8V0RxFAoeEj
-	0Xha0XDYXUKGecU2oHrNYYQ=
-X-Google-Smtp-Source: ABdhPJzINFyfbeMD3UWgqRiaRXZqV4d5BpxRtzjbkPIO7IpZlQKl1R5Efoa0eOM85NkqTCstEmUxxg==
-X-Received: by 2002:adf:fd48:: with SMTP id h8mr16360095wrs.229.1615591279403;
-        Fri, 12 Mar 2021 15:21:19 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y205sm4704945wmc.18.2021.03.12.15.21.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1BAillVPq7VcBek7TFXrfna8v80sQB+Mzyg9G9fYPkU=;
+        b=fFxlQ+1Gb71Rv4FgJfzHflWQc2Xe3nLmVkQt9rYJyKg+iXDUSjbrYbru5L1TW3Y6Jz
+         z3fFK3AFoGS8CKzJX50HEoCMj56/q5MNguFdmlfgZecz16h7IULwQYWOTJIAaHm9Rt9N
+         P7NMv8ZCnxnGvk0qF4eRA0z7fXmKtIk0a3dr9ESCt+mVpfeeS0uSkzlhsZiPme+Ldkqb
+         qQ8jWeD8YY/B05F3X9u+1C7q+jY5X0KavB2a3VO/3xRsb27nQIAukcBSqMU/gPgE/rT3
+         lG2SlOPl0o7Ys6oFCS8tAKz3Vn0E1qSFlHI59PXg8xZhyg3Khe504hoLKvEbaxHnLc4A
+         t4PQ==
+X-Gm-Message-State: AOAM533TJXnX1WbRGW7fn0zME38QqkKozBU1DfMYYRVD2ZIonwMb0cZt
+	pocw7zEecy/nBIWq8Z3/13K4Jce9PRxlbQ==
+X-Google-Smtp-Source: ABdhPJzarZJcPscE4OTsX4ROTY7Xfakhup7A6FRnpYXqXerLi3x0w3Vd05S52B3HPTsPHl7uG7DMsg==
+X-Received: by 2002:a17:902:8501:b029:e2:d953:212c with SMTP id bj1-20020a1709028501b02900e2d953212cmr1575930plb.49.1615606659409;
+        Fri, 12 Mar 2021 19:37:39 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::c2dd])
+        by smtp.gmail.com with ESMTPSA id iq6sm3430010pjb.31.2021.03.12.19.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Mar 2021 15:21:17 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 13 Mar 2021 00:21:17 +0100
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [RFC][PATCH] sstatesig.py: show an error instead of warning when sstate manifest isn't found
-Message-ID: <20210312232117.m4b3cp2ahaambs7h@jama>
-References: <166663E8BC670D0D.6890@lists.openembedded.org>
- <20210223135101.gcailiou4lhceoa7@jama>
- <27cd8d13140defc517650f2a1ef76c1d58d9928a.camel@linuxfoundation.org>
- <20210312224150.GB4892@denix.org>
+        Fri, 12 Mar 2021 19:37:38 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Subject: [PATCH] Enable qemu usermode on ppc64
+Date: Fri, 12 Mar 2021 19:37:36 -0800
+Message-Id: <20210313033736.1276285-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210312224150.GB4892@denix.org>
-X-Groupsio-MsgNum: 149376
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cqehetzlzqhggczc"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---cqehetzlzqhggczc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+d044743cdc4 disabled it, perhaps it did not work back in 2016
 
-On Fri, Mar 12, 2021 at 05:41:50PM -0500, Denys Dmytriyenko wrote:
-> On Fri, Feb 26, 2021 at 03:53:38PM +0000, Richard Purdie wrote:
-> > On Tue, 2021-02-23 at 14:51 +0100, Martin Jansa wrote:
-> > > On Tue, Feb 23, 2021 at 02:35:53PM +0100, Martin Jansa via lists.open=
-embedded.org wrote:
-> > > > * not sure if there are some valid use-cases for missing manifest, =
-but
-> > > > =A0=A0recently I'm seeing increasing number of build failures where=
- something
-> > > > =A0=A0from native recipe is missing (seen it with pseudo, autoconf,=
- nodejs
-> > > > =A0=A0recently) and the only indication that something is wrong (be=
-fore showing
-> > > > =A0=A0sometimes misleading error like:
-> > > > =A0=A0recipe-sysroot-native/usr/bin/node: No such file or directory
-> > > > =A0=A0is this warning:
-> > > > =A0=A0NOTE: Running task 7844 of 12431 (/meta-oe/meta-oe/recipes-de=
-vtools/nodejs/nodejs_12.20.2.bb:do_prepare_recipe_sysroot)
-> > > > =A0=A0NOTE: recipe nodejs-12.20.2-r0: task do_prepare_recipe_sysroo=
-t: Started
-> > > > =A0=A0WARNING: nodejs-12.20.2-r0 do_prepare_recipe_sysroot: Manifes=
-t /BUILD/sstate-control/manifest-x86_64_ubuntu-18.04-nodejs-native.populate=
-_sysroot not found in x86_64 x86_64_ubuntu-18.04 (variant '')?
-> > > > =A0=A0NOTE: Running task 7845 of 12431 (/meta-oe/meta-oe/recipes-de=
-vtools/nodejs/nodejs_12.20.2.bb:do_unpack)
-> > > > =A0=A0NOTE: recipe nodejs-12.20.2-r0: task do_unpack: Started
-> > > > =A0=A0WARNING: nodejs-12.20.2-r0 do_prepare_recipe_sysroot: Manifes=
-t /BUILD/sstate-control/manifest-x86_64_ubuntu-18.04-nodejs-native.populate=
-_sysroot not found in x86_64 x86_64_ubuntu-18.04 (variant '')?
-> > > > =A0=A0NOTE: recipe nodejs-12.20.2-r0: task do_prepare_recipe_sysroo=
-t: Succeeded
-> > > >=20
-> > > > =A0=A0if I rebuild that native dependency, then it gets fixed and I=
- don't
-> > > > =A0=A0see these failures in clean builds (as without sstate and wit=
-h empty
-> > > > =A0=A0TMPDIR), only in incremental builds
-> > > >=20
-> > > > * but if there isn't valid reason for missing manifest file, then I=
- think
-> > > > =A0=A0it would be better to error early (or even bb.fatal())
-> > >=20
-> > > Looks like this warning was first introduced in 2014:
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3D79ea036de=
-331bde65a88fb777647dc099ef05acf
-> > > then extended and updated for RSS in:
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3D809746f56=
-df4b91af014bf6a3f28997d6698ac78
-> > > then added for package management in:
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3D85e72e129=
-362db896b0d368077033e4a2e373cf9
-> > > and then unified last 2 to common function in:
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3D68150bac7=
-444f089f19c789e9f6602d59f605d7a
-> >=20
-> > I merged this. There were cases where the warning showed in cases where
-> > there wasn't a problem but I think we've fixed all those now.
->=20
-> Richard, Martin,
->=20
-> Can you please point me to the right way of fixing this? I've been seeing=
-=20
-> this warning before and since it is now an error and backported to Dunfel=
-l,=20
-> it breaks builds one in a while.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/conf/machine/include/powerpc/arch-powerpc64.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Do you see this error triggered on initramfs manifest used by your
-kernel? See this thread for possible work arounds:
-https://lists.openembedded.org/g/openembedded-core/topic/81249042#149271
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+index cf5c3ef8e6..467abc5faa 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+@@ -10,9 +10,6 @@ TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'powerpc64${ENDIA
+ # musl only supports elfv2 ABI for ppc64
+ TUNE_CCARGS .= "${@['', ' -mabi=elfv2']['libc-musl' in d.getVar('OVERRIDES').split(':')]}"
+ 
+-# user mode qemu doesn't support ppc64
+-MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'm64', 'qemu-usermode', '', d)}"
+-
+ AVAILTUNES += "powerpc64 powerpc64le"
+ 
+ TUNE_FEATURES_tune-powerpc64 = "m64 fpu-hard bigendian"
+-- 
+2.30.2
 
-but maybe you have some different corner case which will need different
-fix.
-
---cqehetzlzqhggczc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYEv3awAKCRA3VSO3ZXaA
-HORVAKCfkShAwPGI+Q1KDAkxRphuvS/V4gCeO2ponWSJMc6y/oVTZk8StKLHrIk=
-=i5zU
------END PGP SIGNATURE-----
-
---cqehetzlzqhggczc--
