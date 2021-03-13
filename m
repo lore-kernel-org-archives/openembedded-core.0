@@ -1,101 +1,114 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web11.2587.1615661571271819382
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.2617.1615661575382537933
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Mar 2021 10:52:51 -0800
+ Sat, 13 Mar 2021 10:52:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kBYX8kST;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.46, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f46.google.com with SMTP id j22so5189557otp.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:52:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NNzmEPAZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f53.google.com with SMTP id r24so5145077otp.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ktVrtxJLdHGSb7Ygn4Tu5znwjcD1ZlCrVTtIDmcDgNo=;
-        b=kBYX8kSTCe2DGUewF9wkNVRtD1WxcBwukAliD/nLMELaosEg1bUP7Y2E08JcQpHDyJ
-         t6Vcw7VtodDwgy9x75/AIRbYXm+5LJfp9ORgyNbcWuBOiyyNl/4ah7jtJdZizrFt6ldr
-         uWc+379zpMKB74KdpTVi23VGNM72rFbPNAckz6dk/WhFfzWKUwu8JsrBYLopDcLoKs8r
-         fyQVAaLOxN04fypmDfjqhPju90Uc2xDAElSbJpR2daUT1Zz5fjBYt4G2sxRFHOCRkUEi
-         9aSu2aPwFmhCn+58PJT4hZ6CEnaf1nIh7GJYqskIrcql/BCvPTOMhqMosdlKx3+VJet7
-         Qrkw==
+        bh=6piq8NDJqBChBtasVmki5RJni5sYMaIUj52X4N3BaU0=;
+        b=NNzmEPAZGLbkZJj63Y+qfCgbefuia8pjhKfp3vI5VidCSSHh6ZgBfY796HBqbCQDBq
+         fLb7zj2AfpnkuPA/PjgJwuefdSPi1aVkXCa98UkLZjYCIR+fEcnwaiB1Mt0I42oXrXhG
+         A0GE3qnHgqH2PENqbC6HkCTwusF28y3g96DCF2JCOwiyHUUfOszyVDxcVaCxPB4j+KG1
+         Z6innT2A67RIVhJUsBRb1+86oIc9LNmhe4p3mYvlgVYofp6mmyme8zEjDkLP9poFuuP3
+         OTn6pZ0jAvGpOqtpdXE5tCrt09b3XcxTLC5ehka5w+HjWh+PenBQyNHoNPb9t1XZXdpj
+         GQcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ktVrtxJLdHGSb7Ygn4Tu5znwjcD1ZlCrVTtIDmcDgNo=;
-        b=DE6YdnCspDGRTnuLoFcg/K4qAEHJN9WFsH3kCx2ckPt10bjhbS6LDvM96JPZhX0z8o
-         GB46s+MZbvtX3irD0JZulLpjIML9B/VZHyP0cDz3p9P6/MSw3jl3hV4fWcvv5I09+dnD
-         6ci94Yjprr9Mdx0aZfVwUhGg5CMZG4Q0YijjVtM3xWLk630ngiJ1LLnGZXkVzovMTlvw
-         +dqDxRUYjv8k0BA+JHNLgeZbS17FLPqjiE85kVFzLYmizXBBqf7GHPAF6Zj/hwHPGH/V
-         SMFePawr4kBkfeHbfTpqO8O2UlkysKvjlO/0uGm3EFJfikRSWMqR3xcBU8XWlGJEqH0q
-         h5Qw==
-X-Gm-Message-State: AOAM530YZopJER/CffQgWvcmkDXGHt4Rlf3vmyfsSCRwH5wcVyECBs5L
-	b74NJ4xXvYAjkYOFXB/sDid4u4fL/pWIBTNG
-X-Google-Smtp-Source: ABdhPJyugEmhhyxCS101Wl9EWRvgUZ9ln0ZQr32GddHSk7FL94e5CrC/mPzVtxTWS3dLkPB4RtVq7g==
-X-Received: by 2002:a9d:4f05:: with SMTP id d5mr8042617otl.88.1615661570089;
-        Sat, 13 Mar 2021 10:52:50 -0800 (PST)
+        bh=6piq8NDJqBChBtasVmki5RJni5sYMaIUj52X4N3BaU0=;
+        b=fauauv4UmgA7KP+Gcp7g7TaHMaAohAzursjmpm9k9YjH+l3WxATTjcrabYpFd3kj8B
+         1oRAXE6/+gTmoVq6gi3Z+1KIQQKUXKAT2ALkU3607k6EuU00WzHETrSg0GDgeRVNGNnA
+         ZiVPRfXuWBJhczbBZQ4gyVrJi6vLxNK6mqKIv568k3/2oUxSEbLY2PI3N+spWEp68wos
+         ZoA77cHr1nfsiTYApZ2zfgzKyqnzPDFSjuVH/KJPo1ecvqcikdfUw0lcdgpFQPRICglX
+         gBDGPgqhpOQqah2LjvfInnNNv8zwIJ1tvmMOlh/z9EfKRvWHPcwwLJx3hDt7FXvN3FJC
+         YCKQ==
+X-Gm-Message-State: AOAM531EdNqX0tjN8PU9iHcxbAE1BD7kLZM42ioGYkIzwz1dWDtErYkP
+	guwMpG2QmBeaI+uZkkRjHwCTxHAbBiJ5FDGP
+X-Google-Smtp-Source: ABdhPJwroRgrpqF4+cv/fvsDSUyx/xg/Z6mEM8fZvOxFJOqn2N4/7DMSfuZsw0TwmGRQU1BVr87Zlw==
+X-Received: by 2002:a9d:2062:: with SMTP id n89mr7970175ota.297.1615661574196;
+        Sat, 13 Mar 2021 10:52:54 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.52.47
+        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.52.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 10:52:49 -0800 (PST)
+        Sat, 13 Mar 2021 10:52:53 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 36/38] build-appliance-image: Drop kernel module handling
-Date: Sat, 13 Mar 2021 08:49:25 -1000
-Message-Id: <b5bcbe1835ad95a65c2c01212a35f9388ac0dffc.1615661221.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 37/38] insane: don't check for a warning string that is never output
+Date: Sat, 13 Mar 2021 08:49:26 -1000
+Message-Id: <32c49bc10013ece820c9168b690d14a5a9fd1f13.1615661221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1615661221.git.steve@sakoman.com>
 References: <cover.1615661221.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
 
-kernel-devsrc is a dependency of the image so we no longer need the symlink
-creation code or the module-base inherit/dependency as it is included in
-that recipe. The KERNEL_VERSION usage was broken anyway as the module
-usage would have needed a:
+insane has checks that the compiler isn't printing "CROSS COMPILE
+Badness" during configure/compile/install, but this message hasn't been
+output by GCC since 2010 (23f522e7).
 
-do_image[depends] += "build-appliance-image:do_configure"
+The current warning is "include location [...] is unsafe for cross-
+compilation" and as that is a proper GCC warning, we can make it fatal
+in follow-up patches.
 
-which wasn't present so it was indeterminate if KERNEL_VERSION was set
-correctly.
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a46b43bb67b2f87ec370480e50a2e2d111555b75)
+(cherry picked from commit a67e9ebfd5b8002fd4a7d8d27ff0d997817f76e1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ meta/classes/insane.bbclass | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index f5cc20fa6d..086e20023f 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -22,7 +22,7 @@ APPEND += "rootfstype=ext4 quiet"
- DEPENDS = "zip-native python3-pip-native"
- IMAGE_FSTYPES = "wic.vmdk"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b5c6b2186f..09e8fbd8e4 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1012,26 +1012,6 @@ python do_package_qa () {
+     logdir = d.getVar('T')
+     pn = d.getVar('PN')
  
--inherit core-image module-base setuptools3
-+inherit core-image setuptools3
- 
- SRCREV ?= "fadf7d3343305337c38a5243797723c68e88276a"
- SRC_URI = "git://git.yoctoproject.org/poky;branch=dunfell \
-@@ -61,12 +61,6 @@ fakeroot do_populate_poky_src () {
- 	# Place the README_VirtualBox_Toaster file in builders home folder.
- 	cp ${WORKDIR}/README_VirtualBox_Toaster.txt ${IMAGE_ROOTFS}/home/builder/
- 
--	# Create a symlink, needed for out-of-tree kernel modules build
--	if [ ! -e ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build ]; then
--		rm -f  ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
--		lnr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
--	fi
+-    # Check the compile log for host contamination
+-    compilelog = os.path.join(logdir,"log.do_compile")
 -
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	echo "export LC_ALL=en_US.utf8" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
- 
+-    if os.path.exists(compilelog):
+-        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % compilelog
+-        if subprocess.call(statement, shell=True) == 0:
+-            msg = "%s: The compile log indicates that host include and/or library paths were used.\n \
+-        Please check the log '%s' for more information." % (pn, compilelog)
+-            package_qa_handle_error("compile-host-path", msg, d)
+-
+-    # Check the install log for host contamination
+-    installlog = os.path.join(logdir,"log.do_install")
+-
+-    if os.path.exists(installlog):
+-        statement = "grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s > /dev/null" % installlog
+-        if subprocess.call(statement, shell=True) == 0:
+-            msg = "%s: The install log indicates that host include and/or library paths were used.\n \
+-        Please check the log '%s' for more information." % (pn, installlog)
+-            package_qa_handle_error("install-host-path", msg, d)
+-
+     # Scan the packages...
+     pkgdest = d.getVar('PKGDEST')
+     packages = set((d.getVar('PACKAGES') or '').split())
+@@ -1210,7 +1190,7 @@ python do_qa_configure() {
+     if bb.data.inherits_class('autotools', d) and not skip_configure_unsafe:
+         bb.note("Checking autotools environment for common misconfiguration")
+         for root, dirs, files in os.walk(workdir):
+-            statement = "grep -q -F -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' %s" % \
++            statement = "grep -q -F -e 'is unsafe for cross-compilation' %s" % \
+                         os.path.join(root,"config.log")
+             if "config.log" in files:
+                 if subprocess.call(statement, shell=True) == 0:
 -- 
 2.25.1
 
