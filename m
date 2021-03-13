@@ -1,50 +1,50 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.2600.1615661517741637703
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web11.2573.1615661521934113193
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Mar 2021 10:51:57 -0800
+ Sat, 13 Mar 2021 10:52:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IWXvXgCx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f52.google.com with SMTP id m21-20020a9d7ad50000b02901b83efc84a0so3136111otn.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:51:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sDRmmtCc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.53, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f53.google.com with SMTP id c13-20020a4ab18d0000b02901b5b67cff5eso2385108ooo.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Mar 2021 10:52:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Cm/M2uQx8ZTmjCu0goToQexvb35c5mtQxIjJEbwhBo4=;
-        b=IWXvXgCxnyCiOZKzVcdGfgq1LE7KIgO0kmvIdyYhM1fJLd5IZwXT+pmS3gixQlSlb6
-         8/aq/HuFDtzga9gFLTZM9VzzJlh6FnFjWzI9dLZ/o/420+kDGYAjdStocpJK/oKm+2vU
-         ws1XCFQ01eVCYbmiRQH2KAg4y+QCdeHhoGgN8RlYsXhDGJaDjZus4BUYDpH+v8ZdoAhv
-         2au6OSZ1zAkcBMMbCVtJFnhuzomfjBBQuCo/zaglK6Vof/otbqYZb8/SuceYTCAEgydt
-         xYySBVuFhILxixGejLdgc5CfJxfj7/3o2PxFfau1BOUwJQQG4XlCyVRAitOo/roAzl4U
-         ryQg==
+        bh=JVPORBSoGUZ84wjV7ZR2sqxF0alvGwo/g5QY0rqE+lk=;
+        b=sDRmmtCcPHyj11H0BEpd75t1GD0qL2x2+4kt9G3ZrORX9rA4mtnCH0ICLMllOUAT4j
+         TbP+cYjH6gw6uFhRklmHpYrYq9Qhk1TkY278Mz2ZnBwcdF2ca8gborHeIF5pCzVKVOjM
+         b5xQpyUaJ7CslFL07vwTsN/2zHf68gvgD3D8FSleKi+NZGQJmIwlo0SFDM0OLlMa8gXy
+         UMsbGBhSwM70YXVLHklIFpVFnpDTUCtwKVqaEDqqhwRBINDeQoYGoL7Df+PGixugONwH
+         NT0QkW7kRpBcBiETHP2zwOi9Ia4XjCW8l8r2JovEzXLnonRxJbbI7XAXlegugJHJCwtg
+         H72w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Cm/M2uQx8ZTmjCu0goToQexvb35c5mtQxIjJEbwhBo4=;
-        b=DFvODMFv/vvLNg0zSAsrGGSE6CASt2QSr86Vh4y6i2kfT4y4sxhFmHTfDSDgYiluK8
-         aMC4BaNPPV0O5Fi98nSRzSnH+8WO2iMjk9XU5RbVAzOUZlIsR3X3/WeoNOPvpoiSpyMG
-         idJLx2yJZ9bznlATr5ICIDK/fEQJcBucA22SAf2X3bcn+QZ+AWX1LsUpLk1u1GjfT0xW
-         0sIOwCGwqmfwR1HEeWvKFzX5qV8R1ZvSvHQU+AhiZ8yEPAo8THiDoeZKZ7e0a4zPQjDh
-         QXp4mOt2vJcg6OOdUeAk1qUq8uvKr+wpDkQugW7lN+vWtgOEeO+hUQarNZQuedVNMDJF
-         xTKg==
-X-Gm-Message-State: AOAM533JmhU8oMwHSc6ST3lj+5cn/EV6Pr6S1g01Pv3OSQ0oZRoLcj7Y
-	YdGGw+c2nf61nG8nN1amFl2ojU0rxKNFYtdF
-X-Google-Smtp-Source: ABdhPJz+f4tHkwaIY4rPPqqHrclM5TxPNRncGUd0VZII6dv1lxVS9z/f9vAjE8kdIe4qtVOnhnMjnw==
-X-Received: by 2002:a9d:2226:: with SMTP id o35mr7889864ota.242.1615661516566;
-        Sat, 13 Mar 2021 10:51:56 -0800 (PST)
+        bh=JVPORBSoGUZ84wjV7ZR2sqxF0alvGwo/g5QY0rqE+lk=;
+        b=L6PSie6UObsXuvXowNJD8DsbeFMIcHfWa0n7iVbAGN1rBaG5Enb2dM81nKaCl+w9T6
+         N8dIUQvJeo6Ta4pGBhTDMLWl49MzZkZdY9Jg6RtHu41B8o65acO/HT76hPjMGcGhcDKe
+         ZSj4dZSE0gI8K2TwHe606YYM4rjF5+K7HSa0jcl63zMBMQoUg3uK7wJI4ArZ8TINrlZp
+         Fpi23AwZyjRQV1jX9mk+fPWs7HTZW/xmbhPlE3q07yOlRtZrEDca7IT528KX28I8axaf
+         jXo5LnKm9lU2WXYX6b0SeZ2lKkTijvk90Jz1/SASu7ZJOzg4+WnEhPdU1Eiqv8aDtjvf
+         Afmw==
+X-Gm-Message-State: AOAM530/zRjWJUnJtB7BChP0jbgiIvxKmdXchfuiAdp7OczVRPlHYPrD
+	EVM9rbHMznfxpsqGvD/C3jFWNJ1pV2vucwMh
+X-Google-Smtp-Source: ABdhPJxNPVihKn3zocojEaK4P0NjzXpigNeEkDwXwh1ongrIQAmZt1DNLR67gQfxytETNw1QCGq9gQ==
+X-Received: by 2002:a4a:d05:: with SMTP id 5mr7954345oob.10.1615661520853;
+        Sat, 13 Mar 2021 10:52:00 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.51.53
+        by smtp.gmail.com with ESMTPSA id d1sm3765385oth.13.2021.03.13.10.51.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 10:51:56 -0800 (PST)
+        Sat, 13 Mar 2021 10:52:00 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/38] efivar: Fix reproducibility issue
-Date: Sat, 13 Mar 2021 08:49:14 -1000
-Message-Id: <4ce08e6fa4e72d70badb1892f48d593a37f063ad.1615661221.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 26/38] selftest/reproducible: Add ability to pull some objects from sstate
+Date: Sat, 13 Mar 2021 08:49:15 -1000
+Message-Id: <8b38cd1b36f3e227a63c0aa3955f3f5ab172c509.1615661221.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1615661221.git.steve@sakoman.com>
 References: <cover.1615661221.git.steve@sakoman.com>
@@ -53,54 +53,69 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Add sorting to the globbing within the Makefile to make the output
-reproducible.
+When debugging why a single recipe doesn't reproduce, its a pain
+to wait for the world to rebuild from scratch. Update the selftest
+to allow this to be configured, for example you could set
+targets as ['perf'] and sstate_targets as ['virtual/kernel']
+and then it should only be rebuilding perf in the test rather than
+things like the toolchain (parts of the kernel may be unavoiable
+as they're not in sstate).
+
+Can be run as:
+
+OEQA_DEBUGGING_SAVED_OUTPUT=/tmp/perf-diffoscope oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds
+
+to save diffoscope output.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c43ae151f572786818fe048233b4bbfd6b0ba2cf)
+(cherry picked from commit 132a17d02f29711572e14a2f38a841323fbb6df6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../efivar/efivar/determinism.patch            | 18 ++++++++++++++++++
- meta/recipes-bsp/efivar/efivar_37.bb           |  1 +
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-bsp/efivar/efivar/determinism.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/efivar/efivar/determinism.patch b/meta/recipes-bsp/efivar/efivar/determinism.patch
-new file mode 100644
-index 0000000000..bdf6bfc4a8
---- /dev/null
-+++ b/meta/recipes-bsp/efivar/efivar/determinism.patch
-@@ -0,0 +1,18 @@
-+Fix reproducibility issue caused by unsorted wildcard expansion.
-+
-+Upstream-Status: Pending
-+RP 2021/3/1
-+
-+Index: git/src/Makefile
-+===================================================================
-+--- git.orig/src/Makefile
-++++ git/src/Makefile
-+@@ -15,7 +15,7 @@ TARGETS=$(LIBTARGETS) $(BINTARGETS) $(PC
-+ STATICTARGETS=$(STATICLIBTARGETS) $(STATICBINTARGETS)
-+ 
-+ LIBEFIBOOT_SOURCES = crc32.c creator.c disk.c gpt.c loadopt.c path-helpers.c \
-+-		     linux.c $(wildcard linux-*.c)
-++		     linux.c $(sort $(wildcard linux-*.c))
-+ LIBEFIBOOT_OBJECTS = $(patsubst %.c,%.o,$(LIBEFIBOOT_SOURCES))
-+ LIBEFIVAR_SOURCES = dp.c dp-acpi.c dp-hw.c dp-media.c dp-message.c \
-+ 	efivarfs.c error.c export.c guid.c guids.S guid-symbols.c \
-diff --git a/meta/recipes-bsp/efivar/efivar_37.bb b/meta/recipes-bsp/efivar/efivar_37.bb
-index 9b95721a4e..5bf121ff6e 100644
---- a/meta/recipes-bsp/efivar/efivar_37.bb
-+++ b/meta/recipes-bsp/efivar/efivar_37.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6626bb1e20189cfa95f2c508ba286393"
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 7f74cec28f..f570958f80 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -78,8 +78,14 @@ def compare_file(reference, test, diffutils_sysroot):
+     return result
  
- SRC_URI = "git://github.com/rhinstaller/efivar.git \
-+           file://determinism.patch \
-            file://no-werror.patch"
- SRCREV = "c1d6b10e1ed4ba2be07f385eae5bceb694478a10"
+ class ReproducibleTests(OESelftestTestCase):
++    # Test the reproducibility of whatever is built between sstate_targets and targets
++
+     package_classes = ['deb', 'ipk']
+-    images = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline']
++
++    # targets are the things we want to test the reproducibility of
++    targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline']
++    # sstate targets are things to pull from sstate to potentially cut build/debugging time
++    sstate_targets = []
+     save_results = False
+     if 'OEQA_DEBUGGING_SAVED_OUTPUT' in os.environ:
+         save_results = os.environ['OEQA_DEBUGGING_SAVED_OUTPUT']
+@@ -154,6 +160,11 @@ class ReproducibleTests(OESelftestTestCase):
+                         tmpdir=tmpdir)
  
+         if not use_sstate:
++            if self.sstate_targets:
++               self.logger.info("Building prebuild for %s (sstate allowed)..." % (name))
++               self.write_config(config)
++               bitbake(' '.join(self.sstate_targets))
++
+             # This config fragment will disable using shared and the sstate
+             # mirror, forcing a complete build from scratch
+             config += textwrap.dedent('''\
+@@ -164,7 +175,8 @@ class ReproducibleTests(OESelftestTestCase):
+         self.logger.info("Building %s (sstate%s allowed)..." % (name, '' if use_sstate else ' NOT'))
+         self.write_config(config)
+         d = get_bb_vars(capture_vars)
+-        bitbake(' '.join(self.images))
++        # targets used to be called images
++        bitbake(' '.join(getattr(self, 'images', self.targets)))
+         return d
+ 
+     def test_reproducible_builds(self):
 -- 
 2.25.1
 
