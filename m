@@ -1,122 +1,126 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web08.8590.1615741123843271309
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web08.10217.1615748640612275495
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 09:58:43 -0700
+ Sun, 14 Mar 2021 12:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Afsm/N7C;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id l2so19066355pgb.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 09:58:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Uo2N2nFi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f50.google.com with SMTP id e45so6042699ote.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 12:04:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YdTNC6vQ02es6Z5MYsIShGmgeJzMzoOqkt/gxO/PRek=;
-        b=Afsm/N7Cy+rbxQNrIjZaP2EIqHyDIrAPgOsa8mnbzQNLJ552A1Z0gRodCRvy1LhSTT
-         BDrxhai5nE1dKen+RvhX/5YK1hGdzOndarmmUA7DvV0RkUmwRru/ppdfuBEf+3ui6fLU
-         SgV+zc6ZOnvpYQ6YYSF8VQ+dSDuJcOZrJ+J1XWTeRCKMJiTUyjH1kY9pBnVgGc/Ss1VM
-         s71TfwknSmLl6UDUdaKu2NbargdDpVl/CkiEnf5KXsdNg1fuMc7TDKMXxpcIPPmhWyRX
-         TKe0odunwYQtCOsaIrKQDohJYev6rPjWvOfjnCO11aZKmvJ89w9Y/Zqe0qxm6Dng6zsH
-         c1OQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=T+A+4xFn+zrcSYN7OnKxvNYbzNmtzwL+sFJdJW+K5uk=;
+        b=Uo2N2nFi8+E8jkm8jz29xnW7X2IybnxMZ//deRSrInCtR8xCYpTGWWDU+u9JjqxQtc
+         HzOd7ebnof7gLBRG6DdFk1HM2wEzUwV1z6khdkvLuOxsVd8/n5hj7AAKaITYWJb07XH+
+         +IXhHndMVwwcdUmr6V4r3z9aT8YmH+xWX3juBooxwSuQA5MbC4uAmsbt3VjAIsX9L5cn
+         uGCth7vIW7PpL7kZHQ2v68aI5P4Ugv889+ig3E52E5DUaFQ1Xa1z01EoBXsJr0PN6ThB
+         PDIzgjUc5S1AWNYk0lnGaYHHloda1ijCEZPvKfxfrn61z9dxcdaaUcjfZIL9raGFCGzV
+         BR3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=YdTNC6vQ02es6Z5MYsIShGmgeJzMzoOqkt/gxO/PRek=;
-        b=KbXtm3C5STYcZLf+qmI8b/pUAmofwEQjkk0040QTXEkIY3d00iLiH+AGzzNZg6RSmf
-         JRg8rGodbIrWStD7E2HQk1/uwP+PpRCU/03x+O7DmVAvp1dpjRcpR8SKbyf1mzW5CYNd
-         o88IFxfLGk/Xa8PjMZ49wZRlmO65R6QZ1FSYdrTOrocTp1tqDYOItnl6CzdxpqE/xQsP
-         3fYUYkTOLW67CukWa1CqeeJPydZsEffLsK1r35Hsntrw8T/BsCkROMCM9z0YtZ39+ddk
-         uJZ+pCsjJx8q00C+F2B5PdOiPYHoxjRmEwK0PcJOzzRpL1DwWB9Y/1lnh2LVW6wlJW5/
-         JqNg==
-X-Gm-Message-State: AOAM530lR2tFrpQ1pW1tUcj3hQu+9V0FZBTvY06nBf41vR9A+hbxcf3R
-	zg3MCkDaI/g7jfYwCL+W+4Q=
-X-Google-Smtp-Source: ABdhPJwzwm9aSNnGd4stSvM0oEaQcpEOUjcMCfB5c34chVFrd1/k8kyznj2BpOyEhPWXEcCWm3vbig==
-X-Received: by 2002:a65:6107:: with SMTP id z7mr20385728pgu.435.1615741123231;
-        Sun, 14 Mar 2021 09:58:43 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::d2c6? ([2601:646:9200:a0f0::d2c6])
-        by smtp.gmail.com with ESMTPSA id q205sm11805258pfc.126.2021.03.14.09.58.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Mar 2021 09:58:42 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 4/4] go-dep: Remove
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <20210312062107.1549935-1-raj.khem@gmail.com>
- <20210312062107.1549935-4-raj.khem@gmail.com>
- <729a07918ea4baec2608d1f462c4a4bdcd593551.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <7cae212d-110b-c72a-eeb9-b6713d4b3abd@gmail.com>
-Date: Sun, 14 Mar 2021 09:58:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <729a07918ea4baec2608d1f462c4a4bdcd593551.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=T+A+4xFn+zrcSYN7OnKxvNYbzNmtzwL+sFJdJW+K5uk=;
+        b=WxygIiXfjjWACRUgycJHpCfv1K6S+wFTGRgL9dPTDjwtklbma6Gx3957PH9jKQ1kcv
+         ayCqrkC4lBHozdS+m3FksoOvgj9h+T7zd3oX2YvWkVTSKREpZpPbgXKkMllN0H9cWbXr
+         W9i7dtXBDuK6UyEByp/Ph2zL3WeMcwus6e7Cm7To1HIg6J+i/Xo9uo9yEF/+HAhmUk1U
+         mE7mhe9mW4Qzm9RX6Gb89+qDjbIHVhoS2UicJTDDbyFFL1HuuscwQjPjrTViaiRdhG4q
+         SLx+1kD7ZsmpJ0IH+NwdhrUnBGo9t/tGCjwWTJmzuz/c7mVeDtKdoE7KVvC5vN1bosSg
+         zB1A==
+X-Gm-Message-State: AOAM532Q3eH9trvVU67sYqgqpM/Eyu9z/9CWfWKZ4KN2cdIkG631IVtV
+	plYgUjjwtVAer+RmYnf++ShGr95IGAIv5L3a
+X-Google-Smtp-Source: ABdhPJxnlcLPTeeJgDZb9p2AQNqGakRjDkrFNQNy/Vf+MhAnSzf450tPzCQeZXCqWOOR64yI7gJxoQ==
+X-Received: by 2002:a9d:7e82:: with SMTP id m2mr11267297otp.356.1615748639383;
+        Sun, 14 Mar 2021 12:03:59 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id v22sm5276327oop.4.2021.03.14.12.03.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Mar 2021 12:03:58 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id A97FB9624A6; Sun, 14 Mar 2021 09:03:47 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 14 Mar 2021 09:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210314190347.A97FB9624A6@nuc.router0800d9.com>
+Date: Sun, 14 Mar 2021 09:03:47 -1000 (HST)
 
+Branch: master
 
+New this week:
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
 
-On 3/14/21 9:31 AM, Richard Purdie wrote:
-> On Thu, 2021-03-11 at 22:21 -0800, Khem Raj wrote:
->> go-dep was an effort for dependency management before go modules, which
->> since 2020 has been deprecated in favor of go modules. Since its not
->> developed any longer and go mdules is officially supported, this should
->> be retired from OE-core as well.
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
->> ---
->>   meta/classes/godep.bbclass                    |      8 -
->>   meta/conf/distro/include/maintainers.inc      |      1 -
->>   meta/lib/oeqa/selftest/cases/reproducible.py  |      1 -
->>   .../0001-Add-support-for-mips-mips64.patch    |     54 -
->>   ...bolt_riscv64-Add-support-for-riscv64.patch |     33 -
->>   meta/recipes-devtools/go/go-dep_0.5.4.bb      |     30 -
->>   7 files changed, 145701 deletions(-)
->>   delete mode 100644 meta/classes/godep.bbclass
->>   delete mode 100644 meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
->>   delete mode 100644 meta/recipes-devtools/go/go-dep/0001-bolt_riscv64-Add-support-for-riscv64.patch
->>   delete mode 100644 meta/recipes-devtools/go/go-dep_0.5.4.bb
-> 
-> So we also need to remove the go-dep tests?
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1950/steps/14/logs/stdio
-> 
-> If so, is there some other go test we could replace them with?
+Removed this week:
+CVE-2013-0800: pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+CVE-2018-12433: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12437: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+CVE-2018-12438: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2021-20203: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20203 *
+CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
 
-
-I think this is some connectivity issue. see the below error I pasted 
-from your logs.
-
-    File 
-"/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/gotoolchain.py", 
-line 68, in test_go_dep_build
-     retv = self.run_sdk_go_command('build', proj, name)
-   File 
-"/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/gotoolchain.py", 
-line 54, in run_sdk_go_command
-     return runCmd(cmd).status
-   File 
-"/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/commands.py", 
-line 210, in runCmd
-     raise AssertionError("Command '%s' returned non-zero exit status 
-%d:\n%s" % (command, result.status, exc_output))
-AssertionError: Command 'cd 
-/tmp/SDKQA52f_qj7f/go/src/github.com/direnv/direnv; . 
-/tmp/SDKQA52f_qj7f/environment-setup-core2-64-poky-linux; export 
-GOPATH=/tmp/SDKQA52f_qj7f/go; ${CROSS_COMPILE}go build' returned 
-non-zero exit status 1:
-go: github.com/BurntSushi/toml@v0.3.1: Get 
-"https://proxy.golang.org/github.com/%21burnt%21sushi/toml/@v/v0.3.1.mod": 
-net/http: TLS handshake timeout
-
-> Cheers,
-> 
-> Richard
-> 
+Full list:  Found 57 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
