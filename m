@@ -1,103 +1,118 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.5567.1615726435462625489
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.5594.1615726694212662012
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 05:53:55 -0700
+ Sun, 14 Mar 2021 05:58:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gs7KAzrp;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id e9so4276010wrw.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 05:53:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tS11YRGV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id j7so4281792wrd.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 05:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wVUnjkYFvyJy8ZTJK3xRTdhAsfh9y98nrFkMFDpgnhg=;
-        b=gs7KAzrpgCm5dfu26SvofQYbKWiP4eEl0KzxLGbvk4h4/NqXM2Rlfhlmcz2jYF3iMG
-         5MbWwZYkXV7wPMCKAHlLSMd1NYkDc36AkQ9Dx6lLlPv3w/2F3X98lTJe1hWHBswUFEY3
-         AIao2UHocViWNS4QkXbsV93t0/Pm2FtwJTC4g36C0PWBvSyNGNeHFPL1nBklUQihlJHI
-         tAbk/2G7gVT18VeDiuRho33+YgOxNnBHIVt8PIHTmtTk+ET4grfpoMBN7yNS5Ge8/UBb
-         xkiZ1zQ2jNpMWARhVY9dIgEfbnuGhjsGHzHJpSzEA8O7B7iL6R5flmP8rF0emP/W8iyx
-         x+qg==
+        h=from:to:cc:subject:date:message-id;
+        bh=CnnsKLaj75O8RmgjgYxYI9lE6/NC6jsQGtAFzpwrM1k=;
+        b=tS11YRGVhd/nfI1UEn2ew4UwbaOQRfjwUtmRijtrZmzwDPmih9fBRky1LPC7khsP5y
+         8V0jelzI/KIeqcALEXBPZWb0EDywXtjPt5qQM3yyPsNfvCIUuEtfYdr5AHw8M++7pVZc
+         8UHpI5E4uGR6ecOHZ8DRwNadKjmJTJWKfjFpeODub5IZeyVC9jCkl2W0eCGmuDCB2g6M
+         4TQSo1/JWfncFyBRfUc1948lY6I3MCG7PLioQajOTr5VWWBKGf5X8k9ZezDmBgwBk9Tg
+         a7TWXhe7n4CpFseYW+QbmspEM7NF7TZtYKwOyUfbOPs3ErXTSyTml3ABJN0hwhArngJV
+         JGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wVUnjkYFvyJy8ZTJK3xRTdhAsfh9y98nrFkMFDpgnhg=;
-        b=ceJQHWpjgeFoPVXzzbq0dK63kAXnW9RfIMUXIx3tPvNpCcgNNRp9cHDSdI6UdRZHhB
-         bWmickL1z/YaFmsHSfLW1jmJvART5hzxyaosOp+pZk9lAKCA2w4dAJhk9s7ozQEYaq5x
-         5739skAvPRIasD/LbjJr6ov9zMbRkyFYGjY0LPgZsJHWgjZz8sKsbv/7Sn4bRSp7Iebm
-         7GWkw+oXByO5E1xg7RsVrWxlzkMDjjzieTzZrnwhe7iAbTYFzc2TIjBUbRHtT5cahdLA
-         ofTYTyTGuIpK6JfqJLrVPFdUhWr3nKy48vjU/cthm0xHWjDqwiQ8Yb6bMmBKWjgvniGQ
-         6UmA==
-X-Gm-Message-State: AOAM532zKsEg0z3oUcSqwPPauwWDPZWiZVgncVsOHmTi8KX1XJeV/IlQ
-	TlQXcVU0/XKOnuoyN3XnsU6nsDjKeW/uMw==
-X-Google-Smtp-Source: ABdhPJyut7zvBqT1wlUBXuDc3iARYMOZpGxBaYQ1bzFOHbhFHA+R+ZO3Qr7N1/NnKz7Q64lpeubXwQ==
-X-Received: by 2002:a5d:4d0f:: with SMTP id z15mr23206988wrt.192.1615726433608;
-        Sun, 14 Mar 2021 05:53:53 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id s3sm8831727wmd.21.2021.03.14.05.53.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=CnnsKLaj75O8RmgjgYxYI9lE6/NC6jsQGtAFzpwrM1k=;
+        b=aIqkQrvrqQzDRfq8NcixelspJ62TZ0b/uxowVCrzuilhVES8k7lOECOhw1YwCZ5PZR
+         IOegjO/JPmcyT2Hg6SKbTu801NXMZv+SDb57XpvsGoB53oO4ZHkUemN1RfeOdc+5PpFN
+         BjUa4xtUtknAxc+DUNpGatbs8ZtW44BQEhwM23xzLXeEAngrdcc6CiGN77Vha+WggRzy
+         YzjWTTcU4lD23G1XlTgvb142anE+YOsgg49eK2JF6JN/zlMP1iXdiyLTJyR9abrgk2bm
+         Q3iaRm5O8ihAmKJQJRnlPFOgNcPdQFxfjMmKa0WbpI46RdFD8v56VYKAWVhRCUesRZyj
+         zT+g==
+X-Gm-Message-State: AOAM531g+bDM/YayA5zUCyN5Si0DpkVRoumrBzBWmmujlyZbRV9na1MG
+	6PtJR3D5S2XA5vDcrQfvoTFR/1J/RmE=
+X-Google-Smtp-Source: ABdhPJx7GqHpOEr0in/gUaD4cAqLB2eGe7UdbIAIcMppGqxJahfi2qU6YN8UzDP9bvzlpHklWqlxHQ==
+X-Received: by 2002:adf:b355:: with SMTP id k21mr23134183wrd.156.1615726692414;
+        Sun, 14 Mar 2021 05:58:12 -0700 (PDT)
+Return-Path: <dorindabassey@gmail.com>
+Received: from smtp.gmail.com. ([105.112.100.235])
+        by smtp.gmail.com with ESMTPSA id a131sm9554738wmc.48.2021.03.14.05.58.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Mar 2021 05:53:53 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
+        Sun, 14 Mar 2021 05:58:11 -0700 (PDT)
+From: "Dorinda" <dorindabassey@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 2/2] spirv-tools: cleanup an old patch that is not used anymore
-Date: Sun, 14 Mar 2021 12:53:44 +0000
-Message-Id: <20210314125344.30018-2-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210314125344.30018-1-quaresma.jose@gmail.com>
-References: <20210314125344.30018-1-quaresma.jose@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Dorinda Bassey <dorindabassey@gmail.com>
+Subject: [PATCH v3][RFC] distrodata.py: Test to track recipes without HOMEPAGE or DESCRIPTION
+Date: Sun, 14 Mar 2021 13:58:03 +0100
+Message-Id: <20210314125803.13160-1-dorindabassey@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+From: Dorinda Bassey <dorindabassey@gmail.com>
+
+This test is to keep track of recipes that do not have a HOMEPAGE or DESCRIPTION,
+with exceptions to recipes whose SRC_URI are not linked to external sources.
+
+Results of this test: it take about 2 to 3 minutes for this test to complete execution
+depending on the laptop used, Recipes that didn't have a homepage or description were found,
+and using list data structure instead of set() returned an ordered list of recipes that
+didn't have a homepage. Hence it's easier to view recipes with missing homepage and description.
+
+[YOCTO #13471]
+
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 ---
- ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 -------------------
- 1 file changed, 35 deletions(-)
- delete mode 100644 meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+v3:
+-Changed commit log
+-replaced set() with list data structure for consistency in the script and order.
 
-diff --git a/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch b/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
-deleted file mode 100644
-index 5d37da8fe0..0000000000
---- a/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From caf59c46ea5dc49e4dbf756c642b03e52c1b5468 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 20 Dec 2019 07:02:24 -0800
--Subject: [PATCH] Respect CMAKE_INSTALL_LIBDIR in installed CMake files
--
--Upstream-Status: Submitted [https://github.com/google/effcee/pull/36]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- CMakeLists.txt        | 1 +
-- effcee/CMakeLists.txt | 4 ++--
-- 2 files changed, 3 insertions(+), 2 deletions(-)
--
----- a/external/effcee/CMakeLists.txt
--+++ b/external/effcee/CMakeLists.txt
--@@ -27,6 +27,7 @@ endif()
-- 
-- include(cmake/setup_build.cmake)
-- include(cmake/utils.cmake)
--+include(GNUInstallDirs)
-- 
-- add_subdirectory(third_party)
-- add_subdirectory(effcee)
----- a/external/effcee/effcee/CMakeLists.txt
--+++ b/external/effcee/effcee/CMakeLists.txt
--@@ -14,8 +14,8 @@ install(
--   DESTINATION
--     include/effcee)
-- install(TARGETS effcee
---  LIBRARY DESTINATION lib
---  ARCHIVE DESTINATION lib)
--+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
--+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-- 
-- if(EFFCEE_BUILD_TESTING)
--   add_executable(effcee-test
+ meta/lib/oeqa/selftest/cases/distrodata.py | 36 ++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index e1cfc3b621..fbc0c2a98d 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -40,6 +40,42 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+ """ + "\n".join(regressed_successes)
+         self.assertTrue(len(regressed_failures) == 0 and len(regressed_successes) == 0, msg)
+ 
++    def test_missing_homepg(self):
++        """
++        Summary:     Test for oe-core recipes that don't have a HOMEPAGE or DESCRIPTION
++        Expected:    All oe-core recipes should have a DESCRIPTION entry
++        Expected:    All oe-core recipes should have a HOMEPAGE entry except for recipes that are not fetched from external sources.
++        Product:     oe-core
++        """
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False)
++            no_description = []
++            no_homepage = []
++            for fn in tinfoil.all_recipe_files(variants=False):
++                if not '/meta/recipes-' in fn:
++                    # We are only interested in OE-Core
++                    continue
++                rd = tinfoil.parse_recipe_file(fn, appends=False)
++                pn = rd.getVar('BPN')
++                srcfile = rd.getVar('SRC_URI').split()
++                #Since DESCRIPTION defaults to SUMMARY if not set, we are only interested in recipes without DESCRIPTION or SUMMARY
++                if not (rd.getVar('SUMMARY') or rd.getVar('DESCRIPTION')):
++                    no_description.append((pn, fn))
++                if not rd.getVar('HOMEPAGE'):
++                    if srcfile and srcfile[0].startswith('file') or not rd.getVar('SRC_URI'):
++                        # We are only interested in recipes SRC_URI fetched from external sources
++                        continue
++                    no_homepage.append((pn, fn))
++        if no_homepage:
++            self.fail("""
++The following recipes do not have a HOMEPAGE. Please add an entry for HOMEPAGE in the recipe.
++""" + "\n".join(['%s (%s)' % i for i in no_homepage]))
++
++        if no_description:
++            self.fail("""
++The following recipes do not have a DESCRIPTION. Please add an entry for DESCRIPTION in the recipe.
++""" + "\n".join(['%s (%s)' % i for i in no_description]))
++
+     def test_maintainers(self):
+         """
+         Summary:     Test that oe-core recipes have a maintainer and entries in maintainers list have a recipe
 -- 
-2.30.2
+2.17.1
 
