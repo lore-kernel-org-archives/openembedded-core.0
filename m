@@ -1,82 +1,81 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.7954.1615738365204832587
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.8207.1615739467859000121
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 09:12:45 -0700
+ Sun, 14 Mar 2021 09:31:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NnjbZ9Ob;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id l19so6711710wmh.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 09:12:44 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hpK7DYWy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id b9so4491519wrt.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 09:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=v6VIDJSgS8klTdEnpEW22mGzkYwMVPas1TG+wogywns=;
-        b=NnjbZ9ObHsTvyfQaxTlHSYbh7a6iwRkOEdsMr/xwHg7nIsTV+/4aUxACWthAEO8cc5
-         fb1RMinQrISKu4SdWfeJMkbd9UZKDrD8LyZ9fvWuj2Urls6qhg/qZIw+0NHmGV+9gswO
-         F5IzMqI5SGJ9aXpD9c0CtvSb+AI9T8+fLVIpo=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=RuAghHkB+iwgmS2+redjNgCzqDcGST/QxCT4c425P/U=;
+        b=hpK7DYWyclExwPss/Uz6YEN6O4zXAS+xn0WW5WFOis4X8W+gRUtwp7kggrtTZV0DBz
+         +1MlL+CEDGPYcPs5kMZKJnZ8t0o45EFEEbQWoZ6q+OglP9G/FYPMQ86+VxhzsXv3cjJ2
+         3l8oQHVZsLd+6oP80L1/QTtzotb7qzIQX2tUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=v6VIDJSgS8klTdEnpEW22mGzkYwMVPas1TG+wogywns=;
-        b=tE6SVcmJDKyWG6dMn7LlLr/UTOUw2iBzle10n1ip2qzZG3aAiVoGz8k8UdCDYr4tiu
-         87vgY3Pcvi6btubJl0RM0v3UCIcaurYNUFsj/fvlVg+N/o8gRRWPTDRQkJKoBljUASUQ
-         TiA0lC6W3KB/jGR9RXKfKEFVpfPLPsU379kpbPz0Y90wWYgFG5fAzG2F7BjUQO5WWLuH
-         ombzpMXTLMhz290/WiBa3XRQS4UIlX3Wwpf3wncUXCSHS7ay7VFJclAPKavwmWR23kIb
-         I3yHUkeISz147Q2p8WJhi/S92tG2sAIZXLKcGhnINfvlb3LpQrZit4CSPSRg4eucOhq8
-         9i+g==
-X-Gm-Message-State: AOAM530Wj0UvP1Ht+2/18E8FVpYmOnkb3bMIk5Lu1eHA5O3aB71KzZ0v
-	R+W2ZRDKvP2y/eqis3CnqpsuLg==
-X-Google-Smtp-Source: ABdhPJxNrv2yVPSPAkMFt9DePdiE64OrKAeS9gJ+8sYOROhWxc8cC88CcpJJaZG74B5ImIfI+45cZA==
-X-Received: by 2002:a1c:195:: with SMTP id 143mr22630199wmb.147.1615738363609;
-        Sun, 14 Mar 2021 09:12:43 -0700 (PDT)
+        bh=RuAghHkB+iwgmS2+redjNgCzqDcGST/QxCT4c425P/U=;
+        b=WFZ6u8PNhEZUeFIOGdcLRuxni4NaS7D08frg0vk8aDcibiGfJDEGI7VTd/iqmJW4xH
+         8dtmot/mDKZ/JNh5GVyaegk4ea4EMOtyhta8kESBOinP5AlRgL+FdigN6McGgmdpyKsM
+         iJpP3Q7tqSEjFnnTG5ewYtcfe2UeuthdcRatW9nOerwJ6D4CMcM55LdYqE4MCZX4Dl28
+         k6GzT+XJ/huarKRK4IGzRKjOSroxjfgb7dNFat4CKCtK0FNbqAEVStvn61ZZ2cbzNj3V
+         tLRvo3AMa6ng+lYdcNTVp4RSo05g6MlPw36lz2lPbMh9DXVE7YMmVM8Mc0qelvBerreG
+         625w==
+X-Gm-Message-State: AOAM531i+hUimygwqGXjoFyvNfanKf8WUpcoGOwE+qWzgkH8xwxmAP+o
+	nn4H80DeULZD0Ngf7PpmMVBBaw==
+X-Google-Smtp-Source: ABdhPJxdSyC0XenYzCoxOK8kHf+oNPVhJ6rA6x42vNRfUsbrza7S1knnmSfoF/rKkPOH68LzobJMBw==
+X-Received: by 2002:a5d:6c69:: with SMTP id r9mr23169659wrz.11.1615739466231;
+        Sun, 14 Mar 2021 09:31:06 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:9c7e:acfa:71fe:22ea? ([2001:8b0:aba:5f3c:9c7e:acfa:71fe:22ea])
-        by smtp.gmail.com with ESMTPSA id u20sm17085595wru.6.2021.03.14.09.12.43
+        by smtp.gmail.com with ESMTPSA id p12sm15612652wrx.28.2021.03.14.09.31.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Mar 2021 09:12:43 -0700 (PDT)
-Message-ID: <8e7984950df26a5dc7bf3a427c04d24d6a764aaa.camel@linuxfoundation.org>
-Subject: Re: [OE-core] sstate mirroring between different host OSes requires pre-building pseudo-native
+        Sun, 14 Mar 2021 09:31:06 -0700 (PDT)
+Message-ID: <729a07918ea4baec2608d1f462c4a4bdcd593551.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] go-dep: Remove
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Matt Madison <matt@madison.systems>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 14 Mar 2021 16:12:42 +0000
-In-Reply-To: <hx4N.1615729515427076467.TVRw@lists.openembedded.org>
-References: <hx4N.1615729515427076467.TVRw@lists.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Sun, 14 Mar 2021 16:31:05 +0000
+In-Reply-To: <20210312062107.1549935-4-raj.khem@gmail.com>
+References: <20210312062107.1549935-1-raj.khem@gmail.com>
+	 <20210312062107.1549935-4-raj.khem@gmail.com>
 User-Agent: Evolution 3.39.2-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-03-14 at 06:45 -0700, Matt Madison wrote:
-> I run my CI autobuilders on Ubuntu 20.04 servers, which generate sstate that I mirror out to my development
-> machine, which runs Ubuntu 20.10. That used to work fine - everything would setscene in as expected. For
-> some
-> time now, though, I see just about everything setscene in, and then everything also gets rebuilt from
-> scratch
-> again.  I'm not sure if this dates back to November when the change to de-universalize pseudo-native
-> happened,
-> or with some more recent pseudo-related changes, as I only had time to investigate it this week.
+On Thu, 2021-03-11 at 22:21 -0800, Khem Raj wrote:
+> go-dep was an effort for dependency management before go modules, which
+> since 2020 has been deprecated in favor of go modules. Since its not
+> developed any longer and go mdules is officially supported, this should
+> be retired from OE-core as well.
 > 
-> If I bitbake pseudo-native first so it's at least in my local sstate-cache, then everything works as
-> expected
-> again. It's only if pseudo has to be built from scratch that I get the rebuild cascade. I thought this might
-> be due to my distro setup, but it's easily reproducible with a stock poky setup.
-> 
-> Is this the expected behavior now?
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+> ---
+>  meta/classes/godep.bbclass                    |      8 -
+>  meta/conf/distro/include/maintainers.inc      |      1 -
+>  meta/lib/oeqa/selftest/cases/reproducible.py  |      1 -
+>  .../0001-Add-support-for-mips-mips64.patch    |     54 -
+>  ...bolt_riscv64-Add-support-for-riscv64.patch |     33 -
+>  meta/recipes-devtools/go/go-dep_0.5.4.bb      |     30 -
+>  7 files changed, 145701 deletions(-)
+>  delete mode 100644 meta/classes/godep.bbclass
+>  delete mode 100644 meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-dep/0001-bolt_riscv64-Add-support-for-riscv64.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-dep_0.5.4.bb
 
-Sadly this is expected, yes. It wasn't really intended but an unfortunately 
-side effect. Ideally bitbake would delay the rest of sstate until pseudo-native
-is built but it never used to be able to do that. The code probably now can 
-cope with it but it would need modifications to runqueue to make that happen.
+So we also need to remove the go-dep tests?
 
-Its something I'm aware of and would like to improve but the release needs
-priority right now.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1950/steps/14/logs/stdio
 
-The reason is do_package sstate must be extracted under pseudo-native. The
-irony is that sstate would likely be skipped anyway but it realises the
-"hard" dependency isn't present first :/.
+If so, is there some other go test we could replace them with?
 
 Cheers,
 
