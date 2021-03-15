@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.286.1615826521123335023
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web09.283.1615826520859726396
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Mar 2021 09:42:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D479138C1290
+	by mail.yoctoproject.org (Postfix) with ESMTP id E8EB438C12A4
 	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:42:00 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libedit: upgrading to 20210216-3.1 SUCCEEDED
-Message-ID: <MADEUP.166C91A8F97AAF64.27320@lists.openembedded.org>
-X-Groupsio-MsgNum: 149491
-Content-Type: multipart/mixed; boundary="===============1698301333956711792=="
+Subject: [AUH] python3-importlib-metadata: upgrading to 3.7.3 SUCCEEDED
+Message-ID: <MADEUP.166C91A8FBA31134.27320@lists.openembedded.org>
+X-Groupsio-MsgNum: 149492
+Content-Type: multipart/mixed; boundary="===============1158214839611294722=="
 
---===============1698301333956711792==
+--===============1158214839611294722==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libedit* to *20210216-3.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *3.7.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libedit-upgrade-20191231-3.1-20210216-3.1.patch
+    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-3.4.0-3.7.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,95 +44,94 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1698301333956711792==
+--===============1158214839611294722==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libedit: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit: SRC_URI changed from "http://www.thrysoee.dk/editline/libedit-20191231-3.1.tar.gz file://stdc-predef.patch" to "http://www.thrysoee.dk/editline/libedit-20210216-3.1.tar.gz file://stdc-predef.patch"
-packages/core2-32-poky-linux/libedit: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-dbg: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-dbg: PKGSIZE changed from 517260 to 517184 (-0%)
-packages/core2-32-poky-linux/libedit/libedit-dbg: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-dbg: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-dev: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-dev: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-dev: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-doc: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-doc: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-doc: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-locale: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-locale: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-locale: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-src: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-src: PKGSIZE changed from 578860 to 578903 (+0%)
-packages/core2-32-poky-linux/libedit/libedit-src: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-src: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-staticdev: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit-staticdev: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit-staticdev: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit: PV changed from "20191231-3.1" to "20210216-3.1"
-packages/core2-32-poky-linux/libedit/libedit: PKGV changed from 20191231-3.1 [default] to 20210216-3.1 [default]
-packages/core2-32-poky-linux/libedit/libedit: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-Changes to packages/core2-32-poky-linux/libedit (sysroot):
-  /usr/lib/libedit.so.0 changed symlink target from libedit.so.0.0.63 to libedit.so.0.0.64
-  /usr/lib/libedit.so changed symlink target from libedit.so.0.0.63 to libedit.so.0.0.64
-  /usr/lib/libedit.so.0.0.63 moved to /usr/lib/libedit.so.0.0.64
+packages/core2-32-poky-linux/python3-importlib-metadata: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-3.4.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-3.7.3.tar.gz"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "3.4.0" to "3.7.3"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 3.4.0 [default] to 3.7.3 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 54279 to 67309 (+24%)
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py was added
+  /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc was added
 
---===============1698301333956711792==
+--===============1158214839611294722==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libedit-upgrade-20191231-3.1-20210216-3.1.patch"
+ filename="0001-python3-importlib-metadata-upgrade-3.4.0-3.7.3.patch"
 
-From 833069d4e53d8be678ff85a254169ad8992b1089 Mon Sep 17 00:00:00 2001
+From 95abe691a17a306e71a3211fa92681b41ba6e02c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Mar 2021 06:08:17 +0000
-Subject: [PATCH] libedit: upgrade 20191231-3.1 -> 20210216-3.1
+Date: Mon, 15 Mar 2021 06:19:30 +0000
+Subject: [PATCH] python3-importlib-metadata: upgrade 3.4.0 -> 3.7.3
 
 ---
- .../{libedit_20191231-3.1.bb => libedit_20210216-3.1.bb}       | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/libedit/{libedit_20191231-3.1.bb => libedit_20210216-3.1.bb} (82%)
+ ...ib-metadata_3.4.0.bb => python3-importlib-metadata_3.7.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_3.4.0.bb => python3-importlib-metadata_3.7.3.bb} (88%)
 
-diff --git a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb b/meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
-similarity index 82%
-rename from meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-rename to meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
-index 8d2d57a930..97aceaf716 100644
---- a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-+++ b/meta/recipes-devtools/libedit/libedit_20210216-3.1.bb
-@@ -13,8 +13,7 @@ inherit autotools
- SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
-            file://stdc-predef.patch \
-           "
--SRC_URI[md5sum] = "2e22a51131de94ff2df24901f7cfe416"
--SRC_URI[sha256sum] = "dbb82cb7e116a5f8025d35ef5b4f7d4a3cdd0a3909a146a39112095a2d229071"
-+SRC_URI[sha256sum] = "2283f741d2aab935c8c52c04b57bf952d02c2c02e651172f8ac811f77b1fc77a"
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_3.7.3.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_3.7.3.bb
+index 81f24e55c2..3749fa05f4 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_3.4.0.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_3.7.3.bb
+@@ -8,7 +8,7 @@ inherit pypi setuptools3
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[sha256sum] = "fa5daa4477a7414ae34e95942e4dd07f62adf589143c875c133c1e53c4eff38d"
++SRC_URI[sha256sum] = "742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71"
+ 
+ S = "${WORKDIR}/importlib_metadata-${PV}"
  
 -- 
 2.17.1
 
 
---===============1698301333956711792==
+--===============1158214839611294722==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libedit/libedit-dev: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-doc: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-locale: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit-staticdev: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-packages/core2-32-poky-linux/libedit/libedit: FILELIST: removed "/usr/lib/libedit.so.0.0.63", added "/usr/lib/libedit.so.0.0.64"
-Changes to packages/core2-32-poky-linux/libedit (sysroot):
-  /usr/lib/libedit.so.0 changed symlink target from libedit.so.0.0.63 to libedit.so.0.0.64
-  /usr/lib/libedit.so changed symlink target from libedit.so.0.0.63 to libedit.so.0.0.64
-  /usr/lib/libedit.so.0.0.63 moved to /usr/lib/libedit.so.0.0.64
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 54279 to 67309 (+24%)
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: FILELIST: directory renamed /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py"
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.9/site-packages/importlib_metadata-3.4.0-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/importlib_metadata-3.7.3-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/importlib_metadata/_itertools.py was added
+  /usr/lib/python3.9/site-packages/importlib_metadata/__pycache__/_itertools.cpython-39.pyc was added
 
---===============1698301333956711792==--
+--===============1158214839611294722==--
