@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.301.1615826521017597028
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.358.1615826521390152517
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Mar 2021 09:42:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 4A05638C1329
+	by mail.yoctoproject.org (Postfix) with ESMTP id 443FB38C1314
 	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:42:01 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] zstd: upgrading to 1.4.9 SUCCEEDED
-Message-ID: <MADEUP.166C91A90B2453F9.17966@lists.openembedded.org>
-X-Groupsio-MsgNum: 149499
-Content-Type: multipart/mixed; boundary="===============4045297228196600059=="
+Subject: [AUH] sudo: upgrading to 1.9.6 SUCCEEDED
+Message-ID: <MADEUP.166C91A90B2CEA89.17966@lists.openembedded.org>
+X-Groupsio-MsgNum: 149500
+Content-Type: multipart/mixed; boundary="===============8535663494454930908=="
 
---===============4045297228196600059==
+--===============8535663494454930908==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *zstd* to *1.4.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *sudo* to *1.9.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-zstd-upgrade-1.4.8-1.4.9.patch
+    - apply the patch: git am 0001-sudo-upgrade-1.9.5p2-1.9.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,168 +44,168 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4045297228196600059==
+--===============8535663494454930908==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/zstd: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-Changes to packages/core2-32-poky-linux/zstd (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.4.8 to libzstd.so.1.4.9
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.4.8 to libzstd.so.1.4.9
-  /usr/lib/libzstd.so.1.4.8 moved to /usr/lib/libzstd.so.1.4.9
-packages/core2-32-poky-linux/zstd/zstd-dbg: PKGSIZE changed from 12087232 to 12421032 (+3%)
-packages/core2-32-poky-linux/zstd/zstd-dbg: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-dbg: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-dbg: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-dev: PKGSIZE changed from 161044 to 163579 (+2%)
-packages/core2-32-poky-linux/zstd/zstd-dev: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-dev: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-dev: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-doc: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-doc: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-doc: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-locale: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-locale: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-locale: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-src: PKGSIZE changed from 2552959 to 2588703 (+1%)
-packages/core2-32-poky-linux/zstd/zstd-src: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-src: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-src: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGSIZE changed from 5018098 to 5019710 (+0%)
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-staticdev: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd-staticdev: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd: PKGSIZE changed from 1776335 to 1796815 (+1%)
-packages/core2-32-poky-linux/zstd/zstd: PV changed from "1.4.8" to "1.4.9"
-packages/core2-32-poky-linux/zstd/zstd: PKGV changed from 1.4.8 [default] to 1.4.9 [default]
-packages/core2-32-poky-linux/zstd/zstd: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
+packages/core2-32-poky-linux/sudo: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo: SRC_URI changed from "https://www.sudo.ws/dist/sudo-1.9.5p2.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch" to "https://www.sudo.ws/dist/sudo-1.9.6.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch"
+packages/core2-32-poky-linux/sudo: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-dbg: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-dbg: PKGSIZE changed from 3671396 to 3778920 (+3%)
+packages/core2-32-poky-linux/sudo/sudo-dbg: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-dev: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-dev: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-doc: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-doc: PKGSIZE changed from 647108 to 2575585 (+298%)
+packages/core2-32-poky-linux/sudo/sudo-doc: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-lib: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-lib: PKGSIZE changed from 827168 to 831232 (+0%)
+packages/core2-32-poky-linux/sudo/sudo-lib: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ast: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ast: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ca: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ca: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PKGSIZE changed from 86538 to 87493 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-da: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-da: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PKGSIZE changed from 90665 to 91660 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-el: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-el: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PKGSIZE changed from 83324 to 84426 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-es: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-es: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-eu: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-eu: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PKGSIZE changed from 77261 to 88869 (+15%)
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PKGSIZE changed from 94269 to 95504 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fur: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-fur: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-gl: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-gl: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PKGSIZE changed from 87622 to 88673 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-hu: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-hu: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-it: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-it: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PKGSIZE changed from 98664 to 100045 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ko: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ko: PKGSIZE changed from 90457 to 91725 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ko: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-lt: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-lt: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nb: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-nb: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nl: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-nl: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nn: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-nn: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PKGSIZE changed from 87568 to 88658 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PKGSIZE changed from 88240 to 89316 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PKGSIZE changed from 85400 to 86471 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ro: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ro: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ru: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-ru: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sk: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-sk: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sl: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-sl: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sr: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-sr: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sv: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-sv: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-tr: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-tr: PKGSIZE changed from 34801 to 35312 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-tr: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PKGSIZE changed from 118241 to 119857 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-vi: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-vi: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PKGSIZE changed from 72487 to 74263 (+2%)
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PKGSIZE changed from 79919 to 81502 (+2%)
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-src: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-src: PKGSIZE changed from 2332613 to 2389706 (+2%)
+packages/core2-32-poky-linux/sudo/sudo-src: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-staticdev: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-staticdev: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo-sudo: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo-sudo: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
+packages/core2-32-poky-linux/sudo/sudo: PV changed from "1.9.5p2" to "1.9.6"
+packages/core2-32-poky-linux/sudo/sudo: PKGSIZE changed from 1038428 to 1038436 (+0%)
+packages/core2-32-poky-linux/sudo/sudo: PKGV changed from 1.9.5p2 [default] to 1.9.6 [default]
 
---===============4045297228196600059==
+--===============8535663494454930908==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-zstd-upgrade-1.4.8-1.4.9.patch"
+ filename="0001-sudo-upgrade-1.9.5p2-1.9.6.patch"
 
-From 9bb433c915c72b9528b05bd8a6b15c9ccece6831 Mon Sep 17 00:00:00 2001
+From e7c2e402ff0fc5402f7b42764f71f494ec1aaace Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Mar 2021 07:24:13 +0000
-Subject: [PATCH] zstd: upgrade 1.4.8 -> 1.4.9
+Date: Mon, 15 Mar 2021 07:18:04 +0000
+Subject: [PATCH] sudo: upgrade 1.9.5p2 -> 1.9.6
 
 ---
- ...rt-all-wildcard-file-list-expansions.patch | 19 ++++++++++---------
- .../zstd/{zstd_1.4.8.bb => zstd_1.4.9.bb}     |  2 +-
- 2 files changed, 11 insertions(+), 10 deletions(-)
- rename meta/recipes-extended/zstd/{zstd_1.4.8.bb => zstd_1.4.9.bb} (95%)
+ meta/recipes-extended/sudo/{sudo_1.9.5p2.bb => sudo_1.9.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.5p2.bb => sudo_1.9.6.bb} (96%)
 
-diff --git a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch b/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
-index 178124a2ef..cd0835cdbe 100644
---- a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
-+++ b/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
-@@ -1,4 +1,4 @@
--From 8d01b0753162681dcdbb7cf56f1e393c261e3eb0 Mon Sep 17 00:00:00 2001
-+From 21547a41a6c5d8d843389a95d237c7afc07befe3 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 23 Dec 2020 19:14:32 +0100
- Subject: [PATCH] Makefile: sort all wildcard file list expansions
-@@ -8,6 +8,7 @@ reproducible builds.
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.5p2.bb b/meta/recipes-extended/sudo/sudo_1.9.6.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.5p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.6.bb
+index ca23e94ace..2106e80ba1 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.5p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.6.bb
+@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  programs/Makefile   | 10 +++++-----
-  tests/Makefile      |  4 ++--
-@@ -15,10 +16,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 8 insertions(+), 8 deletions(-)
+ PAM_SRC_URI = "file://sudo.pam"
  
- diff --git a/programs/Makefile b/programs/Makefile
--index 8641d0ee..26fee45f 100644
-+index 936f3c80..b8200fae 100644
- --- a/programs/Makefile
- +++ b/programs/Makefile
--@@ -72,11 +72,11 @@ ZSTDLEGACY_DIR := $(ZSTDDIR)/legacy
-+@@ -74,11 +74,11 @@ ZSTDLEGACY_DIR := $(ZSTDDIR)/legacy
-  
-  vpath %.c $(ZSTDLIB_COMMON) $(ZSTDLIB_COMPRESS) $(ZSTDLIB_DECOMPRESS) $(ZDICT_DIR) $(ZSTDLEGACY_DIR)
-  
-@@ -34,17 +35,17 @@ index 8641d0ee..26fee45f 100644
-  
-  ZSTD_LEGACY_SUPPORT ?= 5
-  ZSTDLEGACY_SRC :=
--@@ -91,7 +91,7 @@ ZSTDLIB_FULL_SRC = $(sort $(ZSTDLIB_CORE_SRC) $(ZSTDLEGACY_SRC) $(ZDICT_SRC))
-- ZSTDLIB_LOCAL_SRC := $(notdir $(ZSTDLIB_FULL_SRC))
-+@@ -93,7 +93,7 @@ ZSTDLIB_FULL_SRC = $(sort $(ZSTDLIB_CORE_SRC) $(ZSTDLEGACY_SRC) $(ZDICT_SRC))
-+ ZSTDLIB_LOCAL_SRC = $(notdir $(ZSTDLIB_FULL_SRC))
-  ZSTDLIB_LOCAL_OBJ := $(ZSTDLIB_LOCAL_SRC:.c=.o)
-  
- -ZSTD_CLI_SRC := $(wildcard *.c)
- +ZSTD_CLI_SRC := $(sort $(wildcard *.c))
-  ZSTD_CLI_OBJ := $(ZSTD_CLI_SRC:.c=.o)
-  
-- ZSTD_ALL_SRC := $(ZSTDLIB_LOCAL_SRC) $(ZSTD_CLI_SRC)
-+ ZSTD_ALL_SRC = $(ZSTDLIB_LOCAL_SRC) $(ZSTD_CLI_SRC)
- diff --git a/tests/Makefile b/tests/Makefile
--index 42bc353c..5f5654f0 100644
-+index f0605057..74a90b0f 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
- @@ -49,7 +49,7 @@ ZSTD_FILES  := $(ZSTDDECOMP_FILES) $(ZSTDCOMMON_FILES) $(ZSTDCOMP_FILES)
-@@ -56,7 +57,7 @@ index 42bc353c..5f5654f0 100644
-  ZSTD_OBJ1 := $(subst $(ZSTDDIR)/common/,zstdm_,$(ZSTD_F1))
-  ZSTD_OBJ2 := $(subst $(ZSTDDIR)/compress/,zstdc_,$(ZSTD_OBJ1))
-  ZSTD_OBJ3 := $(subst $(ZSTDDIR)/decompress/,zstdd_,$(ZSTD_OBJ2))
--@@ -212,7 +212,7 @@ bigdict: $(ZSTDMT_OBJECTS) $(PRGDIR)/datagen.c bigdict.c
-+@@ -211,7 +211,7 @@ bigdict: $(ZSTDMT_OBJECTS) $(PRGDIR)/datagen.c bigdict.c
-  invalidDictionaries : $(ZSTD_OBJECTS) invalidDictionaries.c
-  
-  legacy : CPPFLAGS += -I$(ZSTDDIR)/legacy -DZSTD_LEGACY_SUPPORT=4
-@@ -66,7 +67,7 @@ index 42bc353c..5f5654f0 100644
-  decodecorpus : LDLIBS += -lm
-  decodecorpus : $(filter-out zstdc_zstd_compress.o, $(ZSTD_OBJECTS)) $(ZDICT_FILES) $(PRGDIR)/util.c $(PRGDIR)/timefn.c decodecorpus.c
- diff --git a/tests/fuzz/Makefile b/tests/fuzz/Makefile
--index 36232a8c..574fe877 100644
-+index f3a561de..68a29ef0 100644
- --- a/tests/fuzz/Makefile
- +++ b/tests/fuzz/Makefile
- @@ -58,7 +58,7 @@ FUZZ_SRC       := \
-diff --git a/meta/recipes-extended/zstd/zstd_1.4.8.bb b/meta/recipes-extended/zstd/zstd_1.4.9.bb
-similarity index 95%
-rename from meta/recipes-extended/zstd/zstd_1.4.8.bb
-rename to meta/recipes-extended/zstd/zstd_1.4.9.bb
-index 10a6334cb7..b86fdf8b2d 100644
---- a/meta/recipes-extended/zstd/zstd_1.4.8.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.4.9.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/facebook/zstd.git;branch=release \
-            file://0001-Makefile-sort-all-wildcard-file-list-expansions.patch \
-            "
+-SRC_URI[sha256sum] = "539e2ef43c8a55026697fb0474ab6a925a11206b5aa58710cb42a0e1c81f0978"
++SRC_URI[sha256sum] = "62c9580492cd2e7dd6273b5cfe197560f2c508a83649d1ce4f61c8ee02ff3a55"
  
--SRCREV = "97a3da1df009d4dc67251de0c4b1c9d7fe286fc1"
-+SRCREV = "e4558ffd1dc49399faf4ee5d85abed4386b4dcf5"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.17.1
 
 
---===============4045297228196600059==
+--===============8535663494454930908==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/zstd (sysroot):
-  /usr/lib/libzstd.so.1 changed symlink target from libzstd.so.1.4.8 to libzstd.so.1.4.9
-  /usr/lib/libzstd.so changed symlink target from libzstd.so.1.4.8 to libzstd.so.1.4.9
-  /usr/lib/libzstd.so.1.4.8 moved to /usr/lib/libzstd.so.1.4.9
-packages/core2-32-poky-linux/zstd/zstd-dev: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-doc: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-locale: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd-staticdev: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
-packages/core2-32-poky-linux/zstd/zstd: FILELIST: removed "/usr/lib/libzstd.so.1.4.8", added "/usr/lib/libzstd.so.1.4.9"
+packages/core2-32-poky-linux/sudo/sudo-doc: PKGSIZE changed from 647108 to 2575585 (+298%)
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PKGSIZE changed from 77261 to 88869 (+15%)
 
---===============4045297228196600059==--
+--===============8535663494454930908==--
