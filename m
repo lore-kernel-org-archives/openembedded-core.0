@@ -1,123 +1,112 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.299.1615826520809447936
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web10.616.1615827506993741699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 09:42:03 -0700
+ Mon, 15 Mar 2021 09:58:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
-Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 7BABE38C1289
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:42:02 +0000 (UTC)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=SxwYzXXR;
+ spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.156.1, mailfrom: klaus@linux.vnet.ibm.com)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12FGYWp7155645;
+	Mon, 15 Mar 2021 12:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=COEaM+7FNd6JNpNGm8NMxCIxPQnYhcUZTbVytDgoXRE=;
+ b=SxwYzXXREFjl8BplH0KKC2Nk5IpxGpD1pmYGd3O1Hw/K8Yc1ot7qgLFFrj4dBBOE48pb
+ zxkPtfSNCzMvntI8MD416L2Ng86Vw34W7zMn292YWzu2n6Nbc7xM/mjgS+wkuoWJFPbe
+ 2NYDKK7OyTWIgR610yw71BLeqL6gEf2tYyR2f8/pvuPQCY1rbOYrbNvGnrwPYb5TcwH3
+ FKCmHMFEKNM5LLBfYm2YevfhBlOZXpQiahJuxbCko4sFDM91xRdPMtm0KeNveqVZLUsm
+ +HaFSvAh3XIpxYrNGJLBFAerGVbfNrz8XkfrZUz3FttR+zABGRGwQhJCJvLbCQAADiXj dg== 
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 37aa8rb16m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Mar 2021 12:58:21 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+	by ppma02wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12FGkp85021167;
+	Mon, 15 Mar 2021 16:58:20 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
+	by ppma02wdc.us.ibm.com with ESMTP id 378n1a0r7q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Mar 2021 16:58:20 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+	by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12FGwJPD25886998
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Mar 2021 16:58:19 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9A1B4AC05E;
+	Mon, 15 Mar 2021 16:58:19 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6C9A7AC059;
+	Mon, 15 Mar 2021 16:58:18 +0000 (GMT)
+Received: from T480-KlausKiwi.localdomain (unknown [9.85.168.62])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+	Mon, 15 Mar 2021 16:58:18 +0000 (GMT)
+From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2021-03-15
-Message-ID: <MADEUP.166C91A976EAE943.27320@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============1549711222645465053=="
-
---===============1549711222645465053==
-Content-Type: text/plain; charset="utf-8"
+Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org,
+        Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Subject: [PATCH 0/4] u-boot: Support for SPL verified boot
+Date: Mon, 15 Mar 2021 13:58:02 -0300
+Message-Id: <20210315165806.1633-1-klaus@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-15_08:2021-03-15,2021-03-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 spamscore=0 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103150113
+Content-Transfer-Encoding: 8bit
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogMzkKICAgICAgICBn
-bnUtZWZpLCAzLjAuMTMsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBv
-cGVuc3NoLCA4LjVwMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAg
-ICBhdXRvY29uZi1hcmNoaXZlLCAyMDIxLjAyLjE5LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdA
-d2luZHJpdmVyLmNvbT4KICAgICAgICBiaXNvbiwgMy43LjYsIENoZW4gUWkgPFFpLkNoZW5Ad2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBidHJmcy10b29scywgNS4xMSwgV2FuZyBNaW5neXUgPHdhbmdt
-eUBjbi5mdWppdHN1LmNvbT4KICAgICAgICBjcmVhdGVyZXBvLWMsIDAuMTcuMSwgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZG5mLCA0LjYuMSwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZTJmc3Byb2dz
-LCAxLjQ2LjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAg
-IGdwdGZkaXNrLCAxLjAuNywgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
-b20+CiAgICAgICAgbGliZWRpdCwgMjAyMTAyMTYtMy4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogICAgICAgIGxpYnVyaS1wZXJsLCA1LjA4LCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQu
-b3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBweXRob24zLWh5cG90aGVzaXMsIDYuOC4x
-LCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBw
-eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YSwgMy43LjMsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5v
-cmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAgIHB5dGhvbjMtc2V0dXB0b29scy1zY20sIDUu
-MC4yLCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAg
-ICBweXRob24zLXNldHVwdG9vbHMsIDU0LjEuMiwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNv
-dXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGxlc3MsIDU4MCwgWWkgWmhhbyA8
-eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIG1zbXRwLCAxLjguMTUsIFdhbmcgTWluZ3l1
-IDx3YW5nbXlAY24uZnVqaXRzdS5jb20+CiAgICAgICAgc3RyZXNzLW5nLCAwLjEyLjA1LCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHN1ZG8sIDEuOS42LCBDaGVu
-IFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgenN0ZCwgMS40LjksIEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGVwaXBoYW55LCAzLjM4
-LjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGd0
-ayszLCAzLjI0LjI3LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBw
-YW5nbywgMS40OC4zLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBw
-aWdsaXQsIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRv
-bkBhcm0uY29tPgogICAgICAgIHZ1bGthbi1oZWFkZXJzLCAxLjIuMTcwLjAsIEFudWogTWl0dGFs
-IDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgbGliaW5wdXQsIDEuMTcuMCwgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgbGlieGtiY29tbW9uLCAxLjEuMCwg
-QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICB4b3JncHJvdG8sIDIw
-MjEuMywgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBiYWJlbHRy
-YWNlMiwgMi4wLjQsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-ICAgICAgIGx0dG5nLW1vZHVsZXMsIDIuMTIuNSwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
-ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgbHR0bmctdG9vbHMsIDIuMTIuMywgUmlj
-aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAg
-d3BlYmFja2VuZC1mZG8sIDEuOC4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KICAgICAgICBhY2wsIDIuMy4wLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgZGlmZm9zY29wZSwgMTY5LCBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFp
-bC5jb20+CiAgICAgICAgZ251dGxzLCAzLjcuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdt
-YWlsLmNvbT4KICAgICAgICBsaWJjYXAsIDIuNDksIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVy
-LmNvbT4KICAgICAgICBybmctdG9vbHMsIDYuMTIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBp
-bnRlbC5jb20+CiAgICAgICAgc3FsaXRlMywgMy4zNS4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0
-YWxAaW50ZWwuY29tPgogICAgICAgIHZ0ZSwgMC42Mi4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0
-YWxAaW50ZWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDExCiAgICAgICAgYmluZCwg
-OS4xNi4xMiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBzeXN0
-ZW1kLWJvb3QsIDI0Ny40LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAg
-c3lzdGVtZCwgMjQ3LjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBj
-bWFrZSwgMy4xOS42LCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiAgICAg
-ICAgZ2l0LCAyLjMwLjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGdvLXJ1bnRpbWUsIDEuMTYuMiwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-ICAgICAgICBnbywgMS4xNi4yLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAg
-IHByb2NwcywgMy4zLjE3LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KICAgICAgICBzcGlydi10b29scywgMjAyMC43LCBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5q
-b3NlQGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4tbG9hZGVyLCAxLjIuMTcwLjAsIEFudWogTWl0
-dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgdnVsa2FuLXRvb2xzLCAxLjIuMTcw
-LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2
-dG9vbCBlcnJvcik6IDEyCiAgICAgICAgYXB0LCAyLjIuMiwgQW7DrWJhbCBMaW3Ds24gPGxpbW9u
-LmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgYXV0b21ha2UsIDEuMTYuMywgUm9iZXJ0IFlhbmcg
-PGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgZ251LWNvbmZpZywgMjAyMTAxMjUt
-bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVy
-LmNvbT4KICAgICAgICBsaWJkbmYsIDAuNjAuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
-YXZpbkBnbWFpbC5jb20+CiAgICAgICAgc3RyYWNlLCA1LjExLCBSb2JlcnQgWWFuZyA8bGllemhp
-LnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBhc2NpaWRvYywgOS4xLjAsIFlpIFpoYW8gPHlp
-LnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnZGstcGl4YnVmLCAyLjQyLjIsIFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGFkd2FpdGEtaWNvbi10aGVtZSwgMy4z
-OC4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBsaWJoYW5keSwg
-MS4yLjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAg
-IG1lc2EsIDIxLjAuMCwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1z
-LmNvbS5icj4KICAgICAgICB2dWxrYW4tc2FtcGxlcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJs
-ZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgYXR0ciwgMi41LjAs
-IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KCiAgICBUT1RBTDogYXR0ZW1wdGVkPTYy
-IHN1Y2NlZWRlZD0zOSg2Mi45MCUpIGZhaWxlZD0yMygzNy4xMCUpCgpSZWNpcGUgdXBncmFkZSBz
-dGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAgIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxp
-bmc6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD00KDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAg
-QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
-MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
-OiBhdHRlbXB0ZWQ9MTAgc3VjY2VlZGVkPTcoNzAuMDAlKSBmYWlsZWQ9MygzMC4wMCUpCiAgICBQ
-YXNjYWwgQmFjaCA8cGFzY2FsLmJhY2g6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBm
-YWlsZWQ9MSgxMDAuMDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9
-NyBzdWNjZWVkZWQ9NSg3MS40MyUpIGZhaWxlZD0yKDI4LjU3JSkKICAgIEpvc2h1YSBXYXR0IDxK
-UEVXaGFja2VyOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAw
-JSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0zKDc1LjAwJSkg
-ZmFpbGVkPTEoMjUuMDAlKQogICAgSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZTogYXR0ZW1w
-dGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBBcm1pbiBLdXN0
-ZXIgPGFrdXN0ZXI4MDg6IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD00KDgwLjAwJSkgZmFpbGVkPTEo
-MjAuMDAlKQogICAgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllOiBhdHRlbXB0ZWQ9MiBz
-dWNjZWVkZWQ9MigxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIFJvYmVydCBZYW5nIDxsaWV6
-aGkueWFuZzogYXR0ZW1wdGVkPTYgc3VjY2VlZGVkPTIoMzMuMzMlKSBmYWlsZWQ9NCg2Ni42NyUp
-CiAgICBLaGVtIFJhaiA8cmFqLmtoZW06IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkg
-ZmFpbGVkPTIoNjYuNjclKQogICAgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0
-dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9NCg1Ny4xNCUpIGZhaWxl
-ZD0zKDQyLjg2JSkKICAgIFdhbmcgTWluZ3l1IDx3YW5nbXk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRl
-ZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1w
-dGVkPTYgc3VjY2VlZGVkPTMoNTAuMDAlKSBmYWlsZWQ9Myg1MC4wMCUpCiAgICBPbGVrc2FuZHIg
-S3JhdmNodWsgPG9wZW4uc291cmNlOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBm
-YWlsZWQ9MCgwLjAwJSkK
+This patch series aims at extending U-Boot's verified boot support to
+also include SPL.
 
---===============1549711222645465053==--
+Presently, setting UBOOT_SIGN_ENABLE instructs the classes uboot-sign
+and kernel-fitimage to create and sign a Linux Kernel fitImage. This
+proposal introduces the variable SPL_SIGN_ENABLE that aims at (re-)
+creating the U-Boot (proper) uImage fitImage and signing it.
+
+In order to accomplish this, the first patch moves some of necessary
+infrastructure (variables, functions) used to sign the Kernel
+fitImage to more common locations, and then essentially duplicates the
+method currently used to sign the Kernel fitImage to also sign the
+U-Boot fitImage.
+
+In the UBOOT_SIGN_ENABLE = "1" scenario, nothing really changes: The
+Kernel fitImage is created, then signed, and the pubkey is added to
+u-boot.dtb which is concatenated with the u-boot-nodtb.bin to create
+the u-boot final image.
+
+In case SPL_SIGN_ENABLE = "1", The U-Boot PN will take care of (re-)
+creating the U-Boot fitImage (using custom .its script) after compile,
+sign it, and contatenate the u-boot-spl.dtb (with the public key) with
+u-boot-spl-nodtb.bin to create the final U-Boot SPl on deploy.
+
+In case both UBOOT_SIGN_ENABLE and SPL_SIGN_ENABLE are set, the Kernel
+PN will take care of creating and signing the U-Boot fitImage (becase
+we need to also sign the FDT image containing the Kernel pubkey), and
+take care of deploying it.
+
+One caveat is that when moving between the scenarios above, the user
+might need to remove the tmp/ directory, since there could be a
+collision for some of the files deployed into the images directory,
+since the configuration may determine which PN does that.
+
+I added oe-selftest testcases and also tested this on upstream OpenBMC
+with AST2600 BMC devices.
+
+
+ meta/classes/kernel-fitimage.bbclass     |  69 +++-------------
+ meta/classes/uboot-config.bbclass        |  58 +++++++++++++
+ meta/classes/uboot-sign.bbclass          | 395
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ meta/lib/oeqa/selftest/cases/fitimage.py | 293
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc       |  46 -----------
+ 5 files changed, 736 insertions(+), 125 deletions(-)
+
+
+Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+
+
