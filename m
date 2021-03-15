@@ -1,126 +1,143 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.923.1615759989072275721
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web08.2341.1615767370423183361
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 15:13:09 -0700
+ Sun, 14 Mar 2021 17:16:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OF9EctF1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id c76-20020a1c9a4f0000b029010c94499aedso19146106wme.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 15:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ywBrXCTtUQHFIOPtIv5W7bpYQ8bSQy5ZOMTo0kPCL+E=;
-        b=OF9EctF1EY7Nh4v0RaL49atbgjiXdkORZalEBjbFCczTwUCECHOsubUC4Gz1i0lvjG
-         bYbLjJ/ZI2Yp01qUcQ8hcB3hB9S6NTfM9QE9epSNEhNnscWCeElATBWATy1fR9nXpyAa
-         qSYCiYOeh7omyH7zaQia2NOQJQRPIxns4rWM8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ywBrXCTtUQHFIOPtIv5W7bpYQ8bSQy5ZOMTo0kPCL+E=;
-        b=qovYjx9IFBc9MdzCXUHK6zRDxYO9dQ8/Wd9CfIAaea2c20Cq1IhOyO1JRXbIEa0NMd
-         /WBDF32YyTxd0d1kSVxB42Fcn8tqfA1f+mfcAmL/EXQwGUhJijeOcL5M4OoOdR/9Cl0y
-         9vlTFhqGHu0Br8IGNM+Z3R1GaxrcrgJHp+JOguoBcKnVlVxXoIBqjOsfeQkGMQmcRCUc
-         gQg7tRCsU7zfJ79tqvHg3bsOlap6PQV+RVoeXhgs/ROei42vLKPqzGtxoTbGrGyVetmY
-         ZW7MZN6cRimDs0o2MwBTR0RhsXActihDRYc4jci4/i+564TO7hzCFHckrtP9lFjJKVo+
-         xLVQ==
-X-Gm-Message-State: AOAM532T5bhLxQ6a81rZQDNuNffv8mw8WgHNi2cZFvUHSfoJ3JH/aj2g
-	pFOhEN8dTCBbYEjCDVDjauTvO3aqacN5mQ==
-X-Google-Smtp-Source: ABdhPJzQK835mnVjbE2Bk068qcJUtkvOSwDjXEFCjcNNqGFjaH74MzE9alMsiBe7Y7keVfoDcSKePg==
-X-Received: by 2002:a7b:c0c7:: with SMTP id s7mr23452112wmh.5.1615759987615;
-        Sun, 14 Mar 2021 15:13:07 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e? ([2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e])
-        by smtp.gmail.com with ESMTPSA id l8sm16997144wrx.83.2021.03.14.15.13.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Mar 2021 15:13:07 -0700 (PDT)
-Message-ID: <d54e14f4b19a9840fa0c13350d844299fe1750af.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] go-dep: Remove
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Sun, 14 Mar 2021 22:13:06 +0000
-In-Reply-To: <7cae212d-110b-c72a-eeb9-b6713d4b3abd@gmail.com>
-References: <20210312062107.1549935-1-raj.khem@gmail.com>
-	 <20210312062107.1549935-4-raj.khem@gmail.com>
-	 <729a07918ea4baec2608d1f462c4a4bdcd593551.camel@linuxfoundation.org>
-	 <7cae212d-110b-c72a-eeb9-b6713d4b3abd@gmail.com>
-User-Agent: Evolution 3.39.2-1 
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 80B3A40BFF;
+	Mon, 15 Mar 2021 00:16:09 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ePUilI7WnaXV; Mon, 15 Mar 2021 00:16:09 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3870540BE6;
+	Mon, 15 Mar 2021 00:16:04 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 87D0F174542; Sun, 14 Mar 2021 20:16:03 -0400 (EDT)
+Date: Sun, 14 Mar 2021 20:16:03 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Robert Yang <liezhi.yang@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org, steve@sakoman.com,
+	anibal.limon@linaro.org
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+Message-ID: <20210315001603.GJ4892@denix.org>
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+ <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+ <20210311090200.33p3mptsfwusspwa@jama>
+ <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+ <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com>
+ <20210312111708.zgj3qjikjcekj4y6@jama>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210312111708.zgj3qjikjcekj4y6@jama>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2021-03-14 at 09:58 -0700, Khem Raj wrote:
-> 
-> On 3/14/21 9:31 AM, Richard Purdie wrote:
-> > On Thu, 2021-03-11 at 22:21 -0800, Khem Raj wrote:
-> > > go-dep was an effort for dependency management before go modules, which
-> > > since 2020 has been deprecated in favor of go modules. Since its not
-> > > developed any longer and go mdules is officially supported, this should
-> > > be retired from OE-core as well.
-> > > 
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
-> > > ---
-> > >   meta/classes/godep.bbclass                    |      8 -
-> > >   meta/conf/distro/include/maintainers.inc      |      1 -
-> > >   meta/lib/oeqa/selftest/cases/reproducible.py  |      1 -
-> > >   .../0001-Add-support-for-mips-mips64.patch    |     54 -
-> > >   ...bolt_riscv64-Add-support-for-riscv64.patch |     33 -
-> > >   meta/recipes-devtools/go/go-dep_0.5.4.bb      |     30 -
-> > >   7 files changed, 145701 deletions(-)
-> > >   delete mode 100644 meta/classes/godep.bbclass
-> > >   delete mode 100644 meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
-> > >   delete mode 100644 meta/recipes-devtools/go/go-dep/0001-bolt_riscv64-Add-support-for-riscv64.patch
-> > >   delete mode 100644 meta/recipes-devtools/go/go-dep_0.5.4.bb
-> > 
-> > So we also need to remove the go-dep tests?
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1950/steps/14/logs/stdio
-> > 
-> > If so, is there some other go test we could replace them with?
-> 
-> 
-> I think this is some connectivity issue. see the below error I pasted 
-> from your logs.
-> 
->     File 
-> "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/gotoolchain.py", 
-> line 68, in test_go_dep_build
->      retv = self.run_sdk_go_command('build', proj, name)
->    File 
-> "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/gotoolchain.py", 
-> line 54, in run_sdk_go_command
->      return runCmd(cmd).status
->    File 
-> "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/commands.py", 
-> line 210, in runCmd
->      raise AssertionError("Command '%s' returned non-zero exit status 
-> %d:\n%s" % (command, result.status, exc_output))
-> AssertionError: Command 'cd 
-> /tmp/SDKQA52f_qj7f/go/src/github.com/direnv/direnv; . 
-> /tmp/SDKQA52f_qj7f/environment-setup-core2-64-poky-linux; export 
-> GOPATH=/tmp/SDKQA52f_qj7f/go; ${CROSS_COMPILE}go build' returned 
-> non-zero exit status 1:
-> go: github.com/BurntSushi/toml@v0.3.1: Get 
-> "https://proxy.golang.org/github.com/%21burnt%21sushi/toml/@v/v0.3.1.mod": 
-> net/http: TLS handshake timeout
+On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:
+> On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:
+> > Hi RP,
+> >=20
+> > On 3/11/21 10:38 PM, Richard Purdie wrote:
+> > > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
+> > > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+> > > > > This can fix a do_package error when compile with meta-secure-c=
+ore layer:
+> > > > > http://layers.openembedded.org/layerindex/branch/master/layer/m=
+eta-secure-core/
+> > > > >=20
+> > > > > $ bitbake kernel-initramfs
+> > > > > [snip]
+> > > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+> > > > > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk=
+-secure-core-image-initramfs.packagedata
+> > > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86=
+_64_x86_64-nativesdk (variant '')?
+> > > > > [snip]
+> > > > >=20
+> > > > > This is because kernel-initramfs wants to pack an initramfs ima=
+ge into
+> > > > > kernel-initramfs.rpm which adds a dependency in kernel-initramf=
+s.bb to do this:
+> > > > >=20
+> > > > > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:d=
+o_image_complete')
+> > > > >=20
+> > > > > This causes kernel-initramfs' do_package depends on
+> > > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we =
+will get the
+> > > > > error. Delete do_packagedata as other do_package relelated task=
+s for the image
+> > > > > recipe will fix the error.
+> > > > >=20
+> > > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > >=20
+> > > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > >=20
+> > > > I went a bit further and inheritted nopackages, but RP mentioned =
+that it
+> > > > might be removing too much. Nothing failed with nopackages over n=
+ight,
+> > > > but still this smaller version will be safer as this needs to got=
+ to
+> > > > gatesgarth and dunfell as well now.
+> > >=20
+> > > This has side effects and there was a reason this wasn't done origi=
+nally.=A0The
+> > > trouble is that nobody is testing for that, just wanting to fix the=
+ problem
+> > > they see. To prove this isn't straightforward, I tested this locall=
+y, comparing
+> > > task-depends.dot from "bitbake core-image-sato -g" before and after=
+ this patch.
+> >=20
+> > If we want to avoid disconnecting them, it seems that a better way is=
+ fixing
+> > this in the recipes which has this problem? For example, I got this e=
+rror in
+> > secure-core-image-initramfs.bb, then we can add "deltask do_packageda=
+ta" in the
+> > recipe to fix the problem.
+>=20
+> That's what I did in initramfs-android-image (which was triggering this
+> for me as reported on ML)
+> https://github.com/shr-distribution/meta-smartphone/commit/732dd29325d8=
+82a9b3414764ad4c7a254dae3f03
 
-We have an open bug for a connectivity issue but the tests really shouldn't
-be relying on the network if we can help it. I doubt this is a connectivity
-issue as such, more likely rate limiting or some kind of DoS defence from 
-github. It was odd that all the selftests failed with the same error.
+The issue of doing this in each and every possible initramfs image recipe=
+ is=20
+that it does not scale. For example, this code in the original patch is v=
+ery=20
+common:
 
-I can rerun the build again, see if it happens to work but is there something
-we can do to avoid the network?
+d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_co=
+mplete')
 
-Cheers,
-
-Richard
-
-
-
+And INITRAMFS_IMAGE can be set anywhere - in machine config, distro confi=
+g or=20
+even by end user in local.conf
 
 
+> > @Martin maybe we shouldn't backport this patch to gatesgarth or dunfe=
+ll since
+> > it may suprise the users.
+>=20
+> Unfortunately
+> https://git.openembedded.org/openembedded-core/commit/?h=3Ddunfell&id=3D=
+e0c1db170fdd6c1d78fdfce017feae26c96fac29
+> was already backported to both gatesgarth and dunfell.
+
+Yeah, it's unfortunate. Our LTS maintainer is too good! :)
+Seriously though, not sure why changing warning to error was even conside=
+red=20
+for backporting to LTS! Making things stricter doesn't usually fall under=
+=20
+"bugfix" category...
+
+--=20
+Denys
