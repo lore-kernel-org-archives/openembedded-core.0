@@ -1,336 +1,218 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.3493.1615774562919474018
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.74])
+ by mx.groups.io with SMTP id smtpd.web12.3603.1615775582235588729
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 19:16:03 -0700
+ Sun, 14 Mar 2021 19:33:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mMPSDBNz;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.54, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f54.google.com with SMTP id r15-20020a05600c35cfb029010e639ca09eso19338568wmq.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 19:16:02 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=iUq6CzJA;
+ spf=pass (domain: windriver.com, ip: 40.107.100.74, mailfrom: liezhi.yang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BPCprBrY6xGu0B2H+UpAUcJ3XmHf9ix8QwkC99/Qf/4BkSPT240pWk0FuK6Plb3te21OVIptYcqto2P+thEL4v3C+5xEYLJ6N09s1USFCZm9hVj+048foXX9+rLQ/DjtPObjQs2OV/wStnKAY2QuU2uBHFsTnDYfHqGW6IDKpv2a8YYlUPYUYEKABk4LQ5dwKmkDpgN4TVnWukir0lfatyuUmUJ5kDsAe7FDgxcxFicHxWls5pAuwWcAIUENcXVRn6axrXGbGdavxB9fE4V/8vFqf7tGOTFV2G9b5Xl35h3hZJS/a1Sv6GHrSj1gNckd05SpGGe/uLrplofUvY63mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hNuTwl9eSxFJOv7wPLfBwW9rhJYX/xuNyskWNTri4Mg=;
+ b=eRAZRRTPPVOo6fvkCq3hgnBAtnAkaZJ55+bJTgnth4oQjECdCnKMCDgabG3EGLTth3sCKufyH06syndxnl8ZgFv5XNtnemdabZfW4aWBqC7xqlNov4GGsfavoCWusjT9zE/aw4WkARnzOA5acmXAuAewexgbN+mDcziaFwlN+QvgBV8k83gfZSGYh6LGKdB22KwSDy5pcYXS5SWccdDNa94c3Ga1Jcz5rYUVJ2iI1ulFxoL8/a/P4pJAjqLVe9EKEdk9cxKjkYnFYysc0KjGVWrDFLocqlCK6xmJfM6eAu5MR3a22ClRRaPlJ0Tc+SS6WMG59O03NSe4wOnVMFZFOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ocOAuNeLkioH/yE5pCq+w2eZPa+u9uhuDf/ZqmhD4Rk=;
-        b=mMPSDBNzUKLc9ItSRKe/6frvzHqd8yc8xGwxT53EWk1qu9nAX+KyfvpPKXAXnM+G0K
-         iC88TEFh3Li1nucucH69R5CN9+ZS78/eijrNaPF+YZxaEoLu7djY4+A4h9DJUBmfqucn
-         K23wy6qibSFMXlNwhMoZmQ5pWT2GgwsMfqBIAjAE3gBdRVuH5np7qfDz1+Q/tq839UQL
-         OUTtbozN9HZBlAp+e++ficha2GUbAzXPOkrSrn5VtRkaSjnUhvoWK5OPEcwaWdJIHxZD
-         WxgecrqfMxCFeJiAdivuo9Mj6ptTuKI93Pbe8cIjRIk6a4Z8G+bnWY6JTHvleQSHuhpn
-         EGQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ocOAuNeLkioH/yE5pCq+w2eZPa+u9uhuDf/ZqmhD4Rk=;
-        b=X1KDhmEjorHv4cQVgV/72H1QKYjKPXt8dy3jTY1SyIpEguuk6oVERJ5Ivrux8ulYuY
-         v0loOg4pkmlMeCPyyvTZX00MwxL+37mioWQpwWEKC6A+UnD71A4ohs9GHTRfG3QnIgUV
-         xtXX8gDQbrTLPiQi68kZJmXWPp3JnbY32W7iU4uaqMqIllwa7cA388T5b+VQDmxrjrJH
-         bq+hFkdvlHFS5MrYqjIrTIXosImqGfgNNpl8NjjvWfh80x/eqhHpnCMZCnNhK1R1DR0u
-         Ppf95ue3yOrVefxqg6dW5xj1XhU+krWDebFJfTxFh13z92rUofy0GmV/Ly9tEh4sthIs
-         tKJg==
-X-Gm-Message-State: AOAM532Mb1Gv3PXaFV7HKGnOZetCwUWeIIJS1bU95gygeMuGcLIg6BnW
-	/pFQ0JjYddXes74F6GahChT9Ozl2kEIhtCgX4hNkiQ==
-X-Google-Smtp-Source: ABdhPJy7iijv0ZsSvvDXFjqGQAukWJH+YmhBjUI4nnbA2tth1+IcVsrCoDEen6gvGLyqBR9Z65nMG/gZQ7FuXdqEzOk=
-X-Received: by 2002:a1c:1f04:: with SMTP id f4mr24110964wmf.12.1615774561152;
- Sun, 14 Mar 2021 19:16:01 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hNuTwl9eSxFJOv7wPLfBwW9rhJYX/xuNyskWNTri4Mg=;
+ b=iUq6CzJA3F0Gi69IdWCed+dk/kFUKIal0Fanm0lpD8FR8aqyjuZAuoqmOCUns1bo50y5+1EzE7AQ6f6e8VkhLYs9tObc2eMzalSPCWELU2akyxH5VvJBGRBRn/u8m5e2A8+qGH18wlJLT/jifCm/nYMOXiibq6if+p+O1XEg29w=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com (2603:10b6:a03:f6::10)
+ by BY5PR11MB4369.namprd11.prod.outlook.com (2603:10b6:a03:1cb::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
+ 2021 02:32:58 +0000
+Received: from BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::f8da:7bfa:e2e7:244b]) by BYAPR11MB3736.namprd11.prod.outlook.com
+ ([fe80::f8da:7bfa:e2e7:244b%7]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
+ 02:32:57 +0000
+Subject: Re: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a warning when login with root is disabled
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <cover.1614916931.git.liezhi.yang@windriver.com>
+ <870b35befc0b8fa9cd1c3a03fcfd2395440c2f41.1614916931.git.liezhi.yang@windriver.com>
+ <f23d196c13f24731a5a7e00ff139aa42@XBOX03.axis.com>
+ <975479fc-e8f4-dccd-56c9-3d830cc5dc54@windriver.com>
+ <e67217d10fc244b58cb3ef73815cf37f@XBOX03.axis.com>
+From: "Robert Yang" <liezhi.yang@windriver.com>
+Message-ID: <3c93c982-1f66-1a52-8b91-fa5e42be8098@windriver.com>
+Date: Mon, 15 Mar 2021 10:31:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <e67217d10fc244b58cb3ef73815cf37f@XBOX03.axis.com>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: BYAPR06CA0021.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::34) To BYAPR11MB3736.namprd11.prod.outlook.com
+ (2603:10b6:a03:f6::10)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
-References: <cover.1615452338.git.liezhi.yang@windriver.com>
- <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
- <20210311090200.33p3mptsfwusspwa@jama> <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
- <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com> <20210312111708.zgj3qjikjcekj4y6@jama>
- <20210315001603.GJ4892@denix.org> <429191805a150822726954fccc1f1ff8028bce0e.camel@linuxfoundation.org>
-In-Reply-To: <429191805a150822726954fccc1f1ff8028bce0e.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Sun, 14 Mar 2021 16:15:48 -1000
-Message-ID: <CAOSpxdb61RUWP3UFpcYuvxK-LeCCQz9hn6VSnu7jhKOW5pX+vQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Denys Dmytriyenko <denis@denix.org>, Martin Jansa <Martin.Jansa@gmail.com>, 
-	Robert Yang <liezhi.yang@windriver.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Anibal Limon <anibal.limon@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000c13dcf05bd89d4ae"
-
---000000000000c13dcf05bd89d4ae
-Content-Type: text/plain; charset="UTF-8"
-
-On Sun, Mar 14, 2021, 2:18 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Sun, 2021-03-14 at 20:16 -0400, Denys Dmytriyenko wrote:
-> > On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:
-> > > On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:
-> > > > Hi RP,
-> > > >
-> > > > On 3/11/21 10:38 PM, Richard Purdie wrote:
-> > > > > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
-> > > > > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
-> > > > > > > This can fix a do_package error when compile with
-> meta-secure-core layer:
-> > > > > > >
-> http://layers.openembedded.org/layerindex/branch/master/layer/meta-secure-core/
-> > > > > > >
-> > > > > > > $ bitbake kernel-initramfs
-> > > > > > > [snip]
-> > > > > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
-> > > > > > >
-> build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-core-image-initramfs.packagedata
-> > > > > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch
-> x86_64_x86_64-nativesdk (variant '')?
-> > > > > > > [snip]
-> > > > > > >
-> > > > > > > This is because kernel-initramfs wants to pack an initramfs
-> image into
-> > > > > > > kernel-initramfs.rpm which adds a dependency in
-> kernel-initramfs.bb to do this:
-> > > > > > >
-> > > > > > > d.appendVarFlag('do_install', 'depends', '
-> ${INITRAMFS_IMAGE}:do_image_complete')
-> > > > > > >
-> > > > > > > This causes kernel-initramfs' do_package depends on
-> > > > > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we
-> will get the
-> > > > > > > error. Delete do_packagedata as other do_package relelated
-> tasks for the image
-> > > > > > > recipe will fix the error.
-> > > > > > >
-> > > > > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > > > > >
-> > > > > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > > >
-> > > > > > I went a bit further and inheritted nopackages, but RP mentioned
-> that it
-> > > > > > might be removing too much. Nothing failed with nopackages over
-> night,
-> > > > > > but still this smaller version will be safer as this needs to
-> got to
-> > > > > > gatesgarth and dunfell as well now.
-> > > > >
-> > > > > This has side effects and there was a reason this wasn't done
-> originally. The
-> > > > > trouble is that nobody is testing for that, just wanting to fix
-> the problem
-> > > > > they see. To prove this isn't straightforward, I tested this
-> locally, comparing
-> > > > > task-depends.dot from "bitbake core-image-sato -g" before and
-> after this patch.
-> > > >
-> > > > If we want to avoid disconnecting them, it seems that a better way
-> is fixing
-> > > > this in the recipes which has this problem? For example, I got this
-> error in
-> > > > secure-core-image-initramfs.bb, then we can add "deltask
-> do_packagedata" in the
-> > > > recipe to fix the problem.
-> > >
-> > > That's what I did in initramfs-android-image (which was triggering this
-> > > for me as reported on ML)
-> > >
-> https://github.com/shr-distribution/meta-smartphone/commit/732dd29325d882a9b3414764ad4c7a254dae3f03
-> >
-> > The issue of doing this in each and every possible initramfs image
-> recipe is
-> > that it does not scale. For example, this code in the original patch is
-> very
-> > common:
-> >
-> > d.appendVarFlag('do_install', 'depends', '
-> ${INITRAMFS_IMAGE}:do_image_complete')
-> >
-> > And INITRAMFS_IMAGE can be set anywhere - in machine config, distro
-> config or
-> > even by end user in local.conf
-> >
-> >
-> > > > @Martin maybe we shouldn't backport this patch to gatesgarth or
-> dunfell since
-> > > > it may suprise the users.
-> > >
-> > > Unfortunately
-> > >
-> https://git.openembedded.org/openembedded-core/commit/?h=dunfell&id=e0c1db170fdd6c1d78fdfce017feae26c96fac29
-> > > was already backported to both gatesgarth and dunfell.
-> >
-> > Yeah, it's unfortunate. Our LTS maintainer is too good! :)
-> > Seriously though, not sure why changing warning to error was even
-> considered
-> > for backporting to LTS! Making things stricter doesn't usually fall
-> under
-> > "bugfix" category...
->
-> FWIW I'm leaning to merging a deltask to image.bbclass in master and
-> suggesting we revert this and live with the warning in older branches...
->
-
-
-Agreed, I'll add a revert to my next set of patches.
-
-Steve
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.198] (60.247.85.82) by BYAPR06CA0021.namprd06.prod.outlook.com (2603:10b6:a03:d4::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32 via Frontend Transport; Mon, 15 Mar 2021 02:32:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ecb58087-82f7-44ee-9c1d-08d8e75aa507
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4369:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB4369262339CCE443A4B71653FF6C9@BY5PR11MB4369.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:346;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lm9gCRb7SMrnSmao5mP+FMPjQyP5ncMGz+QbQGFR8Fp4A4jf8496pDCpkDUdp0Hw/XxUFPUT7Bu+UduqtaZ56SPdBcbzJsd0QZKQOPetWBND2jKQPunqcjouxFnN/17JzwjdMwWECU/pUI1ATYt049q5OLHRivTOyoV1fkRUP5VxzWHCchuB7Ts7csWkVXgYv8ruIkTZeQsPJ/9Rtx8If0fyzaInhe7kbecAhDHEJDvQC7ze3hsWpDJexd6EJTYORNU4gJ2RixzQDRljlZzKJSvAIR5LXGrjzRGFcaF6rIvFVbo33PjANIL0J+aIB3c1iaOOff63GYhVnLR6/4MGhm07kJiy8QOBE/NvRnBF79phit5wXxJ/a5Ju3UgS8o6zK1rs96RL9WvqhEq0dUp/m/cyGuulAq4BcMXbbWtjVYoO5krcz2+H0K1AXSIJTHM31paNopSMMIlktHgPdcDXaerwWWo53o841BiJhTfIbh3+L0Ul+WoUjMGaMr6MqvsSdYNn8m6DQYK4WCqKVnuSHHU8MDld4Ccg751St4RKoyTw6P5vOy2QQEg0iYbVsMRAgh0z/gzFQSeHRsccbZIVvQDgIKirLLrqjZvGTniXyzQ/e0F7CGFLtnRRvhrLbxGsRRPo4J6Ars0a3ILdx4Ck3F9GAe06flI3GKtCazk0ppE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3736.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(396003)(376002)(39840400004)(346002)(2616005)(6706004)(956004)(5660300002)(8676002)(53546011)(36756003)(52116002)(8936002)(31686004)(316002)(478600001)(66946007)(110136005)(186003)(66556008)(66476007)(16526019)(31696002)(86362001)(6666004)(83380400001)(6486002)(2906002)(16576012)(26005)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?UUZSbHJodmJ2UXkycE41clpKRVdTdnpsMGxnSE1KZHMrWWNDenlVR3RmVlNx?=
+ =?utf-8?B?dlQ2NThUV3B0Tkx2MWN6K3U4N0xWVzVVMnFGczhtR1dKQWFBUDhycU5qRWEy?=
+ =?utf-8?B?eG1TT29TVWdQWXZvQ0NnVm1UL0tsOHR0SXBoMHgrUzBWWnBHdUhSOGl4bkgv?=
+ =?utf-8?B?ZEtJSzVBRUsrY09ORFl4M0R6ckRrbFoxMTRNZnUyRmJzaThYNUI4ejgxa3lr?=
+ =?utf-8?B?MGNsdzFGVHFCMGdYL00yVVVHblk3S3JxaUpaaUlJWG5aenFGRFFPQ1dsbGs4?=
+ =?utf-8?B?Y1ZOWWZWR2xVeEpVRGd6TmV3cXdjQ1kvODZxVkpkU0g2L1pBT3cwQmVNd0Zw?=
+ =?utf-8?B?TEpzSG1XVVFyRHVSVU1KVUtDOUUvS2ZMV2xzWHd4K0o4azlCMjdUM08zb1k5?=
+ =?utf-8?B?bjI3ZGVHWnNTT1ZVRTNmMllnTDQvckNGcDZBUVltd0Vndys1Y1VES1d1UlU4?=
+ =?utf-8?B?L0VEdWozTDY4TmtPVlJXa2hBZFJqUXp1U0FxOGtLRk5QTzZBcXVyazNaRXVZ?=
+ =?utf-8?B?SDRzdEdzQ2xocFhNVmxCQ20wQ2NuQjZpYVJHMnNyemZnMHAvL1NFMXVGakpa?=
+ =?utf-8?B?QWN5YU5kK3ZBckFTN3hHOVQ1dlE5NktQb0hJaGhTOTJQYW56Q1lmc1J1SStV?=
+ =?utf-8?B?bUw2SzMyQUJ1eTkrc2hvdzZNTUk0di9KMTNxZ1ZidEN4MTJtRWVONk4xOUR2?=
+ =?utf-8?B?eDgraHZPa2FYQXdsbXYyMkJJWVU5S0xKK0JuY3h4WHVqTXI0QkN5aXFhUVVM?=
+ =?utf-8?B?MTBqV3Q1dFRRMitUaUZuMU5hLytabmsrZDhYSFRFT2JQZGZLQjN6eDhtNnFs?=
+ =?utf-8?B?Zm1Vb0dkMU9hVTZCRnl6b3duc1VSTndIemVRL01FU0RNMDBUK3hIc0RjbDdF?=
+ =?utf-8?B?MHFRWjBBN1lCa1RKNU9zcEhjOEdQMUhUOE5XQmZ2bmhMZ1pzYTFudzBuVkQx?=
+ =?utf-8?B?YzlKWU91UGhHb0J1RGt5eGYwYTRpMkQ0K1JDV3lzbWhNYTdqUGFRc1pORzZr?=
+ =?utf-8?B?TGp2eVRKbE5rYTUvTm5FOUh5elFhWDhIWGNNem9ISzFpK2N0WmdrWjJpMTE0?=
+ =?utf-8?B?QU1RcDd2UmVPR1hyVWJSQXU0cUs5YWFrYzVaWGtlZUZwSmxGeURQNmcwUmpB?=
+ =?utf-8?B?SktFWmNrNEpGVlBQNVZsdVRGT0xpNThhdmRBR0ZweXFMTHRaVnFRVS9xZVZO?=
+ =?utf-8?B?djFwNUppMHRON09TMkg5RTN2RCtmc1FhSjZ6cit4d1hvR0xhSGZ0eitQOEQ0?=
+ =?utf-8?B?NWh5MHAvbUF0eTd0N3VFYXhHdWpzVVdQdFF3Z3VUZjVoY2lhYzZQYmVHVG5H?=
+ =?utf-8?B?R3pEMW84UGVXU1NMcW5yN0JHMTJ1U1dXZEpTR0pDRXlqU09kS3hodHFpSS92?=
+ =?utf-8?B?U2V1ZkpLeXJXeXZ3VWZndXdGUmp6NWkrbTM4RWVzYXd3YnlHWTQ5VDZlYTdL?=
+ =?utf-8?B?dGpHNVcvK05ZRFFYUjVpclBlMFU3MitLT2RWZWg0ZUFpVE10eHVQR01ENmpx?=
+ =?utf-8?B?ZVhVUG5vT3lSQ2t4ajlURlNCSDJZcXpSc0VGYU1udzNsQUJSQ1lvOTY5Z25B?=
+ =?utf-8?B?eGNrck9JUEE1UzMxNVJjSy8yQTYvaXdyWnFxdEVZY0NiMjRTM3ZEbTZvWm96?=
+ =?utf-8?B?ZXMrZ3o0T0FSM2pib25MZWJjanBUcEZIYUJ3emN0dE9hd0daZ1lRejBmejhX?=
+ =?utf-8?B?VGVmdlQzdDhwWVRGUnZmTEpza2hqU2wyNXZ4SnFacVQ2Rjdab045MW9DdGxB?=
+ =?utf-8?Q?HaD2EjpLWPvgXKITgv8KD0ew4enVELQlHAk7sRa?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecb58087-82f7-44ee-9c1d-08d8e75aa507
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3736.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 02:32:57.6876
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fF6dbTbtJcSWn/9D0mva3K7YLAEQVikrhmVBIqgJQYZKIIEdubYYA6t2NC8D9dHh/wPsna1WCiXPnP5f1iKiRJzXKJ/NJntO9HEXw5v38ok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4369
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
 
-> The deltask will probably break things but I'm starting to think that
-> is the lesser of several issues. Its not appropriate for the stable
-> branches though.
->
-> Cheers,
->
-> Richard
->
->
->
->
+On 3/12/21 10:13 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Robert Yang <liezhi.yang@windriver.com>
+>> Sent: den 9 mars 2021 09:32
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a
+>> warning when login with root is disabled
+>>
+>> Hi Peter,
+>>
+>> On 3/5/21 6:18 PM, Peter Kjellerstedt wrote:
+>>>> -----Original Message-----
+>>>> From: openembedded-core@lists.openembedded.org <openembedded-
+>>>> core@lists.openembedded.org> On Behalf Of Robert Yang
+>>>> Sent: den 5 mars 2021 09:49
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a
+>> warning when login with root is disabled
+>>>>
+>>>> Fixed:
+>>>> EXTRA_IMAGE_FEATURES_remove = "debug-tweaks"
+>>>> $ bitbake core-image-minimal
+>>>>
+>>>> Then we can't login to the system with root without any messages. Add a
+>> warning
+>>>> makes it easy to debug.
+>>>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>    meta/classes/rootfs-postcommands.bbclass | 6 +++++-
+>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/classes/rootfs-postcommands.bbclass
+>> b/meta/classes/rootfs-postcommands.bbclass
+>>>> index 1f27a3d07a..e4fe416ac9 100644
+>>>> --- a/meta/classes/rootfs-postcommands.bbclass
+>>>> +++ b/meta/classes/rootfs-postcommands.bbclass
+>>>> @@ -147,7 +147,11 @@ read_only_rootfs_hook () {
+>>>>    zap_empty_root_password () {
+>>>>    	if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
+>>>>    		sed -i 's%^root::%root:*:%'
+>> ${IMAGE_ROOTFS}/etc/shadow
+>>>> -        fi
+>>>> +		grep -q '^root:*:' ${IMAGE_ROOTFS}/etc/shadow
+>>>
+>>> That will match any /etc/shadow file with "root:" in it. Change it to:
+>>>
+>>> 		grep -q '^root:\*:' ${IMAGE_ROOTFS}/etc/shadow
+>>
+>> Thanks, I will update it.
+>>
+>>>
+>>> And make this optional. We intentionally do not have a root password set
+>> in our
+>>
+>> I don't quite understand about "optional", when the command is:
+>>
+>> grep -q '^root:\*:' ${IMAGE_ROOTFS}/etc/shadow
+>>
+>> Then empty root password in shadow is:
+>> root::
+>>
+>> so empty root password won't be matched?
+> 
+> Sorry, I was unclear. We do not have an empty password, we have
+> "root:*:..." in /etc/shadow, and we obviously do not want this warning.
 
---000000000000c13dcf05bd89d4ae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks, makes sense, then let's drop this patch, this patch is for debugging 
+only, it doesn't matter to drop it.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Mar 14, 2021, 2:18 PM Richard Purdie &lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
-tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 202=
-1-03-14 at 20:16 -0400, Denys Dmytriyenko wrote:<br>
-&gt; On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:<br>
-&gt; &gt; On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:<br>
-&gt; &gt; &gt; Hi RP,<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; On 3/11/21 10:38 PM, Richard Purdie wrote:<br>
-&gt; &gt; &gt; &gt; On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:<=
-br>
-&gt; &gt; &gt; &gt; &gt; On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Y=
-ang wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; This can fix a do_package error when compile =
-with meta-secure-core layer:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"http://layers.openembedded.org/lay=
-erindex/branch/master/layer/meta-secure-core/" rel=3D"noreferrer noreferrer=
-" target=3D"_blank">http://layers.openembedded.org/layerindex/branch/master=
-/layer/meta-secure-core/</a><br>
-&gt; &gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; &gt; $ bitbake kernel-initramfs<br>
-&gt; &gt; &gt; &gt; &gt; &gt; [snip]<br>
-&gt; &gt; &gt; &gt; &gt; &gt; WARNING:kernel-initramfs-1.0-r0 do_package: M=
-anifest<br>
-&gt; &gt; &gt; &gt; &gt; &gt; build/tmp-glibc/sstate-control/manifest-x86_6=
-4_x86_64-nativesdk-secure-core-image-initramfs.packagedata<br>
-&gt; &gt; &gt; &gt; &gt; &gt; not found in intel_x86_64 corei7-64 core2-64 =
-x86_64 allarch x86_64_x86_64-nativesdk (variant &#39;&#39;)?<br>
-&gt; &gt; &gt; &gt; &gt; &gt; [snip]<br>
-&gt; &gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; &gt; This is because kernel-initramfs wants to pac=
-k an initramfs image into<br>
-&gt; &gt; &gt; &gt; &gt; &gt; kernel-initramfs.rpm which adds a dependency =
-in <a href=3D"http://kernel-initramfs.bb" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">kernel-initramfs.bb</a> to do this:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; &gt; d.appendVarFlag(&#39;do_install&#39;, &#39;de=
-pends&#39;, &#39; ${INITRAMFS_IMAGE}:do_image_complete&#39;)<br>
-&gt; &gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; &gt; This causes kernel-initramfs&#39; do_package =
-depends on<br>
-&gt; &gt; &gt; &gt; &gt; &gt; ${INITRAMFS_IMAGE}:do_image_complete&#39;s do=
-_packagedata, then we will get the<br>
-&gt; &gt; &gt; &gt; &gt; &gt; error. Delete do_packagedata as other do_pack=
-age relelated tasks for the image<br>
-&gt; &gt; &gt; &gt; &gt; &gt; recipe will fix the error.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; &gt; Signed-off-by: Robert Yang &lt;<a href=3D"mai=
-lto:liezhi.yang@windriver.com" target=3D"_blank" rel=3D"noreferrer">liezhi.=
-yang@windriver.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; Acked-by: Martin Jansa &lt;<a href=3D"mailto:Marti=
-n.Jansa@gmail.com" target=3D"_blank" rel=3D"noreferrer">Martin.Jansa@gmail.=
-com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; I went a bit further and inheritted nopackages, bu=
-t RP mentioned that it<br>
-&gt; &gt; &gt; &gt; &gt; might be removing too much. Nothing failed with no=
-packages over night,<br>
-&gt; &gt; &gt; &gt; &gt; but still this smaller version will be safer as th=
-is needs to got to<br>
-&gt; &gt; &gt; &gt; &gt; gatesgarth and dunfell as well now.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; This has side effects and there was a reason this wasn&=
-#39;t done originally.=C2=A0The<br>
-&gt; &gt; &gt; &gt; trouble is that nobody is testing for that, just wantin=
-g to fix the problem<br>
-&gt; &gt; &gt; &gt; they see. To prove this isn&#39;t straightforward, I te=
-sted this locally, comparing<br>
-&gt; &gt; &gt; &gt; task-depends.dot from &quot;bitbake core-image-sato -g&=
-quot; before and after this patch.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; If we want to avoid disconnecting them, it seems that a bett=
-er way is fixing<br>
-&gt; &gt; &gt; this in the recipes which has this problem? For example, I g=
-ot this error in<br>
-&gt; &gt; &gt; <a href=3D"http://secure-core-image-initramfs.bb" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">secure-core-image-initramfs.bb</a>, t=
-hen we can add &quot;deltask do_packagedata&quot; in the<br>
-&gt; &gt; &gt; recipe to fix the problem.<br>
-&gt; &gt; <br>
-&gt; &gt; That&#39;s what I did in initramfs-android-image (which was trigg=
-ering this<br>
-&gt; &gt; for me as reported on ML)<br>
-&gt; &gt; <a href=3D"https://github.com/shr-distribution/meta-smartphone/co=
-mmit/732dd29325d882a9b3414764ad4c7a254dae3f03" rel=3D"noreferrer noreferrer=
-" target=3D"_blank">https://github.com/shr-distribution/meta-smartphone/com=
-mit/732dd29325d882a9b3414764ad4c7a254dae3f03</a><br>
-&gt; <br>
-&gt; The issue of doing this in each and every possible initramfs image rec=
-ipe is <br>
-&gt; that it does not scale. For example, this code in the original patch i=
-s very <br>
-&gt; common:<br>
-&gt; <br>
-&gt; d.appendVarFlag(&#39;do_install&#39;, &#39;depends&#39;, &#39; ${INITR=
-AMFS_IMAGE}:do_image_complete&#39;)<br>
-&gt; <br>
-&gt; And INITRAMFS_IMAGE can be set anywhere - in machine config, distro co=
-nfig or <br>
-&gt; even by end user in local.conf<br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; &gt; @Martin maybe we shouldn&#39;t backport this patch to gatesg=
-arth or dunfell since<br>
-&gt; &gt; &gt; it may suprise the users.<br>
-&gt; &gt; <br>
-&gt; &gt; Unfortunately<br>
-&gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/=
-?h=3Ddunfell&amp;id=3De0c1db170fdd6c1d78fdfce017feae26c96fac29" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">https://git.openembedded.org/openembed=
-ded-core/commit/?h=3Ddunfell&amp;id=3De0c1db170fdd6c1d78fdfce017feae26c96fa=
-c29</a><br>
-&gt; &gt; was already backported to both gatesgarth and dunfell.<br>
-&gt; <br>
-&gt; Yeah, it&#39;s unfortunate. Our LTS maintainer is too good! :)<br>
-&gt; Seriously though, not sure why changing warning to error was even cons=
-idered <br>
-&gt; for backporting to LTS! Making things stricter doesn&#39;t usually fal=
-l under <br>
-&gt; &quot;bugfix&quot; category...<br>
-<br>
-FWIW I&#39;m leaning to merging a deltask to image.bbclass in master and<br=
->
-suggesting we revert this and live with the warning in older branches...<br=
-></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">Agreed, I&#39;ll add a revert to my next set of pa=
-tches.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Steve</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div cl=
-ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-The deltask will probably break things but I&#39;m starting to think that<b=
-r>
-is the lesser of several issues. Its not appropriate for the stable<br>
-branches though.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
+I wonder how to login when the line is "root:*:..." in /etc/shadow?
 
---000000000000c13dcf05bd89d4ae--
+// Robert
+
+> 
+>> // Robert
+> 
+> //Peter
+> 
+>>> products when they are delivered due to the state law (SB-327) that went
+>> into
+>>> effect on January 1, 2020 in California, which prohibits default
+>> passwords to
+>>> be used in IoT products.
+>>>
+>>>> +		if [ $? -eq 0 ]; then
+>>>> +			bbwarn "Login with root user is disabled
+>> since zap_empty_root_password is enabled"
+>>>> +		fi
+>>>> +	fi
+>>>>    	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
+>>>>    		sed -i 's%^root::%root:*:%'
+>> ${IMAGE_ROOTFS}/etc/passwd
+>>>>    	fi
+>>>> --
+>>>> 2.17.1
+>>>
+>>> //Peter
+>>>
