@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.298.1615826520740352861
+ by mx.groups.io with SMTP id smtpd.web11.324.1615826520754776137
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Mar 2021 09:42:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2C03B38C11E1
+	by mail.yoctoproject.org (Postfix) with ESMTP id 38A4838C1256
 	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:42:00 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: =?utf-8?b?QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+?=
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] apt: upgrading to 2.2.2 FAILED
-Message-ID: <MADEUP.166C91A8E30B0CE2.2480@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3411771288474652679=="
+Subject: [AUH] autoconf-archive: upgrading to 2021.02.19 SUCCEEDED
+Message-ID: <MADEUP.166C91A8E52BF5C6.17966@lists.openembedded.org>
+X-Groupsio-MsgNum: 149476
+Content-Type: multipart/mixed; boundary="===============8464993296866224301=="
 
---===============3411771288474652679==
+--===============8464993296866224301==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,109 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *apt* to *2.2.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *autoconf-archive* to *2021.02.19* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-autoconf-archive-upgrade-2019.01.06-2021.02.19.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe apt failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-912eb2a4e82b8517638d3c3593bdff33a2034ea6"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:912eb2a4e82b8517638d3c3593bdff33a2034ea6"
-workspace            = "master:eec64066073428e38d5b0b6947ff302943188f65"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://ftp.debian.org/debian/pool/main/a/apt/apt_2.2.2.tar.xz...
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 815 .bb files complete (813 cached, 2 parsed). 1439 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-912eb2a4e82b8517638d3c3593bdff33a2034ea6"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:912eb2a4e82b8517638d3c3593bdff33a2034ea6"
-workspace            = "master:eec64066073428e38d5b0b6947ff302943188f65"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  23% |########                            | ETA:  0:00:00
-Adding changed files:  47% |#################                   | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase 878a1079446bc6efe4398368ebee0b16d62f0585' failed:
-First, rewinding head to replay your work on top of it...
-Applying: Disable documentation directory altogether
-Using index info to reconstruct a base tree...
-M	CMakeLists.txt
-Falling back to patching base and 3-way merge...
-Auto-merging CMakeLists.txt
-Applying: Fix musl build
-Applying: CMakeLists.txt: avoid changing install paths based on host distro
-Applying: test/libapt: do not use gtest from the host
-Using index info to reconstruct a base tree...
-M	test/libapt/CMakeLists.txt
-Falling back to patching base and 3-way merge...
-Auto-merging test/libapt/CMakeLists.txt
-CONFLICT (content): Merge conflict in test/libapt/CMakeLists.txt
-error: Failed to merge in the changes.
-Patch failed at 0004 test/libapt: do not use gtest from the host
-Use 'git am --show-current-patch' to see the failed patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/apt
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/apt/apt_2.2.2.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -133,4 +44,79 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3411771288474652679==--
+--===============8464993296866224301==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PV changed from "2019.01.06" to "2021.02.19"
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGSIZE changed from 46036 to 46547 (+1%)
+packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PV changed from "2019.01.06" to "2021.02.19"
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PV changed from "2019.01.06" to "2021.02.19"
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGSIZE changed from 2068942 to 2092330 (+1%)
+packages/all-poky-linux/autoconf-archive: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
+packages/all-poky-linux/autoconf-archive: SRC_URI changed from "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz" to "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2021.02.19.tar.xz"
+packages/all-poky-linux/autoconf-archive: PV changed from "2019.01.06" to "2021.02.19"
+Changes to packages/all-poky-linux/autoconf-archive (sysroot):
+  /usr/share/aclocal/ax_boost_process.m4 was added
+  /usr/share/aclocal/ax_check_pcre2.m4 was added
+  /usr/share/aclocal/ax_int128.m4 was added
+  /usr/share/aclocal/ax_prepend_flag.m4 was added
+  /usr/share/aclocal/ax_prog_robot.m4 was added
+
+--===============8464993296866224301==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/all-poky-linux/autoconf-archive (sysroot):
+  /usr/share/aclocal/ax_boost_process.m4 was added
+  /usr/share/aclocal/ax_check_pcre2.m4 was added
+  /usr/share/aclocal/ax_int128.m4 was added
+  /usr/share/aclocal/ax_prepend_flag.m4 was added
+  /usr/share/aclocal/ax_prog_robot.m4 was added
+
+--===============8464993296866224301==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-autoconf-archive-upgrade-2019.01.06-2021.02.19.patch"
+
+From b5731de25b8a1f26d7803d7a4912ba2b47a96e7c Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Mon, 15 Mar 2021 04:07:02 +0000
+Subject: [PATCH] autoconf-archive: upgrade 2019.01.06 -> 2021.02.19
+
+---
+ ...nf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/autoconf-archive/{autoconf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} (78%)
+
+diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
+similarity index 78%
+rename from meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
+rename to meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
+index 13593d7bb3..54079b5f09 100644
+--- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
++++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
+@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
+     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
+ 
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "d46413c8b00a125b1529bae385bbec55"
+-SRC_URI[sha256sum] = "17195c833098da79de5778ee90948f4c5d90ed1a0cf8391b4ab348e2ec511e3f"
++SRC_URI[sha256sum] = "e8a6eb9d28ddcba8ffef3fa211653239e9bf239aba6a01a6b7cfc7ceaec69cbd"
+ 
+ inherit autotools allarch texinfo
+ 
+-- 
+2.17.1
+
+
+--===============8464993296866224301==--
