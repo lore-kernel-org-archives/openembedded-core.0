@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.320.1615826520483812499
+ by mx.groups.io with SMTP id smtpd.web10.321.1615826520519466527
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Mar 2021 09:42:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D065E38C118E
+	by mail.yoctoproject.org (Postfix) with ESMTP id D9B3C38C11C3
 	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:41:59 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bind: upgrading to 9.16.12 FAILED
-Message-ID: <MADEUP.166C91A8D55B2C02.29771@lists.openembedded.org>
-X-Groupsio-MsgNum: 149471
-Content-Type: multipart/mixed; boundary="===============0935942179691583263=="
+Subject: [AUH] openssh: upgrading to 8.5p1 SUCCEEDED
+Message-ID: <MADEUP.166C91A8D5F7E4B5.29771@lists.openembedded.org>
+X-Groupsio-MsgNum: 149472
+Content-Type: multipart/mixed; boundary="===============2944769785561497566=="
 
---===============0935942179691583263==
+--===============2944769785561497566==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,16 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bind* to *9.16.12* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *openssh* to *8.5p1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-bind-upgrade-9.16.11-9.16.12.patch
+    - apply the patch: git am 0001-openssh-upgrade-8.4p1-8.5p1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -50,190 +44,237 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0935942179691583263==
+--===============2944769785561497566==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/openssh: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh: SRC_URI changed from "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.4p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://fix-potential-signed-overflow-in-pointer-arithmatic.patch file://sshd_check_keys file://add-test-support-for-busybox.patch file://0f90440ca70abab947acbd77795e9f130967956c.patch" to "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.5p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://fix-potential-signed-overflow-in-pointer-arithmatic.patch file://sshd_check_keys file://add-test-support-for-busybox.patch"
+packages/core2-32-poky-linux/openssh/openssh-dbg: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 11148804 to 12308788 (+10%)
+packages/core2-32-poky-linux/openssh/openssh-dbg: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-dev: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-dev: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-doc: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-doc: PKGSIZE changed from 303199 to 309834 (+2%)
+packages/core2-32-poky-linux/openssh/openssh-doc: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-keygen: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-keygen: PKGSIZE changed from 542200 to 574968 (+6%)
+packages/core2-32-poky-linux/openssh/openssh-keygen: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-locale: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-locale: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-misc: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-misc: PKGSIZE changed from 2608807 to 2733416 (+5%)
+packages/core2-32-poky-linux/openssh/openssh-misc: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-ptest: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 817658 to 1183745 (+45%)
+packages/core2-32-poky-linux/openssh/openssh-ptest: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-scp: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-scp: PKGSIZE changed from 128496 to 148976 (+16%)
+packages/core2-32-poky-linux/openssh/openssh-scp: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-sftp-server: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-sftp-server: PKGSIZE changed from 144872 to 161256 (+11%)
+packages/core2-32-poky-linux/openssh/openssh-sftp-server: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-sftp: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-sftp: PKGSIZE changed from 185936 to 218704 (+18%)
+packages/core2-32-poky-linux/openssh/openssh-sftp: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-src: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-src: PKGSIZE changed from 3136471 to 3156096 (+1%)
+packages/core2-32-poky-linux/openssh/openssh-src: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-ssh: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-ssh: PKGSIZE changed from 896256 to 982272 (+10%)
+packages/core2-32-poky-linux/openssh/openssh-ssh: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-sshd: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-sshd: PKGSIZE changed from 1574648 to 1620423 (+3%)
+packages/core2-32-poky-linux/openssh/openssh-sshd: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh-staticdev: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh-staticdev: PV changed from "8.4p1" to "8.5p1"
+packages/core2-32-poky-linux/openssh/openssh: PKGV changed from 8.4p1 [default] to 8.5p1 [default]
+packages/core2-32-poky-linux/openssh/openssh: PV changed from "8.4p1" to "8.5p1"
+
+--===============2944769785561497566==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 11148804 to 12308788 (+10%)
+packages/core2-32-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 817658 to 1183745 (+45%)
+packages/core2-32-poky-linux/openssh/openssh-scp: PKGSIZE changed from 128496 to 148976 (+16%)
+packages/core2-32-poky-linux/openssh/openssh-sftp-server: PKGSIZE changed from 144872 to 161256 (+11%)
+packages/core2-32-poky-linux/openssh/openssh-sftp: PKGSIZE changed from 185936 to 218704 (+18%)
+
+--===============2944769785561497566==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-bind-upgrade-9.16.11-9.16.12.patch"
+ filename="0001-openssh-upgrade-8.4p1-8.5p1.patch"
 
-From 22cfff5ab760c9bbd54f6c49584ff00322ea6228 Mon Sep 17 00:00:00 2001
+From f0a140cb0e24ba9975069a02c9c249f8cd56ce65 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 15 Mar 2021 02:18:37 +0000
-Subject: [PATCH] bind: upgrade 9.16.11 -> 9.16.12
+Date: Mon, 15 Mar 2021 03:29:52 +0000
+Subject: [PATCH] openssh: upgrade 8.4p1 -> 8.5p1
 
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.16.11 => bind-9.16.12}/bind9                   | 0
- .../bind/{bind-9.16.11 => bind-9.16.12}/conf.patch              | 0
- .../bind/{bind-9.16.11 => bind-9.16.12}/generate-rndc-key.sh    | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.16.11 => bind-9.16.12}/named.service           | 0
- .../bind/{bind_9.16.11.bb => bind_9.16.12.bb}                   | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.11 => bind-9.16.12}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.11.bb => bind_9.16.12.bb} (98%)
+ ...440ca70abab947acbd77795e9f130967956c.patch | 28 ------
+ .../{openssh_8.4p1.bb => openssh_8.5p1.bb}    | 87 ++++++++++++++++++-
+ 2 files changed, 84 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
+ rename meta/recipes-connectivity/openssh/{openssh_8.4p1.bb => openssh_8.5p1.bb} (60%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.12/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.12/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/bind9 b/meta/recipes-connectivity/bind/bind-9.16.12/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.12/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.12/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.12/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.12/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.12/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.12/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.12/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/named.service b/meta/recipes-connectivity/bind/bind-9.16.12/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.11/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.12/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.11.bb b/meta/recipes-connectivity/bind/bind_9.16.12.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.16.11.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.12.bb
-index f48cc74c2e..2f5967c5d7 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.11.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.12.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch b/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
+deleted file mode 100644
+index b88bc18f12..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 0f90440ca70abab947acbd77795e9f130967956c Mon Sep 17 00:00:00 2001
+-From: Darren Tucker <dtucker@dtucker.net>
+-Date: Fri, 20 Nov 2020 13:37:54 +1100
+-Subject: [PATCH] Add new pselect6_time64 syscall on ARM.
+-
+-This is apparently needed on armhfp/armv7hl.  bz#3232, patch from
+-jjelen at redhat.com.
+----
+- sandbox-seccomp-filter.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-Upstream-Status: Backport
+-[fixes issues on 32bit IA and probably other 32 bit platforms too with glibc 2.33]
+-
+-diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
+-index e0768c063..5065ae7ef 100644
+---- a/sandbox-seccomp-filter.c
+-+++ b/sandbox-seccomp-filter.c
+-@@ -267,6 +267,9 @@ static const struct sock_filter preauth_insns[] = {
+- #ifdef __NR_pselect6
+- 	SC_ALLOW(__NR_pselect6),
+- #endif
+-+#ifdef __NR_pselect6_time64
+-+	SC_ALLOW(__NR_pselect6_time64),
+-+#endif
+- #ifdef __NR_read
+- 	SC_ALLOW(__NR_read),
+- #endif
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+similarity index 60%
+rename from meta/recipes-connectivity/openssh/openssh_8.4p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+index 128e2e318a..b49c2b4ee4 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+@@ -1,3 +1,85 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE
++# +++ LICENCE
++# @@ -314,6 +314,68 @@
++#  	* authorization.                                                           *
++#  	****************************************************************************/
++#  
++# +       The Blowfish cipher implementation is licensed by Niels Provis under
++# +       a 4-clause BSD license:
++# +
++# +         * Blowfish - a fast block cipher designed by Bruce Schneier
++# +         *
++# +         * Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
++# +         * All rights reserved.
++# +         *
++# +         * Redistribution and use in source and binary forms, with or without
++# +         * modification, are permitted provided that the following conditions
++# +         * are met:
++# +         * 1. Redistributions of source code must retain the above copyright
++# +         *    notice, this list of conditions and the following disclaimer.
++# +         * 2. Redistributions in binary form must reproduce the above copyright
++# +         *    notice, this list of conditions and the following disclaimer in the
++# +         *    documentation and/or other materials provided with the distribution.
++# +         * 3. All advertising materials mentioning features or use of this software
++# +         *    must display the following acknowledgement:
++# +         *      This product includes software developed by Niels Provos.
++# +         * 4. The name of the author may not be used to endorse or promote products
++# +         *    derived from this software without specific prior written permission.
++# +         *
++# +         * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++# +         * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# +         * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++# +         * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++# +         * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++# +         * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++# +         * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++# +         * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# +         * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++# +         * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++# +
++# +       Some replacement code is licensed by the NetBSD foundation under a
++# +       2-clause BSD license:
++# +
++# +         * Copyright (c) 2001 The NetBSD Foundation, Inc.
++# +         * All rights reserved.
++# +         *
++# +         * This code is derived from software contributed to The NetBSD Foundation
++# +         * by Todd Vierling.
++# +         *
++# +         * Redistribution and use in source and binary forms, with or without
++# +         * modification, are permitted provided that the following conditions
++# +         * are met:
++# +         * 1. Redistributions of source code must retain the above copyright
++# +         *    notice, this list of conditions and the following disclaimer.
++# +         * 2. Redistributions in binary form must reproduce the above copyright
++# +         *    notice, this list of conditions and the following disclaimer in the
++# +         *    documentation and/or other materials provided with the distribution.
++# +         *
++# +         * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
++# +         * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
++# +         * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++# +         * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
++# +         * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++# +         * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++# +         * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++# +         * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++# +         * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++# +         * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
++# +         * POSSIBILITY OF SUCH DAMAGE.
++#  
++#  ------
++#  $OpenBSD: LICENCE,v 1.20 2017/04/30 23:26:16 djm Exp $
++# 
++#
++
+ SUMMARY = "A suite of security-related network utilities based on \
+ the SSH protocol including the ssh client and sshd server"
+ DESCRIPTION = "Secure rlogin/rsh/rcp/telnet replacement (OpenSSH) \
+@@ -6,7 +88,7 @@ and for executing commands on a remote machine."
+ HOMEPAGE = "http://www.openssh.com/"
+ SECTION = "console/network"
+ LICENSE = "BSD & ISC & MIT"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=18d9e5a8b3dd1790d73502f50426d4d3"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=d9d2753bdef9f19466dc7bc959114b11"
+ 
+ DEPENDS = "zlib openssl virtual/crypt"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -24,9 +106,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+-           file://0f90440ca70abab947acbd77795e9f130967956c.patch \
             "
+-SRC_URI[sha256sum] = "5a01d22e407eb1c05ba8a8f7c654d388a13e9f226e4ed33bd38748dafa1d2b24"
++SRC_URI[sha256sum] = "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
  
--SRC_URI[sha256sum] = "0111f64dd7d8f515cfa129e181cce96ff82070d1b27f11a21f6856110d0699c1"
-+SRC_URI[sha256sum] = "9914af9311fd349cab441097898d94fb28d0bfd9bf6ed04fe1f97f042644da7f"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
+ # This CVE is specific to OpenSSH server, as used in Fedora and Red Hat Enterprise Linux 7
+ # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
 -- 
 2.17.1
 
 
---===============0935942179691583263==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 814 .bb files complete (813 cached, 1 parsed). 1438 targets, 31 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-896b5339ee99793d7f739e9d4d038ba46b2579e8"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:896b5339ee99793d7f739e9d4d038ba46b2579e8"
-workspace            = "master:eec64066073428e38d5b0b6947ff302943188f65"
-
-Initialising tasks...done.
-Sstate summary: Wanted 12 Local 5 Network 0 Missed 7 Current 661 (41% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1543 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_fetch)
-NOTE: recipe bind-9.16.12-r0: task do_fetch: Started
-NOTE: recipe bind-9.16.12-r0: task do_fetch: Succeeded
-NOTE: Running task 2133 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_unpack)
-NOTE: Running task 2134 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe bind-9.16.12-r0: task do_unpack: Started
-NOTE: recipe bind-9.16.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe bind-9.16.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe bind-9.16.12-r0: task do_unpack: Succeeded
-NOTE: Running task 2135 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_patch)
-NOTE: recipe bind-9.16.12-r0: task do_patch: Started
-NOTE: recipe bind-9.16.12-r0: task do_patch: Succeeded
-NOTE: Running task 2136 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2137 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_populate_lic)
-NOTE: recipe bind-9.16.12-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe bind-9.16.12-r0: task do_populate_lic: Started
-NOTE: recipe bind-9.16.12-r0: task do_populate_lic: Succeeded
-NOTE: recipe bind-9.16.12-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2138 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_configure)
-NOTE: recipe bind-9.16.12-r0: task do_configure: Started
-NOTE: recipe bind-9.16.12-r0: task do_configure: Succeeded
-NOTE: Running task 2139 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_compile)
-NOTE: recipe bind-9.16.12-r0: task do_compile: Started
-NOTE: recipe bind-9.16.12-r0: task do_compile: Succeeded
-NOTE: Running task 2140 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_install)
-NOTE: recipe bind-9.16.12-r0: task do_install: Started
-NOTE: recipe bind-9.16.12-r0: task do_install: Succeeded
-NOTE: Running task 2141 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_package)
-NOTE: Running task 2142 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_populate_sysroot)
-NOTE: recipe bind-9.16.12-r0: task do_package: Started
-NOTE: recipe bind-9.16.12-r0: task do_populate_sysroot: Started
-NOTE: recipe bind-9.16.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe bind-9.16.12-r0: task do_package: Succeeded
-NOTE: Running task 2143 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_packagedata)
-NOTE: recipe bind-9.16.12-r0: task do_packagedata: Started
-NOTE: recipe bind-9.16.12-r0: task do_packagedata: Succeeded
-NOTE: Running task 2144 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_package_write_rpm)
-NOTE: Running task 2145 of 2146 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_package_qa)
-NOTE: recipe bind-9.16.12-r0: task do_package_qa: Started
-NOTE: recipe bind-9.16.12-r0: task do_package_write_rpm: Started
-ERROR: bind-9.16.12-r0 do_package_qa: QA Issue: bind-utils rdepends on bind-dev [dev-deps]
-ERROR: bind-9.16.12-r0 do_package_qa: QA Issue: -dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libisccc-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libbind9-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libisccfg-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libns-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libisc-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libirs-9.16.12.so'
--dev package contains non-symlink .so: bind-dev path '/work/core2-32-poky-linux/bind/9.16.12-r0/packages-split/bind-dev/usr/lib/libdns-9.16.12.so' [dev-elf]
-ERROR: bind-9.16.12-r0 do_package_qa: QA Issue: bind rdepends on bind-dev [dev-deps]
-ERROR: bind-9.16.12-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/bind/9.16.12-r0/temp/log.do_package_qa.45028
-NOTE: recipe bind-9.16.12-r0: task do_package_qa: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_package_qa) failed with exit code '1'
-NOTE: recipe bind-9.16.12-r0: task do_package_write_rpm: Succeeded
-NOTE: Tasks Summary: Attempted 2145 tasks of which 2131 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bind/bind_9.16.12.bb:do_package_qa
-Summary: There were 4 ERROR messages shown, returning a non-zero exit code.
-
---===============0935942179691583263==--
+--===============2944769785561497566==--
