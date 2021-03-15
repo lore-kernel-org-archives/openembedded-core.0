@@ -1,145 +1,263 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web08.2367.1615767512256917517
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.5])
+ by mx.groups.io with SMTP id smtpd.web09.2802.1615770160434307084
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 17:18:32 -0700
+ Sun, 14 Mar 2021 18:02:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UpWE6PMY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id 7so7827184wrz.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 17:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=x+19IVupqi7eeoVFwh+S5I6/UZwy35rPu48/UnTqXkM=;
-        b=UpWE6PMYGhMx9HMY/HtK1hWF3Idaczwvqcdf/Huc8KrGcGumR0WC+3mJzcRH3igmBR
-         FromznCJwMqnLL7qGyfzuus3d6uZkNggitsM5j/LK5O74NCp7+d6JBWQgnAfaDiNL3yd
-         yntasLaLzCJgcUBWFRTqlb+8lqkeHinPewNYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=x+19IVupqi7eeoVFwh+S5I6/UZwy35rPu48/UnTqXkM=;
-        b=DYdRxfHmOKZwHq1e6eF5ENbnxFtxQae6W7USoqkIyk10rcHUfTB+VDDHOABPwG578f
-         HR814qMpZGBb7nPIG76iO2T0e5ysaT/yJDTU2i1ULQALkHjSn+k+STvADANSgHBY/Jwq
-         SPjSHEral8uqs3jZ2aU4ir928OGA1JXA1rYfYLAd94r+n1y0y4oR0fekqrD3R0lvODuJ
-         5v2o196YnYRiHCZimNiXpjKyvuznhqLV1JrfGCgKl2mRvuMk1k6OzFjuE5BdY0t2HS1m
-         HdPrQmT4nDzrWmb6nIuUbJr6shf/sR0kmHPDieEoQ6BUHn0zX0obi9L+3JAQ4LGVZeAz
-         SAGw==
-X-Gm-Message-State: AOAM533g0nYDQIf5vyEq/ZyeOJlWayYZ9q6BHvIbCdL7nAmhfmjq2Kxw
-	w9/SF208S7RWt6kreKSH+tB+cA==
-X-Google-Smtp-Source: ABdhPJz58EtlsV2DNH/AKejLR+Mph5m4016kNxkTeEkgM9H7dh3dSQCcQAO99rlYtO5FcSiIPwhzEg==
-X-Received: by 2002:adf:d4d0:: with SMTP id w16mr25046739wrk.406.1615767510722;
-        Sun, 14 Mar 2021 17:18:30 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e? ([2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e])
-        by smtp.gmail.com with ESMTPSA id o13sm19439681wro.15.2021.03.14.17.18.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Mar 2021 17:18:30 -0700 (PDT)
-Message-ID: <429191805a150822726954fccc1f1ff8028bce0e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>, Martin Jansa
- <Martin.Jansa@gmail.com>
-Cc: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org, steve@sakoman.com, 
-	anibal.limon@linaro.org
-Date: Mon, 15 Mar 2021 00:18:27 +0000
-In-Reply-To: <20210315001603.GJ4892@denix.org>
-References: <cover.1615452338.git.liezhi.yang@windriver.com>
-	 <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
-	 <20210311090200.33p3mptsfwusspwa@jama>
-	 <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
-	 <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com>
-	 <20210312111708.zgj3qjikjcekj4y6@jama> <20210315001603.GJ4892@denix.org>
-User-Agent: Evolution 3.39.2-1 
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.5, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+Received: from [100.113.0.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-a.eu-central-1.aws.symcld.net id 94/80-38244-322BE406; Mon, 15 Mar 2021 01:02:27 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MRqqu8yS/
+  B4OQmJYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPx6yXsBTfdKj4sWMXSwHjOuouRi0NIYAaT
+  xKHzTYwQznFGid9nbgE5nBxsApoSvVu2ANkcHCICehJX/4mChJkF1CUurWthAQkLC9hLrGoWB
+  gmzCKhKzNi7mxnE5hVwlZj3pp0VxJYQUJCY8vA9VFxQ4uTMJywQYyQkDr54wQxRoygx+3IzC4
+  RdKbFn80PWCYy8s5C0zELSsoCRaRWjZVJRZnpGSW5iZo6uoYGBrqGhsa6hrpGRmV5ilW6iXmq
+  pbnJqXklRIlBWL7G8WK+4Mjc5J0UvL7VkEyMwvFIKGR/tYDz9+oPeIUZJDiYlUV6DEJ8EIb6k
+  /JTKjMTijPii0pzU4kOMMhwcShK8K9b7JQgJFqWmp1akZeYAQx0mLcHBoyTCe3QDUJq3uCAxt
+  zgzHSJ1ilGX48XxxYuYhVjy8vNSpcR594AUCYAUZZTmwY2Axd0lRlkpYV5GBgYGIZ6C1KLczB
+  JU+VeM4hyMSsK8T0Gm8GTmlcBtegV0BBPQEYbSYEeUJCKkpBqYth16Nz1tUYbwv2/bfOp2pR/
+  RmfhOZVOjceQ7hrMbbQ7JZW/+dENj2o3NvRqsKmvip137Ly5+4RHzy3P2UmrTDMS4j7vXp+iJ
+  hqix9F1qfvdvEmPYog5eiQf1wcv8zwhuW7Ig9YPDWZaMpgku5tLRh7bfiXo2sfgOu5iadv1S2
+  x1n50q3ath//L5eMi5v/sEvR17mZvVlW0+dsoBHK/Nns4Lit7UGgat4Nsnumia4kk/QtVBDcO
+  LzwsT3fCc2drBqyhT8mjd1z8nv5uYbZv3UdZkouWsl/zP+8BWzTX/k/jx3SMct5RWrndKJhro
+  ZHMunnT7fFhxbYrHH9O3lKU+1U7WmtXcbhdtI/OlI979ursRSnJFoqMVcVJwIAL4hZ882AwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-16.tower-226.messagelabs.com!1615770146!371069!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=fail
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 12788 invoked from network); 15 Mar 2021 01:02:27 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-16.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Mar 2021 01:02:27 -0000
+Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12F12Ln3013963
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 01:02:26 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 15 Mar 2021 01:02:19 +0000
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: Fix error in do_patch when using "PATCHTOOL = "patch""
+Date: Mon, 15 Mar 2021 09:02:04 +0800
+Message-ID: <1615770124-15950-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ R01UKEXCASM111.r01.fujitsu.local (10.183.43.167)
+Content-Type: text/plain
 
-On Sun, 2021-03-14 at 20:16 -0400, Denys Dmytriyenko wrote:
-> On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:
-> > On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:
-> > > Hi RP,
-> > > 
-> > > On 3/11/21 10:38 PM, Richard Purdie wrote:
-> > > > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
-> > > > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
-> > > > > > This can fix a do_package error when compile with meta-secure-core layer:
-> > > > > > http://layers.openembedded.org/layerindex/branch/master/layer/meta-secure-core/
-> > > > > > 
-> > > > > > $ bitbake kernel-initramfs
-> > > > > > [snip]
-> > > > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
-> > > > > > build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-core-image-initramfs.packagedata
-> > > > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch x86_64_x86_64-nativesdk (variant '')?
-> > > > > > [snip]
-> > > > > > 
-> > > > > > This is because kernel-initramfs wants to pack an initramfs image into
-> > > > > > kernel-initramfs.rpm which adds a dependency in kernel-initramfs.bb to do this:
-> > > > > > 
-> > > > > > d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> > > > > > 
-> > > > > > This causes kernel-initramfs' do_package depends on
-> > > > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we will get the
-> > > > > > error. Delete do_packagedata as other do_package relelated tasks for the image
-> > > > > > recipe will fix the error.
-> > > > > > 
-> > > > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > > > > 
-> > > > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > > 
-> > > > > I went a bit further and inheritted nopackages, but RP mentioned that it
-> > > > > might be removing too much. Nothing failed with nopackages over night,
-> > > > > but still this smaller version will be safer as this needs to got to
-> > > > > gatesgarth and dunfell as well now.
-> > > > 
-> > > > This has side effects and there was a reason this wasn't done originally. The
-> > > > trouble is that nobody is testing for that, just wanting to fix the problem
-> > > > they see. To prove this isn't straightforward, I tested this locally, comparing
-> > > > task-depends.dot from "bitbake core-image-sato -g" before and after this patch.
-> > > 
-> > > If we want to avoid disconnecting them, it seems that a better way is fixing
-> > > this in the recipes which has this problem? For example, I got this error in
-> > > secure-core-image-initramfs.bb, then we can add "deltask do_packagedata" in the
-> > > recipe to fix the problem.
-> > 
-> > That's what I did in initramfs-android-image (which was triggering this
-> > for me as reported on ML)
-> > https://github.com/shr-distribution/meta-smartphone/commit/732dd29325d882a9b3414764ad4c7a254dae3f03
-> 
-> The issue of doing this in each and every possible initramfs image recipe is 
-> that it does not scale. For example, this code in the original patch is very 
-> common:
-> 
-> d.appendVarFlag('do_install', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> 
-> And INITRAMFS_IMAGE can be set anywhere - in machine config, distro config or 
-> even by end user in local.conf
-> 
-> 
-> > > @Martin maybe we shouldn't backport this patch to gatesgarth or dunfell since
-> > > it may suprise the users.
-> > 
-> > Unfortunately
-> > https://git.openembedded.org/openembedded-core/commit/?h=dunfell&id=e0c1db170fdd6c1d78fdfce017feae26c96fac29
-> > was already backported to both gatesgarth and dunfell.
-> 
-> Yeah, it's unfortunate. Our LTS maintainer is too good! :)
-> Seriously though, not sure why changing warning to error was even considered 
-> for backporting to LTS! Making things stricter doesn't usually fall under 
-> "bugfix" category...
+error message:
+checking file gcc/configure.ac Hunk #1 FAILED at 6602.
 
-FWIW I'm leaning to merging a deltask to image.bbclass in master and
-suggesting we revert this and live with the warning in older branches...
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../0002-gcc-poison-system-directories.patch  | 105 +++++++-----------
+ 1 file changed, 43 insertions(+), 62 deletions(-)
 
-The deltask will probably break things but I'm starting to think that
-is the lesser of several issues. Its not appropriate for the stable
-branches though.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
+index 333d543dd9..697bdc8219 100644
+--- a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
++++ b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
+@@ -13,20 +13,21 @@ wants this to be a failure, they can add "-Werror=poison-system-directories".
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+ 
+ Upstream-Status: Pending
+ ---
+  gcc/common.opt      |  4 ++++
+- gcc/config.in       |  6 ++++++
+- gcc/configure       | 16 ++++++++++++++++
+- gcc/configure.ac    | 10 ++++++++++
++ gcc/config.in       | 10 ++++++++++
++ gcc/configure       | 19 +++++++++++++++++++
++ gcc/configure.ac    | 16 ++++++++++++++++
+  gcc/doc/invoke.texi |  9 +++++++++
+- gcc/gcc.c           |  2 ++
++ gcc/gcc.c           |  9 +++++++--
+  gcc/incpath.c       | 21 +++++++++++++++++++++
+- 7 files changed, 68 insertions(+)
++ 7 files changed, 86 insertions(+), 2 deletions(-)
+ 
+ diff --git a/gcc/common.opt b/gcc/common.opt
+-index 65a82410abc..415f38fa1f4 100644
++index 3ec7743ea..d3c3e51dc 100644
+ --- a/gcc/common.opt
+ +++ b/gcc/common.opt
+ @@ -682,6 +682,10 @@ Wreturn-local-addr
+@@ -41,7 +42,7 @@ index 65a82410abc..415f38fa1f4 100644
+  Common Var(warn_shadow) Warning
+  Warn when one variable shadows another.  Same as -Wshadow=global.
+ diff --git a/gcc/config.in b/gcc/config.in
+-index 809e7b26823..5adeaeed36b 100644
++index 364eba477..7d2c3bbf1 100644
+ --- a/gcc/config.in
+ +++ b/gcc/config.in
+ @@ -224,6 +224,16 @@
+@@ -62,7 +63,7 @@ index 809e7b26823..5adeaeed36b 100644
+     optimizer and back end) to be checked for dynamic type safety at runtime.
+     This is quite expensive. */
+ diff --git a/gcc/configure b/gcc/configure
+-index cd3d9516fce..8de766a942c 100755
++index 2a9d646b4..a848792f2 100755
+ --- a/gcc/configure
+ +++ b/gcc/configure
+ @@ -1010,6 +1010,7 @@ with_system_zlib
+@@ -82,7 +83,7 @@ index cd3d9516fce..8de766a942c 100755
+    --enable-plugin         enable plugin support
+    --enable-host-shared    build host code as shared libraries
+    --disable-libquadmath-support
+-@@ -30235,6 +30238,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
++@@ -30280,6 +30283,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
+  fi
+  
+  
+@@ -106,31 +107,37 @@ index cd3d9516fce..8de766a942c 100755
+  
+  
+ diff --git a/gcc/configure.ac b/gcc/configure.ac
+-index 0de3b4bf97b..8bfd6feb780 100644
++index 51cce36ce..66ffde305 100644
+ --- a/gcc/configure.ac
+ +++ b/gcc/configure.ac
+-@@ -6595,6 +6595,16 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
++@@ -6614,6 +6614,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
+                  [specify that runtime libraries should be
+                   installed in a compiler-specific directory])])
+  
+ +AC_ARG_ENABLE([poison-system-directories],
+ +             AS_HELP_STRING([--enable-poison-system-directories],
+-+                            [warn for use of native system header directories]),,
+++			    [warn for use of native system header directories (no/yes/error)]),,
+ +             [enable_poison_system_directories=no])
+-+if test "x${enable_poison_system_directories}" = "xyes"; then
+++AC_MSG_NOTICE([poisoned directories $enable_poison_system_directories])
+++if test "x${enable_poison_system_directories}" != "xno"; then
+++  AC_MSG_NOTICE([poisoned directories enabled])
+ +  AC_DEFINE([ENABLE_POISON_SYSTEM_DIRECTORIES],
+ +           [1],
+ +           [Define to warn for use of native system header directories])
+++  if test $enable_poison_system_directories = "error"; then
+++   AC_MSG_NOTICE([poisoned directories are fatal])
+++   AC_DEFINE([POISON_BY_DEFAULT], [1], [Define to make poison warnings errors])
+++  fi
+ +fi
+ +
+  # Substitute configuration variables
+  AC_SUBST(subdirs)
+  AC_SUBST(srcdir)
+ diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+-index f98161391a0..f12d8d12150 100644
++index d929eb109..aa5ff88b1 100644
+ --- a/gcc/doc/invoke.texi
+ +++ b/gcc/doc/invoke.texi
+-@@ -348,6 +348,7 @@ Objective-C and Objective-C++ Dialects}.
++@@ -351,6 +351,7 @@ Objective-C and Objective-C++ Dialects}.
+  -Wpacked  -Wno-packed-bitfield-compat  -Wpacked-not-aligned  -Wpadded @gol
+  -Wparentheses  -Wno-pedantic-ms-format @gol
+  -Wpointer-arith  -Wno-pointer-compare  -Wno-pointer-to-int-cast @gol
+@@ -138,7 +145,7 @@ index f98161391a0..f12d8d12150 100644
+  -Wno-pragmas  -Wno-prio-ctor-dtor  -Wredundant-decls @gol
+  -Wrestrict  -Wno-return-local-addr  -Wreturn-type @gol
+  -Wno-scalar-storage-order  -Wsequence-point @gol
+-@@ -6924,6 +6925,14 @@ made up of data only and thus requires no special treatment.  But, for
++@@ -6928,6 +6929,14 @@ made up of data only and thus requires no special treatment.  But, for
+  most targets, it is made up of code and thus requires the stack to be
+  made executable in order for the program to work properly.
+  
+@@ -154,10 +161,10 @@ index f98161391a0..f12d8d12150 100644
+  @opindex Wfloat-equal
+  @opindex Wno-float-equal
+ diff --git a/gcc/gcc.c b/gcc/gcc.c
+-index 9f790db0daf..b2200c5185a 100644
++index 49c9c6c17..24a92bf27 100644
+ --- a/gcc/gcc.c
+ +++ b/gcc/gcc.c
+-@@ -1041,6 +1041,8 @@ proper position among the other output files.  */
++@@ -1044,6 +1044,8 @@ proper position among the other output files.  */
+     "%{fuse-ld=*:-fuse-ld=%*} " LINK_COMPRESS_DEBUG_SPEC \
+     "%X %{o*} %{e*} %{N} %{n} %{r}\
+      %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!r:%{!nostartfiles:%S}}} \
+@@ -166,8 +173,22 @@ index 9f790db0daf..b2200c5185a 100644
+      %{static|no-pie|static-pie:} %@{L*} %(mfwrap) %(link_libgcc) " \
+      VTABLE_VERIFICATION_SPEC " " SANITIZER_EARLY_SPEC " %o "" \
+      %{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1):\
++@@ -1138,8 +1140,11 @@ static const char *cpp_unique_options =
++ static const char *cpp_options =
++ "%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w}\
++  %{f*} %{g*:%{%:debug-level-gt(0):%{g*}\
++- %{!fno-working-directory:-fworking-directory}}} %{O*}\
++- %{undef} %{save-temps*:-fpch-preprocess}";
+++ %{!fno-working-directory:-fworking-directory}}} %{O*}"
+++#ifdef POISON_BY_DEFAULT
+++ " -Werror=poison-system-directories"
+++#endif
+++ " %{undef} %{save-temps*:-fpch-preprocess}";
++ 
++ /* This contains cpp options which are not passed when the preprocessor
++    output will be used by another program.  */
+ diff --git a/gcc/incpath.c b/gcc/incpath.c
+-index 8a2bda00f80..9098ab044ab 100644
++index 94eaba7b1..bfad4ebe3 100644
+ --- a/gcc/incpath.c
+ +++ b/gcc/incpath.c
+ @@ -26,6 +26,7 @@
+@@ -205,46 +226,6 @@ index 8a2bda00f80..9098ab044ab 100644
+  }
+  
+  /* Use given -I paths for #include "..." but not #include <...>, and
+-diff --git a/gcc/configure.ac b/gcc/configure.ac
+-index f42006e5476..de7e176ea53 100644
+---- a/gcc/configure.ac
+-+++ b/gcc/configure.ac
+-@@ -6602,12 +6602,18 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
+- 
+- AC_ARG_ENABLE([poison-system-directories],
+-              AS_HELP_STRING([--enable-poison-system-directories],
+--                            [warn for use of native system header directories]),,
+-+                            [warn for use of native system header directories (no/yes/error)]),,
+-              [enable_poison_system_directories=no])
+-+AC_MSG_NOTICE([poisoned directories $enable_poison_system_directories])
+--if test "x${enable_poison_system_directories}" = "xyes"; then
+-+if test "x${enable_poison_system_directories}" != "xno"; then
+-+  AC_MSG_NOTICE([poisoned directories enabled])
+-   AC_DEFINE([ENABLE_POISON_SYSTEM_DIRECTORIES],
+-            [1],
+-            [Define to warn for use of native system header directories])
+-+  if test $enable_poison_system_directories = "error"; then
+-+   AC_MSG_NOTICE([poisoned directories are fatal])
+-+   AC_DEFINE([POISON_BY_DEFAULT], [1], [Define to make poison warnings errors])
+-+  fi
+- fi
+- 
+- # Substitute configuration variables
+-diff --git a/gcc/gcc.c b/gcc/gcc.c
+-index b2200c5185a..fa7b6fc8ddb 100644
+---- a/gcc/gcc.c
+-+++ b/gcc/gcc.c
+-@@ -1136,8 +1136,11 @@ static const char *cpp_unique_options =
+- static const char *cpp_options =
+- "%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w}\
+-  %{f*} %{g*:%{%:debug-level-gt(0):%{g*}\
+-- %{!fno-working-directory:-fworking-directory}}} %{O*}\
+-- %{undef} %{save-temps*:-fpch-preprocess}";
+-+ %{!fno-working-directory:-fworking-directory}}} %{O*}"
+-+#ifdef POISON_BY_DEFAULT
+-+ " -Werror=poison-system-directories"
+-+#endif
+-+ " %{undef} %{save-temps*:-fpch-preprocess}";
+- 
+- /* This contains cpp options which are not passed when the preprocessor
+-    output will be used by another program.  */
++-- 
++2.25.1
++
+-- 
+2.25.1
 
