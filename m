@@ -1,274 +1,255 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.1750.1615835300032518719
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web12.80.1615844171070676387
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 12:08:20 -0700
+ Mon, 15 Mar 2021 14:36:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=spNGwJ5T;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id p21so21023819pgl.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 12:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=h0gZTyib6faimLKvlnWwN8FSCOFLFThH2VO8kKH8V9s=;
-        b=spNGwJ5TfTIIY5LMKd64KbMu3EjIEp63QEPPrcUo6MGz2r4XZC53rJBYH9LhJVIcIo
-         BVXbMtvZ6kMOsB73R6CzEmVy078GeKGXQ5XgyBXGTC4ZoWPhASVRhslhsroMgfRHHwPA
-         hdIocpXqeUHs+4/v6hLRLcfgxxQW+GSWmprx2mZoJO0duAiJHi9Rwq7fpupz96G5/RcJ
-         Oxfq3dBkZujHLGpmgcrPVObaj7L7uJN1OUXMjvX5LARhBSmx3F9I5963BvrkLZzVpE/Z
-         iFozP08fJmx+gXTA8sPG52xchkPsxLRTfGp+J2hbhqWmm827XngsIXxOA3djC30yUl7M
-         4IXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=h0gZTyib6faimLKvlnWwN8FSCOFLFThH2VO8kKH8V9s=;
-        b=mVT7d6gZiSLCYKDEL+ZmkBZVheldxLPeM+iH9vFu7ZjaiRrBy/tvs9tD5pz6+qWWRM
-         mmFiCvF1i3N81mkh2nRyI3IPMx4IQ+HZeUO4hF1ndY2+K4+S+p6JsItogrJsmVcO7nWj
-         vyBnfOP3mWC8ZTS7aVyW6+l2roEyCnI5tRsG5Cv7KMlgX4dZiDZ1ZstFKIfBQfahMo+4
-         BRQoVOePEYunLu7yc3ob3YHhZ4Jq0H95Nw+zHimElpBuEiev1U5Ncjds59hP3JwLB75B
-         1ccanNSp0CZhn3hn16KrsFXroDD/I/xE4TGLFbgDIOjSTzhZyJf3ZhS1CvEz4A4YDIgS
-         yEzg==
-X-Gm-Message-State: AOAM531O+pSFP/l72snT51rNvRJWvfS9MsknY/M4fhLTKzt8LoOggvKT
-	zE6ckVWBbWRGlhtaNY24Qd8=
-X-Google-Smtp-Source: ABdhPJygqeOq+0BDpxt31CO46WmM1lR87dm2JWo1BXERX+QM5h4F7FSGlHY2uCWY1tuhgeKuTjGMXA==
-X-Received: by 2002:a63:d842:: with SMTP id k2mr497516pgj.428.1615835299396;
-        Mon, 15 Mar 2021 12:08:19 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
-        by smtp.gmail.com with ESMTPSA id gk12sm361111pjb.44.2021.03.15.12.08.18
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Mar 2021 12:08:19 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 15 Mar 2021 12:08:18 -0700
-Message-ID: <071b01d719ce$8fa52080$aeef6180$@gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4074240BFF;
+	Mon, 15 Mar 2021 21:36:10 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eyyh8f6TSyfe; Mon, 15 Mar 2021 21:36:10 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id F308A40BE6;
+	Mon, 15 Mar 2021 21:36:06 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 51651174543; Mon, 15 Mar 2021 17:36:06 -0400 (EDT)
+Date: Mon, 15 Mar 2021 17:36:06 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Anatol Belski <anbelski@linux.microsoft.com>
+Cc: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+Message-ID: <20210315213606.GP4892@denix.org>
+References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+ <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
+ <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
+ <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
+ <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQEs8bnzYYE+YqYkEUCVTIs/2Iikeg==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_071C_01D71993.E34A8E40"
-Content-Language: en-us
-
-------=_NextPart_000_071C_01D71993.E34A8E40
-Content-Type: text/plain;
-	charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 364
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_071C_01D71993.E34A8E40
-Content-Type: text/html;
-	boundary="----=_NextPart_000_149B_01D713F3.6D21EEC0";
-	charset="US-ASCII"
+In-Reply-To: <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 364 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable.2FLTS_Pa=
+tch_Acceptance_Policies
 
-------=_NextPart_000_071C_01D71993.E34A8E40--
+Stable/LTS Patch Acceptance Policies
+
+Potentially Acceptable:
+* Bug fix only version upgrades for upstreams with a good stable process
+
+Unacceptable:
+* General version upgrades
+
+
+So, unless there's a bugfix-only minor release of glibc, e.g. 2.31.1,=20
+upgrading to 2.32 or 2.33 in stable branches is highly unlikely, as both=20
+2.32 and 2.33 have long lists of major changes:
+
+https://sourceware.org/pipermail/libc-announce/2020/000029.html
+https://sourceware.org/pipermail/libc-announce/2021/000030.html
+
+--=20
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+
+
+On Sun, Mar 14, 2021 at 12:20:00AM +0100, Anatol Belski wrote:
+> Hi,
+>=20
+> looking at the state of the upstream glibc 2.31, pulling the latest
+> upstream might be more suitable than cherry-picking patches. Depending
+> on the recipe maintainers opinion, it might be a good time time to do
+> so as some other CVE issues are fixed there, too.
+>=20
+> Thanks
+>=20
+> Anatol
+>=20
+> On Fri, 2021-03-12 at 23:15 +0000, Jamaluddin, Khairul Rohaizzat wrote:
+> > Just did some checking for versions glibc-2.31 and glibc-2.32 (used
+> > in dunfell and gatesgarth respectively), both of these versions
+> > cannot use this patch as these versions doesn't have the file
+> > involved, netgroupcache.c
+> >=20
+> >=20
+> > Thank you & Kind regards,
+> > Khairul
+> >=20
+> > -----Original Message-----
+> > From: Jamaluddin, Khairul Rohaizzat=20
+> > Sent: Saturday, March 13, 2021 3:34 AM
+> > To: Khem Raj <raj.khem@gmail.com>
+> > Cc: Patches and discussions about the oe-core layer
+> > <openembedded-core@lists.openembedded.org>
+> > Subject: RE: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+> >=20
+> > Yes, seems to be in the list as well..
+> > The version for both branch is within the versions mentioned in the
+> > CVE too.
+> >=20
+> >=20
+> > Thank you & Kind regards,
+> > Khairul
+> >=20
+> > -----Original Message-----
+> > From:
+> > openembedded-core@lists.openembedded.org=A0<openembedded-core@lists.o=
+penembedded.org
+> > > On Behalf Of Khem Raj
+> > Sent: Friday, March 12, 2021 7:56 AM
+> > To: Jamaluddin, Khairul Rohaizzat
+> > <khairul.rohaizzat.jamaluddin@intel.com>
+> > Cc: Patches and discussions about the oe-core layer
+> > <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+> >=20
+> > On Thu, Mar 11, 2021 at 7:21 AM Jamaluddin, Khairul Rohaizzat
+> > <khairul.rohaizzat.jamaluddin@intel.com> wrote:
+> > >=20
+> > > From: Khairul Rohaizzat Jamaluddin
+> > > <khairul.rohaizzat.jamaluddin@intel.com>
+> > >=20
+> > > CVE:
+> > > CVE-2021-27645
+> > >=20
+> >=20
+> > lgtm. Do we need it for dunfell and gatesgarth as well ?
+> >=20
+> > > Signed-off-by: Khairul Rohaizzat Jamaluddin=20
+> > > <khairul.rohaizzat.jamaluddin@intel.com>
+> > > ---
+> > > =A0.../glibc/glibc/CVE-2021-27645.patch=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+| 51
+> > > +++++++++++++++++++
+> > > =A0meta/recipes-core/glibc/glibc_2.33.bb=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=
+ 1 +
+> > > =A02 files changed, 52 insertions(+)
+> > > =A0create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-
+> > > 27645.patch
+> > >=20
+> > > diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
+> > > b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
+> > > new file mode 100644
+> > > index 0000000000..26c5c0d2a9
+> > > --- /dev/null
+> > > +++ b/meta/recipes-core/glibc/glibc/CVE-2021-27645.patch
+> > > @@ -0,0 +1,51 @@
+> > > +From dca565886b5e8bd7966e15f0ca42ee5cff686673 Mon Sep 17 00:00:00
+> > > +2001
+> > > +From: DJ Delorie <dj@redhat.com>
+> > > +Date: Thu, 25 Feb 2021 16:08:21 -0500
+> > > +Subject: [PATCH] nscd: Fix double free in netgroupcache [BZ
+> > > #27462]
+> > > +
+> > > +In commit 745664bd798ec8fd50438605948eea594179fba1 a use-after-
+> > > free=20
+> > > +was fixed, but this led to an occasional double-free.=A0 This patc=
+h=20
+> > > +tracks the "live" allocation better.
+> > > +
+> > > +Tested manually by a third party.
+> > > +
+> > > +Related: RHBZ 1927877
+> > > +
+> > > +Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
+> > > +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> > > +
+> > > +Upstream-Status: Backport
+> > > +[https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Ddca56588=
+6b5e8bd79
+> > > +66e15f0ca42ee5cff686673]
+> > > +
+> > > +CVE: CVE-2021-27645
+> > > +
+> > > +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> > > +Signed-off-by: Khairul Rohaizzat Jamaluddin=20
+> > > +<khairul.rohaizzat.jamaluddin@intel.com>
+> > > +---
+> > > + nscd/netgroupcache.c | 4 ++--
+> > > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > > +
+> > > +diff --git a/nscd/netgroupcache.c b/nscd/netgroupcache.c index=20
+> > > +dba6ceec1b..ad2daddafd 100644
+> > > +--- a/nscd/netgroupcache.c
+> > > ++++ b/nscd/netgroupcache.c
+> > > +@@ -248,7 +248,7 @@ addgetnetgrentX (struct database_dyn *db, int
+> > > fd, request_header *req,
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 : NULL);
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ndomain =3D (ndomain ? newbuf +
+> > > ndomaindiff
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 : N=
+ULL);
+> > > +-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 buffer =3D newbuf;
+> > > ++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *tofreep =3D buffer =3D newbuf;
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 nhost =3D memcpy (buffer + bufused,
+> > > @@
+> > > +-319,7 +319,7 @@ addgetnetgrentX (struct database_dyn *db, int fd,
+> > > request_header *req,
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 else if (st=
+atus =3D=3D NSS_STATUS_TRYAGAIN && e =3D=3D
+> > > ERANGE)
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 {
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ buflen *=3D 2;
+> > > +-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 b=
+uffer =3D xrealloc (buffer, buflen);
+> > > ++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 *=
+tofreep =3D buffer =3D xrealloc (buffer,
+> > > buflen);
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 else if (st=
+atus =3D=3D NSS_STATUS_RETURN
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 || status =3D=3D NSS_STATUS_NOTFOUND
+> > > +--
+> > > +2.27.0
+> > > +
+> > > diff --git a/meta/recipes-core/glibc/glibc_2.33.bb
+> > > b/meta/recipes-core/glibc/glibc_2.33.bb
+> > > index c47826a51e..d0a290822b 100644
+> > > --- a/meta/recipes-core/glibc/glibc_2.33.bb
+> > > +++ b/meta/recipes-core/glibc/glibc_2.33.bb
+> > > @@ -45,6 +45,7 @@ SRC_URI =3D=A0
+> > > "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0
+> > > file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch=A0\
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=20
+> > > file://0031-x86-Require-full-ISA-support-for-x86-64-level-marker.pa=
+tch
+> > > =A0
+> > > \
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=20
+> > > file://0032-string-Work-around-GCC-PR-98512-in-rawmemchr.patch=A0\
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 file://CVE-2021-27645.patch=A0\
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "
+> > > =A0S =3D "${WORKDIR}/git"
+> > > =A0B =3D "${WORKDIR}/build-${TARGET_SYS}"
+> > > --
+> > > 2.29.0
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> >=20
+> >=20
+> >=20
+
