@@ -1,157 +1,336 @@
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (NAM04-BN3-obe.outbound.protection.outlook.com [40.107.68.44])
- by mx.groups.io with SMTP id smtpd.web09.3182.1615772488113435154
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.3493.1615774562919474018
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Mar 2021 18:41:28 -0700
+ Sun, 14 Mar 2021 19:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=DqeuNzKz;
- spf=pass (domain: windriver.com, ip: 40.107.68.44, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a5WDE8V4gaEShTVlX4tTAu8hYrDkzaK+IGVUu/IIvSqiVFIh99SGXle7lk4B1pWqroL0SzwTPyMkNcViWxPcmUg1cbRYPueJ4NpZ5tnCmLjRE7chPRNPc2kUCWkTeO18JiZeSYYLfxWMVT8hxTFeT9pmHhBFaUn+sDYm8ykjow9Ni714K05CaRgHl37DExLaHjBMwKq3UGRAGMDgPRvxDTRme9X7t3oV14QVR3Ez2NCzm12HDo4XfipjuTD/jntktttF/CjSx9cBQsv9O6BPkKermmOiD/ZZGC1RfeBfRf4rnRAfWIXgFiMcVpOtq27QLN2zhqPyr8dhGbafHlbzuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A5tduxs7bKWJF0gd/vKKXGm2aVuiDWyisPiAyKvxC/Y=;
- b=OF2EJYV04BuvSAmy83gbaYgo9Kb1qXn04UNbxeLK3VYwxhnyO/NM8Ak5SMAYziKNFQo1l+ovGO9gQDHqKf+M8xTIiL3qPysQF5tzwAbCnBd7iR5bsUUSC5alHZHkshnJT22a5d5cgrZl/VQwB1fDcmRHCWnYdEhfz6/ea4Kyi9JrJ28ddwNrOmbhjK8tee/cBgWeOAdd66oUrKBOBH3EYEEAZsLVrhck3C+giFr7npWbwORwklXCyv4rm5JCpTuyutkCKOtwzkNYGKd4Ix0dSg9k8JFjLr3ChB+XkUxSBvtjfOcMe1hWFKJa0quVv7cw+33T1kMTSmao/pWHsI1qXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mMPSDBNz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.54, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f54.google.com with SMTP id r15-20020a05600c35cfb029010e639ca09eso19338568wmq.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Mar 2021 19:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A5tduxs7bKWJF0gd/vKKXGm2aVuiDWyisPiAyKvxC/Y=;
- b=DqeuNzKzljZmv6HcqUw19Apm5twMkVeqPKdiWfYzFvjcBFGbxZjvhXZXMGrAf5jMwWk7HLpR2B9FEYx+bYkU2CXurrOi7LiDXcSvucbieUbyPaAoW7L48RLZKIV+lDJlOKR8rxraExf6UqHMB1GF/6nlHjEeoiEIyDio3Jd5tec=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Mon, 15 Mar
- 2021 01:41:26 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60%7]) with mapi id 15.20.3933.032; Mon, 15 Mar 2021
- 01:41:26 +0000
-Subject: Re: [OE-core][PATCH] base-files: exclude METADATA_REVISION for signature computation
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20210308055241.13462-1-Qi.Chen@windriver.com>
- <3d64079d725c3c0ddd31a117bffe41f64002970b.camel@linuxfoundation.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <63484b29-897b-abb1-84df-061e21de393d@windriver.com>
-Date: Mon, 15 Mar 2021 09:51:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <3d64079d725c3c0ddd31a117bffe41f64002970b.camel@linuxfoundation.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR02CA0159.apcprd02.prod.outlook.com
- (2603:1096:201:1f::19) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ocOAuNeLkioH/yE5pCq+w2eZPa+u9uhuDf/ZqmhD4Rk=;
+        b=mMPSDBNzUKLc9ItSRKe/6frvzHqd8yc8xGwxT53EWk1qu9nAX+KyfvpPKXAXnM+G0K
+         iC88TEFh3Li1nucucH69R5CN9+ZS78/eijrNaPF+YZxaEoLu7djY4+A4h9DJUBmfqucn
+         K23wy6qibSFMXlNwhMoZmQ5pWT2GgwsMfqBIAjAE3gBdRVuH5np7qfDz1+Q/tq839UQL
+         OUTtbozN9HZBlAp+e++ficha2GUbAzXPOkrSrn5VtRkaSjnUhvoWK5OPEcwaWdJIHxZD
+         WxgecrqfMxCFeJiAdivuo9Mj6ptTuKI93Pbe8cIjRIk6a4Z8G+bnWY6JTHvleQSHuhpn
+         EGQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ocOAuNeLkioH/yE5pCq+w2eZPa+u9uhuDf/ZqmhD4Rk=;
+        b=X1KDhmEjorHv4cQVgV/72H1QKYjKPXt8dy3jTY1SyIpEguuk6oVERJ5Ivrux8ulYuY
+         v0loOg4pkmlMeCPyyvTZX00MwxL+37mioWQpwWEKC6A+UnD71A4ohs9GHTRfG3QnIgUV
+         xtXX8gDQbrTLPiQi68kZJmXWPp3JnbY32W7iU4uaqMqIllwa7cA388T5b+VQDmxrjrJH
+         bq+hFkdvlHFS5MrYqjIrTIXosImqGfgNNpl8NjjvWfh80x/eqhHpnCMZCnNhK1R1DR0u
+         Ppf95ue3yOrVefxqg6dW5xj1XhU+krWDebFJfTxFh13z92rUofy0GmV/Ly9tEh4sthIs
+         tKJg==
+X-Gm-Message-State: AOAM532Mb1Gv3PXaFV7HKGnOZetCwUWeIIJS1bU95gygeMuGcLIg6BnW
+	/pFQ0JjYddXes74F6GahChT9Ozl2kEIhtCgX4hNkiQ==
+X-Google-Smtp-Source: ABdhPJy7iijv0ZsSvvDXFjqGQAukWJH+YmhBjUI4nnbA2tth1+IcVsrCoDEen6gvGLyqBR9Z65nMG/gZQ7FuXdqEzOk=
+X-Received: by 2002:a1c:1f04:: with SMTP id f4mr24110964wmf.12.1615774561152;
+ Sun, 14 Mar 2021 19:16:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR02CA0159.apcprd02.prod.outlook.com (2603:1096:201:1f::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3933.31 via Frontend Transport; Mon, 15 Mar 2021 01:41:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac168cfa-1a29-4271-6ec3-08d8e75371fa
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:
-X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB4845AF4802C910407C552754ED6C9@SJ0PR11MB4845.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:901;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	/iiWqLCqWIbT+6AOokXBxvspBOx8n4LaVZgjlQuRylhdd1daWeG7CBmOsMleKXATf3e8FQEp243LLyB51+z5LQR5viCndQq7gSPomv7aOzMl0M2naRYyS1NgRjaelAgnPkgdS8+LzlYrcLU22fr1ykd4qKjdhf/GYICBAA6s6JeZuK6ucFbrtjG6kvCqaRo3Tyh8A21SAQOth2zNf00dWYIkrQy4NPmeFgpPaKicYDimYk/LNi0EzNJWrD4K1Zn4QJRMEk6CHN6ZN8g1j3eGfsNXn9gHobmymQFJYW8UhgK2RJ3xddAN6VfRh1mmJK6s7443dxWtBIf4djLxfI6+W4uAz5j4S9c7D3lVG4nU8w+PmTtj9JwGE5c1N8RLsxu1/CV/j+j0zFafVJ3/i7cSI/sGyjsuh3dg0NevLn4nmNkULHPPxoUr8EFXFEoU0n90ZLJzORwR/+92fN4AtkPxqtUmytBSo7XraRtPysZxsacEdFulyE0X8ZpU0V+qfubCARceTk96nzfv36Rdpb6cpHGW5MqlrNKSPVLMCesCb4cLI4uC78Otp/fOjWe32twZ3TZNmDewblDyGyF5TszI8hu8yxt4DIdchmoIu16OfxP+hBBON9I+L2qZmY7k14Vtzit7seCbzy0V7g+L1Yr+Nd8MEIlNurM6aeN575/tZpjRCnc/yTesNzbGiDYLsQ8I2DbFiS8TSjog2e4GhudikKyIcycGq87oVuJP6+D7ffEBGEZN+Dk7mi6eYVIJruew
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(136003)(396003)(366004)(39830400003)(2616005)(53546011)(2906002)(26005)(52116002)(478600001)(956004)(6666004)(8936002)(66476007)(6486002)(5660300002)(966005)(316002)(86362001)(8676002)(6706004)(66556008)(16576012)(186003)(16526019)(83380400001)(36756003)(31686004)(31696002)(66946007)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?a2hXakxXWUVvNXRaVUc2SlVlVUhIZmFXdG9wMUduOXcxTWxETHNiUGpXVlhh?=
- =?utf-8?B?R2NRdmVKbmZ1ZDZvWDEzK3AvZHF3NjhUL3pmdmdiM3pxakxLcFlGSHUzcG9W?=
- =?utf-8?B?eVVuODNkRVNJcFBxdnpFa0tBZktEWnZqT1gveVVzN3YzOWwzN0s4K01EREZ6?=
- =?utf-8?B?UXNNUjNVZmVxZENnZUNrRk1DclUvZG1ISllkZVg0S0ZUVE9xYUFCQThjaXJM?=
- =?utf-8?B?YlhtcGJyMVdKTlFJcVloOGppVEJlT3A2RStvNTFaY0dZYzRzTGJqNjkwakhX?=
- =?utf-8?B?eGRmbXZhRXRzTFBpUVBBQ2VWOVNmQkZIZmhPQjNzRzZ0ckZ1UGZRV1BqaFNz?=
- =?utf-8?B?bDJEbnRQajBXUGNxYVNxYTJ6NlluWXFKQnBNaXVNUWxpemZaa2VMTFRKTzFv?=
- =?utf-8?B?SGJ4QTZrN05xUGs1R0FJSFNSQmhhb1Q5RXdWbUVEbEtjQUptcDNaa2Z1Tnlq?=
- =?utf-8?B?NjVXbU9kNnlJbll4dkJQbytGUGo2ZzVpcFN2U0RTNElHa0Zlb0RCV1VFS0dH?=
- =?utf-8?B?QklSQXp6WVVlRDhaZWlSa05zZnFxVUFHRndYcENRVkIrb1lKQUJFaXhyUzRC?=
- =?utf-8?B?U3BEK0VmTU5YZ0ovT3RtOFg0aTFjenlScWZIbkQrL1dmM1VLZC9lRm9qR0M2?=
- =?utf-8?B?UVhHRXROT0JqUkF6K3k5QnF3ZjlQRTB2dmM1UzA5bldmV0lSeGNGcDFRZTkz?=
- =?utf-8?B?Y1V6TUdsaEhJUW9qVkU5c1FCcFA1Z09Bb0NVU1RJMEFOMUlqcUhrTWVjeEhF?=
- =?utf-8?B?alNHRGxpbnFRbW5KTGI2QWM1N0kzZnB4cFFNZ1p2eitmdXBmY0MwZlV3bmRl?=
- =?utf-8?B?R2NpVGt6enZrclkwRGNyc0IzcUVUbkRjcEU1dGsyWDh1a01qb3BrRWRYOElo?=
- =?utf-8?B?VzBpN3hkekt6bnRISXBrc09ZVHBzNnVvMUMyOGVwRGpkeFBRL3V6eXkxdi9h?=
- =?utf-8?B?TVhLMk1MOFYzQTllYldYcDNISE0wVURDeDR0Tm1MSHVZanROMW52N0RTQkQz?=
- =?utf-8?B?V3FXdGNGV0J2TCtGQmptTFdpRW9hY0Y1cWNON1hZRHk3dTRRYnF6Z3NHclg2?=
- =?utf-8?B?RHo0YWN0TDJnTFltRU4vc1lnSDAxNWFETTB0NjBMN3JOdVNmRGJMSUkwQjZP?=
- =?utf-8?B?bitMY0NiQUU2VzhmbE92UGpQZmRDWW9oYklPazNDUGpXTFRIMVh5eURLemRU?=
- =?utf-8?B?MllHMGhKNkJmZ3ZUSllNc1lvbWpXZHowQjVmOGp5TEtCemFLMWlvWGRkdG4w?=
- =?utf-8?B?eFBEcnVLcHlmeS9rUExMVmJJSExiU3NQOVRtRStjcGFTT0R2VysyYUJpRFRQ?=
- =?utf-8?B?VTUrUHRIT240SHZsS2JYRWVFbXdLcExTWUFHY1V2YW0wN2dYdGtVTGtVZHFO?=
- =?utf-8?B?RkxsSm52WUFKcXY1bmdEV2NvVlBMNnZySm5kWGIyUGJiRXF2dHRZL1I2elRn?=
- =?utf-8?B?U2lESk1DZEduSGZZNW1hTm8yTkIyc0hZc0plMVhlUVpkS1c3ZnJKTjAyVEl4?=
- =?utf-8?B?N01mclZzYnVaN1ZDcWEyemhsc2x3bytQR2gvYWZHLzBkZ1pmT3Zmam5ieVM5?=
- =?utf-8?B?KzZGbm5KV2V6OHEyc2FYbkxyOTVMdlVtbWxPd2E5cWZDcmpYbGQzNEgwNUty?=
- =?utf-8?B?TE0vbmhCNmJKRURmNkQ0RXkrVG1SUGdBWFhxNmtJbVE2b2F6TWs4azFNUlNB?=
- =?utf-8?B?Y1doNFZFeUNWb1VBNm8vR0lnZXE2a01xcHFlTVBpejd6NWZ3a2RZZGM0N0sv?=
- =?utf-8?Q?suaG9auZOPD4ZSiKqUsBY6muE2x9IoD0JzugEfy?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac168cfa-1a29-4271-6ec3-08d8e75371fa
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2021 01:41:26.0021
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x1F7gd8Ce9uPFnRMSyuvvOJOLukotSgHzegQuLuHDW5SfKi908s/qPt+kYzrl3z1WfncR98k1yy10JPi3ciZ3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4845
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1615452338.git.liezhi.yang@windriver.com>
+ <25142da05a29d5782b7d9030858c54a3c55730f2.1615452338.git.liezhi.yang@windriver.com>
+ <20210311090200.33p3mptsfwusspwa@jama> <64d5a49eeb455d812d7d5e30dfc2c63394d97ff7.camel@linuxfoundation.org>
+ <fba65a47-7d0c-e0b4-3ea8-aad55b66bd62@windriver.com> <20210312111708.zgj3qjikjcekj4y6@jama>
+ <20210315001603.GJ4892@denix.org> <429191805a150822726954fccc1f1ff8028bce0e.camel@linuxfoundation.org>
+In-Reply-To: <429191805a150822726954fccc1f1ff8028bce0e.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Sun, 14 Mar 2021 16:15:48 -1000
+Message-ID: <CAOSpxdb61RUWP3UFpcYuvxK-LeCCQz9hn6VSnu7jhKOW5pX+vQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] image.bbclass: deltask do_packagedata
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Denys Dmytriyenko <denis@denix.org>, Martin Jansa <Martin.Jansa@gmail.com>, 
+	Robert Yang <liezhi.yang@windriver.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anibal Limon <anibal.limon@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000c13dcf05bd89d4ae"
 
-On 03/15/2021 12:35 AM, Richard Purdie wrote:
-> On Mon, 2021-03-08 at 13:52 +0800, Chen Qi wrote:
->> A previous commit changes poky's DISTRO_VERSION to include METADATA_REVISION.
->>
->>    """
->>    poky.conf: do not write current date into distro version, use git hash instead
->>    """
->>
->> This results in base-files do_install depend on the METADATA_REVISION, which is not
->> expected, exclude it.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-core/base-files/base-files_3.0.14.bb | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> index 94299431f6..338e75580f 100644
->> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> @@ -144,6 +144,7 @@ do_install_append_libc-glibc () {
->>   }
->>   
->>
->>   DISTRO_VERSION[vardepsexclude] += "DATE"
->> +DISTRO_VERSION[vardepsexclude] += "METADATA_REVISION"
->>   do_install_basefilesissue () {
->>   	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
->>           if [ -n "${DISTRO_NAME}" ]; then
-> Unfortunately this causes cache validation issues and hence
-> multilib conflicts:
+--000000000000c13dcf05bd89d4ae
+Content-Type: text/plain; charset="UTF-8"
+
+On Sun, Mar 14, 2021, 2:18 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Sun, 2021-03-14 at 20:16 -0400, Denys Dmytriyenko wrote:
+> > On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:
+> > > On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:
+> > > > Hi RP,
+> > > >
+> > > > On 3/11/21 10:38 PM, Richard Purdie wrote:
+> > > > > On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:
+> > > > > > On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Yang wrote:
+> > > > > > > This can fix a do_package error when compile with
+> meta-secure-core layer:
+> > > > > > >
+> http://layers.openembedded.org/layerindex/branch/master/layer/meta-secure-core/
+> > > > > > >
+> > > > > > > $ bitbake kernel-initramfs
+> > > > > > > [snip]
+> > > > > > > WARNING:kernel-initramfs-1.0-r0 do_package: Manifest
+> > > > > > >
+> build/tmp-glibc/sstate-control/manifest-x86_64_x86_64-nativesdk-secure-core-image-initramfs.packagedata
+> > > > > > > not found in intel_x86_64 corei7-64 core2-64 x86_64 allarch
+> x86_64_x86_64-nativesdk (variant '')?
+> > > > > > > [snip]
+> > > > > > >
+> > > > > > > This is because kernel-initramfs wants to pack an initramfs
+> image into
+> > > > > > > kernel-initramfs.rpm which adds a dependency in
+> kernel-initramfs.bb to do this:
+> > > > > > >
+> > > > > > > d.appendVarFlag('do_install', 'depends', '
+> ${INITRAMFS_IMAGE}:do_image_complete')
+> > > > > > >
+> > > > > > > This causes kernel-initramfs' do_package depends on
+> > > > > > > ${INITRAMFS_IMAGE}:do_image_complete's do_packagedata, then we
+> will get the
+> > > > > > > error. Delete do_packagedata as other do_package relelated
+> tasks for the image
+> > > > > > > recipe will fix the error.
+> > > > > > >
+> > > > > > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > > > >
+> > > > > > Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > > > >
+> > > > > > I went a bit further and inheritted nopackages, but RP mentioned
+> that it
+> > > > > > might be removing too much. Nothing failed with nopackages over
+> night,
+> > > > > > but still this smaller version will be safer as this needs to
+> got to
+> > > > > > gatesgarth and dunfell as well now.
+> > > > >
+> > > > > This has side effects and there was a reason this wasn't done
+> originally. The
+> > > > > trouble is that nobody is testing for that, just wanting to fix
+> the problem
+> > > > > they see. To prove this isn't straightforward, I tested this
+> locally, comparing
+> > > > > task-depends.dot from "bitbake core-image-sato -g" before and
+> after this patch.
+> > > >
+> > > > If we want to avoid disconnecting them, it seems that a better way
+> is fixing
+> > > > this in the recipes which has this problem? For example, I got this
+> error in
+> > > > secure-core-image-initramfs.bb, then we can add "deltask
+> do_packagedata" in the
+> > > > recipe to fix the problem.
+> > >
+> > > That's what I did in initramfs-android-image (which was triggering this
+> > > for me as reported on ML)
+> > >
+> https://github.com/shr-distribution/meta-smartphone/commit/732dd29325d882a9b3414764ad4c7a254dae3f03
+> >
+> > The issue of doing this in each and every possible initramfs image
+> recipe is
+> > that it does not scale. For example, this code in the original patch is
+> very
+> > common:
+> >
+> > d.appendVarFlag('do_install', 'depends', '
+> ${INITRAMFS_IMAGE}:do_image_complete')
+> >
+> > And INITRAMFS_IMAGE can be set anywhere - in machine config, distro
+> config or
+> > even by end user in local.conf
+> >
+> >
+> > > > @Martin maybe we shouldn't backport this patch to gatesgarth or
+> dunfell since
+> > > > it may suprise the users.
+> > >
+> > > Unfortunately
+> > >
+> https://git.openembedded.org/openembedded-core/commit/?h=dunfell&id=e0c1db170fdd6c1d78fdfce017feae26c96fac29
+> > > was already backported to both gatesgarth and dunfell.
+> >
+> > Yeah, it's unfortunate. Our LTS maintainer is too good! :)
+> > Seriously though, not sure why changing warning to error was even
+> considered
+> > for backporting to LTS! Making things stricter doesn't usually fall
+> under
+> > "bugfix" category...
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/3222
+> FWIW I'm leaning to merging a deltask to image.bbclass in master and
+> suggesting we revert this and live with the warning in older branches...
+>
+
+
+Agreed, I'll add a revert to my next set of patches.
+
+Steve
+
+
+
+> The deltask will probably break things but I'm starting to think that
+> is the lesser of several issues. Its not appropriate for the stable
+> branches though.
 >
 > Cheers,
 >
 > Richard
 >
 >
-Thanks. I think we can drop this patch.
-We record meta data revision in base-files, we have 'base-files' in 
-SIGGEN_EXCLUDERECIPES_ABISAFE, and we record METADATA_REVISION in eSDK 
-to avoid warning. Current status is good from my point of view.
+>
+>
 
-Best Regards,
-Chen Qi
+--000000000000c13dcf05bd89d4ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Mar 14, 2021, 2:18 PM Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 202=
+1-03-14 at 20:16 -0400, Denys Dmytriyenko wrote:<br>
+&gt; On Fri, Mar 12, 2021 at 12:17:08PM +0100, Martin Jansa wrote:<br>
+&gt; &gt; On Fri, Mar 12, 2021 at 03:59:20PM +0800, Robert Yang wrote:<br>
+&gt; &gt; &gt; Hi RP,<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; On 3/11/21 10:38 PM, Richard Purdie wrote:<br>
+&gt; &gt; &gt; &gt; On Thu, 2021-03-11 at 10:02 +0100, Martin Jansa wrote:<=
+br>
+&gt; &gt; &gt; &gt; &gt; On Thu, Mar 11, 2021 at 12:46:22AM -0800, Robert Y=
+ang wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; This can fix a do_package error when compile =
+with meta-secure-core layer:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"http://layers.openembedded.org/lay=
+erindex/branch/master/layer/meta-secure-core/" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">http://layers.openembedded.org/layerindex/branch/master=
+/layer/meta-secure-core/</a><br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; $ bitbake kernel-initramfs<br>
+&gt; &gt; &gt; &gt; &gt; &gt; [snip]<br>
+&gt; &gt; &gt; &gt; &gt; &gt; WARNING:kernel-initramfs-1.0-r0 do_package: M=
+anifest<br>
+&gt; &gt; &gt; &gt; &gt; &gt; build/tmp-glibc/sstate-control/manifest-x86_6=
+4_x86_64-nativesdk-secure-core-image-initramfs.packagedata<br>
+&gt; &gt; &gt; &gt; &gt; &gt; not found in intel_x86_64 corei7-64 core2-64 =
+x86_64 allarch x86_64_x86_64-nativesdk (variant &#39;&#39;)?<br>
+&gt; &gt; &gt; &gt; &gt; &gt; [snip]<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; This is because kernel-initramfs wants to pac=
+k an initramfs image into<br>
+&gt; &gt; &gt; &gt; &gt; &gt; kernel-initramfs.rpm which adds a dependency =
+in <a href=3D"http://kernel-initramfs.bb" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">kernel-initramfs.bb</a> to do this:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; d.appendVarFlag(&#39;do_install&#39;, &#39;de=
+pends&#39;, &#39; ${INITRAMFS_IMAGE}:do_image_complete&#39;)<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; This causes kernel-initramfs&#39; do_package =
+depends on<br>
+&gt; &gt; &gt; &gt; &gt; &gt; ${INITRAMFS_IMAGE}:do_image_complete&#39;s do=
+_packagedata, then we will get the<br>
+&gt; &gt; &gt; &gt; &gt; &gt; error. Delete do_packagedata as other do_pack=
+age relelated tasks for the image<br>
+&gt; &gt; &gt; &gt; &gt; &gt; recipe will fix the error.<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; Signed-off-by: Robert Yang &lt;<a href=3D"mai=
+lto:liezhi.yang@windriver.com" target=3D"_blank" rel=3D"noreferrer">liezhi.=
+yang@windriver.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; Acked-by: Martin Jansa &lt;<a href=3D"mailto:Marti=
+n.Jansa@gmail.com" target=3D"_blank" rel=3D"noreferrer">Martin.Jansa@gmail.=
+com</a>&gt;<br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; I went a bit further and inheritted nopackages, bu=
+t RP mentioned that it<br>
+&gt; &gt; &gt; &gt; &gt; might be removing too much. Nothing failed with no=
+packages over night,<br>
+&gt; &gt; &gt; &gt; &gt; but still this smaller version will be safer as th=
+is needs to got to<br>
+&gt; &gt; &gt; &gt; &gt; gatesgarth and dunfell as well now.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; This has side effects and there was a reason this wasn&=
+#39;t done originally.=C2=A0The<br>
+&gt; &gt; &gt; &gt; trouble is that nobody is testing for that, just wantin=
+g to fix the problem<br>
+&gt; &gt; &gt; &gt; they see. To prove this isn&#39;t straightforward, I te=
+sted this locally, comparing<br>
+&gt; &gt; &gt; &gt; task-depends.dot from &quot;bitbake core-image-sato -g&=
+quot; before and after this patch.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; If we want to avoid disconnecting them, it seems that a bett=
+er way is fixing<br>
+&gt; &gt; &gt; this in the recipes which has this problem? For example, I g=
+ot this error in<br>
+&gt; &gt; &gt; <a href=3D"http://secure-core-image-initramfs.bb" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">secure-core-image-initramfs.bb</a>, t=
+hen we can add &quot;deltask do_packagedata&quot; in the<br>
+&gt; &gt; &gt; recipe to fix the problem.<br>
+&gt; &gt; <br>
+&gt; &gt; That&#39;s what I did in initramfs-android-image (which was trigg=
+ering this<br>
+&gt; &gt; for me as reported on ML)<br>
+&gt; &gt; <a href=3D"https://github.com/shr-distribution/meta-smartphone/co=
+mmit/732dd29325d882a9b3414764ad4c7a254dae3f03" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">https://github.com/shr-distribution/meta-smartphone/com=
+mit/732dd29325d882a9b3414764ad4c7a254dae3f03</a><br>
+&gt; <br>
+&gt; The issue of doing this in each and every possible initramfs image rec=
+ipe is <br>
+&gt; that it does not scale. For example, this code in the original patch i=
+s very <br>
+&gt; common:<br>
+&gt; <br>
+&gt; d.appendVarFlag(&#39;do_install&#39;, &#39;depends&#39;, &#39; ${INITR=
+AMFS_IMAGE}:do_image_complete&#39;)<br>
+&gt; <br>
+&gt; And INITRAMFS_IMAGE can be set anywhere - in machine config, distro co=
+nfig or <br>
+&gt; even by end user in local.conf<br>
+&gt; <br>
+&gt; <br>
+&gt; &gt; &gt; @Martin maybe we shouldn&#39;t backport this patch to gatesg=
+arth or dunfell since<br>
+&gt; &gt; &gt; it may suprise the users.<br>
+&gt; &gt; <br>
+&gt; &gt; Unfortunately<br>
+&gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/=
+?h=3Ddunfell&amp;id=3De0c1db170fdd6c1d78fdfce017feae26c96fac29" rel=3D"nore=
+ferrer noreferrer" target=3D"_blank">https://git.openembedded.org/openembed=
+ded-core/commit/?h=3Ddunfell&amp;id=3De0c1db170fdd6c1d78fdfce017feae26c96fa=
+c29</a><br>
+&gt; &gt; was already backported to both gatesgarth and dunfell.<br>
+&gt; <br>
+&gt; Yeah, it&#39;s unfortunate. Our LTS maintainer is too good! :)<br>
+&gt; Seriously though, not sure why changing warning to error was even cons=
+idered <br>
+&gt; for backporting to LTS! Making things stricter doesn&#39;t usually fal=
+l under <br>
+&gt; &quot;bugfix&quot; category...<br>
+<br>
+FWIW I&#39;m leaning to merging a deltask to image.bbclass in master and<br=
+>
+suggesting we revert this and live with the warning in older branches...<br=
+></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">Agreed, I&#39;ll add a revert to my next set of pa=
+tches.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Steve</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+The deltask will probably break things but I&#39;m starting to think that<b=
+r>
+is the lesser of several issues. Its not appropriate for the stable<br>
+branches though.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000c13dcf05bd89d4ae--
