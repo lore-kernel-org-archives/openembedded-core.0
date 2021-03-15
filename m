@@ -1,222 +1,154 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.663.1615848140110101912
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.1358.1615851600638812416
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 15:42:20 -0700
+ Mon, 15 Mar 2021 16:40:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pkx1fE7X;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: dz4list@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id g20so9043781wmk.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 15:42:19 -0700 (PDT)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=fwk6W0jP;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.210.175, mailfrom: scott.branden@broadcom.com)
+Received: by mail-pf1-f175.google.com with SMTP id d21so1539153pfn.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 16:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KIvKSy1uJotrNjS9ZZWFMe/DaLqAli7e6g6zMPeG4hA=;
-        b=pkx1fE7X4wELL0vbARr0mkXe1N36VYkJ9m8TZLbnaYWvjRlp20hyUHsExjjm8nsabh
-         00/GVbLdTdFEieUmLFmRRsut7VjfCvgsoWZpc5kF89i3ds65rGSSrxb1g1kyCSXROJen
-         oH2zoGOyx7pGIBUhocbIS7JREtO5i70ZIyn0fqSMV5t5me2EXFwquWDPATKZn+zeg3tb
-         Ookk/Kfn96roA+zE+2nU5PX0+gMhYiv4jdEawSy6dif+cXkTLPXYefFBLhCkhRQza6+p
-         gn2csCGpCwVc7iO2b1+GaWU+Wby8eSQ5oWO0wtJj4lVV8l+12O2RWa5113Du5FUPeJED
-         5Slg==
+        d=broadcom.com; s=google;
+        h=to:from:subject:message-id:date:user-agent:mime-version;
+        bh=ML0Z0U2jYwCMWfbY2rosWs/+CTeLeaf69Qi1DhInCLA=;
+        b=fwk6W0jP+iR1hwAEXqsWS12PILTCLE8bRHCOnLz6xIy/+x74vlOZn1Gek95hOKWXwr
+         pyBE9vNPizEhB58px+l2PYeyfldQlZGXaGyWy77NWv8RGb+MzGXLz6QXopli4Rxz2PZA
+         UClnlwOktchWDAjw7/EXnRsDJ0rSjiSpqQtCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KIvKSy1uJotrNjS9ZZWFMe/DaLqAli7e6g6zMPeG4hA=;
-        b=rFjMaoNN/ypIvEGfiAVeQmc1CqZXsnsQSNSA20eKH8t/7goqEiCo3rMQd5+2WrNMKF
-         mBH+HRzCPVU2sWgz193gwl2YzCDptI+xinfTl8yiiFxn6H8xqYL8g9HgehjVJv0sL5iN
-         Xu8ASzOOnplwZqema5S99f/A+jpEIZUBOvx9JxcuDkokvzQgTry4lm7KkLqSczX3dDJn
-         jZa0lKbgl+u/4YH0kFBkNKJsa76ZnDl8daFvok6NbTui8lLYOhxRl1tG82zfjqUb6p0f
-         dOdUMlvqhEWuu4KdJf+4nCqZvJIpBtGvCwcAVfrPIeSXmj/wwPCrVKtvqIpow3dE4VeI
-         Zc0Q==
-X-Gm-Message-State: AOAM530TbHkS4D89HCnN0jp+OKCeVhenGqDKSdj2+HOvzJjLT6zQHX6X
-	uguOS4MhOYUMSU8eYWI5x3WMgOEyZ4LcI50JbrLMCVo6J7A=
-X-Google-Smtp-Source: ABdhPJy3nXmUtlfQ+PAMRouqquIVDdZi53jeqNIdy2JScQLLC5kxNuSQIs1qgupWV5SZLRKAv0d1um6Hu9ChMqlBA9U=
-X-Received: by 2002:a05:600c:2cd8:: with SMTP id l24mr1736968wmc.88.1615848138237;
- Mon, 15 Mar 2021 15:42:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <mailman.866.1615827526.26598.openbmc@lists.ozlabs.org>
-In-Reply-To: <mailman.866.1615827526.26598.openbmc@lists.ozlabs.org>
-From: "Dan Zhang" <dz4list@gmail.com>
-Date: Mon, 15 Mar 2021 15:42:07 -0700
-Message-ID: <CAJxKyLc5AMqAUS8CmyJVH0-EYVo3S=CR+vY21p==PEXGhZtOuw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] u-boot: Use a different Key for SPL signing
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version;
+        bh=ML0Z0U2jYwCMWfbY2rosWs/+CTeLeaf69Qi1DhInCLA=;
+        b=HWg1hxNjtFtj00MnO7iQZk8lwtsTDGaTOWLwYZAu+rXERut4/TqKv7Uv0ovsY2WLW5
+         Io4FEkty7gbg1/UW2ll5+Algbz5NEFtOmdK3MAQvYyGLOKzRXdEKgwq9fcwoMMLJhJ5X
+         PoZd1P3l9ZkmPEQ3pPDfZaNx6cPf93QfdVD7eV7r/35hmL14IOHIMSwCgpUbeg8teNd/
+         CbAHGCQmcbnxfJZ4Y4HZKnze+p7N2IfGfL62/8PCXeN9RQj8snU3zItkLFpsgUTkMCNk
+         X+x2NW/MvCRvuBWHsn9D2vvkDRloKdUmTMO4lDRg+8fk0sZ/pn+MWIwGXoogmxS7p2X7
+         mtUg==
+X-Gm-Message-State: AOAM531GHkzbj40HT7eHeRZlmTVmz8Gk3ri35Oi64yfatdIpaCdWnfMw
+	wvRE6+YrAJVlpBU0zVb/A4Onchzdh01fU4YNSHcj1JstDr+AKytPrXB4uveGm/demyKYhz0ToE5
+	lWPYQA/zakzuhBV87yVBkVzP1j+SDW68lZVLUsarUAS1xFGYq19W6YqncjZJUFMJVkA808/KeId
+	3S34LexjIQ9ab40x8gb9YQosDS3t8=
+X-Google-Smtp-Source: ABdhPJw0zspq8LPtkeZq3A1tTCUe0y0gQc32dAgnfPWiYU9YbASwYNBluuNwANtlTWdYROjVei7UJg==
+X-Received: by 2002:aa7:940a:0:b029:1f1:5b58:24e5 with SMTP id x10-20020aa7940a0000b02901f15b5824e5mr12400003pfo.54.1615851599286;
+        Mon, 15 Mar 2021 16:39:59 -0700 (PDT)
+Return-Path: <scott.branden@broadcom.com>
+Received: from lbrmn-lnxub113.ric.broadcom.net ([192.19.228.250])
+        by smtp.gmail.com with ESMTPSA id p25sm14726291pfe.100.2021.03.15.16.39.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Mar 2021 16:39:58 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Cc: Joel Stanley <joel@jms.id.au>, andrew@aj.id.au, openbmc@lists.ozlabs.org, 
-	Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+From: "Scott Branden" <scott.branden@broadcom.com>
+Subject: unwanted linux kernel image added to /boot directory
+Message-ID: <a8c3bbca-1b5c-5353-9a0a-c7ecebc2fc32@broadcom.com>
+Date: Mon, 15 Mar 2021 16:39:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+X-Groupsio-MsgNum: 149543
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000a1024605bd9bc4f5"
 
-Hi Klaus,
+--000000000000a1024605bd9bc4f5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Can we make the patch not only support sign u-boot fitimage with
-different key, but also allow sign later?
-Similar to kernel-fitimage.bbclass::fitimage_assemble(), step 1~6
-create a "sign-able"  fit-image and step 7 do the sign.
+Hello,
 
-Can we add a new control variable i.e. DO_UBOOT_SIGN which control
-whether we sign the image during build time.
+There seems to be a problem when a kernel module is added to an initramfs image.
 
-It is desired to be able to "just sign" the "sign-able" image with
-"any key" later, instead of need rebuilding the whole image.
-i.e. Create a signing service, which can accessing to the official
-production key, to sign the image. We don't want to have this signing
-service setup complex building environment and rebuild the image.
+As soon as I add a recipe which installs an external kernel module into an initramfs image it automatically installs the linux kernel image in a /boot directory.
 
-BRs
-Dan Zhang
+This is really bad as it increases the size of the initramfs image.
 
-> From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-> To: openembedded-core@lists.openembedded.org
-> Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org, Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-> Bcc:
-> Date: Mon, 15 Mar 2021 13:58:05 -0300
-> Subject: [PATCH 3/4] u-boot: Use a different Key for SPL signing
-> Duplicate the variables governing u-boot signing so that we can have a
-> different set of keys/parameters signing the SPL.
->
-> Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-> ---
->  meta/classes/uboot-config.bbclass |  2 ++
->  meta/classes/uboot-sign.bbclass   | 55 ++++++++++++++++++++++++-------
->  2 files changed, 46 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-> index 31487c1418..3bba02828b 100644
-> --- a/meta/classes/uboot-config.bbclass
-> +++ b/meta/classes/uboot-config.bbclass
-> @@ -61,6 +61,7 @@ UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
->
->  # Options for the device tree compiler passed to mkimage '-D' feature:
->  UBOOT_MKIMAGE_DTCOPTS ??= ""
-> +SPL_MKIMAGE_DTCOPTS ??= ""
->
->  # mkimage command
->  UBOOT_MKIMAGE ?= "uboot-mkimage"
-> @@ -68,6 +69,7 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
->
->  # Arguments passed to mkimage for signing
->  UBOOT_MKIMAGE_SIGN_ARGS ?= ""
-> +SPL_MKIMAGE_SIGN_ARGS ?= ""
->
->  python () {
->      ubootmachine = d.getVar("UBOOT_MACHINE")
-> diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-> index 86380f2234..2ec93e0b8e 100644
-> --- a/meta/classes/uboot-sign.bbclass
-> +++ b/meta/classes/uboot-sign.bbclass
-> @@ -59,27 +59,34 @@ SPL_NODTB_IMAGE ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${
->  SPL_NODTB_BINARY ?= "u-boot-spl-nodtb.bin"
->  SPL_NODTB_SYMLINK ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${MACHINE}${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[1]}"
->
-DO_UBOOT_SIGN ?= "1"
-> -# fitImage Hash Algo
-> +# Kernel / U-Boot fitImage Hash Algo
->  FIT_HASH_ALG ?= "sha256"
-> +UBOOT_FIT_HASH_ALG ?= "sha256"
->
-> -# fitImage Signature Algo
-> +# Kernel / U-Boot fitImage Signature Algo
->  FIT_SIGN_ALG ?= "rsa2048"
-> +UBOOT_FIT_SIGN_ALG ?= "rsa2048"
->
-> -# Generate keys for signing fitImage
-> +# Generate keys for signing Kernel / U-Boot fitImage
->  FIT_GENERATE_KEYS ?= "0"
-> +UBOOT_FIT_GENERATE_KEYS ?= "0"
->
-> -# Size of private key in number of bits
-> +# Size of private keys in number of bits
->  FIT_SIGN_NUMBITS ?= "2048"
-> +UBOOT_FIT_SIGN_NUMBITS ?= "2048"
->
->  # args to openssl genrsa (Default is just the public exponent)
->  FIT_KEY_GENRSA_ARGS ?= "-F4"
-> +UBOOT_FIT_KEY_GENRSA_ARGS ?= "-F4"
->
->  # args to openssl req (Default is -batch for non interactive mode and
->  # -new for new certificate)
->  FIT_KEY_REQ_ARGS ?= "-batch -new"
-> +UBOOT_FIT_KEY_REQ_ARGS ?= "-batch -new"
->
->  # Standard format for public key certificate
->  FIT_KEY_SIGN_PKCS ?= "-x509"
-> +UBOOT_FIT_KEY_SIGN_PKCS ?= "-x509"
->
->  # Functions on this bbclass can apply to either U-boot or Kernel,
->  # depending on the scenario
-> @@ -280,6 +287,32 @@ do_generate_rsa_keys() {
->                                 -out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
->                 fi
->         fi
-> +
-> +       if [ "${SPL_SIGN_ENABLE}" = "0" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
-> +               bbwarn "UBOOT_FIT_GENERATE_KEYS is set to 1 eventhough SPL_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
-> +       fi
-> +
-> +       if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
-> +
-> +               # Generate keys only if they don't already exist
-> +               if [ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key ] || \
-> +                       [ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt ]; then
-> +
-> +                       # make directory if it does not already exist
-> +                       mkdir -p "${SPL_SIGN_KEYDIR}"
-> +
-> +                       echo "Generating RSA private key for signing U-Boot fitImage"
-> +                       openssl genrsa ${UBOOT_FIT_KEY_GENRSA_ARGS} -out \
-> +                               "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
-> +                               "${UBOOT_FIT_SIGN_NUMBITS}"
-> +
-> +                       echo "Generating certificate for signing U-Boot fitImage"
-> +                       openssl req ${FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
-> +                               -key "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
-> +                               -out "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt
-> +               fi
-> +       fi
-> +
->  }
->
->  addtask generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
-> @@ -292,9 +325,9 @@ uboot_fitimage_assemble() {
->         uboot_dtb="${3}"
->         uboot_bin="${4}"
->         spl_dtb="${5}"
-> -       uboot_csum="${FIT_HASH_ALG}"
-> -       uboot_sign_algo="${FIT_SIGN_ALG}"
-> -       uboot_sign_keyname="${UBOOT_SIGN_KEYNAME}"
-> +       uboot_csum="${UBOOT_FIT_HASH_ALG}"
-> +       uboot_sign_algo="${UBOOT_FIT_SIGN_ALG}"
-> +       uboot_sign_keyname="${SPL_SIGN_KEYNAME}"
->
->         rm -f ${uboot_its} ${uboot_bin}
->
-> @@ -349,7 +382,7 @@ EOF
->         # Assemble the U-boot FIT image
->         #
->         ${UBOOT_MKIMAGE} \
-> -               ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-> +               ${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
->                 -f ${uboot_its} \
->                 ${uboot_bin}
->
-> @@ -357,11 +390,11 @@ EOF
->         # Sign the U-boot FIT image and add public key to SPL dtb
->         #
-if [ "x${DO_UBOOT_SIGN}" = "x1" ] ; then
->         ${UBOOT_MKIMAGE_SIGN} \
-> -               ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
-> -               -F -k "${UBOOT_SIGN_KEYDIR}" \
-> +               ${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
-> +               -F -k "${SPL_SIGN_KEYDIR}" \
->                 -K "${spl_dtb}" \
->                 -r ${uboot_bin} \
-> -               ${UBOOT_MKIMAGE_SIGN_ARGS}
-> +               ${SPL_MKIMAGE_SIGN_ARGS}
->
-fi
->  }
->
-> --
-> 2.25.1
->
->
+/boot/Image should not be installed in the image when an external kernel module is added to an image.
+
+Can someone suggest a fix to this issue?
+
+Thanks,
+ Scott
+
+--000000000000a1024605bd9bc4f5
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+cRe0CRXA7ypOJSgxO/nOOyQoaJxT7CGg1npOeSpPjEuc3fE4xum3l0nvU85hj6MlKZu43hokdBh0
+D0nLyyhEwlR3AC/msdff/UGbM/JR9vk812RP4m/aNWZFJwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRpzY290dC5icmFuZGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUOhjEpl04Sz9dh5MI82E1
+V39lM/owDQYJKoZIhvcNAQELBQADggEBAA7Rlypx/esz/iq1yA4+KW7uwV/aBY344BWcXt6I+SNK
+VwFBgFWfLj5vaEud9TVv2fPSiaHJo0umemOJk+43QD+bsoqmgcFXd21PrOt7Jjs+jjVED9VC5kJq
+S4NNKUkS+BqijJwSegtVygrc/atrIlJbjI21q4qpemUo5fgwqCNm++BmBGTI8yA09vtGSNDRN42k
+lLX9hl3iEj5SBgkQqCbbnoE+ZjjKfqt7ED166WhgyQWNrl39yLcvLj+JRUB3RuvXKZjH0NQEEBII
+wZBDSkyneykLt3CBNIhSCTxKM6OWxVp936ALSa5K9FNy00TeWSpokR6NmzaW8VD/EjTgvqAxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgx9oXSJpKniO4dS
+Gk8wDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPAbOIWRMKARL7DcDW6QFIjmP2oR
+jFOHgceENl6NL2wgMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIx
+MDMxNTIzNDAwMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQCAFb5c/Yn+DLbeSJTQepITeI2nFm5uKXw3jUTQMHBZUOhk
+0UtQbn8GNwCVpot13Rtin6o6aVTi9nce4HUhYyw/1sQAb0kWi/Z4ZrixP1+TZWRsflWTZi/sxzIB
+gIgUoXZmSiFjL2EFnVYJZ6YvuMKvUrLf+bG5tCp0V6gAmGk3OixhpyIvbP0F9gyWPaJo70d45oCq
+dSj5EmgkmdX11NQ82ASMveaXQjnlND0ClWIt3jiIgb0OWrn48lbjNOdhgZbNT/ZnCM1KpvLWF0KS
+svoZGp0yA2RnAjfbwoqp4csOhy7pbTUButqfcz6dkQajgUli5jFOa+fZ/Q7100JchH+l
+
+--000000000000a1024605bd9bc4f5--
