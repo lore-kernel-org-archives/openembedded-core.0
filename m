@@ -1,146 +1,222 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web12.70.1615845095656885552
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.663.1615848140110101912
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 14:51:36 -0700
+ Mon, 15 Mar 2021 15:42:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z/WOznXP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so262135wml.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 14:51:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pkx1fE7X;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: dz4list@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id g20so9043781wmk.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 15:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=XzAJOYY1N9O3VTPyJrLNkVa5Bg31Owa1tjj85GRUuG0=;
-        b=Z/WOznXPWPDWBz595N7u9EP9RNSu8CN0mLqOIhbM6SuPsT14Hf9TrO+kgABOAvCW6p
-         g/d4WqeEciSEYE4s82ezOrmQvV6JsaGFuIvU+G27y6mzABjFBD7DvZtoDWZ+Gw6Gi1EH
-         Z824DuaoPMFrV2gTZ4FCp0WDiUARD4WLnTgag=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KIvKSy1uJotrNjS9ZZWFMe/DaLqAli7e6g6zMPeG4hA=;
+        b=pkx1fE7X4wELL0vbARr0mkXe1N36VYkJ9m8TZLbnaYWvjRlp20hyUHsExjjm8nsabh
+         00/GVbLdTdFEieUmLFmRRsut7VjfCvgsoWZpc5kF89i3ds65rGSSrxb1g1kyCSXROJen
+         oH2zoGOyx7pGIBUhocbIS7JREtO5i70ZIyn0fqSMV5t5me2EXFwquWDPATKZn+zeg3tb
+         Ookk/Kfn96roA+zE+2nU5PX0+gMhYiv4jdEawSy6dif+cXkTLPXYefFBLhCkhRQza6+p
+         gn2csCGpCwVc7iO2b1+GaWU+Wby8eSQ5oWO0wtJj4lVV8l+12O2RWa5113Du5FUPeJED
+         5Slg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=XzAJOYY1N9O3VTPyJrLNkVa5Bg31Owa1tjj85GRUuG0=;
-        b=thSvwZJw+XQjUlxQnR30IqEjW94YknRtBhQz1h5nZPq2PW3UAtE19MVfWxbhoj4CLg
-         6ozVqRDGNvYhi/u1s3WaYD6KwcGQ6yT6FQSMMw28DQNSS/wpbqQ9u1cplFNvmfiHM4KA
-         flJtj+baE10wSalUbZm08OLTLT/BfsgtHEmb4nAqlW7iPUpTy6Etozqzy8ym6ylbj08Z
-         mbv6tiYUBDzHslKXoOQfoFuzrBvPjqpiRp8N/NEAR+11ox1/zKMQ/AZKoQNB9gNo8Xbb
-         X6PH24zYeq9x8mIxyk4PXwz0hjZ8hA7X0Cht9sQWYJk2NnCbT05CXkOd4w+liG4QLw9w
-         rVGw==
-X-Gm-Message-State: AOAM533fu5HmN47GanUVpD4B69ozkFVXF8RuxBBQ+SWVSfnCe11jig+k
-	rLPzbcUCC3123s84msVpTjjXMg==
-X-Google-Smtp-Source: ABdhPJxKJLQeqopVnUxf6z/0LJrNJMv+LbIu+pSO25NoYkd4f/S0PkO20vcJnwHwDdpw660sla9SKQ==
-X-Received: by 2002:a05:600c:4146:: with SMTP id h6mr1652062wmm.32.1615845093969;
-        Mon, 15 Mar 2021 14:51:33 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1452:a8a7:f5e8:db32? ([2001:8b0:aba:5f3c:1452:a8a7:f5e8:db32])
-        by smtp.gmail.com with ESMTPSA id z3sm20038414wrw.96.2021.03.15.14.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 14:51:33 -0700 (PDT)
-Message-ID: <eb829949abe227556ae2d4ef8c0e11f6141508d9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Luca Boccassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org, bluelightning@bluelightning.org
-Date: Mon, 15 Mar 2021 21:51:29 +0000
-In-Reply-To: <166C88B2CBAB1BAF.20509@lists.openembedded.org>
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-	 <20210311150959.782186-1-luca.boccassi@gmail.com>
-	 <39f7cdcc297fb447632b8b8f222c1a80d88d0871.camel@linuxfoundation.org>
-	 <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
-	 <307a85e26da1a6fb90c274da8dbb5fbea457a156.camel@linuxfoundation.org>
-	 <764f13d7a09be6a0d992651ca0f95b9180284544.camel@gmail.com>
-	 <82b8349fa9de8918ddcb70993e438d9795de4700.camel@linuxfoundation.org>
-	 <20210315135555.hlkwmj4yj5ugw2he@jama>
-	 <166C88B2CBAB1BAF.20509@lists.openembedded.org>
-User-Agent: Evolution 3.39.2-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KIvKSy1uJotrNjS9ZZWFMe/DaLqAli7e6g6zMPeG4hA=;
+        b=rFjMaoNN/ypIvEGfiAVeQmc1CqZXsnsQSNSA20eKH8t/7goqEiCo3rMQd5+2WrNMKF
+         mBH+HRzCPVU2sWgz193gwl2YzCDptI+xinfTl8yiiFxn6H8xqYL8g9HgehjVJv0sL5iN
+         Xu8ASzOOnplwZqema5S99f/A+jpEIZUBOvx9JxcuDkokvzQgTry4lm7KkLqSczX3dDJn
+         jZa0lKbgl+u/4YH0kFBkNKJsa76ZnDl8daFvok6NbTui8lLYOhxRl1tG82zfjqUb6p0f
+         dOdUMlvqhEWuu4KdJf+4nCqZvJIpBtGvCwcAVfrPIeSXmj/wwPCrVKtvqIpow3dE4VeI
+         Zc0Q==
+X-Gm-Message-State: AOAM530TbHkS4D89HCnN0jp+OKCeVhenGqDKSdj2+HOvzJjLT6zQHX6X
+	uguOS4MhOYUMSU8eYWI5x3WMgOEyZ4LcI50JbrLMCVo6J7A=
+X-Google-Smtp-Source: ABdhPJy3nXmUtlfQ+PAMRouqquIVDdZi53jeqNIdy2JScQLLC5kxNuSQIs1qgupWV5SZLRKAv0d1um6Hu9ChMqlBA9U=
+X-Received: by 2002:a05:600c:2cd8:: with SMTP id l24mr1736968wmc.88.1615848138237;
+ Mon, 15 Mar 2021 15:42:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <mailman.866.1615827526.26598.openbmc@lists.ozlabs.org>
+In-Reply-To: <mailman.866.1615827526.26598.openbmc@lists.ozlabs.org>
+From: "Dan Zhang" <dz4list@gmail.com>
+Date: Mon, 15 Mar 2021 15:42:07 -0700
+Message-ID: <CAJxKyLc5AMqAUS8CmyJVH0-EYVo3S=CR+vY21p==PEXGhZtOuw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] u-boot: Use a different Key for SPL signing
+To: openembedded-core@lists.openembedded.org
+Cc: Joel Stanley <joel@jms.id.au>, andrew@aj.id.au, openbmc@lists.ozlabs.org, 
+	Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-03-15 at 13:57 +0000, Richard Purdie via lists.openembedded.org wrote:
-> On Mon, 2021-03-15 at 14:55 +0100, Martin Jansa wrote:
-> > On Mon, Mar 15, 2021 at 12:21:37PM +0000, Richard Purdie wrote:
-> > > On Mon, 2021-03-15 at 11:50 +0000, Luca Boccassi wrote:
-> > > > On Mon, 2021-03-15 at 10:49 +0000, Richard Purdie wrote:
-> > > > > On Mon, 2021-03-15 at 10:44 +0000, Luca Boccassi wrote:
-> > > > > > On Sun, 2021-03-14 at 22:10 +0000, Richard Purdie wrote:
-> > > > > > > On Thu, 2021-03-11 at 15:09 +0000, luca.boccassi@gmail.com wrote:
-> > > > > > > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > > > > > 
-> > > > > > > > Recently util-linux gained an (optional) build dependency on libcryptsetup.
-> > > > > > > > But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
-> > > > > > > > and uuid (mandatory).
-> > > > > > > > Split out util-linux-uuid in a different recipe to break the cycle.
-> > > > > > > > 
-> > > > > > > > https://github.com/karelzak/util-linux/pull/898
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > > > > 
-> > > > > > > Unfortunately I noticed we had a performance regression in buildtimes in 
-> > > > > > > recent changes. The closest I have this narrowed down to so far:
-> > > > > > > 
-> > > > > > > https://autobuilder.yocto.io/pub/non-release/20210314-14/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20210314181831_d42487bf52.html
-> > > > > > > 
-> > > > > > > suggests it may be this change. I have more tests queued to confirm
-> > > > > > > that definitively, if so we'll have to figure out why as this shouldn't
-> > > > > > > really happen, its an 8% regression :(.
-> > > > > > 
-> > > > > > Very strange that a single recipe could do that - is there something
-> > > > > > wrong in the new .bb that I missed and could cause this?
-> > > > > 
-> > > > > I'm wondering if it is because we're building util-linux twice now and
-> > > > > there is some key choke point in the dependency chain. I have no evidence
-> > > > > for that yet, it is just speculation though.
-> > > > 
-> > > > With the autoconf options I've set, on my laptop it takes 32s to do
-> > > > configure + make -j2. Most of that is autoconf - make -j2 takes 8s.
-> > > > 
-> > > > Only 3 libraries are built with this combination: libcommon.a,
-> > > > libtcolors.a, and libuuid.a/so. No executables or anything else is
-> > > > built. It doesn't look like libtcolors is actually needed, I'll see if
-> > > > I can prepare a patch to skip it, but I don't think it will buy more
-> > > > than 1s, it's just two object files.
-> > > > 
-> > > > The good news is that meson support is about to land upstream, which
-> > > > should be significantly faster than autoconf + make:
-> > > > 
-> > > > https://github.com/karelzak/util-linux/commits/topic/meson
-> > > 
-> > > Meson definitely improves the speed! I was wondering if it was from
-> > > configure for example.
-> > > 
-> > > I now have more performance test results in (takes time to interleave 
-> > > them with testing of master):
-> > > 
-> > > https://autobuilder.yocto.io/pub/non-release/20210315-1/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20210315005048_6bb1621815.html
-> > > 
-> > > and I think this means it isn't from the util-linux change but one of 
-> > > another three. I'm not entirely convinced those changes could do this
-> > > but it is what the data says. 
-> > > 
-> > > I've queued more bisection to narrow it down from there...
-> > 
-> > BTW: this split also needs manual cleanup in the TMPDIR, right?
-> 
-> It shouldn't. The system should spot that util-linux has changed and uninstall
-> it from the sysroots as it goes. There is something not working right there :(
+Hi Klaus,
 
-I was wrong about that, the system doesn't have code for this, it has code for
-the sysroots but not for other sstate tasks.
+Can we make the patch not only support sign u-boot fitimage with
+different key, but also allow sign later?
+Similar to kernel-fitimage.bbclass::fitimage_assemble(), step 1~6
+create a "sign-able"  fit-image and step 7 do the sign.
 
-I think this is an oversight and we need to simplify things and make this cleanup
-happen pre-build, much like the "unreachable" tasks cleanup happens today. If we
-do make this happen, we probably need to add parallelism as the number of stale
-sstate tasks being cleaned could be substantial.
+Can we add a new control variable i.e. DO_UBOOT_SIGN which control
+whether we sign the image during build time.
 
-Cheers,
+It is desired to be able to "just sign" the "sign-able" image with
+"any key" later, instead of need rebuilding the whole image.
+i.e. Create a signing service, which can accessing to the official
+production key, to sign the image. We don't want to have this signing
+service setup complex building environment and rebuild the image.
 
-Richard
+BRs
+Dan Zhang
 
-
-
-
-
-
-
+> From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> To: openembedded-core@lists.openembedded.org
+> Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org, Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> Bcc:
+> Date: Mon, 15 Mar 2021 13:58:05 -0300
+> Subject: [PATCH 3/4] u-boot: Use a different Key for SPL signing
+> Duplicate the variables governing u-boot signing so that we can have a
+> different set of keys/parameters signing the SPL.
+>
+> Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> ---
+>  meta/classes/uboot-config.bbclass |  2 ++
+>  meta/classes/uboot-sign.bbclass   | 55 ++++++++++++++++++++++++-------
+>  2 files changed, 46 insertions(+), 11 deletions(-)
+>
+> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+> index 31487c1418..3bba02828b 100644
+> --- a/meta/classes/uboot-config.bbclass
+> +++ b/meta/classes/uboot-config.bbclass
+> @@ -61,6 +61,7 @@ UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
+>
+>  # Options for the device tree compiler passed to mkimage '-D' feature:
+>  UBOOT_MKIMAGE_DTCOPTS ??= ""
+> +SPL_MKIMAGE_DTCOPTS ??= ""
+>
+>  # mkimage command
+>  UBOOT_MKIMAGE ?= "uboot-mkimage"
+> @@ -68,6 +69,7 @@ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
+>
+>  # Arguments passed to mkimage for signing
+>  UBOOT_MKIMAGE_SIGN_ARGS ?= ""
+> +SPL_MKIMAGE_SIGN_ARGS ?= ""
+>
+>  python () {
+>      ubootmachine = d.getVar("UBOOT_MACHINE")
+> diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+> index 86380f2234..2ec93e0b8e 100644
+> --- a/meta/classes/uboot-sign.bbclass
+> +++ b/meta/classes/uboot-sign.bbclass
+> @@ -59,27 +59,34 @@ SPL_NODTB_IMAGE ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${
+>  SPL_NODTB_BINARY ?= "u-boot-spl-nodtb.bin"
+>  SPL_NODTB_SYMLINK ?= "${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[0]}-nodtb-${MACHINE}${@os.path.splitext(d.getVar("SPL_BINARYNAME"))[1]}"
+>
+DO_UBOOT_SIGN ?= "1"
+> -# fitImage Hash Algo
+> +# Kernel / U-Boot fitImage Hash Algo
+>  FIT_HASH_ALG ?= "sha256"
+> +UBOOT_FIT_HASH_ALG ?= "sha256"
+>
+> -# fitImage Signature Algo
+> +# Kernel / U-Boot fitImage Signature Algo
+>  FIT_SIGN_ALG ?= "rsa2048"
+> +UBOOT_FIT_SIGN_ALG ?= "rsa2048"
+>
+> -# Generate keys for signing fitImage
+> +# Generate keys for signing Kernel / U-Boot fitImage
+>  FIT_GENERATE_KEYS ?= "0"
+> +UBOOT_FIT_GENERATE_KEYS ?= "0"
+>
+> -# Size of private key in number of bits
+> +# Size of private keys in number of bits
+>  FIT_SIGN_NUMBITS ?= "2048"
+> +UBOOT_FIT_SIGN_NUMBITS ?= "2048"
+>
+>  # args to openssl genrsa (Default is just the public exponent)
+>  FIT_KEY_GENRSA_ARGS ?= "-F4"
+> +UBOOT_FIT_KEY_GENRSA_ARGS ?= "-F4"
+>
+>  # args to openssl req (Default is -batch for non interactive mode and
+>  # -new for new certificate)
+>  FIT_KEY_REQ_ARGS ?= "-batch -new"
+> +UBOOT_FIT_KEY_REQ_ARGS ?= "-batch -new"
+>
+>  # Standard format for public key certificate
+>  FIT_KEY_SIGN_PKCS ?= "-x509"
+> +UBOOT_FIT_KEY_SIGN_PKCS ?= "-x509"
+>
+>  # Functions on this bbclass can apply to either U-boot or Kernel,
+>  # depending on the scenario
+> @@ -280,6 +287,32 @@ do_generate_rsa_keys() {
+>                                 -out "${UBOOT_SIGN_KEYDIR}/${UBOOT_SIGN_KEYNAME}".crt
+>                 fi
+>         fi
+> +
+> +       if [ "${SPL_SIGN_ENABLE}" = "0" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
+> +               bbwarn "UBOOT_FIT_GENERATE_KEYS is set to 1 eventhough SPL_SIGN_ENABLE is set to 0. The keys will not be generated as they won't be used."
+> +       fi
+> +
+> +       if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${UBOOT_FIT_GENERATE_KEYS}" = "1" ]; then
+> +
+> +               # Generate keys only if they don't already exist
+> +               if [ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key ] || \
+> +                       [ ! -f "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt ]; then
+> +
+> +                       # make directory if it does not already exist
+> +                       mkdir -p "${SPL_SIGN_KEYDIR}"
+> +
+> +                       echo "Generating RSA private key for signing U-Boot fitImage"
+> +                       openssl genrsa ${UBOOT_FIT_KEY_GENRSA_ARGS} -out \
+> +                               "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
+> +                               "${UBOOT_FIT_SIGN_NUMBITS}"
+> +
+> +                       echo "Generating certificate for signing U-Boot fitImage"
+> +                       openssl req ${FIT_KEY_REQ_ARGS} "${UBOOT_FIT_KEY_SIGN_PKCS}" \
+> +                               -key "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".key \
+> +                               -out "${SPL_SIGN_KEYDIR}/${SPL_SIGN_KEYNAME}".crt
+> +               fi
+> +       fi
+> +
+>  }
+>
+>  addtask generate_rsa_keys before do_uboot_assemble_fitimage after do_compile
+> @@ -292,9 +325,9 @@ uboot_fitimage_assemble() {
+>         uboot_dtb="${3}"
+>         uboot_bin="${4}"
+>         spl_dtb="${5}"
+> -       uboot_csum="${FIT_HASH_ALG}"
+> -       uboot_sign_algo="${FIT_SIGN_ALG}"
+> -       uboot_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+> +       uboot_csum="${UBOOT_FIT_HASH_ALG}"
+> +       uboot_sign_algo="${UBOOT_FIT_SIGN_ALG}"
+> +       uboot_sign_keyname="${SPL_SIGN_KEYNAME}"
+>
+>         rm -f ${uboot_its} ${uboot_bin}
+>
+> @@ -349,7 +382,7 @@ EOF
+>         # Assemble the U-boot FIT image
+>         #
+>         ${UBOOT_MKIMAGE} \
+> -               ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+> +               ${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
+>                 -f ${uboot_its} \
+>                 ${uboot_bin}
+>
+> @@ -357,11 +390,11 @@ EOF
+>         # Sign the U-boot FIT image and add public key to SPL dtb
+>         #
+if [ "x${DO_UBOOT_SIGN}" = "x1" ] ; then
+>         ${UBOOT_MKIMAGE_SIGN} \
+> -               ${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+> -               -F -k "${UBOOT_SIGN_KEYDIR}" \
+> +               ${@'-D "${SPL_MKIMAGE_DTCOPTS}"' if len('${SPL_MKIMAGE_DTCOPTS}') else ''} \
+> +               -F -k "${SPL_SIGN_KEYDIR}" \
+>                 -K "${spl_dtb}" \
+>                 -r ${uboot_bin} \
+> -               ${UBOOT_MKIMAGE_SIGN_ARGS}
+> +               ${SPL_MKIMAGE_SIGN_ARGS}
+>
+fi
+>  }
+>
+> --
+> 2.25.1
+>
+>
