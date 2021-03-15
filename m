@@ -1,119 +1,90 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.6994.1615805058561712284
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web08.6936.1615805364412685890
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 03:44:18 -0700
+ Mon, 15 Mar 2021 03:49:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vA0Z5i2E;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 12so2796235wmf.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 03:44:17 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BD8O0dQr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id g8so7833514wmd.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 03:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=A7Pr++gSv4JBwvTLtgnIcRUU/5NTl0rPuwKiErGU04E=;
-        b=vA0Z5i2ElYC82sCvmRj6TSNuhsY1odEB3rwly7AjJGtXJBKKqDVcVEtUTQMOXX5WbC
-         WrlwRqBqbg/Jbs3wQvowcBehCLsd6f6v/W6zxYbA76Q/A+MKMSJUfUVD9J3Sd7TcxB/B
-         QI3N7Z86zND1yVuyBRYp5X6c23um7HHZKMKiTMotmxb8FyLWTLLWhfzaCMvG58MlbSyf
-         Dl+1DvD6oo9NidXqSJoHxfaXjjAmEH1jYPL0qayHQVzVS8zE6iLhx0LYAA9saSdsyB9E
-         d2F6QLKeKm3+MYL40GPcEE/TE8q3W8FKeiHn3sA+LjdngF8uiVnr5tCX/KTfRqwyIhbz
-         DqmQ==
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=YhwCYDk+FNQLXOlwSLuHnbWSdX6z4ndVH76yySTB0C4=;
+        b=BD8O0dQrMSPqgTSfyF8epXh7qyy56f0IrIK/71d90DAOet1YU509bYx7G+b9GrNzlS
+         Z8r95MRFZ2BTuOeRS/tCL1zD1oWPBay+ixPMnlWb3syodqHfM/ApheKvaOdt68a17MPE
+         bFD8vpyremokD0dkZh0NZbgks35EGwsHjhXww=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=A7Pr++gSv4JBwvTLtgnIcRUU/5NTl0rPuwKiErGU04E=;
-        b=hqKE62QuldfgXBYVFYlyKr7URPyuJxld/HyRozwkUhPrIRMO50CkyZc1/8ouRp4xmk
-         puZP4g2duIMWYK1tm3q+SWBjmgnAJCDxVYI+lX53SJjxKuDr0eZysHhi1Ywv98oYedCi
-         rCMKPYx1V3TECwlO1VUvH/Kzgra1o1O799cisaUK4spOsA3CgE/W945HW77aFH6XIGHH
-         Jb2lq47rJb1GIQ8PFBmoKgjvJdCfgyUkJI2KDqfVIOHS3foch3T+bdQcTrDm+uCBZKvE
-         PlFuhiLPjq65T9QZh9VJMDPdVdHKAW3tTLAeRM6+/earOIVqydquXyrfN4GXSsB/SERW
-         zs9w==
-X-Gm-Message-State: AOAM532YyE2uuh+vYUBieEpxIfAqjRj/J3+lxsrT4CUmNWjfeZzn1xFW
-	0V1+t4n3Lu8PSVgrcf1u5j0=
-X-Google-Smtp-Source: ABdhPJxcYrTeQzBLnPNtIwPU5zyM1KvqIAVfwkV9WPmSpXBc9LrEJfuPumnBt8YuxZ6E4L6Z0h5g1w==
-X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr25419158wmk.101.1615805056287;
-        Mon, 15 Mar 2021 03:44:16 -0700 (PDT)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
-        by smtp.gmail.com with ESMTPSA id s11sm12633436wme.22.2021.03.15.03.44.14
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YhwCYDk+FNQLXOlwSLuHnbWSdX6z4ndVH76yySTB0C4=;
+        b=WybD+MZsHYjH94UVl/gYgDrvLioC0H0/U9L7tdk6nwPSL28sqYKy6DpdRlsvztEmu9
+         2WHk3IxUduIi2xNRIMik6U92oi90Zjs8287LzxtKjgs7rMfYibLf6kvWUwy4GXoqO+Rc
+         du0bIRIwzN3M84iFyyn/ye+flkbZYmSrjw2XneX+l7CWX+YVMZ0gkxH7WmnWxYL5+Osr
+         siHC1IzBLjBQjucDPhw5TtNlXxuAshXxhjmPToosPFtJtEGP4DGxhvKH97wdFqZC2wY2
+         SE9yzk2rxBJ8XwYbtH+yzO9Z4MDB2eNeGWjA8a3fqRlwMuaEZJFk2elkdeexH1dFRYHk
+         J7MA==
+X-Gm-Message-State: AOAM533wpiL3f4CdHeSRIRV0ZMTqkH6HLCBpZ3jHEh4dRlyez22B0nz2
+	sjr0+cGjjBDzpS9uVFR5c++f6A==
+X-Google-Smtp-Source: ABdhPJxc6ECjjjQI47XSKG9Oqq0btKMawb3y0V6vpQW8JB6kdd3jtLNpOQPKzgJ4uaoCwZIOXiu/sA==
+X-Received: by 2002:a05:600c:2102:: with SMTP id u2mr25589003wml.22.1615805362832;
+        Mon, 15 Mar 2021 03:49:22 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e? ([2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e])
+        by smtp.gmail.com with ESMTPSA id j9sm11874803wmi.24.2021.03.15.03.49.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 03:44:14 -0700 (PDT)
-Message-ID: <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
+        Mon, 15 Mar 2021 03:49:22 -0700 (PDT)
+Message-ID: <307a85e26da1a6fb90c274da8dbb5fbea457a156.camel@linuxfoundation.org>
 Subject: Re: [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Luca Boccassi <luca.boccassi@gmail.com>, 
 	openembedded-core@lists.openembedded.org
 Cc: bluelightning@bluelightning.org
-Date: Mon, 15 Mar 2021 10:44:12 +0000
-In-Reply-To: <39f7cdcc297fb447632b8b8f222c1a80d88d0871.camel@linuxfoundation.org>
+Date: Mon, 15 Mar 2021 10:49:20 +0000
+In-Reply-To: <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
 References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
 	 <20210311150959.782186-1-luca.boccassi@gmail.com>
 	 <39f7cdcc297fb447632b8b8f222c1a80d88d0871.camel@linuxfoundation.org>
-User-Agent: Evolution 3.30.5-1.2 
+	 <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
+User-Agent: Evolution 3.39.2-1 
 MIME-Version: 1.0
-X-Groupsio-MsgNum: 149450
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ZClFE+V9rvX0GE5S/KDu"
-
---=-ZClFE+V9rvX0GE5S/KDu
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, 2021-03-14 at 22:10 +0000, Richard Purdie wrote:
-> On Thu, 2021-03-11 at 15:09 +0000, luca.boccassi@gmail.com wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> >=20
-> > Recently util-linux gained an (optional) build dependency on libcryptse=
-tup.
-> > But libcryptsetup build-depends on util-linux for blkid (optional, can =
-be disabled)
-> > and uuid (mandatory).
-> > Split out util-linux-uuid in a different recipe to break the cycle.
-> >=20
-> > https://github.com/karelzak/util-linux/pull/898
-> >=20
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
->=20
-> Unfortunately I noticed we had a performance regression in buildtimes in=
-=20
-> recent changes. The closest I have this narrowed down to so far:
->=20
-> https://autobuilder.yocto.io/pub/non-release/20210314-14/testresults/buil=
-dperf-ubuntu1604/perf-ubuntu1604_master_20210314181831_d42487bf52.html
->=20
-> suggests it may be this change. I have more tests queued to confirm
-> that definitively, if so we'll have to figure out why as this shouldn't
-> really happen, its an 8% regression :(.
->=20
-> Cheers,
->=20
-> Richard
-
-Hi,
-
-Very strange that a single recipe could do that - is there something
-wrong in the new .bb that I missed and could cause this?
-
---=20
-Kind regards,
-Luca Boccassi
-
---=-ZClFE+V9rvX0GE5S/KDu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+On Mon, 2021-03-15 at 10:44 +0000, Luca Boccassi wrote:
+> On Sun, 2021-03-14 at 22:10 +0000, Richard Purdie wrote:
+> > On Thu, 2021-03-11 at 15:09 +0000, luca.boccassi@gmail.com wrote:
+> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > > 
+> > > Recently util-linux gained an (optional) build dependency on libcryptsetup.
+> > > But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
+> > > and uuid (mandatory).
+> > > Split out util-linux-uuid in a different recipe to break the cycle.
+> > > 
+> > > https://github.com/karelzak/util-linux/pull/898
+> > > 
+> > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> > 
+> > Unfortunately I noticed we had a performance regression in buildtimes in 
+> > recent changes. The closest I have this narrowed down to so far:
+> > 
+> > https://autobuilder.yocto.io/pub/non-release/20210314-14/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20210314181831_d42487bf52.html
+> > 
+> > suggests it may be this change. I have more tests queued to confirm
+> > that definitively, if so we'll have to figure out why as this shouldn't
+> > really happen, its an 8% regression :(.
+> 
+> Very strange that a single recipe could do that - is there something
+> wrong in the new .bb that I missed and could cause this?
 
-iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmBPOnwACgkQSylmgFB4
-UWKZzwgAmVXBZ5JpwrzGop9DqpRDdjKGdHiEwRigjZhrZb9LLpXvgHgwOjCIIK8w
-yAdnZxHsMbjRpXXr6tt8Y4gY+IOQbqHtf8ScQBx9TtjbDWpHVNPqVGt4PlgLIvkf
-cHsRHNhWKrW9tTJDKwzAKXVRM3if0BdHnvqVoIPKLp82PetHD14oBNjwU2DZsO7o
-sH4l90OG6a7kUyEQ7Qhtn4QxvFTXtpzjfEsNIrmy9NJrGb9A2zdilbiqvswr0cY1
-6r4Hfn3NZSwDvZ6ciorAOiwssdejGqNyK7gEfNAmEnywg62U22N4DL3MyVDU+/2k
-+5pq8+VAnGtflRKtCosx1gkv6lqz1w==
-=YQcX
------END PGP SIGNATURE-----
+I'm wondering if it is because we're building util-linux twice now and
+there is some key choke point in the dependency chain. I have no evidence
+for that yet, it is just speculation though.
 
---=-ZClFE+V9rvX0GE5S/KDu--
+Cheers,
+
+Richard
+
+
