@@ -1,90 +1,115 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.6936.1615805364412685890
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.7146.1615806846141356006
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Mar 2021 03:49:24 -0700
+ Mon, 15 Mar 2021 04:14:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BD8O0dQr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id g8so7833514wmd.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Mar 2021 03:49:24 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=cKhy9qh+;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=YhwCYDk+FNQLXOlwSLuHnbWSdX6z4ndVH76yySTB0C4=;
-        b=BD8O0dQrMSPqgTSfyF8epXh7qyy56f0IrIK/71d90DAOet1YU509bYx7G+b9GrNzlS
-         Z8r95MRFZ2BTuOeRS/tCL1zD1oWPBay+ixPMnlWb3syodqHfM/ApheKvaOdt68a17MPE
-         bFD8vpyremokD0dkZh0NZbgks35EGwsHjhXww=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=YhwCYDk+FNQLXOlwSLuHnbWSdX6z4ndVH76yySTB0C4=;
-        b=WybD+MZsHYjH94UVl/gYgDrvLioC0H0/U9L7tdk6nwPSL28sqYKy6DpdRlsvztEmu9
-         2WHk3IxUduIi2xNRIMik6U92oi90Zjs8287LzxtKjgs7rMfYibLf6kvWUwy4GXoqO+Rc
-         du0bIRIwzN3M84iFyyn/ye+flkbZYmSrjw2XneX+l7CWX+YVMZ0gkxH7WmnWxYL5+Osr
-         siHC1IzBLjBQjucDPhw5TtNlXxuAshXxhjmPToosPFtJtEGP4DGxhvKH97wdFqZC2wY2
-         SE9yzk2rxBJ8XwYbtH+yzO9Z4MDB2eNeGWjA8a3fqRlwMuaEZJFk2elkdeexH1dFRYHk
-         J7MA==
-X-Gm-Message-State: AOAM533wpiL3f4CdHeSRIRV0ZMTqkH6HLCBpZ3jHEh4dRlyez22B0nz2
-	sjr0+cGjjBDzpS9uVFR5c++f6A==
-X-Google-Smtp-Source: ABdhPJxc6ECjjjQI47XSKG9Oqq0btKMawb3y0V6vpQW8JB6kdd3jtLNpOQPKzgJ4uaoCwZIOXiu/sA==
-X-Received: by 2002:a05:600c:2102:: with SMTP id u2mr25589003wml.22.1615805362832;
-        Mon, 15 Mar 2021 03:49:22 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e? ([2001:8b0:aba:5f3c:4ab3:e50e:5e50:fc1e])
-        by smtp.gmail.com with ESMTPSA id j9sm11874803wmi.24.2021.03.15.03.49.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 03:49:22 -0700 (PDT)
-Message-ID: <307a85e26da1a6fb90c274da8dbb5fbea457a156.camel@linuxfoundation.org>
-Subject: Re: [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: bluelightning@bluelightning.org
-Date: Mon, 15 Mar 2021 10:49:20 +0000
-In-Reply-To: <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-	 <20210311150959.782186-1-luca.boccassi@gmail.com>
-	 <39f7cdcc297fb447632b8b8f222c1a80d88d0871.camel@linuxfoundation.org>
-	 <96cb1cfec8dca5eeca800aa238cab4912701621e.camel@gmail.com>
-User-Agent: Evolution 3.39.2-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1615806846;
+  x=1647342846;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=nRyr4Vcp4v/EZvvWVNfXx6GHeYXL6EkISfSh1fKfl4Y=;
+  b=cKhy9qh+ef7yVWvf/216lioPDF80jPLeNAL0Zw4PVndt0MGJw7cHT1LV
+   9cm22VW3ZlMVXTmqmQvcDPg+l3w7STX6fvel5dwzZO3LXUrghVcDaK0aR
+   CjaPwj+20wVRFR53KGo7Hu8Lw+5s8KNnPd/I5Fp6YfG9DA1+5HkEZN0uO
+   TSkC2Q2hmxHLGXzPd6hatD3mwf1IMdZC6yhJ1JO7/LTWQoy9xMfdsJUHj
+   2pVEgUHAV394qyAqHQOnZ4EF4DW4AMaqrgvQI05Uj1i2HD6VApxTuvMuS
+   KBxyKk5rNXk/o1vtAs8JYFXBPwm1W/4hd/rjA8k5mmVaBT/LL8voyT534
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a warning when login with root is disabled
+Thread-Topic: [OE-core] [PATCH 1/1] rootfs-postcommands.bbclass: Print a
+ warning when login with root is disabled
+Thread-Index: AQHXEaJAFlaSBNRe3Umg6Mc/Bc9OP6p1KqKwgAYergCABSXggIAD438AgAChE0A=
+Date: Mon, 15 Mar 2021 11:14:03 +0000
+Message-ID: <7061876951f345b5b1816aeb5f71f1fa@XBOX03.axis.com>
+References: <cover.1614916931.git.liezhi.yang@windriver.com>
+ <870b35befc0b8fa9cd1c3a03fcfd2395440c2f41.1614916931.git.liezhi.yang@windriver.com>
+ <f23d196c13f24731a5a7e00ff139aa42@XBOX03.axis.com>
+ <975479fc-e8f4-dccd-56c9-3d830cc5dc54@windriver.com>
+ <e67217d10fc244b58cb3ef73815cf37f@XBOX03.axis.com>
+ <3c93c982-1f66-1a52-8b91-fa5e42be8098@windriver.com>
+In-Reply-To: <3c93c982-1f66-1a52-8b91-fa5e42be8098@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, 2021-03-15 at 10:44 +0000, Luca Boccassi wrote:
-> On Sun, 2021-03-14 at 22:10 +0000, Richard Purdie wrote:
-> > On Thu, 2021-03-11 at 15:09 +0000, luca.boccassi@gmail.com wrote:
-> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > 
-> > > Recently util-linux gained an (optional) build dependency on libcryptsetup.
-> > > But libcryptsetup build-depends on util-linux for blkid (optional, can be disabled)
-> > > and uuid (mandatory).
-> > > Split out util-linux-uuid in a different recipe to break the cycle.
-> > > 
-> > > https://github.com/karelzak/util-linux/pull/898
-> > > 
-> > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > 
-> > Unfortunately I noticed we had a performance regression in buildtimes in 
-> > recent changes. The closest I have this narrowed down to so far:
-> > 
-> > https://autobuilder.yocto.io/pub/non-release/20210314-14/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master_20210314181831_d42487bf52.html
-> > 
-> > suggests it may be this change. I have more tests queued to confirm
-> > that definitively, if so we'll have to figure out why as this shouldn't
-> > really happen, its an 8% regression :(.
-> 
-> Very strange that a single recipe could do that - is there something
-> wrong in the new .bb that I missed and could cause this?
-
-I'm wondering if it is because we're building util-linux twice now and
-there is some key choke point in the dependency chain. I have no evidence
-for that yet, it is just speculation though.
-
-Cheers,
-
-Richard
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb2JlcnQgWWFuZyA8bGllemhp
+LnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gU2VudDogZGVuIDE1IG1hcnMgMjAyMSAwMzozMg0KPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVu
+ZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCAxLzFdIHJvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczogUHJpbnQg
+YQ0KPiB3YXJuaW5nIHdoZW4gbG9naW4gd2l0aCByb290IGlzIGRpc2FibGVkDQo+IA0KPiBPbiAz
+LzEyLzIxIDEwOjEzIFBNLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4+IC0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3
+aW5kcml2ZXIuY29tPg0KPiA+PiBTZW50OiBkZW4gOSBtYXJzIDIwMjEgMDk6MzINCj4gPj4gVG86
+IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVt
+YmVkZGVkLQ0KPiA+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8xXSByb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3M6IFBy
+aW50IGENCj4gPj4gd2FybmluZyB3aGVuIGxvZ2luIHdpdGggcm9vdCBpcyBkaXNhYmxlZA0KPiA+
+Pg0KPiA+PiBIaSBQZXRlciwNCj4gPj4NCj4gPj4gT24gMy81LzIxIDY6MTggUE0sIFBldGVyIEtq
+ZWxsZXJzdGVkdCB3cm90ZToNCj4gPj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+
+Pj4+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5l
+bWJlZGRlZC0NCj4gPj4+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBP
+ZiBSb2JlcnQgWWFuZw0KPiA+Pj4+IFNlbnQ6IGRlbiA1IG1hcnMgMjAyMSAwOTo0OQ0KPiA+Pj4+
+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+Pj4gU3Vi
+amVjdDogW09FLWNvcmVdIFtQQVRDSCAxLzFdIHJvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczog
+UHJpbnQgYQ0KPiA+PiB3YXJuaW5nIHdoZW4gbG9naW4gd2l0aCByb290IGlzIGRpc2FibGVkDQo+
+ID4+Pj4NCj4gPj4+PiBGaXhlZDoNCj4gPj4+PiBFWFRSQV9JTUFHRV9GRUFUVVJFU19yZW1vdmUg
+PSAiZGVidWctdHdlYWtzIg0KPiA+Pj4+ICQgYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWwNCj4g
+Pj4+Pg0KPiA+Pj4+IFRoZW4gd2UgY2FuJ3QgbG9naW4gdG8gdGhlIHN5c3RlbSB3aXRoIHJvb3Qg
+d2l0aG91dCBhbnkgbWVzc2FnZXMuIEFkZA0KPiA+Pj4+IGEgd2FybmluZyBtYWtlcyBpdCBlYXN5
+IHRvIGRlYnVnLg0KPiA+Pj4+DQo+ID4+Pj4gU2lnbmVkLW9mZi1ieTogUm9iZXJ0IFlhbmcgPGxp
+ZXpoaS55YW5nQHdpbmRyaXZlci5jb20+DQo+ID4+Pj4gLS0tDQo+ID4+Pj4gICAgbWV0YS9jbGFz
+c2VzL3Jvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzcyB8IDYgKysrKystDQo+ID4+Pj4gICAgMSBm
+aWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+Pj4+DQo+ID4+
+Pj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MN
+Cj4gPj4gYi9tZXRhL2NsYXNzZXMvcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzDQo+ID4+Pj4g
+aW5kZXggMWYyN2EzZDA3YS4uZTRmZTQxNmFjOSAxMDA2NDQNCj4gPj4+PiAtLS0gYS9tZXRhL2Ns
+YXNzZXMvcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzDQo+ID4+Pj4gKysrIGIvbWV0YS9jbGFz
+c2VzL3Jvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzcw0KPiA+Pj4+IEBAIC0xNDcsNyArMTQ3LDEx
+IEBAIHJlYWRfb25seV9yb290ZnNfaG9vayAoKSB7DQo+ID4+Pj4gICAgemFwX2VtcHR5X3Jvb3Rf
+cGFzc3dvcmQgKCkgew0KPiA+Pj4+ICAgIAlpZiBbIC1lICR7SU1BR0VfUk9PVEZTfS9ldGMvc2hh
+ZG93IF07IHRoZW4NCj4gPj4+PiAgICAJCXNlZCAtaSAncyVecm9vdDo6JXJvb3Q6KjolJyA+PiAk
+e0lNQUdFX1JPT1RGU30vZXRjL3NoYWRvdw0KPiA+Pj4+IC0gICAgICAgIGZpDQo+ID4+Pj4gKwkJ
+Z3JlcCAtcSAnXnJvb3Q6KjonICR7SU1BR0VfUk9PVEZTfS9ldGMvc2hhZG93DQo+ID4+Pg0KPiA+
+Pj4gVGhhdCB3aWxsIG1hdGNoIGFueSAvZXRjL3NoYWRvdyBmaWxlIHdpdGggInJvb3Q6IiBpbiBp
+dC4gQ2hhbmdlIGl0IHRvOg0KPiA+Pj4NCj4gPj4+IAkJZ3JlcCAtcSAnXnJvb3Q6XCo6JyAke0lN
+QUdFX1JPT1RGU30vZXRjL3NoYWRvdw0KPiA+Pg0KPiA+PiBUaGFua3MsIEkgd2lsbCB1cGRhdGUg
+aXQuDQo+ID4+DQo+ID4+Pg0KPiA+Pj4gQW5kIG1ha2UgdGhpcyBvcHRpb25hbC4gV2UgaW50ZW50
+aW9uYWxseSBkbyBub3QgaGF2ZSBhIHJvb3QgcGFzc3dvcmQNCj4gPj4+IHNldCBpbiBvdXINCj4g
+Pj4NCj4gPj4gSSBkb24ndCBxdWl0ZSB1bmRlcnN0YW5kIGFib3V0ICJvcHRpb25hbCIsIHdoZW4g
+dGhlIGNvbW1hbmQgaXM6DQo+ID4+DQo+ID4+IGdyZXAgLXEgJ15yb290OlwqOicgJHtJTUFHRV9S
+T09URlN9L2V0Yy9zaGFkb3cNCj4gPj4NCj4gPj4gVGhlbiBlbXB0eSByb290IHBhc3N3b3JkIGlu
+IHNoYWRvdyBpczoNCj4gPj4gcm9vdDo6DQo+ID4+DQo+ID4+IHNvIGVtcHR5IHJvb3QgcGFzc3dv
+cmQgd29uJ3QgYmUgbWF0Y2hlZD8NCj4gPg0KPiA+IFNvcnJ5LCBJIHdhcyB1bmNsZWFyLiBXZSBk
+byBub3QgaGF2ZSBhbiBlbXB0eSBwYXNzd29yZCwgd2UgaGF2ZQ0KPiA+ICJyb290Oio6Li4uIiBp
+biAvZXRjL3NoYWRvdywgYW5kIHdlIG9idmlvdXNseSBkbyBub3Qgd2FudCB0aGlzIHdhcm5pbmcu
+DQo+IA0KPiBUaGFua3MsIG1ha2VzIHNlbnNlLCB0aGVuIGxldCdzIGRyb3AgdGhpcyBwYXRjaCwg
+dGhpcyBwYXRjaCBpcyBmb3INCj4gZGVidWdnaW5nIG9ubHksIGl0IGRvZXNuJ3QgbWF0dGVyIHRv
+IGRyb3AgaXQuDQo+IA0KPiBJIHdvbmRlciBob3cgdG8gbG9naW4gd2hlbiB0aGUgbGluZSBpcyAi
+cm9vdDoqOi4uLiIgaW4gL2V0Yy9zaGFkb3c/DQoNCkluIG91ciBjYXNlLCB5b3UgaGF2ZSB0byBz
+ZXQgYSBwYXNzd29yZCB0aGUgZmlyc3QgdGltZSB5b3UgYWNjZXNzIHRoZSBwcm9kdWN0J3MgDQp3
+ZWIgcGFnZS4NCg0KPiAvLyBSb2JlcnQNCj4gDQo+ID4NCj4gPj4gLy8gUm9iZXJ0DQo+ID4NCj4g
+PiAvL1BldGVyDQo+ID4NCj4gPj4+IHByb2R1Y3RzIHdoZW4gdGhleSBhcmUgZGVsaXZlcmVkIGR1
+ZSB0byB0aGUgc3RhdGUgbGF3IChTQi0zMjcpIHRoYXQNCj4gPj4+IHdlbnQgaW50byBlZmZlY3Qg
+b24gSmFudWFyeSAxLCAyMDIwIGluIENhbGlmb3JuaWEsIHdoaWNoIHByb2hpYml0cyANCj4gPj4+
+IGRlZmF1bHQgcGFzc3dvcmRzIHRvIGJlIHVzZWQgaW4gSW9UIHByb2R1Y3RzLg0KPiA+Pj4NCj4g
+Pj4+PiArCQlpZiBbICQ/IC1lcSAwIF07IHRoZW4NCj4gPj4+PiArCQkJYmJ3YXJuICJMb2dpbiB3
+aXRoIHJvb3QgdXNlciBpcyBkaXNhYmxlZCBzaW5jZSB6YXBfZW1wdHlfcm9vdF9wYXNzd29yZCBp
+cyBlbmFibGVkIg0KPiA+Pj4+ICsJCWZpDQo+ID4+Pj4gKwlmaQ0KPiA+Pj4+ICAgIAlpZiBbIC1l
+ICR7SU1BR0VfUk9PVEZTfS9ldGMvcGFzc3dkIF07IHRoZW4NCj4gPj4+PiAgICAJCXNlZCAtaSAn
+cyVecm9vdDo6JXJvb3Q6KjolJyA+PiAke0lNQUdFX1JPT1RGU30vZXRjL3Bhc3N3ZA0KPiA+Pj4+
+ICAgIAlmaQ0KPiA+Pj4+IC0tDQo+ID4+Pj4gMi4xNy4xDQo+ID4+Pg0KPiA+Pj4gLy9QZXRlcg0K
+DQovL1BldGVyDQo=
