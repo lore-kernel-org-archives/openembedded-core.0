@@ -1,78 +1,153 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web10.6182.1615889473354931599
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web11.6491.1615890678378372477
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 03:11:13 -0700
+ Tue, 16 Mar 2021 03:31:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-Received: from [100.113.4.174] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-b.eu-central-1.aws.symcld.net id 34/CF-38008-F3480506; Tue, 16 Mar 2021 10:11:11 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRWlGSWpSXmKPExsViZ8MxRde+JSD
-  BoG8Ou8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrHj6n62gn0cFevaJ7M0ML5i72Lk4hASmMEk
-  8eHuZmYI5zijxMPHr1i7GDk52AQ0JXq3bGHsYuTgEBHQk7j6TxQkzCygLnFpXQsLiC0sYCVxb
-  cElZpASFgFViafvE0DCvAKuEosu7mUEsSUEFCSmPHzPDBEXlDg58wkLxBgJiYMvXjBD1ChKzL
-  7czAJhV0rs2fyQdQIj7ywkLbOQtCxgZFrFaJlUlJmeUZKbmJmja2hgoGtoaKxrrmtoZKiXWKW
-  bpJdaqpucmldSlAiU1UssL9YrrsxNzknRy0st2cQIDK+UQvbKHYxr33zQO8QoycGkJMr7tzwg
-  QYgvKT+lMiOxOCO+qDQntfgQowwHh5IEb2QTUE6wKDU9tSItMwcY6jBpCQ4eJRHesDqgNG9xQ
-  WJucWY6ROoUo6KUOO8UkD4BkERGaR5cGyy+LjHKSgnzMjIwMAjxFKQW5WaWoMq/YhTnYFQS5m
-  0DmcKTmVcCN/0V0GImoMWG0n4gi0sSEVJSDUzqnacc96zU3rp/7xoF1ti040vynkv+chNhWOn
-  CM+WqmsvXfcaXjsy74rXSfOqfdR8EMqPPTll3hu8w/5fNTre6pOLYLDW5F3yf8O2WpUAGn+1f
-  5qp7zLXMfZZWMU+q79bNqlhnMDe66Pf3M4tXum63tOI71p2dydknJTzjNfMFvy09B5fqrAjOP
-  3e9o3shK2O3Je9H/gvO3Eat/5l29Yctl1JcGxX3Pavv6FxFu54Yw+SGSS1KreeOM3duLpgi/W
-  GZQ2rKqvqPV+Zd3lgU/eDmPM3wZ7Z2nYeFG39GMzssvn1IiD9kwbtrLhZlF5mvvL/2su3x6ZX
-  frfk36+xKPNLuFai0eKHVrFvub8MMHl9RYinOSDTUYi4qTgQAUg6XZioDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-245.messagelabs.com!1615889470!2385145!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=fail
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 29849 invoked from network); 16 Mar 2021 10:11:11 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-21.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Mar 2021 10:11:11 -0000
-Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12GAArCs001285
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 10:11:10 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 16 Mar 2021 10:10:52 +0000
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] msmtp: upgrade 1.8.14 -> 1.8.15
-Date: Tue, 16 Mar 2021 18:10:38 +0800
-Message-ID: <1615889439-19781-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YsUGZW39;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id p24so17880615vsj.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 03:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rSO8YKehZMIdZgXdDuTRRhoMzTlNUjfRz/BvyLcuIG4=;
+        b=YsUGZW39g7djRCu9/UA/K3kdVZ+cY6VK3nWT9g1vUR2TvMVLWNaGQcK9T1Jc7i2p1T
+         UhGNBvFA1KxqiUYBxUQi/lJ5JI3QGsdDhusIWHbsfdQliQ6ZHxD7RtmVF06mpjw4oGNV
+         bOhKip99PHv8rYnPaMBSq1LpFO2Ufv/KfcnV5AHYV9/ogY957NJUmbsfAo4g70FKH4F5
+         fHCa8G7psMNqtriUoJ83nnG++QKzthSMeuxI2sk3NFt8heR7AAuoqc19yvpk4+8UmNoE
+         p2AroP8WSJoAbGaamUUlXNrx5SrxPpV4e+KefBAwF/eQ26tix+6H2SPg+m31/V7UzZg5
+         7+Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rSO8YKehZMIdZgXdDuTRRhoMzTlNUjfRz/BvyLcuIG4=;
+        b=LEyM88tGYMajwfqR+fTffANLFo4OQVs3PwEwFI7iFoxqB9FcqMWGngS3H2OosRQfSD
+         8Xt2JTvRZgZRqfyo0MsFQcS3CrhGbTJbY658iAk0QFXCmeU+qKkOH/SwKlgl8pBBB8KC
+         cQQB2r4TtwFGXlUuB0TKCEpub8RC80mrGSCt3f/xdaXIZ79QTxqwZVG5zTaGoZnvSN9d
+         C3tmuNMrGlNFAxXlrVKbXL3gua5rU4n5fqOPAuu9ggEjIsKSlDhraSh45sYBiQbmlF80
+         jqeKy+0vPgcdTSa6gJga9hBuTdi7uT3R5QNGr1T73+ZyUgaAeEAhBAlXVvpZxRlsdZjk
+         EOJA==
+X-Gm-Message-State: AOAM531xhBwUmi3B22TyqcNW043GkzF0KSErtrUFlH2MA9Q+RG3pk29T
+	1tXK5AZEJaIh9hAv5EuF95kLBTRFpqPJ+1YTnzw=
+X-Google-Smtp-Source: ABdhPJzAWcC9LJK4/NG3jkv9tN+TRK1opqXnWBWrTOUj/yIO7uUQZhmJqBSWy2HiykkmIenB/eC4T+yHRS1G3mXF9UM=
+X-Received: by 2002:a67:bc11:: with SMTP id t17mr7013810vsn.51.1615890677524;
+ Tue, 16 Mar 2021 03:31:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- R01UKEXCASM111.r01.fujitsu.local (10.183.43.167)
-Content-Type: text/plain
+References: <1615889439-19781-1-git-send-email-wangmy@cn.fujitsu.com> <1615889439-19781-2-git-send-email-wangmy@cn.fujitsu.com>
+In-Reply-To: <1615889439-19781-2-git-send-email-wangmy@cn.fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 16 Mar 2021 11:31:06 +0100
+Message-ID: <CANNYZj8ZWh8bJFWDkyVPQfstrCsbLnYGSVr12jSLdZeXnAbZXg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] vulkan-headers: upgrade 1.2.162.0 -> 1.2.170.0
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d46cb605bda4dd2f"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../recipes-extended/msmtp/{msmtp_1.8.14.bb => msmtp_1.8.15.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.14.bb => msmtp_1.8.15.bb} (91%)
+--000000000000d46cb605bda4dd2f
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.14.bb b/meta/recipes-extended/msmtp/msmtp_1.8.15.bb
-similarity index 91%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.14.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.15.bb
-index 3bd5f9edeb..e85873e90f 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.14.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.15.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
- 
- SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[sha256sum] = "d56f065d711486e9c234618515a02a48a48dab4051b34f3e108fbecb6fb773b4"
-+SRC_URI[sha256sum] = "2265dc639ebf2edf3069fffe0a3bd76749f8b58f4001d5cdeae19873949099ce"
- 
- inherit gettext autotools update-alternatives pkgconfig
- 
--- 
-2.25.1
+This needs to be updated in tandem with vulkan-loader and vulkan-tools.
 
+Alex
+
+On Tue, 16 Mar 2021 at 11:11, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
+
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  ...{vulkan-headers_1.2.162.0.bb => vulkan-headers_1.2.170.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/vulkan/{vulkan-headers_1.2.162.0.bb =>
+> vulkan-headers_1.2.170.0.bb} (93%)
+>
+> diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
+> b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
+> similarity index 93%
+> rename from meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
+> rename to meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
+> index 19ae67cdd4..4c9c94f3d2 100644
+> --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
+> +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
+> @@ -11,7 +11,7 @@ LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM =
+> "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+>  SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master
+> "
+>
+> -SRCREV = "87aaa16d4c8e1ac70f8f04acdcd46eed4bd77209"
+> +SRCREV = "1d99b835ec3cd5a7fb2f2a2dd9a615ee2d1f0101"
+>
+>  S = "${WORKDIR}/git"
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
+>
+
+--000000000000d46cb605bda4dd2f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>This needs to be updated in tandem with vulkan-loader=
+ and vulkan-tools.</div><div><br></div><div>Alex<br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 16 Mar 20=
+21 at 11:11, Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com">wangm=
+y@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.=
+fujitsu.com" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0...{<a href=3D"http://vulkan-headers_1.2.162.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">vulkan-headers_1.2.162.0.bb</a> =3D&gt; <a href=3D"http=
+://vulkan-headers_1.2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan=
+-headers_1.2.170.0.bb</a>} | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-graphics/vulkan/{<a href=3D"http://vulkan-header=
+s_1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162=
+.0.bb</a> =3D&gt; <a href=3D"http://vulkan-headers_1.2.170.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">vulkan-headers_1.2.170.0.bb</a>} (93%)<br>
+<br>
+diff --git a/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers=
+_1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.=
+0.bb</a> b/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.=
+2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.b=
+b</a><br>
+similarity index 93%<br>
+rename from meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_=
+1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.0=
+.bb</a><br>
+rename to meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.=
+2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.b=
+b</a><br>
+index 19ae67cdd4..4c9c94f3d2 100644<br>
+--- a/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.2.16=
+2.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.0.bb</a=
+><br>
++++ b/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.2.17=
+0.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.bb</a=
+><br>
+@@ -11,7 +11,7 @@ LICENSE =3D &quot;Apache-2.0&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D3b83ef96387f1465=
+5fc854ddc3c6bd57&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/KhronosGroup/Vu=
+lkan-Headers.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">gith=
+ub.com/KhronosGroup/Vulkan-Headers.git;branch=3Dmaster</a>&quot;<br>
+<br>
+-SRCREV =3D &quot;87aaa16d4c8e1ac70f8f04acdcd46eed4bd77209&quot;<br>
++SRCREV =3D &quot;1d99b835ec3cd5a7fb2f2a2dd9a615ee2d1f0101&quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000d46cb605bda4dd2f--
