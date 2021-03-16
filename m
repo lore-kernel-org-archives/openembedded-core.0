@@ -1,111 +1,100 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.240.1615924877109222607
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.603.1615926216393525295
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 13:01:17 -0700
+ Tue, 16 Mar 2021 13:23:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0pTeUcnh;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.41, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f41.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so68520wmj.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 13:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Adwl+2NjobyaV28a2IZyK77ZEROhLyN1OffNevpQMng=;
-        b=0pTeUcnhRKgobjkGyozPvt5fuCo8RLfCr3A5S0Eda/k+CyWx/AmpghojqbUITF3wj2
-         kZLTPtM54krWIKszuiEptNN5trnljMN+UuUrICEdkMqq3lzCKv35wpTh23C1mGoctEFX
-         I1nE10qLMAThUsgdMdeM8P80ctDjbb+p9SmvrNSd9QaOJEb3kH723nLEfPlpEjPzTMj8
-         G13436qzUZJ9uj36W5lIZ5LeOyEjJhT/krurY/waoVafgskYY2L7kfH+3A0pTX/pLgJj
-         LKzdkdk6hWbG74h3rqx6OA0JT1AXqXEpMpo97tkmc+sD6KA5it+zGf9ZwLiesSQsOrVP
-         pzVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Adwl+2NjobyaV28a2IZyK77ZEROhLyN1OffNevpQMng=;
-        b=odcuPQfy0zotZXnhJ31GBY93tuToKWkoGFzbQzBcHHA8Fv6TI8SW+WW6JMLmVPrPlJ
-         AO3PqorChSJCXhiQrmlv1wkcDvLH24n1/70P+O2hTGT07n0LFyFm5ALaLP1H6sNNQ0VA
-         hUZWEksCuDCV3cQ2fS9GsxBlkfMJZ0VafxykNXwT2mG83ZQwqUpwIJRJsqI6tXr8xbbS
-         G/SwuOPk+8hioEfjMZVWYWUCp/LKJSoHPyTwfBpgjLPxicokNyITFsqMSSJpusWKLBPQ
-         Aw0jKKO1eUtaUQDyE+9p4t1rTyWGTQGi7zyGzLGbxYAM/LFNahlAvjeWcDcZChwLZpyv
-         bH8Q==
-X-Gm-Message-State: AOAM530AX6mjjtJN49mrLG/bdimZmsw33ae0JZkRr2PP3eFP9rB0XXuU
-	g5zbE+uw4+2iIgkLbe1Ln+2MDjHbvEGUjmTRuICDgg==
-X-Google-Smtp-Source: ABdhPJwshWibnBicouWlQPtnrBsOIEokstbrrKOrdOUNuFK2lT2z2mqAYienZxCTRJGfDWDmtGHFGCCh2es235m+XPs=
-X-Received: by 2002:a7b:c931:: with SMTP id h17mr504888wml.4.1615924875427;
- Tue, 16 Mar 2021 13:01:15 -0700 (PDT)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=UgxdVxsI;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (unknown [83.135.176.121])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 63858209C349;
+	Tue, 16 Mar 2021 13:23:34 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 63858209C349
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1615926215;
+	bh=f2A92er9e/Eq5661/3ixilgy6Wxbs4yLM0fX8yTt9nw=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=UgxdVxsI1NM+iOHBchBEUeF0xVdd+LDuJw9BwgohF+L5c7Ze2cUouAjcx5SXnKqsH
+	 WOjuVuFGu1ln/eCsP1GRxuxGktxzhrROwireRPtydZY7VNdxDGBPfQwekWPeeQWJ+i
+	 sagX1g4jcGcVOcRp8cmy2s0eY7yCMJ0QrZd4J4/M=
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Denys Dmytriyenko <denis@denix.org>,
+ "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
+ Khem Raj <raj.khem@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+ <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
+ <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
+ <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
+ <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
+ <20210315213606.GP4892@denix.org>
+ <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
+ <CAOSpxdbSVPDC9hDcyYhjvSwdbRnaPJ_VbaLscMLNhiwrVN6u-A@mail.gmail.com>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <c115a501-d7ce-3c30-7964-6e0afc373305@linux.microsoft.com>
+Date: Tue, 16 Mar 2021 21:23:31 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <6409e1bf-9400-886e-cd25-76b52456c8ed@hilscher.com>
- <5dcf9ff95e74274d5cebcfe34a0c9de4ce9e886e.camel@linuxfoundation.org> <168e0cb1-582c-8c14-b394-d23f1119178a@hilscher.com>
-In-Reply-To: <168e0cb1-582c-8c14-b394-d23f1119178a@hilscher.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 16 Mar 2021 10:01:03 -1000
-Message-ID: <CAOSpxdZxridvyrtK+Zc2pzjVbNM99nsVbAWKN05uU5Ur7R542Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-firmware: Fix packaging
-To: Michael Trensch <mtrensch@hilscher.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAOSpxdbSVPDC9hDcyYhjvSwdbRnaPJ_VbaLscMLNhiwrVN6u-A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Tue, Mar 16, 2021 at 9:47 AM Michael Trensch <mtrensch@hilscher.com> wro=
-te:
->
->
->
-> On 16.03.2021 18:56, Richard Purdie wrote:
-> > On Tue, 2021-03-16 at 07:24 +0000, Michael Trensch wrote:
-> >> Upstream directory layout has changed after update in commit 20a983b9=
-c405b483152f1c600d767e04683dfabf,
-> >>   resulting in some package to pull in linux-firmware base package.
-> >> This may cause an image size increase of approximately 700MB.
-> >
-> > This patch doesn't seem to apply against master, could you rebase
-> > and resend please?
->
-> Sorry, I forgot to mention this one was for dunfell. Shall I resend this
-> one with a dunfell marker or is it OK, with this answer.
->
-> Additionally I will re-check if master is also affected and send a patch
-> if necessary.
+Hi,
 
-Actually it doesn't apply to dunfell either (dunfell and master are
-both at version 20210208)
-
-So best to submit for master and I will cherry-pick to dunfell.
-
-Thanks for fixing this!
-
-Steve
-
-
-> Hilscher Gesellschaft f=C3=BCr Systemautomation mbH   |  Rheinstrasse 15=
-  |  65795 Hattersheim  |  Germany  |  www.hilscher.com<http://www.hilscher=
-.com>
-> Sitz der Gesellschaft / place of business: Hattersheim  |  Gesch=C3=A4ft=
-sf=C3=BChrer / managing director: Sebastian Hilscher, Hans-J=C3=BCrgen Hils=
-cher
-> Handelsregister / commercial register: Frankfurt B 26873  |  Ust. Idnr. =
-/ VAT No.: DE113852715
-> Registergericht / register court: Amtsgericht Frankfurt/Main
+On 3/16/2021 4:45 PM, Steve Sakoman wrote:
+> On Tue, Mar 16, 2021 at 2:56 AM Anatol Belski
+> <anbelski@linux.microsoft.com> wrote:
+>> Hi,
+>>
+>> On 3/15/2021 10:36 PM, Denys Dmytriyenko wrote:
+>>> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable.2FLTS_Patch_Acceptance_Policies
+>>>
+>>> Stable/LTS Patch Acceptance Policies
+>>>
+>>> Potentially Acceptable:
+>>> * Bug fix only version upgrades for upstreams with a good stable process
+>>>
+>>> Unacceptable:
+>>> * General version upgrades
+>>>
+>>>
+>>> So, unless there's a bugfix-only minor release of glibc, e.g. 2.31.1,
+>>> upgrading to 2.32 or 2.33 in stable branches is highly unlikely, as both
+>>> 2.32 and 2.33 have long lists of major changes:
+>>>
+>>> https://sourceware.org/pipermail/libc-announce/2020/000029.html
+>>> https://sourceware.org/pipermail/libc-announce/2021/000030.html
+>> thanks for linking the LTS doc.
+>>
+>> My suggestion was to pull the latest upstream from 2.31 actually, not
+>> upgrading the glibc version. As per
+>>
+>> http://git.yoctoproject.org/clean/cgit.cgi/poky/tree/meta/recipes-core/glibc/glibc-version.inc?h=dunfell
+>>
+>> we consume from the branch release/2.31/master. It already contains the
+>> backported patch fixing this CVE.
+>>
+>> There doesn't seem to be a release process in terms of versions, but it
+>> regularly receives backports. In fact,
+>>
+>> there are already some bug and CVE fixes between the current SRCREV used
+>> and HEAD.
+> I'd be happy to take such a patch for dunfell.
 >
-> Important Information:
-> This e-mail message including its attachments contains confidential and =
-legally protected information solely intended for the addressee. If you are=
- not the intended addressee of this message, please contact the addresser i=
-mmediately and delete this message including its attachments. The unauthori=
-zed dissemination, copying and change of this e-mail are strictly forbidden=
-. The addresser shall not be liable for the content of such changed e-mails=
-.
+> I'll add it to my to do list to look into this, but if someone has the
+> time/inclination to tackle this it might get done sooner :-)
 >
-> Wichtiger Hinweis:
-> Diese E-Mail einschlie=C3=9Flich ihrer Anh=C3=A4nge enth=C3=A4lt vertrau=
-liche und rechtlich gesch=C3=BCtzte Informationen, die nur f=C3=BCr den Adr=
-essaten bestimmt sind. Sollten Sie nicht der bezeichnete Adressat sein, so =
-teilen Sie dies bitte dem Absender umgehend mit und l=C3=B6schen Sie diese =
-Nachricht und ihre Anh=C3=A4nge. Die unbefugte Weitergabe, das Anfertigen v=
-on Kopien und jede Ver=C3=A4nderung der E-Mail ist untersagt. Der Absender =
-haftet nicht f=C3=BCr Inhalte von ver=C3=A4nderten E-Mails.
+> Since there is no versioning from upstream it will be important in
+> this patch to make sure that we whitelist all of the CVE's that are
+> fixed with the bump in SRCREV.
 >
->=20
->
+I'd be able to do a run on this closer to the end of this week, if no 
+one beats me to it (perhaps Khairul, the initial patch contributor ;)).
+
+Regards
+
+Anatol
+
