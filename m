@@ -1,51 +1,53 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.6713.1615892525482318526
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.7072.1615894723626510237
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 04:02:05 -0700
+ Tue, 16 Mar 2021 04:38:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uBtjcISZ;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 124-20020a1c00820000b029010b871409cfso1161802wma.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 04:02:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dfVEq9Fn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id d139-20020a1c1d910000b029010b895cb6f2so1249260wmd.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 04:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pC3z20bfJoqZSdenjoGTm6UWh6+hnQCsPFqkPwtVRzQ=;
-        b=uBtjcISZt9bSy4RBEfLWhU3PkM6VZQ6+taLy2Jpj7LW/OG0LgogjmIBOwn0S5Qfd9Q
-         p6bpxlW6APPBsvODQ8WDOuYfSWDNAGhm8UzdP0FFDUWxxa843UvEOwyj+xgOGxNeJSDC
-         4PphuY1FKTy33v8iISPW21HDZIurQQ9RcBTefaWUPOY5MiNu4qpVC9LDDFSDds/e+X63
-         SjMmrxp+gZAcO+kSQZCwV0fZPeCfgkhP3rAbb37i3cjqQYWue25jzB/KH+jMhwb0rrG2
-         MimE3fPEVNelrbF6QiTYI0MRlsJrG0z0HRFmy0rX7VnRpUZ4WTzyEhZHfy0xI/vr2nzy
-         NDQA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=T0CwuEYNnjQvDPAWYXKdfQnTDzFNK9lbuBANaDJ3OqE=;
+        b=dfVEq9FnBmY6DHjx9QZwmtXR0iJkMsEu39t0Ka9HTruGlLje6AhEukdsnQ1N2VFFu0
+         SWU62zFprcBuTbpBBNPTW3fQbQKfjYOMIp2jLFKO34Ae6AT1XmQN1/Vf3v6/EzLwjDrw
+         FbeKVtBZ/gbpwGJNmBhZ6gwBpjTeFDrxyCeyHkwzQAZG59O0kLRl+vy8nlS8TkxygQC+
+         sxVnqtuZn84aGwRjvW+Ks2J3BC7HPEYKHO6VUuKlyk2vXZTtX8dh44C3X4gLNZ+lXMkA
+         jhelzF8EmkabqhOhmE4931AVUhQL+TKlrGQG7ryCiHiL7VMQ6CkXZcHCRBlVN2rAhBjI
+         RvSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pC3z20bfJoqZSdenjoGTm6UWh6+hnQCsPFqkPwtVRzQ=;
-        b=gMoItMT9iKqYD6FAzH4lPeG8FPIZqiFNtxnHWrvxU1Wh6+EyshdHW3RlaFKMCCfMWZ
-         L35CRkDP5mEpGFIP+2AyV15ooIwEESzMCoo7lvg54c/QQx212en8MaS3AzF4JIY0iyd8
-         9TRZDeDgoo5UT0MfmkGevUcIafl6J4HotAtFN1w9Q7UfkbedG+YsKEKnhldnASSXvs3C
-         6XRvDjUhMCFnC6I9cZQZZm/7V6QSAmdfs6wXBsQyzR0/E8RpN6xwQK8KoR1aWQKlHqGo
-         hP7s7fFrvVmtVIaYZ6TWYczIhHQN7y/llxgiCWHvd1pZkxqo+CP5Ge4NiANdsAZPPa5/
-         XZeQ==
-X-Gm-Message-State: AOAM532BGXbe19xLKKRX1sy/LB8pCOHKNFRip8KlXzd3Pnye4ygco/0m
-	9Mjm5RiwTEVixbro/kDhwXTZOaJaZLU=
-X-Google-Smtp-Source: ABdhPJzimGtPBHCNpVp4KmceSqZ75LBjTapd6yLHba/kGB8rUpZteoSVN7EwazAYnS/r5tu6gflHCw==
-X-Received: by 2002:a1c:43c5:: with SMTP id q188mr4080321wma.94.1615892522855;
-        Tue, 16 Mar 2021 04:02:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=T0CwuEYNnjQvDPAWYXKdfQnTDzFNK9lbuBANaDJ3OqE=;
+        b=Ti9bBI7hwicfxPVzz3wFMdD7yKIkzXwkCoodKap/XA0+uFezCQ8xJgpqP50czJY0Y1
+         oXvFzjiNyus8VxV3fj59QkP+bX3Sj5FoiYQrM1scYrqQJq/LNyPoqLd6MYIAo/qJguGG
+         Fp/W8p4uE4/UZQHdZN6fOI/ennPwT4uY6DwQkagTAVLijrB4XfwjxE25enAEhhHg61LZ
+         IDVKOv5/sz+sGgWM0nWWnm+xs4HYPWIJWXv6kakPCGsF/dUHLbK4a6fxOu5zIVoZ2k2c
+         Xc/k1dLxEcSdkA9os0fjUQRZJkuIg4URCA3Krbhaehf8r7GfiWhmLF0A9KA+0vAw+ipE
+         ysVA==
+X-Gm-Message-State: AOAM533WJoG5jdOiuqhHvr9xZPaHNwtdkPEfgLeOXsTGzfS1GKkBXD5V
+	9f+0W9voJ1nXlxuWy4CQnIZgQXx/WWE=
+X-Google-Smtp-Source: ABdhPJycProEcDbyMk2Vy2pODchO/15yvYyi9LyHg+31kuJRhOnzvsN01Nhhrn0mlPFneNUqKUm+2A==
+X-Received: by 2002:a05:600c:4ca9:: with SMTP id g41mr4334734wmp.150.1615894721729;
+        Tue, 16 Mar 2021 04:38:41 -0700 (PDT)
 Return-Path: <luca.boccassi@gmail.com>
 Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id f22sm2789910wmc.33.2021.03.16.04.02.02
+        by smtp.gmail.com with ESMTPSA id 21sm2978652wme.6.2021.03.16.04.38.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 04:02:02 -0700 (PDT)
+        Tue, 16 Mar 2021 04:38:40 -0700 (PDT)
 From: "Luca Bocassi" <luca.boccassi@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org
-Subject: [PATCH] util-linux: backport patch to skip build of unused objects
-Date: Tue, 16 Mar 2021 11:01:59 +0000
-Message-Id: <20210316110159.1189143-1-luca.boccassi@gmail.com>
+Subject: [PATCH v2] util-linux: backport patch to skip build of unused objects
+Date: Tue, 16 Mar 2021 11:38:36 +0000
+Message-Id: <20210316113836.1194859-1-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210316110159.1189143-1-luca.boccassi@gmail.com>
+References: <20210316110159.1189143-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
@@ -62,9 +64,12 @@ Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 autoconf is still the major bottleneck, but it's a tiny patch and it was
 accepted upstream, so probably worth having even if it helps only a little
 
+v2: add EXTRA_LTLIBRARIES to CLEANFILES, which does not happen automatically
+    unlike noinst_LTLIBRARIES. Necessary for make distcheck.
+
  meta/recipes-core/util-linux/util-linux.inc   |  1 +
- ...RA_LTLIBRARIES-instead-of-noinst_LTL.patch | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ ...RA_LTLIBRARIES-instead-of-noinst_LTL.patch | 49 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
  create mode 100644 meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
 
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
@@ -80,10 +85,10 @@ index b4f817ed82..4031c586c9 100644
  SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
 diff --git a/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch b/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
 new file mode 100644
-index 0000000000..9fe3c47d58
+index 0000000000..272518914e
 --- /dev/null
 +++ b/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
-@@ -0,0 +1,40 @@
+@@ -0,0 +1,49 @@
 +Author: Luca Boccassi <luca.boccassi@microsoft.com>
 +Description: Automake: use EXTRA_LTLIBRARIES instead of noinst_LTLIBRARIES
 + noinst_LTLIBRARIES causes the libraries to be always built
@@ -104,6 +109,15 @@ index 0000000000..9fe3c47d58
 + usrbin_exec_PROGRAMS =
 + usrsbin_exec_PROGRAMS =
 + dist_man_MANS =
++@@ -169,7 +169,7 @@ else
++ edit_cmd += -e 's|@vendordir[@]||g'
++ endif
++ 
++-CLEANFILES += $(PATHFILES)
+++CLEANFILES += $(PATHFILES) $(EXTRA_LTLIBRARIES)
++ EXTRA_DIST += $(PATHFILES:=.in)
++ 
++ $(PATHFILES): Makefile
 +--- a/lib/Makemodule.am
 ++++ b/lib/Makemodule.am
 +@@ -9,7 +9,7 @@
