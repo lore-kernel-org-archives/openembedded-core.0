@@ -1,100 +1,89 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.603.1615926216393525295
+Received: from mx01.hilscher.com (mx01.hilscher.com [46.189.19.166])
+ by mx.groups.io with SMTP id smtpd.web09.625.1615926259712277018
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 13:23:36 -0700
+ Tue, 16 Mar 2021 13:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=UgxdVxsI;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
-Received: from [192.168.178.23] (unknown [83.135.176.121])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 63858209C349;
-	Tue, 16 Mar 2021 13:23:34 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 63858209C349
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1615926215;
-	bh=f2A92er9e/Eq5661/3ixilgy6Wxbs4yLM0fX8yTt9nw=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=UgxdVxsI1NM+iOHBchBEUeF0xVdd+LDuJw9BwgohF+L5c7Ze2cUouAjcx5SXnKqsH
-	 WOjuVuFGu1ln/eCsP1GRxuxGktxzhrROwireRPtydZY7VNdxDGBPfQwekWPeeQWJ+i
-	 sagX1g4jcGcVOcRp8cmy2s0eY7yCMJ0QrZd4J4/M=
-Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+ dkim=missing; spf=pass (domain: hilscher.com, ip: 46.189.19.166, mailfrom: mtrensch@hilscher.com)
+Received: from maiser03.hilscher.local (192.168.100.44) by
+ maiser03.hilscher.local (192.168.100.44) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 16 Mar 2021 21:24:16 +0100
+Received: from maiser03.hilscher.local ([::1]) by maiser03.hilscher.local
+ ([::1]) with mapi id 15.01.2176.009; Tue, 16 Mar 2021 21:24:16 +0100
+From: "Michael Trensch" <mtrensch@hilscher.com>
 To: Steve Sakoman <steve@sakoman.com>
-Cc: Denys Dmytriyenko <denis@denix.org>,
- "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
- Khem Raj <raj.khem@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
- <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
- <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
- <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
- <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
- <20210315213606.GP4892@denix.org>
- <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
- <CAOSpxdbSVPDC9hDcyYhjvSwdbRnaPJ_VbaLscMLNhiwrVN6u-A@mail.gmail.com>
-From: "Anatol Belski" <anbelski@linux.microsoft.com>
-Message-ID: <c115a501-d7ce-3c30-7964-6e0afc373305@linux.microsoft.com>
-Date: Tue, 16 Mar 2021 21:23:31 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] linux-firmware: Fix packaging
+Thread-Topic: [OE-core] [PATCH] linux-firmware: Fix packaging
+Thread-Index: AQHXGjVe76TuSylZjUWTIfF9gUDWeqqG1lMAgAAeeICAAAQ2gIAABnwA
+Date: Tue, 16 Mar 2021 20:24:16 +0000
+Message-ID: <2fc095ba-4858-58d4-ad2f-3436af3cea5d@hilscher.com>
+References: <6409e1bf-9400-886e-cd25-76b52456c8ed@hilscher.com>
+ <5dcf9ff95e74274d5cebcfe34a0c9de4ce9e886e.camel@linuxfoundation.org>
+ <168e0cb1-582c-8c14-b394-d23f1119178a@hilscher.com>
+ <CAOSpxdZxridvyrtK+Zc2pzjVbNM99nsVbAWKN05uU5Ur7R542Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdZxridvyrtK+Zc2pzjVbNM99nsVbAWKN05uU5Ur7R542Q@mail.gmail.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+x-originating-ip: [84.147.84.224]
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdbSVPDC9hDcyYhjvSwdbRnaPJ_VbaLscMLNhiwrVN6u-A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E1932896D7BA2E47BD443B8751ED776D@hilscher.com>
+Content-Transfer-Encoding: base64
 
-Hi,
-
-On 3/16/2021 4:45 PM, Steve Sakoman wrote:
-> On Tue, Mar 16, 2021 at 2:56 AM Anatol Belski
-> <anbelski@linux.microsoft.com> wrote:
->> Hi,
->>
->> On 3/15/2021 10:36 PM, Denys Dmytriyenko wrote:
->>> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable.2FLTS_Patch_Acceptance_Policies
->>>
->>> Stable/LTS Patch Acceptance Policies
->>>
->>> Potentially Acceptable:
->>> * Bug fix only version upgrades for upstreams with a good stable process
->>>
->>> Unacceptable:
->>> * General version upgrades
->>>
->>>
->>> So, unless there's a bugfix-only minor release of glibc, e.g. 2.31.1,
->>> upgrading to 2.32 or 2.33 in stable branches is highly unlikely, as both
->>> 2.32 and 2.33 have long lists of major changes:
->>>
->>> https://sourceware.org/pipermail/libc-announce/2020/000029.html
->>> https://sourceware.org/pipermail/libc-announce/2021/000030.html
->> thanks for linking the LTS doc.
->>
->> My suggestion was to pull the latest upstream from 2.31 actually, not
->> upgrading the glibc version. As per
->>
->> http://git.yoctoproject.org/clean/cgit.cgi/poky/tree/meta/recipes-core/glibc/glibc-version.inc?h=dunfell
->>
->> we consume from the branch release/2.31/master. It already contains the
->> backported patch fixing this CVE.
->>
->> There doesn't seem to be a release process in terms of versions, but it
->> regularly receives backports. In fact,
->>
->> there are already some bug and CVE fixes between the current SRCREV used
->> and HEAD.
-> I'd be happy to take such a patch for dunfell.
->
-> I'll add it to my to do list to look into this, but if someone has the
-> time/inclination to tackle this it might get done sooner :-)
->
-> Since there is no versioning from upstream it will be important in
-> this patch to make sure that we whitelist all of the CVE's that are
-> fixed with the bump in SRCREV.
->
-I'd be able to do a run on this closer to the end of this week, if no 
-one beats me to it (perhaps Khairul, the initial patch contributor ;)).
-
-Regards
-
-Anatol
-
+DQoNCk9uIDE2LjAzLjIwMjEgMjE6MDEsIFN0ZXZlIFNha29tYW4gd3JvdGU6DQo+IE9uIFR1ZSwg
+TWFyIDE2LCAyMDIxIGF0IDk6NDcgQU0gTWljaGFlbCBUcmVuc2NoIDxtdHJlbnNjaEBoaWxzY2hl
+ci5jb20+IHdyb3RlOg0KPj4gT24gMTYuMDMuMjAyMSAxODo1NiwgUmljaGFyZCBQdXJkaWUgd3Jv
+dGU6DQo+Pj4gT24gVHVlLCAyMDIxLTAzLTE2IGF0IDA3OjI0ICswMDAwLCBNaWNoYWVsIFRyZW5z
+Y2ggd3JvdGU6DQo+Pj4+IFVwc3RyZWFtIGRpcmVjdG9yeSBsYXlvdXQgaGFzIGNoYW5nZWQgYWZ0
+ZXIgdXBkYXRlIGluIGNvbW1pdCAyMGE5ODNiOWM0MDViNDgzMTUyZjFjNjAwZDc2N2UwNDY4M2Rm
+YWJmLA0KPj4+PiAgICByZXN1bHRpbmcgaW4gc29tZSBwYWNrYWdlIHRvIHB1bGwgaW4gbGludXgt
+ZmlybXdhcmUgYmFzZSBwYWNrYWdlLg0KPj4+PiBUaGlzIG1heSBjYXVzZSBhbiBpbWFnZSBzaXpl
+IGluY3JlYXNlIG9mIGFwcHJveGltYXRlbHkgNzAwTUIuDQo+Pj4NCj4+PiBUaGlzIHBhdGNoIGRv
+ZXNuJ3Qgc2VlbSB0byBhcHBseSBhZ2FpbnN0IG1hc3RlciwgY291bGQgeW91IHJlYmFzZQ0KPj4+
+IGFuZCByZXNlbmQgcGxlYXNlPw0KPj4NCj4+IFNvcnJ5LCBJIGZvcmdvdCB0byBtZW50aW9uIHRo
+aXMgb25lIHdhcyBmb3IgZHVuZmVsbC4gU2hhbGwgSSByZXNlbmQgdGhpcw0KPj4gb25lIHdpdGgg
+YSBkdW5mZWxsIG1hcmtlciBvciBpcyBpdCBPSywgd2l0aCB0aGlzIGFuc3dlci4NCj4+DQo+PiBB
+ZGRpdGlvbmFsbHkgSSB3aWxsIHJlLWNoZWNrIGlmIG1hc3RlciBpcyBhbHNvIGFmZmVjdGVkIGFu
+ZCBzZW5kIGEgcGF0Y2gNCj4+IGlmIG5lY2Vzc2FyeS4NCj4NCj4gQWN0dWFsbHkgaXQgZG9lc24n
+dCBhcHBseSB0byBkdW5mZWxsIGVpdGhlciAoZHVuZmVsbCBhbmQgbWFzdGVyIGFyZQ0KPiBib3Ro
+IGF0IHZlcnNpb24gMjAyMTAyMDgpDQo+DQo+IFNvIGJlc3QgdG8gc3VibWl0IGZvciBtYXN0ZXIg
+YW5kIEkgd2lsbCBjaGVycnktcGljayB0byBkdW5mZWxsLg0KPg0KPiBUaGFua3MgZm9yIGZpeGlu
+ZyB0aGlzIQ0KPg0KPiBTdGV2ZQ0KDQpJIHRoaW5rIGl0IGJyb2tlIHNvbWVob3cgd2hlbiB0cmFu
+c2ZlcnJpbmcgaXQgdG8gVGh1bmRlcmJpcmQgZm9yIG1haWxpbmcNCml0LiBJIGNhbm5vdCBkaXJl
+Y3RseSBhY2Nlc3Mgb3VyIG1haWwgc2VydmVyIHZpYSBTTVRQLyJnaXQgc2VuZC1lbWFpbCIgc28g
+SQ0KdG9vayBhIGRldG91ciB2aWEgVGh1bmRlcmJpcmQgYW5kIGV4Y2hhbmdlLiBQcm9iYWJseSB0
+aGlzIGJyb2tlIHRoZSBwYXRjaCwgYXMgbXkNCmxvY2FsIHBhdGNoIGZpbGUgc3RpbGwgYXBwbGll
+cyBvbiBib3RoIChkdW5mZWxsIGFuZCBtYXN0ZXIpLg0KDQpTb3JyeSBmb3IgdGhlIGNvbmZ1c2lv
+biAvIGFkZGl0aW9uYWwgd29yay4NCg0KTWljaGFlbA0KDQpIaWxzY2hlciBHZXNlbGxzY2hhZnQg
+ZsO8ciBTeXN0ZW1hdXRvbWF0aW9uIG1iSCAgIHwgIFJoZWluc3RyYXNzZSAxNSAgfCAgNjU3OTUg
+SGF0dGVyc2hlaW0gIHwgIEdlcm1hbnkgIHwgIHd3dy5oaWxzY2hlci5jb208aHR0cDovL3d3dy5o
+aWxzY2hlci5jb20+DQpTaXR6IGRlciBHZXNlbGxzY2hhZnQgLyBwbGFjZSBvZiBidXNpbmVzczog
+SGF0dGVyc2hlaW0gIHwgIEdlc2Now6RmdHNmw7xocmVyIC8gbWFuYWdpbmcgZGlyZWN0b3I6IFNl
+YmFzdGlhbiBIaWxzY2hlciwgSGFucy1Kw7xyZ2VuIEhpbHNjaGVyDQpIYW5kZWxzcmVnaXN0ZXIg
+LyBjb21tZXJjaWFsIHJlZ2lzdGVyOiBGcmFua2Z1cnQgQiAyNjg3MyAgfCAgVXN0LiBJZG5yLiAv
+IFZBVCBOby46IERFMTEzODUyNzE1DQpSZWdpc3RlcmdlcmljaHQgLyByZWdpc3RlciBjb3VydDog
+QW10c2dlcmljaHQgRnJhbmtmdXJ0L01haW4NCg0KSW1wb3J0YW50IEluZm9ybWF0aW9uOg0KVGhp
+cyBlLW1haWwgbWVzc2FnZSBpbmNsdWRpbmcgaXRzIGF0dGFjaG1lbnRzIGNvbnRhaW5zIGNvbmZp
+ZGVudGlhbCBhbmQgbGVnYWxseSBwcm90ZWN0ZWQgaW5mb3JtYXRpb24gc29sZWx5IGludGVuZGVk
+IGZvciB0aGUgYWRkcmVzc2VlLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgYWRkcmVzc2Vl
+IG9mIHRoaXMgbWVzc2FnZSwgcGxlYXNlIGNvbnRhY3QgdGhlIGFkZHJlc3NlciBpbW1lZGlhdGVs
+eSBhbmQgZGVsZXRlIHRoaXMgbWVzc2FnZSBpbmNsdWRpbmcgaXRzIGF0dGFjaG1lbnRzLiBUaGUg
+dW5hdXRob3JpemVkIGRpc3NlbWluYXRpb24sIGNvcHlpbmcgYW5kIGNoYW5nZSBvZiB0aGlzIGUt
+bWFpbCBhcmUgc3RyaWN0bHkgZm9yYmlkZGVuLiBUaGUgYWRkcmVzc2VyIHNoYWxsIG5vdCBiZSBs
+aWFibGUgZm9yIHRoZSBjb250ZW50IG9mIHN1Y2ggY2hhbmdlZCBlLW1haWxzLg0KDQpXaWNodGln
+ZXIgSGlud2VpczoNCkRpZXNlIEUtTWFpbCBlaW5zY2hsaWXDn2xpY2ggaWhyZXIgQW5ow6RuZ2Ug
+ZW50aMOkbHQgdmVydHJhdWxpY2hlIHVuZCByZWNodGxpY2ggZ2VzY2jDvHR6dGUgSW5mb3JtYXRp
+b25lbiwgZGllIG51ciBmw7xyIGRlbiBBZHJlc3NhdGVuIGJlc3RpbW10IHNpbmQuIFNvbGx0ZW4g
+U2llIG5pY2h0IGRlciBiZXplaWNobmV0ZSBBZHJlc3NhdCBzZWluLCBzbyB0ZWlsZW4gU2llIGRp
+ZXMgYml0dGUgZGVtIEFic2VuZGVyIHVtZ2VoZW5kIG1pdCB1bmQgbMO2c2NoZW4gU2llIGRpZXNl
+IE5hY2hyaWNodCB1bmQgaWhyZSBBbmjDpG5nZS4gRGllIHVuYmVmdWd0ZSBXZWl0ZXJnYWJlLCBk
+YXMgQW5mZXJ0aWdlbiB2b24gS29waWVuIHVuZCBqZWRlIFZlcsOkbmRlcnVuZyBkZXIgRS1NYWls
+IGlzdCB1bnRlcnNhZ3QuIERlciBBYnNlbmRlciBoYWZ0ZXQgbmljaHQgZsO8ciBJbmhhbHRlIHZv
+biB2ZXLDpG5kZXJ0ZW4gRS1NYWlscy4NCg==
