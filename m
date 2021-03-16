@@ -1,153 +1,101 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web11.6491.1615890678378372477
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.6448.1615891658924298255
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 03:31:18 -0700
+ Tue, 16 Mar 2021 03:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YsUGZW39;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id p24so17880615vsj.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 03:31:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PzyLMdzg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id j3so20913763edp.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 03:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rSO8YKehZMIdZgXdDuTRRhoMzTlNUjfRz/BvyLcuIG4=;
-        b=YsUGZW39g7djRCu9/UA/K3kdVZ+cY6VK3nWT9g1vUR2TvMVLWNaGQcK9T1Jc7i2p1T
-         UhGNBvFA1KxqiUYBxUQi/lJ5JI3QGsdDhusIWHbsfdQliQ6ZHxD7RtmVF06mpjw4oGNV
-         bOhKip99PHv8rYnPaMBSq1LpFO2Ufv/KfcnV5AHYV9/ogY957NJUmbsfAo4g70FKH4F5
-         fHCa8G7psMNqtriUoJ83nnG++QKzthSMeuxI2sk3NFt8heR7AAuoqc19yvpk4+8UmNoE
-         p2AroP8WSJoAbGaamUUlXNrx5SrxPpV4e+KefBAwF/eQ26tix+6H2SPg+m31/V7UzZg5
-         7+Ig==
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=w81TVoKIGfKJh6gR97Ya535YEp4a/1gQNmTgECYHQio=;
+        b=PzyLMdzgHmqP3DCr0Dc7FlQSMD0aNoucFEpMhsxP4ydlXe+wtbei5uiiB7Kis+9cV2
+         wsnp0Pngh22oMKhtVzJqksiwfPCjB4wnyVpHWDFV3aiihG/UabpXZmI7O1JAv6+MuVin
+         /1sj+hplGYi5dp6TYLsgXlXd6Y5/fGli8tzc8goaLGHFiCpM40/ShB2G3On32jElDMsl
+         4joJItwBEYrGYuIBGYEZxQKRPf2LerdSrxjawlFRU9+5TXlVZZYesGVvYWsWHAjUuolc
+         gZWh1qz7Bp+ilb0jvqUh1oP36glB2gRDGoieb+lDIn8hZTSa48Rk0J14k63lpgihkDa4
+         vfWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rSO8YKehZMIdZgXdDuTRRhoMzTlNUjfRz/BvyLcuIG4=;
-        b=LEyM88tGYMajwfqR+fTffANLFo4OQVs3PwEwFI7iFoxqB9FcqMWGngS3H2OosRQfSD
-         8Xt2JTvRZgZRqfyo0MsFQcS3CrhGbTJbY658iAk0QFXCmeU+qKkOH/SwKlgl8pBBB8KC
-         cQQB2r4TtwFGXlUuB0TKCEpub8RC80mrGSCt3f/xdaXIZ79QTxqwZVG5zTaGoZnvSN9d
-         C3tmuNMrGlNFAxXlrVKbXL3gua5rU4n5fqOPAuu9ggEjIsKSlDhraSh45sYBiQbmlF80
-         jqeKy+0vPgcdTSa6gJga9hBuTdi7uT3R5QNGr1T73+ZyUgaAeEAhBAlXVvpZxRlsdZjk
-         EOJA==
-X-Gm-Message-State: AOAM531xhBwUmi3B22TyqcNW043GkzF0KSErtrUFlH2MA9Q+RG3pk29T
-	1tXK5AZEJaIh9hAv5EuF95kLBTRFpqPJ+1YTnzw=
-X-Google-Smtp-Source: ABdhPJzAWcC9LJK4/NG3jkv9tN+TRK1opqXnWBWrTOUj/yIO7uUQZhmJqBSWy2HiykkmIenB/eC4T+yHRS1G3mXF9UM=
-X-Received: by 2002:a67:bc11:: with SMTP id t17mr7013810vsn.51.1615890677524;
- Tue, 16 Mar 2021 03:31:17 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=w81TVoKIGfKJh6gR97Ya535YEp4a/1gQNmTgECYHQio=;
+        b=HtF8ArcUYWMjZn6ibj2gkfIF8m2pRVIiUvuKqjFfOm++qJA4Y2xEJj0c4QFquA7432
+         z4GitAaTzd/Qz37HmLRekz3Ub1pjfFVD7VbW3f0fY3wbYQteenJDLYaQaSVigWg1hMcX
+         riUzLsbhERPu9hloyx0abjDh25bsXZvCEGyei2ac9OtLXSshPJyf/22Q9FH5TGPtMc8G
+         jbLeFBks7GA/r9KeGaXmyvAre/ZDl5RtO2KWVZlKoOnHI59LaenzCt9QVExcjlmBfFcq
+         +91d6qleUqRCfVPN/+Z1Meeb2zQgDVLzSYfI1F6xINKW//WHILqPS5cczGn4WnW+ndxM
+         qqWw==
+X-Gm-Message-State: AOAM533KS2Rwbch9encNy02+p5UtPEHpdaYuHoF+vUcIn2dLX9A6k1AY
+	RhDQYA2Hz0UNfqn3Im3JPy8=
+X-Google-Smtp-Source: ABdhPJy1mLC+2EEgNUBc2s4xAHeVjCdr7BJNiOFlmgt4RtXGzJSo1EoNnP0hGAWGuyZMqMdK2jcnEQ==
+X-Received: by 2002:aa7:c4cc:: with SMTP id p12mr34439884edr.325.1615891657280;
+        Tue, 16 Mar 2021 03:47:37 -0700 (PDT)
+Return-Path: <max.oss.09@gmail.com>
+Received: from Saturn.fritz.box ([81.221.211.103])
+        by smtp.googlemail.com with ESMTPSA id bx2sm10143845edb.80.2021.03.16.03.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 03:47:36 -0700 (PDT)
+Message-ID: <6272b57339e51667b691af97acb70435811e5083.camel@gmail.com>
+Subject: Re: [OE-core] unwanted linux kernel image added to /boot directory
+From: "Max Krummenacher" <max.oss.09@gmail.com>
+To: scott.branden@broadcom.com, openembedded-core@lists.openembedded.org
+Date: Tue, 16 Mar 2021 11:47:36 +0100
+In-Reply-To: <510db8eb-fcb2-ca15-3813-b3d52e51fce6@broadcom.com>
+References: <166CA878538D6557.30053@lists.openembedded.org>
+	 <510db8eb-fcb2-ca15-3813-b3d52e51fce6@broadcom.com>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-References: <1615889439-19781-1-git-send-email-wangmy@cn.fujitsu.com> <1615889439-19781-2-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1615889439-19781-2-git-send-email-wangmy@cn.fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 16 Mar 2021 11:31:06 +0100
-Message-ID: <CANNYZj8ZWh8bJFWDkyVPQfstrCsbLnYGSVr12jSLdZeXnAbZXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vulkan-headers: upgrade 1.2.162.0 -> 1.2.170.0
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d46cb605bda4dd2f"
-
---000000000000d46cb605bda4dd2f
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This needs to be updated in tandem with vulkan-loader and vulkan-tools.
+Hi
 
-Alex
-
-On Tue, 16 Mar 2021 at 11:11, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
-
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  ...{vulkan-headers_1.2.162.0.bb => vulkan-headers_1.2.170.0.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/vulkan/{vulkan-headers_1.2.162.0.bb =>
-> vulkan-headers_1.2.170.0.bb} (93%)
->
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
-> b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
-> similarity index 93%
-> rename from meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
-> rename to meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
-> index 19ae67cdd4..4c9c94f3d2 100644
-> --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.2.162.0.bb
-> +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.2.170.0.bb
-> @@ -11,7 +11,7 @@ LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM =
-> "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
->  SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=master
-> "
->
-> -SRCREV = "87aaa16d4c8e1ac70f8f04acdcd46eed4bd77209"
-> +SRCREV = "1d99b835ec3cd5a7fb2f2a2dd9a615ee2d1f0101"
->
->  S = "${WORKDIR}/git"
->
-> --
-> 2.25.1
->
->
+Am Montag, den 15.03.2021, 20:13 -0700 schrieb Scott Branden via lists.openembedded.org:
+> It appears that inherit of the kernel_do_install routine is called which causes the linux
+> image to be installed in /boot.  I added a quick and dirty hack to inhibit this behaviour.
+> Could someone please comment on a proper solution:
 > 
->
->
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ddff2ddcd2..527f6ca85d 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -428,7 +428,9 @@ kernel_do_install() {
+>  
+>         for imageType in ${KERNEL_IMAGETYPES} ; do
+>                 if [ $imageType != "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
+> -                       install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
+> ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
+> +                       if [ "${INHIBIT_IMAGE_IN_BOOT}" != "1" ] ; then
+> +                               install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
+> ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
+> +                       fi
+>                 fi
+>         done
+> 
+> 
+> On 2021-03-15 4:39 p.m., Scott Branden via lists.openembedded.org wrote:
+> > Hello,
+> > 
+> > There seems to be a problem when a kernel module is added to an initramfs image.
+> > 
+> > As soon as I add a recipe which installs an external kernel module into an initramfs image it
+> > automatically installs the linux kernel image in a /boot directory.
+> > 
+> > This is really bad as it increases the size of the initramfs image.
+> > 
+> > /boot/Image should not be installed in the image when an external kernel module is added to an
+> > image.
+> > 
+> > Can someone suggest a fix to this issue?
+> > 
 
---000000000000d46cb605bda4dd2f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+One usually does in the machine configuration:
 
-<div dir=3D"ltr"><div>This needs to be updated in tandem with vulkan-loader=
- and vulkan-tools.</div><div><br></div><div>Alex<br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 16 Mar 20=
-21 at 11:11, Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com">wangm=
-y@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.=
-fujitsu.com" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0...{<a href=3D"http://vulkan-headers_1.2.162.0.bb" rel=3D"noreferrer=
-" target=3D"_blank">vulkan-headers_1.2.162.0.bb</a> =3D&gt; <a href=3D"http=
-://vulkan-headers_1.2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan=
--headers_1.2.170.0.bb</a>} | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-graphics/vulkan/{<a href=3D"http://vulkan-header=
-s_1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162=
-.0.bb</a> =3D&gt; <a href=3D"http://vulkan-headers_1.2.170.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">vulkan-headers_1.2.170.0.bb</a>} (93%)<br>
-<br>
-diff --git a/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers=
-_1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.=
-0.bb</a> b/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.=
-2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.b=
-b</a><br>
-similarity index 93%<br>
-rename from meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_=
-1.2.162.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.0=
-.bb</a><br>
-rename to meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.=
-2.170.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.b=
-b</a><br>
-index 19ae67cdd4..4c9c94f3d2 100644<br>
---- a/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.2.16=
-2.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.162.0.bb</a=
-><br>
-+++ b/meta/recipes-graphics/vulkan/<a href=3D"http://vulkan-headers_1.2.17=
-0.0.bb" rel=3D"noreferrer" target=3D"_blank">vulkan-headers_1.2.170.0.bb</a=
-><br>
-@@ -11,7 +11,7 @@ LICENSE =3D &quot;Apache-2.0&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D3b83ef96387f1465=
-5fc854ddc3c6bd57&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/KhronosGroup/Vu=
-lkan-Headers.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">gith=
-ub.com/KhronosGroup/Vulkan-Headers.git;branch=3Dmaster</a>&quot;<br>
-<br>
--SRCREV =3D &quot;87aaa16d4c8e1ac70f8f04acdcd46eed4bd77209&quot;<br>
-+SRCREV =3D &quot;1d99b835ec3cd5a7fb2f2a2dd9a615ee2d1f0101&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+RDEPENDS_${KERNEL_PACKAGE_NAME}-base = ""
 
---000000000000d46cb605bda4dd2f--
+Max
+
