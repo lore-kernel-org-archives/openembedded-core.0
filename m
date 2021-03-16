@@ -1,101 +1,129 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.6448.1615891658924298255
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.6713.1615892525482318526
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 03:47:39 -0700
+ Tue, 16 Mar 2021 04:02:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PzyLMdzg;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id j3so20913763edp.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 03:47:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uBtjcISZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 124-20020a1c00820000b029010b871409cfso1161802wma.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 04:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=w81TVoKIGfKJh6gR97Ya535YEp4a/1gQNmTgECYHQio=;
-        b=PzyLMdzgHmqP3DCr0Dc7FlQSMD0aNoucFEpMhsxP4ydlXe+wtbei5uiiB7Kis+9cV2
-         wsnp0Pngh22oMKhtVzJqksiwfPCjB4wnyVpHWDFV3aiihG/UabpXZmI7O1JAv6+MuVin
-         /1sj+hplGYi5dp6TYLsgXlXd6Y5/fGli8tzc8goaLGHFiCpM40/ShB2G3On32jElDMsl
-         4joJItwBEYrGYuIBGYEZxQKRPf2LerdSrxjawlFRU9+5TXlVZZYesGVvYWsWHAjUuolc
-         gZWh1qz7Bp+ilb0jvqUh1oP36glB2gRDGoieb+lDIn8hZTSa48Rk0J14k63lpgihkDa4
-         vfWg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pC3z20bfJoqZSdenjoGTm6UWh6+hnQCsPFqkPwtVRzQ=;
+        b=uBtjcISZt9bSy4RBEfLWhU3PkM6VZQ6+taLy2Jpj7LW/OG0LgogjmIBOwn0S5Qfd9Q
+         p6bpxlW6APPBsvODQ8WDOuYfSWDNAGhm8UzdP0FFDUWxxa843UvEOwyj+xgOGxNeJSDC
+         4PphuY1FKTy33v8iISPW21HDZIurQQ9RcBTefaWUPOY5MiNu4qpVC9LDDFSDds/e+X63
+         SjMmrxp+gZAcO+kSQZCwV0fZPeCfgkhP3rAbb37i3cjqQYWue25jzB/KH+jMhwb0rrG2
+         MimE3fPEVNelrbF6QiTYI0MRlsJrG0z0HRFmy0rX7VnRpUZ4WTzyEhZHfy0xI/vr2nzy
+         NDQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=w81TVoKIGfKJh6gR97Ya535YEp4a/1gQNmTgECYHQio=;
-        b=HtF8ArcUYWMjZn6ibj2gkfIF8m2pRVIiUvuKqjFfOm++qJA4Y2xEJj0c4QFquA7432
-         z4GitAaTzd/Qz37HmLRekz3Ub1pjfFVD7VbW3f0fY3wbYQteenJDLYaQaSVigWg1hMcX
-         riUzLsbhERPu9hloyx0abjDh25bsXZvCEGyei2ac9OtLXSshPJyf/22Q9FH5TGPtMc8G
-         jbLeFBks7GA/r9KeGaXmyvAre/ZDl5RtO2KWVZlKoOnHI59LaenzCt9QVExcjlmBfFcq
-         +91d6qleUqRCfVPN/+Z1Meeb2zQgDVLzSYfI1F6xINKW//WHILqPS5cczGn4WnW+ndxM
-         qqWw==
-X-Gm-Message-State: AOAM533KS2Rwbch9encNy02+p5UtPEHpdaYuHoF+vUcIn2dLX9A6k1AY
-	RhDQYA2Hz0UNfqn3Im3JPy8=
-X-Google-Smtp-Source: ABdhPJy1mLC+2EEgNUBc2s4xAHeVjCdr7BJNiOFlmgt4RtXGzJSo1EoNnP0hGAWGuyZMqMdK2jcnEQ==
-X-Received: by 2002:aa7:c4cc:: with SMTP id p12mr34439884edr.325.1615891657280;
-        Tue, 16 Mar 2021 03:47:37 -0700 (PDT)
-Return-Path: <max.oss.09@gmail.com>
-Received: from Saturn.fritz.box ([81.221.211.103])
-        by smtp.googlemail.com with ESMTPSA id bx2sm10143845edb.80.2021.03.16.03.47.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pC3z20bfJoqZSdenjoGTm6UWh6+hnQCsPFqkPwtVRzQ=;
+        b=gMoItMT9iKqYD6FAzH4lPeG8FPIZqiFNtxnHWrvxU1Wh6+EyshdHW3RlaFKMCCfMWZ
+         L35CRkDP5mEpGFIP+2AyV15ooIwEESzMCoo7lvg54c/QQx212en8MaS3AzF4JIY0iyd8
+         9TRZDeDgoo5UT0MfmkGevUcIafl6J4HotAtFN1w9Q7UfkbedG+YsKEKnhldnASSXvs3C
+         6XRvDjUhMCFnC6I9cZQZZm/7V6QSAmdfs6wXBsQyzR0/E8RpN6xwQK8KoR1aWQKlHqGo
+         hP7s7fFrvVmtVIaYZ6TWYczIhHQN7y/llxgiCWHvd1pZkxqo+CP5Ge4NiANdsAZPPa5/
+         XZeQ==
+X-Gm-Message-State: AOAM532BGXbe19xLKKRX1sy/LB8pCOHKNFRip8KlXzd3Pnye4ygco/0m
+	9Mjm5RiwTEVixbro/kDhwXTZOaJaZLU=
+X-Google-Smtp-Source: ABdhPJzimGtPBHCNpVp4KmceSqZ75LBjTapd6yLHba/kGB8rUpZteoSVN7EwazAYnS/r5tu6gflHCw==
+X-Received: by 2002:a1c:43c5:: with SMTP id q188mr4080321wma.94.1615892522855;
+        Tue, 16 Mar 2021 04:02:02 -0700 (PDT)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id f22sm2789910wmc.33.2021.03.16.04.02.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 03:47:36 -0700 (PDT)
-Message-ID: <6272b57339e51667b691af97acb70435811e5083.camel@gmail.com>
-Subject: Re: [OE-core] unwanted linux kernel image added to /boot directory
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-To: scott.branden@broadcom.com, openembedded-core@lists.openembedded.org
-Date: Tue, 16 Mar 2021 11:47:36 +0100
-In-Reply-To: <510db8eb-fcb2-ca15-3813-b3d52e51fce6@broadcom.com>
-References: <166CA878538D6557.30053@lists.openembedded.org>
-	 <510db8eb-fcb2-ca15-3813-b3d52e51fce6@broadcom.com>
-User-Agent: Evolution 3.34.4 
+        Tue, 16 Mar 2021 04:02:02 -0700 (PDT)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org
+Subject: [PATCH] util-linux: backport patch to skip build of unused objects
+Date: Tue, 16 Mar 2021 11:01:59 +0000
+Message-Id: <20210316110159.1189143-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Am Montag, den 15.03.2021, 20:13 -0700 schrieb Scott Branden via lists.openembedded.org:
-> It appears that inherit of the kernel_do_install routine is called which causes the linux
-> image to be installed in /boot.  I added a quick and dirty hack to inhibit this behaviour.
-> Could someone please comment on a proper solution:
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ddff2ddcd2..527f6ca85d 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -428,7 +428,9 @@ kernel_do_install() {
->  
->         for imageType in ${KERNEL_IMAGETYPES} ; do
->                 if [ $imageType != "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
-> -                       install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
-> ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
-> +                       if [ "${INHIBIT_IMAGE_IN_BOOT}" != "1" ] ; then
-> +                               install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
-> ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
-> +                       fi
->                 fi
->         done
-> 
-> 
-> On 2021-03-15 4:39 p.m., Scott Branden via lists.openembedded.org wrote:
-> > Hello,
-> > 
-> > There seems to be a problem when a kernel module is added to an initramfs image.
-> > 
-> > As soon as I add a recipe which installs an external kernel module into an initramfs image it
-> > automatically installs the linux kernel image in a /boot directory.
-> > 
-> > This is really bad as it increases the size of the initramfs image.
-> > 
-> > /boot/Image should not be installed in the image when an external kernel module is added to an
-> > image.
-> > 
-> > Can someone suggest a fix to this issue?
-> > 
+util-linux-uuid does not need libtcolors.a and libcommon.a but
+they get build regardless. Backport a patch from upstream to
+skip them and save some compilation time.
 
-One usually does in the machine configuration:
+https://github.com/karelzak/util-linux/commit/c65953d72bbc7412f32e566d9fa6e780d84f0696
 
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base = ""
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+autoconf is still the major bottleneck, but it's a tiny patch and it was
+accepted upstream, so probably worth having even if it helps only a little
 
-Max
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ ...RA_LTLIBRARIES-instead-of-noinst_LTL.patch | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index b4f817ed82..4031c586c9 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -37,5 +37,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz
+            file://run-ptest \
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
++           file://Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch \
+            "
+ SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
+diff --git a/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch b/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
+new file mode 100644
+index 0000000000..9fe3c47d58
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
+@@ -0,0 +1,40 @@
++Author: Luca Boccassi <luca.boccassi@microsoft.com>
++Description: Automake: use EXTRA_LTLIBRARIES instead of noinst_LTLIBRARIES
++ noinst_LTLIBRARIES causes the libraries to be always built
++ unconditionally. EXTRA_LTLIBRARIES causes them to be built
++ only if other build target needs them.
++ In other words, avoid building libcommon.a and libtcolors.a
++ unless they are needed by another library/executable and
++ save some build time.
++Upstream-Status: backport, commit:c65953d72bbc7412f32e566d9fa6e780d84f0696
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -39,7 +39,7 @@ bashcompletiondir = @bashcompletiondir@
++ 
++ dist_noinst_HEADERS =
++ noinst_PROGRAMS =
++-noinst_LTLIBRARIES =
+++EXTRA_LTLIBRARIES =
++ usrbin_exec_PROGRAMS =
++ usrsbin_exec_PROGRAMS =
++ dist_man_MANS =
++--- a/lib/Makemodule.am
+++++ b/lib/Makemodule.am
++@@ -9,7 +9,7 @@
++ # Note that you need "make install-strip" (or proper rpm / Debian build)
++ # to generate binaries with only relevant stuff.
++ #
++-noinst_LTLIBRARIES += libcommon.la
+++EXTRA_LTLIBRARIES += libcommon.la
++ libcommon_la_CFLAGS = $(AM_CFLAGS)
++ libcommon_la_SOURCES = \
++ 	lib/blkdev.c \
++@@ -59,7 +59,7 @@ libcommon_la_SOURCES += lib/sysfs.c
++ endif
++ endif
++ 
++-noinst_LTLIBRARIES += libtcolors.la
+++EXTRA_LTLIBRARIES += libtcolors.la
++ libtcolors_la_CFLAGS = $(AM_CFLAGS)
++ libtcolors_la_SOURCES = lib/colors.c lib/color-names.c include/colors.h include/color-names.h
++ libtcolors_la_LIBADD =
+-- 
+2.29.2
 
