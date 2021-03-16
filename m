@@ -1,111 +1,80 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.1028.1615919885092191935
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web09.163.1615923468683531297
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 11:38:05 -0700
+ Tue, 16 Mar 2021 12:37:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 78CB640C1C
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 18:38:04 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4L3q5VT51LPA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Mar 2021 18:38:04 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6AB8D40A47
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 18:38:04 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 393E1174544; Tue, 16 Mar 2021 14:38:04 -0400 (EDT)
-Date: Tue, 16 Mar 2021 14:38:04 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] unwanted linux kernel image added to /boot directory
-Message-ID: <20210316183804.GI18041@denix.org>
-References: <a8c3bbca-1b5c-5353-9a0a-c7ecebc2fc32@broadcom.com>
- <20210315235732.GS4892@denix.org>
- <45e3e633-c15b-9010-a085-e34f6d7d0d1e@broadcom.com>
- <20210316183628.GH18041@denix.org>
+ dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=NzuBOety;
+ spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.218.41, mailfrom: brgl@bgdev.pl)
+Received: by mail-ej1-f41.google.com with SMTP id ox4so58498475ejb.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 12:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KmZfiGyvK2kzl5U46hVCDJkAr0s2z2ZyiLFxyJjxtW4=;
+        b=NzuBOety7EJRLHpoMOIBF4c0GC/GG09QjLfRefT+5DFUoziVJZ8XDR6KyBFY2SGweF
+         AnqCqPcFfLgvZUBoxzY7A0kTCXlBTBeVelcMTZ2sc8Dq/gsIj9CiQDB53DRzhTqzqgLm
+         J4IdQjCL17acpNMAdIYwmRQJ9RiC5Wd8KQAx5Erf4IubXq6p79MIvP1QTjTY1kBD2Ol6
+         XdCYc0MN7y5UIMXed/qiyTpNX0ABwLE8iBtg8VfXgHWY7psSiKz9yV90QEiv+pzAf8P4
+         fbk8S5iIReRA4JpFfBWRURRuDYD4/DnvKekzGBbllmCBWy4QUvpEI0UxuK2bMlGuN4Tz
+         1AUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KmZfiGyvK2kzl5U46hVCDJkAr0s2z2ZyiLFxyJjxtW4=;
+        b=pTHmGvDqIN9H/VO9erA/VwzijS+hEN1hyFimWyveW92ysxWrpa5vt2KskXT1544fpc
+         BqdFDVB7terwJGIh2NMP7QdPEtWCQfeMxduyO7KIQTnY620PM+vIGLV0ZVbiItwxUafH
+         4uLvC3l4T1W1oMkMRDdoRy/H8kQPIF0HC6UabnpE9Z9jKj6MzjHeOwERhDM0Ys19egWv
+         OKtm0md0Gnhr4OrNl7RS3gaYOeLU9iiD5aYIWUDE6qf9DyOuZtSUISYy0+xftmuUQBTI
+         OVr4eOpe59x6pptxLbCs+51ukmj0+XQJnS1YK9hRncPw+i++lDNRy0iDwpz9pfMaFU6E
+         zGaw==
+X-Gm-Message-State: AOAM530bQIbDb4azPgcZsojKkI6hWUwV9IL6iniZ2g5MOpNgIlhm482V
+	gAs6ge/b2krK7yKJiocjVyAecqDjQiIg9s92k7CYrw==
+X-Google-Smtp-Source: ABdhPJwltNJcM2oLDprw4QzbAmzPfi7oTVuGJIvRthf27YwO3aa7ha1mEI5W61dWt3+0WIhnhfSMWhkbgWVeStn2IH4=
+X-Received: by 2002:a17:906:3b48:: with SMTP id h8mr31349808ejf.261.1615923467229;
+ Tue, 16 Mar 2021 12:37:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210316183628.GH18041@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210307151906.30887-1-brgl@bgdev.pl>
+In-Reply-To: <20210307151906.30887-1-brgl@bgdev.pl>
+From: "Bartosz Golaszewski" <brgl@bgdev.pl>
+Date: Tue, 16 Mar 2021 20:37:36 +0100
+Message-ID: <CAMRc=MdpjNdsw=mZssZARtRhhYYBRy9aNt4rh532pGxc3Ja5Nw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] python3: make pydoc rdepend on python3-io
+To: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 16, 2021 at 02:36:28PM -0400, Denys Dmytriyenko wrote:
-> This went off the list - hope you don't mind to put it back...
+On Sun, Mar 7, 2021 at 4:19 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> pydoc needs tempfile (provided by python3-io) to work. Add python3-io
+> to its RDEPENDS.
+>
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.9.2.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/python/python3_3.9.2.bb b/meta/recipes-devtools/python/python3_3.9.2.bb
+> index af1843a180..c5e47eec4f 100644
+> --- a/meta/recipes-devtools/python/python3_3.9.2.bb
+> +++ b/meta/recipes-devtools/python/python3_3.9.2.bb
+> @@ -371,6 +371,7 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+>  RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+>  RDEPENDS_${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter tcl', '', d)}"
+>  RDEPENDS_${PN}-dev = ""
+> +RDEPENDS_${PN}-pydoc += "${PN}-io"
+>
+>  RDEPENDS_${PN}-tests_append_class-target = " ${MLPREFIX}bash"
+>  RDEPENDS_${PN}-tests_append_class-nativesdk = " ${MLPREFIX}bash"
+> --
+> 2.30.1
+>
 
-And, I ended up sending it to the wrong list... Sorry.
+Gentle ping.
 
-
-> On Tue, Mar 16, 2021 at 10:58:22AM -0700, Scott Branden wrote:
-> > Hi Denys,
-> > 
-> > Thanks for the excellent suggestions - they work.
-> > But, these seem really obscure.  I think the kernel.bbclass shouldn't automatically
-> > be installing /boot/linux to begin with.  It could be done based on an image feature
-> > selection?
-> 
-> kernel.bbclass does not populate the rootfs, it populates the corresponding 
-> package. Any rootfs/initramfs is then built by installing necessary packages 
-> into it. Whether to install a package or not is determined by IMAGE_INSTALL 
-> and dependencies between the packages.
-> 
-> 
-> > In addition, there seems to be an additional logic error in the present image
-> > creation.  If I do not install an external kernel module in the image then /boot/linux
-> > is not installed either.  Simply adding an external kernel module to an image shouldn't
-> > pull in /boot/linux into the image?
-> 
-> It is not an error, but a well-defined behavior. In the link below there's a 
-> comment about the default dependencies and how to alter them.
-> 
-> Basically, every kernel-module-* RDEPENDS on kernel-base, which normally 
-> RDEPENDS on kernel-image. So, when you insall a module into your rootfs, it 
-> follows the dependency chain properly. Hence all the suggestions you received 
-> to simply disconnect kernel-image from kernel-base.
-> 
-> That normally works for most cases, unless you need a mixed behavior that I 
-> mentioned. Hence, ROOTFS_POSTPROCESS_COMMAND trick.
-> 
-> 
-> > On 2021-03-15 4:57 p.m., Denys Dmytriyenko wrote:
-> > > On Mon, Mar 15, 2021 at 04:39:56PM -0700, Scott Branden via lists.openembedded.org wrote:
-> > >> Hello,
-> > >>
-> > >> There seems to be a problem when a kernel module is added to an initramfs 
-> > >> image.
-> > >>
-> > >> As soon as I add a recipe which installs an external kernel module into an 
-> > >> initramfs image it automatically installs the linux kernel image in a /boot 
-> > >> directory.
-> > >>
-> > >> This is really bad as it increases the size of the initramfs image.
-> > >>
-> > >> /boot/Image should not be installed in the image when an external kernel 
-> > >> module is added to an image.
-> > >>
-> > >> Can someone suggest a fix to this issue?
-> > > 
-> > > There is an ages-old control knob for that, read here:
-> > > https://git.openembedded.org/openembedded-core/tree/meta/classes/kernel.bbclass#n623
-> > > 
-> > > In your machine or distro config, you can set this as:
-> > > RDEPENDS_${KERNEL_PACKAGE_NAME}-base = ""
-> > > 
-> > > But that will affect all your images for a given machine. If you need to only 
-> > > do it selectively for your initramfs image, but keep the standard behavior for 
-> > > other images, you can do something like this in corresponding recipe:
-> > > 
-> > > ROOTFS_POSTPROCESS_COMMAND += "empty_boot_dir; "
-> > > empty_boot_dir () {
-> > >         rm -rf ${IMAGE_ROOTFS}/boot/*
-> > > }
-
--- 
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+Bartosz
