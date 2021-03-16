@@ -1,83 +1,139 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.7821.1615899415075924202
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web09.110.1615905386297647470
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 05:56:55 -0700
+ Tue, 16 Mar 2021 07:36:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=NvopQYR4;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
-Received: from [192.168.178.23] (unknown [83.135.176.121])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 31D9620B3754;
-	Tue, 16 Mar 2021 05:56:53 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 31D9620B3754
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1615899414;
-	bh=18NtGnKl8+u4jp/ui8RmNi25cNk4JUU7mLEgG2JCxdc=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=NvopQYR4Pguq886ZXjG23gxvM3JJYOD2VMMgcxkmDCwgHqQf9TroUjGtr1JO64A5S
-	 3+PmMPJwQfFGNsnx3vPtMKXl2hVs70kPO9pg9fS8IG2j82BlWoGAvMtAcAFLcuFn2S
-	 /ylMba78iZBzP49YqEfIxP0KAHdPSkJIzTbSrA3w=
-Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
- Khem Raj <raj.khem@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
- <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
- <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
- <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
- <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
- <20210315213606.GP4892@denix.org>
-From: "Anatol Belski" <anbelski@linux.microsoft.com>
-Message-ID: <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
-Date: Tue, 16 Mar 2021 13:56:43 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G5R+muXk;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id p7so61223061eju.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 07:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5GQbLvQ2XMfoCEfz20nYXUTYL3difkE2uJKbVhrjCU0=;
+        b=G5R+muXklv61S2YLOWPCsFzud7s5FKMe+UBwD41e2ZTuhGK2Fi10jzhSmMVduinpH5
+         /3TC0SxmB77ROL5Fg20j5J9KyCCy/+HMjdcMnyiXS0CM4NYiQ4jfDVCo4J0lYVMfJAHL
+         zI5MduWnO3EVkdi76SrXqEaOSor5VRwDN+I8/KIepbIkxJVWsRgHjZVT/dM6UD2WEADp
+         IFGcpKJBRD5cZOXUjRQbmscPjdlumEWoET79LoD1DEYwKH3rs2kflF3eBTPDSm5+jdrX
+         XAgz8acI6gosFzWdSttEqvS/Efpcz4WL0p8q0X7EPR4t9u6HX9iCg4jLyo098zAB4k6U
+         Wtew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5GQbLvQ2XMfoCEfz20nYXUTYL3difkE2uJKbVhrjCU0=;
+        b=DHeXh9dLBe7nxt+pAT3csY5SuD2YWoP84F8TOOI6jZKnH3UkeSprzXN/ZrHy/2BMOa
+         cVpHbjQBPi2DmFE+JxjNPQBvLk3NlagVTNzLWQYero6mi2Jo/cP9xCELu1ilYWGhC7no
+         yMsSyEk5hn3oUYP3KjJ4xMQFuyxGe5yJUqWe39Xyc0vbtBDspBFV5IfGULg0XYSWcaBL
+         /EPRYrvD9o4+69ktgsiJGIMtxrowhpOooU99Cyv12Hg8QUuABS3+8i+BCULTz6R4SR54
+         KYY2GhmLuLBpuCvc1p6SfbbUoqti1HOQa4Yzr8ZiGrkoJaqGaUKZs/ApGnXmxneh7jNz
+         u+ng==
+X-Gm-Message-State: AOAM532F3hpuh9cjBe4Dxrsr02Nu/QvsRQpFteXO2zEEJcyKoE9mbnIn
+	l/yV6n82JZphUnaTzrH90r3nmD/OU0uN+EphWo8=
+X-Google-Smtp-Source: ABdhPJxkBO6w7GPsKT9Jt+iB3IJfeHBuvheR6MpYhj5esYwIbO63meyE0Zr/VS76JwMH8BfweroyQWs0grYkmAiJiVw=
+X-Received: by 2002:a17:907:f97:: with SMTP id kb23mr29750334ejc.33.1615905384767;
+ Tue, 16 Mar 2021 07:36:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210315213606.GP4892@denix.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <JR2X.1615680903774027513.CgiZ@lists.openembedded.org> <faf97fd0-5d5c-d30b-6871-4d2b7d2ed93a@windriver.com>
+In-Reply-To: <faf97fd0-5d5c-d30b-6871-4d2b7d2ed93a@windriver.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Tue, 16 Mar 2021 14:36:28 +0000
+Message-ID: <CANPvuRkCaWA0CsA1NPVF6txoZZSGAdtL7si=_xfsKyNNPNB-bg@mail.gmail.com>
+Subject: Re: [OE-core] Gstreamer
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: manoun92@gmail.com, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007326e705bda84a6d"
 
-Hi,
+--0000000000007326e705bda84a6d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/15/2021 10:36 PM, Denys Dmytriyenko wrote:
-> https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable.2FLTS_Patch_Acceptance_Policies
+You can try to add the meta-gstreamer layer that have a more recent version
+of gstreamer
+https://github.com/OSSystems/meta-gstreamer1.0
+
+Randy MacLeod <randy.macleod@windriver.com> escreveu no dia domingo,
+14/03/2021 =C3=A0(s) 15:53:
+
+> On 2021-03-13 7:15 p.m., manoun92@gmail.com wrote:
+> > Hello, can anyone please tell me how can I add a recipe to my image
+> > without it being avaliable in Openembedded? I want to add Gstreamer fr=
+om
+> > git and not the 1.14.1 version avaliable on openembedded(warrior)
+> >
+> > Thanks!
 >
-> Stable/LTS Patch Acceptance Policies
+> Can you just clone the recipe and change it to fetch from git?
 >
-> Potentially Acceptable:
-> * Bug fix only version upgrades for upstreams with a good stable process
+> https://stackoverflow.com/questions/49535881/how-to-setup-an-yocto-recip=
+e-to-build-from-a-local-git-source
 >
-> Unacceptable:
-> * General version upgrades
+> ../Randy
+>
+> >
+> >
+> >
+> >
 >
 >
-> So, unless there's a bugfix-only minor release of glibc, e.g. 2.31.1,
-> upgrading to 2.32 or 2.33 in stable branches is highly unlikely, as both
-> 2.32 and 2.33 have long lists of major changes:
+> --
+> # Randy MacLeod
+> # Wind River Linux
 >
-> https://sourceware.org/pipermail/libc-announce/2020/000029.html
-> https://sourceware.org/pipermail/libc-announce/2021/000030.html
+>=20
+>
+>
 
-thanks for linking the LTS doc.
+--=20
+Best regards,
 
-My suggestion was to pull the latest upstream from 2.31 actually, not 
-upgrading the glibc version. As per
+Jos=C3=A9 Quaresma
 
-http://git.yoctoproject.org/clean/cgit.cgi/poky/tree/meta/recipes-core/glibc/glibc-version.inc?h=dunfell
+--0000000000007326e705bda84a6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-we consume from the branch release/2.31/master. It already contains the 
-backported patch fixing this CVE.
+<div dir=3D"ltr"><div>You can try to add the meta-gstreamer layer that have=
+ a more recent version of gstreamer<br></div><div><a href=3D"https://github=
+.com/OSSystems/meta-gstreamer1.0">https://github.com/OSSystems/meta-gstream=
+er1.0</a></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windrive=
+r.com">randy.macleod@windriver.com</a>&gt; escreveu no dia domingo, 14/03/2=
+021 =C3=A0(s) 15:53:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On 2021-03-13 7:15 p.m., <a href=3D"mailto:manoun92@gmail.com" target=
+=3D"_blank">manoun92@gmail.com</a> wrote:<br>
+&gt; Hello, can anyone please tell me how can I add a recipe to my image <=
+br>
+&gt; without it being avaliable in Openembedded? I want to add Gstreamer f=
+rom <br>
+&gt; git and not the 1.14.1 version avaliable on openembedded(warrior)<br>
+&gt; <br>
+&gt; Thanks!<br>
+<br>
+Can you just clone the recipe and change it to fetch from git?<br>
+<a href=3D"https://stackoverflow.com/questions/49535881/how-to-setup-an-yo=
+cto-recipe-to-build-from-a-local-git-source" rel=3D"noreferrer" target=3D"_=
+blank">https://stackoverflow.com/questions/49535881/how-to-setup-an-yocto-r=
+ecipe-to-build-from-a-local-git-source</a><br>
+<br>
+../Randy<br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+# Randy MacLeod<br>
+# Wind River Linux<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma<=
+/div></div></div>
 
-There doesn't seem to be a release process in terms of versions, but it 
-regularly receives backports. In fact,
-
-there are already some bug and CVE fixes between the current SRCREV used 
-and HEAD.
-
-Regards
-
-Anatol
-
-
+--0000000000007326e705bda84a6d--
