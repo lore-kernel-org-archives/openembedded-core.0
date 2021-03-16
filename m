@@ -1,92 +1,86 @@
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.617.1615916383276445483
+ by mx.groups.io with SMTP id smtpd.web11.57.1615916677501857659
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 10:39:43 -0700
+ Tue, 16 Mar 2021 10:44:37 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 8801B40C1C;
-	Tue, 16 Mar 2021 17:39:42 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DBB9D40C1C;
+	Tue, 16 Mar 2021 17:44:36 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ctNNxlPKITkl; Tue, 16 Mar 2021 17:39:42 +0000 (UTC)
+	with ESMTP id Pxs9aWxtIju4; Tue, 16 Mar 2021 17:44:36 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 5AF6140A47;
-	Tue, 16 Mar 2021 17:39:39 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AC71840A47;
+	Tue, 16 Mar 2021 17:44:33 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id 1D83A174544; Tue, 16 Mar 2021 13:39:39 -0400 (EDT)
-Date: Tue, 16 Mar 2021 13:39:39 -0400
+	id 754AB174544; Tue, 16 Mar 2021 13:44:33 -0400 (EDT)
+Date: Tue, 16 Mar 2021 13:44:33 -0400
 From: "Denys Dmytriyenko" <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Max Krummenacher <max.oss.09@gmail.com>,
-	Scott Branden <scott.branden@broadcom.com>,
+To: Anatol Belski <anbelski@linux.microsoft.com>
+Cc: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
+	Khem Raj <raj.khem@gmail.com>,
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] unwanted linux kernel image added to /boot directory
-Message-ID: <20210316173939.GE18041@denix.org>
-References: <166CA878538D6557.30053@lists.openembedded.org>
- <510db8eb-fcb2-ca15-3813-b3d52e51fce6@broadcom.com>
- <6272b57339e51667b691af97acb70435811e5083.camel@gmail.com>
- <CAMKF1soyA72Ue65jPYBsLNhCJaYm6_mAu1U0PMi2gpm70hr6Xg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+Message-ID: <20210316174433.GF18041@denix.org>
+References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+ <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
+ <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
+ <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
+ <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
+ <20210315213606.GP4892@denix.org>
+ <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soyA72Ue65jPYBsLNhCJaYm6_mAu1U0PMi2gpm70hr6Xg@mail.gmail.com>
+In-Reply-To: <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Mar 16, 2021 at 09:55:53AM -0700, Khem Raj wrote:
-> On Tue, Mar 16, 2021 at 3:47 AM Max Krummenacher <max.oss.09@gmail.com> wrote:
-> >
-> > Hi
-> >
-> > Am Montag, den 15.03.2021, 20:13 -0700 schrieb Scott Branden via lists.openembedded.org:
-> > > It appears that inherit of the kernel_do_install routine is called which causes the linux
-> > > image to be installed in /boot.  I added a quick and dirty hack to inhibit this behaviour.
-> > > Could someone please comment on a proper solution:
-> > >
-> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > > index ddff2ddcd2..527f6ca85d 100644
-> > > --- a/meta/classes/kernel.bbclass
-> > > +++ b/meta/classes/kernel.bbclass
-> > > @@ -428,7 +428,9 @@ kernel_do_install() {
-> > >
-> > >         for imageType in ${KERNEL_IMAGETYPES} ; do
-> > >                 if [ $imageType != "fitImage" ] || [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
-> > > -                       install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
-> > > ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
-> > > +                       if [ "${INHIBIT_IMAGE_IN_BOOT}" != "1" ] ; then
-> > > +                               install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType
-> > > ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
-> > > +                       fi
-> > >                 fi
-> > >         done
-> > >
-> > >
-> > > On 2021-03-15 4:39 p.m., Scott Branden via lists.openembedded.org wrote:
-> > > > Hello,
-> > > >
-> > > > There seems to be a problem when a kernel module is added to an initramfs image.
-> > > >
-> > > > As soon as I add a recipe which installs an external kernel module into an initramfs image it
-> > > > automatically installs the linux kernel image in a /boot directory.
-> > > >
-> > > > This is really bad as it increases the size of the initramfs image.
-> > > >
-> > > > /boot/Image should not be installed in the image when an external kernel module is added to an
-> > > > image.
-> > > >
-> > > > Can someone suggest a fix to this issue?
-> > > >
-> >
-> > One usually does in the machine configuration:
-> >
-> > RDEPENDS_${KERNEL_PACKAGE_NAME}-base = ""
+On Tue, Mar 16, 2021 at 01:56:43PM +0100, Anatol Belski wrote:
+> Hi,
 > 
-> this should work too.
+> On 3/15/2021 10:36 PM, Denys Dmytriyenko wrote:
+> >https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable.2FLTS_Patch_Acceptance_Policies
+> >
+> >Stable/LTS Patch Acceptance Policies
+> >
+> >Potentially Acceptable:
+> >* Bug fix only version upgrades for upstreams with a good stable process
+> >
+> >Unacceptable:
+> >* General version upgrades
+> >
+> >
+> >So, unless there's a bugfix-only minor release of glibc, e.g. 2.31.1,
+> >upgrading to 2.32 or 2.33 in stable branches is highly unlikely, as both
+> >2.32 and 2.33 have long lists of major changes:
+> >
+> >https://sourceware.org/pipermail/libc-announce/2020/000029.html
+> >https://sourceware.org/pipermail/libc-announce/2021/000030.html
+> 
+> thanks for linking the LTS doc.
+> 
+> My suggestion was to pull the latest upstream from 2.31 actually,
+> not upgrading the glibc version. As per
+> 
+> http://git.yoctoproject.org/clean/cgit.cgi/poky/tree/meta/recipes-core/glibc/glibc-version.inc?h=dunfell
+> 
+> we consume from the branch release/2.31/master. It already contains
+> the backported patch fixing this CVE.
+> 
+> There doesn't seem to be a release process in terms of versions, but
+> it regularly receives backports. In fact,
+> 
+> there are already some bug and CVE fixes between the current SRCREV
+> used and HEAD.
 
-That will affect all the images, not just the specific initramfs:
-https://lists.openembedded.org/g/openembedded-core/message/149546
+Thanks for clarifying. In this case HEAD of release/2.31/master might make 
+sense.
 
 -- 
-Denys
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
