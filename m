@@ -1,212 +1,172 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.5673.1615884567170869280
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web08.5699.1615884568729744747
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 01:49:27 -0700
+ Tue, 16 Mar 2021 01:49:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fygFmTLi;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: idadelm@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id x4so54459877lfu.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 01:49:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TYJrBSrp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: idadelm@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 15so19478464ljj.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Mar 2021 01:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OXrbs/6DK2SWhHO6HQfsXVcjyC0jKCDjmvc0wrwZk/4=;
-        b=fygFmTLiyArimv51XbGHym3ejlVkW+WSXcj9SthTx2qvxXQ/iqpGggD4BHyCSMi403
-         FIyP8BCkQvudHGKi456FnLLZ1midxGJf3+idY00xr9egVtLqKYt9tY+vHp+2krXK1TSq
-         t2NUiostQ0YveTIKy93xW4LrxZ9WlTz9nWHyBHDah8DOguwC90rceXBxuUofg85riodM
-         t+4IjLPEEhZgeQIeDsddu/xjIS9G6Z2UzhPwhJGIMm7GrugYLn62YZXDO1h0ArRzpZkY
-         /uOz6RCqBPiwcLX9W7xzNCHg/Mw6Los5nYFtGsXoO+Enake3pZcFdTvsRFzaovsGfZ4o
-         VtsA==
+        bh=qZVWsCdezn8sRWwhHHyXDY/+Ouvh+KpiJsS1yg6ZZts=;
+        b=TYJrBSrp89erC5/MUnrNzbTcsEMAh2TmKLE86Pu/qSLy/6Qu9Q4kzn8dQn1bhPiqxT
+         Ss6hwqizqvX/P32BjidsWqctkXsCSQxEvwBldp6SxartESQZQOIzU7HoFID+jDixKIJg
+         4L6z11Axb47houkwrTQoc72T0o5Tzh8bbFR7viYiFYQsLJ1LbkubFjBixyE4P3Gu6xvE
+         Sr0Yw/PYC69030O99SAKfcjvfwbBTeeOSPC+WQakRl+n7MuK2LDr6YTSdAuXBRFmnmrU
+         3dSAtfVdu6AW97aS/3fWF4rW/DlaZYsSBzZH06rjIvSr+fi+PRPZksaHTn9Gc4Fw6mbC
+         Dduw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OXrbs/6DK2SWhHO6HQfsXVcjyC0jKCDjmvc0wrwZk/4=;
-        b=DcL95hpu/zctg8fm9nZ0OQDcVqoCBpNzP1GaOfKLs1wwVJumhdfqG5Uyb48CDjyfeX
-         UFhPelg2FTPxpeNlB6BZVEl1FfVdgGJMU7Q5UVl2Zj6tNS84U23U8gYE/BDc1IOc4fZd
-         aXeJm7Xd5emtw1YBASWgnRKYvXcHU3N68ptSvD3+OcvvgYa86LnSkeCrFeBzb5qdeWh8
-         bRY+JsDz/NVg7oFHuAeqe/O1uhm5ztuYEs0mYhJP5fsSgEACMyTygWcD9BL/znIFaJeg
-         AsdP7WAId5AqPJC0JedjcOAGua8HjZfZAJNF4spNU++M0pCDNoMa/WyqiHiPkWtxHI2t
-         Iyig==
-X-Gm-Message-State: AOAM530Ajjr0WjnogKhrDg9NmXp17pLveQg2MVfsuJ3dwbacYVcQyTga
-	efhigvC45KTk+wPB0X8d1lDJrJo/la4NVQ==
-X-Google-Smtp-Source: ABdhPJwhFMBQe07AT9Kt11G4Avm2KfGzVhB7wdtw4Vy3bkuwsLbZDP/oFZRjZW8Mn26Sv/SvmY4NYQ==
-X-Received: by 2002:a05:6512:12c2:: with SMTP id p2mr10368050lfg.339.1615884565185;
-        Tue, 16 Mar 2021 01:49:25 -0700 (PDT)
+        bh=qZVWsCdezn8sRWwhHHyXDY/+Ouvh+KpiJsS1yg6ZZts=;
+        b=Lr7afCqw64vzSBiT2pFHSS7tfeukbse0PBtNbfqs6uF9TEsfgh/7zjHI9tbUd1BGYy
+         c+H+G33f1udoNBm2l2Hm800JYUQ1IthBERtdSax1JbfZT7Lq1PbAyJAatn3TlUu8JT+S
+         GN9ryDCpeXSgvKnY0SCM9IiX//pLtX84ilLHusjoZa34sgkcF4onisMlnF14547Rtc99
+         ZxjmfS2eGDSgjEo2hVJZZ/dpXcpc9QjPUZ0SdPfEsxF7d6SZB1JvQHkqiPE4bTDV+LKj
+         sNybqwJDNmBfer6SCwl8+Ete/1jIYApiMpytBHS46sx8mZq/o6igs6bQSvdA1RZojMfl
+         R29w==
+X-Gm-Message-State: AOAM532eSNtXh5VSB+nUnVBB5cEnxYeATCg722ICGAPTR1unukLJsBiT
+	zUzV6IZ22HV0cHHgyLCIBfV1PeOVNC85bA==
+X-Google-Smtp-Source: ABdhPJyC16KN7NhdzX4kRqp4r1RBtXgjipTs20amJLJKW8NoZrsJcPi2v90tX2KsKDRBSm++GKV6BA==
+X-Received: by 2002:a2e:3818:: with SMTP id f24mr2077454lja.466.1615884566528;
+        Tue, 16 Mar 2021 01:49:26 -0700 (PDT)
 Return-Path: <idadelm@gmail.com>
 Received: from ida-pc.lan ([129.0.78.220])
-        by smtp.gmail.com with ESMTPSA id j22sm2942780lfr.37.2021.03.16.01.49.23
+        by smtp.gmail.com with ESMTPSA id j22sm2942780lfr.37.2021.03.16.01.49.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 01:49:24 -0700 (PDT)
+        Tue, 16 Mar 2021 01:49:26 -0700 (PDT)
 From: "Meh Mbeh Ida Delphine" <idadelm@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky-contrib][PATCH v2 5/6] package.bbclass: Add handle_qa_error check
-Date: Tue, 16 Mar 2021 09:48:44 +0100
-Message-Id: <20210316084845.379201-5-idadelm@gmail.com>
+Subject: [poky-contrib][PATCH v2 6/6] Moved logic to get filelics from package.bbclass to license.py
+Date: Tue, 16 Mar 2021 09:48:45 +0100
+Message-Id: <20210316084845.379201-6-idadelm@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210316084845.379201-1-idadelm@gmail.com>
 References: <20210316084845.379201-1-idadelm@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-package_qa_handle_error() from insane.bbclass handles display of warnings by allowing the user decide whether they want the issues treated as warnings, errors or hidden completely.
-This is done by setting a variable "LICENSE_SOURCE_SPDX" in local.conf to either "0" or "1".
-Add SPDXLICENSEMAP variable to emit_pkgdata[vardeps]
+The logic to obtain filelics is moved from package.bbclass to license.py as a standalone function.
+Also, the check in package.bbclass after obtaining filelics ensures licenses with * WITH Linux-syscall-note" are ignored, as long as they're only in header files.
 
 Signed-off-by: Ida Delphine <idadelm@gmail.com>
 ---
- meta/classes/package.bbclass | 127 ++++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 62 deletions(-)
+ meta/classes/package.bbclass | 35 ++++++++++++-----------------------
+ meta/lib/oe/license.py       | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 23 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index efdc169275..8cd7f3ad21 100644
+index 8cd7f3ad21..a2144ec08e 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -1549,6 +1549,7 @@ python emit_pkgdata() {
-     import json
-     import subprocess
-     import oe.license
-+    import bb.utils
+@@ -1715,28 +1715,19 @@ fi
+             with open(data_file + ".srclist", 'w') as f:
+                 f.write(json.dumps(sources, sort_keys=True))
  
-     def process_postinst_on_target(pkg, mlprefix):
-         pkgval = d.getVar('PKG_%s' % pkg)
-@@ -1706,70 +1707,72 @@ fi
-         write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
++            flics = oe.license.get_filelics([d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')])
+             filelics = {}
+-            for dirent in [d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')]:
+-                p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R', '-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
+-                out, err = p.communicate()
+-                if p.returncode == 0:
+-                    for l in out.decode("utf-8").split("\n"):
+-                        l = l.strip()
+-                        if not l:
+-                            continue
+-                        l = l.split(":")
+-                        if len(l) < 3:
+-                            bb.warn(str(l))
+-                            continue
+-                        fn = "/" + l[0]
+-                        lic = l[2].strip()
+-                        if lic.endswith("*/"):
+-                            lic = lic[:-2]
+-                        lic = lic.strip()
+-                        filelics[fn] = lic
++            header_list = [".h", ".hh", ".hpp"]
++            for k, v in flics.items():
++                # This check ignores "*WITH Linux-syscall-note" licenses in header files since the headers aren't part of the original sources and come from dependencies the software links to.
++                #C/C++ headers because most of the ones being match are from the Linux kernel.
++                if k.endswith(tuple(header_list)) and v.endswith("WITH Linux-syscall-note"):
++                    continue
++                else:
++                    filelics[k] = v
+             with open(data_file + ".filelics", 'w') as f:
+                 f.write(json.dumps(filelics, sort_keys=True))
+-
++  
+             computedlics = {}
+             computedpkglics = {}
+             for r in sourceresult:
+@@ -1745,8 +1736,7 @@ fi
+                         if r[0] not in computedlics:
+                             computedlics[r[0]] = set()
+                         computedlics[r[0]].add(filelics[subf])
+-            #if computedlics:
+-            #    bb.warn(str(computedlics))
++            
+             dvar = d.getVar('PKGD')
+             for f in computedlics:
+                 shortf = f.replace(dvar, "")
+@@ -1759,8 +1749,7 @@ fi
+                         computedpkglics[pkg].update(computedlics[f])
+                 if not found:
+                     bb.warn("%s not in %s" % (f, str(filemap)))
+-            #if computedpkglics:
+-            #    bb.warn(str(computedpkglics))
++            
+             for pkg in computedpkglics:
+                 lic = d.getVar('LICENSE_%s' % (pkg))
+                 if not lic:
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index dc1bc6682c..45f90ff151 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -6,6 +6,8 @@
+ import ast
+ import re
+ from fnmatch import fnmatchcase as fnmatch
++import subprocess
++import bb
  
-     sourceresult = d.getVar('TEMPDBGSRCMAPPING', False)
--    sources = {}
--    if sourceresult:
--        for r in sourceresult:
--            sources[r[0]] = r[1]
--        with open(data_file + ".srclist", 'w') as f:
--            f.write(json.dumps(sources, sort_keys=True))
--
--        filelics = {}
--        for dirent in [d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')]:
--            p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R', '-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
--            out, err = p.communicate()
--            if p.returncode == 0:
--                for l in out.decode("utf-8").split("\n"):
--                    l = l.strip()
--                    if not l:
--                        continue
--                    l = l.split(":")
--                    if len(l) < 3:
--                        bb.warn(str(l))
--                        continue
--                    fn = "/" + l[0]
--                    lic = l[2].strip()
--                    if lic.endswith("*/"):
--                        lic = lic[:-2]
--                    lic = lic.strip()
--                    filelics[fn] = lic
--        with open(data_file + ".filelics", 'w') as f:
--            f.write(json.dumps(filelics, sort_keys=True))
--
--        computedlics = {}
--        computedpkglics = {}
--        for r in sourceresult:
--            for subf in r[1]:
--                if subf in filelics:
--                    if r[0] not in computedlics:
--                        computedlics[r[0]] = set()
--                    computedlics[r[0]].add(filelics[subf])
--        #if computedlics:
--        #    bb.warn(str(computedlics))
--        dvar = d.getVar('PKGD')
--        for f in computedlics:
--            shortf = f.replace(dvar, "")
--            found = False
--            for pkg in filemap:
--                if shortf in filemap[pkg]:
--                    found = True
--                    if pkg not in computedpkglics:
--                        computedpkglics[pkg] = set()
--                    computedpkglics[pkg].update(computedlics[f])
--            if not found:
--                bb.warn("%s not in %s" % (f, str(filemap)))
--        #if computedpkglics:
--        #    bb.warn(str(computedpkglics))
--        for pkg in computedpkglics:
--            lic = d.getVar('LICENSE_%s' % (pkg))
--            if not lic:
--                lic = d.getVar('LICENSE')
--            spdx_lic = oe.license.split_spdx_lic(lic, d)
--
--            # Displays warnings for licenses found in the recipes and not sources
--            if spdx_lic - computedpkglics[pkg]:
--                bb.warn("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], spdx_lic))
-+    if bb.utils.to_boolean(d.getVar("LICENSE_SOURCE_SPDX")):
-+        sources = {}
-+        if sourceresult:
-+            for r in sourceresult:
-+                sources[r[0]] = r[1]
-+            with open(data_file + ".srclist", 'w') as f:
-+                f.write(json.dumps(sources, sort_keys=True))
+ def license_ok(license, dont_want_licenses):
+     """ Return False if License exist in dont_want_licenses else True """
+@@ -262,3 +264,30 @@ def split_spdx_lic(licensestr,d):
+     split_lic = list_licenses(licensestr)
+     spdx_lic = set([canonical_license(l, d) for l in split_lic])
+     return spdx_lic
 +
-+            filelics = {}
-+            for dirent in [d.getVar('PKGD'), d.getVar('STAGING_DIR_TARGET')]:
-+                p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R', '-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
-+                out, err = p.communicate()
-+                if p.returncode == 0:
-+                    for l in out.decode("utf-8").split("\n"):
-+                        l = l.strip()
-+                        if not l:
-+                            continue
-+                        l = l.split(":")
-+                        if len(l) < 3:
-+                            bb.warn(str(l))
-+                            continue
-+                        fn = "/" + l[0]
-+                        lic = l[2].strip()
-+                        if lic.endswith("*/"):
-+                            lic = lic[:-2]
-+                        lic = lic.strip()
-+                        filelics[fn] = lic
-+            with open(data_file + ".filelics", 'w') as f:
-+                f.write(json.dumps(filelics, sort_keys=True))
++def get_filelics(dirs):
++    """"
++    This function returns a dictionary of file paths (keys) and their corresponding SPDX header identifiers (values).
++    """
++    filelics = {}
++    for dirent in dirs:
++        p = subprocess.Popen(["grep", 'SPDX-License-Identifier:', '-R','-I'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=dirent)
++        out, err = p.communicate()
++        if p.returncode == 0:
++            for l in out.decode("utf-8").split("\n"):
++                l = l.strip()
++                if not l:
++                    continue
++                l = l.split(":")
++                if len(l) < 3:
++                    bb.warn(str(l))
++                    continue
++                fn = "/" + l[0]
++                lic = l[2].strip()
++                if lic.endswith("*/"):
++                    lic = lic[:-2]
++                lic = lic.strip()
++                filelics[fn] = lic
++    return filelics
++    
 +
-+            computedlics = {}
-+            computedpkglics = {}
-+            for r in sourceresult:
-+                for subf in r[1]:
-+                    if subf in filelics:
-+                        if r[0] not in computedlics:
-+                            computedlics[r[0]] = set()
-+                        computedlics[r[0]].add(filelics[subf])
-+            #if computedlics:
-+            #    bb.warn(str(computedlics))
-+            dvar = d.getVar('PKGD')
-+            for f in computedlics:
-+                shortf = f.replace(dvar, "")
-+                found = False
-+                for pkg in filemap:
-+                    if shortf in filemap[pkg]:
-+                        found = True
-+                        if pkg not in computedpkglics:
-+                            computedpkglics[pkg] = set()
-+                        computedpkglics[pkg].update(computedlics[f])
-+                if not found:
-+                    bb.warn("%s not in %s" % (f, str(filemap)))
-+            #if computedpkglics:
-+            #    bb.warn(str(computedpkglics))
-+            for pkg in computedpkglics:
-+                lic = d.getVar('LICENSE_%s' % (pkg))
-+                if not lic:
-+                    lic = d.getVar('LICENSE')
-+                spdx_lic = oe.license.split_spdx_lic(lic, d)
-+
-+                # Displays warnings for licenses found in the recipes and not sources
-+                if spdx_lic - computedpkglics[pkg]:
-+                    package_qa_handle_error("LICENSE_SOURCE_SPDX", ("License for package %s is %s vs %s" % (pkg, computedpkglics[pkg], spdx_lic)), d)
- }
- emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
-+emit_pkgdata[vardeps] += "SPDXLICENSEMAP"
- 
- ldconfig_postinst_fragment() {
- if [ x"$D" = "x" ]; then
 -- 
 2.25.1
 
