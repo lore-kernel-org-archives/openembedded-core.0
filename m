@@ -1,64 +1,72 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.5503.1615983765447747896
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+ by mx.groups.io with SMTP id smtpd.web09.6685.1615990033061312674
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Mar 2021 05:22:45 -0700
+ Wed, 17 Mar 2021 07:07:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VpmyipTv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so1176926wmj.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Mar 2021 05:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=utu1zcaaUbFXat0Zech7jTkOo8cwU+kZuNQUVbAKLLo=;
-        b=VpmyipTv7ubajXQkLZpq6fYhiF58gQBcFLAI2I+49s9OiwZH6u5a+otfAqYOcQuHxr
-         BmsSQqCkIlEmyHRuBdlltrLvHUYlh+Oz51L6boXKUpDBAI2ATPOo1Ftd5Fb54iReILHQ
-         hLu59nnPcl96PHcxNl6xdGbeRWbdzWEX8jYZo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=utu1zcaaUbFXat0Zech7jTkOo8cwU+kZuNQUVbAKLLo=;
-        b=KVmOb+lV3L/8d/bGLMKwud6l8TaCZ6QRsYxFmalPlRO1QdUB3jy/v5rX0Z63P182d0
-         sJYxvwWs19Xsp9d2fuibw2xUfzM2IZO1aGDjuz+KmVjJcjCXUfinGmN2b2roseSI5S0v
-         1bnLI2uY3KgwH5yCJdzndV7qGBADxsT52wSs92BGonM0rGMI5tDAFPksYUF5xcO1CcFE
-         9SkHV3n2b9mhfCs0mwFtL+uSFgEKoTAxI1pA5z7FR2n1ToNuEPPBVjkbvfEaVc1bZU/I
-         mi6jzmNDnhPFJhCqSL51QUEvFcdjrWEOl7Zt4DCof84qCp58TrFS9Ye8STP6/YYcyA2m
-         xMjg==
-X-Gm-Message-State: AOAM532T45xsLzVbY/ZuLn/Nu2GHcpXDvXJJ+6wkI7rzLimCb7yI3rtN
-	lvrRxE/bSl6QyKWEgqDMGuzNng==
-X-Google-Smtp-Source: ABdhPJzL7SuwSAwhq8Pcgu9JQ0GmLkSD1xTm/24GfhjdECVnpyvehn6NQaUHAm9xpth0bFDttiVBew==
-X-Received: by 2002:a7b:c303:: with SMTP id k3mr3492531wmj.100.1615983763813;
-        Wed, 17 Mar 2021 05:22:43 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:c2b9:2be9:3f07:3c55? ([2001:8b0:aba:5f3c:c2b9:2be9:3f07:3c55])
-        by smtp.gmail.com with ESMTPSA id x8sm25363910wru.46.2021.03.17.05.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Mar 2021 05:22:43 -0700 (PDT)
-Message-ID: <9e26a86873a0828bff2ce96a0ecfadc53a99d3f6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] openssh: upgrade 8.4p1 -> 8.5p1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Mar 2021 12:22:41 +0000
-In-Reply-To: <1615970397-22583-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1615970397-22583-1-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.39.2-1 
+ dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.141.98, mailfrom: awais_belal@mentor.com)
+IronPort-SDR: MafzQAS7ldLKG1SUak8Gse3sMtYXDnuoo53jY7tVL4APOFyhAI5RTl6zjkQGCiPPtpcZQU3kYJ
+ +yfTQ0NQ19c/59ZpBjAl4mfhTbGnRB45/ULpjiDFlQS5H0r9v6WyRaHJrGVME7ihX+lHabWOzr
+ 8HAIVGzikCwglxpa902tm3UR3ShApU3cfBmAa16eFN+hynz0+d9RHgmxX3i222paOI7oP3pmhJ
+ MEoGX5on3xwHrhzHNrRwG329qlUpDzCNBZfzP7LJWQ0kjnPS/NEoTsVB+xhDZ9rtr9JDCEkdk6
+ dI0=
+X-IronPort-AV: E=Sophos;i="5.81,256,1610438400"; 
+   d="scan'208";a="59183096"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 17 Mar 2021 06:07:12 -0800
+IronPort-SDR: BNwK523mduolTgfMlqW6JbFn8pY79lgPniPu35JjjfgR84qYUT99sr1l2qtV/8zkAQASA2rNGp
+ KVYvGzNY2GqAuN5pRf/MQETyZFuepgAI/HPPHvIlQAXzgtzaPMk0IqBRcwRn8sWMOSgHU0eCd8
+ 1rxSe+MNgz3Yh/z3N6ANXEJ5e6IVXKcQRW+RB08MbHCz9BsrEMmeH9iVMDi9lhA1mdGlB9rj2i
+ kxQ4l1GMHaT8Ny8BXnHTHjyOFeWzpqVCBzn17xKvcVT8jFc1CqVZQiuvS6np2lfEEqnERTn8Jy
+ V28=
+From: "Awais Belal" <Awais_Belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libsdl2: disable shared memory for native builds
+Date: Wed, 17 Mar 2021 19:06:44 +0500
+Message-ID: <20210317140644.12587-1-awais_belal@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Return-Path: awais_belal@mentor.com
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
+ SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
+Content-Type: text/plain
 
-On Wed, 2021-03-17 at 16:39 +0800, Wang Mingyu wrote:
-> 0f90440ca70abab947acbd77795e9f130967956c.patch
-> removed since it is included in 8.5p1
-> 
-> License Updated : 
-> 2-clause BSD license and 4-clause BSD license added
+libsdl2 currently does not handle the failures that
+occur due to shared memory in case of remote hosts
+where it should ideally switch to socket based writing
+when a failure is seen with shared memory.
+Consider a scenario where a qemu build is done with
+graphics support on a build machine and then accessed
+remotely using ssh. If the remote host's X presents
+MIT-SHM as an extension, launching qemu fails with
 
-Doesn't that mean we should clarify "BSD" in the LICENSE field then?
+runqemu - ERROR - Failed to run qemu: X Error: BadValue
+Request Major code 130 (MIT-SHM)
+Request Minor code 3 ()
 
-Cheers,
+This is most often seen when the remote machine doing
+ssh is a Ubuntu 20.04. The libsdl2 native are mainly
+used for qemu at this time so it is a major usecase.
+A report of such a failure was also presented at
+https://lists.yoctoproject.org/g/poky/topic/78854857
 
-Richard
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+index 872592fdae..54556abb27 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
+@@ -65,6 +65,7 @@ PACKAGECONFIG[wayland]    = "--enable-video-wayland,--disable-video-wayland,wayl
+ PACKAGECONFIG[x11]        = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
+ 
+ EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
++CFLAGS_append_class-native = " -DNO_SHARED_MEMORY"
+ 
+ do_configure_prepend() {
+         # Remove old libtool macros.
+-- 
+2.17.1
 
