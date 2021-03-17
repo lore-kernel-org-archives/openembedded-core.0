@@ -1,132 +1,79 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
- by mx.groups.io with SMTP id smtpd.web11.3706.1615970417172989466
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web11.3746.1615970940040661760
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Mar 2021 01:40:17 -0700
+ Wed, 17 Mar 2021 01:49:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-Received: from [100.113.4.174] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id E4/5F-33844-E60C1506; Wed, 17 Mar 2021 08:40:14 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCIsWRWlGSWpSXmKPExsViZ8MRopt7IDD
-  B4NZJM4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWNFywymgp9SFTveT2ZqYPwq3sXIxSEkMINJ
-  4v7WTmYI5zijxI8zj9i6GDk52AQ0JXq3bGHsYuTgEBHQk7j6TxQkzCygLnFpXQsLiC0sYCXx9
-  NI/RhCbRUBVYnPjcmYQm1fAVWLFxcnsILaEgILElIfvoeKCEidnPmGBmCMhcfDFC2aIGkWJ2Z
-  ebWSDsSok9mx+yTmDknYWkZRaSlgWMTKsYLZOKMtMzSnITM3N0DQ0MdA0NjXXNdY2MDfUSq3S
-  T9FJLdZNT80qKEoGyeonlxXrFlbnJOSl6eaklmxiBAZZSyP58B+OqNx/0DjFKcjApifKatgQm
-  CPEl5adUZiQWZ8QXleakFh9ilOHgUJLgvb0PKCdYlJqeWpGWmQMMdpi0BAePkghvwn6gNG9xQ
-  WJucWY6ROoUoy7HqgPTVzELseTl56VKifNWg8wQACnKKM2DGwGLvEuMslLCvIwMDAxCPAWpRb
-  mZJajyrxjFORiVhHkLQFbxZOaVwG16BXQEE9ARhtJ+IEeUJCKkpBqYrNpDCuaruusqHL3K6m1
-  uyHVSa3X8vDDVwuTaKM5V2eZfAm7tPfBrT0GS44pa6T9lx8pmqV89t2pH964TJzc823JSQuJF
-  qJK+s8Mn7wvKB59KCy/9evlBSQfnztJuNdO57+IPHWS59mLq7ZQ7ru+3rhH4d/uuLtPMA/21M
-  kLyG9hswvbl1imbmSs03G9Ie8lV/7PdvuwDkzFz4YF1tYbWe5g3rfsUN0/PZe+CuneFrFIPZv
-  Z+NTQxeXXoVY+5gp3urr3O6W/K2CsOnRe03qcvtlRO36KcedWetymeV26wp2t8eKrIs7vhGPf
-  D5v8ifJ/vpG4SWvW2PuPBVvd9zPs+/vbjtu9Y76fQ49rKlWigxFKckWioxVxUnAgAaQuNnjcD
-  AAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-33.tower-238.messagelabs.com!1615970413!3560533!1
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: zhengrq.fnst@fujitsu.com)
+Return-Path: <zhengrq.fnst@fujitsu.com>
+Received: from [100.113.3.92] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-a.eu-central-1.aws.symcld.net id 59/FD-07430-972C1506; Wed, 17 Mar 2021 08:48:57 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+EI0a08FJh
+  gcHSxhsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnG8i73gDEfFiQPLmRoY37F3MXJyCAnMYJJ4
+  tDqsi5ELyN7NKNG++CILSIJNwEBi/9kLQEUcHCICehJX/4mChIUFbCSazjxgBLFZBFQlOk/vY
+  QKxeQW8JVZ3dYDZEgIKElMevmeGiAtKnJz5BGwks4CExMEXL5hBRkoIKErMni4PUV4pMffNQq
+  YJjDyzkHTMQtKxgJFpFaNlUlFmekZJbmJmjq6hgYGuoaGxrrGukamhXmKVbqJeaqlucmpeSVE
+  iUFYvsbxYr7gyNzknRS8vtWQTIzCEUgqZf+9gfPz6g94hRkkOJiVRXtOWwAQhvqT8lMqMxOKM
+  +KLSnNTiQ4wyHBxKErxRB4FygkWp6akVaZk5wHCGSUtw8CiJ8CbsB0rzFhck5hZnpkOkTjEqS
+  onzsoH0CYAkMkrz4NpgMXSJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDv0QNAU3gy80rgpr
+  8CWswEtNhQ2g9kcUkiQkqqgYm9O9CAf4J0vs+Te8sbhRKMXUKK3kd+OeNvljh1hZ0Ib3Gf513
+  HiJu9Pap2jyKfZdQzz7+hHt7BstXkjLfjVWmW3Oa/MmESITEPOCI3zpfyXc+wwV41zeDGrGTX
+  RzJ8x7TPhbQ8j77utWxTnnmnoOo6BQHny1uWb56uVyc2p53RmFPQ/7z0vCx3GXHdsIsFf/0/R
+  5TOf34gepIL27YG2Y6Npvc8slTfMn9VOst60vTI5PLl125d8TvDvD+/ynP2ivy7FgYrNqlM97
+  1Q8KDTcmaYocCZTOe/uYpbCmRVt07Qsdyly5/PUtPTb998xktO8Nq+B+sP8poe055+/jnrNtZ
+  A5YesYi6HNkU6JXxWYinOSDTUYi4qTgQAOReQmhwDAAA=
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-28.tower-226.messagelabs.com!1615970937!107423!1
 X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=fail
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5990 invoked from network); 17 Mar 2021 08:40:13 -0000
+Received: (qmail 8349 invoked from network); 17 Mar 2021 08:48:57 -0000
 Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-33.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Mar 2021 08:40:13 -0000
+  by server-28.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Mar 2021 08:48:57 -0000
 Received: from r01ukexcasm111.r01.fujitsu.local ([10.183.43.167])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12H8e7di010931
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12H8muZh015241
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Mar 2021 08:40:13 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Mar 2021 08:48:56 GMT
+Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM111.r01.fujitsu.local (10.183.43.167) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 17 Mar 2021 08:40:06 +0000
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+ (TLS) id 15.0.1497.2; Wed, 17 Mar 2021 08:48:55 +0000
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] openssh: upgrade 8.4p1 -> 8.5p1
-Date: Wed, 17 Mar 2021 16:39:57 +0800
-Message-ID: <1615970397-22583-1-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] liburi-perl: upgrade 1.74 -> 5.08
+Date: Thu, 18 Mar 2021 01:48:34 +0800
+Message-ID: <1616003314-27682-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
  R01UKEXCASM111.r01.fujitsu.local (10.183.43.167)
 Content-Type: text/plain
 
-0f90440ca70abab947acbd77795e9f130967956c.patch
-removed since it is included in 8.5p1
-
-License Updated : 
-2-clause BSD license and 4-clause BSD license added
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- ...440ca70abab947acbd77795e9f130967956c.patch | 28 -------------------
- .../{openssh_8.4p1.bb => openssh_8.5p1.bb}    |  5 ++--
- 2 files changed, 2 insertions(+), 31 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
- rename meta/recipes-connectivity/openssh/{openssh_8.4p1.bb => openssh_8.5p1.bb} (97%)
+ .../perl/{liburi-perl_1.74.bb => liburi-perl_5.08.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.74.bb => liburi-perl_5.08.bb} (90%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch b/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
-deleted file mode 100644
-index b88bc18f12..0000000000
---- a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 0f90440ca70abab947acbd77795e9f130967956c Mon Sep 17 00:00:00 2001
--From: Darren Tucker <dtucker@dtucker.net>
--Date: Fri, 20 Nov 2020 13:37:54 +1100
--Subject: [PATCH] Add new pselect6_time64 syscall on ARM.
--
--This is apparently needed on armhfp/armv7hl.  bz#3232, patch from
--jjelen at redhat.com.
-----
-- sandbox-seccomp-filter.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--Upstream-Status: Backport
--[fixes issues on 32bit IA and probably other 32 bit platforms too with glibc 2.33]
--
--diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
--index e0768c063..5065ae7ef 100644
----- a/sandbox-seccomp-filter.c
--+++ b/sandbox-seccomp-filter.c
--@@ -267,6 +267,9 @@ static const struct sock_filter preauth_insns[] = {
-- #ifdef __NR_pselect6
-- 	SC_ALLOW(__NR_pselect6),
-- #endif
--+#ifdef __NR_pselect6_time64
--+	SC_ALLOW(__NR_pselect6_time64),
--+#endif
-- #ifdef __NR_read
-- 	SC_ALLOW(__NR_read),
-- #endif
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssh/openssh_8.4p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_8.5p1.bb
-index 128e2e318a..61d9b95b9e 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
-@@ -6,7 +6,7 @@ and for executing commands on a remote machine."
- HOMEPAGE = "http://www.openssh.com/"
- SECTION = "console/network"
- LICENSE = "BSD & ISC & MIT"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=18d9e5a8b3dd1790d73502f50426d4d3"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=d9d2753bdef9f19466dc7bc959114b11"
+diff --git a/meta/recipes-devtools/perl/liburi-perl_1.74.bb b/meta/recipes-devtools/perl/liburi-perl_5.08.bb
+similarity index 90%
+rename from meta/recipes-devtools/perl/liburi-perl_1.74.bb
+rename to meta/recipes-devtools/perl/liburi-perl_5.08.bb
+index c27765bcbc..4d22b17e00 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_1.74.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_5.08.bb
+@@ -13,8 +13,8 @@ DEPENDS += "perl"
  
- DEPENDS = "zlib openssl virtual/crypt"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-@@ -24,9 +24,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
--           file://0f90440ca70abab947acbd77795e9f130967956c.patch \
-            "
--SRC_URI[sha256sum] = "5a01d22e407eb1c05ba8a8f7c654d388a13e9f226e4ed33bd38748dafa1d2b24"
-+SRC_URI[sha256sum] = "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
+ SRC_URI = "http://www.cpan.org/authors/id/E/ET/ETHER/URI-${PV}.tar.gz"
  
- # This CVE is specific to OpenSSH server, as used in Fedora and Red Hat Enterprise Linux 7
- # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
+-SRC_URI[md5sum] = "892f7183b178af40f205ba37128225db"
+-SRC_URI[sha256sum] = "a9c254f45f89cb1dd946b689dfe433095404532a4543bdaab0b71ce0fdcdd53d"
++SRC_URI[md5sum] = "cdbbf8f8ccdec5c162c8505077a35c2c"
++SRC_URI[sha256sum] = "7e2c6fe3b1d5947da334fa558a96e748aaa619213b85bcdce5b5347d4d26c46e"
+ 
+ S = "${WORKDIR}/URI-${PV}"
+ 
 -- 
 2.25.1
 
