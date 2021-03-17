@@ -1,372 +1,405 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web09.654.1615942871566210011
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com (NAM04-BN3-obe.outbound.protection.outlook.com [40.107.68.51])
+ by mx.groups.io with SMTP id smtpd.web10.1330.1615946891291164334
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Mar 2021 18:01:12 -0700
+ Tue, 16 Mar 2021 19:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id D4E9040C2C;
-	Wed, 17 Mar 2021 01:01:10 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yOuLuMRZnYxm; Wed, 17 Mar 2021 01:01:10 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A9018409AE;
-	Wed, 17 Mar 2021 01:01:09 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 6629D17454C; Tue, 16 Mar 2021 21:01:09 -0400 (EDT)
-Date: Tue, 16 Mar 2021 21:01:09 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][dunfell 00/38] Pull request (cover letter only)
-Message-ID: <20210317010109.GO18041@denix.org>
-References: <cover.1615937397.git.steve@sakoman.com>
- <20210317002229.GM18041@denix.org>
- <CAOSpxdZzNNi3n=hhyzUm5zhpxLGY3BE9va5XVu_9cp4t1Boowg@mail.gmail.com>
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=EL/I8+Zj;
+ spf=pass (domain: windriver.com, ip: 40.107.68.51, mailfrom: li.wang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GvQwlyP0Qvr4hlInwJq6r83XJkS23d48PQpez/0zcoogDw6tgyrX7n5UBX16ViAf9KRTwbpOuAvhn8FGBjpBOQfe6S6HKBqfS3orwKhEyDq1xx2oxOdOTYzNBK5lxF4VJoORoDm08NnqawUGxxVIXHoqxHRQ9Y0U0lD2dakF2BvvKaBtNO7Q+8akMxryEW2dacF9BYt4Q0R8m536fWqOLERlId5mLseOUgaJ9Dg/xG2SkrEMQvtkHjZQFkUYt3PSQG0jXQzkav0hNmb6fkvBhrl0sJKUL7cbscMfT8FEyLPIo85jFbaSPMGCM4Q51mRpBv6XqJbnt7rou6UtxPgUrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yhz476rw1XRgzp5sl9v5Kr0is0BGoAFnFhznuvtA7qA=;
+ b=Klfy1Cs+i7kqcCwk37sEXd7RBH96HMgkPJjeKGyNiJuquPM5khIdsz4MWPXs9MkX+sTLzn8HEbEcLoAc1WrZ+2TFwdhiOWUY1JG0O6RSuvk4ChU2/ZH0aHIXbuaOJ0vyyPCH9Lqp+e6v072VYhz5fhtNRWaZkMZsu4HCRdR8jphrZ6UBqYDmYCOiat2qbVdenALuwB8iDSb26+Atuf7NyZIO/+kPNhxpJWHNaLr+bYpX0N0EW+tODOfIRzOSjuZ+eiIDwEcQF/s7EjcZIKDzlIKbb39Ii0zvq5RacoN5eh6ESUMljOpGO7lCeUWVxQAarzJ+YTcdgNW3+3bf4wExJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yhz476rw1XRgzp5sl9v5Kr0is0BGoAFnFhznuvtA7qA=;
+ b=EL/I8+ZjEJs5R0dG4QUNCfywv4ZOwgEL+NBM9itilOqYdE2ru/BubNHUmP2scsSGdy1rwXQXA+a+LglSh/0Nyzf5dZ1f5WcPAEaniAldS2vgwIm4HK3fX8OGZ3O7Cs3kg5jBJ1PunrZ9qj5u5O/hXnY1nbf9sS+lF9SZzjPLLuo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com (2603:10b6:5:142::16)
+ by DM6PR11MB2714.namprd11.prod.outlook.com (2603:10b6:5:ce::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Wed, 17 Mar
+ 2021 02:08:09 +0000
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::f503:3124:d48:ccb1]) by DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::f503:3124:d48:ccb1%6]) with mapi id 15.20.3955.018; Wed, 17 Mar 2021
+ 02:08:09 +0000
+Subject: Re: [OE-core][PATCH] linux-dummy: add empty dependent packages
+From: "Li Wang" <li.wang@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <1615542770-26280-1-git-send-email-li.wang@windriver.com>
+ <7f61a68faa2e2d14eb41770f7e4973c38abb409d.camel@linuxfoundation.org>
+ <166BB6ABA401E063.22828@lists.openembedded.org>
+Message-ID: <dcf612da-579c-6242-c440-fecc1e235b6f@windriver.com>
+Date: Wed, 17 Mar 2021 10:08:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+In-Reply-To: <166BB6ABA401E063.22828@lists.openembedded.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR04CA0051.apcprd04.prod.outlook.com
+ (2603:1096:202:14::19) To DM6PR11MB3595.namprd11.prod.outlook.com
+ (2603:10b6:5:142::16)
+Return-Path: li.wang@windriver.com
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdZzNNi3n=hhyzUm5zhpxLGY3BE9va5XVu_9cp4t1Boowg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.155.140] (60.247.85.82) by HK2PR04CA0051.apcprd04.prod.outlook.com (2603:1096:202:14::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31 via Frontend Transport; Wed, 17 Mar 2021 02:08:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 08afe15d-6270-4ea2-ebfc-08d8e8e982d0
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2714:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB2714857B781BBA4A4D11383AEF6A9@DM6PR11MB2714.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	b+WxptJYOkStO8H3ZtsdO4/Yqb3ppjN8U203Uqm/Q+jTVFp6az3lQlBARqyh0TvgvEYGnQ0lkQkvHFCA/E2AFoJGTp0gAHj0lSX/mfF1RsbzORoUA9jx9KDOkBjXG60gI4PEjlTDrXuYKB/Jk1anWkv9PMTHfb6x8+vMj1dpMcVR/9Dy8uJQD85fLD1scH6RViC+U8Qvs1li8NHfZlJWniBFqsp5Xa6kVrydL79tA0aB8oByRghR16DkCxPor0ugw83aodX8f3739ff6cl3fBbBjmuWpJowcMZTIscU6MZUU1lSPyrvOeNRYIffI6SzCeLmpML1fRVbpWwcXMXCsLa0KBxT6HwJYqQ8T8081BXTUUf7RpUkOc3bRqOFDYxapWsA3S9aSTQBaoaXfCSf6pTpYp/LnkXSUIDC7kJvSDGp6qSdong60shDVhclgtVdlMzk5S/DNRc4ghmK+0wxZ3T2+azo6AJddIxDQN1KWWfn0KFLswrki48P7LtvrHn5EoB+e4yJU5+SP/Eo/0knRPDsdpUlIKEcrmK63ByUw46VJ/iNkfbJNCtTc3M2xdLwBj/Azy1k+RNL/QH3usMBpRM382AT+q0Nbkg+qoCtTHg8CHlFEMNDMv8gEJRtBZCyEpNbfiPTJMJQFkxRM1xvFJx8cw7H7iGo/cMS/bqcQBCotDycYTgZna19eV1ok54oBPzu8awm/z7Kg3+Iz3Oz+o4f63ySH/k6lpzXYj5NXAF2wGbby1F2L2pEOeo8EDMM5
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3595.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(376002)(136003)(346002)(396003)(8676002)(966005)(5660300002)(6486002)(52116002)(2906002)(956004)(86362001)(26005)(83380400001)(478600001)(36756003)(8936002)(2616005)(33964004)(186003)(66556008)(66476007)(31686004)(316002)(6666004)(16526019)(31696002)(66946007)(6706004)(53546011)(16576012)(166002)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?SGZYQm1Qem8wU1dYMkxlRThwN1Z2ekF3N0V2VUZ1ZzlndnhSZGNGRG1Bcmt3?=
+ =?utf-8?B?eEoxR1RDMWJhWEtkSlN5dzhwRTYxdlNmRDVTbGJyZzZoNTdzTGNLMHllREc2?=
+ =?utf-8?B?TUJlb2xJdktRM3lRTWVBU29HK09pem1iejA3UFd4ZW5QUmRMbjltQTNobjZw?=
+ =?utf-8?B?OHVRZWdsV0VneFFxd1FJV2tiS1FkVVFpRVVzL3dqWiszSWJKVWthM04ycVBU?=
+ =?utf-8?B?a1JybDRoZk1xNjZUUHdlakJCeW1uMEswMGltbEkrUWFtVU9oMzB3YnFISXFN?=
+ =?utf-8?B?eVRqSFVSTytQZTcwVUxPRzZoN0hQUE9YQjV1d0RkVU5VNkw3QzB0TGx1dnho?=
+ =?utf-8?B?VlJDOUU2YjRab1lBZjYyTUJFclBSQ3hFVzVXcWJYL0tid2M0c3k1N1RJWmFC?=
+ =?utf-8?B?WnpsZGdoK2xuUlpVY0UxSU0rL0szV2txQ2pTQ3FzVTFrRllZZVlIMnRHVFJ1?=
+ =?utf-8?B?cjlpdVlYTmkxVnZIVVAyelIxYUtpekpnMzdEMElsNnAxTjc5UHltQVNhK3FU?=
+ =?utf-8?B?Mk1HbGJTelF5N1ZkNFNBU0JOOWNZY3o3Yi9HeDdUYXUwaDlTQlc2bkZQa052?=
+ =?utf-8?B?UXBOWm5nQ3FCV01lVmRyeUY2ekRKOTNBNklZL2FVcU1HQnRwTEZ1NzdscTZx?=
+ =?utf-8?B?ckQ0bDR1TDA3cW1BZE9Cb3NTQzVtU3BKUDlIMC9uVGNWc2VaZDkvYzFMWG1p?=
+ =?utf-8?B?VTNVTjFtTHdLVUl2NnNOaFFNS2RLaWdFM2xqcmY1QWp6eEZ4a0lVemtBc1V2?=
+ =?utf-8?B?d3lza2pKdTk2KzJUNGw0b1FDL1hkVEl2N3NQOGd0TnE4ZUZKVE9mNGthQklH?=
+ =?utf-8?B?RG1YRTB3YmN5N3MyeUgxWDZacGNwOFM1UkZiVjVSa1VPUEdrUXIrSnBlc3JB?=
+ =?utf-8?B?MDJwc2drNThOVkNGYnNxZ2tDN0ZmUnF1dllKSXlBNmhJY2F4M0VwUkJ0aUtY?=
+ =?utf-8?B?NHN4MDBPM1g4MGJhbnJFSDRSczJvaDNCd1FSK0kzL2lMbUZzajFSSm5ITUFW?=
+ =?utf-8?B?Q1pLWHBIMTZQSVIzb1pqb01iZ1dCdXltL3hOZkdHRkpyTWR3UExUTldySktC?=
+ =?utf-8?B?YkM3UmkvZVNBa3hBOWNjRUpTVjVURGxoMkZudUtoVXRWM0U5bE9xRytxazA4?=
+ =?utf-8?B?bTd6THRxeExzK3p4ZHV6L05tMm16cGhILzRwNlZoT2k0QUFKdTNpeVJVbk02?=
+ =?utf-8?B?WEhDTzliNXVndHNYeFNlcEN1M3BpZ3l0azE4U1Q5d0tIWlQra2J6VmlmVDZJ?=
+ =?utf-8?B?cU1uaTE2bER5Y2huWkkweVNwQk4yT1R3NHppenVnUmlKeWs0VnRCVnBGcW1q?=
+ =?utf-8?B?bEFYWStheGM0c3BHVWhPc0VlNE9jcXBNM1hIMXVEbHJuZ3dCaTBtUWxSS0Zp?=
+ =?utf-8?B?VGJXMVp1WVRCNjdEYzhIclkvVDRFRFQxOFR6THQrdlU3Qmk3UWxvUlovdFQy?=
+ =?utf-8?B?cEdvWlZWZ25STDNLcUpiaUN5d3VIK1VIYU1zd21GaVEyYUF2MERackpmUEJ0?=
+ =?utf-8?B?NU0wMnpmb0wwdTk2amZOWEk4NlIvT2dUaVJVY2hlQTZEQkpLN29OTzdneHp5?=
+ =?utf-8?B?ZzE5dDdhcnVUTVVqZjNRSElFajFyS2NHRnh5cFhKcDdUaFNaK1ljWjg1NHlD?=
+ =?utf-8?B?Z2Ntb2lTQzZoa2M2ZnMzbTlrNmRxbjdvbjBDL1dxTkZTbEsxSGlpTEM2MjJQ?=
+ =?utf-8?B?ZUJ1VXFQWXNlcW5FR293M1cwTzhHSXBiME1kS1paS203US9Eb0w5cGZMTS9k?=
+ =?utf-8?Q?TgmNLACsVQ2UtbwpbPmY1QhcHXGAMAbgKYH1msx?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08afe15d-6270-4ea2-ebfc-08d8e8e982d0
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3595.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2021 02:08:09.4178
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vpQfzt/Fuh//jPkwcc15ehyi3Oi3u+rB1W5SdquJQim2gSHjoPw84RZHbTUZrrHhuyAsJKXrm42RAEHfo2z7hA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2714
+Content-Type: multipart/alternative;
+ boundary="------------82829B436DD636C8A74D55DF"
+Content-Language: en-US
 
-On Tue, Mar 16, 2021 at 02:41:08PM -1000, Steve Sakoman wrote:
-> On Tue, Mar 16, 2021 at 2:22 PM Denys Dmytriyenko <denis@denix.org> wrot=
-e:
-> >
-> > Steve,
-> >
-> > Thanks. Did you forget to revert this:
-> > http://cgit.openembedded.org/openembedded-core-contrib/commit/meta/lib=
-/oe/sstatesig.py?h=3Dstable/dunfell-next&id=3De0c1db170fdd6c1d78fdfce017fea=
-e26c96fac29
->=20
-> Nope, didn't forget!  It is in the next group of patches (in
-> stable/dunfell-nut):
->=20
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/d=
-unfell-nut
+--------------82829B436DD636C8A74D55DF
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Ah, multiple queues, thanks!
+ping!
 
+Thanks,
+LiWang.
 
-> Steve
->=20
-> > On Tue, Mar 16, 2021 at 01:31:34PM -1000, Steve Sakoman wrote:
-> > > The following changes since commit f5965d74822513e1edfc796b646e8a1ca=
-2a50d65:
-> > >
-> > >   yocto-uninative.inc: version 3.0 incorporate seccomp filter workar=
-ound (2021-03-08 06:42:30 -1000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.openembedded.org/openembedded-core-contrib stable/dunfel=
-l-next
-> > >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dst=
-able/dunfell-next
-> > >
-> > > Bruce Ashfield (3):
-> > >   linux-yocto/5.4: update to v5.4.99
-> > >   linux-yocto/5.4: update to v5.4.101
-> > >   linux-yocto/5.4: update to v5.4.103
-> > >
-> > > Charlie Davies (1):
-> > >   bitbake-bblayers/create: Fix incorrect priority help message
-> > >
-> > > Chen Qi (2):
-> > >   python3-jinja2: set CVE_PRODUCT
-> > >   cups: use /run instead /var/run in systemd's unit file
-> > >
-> > > Dorinda (7):
-> > >   meta/recipes-rt: Add HOMEPAGE / DESCRIPTION
-> > >   meta-skeleton: Add HOMEPAGE / DESCRIPTION
-> > >   meta/recipes-extended: Add HOMEPAGE / DESCRIPTION
-> > >   meta/recipes-support: Add HOMEPAGE / DESCRIPTION
-> > >   meta/recipes-kernel: Add HOMEPAGE / DESCRIPTION
-> > >   meta/recipes-multimedia: Add HOMEPAGE / DESCRIPTION
-> > >   meta/recipes-graphics: Add HOMEPAGE / DESCRIPTION
-> > >
-> > > Dorinda Bassey (1):
-> > >   meta/recipes-devtools: Add HOMEPAGE / DESCRIPTION
-> > >
-> > > Florian Bezdeka (1):
-> > >   wic: Warn if an ext filesystem affected by the Y2038 problem is us=
-ed
-> > >
-> > > Jon Mason (1):
-> > >   runqemu: use "raw" instead of "bin" for ovmf
-> > >
-> > > Khem Raj (3):
-> > >   oeqa/pam: Need shadow installed for the tests
-> > >   rxvt-unicode: Do not use throw specifications
-> > >   dtc: Fix array-bounds error
-> > >
-> > > Meh Mbeh Ida Delphine (6):
-> > >   recipes-gnome: Add missing HOMEPAGE and DESCRIPTION for recipes
-> > >   recipes-graphics: Add missing HOMEPAGE and DESCRIPTION for recipes=
-.
-> > >   recipes-kernel: Add missing HOMEPAGE and DESCRIPTION for recipes.
-> > >   recipes-multimedia: Add missing HOMEPAGE and DESCRIPTION for recip=
-es.
-> > >   recipes-sato: Add missing HOMEPAGE and DESCRIPTION for recipes
-> > >   recipes-support: Add missing HOMEPAGE and DESCRIPTION for recipes
-> > >
-> > > Minjae Kim (2):
-> > >   wpa-supplicant: fix CVE-2021-27803
-> > >   qemu: fix CVE-2021-20203
-> > >
-> > > Purushottam Choudhary (1):
-> > >   shadow: whitelist CVE-2013-4235
-> > >
-> > > Richard Purdie (6):
-> > >   libid3tag: Fix reproducibility issue
-> > >   syslinux: Fix reproducibility issues
-> > >   swig: Fix reproducibility issue
-> > >   efivar: Fix reproducibility issue
-> > >   selftest/reproducible: Add ability to pull some objects from sstat=
-e
-> > >   build-appliance-image: Drop kernel module handling
-> > >
-> > > Ross Burton (2):
-> > >   ptest-packagelists: remove libinput-ptest
-> > >   insane: don't check for a warning string that is never output
-> > >
-> > > Ulrich =D6lmann (1):
-> > >   local.conf.sample: fix typo
-> > >
-> > > Yi Fan Yu (1):
-> > >   valgrind: Increase timeout duration 30 -> 90 s
-> > >
-> > >  .../baremetal-helloworld_git.bb               |  1 +
-> > >  .../recipes-kernel/hello-mod/hello-mod_0.1.bb |  1 +
-> > >  .../linux/linux-yocto-custom.bb               |  2 +-
-> > >  .../images/core-image-multilib-example.bb     |  3 +-
-> > >  .../recipes-skeleton/service/service_0.1.bb   |  1 +
-> > >  meta/classes/insane.bbclass                   | 22 +-----
-> > >  .../distro/include/ptest-packagelists.inc     |  1 +
-> > >  meta/conf/local.conf.sample                   |  2 +-
-> > >  meta/lib/bblayers/create.py                   |  2 +-
-> > >  meta/lib/oeqa/runtime/cases/pam.py            |  3 +
-> > >  meta/lib/oeqa/selftest/cases/reproducible.py  | 16 +++-
-> > >  .../efivar/efivar/determinism.patch           | 18 +++++
-> > >  meta/recipes-bsp/efivar/efivar_37.bb          |  1 +
-> > >  .../wpa-supplicant/CVE-2021-27803.patch       | 54 ++++++++++++++
-> > >  .../wpa-supplicant/wpa-supplicant_2.9.bb      |  1 +
-> > >  .../images/build-appliance-image_15.0.0.bb    |  8 +-
-> > >  .../python/python3-jinja2_2.11.2.bb           |  3 +
-> > >  .../python/python3-pygobject_3.34.0.bb        |  2 +
-> > >  .../python/python3-scons_3.1.2.bb             |  1 +
-> > >  meta/recipes-devtools/qemu/qemu.inc           |  1 +
-> > >  .../qemu/qemu/CVE-2021-20203.patch            | 74 ++++++++++++++++=
-+++
-> > >  .../swig/swig/determinism.patch               | 19 +++++
-> > >  meta/recipes-devtools/swig/swig_3.0.12.bb     |  1 +
-> > >  .../syslinux/syslinux/determinism.patch       | 22 ++++++
-> > >  .../syslinux/syslinux_6.04-pre2.bb            |  5 ++
-> > >  ...est-wrapper-to-support-PTEST-formats.patch |  9 ++-
-> > >  meta/recipes-extended/bash/bash.inc           |  1 +
-> > >  meta/recipes-extended/bc/bc_1.07.1.bb         |  1 +
-> > >  .../cracklib/cracklib_2.9.5.bb                |  3 +-
-> > >  meta/recipes-extended/cups/cups.inc           |  1 +
-> > >  .../cwautomacros/cwautomacros_20110201.bb     |  1 +
-> > >  meta/recipes-extended/ed/ed_1.15.bb           |  1 +
-> > >  meta/recipes-extended/grep/grep_3.4.bb        |  1 +
-> > >  .../libsolv/libsolv_0.7.10.bb                 |  1 +
-> > >  .../lighttpd/lighttpd_1.4.55.bb               |  1 +
-> > >  .../logrotate/logrotate_3.15.1.bb             |  3 +-
-> > >  meta/recipes-extended/lzip/lzip_1.21.bb       |  1 +
-> > >  meta/recipes-extended/man-db/man-db_2.9.0.bb  |  1 +
-> > >  meta/recipes-extended/mc/mc_4.8.23.bb         |  1 +
-> > >  meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 +
-> > >  .../mingetty/mingetty_1.08.bb                 |  1 +
-> > >  meta/recipes-extended/parted/parted_3.3.bb    |  1 +
-> > >  .../perl/libconvert-asn1-perl_0.27.bb         |  2 +
-> > >  .../perl/libtimedate-perl_2.30.bb             |  1 +
-> > >  meta/recipes-extended/quota/quota_4.05.bb     |  1 +
-> > >  meta/recipes-extended/sed/sed_4.8.bb          |  1 +
-> > >  meta/recipes-extended/shadow/shadow.inc       |  1 +
-> > >  meta/recipes-extended/shadow/shadow_4.8.1.bb  |  5 +-
-> > >  .../texinfo-dummy-native.bb                   |  1 +
-> > >  meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
-> > >  meta/recipes-extended/xinetd/xinetd_2.3.15.bb |  1 +
-> > >  meta/recipes-extended/xz/xz_5.2.4.bb          |  1 +
-> > >  meta/recipes-extended/zip/zip_3.0.bb          |  1 +
-> > >  .../recipes-gnome/epiphany/epiphany_3.34.4.bb |  3 +
-> > >  .../gnome/adwaita-icon-theme_3.34.3.bb        |  2 +
-> > >  .../libnotify/libnotify_0.7.8.bb              |  4 +
-> > >  .../libsecret/libsecret_0.20.1.bb             |  1 +
-> > >  .../clutter/clutter-gst-3.0.inc               |  4 +
-> > >  .../clutter/clutter-gtk-1.0.inc               |  5 ++
-> > >  meta/recipes-graphics/kmscube/kmscube_git.bb  |  6 +-
-> > >  .../mini-x-session/mini-x-session_0.1.bb      |  1 +
-> > >  meta/recipes-graphics/mx/mx.inc               |  6 ++
-> > >  meta/recipes-graphics/piglit/piglit_git.bb    |  2 +
-> > >  .../startup-notification_0.12.bb              |  5 +-
-> > >  .../ttf-fonts/ttf-bitstream-vera_1.10.bb      |  1 +
-> > >  .../vulkan/vulkan-headers_1.1.126.0.bb        |  4 +
-> > >  .../vulkan/vulkan-tools_1.1.126.0.bb          |  1 +
-> > >  meta/recipes-graphics/waffle/waffle_1.6.0.bb  |  8 +-
-> > >  .../pointercal-xinput_0.0.bb                  |  3 +
-> > >  meta/recipes-kernel/blktrace/blktrace_git.bb  |  5 ++
-> > >  meta/recipes-kernel/cryptodev/cryptodev.inc   |  5 ++
-> > >  .../dtc/0001-fdtdump-Fix-gcc11-warning.patch  | 35 +++++++++
-> > >  meta/recipes-kernel/dtc/dtc_1.6.0.bb          |  2 +
-> > >  .../kern-tools/kern-tools-native_git.bb       |  4 +
-> > >  .../linux-firmware/linux-firmware_20210208.bb |  4 +
-> > >  .../linux-libc-headers/linux-libc-headers.inc |  2 +
-> > >  .../linux/linux-yocto-rt_5.4.bb               |  6 +-
-> > >  .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
-> > >  meta/recipes-kernel/linux/linux-yocto.inc     |  1 +
-> > >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++---
-> > >  .../lttng/lttng-modules_2.11.6.bb             |  1 +
-> > >  .../lttng/lttng-tools_2.11.5.bb               |  1 +
-> > >  .../make-mod-scripts/make-mod-scripts_1.0.bb  |  1 +
-> > >  .../systemtap/systemtap-uprobes_git.bb        |  2 +-
-> > >  .../recipes-kernel/systemtap/systemtap_git.bb |  3 +
-> > >  .../alsa/alsa-lib_1.2.1.2.bb                  |  2 +
-> > >  .../alsa/alsa-plugins_1.2.1.bb                |  3 +
-> > >  .../alsa/alsa-tools_1.1.7.bb                  |  3 +
-> > >  .../alsa/alsa-topology-conf_1.2.1.bb          |  3 +
-> > >  .../alsa/alsa-ucm-conf_1.2.1.2.bb             |  3 +
-> > >  .../alsa/alsa-utils_1.2.1.bb                  |  2 +
-> > >  .../gstreamer/gst-examples_1.16.0.bb          |  3 +
-> > >  .../gstreamer/gstreamer1.0-libav_1.16.3.bb    |  2 +
-> > >  .../gstreamer/gstreamer1.0-omx_1.16.3.bb      |  1 +
-> > >  .../gstreamer1.0-plugins-bad_1.16.3.bb        |  4 +
-> > >  .../gstreamer1.0-plugins-base_1.16.3.bb       |  3 +
-> > >  .../gstreamer1.0-plugins-good_1.16.3.bb       |  4 +
-> > >  .../gstreamer1.0-plugins-ugly_1.16.3.bb       |  4 +
-> > >  .../gstreamer/gstreamer1.0-python_1.16.3.bb   |  2 +
-> > >  .../gstreamer/gstreamer1.0-vaapi_1.16.3.bb    |  1 +
-> > >  meta/recipes-multimedia/lame/lame_3.100.bb    |  3 +-
-> > >  .../recipes-multimedia/liba52/liba52_0.7.4.bb |  3 +
-> > >  .../libid3tag/libid3tag/cflags_filter.patch   | 21 ++++++
-> > >  .../libid3tag/libid3tag_0.15.1b.bb            |  1 +
-> > >  .../libpng/libpng_1.6.37.bb                   |  3 +
-> > >  .../libsamplerate/libsamplerate0_0.1.9.bb     |  1 +
-> > >  .../libsndfile/libsndfile1_1.0.28.bb          |  3 +
-> > >  meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  4 +
-> > >  .../mpeg2dec/mpeg2dec_0.5.1.bb                |  6 +-
-> > >  .../pulseaudio/pulseaudio.inc                 |  2 +
-> > >  meta/recipes-rt/rt-tests/rt-tests_1.1.bb      |  3 +-
-> > >  .../images/core-image-sato-dev.bb             |  1 +
-> > >  .../images/core-image-sato-ptest-fast.bb      |  1 +
-> > >  .../images/core-image-sato-sdk-ptest.bb       |  1 +
-> > >  .../images/core-image-sato-sdk.bb             |  1 +
-> > >  meta/recipes-sato/images/core-image-sato.bb   |  1 +
-> > >  meta/recipes-sato/l3afpad/l3afpad_git.bb      |  4 +
-> > >  .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
-> > >  .../matchbox-keyboard_0.1.1.bb                |  1 +
-> > >  .../matchbox-panel-2/matchbox-panel-2_2.11.bb |  2 +
-> > >  .../packagegroup-core-x11-sato.bb             |  2 +
-> > >  meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb    |  1 +
-> > >  meta/recipes-sato/puzzles/puzzles_git.bb      |  1 +
-> > >  .../rxvt-unicode/rxvt-unicode.inc             |  1 +
-> > >  ...emove-deprecated-throw-specification.patch | 30 ++++++++
-> > >  .../rxvt-unicode/rxvt-unicode_9.22.bb         |  4 +-
-> > >  meta/recipes-support/apr/apr_1.7.0.bb         |  8 +-
-> > >  .../argp-standalone/argp-standalone_1.3.bb    |  1 +
-> > >  meta/recipes-support/aspell/aspell_0.60.8.bb  | 13 +++-
-> > >  .../recipes-support/atk/at-spi2-atk_2.34.1.bb |  2 +
-> > >  .../atk/at-spi2-core_2.34.0.bb                |  6 +-
-> > >  meta/recipes-support/atk/atk_2.34.1.bb        |  1 +
-> > >  meta/recipes-support/attr/acl_2.2.53.bb       |  5 +-
-> > >  meta/recipes-support/attr/attr.inc            |  6 +-
-> > >  .../bash-completion/bash-completion_2.10.bb   |  7 +-
-> > >  meta/recipes-support/boost/boost.inc          |  4 +
-> > >  .../consolekit/consolekit_0.4.6.bb            |  2 +
-> > >  meta/recipes-support/curl/curl_7.69.1.bb      |  4 +
-> > >  meta/recipes-support/db/db_5.3.28.bb          |  1 +
-> > >  .../debianutils/debianutils_4.9.1.bb          |  5 ++
-> > >  .../diffoscope/diffoscope_136.bb              |  5 ++
-> > >  .../recipes-support/enchant/enchant2_2.2.8.bb |  3 +
-> > >  meta/recipes-support/fribidi/fribidi_1.0.9.bb |  6 ++
-> > >  meta/recipes-support/gdbm/gdbm_1.18.1.bb      |  3 +
-> > >  .../gnome-desktop-testing_2018.1.bb           |  4 +
-> > >  meta/recipes-support/gnupg/gnupg_2.2.20.bb    |  5 ++
-> > >  meta/recipes-support/gnutls/gnutls_3.6.14.bb  |  4 +-
-> > >  .../recipes-support/gnutls/libtasn1_4.16.0.bb |  2 +
-> > >  .../iso-codes/iso-codes_4.4.bb                |  3 +
-> > >  meta/recipes-support/itstool/itstool_2.0.6.bb |  4 +
-> > >  .../libassuan/libassuan_2.5.3.bb              |  3 +
-> > >  .../libatomic-ops/libatomic-ops_7.6.10.bb     |  1 +
-> > >  meta/recipes-support/libcap/libcap_2.32.bb    |  4 +-
-> > >  .../libcheck/libcheck_0.14.0.bb               |  5 ++
-> > >  .../libcroco/libcroco_0.6.13.bb               |  3 +
-> > >  .../libdaemon/libdaemon_0.14.bb               |  4 +
-> > >  .../libevdev/libevdev_1.8.0.bb                |  3 +
-> > >  .../libevent/libevent_2.1.11.bb               |  5 ++
-> > >  .../recipes-support/libexif/libexif_0.6.22.bb |  3 +
-> > >  .../libfm/libfm-extra_1.3.1.bb                |  1 +
-> > >  meta/recipes-support/libfm/libfm_1.3.1.bb     |  2 +
-> > >  .../libgcrypt/libgcrypt_1.8.5.bb              |  3 +
-> > >  .../libgpg-error/libgpg-error_1.37.bb         |  1 +
-> > >  meta/recipes-support/libical/libical_3.0.7.bb |  4 +
-> > >  meta/recipes-support/libksba/libksba_1.3.5.bb |  5 ++
-> > >  meta/recipes-support/libnl/libnl_3.5.0.bb     |  5 ++
-> > >  .../libproxy/libproxy_0.4.15.bb               |  4 +
-> > >  meta/recipes-support/libpsl/libpsl_0.21.0.bb  |  6 ++
-> > >  .../libsoup/libsoup-2.4_2.68.4.bb             |  2 +
-> > >  .../recipes-support/liburcu/liburcu_0.11.1.bb |  3 +
-> > >  meta/recipes-support/libusb/libusb1_1.0.22.bb |  2 +
-> > >  .../recipes-support/libxslt/libxslt_1.1.34.bb |  5 ++
-> > >  meta/recipes-support/lz4/lz4_1.9.2.bb         |  1 +
-> > >  meta/recipes-support/lzo/lzo_2.10.bb          |  2 +
-> > >  meta/recipes-support/lzop/lzop_1.04.bb        |  1 +
-> > >  meta/recipes-support/mpfr/mpfr_4.0.2.bb       |  1 +
-> > >  meta/recipes-support/nettle/nettle_3.5.1.bb   |  1 +
-> > >  meta/recipes-support/npth/npth_1.6.bb         |  1 +
-> > >  .../p11-kit/p11-kit_0.23.22.bb                |  2 +
-> > >  meta/recipes-support/popt/popt_1.16.bb        |  1 +
-> > >  meta/recipes-support/re2c/re2c_1.0.1.bb       |  4 +-
-> > >  meta/recipes-support/serf/serf_1.3.9.bb       |  5 ++
-> > >  .../shared-mime-info/shared-mime-info_git.bb  |  1 +
-> > >  meta/recipes-support/sqlite/sqlite3.inc       |  1 +
-> > >  meta/recipes-support/taglib/taglib_1.11.1.bb  |  1 +
-> > >  meta/recipes-support/vim/vim.inc              |  4 +
-> > >  meta/recipes-support/vte/vte_0.58.3.bb        |  2 +
-> > >  scripts/lib/wic/canned-wks/common.wks.inc     |  2 +-
-> > >  scripts/lib/wic/canned-wks/directdisk-gpt.wks |  2 +-
-> > >  scripts/lib/wic/canned-wks/mkefidisk.wks      |  2 +-
-> > >  scripts/lib/wic/misc.py                       |  1 +
-> > >  scripts/lib/wic/partition.py                  | 38 ++++++++++
-> > >  scripts/runqemu                               |  2 +
-> > >  193 files changed, 772 insertions(+), 90 deletions(-)
-> > >  create mode 100644 meta/recipes-bsp/efivar/efivar/determinism.patch
-> > >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/CVE-2021-27803.patch
-> > >  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.p=
-atch
-> > >  create mode 100644 meta/recipes-devtools/swig/swig/determinism.patc=
-h
-> > >  create mode 100644 meta/recipes-devtools/syslinux/syslinux/determin=
-ism.patch
-> > >  create mode 100644 meta/recipes-kernel/dtc/dtc/0001-fdtdump-Fix-gcc=
-11-warning.patch
-> > >  create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/cfla=
-gs_filter.patch
-> > >  create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001=
--libev-remove-deprecated-throw-specification.patch
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > >
-> > >=20
-> > >
+On 3/13/2021 05:48, Li Wang wrote:
+>
+> On 3/12/2021 20:44, Richard Purdie wrote:
+>> On Fri, 2021-03-12 at 17:52 +0800, Li Wang wrote:
+>>> some kernel includes kernel-image-image and kernel-devicetree packages.
+>>> these patckages are defined in kernel.bbclass
+>>> but, when use linux-dummy, these packages are not defined.
+>>> so, define them as empty packages for avoiding compile error:
+>>>
+>>> ERROR: Nothing RPROVIDES 'kernel-devicetree'
+>>>
+>>> Signed-off-by: Li Wang <li.wang@windriver.com>
+>>> ---
+>>>   meta/classes/linux-dummy.bbclass         | 26 
+>>> ++++++++++++++++++++++++++
+>>>   meta/recipes-kernel/linux/linux-dummy.bb |  2 +-
+>>>   2 files changed, 27 insertions(+), 1 deletion(-)
+>>>   create mode 100644 meta/classes/linux-dummy.bbclass
+>>>
+>>> diff --git a/meta/classes/linux-dummy.bbclass 
+>>> b/meta/classes/linux-dummy.bbclass
+>>> new file mode 100644
+>>> index 0000000..cd87915
+>>> --- /dev/null
+>>> +++ b/meta/classes/linux-dummy.bbclass
+>>> @@ -0,0 +1,26 @@
+>>> +
+>>> +python __anonymous () {
+>>> +    if d.getVar('PREFERRED_PROVIDER_virtual/kernel') == 'linux-dummy':
+>>> +        # copy part codes from kernel.bbclass
+>>> +        kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
+>>> +
+>>> +        # set an empty package of kernel-devicetree
+>>> +        d.appendVar('PACKAGES', ' %s-devicetree' % kname)
+>>> +        d.setVar('ALLOW_EMPTY_%s-devicetree' % kname, '1')
+>>> +
+>>> +        # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into 
+>>> KERNEL_IMAGETYPES
+>>> +        type = d.getVar('KERNEL_IMAGETYPE') or ""
+>>> +        alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+>>> +        types = d.getVar('KERNEL_IMAGETYPES') or ""
+>>> +        if type not in types.split():
+>>> +            types = (type + ' ' + types).strip()
+>>> +        if alttype not in types.split():
+>>> +            types = (alttype + ' ' + types).strip()
+>>> +
+>>> +        # set empty packages of kernel-image-*
+>>> +        for type in types.split():
+>>> +            typelower = type.lower()
+>>> +            d.appendVar('PACKAGES', ' %s-image-%s' % (kname, 
+>>> typelower))
+>>> +            d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, 
+>>> typelower), '1')
+>>> +}
+>>> +
+>> Rather than generating broken empty packages, why not just set 
+>> RPROVIDES_${PN}
+>> with the appropriate things?
+>
+> linux-dummy is just an empty package, what does it PROVIDE the 
+> appropriate things?
+>
+> linux-dummy has the similar codes:
+>
+> =====
+>
+> oe-core/meta/recipes-kernel/linux/linux-dummy.bb
+>
+> PACKAGES += "kernel-modules kernel-vmlinux"
+> FILES_kernel-modules = ""
+> ALLOW_EMPTY_kernel-modules = "1"
+> DESCRIPTION_kernel-modules = "Kernel modules meta package"
+> FILES_kernel-vmlinux = ""
+> ALLOW_EMPTY_kernel-vmlinux = "1"
+> DESCRIPTION_kernel-vmlinux = "Kernel vmlinux meta package"
+>
+> =====
+>
+> I can offer a more complete empty package as above sample.(FILES_* 
+> DESCRIPTION_*)
+>
+> please give me some suggest about it.
+>
+> Thanks,
+> LiWang.
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>
+> 
+>
 
->=20
->=20
->=20
+--------------82829B436DD636C8A74D55DF
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>ping!</p>
+    <p>Thanks,<br>
+      LiWang.<br>
+    </p>
+    <div class="moz-cite-prefix">On 3/13/2021 05:48, Li Wang wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:166BB6ABA401E063.22828@lists.openembedded.org">
+      <br>
+      On 3/12/2021 20:44, Richard Purdie wrote:
+      <br>
+      <blockquote type="cite">On Fri, 2021-03-12 at 17:52 +0800, Li Wang
+        wrote:
+        <br>
+        <blockquote type="cite">some kernel includes kernel-image-image
+          and kernel-devicetree packages.
+          <br>
+          these patckages are defined in kernel.bbclass
+          <br>
+          but, when use linux-dummy, these packages are not defined.
+          <br>
+          so, define them as empty packages for avoiding compile error:
+          <br>
+          <br>
+          ERROR: Nothing RPROVIDES 'kernel-devicetree'
+          <br>
+          <br>
+          Signed-off-by: Li Wang <a class="moz-txt-link-rfc2396E" href="mailto:li.wang@windriver.com">&lt;li.wang@windriver.com&gt;</a>
+          <br>
+          ---
+          <br>
+          &nbsp;&nbsp;meta/classes/linux-dummy.bbclass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 26
+          ++++++++++++++++++++++++++
+          <br>
+          &nbsp;&nbsp;meta/recipes-kernel/linux/linux-dummy.bb |&nbsp; 2 +-
+          <br>
+          &nbsp;&nbsp;2 files changed, 27 insertions(+), 1 deletion(-)
+          <br>
+          &nbsp;&nbsp;create mode 100644 meta/classes/linux-dummy.bbclass
+          <br>
+          <br>
+          diff --git a/meta/classes/linux-dummy.bbclass
+          b/meta/classes/linux-dummy.bbclass
+          <br>
+          new file mode 100644
+          <br>
+          index 0000000..cd87915
+          <br>
+          --- /dev/null
+          <br>
+          +++ b/meta/classes/linux-dummy.bbclass
+          <br>
+          @@ -0,0 +1,26 @@
+          <br>
+          +
+          <br>
+          +python __anonymous () {
+          <br>
+          +&nbsp;&nbsp;&nbsp; if d.getVar('PREFERRED_PROVIDER_virtual/kernel') ==
+          'linux-dummy':
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # copy part codes from kernel.bbclass
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kname = d.getVar('KERNEL_PACKAGE_NAME') or &quot;kernel&quot;
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set an empty package of kernel-devicetree
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.appendVar('PACKAGES', ' %s-devicetree' % kname)
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar('ALLOW_EMPTY_%s-devicetree' % kname, '1')
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE
+          into KERNEL_IMAGETYPES
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type = d.getVar('KERNEL_IMAGETYPE') or &quot;&quot;
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or &quot;&quot;
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; types = d.getVar('KERNEL_IMAGETYPES') or &quot;&quot;
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if type not in types.split():
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; types = (type + ' ' + types).strip()
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if alttype not in types.split():
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; types = (alttype + ' ' + types).strip()
+          <br>
+          +
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # set empty packages of kernel-image-*
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for type in types.split():
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; typelower = type.lower()
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.appendVar('PACKAGES', ' %s-image-%s' % (kname,
+          typelower))
+          <br>
+          +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname,
+          typelower), '1')
+          <br>
+          +}
+          <br>
+          +
+          <br>
+        </blockquote>
+        Rather than generating broken empty packages, why not just set
+        RPROVIDES_${PN}
+        <br>
+        with the appropriate things?
+        <br>
+      </blockquote>
+      <br>
+      linux-dummy is just an empty package, what does it PROVIDE the
+      appropriate things?
+      <br>
+      <br>
+      linux-dummy has the similar codes:
+      <br>
+      <br>
+      =====
+      <br>
+      <br>
+      oe-core/meta/recipes-kernel/linux/linux-dummy.bb
+      <br>
+      <br>
+      PACKAGES += &quot;kernel-modules kernel-vmlinux&quot;
+      <br>
+      FILES_kernel-modules = &quot;&quot;
+      <br>
+      ALLOW_EMPTY_kernel-modules = &quot;1&quot;
+      <br>
+      DESCRIPTION_kernel-modules = &quot;Kernel modules meta package&quot;
+      <br>
+      FILES_kernel-vmlinux = &quot;&quot;
+      <br>
+      ALLOW_EMPTY_kernel-vmlinux = &quot;1&quot;
+      <br>
+      DESCRIPTION_kernel-vmlinux = &quot;Kernel vmlinux meta package&quot;
+      <br>
+      <br>
+      =====
+      <br>
+      <br>
+      I can offer a more complete empty package as above sample.(FILES_*
+      DESCRIPTION_*)
+      <br>
+      <br>
+      please give me some suggest about it.
+      <br>
+      <br>
+      Thanks,
+      <br>
+      LiWang.
+      <br>
+      <br>
+      <blockquote type="cite">
+        <br>
+        Cheers,
+        <br>
+        <br>
+        Richard
+        <br>
+        <br>
+      </blockquote>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
 
---=20
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------82829B436DD636C8A74D55DF--
