@@ -1,114 +1,106 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.7823.1616068576532331714
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.8221.1616071686396693002
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Mar 2021 04:56:16 -0700
+ Thu, 18 Mar 2021 05:48:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SFOcYbE0;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id u9so3481205ejj.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Mar 2021 04:56:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FyXuVIg+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: liu.ming50@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id hq27so3730857ejc.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Mar 2021 05:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oG5rtOG9yYW44oGJ5R00oTb85uLvt9MUM1jLWjJuI2Y=;
-        b=SFOcYbE0RQhNgUmhVUGGzm1trLFkMNTb5DUHVrThvZ8ZeDKiNMq1DJAFWUikf6DU/X
-         kOHxJOfYVpxE57EiXdco0FFSHL9SSVNri4cqw7K49fvn0P3t9/wOirYhCZln2cBYIUzV
-         69FAUnNdk2XKovgrXfYbUjzuj+pyia4H9dYlLxNtAKZYY3AdgTvQ+qL0lfES0IughZZr
-         bM06exvZO+kAR7C61OuUlEWZrMLAVEk7DudCBX+6+V7GkDd08IpVJb8ue1FMNZAAEvRR
-         nBTuFFUK93pYYNIfCxPyJ+oe5jDdttA4tQypjM78lSa4rNtKv2y8t6Io1kgiSH1z8h+3
-         RixA==
+        bh=B0lVOZ3EVG0DwV+AldzG9mOX21RTGOLl6yqzo/bklXQ=;
+        b=FyXuVIg+WSHiL00hKxQ9Ag3LqTufcOSpCCyFgdYIePIWLuF37sFL31EnfMJzbphdKH
+         gKVJZZp9TW12qi0Bjf+ANis0S4J8KaKGiXO/3gWG2LGzBWx+j1n+hEasqQ6+r9UIT1jJ
+         kj47ScXLEgjpmBEbQOvOP1JncW+LSgayo2UmbYN6Vkj7lXV1u8WuAy8aAjvsX3nwDQlQ
+         VdP5ACyAy+nKda93/CFTme0APy8dpWpZu/r8KmDOQieYKANVDIZwLeZzuPvQMXVwu0ZD
+         g6MCsBbrBOG8cC9qkoqTTVfwyUG8Jip/7F1p1Ykb2XzByMOXuECyKNEqQC6SmTFtkU/I
+         FsXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oG5rtOG9yYW44oGJ5R00oTb85uLvt9MUM1jLWjJuI2Y=;
-        b=hI3dwvdWsRdFnWYSzeyggTp5QUxijPCXcv+v4eEixKsVAyrJE11an7zfZ/3YtbbdS7
-         JdK1Ayqi3s8BOGgjvxWmQcGGI7x2gGZtWO5HCYGZcFnwd9ofEJHKzRhVxJpGydsP7UK/
-         +EgbBX/wWefWYNMgFLRzOerzFXYK+bjKaHqknpP1MgAPs4lVX7rEgRp96OGqkhu5ufwL
-         dBoukgZc3w3r97KyhYmlcusKFlOrU9aQ89bClHYtwMwR/hkk1YCrhHsyH7yB8Tw1fNxg
-         Rf3RW2dBS5oJACMaYYhsnCrH+LUlwSsQOjqqhu+q7c8+Y2xhMh7NYXE8Zt7ij3HM8V+2
-         WwhA==
-X-Gm-Message-State: AOAM531pvobzyJ5MNwikiVsXj7Fe8at4x61BBhMsfaJf4+lsETGN92IM
-	Ch4x91nLNY75vOYF2hdcpdQQ26MPAbAk1Q==
-X-Google-Smtp-Source: ABdhPJwk3SB/+No/o/fnUL+9AGHvL6FB4Ly/D+92Mq3+6ylYJ+qZnBq9f6uQLBi2OfO44B41gzpp3A==
-X-Received: by 2002:a17:907:6005:: with SMTP id fs5mr40882939ejc.184.1616068574966;
-        Thu, 18 Mar 2021 04:56:14 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id u59sm1997350edc.73.2021.03.18.04.56.14
+        bh=B0lVOZ3EVG0DwV+AldzG9mOX21RTGOLl6yqzo/bklXQ=;
+        b=TJ2iiOEaxNaLFDgwnDZZR/Mf9h+jPZgtA2exfDaiq4BQr7b790Yo/wd5jI1OU+HqSZ
+         OfTzu8ScNM4bOFQ4pCnw+KjwMP80o9ps0bGmbnuBjDZREjzquewVYYDypeJ3qUGM6SLJ
+         PkSw3aqmqHbjzqx75vyoi/qam+4LUV9gVKZ4b1E87FNCpBBdARlwAMN7vdixLj4fT8Wp
+         a1EAW/JctJEBwDqOVox4m6wMhnxqNeb8MOFI6DVy0YsKrdapIx928UB9sIs/XPxhHHqr
+         pxVbyU19ise6Zmo+RHvlkyleY6K+v1PefeNCUs/Ix6Cm4lCX6e29tVHhcnFwjBLXWKJf
+         00Ng==
+X-Gm-Message-State: AOAM533nkvDZDlKInKQnuHpMlGWC8j2Y6Sh1m11Hfk+G2gjibt+FMApy
+	cWWV0vg3ZsafIraaNIkGXLVyLP7MOD7A7g==
+X-Google-Smtp-Source: ABdhPJzkbiHEmXgvWNDFynLaZxooKHjebf1knWjA74m4iX+Nezxkde7cdbmR0Nc6O8aj0TMiVo3mVw==
+X-Received: by 2002:a17:906:1b54:: with SMTP id p20mr40660211ejg.307.1616071684513;
+        Thu, 18 Mar 2021 05:48:04 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from localhost.localdomain ([2a00:801:3fa:27a9:54fc:e6a8:bd95:d165])
+        by smtp.gmail.com with ESMTPSA id q16sm2066054edv.61.2021.03.18.05.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Mar 2021 04:56:14 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Thu, 18 Mar 2021 05:48:04 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCHv2] libxcrypt: fix sporadic failures in nativesdk-libxcrypt-compat
-Date: Thu, 18 Mar 2021 12:55:57 +0100
-Message-Id: <20210318115557.547767-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
+Cc: max.krummenacher@toradex.com,
+	sergio.prado@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] kernel-fitimage.bbclass: support both KERNEL_DEVICETREE/EXTERNAL_KERNEL_DEVICETREE
+Date: Thu, 18 Mar 2021 13:47:58 +0100
+Message-Id: <20210318124758.26407-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...e.ac-do-not-use-compute-symver-floor.patch | 32 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  4 ++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
+From: Ming Liu <liu.ming50@gmail.com>
 
-diff --git a/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch b/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
-new file mode 100644
-index 0000000000..4e6b427104
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
-@@ -0,0 +1,32 @@
-+From b28bb856ccebe8fded51d11362bf5920699eed59 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 18 Mar 2021 10:52:13 +0000
-+Subject: [PATCH] configure.ac: do not use compute-symver-floor
-+
-+This script (newly introduced in 4.4.18) sporadically fails, without
-+failing configure(), which has been reported at
-+https://github.com/besser82/libxcrypt/issues/123
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure.ac | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 45b91b4..f3ba945 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -426,11 +426,7 @@ if test x$enable_shared != xyes; then enable_obsolete_api=0; fi
-+ # need to be binary backward compatible with.
-+ if test $enable_obsolete_api = 1; then
-+   AC_MSG_CHECKING([minimum symbol version to use for compatibility symbols])
-+-  SYMVER_FLOOR=$(
-+-    $PERL ${srcdir}/build-aux/compute-symver-floor \
-+-      ${srcdir}/lib/libcrypt.minver $host_os $host_cpu \
-+-    2>&AS_MESSAGE_LOG_FD
-+-  )
-++  SYMVER_FLOOR=GLIBC_2.0
-+   AC_MSG_RESULT([$SYMVER_FLOOR])
-+   case "$SYMVER_FLOOR" in
-+     ERROR)
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index e9f968b556..b5ca863d54 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=bd5d9777dfe7076c4f2928f12fed226a \
+There are user cases that a developer wants to add both in-tree and
+out-of-tree devicetrees to fitimage, and this is quite normal, for
+instance, a developer might need the devicetrees from kernel source
+meanwhile maintaining his/her own devicetree overlays to be applied
+on top of them.
+
+To support that, we now allow KERNEL_DEVICETREE and
+EXTERNAL_KERNEL_DEVICETREE to be both set in configuration files, and
+the devicetrees in EXTERNAL_KERNEL_DEVICETREE have higher priority to
+override the same names in KERNEL_DEVICETREE.
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index f5082c93df..b9d8270027 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -535,13 +535,19 @@ fitimage_assemble() {
+ 	# Step 2: Prepare a DTB image section
+ 	#
  
- inherit autotools pkgconfig
- 
--SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
-+SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
-+           file://0001-configure.ac-do-not-use-compute-symver-floor.patch \
-+           "
- SRCREV = "94d84f92ca123d851586016c4678eb1f21c19029"
- SRCBRANCH ?= "develop"
- 
+-	if [ -z "${EXTERNAL_KERNEL_DEVICETREE}" ] && [ -n "${KERNEL_DEVICETREE}" ]; then
++	if [ -n "${KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+ 		for DTB in ${KERNEL_DEVICETREE}; do
+ 			if echo ${DTB} | grep -q '/dts/'; then
+ 				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+ 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+ 			fi
++
++			# Skip ${DTB} if it's also provided in ${EXTERNAL_KERNEL_DEVICETREE}
++			if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ] && [ -s ${EXTERNAL_KERNEL_DEVICETREE}/${DTB} ]; then
++				continue
++			fi
++
+ 			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+ 			if [ ! -e "${DTB_PATH}" ]; then
+ 				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+@@ -769,4 +775,4 @@ python () {
+         bb.build.deltask('do_assemble_fitimage', d)
+         bb.build.deltask('generate_rsa_keys', d)
+         bb.build.addtask('generate_rsa_keys', 'do_assemble_fitimage_initramfs', 'do_bundle_initramfs', d)
+-}
+\ No newline at end of file
++}
 -- 
-2.29.2
+2.29.0
 
