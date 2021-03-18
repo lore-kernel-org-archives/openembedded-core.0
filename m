@@ -1,83 +1,206 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
- by mx.groups.io with SMTP id smtpd.web08.4519.1616038503733540571
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.4523.1616039590541024856
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Mar 2021 20:35:04 -0700
+ Wed, 17 Mar 2021 20:53:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id 21/DA-03420-56AC2506; Thu, 18 Mar 2021 03:35:01 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxVTf1VFC
-  CweW70hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8anKVtZCho4K+bvvM/UwLico4uRk0NIYDOT
-  RNMRzS5GLiD7BKPEmvln2UESbAKaEr1btjB2MXJwiAjoSVz9JwoSZhZQl7i0roUFxBYW8JbY+
-  WstK4jNIqAqMb9/NVgrr4CrxPaeHWC2hICCxJSH75lBbE4BN4mbz/uZIfa6Sky7cYIJol5Q4u
-  TMJywQ8yUkDr54wQzRqygx+3IzC4RdJbGmYxrbBEb+WUhaZiFpWcDItIrRMqkoMz2jJDcxM0f
-  X0MBA19DQWNdY19DSRC+xSjdRL7VUNzk1r6QoESirl1herFdcmZuck6KXl1qyiREYjimFzId2
-  MD55/UHvEKMkB5OSKK/o+qAEIb6k/JTKjMTijPii0pzU4kOMMhwcShK8ESeBcoJFqempFWmZO
-  cDYgElLcPAoifC+PAKU5i0uSMwtzkyHSJ1iVJQS5zUH6RMASWSU5sG1weLxEqOslDAvIwMDgx
-  BPQWpRbmYJqvwrRnEORiVh3qMngKbwZOaVwE1/BbSYCWhxBD/Y4pJEhJRUA1PL0QOZXmtF9jF
-  MYGFYO6H9p3zrkqoHbI4t+xPuVz19+P/8L9d6Bm11Hz7PF9/OW14+sOpu03rF1VO1vbZyGLEt
-  ZerxXvFnd21nWmiO39K5DzSNVCLlP9t377zAtVHsQY3U+SbDl94xHz+rfMzu6PhxWex+avZDl
-  bu/Tvc3PWdrkPvl6su5QuZ+5Kf2/wcd0qdHWpoVOZ/jexMU3crnoeBa/+jDg+/hz7c/5ZzIfS
-  LiIutiSZ1pp6vVdyVnfjCefH7pKo3sU66Vh77c/vXgp2ebw/dnfzMV1ZYq5yw9tMhYe/3Jm1n
-  rom/c+L0usPDlbB+OfU8mpu99dMi12NI544TYy0dMO8Osrq+siAkO1VuixFKckWioxVxUnAgA
-  4/2O6kIDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-11.tower-232.messagelabs.com!1616038500!71715!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=fail
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 12373 invoked from network); 18 Mar 2021 03:35:01 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-11.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 18 Mar 2021 03:35:01 -0000
-Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12I3YvNH029296
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Mar 2021 03:35:00 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 18 Mar 2021 03:34:55 +0000
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH 3/3] vulkan-tools: upgrade 1.2.162.1 -> 1.2.170.0
-Date: Thu, 18 Mar 2021 11:34:40 +0800
-Message-ID: <1616038480-24925-3-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1616038480-24925-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1616038480-24925-1-git-send-email-wangmy@cn.fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=c5H9MXEC;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id l4so796550qkl.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Mar 2021 20:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QB3rmPJ1g1DK0nBpE9N4CFvMG1Upp9S4ukSafT/To5A=;
+        b=c5H9MXECwapqndLb3ub+ALXiXOOuZjAetTEmegaFxaRzay+d/j3vJLwUPnS8DSlGlb
+         xpjnwuPjkt4N0rVby9hYcz0khHD7LkWqJrTXHthipF4pCEjk3NAiwpyEXmXlzy55/Mxu
+         fsvxhVHGNB5crVL4LIZL0ug1Ruoj+idcjBOuMfoRnW0mtOMMe8PWc0JzG7m+SnbdF+4R
+         lep/ZyyLRV8lmJiQGvJtA5LArA8WS035UKhMwMgHUaaE3LKUVekejm8ehHw8AlqDrt6j
+         Jy6Ij0lm/Th4cZdea+s2tSXfRY6CMwPcegHmi4fTbTw7I5DrqsN7Fljl47FGFcbZNNlw
+         KEVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QB3rmPJ1g1DK0nBpE9N4CFvMG1Upp9S4ukSafT/To5A=;
+        b=WbyNDBuu+dv0V8fRfa50hH1UiDwsFBR2zOvUaJpuykzZPLhnWfkAr7rRpTpzX4GcsQ
+         zO0I6fB2JAoFhn8wv5zIkrqKkCGRX5oKe6ma5t/J5Cf5/wWQY91w8Xah2x/pxV8+tG8k
+         RaJwCendr519CXjDhZHADsLVuP9x8UaC44gQ+1U46101Al87IHkNojcTuNrP1/N2bBVJ
+         JuciU9swoyCeROX8FTB9QX+MJGY//hbzW841Ii3/RuGMqWAL/eAbQaJHShZ15UQW6O6K
+         DmGEoD8jBo3pp7lHoRxp8fFiammMM1LUAcbf8D/85gvJbwSuZZCAKZM3ZsgQXotdVdSL
+         N7FA==
+X-Gm-Message-State: AOAM530CeUX2IsZMwAbiXRTVqtS6SehCCvxnAX1rUQJ9EncelaGkL1bk
+	qaK6ywCAhVp3sjJ/u7JXy0jhfcE4vGTc22+ESDA=
+X-Google-Smtp-Source: ABdhPJx17WLe304aeZaUGQCVyjLTzhQ0qyEhfABC6s8OfjjE6UfS5souQSg75qZY4zEYGoMtbcgvhQEWOF9tBdi98aY=
+X-Received: by 2002:a05:620a:124f:: with SMTP id a15mr2544478qkl.125.1616039589442;
+ Wed, 17 Mar 2021 20:53:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
-Content-Type: text/plain
+References: <20210318025605.48080-1-mingli.yu@windriver.com>
+In-Reply-To: <20210318025605.48080-1-mingli.yu@windriver.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 17 Mar 2021 20:52:56 -0700
+Message-ID: <CAMKF1srFg0FMryVXcEkQFuygGO0E_HRvpu5Bvgt8BDBREHW+gg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] autotools: don't wipe elfutils macros
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000abf97805bdc789c2"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../{vulkan-tools_1.2.162.1.bb => vulkan-tools_1.2.170.0.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/vulkan/{vulkan-tools_1.2.162.1.bb => vulkan-tools_1.2.170.0.bb} (94%)
+--000000000000abf97805bdc789c2
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.162.1.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.170.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/vulkan/vulkan-tools_1.2.162.1.bb
-rename to meta/recipes-graphics/vulkan/vulkan-tools_1.2.170.0.bb
-index a5c3bbcb14..0c8bcaa085 100644
---- a/meta/recipes-graphics/vulkan/vulkan-tools_1.2.162.1.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.2.170.0.bb
-@@ -6,8 +6,8 @@ SECTION = "libs"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.162"
--SRCREV = "8f0c2e40d4134f53f82ce48de72c7be92baa6b3d"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.2.170"
-+SRCREV = "88ea55de928a08ba5c5f65a93d1e7c8f666fc43f"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.25.1
+On Wed, Mar 17, 2021 at 7:56 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
 
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> The below m4 macros files shipped with recipe will be removed if the
+> recipe use AM_GNU_GETTEXT.
+> gettext.m4
+> iconv.m4
+> lib-ld.m4
+> lib-link.m4
+> lib-prefix.m4
+> nls.m4 po.m4
+> progtest.m4
+>
+> After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as the
+> commit (dd52d2ab Modernize gettext infrastructure) included, so the above
+> m4 macros files such as iconv.m4 is removed and it's bad as we need to
+> patch against iconv.m4 shippped with elfutils.
+>
+> So we skip elfutils to not let the elfutils m4 macros removed and also
+> fix below issue:
+>  $ bitbake elfutils -cconfigure && bitbake elfutils -cpatch
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/classes/autotools.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/autotools.bbclass
+> b/meta/classes/autotools.bbclass
+> index 9dc8ebdaa7..4b462c5aba 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -203,7 +203,7 @@ autotools_do_configure() {
+>                                 bbnote Executing glib-gettextize --force
+> --copy
+>                                 echo "no" | glib-gettextize --force --copy
+>                         fi
+> -               elif [ "${BPN}" != "gettext" ] && grep -q
+> "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
+> +               elif [ "${BPN}" != "gettext" -a "${BPN}" != "elfutils" ]
+> && grep -q "^[[:space:]]*AM_GNU_GETTEXT"
+
+
+
+This looks a bit iffy to me where we are moving recipe specific knowledge
+into a generic class
+
+Please find a solution that works in recipe space
+Perhaps move these macros to different folder before regenerating them and
+then move back as desired or perhaps look at if the gettext change we did
+for elfutils is too deep a cut then we might want to revert that
+
+$CONFIGURE_AC; then
+>                         # We'd call gettextize here if it wasn't so
+> broken...
+>                         cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath
+> ${AUTOTOOLS_AUXDIR}/
+>                         if [ -d ${S}/po/ ]; then
+> --
+> 2.17.1
+>
+>
+> 
+>
+>
+
+--000000000000abf97805bdc789c2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Mar 17, 2021 at 7:56 PM Yu, Mingli &lt;<a href=3D"=
+mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-co=
+lor:rgb(204,204,204)">From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windr=
+iver.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+The below m4 macros files shipped with recipe will be removed if the<br>
+recipe use AM_GNU_GETTEXT.<br>
+gettext.m4<br>
+iconv.m4<br>
+lib-ld.m4<br>
+lib-link.m4<br>
+lib-prefix.m4<br>
+nls.m4 po.m4<br>
+progtest.m4<br>
+<br>
+After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as the<b=
+r>
+commit (dd52d2ab Modernize gettext infrastructure) included, so the above<=
+br>
+m4 macros files such as iconv.m4 is removed and it&#39;s bad as we need to=
+<br>
+patch against iconv.m4 shippped with elfutils.<br>
+<br>
+So we skip elfutils to not let the elfutils m4 macros removed and also<br>
+fix below issue:<br>
+=C2=A0$ bitbake elfutils -cconfigure &amp;&amp; bitbake elfutils -cpatch<b=
+r>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" ta=
+rget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/autotools.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbcla=
+ss<br>
+index 9dc8ebdaa7..4b462c5aba 100644<br>
+--- a/meta/classes/autotools.bbclass<br>
++++ b/meta/classes/autotools.bbclass<br>
+@@ -203,7 +203,7 @@ autotools_do_configure() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote Executing glib-gettextize --=
+force --copy<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;no&quot; | glib-gettexti=
+ze --force --copy<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fi<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif [ &quot;${BPN=
+}&quot; !=3D &quot;gettext&quot; ] &amp;&amp; grep -q &quot;^[[:space:]]*AM=
+_GNU_GETTEXT&quot; $CONFIGURE_AC; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif [ &quot;${BPN=
+}&quot; !=3D &quot;gettext&quot; -a &quot;${BPN}&quot; !=3D &quot;elfutils&=
+quot; ] &amp;&amp; grep -q &quot;^[[:space:]]*AM_GNU_GETTEXT&quot; </blockq=
+uote><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">This looks a bit iffy to me where we are moving recipe specific knowled=
+ge into a generic class</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+Please find a solution that works in recipe space</div><div dir=3D"auto">Pe=
+rhaps move these macros to different folder before regenerating them and th=
+en move back as desired or perhaps look at if the gettext change we did for=
+ elfutils is too deep a cut then we might want to revert that=C2=A0</div><d=
+iv dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-le=
+ft:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto">$CONFIGURE_AC; then=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # We&#39;d call gettextize here if it wasn&#39;t so broken...<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_A=
+UXDIR}/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if [ -d ${S}/po/ ]; then<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000abf97805bdc789c2--
