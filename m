@@ -1,461 +1,198 @@
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.40])
- by mx.groups.io with SMTP id smtpd.web10.208.1616090575017609585
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web12.465.1616092284677507395
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Mar 2021 11:02:56 -0700
+ Thu, 18 Mar 2021 11:31:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@spinetix.com header.s=selector2 header.b=r0a8Mwin;
- spf=pass (domain: spinetix.com, ip: 40.107.5.40, mailfrom: diego.santacruz@spinetix.com)
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=iDcNWOYP;
+ spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: iVR382Wn1HDlKwqNDFGaPtg/UwxlaTYthekbfu3CtSLQ9/mqoHsurjxovYx9GqbA4Hq+6T1RDa
+ u306cSgORWng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="189787375"
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
+   d="scan'208";a="189787375"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2021 11:31:23 -0700
+IronPort-SDR: Ss+aIYeaHaRk23bONaTQwBxREmseR40Dor0Bwbvyo+ctazvD5jlqENjNRTpcu123KeQi5FruvH
+ RPRQs/eXzNHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
+   d="scan'208";a="412001699"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga007.jf.intel.com with ESMTP; 18 Mar 2021 11:31:23 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 18 Mar 2021 11:31:19 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 18 Mar 2021 11:31:19 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Thu, 18 Mar 2021 11:31:19 -0700
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.56) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Thu, 18 Mar 2021 11:31:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F8IimKkuvlYq4s43DKPIcsgQeIwFZSjseSVIU6oAuHABSSV4UXgSzo3fEXV0q8A7DYXsu8OJpsvpkSaiVJjKrtUDWFB6By2Dr+zq2brdCm6UxXZ4oODVPLZef1qCdz1yGwFRK/wBrhNVGmX7EWRZw5PdhD5NWt0K0oWjGMSWmjk8G41tthXxeVkEYRFv3r3WutGmnPjHN4FY2DCRRk8HuntcF54DFDhVHKK4csMJeQ+q5qg817Nbs8nT/EAKhuHVS+0d9rhmJYGG4sDJ5oLutoQRDl7+0Lkfb9jjejShZ/0BLKFqtH5iuvCMWkz16+2mh6Bi0OYSVgxbUDftkKph6w==
+ b=g7JFPkH8w4c+3MRhM5Bcda/9Q2CAAqApTo20jKyKOCChJCEdBR6GXWNSLc16lx/aFZFPlfEAhq6eUSRPWYzWg+oDHDeUyTv8h9CmHb4ZNDdHVNuppQ7Qo+pmaUr5oK8rdRe4iCupNPQHeJti+qKqm+m9yXifdf0SKwrcWR/oNrdtPXjnLvmtamn7TYrvGgB8/6n9VDZT6IBScF2FGMV31NGEgDm3JgC2FoqCmLyxQIH8gcobbg7gHo6P1nKd4G9YdMKs1Rjq2AI1grxyxq8fF1NHg1jBFP+2twBFz/+CXGObj8L77MwjSCP7e+EvuWIm6bPrL4gSNXjKdtdcJ+yLzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+cdX4JVEq6hjCaFbUfixj7vWb5dEGRjrTpUwsWPX7ek=;
- b=CFwdM2y+iwRYdi0LiUbTr8iiLkPwEdjVjek7yTkwqOnNm3/lIpWteX8Tt3HkBpt+Z58Cnwj+IS+h3E0wY6Ui76jUjaFLIt+DcWhhUsygW0HTEFudBDfEeShMauVwQ9GLPK3PmIRZ9JmoJGSA+nqnpi8Hnbqd/8eEIEK/Y7qtaof3TfpfgG6QyQwDOkYKD7NaUI5yJO5FGYlnmBbfRJiKGFKB0h8CA3Wes1msh0PdCk7cnD4R9NsDjxQ4b1hdHwzD+btXzzDXYVti0+q1KZQKYPTdwqsnkJ2egIfj4ndu7NCIxDumEnnUNZXwdePSAHIT1jkpSFTyKVCSh6FAdhsS0A==
+ bh=UictMYrLbl1QTgaOMgNQdOqLwojRLh7bmFn0JEiCZns=;
+ b=DI7QmQ9BlqlX3b8W7hUaK9sVTdYqoTQnyECHRhgoyQiDGo8gTtoGJYU5j8SiFNnSmhNR7ULBHr4SDHwARDr7YJhtM7DIPaUyo6AQdNVK3tBgTVgsYGI0ej7TT53EfL1XUOkIHt83PJTBqL+bvQpNLrCuBbt+NuAKjvUOWWlZxf2zs8wr0OiGE2lvw/1YBgF+w2ZIELILYLOLuOYfkkqpMdnT7xY9m+0WhHfA1yEreX8vedcqKyh1o4fmA5SVfp207/LZ7eAZGUd86Vo8j3Cp91aH58wxVK24wbqWWgN9XJI5kN8DPJ2c7HH2wrv2EtIvrr9zMgW4ZvMNuGMpfTlwYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
- dkim=pass header.d=spinetix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
- s=selector2;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+cdX4JVEq6hjCaFbUfixj7vWb5dEGRjrTpUwsWPX7ek=;
- b=r0a8MwinjxgYTRqdY2LseleTASePMrN3l17gddSeKs24mJZAum9RL/12Dt4wm2nChcV1EYPmkqvBS1RxHnD7JNmZHE50leRuwDhEvKh67H/66dlZUPRSjO/e7psLqeuG3TM7AkbDqJCmWX5Va2EC5RDJMDkiEHlS7adBXaxQ3oE=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=spinetix.com;
-Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- (2603:10a6:6:e::19) by DB8PR01MB6341.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:15d::11) with Microsoft SMTP Server (version=TLS1_2,
+ bh=UictMYrLbl1QTgaOMgNQdOqLwojRLh7bmFn0JEiCZns=;
+ b=iDcNWOYPvwMZEGbmXXQIg8D+fPZRJ/kbPXyO/MP916t5SkdMyths940x3Y71lTO1iknJS2tq1mxI/IOYy2KKE6UwVu6HUVTiEHgxTeRPjnsMAKp70vq9lSQeBof32YTsX2H3lsQK2Y3pK5qXzdKLi8hqH88KwdcQbrmqA+easyQ=
+Received: from MWHPR11MB1326.namprd11.prod.outlook.com (2603:10b6:300:21::7)
+ by CO1PR11MB5041.namprd11.prod.outlook.com (2603:10b6:303:90::16) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Thu, 18 Mar
- 2021 18:02:50 +0000
-Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- ([fe80::a979:e5e4:3b20:ba6b]) by
- DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- ([fe80::a979:e5e4:3b20:ba6b%7]) with mapi id 15.20.3933.032; Thu, 18 Mar 2021
- 18:02:50 +0000
-From: "Diego Santa Cruz" <diego.santacruz@spinetix.com>
-To: openembedded-core@lists.openembedded.org
-CC: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-Subject: [dunfell][PATCH] iputils: fix various arping regressions
-Date: Thu, 18 Mar 2021 19:02:17 +0100
-Message-ID: <20210318180217.23002-1-Diego.SantaCruz@spinetix.com>
-X-Mailer: git-send-email 2.18.4
-X-Originating-IP: [46.14.255.78]
-X-ClientProxiedBy: ZRAP278CA0010.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::20) To DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- (2603:10a6:6:e::19)
-Return-Path: Diego.SantaCruz@spinetix.com
+ 2021 18:31:17 +0000
+Received: from MWHPR11MB1326.namprd11.prod.outlook.com
+ ([fe80::e1c6:f0ea:ea3b:56ca]) by MWHPR11MB1326.namprd11.prod.outlook.com
+ ([fe80::e1c6:f0ea:ea3b:56ca%11]) with mapi id 15.20.3955.018; Thu, 18 Mar
+ 2021 18:31:17 +0000
+From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+To: Anatol Belski <anbelski@linux.microsoft.com>, Steve Sakoman
+	<steve@sakoman.com>
+CC: Denys Dmytriyenko <denis@denix.org>, Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+Thread-Topic: [OE-core] [PATCH] glibc: Fix CVE-2021-27645
+Thread-Index: AQHXFoo+3Jx9lAFlFU2WCuYh10gx96p/dvgAgAFImACAAD2n0IABlHsAgAMHogCAAQE4gIAALyEAgABNtICAAwMC8A==
+Date: Thu, 18 Mar 2021 18:31:17 +0000
+Message-ID: <MWHPR11MB1326409A4E80D7DB446A0B6CDE699@MWHPR11MB1326.namprd11.prod.outlook.com>
+References: <20210311152128.41215-1-khairul.rohaizzat.jamaluddin@intel.com>
+ <CAMKF1spX6z9vvv7QNbWhkapX-Z1=FWZVh0W2+OM2qSbxPqQgkQ@mail.gmail.com>
+ <DM5PR11MB1322590C6E8F9272ECC912CFDE6F9@DM5PR11MB1322.namprd11.prod.outlook.com>
+ <MWHPR11MB1326447A6A6AA12D09952A56DE6F9@MWHPR11MB1326.namprd11.prod.outlook.com>
+ <f2d269853c88992f528419d5d20139a42728cada.camel@linux.microsoft.com>
+ <20210315213606.GP4892@denix.org>
+ <dd23f3e8-0db6-3f8b-466a-e9c9207c6604@linux.microsoft.com>
+ <CAOSpxdbSVPDC9hDcyYhjvSwdbRnaPJ_VbaLscMLNhiwrVN6u-A@mail.gmail.com>
+ <c115a501-d7ce-3c30-7964-6e0afc373305@linux.microsoft.com>
+In-Reply-To: <c115a501-d7ce-3c30-7964-6e0afc373305@linux.microsoft.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: linux.microsoft.com; dkim=none (message not signed)
+ header.d=none;linux.microsoft.com; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [113.210.106.27]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4f3d59ab-a737-4187-9224-08d8ea3c04f7
+x-ms-traffictypediagnostic: CO1PR11MB5041:
+x-microsoft-antispam-prvs: <CO1PR11MB50411A2F3B743762E625D691DE699@CO1PR11MB5041.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xjodArheynI35Em6AahjhX2kaS27JmkU6xjTNMqFZxKD7j7Sj73dVgFhDfo0v3INAmj7yHh+fHmFw5SekT0IrSvTAgGzwmfj+o49Yf83+cOFF+V4SVrf/+OPujkmJwn7ryu9wFEXOTbm4Liu1ZZaI9O4OoJLwB1o+YZ4skUWB6Cr1FCG8mC0IN10EPmt8T2jMoZxvdpGWN1k0y4hz32clIkvr+utqitrcFxMaB1KFAVjXODabd1LjpN5gXdmvvMjHGw9YzbtkqGuzUvnrGZ5JR4nsNHMcVZ4P0l84vHMF4+6ApAa0hcq51YmS/OQMkYdKZ7Xby2E0oafF9VY0ZalRV2MCiRHc20uZk3HibL6STbHAJ4/06qlXluIDD1BNz2Nf/OjLyaEgH/ESGTdtgdVSUvQCHwjZPEztlTBtPnq+vCtox96Ibc9OtiDxWYx8Yfyfa3uGS3AZ6NaDJIYSw+gtZFL9kRGYwAaNJP4XOL4cLCIdX8OYf1RF38Y0YJaFQftB5BBzTpR1NaIpJ7hp/rwqvGcBJr6vdR1W8VXAezXWtsiynI3GiHSnCxojmHASmX03K1z8ujl8U9x6Vm2/6PIImGFWROQu+eVAy5elgFuIHkCZMc1rAMLVBd4tuh3cBmA+YqBvplz6HD7f6FWlfpHn8PeAKnjgaE72lSPRcsaJo9WgYvTxmB/OLkqm+A5XQMc
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1326.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(39860400002)(366004)(136003)(52536014)(64756008)(316002)(71200400001)(66946007)(4326008)(6506007)(38100700001)(76116006)(966005)(66446008)(110136005)(54906003)(66556008)(66476007)(5660300002)(8936002)(7696005)(55016002)(2906002)(86362001)(26005)(186003)(478600001)(53546011)(33656002)(8676002)(9686003)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?TmM2cGMzTTl0SVkwTGMrRWIvS256ckQ5YUp4ckcvUEwxZUozYldrU3JnTURP?=
+ =?utf-8?B?a25VenUwYkZBZzBZY25kMnhPRjZyTG4yMUFwMHRhV0I2ME9WODFxTjlRcVhu?=
+ =?utf-8?B?bGpIT0dxUGtRL1JsMU5VTzZQMlg3WU1melprdjRFMHE5NzIyWHJGVEFBemZo?=
+ =?utf-8?B?NUwrY3ZDMWhVLzN6amd6NGJxZXVwUWk2VFVZNU1Rakk4N0tsdkpKYUppUU14?=
+ =?utf-8?B?b3FQODAranNwZldXS1hWOWVwdERNWHV2aG5rM3ZMRTBlLzF5UmVJUTZ6RlpN?=
+ =?utf-8?B?K2VGWFplWE1aazVFT1ZTeHBrdjU1QlVpaTl6QVNYbVlpVkUxTElsaFJiTmtk?=
+ =?utf-8?B?TW1PR1did1F5Qzl4eUJUZE9OUVJtb0Mzb2QvRHZ3cElRVGJHYURGczFzNmJr?=
+ =?utf-8?B?dTlSdUFYZTRYMzNaangydTFSc3hpM0xaaDQrM01LUHVuYmgxcmxWWGlKbERn?=
+ =?utf-8?B?Tkt6ckpGRWRhTUQ3M1BoOXZsYTFCVkYvV2V0ZU1KdjViV0QzTjlKU3pVU3lU?=
+ =?utf-8?B?Z29GRUUveHFZeTFMSW4rd1JKNitiWmdCeU1YTzRmTTBJcGZObndISW1LVHpI?=
+ =?utf-8?B?MFAwODQwa1lQZ2REdnFvSDRtbXpGa1FJeDJJTDAzQnM0K28wK1phL3k1YVoz?=
+ =?utf-8?B?NVBPc2R4cVZaNkI4dmtPa095M3JLeDBhYUM0c2JyaGUwUEZ1M0NFV0Izb0Ro?=
+ =?utf-8?B?bEFXTUkvRGZnOW9IVUgxZ3dCZC9UcS9wR3IxaU9pc250TmVpNGYyYXQ5V1Y3?=
+ =?utf-8?B?aEs2QkV2VkJwVUhWUjZ2MitJTTlvVjZBYk1TMDJXeUVoSitHNWV3Tnl1eTZ1?=
+ =?utf-8?B?TnFSYmVIRGJaUHRMU1FMZkF5WGZKcE1BeGlqSTFNaS9Oa1RST09RcTBNYlVT?=
+ =?utf-8?B?RnoyOStVcFlPQ01zdUNDL0NlNnVNV0k0L0VFa0oxSmx1cmxUd3BxZCtsWFBR?=
+ =?utf-8?B?UGhmaVViRnNmSUFtd3owTXRyZ2xFTEplL05MckdUUWdTbWpnZ3hvaGhTenlt?=
+ =?utf-8?B?Z0NXWjV3QmJxVWhSYWxEeGs3QWFlY3pBTVN6WTh3NWtQZDdhYWZMZHJFWDZy?=
+ =?utf-8?B?V01KazJvUUZjbWd2U1lxQWRDV1NEaVpXeTFINlpub0pvZXYwWlJoV3UyVmQz?=
+ =?utf-8?B?Y1hYS2ZrQ05NM3lxUzVZN2lnZjhHV0p5cmdiVUNVR3Y0N0g4NjVNdGlJSEg3?=
+ =?utf-8?B?Q1RaYllxaXkxMGtKcmgwZXZWSHZGZkxsYllGdHQvMmtERENnQ0xnUXorZDlv?=
+ =?utf-8?B?cStRTE82YlM4cUVwbWU5c0h6RmRtbHZFblZ4c1pLeGNZTWhLdldPZlpvazA0?=
+ =?utf-8?B?OXZmUUZXQ3NBUkhrMTZhb2Z4aE8zK3ExN1NPT2dqQXlhZkRkYzRFbVdDdUd3?=
+ =?utf-8?B?Y1FKZTFSRk5xQjdMakRNVVFmTU5YYytWZFFjUGNDRWxQMjRpbjQyOStTUTZB?=
+ =?utf-8?B?MEd3cjYxUjZmVzFwbDdIbG1OeW5XY3g5RmQwSjI3Q3cwdy91aDF1S3QzSHd0?=
+ =?utf-8?B?Q1pzV21BY0grTXl1azBmUFplNXpNRXBUa0NTNkdtdEtoREU4TnlINVdEWE00?=
+ =?utf-8?B?emY4NkNoOUJJU3Q2elBhWEgzaFV3Y1JtdW45Q1Z4UnJ3ZUpqRWFZQU9tSmJM?=
+ =?utf-8?B?eFY0M1JPZ29uUUtNNk5GaE54bVZob3UzN2VpdXg5NmsrY1kvU3ZnNGkrV1pM?=
+ =?utf-8?B?cXlTVllXckhmQmg0ZVpDQWU5N0VHZnBBSWRJVExEaUpJQTRYeUQ0TDMvWEcr?=
+ =?utf-8?Q?aRA6EenKa3Bp0GfWMg=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from prefix.spinetix.local (46.14.255.78) by ZRAP278CA0010.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Thu, 18 Mar 2021 18:02:50 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8be856e1-ba17-463d-16dc-08d8ea380b55
-X-MS-TrafficTypeDiagnostic: DB8PR01MB6341:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<DB8PR01MB634124EB12B227C48879512388699@DB8PR01MB6341.eurprd01.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:161;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	k/l4B7fEYe7x60P3fBKMGLri96fL9nPbaWod3LvIQQEY0j9f2mTK5l60LR2y988FDkX7Qbzj9Qnww6DTUn+13YNZza5EGDlnsoRPxwfl9HPYJBAq2CbBwLMgbUp1vqcYxsO82oD/2uQQMvo8imiN4o3TFYYNXsq89rwsT3Xq6JoNthkdshrXI94zBOV0jeRKLyl0PCyYRPgLgtkEG8rwMr+UKkwZ5/mIdROptIjFg1nfKH6A/CscyThiV8H/fKixR9eCmGEDARQY12V13R56I/JGBPU8GcEAFYzDpxFSiyF8SVQBY4rXbFcZHr/qCCKmex9faY+rxR3Lw3PNeSaZv/NuD0XnZ0jg9ztCLWjFk2rUDbHfoK4rmhJ/EOhVYSJB55zZ7uit+ewEQRXGtWAeeewOX7OgH5V7paFMgNLMvrLHzraZtPU3xcXBlvfKD2OjwMEASuqTUbaFxWnHh7lWna3NepTXNwEi/pgYWcWTulSmUyqWzlqZOpe9A5mrqV1pCEihDYafV2mChlTuQtr5ICLY1ukMcdxhuA10ksMnedGNLka0nO/5FbRaYK1imC5UWrNksrX0ypR0O9mf6QntQpEYwPad3WHCEOGoC1oHZwGSQa9INqEdyw+pLKTTNCD4hrq9j+pO6yZdE763m7ej5i7o4lnDxra3H2Y+XuVyIaeA9GJXy8pXr34kD8eo5HVl
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR0102MB2630.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(39830400003)(366004)(376002)(2906002)(26005)(16526019)(6666004)(6506007)(52116002)(186003)(83380400001)(36756003)(4326008)(2616005)(5660300002)(6916009)(86362001)(30864003)(966005)(66946007)(66476007)(478600001)(956004)(66556008)(1076003)(6512007)(107886003)(8676002)(8936002)(38100700001)(6486002)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?wKsbb+ahYynxcyP1dVap96c13IJuaZNk7OgO+ekIdUBpbcwXTQmR4ioWhWen?=
- =?us-ascii?Q?cgi2+jGhcgbB8MSQTUF5/51IMwuS5hJ5p+Xgpxp5JMc+6abRfEoKPo6Wwr2n?=
- =?us-ascii?Q?glQz19exmIyBUegw1Uw8fBVRQvrvuYpxx+yG+7ntzjvWa8gkZUvPZa6Wz+hs?=
- =?us-ascii?Q?K8wvrSeMiOdZ2g6v9cOTouhBh3dQN1/6Mw+MHvgbljr8ro7A9bEzq1+3Zd+0?=
- =?us-ascii?Q?bhmF5PKSuE1wviMuuvCaVqJ/ZjErEtL1Krkp8YFwVpA4BJa0APlxtra28Kn8?=
- =?us-ascii?Q?qJmhY+e/Umd5lAvWOWYEWYnU30QaFMwlaRgv28XEahQQFPjmxQKvGTY45J8z?=
- =?us-ascii?Q?TqMKSBpZN4XI6Hnay6M6lrJ3HpStBy2xnDGSx2DNrfsbiPYwJTjX2hw6ABMC?=
- =?us-ascii?Q?3XzbOBZiNjLKi9GeFLaCX/IEihfbKP/lKfp8nMEgcC6xBibDBPc3KsmLnLho?=
- =?us-ascii?Q?wrkgOAylaeePV6xxEB62pv+8340qJQ8uBLKtN9ec26qL0eWqc6oIWkK2MVik?=
- =?us-ascii?Q?pGkWaIjbRMUY7qTuINeKZZ324UhmWD3HXKpeER8GhM5d5nxba7wn4Bct2tPH?=
- =?us-ascii?Q?mZqJcBbS0+TrYM3dkaXjLjV8N0vZnxd9HNCbeIfZIKElHSClGG9vivDi7gZJ?=
- =?us-ascii?Q?U3criRzubrYq6r83CCvwQN+trOBkdhDu9wsdzKSPOSAbBsDrVabJTU5T5KOs?=
- =?us-ascii?Q?rp0A6s1DIeCQkc7ipGkSAbmL+oMonH6KJmt+W2uVRIXM+EKmwo3Iz223tzdX?=
- =?us-ascii?Q?6qJzz1az2mKrlrzgf5grQ8lqOyPsnEwck/OvS7FCTrIKKqsjMvswnpWUHLo1?=
- =?us-ascii?Q?xfa+Jro4RVWsNwu3m2jbu9IZQBg1h2JmJjhw+IMoWFqChqEqHZhz9B8Y5rmm?=
- =?us-ascii?Q?ohnrTNqlJ87Ca4bXJPxijkwWYsGS6Uu4SN4Kbd2S+s5dUjBOzpVqdlZWei8V?=
- =?us-ascii?Q?ZpK+R7OPMt6/9nEkgeW41ds3kL5vLldNPy27ZTQUpyuSiCxt6QivNiqmFooS?=
- =?us-ascii?Q?3ebnTSscA6bxuS6RYK66pIgBwGeyVKE+eSYRnkwk3+gowNOcOHgGdQ4grgWq?=
- =?us-ascii?Q?dGsmk9tKVs14SCvizcoaz6K5xK8qwAAwqjOgWnsLYGoidAcQUi+jLzj5mXFp?=
- =?us-ascii?Q?yW7fS/PbhzcpEOu21v+GIbDuw/bGy+MOgwBqhp+3T1Fr9Kxhq8ukkhEFCmBc?=
- =?us-ascii?Q?RkWUYAJqgGb1hyTCD2kPG7B+rDt07H+gOsla8+Kndb3gvnDVI5gxtRSOY/nW?=
- =?us-ascii?Q?O0KPPmmB9ptAyFakqKlyA9hf1wexZ8oUdwuUoHIAq5Z94nHM+VRn8v5lk5ZA?=
- =?us-ascii?Q?I2mV4xzxjJbpU34rb/Ucq5ey?=
-X-OriginatorOrg: spinetix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8be856e1-ba17-463d-16dc-08d8ea380b55
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2021 18:02:50.3858
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1326.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f3d59ab-a737-4187-9224-08d8ea3c04f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2021 18:31:17.3676
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y0ncfrsFUn4QRfwuNFSsFF74Y6bxurcimVJNgEiIUH7cpJlgyDb1BCbDONGbK71YB8gsraLvetOlBLit4SsweFqJrUmSAXBa8d62hqXTbIg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR01MB6341
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +60iv8tFc2HX2cdugvjJ0DVqsM6o3D3YCGLPKPiu6tWGjiQelUgBmvW4HNX6+veWmUKtiDsuHcN1YUVEARGhrhafoCKsH3FWJeVj1KYrQj4nuzHoe+Eh11wxkgV+Y3iR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5041
+Return-Path: khairul.rohaizzat.jamaluddin@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-arping in iputils s20190709 has several problems, this backports the
-fixes from s20200821.
- - -D, duplicate address detection, always returns failure
- - -w -f does not behave correctly
- - -w option hangs arping
- - -U option returns failure
-
-Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
----
- ...rtially-fix-sent-vs-received-package.patch | 39 ++++++++
- ...fix-f-quit-on-first-reply-regression.patch | 39 ++++++++
- ...rison-of-different-signedness-warnin.patch | 37 ++++++++
- ...ccess-when-unsolicited-ARP-mode-dest.patch | 45 +++++++++
- ...ional-timerfd-to-control-when-timeou.patch | 94 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              |  5 +
- 6 files changed, 259 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-rever=
-t-partially-fix-sent-vs-received-package.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0002-arping-fix-f=
--quit-on-first-reply-regression.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0003-arping-Fix-c=
-omparison-of-different-signedness-warnin.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0004-arping-retur=
-n-success-when-unsolicited-ARP-mode-dest.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0005-arping-use-a=
-dditional-timerfd-to-control-when-timeou.patch
-
-diff --git a/meta/recipes-extended/iputils/iputils/0001-arping-revert-parti=
-ally-fix-sent-vs-received-package.patch b/meta/recipes-extended/iputils/ipu=
-tils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
-new file mode 100644
-index 0000000000..8495178879
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fi=
-x-sent-vs-received-package.patch
-@@ -0,0 +1,39 @@
-+From 18f14be80466ddc8fb17a400be82764a779c8dcd Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Wed, 31 Jul 2019 21:28:12 +0100
-+Subject: [PATCH] arping: revert partially - fix sent vs received packages
-+ return value
-+
-+Commit 84ca65ca980315c73f929fed8b6f16bbd698c3a0 caused regression.  The
-+arping -D needs return value evaluation that was the earlier default, in
-+other cases the new return value should be correct.
-+
-+Addresses: https://github.com/iputils/iputils/issues/209
-+See-also: https://github.com/void-linux/void-packages/issues/13304
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/18f14=
-be80466ddc8fb17a400be82764a779c8dcd]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 77c9c56..2c87c15 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -792,7 +792,11 @@ static int event_loop(struct run_state *ctl)
-+ 	close(tfd);
-+ 	freeifaddrs(ctl->ifa0);
-+ 	rc |=3D finish(ctl);
-+-	rc |=3D (ctl->sent !=3D ctl->received);
-++	if (ctl->dad && ctl->quit_on_reply)
-++		/* Duplicate address detection mode return value */
-++		rc |=3D !(ctl->brd_sent !=3D ctl->received);
-++	else
-++		rc |=3D (ctl->sent !=3D ctl->received);
-+ 	return rc;
-+ }
-+=20
-+--=20
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-o=
-n-first-reply-regression.patch b/meta/recipes-extended/iputils/iputils/0002=
--arping-fix-f-quit-on-first-reply-regression.patch
-new file mode 100644
-index 0000000000..a5f40860dc
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first=
--reply-regression.patch
-@@ -0,0 +1,39 @@
-+From 1df5350bdc952b14901fde356b17b78c2bcd4cff Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Wed, 28 Aug 2019 20:05:22 +0100
-+Subject: [PATCH] arping: fix -f quit on first reply regression
-+
-+When arping runs together with -f 'quit on first reply' and -w <timeout>
-+'how long to wait for a reply' the command needs to exit if replies are no=
-t
-+received after wait period.  Notice that the exit in case of lost packages
-+will be 1 signifying failure.  Getting a reply results to 0 exit value.
-+
-+Addresses: https://bugs.debian.org/935946
-+Reported-by: Lucas Nussbaum <lucas@debian.org>
-+Addresses: https://github.com/iputils/iputils/issues/211
-+Reported-by: Noah Meyerhans <noahm@debian.org>
-+Broken-since: 67e070d08dcbec990e1178360f82b3e2ca4f6d5f
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/1df53=
-50bdc952b14901fde356b17b78c2bcd4cff]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 2c87c15..30884f6 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -764,7 +764,8 @@ static int event_loop(struct run_state *ctl)
-+ 					continue;
-+ 				}
-+ 				total_expires +=3D exp;
-+-				if (0 < ctl->count && (uint64_t)ctl->count < total_expires) {
-++				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-++				    (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-+ 					exit_loop =3D 1;
-+ 					continue;
-+ 				}
-+--=20
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparis=
-on-of-different-signedness-warnin.patch b/meta/recipes-extended/iputils/ipu=
-tils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
-new file mode 100644
-index 0000000000..ebd122c157
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-d=
-ifferent-signedness-warnin.patch
-@@ -0,0 +1,37 @@
-+From ec821e572a640bd79aecc3922cb9001f4b6b26f2 Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Sat, 7 Sep 2019 06:07:19 +0200
-+Subject: [PATCH] arping: Fix comparison of different signedness warning
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+../arping.c:768:45: warning: comparison of integer expressions of differen=
-t signedness: =E2=80=98int=E2=80=99 and =E2=80=98uint64_t=E2=80=99 {aka =E2=
-=80=98long unsigned int=E2=80=99} [-Wsign-compare]
-+  768 |         (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-+
-+Fixes: 1df5350 ("arping: fix -f quit on first reply regression")
-+Reference: https://github.com/iputils/iputils/pull/212
-+Acked-by: Sami Kerola <kerolasa@iki.fi>
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/ec821=
-e572a640bd79aecc3922cb9001f4b6b26f2]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 2d05728..88319cd 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -765,7 +765,7 @@ static int event_loop(struct run_state *ctl)
-+ 				}
-+ 				total_expires +=3D exp;
-+ 				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-+-				    (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-++				    (ctl->quit_on_reply && ctl->timeout < (long)total_expires)) {
-+ 					exit_loop =3D 1;
-+ 					continue;
-+ 				}
-+--=20
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0004-arping-return-succe=
-ss-when-unsolicited-ARP-mode-dest.patch b/meta/recipes-extended/iputils/ipu=
-tils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
-new file mode 100644
-index 0000000000..923e06e30b
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0004-arping-return-success-when=
--unsolicited-ARP-mode-dest.patch
-@@ -0,0 +1,45 @@
-+From 68f12fc4a0dbef4ae4c404da24040d22c5a14339 Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Sat, 8 Feb 2020 14:12:18 +0000
-+Subject: [PATCH] arping: return success when unsolicited ARP mode destinat=
-ion
-+ does not answer
-+
-+Manual page is making promise answers are not expected when -U (or -A)
-+option is in use.  Either I am looking wrong or this has been broken since
-+at the beginning of git history.
-+
-+Addresses: https://github.com/iputils/iputils/issues/247
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/68f12=
-fc4a0dbef4ae4c404da24040d22c5a14339]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 996cf2b..5180ae0 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -794,7 +794,9 @@ static int event_loop(struct run_state *ctl)
-+ 	close(tfd);
-+ 	freeifaddrs(ctl->ifa0);
-+ 	rc |=3D finish(ctl);
-+-	if (ctl->dad && ctl->quit_on_reply)
-++	if (ctl->unsolicited)
-++		/* nothing */;
-++	else if (ctl->dad && ctl->quit_on_reply)
-+ 		/* Duplicate address detection mode return value */
-+ 		rc |=3D !(ctl->brd_sent !=3D ctl->received);
-+ 	else
-+@@ -943,7 +945,7 @@ int main(int argc, char **argv)
-+ 		}
-+ 		memset(&saddr, 0, sizeof(saddr));
-+ 		saddr.sin_family =3D AF_INET;
-+-		if (ctl.source || ctl.gsrc.s_addr) {
-++		if (!ctl.unsolicited && (ctl.source || ctl.gsrc.s_addr)) {
-+ 			saddr.sin_addr =3D ctl.gsrc;
-+ 			if (bind(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) =3D=3D -1=
-)
-+ 				error(2, errno, "bind");
-+--=20
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0005-arping-use-addition=
-al-timerfd-to-control-when-timeou.patch b/meta/recipes-extended/iputils/ipu=
-tils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
-new file mode 100644
-index 0000000000..3b8a8244da
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0005-arping-use-additional-time=
-rfd-to-control-when-timeou.patch
-@@ -0,0 +1,94 @@
-+From 60a27c76174c0ae23bdafde2bad4fdd18a44a7ea Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Sat, 7 Mar 2020 22:03:21 +0000
-+Subject: [PATCH] arping: use additional timerfd to control when timeout
-+ happens
-+
-+Trying to determine timeout by adding up interval values is pointlessly
-+complicating.  With separate timer everything just works.
-+
-+Addresses: https://github.com/iputils/iputils/issues/259
-+Fixes: 1df5350bdc952b14901fde356b17b78c2bcd4cff
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/e594c=
-a52afde89746b7d79c875fe9d6aea1850ac]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 29 ++++++++++++++++++++++++++---
-+ 1 file changed, 26 insertions(+), 3 deletions(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 61db3a6..7284351 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -670,6 +670,7 @@ static int event_loop(struct run_state *ctl)
-+ 	enum {
-+ 		POLLFD_SIGNAL =3D 0,
-+ 		POLLFD_TIMER,
-++		POLLFD_TIMEOUT,
-+ 		POLLFD_SOCKET,
-+ 		POLLFD_COUNT
-+ 	};
-+@@ -686,6 +687,13 @@ static int event_loop(struct run_state *ctl)
-+ 		.it_value.tv_sec =3D ctl->interval,
-+ 		.it_value.tv_nsec =3D 0
-+ 	};
-++	int timeoutfd;
-++	struct itimerspec timeoutfd_vals =3D {
-++		.it_interval.tv_sec =3D ctl->timeout,
-++		.it_interval.tv_nsec =3D 0,
-++		.it_value.tv_sec =3D ctl->timeout,
-++		.it_value.tv_nsec =3D 0
-++	};
-+ 	uint64_t exp, total_expires =3D 1;
-+=20
-+ 	unsigned char packet[4096];
-+@@ -709,7 +717,7 @@ static int event_loop(struct run_state *ctl)
-+ 	pfds[POLLFD_SIGNAL].fd =3D sfd;
-+ 	pfds[POLLFD_SIGNAL].events =3D POLLIN | POLLERR | POLLHUP;
-+=20
-+-	/* timerfd */
-++	/* interval timerfd */
-+ 	tfd =3D timerfd_create(CLOCK_MONOTONIC, 0);
-+ 	if (tfd =3D=3D -1) {
-+ 		error(0, errno, "timerfd_create failed");
-+@@ -722,6 +730,19 @@ static int event_loop(struct run_state *ctl)
-+ 	pfds[POLLFD_TIMER].fd =3D tfd;
-+ 	pfds[POLLFD_TIMER].events =3D POLLIN | POLLERR | POLLHUP;
-+=20
-++	/* timeout timerfd */
-++	timeoutfd =3D timerfd_create(CLOCK_MONOTONIC, 0);
-++	if (tfd =3D=3D -1) {
-++		error(0, errno, "timerfd_create failed");
-++		return 1;
-++	}
-++	if (timerfd_settime(timeoutfd, 0, &timeoutfd_vals, NULL)) {
-++		error(0, errno, "timerfd_settime failed");
-++		return 1;
-++	}
-++	pfds[POLLFD_TIMEOUT].fd =3D timeoutfd;
-++	pfds[POLLFD_TIMEOUT].events =3D POLLIN | POLLERR | POLLHUP;
-++
-+ 	/* socket */
-+ 	pfds[POLLFD_SOCKET].fd =3D ctl->socketfd;
-+ 	pfds[POLLFD_SOCKET].events =3D POLLIN | POLLERR | POLLHUP;
-+@@ -764,13 +785,15 @@ static int event_loop(struct run_state *ctl)
-+ 					continue;
-+ 				}
-+ 				total_expires +=3D exp;
-+-				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-+-				    (ctl->quit_on_reply && ctl->timeout < (long)total_expires)) {
-++				if (0 < ctl->count && (uint64_t)ctl->count < total_expires) {
-+ 					exit_loop =3D 1;
-+ 					continue;
-+ 				}
-+ 				send_pack(ctl);
-+ 				break;
-++			case POLLFD_TIMEOUT:
-++				exit_loop =3D 1;
-++				break;
-+ 			case POLLFD_SOCKET:
-+ 				if ((s =3D
-+ 				     recvfrom(ctl->socketfd, packet, sizeof(packet), 0,
-+--=20
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/reci=
-pes-extended/iputils/iputils_s20190709.bb
-index 545f3d5e87..d652bfcaad 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -15,6 +15,11 @@ SRC_URI =3D "git://github.com/iputils/iputils \
-            file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            file://0001-iputils-Initialize-libgcrypt.patch \
-+           file://0001-arping-revert-partially-fix-sent-vs-received-packag=
-e.patch \
-+           file://0002-arping-fix-f-quit-on-first-reply-regression.patch \
-+           file://0003-arping-Fix-comparison-of-different-signedness-warni=
-n.patch \
-+           file://0004-arping-return-success-when-unsolicited-ARP-mode-des=
-t.patch \
-+           file://0005-arping-use-additional-timerfd-to-control-when-timeo=
-u.patch \
-            "
- SRCREV =3D "13e00847176aa23683d68fce1d17ffb523510946"
-=20
---=20
-2.18.4
-
+SGksDQoNClBsZWFzZSBkbyBjb3JyZWN0IG1lIGlmIEknbSB3cm9uZywgaXMgdGhlIGZpbmFsIHZl
+cmRpY3QgZm9yIGdsaWJjIG9uIGR1bmZlbGwgaXMgdG8gd2hpdGVsaXN0IGFsbCB0aGUgQ1ZFcyB0
+aGF0IHdlcmUgYXBwbGllZCBiZWZvcmUgdGhlIGNvbW1pdCB1c2VkIGluIFNSQ1JFVj8NCkknbSBu
+b3QgcmVhbGx5IHN1cmUgd2hhdCBuZWVkcyB0byBiZSBkb25lIGhlcmUuLg0KDQoNClRoYW5rIHlv
+dSAmIEtpbmQgcmVnYXJkcywNCktoYWlydWwNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+CkZyb206IEFuYXRvbCBCZWxza2kgPGFuYmVsc2tpQGxpbnV4Lm1pY3Jvc29mdC5jb20+IA0KU2Vu
+dDogV2VkbmVzZGF5LCBNYXJjaCAxNywgMjAyMSA0OjI0IEFNDQpUbzogU3RldmUgU2Frb21hbiA8
+c3RldmVAc2Frb21hbi5jb20+DQpDYzogRGVueXMgRG15dHJpeWVua28gPGRlbmlzQGRlbml4Lm9y
+Zz47IEphbWFsdWRkaW4sIEtoYWlydWwgUm9oYWl6emF0IDxraGFpcnVsLnJvaGFpenphdC5qYW1h
+bHVkZGluQGludGVsLmNvbT47IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+OyBQYXRjaGVz
+IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBnbGliYzogRml4IENWRS0yMDIxLTI3NjQ1DQoNCkhpLA0KDQpPbiAzLzE2LzIwMjEgNDo0NSBQ
+TSwgU3RldmUgU2Frb21hbiB3cm90ZToNCj4gT24gVHVlLCBNYXIgMTYsIDIwMjEgYXQgMjo1NiBB
+TSBBbmF0b2wgQmVsc2tpIA0KPiA8YW5iZWxza2lAbGludXgubWljcm9zb2Z0LmNvbT4gd3JvdGU6
+DQo+PiBIaSwNCj4+DQo+PiBPbiAzLzE1LzIwMjEgMTA6MzYgUE0sIERlbnlzIERteXRyaXllbmtv
+IHdyb3RlOg0KPj4+IGh0dHBzOi8vd2lraS55b2N0b3Byb2plY3Qub3JnL3dpa2kvU3RhYmxlX1Jl
+bGVhc2VfYW5kX0xUUyNTdGFibGUuMkZMDQo+Pj4gVFNfUGF0Y2hfQWNjZXB0YW5jZV9Qb2xpY2ll
+cw0KPj4+DQo+Pj4gU3RhYmxlL0xUUyBQYXRjaCBBY2NlcHRhbmNlIFBvbGljaWVzDQo+Pj4NCj4+
+PiBQb3RlbnRpYWxseSBBY2NlcHRhYmxlOg0KPj4+ICogQnVnIGZpeCBvbmx5IHZlcnNpb24gdXBn
+cmFkZXMgZm9yIHVwc3RyZWFtcyB3aXRoIGEgZ29vZCBzdGFibGUgDQo+Pj4gcHJvY2Vzcw0KPj4+
+DQo+Pj4gVW5hY2NlcHRhYmxlOg0KPj4+ICogR2VuZXJhbCB2ZXJzaW9uIHVwZ3JhZGVzDQo+Pj4N
+Cj4+Pg0KPj4+IFNvLCB1bmxlc3MgdGhlcmUncyBhIGJ1Z2ZpeC1vbmx5IG1pbm9yIHJlbGVhc2Ug
+b2YgZ2xpYmMsIGUuZy4gDQo+Pj4gMi4zMS4xLCB1cGdyYWRpbmcgdG8gMi4zMiBvciAyLjMzIGlu
+IHN0YWJsZSBicmFuY2hlcyBpcyBoaWdobHkgDQo+Pj4gdW5saWtlbHksIGFzIGJvdGgNCj4+PiAy
+LjMyIGFuZCAyLjMzIGhhdmUgbG9uZyBsaXN0cyBvZiBtYWpvciBjaGFuZ2VzOg0KPj4+DQo+Pj4g
+aHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9waXBlcm1haWwvbGliYy1hbm5vdW5jZS8yMDIwLzAwMDAy
+OS5odG1sDQo+Pj4gaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9waXBlcm1haWwvbGliYy1hbm5vdW5j
+ZS8yMDIxLzAwMDAzMC5odG1sDQo+PiB0aGFua3MgZm9yIGxpbmtpbmcgdGhlIExUUyBkb2MuDQo+
+Pg0KPj4gTXkgc3VnZ2VzdGlvbiB3YXMgdG8gcHVsbCB0aGUgbGF0ZXN0IHVwc3RyZWFtIGZyb20g
+Mi4zMSBhY3R1YWxseSwgbm90IA0KPj4gdXBncmFkaW5nIHRoZSBnbGliYyB2ZXJzaW9uLiBBcyBw
+ZXINCj4+DQo+PiBodHRwOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2xlYW4vY2dpdC5jZ2kvcG9r
+eS90cmVlL21ldGEvcmVjaXBlcy1jb3INCj4+IGUvZ2xpYmMvZ2xpYmMtdmVyc2lvbi5pbmM/aD1k
+dW5mZWxsDQo+Pg0KPj4gd2UgY29uc3VtZSBmcm9tIHRoZSBicmFuY2ggcmVsZWFzZS8yLjMxL21h
+c3Rlci4gSXQgYWxyZWFkeSBjb250YWlucyANCj4+IHRoZSBiYWNrcG9ydGVkIHBhdGNoIGZpeGlu
+ZyB0aGlzIENWRS4NCj4+DQo+PiBUaGVyZSBkb2Vzbid0IHNlZW0gdG8gYmUgYSByZWxlYXNlIHBy
+b2Nlc3MgaW4gdGVybXMgb2YgdmVyc2lvbnMsIGJ1dCANCj4+IGl0IHJlZ3VsYXJseSByZWNlaXZl
+cyBiYWNrcG9ydHMuIEluIGZhY3QsDQo+Pg0KPj4gdGhlcmUgYXJlIGFscmVhZHkgc29tZSBidWcg
+YW5kIENWRSBmaXhlcyBiZXR3ZWVuIHRoZSBjdXJyZW50IFNSQ1JFViANCj4+IHVzZWQgYW5kIEhF
+QUQuDQo+IEknZCBiZSBoYXBweSB0byB0YWtlIHN1Y2ggYSBwYXRjaCBmb3IgZHVuZmVsbC4NCj4N
+Cj4gSSdsbCBhZGQgaXQgdG8gbXkgdG8gZG8gbGlzdCB0byBsb29rIGludG8gdGhpcywgYnV0IGlm
+IHNvbWVvbmUgaGFzIHRoZSANCj4gdGltZS9pbmNsaW5hdGlvbiB0byB0YWNrbGUgdGhpcyBpdCBt
+aWdodCBnZXQgZG9uZSBzb29uZXIgOi0pDQo+DQo+IFNpbmNlIHRoZXJlIGlzIG5vIHZlcnNpb25p
+bmcgZnJvbSB1cHN0cmVhbSBpdCB3aWxsIGJlIGltcG9ydGFudCBpbiANCj4gdGhpcyBwYXRjaCB0
+byBtYWtlIHN1cmUgdGhhdCB3ZSB3aGl0ZWxpc3QgYWxsIG9mIHRoZSBDVkUncyB0aGF0IGFyZSAN
+Cj4gZml4ZWQgd2l0aCB0aGUgYnVtcCBpbiBTUkNSRVYuDQo+DQpJJ2QgYmUgYWJsZSB0byBkbyBh
+IHJ1biBvbiB0aGlzIGNsb3NlciB0byB0aGUgZW5kIG9mIHRoaXMgd2VlaywgaWYgbm8gb25lIGJl
+YXRzIG1lIHRvIGl0IChwZXJoYXBzIEtoYWlydWwsIHRoZSBpbml0aWFsIHBhdGNoIGNvbnRyaWJ1
+dG9yIDspKS4NCg0KUmVnYXJkcw0KDQpBbmF0b2wNCg0K
