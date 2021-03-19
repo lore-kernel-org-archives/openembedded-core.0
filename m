@@ -1,144 +1,124 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web09.3604.1616143514544350509
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web08.3572.1616143515861986079
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 01:45:14 -0700
+ Fri, 19 Mar 2021 01:45:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=p+faPdiS;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id u9so8363607ejj.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 01:45:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cUkIcRGI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id x21so9813315eds.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 01:45:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+UzxGgLFbuwNyyk2vK543G8vTHKDRFI5h4EAWVopLWY=;
-        b=p+faPdiSWGBEhGuWwc8NnUpN96ji059zV4lRnNwKyzprFsCScUmZfEVvugbQEN4QKd
-         NLLckxi53MzpNFwa9gj6aQkFmFrI9nLfcV7aOR287TzFSu25uR5LxTqZcubB9kGgOSy9
-         4YXOi03EUC4B+19LAP7AiN9e8OICoLiAdvsvSJSSOXwtCIk8LuA4rgjKSpsG9oaVwTiu
-         Z90Y6mO9O/w1jyJj6/I8tPwKTVGMfiae05DQK7K0aTuq/SBomapbw5Eqi9rjQLAxCN1J
-         k2zymubmKjDR06ZO7KHEW7DRvBotasRW+4wlNWpPUqofzTKQd+eM2BcXqc0BMVrZtlBu
-         T5GA==
+        bh=jgzlcPa8VPV5B4XdqUc8NBhUroz9IQSgYoXdkKRlxWc=;
+        b=cUkIcRGIaNyF4DbOZD/m8AGKe/IBbiMomC6LudZ5NB3zd5Wc+3uh6Oe7u4evjizrIr
+         hhhmzd4WlpynIUa4QtgjG4uW2IZv7cAu2CUDNmohH5w1b6l61mBuNFXHrvDDGMTlnmAO
+         3jPEfZWN+SjrExSw/b7NxX4ZtomIUZqj72YLnKlXgZXCuS5OyvRV+U0jWQdiHH66G+hT
+         3jh1Tuz+iO0KbHrTrdS5ya/zUh9eXqjmTmy/PeXs8rPFfSkzoEPgTHf6V9EpFf++xlbL
+         dUerDi55gKsQvFT6iLL3ieWIqtdzXwxkIZ+43ioRuvB6BGUgZK1mMkKODf0K8Tolh6AU
+         xWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+UzxGgLFbuwNyyk2vK543G8vTHKDRFI5h4EAWVopLWY=;
-        b=FgmPjb+21+68H0UCsx85nkcXvMsP3kqGpgmVTVzu25t6KWnIZWdUfmAWjDkqm32baC
-         ILfpJUgbfR48C9EN92uKWAPc5NT5Ck8SlJ6seBw0E7n2YaAmi4gLuJ4152sefcHgFpxb
-         Kp9VcD2LM019xyANxbOiJPX1szN83kLr7/AOEA3N6Skog1buQ/+EEvkA1sLEQuKpJ6S6
-         ZBOAXnhoGnCSLFJQ5EfXrOQOVe/OfybYn2N9m6jwx8xz1pDyeG3yroQOQ0wfQ0kdyUb2
-         FmbaZQN7C/4o6snmbe9lSONvcs7rT3mrDbKrQfQLv+oxtqmZi7TJ4nsUHkZwlS64ozr2
-         4aMg==
-X-Gm-Message-State: AOAM530oghx0JCDAj+ZpB7t9j1K9TWQun9cU2KeVBMmzTXxQvZ2ZoVTQ
-	sjBZ38ONwPZQqUmoWWJfZECD+ufjlwRj+Q==
-X-Google-Smtp-Source: ABdhPJw7aVpscLf3h6/roFFqSgeOEDs64JpqmH50jv7oOoH6nxaefXtUVz2ZNFcu5C/zraITUZYiqg==
-X-Received: by 2002:a17:907:37a:: with SMTP id rs26mr3060587ejb.336.1616143513185;
+        bh=jgzlcPa8VPV5B4XdqUc8NBhUroz9IQSgYoXdkKRlxWc=;
+        b=ufgPujjp1Sp0t9bKU1jU/ZGqrEb7OzrpKIFcFaEHhy+x74fF8XyjZakRxzK8AS6Gml
+         p9hi2xlJXtxFh+c85m0f8clBdQUvNC+61rH3ucM9l03Z8HvtZkN2r4XdABP+iim8hEk4
+         EzdvIrig5AOIYvEeRRkNn0PrqpMSGrA3YVg4h2WoJ+oUSV+2+Qq3/8CzSnv8JyEWBtNj
+         uNAMZTimUSxkqdBftJi/8sXUBIr4YNDrpKFDRC2lrBWFDOtBFcpsJoEHKfHxLN8dN9fD
+         XiZQ19f38D2cQy2Mt7QlQzzuX4icj+cwBLIswEBjE5+KEPNha1VNkilB13zQpymPuBGz
+         7K8A==
+X-Gm-Message-State: AOAM530xs7UuIflExlnOwUUDNgM2NBGsswu2P+O2EiH/Bzx7bXo1EtKe
+	x1QMD7vl6/idtC2pK3rLNL+6BD2O6wX3rQ==
+X-Google-Smtp-Source: ABdhPJxuOWzfbxUctKCa5mbANmcLTvZyl+5PMTltooj6u6Omv+elpx2GqYoPGBP7+G0kLkV0U9KAPA==
+X-Received: by 2002:aa7:c1d5:: with SMTP id d21mr8056586edp.167.1616143513934;
         Fri, 19 Mar 2021 01:45:13 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id nd36sm3262248ejc.21.2021.03.19.01.45.12
+        by smtp.gmail.com with ESMTPSA id nd36sm3262248ejc.21.2021.03.19.01.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 01:45:12 -0700 (PDT)
+        Fri, 19 Mar 2021 01:45:13 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/16] asciidoc: update 9.0.4 -> 9.1.0
-Date: Fri, 19 Mar 2021 09:43:54 +0100
-Message-Id: <20210319084401.576728-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/16] libhandy: update 1.0.3 -> 1.2.0
+Date: Fri, 19 Mar 2021 09:43:55 +0100
+Message-Id: <20210319084401.576728-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210319084401.576728-1-alex.kanavin@gmail.com>
 References: <20210319084401.576728-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Dropped patch supserseded by https://github.com/asciidoc-py/asciidoc-py/pull/172
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../asciidoc/asciidoc/auto-catalogs.patch     | 53 -------------------
- .../{asciidoc_9.0.4.bb => asciidoc_9.1.0.bb}  |  5 +-
- 2 files changed, 2 insertions(+), 56 deletions(-)
- delete mode 100644 meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
- rename meta/recipes-extended/asciidoc/{asciidoc_9.0.4.bb => asciidoc_9.1.0.bb} (91%)
+ .../libhandy/libhandy/determinism.patch       | 35 -------------------
+ .../{libhandy_1.0.3.bb => libhandy_1.2.0.bb}  |  5 ++-
+ 2 files changed, 2 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libhandy/libhandy/determinism.patch
+ rename meta/recipes-gnome/libhandy/{libhandy_1.0.3.bb => libhandy_1.2.0.bb} (89%)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch b/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
+diff --git a/meta/recipes-gnome/libhandy/libhandy/determinism.patch b/meta/recipes-gnome/libhandy/libhandy/determinism.patch
 deleted file mode 100644
-index ca170db00f..0000000000
---- a/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
+index 7c4177f5f5..0000000000
+--- a/meta/recipes-gnome/libhandy/libhandy/determinism.patch
 +++ /dev/null
-@@ -1,53 +0,0 @@
--If SGML_CATALOG_FILES is in the environment, pass --catalogs to xmllint and
--xsltproc. Also pass --nonet to xsltproc to detect future missing stylesheet
--problems.
+@@ -1,35 +0,0 @@
+-hdy-enums*.c.in: Fix reproducibility issue
 -
--An earlier version of this patch was filed upstream at
--https://github.com/asciidoc/asciidoc-py3/issues/61 so depending on how that goes
--this could get merged.
+-When full filenames are used in generated sources it makes the resulting
+-debug packages non-reproducible. Best practise is to use basename in
+-comments instead.
 -
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+-Signed-off-by: Richard Purdie richard.purdie@linuxfoundation.org
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/734]
 -
--diff --git a/a2x.py b/a2x.py
--index 2d7699a..582d809 100755
----- a/a2x.py
--+++ b/a2x.py
--@@ -57,6 +57,10 @@ LYNX_OPTS = '-dump'
-- W3M_OPTS = '-dump -cols 70 -T text/html -no-graph'
-- XSLTPROC_OPTS = ''
+-Index: a/src/hdy-enums-private.c.in
+-===================================================================
+---- a/src/hdy-enums-private.c.in
+-+++ b/src/hdy-enums-private.c.in
+-@@ -7,7 +7,7 @@
+- /*** END file-header ***/
 - 
--+if "SGML_CATALOG_FILES" in os.environ:
--+  XMLLINT += " --catalogs"
--+  XSLTPROC += " --catalogs"
--+
-- ######################################################################
-- # End of configuration file parameters.
-- ######################################################################
--@@ -298,7 +302,7 @@ def exec_xsltproc(xsl_file, xml_file, dst_dir, opts = ''):
--     cwd = os.getcwd()
--     shell_cd(dst_dir)
--     try:
---        shell('"%s" %s "%s" "%s"' % (XSLTPROC, opts, xsl_file, xml_file))
--+        shell('%s %s "%s" "%s"' % (XSLTPROC, opts, xsl_file, xml_file))
--     finally:
--         shell_cd(cwd)
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
 - 
--@@ -483,7 +487,7 @@ class A2X(AttrDict):
--             self.asciidoc_opts += ' --doctype %s' % self.doctype
--         for attr in self.attributes:
--             self.asciidoc_opts += ' --attribute "%s"' % attr
---#        self.xsltproc_opts += ' --nonet'
--+        self.xsltproc_opts += ' --nonet'
--         if self.verbose:
--             self.asciidoc_opts += ' --verbose'
--             self.dblatex_opts += ' -V'
--@@ -634,7 +638,7 @@ class A2X(AttrDict):
--         shell('"%s" --backend docbook -a "a2x-format=%s" %s --out-file "%s" "%s"' %
--              (self.asciidoc, self.format, self.asciidoc_opts, docbook_file, self.asciidoc_file))
--         if not self.no_xmllint and XMLLINT:
---            shell('"%s" --nonet --noout --valid "%s"' % (XMLLINT, docbook_file))
--+            shell('%s --nonet --noout --valid "%s"' % (XMLLINT, docbook_file))
+- /*** BEGIN value-header ***/
+-Index: a/src/hdy-enums.c.in
+-===================================================================
+---- a/src/hdy-enums.c.in
+-+++ b/src/hdy-enums.c.in
+-@@ -13,7 +13,7 @@
+- /*** END file-header ***/
 - 
--     def to_xhtml(self):
--         self.to_docbook()
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb b/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
-similarity index 91%
-rename from meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb
-rename to meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
-index bb4248a5e5..523bf33f42 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_9.0.4.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
-@@ -8,9 +8,8 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
-                     file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb b/meta/recipes-gnome/libhandy/libhandy_1.2.0.bb
+similarity index 89%
+rename from meta/recipes-gnome/libhandy/libhandy_1.0.3.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.2.0.bb
+index a53a1388f9..1e37feb20a 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.0.3.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.2.0.bb
+@@ -9,9 +9,8 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=main \
--           file://auto-catalogs.patch"
--SRCREV = "8de61a75572b5b8f90c1f87634aa3767472be7a7"
-+SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=9.x"
-+SRCREV = "9705d428439530104ce55d0ba12e8ef9d1b57ad1"
+-SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-0 \
+-           file://determinism.patch"
+-SRCREV = "7126d2e8da9dcdeb5751e60ff6a74930804f9637"
++SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https"
++SRCREV = "7b38a860ffcec6c2ad28153358cc3d037ddb618f"
+ S = "${WORKDIR}/git"
  
- DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- 
+ GIR_MESON_ENABLE_FLAG = 'enabled'
 -- 
 2.29.2
 
