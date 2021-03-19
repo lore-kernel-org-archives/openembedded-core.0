@@ -1,50 +1,50 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.1769.1616180325134351534
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web12.1669.1616180325430748083
  for <openembedded-core@lists.openembedded.org>;
  Fri, 19 Mar 2021 11:58:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FGOlvyvs;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id x27so5572208qvd.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 11:58:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Eg8I3NOe;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id h7so7562723qtx.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 11:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PYB3FXxT7zWLKF9pY4kl3468L3tsxLDG2sexAaG116A=;
-        b=FGOlvyvs7dyRnd87eMLmN5veZZaNNehBvQNFiAtX58wgPfUd+YKGCnuRvyRvgI4I8M
-         urNc7qxPRMEtOXrGPIll/1emQQqU7u7xKG2+QrL8mIIPws73VZQYkLjGn/gcjqe9xvop
-         BR5ctn2QG1YD/Xa4SdqRY8aMhGP2cYJ6cOIL/vs+S0UzaGQniNdV4l0+d5UntmPgZPXT
-         bceN/NnaLEXrVd9T+h/CdyVFf4np+TFD9+55u9eT0JafxqP0Jbes97LDdZGrtt+gRQ3G
-         wdVVyzqiUREUlJyCSCjLUlt5lhHDZjVvmLlgt1SK7mYu9xcrAJ/hXfHRpIYOQ6kqRvZG
-         AexQ==
+        bh=JbnyxuVHwqguGIcQPk8qHp+wLpy5P6o71hOfhOiMrX0=;
+        b=Eg8I3NOe3EcDPMLd2mh2kixH69cgmUZPoWDXKFeFGI6lNhFsySV0HgApu3E23f01rS
+         P6YFP1mun01BsYGXVAN7erx61kXubsuo5cNmW+sa5VARzCl35rnPRmSz6ODp25kfOnr4
+         tbbIuhOdJd1wz5mY82euf+8UjmttQUF0R82gIYSBHZLFrzfequACY9fV69ZvZ1BY9D1D
+         6CdWt22xgFMeuovCqV4IrVP/LLjo8XW9fDRIJN648XR3xYDKmXQ9muP/gun10VxOjfKo
+         yVy0OhHuGJPJ4bavO7rk71X/+aFlaDsS3ODHi13ekDmNssHdlIBG/CAcey2RPwEdlIIo
+         usnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PYB3FXxT7zWLKF9pY4kl3468L3tsxLDG2sexAaG116A=;
-        b=lk9Ghd6sigfcbThBNHJC43/NDO/jjuXMNjYLwwLgmXlp9QtEH39uIs/9lID0f6W7vi
-         2ZvYDI3I9bMrhsCXWi2itlDFMOqWPEXVAx4e1KhNFjzHzLoibI/VBIBuSNzoCl2rYYvr
-         NCUIXr24QjUVGGlarvZvNzq2HMnYnZoIi4vs9HRAyfUOvLPeUJjghopHav19I9m1m3Sb
-         EuSMZt+NYJ+7GHMFgjHvXyYZ6cjS6pRJrjGSlaC3Ct2OZlPlHzq44u3APfZtyw9VmJJt
-         vBQC1S1dQ0WazZbJghEZBlHGtJ8WbzAxf5JAtwuA9Ba8T2RCm6g5N8HjxHm+DL43D3RU
-         6KXQ==
-X-Gm-Message-State: AOAM532z/s2NVfb9V5MH6HQdjnmkR2ZWwJ48uaByMYbGUI4Ok0NzUlaH
-	NSSz6UQsBI1F2xXPMP/ucQ4=
-X-Google-Smtp-Source: ABdhPJylDBI28bFL4FUiLNr2LHcz3h4Bu1demCQqxEELDGOJIz5P/YkWQftOMTjd9tz7No4x3aupoA==
-X-Received: by 2002:a05:6214:d4b:: with SMTP id 11mr10806525qvr.42.1616180323723;
-        Fri, 19 Mar 2021 11:58:43 -0700 (PDT)
+        bh=JbnyxuVHwqguGIcQPk8qHp+wLpy5P6o71hOfhOiMrX0=;
+        b=XNAbQAv9WG1wwb3GFr1Q1qUpvASahZxsrgPw9IFeDuMXrAhhicLu/5mS7gGEBJrJ4X
+         tJebcjUKlToYTgSY+QjCB3CdwQ9lD29xoIxmCzcGlap5q6qxqu2QrX4YOgr/pYof42Ex
+         +atvC7wBYXhRpkqrykbeLIq5bsAAMd5KatjhMEqbYTvUeikzMEzHq9QfOtgFQPQpAxBj
+         712pt0o3jUSuLgx9Cq9bZRK3rBZzXWNwWvRoEjTDyS32q6Rym9jp6Sgsk7w1hSyd4gY5
+         SlyV9J8K8e0R7dHRxG0os7pFg1f9e4grbLSmzUoCPDSFcjxNR1Pwxjs5fQ7WY40maIUD
+         McLg==
+X-Gm-Message-State: AOAM530NNs2ofyZylqSpF4GT7XJZAmZ8DnKoJ8EHymDWK7sD/RQ3Dtct
+	0oanrFM6QwWFgpR3yOUKHqA=
+X-Google-Smtp-Source: ABdhPJyqS9/RTnNKEpPMHUGNXiuOo603PHDwG5ooQrbsh6u8KbL8qL3YaNX/NqLSZe8upVWLS1VsDw==
+X-Received: by 2002:aed:34c7:: with SMTP id x65mr27813qtd.147.1616180324496;
+        Fri, 19 Mar 2021 11:58:44 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id j1sm4402191qti.55.2021.03.19.11.58.42
+        by smtp.gmail.com with ESMTPSA id j1sm4402191qti.55.2021.03.19.11.58.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 11:58:43 -0700 (PDT)
+        Fri, 19 Mar 2021 11:58:44 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/8] kern-tools: add dropped options to audit output
-Date: Fri, 19 Mar 2021 14:58:34 -0400
-Message-Id: <4cdaa9c6d433a297a29af810236d9999d3d2154a.1616180065.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 6/8] lttng-modules: update devupstream to 2.12.5+
+Date: Fri, 19 Mar 2021 14:58:35 -0400
+Message-Id: <530250c5d88913c1faabd1742132ee24d73747dd.1616180065.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1616180065.git.bruce.ashfield@gmail.com>
 References: <cover.1616180065.git.bruce.ashfield@gmail.com>
@@ -53,41 +53,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The rewrite of the configuration audit code dropped the ability to
-generate warnings for configuration options that didn't make it into
-the final .config.
-
-We integrated the following commit to restore those warnings:
-
-    symbol_why: classify based on config.queue hints
-
-    The config.queue has typing hints inline with each fragment,
-    we should be using them to further classify the options, and
-    not only relying on the special hardware.cfg, etc, files that
-    are part of the meta data
-
-    We also should be checking for options that were set to a
-    non 'no' value, and that don't make it into the final .config,
-    since without that check it means we are missing some warnings.
+When building against kernel v5.12-rc+, we need extra changes
+on top of the 2.12.5 release. We can bump devupstream separately
+from the main release to grab those changes.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 1d900d85fa..2c76fbae2d 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
- 
- DEPENDS = "git-native"
- 
--SRCREV = "8f6aaab7f64c6de30d267e31a73f7c3bb30125a9"
-+SRCREV = "1c2fa6c4ecb9fdc3b5b495845141a424b59db33f"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
- 
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
+index 48e91e158d..ea36a3464b 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
+@@ -35,7 +35,8 @@ DEFAULT_PREFERENCE_class-devupstream = "-1"
+ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.12 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            "
+-SRCREV_class-devupstream = "be71b60a327d7ad2588abc5cad2861177119972b"
+-PV_class-devupstream = "2.12.3+git${SRCPV}"
++
++SRCREV_class-devupstream = "92cc3e7f76a545a2cd4828576971f1eea83f4e68"
++PV_class-devupstream = "2.12.5+git${SRCPV}"
+ S_class-devupstream = "${WORKDIR}/git"
+ SRCREV_FORMAT ?= "lttng_git"
 -- 
 2.19.1
 
