@@ -1,116 +1,92 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.3574.1616143519097291269
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web08.6099.1616159860160396006
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 01:45:19 -0700
+ Fri, 19 Mar 2021 06:17:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LXivXx/a;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id va9so8355752ejb.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 01:45:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ADuFdm1F;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id l4so9651200ejc.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 06:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oG5rtOG9yYW44oGJ5R00oTb85uLvt9MUM1jLWjJuI2Y=;
-        b=LXivXx/a6lV3qmRXN23L/O1goy0KMq0EWS2Q9uCNE86rOtEr2lpKAf/dWJHhLF7Jtv
-         7HZ+hIbMOZ/bfGkxXVVDj2+mMfy5s/pR7+acHPzNmRDApvM2AntmE60HaxF0g+s7re3K
-         MLytu6i2J6jyN88KB+uckvLJdVMciRhROyQmAujUZLHDLSqi+7hw9WCXD45Zd7AYhfQ4
-         ccL8bLzpn2MQBo/6TAkV/JM/Ek8SYxDYKbNz7pHz4B2NG4A04ZtlE6zxhiBbbfHVdwai
-         7GCJzJCC0zazBjPr7NVpT7G3fINHIWOkABy+bmURASkazHpWfUs6rSKG9nOYJuW8NJR5
-         NMOw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5HTltqNYcJczEbEPLDb5hI7Wzq4lBStCwgHw4ch5JY4=;
+        b=ADuFdm1FqyU+xtDQuPigZGQnOTcjefDoTK8V543bLfo/KUPTCpU/NyrIMakeSU0SRK
+         EQW/Q2Hj6afImAn1XG9NJmTOhBP9lMBDBhy32UxOr14AFWqqHQNEsGVsFOz3kySHVQhu
+         yVsJ2KlZOBj2uKObxlTV1svFwDgCE2rKvcjTt9vV5ytwvaTgUcnryPJtGOkVzoY8XsZp
+         En9LCOsgqu5/4jjkucbRzauOhxkg0DdMWemBExxrCz2zbTU8YotWEAdQ8YHIaiOj8Fqv
+         zwGcez5MtxDws+xiLJfuHZnZQCg1UwgNbtYmnbd6XwdN+4I5fivK3MWWG2s8BWKzUcgg
+         G1+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oG5rtOG9yYW44oGJ5R00oTb85uLvt9MUM1jLWjJuI2Y=;
-        b=fCeWGjywIVvqkAa8K3tk1NVvF1kS4wsv7jckDWPtAXbuq9s7x7BkPRkzWC5eFebhN/
-         cLGezmkMwLi1PO1cg+PLnnPvTzncf8nbjtffvxf3o62YbHrmxJMJbOWjjriiK7itp/59
-         ibbfsiRQ91o7MdQCOImpHHkxU793xMyCoskEffkh/1BEhkODnYgZYzu9oGTERMBNgHkh
-         IeVUzaSbiQ0an9ToIl1001QoZczrnF3W4abQ/P31+yqKGd3Jn3a8QNyYj52Q+fCAbzcS
-         lnjKft5GmLCxslHAzmEmhAzmRP03W1tz3PUl5vEaYsgNTlQF9n27h0tPn6taBeRUmEBw
-         OJdw==
-X-Gm-Message-State: AOAM530l7hxS/tQ4j97bSpa9UJT4/IrFIPsC4QkK7PSlyy3VMp+/Gi2t
-	/PPFQ7gbA4bl4tCwtNAh7ZUgO4SPW66GBg==
-X-Google-Smtp-Source: ABdhPJxfojsjoDE8qjbRvemrxhEy4huwqfpKQGGNI9doO6npIae1RwmoyrhWj3P8uz3s/DFxhyPIlg==
-X-Received: by 2002:a17:906:38da:: with SMTP id r26mr3133113ejd.251.1616143517635;
-        Fri, 19 Mar 2021 01:45:17 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id nd36sm3262248ejc.21.2021.03.19.01.45.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5HTltqNYcJczEbEPLDb5hI7Wzq4lBStCwgHw4ch5JY4=;
+        b=NvD173+xkSPm6WrRaH0IdBk4X7lw8Splm4b8BoSkPZLNBLLwl6RR8/Y4ryJBJL9CBv
+         r0PIt337fmPECBqIf1RNXLppSrkUeI9zqLB07sOfhMBVuDzPgzrBJVpngI1fcnjz58RL
+         MNkDznSInC2skSDgp7Qn2G4EixXNeh6E7wnG11euc1yQoPsM5J1xrTlrvGZZd/MvXaD9
+         RNqyMrR4wMBnPGYcQlxD8IUSJUGKpNh/FmQPQeZmA0bffXWAIC12moiln7YmMCXmBds+
+         hhsK79mQRBa+Zi3MALGZ5mU93q+JT/SOeEnBIpLWCb37hsnAeWAcz1OVmYidS1fah7wp
+         +62A==
+X-Gm-Message-State: AOAM531k9uq9YSR0B5ZcwB3b7zWRySbHWacoqOT3241kQS6wJPhHrNR8
+	C6kXROUXMJmvLdw3UwZHGmrT7TfJlug=
+X-Google-Smtp-Source: ABdhPJwn72KGXnBWPbNVDu9v46V9D1FEFyOaR/RJL1x3Ir755l2S34iqrjHEKmBw3ouS5z3U2qpWGA==
+X-Received: by 2002:a17:906:7d7:: with SMTP id m23mr4345270ejc.205.1616159858494;
+        Fri, 19 Mar 2021 06:17:38 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id fi11sm3611281ejb.73.2021.03.19.06.17.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 01:45:17 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Fri, 19 Mar 2021 06:17:38 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 16/16] libxcrypt: fix sporadic failures in nativesdk-libxcrypt-compat
-Date: Fri, 19 Mar 2021 09:44:01 +0100
-Message-Id: <20210319084401.576728-16-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210319084401.576728-1-alex.kanavin@gmail.com>
-References: <20210319084401.576728-1-alex.kanavin@gmail.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] packagegroup-core-weston.bb: add pam to REQUIRED_DISTRO_FEATURES
+Date: Fri, 19 Mar 2021 14:17:36 +0100
+Message-Id: <20210319131736.104420-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...e.ac-do-not-use-compute-symver-floor.patch | 32 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  4 ++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
+* weston, weston-init, weston-examples require pam
+* fixes:
+  ERROR: Nothing RPROVIDES 'weston-init' (but meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
+  weston-init was skipped: missing required distro feature 'pam' (not in DISTRO_FEATURES)
+  NOTE: Runtime target 'weston-init' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston-init']
+  ERROR: Nothing RPROVIDES 'packagegroup-core-weston' (but meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
+  No eligible RPROVIDERs exist for 'packagegroup-core-weston'
+  NOTE: Runtime target 'packagegroup-core-weston' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['packagegroup-core-weston']
+  ERROR: Nothing RPROVIDES 'weston-examples' (but meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
+  weston RPROVIDES weston-examples but was skipped: missing required distro feature 'pam' (not in DISTRO_FEATURES)
+  NOTE: Runtime target 'weston-examples' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston-examples']
+  ERROR: Nothing RPROVIDES 'weston' (but meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb RDEPENDS on or otherwise requires it)
+  weston was skipped: missing required distro feature 'pam' (not in DISTRO_FEATURES)
+  NOTE: Runtime target 'weston' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston']
 
-diff --git a/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch b/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
-new file mode 100644
-index 0000000000..4e6b427104
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
-@@ -0,0 +1,32 @@
-+From b28bb856ccebe8fded51d11362bf5920699eed59 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 18 Mar 2021 10:52:13 +0000
-+Subject: [PATCH] configure.ac: do not use compute-symver-floor
-+
-+This script (newly introduced in 4.4.18) sporadically fails, without
-+failing configure(), which has been reported at
-+https://github.com/besser82/libxcrypt/issues/123
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure.ac | 6 +-----
-+ 1 file changed, 1 insertion(+), 5 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 45b91b4..f3ba945 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -426,11 +426,7 @@ if test x$enable_shared != xyes; then enable_obsolete_api=0; fi
-+ # need to be binary backward compatible with.
-+ if test $enable_obsolete_api = 1; then
-+   AC_MSG_CHECKING([minimum symbol version to use for compatibility symbols])
-+-  SYMVER_FLOOR=$(
-+-    $PERL ${srcdir}/build-aux/compute-symver-floor \
-+-      ${srcdir}/lib/libcrypt.minver $host_os $host_cpu \
-+-    2>&AS_MESSAGE_LOG_FD
-+-  )
-++  SYMVER_FLOOR=GLIBC_2.0
-+   AC_MSG_RESULT([$SYMVER_FLOOR])
-+   case "$SYMVER_FLOOR" in
-+     ERROR)
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index e9f968b556..b5ca863d54 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSING;md5=bd5d9777dfe7076c4f2928f12fed226a \
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
+index 340c8e75ed..2614ddf410 100644
+--- a/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
++++ b/meta/recipes-graphics/packagegroups/packagegroup-core-weston.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Packages required to set up a basic working Weston session"
+ PR = "r1"
  
- inherit autotools pkgconfig
+ inherit packagegroup features_check
+-REQUIRED_DISTRO_FEATURES = "wayland"
++REQUIRED_DISTRO_FEATURES = "wayland pam"
  
--SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
-+SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
-+           file://0001-configure.ac-do-not-use-compute-symver-floor.patch \
-+           "
- SRCREV = "94d84f92ca123d851586016c4678eb1f21c19029"
- SRCBRANCH ?= "develop"
- 
+ RDEPENDS_${PN} = "\
+     weston \
 -- 
-2.29.2
+2.30.2
 
