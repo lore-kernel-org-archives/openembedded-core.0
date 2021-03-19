@@ -1,91 +1,104 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.250.1616173132366479238
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web12.296.1616173214728661904
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 09:58:52 -0700
+ Fri, 19 Mar 2021 10:00:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ecb8erQX;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id q5so6320627pfh.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 09:58:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HxVcsAkm;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id u20so12789362lja.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 10:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=nAF6eB5LZ7Vqvm0IyLhhi/tUs3yu4Z0k5Sj+fNwl3Zk=;
-        b=Ecb8erQXzeB07xLzRekOfRX3vc8lIvDXXCsJX1SaasKmRwpuO56RSfNjr14FIvo7f8
-         lX+TS/Khp4AQtTmUHcPn5dz9nLW1O3ovcfiKP9AEpYyNnH5M0o4+fvodODmdGTwtPIq6
-         CgxWDG3sveKIg2xt189C1sHVbjUjM9yiosBt3nM2pji3W2Njgsc9SZNhYgf2RE2htiAv
-         X4ZdKRl5UFwVYccAUldKesvGXStyWzj978G7UobQkCnEVRTfJiAtpnvp//ODFGJWefQp
-         bqE99vAFOSBd4LoLpqAwzf7L2uhglSc/rblMNLSAxLGncux5eSpFfqEVvUENmL7lY6PN
-         yUcw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0u50CVSynFA9QtwyZ6C11nuV3SorFbb4b81heXh75fA=;
+        b=HxVcsAkmqce6a9rMjzdef03ltBcHjoyOFhGb2EEYGt3RYXNwQBCKxsWlqPRyQMI4JC
+         a2gcIMAbPGRyrLF2s0TH2UbIvzkKj4WS4QFu/GbcAd0Wc2Xm2RNyM3hRuG5Vx73mEHhq
+         3zu2jD6K6bsR5z5EJwSTJyFSOJog4WuiYdUtj7FUOTan1QWghnG9H+8Nsvrgsn2Tw70C
+         Fxh3sCNB/bOyz1nd2LiIrZrVG07AIILJ10SFwheEiuAMmMbLpl0tFu3YvA8p4SEEYNP0
+         i35oPUllGOI6wmTKSh5ZjSnFChSJx8cw39s8FfWzKcxx2N9GoRqIaZ2ZI56XaTKzlHIX
+         ITxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nAF6eB5LZ7Vqvm0IyLhhi/tUs3yu4Z0k5Sj+fNwl3Zk=;
-        b=Olpldtfgm/mdcnX3zhn2Vsh6GKfZzNrvSaKVV4zY61HvZ7g9QyvDHTHZt6HfRjbg2W
-         2D9CRXTG2fVDzE5390eYSpGUc8APerFDUyUH8TLVO9ppd79xjZFS8jD9DX7NGfjvwmqf
-         zMkenXePc1hdfdHjRxa/Fyj2ssDWHPNQ0E52Xbqp1DpthaOvbc1+UVLB83/KSaG3s2kF
-         nA7coIcyTXda0Vn3Df/UrFeU8NQGJW9gfQKnUgVsBalzPSOGcYgGeAhadznmYgjLzikm
-         03jHojVU8ZboDuRctAhOXtknT5z54l7WO5b3Uk56yDetBJ3QeH9wkbxw7FdYE7onVmyk
-         0TtQ==
-X-Gm-Message-State: AOAM532V/u9ont91qllS2fRvDGm5H+TE+84JVG5EO9ziCXfwmecZ/hPz
-	je3LUVlRkthwDM2u+fQo/tUdimaXE7gDRA==
-X-Google-Smtp-Source: ABdhPJzCVQGcvOXs4IdOoUB/kPWREXDAwMDiVDFydKWjGyo7/MpwtutFRBxuzKDt25LacU+eqkvhgg==
-X-Received: by 2002:aa7:8f04:0:b029:1f7:d71b:6a51 with SMTP id x4-20020aa78f040000b02901f7d71b6a51mr10074492pfr.4.1616173131105;
-        Fri, 19 Mar 2021 09:58:51 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0::b117? ([2601:646:9200:a0f0::b117])
-        by smtp.gmail.com with ESMTPSA id a8sm6213349pfk.138.2021.03.19.09.58.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Mar 2021 09:58:50 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 15/16] apt: mark as incompatible with musl
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210319084401.576728-1-alex.kanavin@gmail.com>
- <20210319084401.576728-15-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <722122d5-7fa8-56b2-116d-10169ada8051@gmail.com>
-Date: Fri, 19 Mar 2021 09:58:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0u50CVSynFA9QtwyZ6C11nuV3SorFbb4b81heXh75fA=;
+        b=r3+jEma6JWAba7qlQ7vUrkQFT2BFcWr68u7Jtmp9Dzv5qRgT1FxNoQn5fSVeDZv2XO
+         ajmWenPt+JHQRttjuE9AJl7443TXowtczjkFjxPUeLCYRlxd2vTHWgbmT2KQodx7eD2m
+         27RgdDaEOk7+HQ3KwkyXEYB8z98CMm504LvHkH4rBy3lg37zExa0Au+JcXQXv50GaE5p
+         HwurristmfN1z2EPxFtinwmZy6MDM1C/B/nYJwltswdNIBtfsMVFy/i7W0iqtqUAVaFh
+         P4oOmW31282e5LjypFCydSVHNsQ4oUjHjlN4c0SGuTw5OC+pS/V7dMBSBFm60KNnnU5M
+         naEA==
+X-Gm-Message-State: AOAM5329gXhDYmXNd8tXeJ51J8ERJB/3LRv/cjPVfqctIU0DPqERbgr8
+	PxNTuIltYN554pLJOuMKObTGNBxVT53pYsTjBybs5uUNTJc=
+X-Google-Smtp-Source: ABdhPJxsp+VKX9y1FcsHqoVFCVoTHYhMl+IVGa0mj0p+6WQ+a/oBR87icjxwzC+2WG87pEUTXjdG4yIBEctntemEwmw=
+X-Received: by 2002:a2e:9101:: with SMTP id m1mr1512651ljg.378.1616173212677;
+ Fri, 19 Mar 2021 10:00:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210319084401.576728-15-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <92d67e94-f4d9-e693-b3af-18b69b8d881@crashcourse.ca>
+In-Reply-To: <92d67e94-f4d9-e693-b3af-18b69b8d881@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Fri, 19 Mar 2021 10:00:00 -0700
+Message-ID: <CAJ86T=X8gf=bni_bguQObcgNt_ME3Re2a9xc4OmuhynvG8C9cg@mail.gmail.com>
+Subject: Re: [OE-core] diff between "bitbake meta-toolchain" and "bitbake -c populate_sdk <target>?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, Mar 19, 2021 at 7:23 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>   colleague just asked me about the difference between building an SDK
+> with either of:
+>
+>   $ bitbake meta-toolchain
+>   $ bitbake -c populate_sdk <some target>
+>
+> i know that the meta-toolchain recipe file contains little more than
+> inheriting populate_sdk so, without checking, i speculated wildly as
+> follows:
+>
+>   "bitbake meta-toolchain" takes no target, so it's limited to
+> whatever info it can glean from local.conf and bitbake.conf and so on
+> and so on, things like MACHINE and DISTRO, and whatever assignments to
+> TOOLCHAIN_HOST_TASK, etc, it runs into in its travels; in essence,
+> it's a "generic" toolchain.
 
+It's an example of a "pure" toolchain recipe. You are free to modify
+it and add additional packages or use it as a reference to create your
+own toolchain recipe. Here's another example of a pure toolchain
+recipe from my current project:
 
-On 3/19/21 1:44 AM, Alexander Kanavin wrote:
-> There are multiple failures with the new version; unless
+  SUMMARY = "Installable toolchain for SK"
+  LICENSE = "MIT"
 
-Can you share details of failures ?
-it would be better to not regress whats working
+  inherit populate_sdk
 
-> someone steps up to fix them, let's exclude for now.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   meta/recipes-devtools/apt/apt_2.2.2.bb | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
-> index b838495da8..52ca7e97a1 100644
-> --- a/meta/recipes-devtools/apt/apt_2.2.2.bb
-> +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
-> @@ -39,6 +39,8 @@ BBCLASSEXTEND = "native nativesdk"
->   
->   DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
->   
-> +COMPATIBLE_HOST_libc-musl = 'null'
-> +
->   EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
->       -DUSE_NLS=False -DDPKG_DATADIR=${datadir}/dpkg \
->       -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
-> 
-> 
-> 
-> 
-> 
+  TOOLCHAIN_TARGET_TASK_append = " packagegroup-sk-build-deps"
+
+(As a side note, LICENSE still seems to be required in toolchain
+recipes even though it's not in image recipes... it's a bug).
+
+>   on the other hand, "bitbake -c populate_sdk <target>" can, in
+> addition, consult the target recipe file where it can collect even
+> further SDK defining info, like what you find in core-image-sato.bb:
+
+You mean <image-recipe> instead of <target>. I don't think you can
+create a toolchain from a normal recipe.
+
+> TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
+>
+>   at the risk of over-simplification, is that a not wholly inaccurate
+> explanation of the difference?
+
+Sounds about right. Note that using the populate_sdk task for an image
+recipe means your toolchain will contain some extra junk (e.g.
+busybox, etc) which isn't required and won't be there in toolchains
+created from a pure toolchain recipe (since in a pure toolchain recipe
+you have direct control over TOOLCHAIN_TARGET_TASK).
+
+They both basically do the same but the populate_sdk task for an image
+recipe automatically sets TOOLCHAIN_TARGET_TASK and
+TOOLCHAIN_HOST_TASK for you based on the contents of the image whereas
+with a pure toolchain recipe you are responsible for controlling these
+explicitly (or leaving them alone, in which case you'll get a minimal
+toolchain, as you do with the meta-toolchain recipe (horrible naming
+IMO)).
