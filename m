@@ -1,301 +1,77 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web11.3567.1616143517769594148
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.3568.1616143518346696047
  for <openembedded-core@lists.openembedded.org>;
  Fri, 19 Mar 2021 01:45:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r7gRmfUG;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id w3so8355047ejc.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 01:45:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZKqG6bVB;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id b7so8379483ejv.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 01:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Yrp8qmfPNGVOvYRsmNAj4GiiN0zkbkF5fS4qUgtjeOw=;
-        b=r7gRmfUGhgiX/mcpZ8axaXwxtyB1CnCibwOK0rZGUwEFtNZ/kHFDS1w0AUhMleWKoc
-         4xCEA8MeyVKjj6qQkkWOxE12dgyhEky+zlOA/D3qzYPY50x9l0bWa6Ki7WrjuNdkBJgb
-         po1ZkW+g3c8uqwZ1td8r6N9mSH6ooqsNO2vjTvXRDsOCjy6DPJF20lb6HK7oE9EUYxP9
-         Y5B0l5whbWZaCVNPkhFXs8umbHrHtVG0vzXrrZNZlaJuJFoiuuac1NiZixtV0qlkyhLQ
-         MlNML14NexFKEB+mQyPjr4d9AIhgCboigH+nGBabSzMblzE7tEKOEfTYWeGpR2cv4nLo
-         sccA==
+        bh=dbphuBmAAVqzqaKC6vmmXM3VRoyHR7b3dkr64NKwpQI=;
+        b=ZKqG6bVBRfKfD9FltvPx8KP179AXSl9WeIokrfGC9Y7/sPpDa7UlmilG+X1llrIZxe
+         HlNYpKulhXvqFikCTa8GI+KKlHHCaidN/EPLLzPyUpCrEelO3oz8P+2StE0xf26eXNfH
+         6l2XNz9I6BNdipsFQr5EwyvQRBX4hEN6tq2Xip1Q+rSfxLKuwI2sE8ac1IV73/2jNqJe
+         SEpUGkYbDq0Ey3zmhd0CKgQrgDM6oU4nsHY6dc4CYSheNHwmwKeEzlUdcLeLZogiqmoI
+         wMlEpm83nhz2vk7FgBnIariRwBndhk/lDMhOdCPvbGRnmPVItDLnh3c3t2qduCR6apNK
+         aMJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Yrp8qmfPNGVOvYRsmNAj4GiiN0zkbkF5fS4qUgtjeOw=;
-        b=MfQ2/ql0m/BCkTv4vex1XLHs8/T3Mb46S3uLjSMKUPwsaQ0GJGFNNO8Z/TO4EZeA4f
-         IN6pzm5g8aVkgOg+o65wcs3c3niiLwTQ01GFDOji5mZS19KS1svZTQrekaDqZ4qiDJN6
-         hrpvzS7VdEhW2DW28NdspFvXollE3WpjQm2ox6yASCKmsGt646m7XcrxBHEil1CfBPUS
-         nX78Z/qDR6VOusIUjT3MbzjF2HeUBQBUVeARe94wDllPsBrcJ60RMUxamLLEh5DvM3Jw
-         FFQyfd8Cop5BpGniLKVkkGrF3CfC8xMoKVZGbM3D8StSfKVWlMVr6hkeL4wtWhDdkQP+
-         JOKQ==
-X-Gm-Message-State: AOAM530tsPWmzF1VmJfuElFThNNfJfCH0PxkNmrXxM/a5NENRNQbv99C
-	yYXKWjLi9GjMoFiw7zrFxR5JIg3esdXVVw==
-X-Google-Smtp-Source: ABdhPJzcDoOkE6loFXGPs63XM7jH6x2UZ5OyLidlybc4ipRSkfViR/WAOoazjWgulCRtwYo9a5tipQ==
-X-Received: by 2002:a17:906:39cf:: with SMTP id i15mr3072884eje.534.1616143516384;
+        bh=dbphuBmAAVqzqaKC6vmmXM3VRoyHR7b3dkr64NKwpQI=;
+        b=SBiGu4wV0D8bBxUKcZ8pHr3RsChZkJjHifrcaaowkTPPEULJo7gtxGFTjBgAAqIUJq
+         pZkt+g7zIlq2eg3pPlj5haJMfmnz/prsj6FMiKFs8WEpW7TB5yaOiVBY3pArQzUy2Aat
+         H4VPPPzk68iVo/mKrjUUREcGf+STj5tJTTC9mzsz5Y0w8XpPN9OOB+FQMQDmNW61Hexm
+         cuzCZKkUP59RBDw/oGUN2bbqicxPuae/El6l0ppYkwcbaFa1cHD29rxQGwyhr6sxotKt
+         BU01iQ8v1UtWYvOb5hUxIe2LVgLSv7SWysS7pXQxSPPbu7e01TuosEyo8G+4an0XhFse
+         GZUQ==
+X-Gm-Message-State: AOAM532Pv42LAHIx2FWzBBRAHED81z+b3vD/vrIfvBqzpCQ/xSHVTi3c
+	GJ91eZvKLyKodtAS1SunAeSICbaHlkNHVg==
+X-Google-Smtp-Source: ABdhPJz53nVrhlbrDMiCElU08erOrLhZBRyZKNQQYcChOp2gy00Z8932ytupyQIuS2M+fl14FtEZVA==
+X-Received: by 2002:a17:906:32da:: with SMTP id k26mr3004680ejk.483.1616143516976;
         Fri, 19 Mar 2021 01:45:16 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id nd36sm3262248ejc.21.2021.03.19.01.45.15
+        by smtp.gmail.com with ESMTPSA id nd36sm3262248ejc.21.2021.03.19.01.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 19 Mar 2021 01:45:16 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/16] apt: update 1.8.2.2 -> 2.2.2
-Date: Fri, 19 Mar 2021 09:43:59 +0100
-Message-Id: <20210319084401.576728-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/16] apt: mark as incompatible with musl
+Date: Fri, 19 Mar 2021 09:44:00 +0100
+Message-Id: <20210319084401.576728-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210319084401.576728-1-alex.kanavin@gmail.com>
 References: <20210319084401.576728-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop 0001-test-libapt-do-not-use-gtest-from-the-host.patch
-(replaced by WITH_TESTS option).
-
-Drop 0001-Do-not-configure-packages-on-installation.patch
-(no longer necessary).
-
-Adjust build dependencies.
+There are multiple failures with the new version; unless
+someone steps up to fix them, let's exclude for now.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...e-documentation-directory-altogether.patch |  8 ++--
- ...t-configure-packages-on-installation.patch | 48 -------------------
- ...-init-tables-from-dpkg-configuration.patch |  4 +-
- ...n-dpkg-configure-a-at-the-end-of-our.patch | 10 ++--
- ...ibapt-do-not-use-gtest-from-the-host.patch | 40 ----------------
- .../apt/{apt_1.8.2.2.bb => apt_2.2.2.bb}      |  9 ++--
- 6 files changed, 14 insertions(+), 105 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
- rename meta/recipes-devtools/apt/{apt_1.8.2.2.bb => apt_2.2.2.bb} (89%)
+ meta/recipes-devtools/apt/apt_2.2.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch b/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-index cc422b74dc..8b28ede8a8 100644
---- a/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-@@ -1,4 +1,4 @@
--From cd164b353ba7958d51b2f33f4079fb9787c983e2 Mon Sep 17 00:00:00 2001
-+From f629d1c3fcfb560ed24efc3e73d4e4999b1eab33 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 10 May 2019 14:16:47 +0200
- Subject: [PATCH] Disable documentation directory altogether
-@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 83334ba..2cd4f8e 100644
-+index 9745c13..7cfc9ee 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -232,7 +232,7 @@ add_subdirectory(apt-private)
-- add_subdirectory(apt-inst)
-+@@ -239,7 +239,7 @@ add_subdirectory(apt-pkg)
-+ add_subdirectory(apt-private)
-  add_subdirectory(cmdline)
-  add_subdirectory(completions)
- -add_subdirectory(doc)
-diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
-deleted file mode 100644
-index 81b328a2ee..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 96d23fc57d1ff9c851d563d6d6a6c4752dc4f1b6 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 21 May 2020 20:28:12 +0000
--Subject: [PATCH] Do not configure packages on installation
--
--This is done separately in do_rootfs().
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- apt-pkg/packagemanager.cc | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/apt-pkg/packagemanager.cc b/apt-pkg/packagemanager.cc
--index 156f7ad..0f6a87c 100644
----- a/apt-pkg/packagemanager.cc
--+++ b/apt-pkg/packagemanager.cc
--@@ -1013,10 +1013,12 @@ bool pkgPackageManager::SmartUnPack(PkgIterator Pkg, bool const Immediate, int c
--       return false;
-- 
--    if (Immediate == true) {
--+#if 0
--       // Perform immediate configuration of the package. 
--          if (SmartConfigure(Pkg, Depth + 1) == false)
--             _error->Error(_("Could not perform immediate configuration on '%s'. "
--                "Please see man 5 apt.conf under APT::Immediate-Configure for details. (%d)"),Pkg.FullName().c_str(),2);
--+#endif
--    }
--    
--    return true;
--@@ -1111,6 +1113,7 @@ pkgPackageManager::OrderResult pkgPackageManager::OrderInstall()
--       }
--    }
-- 
--+#if 0
--    // Final run through the configure phase
--    if (ConfigureAll() == false)
--       return Failed;
--@@ -1125,7 +1128,7 @@ pkgPackageManager::OrderResult pkgPackageManager::OrderInstall()
-- 	 return Failed;
--       }
--    }
---	 
--+#endif	 
--    return Completed;
-- }
-- // PM::DoInstallPostFork - compat /*{{{*/
-diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-index 1417153e81..e0e7e0cd58 100644
---- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-@@ -1,4 +1,4 @@
--From bf45c314867e5fb12141803fba06f3e45679d628 Mon Sep 17 00:00:00 2001
-+From 382f8381ef8baf754057e376a6d9bf840ca6d543 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 10 May 2019 16:47:38 +0200
- Subject: [PATCH] Do not init tables from dpkg configuration
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/apt-pkg/init.cc b/apt-pkg/init.cc
--index a619368..6e5a6cf 100644
-+index b9d9b15..1725c59 100644
- --- a/apt-pkg/init.cc
- +++ b/apt-pkg/init.cc
- @@ -281,8 +281,8 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
-diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-index 37f969690c..c14dc2a414 100644
---- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-@@ -1,4 +1,4 @@
--From 34700bebc52659e7e3eecd252f65bd36e669eee8 Mon Sep 17 00:00:00 2001
-+From a603b3281f3f60a87531c8cec4843f970170d409 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 21 May 2020 20:13:25 +0000
- Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
-@@ -20,10 +20,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 7 deletions(-)
- 
- diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
--index ffa880d..5875e86 100644
-+index 46a6dee..8617a9e 100644
- --- a/apt-pkg/deb/dpkgpm.cc
- +++ b/apt-pkg/deb/dpkgpm.cc
--@@ -1215,12 +1215,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-+@@ -1211,12 +1211,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-  	 }
-        }
-     }
-@@ -35,8 +35,8 @@ index ffa880d..5875e86 100644
- -   ++PackagesTotal;
-  }
-                                                                          /*}}}*/
-- bool pkgDPkgPM::Go(int StatusFd)					/*{{{*/
--@@ -1716,7 +1710,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-+ void pkgDPkgPM::StartPtyMagic()						/*{{{*/
-+@@ -1710,7 +1704,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-  
-        // support subpressing of triggers processing for special
-        // cases like d-i that runs the triggers handling manually
-diff --git a/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch b/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
-deleted file mode 100644
-index 503b5a5c0b..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 28e389a0d1275e7693df84a7d4a58b28364be1a9 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 22 Oct 2020 17:33:38 +0200
--Subject: [PATCH] test/libapt: do not use gtest from the host
--
--This really does not work when cross-compiling.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- test/libapt/CMakeLists.txt | 16 ----------------
-- 1 file changed, 16 deletions(-)
--
--diff --git a/test/libapt/CMakeLists.txt b/test/libapt/CMakeLists.txt
--index 035ff07..280b83c 100644
----- a/test/libapt/CMakeLists.txt
--+++ b/test/libapt/CMakeLists.txt
--@@ -6,22 +6,6 @@ find_path(GTEST_ROOT src/gtest.cc
-- find_package(GTest)
-- set(GTEST_DEPENDENCIES)
-- 
---if(NOT GTEST_FOUND AND EXISTS ${GTEST_ROOT})
---   include(ExternalProject)
---   ExternalProject_Add(gtest PREFIX ./gtest
---                             SOURCE_DIR ${GTEST_ROOT}
---                             INSTALL_COMMAND true)
---
---   link_directories(${CMAKE_CURRENT_BINARY_DIR}/gtest/src/gtest-build)
---
---   set(GTEST_LIBRARIES "-lgtest")
---   set(GTEST_DEPENDENCIES "gtest")
---   set(GTEST_FOUND TRUE)
---   find_path(GTEST_INCLUDE_DIRS NAMES gtest/gtest.h PATHS ${GTEST_ROOT}/include)
---
---   message(STATUS "Found GTest at ${GTEST_ROOT}, headers at ${GTEST_INCLUDE_DIRS}")
---endif()
---
-- if(GTEST_FOUND)
--    # gtest produces some warnings with the set of warnings we activate,
--    # so disable the offending warnings while compiling tests for now
-diff --git a/meta/recipes-devtools/apt/apt_1.8.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
-similarity index 89%
-rename from meta/recipes-devtools/apt/apt_1.8.2.2.bb
-rename to meta/recipes-devtools/apt/apt_2.2.2.bb
-index 6cda61a7d8..b838495da8 100644
---- a/meta/recipes-devtools/apt/apt_1.8.2.2.bb
+diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
+index b838495da8..52ca7e97a1 100644
+--- a/meta/recipes-devtools/apt/apt_2.2.2.bb
 +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
-@@ -10,22 +10,19 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://0001-Disable-documentation-directory-altogether.patch \
-            file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
--           file://0001-test-libapt-do-not-use-gtest-from-the-host.patch \
-            "
-      
- SRC_URI_append_class-native = " \
-            file://0001-Do-not-init-tables-from-dpkg-configuration.patch \
-            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
--           file://0001-Do-not-configure-packages-on-installation.patch \
-            "
+@@ -39,6 +39,8 @@ BBCLASSEXTEND = "native nativesdk"
  
- SRC_URI_append_class-nativesdk = " \
-            file://0001-Do-not-init-tables-from-dpkg-configuration.patch \
-            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
--           file://0001-Do-not-configure-packages-on-installation.patch \
-            "
+ DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
  
--SRC_URI[sha256sum] = "f5030de22a5cc80db6fe0d42373b5df25d7dc56e94d9155f2eaa80dbd65e82fa"
-+SRC_URI[sha256sum] = "c5449a4c2126a12497a9949cd10209926005d329f6ce7942a3781fa2fcf50487"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- # the package is taken from snapshots.debian.org; that source is static and goes stale
-@@ -40,12 +37,12 @@ USERADD_PARAM_${PN} = "--system --home /nonexistent --no-create-home _apt"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--DEPENDS += "virtual/libiconv virtual/libintl db gnutls lz4 zlib bzip2 xz"
-+DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
- 
++COMPATIBLE_HOST_libc-musl = 'null'
++
  EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
      -DUSE_NLS=False -DDPKG_DATADIR=${datadir}/dpkg \
      -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
--    -DCMAKE_DISABLE_FIND_PACKAGE_Zstd=True \
-+    -DWITH_TESTS=False \
- "
- 
- do_configure_prepend () {
 -- 
 2.29.2
 
