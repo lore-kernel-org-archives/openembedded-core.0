@@ -1,93 +1,91 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.215.1616173026783243990
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.250.1616173132366479238
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 09:57:07 -0700
+ Fri, 19 Mar 2021 09:58:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fY1DQqb+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id j18so9809124wra.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 09:57:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ecb8erQX;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id q5so6320627pfh.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 09:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kt5pqjvXzYSTaDEYFB5VJIEG7HOPn0k6d1z3Sw4EtQI=;
-        b=fY1DQqb+OLeFoAjHlts52dhQFc3rc4c+Y2mwJxwySGQrNQg8f3bRFkTeKgTbdghmti
-         eW4knfkgxvaq7cMG896aePbqn0098VsOZ+DxJ67yhd2r8HQxkNxzNxCWJTkUY202ALQd
-         PLVGO0VpZeBqnQtcd403g2tWYlY8+95YTUh7I=
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=nAF6eB5LZ7Vqvm0IyLhhi/tUs3yu4Z0k5Sj+fNwl3Zk=;
+        b=Ecb8erQXzeB07xLzRekOfRX3vc8lIvDXXCsJX1SaasKmRwpuO56RSfNjr14FIvo7f8
+         lX+TS/Khp4AQtTmUHcPn5dz9nLW1O3ovcfiKP9AEpYyNnH5M0o4+fvodODmdGTwtPIq6
+         CgxWDG3sveKIg2xt189C1sHVbjUjM9yiosBt3nM2pji3W2Njgsc9SZNhYgf2RE2htiAv
+         X4ZdKRl5UFwVYccAUldKesvGXStyWzj978G7UobQkCnEVRTfJiAtpnvp//ODFGJWefQp
+         bqE99vAFOSBd4LoLpqAwzf7L2uhglSc/rblMNLSAxLGncux5eSpFfqEVvUENmL7lY6PN
+         yUcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kt5pqjvXzYSTaDEYFB5VJIEG7HOPn0k6d1z3Sw4EtQI=;
-        b=O6d4Bk6bnDfQ9GesV1yQ8GLpMjDBMJfPW1GuyUjxkXkdGhadjJYfE1ezZQd/+OHU3g
-         FUOwFC88tyljZ7TwDWg5SYNmyoDgubP2ONRtOX5/tD5gpd7CPo9WJAE2TywOAZmTEcHU
-         z8pfU70LUWcB24Z6VDXgs+0sEfCJhbWQvBYuWRO5gHmqHerAQrwIROsfIl9EmdHzOewH
-         SkOXrWs+sCZEtmyvEnK2QkQiBP0R4PV4IvQskgADMX7oE/MDdxIjSDWrGpVdfWHzuJs3
-         tiaaVkyD3Vbvv5OI84ML+oh8EvrdERdIpVsmznf23oNNCjH1oE7TjRo3FJaFrz1rlitT
-         VAGQ==
-X-Gm-Message-State: AOAM531oYC1iOyeUMRj7L+Oxvp5CxTjj8LjoYZxKm/QZboakQXRtUJJz
-	J+6hnCAIJksYG+P4ZHVf6bMyhdtxYM7vEg==
-X-Google-Smtp-Source: ABdhPJyTLAyCE9fuTxfGYknLHuUFt+TZQaGMcApBeaQMYi0a1ij8XRU8EZt5bVQO2N4eXnDI/nMfwA==
-X-Received: by 2002:a5d:4523:: with SMTP id j3mr5719360wra.288.1616173024897;
-        Fri, 19 Mar 2021 09:57:04 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5808:8e52:d330:3893])
-        by smtp.gmail.com with ESMTPSA id p18sm8556766wrs.68.2021.03.19.09.57.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 09:57:04 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/wic: Fix dependency issue in rawcopy test
-Date: Fri, 19 Mar 2021 16:57:04 +0000
-Message-Id: <20210319165704.228235-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        bh=nAF6eB5LZ7Vqvm0IyLhhi/tUs3yu4Z0k5Sj+fNwl3Zk=;
+        b=Olpldtfgm/mdcnX3zhn2Vsh6GKfZzNrvSaKVV4zY61HvZ7g9QyvDHTHZt6HfRjbg2W
+         2D9CRXTG2fVDzE5390eYSpGUc8APerFDUyUH8TLVO9ppd79xjZFS8jD9DX7NGfjvwmqf
+         zMkenXePc1hdfdHjRxa/Fyj2ssDWHPNQ0E52Xbqp1DpthaOvbc1+UVLB83/KSaG3s2kF
+         nA7coIcyTXda0Vn3Df/UrFeU8NQGJW9gfQKnUgVsBalzPSOGcYgGeAhadznmYgjLzikm
+         03jHojVU8ZboDuRctAhOXtknT5z54l7WO5b3Uk56yDetBJ3QeH9wkbxw7FdYE7onVmyk
+         0TtQ==
+X-Gm-Message-State: AOAM532V/u9ont91qllS2fRvDGm5H+TE+84JVG5EO9ziCXfwmecZ/hPz
+	je3LUVlRkthwDM2u+fQo/tUdimaXE7gDRA==
+X-Google-Smtp-Source: ABdhPJzCVQGcvOXs4IdOoUB/kPWREXDAwMDiVDFydKWjGyo7/MpwtutFRBxuzKDt25LacU+eqkvhgg==
+X-Received: by 2002:aa7:8f04:0:b029:1f7:d71b:6a51 with SMTP id x4-20020aa78f040000b02901f7d71b6a51mr10074492pfr.4.1616173131105;
+        Fri, 19 Mar 2021 09:58:51 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0::b117? ([2601:646:9200:a0f0::b117])
+        by smtp.gmail.com with ESMTPSA id a8sm6213349pfk.138.2021.03.19.09.58.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Mar 2021 09:58:50 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 15/16] apt: mark as incompatible with musl
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20210319084401.576728-1-alex.kanavin@gmail.com>
+ <20210319084401.576728-15-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <722122d5-7fa8-56b2-116d-10169ada8051@gmail.com>
+Date: Fri, 19 Mar 2021 09:58:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210319084401.576728-15-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The current test code contains a subtle race. It is building an ext4,
-then trying to reuse that image in a wic build for the same recipe.
-Whilst this happened to work, the code is within its rights to clean
-up the output before the wic code runs.
 
-Avoid this by using separate image targets instead.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/wic.py | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+On 3/19/21 1:44 AM, Alexander Kanavin wrote:
+> There are multiple failures with the new version; unless
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 2bf5cb9a861..fa81584a8cc 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -979,14 +979,18 @@ class Wic2(WicTestCase):
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_rawcopy_plugin_qemu(self):
-         """Test rawcopy plugin in qemu"""
--        # build ext4 and wic images
--        for fstype in ("ext4", "wic"):
--            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n' % fstype
--            self.append_config(config)
--            self.assertEqual(0, bitbake('core-image-minimal').status)
--            self.remove_config(config)
-+        # build ext4 and then use it for a wic image
-+        config = 'IMAGE_FSTYPES = "ext4"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+        self.remove_config(config)
- 
--        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal-mtdutils').status)
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-minimal-mtdutils', ssh=False, image_fstype='wic') as qemu:
-             cmd = "grep sda. /proc/partitions  |wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
--- 
-2.30.2
+Can you share details of failures ?
+it would be better to not regress whats working
 
+> someone steps up to fix them, let's exclude for now.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/recipes-devtools/apt/apt_2.2.2.bb | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> index b838495da8..52ca7e97a1 100644
+> --- a/meta/recipes-devtools/apt/apt_2.2.2.bb
+> +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> @@ -39,6 +39,8 @@ BBCLASSEXTEND = "native nativesdk"
+>   
+>   DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
+>   
+> +COMPATIBLE_HOST_libc-musl = 'null'
+> +
+>   EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
+>       -DUSE_NLS=False -DDPKG_DATADIR=${datadir}/dpkg \
+>       -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
+> 
+> 
+> 
+> 
+> 
