@@ -1,79 +1,162 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web10.1772.1616180327226498277
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web08.3016.1616185849505161916
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 11:58:47 -0700
+ Fri, 19 Mar 2021 13:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=alGq9Qee;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id g24so7559081qts.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 11:58:46 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=nicucJFj;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iVmtNh8LS3FkJk5yodwvmBFMzGf529ozV/L52ByXNN4=;
-        b=alGq9QeeYBqx5+FQe5fIvH9ZB+0to41NJD0Y5Di7OxvufoGOJ7IZEaByFixZ6fJnPi
-         yJJWBctWh2zkzub/del95Ql0/Z84ZcblRT966DtCRQjn6x3hP911meqNoGkOieXdd4aR
-         AEEuSgDJGxnsYIlO9nef1+eMG/+AmVvCJJreMNLXVCD9C7LCG4Kn3Ugd/exrk2aJHI9A
-         22Ku7S5rt5uCGfAui5wAZgzVQpbsTlPzNFb67hMg3CpwtB7uyOKrVyGGstVfLnEXfMDB
-         LRXDgnCjollMExmA9qhn5jA1GOLBpFGMdOkgFfljtZhA+Py5tE4/rAJ++gP9tytMuWTv
-         jy0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iVmtNh8LS3FkJk5yodwvmBFMzGf529ozV/L52ByXNN4=;
-        b=OHRY1qVHyOujcHV7/UDin7hdpxRWLVcFuOK4KFmdS+4/mP+YaYPX/PYtVOoqnyfGRL
-         HFr7ip4B44jC7mbNIdYfv5VCUutUZlD5S1DQw0yXWr370nVxnpbI9+CPvCl/7xVacEsT
-         FTRoohJy8rHdNelCg95Uh0q4ZHMHuvJmdcYosbYTF4a72IN9xw0tTbvtePe91COFJkZp
-         JkZaMXfkG+CQymKUodLjS9UtspFHsl4MHIeckgT5gBlXz7aRhHDD9LfVNMYTOV3717DH
-         +T06GvbK12mIuwjq6i7qwIoDaCUQaD1N0Fwk+f7UOUGpBz6Evr5C1PxDbr4+Lx026upp
-         AtPg==
-X-Gm-Message-State: AOAM532PFnZ5XI6um44OtznEdSEuyUe6Dg9Prko4JxwMCY3dVOQxcJ5Q
-	mFgyKrvBvTDQh1r5QrfBcjo=
-X-Google-Smtp-Source: ABdhPJwenoT4tk9xREbE2tPWMZi0m1NtlizJLop5QFg9Yp2c+P14nc+9XfJc7R0rwWX7gxkrCLtDYQ==
-X-Received: by 2002:ac8:7089:: with SMTP id y9mr53752qto.264.1616180326273;
-        Fri, 19 Mar 2021 11:58:46 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id j1sm4402191qti.55.2021.03.19.11.58.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 11:58:45 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] kernel-devsrc: fix on-target scripts/prepare for v5.12+
-Date: Fri, 19 Mar 2021 14:58:37 -0400
-Message-Id: <8510af46870b71b919d1b132b8e5ec02be5a4a28.1616180065.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1616180065.git.bruce.ashfield@gmail.com>
-References: <cover.1616180065.git.bruce.ashfield@gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616185850;
+  x=1647721850;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zGbW1myqwK0GgVXFFFe9qcpSYfFwOhWOXSpeTLYr5YU=;
+  b=nicucJFjkVFLLhdMDVWhtsp1P4OrW7Y+kSs9fKq9a9o8QSaIA5XQ9xTP
+   lse4t6Zm7xwZ/ydE8xBEMfwpeBB/m7hWZWqRUnx0YcusxC2LhltCdWVXg
+   7m9NZ5v8TpmAEHsl2LOxvpXBKvSC5Fdp++Q7JC1xTI6ryOegQDa8NL8MQ
+   NyidG8zrPGTx62M/vxlg/FdMLdeYZsHqPIMyKtS7iIagwNIxJ2iCoDOhN
+   ZtH9tM+66YAZPINemUc/Ec9iAi5DI5dIGuowxNIRewK6ftCtmyGDLix2D
+   kUR1dJHaYCjr0y26xcXymuiv2FLwwCU+lGiZCs8CwBtJ5kes2S2/kIb0+
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>, Paul Barker
+	<pbarker@konsulko.com>
+Subject: [PATCH] bitbake.conf: Prevent pyc file creation in pseudo context for shell tasks
+Date: Fri, 19 Mar 2021 21:30:31 +0100
+Message-ID: <20210319203032.16009-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+In commit 73d538f2 (bitbake.conf: Prevent pyc file generation in
+pseudo context), pyc generation was disabled for fakeroot python
+tasks. However, Python applications started from a fakeroot shell task
+were not affected by this and would still generate pyc files, which
+could trigger pseudo to abort. To avoid this, add
+PYTHONDONTWRITEBYTECODE=1 also to FAKEROOTENV.
 
-AR is now captured are part of the build environment. If we don't
-subtitute our on-target variant for the cross version, we'll end
-up getting a prompted configure when preparing to build modules.
+Also add a test case to ensure that pyc files are not created by
+Python applications started from shell tasks that are executed under
+pseudo.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../pseudo-pyc-test/files/test-app1.py        |  5 +++
+ .../pseudo-pyc-test/files/test-app2.py        |  4 +++
+ ...-pyc-test.bb => pseudo-pyc-python-test.bb} |  0
+ .../pseudo-pyc-test/pseudo-pyc-shell-test.bb  | 16 ++++++++++
+ meta/conf/bitbake.conf                        |  2 +-
+ meta/lib/oeqa/selftest/cases/pseudo.py        | 32 ++++++++++++-------
+ 6 files changed, 47 insertions(+), 12 deletions(-)
+ create mode 100755 meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
+ create mode 100755 meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
+ rename meta-selftest/recipes-test/pseudo-pyc-test/{pseudo-pyc-test.bb => pseudo-pyc-python-test.bb} (100%)
+ create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index dadeade3aa..455c836527 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -271,6 +271,7 @@ do_install() {
-     if [ -e "$kerneldir/build/include/config/auto.conf.cmd" ]; then
-         sed -i 's/ifneq "$(CC)" ".*-linux-.*gcc.*$/ifneq "$(CC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(LD)" ".*-linux-.*ld.bfd.*$/ifneq "$(LD)" "ld"/' "$kerneldir/build/include/config/auto.conf.cmd"
-+        sed -i 's/ifneq "$(AR)" ".*-linux-.*ar.*$/ifneq "$(AR)" "ar"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(HOSTCXX)" ".*$/ifneq "$(HOSTCXX)" "g++"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(HOSTCC)" ".*$/ifneq "$(HOSTCC)" "gcc"/' "$kerneldir/build/include/config/auto.conf.cmd"
-         sed -i 's/ifneq "$(CC_VERSION_TEXT)".*\(gcc.*\)"/ifneq "$(CC_VERSION_TEXT)" "\1"/' "$kerneldir/build/include/config/auto.conf.cmd"
--- 
-2.19.1
-
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
+new file mode 100755
+index 0000000000..7578870765
+--- /dev/null
++++ b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
+@@ -0,0 +1,5 @@
++#!/usr/bin/env python3
++import sys
++
++import pseudo_pyc_test1
++print(pseudo_pyc_test1.STRING)
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
+new file mode 100755
+index 0000000000..2ee1e24e52
+--- /dev/null
++++ b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
+@@ -0,0 +1,4 @@
++#!/usr/bin/env python3
++
++import pseudo_pyc_test2
++print(pseudo_pyc_test2.STRING)
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-python-test.bb
+similarity index 100%
+rename from meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+rename to meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-python-test.bb
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
+new file mode 100644
+index 0000000000..1e0c532a3a
+--- /dev/null
++++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "pseudo env test"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++SRC_URI = "file://test-app1.py"
++SRC_URI += "file://test-app2.py"
++
++do_compile() {
++	${WORKDIR}/test-app1.py
++}
++
++do_install() {
++	${WORKDIR}/test-app2.py
++}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index ecd4d1638e..3a158d0e6f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -694,7 +694,7 @@ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+ FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0 PYTHONDONTWRITEBYTECODE=1"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ FAKEROOTLOGS = "${WORKDIR}/pseudo/pseudo.log"
+diff --git a/meta/lib/oeqa/selftest/cases/pseudo.py b/meta/lib/oeqa/selftest/cases/pseudo.py
+index 33593d5ce9..4265b39ecf 100644
+--- a/meta/lib/oeqa/selftest/cases/pseudo.py
++++ b/meta/lib/oeqa/selftest/cases/pseudo.py
+@@ -9,19 +9,29 @@ from oeqa.utils.commands import bitbake, get_test_layer
+ from oeqa.selftest.case import OESelftestTestCase
+ 
+ class Pseudo(OESelftestTestCase):
++    def setUp(self):
++        metaselftestpath = get_test_layer()
++        lib_path = os.path.join(metaselftestpath, 'lib')
++        self.write_config('export PYTHONPATH="%s"' % lib_path)
+ 
+-    def test_pseudo_pyc_creation(self):
+-        self.write_config("")
++        self.pycache_path = os.path.join(lib_path, '__pycache__')
++        if os.path.exists(self.pycache_path):
++            shutil.rmtree(self.pycache_path)
+ 
+-        metaselftestpath = get_test_layer()
+-        pycache_path = os.path.join(metaselftestpath, 'lib/__pycache__')
+-        if os.path.exists(pycache_path):
+-            shutil.rmtree(pycache_path)
++    def test_pseudo_pyc_creation_in_python_task(self):
++        bitbake('pseudo-pyc-python-test -c install')
++
++        test1_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test1.*.pyc')))
++        self.assertTrue(test1_pyc_present, 'python test1 pyc file missing, should be created outside of pseudo context.')
++
++        test2_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test2.*.pyc')))
++        self.assertFalse(test2_pyc_present, 'python test2 pyc file present, should not be created in pseudo context.')
+ 
+-        bitbake('pseudo-pyc-test -c install')
++    def test_pseudo_pyc_creation_in_shell_task(self):
++        bitbake('pseudo-pyc-shell-test -c install')
+ 
+-        test1_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test1.*.pyc')))
+-        self.assertTrue(test1_pyc_present, 'test1 pyc file missing, should be created outside of pseudo context.')
++        test1_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test1.*.pyc')))
++        self.assertTrue(test1_pyc_present, 'shell test1 pyc file missing, should be created outside of pseudo context.')
+ 
+-        test2_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test2.*.pyc')))
+-        self.assertFalse(test2_pyc_present, 'test2 pyc file present, should not be created in pseudo context.')
++        test2_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test2.*.pyc')))
++        self.assertFalse(test2_pyc_present, 'shell test2 pyc file present, should not be created in pseudo context.')
