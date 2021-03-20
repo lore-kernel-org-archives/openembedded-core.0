@@ -1,77 +1,132 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web09.7573.1616265998785970638
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web09.9434.1616275770722967891
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Mar 2021 11:46:39 -0700
+ Sat, 20 Mar 2021 14:29:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C9YJbSL4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so6952621wmi.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 11:46:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rvP84FO2;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id y200so8332858pfb.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 14:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=zisOz/ii7QS44yH6vp0JAsO3vdxn2y/9SAcRYBSO7Bk=;
-        b=C9YJbSL4E8wEhBQRT02uXmsbafvsYGq7jc3UbEH/fpD7lD/hblVeU4tfp9g3n+8T7t
-         BJSencbdOqVS3MHJw6jF5e5Zn/do3u8gjTf5pfJCLEuctmFkEO3ZsuXP+yxnlWIBfTFt
-         0+tUjUr7D+CV3oho3jQFWJ7V884khett5rul0=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7H1LSOnooHmOLSIEmk5BXYC8dL9+GV9BoXfgrzNzRQI=;
+        b=rvP84FO2UNSnww6+MtuDoUiX6uuj5ZasKurYX6ilrCBvPNUCXe9ObS98V2iqEVCbeu
+         YOl/Y9KUQu0JzC+9PWz+u5oeFWjNH6awSiV/IPjoBBrbvsD5vWDEqwEfPDAelERmRZPf
+         bAWsj+U2k4BPKdM+i37zdAxFnbquw1t96DqqjB4szqnrYGA3nEtCwKSr+s6Z5vMjOkOW
+         OaMAsELjrwTZFxwlTTkA7Xdg7c8ASKV8v7OdxjNGoQsbogDl1CmNoR0MbT0hQw9qsS/m
+         xDO1dWX27JljOF1gTbqcT90b2eUDzap3B7xIGeOWGVV37le3vh+2W9rkJ7e4gqMs9JN+
+         N+sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=zisOz/ii7QS44yH6vp0JAsO3vdxn2y/9SAcRYBSO7Bk=;
-        b=CBOVJt/7HK4oQf7FaRO6F3GJ7xKNm4DEGA0pNISAtu8cMaMvAkgOk5LA0kCBb8revj
-         my9v9wa/Ql2weEO9zCwhHdwwIfHE85mBzF7ru95FxU8trJByr0KPut0fwrFQ5glGPtpm
-         LUcmx4y1Hij05X2VeWLEnQft27ByyqUossHfev0R4CCNfb6jVC3TybzWcHlfwvC6zY2k
-         99H6LKhwg/V+Dadbc6FmtRdOjiWGT78fGmkyp6hPRuxlDhZTH9wDSYuK48vHibENUJqe
-         ZL1Ku4pWXbudwLQpkrDbI/0xITFr8wL1BJe4o2XTvRSZQWH4BhvkREqN/QvY7YDThLGa
-         sRvw==
-X-Gm-Message-State: AOAM530V/2GgIWSPpluhwRPHhqkDYlpm7Lbq24qiPuqLV6AAnqxOQ1sr
-	vgKZ7UoE/5A3VnsTocwiMEm4wQ==
-X-Google-Smtp-Source: ABdhPJzoUh1D+ewVmr2MO4UDPt/k490quwFZTPrEIbIu4t/jWmPavzDGfSVA3/o6dJmz8KuOMGxqhg==
-X-Received: by 2002:a1c:7e82:: with SMTP id z124mr8845451wmc.51.1616265997271;
-        Sat, 20 Mar 2021 11:46:37 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
-        by smtp.gmail.com with ESMTPSA id l9sm10680158wmq.2.2021.03.20.11.46.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7H1LSOnooHmOLSIEmk5BXYC8dL9+GV9BoXfgrzNzRQI=;
+        b=MZckDeTf0x2Hh4ELC/XrtVyed3L7tah8pCB2HGknPeziC2CCmBZJRmQDpfL/tnZGrj
+         Iz2ldzle/HU17GAO5NRPkCVTvsBJ3Q2REzTzZYbE9xX2pHLk/DUQNoO6e/SpHLR9HkIc
+         b4HkVPo3UH/GJDYxhEhnRHEkbOddOPmwAXisMpjOpOPH21+cZDC7zTPbVunlea+Uw3QL
+         AL8yD3BMOykMV3YmSFm8nwftT1VC/bDcY7x0Xi89kMZr78dDdkJtd9k2bDbRFM647jzZ
+         vtTSti/YQvPZ2I16IwSyMZ8QRueztfQXR3v2Zze9eoHdFQQztjsgel2PXYft3DJYQY2Z
+         6kcQ==
+X-Gm-Message-State: AOAM533Qf3spNB7w/jutu325wQxxVXTytrcFtLrrQpG6XCrdTprMNbGp
+	Zm5K3AFZ3EFBVpgZTio492vrzNHFQCN8aA==
+X-Google-Smtp-Source: ABdhPJxAm2+sCIcm7UAaRs6QLg7k77kQJJN6PkvejiG7i3Y2DOZdQlaIxM/RbXCLT9OKXc+6xyiFLw==
+X-Received: by 2002:a63:c601:: with SMTP id w1mr16179570pgg.11.1616275769965;
+        Sat, 20 Mar 2021 14:29:29 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b117])
+        by smtp.gmail.com with ESMTPSA id t12sm8592407pga.85.2021.03.20.14.29.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Mar 2021 11:46:37 -0700 (PDT)
-Message-ID: <4b2e982aebea49636f7f6db4381c17d4c7eb2a63.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/8] kernel: consolidated pull request
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Mar 2021 18:46:35 +0000
-In-Reply-To: <cover.1616180065.git.bruce.ashfield@gmail.com>
-References: <cover.1616180065.git.bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.39.2-1 
+        Sat, 20 Mar 2021 14:29:29 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] apt: Support old resolver as fallback
+Date: Sat, 20 Mar 2021 14:29:26 -0700
+Message-Id: <20210320212926.2465567-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Hi Bruce,
+Not all C libraries implement the new resolver APIs e.g. musl, therefore
+keep the old interfaces around and choose using __RES version macro
+which is meant for this kind of work.
 
-On Fri, 2021-03-19 at 14:58 -0400, bruce.ashfield@gmail.com wrote:
-> Here's my latest batch of bugfix and prep for release changes.
-> 
-> We have one configuration fix, as well as a fix to the tools that was
-> hiding some warnings that we used to get.
-> 
->   ** There's a chance that this kern-tools change will pop out some
->      warnings. I can fix the warnings easily, but if it does, I'd suggest
->      just dropping it from the queue, since nothing depends on it.
->   **
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...vrec-Keep-support-for-older-resolver.patch | 44 +++++++++++++++++++
+ meta/recipes-devtools/apt/apt_2.2.2.bb        |  3 +-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
 
-There is a warning so I'll defer that piece for now:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/3227
-
-(maybe needs a yocto-bsp bump?)
-
-Do we know the cause of the beaglebone regression btw? We don't
-really know what to do with M3 due to that...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch b/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
+new file mode 100644
+index 0000000000..94d67a87ac
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
+@@ -0,0 +1,44 @@
++From f98c12b9f04ef3a9daec822c210044095b41a0ac Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 20 Mar 2021 12:33:34 -0700
++Subject: [PATCH] srvrec: Keep support for older resolver
++
++Some C libraries e.g. musl do not implement the new res_n* APIs
++therefore keep the old implementation as fallback and check __RES
++version macro to determine the API level
++
++Upstream-Status: Submitted [https://github.com/Debian/apt/pull/129]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Julian Andres Klode <julian.klode@canonical.com>
++---
++ apt-pkg/contrib/srvrec.cc | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/apt-pkg/contrib/srvrec.cc b/apt-pkg/contrib/srvrec.cc
++index 4ca208273..3eb5f1d4c 100644
++--- a/apt-pkg/contrib/srvrec.cc
+++++ b/apt-pkg/contrib/srvrec.cc
++@@ -62,6 +62,7 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
++    unsigned char answer[PACKETSZ];
++    int answer_len, compressed_name_len;
++    int answer_count;
+++#if __RES >= 19991006
++    struct __res_state res;
++ 
++    if (res_ninit(&res) != 0)
++@@ -71,6 +72,12 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
++    std::shared_ptr<void> guard(&res, res_nclose);
++ 
++    answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
+++#else
+++   if (res_init() != 0)
+++      return _error->Errno("res_init", "Failed to init resolver");
+++
+++   answer_len = res_query(name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
+++#endif //__RES >= 19991006
++    if (answer_len == -1)
++       return false;
++    if (answer_len < (int)sizeof(HEADER))
++-- 
++2.31.0
++
+diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
+index b838495da8..7ee661d4c8 100644
+--- a/meta/recipes-devtools/apt/apt_2.2.2.bb
++++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
+@@ -10,8 +10,9 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+            file://0001-Disable-documentation-directory-altogether.patch \
+            file://0001-Fix-musl-build.patch \
+            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
++           file://0001-srvrec-Keep-support-for-older-resolver.patch \
+            "
+-     
++
+ SRC_URI_append_class-native = " \
+            file://0001-Do-not-init-tables-from-dpkg-configuration.patch \
+            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
+-- 
+2.31.0
 
