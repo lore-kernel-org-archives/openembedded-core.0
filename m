@@ -1,162 +1,230 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.3016.1616185849505161916
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web09.3970.1616211936175252800
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Mar 2021 13:30:50 -0700
+ Fri, 19 Mar 2021 20:45:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=nicucJFj;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=r7o58ggc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id c3so5086181qkc.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Mar 2021 20:45:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616185850;
-  x=1647721850;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zGbW1myqwK0GgVXFFFe9qcpSYfFwOhWOXSpeTLYr5YU=;
-  b=nicucJFjkVFLLhdMDVWhtsp1P4OrW7Y+kSs9fKq9a9o8QSaIA5XQ9xTP
-   lse4t6Zm7xwZ/ydE8xBEMfwpeBB/m7hWZWqRUnx0YcusxC2LhltCdWVXg
-   7m9NZ5v8TpmAEHsl2LOxvpXBKvSC5Fdp++Q7JC1xTI6ryOegQDa8NL8MQ
-   NyidG8zrPGTx62M/vxlg/FdMLdeYZsHqPIMyKtS7iIagwNIxJ2iCoDOhN
-   ZtH9tM+66YAZPINemUc/Ec9iAi5DI5dIGuowxNIRewK6ftCtmyGDLix2D
-   kUR1dJHaYCjr0y26xcXymuiv2FLwwCU+lGiZCs8CwBtJ5kes2S2/kIb0+
-   Q==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: <openembedded-core@lists.openembedded.org>, Paul Barker
-	<pbarker@konsulko.com>
-Subject: [PATCH] bitbake.conf: Prevent pyc file creation in pseudo context for shell tasks
-Date: Fri, 19 Mar 2021 21:30:31 +0100
-Message-ID: <20210319203032.16009-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YeDjrnc6CKw6sGsZXsf2420gKrQIEx5sHnO4dbEK/8A=;
+        b=r7o58ggchRAwxrOtgq3NnsWlNZSYkV910Ku+10NrMemiYSxtf1qIo5A4Pfp/9RIRzc
+         iU91xIA+TO6cUprOvsb3td/gcZDar/RnrtemFwaY+molWEfrfO5Tvm5yBTJihREUV89Y
+         IN2RYfHUPZTJyJ2nS5o9NsJythJxXjSSKIQWS9Ge6m55puji7wTXsNypL3oubkx6B62C
+         C53Tx3LI2FUe2+WeBU6IEfS7Rmis4owDRZBqAuwJvwOcyilUEIVr06Z13e1HEH8h7iRe
+         0BVSxw0bSW8EYfTVhmtJDl0D0dIpoZ1sd18weG3TI9zmh7korxJlsBbll+nTJ+mfpubN
+         DvNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YeDjrnc6CKw6sGsZXsf2420gKrQIEx5sHnO4dbEK/8A=;
+        b=CguzhmMLxefP49zwAKPn8vzCSxpTNXpthYS6rM5/zf3vWNJQOlk1Prtqu9r4oNC2gj
+         mnyEovNo3/TQJEIBY6BQd5TqsWHk6PwMcybpW91HcQ3RM5ZUk5mZtNH+rS/18gz1uzHl
+         OnNXg0rjcr0z10VDZ5k77gW9hVEVKRuXeFGNxT4+ibjD4kUgXs9KpwaEp/FokgPM+0SG
+         +BWZmdtt3UTvU5GeycC0e87yMi8Ob9C4eZp6FTwfMQqn2dpy9GG/6XKUYIf8kY3tAHnG
+         KGxRcgniJTTH8TWfhQuwiqSSowa+wSLVwHEJV6gmAhvdXvWJgToPiTotmtedInC+O0ML
+         +mrQ==
+X-Gm-Message-State: AOAM531UWmnTW267t8kH+d7BLOE9mlOVOveUbzgoY3DJMUYCm4q1QJJm
+	wDI+AiUFXKJqMbkSwPhcaU6P2kBYl3LYt/8wNGk=
+X-Google-Smtp-Source: ABdhPJxD++rsc+Tbj2Vl9XA+l/qN5uN67kDPPMEwjJlUe/Oi7Lh8ZkEJsIJBGsZjpPbA2joy62UlmMCK0ogmiakQOIs=
+X-Received: by 2002:a37:a350:: with SMTP id m77mr1615922qke.146.1616211935195;
+ Fri, 19 Mar 2021 20:45:35 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20210319084401.576728-1-alex.kanavin@gmail.com> <20210319084401.576728-12-alex.kanavin@gmail.com>
+In-Reply-To: <20210319084401.576728-12-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 19 Mar 2021 20:45:08 -0700
+Message-ID: <CAMKF1soBhVCH+2YfBveNhPdtsMxOEizE9LDuhv4BX=ej6urKRg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 12/16] automake: update 1.16.2 - > 1.16.3
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-In commit 73d538f2 (bitbake.conf: Prevent pyc file generation in
-pseudo context), pyc generation was disabled for fakeroot python
-tasks. However, Python applications started from a fakeroot shell task
-were not affected by this and would still generate pyc files, which
-could trigger pseudo to abort. To avoid this, add
-PYTHONDONTWRITEBYTECODE=1 also to FAKEROOTENV.
+here is a related failure
+https://errors.yoctoproject.org/Errors/Details/574252/
 
-Also add a test case to ensure that pyc files are not created by
-Python applications started from shell tasks that are executed under
-pseudo.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- .../pseudo-pyc-test/files/test-app1.py        |  5 +++
- .../pseudo-pyc-test/files/test-app2.py        |  4 +++
- ...-pyc-test.bb => pseudo-pyc-python-test.bb} |  0
- .../pseudo-pyc-test/pseudo-pyc-shell-test.bb  | 16 ++++++++++
- meta/conf/bitbake.conf                        |  2 +-
- meta/lib/oeqa/selftest/cases/pseudo.py        | 32 ++++++++++++-------
- 6 files changed, 47 insertions(+), 12 deletions(-)
- create mode 100755 meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
- create mode 100755 meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
- rename meta-selftest/recipes-test/pseudo-pyc-test/{pseudo-pyc-test.bb => pseudo-pyc-python-test.bb} (100%)
- create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
-
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
-new file mode 100755
-index 0000000000..7578870765
---- /dev/null
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app1.py
-@@ -0,0 +1,5 @@
-+#!/usr/bin/env python3
-+import sys
-+
-+import pseudo_pyc_test1
-+print(pseudo_pyc_test1.STRING)
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
-new file mode 100755
-index 0000000000..2ee1e24e52
---- /dev/null
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/files/test-app2.py
-@@ -0,0 +1,4 @@
-+#!/usr/bin/env python3
-+
-+import pseudo_pyc_test2
-+print(pseudo_pyc_test2.STRING)
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-python-test.bb
-similarity index 100%
-rename from meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-rename to meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-python-test.bb
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
-new file mode 100644
-index 0000000000..1e0c532a3a
---- /dev/null
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-shell-test.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "pseudo env test"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+SRC_URI = "file://test-app1.py"
-+SRC_URI += "file://test-app2.py"
-+
-+do_compile() {
-+	${WORKDIR}/test-app1.py
-+}
-+
-+do_install() {
-+	${WORKDIR}/test-app2.py
-+}
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ecd4d1638e..3a158d0e6f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -694,7 +694,7 @@ export PSEUDO_DISABLED = "1"
- #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
- FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
- FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
--FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
-+FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0 PYTHONDONTWRITEBYTECODE=1"
- FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
- FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
- FAKEROOTLOGS = "${WORKDIR}/pseudo/pseudo.log"
-diff --git a/meta/lib/oeqa/selftest/cases/pseudo.py b/meta/lib/oeqa/selftest/cases/pseudo.py
-index 33593d5ce9..4265b39ecf 100644
---- a/meta/lib/oeqa/selftest/cases/pseudo.py
-+++ b/meta/lib/oeqa/selftest/cases/pseudo.py
-@@ -9,19 +9,29 @@ from oeqa.utils.commands import bitbake, get_test_layer
- from oeqa.selftest.case import OESelftestTestCase
- 
- class Pseudo(OESelftestTestCase):
-+    def setUp(self):
-+        metaselftestpath = get_test_layer()
-+        lib_path = os.path.join(metaselftestpath, 'lib')
-+        self.write_config('export PYTHONPATH="%s"' % lib_path)
- 
--    def test_pseudo_pyc_creation(self):
--        self.write_config("")
-+        self.pycache_path = os.path.join(lib_path, '__pycache__')
-+        if os.path.exists(self.pycache_path):
-+            shutil.rmtree(self.pycache_path)
- 
--        metaselftestpath = get_test_layer()
--        pycache_path = os.path.join(metaselftestpath, 'lib/__pycache__')
--        if os.path.exists(pycache_path):
--            shutil.rmtree(pycache_path)
-+    def test_pseudo_pyc_creation_in_python_task(self):
-+        bitbake('pseudo-pyc-python-test -c install')
-+
-+        test1_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test1.*.pyc')))
-+        self.assertTrue(test1_pyc_present, 'python test1 pyc file missing, should be created outside of pseudo context.')
-+
-+        test2_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test2.*.pyc')))
-+        self.assertFalse(test2_pyc_present, 'python test2 pyc file present, should not be created in pseudo context.')
- 
--        bitbake('pseudo-pyc-test -c install')
-+    def test_pseudo_pyc_creation_in_shell_task(self):
-+        bitbake('pseudo-pyc-shell-test -c install')
- 
--        test1_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test1.*.pyc')))
--        self.assertTrue(test1_pyc_present, 'test1 pyc file missing, should be created outside of pseudo context.')
-+        test1_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test1.*.pyc')))
-+        self.assertTrue(test1_pyc_present, 'shell test1 pyc file missing, should be created outside of pseudo context.')
- 
--        test2_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test2.*.pyc')))
--        self.assertFalse(test2_pyc_present, 'test2 pyc file present, should not be created in pseudo context.')
-+        test2_pyc_present = len(glob.glob(os.path.join(self.pycache_path, 'pseudo_pyc_test2.*.pyc')))
-+        self.assertFalse(test2_pyc_present, 'shell test2 pyc file present, should not be created in pseudo context.')
+On Fri, Mar 19, 2021 at 1:45 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Drop automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch;
+> upstream has fixed the issue.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...in-shebangs-with-modern-use-warnings.patch | 60 -------------------
+>  .../automake/automake/python-libdir.patch     | 16 ++---
+>  ...{automake_1.16.2.bb => automake_1.16.3.bb} | 18 +++---
+>  3 files changed, 16 insertions(+), 78 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+>  rename meta/recipes-devtools/automake/{automake_1.16.2.bb => automake_1.16.3.bb} (61%)
+>
+> diff --git a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+> deleted file mode 100644
+> index 0e84c4bf86..0000000000
+> --- a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+> +++ /dev/null
+> @@ -1,60 +0,0 @@
+> -From 857c843d4bcf576467b505eb05a47f3e7d32caaa Mon Sep 17 00:00:00 2001
+> -From: Serhii Popovych <spopovyc@cisco.com>
+> -Date: Wed, 10 Feb 2016 17:07:32 +0000
+> -Subject: [PATCH] perl: Replace -w option in shebangs with modern "use
+> - warnings" In some builds we might provide ac_cv_path_PERL as /usr/bin/env
+> - perl to use newer version of the perl from users PATH rather than older from
+> - standard system path.
+> -
+> -However using /usr/bin/env perl -w from shebang line isn't
+> -possible because it translates to something like
+> -/usr/bin/env -w perl and env complains about illegal option.
+> -
+> -To address this we can remove -w option from perl shebang
+> -line and add "use warnings" statement.
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
+> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> -
+> ----
+> - bin/aclocal.in  | 3 ++-
+> - bin/automake.in | 3 ++-
+> - 2 files changed, 4 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/bin/aclocal.in b/bin/aclocal.in
+> -index 9a20325..bd185d4 100644
+> ---- a/bin/aclocal.in
+> -+++ b/bin/aclocal.in
+> -@@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!@PERL@
+> - # aclocal - create aclocal.m4 by scanning configure.ac      -*- perl -*-
+> - # @configure_input@
+> - # Copyright (C) 1996-2020 Free Software Foundation, Inc.
+> -@@ -26,6 +26,7 @@ BEGIN
+> - }
+> -
+> - use strict;
+> -+use warnings;
+> -
+> - use Automake::Config;
+> - use Automake::General;
+> -diff --git a/bin/automake.in b/bin/automake.in
+> -index 5ed404a..d387b8e 100644
+> ---- a/bin/automake.in
+> -+++ b/bin/automake.in
+> -@@ -1,4 +1,4 @@
+> --#!@PERL@ -w
+> -+#!@PERL@
+> - # automake - create Makefile.in from Makefile.am            -*- perl -*-
+> - # @configure_input@
+> - # Copyright (C) 1994-2020 Free Software Foundation, Inc.
+> -@@ -23,6 +23,7 @@
+> - package Automake;
+> -
+> - use strict;
+> -+use warnings;
+> -
+> - BEGIN
+> - {
+> diff --git a/meta/recipes-devtools/automake/automake/python-libdir.patch b/meta/recipes-devtools/automake/automake/python-libdir.patch
+> index ee1f725f76..f319fc001b 100644
+> --- a/meta/recipes-devtools/automake/automake/python-libdir.patch
+> +++ b/meta/recipes-devtools/automake/automake/python-libdir.patch
+> @@ -1,4 +1,4 @@
+> -From a80dacd5124d0713cf2c986b28d736e78dc6b0ca Mon Sep 17 00:00:00 2001
+> +From 61bd143910001aaf610416d7ca56c52c0b081318 Mon Sep 17 00:00:00 2001
+>  From: Kumar Gala <galak@kernel.crashing.org>
+>  Date: Thu, 11 Aug 2011 01:26:33 -0500
+>  Subject: [PATCH] automake: Update for python.m4 to respect libdir
+> @@ -17,11 +17,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>   1 file changed, 7 insertions(+), 20 deletions(-)
+>
+>  diff --git a/m4/python.m4 b/m4/python.m4
+> -index 63c0a0e..7bbd2d2 100644
+> +index b2302ba..dbc6954 100644
+>  --- a/m4/python.m4
+>  +++ b/m4/python.m4
+> -@@ -94,12 +94,13 @@ AC_DEFUN([AM_PATH_PYTHON],
+> -     [am_cv_python_version=`$PYTHON -c "import sys; sys.stdout.write(sys.version[[:3]])"`])
+> +@@ -96,12 +96,13 @@ AC_DEFUN([AM_PATH_PYTHON],
+> +     [am_cv_python_version=`$PYTHON -c "import sys; print('%u.%u' % sys.version_info[[:2]])"`])
+>     AC_SUBST([PYTHON_VERSION], [$am_cv_python_version])
+>
+>  -  dnl Use the values of $prefix and $exec_prefix for the corresponding
+> @@ -36,7 +36,7 @@ index 63c0a0e..7bbd2d2 100644
+>     AC_SUBST([PYTHON_EXEC_PREFIX], ['${exec_prefix}'])
+>
+>     dnl At times (like when building shared libraries) you may want
+> -@@ -144,14 +145,7 @@ except ImportError:
+> +@@ -146,14 +147,7 @@ except ImportError:
+>        else
+>          am_py_prefix=$prefix
+>        fi
+> @@ -52,7 +52,7 @@ index 63c0a0e..7bbd2d2 100644
+>        case $am_cv_python_pythondir in
+>        $am_py_prefix*)
+>          am__strip_prefix=`echo "$am_py_prefix" | sed 's|.|.|g'`
+> -@@ -161,7 +155,7 @@ sys.stdout.write(sitedir)"`
+> +@@ -163,7 +157,7 @@ sys.stdout.write(sitedir)"`
+>          case $am_py_prefix in
+>            /usr|/System*) ;;
+>            *)
+> @@ -61,7 +61,7 @@ index 63c0a0e..7bbd2d2 100644
+>           ;;
+>          esac
+>          ;;
+> -@@ -186,14 +180,7 @@ sys.stdout.write(sitedir)"`
+> +@@ -188,14 +182,7 @@ sys.stdout.write(sitedir)"`
+>        else
+>          am_py_exec_prefix=$exec_prefix
+>        fi
+> @@ -77,7 +77,7 @@ index 63c0a0e..7bbd2d2 100644
+>        case $am_cv_python_pyexecdir in
+>        $am_py_exec_prefix*)
+>          am__strip_prefix=`echo "$am_py_exec_prefix" | sed 's|.|.|g'`
+> -@@ -203,7 +190,7 @@ sys.stdout.write(sitedir)"`
+> +@@ -205,7 +192,7 @@ sys.stdout.write(sitedir)"`
+>          case $am_py_exec_prefix in
+>            /usr|/System*) ;;
+>            *)
+> diff --git a/meta/recipes-devtools/automake/automake_1.16.2.bb b/meta/recipes-devtools/automake/automake_1.16.3.bb
+> similarity index 61%
+> rename from meta/recipes-devtools/automake/automake_1.16.2.bb
+> rename to meta/recipes-devtools/automake/automake_1.16.3.bb
+> index 08ec034626..7dc59d9fe7 100644
+> --- a/meta/recipes-devtools/automake/automake_1.16.2.bb
+> +++ b/meta/recipes-devtools/automake/automake_1.16.3.bb
+> @@ -19,16 +19,14 @@ RDEPENDS_${PN} += "\
+>  RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
+>
+>  SRC_URI += "file://python-libdir.patch \
+> -            file://buildtest.patch \
+> -            file://performance.patch \
+> -            file://new_rt_path_for_test-driver.patch \
+> -            file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
+> -            file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
+> -            file://0001-build-fix-race-in-parallel-builds.patch \
+> -            "
+> -
+> -SRC_URI[md5sum] = "f1a14f2ab2b0fb861a011e1d94e589e0"
+> -SRC_URI[sha256sum] = "b2f361094b410b4acbf4efba7337bdb786335ca09eb2518635a09fb7319ca5c1"
+> +           file://buildtest.patch \
+> +           file://performance.patch \
+> +           file://new_rt_path_for_test-driver.patch \
+> +           file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
+> +           file://0001-build-fix-race-in-parallel-builds.patch \
+> +           "
+> +
+> +SRC_URI[sha256sum] = "ce010788b51f64511a1e9bb2a1ec626037c6d0e7ede32c1c103611b9d3cba65f"
+>
+>  PERL = "${USRBINPATH}/perl"
+>  PERL_class-native = "${USRBINPATH}/env perl"
+> --
+> 2.29.2
+>
+>
+> 
+>
