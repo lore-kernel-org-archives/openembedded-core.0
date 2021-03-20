@@ -1,191 +1,187 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
- by mx.groups.io with SMTP id smtpd.web09.1570.1616231627868438718
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.1769.1616234262728021070
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Mar 2021 02:13:48 -0700
+ Sat, 20 Mar 2021 02:57:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gf9lz7EB;
- spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f182.google.com with SMTP id w63so2644474vkf.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 02:13:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mUEcSAnA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id u9so13488395ejj.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 02:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mx91PvtRBDNK6QjpR3k8WXXOOE1oHwklCsbl8/pXMuc=;
-        b=Gf9lz7EBVjlWsuk5jNm7ISfc/QJ8q/tyq9egmgDT29tInxUgKo2giX7BlkP9T1Q07O
-         bIblADSVGy10HhsHjS+Dn40LkHC5leidJtTCdw4YZdH9A0ulIrv+bhC3zO2tCFcR3Afj
-         JDBNOnvU7lKGA9Ls+P3MJZFWEjTIRgXqAVdGHhFQ1FQcujBh6O6dEh30eavPIrW+BfCs
-         MS2OT6EhEXJE2UJrFGo541+vbVnU3mUZ2IfyB2RVEiPltbuJmYC04yJzroPCcDK/YVal
-         potGfmbDdk7GvRg/erNE6fqk8OV9KqfgsWEjgSTuMLwHuphe1RiqFLcjZBFVbrMDwS2i
-         K6rg==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lrw63tVX4NaLMNG9/ZuivMuBbRf/AmzHBcWVsRSwamg=;
+        b=mUEcSAnA/iugv3WrcdBlrHpi9LVJYOUWBHcv+BLjWdkdOKmkv78cIATkCnb7Sy4nGB
+         AlSov9iPTqx7uahE3j4ao7QBviFDLJSYArk1JWPijlhxebCTGnOAqo6ZBL7uiQkoaHcp
+         CiBA9574+mbiRKeRcl2VfjA6wS56HdOAsOzDVy9l/nnhJ9xxzrei3CjAI5xPAEYdmJME
+         x3FMOOuTF5almYPuckY1FuRVZAcel6QkFYaLhzaGeK/Z6m4j59VYmjCAi11vvyC2PWQU
+         W6YD+tOHAnvHHTVdZDr8yrHwzKqx94iFCpae6a6d7GXLiBGKFmea4WN4PKoPWWOY4073
+         i8Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mx91PvtRBDNK6QjpR3k8WXXOOE1oHwklCsbl8/pXMuc=;
-        b=VvMrJ5NpfY+NZa0k/P4knsokwsLs/vOlTAEJl7iq8hpUdd0otTPc2yPVmwpta8YuGF
-         UMsjPhuqBPRiJWjicU9jTvZDq8KEhShPo5/aUHJzEEzql3CgqzlPiMQo/6iNbVlw2N7Y
-         U/8/1y9uB5wptaHbJljZCbA6zMeN3U86+018lrqg2W1psJHfrJADyZmF/XbTOZnozOyL
-         RKMLor7AESiknBCLmqt/2P4CBex/ChrTERqJ0OwVQNFDdMearYUEr3nEA5SGqCFmyrtX
-         ByRx28F3efOIRdbmDH/ruFfYN9sA9G9xatI9s786cNfNTGK4wulWoKrK8PIaXDVzptRy
-         aITw==
-X-Gm-Message-State: AOAM533RXYxK8JEgOCEYzEnOZ8aFIQsEQ9QWVu9yiUnPup1XiYzncufk
-	sAU3cDDCCvTaVs/4Nj8rllwN/UZh9khflg1Zo5k=
-X-Google-Smtp-Source: ABdhPJxpNbplDwFCwbV6jkTgjHgBTx0gnPDNtUo0vuTGwssUgFEeKgWXq05VyEvLRzrX8qieypRatnssYYT+71p4iXQ=
-X-Received: by 2002:a1f:a4d5:: with SMTP id n204mr5069365vke.0.1616231626705;
- Sat, 20 Mar 2021 02:13:46 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lrw63tVX4NaLMNG9/ZuivMuBbRf/AmzHBcWVsRSwamg=;
+        b=H6Vs5gpUZ7zSFmVQ/JI/gPzmgiCKn0ZEgiSI7Gzp89vL79nB5rIssMVB9et2Mk82DD
+         F+l3ZTlm3IJ5f4IehlVj4pTG98gi0XjrlRz6R0Rnt9HEHzpsKDDiihrQKZfQw8lbqvfF
+         onqora3LuQLUvdC+vj4Md6DJyAbIBIdUr5bURhlThyeYjxIY664g/wIgAMugQ7bjy2iI
+         /ttD1L2oDnjOlIXCUrZT0Mu1dSIt2PJC7rAciwZzM9jdx/m3xkVKIKV6Ac149m1477yr
+         IDMSZI2vEpx/NMjo/t2BVfyUUXKu4qzXikxUrtlvvzRvAqx3udQen2I69o9Ji+sWDFcG
+         vD3Q==
+X-Gm-Message-State: AOAM5320uQgj+cDTZJs5pcyVeMvS/jfv+P3m/YDMKn9NKFUBs8Cg9HXO
+	wg5iW6Djt27NYp+TT6vpc7Y=
+X-Google-Smtp-Source: ABdhPJytA47RBZ1Xe0H+qAEZN8LEANZmA9FtWHkL272h0Cw0Ouu/aNzZ94HW9XBWuYsMFQUpwsgl5A==
+X-Received: by 2002:a17:906:4e91:: with SMTP id v17mr8931697eju.331.1616234260933;
+        Sat, 20 Mar 2021 02:57:40 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id n16sm4946337ejy.35.2021.03.20.02.57.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Mar 2021 02:57:39 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sat, 20 Mar 2021 10:57:38 +0100
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alejandro Hernandez Samaniego <alejandro@enedino.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Alejandro Enedino Hernandez Samaniego <alejandro.hernandez@linux.microsoft.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3: upgrade to python 3.9.0
+Message-ID: <20210320095738.muf6ilk7l554k2ah@jama>
+References: <20201024212025.1107408-1-alejandro.hernandez@linux.microsoft.com>
+ <20201024212025.1107408-2-alejandro.hernandez@linux.microsoft.com>
+ <CANNYZj8g9g_gOkjgW+xD6=FixRL1kpZLgKGwY32LAthJkzOwCA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210319084401.576728-1-alex.kanavin@gmail.com>
- <20210319084401.576728-15-alex.kanavin@gmail.com> <722122d5-7fa8-56b2-116d-10169ada8051@gmail.com>
-In-Reply-To: <722122d5-7fa8-56b2-116d-10169ada8051@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 20 Mar 2021 10:13:35 +0100
-Message-ID: <CANNYZj9shi535X8emj0uYof5ysabLJ9PpHEHyeqhFM=yr=N=sw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/16] apt: mark as incompatible with musl
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fc0e9f05bdf43f4f"
+In-Reply-To: <CANNYZj8g9g_gOkjgW+xD6=FixRL1kpZLgKGwY32LAthJkzOwCA@mail.gmail.com>
+X-Groupsio-MsgNum: 149708
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="b434p32gyiuv5wpt"
+Content-Disposition: inline
 
---000000000000fc0e9f05bdf43f4f
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, 19 Mar 2021 at 17:58, Khem Raj <raj.khem@gmail.com> wrote:
-
->
->
-> On 3/19/21 1:44 AM, Alexander Kanavin wrote:
-> > There are multiple failures with the new version; unless
->
-> Can you share details of failures ?
-> it would be better to not regress whats working
->
-
-For example, here:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3213/steps/11/logs/stdio
-
-home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:
-In function 'bool GetSrvRecords(std::string, std::vector<SrvRec>&)':
-/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:67:8:
-error: 'res_ninit' was not declared in this scope; did you mean
-'res_init'?
-   67 |    if (res_ninit(&res) != 0)
-      |        ^~~~~~~~~
-      |        res_init
-/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:71:38:
-error: 'res_nclose' was not declared in this scope
-   71 |    std::shared_ptr<void> guard(&res, res_nclose);
-      |                                      ^~~~~~~~~~
-/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:73:17:
-error: 'res_nquery' was not declared in this scope; did you mean
-'res_query'?
-   73 |    answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV,
-answer, sizeof(answer));
-      |                 ^~~~~~~~~~
-      |                 res_query
-
-/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/recipe-sysroot/usr/include/locale.h:53:7:
-error: declaration of 'char* setlocale(int, const char*)' has a
-different exception specifier
-   53 | char *setlocale (int, const char *);
-      |       ^~~~~~~~~
-In file included from
-/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/netrc.cc:14:
-include/apti18n.h:25:25: note: from previous declaration 'char*
-setlocale(int, const char*) throw ()'
-   25 | extern "C" inline char* setlocale(int, const char*) throw() {
-return nullptr; }
-      |                         ^~~~~~~~~
-
-Alex
-
---000000000000fc0e9f05bdf43f4f
-Content-Type: text/html; charset="UTF-8"
+--b434p32gyiuv5wpt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, 19 Mar 2021 at 17:58, Khem Raj &lt;<a href=3D"mailto:raj.khe=
-m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><br>
-<br>
-On 3/19/21 1:44 AM, Alexander Kanavin wrote:<br>
-&gt; There are multiple failures with the new version; unless<br>
-<br>
-Can you share details of failures ?<br>
-it would be better to not regress whats working<br></blockquote><div><br></=
-div><div>For example, here:</div><div><a href=3D"https://autobuilder.yoctop=
-roject.org/typhoon/#/builders/45/builds/3213/steps/11/logs/stdio">https://a=
-utobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3213/steps/11/logs=
-/stdio</a></div><div><pre class=3D"gmail-row gmail-log" style=3D"height:992=
-.15px;overflow-y:auto;display:block"><span class=3D"gmail-ng-scope"><div st=
-yle=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-bindi=
-ng"><span class=3D"gmail-">home/pokybuild/yocto-worker/musl-qemux86-64/buil=
-d/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/co=
-ntrib/srvrec.cc: In function &#39;bool GetSrvRecords(std::string, std::vect=
-or&lt;SrvRec&gt;&amp;)&#39;:</span></span></div><div style=3D"height:18px">=
-<span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"g=
-mail-">/home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/co=
-re2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:67:=
-8: error: &#39;res_ninit&#39; was not declared in this scope; did you mean =
-&#39;res_init&#39;?</span></span></div><div style=3D"height:18px"><span cla=
-ss=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">  =
- 67 |    if (res_ninit(&amp;res) !=3D 0)</span></span></div><div style=3D"h=
-eight:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><spa=
-n class=3D"gmail-">      |        ^~~~~~~~~</span></span></div><div style=
-=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"=
-><span class=3D"gmail-">      |        res_init</span></span></div><div sty=
-le=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-bindin=
-g"><span class=3D"gmail-">/home/pokybuild/yocto-worker/musl-qemux86-64/buil=
-d/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/co=
-ntrib/srvrec.cc:71:38: error: &#39;res_nclose&#39; was not declared in this=
- scope</span></span></div><div style=3D"height:18px"><span class=3D"gmail-n=
-o-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">   71 |    std:=
-:shared_ptr&lt;void&gt; guard(&amp;res, res_nclose);</span></span></div><di=
-v style=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-b=
-inding"><span class=3D"gmail-">      |                                     =
- ^~~~~~~~~~</span></span></div><div style=3D"height:18px"><span class=3D"gm=
-ail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">/home/poky=
-build/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux=
--musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:73:17: error: &#39;r=
-es_nquery&#39; was not declared in this scope; did you mean &#39;res_query&=
-#39;?</span></span></div><div style=3D"height:18px"><span class=3D"gmail-no=
--wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">   73 |    answe=
-r_len =3D res_nquery(&amp;res, name.c_str(), C_IN, T_SRV, answer, sizeof(an=
-swer));</span></span></div><div style=3D"height:18px"><span class=3D"gmail-=
-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">      |       =
-          ^~~~~~~~~~</span></span></div><div style=3D"height:18px"><span cl=
-ass=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-"> =
-     |                 res_query</span></span></div><div style=3D"height:18=
-px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=
-=3D"gmail-"><br></span></span></div><div style=3D"height:18px"><pre class=
-=3D"gmail-row gmail-log" style=3D"height:992.15px;overflow-y:auto;display:b=
-lock"><span class=3D"gmail-ng-scope"><div style=3D"height:18px"><span class=
-=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">/hom=
-e/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky=
--linux-musl/apt/2.2.2-r0/recipe-sysroot/usr/include/locale.h:53:7: error: d=
-eclaration of &#39;char* setlocale(int, const char*)&#39; has a different e=
-xception specifier</span></span></div><div style=3D"height:18px"><span clas=
-s=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">   =
-53 | char *setlocale (int, const char *);</span></span></div><div style=3D"=
-height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><sp=
-an class=3D"gmail-">      |       ^~~~~~~~~</span></span></div><div style=
-=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"=
-><span class=3D"gmail-">In file included from /home/pokybuild/yocto-worker/=
-musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/=
-apt-2.2.2/apt-pkg/contrib/netrc.cc:14:</span></span></div><div style=3D"hei=
-ght:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span =
-class=3D"gmail-">include/apti18n.h:25:25: note: from previous declaration &=
-#39;char* setlocale(int, const char*) throw ()&#39;</span></span></div><div=
- style=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-bi=
-nding"><span class=3D"gmail-">   25 | extern &quot;C&quot; inline char* set=
-locale(int, const char*) throw() { return nullptr; }</span></span></div><di=
-v style=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-b=
-inding"><span class=3D"gmail-">      |                         ^~~~~~~~~</s=
-pan></span></div><div style=3D"height:18px"><span class=3D"gmail-no-wrap gm=
-ail-log_o gmail-ng-binding"><span class=3D"gmail-"><br></span></span></div>=
-<div style=3D"height:18px"><span class=3D"gmail-no-wrap gmail-log_o gmail-n=
-g-binding"><span class=3D"gmail-">Alex<br></span></span></div></span></pre>=
-<span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"g=
-mail-"></span></span></div></span></pre> </div></div></div>
+On Sat, Oct 24, 2020 at 11:35:05PM +0200, Alexander Kanavin wrote:
+> Haha, you beat me to it by a few minutes :)
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dakanav=
+in/package-version-updates&id=3D98049b60602b4bd3854e870e46705716e469277c
+>=20
+> I have some additional fixes included though, coming from autobuilder run=
+s.
 
---000000000000fc0e9f05bdf43f4f--
+He also beated you a bit on functionality of PACKAGECONFIGs :).
+
+> > a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
+> > b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
+> > index 4bd98f62fd..d0ff3219a6 100644
+> > ---
+> > a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
+> > +++
+> > b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
+> > @@ -1,4 +1,4 @@
+> > -From a2dd127b4163aff6cc35af0d0251321964232ad4 Mon Sep 17 00:00:00 2001
+> > +From 5d85a94fd0965aa26adf593b5f84948e9c502121 Mon Sep 17 00:00:00 2001
+> >  From: Alexander Kanavin <alex.kanavin@gmail.com>
+> >  Date: Mon, 7 Oct 2019 13:22:14 +0200
+> >  Subject: [PATCH] setup.py: do not report missing dependencies for disa=
+bled
+> > @@ -11,20 +11,24 @@ build completeness checker which relies on the repo=
+rt.
+> >  Upstream-Status: Inappropriate [oe-core specific]
+> >  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> >
+> > +Rebased for 3.9 [10/2020]
+> > +Signed-off-by: Alejandro Enedino Hernandez Samaniego <
+> > alejandro.hernandez@linux.microsoft.com>
+> > +
+> >  ---
+> > - setup.py | 4 ++++
+> > - 1 file changed, 4 insertions(+)
+> > + setup.py | 5 +++++
+> > + 1 file changed, 5 insertions(+)
+> >
+> >  diff --git a/setup.py b/setup.py
+> > -index 7691258..ec3f2a4 100644
+> > +index ab9fb8e..8cf058c 100644
+> >  --- a/setup.py
+> >  +++ b/setup.py
+> > -@@ -408,6 +408,10 @@ class PyBuildExt(build_ext):
+> > +@@ -495,6 +495,11 @@ class PyBuildExt(build_ext):
+> >                   print("%-*s   %-*s   %-*s" % (longest, e, longest, f,
+> >                                                 longest, g))
+> >
+> >  +        # There is no need to report missing module dependencies,
+> >  +        # if the modules have been disabled in the first place.
+> > ++        sysconf_dis =3D
+> > sysconfig.get_config_var('MODDISABLED_NAMES').split()
+> >  +        self.missing =3D list(set(self.missing) - set(sysconf_dis))
+> >  +
+> >           if self.missing:
+
+This works better than Alex's version from
+https://git.openembedded.org/openembedded-core/diff/meta/recipes-devtools/p=
+ython/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.pat=
+ch?id=3D7347556b18b45c5f9afc2cade565a75c95876914
+
+diff --git a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-repo=
+rt-missing-dependencies-for-disa.patch b/meta/recipes-devtools/python/pytho=
+n3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
+index 4bd98f62fd..5c620361da 100644
+--- a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
++++ b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-miss=
+ing-dependencies-for-disa.patch
+@@ -25,7 +25,7 @@ index 7691258..ec3f2a4 100644
+ =20
+ +        # There is no need to report missing module dependencies,
+ +        # if the modules have been disabled in the first place.
+-+        self.missing =3D list(set(self.missing) - set(sysconf_dis))
+++        self.missing =3D list(set(self.missing) - set(mods_disabled))
+ +
+          if self.missing:
+              print()
+
+because mods_disabled can contain only extensions which were disabled, as t=
+his list:
+self.extensions: ['_struct', 'array', '_contextvars', 'math', 'cmath', 'tim=
+e', '_datetime', '_zoneinfo', '_random', '_bisect', '_heapq', '_pickle', 'a=
+texit', '_json', '_lsprof', 'unicodedata', '_opcode', '_asyncio', '_abc', '=
+_queue', '_statistics', 'fcntl', 'pwd', 'grp', 'spwd', 'select', 'parser', =
+'mmap', 'syslog', '_xxsubinterpreters', 'audioop', '_csv', '_posixsubproces=
+s', '_testcapi', '_testinternalcapi', '_testbuffer', '_testimportmultiple',=
+ '_testmultiphase', '_xxtestfuzz', '_curses', '_curses_panel', '_crypt', '_=
+socket', '_ssl', '_hashlib', '_sha256', '_sha512', '_md5', '_sha1', '_blake=
+2', '_sha3', '_sqlite3', 'termios', 'resource', 'ossaudiodev', 'nis', 'zlib=
+', 'binascii', '_bz2', '_lzma', 'pyexpat', '_elementtree', '_multibytecodec=
+', '_codecs_kr', '_codecs_jp', '_codecs_cn', '_codecs_tw', '_codecs_hk', '_=
+codecs_iso2022', '_decimal', '_ctypes_test', '_posixshmem', '_multiprocessi=
+ng', '_uuid', 'xxlimited', '_ctypes']
+
+but PACKAGECONFIG in python3 recipe is using it to disable gdbm, dbm, readl=
+ine and disabling them now causes do_install to fail with:
+
+| ERROR: Execution of '/OE/build/oe-core/tmp-glibc/work/x86_64-linux/python=
+3-native/3.9.0-r0/temp/run.do_install.69743' failed with exit code 1:
+| The necessary bits to build these optional modules were not found:
+| _dbm                  _gdbm                 readline
+
+passing sysconf_dis into summary or reading it again from sysconfig like Al=
+ejandro fixes that. Will send patch shortly.
+
+--b434p32gyiuv5wpt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCYFXHEAAKCRA3VSO3ZXaA
+HFaPAKCC3B8fdl0V4Z1TIv5F2aUOi9SfgACdGmFJVkRgvORyUdyBQLVQ5A7bds8=
+=E/Q7
+-----END PGP SIGNATURE-----
+
+--b434p32gyiuv5wpt--
