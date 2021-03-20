@@ -1,131 +1,124 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.9654.1616277001912960519
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web10.9663.1616277054562625416
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Mar 2021 14:50:02 -0700
+ Sat, 20 Mar 2021 14:50:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EjIZZOEs;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id c17so1448579pfn.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 14:50:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fIXWFJ0l;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id l1so6073996pgb.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Mar 2021 14:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+TsRy/ulQT9nPwdZKcH8EA40BrYcN9Df5WNDZfnuItc=;
-        b=EjIZZOEsaXJ7bvGHbX2j86fNLsSktlVRsFUsl4Fyt6W7Be7WBvQO3QMpL8lFyGs322
-         8lLuJiqYnLNdSYaZccnwyiPeGJiZmd8sz2q7j+y/54Dvbd4a2ndiSdQ06/aQBV/X+e7K
-         XzQkKGN1/VUdNMI8BMURwgntWCWkSq0sl/mqwHKh8lfsIxagvHH4cppkeHmLrBzgJrzs
-         IuDz0p8Ctl5yjEAPDvXZimmmgKZouz7HYciuIvW/D9WFIzmLS9ZjBJstYME41w0Aerc+
-         5zO4A/P3Uu/XR2NlipFapIg9olEyYCCYHJA7yaLhtkAbgwk+6cjVWUsAsG88lpKvUnQW
-         R2Uw==
+        h=to:cc:references:from:organization:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rQEJbi+4ATJF8xiIzsTsF5aRR48qGQAQCT1LdTRqstY=;
+        b=fIXWFJ0loISNjjraGyqWgV1kr4U2e9VhrICatj60ZZA3EeMSAqkOHYsuY3Q7lObw5v
+         vGW/rfBPUBb82EzLACT0M15mtR2AimXJVG7Hk/jWbCcIX+I05W/poADfbG3tAPcGUa4z
+         DK1zvKO9TlAEk1xqn+DxXIFTcqmQpgEOu+JYuRa/wAcst7o2gSCYxtmpbA4TrS4bbXEc
+         fF2ZVtMOy+H4bJyZ0Ak5DXunVMi+nBoiHAUHfA7ioBOfdUObJiJ8qPu80TpSMr8cap6X
+         0BhXFznUXHI5EVLOt5lOidZ6/pKi8F80L6JevOGqK7M0PuOZ7z9dLAwXgU1zXlF/1JuW
+         zqgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+TsRy/ulQT9nPwdZKcH8EA40BrYcN9Df5WNDZfnuItc=;
-        b=Sxi7fORIsQnQmdxesip3MGZyK4Mojbk3oPPyvL2umBpc5OyauQ46usNi+9DZHuCELw
-         QOR0LVIarFKq/kOUUAI2C5aZ9kYz2O6oJ9LrnlH4CqrV8Ff9XlvR0LKwmaQFV18EYQGT
-         ciqOQL+mXyslG1QcD2sfztClVGmj9KLAiCk6AfSEbXsLVqKoWa4iny37ChmVTH5et8u8
-         0dj5vwudkS7xN9NU6yVNwBX1ullSWUOoAIZj1z4xGgdREFGFhIrNf3tV8jYDBSZUM9OF
-         9dTNkGz21h6aoqJVlZAFXLRi++BpXeO/JubbP2aspubehc2TDzZxBvAN4N7qef+dtrXP
-         9/tA==
-X-Gm-Message-State: AOAM5305uQdiqKP6dpq2OOyWcRH75caMf2JAMgrhlfJjVJ26Abm1iHVl
-	VWzx4vrxPrmCLd7OaP7dcT+EylurV6Ft6A==
-X-Google-Smtp-Source: ABdhPJyBSHPX021FaT/CfxSInOYn/UlyNHADSYqGnztuJVSCEUymIYeo09FemR2IjDIVYXbznJ8nnw==
-X-Received: by 2002:a63:d70f:: with SMTP id d15mr17131233pgg.397.1616277001186;
-        Sat, 20 Mar 2021 14:50:01 -0700 (PDT)
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=rQEJbi+4ATJF8xiIzsTsF5aRR48qGQAQCT1LdTRqstY=;
+        b=p5JNz9WF/xOwyrptIkKoVv9I0wmasOz05NcvF5J4Nv5Nf1+MSsxSV294g+kbo22yZX
+         gjLzDdve5PNgI4HMUulAfnR6HO8XeLfCf52Xf80ghR6Pg3faFKHcul+iv86LAvZAxyRJ
+         LFUmyaQTi0m77YrS+B7igqV/w+DfcfuTGKZUF3k/jwqQbeoKnbf4PKDWY5K8iC8BcqLp
+         vPI6L585InMuwnSmV51s4NsGifBA0vkh4xBArF7G5zUCEQszk8h3RHk3q+8+2i7hiSm7
+         1qSmQ03Ti7fGMQ0CRPoR88Vuxpmcd8PkiRuZjidBjjA8JvHjjbQ9ZYVwN7w5tcoqSnrs
+         S28A==
+X-Gm-Message-State: AOAM533lgB+iFfw+tD0hr/eHh7Bfs54kzA81MTTpkn3fv+7jRu9FfqMS
+	NWTvji+ZpiZq/Z1yE/jtTDa6ivgBKQ0uEQ==
+X-Google-Smtp-Source: ABdhPJzVYEM4EG65fK+vKTZ0SY4LpnaU+Dy7ytg8jufOHJy+uCWKqfTuzd+QDLv8rCJ9Jau1wgiusQ==
+X-Received: by 2002:a62:f207:0:b029:1f6:11a4:1b81 with SMTP id m7-20020a62f2070000b02901f611a41b81mr15108142pfh.19.1616277053814;
+        Sat, 20 Mar 2021 14:50:53 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b117])
-        by smtp.gmail.com with ESMTPSA id q25sm9212316pfh.34.2021.03.20.14.50.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Mar 2021 14:50:00 -0700 (PDT)
+Received: from ?IPv6:2601:646:9200:a0f0:c4a9:4187:9c07:8080? ([2601:646:9200:a0f0:c4a9:4187:9c07:8080])
+        by smtp.gmail.com with ESMTPSA id f11sm8785850pga.34.2021.03.20.14.50.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Mar 2021 14:50:53 -0700 (PDT)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20210319084401.576728-1-alex.kanavin@gmail.com>
+ <20210319084401.576728-15-alex.kanavin@gmail.com>
+ <722122d5-7fa8-56b2-116d-10169ada8051@gmail.com>
+ <CANNYZj9shi535X8emj0uYof5ysabLJ9PpHEHyeqhFM=yr=N=sw@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH v2 3/3] apt: Do not disable NLS
-Date: Sat, 20 Mar 2021 14:49:56 -0700
-Message-Id: <20210320214956.2477142-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210320214956.2477142-1-raj.khem@gmail.com>
-References: <20210320214956.2477142-1-raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Subject: Re: [OE-core] [PATCH 15/16] apt: mark as incompatible with musl
+Message-ID: <e7e9b512-5f9b-9377-e6e0-dc8f3cc4ea08@gmail.com>
+Date: Sat, 20 Mar 2021 14:50:52 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <CANNYZj9shi535X8emj0uYof5ysabLJ9PpHEHyeqhFM=yr=N=sw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 
-Add a patch to disable cmake po targets
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../0001-cmake-Do-not-build-po-files.patch    | 37 +++++++++++++++++++
- meta/recipes-devtools/apt/apt_2.2.2.bb        |  3 +-
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch b/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
-new file mode 100644
-index 0000000000..2837b7f1b3
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
-@@ -0,0 +1,37 @@
-+From 33347f9f8301633b01af4e208b7be5fdfcb0df0c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 20 Mar 2021 14:45:18 -0700
-+Subject: [PATCH] cmake: Do not build po files
-+
-+Fixes
-+| CMake Error at CMakeLists.txt:252 (add_dependencies):
-+|   The dependency target "update-po4a" of target "update-po" does not exist.
-+|
-+
-+Upstream-Status: Inappropriate [Cross-compile specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ CMakeLists.txt | 7 -------
-+ 1 file changed, 7 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 3c8ec3f..821a24f 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -245,13 +245,6 @@ add_subdirectory(ftparchive)
-+ add_subdirectory(methods)
-+ add_subdirectory(test)
-+ 
-+-if (USE_NLS)
-+-add_subdirectory(po)
-+-
-+-# Link update-po4a into the update-po target
-+-add_dependencies(update-po update-po4a)
-+-endif()
-+-
-+ # Create our directories.
-+ install_empty_directories(
-+   ${CONF_DIR}/apt.conf.d
-+-- 
-+2.31.0
-+
-diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
-index 7ee661d4c8..d1aa5de8df 100644
---- a/meta/recipes-devtools/apt/apt_2.2.2.bb
-+++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
-            file://0001-srvrec-Keep-support-for-older-resolver.patch \
-+           file://0001-cmake-Do-not-build-po-files.patch \
-            "
- 
- SRC_URI_append_class-native = " \
-@@ -41,7 +42,7 @@ BBCLASSEXTEND = "native nativesdk"
- DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
- 
- EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
--    -DUSE_NLS=False -DDPKG_DATADIR=${datadir}/dpkg \
-+    -DDPKG_DATADIR=${datadir}/dpkg \
-     -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
-     -DWITH_TESTS=False \
- "
--- 
-2.31.0
+On 3/20/21 2:13 AM, Alexander Kanavin wrote:
+> On Fri, 19 Mar 2021 at 17:58, Khem Raj <raj.khem@gmail.com 
+> <mailto:raj.khem@gmail.com>> wrote:
+> 
+> 
+> 
+>     On 3/19/21 1:44 AM, Alexander Kanavin wrote:
+>      > There are multiple failures with the new version; unless
+> 
+>     Can you share details of failures ?
+>     it would be better to not regress whats working
+> 
+> 
+> For example, here:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3213/steps/11/logs/stdio 
+> <https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3213/steps/11/logs/stdio>
+> 
+> home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc: 
+> In function 'bool GetSrvRecords(std::string, std::vector<SrvRec>&)':
+> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:67:8: 
+> error: 'res_ninit' was not declared in this scope; did you mean 'res_init'?
+> 67 | if (res_ninit(&res) != 0)
+> | ^~~~~~~~~
+> | res_init
+> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:71:38: 
+> error: 'res_nclose' was not declared in this scope
+> 71 | std::shared_ptr<void> guard(&res, res_nclose);
+> | ^~~~~~~~~~
+> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/srvrec.cc:73:17: 
+> error: 'res_nquery' was not declared in this scope; did you mean 
+> 'res_query'?
+> 73 | answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV, answer, 
+> sizeof(answer));
+> | ^~~~~~~~~~
+> | res_query
 
+this is because apt started to use newer APIs for resolver but then 
+disregarded older APIs, I have sent a patch to actually user newer APIs 
+but have fallback to older APIs also available.
+
+> 
+> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/recipe-sysroot/usr/include/locale.h:53:7: 
+> error: declaration of 'char* setlocale(int, const char*)' has a 
+> different exception specifier
+> 53 | char *setlocale (int, const char *);
+> | ^~~~~~~~~
+> In file included from 
+> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/apt/2.2.2-r0/apt-2.2.2/apt-pkg/contrib/netrc.cc:14:
+> include/apti18n.h:25:25: note: from previous declaration 'char* 
+> setlocale(int, const char*) throw ()'
+> 25 | extern "C" inline char* setlocale(int, const char*) throw() { 
+> return nullptr; }
+> | ^~~~~~~~~
+
+yeah we should not disable NLS but remove PO generation. I have sent a 
+patch for this too.
+
+> 
+> Alex
+> 
