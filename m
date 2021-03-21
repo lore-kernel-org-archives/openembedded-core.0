@@ -1,119 +1,136 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.75.1616341556264979874
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.2692.1616353401968960805
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Mar 2021 08:45:56 -0700
+ Sun, 21 Mar 2021 12:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZEOXZxIj;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 12so8099083wmf.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Mar 2021 08:45:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SHAFtEGn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id g15so9504053pfq.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Mar 2021 12:03:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uLNkwt0AT7OV5aiXeEIqfubV37kV/FBNNXAjtHtBDc8=;
-        b=ZEOXZxIjsjp7KfWdqGcrreZ30F2HSQ6zRGwE0WCOIWuWQ71h5B+ADO5/I5G7mRoGu0
-         6expvHE1UXfBeITmQF+Y9kJ4XhI8tKAtlCfTDI1omByIscQNrAwPrVnVKMLzXqLUJkBB
-         CCndSnPGckoRj7xvrbL3NtNMRQOG42t0Z+4yOJhqXGUBUOSzmQB6VfXP8eb6dZ1dthmY
-         4wXQXpCOnwCHt5dvGLHPZo8mN2zti+P3l5sOZIM2vNMuozi39yiQoXKhQbBuR4eyGVZZ
-         hJG2J9SDrjW+/evi8qqpdF10OfHbRN3xbCy89HlwsKQG/rqskOmoWNqPBUFw1bLvwVuF
-         0jFQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=hiEYa4afcRHY2cnRJQCB1mKAJ0GK/iOwPWMXPUhhvWw=;
+        b=SHAFtEGn5Weu1oGDRNuBVqDA4YES/U5lK4PwvxTejQxYn7AXVXMF+m7u3frovAzTz0
+         yivXY2UTOWjswRtgb6Jr96ErY1PfOqSX9WO6BKYR7YM/kYJBn0gFdrqFftioKfgc39E9
+         /Oi7KTvQkRyerG4MVSu8zYJUIT8OvnhwtSubkmgiRetn2LD6zhTOUYjHlopJg4XYxZsY
+         Ju9yQaU1GaxK9fahCUymuDB2tBwFvawr3giWDSTzDn4ygNmcVWo2JCnJ8hp7z3XwyHLU
+         K9ZBh3AYMMfY40grxisslgNNyu1l+gHgMqZp2YZGBlRGrpY33U4E7heA63mDYIx+FMS7
+         zHqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uLNkwt0AT7OV5aiXeEIqfubV37kV/FBNNXAjtHtBDc8=;
-        b=QMvMNxsNQ5f/GkUgB67ipHr40TbzSX62I2xRDFdtdM0AB/6gCv6SkCF/31ydDQKmmU
-         VmramFT00bgE42fKCT7TS6xPiTEICMYOuk3/LHWuU/XOfayHLcaOyi4oevfaPAtWy5g6
-         c7MQZb8iC0oRb5FRCsbDkCKg/EDc+uIOtWqbQp/P8dYUMaiQkU5pMTPJwrvfGkVrIcXW
-         3SmcEDtqZTPxLE5zRGothbiwwscqvOrTL3RR3abY1ZwVvLh3EHbEldT14GrE0G4yKHWx
-         w+vVrUWSttilaJXuhaOBzChDmEeqcPgZ/XydmnuCIxQ/Z4EFJgxxbl+1XlhGWJiFclGU
-         2xxw==
-X-Gm-Message-State: AOAM531WMeDZ+UkVcYAULcYz7Hq02no1lmLwKFUdk5adabiLJdfLTFsJ
-	Akl11gNRFAkE2HXewhzmXrKnirF5nmrMyA==
-X-Google-Smtp-Source: ABdhPJweAH2rJ2IlatxUC35Jq4hs3C84U1rNsHMfwMWF6SsBPK8NwIWAo0xdneU29xwc52pH+XGgTg==
-X-Received: by 2002:a05:600c:4108:: with SMTP id j8mr11843815wmi.183.1616341554788;
-        Sun, 21 Mar 2021 08:45:54 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([2001:818:e32f:d200:8e8c:aaff:fe9f:1141])
-        by smtp.gmail.com with ESMTPSA id g9sm17169946wrp.14.2021.03.21.08.45.54
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=hiEYa4afcRHY2cnRJQCB1mKAJ0GK/iOwPWMXPUhhvWw=;
+        b=X5YYbRAywX8tz1BJknkFFPP8sAepE6IomXbHZMviFYCejfP3nZBdGusWb44P18MAeb
+         p1lGoZUqYegRgitqSzvey+GG9yrM0n/ASd6LeE73xCAKrTiw1HEvvwI90Ipdbhv/O6RX
+         lm+7xKDv2x3+AzKbWOqnbyOdiM4NBtMOG32FdOIszVNX8i4g9Ojn6GD474SsqTyC5kLW
+         7of+Y6jS0uxqRwIzUdWAyg4d0MCrQE3MJpkDlea+PiQhS17rxQ8H1l1I7+ZNICUOc63g
+         ou1Eb6Xas/VzpsQUGmoHHcWoun/j6THlxYCZQ50gGnFhXXwcgL9L9EUfNprJLkmfXKRO
+         L+0A==
+X-Gm-Message-State: AOAM5306qKCrCQcJynGOX/fxGXSLGyLUV71lPdJ1AEzxUp83Bm1oUxoF
+	JZmfAUc991jgaTRg/dCsP9Z4fczBcDlNZ8Lc
+X-Google-Smtp-Source: ABdhPJyEUiXaNpd7tRT9Ygw3tlKIXfiJpuybMbb0ujoGbTqqM0TGQwoKKijxDwEetIDJ4Rv8+pijQg==
+X-Received: by 2002:a65:4347:: with SMTP id k7mr20038517pgq.88.1616353400813;
+        Sun, 21 Mar 2021 12:03:20 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id 202sm11075436pfu.46.2021.03.21.12.03.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Mar 2021 08:45:54 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 2/2] gstreamer1.0-plugins-good: fix rtpjitterbuffer regression
-Date: Sun, 21 Mar 2021 15:46:04 +0000
-Message-Id: <20210321154604.818098-2-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210321154604.818098-1-quaresma.jose@gmail.com>
-References: <20210321154604.818098-1-quaresma.jose@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 21 Mar 2021 12:03:20 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 2DE1596236E; Sun, 21 Mar 2021 09:03:18 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 21 Mar 2021 09:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210321190318.2DE1596236E@nuc.router0800d9.com>
+Date: Sun, 21 Mar 2021 09:03:18 -1000 (HST)
 
-Due to an off-by-one when parsing the string, the most significant digit
-or the clock offset was skipped when parsing the offset.
+Branch: master
 
-https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/910
+New this week:
+CVE-2020-10713: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
+CVE-2020-14308: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-15706: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2021-20231: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20231 *
+CVE-2021-20232: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20232 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20263: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20263 *
+CVE-2021-21300: git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-21300 *
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- ...Fix-parsing-of-the-mediaclk-direct-f.patch | 33 +++++++++++++++++++
- .../gstreamer1.0-plugins-good_1.18.4.bb       |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
+Removed this week:
+CVE-2020-8625: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8625 *
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
-new file mode 100644
-index 0000000000..14a9fe23aa
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
-@@ -0,0 +1,33 @@
-+From ec1949dffd931d0ec7e4f67108a08ab1e2af0cfe Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 16 Mar 2021 19:25:36 +0200
-+Subject: [PATCH] rtpjitterbuffer: Fix parsing of the mediaclk:direct= field
-+
-+Due to an off-by-one when parsing the string, the most significant digit
-+or the clock offset was skipped when parsing the offset.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/910>
-+
-+Upstream-Status: Backport [b5bb4ede3a42273fafc1054f9cf106ca527e3c26]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ gst/rtpmanager/gstrtpjitterbuffer.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gst/rtpmanager/gstrtpjitterbuffer.c b/gst/rtpmanager/gstrtpjitterbuffer.c
-+index 60d8ad875..02fe15adc 100644
-+--- a/gst/rtpmanager/gstrtpjitterbuffer.c
-++++ b/gst/rtpmanager/gstrtpjitterbuffer.c
-+@@ -1534,7 +1534,7 @@ gst_jitter_buffer_sink_parse_caps (GstRtpJitterBuffer * jitterbuffer,
-+       GST_DEBUG_OBJECT (jitterbuffer, "Got media clock %s", mediaclk);
-+ 
-+       if (!g_str_has_prefix (mediaclk, "direct=") ||
-+-          !g_ascii_string_to_unsigned (&mediaclk[8], 10, 0, G_MAXUINT64,
-++          !g_ascii_string_to_unsigned (&mediaclk[7], 10, 0, G_MAXUINT64,
-+               &clock_offset, NULL))
-+         GST_FIXME_OBJECT (jitterbuffer, "Unsupported media clock");
-+       if (strstr (mediaclk, "rate=") != NULL) {
-+-- 
-+2.31.0
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb
-index 9fdc31549f..07cacdc68a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.4.bb
-@@ -6,6 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-+           file://0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch \
-            "
- 
- SRC_URI[sha256sum] = "b6e50e3a9bbcd56ee6ec71c33aa8332cc9c926b0c1fae995aac8b3040ebe39b0"
--- 
-2.31.0
-
+Full list:  Found 68 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-10713: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14308: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15706: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20231: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20231 *
+CVE-2021-20232: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20232 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20263: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20263 *
+CVE-2021-21300: git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-21300 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
