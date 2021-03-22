@@ -1,139 +1,132 @@
 Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.7183.1616377301187997965
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Mar 2021 18:41:41 -0700
+ Sun, 21 Mar 2021 18:41:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Z8cEUbmd2sKRijdUqGv9nge0kZSZCnxa9IdOSVC9ke5Q7c61oT2ajor5p3ewLaqJAXhE6EA3S8
- Kq1xD0Abf7VQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190211563"
+IronPort-SDR: xg/6Fun110P4STjLlO1/Ih3HYvNs6ntdmf8BxpLAMNSWJ7wDW1fCmvtUpQe25cmSlGmnKMFuJf
+ AjahCa7wH1Gw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190211567"
 X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
-   d="scan'208";a="190211563"
+   d="scan'208";a="190211567"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:41:41 -0700
-IronPort-SDR: Pht9Fy0j8d0cavB6Qsg3U8Ct5zEmcyDqXwsgxcY36MD7IXbjGNe2M5FsuiTEn2GtUm+ybz2sN4
- WOwfgrpDB/JQ==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:41:42 -0700
+IronPort-SDR: qv5rLeT6jyJmzMBHYQDqeqvzyBJ1J91atB+jqaZN0q9JLGkemwN95c03+WFSCxVFidzVwqFfE0
+ 34sAvDv+6s7Q==
 X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
-   d="scan'208";a="524295114"
+   d="scan'208";a="524295122"
 Received: from myusoff-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.78.4])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:41:40 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:41:41 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 01/25] qemu: fix CVE-2021-20203
-Date: Mon, 22 Mar 2021 09:41:03 +0800
-Message-Id: <0c6dfc8a04c5048f395765d50b3fe4ba8a36c4c6.1616377115.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 02/25] wpa-supplicant: fix CVE-2021-27803
+Date: Mon, 22 Mar 2021 09:41:04 +0800
+Message-Id: <5dc8a0a3a22add1e0bb9970c37d014b4abbca049.1616377115.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616377115.git.anuj.mittal@intel.com>
 References: <cover.1616377115.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Minjae Kim <flowergom@gmail.com>
+From: Stefan Ghinea <stefan.ghinea@windriver.com>
 
-net: vmxnet3: validate configuration values during activate
+A vulnerability was discovered in how p2p/p2p_pd.c in wpa_supplicant
+before 2.10 processes P2P (Wi-Fi Direct) provision discovery requests.
+It could result in denial of service or other impact (potentially
+execution of arbitrary code), for an attacker within radio range.
 
-Upstream-Status: Acepted [https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07935.html]
-CVE: CVE-2021-20203
-Signed-off-by: Minjae Kim <flowergom@gmail.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2021-27803
+
+Upstream patches:
+https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32
+
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 81e4260b83c52558c320fd7d1c1eafcb312ad6be)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20203.patch            | 74 +++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
+ .../wpa-supplicant/CVE-2021-27803.patch       | 58 +++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 97f110cde5..482ca3d6e5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -39,6 +39,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-28916.patch \
- 	   file://CVE-2020-35517.patch \
- 	   file://CVE-2020-29443.patch \
-+	   file://CVE-2021-20203.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
 new file mode 100644
-index 0000000000..31440af0bd
+index 0000000000..004b1dbd19
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
-@@ -0,0 +1,74 @@
-+From: Prasad J Pandit <pjp@fedoraproject.org>
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+@@ -0,0 +1,58 @@
++From 8460e3230988ef2ec13ce6b69b687e941f6cdb32 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@codeaurora.org>
++Date: Tue, 8 Dec 2020 23:52:50 +0200
++Subject: [PATCH] P2P: Fix a corner case in peer addition based on PD Request
 +
-+While activating device in vmxnet3_acticate_device(), it does not
-+validate guest supplied configuration values against predefined
-+minimum - maximum limits. This may lead to integer overflow or
-+OOB access issues. Add checks to avoid it.
++p2p_add_device() may remove the oldest entry if there is no room in the
++peer table for a new peer. This would result in any pointer to that
++removed entry becoming stale. A corner case with an invalid PD Request
++frame could result in such a case ending up using (read+write) freed
++memory. This could only by triggered when the peer table has reached its
++maximum size and the PD Request frame is received from the P2P Device
++Address of the oldest remaining entry and the frame has incorrect P2P
++Device Address in the payload.
 +
-+Fixes: CVE-2021-20203
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913873
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Fix this by fetching the dev pointer again after having called
++p2p_add_device() so that the stale pointer cannot be used.
 +
-+Upstream-Status: Acepted [https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07935.html]
-+CVE: CVE-2021-20203
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
++Fixes: 17bef1e97a50 ("P2P: Add peer entry based on Provision Discovery Request")
++Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
++
++Upstream-Status: Backport
++CVE: CVE-2021-27803
++
++Reference to upstream patch:
++[https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32]
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 +---
-+ hw/net/vmxnet3.c | 13 +++++++++++++
-+ 1 file changed, 13 insertions(+)
++ src/p2p/p2p_pd.c | 12 +++++-------
++ 1 file changed, 5 insertions(+), 7 deletions(-)
 +
-+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-+index eff299f629..4a910ca971 100644
-+--- a/hw/net/vmxnet3.c
-++++ b/hw/net/vmxnet3.c
-+@@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+     vmxnet3_setup_rx_filtering(s);
-+     /* Cache fields from shared memory */
-+     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
-++    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
-+     VMW_CFPRN("MTU is %u", s->mtu);
++diff --git a/src/p2p/p2p_pd.c b/src/p2p/p2p_pd.c
++index 3994ec0..05fd593 100644
++--- a/src/p2p/p2p_pd.c
+++++ b/src/p2p/p2p_pd.c
++@@ -595,14 +595,12 @@ void p2p_process_prov_disc_req(struct p2p_data *p2p, const u8 *sa,
++ 			goto out;
++ 		}
 + 
-+     s->max_rx_frags =
-+@@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* Read rings memory locations for TX queues */
-+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBasePA);
-+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRingSize);
-++        if (size > VMXNET3_TX_RING_MAX_SIZE) {
-++            size = VMXNET3_TX_RING_MAX_SIZE;
-++        }
-+ 
-+         vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
-+                           sizeof(struct Vmxnet3_TxDesc), false);
-+@@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* TXC ring */
-+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRingBasePA);
-+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRingSize);
-++        if (size > VMXNET3_TC_RING_MAX_SIZE) {
-++            size = VMXNET3_TC_RING_MAX_SIZE;
-++        }
-+         vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
-+                           sizeof(struct Vmxnet3_TxCompDesc), true);
-+         VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_ring);
-+@@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+             /* RX rings */
-+             pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
-+             size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
-++            if (size > VMXNET3_RX_RING_MAX_SIZE) {
-++                size = VMXNET3_RX_RING_MAX_SIZE;
-++            }
-+             vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
-+                               sizeof(struct Vmxnet3_RxDesc), false);
-+             VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
-+@@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-+         /* RXC ring */
-+         pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBasePA);
-+         size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSize);
-++        if (size > VMXNET3_RC_RING_MAX_SIZE) {
-++            size = VMXNET3_RC_RING_MAX_SIZE;
-++        }
-+         vmxnet3_ring_init(d, &s->rxq_descr[i].comp_ring, pa, size,
-+                           sizeof(struct Vmxnet3_RxCompDesc), true);
-+         VMW_CFPRN("RXC queue %d: Base: %" PRIx64 ", Size: %d", i, pa, size);
+++		dev = p2p_get_device(p2p, sa);
++ 		if (!dev) {
++-			dev = p2p_get_device(p2p, sa);
++-			if (!dev) {
++-				p2p_dbg(p2p,
++-					"Provision Discovery device not found "
++-					MACSTR, MAC2STR(sa));
++-				goto out;
++-			}
+++			p2p_dbg(p2p,
+++				"Provision Discovery device not found "
+++				MACSTR, MAC2STR(sa));
+++			goto out;
++ 		}
++ 	} else if (msg.wfd_subelems) {
++ 		wpabuf_free(dev->info.wfd_subelems);
 +-- 
-+2.29.2
++2.17.1
 +
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+index 85ac28d881..0f2b7407e9 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://0002-WPS-UPnP-Fix-event-message-generation-using-a-long-U.patch \
+            file://0003-WPS-UPnP-Handle-HTTP-initiation-failures-for-events-.patch \
+            file://CVE-2021-0326.patch \
++           file://CVE-2021-27803.patch \
+           "
+ SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
+ SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
 -- 
 2.30.2
 
