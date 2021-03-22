@@ -1,80 +1,145 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web09.7116.1616377391240365791
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.7203.1616377443978277387
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Mar 2021 18:43:11 -0700
+ Sun, 21 Mar 2021 18:44:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: yNpzOia2VQWHAGPzTKHt0EEYJA92cgVUSZjTO2P1YsDxYoF6bMxNHBp4UfMgJyt0Iy4WZ0hnU4
- SYmGKmME2ScA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190211702"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: IrHWZrsm44ZgXQxXxB8B/dYS7BrMD8+6Y+ioYEMRXWq7qru9ywN3V0+aWT/fjcdeEK91eRN5n2
+ u/7BMRO/gifw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="251536443"
 X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
-   d="scan'208";a="190211702"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:42:08 -0700
-IronPort-SDR: 0R6igRq35wootpRdNEBipjv/9ztY7jP65xmGQoosInoAyA4pQsIdmgYS7cqyfU/9JwZchl/qjk
- a0Gx7R0nSMrQ==
+   d="scan'208";a="251536443"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:44:03 -0700
+IronPort-SDR: Y3v5WP75LzcUEuEpCVr7sXlcSw85lwawK+Mf1H91VLQij3ndBmhVW9JaHynnmYSPcAGSkB88ar
+ YmKQrV+0e1Iw==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
-   d="scan'208";a="524295294"
-Received: from myusoff-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.78.4])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:42:07 -0700
+   d="scan'208";a="513141476"
+Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
+  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2021 18:44:01 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 22 Mar 2021 09:44:00 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
+ Mon, 22 Mar 2021 09:44:00 +0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 24/25] xcb-proto: update to 1.14.1
-Date: Mon, 22 Mar 2021 09:41:26 +0800
-Message-Id: <b4620992fb5d81ca0bab3979297aa78fe00da85f.1616377115.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1616377115.git.anuj.mittal@intel.com>
-References: <cover.1616377115.git.anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Martin.Jansa@gmail.com"
+	<Martin.Jansa@gmail.com>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"stefan.ghinea@windriver.com" <stefan.ghinea@windriver.com>
+Subject: Re: [OE-core] [gatesgarth][PATCH] wpa-supplicant: fix CVE-2021-27803
+Thread-Topic: [OE-core] [gatesgarth][PATCH] wpa-supplicant: fix CVE-2021-27803
+Thread-Index: AQHXHWBaRyPjpXL7okeQJskw13giG6qOuMuA
+Date: Mon, 22 Mar 2021 01:44:00 +0000
+Message-ID: <3505a12fa80a7604a2f871107ce3088d0919e2eb.camel@intel.com>
+References: <20210320080918.19512-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210320080918.19512-1-Martin.Jansa@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1C55C6008B388341A0D4ADD057415FC1@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Richard Leitner <richard.leitner@skidata.com>
-
-This fixes [1] the following build error for nativesdk on Fedora 33
-which is caused by the removal of fractions.gcd() in favor of math.gcd()
-in python 3.9 [2]:
-
-ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
-
-Furthermore the SRC_URI is adapted as the old one doesn't provide the
-1.14.1 archive.
-
-[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
-[2] https://bugs.python.org/issue39350
-
-It's needed in gatesgarth and possibly dunfell as well to support
-distributions with python-3.9 as we build libxcb-native, which is
-failing with xcb-proto-1.14.
-
-1.14.1 is a bug fix release:
-https://lists.x.org/archives/xorg-announce/2020-October/003061.html
-
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb}     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
-
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
-index 6de30098d6..52e474a2e9 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
-@@ -11,8 +11,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
-                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
- 
--SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
--SRC_URI[sha256sum] = "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f36f1ecc79834416a605"
-+SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz"
-+SRC_URI[sha256sum] = "f04add9a972ac334ea11d9d7eb4fc7f8883835da3e4859c9afa971efdf57fcc3"
- 
- inherit autotools pkgconfig python3native
- 
--- 
-2.30.2
-
+SGkgTWFydGluLA0KDQpPbiBTYXQsIDIwMjEtMDMtMjAgYXQgMDk6MDkgKzAxMDAsIE1hcnRpbiBK
+YW5zYSB3cm90ZToNCj4gRnJvbTogU3RlZmFuIEdoaW5lYSA8c3RlZmFuLmdoaW5lYUB3aW5kcml2
+ZXIuY29tPg0KPiANCj4gQSB2dWxuZXJhYmlsaXR5IHdhcyBkaXNjb3ZlcmVkIGluIGhvdyBwMnAv
+cDJwX3BkLmMgaW4gd3BhX3N1cHBsaWNhbnQNCj4gYmVmb3JlIDIuMTAgcHJvY2Vzc2VzIFAyUCAo
+V2ktRmkgRGlyZWN0KSBwcm92aXNpb24gZGlzY292ZXJ5DQo+IHJlcXVlc3RzLg0KPiBJdCBjb3Vs
+ZCByZXN1bHQgaW4gZGVuaWFsIG9mIHNlcnZpY2Ugb3Igb3RoZXIgaW1wYWN0IChwb3RlbnRpYWxs
+eQ0KPiBleGVjdXRpb24gb2YgYXJiaXRyYXJ5IGNvZGUpLCBmb3IgYW4gYXR0YWNrZXIgd2l0aGlu
+IHJhZGlvIHJhbmdlLg0KPiANCj4gUmVmZXJlbmNlczoNCj4gaHR0cHM6Ly9udmQubmlzdC5nb3Yv
+dnVsbi9kZXRhaWwvQ1ZFLTIwMjEtMjc4MDMNCj4gDQo+IFVwc3RyZWFtIHBhdGNoZXM6DQo+IGh0
+dHBzOi8vdzEuZmkvY2dpdC9ob3N0YXAvY29tbWl0Lz9pZD04NDYwZTMyMzA5ODhlZjJlYzEzY2U2
+YjY5YjY4N2U5NDFmNmNkYjMyDQoNCkkgaGFkIHRoaXMgb25lIGFscmVhZHkgaW4gbXkgcXVldWUg
+YW5kIGp1c3Qgc2VudCBpdCBvdXQuDQoNClRoYW5rcywNCg0KQW51ag0KDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBTdGVmYW4gR2hpbmVhIDxzdGVmYW4uZ2hpbmVhQHdpbmRyaXZlci5jb20+DQo+IFNp
+Z25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnPg0KPiAtLS0NCj4gwqAuLi4vd3BhLXN1cHBsaWNhbnQvQ1ZFLTIwMjEtMjc4MDMucGF0
+Y2jCoMKgwqDCoMKgwqAgfCA1OA0KPiArKysrKysrKysrKysrKysrKysrDQo+IMKgLi4uL3dwYS1z
+dXBwbGljYW50L3dwYS1zdXBwbGljYW50XzIuOS5iYsKgwqDCoMKgwqAgfMKgIDEgKw0KPiDCoDIg
+ZmlsZXMgY2hhbmdlZCwgNTkgaW5zZXJ0aW9ucygrKQ0KPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBt
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3dwYS1zdXBwbGljYW50L3dwYS0NCj4gc3VwcGxpY2Fu
+dC9DVkUtMjAyMS0yNzgwMy5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvd3BhLXN1cHBsaWNhbnQvd3BhLQ0KPiBzdXBwbGljYW50L0NWRS0yMDIxLTI3
+ODAzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS93cGEtDQo+IHN1cHBsaWNhbnQv
+d3BhLXN1cHBsaWNhbnQvQ1ZFLTIwMjEtMjc4MDMucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2
+NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uMDA0YjFkYmQxOQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsr
+KyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvd3BhLXN1cHBsaWNhbnQvd3BhLXN1cHBsaWNh
+bnQvQ1ZFLQ0KPiAyMDIxLTI3ODAzLnBhdGNoDQo+IEBAIC0wLDAgKzEsNTggQEANCj4gK0Zyb20g
+ODQ2MGUzMjMwOTg4ZWYyZWMxM2NlNmI2OWI2ODdlOTQxZjZjZGIzMiBNb24gU2VwIDE3IDAwOjAw
+OjAwDQo+IDIwMDENCj4gK0Zyb206IEpvdW5pIE1hbGluZW4gPGpvdW5pQGNvZGVhdXJvcmEub3Jn
+Pg0KPiArRGF0ZTogVHVlLCA4IERlYyAyMDIwIDIzOjUyOjUwICswMjAwDQo+ICtTdWJqZWN0OiBb
+UEFUQ0hdIFAyUDogRml4IGEgY29ybmVyIGNhc2UgaW4gcGVlciBhZGRpdGlvbiBiYXNlZCBvbiBQ
+RA0KPiBSZXF1ZXN0DQo+ICsNCj4gK3AycF9hZGRfZGV2aWNlKCkgbWF5IHJlbW92ZSB0aGUgb2xk
+ZXN0IGVudHJ5IGlmIHRoZXJlIGlzIG5vIHJvb20gaW4NCj4gdGhlDQo+ICtwZWVyIHRhYmxlIGZv
+ciBhIG5ldyBwZWVyLiBUaGlzIHdvdWxkIHJlc3VsdCBpbiBhbnkgcG9pbnRlciB0byB0aGF0DQo+
+ICtyZW1vdmVkIGVudHJ5IGJlY29taW5nIHN0YWxlLiBBIGNvcm5lciBjYXNlIHdpdGggYW4gaW52
+YWxpZCBQRA0KPiBSZXF1ZXN0DQo+ICtmcmFtZSBjb3VsZCByZXN1bHQgaW4gc3VjaCBhIGNhc2Ug
+ZW5kaW5nIHVwIHVzaW5nIChyZWFkK3dyaXRlKSBmcmVlZA0KPiArbWVtb3J5LiBUaGlzIGNvdWxk
+IG9ubHkgYnkgdHJpZ2dlcmVkIHdoZW4gdGhlIHBlZXIgdGFibGUgaGFzIHJlYWNoZWQNCj4gaXRz
+DQo+ICttYXhpbXVtIHNpemUgYW5kIHRoZSBQRCBSZXF1ZXN0IGZyYW1lIGlzIHJlY2VpdmVkIGZy
+b20gdGhlIFAyUA0KPiBEZXZpY2UNCj4gK0FkZHJlc3Mgb2YgdGhlIG9sZGVzdCByZW1haW5pbmcg
+ZW50cnkgYW5kIHRoZSBmcmFtZSBoYXMgaW5jb3JyZWN0DQo+IFAyUA0KPiArRGV2aWNlIEFkZHJl
+c3MgaW4gdGhlIHBheWxvYWQuDQo+ICsNCj4gK0ZpeCB0aGlzIGJ5IGZldGNoaW5nIHRoZSBkZXYg
+cG9pbnRlciBhZ2FpbiBhZnRlciBoYXZpbmcgY2FsbGVkDQo+ICtwMnBfYWRkX2RldmljZSgpIHNv
+IHRoYXQgdGhlIHN0YWxlIHBvaW50ZXIgY2Fubm90IGJlIHVzZWQuDQo+ICsNCj4gK0ZpeGVzOiAx
+N2JlZjFlOTdhNTAgKCJQMlA6IEFkZCBwZWVyIGVudHJ5IGJhc2VkIG9uIFByb3Zpc2lvbg0KPiBE
+aXNjb3ZlcnkgUmVxdWVzdCIpDQo+ICtTaWduZWQtb2ZmLWJ5OiBKb3VuaSBNYWxpbmVuIDxqb3Vu
+aUBjb2RlYXVyb3JhLm9yZz4NCj4gKw0KPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiAr
+Q1ZFOiBDVkUtMjAyMS0yNzgwMw0KPiArDQo+ICtSZWZlcmVuY2UgdG8gdXBzdHJlYW0gcGF0Y2g6
+DQo+ICtbDQo+IGh0dHBzOi8vdzEuZmkvY2dpdC9ob3N0YXAvY29tbWl0Lz9pZD04NDYwZTMyMzA5
+ODhlZjJlYzEzY2U2YjY5YjY4N2U5NDFmNmNkYjMyDQo+IF0NCj4gKw0KPiArU2lnbmVkLW9mZi1i
+eTogU3RlZmFuIEdoaW5lYSA8c3RlZmFuLmdoaW5lYUB3aW5kcml2ZXIuY29tPg0KPiArLS0tDQo+
+ICsgc3JjL3AycC9wMnBfcGQuYyB8IDEyICsrKysrLS0tLS0tLQ0KPiArIDEgZmlsZSBjaGFuZ2Vk
+LCA1IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9z
+cmMvcDJwL3AycF9wZC5jIGIvc3JjL3AycC9wMnBfcGQuYw0KPiAraW5kZXggMzk5NGVjMC4uMDVm
+ZDU5MyAxMDA2NDQNCj4gKy0tLSBhL3NyYy9wMnAvcDJwX3BkLmMNCj4gKysrKyBiL3NyYy9wMnAv
+cDJwX3BkLmMNCj4gK0BAIC01OTUsMTQgKzU5NSwxMiBAQCB2b2lkIHAycF9wcm9jZXNzX3Byb3Zf
+ZGlzY19yZXEoc3RydWN0IHAycF9kYXRhDQo+ICpwMnAsIGNvbnN0IHU4ICpzYSwNCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIG91dDsNCj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0NCj4gKyANCj4gKyvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgZGV2ID0gcDJwX2dldF9kZXZpY2UocDJwLCBzYSk7DQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWRldikgew0KPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2ID0gcDJwX2dldF9kZXZpY2UocDJwLCBzYSk7DQo+
+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIWRldikg
+ew0KPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoHAycF9kYmcocDJwLA0KPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAiUHJvdmlzaW9u
+IERpc2NvdmVyeSBkZXZpY2UNCj4gbm90IGZvdW5kICINCj4gKy3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+TUFDU1RSLCBNQUMyU1RSKHNhKSk7DQo+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBvdXQ7DQo+ICstwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9DQo+ICsrwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBwMnBfZGJnKHAycCwNCj4gKyvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAiUHJvdmlzaW9u
+IERpc2NvdmVyeSBkZXZpY2Ugbm90IGZvdW5kDQo+ICINCj4gKyvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBNQUNTVFIsIE1BQzJTVFIo
+c2EpKTsNCj4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdv
+dG8gb3V0Ow0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfQ0KPiArwqDCoMKgwqDC
+oMKgwqB9IGVsc2UgaWYgKG1zZy53ZmRfc3ViZWxlbXMpIHsNCj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoHdwYWJ1Zl9mcmVlKGRldi0+aW5mby53ZmRfc3ViZWxlbXMpOw0KPiArLS0g
+DQo+ICsyLjE3LjENCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS93cGEtc3VwcGxpY2FudC93cGEtDQo+IHN1cHBsaWNhbnRfMi45LmJiIGIvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS93cGEtc3VwcGxpY2FudC93cGEtDQo+IHN1cHBsaWNhbnRfMi45LmJiDQo+
+IGluZGV4IDg1YWMyOGQ4ODEuLjBmMmI3NDA3ZTkgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvd3BhLXN1cHBsaWNhbnQvd3BhLXN1cHBsaWNhbnRfMi45LmJiDQo+ICsr
+KyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvd3BhLXN1cHBsaWNhbnQvd3BhLXN1cHBsaWNh
+bnRfMi45LmJiDQo+IEBAIC0zMCw2ICszMCw3IEBAIFNSQ19VUkkgPSAiDQo+IGh0dHA6Ly93MS5m
+aS9yZWxlYXNlcy93cGFfc3VwcGxpY2FudC0ke1BWfS50YXIuZ3rCoCBcDQo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgDQo+IGZpbGU6Ly8wMDAyLVdQUy1VUG5QLUZpeC1ldmVudC1tZXNzYWdlLWdl
+bmVyYXRpb24tdXNpbmctYS1sb25nLVUucGF0Y2gNCj4gwqBcDQo+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgDQo+IGZpbGU6Ly8wMDAzLVdQUy1VUG5QLUhhbmRsZS1IVFRQLWluaXRpYXRpb24tZmFp
+bHVyZXMtZm9yLWV2ZW50cy0ucGF0Y2gNCj4gwqBcDQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+ZmlsZTovL0NWRS0yMDIxLTAzMjYucGF0Y2jCoFwNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIGZp
+bGU6Ly9DVkUtMjAyMS0yNzgwMy5wYXRjaMKgXA0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiDQo+
+IMKgU1JDX1VSSVttZDVzdW1dID0gIjJkMjk1OGM3ODI1NzZkYzk5MDEwOTJmYmZlY2I0MTkwIg0K
+PiDCoFNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICJmY2JkZWU3YjRhNjRiZWE4MTc3OTczMjk5Yzhj
+ODI0NDE5YzQxM2VjMmUzYTk1ZGI2M2RkNmE1ZGMzNTQxZjE3Ig0KPiANCj4gDQo+IA0KDQo=
