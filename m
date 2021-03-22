@@ -1,50 +1,61 @@
-Subject: Re: [PATCH] rootfs.py: mask run-postinsts systemd service when unneeded
-To: openembedded-core@lists.openembedded.org
+Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
+ by mx.groups.io with SMTP id smtpd.web08.11461.1616414460034903141
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 22 Mar 2021 05:01:00 -0700
+Authentication-Results: mx.groups.io;
+ dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.137.252, mailfrom: awais_belal@mentor.com)
+IronPort-SDR: gjmkTBfqiRIX4pD4QzU1Mw809HQSnybh34684xHXmPtOsX49N66swpL4rxDxOpoh8E5ja5nrTm
+ ZFFG1b9cnOTXURxvY4xH8yUB0wgJBo9napHnnD4ExvDAj6nRCxVb1yAys5C4o37McxL6DeBI1W
+ lipFHQGuEpVF+xtdTLe20WXW13dybNriVBs6VFaj5rsn7cotptMPO+yYXdpfSqjwZh4VKS0iIG
+ 692Ur7GtBvjssaLLyEnVDvKH0qzQQGIZ184hp6CQ9su95O5GQfCYm/lCvuh6jqgm4N9r/jM9AD
+ JOQ=
+X-IronPort-AV: E=Sophos;i="5.81,268,1610438400"; 
+   d="scan'208";a="59471250"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa4.mentor.iphmx.com with ESMTP; 22 Mar 2021 04:00:58 -0800
+IronPort-SDR: y1Ijj0X4Kgkv9stk9ggya7f7ZzSxvUvMpI/oJsfc6iJNEMLqEE91n2mjXbcrTlLkQytGwilMdY
+ Fk9l0xwLAIAyFfdvEim7iVCJ+1YF3tOMQH5VGSVI9XBtn6FkI3g7J5gF7rGc6ovYW8i3MV9FPo
+ mTABCW9OWmYfNRy4m7xROb9nc4+avsGg8wqZd4ZsamMvt29EkMF0BxHXsBG+kQQyUjx2ULM1hG
+ gnWKjBRj8fO0+Ukkt8s39b51Z9cTJ1EUUMXFy9cg+VBJZ++FYPbLhk7pbsegMQ+frT829lXdBH
+ wBo=
 From: "Awais Belal" <Awais_Belal@mentor.com>
-X-Originating-Location: Karachi, Sindh, PK (110.93.212.98)
-X-Originating-Platform: Linux Firefox 83
-User-Agent: GROUPS.IO Web Poster
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] rootfs.py: mask run-postinsts systemd service when unneeded
+Date: Mon, 22 Mar 2021 17:00:35 +0500
+Message-ID: <20210322120035.6186-1-awais_belal@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Date: Mon, 22 Mar 2021 04:41:12 -0700
-References: <CANNYZj-+6z3RJQR2eo2_zj9HExHhtGx=oZRa+aLK4mBD-gAV0g@mail.gmail.com>
-In-Reply-To: <CANNYZj-+6z3RJQR2eo2_zj9HExHhtGx=oZRa+aLK4mBD-gAV0g@mail.gmail.com>
-Message-ID: <32114.1616413272768671921@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="kTwKj1KaXSJ62clApclT"
+Return-Path: awais_belal@mentor.com
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+ SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
+Content-Type: text/plain
 
---kTwKj1KaXSJ62clApclT
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The service is unnecessarily run even when it is unneeded.
+This was handled correctly for sysV systems however the
+service still runs on the systemd systems as it is not
+disabled/masked when not needed.
 
-Hi Alex,
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/lib/oe/rootfs.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->=20
-> Why isn=E2=80=99t this seen in the tests? Can you add a test that shows =
-the issue
-> please? (Fails without the patch, passes with)
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 249c685dcf..fe35ce5b70 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -257,6 +257,10 @@ class Rootfs(object, metaclass=ABCMeta):
+                 self._exec_shell_cmd(["update-rc.d", "-f", "-r",
+                                       self.d.getVar('IMAGE_ROOTFS'),
+                                       "run-postinsts", "remove"])
++            if os.path.exists(self.d.expand("${IMAGE_ROOTFS}${systemd_unitdir}/system/run-postinsts.service")):
++                self._exec_shell_cmd(["systemctl",
++                                        "--root", self.d.getVar('IMAGE_ROOTFS'),
++                                        "mask", "run-postinsts.service"])
+ 
+         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
+                                         True, False, self.d)
+-- 
+2.17.1
 
-I'm not very well versed with the oe test infrastructure, I'd be happy to =
-create a test for this scenario if you can point me to the material that I =
-need to go through in order to be able to create a test for this. However, =
-if you want me to summarize this tends to fix the issue where the systemd r=
-un-postinsts.service is run at the target even when not needed (no pending =
-postinsts are found during build).
-
-I do need to send a v2 for this as there's a slight issue in the patch.
-
---kTwKj1KaXSJ62clApclT
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Alex,<br />
-<blockquote>Why isn&rsquo;t this seen in the tests? Can you add a test tha=
-t shows the issue please? (Fails without the patch, passes with)</blockquot=
-e>
-I'm not very well versed with the oe test infrastructure, I'd be happy to =
-create a test for this scenario if you can point me to the material that I =
-need to go through in order to be able to create a test for this. However, =
-if you want me to summarize this tends to fix the issue where the systemd r=
-un-postinsts.service is run at the target even when not needed (no pending =
-postinsts are found during build).<br /><br />I do need to send a v2 for th=
-is as there's a slight issue in the patch.
-
---kTwKj1KaXSJ62clApclT--
