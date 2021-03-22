@@ -1,658 +1,644 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.43])
- by mx.groups.io with SMTP id smtpd.web09.12173.1616417574490193432
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+ by mx.groups.io with SMTP id smtpd.web10.13386.1616421620456167938
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Mar 2021 05:52:55 -0700
+ Mon, 22 Mar 2021 07:00:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=fbTe2bLv;
- spf=pass (domain: kpit.com, ip: 40.107.139.43, mailfrom: saloni.jain@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nItiEnSSGN4+3bP48hiKHEcNNdIFJe5ivu1s4ZmDMRiq0Aoe2VOQfhPWVnul7sWcU7/Gqi/VT9F0a4ZkY6C9H2KQwWtRCqYXu/LUeYIa8axYHnnMHrudroVTYmOCbMppdmFSUfQVrRfrQ3zu58nQ6y/vjflOCJSnNslc97nisu6p8Z4OnP/pOzQlK9/GZjiFFY6vIVVi+KKgDgMTPZ4NxubNFmSHpbWuMbTRG70LlqL3UruV/IZUTmfEmkiwmLuiDAurElk+giH4StmQ2wstfB9bhCLlSKPrUF85BKkF2Wbksr5bXqIjQLpBjzbluraMPhHoHYKZDFb4i1BdSOFsCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feTGeAUHNqntv6Xva0BdUnSoou8gkmJH9/A0BAxw2os=;
- b=lplFsYYDqS/pHtQz5YwxtMUhzkzOyr/oTYgfkNx0j1QyQwsL6YAGGtMzgbDYUPduSu9b6Dc9gOw+76s+8ls4LQhIIdjVXEQ+tMlSidShaTqeqihwzGxkg5CGDDGZp2qogMVon8+w40vkkrnIB8enKWZlHuFqRULMfEz86fN8jyIFvjfPTxW46YInpL925FRayUvwbx2QOoxqHHEMaL52LuE0Pq/XwdQ18CmkIMIMT2q8tHI44Vu0ynx0sW5Ysvky1w+Ttx3S5UL3WP2ql4zz37bH58x6+yzDvem+XR9wlDdGBNYFRplkv+XggSGEFBbqJy7dzId2LkEWYt1Wzfs5pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feTGeAUHNqntv6Xva0BdUnSoou8gkmJH9/A0BAxw2os=;
- b=fbTe2bLvggJzsMoK3KoYyMZSVpn9T6H+hYQ85BrLn54FRd2jFtxRsKPX1Rlm3g1yyP186b9ECcQtqvofvXiGg82HbgyMD+H2tP5jypbZ51ADqQsQXOnpLCgreddEk0JZSF7SeB5eKCBez8WlryhXGGpQZUyr1YdUZt9Rw0pzZow=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=kpit.com;
-Received: from MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:72::14)
- by MAXPR01MB3229.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:63::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 12:52:41 +0000
-Received: from MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::2d7a:e21b:b924:4765]) by MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::2d7a:e21b:b924:4765%3]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
- 12:52:41 +0000
-From: "saloni" <saloni.jain@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com
-Subject: [poky][dunfell][PATCH] glibc: Add and modify CVEs
-Date: Mon, 22 Mar 2021 18:22:24 +0530
-Message-Id: <20210322125224.17236-1-Saloni.Jain@kpit.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [2409:4043:2d97:c720:c922:d7a0:f0b:e019]
-X-ClientProxiedBy: MA1PR01CA0119.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:35::13) To MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:72::14)
-Return-Path: Saloni.Jain@kpit.com
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Lwbt6CS/;
+ spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f53.google.com with SMTP id z68so7498926vsb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 07:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZiUu5L/Tjp5k9etCzrGAE2luP3o6tnDw4lSupYQjN5g=;
+        b=Lwbt6CS/vXH7vQL2WCB6arpA+3Mr3zW7oiH5VusYG+InUm6w+t9e8yD0jDR59w+gnL
+         x810wAL3KCTvc/OwGP8fwpqVrrpduixjZM9QJsFfCFT4/Y2fxZsnXAdh1mQeNqo2KDeF
+         0GAb/Yw+oDVFrfFLyxsU8ThM3F1VJMuz3gxRy5lgzQoguOep6R0C5JoZDEeZ7I7YMUbO
+         yMZHUB8ULfDyLKZDWKVK4XsZrO2kD2ba4AnGu7md3WAWaytAAZ0j8d3/nHv9CIPPL18P
+         8nOC9v7h/JQre3YEVME+WBXQa8OU1L2+MLBQLxpwsOgqAafd8hP5Br7+hZBzWupYsObH
+         08iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZiUu5L/Tjp5k9etCzrGAE2luP3o6tnDw4lSupYQjN5g=;
+        b=rQPlHS6genjwDmZhvinVdtRDJAheXAJlnxir7hdqYn71q5R0tFn9tVa7OGFi/JiTrh
+         rd5ufQgXgkF44ts45/JGI8DMtM0uD9rtobV9+/AZw55HSsRTANOIsQjB4BdySfkMIC4q
+         FFeaCOCRXqbXlenbZwOm/feZtfqj2I/pUbwUKupEyLk8urjMNlXh0D9xNqhgOiAFDQz8
+         qqKZLN+SHDGKbHTuC8Z3hByLLqWg4VHKlWtLAPrwUkLAoUpal2DuPuym3BhjFMjzUlQr
+         fDoz4xFbb8ju6TsOY5MghrK9HqakfO1OmE8siGA5GRBh+ZLDNT02tF/j0WPUQCEGWci8
+         Id8Q==
+X-Gm-Message-State: AOAM531pBHSKAEY+e9oNObuYAbqT8JXMRZbceftWCOxUX5SX1SOEyO/w
+	TAHSg0qA2FmhZ9+FG4kyBEbNaCPj5SAlKV5oErE=
+X-Google-Smtp-Source: ABdhPJzMOaHW0aXmK4QuN/qWizNKzgBbW0GMzbEzRvVJsoxu00N4XZkPlvIMLOtFOTvMNGb5OzLdGZE40sx8+3K7Tfk=
+X-Received: by 2002:a05:6102:74a:: with SMTP id v10mr8604135vsg.20.1616421619451;
+ Mon, 22 Mar 2021 07:00:19 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2409:4043:2d97:c720:c922:d7a0:f0b:e019) by MA1PR01CA0119.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:35::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 12:52:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7c6ff136-e8b2-4b88-0b86-08d8ed31604b
-X-MS-TrafficTypeDiagnostic: MAXPR01MB3229:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MAXPR01MB3229D2705CF9F4D358A3A5A587659@MAXPR01MB3229.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:635;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	VablnIAIX1jFneGV1HACqQqe/kMzjobATZyKI+3HEEsdl5P2PwWQ7LAuUjXqGF/scxJJE77qKlvG/Tgjj1lP2eKY/X6yM4g2T57txQYApNX+pp9TZIWgBaW2iikgjGuJ7PD5hbjEuEOLyuliJ1uqMBJ/sIRs1j47gOwN6bD4DwP2PcJggDs5n6hT3RBoq5fLhXMiXHb5axwA165o/Y9M/HNbSTIfIc+R0duYNX6QfZe6U5rNfjDDipqlPXrrm3sqGn0eTM2v6PUbUG0SUsbV5rbSouZ3PGlWPm6bkP/Ptcq3z7yaiO/RxVAAJ1f3G3Ljzk9w/7TQ+jfKiZeNf4api9FWwlwIh6r8FpA7cO1k+gnCN/6RL2NbfDi22hWtkgTCZtkQb58gg3IlXlZbCR8lfw3aMoJd3uGN+/lOfQskIjFZCQl0wShmp7JYIjINQqa9rZXragYkzUiI9Xy6ftWy59Eq20tUl5YZ2az2tsdonTDpymA5Pp31enVY/IGI8E9yieCTIJKqllsKDG8eRQ8CtBnAiDZhF1aZbvm3nIhR7f48odRV6EJXVjajuiEYOQhjgRQonoOaN31sEmtKS89FJdUJo73se9044QZmTgbaBitRVfRCVMR40ylR7bjlfrtpaSYp6liK5+6wRq4jnLWpxergDX6ZopILP8ICLXE2UOpULr4+4Cn3gNOezYkxOgR1O81rNmJvlFG1+eb6LJqSkrUUxu3zVSklFHqFdmBZ3Tj8wOnzqX6rheJ/OtXXxdhlTDGlL0yECzOPrWQf9jDfqTdl5VPK52a5aA7QyBqX1ss=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(39850400004)(396003)(136003)(86362001)(2906002)(36756003)(1076003)(6506007)(6486002)(83380400001)(66946007)(6512007)(52116002)(66476007)(66574015)(69590400012)(66556008)(107886003)(30864003)(478600001)(8676002)(316002)(186003)(16526019)(4326008)(8936002)(966005)(5660300002)(38100700001)(6666004)(2616005)(2004002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?N42Hw4FZsKPUdwCOchr9A/elQIU8tRPwaqw35CYlZ5ACKHkAQlDMyCUikjJZ?=
- =?us-ascii?Q?DG3xDbxPpRcF1guh1uDjTmyiGoRD6vvkyc8XgZAGbpFHK48qN5YIBliOQynn?=
- =?us-ascii?Q?Vfu20R3brSSzyiaq6Yjy9vAKPKEp90QTyWE7Tiqs9yL9ghepUHSOEbuUThD0?=
- =?us-ascii?Q?Q+i8UIRS449SeM6O97eBmHufjjxiVEQsvc/vnYDIzR/BZvowNJqsk3YCx4TJ?=
- =?us-ascii?Q?G04GNFxVR5a6RxV+mfPa27VjSU17nHDLQXrO2D7R36JHQqYKdrPDxE9txsee?=
- =?us-ascii?Q?40BF3B8c4TM/6SkgZq2Fci/pSoZ4OG+sqrCUhC4eGL0jDMy6Yem9P5CwCZ3F?=
- =?us-ascii?Q?LXEYunfnhK2/Gsb7GQ/DD0KBUGV1LsBpd1A8fVId63nFKmjWgva2YAIKb9gh?=
- =?us-ascii?Q?o31+bP6wFg4paazQkFiE8qFwVN6S1cWtlELB+8O1GXsUKQlNGcL5pNrR6cWQ?=
- =?us-ascii?Q?ULAypEp4FHLgPcx7mCZyj2LMrXZyli2Bg/1UQho5oyvrUTUnBbn6oImfb968?=
- =?us-ascii?Q?D9rNL4Dy9AsDa2dG9GDBwJtdfNGorHFlzZHbshz8zw2HdGMyLOkhuj7/wQy+?=
- =?us-ascii?Q?eSqaXlZ2vpYZS/uT8kX1pNUOTj/W+hecJcrrkcZoq9nkEmFlg0GfS/iUM6j7?=
- =?us-ascii?Q?4hOrjPEYcjO8kuP1KfQn27MKDJ5vx4KHMZEILofrsujf4NNuP/5KDuRPHRXV?=
- =?us-ascii?Q?P1SgPHg94e/PEzpopRiYHzj4C6kRKD9iLrgoq7wW7X7LwtOFwG6rvdjGQv77?=
- =?us-ascii?Q?KxUpVso3/9uYMg+cRNi0dsoPCdCoVJDT+eFsonAdbGniWWvIda086y2jcln8?=
- =?us-ascii?Q?0sGBiFJQpmgOA81+FUJOlhZMOTLZ4GQ3W4/lOVSjw59ap0yXBW0YE9cGDwMi?=
- =?us-ascii?Q?ddm9qQT1wzu+6iQhaWVHfsk1OsigopC98ndzoYk+rhk2Lv8FfqY/ncY05LrW?=
- =?us-ascii?Q?JflHXD73OETM5KxlL8/x4mJoPjCJFxAfwpUZ6hX48e/6txPK9THVVCUt7UiG?=
- =?us-ascii?Q?W/3KuKy+B/LKm+7qg2ejlbeXeohLtGRESJAwSDUI352AC4UR9ggHuEGdHhQF?=
- =?us-ascii?Q?yMrA/RbjPjFoTPof2720pMzmGRUwe0aAfEIe5YNheF+wUdvmH9A93nJMMnNz?=
- =?us-ascii?Q?HQ4/YCtX+k1uPnmZlibMnHk09QMExHV/F1fG+MoQbPYGddBGuZ+uyApyzEo6?=
- =?us-ascii?Q?q2hSlVVVSocxr3IikD12nQtdE7/6f0ZYKtAJi5mQJY071FK35DT2Cz0H9WIH?=
- =?us-ascii?Q?dZ0VVUdRtpAwBtPP2/diJirlsUzAURR3GpoHV1cQbZtgzNfoZlK10QMSiAkL?=
- =?us-ascii?Q?6uAOTIIpFA3zAEzLn8exNgtNSzhZafbXC0+XsGGLfq3UWKmydplOhCcD+d5S?=
- =?us-ascii?Q?ATV1zW2L7XbDLwjFGElT1vjN0cJj?=
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c6ff136-e8b2-4b88-0b86-08d8ed31604b
-X-MS-Exchange-CrossTenant-AuthSource: MA1PR01MB3257.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 12:52:40.3992
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GcyfnAbHwFYIr06zS5pgV95gpJDnO5MtscIQaQlb3BqPhi7Em+/guWla54sWDyp5Wfh7FMxOAlUk5shouPHGpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB3229
-Content-Type: text/plain
+References: <20210319084401.576728-1-alex.kanavin@gmail.com>
+ <20210319084401.576728-7-alex.kanavin@gmail.com> <20210322112942.3vjqmteke6x6quqz@jama>
+In-Reply-To: <20210322112942.3vjqmteke6x6quqz@jama>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 22 Mar 2021 17:00:08 +0300
+Message-ID: <CANNYZj9pCS_iH76Nw2D1ZAqD595uKGd151SBf0e=QFog7yiqTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 07/16] mesa: update 20.3.4 -> 21.0.0
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006f4b9405be207c94"
+
+--0000000000006f4b9405be207c94
+Content-Type: text/plain; charset="UTF-8"
+
+I guess so, yes. I believe AB doesn't run the build?
+
+Alex
+
+On Mon, 22 Mar 2021 at 14:29, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> On Fri, Mar 19, 2021 at 09:43:52AM +0100, Alexander Kanavin wrote:
+> > 0001-anv-fix-a-build-race-between-generating-a-header-and.patch
+> > merged upstream.
+> >
+> > osmesa is now a simple boolean option.
+> >
+> > Swrast has been removed from dri drivers, so as we need at least one
+> > driver to enable dri in native/nativesdk, replace it with nouveau
+> > (which does not take long to build).
+>
+> so the mesa-gl needs similar change, right?
+>
+> meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb:# When NOT using X11, we
+> need to make sure we have swrast available.
+> meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb:DRIDRIVERS_append =
+> "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', ',swrast', d)}"
+>
+> Now it's failing with:
+> http://errors.yoctoproject.org/Errors/Build/118645/
+>
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  ...race-between-generating-a-header-and.patch | 31 -------------------
+> >  ...k-for-all-linux-host_os-combinations.patch | 12 +++----
+> >  ...02-meson.build-make-TLS-ELF-optional.patch | 14 ++++-----
+> >  .../{mesa-gl_20.3.4.bb => mesa-gl_21.0.0.bb}  |  0
+> >  meta/recipes-graphics/mesa/mesa.inc           | 10 +++---
+> >  .../mesa/{mesa_20.3.4.bb => mesa_21.0.0.bb}   |  0
+> >  6 files changed, 17 insertions(+), 50 deletions(-)
+> >  delete mode 100644
+> meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-race-between-generating-a-header-and.patch
+> >  rename meta/recipes-graphics/mesa/{mesa-gl_20.3.4.bb =>
+> mesa-gl_21.0.0.bb} (100%)
+> >  rename meta/recipes-graphics/mesa/{mesa_20.3.4.bb => mesa_21.0.0.bb}
+> (100%)
+> >
+> > diff --git
+> a/meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-race-between-generating-a-header-and.patch
+> b/meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-race-between-generating-a-header-and.patch
+> > deleted file mode 100644
+> > index a61e7b2160..0000000000
+> > ---
+> a/meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-race-between-generating-a-header-and.patch
+> > +++ /dev/null
+> > @@ -1,31 +0,0 @@
+> > -From f148d4f1b5b13288b254ead07f1d008d997e2342 Mon Sep 17 00:00:00 2001
+> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > -Date: Mon, 2 Nov 2020 23:23:53 +0100
+> > -Subject: [PATCH] anv: fix a build race between generating a header and
+> using
+> > - it
+> > -
+> > -anv_batch_chain.c includes genX_bits.h but doesn't ensure it gets
+> > -generated first. This causes build failures, as observed here:
+> > -
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1501/steps/8/logs/step2d
+> > -
+> > -Upstream-Status: Submitted [
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7412]
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ----
+> > - src/intel/vulkan/meson.build | 1 +
+> > - 1 file changed, 1 insertion(+)
+> > -
+> > -diff --git a/src/intel/vulkan/meson.build b/src/intel/vulkan/meson.build
+> > -index 36e1689314e..b713d8eade3 100644
+> > ---- a/src/intel/vulkan/meson.build
+> > -+++ b/src/intel/vulkan/meson.build
+> > -@@ -131,6 +131,7 @@ libanv_files = files(
+> > - anv_deps = [
+> > -   dep_libdrm,
+> > -   dep_valgrind,
+> > -+  idep_genxml,
+> > -   idep_nir_headers,
+> > -   idep_vulkan_util_headers,
+> > - ]
+> > ---
+> > -2.29.0
+> > -
+> > diff --git
+> a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+> b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+> > index 085254323c..b6f86743e1 100644
+> > ---
+> a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+> > +++
+> b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+> > @@ -1,4 +1,4 @@
+> > -From 0d9ed002eff176b902da266d89829a9b0cb10946 Mon Sep 17 00:00:00 2001
+> > +From 38e984073e4c23b6278d1a2ff21e894fda7b93c5 Mon Sep 17 00:00:00 2001
+> >  From: Alistair Francis <alistair@alistair23.me>
+> >  Date: Thu, 14 Nov 2019 13:04:49 -0800
+> >  Subject: [PATCH] meson.build: check for all linux host_os combinations
+> > @@ -20,10 +20,10 @@ Signed-off-by: Alistair Francis <
+> alistair@alistair23.me>
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> >  diff --git a/meson.build b/meson.build
+> > -index 898d025..09e3759 100644
+> > +index 932eb13..efc6171 100644
+> >  --- a/meson.build
+> >  +++ b/meson.build
+> > -@@ -124,7 +124,7 @@ with_any_opengl = with_opengl or with_gles1 or
+> with_gles2
+> > +@@ -153,7 +153,7 @@ with_any_opengl = with_opengl or with_gles1 or
+> with_gles2
+> >   # Only build shared_glapi if at least one OpenGL API is enabled
+> >   with_shared_glapi = with_shared_glapi and with_any_opengl
+> >
+> > @@ -32,12 +32,12 @@ index 898d025..09e3759 100644
+> >
+> >   dri_drivers = get_option('dri-drivers')
+> >   if dri_drivers.contains('auto')
+> > -@@ -884,7 +884,7 @@ if cc.compiles('__uint128_t foo(void) { return 0;
+> }',
+> > +@@ -970,7 +970,7 @@ if cc.compiles('__uint128_t foo(void) { return 0;
+> }',
+> >   endif
+> >
+> >   # TODO: this is very incomplete
+> > --if ['linux', 'cygwin', 'gnu', 'freebsd',
+> 'gnu/kfreebsd'].contains(host_machine.system())
+> > -+if ['cygwin', 'gnu', 'gnu/kfreebsd'].contains(host_machine.system())
+> or host_machine.system().startswith('linux')
+> > +-if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd',
+> 'haiku'].contains(host_machine.system())
+> > ++if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd',
+> 'haiku'].contains(host_machine.system()) or
+> host_machine.system().startswith('linux')
+> >     pre_args += '-D_GNU_SOURCE'
+> >   elif host_machine.system() == 'sunos'
+> >     pre_args += '-D__EXTENSIONS__'
+> > diff --git
+> a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+> b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+> > index 89c0d150fa..df2346d336 100644
+> > ---
+> a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+> > +++
+> b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+> > @@ -1,4 +1,4 @@
+> > -From ce57ce220d9c377beabf4914f33c43118f672ffe Mon Sep 17 00:00:00 2001
+> > +From 624f430dd0a91344146a2b8d49a69f23560c2fa2 Mon Sep 17 00:00:00 2001
+> >  From: Alistair Francis <alistair@alistair23.me>
+> >  Date: Thu, 14 Nov 2019 13:08:31 -0800
+> >  Subject: [PATCH] meson.build: make TLS ELF optional
+> > @@ -30,23 +30,23 @@ Signed-off-by: Alistair Francis <
+> alistair@alistair23.me>
+> >   2 files changed, 7 insertions(+), 1 deletion(-)
+> >
+> >  diff --git a/meson.build b/meson.build
+> > -index c5136ea..185270d 100644
+> > +index efc6171..8450968 100644
+> >  --- a/meson.build
+> >  +++ b/meson.build
+> > -@@ -424,7 +424,7 @@ endif
+> > +@@ -448,7 +448,7 @@ endif
+> >
+> >   # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need
+> ELF TLS.
+> >   use_elf_tls = false
+> > --if not ['windows', 'freebsd',
+> 'openbsd'].contains(host_machine.system()) and (not with_platform_android
+> or get_option('platform-sdk-version') >= 29)
+> > -+if not ['windows', 'freebsd',
+> 'openbsd'].contains(host_machine.system()) and (not with_platform_android
+> or get_option('platform-sdk-version') >= 29) and get_option('elf-tls')
+> > +-if not ['windows', 'freebsd', 'openbsd',
+> 'haiku'].contains(host_machine.system()) and (not with_platform_android or
+> get_option('platform-sdk-version') >= 29)
+> > ++if not ['windows', 'freebsd', 'openbsd',
+> 'haiku'].contains(host_machine.system()) and (not with_platform_android or
+> get_option('platform-sdk-version') >= 29) and get_option('elf-tls')
+> >     pre_args += '-DUSE_ELF_TLS'
+> >     use_elf_tls = true
+> >   endif
+> >  diff --git a/meson_options.txt b/meson_options.txt
+> > -index 2d39d13..72006eb 100644
+> > +index fc73f6e..d7482c0 100644
+> >  --- a/meson_options.txt
+> >  +++ b/meson_options.txt
+> > -@@ -368,6 +368,12 @@ option(
+> > +@@ -420,6 +420,12 @@ option(
+> >     value : true,
+> >     description : 'Enable direct rendering in GLX and EGL for DRI',
+> >   )
+> > diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.3.4.bb
+> b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+> > similarity index 100%
+> > rename from meta/recipes-graphics/mesa/mesa-gl_20.3.4.bb
+> > rename to meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> > index 9f8ec112cf..e9b72ce063 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -19,10 +19,9 @@ SRC_URI = "
+> https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+> >             file://0002-meson.build-make-TLS-ELF-optional.patch \
+> >
+>  file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+> >
+>  file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+> > -
+>  file://0001-anv-fix-a-build-race-between-generating-a-header-and.patch \
+> >             "
+> >
+> > -SRC_URI[sha256sum] =
+> "dc21a987ec1ff45b278fe4b1419b1719f1968debbb80221480e44180849b4084"
+> > +SRC_URI[sha256sum] =
+> "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
+> >
+> >  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+> >
+> > @@ -103,8 +102,8 @@ PACKAGECONFIG[elf-tls] = "-Delf-tls=true,
+> -Delf-tls=false"
+> >  PACKAGECONFIG[xvmc] =
+> "-Dgallium-xvmc=enabled,-Dgallium-xvmc=disabled,libxvmc"
+> >  PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm
+> wayland-protocols"
+> >
+> > -DRIDRIVERS_class-native = "swrast"
+> > -DRIDRIVERS_class-nativesdk = "swrast"
+> > +DRIDRIVERS_class-native = "nouveau"
+> > +DRIDRIVERS_class-nativesdk = "nouveau"
+> >  DRIDRIVERS_append_x86_class-target = ",r100,r200,nouveau,i965,i915"
+> >  DRIDRIVERS_append_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
+> >  # "dri" requires "opengl"
+> > @@ -168,8 +167,7 @@ GALLIUMDRIVERS_append
+> ="${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '
+> >  PACKAGECONFIG[panfrost] = ""
+> >  GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG',
+> 'panfrost', ',panfrost', '', d)}"
+> >
+> > -OSMESA = "${@bb.utils.contains('PACKAGECONFIG', 'gallium', 'gallium',
+> 'classic', d)}"
+> > -PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
+> > +PACKAGECONFIG[osmesa] = "-Dosmesa=true,-Dosmesa=false"
+> >
+> >  PACKAGECONFIG[unwind] =
+> "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
+> >
+> > diff --git a/meta/recipes-graphics/mesa/mesa_20.3.4.bb
+> b/meta/recipes-graphics/mesa/mesa_21.0.0.bb
+> > similarity index 100%
+> > rename from meta/recipes-graphics/mesa/mesa_20.3.4.bb
+> > rename to meta/recipes-graphics/mesa/mesa_21.0.0.bb
+> > --
+> > 2.29.2
+> >
+>
+> >
+> > 
+> >
+>
+>
+
+--0000000000006f4b9405be207c94
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Below patch is modified:
-1. CVE-2019-25013
-The previous patch was modified for dunfell
-context and causing conflict for CVE-2021-3326.
-Hence, the original patch is backported.
-Link: https://security-tracker.debian.org/tracker/CVE-2020-27618
-Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D9a99c682144bd=
-bd40792ebf822fe9264e0376fb5
+<div dir=3D"ltr">I guess so, yes. I believe AB doesn&#39;t run the build?<d=
+iv><br></div><div>Alex</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, 22 Mar 2021 at 14:29, Martin Jansa &=
+lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, =
+Mar 19, 2021 at 09:43:52AM +0100, Alexander Kanavin wrote:<br>
+&gt; 0001-anv-fix-a-build-race-between-generating-a-header-and.patch<br>
+&gt; merged upstream.<br>
+&gt; <br>
+&gt; osmesa is now a simple boolean option.<br>
+&gt; <br>
+&gt; Swrast has been removed from dri drivers, so as we need at least one<=
+br>
+&gt; driver to enable dri in native/nativesdk, replace it with nouveau<br>
+&gt; (which does not take long to build).<br>
+<br>
+so the mesa-gl needs similar change, right?<br>
+<br>
+meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb:# When NOT using X11, we need=
+ to make sure we have swrast available.<br>
+meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb:DRIDRIVERS_append =3D &quot;$=
+{@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;&#39;, &=
+#39;,swrast&#39;, d)}&quot;<br>
+<br>
+Now it&#39;s failing with:<br>
+<a href=3D"http://errors.yoctoproject.org/Errors/Build/118645/" rel=3D"nor=
+eferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Build/1186=
+45/</a><br>
+<br>
+&gt; <br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
+mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...race-between-generating-a-header-and.patch | 31 ------------=
+-------<br>
+&gt;=C2=A0 ...k-for-all-linux-host_os-combinations.patch | 12 +++----<br>
+&gt;=C2=A0 ...02-meson.build-make-TLS-ELF-optional.patch | 14 ++++-----<br=
+>
+&gt;=C2=A0 .../{<a href=3D"http://mesa-gl_20.3.4.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">mesa-gl_20.3.4.bb</a> =3D&gt; <a href=3D"http://mesa-gl_21.=
+0.0.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a>}=C2=A0 |=
+=
+=C2=A0 0<br>
+&gt;=C2=A0 meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0| 10 +++---<br>
+&gt;=C2=A0 .../mesa/{<a href=3D"http://mesa_20.3.4.bb" rel=3D"noreferrer" =
+target=3D"_blank">mesa_20.3.4.bb</a> =3D&gt; <a href=3D"http://mesa_21.0.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a>}=C2=A0 =C2=A0|=
+=C2=A0 0<br>
+&gt;=C2=A0 6 files changed, 17 insertions(+), 50 deletions(-)<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-graphics/mesa/files/0001-anv-fi=
+x-a-build-race-between-generating-a-header-and.patch<br>
+&gt;=C2=A0 rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa-gl_20=
+.3.4.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_20.3.4.bb</a> =3D&gt;=
+ <a href=3D"http://mesa-gl_21.0.0.bb" rel=3D"noreferrer" target=3D"_blank">=
+mesa-gl_21.0.0.bb</a>} (100%)<br>
+&gt;=C2=A0 rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa_20.3.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">mesa_20.3.4.bb</a> =3D&gt; <a hr=
+ef=3D"http://mesa_21.0.0.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0=
+.0.bb</a>} (100%)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-ra=
+ce-between-generating-a-header-and.patch b/meta/recipes-graphics/mesa/files=
+/0001-anv-fix-a-build-race-between-generating-a-header-and.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index a61e7b2160..0000000000<br>
+&gt; --- a/meta/recipes-graphics/mesa/files/0001-anv-fix-a-build-race-betw=
+een-generating-a-header-and.patch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,31 +0,0 @@<br>
+&gt; -From f148d4f1b5b13288b254ead07f1d008d997e2342 Mon Sep 17 00:00:00 20=
+01<br>
+&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
+" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; -Date: Mon, 2 Nov 2020 23:23:53 +0100<br>
+&gt; -Subject: [PATCH] anv: fix a build race between generating a header a=
+nd using<br>
+&gt; - it<br>
+&gt; -<br>
+&gt; -anv_batch_chain.c includes genX_bits.h but doesn&#39;t ensure it get=
+s<br>
+&gt; -generated first. This causes build failures, as observed here:<br>
+&gt; -<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/8=
+6/builds/1501/steps/8/logs/step2d" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1501/steps/8=
+/logs/step2d</a><br>
+&gt; -<br>
+&gt; -Upstream-Status: Submitted [<a href=3D"https://gitlab.freedesktop.or=
+g/mesa/mesa/-/merge_requests/7412" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7412</a>]<br>
+&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@=
+gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ----<br>
+&gt; - src/intel/vulkan/meson.build | 1 +<br>
+&gt; - 1 file changed, 1 insertion(+)<br>
+&gt; -<br>
+&gt; -diff --git a/src/intel/vulkan/meson.build b/src/intel/vulkan/meson.b=
+uild<br>
+&gt; -index 36e1689314e..b713d8eade3 100644<br>
+&gt; ---- a/src/intel/vulkan/meson.build<br>
+&gt; -+++ b/src/intel/vulkan/meson.build<br>
+&gt; -@@ -131,6 +131,7 @@ libanv_files =3D files(<br>
+&gt; - anv_deps =3D [<br>
+&gt; -=C2=A0 =C2=A0dep_libdrm,<br>
+&gt; -=C2=A0 =C2=A0dep_valgrind,<br>
+&gt; -+=C2=A0 idep_genxml,<br>
+&gt; -=C2=A0 =C2=A0idep_nir_headers,<br>
+&gt; -=C2=A0 =C2=A0idep_vulkan_util_headers,<br>
+&gt; - ]<br>
+&gt; --- <br>
+&gt; -2.29.0<br>
+&gt; -<br>
+&gt; diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-=
+for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files=
+/0001-meson.build-check-for-all-linux-host_os-combinations.patch<br>
+&gt; index 085254323c..b6f86743e1 100644<br>
+&gt; --- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all=
+-linux-host_os-combinations.patch<br>
+&gt; +++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all=
+-linux-host_os-combinations.patch<br>
+&gt; @@ -1,4 +1,4 @@<br>
+&gt; -From 0d9ed002eff176b902da266d89829a9b0cb10946 Mon Sep 17 00:00:00 20=
+01<br>
+&gt; +From 38e984073e4c23b6278d1a2ff21e894fda7b93c5 Mon Sep 17 00:00:00 20=
+01<br>
+&gt;=C2=A0 From: Alistair Francis &lt;<a href=3D"mailto:alistair@alistair2=
+3.me" target=3D"_blank">alistair@alistair23.me</a>&gt;<br>
+&gt;=C2=A0 Date: Thu, 14 Nov 2019 13:04:49 -0800<br>
+&gt;=C2=A0 Subject: [PATCH] meson.build: check for all linux host_os combi=
+nations<br>
+&gt; @@ -20,10 +20,10 @@ Signed-off-by: Alistair Francis &lt;<a href=3D"ma=
+ilto:alistair@alistair23.me" target=3D"_blank">alistair@alistair23.me</a>&g=
+t;<br>
+&gt;=C2=A0 =C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 diff --git a/meson.build b/meson.build<br>
+&gt; -index 898d025..09e3759 100644<br>
+&gt; +index 932eb13..efc6171 100644<br>
+&gt;=C2=A0 --- a/meson.build<br>
+&gt;=C2=A0 +++ b/meson.build<br>
+&gt; -@@ -124,7 +124,7 @@ with_any_opengl =3D with_opengl or with_gles1 or=
+ with_gles2<br>
+&gt; +@@ -153,7 +153,7 @@ with_any_opengl =3D with_opengl or with_gles1 or=
+ with_gles2<br>
+&gt;=C2=A0 =C2=A0# Only build shared_glapi if at least one OpenGL API is e=
+nabled<br>
+&gt;=C2=A0 =C2=A0with_shared_glapi =3D with_shared_glapi and with_any_open=
+gl<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -32,12 +32,12 @@ index 898d025..09e3759 100644<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0dri_drivers =3D get_option(&#39;dri-drivers&#39;)<br>
+&gt;=C2=A0 =C2=A0if dri_drivers.contains(&#39;auto&#39;)<br>
+&gt; -@@ -884,7 +884,7 @@ if cc.compiles(&#39;__uint128_t foo(void) { retu=
+rn 0; }&#39;,<br>
+&gt; +@@ -970,7 +970,7 @@ if cc.compiles(&#39;__uint128_t foo(void) { retu=
+rn 0; }&#39;,<br>
+&gt;=C2=A0 =C2=A0endif<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0# TODO: this is very incomplete<br>
+&gt; --if [&#39;linux&#39;, &#39;cygwin&#39;, &#39;gnu&#39;, &#39;freebsd&=
+#39;, &#39;gnu/kfreebsd&#39;].contains(host_machine.system())<br>
+&gt; -+if [&#39;cygwin&#39;, &#39;gnu&#39;, &#39;gnu/kfreebsd&#39;].contai=
+ns(host_machine.system()) or host_machine.system().startswith(&#39;linux&#3=
+9;)<br>
+&gt; +-if [&#39;linux&#39;, &#39;cygwin&#39;, &#39;gnu&#39;, &#39;freebsd&=
+#39;, &#39;gnu/kfreebsd&#39;, &#39;haiku&#39;].contains(host_machine.system=
+())<br>
+&gt; ++if [&#39;linux&#39;, &#39;cygwin&#39;, &#39;gnu&#39;, &#39;freebsd&=
+#39;, &#39;gnu/kfreebsd&#39;, &#39;haiku&#39;].contains(host_machine.system=
+()) or host_machine.system().startswith(&#39;linux&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pre_args +=3D &#39;-D_GNU_SOURCE&#39;<br>
+&gt;=C2=A0 =C2=A0elif host_machine.system() =3D=3D &#39;sunos&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pre_args +=3D &#39;-D__EXTENSIONS__&#39;<br>
+&gt; diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-T=
+LS-ELF-optional.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-m=
+ake-TLS-ELF-optional.patch<br>
+&gt; index 89c0d150fa..df2346d336 100644<br>
+&gt; --- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-=
+optional.patch<br>
+&gt; +++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-=
+optional.patch<br>
+&gt; @@ -1,4 +1,4 @@<br>
+&gt; -From ce57ce220d9c377beabf4914f33c43118f672ffe Mon Sep 17 00:00:00 20=
+01<br>
+&gt; +From 624f430dd0a91344146a2b8d49a69f23560c2fa2 Mon Sep 17 00:00:00 20=
+01<br>
+&gt;=C2=A0 From: Alistair Francis &lt;<a href=3D"mailto:alistair@alistair2=
+3.me" target=3D"_blank">alistair@alistair23.me</a>&gt;<br>
+&gt;=C2=A0 Date: Thu, 14 Nov 2019 13:08:31 -0800<br>
+&gt;=C2=A0 Subject: [PATCH] meson.build: make TLS ELF optional<br>
+&gt; @@ -30,23 +30,23 @@ Signed-off-by: Alistair Francis &lt;<a href=3D"ma=
+ilto:alistair@alistair23.me" target=3D"_blank">alistair@alistair23.me</a>&g=
+t;<br>
+&gt;=C2=A0 =C2=A02 files changed, 7 insertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 diff --git a/meson.build b/meson.build<br>
+&gt; -index c5136ea..185270d 100644<br>
+&gt; +index efc6171..8450968 100644<br>
+&gt;=C2=A0 --- a/meson.build<br>
+&gt;=C2=A0 +++ b/meson.build<br>
+&gt; -@@ -424,7 +424,7 @@ endif<br>
+&gt; +@@ -448,7 +448,7 @@ endif<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0# Android uses emutls for versions &lt;=3D P/28. For USE_=
+ELF_TLS we need ELF TLS.<br>
+&gt;=C2=A0 =C2=A0use_elf_tls =3D false<br>
+&gt; --if not [&#39;windows&#39;, &#39;freebsd&#39;, &#39;openbsd&#39;].co=
+ntains(host_machine.system()) and (not with_platform_android or get_option(=
+&#39;platform-sdk-version&#39;) &gt;=3D 29)<br>
+&gt; -+if not [&#39;windows&#39;, &#39;freebsd&#39;, &#39;openbsd&#39;].co=
+ntains(host_machine.system()) and (not with_platform_android or get_option(=
+&#39;platform-sdk-version&#39;) &gt;=3D 29) and get_option(&#39;elf-tls&#39=
+;)<br>
+&gt; +-if not [&#39;windows&#39;, &#39;freebsd&#39;, &#39;openbsd&#39;, &#=
+39;haiku&#39;].contains(host_machine.system()) and (not with_platform_andro=
+id or get_option(&#39;platform-sdk-version&#39;) &gt;=3D 29)<br>
+&gt; ++if not [&#39;windows&#39;, &#39;freebsd&#39;, &#39;openbsd&#39;, &#=
+39;haiku&#39;].contains(host_machine.system()) and (not with_platform_andro=
+id or get_option(&#39;platform-sdk-version&#39;) &gt;=3D 29) and get_option=
+(&#39;elf-tls&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0pre_args +=3D &#39;-DUSE_ELF_TLS&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0use_elf_tls =3D true<br>
+&gt;=C2=A0 =C2=A0endif<br>
+&gt;=C2=A0 diff --git a/meson_options.txt b/meson_options.txt<br>
+&gt; -index 2d39d13..72006eb 100644<br>
+&gt; +index fc73f6e..d7482c0 100644<br>
+&gt;=C2=A0 --- a/meson_options.txt<br>
+&gt;=C2=A0 +++ b/meson_options.txt<br>
+&gt; -@@ -368,6 +368,12 @@ option(<br>
+&gt; +@@ -420,6 +420,12 @@ option(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0value : true,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0description : &#39;Enable direct rendering in GLX =
+and EGL for DRI&#39;,<br>
+&gt;=C2=A0 =C2=A0)<br>
+&gt; diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_20.=
+3.4.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_20.3.4.bb</a> b/meta/r=
+ecipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">mesa-gl_21.0.0.bb</a><br>
+&gt; similarity index 100%<br>
+&gt; rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_20.3=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_20.3.4.bb</a><br>
+&gt; rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0=
+.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a><br>
+&gt; diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graph=
+ics/mesa/mesa.inc<br>
+&gt; index 9f8ec112cf..e9b72ce063 100644<br>
+&gt; --- a/meta/recipes-graphics/mesa/mesa.inc<br>
+&gt; +++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+&gt; @@ -19,10 +19,9 @@ SRC_URI =3D &quot;<a href=3D"https://mesa.freedesk=
+top.org/archive/mesa-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank"=
+>https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-meson.buil=
+d-make-TLS-ELF-optional.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-meson-misd=
+etects-64bit-atomics-on-mips-clang.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-futex.h-De=
+fine-__NR_futex-if-it-does-not-exist.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-anv-fix-a-build=
+-race-between-generating-a-header-and.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -SRC_URI[sha256sum] =3D &quot;dc21a987ec1ff45b278fe4b1419b1719f1968de=
+bbb80221480e44180849b4084&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f=
+3601c808ca0dd26ba522e0d84&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D &quot;mesa-(?P&lt;pver&gt;\d+(\.=
+\d+)+)&quot;<br>
+&gt;=C2=A0 <br>
+&gt; @@ -103,8 +102,8 @@ PACKAGECONFIG[elf-tls] =3D &quot;-Delf-tls=3Dtrue=
+, -Delf-tls=3Dfalse&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[xvmc] =3D &quot;-Dgallium-xvmc=3Denabled,-Dgalliu=
+m-xvmc=3Ddisabled,libxvmc&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[wayland] =3D &quot;,,wayland-native wayland libdr=
+m wayland-protocols&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -DRIDRIVERS_class-native =3D &quot;swrast&quot;<br>
+&gt; -DRIDRIVERS_class-nativesdk =3D &quot;swrast&quot;<br>
+&gt; +DRIDRIVERS_class-native =3D &quot;nouveau&quot;<br>
+&gt; +DRIDRIVERS_class-nativesdk =3D &quot;nouveau&quot;<br>
+&gt;=C2=A0 DRIDRIVERS_append_x86_class-target =3D &quot;,r100,r200,nouveau=
+,i965,i915&quot;<br>
+&gt;=C2=A0 DRIDRIVERS_append_x86-64_class-target =3D &quot;,r100,r200,nouv=
+eau,i965,i915&quot;<br>
+&gt;=C2=A0 # &quot;dri&quot; requires &quot;opengl&quot;<br>
+&gt; @@ -168,8 +167,7 @@ GALLIUMDRIVERS_append =3D&quot;${@bb.utils.contai=
+ns(&#39;PACKAGECONFIG&#39;, &#39;lima&#39;, &#39;,lima&#39;, &#39;<br>
+&gt;=C2=A0 PACKAGECONFIG[panfrost] =3D &quot;&quot;<br>
+&gt;=C2=A0 GALLIUMDRIVERS_append =3D&quot;${@bb.utils.contains(&#39;PACKAG=
+ECONFIG&#39;, &#39;panfrost&#39;, &#39;,panfrost&#39;, &#39;&#39;, d)}&quot=
+;<br>
+&gt;=C2=A0 <br>
+&gt; -OSMESA =3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;=
+gallium&#39;, &#39;gallium&#39;, &#39;classic&#39;, d)}&quot;<br>
+&gt; -PACKAGECONFIG[osmesa] =3D &quot;-Dosmesa=3D${OSMESA},-Dosmesa=3Dnone=
+&quot;<br>
+&gt; +PACKAGECONFIG[osmesa] =3D &quot;-Dosmesa=3Dtrue,-Dosmesa=3Dfalse&quo=
+t;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 PACKAGECONFIG[unwind] =3D &quot;-Dlibunwind=3Denabled,-Dlibunwi=
+nd=3Ddisabled,libunwind&quot;<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa_20.3.4=
+.bb" rel=3D"noreferrer" target=3D"_blank">mesa_20.3.4.bb</a> b/meta/recipes=
+-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">mesa_21.0.0.bb</a><br>
+&gt; similarity index 100%<br>
+&gt; rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa_20.3.4.=
+bb" rel=3D"noreferrer" target=3D"_blank">mesa_20.3.4.bb</a><br>
+&gt; rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a><br>
+&gt; -- <br>
+&gt; 2.29.2<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+</blockquote></div>
 
-Below patch is added:
-1. CVE-2021-3326
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1932589
-Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Ddca565886b5e8=
-bd7966e15f0ca42ee5cff686673
-
-Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
----
- .../glibc/glibc/CVE-2019-25013.patch          |  52 +--
- .../glibc/glibc/CVE-2021-3326.patch           | 297 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   3 +-
- 3 files changed, 328 insertions(+), 24 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2021-3326.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch b/meta/reci=
-pes-core/glibc/glibc/CVE-2019-25013.patch
-index 73df1da868..3e446f2818 100644
---- a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
-@@ -8,12 +8,14 @@ area and is not allowed.  The from_euc_kr function used t=
-o skip two bytes
- when told to skip over the unknown designation, potentially running over
- the buffer end.
-
--Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dp=
-atch;h=3Dee7a3144c9922808181009b7b3e50e852fb4999b]
- CVE: CVE-2019-25013
--Signed-off-by: Scott Murray <scott.murray@konsulko.com>
--[Refreshed for Dundell context; Makefile changes]
--Signed-off-by: Armin Kuster <akuster@mvista.com>
-+Upstream Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dp=
-atch;h=3Dee7a3144c9922808181009b7b3e50e852fb4999b]
-+Comment: No change in any hunk
-
-+The previous change was modified for dunfell context, causing conflict
-+for CVE-2021-3326. Hence, the original patch is backported.
-+
-+Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
- ---
-  iconvdata/Makefile      |  3 ++-
-  iconvdata/bug-iconv13.c | 53 +++++++++++++++++++++++++++++++++++++++++
-@@ -22,23 +24,25 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  4 files changed, 59 insertions(+), 9 deletions(-)
-  create mode 100644 iconvdata/bug-iconv13.c
-
--Index: git/iconvdata/Makefile
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- git.orig/iconvdata/Makefile
--+++ git/iconvdata/Makefile
--@@ -73,7 +73,7 @@ modules.so :=3D $(addsuffix .so, $(modules
-+diff --git a/iconvdata/Makefile b/iconvdata/Makefile
-+index 4ec2741cdc..85009f3390 100644
-+--- a/iconvdata/Makefile
-++++ b/iconvdata/Makefile
-+@@ -73,7 +73,8 @@
-  ifeq (yes,$(build-shared))
-  tests =3D bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-icon=
-v4 \
-        tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
- -      bug-iconv10 bug-iconv11 bug-iconv12
--+      bug-iconv10 bug-iconv11 bug-iconv12 bug-iconv13
-++      bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
-++       bug-iconv13
-  ifeq ($(have-thread-library),yes)
-  tests +=3D bug-iconv3
-  endif
--Index: git/iconvdata/bug-iconv13.c
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+diff --git a/iconvdata/bug-iconv13.c b/iconvdata/bug-iconv13.c
-+new file mode 100644
-+index 0000000000..87aaff398e
- --- /dev/null
--+++ git/iconvdata/bug-iconv13.c
-++++ b/iconvdata/bug-iconv13.c
- @@ -0,0 +1,53 @@
- +/* bug 24973: Test EUC-KR module
- +   Copyright (C) 2020 Free Software Foundation, Inc.
-@@ -93,11 +97,11 @@ Index: git/iconvdata/bug-iconv13.c
- +}
- +
- +#include <support/test-driver.c>
--Index: git/iconvdata/euc-kr.c
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- git.orig/iconvdata/euc-kr.c
--+++ git/iconvdata/euc-kr.c
--@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned c
-+diff --git a/iconvdata/euc-kr.c b/iconvdata/euc-kr.c
-+index b0d56cf3ee..1045bae926 100644
-+--- a/iconvdata/euc-kr.c
-++++ b/iconvdata/euc-kr.c
-+@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned char *cp)
-                                                                           =
-   \
-      if (ch <=3D 0x9f)                                                    =
-     \
-        ++inptr;                                                           =
-           \
-@@ -110,11 +114,11 @@ Index: git/iconvdata/euc-kr.c
-        {                                                                  =
-           \
-        /* This is illegal.  */                                            =
-   \
-        STANDARD_FROM_LOOP_ERR_HANDLER (1);                                =
-   \
--Index: git/iconvdata/ksc5601.h
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- git.orig/iconvdata/ksc5601.h
--+++ git/iconvdata/ksc5601.h
--@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s
-+diff --git a/iconvdata/ksc5601.h b/iconvdata/ksc5601.h
-+index d3eb3a4ff8..f5cdc72797 100644
-+--- a/iconvdata/ksc5601.h
-++++ b/iconvdata/ksc5601.h
-+@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s, size_t avail=
-, unsigned char offset)
-    unsigned char ch2;
-    int idx;
-
-@@ -133,3 +137,5 @@ Index: git/iconvdata/ksc5601.h
-    ch2 =3D (*s)[1];
-    if (ch2 < offset || (ch2 - offset) <=3D 0x20 || (ch2 - offset) >=3D 0x7=
-f)
-      return __UNKNOWN_10646_CHAR;
-+--
-+2.27.0
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2021-3326.patch b/meta/recip=
-es-core/glibc/glibc/CVE-2021-3326.patch
-new file mode 100644
-index 0000000000..5f4270a6c8
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2021-3326.patch
-@@ -0,0 +1,297 @@
-+From 7d88c6142c6efc160c0ee5e4f85cde382c072888 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Wed, 27 Jan 2021 13:36:12 +0100
-+Subject: [PATCH] gconv: Fix assertion failure in ISO-2022-JP-3 module (bug
-+ 27256)
-+
-+The conversion loop to the internal encoding does not follow
-+the interface contract that __GCONV_FULL_OUTPUT is only returned
-+after the internal wchar_t buffer has been filled completely.  This
-+is enforced by the first of the two asserts in iconv/skeleton.c:
-+
-+             /* We must run out of output buffer space in this
-+                rerun.  */
-+             assert (outbuf =3D=3D outerr);
-+             assert (nstatus =3D=3D __GCONV_FULL_OUTPUT);
-+
-+This commit solves this issue by queuing a second wide character
-+which cannot be written immediately in the state variable, like
-+other converters already do (e.g., BIG5-HKSCS or TSCII).
-+
-+Reported-by: Tavis Ormandy <taviso@gmail.com>
-+
-+CVE: CVE-2021-3326
-+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dp=
-atch;h=3D7d88c6142c6efc160c0ee5e4f85cde382c072888]
-+Comment: Refreshed only one hunk in Makefile
-+
-+Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
-+---
-+ iconvdata/Makefile        |   4 +-
-+ iconvdata/bug-iconv14.c   | 127 ++++++++++++++++++++++++++++++++++++++
-+ iconvdata/iso-2022-jp-3.c |  67 ++++++++++++++------
-+ 3 files changed, 178 insertions(+), 20 deletions(-)
-+ create mode 100644 iconvdata/bug-iconv14.c
-+
-+diff --git a/iconvdata/Makefile b/iconvdata/Makefile
-+index c8c532a3e4..55c527a5f7 100644
-+--- a/iconvdata/Makefile
-++++ b/iconvdata/Makefile
-+@@ -74,7 +74,7 @@
-+ tests =3D bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-icon=
-v4 \
-+       tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
-+       bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
-+-       bug-iconv13
-++       bug-iconv13 bug-iconv14
-+ ifeq ($(have-thread-library),yes)
-+ tests +=3D bug-iconv3
-+ endif
-+@ -322,6 +322,8 @@ $(objpfx)bug-iconv10.out: $(objpfx)gconv-modules \
-+                         $(addprefix $(objpfx),$(modules.so))
-+ $(objpfx)bug-iconv12.out: $(objpfx)gconv-modules \
-+                         $(addprefix $(objpfx),$(modules.so))
-++$(objpfx)bug-iconv14.out: $(objpfx)gconv-modules \
-++                        $(addprefix $(objpfx),$(modules.so))
-+
-+ $(objpfx)iconv-test.out: run-iconv-test.sh $(objpfx)gconv-modules \
-+                        $(addprefix $(objpfx),$(modules.so)) \
-+diff --git a/iconvdata/bug-iconv14.c b/iconvdata/bug-iconv14.c
-+new file mode 100644
-+index 0000000000..902f140fa9
-+--- /dev/null
-++++ b/iconvdata/bug-iconv14.c
-+@@ -0,0 +1,127 @@
-++/* Assertion in ISO-2022-JP-3 due to two-character sequence (bug 27256).
-++   Copyright (C) 2021 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <iconv.h>
-++#include <string.h>
-++#include <errno.h>
-++#include <support/check.h>
-++
-++/* Use an escape sequence to return to the initial state.  */
-++static void
-++with_escape_sequence (void)
-++{
-++  iconv_t c =3D iconv_open ("UTF-8", "ISO-2022-JP-3");
-++  TEST_VERIFY_EXIT (c !=3D (iconv_t) -1);
-++
-++  char in[] =3D "\e$(O+D\e(B";
-++  char *inbuf =3D in;
-++  size_t inleft =3D strlen (in);
-++  char out[3];                  /* Space for one output character.  */
-++  char *outbuf;
-++  size_t outleft;
-++
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, &inbuf, &inleft, &outbuf, &outleft), (size_t) -=
-1);
-++  TEST_COMPARE (errno, E2BIG);
-++  TEST_COMPARE (inleft, 3);
-++  TEST_COMPARE (inbuf - in, strlen (in) - 3);
-++  TEST_COMPARE (outleft, sizeof (out) - 2);
-++  TEST_COMPARE (outbuf - out, 2);
-++  TEST_COMPARE (out[0] & 0xff, 0xc3);
-++  TEST_COMPARE (out[1] & 0xff, 0xa6);
-++
-++  /* Return to the initial shift state, producing the pending
-++     character.  */
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, &inbuf, &inleft, &outbuf, &outleft), 0);
-++  TEST_COMPARE (inleft, 0);
-++  TEST_COMPARE (inbuf - in, strlen (in));
-++  TEST_COMPARE (outleft, sizeof (out) - 2);
-++  TEST_COMPARE (outbuf - out, 2);
-++  TEST_COMPARE (out[0] & 0xff, 0xcc);
-++  TEST_COMPARE (out[1] & 0xff, 0x80);
-++
-++  /* Nothing should be flushed the second time.  */
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, NULL, 0, &outbuf, &outleft), 0);
-++  TEST_COMPARE (outleft, sizeof (out));
-++  TEST_COMPARE (outbuf - out, 0);
-++  TEST_COMPARE (out[0] & 0xff, 0xcc);
-++  TEST_COMPARE (out[1] & 0xff, 0x80);
-++
-++  TEST_COMPARE (iconv_close (c), 0);
-++}
-++
-++/* Use an explicit flush to return to the initial state.  */
-++static void
-++with_flush (void)
-++{
-++  iconv_t c =3D iconv_open ("UTF-8", "ISO-2022-JP-3");
-++  TEST_VERIFY_EXIT (c !=3D (iconv_t) -1);
-++
-++  char in[] =3D "\e$(O+D";
-++  char *inbuf =3D in;
-++  size_t inleft =3D strlen (in);
-++  char out[3];                  /* Space for one output character.  */
-++  char *outbuf;
-++  size_t outleft;
-++
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, &inbuf, &inleft, &outbuf, &outleft), (size_t) -=
-1);
-++  TEST_COMPARE (errno, E2BIG);
-++  TEST_COMPARE (inleft, 0);
-++  TEST_COMPARE (inbuf - in, strlen (in));
-++  TEST_COMPARE (outleft, sizeof (out) - 2);
-++  TEST_COMPARE (outbuf - out, 2);
-++  TEST_COMPARE (out[0] & 0xff, 0xc3);
-++  TEST_COMPARE (out[1] & 0xff, 0xa6);
-++
-++  /* Flush the pending character.  */
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, NULL, 0, &outbuf, &outleft), 0);
-++  TEST_COMPARE (outleft, sizeof (out) - 2);
-++  TEST_COMPARE (outbuf - out, 2);
-++  TEST_COMPARE (out[0] & 0xff, 0xcc);
-++  TEST_COMPARE (out[1] & 0xff, 0x80);
-++
-++  /* Nothing should be flushed the second time.  */
-++  outbuf =3D out;
-++  outleft =3D sizeof (out);
-++  TEST_COMPARE (iconv (c, NULL, 0, &outbuf, &outleft), 0);
-++  TEST_COMPARE (outleft, sizeof (out));
-++  TEST_COMPARE (outbuf - out, 0);
-++  TEST_COMPARE (out[0] & 0xff, 0xcc);
-++  TEST_COMPARE (out[1] & 0xff, 0x80);
-++
-++  TEST_COMPARE (iconv_close (c), 0);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  with_escape_sequence ();
-++  with_flush ();
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/iconvdata/iso-2022-jp-3.c b/iconvdata/iso-2022-jp-3.c
-+index 3eaa847ad9..c8ba88cdc9 100644
-+--- a/iconvdata/iso-2022-jp-3.c
-++++ b/iconvdata/iso-2022-jp-3.c
-+@@ -67,23 +67,34 @@ enum
-+   CURRENT_SEL_MASK =3D 7 << 3
-+ };
-+
-+-/* During UCS-4 to ISO-2022-JP-3 conversion, the COUNT element of the sta=
-te
-+-   also contains the last two bytes to be output, shifted by 6 bits, and =
-a
-+-   one-bit indicator whether they must be preceded by the shift sequence,
-+-   in bit 22.  */
-++/* During UCS-4 to ISO-2022-JP-3 conversion, the COUNT element of the
-++   state also contains the last two bytes to be output, shifted by 6
-++   bits, and a one-bit indicator whether they must be preceded by the
-++   shift sequence, in bit 22.  During ISO-2022-JP-3 to UCS-4
-++   conversion, COUNT may also contain a non-zero pending wide
-++   character, shifted by six bits.  This happens for certain inputs in
-++   JISX0213_1_2004_set and JISX0213_2_set if the second wide character
-++   in a combining sequence cannot be written because the buffer is
-++   full.  */
-+
-+ /* Since this is a stateful encoding we have to provide code which resets
-+    the output state to the initial state.  This has to be done during the
-+    flushing.  */
-+ #define EMIT_SHIFT_TO_INIT \
-+-  if ((data->__statep->__count & ~7) !=3D ASCII_set)                     =
-     \
-++  if (data->__statep->__count !=3D ASCII_set)                         \
-+     {                                                                    =
-   \
-+       if (FROM_DIRECTION)                                                =
-   \
-+       {                                                                  =
-   \
-+-        /* It's easy, we don't have to emit anything, we just reset the  =
-   \
-+-           state for the input.  */                                      =
-   \
-+-        data->__statep->__count &=3D 7;                                  =
-     \
-+-        data->__statep->__count |=3D ASCII_set;                          =
-     \
-++        if (__glibc_likely (outbuf + 4 <=3D outend))                     =
-     \
-++          {                                                              =
-   \
-++            /* Write out the last character.  */                         =
-   \
-++            *((uint32_t *) outbuf) =3D data->__statep->__count >> 6;     =
-     \
-++            outbuf +=3D sizeof (uint32_t);                               =
-     \
-++            data->__statep->__count =3D ASCII_set;                      \
-++          }                                                              =
-   \
-++        else                                                             =
-   \
-++          /* We don't have enough room in the output buffer.  */         =
-   \
-++          status =3D __GCONV_FULL_OUTPUT;                                =
-     \
-+       }                                                                  =
-   \
-+       else                                                               =
-   \
-+       {                                                                  =
-   \
-+@@ -151,7 +162,21 @@ enum
-+ #define LOOPFCT                       FROM_LOOP
-+ #define BODY \
-+   {                                                                      =
-   \
-+-    uint32_t ch =3D *inptr;                                              =
-     \
-++    uint32_t ch;                                                         =
-   \
-++                                                                         =
-   \
-++    /* Output any pending character.  */                                 =
-   \
-++    ch =3D set >> 6;                                                     =
-     \
-++    if (__glibc_unlikely (ch !=3D 0))                                    =
-     \
-++      {                                                                  =
-           \
-++      put32 (outptr, ch);                                                =
-   \
-++      outptr +=3D 4;                                                     =
-     \
-++      /* Remove the pending character, but preserve state bits.  */      =
-   \
-++      set &=3D (1 << 6) - 1;                                             =
-     \
-++      continue;                                                          =
-   \
-++      }                                                                  =
-           \
-++                                                                         =
-   \
-++    /* Otherwise read the next input byte.  */                           =
-           \
-++    ch =3D *inptr;                                                       =
-     \
-+                                                                          =
-   \
-+     /* Recognize escape sequences.  */                                   =
-           \
-+     if (__glibc_unlikely (ch =3D=3D ESC))                                =
-       \
-+@@ -297,21 +322,25 @@ enum
-+           uint32_t u1 =3D __jisx0213_to_ucs_combining[ch - 1][0];        =
-     \
-+           uint32_t u2 =3D __jisx0213_to_ucs_combining[ch - 1][1];        =
-     \
-+                                                                          =
-   \
-++          inptr +=3D 2;                                                  =
-     \
-++                                                                         =
-   \
-++          put32 (outptr, u1);                                            =
-   \
-++          outptr +=3D 4;                                                 =
-     \
-++                                                                         =
-   \
-+           /* See whether we have room for two characters.  */            =
-   \
-+-          if (outptr + 8 <=3D outend)                                    =
-     \
-++          if (outptr + 4 <=3D outend)                                    =
-     \
-+             {                                                            =
-   \
-+-              inptr +=3D 2;                                              =
-     \
-+-              put32 (outptr, u1);                                        =
-   \
-+-              outptr +=3D 4;                                             =
-     \
-+               put32 (outptr, u2);                                        =
-   \
-+               outptr +=3D 4;                                             =
-     \
-+               continue;                                                  =
-   \
-+             }                                                            =
-   \
-+-          else                                                           =
-   \
-+-            {                                                            =
-   \
-+-              result =3D __GCONV_FULL_OUTPUT;                            =
-     \
-+-              break;                                                     =
-   \
-+-            }                                                            =
-   \
-++                                                                         =
-   \
-++          /* Otherwise store only the first character now, and           =
-   \
-++             put the second one into the queue.  */                      =
-   \
-++          set |=3D u2 << 6;                                              =
-     \
-++          /* Tell the caller why we terminate the loop.  */              =
-   \
-++          result =3D __GCONV_FULL_OUTPUT;                                =
-     \
-++          break;                                                         =
-   \
-+         }                                                                =
-   \
-+                                                                          =
-   \
-+       inptr +=3D 2;                                                      =
-     \
-+--
-+2.27.0
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glib=
-c/glibc_2.31.bb
-index b75bbb4196..77eb5b481b 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -41,9 +41,10 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};nam=
-e=3Dglibc \
-            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
-            file://0028-inject-file-assembly-directives.patch \
-            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-B=
-Z.patch \
-+           file://CVE-2019-25013.patch \
-            file://CVE-2020-29562.patch \
-            file://CVE-2020-29573.patch \
--           file://CVE-2019-25013.patch \
-+           file://CVE-2021-3326.patch \
-            "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---
-2.17.1
-
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
+--0000000000006f4b9405be207c94--
