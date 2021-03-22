@@ -1,143 +1,75 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web12.1052.1616428298246138719
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.1103.1616428465251259805
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Mar 2021 08:51:38 -0700
+ Mon, 22 Mar 2021 08:54:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=c2W9Cgec;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so8738179pjg.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 08:51:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iTTeeKf6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id j7so17692306wrd.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 08:54:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X07tTifdSBkKUMvHnsG5y2BTvWsATzy9TGYhIp30Qi0=;
-        b=c2W9CgecRebyxuGkChDOTj+6d3u2TPBvtcuPSOGocBXmWwzZGSY/o5Bruz+pb12b6I
-         DPzM2CJRRLeFTQ2t1SrxpIPewSlQ7gEenf/KR/Np1QW3T3fDaeVZl4aURZMbnJRsJ+p6
-         Hqznig1HIMTF5C9tHsOcTYj0LRJIu4Gst8N3HlkHvN/MaDfihWdN/qtdO0ClbEjseBPC
-         q3wYX1FAK/+FAF6x+Vc5eatwR6L5GPAVeGJdWZPIEdOMHEU+RATEqa6mZu4YgnO++JZJ
-         g2naKq2vhsWQcQPi7Kg+eTimdQdzsVVqe48m1kxr1AVp1vx/gKJw9oZEuqdx+z4Vg4eL
-         6byQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=dL/SSvO8WmmNhCkD7WR63RbJ3HC8yPh5Bkfe69RIexE=;
+        b=iTTeeKf6WISnnczU8Oc2nTLsFnXTTROPwhUl3OPyNZXGx3PgrMJ8KUIZPiOTGadDEe
+         icCcewvBYUmGnHi+IAU3pzCCjL8q3/kX57oFPtC0dgOVsPGP0ESKYYhQWExKbCDC+zv1
+         vY9CGb0DnsYg8tLvwtvAyl+hkO2GI4VfjdH44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X07tTifdSBkKUMvHnsG5y2BTvWsATzy9TGYhIp30Qi0=;
-        b=TSQtYd+JDgKv2YejMf8GF3PIWp09CfJsCHw5EpayFE8K+TSzeYOJjwn3nG77ohyGer
-         oGm6kcoMXDfYTXnzcmOVLgxkSAX8ewBrRBuxk4ELTf1r6SUKdPquRdxy18ki8CdRSWql
-         nHLOAAJz8HBdjhnlx1DkhZSUVx75rbD/iUhR4OGEYwPElM1Sj9pudrGsSIK5KsetJZhU
-         CAy3j832tv0qv+h9Qs5VGBRjyHWGYfCSUmTW3BfEfcv99CUUocAxp4KfC6OBHOJVyzPp
-         8hu5e9wGKEGInzo/FpXB1uo+EcTTumb7T68go6qNKczptI3bvBBsd1VUtz28dwFfkoes
-         1UuA==
-X-Gm-Message-State: AOAM5324s4kCSCoweANQUuZkt8ngZng7rQjdT7Ar+Dz5SgNEA0P8PZ8Y
-	zigTVWLcah2IhS7rFbLgCEaK0FEA0os23Q==
-X-Google-Smtp-Source: ABdhPJwpaX09ha3cbgwkEteeLQeT/ywZhKtB+cAKMpIiDeZgtwuOq81ZuybJDQpKbdMKJWdBCZGd2w==
-X-Received: by 2002:a17:90a:8408:: with SMTP id j8mr34421pjn.1.1616428297135;
-        Mon, 22 Mar 2021 08:51:37 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b117])
-        by smtp.gmail.com with ESMTPSA id l22sm16100443pjl.14.2021.03.22.08.51.36
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=dL/SSvO8WmmNhCkD7WR63RbJ3HC8yPh5Bkfe69RIexE=;
+        b=NwsoSHz1hQOj3q1iYIlU/76dFk6Tf6AInM7mcu4mumktiRB8pbJ+TDRDqrBeguT6At
+         5Dujdl+i6QU1y5A4wwulSri61ULrEVXcdEKUa84q5T0oHeoIqflzCwu3iRIO7ny5wAA5
+         pJpoxoH2uZE+U1yIEZqKb+lJj8OuLMzNIGz0pCEaEK17VfNMlwJdcUiZIday4pVoCMxh
+         4UwVafuSnZ6kjvoj/EEPYQTxhe20Bd9skcZ4NZuunbsLJe+Mz/birlIvj1nYNXHhXYD3
+         k+Rrh0P6GO/6QlqaARg69T2PU5bJ3qCGukS/Uzf60kX+T2DlQyba947OBDvZugrOVZSo
+         7H/g==
+X-Gm-Message-State: AOAM533CSMiZ6J3glVMhAemCtWUgb3UT69uRSy0TUP28fitGTB86O/t2
+	tLSKYuoZVPAGpMHkdLelXWZMaA==
+X-Google-Smtp-Source: ABdhPJwRE/L/BtASiIaVS47sXCJLBu8Aacw2nAaKMHfNZK3ljhaCvFbV3z00K5vrWmMlVyzZT1f7gw==
+X-Received: by 2002:a5d:5047:: with SMTP id h7mr186189wrt.111.1616428463701;
+        Mon, 22 Mar 2021 08:54:23 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:5915:a721:ad3c:1822? ([2001:8b0:aba:5f3c:5915:a721:ad3c:1822])
+        by smtp.gmail.com with ESMTPSA id g11sm19700343wrw.89.2021.03.22.08.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 08:51:36 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] valgrind: Fix ptests on ppc64 LE
-Date: Mon, 22 Mar 2021 08:51:33 -0700
-Message-Id: <20210322155133.857243-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.0
+        Mon, 22 Mar 2021 08:54:23 -0700 (PDT)
+Message-ID: <faa20b16d8ca099262b9ce720a0cc5768707c5ad.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][PATCH] package_manager: install versioned postinst scripts
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: gmouse@google.com, openembedded-core@lists.openembedded.org
+Date: Mon, 22 Mar 2021 15:54:22 +0000
+In-Reply-To: <20210322154557.1591593-1-gmouse@google.com>
+References: <20210322154557.1591593-1-gmouse@google.com>
+User-Agent: Evolution 3.39.2-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Backport a patch to avoid lsw/lmw instructions
+On Mon, 2021-03-22 at 16:45 +0100, Anton Kachalov via lists.openembedded.org wrote:
+> From: "Anton D. Kachalov" <gmouse@google.com>
+> 
+> When running on read-only rootfs backed with overlayfs, the processed scripts
+> are being marked as deleted on upperdir of overlayfs. When it comes to
+> upgrade the main read-only image, it might contain new postinst scripts that
+> are different from the already processed. Introduced suffix (sha256 of
+> the content) allows to distinct updated scripts of the same package.
+> 
+> Signed-off-by: Anton D. Kachalov <gmouse@google.com>
+> ---
+>  meta/lib/oe/package_manager/deb/rootfs.py   | 11 ++++++++++-
+>  meta/lib/oe/package_manager/ipk/rootfs.py   | 11 ++++++++++-
+>  meta/lib/oe/package_manager/rpm/__init__.py |  4 +++-
+>  3 files changed, 23 insertions(+), 3 deletions(-)
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...ated-PowerPC-insns-aren-t-allowed-on.patch | 62 +++++++++++++++++++
- .../valgrind/valgrind_3.16.1.bb               |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-lmw-lswi-and-related-PowerPC-insns-aren-t-allowed-on.patch
+Isn't this working around an issue with overlayfs?
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-lmw-lswi-and-related-PowerPC-insns-aren-t-allowed-on.patch b/meta/recipes-devtools/valgrind/valgrind/0001-lmw-lswi-and-related-PowerPC-insns-aren-t-allowed-on.patch
-new file mode 100644
-index 0000000000..7c62144978
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-lmw-lswi-and-related-PowerPC-insns-aren-t-allowed-on.patch
-@@ -0,0 +1,62 @@
-+From 0748ed5403a75c12ad9137b3fabf9d8397206ed8 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Tue, 1 Dec 2020 13:57:39 +0100
-+Subject: [PATCH] lmw, lswi and related PowerPC insns aren't allowed on ppc64le
-+
-+lmw, lswi and related PowerPC insns aren't allowed on ppc64le
-+
-+Newer binutils produce an error when the assembly contains lmw, stmw,
-+lswi, lswx, stswi, or stswx instructions in little-endian mode.
-+
-+Only build and run the lsw and ldst_multiple testcases on ppc64[be].
-+
-+https://bugs.kde.org/show_bug.cgi?id=427870
-+Upstream-Status: Backport [https://sourceware.org/git/?p=valgrind.git;a=commit;h=74b74174d572fee4015b8f4e326db3cd949bcdc3]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ none/tests/ppc64/Makefile.am          | 9 ++++++---
-+ none/tests/ppc64/ldst_multiple.vgtest | 1 +
-+ 2 files changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/none/tests/ppc64/Makefile.am b/none/tests/ppc64/Makefile.am
-+index 9bc0d0a..9d1e8b7 100644
-+--- a/none/tests/ppc64/Makefile.am
-++++ b/none/tests/ppc64/Makefile.am
-+@@ -54,16 +54,20 @@ EXTRA_DIST = \
-+ 
-+ check_PROGRAMS = \
-+ 	allexec \
-+-	lsw jm-insns round \
-++	jm-insns round \
-+ 	test_isa_2_06_part1 test_isa_2_06_part2 test_isa_2_06_part3 \
-+ 	test_dfp1 test_dfp2 test_dfp3 test_dfp4 test_dfp5 \
-+ 	test_isa_2_07_part1 test_isa_2_07_part2 \
-+ 	test_isa_3_0 \
-+ 	subnormal_test \
-+-	test_tm test_touch_tm ldst_multiple data-cache-instructions \
-++	test_tm test_touch_tm data-cache-instructions \
-+ 	power6_mf_gpr std_reg_imm \
-+ 	twi_tdi tw_td power6_bcmp
-+ 
-++# lmw, stmw, lswi, lswx, stswi, stswx compile (and run) only on big endian.
-++if VGCONF_PLATFORMS_INCLUDE_PPC64BE_LINUX
-++check_PROGRAMS += lsw ldst_multiple
-++endif
-+ 
-+ AM_CFLAGS    += @FLAG_M64@
-+ AM_CXXFLAGS  += @FLAG_M64@
-+@@ -175,4 +179,3 @@ test_isa_2_07_part2_LDADD = -lm
-+ test_tm_LDADD = -lm
-+ test_touch_tm_LDADD = -lm
-+ test_isa_3_0_LDADD = -lm
-+-
-+diff --git a/none/tests/ppc64/ldst_multiple.vgtest b/none/tests/ppc64/ldst_multiple.vgtest
-+index 87e668e..22dd46c 100644
-+--- a/none/tests/ppc64/ldst_multiple.vgtest
-++++ b/none/tests/ppc64/ldst_multiple.vgtest
-+@@ -1 +1,2 @@
-++prereq: ../../../tests/is_ppc64_BE
-+ prog: ldst_multiple
-+-- 
-+2.31.0
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-index 9dbd9f74c4..2b1d185575 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-@@ -46,6 +46,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-drd-musl-fix.patch \
-            file://0001-helgrind-Intercept-libc-functions.patch \
-            file://0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch \
-+           file://0001-lmw-lswi-and-related-PowerPC-insns-aren-t-allowed-on.patch \
-            "
- SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
- SRC_URI[sha256sum] = "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
--- 
-2.31.0
+I'm a bit worried we're adding complexity to all users of the project
+for a very specific use case where the issue is really somewhere else?
+
+Cheers,
+
+Richard
 
