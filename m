@@ -1,796 +1,1196 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.71])
- by mx.groups.io with SMTP id smtpd.web09.7326.1616378544726259985
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web08.7830.1616381653777643136
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Mar 2021 19:02:25 -0700
+ Sun, 21 Mar 2021 19:54:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=OT0IWmAh;
- spf=pass (domain: windriver.com, ip: 40.107.93.71, mailfrom: yifan.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AJuztGrie6ZDpjXf+eR5IQEoLlk+3b5DPcGMEFlcKpZAEfzOyj4ckXd0LK0samr4vsC60KHQCkgIRtAu1TGA4Mal7zZQ6PVpGrR0y2HTA8cuvf8Uy/PGA7VN3s8ger+8rCCw00OxzCi42fnDnVxnHCRbBaPtDNDUeQEeS/5Y+Cb9BDrvX4NaK80E5IJdvofoki0dJPOCwxRkvpUKMZ8Lwb3wiEN10bND1Bzlbn3URVWTOpys394g45jhmKLu/uwOl0QpGux9tPDVpd4+FNHyVKwZiaLVDeAawjFOOR5l6Vs5xjrxcm1Gf0CCycW7K8EVWUMykso0vxADPcKQGcpb/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w8q8RPw/QOKXjenhGoY3FaEXarNUcnO7hFdH1eaIC8A=;
- b=csJ9K9ARSbW2OtexCJGcyZhHFQh7DQPMRopkeytbsKbPuCOI8KYuyR7aiqlKi9hMC80P1rEDOP+FwxF5bLlicIFqeZOJmLBte7J0lqejnvoAcNxpZRecWY7h+Bx57duguaGZk5pFrxFRQmcYE7uAQ2k5x3zDufnNxceuWpSpa7YU5xNBJgDX+BlIk8rmn0XNMd2ez7+aNdjxYEt5UR6u7pxcqvukuD7WZ9bsiv/Pi9tnWI3wxR/w4g3/NKO1LhWOyAytktAn7PjA6wgCOYcb27Fa6OgXhGB5mI0ahxafiqzyepjEunls14Tdlj09dyaxrZF4GpCXN+i3EyFduhAR9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@konsulko.com header.s=google header.b=DF3c4U9g;
+ spf=pass (domain: konsulko.com, ip: 209.85.222.179, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qk1-f179.google.com with SMTP id i9so9203915qka.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Mar 2021 19:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w8q8RPw/QOKXjenhGoY3FaEXarNUcnO7hFdH1eaIC8A=;
- b=OT0IWmAhlF9lVo5cBuu9wpj81nLe1a3ttWGOW8GG990bQmeGsv7quqghd4tgKCUel/9RTktUlbsE9iLGINbJhrbJUZrWRdcqxTyd58Q+n6C0RNpTYxs5OYUS2uWsxL3MGpZFm105NhVtdWWFfNc982nJd/0pFu2aw9UjfTinjbY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
- by SA2PR11MB5132.namprd11.prod.outlook.com (2603:10b6:806:11a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 02:02:22 +0000
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::24e6:c5dd:a024:807f]) by SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::24e6:c5dd:a024:807f%9]) with mapi id 15.20.3955.025; Mon, 22 Mar 2021
- 02:02:22 +0000
-From: "Yi Fan Yu" <yifan.yu@windriver.com>
+        d=konsulko.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VW+qSvqOkBIP3hoeyZLr/MjldVzzriisGkJfbvBbqOE=;
+        b=DF3c4U9gKjvUOSj+omNmak58mh39G6ML6OIzoIPKhJDmvxwNSBSHWyS0TmxbR0onsA
+         xll1bWbEE1d6PMZu9kgtmNedmPkiyCoKggxgIMtKNWSck19GFk7qt+5cGWojDlAnHZJn
+         0/tB4mXXkLoJNMvf0Y4Ae2/oRg1rp9azbD0K8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VW+qSvqOkBIP3hoeyZLr/MjldVzzriisGkJfbvBbqOE=;
+        b=tmgVDyP9n4mXE3AH4AY77LG/3tBXJgYBGxYlbiK6fkae3bbkYtunumIlrQIo30BspC
+         HRJmW9jhzAcWoyyaqplth4vXRGTqlJD5juhCQQTPHqNmDGEeK5D0g2AhB809DLUVRDRC
+         8ge3ZdishIz/XTwNxhWQX28/rj5aXu8Bk4EX62lJv+5CFk3S1FJMJ9MJujONBSyaPVDq
+         iMTzq1ydTiZ1YbhzcvBGM6DXWTDE/UoktHBbhvLKO3IXwbRmmjJ4T6kzDTYd1iUE9jVR
+         B2GFaqr0ZsPGcTo0PU7Zt9oluPsJW4lls5JU1VtOoo8NIfl57jsPTeqpMbrjlAeTIJ//
+         /HDw==
+X-Gm-Message-State: AOAM533rGU2nsPXfd/rmY5D9GUcwdBKjaqCeHNx6k+TPYzRcS+kzqL3Z
+	DAQsOo8n8CZQo5OX/Egnh9lA5BZKMVKrbg==
+X-Google-Smtp-Source: ABdhPJzZyX9eP/RxSLw1gl9SsCTeQipbPlhP4W7YbHzUfI+JrMUo49NcAZlDxHayOemnzs8ou8fPaA==
+X-Received: by 2002:a05:620a:1107:: with SMTP id o7mr9208018qkk.188.1616381651599;
+        Sun, 21 Mar 2021 19:54:11 -0700 (PDT)
+Return-Path: <scott.murray@konsulko.com>
+Received: from ghidorah.spiteful.org (198-84-179-103.cpe.teksavvy.com. [198.84.179.103])
+        by smtp.gmail.com with ESMTPSA id v5sm8212200qtq.26.2021.03.21.19.54.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 19:54:11 -0700 (PDT)
+From: "Scott Murray" <scott.murray@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] [WIP] valgrind: update to 3.17.0.RC2
-Date: Sun, 21 Mar 2021 19:02:08 -0700
-Message-Id: <20210322020208.18814-1-yifan.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [147.11.105.124]
-X-ClientProxiedBy: BYAPR01CA0060.prod.exchangelabs.com (2603:10b6:a03:94::37)
- To SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
-Return-Path: yifan.yu@windriver.com
+Subject: [PATCH] u-boot: Fix CVE-2021-27097, CVE-2021-27138
+Date: Sun, 21 Mar 2021 22:53:55 -0400
+Message-Id: <20210322025355.852933-1-scott.murray@konsulko.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by BYAPR01CA0060.prod.exchangelabs.com (2603:10b6:a03:94::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 02:02:21 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 74534e49-8455-4ced-389e-08d8ecd687cb
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5132:
-X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB5132124F3A2C5781069491E680659@SA2PR11MB5132.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	cTWV4WLbCuVsMaclJVvGgL086IFzLWxsbv4BMAgnfl+LpD+JcOgeUqX0Cv63GNmf/EDSlyogvNVIXnVDn0CsEg9oNMLAXG13s+lZByXu0p9E5U1KolYZui3DI1ppJvj/H7xnG7Ze1q7YLMD02pdCnTYw1+Vxfa26D1dM6OKs0eNpB4tIuK24/j41YqiXhqAoRdwHqUKAe0nsXsTSCx+3uJ68roNmQAMxiOusmSvRUR9kCVngDzeaPBS2UO3xlj06/uZ/pwoi8Me6jXz/h9skuXqzSgWQG7SaiCvdVcjsm0vrBVfUpPOPIQz17He03RXcZSnI/jzd1DZuLAMu+VTISlcZm09nIUoQOWL27MnuzNsUV2B1gVxgwsDe42pWbxfQmEj6uyVm5In0A+/RhHaxToMMv1AiiozSqURnNXOoAJLkqJFkRb+eetTj4AoqWl07eE5ls7t+qcv+KuUiDt9/UUgI8CSLXG43ug0Pc2Lvc4xnRdljBlqWsDWBSrjp52FHH+JsMJN6zR83GY3FxDKuAtT+dIiPSKF6sI+g6fdEDYdJ3aon5VD68Nk3cw3a0byU+bBpwrmoHUxCHCbLxld3R6gm6FLFU5exv8zTujnd5/1+VVi+tvqD8+eb5Yb48lqW0CIXnzHgyauiCMG1S+lZrR53rDnJHkk3kQo4qsHaB290ajFDlj9kzyrsoAslJh5DlPP9d0N5hgUTZw3Ga57/sIUPfDcqgiBrr0liBTLslZo=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39830400003)(26005)(6486002)(36756003)(86362001)(956004)(966005)(186003)(478600001)(8676002)(8936002)(38100700001)(19627235002)(15650500001)(83380400001)(6916009)(53546011)(6506007)(316002)(66946007)(66556008)(2616005)(2906002)(30864003)(52116002)(66476007)(6666004)(5660300002)(1076003)(16526019)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?fSelHGO9ZPI6HQQ84lCI1XB/L+A3/06wYTakZKJp2VVbtgNArth96Ywq6Yav?=
- =?us-ascii?Q?5WfzTsck/WJ36rIVo3mv42fgTV6Gu72xxXIC6LwYrIQQl81EdtFwfho/MYod?=
- =?us-ascii?Q?fCd1AyZA8lJSplRH1t2Qo/6K42pLIfH/fXeQkalhgMesb4yPIBVDv/u1OzPi?=
- =?us-ascii?Q?Kog4eOYiXifKZvKmFuyDRXV/Ky+d3AmSNc5H5fhApPMsOfPTMEvY4nB2320q?=
- =?us-ascii?Q?c/hlEvzwOFHLrxxnm2XMY22FUp6UCLIAuATwIAFg8aP/ov5uRhUZRrap1mmx?=
- =?us-ascii?Q?2v9p2yf+SBU6Hc9LQYOLQkwEmly3OEhX4y6Xq/kylu5tXDqsSFunH0DUwVO0?=
- =?us-ascii?Q?rw0zM2mGqLhfDoOT65xr5eFDsMdFtM64fTJh12yjUHyJjMIlBWWiOhgyjBmj?=
- =?us-ascii?Q?aFdbvvNQ/iEL4CHhisak1oNv+s/HNk2QBOwjDbJiuaBOCCmbFUsi+RkrmgX8?=
- =?us-ascii?Q?8Ps8kFNj0zsF8tdBGo4+4Ii7uq/USZJHPpn1VafpIX9C9U5pybvZgenVlY2A?=
- =?us-ascii?Q?pD7O6lKj3xtR5T2qqFZ6CGuzchGIMd9LawMLJmUIczOZUKj1z2OBWIrM3ip7?=
- =?us-ascii?Q?LAcOBXI99aO/7NRSWBUIyVY+0KDz9vlCFItl7X1mRZ+4R/IGe0bu2MYbpTYQ?=
- =?us-ascii?Q?tNjFGpYKCLmPCgp9HMi6cbmgRkTh/FR+JI2ZZOdUDTz8cIHffilErE+Ufb9h?=
- =?us-ascii?Q?QQvbBkkzbKZkSg+64D4Qn+a/tc3AhG0hQouyv0/eMOK5UlHKZSwMIkYkEmPv?=
- =?us-ascii?Q?VeKqj70qQK0UxkaZVCrb0905LxEbD0FklbGCUupYxnT1N0xe+b/GSgUmvm0S?=
- =?us-ascii?Q?lyR7KWA9I7f6iV1VbHEOOqMa50rhJH16Op6H4A8bXCifQnQZzkbxaofnUJup?=
- =?us-ascii?Q?nwYbBlKX64nuEmyURtijzWnCiaFBiG2CmPO7F4nDsUi1OWxICiPe2XgGE2Jy?=
- =?us-ascii?Q?Aa7S1HL3x8j5KbV1w6jTL7ZqsxQnd3Nw/erbE5A/WoZkelfyQpNoOID0KNRN?=
- =?us-ascii?Q?6GRc7xOnJ8BSj43oUsgqWpq7TqigrKHR6ggnbybfoY2vOUE0+ndY8L5RwmdB?=
- =?us-ascii?Q?Xgn/wKVTqWO3wNKAJPoqzo825dINh2fcfx83tQxSjw6ndE5ufogYeiSdULs0?=
- =?us-ascii?Q?2dR6rfnBx5eIp9J8TFMspvuD7sim5TgFOL78tvkKzve8CAE2JLy3Ut+YKjcd?=
- =?us-ascii?Q?IWSj011fN60zVWk2CrGerl/ZdoF8ChfK3+uK6298iRKMrvZIKTHZkUyELAqm?=
- =?us-ascii?Q?bxJ0YXNuL1bQtRYKep2sQ6MDI7CXTCG39XbWi0XNvgo7Qr49A1i8QM5WpGVc?=
- =?us-ascii?Q?V40WoDDc/lrkq8tu1afhicd8?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74534e49-8455-4ced-389e-08d8ecd687cb
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 02:02:22.0126
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hp2+D9LMq4utUPtkTTnnJ6vrOjHTU3SWp9lfySrIdUSeLNkkQfbcnCyDYf6vOKIbgHjkFw4yxjbVGGiFHO+W7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5132
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-3.17.0.rc2 will be very close to the 3.17.0 release
-still need to refresh
-drd-musl-fix.patch
+Backport fixes for CVE-2021-27097 and CVE-2021-27138 as well as
+a precursor fdt validation fix that allows using the upstream
+patches for the CVEs without significant rebasing.  Note that
+the additional upstream changes to add new U-Boot fit image tests
+have been left out to keep the patch count down.  Those tests are
+currently not used for ptest or oe-selftest, so it is believed
+their absence should not be problematic.
 
-TESTING RESULTS:
-qemu x86-64:
-FAIL: drd/tests/swapcontext
-FAIL: gdbserver_tests/hgtls
-
-=== Test Summary ===
-TOTAL: 736
-PASSED: 693
-FAILED: 2
-SKIPPED: 41
-
-swap-context.vgtest has been disabled
-a workaround for gdbserver_tests/hgtls has been implemented
-
-+    install ${S}/none/tests/tls.c  ${D}${PTEST_PATH}/gdbserver_tests/tls.c
-
-OTHER CHANGES:
-
-libdir is now libexecdir
-
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
 ---
- ...Disable-drd-tests-swapcontext.vgtest.patch |  49 +++++
- ...gtest-hanging-on-newer-glibc-and-or-.patch | 200 ------------------
- .../valgrind/0001-drd-Port-to-Fedora-33.patch |  48 -----
- .../valgrind/valgrind/0001-drd-musl-fix.patch |  12 +-
- ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch |   2 +-
- ...ch-drd_pthread_intercepts.c-for-musl.patch |  39 ++++
- .../valgrind/valgrind/fixed-perl-path.patch   |  20 +-
- .../valgrind/valgrind/musl.supp               |  46 ++++
- .../valgrind/valgrind/run-ptest               |   3 +-
- .../valgrind/valgrind/s390x_vec_op_t.patch    |  24 ++-
- ...{valgrind_3.16.1.bb => valgrind_3.17.0.bb} |  23 +-
- 11 files changed, 185 insertions(+), 281 deletions(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Disable-drd-tests-swapcontext.vgtest.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-patch-drd_pthread_intercepts.c-for-musl.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/musl.supp
- rename meta/recipes-devtools/valgrind/{valgrind_3.16.1.bb => valgrind_3.17.0.bb} (93%)
+ .../files/0001-add-valid-fdt-check.patch      |  36 ++
+ .../u-boot/files/CVE-2021-27097-1.patch       |  71 +++
+ .../u-boot/files/CVE-2021-27097-2.patch       | 419 ++++++++++++++++++
+ .../u-boot/files/CVE-2021-27097-3.patch       | 105 +++++
+ .../u-boot/files/CVE-2021-27097-4.patch       |  73 +++
+ .../u-boot/files/CVE-2021-27138-1.patch       | 245 ++++++++++
+ .../u-boot/files/CVE-2021-27138-2.patch       | 109 +++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   7 +
+ 8 files changed, 1065 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-add-valid-fdt-check.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27097-1.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27097-2.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27097-3.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27097-4.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27138-1.patch
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2021-27138-2.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Disable-drd-tests-swapcontext.vgtest.patch b/meta/recipes-devtools/valgrind/valgrind/0001-Disable-drd-tests-swapcontext.vgtest.patch
+diff --git a/meta/recipes-bsp/u-boot/files/0001-add-valid-fdt-check.patch b/meta/recipes-bsp/u-boot/files/0001-add-valid-fdt-check.patch
 new file mode 100644
-index 0000000000..9e78a9cb61
+index 0000000000..d4ac9e2ed9
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-Disable-drd-tests-swapcontext.vgtest.patch
-@@ -0,0 +1,49 @@
-+From e3b587b1cfa7dde1484c88b2af67c49a1c6166e1 Mon Sep 17 00:00:00 2001
-+From: Yi Fan Yu <yifan.yu@windriver.com>
-+Date: Fri, 19 Mar 2021 16:35:26 -0400
-+Subject: [PATCH] Disable drd/tests/swapcontext.vgtest
++++ b/meta/recipes-bsp/u-boot/files/0001-add-valid-fdt-check.patch
+@@ -0,0 +1,36 @@
++From ea1a9ec5f430359720d9a0621ed1acfbba6a142a Mon Sep 17 00:00:00 2001
++From: Heinrich Schuchardt <xypron.glpk@gmx.de>
++Date: Wed, 13 Jan 2021 02:09:12 +0100
++Subject: [PATCH] image-fit: fit_check_format check for valid FDT
 +
-+Test fails on both x86-64 and arm64.
++fit_check_format() must check that the buffer contains a flattened device
++tree before calling any device tree library functions.
 +
-+Unbuidable on musl with switchcontext.
++Failure to do may cause segmentation faults.
 +
-+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
++Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
++
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/ea1a9ec5f430359720d9a0621ed1acfbba6a142a]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
 +---
-+ drd/tests/Makefile.am | 10 ----------
-+ 1 file changed, 10 deletions(-)
++ common/image-fit.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/drd/tests/Makefile.am b/drd/tests/Makefile.am
-+index 79e076246..5df76150e 100644
-+--- a/drd/tests/Makefile.am
-++++ b/drd/tests/Makefile.am
-+@@ -267,8 +267,6 @@ EXTRA_DIST =                                        \
-+ 	sem_open_traced.vgtest                      \
-+ 	sem_wait.stderr.exp                         \
-+ 	sem_wait.vgtest                             \
-+-	swapcontext.stderr.exp                      \
-+-	swapcontext.vgtest                          \
-+ 	sigalrm.stderr.exp                          \
-+ 	sigalrm.vgtest                              \
-+ 	sigaltstack.stderr.exp                      \
-+@@ -408,7 +406,6 @@ check_PROGRAMS =      \
-+   sem_as_mutex        \
-+   sem_open            \
-+   sigalrm             \
-+-  swapcontext         \
-+   threaded-fork       \
-+   trylock             \
-+   unit_bitmap         \
-+@@ -588,10 +585,3 @@ std_thread2_LDFLAGS          = -Wl,--no-as-needed
-+ endif
++diff --git a/common/image-fit.c b/common/image-fit.c
++index 6a8787ca0a..21c44bdf69 100644
++--- a/common/image-fit.c
+++++ b/common/image-fit.c
++@@ -1553,6 +1553,12 @@ int fit_image_check_comp(const void *fit, int noffset, uint8_t comp)
++  */
++ int fit_check_format(const void *fit)
++ {
+++	/* A FIT image must be a valid FDT */
+++	if (fdt_check_header(fit)) {
+++		debug("Wrong FIT format: not a flattened device tree\n");
+++		return 0;
+++	}
+++
++ 	/* mandatory / node 'description' property */
++ 	if (fdt_getprop(fit, 0, FIT_DESC_PROP, NULL) == NULL) {
++ 		debug("Wrong FIT format: no description\n");
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27097-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-1.patch
+new file mode 100644
+index 0000000000..98ec2c709d
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-1.patch
+@@ -0,0 +1,71 @@
++From 8a7d4cf9820ea16fabd25a6379351b4dc291204b Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:05 -0700
++Subject: [PATCH] fdt_region: Check for a single root node of the correct name
++
++At present fdt_find_regions() assumes that the FIT is a valid devicetree.
++If the FIT has two root nodes this is currently not detected in this
++function, nor does libfdt's fdt_check_full() notice. Also it is possible
++for the root node to have a name even though it should not.
++
++Add checks for these and return -FDT_ERR_BADSTRUCTURE if a problem is
++detected.
++
++CVE-2021-27097
++
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
++
++CVE: CVE-2021-27097
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/8a7d4cf9820ea16fabd25a6379351b4dc291204b]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
++---
++ common/fdt_region.c | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
++
++diff --git a/common/fdt_region.c b/common/fdt_region.c
++index ff12c518e9..e4ef0ca770 100644
++--- a/common/fdt_region.c
+++++ b/common/fdt_region.c
++@@ -43,6 +43,7 @@ int fdt_find_regions(const void *fdt, char * const inc[], int inc_count,
++ 	int depth = -1;
++ 	int want = 0;
++ 	int base = fdt_off_dt_struct(fdt);
+++	bool expect_end = false;
 + 
-+ sem_wait_SOURCES            = sem_wait.cpp
-+-
-+-swapcontext_SOURCES         = swapcontext.c
-+-swapcontext_CFLAGS          = $(AM_CFLAGS) -g
-+-if VGCONF_OS_IS_SOLARIS
-+-swapcontext_CFLAGS          += -D__EXTENSIONS__
-+-endif
-+-
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch
-deleted file mode 100644
-index 98cbcd132c..0000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch
-+++ /dev/null
-@@ -1,200 +0,0 @@
--From 83c24e31df6932a6d4fced179050c6d8d8c6f3b5 Mon Sep 17 00:00:00 2001
--From: Philippe Waroquiers <philippe.waroquiers@skynet.be>
--Date: Sun, 7 Mar 2021 22:29:27 +0100
--Subject: [PATCH] Fix nlcontrolc.vgtest hanging on newer glibc and/or arm64
--
--This test verifies that GDB can interrupt a process with all threads
--blocked in a long select syscall.
--The test used to terminate by having GDB modifying the select argument.
--However, modifying the select argument works only for specific arch
--and/or specific versions of glibc.
--The test then blocks on other architectures/glibc versions.
--
--The previous version of the test was:
--  * first launching sleepers so as to have all threads blocked in long select
--  * interrupting these threads
--  * changing the select time arg so that the threads burn cpu
--  * and then change variables to have the program exit.
--
--The new version does:
--  * first launches sleepers so that all threads are burning cpu.
--  * interrupting these threads
--  * change the local variables of sleepers so that the threads will
--    block in a long select syscall
--  * interrupt these threads
--  * kill the program.
--
--With this new version, we still check the behaviour of gdb+vgdbserver
--for both burning and sleep threads, but without having the termination
--depending on modifying select syscall argument.
--
--Tested on debian amd64 and on ubuntu arm64 (to check the test does not hang
--on an arm64 platform).
--
--Upstream-Status: Backport
--
--From commit on master:
--c79180a3afcf65902e578646c3b716cc749db406
--
--Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
-----
-- gdbserver_tests/nlcontrolc.stderr.exp  |  4 +-
-- gdbserver_tests/nlcontrolc.stdinB.gdb  | 57 +++++++++++++++-----------
-- gdbserver_tests/nlcontrolc.stdoutB.exp | 25 ++++++-----
-- gdbserver_tests/nlcontrolc.vgtest      | 12 +++---
-- 4 files changed, 56 insertions(+), 42 deletions(-)
--
--diff --git a/gdbserver_tests/nlcontrolc.stderr.exp b/gdbserver_tests/nlcontrolc.stderr.exp
--index ac75bb3da..b63a9a988 100644
----- a/gdbserver_tests/nlcontrolc.stderr.exp
--+++ b/gdbserver_tests/nlcontrolc.stderr.exp
--@@ -3,9 +3,9 @@ Nulgrind, the minimal Valgrind tool
-- (action at startup) vgdb me ... 
-- 
-- 
---loops/sleep_ms/burn/threads_spec/affinity:  1000000000 1000000000 1000000000 BSBSBSBS 1
--+loops/sleep_ms/burn/threads_spec/affinity:  1000000000 0 100000 BSBSBSBS 1
-- Brussels ready to sleep and/or burn
-- London ready to sleep and/or burn
-- Petaouchnok ready to sleep and/or burn
-- main ready to sleep and/or burn
---
--+Gdb request to kill this process
--diff --git a/gdbserver_tests/nlcontrolc.stdinB.gdb b/gdbserver_tests/nlcontrolc.stdinB.gdb
--index 667ece18d..ea4fcd530 100644
----- a/gdbserver_tests/nlcontrolc.stdinB.gdb
--+++ b/gdbserver_tests/nlcontrolc.stdinB.gdb
--@@ -9,32 +9,43 @@ shell ./simulate_control_c --vgdb-prefix=./vgdb-prefix-nlcontrolc 1 grep main nl
-- #
-- continue
-- #
---# Here, all tasks should be blocked in a loooonnnng select, all in WaitSys
---info threads
---# We will unblock them by changing their timeout argument
---# To avoid going into the frame where the timeval arg is,
---# it has been defined as global variables, as the nr
---# of calls on the stack differs between 32bits and 64bits,
---# and/or between OS.
---# ensure select finishes in a few milliseconds max:
---p t[0].tv_sec = 0
---p t[1].tv_sec = 0
---p t[2].tv_sec = 0
---p t[3].tv_sec = 0
---#
---# We will change the burning parameters in a few  seconds
--+# Threads are burning cpu now
--+# We would like to fully test info threads here, but which thread are Runnable
--+# or Yielding is unpredictable. With a recent enough gdb, check the nr of
--+# threads by state using pipe commands and grep/wc.
--+init-if-undefined $_gdb_major = 0
--+init-if-undefined $_gdb_minor = 0
--+if $_gdb_major >= 9
--+  | info threads | grep VgTs_Runnable | wc -l
--+  | info threads | grep VgTs_Yielding | wc -l
--+else
--+  echo 1\n
--+  echo 3\n
--+end
--+# We change the variables so that all the threads are blocked in a syscall
--+p burn = 0
--+p sleepms = 1000000
--+#
--+#
-- shell ./simulate_control_c --vgdb-prefix=./vgdb-prefix-nlcontrolc 1 grep changed nlcontrolc.stdoutB.out
-- #
---echo changed burning parameters\n
--+echo changed burning parameters to sleeping parameters\n
-- continue
--+# Here, all tasks should be blocked in a loooonnnng select, all in WaitSys
--+info threads
--+# We reset the sleepms to 0. The threads should still be blocked in the syscall
--+p sleepms = 0
--+shell ./simulate_control_c --vgdb-prefix=./vgdb-prefix-nlcontrolc 1 grep reset nlcontrolc.stdoutB.out
-- #
---# Threads are burning cpu now
---# We would like to test info threads here, but which thread are Runnable or Yielding
---# is unpredictable.
---# info threads
---p burn = 0
---p loops = 0
---p report_finished = 0
--+echo reset to sleeping parameters\n
-- continue
---# and the process should stop very quickly now
--+# threads should still be blocked in a loooonnnng select, all in WaitSys
--+info threads
--+if $_gdb_major >= 9
--+  | info threads | grep VgTs_WaitSys | wc -l
--+else
--+  echo 4\n
--+end
--+# Make the process die.
--+kill
-- quit
--diff --git a/gdbserver_tests/nlcontrolc.stdoutB.exp b/gdbserver_tests/nlcontrolc.stdoutB.exp
--index e8a5ff8ba..2e8dc8498 100644
----- a/gdbserver_tests/nlcontrolc.stdoutB.exp
--+++ b/gdbserver_tests/nlcontrolc.stdoutB.exp
--@@ -1,18 +1,21 @@
-- Continuing.
-- Program received signal SIGTRAP, Trace/breakpoint trap.
--+do_burn () at sleepers.c:41
--+41	   for (i = 0; i < burn; i++) loopnr++;
--+ > > > > > >1
--+3
--+$1 = 0
--+$2 = 1000000
--+changed burning parameters to sleeping parameters
--+Continuing.
--+Program received signal SIGTRAP, Trace/breakpoint trap.
-- 0x........ in syscall ...
-- * 1 Thread .... (tid 1 VgTs_WaitSys)  0x........ in syscall ...
---$1 = 0
---$2 = 0
-- $3 = 0
---$4 = 0
---changed burning parameters
--+reset to sleeping parameters
-- Continuing.
-- Program received signal SIGTRAP, Trace/breakpoint trap.
---do_burn () at sleepers.c:41
---41	   for (i = 0; i < burn; i++) loopnr++;
---$5 = 0
---$6 = 0
---$7 = 0
---Continuing.
---Program exited normally.
--+0x........ in syscall ...
--+* 1 Thread .... (tid 1 VgTs_WaitSys)  0x........ in syscall ...
--+ > > > >4
--+Kill the program being debugged? (y or n) [answered Y; input not from terminal]
--diff --git a/gdbserver_tests/nlcontrolc.vgtest b/gdbserver_tests/nlcontrolc.vgtest
--index bb5308403..09edfcaba 100644
----- a/gdbserver_tests/nlcontrolc.vgtest
--+++ b/gdbserver_tests/nlcontrolc.vgtest
--@@ -4,16 +4,16 @@
-- #          and modify some variables
-- #   the user can control-c an process with all threads in Running/Yielding
-- #          and modify some variables
---# sleepers is started with argument so that it will compute during ages.
---# The variable modifications means it will exit in a reasonable time.
---# This test is disabled on Solaris because modifying select/poll/ppoll timeout
---# has no effect if a thread is already blocked in that syscall.
--+# sleepers is started so that it burns CPU.
--+# We then interrupt the process.
--+# We modify variables so that instead of burning cpu, sleepers blocks
--+# all threads in a select syscall.
-- prog: sleepers
---args: 1000000000 1000000000 1000000000 BSBSBSBS 1
--+args: 1000000000 0 100000 BSBSBSBS 1
-- vgopts: --tool=none --vgdb=yes --vgdb-error=0 --vgdb-prefix=./vgdb-prefix-nlcontrolc
-- stderr_filter: filter_stderr
-- # Bug 338633 nlcontrol hangs on arm64 currently.
---prereq: test -e gdb -a -f vgdb.invoker && ! ../tests/arch_test arm64 && ! ../tests/os_test solaris
--+prereq: test -e gdb -a -f vgdb.invoker && ! ../tests/os_test solaris
-- progB: gdb
-- argsB: --quiet -l 60 --nx ./sleepers
-- stdinB: nlcontrolc.stdinB.gdb
---- 
--2.29.2
--
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
-deleted file mode 100644
-index 37f6ea667d..0000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-drd-Port-to-Fedora-33.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 15330adf7c2471fbaa6a0818db07078d81dbff97 Mon Sep 17 00:00:00 2001
--From: Bart Van Assche <bvanassche@acm.org>
--Date: Sat, 19 Sep 2020 08:08:59 -0700
--Subject: [PATCH] drd: Port to Fedora 33
--
--Apparently on Fedora 33 the POSIX thread functions exist in both libc and
--libpthread. Hence this patch that intercepts the pthread functions in
--libc. See also https://bugs.kde.org/show_bug.cgi?id=426144 .
--
--Signed-off-by: Bart Van Assche <bvanassche@acm.org>
--
--This patch was imported from the valgrind sourceware server
--(https://sourceware.org/git/?p=valgrind.git;a=commit;h=15330adf7c2471fbaa6a0818db07078d81dbff97)
--It was modified to remove the changes to the valgrind NEWS file,
--as these are difficult to maintain and don't impact the valgrind 
--code itself.
--
--Upstream-Status: Backport
--
--Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
-----
-- drd/drd_pthread_intercepts.c | 9 +++++++++
-- 1 file changed, 10 insertions(+)
--
--diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
--index 58c45aaec..c2882e5ab 100644
----- a/drd/drd_pthread_intercepts.c
--+++ b/drd/drd_pthread_intercepts.c
--@@ -174,7 +174,16 @@ static int never_true;
--    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
--    { return implf argl; }
-- #else
--+/*
--+ * On Linux, intercept both the libc and the libpthread functions. At
--+ * least glibc 2.32.9000 (Fedora 34) has an implementation of all pthread
--+ * functions in both libc and libpthread. Older glibc versions only have an
--+ * implementation of the pthread functions in libpthread.
--+ */
-- #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
--+   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
--+   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
--+   { return implf argl; }                                               \
--    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
--    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
--    { return implf argl; }
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-drd-musl-fix.patch b/meta/recipes-devtools/valgrind/valgrind/0001-drd-musl-fix.patch
-index e96bf3c611..a3268714b8 100644
---- a/meta/recipes-devtools/valgrind/valgrind/0001-drd-musl-fix.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-drd-musl-fix.patch
-@@ -1,13 +1,5 @@
--The changes in 0001-drd-Port-to-Fedora-33.patch break builds on musl. These
--need a __GLIBC__ guard to ensure musl builds continue to work.
--
--Upstream-Status: Pending
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: valgrind-3.16.1/drd/drd_pthread_intercepts.c
--===================================================================
----- valgrind-3.16.1.orig/drd/drd_pthread_intercepts.c
--+++ valgrind-3.16.1/drd/drd_pthread_intercepts.c
-+--- a/drd/drd_pthread_intercepts.c
-++++ b/drd/drd_pthread_intercepts.c
- @@ -180,6 +180,7 @@ static int never_true;
-   * functions in both libc and libpthread. Older glibc versions only have an
-   * implementation of the pthread functions in libpthread.
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-index d641998d72..e421ac6c80 100644
---- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-@@ -19,7 +19,7 @@ index 6e5a797b9..0ede1ab18 100644
- @@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
-  
-  
-- FILE DESCRIPTORS: 6 open at exit.
-+ FILE DESCRIPTORS: 6 open (3 std) at exit.
- -Open file descriptor ...: /tmp/data2
- +Open file descriptor ...: ...
-     ...
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-patch-drd_pthread_intercepts.c-for-musl.patch b/meta/recipes-devtools/valgrind/valgrind/0001-patch-drd_pthread_intercepts.c-for-musl.patch
++ 	end = path;
++ 	*end = '\0';
++@@ -59,6 +60,10 @@ int fdt_find_regions(const void *fdt, char * const inc[], int inc_count,
++ 		tag = fdt_next_tag(fdt, offset, &nextoffset);
++ 		stop_at = nextoffset;
++ 
+++		/* If we see two root nodes, something is wrong */
+++		if (expect_end && tag != FDT_END)
+++			return -FDT_ERR_BADLAYOUT;
+++
++ 		switch (tag) {
++ 		case FDT_PROP:
++ 			include = want >= 2;
++@@ -81,6 +86,10 @@ int fdt_find_regions(const void *fdt, char * const inc[], int inc_count,
++ 			if (depth == FDT_MAX_DEPTH)
++ 				return -FDT_ERR_BADSTRUCTURE;
++ 			name = fdt_get_name(fdt, offset, &len);
+++
+++			/* The root node must have an empty name */
+++			if (!depth && *name)
+++				return -FDT_ERR_BADLAYOUT;
++ 			if (end - path + 2 + len >= path_len)
++ 				return -FDT_ERR_NOSPACE;
++ 			if (end != path + 1)
++@@ -108,6 +117,8 @@ int fdt_find_regions(const void *fdt, char * const inc[], int inc_count,
++ 			while (end > path && *--end != '/')
++ 				;
++ 			*end = '\0';
+++			if (depth == -1)
+++				expect_end = true;
++ 			break;
++ 
++ 		case FDT_END:
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27097-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-2.patch
 new file mode 100644
-index 0000000000..8af1be8ead
+index 0000000000..b13c44e787
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-patch-drd_pthread_intercepts.c-for-musl.patch
-@@ -0,0 +1,39 @@
-+From db26c19477894c9473959a2e292c77fd5b5edeb4 Mon Sep 17 00:00:00 2001
-+From: Yi Fan Yu <yifan.yu@windriver.com>
-+Date: Fri, 19 Mar 2021 14:11:02 -0700
-+Subject: [PATCH] patch drd_pthread_intercepts.c for musl
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-2.patch
+@@ -0,0 +1,419 @@
++From c5819701a3de61e2ba2ef7ad0b616565b32305e5 Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:09 -0700
++Subject: [PATCH] image: Adjust the workings of fit_check_format()
 +
-+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
++At present this function does not accept a size for the FIT. This means
++that it must be read from the FIT itself, introducing potential security
++risk. Update the function to include a size parameter, which can be
++invalid, in which case fit_check_format() calculates it.
++
++For now no callers pass the size, but this can be updated later.
++
++Also adjust the return value to an error code so that all the different
++types of problems can be distinguished by the user.
++
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
++
++CVE: CVE-2021-27097 CVE-2021-27138
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/c5819701a3de61e2ba2ef7ad0b616565b32305e5]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
 +---
-+ drd/drd_pthread_intercepts.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ arch/arm/cpu/armv8/sec_firmware.c  |  2 +-
++ cmd/bootm.c                        |  6 ++---
++ cmd/disk.c                         |  2 +-
++ cmd/fpga.c                         |  2 +-
++ cmd/nand.c                         |  2 +-
++ cmd/source.c                       |  2 +-
++ cmd/ximg.c                         |  2 +-
++ common/image-fdt.c                 |  2 +-
++ common/image-fit.c                 | 46 +++++++++++++++++---------------------
++ common/splash_source.c             |  6 ++---
++ common/update.c                    |  4 ++--
++ drivers/fpga/socfpga_arria10.c     |  6 ++---
++ drivers/net/fsl-mc/mc.c            |  2 +-
++ drivers/net/pfe_eth/pfe_firmware.c |  2 +-
++ include/image.h                    | 21 ++++++++++++++++-
++ tools/fit_common.c                 |  3 ++-
++ tools/fit_image.c                  |  2 +-
++ tools/mkimage.h                    |  2 ++
++ 18 files changed, 65 insertions(+), 49 deletions(-)
 +
-+diff --git a/drd/drd_pthread_intercepts.c b/drd/drd_pthread_intercepts.c
-+index 28c0de78b..82c612a7e 100644
-+--- a/drd/drd_pthread_intercepts.c
-++++ b/drd/drd_pthread_intercepts.c
-+@@ -169,6 +169,7 @@ static int never_true;
-+       return pth_func_result;						\
-+    }
-+ #elif defined(VG_WRAP_THREAD_FUNCTION_LIBC_ONLY)
-++#ifdef __GLIBC__
-+ #define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl;           \
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBC_SONAME,zf) argl_decl            \
-+@@ -182,6 +183,13 @@ static int never_true;
-+    ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
-+    { return implf argl; }
-+ #else
-++#define PTH_FUNC(ret_ty, zf, implf, argl_decl, argl)                    \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl;     \
-++   ret_ty VG_WRAP_FUNCTION_ZZ(VG_Z_LIBPTHREAD_SONAME,zf) argl_decl      \
-++   { return implf argl; }
-++#endif
-++#define 
-++#else
-+ #  error "Unknown platform/thread wrapping"
++diff --git a/arch/arm/cpu/armv8/sec_firmware.c b/arch/arm/cpu/armv8/sec_firmware.c
++index bfc0fac3ef..0561f5efd1 100644
++--- a/arch/arm/cpu/armv8/sec_firmware.c
+++++ b/arch/arm/cpu/armv8/sec_firmware.c
++@@ -316,7 +316,7 @@ __weak bool sec_firmware_is_valid(const void *sec_firmware_img)
++ 		return false;
++ 	}
++ 
++-	if (!fit_check_format(sec_firmware_img)) {
+++	if (fit_check_format(sec_firmware_img, IMAGE_SIZE_INVAL)) {
++ 		printf("SEC Firmware: Bad firmware image (bad FIT header)\n");
++ 		return false;
++ 	}
++diff --git a/cmd/bootm.c b/cmd/bootm.c
++index e6b0e04413..a0f823f968 100644
++--- a/cmd/bootm.c
+++++ b/cmd/bootm.c
++@@ -291,7 +291,7 @@ static int image_info(ulong addr)
++ 	case IMAGE_FORMAT_FIT:
++ 		puts("   FIT image found\n");
++ 
++-		if (!fit_check_format(hdr)) {
+++		if (fit_check_format(hdr, IMAGE_SIZE_INVAL)) {
++ 			puts("Bad FIT image format!\n");
++ 			unmap_sysmem(hdr);
++ 			return 1;
++@@ -368,7 +368,7 @@ static int do_imls_nor(void)
 + #endif
++ #if defined(CONFIG_FIT)
++ 			case IMAGE_FORMAT_FIT:
++-				if (!fit_check_format(hdr))
+++				if (fit_check_format(hdr, IMAGE_SIZE_INVAL))
++ 					goto next_sector;
 + 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-index b431d3356e..db6867f625 100644
---- a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
-@@ -1,4 +1,4 @@
--From 67e7a690107efb16d6d5aebfe420b64a552accdf Mon Sep 17 00:00:00 2001
-+From d85cc45e0ddeda68adf594dead715964cb32d0e7 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 31 Aug 2010 22:51:58 +0800
- Subject: [PATCH] valgrind: fix perl scripts
-@@ -22,10 +22,11 @@ Signed-off-by: Maxin B. John <maxin.john@intel.com>
-  cachegrind/cg_diff.in     | 2 +-
-  massif/ms_print.in        | 2 +-
-  perf/vg_perf.in           | 2 +-
-- 4 files changed, 4 insertions(+), 4 deletions(-)
-+ tests/vg_regtest.in       | 2 +-
-+ 5 files changed, 5 insertions(+), 5 deletions(-)
- 
- diff --git a/cachegrind/cg_annotate.in b/cachegrind/cg_annotate.in
--index 69365e8..978265d 100644
-+index fea114b..5e814fd 100644
- --- a/cachegrind/cg_annotate.in
- +++ b/cachegrind/cg_annotate.in
- @@ -1,4 +1,4 @@
-@@ -35,7 +36,7 @@ index 69365e8..978265d 100644
-  ##--------------------------------------------------------------------##
-  ##--- Cachegrind's annotator.                       cg_annotate.in ---##
- diff --git a/cachegrind/cg_diff.in b/cachegrind/cg_diff.in
--index 395460b..05873cc 100755
-+index 9d9258e..d0f0ec7 100755
- --- a/cachegrind/cg_diff.in
- +++ b/cachegrind/cg_diff.in
- @@ -1,4 +1,4 @@
-@@ -45,7 +46,7 @@ index 395460b..05873cc 100755
-  ##--------------------------------------------------------------------##
-  ##--- Cachegrind's differencer.                         cg_diff.in ---##
- diff --git a/massif/ms_print.in b/massif/ms_print.in
--index e6fae89..3b85b40 100755
-+index a206ce4..df1bc31 100755
- --- a/massif/ms_print.in
- +++ b/massif/ms_print.in
- @@ -1,4 +1,4 @@
-@@ -55,7 +56,7 @@ index e6fae89..3b85b40 100755
-  ##--------------------------------------------------------------------##
-  ##--- Massif's results printer                         ms_print.in ---##
- diff --git a/perf/vg_perf.in b/perf/vg_perf.in
--index 7a80cb0..28f6156 100644
-+index 90ee1d2..c585096 100644
- --- a/perf/vg_perf.in
- +++ b/perf/vg_perf.in
- @@ -1,4 +1,4 @@
-@@ -65,7 +66,7 @@ index 7a80cb0..28f6156 100644
-  ##--- Valgrind performance testing script                  vg_perf ---##
-  ##--------------------------------------------------------------------##
- diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
--index cb05b52..032e947 100755
-+index 0fe6341..1b45eb7 100755
- --- a/tests/vg_regtest.in
- +++ b/tests/vg_regtest.in
- @@ -1,4 +1,4 @@
-@@ -74,5 +75,6 @@ index cb05b52..032e947 100755
-  ##--------------------------------------------------------------------##
-  ##--- Valgrind regression testing script                vg_regtest ---##
-  ##--------------------------------------------------------------------##
-----
--2.4.0
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind/musl.supp b/meta/recipes-devtools/valgrind/valgrind/musl.supp
++ 				printf("FIT Image at %08lX:\n", (ulong)hdr);
++@@ -448,7 +448,7 @@ static int nand_imls_fitimage(struct mtd_info *mtd, int nand_dev, loff_t off,
++ 		return ret;
++ 	}
++ 
++-	if (!fit_check_format(imgdata)) {
+++	if (fit_check_format(imgdata, IMAGE_SIZE_INVAL)) {
++ 		free(imgdata);
++ 		return 0;
++ 	}
++diff --git a/cmd/disk.c b/cmd/disk.c
++index 8060e753eb..3195db9127 100644
++--- a/cmd/disk.c
+++++ b/cmd/disk.c
++@@ -114,7 +114,7 @@ int common_diskboot(struct cmd_tbl *cmdtp, const char *intf, int argc,
++ 	/* This cannot be done earlier,
++ 	 * we need complete FIT image in RAM first */
++ 	if (genimg_get_format((void *) addr) == IMAGE_FORMAT_FIT) {
++-		if (!fit_check_format(fit_hdr)) {
+++		if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 			bootstage_error(BOOTSTAGE_ID_IDE_FIT_READ);
++ 			puts("** Bad FIT image format\n");
++ 			return 1;
++diff --git a/cmd/fpga.c b/cmd/fpga.c
++index 8ae1c936fb..51410a8e42 100644
++--- a/cmd/fpga.c
+++++ b/cmd/fpga.c
++@@ -330,7 +330,7 @@ static int do_fpga_loadmk(struct cmd_tbl *cmdtp, int flag, int argc,
++ 			return CMD_RET_FAILURE;
++ 		}
++ 
++-		if (!fit_check_format(fit_hdr)) {
+++		if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 			puts("Bad FIT image format\n");
++ 			return CMD_RET_FAILURE;
++ 		}
++diff --git a/cmd/nand.c b/cmd/nand.c
++index 92d039af8f..97e117a979 100644
++--- a/cmd/nand.c
+++++ b/cmd/nand.c
++@@ -917,7 +917,7 @@ static int nand_load_image(struct cmd_tbl *cmdtp, struct mtd_info *mtd,
++ #if defined(CONFIG_FIT)
++ 	/* This cannot be done earlier, we need complete FIT image in RAM first */
++ 	if (genimg_get_format ((void *)addr) == IMAGE_FORMAT_FIT) {
++-		if (!fit_check_format (fit_hdr)) {
+++		if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 			bootstage_error(BOOTSTAGE_ID_NAND_FIT_READ);
++ 			puts ("** Bad FIT image format\n");
++ 			return 1;
++diff --git a/cmd/source.c b/cmd/source.c
++index b6c709a3d2..71f71528ad 100644
++--- a/cmd/source.c
+++++ b/cmd/source.c
++@@ -107,7 +107,7 @@ int image_source_script(ulong addr, const char *fit_uname)
++ #if defined(CONFIG_FIT)
++ 	case IMAGE_FORMAT_FIT:
++ 		fit_hdr = buf;
++-		if (!fit_check_format (fit_hdr)) {
+++		if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 			puts ("Bad FIT image format\n");
++ 			return 1;
++ 		}
++diff --git a/cmd/ximg.c b/cmd/ximg.c
++index 159ba51648..ef738ebfa2 100644
++--- a/cmd/ximg.c
+++++ b/cmd/ximg.c
++@@ -136,7 +136,7 @@ do_imgextract(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
++ 			"at %08lx ...\n", uname, addr);
++ 
++ 		fit_hdr = (const void *)addr;
++-		if (!fit_check_format(fit_hdr)) {
+++		if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 			puts("Bad FIT image format\n");
++ 			return 1;
++ 		}
++diff --git a/common/image-fdt.c b/common/image-fdt.c
++index 327a8c4c39..4105259212 100644
++--- a/common/image-fdt.c
+++++ b/common/image-fdt.c
++@@ -399,7 +399,7 @@ int boot_get_fdt(int flag, int argc, char *const argv[], uint8_t arch,
++ 			 */
++ #if CONFIG_IS_ENABLED(FIT)
++ 			/* check FDT blob vs FIT blob */
++-			if (fit_check_format(buf)) {
+++			if (!fit_check_format(buf, IMAGE_SIZE_INVAL)) {
++ 				ulong load, len;
++ 
++ 				fdt_noffset = boot_get_fdt_fit(images,
++diff --git a/common/image-fit.c b/common/image-fit.c
++index 9637d747fb..402f08fc9d 100644
++--- a/common/image-fit.c
+++++ b/common/image-fit.c
++@@ -8,6 +8,8 @@
++  * Wolfgang Denk, DENX Software Engineering, wd@denx.de.
++  */
++ 
+++#define LOG_CATEGORY LOGC_BOOT
+++
++ #ifdef USE_HOSTCC
++ #include "mkimage.h"
++ #include <time.h>
++@@ -1550,49 +1552,41 @@ int fit_image_check_comp(const void *fit, int noffset, uint8_t comp)
++ 	return (comp == image_comp);
++ }
++ 
++-/**
++- * fit_check_format - sanity check FIT image format
++- * @fit: pointer to the FIT format image header
++- *
++- * fit_check_format() runs a basic sanity FIT image verification.
++- * Routine checks for mandatory properties, nodes, etc.
++- *
++- * returns:
++- *     1, on success
++- *     0, on failure
++- */
++-int fit_check_format(const void *fit)
+++int fit_check_format(const void *fit, ulong size)
++ {
+++	int ret;
+++
++ 	/* A FIT image must be a valid FDT */
++-	if (fdt_check_header(fit)) {
++-		debug("Wrong FIT format: not a flattened device tree\n");
++-		return 0;
+++	ret = fdt_check_header(fit);
+++	if (ret) {
+++		log_debug("Wrong FIT format: not a flattened device tree (err=%d)\n",
+++			  ret);
+++		return -ENOEXEC;
++ 	}
++ 
++ 	/* mandatory / node 'description' property */
++-	if (fdt_getprop(fit, 0, FIT_DESC_PROP, NULL) == NULL) {
++-		debug("Wrong FIT format: no description\n");
++-		return 0;
+++	if (!fdt_getprop(fit, 0, FIT_DESC_PROP, NULL)) {
+++		log_debug("Wrong FIT format: no description\n");
+++		return -ENOMSG;
++ 	}
++ 
++ 	if (IMAGE_ENABLE_TIMESTAMP) {
++ 		/* mandatory / node 'timestamp' property */
++-		if (fdt_getprop(fit, 0, FIT_TIMESTAMP_PROP, NULL) == NULL) {
++-			debug("Wrong FIT format: no timestamp\n");
++-			return 0;
+++		if (!fdt_getprop(fit, 0, FIT_TIMESTAMP_PROP, NULL)) {
+++			log_debug("Wrong FIT format: no timestamp\n");
+++			return -ENODATA;
++ 		}
++ 	}
++ 
++ 	/* mandatory subimages parent '/images' node */
++ 	if (fdt_path_offset(fit, FIT_IMAGES_PATH) < 0) {
++-		debug("Wrong FIT format: no images parent node\n");
++-		return 0;
+++		log_debug("Wrong FIT format: no images parent node\n");
+++		return -ENOENT;
++ 	}
++ 
++-	return 1;
+++	return 0;
++ }
++ 
++-
++ /**
++  * fit_conf_find_compat
++  * @fit: pointer to the FIT format image header
++@@ -1929,7 +1923,7 @@ int fit_image_load(bootm_headers_t *images, ulong addr,
++ 	printf("## Loading %s from FIT Image at %08lx ...\n", prop_name, addr);
++ 
++ 	bootstage_mark(bootstage_id + BOOTSTAGE_SUB_FORMAT);
++-	if (!fit_check_format(fit)) {
+++	if (fit_check_format(fit, IMAGE_SIZE_INVAL)) {
++ 		printf("Bad FIT %s image format!\n", prop_name);
++ 		bootstage_error(bootstage_id + BOOTSTAGE_SUB_FORMAT);
++ 		return -ENOEXEC;
++diff --git a/common/splash_source.c b/common/splash_source.c
++index f51ca5ddf3..bad9a7790a 100644
++--- a/common/splash_source.c
+++++ b/common/splash_source.c
++@@ -336,10 +336,10 @@ static int splash_load_fit(struct splash_location *location, u32 bmp_load_addr)
++ 	if (res < 0)
++ 		return res;
++ 
++-	res = fit_check_format(fit_header);
++-	if (!res) {
+++	res = fit_check_format(fit_header, IMAGE_SIZE_INVAL);
+++	if (res) {
++ 		debug("Could not find valid FIT image\n");
++-		return -EINVAL;
+++		return res;
++ 	}
++ 
++ 	/* Get the splash image node */
++diff --git a/common/update.c b/common/update.c
++index a5879cb52c..f0848954e5 100644
++--- a/common/update.c
+++++ b/common/update.c
++@@ -286,7 +286,7 @@ int update_tftp(ulong addr, char *interface, char *devstring)
++ got_update_file:
++ 	fit = map_sysmem(addr, 0);
++ 
++-	if (!fit_check_format((void *)fit)) {
+++	if (fit_check_format((void *)fit, IMAGE_SIZE_INVAL)) {
++ 		printf("Bad FIT format of the update file, aborting "
++ 							"auto-update\n");
++ 		return 1;
++@@ -363,7 +363,7 @@ int fit_update(const void *fit)
++ 	if (!fit)
++ 		return -EINVAL;
++ 
++-	if (!fit_check_format((void *)fit)) {
+++	if (fit_check_format((void *)fit, IMAGE_SIZE_INVAL)) {
++ 		printf("Bad FIT format of the update file, aborting auto-update\n");
++ 		return -EINVAL;
++ 	}
++diff --git a/drivers/fpga/socfpga_arria10.c b/drivers/fpga/socfpga_arria10.c
++index 44e1ac54c3..18f99676d2 100644
++--- a/drivers/fpga/socfpga_arria10.c
+++++ b/drivers/fpga/socfpga_arria10.c
++@@ -565,10 +565,10 @@ static int first_loading_rbf_to_buffer(struct udevice *dev,
++ 	if (ret < 0)
++ 		return ret;
++ 
++-	ret = fit_check_format(buffer_p);
++-	if (!ret) {
+++	ret = fit_check_format(buffer_p, IMAGE_SIZE_INVAL);
+++	if (ret) {
++ 		debug("FPGA: No valid FIT image was found.\n");
++-		return -EBADF;
+++		return ret;
++ 	}
++ 
++ 	confs_noffset = fdt_path_offset(buffer_p, FIT_CONFS_PATH);
++diff --git a/drivers/net/fsl-mc/mc.c b/drivers/net/fsl-mc/mc.c
++index 84db6be624..81265ee356 100644
++--- a/drivers/net/fsl-mc/mc.c
+++++ b/drivers/net/fsl-mc/mc.c
++@@ -141,7 +141,7 @@ int parse_mc_firmware_fit_image(u64 mc_fw_addr,
++ 		return -EINVAL;
++ 	}
++ 
++-	if (!fit_check_format(fit_hdr)) {
+++	if (fit_check_format(fit_hdr, IMAGE_SIZE_INVAL)) {
++ 		printf("fsl-mc: ERR: Bad firmware image (bad FIT header)\n");
++ 		return -EINVAL;
++ 	}
++diff --git a/drivers/net/pfe_eth/pfe_firmware.c b/drivers/net/pfe_eth/pfe_firmware.c
++index 41999e176d..eee70a2e73 100644
++--- a/drivers/net/pfe_eth/pfe_firmware.c
+++++ b/drivers/net/pfe_eth/pfe_firmware.c
++@@ -160,7 +160,7 @@ static int pfe_fit_check(void)
++ 		return ret;
++ 	}
++ 
++-	if (!fit_check_format(pfe_fit_addr)) {
+++	if (fit_check_format(pfe_fit_addr, IMAGE_SIZE_INVAL)) {
++ 		printf("PFE Firmware: Bad firmware image (bad FIT header)\n");
++ 		ret = -1;
++ 		return ret;
++diff --git a/include/image.h b/include/image.h
++index 41473dbb9c..8c152c5c5f 100644
++--- a/include/image.h
+++++ b/include/image.h
++@@ -134,6 +134,9 @@ extern ulong image_load_addr;		/* Default Load Address */
++ extern ulong image_save_addr;		/* Default Save Address */
++ extern ulong image_save_size;		/* Default Save Size */
++ 
+++/* An invalid size, meaning that the image size is not known */
+++#define IMAGE_SIZE_INVAL	(-1UL)
+++
++ enum ih_category {
++ 	IH_ARCH,
++ 	IH_COMP,
++@@ -1141,7 +1144,23 @@ int fit_image_check_os(const void *fit, int noffset, uint8_t os);
++ int fit_image_check_arch(const void *fit, int noffset, uint8_t arch);
++ int fit_image_check_type(const void *fit, int noffset, uint8_t type);
++ int fit_image_check_comp(const void *fit, int noffset, uint8_t comp);
++-int fit_check_format(const void *fit);
+++
+++/**
+++ * fit_check_format() - Check that the FIT is valid
+++ *
+++ * This performs various checks on the FIT to make sure it is suitable for
+++ * use, looking for mandatory properties, nodes, etc.
+++ *
+++ * If FIT_FULL_CHECK is enabled, it also runs it through libfdt to make
+++ * sure that there are no strange tags or broken nodes in the FIT.
+++ *
+++ * @fit: pointer to the FIT format image header
+++ * @return 0 if OK, -ENOEXEC if not an FDT file, -EINVAL if the full FDT check
+++ *	failed (e.g. due to bad structure), -ENOMSG if the description is
+++ *	missing, -ENODATA if the timestamp is missing, -ENOENT if the /images
+++ *	path is missing
+++ */
+++int fit_check_format(const void *fit, ulong size);
++ 
++ int fit_conf_find_compat(const void *fit, const void *fdt);
++ 
++diff --git a/tools/fit_common.c b/tools/fit_common.c
++index cdf987d3c1..52b63296f8 100644
++--- a/tools/fit_common.c
+++++ b/tools/fit_common.c
++@@ -26,7 +26,8 @@
++ int fit_verify_header(unsigned char *ptr, int image_size,
++ 			struct image_tool_params *params)
++ {
++-	if (fdt_check_header(ptr) != EXIT_SUCCESS || !fit_check_format(ptr))
+++	if (fdt_check_header(ptr) != EXIT_SUCCESS ||
+++	    fit_check_format(ptr, IMAGE_SIZE_INVAL))
++ 		return EXIT_FAILURE;
++ 
++ 	return EXIT_SUCCESS;
++diff --git a/tools/fit_image.c b/tools/fit_image.c
++index 06faeda7c2..d440d143c6 100644
++--- a/tools/fit_image.c
+++++ b/tools/fit_image.c
++@@ -883,7 +883,7 @@ static int fit_extract_contents(void *ptr, struct image_tool_params *params)
++ 	/* Indent string is defined in header image.h */
++ 	p = IMAGE_INDENT_STRING;
++ 
++-	if (!fit_check_format(fit)) {
+++	if (fit_check_format(fit, IMAGE_SIZE_INVAL)) {
++ 		printf("Bad FIT image format\n");
++ 		return -1;
++ 	}
++diff --git a/tools/mkimage.h b/tools/mkimage.h
++index 5b096a545b..0d3148444c 100644
++--- a/tools/mkimage.h
+++++ b/tools/mkimage.h
++@@ -29,6 +29,8 @@
++ #define debug(fmt,args...)
++ #endif /* MKIMAGE_DEBUG */
++ 
+++#define log_debug(fmt, args...)	debug(fmt, ##args)
+++
++ static inline void *map_sysmem(ulong paddr, unsigned long len)
++ {
++ 	return (void *)(uintptr_t)paddr;
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27097-3.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-3.patch
 new file mode 100644
-index 0000000000..864172a242
+index 0000000000..86f7e8ce55
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/musl.supp
-@@ -0,0 +1,46 @@
-+# Suppressions for musl libc
-+# See: https://www.openwall.com/lists/musl/2017/06/15/4
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-3.patch
+@@ -0,0 +1,105 @@
++From 6f3c2d8aa5e6cbd80b5e869bbbddecb66c329d01 Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:10 -0700
++Subject: [PATCH] image: Add an option to do a full check of the FIT
 +
-+{
-+   musl-dynlink-false-positive1
-+   Memcheck:Leak
-+   fun:calloc
-+   fun:load_direct_deps
-+   fun:load_deps
-+   fun:load_deps
-+   fun:__dls3
-+   fun:__dls2b
-+   fun:__dls2
-+}
++Some strange modifications of the FIT can introduce security risks. Add an
++option to check it thoroughly, using libfdt's fdt_check_full() function.
 +
-+{
-+   musl-dynlink-false-positive2
-+   Memcheck:Leak
-+   fun:calloc
-+   fun:load_direct_deps
-+   fun:load_deps
-+   fun:load_deps
-+   fun:__dls3
-+   fun:__dls2
-+}
++Enable this by default if signature verification is enabled.
 +
-+{
-+   musl-dynlink-false-positive3
-+   Memcheck:Leak
-+   fun:calloc
-+   fun:load_library
-+   fun:load_preload
-+   fun:__dls3
-+   fun:__dls2b
-+   fun:__dls2
-+}
++CVE-2021-27097
 +
-+{
-+   musl-dynlink-false-positive4
-+   Memcheck:Leak
-+   fun:calloc
-+   fun:load_library
-+   fun:load_preload
-+   fun:__dls3
-+   fun:__dls2
-+}
-diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-index e8a1a668fc..3e0205fe6e 100755
---- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
-+++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-@@ -7,6 +7,7 @@
- # Randy MacLeod <Randy.MacLeod@windriver.com>
- ###############################################################
- VALGRIND_LIB=@libdir@/valgrind
-+VALGRIND_LIBEXECDIR=@libexecdir@/valgrind
- VALGRIND_BIN=@bindir@/valgrind
- 
- LOG="${VALGRIND_LIB}/ptest/valgrind_ptest_$(date +%Y%m%d-%H%M%S).log"
-@@ -33,7 +34,7 @@ fi
- 
- cd ${VALGRIND_LIB}/ptest && ./tests/vg_regtest \
-     --valgrind=${VALGRIND_BIN} \
--    --valgrind-lib=${VALGRIND_LIB} \
-+    --valgrind-lib=${VALGRIND_LIBEXECDIR} \
-     --yocto-ptest \
-     gdbserver_tests ${TOOLS} ${EXP_TOOLS} \
-     2>&1|tee ${LOG}  
-diff --git a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
-index eea671da0a..bde1241dc7 100644
---- a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
-@@ -1,3 +1,8 @@
-+From 8154d38bac5cdb3675cfdaf562ab9da01988b263 Mon Sep 17 00:00:00 2001
-+From: Yi Fan Yu <yifan.yu@windriver.com>
-+Date: Wed, 17 Mar 2021 12:16:31 -0400
-+Subject: [PATCH 19/20] remove s390x_vec_op_t
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
 +
- s390x_vec_op_t is not needed anywhere, only elements of enum are accessed
- removing it ensures that valgrind can be built with -fno-common option
- 
-@@ -6,14 +11,25 @@ ld: ../../VEX/libvex-amd64-linux.a(libvex_amd64_linux_a-guest_s390_helpers.o):/u
- 
- Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
++CVE: CVE-2021-27097
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/6f3c2d8aa5e6cbd80b5e869bbbddecb66c329d01]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
 +
-+Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
 +---
-+ VEX/priv/guest_s390_defs.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ common/Kconfig.boot | 20 ++++++++++++++++++++
++ common/image-fit.c  | 16 ++++++++++++++++
++ 2 files changed, 36 insertions(+)
 +
-+diff --git a/VEX/priv/guest_s390_defs.h b/VEX/priv/guest_s390_defs.h
-+index 9054290..dab8002 100644
- --- a/VEX/priv/guest_s390_defs.h
- +++ b/VEX/priv/guest_s390_defs.h
--@@ -286,7 +286,7 @@ enum {
--    S390_VEC_OP_VFCHE = 18,
--    S390_VEC_OP_VFTCI = 19,
--    S390_VEC_OP_LAST = 20 // supposed to be the last element in enum
-+@@ -284,7 +284,7 @@ typedef enum {
-+    S390_VEC_OP_VBPERM,
-+    S390_VEC_OP_VMSL,
-+    S390_VEC_OP_LAST             // supposed to be the last element in enum
- -} s390x_vec_op_t;
- +};
-  
-  /* Arguments of s390x_dirtyhelper_vec_op(...) which are packed into one
-     ULong variable.
-+-- 
-+2.29.2
++diff --git a/common/Kconfig.boot b/common/Kconfig.boot
++index 5eaabdfc27..7532e55edb 100644
++--- a/common/Kconfig.boot
+++++ b/common/Kconfig.boot
++@@ -63,6 +63,15 @@ config FIT_ENABLE_SHA512_SUPPORT
++ 	  SHA512 checksum is a 512-bit (64-byte) hash value used to check that
++ 	  the image contents have not been corrupted.
++ 
+++config FIT_FULL_CHECK
+++	bool "Do a full check of the FIT before using it"
+++	default y
+++	help
+++	  Enable this do a full check of the FIT to make sure it is valid. This
+++	  helps to protect against carefully crafted FITs which take advantage
+++	  of bugs or omissions in the code. This includes a bad structure,
+++	  multiple root nodes and the like.
+++
++ config FIT_SIGNATURE
++ 	bool "Enable signature verification of FIT uImages"
++ 	depends on DM
++@@ -70,6 +79,7 @@ config FIT_SIGNATURE
++ 	select RSA
++ 	select RSA_VERIFY
++ 	select IMAGE_SIGN_INFO
+++	select FIT_FULL_CHECK
++ 	help
++ 	  This option enables signature verification of FIT uImages,
++ 	  using a hash signed and verified using RSA. If
++@@ -159,6 +169,15 @@ config SPL_FIT_PRINT
++ 	help
++ 	  Support printing the content of the fitImage in a verbose manner in SPL.
++ 
+++config SPL_FIT_FULL_CHECK
+++	bool "Do a full check of the FIT before using it"
+++	help
+++	  Enable this do a full check of the FIT to make sure it is valid. This
+++	  helps to protect against carefully crafted FITs which take advantage
+++	  of bugs or omissions in the code. This includes a bad structure,
+++	  multiple root nodes and the like.
+++
+++
++ config SPL_FIT_SIGNATURE
++ 	bool "Enable signature verification of FIT firmware within SPL"
++ 	depends on SPL_DM
++@@ -168,6 +187,7 @@ config SPL_FIT_SIGNATURE
++ 	select SPL_RSA
++ 	select SPL_RSA_VERIFY
++ 	select SPL_IMAGE_SIGN_INFO
+++	select SPL_FIT_FULL_CHECK
++ 
++ config SPL_LOAD_FIT
++ 	bool "Enable SPL loading U-Boot as a FIT (basic fitImage features)"
++diff --git a/common/image-fit.c b/common/image-fit.c
++index f6c0428a96..bcf395f6a1 100644
++--- a/common/image-fit.c
+++++ b/common/image-fit.c
++@@ -1580,6 +1580,22 @@ int fit_check_format(const void *fit, ulong size)
++ 		return -ENOEXEC;
++ 	}
++ 
+++	if (CONFIG_IS_ENABLED(FIT_FULL_CHECK)) {
+++		/*
+++		 * If we are not given the size, make do wtih calculating it.
+++		 * This is not as secure, so we should consider a flag to
+++		 * control this.
+++		 */
+++		if (size == IMAGE_SIZE_INVAL)
+++			size = fdt_totalsize(fit);
+++		ret = fdt_check_full(fit, size);
+++
+++		if (ret) {
+++			log_debug("FIT check error %d\n", ret);
+++			return -EINVAL;
+++		}
+++	}
+++
++ 	/* mandatory / node 'description' property */
++ 	if (!fdt_getprop(fit, 0, FIT_DESC_PROP, NULL)) {
++ 		log_debug("Wrong FIT format: no description\n");
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27097-4.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-4.patch
+new file mode 100644
+index 0000000000..060cac1cf6
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27097-4.patch
+@@ -0,0 +1,73 @@
++From 124c255731c76a2b09587378b2bcce561bcd3f2d Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:11 -0700
++Subject: [PATCH] libfdt: Check for multiple/invalid root nodes
 +
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-index 9dbd9f74c4..1c1ca74262 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-@@ -12,7 +12,7 @@ DEPENDS = " \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'boost', '', d)} \
-         "
- 
--SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-+SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.RC2.tar.bz2 \
-            file://fixed-perl-path.patch \
-            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
-            file://run-ptest \
-@@ -42,13 +42,15 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://s390x_vec_op_t.patch \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
--           file://0001-drd-Port-to-Fedora-33.patch \
--           file://0001-drd-musl-fix.patch \
--           file://0001-helgrind-Intercept-libc-functions.patch \
--           file://0001-Fix-nlcontrolc.vgtest-hanging-on-newer-glibc-and-or-.patch \
-+           file://musl.supp;subdir=${S} \
-+           file://0001-Disable-drd-tests-swapcontext.vgtest.patch \
-            "
--SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
--SRC_URI[sha256sum] = "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
++It is possible to construct a devicetree blob with multiple root nodes.
++Update fdt_check_full() to check for this, along with a root node with an
++invalid name.
 +
-+S = "${WORKDIR}/valgrind-${PV}.RC2"
++CVE-2021-27097
 +
-+SRC_URI[sha256sum] = "3f27d2176ef9f316bca2ef89abb7cf9da2d99c69bcc4cd0fc86b9debbf55ede5"
-+SRC_URI[md5] = "5dcf7c42635e19b074714c53f3a57580"
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
 +
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
-@@ -100,6 +102,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
- # to -O2 but uses -O0 for some specific test apps etc. Passing our own flags
- # (via CFLAGS) means we interfere with that. Only pass DEBUG_FLAGS to it
- # which fixes build path issue in DWARF.
-+# this might be key to our issue
- SELECTED_OPTIMIZATION = "${DEBUG_FLAGS}"
- 
- do_configure_prepend () {
-@@ -134,7 +137,7 @@ RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
- 
- RDEPENDS_${PN}-ptest += " bash coreutils file \
-    gdb libgomp \
--   perl \
-+   perl perl-modules \
-    perl-module-file-basename perl-module-file-glob perl-module-getopt-long \
-    perl-module-overloading \
-    procps sed ${PN}-dbg ${PN}-src"
-@@ -223,6 +226,7 @@ do_install_ptest() {
- 
-     # handle multilib
-     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
-+    sed -i s:@libexecdir@:${libexecdir}:g ${D}${PTEST_PATH}/run-ptest
-     sed -i s:@bindir@:${bindir}:g ${D}${PTEST_PATH}/run-ptest
- 
-     # This test fails on the host as well, using both 3.15 and git master (as of Jan 24 2020)
-@@ -233,6 +237,9 @@ do_install_ptest() {
-     # via dwarfsrcfiles either, so it needs to be installed manually.
-     mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
-     install ${S}/none/tests/tls.c ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
++CVE: CVE-2021-27097
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/124c255731c76a2b09587378b2bcce561bcd3f2d]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
 +
-+    # workaround to pass gdbserver_tests/hgtls (make gdb find tls.c)
-+    install ${S}/none/tests/tls.c  ${D}${PTEST_PATH}/gdbserver_tests/tls.c
- }
++---
++ scripts/dtc/libfdt/fdt_ro.c | 17 +++++++++++++++++
++ test/py/tests/test_vboot.py |  3 ++-
++ 2 files changed, 19 insertions(+), 1 deletion(-)
++
++diff --git a/scripts/dtc/libfdt/fdt_ro.c b/scripts/dtc/libfdt/fdt_ro.c
++index d984bab036..efe7efe921 100644
++--- a/scripts/dtc/libfdt/fdt_ro.c
+++++ b/scripts/dtc/libfdt/fdt_ro.c
++@@ -867,6 +867,7 @@ int fdt_check_full(const void *fdt, size_t bufsize)
++ 	unsigned depth = 0;
++ 	const void *prop;
++ 	const char *propname;
+++	bool expect_end = false;
++ 
++ 	if (bufsize < FDT_V1_SIZE)
++ 		return -FDT_ERR_TRUNCATED;
++@@ -887,6 +888,10 @@ int fdt_check_full(const void *fdt, size_t bufsize)
++ 		if (nextoffset < 0)
++ 			return nextoffset;
++ 
+++		/* If we see two root nodes, something is wrong */
+++		if (expect_end && tag != FDT_END)
+++			return -FDT_ERR_BADLAYOUT;
+++
++ 		switch (tag) {
++ 		case FDT_NOP:
++ 			break;
++@@ -900,12 +905,24 @@ int fdt_check_full(const void *fdt, size_t bufsize)
++ 			depth++;
++ 			if (depth > INT_MAX)
++ 				return -FDT_ERR_BADSTRUCTURE;
+++
+++			/* The root node must have an empty name */
+++			if (depth == 1) {
+++				const char *name;
+++				int len;
+++
+++				name = fdt_get_name(fdt, offset, &len);
+++				if (*name || len)
+++					return -FDT_ERR_BADLAYOUT;
+++			}
++ 			break;
++ 
++ 		case FDT_END_NODE:
++ 			if (depth == 0)
++ 				return -FDT_ERR_BADSTRUCTURE;
++ 			depth--;
+++			if (depth == 0)
+++				expect_end = true;
++ 			break;
++ 
++ 		case FDT_PROP:
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27138-1.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27138-1.patch
+new file mode 100644
+index 0000000000..562f8151bb
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27138-1.patch
+@@ -0,0 +1,245 @@
++From 79af75f7776fc20b0d7eb6afe1e27c00fdb4b9b4 Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:06 -0700
++Subject: [PATCH] fit: Don't allow verification of images with @ nodes
++
++When searching for a node called 'fred', any unit address appended to the
++name is ignored by libfdt, meaning that 'fred' can match 'fred@1'. This
++means that we cannot be sure that the node originally intended is the one
++that is used.
++
++Disallow use of nodes with unit addresses.
++
++Update the forge test also, since it uses @ addresses.
++
++CVE-2021-27138
++
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
++
++CVE: CVE-2021-27138
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/79af75f7776fc20b0d7eb6afe1e27c00fdb4b9b4]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
++---
++ common/image-fit-sig.c       | 22 ++++++++++++++++++++--
++ common/image-fit.c           | 20 +++++++++++++++-----
++ test/py/tests/test_fit.py    | 24 ++++++++++++------------
++ test/py/tests/vboot_forge.py | 12 ++++++------
++ 4 files changed, 53 insertions(+), 25 deletions(-)
++
++diff --git a/common/image-fit-sig.c b/common/image-fit-sig.c
++index 897e04c7a3..34ebb8edfe 100644
++--- a/common/image-fit-sig.c
+++++ b/common/image-fit-sig.c
++@@ -149,6 +149,14 @@ static int fit_image_verify_sig(const void *fit, int image_noffset,
++ 	fdt_for_each_subnode(noffset, fit, image_noffset) {
++ 		const char *name = fit_get_name(fit, noffset, NULL);
++ 
+++		/*
+++		 * We don't support this since libfdt considers names with the
+++		 * name root but different @ suffix to be equal
+++		 */
+++		if (strchr(name, '@')) {
+++			err_msg = "Node name contains @";
+++			goto error;
+++		}
++ 		if (!strncmp(name, FIT_SIG_NODENAME,
++ 			     strlen(FIT_SIG_NODENAME))) {
++ 			ret = fit_image_check_sig(fit, noffset, data,
++@@ -398,9 +406,10 @@ error:
++ 	return -EPERM;
++ }
++ 
++-int fit_config_verify_required_sigs(const void *fit, int conf_noffset,
++-				    const void *sig_blob)
+++static int fit_config_verify_required_sigs(const void *fit, int conf_noffset,
+++					   const void *sig_blob)
++ {
+++	const char *name = fit_get_name(fit, conf_noffset, NULL);
++ 	int noffset;
++ 	int sig_node;
++ 	int verified = 0;
++@@ -408,6 +417,15 @@ int fit_config_verify_required_sigs(const void *fit, int conf_noffset,
++ 	bool reqd_policy_all = true;
++ 	const char *reqd_mode;
++ 
+++	/*
+++	 * We don't support this since libfdt considers names with the
+++	 * name root but different @ suffix to be equal
+++	 */
+++	if (strchr(name, '@')) {
+++		printf("Configuration node '%s' contains '@'\n", name);
+++		return -EPERM;
+++	}
+++
++ 	/* Work out what we need to verify */
++ 	sig_node = fdt_subnode_offset(sig_blob, 0, FIT_SIG_NODENAME);
++ 	if (sig_node < 0) {
++diff --git a/common/image-fit.c b/common/image-fit.c
++index adc3e551de..c3dc814115 100644
++--- a/common/image-fit.c
+++++ b/common/image-fit.c
++@@ -1369,21 +1369,31 @@ error:
++  */
++ int fit_image_verify(const void *fit, int image_noffset)
++ {
+++	const char *name = fit_get_name(fit, image_noffset, NULL);
++ 	const void	*data;
++ 	size_t		size;
++-	int		noffset = 0;
++ 	char		*err_msg = "";
++ 
+++	if (strchr(name, '@')) {
+++		/*
+++		 * We don't support this since libfdt considers names with the
+++		 * name root but different @ suffix to be equal
+++		 */
+++		err_msg = "Node name contains @";
+++		goto err;
+++	}
++ 	/* Get image data and data length */
++ 	if (fit_image_get_data_and_size(fit, image_noffset, &data, &size)) {
++ 		err_msg = "Can't get image data/size";
++-		printf("error!\n%s for '%s' hash node in '%s' image node\n",
++-		       err_msg, fit_get_name(fit, noffset, NULL),
++-		       fit_get_name(fit, image_noffset, NULL));
++-		return 0;
+++		goto err;
++ 	}
++ 
++ 	return fit_image_verify_with_data(fit, image_noffset, data, size);
+++
+++err:
+++	printf("error!\n%s in '%s' image node\n", err_msg,
+++	       fit_get_name(fit, image_noffset, NULL));
+++	return 0;
++ }
++ 
++ /**
++diff --git a/test/py/tests/test_fit.py b/test/py/tests/test_fit.py
++index 84b3f95850..6d5b43c3ba 100755
++--- a/test/py/tests/test_fit.py
+++++ b/test/py/tests/test_fit.py
++@@ -17,7 +17,7 @@ base_its = '''
++         #address-cells = <1>;
++ 
++         images {
++-                kernel@1 {
+++                kernel-1 {
++                         data = /incbin/("%(kernel)s");
++                         type = "kernel";
++                         arch = "sandbox";
++@@ -26,7 +26,7 @@ base_its = '''
++                         load = <0x40000>;
++                         entry = <0x8>;
++                 };
++-                kernel@2 {
+++                kernel-2 {
++                         data = /incbin/("%(loadables1)s");
++                         type = "kernel";
++                         arch = "sandbox";
++@@ -35,19 +35,19 @@ base_its = '''
++                         %(loadables1_load)s
++                         entry = <0x0>;
++                 };
++-                fdt@1 {
+++                fdt-1 {
++                         description = "snow";
++                         data = /incbin/("%(fdt)s");
++                         type = "flat_dt";
++                         arch = "sandbox";
++                         %(fdt_load)s
++                         compression = "%(compression)s";
++-                        signature@1 {
+++                        signature-1 {
++                                 algo = "sha1,rsa2048";
++                                 key-name-hint = "dev";
++                         };
++                 };
++-                ramdisk@1 {
+++                ramdisk-1 {
++                         description = "snow";
++                         data = /incbin/("%(ramdisk)s");
++                         type = "ramdisk";
++@@ -56,7 +56,7 @@ base_its = '''
++                         %(ramdisk_load)s
++                         compression = "%(compression)s";
++                 };
++-                ramdisk@2 {
+++                ramdisk-2 {
++                         description = "snow";
++                         data = /incbin/("%(loadables2)s");
++                         type = "ramdisk";
++@@ -67,10 +67,10 @@ base_its = '''
++                 };
++         };
++         configurations {
++-                default = "conf@1";
++-                conf@1 {
++-                        kernel = "kernel@1";
++-                        fdt = "fdt@1";
+++                default = "conf-1";
+++                conf-1 {
+++                        kernel = "kernel-1";
+++                        fdt = "fdt-1";
++                         %(ramdisk_config)s
++                         %(loadables_config)s
++                 };
++@@ -410,7 +410,7 @@ def test_fit(u_boot_console):
++ 
++         # Try a ramdisk
++         with cons.log.section('Kernel + FDT + Ramdisk load'):
++-            params['ramdisk_config'] = 'ramdisk = "ramdisk@1";'
+++            params['ramdisk_config'] = 'ramdisk = "ramdisk-1";'
++             params['ramdisk_load'] = 'load = <%#x>;' % params['ramdisk_addr']
++             fit = make_fit(mkimage, params)
++             cons.restart_uboot()
++@@ -419,7 +419,7 @@ def test_fit(u_boot_console):
++ 
++         # Configuration with some Loadables
++         with cons.log.section('Kernel + FDT + Ramdisk load + Loadables'):
++-            params['loadables_config'] = 'loadables = "kernel@2", "ramdisk@2";'
+++            params['loadables_config'] = 'loadables = "kernel-2", "ramdisk-2";'
++             params['loadables1_load'] = ('load = <%#x>;' %
++                                          params['loadables1_addr'])
++             params['loadables2_load'] = ('load = <%#x>;' %
++diff --git a/test/py/tests/vboot_forge.py b/test/py/tests/vboot_forge.py
++index 0fb7ef4024..b41105bd0e 100644
++--- a/test/py/tests/vboot_forge.py
+++++ b/test/py/tests/vboot_forge.py
++@@ -376,12 +376,12 @@ def manipulate(root, strblock):
++     """
++     Maliciously manipulates the structure to create a crafted FIT file
++     """
++-    # locate /images/kernel@1 (frankly, it just expects it to be the first one)
+++    # locate /images/kernel-1 (frankly, it just expects it to be the first one)
++     kernel_node = root[0][0]
++     # clone it to save time filling all the properties
++     fake_kernel = kernel_node.clone()
++     # rename the node
++-    fake_kernel.name = b'kernel@2'
+++    fake_kernel.name = b'kernel-2'
++     # get rid of signatures/hashes
++     fake_kernel.children = []
++     # NOTE: this simply replaces the first prop... either description or data
++@@ -391,13 +391,13 @@ def manipulate(root, strblock):
++     root[0].children.append(fake_kernel)
++ 
++     # modify the default configuration
++-    root[1].props[0].value = b'conf@2\x00'
+++    root[1].props[0].value = b'conf-2\x00'
++     # clone the first (only?) configuration
++     fake_conf = root[1][0].clone()
++     # rename and change kernel and fdt properties to select the crafted kernel
++-    fake_conf.name = b'conf@2'
++-    fake_conf.props[0].value = b'kernel@2\x00'
++-    fake_conf.props[1].value = b'fdt@1\x00'
+++    fake_conf.name = b'conf-2'
+++    fake_conf.props[0].value = b'kernel-2\x00'
+++    fake_conf.props[1].value = b'fdt-1\x00'
++     # insert the new configuration under /configurations
++     root[1].children.append(fake_conf)
++ 
+diff --git a/meta/recipes-bsp/u-boot/files/CVE-2021-27138-2.patch b/meta/recipes-bsp/u-boot/files/CVE-2021-27138-2.patch
+new file mode 100644
+index 0000000000..946196c378
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/CVE-2021-27138-2.patch
+@@ -0,0 +1,109 @@
++From 3f04db891a353f4b127ed57279279f851c6b4917 Mon Sep 17 00:00:00 2001
++From: Simon Glass <sjg@chromium.org>
++Date: Mon, 15 Feb 2021 17:08:12 -0700
++Subject: [PATCH] image: Check for unit addresses in FITs
++
++Using unit addresses in a FIT is a security risk. Add a check for this
++and disallow it.
++
++CVE-2021-27138
++
++Signed-off-by: Simon Glass <sjg@chromium.org>
++Reported-by: Bruce Monroe <bruce.monroe@intel.com>
++Reported-by: Arie Haenel <arie.haenel@intel.com>
++Reported-by: Julien Lenoir <julien.lenoir@intel.com>
++
++CVE: CVE-2021-27138
++Upstream-Status: Backport[https://github.com/u-boot/u-boot/commit/3f04db891a353f4b127ed57279279f851c6b4917]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
++---
++ common/image-fit.c          | 56 +++++++++++++++++++++++++++++++++++++++++----
++ test/py/tests/test_vboot.py |  9 ++++----
++ 2 files changed, 57 insertions(+), 8 deletions(-)
++
++diff --git a/common/image-fit.c b/common/image-fit.c
++index bcf395f6a1..28b3d2b191 100644
++--- a/common/image-fit.c
+++++ b/common/image-fit.c
++@@ -1568,6 +1568,34 @@ int fit_image_check_comp(const void *fit, int noffset, uint8_t comp)
++ 	return (comp == image_comp);
++ }
++ 
+++/**
+++ * fdt_check_no_at() - Check for nodes whose names contain '@'
+++ *
+++ * This checks the parent node and all subnodes recursively
+++ *
+++ * @fit: FIT to check
+++ * @parent: Parent node to check
+++ * @return 0 if OK, -EADDRNOTAVAIL is a node has a name containing '@'
+++ */
+++static int fdt_check_no_at(const void *fit, int parent)
+++{
+++	const char *name;
+++	int node;
+++	int ret;
+++
+++	name = fdt_get_name(fit, parent, NULL);
+++	if (!name || strchr(name, '@'))
+++		return -EADDRNOTAVAIL;
+++
+++	fdt_for_each_subnode(node, fit, parent) {
+++		ret = fdt_check_no_at(fit, node);
+++		if (ret)
+++			return ret;
+++	}
+++
+++	return 0;
+++}
+++
++ int fit_check_format(const void *fit, ulong size)
++ {
++ 	int ret;
++@@ -1589,10 +1617,27 @@ int fit_check_format(const void *fit, ulong size)
++ 		if (size == IMAGE_SIZE_INVAL)
++ 			size = fdt_totalsize(fit);
++ 		ret = fdt_check_full(fit, size);
+++		if (ret)
+++			ret = -EINVAL;
+++
+++		/*
+++		 * U-Boot stopped using unit addressed in 2017. Since libfdt
+++		 * can match nodes ignoring any unit address, signature
+++		 * verification can see the wrong node if one is inserted with
+++		 * the same name as a valid node but with a unit address
+++		 * attached. Protect against this by disallowing unit addresses.
+++		 */
+++		if (!ret && CONFIG_IS_ENABLED(FIT_SIGNATURE)) {
+++			ret = fdt_check_no_at(fit, 0);
++ 
+++			if (ret) {
+++				log_debug("FIT check error %d\n", ret);
+++				return ret;
+++			}
+++		}
++ 		if (ret) {
++ 			log_debug("FIT check error %d\n", ret);
++-			return -EINVAL;
+++			return ret;
++ 		}
++ 	}
++ 
++@@ -1955,10 +2000,13 @@ int fit_image_load(bootm_headers_t *images, ulong addr,
++ 	printf("## Loading %s from FIT Image at %08lx ...\n", prop_name, addr);
++ 
++ 	bootstage_mark(bootstage_id + BOOTSTAGE_SUB_FORMAT);
++-	if (fit_check_format(fit, IMAGE_SIZE_INVAL)) {
++-		printf("Bad FIT %s image format!\n", prop_name);
+++	ret = fit_check_format(fit, IMAGE_SIZE_INVAL);
+++	if (ret) {
+++		printf("Bad FIT %s image format! (err=%d)\n", prop_name, ret);
+++		if (CONFIG_IS_ENABLED(FIT_SIGNATURE) && ret == -EADDRNOTAVAIL)
+++			printf("Signature checking prevents use of unit addresses (@) in nodes\n");
++ 		bootstage_error(bootstage_id + BOOTSTAGE_SUB_FORMAT);
++-		return -ENOEXEC;
+++		return ret;
++ 	}
++ 	bootstage_mark(bootstage_id + BOOTSTAGE_SUB_FORMAT_OK);
++ 	if (fit_uname) {
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 5a8035f432..993478a73b 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -15,6 +15,13 @@ PE = "1"
+ SRCREV = "c4fddedc48f336eabc4ce3f74940e6aa372de18c"
  
- # avoid stripping some generated binaries otherwise some of the tests will fail
+ SRC_URI = "git://git.denx.de/u-boot.git \
++           file://0001-add-valid-fdt-check.patch \
++           file://CVE-2021-27097-1.patch \
++           file://CVE-2021-27097-2.patch \
++           file://CVE-2021-27097-3.patch \
++           file://CVE-2021-27097-4.patch \
++           file://CVE-2021-27138-1.patch \
++           file://CVE-2021-27138-2.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.17.1
+2.26.2
 
