@@ -1,121 +1,207 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web08.9595.1616399473918398918
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+ by mx.groups.io with SMTP id smtpd.web12.9981.1616401797203228559
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Mar 2021 00:51:14 -0700
+ Mon, 22 Mar 2021 01:29:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 12M7oww5021925
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 00:51:07 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 22 Mar 2021 00:51:05 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Mon, 22 Mar 2021 00:51:05 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3 2/2] elfutils: remove 0004-Disable-the-test-to-convert-euc-jp.patch
-Date: Mon, 22 Mar 2021 15:51:03 +0800
-Message-ID: <20210322075103.9694-2-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210322075103.9694-1-mingli.yu@windriver.com>
-References: <166D65C2E097270E.28077@lists.openembedded.org>
- <20210322075103.9694-1-mingli.yu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=neXc5MKe;
+ spf=pass (domain: gmail.com, ip: 209.85.222.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f54.google.com with SMTP id c13so5250297uao.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 01:29:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VXHJ49TfOqeMgPNJO1CCGJZ8k4FTtd60Y3kQm0HvdPE=;
+        b=neXc5MKeBqfevJNQmNJOxIJdiZkGQrFMR3vhadgpBbHCCDdicN6F5HAjM9l4m4RCXE
+         1PpRzAhAeyxAQvlwlJ8gYkqSqKLcP/eyNM4pFkGTTGWAtOK84SYCv3hn/n7T8iDwTv97
+         i7jj+5KS1sEK2PQsR9Xl5BKxHjilmeZsRS/3AaXzk0uIPzFYwut2FLpRJnavLK7x12+3
+         4TjDvfmvBGiaQreGLuTTqOR6M6dLORyr30kjuRs8lF1QRNYpquPYxinR8lzfXSY+fRsp
+         7RXMr+KMtvNFyoRC308NWKiid6YSBXadVYQV60zIz9czi2v8BIeylwFlWVC2pdJ+ftoV
+         2a9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VXHJ49TfOqeMgPNJO1CCGJZ8k4FTtd60Y3kQm0HvdPE=;
+        b=RWk/mPdd5+RNrN4tYRW5Tzx6SqNYVgmRZDTNNOJ4swwQ5CLOtm31MTDZdVEWuwt+TP
+         dxj5bKBy5lVEgCt/Zh1xeFlbmGq2eTL6toa5GKtnE2DE+pnuWLQxvfHtaPvyEqL1zj92
+         io1IfvMYVVCgl48xI0i2pKbpCevtLzJNSOwi5NyEL4yRzxCsihRuOZjJfF2vTMgSlLQt
+         3Zx4frxsjLqBF5AyqgyUOzE+9j7bsGR+7Yymzvuj6SuLjRroVvTOAsb0FvGEoIRscKgB
+         9Fc88TXM7cIlBYi07cnm8V9PuQcyVuYIK8cXY7+x+pJKijs/sXGSMJin1JqJkrJX/kuG
+         HkFw==
+X-Gm-Message-State: AOAM532s2ImYAdN/XHaboz6RiFlzebrPwBuLKrGRlROJb3voOdV+zIIb
+	RZ1zXMq2mQj5prvY5KsoycSelvtdLPjijwmq9Q4=
+X-Google-Smtp-Source: ABdhPJxVEbjYygi+5Ga8jPa6HN6tndqEOCLkxvLFYHPV6V+v6kSYMElxVk+Oz6BnWTTDGKTI7H2Jx0guAYJ2mULYpgc=
+X-Received: by 2002:ab0:7150:: with SMTP id k16mr3901349uao.71.1616401796137;
+ Mon, 22 Mar 2021 01:29:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <166D65C2E097270E.28077@lists.openembedded.org> <20210322075103.9694-1-mingli.yu@windriver.com>
+In-Reply-To: <20210322075103.9694-1-mingli.yu@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 22 Mar 2021 11:29:45 +0300
+Message-ID: <CANNYZj-7gQg41Qpue1ZR3HCBHKQ8veD3TOwbvRYcD5=wv0Pj6A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/2] gettext-minimal: Disable the unnecessary check in iconv.m4
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000df854605be1bdea7"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--000000000000df854605be1bdea7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The below m4 macros files shipped with recipe will be removed if the
-recipe use AM_GNU_GETTEXT.
-gettext.m4
-iconv.m4
-lib-ld.m4
-lib-link.m4
-lib-prefix.m4
-nls.m4 po.m4
-progtest.m4
+Note that this m4 file is copied verbatim from upstream gettext, and will
+be again overwritten on next gettext upgrade. You should figure out what=
+=E2=80=99s
+wrong specifically in elfutils tree, and work with elfutils upstream to
+resolve it.
 
-After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as the
-commit (dd52d2ab Modernize gettext infrastructure) included, so the above
-m4 macros files such as iconv.m4 is removed and it's bad as we need to
-patch against iconv.m4 shipped with elfutils.
+Alex
 
-So remove 0004-Disable-the-test-to-convert-euc-jp.patch and move the logic
-to gettext-mininal which provides iconv.m4 now to fix the gap and also fix
-the below build issue.
-  $ bitbake elfutils -cconfigure && bitbake elfutils -cpatch -f
+On Mon 22. Mar 2021 at 10.51, Yu, Mingli <mingli.yu@windriver.com> wrote:
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../elfutils/elfutils_0.183.bb                |  1 -
- ...4-Disable-the-test-to-convert-euc-jp.patch | 42 -------------------
- 2 files changed, 43 deletions(-)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0004-Disable-the-test-to-convert-euc-jp.patch
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> The below m4 macros files shipped with recipe will be removed if the
+> recipe use AM_GNU_GETTEXT.
+> gettext.m4
+> iconv.m4
+> lib-ld.m4
+> lib-link.m4
+> lib-prefix.m4
+> nls.m4 po.m4
+> progtest.m4
+>
+> After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as the
+> commit (dd52d2ab Modernize gettext infrastructure) included, so the abov=
+e
+> m4 macros files such as iconv.m4 is removed and it's bad as we need to
+> patch against iconv.m4 shipped with elfutils.
+>
+> BTW, the logic to Disable the unnecessary check in iconv.m4 comes since
+> 2015 as [1], so move the related logic to gettext-minimal which provides
+> iconv.m4 now to fix the gap.
+>
+> [1]
+> https://git.openembedded.org/openembedded-core/commit/?id=3D3dd269e027fd=
+a173ee40d671ea47da22300fd51d
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4 | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git
+> a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+> b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+> index e593b7270a..e04476bb7f 100644
+> --- a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+> +++ b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
+> @@ -166,6 +166,7 @@ AC_DEFUN([AM_ICONV_LINK],
+>        }
+>    }
+>  #endif
+> +#if 0
+>    /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
+>       provided.  */
+>    {
+> @@ -189,6 +190,7 @@ AC_DEFUN([AM_ICONV_LINK],
+>      if (cd4 !=3D (iconv_t)(-1))
+>        iconv_close (cd4);
+>    }
+> +#endif
+>    return result;
+>  ]])],
+>            [am_cv_func_iconv_works=3Dyes], ,
+> --
+> 2.17.1
+>
+>
+>=20
+>
+>
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-index 16ed7c9ddb..c0833686de 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-@@ -14,7 +14,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-dso-link-change.patch \
-            file://0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch \
-            file://0003-fixheadercheck.patch \
--           file://0004-Disable-the-test-to-convert-euc-jp.patch \
-            file://0006-Fix-build-on-aarch64-musl.patch \
-            file://0001-libasm-may-link-with-libbz2-if-found.patch \
-            file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0004-Disable-the-test-to-convert-euc-jp.patch b/meta/recipes-devtools/elfutils/files/0004-Disable-the-test-to-convert-euc-jp.patch
-deleted file mode 100644
-index f407bdd0be..0000000000
---- a/meta/recipes-devtools/elfutils/files/0004-Disable-the-test-to-convert-euc-jp.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From cd36f34c722dd0babd7beb13c968aa0780c9f726 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Tue, 15 Aug 2017 17:24:06 +0800
--Subject: [PATCH] Disable the test to convert euc-jp
--
--Remove the test "Test against HP-UX 11.11 bug:
--No converter from EUC-JP to UTF-8 is provided"
--since we don't support HP-UX and if the euc-jp is not
--installed on the host, the dependence will be built without
--iconv support and will cause guild-native building fail.
--
--Upstream-Status: Inappropriate [OE specific]
--
--Signed-off-by: Roy Li <rongqing.li@windriver.com>
--
--Rebase to 0.170
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-----
-- m4/iconv.m4 | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/m4/iconv.m4 b/m4/iconv.m4
--index aa159c5..d16312b 100644
----- a/m4/iconv.m4
--+++ b/m4/iconv.m4
--@@ -165,6 +165,7 @@ AC_DEFUN([AM_ICONV_LINK],
--       }
--   }
-- #endif
--+#if 0
--   /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
--      provided.  */
--   if (/* Try standardized names.  */
--@@ -176,6 +177,7 @@ AC_DEFUN([AM_ICONV_LINK],
--       /* Try HP-UX names.  */
--       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
--     result |= 16;
--+#endif
--   return result;
-- ]])],
--           [am_cv_func_iconv_works=yes], ,
--- 
-2.17.1
+--000000000000df854605be1bdea7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">Note that this m4 file is copied verbatim from upstream g=
+ettext, and will be again overwritten on next gettext upgrade. You should f=
+igure out what=E2=80=99s wrong specifically in elfutils tree, and work with=
+ elfutils upstream to resolve it.</div><div dir=3D"auto"><br></div><div dir=
+=
+=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Mon 22. Mar 2021 at 10.51, Yu, Mingli &lt;<a href=3D=
+"mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-c=
+olor:rgb(204,204,204)">From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@wind=
+river.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+The below m4 macros files shipped with recipe will be removed if the<br>
+recipe use AM_GNU_GETTEXT.<br>
+gettext.m4<br>
+iconv.m4<br>
+lib-ld.m4<br>
+lib-link.m4<br>
+lib-prefix.m4<br>
+nls.m4 po.m4<br>
+progtest.m4<br>
+<br>
+After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as the<b=
+r>
+commit (dd52d2ab Modernize gettext infrastructure) included, so the above<=
+br>
+m4 macros files such as iconv.m4 is removed and it&#39;s bad as we need to=
+<br>
+patch against iconv.m4 shipped with elfutils.<br>
+<br>
+BTW, the logic to Disable the unnecessary check in iconv.m4 comes since<br=
+>
+2015 as [1], so move the related logic to gettext-minimal which provides<b=
+r>
+iconv.m4 now to fix the gap.<br>
+<br>
+[1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
+=3D3dd269e027fda173ee40d671ea47da22300fd51d" rel=3D"noreferrer" target=3D"=
+_blank">https://git.openembedded.org/openembedded-core/commit/?id=3D3dd269e=
+027fda173ee40d671ea47da22300fd51d</a><br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" ta=
+rget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4 | 2 =
+++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.=
+m4 b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4<br>
+index e593b7270a..e04476bb7f 100644<br>
+--- a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4<br>
++++ b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4<br>
+@@ -166,6 +166,7 @@ AC_DEFUN([AM_ICONV_LINK],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0}<br>
+=C2=A0#endif<br>
++#if 0<br>
+=C2=A0 =C2=A0/* Test against HP-UX 11.11 bug: No converter from EUC-JP to =
+UTF-8 is<br>
+=C2=A0 =C2=A0 =C2=A0 provided.=C2=A0 */<br>
+=C2=A0 =C2=A0{<br>
+@@ -189,6 +190,7 @@ AC_DEFUN([AM_ICONV_LINK],<br>
+=C2=A0 =C2=A0 =C2=A0if (cd4 !=3D (iconv_t)(-1))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0iconv_close (cd4);<br>
+=C2=A0 =C2=A0}<br>
++#endif<br>
+=C2=A0 =C2=A0return result;<br>
+=C2=A0]])],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[am_cv_func_iconv_works=3Dyes], ,=
+<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000df854605be1bdea7--
