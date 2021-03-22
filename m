@@ -1,209 +1,186 @@
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [40.107.70.55])
- by mx.groups.io with SMTP id smtpd.web08.9968.1616402914348034500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web12.10167.1616403453457548065
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Mar 2021 01:48:34 -0700
+ Mon, 22 Mar 2021 01:57:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=avIpeM+T;
- spf=pass (domain: windriver.com, ip: 40.107.70.55, mailfrom: mingli.yu@windriver.com)
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=xgna/ITV;
+ spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: l42XLgQf/aqmlvrGLM+C2qDDmpVtfc9sfDkKaswrwclQ2qf09g7nFid5Cr+W22okUsQKfhUT0H
+ R4LThbPna+ag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190323571"
+X-IronPort-AV: E=Sophos;i="5.81,268,1610438400"; 
+   d="scan'208";a="190323571"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 01:57:32 -0700
+IronPort-SDR: +2QFK1pC5GbNC5EwrvNGDpFBnmfWD5igbqRkz5iad8Jgoyty6fWucPJzYR5LAmycDNRk5bKCrf
+ L/dQDPMrXj1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,268,1610438400"; 
+   d="scan'208";a="442076644"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Mar 2021 01:57:31 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 22 Mar 2021 01:57:31 -0700
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 22 Mar 2021 01:57:30 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Mon, 22 Mar 2021 01:57:30 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.51) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Mon, 22 Mar 2021 01:57:30 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B9Ar3KvfYRGSGgB5eoYu4tVgtG6xdffFTzQCDWF8BGTXSZBn6zRF2sLnP/21MAhuFlTJR1yLJCKKSOVRp26PjfUPn13uMJlo6cPJ47MGoH5cxN0Iijaypb1lVYwUhpw+GwiL6tNWwdA0oR1v9TlKdsYt9VaotO5iqHb9PD0zids8ZOVYY1Koelo645RN3Ym5UVybXNE5FdJcJq0Sp2ehimH9HHn9Vk3WjF4s8bFAfgAcI8sW5J7tE8KLzPuu2amGsWwl6H4E7EeZsP5Io3zsaMtdwxhKSwXemerqWHAmOoyaVhRtQmXuXj36rNP4QWyNNR2osAlrEoWCuWtZA/TVTA==
+ b=UpLQfEBQFWllpCbx6PbC8Kk6mxWcmv885uP3WHSOsnso7dK/JrQiphMg9PF6282C1Zd7c+c/D7hyRmGGL/uWuSuZ1BONv/J72ippgcDER8xoFOzjGO1FrsS1AZ4Y5a0gE9pHEdgXbWj0nnM+3zEHmU2qFnKWvYUIBrteFWGY8YiPQHVJMTlJPeU3cfx21DXPoUr8y3M3TT+i6UkuNyMsJbX2d0ahvkZMFu01CX4tGoiZtvPDHtKjfWlIK7bgteMLJEwBZjzoTvjhCwEvR7EXE5Kfgv1jaYVATiZvrfBoDcKKmt+3NNWF8DfQwzKy7MGXwN/hJnhz+oaFoioXJ0YISA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zKEedvvCF7qumPPaqE+0eqBp4pV0by/nh8Bv3qFXsc=;
- b=JtUk6BoviPWo+ol95xn0zWCBG8XDwXci8oHlhgS7H6by7XgN8Z0DkVrEVkcMoRVAmE4jPmZCqyPm83lVqCsnjKAuzSEjgTGzrAxKMdRspXcZo+tSWiyMOpN2lzF+qfxAzFz3logGdJ38Eq7zni7YC0KgI9r5eRuLSuRWuVWFfiaST+0sXYpinr7o4kSVxjslywY0Bh9xXZk9pzcQ6qWLJDcLU78OFS+hfgZ7g6pHSpeixYlUPWGhK8mBLqQ0MNldOhkBKhu+LyRciixXOzc8f7Hn4VwQ2z86Sf7yNpO743/Hu9cPO4qsg8+zf7St4KXvlq7E/rPTFyIjzRySIvWkLw==
+ bh=eIdtMp+lxTOwVv1yyzXWtVsvkV6FZBLeVPzeH99jxH4=;
+ b=JrKBFj9LRhy6ifaqD7NfrD2orqGs5+q+KR8G6bHKwp7bhS8e8XP6DcaRWP+ji54NhYZZ/oGCXKkZpeLwBaicY1zIl9PO01xVZY3u7w2qR6qQpHEeiD4bWhfW512Qpgv9mSixaa8K3Qz4aorR/+5YFGd5IcqvmSbfQUJOQeDjQvRo+Rqyjci2FGMeJeins7ublp9jAO9Sn1AYFwtvo5Aozu6+dAeeTqqmRrdzx2T7lk65kCdQo0xvbB7byt3kSfbJ26u7hrOfJl+QPsm7jHXedDW+KonQwD1puV52koSxtC7DUUF+vPooXPEusCGohTAArWafhksB7So5/UglrMiwFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zKEedvvCF7qumPPaqE+0eqBp4pV0by/nh8Bv3qFXsc=;
- b=avIpeM+TS5YIyfcJHwXolNjAomEwcFlA3FXYyKTBDuOziiRiqu40rF/pCFM9a1bcXIDcVX5/OlhL5r2+lLdyRaLQBE5kStl2YPAsDdZVYURG0SRMrxwAHSwjb0Zo8TPVvaMRgdtR/IDB6AQKDc8PnhtbGgjavMuDXYShoewTflM=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ bh=eIdtMp+lxTOwVv1yyzXWtVsvkV6FZBLeVPzeH99jxH4=;
+ b=xgna/ITVyqMZygofqk9h4bKjEsAY+9Trls1JilPdsFC46Aiuifsc7GqAEWFB8VvYQf56H5lKgCelqXdHTTTCpKuczV4nT9js2dVYn2UOg2kUXVYJMPWKJR1NTy3k3oS9WYCMeIasz/wMCKHeNGQYycAjf4yXLA2KAlttEqtsb9I=
+Received: from DM6PR11MB4105.namprd11.prod.outlook.com (2603:10b6:5:5::30) by
+ DM6PR11MB4531.namprd11.prod.outlook.com (2603:10b6:5:2a5::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18; Mon, 22 Mar 2021 08:57:27 +0000
+Received: from DM6PR11MB4105.namprd11.prod.outlook.com
+ ([fe80::4817:b500:8d20:d405]) by DM6PR11MB4105.namprd11.prod.outlook.com
+ ([fe80::4817:b500:8d20:d405%5]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
+ 08:57:27 +0000
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Steve Sakoman <steve@sakoman.com>
+Subject: Re: [OE-core] [gatesgarth][PATCH 01/30] initrdscripts: init-install-efi.sh install extra files for ESP
+Thread-Topic: [OE-core] [gatesgarth][PATCH 01/30] initrdscripts:
+ init-install-efi.sh install extra files for ESP
+Thread-Index: AQHXCTQ+NCfrkPT1g0i6Q7Hmoi+zPqqPvgyg
+Date: Mon, 22 Mar 2021 08:57:27 +0000
+Message-ID: <DM6PR11MB41059D92EEB011F17928471EB9659@DM6PR11MB4105.namprd11.prod.outlook.com>
+References: <cover.1614009417.git.anuj.mittal@intel.com>
+ <47cf6739ab182e66d1b73cd99bab961d06f41336.1614009417.git.anuj.mittal@intel.com>
+In-Reply-To: <47cf6739ab182e66d1b73cd99bab961d06f41336.1614009417.git.anuj.mittal@intel.com>
+Accept-Language: en-SG, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by MW3PR11MB4602.namprd11.prod.outlook.com (2603:10b6:303:52::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.25; Mon, 22 Mar
- 2021 08:48:32 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::45:697c:a699:df64]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::45:697c:a699:df64%7]) with mapi id 15.20.3955.027; Mon, 22 Mar 2021
- 08:48:32 +0000
-Subject: Re: [OE-core] [PATCH v3 1/2] gettext-minimal: Disable the unnecessary check in iconv.m4
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-References: <166D65C2E097270E.28077@lists.openembedded.org>
- <20210322075103.9694-1-mingli.yu@windriver.com>
- <CANNYZj-7gQg41Qpue1ZR3HCBHKQ8veD3TOwbvRYcD5=wv0Pj6A@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <05115d73-f33c-878d-0774-2d33c12746ce@windriver.com>
-Date: Mon, 22 Mar 2021 16:47:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CANNYZj-7gQg41Qpue1ZR3HCBHKQ8veD3TOwbvRYcD5=wv0Pj6A@mail.gmail.com>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK0PR01CA0052.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::16) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
-Return-Path: mingli.yu@windriver.com
+ header.from=intel.com;
+x-originating-ip: [219.92.186.165]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 41cdfb2d-baaa-442e-8e19-08d8ed1084a0
+x-ms-traffictypediagnostic: DM6PR11MB4531:
+x-microsoft-antispam-prvs: <DM6PR11MB4531032E7BCE3C8F737EC35CB9659@DM6PR11MB4531.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:356;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AL5Y0e7PG5JX+DqsHcTOAOsrvJEfz0ZRvmTkOB3oIiMO6U+zDR/E9EJvolz6/UzCuyk5aZwPFjMcNOr8KEidr/H6ygh9fQFcbAo6gfQDBAwRQEkLx0UvjIfW9wb/1SEJ65qkBDceUOgZqZoqNtxre52o61V+VdHV6F0rqv7LYGPtJhkDOhnTS7jmk4LBTl+7HuumP02fe5IPeBfyY31RefidweVX5FzQQjWJpeTvaER8ZV6zi5OIFFWm+/IBCx/MuepcsWXzoDqFVtoXK3b68PPUdqZXzysHP2QcgAWfhq7WaYXl+BlqgJaoOBdVvUdkAkgWdXtFbB8xOYLY9nPKgqPbUQVdoNxskI9mFM0ikgyhOgL2TbHsqzpg1C5Qie05YOdC08FktRIEnP1MDClSk08dk7eLBrZZIie30DF38BtpQkQ+PsERgqvOD+K+5jiD7MvFzINTtYrE0LKawANBO0f/YG84CXhJyHTVGXTdf/ardMIY1pk8d70t76T/t/hAwaqUYf4E1p8YBcGP9zlXcNNp3YATtzE14oYz/q09FkHvJNxzKPpZRphp/qo/D8ckW5LSWnwaQWSQ9r7EiLO2pk2EtW1364+AdW4Vk/cJ0lSfK9STZKgT8aFtMc9l239ocOSmXP/L9OyK/XgX8Ob4nUn8lT0lZZPQVZHf4jpVCvw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4105.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(366004)(136003)(376002)(396003)(346002)(8936002)(66476007)(316002)(110136005)(38100700001)(66446008)(83380400001)(55016002)(6506007)(186003)(5660300002)(52536014)(2906002)(66556008)(86362001)(8676002)(71200400001)(64756008)(7696005)(26005)(478600001)(66946007)(33656002)(9686003)(76116006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?D1XHt30Tp8KR5dMKSsmkxf77QSNg2otBXx+FHGzHNc94ekviYgL0zYOkfbFl?=
+ =?us-ascii?Q?f8/mWBPukq5iymgZ/Ep4lWvPD5irMp52K3EXfAmSMrycWSkpoCkLJJskOCZI?=
+ =?us-ascii?Q?0g3MT4F/TEsV0gqbiCbyj65VQXPrz4FbEm9Tl+fbh+YULe392A/jsP3I3A7n?=
+ =?us-ascii?Q?pNHeVS6fDsv4vzt/+kdDQwJsBjngda1msdzwU11eK+UFD8z1jctz7VlH2iWB?=
+ =?us-ascii?Q?T1r7EpjvlmSwRU8Q1/NWEILNdG6GYvqqRYEWI9gZoLZrCHEIsQAkOEKPbDKd?=
+ =?us-ascii?Q?Nfs90I7u5zyjPDIuCeySHOHa8AZ0xYmiKm/X2es3cOMpJLEt26UKiJ0VTDwK?=
+ =?us-ascii?Q?JqkLHKNhbNYA0z+TTpXXVbRulZ4Mvt5Tg7jHCT8+mOVPAX0g/d7GjVaM8Cfh?=
+ =?us-ascii?Q?VqAkEhtw8igq4afB7QK6ywq8CqLIcuIbMeUwnq+4fb8UnEo8QcCkGfS1Aj+D?=
+ =?us-ascii?Q?Hb4b9Dl+ueMVG5JomQmniJRK2wmYQ/93UcvLetdkQkmAhymITsQRX2Lntt91?=
+ =?us-ascii?Q?yNvseGpal9etA8ggTmrWE/dimSt+vUhGb5oDJBdKkcKbLCcDF2Ll4BmrWtpC?=
+ =?us-ascii?Q?JJ7q6ZfNguVrM4DmoIzQGu8V/TwjKLd5MHn07FBd91R/0PGafewwgdjbJcqS?=
+ =?us-ascii?Q?W9Vt+SpERC059biUgXbpX72o5v0Eg9I4Mgx1JcxEe2ho4hgWlzWOSgkdE6qu?=
+ =?us-ascii?Q?YL3H/VHl2Ma+uHiKp/kxNEYEB1jCu1E0myuxtqT/0WcQ3dhw0KF4aJRtn9dC?=
+ =?us-ascii?Q?OO/39ZCH1I48pig96n1IAqkzrKCWltvo1LWZ89lLvLeEqjDV04qtWvb5BDPM?=
+ =?us-ascii?Q?iXTLiJQv5hpURNqam8YPL7dFQBbF8W+S8ZFUykeVnkiUTKCyMeuFefv0yX1A?=
+ =?us-ascii?Q?Dc1rGFfkfIRvxqVOovwpw6o9HsgAiQ50cWGivzrEiab36B8GfmQHUsW2iljC?=
+ =?us-ascii?Q?luzMncJEFukhgLaksNf89CWJuR3x+J2XD4lgC6yNDkIMqPy9ksshJwjpL7g8?=
+ =?us-ascii?Q?0wyR6QpFspXNwwft2DvXCheEhG2gkF29G33fh74UT3kRWaWOiJ07a/XAM4g1?=
+ =?us-ascii?Q?pJ6qjGshygMDnxdX1zID+LXndtVRHhaUPg4MTGybXHgw4mS9AL6B7nIp53fT?=
+ =?us-ascii?Q?UGhRfLTDe8fkUFybOL+YaxPckajvzNpMUQpglzmFEwoDGiV4po7jejQ09UFM?=
+ =?us-ascii?Q?jY2NyoRdc5qmFNR6K5Un25c2bNwVxE6VquZjei8R5kfeXVD69/K/pa/3TLAs?=
+ =?us-ascii?Q?svJQgo1/LGKUN6SrGF0iIYnBsGCdHVMPYbsX8+HVx396Im3kNb1cMSyLrtcm?=
+ =?us-ascii?Q?nkdxhqJzrHAKFCG3iWBwGEe0?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.139] (60.247.85.82) by HK0PR01CA0052.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 08:48:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 03df2ab6-adab-4c2a-7204-08d8ed0f45b6
-X-MS-TrafficTypeDiagnostic: MW3PR11MB4602:
-X-Microsoft-Antispam-PRVS: 
-	<MW3PR11MB4602FAE6906E1862ABD6AA7EF1659@MW3PR11MB4602.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	SkIEnCaeqLsfEtB0PjMi7rkZhjrXz/tVPaXLmiPXhnCzdSF//OTum2iQRDzCxqaqdMOJdY1A2acqdIfIUt+oe/mdJUQlbqdf1+zhixqBC76e0n6/OE77JTN4scXqFcZ4RaIaMCQR99dEbguSBwslripqMKJ1VjfFHYwMv3l5cL0tvfh2QSam4TNPspFyaGUdTpM0r1Z711KbrKhmT0EDVzjfXUjDLuqATceNMk7UdSN/ae0fkWRTOlGfRz8PHOG5oYyorz4cRXFbxbR7269tIVeFHIs4ETqZdK1bsC0quVexlUWPJDwqDQMUMiZ4dllnaAj3PPGGfmilnMWl04eVeXJsqU/te2ZrJ/53uSDy6tz+t91oY4TqNOJqUltFb+DD58LcNP3RMb/eQsUySDDw9Ww5WKSI2ZShBGE0NiLSwmbDIzsv357+b9E1FAGyseSuAzUsisghMSddou5kFHG5cnICnIOARl52/Hi9Yk0ZKVmMBNNoT1zWGVMldHflYhWNekR3dyumqFo1EbUAMF7OrbuRDnoX8Jr1wQCixCjCECUxTr+GdiwYeSn/zhkr/YgBzxv6t8GYkXNmMP1rv1s6oUX3PewYH+1CFuQeKql7huCvXLxkFRb4c27oeM33M1A1J0mkJk5hZUfjRbFJrf4X4m/03y3OL2CtO9qmNO/0maVBGDlvEufesIoG6M2JbZ8TZFY+PI9Nx68yzTIiHqB9VjJmG4pAdxm5UQXUF2h3v8RIkqvr0vCWQv+hRQeu4JIJSI6LKKovbelzN+pQZyRm6w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39840400004)(346002)(376002)(136003)(366004)(66946007)(956004)(16526019)(316002)(6706004)(966005)(8676002)(16576012)(6916009)(478600001)(8936002)(186003)(26005)(2616005)(66556008)(66476007)(83380400001)(6666004)(86362001)(31686004)(5660300002)(31696002)(38100700001)(53546011)(52116002)(2906002)(36756003)(4326008)(6486002)(78286007)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?Dh0XXw2+Sb24Mb3jclNScKgs3m7vKIptgB4NfwAt8HGBJprhBw/2XNi34tsg?=
- =?us-ascii?Q?5Ly0O7HIgOZRXzvQIO4LCcyL9amq0GOX307ujitawlts2Qw6CM9mJwG+NTzj?=
- =?us-ascii?Q?0qa018ciNBA2WpBR65xMyW4CffmvdCjfzzH4otfw7ONk5HAWMgRdReAjx/YR?=
- =?us-ascii?Q?DkGzjKKVIFxr7lWiPrUhCRza1YWi5adgQz6mDqhAWtCEEPxKiMbOzhM+Mzwz?=
- =?us-ascii?Q?Qh244YPgYYs0o52Hz7DRcjQeK9BpbddigaPGyPoeTKB83i3hTZbp/xO+n+ff?=
- =?us-ascii?Q?6pT4YyI7HB771W97C0b41Cgg2PEvL4qvFOxXRfoKB13fybnk1hhWWsGFEaOs?=
- =?us-ascii?Q?w+2gyu6fp5vdwBmjSPhNFPrxcr7hhfzKECQTNLje6mwxy8pqXpttSxhxd5+B?=
- =?us-ascii?Q?7gPw894LiWIWqoxJfnEQnbXGYyp2ceS06gajMOvOGRNnwNzLw4lhVG8oJqcj?=
- =?us-ascii?Q?w9PnSgSOwtwe8NQJp+U330tjN8/Yy98XP9ePa8ytS58Tj5aP4s84gV9v2NYT?=
- =?us-ascii?Q?P6cb05slNkXbQu5MP7HSNywOAij0x2cVIm3lv8qD5RYn5wVAElM5TjWqDRlH?=
- =?us-ascii?Q?HrutYpvDWvsxIXWYyLKRfyMYH1mkPtZXyV7F1bO74BqTVoge1ef1qwcaC0JW?=
- =?us-ascii?Q?7DSS53ny2TCdVbFHvRBr2MovP1OAb1HYa4+i9ElOJLIT9XQTeHdg+WicnVfh?=
- =?us-ascii?Q?SdNea1maxe8WqhCXc4Rh8ErcxSSItmezvKmiN0z7rE33yECliS45pPpUIBXr?=
- =?us-ascii?Q?UxlPyToNpgSctTk3gN1Ou1ZUHmJxzbAGSsMbuz0/bqBm6kfTVseZTCelTsCm?=
- =?us-ascii?Q?ywKXS6MxQTvAEE27kNjD16B2l3rUZygEbIqW+TRl+MRJoyHjhMmui7hESulS?=
- =?us-ascii?Q?44dTuKIYWk6Fivi8SU5ihP5jfkZ7stvv8GATJ5e4K8LOCDgjAI9LA3i0PyhR?=
- =?us-ascii?Q?ACo8hHlxhX4LaRGuwD0PoiQsIQaCy2AYP+bKPxfrpf5HhFyhdFNy/19yAFxn?=
- =?us-ascii?Q?QlBhVG0LpKQMbiAD1HWxHwsRzeZIc4J97JBvZIRBlGkRfqDy+BEf/uZYn4Yx?=
- =?us-ascii?Q?zNt6g+BqqHuiO2D7R+fk2rt4LfrMHozQ/BUNOLLyF4QuF2TOWleHwsYWsiVP?=
- =?us-ascii?Q?gVQXeAJEsXqlhRGuxFbixsX12U52spSROxAE/iZfoCaeT+e3ovbIFt/l6u8c?=
- =?us-ascii?Q?5M1xKZMc235R9xK9xp/s0AJlHLvg7pZcK+lZybveRa8dtbdIVI0D0AO8V517?=
- =?us-ascii?Q?NIwaJ9BQ69wl2P6yUCiWOnALZdBMCfm+Z3nt8868DCS3Cs9b2T1SJVvdDw5I?=
- =?us-ascii?Q?Z2hOwkM/NQV3C+y8aQwzS7j1?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03df2ab6-adab-4c2a-7204-08d8ed0f45b6
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 08:48:32.6794
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4105.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41cdfb2d-baaa-442e-8e19-08d8ed1084a0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2021 08:57:27.2020
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fKP08BuFm3J1AeJZ7fbAkMWSppUCPZor7sst5jrfJZfsNzr+LOF7jBYq80FzVliidRtUOgpufxuV5q7SVoODEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4602
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oosKU6ydlDXtcGpDrapbO0H7P+JKvf0lwIUeJEP4ajx9tSVLgqUxIGx5f6vvkepbx8AG8Bl+H4QpwliJ5611CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4531
+Return-Path: chee.yang.lee@intel.com
+X-OriginatorOrg: intel.com
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+Hi,=20
 
+Can this backport to Dunfell too?
 
-On 3/22/21 4:29 PM, Alexander Kanavin wrote:
-> **[Please note: This e-mail is from an EXTERNAL e-mail address]
->=20
-> Note that this m4 file is copied verbatim from upstream gettext, and=20
-> will be again overwritten on next gettext upgrade. You should figure out=
-=
-=20
-> what=E2=80=99s wrong specifically in elfutils tree, and work with elfuti=
-ls=20
-> upstream to resolve it.
+>-----Original Message-----
+>From: openembedded-core@lists.openembedded.org <openembedded-
+>core@lists.openembedded.org> On Behalf Of Anuj Mittal
+>Sent: Tuesday, 23 February, 2021 12:00 AM
+>To: openembedded-core@lists.openembedded.org
+>Subject: [OE-core] [gatesgarth][PATCH 01/30] initrdscripts: init-install-e=
+fi.sh
+>install extra files for ESP
+>
+>From: Chee Yang Lee <chee.yang.lee@intel.com>
+>
+>Currently the install script copy only few hard coded item while setting u=
+p target
+>ESP, kernel artifacts, all .efi in EFI/BOOT, grub & boot cfg and loader.co=
+nf.
+>While ESP can be much complex, eg: contain multiple initrd.
+>
+>Add a ESP folder to carry any other files to setup onto ESP.
+>
+>Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+>Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>(cherry picked from commit 6eaca9cf20c42501fba27dea3a6446bad948e859)
+>Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>---
+> meta/recipes-core/initrdscripts/files/init-install-efi.sh | 5 +++++
+> 1 file changed, 5 insertions(+)
+>
+>diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/m=
+eta/recipes-
+>core/initrdscripts/files/init-install-efi.sh
+>index b6855b5aac..f667518b89 100644
+>--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+>+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+>@@ -279,6 +279,11 @@ fi
+>
+> umount /tgt_root
+>
+>+# copy any extra files needed for ESP
+>+if [ -d /run/media/$1/esp ]; then
+>+    cp -r /run/media/$1/esp/* /boot
+>+fi
+>+
+> # Copy kernel artifacts. To add more artifacts just add to types  # For n=
+ow just
+>support kernel types already being used by something in OE-core  for types=
+ in
+>bzImage zImage vmlinux vmlinuz fitImage; do
+>--
+>2.29.2
 
-Hi Alex,
-
-The reason why we care out iconv.m4 is because want to keep the logic in=
-=20
-https://git.openembedded.org/openembedded-core/commit/?id=3D3dd269e027fda1=
-73ee40d671ea47da22300fd51d=20
-which oe specific.
-
-I think there is nothing wrong for elfutils switches to use AM_GNU_GETTEXT=
-.
-
-Thanks,
-
->=20
-> Alex
->=20
-> On Mon 22. Mar 2021 at 10.51, Yu, Mingli <mingli.yu@windriver.com=20
-> <mailto:mingli.yu@windriver.com>> wrote:
->=20
->     From: Mingli Yu <mingli.yu@windriver.com
->     <mailto:mingli.yu@windriver.com>>
->=20
->     The below m4 macros files shipped with recipe will be removed if the
->     recipe use AM_GNU_GETTEXT.
->     gettext.m4
->     iconv.m4
->     lib-ld.m4
->     lib-link.m4
->     lib-prefix.m4
->     nls.m4 po.m4
->     progtest.m4
->=20
->     After elfutils upgrades to 0.183, it begins to use AM_GNU_GETTEXT as=
- the
->     commit (dd52d2ab Modernize gettext infrastructure) included, so the
->     above
->     m4 macros files such as iconv.m4 is removed and it's bad as we need =
-to
->     patch against iconv.m4 shipped with elfutils.
->=20
->     BTW, the logic to Disable the unnecessary check in iconv.m4 comes si=
-nce
->     2015 as [1], so move the related logic to gettext-minimal which prov=
-ides
->     iconv.m4 now to fix the gap.
->=20
->     [1]
->     https://git.openembedded.org/openembedded-core/commit/?id=3D3dd269e0=
-27fda173ee40d671ea47da22300fd51d
->=20
->     Signed-off-by: Mingli Yu <mingli.yu@windriver.com
->     <mailto:mingli.yu@windriver.com>>
->     ---
->      =C2=A0meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.=
-m4 | 2 ++
->      =C2=A01 file changed, 2 insertions(+)
->=20
->     diff --git
->     a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
->     b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m4
->     index e593b7270a..e04476bb7f 100644
->     --- a/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m=
-4
->     +++ b/meta/recipes-core/gettext/gettext-minimal-0.21/aclocal/iconv.m=
-4
->     @@ -166,6 +166,7 @@ AC_DEFUN([AM_ICONV_LINK],
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0}
->      =C2=A0 =C2=A0}
->      =C2=A0#endif
->     +#if 0
->      =C2=A0 =C2=A0/* Test against HP-UX 11.11 bug: No converter from EUC=
--JP to
->     UTF-8 is
->      =C2=A0 =C2=A0 =C2=A0 provided.=C2=A0 */
->      =C2=A0 =C2=A0{
->     @@ -189,6 +190,7 @@ AC_DEFUN([AM_ICONV_LINK],
->      =C2=A0 =C2=A0 =C2=A0if (cd4 !=3D (iconv_t)(-1))
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0iconv_close (cd4);
->      =C2=A0 =C2=A0}
->     +#endif
->      =C2=A0 =C2=A0return result;
->      =C2=A0]])],
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[am_cv_func_iconv_works=3D=
-yes], ,
->     --=20
->     2.17.1
->=20
->=20
->    =20
->=20
