@@ -1,111 +1,80 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web09.7106.1616377341645972196
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web09.7116.1616377391240365791
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Mar 2021 18:42:21 -0700
+ Sun, 21 Mar 2021 18:43:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VuiUxcSX;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id y18so9098914qky.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Mar 2021 18:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BQprIQZz2YIXf9asyy1VAkYilo2W/w+Zl89uTUEFTBU=;
-        b=VuiUxcSX8+oFQV30VA1hxlQ952WrEksxJ3abEAtU010RdKAU/GRGF70S+UaXRQzl3y
-         ZCxRluKLQIKKOz/Pviw2SUlpxTCgwRu9fCihkDmKY2k1GhjIcbo+HJMt6Y07J2xaO6c0
-         6+2iQHzW/OEv/tq51wWQo5d/a7dwuaF4+a3SYzGc6zBewvm2+wQ61lrMNH+Rmrlrq3oa
-         k//LP9c1R7tLYT3Bid0Sr/0ZhxGVFLyuQNNDi3GJHhf9gGixj/TQXtL2PYC8qHCMzNcQ
-         5tAlZ2hWW0TMaqzAqhV+P0vqUNo8Utb/lCPInMx0xan/oRI5Kh67tIDwrwdSvvt8scaH
-         iLXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BQprIQZz2YIXf9asyy1VAkYilo2W/w+Zl89uTUEFTBU=;
-        b=BVHJEXHHM1xNy/XExg/8+59OXwjEgu/ws5z3uMre04bZ6NE1bo5MiLGmsG4PPdZgw1
-         LqvVxTznp4FbqtccG65O87XDyxwH5BJKRn7WiIHtmkTP8VJZ/aH/amjA7/MfDfDjMbe/
-         sEDX8Fv4DvTaeOmNKNTkVLdg+ZR/DQRVzTplVoAL7T5fnNCF685eQmrtQGeTKl+AfvGS
-         oLi8XyiKmAGXIID2Cr6oUOfOdWlcoJ+2PKSgmgp81aRsAoU8fc0+FvEyA8lcNpekgoBs
-         Rl6HvZiSX68tLUwcJFfxp3P33fdbPqfBOfJ3HaoGkpRwN7eG4ANzArJ8LUjpwpt7uTzo
-         NbnA==
-X-Gm-Message-State: AOAM533zftCSu05T5lEWx+I0/v22RkYJQiooAcst1RimJpFTIY/6V7Kq
-	PJTVZM/5soB5uF9HGnjzh7o=
-X-Google-Smtp-Source: ABdhPJzvBpE9+M+sye68rh8dztzXIv50KlPT5hsImkIGuOSvTHZvTovjjYPujqR8sNoatFAaLSYDGg==
-X-Received: by 2002:a37:a81:: with SMTP id 123mr8816060qkk.144.1616377340689;
-        Sun, 21 Mar 2021 18:42:20 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id f9sm8237686qto.46.2021.03.21.18.42.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Mar 2021 18:42:20 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: raj.khem@gmail.com,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/5.10: cfg: fix ppc64 configuration warnings
-Date: Sun, 21 Mar 2021 21:42:18 -0400
-Message-Id: <20210322014218.32809-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: yNpzOia2VQWHAGPzTKHt0EEYJA92cgVUSZjTO2P1YsDxYoF6bMxNHBp4UfMgJyt0Iy4WZ0hnU4
+ SYmGKmME2ScA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190211702"
+X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
+   d="scan'208";a="190211702"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:42:08 -0700
+IronPort-SDR: 0R6igRq35wootpRdNEBipjv/9ztY7jP65xmGQoosInoAyA4pQsIdmgYS7cqyfU/9JwZchl/qjk
+ a0Gx7R0nSMrQ==
+X-IronPort-AV: E=Sophos;i="5.81,266,1610438400"; 
+   d="scan'208";a="524295294"
+Received: from myusoff-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.78.4])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 18:42:07 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 24/25] xcb-proto: update to 1.14.1
+Date: Mon, 22 Mar 2021 09:41:26 +0800
+Message-Id: <b4620992fb5d81ca0bab3979297aa78fe00da85f.1616377115.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1616377115.git.anuj.mittal@intel.com>
+References: <cover.1616377115.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Richard Leitner <richard.leitner@skidata.com>
 
-Recent tweaks to the kern tools triggered some warnings that were
-previously hidden.
+This fixes [1] the following build error for nativesdk on Fedora 33
+which is caused by the removal of fractions.gcd() in favor of math.gcd()
+in python 3.9 [2]:
 
-With these two commits, ppc64 has a clean audit:
+ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
 
-    c0cfc016a51 qemuppc64: fix 5.10 configuration warnings
-    489c76aa9fb qemu-ppc64.cfg: Do not set CONFIG_POWER4
+Furthermore the SRC_URI is adapted as the old one doesn't provide the
+1.14.1 archive.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
+[2] https://bugs.python.org/issue39350
+
+It's needed in gatesgarth and possibly dunfell as well to support
+distributions with python-3.9 as we build libxcb-native, which is
+failing with xcb-proto-1.14.
+
+1.14.1 is a bug fix release:
+https://lists.x.org/archives/xorg-announce/2020-October/003061.html
+
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 7b5d69843b..094fc41705 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+similarity index 84%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+index 6de30098d6..52e474a2e9 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+@@ -11,8 +11,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
  
- SRCREV_machine ?= "09e60e61f3a0716c1d715024db69ed493b374352"
--SRCREV_meta ?= "f5babefa399359d7a5f880342c03ced78dbd48d2"
-+SRCREV_meta ?= "c0cfc016a512f4b2922e15e43e3d4b421cdceb97"
+-SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f36f1ecc79834416a605"
++SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz"
++SRC_URI[sha256sum] = "f04add9a972ac334ea11d9d7eb4fc7f8883835da3e4859c9afa971efdf57fcc3"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index a903a7ad45..c55d02ab65 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ inherit autotools pkgconfig python3native
  
- SRCREV_machine_qemuarm ?= "828298476280f149282db7209dd18c8bd0f46657"
- SRCREV_machine ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
--SRCREV_meta ?= "f5babefa399359d7a5f880342c03ced78dbd48d2"
-+SRCREV_meta ?= "c0cfc016a512f4b2922e15e43e3d4b421cdceb97"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 9c122832f4..ae4eea0096 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
- SRCREV_machine_qemux86-64 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
- SRCREV_machine_qemumips64 ?= "c19b50af1e3680ff6050a0cce8dcd888accafd9b"
- SRCREV_machine ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
--SRCREV_meta ?= "f5babefa399359d7a5f880342c03ced78dbd48d2"
-+SRCREV_meta ?= "c0cfc016a512f4b2922e15e43e3d4b421cdceb97"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.19.1
+2.30.2
 
