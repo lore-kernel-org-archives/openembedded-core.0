@@ -1,62 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.255.1616517456646195602
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.289.1616517487489398589
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 09:37:36 -0700
+ Tue, 23 Mar 2021 09:38:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40F4E106F
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 09:37:26 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFDE43F718
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 09:37:25 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=B9AGMMij;
+ spf=pass (domain: blade-group.com, ip: 209.85.221.48, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-wr1-f48.google.com with SMTP id c8so8540197wrq.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 09:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blade-group.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mCW4bILB+LperKwPIvwUOih8C9Ai89TRRyff3sQdkO4=;
+        b=B9AGMMijNNaEG66kmYlWNYRSl3huK+SC5/GiT5IEhhdyhd/TciApDC12A4VUEntFA+
+         u1LPTseqdVgw3zX3mmlu+V1vDQiLIHLgbvDojRjBEyvJB2RdNx0GqhW/ly7ppFkssqz2
+         jipZqMwNySpKWEvou24sw9rRA724lif6etr7B0TtoTGE7d3P6COjgp13lEULN42qu7XW
+         0wdxKyfkvk2Q8dWxONVEsNNZja8v7086mZ0SsyGZVa9ADTuPPtm7C/PqDDRWMo6AWuOu
+         y+R1KtZ8ylKcFt01Vtvondg64lJRyO2A2IBDWb2kN1ET9pgybhoOgVCyD1MVF1pWLD3H
+         zv4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mCW4bILB+LperKwPIvwUOih8C9Ai89TRRyff3sQdkO4=;
+        b=bpqYCQHml7dv04Q8RbpHEptPQv5XmhBADNNY4Q8tSLtk0dOohe2XdW+NNyVuoqQFN/
+         TvAC91RSPDoYrwFs8MVxz9XbZz8/uGck+WemajPb95H8c/bxlbtaowkH3VKPOH0eN29P
+         f+I2gye7utPg2Q5D1PYm7l4l6G+dlENx3NjsNXPyLfVr6p9GNy1s9Ba0Pd/IJshqVKzs
+         +kP0lKQykDH7R7HPtu2oKzPRcuFK2vrsVOUSgmCGcO8XMyKkKCeExUPz0fH4W8yjt2WR
+         3Nbabp0frKnX4ve37y/TslvzgQx03vrANa+gCi6w3WirQBPEoZEZgR2cxUtQuV0xLfuh
+         SF/w==
+X-Gm-Message-State: AOAM532/+WJDV/XT5Hc99SuApXiVwCG1UFD9eaL4m5Y1XDt4qyqUGdLd
+	n98RI4+EC9BxfBZsvf5inGI9hsWpZNHaPg==
+X-Google-Smtp-Source: ABdhPJxMppYNWces93pW3eR0mDA8JW5CJB921kuENf3gjTlwMEDXLVchqLGIJnJ0Gea53dA5RwluOw==
+X-Received: by 2002:a5d:6cab:: with SMTP id a11mr4933361wra.419.1616517485998;
+        Tue, 23 Mar 2021 09:38:05 -0700 (PDT)
+Return-Path: <yann.dirson@blade-group.com>
+Received: from blanquette.lan ([88.120.44.86])
+        by smtp.gmail.com with ESMTPSA id h20sm2987356wmm.19.2021.03.23.09.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 09:38:05 -0700 (PDT)
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+X-Google-Original-From: yann@blade-group.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] classes/image: use oe.utils.directory_size() instead of du
-Date: Tue, 23 Mar 2021 16:37:22 +0000
-Message-Id: <20210323163722.2603178-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210323163722.2603178-1-ross.burton@arm.com>
-References: <20210323163722.2603178-1-ross.burton@arm.com>
+Cc: Yann Dirson <yann@blade-group.com>
+Subject: [PATCH] [RFC] ffmpeg: make LICENSE_FLAGS fine-grained
+Date: Tue, 23 Mar 2021 17:37:42 +0100
+Message-Id: <20210323163742.810094-1-yann@blade-group.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+From: Yann Dirson <yann@blade-group.com>
 
-Instead of using du (which has issues as disussed in the previous commit)=
-, use
-the new oe.utils.directory_size() function.
+The rationale here is that if the user can only whitelist "commercial"
+to use any part of ffmpeg, even it the list of features is carefully
+reviewed when switching the whitelisting on, there was nothing to
+guard from inadvertently activating a new feature that would not have
+been reviewed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+This patch adds one LICENSE_FLAGS value for each feature, except for
+those that bring no codec, trying to be on the same level of legal
+safety - but then I may miss something.
+
+I tried to leave out of the safe NONCOMMERCIAL_PACKAGECONFIGS list
+anything that brings a codec, notably libavcodec.  I also did not look
+at non-default features yet.
+
+There may still be a problem if any feature in ffmpeg gets activated
+by default upstream and not registed as a PACKAGECONFIG feature.  At
+least any of those that depend on another lib would not be enabled,
+that could be seen as a sufficient safeguard.
 ---
- meta/classes/image.bbclass | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index b558653635..87a58dfae7 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -507,7 +507,7 @@ python () {
- # Compute the rootfs size
- #
- def get_rootfs_size(d):
--    import subprocess
-+    import subprocess, oe.utils
-=20
-     rootfs_alignment =3D int(d.getVar('IMAGE_ROOTFS_ALIGNMENT'))
-     overhead_factor =3D float(d.getVar('IMAGE_OVERHEAD_FACTOR'))
-@@ -518,9 +518,7 @@ def get_rootfs_size(d):
-     initramfs_fstypes =3D d.getVar('INITRAMFS_FSTYPES') or ''
-     initramfs_maxsize =3D d.getVar('INITRAMFS_MAXSIZE')
-=20
--    output =3D subprocess.check_output(['du', '-ks',
--                                      d.getVar('IMAGE_ROOTFS')])
--    size_kb =3D int(output.split()[0])
-+    size_kb =3D oe.utils.directory_size(d.getVar("IMAGE_ROOTFS")) / 1024
-=20
-     base_size =3D size_kb * overhead_factor
-     bb.debug(1, '%f =3D %d * %f' % (base_size, size_kb, overhead_factor)=
-)
---=20
-2.25.1
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+index 08be38ca50..3a36c95151 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+@@ -16,7 +16,17 @@ LICENSE_libavutil = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGP
+ LICENSE_libpostproc = "GPLv2+"
+ LICENSE_libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+ LICENSE_libswscale = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGPLv2.1+', d)}"
+-LICENSE_FLAGS = "commercial"
++
++# PACKAGECONFIG features that do not pull codecs
++NONCOMMERCIAL_PACKAGECONFIGS = " \
++ alsa bzlib drm gpl lzma zlib xcb xv \
++ avdevice avfilter avformat swresample swscale postproc avresample \
++"
++# An ffmpeg feature not in NONCOMMERCIAL_PACKAGECONFIGS should be explicitly whitelisted.
++# See https://ffmpeg.org/legal.html
++LICENSE_FLAGS = "${@' '.join('commercial_' + cfg \
++                             for cfg in '${PACKAGECONFIG}'.split() \
++                             if cfg not in '${NONCOMMERCIAL_PACKAGECONFIGS}'.split())}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-- 
+2.30.2
 
