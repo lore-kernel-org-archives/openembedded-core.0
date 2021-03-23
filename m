@@ -1,121 +1,72 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.54.1616534900245956072
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web08.323.1616536208371480480
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 14:28:20 -0700
+ Tue, 23 Mar 2021 14:50:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F28F331B
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 14:28:18 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D6C73F719
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 14:28:18 -0700 (PDT)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hxFeCjUk;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id v186so13104294pgv.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 14:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3XY7il6VrJB9M0Hk1ELOU6GQ+k+nhWTP60tvZPlHUwU=;
+        b=hxFeCjUkmnMx8FZMGn4AytTn/ZiKJl7D6FhXWttgmxDsQbIUjwljQjVum2nSNwTXC5
+         U6NAW52amGbEASPrARs8fgB/zE16QY8qcMaxnBCmwUXYDbr0+fyw/hk0RNbkzUHqHGut
+         sxs+sgg3NWC/mTUoeoNcI3+VxpHVUzfjOVp+s0XHk7LsIc4vxqNLgTXAmUTRi1myYd3E
+         3UwIsP7pppZrCkleFiznNNI6k4PYrxpux3oqwcaIvuJO+4aXCAQrfBOCRsOWx/Qaojrz
+         SNlQ9WYhP1v0CqxD/PnKFno7kLd/wHuatZg5vVENgYwu3eIVkc6T7k3/6R1DUOZIPPvP
+         HzMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3XY7il6VrJB9M0Hk1ELOU6GQ+k+nhWTP60tvZPlHUwU=;
+        b=BwuhXJE27R9sLONf68+AqeYOR3NERG1fzvqOB0TDvzF9M+u4NAem6OhnU7AJTc8ljM
+         CoIh0NxN0ZD8fXjs3wJP2k5pBEOdVNW5yFQuwIHj7XmxrI7qDCbWQn39BBLwM0DVKYjq
+         vGc7ExLQOnnwkQdgVSZ+xgGCPFHdhXwgpQpKTcb9LY+FJwZfYTjwxFIZKZzpkngzZ6oV
+         /jRe+GG1f/+/ya+xpk9zvzfnZkqXhRqcBGDb9q5thWfUPfaK+wORqYKMHAaKGan1g4WK
+         t1IJcXZY1KnC2nsoyNhKf680OF2Z9YdwQzvvwC3uNtkjl67WJhctERYkBo4cqURw1/M/
+         Fgkg==
+X-Gm-Message-State: AOAM531r5p6dpN9OT6lpNc+psLyuMyoGCnprnJghtWEB0SnP4iAauSKY
+	wZH+cMc7JSUHFgT5JDcOFh9avVl4c8ydaA==
+X-Google-Smtp-Source: ABdhPJzwzYwxx2B+aCf7sWregA6LyuBaKtlJwh9Z2xNEKZEOtMVYPJ+vLdPNz1sFHq2JxdXZMw1xJA==
+X-Received: by 2002:a63:6c9:: with SMTP id 192mr301152pgg.302.1616536207472;
+        Tue, 23 Mar 2021 14:50:07 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4578])
+        by smtp.gmail.com with ESMTPSA id w79sm165534pfc.87.2021.03.23.14.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 14:50:06 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] meson: use native-file instead of environment variables
-Date: Tue, 23 Mar 2021 21:28:14 +0000
-Message-Id: <20210323212814.567119-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210323212814.567119-1-ross.burton@arm.com>
-References: <20210323212814.567119-1-ross.burton@arm.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] image-uefi: Set efi_file for rv32/rv64
+Date: Tue, 23 Mar 2021 14:50:04 -0700
+Message-Id: <20210323215004.1855169-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Meson now supports native-files, which are the same as cross files but
-describe the native build.
-
-By writing and using a native file which describes the tools to use, we
-can drop the environment variable overriding.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/meson.bbclass | 49 ++++++++++++++++----------------------
- 1 file changed, 21 insertions(+), 28 deletions(-)
+ meta/conf/image-uefi.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index a7644e70cb..290b39e1e0 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -26,7 +26,8 @@ MESONOPTS =3D " --prefix ${prefix} \
-               --sysconfdir ${sysconfdir} \
-               --localstatedir ${localstatedir} \
-               --sharedstatedir ${sharedstatedir} \
--              --wrap-mode nodownload"
-+              --wrap-mode nodownload \
-+              --native-file ${WORKDIR}/native.cross"
-=20
- EXTRA_OEMESON_append =3D " ${PACKAGECONFIG_CONFARGS}"
-=20
-@@ -121,9 +122,28 @@ system =3D '${@meson_operating_system('TARGET_OS', d=
-)}'
- cpu_family =3D '${@meson_cpu_family('TARGET_ARCH', d)}'
- cpu =3D '${TARGET_ARCH}'
- endian =3D '${@meson_endian('TARGET', d)}'
-+EOF
-+
-+    cat >${WORKDIR}/native.cross <<EOF
-+[binaries]
-+c =3D ${@meson_array('BUILD_CC', d)}
-+cpp =3D ${@meson_array('BUILD_CXX', d)}
-+ar =3D ${@meson_array('BUILD_AR', d)}
-+nm =3D ${@meson_array('BUILD_NM', d)}
-+strip =3D ${@meson_array('BUILD_STRIP', d)}
-+readelf =3D ${@meson_array('BUILD_READELF', d)}
-+pkgconfig =3D 'pkg-config-native'
-+
-+[properties]
-+needs_exe_wrapper =3D false
-+c_args =3D ${@meson_array('BUILD_CFLAGS', d)}
-+c_link_args =3D ${@meson_array('BUILD_LDFLAGS', d)}
-+cpp_args =3D ${@meson_array('BUILD_CXXFLAGS', d)}
-+cpp_link_args =3D ${@meson_array('BUILD_LDFLAGS', d)}
- EOF
- }
-=20
-+# Tell externalsrc that changes to this file require a reconfigure
- CONFIGURE_FILES =3D "meson.build"
-=20
- meson_do_configure() {
-@@ -140,33 +160,6 @@ meson_do_configure() {
-     fi
- }
-=20
--override_native_tools() {
--    # Set these so that meson uses the native tools for its build sanity=
- tests,
--    # which require executables to be runnable. The cross file will stil=
-l
--    # override these for the target build.
--    export CC=3D"${BUILD_CC}"
--    export CXX=3D"${BUILD_CXX}"
--    export LD=3D"${BUILD_LD}"
--    export AR=3D"${BUILD_AR}"
--    export STRIP=3D"${BUILD_STRIP}"
--    # These contain *target* flags but will be used as *native* flags.  =
-The
--    # correct native flags will be passed via -Dc_args and so on, unset =
-them so
--    # they don't interfere with tools invoked by Meson (such as g-ir-sca=
-nner)
--    unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
--}
--
--meson_do_configure_prepend_class-target() {
--    override_native_tools
--}
--
--meson_do_configure_prepend_class-nativesdk() {
--    override_native_tools
--}
--
--meson_do_configure_prepend_class-native() {
--    export PKG_CONFIG=3D"pkg-config-native"
--}
--
- python meson_do_qa_configure() {
-     import re
-     warn_re =3D re.compile(r"^WARNING: Cross property (.+) is using defa=
-ult value (.+)$", re.MULTILINE)
---=20
-2.25.1
+diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
+index 882a0e720c..6ef011e23b 100644
+--- a/meta/conf/image-uefi.conf
++++ b/meta/conf/image-uefi.conf
+@@ -14,6 +14,8 @@ EFI_ARCH_x86 = "ia32"
+ EFI_ARCH_x86-64 = "x64"
+ EFI_ARCH_aarch64 = "aa64"
+ EFI_ARCH_arm = "arm"
++EFI_ARCH_riscv32 = "riscv32"
++EFI_ARCH_riscv64 = "riscv64"
+ 
+ # Determine name of bootloader image
+ EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
+-- 
+2.31.0
 
