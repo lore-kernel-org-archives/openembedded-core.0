@@ -1,114 +1,144 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.496.1616451523297983081
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.1])
+ by mx.groups.io with SMTP id smtpd.web12.2972.1616463778495063658
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Mar 2021 15:18:43 -0700
+ Mon, 22 Mar 2021 18:42:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f6jPFQl4;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id x28so23703034lfu.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Mar 2021 15:18:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2nmaoKXQVVweMMnxi7PJaVo8m8QoxfwNz7qtt31WcmQ=;
-        b=f6jPFQl4BflotmaidKdIejFv9MlXT2vGsfVG3rePe001QJ0rGNtH1cpTE5wI9XQndQ
-         93N+w32/cpUBpubx8aHWqEVXcrk8qdazBdqFbSz4VRGCYTSr094mrdNEFATpp8gV5my6
-         ElhFom9NyqW/SKOiciApUWsR8oKGGLyOAw181cADMj5zgdcvR7yMlcXlNd/xUmM5gChz
-         Foh9E+ExJvUgs4PrXZ8EldlbBmo/D2CLRD7A2Eh8oSPsyKecaDMc0+NNuWcgVQMueVze
-         t4nmYpAgK+xLU0TVy0TjebFA93jW9Hj4nXN8IAcXQcKW8g2BA1FD4LrzTEyI7Z4SqXeI
-         zkLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2nmaoKXQVVweMMnxi7PJaVo8m8QoxfwNz7qtt31WcmQ=;
-        b=Xx0RNNnpL1snjsN9bHijbrGTTJdtVf950dX5ECnJ26i0SFGBGIAucaAyyi5g6bPenS
-         cGm4qHdMCrTdZ0eJL/cDxcYrhyxGMMtlXm7HZ8sPvwOqtyhww5eKBR0Drf/odn6BOoz4
-         STvlKisE6HhIr15Cx/ycIYSrTpAqJMzahwc9L/644ahaKaBXv/PWcuI6jdff52ELGXjz
-         YI1Vrim5UB9qTZq4i7TsexIrZE/dNFQJhhLzuuXpSfoFW4QXNRdus7RX3ReL+YALqTKt
-         aYk+x1v9AwXmIyVDDRZP3vTU9nH7hS/v1WoqJXl7WLhnGN6Y985wEQaeLC5EO6Y0LGXL
-         N+Gw==
-X-Gm-Message-State: AOAM530XmWk98E61t1yi8FPxSSQ6tVc9ixGg411Ho2oKAJvJpK7LK3NT
-	+Io5Ws04Mwr84TC/yQbGqkxveCfS+yrV3yDNgM8=
-X-Google-Smtp-Source: ABdhPJyQAnyM/4AC/M5A+YTPUTFidcNM4jaUX5fzC+uD/xP2iIEHarkzVIFJjc0y5gaGWHdOEXTGagBETOEcomFVwXI=
-X-Received: by 2002:ac2:532c:: with SMTP id f12mr857970lfh.73.1616451521356;
- Mon, 22 Mar 2021 15:18:41 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JeoQBYfD;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1616463776; i=@fujitsu.com;
+	bh=rs6oJR+YhlI7Aj/wOL5uSnwC7n1dhjL8OsasMZfSCLU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=JeoQBYfDNQYZjqXOHt0Jssmamepor9Mp+vB07zM/4zoNAXlDJHSoDpe0zNsQS0flb
+	 DUxl6aKEzgM9GIqZx0mYSrUd/YYoRmuUQiUJCtwmLfYqzFUWl0IxGY9mD4Ak8oFXSR
+	 lqPwTpxThLjSFlo8grH9r+9bvnuQhsL3Iojx7Kcur0+kd7ohuDOUFv+UcAtYJvMi0Z
+	 W1lP8mOVsteYj8CLlmQp6Mf7AJrWUURVP6V+aEInP5of+lcqlpO9xGrpgPno49eEvU
+	 Ur3cLntIQPjksrbXOxA1jW7f0GKiGb6Bd3I9hD7ceTwl5BSTljC9r33FrykXuLqvLq
+	 2sQZ3oDEkOVsA==
+Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-a.eu-west-1.aws.symcld.net id 24/6F-56778-0A749506; Tue, 23 Mar 2021 01:42:56 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRWlGSWpSXmKPExsViZ8MRojvfPTL
+  BYP9uDYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeNR40u2gsXSFb9u72drYJwt0cXIxSEksJlJ
+  4tqpg4xdjJxAzglGieuT7EFsNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQl7i0roUFxBYWsJNY9
+  mszmM0ioCqx4NxzNhCbV8BJYt+TB2C2hICCxJSH75kh4oISJ2c+YYGYIyFx8MULZogaRYnZl5
+  tZIOwqiTUd09gmMPLOQtIyC0nLAkamVYzmSUWZ6RkluYmZObqGBga6hoZGuoaWRromJnqJVbq
+  JeqmluuWpxSW6hnqJ5cV6xZW5yTkpenmpJZsYgaGVUnBAZwfjz1cf9A4xSnIwKYnyiopHJgjx
+  JeWnVGYkFmfEF5XmpBYfYpTh4FCS4LVwA8oJFqWmp1akZeYAwxwmLcHBoyTCq+wKlOYtLkjML
+  c5Mh0idYtTlWHVg+ipmIZa8/LxUKXHeEJAZAiBFGaV5cCNgMXeJUVZKmJeRgYFBiKcgtSg3sw
+  RV/hWjOAejkjDvM5BVPJl5JXCbXgEdwQR0xAfmMJAjShIRUlINTFrTC/+6CwtddGL4+MnRb+G
+  rZzbXVgRGfRE1drPYN2tl5s6n8Tf5VHz8HgnIG5p0KdVZ7EmqXJ68+2RL4z1z3bCc3sObjFpb
+  Z60KCV3Tvnt6w4EDB6Ljkn/wHOG4/rXsQGKm5EZbUeHNba4Shc3HJhc/8Os/8fBacci25vWXU
+  2+9zzu7JOZ8dFqZxrefqg7cKhssdr/Zw6vKcVY+3/7br9j0z6UhZg+vmC9mv/Ax+NOD6QsL5q
+  5zT1HPkO18et27XqQorC77Y/Bj6d5C0SdTuBqm+/G4ZfwrD5habBX5UFkh1eKuqkj0vNMqUb6
+  yu+1Ki7aIOx/Lluo8q7p7l7dU87WJh7dN5ZHYtlvg3SwNJZbijERDLeai4kQAPQJwajQDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-35.tower-265.messagelabs.com!1616463775!456314!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 24828 invoked from network); 23 Mar 2021 01:42:55 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-35.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 23 Mar 2021 01:42:55 -0000
+Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12N1gnu0014697
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 01:42:55 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 23 Mar 2021 01:42:48 +0000
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH 1/2] openssh: upgrade 8.4p1 -> 8.5p1
+Date: Tue, 23 Mar 2021 09:42:38 +0800
+Message-ID: <1616463759-38618-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <cb3f5a5e-fe71-d4fb-7cd6-86f457238fde@crashcourse.ca>
-In-Reply-To: <cb3f5a5e-fe71-d4fb-7cd6-86f457238fde@crashcourse.ca>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 22 Mar 2021 15:18:30 -0700
-Message-ID: <CAJ86T=WDjxift1cMeACmSE+an1kC+t+EuTeaO4PT6_+cM+mnjA@mail.gmail.com>
-Subject: Re: [OE-core] really strange usage of FILESPATH and FILESEXTRAPATHS
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
+Content-Type: text/plain
 
-On Mon, Mar 22, 2021 at 2:29 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->   here's the next head-scratching oddity i just ran across in the
-> current layer (and there's more weirdness on its way).
->
->   perusing a recipe only to see:
->
->   FILESPATH =+ "${COMMON_STUFF_DIR}:"
->   SRC_URI += "file://file1 file://file2 file://file 3 ... etc ..."
->
-> ok ... apparently, there are a number of recipes that want access to
-> some small set of common files, so the solution(?) was to put those
-> common files in some (out-of-layer) directory, and prepend to
-> FILESPATH in each of those recipe files so that SRC_URI could find
-> them.
->
->   i am not going to ask if this is some wickedly clever trick, since
-> it can't be. it just can't.
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-It's unconventional, but I guess it will work OK (i.e. it won't have
-any surprising or negative side effects).
+0f90440ca70abab947acbd77795e9f130967956c.patch
+removed since it is included in 8.5p1
 
-It's better than (for example) one recipe fetching source from the
-build directory of another recipe - which obviously breaks if you
-don't somehow guarantee the order in which recipes are (re)built. I've
-seen projects which did things like that and then needed to disable
-sstate for CI and release builds as a workaround...
+License Updated :
+2-clause BSD license and 4-clause BSD license added
 
->   even stranger, one of the common files was a configuration script
-> that contributed the line:
->
->   . config.sh
->
-> to the top of a number of common tasks like do_configure, do_compile,
-> do_install and so on.
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ ...440ca70abab947acbd77795e9f130967956c.patch | 28 -------------------
+ .../{openssh_8.4p1.bb => openssh_8.5p1.bb}    |  5 ++--
+ 2 files changed, 2 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
+ rename meta/recipes-connectivity/openssh/{openssh_8.4p1.bb => openssh_8.5p1.bb} (97%)
 
-It's not clear how a common file in SRC_URI could affect any tasks?
+diff --git a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch b/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
+deleted file mode 100644
+index b88bc18f12..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0f90440ca70abab947acbd77795e9f130967956c.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 0f90440ca70abab947acbd77795e9f130967956c Mon Sep 17 00:00:00 2001
+-From: Darren Tucker <dtucker@dtucker.net>
+-Date: Fri, 20 Nov 2020 13:37:54 +1100
+-Subject: [PATCH] Add new pselect6_time64 syscall on ARM.
+-
+-This is apparently needed on armhfp/armv7hl.  bz#3232, patch from
+-jjelen at redhat.com.
+----
+- sandbox-seccomp-filter.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-Upstream-Status: Backport
+-[fixes issues on 32bit IA and probably other 32 bit platforms too with glibc 2.33]
+-
+-diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
+-index e0768c063..5065ae7ef 100644
+---- a/sandbox-seccomp-filter.c
+-+++ b/sandbox-seccomp-filter.c
+-@@ -267,6 +267,9 @@ static const struct sock_filter preauth_insns[] = {
+- #ifdef __NR_pselect6
+- 	SC_ALLOW(__NR_pselect6),
+- #endif
+-+#ifdef __NR_pselect6_time64
+-+	SC_ALLOW(__NR_pselect6_time64),
+-+#endif
+- #ifdef __NR_read
+- 	SC_ALLOW(__NR_read),
+- #endif
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssh/openssh_8.4p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+index 128e2e318a..61d9b95b9e 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.5p1.bb
+@@ -6,7 +6,7 @@ and for executing commands on a remote machine."
+ HOMEPAGE = "http://www.openssh.com/"
+ SECTION = "console/network"
+ LICENSE = "BSD & ISC & MIT"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=18d9e5a8b3dd1790d73502f50426d4d3"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=d9d2753bdef9f19466dc7bc959114b11"
+ 
+ DEPENDS = "zlib openssl virtual/crypt"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -24,9 +24,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+-           file://0f90440ca70abab947acbd77795e9f130967956c.patch \
+            "
+-SRC_URI[sha256sum] = "5a01d22e407eb1c05ba8a8f7c654d388a13e9f226e4ed33bd38748dafa1d2b24"
++SRC_URI[sha256sum] = "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
+ 
+ # This CVE is specific to OpenSSH server, as used in Fedora and Red Hat Enterprise Linux 7
+ # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
+-- 
+2.25.1
 
->   a similar tactic was to find this line in a class file:
->
->   FILESEXTRAPATHS_prepend := "${COMMON_STUFF_DIR}:"
->
-> my head hurts.
->
->   first, if i needed to do something in common at the beginning of
-> some basic tasks, i'd invent a bbclass file that "_prepend"ed to those
-> tasks, and just inherit it when necessary.
->
->   as for a number of recipes needing access to common files for any
-> reason, well, thoughts? my first thought is to encapsulate those files
-> in a separate recipe, then make that recipe a build dependency so that
-> those files would be available from the sysroot, but i'm sure there
-> are better ideas.
-
-Build dependencies are heavily geared towards libraries and header
-files rather than common source files. See SYSROOT_DIRS and
-SYSROOT_DIRS_BLACKLIST in staging.bbclass, which limit which
-directories get staged in sysroot. You would need to navigate your way
-around that (e.g. ensuring that the common source files get staged in
-sysroot without being included in the final image, etc). Certainly
-doable, but I guess too far up the OE learning cliff for most typical
-users.
-
-Adding the common source files to SRC_URI for each recipe which needs
-them (whether as individual files from a local directory, as in your
-example, or as a single tar file or git repo from a remote server) is
-probably the better approach.
