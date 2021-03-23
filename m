@@ -1,418 +1,172 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.85.1616542688860123113
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (NAM04-DM6-obe.outbound.protection.outlook.com [40.107.102.63])
+ by mx.groups.io with SMTP id smtpd.web09.142.1616542850727880470
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 16:38:09 -0700
+ Tue, 23 Mar 2021 16:40:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: randy.macleod@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 12NNc65h000558
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 16:38:06 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 23 Mar 2021 16:38:00 -0700
-Received: from vme.wrs.com (172.25.44.2) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2106.2 via Frontend
- Transport; Tue, 23 Mar 2021 16:38:00 -0700
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=LLpugyG7;
+ spf=pass (domain: windriver.com, ip: 40.107.102.63, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZUk4qoVG8F3P9srqFzlMZY7XG1jgcoadxBDntUmsAErIWdQ6T5X1v3NlwPt2YDCssAjOq0emrPieLLsmGRKv0UsCjKUT5wDxRIi4x4Fb0y8Sj8qk14pzPYxTP4uIKdpf3Acqx/VkpObJX9Y+6rFRh4ULC0LYyP1Nxiky06UXvs89yEOYGUDBNj+liwVrysBbqvs/NrAvM/SNDjFeI/JbDsPj9rYNoziHqo6rjEiRaqaztfNNdb7RerERD0SkDnAK0SKknk/WmmRdaP3fRJ/+b3fS+QElNoIVayuSYJZ1NDdk81Zi5DTqIrwa1fD3lEa/9xBsYGcJFIL8fBpa+8yVlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R1UBBdNNs7reb6nPvRiVdhvSndzOf/hhs0i+Ke5lYKA=;
+ b=QDKgY19ZEba5QvUQKzWkEShFB/4OB7VAxjUZvyT69sffpllphrfhhq3JHu03MqBmOMKqCJ67tLYuAzd96zKBqbZvfyOP6KKlMAGLYu0mhtqwCU7edDZHwylDWHLIk2qoWz1UlOliNpfp0C5U6jXpAzj4MgDP37ScCxbVy3A9tKzCZnsPbQLun47gQLEeJ88P7cMN5ySUmJFw2uOcgFxXZl7HZ/kYdZRboF8ES4+k1QY6W8orz2T09xIFYc3NdO7chvWJ7fcJv7lYszGaMU3hfbL4r0ZhQyBz/l7vQ//UCOhYOVdBJCk2LioRSDZKUe8C0dK5jw1AQR8cYMSmKgjYxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R1UBBdNNs7reb6nPvRiVdhvSndzOf/hhs0i+Ke5lYKA=;
+ b=LLpugyG7TiLBpMP81eED2jDugezz97k57jNhGw1gAPc6i9sCyxbOYTVo1Wmy7/yk9oA+8wgPzPFlNAkXMEB41PjSOlwhCN07htwDEeiNC7Lfyuqw0YlOneFJgYCftQ1scNPac48Qr2eR5z0YNwa2I9MhhzFDyLRRJI3mSpuc2rU=
+Authentication-Results: windriver.com; dkim=none (message not signed)
+ header.d=none;windriver.com; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM5PR11MB1674.namprd11.prod.outlook.com (2603:10b6:4:b::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3955.18; Tue, 23 Mar 2021 23:40:49 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::f17d:2de1:291f:80a9]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::f17d:2de1:291f:80a9%4]) with mapi id 15.20.3977.024; Tue, 23 Mar 2021
+ 23:40:49 +0000
+Subject: Re: [OE-core] [dunfell][PATCH] connman: fix CVE-2021-26675, CVE-2021-26676
 From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [dunfell][PATCH] connman: fix CVE-2021-26675, CVE-2021-26676
-Date: Tue, 23 Mar 2021 19:37:57 -0400
-Message-ID: <20210323233757.215638-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.27.0
+To: openembedded-core@lists.openembedded.org,
+ "steve@sakoman.com" <steve@sakoman.com>
+References: <166F1D02F2DBFD39.25882@lists.openembedded.org>
+Cc: Catalin Enache <catalin.enache@windriver.com>
+Message-ID: <50e6d4dd-c8bf-406f-0a14-e7f5f23ac109@windriver.com>
+Date: Tue, 23 Mar 2021 19:40:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <166F1D02F2DBFD39.25882@lists.openembedded.org>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: BYAPR08CA0013.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::26) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by BYAPR08CA0013.namprd08.prod.outlook.com (2603:10b6:a03:100::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 23:40:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9c1db3d7-ea1a-47d3-8c6e-08d8ee5516ab
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1674:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR11MB16745E94172FE895DC4B14E4F8649@DM5PR11MB1674.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:364;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tdvwysBFUUM8+dqcODWonoNcX4Bg4bX814R3IEA1vOFPEfWqIfU1OnDkabu8A1MpIj0KhPMwIf10HDFf6LxcP7899spC8+fj7DXKjVwWDdOh2a2zwvCWt10mrEgPAZO1QkL1mF+8oxGQsJPP4H+MPriowkeUCYnCpBkduaY3dcRFCRfbRB2zCItGP9nGe0qRSovAC0/VaVhJiUkO6jQUczsz9h46Rf/vAzOASsoHKsqrxRPF+hny+6c97y6yzexg+YxGslVmTGmVl5pU8GjfUrbEYMPkN7ZsRFiERgTD4Aped1ydCHh0Km0XHZb302i2iG5FPN6AxqQonqUlMKqjvxS/W095PxwxaRa1b6+cGlh33ETmFgNongB8wtLjFpN829rPIkQqk036FLV/gvCzv/FIc+LBtcTiyX28oHeZEqo8cWKhASt1Nmz1+5mz/c1mGJjYp8IR4R61ZqcBvtGXhLm5kgCFxVvvBjk4rZhPhZIJHgzfJIOFhG13zc2KwZn3CvnppJiSN+bl0lYpjrQYrF1M5Gu1D37fRrUJVjYX0Pwy3Ag/JGq0bVoFwtIoWyuH5mcAYYoxVbmIx/RRSXwYOOSx1ipoXdRkrIAIgAv/20lkCqHeJzLKxK+o/KfUAI/Of/eQoxQ+n8p6pzSIx+hs/jXt4abgwMCtGi86LHiINjBjVYsCplOYpLNZJG/40J5f/t2skdu+SsqccODV6y1HgdceK1+FSQ4/v+7Z/Wc7oFbkoOXhQMheoW7eEMcSKXqahpVJekME50lPxXEDCJc3hoUbCnUJWWHr6FybjfEjPrUWettDkIauQXKF77/gZfuP
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(136003)(39850400004)(366004)(186003)(478600001)(966005)(8676002)(16576012)(31686004)(316002)(26005)(5660300002)(6666004)(52116002)(16526019)(36756003)(4326008)(2616005)(86362001)(53546011)(66476007)(38100700001)(956004)(6916009)(66556008)(31696002)(66946007)(2906002)(6486002)(107886003)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?NjJmWEhuRzdjS256K0tLYTB0SGQzMmp6MkFXRUtPSU1xbVNHRnRhUnEyemFm?=
+ =?utf-8?B?eHlGY1psc05PbUorN3llMEVpRjRrQnd6R01JNk11dHdoa0ZCaHZjTCtxaUJB?=
+ =?utf-8?B?WlpxQkpjQkx2dGliU3JLQ0FhdytvZXhPNDZ3aWwrV01sYjFGeTNhdlJSd3dm?=
+ =?utf-8?B?b0tDNE11dTlzakxobE5zN0NPaks1dm9mRFVPQzNlZExuejB2eFVnQXlkajFv?=
+ =?utf-8?B?aXlTRVpvdGVqbXZOWlU5ZnFYUXRKTmJzeDNwbEFvODJUQzdoY2x0WnZrbkd6?=
+ =?utf-8?B?RlFOeUY0YVoyakRqdXpsYk0wUlNoTUhJek1pQnJpRWdSU0xENzZTU1VCdkZs?=
+ =?utf-8?B?U2I2QjROSFJ2NVJ0Mm5lbUJiMC9ZYnNsTzJkQm8wNVBLbVFna0ViZDJWamg0?=
+ =?utf-8?B?dFVZeS9YZ0diaGF2ZXQ1RGY0ZG14RmdTTHpYU0U0b0w1Y040WFBhVkpQRlUw?=
+ =?utf-8?B?MDV6OERPRVJuT2RpY21PZGt1Z3IvaVp2UXJTRW5qcDdJc2hTSElqVDdSeU4x?=
+ =?utf-8?B?bm5SY1JkMDFhQkFuRjcrcSt2cFgxMGNRd3RQWjBVZ1kwelR1TWJZSkxnMWtM?=
+ =?utf-8?B?d2pwU25hOVY4TnhTUXBPcHRBS04xbEZBWjhOeUxMUlRYb3VWU0ZJd01rMFVT?=
+ =?utf-8?B?bStNei9SNi9pSTlPVFJTK1Y4QXU2YzgwaU5FOU1JYXRLS2VRTVhsb2dSVjI3?=
+ =?utf-8?B?OVovNVQyQmpHYXF2ZFRWN3YvTFVkU3dqOHgwbDBHV05rTlNOcU9RbVB6SW9Y?=
+ =?utf-8?B?czB3UGQ0bExRZUNRQUdFdGVkTlp3dGwwZmRVV0lFZHlQZ2pFNVJPaHk1bFcw?=
+ =?utf-8?B?Z2diU29wQ0d5N1VvUnJEK0dVMjYrcU5ZYW8xOFo4WjE3cS84bGNUbzI3aW4r?=
+ =?utf-8?B?K0duU0JmUGFZZW1zKzN3b2NnSlRvYnYycEpOT3IzZWxxRXM2a0hmWGdyKzVk?=
+ =?utf-8?B?QkR4Ny9qNDQxcVJwaVFtNlpXaG9oYVh0Q05GV283REZDZ0swWXk4dUFlZzZT?=
+ =?utf-8?B?MDMxWWhLOGpWTGpTVDhnREZKbXZPV0xCWEdnY3A3S0NZdGFOMUJ5Y0dMUDVB?=
+ =?utf-8?B?YWI2cGhkcVRXQzBTTlJSUjg1SVptKy8ydE9CS3RVVGovN0dkTmo1Q1VJNjlX?=
+ =?utf-8?B?aDdud2RHZUlIeElHZHJqK0dROEZZKzJ1N0lqSFU1TXhDYUVBS2lmOGZEcUk4?=
+ =?utf-8?B?QzkvSGRPRkdMMFJRNkd1UXBCMFI3djNqRThMR2gwWXNNQktUM2x3MnBvQ2ox?=
+ =?utf-8?B?ODAydGZpaEtRYUw2MmlPNHFXcUIrbkJBUTRZTzJCRHBrSWRYdlVtZjFPYkYw?=
+ =?utf-8?B?YmtsRUh2cXNhM1RqVXB6VmVBdGF1NU5NcUxndEREMHpZRFNrcENzYVZNQjhq?=
+ =?utf-8?B?N3ZWOHI0UjlTMUZSR1NDcUVUeG1wQjFTT2U5VXVESE5JajJ3bE9rVy92YjJQ?=
+ =?utf-8?B?a3FFQThyeWNpUWFBQnNrUG1ScUxSOGk5S3NQTHJGSzlLZ2cwYU14VzJjbEJo?=
+ =?utf-8?B?R1ZlRTRJVW12cStmbGJFWUlBTUlWMlR0Qk13ZE1qVnJSWVNoMFVyMDhjVTRO?=
+ =?utf-8?B?QnhHcTF3ck9FMGdGbWQxOTlIZHV1Q3lWcmd0Zm4zYzhXV3ZrRkJBdSt2ZG5C?=
+ =?utf-8?B?dlU0aGV4MnFFTi9CU3RuYktVME4yTStodWJVQnUxYlo5NFk3QUNHZlkyaFVO?=
+ =?utf-8?B?anJlRk5FczJBQ0ZOcldQLzAwdHJ1T0dmM2VXQktZbHowUEkrbXV2NE9Xa1U3?=
+ =?utf-8?Q?/FMxNYAmnYWOjnfggVS84kCdnBZkXnKYkyXYjLN?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c1db3d7-ea1a-47d3-8c6e-08d8ee5516ab
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 23:40:49.3986
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3aHvwsDlzGc1T3OXdIAqxSHGce+MfO9qwuK27SWICdLOnCms32ewl4XDdjByjJZOxEqoBCcDpASaRFt+BmG13quEBkdGQVmC5Q5MgP5Rgtg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1674
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-From: Catalin Enache <catalin.enache@windriver.com>
+On 2021-03-23 7:37 p.m., Randy MacLeod wrote:
+> From: Catalin Enache <catalin.enache@windriver.com>
+> 
+> A stack-based buffer overflow in dnsproxy in ConnMan before 1.39
+> could be used by network adjacent attackers to execute code.
+> 
+> gdhcp in ConnMan before 1.39 could be used by network-adjacent.
+> attackers to leak sensitive stack information, allowing further
+> exploitation of bugs in gdhcp.
+> 
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2021-26675
+> https://nvd.nist.gov/vuln/detail/CVE-2021-26676
+> 
+> Upstream patches:
+> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=e4079a20f617a4b076af503f6e4e8b0304c9f2cb
+> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=58d397ba74873384aee449690a9070bacd5676fa
+> https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1
+> 
+> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-A stack-based buffer overflow in dnsproxy in ConnMan before 1.39
-could be used by network adjacent attackers to execute code.
+BUILDALL-QEMU LOG FOR connman
+START TIME: 2021-03-23_11:13:40
+HOSTNAME: ala-lpggp3
+HOST OS: Ubuntu 18.04.3 LTS
+HOST KERNEL: 5.4.0-67-generic
+===============
+BUILD RESULTS:
+[glibc]
+PASS: qemuarmv5
+PASS: qemumips
+PASS: qemux86-64
+PASS: qemuarm64
+PASS: qemumips64
+PASS: qemuarm
+PASS: qemuppc
+PASS: qemuriscv64
+PASS: qemux86
+[musl]
+PASS: qemuarmv5
+PASS: qemumips
+PASS: qemux86-64
+PASS: qemuarm64
+PASS: qemumips64
+PASS: qemuarm
+PASS: qemuppc
+PASS: qemuriscv64
+PASS: qemux86
+===============
+PASSED: 18
+FAILED: 0
 
-gdhcp in ConnMan before 1.39 could be used by network-adjacent.
-attackers to leak sensitive stack information, allowing further
-exploitation of bugs in gdhcp.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2021-26675
-https://nvd.nist.gov/vuln/detail/CVE-2021-26676
+I didn't do any run-time testing but I suspect that Catalin did.
+Catalin?
 
-Upstream patches:
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=e4079a20f617a4b076af503f6e4e8b0304c9f2cb
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=58d397ba74873384aee449690a9070bacd5676fa
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1
-
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- .../connman/connman/CVE-2021-26675.patch      |  62 +++++
- .../connman/connman/CVE-2021-26676-0001.patch | 231 ++++++++++++++++++
- .../connman/connman/CVE-2021-26676-0002.patch |  33 +++
- .../connman/connman_1.37.bb                   |   3 +
- 4 files changed, 329 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
-
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
-new file mode 100644
-index 0000000000..2648a832ca
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
-@@ -0,0 +1,62 @@
-+From e4079a20f617a4b076af503f6e4e8b0304c9f2cb Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:41:53 +0100
-+Subject: [PATCH] dnsproxy: Add length checks to prevent buffer overflow
-+
-+Fixes: CVE-2021-26675
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-26675
-+
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=e4079a20f617a4b076af503f6e4e8b0304c9f2cb
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ src/dnsproxy.c | 14 +++++++++++---
-+ 1 file changed, 11 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-+index a7bf87a1..4f5c897f 100644
-+--- a/src/dnsproxy.c
-++++ b/src/dnsproxy.c
-+@@ -1767,6 +1767,7 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+			char **uncompressed_ptr)
-+ {
-+	char *uptr = *uncompressed_ptr; /* position in result buffer */
-++	char * const uncomp_end = uncompressed + uncomp_len - 1;
-+
-+	debug("count %d ptr %p end %p uptr %p", field_count, ptr, end, uptr);
-+
-+@@ -1787,12 +1788,15 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+		 * tmp buffer.
-+		 */
-+
-+-		ulen = strlen(name);
-+-		strncpy(uptr, name, uncomp_len - (uptr - uncompressed));
-+-
-+		debug("pos %d ulen %d left %d name %s", pos, ulen,
-+			(int)(uncomp_len - (uptr - uncompressed)), uptr);
-+
-++		ulen = strlen(name);
-++		if ((uptr + ulen + 1) > uncomp_end) {
-++			goto out;
-++		}
-++		strncpy(uptr, name, uncomp_len - (uptr - uncompressed));
-++
-+		uptr += ulen;
-+		*uptr++ = '\0';
-+
-+@@ -1802,6 +1806,10 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+		 * We copy also the fixed portion of the result (type, class,
-+		 * ttl, address length and the address)
-+		 */
-++		if ((uptr + NS_RRFIXEDSZ) > uncomp_end) {
-++			debug("uncompressed data too large for buffer");
-++			goto out;
-++		}
-+		memcpy(uptr, ptr, NS_RRFIXEDSZ);
-+
-+		dns_type = uptr[0] << 8 | uptr[1];
-+--
-+2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
-new file mode 100644
-index 0000000000..4104e4bfc6
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
-@@ -0,0 +1,231 @@
-+From 58d397ba74873384aee449690a9070bacd5676fa Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:39:14 +0100
-+Subject: [PATCH] gdhcp: Avoid reading invalid data in dhcp_get_option
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-26676
-+
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=58d397ba74873384aee449690a9070bacd5676fa
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ gdhcp/client.c | 20 +++++++++++---------
-+ gdhcp/common.c | 24 +++++++++++++++++++-----
-+ gdhcp/common.h |  2 +-
-+ gdhcp/server.c | 12 +++++++-----
-+ 4 files changed, 38 insertions(+), 20 deletions(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 09dfe5ec..6a5613e7 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -1629,12 +1629,12 @@ static void start_request(GDHCPClient *dhcp_client)
-+							NULL);
-+ }
-+
-+-static uint32_t get_lease(struct dhcp_packet *packet)
-++static uint32_t get_lease(struct dhcp_packet *packet, uint16_t packet_len)
-+ {
-+	uint8_t *option;
-+	uint32_t lease_seconds;
-+
-+-	option = dhcp_get_option(packet, DHCP_LEASE_TIME);
-++	option = dhcp_get_option(packet, packet_len, DHCP_LEASE_TIME);
-+	if (!option)
-+		return 3600;
-+
-+@@ -2226,7 +2226,8 @@ static void get_dhcpv6_request(GDHCPClient *dhcp_client,
-+	}
-+ }
-+
-+-static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet)
-++static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet,
-++		uint16_t packet_len)
-+ {
-+	GDHCPOptionType type;
-+	GList *list, *value_list;
-+@@ -2237,7 +2238,7 @@ static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet)
-+	for (list = dhcp_client->request_list; list; list = list->next) {
-+		code = (uint8_t) GPOINTER_TO_INT(list->data);
-+
-+-		option = dhcp_get_option(packet, code);
-++		option = dhcp_get_option(packet, packet_len, code);
-+		if (!option) {
-+			g_hash_table_remove(dhcp_client->code_value_hash,
-+						GINT_TO_POINTER((int) code));
-+@@ -2297,6 +2298,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+		re = dhcp_recv_l2_packet(&packet,
-+					dhcp_client->listener_sockfd,
-+					&dst_addr);
-++		pkt_len = (uint16_t)(unsigned int)re;
-+		xid = packet.xid;
-+	} else if (dhcp_client->listen_mode == L3) {
-+		if (dhcp_client->type == G_DHCP_IPV6) {
-+@@ -2361,7 +2363,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			dhcp_client->status_code = status;
-+		}
-+	} else {
-+-		message_type = dhcp_get_option(&packet, DHCP_MESSAGE_TYPE);
-++		message_type = dhcp_get_option(&packet, pkt_len, DHCP_MESSAGE_TYPE);
-+		if (!message_type)
-+			return TRUE;
-+	}
-+@@ -2378,7 +2380,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+		dhcp_client->timeout = 0;
-+		dhcp_client->retry_times = 0;
-+
-+-		option = dhcp_get_option(&packet, DHCP_SERVER_ID);
-++		option = dhcp_get_option(&packet, pkt_len, DHCP_SERVER_ID);
-+		dhcp_client->server_ip = get_be32(option);
-+		dhcp_client->requested_ip = ntohl(packet.yiaddr);
-+
-+@@ -2428,9 +2430,9 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+
-+			remove_timeouts(dhcp_client);
-+
-+-			dhcp_client->lease_seconds = get_lease(&packet);
-++			dhcp_client->lease_seconds = get_lease(&packet, pkt_len);
-+
-+-			get_request(dhcp_client, &packet);
-++			get_request(dhcp_client, &packet, pkt_len);
-+
-+			switch_listening_mode(dhcp_client, L_NONE);
-+
-+@@ -2438,7 +2440,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			dhcp_client->assigned_ip = get_ip(packet.yiaddr);
-+
-+			if (dhcp_client->state == REBOOTING) {
-+-				option = dhcp_get_option(&packet,
-++				option = dhcp_get_option(&packet, pkt_len,
-+							DHCP_SERVER_ID);
-+				dhcp_client->server_ip = get_be32(option);
-+			}
-+diff --git a/gdhcp/common.c b/gdhcp/common.c
-+index 1d667d17..c8916aa8 100644
-+--- a/gdhcp/common.c
-++++ b/gdhcp/common.c
-+@@ -73,18 +73,21 @@ GDHCPOptionType dhcp_get_code_type(uint8_t code)
-+	return OPTION_UNKNOWN;
-+ }
-+
-+-uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code)
-++uint8_t *dhcp_get_option(struct dhcp_packet *packet, uint16_t packet_len, int code)
-+ {
-+	int len, rem;
-+-	uint8_t *optionptr;
-++	uint8_t *optionptr, *options_end;
-++	size_t options_len;
-+	uint8_t overload = 0;
-+
-+	/* option bytes: [code][len][data1][data2]..[dataLEN] */
-+	optionptr = packet->options;
-+	rem = sizeof(packet->options);
-++	options_len = packet_len - (sizeof(*packet) - sizeof(packet->options));
-++	options_end = optionptr + options_len - 1;
-+
-+	while (1) {
-+-		if (rem <= 0)
-++		if ((rem <= 0) && (optionptr + OPT_CODE > options_end))
-+			/* Bad packet, malformed option field */
-+			return NULL;
-+
-+@@ -115,14 +118,25 @@ uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code)
-+			break;
-+		}
-+
-++		if (optionptr + OPT_LEN > options_end) {
-++			/* bad packet, would read length field from OOB */
-++			return NULL;
-++		}
-++
-+		len = 2 + optionptr[OPT_LEN];
-+
-+		rem -= len;
-+		if (rem < 0)
-+			continue; /* complain and return NULL */
-+
-+-		if (optionptr[OPT_CODE] == code)
-+-			return optionptr + OPT_DATA;
-++		if (optionptr[OPT_CODE] == code) {
-++			if (optionptr + len > options_end) {
-++				/* bad packet, option length points OOB */
-++				return NULL;
-++			} else {
-++				return optionptr + OPT_DATA;
-++			}
-++		}
-+
-+		if (optionptr[OPT_CODE] == DHCP_OPTION_OVERLOAD)
-+			overload |= optionptr[OPT_DATA];
-+diff --git a/gdhcp/common.h b/gdhcp/common.h
-+index 9660231c..8f63fd75 100644
-+--- a/gdhcp/common.h
-++++ b/gdhcp/common.h
-+@@ -179,7 +179,7 @@ struct in6_pktinfo {
-+ };
-+ #endif
-+
-+-uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code);
-++uint8_t *dhcp_get_option(struct dhcp_packet *packet, uint16_t packet_len, int code);
-+ uint8_t *dhcpv6_get_option(struct dhcpv6_packet *packet, uint16_t pkt_len,
-+			int code, uint16_t *option_len, int *option_count);
-+ uint8_t *dhcpv6_get_sub_option(unsigned char *option, uint16_t max_len,
-+diff --git a/gdhcp/server.c b/gdhcp/server.c
-+index 85405f19..52ea2a55 100644
-+--- a/gdhcp/server.c
-++++ b/gdhcp/server.c
-+@@ -413,7 +413,7 @@ error:
-+ }
-+
-+
-+-static uint8_t check_packet_type(struct dhcp_packet *packet)
-++static uint8_t check_packet_type(struct dhcp_packet *packet, uint16_t packet_len)
-+ {
-+	uint8_t *type;
-+
-+@@ -423,7 +423,7 @@ static uint8_t check_packet_type(struct dhcp_packet *packet)
-+	if (packet->op != BOOTREQUEST)
-+		return 0;
-+
-+-	type = dhcp_get_option(packet, DHCP_MESSAGE_TYPE);
-++	type = dhcp_get_option(packet, packet_len, DHCP_MESSAGE_TYPE);
-+
-+	if (!type)
-+		return 0;
-+@@ -651,6 +651,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+	struct dhcp_lease *lease;
-+	uint32_t requested_nip = 0;
-+	uint8_t type, *server_id_option, *request_ip_option;
-++	uint16_t packet_len;
-+	int re;
-+
-+	if (condition & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
-+@@ -661,12 +662,13 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+	re = dhcp_recv_l3_packet(&packet, dhcp_server->listener_sockfd);
-+	if (re < 0)
-+		return TRUE;
-++	packet_len = (uint16_t)(unsigned int)re;
-+
-+-	type = check_packet_type(&packet);
-++	type = check_packet_type(&packet, packet_len);
-+	if (type == 0)
-+		return TRUE;
-+
-+-	server_id_option = dhcp_get_option(&packet, DHCP_SERVER_ID);
-++	server_id_option = dhcp_get_option(&packet, packet_len, DHCP_SERVER_ID);
-+	if (server_id_option) {
-+		uint32_t server_nid =
-+			get_unaligned((const uint32_t *) server_id_option);
-+@@ -675,7 +677,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			return TRUE;
-+	}
-+
-+-	request_ip_option = dhcp_get_option(&packet, DHCP_REQUESTED_IP);
-++	request_ip_option = dhcp_get_option(&packet, packet_len, DHCP_REQUESTED_IP);
-+	if (request_ip_option)
-+		requested_nip = get_be32(request_ip_option);
-+
-+--
-+2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
-new file mode 100644
-index 0000000000..ce909ec293
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
-@@ -0,0 +1,33 @@
-+From a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1 Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:41:09 +0100
-+Subject: [PATCH] gdhcp: Avoid leaking stack data via unitiialized variable
-+
-+Fixes: CVE-2021-26676
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-26676
-+
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ gdhcp/client.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 6a5613e7..c7b85e58 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -2270,7 +2270,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+ {
-+	GDHCPClient *dhcp_client = user_data;
-+	struct sockaddr_in dst_addr = { 0 };
-+-	struct dhcp_packet packet;
-++	struct dhcp_packet packet = { 0 };
-+	struct dhcpv6_packet *packet6 = NULL;
-+	uint8_t *message_type = NULL, *client_id = NULL, *option,
-+		*server_id = NULL;
-+--
-+2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-index 00852bf0d6..bdab4c4f18 100644
---- a/meta/recipes-connectivity/connman/connman_1.37.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-@@ -6,6 +6,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-gweb-fix-segfault-with-musl-v1.1.21.patch \
-             file://connman \
-             file://no-version-scripts.patch \
-+            file://CVE-2021-26675.patch \
-+            file://CVE-2021-26676-0001.patch \
-+            file://CVE-2021-26676-0002.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 -- 
-2.27.0
-
+# Randy MacLeod
+# Wind River Linux
