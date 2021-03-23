@@ -1,134 +1,104 @@
-Received: from bsmtp1.bon.at (bsmtp1.bon.at [213.33.87.15])
- by mx.groups.io with SMTP id smtpd.web10.264.1616522948652029835
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web08.2154.1616530329570399709
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 11:09:09 -0700
+ Tue, 23 Mar 2021 13:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.15, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp1.bon.at (Postfix) with ESMTPSA id 4F4fWj5SzMz5tlH;
-	Tue, 23 Mar 2021 19:09:05 +0100 (CET)
-Date: Tue, 23 Mar 2021 19:09:04 +0100
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Yann Dirson <yann@blade-group.com>
-Subject: Re: [OE-core] [PATCH] [RFC] ffmpeg: make LICENSE_FLAGS fine-grained
-Message-ID: <20210323180904.2xotwp4y3iyym57q@qschulz>
-References: <20210323163742.810094-1-yann@blade-group.com>
- <CANNYZj8fm0vTpB-p0PFJNmF4S8oOBmKGhK+R7PBhOdKZXy4R7A@mail.gmail.com>
- <20210323172746.ovdldryxjlupqvdj@qschulz>
- <CA+4=imaC00dQWRoKupNsL63Oazzq7512CZPOePXvoU1m=t5vqw@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=erzhDKrp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id z8so27249698ljm.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 13:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hQzrGApPQ34H6lJ2sSaq5/N/2vBunaUy7+UusNJIb7Y=;
+        b=erzhDKrpC128v1W21Qpimj/yx+v3Ek0CqGJQjbrgAVj5SfaAmMF+nMD6Qp+XglkmBc
+         RJi6XkbzYXfBszFSjbvpxvExYnylVrTkGmgAe5VdV1OBWl6puoxoBITvPyURon75GMR2
+         HtgrqbWg2cnCTVm4AQhUcXoKV6wuyzEdWWU614sQduNvunJ9NsFltJnp18MTlUGGcEtS
+         7agjNtpr8hhfp/i0EuzdRymMdEHE6rtuJmDmOyvp6p9J1+eu6mMlob087QBY2uwu1dM6
+         jswswQPY2qZnRqmddPyIm7rKP94MI1EhgjuyPpm0amBq76tquo90Jw9pFEFN15xWUioP
+         qd5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hQzrGApPQ34H6lJ2sSaq5/N/2vBunaUy7+UusNJIb7Y=;
+        b=chA2YsSrLUNX/JXdD5FkO1pYjYDwOBa/BywkOI5lTvgDCLx/ghYVusLgfhzOKpvmqv
+         AXWlB63QxXhP+m8HJOYUvtPP5/xgUPLWD7t2T2gR/SNBJWY+kr5z7oyjS+REdhhiIOeM
+         mEGeYtLNA+iVPpF1o7QcKjdkwtkIhSLGzE/RDQ7Kfrw/PqidKP6CgcLdKjoRmdAsm4NO
+         b74tBmh3sfFtPvgAslBSdslE9ChgW/uC5i0HGiyxQD+hgWqRbsKcZkqztYvkmBCOYa4x
+         uvCdFD0VhLd7B8VxltTmHmWTzkZJgayisdn3S7M1dUbAUgMu2k5R6NBCYyNxAlDfyqTO
+         wZIw==
+X-Gm-Message-State: AOAM530Kevebe1hS+efLK9IcqOS9Y++IgR89HFRDxHr/ZGoNnWE81GkP
+	7U13+65CnM3UrUArlnpBNFENJBRktM2VusM9Kzk=
+X-Google-Smtp-Source: ABdhPJwtBye8Q8WBhqKRtPJiMzVyTXRh43yqWl+4+iKS/Zqkn9AijvJknT2CF/2hdpB9WAXATGKRcCZVI8h6Oi3C5bo=
+X-Received: by 2002:a05:651c:3c1:: with SMTP id f1mr4198839ljp.507.1616530327429;
+ Tue, 23 Mar 2021 13:12:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CA+4=imaC00dQWRoKupNsL63Oazzq7512CZPOePXvoU1m=t5vqw@mail.gmail.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+References: <8763d612-bc5d-1dc6-84d7-88936ca479c6@crashcourse.ca>
+In-Reply-To: <8763d612-bc5d-1dc6-84d7-88936ca479c6@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 23 Mar 2021 13:11:55 -0700
+Message-ID: <CAJ86T=VZo4htkWs1bAQ07JoFQfCBctQTL3m=iNBj_5zqFxM8Bw@mail.gmail.com>
+Subject: Re: [OE-core] proper (vs weird) way to define proprietary licenses
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 23, 2021 at 07:02:43PM +0100, Yann Dirson wrote:
-> Le mar. 23 mars 2021 =E0 18:27, Quentin Schulz
-> <quentin.schulz@streamunlimited.com> a =E9crit :
-> >
-> > Hi all,
-> >
-> > On Tue, Mar 23, 2021 at 05:42:20PM +0100, Alexander Kanavin wrote:
-> > > Is it possible to further split the NONCOMMERCIAL_PACKAGECONFIGS in=
-to ones
-> > > that are enabled and disabled, and use the former in PACKAGECONFIG =
-itself?
-> > >
-> > > Alex
-> > >
-> > > On Tue, 23 Mar 2021 at 17:38, Yann Dirson <yann.dirson@blade-group.=
-com>
-> > > wrote:
-> > >
-> > > > From: Yann Dirson <yann@blade-group.com>
-> > > >
-> > > > The rationale here is that if the user can only whitelist "commer=
-cial"
-> > > > to use any part of ffmpeg, even it the list of features is carefu=
-lly
-> > > > reviewed when switching the whitelisting on, there was nothing to
-> > > > guard from inadvertently activating a new feature that would not =
-have
-> > > > been reviewed.
-> > > >
-> > > > This patch adds one LICENSE_FLAGS value for each feature, except =
-for
-> > > > those that bring no codec, trying to be on the same level of lega=
-l
-> > > > safety - but then I may miss something.
-> > > >
-> > > > I tried to leave out of the safe NONCOMMERCIAL_PACKAGECONFIGS lis=
-t
-> > > > anything that brings a codec, notably libavcodec.  I also did not=
- look
-> > > > at non-default features yet.
-> > > >
-> > > > There may still be a problem if any feature in ffmpeg gets activa=
-ted
-> > > > by default upstream and not registed as a PACKAGECONFIG feature. =
- At
-> > > > least any of those that depend on another lib would not be enable=
-d,
-> > > > that could be seen as a sufficient safeguard.
-> > > > ---
-> > > >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb | 12 +++++++++++-
-> > > >  1 file changed, 11 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> > > > b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> > > > index 08be38ca50..3a36c95151 100644
-> > > > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> > > > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> > > > @@ -16,7 +16,17 @@ LICENSE_libavutil =3D
-> > > > "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGP
-> > > >  LICENSE_libpostproc =3D "GPLv2+"
-> > > >  LICENSE_libswresample =3D "${@bb.utils.contains('PACKAGECONFIG',=
- 'gpl',
-> > > > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > > >  LICENSE_libswscale =3D "${@bb.utils.contains('PACKAGECONFIG', 'g=
-pl',
-> > > > 'GPLv2+', 'LGPLv2.1+', d)}"
-> > > > -LICENSE_FLAGS =3D "commercial"
-> > > > +
-> > > > +# PACKAGECONFIG features that do not pull codecs
-> > > > +NONCOMMERCIAL_PACKAGECONFIGS =3D " \
-> > > > + alsa bzlib drm gpl lzma zlib xcb xv \
-> > > > + avdevice avfilter avformat swresample swscale postproc avresamp=
-le \
-> > > > +"
-> > > > +# An ffmpeg feature not in NONCOMMERCIAL_PACKAGECONFIGS should b=
-e
-> > > > explicitly whitelisted.
-> > > > +# See https://ffmpeg.org/legal.html
-> > > > +LICENSE_FLAGS =3D "${@' '.join('commercial_' + cfg \
-> > > > +                             for cfg in '${PACKAGECONFIG}'.split=
-() \
-> >
-> > I would at least make it commercial_ffmpeg- + cfg. To make it obvious
-> > that it belongs to ffmpeg recipe/packages.
->=20
-> Makes sense.
->=20
-> >
-> > I guess it breaks backward compatibility, which IMO is fine unless th=
-ere
-> > is a possibility someone who blacklisted this commercial license in s=
-ome
-> > way now has it enabled. I don't know enough about the inner workings =
-of
-> > LICENSE_FLAGS so cannot say if this is covered or not.
->=20
-> You mean, that "commercial" would be whitelisted globally, but then
-> something would
-> exclude ffmpeg from that whitelist ?  I'm not aware of a way to do that=
-.
->=20
+On Tue, Mar 23, 2021 at 3:13 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>   once again into the code base i'm poring over, and this time, it's
+> about defining proprietary licenses for internal recipes.
 
-That was exactly what I meant. No idea either if such a mechanism
-exists.
+The typical approach for recipes which build proprietary code is to
+set LICENSE to "CLOSED" (and not define LIC_FILES_CHKSUM).
 
-Cheers,
-Quentin
+I'm not sure what the advantages are of creating a license text for a
+proprietary license (since presumably you won't be sharing the source
+or license text with anyone). However, if you do need to do that for
+some reason, be sure to double check COPYLEFT_LICENSE_EXCLUDE (e.g.
+append your proprietary license to it from your layer.conf) in avoid
+someone enabling the archiver class and accidentally including your
+proprietary code in a release of the open source code used in a
+project.
+
+>   turns out the meta-boundary layer has a nice example of what i'm
+> sure is the right way to do this (i've rarely had to do this myself),
+> wherein the layer's "layer.conf" file defines where to go get some
+> extra licenses:
+>
+>   LICENSE_PATH += "${LAYERDIR}/licenses"
+>
+> or possibly some variant like (for ubiquitous acme corp.):
+>
+>   LICENSE_PATH += "${LAYERDIR}/files/acme-licenses"
+>
+> to pair up with OE's .../files/common-licenses, you get the idea.
+>
+>   so i was puzzled when i saw all these clearly proprietary recipes
+> that did not define LICENSE or LIC_FILES_CHKSUM values but, instead,
+> inherited "acme-license.bbclass", whereupon ... well ...
+>
+> acme-license.bbclass
+> ====================
+>
+>   HOMEPAGE = "https://acme.com"
+>   LICENSE  = "Acme-Corp-License"
+>   LIC_FILES_CHKSUM =
+>         "file://${THISDIR}/../../files/acme-licenses/${LICENSE};
+>         md5=deadbeef..."
+>
+> *sigh* ... while this might save a couple lines per recipe file, i
+> can't believe this is a reasonable approach. has anyone else seen this
+> strategy?
+
+Doesn't seem too unreasonable (aside from the comments above about
+setting LICENSE to "CLOSED" for proprietary recipes).
+
+>   in any event, i'm adding this to my current list of "stuff you might
+> want to avoid doing when using openembedded."
+>
+> rday
+>
+> 
+>
