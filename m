@@ -1,84 +1,93 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.729.1616519040651408767
+Received: from bsmtp1.bon.at (bsmtp1.bon.at [213.33.87.15])
+ by mx.groups.io with SMTP id smtpd.web12.247.1616520469786754993
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 10:04:01 -0700
+ Tue, 23 Mar 2021 10:27:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=Onv9uMLZ;
- spf=pass (domain: blade-group.com, ip: 209.85.221.50, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-wr1-f50.google.com with SMTP id x13so21522375wrs.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 10:04:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nn5I6muMlNzkoqn1n1tUAjz3WGmFvPBQYHcziunpioU=;
-        b=Onv9uMLZCn/PeVCYkKyjw0d/ngyAwTLqtNbb0DP23sxPLLDtgas6SudciMsghd313G
-         m8II4CPNdjJG0FKXZeSkOmV+k4CzJfQ4i0+8D2U2xIDKZnVaBwHeyhHQ23r2R/fIoT/s
-         nGM6CrtZDUgKxAJbbKW21wQ6UKas1VXKzj1MvzQ/tidfmkdh5tADoxuaVHR2PdvUlGRs
-         jvm8fxfkaM7emmzK59buxD/KO6o08kCvWSl44AqQobZDq1yADNtafYdAraz0QmTPAvDf
-         WaQGfiiA8E4kYHgrJStG6KAf55bYuXR36BD+9EKbDCclKYMPCMIxh+obd7l7+chCJOq1
-         ypPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nn5I6muMlNzkoqn1n1tUAjz3WGmFvPBQYHcziunpioU=;
-        b=ani+OA+pnH0sFkkr7OKQ4ihPh9hdmSxOp6Rz5r3kejPg0kqNxxMUaOt974uY6MmO5F
-         aQrqlAdkF0D3kTQHNv+bycjAT+01zGrryJOXNJ/Uiev8I1cqU/h86w43ZORA71P6xPa7
-         Ixxt31+W6EA9eMrekjwmpBdm7DuJR7iNr1lBuy8s8Eqhe9TMvvqbPIliJ/8MtcrLKmR1
-         8fpsgOmSi4cuULguv3uQFDwN+sw0VDhBVwX/obR4rz+7l6BKExRCneIVV0mL1r8KP5Kg
-         /6mFuE76JoEWeH+dTJM6V4Igx2dQWbO0KdW7Ys+osExk0pXQKeDsCuON42owHM0B1//z
-         uF1A==
-X-Gm-Message-State: AOAM533goaiNlmIfQyG4JbO2XivVM0xmpnQtNjHPFmPtQnA2tXRF1vCm
-	W4TMX2z+yyomDymI2xUxwoGajG9yjBHp7A==
-X-Google-Smtp-Source: ABdhPJzThi6lXzwVaopeoBa/MuARfPAFXuoWjqDyc8Pz/rDH+hnXPntYU17Q3TQB2MHmGE4HWhmDag==
-X-Received: by 2002:adf:f005:: with SMTP id j5mr4858257wro.423.1616519039118;
-        Tue, 23 Mar 2021 10:03:59 -0700 (PDT)
-Return-Path: <yann.dirson@blade-group.com>
-Received: from blanquette.lan ([88.120.44.86])
-        by smtp.gmail.com with ESMTPSA id q17sm23763876wrv.25.2021.03.23.10.03.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 10:03:58 -0700 (PDT)
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-X-Google-Original-From: yann@blade-group.com
-To: openembedded-core@lists.openembedded.org
-Cc: Yann Dirson <yann@blade-group.com>
-Subject: [PATCH] gstreamer1.0-libav: remove explicit LICENSE_FLAGS
-Date: Tue, 23 Mar 2021 18:03:44 +0100
-Message-Id: <20210323170344.811024-1-yann@blade-group.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.15, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp1.bon.at (Postfix) with ESMTPSA id 4F4dc33MR5z5tlB;
+	Tue, 23 Mar 2021 18:27:47 +0100 (CET)
+Date: Tue, 23 Mar 2021 18:27:46 +0100
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Yann Dirson <yann.dirson@blade-group.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Yann Dirson <yann@blade-group.com>
+Subject: Re: [OE-core] [PATCH] [RFC] ffmpeg: make LICENSE_FLAGS fine-grained
+Message-ID: <20210323172746.ovdldryxjlupqvdj@qschulz>
+References: <20210323163742.810094-1-yann@blade-group.com>
+ <CANNYZj8fm0vTpB-p0PFJNmF4S8oOBmKGhK+R7PBhOdKZXy4R7A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANNYZj8fm0vTpB-p0PFJNmF4S8oOBmKGhK+R7PBhOdKZXy4R7A@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Yann Dirson <yann@blade-group.com>
+Hi all,
 
-This flag does not describe the gst-libav package, but ffmpeg instead.
-It gets in the way of using finer-grained LICENSE_FLAGS in ffmpeg.
+On Tue, Mar 23, 2021 at 05:42:20PM +0100, Alexander Kanavin wrote:
+> Is it possible to further split the NONCOMMERCIAL_PACKAGECONFIGS into ones
+> that are enabled and disabled, and use the former in PACKAGECONFIG itself?
+> 
+> Alex
+> 
+> On Tue, 23 Mar 2021 at 17:38, Yann Dirson <yann.dirson@blade-group.com>
+> wrote:
+> 
+> > From: Yann Dirson <yann@blade-group.com>
+> >
+> > The rationale here is that if the user can only whitelist "commercial"
+> > to use any part of ffmpeg, even it the list of features is carefully
+> > reviewed when switching the whitelisting on, there was nothing to
+> > guard from inadvertently activating a new feature that would not have
+> > been reviewed.
+> >
+> > This patch adds one LICENSE_FLAGS value for each feature, except for
+> > those that bring no codec, trying to be on the same level of legal
+> > safety - but then I may miss something.
+> >
+> > I tried to leave out of the safe NONCOMMERCIAL_PACKAGECONFIGS list
+> > anything that brings a codec, notably libavcodec.  I also did not look
+> > at non-default features yet.
+> >
+> > There may still be a problem if any feature in ffmpeg gets activated
+> > by default upstream and not registed as a PACKAGECONFIG feature.  At
+> > least any of those that depend on another lib would not be enabled,
+> > that could be seen as a sufficient safeguard.
+> > ---
+> >  meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb | 12 +++++++++++-
+> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> > b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> > index 08be38ca50..3a36c95151 100644
+> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> > @@ -16,7 +16,17 @@ LICENSE_libavutil =
+> > "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LGP
+> >  LICENSE_libpostproc = "GPLv2+"
+> >  LICENSE_libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> >  LICENSE_libswscale = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+> > 'GPLv2+', 'LGPLv2.1+', d)}"
+> > -LICENSE_FLAGS = "commercial"
+> > +
+> > +# PACKAGECONFIG features that do not pull codecs
+> > +NONCOMMERCIAL_PACKAGECONFIGS = " \
+> > + alsa bzlib drm gpl lzma zlib xcb xv \
+> > + avdevice avfilter avformat swresample swscale postproc avresample \
+> > +"
+> > +# An ffmpeg feature not in NONCOMMERCIAL_PACKAGECONFIGS should be
+> > explicitly whitelisted.
+> > +# See https://ffmpeg.org/legal.html
+> > +LICENSE_FLAGS = "${@' '.join('commercial_' + cfg \
+> > +                             for cfg in '${PACKAGECONFIG}'.split() \
 
-It is above all not needed, the real problem is even more clear without it:
+I would at least make it commercial_ffmpeg- + cfg. To make it obvious
+that it belongs to ffmpeg recipe/packages.
 
- ffmpeg was skipped: because it has a restricted license 'commercial'. Which is not whitelisted in LICENSE_FLAGS_WHITELIST
- ERROR: Required build target 'gstreamer1.0-libav' has no buildable providers.
- Missing or unbuildable dependency chain was: ['gstreamer1.0-libav', 'ffmpeg']
+I guess it breaks backward compatibility, which IMO is fine unless there
+is a possibility someone who blacklisted this commercial license in some
+way now has it enabled. I don't know enough about the inner workings of
+LICENSE_FLAGS so cannot say if this is covered or not.
 
-Signed-off-by: Yann Dirson <yann@blade-group.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.3.bb | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.3.bb
-index baf87fd871..3ea5560dc3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.3.bb
-@@ -4,8 +4,6 @@ muxers, and demuxers provided by FFmpeg."
- HOMEPAGE = "http://gstreamer.freedesktop.org/"
- SECTION = "multimedia"
- 
--# ffmpeg has comercial license flags so add it as we need ffmpeg as a dependency
--LICENSE_FLAGS = "commercial"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
--- 
-2.30.2
-
+Quentin
