@@ -1,72 +1,88 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web08.323.1616536208371480480
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web09.412.1616536383791255887
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 14:50:08 -0700
+ Tue, 23 Mar 2021 14:53:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hxFeCjUk;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id v186so13104294pgv.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 14:50:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i5AX+clW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 184so27626941ljf.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 14:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3XY7il6VrJB9M0Hk1ELOU6GQ+k+nhWTP60tvZPlHUwU=;
-        b=hxFeCjUkmnMx8FZMGn4AytTn/ZiKJl7D6FhXWttgmxDsQbIUjwljQjVum2nSNwTXC5
-         U6NAW52amGbEASPrARs8fgB/zE16QY8qcMaxnBCmwUXYDbr0+fyw/hk0RNbkzUHqHGut
-         sxs+sgg3NWC/mTUoeoNcI3+VxpHVUzfjOVp+s0XHk7LsIc4vxqNLgTXAmUTRi1myYd3E
-         3UwIsP7pppZrCkleFiznNNI6k4PYrxpux3oqwcaIvuJO+4aXCAQrfBOCRsOWx/Qaojrz
-         SNlQ9WYhP1v0CqxD/PnKFno7kLd/wHuatZg5vVENgYwu3eIVkc6T7k3/6R1DUOZIPPvP
-         HzMw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IL3jnRpxOLakNzkACNnSVj6zXhsSnNRRyy58rQijmW0=;
+        b=i5AX+clWVbQL5cxdfz8beI1l7YnnzVJavUMMYgwUCH82vaeqPBtQJCZOLyvqdNpr6W
+         YJX+JyikmpCg3pndADlbGJCWr1z2auGO8AFJArBkHShMKSs+xExW66WQHbbR9z4NVN24
+         ydxy6WA+ixCGuUVY31hodXOpJ3MvMCBOiF9Zw4E5SihcEtnhnoJajQCOFoALNsaUQogi
+         7RlUXwlg/O0MS3I5kGkrDJs2GjzB7AYaN/0wzOdmSDYmw2+D+s6pgRdA/rQAAYpjEP68
+         j1ryVnXUVC71N21EwqrrAaVwKYlZL/Zah+LMx1Hg9utxt0IXGH6Zg77Mw0ep/35bn3L+
+         wDwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3XY7il6VrJB9M0Hk1ELOU6GQ+k+nhWTP60tvZPlHUwU=;
-        b=BwuhXJE27R9sLONf68+AqeYOR3NERG1fzvqOB0TDvzF9M+u4NAem6OhnU7AJTc8ljM
-         CoIh0NxN0ZD8fXjs3wJP2k5pBEOdVNW5yFQuwIHj7XmxrI7qDCbWQn39BBLwM0DVKYjq
-         vGc7ExLQOnnwkQdgVSZ+xgGCPFHdhXwgpQpKTcb9LY+FJwZfYTjwxFIZKZzpkngzZ6oV
-         /jRe+GG1f/+/ya+xpk9zvzfnZkqXhRqcBGDb9q5thWfUPfaK+wORqYKMHAaKGan1g4WK
-         t1IJcXZY1KnC2nsoyNhKf680OF2Z9YdwQzvvwC3uNtkjl67WJhctERYkBo4cqURw1/M/
-         Fgkg==
-X-Gm-Message-State: AOAM531r5p6dpN9OT6lpNc+psLyuMyoGCnprnJghtWEB0SnP4iAauSKY
-	wZH+cMc7JSUHFgT5JDcOFh9avVl4c8ydaA==
-X-Google-Smtp-Source: ABdhPJzwzYwxx2B+aCf7sWregA6LyuBaKtlJwh9Z2xNEKZEOtMVYPJ+vLdPNz1sFHq2JxdXZMw1xJA==
-X-Received: by 2002:a63:6c9:: with SMTP id 192mr301152pgg.302.1616536207472;
-        Tue, 23 Mar 2021 14:50:07 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4578])
-        by smtp.gmail.com with ESMTPSA id w79sm165534pfc.87.2021.03.23.14.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 14:50:06 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] image-uefi: Set efi_file for rv32/rv64
-Date: Tue, 23 Mar 2021 14:50:04 -0700
-Message-Id: <20210323215004.1855169-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IL3jnRpxOLakNzkACNnSVj6zXhsSnNRRyy58rQijmW0=;
+        b=Ijrc+/vJHG5BReaMjhK/0wpebnRObHHRZiKAY1/1BBBSVX7ymSI/DUYufI+m7/hAyx
+         GeTLiCIWbf4qx+Kp79ttjOKkDVHKinGAQzM4HfYohjHAhGpYs+lz86Q2CbmcIo4t0NkK
+         TKevUy+jJ62OcP9I83epOdvYJLdQC3PgzwM0eH6tQfksm4GcgswQiBcH01u5lRBIP0Fg
+         WclUZbMe8pTPBzkdyapjEJbF78bY0C0GJoewNxJqxyewNbNSgP9FI/j19SjGQaljYzKc
+         61jqEYcxL4QEZyylFEf2vNtW/7zVAUzeqQxi2ZpQqmPjLliehMuti4d9ATsTopLHYCdv
+         RD6w==
+X-Gm-Message-State: AOAM533HsrSJYAKbOlGzubohbag3mvwee79BWGZ3vHUcCBZs048cIfZ1
+	+vLOn883xv8DsrcJ8JKlIBbPaJCaVn4eEzgMwzs=
+X-Google-Smtp-Source: ABdhPJzrBnTvKxVQPoB1o7t2aEicEfrAziFfk4WJKYkgLsSS3WWQuYldxckPrhOIhMkRZ6tWF/sB+gRCNXz1hb87ygk=
+X-Received: by 2002:a05:651c:387:: with SMTP id e7mr4353616ljp.425.1616536381665;
+ Tue, 23 Mar 2021 14:53:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210323212814.567119-1-ross.burton@arm.com>
+In-Reply-To: <20210323212814.567119-1-ross.burton@arm.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 23 Mar 2021 14:52:50 -0700
+Message-ID: <CAJ86T=UsfzS0KMHVpyXkeL3aio9mU-9hszabKq56EBeZ+RxEuw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] bitbake.conf: ensure BUILD_* tools match target tools
+To: Ross Burton <ross@burtonini.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/image-uefi.conf | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Mar 23, 2021 at 2:29 PM Ross Burton <ross@burtonini.com> wrote:
+>
+> Add a few more tools to the BUILD_* list, to match the target tool list.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/conf/bitbake.conf | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index ecd4d1638e..d4bda80736 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -541,7 +541,10 @@ export BUILD_AR = "${BUILD_PREFIX}ar"
+>  export BUILD_AS = "${BUILD_PREFIX}as ${BUILD_AS_ARCH}"
+>  export BUILD_RANLIB = "${BUILD_PREFIX}ranlib"
+>  export BUILD_STRIP = "${BUILD_PREFIX}strip"
+> +export BUILD_OBJCOPY = "${BUILD_PREFIX}objcopy"
+> +export BUILD_OBJDUMP = "${BUILD_PREFIX}objdump"
+>  export BUILD_NM = "${BUILD_PREFIX}nm"
+> +export BUILD_READELF = "${BUILD_PREFIX}readelf"
 
-diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
-index 882a0e720c..6ef011e23b 100644
---- a/meta/conf/image-uefi.conf
-+++ b/meta/conf/image-uefi.conf
-@@ -14,6 +14,8 @@ EFI_ARCH_x86 = "ia32"
- EFI_ARCH_x86-64 = "x64"
- EFI_ARCH_aarch64 = "aa64"
- EFI_ARCH_arm = "arm"
-+EFI_ARCH_riscv32 = "riscv32"
-+EFI_ARCH_riscv64 = "riscv64"
- 
- # Determine name of bootloader image
- EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
--- 
-2.31.0
+Do these new variables need to be exported?
 
+As far as I remember a few of the BUILD_xxx variables are "official"
+autotools variables which some autotools packages may expect to find
+in the environment (although googling now doesn't find any
+references).
+
+If so then the rest (i.e. most of them, and certainly these newly
+added ones) are OE specific and only used in OE recipes and classes...
+and therefore don't need to be exported here.
+
+>  export MAKE = "make"
+>  EXTRA_OEMAKE = ""
+> --
+> 2.25.1
+>
+>
+> 
+>
