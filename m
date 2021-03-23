@@ -1,72 +1,125 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.10888.1616514135618187229
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web09.11065.1616514504959211616
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 08:42:15 -0700
+ Tue, 23 Mar 2021 08:48:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cGUcDkXP;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id q9so10662141qvm.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 08:42:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mx/VrAUQ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id l3so14727411pfc.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 08:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hdDJY9NBV0275YUi7RJ7db12/FWsdu/prO714J8FiH8=;
-        b=cGUcDkXPum3PtgweiJp33fJ/4kiij8xjQp0ZNUPWLBUJyCqiR81k+sMCobKe6PfAC3
-         9R7wDma60KS3askHxKjcBrQM3eiXtnZeXEg39bxRWQlirhRErW7AiKNRi8dRss3Rg6WF
-         LrvsyOfb9u2StB+oG0Q+KwYuZhRmKkP0YtUHJsn3ycAeuPDabNMRHAFcm8UWjoEftZQp
-         SVrOmhW+JvUN1a1cNR2mG/Wc78sDIYecP/CsoDU0CWXxN48tiTl5Ln6CaIn3BO+BL55y
-         MlrYa3mV6FCuW1dLpRAlyYoOln3udTu274PsZon6LmuDdXoZX+RYIE1pETWASdqO74t2
-         ipVA==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vYXGU62OjPv9iqJV0TtrUJHxet9JJXao6rinajI+Bns=;
+        b=Mx/VrAUQAj8PgAf6xGd2N/v/tIMGvsqTYvyaUSy0JsA3Zt8WY7MElqAuWpHFPKn5OM
+         BQSC50DoXwvkzCO6S/m3XBV7FzhUYLRhFELPfQ7IvI0nT4t0qGSL1POxsxhsm5kVCYV6
+         Hw3XUuNgV84SVXBr8ltDlHqmZeqkhorWyzpHVpKsBIemTuwBNq8YPQjv5Fk22QExdKMp
+         hz0Z1777u5etH1lU9cA/iXUS0AdYHsAg3vjMHTtNSrRkJWsCvu2K/YPwjnMvKcSFSbQR
+         mk4wdtLRkZPFQz2W/vYA/ScuyStj0mY0E0mkkpG7ao4E8sbb7otpmxDnuMscwtOFHGN9
+         ZOhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hdDJY9NBV0275YUi7RJ7db12/FWsdu/prO714J8FiH8=;
-        b=ERj15PZUMNH7tyjy1oQpS6A9BXDSmI5wpoytvgS3bCvNpC0hm25hXslOkE2Y2aMSYz
-         m/9M2QxFfhe4Lc1PsSzgxLj4niwn9CquGo7irwCRUo/eI12gyJPXR5nPSWGeUt64Bfwx
-         iOHLRk1uY0H8/ZDl021DaCi/0tla0fisLWOR5GtwZjvv6RLrF9aaVQc/iti6wsPYPL2C
-         wPHkxFJWayMg6R0dlqeXX4edRlu/WOuy774P70A9bYQEAKDMwmXjq/J/h7RFsKZpICn7
-         trfxomI6CLRmCJijvu4zAxjdY8MCbO1b8sK6ifzTc9SAAyHtgdcLFY1sGKsIKimN0it2
-         m8/Q==
-X-Gm-Message-State: AOAM532vc5Yh5x3KyZI6hcld49MbDOS34XX/MvTGYei8LpvG2m3TUEZ4
-	WXx3TyAwgrDFjM3Wo3nJwxYuMFOdU8IJzynppgA=
-X-Google-Smtp-Source: ABdhPJz0F7qBLUq/4mz5ndzV6BzS7BKyQBaOfEMrdjJ/7Y1gWmsQha5EyDhVErfp9c0FMgcqlycRO5CGhdshc5HLr/o=
-X-Received: by 2002:a05:6214:f27:: with SMTP id iw7mr5434758qvb.50.1616514134740;
- Tue, 23 Mar 2021 08:42:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210319071433.23131-1-naveen.kumar.saini@intel.com>
- <CAMKF1sr1X99rgF2G1vdyrb-i3bfDPcj3NSxoXV-A8Mw7nxRbNw@mail.gmail.com> <4dae32cd7ff6573010af48a2d54eac0d6201cc94.camel@linuxfoundation.org>
-In-Reply-To: <4dae32cd7ff6573010af48a2d54eac0d6201cc94.camel@linuxfoundation.org>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=vYXGU62OjPv9iqJV0TtrUJHxet9JJXao6rinajI+Bns=;
+        b=U5G9RaijyI121Po5kEceBWCFTPrTrBKX2E4rVrjoGIdXPNRsbdnt3DtPZJrJ0rvfZR
+         a4q0wOpd56rJpETwp3tYfsseCWJCdHT0b2XzCS0F0W2fhBRyJUZ4fW6VOul84w1qmPUM
+         7SAPt4IPedfXFmfZ+F2hjQqJFxEmE+7mGXnPsceMr4jDkwq806YNDkp8Co+WYSAE/51C
+         aDYNJXyRNjKOG822Sn3CeTBLjRcvE8B8ex3E62z4+caLDkda7AYP1sVoUVtaHgASHyj7
+         Yg72WW2cqtkLFUuzOff4cdMMzUaejcm884kewX9HFOHStIF/WHQCUmM3uu8JQSbyDvzr
+         dJgg==
+X-Gm-Message-State: AOAM5310+Me0QkhwHYT9wlbFBw/uR5ZYIhonI4zH6cr1g29u2PTLIde1
+	FZsbhFu3YlM6mez51OgCdv4Wc9+Ppvz5hA==
+X-Google-Smtp-Source: ABdhPJyOH/zXhttChCaODH9SjsrVBcLlEd5V0dSJ6mj+rMC1piMO8Kv+wK+D+zvQoA+vAghHD3AlnA==
+X-Received: by 2002:a63:5c48:: with SMTP id n8mr4506077pgm.411.1616514503998;
+        Tue, 23 Mar 2021 08:48:23 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:2da1:1afd:1712:ea8b? ([2601:646:9200:a0f0:2da1:1afd:1712:ea8b])
+        by smtp.gmail.com with ESMTPSA id r2sm15859475pgv.50.2021.03.23.08.48.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Mar 2021 08:48:23 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] linux-yocto/5.10: update qemuriscv32 v5.10.23
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210322184455.35623-1-bruce.ashfield@gmail.com>
+ <c9c62fdd-4dcd-5451-b4fd-3576c275d9ca@gmail.com>
+ <CADkTA4M4mUO6ceWOqma+eSNazPUxZKnT5wqxGMRKayebrcVK+Q@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 23 Mar 2021 08:41:48 -0700
-Message-ID: <CAMKF1spgH_2m+1qCLA0RBAJ8xZHe1f8bjS1fjih9Uz-FEjvZbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] grub: upgrade 2.04 -> 2.06~rc1
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Naveen Saini <naveen.kumar.saini@intel.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Organization: HIMVIS LLC
+Message-ID: <1b1ccb2e-3cd9-cb04-a7c6-94ed6cbf917f@gmail.com>
+Date: Tue, 23 Mar 2021 08:48:21 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4M4mUO6ceWOqma+eSNazPUxZKnT5wqxGMRKayebrcVK+Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-I am seeing a build regression on riscv32 see
 
-https://errors.yoctoproject.org/Errors/Details/574356/
 
-any ideas?
+On 3/23/21 5:16 AM, Bruce Ashfield wrote:
+> On Tue, Mar 23, 2021 at 12:29 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>>
+>> On 3/22/21 11:44 AM, Bruce Ashfield wrote:
+>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>>
+>>> The kernel SRCREV updates were missing riscv32, so stayed back on
+>>> 5.10.21, which causes build issues as PV is out of sync with the
+>>> actual kernel version.
+>>>
+>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>> ---
+>>>    meta/recipes-kernel/linux/linux-yocto_5.10.bb | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+>>> index 9c122832f4..83e70d01d1 100644
+>>> --- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+>>> +++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+>>> @@ -18,7 +18,7 @@ SRCREV_machine_qemuarm64 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>>    SRCREV_machine_qemumips ?= "68527a50a2f5b0992ba85255325d76a9f187c237"
+>>>    SRCREV_machine_qemuppc ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>>    SRCREV_machine_qemuriscv64 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>> -SRCREV_machine_qemuriscv32 ?= "8c516ced69f41563404ada0bea315a55bcf1df6f"
+>>> +SRCREV_machine_qemuriscv32 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>>    SRCREV_machine_qemux86 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>>    SRCREV_machine_qemux86-64 ?= "04a11eb4aec4efe3064f27b207e8a41c28bb08cd"
+>>>    SRCREV_machine_qemumips64 ?= "c19b50af1e3680ff6050a0cce8dcd888accafd9b"
+>>>
+>>
+>> I wonder if we really need to lock the machines using tip of
+>> v5.10/standard/base e.g. x86/x86_64/ppc64/rv64/rv32
+> 
+> I'm not sure I understand the question / comment.
 
-On Fri, Mar 19, 2021 at 10:33 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2021-03-19 at 10:04 -0700, Khem Raj wrote:
-> > I think renaming recipe to drop PV from its name is not a good as this
-> > makes it harder for bbappends to be version specific or atleast cause
-> > an  event  to upgrade
-> >
->
-> Having "~" in a filename probably isn't too sensible either though?
->
+SRCREV for the machines are said is same and perhaps branch too. So I 
+was saying if this perhaps is not required to set the SRCREV per machine 
+for such machines.
+
+> 
+> They are on the tip of that branch now, but still must be separately
+> specified so we have the individual control as needed.
+> 
+> But they all do need to walk forward at the same pace. Every -stable
+> goes to all BSP branches. Supporting them on different versions just
+> isn't sane.
+> 
 > Cheers,
->
-> Richard
->
->
+> 
+> Bruce
+> 
+>>>
+>>>
+>>> 
+>>>
+> 
+> 
+> 
