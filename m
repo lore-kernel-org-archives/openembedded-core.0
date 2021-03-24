@@ -1,127 +1,87 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web08.231.1616596808398776951
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web09.198.1616596810471802740
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:40:08 -0700
+ Wed, 24 Mar 2021 07:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dkUdr5iI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id x26so17457808pfn.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=u5LLhPxo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id c204so17468912pfc.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Gg/cJBWkygOU8aZzCJaW/GbAFL8kG9YYayDyyVDhPaY=;
-        b=dkUdr5iILdQuHghMxgEhZ52mXqxXPr/GWQKpNKPJuO6C5LcC1rBE9iTNaBITxDSdUZ
-         Lnmo5ZITmaJn9fpQgBpiZjFMTaw5AlFjMe7HnPzg1Q3NIL5sWugm8nfWtch5WWALs+PS
-         WEILBwigzdKW42ZDJlYLLtlmxB2HGM+IaXr51cYDyeQ7sH2ZMFVEZkDsfheNLSVNcHiP
-         H92so0Ste2hTwO6k8a2vordpISQ5zKraI+gyalKviVOytuPAufQcpYrazJSCIHKnwnAI
-         UW5jQrGal+WL8AKwb0J5+aFUfzPHO4U3plqUQXJNSecOR30aS3eE66hZ7r97EjrLHZsA
-         JMYQ==
+        bh=OWJVlyYc7z21VjdPoP9LXwc3DmsA9/3t1LvbX2Fo4HM=;
+        b=u5LLhPxoNFFs9CEE5OaTgTu8GEz6RBi4pIxnUz4yd1gDqrds2PWJXgx0r7rC82dZy3
+         3wOIc6UzB2KRejJ84RKJI+nzJLg3PWa0TYZDbmYb+UQZDXoeWBaRqPW1U25mu1Dw6BK6
+         gYPuL3RFQCFvJ/p1Ttr+2fEyM2lbfDWUxo+4h8bOV/DMPPkEeCycgwnlKGUYtx5bAKp0
+         ZKknNbjLfq7thUrRd0zgeRCUyqbG8Brd7u8QkLi/LcJraYiweIsoDLvNkSfJkSESARZi
+         +Atozyv8LC88G2kbxRfXYod4xU6mubo62QO0CeG8/7X72lRd9oD6L9ja4NDZZm6DyACY
+         cR2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Gg/cJBWkygOU8aZzCJaW/GbAFL8kG9YYayDyyVDhPaY=;
-        b=lKpSYTVr0b4Cz709QR+aZu0F0iuLxhn/sqMVcMVb1WpqKSdJKfvKGle6KPmaY4RMOV
-         w90IJLXIW4+uieBRa3FdVC5ulqa5Cxw+OilT9NoopX0k+qmQt5QiGMs1rIbfMkaFBoGk
-         LzIDRSkMXcIYbzovMI/j8JNxhwlE93H1bXYoBPAvallDIIfSItjFU3qQSVq3M1C0zcTT
-         6O1bkXQxmq/4t62evdi6b1rZXxsLWdNfhT96DbhcGaUkThaIyGBxZhUGMAR4LlFFXqTk
-         QSZPPZRfB0QcaeWEB6RnayS1VbgHxVJ+GzbT8pEWrinkLB97KgCED97CqRCwgANRdB+8
-         AqbA==
-X-Gm-Message-State: AOAM532lLutZ8qql52xz7xu8kVRrL2VZTW6KdjZ9rozCaqnEpTfuunup
-	4K3dGNy0CLqX/z9LZMMgqWrQ561V3j3++iNF
-X-Google-Smtp-Source: ABdhPJwTm2SHDcfH6oWON2pfLAtjgeNFYP8Ls6iuVV1xPYuXZCbqdyQONUhYLOTCJwMUvL1IHnAfRw==
-X-Received: by 2002:a63:4415:: with SMTP id r21mr3358498pga.222.1616596807352;
-        Wed, 24 Mar 2021 07:40:07 -0700 (PDT)
+        bh=OWJVlyYc7z21VjdPoP9LXwc3DmsA9/3t1LvbX2Fo4HM=;
+        b=qFuftriTuZrZlZMujUwDaFdrNqiDCo9cNyOEtk/Y/jJw+3bdH0C/jXo2g2oabzr6nH
+         34z5JZ8TjnGPL7GLOLVEaK9dRmAHOfEAVnmk42xcq02mNYgwlSqjOzTaX05wQb1yOgvi
+         FonhDseuAIGvJ+vriUlplADhx6+31N2+kgmtQbG2HyurNEppKn+Eg67eYqKBo5L987XI
+         Vr9TnoRFDu2DGru5TtbbzlA2H4lz8zdA5epoNDx+njw7IOw/6RNT73En2zkDK1j57a1V
+         //crthx/CiF2bZpyh0LMJood8xL8LXIw68g4VEv7Enr+JCU1+fp0CY6YNQ3saubKHkGS
+         2QyA==
+X-Gm-Message-State: AOAM533I1YqBabb/Sz0ZNtHpJLPMHgNGAFmaHRO7N+mmoCJfs29lDyDX
+	avRDPNukISxelqrnPOhLjxpHi7qS6U2tLJ28
+X-Google-Smtp-Source: ABdhPJz522bwqc1oO0B7Ptdlan+/7AVJNZKguZyIVu7EUpV3PCuiQb7Wukbr9fKu985P7SiBiv5idw==
+X-Received: by 2002:a63:ab05:: with SMTP id p5mr3345982pgf.149.1616596809474;
+        Wed, 24 Mar 2021 07:40:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.40.06
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.40.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:40:06 -0700 (PDT)
+        Wed, 24 Mar 2021 07:40:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/21] cve-check: CVE_VERSION_SUFFIX to work with patched release
-Date: Wed, 24 Mar 2021 04:39:09 -1000
-Message-Id: <d75f95a09e5e85eb759e748f9e0fee1c5fa1b318.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/21] cmake: Fully-qualified path to ar
+Date: Wed, 24 Mar 2021 04:39:10 -1000
+Message-Id: <0b5d825ccb251bd6015dfcd49ed452b7bd64e6f6.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
 
-CVE_VERSION_SUFFIX in "patch" to treat version string with suffix "pX"
-or "patchX" as patched release.
+We (correctly enough) pass in our AR to cmake via the toolchain file,
+but unlike the other cross-compilation tools (CC, CXX, ranlib, etc),
+cmake does not then do its own search in the PATH for our AR.
 
-also update testcases to cover this changes and set CVE_VERSION_SUFFIX
-for sudo.
+By using cmake's own find_program() to search the PATH,
+make works as expected from the commandline, outside of bitbake.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8076815fc2ffc8f632e73527ce2b7d158a29e9ea)
+(cherry picked from commit e9180c9575f0723b51915a0da58452511b6b03bf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/cve_check.py                  | 7 ++++++-
- meta/lib/oeqa/selftest/cases/cve_check.py | 8 ++++++++
- meta/recipes-extended/sudo/sudo.inc       | 2 ++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ meta/classes/cmake.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index ce755f940a..a1d7c292af 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -11,8 +11,13 @@ _Version = collections.namedtuple(
- class Version():
- 
-     def __init__(self, version, suffix=None):
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8243f7ce8c..af6a8c4395 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -102,7 +102,8 @@ set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
+ set( CMAKE_C_COMPILER_LAUNCHER ${OECMAKE_C_COMPILER_LAUNCHER} )
+ set( CMAKE_CXX_COMPILER_LAUNCHER ${OECMAKE_CXX_COMPILER_LAUNCHER} )
+ set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
+-set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
++find_program( CMAKE_AR ${OECMAKE_AR} DOC "Archiver" REQUIRED )
 +
-+        suffixes = ["alphabetical", "patch"]
-+
-         if str(suffix) == "alphabetical":
-             version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(?P<patch_l>[a-z]))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+        elif str(suffix) == "patch":
-+            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(p|patch)(?P<patch_l>[0-9]+))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-         else:
-             version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-         regex = re.compile(r"^\s*" + version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-@@ -23,7 +28,7 @@ class Version():
- 
-         self._version = _Version(
-             release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
--            patch_l=match.group("patch_l") if str(suffix) == "alphabetical" and match.group("patch_l") else "",
-+            patch_l=match.group("patch_l") if str(suffix) in suffixes and match.group("patch_l") else "",
-             pre_l=match.group("pre_l"),
-             pre_v=match.group("pre_v")
-         )
-diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-index 3f343a2841..d1947baffc 100644
---- a/meta/lib/oeqa/selftest/cases/cve_check.py
-+++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-@@ -34,3 +34,11 @@ class CVECheck(OESelftestTestCase):
-         self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' < '1.0r'")
-         result = Version("1.0b","alphabetical") > Version("1.0","alphabetical")
-         self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
-+
-+        # consider the trailing "p" and "patch" as patched released when comparing
-+        result = Version("1.0","patch") < Version("1.0p1","patch")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0' < '1.0p1'")
-+        result = Version("1.0p2","patch") > Version("1.0p1","patch")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0p2' > '1.0p1'")
-+        result = Version("1.0_patch2","patch") < Version("1.0_patch3","patch")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0_patch2' < '1.0_patch3'")
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index aeedfc1a23..153731c807 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -49,3 +49,5 @@ do_compile_prepend () {
- do_install_prepend (){
- 	mkdir -p ${D}/${localstatedir}/lib
- }
-+
-+CVE_VERSION_SUFFIX = "patch"
+ set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+ set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
+ set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
 -- 
 2.25.1
 
