@@ -1,381 +1,423 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web08.226.1616596797582330587
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.187.1616596799996269433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:57 -0700
+ Wed, 24 Mar 2021 07:40:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nfTx9/BJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id f17so8044542plr.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Io9ZWId4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id v10so565963pgs.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=l3N7ehgnfQ8ugOGB2YMa9bS1CPRReddX1c1SmFsCdyQ=;
-        b=nfTx9/BJdVZWKnwO2z302HaaLrg6szWakB3eg8IgQ7luSkzxABXGz8urWsIIjo0Fsw
-         8oxmIb2Ofi/sn3oJB7st3DKiSCvf5quO4xsepp+qR1yAR98FclbsdGGCLrdw5SzTELdW
-         E1ryGKDbPGDEUZ+6srf2Slhc0GKk7/Z7M33uneAOifG8m9Olc997R2GhQ0HVhCIbmnjI
-         2Jrf/qpcuwLxK+MyLhIZgqKukdlh2GQC3JF9ea3mR2Aif5cV0gYQftONWlhA/DFw2Pe7
-         NAyM00Y1vrjMuUpjxxdUWPEb1dBgXI7FfkKiwYdza7DyW3Ty3WGwOkdqx/WNcnv88TzQ
-         9Q5g==
+        bh=5AkHaSLwXiWwm67ReR33Qk9KLTyvKHd2ZVVjyLqW5sQ=;
+        b=Io9ZWId4ZwiUoVhZ8jMpw4fp1WRQex+miUYOTY1vfAv/O9TIA2qlUBRVvZxuRFSgCD
+         fRngN0NRDX7jr04SHIScZT6RSxWmzevRhfByJLyymYsm54i8Q1dfPUkjGOFcTM0A6ths
+         LIOFtCoPCA7Qvu4aE0wpnxJQa9Y0h2nR0ZDJ/BlAkY2+gsKeKL56XqQlKXy/TMgR0D2E
+         Od2gYq8GlsdmUJRtunfK0eUPFre22QIi/Ad8Q3GOytBwji5CT+Keoys9Kc1Se+97uGY2
+         DltxYrZLgbji2C5Yw1s3QJoxD7tZ/gGzwJNMRhxNqLcl8lnbt6H7S5+wifEPM9E+8R0w
+         yHFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=l3N7ehgnfQ8ugOGB2YMa9bS1CPRReddX1c1SmFsCdyQ=;
-        b=WSAWKFbTmRdp4lryLBlbdYvIZh25DvW+pZ8/D34ljZH9+qKP9yOTThpsbpW76S7jV1
-         le1Kcls4RTac3IqJ+DrCfAq5WyGnqQVqOA+Gd/Tt1uOwPV/87vVarsvanzF0yJZeyXtE
-         WabSjbU1R8kjjsG58gdB9QQaSP2i0q/tQAN1t6PFaazQfePB+VYqA3XjTUfmqi5QHgNI
-         7iV96exyhE007b2asdMz4dN+o0ETOkKeA6h22loPenT5IQEvb7W4j4U/Mz5KWhLEmOXR
-         RlWRI/59+gwCUnSOtuVSDvC74zkIBeAu9oBgtuwCf7BfNt5hjQGapsmNUAyzSq+szeOm
-         +IGQ==
-X-Gm-Message-State: AOAM533KMhj/gvxw5/+yla04hnpUcUCHmVHtoIGknMGvDS45M0eqNQMc
-	cE/H+6aZfGKefKwL8ssHttG1AbkVoS3Y+Vd0
-X-Google-Smtp-Source: ABdhPJz/hUYnrLIxdZl8W9cDr0q/j70ofA0IBPcOfIqeED+5Ab85S92OkXfwAq7uCfUkkwzCFUHRjw==
-X-Received: by 2002:a17:90a:9f8d:: with SMTP id o13mr3761142pjp.25.1616596796322;
-        Wed, 24 Mar 2021 07:39:56 -0700 (PDT)
+        bh=5AkHaSLwXiWwm67ReR33Qk9KLTyvKHd2ZVVjyLqW5sQ=;
+        b=iw5yJVenWBqG43e+YcCScG75ACnjgjr/U52rknghOpWKl+hciBRmViwEOgirNlP8E2
+         hfu1yoy75U1AeH9iErN0Uzrz13WZI3WcMA22IlEU2D+DPaxnjiSE8GPMEwhyf1v5LpMN
+         44bU2uRH+LpVsqwtyQL5mxSCBgVfRTHQ7Zuei5R0J5Ni2DgDHAXAzE+hhlMZLo1BCe4S
+         ZRVt11juOLaikUgrSkT89k42DMX/eUuv96MQAFB2TE9PGZkj13EJrVUB5lhYZC5EUBi6
+         uQX5gaWZbmnoRaH5wwyO5ee1MYFaKDSLXGiW2HkSSC7k18E8DnU75AvtxQwSzj/teOFc
+         7JJg==
+X-Gm-Message-State: AOAM533dRJfQ9lMgCX6/T7MlSsnQGkfW60efuXNLiGEBo6IurxtLi+mW
+	r8FUBjM2Iq3Sgr1DtiHEwZ3Rlc09ckqK5dtr
+X-Google-Smtp-Source: ABdhPJwMfYzyftKp5JuxSPvOR429tOtaku35D3WEP4rYlz9miZC15D3jUKGuhhxWc+kEIHLqOFZmJA==
+X-Received: by 2002:a63:1e0a:: with SMTP id e10mr3387093pge.3.1616596798599;
+        Wed, 24 Mar 2021 07:39:58 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.54
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:55 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:58 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/21] iputils: fix various arping regressions
-Date: Wed, 24 Mar 2021 04:39:04 -1000
-Message-Id: <77c5792aa5e7cb7760c7042a49c2c0b02109987f.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/21] glibc: Pull latest 2.31 HEAD
+Date: Wed, 24 Mar 2021 04:39:05 -1000
+Message-Id: <83be9ed671de2433ea6dc4017a9bb471aa322ea7.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+From: Anatol Belski <anbelski@linux.microsoft.com>
 
-arping in iputils s20190709 has several problems, this backports the
-fixes from s20200821.
- - -D, duplicate address detection, always returns failure
- - -w -f does not behave correctly
- - -w option hangs arping
- - -U option returns failure
+The relevant commit log:
 
-Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+$ git log --format="%h %s" df31c7ca927242d5d4eee97f93a01e23ff47e332..f84949f1c4bbf20e6a1d9a5859cf012cde060ede
+f84949f1c4 powerpc64: Workaround sigtramp vdso return call
+5e43566f0f nscd: Fix double free in netgroupcache [BZ #27462]
+d0c84d22b6 gconv: Fix assertion failure in ISO-2022-JP-3 module (bug 27256)
+af316e4627 x86: Check IFUNC definition in unrelocated executable [BZ #20019]
+36eb01dd85 x86: Set header.feature_1 in TCB for always-on CET [BZ #27177]
+8b7be87aa2 x86-64: Avoid rep movsb with short distance [BZ #27130]
+c4f5e32aae Fix buffer overrun in EUC-KR conversion module (bz #24973)
+0858f46440 Add NEWS entry for CVE-2020-29562 (BZ #26923)
+1e40391de2 iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
+568c86274a tests-mcheck: New variable to run tests with MALLOC_CHECK_=3
+
+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...rtially-fix-sent-vs-received-package.patch | 39 ++++++++
- ...fix-f-quit-on-first-reply-regression.patch | 39 ++++++++
- ...rison-of-different-signedness-warnin.patch | 37 ++++++++
- ...ccess-when-unsolicited-ARP-mode-dest.patch | 45 +++++++++
- ...ional-timerfd-to-control-when-timeou.patch | 94 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              |  5 +
- 6 files changed, 259 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../glibc/glibc/CVE-2019-25013.patch          | 135 ---------------
+ .../glibc/glibc/CVE-2020-29562.patch          | 156 ------------------
+ meta/recipes-core/glibc/glibc_2.31.bb         |   6 +-
+ 4 files changed, 4 insertions(+), 295 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch b/meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
-new file mode 100644
-index 0000000000..8495178879
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
-@@ -0,0 +1,39 @@
-+From 18f14be80466ddc8fb17a400be82764a779c8dcd Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Wed, 31 Jul 2019 21:28:12 +0100
-+Subject: [PATCH] arping: revert partially - fix sent vs received packages
-+ return value
-+
-+Commit 84ca65ca980315c73f929fed8b6f16bbd698c3a0 caused regression.  The
-+arping -D needs return value evaluation that was the earlier default, in
-+other cases the new return value should be correct.
-+
-+Addresses: https://github.com/iputils/iputils/issues/209
-+See-also: https://github.com/void-linux/void-packages/issues/13304
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/18f14be80466ddc8fb17a400be82764a779c8dcd]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 77c9c56..2c87c15 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -792,7 +792,11 @@ static int event_loop(struct run_state *ctl)
-+ 	close(tfd);
-+ 	freeifaddrs(ctl->ifa0);
-+ 	rc |= finish(ctl);
-+-	rc |= (ctl->sent != ctl->received);
-++	if (ctl->dad && ctl->quit_on_reply)
-++		/* Duplicate address detection mode return value */
-++		rc |= !(ctl->brd_sent != ctl->received);
-++	else
-++		rc |= (ctl->sent != ctl->received);
-+ 	return rc;
-+ }
-+ 
-+-- 
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch b/meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch
-new file mode 100644
-index 0000000000..a5f40860dc
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch
-@@ -0,0 +1,39 @@
-+From 1df5350bdc952b14901fde356b17b78c2bcd4cff Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Wed, 28 Aug 2019 20:05:22 +0100
-+Subject: [PATCH] arping: fix -f quit on first reply regression
-+
-+When arping runs together with -f 'quit on first reply' and -w <timeout>
-+'how long to wait for a reply' the command needs to exit if replies are not
-+received after wait period.  Notice that the exit in case of lost packages
-+will be 1 signifying failure.  Getting a reply results to 0 exit value.
-+
-+Addresses: https://bugs.debian.org/935946
-+Reported-by: Lucas Nussbaum <lucas@debian.org>
-+Addresses: https://github.com/iputils/iputils/issues/211
-+Reported-by: Noah Meyerhans <noahm@debian.org>
-+Broken-since: 67e070d08dcbec990e1178360f82b3e2ca4f6d5f
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/1df5350bdc952b14901fde356b17b78c2bcd4cff]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 2c87c15..30884f6 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -764,7 +764,8 @@ static int event_loop(struct run_state *ctl)
-+ 					continue;
-+ 				}
-+ 				total_expires += exp;
-+-				if (0 < ctl->count && (uint64_t)ctl->count < total_expires) {
-++				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-++				    (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-+ 					exit_loop = 1;
-+ 					continue;
-+ 				}
-+-- 
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch b/meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
-new file mode 100644
-index 0000000000..ebd122c157
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
-@@ -0,0 +1,37 @@
-+From ec821e572a640bd79aecc3922cb9001f4b6b26f2 Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Sat, 7 Sep 2019 06:07:19 +0200
-+Subject: [PATCH] arping: Fix comparison of different signedness warning
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+../arping.c:768:45: warning: comparison of integer expressions of different signedness: ‘int’ and ‘uint64_t’ {aka ‘long unsigned int’} [-Wsign-compare]
-+  768 |         (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-+
-+Fixes: 1df5350 ("arping: fix -f quit on first reply regression")
-+Reference: https://github.com/iputils/iputils/pull/212
-+Acked-by: Sami Kerola <kerolasa@iki.fi>
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/ec821e572a640bd79aecc3922cb9001f4b6b26f2]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 2d05728..88319cd 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -765,7 +765,7 @@ static int event_loop(struct run_state *ctl)
-+ 				}
-+ 				total_expires += exp;
-+ 				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-+-				    (ctl->quit_on_reply && ctl->timeout < total_expires)) {
-++				    (ctl->quit_on_reply && ctl->timeout < (long)total_expires)) {
-+ 					exit_loop = 1;
-+ 					continue;
-+ 				}
-+-- 
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch b/meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
-new file mode 100644
-index 0000000000..923e06e30b
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
-@@ -0,0 +1,45 @@
-+From 68f12fc4a0dbef4ae4c404da24040d22c5a14339 Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Sat, 8 Feb 2020 14:12:18 +0000
-+Subject: [PATCH] arping: return success when unsolicited ARP mode destination
-+ does not answer
-+
-+Manual page is making promise answers are not expected when -U (or -A)
-+option is in use.  Either I am looking wrong or this has been broken since
-+at the beginning of git history.
-+
-+Addresses: https://github.com/iputils/iputils/issues/247
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/68f12fc4a0dbef4ae4c404da24040d22c5a14339]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 996cf2b..5180ae0 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -794,7 +794,9 @@ static int event_loop(struct run_state *ctl)
-+ 	close(tfd);
-+ 	freeifaddrs(ctl->ifa0);
-+ 	rc |= finish(ctl);
-+-	if (ctl->dad && ctl->quit_on_reply)
-++	if (ctl->unsolicited)
-++		/* nothing */;
-++	else if (ctl->dad && ctl->quit_on_reply)
-+ 		/* Duplicate address detection mode return value */
-+ 		rc |= !(ctl->brd_sent != ctl->received);
-+ 	else
-+@@ -943,7 +945,7 @@ int main(int argc, char **argv)
-+ 		}
-+ 		memset(&saddr, 0, sizeof(saddr));
-+ 		saddr.sin_family = AF_INET;
-+-		if (ctl.source || ctl.gsrc.s_addr) {
-++		if (!ctl.unsolicited && (ctl.source || ctl.gsrc.s_addr)) {
-+ 			saddr.sin_addr = ctl.gsrc;
-+ 			if (bind(probe_fd, (struct sockaddr *)&saddr, sizeof(saddr)) == -1)
-+ 				error(2, errno, "bind");
-+-- 
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch b/meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
-new file mode 100644
-index 0000000000..3b8a8244da
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
-@@ -0,0 +1,94 @@
-+From 60a27c76174c0ae23bdafde2bad4fdd18a44a7ea Mon Sep 17 00:00:00 2001
-+From: Sami Kerola <kerolasa@iki.fi>
-+Date: Sat, 7 Mar 2020 22:03:21 +0000
-+Subject: [PATCH] arping: use additional timerfd to control when timeout
-+ happens
-+
-+Trying to determine timeout by adding up interval values is pointlessly
-+complicating.  With separate timer everything just works.
-+
-+Addresses: https://github.com/iputils/iputils/issues/259
-+Fixes: 1df5350bdc952b14901fde356b17b78c2bcd4cff
-+Signed-off-by: Sami Kerola <kerolasa@iki.fi>
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/e594ca52afde89746b7d79c875fe9d6aea1850ac]
-+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+---
-+ arping.c | 29 ++++++++++++++++++++++++++---
-+ 1 file changed, 26 insertions(+), 3 deletions(-)
-+
-+diff --git a/arping.c b/arping.c
-+index 61db3a6..7284351 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -670,6 +670,7 @@ static int event_loop(struct run_state *ctl)
-+ 	enum {
-+ 		POLLFD_SIGNAL = 0,
-+ 		POLLFD_TIMER,
-++		POLLFD_TIMEOUT,
-+ 		POLLFD_SOCKET,
-+ 		POLLFD_COUNT
-+ 	};
-+@@ -686,6 +687,13 @@ static int event_loop(struct run_state *ctl)
-+ 		.it_value.tv_sec = ctl->interval,
-+ 		.it_value.tv_nsec = 0
-+ 	};
-++	int timeoutfd;
-++	struct itimerspec timeoutfd_vals = {
-++		.it_interval.tv_sec = ctl->timeout,
-++		.it_interval.tv_nsec = 0,
-++		.it_value.tv_sec = ctl->timeout,
-++		.it_value.tv_nsec = 0
-++	};
-+ 	uint64_t exp, total_expires = 1;
-+ 
-+ 	unsigned char packet[4096];
-+@@ -709,7 +717,7 @@ static int event_loop(struct run_state *ctl)
-+ 	pfds[POLLFD_SIGNAL].fd = sfd;
-+ 	pfds[POLLFD_SIGNAL].events = POLLIN | POLLERR | POLLHUP;
-+ 
-+-	/* timerfd */
-++	/* interval timerfd */
-+ 	tfd = timerfd_create(CLOCK_MONOTONIC, 0);
-+ 	if (tfd == -1) {
-+ 		error(0, errno, "timerfd_create failed");
-+@@ -722,6 +730,19 @@ static int event_loop(struct run_state *ctl)
-+ 	pfds[POLLFD_TIMER].fd = tfd;
-+ 	pfds[POLLFD_TIMER].events = POLLIN | POLLERR | POLLHUP;
-+ 
-++	/* timeout timerfd */
-++	timeoutfd = timerfd_create(CLOCK_MONOTONIC, 0);
-++	if (tfd == -1) {
-++		error(0, errno, "timerfd_create failed");
-++		return 1;
-++	}
-++	if (timerfd_settime(timeoutfd, 0, &timeoutfd_vals, NULL)) {
-++		error(0, errno, "timerfd_settime failed");
-++		return 1;
-++	}
-++	pfds[POLLFD_TIMEOUT].fd = timeoutfd;
-++	pfds[POLLFD_TIMEOUT].events = POLLIN | POLLERR | POLLHUP;
-++
-+ 	/* socket */
-+ 	pfds[POLLFD_SOCKET].fd = ctl->socketfd;
-+ 	pfds[POLLFD_SOCKET].events = POLLIN | POLLERR | POLLHUP;
-+@@ -764,13 +785,15 @@ static int event_loop(struct run_state *ctl)
-+ 					continue;
-+ 				}
-+ 				total_expires += exp;
-+-				if ((0 < ctl->count && (uint64_t)ctl->count < total_expires) ||
-+-				    (ctl->quit_on_reply && ctl->timeout < (long)total_expires)) {
-++				if (0 < ctl->count && (uint64_t)ctl->count < total_expires) {
-+ 					exit_loop = 1;
-+ 					continue;
-+ 				}
-+ 				send_pack(ctl);
-+ 				break;
-++			case POLLFD_TIMEOUT:
-++				exit_loop = 1;
-++				break;
-+ 			case POLLFD_SOCKET:
-+ 				if ((s =
-+ 				     recvfrom(ctl->socketfd, packet, sizeof(packet), 0,
-+-- 
-+2.18.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index 545f3d5e87..d652bfcaad 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -15,6 +15,11 @@ SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            file://0001-iputils-Initialize-libgcrypt.patch \
-+           file://0001-arping-revert-partially-fix-sent-vs-received-package.patch \
-+           file://0002-arping-fix-f-quit-on-first-reply-regression.patch \
-+           file://0003-arping-Fix-comparison-of-different-signedness-warnin.patch \
-+           file://0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch \
-+           file://0005-arping-use-additional-timerfd-to-control-when-timeou.patch \
-            "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 5f726537ff..7ae64a190f 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.31/master"
+ PV = "2.31+git${SRCPV}"
+-SRCREV_glibc ?= "df31c7ca927242d5d4eee97f93a01e23ff47e332"
++SRCREV_glibc ?= "f84949f1c4bbf20e6a1d9a5859cf012cde060ede"
+ SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
  
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+deleted file mode 100644
+index 73df1da868..0000000000
+--- a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
++++ /dev/null
+@@ -1,135 +0,0 @@
+-From ee7a3144c9922808181009b7b3e50e852fb4999b Mon Sep 17 00:00:00 2001
+-From: Andreas Schwab <schwab@suse.de>
+-Date: Mon, 21 Dec 2020 08:56:43 +0530
+-Subject: [PATCH] Fix buffer overrun in EUC-KR conversion module (bz #24973)
+-
+-The byte 0xfe as input to the EUC-KR conversion denotes a user-defined
+-area and is not allowed.  The from_euc_kr function used to skip two bytes
+-when told to skip over the unknown designation, potentially running over
+-the buffer end.
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=ee7a3144c9922808181009b7b3e50e852fb4999b]
+-CVE: CVE-2019-25013
+-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+-[Refreshed for Dundell context; Makefile changes]
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- iconvdata/Makefile      |  3 ++-
+- iconvdata/bug-iconv13.c | 53 +++++++++++++++++++++++++++++++++++++++++
+- iconvdata/euc-kr.c      |  6 +----
+- iconvdata/ksc5601.h     |  6 ++---
+- 4 files changed, 59 insertions(+), 9 deletions(-)
+- create mode 100644 iconvdata/bug-iconv13.c
+-
+-Index: git/iconvdata/Makefile
+-===================================================================
+---- git.orig/iconvdata/Makefile
+-+++ git/iconvdata/Makefile
+-@@ -73,7 +73,7 @@ modules.so := $(addsuffix .so, $(modules
+- ifeq (yes,$(build-shared))
+- tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
+- 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
+--	bug-iconv10 bug-iconv11 bug-iconv12
+-+	bug-iconv10 bug-iconv11 bug-iconv12 bug-iconv13
+- ifeq ($(have-thread-library),yes)
+- tests += bug-iconv3
+- endif
+-Index: git/iconvdata/bug-iconv13.c
+-===================================================================
+---- /dev/null
+-+++ git/iconvdata/bug-iconv13.c
+-@@ -0,0 +1,53 @@
+-+/* bug 24973: Test EUC-KR module
+-+   Copyright (C) 2020 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, see
+-+   <https://www.gnu.org/licenses/>.  */
+-+
+-+#include <errno.h>
+-+#include <iconv.h>
+-+#include <stdio.h>
+-+#include <support/check.h>
+-+
+-+static int
+-+do_test (void)
+-+{
+-+  iconv_t cd = iconv_open ("UTF-8//IGNORE", "EUC-KR");
+-+  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+-+
+-+  /* 0xfe (->0x7e : row 94) and 0xc9 (->0x49 : row 41) are user-defined
+-+     areas, which are not allowed and should be skipped over due to
+-+     //IGNORE.  The trailing 0xfe also is an incomplete sequence, which
+-+     should be checked first.  */
+-+  char input[4] = { '\xc9', '\xa1', '\0', '\xfe' };
+-+  char *inptr = input;
+-+  size_t insize = sizeof (input);
+-+  char output[4];
+-+  char *outptr = output;
+-+  size_t outsize = sizeof (output);
+-+
+-+  /* This used to crash due to buffer overrun.  */
+-+  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == (size_t) -1);
+-+  TEST_VERIFY (errno == EINVAL);
+-+  /* The conversion should produce one character, the converted null
+-+     character.  */
+-+  TEST_VERIFY (sizeof (output) - outsize == 1);
+-+
+-+  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+-+
+-+  return 0;
+-+}
+-+
+-+#include <support/test-driver.c>
+-Index: git/iconvdata/euc-kr.c
+-===================================================================
+---- git.orig/iconvdata/euc-kr.c
+-+++ git/iconvdata/euc-kr.c
+-@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned c
+- 									      \
+-     if (ch <= 0x9f)							      \
+-       ++inptr;								      \
+--    /* 0xfe(->0x7e : row 94) and 0xc9(->0x59 : row 41) are		      \
+--       user-defined areas.  */						      \
+--    else if (__builtin_expect (ch == 0xa0, 0)				      \
+--	     || __builtin_expect (ch > 0xfe, 0)				      \
+--	     || __builtin_expect (ch == 0xc9, 0))			      \
+-+    else if (__glibc_unlikely (ch == 0xa0))				      \
+-       {									      \
+- 	/* This is illegal.  */						      \
+- 	STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
+-Index: git/iconvdata/ksc5601.h
+-===================================================================
+---- git.orig/iconvdata/ksc5601.h
+-+++ git/iconvdata/ksc5601.h
+-@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s
+-   unsigned char ch2;
+-   int idx;
+- 
+-+  if (avail < 2)
+-+    return 0;
+-+
+-   /* row 94(0x7e) and row 41(0x49) are user-defined area in KS C 5601 */
+- 
+-   if (ch < offset || (ch - offset) <= 0x20 || (ch - offset) >= 0x7e
+-       || (ch - offset) == 0x49)
+-     return __UNKNOWN_10646_CHAR;
+- 
+--  if (avail < 2)
+--    return 0;
+--
+-   ch2 = (*s)[1];
+-   if (ch2 < offset || (ch2 - offset) <= 0x20 || (ch2 - offset) >= 0x7f)
+-     return __UNKNOWN_10646_CHAR;
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+deleted file mode 100644
+index c51fb3223a..0000000000
+--- a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
++++ /dev/null
+@@ -1,156 +0,0 @@
+-From 228edd356f03bf62dcf2b1335f25d43c602ee68d Mon Sep 17 00:00:00 2001
+-From: Michael Colavita <mcolavita@fb.com>
+-Date: Thu, 19 Nov 2020 11:44:40 -0500
+-Subject: [PATCH] iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
+-
+-Previously, in UCS4 conversion routines we limit the number of
+-characters we examine to the minimum of the number of characters in the
+-input and the number of characters in the output. This is not the
+-correct behavior when __GCONV_IGNORE_ERRORS is set, as we do not consume
+-an output character when we skip a code unit. Instead, track the input
+-and output pointers and terminate the loop when either reaches its
+-limit.
+-
+-This resolves assertion failures when resetting the input buffer in a step of
+-iconv, which assumes that the input will be fully consumed given sufficient
+-output space.
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=228edd356f03bf62dcf2b1335f25d43c602ee68d]
+-CVE: CVE-2020-29562
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+-
+----
+- iconv/Makefile       |  2 +-
+- iconv/gconv_simple.c | 16 ++++----------
+- iconv/tst-iconv8.c   | 50 ++++++++++++++++++++++++++++++++++++++++++++
+- 3 files changed, 55 insertions(+), 13 deletions(-)
+- create mode 100644 iconv/tst-iconv8.c
+-
+-diff --git a/iconv/Makefile b/iconv/Makefile
+-index 30bf996d3a..f9b51e23ec 100644
+---- a/iconv/Makefile
+-+++ b/iconv/Makefile
+-@@ -44,7 +44,7 @@ CFLAGS-linereader.c += -DNO_TRANSLITERATION
+- CFLAGS-simple-hash.c += -I../locale
+- 
+- tests	= tst-iconv1 tst-iconv2 tst-iconv3 tst-iconv4 tst-iconv5 tst-iconv6 \
+--	  tst-iconv7 tst-iconv-mt tst-iconv-opt
+-+	  tst-iconv7 tst-iconv8 tst-iconv-mt tst-iconv-opt
+- 
+- others		= iconv_prog iconvconfig
+- install-others-programs	= $(inst_bindir)/iconv
+-diff --git a/iconv/gconv_simple.c b/iconv/gconv_simple.c
+-index d4797fba17..963b29f246 100644
+---- a/iconv/gconv_simple.c
+-+++ b/iconv/gconv_simple.c
+-@@ -239,11 +239,9 @@ ucs4_internal_loop (struct __gconv_step *step,
+-   int flags = step_data->__flags;
+-   const unsigned char *inptr = *inptrp;
+-   unsigned char *outptr = *outptrp;
+--  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
+-   int result;
+--  size_t cnt;
+- 
+--  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+-+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
+-     {
+-       uint32_t inval;
+- 
+-@@ -307,11 +305,9 @@ ucs4_internal_loop_unaligned (struct __gconv_step *step,
+-   int flags = step_data->__flags;
+-   const unsigned char *inptr = *inptrp;
+-   unsigned char *outptr = *outptrp;
+--  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
+-   int result;
+--  size_t cnt;
+- 
+--  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+-+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
+-     {
+-       if (__glibc_unlikely (inptr[0] > 0x80))
+- 	{
+-@@ -613,11 +609,9 @@ ucs4le_internal_loop (struct __gconv_step *step,
+-   int flags = step_data->__flags;
+-   const unsigned char *inptr = *inptrp;
+-   unsigned char *outptr = *outptrp;
+--  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
+-   int result;
+--  size_t cnt;
+- 
+--  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+-+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
+-     {
+-       uint32_t inval;
+- 
+-@@ -684,11 +678,9 @@ ucs4le_internal_loop_unaligned (struct __gconv_step *step,
+-   int flags = step_data->__flags;
+-   const unsigned char *inptr = *inptrp;
+-   unsigned char *outptr = *outptrp;
+--  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
+-   int result;
+--  size_t cnt;
+- 
+--  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+-+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
+-     {
+-       if (__glibc_unlikely (inptr[3] > 0x80))
+- 	{
+-diff --git a/iconv/tst-iconv8.c b/iconv/tst-iconv8.c
+-new file mode 100644
+-index 0000000000..0b92b19f66
+---- /dev/null
+-+++ b/iconv/tst-iconv8.c
+-@@ -0,0 +1,50 @@
+-+/* Test iconv behavior on UCS4 conversions with //IGNORE.
+-+   Copyright (C) 2020 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, see
+-+   <http://www.gnu.org/licenses/>.  */
+-+
+-+/* Derived from BZ #26923 */
+-+#include <errno.h>
+-+#include <iconv.h>
+-+#include <stdio.h>
+-+#include <support/check.h>
+-+
+-+static int
+-+do_test (void)
+-+{
+-+  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-10646/UCS4/");
+-+  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+-+
+-+  /*
+-+   * Convert sequence beginning with an irreversible character into buffer that
+-+   * is too small.
+-+   */
+-+  char input[12] = "\xe1\x80\xa1" "AAAAAAAAA";
+-+  char *inptr = input;
+-+  size_t insize = sizeof (input);
+-+  char output[6];
+-+  char *outptr = output;
+-+  size_t outsize = sizeof (output);
+-+
+-+  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == -1);
+-+  TEST_VERIFY (errno == E2BIG);
+-+
+-+  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+-+
+-+  return 0;
+-+}
+-+
+-+#include <support/test-driver.c>
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index b75bbb4196..22858bc563 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -1,7 +1,9 @@
+ require glibc.inc
+ require glibc-version.inc
+ 
+-CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-1751 CVE-2020-1752"
++CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-1751 CVE-2020-1752 \
++                        CVE-2021-27645 CVE-2021-3326 CVE-2020-27618 CVE-2020-29562 CVE-2019-25013 \
++"
+ 
+ DEPENDS += "gperf-native bison-native make-native"
+ 
+@@ -41,9 +43,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
+            file://0028-inject-file-assembly-directives.patch \
+            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+-           file://CVE-2020-29562.patch \
+            file://CVE-2020-29573.patch \
+-           file://CVE-2019-25013.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.25.1
 
