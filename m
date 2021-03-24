@@ -1,423 +1,101 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.187.1616596799996269433
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.214.1616596801709365882
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:40:00 -0700
+ Wed, 24 Mar 2021 07:40:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Io9ZWId4;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id v10so565963pgs.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=u+iEWrz6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 32so8642166pgm.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=5AkHaSLwXiWwm67ReR33Qk9KLTyvKHd2ZVVjyLqW5sQ=;
-        b=Io9ZWId4ZwiUoVhZ8jMpw4fp1WRQex+miUYOTY1vfAv/O9TIA2qlUBRVvZxuRFSgCD
-         fRngN0NRDX7jr04SHIScZT6RSxWmzevRhfByJLyymYsm54i8Q1dfPUkjGOFcTM0A6ths
-         LIOFtCoPCA7Qvu4aE0wpnxJQa9Y0h2nR0ZDJ/BlAkY2+gsKeKL56XqQlKXy/TMgR0D2E
-         Od2gYq8GlsdmUJRtunfK0eUPFre22QIi/Ad8Q3GOytBwji5CT+Keoys9Kc1Se+97uGY2
-         DltxYrZLgbji2C5Yw1s3QJoxD7tZ/gGzwJNMRhxNqLcl8lnbt6H7S5+wifEPM9E+8R0w
-         yHFA==
+        bh=CQGpbF2cL8j74v332FjzngZDcu+KLpD1BIk+/37uAtE=;
+        b=u+iEWrz6hVt/v5fn4QqFxKqNoOXeTenYegXRnXV/JpFDaNkgIpmX8DKWfp+HrqJpyS
+         dgua/KWgN7JQLFz55JNk+DLY7lCHcKjsnK+0k9vh4xW84QC2wguZnoPsVnLwMjUsVwuA
+         xQcN/+q+cgip5TNa2q8q/yGb2F+ylcRdzUy9Osp45C0IyFn0e4/gjHLHxPPDDteklMpg
+         xFJHyGJUgOMiWf/PVDNVF9ixJmhOyJ5aOd7hdzCaSl0W1PGoxDQgY8SHvw+LWDajBFxF
+         BcmWAWhQyjc33Vy13ko1s1DGt00NrnT8LfOiAo3cNsbvopoUl+2hexU8IN12gRIyZWeY
+         8uSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5AkHaSLwXiWwm67ReR33Qk9KLTyvKHd2ZVVjyLqW5sQ=;
-        b=iw5yJVenWBqG43e+YcCScG75ACnjgjr/U52rknghOpWKl+hciBRmViwEOgirNlP8E2
-         hfu1yoy75U1AeH9iErN0Uzrz13WZI3WcMA22IlEU2D+DPaxnjiSE8GPMEwhyf1v5LpMN
-         44bU2uRH+LpVsqwtyQL5mxSCBgVfRTHQ7Zuei5R0J5Ni2DgDHAXAzE+hhlMZLo1BCe4S
-         ZRVt11juOLaikUgrSkT89k42DMX/eUuv96MQAFB2TE9PGZkj13EJrVUB5lhYZC5EUBi6
-         uQX5gaWZbmnoRaH5wwyO5ee1MYFaKDSLXGiW2HkSSC7k18E8DnU75AvtxQwSzj/teOFc
-         7JJg==
-X-Gm-Message-State: AOAM533dRJfQ9lMgCX6/T7MlSsnQGkfW60efuXNLiGEBo6IurxtLi+mW
-	r8FUBjM2Iq3Sgr1DtiHEwZ3Rlc09ckqK5dtr
-X-Google-Smtp-Source: ABdhPJwMfYzyftKp5JuxSPvOR429tOtaku35D3WEP4rYlz9miZC15D3jUKGuhhxWc+kEIHLqOFZmJA==
-X-Received: by 2002:a63:1e0a:: with SMTP id e10mr3387093pge.3.1616596798599;
-        Wed, 24 Mar 2021 07:39:58 -0700 (PDT)
+        bh=CQGpbF2cL8j74v332FjzngZDcu+KLpD1BIk+/37uAtE=;
+        b=n+xguBrI4F1xnsC91DMdBNuIjTxotUfKECCQg/ZNJ2AU0MYbzj1NlQw71/IaYPgEL1
+         W5ioDDVM2A0hapJkW7dmM0Y+OjdH8+Bo1xl+0/qE1y5TtmSvtpQv8/ShJ48T1imUxCUO
+         N9YFfjNMlhmRya0/KAhSfdlzI4E8rpybVonr0f04wK8kcWCFsaUgJN5Li1SUS822+XeL
+         SYaLVwclOAjuZ2+7t54eCA8T6PzcgvdjZjwTzdEatHeXSnlSWR0f5Xn8Y5SgQNUtcDU8
+         wC23e7b8li0Dta7xpTspjWQFPap0vKiOKDQlhU+42b+5LugxRkmevS2HmBNrcT6xb+VH
+         HwFw==
+X-Gm-Message-State: AOAM531GMfciIxrQ8EY2EUzaenSD7kA26UNjF2s2pHGLKmru5NOSxnIW
+	szl1s/M41MqawEOSGM0/qtPXiZRUG8n5N/PN
+X-Google-Smtp-Source: ABdhPJwJte3lCL2lZgTyZW/hH/j1noSvyV2voNT/ONWQb1EJDJmFBASps9Noqx4S2jvEA/OHnf4fvQ==
+X-Received: by 2002:a62:800c:0:b029:203:6990:78e2 with SMTP id j12-20020a62800c0000b0290203699078e2mr3508687pfd.3.1616596800744;
+        Wed, 24 Mar 2021 07:40:00 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.57
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:58 -0700 (PDT)
+        Wed, 24 Mar 2021 07:40:00 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/21] glibc: Pull latest 2.31 HEAD
-Date: Wed, 24 Mar 2021 04:39:05 -1000
-Message-Id: <83be9ed671de2433ea6dc4017a9bb471aa322ea7.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/21] wpa-supplicant: update CVE-2021-27803.patch
+Date: Wed, 24 Mar 2021 04:39:06 -1000
+Message-Id: <060587ae477d785db017f4d8a2152206c258da42.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Anatol Belski <anbelski@linux.microsoft.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-The relevant commit log:
+* update to match what was merged in master branch (and I have now sent for gatesgarth)
+* fixes Upstream-Status (there is a missing 'c' in 'Acepted' and 'Backport' is more accurate)
 
-$ git log --format="%h %s" df31c7ca927242d5d4eee97f93a01e23ff47e332..f84949f1c4bbf20e6a1d9a5859cf012cde060ede
-f84949f1c4 powerpc64: Workaround sigtramp vdso return call
-5e43566f0f nscd: Fix double free in netgroupcache [BZ #27462]
-d0c84d22b6 gconv: Fix assertion failure in ISO-2022-JP-3 module (bug 27256)
-af316e4627 x86: Check IFUNC definition in unrelocated executable [BZ #20019]
-36eb01dd85 x86: Set header.feature_1 in TCB for always-on CET [BZ #27177]
-8b7be87aa2 x86-64: Avoid rep movsb with short distance [BZ #27130]
-c4f5e32aae Fix buffer overrun in EUC-KR conversion module (bz #24973)
-0858f46440 Add NEWS entry for CVE-2020-29562 (BZ #26923)
-1e40391de2 iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
-568c86274a tests-mcheck: New variable to run tests with MALLOC_CHECK_=3
-
-Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../glibc/glibc/CVE-2019-25013.patch          | 135 ---------------
- .../glibc/glibc/CVE-2020-29562.patch          | 156 ------------------
- meta/recipes-core/glibc/glibc_2.31.bb         |   6 +-
- 4 files changed, 4 insertions(+), 295 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+ .../wpa-supplicant/CVE-2021-27803.patch              | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 5f726537ff..7ae64a190f 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.31/master"
- PV = "2.31+git${SRCPV}"
--SRCREV_glibc ?= "df31c7ca927242d5d4eee97f93a01e23ff47e332"
-+SRCREV_glibc ?= "f84949f1c4bbf20e6a1d9a5859cf012cde060ede"
- SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+index dc576d1a11..004b1dbd19 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+@@ -18,15 +18,19 @@ p2p_add_device() so that the stale pointer cannot be used.
+ Fixes: 17bef1e97a50 ("P2P: Add peer entry based on Provision Discovery Request")
+ Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
-deleted file mode 100644
-index 73df1da868..0000000000
---- a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
-+++ /dev/null
-@@ -1,135 +0,0 @@
--From ee7a3144c9922808181009b7b3e50e852fb4999b Mon Sep 17 00:00:00 2001
--From: Andreas Schwab <schwab@suse.de>
--Date: Mon, 21 Dec 2020 08:56:43 +0530
--Subject: [PATCH] Fix buffer overrun in EUC-KR conversion module (bz #24973)
--
--The byte 0xfe as input to the EUC-KR conversion denotes a user-defined
--area and is not allowed.  The from_euc_kr function used to skip two bytes
--when told to skip over the unknown designation, potentially running over
--the buffer end.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=ee7a3144c9922808181009b7b3e50e852fb4999b]
--CVE: CVE-2019-25013
--Signed-off-by: Scott Murray <scott.murray@konsulko.com>
--[Refreshed for Dundell context; Makefile changes]
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
-----
-- iconvdata/Makefile      |  3 ++-
-- iconvdata/bug-iconv13.c | 53 +++++++++++++++++++++++++++++++++++++++++
-- iconvdata/euc-kr.c      |  6 +----
-- iconvdata/ksc5601.h     |  6 ++---
-- 4 files changed, 59 insertions(+), 9 deletions(-)
-- create mode 100644 iconvdata/bug-iconv13.c
--
--Index: git/iconvdata/Makefile
--===================================================================
----- git.orig/iconvdata/Makefile
--+++ git/iconvdata/Makefile
--@@ -73,7 +73,7 @@ modules.so := $(addsuffix .so, $(modules
-- ifeq (yes,$(build-shared))
-- tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
-- 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
---	bug-iconv10 bug-iconv11 bug-iconv12
--+	bug-iconv10 bug-iconv11 bug-iconv12 bug-iconv13
-- ifeq ($(have-thread-library),yes)
-- tests += bug-iconv3
-- endif
--Index: git/iconvdata/bug-iconv13.c
--===================================================================
----- /dev/null
--+++ git/iconvdata/bug-iconv13.c
--@@ -0,0 +1,53 @@
--+/* bug 24973: Test EUC-KR module
--+   Copyright (C) 2020 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, see
--+   <https://www.gnu.org/licenses/>.  */
--+
--+#include <errno.h>
--+#include <iconv.h>
--+#include <stdio.h>
--+#include <support/check.h>
--+
--+static int
--+do_test (void)
--+{
--+  iconv_t cd = iconv_open ("UTF-8//IGNORE", "EUC-KR");
--+  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
--+
--+  /* 0xfe (->0x7e : row 94) and 0xc9 (->0x49 : row 41) are user-defined
--+     areas, which are not allowed and should be skipped over due to
--+     //IGNORE.  The trailing 0xfe also is an incomplete sequence, which
--+     should be checked first.  */
--+  char input[4] = { '\xc9', '\xa1', '\0', '\xfe' };
--+  char *inptr = input;
--+  size_t insize = sizeof (input);
--+  char output[4];
--+  char *outptr = output;
--+  size_t outsize = sizeof (output);
--+
--+  /* This used to crash due to buffer overrun.  */
--+  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == (size_t) -1);
--+  TEST_VERIFY (errno == EINVAL);
--+  /* The conversion should produce one character, the converted null
--+     character.  */
--+  TEST_VERIFY (sizeof (output) - outsize == 1);
--+
--+  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
--+
--+  return 0;
--+}
--+
--+#include <support/test-driver.c>
--Index: git/iconvdata/euc-kr.c
--===================================================================
----- git.orig/iconvdata/euc-kr.c
--+++ git/iconvdata/euc-kr.c
--@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned c
-- 									      \
--     if (ch <= 0x9f)							      \
--       ++inptr;								      \
---    /* 0xfe(->0x7e : row 94) and 0xc9(->0x59 : row 41) are		      \
---       user-defined areas.  */						      \
---    else if (__builtin_expect (ch == 0xa0, 0)				      \
---	     || __builtin_expect (ch > 0xfe, 0)				      \
---	     || __builtin_expect (ch == 0xc9, 0))			      \
--+    else if (__glibc_unlikely (ch == 0xa0))				      \
--       {									      \
-- 	/* This is illegal.  */						      \
-- 	STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
--Index: git/iconvdata/ksc5601.h
--===================================================================
----- git.orig/iconvdata/ksc5601.h
--+++ git/iconvdata/ksc5601.h
--@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s
--   unsigned char ch2;
--   int idx;
-- 
--+  if (avail < 2)
--+    return 0;
--+
--   /* row 94(0x7e) and row 41(0x49) are user-defined area in KS C 5601 */
-- 
--   if (ch < offset || (ch - offset) <= 0x20 || (ch - offset) >= 0x7e
--       || (ch - offset) == 0x49)
--     return __UNKNOWN_10646_CHAR;
-- 
---  if (avail < 2)
---    return 0;
---
--   ch2 = (*s)[1];
--   if (ch2 < offset || (ch2 - offset) <= 0x20 || (ch2 - offset) >= 0x7f)
--     return __UNKNOWN_10646_CHAR;
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
-deleted file mode 100644
-index c51fb3223a..0000000000
---- a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
-+++ /dev/null
-@@ -1,156 +0,0 @@
--From 228edd356f03bf62dcf2b1335f25d43c602ee68d Mon Sep 17 00:00:00 2001
--From: Michael Colavita <mcolavita@fb.com>
--Date: Thu, 19 Nov 2020 11:44:40 -0500
--Subject: [PATCH] iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
--
--Previously, in UCS4 conversion routines we limit the number of
--characters we examine to the minimum of the number of characters in the
--input and the number of characters in the output. This is not the
--correct behavior when __GCONV_IGNORE_ERRORS is set, as we do not consume
--an output character when we skip a code unit. Instead, track the input
--and output pointers and terminate the loop when either reaches its
--limit.
--
--This resolves assertion failures when resetting the input buffer in a step of
--iconv, which assumes that the input will be fully consumed given sufficient
--output space.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=228edd356f03bf62dcf2b1335f25d43c602ee68d]
--CVE: CVE-2020-29562
--Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
--
-----
-- iconv/Makefile       |  2 +-
-- iconv/gconv_simple.c | 16 ++++----------
-- iconv/tst-iconv8.c   | 50 ++++++++++++++++++++++++++++++++++++++++++++
-- 3 files changed, 55 insertions(+), 13 deletions(-)
-- create mode 100644 iconv/tst-iconv8.c
--
--diff --git a/iconv/Makefile b/iconv/Makefile
--index 30bf996d3a..f9b51e23ec 100644
----- a/iconv/Makefile
--+++ b/iconv/Makefile
--@@ -44,7 +44,7 @@ CFLAGS-linereader.c += -DNO_TRANSLITERATION
-- CFLAGS-simple-hash.c += -I../locale
-- 
-- tests	= tst-iconv1 tst-iconv2 tst-iconv3 tst-iconv4 tst-iconv5 tst-iconv6 \
---	  tst-iconv7 tst-iconv-mt tst-iconv-opt
--+	  tst-iconv7 tst-iconv8 tst-iconv-mt tst-iconv-opt
-- 
-- others		= iconv_prog iconvconfig
-- install-others-programs	= $(inst_bindir)/iconv
--diff --git a/iconv/gconv_simple.c b/iconv/gconv_simple.c
--index d4797fba17..963b29f246 100644
----- a/iconv/gconv_simple.c
--+++ b/iconv/gconv_simple.c
--@@ -239,11 +239,9 @@ ucs4_internal_loop (struct __gconv_step *step,
--   int flags = step_data->__flags;
--   const unsigned char *inptr = *inptrp;
--   unsigned char *outptr = *outptrp;
---  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
--   int result;
---  size_t cnt;
-- 
---  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
--+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
--     {
--       uint32_t inval;
-- 
--@@ -307,11 +305,9 @@ ucs4_internal_loop_unaligned (struct __gconv_step *step,
--   int flags = step_data->__flags;
--   const unsigned char *inptr = *inptrp;
--   unsigned char *outptr = *outptrp;
---  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
--   int result;
---  size_t cnt;
-- 
---  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
--+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
--     {
--       if (__glibc_unlikely (inptr[0] > 0x80))
-- 	{
--@@ -613,11 +609,9 @@ ucs4le_internal_loop (struct __gconv_step *step,
--   int flags = step_data->__flags;
--   const unsigned char *inptr = *inptrp;
--   unsigned char *outptr = *outptrp;
---  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
--   int result;
---  size_t cnt;
-- 
---  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
--+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
--     {
--       uint32_t inval;
-- 
--@@ -684,11 +678,9 @@ ucs4le_internal_loop_unaligned (struct __gconv_step *step,
--   int flags = step_data->__flags;
--   const unsigned char *inptr = *inptrp;
--   unsigned char *outptr = *outptrp;
---  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
--   int result;
---  size_t cnt;
-- 
---  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
--+  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
--     {
--       if (__glibc_unlikely (inptr[3] > 0x80))
-- 	{
--diff --git a/iconv/tst-iconv8.c b/iconv/tst-iconv8.c
--new file mode 100644
--index 0000000000..0b92b19f66
----- /dev/null
--+++ b/iconv/tst-iconv8.c
--@@ -0,0 +1,50 @@
--+/* Test iconv behavior on UCS4 conversions with //IGNORE.
--+   Copyright (C) 2020 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, see
--+   <http://www.gnu.org/licenses/>.  */
--+
--+/* Derived from BZ #26923 */
--+#include <errno.h>
--+#include <iconv.h>
--+#include <stdio.h>
--+#include <support/check.h>
--+
--+static int
--+do_test (void)
--+{
--+  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-10646/UCS4/");
--+  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
--+
--+  /*
--+   * Convert sequence beginning with an irreversible character into buffer that
--+   * is too small.
--+   */
--+  char input[12] = "\xe1\x80\xa1" "AAAAAAAAA";
--+  char *inptr = input;
--+  size_t insize = sizeof (input);
--+  char output[6];
--+  char *outptr = output;
--+  size_t outsize = sizeof (output);
--+
--+  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == -1);
--+  TEST_VERIFY (errno == E2BIG);
--+
--+  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
--+
--+  return 0;
--+}
--+
--+#include <support/test-driver.c>
---- 
--2.27.0
--
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index b75bbb4196..22858bc563 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -1,7 +1,9 @@
- require glibc.inc
- require glibc-version.inc
+-Upstream-Status: Acepted [https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32]
++Upstream-Status: Backport
+ CVE: CVE-2021-27803
+-Signed-off-by: Minjae Kim <flowergom@gmail.com>
++
++Reference to upstream patch:
++[https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32]
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+ ---
+  src/p2p/p2p_pd.c | 12 +++++-------
+  1 file changed, 5 insertions(+), 7 deletions(-)
  
--CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-1751 CVE-2020-1752"
-+CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228 CVE-2020-1751 CVE-2020-1752 \
-+                        CVE-2021-27645 CVE-2021-3326 CVE-2020-27618 CVE-2020-29562 CVE-2019-25013 \
-+"
+ diff --git a/src/p2p/p2p_pd.c b/src/p2p/p2p_pd.c
+-index 3994ec03f86b..05fd593494ef 100644
++index 3994ec0..05fd593 100644
+ --- a/src/p2p/p2p_pd.c
+ +++ b/src/p2p/p2p_pd.c
+ @@ -595,14 +595,12 @@ void p2p_process_prov_disc_req(struct p2p_data *p2p, const u8 *sa,
+@@ -50,5 +54,5 @@ index 3994ec03f86b..05fd593494ef 100644
+  	} else if (msg.wfd_subelems) {
+  		wpabuf_free(dev->info.wfd_subelems);
+ -- 
+-2.25.1
++2.17.1
  
- DEPENDS += "gperf-native bison-native make-native"
- 
-@@ -41,9 +43,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
-            file://0028-inject-file-assembly-directives.patch \
-            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
--           file://CVE-2020-29562.patch \
-            file://CVE-2020-29573.patch \
--           file://CVE-2019-25013.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.25.1
 
