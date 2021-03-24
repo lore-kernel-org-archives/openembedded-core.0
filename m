@@ -1,91 +1,80 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web09.1498.1616560035084812985
+Received: from mx01.hilscher.com (mx01.hilscher.com [46.189.19.166])
+ by mx.groups.io with SMTP id smtpd.web12.1919.1616564471954918887
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Mar 2021 21:27:15 -0700
+ Tue, 23 Mar 2021 22:41:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LDpHTy6j;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id h5so3505870uaw.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Mar 2021 21:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gTuhNmIy/VJiCzaIwTa84+pNYdPoJcSTWppFgructrg=;
-        b=LDpHTy6jLZhwjrSWTcl/aD87u5wz3dOeE2h9aT9KuwYgqE/OIp4jWMSPUfCnx/MsTr
-         XhSzbsU2tymbA3DJvvPk0LK5QRLlbjfAWdDSwQMQptrdhcZGyfzPmJ+P/82r5ykmjJnK
-         YQiblTk6fG9vWUgasIU/faEF+VxQEDKvKVpHJw+kY6YaeVywED6NxMpYKQscbk1TnVhh
-         nej0a5c1+D5U1mUiRNKyU6lXJE4EV6dw3mr/MDtNKkXkH/b84KYNma5UBprthI6idzQn
-         8Zp2mSV1uPb5JCfwCWAdbZ0L4DzC4cdCi97a8Ix+2AG3976/Yt5WA84c9HZUG3a8lIwK
-         2jEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gTuhNmIy/VJiCzaIwTa84+pNYdPoJcSTWppFgructrg=;
-        b=feWf2iXX5FNOcjLCDL/AgmZFaJc5aQXygetKHRjWvKFARgzzlZ4lXjgxc+ImqVTlnN
-         nklTIfXTeakPcIFz41dw58IkF64HVjGJM1ccek7z9cKQ8pql9803nyG/t6bZwvIYr6cA
-         9/9ZvaZNEL9AImqaPR7Tsf8uE3FZEJCOJNV/g/SqS0/8W83DSe1ckv5dMt37ydLFMMF5
-         77f8uRunDCxmS+J70yAATBFlx55u8q9D6AWnJGxU75bTh6UV77a3schOvP+LKzUS9yKt
-         EngnOn6TZOKYuCsm7bC3qT/WY3iwRcOktRLilETwVzDJISq/1gzzQeBTrvRPegbmU74+
-         Ttbw==
-X-Gm-Message-State: AOAM532Lhz9WlJznrxQn84yca3S+Xqbh2fX3XFNZ7v/kE9TOUZJ22tTP
-	NIyM8U3B+nyOxTv9G6IAYRSs+oUfnW6TILrdMgY=
-X-Google-Smtp-Source: ABdhPJySoGq0dorQbrGag84Sx3aaPNMmOvVMMdFA/y2400taZ2nQE6QZDHLKWe5DcfIe1n06tQJy3xeb2uir7eNHbXU=
-X-Received: by 2002:ab0:48c2:: with SMTP id y2mr652836uac.22.1616560034199;
- Tue, 23 Mar 2021 21:27:14 -0700 (PDT)
+ dkim=missing; spf=pass (domain: hilscher.com, ip: 46.189.19.166, mailfrom: mtrensch@hilscher.com)
+Received: from maiser03.hilscher.local (192.168.100.44) by
+ maiser03.hilscher.local (192.168.100.44) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Wed, 24 Mar 2021 06:41:07 +0100
+Received: from maiser03.hilscher.local ([::1]) by maiser03.hilscher.local
+ ([::1]) with mapi id 15.01.2176.009; Wed, 24 Mar 2021 06:41:07 +0100
+From: "Michael Trensch" <mtrensch@hilscher.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] linux-firmware: Fix packaging
+Thread-Topic: [OE-core] [PATCH] linux-firmware: Fix packaging
+Thread-Index: AQHXGjVe76TuSylZjUWTIfF9gUDWeqqG1lMAgAAeeICAAAQ2gIAABnwAgAub54A=
+Date: Wed, 24 Mar 2021 05:41:07 +0000
+Message-ID: <75139c05-c7b2-9318-d126-61a163891320@hilscher.com>
+References: <6409e1bf-9400-886e-cd25-76b52456c8ed@hilscher.com>
+ <5dcf9ff95e74274d5cebcfe34a0c9de4ce9e886e.camel@linuxfoundation.org>
+ <168e0cb1-582c-8c14-b394-d23f1119178a@hilscher.com>
+ <CAOSpxdZxridvyrtK+Zc2pzjVbNM99nsVbAWKN05uU5Ur7R542Q@mail.gmail.com>
+ <2fc095ba-4858-58d4-ad2f-3436af3cea5d@hilscher.com>
+In-Reply-To: <2fc095ba-4858-58d4-ad2f-3436af3cea5d@hilscher.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+x-originating-ip: [84.147.84.224]
 MIME-Version: 1.0
-References: <20210323205029.87251-1-yifan.yu@windriver.com>
- <20210323205029.87251-2-yifan.yu@windriver.com> <CANNYZj-V8feRiiYvEEGKRrOKgFd-392PZa8XWRMs7Qmmm8+dgg@mail.gmail.com>
- <835b0b66-1f28-ced5-c52b-7fb4516e8cc5@windriver.com> <083932b6-c2c0-841b-8c34-868aaf3b64ee@windriver.com>
-In-Reply-To: <083932b6-c2c0-841b-8c34-868aaf3b64ee@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 24 Mar 2021 05:27:03 +0100
-Message-ID: <CANNYZj-xqDVvTUvz=3boGaWNm6U9p6q2Erjo+KePDnhPmUdm4g@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 2/2] valgrind: Disable ptest swapcontext.vgtest
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Yi Fan Yu <yifan.yu@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000098bc0505be40b61e"
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C4AE1EDEAD73CD4DB05FD5AECC88206C@hilscher.com>
+Content-Transfer-Encoding: base64
 
---00000000000098bc0505be40b61e
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 24 Mar 2021 at 00:55, Randy MacLeod <randy.macleod@windriver.com>
-wrote:
-
-> I had asked Yi to disable the one failing test until we understood more
-> about it and had a fix. If people prefer to drop the patch that
-> removes the test, that's fine.
->
-> We'll fix the new test over the coming days/week regardless.
->
-
-I'm sorry if I was too terse, I just think that disabling tests needs more
-diligence than what was visible here - at least a proper record of observed
-failures, and an upstream bug and/or a yocto bug (the latter explicitly
-assigned to a person).  Thanks!
-
-Alex
-
---00000000000098bc0505be40b61e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 24 Mar 2021 at 00:55, Randy MacLe=
-od &lt;<a href=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriv=
-er.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">I had asked Yi to disable the one failing =
-test until we understood more<br>
-about it and had a fix. If people prefer to drop the patch that<br>
-removes the test, that&#39;s fine.<br>
-<br>
-We&#39;ll fix the new test over the coming days/week regardless.<br></block=
-quote><div><br></div><div>I&#39;m sorry if I was too terse, I just think th=
-at disabling tests needs more diligence than what was visible here - at lea=
-st a proper record of observed failures, and an upstream bug and/or a yocto=
- bug (the latter explicitly assigned to a person).=C2=A0 Thanks!</div><div>=
-<br></div><div>Alex<br></div></div></div>
-
---00000000000098bc0505be40b61e--
+DQoNCk9uIDE2LjAzLjIwMjEgMjE6MjQsIE1pY2hhZWwgVHJlbnNjaCB3cm90ZToNCj4+IEFjdHVh
+bGx5IGl0IGRvZXNuJ3QgYXBwbHkgdG8gZHVuZmVsbCBlaXRoZXIgKGR1bmZlbGwgYW5kIG1hc3Rl
+ciBhcmUNCj4+IGJvdGggYXQgdmVyc2lvbiAyMDIxMDIwOCkNCj4+DQo+PiBTbyBiZXN0IHRvIHN1
+Ym1pdCBmb3IgbWFzdGVyIGFuZCBJIHdpbGwgY2hlcnJ5LXBpY2sgdG8gZHVuZmVsbC4NCj4+DQo+
+PiBUaGFua3MgZm9yIGZpeGluZyB0aGlzIQ0KPj4NCj4+IFN0ZXZlDQo+DQo+IEkgdGhpbmsgaXQg
+YnJva2Ugc29tZWhvdyB3aGVuIHRyYW5zZmVycmluZyBpdCB0byBUaHVuZGVyYmlyZCBmb3IgbWFp
+bGluZw0KPiBpdC4gSSBjYW5ub3QgZGlyZWN0bHkgYWNjZXNzIG91ciBtYWlsIHNlcnZlciB2aWEg
+U01UUC8iZ2l0IHNlbmQtZW1haWwiIHNvIEkNCj4gdG9vayBhIGRldG91ciB2aWEgVGh1bmRlcmJp
+cmQgYW5kIGV4Y2hhbmdlLiBQcm9iYWJseSB0aGlzIGJyb2tlIHRoZSBwYXRjaCwgYXMgbXkNCj4g
+bG9jYWwgcGF0Y2ggZmlsZSBzdGlsbCBhcHBsaWVzIG9uIGJvdGggKGR1bmZlbGwgYW5kIG1hc3Rl
+cikuDQo+DQo+IFNvcnJ5IGZvciB0aGUgY29uZnVzaW9uIC8gYWRkaXRpb25hbCB3b3JrLg0KPg0K
+DQpJIGRpZCByZXNlbmQgaXQgYXMgUGF0Y2ggVjIgKGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTQ5NTg2KQ0KSG9wZSB0aGF0IGl0IGlz
+IHdvcmtpbmcgb2sgbm93LCBhdCBsZWFzdCBpdCBkb2VzIGFwcGx5IGZvciBtZSBub3csIHdoZW4g
+ZGlyZWN0bHkgY29waWVkIGZyb20gdGhlIGxpc3QgLyB3ZWIgaW50ZXJmYWNlLg0KDQpNaWNoYWVs
+DQoNCkhpbHNjaGVyIEdlc2VsbHNjaGFmdCBmw7xyIFN5c3RlbWF1dG9tYXRpb24gbWJIICAgfCAg
+UmhlaW5zdHJhc3NlIDE1ICB8ICA2NTc5NSBIYXR0ZXJzaGVpbSAgfCAgR2VybWFueSAgfCAgd3d3
+LmhpbHNjaGVyLmNvbTxodHRwOi8vd3d3LmhpbHNjaGVyLmNvbT4NClNpdHogZGVyIEdlc2VsbHNj
+aGFmdCAvIHBsYWNlIG9mIGJ1c2luZXNzOiBIYXR0ZXJzaGVpbSAgfCAgR2VzY2jDpGZ0c2bDvGhy
+ZXIgLyBtYW5hZ2luZyBkaXJlY3RvcjogU2ViYXN0aWFuIEhpbHNjaGVyLCBIYW5zLUrDvHJnZW4g
+SGlsc2NoZXINCkhhbmRlbHNyZWdpc3RlciAvIGNvbW1lcmNpYWwgcmVnaXN0ZXI6IEZyYW5rZnVy
+dCBCIDI2ODczICB8ICBVc3QuIElkbnIuIC8gVkFUIE5vLjogREUxMTM4NTI3MTUNClJlZ2lzdGVy
+Z2VyaWNodCAvIHJlZ2lzdGVyIGNvdXJ0OiBBbXRzZ2VyaWNodCBGcmFua2Z1cnQvTWFpbg0KDQpJ
+bXBvcnRhbnQgSW5mb3JtYXRpb246DQpUaGlzIGUtbWFpbCBtZXNzYWdlIGluY2x1ZGluZyBpdHMg
+YXR0YWNobWVudHMgY29udGFpbnMgY29uZmlkZW50aWFsIGFuZCBsZWdhbGx5IHByb3RlY3RlZCBp
+bmZvcm1hdGlvbiBzb2xlbHkgaW50ZW5kZWQgZm9yIHRoZSBhZGRyZXNzZWUuIElmIHlvdSBhcmUg
+bm90IHRoZSBpbnRlbmRlZCBhZGRyZXNzZWUgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2UgY29udGFj
+dCB0aGUgYWRkcmVzc2VyIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgdGhpcyBtZXNzYWdlIGluY2x1
+ZGluZyBpdHMgYXR0YWNobWVudHMuIFRoZSB1bmF1dGhvcml6ZWQgZGlzc2VtaW5hdGlvbiwgY29w
+eWluZyBhbmQgY2hhbmdlIG9mIHRoaXMgZS1tYWlsIGFyZSBzdHJpY3RseSBmb3JiaWRkZW4uIFRo
+ZSBhZGRyZXNzZXIgc2hhbGwgbm90IGJlIGxpYWJsZSBmb3IgdGhlIGNvbnRlbnQgb2Ygc3VjaCBj
+aGFuZ2VkIGUtbWFpbHMuDQoNCldpY2h0aWdlciBIaW53ZWlzOg0KRGllc2UgRS1NYWlsIGVpbnNj
+aGxpZcOfbGljaCBpaHJlciBBbmjDpG5nZSBlbnRow6RsdCB2ZXJ0cmF1bGljaGUgdW5kIHJlY2h0
+bGljaCBnZXNjaMO8dHp0ZSBJbmZvcm1hdGlvbmVuLCBkaWUgbnVyIGbDvHIgZGVuIEFkcmVzc2F0
+ZW4gYmVzdGltbXQgc2luZC4gU29sbHRlbiBTaWUgbmljaHQgZGVyIGJlemVpY2huZXRlIEFkcmVz
+c2F0IHNlaW4sIHNvIHRlaWxlbiBTaWUgZGllcyBiaXR0ZSBkZW0gQWJzZW5kZXIgdW1nZWhlbmQg
+bWl0IHVuZCBsw7ZzY2hlbiBTaWUgZGllc2UgTmFjaHJpY2h0IHVuZCBpaHJlIEFuaMOkbmdlLiBE
+aWUgdW5iZWZ1Z3RlIFdlaXRlcmdhYmUsIGRhcyBBbmZlcnRpZ2VuIHZvbiBLb3BpZW4gdW5kIGpl
+ZGUgVmVyw6RuZGVydW5nIGRlciBFLU1haWwgaXN0IHVudGVyc2FndC4gRGVyIEFic2VuZGVyIGhh
+ZnRldCBuaWNodCBmw7xyIEluaGFsdGUgdm9uIHZlcsOkbmRlcnRlbiBFLU1haWxzLg0K
