@@ -1,172 +1,76 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web12.178.1616596773330607940
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web08.221.1616596779418908634
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:33 -0700
+ Wed, 24 Mar 2021 07:39:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=urtHE9jE;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so1270268pjb.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RAix58vC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id e33so14783616pgm.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=U3MRpsfzTukn7jnulnyk+R/nlPhmooMLDkUcr2yUHLs=;
-        b=urtHE9jEeprzCDtvhL4c1egLaBxlhiPyYVbWgf+mL3FeFivTgwfRsd/lBKUUPN2zO6
-         2Yx5r7dMHSO9a2a6KIubY+wTjUsLvbWppXrAFaHP4Gm/dybsbX/ZQ3bmS56xRd2iCREU
-         pwFzLzSWGaRxsfigqxa52pSJxW35yG/jVzuYG7HRqO5U3y5U/Te64q7UuQoBc1RFBjeH
-         ah60YMQPV5AcEIaCrk0wvH4w1xpFrh859aUQRQAHh4hC+pbI2N3xKsMGT5XhPBoEK+Yg
-         8TpKe+m99vTuM7kabwF3/DZTbNYSRqd0GQ/OdICS3SFKe3KBeVFLO7Xe3v9EQVAU7yyn
-         C9jg==
+        bh=Qj4x1X9NmsNYyb2scVwXpeZZtWKBeEnXXr8ckFujECI=;
+        b=RAix58vCS+pg9HQKzlAZCggPIUfojuVq0woXwFPcUO7H8hf6O+ugd8Zn8G9d6qbQW4
+         QTXdLuBnmIaQsT4yzY0DfzlIXsCVhqkZcz2AMgFUPgzhRJQ68tyacPH1/KvAgvjG2QV7
+         uZaUW04wU7rc7iFK9ekuuQiQJ9ggf5c/GeQ1kVitzmZcUBgT/I6YemR2hgOgfDwyIUeT
+         nNQQtyDfNV+6DvTgisSE7Ij6ugKC13K8kbHiVE43VPAoA3QlnOEQuO9czlcrm5F/8A9O
+         ZqZAoADY6OSndAgxSdOL4aRsk89WZkGy9/6nUyopWZQsH9oVVabu5tuK1JaLiPM1chbj
+         yb1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U3MRpsfzTukn7jnulnyk+R/nlPhmooMLDkUcr2yUHLs=;
-        b=BzT9c+8R6e8dZW/xI/TL20BMShaehgPXM5uJAgBbvgP5uW44pJcFe8Sb0Yct5kU9zD
-         hfHC7Ou99pPPuG6Dtix4v9uLi/+ZU1+OVXQFTkXDBLEht2oNYn6Fd4L9NNMXALB+aS7w
-         8gjfpTtiDC6zznkP7TnuPQoamG3r9XREBTyZYaH16JKHmaXSvfkG34uvma4FWtcAziV9
-         o8LV3BERNzxZ7bE/zUOgL4mcs/aaVr1nSch1aNHGJp9RcowDgYs8evej5xEWcbwt7gfu
-         +CbTFlZPlq7gstFhruEcaN4sODPNCtbKNBEWqrhIV+oMwtHdXooVjU0TOmoypwyUfLVf
-         wMOg==
-X-Gm-Message-State: AOAM533olBRpxxFROeRj7VUyLfKkYdn9MBYGhEod8L5fyUow+qrXZNE0
-	InnUTiG1girLhTL0rnf4zdKcjctDHrzf3IlH
-X-Google-Smtp-Source: ABdhPJxz6bK5wrP81uRRdNcDZakemHeExChkdTRqAHVZ1wcBc7iqPCLrHRsY6xNDDUhD7ARbyrHDZQ==
-X-Received: by 2002:a17:903:30cd:b029:e6:a1fa:403b with SMTP id s13-20020a17090330cdb02900e6a1fa403bmr3765173plc.43.1616596772168;
-        Wed, 24 Mar 2021 07:39:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Qj4x1X9NmsNYyb2scVwXpeZZtWKBeEnXXr8ckFujECI=;
+        b=bbJssPHqy6iJetQB0y/0si+IzOXn40HfstzrofgWhf5MAVNPQ6BAg3stx2z51V4BWc
+         LTR02P9s7EOAWdzM6KyssW7oqXZUfRc2aRgPRcfJraCT0I7Zt8OBIDnDc7WLcGjplWyK
+         URZKAIdF8f/pUnIxxotLbPURJtRZ2O18/zHoF6yzKI2kP3Paf83ErdiQbeKTsgYsLpP5
+         2PTRP1s5lAs2KlY7r0ndGIirC+Ukp9S2eGKHY1xbSb3XmgA1LVu0TQkHNdh2arOQxZPh
+         dp2/OsFpySE9A2oLtJIiI648Lgu82UE2lxEivcWtk5tIK0vW4wpiwqkQfhuGb3UsyDWh
+         zNNQ==
+X-Gm-Message-State: AOAM532Iirrc09MrHnxz0yAu09Y1Nk5jAZbaJcXhjHYjQZVKECgaHFGM
+	Uk4HdIkl9DL4A7JQroFG15f7+tIw2i8WT03z
+X-Google-Smtp-Source: ABdhPJzFMhNPJMidL+5DtQhLyW8SAunfkMDNyF4Rwke+gzRz6QtdWVKz6anU54tXVMBgzsHX/DfM2g==
+X-Received: by 2002:a63:c90a:: with SMTP id o10mr3381366pgg.172.1616596778144;
+        Wed, 24 Mar 2021 07:39:38 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.30
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:31 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:37 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/21] Patch review
-Date: Wed, 24 Mar 2021 04:38:55 -1000
-Message-Id: <cover.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/21] Revert "sstatesig.py: show an error instead of warning when sstate manifest isn't found"
+Date: Wed, 24 Mar 2021 04:38:56 -1000
+Message-Id: <4cf332213811ae71f3dd46cb0eb0f22b6ffff562.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
+References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Please review this next set of patches for dunfell and have comments back by
-end of day Friday.
+Causes breakage in other layers
 
-Passed a-full on autobuilder:
+This reverts commit e0c1db170fdd6c1d78fdfce017feae26c96fac29.
+---
+ meta/lib/oe/sstatesig.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1992
-
-The following changes since commit 7c88d52eaca62237afcda606a3078ec483992213:
-
-  cups: use /run instead /var/run in systemd's unit file (2021-03-11 05:00:02 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alejandro Hernandez Samaniego (1):
-  devtool: Fix do_kernel_configme task
-
-Anatol Belski (1):
-  glibc: Pull latest 2.31 HEAD
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: update to v5.4.105
-
-Chee Yang Lee (1):
-  initrdscripts: init-install-efi.sh install extra files for ESP
-
-Chen Qi (1):
-  populate_sdk_ext: record METADATA_REVISION
-
-Denys Dmytriyenko (1):
-  maintainers: update own email address
-
-Diego Santa Cruz (1):
-  iputils: fix various arping regressions
-
-Dorinda Bassey (2):
-  meta-selftest: Add HOMEPAGE / DESCRIPTION
-  devshell.bbclass: Exceptions displayed within devpyshell
-
-Douglas Royds (2):
-  cmake: Fully-qualified path to ar
-  externalsrc: Detect code changes in submodules
-
-Lee Chee Yang (2):
-  cve-update-db-native: consider version suffix when update CVE db
-  cve-check: CVE_VERSION_SUFFIX to work with patched release
-
-Li Wang (1):
-  linux-dummy: add empty dependent packages
-
-Martin Jansa (2):
-  iso-codes: fix protocol in SRC_URI
-  wpa-supplicant: update CVE-2021-27803.patch
-
-Petr Vorel (1):
-  scripts/verify-bashisms: Update checkbashisms.pl URL
-
-Richard Purdie (1):
-  selftest/wic: Fix dependency issue in rawcopy test
-
-Robert P. J. Day (1):
-  bitbake-whatchanged: change ending quote to proper period
-
-Stefan Schmidt (1):
-  systemd-conf: do not ask for DHCP if configured on kernel command line
-
-Steve Sakoman (1):
-  Revert "sstatesig.py: show an error instead of warning when sstate
-    manifest isn't found"
-
- .../recipes-test/aspell/aspell_0.0.0.1.bb     |   1 +
- meta/classes/cmake.bbclass                    |   3 +-
- meta/classes/devshell.bbclass                 |   1 +
- meta/classes/externalsrc.bbclass              |  16 +-
- meta/classes/linux-dummy.bbclass              |  26 +++
- meta/classes/populate_sdk_ext.bbclass         |   3 +
- meta/conf/distro/include/maintainers.inc      |  40 ++---
- meta/lib/oe/cve_check.py                      |   7 +-
- meta/lib/oe/sstatesig.py                      |   2 +-
- meta/lib/oeqa/selftest/cases/cve_check.py     |   8 +
- meta/lib/oeqa/selftest/cases/wic.py           |  18 +-
- .../wpa-supplicant/CVE-2021-27803.patch       |  12 +-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../glibc/glibc/CVE-2019-25013.patch          | 135 ---------------
- .../glibc/glibc/CVE-2020-29562.patch          | 156 ------------------
- meta/recipes-core/glibc/glibc_2.31.bb         |   6 +-
- .../initrdscripts/files/init-install-efi.sh   |   5 +
- .../recipes-core/meta/cve-update-db-native.bb |   7 +-
- .../systemd/systemd-conf/wired.network        |   1 +
- .../systemd/systemd-conf_244.3.bb             |   3 -
- ...rtially-fix-sent-vs-received-package.patch |  39 +++++
- ...fix-f-quit-on-first-reply-regression.patch |  39 +++++
- ...rison-of-different-signedness-warnin.patch |  37 +++++
- ...ccess-when-unsolicited-ARP-mode-dest.patch |  45 +++++
- ...ional-timerfd-to-control-when-timeou.patch |  94 +++++++++++
- .../iputils/iputils_s20190709.bb              |   5 +
- meta/recipes-extended/sudo/sudo.inc           |   2 +
- meta/recipes-kernel/linux/linux-dummy.bb      |   2 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
- .../iso-codes/iso-codes_4.4.bb                |   2 +-
- scripts/bitbake-whatchanged                   |   2 +-
- scripts/lib/devtool/standard.py               |   7 +-
- scripts/verify-bashisms                       |   2 +-
- 35 files changed, 401 insertions(+), 363 deletions(-)
- create mode 100644 meta/classes/linux-dummy.bbclass
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
- delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 51e1d492c3..aeceb100d7 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -453,7 +453,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
+         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
+         if os.path.exists(manifest):
+             return manifest, d2
+-    bb.error("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++    bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
+     return None, d2
+ 
+ def OEOuthashBasic(path, sigfile, task, d):
 -- 
 2.25.1
 
