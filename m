@@ -1,179 +1,98 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web09.190.1616596792601430487
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.211.1616596794671826470
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:52 -0700
+ Wed, 24 Mar 2021 07:39:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jyAM/xvg;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id x26so17457233pfn.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=x3Ct+N06;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id g10so8041455plt.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KAsBa4YWS6XZuFej21MgXEe+rxxx/cjoMvj5rxnjRoE=;
-        b=jyAM/xvgOX+OMy7Fkec9u4rBhRcf3yoQ9TevFBXCFBfPzc08sbGI5m2NeEtA7iggmv
-         8IlknM/2WPleMEDVQmGcBm6S3zhOQtgOYwFJEhK0hxUnb8n++lT5gq2zZ4MiPiZOFBaC
-         vfEHlE3xwzQQsXr5dKYcDgL10XnaRziKv/j3aSvKCG/xweREHr+7QO3Pi1PIkHgFulhZ
-         G5LUbDIgjrHklhxW0WBDoVhX+EVXWUQ8HQELclj7KzsVvSfPMREpYN5yv12NpisdtLwg
-         mRiww7CwuCvtT+GXfqVcmMUubF8DAyWNK0eYbw07jk7ORs4FYax71EtiDz2omb27zkHl
-         RRNw==
+        bh=NQADL2BX3VbHd5HkpzjBs86on2xLkA/5TOopFvjXlfQ=;
+        b=x3Ct+N06WXVoS/cVaV0nm9DIiSinzahT2ncXPnntOvU6ovihc3/Uw1yFyMVmbWmEXo
+         GBD8RZozP2JcWKORB93n+kMwmDWQTgOsnmll6KrxAJwktLSR1BX9htL2F4jKYNUpRajv
+         RZLLiVrIgidhEwtU5vepl7BXSPnjUUQeeT7NAtI/6PEGkTQ0GJoNrVJtM/jkKJhVYTdC
+         d0l73Vimb7O8+Q9x/T886Jg9wCri3SeWoniyehWhDZNSiaIkKqLKjvH7PMDmn40RZSRZ
+         nm4HemeHw2wztU1wMVZLu/4IPod7oGDYCv3tLwgKjw3W1DLfZfpfj0+sKuqWU8gkOkKe
+         i2Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KAsBa4YWS6XZuFej21MgXEe+rxxx/cjoMvj5rxnjRoE=;
-        b=MDSUPnNGIHEu+dhRHmYbvKSyCMQnjKG7gTDJ+y0zJ4HUG7hMNRLA+L0htiljXCh//7
-         9lGstrwM3Xo+21FRKULq8kr7Xsnfb3280WbcEcHXBqCz20cdWGQNnGHO3Zv946E1naeQ
-         RcyaEfqiTN5eaWcQLoGbhiaUr13+xvcWRBe4nCQYzr+i3HCHi/WvJZ5vsNB1OkamK2fX
-         xwvL0AWfR78NPCJXGM3/oTS/+TR6sKV8hzW02fbvjKN+Lm4PznOYlRcUKPabFijrD8bW
-         NSmZYpNzcTy6sXcCsV9Nw+sjTP5PZu+1/onTNnMRvKZrNkxdcvdAhxg90q8XK20EtTnl
-         bTJA==
-X-Gm-Message-State: AOAM533jXeYQG0MURIdH1EIfjhLhszRFBlSBfAZgzEVP56PSTGtF1kXY
-	n+H67BFGbqs7sqPcjzLhyqGyOq7iT1XKUkXh
-X-Google-Smtp-Source: ABdhPJwpkfS5IFoiaGA07sR5CcAs0EgY4v+EIG/awV2t3oSaelHRZq6ORJ629/EBDTa0kDc4h68l/A==
-X-Received: by 2002:a62:3201:0:b029:211:3dcc:c9ca with SMTP id y1-20020a6232010000b02902113dccc9camr3512871pfy.46.1616596791503;
-        Wed, 24 Mar 2021 07:39:51 -0700 (PDT)
+        bh=NQADL2BX3VbHd5HkpzjBs86on2xLkA/5TOopFvjXlfQ=;
+        b=JnRNpAG3uRnAUUz7DYENzoK0TyOgvaG+L2D7h5iP4EUOCrrxjU3+3Y+Y5QLbrWuSzU
+         9zbcGwGLOD10RnvP0Zp4k1SrOv4yOBiqEr7yFwt/v/JGR20CZx7ZkB0++rE92P1amOfL
+         Xmr2uG/x5uN9580m35fTe2iE0Syz32CJMnTQp6CBsUWBS+PzWxE2P4px9Mp9AHHsjJH+
+         qRUB08VzYUO/bVz1Fdp/4IRdKKQ6147ts38qAUQmaS29+nFDG7dwAwAUL/GaCFz7p3y0
+         7eLAgIqsgAeZPlVazsxv2gEnm2BIaVsVMhArmw/JYcj7r3UezIBpzeXxcMXwa2JPup+6
+         OUaA==
+X-Gm-Message-State: AOAM530PJr9wNUtY3PaxudRTe25fO19pVQYUt8nzo1IkkdGHIJWpHlcH
+	yirZYYfvjEbmMAJt2i4odGCESTa7yqfo6ZYe
+X-Google-Smtp-Source: ABdhPJxeK1onBbwcb8gA7gN3H21wjzORimUVOV5fQFruHqawvpNwzNdbzQYI0HGJyXa5tJCtCcUkeA==
+X-Received: by 2002:a17:90a:fd89:: with SMTP id cx9mr3742086pjb.93.1616596793790;
+        Wed, 24 Mar 2021 07:39:53 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.50
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:51 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:53 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/21] maintainers: update own email address
-Date: Wed, 24 Mar 2021 04:39:02 -1000
-Message-Id: <71aac912966eccdd92fbe93e4555a4939b8973d5.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/21] systemd-conf: do not ask for DHCP if configured on kernel command line
+Date: Wed, 24 Mar 2021 04:39:03 -1000
+Message-Id: <c88bb3db92d0650a560d7cbc1f0f42ae8faf15e1.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Denys Dmytriyenko <denis@denix.org>
+From: Stefan Schmidt <stefan.schmidt@huawei.com>
 
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+In cases where we configure the IP address and more on the kernel
+command line with ip= we should not ask for DHCP with systemd-networkd
+later on. We have such a setup with our runqemu script.
+
+With this match in place we can also deploy this unit on qemu systems.
+
+Signed-off-by: Stefan Schmidt <stefan.schmidt@huawei.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63e5f91d46d76800452ed8a0fade8dd3db1fc88e)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 8c4981e740c0e630200dbc77c9e3dfd3e43b790b)
 ---
- meta/conf/distro/include/maintainers.inc | 40 ++++++++++++------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-core/systemd/systemd-conf/wired.network | 1 +
+ meta/recipes-core/systemd/systemd-conf_244.3.bb      | 3 ---
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 3fb925cc2d..ef1e7fe2f4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -88,8 +88,8 @@ RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.o
- RECIPE_MAINTAINER_pn-buildtools-extended-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-busybox = "Andrej Valek <andrej.valek@siemens.com>"
--RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-cairo = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -125,7 +125,7 @@ RECIPE_MAINTAINER_pn-core-image-sato-dev = "Richard Purdie <richard.purdie@linux
- RECIPE_MAINTAINER_pn-core-image-sato-ptest-fast = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-core-image-sato-sdk-ptest = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-coreutils = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-cpio = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-cpio = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-cracklib = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-createrepo-c = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-cronie = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -233,7 +233,7 @@ RECIPE_MAINTAINER_pn-gobject-introspection = "Alexander Kanavin <alex.kanavin@gm
- RECIPE_MAINTAINER_pn-gperf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-gpgme = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-gptfdisk = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-grub = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-grub-bootconf = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -254,9 +254,9 @@ RECIPE_MAINTAINER_pn-gstreamer1.0-rtsp-server = "Anuj Mittal <anuj.mittal@intel.
- RECIPE_MAINTAINER_pn-gstreamer1.0-vaapi = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-gtk+3 = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-gtk-doc = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-gzip = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-gzip = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-harfbuzz = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-hdparm = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-hdparm = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-help2man-native = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-hicolor-icon-theme = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-hwlatdetect = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -454,10 +454,10 @@ RECIPE_MAINTAINER_pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lttng-modules = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-lttng-tools = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-lttng-ust = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-lz4 = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzo = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzip = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzop = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-lz4 = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-lzo = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-lzip = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-lzop = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-m4 = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-make = "Robert Yang <liezhi.yang@windriver.com>"
-@@ -501,7 +501,7 @@ RECIPE_MAINTAINER_pn-mpeg2dec = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-mpfr = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-mpg123 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-msmtp = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-mtd-utils = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-mtd-utils = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mtools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-musl = "Khem Raj <raj.khem@gmail.com>"
-@@ -545,7 +545,7 @@ RECIPE_MAINTAINER_pn-pango = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-parted = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-patch = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-patchelf = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-pbzip2 = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-pbzip2 = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
-@@ -685,7 +685,7 @@ RECIPE_MAINTAINER_pn-udev-extraconf = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -706,11 +706,11 @@ RECIPE_MAINTAINER_pn-vulkan-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-wayland-protocols = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-wayland-protocols = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-webkitgtk = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@denix.org>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -764,6 +764,6 @@ RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@denix.org>"
-+RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@denix.org>"
+diff --git a/meta/recipes-core/systemd/systemd-conf/wired.network b/meta/recipes-core/systemd/systemd-conf/wired.network
+index ff807ba31f..34c20fcb24 100644
+--- a/meta/recipes-core/systemd/systemd-conf/wired.network
++++ b/meta/recipes-core/systemd/systemd-conf/wired.network
+@@ -1,6 +1,7 @@
+ [Match]
+ Name=en* eth*
+ KernelCommandLine=!nfsroot
++KernelCommandLine=!ip
+ 
+ [Network]
+ DHCP=yes
+diff --git a/meta/recipes-core/systemd/systemd-conf_244.3.bb b/meta/recipes-core/systemd/systemd-conf_244.3.bb
+index d9ec023bfd..9b797a91f4 100644
+--- a/meta/recipes-core/systemd/systemd-conf_244.3.bb
++++ b/meta/recipes-core/systemd/systemd-conf_244.3.bb
+@@ -23,9 +23,6 @@ do_install() {
+ # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+ do_install_append_qemuall() {
+ 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
+-
+-	# Do not install wired.network for qemu bsps
+-	rm -rf ${D}${systemd_unitdir}/network
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
 -- 
 2.25.1
 
