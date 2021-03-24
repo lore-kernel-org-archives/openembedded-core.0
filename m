@@ -1,95 +1,172 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [])
- by mx.groups.io with SMTP id smtpd.web11.6040.1616593147229388783
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.178.1616596773330607940
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 06:39:12 -0700
+ Wed, 24 Mar 2021 07:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=otWaLB6+;
- spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1616593151; i=@fujitsu.com;
-	bh=DJVy8U0meaWxAUdiqkohR66krLvTVtFdGVKkTSkBMkc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=otWaLB6+x/hdMfqgebnZYvDrZZkkkbhdl3/YTFPcPZz6Td1LeEmiocoK+xoZFlazv
-	 d7k9j9XsySyncaOIp2IPLtEL1aF0FNVRgyh7IT0xBRtggSe4cycQDJSIgKSltiCTuJ
-	 1+zA8AmVIQkInSwuMTGI1pEmvhIuLKEOaug5gQ3p0ZIP3EKXAUuQ8KKVe7Cog9+62G
-	 593oKPmYkZ4/39eRAGLgjhl2Xeb42B2s1C0PgYsXPrwtbWTPDnl2h1V/gYld+9E0Lu
-	 83IjV1iR63nNxr/kl3ZUDGYbtvGh0hK7nBGweCefuI0RnGEJrxCD9FsOYcsyKaoclO
-	 ynQub565hw1aQ==
-Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id A8/36-53635-FF04B506; Wed, 24 Mar 2021 13:39:11 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MRovvPITr
-  BYOoufYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaNlRgtTwU2Oii0HdjM2MDZxdDFycQgJbGaS
-  6O5/yAbhnGCU+HP8BWsXIycHm4CaxPRbN4BsDg4RAT2Jq/9EQcLMAuoSl9a1sICEhQVcJSY1p
-  IGEWQRUJdZvmAjWySvgJLHpxTdmEFtCQEFiysP3YDangLPE1Ge3wWwhoJq2Pc8ZIeoFJU7OfM
-  ICMV5C4uCLF1C9ihKzLzezQNhVEms6prFNYOSfhaRlFpKWBYxMqxgtkooy0zNKchMzc3QNDQx
-  0DQ2NdA0tgdjYVC+xSjdRL7VUtzy1uETXUC+xvFivuDI3OSdFLy+1ZBMjMBhTCg6072B89PqD
-  3iFGSQ4mJVHeKpvoBCG+pPyUyozE4oz4otKc1OJDjDIcHEoSvJL2QDnBotT01Iq0zBxgZMCkJ
-  Th4lER4JWyB0rzFBYm5xZnpEKlTjLocV1YtWcQsxJKXn5cqJc57HWSGAEhRRmke3AhYlF5ilJ
-  US5mVkYGAQ4ilILcrNLEGVf8UozsGoJMzbCTKFJzOvBG7TK6AjmICO2PgjEuSIkkSElFQDk4f
-  Ug9PifdzTQvScJhQV87Vcf90te/vovHlrdpx+O2kh765Izh0d0x+sbEg1W8ISuLHWVlB4z7Oe
-  FQHpFX9mdn8QTjlgFariHW8hL/fn/2+j3v2/90w7WPCueWGVg7YLf4Jp76qT0TdPvv6pwMYez
-  Kq9XrF19ja2h++TpkjO3XsobMLOq9dmvvgREGd37V9zwuzS/38qLN64icxdcsB2jwbnFi/BzH
-  05jzmEoiZ17G6cnSsRJvP06gbmhMuT9Wt5j7Bz+Pqdkbxz3OOJsiGT3neLuUuDt1T98Lma8Zn
-  lZex+3hlHvF+VTPv2+feJ5HCWpPMWHdYnuf6s/fPfVl3kbqvPHg+Jdg4f5zmMS3T4cpRYijMS
-  DbWYi4oTAa7RM7ZNAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-27.tower-271.messagelabs.com!1616593150!445202!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2576 invoked from network); 24 Mar 2021 13:39:10 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-27.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Mar 2021 13:39:10 -0000
-Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ODd6IL015150
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 13:39:10 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 24 Mar 2021 13:39:04 +0000
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] boost-build-native: upgrade 4.3.0 -> 4.4.1
-Date: Wed, 24 Mar 2021 21:38:48 +0800
-Message-ID: <1616593128-42917-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1616593128-42917-1-git-send-email-wangmy@fujitsu.com>
-References: <1616593128-42917-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=urtHE9jE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so1270268pjb.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U3MRpsfzTukn7jnulnyk+R/nlPhmooMLDkUcr2yUHLs=;
+        b=urtHE9jEeprzCDtvhL4c1egLaBxlhiPyYVbWgf+mL3FeFivTgwfRsd/lBKUUPN2zO6
+         2Yx5r7dMHSO9a2a6KIubY+wTjUsLvbWppXrAFaHP4Gm/dybsbX/ZQ3bmS56xRd2iCREU
+         pwFzLzSWGaRxsfigqxa52pSJxW35yG/jVzuYG7HRqO5U3y5U/Te64q7UuQoBc1RFBjeH
+         ah60YMQPV5AcEIaCrk0wvH4w1xpFrh859aUQRQAHh4hC+pbI2N3xKsMGT5XhPBoEK+Yg
+         8TpKe+m99vTuM7kabwF3/DZTbNYSRqd0GQ/OdICS3SFKe3KBeVFLO7Xe3v9EQVAU7yyn
+         C9jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U3MRpsfzTukn7jnulnyk+R/nlPhmooMLDkUcr2yUHLs=;
+        b=BzT9c+8R6e8dZW/xI/TL20BMShaehgPXM5uJAgBbvgP5uW44pJcFe8Sb0Yct5kU9zD
+         hfHC7Ou99pPPuG6Dtix4v9uLi/+ZU1+OVXQFTkXDBLEht2oNYn6Fd4L9NNMXALB+aS7w
+         8gjfpTtiDC6zznkP7TnuPQoamG3r9XREBTyZYaH16JKHmaXSvfkG34uvma4FWtcAziV9
+         o8LV3BERNzxZ7bE/zUOgL4mcs/aaVr1nSch1aNHGJp9RcowDgYs8evej5xEWcbwt7gfu
+         +CbTFlZPlq7gstFhruEcaN4sODPNCtbKNBEWqrhIV+oMwtHdXooVjU0TOmoypwyUfLVf
+         wMOg==
+X-Gm-Message-State: AOAM533olBRpxxFROeRj7VUyLfKkYdn9MBYGhEod8L5fyUow+qrXZNE0
+	InnUTiG1girLhTL0rnf4zdKcjctDHrzf3IlH
+X-Google-Smtp-Source: ABdhPJxz6bK5wrP81uRRdNcDZakemHeExChkdTRqAHVZ1wcBc7iqPCLrHRsY6xNDDUhD7ARbyrHDZQ==
+X-Received: by 2002:a17:903:30cd:b029:e6:a1fa:403b with SMTP id s13-20020a17090330cdb02900e6a1fa403bmr3765173plc.43.1616596772168;
+        Wed, 24 Mar 2021 07:39:32 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 07:39:31 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/21] Patch review
+Date: Wed, 24 Mar 2021 04:38:55 -1000
+Message-Id: <cover.1616596544.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+Please review this next set of patches for dunfell and have comments back by
+end of day Friday.
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- ...{boost-build-native_4.3.0.bb => boost-build-native_4.4.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/boost/{boost-build-native_4.3.0.bb => boost-build-native_4.4.1.bb} (92%)
+Passed a-full on autobuilder:
 
-diff --git a/meta/recipes-support/boost/boost-build-native_4.3.0.bb b/meta/recipes-support/boost/boost-build-native_4.4.1.bb
-similarity index 92%
-rename from meta/recipes-support/boost/boost-build-native_4.3.0.bb
-rename to meta/recipes-support/boost/boost-build-native_4.4.1.bb
-index 19e991e65f..ad675ce731 100644
---- a/meta/recipes-support/boost/boost-build-native_4.3.0.bb
-+++ b/meta/recipes-support/boost/boost-build-native_4.4.1.bb
-@@ -7,7 +7,7 @@ LICENSE = "BSL-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
- SRC_URI = "git://github.com/boostorg/build;protocol=https"
--SRCREV = "632ea768f3eb225b4472c5ed6d20afee708724ad"
-+SRCREV = "76da80f33187a3d9e5336157cdfae12ce82e37eb"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+){2,}))"
- 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1992
+
+The following changes since commit 7c88d52eaca62237afcda606a3078ec483992213:
+
+  cups: use /run instead /var/run in systemd's unit file (2021-03-11 05:00:02 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alejandro Hernandez Samaniego (1):
+  devtool: Fix do_kernel_configme task
+
+Anatol Belski (1):
+  glibc: Pull latest 2.31 HEAD
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: update to v5.4.105
+
+Chee Yang Lee (1):
+  initrdscripts: init-install-efi.sh install extra files for ESP
+
+Chen Qi (1):
+  populate_sdk_ext: record METADATA_REVISION
+
+Denys Dmytriyenko (1):
+  maintainers: update own email address
+
+Diego Santa Cruz (1):
+  iputils: fix various arping regressions
+
+Dorinda Bassey (2):
+  meta-selftest: Add HOMEPAGE / DESCRIPTION
+  devshell.bbclass: Exceptions displayed within devpyshell
+
+Douglas Royds (2):
+  cmake: Fully-qualified path to ar
+  externalsrc: Detect code changes in submodules
+
+Lee Chee Yang (2):
+  cve-update-db-native: consider version suffix when update CVE db
+  cve-check: CVE_VERSION_SUFFIX to work with patched release
+
+Li Wang (1):
+  linux-dummy: add empty dependent packages
+
+Martin Jansa (2):
+  iso-codes: fix protocol in SRC_URI
+  wpa-supplicant: update CVE-2021-27803.patch
+
+Petr Vorel (1):
+  scripts/verify-bashisms: Update checkbashisms.pl URL
+
+Richard Purdie (1):
+  selftest/wic: Fix dependency issue in rawcopy test
+
+Robert P. J. Day (1):
+  bitbake-whatchanged: change ending quote to proper period
+
+Stefan Schmidt (1):
+  systemd-conf: do not ask for DHCP if configured on kernel command line
+
+Steve Sakoman (1):
+  Revert "sstatesig.py: show an error instead of warning when sstate
+    manifest isn't found"
+
+ .../recipes-test/aspell/aspell_0.0.0.1.bb     |   1 +
+ meta/classes/cmake.bbclass                    |   3 +-
+ meta/classes/devshell.bbclass                 |   1 +
+ meta/classes/externalsrc.bbclass              |  16 +-
+ meta/classes/linux-dummy.bbclass              |  26 +++
+ meta/classes/populate_sdk_ext.bbclass         |   3 +
+ meta/conf/distro/include/maintainers.inc      |  40 ++---
+ meta/lib/oe/cve_check.py                      |   7 +-
+ meta/lib/oe/sstatesig.py                      |   2 +-
+ meta/lib/oeqa/selftest/cases/cve_check.py     |   8 +
+ meta/lib/oeqa/selftest/cases/wic.py           |  18 +-
+ .../wpa-supplicant/CVE-2021-27803.patch       |  12 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../glibc/glibc/CVE-2019-25013.patch          | 135 ---------------
+ .../glibc/glibc/CVE-2020-29562.patch          | 156 ------------------
+ meta/recipes-core/glibc/glibc_2.31.bb         |   6 +-
+ .../initrdscripts/files/init-install-efi.sh   |   5 +
+ .../recipes-core/meta/cve-update-db-native.bb |   7 +-
+ .../systemd/systemd-conf/wired.network        |   1 +
+ .../systemd/systemd-conf_244.3.bb             |   3 -
+ ...rtially-fix-sent-vs-received-package.patch |  39 +++++
+ ...fix-f-quit-on-first-reply-regression.patch |  39 +++++
+ ...rison-of-different-signedness-warnin.patch |  37 +++++
+ ...ccess-when-unsolicited-ARP-mode-dest.patch |  45 +++++
+ ...ional-timerfd-to-control-when-timeou.patch |  94 +++++++++++
+ .../iputils/iputils_s20190709.bb              |   5 +
+ meta/recipes-extended/sudo/sudo.inc           |   2 +
+ meta/recipes-kernel/linux/linux-dummy.bb      |   2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +--
+ .../iso-codes/iso-codes_4.4.bb                |   2 +-
+ scripts/bitbake-whatchanged                   |   2 +-
+ scripts/lib/devtool/standard.py               |   7 +-
+ scripts/verify-bashisms                       |   2 +-
+ 35 files changed, 401 insertions(+), 363 deletions(-)
+ create mode 100644 meta/classes/linux-dummy.bbclass
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+ delete mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-arping-revert-partially-fix-sent-vs-received-package.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0002-arping-fix-f-quit-on-first-reply-regression.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0003-arping-Fix-comparison-of-different-signedness-warnin.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0004-arping-return-success-when-unsolicited-ARP-mode-dest.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0005-arping-use-additional-timerfd-to-control-when-timeou.patch
+
 -- 
 2.25.1
 
