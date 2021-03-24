@@ -1,105 +1,88 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.176.1616596783517472029
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web09.187.1616596785560012410
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:43 -0700
+ Wed, 24 Mar 2021 07:39:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KOLdh6hN;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id ha17so11867177pjb.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SIu2WXem;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id a22-20020a17090aa516b02900c1215e9b33so1266348pjq.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=HoWoy6xzGrQG9kgsgcakyXVZbzh4M6Mt78FpcdZLtCs=;
-        b=KOLdh6hNt3CysgK64CTOxDVdY+vXJ7ALrixA5yI45/GD9z9Gym63IBSEd6slmzrDcO
-         B7g/UKgCEQKfJM6G89Oa+pDtzRbV0VEMC7DtRqXqoUE+2f53uLuqvQ6wQr7VJxVjcZKt
-         KXYPYSTAmQtFYAasM8Ct8r8Hi+RRZ3xGmjkCUPf0zdNdJCBfuR+HMVOC3+4IdwP4hN6W
-         ehvfOH3I6xpecO4H98ywvHt2d1RkhHNDv4rQH3Gd+OAmgkYiW9MeTDJ9+kK0BKsajQZQ
-         xtfF2vdty88ZO1/nTQFWVYW5YkZm4AbzVA02aH1EJQPWP5Bk5vaxitSMGLTpaHGctR44
-         ssEA==
+        bh=/pX/wrdglajQXbXUCBoNvk0S0sZRJ1zGUt3jQPeZLLQ=;
+        b=SIu2WXemnB0NOdcePoXr/ZBhd7k13g2Bf1Fan9XV2OPSiZXNDIOoLZHjBoJGqOOk5h
+         JbgvHN25N07ryIjfkbxi1GGKAD5oDgrZmezXnzHGecKTElwboUsSSUvUIWtGRvF/+/R1
+         f568GhmKNwYePVqS3myFFQEbPAq4y2dEgROMPY6R9Etw1qxXQC19tpXIAcUuXEFWCQP3
+         Q0lKCO60jAQRz0gWj7wCEcHzz1gflowZTPxz9B1mh7R7p+++IvanRS3XDjBESAmXoYV+
+         zfaKx/pPFzu569/AP+DHyElUGZzWNPo5puweS+WFJTC5kNh4JnWYlh+CsUU7QjjbvNP7
+         a8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HoWoy6xzGrQG9kgsgcakyXVZbzh4M6Mt78FpcdZLtCs=;
-        b=kKMb9+KTkgnmOj/08YCIDnSiVBHm6dw8EqeI+FejuX+NCeptVH/W7YbszJFJUnqZve
-         AsclsRGbhVl4SobeJjS9JTHDm7gJjIgAPdxI1wtHqyNTDA4hFycxkf/s++8V6ZUdFkyM
-         gRNHeJ0hFEW9TDbKn3Ngq3DixxDkBTkVVzYqiIyGXzjN6VRnxe7nwW4BcvK5Ft3Tee03
-         UZC027S6EI+IJ1YZqVxunIR3NTbAZFlCQ2Vff7DxMQzLpWdVpmEJtczfvNlHEvJ5b5Iy
-         fdx39sLoYoTKM0Qq7C8DgNhRkXW9q03dNX+JdQkMe+IGYT3axOhI4zJX9Fst+l6Xy9mU
-         KZTw==
-X-Gm-Message-State: AOAM530cut18Gef0dGT7aSDwiTzIFU5sjxqW+pu2641OmdVGGq0JXaLx
-	jVhqdbW3YxA8IZokXah8X6T4RJ6Y360nsuCI
-X-Google-Smtp-Source: ABdhPJx9pa81KfYMveYNZT3lqEDYBy3XIjG45c7tgKkNE9wb5rd3iVOuanVmwfl2TbKpDClzXO7/pg==
-X-Received: by 2002:a17:90a:5b0b:: with SMTP id o11mr3739151pji.150.1616596782454;
-        Wed, 24 Mar 2021 07:39:42 -0700 (PDT)
+        bh=/pX/wrdglajQXbXUCBoNvk0S0sZRJ1zGUt3jQPeZLLQ=;
+        b=MjGDxI9eaW6hB0JDQhc0gD/O96lE3cqgShxQ3LEQPkCBM/r2I1AWGVt1GQSYEFAxxg
+         OhiwJKYxerdQwkHteyXhV6ajvVWs1OIjEnKpecpmxxu2UPimmQijaTT99D8S94j3Do1C
+         Idjdkl8BYfwMMQCuN1CMGelBoSgvcNOwAEh8d1u7PY3jiA1VcGJMU46KJnfOol1Ic+iU
+         ZySfVvVEH3YqPY8hsk/iTLM4g11sD4dKFGWC7YHC6J+TFXM35jJZB94PGsifsl+WTnRZ
+         G3pSAdJLtYbKGP8fk1RMYhV2ul7cvNGDEmefDUmpEHD6G4hCus7Y/b3XtfAS8n/sKgal
+         DA7A==
+X-Gm-Message-State: AOAM533jFX0w8dd7lO8RQSP2v7YWAdFHORm5bx6zIhryU63y0BIH+QUm
+	2wC0Jc5GrXRNXEPuEl8LVz6uycyyTvdxPTkZ
+X-Google-Smtp-Source: ABdhPJyKB9ldAoUUfFP+oz3fkE1khv88ZooUNEmg9EPN66MC8HoSRwbmMF+MCS6z8Rg0Q+Rp+G5d+Q==
+X-Received: by 2002:a17:90b:3716:: with SMTP id mg22mr3775476pjb.157.1616596784651;
+        Wed, 24 Mar 2021 07:39:44 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.41
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:42 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:44 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/21] devtool: Fix do_kernel_configme task
-Date: Wed, 24 Mar 2021 04:38:58 -1000
-Message-Id: <5f27d66b5e3a7bffc23c140edf76fc8fd4cd5b23.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/21] populate_sdk_ext: record METADATA_REVISION
+Date: Wed, 24 Mar 2021 04:38:59 -1000
+Message-Id: <c6793c5c9af2c7d2547e1dc3ef7ab05f6bb41563.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The do_kernel_configme task is no longer part of SRCTREECOVEREDTASKS,
-its been removed from the kernel-yocto.bbclass since b72dbb2e4, but
-there wasnt a matching patch for devtool for those changes.
+As we delete the .git/ directory, it's impossible to get METADATA_REVISION
+inside eSDK. Because of this, we meet the following warning when installing eSDK.
 
-This patch enables us to invoke the do_kernel_configme task when
-using a devtool workspace, it also prepends a check for an existing
-.config file in the source directory and moves it if thats the case,
-since when using devtool modify a .config is created and
-do_kernel_configme complains about it, this is not the case when
-using bitbake since the .config file would be on B instead.
+  WARNING: The base-files:do_install sig is computed to be 16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0, \
+  but the sig is locked to 6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36 in SIGGEN_LOCKEDSIGS_t-qemux86-64
 
-Alowing do_kernel_configme to run also fixes the flow where testing a
-new config fragment from devtool workspace isnt added properly
-(config queue shows it as ///frg.cfg) and as a side effect it never
-gets merged into the final config.
+So we record METADATA_REVISION in eSDK generation time to fix this problem.
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 08dcc0e68095dcf2a159546a48b29d40c9aabc0b)
+(cherry picked from commit ff2ad51b801fd62e2abbc573ba2c9ee8fdc7e012)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/standard.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 7b62b7e7b8..f364a45283 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -953,12 +953,17 @@ def modify(args, config, basepath, workspace):
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 71686bc993..d63abf4f30 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -360,6 +360,9 @@ python copy_buildsystem () {
+             # Hide the config information from bitbake output (since it's fixed within the SDK)
+             f.write('BUILDCFG_HEADER = ""\n\n')
  
-             if bb.data.inherits_class('kernel', rd):
-                 f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
--                        'do_fetch do_unpack do_kernel_configme do_kernel_configcheck"\n')
-+                        'do_fetch do_unpack do_kernel_configcheck"\n')
-                 f.write('\ndo_patch[noexec] = "1"\n')
-                 f.write('\ndo_configure_append() {\n'
-                         '    cp ${B}/.config ${S}/.config.baseline\n'
-                         '    ln -sfT ${B}/.config ${S}/.config.new\n'
-                         '}\n')
-+                f.write('\ndo_kernel_configme_prepend() {\n'
-+                        '    if [ -e ${S}/.config ]; then\n'
-+                        '        mv ${S}/.config ${S}/.config.old\n'
-+                        '    fi\n'
-+                        '}\n')
-             if rd.getVarFlag('do_menuconfig','task'):
-                 f.write('\ndo_configure_append() {\n'
-                 '    if [ ! ${DEVTOOL_DISABLE_MENUCONFIG} ]; then\n'
++            # Write METADATA_REVISION
++            f.write('METADATA_REVISION = "%s"\n\n' % d.getVar('METADATA_REVISION'))
++
+             f.write('# Provide a flag to indicate we are in the EXT_SDK Context\n')
+             f.write('WITHIN_EXT_SDK = "1"\n\n')
+ 
 -- 
 2.25.1
 
