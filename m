@@ -1,126 +1,61 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.1418.1616613142184553775
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.1502.1616613325665952056
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 12:12:22 -0700
+ Wed, 24 Mar 2021 12:15:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0Z1Lkp6z;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.42, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f42.google.com with SMTP id c8so12667383wrq.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 12:12:21 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=h5M+WeE6;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IlPjFze8N+1BhB2JK/NO3juejom25rckeaa1fjFSzqA=;
-        b=0Z1Lkp6z08/AhjA+07vqFdxYlwleEYK1aSAY8I5HJpvwDKoRVplmF0lnqix0c/hIjR
-         8NKulCN4ooR6EjPouTQzCQAcLpNBokjbQheE0sVO2cgOjt3FWreK/8xcOL84x4BuAf/E
-         ZukfsgNrUdFwBIZcI6uE6GuR/70/h8YOVhPVBj1UKtSENXj8Gn0sS2QV9ojkAAvl0YZh
-         66eisQkpmUbEYLP7gdLfBeriOPhB9sOqUX9gtR0RG1HqIxWNJBgwIG1UCsfGB5pCeuYI
-         8qZeoujTLEXOU8PEs7XyxFXyl6gfzY1aQV6JqO2S7oR1lFDg5TLhKWK8Pn+ANPO7mBko
-         xoGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IlPjFze8N+1BhB2JK/NO3juejom25rckeaa1fjFSzqA=;
-        b=pw1ab+KXIGJk84MPLVE438f1bxgtXupAhle1VKqYacSNfbvau6rDv4C4UyDx8/ahKC
-         JUvtNns86hbBvwgSPMFbbhtMOK/r6RJpc7324uT/7OnxQl7w/dbR1BXXWq6IpENBi8CI
-         wlonoVETqrnj76GG7Flcv1FwCn4scEFAHdxOS0f6MQlOsZzY2sk5g32PQLEyGmEFewJb
-         msvSyzwXW2WH87+6x8acwDSuKgy8JN9XymJVsmE+ysuQavl4RKzUatrL8WLE7vXABF4X
-         Ox/eHKDcM0bL7P2M3ur2zpVe4xsUOTW1pwAIFExXhiFre9BEDISburB5cScfBq0QJUwd
-         EmDQ==
-X-Gm-Message-State: AOAM530f8Gl5CKkAhzOWmfiBprQKgXE7uLrIeMLVb6U7aZrQ0JZBXfuG
-	R3hE1xDS22kamyvtaUeeqpanccYqf/ZhsKdJ1CumNg==
-X-Google-Smtp-Source: ABdhPJz2ClWZc7ltdzkRMhBktuaQwS0ErrD39ffCXtMNTfBIdmITyrr9/Fkt6UmgibZC1qvP8tHhsiF4K8JpQpcozYo=
-X-Received: by 2002:adf:fcc7:: with SMTP id f7mr5086187wrs.400.1616613140472;
- Wed, 24 Mar 2021 12:12:20 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616613326;
+  x=1648149326;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DFq+Z7+bM5B19mvEEByGIyRvKt5z/IOJq3cuaQ14m24=;
+  b=h5M+WeE6QlzAvOxUnS7a70bI3KmAGNzOG2pYBF1CKHL8So5IxpPmZifW
+   exDeqbWyNDHoBcJu/b+WK8tXEeC/TTzYNnwiQbZfR1LqK6doVlRol/6Dh
+   K0GuXY2zsAm9rWG3doZ7TDTi/RwT1rMglTrjNauMqSs9K1JPWCmWrSZTC
+   Ld9Yz2gPg/KqwrguBbWsWbHpJhvthWi0PNP+o8waNwWTPxP5+QIcRhSjZ
+   dpFRtSrH7vPze4bVspjHG5fnJoxMpougmHkJz/9VPKTNvcK91EZrb1+Mz
+   QM7edTM2mgzX7lJJbucFfASgHgJK7RJmIZTIVFxPztHg/fzJO5ntBm6GI
+   A==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] util-linux.inc: Set the correct license for util-linux-libuuid again
+Date: Wed, 24 Mar 2021 20:15:08 +0100
+Message-ID: <20210324191508.8400-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20210321102616.3752416-1-gmouse@google.com> <CAOSpxdaWrkdaKgnJDpPCxibMfj9y9ttQ_TCOT839RGYHBaCNdg@mail.gmail.com>
- <69556966-7994-7866-9766-2124c8e386bc@gmail.com>
-In-Reply-To: <69556966-7994-7866-9766-2124c8e386bc@gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 24 Mar 2021 09:12:09 -1000
-Message-ID: <CAOSpxdZw3NnynyTGz+FUqyvcAuXCVERDgvht2x4Nx1h_NQnrpw@mail.gmail.com>
-Subject: Re: [OE-core] [poky][PATCH] run-postinsts: do not remove postinsts directory.
-To: Khem Raj <raj.khem@gmail.com>
-Cc: gmouse@google.com, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Mar 24, 2021 at 8:28 AM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On 3/24/21 8:09 AM, Steve Sakoman wrote:
-> > On Sun, Mar 21, 2021 at 12:26 AM Anton Kachalov via
-> > lists.openembedded.org <gmouse=google.com@lists.openembedded.org>
-> > wrote:
-> >>
-> >> From: "Anton D. Kachalov" <gmouse@google.com>
-> >>
-> >> When running on the systems having read-only rootfs backed by overlayfs,
-> >> removing the whole directory lead to create a special char device file
-> >> on the upperdir to reflect directory's removal. Once it is required to
-> >> upgrade the whole read-only image that might contain new postinsts scripts,
-> >> it will be impossible to run such scripts with a "deletion mark" file
-> >> on the overlayfs -- the whole directory will be marked as deleted regardless
-> >> new files in it.
-> >
-> > Is this something that should be considered for backporting to
-> > dunfell/gatesgarth?
-> >
->
-> yes seems so
+LICENSE_${PN}-libuuid was not updated when libuuid was moved to the
+util-linux-uuid recipe. Use LICENSE_${BPN}-libuuid instead as BPN is
+set to "util-linux" for both util-linux and util-linux-uuid.
 
-I thought so too, since I need it :-)  But I didn't want to grab it
-just because I liked it!
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Steve
-
-> >
-> >> Signed-off-by: Anton D. Kachalov <gmouse@google.com>
-> >> ---
-> >>   .../run-postinsts/run-postinsts/run-postinsts          | 10 ++++------
-> >>   1 file changed, 4 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> >> index f84a7e18c8..95dccb9cae 100755
-> >> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> >> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> >> @@ -72,12 +72,12 @@ exec_postinst_scriptlets() {
-> >>                  else
-> >>                          echo "ERROR: postinst $i failed."
-> >>                          [ "$POSTINST_LOGGING" = "1" ] && eval echo "ERROR: postinst $i failed." $append_log
-> >> -                       remove_pi_dir=0
-> >> +                       remove_rcsd_link=0
-> >>                  fi
-> >>          done
-> >>   }
-> >>
-> >> -remove_pi_dir=1
-> >> +remove_rcsd_link=1
-> >>   if $pm_installed; then
-> >>          case $pm in
-> >>                  "ipk")
-> >> @@ -92,9 +92,7 @@ else
-> >>          exec_postinst_scriptlets
-> >>   fi
-> >>
-> >> -# since all postinstalls executed successfully, remove the postinstalls directory
-> >> -# and the rcS.d link
-> >> -if [ $remove_pi_dir = 1 ]; then
-> >> -       rm -rf $pi_dir
-> >> +# since all postinstalls executed successfully, remove the rcS.d link
-> >> +if [ $remove_rcsd_link = 1 ]; then
-> >>          remove_rcsd_link
-> >>   fi
-> >> --
-> >> 2.31.0.rc2.261.g7f71774620-goog
-> >>
-> >>
-> >>
-> >>
-> >>
-> >>
-> >> 
-> >>
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 4031c586c9..bb93eb67d6 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -7,11 +7,11 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+ SECTION = "base"
+ 
+ LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+-LICENSE_${PN}-libblkid = "LGPLv2.1+"
+-LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+-LICENSE_${PN}-libmount = "LGPLv2.1+"
+-LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+-LICENSE_${PN}-libuuid = "BSD-3-Clause"
++LICENSE_${BPN}-libblkid = "LGPLv2.1+"
++LICENSE_${BPN}-libfdisk = "LGPLv2.1+"
++LICENSE_${BPN}-libmount = "LGPLv2.1+"
++LICENSE_${BPN}-libsmartcols = "LGPLv2.1+"
++LICENSE_${BPN}-libuuid = "BSD-3-Clause"
+ 
+ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
