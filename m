@@ -1,84 +1,111 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.51.1616625531884982543
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.67.1616625610259057784
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 15:38:52 -0700
+ Wed, 24 Mar 2021 15:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=CHJbaHIp;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WLbKra7e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id k8so393449wrc.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 15:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616625532;
-  x=1648161532;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=cDI8gS3PqiYyjeyTIah812WXwigd6crNCVO+BdB8aDY=;
-  b=CHJbaHIpoR40cOV0EBhwCG/xxSmLYL2Bq0FlwYcVSOioHsV3EzRJgXAU
-   f4u1mDA6LfkxztDza5dFXKB5Ja/Lgb4gvJCNjc3uCAcXR9QAv3kMqK45z
-   3+nkTyywj5BGdTpC4RoMaiFPgHEISR5kgvncMqBPLkVKlUPEpopJyG0EW
-   /VDs4JzTwoJ85MgE51hXiM0QwUxE3O1D5uiIljDokWd9hnEibwtLWf8MV
-   rT9faGtzA2GOAPeUZzg/bgWi+//zUeTG3fh/1SlfKLqjBXIRo9n2H+2ZI
-   f/4OFlSx7417w98kMZPNVbvw+4NQgUbo9Ng17t7Wp0Gw7n40Y78QeC+pp
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=gWSh5pEgPjJ1gFQxIfKNOHQh2W/OxwtydpH3NrUKsP4=;
+        b=WLbKra7eF5LMqhPZxPSr918ApT2to12C5jdEx/fFksVr0sDxw9ohuzyedEywjWwLff
+         bTTIR+tzl8Xn9liop2pVrtO6jwUOrPJ4kxXRUkms29TveeoRGc/n3k0KqlEMnbpeqpKr
+         0Afr1LGk64sji0NNnVO3OI6aq+qwoOVnSsohw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=gWSh5pEgPjJ1gFQxIfKNOHQh2W/OxwtydpH3NrUKsP4=;
+        b=L9I2dkCOcrJ6Pr4pkHVYTt+LETly6wtiZPT3cBc6aBINGSHvxbeQ69uxKuPnkYdyfu
+         MxF/5ETSd0Kgd0XHOWXwxBOYrsUWMgFt8e2S1bPMvnttTI1azFYZNDhIE3eav52mlMTW
+         zJORSlLFJfnbwY6N2snlVzr4eIxopKq2sBFS57Z3hYoRVL/nFsGTtUz86sVr1HDXg68B
+         UTFKfa2nk+t+gby627JufjyIP08ZaqaJzyna2+npN+HnmlZWwSIOif5YLy/RYXF0l/6W
+         k674pIfR21Jyt/0j49NOVxb7vOU3XcHFnuozhnv3BUTzgWSGbtI3mmRMxL8ikYwIWv8R
+         wz0Q==
+X-Gm-Message-State: AOAM533ICj4ImpYxJUJRru4dhmT+bxkBG5mICc3RdOZZUi3zGuEWSQGj
+	9mK7BjIV1GK+u4Bvo+aeebVTXw==
+X-Google-Smtp-Source: ABdhPJwrNXR2ACX6+o6bvSztjllZdXXcy6/A4YtAk/QudteYPjAcD3QuZTU1z4jIPfVRBPSGW7z7CQ==
+X-Received: by 2002:a5d:4b0e:: with SMTP id v14mr5088637wrq.61.1616625608765;
+        Wed, 24 Mar 2021 15:40:08 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:6a6e:24cd:b165:9075? ([2001:8b0:aba:5f3c:6a6e:24cd:b165:9075])
+        by smtp.gmail.com with ESMTPSA id c131sm4289649wma.37.2021.03.24.15.40.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 15:40:08 -0700 (PDT)
+Message-ID: <421058e01619ff5cf6e22fccc814ed3ff787aaa9.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] util-linux.inc: Set the correct license for util-linux-libuuid again
-Thread-Topic: [OE-core] [PATCH] util-linux.inc: Set the correct license for
- util-linux-libuuid again
-Thread-Index: AQHXIPWYkE3caF8rUUquD+ptRz4OM6qTtrRg
-Date: Wed, 24 Mar 2021 22:38:39 +0000
-Message-ID: <47b4399805074e89a13de8af539c4448@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Mar 2021 22:40:07 +0000
+In-Reply-To: <47b4399805074e89a13de8af539c4448@XBOX03.axis.com>
 References: <20210324191508.8400-1-pkj@axis.com>
- <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
-In-Reply-To: <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	 <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
+	 <47b4399805074e89a13de8af539c4448@XBOX03.axis.com>
+User-Agent: Evolution 3.39.2-1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI0IG1hcnMgMjAy
-MSAyMjozNQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
-cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdXRpbC1saW51eC5pbmM6IFNldCB0aGUgY29y
-cmVjdCBsaWNlbnNlIGZvcg0KPiB1dGlsLWxpbnV4LWxpYnV1aWQgYWdhaW4NCj4gDQo+IE9uIFdl
-ZCwgMjAyMS0wMy0yNCBhdCAyMDoxNSArMDEwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0K
-PiA+IExJQ0VOU0VfJHtQTn0tbGlidXVpZCB3YXMgbm90IHVwZGF0ZWQgd2hlbiBsaWJ1dWlkIHdh
-cyBtb3ZlZCB0byB0aGUNCj4gPiB1dGlsLWxpbnV4LXV1aWQgcmVjaXBlLiBVc2UgTElDRU5TRV8k
-e0JQTn0tbGlidXVpZCBpbnN0ZWFkIGFzIEJQTiBpcw0KPiA+IHNldCB0byAidXRpbC1saW51eCIg
-Zm9yIGJvdGggdXRpbC1saW51eCBhbmQgdXRpbC1saW51eC11dWlkLg0KPiA+DQo+ID4gU2lnbmVk
-LW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-DQo+ID4gLS0tDQo+ID4gwqBtZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgu
-aW5jIHwgMTAgKysrKystLS0tLQ0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygr
-KSwgNSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29y
-ZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb3JlL3V0aWwt
-bGludXgvdXRpbC1saW51eC5pbmMNCj4gPiBpbmRleCA0MDMxYzU4NmM5Li5iYjkzZWI2N2Q2IDEw
-MDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC5p
-bmMNCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5j
-DQo+ID4gQEAgLTcsMTEgKzcsMTEgQEAgZGlzayBwYXJ0aXRpb25pbmcsIGtlcm5lbCBtZXNzYWdl
-IG1hbmFnZW1lbnQsDQo+IGZpbGVzeXN0ZW0gY3JlYXRpb24sIGFuZCBzeXN0ZW0gbG8NCj4gPiDC
-oFNFQ1RJT04gPSAiYmFzZSINCj4gPiDCoMKgTElDRU5TRSA9ICJHUEx2MisgJiBMR1BMdjIuMSsg
-JiBCU0QtMy1DbGF1c2UgJiBCU0QtNC1DbGF1c2UiDQo+ID4gLUxJQ0VOU0VfJHtQTn0tbGliYmxr
-aWQgPSAiTEdQTHYyLjErIg0KPiA+IC1MSUNFTlNFXyR7UE59LWxpYmZkaXNrID0gIkxHUEx2Mi4x
-KyINCj4gPiAtTElDRU5TRV8ke1BOfS1saWJtb3VudCA9ICJMR1BMdjIuMSsiDQo+ID4gLUxJQ0VO
-U0VfJHtQTn0tbGlic21hcnRjb2xzID0gIkxHUEx2Mi4xKyINCj4gPiAtTElDRU5TRV8ke1BOfS1s
-aWJ1dWlkID0gIkJTRC0zLUNsYXVzZSINCj4gPiArTElDRU5TRV8ke0JQTn0tbGliYmxraWQgPSAi
-TEdQTHYyLjErIg0KPiA+ICtMSUNFTlNFXyR7QlBOfS1saWJmZGlzayA9ICJMR1BMdjIuMSsiDQo+
-ID4gK0xJQ0VOU0VfJHtCUE59LWxpYm1vdW50ID0gIkxHUEx2Mi4xKyINCj4gPiArTElDRU5TRV8k
-e0JQTn0tbGlic21hcnRjb2xzID0gIkxHUEx2Mi4xKyINCj4gPiArTElDRU5TRV8ke0JQTn0tbGli
-dXVpZCA9ICJCU0QtMy1DbGF1c2UiDQo+IA0KPiBIb3cgd2FzIHRoaXMgdGVzdGVkPyBUaGlzIHdp
-bGwgbm90IHdvcmsgZm9yIG11bHRpbGlicyBvciBuYXRpdmVzZGsuDQoNCldlbGwsIHdlIGRvbid0
-IHVzZSBlaXRoZXIsIHNvIG9idmlvdXNseSBJIG9ubHkgdGVzdGVkIGJ1aWxkaW5nIGZvciANCnRh
-cmdldC4gSG93ZXZlciwgSSBiZWxpZXZlIGl0IHNob3VsZCB3b3JrLiBBdCBsZWFzdCBgYml0YmFr
-ZSAtZSANCm5hdGl2ZXNkay11dGlsLWxpbnV4LXV1aWRgIHNob3dzIHRoZSBleHBlY3RlZCB2YWx1
-ZSBmb3IgDQpMSUNFTlNFX25hdGl2ZXNkay11dGlsLWxpbnV4LWxpYnV1aWQuDQoNCk5vdGUgdGhh
-dCBCUE4gaXMgZXhwbGljaXRseSBzZXQgaW4gdGhlIHV0aWwtbGludXguaW5jIGZpbGUgdG8gDQoi
-dXRpbC1saW51eCIsIHNvIHRoZSBkZWZpbml0aW9ucyBhYm92ZSBzaG91bGQgYmUgbm8gZGlmZmVy
-ZW50IHRoYW4gDQppZiBJIGhhZCB1c2VkIExJQ0VOU0VfdXRpbC1saW51eC1saWJ1dWlkID0gIkJT
-RC0zLUNsYXVzZSINCk9yIGFtIEkgbWlzc2luZyBzb21ldGhpbmc/DQoNCj4gQ2hlZXJzLA0KPiAN
-Cj4gUmljaGFyZA0KDQovL1BldGVyDQo=
+On Wed, 2021-03-24 at 22:38 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: den 24 mars 2021 22:35
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] util-linux.inc: Set the correct license for
+> > util-linux-libuuid again
+> > 
+> > On Wed, 2021-03-24 at 20:15 +0100, Peter Kjellerstedt wrote:
+> > > LICENSE_${PN}-libuuid was not updated when libuuid was moved to the
+> > > util-linux-uuid recipe. Use LICENSE_${BPN}-libuuid instead as BPN is
+> > > set to "util-linux" for both util-linux and util-linux-uuid.
+> > > 
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  meta/recipes-core/util-linux/util-linux.inc | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-
+> > core/util-linux/util-linux.inc
+> > > index 4031c586c9..bb93eb67d6 100644
+> > > --- a/meta/recipes-core/util-linux/util-linux.inc
+> > > +++ b/meta/recipes-core/util-linux/util-linux.inc
+> > > @@ -7,11 +7,11 @@ disk partitioning, kernel message management,
+> > filesystem creation, and system lo
+> > >  SECTION = "base"
+> > >   LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> > > -LICENSE_${PN}-libblkid = "LGPLv2.1+"
+> > > -LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+> > > -LICENSE_${PN}-libmount = "LGPLv2.1+"
+> > > -LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+> > > -LICENSE_${PN}-libuuid = "BSD-3-Clause"
+> > > +LICENSE_${BPN}-libblkid = "LGPLv2.1+"
+> > > +LICENSE_${BPN}-libfdisk = "LGPLv2.1+"
+> > > +LICENSE_${BPN}-libmount = "LGPLv2.1+"
+> > > +LICENSE_${BPN}-libsmartcols = "LGPLv2.1+"
+> > > +LICENSE_${BPN}-libuuid = "BSD-3-Clause"
+> > 
+> > How was this tested? This will not work for multilibs or nativesdk.
+> 
+> Well, we don't use either, so obviously I only tested building for 
+> target. However, I believe it should work. At least `bitbake -e 
+> nativesdk-util-linux-uuid` shows the expected value for 
+> LICENSE_nativesdk-util-linux-libuuid.
+> 
+> Note that BPN is explicitly set in the util-linux.inc file to 
+> "util-linux", so the definitions above should be no different than 
+> if I had used LICENSE_util-linux-libuuid = "BSD-3-Clause"
+> Or am I missing something?
+
+It may fix libuuid but I think it will break libblkid and the others.
+
+Cheers,
+
+Richard
+
