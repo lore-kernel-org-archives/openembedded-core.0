@@ -1,94 +1,105 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web08.222.1616596781386792466
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.176.1616596783517472029
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:41 -0700
+ Wed, 24 Mar 2021 07:39:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HJOh0Dr3;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id f17so8044059plr.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KOLdh6hN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id ha17so11867177pjb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=G1/jgt1g2TtFVzH0sYn3JWIzdwL0ah33weJ5AodRpqY=;
-        b=HJOh0Dr3Y5nlQH+rq1gZ7ZETQSheE2GDgESWjnj9uUmGocIxsqI4qjiKA+xz7bdh95
-         Tpq7vVNaooXpD9wlNPsDiXC0UniMfO8E8unPzAKCckbWaCcKM6UwcVreC5Rsy2AHwaVc
-         N9sh5qduj6kdwnB/FTRGANCr4/sLAKGmRO7ypuEO6v4ALmzQh0E/vL8TzYzylkIchgO/
-         umzdyTZpueZ47LCpMM54dXOkodQJT37lcgUNxEO7a+brs6Km12ZRxB+ocxagsAaF8pw+
-         Hk1M1Rc3g/jMOgSIT+W2/GOFtrIRo2SliG+9ukT9zdlYxF6R/iOfMDlhb5n7bwwB6Pdm
-         UuIw==
+        bh=HoWoy6xzGrQG9kgsgcakyXVZbzh4M6Mt78FpcdZLtCs=;
+        b=KOLdh6hNt3CysgK64CTOxDVdY+vXJ7ALrixA5yI45/GD9z9Gym63IBSEd6slmzrDcO
+         B7g/UKgCEQKfJM6G89Oa+pDtzRbV0VEMC7DtRqXqoUE+2f53uLuqvQ6wQr7VJxVjcZKt
+         KXYPYSTAmQtFYAasM8Ct8r8Hi+RRZ3xGmjkCUPf0zdNdJCBfuR+HMVOC3+4IdwP4hN6W
+         ehvfOH3I6xpecO4H98ywvHt2d1RkhHNDv4rQH3Gd+OAmgkYiW9MeTDJ9+kK0BKsajQZQ
+         xtfF2vdty88ZO1/nTQFWVYW5YkZm4AbzVA02aH1EJQPWP5Bk5vaxitSMGLTpaHGctR44
+         ssEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=G1/jgt1g2TtFVzH0sYn3JWIzdwL0ah33weJ5AodRpqY=;
-        b=lCM/0e7FzKFVqpVH8xucA8el6NzG1N6LqE2KT1QU2vOztNDDMhYZMWAMKThi0BbsUW
-         IbBeZCuwjxJ4ZwAzSSuGoDkFWLa4S2LB2Emvhw62epPtsgVD1jDBGt4B9JqLYXZyzttc
-         FXcwGceBlXALPPu12SXmQrZOOsscACJ64LkpLnLHk9w8SPTOd90gExRCfWApatm4PfDA
-         dvuhBV6Nmr1skjs63JAib+B99IB/RH1diIBHTmxl0g7YdjZIcwcU88mIEdh7470+Oq5k
-         GKaLZf4zpzNOD7pQi7FhyulBcFrTztWzwkWywrLN57j/jzlD/Tuj4qsIFYSfEZRHt4TY
-         lM+Q==
-X-Gm-Message-State: AOAM5308yJFl1qW9SUzZlrjqB040tPGPXiVDCKzue5rJVkJ+SYXrN5Eg
-	vQ9n/pAj5EEsqiAYYsyE+hNf6V4BR3wyavqH
-X-Google-Smtp-Source: ABdhPJwnh//apd8UupppzXkdNUeao3+WpY974IY0qWnqMVPB0xPh1yYknq/Fo+dWhGyl2fj2FWgNAg==
-X-Received: by 2002:a17:90b:ecc:: with SMTP id gz12mr3758204pjb.79.1616596780390;
-        Wed, 24 Mar 2021 07:39:40 -0700 (PDT)
+        bh=HoWoy6xzGrQG9kgsgcakyXVZbzh4M6Mt78FpcdZLtCs=;
+        b=kKMb9+KTkgnmOj/08YCIDnSiVBHm6dw8EqeI+FejuX+NCeptVH/W7YbszJFJUnqZve
+         AsclsRGbhVl4SobeJjS9JTHDm7gJjIgAPdxI1wtHqyNTDA4hFycxkf/s++8V6ZUdFkyM
+         gRNHeJ0hFEW9TDbKn3Ngq3DixxDkBTkVVzYqiIyGXzjN6VRnxe7nwW4BcvK5Ft3Tee03
+         UZC027S6EI+IJ1YZqVxunIR3NTbAZFlCQ2Vff7DxMQzLpWdVpmEJtczfvNlHEvJ5b5Iy
+         fdx39sLoYoTKM0Qq7C8DgNhRkXW9q03dNX+JdQkMe+IGYT3axOhI4zJX9Fst+l6Xy9mU
+         KZTw==
+X-Gm-Message-State: AOAM530cut18Gef0dGT7aSDwiTzIFU5sjxqW+pu2641OmdVGGq0JXaLx
+	jVhqdbW3YxA8IZokXah8X6T4RJ6Y360nsuCI
+X-Google-Smtp-Source: ABdhPJx9pa81KfYMveYNZT3lqEDYBy3XIjG45c7tgKkNE9wb5rd3iVOuanVmwfl2TbKpDClzXO7/pg==
+X-Received: by 2002:a17:90a:5b0b:: with SMTP id o11mr3739151pji.150.1616596782454;
+        Wed, 24 Mar 2021 07:39:42 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.39
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:39 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:42 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/21] iso-codes: fix protocol in SRC_URI
-Date: Wed, 24 Mar 2021 04:38:57 -1000
-Message-Id: <e739b039aebcd1ca839b0460e950d5b8bc2e3cdb.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/21] devtool: Fix do_kernel_configme task
+Date: Wed, 24 Mar 2021 04:38:58 -1000
+Message-Id: <5f27d66b5e3a7bffc23c140edf76fc8fd4cd5b23.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 
-* it doesn't listen on http and the redirect sometimes doesn't work
+The do_kernel_configme task is no longer part of SRCTREECOVEREDTASKS,
+its been removed from the kernel-yocto.bbclass since b72dbb2e4, but
+there wasnt a matching patch for devtool for those changes.
 
-WARNING: iso-codes-4.6.0-r0 do_fetch: Failed to fetch URL git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;, attempting MIRRORS if available
+This patch enables us to invoke the do_kernel_configme task when
+using a devtool workspace, it also prepends a check for an existing
+.config file in the source directory and moves it if thats the case,
+since when using devtool modify a .config is created and
+do_kernel_configme complains about it, this is not the case when
+using bitbake since the .config file would be on B instead.
 
-The protocol should be changed to https, like all other salsa.debian.org pulls are, so that it doesn't depend on mirrors.bbclass to resolve this.
-meta/classes/mirrors.bbclass:git://salsa.debian.org/.*     git://salsa.debian.org/PATH;protocol=https \n \
+Alowing do_kernel_configme to run also fixes the flow where testing a
+new config fragment from devtool workspace isnt added properly
+(config queue shows it as ///frg.cfg) and as a side effect it never
+gets merged into the final config.
 
-from log.do_fetch:
-DEBUG: Fetcher accessed the network with the command LANG=C git -c core.fsyncobjectfiles=0 fetch -f --progress http://salsa.debian.org/iso-codes-team/iso-codes.git refs/*:refs/*
-fatal: unable to access 'http://salsa.debian.org/iso-codes-team/iso-codes.git/': Couldn't connect to server
-WARNING: Failed to fetch URL git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;, attempting MIRRORS if available
-...
-warning: redirecting to https://salsa.debian.org/iso-codes-team/iso-codes.git/
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 749eeb8cfaa8ffcfda29f3f06a77debaf6304288)
+(cherry picked from commit 08dcc0e68095dcf2a159546a48b29d40c9aabc0b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/iso-codes/iso-codes_4.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_4.4.bb b/meta/recipes-support/iso-codes/iso-codes_4.4.bb
-index e3c521c514..e8210eca9b 100644
---- a/meta/recipes-support/iso-codes/iso-codes_4.4.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_4.4.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 7b62b7e7b8..f364a45283 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -953,12 +953,17 @@ def modify(args, config, basepath, workspace):
  
--SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;"
-+SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=https;branch=main;"
- SRCREV = "38edb926592954b87eb527124da0ec68d2a748f3"
- 
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+             if bb.data.inherits_class('kernel', rd):
+                 f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout '
+-                        'do_fetch do_unpack do_kernel_configme do_kernel_configcheck"\n')
++                        'do_fetch do_unpack do_kernel_configcheck"\n')
+                 f.write('\ndo_patch[noexec] = "1"\n')
+                 f.write('\ndo_configure_append() {\n'
+                         '    cp ${B}/.config ${S}/.config.baseline\n'
+                         '    ln -sfT ${B}/.config ${S}/.config.new\n'
+                         '}\n')
++                f.write('\ndo_kernel_configme_prepend() {\n'
++                        '    if [ -e ${S}/.config ]; then\n'
++                        '        mv ${S}/.config ${S}/.config.old\n'
++                        '    fi\n'
++                        '}\n')
+             if rd.getVarFlag('do_menuconfig','task'):
+                 f.write('\ndo_configure_append() {\n'
+                 '    if [ ! ${DEVTOOL_DISABLE_MENUCONFIG} ]; then\n'
 -- 
 2.25.1
 
