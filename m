@@ -1,121 +1,115 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.762.1616629897067007683
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.713.1616629923407514924
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 16:51:37 -0700
+ Wed, 24 Mar 2021 16:52:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=D125p5T/;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=howzIV89;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616629897;
-  x=1648165897;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=rOoMoGvrYNsXC82mVB7FOWFvVpJRmK92M3iu87kpTuI=;
-  b=D125p5T/utircnWclyAhzXe81XiZ8vKXQoyL6yI93zpomtAivLeoQ2hP
-   fBiWfdFmn8Oz2qNwqhgZD90xf73/+wQHVfNftMLw+J3ruolS0oww0kQTx
-   SDfKNOAbKs5hQKXLJCOT4sKzk4qrU3T1dPMNEGQWU5XEVhO5T6LSGqDFe
-   lFrmcV6kAQ3V3zNoZ4oUOOSFAVQvWSWQE3npfTyyNq3sMtw+WyLuZtTnm
-   CfCLnqYf9NfhrE5hUp/OAJ10dMP+WECcjufjEikAORhdHdqZ80zrOPcCo
-   3sj2wiYhPYg22XOAZ9vbpw+wn7LHeq+JhEwxRBLgZkGSQwN1YQzIuOGNL
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616629923;
+  x=1648165923;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pe0nLEejBRogN7w8rWUF3yGjYddcy+SIuzY4NrYqZYA=;
+  b=howzIV897RrDMbz0Mq194jxupQnxoNM+jIYDuh5oZZI2unl1+rprzZMe
+   8YPUStiaIByKEBK4KVav1OnCz8jtgdAkG5ozw39tyawMUmsBnJ+WHb/i8
+   pegyDfb+jv17ZyuX0oZVL+KT+7V4EveTxAT0ynefRrtZpF10i2GfpSWwg
+   7xxQJ2GkalswIWCF3pEpM0adUJY7RM0CEjMFizYVnlAtPh9RUzvY9s3mB
+   I9u90bB3DyUMDqdomA8nMpI+BMWcH5f69ePbUutFW/3AoBqxi35sl0QU4
+   17X1R+5qAgvXwdfzEd5ZA9lcedaejNYKAaocfTORDSlPea7H54yTnm5IG
    w==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] util-linux.inc: Set the correct license for util-linux-libuuid again
-Thread-Topic: [OE-core] [PATCH] util-linux.inc: Set the correct license for
- util-linux-libuuid again
-Thread-Index: AQHXIPWYkE3caF8rUUquD+ptRz4OM6qTtrRg///z5ICAABTxcIAABdlA
-Date: Wed, 24 Mar 2021 23:51:35 +0000
-Message-ID: <ae30fb645a4b4f668c4681107a5b7162@XBOX03.axis.com>
-References: <20210324191508.8400-1-pkj@axis.com>
-	 <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
-	 <47b4399805074e89a13de8af539c4448@XBOX03.axis.com>
- <421058e01619ff5cf6e22fccc814ed3ff787aaa9.camel@linuxfoundation.org>
- <166F695FD066C0E5.4371@lists.openembedded.org>
-In-Reply-To: <166F695FD066C0E5.4371@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] util-linux, util-linux-uuid: Move license information to the recipes
+Date: Thu, 25 Mar 2021 00:49:42 +0100
+Message-ID: <20210324234942.1218-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFBldGVyIEtqZWxsZXJzdGVkdA0KPiBTZW50OiBkZW4g
-MjQgbWFycyAyMDIxIDIzOjU3DQo+IFRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVA
-bGludXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB1dGlsLWxpbnV4Lmlu
-YzogU2V0IHRoZSBjb3JyZWN0IGxpY2Vuc2UgZm9yDQo+IHV0aWwtbGludXgtbGlidXVpZCBhZ2Fp
-bg0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IFJpY2hhcmQg
-UHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+IFNlbnQ6IGRl
-biAyNCBtYXJzIDIwMjEgMjM6NDANCj4gPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5r
-amVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+ID4gY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+ID4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHV0aWwtbGlu
-dXguaW5jOiBTZXQgdGhlIGNvcnJlY3QgbGljZW5zZQ0KPiBmb3INCj4gPiB1dGlsLWxpbnV4LWxp
-YnV1aWQgYWdhaW4NCj4gPg0KPiA+IE9uIFdlZCwgMjAyMS0wMy0yNCBhdCAyMjozOCArMDAwMCwg
-UGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
-LS0tLQ0KPiA+ID4gPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
-b3VuZGF0aW9uLm9yZz4NCj4gPiA+ID4gU2VudDogZGVuIDI0IG1hcnMgMjAyMSAyMjozNQ0KPiA+
-ID4gPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-OyBvcGVuZW1iZWRkZWQtDQo+ID4gPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+
-ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdXRpbC1saW51eC5pbmM6IFNldCB0
-aGUgY29ycmVjdA0KPiBsaWNlbnNlDQo+ID4gZm9yDQo+ID4gPiA+IHV0aWwtbGludXgtbGlidXVp
-ZCBhZ2Fpbg0KPiA+ID4gPg0KPiA+ID4gPiBPbiBXZWQsIDIwMjEtMDMtMjQgYXQgMjA6MTUgKzAx
-MDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiA+ID4gPiBMSUNFTlNFXyR7UE59LWxp
-YnV1aWQgd2FzIG5vdCB1cGRhdGVkIHdoZW4gbGlidXVpZCB3YXMgbW92ZWQgdG8NCj4gdGhlDQo+
-ID4gPiA+ID4gdXRpbC1saW51eC11dWlkIHJlY2lwZS4gVXNlIExJQ0VOU0VfJHtCUE59LWxpYnV1
-aWQgaW5zdGVhZCBhcyBCUE4NCj4gaXMNCj4gPiA+ID4gPiBzZXQgdG8gInV0aWwtbGludXgiIGZv
-ciBib3RoIHV0aWwtbGludXggYW5kIHV0aWwtbGludXgtdXVpZC4NCj4gPiA+ID4gPg0KPiA+ID4g
-PiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPg0KPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+IMKgbWV0YS9yZWNpcGVzLWNvcmUv
-dXRpbC1saW51eC91dGlsLWxpbnV4LmluYyB8IDEwICsrKysrLS0tLS0NCj4gPiA+ID4gPiDCoDEg
-ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ID4gPiA+ID4N
-Cj4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGls
-LWxpbnV4LmluYw0KPiA+IGIvbWV0YS9yZWNpcGVzLQ0KPiA+ID4gPiBjb3JlL3V0aWwtbGludXgv
-dXRpbC1saW51eC5pbmMNCj4gPiA+ID4gPiBpbmRleCA0MDMxYzU4NmM5Li5iYjkzZWI2N2Q2IDEw
-MDY0NA0KPiA+ID4gPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1s
-aW51eC5pbmMNCj4gPiA+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0
-aWwtbGludXguaW5jDQo+ID4gPiA+ID4gQEAgLTcsMTEgKzcsMTEgQEAgZGlzayBwYXJ0aXRpb25p
-bmcsIGtlcm5lbCBtZXNzYWdlIG1hbmFnZW1lbnQsDQo+ID4gPiA+IGZpbGVzeXN0ZW0gY3JlYXRp
-b24sIGFuZCBzeXN0ZW0gbG8NCj4gPiA+ID4gPiDCoFNFQ1RJT04gPSAiYmFzZSINCj4gPiA+ID4g
-PiDCoMKgTElDRU5TRSA9ICJHUEx2MisgJiBMR1BMdjIuMSsgJiBCU0QtMy1DbGF1c2UgJiBCU0Qt
-NC1DbGF1c2UiDQo+ID4gPiA+ID4gLUxJQ0VOU0VfJHtQTn0tbGliYmxraWQgPSAiTEdQTHYyLjEr
-Ig0KPiA+ID4gPiA+IC1MSUNFTlNFXyR7UE59LWxpYmZkaXNrID0gIkxHUEx2Mi4xKyINCj4gPiA+
-ID4gPiAtTElDRU5TRV8ke1BOfS1saWJtb3VudCA9ICJMR1BMdjIuMSsiDQo+ID4gPiA+ID4gLUxJ
-Q0VOU0VfJHtQTn0tbGlic21hcnRjb2xzID0gIkxHUEx2Mi4xKyINCj4gPiA+ID4gPiAtTElDRU5T
-RV8ke1BOfS1saWJ1dWlkID0gIkJTRC0zLUNsYXVzZSINCj4gPiA+ID4gPiArTElDRU5TRV8ke0JQ
-Tn0tbGliYmxraWQgPSAiTEdQTHYyLjErIg0KPiA+ID4gPiA+ICtMSUNFTlNFXyR7QlBOfS1saWJm
-ZGlzayA9ICJMR1BMdjIuMSsiDQo+ID4gPiA+ID4gK0xJQ0VOU0VfJHtCUE59LWxpYm1vdW50ID0g
-IkxHUEx2Mi4xKyINCj4gPiA+ID4gPiArTElDRU5TRV8ke0JQTn0tbGlic21hcnRjb2xzID0gIkxH
-UEx2Mi4xKyINCj4gPiA+ID4gPiArTElDRU5TRV8ke0JQTn0tbGlidXVpZCA9ICJCU0QtMy1DbGF1
-c2UiDQo+ID4gPiA+DQo+ID4gPiA+IEhvdyB3YXMgdGhpcyB0ZXN0ZWQ/IFRoaXMgd2lsbCBub3Qg
-d29yayBmb3IgbXVsdGlsaWJzIG9yIG5hdGl2ZXNkay4NCj4gPiA+DQo+ID4gPiBXZWxsLCB3ZSBk
-b24ndCB1c2UgZWl0aGVyLCBzbyBvYnZpb3VzbHkgSSBvbmx5IHRlc3RlZCBidWlsZGluZyBmb3IN
-Cj4gPiA+IHRhcmdldC4gSG93ZXZlciwgSSBiZWxpZXZlIGl0IHNob3VsZCB3b3JrLiBBdCBsZWFz
-dCBgYml0YmFrZSAtZQ0KPiA+ID4gbmF0aXZlc2RrLXV0aWwtbGludXgtdXVpZGAgc2hvd3MgdGhl
-IGV4cGVjdGVkIHZhbHVlIGZvcg0KPiA+ID4gTElDRU5TRV9uYXRpdmVzZGstdXRpbC1saW51eC1s
-aWJ1dWlkLg0KPiA+ID4NCj4gPiA+IE5vdGUgdGhhdCBCUE4gaXMgZXhwbGljaXRseSBzZXQgaW4g
-dGhlIHV0aWwtbGludXguaW5jIGZpbGUgdG8NCj4gPiA+ICJ1dGlsLWxpbnV4Iiwgc28gdGhlIGRl
-ZmluaXRpb25zIGFib3ZlIHNob3VsZCBiZSBubyBkaWZmZXJlbnQgdGhhbg0KPiA+ID4gaWYgSSBo
-YWQgdXNlZCBMSUNFTlNFX3V0aWwtbGludXgtbGlidXVpZCA9ICJCU0QtMy1DbGF1c2UiDQo+ID4g
-PiBPciBhbSBJIG1pc3Npbmcgc29tZXRoaW5nPw0KPiA+DQo+ID4gSXQgbWF5IGZpeCBsaWJ1dWlk
-IGJ1dCBJIHRoaW5rIGl0IHdpbGwgYnJlYWsgbGliYmxraWQgYW5kIHRoZSBvdGhlcnMuDQo+IA0K
-PiBBRkFJQ1QsIGl0IGxvb2tzIGNvcnJlY3Qgd2hlbiBJIHRyeSBgYml0YmFrZSAtZSB1dGlsLWxp
-bnV4YCBhbmQNCj4gYGJpdGJha2UgLWUgbmF0aXZlc2RrLXV0aWwtbGludXhgLg0KDQpTY3JhdGNo
-IHRoYXQsIEkgd2FzIGxvb2tpbmcgaW4gdGhlIHdyb25nIHRyZWUuIDovIFlvdSBhcmUgY29ycmVj
-dCwgaXQgDQpvbmx5IHNlZW1zIHRoZSBMSUNFTlNFXyR7QlBOfS1saWJ1dWlkIGlzIGNvcnJlY3Rs
-eSByZW5hbWVkIHRvIA0KTElDRU5TRV9uYXRpdmVzZGstdXRpbC1saW51eC1saWJ1dWlkIGZvciBu
-YXRpdmVzZGstdXRpbC1saW51eC11dWlkLCB3aGlsZSANCnRoZSBvdGhlcnMgcmV0YWluIHRoZWly
-IG5vbi1uYXRpdmVzZGsgbmFtZXMgZm9yIG5hdGl2ZXNkay11dGlsLWxpbnV4LiANCkkgZ3Vlc3Mg
-dGhlcmUgaXMgc29tZSBtYWdpYyBpbnZvbHZlZCBoZXJlIHRoYXQgSSBhbSBub3QgYXdhcmUgb2Yu
-DQoNClRoaW5raW5nIGEgYml0IG1vcmUgYWJvdXQgdGhpcywgSSB3b25kZXIgd2hldGhlciB0aGUg
-YmVzdCBvcHRpb24gbWF5IA0KYmUgdG8gc2V0IExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIiBpbiB0
-aGUgdXRpbC1saW51eC11dWlkIHJlY2lwZSwgYW5kIA0KbW92ZSB0aGUgb3RoZXIgTElDRU5TRSB2
-YXJpYWJsZXMgdG8gdGhlIHV0aWwtbGludXggcmVjaXBlLiBJIHdpbGwgDQpzZW5kIGFub3RoZXIg
-cGF0Y2ggdG8gZG8gdGhpcyBpbnN0ZWFkLg0KDQo+ID4gQ2hlZXJzLA0KPiA+DQo+ID4gUmljaGFy
-ZA0KPiANCj4gLy9QZXRlcg0KDQovL1BldGVyDQoNCg==
+The license information for util-linux and util-linux-uuid are quite
+different. Move the relevant parts from util-linux.inc to the respective
+recipe.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../util-linux/util-linux-uuid_2.36.2.bb      |  4 ++++
+ meta/recipes-core/util-linux/util-linux.inc   | 20 -------------------
+ .../util-linux/util-linux_2.36.2.bb           | 17 ++++++++++++++++
+ 3 files changed, 21 insertions(+), 20 deletions(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+index 65e4d23b7e..577e55df86 100644
+--- a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
++++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
+@@ -3,6 +3,10 @@
+ 
+ require util-linux.inc
+ 
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
++                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af"
++
+ inherit autotools gettext pkgconfig
+ 
+ S = "${WORKDIR}/util-linux-${PV}"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 4031c586c9..0f50c7f66f 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -6,26 +6,6 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+ 
+ SECTION = "base"
+ 
+-LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+-LICENSE_${PN}-libblkid = "LGPLv2.1+"
+-LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+-LICENSE_${PN}-libmount = "LGPLv2.1+"
+-LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+-LICENSE_${PN}-libuuid = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+-                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+-                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
+-                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
+-                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
+-                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
+-                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-"
+-
+ FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
+ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ BPN = "util-linux"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+index 50a70cd452..767d35ccb1 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
+@@ -1,5 +1,22 @@
+ require util-linux.inc
+ 
++LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
++LICENSE_${PN}-libblkid = "LGPLv2.1+"
++LICENSE_${PN}-libfdisk = "LGPLv2.1+"
++LICENSE_${PN}-libmount = "LGPLv2.1+"
++LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
++                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
++                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
++                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
++                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
++                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++"
++
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+ inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+ DEPENDS = "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
