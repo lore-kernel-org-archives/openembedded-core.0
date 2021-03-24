@@ -1,76 +1,94 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web08.221.1616596779418908634
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web08.222.1616596781386792466
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:39:39 -0700
+ Wed, 24 Mar 2021 07:39:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RAix58vC;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id e33so14783616pgm.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HJOh0Dr3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id f17so8044059plr.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Qj4x1X9NmsNYyb2scVwXpeZZtWKBeEnXXr8ckFujECI=;
-        b=RAix58vCS+pg9HQKzlAZCggPIUfojuVq0woXwFPcUO7H8hf6O+ugd8Zn8G9d6qbQW4
-         QTXdLuBnmIaQsT4yzY0DfzlIXsCVhqkZcz2AMgFUPgzhRJQ68tyacPH1/KvAgvjG2QV7
-         uZaUW04wU7rc7iFK9ekuuQiQJ9ggf5c/GeQ1kVitzmZcUBgT/I6YemR2hgOgfDwyIUeT
-         nNQQtyDfNV+6DvTgisSE7Ij6ugKC13K8kbHiVE43VPAoA3QlnOEQuO9czlcrm5F/8A9O
-         ZqZAoADY6OSndAgxSdOL4aRsk89WZkGy9/6nUyopWZQsH9oVVabu5tuK1JaLiPM1chbj
-         yb1A==
+        bh=G1/jgt1g2TtFVzH0sYn3JWIzdwL0ah33weJ5AodRpqY=;
+        b=HJOh0Dr3Y5nlQH+rq1gZ7ZETQSheE2GDgESWjnj9uUmGocIxsqI4qjiKA+xz7bdh95
+         Tpq7vVNaooXpD9wlNPsDiXC0UniMfO8E8unPzAKCckbWaCcKM6UwcVreC5Rsy2AHwaVc
+         N9sh5qduj6kdwnB/FTRGANCr4/sLAKGmRO7ypuEO6v4ALmzQh0E/vL8TzYzylkIchgO/
+         umzdyTZpueZ47LCpMM54dXOkodQJT37lcgUNxEO7a+brs6Km12ZRxB+ocxagsAaF8pw+
+         Hk1M1Rc3g/jMOgSIT+W2/GOFtrIRo2SliG+9ukT9zdlYxF6R/iOfMDlhb5n7bwwB6Pdm
+         UuIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qj4x1X9NmsNYyb2scVwXpeZZtWKBeEnXXr8ckFujECI=;
-        b=bbJssPHqy6iJetQB0y/0si+IzOXn40HfstzrofgWhf5MAVNPQ6BAg3stx2z51V4BWc
-         LTR02P9s7EOAWdzM6KyssW7oqXZUfRc2aRgPRcfJraCT0I7Zt8OBIDnDc7WLcGjplWyK
-         URZKAIdF8f/pUnIxxotLbPURJtRZ2O18/zHoF6yzKI2kP3Paf83ErdiQbeKTsgYsLpP5
-         2PTRP1s5lAs2KlY7r0ndGIirC+Ukp9S2eGKHY1xbSb3XmgA1LVu0TQkHNdh2arOQxZPh
-         dp2/OsFpySE9A2oLtJIiI648Lgu82UE2lxEivcWtk5tIK0vW4wpiwqkQfhuGb3UsyDWh
-         zNNQ==
-X-Gm-Message-State: AOAM532Iirrc09MrHnxz0yAu09Y1Nk5jAZbaJcXhjHYjQZVKECgaHFGM
-	Uk4HdIkl9DL4A7JQroFG15f7+tIw2i8WT03z
-X-Google-Smtp-Source: ABdhPJzFMhNPJMidL+5DtQhLyW8SAunfkMDNyF4Rwke+gzRz6QtdWVKz6anU54tXVMBgzsHX/DfM2g==
-X-Received: by 2002:a63:c90a:: with SMTP id o10mr3381366pgg.172.1616596778144;
-        Wed, 24 Mar 2021 07:39:38 -0700 (PDT)
+        bh=G1/jgt1g2TtFVzH0sYn3JWIzdwL0ah33weJ5AodRpqY=;
+        b=lCM/0e7FzKFVqpVH8xucA8el6NzG1N6LqE2KT1QU2vOztNDDMhYZMWAMKThi0BbsUW
+         IbBeZCuwjxJ4ZwAzSSuGoDkFWLa4S2LB2Emvhw62epPtsgVD1jDBGt4B9JqLYXZyzttc
+         FXcwGceBlXALPPu12SXmQrZOOsscACJ64LkpLnLHk9w8SPTOd90gExRCfWApatm4PfDA
+         dvuhBV6Nmr1skjs63JAib+B99IB/RH1diIBHTmxl0g7YdjZIcwcU88mIEdh7470+Oq5k
+         GKaLZf4zpzNOD7pQi7FhyulBcFrTztWzwkWywrLN57j/jzlD/Tuj4qsIFYSfEZRHt4TY
+         lM+Q==
+X-Gm-Message-State: AOAM5308yJFl1qW9SUzZlrjqB040tPGPXiVDCKzue5rJVkJ+SYXrN5Eg
+	vQ9n/pAj5EEsqiAYYsyE+hNf6V4BR3wyavqH
+X-Google-Smtp-Source: ABdhPJwnh//apd8UupppzXkdNUeao3+WpY974IY0qWnqMVPB0xPh1yYknq/Fo+dWhGyl2fj2FWgNAg==
+X-Received: by 2002:a17:90b:ecc:: with SMTP id gz12mr3758204pjb.79.1616596780390;
+        Wed, 24 Mar 2021 07:39:40 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.36
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:39:37 -0700 (PDT)
+        Wed, 24 Mar 2021 07:39:39 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/21] Revert "sstatesig.py: show an error instead of warning when sstate manifest isn't found"
-Date: Wed, 24 Mar 2021 04:38:56 -1000
-Message-Id: <4cf332213811ae71f3dd46cb0eb0f22b6ffff562.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/21] iso-codes: fix protocol in SRC_URI
+Date: Wed, 24 Mar 2021 04:38:57 -1000
+Message-Id: <e739b039aebcd1ca839b0460e950d5b8bc2e3cdb.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Causes breakage in other layers
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-This reverts commit e0c1db170fdd6c1d78fdfce017feae26c96fac29.
+* it doesn't listen on http and the redirect sometimes doesn't work
+
+WARNING: iso-codes-4.6.0-r0 do_fetch: Failed to fetch URL git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;, attempting MIRRORS if available
+
+The protocol should be changed to https, like all other salsa.debian.org pulls are, so that it doesn't depend on mirrors.bbclass to resolve this.
+meta/classes/mirrors.bbclass:git://salsa.debian.org/.*     git://salsa.debian.org/PATH;protocol=https \n \
+
+from log.do_fetch:
+DEBUG: Fetcher accessed the network with the command LANG=C git -c core.fsyncobjectfiles=0 fetch -f --progress http://salsa.debian.org/iso-codes-team/iso-codes.git refs/*:refs/*
+fatal: unable to access 'http://salsa.debian.org/iso-codes-team/iso-codes.git/': Couldn't connect to server
+WARNING: Failed to fetch URL git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;, attempting MIRRORS if available
+...
+warning: redirecting to https://salsa.debian.org/iso-codes-team/iso-codes.git/
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 749eeb8cfaa8ffcfda29f3f06a77debaf6304288)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/sstatesig.py | 2 +-
+ meta/recipes-support/iso-codes/iso-codes_4.4.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 51e1d492c3..aeceb100d7 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -453,7 +453,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
-         if os.path.exists(manifest):
-             return manifest, d2
--    bb.error("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-+    bb.warn("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-     return None, d2
+diff --git a/meta/recipes-support/iso-codes/iso-codes_4.4.bb b/meta/recipes-support/iso-codes/iso-codes_4.4.bb
+index e3c521c514..e8210eca9b 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_4.4.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_4.4.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- def OEOuthashBasic(path, sigfile, task, d):
+-SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http;branch=main;"
++SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=https;branch=main;"
+ SRCREV = "38edb926592954b87eb527124da0ec68d2a748f3"
+ 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
 -- 
 2.25.1
 
