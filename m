@@ -1,101 +1,94 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.214.1616596801709365882
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.217.1616596806528702689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:40:01 -0700
+ Wed, 24 Mar 2021 07:40:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=u+iEWrz6;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 32so8642166pgm.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zh82odH/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id t18so11839570pjs.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=CQGpbF2cL8j74v332FjzngZDcu+KLpD1BIk+/37uAtE=;
-        b=u+iEWrz6hVt/v5fn4QqFxKqNoOXeTenYegXRnXV/JpFDaNkgIpmX8DKWfp+HrqJpyS
-         dgua/KWgN7JQLFz55JNk+DLY7lCHcKjsnK+0k9vh4xW84QC2wguZnoPsVnLwMjUsVwuA
-         xQcN/+q+cgip5TNa2q8q/yGb2F+ylcRdzUy9Osp45C0IyFn0e4/gjHLHxPPDDteklMpg
-         xFJHyGJUgOMiWf/PVDNVF9ixJmhOyJ5aOd7hdzCaSl0W1PGoxDQgY8SHvw+LWDajBFxF
-         BcmWAWhQyjc33Vy13ko1s1DGt00NrnT8LfOiAo3cNsbvopoUl+2hexU8IN12gRIyZWeY
-         8uSA==
+        bh=IkJWsBnxnqIvFHBEihLDcKevVy2IqQwhq12hgFVqBa4=;
+        b=zh82odH/jCMpRiUUpq5UcSeW/6FFafp7YrP/uLQk/40V+7xJfSU9HOSdrQOfFCk9V7
+         amJOazFJONZjoxIrMJvYhziXMkstZAGe3dN+NQAY704mdODFb9XrZFv/2pCF9GOI6K5H
+         u9k3SPvY9/vlRY/9cO1V9qoRXj+Oum8wpDm8g0WNg9Onp5pPWfFUmqY3Rf6qrxG09bWM
+         XGsfUIgX/6pkUGysuvN/t5T0m9yX4z1d36+QQghKnzCUZMxjN5z91sHIRUMY7R3JKUAA
+         wjLYUkI/Nj1H199B2pjHdl7POe/nZ1e8pw7qIIH9YC2EOeksxeqFtowRn0hm43RTYFRx
+         tQlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CQGpbF2cL8j74v332FjzngZDcu+KLpD1BIk+/37uAtE=;
-        b=n+xguBrI4F1xnsC91DMdBNuIjTxotUfKECCQg/ZNJ2AU0MYbzj1NlQw71/IaYPgEL1
-         W5ioDDVM2A0hapJkW7dmM0Y+OjdH8+Bo1xl+0/qE1y5TtmSvtpQv8/ShJ48T1imUxCUO
-         N9YFfjNMlhmRya0/KAhSfdlzI4E8rpybVonr0f04wK8kcWCFsaUgJN5Li1SUS822+XeL
-         SYaLVwclOAjuZ2+7t54eCA8T6PzcgvdjZjwTzdEatHeXSnlSWR0f5Xn8Y5SgQNUtcDU8
-         wC23e7b8li0Dta7xpTspjWQFPap0vKiOKDQlhU+42b+5LugxRkmevS2HmBNrcT6xb+VH
-         HwFw==
-X-Gm-Message-State: AOAM531GMfciIxrQ8EY2EUzaenSD7kA26UNjF2s2pHGLKmru5NOSxnIW
-	szl1s/M41MqawEOSGM0/qtPXiZRUG8n5N/PN
-X-Google-Smtp-Source: ABdhPJwJte3lCL2lZgTyZW/hH/j1noSvyV2voNT/ONWQb1EJDJmFBASps9Noqx4S2jvEA/OHnf4fvQ==
-X-Received: by 2002:a62:800c:0:b029:203:6990:78e2 with SMTP id j12-20020a62800c0000b0290203699078e2mr3508687pfd.3.1616596800744;
-        Wed, 24 Mar 2021 07:40:00 -0700 (PDT)
+        bh=IkJWsBnxnqIvFHBEihLDcKevVy2IqQwhq12hgFVqBa4=;
+        b=rlusyLbyhuCNEhnuVaSjMmYejg6l+1+QeFkPZXQCI1B5WNr2jTQ8CeezihHpIO/QjM
+         HHmLsLTwl/T7CioTKG5d2Ege8dgOJ4LUuSn/5wvoTNSsJrAwJgZehHjRTlU1hQJBqTum
+         WprPFCVm6b6wKwqseUI9ltQHn8CfQgcacysDaLQK+81M9ZWOdBJDXVpSJPaeEoIh88ww
+         V0yTpn1uoB9T7tPSsxBExt9hahZdPa7QVlWN4AtNwxemxCqbTsdf7SCXUzVPh3jlMQwc
+         YBBx/aZn1FAMd61F7ylG6MjCIiNqTvR2ThOxBvEwA4a0+A6g9PG0qkruy0fgAde/i6F4
+         Hp7Q==
+X-Gm-Message-State: AOAM5339zozGiYxM2Sq3xSSXfeGyNpbhjqiqe9A7WUemVADbPiXm62ec
+	5Y+/Yt8xXiNca7dGCxZisgULdT/6rVC/wndH
+X-Google-Smtp-Source: ABdhPJwH5+sUeRscZtW2cyrSavzODpYdYWdRDTkSdA/eCYCDlDw95KJwq/SFJtATS/YO97HUL0zt4Q==
+X-Received: by 2002:a17:90a:c096:: with SMTP id o22mr3825753pjs.119.1616596804812;
+        Wed, 24 Mar 2021 07:40:04 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.39.59
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.40.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:40:00 -0700 (PDT)
+        Wed, 24 Mar 2021 07:40:04 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/21] wpa-supplicant: update CVE-2021-27803.patch
-Date: Wed, 24 Mar 2021 04:39:06 -1000
-Message-Id: <060587ae477d785db017f4d8a2152206c258da42.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/21] cve-update-db-native: consider version suffix when update CVE db
+Date: Wed, 24 Mar 2021 04:39:08 -1000
+Message-Id: <b8d3e1754faea3ba0b6e07d5a830fbab12b5f53d.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-* update to match what was merged in master branch (and I have now sent for gatesgarth)
-* fixes Upstream-Status (there is a missing 'c' in 'Acepted' and 'Backport' is more accurate)
+some record from NVD can merge or split suffix from version, for
+example:
+  CVE-2017-15906
+  "cpe23Uri" : "cpe:2.3:a:openbsd:openssh:5.0:p1:*:*:*:*:*:*"
+  "cpe23Uri" : "cpe:2.3:a:openbsd:openssh:4.7p1:*:*:*:*:*:*:*"
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+in such case include the suffix into version when update local CVE db.
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 13cc68197f81bb7c76fa1abecc5dd720b8bdb8d5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../wpa-supplicant/CVE-2021-27803.patch              | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
-index dc576d1a11..004b1dbd19 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
-@@ -18,15 +18,19 @@ p2p_add_device() so that the stale pointer cannot be used.
- Fixes: 17bef1e97a50 ("P2P: Add peer entry based on Provision Discovery Request")
- Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 9e8e006a32..5d9fb59cbc 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -137,9 +137,14 @@ def parse_node_and_insert(c, node, cveId):
+             product = cpe23[4]
+             version = cpe23[5]
  
--Upstream-Status: Acepted [https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32]
-+Upstream-Status: Backport
- CVE: CVE-2021-27803
--Signed-off-by: Minjae Kim <flowergom@gmail.com>
++            if cpe23[6] == '*' or cpe23[6] == '-':
++                version_suffix = ""
++            else:
++                version_suffix = "_" + cpe23[6]
 +
-+Reference to upstream patch:
-+[https://w1.fi/cgit/hostap/commit/?id=8460e3230988ef2ec13ce6b69b687e941f6cdb32]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
- ---
-  src/p2p/p2p_pd.c | 12 +++++-------
-  1 file changed, 5 insertions(+), 7 deletions(-)
- 
- diff --git a/src/p2p/p2p_pd.c b/src/p2p/p2p_pd.c
--index 3994ec03f86b..05fd593494ef 100644
-+index 3994ec0..05fd593 100644
- --- a/src/p2p/p2p_pd.c
- +++ b/src/p2p/p2p_pd.c
- @@ -595,14 +595,12 @@ void p2p_process_prov_disc_req(struct p2p_data *p2p, const u8 *sa,
-@@ -50,5 +54,5 @@ index 3994ec03f86b..05fd593494ef 100644
-  	} else if (msg.wfd_subelems) {
-  		wpabuf_free(dev->info.wfd_subelems);
- -- 
--2.25.1
-+2.17.1
- 
+             if version != '*' and version != '-':
+                 # Version is defined, this is a '=' match
+-                yield [cveId, vendor, product, version, '=', '', '']
++                yield [cveId, vendor, product, version + version_suffix, '=', '', '']
+             elif version == '-':
+                 # no version information is available
+                 yield [cveId, vendor, product, version, '', '', '']
 -- 
 2.25.1
 
