@@ -1,65 +1,61 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.67])
- by mx.groups.io with SMTP id smtpd.web10.5937.1616593147185885223
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web11.6040.1616593147229388783
  for <openembedded-core@lists.openembedded.org>;
  Wed, 24 Mar 2021 06:39:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=xZ3n2DhJ;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.67, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=OD1+ZYJR;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1616593145; i=@fujitsu.com;
-	bh=Wezrblxw9OTNnHlt3YtxEXtOgdkKXzIxeJfSuohC0t8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=xZ3n2DhJniXs8hn22rDMM+y7jlkboZXSyylTvyvMo4dCzq33r+5clwnkzXwZpDTO9
-	 /QGlD9djEwpdTT2xil31Xdj8i0yJC+3UnWruUUDPRUvN0dGLkLXOQsF+2+z0+K2V8C
-	 dI/aKSbXaV1v25K8h76t9MCbV5vq04ySrd0gEsOeeplu4qya4v/PEvn/WNkA3qS/VY
-	 JuhBYTOTALBLT/3vM6KWAnD1V+6CzoT9YEhcPcZzPw8NI7iOsqsAT5IJkFUr4+WxKU
-	 rFYHERPXScWmyFo85E71DDI6lVQ220Y65WUcSpk6XAFrtauqeGyOyI/WYlGD+XSDkT
-	 wMqeKmq2jZmuQ==
-Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id 5F/2B-42200-9F04B506; Wed, 24 Mar 2021 13:39:05 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MxVfenQ3S
-  CQd93UYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPP+0+MBW85KpZ+NmpgfMvexcjFISSwmUli
-  wrZfbBDOCUaJpnmHGLsYOTnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBd4tK6FhYQW1jATmLm9
-  81gNouAqsSk9RPYQGxeASeJg+8XgI2REFCQmPLwPTOIzSngLDH12W0wWwiopm3Pc0aIekGJkz
-  OfsEDMl5A4+OIFM0SvosTsy80sEHaVxJqOaWwTGPlnIWmZhaRlASPTKkaLpKLM9IyS3MTMHF1
-  DAwNdQ0MjXUNLC11Dc2O9xCrdJL3UUt3y1OISXUO9xPJiveLK3OScFL281JJNjMBgTCk4tnYH
-  Y8+bD3qHGCU5mJREeatsohOE+JLyUyozEosz4otKc1KLDzHKcHAoSfBK2gPlBItS01Mr0jJzg
-  JEBk5bg4FES4ZWwBUrzFhck5hZnpkOkTjHqcjTfWbKIWYglLz8vVUqc9zrIDAGQoozSPLgRsC
-  i9xCgrJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYtxNkCk9mXgncpldARzABHbHxRyTIESWJCCm
-  pBqap5QprmK23/+5/68qp88H5wxXHKQvKrguWsv4/Xc+3u2nacgG9v4tTrYW9J81JK7RmL1V1
-  +vJALHHqun4L7nebQzVinsyqu3c//3TsQiO3RPv8Jy/esWyz/Je7ujVjFkfl3k87RCYtf/Ty7
-  9kNKfeKF6/d8piD51RA0bSuv6F+LJIvPssdSTrPd9jN89eXF0H37iitfDjjr8U516t/rL4a77
-  0+017Q4er36Q9T6nlaztW92nTSy+fGd7l5l+bN368s8UTV6ELSOYaS0s5Vy5Wvblsbvm3Fwr+
-  Jlp2yO9hUs2P1+M4XSr+7E5rwNuN5y7U1WavWely9IR799vu0jd/6uhpUL33tm1R7ON3Tqo3B
-  XYmlOCPRUIu5qDgRALpIOBtNAwAA
+	bh=4lBS0emL/qJ5MkLB7UF0+KQMvmIs4b0fzVWhDRMu9oE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=OD1+ZYJReW7VFan3LsMPBPjk9nIdT+5pW7S81YDvI1Iux/XJFyt4y75DOTtueJ+GX
+	 yOxJXKwlzW7ueqHWjK4l7qb9ih1Kup04aWGRYlyblx8fvRo2zcA8lL0eX4uhZBOgTV
+	 C42MzQRHrjSVvNyYWLHiabB/Sr3OjB+Lv6E4jIUEiMzpNBViizwH9lwiwubqfyp9mD
+	 EdhGzF54kpFZS8cJaRRYPGSRiIUsUyoIP/a4n9j2IvEDkPOQ6rDBMcBHXj8AODF0DO
+	 ey9Lr8Plw67qBOHsWlJyU6YU2XYkBlxC9yAKzTL6rSIG7cjYv5uYTVp245cIyZmmRS
+	 veBjxpwZj4tng==
+Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 22/F5-53635-9F04B506; Wed, 24 Mar 2021 13:39:05 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MxVfenQ3S
+  CwYxXghZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aFi8fYCnZwVFy9coupgfE2excjJ4eQwGYm
+  icbdkl2MXED2CUaJ7w8/soAk2ATUJKbfusHaxcjBISKgJ3H1nyhImFlAXeLSuhawEmEBR4nDP
+  bMYQWwWAVWJp8tXg9m8Ak4Sj/Y/YQKxJQQUJKY8fM8MEReUODnzCQvEHAmJgy9eMEPUKErMvt
+  zMAmFXSazpmMY2gZF3FpKWWUhaFjAyrWK0SCrKTM8oyU3MzNE1NDDQNTQ00jW0BGJjU73EKt1
+  EvdRS3fLU4hJdQ73E8mK94src5JwUvbzUkk2MwOBKKTjQvoPx0esPeocYJTmYlER5q2yiE4T4
+  kvJTKjMSizPii0pzUosPMcpwcChJ8EraA+UEi1LTUyvSMnOAgQ6TluDgURLhlbAFSvMWFyTmF
+  memQ6ROMSpKifNeB+kTAElklObBtcGi6xKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd5OkC
+  k8mXklcNNfAS1mAlq88UckyOKSRISUVAPT9KQ8b6lHPIkNcSd+P93FeGC5PNvS1LzSFXrOnuw
+  qK2zKv1/OCBPLr2N/8KXV9/fEiLoKrrDKbJ5LX/PvnfXandLXaxFSv2eG+u1jb0snGXwNvnX8
+  2ZQLyw6Izbjf23TpV+f+RBbxUw8LFVtuvJ56MGn5932aCRy9u/beS77cvuvPeXdFmyOPDJ9rG
+  v3Zr/2H2fRFheku88+ybS3aJ80v2IulamTJbli1/NbVioh7i1sfnlde9mtytpvMu0O2bVwBE8
+  Kfqp5u31Ng+aWvZl2NkxznS2GZM5vL1E7qH9e/Me3fFT8X6z/5ubdaD64T+sv0bOkXiV/FNzi
+  CEho9z86caHpmbkG08fIzd9e90pXlV2Ipzkg01GIuKk4EAFK+T64pAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-8.tower-291.messagelabs.com!1616593144!241313!1
+X-Msg-Ref: server-11.tower-267.messagelabs.com!1616593144!547499!1
 X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 9156 invoked from network); 24 Mar 2021 13:39:05 -0000
+Received: (qmail 17465 invoked from network); 24 Mar 2021 13:39:05 -0000
 Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-8.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Mar 2021 13:39:05 -0000
+  by server-11.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Mar 2021 13:39:05 -0000
 Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ODcxpc026640
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12ODcxpb026640
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 13:39:04 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 24 Mar 2021 13:39:00 +0000
+ (TLS) id 15.0.1497.2; Wed, 24 Mar 2021 13:38:57 +0000
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] babeltrace2: upgrade 2.0.3 -> 2.0.4
-Date: Wed, 24 Mar 2021 21:38:47 +0800
-Message-ID: <1616593128-42917-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] at-spi2-core: upgrade 2.38.0 -> 2.40.0
+Date: Wed, 24 Mar 2021 21:38:46 +0800
+Message-ID: <1616593128-42917-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1616593128-42917-1-git-send-email-wangmy@fujitsu.com>
-References: <1616593128-42917-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
@@ -70,26 +66,26 @@ From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../lttng/{babeltrace2_2.0.3.bb => babeltrace2_2.0.4.bb}        | 2 +-
+ .../atk/{at-spi2-core_2.38.0.bb => at-spi2-core_2.40.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{babeltrace2_2.0.3.bb => babeltrace2_2.0.4.bb} (98%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.38.0.bb => at-spi2-core_2.40.0.bb} (94%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-index 32ba75bf36..7fb524eeb0 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
-            file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-            file://0001-Make-manpages-multilib-identical.patch \
-            "
--SRCREV = "91d154476e66735d705adda9ca5cbf5b5eea5940"
-+SRCREV = "23e8cf4e6fdc1d0b230e964dafac08a57e6228e6"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.38.0.bb b/meta/recipes-support/atk/at-spi2-core_2.40.0.bb
+similarity index 94%
+rename from meta/recipes-support/atk/at-spi2-core_2.38.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.40.0.bb
+index a74e4cd5cf..e80fa260f0 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.40.0.bb
+@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "84e36c3fe66862133f5fe229772b76aa2526e10de5014a3778f2fa46ce550da5"
++SRC_URI[sha256sum] = "4196a7d30a0051e52a67b8ce4283fe79ae5e4e14a725719934565adf1d333429"
+ 
+ X11DEPENDS = "virtual/libx11 libxi libxtst"
+ 
 -- 
 2.25.1
 
