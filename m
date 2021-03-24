@@ -1,109 +1,79 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.33.1616598610528832767
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web11.175.1616600418117403641
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 08:10:10 -0700
+ Wed, 24 Mar 2021 08:40:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HzufO6iH;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.50, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f50.google.com with SMTP id j7so24827472wrd.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 08:10:10 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=VGZIJ/IQ;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.169, mailfrom: jdmason@kudzu.us)
+Received: by mail-qt1-f169.google.com with SMTP id m7so17838865qtq.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 08:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w0Qdapmku9pwtjb/4fc3SzwxuigbcP11nZjtRiONYb0=;
-        b=HzufO6iHEheffynpeLlm8xvnflx3BUle5jjuJZiP+sC6Ubmq4tOGwWy+ZgUdhZg1bv
-         izNHrZqc6abeFhr6qIO3OAtSDmvGPhXOQZ/QeIqVMyc34fUQkwRBqINmHlTrFg6cxXaL
-         iCqOLbOWhW/e0iXx4Hfmo7cDo45n0dqLKX+DLM6BMociC4R9uBshUDMSgb/Qyaw283rK
-         XVYInqm0ZULXiWYT23bHXOvUnLpHTCSf7aC3+t2qTqfjrab8NFXk5TfvyC+408fT6lSV
-         yOG1LXYSySNNnOamD/h0rGRvzjY21pSmmiKtfP4r9ZGG18DuJoqoQESqGgAbULd1wF+5
-         2nwg==
+        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LAtMyn3O0Sv2N+ZPWv2ObsAjUgJuWjZ8UlAD6+jz0zk=;
+        b=VGZIJ/IQ4Gp7DEcQO22NsAsqja6LbOtJnTUriCQ254OSBIGQa9WIFW5Rf5q5GoTy0F
+         vXaeVbJ/31sfYqtiywwwm8RgjkGzCa1zfcKdRDyc928fx6s1zmqnCU5Zy7xdx4Wl8N2B
+         E0IwvcCcWkvQVDgBXEXDzs5ocdwbAWAj8v+AXqqt7ZoyOjeXE2ZdJLdwY73IBybZeoHP
+         Sb9A77rOxIAwz9gRMngcITAPI4ynYbtutCcBlcduVmlE9yueRgg/AA+6k9nPhpKAYWEF
+         3nVo0zoj9h00Njo4pIWZ0ap9n+mrGaS0aqLh0QHob+cebLGVHlICgZ/ru1n+e57WdRML
+         Kc8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w0Qdapmku9pwtjb/4fc3SzwxuigbcP11nZjtRiONYb0=;
-        b=KpXXYYWl9Fi2STkCAsPo6Gz1pHZToO9qLAj7TO/SSEuBanJk+e39Oa8FVVeMJHi+zM
-         zT34y+9PWame1fzT+ALYx8lkZ4CqFdNbXWlV2xnBeICzeWl/GpGMzdDPJITByXgTklHP
-         nM42QX4RvGnbx/eQilF1KP+uwzf2Vg2EADWSCL/xSYNYwKkMclIdXtn14JGBhJOmQbjr
-         POkVagfyhSfpqKwBKa/Lm7dUQ2+3LNYk5zCh+utfpe1ONRipdphy5efOkWXoz6AwBEP2
-         ECrn3Rq/a3R7tHuiCttb5HD47Rkk9a2z6kMdEXy1cSiFDQy2lYLRbGTQYZM2f8RVMPW0
-         VRUQ==
-X-Gm-Message-State: AOAM532Az4vvIk8UPMLX10K9EByBzNa/UYevPkuK40EC/tE/9f9N7HSe
-	QHELAA0BzA7mE+vaseSJZN6mBGkyDsTI6M1I16lvlw==
-X-Google-Smtp-Source: ABdhPJzT2C6ML/Ndc/LwsoOxKZ4gAchE2eXz1GTX4eoRE+0yOnJLzoYqH4rsgn4Tq+Ey5zaQhXBcipIgK3g01rKbT60=
-X-Received: by 2002:a5d:54c4:: with SMTP id x4mr3941900wrv.329.1616598608696;
- Wed, 24 Mar 2021 08:10:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LAtMyn3O0Sv2N+ZPWv2ObsAjUgJuWjZ8UlAD6+jz0zk=;
+        b=rKR1J4cBe2H9cKpmxkOy2dXq5sxwWAR7IdrKzU6BJVJOM1LjzWMWvN+2GcgZpEUh9l
+         nR/6tWRXnns3nFkYet9tBpX+eJiv5noshQ1ERn73tKauUFDzJo52E5wj/KDliU9gDc40
+         30AE30KqrMkJMuBQ98JqzUqEGbdV/aPX8NZ6pNkEPd3n1h9y2dN0l+VVSpfCjwh7pV+q
+         59qgoUW5r3e2XS5n/N9csuNXgXX3SwoyhqxaBdYHQPlW5P+tcC3XcVvm3U87nRL9RMQm
+         sMqtdMthbz6GVFKgO3/9J0kYYhpKFCHCGHS1rj3KMasQQi4nUwE50ltrdEYRLhDGHm9x
+         djqw==
+X-Gm-Message-State: AOAM532WAJSRX9AegJX60kS5vO9JBghVfF4Gy2kJMwIym6dl8rgCRdJg
+	AXfWOkHr6nx1qjMDtmiklprhLiblc1MLIw==
+X-Google-Smtp-Source: ABdhPJwFGsCy6P2c8DxRAIUCmMiWkm88hYUXpn1I7JY5iCCGtHMB7YhmpKFMNrISBILCLq9OTWGXtg==
+X-Received: by 2002:ac8:1093:: with SMTP id a19mr3547720qtj.365.1616600417044;
+        Wed, 24 Mar 2021 08:40:17 -0700 (PDT)
+Return-Path: <jdmason@kudzu.us>
+Received: from localhost ([2605:a601:a601:f800:8daf:27b6:797e:9e83])
+        by smtp.gmail.com with ESMTPSA id p66sm2003565qka.108.2021.03.24.08.40.16
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 08:40:16 -0700 (PDT)
+From: "Jon Mason" <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] tune-cortexa32: Add hard FPU
+Date: Wed, 24 Mar 2021 11:40:16 -0400
+Message-Id: <20210324154016.18180-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210321102616.3752416-1-gmouse@google.com>
-In-Reply-To: <20210321102616.3752416-1-gmouse@google.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 24 Mar 2021 05:09:57 -1000
-Message-ID: <CAOSpxdaWrkdaKgnJDpPCxibMfj9y9ttQ_TCOT839RGYHBaCNdg@mail.gmail.com>
-Subject: Re: [OE-core] [poky][PATCH] run-postinsts: do not remove postinsts directory.
-To: gmouse@google.com
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 21, 2021 at 12:26 AM Anton Kachalov via
-lists.openembedded.org <gmouse=google.com@lists.openembedded.org>
-wrote:
->
-> From: "Anton D. Kachalov" <gmouse@google.com>
->
-> When running on the systems having read-only rootfs backed by overlayfs,
-> removing the whole directory lead to create a special char device file
-> on the upperdir to reflect directory's removal. Once it is required to
-> upgrade the whole read-only image that might contain new postinsts scripts,
-> it will be impossible to run such scripts with a "deletion mark" file
-> on the overlayfs -- the whole directory will be marked as deleted regardless
-> new files in it.
+A32 always has NEON and VFP.  Set the FPU as hard to always have this
+enabled and used.
 
-Is this something that should be considered for backporting to
-dunfell/gatesgarth?
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/conf/machine/include/tune-cortexa32.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Steve
+diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
+index e86de6ccb7a4..b9ae2b1c57b9 100644
+--- a/meta/conf/machine/include/tune-cortexa32.inc
++++ b/meta/conf/machine/include/tune-cortexa32.inc
+@@ -9,9 +9,9 @@ require conf/machine/include/arm/arch-armv8a.inc
+ AVAILTUNES += "cortexa32 cortexa32-crypto"
+ ARMPKGARCH_tune-cortexa32             = "cortexa32"
+ ARMPKGARCH_tune-cortexa32-crypto      = "cortexa32"
+-TUNE_FEATURES_tune-cortexa32          = "armv8a cortexa32 crc"
++TUNE_FEATURES_tune-cortexa32          = "armv8a cortexa32 crc callconvention-hard neon"
+ TUNE_FEATURES_tune-cortexa32-crypto   = "${TUNE_FEATURES_tune-cortexa32} crypto"
+-PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
+-PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
++PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32 cortexa32hf-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32hf-neon cortexa32hf-neon-crypto"
+ BASE_LIB_tune-cortexa32               = "lib"
+ BASE_LIB_tune-cortexa32-crypto        = "lib"
+-- 
+2.20.1
 
-
-> Signed-off-by: Anton D. Kachalov <gmouse@google.com>
-> ---
->  .../run-postinsts/run-postinsts/run-postinsts          | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> index f84a7e18c8..95dccb9cae 100755
-> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-> @@ -72,12 +72,12 @@ exec_postinst_scriptlets() {
->                 else
->                         echo "ERROR: postinst $i failed."
->                         [ "$POSTINST_LOGGING" = "1" ] && eval echo "ERROR: postinst $i failed." $append_log
-> -                       remove_pi_dir=0
-> +                       remove_rcsd_link=0
->                 fi
->         done
->  }
->
-> -remove_pi_dir=1
-> +remove_rcsd_link=1
->  if $pm_installed; then
->         case $pm in
->                 "ipk")
-> @@ -92,9 +92,7 @@ else
->         exec_postinst_scriptlets
->  fi
->
-> -# since all postinstalls executed successfully, remove the postinstalls directory
-> -# and the rcS.d link
-> -if [ $remove_pi_dir = 1 ]; then
-> -       rm -rf $pi_dir
-> +# since all postinstalls executed successfully, remove the rcS.d link
-> +if [ $remove_rcsd_link = 1 ]; then
->         remove_rcsd_link
->  fi
-> --
-> 2.31.0.rc2.261.g7f71774620-goog
->
->
-> 
->
