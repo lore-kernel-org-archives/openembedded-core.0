@@ -1,88 +1,83 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.3541.1616621583559757553
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.3585.1616621724527196601
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 14:33:03 -0700
+ Wed, 24 Mar 2021 14:35:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g5qk+T6a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id d191so67858wmd.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 14:33:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Kzw53jqj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id y124-20020a1c32820000b029010c93864955so1993057wmy.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 14:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AlQRiaUpSN2SrWiEwtfr+K6zwVFF8vMwffZ4TOgUuDg=;
-        b=g5qk+T6auo5XuqoHnrxUKUcFktD9tUXtIbo36g4bLAQHt6KVyMTvNjS7kfWqHyMLWX
-         5q/Wuzw8buA3pw2itiZFqJbpRWSC9D7oYiJX9ZBFaiUOFz3KX7FjtQYmZnjgtV9sITjZ
-         XPgp6d+GOvNAeHySiSRmZGxHArvgAhTQx/J18=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=6jL3NtZUjdN+pNiPAGI4diEES99S0v787DtdgBcLgNw=;
+        b=Kzw53jqjTWIwaQj5XVPrm9FdePxeGlxiufTKSygdKZG8wxVO/s/LLZ1CEifeij3OSM
+         1Q2u/AE/oi1TSk8bUr65OrsgDY+Kn1Fp1Ql60YLkwRmKWwwZ/5mxa8r3xtKKCqXs00w9
+         oxmY54TdgJElriOZ51VFf+NVpOA4938lOrGC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AlQRiaUpSN2SrWiEwtfr+K6zwVFF8vMwffZ4TOgUuDg=;
-        b=OapabhyrqKNpD8TkxAhjOnczkIRadu0vzBQVWkcpqfX8Hjbqh6VNgmbyruAFFuzmVZ
-         MGgyUA1Bs+r8MdM9uZ8ndi4UnVme35cslWZ1r07neysI5ax/irc/BgYlPQSUYQ10nQd3
-         +sdEXXYYnDmQzGmUcobHdyrUFtj40yGE0IhRRGNPLilfxxDQa2IN8RvDOls4n8we6gNy
-         KAm+is1d3vL9hDQI0HNvsPwwuGyVLsKRNuvZY3mJKpJFngTOtQG9J4wt7uGfOqT4Vqaz
-         VHDowFZgvHU0svbFiVp4cOZbOz37KnbhJRAwMWA2UVubcBLhJSOchecSo680GPYPNzxi
-         6KMw==
-X-Gm-Message-State: AOAM5324DoimBsNBi7CIsoLG/o2AkXsJSahnVRExo+3xWb8zCzn+RrU7
-	K7XNLieY6RoKZ5ueRwMGzKVgIw==
-X-Google-Smtp-Source: ABdhPJyxtlf8mwKmkXYLCKaFo3XABBJ1pvw16GqXzuCsFjqEzAZIui7U2WcbJze29zIUL3JsUfIdNg==
-X-Received: by 2002:a1c:67d6:: with SMTP id b205mr4877045wmc.118.1616621581965;
-        Wed, 24 Mar 2021 14:33:01 -0700 (PDT)
+        bh=6jL3NtZUjdN+pNiPAGI4diEES99S0v787DtdgBcLgNw=;
+        b=MTAskzfi0y26mHjVRVf++CcJNyW/dpGk9H3iYz6Ee3QkmAoo+E15SuhUElFfCrMBel
+         /A3W7xuf5sSBxZaS8gsKPE/WXnEcTddqx6w5b+i/WMBJRXUz2s2c90TQ9+4QM1n/0UoZ
+         l1noHyz3Iw8yw280B8BZJkvsUcGuLQc++reRDuyWM40pk43nK6xSbuCbVoZdpRvqmOXn
+         m8k6dF5Sznj1nFD3WYP3+v7i6F+Hj7VjOu+Uqw2oyfW9FwUSxTxLs8vz+t3cIbX37BrP
+         8VjY+9FApKT59IrdPuO2vm6iOW7f6oA3slOCVFtPFuYEJ+uGfh5/y7kM6Q0AxoaLP7bf
+         gBEA==
+X-Gm-Message-State: AOAM530+k+541x3gJ/V8fWrlAIPelSh+bNFGlxLa6+83hl+ace121qET
+	0lviqCCPieOBuOu0r7XwxRZ/X0MKibG+ng==
+X-Google-Smtp-Source: ABdhPJwSXu7sNliTdkxQGOKGLqugv5W3c1mDNlJXX3jsEb4WPi3Vdx9nsxE73/cpLKgzfXNxnqJ1tA==
+X-Received: by 2002:a05:600c:35c8:: with SMTP id r8mr4565307wmq.130.1616621723056;
+        Wed, 24 Mar 2021 14:35:23 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:6a6e:24cd:b165:9075? ([2001:8b0:aba:5f3c:6a6e:24cd:b165:9075])
-        by smtp.gmail.com with ESMTPSA id o7sm4874851wrs.16.2021.03.24.14.33.01
+        by smtp.gmail.com with ESMTPSA id m10sm3830817wmh.13.2021.03.24.14.35.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 14:33:01 -0700 (PDT)
-Message-ID: <9cd549c815b3700e4f1e63f570ba82d720925ab3.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH 1/2] valgrind: update 3.16.1 -> 3.17.0
+        Wed, 24 Mar 2021 14:35:22 -0700 (PDT)
+Message-ID: <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] util-linux.inc: Set the correct license for util-linux-libuuid again
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Yi Fan Yu <yifan.yu@windriver.com>, 
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
 	openembedded-core@lists.openembedded.org
-Cc: oobitots <oobitots@cisco.com>
-Date: Wed, 24 Mar 2021 21:33:00 +0000
-In-Reply-To: <20210323205029.87251-1-yifan.yu@windriver.com>
-References: <20210323205029.87251-1-yifan.yu@windriver.com>
+Date: Wed, 24 Mar 2021 21:35:22 +0000
+In-Reply-To: <20210324191508.8400-1-pkj@axis.com>
+References: <20210324191508.8400-1-pkj@axis.com>
 User-Agent: Evolution 3.39.2-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-03-23 at 13:50 -0700, Yi Fan Yu wrote:
-> Notable changes:
-> * libdir is now libexecdir
+On Wed, 2021-03-24 at 20:15 +0100, Peter Kjellerstedt wrote:
+> LICENSE_${PN}-libuuid was not updated when libuuid was moved to the
+> util-linux-uuid recipe. Use LICENSE_${BPN}-libuuid instead as BPN is
+> set to "util-linux" for both util-linux and util-linux-uuid.
 > 
-> Added patches:
-> Add musl.supp: missing musl.supp in 3.17.0
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Dropped backport patches:
-> * nlcontrolc: found in c79180a3afcf65902e578646c3b716cc749db406
-> * drd Fedora33: found in 15330adf7c2471fbaa6a0818db07078d81dbff97
-> 
-> Other dropped patches
-> * helgrind intercept: found in d2d54dbcc74244adfc0c80b40862edf2b82f53b9
-> * drd musl fix: found in d2d54dbcc74244adfc0c80b40862edf2b82f53b9
-> 
-> TESTING RESULTS:
-> qemux86-64:
-> FAIL: drd/tests/swapcontext
-> 
->       3.17.0  3.16.1
-> ===================
-> TOTAL:  736    726
-> PASSED: 694    688
-> FAILED:   1      0
-> SKIPPED: 41     38
-> 
-> Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index 4031c586c9..bb93eb67d6 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -7,11 +7,11 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+>  SECTION = "base"
+>   LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> -LICENSE_${PN}-libblkid = "LGPLv2.1+"
+> -LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+> -LICENSE_${PN}-libmount = "LGPLv2.1+"
+> -LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+> -LICENSE_${PN}-libuuid = "BSD-3-Clause"
+> +LICENSE_${BPN}-libblkid = "LGPLv2.1+"
+> +LICENSE_${BPN}-libfdisk = "LGPLv2.1+"
+> +LICENSE_${BPN}-libmount = "LGPLv2.1+"
+> +LICENSE_${BPN}-libsmartcols = "LGPLv2.1+"
+> +LICENSE_${BPN}-libuuid = "BSD-3-Clause"
 
-This seems to break valgrind's reproducibility:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/115/builds/125
-https://autobuilder.yoctoproject.org/typhoon/#/builders/116/builds/126
-(some issue in the ptest package)
+How was this tested? This will not work for multilibs or nativesdk.
 
 Cheers,
 
