@@ -1,88 +1,99 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.155.1616625982985394305
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.60.1616626650540817691
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 15:46:23 -0700
+ Wed, 24 Mar 2021 15:57:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=by5u4O65;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id v4so348211wrp.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 15:46:22 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=QliZnA1A;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=nIlz/Sec1yusWOCZ4SQJFvhgL47u2O3R1+15JGxtcRk=;
-        b=by5u4O650ndHfi1XE6jBgMaXb1cyrh/TEWqH7HvlCMhpbAtmOMlAa5Kv5VI7o2PVOI
-         LtxazXlbkT+IbElk9tXMBw9rmeEMYKAiZYn5rXiL/QjmM3PC2ckGPXvrRFIl0o5XQrGX
-         B6ZCbbKw4XckXlc5UGZCLEqOm6erk1BHZpiAg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=nIlz/Sec1yusWOCZ4SQJFvhgL47u2O3R1+15JGxtcRk=;
-        b=Db3beD6fTmmis2SPIdAy4oPnLhJ25+ts8Ooq4kCm+0TcLQzJJIB5fV/cQb2oXWUama
-         8nivME2hFMLF5+wl9wc4CG+HszKDnXpLutwqpbuKfkEe6rNGcem8L+rYnMcgKLlSJt7+
-         ZU0S91hZtGuuqy9O/oK2PT73Jw2gaRvE0vtcS2/TDYwVg3M4eRv5JN1P9yz54F2dAYAq
-         /1mo7W6gfN+NUw8FWb2wTP4p5nASdwXx/WIFHk3icPablxpC9Jw3sa7G3PWez53SkZP2
-         Q1LGkm5Zi9BxRgm5B5VZTIr4zRpwUGn6sbc7xJbRcLvwDl6pUykYp1UtIiIpZy15R80w
-         rxBA==
-X-Gm-Message-State: AOAM530ItlzkTg9SdbMRmCKeSZylg1efKWLrCsmwzM5AKxP3EnfrOdb9
-	mtERSI2SLjJv6qIePa1RHc/OiQ==
-X-Google-Smtp-Source: ABdhPJwv5lxKX1Edg8RRVQIecY5HW4vMA0zkfgs+5UzrXVO0NmL2eiMhYp+TfnloCW69fVlvgaq57w==
-X-Received: by 2002:a5d:54c4:: with SMTP id x4mr5652125wrv.329.1616625981301;
-        Wed, 24 Mar 2021 15:46:21 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6a6e:24cd:b165:9075? ([2001:8b0:aba:5f3c:6a6e:24cd:b165:9075])
-        by smtp.gmail.com with ESMTPSA id h21sm3838638wmp.10.2021.03.24.15.46.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 15:46:21 -0700 (PDT)
-Message-ID: <17537f6de5412295e31f8130acb0aec0e4fdebf7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] util-linux-uuid: include /usr/lib/debug in FILES_util-linux-libuuid-dbg
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Bocassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: scott.branden@broadcom.com
-Date: Wed, 24 Mar 2021 22:46:20 +0000
-In-Reply-To: <20210324170722.566059-1-luca.boccassi@gmail.com>
-References: <20210324170722.566059-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.39.2-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616626651;
+  x=1648162651;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=YE8R++sHeTQNk03wDral6sCVOjfAPhURTXCKjkgyQ68=;
+  b=QliZnA1ARSBVXHopVw/0rVxyD/0QYwxsx8Q1OEwmDVqFCc6Tej8Qihu2
+   C/YbEIMfo2sheiNnhIlDM95LHej7HcWDCI6VvWldHyPcJvvowmpbaNKCo
+   XBGmvl3cZjl9nopfBQR5k0q7wTvTNtA6ekNGGsbGKrZy1WZreJeKdThhr
+   bgq3XNRvk/l9o139MaU4BQVLx7ldnas0SzbuzI5lGf9q0VowFN2wDdxTy
+   nuoKhjZ7N2CPoobDu5apqna1nA3xeE1+Dv0EtTM6ZNmlobkTamxCbIXa6
+   99aDxl2Ys9ZR9rzGbTkP/Lk+AlJDj3H6tAhGWh6y8DjS4iafWZYXgKnqn
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] util-linux.inc: Set the correct license for util-linux-libuuid again
+Thread-Topic: [OE-core] [PATCH] util-linux.inc: Set the correct license for
+ util-linux-libuuid again
+Thread-Index: AQHXIPWYkE3caF8rUUquD+ptRz4OM6qTtrRg///z5ICAABTxcA==
+Date: Wed, 24 Mar 2021 22:57:18 +0000
+Message-ID: <cbc8dc20a56044eeaa5afa95e63fbb8d@XBOX03.axis.com>
+References: <20210324191508.8400-1-pkj@axis.com>
+	 <daec4eaf8dce63a70617a4a70b87e33b230f9462.camel@linuxfoundation.org>
+	 <47b4399805074e89a13de8af539c4448@XBOX03.axis.com>
+ <421058e01619ff5cf6e22fccc814ed3ff787aaa9.camel@linuxfoundation.org>
+In-Reply-To: <421058e01619ff5cf6e22fccc814ed3ff787aaa9.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 2021-03-24 at 17:07 +0000, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> Apparently some users have /usr/lib/debug instead of /usr/lib/.debug
-> so add it to the FILES matching.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
->  meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-> index 65e4d23b7e..1ff37a4dcb 100644
-> --- a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-> +++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-> @@ -11,7 +11,7 @@ PACKAGES = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-staticd
->  FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
->  FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${includedir} ${libdir}/pkgconfig"
->  FILES_util-linux-libuuid-staticdev = "${libdir}/libuuid.a"
-> -FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug"
-> +FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug ${libdir}/debug"
-
-Is there a reason the recipe is called "util-linux-uuid" yet it wants 
-to be "util-linux-libuuid"? I suspect if we can rename it, some of
-this juggling goes away. 
-
-Ideally recipes shouldn't be needing to override the defaults for 
-PACKAGES and FILES. I just tried a test build with a lot of this stripped
-away and its seeing issues with the -dev package but even adding an
-RPROVIDES for that would be better than all the above overrides...
-
-Cheers,
-
-Richard
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI0IG1hcnMgMjAy
+MSAyMzo0MA0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdXRpbC1saW51eC5pbmM6IFNldCB0aGUgY29y
+cmVjdCBsaWNlbnNlIGZvcg0KPiB1dGlsLWxpbnV4LWxpYnV1aWQgYWdhaW4NCj4gDQo+IE9uIFdl
+ZCwgMjAyMS0wMy0yNCBhdCAyMjozOCArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0K
+PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVy
+ZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+ID4gU2VudDogZGVu
+IDI0IG1hcnMgMjAyMSAyMjozNQ0KPiA+ID4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIu
+a2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdXRp
+bC1saW51eC5pbmM6IFNldCB0aGUgY29ycmVjdCBsaWNlbnNlDQo+IGZvcg0KPiA+ID4gdXRpbC1s
+aW51eC1saWJ1dWlkIGFnYWluDQo+ID4gPg0KPiA+ID4gT24gV2VkLCAyMDIxLTAzLTI0IGF0IDIw
+OjE1ICswMTAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gPiA+IExJQ0VOU0VfJHtQ
+Tn0tbGlidXVpZCB3YXMgbm90IHVwZGF0ZWQgd2hlbiBsaWJ1dWlkIHdhcyBtb3ZlZCB0byB0aGUN
+Cj4gPiA+ID4gdXRpbC1saW51eC11dWlkIHJlY2lwZS4gVXNlIExJQ0VOU0VfJHtCUE59LWxpYnV1
+aWQgaW5zdGVhZCBhcyBCUE4gaXMNCj4gPiA+ID4gc2V0IHRvICJ1dGlsLWxpbnV4IiBmb3IgYm90
+aCB1dGlsLWxpbnV4IGFuZCB1dGlsLWxpbnV4LXV1aWQuDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25l
+ZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29t
+Pg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gwqBtZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0
+aWwtbGludXguaW5jIHwgMTAgKysrKystLS0tLQ0KPiA+ID4gPiDCoDEgZmlsZSBjaGFuZ2VkLCA1
+IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jDQo+IGIvbWV0
+YS9yZWNpcGVzLQ0KPiA+ID4gY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jDQo+ID4gPiA+
+IGluZGV4IDQwMzFjNTg2YzkuLmJiOTNlYjY3ZDYgMTAwNjQ0DQo+ID4gPiA+IC0tLSBhL21ldGEv
+cmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC5pbmMNCj4gPiA+ID4gKysrIGIvbWV0
+YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYw0KPiA+ID4gPiBAQCAtNywx
+MSArNywxMSBAQCBkaXNrIHBhcnRpdGlvbmluZywga2VybmVsIG1lc3NhZ2UgbWFuYWdlbWVudCwN
+Cj4gPiA+IGZpbGVzeXN0ZW0gY3JlYXRpb24sIGFuZCBzeXN0ZW0gbG8NCj4gPiA+ID4gwqBTRUNU
+SU9OID0gImJhc2UiDQo+ID4gPiA+IMKgwqBMSUNFTlNFID0gIkdQTHYyKyAmIExHUEx2Mi4xKyAm
+IEJTRC0zLUNsYXVzZSAmIEJTRC00LUNsYXVzZSINCj4gPiA+ID4gLUxJQ0VOU0VfJHtQTn0tbGli
+YmxraWQgPSAiTEdQTHYyLjErIg0KPiA+ID4gPiAtTElDRU5TRV8ke1BOfS1saWJmZGlzayA9ICJM
+R1BMdjIuMSsiDQo+ID4gPiA+IC1MSUNFTlNFXyR7UE59LWxpYm1vdW50ID0gIkxHUEx2Mi4xKyIN
+Cj4gPiA+ID4gLUxJQ0VOU0VfJHtQTn0tbGlic21hcnRjb2xzID0gIkxHUEx2Mi4xKyINCj4gPiA+
+ID4gLUxJQ0VOU0VfJHtQTn0tbGlidXVpZCA9ICJCU0QtMy1DbGF1c2UiDQo+ID4gPiA+ICtMSUNF
+TlNFXyR7QlBOfS1saWJibGtpZCA9ICJMR1BMdjIuMSsiDQo+ID4gPiA+ICtMSUNFTlNFXyR7QlBO
+fS1saWJmZGlzayA9ICJMR1BMdjIuMSsiDQo+ID4gPiA+ICtMSUNFTlNFXyR7QlBOfS1saWJtb3Vu
+dCA9ICJMR1BMdjIuMSsiDQo+ID4gPiA+ICtMSUNFTlNFXyR7QlBOfS1saWJzbWFydGNvbHMgPSAi
+TEdQTHYyLjErIg0KPiA+ID4gPiArTElDRU5TRV8ke0JQTn0tbGlidXVpZCA9ICJCU0QtMy1DbGF1
+c2UiDQo+ID4gPg0KPiA+ID4gSG93IHdhcyB0aGlzIHRlc3RlZD8gVGhpcyB3aWxsIG5vdCB3b3Jr
+IGZvciBtdWx0aWxpYnMgb3IgbmF0aXZlc2RrLg0KPiA+DQo+ID4gV2VsbCwgd2UgZG9uJ3QgdXNl
+IGVpdGhlciwgc28gb2J2aW91c2x5IEkgb25seSB0ZXN0ZWQgYnVpbGRpbmcgZm9yDQo+ID4gdGFy
+Z2V0LiBIb3dldmVyLCBJIGJlbGlldmUgaXQgc2hvdWxkIHdvcmsuIEF0IGxlYXN0IGBiaXRiYWtl
+IC1lDQo+ID4gbmF0aXZlc2RrLXV0aWwtbGludXgtdXVpZGAgc2hvd3MgdGhlIGV4cGVjdGVkIHZh
+bHVlIGZvcg0KPiA+IExJQ0VOU0VfbmF0aXZlc2RrLXV0aWwtbGludXgtbGlidXVpZC4NCj4gPg0K
+PiA+IE5vdGUgdGhhdCBCUE4gaXMgZXhwbGljaXRseSBzZXQgaW4gdGhlIHV0aWwtbGludXguaW5j
+IGZpbGUgdG8NCj4gPiAidXRpbC1saW51eCIsIHNvIHRoZSBkZWZpbml0aW9ucyBhYm92ZSBzaG91
+bGQgYmUgbm8gZGlmZmVyZW50IHRoYW4NCj4gPiBpZiBJIGhhZCB1c2VkIExJQ0VOU0VfdXRpbC1s
+aW51eC1saWJ1dWlkID0gIkJTRC0zLUNsYXVzZSINCj4gPiBPciBhbSBJIG1pc3Npbmcgc29tZXRo
+aW5nPw0KPiANCj4gSXQgbWF5IGZpeCBsaWJ1dWlkIGJ1dCBJIHRoaW5rIGl0IHdpbGwgYnJlYWsg
+bGliYmxraWQgYW5kIHRoZSBvdGhlcnMuDQoNCkFGQUlDVCwgaXQgbG9va3MgY29ycmVjdCB3aGVu
+IEkgdHJ5IGBiaXRiYWtlIC1lIHV0aWwtbGludXhgIGFuZA0KYGJpdGJha2UgLWUgbmF0aXZlc2Rr
+LXV0aWwtbGludXhgLg0KDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQo=
