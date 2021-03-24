@@ -1,120 +1,102 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.225.1616596819770595350
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web12.192.1616596822093295201
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 07:40:19 -0700
+ Wed, 24 Mar 2021 07:40:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=D136UuYx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id m7so14776464pgj.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=psT5anwX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id v10so566587pgs.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 07:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=oPvq/qpgmHKi89ZOguf9fHa2YpYD6qTDSFiKIyM2HkI=;
-        b=D136UuYxzfFA361T780vpWaxZT3cnNWIoACrcqN4JVIt+Qpi+kUxw13TeH6VnC+HNZ
-         Y9FoI6B3JZOX4ea36BsFyChlrEIzcsuDlmoOd9QoKD265ukSKXiMOE0+DdwkAoVl+RBQ
-         0yJT+vSvg8JugUUJZfFm5Dk1uwO2xTejQnMqdtRiKYZpqoimsB6NT9JiJwSTplc+5UnK
-         vMXE6B6dR3IhbEF0houlcwNF20aJh89N1Nn8MGGamS2+PWXc1qFMnH/gRchsOP6Z8p9G
-         RJljrMAeR5pJcc8/jYaWqDmTNYl0BkxCG4jkRmff96Z0oZ0pYR5yPrNO+XwSVqEXMBSU
-         VJwg==
+        bh=Oecx9prKsnkaNJjvfO7c1/HOw2Jn3+zR0GwTIpRb7To=;
+        b=psT5anwXi57ZdXzRUazj8nnM43sECizODu5Hxg3M+3pL4+prxxfpeANCHZHOMoEkRE
+         OY81qDA3stt2IXjecKoKVaQz7gGaEvhtwyMSaQcR4OYggJu4WzIeTWUFm0/xw5dA9UQb
+         bIemMY+KAXmbl2rcSDPtFw8g9Dw8Sl1UMYDVW3rTqDcPsm9Q415nSGweQfZcMrgn8vzj
+         BigIDdr2LE17hnxU0hzvg1KY5l+V8fUAc5dq0KT+pDmlII/5grNPE3hWjrNPhzNmZBCb
+         vzCfQMqpiXpqU/NNm9DL47MeLY+As8T65V88otKW7kEh6YXFfxxVKkQFQDKtJ+WeTU2m
+         HbSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oPvq/qpgmHKi89ZOguf9fHa2YpYD6qTDSFiKIyM2HkI=;
-        b=X3TfUBzFBuMW1G9Q3maYfc6v3iAC+qO40mELkIT8UtyWs2er+zCdQ4OIkDWm4MiYBN
-         eb0OsK+efcxtTu0O2uFakv/Drua28sTwdeOHGWLVpH8+HzHlcvtoS5l9yLpw5fagnFBc
-         5OiZhGqgb08DZSi7mE9G8RgzXMSSVU+3tBiyUEk6SF7ygAS925ENp4ywt6gfxp+/dmU2
-         +rb51eXyTRRWoCbDMbnPP5OrZLfSAmLfqT12un4cwPPgn/7qQNgsXT0QnsOXAcJKah09
-         zwbL2LsVlxTxv6ZYDn9KUNMPuBNBHKQ814vwEOuMoYHvqldUNOMwtixCKwZHkBs1GK+F
-         f4Tg==
-X-Gm-Message-State: AOAM531ZrZAOh0Sq7F8y6SBXsROLuuMuMmeLcUqbobOkROmgVEEHuAbA
-	xgtL/zh4nruchas4sWuo1PRuvK5yaoEYOGp/
-X-Google-Smtp-Source: ABdhPJyVgCJp24Ck8eeQZ1n8biqEJKqITCBPiasZzV1VxOuh8usH2YGrjIfILw+laOVnTP/yBSxjnQ==
-X-Received: by 2002:aa7:808b:0:b029:1ce:8a32:f5e8 with SMTP id v11-20020aa7808b0000b02901ce8a32f5e8mr3443332pff.34.1616596818725;
-        Wed, 24 Mar 2021 07:40:18 -0700 (PDT)
+        bh=Oecx9prKsnkaNJjvfO7c1/HOw2Jn3+zR0GwTIpRb7To=;
+        b=a2DpNyQLP9O4mAuLFWTRzpgDoImnVRibDbLHKKjnYU/+IGvpX+JO9BsRivh7Psf6Ub
+         KqOU4yhqMYksUYlba4CO6A0/rKTKSnJlSBPdA2Y8Ow8saQac+i7JDt230p3BU4bJCCHz
+         Uz8Wh3qBSIiBRXk8ET3dgChm6muwCqw9miVqWi/0OYS8mCY2KEmsRjs7bHBIsOCgiLSV
+         2xfoxoxtu4fWViS8jfJVOUKxvfIiSlJIw9r75oerKY34x/W3HE0125uVJf1yUGKh6fPW
+         Lj96QfVf6voQG8IeC9kxPNCXpJR/LNubTK1FRLmTt/gq5mC3NCF1hOBhwaMxc3uTGgf3
+         siwQ==
+X-Gm-Message-State: AOAM5337vQ6vlrs5n1YOm067buFU5TigV+q5IwQ8+KQtNFv1gJEmk3S0
+	Bk1iftpAVc4yeVmsaSKjlZkVfdCFryPs4aLh
+X-Google-Smtp-Source: ABdhPJwKhCF23Uqbr8eJNQ6nqW+FNGvCod6yxjPGGz7+oaZ00yTeocbC8iCIY7QMB3F6V3g7h1rkHg==
+X-Received: by 2002:aa7:86d9:0:b029:1ef:4f40:4bba with SMTP id h25-20020aa786d90000b02901ef4f404bbamr3487363pfo.54.1616596820893;
+        Wed, 24 Mar 2021 07:40:20 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.40.17
+        by smtp.gmail.com with ESMTPSA id w17sm2705806pgg.41.2021.03.24.07.40.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 07:40:18 -0700 (PDT)
+        Wed, 24 Mar 2021 07:40:20 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 19/21] linux-dummy: add empty dependent packages
-Date: Wed, 24 Mar 2021 04:39:14 -1000
-Message-Id: <9d166adde55ce8f0ba60c37c0679a99c947b2779.1616596544.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 20/21] selftest/wic: Fix dependency issue in rawcopy test
+Date: Wed, 24 Mar 2021 04:39:15 -1000
+Message-Id: <d30a90062e29a3069f6e8d9f6d4eadd7a48adf4f.1616596544.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1616596544.git.steve@sakoman.com>
 References: <cover.1616596544.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Li Wang <li.wang@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-some kernel includes kernel-image-image and kernel-devicetree packages.
-these patckages are defined in kernel.bbclass
-but, when use linux-dummy, these packages are not defined.
-so, define them as empty packages for avoiding compile error:
+The current test code contains a subtle race. It is building an ext4,
+then trying to reuse that image in a wic build for the same recipe.
+Whilst this happened to work, the code is within its rights to clean
+up the output before the wic code runs.
 
-ERROR: Nothing RPROVIDES 'kernel-devicetree'
+Avoid this by using separate image targets instead.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8dbae2dd5ac3de629957ca699f823f5438e80163)
+(cherry picked from commit 590398080e81fb5e2f81e12b8900858837dfe25f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/linux-dummy.bbclass         | 26 ++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-dummy.bb |  2 +-
- 2 files changed, 27 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/linux-dummy.bbclass
+ meta/lib/oeqa/selftest/cases/wic.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/linux-dummy.bbclass b/meta/classes/linux-dummy.bbclass
-new file mode 100644
-index 0000000000..cd8791557d
---- /dev/null
-+++ b/meta/classes/linux-dummy.bbclass
-@@ -0,0 +1,26 @@
-+
-+python __anonymous () {
-+    if d.getVar('PREFERRED_PROVIDER_virtual/kernel') == 'linux-dummy':
-+        # copy part codes from kernel.bbclass
-+        kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-+
-+        # set an empty package of kernel-devicetree
-+        d.appendVar('PACKAGES', ' %s-devicetree' % kname)
-+        d.setVar('ALLOW_EMPTY_%s-devicetree' % kname, '1')
-+
-+        # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
-+        type = d.getVar('KERNEL_IMAGETYPE') or ""
-+        alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-+        types = d.getVar('KERNEL_IMAGETYPES') or ""
-+        if type not in types.split():
-+            types = (type + ' ' + types).strip()
-+        if alttype not in types.split():
-+            types = (alttype + ' ' + types).strip()
-+
-+        # set empty packages of kernel-image-*
-+        for type in types.split():
-+            typelower = type.lower()
-+            d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
-+            d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
-+}
-+
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 95dc85ff2f..c56f8990de 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 0435aa29c9..f7abdba015 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -905,14 +905,18 @@ class Wic2(WicTestCase):
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     def test_rawcopy_plugin_qemu(self):
+         """Test rawcopy plugin in qemu"""
+-        # build ext4 and wic images
+-        for fstype in ("ext4", "wic"):
+-            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n' % fstype
+-            self.append_config(config)
+-            self.assertEqual(0, bitbake('core-image-minimal').status)
+-            self.remove_config(config)
++        # build ext4 and then use it for a wic image
++        config = 'IMAGE_FSTYPES = "ext4"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
  
- PROVIDES += "virtual/kernel"
- 
--inherit deploy
-+inherit deploy linux-dummy
- 
- PACKAGES_DYNAMIC += "^kernel-module-.*"
- PACKAGES_DYNAMIC += "^kernel-image-.*"
+-        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_rawcopy_plugin.wks.in"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal-mtdutils').status)
++        self.remove_config(config)
++
++        with runqemu('core-image-minimal-mtdutils', ssh=False, image_fstype='wic') as qemu:
+             cmd = "grep sda. /proc/partitions  |wc -l"
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
 -- 
 2.25.1
 
