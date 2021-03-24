@@ -1,106 +1,80 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web12.3294.1616578028527859819
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.3309.1616578910244102662
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 02:27:08 -0700
+ Wed, 24 Mar 2021 02:41:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:57332 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lOzn8-002uAB-5L
-	for openembedded-core@lists.openembedded.org; Wed, 24 Mar 2021 05:27:07 -0400
-Date: Wed, 24 Mar 2021 05:27:03 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: looking for advice on "pseudo abort" incident
-Message-ID: <d533cfa6-722d-7cae-fa74-40309aacee1d@crashcourse.ca>
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=2FBwQHTv;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.46, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f46.google.com with SMTP id d191so12499108wmd.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Mar 2021 02:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=btTtn7hDaWt6iW4ENWKtJUHdq3iOb+5jnQsLVqGKHoA=;
+        b=2FBwQHTvgVJhAAxek3sMlq42d6ADF50ZNC6pzBeB8hI5pulv5sFf2z+3JXEXKBhOj8
+         nuOLFs2iMiSExZMUlw2cmMTBC94zuZb55h5GE/e2KNNoHVG0mOxidsPe8aRjg5Y4mCtZ
+         JW4xIxNkoSUW9QRAF/s0G5nJmJN9J+cS+v7hs5rSL45HeueRiw8DSWgGfddcWR+pZE+6
+         46nAxv/L+6yQ9soH9aIrO7BLbNs501707R4eM8H6nDX6TDZav2WFYhR0tcO6aQfdjkve
+         S6xQf8T+cf5IEemuZZ5ME6CT0TbteePgXjcCPEuWkCI57jgKumPNltvWrar5cjupC983
+         8kzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=btTtn7hDaWt6iW4ENWKtJUHdq3iOb+5jnQsLVqGKHoA=;
+        b=JN15sZXwsOUMBuI/fGoo8qGcvdR0Mgt2wXbdNU/3NkTZrgNgGZsN4hMDfgiUoBWfm1
+         nWwyXsgeyZVsPgoZSw3Gw5C2hR5OLEv6ubutdg67OujnxsQcA7nGcbhYv+hhEm8l6gJe
+         bKQG/JE8E1J00OI/WOvIwVWcJigusbGQWAMnQSOw4GqEqy1BK/bhd3b+4GZTu8wHLjGt
+         lWEie0dnhdwl2z6vPLpeTzWNX2vLXkSSUEnHjxrs8l0YJCsrsklMYYQVqJ+3wEB1l0mn
+         RtNuwoR4mV0q3OtoB9FIpAbtxQcFZPjrRxoDCxQE7YVgFV7+1fxMfJT9GjU9KQf7ji6N
+         J6ew==
+X-Gm-Message-State: AOAM532RtzZYNjnTMWcDGPcmUcBHuK8iHg+DajKhbKRKbEKzkEoN87gE
+	qDJAe1dn6Wt2pk9mbjOs4cMY0J6tWdfkx6cF5cjFgg==
+X-Google-Smtp-Source: ABdhPJxXVwbxGBKcUAIbU7+V3NVk2fksuP2RKch03v8BjKXC7JYR+rv9RDYZd8h2/M2w2/IAbnKtA5YdzNzGgeKY9aU=
+X-Received: by 2002:a1c:2155:: with SMTP id h82mr2043298wmh.169.1616578908488;
+ Wed, 24 Mar 2021 02:41:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+References: <20210323212814.567119-1-ross.burton@arm.com> <CAJ86T=UsfzS0KMHVpyXkeL3aio9mU-9hszabKq56EBeZ+RxEuw@mail.gmail.com>
+In-Reply-To: <CAJ86T=UsfzS0KMHVpyXkeL3aio9mU-9hszabKq56EBeZ+RxEuw@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 24 Mar 2021 09:41:37 +0000
+Message-ID: <CAAnfSTuPcUV3FSThU_Zbs2Bn2vKJykFboGmiH+ZsOAHvj2VP0w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] bitbake.conf: ensure BUILD_* tools match target tools
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 23 Mar 2021 at 21:53, Andre McCurdy <armccurdy@gmail.com> wrote:
+> > @@ -541,7 +541,10 @@ export BUILD_AR = "${BUILD_PREFIX}ar"
+> >  export BUILD_AS = "${BUILD_PREFIX}as ${BUILD_AS_ARCH}"
+> >  export BUILD_RANLIB = "${BUILD_PREFIX}ranlib"
+> >  export BUILD_STRIP = "${BUILD_PREFIX}strip"
+> > +export BUILD_OBJCOPY = "${BUILD_PREFIX}objcopy"
+> > +export BUILD_OBJDUMP = "${BUILD_PREFIX}objdump"
+> >  export BUILD_NM = "${BUILD_PREFIX}nm"
+> > +export BUILD_READELF = "${BUILD_PREFIX}readelf"
+>
+> Do these new variables need to be exported?
+>
+> As far as I remember a few of the BUILD_xxx variables are "official"
+> autotools variables which some autotools packages may expect to find
+> in the environment (although googling now doesn't find any
+> references).
+>
+> If so then the rest (i.e. most of them, and certainly these newly
+> added ones) are OE specific and only used in OE recipes and classes...
+> and therefore don't need to be exported here.
 
-  actually a 2-part post, so bear with me, the first part is not all
-that exciting.
+It was all in the name of consistency.
 
-  continuing my travels through a proprietary layer i've been handed,
-i can across a recipe that redefined its PACKAGES in an obviously
-strange way:
+The Meson cross-file sets readelf, so to mirror the new native-file
+also sets readelf.  There wasn't a BUILD_READELF and if someone is
+changing BUILD_CC there's a good chance they'll be changing the entire
+toochain, so I added any missing entries.
 
-  # Packages to consider
-  PACKAGES = "${PN} ${PN}-dbg ${PN}-dev ${PN}-staticdev"
+Yes, BUILD_* are effectively OE-specific so we could unexport the
+entire set.  I'd prefer to do that than have some exported and some
+not.
 
-  # Files to add into the packages
-  FILES_${PN} += "${libdir}/lib*.so* ${bindir}/* ${datadir}/*"
-  FILES_${PN}-dbg += "${libdir}/.debug/* ${bindir}/.debug/*"
-  FILES_${PN}-staticdev += "${libdir}/*.a"
-  FILES_${PN}-dev += "${includedir}"
-  FILES_${PN} += "/data"
-  FILES_${PN} += "/data/config"
-  FILES_${PN} += "/data/etc"
-  # Produce package even if it is empty.
-  ALLOW_EMPTY_${PN} = "1"
-
-ignoring the obvious weirdness of adding hard-coded host paths to the
-package definitions, it struck me that it was overkill to entirely
-redefine the PACKAGES variable. it seems to me that the stock
-bitbake.conf already does a good job of defining the standard package
-partitioning, starting with:
-
-PACKAGE_BEFORE_PN ?= ""
-PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-PACKAGES_DYNAMIC = "^${PN}-locale-.*"
-FILES = ""
-
-FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/*
-${libdir}/lib*${SOLIBS} \
-            ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-            ... snip ...
-
-so, sure, lots of recipes might *tweak* the package definitions from
-what they are, but it seems that it should be rare to totally toss the
-initial definition of PACKAGES, and redefine it from scratch,
-especially when it seems that the new definition isn't really all that
-different from what you see in bitbake.conf. so my next bit of advice
-is going to be, "adjust the recipes's packages, don't redefine them
-from scratch." but here's the bigger issue.
-
-  only hours after i examined that recipe, i got a report of a "pseudo
-abort" error during the build using this layer; something i have
-never, ever seen in any of my builds. that error is explained here:
-
-  https://wiki.yoctoproject.org/wiki/Pseudo_Abort
-
-and opens with:
-
-"Pseudo can suffer from problems where files are created or modified
-in pseudo's fakeroot context, then deleted outside of it. In
-particular, the inode number for that file may be reused. If some
-later access under pseudo uses that inode number, pseudo can see this
-and become confused about whether the files are the same file or not.
-Under older behaviour for pseudo, the modes of the old file may be
-applied to the new one, causing mode permission corruption."
-
-  and what does this have to do with my earlier musings? because,
-coincidentally, this pseudo abort error was generated by exactly the
-same recipe i was talking about above.
-
-  so i'm about to dig into this error (which i have never seen
-before), but could the cause be the hard-coding of host paths being
-added to some of the recipe's packages? that is, is it possible that,
-in the midst of processing that recipe, the host paths are being
-modified on the fly by someone or something else, thereby causing this
-error? or is that something i can discount entirely? just looking for
-any guidance to speed up the debugging.
-
-rday
+Ross
