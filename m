@@ -1,115 +1,143 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.713.1616629923407514924
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web09.1193.1616631475259266827
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 16:52:03 -0700
+ Wed, 24 Mar 2021 17:17:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=howzIV89;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616629923;
-  x=1648165923;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pe0nLEejBRogN7w8rWUF3yGjYddcy+SIuzY4NrYqZYA=;
-  b=howzIV897RrDMbz0Mq194jxupQnxoNM+jIYDuh5oZZI2unl1+rprzZMe
-   8YPUStiaIByKEBK4KVav1OnCz8jtgdAkG5ozw39tyawMUmsBnJ+WHb/i8
-   pegyDfb+jv17ZyuX0oZVL+KT+7V4EveTxAT0ynefRrtZpF10i2GfpSWwg
-   7xxQJ2GkalswIWCF3pEpM0adUJY7RM0CEjMFizYVnlAtPh9RUzvY9s3mB
-   I9u90bB3DyUMDqdomA8nMpI+BMWcH5f69ePbUutFW/3AoBqxi35sl0QU4
-   17X1R+5qAgvXwdfzEd5ZA9lcedaejNYKAaocfTORDSlPea7H54yTnm5IG
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] util-linux, util-linux-uuid: Move license information to the recipes
-Date: Thu, 25 Mar 2021 00:49:42 +0100
-Message-ID: <20210324234942.1218-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: ECmNKnmPJy3ZyNhLHIZGWbINrX8Zyf4lHLa0JuaF3xHZY3zom6Y87k2Qjh8xaG1F+bAJRLO27h
+ E+poiNh+YyyA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170796170"
+X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; 
+   d="scan'208";a="170796170"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 17:17:54 -0700
+IronPort-SDR: FJIG2jMLfh59rxv0T61Rb5nCP+yl7TZtjp08Uj3NpkxY/exh9yuIS279cLBSruzhLUVipXXZpA
+ /JNcWaqwu/GA==
+X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; 
+   d="scan'208";a="608288070"
+Received: from mohdkuza-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.138.61])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 17:17:53 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/25] pull request (cover letter only)
+Date: Thu, 25 Mar 2021 08:17:48 +0800
+Message-Id: <cover.1616631357.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The license information for util-linux and util-linux-uuid are quite
-different. Move the relevant parts from util-linux.inc to the respective
-recipe.
+Please merge these changes in gatesgarth.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- .../util-linux/util-linux-uuid_2.36.2.bb      |  4 ++++
- meta/recipes-core/util-linux/util-linux.inc   | 20 -------------------
- .../util-linux/util-linux_2.36.2.bb           | 17 ++++++++++++++++
- 3 files changed, 21 insertions(+), 20 deletions(-)
+Thanks,
 
-diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-index 65e4d23b7e..577e55df86 100644
---- a/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.2.bb
-@@ -3,6 +3,10 @@
- 
- require util-linux.inc
- 
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
-+                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af"
-+
- inherit autotools gettext pkgconfig
- 
- S = "${WORKDIR}/util-linux-${PV}"
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 4031c586c9..0f50c7f66f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -6,26 +6,6 @@ disk partitioning, kernel message management, filesystem creation, and system lo
- 
- SECTION = "base"
- 
--LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
--LICENSE_${PN}-libblkid = "LGPLv2.1+"
--LICENSE_${PN}-libfdisk = "LGPLv2.1+"
--LICENSE_${PN}-libmount = "LGPLv2.1+"
--LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
--LICENSE_${PN}-libuuid = "BSD-3-Clause"
--
--LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
--                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
--                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
--                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
--                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
--                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
--                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--"
--
- FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
- MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- BPN = "util-linux"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-index 50a70cd452..767d35ccb1 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-@@ -1,5 +1,22 @@
- require util-linux.inc
- 
-+LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-+LICENSE_${PN}-libblkid = "LGPLv2.1+"
-+LICENSE_${PN}-libfdisk = "LGPLv2.1+"
-+LICENSE_${PN}-libmount = "LGPLv2.1+"
-+LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-+                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-+                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
-+                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
-+                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
-+                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+"
-+
- #gtk-doc is not enabled as it requires xmlto which requires util-linux
- inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
- DEPENDS = "libcap-ng ncurses virtual/crypt zlib util-linux-uuid"
+Anuj
+
+The following changes since commit 6311cb4930bd0add7aec61e5e0df6bb7ae0c4481:
+
+  libsdl2: fix CVE-2020-14409 CVE-2020-14410 (2021-03-10 00:24:18 +0000)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Alejandro Hernandez Samaniego (1):
+  devtool: Fix do_kernel_configme task
+
+Anatol Belski (1):
+  glib-2.0: Fix CVE-2021-27219
+
+Anuj Mittal (1):
+  Revert "sstatesig.py: show an error instead of warning when sstate
+    manifest isn't found"
+
+Bruce Ashfield (3):
+  linux-yocto/5.4: update to v5.4.99
+  linux-yocto/5.4: update to v5.4.101
+  linux-yocto/5.4: update to v5.4.103
+
+Chen Qi (2):
+  python3-jinja2: set CVE_PRODUCT
+  populate_sdk_ext: record METADATA_REVISION
+
+Jon Mason (1):
+  runqemu: use "raw" instead of "bin" for ovmf
+
+Martin Jansa (1):
+  iso-codes: fix protocol in SRC_URI
+
+Mike Crowe (1):
+  gcc-sanitizers: Move content from gcclibdir into libdir
+
+Minjae Kim (1):
+  qemu: fix CVE-2021-20203
+
+Purushottam Choudhary (1):
+  shadow: whitelist CVE-2013-4235
+
+Richard Leitner (1):
+  xcb-proto: update to 1.14.1
+
+Richard Purdie (6):
+  libsecret: Improve determimism
+  igt-gpu-tools: Fix reproducibility issue
+  apr-util: Fix CFLAGS used in build
+  selftest/reproducible: Don't call sync between each file compare
+  gstreamer1.0-python: Set internal python library path correcty
+  build-appliance-image: Drop kernel module handling
+
+Ross Burton (2):
+  libinput: less parallism to increase chances the test suite works
+  ptest-packagelists: remove libinput-ptest
+
+Stefan Ghinea (1):
+  wpa-supplicant: fix CVE-2021-27803
+
+Stefan Schmidt (1):
+  systemd-conf: do not ask for DHCP if configured on kernel command line
+
+Ulrich Ölmann (1):
+  local.conf.sample: fix typo
+
+ meta/classes/populate_sdk_ext.bbclass         |    3 +
+ .../distro/include/ptest-packagelists.inc     |    2 +-
+ meta/conf/local.conf.sample                   |    2 +-
+ meta/lib/oe/sstatesig.py                      |    2 +-
+ meta/lib/oeqa/selftest/cases/reproducible.py  |    2 +-
+ .../wpa-supplicant/CVE-2021-27803.patch       |   58 +
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |    1 +
+ .../glib-2.0/glib-2.0/CVE-2021-27219.patch    | 1444 +++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb |    1 +
+ .../images/build-appliance-image_15.0.0.bb    |    8 +-
+ .../systemd/systemd-conf/wired.network        |    1 +
+ .../systemd/systemd-conf_246.9.bb             |    3 -
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc  |    7 +-
+ .../python/python3-jinja2_2.11.2.bb           |    2 +
+ meta/recipes-devtools/qemu/qemu.inc           |    1 +
+ .../qemu/qemu/CVE-2021-20203.patch            |   74 +
+ meta/recipes-extended/shadow/shadow_4.8.1.bb  |    5 +-
+ .../libsecret/libsecret/determinism.patch     |   37 +
+ .../libsecret/libsecret_0.20.3.bb             |    3 +-
+ .../igt-gpu-tools/reproducibility.patch       |   38 +
+ .../igt-gpu-tools/igt-gpu-tools_git.bb        |    5 +-
+ .../wayland/libinput/run-ptest                |    2 +-
+ ...{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} |    4 +-
+ .../linux/linux-yocto-rt_5.4.bb               |    6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
+ .../gstreamer/gstreamer1.0-python_1.16.3.bb   |    2 +
+ meta/recipes-support/apr/apr-util_1.6.1.bb    |    2 +
+ .../iso-codes/iso-codes_4.5.0.bb              |    2 +-
+ scripts/lib/devtool/standard.py               |    7 +-
+ scripts/runqemu                               |    2 +
+ 31 files changed, 1713 insertions(+), 43 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
+ create mode 100644 meta/recipes-gnome/libsecret/libsecret/determinism.patch
+ create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
+
+-- 
+2.30.2
+
