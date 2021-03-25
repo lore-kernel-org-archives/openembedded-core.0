@@ -1,23 +1,23 @@
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web09.2066.1616700049549626860
+ by mx.groups.io with SMTP id smtpd.web11.2206.1616700057500836893
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 12:20:50 -0700
+ Thu, 25 Mar 2021 12:20:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
 Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.89)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1lPVX9-0006rP-Rs; Thu, 25 Mar 2021 21:20:45 +0200
+	id 1lPVXK-0006tT-U5; Thu, 25 Mar 2021 21:20:55 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1lPVX9-0000e8-QQ; Thu, 25 Mar 2021 21:20:43 +0200
+	id 1lPVXK-0000no-SP; Thu, 25 Mar 2021 21:20:54 +0200
 From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@bmw.de>
-Subject: [PATCH][master] openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
-Date: Thu, 25 Mar 2021 21:20:37 +0200
-Message-Id: <20210325192037.1916-1-mikko.rapeli@bmw.de>
+Subject: [PATCH][gatesgarth][dunfell] openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
+Date: Thu, 25 Mar 2021 21:20:52 +0200
+Message-Id: <20210325192052.2976-1-mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Rspam-Score: 2.3 (++)
@@ -41,7 +41,7 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20210325192037.1916-1-mikko.rapeli@bmw.de
+ Message-ID: 20210325192052.2976-1-mikko.rapeli@bmw.de
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
@@ -60,11 +60,11 @@ diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb b/meta/recipes-
 similarity index 98%
 rename from meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
 rename to meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-index ed6d7e0cd4..e518cb6a02 100644
+index f054d2fdba..5f281197c9 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-@@ -28,7 +28,7 @@ SRC_URI_append_riscv32 = " \
-            file://0004-Fixup-support-for-io_pgetevents_time64-syscall.patch \
+@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
  
 -SRC_URI[sha256sum] = "aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf"
