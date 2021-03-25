@@ -1,112 +1,184 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web12.1421.1616688134422102911
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web09.1412.1616688143760131312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 09:02:14 -0700
+ Thu, 25 Mar 2021 09:02:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pTMvmJfp;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id 7so2253286qka.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 09:02:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fml6o9Qi;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: kergoth@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id h10so2962526edt.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 09:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9Bh/dRSUIC/utGqROe501mglHg2iZcXxhj7Pbhk+K7U=;
-        b=pTMvmJfpichU64QE9AGPUnzcqr/I9IHI+dhgqZq/WuE9bLdxCxpcWo7lf+etnGurfE
-         SuDdUHyNex+/088IBAzkif2lCpOIeq9edGUaZ67sREZwwjt/4gz1tMlfWXGnmQaAlMqu
-         duvIFO7WoDHuDprw6u5USE22peHeIiSRTRyF92ITDr2grZMffU6bCXppEB1MYGrDxpDf
-         h/BJesJ4hkumA3aOTmzU9rf1HR6mI+fjCP4LmZvmf67E1oj4dAJ+HcPguhfzGDFm+IS3
-         yVRCzSfbGw/Nk2gqHeWVqt1J8zxj+UDt7Ta/qKgn7ChaMIGIlP5P7Uw+n80mZR4Fi4uu
-         d/lQ==
+        bh=01BMQWtTDqit/DzN8x1RLfKEdeUDY5eqfghbaboUSic=;
+        b=fml6o9QiKI0fbsDDsXk0YBYZNHrXHjItBCu3qO3zJBmgmA2qWYoSTB2D0xkiRAXyoz
+         pXz6ynA+P91mJPs+6h7km6K6Q7B4d4RkaBNBViVmhDqMpYMYIZW/i1Qj6gOkb2ng0UR3
+         SbsXNduJv4tFXFPMkgmhEpGlH/eD9zuSLyXFHAS5b2811h77q1AEy3PAJDDmaqkHWqwk
+         jGGbzDMcE25mwse2yItNUwSCh8ouw9vI70od5/1Ze/7qb02l0ZfjDqntRIQLHWoLV/fn
+         xFUuvRfEo3lcV0YMiRaE5DzQ2nK5i7d2x+OYK9v7APeUuqAlx976PFudsNaNhFBpTewi
+         3ghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9Bh/dRSUIC/utGqROe501mglHg2iZcXxhj7Pbhk+K7U=;
-        b=mTJsb9d/3dt/JjqUzKxaNuAfppmYeZlfv9vnYimthhB/uPYKUeRfcV5WjSo1Gcly6e
-         184TfM6CR8et/mtcy+hgZ8DRnBHcFU76mdihspa7j7YV7cst6S6yHlk0wh1/mhdr8lt4
-         ErhcIjXwMGqbaKTfug1Lsh1bwU3ljkyfV66oHyJwvFFWroMi+G1+EibcW04Q/Wgo4IAs
-         SRzMpZonH4oZX1RpirqvdHd1ZwRvGifqPftBRrTtLS70sE/Qb+Wt6VuzEwncOrg3B39E
-         p0bFlVrgBcOqoIGhdqM0JYH8PgASIOP9BsCVCPJ9sV/yoQOStRSmAWCTC8Jd1dxNXzHl
-         hMvw==
-X-Gm-Message-State: AOAM530bRIhrdKkx5R9xU/WFJiT//tJO5op8PxF9MBmmGChXBNEbv1dp
-	tdDZ/+ZkywRFl4XrMWLH71ef9245Er7CuGR0p5U=
-X-Google-Smtp-Source: ABdhPJxh1prq6ZpJ/iOnM9rhJ7yqc6Q5mxGU2h2noLmveCyLiH+sh+gVoav15SH8aZurXaiS8h0czZ+wQrNJUksOacM=
-X-Received: by 2002:a05:620a:a12:: with SMTP id i18mr8776893qka.119.1616688133522;
- Thu, 25 Mar 2021 09:02:13 -0700 (PDT)
+        bh=01BMQWtTDqit/DzN8x1RLfKEdeUDY5eqfghbaboUSic=;
+        b=Tib7BPhVU6tGfjK5GgHH9C/wZ3v4nJRB2k8mmOEQxX8faQlHfLDcjzAAvg+j4FslxM
+         sclxxJYa3mZCwU50NxoJW32fhj4bWd5M8d0Fip+Ehrznlrt3VgGifqPym0hjqZfe+CS8
+         cCBlUdlwA4p/wClRBS89ahqutd6ZsNno+Q1izTdiK98HqtRsw5r1wFOD76CqxyobhZD4
+         YC9F+hdAWAekDqSe+jGiuL1ZwGU2qlmitJgOrVSXduFZjhwPLJURWJi0HZG/+q1hrbtJ
+         1xai4insw930azU+ggogUIhs9M9raLjFL/lbUuiq3XVd9kk313aBZTx88IqkQF2duuhq
+         0DnA==
+X-Gm-Message-State: AOAM532JY7EE6CJeP08A8OMJRnrgEeX0knmpyyZSVWrHRIXLT5vEyP/r
+	OTJwO8XUWpU7YzCE5DWiQsNXOQkWXk6NpTyfACM=
+X-Google-Smtp-Source: ABdhPJwoyAufbcdNJCIXQkeJGyDADioFCEss4bPK7scVmEwTYHlPubLGx7pw8w04UmhUBpZm/0V9JGlKjoRDseSKPdM=
+X-Received: by 2002:a05:6402:b31:: with SMTP id bo17mr9786722edb.113.1616688137164;
+ Thu, 25 Mar 2021 09:02:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
- <20210311150959.782186-1-luca.boccassi@gmail.com> <PH0PR11MB49023E90CAB5E58C2B603899D7629@PH0PR11MB4902.namprd11.prod.outlook.com>
- <070d63d34bd6936df1e94c620103e2759dae0427.camel@linuxfoundation.org>
- <5f37ee174e3f45e094ee2bb71c3c0422@XBOX03.axis.com> <85dec47e7a6bf2533fe619fc391915d838e8924e.camel@linuxfoundation.org>
- <c34e80a010fb54e47762534049ff9c80791f0d41.camel@gmail.com>
-In-Reply-To: <c34e80a010fb54e47762534049ff9c80791f0d41.camel@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 25 Mar 2021 09:01:46 -0700
-Message-ID: <CAMKF1srEs0s6=Fp8tkCHkySAsBfL3JA+aq5uq9-9NT5OVjbAxw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-To: Luca Boccassi <luca.boccassi@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC at Cisco)" <oobitots@cisco.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"bluelightning@bluelightning.org" <bluelightning@bluelightning.org>
+References: <429b51e-7cc5-54a7-a28-7e8beab0c77d@crashcourse.ca>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.437c1374-0ed0-4179-b9f8-331319118723@emailsignatures365.codetwo.com>
+ <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.1ce5b84f-c798-4314-b673-c5072a296141@emailsignatures365.codetwo.com>
+ <dc3e6ce6-21fe-729f-63e9-c1b94819a524@topic.nl> <652b28-29c5-4d79-5c77-ac98ed9bd0@crashcourse.ca>
+In-Reply-To: <652b28-29c5-4d79-5c77-ac98ed9bd0@crashcourse.ca>
+From: "Christopher Larson" <kergoth@gmail.com>
+Date: Thu, 25 Mar 2021 09:02:05 -0700
+Message-ID: <CABcZANnDXiUvHmBmcmmiXJs4bW4qQPfqarPF0VWFtFXO5+x0Eg@mail.gmail.com>
+Subject: Re: [OE-core] any *compelling* reasons to whitelist env vars for an OE build?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000020dc1205be5e8a52"
+
+--00000000000020dc1205be5e8a52
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 25, 2021 at 8:45 AM Luca Boccassi <luca.boccassi@gmail.com> wrote:
+Just a quick note that you *can* script config file alterations without
+having to alter files that may be under source control, that's what
+auto.conf is for :)
+
+On Thu, Mar 25, 2021 at 7:51 AM Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+
+> On Thu, 25 Mar 2021, Mike Looijmans wrote:
 >
-> On Thu, 2021-03-25 at 14:27 +0000, Richard Purdie wrote:
-> > On Thu, 2021-03-25 at 14:22 +0000, Peter Kjellerstedt wrote:
-> > > > -----Original Message-----
-> > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Sent: den 25 mars 2021 10:34
-> > > > To: Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC at Cisco)
-> > > > <oobitots@cisco.com>; Luca Bocassi <luca.boccassi@gmail.com>;
-> > > > openembedded-core@lists.openembedded.org
-> > > > Cc: bluelightning@bluelightning.org; Peter Kjellerstedt
-> > > > <peter.kjellerstedt@axis.com>; Khem Raj <raj.khem@gmail.com>
-> > > > Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate
-> > > > recipe to allow bootstrapping
-> > > >
-> > > > On Thu, 2021-03-25 at 09:17 +0000, Oleksiy Obitotskyi -X (oobitots -
-> > > > GLOBALLOGIC INC at Cisco) wrote:
-> > > > > Could you look into this warning.
-> > > > >
-> > > > > WARNING: util-linux-2.36.2-r0 do_package_qa: QA Issue: util-linux-dev
-> > > > rdepends on util-linux-libuuid-dev, but it isn't a build dependency?
-> > > > [build-deps]
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/3226
-> > > >
-> > > > That failure was my fault when testing some fixes.
-> > > >
-> > > > I've sent out a patch which renames util-linux-uuid to util-linux-libuuid
-> > > > and sorts out the license issue Peter reported.
-> > >
-> > > I don't mind the recipe being renamed and cleaned up, but I would prefer
-> > > to see my entire patch for the license parts being either integrated before
-> > > this or squashed into it, whichever you prefer. It does not make sense to
-> > > use the same LIC_FILES_CHKSUM for util-linux-libuuid as for util-linux,
-> > > and setting the other LICENSE variables in util-linux.inc no longer makes
-> > > sense as they are only relevant for util-linux.
+> > I for one use a whitelist env vars daily, both hobby and work.
 > >
-> > I'm torn on that. Code with the other licenses is present, just not used
-> > in the final output and I personally suspect that having one LIC_FILES_CHKSUM
-> > is going to be easier to maintain in the future rather than two separate ones.
+> > We tend to build for multiple machines, so in general we'd have
+> > something like this running on the build server:
+> >
+> > for machine in mach1 mach2 mach3 mach4 ... mach40
+> > do
+> >    MACHINE=$machine bitbake image1 image2 image3
+> > done
+> >
+> > Being able to pass the MACHINE through the environment is a big win. We
+> could
+> > alter a config file in the shell script, but that would change a file
+> that
+> > we'd want under version control, and I really don't like it when builds
+> change
+> > files under version control.
+> >
+> > (The "40" machines is not exaggerated, I'm really involved in projects
+> that
+> > build for that many targets)
+> >
+> > Come to think of it, MACHINE is the one and only environment we ever
+> pass to
+> > bitbake.
+> >
+> > For release/test/production/debug/... etcetera I tend to use a different
+> > image, so you'd see:
+> >
+> > MACHINE=mach1 bitbake interesting-image interesting-image-dev
 >
-> FWIW, in Debian the license definitions always cover the _sources_, not
-> the built binaries. IOW: even if you don't build and distribute a
-> subtool, the license metadata must cover it. I'd think this would be
-> even more important for Yocto since you exclusively distribute sources,
-> not binaries.
+>   you and mark are right, i was being a bit too draconian -- being
+> able to select MACHINE and DISTRO on the bitbake invocation line are
+> obvious benefits.
+>
+>   just to refresh my memory, what is it that identifies the env vars
+> that are by default passed through without any need for extra
+> whitelisting? is that BB_ENV_EXTRAWHITE? i recall that contains
+> MACHINE and DISTRO already, so that might be all i care about.
+>
+> rday
+>
+> 
+>
+>
 
-ideally, it would be good to have both expressed distinctly since we also have
-tooling for end users to create manifests for whats strictly on target
-images. we perhaps
-need source license which is perhaps at recipe level and then target
-license which is at package level.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--00000000000020dc1205be5e8a52
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Just a quick note that you *can* script config file altera=
+tions without having to alter files that may be under source control, that&=
+#39;s what auto.conf is for :)</div><br><div class=3D"gmail_quote"><div dir=
+=
+=3D"ltr" class=3D"gmail_attr">On Thu, Mar 25, 2021 at 7:51 AM Robert P. J.=
+ Day &lt;<a href=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On T=
+hu, 25 Mar 2021, Mike Looijmans wrote:<br>
+<br>
+&gt; I for one use a whitelist env vars daily, both hobby and work.<br>
+&gt;<br>
+&gt; We tend to build for multiple machines, so in general we&#39;d have<b=
+r>
+&gt; something like this running on the build server:<br>
+&gt;<br>
+&gt; for machine in mach1 mach2 mach3 mach4 ... mach40<br>
+&gt; do<br>
+&gt;=C2=A0 =C2=A0 MACHINE=3D$machine bitbake image1 image2 image3<br>
+&gt; done<br>
+&gt;<br>
+&gt; Being able to pass the MACHINE through the environment is a big win. =
+We could<br>
+&gt; alter a config file in the shell script, but that would change a file=
+ that<br>
+&gt; we&#39;d want under version control, and I really don&#39;t like it w=
+hen builds change<br>
+&gt; files under version control.<br>
+&gt;<br>
+&gt; (The &quot;40&quot; machines is not exaggerated, I&#39;m really invol=
+ved in projects that<br>
+&gt; build for that many targets)<br>
+&gt;<br>
+&gt; Come to think of it, MACHINE is the one and only environment we ever =
+pass to<br>
+&gt; bitbake.<br>
+&gt;<br>
+&gt; For release/test/production/debug/... etcetera I tend to use a differ=
+ent<br>
+&gt; image, so you&#39;d see:<br>
+&gt;<br>
+&gt; MACHINE=3Dmach1 bitbake interesting-image interesting-image-dev<br>
+<br>
+=C2=A0 you and mark are right, i was being a bit too draconian -- being<br=
 >
-> --
-> Kind regards,
-> Luca Boccassi
->
+able to select MACHINE and DISTRO on the bitbake invocation line are<br>
+obvious benefits.<br>
+<br>
+=C2=A0 just to refresh my memory, what is it that identifies the env vars<=
+br>
+that are by default passed through without any need for extra<br>
+whitelisting? is that BB_ENV_EXTRAWHITE? i recall that contains<br>
+MACHINE and DISTRO already, so that might be all i care about.<br>
+<br>
+rday<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christop=
+her Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, =
+OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></=
+div>
+
+--00000000000020dc1205be5e8a52--
