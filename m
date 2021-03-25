@@ -1,143 +1,91 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web09.1193.1616631475259266827
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.2])
+ by mx.groups.io with SMTP id smtpd.web11.3235.1616642899108915618
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Mar 2021 17:17:55 -0700
+ Wed, 24 Mar 2021 20:28:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: ECmNKnmPJy3ZyNhLHIZGWbINrX8Zyf4lHLa0JuaF3xHZY3zom6Y87k2Qjh8xaG1F+bAJRLO27h
- E+poiNh+YyyA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170796170"
-X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; 
-   d="scan'208";a="170796170"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 17:17:54 -0700
-IronPort-SDR: FJIG2jMLfh59rxv0T61Rb5nCP+yl7TZtjp08Uj3NpkxY/exh9yuIS279cLBSruzhLUVipXXZpA
- /JNcWaqwu/GA==
-X-IronPort-AV: E=Sophos;i="5.81,276,1610438400"; 
-   d="scan'208";a="608288070"
-Received: from mohdkuza-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.138.61])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 17:17:53 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/25] pull request (cover letter only)
-Date: Thu, 25 Mar 2021 08:17:48 +0800
-Message-Id: <cover.1616631357.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=g+mHYKLm;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1616642897; i=@fujitsu.com;
+	bh=jNyd4PMMSmq1j+52ryyLHsLu1pXAMLyU3VFLsMx+28w=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=g+mHYKLmB80LuJdEZtBhQarGInsRqfuBGLds0D2eRqXSvGzMFdqslyZb+dYKnLUZF
+	 foAJz1rktOEOZ27zKe2+qwLacKnnsR9JhDc61hjXNAfLs5W5X3vSnn7aci7LcXJxBt
+	 HCVzgPG+2p66q/npz1Y/eDc8oRAjlJLcrpocDseExXXwg0kBZEBnzJe/c5e6cYrW16
+	 oztIqvQnW2TbihRlzW1EVvvfPmyR1vJrN5suNJfEfBIc8uuSRockNlb07P9wDCWTlv
+	 i/J9CLgxsJb2qGE7XdKyy06JKtL/s97TDu2uyXwcSswwoTLFhTNqkICO3NDMYIYxDn
+	 R4nkdD6DbITeA==
+Received: from [100.113.0.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-central-1.aws.symcld.net id 6C/3F-55623-0530C506; Thu, 25 Mar 2021 03:28:16 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MxVTeAOSb
+  B4M8mVos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPnlTOMBa84KpY8MGlg/MTexcjFISSwmUli
+  +8PrUM4JRolr5/8xdzFycrAJqElMv3WDtYuRg0NEQE/i6j9RkDCzgLrEpXUtLCC2sICdxJ2Tp
+  1hBbBYBVYmOrVeYQcp5BZwkfjYng4QlBBQkpjx8DzaRV0BQ4uTMJywQYyQkDr54wQxRoygx+3
+  IzC4RdJbGmYxrbBEbeWUhaZiFpWcDItIrRMqkoMz2jJDcxM0fX0MBA19DQWNdY19DSRC+xSjd
+  RL7VUNzk1r6QoESirl1herFdcmZuck6KXl1qyiREYXCmFzId2MD55/UHvEKMkB5OSKK/1hugE
+  Ib6k/JTKjMTijPii0pzU4kOMMhwcShK8uUwxCUKCRanpqRVpmTnAQIdJS3DwKInwWoOkeYsLE
+  nOLM9MhUqcYFaXEeUVBEgIgiYzSPLg2WHRdYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTM68
+  kINIUnM68EbvoroMVMQIs3/ogEWVySiJCSamDqbWbI32od1jJ74kqnCEMFH49gvpmrvTgkFDZ
+  tjlz3quVAyWsxl4SVdnv1MvT03fk1ojUl7klbn7UJZjVdLvpK0TpzXu7UAPPLzWxaZhXSfuwh
+  WVdWNp3e2/G2y/mfyiFNO7aZBS/enRA/fOrmqzV73T3PMLx98S3gtn21+r1X1xmDpi7evmV/l
+  OUaPTsVX+2yj3YL09g5efZuStRdycpW0p4bu3vR2QVzzNbGejxwZdv8JHK/QMzl04kMnOvXB/
+  n0u6rdXcfbu9fx68HUCy/4DxxdGRL9c9bB27c4LC6b3Xmg6HzeuDP5kulRwS8szQ+bIoS4417
+  eiT65cccG9g6Ha9+c816lFmnHWYmdrldiKc5INNRiLipOBABzy4bgKQMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-12.tower-232.messagelabs.com!1616642895!2271!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 32067 invoked from network); 25 Mar 2021 03:28:16 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-12.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 25 Mar 2021 03:28:16 -0000
+Received: from r01ukexcasm214.r01.fujitsu.local (ex2k13_214.fs.fujitsu.com [10.182.185.116])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12P3S9NV017660
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 03:28:15 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 25 Mar 2021 03:28:08 +0000
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] webkitgtk: upgrade 2.30.5 -> 2.30.6
+Date: Thu, 25 Mar 2021 11:28:00 +0800
+Message-ID: <1616642880-44580-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ r01ukexcasm214.r01.fujitsu.local (10.182.185.116)
+Content-Type: text/plain
 
-Please merge these changes in gatesgarth.
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-Thanks,
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../webkit/{webkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb} (98%)
 
-Anuj
-
-The following changes since commit 6311cb4930bd0add7aec61e5e0df6bb7ae0c4481:
-
-  libsdl2: fix CVE-2020-14409 CVE-2020-14410 (2021-03-10 00:24:18 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Alejandro Hernandez Samaniego (1):
-  devtool: Fix do_kernel_configme task
-
-Anatol Belski (1):
-  glib-2.0: Fix CVE-2021-27219
-
-Anuj Mittal (1):
-  Revert "sstatesig.py: show an error instead of warning when sstate
-    manifest isn't found"
-
-Bruce Ashfield (3):
-  linux-yocto/5.4: update to v5.4.99
-  linux-yocto/5.4: update to v5.4.101
-  linux-yocto/5.4: update to v5.4.103
-
-Chen Qi (2):
-  python3-jinja2: set CVE_PRODUCT
-  populate_sdk_ext: record METADATA_REVISION
-
-Jon Mason (1):
-  runqemu: use "raw" instead of "bin" for ovmf
-
-Martin Jansa (1):
-  iso-codes: fix protocol in SRC_URI
-
-Mike Crowe (1):
-  gcc-sanitizers: Move content from gcclibdir into libdir
-
-Minjae Kim (1):
-  qemu: fix CVE-2021-20203
-
-Purushottam Choudhary (1):
-  shadow: whitelist CVE-2013-4235
-
-Richard Leitner (1):
-  xcb-proto: update to 1.14.1
-
-Richard Purdie (6):
-  libsecret: Improve determimism
-  igt-gpu-tools: Fix reproducibility issue
-  apr-util: Fix CFLAGS used in build
-  selftest/reproducible: Don't call sync between each file compare
-  gstreamer1.0-python: Set internal python library path correcty
-  build-appliance-image: Drop kernel module handling
-
-Ross Burton (2):
-  libinput: less parallism to increase chances the test suite works
-  ptest-packagelists: remove libinput-ptest
-
-Stefan Ghinea (1):
-  wpa-supplicant: fix CVE-2021-27803
-
-Stefan Schmidt (1):
-  systemd-conf: do not ask for DHCP if configured on kernel command line
-
-Ulrich Ölmann (1):
-  local.conf.sample: fix typo
-
- meta/classes/populate_sdk_ext.bbclass         |    3 +
- .../distro/include/ptest-packagelists.inc     |    2 +-
- meta/conf/local.conf.sample                   |    2 +-
- meta/lib/oe/sstatesig.py                      |    2 +-
- meta/lib/oeqa/selftest/cases/reproducible.py  |    2 +-
- .../wpa-supplicant/CVE-2021-27803.patch       |   58 +
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |    1 +
- .../glib-2.0/glib-2.0/CVE-2021-27219.patch    | 1444 +++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb |    1 +
- .../images/build-appliance-image_15.0.0.bb    |    8 +-
- .../systemd/systemd-conf/wired.network        |    1 +
- .../systemd/systemd-conf_246.9.bb             |    3 -
- meta/recipes-devtools/gcc/gcc-sanitizers.inc  |    7 +-
- .../python/python3-jinja2_2.11.2.bb           |    2 +
- meta/recipes-devtools/qemu/qemu.inc           |    1 +
- .../qemu/qemu/CVE-2021-20203.patch            |   74 +
- meta/recipes-extended/shadow/shadow_4.8.1.bb  |    5 +-
- .../libsecret/libsecret/determinism.patch     |   37 +
- .../libsecret/libsecret_0.20.3.bb             |    3 +-
- .../igt-gpu-tools/reproducibility.patch       |   38 +
- .../igt-gpu-tools/igt-gpu-tools_git.bb        |    5 +-
- .../wayland/libinput/run-ptest                |    2 +-
- ...{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} |    4 +-
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../gstreamer/gstreamer1.0-python_1.16.3.bb   |    2 +
- meta/recipes-support/apr/apr-util_1.6.1.bb    |    2 +
- .../iso-codes/iso-codes_4.5.0.bb              |    2 +-
- scripts/lib/devtool/standard.py               |    7 +-
- scripts/runqemu                               |    2 +
- 31 files changed, 1713 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-27803.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2021-27219.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20203.patch
- create mode 100644 meta/recipes-gnome/libsecret/libsecret/determinism.patch
- create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/reproducibility.patch
- rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
-
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.6.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.30.6.bb
+index ff4c496e2a..f5d55a2c6f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.30.6.bb
+@@ -23,7 +23,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://musl-lower-stack-usage.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
++SRC_URI[sha256sum] = "50736ec7a91770b5939d715196e5fe7209b93efcdeef425b24dc51fb8e9d7c1e"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
 -- 
-2.30.2
+2.25.1
 
