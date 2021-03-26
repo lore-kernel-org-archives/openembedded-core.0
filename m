@@ -1,96 +1,72 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.6499.1616720840047880509
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web09.6318.1616721070800054230
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 18:07:20 -0700
+ Thu, 25 Mar 2021 18:11:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NpdsOJi+;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so3451345pjc.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 18:07:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aGaQbOdD;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id l1so3513382pgb.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 18:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KN6/JaWQk1cuGwpc3fZEVuFmTpuwt7S3CboyargQpfk=;
-        b=NpdsOJi+5T3xlcsXmI22vxSFH+K8gvsK12XaSziQAhKaOuufT5FAOQkZAoHOJTKFiR
-         MWox713FtmQ4vi57bpcHQLr1egdvYa3l7RPyXuoguuhliuOW/hMJNGZXxyQUi8sW+pZU
-         4xPjOvuINwSDAX+irqe+FT5jfQvipwcPpsV4Xx0p650jrX/45BWXruYmya38Av1eXtRD
-         zxu8NlUvUq0LtfreCoSJdUlG/q1ciCBnwxndJPDb1KfGDmd8zXBWCLBwiP1jQ3eyh6tB
-         nbgSwnbdWsiPnsngaVVMKOcfxYSxYgeFBMVYnQmXis8qW2VQAskYhr28nn7ok4LyJdaC
-         W1aw==
+        bh=ih9KorCIv1/em5UXRW7aIoPZ+vELWV6C1b7YlRTjedY=;
+        b=aGaQbOdDoBQutgnraFZx2+8o+3DvbC5u/qOl3v1YEdTh732IMe+27+8PpymfwnvPay
+         WbtQTMEZCZLu6wtLdm39csKoKVMJ0Q2ZPeEZPY8B/rFbcBL27OKu/RjxXHDifsTQ59vp
+         Q1voU46E1dnl+fDm/N6wOR1GJH+mxYnqw21jmFKe8vuu/ezr//ETrWGH6//1ubsdeIOS
+         BGbMsSR6oqcNh14ZG2Z/Bux+lHb8mZajAQhz12d2p4ukN5Epacd6A59bzvQ+D286j+4r
+         vL6XvUb78yYHv7ohpB7DQRMachrwOFMkKry6zpUWKLkS2ZofeISPMsMXw3Smol5sU8Gp
+         +hgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KN6/JaWQk1cuGwpc3fZEVuFmTpuwt7S3CboyargQpfk=;
-        b=IqLpy8YHUdkC8AfQUb1fA68UdNJzC5fqyetd8wZ4SapUsViQygJi7vyBlI27tIrIzL
-         zA9IMhOUwLvvEnEgCoZHL1IHbPDRs0Qfbn2s3/RnHHJR033ucAKzqJVHPaa0zBAUHcB2
-         pTO9SJnxKaKPP/zYXiN4qOYZYI7kWu3X/MIsrjDcXns41/JcSO8dBAgYV6n6gmo/mF05
-         IRDmWhl8e7mKbh5YG0A2rRnwX9odFwXbbUd9RkDB8fz7Y1N6obMJ/u6wRRJMbvqk2XCZ
-         WUSmibnjdZDGjXerhckTPGo2STdVIHdZ6PlOziwhmJYyHuG9IoxXjVSFwBWv2Hh0tBmr
-         y2Mw==
-X-Gm-Message-State: AOAM532aLE8KBuTnKHkrwoO2e7zHbaT6UzAK7BNB5zkf8rFXNRLh5QG2
-	vjTrb2bm9jBFrTOTVMIn8/yJIqAUDQlt1g==
-X-Google-Smtp-Source: ABdhPJzsFS3FUfyZHTGn5mAB+oMmcXdB3hD5a/hHW5fPff/SZW7/TMt4g4fXkncha28n5RMTQO49TQ==
-X-Received: by 2002:a17:90a:9b18:: with SMTP id f24mr10827788pjp.96.1616720839172;
-        Thu, 25 Mar 2021 18:07:19 -0700 (PDT)
+        bh=ih9KorCIv1/em5UXRW7aIoPZ+vELWV6C1b7YlRTjedY=;
+        b=XWdPN6kuEP2Zs1b9RpX3dtmYQZ2T6oAlMQ1uOORMrI330IFyG/dY47ReBPQ4j7Jpkn
+         KmAruDAlMCsZqYms9iHg/7DvNXggLgvJL4OCnE9/QHIsdtdyyCwP6SYG8asHwb0kgfXo
+         VbxRA19MWZGNwdFxFKSDsy0BaAAd5MIaoVR8NnijnlsAPIypeqhy7MXB/ENIk1rtMymi
+         0g31bzK0ilJzYoNn4zCohDdr/VQSJn99C1+1Pc04DcVQ1u811ma3ShOXwP+UseBbcgQX
+         Mbmyezp7z4wTZ7aWfMQmmBQ6mP8b3dBlHoYljKT/yyjLpSUlQDZD86DkFQL9/xJxGRpx
+         Udkg==
+X-Gm-Message-State: AOAM533UpbCIo5FsW9G8qqQagIrJg7sLAamPthubRrceZ1JlorbU16as
+	rIUULIyHP2LlWToaG7fKp0vx2VHZHT5WYw==
+X-Google-Smtp-Source: ABdhPJxyo+hdpNL77vmGR6x03zbw2Kds2d2acSYUH9bkO1dfDga3Kj62koZcUZG1mw4tMpbSLav/VQ==
+X-Received: by 2002:a63:5f0f:: with SMTP id t15mr9720282pgb.225.1616721070058;
+        Thu, 25 Mar 2021 18:11:10 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::aebb])
-        by smtp.gmail.com with ESMTPSA id o76sm5768766pfg.217.2021.03.25.18.07.18
+        by smtp.gmail.com with ESMTPSA id y5sm7086571pfl.191.2021.03.25.18.11.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 18:07:18 -0700 (PDT)
+        Thu, 25 Mar 2021 18:11:09 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Yann Dirson <yann@blade-group.com>
-Subject: [PATCH] gst-examples,gstreamer1.0-libav: Add option to exclude from world build
-Date: Thu, 25 Mar 2021 18:07:16 -0700
-Message-Id: <20210326010716.1055632-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] documentation-audit.sh: Fix typo in specifying LICENSE_FLAGS_WHITELIST
+Date: Thu, 25 Mar 2021 18:11:07 -0700
+Message-Id: <20210326011107.1057329-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When LICENSE_FLAGS_WHITELIST does not have commercial in it then the
-the dependencies like ffmpeg will become invisible and render these
-packages unbuildable, therefore world build will report parse issues
-
-its better to exclude them from world build in such cases
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Yann Dirson <yann@blade-group.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb       | 2 ++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb | 3 +++
- 2 files changed, 5 insertions(+)
+ scripts/contrib/documentation-audit.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-index 4670ab34db..196258e00f 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-@@ -33,3 +33,5 @@ RRECOMMENDS_${PN} = "gstreamer1.0-plugins-base-meta \
-                       ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-libav", "", d)} \
-                      ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
- RPROVIDES_${PN} += "gst-player gst-player-bin"
-+
-+EXCLUDE_FROM_WORLD = "${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "0", "1", d)}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-index 6a84f92f31..7c39e7da37 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-@@ -6,6 +6,7 @@ SECTION = "multimedia"
+diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
+index 1191f57a8e..f436f9bae0 100755
+--- a/scripts/contrib/documentation-audit.sh
++++ b/scripts/contrib/documentation-audit.sh
+@@ -27,7 +27,7 @@ fi
  
- # ffmpeg has comercial license flags so add it as we need ffmpeg as a dependency
- LICENSE_FLAGS = "commercial"
-+
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
-@@ -22,3 +23,5 @@ inherit meson pkgconfig upstream-version-is-even
+ echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
+ echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
+-echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
++echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"commercial\""
  
- FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
- FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
-+
-+EXCLUDE_FROM_WORLD = "${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "0", "1", d)}"
+ for pkg in `bitbake -s | awk '{ print \$1 }'`; do
+ 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
 -- 
 2.31.0
 
