@@ -1,93 +1,122 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web12.2380.1616786586074585577
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.158.5])
+ by mx.groups.io with SMTP id smtpd.web12.3063.1616789665601927487
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 12:23:06 -0700
+ Fri, 26 Mar 2021 13:14:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i5HM2yUl;
- spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id z1so6932344ybf.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 12:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dZXCQgdx5EuqKChloEwPyuEgPWbeIoGXGmC7/WmcRqM=;
-        b=i5HM2yUloQN570hpjsE58x48hQGkcdAgXyKR1IkcBHxQ6KU9eXQE+8/nYBwynWdf5Q
-         F/DzCoJGloZnVAhW4jUWAz4IeCQDgRG90kkBVjG1kGX7ZGmQo27nIPNkep6aqQfYQ2c2
-         VGWIUHshakhTSUmrADrBRy9rSF8ECWo1ftjeqNa/oH78RZYjR6oePbh4kzDo47UN74rl
-         7CYYiBS+tO/1LfoThJSv7hwngmIXIh0k7OBnrCfcIsEc2aCOpYVcfrF7oPUHoElQ9qcr
-         me3PBp0Hz5QVtHx4eGA2GMO3HV+2K0JieGd6lqRu5TDymeceKB0rt6uDVgT9CDg4FIgW
-         ZBag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dZXCQgdx5EuqKChloEwPyuEgPWbeIoGXGmC7/WmcRqM=;
-        b=nxzyHrYypOmb0OlkoMCtbiqpXZ2iaDJGA48NqJkdWtI2YfLobuLbBiyiEQ5iSLWlBR
-         YU3Z3m21uSadG8ubjWKpwKs8m4rapelttg0IX9KMR1rA2OZ/Y6d5YKY41oPr1oFcJdhA
-         gt0aV7XinZtCIPylHT1WqqvRTy3OVkLnx+q1S+enTWI88tcJg7dvhuQsVTCvn7P7shjD
-         awT50Os3pacgBWvKnXBzAbw2xj/u3UU3weaAjpIx732k0sVMRfuEd9qfkxUl01stGYU/
-         +vEmuOrprCEeTWcss8iWdHWr4fIf4Mzu9foQBE3VleWj05GfI5VN0g4oslinhEaOdV2D
-         OWnw==
-X-Gm-Message-State: AOAM532ji9VTlvkEFQylg/l/+IrZcbEA/wypVQn2PvxCe5T5eEwouyOB
-	OB+4wvgXlg59gJPkiVyjJ1FJGG2fDJnCFW20M5c=
-X-Google-Smtp-Source: ABdhPJw2wI3TnJG+b+jzpY1Haj3rTLVnJAnwZoxKsLdVxMkMRYeqMsaxe0Fg2c8gzmcLfX/ddpa+8AqcU2K9B0TH+Lg=
-X-Received: by 2002:a25:dd06:: with SMTP id u6mr22412888ybg.97.1616786585339;
- Fri, 26 Mar 2021 12:23:05 -0700 (PDT)
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=Byzj1uZl;
+ spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.158.5, mailfrom: klaus@linux.vnet.ibm.com)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12QK3eKG178670;
+	Fri, 26 Mar 2021 16:14:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=kj4h2szO5rVrrcCi9LjwYIw2bVW4/T5XzP2bkZMT/F0=;
+ b=Byzj1uZlcLmXoBf6iboM5FHPS9bwqylO6j1BUOoHjV9lXDrah06/dwfbkyMjhGFZ6sH3
+ ns1CsxpGzDqXYCR2fPKKP6xU7AomyqcToq4J1Z57ifFFE0oJfKKrj8aVW8zbcS1t05Uw
+ Pd+Z/WqbrApvcCCND0cKxpg3TVJI7KuOFGtYOXNdluhKZypsxrv4iNRzCz//RZHjTB9J
+ ZbjCUuLv81k7+Chw+H3XNpQEJ8PELqqJxWj3PyAblG3BCNLyquC/M3s8gBDEByI8+bPj
+ STNuY1mm7NIMy1nvYJvbOMwyLOXnuFgDbKycNHV48e7zQF6Rz6iiGGAqxoSo0FkdwUxi Ow== 
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 37hcd21ywc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Mar 2021 16:14:22 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+	by ppma05wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12QKDo5t029041;
+	Fri, 26 Mar 2021 20:14:21 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+	by ppma05wdc.us.ibm.com with ESMTP id 37hjsfsd3r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Mar 2021 20:14:21 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+	by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12QKELSj30736768
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Mar 2021 20:14:21 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ECBE67805E;
+	Fri, 26 Mar 2021 20:14:20 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6C49F7805C;
+	Fri, 26 Mar 2021 20:14:19 +0000 (GMT)
+Received: from T480-KlausKiwi.localdomain (unknown [9.85.195.191])
+	by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+	Fri, 26 Mar 2021 20:14:19 +0000 (GMT)
+From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: joel@jms.id.au, andrew@aj.id.au, klaus@linux.vnet.ibm.com,
+        openbmc@lists.ozlabs.org
+Subject: [PATCH v2 0/4] u-boot: Support for SPL verified boot
+Date: Fri, 26 Mar 2021 17:14:06 -0300
+Message-Id: <20210326201410.13906-1-klaus@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210325192052.2976-1-mikko.rapeli@bmw.de> <CAMKF1sry10GxKxwSOoyPd87wXA4=r4Nb-YXHEV+3TxCcHaANzw@mail.gmail.com>
-In-Reply-To: <CAMKF1sry10GxKxwSOoyPd87wXA4=r4Nb-YXHEV+3TxCcHaANzw@mail.gmail.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 26 Mar 2021 09:22:51 -1000
-Message-ID: <CAGDS+nkEswf5uxRA+3u-NV1L=87d2X140B3zVR9vSvcfjSCKJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][gatesgarth][dunfell] openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Mikko Rapeli <mikko.rapeli@bmw.de>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8nQ-95sP6x_ljn10YOw8nhUwj69SWQPI
+X-Proofpoint-ORIG-GUID: 8nQ-95sP6x_ljn10YOw8nhUwj69SWQPI
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-26_11:2021-03-26,2021-03-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 spamscore=0 clxscore=1011
+ phishscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103260149
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 26, 2021 at 8:54 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> do we need this on dunfell too?
+This patch series aims at extending U-Boot's verified boot support to
+also include SPL.
 
-I plan to take it when it hits master.
+Presently, setting UBOOT_SIGN_ENABLE instructs the classes uboot-sign
+and kernel-fitimage to create and sign a Linux Kernel fitImage. This
+proposal introduces the variables UBOOT_FITIMAGE_ENABLE and
+SPL_SIGN_ENABLE that will, respectively, create and sign a U-Boot
+(proper) fitImage that the SPL can load (and verify if enabled)
 
-Steve
+In order to accomplish this, the first patch moves some of necessary
+infrastructure (variables, functions) used to sign the Kernel
+fitImage to more common locations, and then essentially duplicates the
+method currently used to sign the Kernel fitImage to also sign the
+U-Boot fitImage.
 
->
-> On Thu, Mar 25, 2021 at 12:20 PM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
-> >
-> > Only security issues fixed in this release according to
-> > https://www.openssl.org/news/cl111.txt
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> > ---
-> >  .../openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb}            | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-connectivity/openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb} (98%)
-> >
-> > diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-> > similarity index 98%
-> > rename from meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-> > rename to meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-> > index f054d2fdba..5f281197c9 100644
-> > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
-> > +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
-> > @@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
-> >             file://environment.d-openssl.sh \
-> >             "
-> >
-> > -SRC_URI[sha256sum] = "aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf"
-> > +SRC_URI[sha256sum] = "892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5"
-> >
-> >  inherit lib_package multilib_header multilib_script ptest
-> >  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
-> > --
-> > 2.20.1
-> >
-> >
-> >
-> >
->
-> 
->
+If the variable UBOOT_FITIMAGE_ENABLE = "1", the uboot-sign class will
+copy the SPL files (nodtb image and dtb file) from the u-boot recipe to
+the staging area, so that the Kernel recipe can then create the U-Boot
+fitImage.
+
+In case SPL_SIGN_ENABLE = "1", the U-Boot fitImage will be signed using
+the key provided by SPL_SIGN_KEYNAME / SPL_SIGN_KEYDIR, or will
+auto-generate keys based on UBOOT_FIT_HASH_ALG, UBOOT_FIT_SIGN_ALG and
+UBOOT_FIT_SIGN_NUMBITS if UBOOT_FIT_GENERATE_KEYS is "1".
+
+After the operations above, the Kernel recipe will deploy the (signed)
+U-Boot fitImage, the ITS script used to create it, as well as the SPL
+concatenated with the DTB containing the pubkey to the images directory.
+
+The reason why the U-Boot fitImage is created by the Kernel is in order
+to make sure that, when UBOOT_SIGN_ENABLE is set (and the Kernel
+fitImage is signed), the U-Boot fitImage being created/signed contains
+the pubkey used by the Kernel recipe to sign the Kernel fitImage.
+
+I added oe-selftest testcases and also tested this on upstream OpenBMC
+with AST2600 BMC devices.
+
+Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+
+---
+Changes since V1:
+
+ * Separated SPL_SIGN_ENABLE from UBOOT_FITIMAGE_ENABLE so that an
+   U-Boot fitImage can be created without a signature
+
+ * Completely moved the task of creating/signing the U-Boot fitImage to
+   the Kernel recipe, so that we don't get collisions when reusing the
+   build tree while changing the configuration. This is apparently also
+   necessary for testcases to be sane.
+
+ * Testcases changes and additions, covering the above scenarios
+
+ meta/classes/kernel-fitimage.bbclass     |  82 ++---
+ meta/classes/uboot-config.bbclass        |  58 ++++
+ meta/classes/uboot-sign.bbclass          | 407 +++++++++++++++++++++++--
+ meta/lib/oeqa/selftest/cases/fitimage.py | 468 +++++++++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc       |  46 ---
+ 5 files changed, 928 insertions(+), 133 deletions(-)
+
