@@ -1,146 +1,250 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web12.8286.1616733626401731396
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web10.8818.1616738052333882685
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 21:40:26 -0700
+ Thu, 25 Mar 2021 22:54:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZxVbGBZf;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id h7so3471186qtx.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 21:40:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A1H50pk9;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f46.google.com with SMTP id e5so2156370vse.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 22:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Sr8/VNk4HuK1eKXHrprtxrJnuDx/VPjzKihahMqQq8U=;
-        b=ZxVbGBZfTP6pvJgkVI7y5M15DKOeLPYi1FWX3BVO/awXzpzEmKf2HcxXOFF0pI7Kfg
-         uUz4M8RbSw5vjAMMlo08H/YeZqN+TO6rX7kWn8js7GfBZeImrIgLpfdnnosk6JO6P2QP
-         EAe4FW1dSlv+qjuG6YfmCqUq4cVPig3zTTZ5QTiowzDIJUm0KozweZurdCVnCoJjn34i
-         hZ+EDIirSJApzJ+A+SyQHWdNTfjpcNM/f8lpnYwndPI9fdzEl62mKtHHaFf21nPQL3I7
-         w8JFzRsygH7LK7WVjV7le+e46N7TP9I782JtktsimL2R7TqKu3E+vOX5G2NFZuq5fzxN
-         W9Cg==
+        bh=rDnRSaOufkHgBfhsM/DhmRpoeKRSWehdyz44eWrHj5k=;
+        b=A1H50pk9Yx2daB1NDpbJgctlD1AmPEw/rwzRqrVJQ6w98uPahme8xD4yH7/6gSWpVF
+         Gybb6TeW1ytVGMhroDfWkUg+Yze88gU8Tj+WHDL3wKAgTrOM4CR/J32QnwXBzLMQ4MT+
+         0c7IyB3M8HOoP5CxMi9hpFfh3Qc66HJsLU0oHEFR+zu/ehselt3ULu934/QKDaJv2EmE
+         kLPKq5I36agTJaGwIpQ3BZbYgSfR7VxsvbPa9+hAdhbe9ovk+eh3cmeNwndw1o+Jc8/T
+         HTHBrI/Tw7D3Jz47B/IPBzK04qkzJiETYogrXjazTjG9g7J+exMuxVuBTYCZv5CduttB
+         pG5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Sr8/VNk4HuK1eKXHrprtxrJnuDx/VPjzKihahMqQq8U=;
-        b=n/ddH6apIuPeQMUanGrBOY4hxmL6jXUoDqf5ofnb8lp/QeVIIHPriZu5+7tvcOrkPk
-         tev/5BXxp2j44j6qRjjyRpBGN2AKhSltgg3GDTjOJ2PaJb6ghwtz2BWUq7pm4Up92cEK
-         lYX4D75P5TPXy75Oo4qPeshwdLXbMy76b/htfSphOB0NMVUmD4Hk6ozfVMEbSoDnvanu
-         tU3I+a9XITvRuCgoPJ33Hj5BSnNDInUWGq6lOsStNob362pwuhJWZYO4sM2EaR7BlLy5
-         TMe0FEejxq18T1K5lvLUzBkXudj/qwDs7cCLavgMAASgxSQsSwW8FoPCA9qu4vcs0ZnH
-         /f0A==
-X-Gm-Message-State: AOAM531Rh6ZpLFroKCavQRBRZec8LICVAAswevlhOY66283St8NjxLQ9
-	NrdYIc5E0b270FGxqshqc3ozpBbM7HxPc0DfQyg=
-X-Google-Smtp-Source: ABdhPJxyExGvvIH41P5AKEccSHGF/wN7YtOflum1/+H3MfWzbAMIfDhwyeLMM2wMwq/P8SoV/P0fMCeLrwLM+rPtwTE=
-X-Received: by 2002:ac8:5a46:: with SMTP id o6mr10725956qta.289.1616733625534;
- Thu, 25 Mar 2021 21:40:25 -0700 (PDT)
+        bh=rDnRSaOufkHgBfhsM/DhmRpoeKRSWehdyz44eWrHj5k=;
+        b=jD/+NcQdIGG+p+0Ihv5i3jXHtJTWCpafnGqUiJAG8qBzaXyViXHvovScEQ9od53Luk
+         Z/oz5vwq3XWc1aqoQ69yvixLHJIG+9ai6ukaCUAqsAr/cFVd6KL0wE/2eS8y239bMHtG
+         0qllTpOzh/RuGnxHTXGFX+53Uwvjjcxbyn8Ji56WaptqeDPhIO1awfqD5mpxVWuGAgA9
+         OX4/0RPiQrD8QZVgvY8oymo1ABUHKi6oKoQmM3mgBifrayUdhPLSgoStmQdFBJWK/bZF
+         c6gSQzYls9gYJsGGNcxpvNYODXbitHQvsumksb95D2J//u7JmVqwWATQOvKnn5KUPsgO
+         E60g==
+X-Gm-Message-State: AOAM533YKUiLzp1wAjRYL+7XbWYUJ12BGPcrgZHzbBFlEW0oMNTf1WaN
+	IJ5gW3FuNwDvJhf6FLjkk7+2flkk91wNVsAWs7UbcCGR5uBrow==
+X-Google-Smtp-Source: ABdhPJzv7P9jZt4bXULDIgMhbe5+x45yw8HXVxEVxD1AiMRBTYY+L7A/dC5eoJ7X1cC8CYTEQOrsiPvSAb+FCV6xnjk=
+X-Received: by 2002:a67:f244:: with SMTP id y4mr7160170vsm.41.1616738051461;
+ Thu, 25 Mar 2021 22:54:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210325041506.3558560-1-raj.khem@gmail.com> <CAKmqyKP2u+86DvWL8mJ1M=63R7brSqinsgmfa4SO+q3Fowuz2Q@mail.gmail.com>
-In-Reply-To: <CAKmqyKP2u+86DvWL8mJ1M=63R7brSqinsgmfa4SO+q3Fowuz2Q@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 25 Mar 2021 21:39:59 -0700
-Message-ID: <CAMKF1sr3zTkJVToPdT3WqFAnrBpuC7mS0M-uqj2dWKjvoZrGNA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] grub-efi: Fix build failure on RISCV32
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Alistair Francis <alistair.francis@wdc.com>
+References: <20210325224402.145099-1-mark.hatle@kernel.crashing.org>
+In-Reply-To: <20210325224402.145099-1-mark.hatle@kernel.crashing.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 26 Mar 2021 06:54:00 +0100
+Message-ID: <CANNYZj_zPxBpj81qc85xa+PR_yKAX9To6GnHVwqmbpFu4U3qkw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] populate_sdk_ext: Avoid copying and producing .pyc files
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004094d005be6a290e"
+
+--0000000000004094d005be6a290e
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 25, 2021 at 12:48 PM Alistair Francis <alistair23@gmail.com> wrote:
+Wait, I have to say neither reason is convincing. Pyc files are not
+system-specific, they are the same on all systems. And pseudo issues should
+be dealt with by fixing the issue, not working around the symptoms, no?
+
+Alex
+
+On Thu, 25 Mar 2021 at 23:44, Mark Hatle <mark.hatle@kernel.crashing.org>
+wrote:
+
+> Since pyc cache files are really system specific, no real reason to copy or
+> generate them during the eSDK build process.  Also generating them has the
+> possibility of re-using inodes that pseudo may have been tracking, leading
+> a build failure.
 >
-> On Thu, Mar 25, 2021 at 12:15 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 4 +++-
+>  meta/lib/oe/copy_buildsystem.py       | 6 +++---
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 >
-> I'm not sure if this is the right thing to do here.
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass
+> index 9112ab6c5e..14689ec6ac 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -251,7 +251,9 @@ python copy_buildsystem () {
 >
-> Have you tested this does GRUB boot with this check removed?
+>      # Create a layer for new recipes / appends
+>      bbpath = d.getVar('BBPATH')
+> -    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath',
+> baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath,
+> 'workspace')])
+> +    env = os.environ.copy()
+> +    env['PYTHONDONTWRITEBYTECODE'] = '1'
+> +    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath',
+> baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath,
+> 'workspace')], env=env)
+>
+>      # Create bblayers.conf
+>      bb.utils.mkdirhier(baseoutpath + '/conf')
+> diff --git a/meta/lib/oe/copy_buildsystem.py
+> b/meta/lib/oe/copy_buildsystem.py
+> index 31a84f5b06..d97bf9d1b9 100644
+> --- a/meta/lib/oe/copy_buildsystem.py
+> +++ b/meta/lib/oe/copy_buildsystem.py
+> @@ -20,7 +20,7 @@ def _smart_copy(src, dest):
+>      mode = os.stat(src).st_mode
+>      if stat.S_ISDIR(mode):
+>          bb.utils.mkdirhier(dest)
+> -        cmd = "tar --exclude='.git' --xattrs --xattrs-include='*' -chf -
+> -C %s -p . \
+> +        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs
+> --xattrs-include='*' -chf - -C %s -p . \
+>          | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
+>          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+>      else:
+> @@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs,
+> input_sstate_cache, output_sstate_cac
+>      bb.note('Generating sstate-cache...')
+>
+>      nativelsbstring = d.getVar('NATIVELSBSTRING')
+> -    bb.process.run("gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs,
+> input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
+> +    bb.process.run("PYTHONDONTWRITEBYTECODE=1 gen-lockedsig-cache %s %s
+> %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache,
+> nativelsbstring, filterfile or ''))
+>      if fixedlsbstring and nativelsbstring != fixedlsbstring:
+>          nativedir = output_sstate_cache + '/' + nativelsbstring
+>          if os.path.isdir(nativedir):
+> @@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile,
+> cmdprefix='', cwd=None, lo
+>          logparam = '-l %s' % logfile
+>      else:
+>          logparam = ''
+> -    cmd = "%sBB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s
+> -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
+> +    cmd = "%sPYTHONDONTWRITEBYTECODE=1 BB_SETSCENE_ENFORCE=1
+> PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets,
+> filteroutfile, logparam)
+>      env = dict(d.getVar('BB_ORIGENV', False))
+>      env.pop('BUILDDIR', '')
+>      env.pop('BBPATH', '')
+> --
+> 2.17.1
+>
+>
+> 
+>
 >
 
-I have not run it no, but inspected the generate PE file and they look
-ok. however, I think we should drop
-this patch and instead just disable grub on rv32 until such time when
-port is available. I have send a follow up
-patch for that.
+--0000000000004094d005be6a290e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Wait, I have to say neither reason is convincing. Pyc=
+ files are not system-specific, they are the same on all systems. And pseud=
+o issues should be dealt with by fixing the issue, not working around the s=
+ymptoms, no?</div><div><br></div><div>Alex<br></div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 25 Mar 2021 at =
+23:44, Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing.org">mar=
+k.hatle@kernel.crashing.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">Since pyc cache files are really system specific=
+, no real reason to copy or<br>
+generate them during the eSDK build process.=C2=A0 Also generating them ha=
+s the<br>
+possibility of re-using inodes that pseudo may have been tracking, leading=
+<br>
+a build failure.<br>
+<br>
+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing=
+.org" target=3D"_blank">mark.hatle@kernel.crashing.org</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/populate_sdk_ext.bbclass | 4 +++-<br>
+=C2=A0meta/lib/oe/copy_buildsystem.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +++---=
+<br>
+=C2=A02 files changed, 6 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate=
+_sdk_ext.bbclass<br>
+index 9112ab6c5e..14689ec6ac 100644<br>
+--- a/meta/classes/populate_sdk_ext.bbclass<br>
++++ b/meta/classes/populate_sdk_ext.bbclass<br>
+@@ -251,7 +251,9 @@ python copy_buildsystem () {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Create a layer for new recipes / appends<br>
+=C2=A0 =C2=A0 =C2=A0bbpath =3D d.getVar(&#39;BBPATH&#39;)<br>
+-=C2=A0 =C2=A0 bb.process.run([&#39;devtool&#39;, &#39;--bbpath&#39;, bbpa=
+th, &#39;--basepath&#39;, baseoutpath, &#39;create-workspace&#39;, &#39;--c=
+reate-only&#39;, os.path.join(baseoutpath, &#39;workspace&#39;)])<br>
++=C2=A0 =C2=A0 env =3D os.environ.copy()<br>
++=C2=A0 =C2=A0 env[&#39;PYTHONDONTWRITEBYTECODE&#39;] =3D &#39;1&#39;<br>
++=C2=A0 =C2=A0 bb.process.run([&#39;devtool&#39;, &#39;--bbpath&#39;, bbpa=
+th, &#39;--basepath&#39;, baseoutpath, &#39;create-workspace&#39;, &#39;--c=
+reate-only&#39;, os.path.join(baseoutpath, &#39;workspace&#39;)], env=3Denv=
+)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Create bblayers.conf<br>
+=C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(baseoutpath + &#39;/conf&#39;)<br>
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsyste=
+m.py<br>
+index 31a84f5b06..d97bf9d1b9 100644<br>
+--- a/meta/lib/oe/copy_buildsystem.py<br>
++++ b/meta/lib/oe/copy_buildsystem.py<br>
+@@ -20,7 +20,7 @@ def _smart_copy(src, dest):<br>
+=C2=A0 =C2=A0 =C2=A0mode =3D os.stat(src).st_mode<br>
+=C2=A0 =C2=A0 =C2=A0if stat.S_ISDIR(mode):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(dest)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;tar --exclude=3D&#39;.git&#39; =
+--xattrs --xattrs-include=3D&#39;*&#39; -chf - -C %s -p . \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;tar --exclude=3D&#39;.git&#39; =
+--exclude=3D&#39;__pycache__&#39; --xattrs --xattrs-include=3D&#39;*&#39; -=
+chf - -C %s -p . \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| tar --xattrs --xattrs-include=3D&#39;*=
+&#39; -xf - -C %s&quot; % (src, dest)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_output(cmd, shell=3DTru=
+e, stderr=3Dsubprocess.STDOUT)<br>
+=C2=A0 =C2=A0 =C2=A0else:<br>
+@@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs, input_sstat=
+e_cache, output_sstate_cac<br>
+=C2=A0 =C2=A0 =C2=A0bb.note(&#39;Generating sstate-cache...&#39;)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0nativelsbstring =3D d.getVar(&#39;NATIVELSBSTRING&#39;=
+)<br>
+-=C2=A0 =C2=A0 bb.process.run(&quot;gen-lockedsig-cache %s %s %s %s %s&quo=
+t; % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring,=
+ filterfile or &#39;&#39;))<br>
++=C2=A0 =C2=A0 bb.process.run(&quot;PYTHONDONTWRITEBYTECODE=3D1 gen-locked=
+sig-cache %s %s %s %s %s&quot; % (lockedsigs, input_sstate_cache, output_ss=
+tate_cache, nativelsbstring, filterfile or &#39;&#39;))<br>
+=C2=A0 =C2=A0 =C2=A0if fixedlsbstring and nativelsbstring !=3D fixedlsbstr=
+ing:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nativedir =3D output_sstate_cache + &#39=
+;/&#39; + nativelsbstring<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.isdir(nativedir):<br>
+@@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile, =
+cmdprefix=3D&#39;&#39;, cwd=3DNone, lo<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D &#39;-l %s&#39; % logfile<b=
+r>
+=C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D &#39;&#39;<br>
+-=C2=A0 =C2=A0 cmd =3D &quot;%sBB_SETSCENE_ENFORCE=3D1 PSEUDO_DISABLED=3D1=
+ oe-check-sstate %s -s -o %s %s&quot; % (cmdprefix, targets, filteroutfile,=
+ logparam)<br>
++=C2=A0 =C2=A0 cmd =3D &quot;%sPYTHONDONTWRITEBYTECODE=3D1 BB_SETSCENE_ENF=
+ORCE=3D1 PSEUDO_DISABLED=3D1 oe-check-sstate %s -s -o %s %s&quot; % (cmdpre=
+fix, targets, filteroutfile, logparam)<br>
+=C2=A0 =C2=A0 =C2=A0env =3D dict(d.getVar(&#39;BB_ORIGENV&#39;, False))<br=
+>
+=C2=A0 =C2=A0 =C2=A0env.pop(&#39;BUILDDIR&#39;, &#39;&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0env.pop(&#39;BBPATH&#39;, &#39;&#39;)<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-> From memory I don't think the original GRUB port would have been tested on RV32.
->
-> Alistair
->
-> > ---
-> >  ...sable-offset-overflow-check-for-rv32.patch | 45 +++++++++++++++++++
-> >  meta/recipes-bsp/grub/grub2.inc               |  1 +
-> >  2 files changed, 46 insertions(+)
-> >  create mode 100644 meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
-> >
-> > diff --git a/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch b/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
-> > new file mode 100644
-> > index 0000000000..6547bf2261
-> > --- /dev/null
-> > +++ b/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
-> > @@ -0,0 +1,45 @@
-> > +From ce1cea0563011698e4a70c9a60e7da66b57ab1d6 Mon Sep 17 00:00:00 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Wed, 24 Mar 2021 20:55:56 -0700
-> > +Subject: [PATCH] Disable offset overflow check for rv32
-> > +
-> > +Fixes
-> > +/tmp/grub/grub-mkimage: error: target 17c6 not reachable from pc=936.
-> > +
-> > +Upstream-Status: Reported [https://savannah.gnu.org/bugs/index.php?60283]
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +---
-> > + util/grub-mkimagexx.c | 6 ++++--
-> > + 1 file changed, 4 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
-> > +index 00f49ccaa..6deb66226 100644
-> > +--- a/util/grub-mkimagexx.c
-> > ++++ b/util/grub-mkimagexx.c
-> > +@@ -1297,9 +1297,10 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
-> > +                    {
-> > +                      grub_uint32_t hi20, lo12;
-> > +
-> > ++#ifdef MKIMAGE_ELF64
-> > +                      if (off != (grub_int32_t)off)
-> > +                        grub_util_error ("target %lx not reachable from pc=%lx", (long)sym_addr, (long)((char *)target - (char *)e));
-> > +-
-> > ++#endif
-> > +                      hi20 = (off + 0x800) & 0xfffff000;
-> > +                      lo12 = (off - hi20) & 0xfff;
-> > +                      t32[0] = grub_host_to_target32 ((grub_target_to_host32 (t32[0]) & 0xfff) | hi20);
-> > +@@ -1336,9 +1337,10 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
-> > +                    {
-> > +                      grub_int32_t hi20;
-> > +
-> > ++#ifdef MKIMAGE_ELF64
-> > +                      if (off != (grub_int32_t)off)
-> > +                        grub_util_error ("target %lx not reachable from pc=%lx", (long)sym_addr, (long)((char *)target - (char *)e));
-> > +-
-> > ++#endif
-> > +                      hi20 = (off + 0x800) & 0xfffff000;
-> > +                      *t32 = grub_host_to_target32 ((grub_target_to_host32 (*t32) & 0xfff) | hi20);
-> > +                    }
-> > +--
-> > +2.31.0
-> > +
-> > diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-> > index bcff676c26..d8a556e06c 100644
-> > --- a/meta/recipes-bsp/grub/grub2.inc
-> > +++ b/meta/recipes-bsp/grub/grub2.inc
-> > @@ -19,6 +19,7 @@ SRC_URI = "https://alpha.gnu.org/gnu/grub/grub-${REALPV}.tar.xz \
-> >             file://grub-module-explicitly-keeps-symbole-.module_license.patch \
-> >             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
-> >             file://determinism.patch \
-> > +           file://0001-Disable-offset-overflow-check-for-rv32.patch \
-> >  "
-> >
-> >  SRC_URI[sha256sum] = "2c87f1f21e2ab50043e6cd9163c08f1b6c3a6171556bf23ff9ed65b074145484"
-> > --
-> > 2.31.0
-> >
-> >
-> > 
-> >
+--0000000000004094d005be6a290e--
