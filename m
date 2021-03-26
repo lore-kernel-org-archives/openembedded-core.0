@@ -1,329 +1,169 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web09.12825.1616767448693725712
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web10.13521.1616769019478576482
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 07:04:09 -0700
+ Fri, 26 Mar 2021 07:30:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Tux8FxVS;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id h10so6404441edt.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 07:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qt5MLJPNaU2iXcaBjq+SdnBtKxi4DzFQxMGJ/Dah9Fk=;
-        b=Tux8FxVSQsIrVxdX6IrT8mzQJZKLgw910qbGIVnAfg0gcWehpsmsGS0S/ELvvv7bun
-         xMuOcbSnabMMYlgB2P484dcW4q/pLLh7Qix+MjLYWSgL0Qf2QEbkKHq85tfkqPh9G+Ca
-         8LtD7wX+kYVQUBJ05hOdvysC5qP/3t8SZb5o+EN5EL5LQMpDzjmUBx5awYzAumD+ADNk
-         ndWdX4bXHyu4wUsEGZsV+ouGNp5WHx9UStjUNj07FZfGaEzo5YonqHZY+JCHWvkEUPsz
-         JpwMeraLoSf/CUvHtST86f6pRx/doQQVqP8u4iQzLsoQ/hz0Vw76gBWPRRkSsw3hdxKh
-         71CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qt5MLJPNaU2iXcaBjq+SdnBtKxi4DzFQxMGJ/Dah9Fk=;
-        b=X/szjs46o5lopc4mfRvnDNUrc317/lml316zZtt5LeeB5y/Icv2zX+0ll7B9In+xAG
-         iOLmWFV8JmttOgmD+ZkcuSJgZ/rl0jGExTBe265c2SCn6WaXqlrlsq912h9YY7bdGx2a
-         adYrboV3+NmTbsscREmEp6N7vnii3WRiqbbZDUit+horyd4jhDtlaTBS+ZcMfRJnms80
-         RoQHr4nWWacgrbOo+k30wCcwRK6/fOl8cMMtyp9J8I1HrZs9B6WuuP9/B6JJ3o1jrQL+
-         23ZirpN/CcoORUZEu/IUVejZhrx/XcwViAU/sZwZP3J+dog95CmOr899jkGpPszFdUTI
-         4egQ==
-X-Gm-Message-State: AOAM530QqRuRdqYj8guLxWJB9JhhX7XjJLYNxYQggikrjOo2c+XBw2ns
-	1hqk5mCB1LW1gU22OFCzIl8CP0zLOQKP5WC8Cg8=
-X-Google-Smtp-Source: ABdhPJw8P8A0RAbfNSMA6a/OeeXQZIYcOUrSG3Yu30O3hqvlgD6GxmUWCLjEM8V7LwrWYNb9eBzCWYQDMR95T1QQHTo=
-X-Received: by 2002:aa7:cf95:: with SMTP id z21mr15039735edx.76.1616767446977;
- Fri, 26 Mar 2021 07:04:06 -0700 (PDT)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 12QEUDfJ009701
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Fri, 26 Mar 2021 09:30:14 -0500
+Subject: Re: [OE-core] [PATCH] populate_sdk_ext: Avoid copying and producing .pyc files
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20210325224402.145099-1-mark.hatle@kernel.crashing.org>
+ <CANNYZj_zPxBpj81qc85xa+PR_yKAX9To6GnHVwqmbpFu4U3qkw@mail.gmail.com>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Message-ID: <4ea9e38d-d62d-2898-363b-b68d675e3190@kernel.crashing.org>
+Date: Fri, 26 Mar 2021 09:30:13 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <1616766364-22994-1-git-send-email-purushottam.choudhary@kpit.com>
-In-Reply-To: <1616766364-22994-1-git-send-email-purushottam.choudhary@kpit.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 26 Mar 2021 15:03:55 +0100
-Message-ID: <CA+chaQdC0qqPSzJNo8TRXXmfWmDWmV3BxxmMPnwQPfdzWZUsfA@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] buildhistory.bbclass: store MAINTAINER variable
-To: Purushottam choudhary <purushottam.choudhary@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, 
-	Harpritkaur Bhandari <harpritkaur.bhandari@kpit.com>
-Content-Type: multipart/alternative; boundary="0000000000005c8dee05be71012f"
-
---0000000000005c8dee05be71012f
-Content-Type: text/plain; charset="UTF-8"
-
-This change isn't in master nor gatesgarth.
-
-On Fri, Mar 26, 2021 at 2:46 PM Purushottam choudhary <
-purushottam.choudhary@kpit.com> wrote:
-
-> The maintainer declaration in the buildhistory
-> is useful for tracking the maintainer of recipes.
-> This change adds the MAINTAINER variable for
-> recipes and packages to its buildhistory data.
->
-> Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-> ---
->  meta/classes/buildhistory.bbclass | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass
-> index 8a1359a..04fac82 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -109,6 +109,7 @@ python buildhistory_emit_pkghistory() {
->              self.pe = "0"
->              self.pv = "0"
->              self.pr = "r0"
-> +            self.maintainer = ""
->              self.depends = ""
->              self.packages = ""
->              self.srcrev = ""
-> @@ -126,6 +127,7 @@ python buildhistory_emit_pkghistory() {
->              self.pkge = ""
->              self.pkgv = ""
->              self.pkgr = ""
-> +            self.maintainer = ""
->              self.size = 0
->              self.depends = ""
->              self.rprovides = ""
-> @@ -162,6 +164,8 @@ python buildhistory_emit_pkghistory() {
->                      pkginfo.pkgv = value
->                  elif name == "PKGR":
->                      pkginfo.pkgr = value
-> +                elif name == "MAINTAINER":
-> +                    pkginfo.maintainer = value
->                  elif name == "RPROVIDES":
->                      pkginfo.rprovides = value
->                  elif name == "RDEPENDS":
-> @@ -215,6 +219,7 @@ python buildhistory_emit_pkghistory() {
->      pr = d.getVar('PR')
->      layer = bb.utils.get_file_layer(d.getVar('FILE'), d)
->
-> +    maintainer = d.getVar('MAINTAINER') or ''
->      pkgdata_dir = d.getVar('PKGDATA_DIR')
->      packages = ""
->      try:
-> @@ -251,6 +256,7 @@ python buildhistory_emit_pkghistory() {
->      rcpinfo.pe = pe
->      rcpinfo.pv = pv
->      rcpinfo.pr = pr
-> +    rcpinfo.maintainer = maintainer
->      rcpinfo.depends = sortlist(oe.utils.squashspaces(d.getVar('DEPENDS')
-> or ""))
->      rcpinfo.packages = packages
->      rcpinfo.layer = layer
-> @@ -270,6 +276,7 @@ python buildhistory_emit_pkghistory() {
->          pkge = pkgdata.get('PKGE', '0')
->          pkgv = pkgdata['PKGV']
->          pkgr = pkgdata['PKGR']
-> +        pkg_maintainer = d.getVar('MAINTAINER_%s' % (pkg,), True) or
-> maintainer
->          #
->          # Find out what the last version was
->          # Make sure the version did not decrease
-> @@ -293,6 +300,7 @@ python buildhistory_emit_pkghistory() {
->          pkginfo.pkge = pkge
->          pkginfo.pkgv = pkgv
->          pkginfo.pkgr = pkgr
-> +        pkginfo.maintainer = pkg_maintainer
->          pkginfo.rprovides =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RPROVIDES', "")))
->          pkginfo.rdepends =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RDEPENDS', "")))
->          pkginfo.rrecommends =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RRECOMMENDS', "")))
-> @@ -368,6 +376,7 @@ def write_recipehistory(rcpinfo, d):
->          f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
->          f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
->          f.write(u"LAYER = %s\n" %  rcpinfo.layer)
-> +        f.write(u"MAINTAINER = %s\n" % rcpinfo.maintainer)
->
->      write_latest_srcrev(d, pkghistdir)
->
-> @@ -386,6 +395,7 @@ def write_pkghistory(pkginfo, d):
->              f.write(u"PE = %s\n" %  pkginfo.pe)
->          f.write(u"PV = %s\n" %  pkginfo.pv)
->          f.write(u"PR = %s\n" %  pkginfo.pr)
-> +        f.write(u"MAINTAINER = %s\n" % pkginfo.maintainer)
->
->          if pkginfo.pkg != pkginfo.name:
->              f.write(u"PKG = %s\n" % pkginfo.pkg)
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential
-> and is the property of the KPIT Technologies Ltd. It is intended only for
-> the person to whom it is addressed. If you are not the intended recipient,
-> you are not authorized to read, print, retain copy, disseminate,
-> distribute, or use this message or any part thereof. If you receive this
-> message in error, please notify the sender immediately and delete all
-> copies of this message. KPIT Technologies Ltd. does not accept any
-> liability for virus infected mails.
->
-> 
->
->
-
---0000000000005c8dee05be71012f
-Content-Type: text/html; charset="UTF-8"
+In-Reply-To: <CANNYZj_zPxBpj81qc85xa+PR_yKAX9To6GnHVwqmbpFu4U3qkw@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by kernel.crashing.org id 12QEUDfJ009701
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This change isn&#39;t in master nor gatesgarth.</div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar=
- 26, 2021 at 2:46 PM Purushottam choudhary &lt;<a href=3D"mailto:purushotta=
-m.choudhary@kpit.com">purushottam.choudhary@kpit.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">The maintainer declarat=
-ion in the buildhistory<br>
-is useful for tracking the maintainer of recipes.<br>
-This change adds the MAINTAINER variable for<br>
-recipes and packages to its buildhistory data.<br>
-<br>
-Signed-off-by: Purushottam Choudhary &lt;<a href=3D"mailto:purushottam.cho=
-udhary@kpit.com" target=3D"_blank">purushottam.choudhary@kpit.com</a>&gt;<b=
-r>
----<br>
-=C2=A0meta/classes/buildhistory.bbclass | 10 ++++++++++<br>
-=C2=A01 file changed, 10 insertions(+)<br>
-<br>
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory=
-.bbclass<br>
-index 8a1359a..04fac82 100644<br>
---- a/meta/classes/buildhistory.bbclass<br>
-+++ b/meta/classes/buildhistory.bbclass<br>
-@@ -109,6 +109,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.pe"=
- rel=3D"noreferrer" target=3D"_blank">self.pe</a> =3D &quot;0&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pv =3D &quot;0&quot;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://self.pr"=
- rel=3D"noreferrer" target=3D"_blank">self.pr</a> =3D &quot;r0&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.maintainer =3D &quot;&quot=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.depends =3D &quot;&qu=
-ot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.packages =3D &quot;&q=
-uot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.srcrev =3D &quot;&quo=
-t;<br>
-@@ -126,6 +127,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pkge =3D &quot;&quot;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pkgv =3D &quot;&quot;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pkgr =3D &quot;&quot;=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.maintainer =3D &quot;&quot=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.size =3D 0<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.depends =3D &quot;&qu=
-ot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.rprovides =3D &quot;&=
-quot;<br>
-@@ -162,6 +164,8 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0pkginfo.pkgv =3D value<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif name =
-=3D=3D &quot;PKGR&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0pkginfo.pkgr =3D value<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif name =3D=3D =
-&quot;MAINTAINER&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg=
-info.maintainer =3D value<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif name =
-=3D=3D &quot;RPROVIDES&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0pkginfo.rprovides =3D value<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif name =
-=3D=3D &quot;RDEPENDS&quot;:<br>
-@@ -215,6 +219,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0pr =3D d.getVar(&#39;PR&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0layer =3D bb.utils.get_file_layer(d.getVar(&#39;FILE&#=
-39;), d)<br>
-<br>
-+=C2=A0 =C2=A0 maintainer =3D d.getVar(&#39;MAINTAINER&#39;) or &#39;&#39;=
-<br>
-=C2=A0 =C2=A0 =C2=A0pkgdata_dir =3D d.getVar(&#39;PKGDATA_DIR&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0packages =3D &quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0try:<br>
-@@ -251,6 +256,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0<a href=3D"http://rcpinfo.pe" rel=3D"noreferrer" targe=
-t=3D"_blank">rcpinfo.pe</a> =3D pe<br>
-=C2=A0 =C2=A0 =C2=A0rcpinfo.pv =3D pv<br>
-=C2=A0 =C2=A0 =C2=A0<a href=3D"http://rcpinfo.pr" rel=3D"noreferrer" targe=
-t=3D"_blank">rcpinfo.pr</a> =3D pr<br>
-+=C2=A0 =C2=A0 rcpinfo.maintainer =3D maintainer<br>
-=C2=A0 =C2=A0 =C2=A0rcpinfo.depends =3D sortlist(oe.utils.squashspaces(d.g=
-etVar(&#39;DEPENDS&#39;) or &quot;&quot;))<br>
-=C2=A0 =C2=A0 =C2=A0rcpinfo.packages =3D packages<br>
-=C2=A0 =C2=A0 =C2=A0rcpinfo.layer =3D layer<br>
-@@ -270,6 +276,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkge =3D pkgdata.get(&#39;PKGE&#39;, &#3=
-9;0&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgv =3D pkgdata[&#39;PKGV&#39;]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgr =3D pkgdata[&#39;PKGR&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg_maintainer =3D d.getVar(&#39;MAINTAINER_%=
-s&#39; % (pkg,), True) or maintainer<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Find out what the last version was<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Make sure the version did not decrease=
-<br>
-@@ -293,6 +300,7 @@ python buildhistory_emit_pkghistory() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.pkge =3D pkge<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.pkgv =3D pkgv<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.pkgr =3D pkgr<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkginfo.maintainer =3D pkg_maintainer<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.rprovides =3D sortpkglist(oe.uti=
-ls.squashspaces(pkgdata.get(&#39;RPROVIDES&#39;, &quot;&quot;)))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.rdepends =3D sortpkglist(oe.util=
-s.squashspaces(pkgdata.get(&#39;RDEPENDS&#39;, &quot;&quot;)))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkginfo.rrecommends =3D sortpkglist(oe.u=
-tils.squashspaces(pkgdata.get(&#39;RRECOMMENDS&#39;, &quot;&quot;)))<br>
-@@ -368,6 +376,7 @@ def write_recipehistory(rcpinfo, d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;DEPENDS =3D %s\n&quot; %=
-=C2=A0 rcpinfo.depends)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;PACKAGES =3D %s\n&quot; %=
-=
-=C2=A0 rcpinfo.packages)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;LAYER =3D %s\n&quot; %=C2=
-=
-=A0 rcpinfo.layer)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(u&quot;MAINTAINER =3D %s\n&quot; % rc=
-pinfo.maintainer)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0write_latest_srcrev(d, pkghistdir)<br>
-<br>
-@@ -386,6 +395,7 @@ def write_pkghistory(pkginfo, d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;PE =3D %s\n=
-&quot; %=C2=A0 <a href=3D"http://pkginfo.pe" rel=3D"noreferrer" target=3D"_=
-blank">pkginfo.pe</a>)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;PV =3D %s\n&quot; %=C2=A0=
- pkginfo.pv)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;PR =3D %s\n&quot; %=C2=A0=
- <a href=3D"http://pkginfo.pr" rel=3D"noreferrer" target=3D"_blank">pkginfo=
-.pr</a>)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(u&quot;MAINTAINER =3D %s\n&quot; % pk=
-ginfo.maintainer)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if pkginfo.pkg !=3D <a href=3D"http://pk=
-ginfo.name" rel=3D"noreferrer" target=3D"_blank">pkginfo.name</a>:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(u&quot;PKG =3D %s\=
-n&quot; % pkginfo.pkg)<br>
---<br>
-2.7.4<br>
-<br>
-This message contains information that may be privileged or confidential a=
-nd is the property of the KPIT Technologies Ltd. It is intended only for th=
-e person to whom it is addressed. If you are not the intended recipient, yo=
-u are not authorized to read, print, retain copy, disseminate, distribute, =
-or use this message or any part thereof. If you receive this message in err=
-or, please notify the sender immediately and delete all copies of this mess=
-age. KPIT Technologies Ltd. does not accept any liability for virus infecte=
-d mails.<br>
-<br>
-<br>
-<br>
-</blockquote></div>
 
---0000000000005c8dee05be71012f--
+
+On 3/26/21 12:54 AM, Alexander Kanavin wrote:
+> Wait, I have to say neither reason is convincing. Pyc files are not
+> system-specific, they are the same on all systems. And pseudo issues sho=
+uld be
+> dealt with by fixing the issue, not working around the symptoms, no?
+
+These are pyc files that are generated by the host system python.  As such=
+, they
+contain versioning information of the particular host they were constructe=
+d on.
+
+The next user (of the eSDK) would regenerate the pyc files, assuming their
+python was a different version/configuration anyway.
+
+The pseudo issue is simply caused by the generation of these files outside=
+ of
+the pseudo context.  The three places modified need to run without pseudo
+control in order to setup the bitbake (host) environment properly, as well=
+ as
+verify that the previous files copied/setup are infact correct.
+
+So we're not working around symptoms.. we are indeed fixing the underlying
+issues in the implementation.  It just happened to be that I was able to
+reproduce the build failure reliably for a time vs it just going away on i=
+t's own.
+
+--Mark
+
+> Alex
+>=20
+> On Thu, 25 Mar 2021 at 23:44, Mark Hatle <mark.hatle@kernel.crashing.org
+> <mailto:mark.hatle@kernel.crashing.org>> wrote:
+>=20
+>     Since pyc cache files are really system specific, no real reason to =
+copy or
+>     generate them during the eSDK build process.=C2=A0 Also generating t=
+hem has the
+>     possibility of re-using inodes that pseudo may have been tracking, l=
+eading
+>     a build failure.
+>=20
+>     Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org
+>     <mailto:mark.hatle@kernel.crashing.org>>
+>     ---
+>     =C2=A0meta/classes/populate_sdk_ext.bbclass | 4 +++-
+>     =C2=A0meta/lib/oe/copy_buildsystem.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 =
++++---
+>     =C2=A02 files changed, 6 insertions(+), 4 deletions(-)
+>=20
+>     diff --git a/meta/classes/populate_sdk_ext.bbclass
+>     b/meta/classes/populate_sdk_ext.bbclass
+>     index 9112ab6c5e..14689ec6ac 100644
+>     --- a/meta/classes/populate_sdk_ext.bbclass
+>     +++ b/meta/classes/populate_sdk_ext.bbclass
+>     @@ -251,7 +251,9 @@ python copy_buildsystem () {
+>=20
+>     =C2=A0 =C2=A0 =C2=A0# Create a layer for new recipes / appends
+>     =C2=A0 =C2=A0 =C2=A0bbpath =3D d.getVar('BBPATH')
+>     -=C2=A0 =C2=A0 bb.process.run(['devtool', '--bbpath', bbpath, '--bas=
+epath',
+>     baseoutpath, 'create-workspace', '--create-only', os.path.join(baseo=
+utpath,
+>     'workspace')])
+>     +=C2=A0 =C2=A0 env =3D os.environ.copy()
+>     +=C2=A0 =C2=A0 env['PYTHONDONTWRITEBYTECODE'] =3D '1'
+>     +=C2=A0 =C2=A0 bb.process.run(['devtool', '--bbpath', bbpath, '--bas=
+epath',
+>     baseoutpath, 'create-workspace', '--create-only', os.path.join(baseo=
+utpath,
+>     'workspace')], env=3Denv)
+>=20
+>     =C2=A0 =C2=A0 =C2=A0# Create bblayers.conf
+>     =C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(baseoutpath + '/conf')
+>     diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buil=
+dsystem.py
+>     index 31a84f5b06..d97bf9d1b9 100644
+>     --- a/meta/lib/oe/copy_buildsystem.py
+>     +++ b/meta/lib/oe/copy_buildsystem.py
+>     @@ -20,7 +20,7 @@ def _smart_copy(src, dest):
+>     =C2=A0 =C2=A0 =C2=A0mode =3D os.stat(src).st_mode
+>     =C2=A0 =C2=A0 =C2=A0if stat.S_ISDIR(mode):
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(dest)
+>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D "tar --exclude=3D'.git' --xattr=
+s --xattrs-include=3D'*' -chf - -C
+>     %s -p . \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D "tar --exclude=3D'.git' --exclu=
+de=3D'__pycache__' --xattrs
+>     --xattrs-include=3D'*' -chf - -C %s -p . \
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| tar --xattrs --xattrs-include=3D=
+'*' -xf - -C %s" % (src, dest)
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_output(cmd, shell=
+=
+=3DTrue, stderr=3Dsubprocess.STDOUT)
+>     =C2=A0 =C2=A0 =C2=A0else:
+>     @@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs,
+>     input_sstate_cache, output_sstate_cac
+>     =C2=A0 =C2=A0 =C2=A0bb.note('Generating sstate-cache...')
+>=20
+>     =C2=A0 =C2=A0 =C2=A0nativelsbstring =3D d.getVar('NATIVELSBSTRING')
+>     -=C2=A0 =C2=A0 bb.process.run("gen-lockedsig-cache %s %s %s %s %s" %=
+ (lockedsigs,
+>     input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile=
+ or ''))
+>     +=C2=A0 =C2=A0 bb.process.run("PYTHONDONTWRITEBYTECODE=3D1 gen-locke=
+dsig-cache %s %s %s
+>     %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache,
+>     nativelsbstring, filterfile or ''))
+>     =C2=A0 =C2=A0 =C2=A0if fixedlsbstring and nativelsbstring !=3D fixed=
+lsbstring:
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nativedir =3D output_sstate_cache =
++ '/' + nativelsbstring
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.isdir(nativedir):
+>     @@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filterout=
+file,
+>     cmdprefix=3D'', cwd=3DNone, lo
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D '-l %s' % logfile
+>     =C2=A0 =C2=A0 =C2=A0else:
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D ''
+>     -=C2=A0 =C2=A0 cmd =3D "%sBB_SETSCENE_ENFORCE=3D1 PSEUDO_DISABLED=3D=
+1 oe-check-sstate %s -s
+>     -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
+>     +=C2=A0 =C2=A0 cmd =3D "%sPYTHONDONTWRITEBYTECODE=3D1 BB_SETSCENE_EN=
+FORCE=3D1
+>     PSEUDO_DISABLED=3D1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, ta=
+rgets,
+>     filteroutfile, logparam)
+>     =C2=A0 =C2=A0 =C2=A0env =3D dict(d.getVar('BB_ORIGENV', False))
+>     =C2=A0 =C2=A0 =C2=A0env.pop('BUILDDIR', '')
+>     =C2=A0 =C2=A0 =C2=A0env.pop('BBPATH', '')
+>     --=20
+>     2.17.1
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
