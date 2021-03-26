@@ -1,117 +1,100 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web12.2192.1616785938345049183
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web12.2364.1616786543546185489
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 12:12:18 -0700
+ Fri, 26 Mar 2021 12:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KjMKgJ1F;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id w8so3013842pjf.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 12:12:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cYrgiJqb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id b14so9235493lfv.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 12:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mzpb7YK/lJVKGIdU4i9jsGeEuk7O7Ty1+Dh5HTH5ka4=;
-        b=KjMKgJ1F1vYYeosKNVDSGzxf7cS88xgY7gUjtHPhygIpXs+dPSyHcM/AGa+sjWWYtw
-         +xgsAtWHIYNx87ZfplX3DRi6tx+QXw2duhk5cOHvlSLkNhHENJpOLIs5yjyO5I65YEYx
-         9PoDJEKZVVFLV/C4VAkA5qaFVjAAoRNp+9/mt+p1jOyF2vD+eGgAhd9Fh3FiQ7ZF1smq
-         gHgbDAZdLGqRK8II/jjETXU7roXWKU/zffC5bDCwERDwxQd09JVHmRBaJqmtXVzG3nPj
-         a8Fho0wzh6GEcCdffaqCbQuDOgpnPEmEgYq3Wddq6Xud4Nj5vC4bmiziyEhW3//EvHA6
-         torA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xxpb1T+/J58uvsHJXOfmsw7204zWNUAF4P6jIZzIDlU=;
+        b=cYrgiJqbVKSVp7rFh/n7dMFyMgtEAcMtyEcS/OxmkKX2DgGvf+U75SWfGlC7EaL7KM
+         omXFBgr5mSYUmHEtsTMJasagTXXNQXGYoad6J5dnZTiQRJC9MOalPUdieW8pVFqxIa+A
+         YJ6OMa3z0d7bBH7UHCpgWIwbXXFKbe6G7keNfFTsIu4PiDty/InxHqbefpy7UiV6WzYg
+         7FK1Yb/i/6rBHo9dZBwkSNr82i4oV0G4xO9dkq5a1piX0tJB8JbFvaoAaSuoHUK9trFm
+         pOm8mqlHMCbPn/KwCh6nFvVQhCXCgvU/M4tNJGrIqsAByGLAKeId4CfT7IDoZiaCjIV6
+         9ISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mzpb7YK/lJVKGIdU4i9jsGeEuk7O7Ty1+Dh5HTH5ka4=;
-        b=OE4kKdUamzqhIfTcB/sH2iqOCGAVh+lklLvg3gmN5uOWri7w2CIyqhFw5biNZ6X+QH
-         aSf5dVuCk1CswqVJDU91DdKzV2HEo3Nh8e3HE9QEeWg1CgrYocgeMFzeO+QWSQNP3rIp
-         TWlschNpWoTt985wFFzkl+VTZO+ZUZ5puO5DVu0afu7zDGHVAkux7M33aahFYf6I4czf
-         lZ0uNxRPhKE9EgL4z6NlKEQHGk89c45peqOme6SX8hIpFKFWtjCU4iYAO2oGQ8wXufwS
-         fmUFsAolD/E+lPcONbKEGLF0WIKJ9KI8nqIqLpHcbz2mUVv4KhX0N/HdttB3no7vLJdb
-         aoDA==
-X-Gm-Message-State: AOAM532t4Ia1DEYc2s2BHXNKphHyMeFrhLsSQZruKiuo0wLLrcc3oWhX
-	hXFqEGjdAeNHG7mLzmh9YHtLV27u6OLnLQ==
-X-Google-Smtp-Source: ABdhPJwYd0yqCXmgMNndtRZIebRWs//esXWz1Fz0K/pTCh6GNEL9Jv4gSwNjn7zMDAHQ6eyxYsqQDA==
-X-Received: by 2002:a17:90a:f28e:: with SMTP id fs14mr14873008pjb.100.1616785937313;
-        Fri, 26 Mar 2021 12:12:17 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::aebb])
-        by smtp.gmail.com with ESMTPSA id z8sm8942871pjr.57.2021.03.26.12.12.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 12:12:16 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3] grub-efi: Re-introduce lost cast to long
-Date: Fri, 26 Mar 2021 12:12:14 -0700
-Message-Id: <20210326191214.256631-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xxpb1T+/J58uvsHJXOfmsw7204zWNUAF4P6jIZzIDlU=;
+        b=Pur+0Va+RlU/SBRtwFqqX/Utq0mMioYUPXAeQiAhqGFANmsNO9utsAH3TyWS9Aq1l5
+         f3bNS5H0vONQVg1ikj/8OqbR78uQedtpiggRgNt6S0sQ9GvQcD6Yuc7mFtu9mC5Xugjl
+         ZcnQyZZuXHRH8N/RLCf99qjHvOOQiypAd4XkRfrkFfWoGrGQC09a9RfHVbP5uve3Cgr3
+         BCTBbaf/cR8QC4HbkyJt59njSFSUZI/5JSLUT/sexBGlaV05ZOV0Cide/3a8idJ9GxGW
+         QQQTQv9hWbpyyGsVTrlhM252pBh1DUiqZfh6HN+UsnFoJAnGUkPtU53RkaISTGFWitnS
+         JGNg==
+X-Gm-Message-State: AOAM533ptW3Xtlarq8Nu5ODvFH1LvRWiys0u24m7p4wmLFR6YoBq+cnF
+	IJveBXLf8iLeehpHjCPx29EdBd8SgpyXmFdSx34=
+X-Google-Smtp-Source: ABdhPJxijbk8jX3/vj1d5JPS4Q129mY4x6bWTqr3b41L8ZddF5/XJN8+XcxXZgY5J0hKhZuuknX2E7+BMi48tgduSe4=
+X-Received: by 2002:ac2:5e3b:: with SMTP id o27mr8760707lfg.392.1616786541688;
+ Fri, 26 Mar 2021 12:22:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <117b58d-f7c6-6187-dc33-66d75292cc58@crashcourse.ca>
+In-Reply-To: <117b58d-f7c6-6187-dc33-66d75292cc58@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Fri, 26 Mar 2021 12:22:10 -0700
+Message-ID: <CAJ86T=W8ooDN4td5n1-c_WDpUV6P3wwHQP_f2QyOSYdRXHK_Ag@mail.gmail.com>
+Subject: Re: [OE-core] some trivial(?) questions about packagegroups
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This cast was accidentally dropped in
-https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2bf40e9e5be9808b17852e688eead87acff14420
+On Fri, Mar 26, 2021 at 8:45 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>   what should be easy questions about packagegroups, inspired by my
+> running across some puzzling packagegroup recipes in my travels
+> recently. (i'll start with examples out of oe-core).
+>
+>   first, as with any other recipe, given a "trivial" packagegroup
+> like, say, packagegroup-core-eclipse-debug.bb:
+>
+>   SUMMARY = "Remote debugging tools for Eclipse integration"
+>
+>   inherit packagegroup
+>
+>   RDEPENDS_${PN} = "\
+>     gdbserver \
+>     tcf-agent \
+>     openssh-sftp-server \
+>     "
+>
+> there is no need to add a "PROVIDES" line since every recipe file
+> automatically provides its own name. so far, so good.
+>
+>   if we move up to packagegroup-core-nfs.bb, note how this recipe file
+> defines two additional packagegroups, and has to add a PROVIDES line
+> in order to make those new names accessible:
+>
+>   PROVIDES = "${PACKAGES}"
+>   PACKAGES = "${PN}-server ${PN}-client"
+>
+>   SUMMARY_${PN}-client = "NFS client"
+>   RDEPENDS_${PN}-client = "nfs-utils-client"
+>
+>   SUMMARY_${PN}-server = "NFS server"
+>   RDEPENDS_${PN}-server = "\
+>     nfs-utils \
+>     nfs-utils-client \
+>     "
+>
+> so the question is, must one supply a PROVIDES line for any
+> packagegroup names above and beyond the one that comes with the recipe
+> file itself? i ask what seems like a dumb question as i've run across
+> packagegroup recipe files that define multiple additional
+> packagegroups, but do not add them to the PROVIDES line. what is that
+> supposed to represent?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
----
-v1: Avoid apply addent to rv32
-v2: Drop building grub-efi for rv32
-v3: Fix the real regression due to dropped typecast
+PROVIDES sets up a name which can be used as DEPENDS (ie a build time
+dependency) in other recipes. If PROVIDES contains more than one name,
+they all just become aliases for each other.
 
- ...1-RISC-V-Restore-the-typcast-to-long.patch | 29 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
-
-diff --git a/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch b/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
-new file mode 100644
-index 0000000000..f0ffb3d954
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
-@@ -0,0 +1,29 @@
-+From bf248231cb4f9f966f0d57821dd0491af54d4a0b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 26 Mar 2021 11:59:43 -0700
-+Subject: [PATCH] RISC-V: Restore the typcast to long
-+
-+this makes the type promotions clear and explicit
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ util/grub-mkimagexx.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
-+index 00f49cc..ab5523d 100644
-+--- a/util/grub-mkimagexx.c
-++++ b/util/grub-mkimagexx.c
-+@@ -1242,7 +1242,7 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
-+ 		  */
-+ 
-+ 		 sym_addr += addend;
-+-		 off = sym_addr - target_section_addr - offset - image_target->vaddr_offset;
-++		 off = (long)sym_addr - target_section_addr - offset - image_target->vaddr_offset;
-+ 
-+ 		 switch (ELF_R_TYPE (info))
-+ 		   {
-+-- 
-+2.31.0
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index bcff676c26..590deb8d92 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -19,6 +19,7 @@ SRC_URI = "https://alpha.gnu.org/gnu/grub/grub-${REALPV}.tar.xz \
-            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
-            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
-            file://determinism.patch \
-+           file://0001-RISC-V-Restore-the-typcast-to-long.patch \
- "
- 
- SRC_URI[sha256sum] = "2c87f1f21e2ab50043e6cd9163c08f1b6c3a6171556bf23ff9ed65b074145484"
--- 
-2.31.0
-
+Since packagegroup recipes only define run time dependencies, nothing
+should have a build time dependency on a packagegroup recipe... and so
+there's no obvious reason to set PROVIDES to anything. Leaving the
+default will be fine (although it won't be used for anything).
