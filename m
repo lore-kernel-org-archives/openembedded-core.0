@@ -1,106 +1,127 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web12.908.1616781018196473735
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.1151.1616782001345911210
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 10:50:18 -0700
+ Fri, 26 Mar 2021 11:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U8Jn2Yvs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so3429059wmi.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 10:50:17 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=PPHdBje8;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=b3nCDTNGsRVBmF6CSI4nsfLkDL7ewv9EQYLo5nzdO5E=;
-        b=U8Jn2YvsXSe5n6BudYK200q9UnhCXp5J/BCfiA/kLyDxp+lebeDZyOgl+YgPTo+G3P
-         xFkli5uQSbJyyC53C8MAk5vsVLbd2w+pWMDpS6HsEPzigN9uKDmALG8Ns53ahi8jZ83U
-         ToszwgSzRItS5KANDCOQ/c4u9Lb4XdB9RVGwU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=b3nCDTNGsRVBmF6CSI4nsfLkDL7ewv9EQYLo5nzdO5E=;
-        b=PndU9DsRkaEhQ2KekbLfwuR3cWsicu/o8QmJ4+HpuNh5I7Kao9uOUuvRsUfychv/zL
-         m99bmXQAYSSxOJLqWWEaJdueA8J9O2MaOR6fY+M/7rRMu6IHNNgq0/LW4GuORVJv3oPB
-         lRU+er1yMeBzHEPx4pNYNe0a1YYsNtxtTtA0QMIyVXRiwf4IKZITiaOh9gdRgoG9YJP3
-         frSQBaBCrtvkmw496kO9U2MIWD8UvTWm9zb7N3NtfbdRRH/TxhOWCs6bLzV4//jlWzXe
-         dTb5QmKReQ1Z9VrGaiiNNnffA0lL8h3X+W2Wv9illubuIHz99L+X65EdhnDpfrWWBA4b
-         JeOA==
-X-Gm-Message-State: AOAM5318YlfZSHSqnXZov8Kdg2ew0gGYL7cwBR0CHleNR7ZGUWPe//ds
-	dR0oQSQoKs8CE1Tq6zBJdH3CbQ==
-X-Google-Smtp-Source: ABdhPJz4ujYuoJRMpqwZsLeLTu3z8TO/JsBbIitXYUEmoxFlbVFhxVYAJkhdZ8505xytjgYmOErZgA==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr13892214wmi.28.1616781016573;
-        Fri, 26 Mar 2021 10:50:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2f59:1239:417b:1a83? ([2001:8b0:aba:5f3c:2f59:1239:417b:1a83])
-        by smtp.gmail.com with ESMTPSA id q17sm14509439wrv.25.2021.03.26.10.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 10:50:16 -0700 (PDT)
-Message-ID: <9cea6a57043657d69ed020b6d6f773a9b8b69ffb.camel@linuxfoundation.org>
-Subject: Re: Autobuilder data collection for intermittent bugs
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
-	 <sakib.sajal@windriver.com>
-Cc: Trevor Gamblin <trevor.gamblin@windriver.com>, Steve Sakoman
-	 <steve@sakoman.com>, OE-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Mar 2021 17:50:12 +0000
-In-Reply-To: <afde9c35-3113-3663-75e1-791b73eeac65@windriver.com>
-References: <768fd8d6-09bb-3e87-fd37-267ac9352866@windriver.com>
-	 <e2a237d0cc34d56882de9d064287b81858a48a56.camel@linuxfoundation.org>
-	 <afde9c35-3113-3663-75e1-791b73eeac65@windriver.com>
-User-Agent: Evolution 3.40.0-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1616782001;
+  x=1648318001;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=KolS/NQ4I/OsrozGM9tM/OdX2KCsQQhjG0zvtFMX9EY=;
+  b=PPHdBje8tz+vX7WG1MxdaAC2kATYO9stWjM404qNWPzwrfcxfs4Cnx89
+   x6pPtKMYiuPm/su5u6H2OMSs5sqv4CwjmZuXw1sXKadcGOgxeo7ktqdWl
+   FjiRJATkpsPN4hFFX/XiIb9yl0yw3hZzrXd05n6niAbqHBOm/6V6qZwzk
+   oKxUhLN3ZglfG/mB8gt5p/H8s6qsS/D/OMaZAFPztbasiC9jjtuv7D5yR
+   pdy/G/mjD8ITsoBh9V7IWQgpXFJ203trg2WaksV7HyX+QXyHxffbokLrM
+   cM35FECXWj7jT6PfJVe7OOjnyAZ/4wg39uGXUOy7VsP5nLYIr54h1IYfE
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Oleksiy Obitotskyi
+	-X (oobitots - GLOBALLOGIC INC at Cisco)" <oobitots@cisco.com>, Luca Bocassi
+	<luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "bluelightning@bluelightning.org" <bluelightning@bluelightning.org>, "Khem
+ Raj" <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
+Thread-Topic: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe
+ to allow bootstrapping
+Thread-Index: AQHXFoim/dfc6J43RUKcvVlCArgZNqqUcYuAgAAEogCAAF+kAP//8j4AgAAuUTD///oNgIABtmjA
+Date: Fri, 26 Mar 2021 18:06:38 +0000
+Message-ID: <6fd89e2f790a4a39832907f1832b1d92@XBOX03.axis.com>
+References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+	 ,<20210311150959.782186-1-luca.boccassi@gmail.com>
+	 <PH0PR11MB49023E90CAB5E58C2B603899D7629@PH0PR11MB4902.namprd11.prod.outlook.com>
+	 <070d63d34bd6936df1e94c620103e2759dae0427.camel@linuxfoundation.org>
+	 <5f37ee174e3f45e094ee2bb71c3c0422@XBOX03.axis.com>
+	 <85dec47e7a6bf2533fe619fc391915d838e8924e.camel@linuxfoundation.org>
+	 <bffd569338fe4f9f9e5671443d6cdbc6@XBOX03.axis.com>
+ <4b0c1bc6bb1ae476cdba3ce5848b0bf7008de1d7.camel@linuxfoundation.org>
+In-Reply-To: <4b0c1bc6bb1ae476cdba3ce5848b0bf7008de1d7.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 2021-03-25 at 20:00 -0400, Randy MacLeod wrote:
-> Thanks for the update Sakib.
-> 
-> We're planning to follow Steve's example of getting commit access to
-> contrib branches of y-a-h and poky and using the YP AB to start custom 
-> workers/job initially.  We'll also keep working to duplicate the
-> AB behaviour locally. Trevor has asked Konrad for an additional system
-> or two since when jobs are running, the web UI is
-> painfully slow since it's runnig on the same node right now.
-> 
-> The one part that Sakib didn't ask about is how to get all the workers
-> to do the data collection but that's not urgent since we'll be doing
-> some smaller scale experiments tomorrow. If you can point out a helpful
-> example, that'd be good.
-
-The easiest is the fact that the workers all share an NFS mount which
-is at BASE_SHAREDDIR in config.json. See also WEBPUBLISH_DIR and 
-WEBPUBLISH_URL.
-
-We use this to share the reproducible build failures and to share the 
-reproducible build failures/diffoscope and test results, e.g.:
-OEQA_DEBUGGING_SAVED_OUTPUT=${BASE_SHAREDDIR}/pub/repro-fail/
-
-or perhaps more useful is scripts/collect-results:
-
-"""
-#!/bin/bash
-WORKDIR=$1
-DEST=$2
-target=$3
-
-RESFILE=$WORKDIR/tmp/log/oeqa/testresults.json 
-
-if [ -e $RESFILE ]; then
-    mkdir -p $DEST/$target
-    cp $WORKDIR/tmp/log/oeqa/testresults.json  $DEST/$target/
-fi
-"""
-
-would let you do something similar and DEST here is specific to a given 
-build (date stamp + number). An example would be:
-
-https://autobuilder.yocto.io/pub/non-release/20210129-3/
-
-and then you could create a folder per target. You may need to 
-include the worker name in the log.
-
-Cheers,
-
-Richard
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI1IG1hcnMgMjAy
+MSAxNzo1Mg0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBPbGVrc2l5IE9iaXRvdHNreWkgLQ0KPiBYIChvb2JpdG90cyAtIEdMT0JBTExPR0lD
+IElOQyBhdCBDaXNjbykgPG9vYml0b3RzQGNpc2NvLmNvbT47IEx1Y2EgQm9jYXNzaQ0KPiA8bHVj
+YS5ib2NjYXNzaUBnbWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnDQo+IENjOiBibHVlbGlnaHRuaW5nQGJsdWVsaWdodG5pbmcub3JnOyBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MTFd
+IHV0aWwtbGludXg6IHNwbGl0IHV1aWQgaW4gc2VwYXJhdGUNCj4gcmVjaXBlIHRvIGFsbG93IGJv
+b3RzdHJhcHBpbmcNCj4gDQo+IE9uIFRodSwgMjAyMS0wMy0yNSBhdCAxNjoxOSArMDAwMCwgUGV0
+ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnPg0KPiA+ID4gU2VudDogZGVuIDI1IG1hcnMgMjAyMSAxNToyNw0KPiA+ID4gVG86IFBl
+dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgT2xla3NpeQ0K
+PiBPYml0b3Rza3lpIC0NCj4gPiA+IFggKG9vYml0b3RzIC0gR0xPQkFMTE9HSUMgSU5DIGF0IENp
+c2NvKSA8b29iaXRvdHNAY2lzY28uY29tPjsgTHVjYQ0KPiBCb2Nhc3NpDQo+ID4gPiA8bHVjYS5i
+b2NjYXNzaUBnbWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQo+ID4gPiBDYzogYmx1ZWxpZ2h0bmluZ0BibHVlbGlnaHRuaW5nLm9yZzsgS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+IHYxMV0gdXRpbC1saW51eDogc3BsaXQgdXVpZCBpbiBzZXBhcmF0ZQ0KPiA+ID4gcmVjaXBlIHRv
+IGFsbG93IGJvb3RzdHJhcHBpbmcNCj4gPiA+DQo+ID4gPiBPbiBUaHUsIDIwMjEtMDMtMjUgYXQg
+MTQ6MjIgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiA+ID4gPiAtLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNo
+YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+ID4gPiA+IFNlbnQ6IGRlbiAyNSBt
+YXJzIDIwMjEgMTA6MzQNCj4gPiA+ID4gPiBUbzogT2xla3NpeSBPYml0b3Rza3lpIC1YIChvb2Jp
+dG90cyAtIEdMT0JBTExPR0lDIElOQyBhdCBDaXNjbykNCj4gPiA+ID4gPiA8b29iaXRvdHNAY2lz
+Y28uY29tPjsgTHVjYSBCb2Nhc3NpIDxsdWNhLmJvY2Nhc3NpQGdtYWlsLmNvbT47DQo+ID4gPiA+
+ID4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gPiA+IENj
+OiBibHVlbGlnaHRuaW5nQGJsdWVsaWdodG5pbmcub3JnOyBQZXRlciBLamVsbGVyc3RlZHQNCj4g
+PiA+ID4gPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgS2hlbSBSYWogPHJhai5raGVt
+QGdtYWlsLmNvbT4NCj4gPiA+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MTFd
+IHV0aWwtbGludXg6IHNwbGl0IHV1aWQgaW4NCj4gc2VwYXJhdGUNCj4gPiA+ID4gPiByZWNpcGUg
+dG8gYWxsb3cgYm9vdHN0cmFwcGluZw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24gVGh1LCAyMDIx
+LTAzLTI1IGF0IDA5OjE3ICswMDAwLCBPbGVrc2l5IE9iaXRvdHNreWkgLVggKG9vYml0b3RzDQo+
+IC0NCj4gPiA+ID4gPiBHTE9CQUxMT0dJQyBJTkMgYXQgQ2lzY28pIHdyb3RlOg0KPiA+ID4gPiA+
+ID4gQ291bGQgeW91IGxvb2sgaW50byB0aGlzIHdhcm5pbmcuDQo+ID4gPiA+ID4gPg0KPiA+ID4g
+PiA+ID4gV0FSTklORzogdXRpbC1saW51eC0yLjM2LjItcjAgZG9fcGFja2FnZV9xYTogUUEgSXNz
+dWU6IHV0aWwtDQo+IGxpbnV4LQ0KPiA+ID4gZGV2DQo+ID4gPiA+ID4gcmRlcGVuZHMgb24gdXRp
+bC1saW51eC1saWJ1dWlkLWRldiwgYnV0IGl0IGlzbid0IGEgYnVpbGQNCj4gZGVwZW5kZW5jeT8N
+Cj4gPiA+ID4gPiBbYnVpbGQtZGVwc10NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4g
+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy82
+MS9idWlsZHMvMzIyNg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhhdCBmYWlsdXJlIHdhcyBteSBm
+YXVsdCB3aGVuIHRlc3Rpbmcgc29tZSBmaXhlcy4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEkndmUg
+c2VudCBvdXQgYSBwYXRjaCB3aGljaCByZW5hbWVzIHV0aWwtbGludXgtdXVpZCB0byB1dGlsLWxp
+bnV4LQ0KPiA+ID4gbGlidXVpZA0KPiA+ID4gPiA+IGFuZCBzb3J0cyBvdXQgdGhlIGxpY2Vuc2Ug
+aXNzdWUgUGV0ZXIgcmVwb3J0ZWQuDQo+ID4gPiA+DQo+ID4gPiA+IEkgZG9uJ3QgbWluZCB0aGUg
+cmVjaXBlIGJlaW5nIHJlbmFtZWQgYW5kIGNsZWFuZWQgdXAsIGJ1dCBJIHdvdWxkDQo+IHByZWZl
+cg0KPiA+ID4gPiB0byBzZWUgbXkgZW50aXJlIHBhdGNoIGZvciB0aGUgbGljZW5zZSBwYXJ0cyBi
+ZWluZyBlaXRoZXIgaW50ZWdyYXRlZA0KPiA+ID4gYmVmb3JlDQo+ID4gPiA+IHRoaXMgb3Igc3F1
+YXNoZWQgaW50byBpdCwgd2hpY2hldmVyIHlvdSBwcmVmZXIuIEl0IGRvZXMgbm90IG1ha2UNCj4g
+c2Vuc2UNCj4gPiA+IHRvDQo+ID4gPiA+IHVzZSB0aGUgc2FtZSBMSUNfRklMRVNfQ0hLU1VNIGZv
+ciB1dGlsLWxpbnV4LWxpYnV1aWQgYXMgZm9yIHV0aWwtDQo+IGxpbnV4LA0KPiA+ID4gPiBhbmQg
+c2V0dGluZyB0aGUgb3RoZXIgTElDRU5TRSB2YXJpYWJsZXMgaW4gdXRpbC1saW51eC5pbmMgbm8g
+bG9uZ2VyDQo+ID4gPiBtYWtlcw0KPiA+ID4gPiBzZW5zZSBhcyB0aGV5IGFyZSBvbmx5IHJlbGV2
+YW50IGZvciB1dGlsLWxpbnV4Lg0KPiA+ID4NCj4gPiA+IEknbSB0b3JuIG9uIHRoYXQuIENvZGUg
+d2l0aCB0aGUgb3RoZXIgbGljZW5zZXMgaXMgcHJlc2VudCwganVzdCBub3QNCj4gdXNlZA0KPiA+
+ID4gaW4gdGhlIGZpbmFsIG91dHB1dCBhbmQgSSBwZXJzb25hbGx5IHN1c3BlY3QgdGhhdCBoYXZp
+bmcgb25lDQo+IExJQ19GSUxFU19DSEtTVU0NCj4gPiA+IGlzIGdvaW5nIHRvIGJlIGVhc2llciB0
+byBtYWludGFpbiBpbiB0aGUgZnV0dXJlIHJhdGhlciB0aGFuIHR3bw0KPiBzZXBhcmF0ZQ0KPiA+
+ID4gb25lcy4NCj4gPg0KPiA+IEkgYWN0dWFsbHkgY2hlY2tlZCBhbGwgdGhlIGZpbGVzIHRoYXQg
+Z28gaW50byAtZGV2IGFuZCAtc3JjIGJlZm9yZQ0KPiBzdWdnZXN0aW5nDQo+ID4gdGhpcyBjaGFu
+Z2UsIGFuZCBhbGwgZmlsZXMgYXJlIGVpdGhlciBtYXJrZWQgYXMgcHVibGljIGRvbWFpbiBvciB1
+c2UgYQ0KPiA+IEJTRC0zLUNsYXVzZSBsaWNlbnNlLg0KPiANCj4gVGhlcmUgaXMgYSBkaWZmZXJl
+bmNlIGJldHdlZW4gd2hhdCBlbmRzIHVwIGluICR7U30gYW5kIHdoYXQgZW5kcyB1cCBpbiB0aGUN
+Cj4gYmluYXJ5IHBhY2thZ2VzLiBMSUNFTlNFIGNsZWFybHkgZ292ZXJucyB0aGUgbGF0dGVyLiBJ
+dHMgdGhlIHNjb3BlIG9mDQo+IExJQ19GSUxFU19DSEVDS1NVTSB3aGljaCB0aGVyZSBhcmUgZGlm
+ZmVyZW5jZXMgb2Ygb3BpbmlvbiBvbi4NCg0KV2VsbCwgdGhlIGxhdHRlciBnb3Zlcm5zIHdoYXQg
+ZW5kcyB1cCBpbiAke1BOfS1saWMsIHNvIGhhdmluZyBhIGxvdCBvZiANCnVucmVsYXRlZCAodG8g
+dGhlIGluc3RhbGxlZCBwYWNrYWdlcykgbGljZW5zZSBmaWxlcyBpbiBMSUNfRklMRVNfQ0hFQ0tT
+VU0gDQpkb2VzIG5vdCBtYWtlIHNlbnNlICh0byBtZSkuIElmIGV2ZXJ5dGhpbmcgdGhhdCBpcyBi
+dWlsdCBhbmQgKHBvc3NpYmx5KSANCmluc3RhbGxlZCBhbmQgdGh1cyBkaXN0cmlidXRlZCBpcyBj
+b3ZlcmVkIGJ5IEJTRC0zLUNsYXVzZSBsaWNlbnNlcywgd2h5IA0Kc2hvdWxkICR7UE59LWxpYyBp
+bmNsdWRlIGEgbG90IG9mIGxpY2Vuc2UgZmlsZXMgZm9yIHVucmVsYXRlZCBjb2RlPw0KDQo+IENo
+ZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQo=
