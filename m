@@ -1,72 +1,82 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web10.1874.1616784546866679031
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web08.1920.1616784891990466343
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 11:49:07 -0700
+ Fri, 26 Mar 2021 11:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TKMkFLca;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id by2so3421034qvb.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 11:49:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bQILOVSu;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id x14so6249008qki.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 11:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tPlrdGTQfMHP3qRYlnHrSDQuCd8AtjmOgLV+MH0caO8=;
-        b=TKMkFLcaIY2BxuRRn25AKTeQIopOrLcZFBU/5jb1IjFDM8aj0Gk8g5ndhVwL9QC/TN
-         dFNIZNjhY9hca0PEl69ofCIKU4kras3xrm+4yTTKJm+5sWWaG56Rk97XjQsRPqdbapqf
-         UCdPlBXw9QCPaNEbqSwlrAvrdVpq9eAk3eOY5auwj9ELT0ej420Tlk5OfCX/Zqj5/SVX
-         xLFcG037jKp2wFCIzeYibLzjJCVQI6Xpd0IA1zCUrnJVuCXQKMbEN5cJxyBbF9XXojQR
-         zXoqVIEcJ0csLA41Csx37K7YrgVToCNOgAZVqC5SJ7bfViJNQjebz4CQVoKZs2EKTsT3
-         Nclg==
+        bh=jQeyykXrvzhM+tcSZUSTTryXIuWzQZWeFxPlpuJJq8s=;
+        b=bQILOVSuoMJyQuYcXQhW+pVg7fusimm/WGsitiPkDatb2gz3GG+NUz8nKq3oADZkqz
+         6bDqbAdXxIcCddeSG6K83tu5F1QxpJs96fomhv9cupgy2uJNaApzEUVxdpRVw0jW2s4k
+         MxRONPpq+ebtLFxio9ceNwwv35oSLUQBkhbANeyoFvCmbe1kJtzuqruO+G3CRNskbTT7
+         J++rWL0OVDEn72C7lqke0dmIA+go/EWWuEa71am4KGct0oZy5sNo3bQGprnNUSeOgh1Z
+         gtEOCl1lkikSJgWewavjuSlEj/EgcYWq+RjyUny9U8nL9eMxaCJkcuONoJwzxTPBRbNU
+         vYmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tPlrdGTQfMHP3qRYlnHrSDQuCd8AtjmOgLV+MH0caO8=;
-        b=iFZ7Ob1lsCBDgA76AqSpBiV7nCct7ZiTKGqEVqVBdjWNVU3ciISaFq/TdzmLUGJqMv
-         JuiowCTIyaTPRoZwm1j67DGM/ojKkDIx4WQqwwOs7A1bmwuyowsl+0FXD0fS/X8MOSmd
-         BYw/LZsu+xi0pA22hVpxz2Mx0LoMpx4SjQw+lzvsuR8vNl0dvya+y0x0DJqcfaymGY5R
-         TmQFnXBoeKyRp7EE6yMBhTguJFnQNLqIMwXAb/YERPKqDtgVPO1gCWDo9NmRZhwB+nZ4
-         8gdpeQEq4B7EK4t8UGz2MinbNzW4XnU9nDQwihU2i5Y3/M43BswVyj0eB2yN29WK2wyF
-         92Vw==
-X-Gm-Message-State: AOAM5309gk+6CtTJqZaOHjFuaGapsps4/9Zi6bVcfHyehyIQvOGwRNbS
-	l7Pi4RVUha6kXFXKiYPBLYwqzHsYTEI+dab1YN8=
-X-Google-Smtp-Source: ABdhPJzp6Edgi43xYhsUUMvaUMQZATD4BuCAoTFwSemO/i9vNRc7zZRU750gzym/+MVzI3SFAwDpGIcK5hGAb9B0lqk=
-X-Received: by 2002:a0c:f44d:: with SMTP id h13mr14726745qvm.31.1616784545973;
- Fri, 26 Mar 2021 11:49:05 -0700 (PDT)
+        bh=jQeyykXrvzhM+tcSZUSTTryXIuWzQZWeFxPlpuJJq8s=;
+        b=lSnDKI56jGaRy0ZASOqpmS6nBa7kb2X//rGybm+FAmUCkM3BytLzsRAvt4RQdhIy0k
+         lpvJczcn4y2HR0IUTGzbJcexhHKVRiFvVkNPnbE2GCojEySYYhbwRTDFbf2juWQG1mIH
+         4mufofQBK49eGH57Fv5Sm1ptukd8Nrn5EQwQ1IBsVkSrEMzzIf/Y/WqyavmnVMO5XRBZ
+         3/mTm2kl/fmRD7U61G2fhw/LFZHdQRaz2hO7CzdLnkgFwkGqSsT6jnWoufXbfN/ZlmZo
+         p89RJ+En1aDBxn6UanZDvcAz572ilbB9SPpbmN0/fF9XeMSJS7GGfFWd5iCdIqdm3NPv
+         cgSw==
+X-Gm-Message-State: AOAM532n8/UlPNY7IpD6/BCuO1M/EWJnlY5cx/ykf6RNraFTwbVZhJoa
+	qM6m9t8ak9nvQreDOEANei/hlGvQDqXDaJGa0f8=
+X-Google-Smtp-Source: ABdhPJz22Rn47ByInPzzGi13tiFwPdQlrhitl9j0xFdvug08WQ8zITdg/diM/M1Oasv6URtv/Bzl4t4mlmx4bbAY79Q=
+X-Received: by 2002:a37:a350:: with SMTP id m77mr14113259qke.146.1616784891139;
+ Fri, 26 Mar 2021 11:54:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210325173901.3057180-1-ross.burton@arm.com> <CANNYZj_mMCVjamiimbWki=r4GFAOXkRPjH6xm3rcSbYkmpewWw@mail.gmail.com>
- <CAAnfSTvXHyX_MvHbtpcUso92K=DQT1_7hMwAGCDPJ9RMW0zVPg@mail.gmail.com>
-In-Reply-To: <CAAnfSTvXHyX_MvHbtpcUso92K=DQT1_7hMwAGCDPJ9RMW0zVPg@mail.gmail.com>
+References: <20210325192052.2976-1-mikko.rapeli@bmw.de>
+In-Reply-To: <20210325192052.2976-1-mikko.rapeli@bmw.de>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 26 Mar 2021 11:48:39 -0700
-Message-ID: <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/3] meson: fix native/host confusion in gobject-introspection
-To: Ross Burton <ross@burtonini.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Mar 2021 11:54:25 -0700
+Message-ID: <CAMKF1sry10GxKxwSOoyPd87wXA4=r4Nb-YXHEV+3TxCcHaANzw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][gatesgarth][dunfell] openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
+To: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-I am seeing some failures
+do we need this on dunfell too?
 
-https://errors.yoctoproject.org/Errors/Details/574541/
-
-On Thu, Mar 25, 2021 at 12:08 PM Ross Burton <ross@burtonini.com> wrote:
+On Thu, Mar 25, 2021 at 12:20 PM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
 >
-> On Thu, 25 Mar 2021 at 18:15, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > I don't think I fully understand this. Is g-i in meson projects already broken for a while (there was a bit of refactor in the latest meson version, which I tested, but perhaps not well enough), or is this necessary for the other patches in your set?
+> Only security issues fixed in this release according to
+> https://www.openssl.org/news/cl111.txt
 >
-> I just sent a mail which sort-of answers this question without seeing it.
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> ---
+>  .../openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb}            | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-connectivity/openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb} (98%)
 >
-> Basically, the change is that Meson now knows that it should call
-> pkg-config-native for native pkgconfig lookups.  Before, it was using
-> pkg-config.
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
+> similarity index 98%
+> rename from meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
+> rename to meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
+> index f054d2fdba..5f281197c9 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1j.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1k.bb
+> @@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
+>             file://environment.d-openssl.sh \
+>             "
 >
-> As far as I can tell there is very little code which hits that
-> codepath, so we didn't notice.  When setting pkgconfig-native
-> correctly, this broke.
+> -SRC_URI[sha256sum] = "aaf2fcb575cdf6491b98ab4829abf78a3dec8402b8b81efc8f23c00d443981bf"
+> +SRC_URI[sha256sum] = "892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5"
 >
-> Ross
+>  inherit lib_package multilib_header multilib_script ptest
+>  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+> --
+> 2.20.1
+>
 >
 > 
 >
