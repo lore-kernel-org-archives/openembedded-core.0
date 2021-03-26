@@ -1,72 +1,106 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web09.6318.1616721070800054230
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by mx.groups.io with SMTP id smtpd.web08.6424.1616721188287413785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 18:11:10 -0700
+ Thu, 25 Mar 2021 18:13:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aGaQbOdD;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id l1so3513382pgb.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 18:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ih9KorCIv1/em5UXRW7aIoPZ+vELWV6C1b7YlRTjedY=;
-        b=aGaQbOdDoBQutgnraFZx2+8o+3DvbC5u/qOl3v1YEdTh732IMe+27+8PpymfwnvPay
-         WbtQTMEZCZLu6wtLdm39csKoKVMJ0Q2ZPeEZPY8B/rFbcBL27OKu/RjxXHDifsTQ59vp
-         Q1voU46E1dnl+fDm/N6wOR1GJH+mxYnqw21jmFKe8vuu/ezr//ETrWGH6//1ubsdeIOS
-         BGbMsSR6oqcNh14ZG2Z/Bux+lHb8mZajAQhz12d2p4ukN5Epacd6A59bzvQ+D286j+4r
-         vL6XvUb78yYHv7ohpB7DQRMachrwOFMkKry6zpUWKLkS2ZofeISPMsMXw3Smol5sU8Gp
-         +hgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ih9KorCIv1/em5UXRW7aIoPZ+vELWV6C1b7YlRTjedY=;
-        b=XWdPN6kuEP2Zs1b9RpX3dtmYQZ2T6oAlMQ1uOORMrI330IFyG/dY47ReBPQ4j7Jpkn
-         KmAruDAlMCsZqYms9iHg/7DvNXggLgvJL4OCnE9/QHIsdtdyyCwP6SYG8asHwb0kgfXo
-         VbxRA19MWZGNwdFxFKSDsy0BaAAd5MIaoVR8NnijnlsAPIypeqhy7MXB/ENIk1rtMymi
-         0g31bzK0ilJzYoNn4zCohDdr/VQSJn99C1+1Pc04DcVQ1u811ma3ShOXwP+UseBbcgQX
-         Mbmyezp7z4wTZ7aWfMQmmBQ6mP8b3dBlHoYljKT/yyjLpSUlQDZD86DkFQL9/xJxGRpx
-         Udkg==
-X-Gm-Message-State: AOAM533UpbCIo5FsW9G8qqQagIrJg7sLAamPthubRrceZ1JlorbU16as
-	rIUULIyHP2LlWToaG7fKp0vx2VHZHT5WYw==
-X-Google-Smtp-Source: ABdhPJxyo+hdpNL77vmGR6x03zbw2Kds2d2acSYUH9bkO1dfDga3Kj62koZcUZG1mw4tMpbSLav/VQ==
-X-Received: by 2002:a63:5f0f:: with SMTP id t15mr9720282pgb.225.1616721070058;
-        Thu, 25 Mar 2021 18:11:10 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::aebb])
-        by smtp.gmail.com with ESMTPSA id y5sm7086571pfl.191.2021.03.25.18.11.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 18:11:09 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] documentation-audit.sh: Fix typo in specifying LICENSE_FLAGS_WHITELIST
-Date: Thu, 25 Mar 2021 18:11:07 -0700
-Message-Id: <20210326011107.1057329-1-raj.khem@gmail.com>
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=JbmRzBZe;
+ spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: nm@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12Q1D6eE079272;
+	Thu, 25 Mar 2021 20:13:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1616721186;
+	bh=oFZLPj/RV65ifJVMJyhloZzLC/iaRrnznzwEVT4fJH0=;
+	h=From:To:CC:Subject:Date;
+	b=JbmRzBZeGevwBHOgsNa0SoiO9yTOQOWKIIgE1li9vWbIVxKGXOGJdgHxHisu8AQPd
+	 xrMWttMIcg7s8DvqKN+WbM1TYIEvNMDA0adUxwEmUN/O0XDGdet1iEvJN4tCU3dRhP
+	 qhNjnI9euovHwANCxsI9TVWMjvlUK4U4+LvtfxZ8=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12Q1D5JD020522
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 25 Mar 2021 20:13:06 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 25
+ Mar 2021 20:13:05 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 25 Mar 2021 20:13:05 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12Q1D5GD019412;
+	Thu, 25 Mar 2021 20:13:05 -0500
+From: "Nishanth Menon" <nm@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <praneeth@ti.com>, <denis@denix.org>, Nishanth Menon <nm@ti.com>
+Subject: [PATCH] make-mod-scripts: Provide the correct objcopy to kernel make
+Date: Thu, 25 Mar 2021 20:13:04 -0500
+Message-ID: <20210326011304.25640-1-nm@ti.com>
 X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+When cross-compiling with v5.12-rc3, prepare fails[1] build of vdso at
+the objcopy stage since it seems to be using the local host's objcopy
+rather than the cross-compile version we want it to use.
+
+This can be trivially reproduced in a localbuild of the kernel
+following the build parameters provided in the process[2]
+
+Lets fix this by passing OBJCOPY over to the kernel.
+
+[1] https://pastebin.ubuntu.com/p/pNcQtb93wr/
+[2] https://pastebin.ubuntu.com/p/vZGqgh9Sq5/
+Signed-off-by: Nishanth Menon <nm@ti.com>
 ---
- scripts/contrib/documentation-audit.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
-index 1191f57a8e..f436f9bae0 100755
---- a/scripts/contrib/documentation-audit.sh
-+++ b/scripts/contrib/documentation-audit.sh
-@@ -27,7 +27,7 @@ fi
+NOTE:
+1. This is a different problem and is not resolved with
+https://lists.openembedded.org/g/openembedded-core/message/149943
+
+2. Though reproduced during a dunfell build, this should probably
+apply else where as well.
+
+3. I have'nt been able to cleanly bisect things, but my best guess was
+that this might be a consequence of kernel fixup exposing this.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a5b8ca97fbf8300a5e21c393df25ce6f521e7939
+
+ meta/classes/kernel-arch.bbclass                             | 3 +++
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index 07ec242e63bb..3d25fc7ac531 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -60,9 +60,12 @@ TARGET_LD_KERNEL_ARCH ?= ""
+ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+ TARGET_AR_KERNEL_ARCH ?= ""
+ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
++TARGET_OBJCOPY_KERNEL_ARCH ?= ""
++HOST_OBJCOPY_KERNEL_ARCH ?= "${TARGET_OBJCOPY_KERNEL_ARCH}"
  
- echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
- echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
--echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
-+echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"commercial\""
+ KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}"
+ KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+ KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
++KERNEL_OBJCOPY = "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+ TOOLCHAIN = "gcc"
  
- for pkg in `bitbake -s | awk '{ print \$1 }'`; do
- 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 87b7d240f51a..2d73e8093c2e 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -25,7 +25,7 @@ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="
+ do_configure() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	for t in prepare scripts_basic scripts; do
+-		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
++		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}"\
+ 		-C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} $t
+ 	done
+ }
 -- 
 2.31.0
 
