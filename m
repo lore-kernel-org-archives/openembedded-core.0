@@ -1,36 +1,53 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.1151.1616782001345911210
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.1340.1616782326236521772
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 11:06:42 -0700
+ Fri, 26 Mar 2021 11:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=PPHdBje8;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ckijwuVc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id g25so3465467wmh.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 11:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1616782001;
-  x=1648318001;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=KolS/NQ4I/OsrozGM9tM/OdX2KCsQQhjG0zvtFMX9EY=;
-  b=PPHdBje8tz+vX7WG1MxdaAC2kATYO9stWjM404qNWPzwrfcxfs4Cnx89
-   x6pPtKMYiuPm/su5u6H2OMSs5sqv4CwjmZuXw1sXKadcGOgxeo7ktqdWl
-   FjiRJATkpsPN4hFFX/XiIb9yl0yw3hZzrXd05n6niAbqHBOm/6V6qZwzk
-   oKxUhLN3ZglfG/mB8gt5p/H8s6qsS/D/OMaZAFPztbasiC9jjtuv7D5yR
-   pdy/G/mjD8ITsoBh9V7IWQgpXFJ203trg2WaksV7HyX+QXyHxffbokLrM
-   cM35FECXWj7jT6PfJVe7OOjnyAZ/4wg39uGXUOy7VsP5nLYIr54h1IYfE
-   g==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Oleksiy Obitotskyi
-	-X (oobitots - GLOBALLOGIC INC at Cisco)" <oobitots@cisco.com>, Luca Bocassi
-	<luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "bluelightning@bluelightning.org" <bluelightning@bluelightning.org>, "Khem
- Raj" <raj.khem@gmail.com>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=IrvTzIWIbAO3W5WIISfpq8jv+MMsn/5ubwX0+AO6vGw=;
+        b=ckijwuVcjnIJYiM/WSgKP/dWl1/qTR10zUaq4HKK1PmG6NBP2TCE2TcgNI9EzSfIkP
+         bsA0hBseZoI5o0KRaBmM+N6rwOYEzrCCt/dbYuknceWoboksnmKHB1J0gbAwORNNogZG
+         xBHFG5YZp8t85LkV2uFgCx28h/tgY8TIAYzTA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=IrvTzIWIbAO3W5WIISfpq8jv+MMsn/5ubwX0+AO6vGw=;
+        b=o0xpz6QTO/CiGbgs6IEyXRVuGkJYO0cnBcvon/h7XlaXNt3UqJf/Methb5lahM7r8y
+         cqBYubeho7SWCMOjvecXy2xxhmdX0pKqr8ucT5bCGjFqrbEycDFzhimf/qhkmm+V9CBl
+         PISkfdAixpBO3OGoiLssdvUqlmUBCQbyUYlp7yLxHxuuEwQLONrPXKZyhcubwvFRKsku
+         bGA6kYH+dRNlwhEbxuaulOvypvC1aFVYwc9/sw9TsTkANCa2Fg6jhcL2UR7ZquvC2ZIv
+         ReuwdrcRZPqSjsgLel17joIZAJn0K5IVXM+PFl09/1BGsVnXukd83hh1f/UYt4moc1Ra
+         iZUw==
+X-Gm-Message-State: AOAM533YXFMVAa+ZWZBEye+t43k1AWr5YKuLiJQPBV1M77VI0+9WkJjR
+	THunXwaoMibiH3Zor0f6wHPUJA==
+X-Google-Smtp-Source: ABdhPJwdWagOd0R555lINxgV8PSAy4cNFdoACe9wHY9EtSNqbHzpjB8hCBnZPY+QM7vG+4PRcSUAWg==
+X-Received: by 2002:a1c:1f8e:: with SMTP id f136mr3719829wmf.185.1616782324650;
+        Fri, 26 Mar 2021 11:12:04 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:2f59:1239:417b:1a83? ([2001:8b0:aba:5f3c:2f59:1239:417b:1a83])
+        by smtp.gmail.com with ESMTPSA id o62sm7035331wmo.3.2021.03.26.11.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 11:12:04 -0700 (PDT)
+Message-ID: <b247e3521ddc2f0fc4cb20471c9b72956bc93c32.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe to allow bootstrapping
-Thread-Topic: [OE-core] [PATCH v11] util-linux: split uuid in separate recipe
- to allow bootstrapping
-Thread-Index: AQHXFoim/dfc6J43RUKcvVlCArgZNqqUcYuAgAAEogCAAF+kAP//8j4AgAAuUTD///oNgIABtmjA
-Date: Fri, 26 Mar 2021 18:06:38 +0000
-Message-ID: <6fd89e2f790a4a39832907f1832b1d92@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "Oleksiy Obitotskyi
+	-X (oobitots - GLOBALLOGIC INC at Cisco)"
+	 <oobitots@cisco.com>, Luca Bocassi <luca.boccassi@gmail.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "bluelightning@bluelightning.org" <bluelightning@bluelightning.org>, 
+	Khem Raj <raj.khem@gmail.com>
+Date: Fri, 26 Mar 2021 18:12:03 +0000
+In-Reply-To: <6fd89e2f790a4a39832907f1832b1d92@XBOX03.axis.com>
 References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
 	 ,<20210311150959.782186-1-luca.boccassi@gmail.com>
 	 <PH0PR11MB49023E90CAB5E58C2B603899D7629@PH0PR11MB4902.namprd11.prod.outlook.com>
@@ -38,90 +55,122 @@ References: <20201210184632.3448265-1-luca.boccassi@gmail.com>
 	 <5f37ee174e3f45e094ee2bb71c3c0422@XBOX03.axis.com>
 	 <85dec47e7a6bf2533fe619fc391915d838e8924e.camel@linuxfoundation.org>
 	 <bffd569338fe4f9f9e5671443d6cdbc6@XBOX03.axis.com>
- <4b0c1bc6bb1ae476cdba3ce5848b0bf7008de1d7.camel@linuxfoundation.org>
-In-Reply-To: <4b0c1bc6bb1ae476cdba3ce5848b0bf7008de1d7.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	 <4b0c1bc6bb1ae476cdba3ce5848b0bf7008de1d7.camel@linuxfoundation.org>
+	 <6fd89e2f790a4a39832907f1832b1d92@XBOX03.axis.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI1IG1hcnMgMjAy
-MSAxNzo1Mg0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
-cy5jb20+OyBPbGVrc2l5IE9iaXRvdHNreWkgLQ0KPiBYIChvb2JpdG90cyAtIEdMT0JBTExPR0lD
-IElOQyBhdCBDaXNjbykgPG9vYml0b3RzQGNpc2NvLmNvbT47IEx1Y2EgQm9jYXNzaQ0KPiA8bHVj
-YS5ib2NjYXNzaUBnbWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnDQo+IENjOiBibHVlbGlnaHRuaW5nQGJsdWVsaWdodG5pbmcub3JnOyBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MTFd
-IHV0aWwtbGludXg6IHNwbGl0IHV1aWQgaW4gc2VwYXJhdGUNCj4gcmVjaXBlIHRvIGFsbG93IGJv
-b3RzdHJhcHBpbmcNCj4gDQo+IE9uIFRodSwgMjAyMS0wMy0yNSBhdCAxNjoxOSArMDAwMCwgUGV0
-ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-Cj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnPg0KPiA+ID4gU2VudDogZGVuIDI1IG1hcnMgMjAyMSAxNToyNw0KPiA+ID4gVG86IFBl
-dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgT2xla3NpeQ0K
-PiBPYml0b3Rza3lpIC0NCj4gPiA+IFggKG9vYml0b3RzIC0gR0xPQkFMTE9HSUMgSU5DIGF0IENp
-c2NvKSA8b29iaXRvdHNAY2lzY28uY29tPjsgTHVjYQ0KPiBCb2Nhc3NpDQo+ID4gPiA8bHVjYS5i
-b2NjYXNzaUBnbWFpbC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+ID4gPiBDYzogYmx1ZWxpZ2h0bmluZ0BibHVlbGlnaHRuaW5nLm9yZzsgS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-IHYxMV0gdXRpbC1saW51eDogc3BsaXQgdXVpZCBpbiBzZXBhcmF0ZQ0KPiA+ID4gcmVjaXBlIHRv
-IGFsbG93IGJvb3RzdHJhcHBpbmcNCj4gPiA+DQo+ID4gPiBPbiBUaHUsIDIwMjEtMDMtMjUgYXQg
-MTQ6MjIgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiA+ID4gPiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNo
-YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+ID4gPiA+IFNlbnQ6IGRlbiAyNSBt
-YXJzIDIwMjEgMTA6MzQNCj4gPiA+ID4gPiBUbzogT2xla3NpeSBPYml0b3Rza3lpIC1YIChvb2Jp
-dG90cyAtIEdMT0JBTExPR0lDIElOQyBhdCBDaXNjbykNCj4gPiA+ID4gPiA8b29iaXRvdHNAY2lz
-Y28uY29tPjsgTHVjYSBCb2Nhc3NpIDxsdWNhLmJvY2Nhc3NpQGdtYWlsLmNvbT47DQo+ID4gPiA+
-ID4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gPiA+IENj
-OiBibHVlbGlnaHRuaW5nQGJsdWVsaWdodG5pbmcub3JnOyBQZXRlciBLamVsbGVyc3RlZHQNCj4g
-PiA+ID4gPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgS2hlbSBSYWogPHJhai5raGVt
-QGdtYWlsLmNvbT4NCj4gPiA+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MTFd
-IHV0aWwtbGludXg6IHNwbGl0IHV1aWQgaW4NCj4gc2VwYXJhdGUNCj4gPiA+ID4gPiByZWNpcGUg
-dG8gYWxsb3cgYm9vdHN0cmFwcGluZw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24gVGh1LCAyMDIx
-LTAzLTI1IGF0IDA5OjE3ICswMDAwLCBPbGVrc2l5IE9iaXRvdHNreWkgLVggKG9vYml0b3RzDQo+
-IC0NCj4gPiA+ID4gPiBHTE9CQUxMT0dJQyBJTkMgYXQgQ2lzY28pIHdyb3RlOg0KPiA+ID4gPiA+
-ID4gQ291bGQgeW91IGxvb2sgaW50byB0aGlzIHdhcm5pbmcuDQo+ID4gPiA+ID4gPg0KPiA+ID4g
-PiA+ID4gV0FSTklORzogdXRpbC1saW51eC0yLjM2LjItcjAgZG9fcGFja2FnZV9xYTogUUEgSXNz
-dWU6IHV0aWwtDQo+IGxpbnV4LQ0KPiA+ID4gZGV2DQo+ID4gPiA+ID4gcmRlcGVuZHMgb24gdXRp
-bC1saW51eC1saWJ1dWlkLWRldiwgYnV0IGl0IGlzbid0IGEgYnVpbGQNCj4gZGVwZW5kZW5jeT8N
-Cj4gPiA+ID4gPiBbYnVpbGQtZGVwc10NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4g
-aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy82
-MS9idWlsZHMvMzIyNg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhhdCBmYWlsdXJlIHdhcyBteSBm
-YXVsdCB3aGVuIHRlc3Rpbmcgc29tZSBmaXhlcy4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEkndmUg
-c2VudCBvdXQgYSBwYXRjaCB3aGljaCByZW5hbWVzIHV0aWwtbGludXgtdXVpZCB0byB1dGlsLWxp
-bnV4LQ0KPiA+ID4gbGlidXVpZA0KPiA+ID4gPiA+IGFuZCBzb3J0cyBvdXQgdGhlIGxpY2Vuc2Ug
-aXNzdWUgUGV0ZXIgcmVwb3J0ZWQuDQo+ID4gPiA+DQo+ID4gPiA+IEkgZG9uJ3QgbWluZCB0aGUg
-cmVjaXBlIGJlaW5nIHJlbmFtZWQgYW5kIGNsZWFuZWQgdXAsIGJ1dCBJIHdvdWxkDQo+IHByZWZl
-cg0KPiA+ID4gPiB0byBzZWUgbXkgZW50aXJlIHBhdGNoIGZvciB0aGUgbGljZW5zZSBwYXJ0cyBi
-ZWluZyBlaXRoZXIgaW50ZWdyYXRlZA0KPiA+ID4gYmVmb3JlDQo+ID4gPiA+IHRoaXMgb3Igc3F1
-YXNoZWQgaW50byBpdCwgd2hpY2hldmVyIHlvdSBwcmVmZXIuIEl0IGRvZXMgbm90IG1ha2UNCj4g
-c2Vuc2UNCj4gPiA+IHRvDQo+ID4gPiA+IHVzZSB0aGUgc2FtZSBMSUNfRklMRVNfQ0hLU1VNIGZv
-ciB1dGlsLWxpbnV4LWxpYnV1aWQgYXMgZm9yIHV0aWwtDQo+IGxpbnV4LA0KPiA+ID4gPiBhbmQg
-c2V0dGluZyB0aGUgb3RoZXIgTElDRU5TRSB2YXJpYWJsZXMgaW4gdXRpbC1saW51eC5pbmMgbm8g
-bG9uZ2VyDQo+ID4gPiBtYWtlcw0KPiA+ID4gPiBzZW5zZSBhcyB0aGV5IGFyZSBvbmx5IHJlbGV2
-YW50IGZvciB1dGlsLWxpbnV4Lg0KPiA+ID4NCj4gPiA+IEknbSB0b3JuIG9uIHRoYXQuIENvZGUg
-d2l0aCB0aGUgb3RoZXIgbGljZW5zZXMgaXMgcHJlc2VudCwganVzdCBub3QNCj4gdXNlZA0KPiA+
-ID4gaW4gdGhlIGZpbmFsIG91dHB1dCBhbmQgSSBwZXJzb25hbGx5IHN1c3BlY3QgdGhhdCBoYXZp
-bmcgb25lDQo+IExJQ19GSUxFU19DSEtTVU0NCj4gPiA+IGlzIGdvaW5nIHRvIGJlIGVhc2llciB0
-byBtYWludGFpbiBpbiB0aGUgZnV0dXJlIHJhdGhlciB0aGFuIHR3bw0KPiBzZXBhcmF0ZQ0KPiA+
-ID4gb25lcy4NCj4gPg0KPiA+IEkgYWN0dWFsbHkgY2hlY2tlZCBhbGwgdGhlIGZpbGVzIHRoYXQg
-Z28gaW50byAtZGV2IGFuZCAtc3JjIGJlZm9yZQ0KPiBzdWdnZXN0aW5nDQo+ID4gdGhpcyBjaGFu
-Z2UsIGFuZCBhbGwgZmlsZXMgYXJlIGVpdGhlciBtYXJrZWQgYXMgcHVibGljIGRvbWFpbiBvciB1
-c2UgYQ0KPiA+IEJTRC0zLUNsYXVzZSBsaWNlbnNlLg0KPiANCj4gVGhlcmUgaXMgYSBkaWZmZXJl
-bmNlIGJldHdlZW4gd2hhdCBlbmRzIHVwIGluICR7U30gYW5kIHdoYXQgZW5kcyB1cCBpbiB0aGUN
-Cj4gYmluYXJ5IHBhY2thZ2VzLiBMSUNFTlNFIGNsZWFybHkgZ292ZXJucyB0aGUgbGF0dGVyLiBJ
-dHMgdGhlIHNjb3BlIG9mDQo+IExJQ19GSUxFU19DSEVDS1NVTSB3aGljaCB0aGVyZSBhcmUgZGlm
-ZmVyZW5jZXMgb2Ygb3BpbmlvbiBvbi4NCg0KV2VsbCwgdGhlIGxhdHRlciBnb3Zlcm5zIHdoYXQg
-ZW5kcyB1cCBpbiAke1BOfS1saWMsIHNvIGhhdmluZyBhIGxvdCBvZiANCnVucmVsYXRlZCAodG8g
-dGhlIGluc3RhbGxlZCBwYWNrYWdlcykgbGljZW5zZSBmaWxlcyBpbiBMSUNfRklMRVNfQ0hFQ0tT
-VU0gDQpkb2VzIG5vdCBtYWtlIHNlbnNlICh0byBtZSkuIElmIGV2ZXJ5dGhpbmcgdGhhdCBpcyBi
-dWlsdCBhbmQgKHBvc3NpYmx5KSANCmluc3RhbGxlZCBhbmQgdGh1cyBkaXN0cmlidXRlZCBpcyBj
-b3ZlcmVkIGJ5IEJTRC0zLUNsYXVzZSBsaWNlbnNlcywgd2h5IA0Kc2hvdWxkICR7UE59LWxpYyBp
-bmNsdWRlIGEgbG90IG9mIGxpY2Vuc2UgZmlsZXMgZm9yIHVucmVsYXRlZCBjb2RlPw0KDQo+IENo
-ZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQo=
+On Fri, 2021-03-26 at 18:06 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: den 25 mars 2021 17:52
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Oleksiy Obitotskyi -
+> > X (oobitots - GLOBALLOGIC INC at Cisco) <oobitots@cisco.com>; Luca Bocassi
+> > <luca.boccassi@gmail.com>; openembedded-core@lists.openembedded.org
+> > Cc: bluelightning@bluelightning.org; Khem Raj <raj.khem@gmail.com>
+> > Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate
+> > recipe to allow bootstrapping
+> > 
+> > On Thu, 2021-03-25 at 16:19 +0000, Peter Kjellerstedt wrote:
+> > > > -----Original Message-----
+> > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > Sent: den 25 mars 2021 15:27
+> > > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Oleksiy
+> > Obitotskyi -
+> > > > X (oobitots - GLOBALLOGIC INC at Cisco) <oobitots@cisco.com>; Luca
+> > Bocassi
+> > > > <luca.boccassi@gmail.com>; openembedded-core@lists.openembedded.org
+> > > > Cc: bluelightning@bluelightning.org; Khem Raj <raj.khem@gmail.com>
+> > > > Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in separate
+> > > > recipe to allow bootstrapping
+> > > > 
+> > > > On Thu, 2021-03-25 at 14:22 +0000, Peter Kjellerstedt wrote:
+> > > > > > -----Original Message-----
+> > > > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > > > Sent: den 25 mars 2021 10:34
+> > > > > > To: Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC at Cisco)
+> > > > > > <oobitots@cisco.com>; Luca Bocassi <luca.boccassi@gmail.com>;
+> > > > > > openembedded-core@lists.openembedded.org
+> > > > > > Cc: bluelightning@bluelightning.org; Peter Kjellerstedt
+> > > > > > <peter.kjellerstedt@axis.com>; Khem Raj <raj.khem@gmail.com>
+> > > > > > Subject: Re: [OE-core] [PATCH v11] util-linux: split uuid in
+> > separate
+> > > > > > recipe to allow bootstrapping
+> > > > > > 
+> > > > > > On Thu, 2021-03-25 at 09:17 +0000, Oleksiy Obitotskyi -X (oobitots
+> > -
+> > > > > > GLOBALLOGIC INC at Cisco) wrote:
+> > > > > > > Could you look into this warning.
+> > > > > > > 
+> > > > > > > WARNING: util-linux-2.36.2-r0 do_package_qa: QA Issue: util-
+> > linux-
+> > > > dev
+> > > > > > rdepends on util-linux-libuuid-dev, but it isn't a build
+> > dependency?
+> > > > > > [build-deps]
+> > > > > > > 
+> > > > > > > 
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/3226
+> > > > > > 
+> > > > > > That failure was my fault when testing some fixes.
+> > > > > > 
+> > > > > > I've sent out a patch which renames util-linux-uuid to util-linux-
+> > > > libuuid
+> > > > > > and sorts out the license issue Peter reported.
+> > > > > 
+> > > > > I don't mind the recipe being renamed and cleaned up, but I would
+> > prefer
+> > > > > to see my entire patch for the license parts being either integrated
+> > > > before
+> > > > > this or squashed into it, whichever you prefer. It does not make
+> > sense
+> > > > to
+> > > > > use the same LIC_FILES_CHKSUM for util-linux-libuuid as for util-
+> > linux,
+> > > > > and setting the other LICENSE variables in util-linux.inc no longer
+> > > > makes
+> > > > > sense as they are only relevant for util-linux.
+> > > > 
+> > > > I'm torn on that. Code with the other licenses is present, just not
+> > used
+> > > > in the final output and I personally suspect that having one
+> > LIC_FILES_CHKSUM
+> > > > is going to be easier to maintain in the future rather than two
+> > separate
+> > > > ones.
+> > > 
+> > > I actually checked all the files that go into -dev and -src before
+> > suggesting
+> > > this change, and all files are either marked as public domain or use a
+> > > BSD-3-Clause license.
+> > 
+> > There is a difference between what ends up in ${S} and what ends up in the
+> > binary packages. LICENSE clearly governs the latter. Its the scope of
+> > LIC_FILES_CHECKSUM which there are differences of opinion on.
+> 
+> Well, the latter governs what ends up in ${PN}-lic, so having a lot of 
+> unrelated (to the installed packages) license files in LIC_FILES_CHECKSUM 
+> does not make sense (to me). If everything that is built and (possibly) 
+> installed and thus distributed is covered by BSD-3-Clause licenses, why 
+> should ${PN}-lic include a lot of license files for unrelated code?
+
+I hadn't considered ${PN}-lic :(.
+
+We can't win. If we change LIC_FILES_CHKSUM we'll see complaints from
+people scanning the code that there are licenses present in WORKDIR that
+are not in LIC_FILES_CHKSUM. If we don't change it, ${PN}-lic does give
+more information than necessary. I still think the latter is probably
+safer and makes recipe upgrades easier.
+
+Licensing in general needs a step back and an overhaul. Sadly people are 
+generally only prepared to do this piecemeal solving their specific
+issue rather than the general case and big picture.
+
+Cheers,
+
+Richard
+
+
+
