@@ -1,135 +1,129 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web10.8818.1616738052333882685
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+ by mx.groups.io with SMTP id smtpd.web08.8699.1616738118558882910
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 22:54:12 -0700
+ Thu, 25 Mar 2021 22:55:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A1H50pk9;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id e5so2156370vse.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 22:54:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rr5Iy7h6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f169.google.com with SMTP id s136so958877vks.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 22:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rDnRSaOufkHgBfhsM/DhmRpoeKRSWehdyz44eWrHj5k=;
-        b=A1H50pk9Yx2daB1NDpbJgctlD1AmPEw/rwzRqrVJQ6w98uPahme8xD4yH7/6gSWpVF
-         Gybb6TeW1ytVGMhroDfWkUg+Yze88gU8Tj+WHDL3wKAgTrOM4CR/J32QnwXBzLMQ4MT+
-         0c7IyB3M8HOoP5CxMi9hpFfh3Qc66HJsLU0oHEFR+zu/ehselt3ULu934/QKDaJv2EmE
-         kLPKq5I36agTJaGwIpQ3BZbYgSfR7VxsvbPa9+hAdhbe9ovk+eh3cmeNwndw1o+Jc8/T
-         HTHBrI/Tw7D3Jz47B/IPBzK04qkzJiETYogrXjazTjG9g7J+exMuxVuBTYCZv5CduttB
-         pG5w==
+        bh=TMxsrkSdMDsW44A+SWVEcN6u7zrKE6tX8sAWo9Dp/5g=;
+        b=Rr5Iy7h6Dhc+JRlZADCq5hnrezBN4UTgh36fFm5TRpCQX3ofhEmifn0KHewXEZfKso
+         6eejrRUgKCj3MuzYuLANpcuxDUI0zcD4lQzsiBQfMNxQDw5S+n7N6D9NKRl1fv5qICsk
+         CsVEfEhFcrxbDB6vFCvaDZJ37TMPPLjjNmnh8zVlvCdv55A6ZqiEgUZZ363vCvXdpxVz
+         GvC3UEPqa1sL5/aGi+tPfzPuToFTfyNwRP27EdTJ+WlZPtcrwxk3/BNWKxt2EzKeqT8R
+         AMtSCC4gC8UuChFqPAB0XxMaqP9EtXtcp5bdN/Q2Y6s/j6D+hA9uC4e45wdIwlUUzlNq
+         1Row==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rDnRSaOufkHgBfhsM/DhmRpoeKRSWehdyz44eWrHj5k=;
-        b=jD/+NcQdIGG+p+0Ihv5i3jXHtJTWCpafnGqUiJAG8qBzaXyViXHvovScEQ9od53Luk
-         Z/oz5vwq3XWc1aqoQ69yvixLHJIG+9ai6ukaCUAqsAr/cFVd6KL0wE/2eS8y239bMHtG
-         0qllTpOzh/RuGnxHTXGFX+53Uwvjjcxbyn8Ji56WaptqeDPhIO1awfqD5mpxVWuGAgA9
-         OX4/0RPiQrD8QZVgvY8oymo1ABUHKi6oKoQmM3mgBifrayUdhPLSgoStmQdFBJWK/bZF
-         c6gSQzYls9gYJsGGNcxpvNYODXbitHQvsumksb95D2J//u7JmVqwWATQOvKnn5KUPsgO
-         E60g==
-X-Gm-Message-State: AOAM533YKUiLzp1wAjRYL+7XbWYUJ12BGPcrgZHzbBFlEW0oMNTf1WaN
-	IJ5gW3FuNwDvJhf6FLjkk7+2flkk91wNVsAWs7UbcCGR5uBrow==
-X-Google-Smtp-Source: ABdhPJzv7P9jZt4bXULDIgMhbe5+x45yw8HXVxEVxD1AiMRBTYY+L7A/dC5eoJ7X1cC8CYTEQOrsiPvSAb+FCV6xnjk=
-X-Received: by 2002:a67:f244:: with SMTP id y4mr7160170vsm.41.1616738051461;
- Thu, 25 Mar 2021 22:54:11 -0700 (PDT)
+        bh=TMxsrkSdMDsW44A+SWVEcN6u7zrKE6tX8sAWo9Dp/5g=;
+        b=A5TGW/rOXrLRtpYVAFKRuCaSUyhteDsqm6xCi0SxKquw1bhx0009cTy80FTMay9Zgs
+         4RTIwoq+aeVxhyHTOGKEiD+0+BkITdlHnwiduKrf5FOlaNkGnDQODtUjwH0IL7tnwzRp
+         FqxpDM8Cc3lJOUl24WpDleDlK3BHUImP7Of1q4/fJvZCLFWmdDN9hexZgmPwvhTB3tZ0
+         SIPW5+YqDJ1erT/KkcDR3nUipLtN7aO9RSbM5cMveaFCxo99DOkACmbFjjUnpWegCvIk
+         9QQdxZacOvinNyBdK4Zw8eiobz0EIpJAA7mjBMdrAYn6sC9X6yYU624aL0fi2BMVfR5w
+         CKVw==
+X-Gm-Message-State: AOAM530qWi067Dgbox8o078/Xbx9d6s9GkC201Y/s4o7mQrxoABDZBCn
+	YtdCy37EZbXtvoV8gdzCGdlmoGgePrQWv8+qd9UjVP+zhMa+aQ==
+X-Google-Smtp-Source: ABdhPJwOdVCTSI/LUd/dELUkr6Q4BM9WZIN5lyUCAb+NtliB2mpnTEX5lxhfWmcY49PgWPYOi4X0QCNhlJmUVEXRngs=
+X-Received: by 2002:ac5:c0cd:: with SMTP id b13mr7350634vkk.16.1616738117756;
+ Thu, 25 Mar 2021 22:55:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210325224402.145099-1-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20210325224402.145099-1-mark.hatle@kernel.crashing.org>
+References: <166F13E0887164C0.12477@lists.openembedded.org>
+ <20210325221341.39135-1-yifan.yu@windriver.com> <20210325221341.39135-2-yifan.yu@windriver.com>
+In-Reply-To: <20210325221341.39135-2-yifan.yu@windriver.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 26 Mar 2021 06:54:00 +0100
-Message-ID: <CANNYZj_zPxBpj81qc85xa+PR_yKAX9To6GnHVwqmbpFu4U3qkw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] populate_sdk_ext: Avoid copying and producing .pyc files
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Date: Fri, 26 Mar 2021 06:55:06 +0100
+Message-ID: <CANNYZj84ouSdcdxtvqTBb1ietNN9+PgLeUQ4er0bJpWX1PF3Cg@mail.gmail.com>
+Subject: Re: [oe-core][PATCH v2 2/2] valgrind: Disable ptest swapcontext.vgtest
+To: Yi Fan Yu <yifan.yu@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004094d005be6a290e"
+Content-Type: multipart/alternative; boundary="00000000000034282205be6a2d42"
 
---0000000000004094d005be6a290e
+--00000000000034282205be6a2d42
 Content-Type: text/plain; charset="UTF-8"
 
-Wait, I have to say neither reason is convincing. Pyc files are not
-system-specific, they are the same on all systems. And pseudo issues should
-be dealt with by fixing the issue, not working around the symptoms, no?
+Can you put the ticket link into the patch itself as well please?
 
 Alex
 
-On Thu, 25 Mar 2021 at 23:44, Mark Hatle <mark.hatle@kernel.crashing.org>
-wrote:
 
-> Since pyc cache files are really system specific, no real reason to copy or
-> generate them during the eSDK build process.  Also generating them has the
-> possibility of re-using inodes that pseudo may have been tracking, leading
-> a build failure.
+On Thu, 25 Mar 2021 at 23:14, Yi Fan Yu <yifan.yu@windriver.com> wrote:
+
+> New test introduced in valgrind 3.17.0.
+> Test fails on both qemuarm64 and qemux64.
 >
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> [YOCTO #14324]
+>
+> Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
 > ---
->  meta/classes/populate_sdk_ext.bbclass | 4 +++-
->  meta/lib/oe/copy_buildsystem.py       | 6 +++---
->  2 files changed, 6 insertions(+), 4 deletions(-)
+>  ...orarily-drd-tests-swapcontext.vgtest.patch | 28 +++++++++++++++++++
+>  .../valgrind/valgrind_3.17.0.bb               |  1 +
+>  2 files changed, 29 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch
 >
-> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> b/meta/classes/populate_sdk_ext.bbclass
-> index 9112ab6c5e..14689ec6ac 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -251,7 +251,9 @@ python copy_buildsystem () {
+> diff --git
+> a/meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch
+> b/meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch
+> new file mode 100644
+> index 0000000000..f217098650
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch
+> @@ -0,0 +1,28 @@
+> +From 0f1814a618eff4233e9e8379a8cb2dededdc5a8b Mon Sep 17 00:00:00 2001
+> +From: Yi Fan Yu <yifan.yu@windriver.com>
+> +Date: Tue, 23 Mar 2021 11:09:20 -0700
+> +Subject: [PATCH] Disable temporarily drd/tests/swapcontext.vgtest
+> +
+> +New test introduced in valgrind 3.17.0.
+> +Test fails on both qemuarm64 and qemux64.
+> +
+> +Upstream-Status: Pending [Needs more Investigation]
+> +
+> +Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+> +---
+> + drd/tests/swapcontext.vgtest | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/drd/tests/swapcontext.vgtest b/drd/tests/swapcontext.vgtest
+> +index 98e3712c4..5492da31d 100644
+> +--- a/drd/tests/swapcontext.vgtest
+> ++++ b/drd/tests/swapcontext.vgtest
+> +@@ -1,4 +1,4 @@
+> +-prereq: test -e swapcontext && ./supported_libpthread
+> ++prereq: false
+> + vgopts: --read-var-info=yes --check-stack-var=yes --show-confl-seg=no
+> --num-callers=2
+> + prog: swapcontext
+> + stderr_filter: filter_stderr
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+> b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+> index 1e29896596..7a6b766121 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+> @@ -43,6 +43,7 @@ SRC_URI = "
+> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
 >
->      # Create a layer for new recipes / appends
->      bbpath = d.getVar('BBPATH')
-> -    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath',
-> baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath,
-> 'workspace')])
-> +    env = os.environ.copy()
-> +    env['PYTHONDONTWRITEBYTECODE'] = '1'
-> +    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath',
-> baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath,
-> 'workspace')], env=env)
->
->      # Create bblayers.conf
->      bb.utils.mkdirhier(baseoutpath + '/conf')
-> diff --git a/meta/lib/oe/copy_buildsystem.py
-> b/meta/lib/oe/copy_buildsystem.py
-> index 31a84f5b06..d97bf9d1b9 100644
-> --- a/meta/lib/oe/copy_buildsystem.py
-> +++ b/meta/lib/oe/copy_buildsystem.py
-> @@ -20,7 +20,7 @@ def _smart_copy(src, dest):
->      mode = os.stat(src).st_mode
->      if stat.S_ISDIR(mode):
->          bb.utils.mkdirhier(dest)
-> -        cmd = "tar --exclude='.git' --xattrs --xattrs-include='*' -chf -
-> -C %s -p . \
-> +        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs
-> --xattrs-include='*' -chf - -C %s -p . \
->          | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
->          subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->      else:
-> @@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs,
-> input_sstate_cache, output_sstate_cac
->      bb.note('Generating sstate-cache...')
->
->      nativelsbstring = d.getVar('NATIVELSBSTRING')
-> -    bb.process.run("gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs,
-> input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
-> +    bb.process.run("PYTHONDONTWRITEBYTECODE=1 gen-lockedsig-cache %s %s
-> %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache,
-> nativelsbstring, filterfile or ''))
->      if fixedlsbstring and nativelsbstring != fixedlsbstring:
->          nativedir = output_sstate_cache + '/' + nativelsbstring
->          if os.path.isdir(nativedir):
-> @@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile,
-> cmdprefix='', cwd=None, lo
->          logparam = '-l %s' % logfile
->      else:
->          logparam = ''
-> -    cmd = "%sBB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s
-> -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
-> +    cmd = "%sPYTHONDONTWRITEBYTECODE=1 BB_SETSCENE_ENFORCE=1
-> PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets,
-> filteroutfile, logparam)
->      env = dict(d.getVar('BB_ORIGENV', False))
->      env.pop('BUILDDIR', '')
->      env.pop('BBPATH', '')
+> file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+>             file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+>             file://0001-Add-missing-musl.supp.patch \
+> +
+>  file://0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch \
+>             "
+>  SRC_URI[md5sum] = "afe11b5572c3121a781433b7c0ab741b"
+>  SRC_URI[sha256sum] =
+> "ad3aec668e813e40f238995f60796d9590eee64a16dff88421430630e69285a2"
 > --
 > 2.17.1
 >
@@ -138,107 +132,99 @@ wrote:
 >
 >
 
---0000000000004094d005be6a290e
+--00000000000034282205be6a2d42
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Wait, I have to say neither reason is convincing. Pyc=
- files are not system-specific, they are the same on all systems. And pseud=
-o issues should be dealt with by fixing the issue, not working around the s=
-ymptoms, no?</div><div><br></div><div>Alex<br></div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 25 Mar 2021 at =
-23:44, Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing.org">mar=
-k.hatle@kernel.crashing.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">Since pyc cache files are really system specific=
-, no real reason to copy or<br>
-generate them during the eSDK build process.=C2=A0 Also generating them ha=
-s the<br>
-possibility of re-using inodes that pseudo may have been tracking, leading=
+<div dir=3D"ltr"><div>Can you put the ticket link into the patch itself as =
+well please?</div><div><br></div><div>Alex<br></div><br></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 25 Mar 2021=
+ at 23:14, Yi Fan Yu &lt;<a href=3D"mailto:yifan.yu@windriver.com">yifan.yu=
+@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">New test introduced in valgrind 3.17.0.<br>
+Test fails on both qemuarm64 and qemux64.<br>
 <br>
-a build failure.<br>
+[YOCTO #14324]<br>
 <br>
-Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing=
-.org" target=3D"_blank">mark.hatle@kernel.crashing.org</a>&gt;<br>
+Signed-off-by: Yi Fan Yu &lt;<a href=3D"mailto:yifan.yu@windriver.com" tar=
+get=3D"_blank">yifan.yu@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/classes/populate_sdk_ext.bbclass | 4 +++-<br>
-=C2=A0meta/lib/oe/copy_buildsystem.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +++---=
+=C2=A0...orarily-drd-tests-swapcontext.vgtest.patch | 28 +++++++++++++++++=
+++<br>
+=C2=A0.../valgrind/<a href=3D"http://valgrind_3.17.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">valgrind_3.17.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 29 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Disa=
+ble-temporarily-drd-tests-swapcontext.vgtest.patch<br>
 <br>
-=C2=A02 files changed, 6 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate=
-_sdk_ext.bbclass<br>
-index 9112ab6c5e..14689ec6ac 100644<br>
---- a/meta/classes/populate_sdk_ext.bbclass<br>
-+++ b/meta/classes/populate_sdk_ext.bbclass<br>
-@@ -251,7 +251,9 @@ python copy_buildsystem () {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# Create a layer for new recipes / appends<br>
-=C2=A0 =C2=A0 =C2=A0bbpath =3D d.getVar(&#39;BBPATH&#39;)<br>
--=C2=A0 =C2=A0 bb.process.run([&#39;devtool&#39;, &#39;--bbpath&#39;, bbpa=
-th, &#39;--basepath&#39;, baseoutpath, &#39;create-workspace&#39;, &#39;--c=
-reate-only&#39;, os.path.join(baseoutpath, &#39;workspace&#39;)])<br>
-+=C2=A0 =C2=A0 env =3D os.environ.copy()<br>
-+=C2=A0 =C2=A0 env[&#39;PYTHONDONTWRITEBYTECODE&#39;] =3D &#39;1&#39;<br>
-+=C2=A0 =C2=A0 bb.process.run([&#39;devtool&#39;, &#39;--bbpath&#39;, bbpa=
-th, &#39;--basepath&#39;, baseoutpath, &#39;create-workspace&#39;, &#39;--c=
-reate-only&#39;, os.path.join(baseoutpath, &#39;workspace&#39;)], env=3Denv=
-)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# Create bblayers.conf<br>
-=C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(baseoutpath + &#39;/conf&#39;)<br>
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsyste=
-m.py<br>
-index 31a84f5b06..d97bf9d1b9 100644<br>
---- a/meta/lib/oe/copy_buildsystem.py<br>
-+++ b/meta/lib/oe/copy_buildsystem.py<br>
-@@ -20,7 +20,7 @@ def _smart_copy(src, dest):<br>
-=C2=A0 =C2=A0 =C2=A0mode =3D os.stat(src).st_mode<br>
-=C2=A0 =C2=A0 =C2=A0if stat.S_ISDIR(mode):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(dest)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;tar --exclude=3D&#39;.git&#39; =
---xattrs --xattrs-include=3D&#39;*&#39; -chf - -C %s -p . \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;tar --exclude=3D&#39;.git&#39; =
---exclude=3D&#39;__pycache__&#39; --xattrs --xattrs-include=3D&#39;*&#39; -=
-chf - -C %s -p . \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| tar --xattrs --xattrs-include=3D&#39;*=
-&#39; -xf - -C %s&quot; % (src, dest)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_output(cmd, shell=3DTru=
-e, stderr=3Dsubprocess.STDOUT)<br>
-=C2=A0 =C2=A0 =C2=A0else:<br>
-@@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs, input_sstat=
-e_cache, output_sstate_cac<br>
-=C2=A0 =C2=A0 =C2=A0bb.note(&#39;Generating sstate-cache...&#39;)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0nativelsbstring =3D d.getVar(&#39;NATIVELSBSTRING&#39;=
-)<br>
--=C2=A0 =C2=A0 bb.process.run(&quot;gen-lockedsig-cache %s %s %s %s %s&quo=
-t; % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring,=
- filterfile or &#39;&#39;))<br>
-+=C2=A0 =C2=A0 bb.process.run(&quot;PYTHONDONTWRITEBYTECODE=3D1 gen-locked=
-sig-cache %s %s %s %s %s&quot; % (lockedsigs, input_sstate_cache, output_ss=
-tate_cache, nativelsbstring, filterfile or &#39;&#39;))<br>
-=C2=A0 =C2=A0 =C2=A0if fixedlsbstring and nativelsbstring !=3D fixedlsbstr=
-ing:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nativedir =3D output_sstate_cache + &#39=
-;/&#39; + nativelsbstring<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.isdir(nativedir):<br>
-@@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile, =
-cmdprefix=3D&#39;&#39;, cwd=3DNone, lo<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D &#39;-l %s&#39; % logfile<b=
-r>
-=C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logparam =3D &#39;&#39;<br>
--=C2=A0 =C2=A0 cmd =3D &quot;%sBB_SETSCENE_ENFORCE=3D1 PSEUDO_DISABLED=3D1=
- oe-check-sstate %s -s -o %s %s&quot; % (cmdprefix, targets, filteroutfile,=
- logparam)<br>
-+=C2=A0 =C2=A0 cmd =3D &quot;%sPYTHONDONTWRITEBYTECODE=3D1 BB_SETSCENE_ENF=
-ORCE=3D1 PSEUDO_DISABLED=3D1 oe-check-sstate %s -s -o %s %s&quot; % (cmdpre=
-fix, targets, filteroutfile, logparam)<br>
-=C2=A0 =C2=A0 =C2=A0env =3D dict(d.getVar(&#39;BB_ORIGENV&#39;, False))<br=
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporar=
+ily-drd-tests-swapcontext.vgtest.patch b/meta/recipes-devtools/valgrind/val=
+grind/0001-Disable-temporarily-drd-tests-swapcontext.vgtest.patch<br>
+new file mode 100644<br>
+index 0000000000..f217098650<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-Disable-temporarily-drd=
+-tests-swapcontext.vgtest.patch<br>
+@@ -0,0 +1,28 @@<br>
++From 0f1814a618eff4233e9e8379a8cb2dededdc5a8b Mon Sep 17 00:00:00 2001<br=
 >
-=C2=A0 =C2=A0 =C2=A0env.pop(&#39;BUILDDIR&#39;, &#39;&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0env.pop(&#39;BBPATH&#39;, &#39;&#39;)<br>
++From: Yi Fan Yu &lt;<a href=3D"mailto:yifan.yu@windriver.com" target=3D"_=
+blank">yifan.yu@windriver.com</a>&gt;<br>
++Date: Tue, 23 Mar 2021 11:09:20 -0700<br>
++Subject: [PATCH] Disable temporarily drd/tests/swapcontext.vgtest<br>
++<br>
++New test introduced in valgrind 3.17.0.<br>
++Test fails on both qemuarm64 and qemux64.<br>
++<br>
++Upstream-Status: Pending [Needs more Investigation]<br>
++<br>
++Signed-off-by: Yi Fan Yu &lt;<a href=3D"mailto:yifan.yu@windriver.com" ta=
+rget=3D"_blank">yifan.yu@windriver.com</a>&gt;<br>
++---<br>
++ drd/tests/swapcontext.vgtest | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/drd/tests/swapcontext.vgtest b/drd/tests/swapcontext.vgtest<=
+br>
++index 98e3712c4..5492da31d 100644<br>
++--- a/drd/tests/swapcontext.vgtest<br>
+++++ b/drd/tests/swapcontext.vgtest<br>
++@@ -1,4 +1,4 @@<br>
++-prereq: test -e swapcontext &amp;&amp; ./supported_libpthread<br>
+++prereq: false<br>
++ vgopts: --read-var-info=3Dyes --check-stack-var=3Dyes --show-confl-seg=
+=3Dno --num-callers=3D2<br>
++ prog: swapcontext<br>
++ stderr_filter: filter_stderr<br>
++-- <br>
++2.17.1<br>
++<br>
+diff --git a/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.1=
+7.0.bb" rel=3D"noreferrer" target=3D"_blank">valgrind_3.17.0.bb</a> b/meta/=
+recipes-devtools/valgrind/<a href=3D"http://valgrind_3.17.0.bb" rel=3D"nore=
+ferrer" target=3D"_blank">valgrind_3.17.0.bb</a><br>
+index 1e29896596..7a6b766121 100644<br>
+--- a/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.17.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">valgrind_3.17.0.bb</a><br>
++++ b/meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.17.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">valgrind_3.17.0.bb</a><br>
+@@ -43,6 +43,7 @@ SRC_URI =3D &quot;<a href=3D"https://sourceware.org/pub/=
+valgrind/valgrind-$%7BPV%7D.tar.bz2" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-none-tests-fdleak_cm=
+sg.stderr.exp-adjust-tmp-paths.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-memcheck-tests-Fix-t=
+imerfd-syscall-test.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Add-missing-musl.sup=
+p.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Disable-temporarily-=
+drd-tests-swapcontext.vgtest.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;afe11b5572c3121a781433b7c0ab741b&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;ad3aec668e813e40f238995f60796d9590eee64=
+a16dff88421430630e69285a2&quot;<br>
 -- <br>
 2.17.1<br>
 <br>
@@ -247,4 +233,4 @@ fix, targets, filteroutfile, logparam)<br>
 <br>
 </blockquote></div>
 
---0000000000004094d005be6a290e--
+--00000000000034282205be6a2d42--
