@@ -1,112 +1,183 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web12.9905.1616749901963493132
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web10.10166.1616750683096486984
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 02:11:42 -0700
+ Fri, 26 Mar 2021 02:24:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=qawegQn0;
- spf=pass (domain: blade-group.com, ip: 209.85.222.54, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-ua1-f54.google.com with SMTP id g5so1399720uan.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 02:11:41 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=fcbHKS4P;
+ spf=pass (domain: blade-group.com, ip: 209.85.222.41, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-ua1-f41.google.com with SMTP id 97so1406815uav.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 02:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=blade-group.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=ZGph5N9mOwHx09ZE2UzfOctbdoAZpd4ZVKficVLffTQ=;
-        b=qawegQn0vhxHJ7pEXtXoyzQ2buTl0l3kiULKmXKsURu7b+eVtWmvkwvyhz8HWj4zsH
-         hgEeuM/Eq1NQ9AFwnfX9ctPma35SSiFigV936h9Noee4tBesNm5BC2W0ktAS3zlAt4iA
-         a3btwUWCR2w0zHR9Al4qTFNXMnY98kQFm/9kVyYDYvOreBFWg5ORvEtPQ9NRV3VCbRE9
-         UCpghYDyiXEA3IOyXiZEnex+S/q4AzJq3+Ie1wkxF7OmacDEFXIUsVWUm3VsOyzbyJfJ
-         I4DIjl5rPj2SoPHWzI5ewkRpK+16Z0tGiAR/igZZFDTIvZi+bwiZTo5q1X2KFwBFJZW6
-         ByRA==
+        bh=FXxAi/wjzanErqRk14fu/Y8Ecp+Yz9nVE8/D/KzRfDQ=;
+        b=fcbHKS4P9iR8AiRxB+4BYxVX9/DeH6ZPtu95aW6fNUK/Znh8tS38hJbs6u7uGKy1/m
+         fk/mToxvIl5DO3b7XfZpC3eMnyeBzdFcqEhKvrsSb2JaXkPSG85FIAf27hyyJCjZJL64
+         IZt2oMb2Fj6bPMdF1R7WbXJB9PXWQpcQVpmz6CYSuAArFmbmRg+ObJ6dG2r34x9gQ9IS
+         sGFpkjo6EoNZ8b0dLMAM8QFvLvjef/ZVCLvwxbwCgw0o3AJxCe9dt+DNrd41BkWudtxR
+         CVdHPdc8Nz1ErXWSGzHFsSbX0up/ve+P/4OY6+VV/y+eJupH9RygsqgpFRA6jhXw32BZ
+         5yFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZGph5N9mOwHx09ZE2UzfOctbdoAZpd4ZVKficVLffTQ=;
-        b=QUioF6RPRZ6NoMm5Rj82QEoc+bDbvtp4UYuty+JjJEFEol2v72Q/4/kM3cQYQYyBCg
-         5ygXewZmDo8KwhwK+Vrrq0SwLLSEhWI+/uoX007PeAG0D6Kh94gV8hS0jVNWUhM8Rb/L
-         a72pH38c7mkcCYFjaWv4VPi/sHRCeWIl44s1qH24Vm0fEEpqobDJ/Iqr2dC9fiZgIEZg
-         QXRBAkh64yLSHl6tKbb1s/FXwlm/WafUH9FCx41cPtT9zYbBKEjZonPZKkY1ocOKgIC7
-         NZrp1bFpGM1RyA8CaFkNDRMNpmorGHrwx34CrLdGa9qBYhv10acpCtTU050x5RU2H5Dz
-         LbXg==
-X-Gm-Message-State: AOAM53307OzQtXbTibkOYASaUALqOrzBR4qrlIdWgqn5Z2YHev9Zrn1x
-	AN+cNr/NiW4w1nEQw+C78kw24iW9G/HGvls+1z6dGg==
-X-Google-Smtp-Source: ABdhPJxc3fZhzxDWCUz5MFa4RGCr8PbzoH2nLhv0TcGQtsJlxtxCUGvHG9OAon4dKXFyBbc5EQFB101m9CWZPrm84VM=
-X-Received: by 2002:a9f:2341:: with SMTP id 59mr7011233uae.30.1616749901115;
- Fri, 26 Mar 2021 02:11:41 -0700 (PDT)
+        bh=FXxAi/wjzanErqRk14fu/Y8Ecp+Yz9nVE8/D/KzRfDQ=;
+        b=p7+LCvbFzsCY5hF4sl7LKdrr1ZwIaAozJiBhZgryIW7FuDWbF1+uWqQjWhttWBQcdU
+         3y6lbXdYhC3rijzlYkLcZTnxkRf43k+KG/Y1PfxGQNcevKHQbBZ/+ET/9h1Ht+Ij9zPi
+         SvsNRagz+NmS+5Sjb68ZHowWr0N7A3FBiYP5h67Bo90RDODUx22HQvelPdv8ok7HG1b6
+         I4nOeu5leBxtLM+9K40WqOT7XeLriV0Z59rLDRBRuwA7I4q8svDzksLq8/n8R+ftLUVg
+         bLSlphBfTYodfovl26zDGjppkoIFmKNwTl9h9I5aH0WpYSrJD6Cx4hAv2kNBUPP4luJT
+         LK3g==
+X-Gm-Message-State: AOAM533gtfVjdwhXLgQPE2ppJhS+XsLZytefiQlH5cL9Be9Am80PaACj
+	+cSnSePEeMiJPQjUmktdC+SvXZ2QQRVsMnxY2GoLLQ==
+X-Google-Smtp-Source: ABdhPJx4+Wh6YZ6gDZChIahtILL/YfpXbQmhX44KZXs7I5KFCFb6Is+qGBO2RYMIB3FndvckqwpSfMMw5zQs8fopDBo=
+X-Received: by 2002:ab0:6cef:: with SMTP id l15mr6808732uai.130.1616750682188;
+ Fri, 26 Mar 2021 02:24:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210326010716.1055632-1-raj.khem@gmail.com>
-In-Reply-To: <20210326010716.1055632-1-raj.khem@gmail.com>
+References: <20210323163742.810094-1-yann@blade-group.com> <CANNYZj8fm0vTpB-p0PFJNmF4S8oOBmKGhK+R7PBhOdKZXy4R7A@mail.gmail.com>
+ <166F99C335958413.14663@lists.openembedded.org>
+In-Reply-To: <166F99C335958413.14663@lists.openembedded.org>
 From: "Yann Dirson" <yann.dirson@blade-group.com>
-Date: Fri, 26 Mar 2021 10:11:29 +0100
-Message-ID: <CA+4=imZmjTnAbSrTPK_06n-oddfDxB1f0OB3ocrObFx1RkwkZQ@mail.gmail.com>
-Subject: Re: [PATCH] gst-examples,gstreamer1.0-libav: Add option to exclude from world build
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
+Date: Fri, 26 Mar 2021 10:24:30 +0100
+Message-ID: <CA+4=imZTObVAaSTr5jzVod-sjKJqtisqzVZ-UB7Bk72K0mS2eQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] [RFC] ffmpeg: make LICENSE_FLAGS fine-grained
+To: Yann Dirson <yann.dirson@blade-group.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
+Le jeu. 25 mars 2021 =C3=A0 14:44, Yann Dirson via lists.openembedded.org
+<yann.dirson=3Dblade-group.com@lists.openembedded.org> a =C3=A9crit :
+>
+> Hi Alex,
+>
+> Le mar. 23 mars 2021 =C3=A0 17:42, Alexander Kanavin
+> <alex.kanavin@gmail.com> a =C3=A9crit :
+> >
+> > Is it possible to further split the NONCOMMERCIAL_PACKAGECONFIGS into =
+ones that are enabled and disabled, and use the former in PACKAGECONFIG its=
+elf?
+>
+> You mean something like this ?
+>
+> # PACKAGECONFIG features that do not pull codecs
+> NONCOMMERCIAL_DEFAULT_PACKAGECONFIGS =3D " \
+>  avdevice avfilter avformat swresample swscale postproc avresample \
+>  alsa bzlib drm gpl lzma pic pthreads shared zlib \
+>  ${@bb.utils.contains('AVAILTUNES', 'mips32r2', 'mips32r2', '', d)} \
+>  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)} \
+> "
+> NONCOMMERCIAL_NONDEFAULT_PACKAGECONFIGS =3D " \
+>  altivec bzlib gsm jack openssl sdl2 \
+> "
+>
+> PACKAGECONFIG ??=3D "avcodec theora \
+>                    ${NONCOMMERCIAL_DEFAULT_PACKAGECONFIGS}"
+>
+> I admit I'm not completely sure about every feature's status.
+>
+> I tend to think that if ffmpeg relies on a lib providing an
+> implementation, and there
+> are patent-related risks, it should that lib setting a LICENSE_FLAG.
+> Eg. x264 and others
+> already sets the "commercial" flag, so I'm tempted to not add a
+> duplicate flag in
+> ffmpeg (in the same spirit as my patches against gst-libav and mpv).
+> Would it be
+> good enough ?
 
-Le ven. 26 mars 2021 =C3=A0 02:07, Khem Raj <raj.khem@gmail.com> a =C3=A9cr=
-it :
->
-> When LICENSE_FLAGS_WHITELIST does not have commercial in it then the
-> the dependencies like ffmpeg will become invisible and render these
-> packages unbuildable, therefore world build will report parse issues
->
-> its better to exclude them from world build in such cases
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Yann Dirson <yann@blade-group.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb       | 2 ++
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb | 3 +++
->  2 files changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb b/m=
-eta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-> index 4670ab34db..196258e00f 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.4.bb
-> @@ -33,3 +33,5 @@ RRECOMMENDS_${PN} =3D "gstreamer1.0-plugins-base-meta \
->                        ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "c=
-ommercial", "gstreamer1.0-libav", "", d)} \
->                       ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "co=
-mmercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
->  RPROVIDES_${PN} +=3D "gst-player gst-player-bin"
-> +
-> +EXCLUDE_FROM_WORLD =3D "${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", =
-"commercial", "0", "1", d)}"
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.=
-bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> index 6a84f92f31..7c39e7da37 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.4.bb
-> @@ -6,6 +6,7 @@ SECTION =3D "multimedia"
->
->  # ffmpeg has comercial license flags so add it as we need ffmpeg as a de=
-pendency
->  LICENSE_FLAGS =3D "commercial"
-> +
+On second thought, it appears the only PACKAGECONFIG feature bringing
+codecs and not backed by a lib is just "avcodec".
 
-The LICENSE_FLAGS can then be dropped here, right ?
+Thus we could probably just use:
 
->  LICENSE =3D "LGPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6762ed442b3822387a51c92d928ea=
-d0d \
->                      file://ext/libav/gstav.h;beginline=3D1;endline=3D18;=
-md5=3Da752c35267d8276fd9ca3db6994fca9c \
-> @@ -22,3 +23,5 @@ inherit meson pkgconfig upstream-version-is-even
+LICENSE_FLAGS =3D "${@bb.utils.contains('PACKAGECONFIG', 'avcodec',
+'commercial', '', d)}"
+
+We would possibly not even need to set EXCLUDE_FROM_WORLD on this one, sin=
+ce the
+default PACKAGECONFIG would still set the "commercial" flag, right ?
+
 >
->  FILES_${PN} +=3D "${libdir}/gstreamer-1.0/*.so"
->  FILES_${PN}-staticdev +=3D "${libdir}/gstreamer-1.0/*.a"
-> +
-> +EXCLUDE_FROM_WORLD =3D "${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", =
-"commercial", "0", "1", d)}"
+> >
+> >
+> > Alex
+> >
+> > On Tue, 23 Mar 2021 at 17:38, Yann Dirson <yann.dirson@blade-group.com=
+> wrote:
+> >>
+> >> From: Yann Dirson <yann@blade-group.com>
+> >>
+> >> The rationale here is that if the user can only whitelist "commercial=
+"
+> >> to use any part of ffmpeg, even it the list of features is carefully
+> >> reviewed when switching the whitelisting on, there was nothing to
+> >> guard from inadvertently activating a new feature that would not have
+> >> been reviewed.
+> >>
+> >> This patch adds one LICENSE_FLAGS value for each feature, except for
+> >> those that bring no codec, trying to be on the same level of legal
+> >> safety - but then I may miss something.
+> >>
+> >> I tried to leave out of the safe NONCOMMERCIAL_PACKAGECONFIGS list
+> >> anything that brings a codec, notably libavcodec.  I also did not loo=
+k
+> >> at non-default features yet.
+> >>
+> >> There may still be a problem if any feature in ffmpeg gets activated
+> >> by default upstream and not registed as a PACKAGECONFIG feature.  At
+> >> least any of those that depend on another lib would not be enabled,
+> >> that could be seen as a sufficient safeguard.
+> >> ---
+> >>  meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb | 12 +++++++++++-
+> >>  1 file changed, 11 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/re=
+cipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> >> index 08be38ca50..3a36c95151 100644
+> >> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> >> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+> >> @@ -16,7 +16,17 @@ LICENSE_libavutil =3D "${@bb.utils.contains('PACKA=
+GECONFIG', 'gpl', 'GPLv2+', 'LGP
+> >>  LICENSE_libpostproc =3D "GPLv2+"
+> >>  LICENSE_libswresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gp=
+l', 'GPLv2+', 'LGPLv2.1+', d)}"
+> >>  LICENSE_libswscale =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',=
+ 'GPLv2+', 'LGPLv2.1+', d)}"
+> >> -LICENSE_FLAGS =3D "commercial"
+> >> +
+> >> +# PACKAGECONFIG features that do not pull codecs
+> >> +NONCOMMERCIAL_PACKAGECONFIGS =3D " \
+> >> + alsa bzlib drm gpl lzma zlib xcb xv \
+> >> + avdevice avfilter avformat swresample swscale postproc avresample \
+> >> +"
+> >> +# An ffmpeg feature not in NONCOMMERCIAL_PACKAGECONFIGS should be ex=
+plicitly whitelisted.
+> >> +# See https://ffmpeg.org/legal.html
+> >> +LICENSE_FLAGS =3D "${@' '.join('commercial_' + cfg \
+> >> +                             for cfg in '${PACKAGECONFIG}'.split() \
+> >> +                             if cfg not in '${NONCOMMERCIAL_PACKAGEC=
+ONFIGS}'.split())}"
+> >>
+> >>  LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee4d69f5fce4486=
+a80fdaf4a4263 \
+> >>                      file://COPYING.GPLv3;md5=3Dd32239bcb673463ab874e=
+80d47fae504 \
+> >> --
+> >> 2.30.2
+> >>
+> >>
+> >>
+> >>
+>
+>
 > --
-> 2.31.0
+> Yann Dirson <yann@blade-group.com>
+> Blade / Shadow -- http://shadow.tech
+>
+>=20
 >
 
 
