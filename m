@@ -1,186 +1,206 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
- by mx.groups.io with SMTP id smtpd.web10.10166.1616750683096486984
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.47])
+ by mx.groups.io with SMTP id smtpd.web11.12825.1616766387383045928
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 02:24:43 -0700
+ Fri, 26 Mar 2021 06:46:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=fcbHKS4P;
- spf=pass (domain: blade-group.com, ip: 209.85.222.41, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-ua1-f41.google.com with SMTP id 97so1406815uav.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 02:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FXxAi/wjzanErqRk14fu/Y8Ecp+Yz9nVE8/D/KzRfDQ=;
-        b=fcbHKS4P9iR8AiRxB+4BYxVX9/DeH6ZPtu95aW6fNUK/Znh8tS38hJbs6u7uGKy1/m
-         fk/mToxvIl5DO3b7XfZpC3eMnyeBzdFcqEhKvrsSb2JaXkPSG85FIAf27hyyJCjZJL64
-         IZt2oMb2Fj6bPMdF1R7WbXJB9PXWQpcQVpmz6CYSuAArFmbmRg+ObJ6dG2r34x9gQ9IS
-         sGFpkjo6EoNZ8b0dLMAM8QFvLvjef/ZVCLvwxbwCgw0o3AJxCe9dt+DNrd41BkWudtxR
-         CVdHPdc8Nz1ErXWSGzHFsSbX0up/ve+P/4OY6+VV/y+eJupH9RygsqgpFRA6jhXw32BZ
-         5yFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FXxAi/wjzanErqRk14fu/Y8Ecp+Yz9nVE8/D/KzRfDQ=;
-        b=p7+LCvbFzsCY5hF4sl7LKdrr1ZwIaAozJiBhZgryIW7FuDWbF1+uWqQjWhttWBQcdU
-         3y6lbXdYhC3rijzlYkLcZTnxkRf43k+KG/Y1PfxGQNcevKHQbBZ/+ET/9h1Ht+Ij9zPi
-         SvsNRagz+NmS+5Sjb68ZHowWr0N7A3FBiYP5h67Bo90RDODUx22HQvelPdv8ok7HG1b6
-         I4nOeu5leBxtLM+9K40WqOT7XeLriV0Z59rLDRBRuwA7I4q8svDzksLq8/n8R+ftLUVg
-         bLSlphBfTYodfovl26zDGjppkoIFmKNwTl9h9I5aH0WpYSrJD6Cx4hAv2kNBUPP4luJT
-         LK3g==
-X-Gm-Message-State: AOAM533gtfVjdwhXLgQPE2ppJhS+XsLZytefiQlH5cL9Be9Am80PaACj
-	+cSnSePEeMiJPQjUmktdC+SvXZ2QQRVsMnxY2GoLLQ==
-X-Google-Smtp-Source: ABdhPJx4+Wh6YZ6gDZChIahtILL/YfpXbQmhX44KZXs7I5KFCFb6Is+qGBO2RYMIB3FndvckqwpSfMMw5zQs8fopDBo=
-X-Received: by 2002:ab0:6cef:: with SMTP id l15mr6808732uai.130.1616750682188;
- Fri, 26 Mar 2021 02:24:42 -0700 (PDT)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=eokYQpBM;
+ spf=pass (domain: kpit.com, ip: 40.107.139.47, mailfrom: purushottam.choudhary@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gqSexbBM/JiX869XTe/J8A2C9iA+aktOOMfmTHU2BMQXyYmoMuD9CuKYfnzAKCD5Ku584UisvokE+ahyNuSud3adIfEu9d2Bdjb9lTUYrE2P9f9/GVBREprxPkn3OCPWzMoseVsayHNUed7p6XKuODn3tNO+FGT6qbxJPRlBhcMS8xgf+1u4J1JVYsEzHIvc4tBkXDHnfAWeudaoWimYjoVGXyINNP25sjQbyaJ7hE7gQ8ZdxinKO4xXYhmwyNBcuCSfYQxwS4yjsFnJ506ZNIBihenbcUFBPJrQp9lSgXbxPnPMyR54URqkcu2EzK6rovkBy8p8VOE6riKUcPr5Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ob9/rAB8P0OFlcjvyBKA/hrVBOt8UH37WCzmN6Bl6eM=;
+ b=kjzIT35jqyLhpipYRGXdmvSeawktxfjFDbvEtZIrrKhBHGVTzVYyAklfpa7Ge83Q8uyKSuuxlegPkQQ6+/NQ/8JylSHZscS+WLk+3MEQHaXUtlTVzKGjfAEpS6pVNM/Uq4MBgQut4UsiCYUmWchVnch/RmQDiGFrWgVZdSEZIcq2YN69QA7XxdNQEgzs8a8m7hotd2QKlKeQwji9Z5Z58g3Szh6TN/rTJVD8+LL/HXav14+tJEcpqY0nsGhjFPpxEO0JmSG01ttSDvzp7VSvjkHzwQmG1a4A6O5usIRBC8Be1Mgga5X9h1hCOhHLLB4SJ6pN+X3aumgXdgnL0mAotA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ob9/rAB8P0OFlcjvyBKA/hrVBOt8UH37WCzmN6Bl6eM=;
+ b=eokYQpBM63NZUbPe5joP103dIaQ2wBU1/5sgMdV7Xdgz2MjwsLq8OwUnXLZ6/WA5Jp+TaBOYwqDxkNTZjHSi0tkSmlM4eBQPcoxKaS1dT4TBT54FxEf1cbIGfM4fwmySlc9UskjTUnj6vI7w2XRDg0lVLdaHzxffRz8bvI5GypA=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1c::9)
+ by PN1PR0101MB1646.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00:17::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26; Fri, 26 Mar
+ 2021 13:46:13 +0000
+Received: from PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::ec0c:730d:7fe9:9cd6]) by PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::ec0c:730d:7fe9:9cd6%7]) with mapi id 15.20.3977.025; Fri, 26 Mar 2021
+ 13:46:13 +0000
+From: "Purushottam choudhary" <purushottam.choudhary@kpit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nisha.parrakat@kpit.com,
+	harpritkaur.bhandari@kpit.com
+Subject: [poky][dunfell][PATCH] buildhistory.bbclass: store MAINTAINER variable
+Date: Fri, 26 Mar 2021 19:16:04 +0530
+Message-Id: <1616766364-22994-1-git-send-email-purushottam.choudhary@kpit.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [2405:201:a410:a032:4d1e:ffb5:cb07:ac8f]
+X-ClientProxiedBy: PN2PR01CA0032.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:22::7) To PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:1c::9)
+Return-Path: purushottam.choudhary@kpit.com
 MIME-Version: 1.0
-References: <20210323163742.810094-1-yann@blade-group.com> <CANNYZj8fm0vTpB-p0PFJNmF4S8oOBmKGhK+R7PBhOdKZXy4R7A@mail.gmail.com>
- <166F99C335958413.14663@lists.openembedded.org>
-In-Reply-To: <166F99C335958413.14663@lists.openembedded.org>
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-Date: Fri, 26 Mar 2021 10:24:30 +0100
-Message-ID: <CA+4=imZTObVAaSTr5jzVod-sjKJqtisqzVZ-UB7Bk72K0mS2eQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [RFC] ffmpeg: make LICENSE_FLAGS fine-grained
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (2405:201:a410:a032:4d1e:ffb5:cb07:ac8f) by PN2PR01CA0032.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:22::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3977.25 via Frontend Transport; Fri, 26 Mar 2021 13:46:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ee567aed-1e88-4b0c-49a4-08d8f05d84bd
+X-MS-TrafficTypeDiagnostic: PN1PR0101MB1646:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<PN1PR0101MB1646960489BA1D3FCA5BD37690619@PN1PR0101MB1646.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:431;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	2Lck2UBpn2dq8fuUsKjiNA+h+689lCLk0mh0ZOJzCGyho2T0GAmm/Gj+mXq5njLFlYHiotHE+BwBP2rP5Y/ph5VI5THj0LVpE4h0W0DsgWmbWKWDMsA+PnLnOEfuvvREYxzFjhcFUHjmKLEeCArZuElcuEuwZn5CRXkAwMe2kaBrVNAzHfYJc1xgmSuC0C0n/Bm9ltFwiANHTM+ZoCApqurmiUZdtYgg43kloSuzfPVJ1OWAtr+pz9X+2ywL/X15hBRrxwbkwHzv898PVyr0ORlOJjH7d3HywnAKL+IfQwUQBL7L3+GEg+L+1v7LqAfW2xstjThdEphPml76tovGCtWiQAdy4uxsl5d4xElTIak1BDGXqQBQNnMv9st2vLjpDog8LyX4zMBwMApzKZJ2IJN6EyGtTEOhJkaZzXb0HwIBbcj08YFQrLLngCBv98r8IhEcX0f9tYWl6sSFbXh20DDkHny3bSFBWzEIrGgxL+UjTdaWhbDsUHgAd3++AsMh2R6E/TwaWp3J22JcbNS4MRlsoc8frlkXPJg0DxpBxVNLSsH//KzXsbPfNW5Ztiy/UG5axtPviyYeq3TPiUDTui9Rocjelu9LrSys3ATVzW0y3Z19iy4waG6lX65tkzFqwRjElLEaPVFUFMrbXtLDiSbOnJMEuof5AzlnGX/e9ZC1hjn8KQ3md8bwNwsup3ec
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(396003)(346002)(39850400004)(376002)(107886003)(66574015)(6916009)(36756003)(66946007)(69590400012)(66476007)(4326008)(83380400001)(6666004)(66556008)(44832011)(38100700001)(6512007)(86362001)(8936002)(2616005)(2906002)(6506007)(5660300002)(316002)(52116002)(8676002)(16526019)(478600001)(186003)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?/mo6qHIIJZhwU9PEREmaDq2ef3ht+bb93OUmnZelmRC/cCZ6/GxCF5bRxBob?=
+ =?us-ascii?Q?EBSz5f+VVsB5oCHv1cI8RzbyyfT8oM5Kh8wAnF0H0zWpvfwdqeizEC+tp9Gm?=
+ =?us-ascii?Q?8ppnmXo90UlEnUpSEkp1aP55lh0s6tlOxW91zf4Ro5J0opqqC07pTgDtR2Kl?=
+ =?us-ascii?Q?efFdhPAJBJx9y0i4NP6UDG8JuxQJo1bpJcDRhg6xRmTn5ZBvNmEM3IRlezEI?=
+ =?us-ascii?Q?m4GmNSA3uTVnBYFGVnx4lClc3TsnHUngOb1vHEcRYIMnE+UL29T/8UCoDubB?=
+ =?us-ascii?Q?D1EDKq/+zDEIgFZnCZQTeE7scSmsWeFbjHEGpDJF/I9T6ZjC8ubuowBWYyVJ?=
+ =?us-ascii?Q?mL836gy4cLYtlKj3BNRDwlMUZdz2tfntSbSxd03xAY9m+DaH8mfdMGy4nZxy?=
+ =?us-ascii?Q?/Q054/XDKk3k9rKyOFaA5VIqWXupKTcHYrpQlCrN3L7f2Sv0s5qFHjKYuQv3?=
+ =?us-ascii?Q?zFYxSzGnAR0exKTTCaM6HyK3LNoCRO4iVxwvTaQJkKJQ8q+MRpMIiKGu/x7h?=
+ =?us-ascii?Q?p3+zW0kXKwOJ9WK2/YJkQh2ethugyzMx1JOY7u5puK5JdJ3VY/vK1FT/mV32?=
+ =?us-ascii?Q?uwyee+4bdCIAVok4EpFXk7s1+gJfxyrFUmlrdUHCVRWrY2cjxeXfQO7P2Rbu?=
+ =?us-ascii?Q?aylydlKQ2AtntusdM3nYL0hcArQcGqbbikouV0JFYrhQxJbgIaofpGmm98Qr?=
+ =?us-ascii?Q?huZdHSZCWyGo3XYqmL4kg0HNb/KOc4hLJenEndZW2WSrymp/Weri4AwcSvEb?=
+ =?us-ascii?Q?65qrsHojZbJxSzqzoAFNaWReVhKYHeSdmce5bTtloD7//bwUIJ+TfyeIjOSV?=
+ =?us-ascii?Q?/p/s3dVjTgrpWoYShxsmmKEltyhH/TSolzVzYHlQKSA5ybcReN22TlKUj/Nd?=
+ =?us-ascii?Q?ntSoD/RVkf+cImBI62W4STYjzSbk6m5lLRPBao4dtJecmoSkQKxN/A/JUfFI?=
+ =?us-ascii?Q?IzuiQy1as0UimbRULsNgNgKPcJQf60K8w2E0vA3iMtOOsUv7gt+7faG5i8lr?=
+ =?us-ascii?Q?AmZWJ+pbSZ0FIEH0lWLjgZ7NfyX3TTbYRRIh8IsQVK5+BdJn3sxwdSiuXgBB?=
+ =?us-ascii?Q?c7dzX/h0xkixG8zUmCRRTXAxEYHp/PQu2d7mL366wJDHmluigt3wiAOLC09s?=
+ =?us-ascii?Q?rIN++dI81n5N0hs5G1i2ZQLYleLhQwr8/8Bsj64BqleChSMR8slBDC4FDu2f?=
+ =?us-ascii?Q?gntI9qyh8l4So6y//av+XLqzKoQg1NDRadvs4tAft8sASpiRptoTQlJIClIE?=
+ =?us-ascii?Q?HNoAJH+Rdp+PqKujnKx+jvXWf0Ybn0OloeIBXo6+sKVNuojdxH28JVw6eVKe?=
+ =?us-ascii?Q?rZh0UM4XeyPMFjMYgAvCWPuuewPAgqv+0ftSoH7zhWEQhYrErBLxFttG79mm?=
+ =?us-ascii?Q?pTcJ922dtEu2FNCKI1HCrUMmkRc1?=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee567aed-1e88-4b0c-49a4-08d8f05d84bd
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 13:46:12.5066
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bETO2gwFsHG1WOHI4aQb0vsxJdPegURKJpNCQZHjKqn1LRJPszvqIallBOQB/qM9tBF/zOMFlHqcTftk8ldkTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN1PR0101MB1646
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 25 mars 2021 =C3=A0 14:44, Yann Dirson via lists.openembedded.org
-<yann.dirson=3Dblade-group.com@lists.openembedded.org> a =C3=A9crit :
->
-> Hi Alex,
->
-> Le mar. 23 mars 2021 =C3=A0 17:42, Alexander Kanavin
-> <alex.kanavin@gmail.com> a =C3=A9crit :
-> >
-> > Is it possible to further split the NONCOMMERCIAL_PACKAGECONFIGS into =
-ones that are enabled and disabled, and use the former in PACKAGECONFIG its=
-elf?
->
-> You mean something like this ?
->
-> # PACKAGECONFIG features that do not pull codecs
-> NONCOMMERCIAL_DEFAULT_PACKAGECONFIGS =3D " \
->  avdevice avfilter avformat swresample swscale postproc avresample \
->  alsa bzlib drm gpl lzma pic pthreads shared zlib \
->  ${@bb.utils.contains('AVAILTUNES', 'mips32r2', 'mips32r2', '', d)} \
->  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)} \
-> "
-> NONCOMMERCIAL_NONDEFAULT_PACKAGECONFIGS =3D " \
->  altivec bzlib gsm jack openssl sdl2 \
-> "
->
-> PACKAGECONFIG ??=3D "avcodec theora \
->                    ${NONCOMMERCIAL_DEFAULT_PACKAGECONFIGS}"
->
-> I admit I'm not completely sure about every feature's status.
->
-> I tend to think that if ffmpeg relies on a lib providing an
-> implementation, and there
-> are patent-related risks, it should that lib setting a LICENSE_FLAG.
-> Eg. x264 and others
-> already sets the "commercial" flag, so I'm tempted to not add a
-> duplicate flag in
-> ffmpeg (in the same spirit as my patches against gst-libav and mpv).
-> Would it be
-> good enough ?
+The maintainer declaration in the buildhistory
+is useful for tracking the maintainer of recipes.
+This change adds the MAINTAINER variable for
+recipes and packages to its buildhistory data.
 
-On second thought, it appears the only PACKAGECONFIG feature bringing
-codecs and not backed by a lib is just "avcodec".
+Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
+---
+ meta/classes/buildhistory.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Thus we could probably just use:
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
+bbclass
+index 8a1359a..04fac82 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -109,6 +109,7 @@ python buildhistory_emit_pkghistory() {
+             self.pe =3D "0"
+             self.pv =3D "0"
+             self.pr =3D "r0"
++            self.maintainer =3D ""
+             self.depends =3D ""
+             self.packages =3D ""
+             self.srcrev =3D ""
+@@ -126,6 +127,7 @@ python buildhistory_emit_pkghistory() {
+             self.pkge =3D ""
+             self.pkgv =3D ""
+             self.pkgr =3D ""
++            self.maintainer =3D ""
+             self.size =3D 0
+             self.depends =3D ""
+             self.rprovides =3D ""
+@@ -162,6 +164,8 @@ python buildhistory_emit_pkghistory() {
+                     pkginfo.pkgv =3D value
+                 elif name =3D=3D "PKGR":
+                     pkginfo.pkgr =3D value
++                elif name =3D=3D "MAINTAINER":
++                    pkginfo.maintainer =3D value
+                 elif name =3D=3D "RPROVIDES":
+                     pkginfo.rprovides =3D value
+                 elif name =3D=3D "RDEPENDS":
+@@ -215,6 +219,7 @@ python buildhistory_emit_pkghistory() {
+     pr =3D d.getVar('PR')
+     layer =3D bb.utils.get_file_layer(d.getVar('FILE'), d)
 
-LICENSE_FLAGS =3D "${@bb.utils.contains('PACKAGECONFIG', 'avcodec',
-'commercial', '', d)}"
++    maintainer =3D d.getVar('MAINTAINER') or ''
+     pkgdata_dir =3D d.getVar('PKGDATA_DIR')
+     packages =3D ""
+     try:
+@@ -251,6 +256,7 @@ python buildhistory_emit_pkghistory() {
+     rcpinfo.pe =3D pe
+     rcpinfo.pv =3D pv
+     rcpinfo.pr =3D pr
++    rcpinfo.maintainer =3D maintainer
+     rcpinfo.depends =3D sortlist(oe.utils.squashspaces(d.getVar('DEPENDS')=
+ or ""))
+     rcpinfo.packages =3D packages
+     rcpinfo.layer =3D layer
+@@ -270,6 +276,7 @@ python buildhistory_emit_pkghistory() {
+         pkge =3D pkgdata.get('PKGE', '0')
+         pkgv =3D pkgdata['PKGV']
+         pkgr =3D pkgdata['PKGR']
++        pkg_maintainer =3D d.getVar('MAINTAINER_%s' % (pkg,), True) or mai=
+ntainer
+         #
+         # Find out what the last version was
+         # Make sure the version did not decrease
+@@ -293,6 +300,7 @@ python buildhistory_emit_pkghistory() {
+         pkginfo.pkge =3D pkge
+         pkginfo.pkgv =3D pkgv
+         pkginfo.pkgr =3D pkgr
++        pkginfo.maintainer =3D pkg_maintainer
+         pkginfo.rprovides =3D sortpkglist(oe.utils.squashspaces(pkgdata.ge=
+t('RPROVIDES', "")))
+         pkginfo.rdepends =3D sortpkglist(oe.utils.squashspaces(pkgdata.get=
+('RDEPENDS', "")))
+         pkginfo.rrecommends =3D sortpkglist(oe.utils.squashspaces(pkgdata.=
+get('RRECOMMENDS', "")))
+@@ -368,6 +376,7 @@ def write_recipehistory(rcpinfo, d):
+         f.write(u"DEPENDS =3D %s\n" %  rcpinfo.depends)
+         f.write(u"PACKAGES =3D %s\n" %  rcpinfo.packages)
+         f.write(u"LAYER =3D %s\n" %  rcpinfo.layer)
++        f.write(u"MAINTAINER =3D %s\n" % rcpinfo.maintainer)
 
-We would possibly not even need to set EXCLUDE_FROM_WORLD on this one, sin=
-ce the
-default PACKAGECONFIG would still set the "commercial" flag, right ?
+     write_latest_srcrev(d, pkghistdir)
 
->
-> >
-> >
-> > Alex
-> >
-> > On Tue, 23 Mar 2021 at 17:38, Yann Dirson <yann.dirson@blade-group.com=
-> wrote:
-> >>
-> >> From: Yann Dirson <yann@blade-group.com>
-> >>
-> >> The rationale here is that if the user can only whitelist "commercial=
-"
-> >> to use any part of ffmpeg, even it the list of features is carefully
-> >> reviewed when switching the whitelisting on, there was nothing to
-> >> guard from inadvertently activating a new feature that would not have
-> >> been reviewed.
-> >>
-> >> This patch adds one LICENSE_FLAGS value for each feature, except for
-> >> those that bring no codec, trying to be on the same level of legal
-> >> safety - but then I may miss something.
-> >>
-> >> I tried to leave out of the safe NONCOMMERCIAL_PACKAGECONFIGS list
-> >> anything that brings a codec, notably libavcodec.  I also did not loo=
-k
-> >> at non-default features yet.
-> >>
-> >> There may still be a problem if any feature in ffmpeg gets activated
-> >> by default upstream and not registed as a PACKAGECONFIG feature.  At
-> >> least any of those that depend on another lib would not be enabled,
-> >> that could be seen as a sufficient safeguard.
-> >> ---
-> >>  meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb | 12 +++++++++++-
-> >>  1 file changed, 11 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/re=
-cipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> >> index 08be38ca50..3a36c95151 100644
-> >> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> >> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> >> @@ -16,7 +16,17 @@ LICENSE_libavutil =3D "${@bb.utils.contains('PACKA=
-GECONFIG', 'gpl', 'GPLv2+', 'LGP
-> >>  LICENSE_libpostproc =3D "GPLv2+"
-> >>  LICENSE_libswresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gp=
-l', 'GPLv2+', 'LGPLv2.1+', d)}"
-> >>  LICENSE_libswscale =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl',=
- 'GPLv2+', 'LGPLv2.1+', d)}"
-> >> -LICENSE_FLAGS =3D "commercial"
-> >> +
-> >> +# PACKAGECONFIG features that do not pull codecs
-> >> +NONCOMMERCIAL_PACKAGECONFIGS =3D " \
-> >> + alsa bzlib drm gpl lzma zlib xcb xv \
-> >> + avdevice avfilter avformat swresample swscale postproc avresample \
-> >> +"
-> >> +# An ffmpeg feature not in NONCOMMERCIAL_PACKAGECONFIGS should be ex=
-plicitly whitelisted.
-> >> +# See https://ffmpeg.org/legal.html
-> >> +LICENSE_FLAGS =3D "${@' '.join('commercial_' + cfg \
-> >> +                             for cfg in '${PACKAGECONFIG}'.split() \
-> >> +                             if cfg not in '${NONCOMMERCIAL_PACKAGEC=
-ONFIGS}'.split())}"
-> >>
-> >>  LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee4d69f5fce4486=
-a80fdaf4a4263 \
-> >>                      file://COPYING.GPLv3;md5=3Dd32239bcb673463ab874e=
-80d47fae504 \
-> >> --
-> >> 2.30.2
-> >>
-> >>
-> >>
-> >>
->
->
-> --
-> Yann Dirson <yann@blade-group.com>
-> Blade / Shadow -- http://shadow.tech
->
->=20
->
+@@ -386,6 +395,7 @@ def write_pkghistory(pkginfo, d):
+             f.write(u"PE =3D %s\n" %  pkginfo.pe)
+         f.write(u"PV =3D %s\n" %  pkginfo.pv)
+         f.write(u"PR =3D %s\n" %  pkginfo.pr)
++        f.write(u"MAINTAINER =3D %s\n" % pkginfo.maintainer)
 
+         if pkginfo.pkg !=3D pkginfo.name:
+             f.write(u"PKG =3D %s\n" % pkginfo.pkg)
+--
+2.7.4
 
---=20
-Yann Dirson <yann@blade-group.com>
-Blade / Shadow -- http://shadow.tech
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
