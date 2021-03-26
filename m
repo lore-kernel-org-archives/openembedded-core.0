@@ -1,76 +1,146 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.8334.1616733432303771045
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web12.8286.1616733626401731396
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Mar 2021 21:37:12 -0700
+ Thu, 25 Mar 2021 21:40:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q9+V4yTp;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so3653498pjc.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 21:37:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZxVbGBZf;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id h7so3471186qtx.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Mar 2021 21:40:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Fqx35qFS8XP8BspEWCtEa6/BbeDCdiZJ1KVRiBUXUOg=;
-        b=Q9+V4yTpQ5dYr1JvGjkWhGX/I6Lu69jOjBc8Gq+cQpYrhsNtUeMJgyL08ShQ4T1duF
-         RQA+a18pDoQq1Qq/mbu6b48X1YooBPXQAO/d1gPx0MTZSM8EuFRTDMSZqhG/lUYQcfNJ
-         j12fZ828qVbVSyq9R7xpykckKIazi7r3KI264uVZjVgq3qDiDh25nSC0ZISppaEFhaRL
-         87JiszKq6YQ4Nc1XDblEfq+Q49G67ZAhyIdirs1TX6Vjll7rvD6E+66bqmbUbC6hihtb
-         Jw1Z/nSkjBugeKnMLO4oG5Z62ySTZoNS+jAoX9RW5cJjqV4TVCkRWzeokRFRsBk+1yJ8
-         ognA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Sr8/VNk4HuK1eKXHrprtxrJnuDx/VPjzKihahMqQq8U=;
+        b=ZxVbGBZfTP6pvJgkVI7y5M15DKOeLPYi1FWX3BVO/awXzpzEmKf2HcxXOFF0pI7Kfg
+         uUz4M8RbSw5vjAMMlo08H/YeZqN+TO6rX7kWn8js7GfBZeImrIgLpfdnnosk6JO6P2QP
+         EAe4FW1dSlv+qjuG6YfmCqUq4cVPig3zTTZ5QTiowzDIJUm0KozweZurdCVnCoJjn34i
+         hZ+EDIirSJApzJ+A+SyQHWdNTfjpcNM/f8lpnYwndPI9fdzEl62mKtHHaFf21nPQL3I7
+         w8JFzRsygH7LK7WVjV7le+e46N7TP9I782JtktsimL2R7TqKu3E+vOX5G2NFZuq5fzxN
+         W9Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Fqx35qFS8XP8BspEWCtEa6/BbeDCdiZJ1KVRiBUXUOg=;
-        b=uESoTFiNVKXV+P0+1gg9rXfcPxJSFHYGrh76f20zV5y/cmecRBBRCehQF3wMuCZnlZ
-         oZa1gZ5cj3pNVW1xNNY78ShgV01yEpUBZN7ebDNwEQctj7XWOnz5P61rJr8znFLUVFlR
-         T56OQ/YiZTqDxLSUrpMVAWULW0lkxOURsZx1r4UpVkwERGfdUO+b8bOw7c7Lzxb5tlUO
-         9K5DHokPZ+oheGowHRY+A7URIAPQZNP/Q23f47F9DEudrvEfOdmET87i3GXNcYPI3nDo
-         mP7jk/hgClGIZSZfnGV8vbCesRR3jEmuFtegZqJFjB8IG56PfPOsiSnKwagZNbTHfYl0
-         aVGQ==
-X-Gm-Message-State: AOAM532WoBys4VgBc3D6nAopEPFLXhdMZ3BMGO8HNZhUm1AuJE7Yan3x
-	/eXHi84QAijSkz6kxoKNfKuanMylUjkLKg==
-X-Google-Smtp-Source: ABdhPJz2aPofe0O7bfHJEGdlRKyCZErJzvm9dyxPnHAnqjkupeqGoa+fMUf3RnsWB4ED21BDbtvVqA==
-X-Received: by 2002:a17:90a:14c3:: with SMTP id k61mr11907858pja.206.1616733431485;
-        Thu, 25 Mar 2021 21:37:11 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::aebb])
-        by smtp.gmail.com with ESMTPSA id t17sm7650735pgk.25.2021.03.25.21.37.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 21:37:11 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH] grub2: Disable for RISCV32
-Date: Thu, 25 Mar 2021 21:37:08 -0700
-Message-Id: <20210326043708.1118307-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Sr8/VNk4HuK1eKXHrprtxrJnuDx/VPjzKihahMqQq8U=;
+        b=n/ddH6apIuPeQMUanGrBOY4hxmL6jXUoDqf5ofnb8lp/QeVIIHPriZu5+7tvcOrkPk
+         tev/5BXxp2j44j6qRjjyRpBGN2AKhSltgg3GDTjOJ2PaJb6ghwtz2BWUq7pm4Up92cEK
+         lYX4D75P5TPXy75Oo4qPeshwdLXbMy76b/htfSphOB0NMVUmD4Hk6ozfVMEbSoDnvanu
+         tU3I+a9XITvRuCgoPJ33Hj5BSnNDInUWGq6lOsStNob362pwuhJWZYO4sM2EaR7BlLy5
+         TMe0FEejxq18T1K5lvLUzBkXudj/qwDs7cCLavgMAASgxSQsSwW8FoPCA9qu4vcs0ZnH
+         /f0A==
+X-Gm-Message-State: AOAM531Rh6ZpLFroKCavQRBRZec8LICVAAswevlhOY66283St8NjxLQ9
+	NrdYIc5E0b270FGxqshqc3ozpBbM7HxPc0DfQyg=
+X-Google-Smtp-Source: ABdhPJxyExGvvIH41P5AKEccSHGF/wN7YtOflum1/+H3MfWzbAMIfDhwyeLMM2wMwq/P8SoV/P0fMCeLrwLM+rPtwTE=
+X-Received: by 2002:ac8:5a46:: with SMTP id o6mr10725956qta.289.1616733625534;
+ Thu, 25 Mar 2021 21:40:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210325041506.3558560-1-raj.khem@gmail.com> <CAKmqyKP2u+86DvWL8mJ1M=63R7brSqinsgmfa4SO+q3Fowuz2Q@mail.gmail.com>
+In-Reply-To: <CAKmqyKP2u+86DvWL8mJ1M=63R7brSqinsgmfa4SO+q3Fowuz2Q@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 25 Mar 2021 21:39:59 -0700
+Message-ID: <CAMKF1sr3zTkJVToPdT3WqFAnrBpuC7mS0M-uqj2dWKjvoZrGNA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] grub-efi: Fix build failure on RISCV32
+To: Alistair Francis <alistair23@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-A full working port is not available yet, until such time disable it
+On Thu, Mar 25, 2021 at 12:48 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, Mar 25, 2021 at 12:15 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Alistair Francis <alistair.francis@wdc.com>
+>
+> I'm not sure if this is the right thing to do here.
+>
+> Have you tested this does GRUB boot with this check removed?
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
----
- meta/recipes-bsp/grub/grub2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I have not run it no, but inspected the generate PE file and they look
+ok. however, I think we should drop
+this patch and instead just disable grub on rv32 until such time when
+port is available. I have send a follow up
+patch for that.
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index bcff676c26..d88c3fd3ad 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -33,7 +33,7 @@ UPSTREAM_CHECK_REGEX = "grub-(?P<pver>\d+(\.\d+)+)\.tar\.(gz|xz)"
- 
- DEPENDS = "flex-native bison-native gettext-native"
- 
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv64)-(linux.*|freebsd.*)'
- COMPATIBLE_HOST_armv7a = 'null'
- COMPATIBLE_HOST_armv7ve = 'null'
- 
--- 
-2.31.0
 
+> From memory I don't think the original GRUB port would have been tested on RV32.
+>
+> Alistair
+>
+> > ---
+> >  ...sable-offset-overflow-check-for-rv32.patch | 45 +++++++++++++++++++
+> >  meta/recipes-bsp/grub/grub2.inc               |  1 +
+> >  2 files changed, 46 insertions(+)
+> >  create mode 100644 meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
+> >
+> > diff --git a/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch b/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
+> > new file mode 100644
+> > index 0000000000..6547bf2261
+> > --- /dev/null
+> > +++ b/meta/recipes-bsp/grub/files/0001-Disable-offset-overflow-check-for-rv32.patch
+> > @@ -0,0 +1,45 @@
+> > +From ce1cea0563011698e4a70c9a60e7da66b57ab1d6 Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Wed, 24 Mar 2021 20:55:56 -0700
+> > +Subject: [PATCH] Disable offset overflow check for rv32
+> > +
+> > +Fixes
+> > +/tmp/grub/grub-mkimage: error: target 17c6 not reachable from pc=936.
+> > +
+> > +Upstream-Status: Reported [https://savannah.gnu.org/bugs/index.php?60283]
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +---
+> > + util/grub-mkimagexx.c | 6 ++++--
+> > + 1 file changed, 4 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
+> > +index 00f49ccaa..6deb66226 100644
+> > +--- a/util/grub-mkimagexx.c
+> > ++++ b/util/grub-mkimagexx.c
+> > +@@ -1297,9 +1297,10 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
+> > +                    {
+> > +                      grub_uint32_t hi20, lo12;
+> > +
+> > ++#ifdef MKIMAGE_ELF64
+> > +                      if (off != (grub_int32_t)off)
+> > +                        grub_util_error ("target %lx not reachable from pc=%lx", (long)sym_addr, (long)((char *)target - (char *)e));
+> > +-
+> > ++#endif
+> > +                      hi20 = (off + 0x800) & 0xfffff000;
+> > +                      lo12 = (off - hi20) & 0xfff;
+> > +                      t32[0] = grub_host_to_target32 ((grub_target_to_host32 (t32[0]) & 0xfff) | hi20);
+> > +@@ -1336,9 +1337,10 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
+> > +                    {
+> > +                      grub_int32_t hi20;
+> > +
+> > ++#ifdef MKIMAGE_ELF64
+> > +                      if (off != (grub_int32_t)off)
+> > +                        grub_util_error ("target %lx not reachable from pc=%lx", (long)sym_addr, (long)((char *)target - (char *)e));
+> > +-
+> > ++#endif
+> > +                      hi20 = (off + 0x800) & 0xfffff000;
+> > +                      *t32 = grub_host_to_target32 ((grub_target_to_host32 (*t32) & 0xfff) | hi20);
+> > +                    }
+> > +--
+> > +2.31.0
+> > +
+> > diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+> > index bcff676c26..d8a556e06c 100644
+> > --- a/meta/recipes-bsp/grub/grub2.inc
+> > +++ b/meta/recipes-bsp/grub/grub2.inc
+> > @@ -19,6 +19,7 @@ SRC_URI = "https://alpha.gnu.org/gnu/grub/grub-${REALPV}.tar.xz \
+> >             file://grub-module-explicitly-keeps-symbole-.module_license.patch \
+> >             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
+> >             file://determinism.patch \
+> > +           file://0001-Disable-offset-overflow-check-for-rv32.patch \
+> >  "
+> >
+> >  SRC_URI[sha256sum] = "2c87f1f21e2ab50043e6cd9163c08f1b6c3a6171556bf23ff9ed65b074145484"
+> > --
+> > 2.31.0
+> >
+> >
+> > 
+> >
