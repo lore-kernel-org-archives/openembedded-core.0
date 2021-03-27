@@ -1,24 +1,22 @@
 Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web12.2641.1616876004865403523
+ by mx.groups.io with SMTP id smtpd.web10.2658.1616876318674704184
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Mar 2021 13:13:25 -0700
+ Sat, 27 Mar 2021 13:18:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:46092 helo=fedora)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:46110 helo=fedora)
 	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1lQFJC-002eS3-MZ; Sat, 27 Mar 2021 16:13:23 -0400
-Date: Sat, 27 Mar 2021 16:13:19 -0400 (EDT)
+	id 1lQFOH-002fQk-48
+	for openembedded-core@lists.openembedded.org; Sat, 27 Mar 2021 16:18:37 -0400
+Date: Sat, 27 Mar 2021 16:18:33 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Andre McCurdy <armccurdy@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] some trivial(?) questions about packagegroups
-In-Reply-To: <CAJ86T=XDgLSZNix9mkxq=tctFacoji-nAHW44jWY-cgoGXAomQ@mail.gmail.com>
-Message-ID: <9135d34-625-aec-3fcb-294cdd7e107d@crashcourse.ca>
-References: <117b58d-f7c6-6187-dc33-66d75292cc58@crashcourse.ca> <CAJ86T=W8ooDN4td5n1-c_WDpUV6P3wwHQP_f2QyOSYdRXHK_Ag@mail.gmail.com> <30fe8fd8-11e0-cab0-223-d5676cdffd@crashcourse.ca> <CAJ86T=XDgLSZNix9mkxq=tctFacoji-nAHW44jWY-cgoGXAomQ@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] packagegroups: delete useless "PROVIDES" lines
+Message-ID: <1acfafb0-480-9dac-3883-aead3bb0e784@crashcourse.ca>
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
+X-OutGoing-Spam-Status: No, score=-0.2
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
 X-AntiAbuse: Original Domain - lists.openembedded.org
@@ -31,91 +29,44 @@ X-Source-Args:
 X-Source-Dir: 
 Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 27 Mar 2021, Andre McCurdy wrote:
+There is apparently no functional value to "PROVIDES" lines anymore in
+packagegroup recipe files, so remove the lonely couple of examples
+left.
 
-> On Sat, Mar 27, 2021 at 3:31 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > On Fri, 26 Mar 2021, Andre McCurdy wrote:
-> > > On Fri, Mar 26, 2021 at 8:45 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > > >   what should be easy questions about packagegroups, inspired by my
-> > > > running across some puzzling packagegroup recipes in my travels
-> > > > recently. (i'll start with examples out of oe-core).
-> > > >
-> > > >   first, as with any other recipe, given a "trivial" packagegroup
-> > > > like, say, packagegroup-core-eclipse-debug.bb:
-> > > >
-> > > >   SUMMARY = "Remote debugging tools for Eclipse integration"
-> > > >
-> > > >   inherit packagegroup
-> > > >
-> > > >   RDEPENDS_${PN} = "\
-> > > >     gdbserver \
-> > > >     tcf-agent \
-> > > >     openssh-sftp-server \
-> > > >     "
-> > > >
-> > > > there is no need to add a "PROVIDES" line since every recipe file
-> > > > automatically provides its own name. so far, so good.
-> > > >
-> > > >   if we move up to packagegroup-core-nfs.bb, note how this recipe file
-> > > > defines two additional packagegroups, and has to add a PROVIDES line
-> > > > in order to make those new names accessible:
-> > > >
-> > > >   PROVIDES = "${PACKAGES}"
-> > > >   PACKAGES = "${PN}-server ${PN}-client"
-> > > >
-> > > >   SUMMARY_${PN}-client = "NFS client"
-> > > >   RDEPENDS_${PN}-client = "nfs-utils-client"
-> > > >
-> > > >   SUMMARY_${PN}-server = "NFS server"
-> > > >   RDEPENDS_${PN}-server = "\
-> > > >     nfs-utils \
-> > > >     nfs-utils-client \
-> > > >     "
-> > > >
-> > > > so the question is, must one supply a PROVIDES line for any
-> > > > packagegroup names above and beyond the one that comes with the recipe
-> > > > file itself? i ask what seems like a dumb question as i've run across
-> > > > packagegroup recipe files that define multiple additional
-> > > > packagegroups, but do not add them to the PROVIDES line. what is that
-> > > > supposed to represent?
-> > >
-> > > PROVIDES sets up a name which can be used as DEPENDS (ie a build
-> > > time dependency) in other recipes. If PROVIDES contains more than
-> > > one name, they all just become aliases for each other.
-> > >
-> > > Since packagegroup recipes only define run time dependencies,
-> > > nothing should have a build time dependency on a packagegroup
-> > > recipe... and so there's no obvious reason to set PROVIDES to
-> > > anything. Leaving the default will be fine (although it won't be
-> > > used for anything).
-> >
-> >   i could have *sworn* that, once upon a time, i verified (in some
-> > weird way) the necessity for the PROVIDES line in a packagegroup, but
-> > it seems i was mistaken. so if this is the case, then why do a couple
-> > of OE packagegroup recipe files contain such a line?
-> >
-> >   packagegroup-base.bb
-> >   ====================
-> >
-> >   inherit packagegroup
-> >
-> >   PROVIDES = "${PACKAGES}"           <=== ?????
->
-> That line dates back to 2007, when packagegroup-base.bb was still
-> called task-base.bb:
->
->   https://git.openembedded.org/openembedded-core/commit/?id=ba9dd5228c290c96c622fb82964e49ce2511a1e9
->
-> Maybe it had some legitimate use back then?
->
-> Really the whole "base packagegroups" concept is showing its age. No
-> one creating a new machine config today ponders on whether or not to
-> enable the pci, pcmcia, phone, etc machine features.
-> packagegroup-base.bb contains a lot of useless cruft... the bogus
-> PROVIDES line is just the tip of the iceberg.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  well, unless there are any objections, i'll submit a patch to get
-rid of those two useless PROVIDES line (or however many i find). we
-can at least start there.
+---
 
-rday
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index c882e15266..6d4d7e6f7e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -8,7 +8,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+ inherit packagegroup
+
+-PROVIDES = "${PACKAGES}"
+ PACKAGES = ' \
+             packagegroup-base \
+             packagegroup-base-extended \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+index b345e314ad..20fe6fc092 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+@@ -7,7 +7,6 @@ PR = "r2"
+
+ inherit packagegroup
+
+-PROVIDES = "${PACKAGES}"
+ PACKAGES = "${PN}-server ${PN}-client"
+
+ SUMMARY_${PN}-client = "NFS client"
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
