@@ -1,394 +1,106 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.2640.1616817678860148078
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.2804.1616819128669156031
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 21:01:19 -0700
+ Fri, 26 Mar 2021 21:25:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=liyd54u4;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id q26so7398767qkm.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 21:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8Nhg2Zr+H721/OqhSp25S4KQNRJxaYgEwTPI57GDwC8=;
-        b=liyd54u4bcqIuQPnT79LU/CVf0gLktaIBfjWc3OjmYMkwnYbJDWgDZpVua+lFM4dQA
-         nR2Cf3FOz2eWjnritLVNZUlg4Nqs3S1o//3ZyQmUbUU5Ut8qvEV/IljwZbq9ZkuX2lLh
-         FX3GUXNrNcXd8JpfK4rQP087uzeX0H4xG2Y9LP8eu1KaA9gEetO3M9WkdWY/kOOO5dce
-         D1rFlu/ThhU+5kWgtJf8NCKcpQ8vVvsBB5Y+nZ0p3fPxOwzQYrNo20KgyO4tZI+hTwtM
-         FpRsor82LKcCbx5U5UeDFaPvk/nqtxC5yeFYsSllDbkO/03Ebem/7dUkMuzTzz4gApAA
-         DdFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8Nhg2Zr+H721/OqhSp25S4KQNRJxaYgEwTPI57GDwC8=;
-        b=nUyphYIFOCbiGPj0KK+XGw821CRZV1bnDllxYwoSUz5anU0qQarD98O2haV7rVxZeQ
-         Ugba8SR4CluO2ymADnBuhPmkbzOFp0EG//8HyY42Z8xNOBxtkpDnD7jbdP3vHtsCaOC7
-         9T3FYSRs2p2vAITdPMCSb9JjUHRp42evypWy+QW8qgCRTQj5pogGnZrs18SiVEPwglK8
-         k7nWiBgq9+mttheCOkCZo/3ClzNOSnHSefQxUWKOJJ16FZeMsARhaRBesJd185xAnPli
-         wrGFpCdf0cTqD/8h9oz2KbP/n9YWQ4fEjfRkQ7PSTTLgRjJ17M5ajpyu+e0pe67L0xbq
-         OcDg==
-X-Gm-Message-State: AOAM532bVmCK/zq2X3sHKfCTgXtuIlZVfxr/yvf5kPTHksf7vuutMZ5H
-	XjGUzf1cmetHDe4wCZu6q/VaqF6bsv1VSIR1uag=
-X-Google-Smtp-Source: ABdhPJw2iWR/liup3xqSVgJt10ZjdclO7iAMQwna5CNou3Uakr7w1HrFo7BjjAA3Aee1SBlFLMcFiTJOpcJGKHjqvGk=
-X-Received: by 2002:a05:620a:a12:: with SMTP id i18mr16093046qka.119.1616817677714;
- Fri, 26 Mar 2021 21:01:17 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B505740C2A;
+	Sat, 27 Mar 2021 04:25:27 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bGYU_QdeJPBH; Sat, 27 Mar 2021 04:25:27 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8119F40A28;
+	Sat, 27 Mar 2021 04:25:24 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id D1CDC174568; Sat, 27 Mar 2021 00:25:23 -0400 (EDT)
+Date: Sat, 27 Mar 2021 00:25:23 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Nishanth Menon <nm@ti.com>, openembedded-core@lists.openembedded.org,
+	praneeth@ti.com
+Subject: Re: [PATCH] make-mod-scripts: Provide the correct objcopy to kernel make
+Message-ID: <20210327042523.GY18041@denix.org>
+References: <20210326011304.25640-1-nm@ti.com>
 MIME-Version: 1.0
-References: <20210327031112.8250-1-flowrgom@gmail.com>
-In-Reply-To: <20210327031112.8250-1-flowrgom@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 26 Mar 2021 21:00:51 -0700
-Message-ID: <CAMKF1soZxYAFLeS+65soq+H2xzWsSKx2opF1Ancd3VkT1Ko7Ow@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] git: fix CVE-2021-21300
-To: Minjae Kim <flowergom@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Minjae Kim <flowrgom@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210326011304.25640-1-nm@ti.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Can we also upgrade git to 2.31.1 as a follow up ?
+Hi, Bruce,
 
-On Fri, Mar 26, 2021 at 8:13 PM Minjae Kim <flowergom@gmail.com> wrote:
->
-> checkout: fix bug that makes checkout follow symlinks in leading path
->
-> Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
-> CVE: CVE-2021-21300
-> Signed-off-by: Minjae Kim <flowergom@gmail.com>
-> ---
->  meta/recipes-devtools/git/git.inc             |   4 +-
->  .../git/git/CVE-2021-21300.patch              | 304 ++++++++++++++++++
->  2 files changed, 307 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/git/git/CVE-2021-21300.patch
->
-> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-> index 0cc40b9378..fb1dddc011 100644
-> --- a/meta/recipes-devtools/git/git.inc
-> +++ b/meta/recipes-devtools/git/git.inc
-> @@ -9,7 +9,9 @@ PROVIDES_append_class-native = " git-replacement-native"
->
->  SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
->             ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-> -           file://fixsort.patch"
-> +           file://fixsort.patch \
-> +          file://CVE-2021-21300.patch \
-> +"
->
->  S = "${WORKDIR}/git-${PV}"
->
-> diff --git a/meta/recipes-devtools/git/git/CVE-2021-21300.patch b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
-> new file mode 100644
-> index 0000000000..ec5d98395d
-> --- /dev/null
-> +++ b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
-> @@ -0,0 +1,304 @@
-> +From 464431b4155e3ff918709de663aa0195d73c99fd Mon Sep 17 00:00:00 2001
-> +From: Matheus Tavares <matheus.bernardino@usp.br>
-> +Date: Sat, 27 Mar 2021 11:50:05 +0900
-> +Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
-> + leading path
-> +
-> +Before checking out a file, we have to confirm that all of its leading
-> +components are real existing directories. And to reduce the number of
-> +lstat() calls in this process, we cache the last leading path known to
-> +contain only directories. However, when a path collision occurs (e.g.
-> +when checking out case-sensitive files in case-insensitive file
-> +systems), a cached path might have its file type changed on disk,
-> +leaving the cache on an invalid state. Normally, this doesn't bring
-> +any bad consequences as we usually check out files in index order, and
-> +therefore, by the time the cached path becomes outdated, we no longer
-> +need it anyway (because all files in that directory would have already
-> +been written).
-> +
-> +But, there are some users of the checkout machinery that do not always
-> +follow the index order. In particular: checkout-index writes the paths
-> +in the same order that they appear on the CLI (or stdin); and the
-> +delayed checkout feature -- used when a long-running filter process
-> +replies with "status=delayed" -- postpones the checkout of some entries,
-> +thus modifying the checkout order.
-> +
-> +When we have to check out an out-of-order entry and the lstat() cache is
-> +invalid (due to a previous path collision), checkout_entry() may end up
-> +using the invalid data and thrusting that the leading components are
-> +real directories when, in reality, they are not. In the best case
-> +scenario, where the directory was replaced by a regular file, the user
-> +will get an error: "fatal: unable to create file 'foo/bar': Not a
-> +directory". But if the directory was replaced by a symlink, checkout
-> +could actually end up following the symlink and writing the file at a
-> +wrong place, even outside the repository. Since delayed checkout is
-> +affected by this bug, it could be used by an attacker to write
-> +arbitrary files during the clone of a maliciously crafted repository.
-> +
-> +Some candidate solutions considered were to disable the lstat() cache
-> +during unordered checkouts or sort the entries before passing them to
-> +the checkout machinery. But both ideas include some performance penalty
-> +and they don't future-proof the code against new unordered use cases.
-> +
-> +Instead, we now manually reset the lstat cache whenever we successfully
-> +remove a directory. Note: We are not even checking whether the directory
-> +was the same as the lstat cache points to because we might face a
-> +scenario where the paths refer to the same location but differ due to
-> +case folding, precomposed UTF-8 issues, or the presence of `..`
-> +components in the path. Two regression tests, with case-collisions and
-> +utf8-collisions, are also added for both checkout-index and delayed
-> +checkout.
-> +
-> +Note: to make the previously mentioned clone attack unfeasible, it would
-> +be sufficient to reset the lstat cache only after the remove_subtree()
-> +call inside checkout_entry(). This is the place where we would remove a
-> +directory whose path collides with the path of another entry that we are
-> +currently trying to check out (possibly a symlink). However, in the
-> +interest of a thorough fix that does not leave Git open to
-> +similar-but-not-identical attack vectors, we decided to intercept
-> +all `rmdir()` calls in one fell swoop.
-> +
-> +This addresses CVE-2021-21300.
-> +
-> +Co-authored-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-> +Signed-off-by: Matheus Tavares <matheus.bernardino@usp.br>
-> +
-> +Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
-> +CVE: CVE-2021-21300
-> +Signed-off-by: Minjae Kim <flowergom@gmail.com>
-> +---
-> + cache.h                         |  1 +
-> + compat/mingw.c                  |  2 ++
-> + git-compat-util.h               |  5 +++++
-> + symlinks.c                      | 24 ++++++++++++++++++++
-> + t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
-> + t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
-> + t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
-> + 7 files changed, 129 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/cache.h b/cache.h
-> +index 7109765..83776f3 100644
-> +--- a/cache.h
-> ++++ b/cache.h
-> +@@ -1657,6 +1657,7 @@ int has_symlink_leading_path(const char *name, int len);
-> + int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
-> + int check_leading_path(const char *name, int len);
-> + int has_dirs_only_path(const char *name, int len, int prefix_len);
-> ++extern void invalidate_lstat_cache(void);
-> + void schedule_dir_for_removal(const char *name, int len);
-> + void remove_scheduled_dirs(void);
-> +
-> +diff --git a/compat/mingw.c b/compat/mingw.c
-> +index a00f331..a435998 100644
-> +--- a/compat/mingw.c
-> ++++ b/compat/mingw.c
-> +@@ -367,6 +367,8 @@ int mingw_rmdir(const char *pathname)
-> +              ask_yes_no_if_possible("Deletion of directory '%s' failed. "
-> +                       "Should I try again?", pathname))
-> +              ret = _wrmdir(wpathname);
-> ++      if (!ret)
-> ++              invalidate_lstat_cache();
-> +       return ret;
-> + }
-> +
-> +diff --git a/git-compat-util.h b/git-compat-util.h
-> +index 104993b..7d3db43 100644
-> +--- a/git-compat-util.h
-> ++++ b/git-compat-util.h
-> +@@ -349,6 +349,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
-> + #define platform_core_config noop_core_config
-> + #endif
-> +
-> ++int lstat_cache_aware_rmdir(const char *path);
-> ++#if !defined(__MINGW32__) && !defined(_MSC_VER)
-> ++#define rmdir lstat_cache_aware_rmdir
-> ++#endif
-> ++
-> + #ifndef has_dos_drive_prefix
-> + static inline int git_has_dos_drive_prefix(const char *path)
-> + {
-> +diff --git a/symlinks.c b/symlinks.c
-> +index 69d458a..7dbb6b2 100644
-> +--- a/symlinks.c
-> ++++ b/symlinks.c
-> +@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
-> +  */
-> + static int threaded_has_dirs_only_path(struct cache_def *cache, const char *name, int len, int prefix_len)
-> + {
-> ++      /*
-> ++       * Note: this function is used by the checkout machinery, which also
-> ++       * takes care to properly reset the cache when it performs an operation
-> ++       * that would leave the cache outdated. If this function starts caching
-> ++       * anything else besides FL_DIR, remember to also invalidate the cache
-> ++       * when creating or deleting paths that might be in the cache.
-> ++       */
-> +       return lstat_cache(cache, name, len,
-> +                          FL_DIR|FL_FULLPATH, prefix_len) &
-> +               FL_DIR;
-> +@@ -321,3 +328,20 @@ void remove_scheduled_dirs(void)
-> + {
-> +       do_remove_scheduled_dirs(0);
-> + }
-> ++
-> ++void invalidate_lstat_cache(void)
-> ++{
-> ++      reset_lstat_cache(&default_cache);
-> ++}
-> ++
-> ++#undef rmdir
-> ++int lstat_cache_aware_rmdir(const char *path)
-> ++{
-> ++      /* Any change in this function must be made also in `mingw_rmdir()` */
-> ++      int ret = rmdir(path);
-> ++
-> ++      if (!ret)
-> ++              invalidate_lstat_cache();
-> ++
-> ++      return ret;
-> ++}
-> +diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
-> +index f6deaf4..60d34fd 100755
-> +--- a/t/t0021-conversion.sh
-> ++++ b/t/t0021-conversion.sh
-> +@@ -953,4 +953,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
-> +       grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
-> + '
-> +
-> ++for mode in 'case' 'utf-8'
-> ++do
-> ++      case "$mode" in
-> ++      case)   dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
-> ++      utf-8)
-> ++              dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
-> ++              mode_prereq='UTF8_NFD_TO_NFC' ;;
-> ++      esac
-> ++
-> ++      test_expect_success PERL,SYMLINKS,$mode_prereq \
-> ++      "delayed checkout with $mode-collision don't write to the wrong place" '
-> ++              test_config_global filter.delay.process \
-> ++                      "\"$TEST_ROOT/rot13-filter.pl\" --always-delay delayed.log clean smudge delay" &&
-> ++              test_config_global filter.delay.required true &&
-> ++              git init $mode-collision &&
-> ++              (
-> ++                      cd $mode-collision &&
-> ++                      mkdir target-dir &&
-> ++                      empty_oid=$(printf "" | git hash-object -w --stdin) &&
-> ++                      symlink_oid=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
-> ++                      attr_oid=$(echo "$dir/z filter=delay" | git hash-object -w --stdin) &&
-> ++                      cat >objs <<-EOF &&
-> ++                      100644 blob $empty_oid  $dir/x
-> ++                      100644 blob $empty_oid  $dir/y
-> ++                      100644 blob $empty_oid  $dir/z
-> ++                      120000 blob $symlink_oid        $symlink
-> ++                      100644 blob $attr_oid   .gitattributes
-> ++                      EOF
-> ++                      git update-index --index-info <objs &&
-> ++                      git commit -m "test commit"
-> ++              ) &&
-> ++              git clone $mode-collision $mode-collision-cloned &&
-> ++              # Make sure z was really delayed
-> ++              grep "IN: smudge $dir/z .* \\[DELAYED\\]" $mode-collision-cloned/delayed.log &&
-> ++              # Should not create $dir/z at $symlink/z
-> ++              test_path_is_missing $mode-collision/target-dir/z
-> ++      '
-> ++done
-> ++
-> + test_done
-> +diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
-> +index cd32a82..7bb9376 100644
-> +--- a/t/t0021/rot13-filter.pl
-> ++++ b/t/t0021/rot13-filter.pl
-> +@@ -2,9 +2,15 @@
-> + # Example implementation for the Git filter protocol version 2
-> + # See Documentation/gitattributes.txt, section "Filter Protocol"
-> + #
-> +-# The first argument defines a debug log file that the script write to.
-> +-# All remaining arguments define a list of supported protocol
-> +-# capabilities ("clean", "smudge", etc).
-> ++# Usage: rot13-filter.pl [--always-delay] <log path> <capabilities>
-> ++#
-> ++# Log path defines a debug log file that the script writes to. The
-> ++# subsequent arguments define a list of supported protocol capabilities
-> ++# ("clean", "smudge", etc).
-> ++#
-> ++# When --always-delay is given all pathnames with the "can-delay" flag
-> ++# that don't appear on the list bellow are delayed with a count of 1
-> ++# (see more below).
-> + #
-> + # This implementation supports special test cases:
-> + # (1) If data with the pathname "clean-write-fail.r" is processed with
-> +@@ -53,6 +59,13 @@ sub gitperllib {
-> + use Git::Packet;
-> +
-> + my $MAX_PACKET_CONTENT_SIZE = 65516;
-> ++
-> ++my $always_delay = 0;
-> ++if ( $ARGV[0] eq '--always-delay' ) {
-> ++      $always_delay = 1;
-> ++      shift @ARGV;
-> ++}
-> ++
-> + my $log_file                = shift @ARGV;
-> + my @capabilities            = @ARGV;
-> +
-> +@@ -134,6 +147,8 @@ sub rot13 {
-> +                       if ( $buffer eq "can-delay=1" ) {
-> +                               if ( exists $DELAY{$pathname} and $DELAY{$pathname}{"requested"} == 0 ) {
-> +                                       $DELAY{$pathname}{"requested"} = 1;
-> ++                              } elsif ( !exists $DELAY{$pathname} and $always_delay ) {
-> ++                                      $DELAY{$pathname} = { "requested" => 1, "count" => 1 };
-> +                               }
-> +                       } elsif ($buffer =~ /^(ref|treeish|blob)=/) {
-> +                               print $debug " $buffer";
-> +diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
-> +index 8e181db..602d8fe 100755
-> +--- a/t/t2006-checkout-index-basic.sh
-> ++++ b/t/t2006-checkout-index-basic.sh
-> +@@ -32,4 +32,44 @@ test_expect_success 'checkout-index reports errors (stdin)' '
-> +       test_i18ngrep not.in.the.cache stderr
-> + '
-> +
-> ++for mode in 'case' 'utf-8'
-> ++do
-> ++      case "$mode" in
-> ++      case)   dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
-> ++      utf-8)
-> ++              dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
-> ++              mode_prereq='UTF8_NFD_TO_NFC' ;;
-> ++      esac
-> ++
-> ++      test_expect_success SYMLINKS,$mode_prereq \
-> ++      "checkout-index with $mode-collision don't write to the wrong place" '
-> ++              git init $mode-collision &&
-> ++              (
-> ++                      cd $mode-collision &&
-> ++                      mkdir target-dir &&
-> ++                      empty_obj_hex=$(git hash-object -w --stdin </dev/null) &&
-> ++                      symlink_hex=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
-> ++                      cat >objs <<-EOF &&
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/x
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/y
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/z
-> ++                      120000 blob ${symlink_hex}      ${symlink}
-> ++                      EOF
-> ++                      git update-index --index-info <objs &&
-> ++                      # Note: the order is important here to exercise the
-> ++                      # case where the file at ${dir} has its type changed by
-> ++                      # the time Git tries to check out ${dir}/z.
-> ++                      #
-> ++                      # Also, we use core.precomposeUnicode=false because we
-> ++                      # want Git to treat the UTF-8 paths transparently on
-> ++                      # Mac OS, matching what is in the index.
-> ++                      #
-> ++                      git -c core.precomposeUnicode=false checkout-index -f \
-> ++                              ${dir}/x ${dir}/y ${symlink} ${dir}/z &&
-> ++                      # Should not create ${dir}/z at ${symlink}/z
-> ++                      test_path_is_missing target-dir/z
-> ++              )
-> ++      '
-> ++done
-> ++
-> + test_done
-> +--
-> +2.17.1
-> +
-> --
-> 2.17.1
->
->
+Would you mind taking a look at this? Have you seen any issues building latest 
+kernel 5.12-rc for aarch64 and seeing host objcopy being used instead of cross 
+compile one? Please let us know. Thanks!
+
+-- 
+Denys
+
+
+On Thu, Mar 25, 2021 at 08:13:04PM -0500, Nishanth Menon wrote:
+> When cross-compiling with v5.12-rc3, prepare fails[1] build of vdso at
+> the objcopy stage since it seems to be using the local host's objcopy
+> rather than the cross-compile version we want it to use.
 > 
->
+> This can be trivially reproduced in a localbuild of the kernel
+> following the build parameters provided in the process[2]
+> 
+> Lets fix this by passing OBJCOPY over to the kernel.
+> 
+> [1] https://pastebin.ubuntu.com/p/pNcQtb93wr/
+> [2] https://pastebin.ubuntu.com/p/vZGqgh9Sq5/
+> Signed-off-by: Nishanth Menon <nm@ti.com>
+> ---
+> 
+> NOTE:
+> 1. This is a different problem and is not resolved with
+> https://lists.openembedded.org/g/openembedded-core/message/149943
+> 
+> 2. Though reproduced during a dunfell build, this should probably
+> apply else where as well.
+> 
+> 3. I have'nt been able to cleanly bisect things, but my best guess was
+> that this might be a consequence of kernel fixup exposing this.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a5b8ca97fbf8300a5e21c393df25ce6f521e7939
+> 
+>  meta/classes/kernel-arch.bbclass                             | 3 +++
+>  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+> index 07ec242e63bb..3d25fc7ac531 100644
+> --- a/meta/classes/kernel-arch.bbclass
+> +++ b/meta/classes/kernel-arch.bbclass
+> @@ -60,9 +60,12 @@ TARGET_LD_KERNEL_ARCH ?= ""
+>  HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+>  TARGET_AR_KERNEL_ARCH ?= ""
+>  HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+> +TARGET_OBJCOPY_KERNEL_ARCH ?= ""
+> +HOST_OBJCOPY_KERNEL_ARCH ?= "${TARGET_OBJCOPY_KERNEL_ARCH}"
+>  
+>  KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}"
+>  KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+>  KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+> +KERNEL_OBJCOPY = "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+>  TOOLCHAIN = "gcc"
+>  
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 87b7d240f51a..2d73e8093c2e 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -25,7 +25,7 @@ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="
+>  do_configure() {
+>  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>  	for t in prepare scripts_basic scripts; do
+> -		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> +		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}"\
+>  		-C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} $t
+>  	done
+>  }
+> -- 
+> 2.31.0
+> 
