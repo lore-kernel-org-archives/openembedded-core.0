@@ -1,50 +1,50 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.2965.1616822191632254466
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.3286.1616826111311191675
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Mar 2021 22:16:31 -0700
+ Fri, 26 Mar 2021 23:21:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lcI8fcix;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: flowergom@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id y32so4813551pga.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 22:16:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WP0KwrX+;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: flowergom@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id w8so3572651pjf.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Mar 2021 23:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=+qAOLNEaP6dXBA997ySnFQJK8cbXqo154lad7Ck20CA=;
-        b=lcI8fcixifMEiBFwcJQe9xXqClTjdi4Cfk70apvpI05zZY685eLRuYflNVVEyoFnzh
-         umwmtyhPZkjXRDgTTNxCaUe8G9cGxvQT3eAZoXzhkuvS2+LiV6P3gbWwa5E1Ymu0Gje0
-         hOhbfcDhuMkaVhVr0lBbC9NslAneUYXzBwz1eCQBQ3y7oDmWhcFa+ZADjQLtSoK2LbJU
-         dMevveVJ28+Y+qoXNjRLfhlDv1M1MxLrSlam7ykD+aZCnDwW/tsOKcrqya4rhu/JJnSi
-         ZcJloZWJWfsaBvBN7OPu3s/KSK392cMAvKqeuEdC1rBnNbdQ+ldlE9Yq3fvt1XIX4zMd
-         JYFg==
+        bh=FBxEp82zkfKzQfzANHvtCGCKY089qBZGM5jFj6wdmQA=;
+        b=WP0KwrX+xgaN4BI0E3HQk4UuHfaZGfKiax9xG8yX1CVvm+lVOrufanarlb4Nf8S664
+         rkrkWmddpe/sQVG0VeDvZV5FqZkzf/TYxfvjAlsbgluYA/NjI41dNIz7+nLWHHfCWUJw
+         UXop7RjsPRF/5B9b8S+o0XGov4mVcKuw3lwQ7/ZRJ9Aunam8mgOrxdK7EEL+uhwV4ME+
+         /TZKgxds1yWgYH1A69f9F3lu56ZI0vP4Wgd/J/iJXjGnyTcb+RqNfRFeJOM+GrKYhWSc
+         xWDerCHYSSNBC5q+M7xCf2m/NNyTnu9x6R8jX+UZNbcArLv6l/X5GjYt8xojJon8jLvd
+         us8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=+qAOLNEaP6dXBA997ySnFQJK8cbXqo154lad7Ck20CA=;
-        b=R3SHwNTUWCBpxQDzaTgFwvG3iaGoWCv9vv4qPQB/NBgc4RDeH+vzN+Y4MhxykqYOhH
-         0g0mFjvtk8AE6T1fZqKd9oW4Z6vEE1VH1PvJ1mzP6mYJBlfEgzcTK+EDCz4YZyxhNyLb
-         2uO/gZ3rWfqzks/S2KnMpd/NxjXhggVcG30J59qYiSar77azGBkKNuiz/4WutQ/QNG6T
-         58qCyU9A/htbbQbzw5k7W9WAdK48RQmVKkXq5Eji3CtwOMZoRyylx5K470M/rVzjn8T4
-         7o/f6LwjC4/M73BtYwHpTk4T01FpKNLOlBRuP6STs8rm1D1WQVLxEMRk4ZZfLE/ukHdZ
-         ZFuA==
-X-Gm-Message-State: AOAM533HisO4s+Kxulj4sKOVqbqH58St8X5JI7PAF2jZaeSy93mcUi8J
-	RzScbAiLkzCRsr/lmS5bEEMzu8Xdtm2zsX00
-X-Google-Smtp-Source: ABdhPJzxNFFLWoMQQA4AyU4UcnFyADX6UPvl1Zgnf1xJtnpAyF9k/z9NjlKSOfAPDTcvv2Zt9FiRFA==
-X-Received: by 2002:aa7:8493:0:b029:1ee:75b2:2865 with SMTP id u19-20020aa784930000b02901ee75b22865mr15510427pfn.61.1616822190362;
-        Fri, 26 Mar 2021 22:16:30 -0700 (PDT)
+        bh=FBxEp82zkfKzQfzANHvtCGCKY089qBZGM5jFj6wdmQA=;
+        b=iQkXDcYEXuAEwbrz1hh5xeW/QnLNaS0F+XyxuH5u4nxNvQhCXm600HDDQ6+r8um/Dm
+         HW7ZgwAMAqe4sYA2dNmpapfmAms1TFLnncDiCkmpLJyRuvEZa4WJMCyC3/o+yflWdXgn
+         MQq5hkZxW9MsRUESfqoAZO3Wr1fZVoHvah/gUbrZJRQWv+de72A1zbgfrzmADHye5/rM
+         3gA08hzn7/MixLd+1Kn5tdtWCt6DfZlXs71uis53URV0UAkymqglhZKqtn8QRu5Rbced
+         tneoJ3DP76I+pfqH9oZKcnNnfvj1rMduiZgTQw4AOJqK5FsRakdckdx3oXQYM4Gvmm6p
+         COSA==
+X-Gm-Message-State: AOAM533vjnfI0kGsImrofS4D3L+JC9+214mo422poVPTnU2sMBrMRqWP
+	Pg5TN9/UNuj3tNBh/O5cg7d4XWDUqh9ZTfTQ
+X-Google-Smtp-Source: ABdhPJxn6m2PvY9r9/l9BvkufCLYbuaFrtGARR+UCEZ4YWS8czDBJLOuVTVSzJODlwwgHAErol2lBw==
+X-Received: by 2002:a17:90b:228c:: with SMTP id kx12mr16333799pjb.7.1616826110188;
+        Fri, 26 Mar 2021 23:21:50 -0700 (PDT)
 Return-Path: <flowergom@gmail.com>
 Received: from localhost.localdomain ([116.42.185.119])
-        by smtp.gmail.com with ESMTPSA id mp21sm11377266pjb.16.2021.03.26.22.16.28
+        by smtp.gmail.com with ESMTPSA id k10sm10585782pfk.49.2021.03.26.23.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 22:16:29 -0700 (PDT)
+        Fri, 26 Mar 2021 23:21:49 -0700 (PDT)
 From: "Minjae Kim" <flowergom@gmail.com>
 X-Google-Original-From: Minjae Kim <flowrgom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowrgom@gmail.com>,
 	Minjae Kim <flowergom@gmail.com>
-Subject: [gatesgarth][PATCH] git: fix CVE-2021-21300
-Date: Sat, 27 Mar 2021 14:15:38 +0900
-Message-Id: <20210327051538.5234-1-flowrgom@gmail.com>
+Subject: [dunfell][PATCH] git: fix CVE-2021-21300
+Date: Sat, 27 Mar 2021 15:21:39 +0900
+Message-Id: <20210327062139.8097-1-flowrgom@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
 checkout: fix bug that makes checkout follow symlinks in leading path
@@ -53,35 +53,20 @@ Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf64850
 CVE: CVE-2021-21300
 Signed-off-by: Minjae Kim <flowergom@gmail.com>
 ---
+ .../git/files/CVE-2021-21300.patch            | 305 ++++++++++++++++++
  meta/recipes-devtools/git/git.inc             |   4 +-
- .../git/git/CVE-2021-21300.patch              | 304 ++++++++++++++++++
- 2 files changed, 307 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2021-21300.patch
+ 2 files changed, 308 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2021-21300.patch
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 586a305b27..3e78254eec 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -8,7 +8,9 @@ PROVIDES_append_class-native = " git-replacement-native"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
--           file://fixsort.patch"
-+           file://fixsort.patch \
-+	   file://CVE-2021-21300.patch \
-+"
- 
- S = "${WORKDIR}/git-${PV}"
- 
-diff --git a/meta/recipes-devtools/git/git/CVE-2021-21300.patch b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
+diff --git a/meta/recipes-devtools/git/files/CVE-2021-21300.patch b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
 new file mode 100644
-index 0000000000..390570fe78
+index 0000000000..9206f711cf
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
-@@ -0,0 +1,304 @@
-+From ba07d31bd2140190c4d8c197c9b8a503544b4c29 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
+@@ -0,0 +1,305 @@
++From 0e9cef2414f0df3fa5b9b56ff9072aa122bef29c Mon Sep 17 00:00:00 2001
 +From: Minjae Kim <flowrgom@gmail.com>
-+Date: Sat, 27 Mar 2021 14:05:56 +0900
++Date: Sat, 27 Mar 2021 15:18:46 +0900
 +Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
 + leading path
 +
@@ -151,17 +136,17 @@ index 0000000000..390570fe78
 + cache.h                         |  1 +
 + compat/mingw.c                  |  2 ++
 + git-compat-util.h               |  5 +++++
-+ symlinks.c                      | 24 ++++++++++++++++++++
++ symlinks.c                      | 25 +++++++++++++++++++++
 + t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
 + t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
 + t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
-+ 7 files changed, 129 insertions(+), 3 deletions(-)
++ 7 files changed, 130 insertions(+), 3 deletions(-)
 +
 +diff --git a/cache.h b/cache.h
-+index 6544264..64226c3 100644
++index 04cabaa..dda373f 100644
 +--- a/cache.h
 ++++ b/cache.h
-+@@ -1733,6 +1733,7 @@ int has_symlink_leading_path(const char *name, int len);
++@@ -1675,6 +1675,7 @@ int has_symlink_leading_path(const char *name, int len);
 + int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
 + int check_leading_path(const char *name, int len);
 + int has_dirs_only_path(const char *name, int len, int prefix_len);
@@ -170,10 +155,10 @@ index 0000000000..390570fe78
 + void remove_scheduled_dirs(void);
 + 
 +diff --git a/compat/mingw.c b/compat/mingw.c
-+index 8ee0b64..be2b88e 100644
++index bd24d91..cea9c72 100644
 +--- a/compat/mingw.c
 ++++ b/compat/mingw.c
-+@@ -364,6 +364,8 @@ int mingw_rmdir(const char *pathname)
++@@ -340,6 +340,8 @@ int mingw_rmdir(const char *pathname)
 + 	       ask_yes_no_if_possible("Deletion of directory '%s' failed. "
 + 			"Should I try again?", pathname))
 + 	       ret = _wrmdir(wpathname);
@@ -183,10 +168,10 @@ index 0000000000..390570fe78
 + }
 + 
 +diff --git a/git-compat-util.h b/git-compat-util.h
-+index 5637114..d983853 100644
++index d0dd9c0..a1ecfd3 100644
 +--- a/git-compat-util.h
 ++++ b/git-compat-util.h
-+@@ -345,6 +345,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
++@@ -365,6 +365,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
 + #define platform_core_config noop_core_config
 + #endif
 + 
@@ -199,7 +184,7 @@ index 0000000000..390570fe78
 + static inline int git_has_dos_drive_prefix(const char *path)
 + {
 +diff --git a/symlinks.c b/symlinks.c
-+index 69d458a..7dbb6b2 100644
++index 69d458a..ae3c665 100644
 +--- a/symlinks.c
 ++++ b/symlinks.c
 +@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
@@ -216,10 +201,11 @@ index 0000000000..390570fe78
 + 	return lstat_cache(cache, name, len,
 + 			   FL_DIR|FL_FULLPATH, prefix_len) &
 + 		FL_DIR;
-+@@ -321,3 +328,20 @@ void remove_scheduled_dirs(void)
++@@ -321,3 +328,21 @@ void remove_scheduled_dirs(void)
 + {
 + 	do_remove_scheduled_dirs(0);
 + }
+++
 ++
 ++void invalidate_lstat_cache(void)
 ++{
@@ -238,10 +224,10 @@ index 0000000000..390570fe78
 ++	return ret;
 ++}
 +diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
-+index 4bfffa9..c42f51e 100755
++index c954c70..6a1d5f6 100755
 +--- a/t/t0021-conversion.sh
 ++++ b/t/t0021-conversion.sh
-+@@ -957,4 +957,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
++@@ -820,4 +820,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
 + 	grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
 + '
 + 
@@ -286,7 +272,7 @@ index 0000000000..390570fe78
 ++
 + test_done
 +diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
-+index cd32a82..7bb9376 100644
++index 4701072..007f2d7 100644
 +--- a/t/t0021/rot13-filter.pl
 ++++ b/t/t0021/rot13-filter.pl
 +@@ -2,9 +2,15 @@
@@ -329,8 +315,8 @@ index 0000000000..390570fe78
 ++				} elsif ( !exists $DELAY{$pathname} and $always_delay ) {
 ++					$DELAY{$pathname} = { "requested" => 1, "count" => 1 };
 + 				}
-+ 			} elsif ($buffer =~ /^(ref|treeish|blob)=/) {
-+ 				print $debug " $buffer";
++ 			} else {
++ 				die "Unknown message '$buffer'";
 +diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
 +index 57cbdfe..f223a02 100755
 +--- a/t/t2006-checkout-index-basic.sh
@@ -383,6 +369,21 @@ index 0000000000..390570fe78
 +-- 
 +2.17.1
 +
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index ae463061d8..738a429875 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -8,7 +8,9 @@ DEPENDS = "openssl curl zlib expat"
+ PROVIDES_append_class-native = " git-replacement-native"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+-           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
++           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
++	   file://CVE-2021-21300.patch \
++"
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
 -- 
 2.17.1
 
