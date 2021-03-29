@@ -1,100 +1,178 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web12.23642.1617031608341914386
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web10.23263.1617032128686277837
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 08:26:48 -0700
+ Mon, 29 Mar 2021 08:35:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u/AeDd37;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so6080692pjg.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 08:26:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sH3oc8gH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: devendra.tewari@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id g20so12815018qkk.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 08:35:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lCLhDN5KS2r5QvmMG1jzDHP2dLZfNuFrfciBER+hH3g=;
-        b=u/AeDd37BRzE+fHMVe6NSmhWfYG7oc+vh1MIPvR4xdvBCd/XYEZdKMHjRnbN7lBkD8
-         wIuG3pOK5Qw0u8AGzlK8CFlFt5Hs51HRVWUTyGVkVNPBm0UJFYc4lR5lDdAEr70qYk9m
-         4HWF/mUIfuKdiy1KFOP+mB1YEeh0iDPW4NYnO24nt9hk3xqj+WTH0rgcrKnMJm9kiES8
-         MD/ijAgzJW3lMqOvTlWoa8qpU5SU0/HICrtneeDx4L/lDrzRzpKcvLgVeTHewKrxpx2W
-         HZXvLmcXITZeJxsH+GtNWf1smglEUwyF2Ujnnl+1oyJm5mDX5OK8XCvFYc8SI/C5y9Yw
-         XWVQ==
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=TkPr1yWEW5zy3iVohG9H4quyAUZPXDizRMoNZ6gJZLo=;
+        b=sH3oc8gHWU5kVWl6Yp71uSQv7tGaQP4RrM/djT6NRj+LIFl7xE9jc/WD01wC/9N9bH
+         2ZEUiuuWeId6GFkwwDqul+LDIPmydeRUpzDdd1MYZvKbK3Hw5o4ANtsFBkjbFhMpXbmA
+         7cCbIwragsj9C2Ak/AhJ15ko450ohnyzz/vyCL0rMLKM+WdmkndnrS+AO7X0IWanH3Wz
+         QXSu+cN5ZBhPq7Th7txXuONe6yXckBmmViHGPzH/N92jGUOdWxxouzWmS3s5xE4i0APP
+         NN94p9qtnSIElrOVjZuQjO0v3AwFy3a7BWsgIvTaqxMJD20+qGIJJj+RgNQJNMR6MElb
+         N8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=lCLhDN5KS2r5QvmMG1jzDHP2dLZfNuFrfciBER+hH3g=;
-        b=pNkFkcSKLDfPlga91avzDDZcI0ri8d7GeLQ85rPs65e2Xru5caJuiJJ/1JcoxPvcZi
-         zrOxuhdy0UXYlkVeK4dLmHavU+hBY+EiCJdOBy08L31txlkrgIfWf11JV1k02IJZ9ivF
-         QCUeIj7mSdbTZfuPuW4PKI7pwtfuytGSkpNr/TaMXroQEc4dKuhT/PCZ2unybx7Z9Shr
-         81L/YDa95P1xWFawowPUJ+fbtdL/phWQooZ885+7C2ZpWIja8BjaU3R4gsSWreUhwLdO
-         XTyJuSsy2TuhcIUjAIrCVcYU6upgx7W6OkoxtWKsWs9jHI+e0xFIJkJ8qkzotomK7otg
-         AsaA==
-X-Gm-Message-State: AOAM533/wtu8MZXzppZdz3uKBXMe7zCOb9wLjs5oRN7dax5HlcwohKkt
-	2/0k0rzt1F5Wc7CqTw3HbL+90/Xc6OfaUg==
-X-Google-Smtp-Source: ABdhPJyotO3Thp49gqS/HJE5p9VczPgBnahzg/yUlYqrrebkE0PwyXuXMrEnTJjuqOvKW3cMmXS6/w==
-X-Received: by 2002:a17:902:a404:b029:e6:23d:44ac with SMTP id p4-20020a170902a404b02900e6023d44acmr28637361plq.50.1617031607555;
-        Mon, 29 Mar 2021 08:26:47 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:4986:10f4:29b0:2119? ([2601:646:9200:a0f0:4986:10f4:29b0:2119])
-        by smtp.gmail.com with ESMTPSA id c12sm18302692pfp.17.2021.03.29.08.26.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Mar 2021 08:26:47 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH v2 1/3] meson: fix native/host confusion in gobject-introspection
-To: Ross Burton <ross@burtonini.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <20210325173901.3057180-1-ross.burton@arm.com>
- <CANNYZj_mMCVjamiimbWki=r4GFAOXkRPjH6xm3rcSbYkmpewWw@mail.gmail.com>
- <CAAnfSTvXHyX_MvHbtpcUso92K=DQT1_7hMwAGCDPJ9RMW0zVPg@mail.gmail.com>
- <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
- <CAAnfSTt-wfkc2ZMDZ1hXAqGij5eQAcpvvwtoFNOS9PfMtkuJZA@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <28e7cafa-521e-1fec-1f85-1112548c5ae2@gmail.com>
-Date: Mon, 29 Mar 2021 08:26:45 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAAnfSTt-wfkc2ZMDZ1hXAqGij5eQAcpvvwtoFNOS9PfMtkuJZA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=TkPr1yWEW5zy3iVohG9H4quyAUZPXDizRMoNZ6gJZLo=;
+        b=TmIYogzR03pqjGfWS1rTfx6iKkdVABfmCYRHGoPmDoQeTNbBlEQ3zyPy/pzjn0TVwT
+         UJXHmiUZg0G8E/W6C/dCAqq8nepEEocQAvgiIwlgo/9yESRz+tLOXbQsaV8cGjyYlUAl
+         KAm7Uoh53MOHmerYs9fvqEfj+od8ASl7LYrQKdIwjpHZFC3eBP5Ru5Crm8y9qOhf3F29
+         r9thbfI28LadeaXMmFp9tl5mJ7rKUI4L09S/n/AMWnjeZ/+VPG48C0o3NLYrTPFczIhQ
+         bmfhgcYe9HlpVDw9CIcEObHFdt7D1VBxOjP4PXdjXuUncQW7T0EeAUzw0Ld3oachg4aE
+         Ul9w==
+X-Gm-Message-State: AOAM532C87urWECPyrCy8HJYY/NxZlwYMPTX8rAKExvQg5CFh+BTl2ZW
+	hwPKyoCpmeKYWo6/J8GcKjo=
+X-Google-Smtp-Source: ABdhPJzUOPHRJMO5P5Ik4QVa6eta0plac0kABIKEJ9klX4yrF6vEqW1vszfaQnZMgQ0mj3msMn2GNA==
+X-Received: by 2002:a05:620a:525:: with SMTP id h5mr26167433qkh.100.1617032127711;
+        Mon, 29 Mar 2021 08:35:27 -0700 (PDT)
+Return-Path: <devendra.tewari@gmail.com>
+Received: from ?IPv6:2804:14d:5487:a7d6:c0bd:9fb5:3b:e2c2? ([2804:14d:5487:a7d6:c0bd:9fb5:3b:e2c2])
+        by smtp.gmail.com with ESMTPSA id j3sm13810755qki.84.2021.03.29.08.35.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Mar 2021 08:35:27 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+From: "Devendra Tewari" <devendra.tewari@gmail.com>
+In-Reply-To: <AM9PR09MB464265DE482819EB7D2B92C7A87E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Mon, 29 Mar 2021 12:35:22 -0300
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <BB675BE1-5F64-495F-98DA-8A2A3D857691@gmail.com>
+References: <20210329151442.86306-1-devendra.tewari@gmail.com>
+ <CADkTA4NsocrBk0aRdqKqorWAuePMJd4O3g+K40j0J8zLrt7sLQ@mail.gmail.com>
+ <AM9PR09MB464265DE482819EB7D2B92C7A87E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+To: Konrad Weihmann <kweihmann@outlook.com>
+X-Mailer: Apple Mail (2.3654.60.0.2.21)
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
+Sure.
 
+Would the following commit message be sufficient?
 
-On 3/29/21 2:25 AM, Ross Burton wrote:
-> This is the universe telling you that one line native file should have
-> been put in oe-core. :)
-> 
+    Use shutil.move when os.rename fails
+    
+    Incremental build in Docker fails with
+    
+    OSError: [Errno 18] Invalid cross-device link
+    
+    When source and destination are on different overlay filesystems.
+    
+    This change handles the error with os.rename and retries with shutil.m=
+ove.
 
-yeah I dropped it from meta-gnom now
+Thanks,
+Devendra
 
-> Ross
-> 
-> On Fri, 26 Mar 2021 at 18:49, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> I am seeing some failures
->>
->> https://errors.yoctoproject.org/Errors/Details/574541/
->>
->> On Thu, Mar 25, 2021 at 12:08 PM Ross Burton <ross@burtonini.com> wrote:
->>>
->>> On Thu, 25 Mar 2021 at 18:15, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->>>> I don't think I fully understand this. Is g-i in meson projects already broken for a while (there was a bit of refactor in the latest meson version, which I tested, but perhaps not well enough), or is this necessary for the other patches in your set?
->>>
->>> I just sent a mail which sort-of answers this question without seeing it.
->>>
->>> Basically, the change is that Meson now knows that it should call
->>> pkg-config-native for native pkgconfig lookups.  Before, it was using
->>> pkg-config.
->>>
->>> As far as I can tell there is very little code which hits that
->>> codepath, so we didn't notice.  When setting pkgconfig-native
->>> correctly, this broke.
->>>
->>> Ross
->>>
->>> 
->>>
+> On 29 Mar 2021, at 12:23, Konrad Weihmann <kweihmann@outlook.com> wrote:
+>=20
+> Yes please quote a bit from the python manpage [1] - I certainly see the=
+ difference (and the edge cases where os.rename might fail), but that shoul=
+d be documented as part of the commit message
+>=20
+> [1] https://docs.python.org/3/library/shutil.html#shutil.move
+>=20
+> On 29.03.21 17:21, Bruce Ashfield wrote:
+>> Can you document the cases that os.rename() is failing ? And also why
+>> would we expect the shutil.move() to work in those cases ?
+>> If a change like this cases issues in the future, we need that extra
+>> information in the commit head for proper triage.
+>> Bruce
+>> On Mon, Mar 29, 2021 at 11:16 AM Devendra Tewari
+>> <devendra.tewari@gmail.com> wrote:
+>>>=20
+>>> ---
+>>>  meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++----
+>>>  1 file changed, 22 insertions(+), 4 deletions(-)
+>>>=20
+>>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+>>> index f579168162..f94aa96d70 100644
+>>> --- a/meta/classes/sstate.bbclass
+>>> +++ b/meta/classes/sstate.bbclass
+>>> @@ -384,6 +384,7 @@ def sstate_installpkg(ss, d):
+>>>  def sstate_installpkgdir(ss, d):
+>>>      import oe.path
+>>>      import subprocess
+>>> +    import shutil
+>>>=20
+>>>      sstateinst =3D d.getVar("SSTATE_INSTDIR")
+>>>      d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
+>>> @@ -401,7 +402,11 @@ def sstate_installpkgdir(ss, d):
+>>>=20
+>>>      for state in ss['dirs']:
+>>>          prepdir(state[1])
+>>> -        os.rename(sstateinst + state[0], state[1])
+>>> +        try:
+>>> +            os.rename(sstateinst + state[0], state[1])
+>>> +            break
+>>> +        except OSError:
+>>> +            shutil.move(sstateinst + state[0], state[1])
+>>>      sstate_install(ss, d)
+>>>=20
+>>>      for plain in ss['plaindirs']:
+>>> @@ -413,7 +418,11 @@ def sstate_installpkgdir(ss, d):
+>>>          dest =3D plain
+>>>          bb.utils.mkdirhier(src)
+>>>          prepdir(dest)
+>>> -        os.rename(src, dest)
+>>> +        try:
+>>> +            os.rename(src, dest)
+>>> +            break
+>>> +        except OSError:
+>>> +            shutil.move(src, dest)
+>>>=20
+>>>      return True
+>>>=20
+>>> @@ -638,6 +647,7 @@ python sstate_hardcode_path () {
+>>>=20
+>>>  def sstate_package(ss, d):
+>>>      import oe.path
+>>> +    import shutil
+>>>=20
+>>>      tmpdir =3D d.getVar('TMPDIR')
+>>>=20
+>>> @@ -664,7 +674,11 @@ def sstate_package(ss, d):
+>>>                      continue
+>>>                  bb.error("sstate found an absolute path symlink %s po=
+inting at %s. Please replace this with a relative link." % (srcpath, link))
+>>>          bb.debug(2, "Preparing tree %s for packaging at %s" % (state[=
+1], sstatebuild + state[0]))
+>>> -        os.rename(state[1], sstatebuild + state[0])
+>>> +        try:
+>>> +            os.rename(state[1], sstatebuild + state[0])
+>>> +            break
+>>> +        except OSError:
+>>> +            shutil.move(state[1], sstatebuild + state[0])
+>>>=20
+>>>      workdir =3D d.getVar('WORKDIR')
+>>>      sharedworkdir =3D os.path.join(d.getVar('TMPDIR'), "work-shared")
+>>> @@ -674,7 +688,11 @@ def sstate_package(ss, d):
+>>>              pdir =3D plain.replace(sharedworkdir, sstatebuild)
+>>>          bb.utils.mkdirhier(plain)
+>>>          bb.utils.mkdirhier(pdir)
+>>> -        os.rename(plain, pdir)
+>>> +        try:
+>>> +            os.rename(plain, pdir)
+>>> +            break
+>>> +        except OSError:
+>>> +            shutil.move(plain, pdir)
+>>>=20
+>>>      d.setVar('SSTATE_BUILDDIR', sstatebuild)
+>>>      d.setVar('SSTATE_INSTDIR', sstatebuild)
+>>> --
+>>> 2.29.2
+>>>=20
+>>>=20
+>>>=20
+>>>=20
+>>=20
+
