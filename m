@@ -1,407 +1,154 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web08.602.1617040249049078266
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.3139.1617050332321130342
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 10:50:49 -0700
+ Mon, 29 Mar 2021 13:38:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WxCvWavB;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.47, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f47.google.com with SMTP id j9so12004199wrx.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 10:50:48 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EL7IUR1m;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id o16so14182712wrn.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 13:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bqEE9tFqIr4LTF1rGfYFP8iEf9x90UH5FAH/bp2r/PY=;
-        b=WxCvWavBzabPn87efUtUIhgNM6OSKzBXa/ycY9rMHDwTLw6Eraqj6lWshw946k+Nii
-         LgYl9puV4mXavBas0v1JsLbsBwAOYJlvVP0V4FEqoGt15SHd0eJQD20VyVFiAbIgaIRW
-         zMOo22vVNSAIGL9jm109hLwNVJ7YN8MopPbij9xJe3dqJK6p+GwaKKdo2C76UlJ65dT9
-         KyIOw2iYc1h3KImU9Ke0r2qozD8JzasNGnbOcfRKrytoBA09ftgNOJb0BvLUDcVUVmqI
-         u3sIl19uly7iuG/knGhuYenLf5MOsTbQPD79FrPFiDIAIQHOcRNKoHYmIwQ9v/BzvvXu
-         +Odg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=BY4sQdUPi2UoOX/0ZqY/r4kqEZSUOxkR3eiwOY4gFkg=;
+        b=EL7IUR1mPt4iaplkT4/8KmyxjaTvzDgcpLUVOItW7c7Ft8aOCPHDbUVPeNC+bzeAb3
+         +qWQFIqPfogvl+Oxb34xRB/SdpXWxpa7LpOjhmudcR+x4U0g8tT+Ntm2G3kQlANgYRyO
+         YxttkR+s0ELD/f5bJRaRTY8wPzX+Ttaw+/zmU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bqEE9tFqIr4LTF1rGfYFP8iEf9x90UH5FAH/bp2r/PY=;
-        b=rr6ktda/VMuSuN2dSkDGir0CejVg0Ei1QCg3ifejILxfVjh3aK91EZ7B6Rx4cmjeen
-         k68jl6c4HVfSutaEp5vmBjful4hEECAdsBrSRnz1n4fwMH6FzvzJtujz9rzX9YhPnEsm
-         k7LF0Wk4piF2ZLTA7oem+fuw/zeSK3nFlBo/DGmTpNNlrjgIuZYVa518jB0MdPExRDfd
-         aPie9rTexl4LxwPBz12od6CZdDVQroTRWMQ97yWb57JKLEPI3E5GMhWiLI/t2Xg2ZvAb
-         IkimXi5aIao6gI0Q70iMgoS9Uaa8Nqm5kI8xJZEYXZSox9bAZTn+6pYfyTQRPXv0FMiN
-         tENg==
-X-Gm-Message-State: AOAM531VK7OZ0P/donh1w1SjB2VjFhscHSHlVtnyc86hSM5Ig6HubtY6
-	oYyPmZ3TP3GovCTeXMvBfJV5kgs7kkm9OEW3SrIzIw==
-X-Google-Smtp-Source: ABdhPJx+Dp/PdmP04vXsotpFoajhHvsHjEJkNJmXC1AoLRgnBvUYUJw37kRp2sMtx8dprVADGLx8S3r4CBpn0keYkA4=
-X-Received: by 2002:a5d:63c8:: with SMTP id c8mr29542447wrw.299.1617040247303;
- Mon, 29 Mar 2021 10:50:47 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BY4sQdUPi2UoOX/0ZqY/r4kqEZSUOxkR3eiwOY4gFkg=;
+        b=R5PAWzSzNWlEro3pOejZcsa/MMhP9hgKTFryuKJNhdF5RxveESU4/41/YgtAO9fHaU
+         rkyI5n3n/5Io8SKLdDdzyiQYFe365Q7d6BhVMv9EYovyzMrNOTSM145hD9tDW/CvPobE
+         eFn28iVvbUkmJ3u55DgEuxwLY4lpJyc2cB0XfHg64frDbWN/oAhnncrExCtDrOzWRGJk
+         YQ47wqgxupUApsLFChTekTx6xm/+YBwDwUDHFQzfhUI0iyLGZATVVsiM7ulCy18A7evM
+         WVcDyx+udBSylY8nsT5vacy5gfmOQdWIOLB/wVURelUoFwLtz7KdxSr8d1exmvSflNI2
+         U3Yg==
+X-Gm-Message-State: AOAM533VIFax8jwGef75aUz2DWlnHvx01DhQu8PUFxtilO/ci2RIf2Rv
+	dFy6CYpvKEzDmOU+Ijj6E17/Bw==
+X-Google-Smtp-Source: ABdhPJxk/vHFyiNIfXp087E/Egt61nbY4aYGSCxlXb8GvVMKF27LyxNBSJ/DRCQzqbip5uViC2WhJQ==
+X-Received: by 2002:adf:e843:: with SMTP id d3mr30819002wrn.56.1617050330790;
+        Mon, 29 Mar 2021 13:38:50 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:5ca7:7e7c:e7e4:6d07? ([2001:8b0:aba:5f3c:5ca7:7e7c:e7e4:6d07])
+        by smtp.gmail.com with ESMTPSA id j14sm30438812wrw.69.2021.03.29.13.38.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 13:38:50 -0700 (PDT)
+Message-ID: <9e81b71466b771c55d8859e7d156b662e1c3d4f7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Devendra Tewari <devendra.tewari@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 29 Mar 2021 21:38:47 +0100
+In-Reply-To: <20210329151442.86306-1-devendra.tewari@gmail.com>
+References: <20210329151442.86306-1-devendra.tewari@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <20210327062139.8097-1-flowrgom@gmail.com>
-In-Reply-To: <20210327062139.8097-1-flowrgom@gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 29 Mar 2021 07:50:35 -1000
-Message-ID: <CAOSpxdasoNB5Fq7BgsUr-7tQzNP0UKrJgws8RWUBQ6qSdEqrkg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] git: fix CVE-2021-21300
-To: Minjae Kim <flowergom@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Minjae Kim <flowrgom@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 26, 2021 at 8:21 PM Minjae Kim <flowergom@gmail.com> wrote:
->
-> checkout: fix bug that makes checkout follow symlinks in leading path
->
-> Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
-> CVE: CVE-2021-21300
-> Signed-off-by: Minjae Kim <flowergom@gmail.com>
-
-First of all, thanks for helping reduce the CVE count!
-
-The above status/signoff should be in the patch file itself, rather
-than the commit message.
-
-For details see the "Patch name convention and commit message" section at:
-
-https://wiki.yoctoproject.org/wiki/Security
-
-Regards,
-
-Steve
-
+On Mon, 2021-03-29 at 12:14 -0300, Devendra Tewari wrote:
 > ---
->  .../git/files/CVE-2021-21300.patch            | 305 ++++++++++++++++++
->  meta/recipes-devtools/git/git.inc             |   4 +-
->  2 files changed, 308 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/git/files/CVE-2021-21300.patch
->
-> diff --git a/meta/recipes-devtools/git/files/CVE-2021-21300.patch b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
-> new file mode 100644
-> index 0000000000..9206f711cf
-> --- /dev/null
-> +++ b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
-> @@ -0,0 +1,305 @@
-> +From 0e9cef2414f0df3fa5b9b56ff9072aa122bef29c Mon Sep 17 00:00:00 2001
-> +From: Minjae Kim <flowrgom@gmail.com>
-> +Date: Sat, 27 Mar 2021 15:18:46 +0900
-> +Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
-> + leading path
-> +
-> +Before checking out a file, we have to confirm that all of its leading
-> +components are real existing directories. And to reduce the number of
-> +lstat() calls in this process, we cache the last leading path known to
-> +contain only directories. However, when a path collision occurs (e.g.
-> +when checking out case-sensitive files in case-insensitive file
-> +systems), a cached path might have its file type changed on disk,
-> +leaving the cache on an invalid state. Normally, this doesn't bring
-> +any bad consequences as we usually check out files in index order, and
-> +therefore, by the time the cached path becomes outdated, we no longer
-> +need it anyway (because all files in that directory would have already
-> +been written).
-> +
-> +But, there are some users of the checkout machinery that do not always
-> +follow the index order. In particular: checkout-index writes the paths
-> +in the same order that they appear on the CLI (or stdin); and the
-> +delayed checkout feature -- used when a long-running filter process
-> +replies with "status=delayed" -- postpones the checkout of some entries,
-> +thus modifying the checkout order.
-> +
-> +When we have to check out an out-of-order entry and the lstat() cache is
-> +invalid (due to a previous path collision), checkout_entry() may end up
-> +using the invalid data and thrusting that the leading components are
-> +real directories when, in reality, they are not. In the best case
-> +scenario, where the directory was replaced by a regular file, the user
-> +will get an error: "fatal: unable to create file 'foo/bar': Not a
-> +directory". But if the directory was replaced by a symlink, checkout
-> +could actually end up following the symlink and writing the file at a
-> +wrong place, even outside the repository. Since delayed checkout is
-> +affected by this bug, it could be used by an attacker to write
-> +arbitrary files during the clone of a maliciously crafted repository.
-> +
-> +Some candidate solutions considered were to disable the lstat() cache
-> +during unordered checkouts or sort the entries before passing them to
-> +the checkout machinery. But both ideas include some performance penalty
-> +and they don't future-proof the code against new unordered use cases.
-> +
-> +Instead, we now manually reset the lstat cache whenever we successfully
-> +remove a directory. Note: We are not even checking whether the directory
-> +was the same as the lstat cache points to because we might face a
-> +scenario where the paths refer to the same location but differ due to
-> +case folding, precomposed UTF-8 issues, or the presence of `..`
-> +components in the path. Two regression tests, with case-collisions and
-> +utf8-collisions, are also added for both checkout-index and delayed
-> +checkout.
-> +
-> +Note: to make the previously mentioned clone attack unfeasible, it would
-> +be sufficient to reset the lstat cache only after the remove_subtree()
-> +call inside checkout_entry(). This is the place where we would remove a
-> +directory whose path collides with the path of another entry that we are
-> +currently trying to check out (possibly a symlink). However, in the
-> +interest of a thorough fix that does not leave Git open to
-> +similar-but-not-identical attack vectors, we decided to intercept
-> +all `rmdir()` calls in one fell swoop.
-> +
-> +This addresses CVE-2021-21300.
-> +
-> +Co-authored-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-> +Signed-off-by: Matheus Tavares <matheus.bernardino@usp.br>
-> +
-> +Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
-> +CVE: CVE-2021-21300
-> +Signed-off-by: Minjae Kim <flowergom@gmail.com>
-> +---
-> + cache.h                         |  1 +
-> + compat/mingw.c                  |  2 ++
-> + git-compat-util.h               |  5 +++++
-> + symlinks.c                      | 25 +++++++++++++++++++++
-> + t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
-> + t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
-> + t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
-> + 7 files changed, 130 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/cache.h b/cache.h
-> +index 04cabaa..dda373f 100644
-> +--- a/cache.h
-> ++++ b/cache.h
-> +@@ -1675,6 +1675,7 @@ int has_symlink_leading_path(const char *name, int len);
-> + int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
-> + int check_leading_path(const char *name, int len);
-> + int has_dirs_only_path(const char *name, int len, int prefix_len);
-> ++extern void invalidate_lstat_cache(void);
-> + void schedule_dir_for_removal(const char *name, int len);
-> + void remove_scheduled_dirs(void);
-> +
-> +diff --git a/compat/mingw.c b/compat/mingw.c
-> +index bd24d91..cea9c72 100644
-> +--- a/compat/mingw.c
-> ++++ b/compat/mingw.c
-> +@@ -340,6 +340,8 @@ int mingw_rmdir(const char *pathname)
-> +              ask_yes_no_if_possible("Deletion of directory '%s' failed. "
-> +                       "Should I try again?", pathname))
-> +              ret = _wrmdir(wpathname);
-> ++      if (!ret)
-> ++              invalidate_lstat_cache();
-> +       return ret;
-> + }
-> +
-> +diff --git a/git-compat-util.h b/git-compat-util.h
-> +index d0dd9c0..a1ecfd3 100644
-> +--- a/git-compat-util.h
-> ++++ b/git-compat-util.h
-> +@@ -365,6 +365,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
-> + #define platform_core_config noop_core_config
-> + #endif
-> +
-> ++int lstat_cache_aware_rmdir(const char *path);
-> ++#if !defined(__MINGW32__) && !defined(_MSC_VER)
-> ++#define rmdir lstat_cache_aware_rmdir
-> ++#endif
-> ++
-> + #ifndef has_dos_drive_prefix
-> + static inline int git_has_dos_drive_prefix(const char *path)
-> + {
-> +diff --git a/symlinks.c b/symlinks.c
-> +index 69d458a..ae3c665 100644
-> +--- a/symlinks.c
-> ++++ b/symlinks.c
-> +@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
-> +  */
-> + static int threaded_has_dirs_only_path(struct cache_def *cache, const char *name, int len, int prefix_len)
-> + {
-> ++      /*
-> ++       * Note: this function is used by the checkout machinery, which also
-> ++       * takes care to properly reset the cache when it performs an operation
-> ++       * that would leave the cache outdated. If this function starts caching
-> ++       * anything else besides FL_DIR, remember to also invalidate the cache
-> ++       * when creating or deleting paths that might be in the cache.
-> ++       */
-> +       return lstat_cache(cache, name, len,
-> +                          FL_DIR|FL_FULLPATH, prefix_len) &
-> +               FL_DIR;
-> +@@ -321,3 +328,21 @@ void remove_scheduled_dirs(void)
-> + {
-> +       do_remove_scheduled_dirs(0);
-> + }
-> ++
-> ++
-> ++void invalidate_lstat_cache(void)
-> ++{
-> ++      reset_lstat_cache(&default_cache);
-> ++}
-> ++
-> ++#undef rmdir
-> ++int lstat_cache_aware_rmdir(const char *path)
-> ++{
-> ++      /* Any change in this function must be made also in `mingw_rmdir()` */
-> ++      int ret = rmdir(path);
-> ++
-> ++      if (!ret)
-> ++              invalidate_lstat_cache();
-> ++
-> ++      return ret;
-> ++}
-> +diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
-> +index c954c70..6a1d5f6 100755
-> +--- a/t/t0021-conversion.sh
-> ++++ b/t/t0021-conversion.sh
-> +@@ -820,4 +820,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
-> +       grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
-> + '
-> +
-> ++for mode in 'case' 'utf-8'
-> ++do
-> ++      case "$mode" in
-> ++      case)   dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
-> ++      utf-8)
-> ++              dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
-> ++              mode_prereq='UTF8_NFD_TO_NFC' ;;
-> ++      esac
-> ++
-> ++      test_expect_success PERL,SYMLINKS,$mode_prereq \
-> ++      "delayed checkout with $mode-collision don't write to the wrong place" '
-> ++              test_config_global filter.delay.process \
-> ++                      "\"$TEST_ROOT/rot13-filter.pl\" --always-delay delayed.log clean smudge delay" &&
-> ++              test_config_global filter.delay.required true &&
-> ++              git init $mode-collision &&
-> ++              (
-> ++                      cd $mode-collision &&
-> ++                      mkdir target-dir &&
-> ++                      empty_oid=$(printf "" | git hash-object -w --stdin) &&
-> ++                      symlink_oid=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
-> ++                      attr_oid=$(echo "$dir/z filter=delay" | git hash-object -w --stdin) &&
-> ++                      cat >objs <<-EOF &&
-> ++                      100644 blob $empty_oid  $dir/x
-> ++                      100644 blob $empty_oid  $dir/y
-> ++                      100644 blob $empty_oid  $dir/z
-> ++                      120000 blob $symlink_oid        $symlink
-> ++                      100644 blob $attr_oid   .gitattributes
-> ++                      EOF
-> ++                      git update-index --index-info <objs &&
-> ++                      git commit -m "test commit"
-> ++              ) &&
-> ++              git clone $mode-collision $mode-collision-cloned &&
-> ++              # Make sure z was really delayed
-> ++              grep "IN: smudge $dir/z .* \\[DELAYED\\]" $mode-collision-cloned/delayed.log &&
-> ++              # Should not create $dir/z at $symlink/z
-> ++              test_path_is_missing $mode-collision/target-dir/z
-> ++      '
-> ++done
-> ++
-> + test_done
-> +diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
-> +index 4701072..007f2d7 100644
-> +--- a/t/t0021/rot13-filter.pl
-> ++++ b/t/t0021/rot13-filter.pl
-> +@@ -2,9 +2,15 @@
-> + # Example implementation for the Git filter protocol version 2
-> + # See Documentation/gitattributes.txt, section "Filter Protocol"
-> + #
-> +-# The first argument defines a debug log file that the script write to.
-> +-# All remaining arguments define a list of supported protocol
-> +-# capabilities ("clean", "smudge", etc).
-> ++# Usage: rot13-filter.pl [--always-delay] <log path> <capabilities>
-> ++#
-> ++# Log path defines a debug log file that the script writes to. The
-> ++# subsequent arguments define a list of supported protocol capabilities
-> ++# ("clean", "smudge", etc).
-> ++#
-> ++# When --always-delay is given all pathnames with the "can-delay" flag
-> ++# that don't appear on the list bellow are delayed with a count of 1
-> ++# (see more below).
-> + #
-> + # This implementation supports special test cases:
-> + # (1) If data with the pathname "clean-write-fail.r" is processed with
-> +@@ -53,6 +59,13 @@ sub gitperllib {
-> + use Git::Packet;
-> +
-> + my $MAX_PACKET_CONTENT_SIZE = 65516;
-> ++
-> ++my $always_delay = 0;
-> ++if ( $ARGV[0] eq '--always-delay' ) {
-> ++      $always_delay = 1;
-> ++      shift @ARGV;
-> ++}
-> ++
-> + my $log_file                = shift @ARGV;
-> + my @capabilities            = @ARGV;
-> +
-> +@@ -134,6 +147,8 @@ sub rot13 {
-> +                       if ( $buffer eq "can-delay=1" ) {
-> +                               if ( exists $DELAY{$pathname} and $DELAY{$pathname}{"requested"} == 0 ) {
-> +                                       $DELAY{$pathname}{"requested"} = 1;
-> ++                              } elsif ( !exists $DELAY{$pathname} and $always_delay ) {
-> ++                                      $DELAY{$pathname} = { "requested" => 1, "count" => 1 };
-> +                               }
-> +                       } else {
-> +                               die "Unknown message '$buffer'";
-> +diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
-> +index 57cbdfe..f223a02 100755
-> +--- a/t/t2006-checkout-index-basic.sh
-> ++++ b/t/t2006-checkout-index-basic.sh
-> +@@ -21,4 +21,44 @@ test_expect_success 'checkout-index -h in broken repository' '
-> +       test_i18ngrep "[Uu]sage" broken/usage
-> + '
-> +
-> ++for mode in 'case' 'utf-8'
-> ++do
-> ++      case "$mode" in
-> ++      case)   dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
-> ++      utf-8)
-> ++              dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
-> ++              mode_prereq='UTF8_NFD_TO_NFC' ;;
-> ++      esac
-> ++
-> ++      test_expect_success SYMLINKS,$mode_prereq \
-> ++      "checkout-index with $mode-collision don't write to the wrong place" '
-> ++              git init $mode-collision &&
-> ++              (
-> ++                      cd $mode-collision &&
-> ++                      mkdir target-dir &&
-> ++                      empty_obj_hex=$(git hash-object -w --stdin </dev/null) &&
-> ++                      symlink_hex=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
-> ++                      cat >objs <<-EOF &&
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/x
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/y
-> ++                      100644 blob ${empty_obj_hex}    ${dir}/z
-> ++                      120000 blob ${symlink_hex}      ${symlink}
-> ++                      EOF
-> ++                      git update-index --index-info <objs &&
-> ++                      # Note: the order is important here to exercise the
-> ++                      # case where the file at ${dir} has its type changed by
-> ++                      # the time Git tries to check out ${dir}/z.
-> ++                      #
-> ++                      # Also, we use core.precomposeUnicode=false because we
-> ++                      # want Git to treat the UTF-8 paths transparently on
-> ++                      # Mac OS, matching what is in the index.
-> ++                      #
-> ++                      git -c core.precomposeUnicode=false checkout-index -f \
-> ++                              ${dir}/x ${dir}/y ${symlink} ${dir}/z &&
-> ++                      # Should not create ${dir}/z at ${symlink}/z
-> ++                      test_path_is_missing target-dir/z
-> ++              )
-> ++      '
-> ++done
-> ++
-> + test_done
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-> index ae463061d8..738a429875 100644
-> --- a/meta/recipes-devtools/git/git.inc
-> +++ b/meta/recipes-devtools/git/git.inc
-> @@ -8,7 +8,9 @@ DEPENDS = "openssl curl zlib expat"
->  PROVIDES_append_class-native = " git-replacement-native"
->
->  SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-> -           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
-> +           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-> +          file://CVE-2021-21300.patch \
-> +"
->
->  S = "${WORKDIR}/git-${PV}"
->
-> --
-> 2.17.1
->
->
+>  meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
 > 
->
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index f579168162..f94aa96d70 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -384,6 +384,7 @@ def sstate_installpkg(ss, d):
+>  def sstate_installpkgdir(ss, d):
+>      import oe.path
+>      import subprocess
+> +    import shutil
+>  
+> 
+>      sstateinst = d.getVar("SSTATE_INSTDIR")
+>      d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
+> @@ -401,7 +402,11 @@ def sstate_installpkgdir(ss, d):
+>  
+> 
+>      for state in ss['dirs']:
+>          prepdir(state[1])
+> -        os.rename(sstateinst + state[0], state[1])
+> +        try:
+> +            os.rename(sstateinst + state[0], state[1])
+> +            break
+
+That break should definitely not be there, that changes behaviour.
+
+> +        except OSError:
+> +            shutil.move(sstateinst + state[0], state[1])
+>      sstate_install(ss, d)
+>  
+> 
+>      for plain in ss['plaindirs']:
+> @@ -413,7 +418,11 @@ def sstate_installpkgdir(ss, d):
+>          dest = plain
+>          bb.utils.mkdirhier(src)
+>          prepdir(dest)
+> -        os.rename(src, dest)
+> +        try:
+> +            os.rename(src, dest)
+> +            break
+
+Same here...
+
+> +        except OSError:
+> +            shutil.move(src, dest)
+>  
+> 
+>      return True
+>  
+> 
+> @@ -638,6 +647,7 @@ python sstate_hardcode_path () {
+>  
+> 
+>  def sstate_package(ss, d):
+>      import oe.path
+> +    import shutil
+>  
+> 
+>      tmpdir = d.getVar('TMPDIR')
+>  
+> 
+> @@ -664,7 +674,11 @@ def sstate_package(ss, d):
+>                      continue
+>                  bb.error("sstate found an absolute path symlink %s pointing at %s. Please replace this with a relative link." % (srcpath, link))
+>          bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
+> -        os.rename(state[1], sstatebuild + state[0])
+> +        try:
+> +            os.rename(state[1], sstatebuild + state[0])
+> +            break
+
+and again...
+
+> +        except OSError:
+> +            shutil.move(state[1], sstatebuild + state[0])
+>  
+> 
+>      workdir = d.getVar('WORKDIR')
+>      sharedworkdir = os.path.join(d.getVar('TMPDIR'), "work-shared")
+> @@ -674,7 +688,11 @@ def sstate_package(ss, d):
+>              pdir = plain.replace(sharedworkdir, sstatebuild)
+>          bb.utils.mkdirhier(plain)
+>          bb.utils.mkdirhier(pdir)
+> -        os.rename(plain, pdir)
+> +        try:
+> +            os.rename(plain, pdir)
+> +            break
+
+
+and again...
+
+> +        except OSError:
+> +            shutil.move(plain, pdir)
+>  
+> 
+>      d.setVar('SSTATE_BUILDDIR', sstatebuild)
+>      d.setVar('SSTATE_INSTDIR', sstatebuild)
+> 
+> 
+
