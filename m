@@ -1,286 +1,125 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.70])
- by mx.groups.io with SMTP id smtpd.web08.16080.1616983281111489139
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web12.16398.1616984539009128356
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Mar 2021 19:01:21 -0700
+ Sun, 28 Mar 2021 19:22:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ckeYoziL;
- spf=pass (domain: windriver.com, ip: 40.107.220.70, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IdDcdVMtmpE6EfISXslCRxeQ1FQr1boQUepO83RUjDQlWPT5BvP7gLi9MlKbZqiwoszoRAMeYShRaHl2DRXc32R++HtMrk5ppWdAnBGVVPwvR2xteXjOzt0GcY+a1ry2kuEHa9QHIslf1Q5Ekg06oY8TcztNC9RQUMgVI4w1OoJEaCA0uFp/X6G2B29gO2XByNJogeaUWM+mtnRGuUq1DE7asqfQmYLsz3tb+unufZlfKjjej5xqKyLSkwUCfTVxWX5KHcLVuA8rElkz35w7gWEcpWzKToK4daA9r3nL4m2kuyCjDuaJ6aWt27q117ECIJ7ubO3TaLHRLEKIcXw9Hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2y3axvFDKnDgMiAarkG0f86yRI7Gqft+VfbKew9KCQ4=;
- b=UljZb2moE+Sl7nB8ovbcmhI/2roD5jLqtDBWglc1xECMS07C0X2PQA8hwopj2mTsFF59kYutleIUgXFP318EmRmFC4u1oPy7qu2Vm9OFFIomKg8vZgbAaCRWuLtwEwWgshETXfUrhVe6J6352XCtfsWf/QMOV7Le0D9dh4VL8DOqRQwmsWu9YdDDMYFMcbUMtRiMPuxcFfoK15ASUr4Fby166d2SyQN4SUiBf4b7JW2WEgYgl5S6Xoqs16IOC8A0hfmIPRsZ6DZYg4z9nPYZ/P8moOfYME4OPA2VZVXjV/YBVuK+qntu6+NKlh4CfNvGAM0let2GeGPR9n8HdhBhaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AyxqmGoM;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id i6so1298803pgs.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Mar 2021 19:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2y3axvFDKnDgMiAarkG0f86yRI7Gqft+VfbKew9KCQ4=;
- b=ckeYoziL566cfcmEF8OSr5vsxYwTaz2I2hyqwxsOHDNpakGPJRdAz3Z7SB5Ck+LRWq7Hb2lCzGWoCSwVdxQsyto5pobNkF7/z/S1lj+NizP77XETkYYB6m9MuLq00CD8ogSTaKLCQLwxTEXzSwwfyeYNyq5wZdchIo52cWK2qus=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by SJ0PR11MB4800.namprd11.prod.outlook.com (2603:10b6:a03:2af::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Mon, 29 Mar
- 2021 02:01:19 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b%7]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
- 02:01:19 +0000
-Subject: Re: [OE-core] master eSDK hash problem with METADATA_REVISION and base-files:do_install
-To: Mark Hatle <mark.hatle@kernel.crashing.org>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <e9b61d5e-0479-b5cb-2299-749b53d4df38@kernel.crashing.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <db1fb6d5-e2e8-113a-f1a8-5f05b6e86e8d@windriver.com>
-Date: Mon, 29 Mar 2021 10:11:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <e9b61d5e-0479-b5cb-2299-749b53d4df38@kernel.crashing.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR03CA0056.apcprd03.prod.outlook.com
- (2603:1096:202:17::26) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GWuei5Ey1PgQ4ToX7z33k01KQFZmGJi5aiGTbK7+2oI=;
+        b=AyxqmGoMsypSun1a6LZTbgd/utdG5/CgmSDnMIEyB8tPpQEdPOcmR0BLUoyIlauVn5
+         63f6J7r93BJ4CDeLrthjvEMiMp5DBJ1QJp2I6zxDPiZZ2p4WYmG0fvCpRdIcfxEOX1p5
+         VreK6dALMJN+8lqLd+vdK4/LS5vAHxQInUiu01893rtOzPZOfdh8GR9lCARroC6Bs+Oa
+         ldzZPONMQNspCYpZRYd6xPwzqfAosXMth/jsG85eIkltV98s5cc7yjUkBmOM1JrVA8uO
+         0Ulnk3/yaefiKM0O5w1eGczJ8qo4MKkbvzSFr6J1r4zoLWJfVt3FrEkj1CFshUm6gAfh
+         jFTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GWuei5Ey1PgQ4ToX7z33k01KQFZmGJi5aiGTbK7+2oI=;
+        b=Wk0UirC1saLhOfF0Iu/bM4nha31nVXM//Z25q3gXZrViVDBPgO2xkM+d7fuGJgs0vJ
+         GmsRelA1b/bJvH+qIrKVGbVQHVGN2TUXQVaShB0pFCoolQ2wFDshGcEPWWXktxu3FAiu
+         Y/gpXwzMuakmT3/DNZc0RD1Cwvj23YpyeEeJCjIZvJ22pCAmg9SQ0fCtgMPH8yJnJXxg
+         po61MU48L6ptKjfrl9E6RcbPB5IaHujf9NyCrAzzLUWqQTD3U632dWUF/S0v+5KBubiS
+         ovy1XZ3ZRGKzHOR5yK/KiMMGycKKee++FqzFk2HV8W4cJr9g5EGTldZFJKQ1m8aFaZDA
+         s4+w==
+X-Gm-Message-State: AOAM53073CbXU8GEmnedDa4C+qtZhRaNl/+F/29qxPZei1SzovjSJyKV
+	IoJxHwc9A0rTgnhYhpnz6HxGbKK5uys7Uw==
+X-Google-Smtp-Source: ABdhPJyc04bF2ESSdmRBr/Mv6osHlx3BDEJe4vu/qA4GfyDp7+lkZoibDP/+/aejb/24BwJ1uKZqdA==
+X-Received: by 2002:aa7:860f:0:b029:200:851:1bff with SMTP id p15-20020aa7860f0000b029020008511bffmr23395431pfn.64.1616984538092;
+        Sun, 28 Mar 2021 19:22:18 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ae20])
+        by smtp.gmail.com with ESMTPSA id k19sm205552pgl.1.2021.03.28.19.22.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Mar 2021 19:22:17 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] grub2: Enable on riscv32
+Date: Sun, 28 Mar 2021 19:22:09 -0700
+Message-Id: <20210329022209.2114558-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR03CA0056.apcprd03.prod.outlook.com (2603:1096:202:17::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3999.16 via Frontend Transport; Mon, 29 Mar 2021 02:01:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bf0d8858-cad4-4300-e3f0-08d8f2568415
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4800:
-X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB48002954582C4B80885101F9ED7E9@SJ0PR11MB4800.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:393;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	/5reueFUvsIA6WTbR934m9OjGcoSy8YhGFjeZUaUUPeXhmIlPimkOpqIbLEJPb5eFrEO6PgVDPP4X7k7in0afYvJQgdygl75H6H1GatO01o9j1vb5Den7HMX1948Yz3iLna05CgKUVChPnOyKAktDXFM4BrRJX7JSU373p7KPZ9yOMLz/mjEsSHCUbUmXund63owfmMJsY4YNHgwmTvtft4UUmHaqblrCtiMgWMISiunz0BQNhiVrNZnXirUqdoILLTHmlD39243FoQipXdxg0fH7+SNLPmTMqrg8diwDww8NV+7WJOvpL2bzC80AA2F0t6D6PTg2+LEHxPLN01+3QMZ+JHFQlrvLzam4OZaWbNaVK72/QB8IwX9U2I2b1yaK25qBLVeCoc+OlKr0CCQIc7o+OAwNrsy4nOeM0pcudSxEatMz0KVp9AQHPe17mqosS7hd5aArrimy1qfa/pRojwWb6vM4pioN38dcad5hziz19GRVvnGt5ULeJtcjurZy1mnSWJ7fGXz/hndT/aZ9D2pIBHyzL2UD2YeU9HxpWqgg2/OVbNk+lFe4DAqTCeP4ynEpXmoK7EfhXDeDc9uZMqQPl5DrsrTrVKFdljfSeJu/iwUuyWAPj6O7t6Mjss5t8PcPUdXlBbChqE9OqOiNt/1VjAT3POuI6MjETKhRdmRx+p5eep01XftBPyBA5TeJfLkH68NrQUhqLatA2fsHjsE3338cw8ld8PiPRARn2629inWsVoWEK+DY4D8jPw34qGRIARW5r6R/R6M0R6Fbdv3dwlwxNlaVqaMBxGHzU/w4u9uius+poWZXNgvb2T5TLa1+Hm4wqO3UtgRix1EmA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(136003)(396003)(346002)(376002)(366004)(6666004)(8936002)(478600001)(66556008)(83380400001)(956004)(31696002)(66476007)(6706004)(966005)(53546011)(36756003)(26005)(31686004)(5660300002)(66946007)(52116002)(6486002)(166002)(38100700001)(86362001)(8676002)(186003)(16526019)(33964004)(110136005)(16576012)(316002)(2616005)(2906002)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?eHA4dWk2U0hldisvcGZqZDlWTnJ6bExUOVptMHVNTlNzV0YwdXFXc1JhK1VF?=
- =?utf-8?B?V2k2RnpHRFErZDkremc1VUZaSWRKZkFQTFJUSXY2U2JzZ2JNR2dWdUxsN3A5?=
- =?utf-8?B?T0tUOU10VnNjdkhoSWRuMEZQMENrSlo5ZWlKTEpPM3hYQ21Ya3pBWWpVcllH?=
- =?utf-8?B?VFpCbGVTRWhibTI3YjYvSDMwRm41TGc1bm0wZXhpWG1weDdjak9zQmJ4Nndr?=
- =?utf-8?B?b1J3NERMbzI0SUNIcDdDNGVrQ0xpTDVQc2VxajcrL0tGbEZ4NGFHSXkyWjgz?=
- =?utf-8?B?WTBEV1ZJNDNCVEtMNDF3azE2a2ZqYkRNVXRlU1VWbGtFSzJyZ09FaWgwY1Fw?=
- =?utf-8?B?ZzRIYUcxOCs1QXZob21UR2dqRUg0QUxpdFVGamxSUHAxem1ZT2dVRXZVZ1kx?=
- =?utf-8?B?eUtWbWNGSzl3Mm1Telp0T1FBZzhuL1d2cTQ0RXlONkdtVllLVkhaK3QwWUls?=
- =?utf-8?B?WUliTnlNbXAzODJ2aWFQTW8wdTU5UE5VWWNjblJCam56aXY5Y3U5dm1QUXEv?=
- =?utf-8?B?UllWT3JjVjhPYmYydU1jL3k2VW1ab3oxaFIraE9FN1B5aDhYT2NBZEdvOW9H?=
- =?utf-8?B?eGI1UVZNVHlwcjJFUldSclFFK2dnNkJVaUxFY244ZTBPVi9MeHJQT1MwRTB0?=
- =?utf-8?B?WWs3dXVCNG4wODNsSmozZ3JVWTVkN255alBjb21JSFd1STJhTzBjcnRRT3Vi?=
- =?utf-8?B?OEVoRzF0YWp1QitOZkVIZkVlMXVXK0JDUFVPNCttTjFEYnhNOHhCN0EwSUow?=
- =?utf-8?B?aVg3NFcvK1JEUDhPYlhlcHVZUThubVlFa2dEUlp6QmZLWUdLZ3FXM0RNaU0r?=
- =?utf-8?B?VllJSWlKQ2JrYW1EYTh1QWl5MlVNZVNJbXpUZGFKdjIzM3JEeFROY2cxYTcz?=
- =?utf-8?B?dFYrV25lMzkvZnZSeVk0S2xXV3htcVNHMXNhOUNDeW5MRDB4TGpsUC90d2Z0?=
- =?utf-8?B?Slo3VmhMLzRmKzhuV3Fva1ZkWXFldi9UbmNVcFZJbW5LMVdma1lMRkJDMU13?=
- =?utf-8?B?UXJhdjdXU29oOTJ4NUV1Q2RLNVY0RVR6RkNSeXF3TWpHQWtqa1lER2x3aUtB?=
- =?utf-8?B?UFJrYnMxbmVoT1ZLQnVKbi9zMDZJcGlZSWpLZnl4TXZPQmZGZzBkY01uQVZv?=
- =?utf-8?B?WmxTYWpsODE5M0x2RG1aUmlySStYY1dWYzZQYnJiV29HbXduQm1QOGx5NHlS?=
- =?utf-8?B?VmdIVkdyRFdJRi95Q3JmaDFjZGRMeVJSUFh5bnJKQjRNdTVBbCtsbEd6OXZN?=
- =?utf-8?B?SXBNM2ZrU3pSV2pucDhMWm5VUTc4ampYRVU3aVBUbXRMNDRXNGwxYXJ1cEdB?=
- =?utf-8?B?UDJUVGE2bnh0akZzeUhpMm9ESDR2RUU5MVNoZndRWmI5aDFRQ0MxdWxtYkVG?=
- =?utf-8?B?alZtRVlMeHM3VHJZa2thNTBXcGxCbk1VRUNhYTZCeGVEbktWM0tRVWgxMFh3?=
- =?utf-8?B?UVJ0YXFsNmswSEpPLzluazlFV3VPb0dMTWtVemlQL2NaSEp5SGIxOTVJRzdI?=
- =?utf-8?B?dG5VTHNxSWE2WWhpUlNOL0pFeHVnTzVocURXaXl2cTVXUy90TzQ2TmtlL01H?=
- =?utf-8?B?VWVnamRjUGY3dmh3cEh6OXB4TFNBSnVrcVVpMGlBV01QYW1GTHFpUUt6NmZz?=
- =?utf-8?B?Mm1jNHFNQzlaRFo2NXJ5SHltYWpjeEVpanVnUGtyODI0eW9GMDRlU2IvZis2?=
- =?utf-8?B?WWZGakkzNkJFd1lzb05NS0hrY3NPcm9INHFVR3RoVUNORThaVzgxcUJOMFVl?=
- =?utf-8?Q?sL+XyuN9x8aeqa6O/YganUFXrUxYK4kZN7gLdPN?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf0d8858-cad4-4300-e3f0-08d8f2568415
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 02:01:19.7089
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oxsotu5Mgym1ACwZB1njEMMVuGDTAClnCigK+hWq8kuMOe3qif7JN40MpIk2gSNXotXnaXT/3YbEPTrzlxeLpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4800
-Content-Type: multipart/alternative;
- boundary="------------E1DC33370237A04266324851"
-
---------------E1DC33370237A04266324851
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hi Mark,
-
-I think this has been fixed by the following commit.
-
-"""
-commit ff2ad51b801fd62e2abbc573ba2c9ee8fdc7e012
-Author: Chen Qi <Qi.Chen@windriver.com>
-Date:   Fri Mar 5 18:10:40 2021 +0800
-
-     populate_sdk_ext: record METADATA_REVISION
-
-     As we delete the .git/ directory, it's impossible to get 
-METADATA_REVISION
-     inside eSDK. Because of this, we meet the following warning when 
-installing eSDK.
-
-       WARNING: The base-files:do_install sig is computed to be 
-16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0, \
-       but the sig is locked to 
-6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36 in 
-SIGGEN_LOCKEDSIGS_t-qemux86-64
-
-     So we record METADATA_REVISION in eSDK generation time to fix this 
-problem.
-
-     Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-"""
-
-Best Regards,
-Chen Qi
-
-On 03/26/2021 07:51 AM, Mark Hatle wrote:
-> Building an eSDK (all stock config):
->
-> MACHINE=qemuarm bitbake core-image-minimal -c populate_sdk_ext
->
->
-> I then install it, and get:
->
-> Checking sstate mirror object availability: 100%
-> |#####################################################################################################################|
-> Time: 0:00:00
-> WARNING: The base-files:do_install sig is computed to be
-> 587ccfa9299e26094ae342f1ce3d782bfaf776c639013428a511770c3828d49a, but the sig is
-> locked to 0c35f266f1e79b1f34260df1b8d677f7eb74a7f7241155601ed73a014c8e286c in
-> SIGGEN_LOCKEDSIGS_t-qemuarm
-> Loading cache: 100%
-> |##################################################################################################################################################|
-> Time: 0:00:00
-> Initialising tasks: 100%
-> |#############################################################################################################################################|
-> Time: 0:00:00
->
->
-> Running a bitbake diffsigs on this file, I get:
->
-> basehash changed from
-> cffec52acb67f62fe3812d0d42d52b1081f9150386f43f0426f5469b4a1a6a25 to
-> 332259212c5e9a4ed2a7fe25b8ea77cb54fb6b82f7deed90179e145f1d0cf1b6
-> Variable METADATA_REVISION value changed from
-> '3210cabe56d6cf6d51638e6f31f93110e40ab2cd' to '<unknown>'
->
->
-> So it appears that some of the recent work on METADATA_REVISION has broken hash
-> computations in the base-files package due to the value being 'unknown' in one,
-> and set in the other.
->
-> --Mark
->
->
-> 
->
-
-
---------------E1DC33370237A04266324851
-Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Hi Mark,<br>
-      <br>
-      I think this has been fixed by the following commit.<br>
-      <br>
-      &quot;&quot;&quot;<br>
-      commit ff2ad51b801fd62e2abbc573ba2c9ee8fdc7e012<br>
-      Author: Chen Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a><br>
-      Date:&nbsp;&nbsp; Fri Mar 5 18:10:40 2021 +0800<br>
-      <br>
-      &nbsp;&nbsp;&nbsp; populate_sdk_ext: record METADATA_REVISION<br>
-      &nbsp;&nbsp;&nbsp; <br>
-      &nbsp;&nbsp;&nbsp; As we delete the .git/ directory, it's impossible to get
-      METADATA_REVISION<br>
-      &nbsp;&nbsp;&nbsp; inside eSDK. Because of this, we meet the following warning
-      when installing eSDK.<br>
-      &nbsp;&nbsp;&nbsp; <br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WARNING: The base-files:do_install sig is computed to be
-      16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0,
-      \<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; but the sig is locked to
-      6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36
-      in SIGGEN_LOCKEDSIGS_t-qemux86-64<br>
-      &nbsp;&nbsp;&nbsp; <br>
-      &nbsp;&nbsp;&nbsp; So we record METADATA_REVISION in eSDK generation time to fix
-      this problem.<br>
-      &nbsp;&nbsp;&nbsp; <br>
-      &nbsp;&nbsp;&nbsp; Signed-off-by: Chen Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a><br>
-      &nbsp;&nbsp;&nbsp; Signed-off-by: Richard Purdie
-      <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a><br>
-      &quot;&quot;&quot;<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      On 03/26/2021 07:51 AM, Mark Hatle wrote:<br>
-    </div>
-    <blockquote cite="mid:e9b61d5e-0479-b5cb-2299-749b53d4df38@kernel.crashing.org" type="cite">
-      <pre wrap="">Building an eSDK (all stock config):
+Update the patch as submitted upstream to grub2
 
-MACHINE=qemuarm bitbake core-image-minimal -c populate_sdk_ext
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...1-RISC-V-Restore-the-typcast-to-long.patch | 22 ++++++++++++++-----
+ meta/recipes-bsp/grub/grub2.inc               |  2 +-
+ 2 files changed, 17 insertions(+), 7 deletions(-)
 
+diff --git a/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch b/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
+index f0ffb3d954..2f15a91f68 100644
+--- a/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
++++ b/meta/recipes-bsp/grub/files/0001-RISC-V-Restore-the-typcast-to-long.patch
+@@ -1,18 +1,28 @@
+-From bf248231cb4f9f966f0d57821dd0491af54d4a0b Mon Sep 17 00:00:00 2001
++From e4c41db74b8972285cbdfe614c95c1ffd97d70e1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 26 Mar 2021 11:59:43 -0700
+-Subject: [PATCH] RISC-V: Restore the typcast to long
++Subject: [PATCH] RISC-V: Restore the typcast to 64bit type
+ 
+ this makes the type promotions clear and explicit
++It was already typecasted to long but was accidentally dropped in [1]
++which stated to cause failures on riscv32 as reported in [2]
+ 
+-Upstream-Status: Pending
++[1] https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2bf40e9e5be9808b17852e688eead87acff14420
++[2] https://savannah.gnu.org/bugs/index.php?60283
++
++Upstream-Status: Submitted
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Andreas Schwab <schwab@suse.de>
++Cc: Daniel Kiper <daniel.kiper@oracle.com>
++Cc: Chester Lin <clin@suse.com>
++Cc: Nikita Ermakov <arei@altlinux.org>
++Cc: Alistair Francis <alistair.francis@wdc.com>
+ ---
+  util/grub-mkimagexx.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/util/grub-mkimagexx.c b/util/grub-mkimagexx.c
+-index 00f49cc..ab5523d 100644
++index 00f49ccaa..ac677d03d 100644
+ --- a/util/grub-mkimagexx.c
+ +++ b/util/grub-mkimagexx.c
+ @@ -1242,7 +1242,7 @@ SUFFIX (relocate_addrs) (Elf_Ehdr *e, struct section_metadata *smd,
+@@ -20,10 +30,10 @@ index 00f49cc..ab5523d 100644
+  
+  		 sym_addr += addend;
+ -		 off = sym_addr - target_section_addr - offset - image_target->vaddr_offset;
+-+		 off = (long)sym_addr - target_section_addr - offset - image_target->vaddr_offset;
+++		 off = (grub_int64_t)sym_addr - target_section_addr - offset - image_target->vaddr_offset;
+  
+  		 switch (ELF_R_TYPE (info))
+  		   {
+ -- 
+-2.31.0
++2.31.1
+ 
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 0e431ac008..590deb8d92 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -34,7 +34,7 @@ UPSTREAM_CHECK_REGEX = "grub-(?P<pver>\d+(\.\d+)+)\.tar\.(gz|xz)"
+ 
+ DEPENDS = "flex-native bison-native gettext-native"
+ 
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv64)-(linux.*|freebsd.*)'
++COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
+ COMPATIBLE_HOST_armv7a = 'null'
+ COMPATIBLE_HOST_armv7ve = 'null'
+ 
+-- 
+2.31.1
 
-I then install it, and get:
-
-Checking sstate mirror object availability: 100%
-|#####################################################################################################################|
-Time: 0:00:00
-WARNING: The base-files:do_install sig is computed to be
-587ccfa9299e26094ae342f1ce3d782bfaf776c639013428a511770c3828d49a, but the sig is
-locked to 0c35f266f1e79b1f34260df1b8d677f7eb74a7f7241155601ed73a014c8e286c in
-SIGGEN_LOCKEDSIGS_t-qemuarm
-Loading cache: 100%
-|##################################################################################################################################################|
-Time: 0:00:00
-Initialising tasks: 100%
-|#############################################################################################################################################|
-Time: 0:00:00
-
-
-Running a bitbake diffsigs on this file, I get:
-
-basehash changed from
-cffec52acb67f62fe3812d0d42d52b1081f9150386f43f0426f5469b4a1a6a25 to
-332259212c5e9a4ed2a7fe25b8ea77cb54fb6b82f7deed90179e145f1d0cf1b6
-Variable METADATA_REVISION value changed from
-'3210cabe56d6cf6d51638e6f31f93110e40ab2cd' to '&lt;unknown&gt;'
-
-
-So it appears that some of the recent work on METADATA_REVISION has broken hash
-computations in the base-files package due to the value being 'unknown' in one,
-and set in the other.
-
---Mark
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------E1DC33370237A04266324851--
