@@ -1,164 +1,195 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.82])
- by mx.groups.io with SMTP id smtpd.web09.17615.1616997102137513971
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.18209.1617004092263509624
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Mar 2021 22:51:42 -0700
+ Mon, 29 Mar 2021 00:48:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=xsMSyV1R;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.82, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1616997100; i=@fujitsu.com;
-	bh=Tabvw1b10muPPtrDtxw0tDo+OnINj11/9FJw30Alx/c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=xsMSyV1RxXE2DK3QJO00W6phVx8VQAzKWRXZixgCjbXamq6stfej262eMNS38Es/m
-	 aw8bhfqdKi2UzzYFKBwrKzV1cpXv51LqU8XwjnI5iRIRD+AOTXXyeS9S36MzWEV2dF
-	 NKXLE3S4zruz8PyFT8jlyyaySwxYQmIhCvnDn4jS2qoTAF47nLicK6H8MNDbSTobuo
-	 D2NjkumYTQMd6VIqbsyGltH+LGfltJP2iliWQHBPtnk+X8gbplfst8nlYJkW3Ds1FU
-	 jP3dqTI0KJrCv7obzu37J+JAKqSvnIR8DqzQFv5oTztHPHEsUGLrhDm0JR/3ChQ3wV
-	 BEb0xUPcQhkNg==
-Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 99/BC-60958-BEA61606; Mon, 29 Mar 2021 05:51:39 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRWlGSWpSXmKPExsViZ8MxVfd1VmK
-  CwY1uRYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePMtauMBQsVKi687mJpYLwi3cXIxSEkMItJ
-  omnFdKYuRk4g5zijxNs3wiA2m4CaxPRbN1i7GDk4RAT0JK7+EwUJMwuoS1xa18ICYgsL2Eu0r
-  j4EVsIioCqx6ZEHSJhXwEnixJktjCC2hICCxJSH75kh4oISJ2c+YYEYIyFx8MULZogaRYnZl5
-  tZIOxKic71CxgnMPLOQtIyC0nLAkamVYzmSUWZ6RkluYmZObqGBga6hoZGuoaWZrpmJnqJVbp
-  JeqmluuWpxSW6hnqJ5cV6xZW5yTkpenmpJZsYgYGVUnDEYQfj/dcf9A4xSnIwKYny7gpLSBDi
-  S8pPqcxILM6ILyrNSS0+xCjDwaEkwbsgMzFBSLAoNT21Ii0zBxjkMGkJDh4lEd7gCKA0b3FBY
-  m5xZjpE6hSjopQ4ryUwNoQEQBIZpXlwbbDIusQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmL
-  cNZApPZl4J3PRXQIuZgBa7vosFWVySiJCSamDqOqO89PenjevdKvd2zrfLmv27aRZj6m+T44t
-  Fkq4uvzp/7t0rGs/vrozO9xNhOM6ZcUSmKphHIfRwwZ7TLjuPb/4nVzrptOFOlojfE64tv3I8
-  +uGmmo7M9oXcE0Ued8XHZc+5eivf4WKzkDHvB7bWgtfHg/Z7dnLGXmYoUeN95OO+9uN3ndWJS
-  7bJM61379v/4PPJpU4x2yvWLNbzXpdW8vWucqrpgaXpD6faBf8rEy1pfO5gd+zlgo07LZ792i
-  Z6kUfw/BrZo0uPzt4X0xr+4PPKoHZW6ao/3TMnsq6Ufbn5vfI7ocYN9TIiX3/7/7/4YYbw21M
-  3PPsffQirtKmw5nqYueGarCTn5P8xk/eXOCixFGckGmoxFxUnAgCdk0L7JwMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-285.messagelabs.com!1616997099!541540!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 29984 invoked from network); 29 Mar 2021 05:51:39 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-15.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Mar 2021 05:51:39 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12T5pXth026473
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 06:51:39 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 29 Mar 2021 06:51:32 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH v2] libassuan: upgrade 2.5.4 -> 2.5.5
-Date: Mon, 29 Mar 2021 13:51:23 +0800
-Message-ID: <1616997083-55474-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=KsiYEKKT;
+ spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: sangeeta.jain@intel.com)
+IronPort-SDR: Kdsg9KYEf0iUKDMt2iWV083Yup0Bb4DoRee7oKKrLxWA5B3CNVRWbsjA5rrlZ0HKc9eeMkVoSo
+ zYzX5oYT8xUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="252845906"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="252845906"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 00:48:09 -0700
+IronPort-SDR: l/hLKNYXN3dMOJZbnY2LGGMgO+wxRUHWrLhJSzFLhHdVo+Ow62bvcEc0UySSgNs8Wii7sYhQ/W
+ yOqZlmikZJog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="594989214"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga005.jf.intel.com with ESMTP; 29 Mar 2021 00:48:08 -0700
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 29 Mar 2021 00:48:08 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Mon, 29 Mar 2021 00:48:08 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Mon, 29 Mar 2021 00:48:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kZ3Ou8yabDrKn/dNM9b8aWLoEKMI9hfzTbzSbobcY3oKqtGOZ9Kynh0oZPqAxH7hkRXTamTH5ruacfdCcNeD7jT6XdaPFbCXTquXK7lt27P5JAEossyUh9ZzeRZpNnfBvjQ6+afrPGsup5FFdQ5qZJNtPUWzS/czSNLFGru8xNQLq1iWxVBUGKayurZxwl9r9ivAJ2DICsA4kd/l4poQ8Y1BLevKF/HMW7BEcQJqZhQu4cAbtfinIMcGNVNC9ha/HBzfz3NYkKA0akJTQcHz40o62A00GM1lhlYFlSDxvOyzAAxc/5ZIQ2kDIOrzQZBRIZW6nGpBssIDsDClXPF3tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xNN36CvfX/VGMjjaQKqrFR6SX0kmj7NqQZ8+dW3nT3U=;
+ b=lzj8/Y9Tejmk570qzQP7Koj6dPme5UwW9Cc7tDdjfxQEYfsKpTRqiODwcWYVuJ9QpwU7KRBPtQ1BpneEcojildoEtxAXoOkqL3fQkcdE3v99Orl/XZeTLlJKDGPPEelt1AeshUf9jR1ulKSeKnv4ERTTFnFtICixlJ1BhbmN5Mt6Idu8GiEzjmgVLQjbi8HtXLIzqNnccEQdZ165n41znWvAYXZocmr+LWzgEbh1oPkO4E01S9dwoPUh5iIEhc/5lI3TJaSBwapN3FXfmgaCO7PGIz45MLK+p5gkPvROj8pFbhmXxp/6+CJAMG5yPNtES+Q08vHJrHQ7lVpsrvwuQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xNN36CvfX/VGMjjaQKqrFR6SX0kmj7NqQZ8+dW3nT3U=;
+ b=KsiYEKKTOv6uX/S1WmM3g6GWPTxACUpQkrz4EivUg2xfk/rxKe9wUbqYFUhO1+yEpnDMcElJYTm2vTEjTGNS9iRdmi8ZS9FPZMszqdxwLd1kjA2RX7lyVuKJR4aPB2LV3ABq9yiujGhg1JLmnuKkKQiq9iUgxB0KpUspURwT8iQ=
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
+ by BY5PR11MB4323.namprd11.prod.outlook.com (2603:10b6:a03:1c2::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.33; Mon, 29 Mar
+ 2021 07:48:06 +0000
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::92d:48c1:669e:364c]) by BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::92d:48c1:669e:364c%6]) with mapi id 15.20.3933.039; Mon, 29 Mar 2021
+ 07:48:06 +0000
+From: "Sangeeta Jain" <sangeeta.jain@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [qa-build-notification] QA notification for completed autobuilder build (yocto-3.2.3.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-3.2.3.rc1)
+Thread-Index: AQHXJE57LjP72qvC6EeczLw76qHg3qqaltDQ
+Date: Mon, 29 Mar 2021 07:48:06 +0000
+Message-ID: <BYAPR11MB3624B6FF358B3EF758243FA7E37E9@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20210329034900.510C02A08D8@ubuntu1804-ty-2.yocto.io>
+In-Reply-To: <20210329034900.510C02A08D8@ubuntu1804-ty-2.yocto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.6.0.76
+dlp-product: dlpe-windows
+authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [60.53.116.239]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 682fc8af-5ccc-4b4b-3777-08d8f286fdb8
+x-ms-traffictypediagnostic: BY5PR11MB4323:
+x-microsoft-antispam-prvs: <BY5PR11MB4323C9251ECAC1B5F823679FE37E9@BY5PR11MB4323.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AvdD7jyledWQuMY6epL4qSJxMDGuVRQf4pUBLdbHC0ZbEnI4SOmKX7FAhqkIXtZFwvtt8/RRc8P1J0B8bSF91rtdkbhkp4l6BYJPFv8EDrQtnOvWRyiMO6oW7iypiVQ1aZMS+EgkjY1scXVDGh+Vj4sJX2zWk1DtNANs/0GIEF4s9l2ySzZ8r6NDkfXmdRiSgQkZithFHd12Ai+rTEHjuyGsgagycKA/hZjvirkcDIH+7Vv2rBvsq84BQasaj9zaQyYuPF+jN/dD/E32O4XkhJR8UwHgQ4pHtkcxLsLVZ8p1muYfnP36N9DMqJQSj5Isg58tZxrRHJhQP9/IDUfFEHclJa8uMu3AeDJaRtoGI9V2bwTzFYDPLeP0ZwtHvaB0q+VCYnsrKw8uHn+HevtH/fRZKjVs69anjCKo+0gMg6+2TjmAge43UKmn+Oz/G5P/nB2W/VDDVUGm6bZ3IWChJepNSQDMAbOiK4kWXb3nHU0fV0Zt3BMd6MQpQgr5UFsw7LyBOiKdAHrmUW0aMYW3+4Oa3NDYqK4ep3BjjPiuHrU5dnDRfPsgJXCIp72qq6nqm8nuXb9+f9bxD2Ocu/U2QDnn2W5lF6P+SP9BRcPhkUzutaU5A83hg47l0wpkwb+IETnQBdYnYxEB62Lk/gN725yOouJ36+zGLQ9HYHfHoLqQpzHrZVxaQAsgpcT5KqZJz/a6mnWe33KNSVrXiK6l4BVy63qMLlDlOHqxzeGZ2bSto+xA4WwyjtPT+IF+dQww
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(376002)(366004)(136003)(346002)(39860400002)(66476007)(64756008)(71200400001)(66556008)(66446008)(83380400001)(76116006)(66946007)(316002)(6506007)(53546011)(110136005)(478600001)(7696005)(966005)(52536014)(9686003)(86362001)(5660300002)(38100700001)(8676002)(2906002)(15650500001)(33656002)(186003)(26005)(55016002)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?OclEux1yIbyVoNBbjlDqHOxGmUEGVq4Y3hRODO+XQKsVkwzHLfChHSIbxiPP?=
+ =?us-ascii?Q?p9yqU7DvlYdI7KZzYp3CabtBEqpMrNpp7cVSy9xDFJ7eElKAU63AtVHansnG?=
+ =?us-ascii?Q?JJkUqgl6TE5JAiNzdXueZf3xmCGS+fwVPJynKl4j2VfspY4cTOJpo7P7Mq0u?=
+ =?us-ascii?Q?a7fEWkWL5ptJam6CgXGO6Ye2GSu7mF9FcSmL4lcyr95yrc4aP2xFT1buK6h0?=
+ =?us-ascii?Q?n/7ysgT0LwRr3jrHLjDRRMwtq4eDgkqPYRCxH1TETsAAR48dFeqyJ0QH0SmX?=
+ =?us-ascii?Q?11Lm7fd7OqL6vvtvoQqFtNRj2d8JSxyIqmQ8Qcwrom4isbaRDE1VSx2Bi29I?=
+ =?us-ascii?Q?ac7c+vNz4ueXzVmUqO/XS0AXagKoUdFe7RSa4cTG2Hz/djnFIO5zNGf52kA+?=
+ =?us-ascii?Q?k+NyugOWKqUkWQhzBvP0Q432FH45TxfS96qLm8igfpygNsSe5fTf7OZvMe0M?=
+ =?us-ascii?Q?FuVPV1jocpTN/eHTaVS2owRWLS4majHIeCYK5V0/ASizEQ84bSj5DX3EcDH+?=
+ =?us-ascii?Q?38TfOOUq9ZJYe1JJIM0blv09LNHtQ2BJ/w/cKIolfZeueNfaJwnHUtoML/XH?=
+ =?us-ascii?Q?PS/LNhLgX5F+DoaSL0Rmq0QNQiPz6aeWENhCUGTUtMXdn+xI39V8xZwg0NE7?=
+ =?us-ascii?Q?fyqxaCDZI0ClunyCQDoMs9QD9JWOBjxA1YmAfxmE0AZj9lWZpFkOxFwhCPpf?=
+ =?us-ascii?Q?+t4/e08UFmi3ZWw8eg4QaqDMyS5g+Hehdd1CDjSAtsoZNFmeTxDBF8vb5zkp?=
+ =?us-ascii?Q?qOhQ6XWCv0qOXdoRF40h2zdCsV5OAHjCk1EVvFMo/s8B2vmZMEELQ0DGl++4?=
+ =?us-ascii?Q?DGf1hDfwa+RmUSaLDqOLthcSWlxXjN3PD3eqHi2wvUEdiNWedPxNHPG3IJkf?=
+ =?us-ascii?Q?95y9HuZ66Kile/GvBvcEaddEuCShgnn7g1f86JOqSAQRGlei6+3xFDS0EdeR?=
+ =?us-ascii?Q?bywlBN7aKDY6KVzUjakGgKQfDmqwQ7J4t6hd+43QBDJ64Ie+5MKyXzo2dQtA?=
+ =?us-ascii?Q?P7Qtw+BlIlOBIO9dceEfw9hByhmttaD2RWRHqBVODeRAkMnXC+gFCSDTH9VE?=
+ =?us-ascii?Q?jf1nssYs9937XQJjkEL/TJGzXS06orYNGgQJisa8UtEHBcMS2lbdrYtFhHSs?=
+ =?us-ascii?Q?wpT6UW9pvQVhKEuLHln2N4E6Pvn5dA0A1aSkiY9bMt70QdgJ8nNWZfgqIrJ+?=
+ =?us-ascii?Q?8mpvbxF6pTGZ2DuFxGUt1D8Gb7UjluhNaCLTJl+nfyReKJh5K0oFGTq36d4a?=
+ =?us-ascii?Q?S9qwNN0krILHLeNWoCu6OQUftBGWJzBEpH+JhLvjiBK0myqrUXN9OgnIZQse?=
+ =?us-ascii?Q?MWEjHFW1HF2yNOlqjhUwaVUW?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 682fc8af-5ccc-4b4b-3777-08d8f286fdb8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2021 07:48:06.8133
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 37EJ5UvuuPJD8ZSxsoO0pSSIvASK4v7FRZqkWVvwjhIFraBWrcMXNi8skPxDwJ4R8imyYlu8vXNvn8MZaKAPzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4323
+Return-Path: sangeeta.jain@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+Hi all,
 
-refresh libassuan-add-pkgconfig-support.patch
+Intel and WR YP QA is planning for QA execution for YP build yocto-3.2.3.r=
+c1. We are planning to execute following tests for this cycle:
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../libassuan-add-pkgconfig-support.patch     | 27 ++++++++++++-------
- ...{libassuan_2.5.4.bb => libassuan_2.5.5.bb} |  2 +-
- 2 files changed, 18 insertions(+), 11 deletions(-)
- rename meta/recipes-support/libassuan/{libassuan_2.5.4.bb => libassuan_2.5.5.bb} (93%)
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
 
-diff --git a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-index 0e81454c63..fe811254d3 100644
---- a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-+++ b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-@@ -8,17 +8,20 @@ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
- 
- forward ported to 2.4.4
- Signed-off-by: Armin Kuster <akuster@mvista.com>
-+---
-+ src/libassuan.m4 | 81 ++----------------------------------------------
-+ 1 file changed, 3 insertions(+), 78 deletions(-)
- 
--Index: libassuan-2.5.2/src/libassuan.m4
--===================================================================
----- libassuan-2.5.2.orig/src/libassuan.m4
--+++ libassuan-2.5.2/src/libassuan.m4
--@@ -16,27 +16,6 @@ dnl Returns ok set to yes or no.
-+diff --git a/src/libassuan.m4 b/src/libassuan.m4
-+index df50484..380a48a 100644
-+--- a/src/libassuan.m4
-++++ b/src/libassuan.m4
-+@@ -17,27 +17,6 @@ dnl Returns ok set to yes or no.
-  dnl
-  AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-  [ AC_REQUIRE([AC_CANONICAL_HOST])
- -  AC_ARG_WITH(libassuan-prefix,
---              AC_HELP_STRING([--with-libassuan-prefix=PFX],
-+-              AS_HELP_STRING([--with-libassuan-prefix=PFX],
- -                             [prefix where LIBASSUAN is installed (optional)]),
- -     libassuan_config_prefix="$withval", libassuan_config_prefix="")
- -  if test x$libassuan_config_prefix != x ; then
-@@ -41,10 +44,11 @@ Index: libassuan-2.5.2/src/libassuan.m4
-  
-    tmp=ifelse([$1], ,1:0.9.2,$1)
-    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
--@@ -47,58 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-+@@ -47,59 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-+     req_libassuan_api=0
-      min_libassuan_version="$tmp"
-    fi
-- 
-+-
- -  AC_MSG_CHECKING(for LIBASSUAN - version >= $min_libassuan_version)
- -  ok=no
- -  if test "$LIBASSUAN_CONFIG" != "no"; then
-@@ -102,7 +106,7 @@ Index: libassuan-2.5.2/src/libassuan.m4
-        if test "$tmp" -gt 0 ; then
-          AC_MSG_CHECKING([LIBASSUAN API version])
-          if test "$req_libassuan_api" -eq "$tmp" ; then
--@@ -114,9 +46,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-+@@ -115,9 +46,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-    if test $ok = yes; then
-      if test x"$host" != x ; then
-        if test -z "$use_gpgrt_config"; then
-@@ -113,7 +117,7 @@ Index: libassuan-2.5.2/src/libassuan.m4
-        fi
-        if test x"$libassuan_config_host" != xnone ; then
-          if test x"$libassuan_config_host" != x"$host" ; then
--@@ -158,12 +88,8 @@ dnl
-+@@ -159,12 +88,8 @@ dnl
-  AC_DEFUN([AM_PATH_LIBASSUAN],
-  [ _AM_PATH_LIBASSUAN_COMMON($1)
-    if test $ok = yes; then
-@@ -126,3 +130,6 @@ Index: libassuan-2.5.2/src/libassuan.m4
-      ifelse([$3], , :, [$3])
-    fi
-    AC_SUBST(LIBASSUAN_CFLAGS)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libassuan/libassuan_2.5.4.bb b/meta/recipes-support/libassuan/libassuan_2.5.5.bb
-similarity index 93%
-rename from meta/recipes-support/libassuan/libassuan_2.5.4.bb
-rename to meta/recipes-support/libassuan/libassuan_2.5.5.bb
-index d44b95aa0f..3d12ea09e8 100644
---- a/meta/recipes-support/libassuan/libassuan_2.5.4.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.5.5.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
-            file://libassuan-add-pkgconfig-support.patch \
-           "
- 
--SRC_URI[sha256sum] = "c080ee96b3bd519edd696cfcebdecf19a3952189178db9887be713ccbcb5fbf0"
-+SRC_URI[sha256sum] = "8e8c2fcc982f9ca67dcbb1d95e2dc746b1739a4668bc20b3a3c5be632edb34e4"
- 
- BINCONFIG = "${bindir}/libassuan-config"
- 
--- 
-2.25.1
+Runtime auto test for following platforms:
+1. MinnowTurbot 32-bit
+2. Coffee Lake
+3. NUC 7
+4. NUC 6
+5. Edgerouter
+6. Beaglebone
+
+ETA for completion is next Thursday, April 01
+
+Thanks,
+Sangeeta
+
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Monday, 29 March, 2021 11:49 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuild=
+er build
+> (yocto-3.2.3.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.2.3.rc1) was completed on the autobuilde=
+r and is
+> available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.2.3.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 5d02c98489d3a5836676b9c3fb3bd0157449db2b
+> meta-arm: e219ef606e297b98512887c96522d8d8c536bd6b
+> meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43
+> meta-intel: 76e0a427e58d068d0758fa052d2d1548067cf592
+> meta-kernel: 29329d7cacc71595cecfdd05a455a0cfb164564d
+> meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879
+> oecore: fdae970656cc421c542af9856bc9ae038c61db13
+> poky: 08665a81dcd41069eed1468f1587abe6b5893471
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
 
