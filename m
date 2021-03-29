@@ -1,119 +1,92 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web08.24863.1617036516582681240
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web08.164.1617038723766413634
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 09:48:37 -0700
+ Mon, 29 Mar 2021 10:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=t1b67QmJ;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: nm@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12TGmRoW100033;
-	Mon, 29 Mar 2021 11:48:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1617036507;
-	bh=rLVJB7cpbuV8M3tmq/M7hnqpxpdidcCin/l/a8nHipE=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=t1b67QmJip1fJWSbdLEyjYskRI91KC39n+kEVMmzdLuEtm363/n//i50AbuE8Aftp
-	 zWaARqb/PzV5z9VDN+ifMLaP9h97X7cYr3kF0ojEP8uq22uHL0QCBCAtChCxOvt86B
-	 OUMNGEtlUmcHTLe0YeJnoG3PrXVgTRTWvt0jk4EU=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12TGmR5n118720
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 29 Mar 2021 11:48:27 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 29
- Mar 2021 11:48:27 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Mon, 29 Mar 2021 11:48:27 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12TGmR8n078643;
-	Mon, 29 Mar 2021 11:48:27 -0500
-Date: Mon, 29 Mar 2021 11:48:27 -0500
-From: "Nishanth Menon" <nm@ti.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-        <praneeth@ti.com>, Denys
- Dmytriyenko <denis@denix.org>
-Subject: Re: [OE-core] [PATCH] make-mod-scripts: Provide the correct objcopy to kernel make
-Message-ID: <20210329164827.gs2s2e3pcyv6e5f2@winnings>
-References: <20210326011304.25640-1-nm@ti.com>
- <CADkTA4M1+oP3nOnibE+AiLNn3gc9T84dgBzGTqjadW3Hd4+tpA@mail.gmail.com>
- <20210329140821.3i7sezuznurbuaqv@smokiness>
- <CADkTA4OH1OtPFCe+fsEe9S=ikSv0Bw-15cMPivGpFBt7zVLxTA@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dSicEMGA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: jan.vermaete@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id r12so20678964ejr.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 10:25:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QHtOH3UcOjbbZh5xjfmFWvkERI2IZI7BcT8tceZ517Y=;
+        b=dSicEMGA4J5FWSHkrj6En8pYKcdEz1DndXhi1WdE9qkDdQJIcOzNX71oSpJO5xTVit
+         /KqM/cawmEv6eOSqMORUlWiMlVkULoBISt+OOG6dOik3spvShLn2slKswOjvXKRapOLG
+         HHcqi1RJR2nB14jxq4mQ2ZRHoNSBgQXizyDR1oQQq5bCbrvMWGgvyAr44EVmk/mLmsi1
+         QqlrxGbyIRB8ud3wpSO0it7kxFmF19LW0J+/OF4KGIODT00t6FQ4H19MarNFHCIZAzOF
+         pHHFI7jK62p+c43hnnmHFjdwwTfUc87N0qBUNww5NjAvNsdil6uq/LjfiaMMESJt2Vj6
+         bnJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QHtOH3UcOjbbZh5xjfmFWvkERI2IZI7BcT8tceZ517Y=;
+        b=LRyhCI1WZ7HOHRQDWR44B24fvr2EQpRmGX5RUf47CGAPFUzPthTgGV0lm0eX3GbhBI
+         cdoC0fcxlHPpn0IzgyKaSUKPOpVgnYN/iYNgiav6ftXthfuHSEreUZJi2+pHwNRmtsg0
+         fDNXbRRARjHGRqtqd2M/EL7l8lgORBLdeGgWrR9bE2vOxGURAUwJBIEmzsYcWLRRS/A3
+         yuGI5+NMD9rNOywbsNTiAMpnR4ajzx2z/GbJoSkmk5MIxHzf4IfzyK305kyvKW+2ntl7
+         H6AwUxnUWCFfwaRLTCH2KnIxFk1CePwtBhrTPoOuLObHgYzFdkblh1e7JcbTT4Ba++wb
+         Rb6A==
+X-Gm-Message-State: AOAM530ucxueLxI66Oxucv5Ac5e2w4LQBEErttW+k7B7tw4/sgylBcr7
+	CPpzjKF6xEkZELHU57oPQtKWlZ5e2ZHMSA==
+X-Google-Smtp-Source: ABdhPJweu5aga4g6E/xR4wHHREJB8vj2Yl61mVJsqldHLtG4PlRBOAQS2KwrvWW/ojNWaSzHpHokuA==
+X-Received: by 2002:a17:906:5295:: with SMTP id c21mr29603524ejm.67.1617038721943;
+        Mon, 29 Mar 2021 10:25:21 -0700 (PDT)
+Return-Path: <jan.vermaete@gmail.com>
+Received: from localhost.localdomain (78-20-166-56.access.telenet.be. [78.20.166.56])
+        by smtp.googlemail.com with ESMTPSA id p27sm8556970eja.79.2021.03.29.10.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 10:25:21 -0700 (PDT)
+From: "jan" <jan.vermaete@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Vermaete <jan.vermaete@gmail.com>
+Subject: [PATCH v2] cve-update-db-native: Allow to overrule the URL in a bbappend.
+Date: Mon, 29 Mar 2021 19:21:52 +0200
+Message-Id: <20210329172151.4219-1-jan.vermaete@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4OH1OtPFCe+fsEe9S=ikSv0Bw-15cMPivGpFBt7zVLxTA@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 11:14-20210329, Bruce Ashfield wrote:
-[..]
-> > >
-> > > So we really have to pass this, when fundamentally it is the same
-> > > definition as what the defaults give us.
-> > >
-> > > What does that resolve to in your builds ? In mine, when I dump the
-> > > objcopy value from within the kernel build, I get:
-> > >
-> > > | /opt/poky/build/tmp/work-shared/qemuarm64/kernel-source/Makefile:443:
-> > > *** objcopy: aarch64-poky-linux-objcopy.  Stop.
-> > >
-> > > Which should be doing the job.
-> >
-> > x86's objcopy - which is why I was trying to figure out what the heck
-> > went on..
-> 
-> That is indeed strange.
-> 
-> What does bitbake -e tell you ?
-Not sure if it helps.. but..
-https://pastebin.ubuntu.com/p/JJHtNkwSwY/
+With this small patch, it's possible to overrule the public
+URL with a local mirror for those without Internet access.
 
-> 
-> CROSS_COMPILE should be exported by kernel.bbclass itself,
-> it definitely is in my environment dump.
-Hmm.. ok - there is something going on.. I see the export in bbclass..
+Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+---
+ meta/recipes-core/meta/cve-update-db-native.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> 
-> >
-> > >
-> > > Are you building arm on arm ? or something else like that ?
-> >
-> >
-> > Nothing fancy.. x86 PC cross compiling for arm. honestly, 5.11 build
-> > went fine. What makes me wonder is how does it even build for you? how
-> > does OBJCOPY variable even point to aarch64-poky-linux-objcopy
-> 
-> Indeed. I've done a full set of tests on all the arches for 5.12-rc+ (as
-> you can see by the lttng/perf/devsrc patches that I've been sending
-
-Awesome.
-
-> in the past week), so something odd is going on here.
-
-Yes, indeed. I think I will need to look closer at what is going on our
-end.. As you pointed out CROSS_COMPILE should really be available in the
-environment.. Rest of specific exports tend to  be a never-ending patchup job..
-
-> 
-> Are the layers you are building public ? if so, I can try with your exact
-> setup and see if I can reproduce the issue.
-
-unfortunately, no. Denys and I are trying to figure our how to make
-our private layer public in a manner that others can work with as
-well.. but not yet.. we are still a few weeks or months away..
-
-Let me try the reverse and try and reproduce your setup on my end and
-see where the deltas are.. That might be more practical, I think..
-
-
-Thanks for your time and hints.. I need to do more homework here..
-
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index b3dc33734d..25ec6bac71 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -12,6 +12,8 @@ deltask do_compile
+ deltask do_install
+ deltask do_populate_sysroot
+ 
++NVDCVE_URL ?= "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
++
+ python () {
+     if not bb.data.inherits_class("cve-check", d):
+         raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
+@@ -28,7 +30,6 @@ python do_fetch() {
+ 
+     bb.utils.export_proxies(d)
+ 
+-    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
+     YEAR_START = 2002
+ 
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
+@@ -64,7 +65,7 @@ python do_fetch() {
+         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
+             bb.debug(2, "Updating %d" % year)
+             ph.update((float(i + 1) / total_years) * 100)
+-            year_url = BASE_URL + str(year)
++            year_url = (d.getVar('NVDCVE_URL')) + str(year)
+             meta_url = year_url + ".meta"
+             json_url = year_url + ".json.gz"
+ 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+2.25.1
+
