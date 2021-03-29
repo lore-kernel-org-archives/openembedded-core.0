@@ -1,79 +1,174 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.19165.1617009918607826881
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by mx.groups.io with SMTP id smtpd.web10.21888.1617026906815390977
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 02:25:19 -0700
+ Mon, 29 Mar 2021 07:08:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=EaAtAiEM;
- spf=pass (domain: burtonini.com, ip: 209.85.128.52, mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f52.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo6281057wmq.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 02:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0vAnIFRa4tEpZ+IaYC4XigfMu/mgeR4XzH4mq+MwB+w=;
-        b=EaAtAiEMzzJ9EXBFPnYp5K1c5OjPrESNIpFVie4ZDd/xbeC44oP948gk7hUzG67RbO
-         he0702XhpkkCW71mjMH+n/DvEkKGB7Ae4WuaxOPnUJoqPP97BGC+3B75qIbbq0umSzBW
-         n58OOkbHIFdf9uzGETjOHdJBmHZe7OfIIbhdeK+VFaRsZH62yTbpDu3fHNvYCor1uSqS
-         a6khtWH0enJ0Q2fJRUn2++Spe8e5JEOAuskh4T4gV3YhDDZ0B1ByqqlwxvcCrUxhFk3z
-         DVkoDLBPlohuZOeYjnOsRL5RPKhd1ym6RUC8drbl/Rd6X0bxS1FRAscCjoNLmgs90HMk
-         +DyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0vAnIFRa4tEpZ+IaYC4XigfMu/mgeR4XzH4mq+MwB+w=;
-        b=TUVe+SS31ky0yRKpzUyDN4fsU84G2qnufq7Zgxn80gAKLAwLHb73aOuz6XIr3GRxwf
-         9x35d+UiqSRAspy6djzzcwvflyR5v9oUlwCvXa6WKgeWD4ia46nZZi4e6RMzmVrnonB7
-         MAfmU3/oyBCX4/IU1k/9oKOzIxJiyrLLZd3fy7tgutkAS0mw/K9x9MDoaUihAgmxUm8T
-         AH6IBUniuNJbG2GwUyqsdEkQROGiwEa/eNBzhSWCcfu+9OAsRh9DSSSdMrSbkHFbzVTs
-         thNIlZW2+b0n9i0aqOhNl/CgaG8rDOydiBq9DmpLF+1IT5RNn/hzYfrG0N4o9tHgF+6s
-         2BPQ==
-X-Gm-Message-State: AOAM532DvYmQekBRD/0znp7Su/nGiAdry4hQ19eEdQrpJ9E1ti09QggU
-	eXoLim7odcQjy5+Ifyj2qzpZa+k5/rC1SA8n2CWrtQ==
-X-Google-Smtp-Source: ABdhPJyLSjg0sPLkhDd70FNoS6UayH80FpG5He0Ch/1hEGvQE4+GuLYpF61RyKhZ6fbUQjsGenL2j2QPTLMwrfErhd0=
-X-Received: by 2002:a1c:6855:: with SMTP id d82mr14689726wmc.169.1617009917051;
- Mon, 29 Mar 2021 02:25:17 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=w05xT/iU;
+ spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: nm@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 12TE8L0E035344;
+	Mon, 29 Mar 2021 09:08:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1617026901;
+	bh=Rc0exXr63aD56giZtCYhXQVcqRom6tRRl7kyJbwck98=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=w05xT/iUI3S6sfLttp29Q1fSnDGDAJX7/jt/jd+O85zQMfSPJz3RY/3EymsLAdPRI
+	 BLfe0LUiPsux8me0QpvicVXgWgCijfV0Sb9CE/JvFRNvflQSA/njZAE/QJCVF/3WW9
+	 lRK/Iw/f4SUyMMp/x+IMD/ISNpuojfl8TXqcQavM=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 12TE8L1W116954
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 29 Mar 2021 09:08:21 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 29
+ Mar 2021 09:08:21 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Mon, 29 Mar 2021 09:08:21 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 12TE8LAJ052365;
+	Mon, 29 Mar 2021 09:08:21 -0500
+Date: Mon, 29 Mar 2021 09:08:21 -0500
+From: "Nishanth Menon" <nm@ti.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+        <praneeth@ti.com>, Denys
+ Dmytriyenko <denis@denix.org>
+Subject: Re: [OE-core] [PATCH] make-mod-scripts: Provide the correct objcopy to kernel make
+Message-ID: <20210329140821.3i7sezuznurbuaqv@smokiness>
+References: <20210326011304.25640-1-nm@ti.com>
+ <CADkTA4M1+oP3nOnibE+AiLNn3gc9T84dgBzGTqjadW3Hd4+tpA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210325173901.3057180-1-ross.burton@arm.com> <CANNYZj_mMCVjamiimbWki=r4GFAOXkRPjH6xm3rcSbYkmpewWw@mail.gmail.com>
- <CAAnfSTvXHyX_MvHbtpcUso92K=DQT1_7hMwAGCDPJ9RMW0zVPg@mail.gmail.com> <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
-In-Reply-To: <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 29 Mar 2021 09:25:06 +0000
-Message-ID: <CAAnfSTt-wfkc2ZMDZ1hXAqGij5eQAcpvvwtoFNOS9PfMtkuJZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/3] meson: fix native/host confusion in gobject-introspection
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CADkTA4M1+oP3nOnibE+AiLNn3gc9T84dgBzGTqjadW3Hd4+tpA@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-This is the universe telling you that one line native file should have
-been put in oe-core. :)
+On 13:31-20210327, Bruce Ashfield wrote:
+> On Thu, Mar 25, 2021 at 9:13 PM Nishanth Menon via
+> lists.openembedded.org <nm=ti.com@lists.openembedded.org> wrote:
+> >
+> > When cross-compiling with v5.12-rc3, prepare fails[1] build of vdso at
+> > the objcopy stage since it seems to be using the local host's objcopy
+> > rather than the cross-compile version we want it to use.
+> >
+> > This can be trivially reproduced in a localbuild of the kernel
+> > following the build parameters provided in the process[2]
+> >
+> > Lets fix this by passing OBJCOPY over to the kernel.
+> >
+> 
+> As I mentioned to Denys, I hadn't seen this. Consulting the
+> maintainers file would have found me as a good addition to the cc'.
+> 
 
-Ross
+Sure. understood. Thanks..
 
-On Fri, 26 Mar 2021 at 18:49, Khem Raj <raj.khem@gmail.com> wrote:
->
-> I am seeing some failures
->
-> https://errors.yoctoproject.org/Errors/Details/574541/
->
-> On Thu, Mar 25, 2021 at 12:08 PM Ross Burton <ross@burtonini.com> wrote:
+> I'm doing some other work on make-mod-scripts dependencies right now,
+> so I've pulled this in and will re-test against all of the active
+> kernel versions in master.
+> 
+
+
+Thanks.
+
+> But I don't think that make-mod-scripts is the only place we'd need
+> this, if it is indeed happening on the tip of all the supported
+> versions.  There are routes to have the prepare steps run, without a
+> make-mod-scripts dependency.
+> 
+> We've already made the mistake of letting the make-mod-scrips and
+> kernel build parameters diverge (see AR=${KERNEL_AR}), so I need to
+> spend a few minutes getting them back in sync.
+> 
+> I was just able to build and boot qemuarm64 on 5.12-rc4, so there's
+> something different about your config than my setup. We need to figure
+> that out. It could be a .config triggering different components to be
+> built, but unlikely given vdso being involved.
+> 
+> qemuarm64 login: root
+> root@qemuarm64:~# uname -a
+> Linux qemuarm64 5.12.0-rc4-yoctodev-standard #1 SMP PREEMPT Mon Mar 22
+> 18:46:22 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux
+> root@qemuarm64:~#
+
+Hmm... only thing I have done is cross compile - see the pastebins.
+> 
+> > [1] https://pastebin.ubuntu.com/p/pNcQtb93wr/
+> > [2] https://pastebin.ubuntu.com/p/vZGqgh9Sq5/
+> > Signed-off-by: Nishanth Menon <nm@ti.com>
+
+[...]
+> > diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+> > index 07ec242e63bb..3d25fc7ac531 100644
+> > --- a/meta/classes/kernel-arch.bbclass
+> > +++ b/meta/classes/kernel-arch.bbclass
+> > @@ -60,9 +60,12 @@ TARGET_LD_KERNEL_ARCH ?= ""
+> >  HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+> >  TARGET_AR_KERNEL_ARCH ?= ""
+> >  HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+> > +TARGET_OBJCOPY_KERNEL_ARCH ?= ""
+> > +HOST_OBJCOPY_KERNEL_ARCH ?= "${TARGET_OBJCOPY_KERNEL_ARCH}"
 > >
-> > On Thu, 25 Mar 2021 at 18:15, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > > I don't think I fully understand this. Is g-i in meson projects already broken for a while (there was a bit of refactor in the latest meson version, which I tested, but perhaps not well enough), or is this necessary for the other patches in your set?
-> >
-> > I just sent a mail which sort-of answers this question without seeing it.
-> >
-> > Basically, the change is that Meson now knows that it should call
-> > pkg-config-native for native pkgconfig lookups.  Before, it was using
-> > pkg-config.
-> >
-> > As far as I can tell there is very little code which hits that
-> > codepath, so we didn't notice.  When setting pkgconfig-native
-> > correctly, this broke.
-> >
-> > Ross
-> >
-> > 
-> >
+> 
+> We shouldn't need this TARGET_OBJCOPY_KERNEL_ARCH ->
+> HOST_OBJCOPY_KERNEL_ARCH, I can't think of how objcopy would be using
+> them.
+
+> 
+> Are you setting them to some value in your builds ?
+
+No, I am not. I decided to maintain consistency of usage from LD and AR.
+I could'nt think of a usage either, true.
+
+
+> 
+> >  KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}"
+> >  KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+> >  KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+> > +KERNEL_OBJCOPY = "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+> 
+> The main kernel Makefile already defines, and the standard env should
+> already have both CROSS_COMPILE and OBJCOPY defined to be the target
+> version.
+> 
+> Makefile:OBJCOPY                = $(CROSS_COMPILE)objcopy
+
+OK this is what is confusing me -> I dont see CROSS_COMPILE being set -
+which is what I had expected in the first place. other than
+meta/recipes-kernel/perf/perf.bb, I dont see it set else where -> I was
+really wondering why all the specific usage, when CROSS_COMPILE would
+have just done the job.. Then I was guessing maybe the rationale is for
+some ancient kernel where CROSS_COMPILE is'nt set right?
+
+> 
+> So we really have to pass this, when fundamentally it is the same
+> definition as what the defaults give us.
+> 
+> What does that resolve to in your builds ? In mine, when I dump the
+> objcopy value from within the kernel build, I get:
+> 
+> | /opt/poky/build/tmp/work-shared/qemuarm64/kernel-source/Makefile:443:
+> *** objcopy: aarch64-poky-linux-objcopy.  Stop.
+> 
+> Which should be doing the job.
+
+x86's objcopy - which is why I was trying to figure out what the heck
+went on..
+
+> 
+> Are you building arm on arm ? or something else like that ?
+
+
+Nothing fancy.. x86 PC cross compiling for arm. honestly, 5.11 build
+went fine. What makes me wonder is how does it even build for you? how
+does OBJCOPY variable even point to aarch64-poky-linux-objcopy
+
+-- 
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
