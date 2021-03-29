@@ -1,154 +1,134 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web12.3139.1617050332321130342
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web09.559.1617055700099324184
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 13:38:52 -0700
+ Mon, 29 Mar 2021 15:08:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EL7IUR1m;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id o16so14182712wrn.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 13:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=BY4sQdUPi2UoOX/0ZqY/r4kqEZSUOxkR3eiwOY4gFkg=;
-        b=EL7IUR1mPt4iaplkT4/8KmyxjaTvzDgcpLUVOItW7c7Ft8aOCPHDbUVPeNC+bzeAb3
-         +qWQFIqPfogvl+Oxb34xRB/SdpXWxpa7LpOjhmudcR+x4U0g8tT+Ntm2G3kQlANgYRyO
-         YxttkR+s0ELD/f5bJRaRTY8wPzX+Ttaw+/zmU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BY4sQdUPi2UoOX/0ZqY/r4kqEZSUOxkR3eiwOY4gFkg=;
-        b=R5PAWzSzNWlEro3pOejZcsa/MMhP9hgKTFryuKJNhdF5RxveESU4/41/YgtAO9fHaU
-         rkyI5n3n/5Io8SKLdDdzyiQYFe365Q7d6BhVMv9EYovyzMrNOTSM145hD9tDW/CvPobE
-         eFn28iVvbUkmJ3u55DgEuxwLY4lpJyc2cB0XfHg64frDbWN/oAhnncrExCtDrOzWRGJk
-         YQ47wqgxupUApsLFChTekTx6xm/+YBwDwUDHFQzfhUI0iyLGZATVVsiM7ulCy18A7evM
-         WVcDyx+udBSylY8nsT5vacy5gfmOQdWIOLB/wVURelUoFwLtz7KdxSr8d1exmvSflNI2
-         U3Yg==
-X-Gm-Message-State: AOAM533VIFax8jwGef75aUz2DWlnHvx01DhQu8PUFxtilO/ci2RIf2Rv
-	dFy6CYpvKEzDmOU+Ijj6E17/Bw==
-X-Google-Smtp-Source: ABdhPJxk/vHFyiNIfXp087E/Egt61nbY4aYGSCxlXb8GvVMKF27LyxNBSJ/DRCQzqbip5uViC2WhJQ==
-X-Received: by 2002:adf:e843:: with SMTP id d3mr30819002wrn.56.1617050330790;
-        Mon, 29 Mar 2021 13:38:50 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:5ca7:7e7c:e7e4:6d07? ([2001:8b0:aba:5f3c:5ca7:7e7c:e7e4:6d07])
-        by smtp.gmail.com with ESMTPSA id j14sm30438812wrw.69.2021.03.29.13.38.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 13:38:50 -0700 (PDT)
-Message-ID: <9e81b71466b771c55d8859e7d156b662e1c3d4f7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Devendra Tewari <devendra.tewari@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 29 Mar 2021 21:38:47 +0100
-In-Reply-To: <20210329151442.86306-1-devendra.tewari@gmail.com>
-References: <20210329151442.86306-1-devendra.tewari@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 12TM87rL018139
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Mon, 29 Mar 2021 17:08:18 -0500
+Subject: Re: [OE-core] master eSDK hash problem with METADATA_REVISION and base-files:do_install
+To: Chen Qi <Qi.Chen@windriver.com>,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <e9b61d5e-0479-b5cb-2299-749b53d4df38@kernel.crashing.org>
+ <db1fb6d5-e2e8-113a-f1a8-5f05b6e86e8d@windriver.com>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Message-ID: <9af9f1f6-d14f-cd38-3dc7-8d1674a728ea@kernel.crashing.org>
+Date: Mon, 29 Mar 2021 17:08:07 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <db1fb6d5-e2e8-113a-f1a8-5f05b6e86e8d@windriver.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by kernel.crashing.org id 12TM87rL018139
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2021-03-29 at 12:14 -0300, Devendra Tewari wrote:
-> ---
->  meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index f579168162..f94aa96d70 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -384,6 +384,7 @@ def sstate_installpkg(ss, d):
->  def sstate_installpkgdir(ss, d):
->      import oe.path
->      import subprocess
-> +    import shutil
->  
-> 
->      sstateinst = d.getVar("SSTATE_INSTDIR")
->      d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
-> @@ -401,7 +402,11 @@ def sstate_installpkgdir(ss, d):
->  
-> 
->      for state in ss['dirs']:
->          prepdir(state[1])
-> -        os.rename(sstateinst + state[0], state[1])
-> +        try:
-> +            os.rename(sstateinst + state[0], state[1])
-> +            break
+I was using master-next (version was right before I sent the email), and it
+still failed.
 
-That break should definitely not be there, that changes behaviour.
+Looking at things, there doesn't appear to be any METADATA_REVISION set in=
+ the
+normal build, but there is one set inside of the eSDK.  So it looks like s=
+ome
+corner case may have been missing.
 
-> +        except OSError:
-> +            shutil.move(sstateinst + state[0], state[1])
->      sstate_install(ss, d)
->  
-> 
->      for plain in ss['plaindirs']:
-> @@ -413,7 +418,11 @@ def sstate_installpkgdir(ss, d):
->          dest = plain
->          bb.utils.mkdirhier(src)
->          prepdir(dest)
-> -        os.rename(src, dest)
-> +        try:
-> +            os.rename(src, dest)
-> +            break
+If you notice it says <unknown>.  Diffsigs I had, I don't know how the 'de=
+fault'
+version should be generated or not -- but it was definitely different insi=
+de and
+outside the eSDK.
 
-Same here...
+--Mark
 
-> +        except OSError:
-> +            shutil.move(src, dest)
->  
-> 
->      return True
->  
-> 
-> @@ -638,6 +647,7 @@ python sstate_hardcode_path () {
->  
-> 
->  def sstate_package(ss, d):
->      import oe.path
-> +    import shutil
->  
-> 
->      tmpdir = d.getVar('TMPDIR')
->  
-> 
-> @@ -664,7 +674,11 @@ def sstate_package(ss, d):
->                      continue
->                  bb.error("sstate found an absolute path symlink %s pointing at %s. Please replace this with a relative link." % (srcpath, link))
->          bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
-> -        os.rename(state[1], sstatebuild + state[0])
-> +        try:
-> +            os.rename(state[1], sstatebuild + state[0])
-> +            break
-
-and again...
-
-> +        except OSError:
-> +            shutil.move(state[1], sstatebuild + state[0])
->  
-> 
->      workdir = d.getVar('WORKDIR')
->      sharedworkdir = os.path.join(d.getVar('TMPDIR'), "work-shared")
-> @@ -674,7 +688,11 @@ def sstate_package(ss, d):
->              pdir = plain.replace(sharedworkdir, sstatebuild)
->          bb.utils.mkdirhier(plain)
->          bb.utils.mkdirhier(pdir)
-> -        os.rename(plain, pdir)
-> +        try:
-> +            os.rename(plain, pdir)
-> +            break
-
-
-and again...
-
-> +        except OSError:
-> +            shutil.move(plain, pdir)
->  
-> 
->      d.setVar('SSTATE_BUILDDIR', sstatebuild)
->      d.setVar('SSTATE_INSTDIR', sstatebuild)
-> 
-> 
-
+On 3/28/21 9:11 PM, Chen Qi wrote:
+> Hi Mark,
+>=20
+> I think this has been fixed by the following commit.
+>=20
+> """
+> commit ff2ad51b801fd62e2abbc573ba2c9ee8fdc7e012
+> Author: Chen Qi <Qi.Chen@windriver.com>
+> Date:=C2=A0=C2=A0 Fri Mar 5 18:10:40 2021 +0800
+>=20
+> =C2=A0=C2=A0=C2=A0 populate_sdk_ext: record METADATA_REVISION
+> =C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0=C2=A0 As we delete the .git/ directory, it's impossible to =
+get METADATA_REVISION
+> =C2=A0=C2=A0=C2=A0 inside eSDK. Because of this, we meet the following w=
+arning when installing
+> eSDK.
+> =C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARNING: The base-files:do_install sig is=
+ computed to be
+> 16b9d96148d45de183cc94667aae016ec7d102d48255456381e718cd4bbd0aa0, \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 but the sig is locked to
+> 6eb0dcaed504282becee94662481d79264db920dee1f7deda18230133fff8f36 in
+> SIGGEN_LOCKEDSIGS_t-qemux86-64
+> =C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0=C2=A0 So we record METADATA_REVISION in eSDK generation tim=
+e to fix this problem.
+> =C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0=C2=A0 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> =C2=A0=C2=A0=C2=A0 Signed-off-by: Richard Purdie <richard.purdie@linuxfo=
+undation.org>
+> """
+>=20
+> Best Regards,
+> Chen Qi
+>=20
+> On 03/26/2021 07:51 AM, Mark Hatle wrote:
+>> Building an eSDK (all stock config):
+>>
+>> MACHINE=3Dqemuarm bitbake core-image-minimal -c populate_sdk_ext
+>>
+>>
+>> I then install it, and get:
+>>
+>> Checking sstate mirror object availability: 100%
+>> |######################################################################=
+###############################################|
+>> Time: 0:00:00
+>> WARNING: The base-files:do_install sig is computed to be
+>> 587ccfa9299e26094ae342f1ce3d782bfaf776c639013428a511770c3828d49a, but t=
+he sig is
+>> locked to 0c35f266f1e79b1f34260df1b8d677f7eb74a7f7241155601ed73a014c8e2=
+86c in
+>> SIGGEN_LOCKEDSIGS_t-qemuarm
+>> Loading cache: 100%
+>> |######################################################################=
+###########################################################################=
+#|
+>> Time: 0:00:00
+>> Initialising tasks: 100%
+>> |######################################################################=
+#######################################################################|
+>> Time: 0:00:00
+>>
+>>
+>> Running a bitbake diffsigs on this file, I get:
+>>
+>> basehash changed from
+>> cffec52acb67f62fe3812d0d42d52b1081f9150386f43f0426f5469b4a1a6a25 to
+>> 332259212c5e9a4ed2a7fe25b8ea77cb54fb6b82f7deed90179e145f1d0cf1b6
+>> Variable METADATA_REVISION value changed from
+>> '3210cabe56d6cf6d51638e6f31f93110e40ab2cd' to '<unknown>'
+>>
+>>
+>> So it appears that some of the recent work on METADATA_REVISION has bro=
+ken hash
+>> computations in the base-files package due to the value being 'unknown'=
+ in one,
+>> and set in the other.
+>>
+>> --Mark
+>>
+>>
+>=20
+>=20
+>=20
+>=20
+>=20
