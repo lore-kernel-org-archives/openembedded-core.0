@@ -1,97 +1,79 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.19118.1617008723391979200
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.19165.1617009918607826881
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 02:05:24 -0700
+ Mon, 29 Mar 2021 02:25:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=fgokMI59;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=EaAtAiEM;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.52, mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f52.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo6281057wmq.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 02:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1617008723;
-  x=1648544723;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=tfsy0SLFBnJUVSHs9sgeyZOn80PcynqtZTsnCoSTgR0=;
-  b=fgokMI59G/QEsUJqxkvVyjTlSpwcnGBKQNldrlTdmSiJbAE6bQJU2KPi
-   Rt8JmHK5JstQsYGpeIVqs+75i+QOlGITuZIO3cr5Ib/aE6gnwMP5s0u3f
-   Rfw9BXTWgOj1j0DiwZiVl/OGc/K2/xr3xdKQr4P/qADZ8Or6MurH3qLsQ
-   1LSWp+pnjwtAANI1h1hU8m9JcrR/setREMkYRPjnhtbxaJQ+NgBJkodSG
-   oWo3k/tm51fXK6cWyI10VyMXwkpDDMif2+qFxjsIjy5YzOOwl+w0E4jf0
-   xFlZlxsJushpvMVYGZShjbIVZt9B7EfrTH9sDOQ4nFDshDZgOnMlMqWtt
-   g==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: jan <jan.vermaete@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] Allow to overrule the URL in a bbappend.
-Thread-Topic: [OE-core] [PATCH] Allow to overrule the URL in a bbappend.
-Thread-Index: AQHXI/Ryeiww8xHMNkm3n6bHRZ6lE6qarQDw
-Date: Mon, 29 Mar 2021 09:05:20 +0000
-Message-ID: <bc009be5ebeb49cea1ab1e7ecae2cf4a@XBOX03.axis.com>
-References: <20210328170108.2670-1-jan.vermaete@gmail.com>
-In-Reply-To: <20210328170108.2670-1-jan.vermaete@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0vAnIFRa4tEpZ+IaYC4XigfMu/mgeR4XzH4mq+MwB+w=;
+        b=EaAtAiEMzzJ9EXBFPnYp5K1c5OjPrESNIpFVie4ZDd/xbeC44oP948gk7hUzG67RbO
+         he0702XhpkkCW71mjMH+n/DvEkKGB7Ae4WuaxOPnUJoqPP97BGC+3B75qIbbq0umSzBW
+         n58OOkbHIFdf9uzGETjOHdJBmHZe7OfIIbhdeK+VFaRsZH62yTbpDu3fHNvYCor1uSqS
+         a6khtWH0enJ0Q2fJRUn2++Spe8e5JEOAuskh4T4gV3YhDDZ0B1ByqqlwxvcCrUxhFk3z
+         DVkoDLBPlohuZOeYjnOsRL5RPKhd1ym6RUC8drbl/Rd6X0bxS1FRAscCjoNLmgs90HMk
+         +DyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0vAnIFRa4tEpZ+IaYC4XigfMu/mgeR4XzH4mq+MwB+w=;
+        b=TUVe+SS31ky0yRKpzUyDN4fsU84G2qnufq7Zgxn80gAKLAwLHb73aOuz6XIr3GRxwf
+         9x35d+UiqSRAspy6djzzcwvflyR5v9oUlwCvXa6WKgeWD4ia46nZZi4e6RMzmVrnonB7
+         MAfmU3/oyBCX4/IU1k/9oKOzIxJiyrLLZd3fy7tgutkAS0mw/K9x9MDoaUihAgmxUm8T
+         AH6IBUniuNJbG2GwUyqsdEkQROGiwEa/eNBzhSWCcfu+9OAsRh9DSSSdMrSbkHFbzVTs
+         thNIlZW2+b0n9i0aqOhNl/CgaG8rDOydiBq9DmpLF+1IT5RNn/hzYfrG0N4o9tHgF+6s
+         2BPQ==
+X-Gm-Message-State: AOAM532DvYmQekBRD/0znp7Su/nGiAdry4hQ19eEdQrpJ9E1ti09QggU
+	eXoLim7odcQjy5+Ifyj2qzpZa+k5/rC1SA8n2CWrtQ==
+X-Google-Smtp-Source: ABdhPJyLSjg0sPLkhDd70FNoS6UayH80FpG5He0Ch/1hEGvQE4+GuLYpF61RyKhZ6fbUQjsGenL2j2QPTLMwrfErhd0=
+X-Received: by 2002:a1c:6855:: with SMTP id d82mr14689726wmc.169.1617009917051;
+ Mon, 29 Mar 2021 02:25:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+References: <20210325173901.3057180-1-ross.burton@arm.com> <CANNYZj_mMCVjamiimbWki=r4GFAOXkRPjH6xm3rcSbYkmpewWw@mail.gmail.com>
+ <CAAnfSTvXHyX_MvHbtpcUso92K=DQT1_7hMwAGCDPJ9RMW0zVPg@mail.gmail.com> <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
+In-Reply-To: <CAMKF1sqMj-d-Dj-Kq3N5gAJBZtFDzGY=Rcc2J9uKD_gA-i9e8g@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 29 Mar 2021 09:25:06 +0000
+Message-ID: <CAAnfSTt-wfkc2ZMDZ1hXAqGij5eQAcpvvwtoFNOS9PfMtkuJZA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/3] meson: fix native/host confusion in gobject-introspection
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of jan
-> Sent: den 28 mars 2021 19:01
-> To: openembedded-core@lists.openembedded.org
-> Cc: Jan Vermaete <jan.vermaete@gmail.com>
-> Subject: [OE-core] [PATCH] Allow to overrule the URL in a bbappend.
+This is the universe telling you that one line native file should have
+been put in oe-core. :)
 
-Please make sure to prefix the commit subject with the recipe name.
+Ross
 
-//Peter
-
->=20
-> With this small patch, it's possible to overrule the public
-> URL with a local mirror for those without Internet access.
->=20
-> Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
-> ---
->  meta/recipes-core/meta/cve-update-db-native.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb
-> b/meta/recipes-core/meta/cve-update-db-native.bb
-> index b3dc33734d..25ec6bac71 100644
-> --- a/meta/recipes-core/meta/cve-update-db-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-> @@ -12,6 +12,8 @@ deltask do_compile
->  deltask do_install
->  deltask do_populate_sysroot
->=20
-> +NVDCVE_URL ?=3D "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
-> +
->  python () {
->      if not bb.data.inherits_class("cve-check", d):
->          raise bb.parse.SkipRecipe("Skip recipe when cve-check class is
-> not loaded.")
-> @@ -28,7 +30,6 @@ python do_fetch() {
->=20
->      bb.utils.export_proxies(d)
->=20
-> -    BASE_URL =3D "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
->      YEAR_START =3D 2002
->=20
->      db_file =3D d.getVar("CVE_CHECK_DB_FILE")
-> @@ -64,7 +65,7 @@ python do_fetch() {
->          for i, year in enumerate(range(YEAR_START, date.today().year +
-> 1)):
->              bb.debug(2, "Updating %d" % year)
->              ph.update((float(i + 1) / total_years) * 100)
-> -            year_url =3D BASE_URL + str(year)
-> +            year_url =3D (d.getVar('NVDCVE_URL')) + str(year)
->              meta_url =3D year_url + ".meta"
->              json_url =3D year_url + ".json.gz"
->=20
-> --
-> 2.25.1
-
+On Fri, 26 Mar 2021 at 18:49, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> I am seeing some failures
+>
+> https://errors.yoctoproject.org/Errors/Details/574541/
+>
+> On Thu, Mar 25, 2021 at 12:08 PM Ross Burton <ross@burtonini.com> wrote:
+> >
+> > On Thu, 25 Mar 2021 at 18:15, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > > I don't think I fully understand this. Is g-i in meson projects already broken for a while (there was a bit of refactor in the latest meson version, which I tested, but perhaps not well enough), or is this necessary for the other patches in your set?
+> >
+> > I just sent a mail which sort-of answers this question without seeing it.
+> >
+> > Basically, the change is that Meson now knows that it should call
+> > pkg-config-native for native pkgconfig lookups.  Before, it was using
+> > pkg-config.
+> >
+> > As far as I can tell there is very little code which hits that
+> > codepath, so we didn't notice.  When setting pkgconfig-native
+> > correctly, this broke.
+> >
+> > Ross
+> >
+> > 
+> >
