@@ -1,84 +1,114 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.2084.1617125391079763050
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web09.2310.1617126425116968701
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Mar 2021 10:29:51 -0700
+ Tue, 30 Mar 2021 10:47:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: kergoth@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id jy13so26063268ejc.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Mar 2021 10:29:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SNnScnD5;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id x21so19194641eds.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Mar 2021 10:47:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yYB3GkBB1xMK1QeS9ODf1DzHt0BNeO6nRFeFq6thVTk=;
+        b=SNnScnD5zfrud8kDN5kf1DkN/6OsimWr0deTAyNN4SKOFQGxGC/k0Kt6w7l6U02Kr4
+         YBasNK4u3e7Z30lyEfyduoBVEngWPwCYAxbtdnSreePecdUuGMnoxuQPB5GnP43vkUfR
+         wVb0R+eG52z4zZW7QyWj5IBuuDUYBRz8+AJNENmgNMDBfwMMUY+D06X/MCwh9pGxHl3L
+         THlz+jix7oi3JD76wQNTmWhT9TfgVTe5rnCibQz6+1Mm8DkzSYEAfnPxmke7DbB1wCgT
+         bExPwfzcOwVCChYvEXCLxRBtv5+4LzIELvlSEkiKQau7G62teW66UknxICDnjMZlZjzx
+         GRow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aJZmjlIg+F98ZW/uFV+MT52ZuCaHFlWHBOVhV9hRz+w=;
-        b=Hno5SRBTpl+bJXd8yFKjvZA5Y/YinK2sgTdNLi/QIm19jEgZ0HGjnTpcSnl+ujL7AM
-         rpxVSebMBy2rq/1RfGvg3FbNW14fcWydoo/695F6tsZucXrB/YDJ29YcNdg6T/dbV6cN
-         Tu5wGVeU2tM6gRaruC/s8gYCyC/X4gi1R8RLrL7+wCW54Es4+EH/ifezsQILGXIs7MzD
-         GI6R0abnPLdChqXuUr3oa7vrG1+R5LLOMHbwEUJMA1uCNw2yGMCRIv6v3QquJOeSfsRb
-         VGpKCZelT2e+Onj9UUuG3LOQqwNNJpvyA4gLACBJeDZNyNKlwrieGz3chsawgnQUJJ4B
-         hb9Q==
-X-Gm-Message-State: AOAM533vo21QFFX36efx/j5IVLnU34DnggQo6nHOHOSMBWjAy85Q7MCP
-	SCEqJ2nJDBLkWwMQ3ZG5fteFec0d6s8yJ/swmHA=
-X-Google-Smtp-Source: ABdhPJzHd5EaUiqD2TNILYjXRjv/M8OK8nSdWeYM1rjCtTopnGKT6AfcRdQEgLxXFwKgOko/l3+jqLTlR9jnA8Q5K/0=
-X-Received: by 2002:a17:906:23e9:: with SMTP id j9mr33238845ejg.78.1617125389525;
- Tue, 30 Mar 2021 10:29:49 -0700 (PDT)
+        bh=yYB3GkBB1xMK1QeS9ODf1DzHt0BNeO6nRFeFq6thVTk=;
+        b=EinxesR/L7uLw8tIecq1ThZzZS/AXtnEtfo/mhXBRQlulevdOt33mgI14om9bXJVMu
+         L6tNkEHNwcrxPSLwjlbTFzYASxfpNwnmb24WCkSr3m6aNU49H2DQNFHQGvkKCYtytt2A
+         pu8PZqA13VV1r0FIkuAlp81xlRwqmPB6xBxTiOs5Abf8nancvdjINQT94rewm3/CFvhZ
+         0nUs3+2G7OukDAa2SQVCgWQsG2ryaI6jF8lh1XWaHKSN6PjbHy+U3WILGu4rn73sVbpN
+         NwcKdn4m4kebLROB1fzqb6lSMe1LG9bNrNY10HSxOFyg4rghrf4TtZGsLnF0LppaGA4O
+         vadg==
+X-Gm-Message-State: AOAM530Em5QONWr5X3ce1ZdmBaB5AFQvDKomhSGvWNde2ZzSDHq3sncv
+	xqIDrIDZpLc0/4e0nScj+QvEMfL1V7pZg2rptWw=
+X-Google-Smtp-Source: ABdhPJzJFa5hYbivZmm5QhVPfmUjKIymUVAnCSPyXzMWluoxrPaytOBvLJe6i7ZgV6nPPocsptb5+J8k4EuG300MFEU=
+X-Received: by 2002:a05:6402:22b5:: with SMTP id cx21mr35062714edb.27.1617126423634;
+ Tue, 30 Mar 2021 10:47:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <16712EDBC9E446B5.24964@lists.openembedded.org>
-In-Reply-To: <16712EDBC9E446B5.24964@lists.openembedded.org>
-From: "Christopher Larson" <kergoth@gmail.com>
-Date: Tue, 30 Mar 2021 10:29:38 -0700
-Message-ID: <CABcZANmkzd4nfvdAG_=KxHSd9ff7qMozvLdJ=M5f5P056WMuAA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] buildhistory: add missing vardepsexcludes
-To: Christopher Larson <kergoth@gmail.com>
+References: <20210330172713.753008-1-yann@blade-group.com>
+In-Reply-To: <20210330172713.753008-1-yann@blade-group.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 30 Mar 2021 13:46:52 -0400
+Message-ID: <CADkTA4OzuvmXAHtyBaeqxG0k1wtW7eZJco2Q511Ekbjo_-RtZQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-yocto: log some kmeta information to assist in developing a bsp
+To: Yann Dirson <yann.dirson@blade-group.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000066683305bec458e4"
-
---00000000000066683305bec458e4
+	Yann Dirson <yann@blade-group.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 30, 2021 at 10:27 AM Christopher Larson via
-lists.openembedded.org <kergoth=gmail.com@lists.openembedded.org> wrote:
+On Tue, Mar 30, 2021 at 1:27 PM Yann Dirson <yann.dirson@blade-group.com> wrote:
+>
+> From: Yann Dirson <yann@blade-group.com>
+>
+> This is not quite enough for the lack of a BSP to stand out clearly to
+> an unsuspecting user's eyes, but at least this line in the logs should
+> help some of us to get a clue:
+>
+>   NOTE: Using kmeta BSP ''
 
-> For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and
-> SDK_POSTPROCESS_COMMAND, the appropriate entries were added to
-> vardepvalueexclude, but we want them in vardepsexclude as well.
+Sorry, but no on this.
+
+There are already logs that are kept in the build directories
+themselves. They can be further exposed via some of the existing debug
+knobs that I have, but this is just noise in the general logs.
+
+Cheers,
+
+Bruce
+
+>
+> Signed-off-by: Yann Dirson <yann@blade-group.com>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 35587dd564..c6228ad0b8 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -234,6 +234,7 @@ do_kernel_metadata() {
+>                     KMETA_EXTERNAL_BSPS="t"
+>                 fi
+>         fi
+> +       bbnote "Using kmeta BSP '$bsp_definition'"
+>         meta_dir=$(kgit --meta)
+>
+>         KERNEL_FEATURES_FINAL=""
+> @@ -264,6 +265,7 @@ do_kernel_metadata() {
+>         if [ "$mode" = "config" ]; then
+>                 # run1: pull all the configuration fragments, no matter where they come from
+>                 elements="`echo -n ${bsp_definition} $sccs_defconfig ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
+> +               bbnote "config: kmeta configuration fragments: $elements"
+>                 if [ -n "${elements}" ]; then
+>                         echo "${bsp_definition}" > ${S}/${meta_dir}/bsp_definition
+>                         scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches $KERNEL_FEATURES_FINAL
+> @@ -283,6 +285,7 @@ do_kernel_metadata() {
+>         if [ "$mode" = "patch" ]; then
+>                 # run2: only generate patches for elements that have been passed on the SRC_URI
+>                 elements="`echo -n ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
+> +               bbnote "patch: kmeta configuration fragments: $elements"
+>                 if [ -n "${elements}" ]; then
+>                         scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} $KERNEL_FEATURES_FINAL
+>                         if [ $? -ne 0 ]; then
+> --
+> 2.30.2
 >
 >
-Richard,
+> 
+>
 
-This fixes the failures
-in sstatetests.SStateTests.test_sstate_noop_samesigs seen with my other
-patch (image,populate_sdk_base: move 'func' flag setting for sdk command
-vars) applied. Thanks.
+
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---00000000000066683305bec458e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 30, 2021 at 10:27 AM Chri=
-stopher Larson via <a href=3D"http://lists.openembedded.org">lists.openembe=
-dded.org</a> &lt;kergoth=3D<a href=3D"mailto:gmail.com@lists.openembedded.o=
-rg">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">For POPULATE_SDK_POST_TARGET_COMMAND, P=
-OPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate=
- entries were added to vardepvalueexclude, but we want them in vardepsexclu=
-de as well.<br>
-<br>
-</blockquote></div><br clear=3D"all"><div>Richard,</div><div><br></div><div=
->This fixes the failures in=C2=A0sstatetests.SStateTests.test_sstate_noop_s=
-amesigs=C2=A0seen with my other patch (image,populate_sdk_base: move &#39;f=
-unc&#39; flag setting for sdk command vars) applied. Thanks.</div>-- <br><d=
-iv dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"=
-ltr"><div><div dir=3D"ltr"><div>Christopher Larson<br>kergoth at gmail dot =
-com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engin=
-eer, Mentor Graphics</div></div></div></div></div></div></div></div>
-
---00000000000066683305bec458e4--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
