@@ -1,113 +1,164 @@
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web09.411.1617140836573064976
+ by mx.groups.io with SMTP id smtpd.web12.646.1617141584157783128
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Mar 2021 14:47:17 -0700
+ Tue, 30 Mar 2021 14:59:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id D7A3540C16;
-	Tue, 30 Mar 2021 21:47:15 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 8E56140C16;
+	Tue, 30 Mar 2021 21:59:43 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uK2FN6LBC4c4; Tue, 30 Mar 2021 21:47:15 +0000 (UTC)
+	with ESMTP id nTxJ_LOHaw8u; Tue, 30 Mar 2021 21:59:43 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 93D4C407DA;
-	Tue, 30 Mar 2021 21:47:11 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 647D140BA9;
+	Tue, 30 Mar 2021 21:59:41 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4FAA0174568; Tue, 30 Mar 2021 17:47:11 -0400 (EDT)
-Date: Tue, 30 Mar 2021 17:47:11 -0400
+	id 29D83174568; Tue, 30 Mar 2021 17:59:41 -0400 (EDT)
+Date: Tue, 30 Mar 2021 17:59:41 -0400
 From: "Denys Dmytriyenko" <denis@denix.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-commits@lists.openembedded.org,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [oe-commits] [openembedded-core] 05/11: license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
-Message-ID: <20210330214711.GC23013@denix.org>
-References: <158021229287.2205.655529513378933058@git.openembedded.org>
- <20200128115135.923C8232CB0@git.openembedded.org>
- <CA+chaQeLKzCdXyhPOoZJVxjWS7HG0kOwg3nt90xsJLz8Ov2VxA@mail.gmail.com>
+To: Devendra Tewari <devendra.tewari@gmail.com>
+Cc: Konrad Weihmann <kweihmann@outlook.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+Message-ID: <20210330215941.GD23013@denix.org>
+References: <20210329151442.86306-1-devendra.tewari@gmail.com>
+ <CADkTA4NsocrBk0aRdqKqorWAuePMJd4O3g+K40j0J8zLrt7sLQ@mail.gmail.com>
+ <AM9PR09MB464265DE482819EB7D2B92C7A87E9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <BB675BE1-5F64-495F-98DA-8A2A3D857691@gmail.com>
+ <70419FA6-9CA2-4B42-B4A2-6CC264DE163E@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQeLKzCdXyhPOoZJVxjWS7HG0kOwg3nt90xsJLz8Ov2VxA@mail.gmail.com>
+In-Reply-To: <70419FA6-9CA2-4B42-B4A2-6CC264DE163E@gmail.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Mar 30, 2021 at 10:46:19PM +0200, Martin Jansa wrote:
-> On Tue, Jan 28, 2020 at 12:52 PM <git@git.openembedded.org> wrote:
-> 
-> > This is an automated email from the git hooks/post-receive script.
-> >
-> > rpurdie pushed a commit to branch zeus
-> > in repository openembedded-core.
-> >
-> > commit 5ed714139f91eb03871e01b68a4370784071234d
-> > Author: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > AuthorDate: Wed Dec 11 17:48:13 2019 +0100
-> >
-> >     license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
-> >
-> >     Previously, there was SRC_DISTRIBUTE_LICENSES, an undocumented
-> >     variable that contained a static list of licenses. It was used by
-> >     expand_wildcard_licenses() to expand any wildcards used in, e.g.,
-> >     INCOMPATIBLE_LICENSE. However, since this static list of licenses has
-> >     not been kept up-to-date, many licenses were missing, with the result
-> >     that if one tried to use any of those licenses with a wildcard, no
-> >     licenses would be found, effectively ignoring that they should be
-> >     marked as incompatible.
-> >
-> >     This introduces a new (documented) variable, AVAILABLE_LICENSES, that
-> >     is automatically updated to contain all licenses found in any
-> >     directories specified by ${COMMON_LICENSE_DIR} and ${LICENSE_PATH},
-> >     and uses it instead of SRC_DISTRIBUTE_LICENSES when expanding
-> >     wildcards.
-> >
-> >     Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> >     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >     (cherry picked from commit 8c9ef587fe499c612a878a1ab42092eb79b334ef)
-> >     Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > ---
-> >  meta/classes/license.bbclass                     | 27
-> > ++++++++++++++++++++----
-> >  meta/conf/documentation.conf                     |  1 +
-> >  meta/lib/oeqa/selftest/cases/incompatible_lic.py |  6 +++---
-> >  3 files changed, 27 insertions(+), 7 deletions(-)
-> >
-> ...
-> 
-> > +def available_licenses(d):
-> > +    """
-> > +    Return the available licenses by searching the directories specified
-> > by
-> > +    COMMON_LICENSE_DIR and LICENSE_PATH.
-> > +    """
-> > +    lic_dirs = ((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' +
-> > +                (d.getVar('LICENSE_PATH') or '')).split()
-> > +
-> > +    licenses = []
-> > +    for lic_dir in lic_dirs:
-> > +        licenses += os.listdir(lic_dir)
-> > +
-> > +    licenses = sorted(licenses)
-> > +    return licenses
-> > +
-> > +# Only determine the list of all available licenses once. This assumes
-> > that any
-> > +# additions to LICENSE_PATH have been done before this file is parsed.
-> > +AVAILABLE_LICENSES := "${@' '.join(available_licenses(d))}"
-> > +
-> >
-> 
-> FWIW this part no longer seems to work correctly, now running:
-> yocto-check-layer --dependency /OE/meta-openembedded/meta-oe/
+The link is for a 10-year old bug, probably not what you wanted.
+Also, if a patch fixes existing bug in bugzilla, it needs to reference it in 
+commit message as well - [YOCTO#1234567]
 
-Was it ever fixed?
-https://lists.openembedded.org/g/openembedded-core/topic/72389694#141680
 
--- 
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+On Mon, Mar 29, 2021 at 12:37:45PM -0300, Devendra Tewari wrote:
+> Also, this is due to https://bugzilla.yoctoproject.org/show_bug.cgi?id=1430.
+> 
+> > On 29 Mar 2021, at 12:35, Devendra Tewari <devendra.tewari@gmail.com> wrote:
+> > 
+> > Sure.
+> > 
+> > Would the following commit message be sufficient?
+> > 
+> >    Use shutil.move when os.rename fails
+> > 
+> >    Incremental build in Docker fails with
+> > 
+> >    OSError: [Errno 18] Invalid cross-device link
+> > 
+> >    When source and destination are on different overlay filesystems.
+> > 
+> >    This change handles the error with os.rename and retries with shutil.move.
+> > 
+> > Thanks,
+> > Devendra
+> > 
+> >> On 29 Mar 2021, at 12:23, Konrad Weihmann <kweihmann@outlook.com> wrote:
+> >> 
+> >> Yes please quote a bit from the python manpage [1] - I certainly see the difference (and the edge cases where os.rename might fail), but that should be documented as part of the commit message
+> >> 
+> >> [1] https://docs.python.org/3/library/shutil.html#shutil.move
+> >> 
+> >> On 29.03.21 17:21, Bruce Ashfield wrote:
+> >>> Can you document the cases that os.rename() is failing ? And also why
+> >>> would we expect the shutil.move() to work in those cases ?
+> >>> If a change like this cases issues in the future, we need that extra
+> >>> information in the commit head for proper triage.
+> >>> Bruce
+> >>> On Mon, Mar 29, 2021 at 11:16 AM Devendra Tewari
+> >>> <devendra.tewari@gmail.com> wrote:
+> >>>> 
+> >>>> ---
+> >>>> meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++----
+> >>>> 1 file changed, 22 insertions(+), 4 deletions(-)
+> >>>> 
+> >>>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> >>>> index f579168162..f94aa96d70 100644
+> >>>> --- a/meta/classes/sstate.bbclass
+> >>>> +++ b/meta/classes/sstate.bbclass
+> >>>> @@ -384,6 +384,7 @@ def sstate_installpkg(ss, d):
+> >>>> def sstate_installpkgdir(ss, d):
+> >>>>     import oe.path
+> >>>>     import subprocess
+> >>>> +    import shutil
+> >>>> 
+> >>>>     sstateinst = d.getVar("SSTATE_INSTDIR")
+> >>>>     d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
+> >>>> @@ -401,7 +402,11 @@ def sstate_installpkgdir(ss, d):
+> >>>> 
+> >>>>     for state in ss['dirs']:
+> >>>>         prepdir(state[1])
+> >>>> -        os.rename(sstateinst + state[0], state[1])
+> >>>> +        try:
+> >>>> +            os.rename(sstateinst + state[0], state[1])
+> >>>> +            break
+> >>>> +        except OSError:
+> >>>> +            shutil.move(sstateinst + state[0], state[1])
+> >>>>     sstate_install(ss, d)
+> >>>> 
+> >>>>     for plain in ss['plaindirs']:
+> >>>> @@ -413,7 +418,11 @@ def sstate_installpkgdir(ss, d):
+> >>>>         dest = plain
+> >>>>         bb.utils.mkdirhier(src)
+> >>>>         prepdir(dest)
+> >>>> -        os.rename(src, dest)
+> >>>> +        try:
+> >>>> +            os.rename(src, dest)
+> >>>> +            break
+> >>>> +        except OSError:
+> >>>> +            shutil.move(src, dest)
+> >>>> 
+> >>>>     return True
+> >>>> 
+> >>>> @@ -638,6 +647,7 @@ python sstate_hardcode_path () {
+> >>>> 
+> >>>> def sstate_package(ss, d):
+> >>>>     import oe.path
+> >>>> +    import shutil
+> >>>> 
+> >>>>     tmpdir = d.getVar('TMPDIR')
+> >>>> 
+> >>>> @@ -664,7 +674,11 @@ def sstate_package(ss, d):
+> >>>>                     continue
+> >>>>                 bb.error("sstate found an absolute path symlink %s pointing at %s. Please replace this with a relative link." % (srcpath, link))
+> >>>>         bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
+> >>>> -        os.rename(state[1], sstatebuild + state[0])
+> >>>> +        try:
+> >>>> +            os.rename(state[1], sstatebuild + state[0])
+> >>>> +            break
+> >>>> +        except OSError:
+> >>>> +            shutil.move(state[1], sstatebuild + state[0])
+> >>>> 
+> >>>>     workdir = d.getVar('WORKDIR')
+> >>>>     sharedworkdir = os.path.join(d.getVar('TMPDIR'), "work-shared")
+> >>>> @@ -674,7 +688,11 @@ def sstate_package(ss, d):
+> >>>>             pdir = plain.replace(sharedworkdir, sstatebuild)
+> >>>>         bb.utils.mkdirhier(plain)
+> >>>>         bb.utils.mkdirhier(pdir)
+> >>>> -        os.rename(plain, pdir)
+> >>>> +        try:
+> >>>> +            os.rename(plain, pdir)
+> >>>> +            break
+> >>>> +        except OSError:
+> >>>> +            shutil.move(plain, pdir)
+> >>>> 
+> >>>>     d.setVar('SSTATE_BUILDDIR', sstatebuild)
+> >>>>     d.setVar('SSTATE_INSTDIR', sstatebuild)
+> >>>> --
+> >>>> 2.29.2
+> >>>> 
+> >>>> 
+> >>>> 
+> >>>> 
+> >>> 
+> > 
+> 
