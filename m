@@ -1,96 +1,88 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.1273.1617059627519827479
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web08.2113.1617064081509423863
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Mar 2021 16:13:47 -0700
+ Mon, 29 Mar 2021 17:28:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WQGe4UlF;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: devendra.tewari@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id i19so10619772qtv.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 16:13:47 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=VQrp0qLz;
+ spf=pass (domain: linaro.org, ip: 209.85.167.178, mailfrom: anibal.limon@linaro.org)
+Received: by mail-oi1-f178.google.com with SMTP id a8so14793004oic.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Mar 2021 17:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=F391LFStcJhoWBz8bPBf301Avc02UsEGXC7rksFaNHc=;
-        b=WQGe4UlF2jHxYbsW44BYl1Ci87dXmaGBNIu2mEDd1GIei8fsvIR+6XTZVnkT8qnxC2
-         74I2j7qeZAFIYBLENuHvvRt9s6Qro3pCBN38kyxVJcozQ5VMgZoB0iil16hkERVY/eLJ
-         A7gCHoAzxUUkTmdt+Yjb7dNugl42ESuwRqp4J2PYDRyJ+4pD0VUty5gDIghnDgcuy8vj
-         nsoGn2O+HqrKN+6t7TNMlgmo+H0lP8Lz3nwf1w1HOEAN4ZADcm3mMlT5+zXPjPA92OtH
-         AdwAUV6XNJ9cjdvYOswO1UVSFyCNLxAIefCknfl3m9ImMLs+GwjUWI+NQOq/0r9i2A+c
-         O/vw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tlgYI3Txy7h50biCQQGXg5pu/lvJGgppEc4ipprwjdM=;
+        b=VQrp0qLzutaFgTxIB2hmJi7XQfASO8ouwFC7nwm5CjQUmx5iA+fYDZMlLRUnAwb3MR
+         n+hJwixF16Oi3TmHIwaIrcKqi0o+8rf+7rxHkd79m3nqFPt4qpQs9ITE+oycPV6l09UZ
+         +f8k6tzjLAa5ne8EA3MB9vLQQ7rbxa9xw9RgbTjzGQ6mbwUFaP+fVGpdLEuETWdT/tYd
+         HNYoBgXs6b0vKkXjo9a9Dye2FvuR4FubN8A4cUDWeED1Ksk8lxzSmj+p9WVwJQublLV4
+         PU8r1EHhfY8vI9ZgmAagd+/jblR3vvQGBTrjFvqjqZg8bTeyHapm17P42v8YaD9vh7Ee
+         uAlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=F391LFStcJhoWBz8bPBf301Avc02UsEGXC7rksFaNHc=;
-        b=P5ip8yUALlRLDURV7CO9f4a5NGW120S/EnoiAN3VtjIdoKLOwtba7aXIyrWj181MaL
-         jZH+VdoBmhGweDALdK827a382GnZPND1RvHd4Z9pOZ+4YHGnoHYoDK+D7gHv9O3P1SAr
-         bESqD8spmKpWvc80Ocbki5xqTH7M6vMohl8RRFM2fyoPTdchRXiCEImxKBOI49sfKNie
-         sWtFi1IMN2rTxtGnVp6ZdgegDYgKMKYzFTSHKhRE/CWfwftsVNE0NCw3mA5nngjVg5/f
-         nQmAJTJGdYPvwq2s/2qR4Kwk998YaATNYq5055PhjA5qyb2lerGQMxkrL6XMtkXFQbwo
-         DDWQ==
-X-Gm-Message-State: AOAM5317iWIXEWXLaUGIQxNx64wWDPmXbDSV9MfY4C9M+EOBcfprKDBd
-	K350O9BmmSSgwATPVhIAlLw=
-X-Google-Smtp-Source: ABdhPJxl2Jp5Va0KyQ34334hBtypzBmMEJwsyJFjLB0/DarO3EXyj3+ahoFJtH5MSGiZ4nWwth3pkg==
-X-Received: by 2002:ac8:45c4:: with SMTP id e4mr6127289qto.267.1617059626717;
-        Mon, 29 Mar 2021 16:13:46 -0700 (PDT)
-Return-Path: <devendra.tewari@gmail.com>
-Received: from [192.168.0.2] ([177.183.205.78])
-        by smtp.gmail.com with ESMTPSA id b12sm12181193qti.43.2021.03.29.16.13.45
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Mar 2021 16:13:46 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
-Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
-From: "Devendra Tewari" <devendra.tewari@gmail.com>
-In-Reply-To: <CAJ86T=W52t-GtrNgPEg5AiJWYPCKFu9H9+PfxRGNUqMJCDJt=g@mail.gmail.com>
-Date: Mon, 29 Mar 2021 20:13:42 -0300
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-Id: <31745632-7CE9-467F-A0AB-7C3A87ECF73D@gmail.com>
-References: <20210329151442.86306-1-devendra.tewari@gmail.com>
- <9e81b71466b771c55d8859e7d156b662e1c3d4f7.camel@linuxfoundation.org>
- <CBEFAFBB-3A73-41E2-A177-BBE047E615D1@gmail.com>
- <CAJ86T=Xn9tLHWrqqr1ZV9rAwZD7sG6x0QsyVRkUSKLwiGQKL8g@mail.gmail.com>
- <D5D63158-3A18-4F86-9262-9280A587D4C2@gmail.com>
- <CAJ86T=W52t-GtrNgPEg5AiJWYPCKFu9H9+PfxRGNUqMJCDJt=g@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-X-Mailer: Apple Mail (2.3654.60.0.2.21)
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tlgYI3Txy7h50biCQQGXg5pu/lvJGgppEc4ipprwjdM=;
+        b=U4gqPHT2w27GcqJpWydj1oosUPr/x8/FukUlFQ7SeI43idbmy3yQuLriou8gnknGVv
+         ysuHw4WBuHnAclDpJvCUBOBuVXyDNvnMSW/1EuFHzfOClfQGbtHEkRQgF2EDAuw5tCq1
+         fCbE0nv8G2uftxJic8YYcGJIHZIaEyMYDcn9JdUAViMc8YveBIjgLWUJPwXdah0iFWvU
+         3GUgfxi3wupNPNJN/+8PeRAKEbqlbJll2n3Xg5MXZtjduFE1+VwS+J+tSw3uE4EI4qDQ
+         SMDz6iV+UOWn1UKNORvdIjdf/WU6ya8Mx99JkoYuanu9reGTdTFXMO5JbWoXqUrd7wbX
+         z1eQ==
+X-Gm-Message-State: AOAM531VcJLxF+EXh91ozW/CAjYiz/oIno+lcO9lYEzoovszGiR4DP8e
+	ScCcNugroLiDaMuO9qKdvl9FCEt42JE0yw==
+X-Google-Smtp-Source: ABdhPJzs1rv1iX/jwimowaScZXPHty+tbN06ZbCogSG5Qe02UZzDF6OtpVSzwYf/onXQbH18UaklIw==
+X-Received: by 2002:aca:7543:: with SMTP id q64mr1267526oic.100.1617064080745;
+        Mon, 29 Mar 2021 17:28:00 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.Home ([2806:10b7:2:5369:2c32:cfff:fe8e:de1f])
+        by smtp.gmail.com with ESMTPSA id c26sm4684050otm.51.2021.03.29.17.27.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 17:28:00 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: yifan.yu@windriver.com,
+	Randy.MacLeod@windriver.com,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCH] meta/recipes-support: ptest-runner bump to 2.4.1
+Date: Mon, 29 Mar 2021 18:27:57 -0600
+Message-Id: <20210330002757.401114-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.31.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Will do. Thanks.
+Changes,
 
-> On 29 Mar 2021, at 20:10, Andre McCurdy <armccurdy@gmail.com> wrote:
->=20
-> On Mon, Mar 29, 2021 at 4:07 PM Devendra Tewari
-> <devendra.tewari@gmail.com> wrote:
->>=20
->> I did try that but got an error that does not happen when we try =
-os.rename first. I'll try to reproduce it again.
->>=20
->> I suspect there may be subtle differences in os.rename vs shutil.move =
-with respect to what happens when origin and/or destination do not exist =
-or are invalid.
->=20
-> If there are subtle issues which you don't yet understand then that's
-> all the more reason for not hiding the new shutil.move code behind a
-> test which will pass for 99.9% of users. Please figure that out before
-> sending another version of the patch.
->=20
->>> On 29 Mar 2021, at 20:00, Andre McCurdy <armccurdy@gmail.com> wrote:
->>>=20
->>> On Mon, Mar 29, 2021 at 3:45 PM Devendra Tewari
->>> <devendra.tewari@gmail.com> wrote:
->>>>=20
->>>> Thanks! My bad. The example I looked up in Python docs had a break =
-and I just realized it was a looping example.
->>>>=20
->>>> Here=E2=80=99s the updated patch (or should I submit it again via =
-git send-email?)
->>>=20
->>> It would be better to use shutil.move unconditionally in all cases,
->>> rather than have a separate shutil.move code path which only gets
->>> tested by people doing incremental builds in docker.
->>=20
+cce0edb utils.c: wait_child reimplement timeout using alarm
+acbba90 utils.c: Use a thread to read from child
+cb2840a utils.c: Fix exit status of a child
+77bc79e utils.c: get_available_ptests allow to specify relative directories
+d27e242 README.md: Small fix mtrace call
+c5d5831 tests/utils.c: Add braces in START_TEST/END_TEST now required in check 0.15.x
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+---
+ .../{ptest-runner_2.4.0.bb => ptest-runner_2.4.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.0.bb => ptest-runner_2.4.1.bb} (93%)
+
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+similarity index 93%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+index 8b9938f572..ba0eb03799 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "834670317bd3f6e427e1ac461c07ada6b8936dfd"
++SRCREV = "cce0edb4282ee081d043030bfdf29f3e4052f86c"
+ PV .= "+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+-- 
+2.31.0
 
