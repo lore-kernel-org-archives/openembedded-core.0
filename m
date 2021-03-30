@@ -1,83 +1,84 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web08.2066.1617125262502796293
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.2084.1617125391079763050
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Mar 2021 10:27:42 -0700
+ Tue, 30 Mar 2021 10:29:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eDgoW8s4;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: kergoth@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id g10so6521488plt.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Mar 2021 10:27:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3SWq6b1CnxRwIgnzulmlLlWwdA2NBvStURH5cjOjHNc=;
-        b=eDgoW8s4k75Ug7ilE1Sw0ykPtX3lIxO0YS8XCNNbdRJ+X6V5ByJk2pvMf7/90hOe5l
-         +fN+/bhCnkJubBlg0fveXmoLsZwC7OD9lZKOpPuVJY7dxdGqtJDmGylgnYxVWipB2Z9K
-         6SDQ5IbH/atMjcfzqJgXsubkCwtrYfJ/iTtRXFI1NQRm6p2Rml2NOQ7Zdy1TSZUNsuZw
-         vijlp+Tjaq4/Xvfo3c//ad3n8Y47Md+3efg3IEbRtNAmN5rQnI3ojGc7Rqbcw909ZArr
-         /3qQbWyu9WYpaRA4lfRRFsC8VlpXzTINc4dVO0NAzdtO60Bou61ZY5aqcRilDY61G5Ww
-         fEGQ==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: kergoth@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id jy13so26063268ejc.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Mar 2021 10:29:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=3SWq6b1CnxRwIgnzulmlLlWwdA2NBvStURH5cjOjHNc=;
-        b=jR8k1PQOOfZgmQlM9iPmPRgLCz0Gqa//EgmzPNTR3YZ/wwBZ70BoJKBV3BNAjRgKhP
-         0XkOxVEltuQALefr2qMiiqSNJpLFC/whDh7GbhywhQi1HuJQ8LWrJAlYICHm/jDdNRr2
-         6bgialhFUxY2Sw3G3sU3l5MoZ6o6gIFtOD0M1/l7+EyKduGaW5yKOAixiwRoCXt5uvCY
-         SoEi0KBser57HnwZjWwarkQT3DyA2d5SZbxBoOAhIe+O4GS84k/FOnONml8ZNVo2JrVe
-         RimUtrnuJ7FlsN1lyHHK7z/7guJ/SMdI+bTVwH48OL6ORL4BwGmN7jYvCgFlZLrdJCXL
-         ebbg==
-X-Gm-Message-State: AOAM530JfyUe3xPHjD+NhhE4fJ2AyjgbnLRL+2VN1Kl1JMwReyoCvHis
-	zJfpODFMobbQ5AJHl31pYs1vGnZ9TptKNA==
-X-Google-Smtp-Source: ABdhPJx4AlIjxYX18QHEbDuJwoKtD6yWq4JAsh3fAz9kMLLscwnZCSnmnmMgLO9Ad0wp+PrIVg/JJQ==
-X-Received: by 2002:a17:902:8544:b029:e7:3266:6bde with SMTP id d4-20020a1709028544b02900e732666bdemr22529320plo.14.1617125261548;
-        Tue, 30 Mar 2021 10:27:41 -0700 (PDT)
-Return-Path: <kergoth@gmail.com>
-Received: from svr-pkl-eng-07.mentorg.com ([110.93.212.98])
-        by smtp.gmail.com with ESMTPSA id t184sm2293515pgt.32.2021.03.30.10.27.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 10:27:41 -0700 (PDT)
-Sender: Christopher Larson <kergoth@gmail.com>
-From: "Christopher Larson" <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] buildhistory: add missing vardepsexcludes
-Date: Tue, 30 Mar 2021 22:27:13 +0500
-Message-Id: <20210330172713.1204-1-chris_larson@mentor.com>
-X-Mailer: git-send-email 2.28.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aJZmjlIg+F98ZW/uFV+MT52ZuCaHFlWHBOVhV9hRz+w=;
+        b=Hno5SRBTpl+bJXd8yFKjvZA5Y/YinK2sgTdNLi/QIm19jEgZ0HGjnTpcSnl+ujL7AM
+         rpxVSebMBy2rq/1RfGvg3FbNW14fcWydoo/695F6tsZucXrB/YDJ29YcNdg6T/dbV6cN
+         Tu5wGVeU2tM6gRaruC/s8gYCyC/X4gi1R8RLrL7+wCW54Es4+EH/ifezsQILGXIs7MzD
+         GI6R0abnPLdChqXuUr3oa7vrG1+R5LLOMHbwEUJMA1uCNw2yGMCRIv6v3QquJOeSfsRb
+         VGpKCZelT2e+Onj9UUuG3LOQqwNNJpvyA4gLACBJeDZNyNKlwrieGz3chsawgnQUJJ4B
+         hb9Q==
+X-Gm-Message-State: AOAM533vo21QFFX36efx/j5IVLnU34DnggQo6nHOHOSMBWjAy85Q7MCP
+	SCEqJ2nJDBLkWwMQ3ZG5fteFec0d6s8yJ/swmHA=
+X-Google-Smtp-Source: ABdhPJzHd5EaUiqD2TNILYjXRjv/M8OK8nSdWeYM1rjCtTopnGKT6AfcRdQEgLxXFwKgOko/l3+jqLTlR9jnA8Q5K/0=
+X-Received: by 2002:a17:906:23e9:: with SMTP id j9mr33238845ejg.78.1617125389525;
+ Tue, 30 Mar 2021 10:29:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <16712EDBC9E446B5.24964@lists.openembedded.org>
+In-Reply-To: <16712EDBC9E446B5.24964@lists.openembedded.org>
+From: "Christopher Larson" <kergoth@gmail.com>
+Date: Tue, 30 Mar 2021 10:29:38 -0700
+Message-ID: <CABcZANmkzd4nfvdAG_=KxHSd9ff7qMozvLdJ=M5f5P056WMuAA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] buildhistory: add missing vardepsexcludes
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000066683305bec458e4"
 
-For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate entries were added to vardepvalueexclude, but we want them in vardepsexclude as well.
+--00000000000066683305bec458e4
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/buildhistory.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+On Tue, Mar 30, 2021 at 10:27 AM Christopher Larson via
+lists.openembedded.org <kergoth=gmail.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 117a44eaf3..49af61c9c5 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -678,13 +678,16 @@ IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_imageinfo"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_get_sdk_installed_target;"
- POPULATE_SDK_POST_TARGET_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_target;| buildhistory_get_sdk_installed_target;"
-+POPULATE_SDK_POST_TARGET_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_target buildhistory_get_sdk_installed_target"
- 
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host;"
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_get_sdk_installed_host;"
- POPULATE_SDK_POST_HOST_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_host;| buildhistory_get_sdk_installed_host;"
-+POPULATE_SDK_POST_HOST_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_host buildhistory_get_sdk_installed_host"
- 
- SDK_POSTPROCESS_COMMAND_append = " buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
- SDK_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
-+SDK_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_sdkinfo buildhistory_get_extra_sdkinfo"
- 
- python buildhistory_write_sigs() {
-     if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+> For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and
+> SDK_POSTPROCESS_COMMAND, the appropriate entries were added to
+> vardepvalueexclude, but we want them in vardepsexclude as well.
+>
+>
+Richard,
+
+This fixes the failures
+in sstatetests.SStateTests.test_sstate_noop_samesigs seen with my other
+patch (image,populate_sdk_base: move 'func' flag setting for sdk command
+vars) applied. Thanks.
 -- 
-2.28.0
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--00000000000066683305bec458e4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 30, 2021 at 10:27 AM Chri=
+stopher Larson via <a href=3D"http://lists.openembedded.org">lists.openembe=
+dded.org</a> &lt;kergoth=3D<a href=3D"mailto:gmail.com@lists.openembedded.o=
+rg">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">For POPULATE_SDK_POST_TARGET_COMMAND, P=
+OPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate=
+ entries were added to vardepvalueexclude, but we want them in vardepsexclu=
+de as well.<br>
+<br>
+</blockquote></div><br clear=3D"all"><div>Richard,</div><div><br></div><div=
+>This fixes the failures in=C2=A0sstatetests.SStateTests.test_sstate_noop_s=
+amesigs=C2=A0seen with my other patch (image,populate_sdk_base: move &#39;f=
+unc&#39; flag setting for sdk command vars) applied. Thanks.</div>-- <br><d=
+iv dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"=
+ltr"><div><div dir=3D"ltr"><div>Christopher Larson<br>kergoth at gmail dot =
+com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engin=
+eer, Mentor Graphics</div></div></div></div></div></div></div></div>
+
+--00000000000066683305bec458e4--
