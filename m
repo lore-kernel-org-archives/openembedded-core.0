@@ -1,89 +1,286 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
- by mx.groups.io with SMTP id smtpd.web09.7574.1617200913797163130
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+ by mx.groups.io with SMTP id smtpd.web11.7640.1617201882638163832
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 07:28:34 -0700
+ Wed, 31 Mar 2021 07:44:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=FesCIFEG;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1617200912; i=@fujitsu.com;
-	bh=r2ygoW8ukiGdyFXXJ94jQTvHG2Q7k+adCgCO6Wcj5Ss=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=FesCIFEGnysusrB0nTlCCv6bxUegb5qGtoAJQBIDzalZ16ArG9U7Pqho3ikO8Ypu/
-	 QnaiM+U+68GusLUtvm7UzgOz01+kypER9rf/bdN2N2V1V2w3AANddM5Khv29yqkaX2
-	 w1SRHaDUdTOO6v2VPN+b2Pl98qQ3ZwPbgv1z+VbDCEyuBiA58AOz5hRBwkg0o5GjpS
-	 C585Phnzwhz9RzrwYRDdiuOi0RqpqOwG8eH7KF7RJTIGcNg/DS7DfaBYybqL/PwwOC
-	 uFrgDvBPYtwm9a3CUSLlnzO1BlHGkEXUrHxK6TsgmWNMglUL7vPocMHb8c4NzjawXk
-	 f4PqMHPaVYHQA==
-Received: from [100.113.7.82] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id A5/34-44603-01784606; Wed, 31 Mar 2021 14:28:32 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxRZe/PSX
-  BoPGkqcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnFh2lH2grnsFTuWJTcwHmDrYuTiEBLYyiRx
-  8818FgjnBKPE8S3TmLsYOTnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvHnYQW1jARmLz6
-  olgNouAqsT0g2tYQGxeASeJy1s+g42REFCQmPLwPTNEXFDi5MwnLBBzJCQOvngBVaMoMftyMw
-  uEXSXR+eE42wRG3llIWmYhaVnAyLSK0TKpKDM9oyQ3MTNH19DAQNfQ0FjXVNfI2EIvsUo3SS+
-  1VDc5Na+kKBEoq5dYXqxXXJmbnJOil5dasokRGF4phazvdjA+e/1B7xCjJAeTkijvI/uUBCG+
-  pPyUyozE4oz4otKc1OJDjDIcHEoSvD1tQDnBotT01Iq0zBxgqMOkJTh4lER4PVqB0rzFBYm5x
-  ZnpEKlTjLocV1YtWcQsxJKXn5cqJc4bAjJDAKQoozQPbgQs7i4xykoJ8zIyMDAI8RSkFuVmlq
-  DKv2IU52BUEub9CbKKJzOvBG7TK6AjmICOuPIoEeSIkkSElFQDk+3Fum27GsN8i9j/KM6ZKaL
-  HJxlp+dJvl/jXvO7GT2nGpx+I3u07Mk3w9krLttn6m6XkZ6i/1b7Fp2CwfdeuSIc47x0azU1d
-  dzZ8npIjWr047flGb0PletXyylkS5VdNn9RPVe57/4WL9WH3fTGD1i92taWSq/e2+1nefxK6/
-  fQqFZW06vxUHZ3tVrPZUiqDxEvei7KKN5RtKVJ7s8me8a3e+U3nijc/69/NsHl2uesbCe6XvY
-  5zp21IFdu202TX5TsPVYM81C2TL3G9fuN4fY7nmypvoTV1e0+HsVhx6GRVK68WLzStlD70maF
-  g3+x3he96qlr/itXHxaeJXJoucZ/N+vjnqZ/i/c8WFOkpsRRnJBpqMRcVJwIACizWAjYDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-6.tower-245.messagelabs.com!1617200911!174313!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11279 invoked from network); 31 Mar 2021 14:28:31 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-6.tower-245.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 31 Mar 2021 14:28:31 -0000
-Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 12VESVwk003405
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 15:28:31 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 31 Mar 2021 15:28:29 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libsolv: upgrade 0.7.17 -> 0.7.18
-Date: Wed, 31 Mar 2021 22:28:21 +0800
-Message-ID: <1617200901-62255-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=IWgJY3jw;
+ spf=pass (domain: blade-group.com, ip: 209.85.222.48, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-ua1-f48.google.com with SMTP id h34so6208963uah.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 07:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blade-group.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DHR5/orjLg9RmVAmeJ65rlTEiXDSxAEbl24VgKqtDKM=;
+        b=IWgJY3jw28aAzsBOYN3SvGd0yMPGg2Bs2+dY9cULBAz1Seuoo1HitCikEfZyqyiOt7
+         RadMyltECHybvIIvfoe0mSuePBTMy9cUzlD9q5nHij4ZqYNYVYVbUhEGKUbHqjZOE5j3
+         WAMLaZDQM7juU5al+Wm9JIxlRdZjX3ETUwwAjpjPyKc0GWdIJUAeSOFa/Tb8q5GEeZD7
+         01GlDVYkOU8VCCi88VFZddK9TEpkutTA5I+iDw+E2CuUnJnYvrBGl82VQdWEXsp6Al1i
+         ETRG7oLXXHHshb7f6TTpOGQBo3PXQMa95nlK5pxKz47tMSLoeLvyOnFXygZlTqfAG8f3
+         wK3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DHR5/orjLg9RmVAmeJ65rlTEiXDSxAEbl24VgKqtDKM=;
+        b=Z1RoVFQoScLuvZzJY0oGL1naQ7CsBZtvfB6IuXx9FDwaXtgGtNDo+P0J4dRDxjX0iX
+         iEg8+E6lijTVv2Esc68UaYt7CFDWKTXdrXQ+Tt644wLgISZjJQd0Pv0eLMR9ChkxhYNB
+         WdHu938uWDVGQKxd938i63QqBt32VE+p6kWSIsc3eQyd4Nj46ozKwBPk8SNatLwb/U13
+         PEh+JQt9TAnevjAPO97Ufl9IproGvEPc4djb2DvThHSFADM63tkTejTzj6ZJ/lyiCDSO
+         de0DP5LM7LpS4vyYZGJvobKJLdOQTmtg+Jz9AbLRKe9ZyB171KuaiJuZCtgEahN7XbDC
+         P5Ig==
+X-Gm-Message-State: AOAM5322qhLhdWtDr5SsUBcdp470NJpWdKI5DcTEnBkoIztFQxYKKdHk
+	u+eRo8Sbs6qqzyN3Xxxb0sBsOFYGDRLphHx9DEgkCA==
+X-Google-Smtp-Source: ABdhPJzQARObZfS7Mcy+MQ/20MXq1uuzNNIcHp/aW6fjLUzH3zq25/fxuyEuQyA2T/4M2e7A+mfYXeMgB7LrJGtYikI=
+X-Received: by 2002:a9f:21c7:: with SMTP id 65mr1614559uac.141.1617201881639;
+ Wed, 31 Mar 2021 07:44:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-Content-Type: text/plain
+References: <20210330172713.753008-1-yann@blade-group.com> <CADkTA4OzuvmXAHtyBaeqxG0k1wtW7eZJco2Q511Ekbjo_-RtZQ@mail.gmail.com>
+ <167132DBE07A7A98.4802@lists.openembedded.org> <CA+4=imZrzFn52=8Pfi3kLJdoKMhipfNyHZg09VdAjv5R9ZnAXQ@mail.gmail.com>
+ <CADkTA4O0jSAjwBsq8_nr9WLP_N85GZ3Xyd9JSgAiC8ja9xaicA@mail.gmail.com>
+In-Reply-To: <CADkTA4O0jSAjwBsq8_nr9WLP_N85GZ3Xyd9JSgAiC8ja9xaicA@mail.gmail.com>
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+Date: Wed, 31 Mar 2021 16:44:30 +0200
+Message-ID: <CA+4=imb3m9e8JDJS6r8OxC-9Q1K3kEpKCSjBA2Xt2v=ESWPLbw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-yocto: log some kmeta information to assist in developing a bsp
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Yann Dirson <yann@blade-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../libsolv/{libsolv_0.7.17.bb => libsolv_0.7.18.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libsolv/{libsolv_0.7.17.bb => libsolv_0.7.18.bb} (95%)
+Le mer. 31 mars 2021 =C3=A0 14:41, Bruce Ashfield
+<bruce.ashfield@gmail.com> a =C3=A9crit :
+>
+> On Wed, Mar 31, 2021 at 6:23 AM Yann Dirson <yann.dirson@blade-group.com=
+> wrote:
+> >
+> > Le mar. 30 mars 2021 =C3=A0 20:41, Yann Dirson via lists.openembedded.=
+org
+> > <yann.dirson=3Dblade-group.com@lists.openembedded.org> a =C3=A9crit :
+> > >
+> > > Hi Bruce,
+> > >
+> > > Le mar. 30 mars 2021 =C3=A0 19:47, Bruce Ashfield
+> > > <bruce.ashfield@gmail.com> a =C3=A9crit :
+> > > >
+> > > > On Tue, Mar 30, 2021 at 1:27 PM Yann Dirson <yann.dirson@blade-gro=
+up.com> wrote:
+> > > > >
+> > > > > From: Yann Dirson <yann@blade-group.com>
+> > > > >
+> > > > > This is not quite enough for the lack of a BSP to stand out clea=
+rly to
+> > > > > an unsuspecting user's eyes, but at least this line in the logs =
+should
+> > > > > help some of us to get a clue:
+> > > > >
+> > > > >   NOTE: Using kmeta BSP ''
+> > > >
+> > > > Sorry, but no on this.
+> > > >
+> > > > There are already logs that are kept in the build directories
+> > > > themselves. They can be further exposed via some of the existing d=
+ebug
+> > > > knobs that I have, but this is just noise in the general logs.
+> > >
+> > > I must say I did not find any existing logs on this, where can I fin=
+d them ?
+> >
+> > After some digging in the source I finally noticed the merge_config.sh
+> > output being saved
+> > under $meta_dir.  It still took me an additional log to locate the log
+> > under work-shared/.../kernel-source/.
+> > I'm pretty sure I was pointed to this file in the past, but I find it
+> > unnecessarily difficult to locate.
+>
+> As opposed to any of the other random log files that contain somewhat
+> internal information ? This isn't something that the majority of people
+> need to see, so it stays local to what the recipes are building (the
+> kernel). The use facing distillation of that information is the kernel
+> configuration audit.
+>
+> In the past 10 years or so, I've bounced back and forth between
+> exposing more information, getting complaints/comments about
+> the amount of noise and fine tuning the signal to noise in the
+> information. That's what is being balanced here.
+>
+> >
+> > Still, this log does not contain the name of the top-level
+> > $KMACHINE-$KTYPE.scc, which is the
+> > information I'm after.
+>
+> That's logged in a file in the .kernel-meta directory.
+> (${S}/${meta_dir}/bsp_definition)
+>
+> >
+> > I do agree however that it make it unnecessary to log the whole $eleme=
+nts list,
+> > as long it is easy enough to locate the information.  Here is a
+> > proposal to address this last point, so that
+> > a user looking at the task logs gets the path to it.  Does that one
+> > look OK to you ?
+> >
+>
+> There's already a kernel config audit task, and that's where any enhance=
+d
+> information really needs to go.
+>
+> There's no need to rush through anything on this, since we are right on =
+top
+> of a release, and although minor, I wouldn't push for it to go in at thi=
+s point.
+>
+> But I do agree, we can tweak things to expose a bit more information tha=
+t
+> aids in development of new BSPs/fragments than is currently available.
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.17.bb b/meta/recipes-extended/libsolv/libsolv_0.7.18.bb
-similarity index 95%
-rename from meta/recipes-extended/libsolv/libsolv_0.7.17.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.7.18.bb
-index fa6e8a3c4d..cce20655dd 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.17.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.18.bb
-@@ -11,7 +11,7 @@ DEPENDS = "expat zlib"
- SRC_URI = "git://github.com/openSUSE/libsolv.git \
- "
- 
--SRCREV = "4bc791c0d235eb14bfe4c5da607206bfdfa6983d"
-+SRCREV = "35e172e9fb99594b49c630cb188dab9d2b2c4dc7"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.25.1
+I understand that the details about the BSP contents don't get exposed to =
+the
+user by default.  However, it would look sane to me that the selected BSP =
+would
+be more visible: it is really important for people trying to use
+different kernel
+configurations on a given board, as the BSP selected when there is no
+exact match
+seems to require today to dive into the recipe-specific logs.
 
+But in fact, when I select, say PREFERRED_PROVIDER_virtual/kernel =3D
+"linux-yocto-rt"
+for this nanopi-m4 for which I only added "standard" and "tiny":
+kernel-source/.kernel-meta/bsp_definition then contains just an empty
+line, ie. the
+bbnote "Using kmeta BSP '$bsp_definition'" in my original patch seems
+to give exactly
+the same amount of information.
+
+Isn't the actually-selected BSP available somewhere in this case ?  This e=
+nds up
+with scsi configuration fragments being selected, but I have no clue
+where they're
+coming from:
+
+$ cat /tmp/work-shared/nanopi-m4-2gb/kernel-source/.kernel-meta/config.que=
+ue
+configs///defconfig # non-hardware
+configs//features/netfilter/netfilter.cfg # non-hardware
+configs//features/taskstats/taskstats.cfg # non-hardware
+configs//features/scsi/scsi.cfg # hardware
+configs//features/scsi/scsi-debug.cfg # hardware
+configs//features/gpio/mockup.cfg # non-hardware
+
+
+>
+> I can float some RFC patches in a few weeks and see if they meet the nee=
+d.
+>
+> Bruce
+>
+> > diff --git a/meta/classes/kernel-yocto.bbclass
+> > b/meta/classes/kernel-yocto.bbclass
+> > index 9aa0eb07c6..e3efa34671 100644
+> > --- a/meta/classes/kernel-yocto.bbclass
+> > +++ b/meta/classes/kernel-yocto.bbclass
+> > @@ -430,6 +430,8 @@ do_kernel_configme() {
+> >                 else
+> >                         bbfatal_log "Details can be found at:
+> > ${S}/${meta_dir}/cfg/merge_config_build.log"
+> >                 fi
+> > +       else
+> > +               bbnote "Detailed merge_config.sh output can be found
+> > at: ${S}/${meta_dir}/cfg/merge_config_build.log"
+> >         fi
+> >
+> >         if [ ! -z "${LINUX_VERSION_EXTENSION}" ]; then
+> >
+> > >
+> > > >
+> > > > Cheers,
+> > > >
+> > > > Bruce
+> > > >
+> > > > >
+> > > > > Signed-off-by: Yann Dirson <yann@blade-group.com>
+> > > > > ---
+> > > > >  meta/classes/kernel-yocto.bbclass | 3 +++
+> > > > >  1 file changed, 3 insertions(+)
+> > > > >
+> > > > > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/ke=
+rnel-yocto.bbclass
+> > > > > index 35587dd564..c6228ad0b8 100644
+> > > > > --- a/meta/classes/kernel-yocto.bbclass
+> > > > > +++ b/meta/classes/kernel-yocto.bbclass
+> > > > > @@ -234,6 +234,7 @@ do_kernel_metadata() {
+> > > > >                     KMETA_EXTERNAL_BSPS=3D"t"
+> > > > >                 fi
+> > > > >         fi
+> > > > > +       bbnote "Using kmeta BSP '$bsp_definition'"
+> > > > >         meta_dir=3D$(kgit --meta)
+> > > > >
+> > > > >         KERNEL_FEATURES_FINAL=3D""
+> > > > > @@ -264,6 +265,7 @@ do_kernel_metadata() {
+> > > > >         if [ "$mode" =3D "config" ]; then
+> > > > >                 # run1: pull all the configuration fragments, no=
+ matter where they come from
+> > > > >                 elements=3D"`echo -n ${bsp_definition} $sccs_def=
+config ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
+> > > > > +               bbnote "config: kmeta configuration fragments: $=
+elements"
+> > > > >                 if [ -n "${elements}" ]; then
+> > > > >                         echo "${bsp_definition}" > ${S}/${meta_d=
+ir}/bsp_definition
+> > > > >                         scc --force -o ${S}/${meta_dir}:cfg,merg=
+e,meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches $KERNEL_F=
+EATURES_FINAL
+> > > > > @@ -283,6 +285,7 @@ do_kernel_metadata() {
+> > > > >         if [ "$mode" =3D "patch" ]; then
+> > > > >                 # run2: only generate patches for elements that =
+have been passed on the SRC_URI
+> > > > >                 elements=3D"`echo -n ${sccs} ${patches} $KERNEL_=
+FEATURES_FINAL`"
+> > > > > +               bbnote "patch: kmeta configuration fragments: $e=
+lements"
+> > > > >                 if [ -n "${elements}" ]; then
+> > > > >                         scc --force -o ${S}/${meta_dir}:patch --=
+cmds patch ${includes} ${sccs} ${patches} $KERNEL_FEATURES_FINAL
+> > > > >                         if [ $? -ne 0 ]; then
+> > > > > --
+> > > > > 2.30.2
+> > > > >
+> > > > >
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > - Thou shalt not follow the NULL pointer, for chaos and madness aw=
+ait
+> > > > thee at its end
+> > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > >
+> > >
+> > > --
+> > > Yann Dirson <yann@blade-group.com>
+> > > Blade / Shadow -- http://shadow.tech
+> > >
+> > >=20
+> > >
+> >
+> >
+> > --
+> > Yann Dirson <yann@blade-group.com>
+> > Blade / Shadow -- http://shadow.tech
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+--=20
+Yann Dirson <yann@blade-group.com>
+Blade / Shadow -- http://shadow.tech
