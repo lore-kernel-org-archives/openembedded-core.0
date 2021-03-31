@@ -1,168 +1,252 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web12.654.1617210824236879222
- for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 10:13:44 -0700
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.59])
+ by mx.groups.io with SMTP id smtpd.web10.784.1617211293225721036
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 31 Mar 2021 10:21:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OoLGLkIu;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id v23so8240564ple.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 10:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:references:from:organization:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rHeKzXiaZhAH8oHmdL0NE0qCsklwnvv9rKhZzrR7Tfk=;
-        b=OoLGLkIut3oXpDmHKGkRIsdJ8JqwZM1EPXgc03J1rankgpmh5gGRZXEUQyHoZ6f1ni
-         A+cAbXbtfTJHFlMab4tqXb1bETtX29ynmhTXiKR2yZBCrLj0IfEUMli1Ss/QLBn1Y15I
-         WfDQ2cYfdylxwFqgk0lft9FWXG83nwM6etdyvUL22NKudbahqMP4DWgot4+t8y1MYECS
-         vmoi23itxQsnw7Vf3Av7nIwrbiS3ubXAVOTKV9Y8Eq5fycve9/BwcAT64thbbxLoPxA/
-         W+fk39fj0lLx0f5HHBxemSj3wExlg84jKg6xgn+zj1IPFewg2CNH9AG/cvoSkXJRktLb
-         HSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=rHeKzXiaZhAH8oHmdL0NE0qCsklwnvv9rKhZzrR7Tfk=;
-        b=pz6ny89ho6q+PLuBcJBFFq5yhkUdmsRssLVMwcvUyWuuL0puYDdD5Flb0kT0b3HAhd
-         FwXpj7p9ZdjTHAQY7J4UJF17CEvm4EyhDWsr7k8XkqlUhTMfsHotvyOITih7EcwqdcRc
-         B3D4ylAZX8vXdccVIitAD1jU6b4eW9FtSsMqkrr3yQsoIB45oPZXd/ADWu7LKzbgaX9G
-         JET3tonJ+/6Dyu8Kkkz03VNvUEmW0N/DxM0LGpqL9hYmCPZEwiplVN+YIrR306rQWDCO
-         07LDZuGbjUPHRLvsh9HDhS7BAK2M6Sptz4BPguYJEVvlAw1jQl1iwCtt1JMe5Jx+23wS
-         FB+A==
-X-Gm-Message-State: AOAM5300jKl1fIVedbl5D4mZbLL9nSAD0eHNY+wzxRVHcx8HED+N3lbp
-	+Cz3bu6CSWbvkz1jqU1IjCW4/AwK1VJIfg==
-X-Google-Smtp-Source: ABdhPJxfYyQoFrW1ck+k3Qei6vumZycj9dH3fK4Oc+WVClIs0hYgsywdzRozs8oWTodCGaZ8eBwPdw==
-X-Received: by 2002:a17:902:ee02:b029:e6:5397:d79c with SMTP id z2-20020a170902ee02b02900e65397d79cmr4175585plb.21.1617210823459;
-        Wed, 31 Mar 2021 10:13:43 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:9042:8df6:cee8:da6a? ([2601:646:9200:a0f0:9042:8df6:cee8:da6a])
-        by smtp.gmail.com with ESMTPSA id 132sm3014778pfu.158.2021.03.31.10.13.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 10:13:43 -0700 (PDT)
-To: Martin Jansa <Martin.Jansa@gmail.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210331122254.121192-1-alex.kanavin@gmail.com>
- <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
-Message-ID: <d4b500da-5aec-075e-4632-8a65852b1600@gmail.com>
-Date: Wed, 31 Mar 2021 10:13:42 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=K8P3/Xn2;
+ spf=pass (domain: kpit.com, ip: 40.107.138.59, mailfrom: sana.kazi@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JQO3lJ0Eewr7HhuEc0OMvKdRn9D7dbXVaOkcdvPjiuewI+0X8a0T2xP4y2BXbhXU27iuslzRkMJEF6TNcghOoUmYbMVkVIvZObjn3vddQB7zGYIApsiI6hMUA8IBRUFIdIXk+EEhOzREjXkl4q+wmo0V+iw7Lc9Hk33irnelqDqfeAiWElMlkYp0FIwoLNmQAqf3dMhVav4VMBU4OVthoYTJbI968xg3UzBj3cf+uplBjMFOcYKwWhPtauEtIRElZ5JIRZl80rs2caSHk5hJaPy8QaeDWCSMpqj/0LOkWDfNSlFdGcvoWAmu4pG8v72ZewUxeTFnreR5qS+kQCP1Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhuYv4goF9nim0b6cfRCEhjw5T16SIKf9XiHzRfILi0=;
+ b=W8kYDnqS12M7I6FWscrC9BbkfGCbLCXehY0XIEpLhO9l8g/4L06Yd7oJAdMaWhnzL94cjnNOReTHPxwxi7fj0IuGAL/y261NcUYk54bzKlxD063cqToyZYvUzoULw1Ds0/S0QJZcGuXSyY9oWw+WbDGTaFc568QPQzbl3vg3wWQVt7PmuLj6i8h2hr49XepJa5FprYPJZ6Oys+78xY05uE23n4ajXkPSLGV9T3yfb0Q+9Pi2V2HVTlEGklbam3KIkv7CdVIY8wG6BwfUhGS1iJCMsNSejcJCjXBa2gbsWkQ4gI9kGJja43f1WO88xDxb+PL2hkxkBHgCXQ1qjkR3Mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhuYv4goF9nim0b6cfRCEhjw5T16SIKf9XiHzRfILi0=;
+ b=K8P3/Xn2O6/CfASRjNeNQhIOqhB0jjYqK+430H7dEOctmj5yleiaoMH1atn/3bqQdDsv3Q7bIsRHna5FPN0Ig9lXvc82iKtKhK5w/xE2vlRbRxIfPCTfRStnisG7M36vPVTdyd0/Xz1/Jy9yVOCRThVwF7H4N6bNv73jkdihCek=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+Received: from BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:58::17)
+ by BM1PR0101MB1441.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:20::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Wed, 31 Mar
+ 2021 17:21:26 +0000
+Received: from BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::6922:7ba0:39e9:85da]) by BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::6922:7ba0:39e9:85da%7]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
+ 17:21:26 +0000
+From: "Sana Kazi" <Sana.Kazi@kpit.com>
+To: Openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: nisha.parrakat@kpit.com,
+	Purushottam.Choudhary@kpit.com,
+	Harpritkaur.Bhandari@kpit.com,
+	Sana Kazi <Sana.Kazi@kpit.com>
+Subject: [poky][dunfell][PATCHv2] openssh: fix CVE-2020-14145
+Date: Wed, 31 Mar 2021 22:51:04 +0530
+Message-Id: <20210331172104.11877-1-Sana.Kazi@kpit.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [2401:4900:5020:ea34:c967:f6eb:e575:7c30]
+X-ClientProxiedBy: BM1PR0101CA0032.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:1a::18) To BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:58::17)
+Return-Path: Sana.Kazi@kpit.com
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (2401:4900:5020:ea34:c967:f6eb:e575:7c30) by BM1PR0101CA0032.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:1a::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26 via Frontend Transport; Wed, 31 Mar 2021 17:21:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 823b9c22-ce66-4a90-a510-08d8f4696a07
+X-MS-TrafficTypeDiagnostic: BM1PR0101MB1441:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<BM1PR0101MB1441252AE9219D4E49D93752997C9@BM1PR0101MB1441.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:85;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VkIP1FCviiJ9uTHiFWGItNTBKNKaGZynczv2wKuOh0tarWSecfDIBQKdWhlC81i7rlYHfaETj3I8d108ZXLBshQxD4fXz0VaMtbiWCiqIdlWOKV8L1LpG/462jZQliYewwNy2bPAV7I7CfB6q4QL+CnXB5Jl/3DaKBduwiY6dklRa6QrQk+E50lV7GmXZfGifg1NOMfRAMN5K5XJ27a+zY1BaSFn2WhMRbbDpqPkgeWLRjLO7WBkXmu41WJydkOTQfGSGzDNbaCtY8Lib1G3/XvsUFh37ynL7CSYv0RJ0LbVGBsHEvIOBWVO0xDi2xdhMrAehLcA39ifNjEQUcD/PJNynyZJUsrIZTjmtAet1a0Z7w+sL1l8V1riLssnDpFT4g0f963P+JQmWuvzoN6kYhxOKlzZNlmdMujq8jZ4E/Cv+T8+19RGQSe75R6IQnzbxsLTN7Rs7OuYwrNTtUbH2T0IXehGYb/V/pg7bESs4Fz0nolqvkqraL7Ssd2bYUhlcnlkfEqJaio2P7ct7mQCRAJ+2saDKr+9Mc59Y0g/o/y8R7Nl1apsPfn2JR7FXRHLSOUEp5blsoZQeYMBMpra2s4pmYfwm5VXrMBTgTMuL09kE6vPu6Fbf7axpToSuOGZ4k9lFOp7nYlS7hmbe/4TyT6tfa78ca770R30Dfo7fzIq3C8tTiRdsl3ASMOR+CU0bN9IzMidF6v9GR/Lk/exSBVsq+2SU69Urm+87RDvAgUNTOc4N2MgzZRiwqKSHePmthlLFfeF5R+b50VAPibS/g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(396003)(366004)(39840400004)(346002)(66946007)(6512007)(66574015)(2616005)(6506007)(8676002)(316002)(66556008)(52116002)(6666004)(4326008)(6486002)(38100700001)(5660300002)(86362001)(2906002)(16526019)(107886003)(69590400012)(36756003)(1076003)(186003)(8936002)(83380400001)(478600001)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?zaPViGcp+cJ7GWLvOT6hyPtZMx101DrfWVAVL2zBRgg5bzg1DFrYm0JXts6Q?=
+ =?us-ascii?Q?DkHMljrxq3W+exYwzRl1eqMnmn8Mo+nyvxPRHt4QDrjzCua/wEd4z77PhaUJ?=
+ =?us-ascii?Q?mPlOfKeQlEg3+TuXdA5mnzdqT7p8rBXycjK9yHDj+0rMZSEqH2QN5Z3GXIEX?=
+ =?us-ascii?Q?I+HIIvFqui2U2pWxRf6mXY5Tr7ctD/mqauto0srnXPXFuVeIWjNY8tzsOJ0+?=
+ =?us-ascii?Q?gFG9t8UTJxlxBHF5nR1oB0M3zWCi9DtAKNtIBD/3Qw5JXQDL+SWI7FjWJxU1?=
+ =?us-ascii?Q?sN1oP3RSj7RIhjBsoLSDt2FSIJTkYsWlJKaWZqiMXNP/UgGW85ZAydhylgq2?=
+ =?us-ascii?Q?952XTH2TQhvDkTY8zZW9CUbNEybTGUy96s72H8+gwz+q/Kc8XFOvkwhtRmbm?=
+ =?us-ascii?Q?Um+e+ugT9ByEcDxcrlGKFXCKGuQAj+wzQFkDnHOUlLGjoszJASkrAGz601ZX?=
+ =?us-ascii?Q?l7OktNJwIDrYwRY/1ADH5OlzDL3ZO49hR41+yGxpI2clraZMg/JQOEdiJfcU?=
+ =?us-ascii?Q?YtCzzv6xDIwmX4iIKJvG1+glp+uNcjZb8/nbyY70rtZfpHyE3PVFHoTxeH6u?=
+ =?us-ascii?Q?hkk8czTTMWmSR6JV1gjATYBOo6rwlbIH3LWlmWNditFakbxGvek2S0pjR68G?=
+ =?us-ascii?Q?LahDt2+1siJn+DktLPs9UQWOM969YacLG/xahzQSQuu0KW5uApKdW9WeRrgD?=
+ =?us-ascii?Q?v4W5CzhhP0eq1r845xgLmUn12shtmDaKHcQVnD7B6t6M7oCQlS4D0Kc3LJG3?=
+ =?us-ascii?Q?sRM3S+7NGZubnyaCy77Fq3Iddib8zYejzw5mSPtFnJ71cVOlfq0PYqPT+XWH?=
+ =?us-ascii?Q?X8ZidOh6okjogC1iqKFzfyvjdvWgAMSsuobtllZmMgrvB8e7AZHjsj+Zps+9?=
+ =?us-ascii?Q?5YjW/SjObWsX6al4STXEUCkfxbk4APn0xR8nN0xCfxKrm99j+1hvqd+3fCOL?=
+ =?us-ascii?Q?E791BjJ2A7l+HroTo9y3zAAkzeEn+IixheeTOqnOPVvKRnP6InkzhJNJ/Ise?=
+ =?us-ascii?Q?r+gtcS9DVc82mnePeUj/aLHqwjceuySZ6K4eQwHU48touZQI2YCnCWbmGIkg?=
+ =?us-ascii?Q?MdnqBy6TMXa0Y3KJMmwx14nlokspijs2/5Y/fe41aNiG9F2ucBJzYFjfGLmH?=
+ =?us-ascii?Q?8Ftj3m5zFzK9YeSG2KCfsU6Tu+tAp6JnusCHKrQ4BKgfaXmRkT27QhN+XJWA?=
+ =?us-ascii?Q?Ql/1o3Yo+66VHuvxqF0jcQ2x4liEvWJRHOLfMbzoXloanZ6f/3OFHnbxFojj?=
+ =?us-ascii?Q?oGeCmo0U0Fsbez8ybMRLbksA6noC80z3C5sVvIR+Yihz4g/co7tH6/rvVKKm?=
+ =?us-ascii?Q?hjIq5boirOfwVIC1P2CwqKCK+ry7IePqCWDI2jAFo/D7JgJct84ILUNfGHCQ?=
+ =?us-ascii?Q?zNOpqypLiHI4kTIrSyJGvHuy1Elsjhpk1O34wl3sqE/6jeG/9w=3D=3D?=
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 823b9c22-ce66-4a90-a510-08d8f4696a07
+X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 17:21:26.4142
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 85CSo28rOE7p2O+6ANfbQacTP8LVfCmp5S7XvB5FC65LSM8SHiWQPk9iorHMBUG0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR0101MB1441
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
+(From OE-Core rev: 38482edf1a31ed0735b746cf0ab3e1adda4199d1)
 
-On 3/31/21 6:05 AM, Martin Jansa wrote:
-> Are you going to fix meta-gl issue with swrast still in DRIDRIVERS 
-> reported on previous upgrade?
-> 
-> https://lists.openembedded.org/g/openembedded-core/message/149775 
-> <https://lists.openembedded.org/g/openembedded-core/message/149775>
-> 
-> https://lists.openembedded.org/g/openembedded-core/message/149779 
-> <https://lists.openembedded.org/g/openembedded-core/message/149779>
-> I don't know what exactly AB builds, but it's easy to reproduce locally, 
-> something like:
-> DISTRO_FEATURES_remove = "x11"
-> PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
-> PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
-> bitbake mesa-gl
-> should be enough to see build failure.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+---
+ .../openssh/openssh/CVE-2020-14145.patch      | 90 +++++++++++++++++++
+ .../openssh/openssh_8.2p1.bb                  |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2020-1414=
+5.patch
 
-it is a build regression. mesa and mesa-gl should be updated in sync and 
-especially if you reported the fallout and if it went unaddressed is sad.
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch=
+ b/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
+new file mode 100644
+index 0000000000..0046ee1a51
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
+@@ -0,0 +1,90 @@
++From b3855ff053f5078ec3d3c653cdaedefaa5fc362d Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Fri, 18 Sep 2020 05:23:03 +0000
++Subject: [PATCH] upstream: tweak the client hostkey preference ordering
++ algorithm to
++
++prefer the default ordering if the user has a key that matches the
++best-preference default algorithm.
++
++feedback and ok markus@
++
++OpenBSD-Commit-ID: a92dd7d7520ddd95c0a16786a7519e6d0167d35f
++
++Upstream-Status: Backport
++[https://github.com/openssh/openssh-portable/commit/b3855ff053f5078ec3d3c6=
+53cdaedefaa5fc362d]
++CVE: CVE-2020-14145
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ sshconnect2.c | 41 ++++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 37 insertions(+), 2 deletions(-)
++
++diff --git a/sshconnect2.c b/sshconnect2.c
++index 347e348c60..f64aae66af 100644
++--- a/sshconnect2.c
+++++ b/sshconnect2.c
++@@ -102,12 +102,25 @@ verify_host_key_callback(struct sshkey *hostkey, str=
+uct ssh *ssh)
++       return 0;
++ }
++
+++/* Returns the first item from a comma-separated algorithm list */
+++static char *
+++first_alg(const char *algs)
+++{
+++      char *ret, *cp;
+++
+++      ret =3D xstrdup(algs);
+++      if ((cp =3D strchr(ret, ',')) !=3D NULL)
+++              *cp =3D '\0';
+++      return ret;
+++}
+++
++ static char *
++ order_hostkeyalgs(char *host, struct sockaddr *hostaddr, u_short port)
++ {
++-      char *oavail, *avail, *first, *last, *alg, *hostname, *ret;
+++      char *oavail =3D NULL, *avail =3D NULL, *first =3D NULL, *last =3D =
+NULL;
+++      char *alg =3D NULL, *hostname =3D NULL, *ret =3D NULL, *best =3D NU=
+LL;
++       size_t maxlen;
++-      struct hostkeys *hostkeys;
+++      struct hostkeys *hostkeys =3D NULL;
++       int ktype;
++       u_int i;
++
++@@ -119,6 +132,26 @@ order_hostkeyalgs(char *host, struct sockaddr *hostad=
+dr, u_short port)
++       for (i =3D 0; i < options.num_system_hostfiles; i++)
++               load_hostkeys(hostkeys, hostname, options.system_hostfiles[=
+i]);
++
+++      /*
+++       * If a plain public key exists that matches the type of the best
+++       * preference HostkeyAlgorithms, then use the whole list as is.
+++       * Note that we ignore whether the best preference algorithm is a
+++       * certificate type, as sshconnect.c will downgrade certs to
+++       * plain keys if necessary.
+++       */
+++      best =3D first_alg(options.hostkeyalgorithms);
+++      if (lookup_key_in_hostkeys_by_type(hostkeys,
+++          sshkey_type_plain(sshkey_type_from_name(best)), NULL)) {
+++              debug3("%s: have matching best-preference key type %s, "
+++                  "using HostkeyAlgorithms verbatim", __func__, best);
+++              ret =3D xstrdup(options.hostkeyalgorithms);
+++              goto out;
+++      }
+++
+++      /*
+++       * Otherwise, prefer the host key algorithms that match known keys
+++       * while keeping the ordering of HostkeyAlgorithms as much as possi=
+ble.
+++       */
++       oavail =3D avail =3D xstrdup(options.hostkeyalgorithms);
++       maxlen =3D strlen(avail) + 1;
++       first =3D xmalloc(maxlen);
++@@ -159,6 +192,8 @@ order_hostkeyalgs(char *host, struct sockaddr *hostadd=
+r, u_short port)
++       if (*first !=3D '\0')
++               debug3("%s: prefer hostkeyalgs: %s", __func__, first);
++
+++ out:
+++      free(best);
++       free(first);
++       free(last);
++       free(hostname);
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/reci=
+pes-connectivity/openssh/openssh_8.2p1.bb
+index fe94f30503..17965557a7 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+@@ -24,6 +24,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/p=
+ortable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patc=
+h \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://CVE-2020-14145.patch \
+            "
+ SRC_URI[md5sum] =3D "3076e6413e8dbe56d33848c1054ac091"
+ SRC_URI[sha256sum] =3D "43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff=
+8bcebdff64e671"
+--
+2.17.1
 
-Could you try a patch somethiing like this and see if it helps.
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb 
-b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-index e50782be1c..fc8b4f7504 100644
---- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-@@ -12,4 +12,4 @@ PACKAGECONFIG ??= "opengl dri 
-${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
-  PACKAGECONFIG_class-target = "opengl dri 
-${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
-
-  # When NOT using X11, we need to make sure we have swrast available.
--DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 
-',swrast', d)}"
-+GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 
-'', ',swrast', d)}"
-
-> 
-> On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
-> 
->     Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com
->     <mailto:alex.kanavin@gmail.com>>
->     ---
->       .../mesa/{mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb> =>
->     mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>}               | 0
->       meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
->       meta/recipes-graphics/mesa/{mesa_21.0.0.bb <http://mesa_21.0.0.bb>
->     => mesa_21.0.1.bb <http://mesa_21.0.1.bb>}   | 0
->       3 files changed, 1 insertion(+), 1 deletion(-)
->       rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb> => mesa-gl_21.0.1.bb
->     <http://mesa-gl_21.0.1.bb>} (100%)
->       rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb> => mesa_21.0.1.bb <http://mesa_21.0.1.bb>}
->     (100%)
-> 
->     diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
->     <http://mesa-gl_21.0.1.bb>
->     similarity index 100%
->     rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
->     <http://mesa-gl_21.0.1.bb>
->     diff --git a/meta/recipes-graphics/mesa/mesa.inc
->     b/meta/recipes-graphics/mesa/mesa.inc
->     index e9b72ce063..a40dad2b81 100644
->     --- a/meta/recipes-graphics/mesa/mesa.inc
->     +++ b/meta/recipes-graphics/mesa/mesa.inc
->     @@ -21,7 +21,7 @@ SRC_URI =
->     "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz
->     <https://mesa.freedesktop.org/archive/mesa-$%7BPV%7D.tar.xz> \
->                 
->     file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
->                  "
-> 
->     -SRC_URI[sha256sum] =
->     "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
->     +SRC_URI[sha256sum] =
->     "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
-> 
->       UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
-> 
->     diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb> b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
->     <http://mesa_21.0.1.bb>
->     similarity index 100%
->     rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb>
->     rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
->     <http://mesa_21.0.1.bb>
->     -- 
->     2.29.2
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
