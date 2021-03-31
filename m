@@ -1,105 +1,166 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web09.9116.1617206419247526530
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.654.1617210824236879222
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 09:00:19 -0700
+ Wed, 31 Mar 2021 10:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z0BiGYJ9;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id 11so14856643pfn.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 09:00:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OoLGLkIu;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id v23so8240564ple.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 10:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MNZiGiHttxkrvjBbaAYV80OJ260f9uhmFcQvTkhEbbs=;
-        b=Z0BiGYJ9SCukTrHc9kfABbNIQZ+e9XQm8SLm+LJq9OwLmS+NXlnTUgqp2LyDa3DPpb
-         6RMBavfTEXbu2mG4edR7OogOG7WGyU29aqFmhizF3+aHDTrHiRs31CzoQ21c0ldWnNgQ
-         RCZdV+uy6rwK1ayxhoFDvol5wUIV+1w1JEgr4OfRs4OSWlgnx6cF/5HbD4KCrJF7gv7Z
-         Joqcw5W+8TydVpQkPtpH2FmwpBp8Pe3VjYasgFZ4v9hfICJPbJG7qqtL7MucjFg3ZPAY
-         C00+I6cLyoFzd2hayWpwXGEQThHnDWpyJxZ1cAS2vSPhzDM8xv+EV/ljFhXGfI5eYqYH
-         hBVA==
+        h=to:cc:references:from:organization:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rHeKzXiaZhAH8oHmdL0NE0qCsklwnvv9rKhZzrR7Tfk=;
+        b=OoLGLkIut3oXpDmHKGkRIsdJ8JqwZM1EPXgc03J1rankgpmh5gGRZXEUQyHoZ6f1ni
+         A+cAbXbtfTJHFlMab4tqXb1bETtX29ynmhTXiKR2yZBCrLj0IfEUMli1Ss/QLBn1Y15I
+         WfDQ2cYfdylxwFqgk0lft9FWXG83nwM6etdyvUL22NKudbahqMP4DWgot4+t8y1MYECS
+         vmoi23itxQsnw7Vf3Av7nIwrbiS3ubXAVOTKV9Y8Eq5fycve9/BwcAT64thbbxLoPxA/
+         W+fk39fj0lLx0f5HHBxemSj3wExlg84jKg6xgn+zj1IPFewg2CNH9AG/cvoSkXJRktLb
+         HSdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
+        h=x-gm-message-state:to:cc:references:from:organization:subject
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=MNZiGiHttxkrvjBbaAYV80OJ260f9uhmFcQvTkhEbbs=;
-        b=bpEBKYTlFV6dFsvtdybWCWxDDIhFdPrjmncHYuZDZCI01Car7184y52T5sp8fGXaGI
-         S9CvTROmpq3Ho/IiWS7gQ9M2vNpGzZ5CCMn21yajdsaUqay/VtHckJYN0zfcxuY+bgMu
-         Mjh8mNcHp4TjdfoFaxC6mWEnmD1yGW7uG0M1ueDcmzJDSePgqyJ2/68iM56hc+FbaIz1
-         WjXOc/Un9PC/tppUC5jOsVuJMUq66zBCxVtp5RlrSQvB6S44kE61xwOeyatcQjsWn28c
-         9unaLfBGBH4V9s/syvcUtzwIV6ZUQngJHrrXYZMHSDdnpcPxcO2NpsmtW9DiF+7elo86
-         mKbA==
-X-Gm-Message-State: AOAM531hkRIfEJqUn5ALFm5s/Cw/f+ILHQmGYG/n1GA/xgc5vNe/kQsD
-	uPEgBH2LGLuHC2EHGPcOf1sttnq81homag==
-X-Google-Smtp-Source: ABdhPJysvmL5Rzc8OxRXpQ4SHOsbwAm/0oUYkVud1lORe/eP923CRvn1P5KWHh8aXPXNam6QSJnnxA==
-X-Received: by 2002:aa7:82cc:0:b029:213:db69:18d9 with SMTP id f12-20020aa782cc0000b0290213db6918d9mr3651019pfn.36.1617206418305;
-        Wed, 31 Mar 2021 09:00:18 -0700 (PDT)
+        bh=rHeKzXiaZhAH8oHmdL0NE0qCsklwnvv9rKhZzrR7Tfk=;
+        b=pz6ny89ho6q+PLuBcJBFFq5yhkUdmsRssLVMwcvUyWuuL0puYDdD5Flb0kT0b3HAhd
+         FwXpj7p9ZdjTHAQY7J4UJF17CEvm4EyhDWsr7k8XkqlUhTMfsHotvyOITih7EcwqdcRc
+         B3D4ylAZX8vXdccVIitAD1jU6b4eW9FtSsMqkrr3yQsoIB45oPZXd/ADWu7LKzbgaX9G
+         JET3tonJ+/6Dyu8Kkkz03VNvUEmW0N/DxM0LGpqL9hYmCPZEwiplVN+YIrR306rQWDCO
+         07LDZuGbjUPHRLvsh9HDhS7BAK2M6Sptz4BPguYJEVvlAw1jQl1iwCtt1JMe5Jx+23wS
+         FB+A==
+X-Gm-Message-State: AOAM5300jKl1fIVedbl5D4mZbLL9nSAD0eHNY+wzxRVHcx8HED+N3lbp
+	+Cz3bu6CSWbvkz1jqU1IjCW4/AwK1VJIfg==
+X-Google-Smtp-Source: ABdhPJxfYyQoFrW1ck+k3Qei6vumZycj9dH3fK4Oc+WVClIs0hYgsywdzRozs8oWTodCGaZ8eBwPdw==
+X-Received: by 2002:a17:902:ee02:b029:e6:5397:d79c with SMTP id z2-20020a170902ee02b02900e65397d79cmr4175585plb.21.1617210823459;
+        Wed, 31 Mar 2021 10:13:43 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:a0f0:9042:8df6:cee8:da6a? ([2601:646:9200:a0f0:9042:8df6:cee8:da6a])
-        by smtp.gmail.com with ESMTPSA id k27sm2445303pfg.95.2021.03.31.09.00.17
+        by smtp.gmail.com with ESMTPSA id 132sm3014778pfu.158.2021.03.31.10.13.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 09:00:17 -0700 (PDT)
-Subject: Re: [OE-core][PATCH] apt: Fix do_compile error when enable ccache
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-References: <20210331104608.7047-1-Qi.Chen@windriver.com>
+        Wed, 31 Mar 2021 10:13:43 -0700 (PDT)
+To: Martin Jansa <Martin.Jansa@gmail.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210331122254.121192-1-alex.kanavin@gmail.com>
+ <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <cecb5490-9149-5663-32d1-a1d1ae65507d@gmail.com>
-Date: Wed, 31 Mar 2021 09:00:16 -0700
+Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
+Message-ID: <d4b500da-5aec-075e-4632-8a65852b1600@gmail.com>
+Date: Wed, 31 Mar 2021 10:13:42 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <20210331104608.7047-1-Qi.Chen@windriver.com>
+In-Reply-To: <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 3/31/21 3:46 AM, Chen Qi wrote:
-> When apt was upgraded, the '-DCMAKE_DISABLE_FIND_PACKAGE_Zstd=True'
-> was dropped. However, it was there to fix do_compile error when ccache is
-> enabled. See details in the following commit.
+On 3/31/21 6:05 AM, Martin Jansa wrote:
+> Are you going to fix meta-gl issue with swrast still in DRIDRIVERS 
+> reported on previous upgrade?
 > 
-> """
-> commit 0aa7d612b8b7e5f14b4ed38f2a32b3f7eefca31c
-> Author: Robert Yang <liezhi.yang@windriver.com>
-> Date:   Tue Jan 19 01:23:45 2021 -0800
+> https://lists.openembedded.org/g/openembedded-core/message/149775 
+> <https://lists.openembedded.org/g/openembedded-core/message/149775>
 > 
->      apt: Fix do_compile error when enable ccache
-> 
->      Fixed:
->          apt-pkg/libapt-pkg.so.5.0.2: undefined reference to `ZSTD_endStream'
-> 	    collect2: error: ld returned 1 exit status
-> 
->      This is because ccache-native depends on zstd-native which makes apt wronly
->          find it. Disable zstd for apt to fix the problem.
-> """
+> https://lists.openembedded.org/g/openembedded-core/message/149779 
+> <https://lists.openembedded.org/g/openembedded-core/message/149779>
+> I don't know what exactly AB builds, but it's easy to reproduce locally, 
+> something like:
+> DISTRO_FEATURES_remove = "x11"
+> PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
+> PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
+> bitbake mesa-gl
+> should be enough to see build failure.
 
-should this only be disabled for apt-native then ? and perhaps it could 
-be turned into a packageconfig knob as well
+it is a build regression. mesa and mesa-gl should be updated in sync and 
+especially if you reported the fallout and if it went unaddressed is sad.
+
+Could you try a patch somethiing like this and see if it helps.
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb 
+b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+index e50782be1c..fc8b4f7504 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+@@ -12,4 +12,4 @@ PACKAGECONFIG ??= "opengl dri 
+${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
+  PACKAGECONFIG_class-target = "opengl dri 
+${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
+
+  # When NOT using X11, we need to make sure we have swrast available.
+-DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 
+',swrast', d)}"
++GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 
+'', ',swrast', d)}"
+
 > 
-> Now we are meeting do_compile failure again when enabling ccache, so add it
-> back to solve the problem.
+> On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin 
+> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
 > 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-devtools/apt/apt_2.2.2.bb | 1 +
->   1 file changed, 1 insertion(+)
+>     Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com
+>     <mailto:alex.kanavin@gmail.com>>
+>     ---
+>       .../mesa/{mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb> =>
+>     mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>}               | 0
+>       meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+>       meta/recipes-graphics/mesa/{mesa_21.0.0.bb <http://mesa_21.0.0.bb>
+>     => mesa_21.0.1.bb <http://mesa_21.0.1.bb>}   | 0
+>       3 files changed, 1 insertion(+), 1 deletion(-)
+>       rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb
+>     <http://mesa-gl_21.0.0.bb> => mesa-gl_21.0.1.bb
+>     <http://mesa-gl_21.0.1.bb>} (100%)
+>       rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb
+>     <http://mesa_21.0.0.bb> => mesa_21.0.1.bb <http://mesa_21.0.1.bb>}
+>     (100%)
 > 
-> diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
-> index d1aa5de8df..7d1bce558d 100644
-> --- a/meta/recipes-devtools/apt/apt_2.2.2.bb
-> +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
-> @@ -44,6 +44,7 @@ DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
->   EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
->       -DDPKG_DATADIR=${datadir}/dpkg \
->       -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
-> +    -DCMAKE_DISABLE_FIND_PACKAGE_ZSTD=True \
->       -DWITH_TESTS=False \
->   "
->   
+>     diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>     <http://mesa-gl_21.0.0.bb>
+>     b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
+>     <http://mesa-gl_21.0.1.bb>
+>     similarity index 100%
+>     rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>     <http://mesa-gl_21.0.0.bb>
+>     rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
+>     <http://mesa-gl_21.0.1.bb>
+>     diff --git a/meta/recipes-graphics/mesa/mesa.inc
+>     b/meta/recipes-graphics/mesa/mesa.inc
+>     index e9b72ce063..a40dad2b81 100644
+>     --- a/meta/recipes-graphics/mesa/mesa.inc
+>     +++ b/meta/recipes-graphics/mesa/mesa.inc
+>     @@ -21,7 +21,7 @@ SRC_URI =
+>     "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz
+>     <https://mesa.freedesktop.org/archive/mesa-$%7BPV%7D.tar.xz> \
+>                 
+>     file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+>                  "
+> 
+>     -SRC_URI[sha256sum] =
+>     "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
+>     +SRC_URI[sha256sum] =
+>     "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
+> 
+>       UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+> 
+>     diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb
+>     <http://mesa_21.0.0.bb> b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
+>     <http://mesa_21.0.1.bb>
+>     similarity index 100%
+>     rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
+>     <http://mesa_21.0.0.bb>
+>     rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
+>     <http://mesa_21.0.1.bb>
+>     -- 
+>     2.29.2
+> 
+> 
+> 
 > 
 > 
 > 
