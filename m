@@ -1,221 +1,284 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.8058.1617203256856964989
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 08:07:37 -0700
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+ by mx.groups.io with SMTP id smtpd.web10.8832.1617205749545303602
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 31 Mar 2021 08:49:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HgCYcPEV;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.50, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f50.google.com with SMTP id o16so20083962wrn.0
-        for <Openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 08:07:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CWVOYI6X;
+ spf=pass (domain: gmail.com, ip: 209.85.222.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f54.google.com with SMTP id e1so6273231uaa.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 08:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=E9d27G+jVQ2dDGHwMbuDEC+gezR8EK0ArXEvHcgEVoA=;
-        b=HgCYcPEVNN7Zxt1iXClHMGUO75WU7c1puzt7pXq8lEjErNpXz5bgOjssJTGrvUoTFu
-         4uKjuQM6QSWJNcifYst2hAh7pXdjxwcpN8ocs8yI24YvJSM+FzSxe6o2ZRjn+WfCf41M
-         ukljQIqibi4C9XQik4P6iZdOHdEp66NRIfxjXSd4WzTK1mgBHf4neK12Ff54zAg6zFzE
-         hTtb5PZVAzY+vqkxF3upcON7Rr8SChjS7/rnOMOz1iRkUJxk1uTDS8hPLWlxr5TqpmY8
-         9BbQE1qxdH+lQvTaM91bJFy6G/bs+3RyOb+qffwgbEIrCX0asANlVx0EcZve7+pZDOAC
-         wKcw==
+         :cc;
+        bh=Qo/BVXfiBpoC6z3hLHcfBEYTQWH3sHUUkGmLkdCvD0I=;
+        b=CWVOYI6XkalJe1i9eA1bj4amxQK1t3tCdJcBnc9Ut/2/GVBJJY0ZU+y6z2X6C5Z7gS
+         b1ZNDYnVzaitBrtY2yVUtASmmvyMiBcm+2q6RHStLKVgsl7cEF4pGgzari2QiCB0Njeq
+         tKR0dWavnEwOi5ae/BlkP6QHEQ1jHRNY8EmtCXjosOqV8vCXOOrz0Tpf8emkl+lGK5tf
+         mxN7919wboix0F8IrFD1m+7MAsR5ns339qzV6vjDPqni5orauBCl0h20Vkpq3Y7LqX0d
+         gJznIZ3C/1qsbNTBMOExP+N7VQk93Vktk97GLpaMvNORiURcinjJIMvpbNYCwRfvEKbq
+         zRmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=E9d27G+jVQ2dDGHwMbuDEC+gezR8EK0ArXEvHcgEVoA=;
-        b=RT8nXK3RIrS+Zc/6vWtpAExh3j2tL6WiOcM9zmj12lgxHzuPFkjgQ05azj942NAdeR
-         iuju279cWSOJYwuik1xD1h9LvD9ke3CBEUyqy8MnMEl1fXsXgO9rfDGYnrqn4OZz6Wv9
-         MAaYZKoeGO3mjq6JzBtKrlVaIlcqkpaFxmTF1MIKPyCBArWG1tcq08KxsHvZqeJAbMeS
-         umoS7YQI23DdVr7GpsCcsAGirjxj7xjZ6grNTzBRT+TVeDXCBqhCTEjEvlamMTbtjAvG
-         6QHtjCtbEsOVToU1rXDhky2rIMTZFQK+2lw5RSRxQvjER2F/yhPcxQYKGPA96sw7N5zu
-         eEdg==
-X-Gm-Message-State: AOAM533Bm4GmoVPvx7mVKrC5efSImUyH9j0K3lOfB2p8VGuQmgfO3sdv
-	50rLvkxu1P0av6ptFnxkyKvCKRkg0sUYw7JmDoHBZA==
-X-Google-Smtp-Source: ABdhPJzAkbtU+xpn+ZxQyq9ChLQ1zjOT78UPn99CNvJ7NZj/snRvef16mlY5AEShgvjKcqws15/mGADMT70ZIuVX4wg=
-X-Received: by 2002:adf:ed46:: with SMTP id u6mr4203158wro.350.1617203255322;
- Wed, 31 Mar 2021 08:07:35 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Qo/BVXfiBpoC6z3hLHcfBEYTQWH3sHUUkGmLkdCvD0I=;
+        b=L8BELfqf+GroAh6y0n5iGSAKAiPs9vjna3HC3YM8u1xczzcMCMOQPubdGEWU4XH/OW
+         NZj7RpLFiDnhslRyTC6UvsykFUaratUoeNrzcoltWKaZhxDu2Vya3in1Kdhj4M6pvTt8
+         8d0dwlDKfcFYRf/IGdwHhikM6YQzEesQ0qb2Dh5C8TiqYvftxvKTrmS768SHwzvHILBr
+         Q/AObkqsEUF3YjZWu9KuLWH0BvxZ9gDfvKsnquVzA+yAUj+lpgGy424MOw25VTFhvywP
+         Nn1WCwcDotNkVABU6InAylDmbXTEJSjaEeYqmbI8fVvGEBD8MuWC5txAAexwfgMztEnx
+         Rz9Q==
+X-Gm-Message-State: AOAM531ckco76qNgQ4O38vblxM3VdeRulPQHojQtLo1466136Gl2tWV3
+	A4cw9spKnTCVYVeV4b+no2Xf1twW8U05hZDhgzM=
+X-Google-Smtp-Source: ABdhPJz66xOWoKWyOoQGl0G1fdBvYTpeGf6sVOwcrXcSZyY6LwKyirJhFAIC4v5U446xFpkfufz4WidA85YELHp9XkY=
+X-Received: by 2002:ab0:7150:: with SMTP id k16mr1986575uao.71.1617205748697;
+ Wed, 31 Mar 2021 08:49:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210331062112.3925-1-Sana.Kazi@kpit.com>
-In-Reply-To: <20210331062112.3925-1-Sana.Kazi@kpit.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 31 Mar 2021 05:07:22 -1000
-Message-ID: <CAOSpxdbA3KfgbkqXMyM498z1cFs6Xq3QnVLoTNM_L0ftrc0xPQ@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] openssh: Add fix for CVE-2020-14145
-To: Sana Kazi <Sana.Kazi@kpit.com>
-Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, Purushottam.Choudhary@kpit.com, 
-	Harpritkaur.Bhandari@kpit.com
+References: <1617200547-62088-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1617200547-62088-1-git-send-email-wangmy@fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 31 Mar 2021 17:48:56 +0200
+Message-ID: <CANNYZj9uPZeUDLiH2zC3EtYV9+j+6YJ_z4m8H7ajZcExJud_uw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cairo: upgrade 1.16.0 -> 1.17.4
+To: wangmy <wangmy@fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="0000000000002e0d7d05bed70e0a"
+
+--0000000000002e0d7d05bed70e0a
 Content-Type: text/plain; charset="UTF-8"
+
+This is a development version, which is made very clearly:
+https://cairographics.org/snapshots/
+
+What's the rationale for this update?
+
+Alex
+
+On Wed, 31 Mar 2021 at 16:22, wangmy <wangmy@fujitsu.com> wrote:
+
+> CVE-2018-19876.patch
+> removed since it is included in 1.17.4
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../cairo/cairo/CVE-2018-19876.patch          | 34 -------------------
+>  .../{cairo_1.16.0.bb => cairo_1.17.4.bb}      |  7 ++--
+>  2 files changed, 3 insertions(+), 38 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+>  rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.17.4.bb}
+> (94%)
+>
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> deleted file mode 100644
+> index 4252a5663b..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -CVE: CVE-2018-19876
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
+> -From: Carlos Garcia Campos <cgarcia@igalia.com>
+> -Date: Mon, 19 Nov 2018 12:33:07 +0100
+> -Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
+> - cairo_ft_apply_variations
+> -
+> -Fixes a crash when using freetype >= 2.9
+> ----
+> - src/cairo-ft-font.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
+> -index 325dd61b4..981973f78 100644
+> ---- a/src/cairo-ft-font.c
+> -+++ b/src/cairo-ft-font.c
+> -@@ -2393,7 +2393,11 @@ skip:
+> - done:
+> -         free (coords);
+> -         free (current_coords);
+> -+#if HAVE_FT_DONE_MM_VAR
+> -+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+> -+#else
+> -         free (ft_mm_var);
+> -+#endif
+> -     }
+> - }
+> -
+> ---
+> -2.11.0
+> -
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> b/meta/recipes-graphics/cairo/cairo_1.17.4.bb
+> similarity index 94%
+> rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> rename to meta/recipes-graphics/cairo/cairo_1.17.4.bb
+> index 68f993d7ca..e92540c49e 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.17.4.bb
+> @@ -22,15 +22,14 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+>
+>  DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+>
+> -SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+> +SRC_URI = "https://cairographics.org/snapshots/cairo-${PV}.tar.xz \
+>             file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+> -           file://CVE-2018-19876.patch \
+>             file://CVE-2019-6461.patch \
+>             file://CVE-2019-6462.patch \
+>            "
+>
+> -SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+> -SRC_URI[sha256sum] =
+> "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
+> +SRC_URI[md5sum] = "bf9d0d324ecbd350d0e9308125fa4ce0"
+> +SRC_URI[sha256sum] =
+> "74b24c1ed436bbe87499179a3b27c43f4143b8676d8ad237a6fa787401959705"
+>
+>  inherit autotools pkgconfig upstream-version-is-even gtk-doc
+> multilib_script
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
+>
+
+--0000000000002e0d7d05bed70e0a
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-This patch fails on the autobuilder:
+<div dir=3D"ltr"><div>This is a development version, which is made very cle=
+arly:</div><div><a href=3D"https://cairographics.org/snapshots/">https://ca=
+irographics.org/snapshots/</a></div><div><br></div><div>What&#39;s the rati=
+onale for this update?<br></div><div><br></div><div>Alex<br></div></div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 3=
+1 Mar 2021 at 16:22, wangmy &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangm=
+y@fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">CVE-2018-19876.patch<br>
+removed since it is included in 1.17.4<br>
+<br>
+Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" targe=
+t=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0.../cairo/cairo/CVE-2018-19876.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 34 -------------------<br>
+=C2=A0.../{<a href=3D"http://cairo_1.16.0.bb" rel=3D"noreferrer" target=3D=
+"_blank">cairo_1.16.0.bb</a> =3D&gt; <a href=3D"http://cairo_1.17.4.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a>}=C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 7 ++--<br>
+=C2=A02 files changed, 3 insertions(+), 38 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.=
+patch<br>
+=C2=A0rename meta/recipes-graphics/cairo/{<a href=3D"http://cairo_1.16.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> =3D&gt; <a href=
+=
+=3D"http://cairo_1.17.4.bb" rel=3D"noreferrer" target=3D"_blank">cairo_1.1=
+7.4.bb</a>} (94%)<br>
+<br>
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta=
+/recipes-graphics/cairo/cairo/CVE-2018-19876.patch<br>
+deleted file mode 100644<br>
+index 4252a5663b..0000000000<br>
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch<br>
++++ /dev/null<br>
+@@ -1,34 +0,0 @@<br>
+-CVE: CVE-2018-19876<br>
+-Upstream-Status: Backport<br>
+-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" t=
+arget=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+-<br>
+-From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001<br=
+>
+-From: Carlos Garcia Campos &lt;<a href=3D"mailto:cgarcia@igalia.com" targ=
+et=3D"_blank">cgarcia@igalia.com</a>&gt;<br>
+-Date: Mon, 19 Nov 2018 12:33:07 +0100<br>
+-Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in=
+<br>
+- cairo_ft_apply_variations<br>
+-<br>
+-Fixes a crash when using freetype &gt;=3D 2.9<br>
+----<br>
+- src/cairo-ft-font.c | 4 ++++<br>
+- 1 file changed, 4 insertions(+)<br>
+-<br>
+-diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c<br>
+-index 325dd61b4..981973f78 100644<br>
+---- a/src/cairo-ft-font.c<br>
+-+++ b/src/cairo-ft-font.c<br>
+-@@ -2393,7 +2393,11 @@ skip:<br>
+- done:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (coords);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (current_coords);<br>
+-+#if HAVE_FT_DONE_MM_VAR<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 FT_Done_MM_Var (face-&gt;glyph-&gt;library, =
+ft_mm_var);<br>
+-+#else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (ft_mm_var);<br>
+-+#endif<br>
+-=C2=A0 =C2=A0 =C2=A0}<br>
+- }<br>
+- <br>
+--- <br>
+-2.11.0<br>
+-<br>
+diff --git a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> b/meta/recipes-g=
+raphics/cairo/<a href=3D"http://cairo_1.17.4.bb" rel=3D"noreferrer" target=
+=3D"_blank">cairo_1.17.4.bb</a><br>
+similarity index 94%<br>
+rename from meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
+rename to meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.17.4.bb" r=
+el=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a><br>
+index 68f993d7ca..e92540c49e 100644<br>
+--- a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
++++ b/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.17.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a><br>
+@@ -22,15 +22,14 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3De73e99=
+9e0c72b5ac9012424fa157ad77&quot;<br>
+<br>
+=C2=A0DEPENDS =3D &quot;fontconfig glib-2.0 libpng pixman zlib&quot;<br>
+<br>
+-SRC_URI =3D &quot;<a href=3D"http://cairographics.org/releases/cairo-$%7B=
+PV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://cairographics.org=
+/releases/cairo-${PV}.tar.xz</a> \<br>
++SRC_URI =3D &quot;<a href=3D"https://cairographics.org/snapshots/cairo-$%=
+7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://cairographics.=
+org/snapshots/cairo-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://cairo-get_bitmap_surface-=
+bsc1036789-CVE-2017-7475.diff \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2018-19876.patch \<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2019-6461.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2019-6462.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;f19e0353828269c22bd72e271243a552&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;5e7b29b3f113ef870d1e3ecf8adf21f923396401604b=
+da16d44be45e66052331&quot;<br>
++SRC_URI[md5sum] =3D &quot;bf9d0d324ecbd350d0e9308125fa4ce0&quot;<br>
++SRC_URI[sha256sum] =3D &quot;74b24c1ed436bbe87499179a3b27c43f4143b8676d8a=
+d237a6fa787401959705&quot;<br>
+<br>
+=C2=A0inherit autotools pkgconfig upstream-version-is-even gtk-doc multili=
+b_script<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-stdio: ERROR: openssh-8.2p1-r0 do_patch: Command Error: 'quilt
---quiltrc /home/pokybuild/yocto-worker/beaglebone-alt/build/build/tmp/work=
-/cortexa8hf-neon-poky-linux-gnueabi/openssh/8.2p1-r0/recipe-sysroot-native/=
-etc/quiltrc
-push' exited with 0 Output:
-
-Steve
-
-On Tue, Mar 30, 2021 at 8:22 PM Sana Kazi <Sana.Kazi@kpit.com> wrote:
->
-> Applied patch for CVE-2020-14145 which fixes
-> man-in-the-middle attack.
-> Link: https://anongit.mindrot.org/openssh.git/patch/?id=3Db3855ff053f507=
-8ec3d3c653cdaedefaa5fc362d
->
-> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> ---
->  .../openssh/openssh/CVE-2020-14145.patch      | 97 +++++++++++++++++++
->  .../openssh/openssh_8.2p1.bb                  |  1 +
->  2 files changed, 98 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2020-1=
-4145.patch
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.pa=
-tch b/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
-> new file mode 100644
-> index 0000000000..3adb981fb4
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2020-14145.patch
-> @@ -0,0 +1,97 @@
-> +From b3855ff053f5078ec3d3c653cdaedefaa5fc362d Mon Sep 17 00:00:00 2001
-> +From: "djm@openbsd.org" <djm@openbsd.org>
-> +Date: Fri, 18 Sep 2020 05:23:03 +0000
-> +Subject: upstream: tweak the client hostkey preference ordering algorit=
-hm to
-> +
-> +prefer the default ordering if the user has a key that matches the
-> +best-preference default algorithm.
-> +
-> +feedback and ok markus@
-> +
-> +OpenBSD-Commit-ID: a92dd7d7520ddd95c0a16786a7519e6d0167d35f
-> +
-> +Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> +---
-> + sshconnect2.c | 41 ++++++++++++++++++++++++++++++++++++++---
-> + 1 file changed, 38 insertions(+), 3 deletions(-)
-> +
-> +CVE: CVE-2020-14145
-> +Upstream-Status: Backport [https://anongit.mindrot.org/openssh.git/patc=
-h/?id=3Db3855ff053f5078ec3d3c653cdaedefaa5fc362d]
-> +Comment: Refreshed first hunk
-> +
-> +diff --git a/sshconnect2.c b/sshconnect2.c
-> +index 347e348c..f64aae66 100644
-> +--- a/sshconnect2.c
-> ++++ b/sshconnect2.c
-> +@@ -1,4 +1,4 @@
-> +-/* $OpenBSD: sshconnect2.c,v 1.320 2020/02/06 22:48:23 djm Exp $ */
-> ++/* $OpenBSD: sshconnect2.c,v 1.326 2020/09/18 05:23:03 djm Exp $ */
-> + /*
-> +  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
-> +  * Copyright (c) 2008 Damien Miller.  All rights reserved.
-> +@@ -102,12 +102,25 @@ verify_host_key_callback(struct sshkey *hostkey, =
-struct ssh *ssh)
-> +       return 0;
-> + }
-> +
-> ++/* Returns the first item from a comma-separated algorithm list */
-> ++static char *
-> ++first_alg(const char *algs)
-> ++{
-> ++      char *ret, *cp;
-> ++
-> ++      ret =3D xstrdup(algs);
-> ++      if ((cp =3D strchr(ret, ',')) !=3D NULL)
-> ++              *cp =3D '\0';
-> ++      return ret;
-> ++}
-> ++
-> + static char *
-> + order_hostkeyalgs(char *host, struct sockaddr *hostaddr, u_short port)
-> + {
-> +-      char *oavail, *avail, *first, *last, *alg, *hostname, *ret;
-> ++      char *oavail =3D NULL, *avail =3D NULL, *first =3D NULL, *last =
-=3D NULL;
-> ++      char *alg =3D NULL, *hostname =3D NULL, *ret =3D NULL, *best =3D=
- NULL;
-> +       size_t maxlen;
-> +-      struct hostkeys *hostkeys;
-> ++      struct hostkeys *hostkeys =3D NULL;
-> +       int ktype;
-> +       u_int i;
-> +
-> +@@ -119,6 +132,26 @@ order_hostkeyalgs(char *host, struct sockaddr *hos=
-taddr, u_short port)
-> +       for (i =3D 0; i < options.num_system_hostfiles; i++)
-> +               load_hostkeys(hostkeys, hostname, options.system_hostfil=
-es[i]);
-> +
-> ++      /*
-> ++       * If a plain public key exists that matches the type of the bes=
-t
-> ++       * preference HostkeyAlgorithms, then use the whole list as is.
-> ++       * Note that we ignore whether the best preference algorithm is =
-a
-> ++       * certificate type, as sshconnect.c will downgrade certs to
-> ++       * plain keys if necessary.
-> ++       */
-> ++      best =3D first_alg(options.hostkeyalgorithms);
-> ++      if (lookup_key_in_hostkeys_by_type(hostkeys,
-> ++          sshkey_type_plain(sshkey_type_from_name(best)), NULL)) {
-> ++              debug3("%s: have matching best-preference key type %s, "
-> ++                  "using HostkeyAlgorithms verbatim", __func__, best);
-> ++              ret =3D xstrdup(options.hostkeyalgorithms);
-> ++              goto out;
-> ++      }
-> ++
-> ++      /*
-> ++       * Otherwise, prefer the host key algorithms that match known ke=
-ys
-> ++       * while keeping the ordering of HostkeyAlgorithms as much as po=
-ssible.
-> ++       */
-> +       oavail =3D avail =3D xstrdup(options.hostkeyalgorithms);
-> +       maxlen =3D strlen(avail) + 1;
-> +       first =3D xmalloc(maxlen);
-> +@@ -159,6 +192,8 @@ order_hostkeyalgs(char *host, struct sockaddr *host=
-addr, u_short port)
-> +       if (*first !=3D '\0')
-> +               debug3("%s: prefer hostkeyalgs: %s", __func__, first);
-> +
-> ++ out:
-> ++      free(best);
-> +       free(first);
-> +       free(last);
-> +       free(hostname);
-> +--
-> +cgit v1.2.3
-> diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/r=
-ecipes-connectivity/openssh/openssh_8.2p1.bb
-> index fe94f30503..17965557a7 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-> @@ -24,6 +24,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSS=
-H/portable/openssh-${PV}.tar
->             file://fix-potential-signed-overflow-in-pointer-arithmatic.p=
-atch \
->             file://sshd_check_keys \
->             file://add-test-support-for-busybox.patch \
-> +           file://CVE-2020-14145.patch \
->             "
->  SRC_URI[md5sum] =3D "3076e6413e8dbe56d33848c1054ac091"
->  SRC_URI[sha256sum] =3D "43925151e6cf6cee1450190c0e9af4dc36b41c12737619e=
-dff8bcebdff64e671"
-> --
-> 2.17.1
->
-> This message contains information that may be privileged or confidential=
- and is the property of the KPIT Technologies Ltd. It is intended only for =
-the person to whom it is addressed. If you are not the intended recipient, =
-you are not authorized to read, print, retain copy, disseminate, distribute=
-, or use this message or any part thereof. If you receive this message in e=
-rror, please notify the sender immediately and delete all copies of this me=
-ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
-ted mails.
->
->=20
->
+--0000000000002e0d7d05bed70e0a--
