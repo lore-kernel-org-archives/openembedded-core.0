@@ -1,284 +1,107 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web10.8832.1617205749545303602
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web09.9116.1617206419247526530
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 08:49:09 -0700
+ Wed, 31 Mar 2021 09:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CWVOYI6X;
- spf=pass (domain: gmail.com, ip: 209.85.222.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id e1so6273231uaa.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 08:49:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z0BiGYJ9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id 11so14856643pfn.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 09:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qo/BVXfiBpoC6z3hLHcfBEYTQWH3sHUUkGmLkdCvD0I=;
-        b=CWVOYI6XkalJe1i9eA1bj4amxQK1t3tCdJcBnc9Ut/2/GVBJJY0ZU+y6z2X6C5Z7gS
-         b1ZNDYnVzaitBrtY2yVUtASmmvyMiBcm+2q6RHStLKVgsl7cEF4pGgzari2QiCB0Njeq
-         tKR0dWavnEwOi5ae/BlkP6QHEQ1jHRNY8EmtCXjosOqV8vCXOOrz0Tpf8emkl+lGK5tf
-         mxN7919wboix0F8IrFD1m+7MAsR5ns339qzV6vjDPqni5orauBCl0h20Vkpq3Y7LqX0d
-         gJznIZ3C/1qsbNTBMOExP+N7VQk93Vktk97GLpaMvNORiURcinjJIMvpbNYCwRfvEKbq
-         zRmw==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=MNZiGiHttxkrvjBbaAYV80OJ260f9uhmFcQvTkhEbbs=;
+        b=Z0BiGYJ9SCukTrHc9kfABbNIQZ+e9XQm8SLm+LJq9OwLmS+NXlnTUgqp2LyDa3DPpb
+         6RMBavfTEXbu2mG4edR7OogOG7WGyU29aqFmhizF3+aHDTrHiRs31CzoQ21c0ldWnNgQ
+         RCZdV+uy6rwK1ayxhoFDvol5wUIV+1w1JEgr4OfRs4OSWlgnx6cF/5HbD4KCrJF7gv7Z
+         Joqcw5W+8TydVpQkPtpH2FmwpBp8Pe3VjYasgFZ4v9hfICJPbJG7qqtL7MucjFg3ZPAY
+         C00+I6cLyoFzd2hayWpwXGEQThHnDWpyJxZ1cAS2vSPhzDM8xv+EV/ljFhXGfI5eYqYH
+         hBVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qo/BVXfiBpoC6z3hLHcfBEYTQWH3sHUUkGmLkdCvD0I=;
-        b=L8BELfqf+GroAh6y0n5iGSAKAiPs9vjna3HC3YM8u1xczzcMCMOQPubdGEWU4XH/OW
-         NZj7RpLFiDnhslRyTC6UvsykFUaratUoeNrzcoltWKaZhxDu2Vya3in1Kdhj4M6pvTt8
-         8d0dwlDKfcFYRf/IGdwHhikM6YQzEesQ0qb2Dh5C8TiqYvftxvKTrmS768SHwzvHILBr
-         Q/AObkqsEUF3YjZWu9KuLWH0BvxZ9gDfvKsnquVzA+yAUj+lpgGy424MOw25VTFhvywP
-         Nn1WCwcDotNkVABU6InAylDmbXTEJSjaEeYqmbI8fVvGEBD8MuWC5txAAexwfgMztEnx
-         Rz9Q==
-X-Gm-Message-State: AOAM531ckco76qNgQ4O38vblxM3VdeRulPQHojQtLo1466136Gl2tWV3
-	A4cw9spKnTCVYVeV4b+no2Xf1twW8U05hZDhgzM=
-X-Google-Smtp-Source: ABdhPJz66xOWoKWyOoQGl0G1fdBvYTpeGf6sVOwcrXcSZyY6LwKyirJhFAIC4v5U446xFpkfufz4WidA85YELHp9XkY=
-X-Received: by 2002:ab0:7150:: with SMTP id k16mr1986575uao.71.1617205748697;
- Wed, 31 Mar 2021 08:49:08 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=MNZiGiHttxkrvjBbaAYV80OJ260f9uhmFcQvTkhEbbs=;
+        b=bpEBKYTlFV6dFsvtdybWCWxDDIhFdPrjmncHYuZDZCI01Car7184y52T5sp8fGXaGI
+         S9CvTROmpq3Ho/IiWS7gQ9M2vNpGzZ5CCMn21yajdsaUqay/VtHckJYN0zfcxuY+bgMu
+         Mjh8mNcHp4TjdfoFaxC6mWEnmD1yGW7uG0M1ueDcmzJDSePgqyJ2/68iM56hc+FbaIz1
+         WjXOc/Un9PC/tppUC5jOsVuJMUq66zBCxVtp5RlrSQvB6S44kE61xwOeyatcQjsWn28c
+         9unaLfBGBH4V9s/syvcUtzwIV6ZUQngJHrrXYZMHSDdnpcPxcO2NpsmtW9DiF+7elo86
+         mKbA==
+X-Gm-Message-State: AOAM531hkRIfEJqUn5ALFm5s/Cw/f+ILHQmGYG/n1GA/xgc5vNe/kQsD
+	uPEgBH2LGLuHC2EHGPcOf1sttnq81homag==
+X-Google-Smtp-Source: ABdhPJysvmL5Rzc8OxRXpQ4SHOsbwAm/0oUYkVud1lORe/eP923CRvn1P5KWHh8aXPXNam6QSJnnxA==
+X-Received: by 2002:aa7:82cc:0:b029:213:db69:18d9 with SMTP id f12-20020aa782cc0000b0290213db6918d9mr3651019pfn.36.1617206418305;
+        Wed, 31 Mar 2021 09:00:18 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:9042:8df6:cee8:da6a? ([2601:646:9200:a0f0:9042:8df6:cee8:da6a])
+        by smtp.gmail.com with ESMTPSA id k27sm2445303pfg.95.2021.03.31.09.00.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Mar 2021 09:00:17 -0700 (PDT)
+Subject: Re: [OE-core][PATCH] apt: Fix do_compile error when enable ccache
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20210331104608.7047-1-Qi.Chen@windriver.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <cecb5490-9149-5663-32d1-a1d1ae65507d@gmail.com>
+Date: Wed, 31 Mar 2021 09:00:16 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <1617200547-62088-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1617200547-62088-1-git-send-email-wangmy@fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 31 Mar 2021 17:48:56 +0200
-Message-ID: <CANNYZj9uPZeUDLiH2zC3EtYV9+j+6YJ_z4m8H7ajZcExJud_uw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cairo: upgrade 1.16.0 -> 1.17.4
-To: wangmy <wangmy@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000002e0d7d05bed70e0a"
+In-Reply-To: <20210331104608.7047-1-Qi.Chen@windriver.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---0000000000002e0d7d05bed70e0a
-Content-Type: text/plain; charset="UTF-8"
 
-This is a development version, which is made very clearly:
-https://cairographics.org/snapshots/
 
-What's the rationale for this update?
-
-Alex
-
-On Wed, 31 Mar 2021 at 16:22, wangmy <wangmy@fujitsu.com> wrote:
-
-> CVE-2018-19876.patch
-> removed since it is included in 1.17.4
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../cairo/cairo/CVE-2018-19876.patch          | 34 -------------------
->  .../{cairo_1.16.0.bb => cairo_1.17.4.bb}      |  7 ++--
->  2 files changed, 3 insertions(+), 38 deletions(-)
->  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
->  rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.17.4.bb}
-> (94%)
->
-> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
-> b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
-> deleted file mode 100644
-> index 4252a5663b..0000000000
-> --- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -CVE: CVE-2018-19876
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
-> -From: Carlos Garcia Campos <cgarcia@igalia.com>
-> -Date: Mon, 19 Nov 2018 12:33:07 +0100
-> -Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
-> - cairo_ft_apply_variations
-> -
-> -Fixes a crash when using freetype >= 2.9
-> ----
-> - src/cairo-ft-font.c | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
-> -index 325dd61b4..981973f78 100644
-> ---- a/src/cairo-ft-font.c
-> -+++ b/src/cairo-ft-font.c
-> -@@ -2393,7 +2393,11 @@ skip:
-> - done:
-> -         free (coords);
-> -         free (current_coords);
-> -+#if HAVE_FT_DONE_MM_VAR
-> -+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
-> -+#else
-> -         free (ft_mm_var);
-> -+#endif
-> -     }
-> - }
-> -
-> ---
-> -2.11.0
-> -
-> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> b/meta/recipes-graphics/cairo/cairo_1.17.4.bb
-> similarity index 94%
-> rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> rename to meta/recipes-graphics/cairo/cairo_1.17.4.bb
-> index 68f993d7ca..e92540c49e 100644
-> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> +++ b/meta/recipes-graphics/cairo/cairo_1.17.4.bb
-> @@ -22,15 +22,14 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
->
->  DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
->
-> -SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-> +SRC_URI = "https://cairographics.org/snapshots/cairo-${PV}.tar.xz \
->             file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
-> -           file://CVE-2018-19876.patch \
->             file://CVE-2019-6461.patch \
->             file://CVE-2019-6462.patch \
->            "
->
-> -SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
-> -SRC_URI[sha256sum] =
-> "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
-> +SRC_URI[md5sum] = "bf9d0d324ecbd350d0e9308125fa4ce0"
-> +SRC_URI[sha256sum] =
-> "74b24c1ed436bbe87499179a3b27c43f4143b8676d8ad237a6fa787401959705"
->
->  inherit autotools pkgconfig upstream-version-is-even gtk-doc
-> multilib_script
->
-> --
-> 2.25.1
->
->
+On 3/31/21 3:46 AM, Chen Qi wrote:
+> When apt was upgraded, the '-DCMAKE_DISABLE_FIND_PACKAGE_Zstd=True'
+> was dropped. However, it was there to fix do_compile error when ccache is
+> enabled. See details in the following commit.
 > 
->
->
+> """
+> commit 0aa7d612b8b7e5f14b4ed38f2a32b3f7eefca31c
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Tue Jan 19 01:23:45 2021 -0800
+> 
+>      apt: Fix do_compile error when enable ccache
+> 
+>      Fixed:
+>          apt-pkg/libapt-pkg.so.5.0.2: undefined reference to `ZSTD_endStream'
+> 	    collect2: error: ld returned 1 exit status
+> 
+>      This is because ccache-native depends on zstd-native which makes apt wronly
+>          find it. Disable zstd for apt to fix the problem.
+> """
 
---0000000000002e0d7d05bed70e0a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>This is a development version, which is made very cle=
-arly:</div><div><a href=3D"https://cairographics.org/snapshots/">https://ca=
-irographics.org/snapshots/</a></div><div><br></div><div>What&#39;s the rati=
-onale for this update?<br></div><div><br></div><div>Alex<br></div></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 3=
-1 Mar 2021 at 16:22, wangmy &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangm=
-y@fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">CVE-2018-19876.patch<br>
-removed since it is included in 1.17.4<br>
-<br>
-Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" targe=
-t=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0.../cairo/cairo/CVE-2018-19876.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 34 -------------------<br>
-=C2=A0.../{<a href=3D"http://cairo_1.16.0.bb" rel=3D"noreferrer" target=3D=
-"_blank">cairo_1.16.0.bb</a> =3D&gt; <a href=3D"http://cairo_1.17.4.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a>}=C2=A0 =C2=A0 =C2=A0=
- |=C2=A0 7 ++--<br>
-=C2=A02 files changed, 3 insertions(+), 38 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.=
-patch<br>
-=C2=A0rename meta/recipes-graphics/cairo/{<a href=3D"http://cairo_1.16.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> =3D&gt; <a href=
-=
-=3D"http://cairo_1.17.4.bb" rel=3D"noreferrer" target=3D"_blank">cairo_1.1=
-7.4.bb</a>} (94%)<br>
-<br>
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta=
-/recipes-graphics/cairo/cairo/CVE-2018-19876.patch<br>
-deleted file mode 100644<br>
-index 4252a5663b..0000000000<br>
---- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch<br>
-+++ /dev/null<br>
-@@ -1,34 +0,0 @@<br>
--CVE: CVE-2018-19876<br>
--Upstream-Status: Backport<br>
--Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" t=
-arget=3D"_blank">ross.burton@intel.com</a>&gt;<br>
--<br>
--From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001<br=
->
--From: Carlos Garcia Campos &lt;<a href=3D"mailto:cgarcia@igalia.com" targ=
-et=3D"_blank">cgarcia@igalia.com</a>&gt;<br>
--Date: Mon, 19 Nov 2018 12:33:07 +0100<br>
--Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in=
-<br>
-- cairo_ft_apply_variations<br>
--<br>
--Fixes a crash when using freetype &gt;=3D 2.9<br>
-----<br>
-- src/cairo-ft-font.c | 4 ++++<br>
-- 1 file changed, 4 insertions(+)<br>
--<br>
--diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c<br>
--index 325dd61b4..981973f78 100644<br>
----- a/src/cairo-ft-font.c<br>
--+++ b/src/cairo-ft-font.c<br>
--@@ -2393,7 +2393,11 @@ skip:<br>
-- done:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (coords);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (current_coords);<br>
--+#if HAVE_FT_DONE_MM_VAR<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 FT_Done_MM_Var (face-&gt;glyph-&gt;library, =
-ft_mm_var);<br>
--+#else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free (ft_mm_var);<br>
--+#endif<br>
--=C2=A0 =C2=A0 =C2=A0}<br>
-- }<br>
-- <br>
---- <br>
--2.11.0<br>
--<br>
-diff --git a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> b/meta/recipes-g=
-raphics/cairo/<a href=3D"http://cairo_1.17.4.bb" rel=3D"noreferrer" target=
-=3D"_blank">cairo_1.17.4.bb</a><br>
-similarity index 94%<br>
-rename from meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
-rename to meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.17.4.bb" r=
-el=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a><br>
-index 68f993d7ca..e92540c49e 100644<br>
---- a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
-+++ b/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.17.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">cairo_1.17.4.bb</a><br>
-@@ -22,15 +22,14 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3De73e99=
-9e0c72b5ac9012424fa157ad77&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;fontconfig glib-2.0 libpng pixman zlib&quot;<br>
-<br>
--SRC_URI =3D &quot;<a href=3D"http://cairographics.org/releases/cairo-$%7B=
-PV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://cairographics.org=
-/releases/cairo-${PV}.tar.xz</a> \<br>
-+SRC_URI =3D &quot;<a href=3D"https://cairographics.org/snapshots/cairo-$%=
-7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://cairographics.=
-org/snapshots/cairo-${PV}.tar.xz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://cairo-get_bitmap_surface-=
-bsc1036789-CVE-2017-7475.diff \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2018-19876.patch \<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2019-6461.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2019-6462.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;f19e0353828269c22bd72e271243a552&quot;<br>
--SRC_URI[sha256sum] =3D &quot;5e7b29b3f113ef870d1e3ecf8adf21f923396401604b=
-da16d44be45e66052331&quot;<br>
-+SRC_URI[md5sum] =3D &quot;bf9d0d324ecbd350d0e9308125fa4ce0&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;74b24c1ed436bbe87499179a3b27c43f4143b8676d8a=
-d237a6fa787401959705&quot;<br>
-<br>
-=C2=A0inherit autotools pkgconfig upstream-version-is-even gtk-doc multili=
-b_script<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000002e0d7d05bed70e0a--
+should this only be disabled for apt-native then ? and perhaps it could 
+be turned into a packageconfig knob as well
+> 
+> Now we are meeting do_compile failure again when enabling ccache, so add it
+> back to solve the problem.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-devtools/apt/apt_2.2.2.bb | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> index d1aa5de8df..7d1bce558d 100644
+> --- a/meta/recipes-devtools/apt/apt_2.2.2.bb
+> +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> @@ -44,6 +44,7 @@ DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
+>   EXTRA_OECMAKE_append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
+>       -DDPKG_DATADIR=${datadir}/dpkg \
+>       -DTRIEHASH_EXECUTABLE=${WORKDIR}/triehash \
+> +    -DCMAKE_DISABLE_FIND_PACKAGE_ZSTD=True \
+>       -DWITH_TESTS=False \
+>   "
+>   
+> 
+> 
+> 
+> 
+> 
