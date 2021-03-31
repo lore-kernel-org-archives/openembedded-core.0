@@ -1,237 +1,206 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web09.6060.1617194500556519643
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web08.6290.1617195957334575096
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 05:41:46 -0700
+ Wed, 31 Mar 2021 06:05:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r/7vQc97;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id u5so29857494ejn.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 05:41:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l1eaXg58;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id hq27so29945413ejc.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 06:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CzllDDQKUfh8pKPEyrOXoWmvjtotQ3bOK4ypF/EcZ9A=;
-        b=r/7vQc97GM4/UOxCZoo0QsEz4Y5HIDb/ZnyfzhfX/Xxdb6DrWc/SHjYvKwyyPKdbmc
-         5LPMFj00XrHBL45i170o5p7Wi/vOGNuOw//BVozQg+FbmBBjjEdWcb9JlkYtsRtkzvVv
-         d7tXWoHuZBzGQ4juUeDKvnR090g/Draz+6BgBofeOAz5/2zBQO9bs68vTEqorOXRNmxN
-         sCMc44po5advAclt5W4Xf6LGShLIOJBlLAdlYMdOG+nHnMARJXwRTmXBQywQ2SthhK6A
-         fBuMDdZxJkhQT75PsVyswuGczOFgMMiUJ/HTgyq3AslIhikAnmkvJZAmGkXQR4uof8E4
-         8W3g==
+         :cc;
+        bh=ezW7amSjwq0+z1unu7yHStKbhz/T6qnXQcvv+VEHp8M=;
+        b=l1eaXg58m7Q4CPD8i5fEpdgzl5SsHdXAzJC2cSr5sL721ee5Z+k3qiq/0+9L0EBqHh
+         OAJ9EaZzWWbhoRsLgPp7ahE9fG01W8PRZYlOJ5r+sqFppAaYSONTZzRzMmyhAabLL7y9
+         jdJ+nSPcFRgLh7vKlgbquaOrGvNjgeJDgTQNOIgmtWfXsir0ykMAp+TNu5fyLI1ISvVy
+         RmLTxvVqThy3Si1dPySfrd4x3kkAynwTDWV0gynH1Jgso5VNilZ09wVQ7msygfuci8ub
+         IMhPQ01hRyR4WC9WIXWaAaPBLuai2dXZIBVD2NUV1LTg9GHlA1sI+rcmLqrNePMdCUAC
+         Vm/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CzllDDQKUfh8pKPEyrOXoWmvjtotQ3bOK4ypF/EcZ9A=;
-        b=mC5pjJHyXRlM+rHVRURNBSU1IkJIQf6mrfUB6itSDxi5bhk3hJTjROjomJXvdjrRcW
-         2G6w3ufLk66OPTkF1HsLjL237OGJRLZEQt31GTljPfRjOzQsZX9bZdF6FlLdGJ9IhEOU
-         tGOa0cuz2mVelyj7g1kXLtlCzuY78BSjMwHxFS+UG6Zhd/ZI8zMQ0YCMml4O67zUyBS5
-         i1BxDfXlw3fPp4QHC7mJ7cqfJPO8ifNGLPX3U6i+wddwx/osVQvNpZ2b1Q35Y6sZHCBA
-         uf/mvzBEjppUygcAl34P1w+tQYLRQEVGTNfyu+pw4UEzV7ORNhczc1EE0t3ThruL8jSS
-         /G3Q==
-X-Gm-Message-State: AOAM530pKAKTnILa6k5sfUix3l+XB6TqWx7yImFLEqQPAjpKtHkiXCX2
-	SAGEW0vY+VBxC6yuQ0FYC9CI2vPxurhzYEAtyjA=
-X-Google-Smtp-Source: ABdhPJyzp1pI2jIwxAvje1g+VBeB6BPYpvLGv7Lzg2IUBXsxgONfR14dVpZ+IcSgKfJASCV9t6oRQMHr0NoWeeBX3og=
-X-Received: by 2002:a17:906:11d1:: with SMTP id o17mr3275159eja.517.1617194499032;
- Wed, 31 Mar 2021 05:41:39 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=ezW7amSjwq0+z1unu7yHStKbhz/T6qnXQcvv+VEHp8M=;
+        b=BpmglJAv4chjDKd9VJAs94qxK3uFQOOHr2YTCMKWAdQPZ4zRx0JZIc2brX3LvC8EGO
+         gOhhUouxc3ZLqQKa3SgsZjaJRG2rgDjAEY4JrPoEzpXDb+D40ZNlASSQxnZxxKNGazXV
+         5P6MXyivUIAdgnIqAndPcVa7agA6tldROR+Vb0EQ6zpJAjZf74iY6tOeGfVVwHgA4mpt
+         tCXUHa/ZiE+POL2bTdhYDmgXhdyuaN1EGrYiOv9N0MKvVZAO4vAST8bY22CVNl2v61pG
+         jto9eaxWS3olN+wA1IFFXsZFPhTreMgOGs+GNKh/2J9jI7K6VtCL+ppr8UCTMfBnejva
+         CXhg==
+X-Gm-Message-State: AOAM531xXpP0qttac1YGggCsMTBUISorPjo38qerhast+ZedwaVGY0F8
+	6osZgSJ57EEsuvPBcAYl4ehOz5DzEHyAato0vEg=
+X-Google-Smtp-Source: ABdhPJz8SkZAEBzKRpu/3/MjAk4tmswf11gWeecF/FeoHVhsVjDeu7ZAlCW0Ro6Bjj9eFxt7Jbk3NUY0oja9mKC27pw=
+X-Received: by 2002:a17:907:e8f:: with SMTP id ho15mr3435169ejc.541.1617195955685;
+ Wed, 31 Mar 2021 06:05:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210330172713.753008-1-yann@blade-group.com> <CADkTA4OzuvmXAHtyBaeqxG0k1wtW7eZJco2Q511Ekbjo_-RtZQ@mail.gmail.com>
- <167132DBE07A7A98.4802@lists.openembedded.org> <CA+4=imZrzFn52=8Pfi3kLJdoKMhipfNyHZg09VdAjv5R9ZnAXQ@mail.gmail.com>
-In-Reply-To: <CA+4=imZrzFn52=8Pfi3kLJdoKMhipfNyHZg09VdAjv5R9ZnAXQ@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 31 Mar 2021 08:41:27 -0400
-Message-ID: <CADkTA4O0jSAjwBsq8_nr9WLP_N85GZ3Xyd9JSgAiC8ja9xaicA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-yocto: log some kmeta information to assist in developing a bsp
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
+References: <20210331122254.121192-1-alex.kanavin@gmail.com>
+In-Reply-To: <20210331122254.121192-1-alex.kanavin@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Wed, 31 Mar 2021 15:05:44 +0200
+Message-ID: <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000788b6205bed4c664"
+
+--000000000000788b6205bed4c664
 Content-Type: text/plain; charset="UTF-8"
+
+Are you going to fix meta-gl issue with swrast still in DRIDRIVERS reported
+on previous upgrade?
+
+https://lists.openembedded.org/g/openembedded-core/message/149775
+
+https://lists.openembedded.org/g/openembedded-core/message/149779
+I don't know what exactly AB builds, but it's easy to reproduce locally,
+something like:
+DISTRO_FEATURES_remove = "x11"
+PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
+PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
+bitbake mesa-gl
+should be enough to see build failure.
+
+On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb}               | 0
+>  meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+>  meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb}   | 0
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb}
+> (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb}
+> (100%)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+> b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> b/meta/recipes-graphics/mesa/mesa.inc
+> index e9b72ce063..a40dad2b81 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -21,7 +21,7 @@ SRC_URI = "
+> https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>
+> file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+>             "
+>
+> -SRC_URI[sha256sum] =
+> "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
+> +SRC_URI[sha256sum] =
+> "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb
+> b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
+> rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
+> --
+> 2.29.2
+>
+>
+> 
+>
+>
+
+--000000000000788b6205bed4c664
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 31, 2021 at 6:23 AM Yann Dirson <yann.dirson@blade-group.com> w=
-rote:
->
-> Le mar. 30 mars 2021 =C3=A0 20:41, Yann Dirson via lists.openembedded.or=
-g
-> <yann.dirson=3Dblade-group.com@lists.openembedded.org> a =C3=A9crit :
-> >
-> > Hi Bruce,
-> >
-> > Le mar. 30 mars 2021 =C3=A0 19:47, Bruce Ashfield
-> > <bruce.ashfield@gmail.com> a =C3=A9crit :
-> > >
-> > > On Tue, Mar 30, 2021 at 1:27 PM Yann Dirson <yann.dirson@blade-group=
-.com> wrote:
-> > > >
-> > > > From: Yann Dirson <yann@blade-group.com>
-> > > >
-> > > > This is not quite enough for the lack of a BSP to stand out clearl=
-y to
-> > > > an unsuspecting user's eyes, but at least this line in the logs sh=
-ould
-> > > > help some of us to get a clue:
-> > > >
-> > > >   NOTE: Using kmeta BSP ''
-> > >
-> > > Sorry, but no on this.
-> > >
-> > > There are already logs that are kept in the build directories
-> > > themselves. They can be further exposed via some of the existing deb=
-ug
-> > > knobs that I have, but this is just noise in the general logs.
-> >
-> > I must say I did not find any existing logs on this, where can I find =
-them ?
->
-> After some digging in the source I finally noticed the merge_config.sh
-> output being saved
-> under $meta_dir.  It still took me an additional log to locate the log
-> under work-shared/.../kernel-source/.
-> I'm pretty sure I was pointed to this file in the past, but I find it
-> unnecessarily difficult to locate.
+<div dir=3D"ltr">Are you going to fix meta-gl issue with swrast still in DR=
+IDRIVERS reported on previous upgrade?<div><br></div><div><a href=3D"https:=
+//lists.openembedded.org/g/openembedded-core/message/149775">https://lists.=
+openembedded.org/g/openembedded-core/message/149775</a><br></div><div><br><=
+/div><div><a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
+sage/149779">https://lists.openembedded.org/g/openembedded-core/message/149=
+779</a><br></div><div>I don&#39;t know what exactly AB builds, but it&#39;s=
+ easy to reproduce locally, something like:</div><div>DISTRO_FEATURES_remov=
+e =3D &quot;x11&quot;<br>PREFERRED_PROVIDER_virtual/libgl =3D &quot;mesa-gl=
+&quot;<br>PREFERRED_PROVIDER_virtual/mesa =3D &quot;mesa-gl&quot;<br></div>=
+<div>bitbake mesa-gl</div><div>should be enough to see build failure.</div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin &lt;<a href=3D"mailto:ale=
+x.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Alexander Kanavin=
+ &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
+in@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../mesa/{<a href=3D"http://mesa-gl_21.0.0.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">mesa-gl_21.0.0.bb</a> =3D&gt; <a href=3D"http://mesa-gl_21.=
+0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.1.bb</a>}=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 2 +-<br>
+=C2=A0meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.0.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> =3D&gt; <a href=3D"http:/=
+/mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb</a>}=
+=C2=A0 =C2=A0| 0<br>
+=C2=A03 files changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa-gl_21.0.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a> =3D&gt; <a h=
+ref=3D"http://mesa-gl_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa-=
+gl_21.0.1.bb</a>} (100%)<br>
+=C2=A0rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.0.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> =3D&gt; <a href=3D=
+"http://mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb=
+</a>} (100%)<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a> b/meta/recipe=
+s-graphics/mesa/<a href=3D"http://mesa-gl_21.0.1.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">mesa-gl_21.0.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a><br>
+rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.1.bb</a><br>
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
+esa/mesa.inc<br>
+index e9b72ce063..a40dad2b81 100644<br>
+--- a/meta/recipes-graphics/mesa/mesa.inc<br>
++++ b/meta/recipes-graphics/mesa/mesa.inc<br>
+@@ -21,7 +21,7 @@ SRC_URI =3D &quot;<a href=3D"https://mesa.freedesktop.or=
+g/archive/mesa-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https=
+://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-futex.h-Define-__NR_=
+futex-if-it-does-not-exist.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c=
+808ca0dd26ba522e0d84&quot;<br>
++SRC_URI[sha256sum] =3D &quot;379fc984459394f2ab2d84049efdc3a659869dc1328c=
+e72ef0598506611712bb&quot;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;mesa-(?P&lt;pver&gt;\d+(\.\d+)+=
+)&quot;<br>
+<br>
+diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> b/meta/recipes-grap=
+hics/mesa/<a href=3D"http://mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_b=
+lank">mesa_21.0.1.bb</a><br>
+similarity index 100%<br>
+rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a><br>
+rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.1.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb</a><br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-As opposed to any of the other random log files that contain somewhat
-internal information ? This isn't something that the majority of people
-need to see, so it stays local to what the recipes are building (the
-kernel). The use facing distillation of that information is the kernel
-configuration audit.
-
-In the past 10 years or so, I've bounced back and forth between
-exposing more information, getting complaints/comments about
-the amount of noise and fine tuning the signal to noise in the
-information. That's what is being balanced here.
-
->
-> Still, this log does not contain the name of the top-level
-> $KMACHINE-$KTYPE.scc, which is the
-> information I'm after.
-
-That's logged in a file in the .kernel-meta directory.
-(${S}/${meta_dir}/bsp_definition)
-
->
-> I do agree however that it make it unnecessary to log the whole $element=
-s list,
-> as long it is easy enough to locate the information.  Here is a
-> proposal to address this last point, so that
-> a user looking at the task logs gets the path to it.  Does that one
-> look OK to you ?
->
-
-There's already a kernel config audit task, and that's where any enhanced
-information really needs to go.
-
-There's no need to rush through anything on this, since we are right on to=
-p
-of a release, and although minor, I wouldn't push for it to go in at this =
-point.
-
-But I do agree, we can tweak things to expose a bit more information that
-aids in development of new BSPs/fragments than is currently available.
-
-I can float some RFC patches in a few weeks and see if they meet the need.
-
-Bruce
-
-> diff --git a/meta/classes/kernel-yocto.bbclass
-> b/meta/classes/kernel-yocto.bbclass
-> index 9aa0eb07c6..e3efa34671 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -430,6 +430,8 @@ do_kernel_configme() {
->                 else
->                         bbfatal_log "Details can be found at:
-> ${S}/${meta_dir}/cfg/merge_config_build.log"
->                 fi
-> +       else
-> +               bbnote "Detailed merge_config.sh output can be found
-> at: ${S}/${meta_dir}/cfg/merge_config_build.log"
->         fi
->
->         if [ ! -z "${LINUX_VERSION_EXTENSION}" ]; then
->
-> >
-> > >
-> > > Cheers,
-> > >
-> > > Bruce
-> > >
-> > > >
-> > > > Signed-off-by: Yann Dirson <yann@blade-group.com>
-> > > > ---
-> > > >  meta/classes/kernel-yocto.bbclass | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kern=
-el-yocto.bbclass
-> > > > index 35587dd564..c6228ad0b8 100644
-> > > > --- a/meta/classes/kernel-yocto.bbclass
-> > > > +++ b/meta/classes/kernel-yocto.bbclass
-> > > > @@ -234,6 +234,7 @@ do_kernel_metadata() {
-> > > >                     KMETA_EXTERNAL_BSPS=3D"t"
-> > > >                 fi
-> > > >         fi
-> > > > +       bbnote "Using kmeta BSP '$bsp_definition'"
-> > > >         meta_dir=3D$(kgit --meta)
-> > > >
-> > > >         KERNEL_FEATURES_FINAL=3D""
-> > > > @@ -264,6 +265,7 @@ do_kernel_metadata() {
-> > > >         if [ "$mode" =3D "config" ]; then
-> > > >                 # run1: pull all the configuration fragments, no m=
-atter where they come from
-> > > >                 elements=3D"`echo -n ${bsp_definition} $sccs_defco=
-nfig ${sccs} ${patches} $KERNEL_FEATURES_FINAL`"
-> > > > +               bbnote "config: kmeta configuration fragments: $el=
-ements"
-> > > >                 if [ -n "${elements}" ]; then
-> > > >                         echo "${bsp_definition}" > ${S}/${meta_dir=
-}/bsp_definition
-> > > >                         scc --force -o ${S}/${meta_dir}:cfg,merge,=
-meta ${includes} $sccs_defconfig $bsp_definition $sccs $patches $KERNEL_FEA=
-TURES_FINAL
-> > > > @@ -283,6 +285,7 @@ do_kernel_metadata() {
-> > > >         if [ "$mode" =3D "patch" ]; then
-> > > >                 # run2: only generate patches for elements that ha=
-ve been passed on the SRC_URI
-> > > >                 elements=3D"`echo -n ${sccs} ${patches} $KERNEL_FE=
-ATURES_FINAL`"
-> > > > +               bbnote "patch: kmeta configuration fragments: $ele=
-ments"
-> > > >                 if [ -n "${elements}" ]; then
-> > > >                         scc --force -o ${S}/${meta_dir}:patch --cm=
-ds patch ${includes} ${sccs} ${patches} $KERNEL_FEATURES_FINAL
-> > > >                         if [ $? -ne 0 ]; then
-> > > > --
-> > > > 2.30.2
-> > > >
-> > > >
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness awai=
-t
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
-> > --
-> > Yann Dirson <yann@blade-group.com>
-> > Blade / Shadow -- http://shadow.tech
-> >
-> >=20
-> >
->
->
-> --
-> Yann Dirson <yann@blade-group.com>
-> Blade / Shadow -- http://shadow.tech
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+--000000000000788b6205bed4c664--
