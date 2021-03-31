@@ -1,231 +1,96 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web08.1012.1617217139579582998
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+ by mx.groups.io with SMTP id smtpd.web11.1151.1617217453915218473
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 11:58:59 -0700
+ Wed, 31 Mar 2021 12:04:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EOrQ3Cx+;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id j25so15238347pfe.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 11:58:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n+XEVqEc;
+ spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f50.google.com with SMTP id a15so17542vsi.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 12:04:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Fo8m0D/0UNd6eNiSzOM1sHXbdBR3UFjign1orvc28rI=;
-        b=EOrQ3Cx+mvVppG/q3LaslQAAucOeyp9iI4etmVHIjTLmLN0Cqa3r9L+yf2tXWF6t2p
-         59+AtXi/ENuQiiCvPNh8qx+xl6FzfoDmcKLOUw3b6pUue8JYIVBcDyo+AQdDCfyklR3P
-         M4ixMtSamUSLz8ZhvAX7TzlCd+CAmeA9FjZGqgKGeAORq+Zd6BANNedcwsZlKHqaSrbv
-         ESRf+dX/C3T/YRKTNaRgf+UyAF+kh3CNt9Jix4h022rxTU6wBB0OXk3e4nZ8RipDLSfs
-         Lciyrq30HCQhukecxUM8b5FqOnXXNXG6XBo6w1uzYllSeecLuFavmsVDtYKPmVPpgQ5l
-         aXWw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gZcFKNVn+0cVh46YTKGlkzwQM99PyVLvlbadB0yTBaQ=;
+        b=n+XEVqEc5X5TrlzzZEBNaZI32xBgh+3pY6qfQVj5wMa+UxGvI64V6/nTaN9kctxPvn
+         pBb7mqwEucjeNjUSrISQ9Hog1bS2MjxkeAE5z3vDdyKNGCT0mWzAlHYXvDxcbr5tMf+U
+         ZHQwQitK4H+VWvy5sExcGyzUtj36GQcIRlfGzPOWbX7ookU+dITPCtguSjG1gDD3K4Zo
+         /edNKK5kVy5cXhxUEv/pEXzQGcXZpnNSnyQ6Rj7eU8a22AxBI6dnzgXBChsIGq3aTlcX
+         feCxMRkX6A/RI+i1+7ktHLWVKBcXw1O/vwJWO+yheEtTLt26BvCd406Q+zMBEBCy3X06
+         FDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Fo8m0D/0UNd6eNiSzOM1sHXbdBR3UFjign1orvc28rI=;
-        b=t6/l65QXmIMoCNJ7eQ0zRV3LiP0wS6vXl9EFGYi31qchDpQ5c4XWeZ3otJ2dcIeArz
-         PpUPRgTOH5qQ0srOHs3ozbuqWML/QAecrDRHwmVxqz/14/01Or4O4UZR3lxMwO70HgDs
-         4BT2YJsvKHS2UDmMgvKTDsDQk2PzbU2LoOWZxQxe9ySjYO1kVdNshzfpNq+gaLXRNxDy
-         +NNkTriP3kbq2en8YSBRXY5wG4Dro6schY375nY/GM3qnl7y0QryUA8ygVVVFoPqgLNr
-         RyrnikufvNdfFdt7SszScdmxm55JDcxumn+Vkx0OY9xdXrklvApGWo8SPR04dn9UUcJq
-         ks8g==
-X-Gm-Message-State: AOAM5327+jRA0Lx5HawiHO36pV9v0z0LC9ZwuyX5/GdKE3+3+OnZpxBr
-	hZlNe9sI+ABrY4Lm9u2APlRBl9z3XDDR7w==
-X-Google-Smtp-Source: ABdhPJwmo2YGU2pLZAekULkIAV0w9guB1bpgpQy9kqHVH6Q1mYjFr6rq51JooIiST7Ma4Rf+DoTYRw==
-X-Received: by 2002:a63:570b:: with SMTP id l11mr4470446pgb.193.1617217138733;
-        Wed, 31 Mar 2021 11:58:58 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:9042:8df6:cee8:da6a? ([2601:646:9200:a0f0:9042:8df6:cee8:da6a])
-        by smtp.gmail.com with ESMTPSA id i7sm3170533pfq.184.2021.03.31.11.58.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 11:58:58 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gZcFKNVn+0cVh46YTKGlkzwQM99PyVLvlbadB0yTBaQ=;
+        b=Io4mcIcHoJwtgln5oah9fAGhM2fXafmVsMcjbR3KxD0iTl2c4dtXkD1ZnGqCrnFBRi
+         2vDT3IcFlMTC9/kfbtWMR00580hMVwLBnlH+lcA7B9dMQlwBXI0s4JkjHynHV8NCFlqU
+         P1ujNUiDHHcM8POU5etV4xj7hl1dpMKwacTT0LvE62D6q8cdjbmZzJyyIxHY4ppleOW6
+         hCFQvCcQoFjxZRtZUBptlkAOSQyWTjPug4LtkMKAXGqBRkwD77Y1PDF2sWCoQ9WOQhB3
+         tsDySJglXuhbl9gbyd29wxY8ucTAgMLPxWpzFuTuVRUlMEqw38ESHbhQMekk7PDsmkyi
+         nn4A==
+X-Gm-Message-State: AOAM531La583Er7SLhC8pRtF7h9tQCS0ED0CEJCIc+8mIcfYKU20upEB
+	eMTY2r8EA5a3ed9gJwDk93xDNRc7IrLu6PBvg5w=
+X-Google-Smtp-Source: ABdhPJxFk7fM3nGN4zBqQSNNsl/XM4DsxPhhkVzZO6LP5Di3RCOmpkleY1uNQjzwUE9Z9ioMKv9R9YbbJ2ZoMce/TO0=
+X-Received: by 2002:a67:72c6:: with SMTP id n189mr2777158vsc.54.1617217453140;
+ Wed, 31 Mar 2021 12:04:13 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210331122254.121192-1-alex.kanavin@gmail.com>
  <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
- <d4b500da-5aec-075e-4632-8a65852b1600@gmail.com>
- <CA+chaQfYEmLSZa6iDSQcq_LhG+tF==+MQDdd60iZnLaLJ-vz9w@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <090c5eb0-9949-0535-0d4d-d750d40716a6@gmail.com>
-Date: Wed, 31 Mar 2021 11:58:57 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
-MIME-Version: 1.0
+ <d4b500da-5aec-075e-4632-8a65852b1600@gmail.com> <CA+chaQfYEmLSZa6iDSQcq_LhG+tF==+MQDdd60iZnLaLJ-vz9w@mail.gmail.com>
 In-Reply-To: <CA+chaQfYEmLSZa6iDSQcq_LhG+tF==+MQDdd60iZnLaLJ-vz9w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 31 Mar 2021 21:04:01 +0200
+Message-ID: <CANNYZj-0HVAvSY4CBJ27uykVtRBX6-hbqG2jLsg4VRFoYAuYGA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d1ae5505bed9c7d6"
 
+--000000000000d1ae5505bed9c7d6
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 31 Mar 2021 at 20:50, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-On 3/31/21 11:50 AM, Martin Jansa wrote:
-> FWIW: I don't use mesa-gl at all, I've noticed it only in git grep 
-> DRIDRIVERS when looking why swrast was still enabled in our normal mesa 
+> FWIW: I don't use mesa-gl at all, I've noticed it only in git grep
+> DRIDRIVERS when looking why swrast was still enabled in our normal mesa
 > (and it was because of our own bbappend).
-
-It also in meta-raspberrypi which will need update if this patch works 
-out ok.
-
-> 
-> But I agree that it's sad that it's OK to break Ross's recipe, when auh 
-> says there is an update available, but it's Ross's responsibility now to 
+>
+> But I agree that it's sad that it's OK to break Ross's recipe, when auh
+> says there is an update available, but it's Ross's responsibility now to
 > fix the follow-up breakage from that upgrade.
-> 
+>
 > Thanks for the patch Khem!
-> 
-> On Wed, Mar 31, 2021 at 7:13 PM Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
-> 
-> 
->     On 3/31/21 6:05 AM, Martin Jansa wrote:
->      > Are you going to fix meta-gl issue with swrast still in DRIDRIVERS
->      > reported on previous upgrade?
->      >
->      > https://lists.openembedded.org/g/openembedded-core/message/149775
->     <https://lists.openembedded.org/g/openembedded-core/message/149775>
->      >
->     <https://lists.openembedded.org/g/openembedded-core/message/149775
->     <https://lists.openembedded.org/g/openembedded-core/message/149775>>
->      >
->      > https://lists.openembedded.org/g/openembedded-core/message/149779
->     <https://lists.openembedded.org/g/openembedded-core/message/149779>
->      >
->     <https://lists.openembedded.org/g/openembedded-core/message/149779
->     <https://lists.openembedded.org/g/openembedded-core/message/149779>>
->      > I don't know what exactly AB builds, but it's easy to reproduce
->     locally,
->      > something like:
->      > DISTRO_FEATURES_remove = "x11"
->      > PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
->      > PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
->      > bitbake mesa-gl
->      > should be enough to see build failure.
-> 
->     it is a build regression. mesa and mesa-gl should be updated in sync
->     and
->     especially if you reported the fallout and if it went unaddressed is
->     sad.
-> 
->     Could you try a patch somethiing like this and see if it helps.
-> 
->     diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     index e50782be1c..fc8b4f7504 100644
->     --- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     +++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->     @@ -12,4 +12,4 @@ PACKAGECONFIG ??= "opengl dri
->     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
->        PACKAGECONFIG_class-target = "opengl dri
->     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
-> 
->        # When NOT using X11, we need to make sure we have swrast available.
->     -DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
->     '',
->     ',swrast', d)}"
->     +GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
->     'x11',
->     '', ',swrast', d)}"
-> 
->      >
->      > On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin
->      > <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>
->     <mailto:alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>> wrote:
->      >
->      >     Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com
->     <mailto:alex.kanavin@gmail.com>
->      >     <mailto:alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>>
->      >     ---
->      >       .../mesa/{mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb>
->     <http://mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb>> =>
->      > mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>
->     <http://mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>>}               | 0
->      >       meta/recipes-graphics/mesa/mesa.inc                       
->           | 2 +-
->      >       meta/recipes-graphics/mesa/{mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb> <http://mesa_21.0.0.bb <http://mesa_21.0.0.bb>>
->      >     => mesa_21.0.1.bb <http://mesa_21.0.1.bb>
->     <http://mesa_21.0.1.bb <http://mesa_21.0.1.bb>>}   | 0
->      >       3 files changed, 1 insertion(+), 1 deletion(-)
->      >       rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->      >     <http://mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb>> =>
->     mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>
->      >     <http://mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>>} (100%)
->      >       rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb>
->      >     <http://mesa_21.0.0.bb <http://mesa_21.0.0.bb>> =>
->     mesa_21.0.1.bb <http://mesa_21.0.1.bb> <http://mesa_21.0.1.bb
->     <http://mesa_21.0.1.bb>>}
->      >     (100%)
->      >
->      >     diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->      >     <http://mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb>>
->      >     b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
->     <http://mesa-gl_21.0.1.bb>
->      >     <http://mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>>
->      >     similarity index 100%
->      >     rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
->     <http://mesa-gl_21.0.0.bb>
->      >     <http://mesa-gl_21.0.0.bb <http://mesa-gl_21.0.0.bb>>
->      >     rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
->     <http://mesa-gl_21.0.1.bb>
->      >     <http://mesa-gl_21.0.1.bb <http://mesa-gl_21.0.1.bb>>
->      >     diff --git a/meta/recipes-graphics/mesa/mesa.inc
->      >     b/meta/recipes-graphics/mesa/mesa.inc
->      >     index e9b72ce063..a40dad2b81 100644
->      >     --- a/meta/recipes-graphics/mesa/mesa.inc
->      >     +++ b/meta/recipes-graphics/mesa/mesa.inc
->      >     @@ -21,7 +21,7 @@ SRC_URI =
->      >     "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz
->     <https://mesa.freedesktop.org/archive/mesa-$%7BPV%7D.tar.xz>
->      >     <https://mesa.freedesktop.org/archive/mesa-$%7BPV%7D.tar.xz
->     <https://mesa.freedesktop.org/archive/mesa-$%7BPV%7D.tar.xz>> \
->      >
->      >   
->       file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
->      >                  "
->      >
->      >     -SRC_URI[sha256sum] =
->      >   
->       "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
->      >     +SRC_URI[sha256sum] =
->      >   
->       "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
->      >
->      >       UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
->      >
->      >     diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb>
->      >     <http://mesa_21.0.0.bb <http://mesa_21.0.0.bb>>
->     b/meta/recipes-graphics/mesa/mesa_21.0.1.bb <http://mesa_21.0.1.bb>
->      >     <http://mesa_21.0.1.bb <http://mesa_21.0.1.bb>>
->      >     similarity index 100%
->      >     rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
->     <http://mesa_21.0.0.bb>
->      >     <http://mesa_21.0.0.bb <http://mesa_21.0.0.bb>>
->      >     rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
->     <http://mesa_21.0.1.bb>
->      >     <http://mesa_21.0.1.bb <http://mesa_21.0.1.bb>>
->      >     --
->      >     2.29.2
->      >
->      >
->      >
->      >
->      >
->      >
->      > 
->      >
-> 
+>
+
+Look, the autobuilder found no issues whatsoever with this update. This is
+the line I draw in those oe-core version updates (which are apparently are
+mostly my problem for the past several years): I do not care for the myriad
+possible setups that are not a part of the autobuilder matrix.
+
+Alex
+
+--000000000000d1ae5505bed9c7d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 31 Mar 2021 at 20:50, Martin Jansa &lt;<a href=3D"mailto:mar=
+tin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">FWIW: I don&#39=
+;t use mesa-gl at all, I&#39;ve noticed it only in git grep DRIDRIVERS when=
+ looking why swrast was still enabled in our normal mesa (and it was becaus=
+e of our own bbappend).<div><br></div><div>But I agree that it&#39;s sad th=
+at it&#39;s OK to break Ross&#39;s recipe, when auh says there is an update=
+ available, but it&#39;s Ross&#39;s responsibility now to fix the follow-up=
+ breakage from that upgrade.</div><div><br></div><div>Thanks for the patch =
+Khem!</div></div></blockquote><div><br></div><div>Look, the autobuilder fou=
+nd no issues whatsoever with this update. This is the line I draw in those =
+oe-core version updates (which are apparently are mostly my problem for the=
+ past several years): I do not care for the myriad possible setups that are=
+ not a part of the autobuilder matrix. <br></div><br><div>Alex</div><br></d=
+iv></div>
+
+--000000000000d1ae5505bed9c7d6--
