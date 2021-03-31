@@ -1,206 +1,204 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web08.6290.1617195957334575096
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web09.6645.1617197015371599925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Mar 2021 06:05:57 -0700
+ Wed, 31 Mar 2021 06:23:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=l1eaXg58;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id hq27so29945413ejc.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 31 Mar 2021 06:05:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ezW7amSjwq0+z1unu7yHStKbhz/T6qnXQcvv+VEHp8M=;
-        b=l1eaXg58m7Q4CPD8i5fEpdgzl5SsHdXAzJC2cSr5sL721ee5Z+k3qiq/0+9L0EBqHh
-         OAJ9EaZzWWbhoRsLgPp7ahE9fG01W8PRZYlOJ5r+sqFppAaYSONTZzRzMmyhAabLL7y9
-         jdJ+nSPcFRgLh7vKlgbquaOrGvNjgeJDgTQNOIgmtWfXsir0ykMAp+TNu5fyLI1ISvVy
-         RmLTxvVqThy3Si1dPySfrd4x3kkAynwTDWV0gynH1Jgso5VNilZ09wVQ7msygfuci8ub
-         IMhPQ01hRyR4WC9WIXWaAaPBLuai2dXZIBVD2NUV1LTg9GHlA1sI+rcmLqrNePMdCUAC
-         Vm/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ezW7amSjwq0+z1unu7yHStKbhz/T6qnXQcvv+VEHp8M=;
-        b=BpmglJAv4chjDKd9VJAs94qxK3uFQOOHr2YTCMKWAdQPZ4zRx0JZIc2brX3LvC8EGO
-         gOhhUouxc3ZLqQKa3SgsZjaJRG2rgDjAEY4JrPoEzpXDb+D40ZNlASSQxnZxxKNGazXV
-         5P6MXyivUIAdgnIqAndPcVa7agA6tldROR+Vb0EQ6zpJAjZf74iY6tOeGfVVwHgA4mpt
-         tCXUHa/ZiE+POL2bTdhYDmgXhdyuaN1EGrYiOv9N0MKvVZAO4vAST8bY22CVNl2v61pG
-         jto9eaxWS3olN+wA1IFFXsZFPhTreMgOGs+GNKh/2J9jI7K6VtCL+ppr8UCTMfBnejva
-         CXhg==
-X-Gm-Message-State: AOAM531xXpP0qttac1YGggCsMTBUISorPjo38qerhast+ZedwaVGY0F8
-	6osZgSJ57EEsuvPBcAYl4ehOz5DzEHyAato0vEg=
-X-Google-Smtp-Source: ABdhPJz8SkZAEBzKRpu/3/MjAk4tmswf11gWeecF/FeoHVhsVjDeu7ZAlCW0Ro6Bjj9eFxt7Jbk3NUY0oja9mKC27pw=
-X-Received: by 2002:a17:907:e8f:: with SMTP id ho15mr3435169ejc.541.1617195955685;
- Wed, 31 Mar 2021 06:05:55 -0700 (PDT)
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=Ts/rsesg;
+ spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.156.1, mailfrom: klaus@linux.vnet.ibm.com)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12VD3LRT006386;
+	Wed, 31 Mar 2021 09:23:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Zxn8bVwRI0IvCQcdSoWMEXRJ3001yP3DbS3zCoYqGuw=;
+ b=Ts/rsesg6ryFXXFykk0bCRL+HVCR0GV3CwcQ7dopcmTzGAcO/SXvd0MsWP4EeowwBfLm
+ trhqgrZO7Vp0BXOgvYXrrcyLH9tdPt+XsQFbmccnR2TQD3g+Dou5yXvfMRQq60Q1pEDi
+ LsOgQapYMQpO+xwr+DGF+0o7utXVOwnxxgluBaJc3XDA9WtlhRGqvCKBzEP3wVWC4Z0C
+ Vmue7LAHwmGnCqQnahCrbGm8I9OfP6TLeWXQorn36gmO/JV+68IGL8SiUPYe3AQQB5Hp
+ XFSri83TGbyr8rWE0ShsQRFRGAQOrACOQi1JUea9BKrQTbDklMUjIZ0Y0E0LbzAYDPhV 1Q== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 37mn0ns4du-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 31 Mar 2021 09:23:34 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+	by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12VDJ6oc019491;
+	Wed, 31 Mar 2021 13:23:33 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+	by ppma02dal.us.ibm.com with ESMTP id 37maae6e82-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 31 Mar 2021 13:23:33 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+	by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12VDNWwc25559376
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Mar 2021 13:23:32 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 37F2678063;
+	Wed, 31 Mar 2021 13:23:32 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 339B77805F;
+	Wed, 31 Mar 2021 13:23:31 +0000 (GMT)
+Received: from T480-KlausKiwi.localdomain (unknown [9.85.187.23])
+	by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+	Wed, 31 Mar 2021 13:23:30 +0000 (GMT)
+From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: openbmc@lists.ozlabs.org, Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Subject: [PATCH] uboot: Fixes SPL verified boot on corner cases
+Date: Wed, 31 Mar 2021 10:23:13 -0300
+Message-Id: <20210331132313.23622-1-klaus@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210331122254.121192-1-alex.kanavin@gmail.com>
-In-Reply-To: <20210331122254.121192-1-alex.kanavin@gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 31 Mar 2021 15:05:44 +0200
-Message-ID: <CA+chaQeR3hT_jAUUjM4uEMF+U2a60tR-6kKiL1v-58+1Euo++A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] mesa: update 21.0.0 -> 21.0.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000788b6205bed4c664"
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jBbAM6XMLj3LC6WB4GDYLwQpTnasXa4S
+X-Proofpoint-ORIG-GUID: jBbAM6XMLj3LC6WB4GDYLwQpTnasXa4S
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-31_03:2021-03-30,2021-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ mlxlogscore=999 priorityscore=1501 mlxscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103300000 definitions=main-2103310095
+Content-Transfer-Encoding: 8bit
 
---000000000000788b6205bed4c664
-Content-Type: text/plain; charset="UTF-8"
+* The kernel-fitimage class adds a do_assemble_fitimage_initramfs task
+  regardless of INITRAMFS_IMAGE_BUNDLE setting, which in some cases can
+  result in that task running after do_uboot_assemble_fitimage and
+  overwriting the u-boot-spl.dtb file with the pristine version (without
+  public key). Fix this by making do_uboot_assemble_fitimage dependant
+  on both do_assemble_fitimage_* tasks, regardless of the aforementioned
+  setting.
 
-Are you going to fix meta-gl issue with swrast still in DRIDRIVERS reported
-on previous upgrade?
+* Adjust 'type' and 'os' on the U-boot fitimage its script so that
+  mkimage/dumpimage can recognize them.
 
-https://lists.openembedded.org/g/openembedded-core/message/149775
+* Move the deployment of the u-boot-spl-nodtb files outside of
+  concat_spl_dtb_helper(), so that we can better isolate the scenarios
+  of creating an (unsigned) U-Boot fitimage versus also signing it. This
+  prevents some stale files from being deployed in the images directory.
 
-https://lists.openembedded.org/g/openembedded-core/message/149779
-I don't know what exactly AB builds, but it's easy to reproduce locally,
-something like:
-DISTRO_FEATURES_remove = "x11"
-PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
-PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
-bitbake mesa-gl
-should be enough to see build failure.
+* Remove any u-boot-fitImage and u-boot-its files from build tree, in
+  case the build tree is being reused across bitbake calls.
 
-On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+---
+ meta/classes/uboot-sign.bbclass          | 41 +++++++++++++-----------
+ meta/lib/oeqa/selftest/cases/fitimage.py |  4 +--
+ 2 files changed, 24 insertions(+), 21 deletions(-)
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb}               | 0
->  meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
->  meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb}   | 0
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb}
-> (100%)
->  rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb}
-> (100%)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index e9b72ce063..a40dad2b81 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -21,7 +21,7 @@ SRC_URI = "
-> https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->
-> file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
->             "
->
-> -SRC_URI[sha256sum] =
-> "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
-> +SRC_URI[sha256sum] =
-> "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
->
->  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
->
-> diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb
-> b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
-> rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
-> --
-> 2.29.2
->
->
-> 
->
->
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 5f1750fdcc..85304d452e 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -142,19 +142,12 @@ concat_spl_dtb_helper() {
+ 	# We only deploy symlinks to the u-boot-spl.dtb,as the KERNEL_PN will
+ 	# be responsible for deploying the real file
+ 	if [ -e "${SPL_DIR}/${SPL_DTB_BINARY}" ] ; then
+-		deployed_spl_dtb_binary='${DEPLOY_DIR_IMAGE}/${SPL_DTB_IMAGE}'
+ 		ln -sf ${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_SYMLINK}
+ 		ln -sf ${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_BINARY}
+ 	fi
+ 
+-	if [ -f "${SPL_DIR}/${SPL_NODTB_BINARY}" ] ; then
+-		echo "Copying u-boot-nodtb binary..."
+-		install -m 0644 ${SPL_DIR}/${SPL_NODTB_BINARY} ${DEPLOYDIR}/${SPL_NODTB_IMAGE}
+-		ln -sf ${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_SYMLINK}
+-		ln -sf ${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_BINARY}
+-	fi
+-
+ 	# Concatenate the SPL nodtb binary and u-boot.dtb
++	deployed_spl_dtb_binary='${DEPLOY_DIR_IMAGE}/${SPL_DTB_IMAGE}'
+ 	if [ -e "${DEPLOYDIR}/${SPL_NODTB_IMAGE}" -a -e "$deployed_spl_dtb_binary" ] ; then
+ 		cd ${DEPLOYDIR}
+ 		cat ${SPL_NODTB_IMAGE} $deployed_spl_dtb_binary | tee ${B}/${CONFIG_B_PATH}/${SPL_BINARY} > ${SPL_IMAGE}
+@@ -343,8 +336,8 @@ uboot_fitimage_assemble() {
+         uboot {
+             description = "U-Boot image";
+             data = /incbin/("${uboot_nodtb_bin}");
+-            type = "uboot";
+-            os = "U-Boot";
++            type = "standalone";
++            os = "u-boot";
+             arch = "${UBOOT_ARCH}";
+             compression = "none";
+             load = <${UBOOT_LOADADDRESS}>;
+@@ -438,6 +431,7 @@ do_uboot_assemble_fitimage() {
+ 		# do_assemble_fitimage task
+ 		cp -P ${STAGING_DATADIR}/u-boot-spl*.dtb ${B}
+ 		cp -P ${STAGING_DATADIR}/u-boot-nodtb*.bin ${B}
++		rm -rf ${B}/u-boot-fitImage-* ${B}/u-boot-its-*
+ 		kernel_uboot_fitimage_name=`basename ${STAGING_DATADIR}/u-boot-fitImage-*`
+ 		kernel_uboot_its_name=`basename ${STAGING_DATADIR}/u-boot-its-*`
+ 		cd ${B}
+@@ -453,19 +447,30 @@ do_deploy_prepend_pn-${UBOOT_PN}() {
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
+ 		concat_dtb
+ 	fi
+-	if [ "${SPL_SIGN_ENABLE}" = "1" -a -n "${SPL_DTB_BINARY}" ] ; then
+-		concat_spl_dtb
+-	fi
+ 
+-	# We only deploy the symlinks to the uboot-fitImage and uboot-its
+-	# images, as the KERNEL_PN will take care of deploying the real file
+ 	if [ "${UBOOT_FITIMAGE_ENABLE}" = "1" ] ; then
++	# Deploy the u-boot-nodtb binary and symlinks...
++		if [ -f "${SPL_DIR}/${SPL_NODTB_BINARY}" ] ; then
++			echo "Copying u-boot-nodtb binary..."
++			install -m 0644 ${SPL_DIR}/${SPL_NODTB_BINARY} ${DEPLOYDIR}/${SPL_NODTB_IMAGE}
++			ln -sf ${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_SYMLINK}
++			ln -sf ${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_BINARY}
++		fi
++
++
++		# We only deploy the symlinks to the uboot-fitImage and uboot-its
++		# images, as the KERNEL_PN will take care of deploying the real file
+ 		ln -sf ${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_BINARY}
+ 		ln -sf ${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_SYMLINK}
+ 		ln -sf ${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS}
+ 		ln -sf ${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS_SYMLINK}
+ 	fi
+ 
++	if [ "${SPL_SIGN_ENABLE}" = "1" -a -n "${SPL_DTB_BINARY}" ] ; then
++		concat_spl_dtb
++	fi
++
++
+ }
+ 
+ python () {
+@@ -487,9 +492,7 @@ python () {
+         # If the Kernel fitImage is being signed, we need to
+         # create the U-Boot fitImage after it
+         if d.getVar('UBOOT_SIGN_ENABLE') == '1':
+-            if d.getVar('INITRAMFS_IMAGE_BUNDLE') == "1":
+-                d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' %s:do_assemble_fitimage_initramfs' % d.getVar('KERNEL_PN'))
+-            else:
+-                d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' %s:do_assemble_fitimage' % d.getVar('KERNEL_PN'))
++            d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' %s:do_assemble_fitimage' % d.getVar('KERNEL_PN'))
++            d.appendVarFlag('do_uboot_assemble_fitimage', 'depends', ' %s:do_assemble_fitimage_initramfs' % d.getVar('KERNEL_PN'))
+ 
+ }
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index b911fded74..815ee48c05 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -293,7 +293,7 @@ FIT_SIGN_INDIVIDUAL = "1"
+         # different architectures.
+         its_field_check = [
+             'description = "A model description";',
+-            'type = "uboot";',
++            'type = "standalone";',
+             'load = <0x80080000>;',
+             'entry = <0x80080000>;',
+             'default = "conf";',
+@@ -376,7 +376,7 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart U-Boot comment'"
+         # different architectures.
+         its_field_check = [
+             'description = "A model description";',
+-            'type = "uboot";',
++            'type = "standalone";',
+             'load = <0x80080000>;',
+             'entry = <0x80080000>;',
+             'default = "conf";',
+-- 
+2.25.1
 
---000000000000788b6205bed4c664
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Are you going to fix meta-gl issue with swrast still in DR=
-IDRIVERS reported on previous upgrade?<div><br></div><div><a href=3D"https:=
-//lists.openembedded.org/g/openembedded-core/message/149775">https://lists.=
-openembedded.org/g/openembedded-core/message/149775</a><br></div><div><br><=
-/div><div><a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
-sage/149779">https://lists.openembedded.org/g/openembedded-core/message/149=
-779</a><br></div><div>I don&#39;t know what exactly AB builds, but it&#39;s=
- easy to reproduce locally, something like:</div><div>DISTRO_FEATURES_remov=
-e =3D &quot;x11&quot;<br>PREFERRED_PROVIDER_virtual/libgl =3D &quot;mesa-gl=
-&quot;<br>PREFERRED_PROVIDER_virtual/mesa =3D &quot;mesa-gl&quot;<br></div>=
-<div>bitbake mesa-gl</div><div>should be enough to see build failure.</div>=
-</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Wed, Mar 31, 2021 at 2:44 PM Alexander Kanavin &lt;<a href=3D"mailto:ale=
-x.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Alexander Kanavin=
- &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
-in@gmail.com</a>&gt;<br>
----<br>
-=C2=A0.../mesa/{<a href=3D"http://mesa-gl_21.0.0.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">mesa-gl_21.0.0.bb</a> =3D&gt; <a href=3D"http://mesa-gl_21.=
-0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.1.bb</a>}=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
-=C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
- 2 +-<br>
-=C2=A0meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.0.0.bb" rel=3D=
-"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> =3D&gt; <a href=3D"http:/=
-/mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb</a>}=
-=C2=A0 =C2=A0| 0<br>
-=C2=A03 files changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa-gl_21.0.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a> =3D&gt; <a h=
-ref=3D"http://mesa-gl_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa-=
-gl_21.0.1.bb</a>} (100%)<br>
-=C2=A0rename meta/recipes-graphics/mesa/{<a href=3D"http://mesa_21.0.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> =3D&gt; <a href=3D=
-"http://mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb=
-</a>} (100%)<br>
-<br>
-diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a> b/meta/recipe=
-s-graphics/mesa/<a href=3D"http://mesa-gl_21.0.1.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">mesa-gl_21.0.1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.0.bb</a><br>
-rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa-gl_21.0.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">mesa-gl_21.0.1.bb</a><br>
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
-esa/mesa.inc<br>
-index e9b72ce063..a40dad2b81 100644<br>
---- a/meta/recipes-graphics/mesa/mesa.inc<br>
-+++ b/meta/recipes-graphics/mesa/mesa.inc<br>
-@@ -21,7 +21,7 @@ SRC_URI =3D &quot;<a href=3D"https://mesa.freedesktop.or=
-g/archive/mesa-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https=
-://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-futex.h-Define-__NR_=
-futex-if-it-does-not-exist.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c=
-808ca0dd26ba522e0d84&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;379fc984459394f2ab2d84049efdc3a659869dc1328c=
-e72ef0598506611712bb&quot;<br>
-<br>
-=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;mesa-(?P&lt;pver&gt;\d+(\.\d+)+=
-)&quot;<br>
-<br>
-diff --git a/meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a> b/meta/recipes-grap=
-hics/mesa/<a href=3D"http://mesa_21.0.1.bb" rel=3D"noreferrer" target=3D"_b=
-lank">mesa_21.0.1.bb</a><br>
-similarity index 100%<br>
-rename from meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">mesa_21.0.0.bb</a><br>
-rename to meta/recipes-graphics/mesa/<a href=3D"http://mesa_21.0.1.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">mesa_21.0.1.bb</a><br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000788b6205bed4c664--
