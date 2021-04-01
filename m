@@ -1,95 +1,89 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.1172.1617290966250163649
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web12.1120.1617290971480337629
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:29:26 -0700
+ Thu, 01 Apr 2021 08:29:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=B6Bcmtd2;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id n140so2132362oig.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Tf55jJfW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f53.google.com with SMTP id s11-20020a056830124bb029021bb3524ebeso2526051otp.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=SGFGAT3k093mRxkbrF4VFj/g0Zag9GtFH+H8MEXr+N0=;
-        b=B6Bcmtd2USzr2O3YkYlEKhmNCjC3+VDV/yTjxODkYld2s6QnKjoosgOlTK/j56H1HC
-         +YsQul7BVWvan2uAcN3PtvGhgOjTsfNliYtnOvMzQRidLfhM0lSdoaaG8DEe1lPxv2Bj
-         CIgXXTw7Xsr1MmdMmYd0+7avSG0dUvklW3XzrPfS4Mr/YrGXy7vquX/zZ3RTSt11IZSm
-         NmRbrWvirVN38SFOg+g1lUSFJ69Ht3kFQwxW7dYqbiAfFZoNWdnn4K+ReVGQuU2PmQGH
-         YmCqx/OCkg5GLaJmSFVtCFra1J8DkfH+YeYgBwLjZw6UoDiwXOrdUxcND7H1FDua9ov2
-         XgmQ==
+        bh=ZBsa4eHPHmutUvQ1nf9pG5+yn8u9LvOdkoizgGhH/wI=;
+        b=Tf55jJfWaC8JHbF38nLFnHZGfrP356R9QVQeLn7rc0uYjLTYqqbeTzOSZhZ0khJ0Lr
+         cuRXasmAj/rs40kPoeqmmULsJqPgPxfy/jX070FxEo4EDSZI2n5BPgdRKxzj7/iT97Ej
+         0tEPNemUh/4CbqxldBuwURm4ZP2htwdrf5EIrfywDgx1QRmLrWgT3ns/R4aqdEtgYXbL
+         +sRN9DCQPppuT9D/lfWLFJ+rGxgnvZcAxgzDUopXXoGoD/HodDQclm4tLIEiFos3oYms
+         kC8KEOt9Q7vNYLjUaoewBOOtDsYKLP0N8gVfFwItMpTAo5sqPbI9kxGzzwUo1mB9q7uQ
+         0uFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SGFGAT3k093mRxkbrF4VFj/g0Zag9GtFH+H8MEXr+N0=;
-        b=cExLUiCDIPUCRiAU50K7jAukUHNyPxG8fpnT/ElfIH/iSssi2ic25I74EOoAsxa6Uz
-         IE4INlRF2lvc9CIMcaOATfYz2ZkmNuu71SAiOlcrBEpNtnlfRfVs1wqHoG4A1bZV54YD
-         zcNwb5hfFGXg/QioEhnTr8JGvfcavajv79Ce09gjzgTgUOej0kVSWWJagqHZkSTY3RIT
-         Q4cv5MFK5mwhuGuNMCjWRnE0OirTXmqLSkFtCQjegVaTC5cSlG4N4+7Wl9pjloVPuMjF
-         XerF5M45UWvsb2j8Sz5p6+YPmDuW9XZVWm9HCbu4TOisZFYffLGCDPOjqppk4LryyDkz
-         Pkyg==
-X-Gm-Message-State: AOAM533olz2YqCy9JvxIv2Ik1iPPU5lNdoZq5aElYf2l/+KD8SgcguHi
-	24yAPvJ8+i2vTm8Kb8IiDBIi8tjamjooFSSWAm4=
-X-Google-Smtp-Source: ABdhPJw9tgGtIWJM9TV5RWGsfY6xTW5tOhWi5sDExRhc/XMdoRoSEEV7yEg5cGSJVN15F1Wz8sUEhw==
-X-Received: by 2002:a05:6808:8e4:: with SMTP id d4mr6540988oic.114.1617290965132;
-        Thu, 01 Apr 2021 08:29:25 -0700 (PDT)
+        bh=ZBsa4eHPHmutUvQ1nf9pG5+yn8u9LvOdkoizgGhH/wI=;
+        b=iGZNnMQjLoaqHs4jqPbdukqVobMeo8QaPf1OdDfjpAaJD8BSff5Q3EI4nrH1mAf5YN
+         cLWISSBKwRQ7RBcHv7Xr9Qao0J3kJOfvaRibZ4xZs1yUWuvTfSfJZsj1E4kI9lcn8bjW
+         qBP2D1SGPYJ293VLJPlhood0MFLnr5kRC9Csur38oQU1NpI4zE2m1G7Wkc7htrIP8efp
+         xq2kyQfNHiSgM9V+dS1/D6BBhmTS8viSE7b+J+97jOF8Ie00L0O92+b5xWEpeQngMX3L
+         VvBIW0om1TOJkH9IqwxjeRkIWvAyjNzarhCXfSQdOjr4tsknfO7PvuBNhGZRc1qOOqaw
+         73Rw==
+X-Gm-Message-State: AOAM530T73IYj0ehuzcuy4Zgm45EqDWAf5UdX0vKUkFxWdp1TWt/1WJu
+	XfU4YiG8ETJUA0FlzAf9eng/nwsPRJRbVYie1qc=
+X-Google-Smtp-Source: ABdhPJxfA3LntLDvZh71Nf5kF7s0CYOvLj3oc6V4xOs+6XsViMY4VAUMQ3hMaCcaQwDOpNhqgVjOSQ==
+X-Received: by 2002:a05:6830:14a:: with SMTP id j10mr7456657otp.143.1617290970406;
+        Thu, 01 Apr 2021 08:29:30 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.21
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:29:24 -0700 (PDT)
+        Thu, 01 Apr 2021 08:29:30 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/15] packagegroups: delete useless "PROVIDES" lines
-Date: Thu,  1 Apr 2021 05:27:42 -1000
-Message-Id: <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/15] buildhistory: add missing vardepsexcludes
+Date: Thu,  1 Apr 2021 05:27:43 -1000
+Message-Id: <7b92087492b67d6ff1f58fe3fa0f7dfbc732e5ab.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+From: Christopher Larson <kergoth@gmail.com>
 
-There is apparently no functional value to "PROVIDES" lines anymore in
-packagegroup recipe files, so remove the lonely couple of examples
-left.
+For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate entries were added to vardepvalueexclude, but we want them in vardepsexclude as well.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6f2c9602bc5fc6794b852ec20f40ea62a55ada1e)
+(cherry picked from commit 554b17e0bbe5190e4b03121f2ed06f4845012a71)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-base.bb     | 1 -
- meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 -
- 2 files changed, 2 deletions(-)
+ meta/classes/buildhistory.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 1f802da09b..c32664917f 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -8,7 +8,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8a1359acbe..44a66df962 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -671,13 +671,16 @@ IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_imageinfo"
+ POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
+ POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_get_sdk_installed_target;"
+ POPULATE_SDK_POST_TARGET_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_target;| buildhistory_get_sdk_installed_target;"
++POPULATE_SDK_POST_TARGET_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_target buildhistory_get_sdk_installed_target"
  
- inherit packagegroup
+ POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host;"
+ POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_get_sdk_installed_host;"
+ POPULATE_SDK_POST_HOST_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_host;| buildhistory_get_sdk_installed_host;"
++POPULATE_SDK_POST_HOST_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_host buildhistory_get_sdk_installed_host"
  
--PROVIDES = "${PACKAGES}"
- PACKAGES = ' \
-             packagegroup-base \
-             packagegroup-base-extended \
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-index b345e314ad..20fe6fc092 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-@@ -7,7 +7,6 @@ PR = "r2"
+ SDK_POSTPROCESS_COMMAND_append = " buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
+ SDK_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
++SDK_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_sdkinfo buildhistory_get_extra_sdkinfo"
  
- inherit packagegroup
- 
--PROVIDES = "${PACKAGES}"
- PACKAGES = "${PN}-server ${PN}-client"
- 
- SUMMARY_${PN}-client = "NFS client"
+ python buildhistory_write_sigs() {
+     if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
 -- 
 2.25.1
 
