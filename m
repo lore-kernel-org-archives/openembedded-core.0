@@ -1,118 +1,95 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web10.1109.1617290960661520969
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web11.1172.1617290966250163649
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:29:20 -0700
+ Thu, 01 Apr 2021 08:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G3dk+Z/b;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f177.google.com with SMTP id x2so2167979oiv.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=B6Bcmtd2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id n140so2132362oig.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=8LgkM+Ak0Nl6R3yhzUz4n+QTzniX6+ix1GCXcSiUZKw=;
-        b=G3dk+Z/bmbimjl24EKnk4eYP1+fgjFhKd4FdciWo0y2VTy7VeaIYLbmIP6kndSs3Ug
-         CPK6tckDsFpdRd4uI/LE7Iao9CB33QoepFCLWf0GHAlg58AMbVQZBG36EqW+q4Po6BvL
-         onDnjxwy27Tzs7WstxfyfefyO76p8DONUHE4pJNJCA8uXiWQM0LiqSfa7KUFOohJoa2L
-         2FWq+1ayuSh7VqWCMrBfhS3C2KMWTym9YYyEe6dVEOPbXo71DaXsFliQ89pyFVXbrDvL
-         Y8DPcCNhgs9fV7z8S2FVs5zlFw4ATUuQB4ej7YDIdPKJtQ3FY8WWTTMyW8Tom0HndEgQ
-         Im4Q==
+        bh=SGFGAT3k093mRxkbrF4VFj/g0Zag9GtFH+H8MEXr+N0=;
+        b=B6Bcmtd2USzr2O3YkYlEKhmNCjC3+VDV/yTjxODkYld2s6QnKjoosgOlTK/j56H1HC
+         +YsQul7BVWvan2uAcN3PtvGhgOjTsfNliYtnOvMzQRidLfhM0lSdoaaG8DEe1lPxv2Bj
+         CIgXXTw7Xsr1MmdMmYd0+7avSG0dUvklW3XzrPfS4Mr/YrGXy7vquX/zZ3RTSt11IZSm
+         NmRbrWvirVN38SFOg+g1lUSFJ69Ht3kFQwxW7dYqbiAfFZoNWdnn4K+ReVGQuU2PmQGH
+         YmCqx/OCkg5GLaJmSFVtCFra1J8DkfH+YeYgBwLjZw6UoDiwXOrdUxcND7H1FDua9ov2
+         XgmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8LgkM+Ak0Nl6R3yhzUz4n+QTzniX6+ix1GCXcSiUZKw=;
-        b=izBn1kfuztbvAJM3ctVAMWVP7JltOvm6GAdxHm+eYXluHKhXKi6smuBUZuz1JVQZbB
-         pI3IWJzQo1LDyjIEoF1FZFqeUXXikmpq71Mo4FlstRnncweGrUigZysnw1jzAaW3Vgwj
-         /SIW4ZSWYUN37ujaQg78EcAlJAPLQNA6FYumStpaSiBuXSoh8Hnbzi8Nk0lqSRLTZWcB
-         9Metw3IapY6utEoa0gVCdnmy3iqvoslklj89hV3YXHy1nHQ68vvPvLIrfdVNi3FEQdN4
-         nymg2dgw0JZ6YD9UPLlAj13cR05hWMlpYTcpEBGq5ND6/dptRPCDByxp8Kd2XkMNveVt
-         pW0Q==
-X-Gm-Message-State: AOAM532+ZXDlQYHVYw0QFb+QjaBdBQqou1Q7zQncTJISmEtYFeJg0Z+a
-	HIp185R3CurUOZ9gAZtNPq4Aoi+NvI7iaXDtddk=
-X-Google-Smtp-Source: ABdhPJymPQmCPephmtvvGgvTJ9qXUAy9+vTOzk0nqX6VFvFHj2Ac6jlWIxdR98Gj9PN5UOpkPuQkKw==
-X-Received: by 2002:aca:fd58:: with SMTP id b85mr6045740oii.52.1617290959525;
-        Thu, 01 Apr 2021 08:29:19 -0700 (PDT)
+        bh=SGFGAT3k093mRxkbrF4VFj/g0Zag9GtFH+H8MEXr+N0=;
+        b=cExLUiCDIPUCRiAU50K7jAukUHNyPxG8fpnT/ElfIH/iSssi2ic25I74EOoAsxa6Uz
+         IE4INlRF2lvc9CIMcaOATfYz2ZkmNuu71SAiOlcrBEpNtnlfRfVs1wqHoG4A1bZV54YD
+         zcNwb5hfFGXg/QioEhnTr8JGvfcavajv79Ce09gjzgTgUOej0kVSWWJagqHZkSTY3RIT
+         Q4cv5MFK5mwhuGuNMCjWRnE0OirTXmqLSkFtCQjegVaTC5cSlG4N4+7Wl9pjloVPuMjF
+         XerF5M45UWvsb2j8Sz5p6+YPmDuW9XZVWm9HCbu4TOisZFYffLGCDPOjqppk4LryyDkz
+         Pkyg==
+X-Gm-Message-State: AOAM533olz2YqCy9JvxIv2Ik1iPPU5lNdoZq5aElYf2l/+KD8SgcguHi
+	24yAPvJ8+i2vTm8Kb8IiDBIi8tjamjooFSSWAm4=
+X-Google-Smtp-Source: ABdhPJw9tgGtIWJM9TV5RWGsfY6xTW5tOhWi5sDExRhc/XMdoRoSEEV7yEg5cGSJVN15F1Wz8sUEhw==
+X-Received: by 2002:a05:6808:8e4:: with SMTP id d4mr6540988oic.114.1617290965132;
+        Thu, 01 Apr 2021 08:29:25 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.16
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:29:19 -0700 (PDT)
+        Thu, 01 Apr 2021 08:29:24 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/15] populate_sdk_ext: Avoid copying and producing .pyc files
-Date: Thu,  1 Apr 2021 05:27:41 -1000
-Message-Id: <e3d027b48bf54fef9420cd1cd4f04a9bedf8d032.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/15] packagegroups: delete useless "PROVIDES" lines
+Date: Thu,  1 Apr 2021 05:27:42 -1000
+Message-Id: <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 
-Since pyc cache files are really system specific, no real reason to copy or
-generate them during the eSDK build process.  Also generating them has the
-possibility of re-using inodes that pseudo may have been tracking, leading
-a build failure.
+There is apparently no functional value to "PROVIDES" lines anymore in
+packagegroup recipe files, so remove the lonely couple of examples
+left.
 
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ce8eba263647ae63a722122e28f26af46ae083a0)
+(cherry picked from commit 6f2c9602bc5fc6794b852ec20f40ea62a55ada1e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 4 +++-
- meta/lib/oe/copy_buildsystem.py       | 6 +++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-base.bb     | 1 -
+ meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index d63abf4f30..aa00d5397c 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -247,7 +247,9 @@ python copy_buildsystem () {
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 1f802da09b..c32664917f 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -8,7 +8,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
-     # Create a layer for new recipes / appends
-     bbpath = d.getVar('BBPATH')
--    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')])
-+    env = os.environ.copy()
-+    env['PYTHONDONTWRITEBYTECODE'] = '1'
-+    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')], env=env)
+ inherit packagegroup
  
-     # Create bblayers.conf
-     bb.utils.mkdirhier(baseoutpath + '/conf')
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 31a84f5b06..d97bf9d1b9 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -20,7 +20,7 @@ def _smart_copy(src, dest):
-     mode = os.stat(src).st_mode
-     if stat.S_ISDIR(mode):
-         bb.utils.mkdirhier(dest)
--        cmd = "tar --exclude='.git' --xattrs --xattrs-include='*' -chf - -C %s -p . \
-+        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs --xattrs-include='*' -chf - -C %s -p . \
-         | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-     else:
-@@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs, input_sstate_cache, output_sstate_cac
-     bb.note('Generating sstate-cache...')
+-PROVIDES = "${PACKAGES}"
+ PACKAGES = ' \
+             packagegroup-base \
+             packagegroup-base-extended \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+index b345e314ad..20fe6fc092 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+@@ -7,7 +7,6 @@ PR = "r2"
  
-     nativelsbstring = d.getVar('NATIVELSBSTRING')
--    bb.process.run("gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
-+    bb.process.run("PYTHONDONTWRITEBYTECODE=1 gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
-     if fixedlsbstring and nativelsbstring != fixedlsbstring:
-         nativedir = output_sstate_cache + '/' + nativelsbstring
-         if os.path.isdir(nativedir):
-@@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile, cmdprefix='', cwd=None, lo
-         logparam = '-l %s' % logfile
-     else:
-         logparam = ''
--    cmd = "%sBB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
-+    cmd = "%sPYTHONDONTWRITEBYTECODE=1 BB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
-     env = dict(d.getVar('BB_ORIGENV', False))
-     env.pop('BUILDDIR', '')
-     env.pop('BBPATH', '')
+ inherit packagegroup
+ 
+-PROVIDES = "${PACKAGES}"
+ PACKAGES = "${PN}-server ${PN}-client"
+ 
+ SUMMARY_${PN}-client = "NFS client"
 -- 
 2.25.1
 
