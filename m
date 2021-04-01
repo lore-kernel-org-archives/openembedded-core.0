@@ -1,445 +1,396 @@
 Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web12.1076.1617290892633368929
+ by mx.groups.io with SMTP id smtpd.web11.1142.1617290898360293093
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:28:12 -0700
+ Thu, 01 Apr 2021 08:28:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=I0olw3/J;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Sk9NV3ii;
  spf=softfail (domain: sakoman.com, ip: 209.85.167.176, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f176.google.com with SMTP id i81so2148275oif.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:28:12 -0700 (PDT)
+Received: by mail-oi1-f176.google.com with SMTP id n140so2128861oig.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=eUqIp9PcQed2E6AQWSyo2rbU3zMgIQJQON9tVU67O2g=;
-        b=I0olw3/J2ecb8X9622dIhrPVp+xgpE29nKl+wVTWE5IbnLp3ARxZodUMML3Tc8/16p
-         u/dXYx4pQfSiGJGnhTOxy2GeEsCrZvqbB6hJU/1OdHMvJ1kEggyTDtweS6cwaMXqdUt1
-         eVrpqK3HY2LjcYJssF3ehSRMJZ5vRD5RUFgXpFl7nAc4CuNMkbCmaia0feKxPE1SfzdG
-         5q3gGyREGXpX6BYLyXogiDgferRRJt4tgRL79fowZcIUdGNifAl4B1gtyig7QAY9Z8eA
-         ED9Ox9dkwgPyA7oq72+K/OfGv0n6y2B3/+j0jCDxyMXditQU0WMOLBAuRyRj2vwv2mwS
-         8qPA==
+        bh=HPsk9HM603zo+02TZVyUG3x+tUrG2a/PjttJCbQRUe8=;
+        b=Sk9NV3iidUOjPkrYRulVX4rdfvGRDhtkXO7kiaD+cFfF34IVdGlGwECOMDzyQHSp+H
+         r4QamVsW9W1D5HjjMIg151YvoOqwvTkKkLQ4mbkwUlRnIgGCBpEpDSmSzGUlzQKH/vtE
+         gcRp1RgZSJ7P7Uq1v0E78sB6vWFPsKYC7tMvcxmXvCBOR75ptEftWZU6jC9ayZa/LUI3
+         MLfRhpD1ZEl89IWp3/vv1oWYFOAiuvXG9aJ89RHMXtHg2xywfi6+dvd/DslUgDs5I1fR
+         dzsf/1XYs604aKI1UEL8tKtsxfRJotk/ELQpiR8RkIe7EDkiTKPS2aswRhc6ru1KBIMA
+         gFIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eUqIp9PcQed2E6AQWSyo2rbU3zMgIQJQON9tVU67O2g=;
-        b=YZsjvPmJGKpXdkDf2LD6/H6KNcUidA/WY1gne93FdfyKlS9OCzjNQxz72RvHLMrSI3
-         +ASBUjz3WKSh4FvKvZ5dDJVSQrJs4NrPS5QVD5KnNJh93b6YOGU7hCM2RU3JbEWvhudW
-         QdPVT7N0cg1wO53fYA1LgG9CylBQAMrj9fHttBDaH8bkG1jp11/UUwgqJ/ifEkhxcWwu
-         d/wkJYnNsdhWcWi4tamKVEE4Y5qqQfjiPeLGAVJNyHK59r7ep8ZSZcNvKNjtU2AArbjo
-         dssLBXfEi496ZWCwZTYRjv2C/PEQmRiuVUILr1praGFiKWYuoRaBuShe2mPCUMXdGWRt
-         bxOA==
-X-Gm-Message-State: AOAM532Z330WlDNg/IrdqS4QJ018QPpMwDmYWkWMmfAe9SDLuZZaT11k
-	F5yaT430Tf8C1UIgwyOrH+/ltvuMq4sGzt2hOH4=
-X-Google-Smtp-Source: ABdhPJwBkp6ZZ/MAG/JQ9fLtloAM4qJk1DNndl8ZfpK+DLz6td0fpgZ/r/BfjYbdmSwj/JKXfX9S1w==
-X-Received: by 2002:aca:b645:: with SMTP id g66mr6212727oif.64.1617290891334;
-        Thu, 01 Apr 2021 08:28:11 -0700 (PDT)
+        bh=HPsk9HM603zo+02TZVyUG3x+tUrG2a/PjttJCbQRUe8=;
+        b=M+eJx1sNp60TaH0lDj8CKN8PuBUgU8Fv9L+C+jD85IjiKr8XVo0dmFSmZp1KeI3AZQ
+         DwecbzyA1P1YER8/chvFRQFx1RdtrJJFkyrMShMg+d+jR5Y791ymgMs9MnLUHd0C7ZMu
+         29Aw+VKtXD01zP2AM/mTxKPBQFI5jXtYjrhWtz4afA0gVsODunJux/TRR72O8K4bR4bq
+         Dv0NcCQmqBS0yaNKa7paQnp9V0QvHoUyRGZk5gCqWTB0bYAUNHGN+ZJ9uXZa4yKCEokI
+         3VjWwYl3sUA5iVItfSeFY0mOz0EPQDjC3sllKQmFMVmn4p0Xn1L37VIyfgNMum4Pg5gq
+         XrzA==
+X-Gm-Message-State: AOAM5338+RHLp2Ny1Fu0h074SdqHXBmjboJiBQDmcArUh564Ue86yMJC
+	3jltMbBmyzWJiFHKEZqJd5gUy59VDQfFrLxxRkA=
+X-Google-Smtp-Source: ABdhPJwqPlXWDlnWQu2AUusQCYBWizsOKoNfjON2fyXlaaP97QtmiHr/O/TB0DH45B3IbZi+Eea4VA==
+X-Received: by 2002:a05:6808:98a:: with SMTP id a10mr6438628oic.28.1617290897062;
+        Thu, 01 Apr 2021 08:28:17 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.28.07
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.28.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:28:10 -0700 (PDT)
+        Thu, 01 Apr 2021 08:28:16 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/15] connman: fix CVE-2021-26675, CVE-2021-26676
-Date: Thu,  1 Apr 2021 05:27:30 -1000
-Message-Id: <3c78000aaf8e4ee8ffb7674f5c286e2c110f167b.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/15] git: fix CVE-2021-21300
+Date: Thu,  1 Apr 2021 05:27:31 -1000
+Message-Id: <8293d5d1529629bd13028bdde1fa99da30313bac.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Catalin Enache <catalin.enache@windriver.com>
+From: Minjae Kim <flowergom@gmail.com>
 
-A stack-based buffer overflow in dnsproxy in ConnMan before 1.39
-could be used by network adjacent attackers to execute code.
+checkout: fix bug that makes checkout follow symlinks in leading path
 
-gdhcp in ConnMan before 1.39 could be used by network-adjacent.
-attackers to leak sensitive stack information, allowing further
-exploitation of bugs in gdhcp.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2021-26675
-https://nvd.nist.gov/vuln/detail/CVE-2021-26676
-
-Upstream patches:
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=e4079a20f617a4b076af503f6e4e8b0304c9f2cb
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=58d397ba74873384aee449690a9070bacd5676fa
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1
-
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
+CVE: CVE-2021-21300
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../connman/connman/CVE-2021-26675.patch      |  62 +++++
- .../connman/connman/CVE-2021-26676-0001.patch | 231 ++++++++++++++++++
- .../connman/connman/CVE-2021-26676-0002.patch |  33 +++
- .../connman/connman_1.37.bb                   |   3 +
- 4 files changed, 329 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
+ .../git/files/CVE-2021-21300.patch            | 305 ++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ 2 files changed, 308 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2021-21300.patch
 
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
+diff --git a/meta/recipes-devtools/git/files/CVE-2021-21300.patch b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
 new file mode 100644
-index 0000000000..2648a832ca
+index 0000000000..9206f711cf
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26675.patch
-@@ -0,0 +1,62 @@
-+From e4079a20f617a4b076af503f6e4e8b0304c9f2cb Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:41:53 +0100
-+Subject: [PATCH] dnsproxy: Add length checks to prevent buffer overflow
++++ b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
+@@ -0,0 +1,305 @@
++From 0e9cef2414f0df3fa5b9b56ff9072aa122bef29c Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowrgom@gmail.com>
++Date: Sat, 27 Mar 2021 15:18:46 +0900
++Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
++ leading path
 +
-+Fixes: CVE-2021-26675
++Before checking out a file, we have to confirm that all of its leading
++components are real existing directories. And to reduce the number of
++lstat() calls in this process, we cache the last leading path known to
++contain only directories. However, when a path collision occurs (e.g.
++when checking out case-sensitive files in case-insensitive file
++systems), a cached path might have its file type changed on disk,
++leaving the cache on an invalid state. Normally, this doesn't bring
++any bad consequences as we usually check out files in index order, and
++therefore, by the time the cached path becomes outdated, we no longer
++need it anyway (because all files in that directory would have already
++been written).
 +
-+Upstream-Status: Backport
-+CVE: CVE-2021-26675
++But, there are some users of the checkout machinery that do not always
++follow the index order. In particular: checkout-index writes the paths
++in the same order that they appear on the CLI (or stdin); and the
++delayed checkout feature -- used when a long-running filter process
++replies with "status=delayed" -- postpones the checkout of some entries,
++thus modifying the checkout order.
 +
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=e4079a20f617a4b076af503f6e4e8b0304c9f2cb
++When we have to check out an out-of-order entry and the lstat() cache is
++invalid (due to a previous path collision), checkout_entry() may end up
++using the invalid data and thrusting that the leading components are
++real directories when, in reality, they are not. In the best case
++scenario, where the directory was replaced by a regular file, the user
++will get an error: "fatal: unable to create file 'foo/bar': Not a
++directory". But if the directory was replaced by a symlink, checkout
++could actually end up following the symlink and writing the file at a
++wrong place, even outside the repository. Since delayed checkout is
++affected by this bug, it could be used by an attacker to write
++arbitrary files during the clone of a maliciously crafted repository.
 +
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++Some candidate solutions considered were to disable the lstat() cache
++during unordered checkouts or sort the entries before passing them to
++the checkout machinery. But both ideas include some performance penalty
++and they don't future-proof the code against new unordered use cases.
++
++Instead, we now manually reset the lstat cache whenever we successfully
++remove a directory. Note: We are not even checking whether the directory
++was the same as the lstat cache points to because we might face a
++scenario where the paths refer to the same location but differ due to
++case folding, precomposed UTF-8 issues, or the presence of `..`
++components in the path. Two regression tests, with case-collisions and
++utf8-collisions, are also added for both checkout-index and delayed
++checkout.
++
++Note: to make the previously mentioned clone attack unfeasible, it would
++be sufficient to reset the lstat cache only after the remove_subtree()
++call inside checkout_entry(). This is the place where we would remove a
++directory whose path collides with the path of another entry that we are
++currently trying to check out (possibly a symlink). However, in the
++interest of a thorough fix that does not leave Git open to
++similar-but-not-identical attack vectors, we decided to intercept
++all `rmdir()` calls in one fell swoop.
++
++This addresses CVE-2021-21300.
++
++Co-authored-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++Signed-off-by: Matheus Tavares <matheus.bernardino@usp.br>
++
++Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
++CVE: CVE-2021-21300
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
 +---
-+ src/dnsproxy.c | 14 +++++++++++---
-+ 1 file changed, 11 insertions(+), 3 deletions(-)
++ cache.h                         |  1 +
++ compat/mingw.c                  |  2 ++
++ git-compat-util.h               |  5 +++++
++ symlinks.c                      | 25 +++++++++++++++++++++
++ t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
++ t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
++ t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
++ 7 files changed, 130 insertions(+), 3 deletions(-)
 +
-+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-+index a7bf87a1..4f5c897f 100644
-+--- a/src/dnsproxy.c
-++++ b/src/dnsproxy.c
-+@@ -1767,6 +1767,7 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+			char **uncompressed_ptr)
-+ {
-+	char *uptr = *uncompressed_ptr; /* position in result buffer */
-++	char * const uncomp_end = uncompressed + uncomp_len - 1;
-+
-+	debug("count %d ptr %p end %p uptr %p", field_count, ptr, end, uptr);
-+
-+@@ -1787,12 +1788,15 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+		 * tmp buffer.
-+		 */
-+
-+-		ulen = strlen(name);
-+-		strncpy(uptr, name, uncomp_len - (uptr - uncompressed));
-+-
-+		debug("pos %d ulen %d left %d name %s", pos, ulen,
-+			(int)(uncomp_len - (uptr - uncompressed)), uptr);
-+
-++		ulen = strlen(name);
-++		if ((uptr + ulen + 1) > uncomp_end) {
-++			goto out;
-++		}
-++		strncpy(uptr, name, uncomp_len - (uptr - uncompressed));
-++
-+		uptr += ulen;
-+		*uptr++ = '\0';
-+
-+@@ -1802,6 +1806,10 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+		 * We copy also the fixed portion of the result (type, class,
-+		 * ttl, address length and the address)
-+		 */
-++		if ((uptr + NS_RRFIXEDSZ) > uncomp_end) {
-++			debug("uncompressed data too large for buffer");
-++			goto out;
-++		}
-+		memcpy(uptr, ptr, NS_RRFIXEDSZ);
-+
-+		dns_type = uptr[0] << 8 | uptr[1];
-+--
-+2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
-new file mode 100644
-index 0000000000..4104e4bfc6
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0001.patch
-@@ -0,0 +1,231 @@
-+From 58d397ba74873384aee449690a9070bacd5676fa Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:39:14 +0100
-+Subject: [PATCH] gdhcp: Avoid reading invalid data in dhcp_get_option
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-26676
-+
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=58d397ba74873384aee449690a9070bacd5676fa
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ gdhcp/client.c | 20 +++++++++++---------
-+ gdhcp/common.c | 24 +++++++++++++++++++-----
-+ gdhcp/common.h |  2 +-
-+ gdhcp/server.c | 12 +++++++-----
-+ 4 files changed, 38 insertions(+), 20 deletions(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 09dfe5ec..6a5613e7 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -1629,12 +1629,12 @@ static void start_request(GDHCPClient *dhcp_client)
-+							NULL);
++diff --git a/cache.h b/cache.h
++index 04cabaa..dda373f 100644
++--- a/cache.h
+++++ b/cache.h
++@@ -1675,6 +1675,7 @@ int has_symlink_leading_path(const char *name, int len);
++ int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
++ int check_leading_path(const char *name, int len);
++ int has_dirs_only_path(const char *name, int len, int prefix_len);
+++extern void invalidate_lstat_cache(void);
++ void schedule_dir_for_removal(const char *name, int len);
++ void remove_scheduled_dirs(void);
++ 
++diff --git a/compat/mingw.c b/compat/mingw.c
++index bd24d91..cea9c72 100644
++--- a/compat/mingw.c
+++++ b/compat/mingw.c
++@@ -340,6 +340,8 @@ int mingw_rmdir(const char *pathname)
++ 	       ask_yes_no_if_possible("Deletion of directory '%s' failed. "
++ 			"Should I try again?", pathname))
++ 	       ret = _wrmdir(wpathname);
+++	if (!ret)
+++		invalidate_lstat_cache();
++ 	return ret;
 + }
-+
-+-static uint32_t get_lease(struct dhcp_packet *packet)
-++static uint32_t get_lease(struct dhcp_packet *packet, uint16_t packet_len)
-+ {
-+	uint8_t *option;
-+	uint32_t lease_seconds;
-+
-+-	option = dhcp_get_option(packet, DHCP_LEASE_TIME);
-++	option = dhcp_get_option(packet, packet_len, DHCP_LEASE_TIME);
-+	if (!option)
-+		return 3600;
-+
-+@@ -2226,7 +2226,8 @@ static void get_dhcpv6_request(GDHCPClient *dhcp_client,
-+	}
-+ }
-+
-+-static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet)
-++static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet,
-++		uint16_t packet_len)
-+ {
-+	GDHCPOptionType type;
-+	GList *list, *value_list;
-+@@ -2237,7 +2238,7 @@ static void get_request(GDHCPClient *dhcp_client, struct dhcp_packet *packet)
-+	for (list = dhcp_client->request_list; list; list = list->next) {
-+		code = (uint8_t) GPOINTER_TO_INT(list->data);
-+
-+-		option = dhcp_get_option(packet, code);
-++		option = dhcp_get_option(packet, packet_len, code);
-+		if (!option) {
-+			g_hash_table_remove(dhcp_client->code_value_hash,
-+						GINT_TO_POINTER((int) code));
-+@@ -2297,6 +2298,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+		re = dhcp_recv_l2_packet(&packet,
-+					dhcp_client->listener_sockfd,
-+					&dst_addr);
-++		pkt_len = (uint16_t)(unsigned int)re;
-+		xid = packet.xid;
-+	} else if (dhcp_client->listen_mode == L3) {
-+		if (dhcp_client->type == G_DHCP_IPV6) {
-+@@ -2361,7 +2363,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			dhcp_client->status_code = status;
-+		}
-+	} else {
-+-		message_type = dhcp_get_option(&packet, DHCP_MESSAGE_TYPE);
-++		message_type = dhcp_get_option(&packet, pkt_len, DHCP_MESSAGE_TYPE);
-+		if (!message_type)
-+			return TRUE;
-+	}
-+@@ -2378,7 +2380,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+		dhcp_client->timeout = 0;
-+		dhcp_client->retry_times = 0;
-+
-+-		option = dhcp_get_option(&packet, DHCP_SERVER_ID);
-++		option = dhcp_get_option(&packet, pkt_len, DHCP_SERVER_ID);
-+		dhcp_client->server_ip = get_be32(option);
-+		dhcp_client->requested_ip = ntohl(packet.yiaddr);
-+
-+@@ -2428,9 +2430,9 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+
-+			remove_timeouts(dhcp_client);
-+
-+-			dhcp_client->lease_seconds = get_lease(&packet);
-++			dhcp_client->lease_seconds = get_lease(&packet, pkt_len);
-+
-+-			get_request(dhcp_client, &packet);
-++			get_request(dhcp_client, &packet, pkt_len);
-+
-+			switch_listening_mode(dhcp_client, L_NONE);
-+
-+@@ -2438,7 +2440,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			dhcp_client->assigned_ip = get_ip(packet.yiaddr);
-+
-+			if (dhcp_client->state == REBOOTING) {
-+-				option = dhcp_get_option(&packet,
-++				option = dhcp_get_option(&packet, pkt_len,
-+							DHCP_SERVER_ID);
-+				dhcp_client->server_ip = get_be32(option);
-+			}
-+diff --git a/gdhcp/common.c b/gdhcp/common.c
-+index 1d667d17..c8916aa8 100644
-+--- a/gdhcp/common.c
-++++ b/gdhcp/common.c
-+@@ -73,18 +73,21 @@ GDHCPOptionType dhcp_get_code_type(uint8_t code)
-+	return OPTION_UNKNOWN;
-+ }
-+
-+-uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code)
-++uint8_t *dhcp_get_option(struct dhcp_packet *packet, uint16_t packet_len, int code)
-+ {
-+	int len, rem;
-+-	uint8_t *optionptr;
-++	uint8_t *optionptr, *options_end;
-++	size_t options_len;
-+	uint8_t overload = 0;
-+
-+	/* option bytes: [code][len][data1][data2]..[dataLEN] */
-+	optionptr = packet->options;
-+	rem = sizeof(packet->options);
-++	options_len = packet_len - (sizeof(*packet) - sizeof(packet->options));
-++	options_end = optionptr + options_len - 1;
-+
-+	while (1) {
-+-		if (rem <= 0)
-++		if ((rem <= 0) && (optionptr + OPT_CODE > options_end))
-+			/* Bad packet, malformed option field */
-+			return NULL;
-+
-+@@ -115,14 +118,25 @@ uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code)
-+			break;
-+		}
-+
-++		if (optionptr + OPT_LEN > options_end) {
-++			/* bad packet, would read length field from OOB */
-++			return NULL;
-++		}
-++
-+		len = 2 + optionptr[OPT_LEN];
-+
-+		rem -= len;
-+		if (rem < 0)
-+			continue; /* complain and return NULL */
-+
-+-		if (optionptr[OPT_CODE] == code)
-+-			return optionptr + OPT_DATA;
-++		if (optionptr[OPT_CODE] == code) {
-++			if (optionptr + len > options_end) {
-++				/* bad packet, option length points OOB */
-++				return NULL;
-++			} else {
-++				return optionptr + OPT_DATA;
-++			}
-++		}
-+
-+		if (optionptr[OPT_CODE] == DHCP_OPTION_OVERLOAD)
-+			overload |= optionptr[OPT_DATA];
-+diff --git a/gdhcp/common.h b/gdhcp/common.h
-+index 9660231c..8f63fd75 100644
-+--- a/gdhcp/common.h
-++++ b/gdhcp/common.h
-+@@ -179,7 +179,7 @@ struct in6_pktinfo {
-+ };
++ 
++diff --git a/git-compat-util.h b/git-compat-util.h
++index d0dd9c0..a1ecfd3 100644
++--- a/git-compat-util.h
+++++ b/git-compat-util.h
++@@ -365,6 +365,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
++ #define platform_core_config noop_core_config
 + #endif
-+
-+-uint8_t *dhcp_get_option(struct dhcp_packet *packet, int code);
-++uint8_t *dhcp_get_option(struct dhcp_packet *packet, uint16_t packet_len, int code);
-+ uint8_t *dhcpv6_get_option(struct dhcpv6_packet *packet, uint16_t pkt_len,
-+			int code, uint16_t *option_len, int *option_count);
-+ uint8_t *dhcpv6_get_sub_option(unsigned char *option, uint16_t max_len,
-+diff --git a/gdhcp/server.c b/gdhcp/server.c
-+index 85405f19..52ea2a55 100644
-+--- a/gdhcp/server.c
-++++ b/gdhcp/server.c
-+@@ -413,7 +413,7 @@ error:
++ 
+++int lstat_cache_aware_rmdir(const char *path);
+++#if !defined(__MINGW32__) && !defined(_MSC_VER)
+++#define rmdir lstat_cache_aware_rmdir
+++#endif
+++
++ #ifndef has_dos_drive_prefix
++ static inline int git_has_dos_drive_prefix(const char *path)
++ {
++diff --git a/symlinks.c b/symlinks.c
++index 69d458a..ae3c665 100644
++--- a/symlinks.c
+++++ b/symlinks.c
++@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
++  */
++ static int threaded_has_dirs_only_path(struct cache_def *cache, const char *name, int len, int prefix_len)
++ {
+++	/*
+++	 * Note: this function is used by the checkout machinery, which also
+++	 * takes care to properly reset the cache when it performs an operation
+++	 * that would leave the cache outdated. If this function starts caching
+++	 * anything else besides FL_DIR, remember to also invalidate the cache
+++	 * when creating or deleting paths that might be in the cache.
+++	 */
++ 	return lstat_cache(cache, name, len,
++ 			   FL_DIR|FL_FULLPATH, prefix_len) &
++ 		FL_DIR;
++@@ -321,3 +328,21 @@ void remove_scheduled_dirs(void)
++ {
++ 	do_remove_scheduled_dirs(0);
 + }
-+
-+
-+-static uint8_t check_packet_type(struct dhcp_packet *packet)
-++static uint8_t check_packet_type(struct dhcp_packet *packet, uint16_t packet_len)
-+ {
-+	uint8_t *type;
-+
-+@@ -423,7 +423,7 @@ static uint8_t check_packet_type(struct dhcp_packet *packet)
-+	if (packet->op != BOOTREQUEST)
-+		return 0;
-+
-+-	type = dhcp_get_option(packet, DHCP_MESSAGE_TYPE);
-++	type = dhcp_get_option(packet, packet_len, DHCP_MESSAGE_TYPE);
-+
-+	if (!type)
-+		return 0;
-+@@ -651,6 +651,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+	struct dhcp_lease *lease;
-+	uint32_t requested_nip = 0;
-+	uint8_t type, *server_id_option, *request_ip_option;
-++	uint16_t packet_len;
-+	int re;
-+
-+	if (condition & (G_IO_NVAL | G_IO_ERR | G_IO_HUP)) {
-+@@ -661,12 +662,13 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+	re = dhcp_recv_l3_packet(&packet, dhcp_server->listener_sockfd);
-+	if (re < 0)
-+		return TRUE;
-++	packet_len = (uint16_t)(unsigned int)re;
-+
-+-	type = check_packet_type(&packet);
-++	type = check_packet_type(&packet, packet_len);
-+	if (type == 0)
-+		return TRUE;
-+
-+-	server_id_option = dhcp_get_option(&packet, DHCP_SERVER_ID);
-++	server_id_option = dhcp_get_option(&packet, packet_len, DHCP_SERVER_ID);
-+	if (server_id_option) {
-+		uint32_t server_nid =
-+			get_unaligned((const uint32_t *) server_id_option);
-+@@ -675,7 +677,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+			return TRUE;
-+	}
-+
-+-	request_ip_option = dhcp_get_option(&packet, DHCP_REQUESTED_IP);
-++	request_ip_option = dhcp_get_option(&packet, packet_len, DHCP_REQUESTED_IP);
-+	if (request_ip_option)
-+		requested_nip = get_be32(request_ip_option);
-+
-+--
+++
+++
+++void invalidate_lstat_cache(void)
+++{
+++	reset_lstat_cache(&default_cache);
+++}
+++
+++#undef rmdir
+++int lstat_cache_aware_rmdir(const char *path)
+++{
+++	/* Any change in this function must be made also in `mingw_rmdir()` */
+++	int ret = rmdir(path);
+++
+++	if (!ret)
+++		invalidate_lstat_cache();
+++
+++	return ret;
+++}
++diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
++index c954c70..6a1d5f6 100755
++--- a/t/t0021-conversion.sh
+++++ b/t/t0021-conversion.sh
++@@ -820,4 +820,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
++ 	grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
++ '
++ 
+++for mode in 'case' 'utf-8'
+++do
+++	case "$mode" in
+++	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
+++	utf-8)
+++		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
+++		mode_prereq='UTF8_NFD_TO_NFC' ;;
+++	esac
+++
+++	test_expect_success PERL,SYMLINKS,$mode_prereq \
+++	"delayed checkout with $mode-collision don't write to the wrong place" '
+++		test_config_global filter.delay.process \
+++			"\"$TEST_ROOT/rot13-filter.pl\" --always-delay delayed.log clean smudge delay" &&
+++		test_config_global filter.delay.required true &&
+++		git init $mode-collision &&
+++		(
+++			cd $mode-collision &&
+++			mkdir target-dir &&
+++			empty_oid=$(printf "" | git hash-object -w --stdin) &&
+++			symlink_oid=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
+++			attr_oid=$(echo "$dir/z filter=delay" | git hash-object -w --stdin) &&
+++			cat >objs <<-EOF &&
+++			100644 blob $empty_oid	$dir/x
+++			100644 blob $empty_oid	$dir/y
+++			100644 blob $empty_oid	$dir/z
+++			120000 blob $symlink_oid	$symlink
+++			100644 blob $attr_oid	.gitattributes
+++			EOF
+++			git update-index --index-info <objs &&
+++			git commit -m "test commit"
+++		) &&
+++		git clone $mode-collision $mode-collision-cloned &&
+++		# Make sure z was really delayed
+++		grep "IN: smudge $dir/z .* \\[DELAYED\\]" $mode-collision-cloned/delayed.log &&
+++		# Should not create $dir/z at $symlink/z
+++		test_path_is_missing $mode-collision/target-dir/z
+++	'
+++done
+++
++ test_done
++diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
++index 4701072..007f2d7 100644
++--- a/t/t0021/rot13-filter.pl
+++++ b/t/t0021/rot13-filter.pl
++@@ -2,9 +2,15 @@
++ # Example implementation for the Git filter protocol version 2
++ # See Documentation/gitattributes.txt, section "Filter Protocol"
++ #
++-# The first argument defines a debug log file that the script write to.
++-# All remaining arguments define a list of supported protocol
++-# capabilities ("clean", "smudge", etc).
+++# Usage: rot13-filter.pl [--always-delay] <log path> <capabilities>
+++#
+++# Log path defines a debug log file that the script writes to. The
+++# subsequent arguments define a list of supported protocol capabilities
+++# ("clean", "smudge", etc).
+++#
+++# When --always-delay is given all pathnames with the "can-delay" flag
+++# that don't appear on the list bellow are delayed with a count of 1
+++# (see more below).
++ #
++ # This implementation supports special test cases:
++ # (1) If data with the pathname "clean-write-fail.r" is processed with
++@@ -53,6 +59,13 @@ sub gitperllib {
++ use Git::Packet;
++ 
++ my $MAX_PACKET_CONTENT_SIZE = 65516;
+++
+++my $always_delay = 0;
+++if ( $ARGV[0] eq '--always-delay' ) {
+++	$always_delay = 1;
+++	shift @ARGV;
+++}
+++
++ my $log_file                = shift @ARGV;
++ my @capabilities            = @ARGV;
++ 
++@@ -134,6 +147,8 @@ sub rot13 {
++ 			if ( $buffer eq "can-delay=1" ) {
++ 				if ( exists $DELAY{$pathname} and $DELAY{$pathname}{"requested"} == 0 ) {
++ 					$DELAY{$pathname}{"requested"} = 1;
+++				} elsif ( !exists $DELAY{$pathname} and $always_delay ) {
+++					$DELAY{$pathname} = { "requested" => 1, "count" => 1 };
++ 				}
++ 			} else {
++ 				die "Unknown message '$buffer'";
++diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
++index 57cbdfe..f223a02 100755
++--- a/t/t2006-checkout-index-basic.sh
+++++ b/t/t2006-checkout-index-basic.sh
++@@ -21,4 +21,44 @@ test_expect_success 'checkout-index -h in broken repository' '
++ 	test_i18ngrep "[Uu]sage" broken/usage
++ '
++ 
+++for mode in 'case' 'utf-8'
+++do
+++	case "$mode" in
+++	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
+++	utf-8)
+++		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
+++		mode_prereq='UTF8_NFD_TO_NFC' ;;
+++	esac
+++
+++	test_expect_success SYMLINKS,$mode_prereq \
+++	"checkout-index with $mode-collision don't write to the wrong place" '
+++		git init $mode-collision &&
+++		(
+++			cd $mode-collision &&
+++			mkdir target-dir &&
+++			empty_obj_hex=$(git hash-object -w --stdin </dev/null) &&
+++			symlink_hex=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
+++			cat >objs <<-EOF &&
+++			100644 blob ${empty_obj_hex}	${dir}/x
+++			100644 blob ${empty_obj_hex}	${dir}/y
+++			100644 blob ${empty_obj_hex}	${dir}/z
+++			120000 blob ${symlink_hex}	${symlink}
+++			EOF
+++			git update-index --index-info <objs &&
+++			# Note: the order is important here to exercise the
+++			# case where the file at ${dir} has its type changed by
+++			# the time Git tries to check out ${dir}/z.
+++			#
+++			# Also, we use core.precomposeUnicode=false because we
+++			# want Git to treat the UTF-8 paths transparently on
+++			# Mac OS, matching what is in the index.
+++			#
+++			git -c core.precomposeUnicode=false checkout-index -f \
+++				${dir}/x ${dir}/y ${symlink} ${dir}/z &&
+++			# Should not create ${dir}/z at ${symlink}/z
+++			test_path_is_missing target-dir/z
+++		)
+++	'
+++done
+++
++ test_done
++-- 
 +2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
-new file mode 100644
-index 0000000000..ce909ec293
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-26676-0002.patch
-@@ -0,0 +1,33 @@
-+From a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1 Mon Sep 17 00:00:00 2001
-+From: Colin Wee <cwee@tesla.com>
-+Date: Thu, 28 Jan 2021 19:41:09 +0100
-+Subject: [PATCH] gdhcp: Avoid leaking stack data via unitiialized variable
 +
-+Fixes: CVE-2021-26676
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-26676
-+
-+Reference to upstream patch:
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=a74524b3e3fad81b0fd1084ffdf9f2ea469cd9b1
-+
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ gdhcp/client.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gdhcp/client.c b/gdhcp/client.c
-+index 6a5613e7..c7b85e58 100644
-+--- a/gdhcp/client.c
-++++ b/gdhcp/client.c
-+@@ -2270,7 +2270,7 @@ static gboolean listener_event(GIOChannel *channel, GIOCondition condition,
-+ {
-+	GDHCPClient *dhcp_client = user_data;
-+	struct sockaddr_in dst_addr = { 0 };
-+-	struct dhcp_packet packet;
-++	struct dhcp_packet packet = { 0 };
-+	struct dhcpv6_packet *packet6 = NULL;
-+	uint8_t *message_type = NULL, *client_id = NULL, *option,
-+		*server_id = NULL;
-+--
-+2.17.1
-diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-index 00852bf0d6..bdab4c4f18 100644
---- a/meta/recipes-connectivity/connman/connman_1.37.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-@@ -6,6 +6,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-gweb-fix-segfault-with-musl-v1.1.21.patch \
-             file://connman \
-             file://no-version-scripts.patch \
-+            file://CVE-2021-26675.patch \
-+            file://CVE-2021-26676-0001.patch \
-+            file://CVE-2021-26676-0002.patch \
- "
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index ae463061d8..738a429875 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -8,7 +8,9 @@ DEPENDS = "openssl curl zlib expat"
+ PROVIDES_append_class-native = " git-replacement-native"
  
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+-           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
++           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
++	   file://CVE-2021-21300.patch \
++"
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
 -- 
 2.25.1
 
