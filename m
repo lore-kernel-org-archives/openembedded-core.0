@@ -1,50 +1,50 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web12.1120.1617290971480337629
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web12.1122.1617290976729717934
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:29:31 -0700
+ Thu, 01 Apr 2021 08:29:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Tf55jJfW;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id s11-20020a056830124bb029021bb3524ebeso2526051otp.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xXtv6jc+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f178.google.com with SMTP id i3so2134526oik.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ZBsa4eHPHmutUvQ1nf9pG5+yn8u9LvOdkoizgGhH/wI=;
-        b=Tf55jJfWaC8JHbF38nLFnHZGfrP356R9QVQeLn7rc0uYjLTYqqbeTzOSZhZ0khJ0Lr
-         cuRXasmAj/rs40kPoeqmmULsJqPgPxfy/jX070FxEo4EDSZI2n5BPgdRKxzj7/iT97Ej
-         0tEPNemUh/4CbqxldBuwURm4ZP2htwdrf5EIrfywDgx1QRmLrWgT3ns/R4aqdEtgYXbL
-         +sRN9DCQPppuT9D/lfWLFJ+rGxgnvZcAxgzDUopXXoGoD/HodDQclm4tLIEiFos3oYms
-         kC8KEOt9Q7vNYLjUaoewBOOtDsYKLP0N8gVfFwItMpTAo5sqPbI9kxGzzwUo1mB9q7uQ
-         0uFA==
+        bh=Ici5irlVLV4rzkW2pSoxwmEyaYUUDIGGkObWAEcPFSA=;
+        b=xXtv6jc+DaerDUyYStXWH5tQkI03A4WOTPQu+leu7T5Xk0lZ6qO2VqGSY68fbNa4W4
+         jQ94zZhfNUUCVpYpSF54YEzklwsunnyWxNbv+4l1/vTZDcOjGLk73+zryeRUfJuhhV1O
+         9K+rgk7NhLxlvAZElFMY0ITgSDMHsvVy64z8fbuRzfWaukBnnWzAM3omlsZgt6e9Vyia
+         gqchQZWHGyyuboF+3o/lYH5uBT6Znw9tn9usTuU7lUfsZdUTUd7F+RCXCyOKnSns8bWK
+         jW7t5JPG+5HqHOAn5ZQWi4hAzwEdPifx9hWffhkphfIXzqt56OxtD5pBcjKgtAiW64Dt
+         DkBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZBsa4eHPHmutUvQ1nf9pG5+yn8u9LvOdkoizgGhH/wI=;
-        b=iGZNnMQjLoaqHs4jqPbdukqVobMeo8QaPf1OdDfjpAaJD8BSff5Q3EI4nrH1mAf5YN
-         cLWISSBKwRQ7RBcHv7Xr9Qao0J3kJOfvaRibZ4xZs1yUWuvTfSfJZsj1E4kI9lcn8bjW
-         qBP2D1SGPYJ293VLJPlhood0MFLnr5kRC9Csur38oQU1NpI4zE2m1G7Wkc7htrIP8efp
-         xq2kyQfNHiSgM9V+dS1/D6BBhmTS8viSE7b+J+97jOF8Ie00L0O92+b5xWEpeQngMX3L
-         VvBIW0om1TOJkH9IqwxjeRkIWvAyjNzarhCXfSQdOjr4tsknfO7PvuBNhGZRc1qOOqaw
-         73Rw==
-X-Gm-Message-State: AOAM530T73IYj0ehuzcuy4Zgm45EqDWAf5UdX0vKUkFxWdp1TWt/1WJu
-	XfU4YiG8ETJUA0FlzAf9eng/nwsPRJRbVYie1qc=
-X-Google-Smtp-Source: ABdhPJxfA3LntLDvZh71Nf5kF7s0CYOvLj3oc6V4xOs+6XsViMY4VAUMQ3hMaCcaQwDOpNhqgVjOSQ==
-X-Received: by 2002:a05:6830:14a:: with SMTP id j10mr7456657otp.143.1617290970406;
-        Thu, 01 Apr 2021 08:29:30 -0700 (PDT)
+        bh=Ici5irlVLV4rzkW2pSoxwmEyaYUUDIGGkObWAEcPFSA=;
+        b=sTKGBCmDPtPATT88uFbmYDqY3Rz+engG8pZK8s7HGrnGPkQSy5Rwt7+MvTkUTl7xNu
+         trw1oHFhs8KZ/p6dX2loZMs5E8KdWjGs6ogp0ZxQ0Rgzq4YDTBpNmyGVl6Rdy02667Cw
+         0hwqC6VETU4xDwqW+nnSuptD8WCd7La7wthd5Rk3zecOnlYzaKjiFSSttX76eDWIOfJP
+         4zmDgmRy2vIqPg+HEUlSIQqAeoU9AJ0xRxjF1Im1Oehe+0+ibMo6WpXkQY31iSxssYCj
+         Z/6rpxRvrKQcED2eKICdK4vINcvMl/p+GBNqFS9V2pW0Ps9sdy9Qqo+ePk2IZVIxvru0
+         BxGg==
+X-Gm-Message-State: AOAM533Q6kITnN65KopXL66MgbviEdFQiXYNY2tJP45UnkC9mtkaOI1E
+	nnytY2YkU2h49w6+ehMzEs7VBeCdydqU+NSd3N4=
+X-Google-Smtp-Source: ABdhPJx53iyBM8S/LGLzexQ8VTa8qsYDRaT3NTntiK8Rtfs12X/eFXM1xuCDMprai03fVkEiWaFLJQ==
+X-Received: by 2002:aca:eb82:: with SMTP id j124mr6380898oih.57.1617290975548;
+        Thu, 01 Apr 2021 08:29:35 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.26
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:29:30 -0700 (PDT)
+        Thu, 01 Apr 2021 08:29:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/15] buildhistory: add missing vardepsexcludes
-Date: Thu,  1 Apr 2021 05:27:43 -1000
-Message-Id: <7b92087492b67d6ff1f58fe3fa0f7dfbc732e5ab.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/15] image,populate_sdk_base: move 'func' flag setting for sdk command vars
+Date: Thu,  1 Apr 2021 05:27:44 -1000
+Message-Id: <6c405fa0e3c5ba82aace5ba62fdc2de541fa97a6.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
@@ -53,37 +53,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Christopher Larson <kergoth@gmail.com>
 
-For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate entries were added to vardepvalueexclude, but we want them in vardepsexclude as well.
+Setting the 'func' flag on the commands variables ensures that they are parsed
+as shell, and therefore that the referenced commands contents are included in
+checksums. Doing this only in image.bbclass means that this is missing in
+recipes that are not images, but which inherit populate_sdk or populate_sdk_base
+directly, so move it to the latter.
+
+[YOCTO #13998]
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 554b17e0bbe5190e4b03121f2ed06f4845012a71)
+(cherry picked from commit edc28907ce19a7298059dd388933c58a9c6c28b9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/buildhistory.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/image.bbclass             | 2 +-
+ meta/classes/populate_sdk_base.bbclass | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 8a1359acbe..44a66df962 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -671,13 +671,16 @@ IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_imageinfo"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_get_sdk_installed_target;"
- POPULATE_SDK_POST_TARGET_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_target;| buildhistory_get_sdk_installed_target;"
-+POPULATE_SDK_POST_TARGET_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_target buildhistory_get_sdk_installed_target"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 42d2886505..79c487ea18 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -115,7 +115,7 @@ def rootfs_command_variables(d):
+             'IMAGE_PREPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POSTPROCESS_COMMANDS','DEB_PREPROCESS_COMMANDS','DEB_POSTPROCESS_COMMANDS']
  
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host;"
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_get_sdk_installed_host;"
- POPULATE_SDK_POST_HOST_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_host;| buildhistory_get_sdk_installed_host;"
-+POPULATE_SDK_POST_HOST_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_host buildhistory_get_sdk_installed_host"
+ python () {
+-    variables = rootfs_command_variables(d) + sdk_command_variables(d)
++    variables = rootfs_command_variables(d)
+     for var in variables:
+         if d.getVar(var, False):
+             d.setVarFlag(var, 'func', '1')
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 6954237596..ca56d803cb 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -324,6 +324,13 @@ def sdk_variables(d):
  
- SDK_POSTPROCESS_COMMAND_append = " buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
- SDK_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
-+SDK_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_sdkinfo buildhistory_get_extra_sdkinfo"
+ do_populate_sdk[vardeps] += "${@sdk_variables(d)}"
  
- python buildhistory_write_sigs() {
-     if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
++python () {
++    variables = sdk_command_variables(d)
++    for var in variables:
++        if d.getVar(var, False):
++            d.setVarFlag(var, 'func', '1')
++}
++
+ do_populate_sdk[file-checksums] += "${TOOLCHAIN_SHAR_REL_TMPL}:True \
+                                     ${TOOLCHAIN_SHAR_EXT_TMPL}:True"
+ 
 -- 
 2.25.1
 
