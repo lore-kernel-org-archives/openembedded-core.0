@@ -1,88 +1,96 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web09.6362.1617307301260472681
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web12.6378.1617307632498059623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 13:01:41 -0700
+ Thu, 01 Apr 2021 13:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zg1qmR3S;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id u10so3504017lju.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 13:01:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y2K1qIda;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id c6so2027601lji.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 13:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cud22TrfYASU+XSk8p28fsljiERAtIUd7JIKc4QSTRQ=;
-        b=Zg1qmR3SOBe+KD+ajc3q946qj+B8lBi1EU2IEBiLPJyLlqt6PK15XGrrlpuXpou/8y
-         cbjxMCx7yT2a7SYVGx/TFJd3YPqdLTNd+QO5Yb7H4FRufysioFBJA/IGw3i2xPQS6Y+L
-         D4rHY/gHOvxUCiSPXy3FbYQMQ5h3HmkIvS8O/vqIIm8IZyeq+cx/h++yMaC+rWIOvOKm
-         3JQVZaWJVHTUyZBQ8L8MT72nEo/BE59R3lo1EemuHLYr8jCEERU8JvEyyz7JT+zDqpBR
-         NXCoWjX27H1V7Lgg9mfJqWbFDETGlLKbey1SRq+LbmO46JDOxjXbU3NEG7Pm7CSO+jxw
-         Pkew==
+        bh=4KtJNqIXbmBiLmSMhcBBSiqpFJuP4dZyPxdp6xLslQw=;
+        b=Y2K1qIdaxNcbsQE8TdY+cC1jC7o2lLc4jSUHlnRtg3ibEmSvm+7E/wiMzJMEtPhwhM
+         quZimbWIjU07K3oUtG7xN7wd8micQBBoic57Q3cxflcW5OZHIeGpHDYgq7EhftGZHZeR
+         pz2Ox6YlBBK/X9Ui8j/udZfJiJMA5E/yz6XgtnXya3oBqEQ25jvXh1sMVlXNlIde+cpq
+         aaZftGEQ+Qu97gbgD4ekcMT4qEgpEKXgRCayWZ1zWa/BtZKYMRcQmB2PJs3lwBe/36g3
+         BxqxLhMd4qNrbcwutSOUMk102ghypqe4B2oAKGnvfRigeP9iborbtAiSylWUtjX1jHOt
+         vQfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cud22TrfYASU+XSk8p28fsljiERAtIUd7JIKc4QSTRQ=;
-        b=LQAEz9zUCLUxxACEJRjBnmZ9RBV5DOqbPjudn+TezV43CZtFFHhPxUfdwsO9bnCo59
-         YwJVPoAj5R+i0Xq3NMvxyZfuD5hEossH9mWuit8rBCTLkHpPxw81ISar8KUnvQKSl1Ze
-         vWDZ5Wdr/l9wMsPLlpkMNPETnlWZ5vJnMVsjsGcWj+Rs0NRQ7ET879k3r6fCX0mnjM7w
-         zIbNjqHrWzPDqfHtZTY8bbtju6wkLmK6nic6imwetaVGjJCpW2ombNs14h0/yiIRzK5u
-         2jXtORWjAbmFHrVzIvYGaA9bTtxwkliQS7klgXlW4LzjOM7cs99sc264HwpbRxBfVC7c
-         Ullg==
-X-Gm-Message-State: AOAM533qO+Qu5uRdvshRf98GeU5HGtb5f/1jPmRJKqT/PrQoP0+Rj4qR
-	/tJj+K2uB5dUSZYXnSTJJS8eY1ScphYosItBYww=
-X-Google-Smtp-Source: ABdhPJyQ/EYsYtwnx9G0vplT8DkReKUu26Ap6bNCLxLgY/r86Es47pAzjO+WT5ng00z+f5gCFWuyC/EC2GACUm8fF4E=
-X-Received: by 2002:a2e:7a11:: with SMTP id v17mr6498637ljc.403.1617307299391;
- Thu, 01 Apr 2021 13:01:39 -0700 (PDT)
+        bh=4KtJNqIXbmBiLmSMhcBBSiqpFJuP4dZyPxdp6xLslQw=;
+        b=JY1z1GOXRIphMbnI89XMc3Ri/RcZIN/80nXmg4Kk2NsDXCZa5Pk29ZQOunJRtPkCN5
+         sKV+It41zca7GitY2pDipxkMpQh0hXxpupIl3fU/GtlghifDHLXv5ZStmYlqMIDDafI4
+         J6AI3Rd45BOyzZ4bo6W/5uifGREWcrDAYIjXJ/SVbWjyO7AWvrVieOqAQRtQ5Hqhqjj3
+         KFK5+N0LrrAZDYcMpbgPtdm4RyX3HqigHoScrTFGIddghLsxK9JR5ula0BLMk/ZkxnIg
+         toSHo64W89IklL7cIiGZX3UGTrZXJ80rKHfdsvzzskYPPQN6ZaR87wruZ1YW2tiTqUyh
+         UZ4g==
+X-Gm-Message-State: AOAM532+Dp/x8u3t6wrsdaQB/0JhTrvolcVaYl/yNnjt0sIh23U6NcDF
+	QHwG67JXrw1ZUjTkgIRLPMn3zUBd0RBv/ONb4+A=
+X-Google-Smtp-Source: ABdhPJxxY25b82PVVMUXxNGVsWQOYKg79BY5g1iBMX3UzvOROv9EKgELgtFNm8s2OHC6Q3Fvn8490b1wRMKEn6jP1FI=
+X-Received: by 2002:a05:651c:387:: with SMTP id e7mr6363422ljp.425.1617307630334;
+ Thu, 01 Apr 2021 13:07:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <a8849ff1-da51-b152-ce3d-6fd8a6b1cf38@crashcourse.ca>
-In-Reply-To: <a8849ff1-da51-b152-ce3d-6fd8a6b1cf38@crashcourse.ca>
+References: <cover.1617290309.git.steve@sakoman.com> <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com>
+In-Reply-To: <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com>
 From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 1 Apr 2021 13:01:30 -0700
-Message-ID: <CAJ86T=X+CmKXbi-ticjVDA4DCsSj+SQ+y0QULbRt2j6ud564Fw@mail.gmail.com>
-Subject: Re: [OE-core] what are the dangers of adding "out-of-tree" files to FILES_${PN}?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Thu, 1 Apr 2021 13:07:01 -0700
+Message-ID: <CAJ86T=VowO_dOjSw-hSs2B+dnHwhnKcEiRoywhBwa_E7tWkMcQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 13/15] packagegroups: delete useless "PROVIDES" lines
+To: Steve Sakoman <steve@sakoman.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 1, 2021 at 6:08 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On Thu, Apr 1, 2021 at 8:29 AM Steve Sakoman <steve@sakoman.com> wrote:
 >
->   recently, i've run across a couple layers based on pretty much
-> up-to-date OE/YP, where fixed files are being added to a package via
-> assignments like this:
+> From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 >
->   FILES_${PN} += "/data"
->
->   i already know that's a bad idea, but i'm curious as to what build
-> errors might occur when trying something like this.
+> There is apparently no functional value to "PROVIDES" lines anymore in
+> packagegroup recipe files, so remove the lonely couple of examples
+> left.
 
-What's the specific concern? It won't work well for -native recipes
-(as discussed in another of these threads), but apart from that it
-should work OK.
+Seems questionable for backporting to a stable release. The bogus
+PROVIDES lines have been there for more than a decade without causing
+any issues (ie removing them isn't fixing a bug).
 
-To be safe for use in a -native recipe you could change it to:
-
-  FILES_${PN} += "${base_prefix}/data"
-
-> i was first asked
-> about what might have caused a "pseudo abort" error as described here:
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 6f2c9602bc5fc6794b852ec20f40ea62a55ada1e)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-core/packagegroups/packagegroup-base.bb     | 1 -
+>  meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 -
+>  2 files changed, 2 deletions(-)
 >
->   https://wiki.yoctoproject.org/wiki/Pseudo_Abort
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> index 1f802da09b..c32664917f 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -8,7 +8,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 >
-> where the generated error referred to "path mismatch ... ino #######
-> db" ... etc etc. my first (admittedly uneducated) guess was that, in
-> the midst of installation, some of that external content under /data
-> was perhaps being deleted or updated in some way that was changing
-> inodes.
-
-I don't think you can corrupt the pseudo database with a packaging rule.
-
->   even if doing something like technically works, can someone explain
-> what ugliness might result, i'm assuming from having any of that
-> external data change in the middle of a build?
+>  inherit packagegroup
 >
-> rday
+> -PROVIDES = "${PACKAGES}"
+>  PACKAGES = ' \
+>              packagegroup-base \
+>              packagegroup-base-extended \
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> index b345e314ad..20fe6fc092 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> @@ -7,7 +7,6 @@ PR = "r2"
 >
+>  inherit packagegroup
+>
+> -PROVIDES = "${PACKAGES}"
+>  PACKAGES = "${PN}-server ${PN}-client"
+>
+>  SUMMARY_${PN}-client = "NFS client"
+> --
+> 2.25.1
 >
 >
 > 
