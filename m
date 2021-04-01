@@ -1,128 +1,118 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web09.1130.1617290954885926103
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.1109.1617290960661520969
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:29:15 -0700
+ Thu, 01 Apr 2021 08:29:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=JvgQrawz;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f50.google.com with SMTP id s11-20020a056830124bb029021bb3524ebeso2525400otp.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G3dk+Z/b;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id x2so2167979oiv.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=6+EiSO0cNaX2QUDQmL7lkUwO2QOL0ev8GCrH6PE0+BQ=;
-        b=JvgQrawzcLOOFddHMUySmxB2Ma0zDMeMTPGRPhmJywvulnhmY9nIe3y55gttbYl9sw
-         jubZfSC5Ae3q3PnBETg57v4SwzN4TMwreMKOBQDyoGdy6M3OOuC6L0ogvdHZWqsgF9HN
-         YbhUa1K9VtFZy9P5eREosKnksLzRLKE2e5z1haB5vDMnexTNBwLv09Nj6PqScOHCOIVb
-         go1HlqkgcahZb4Poq11mqVC5GiazdLoIVvBxXOXJ0e4HijLpskqHS9pdRHfHng1Dnfxx
-         ExQfFTeiJPxr1Ice7u4lxO2Dtl7ZMNE+6hTxLeUNKw86gCSqMgqoYzkrhc3E8qTJe0k6
-         4Cmg==
+        bh=8LgkM+Ak0Nl6R3yhzUz4n+QTzniX6+ix1GCXcSiUZKw=;
+        b=G3dk+Z/bmbimjl24EKnk4eYP1+fgjFhKd4FdciWo0y2VTy7VeaIYLbmIP6kndSs3Ug
+         CPK6tckDsFpdRd4uI/LE7Iao9CB33QoepFCLWf0GHAlg58AMbVQZBG36EqW+q4Po6BvL
+         onDnjxwy27Tzs7WstxfyfefyO76p8DONUHE4pJNJCA8uXiWQM0LiqSfa7KUFOohJoa2L
+         2FWq+1ayuSh7VqWCMrBfhS3C2KMWTym9YYyEe6dVEOPbXo71DaXsFliQ89pyFVXbrDvL
+         Y8DPcCNhgs9fV7z8S2FVs5zlFw4ATUuQB4ej7YDIdPKJtQ3FY8WWTTMyW8Tom0HndEgQ
+         Im4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6+EiSO0cNaX2QUDQmL7lkUwO2QOL0ev8GCrH6PE0+BQ=;
-        b=Xb5BueeNzIPAARpt0YK0p/xDUu7c4Nbo+GCta4YfWA0p3jRPmgAXpaYkev3/jer8bi
-         krwEO2ifhyxGLSgMGgOdbROAjRG23JXa+8rfl2eWGWAkoMu23qhnUv9pgQHzCz4Fn+nF
-         Mr8TsUYXLbxQAf/RAYCB5SWO6GjDoIjurYc20qyMLWbJ0iBD18Ez5/19S3K+oV/B9a38
-         cH1SEPqVJeUA2PsshSgijGA9/ch13ESa/cYvDs9LbGfOE20a8R2kKEaPWlHe148QSNMl
-         UaTrqpaJL5KzOT+p30zcvLydsIdkBDJxXsOIHICqK30fnmJROp+zH56j4dYGFSPzeenC
-         pZog==
-X-Gm-Message-State: AOAM532eSdd4Ye8FNyFHLsLZ+GRTiprUsJlOmKXUjcySSgP0GDQvbsSS
-	IRbgvyUFUqUwshGZ1WRXGQ8/tFLxl02s0beBAbA=
-X-Google-Smtp-Source: ABdhPJxZyDWaXFnIy8oZEQWONkxuxMJdg7ushsWrK/3DC9N2BFqOfawWEjontqOQA3NNMHa8z1GkvA==
-X-Received: by 2002:a05:6830:348f:: with SMTP id c15mr7511212otu.138.1617290953729;
-        Thu, 01 Apr 2021 08:29:13 -0700 (PDT)
+        bh=8LgkM+Ak0Nl6R3yhzUz4n+QTzniX6+ix1GCXcSiUZKw=;
+        b=izBn1kfuztbvAJM3ctVAMWVP7JltOvm6GAdxHm+eYXluHKhXKi6smuBUZuz1JVQZbB
+         pI3IWJzQo1LDyjIEoF1FZFqeUXXikmpq71Mo4FlstRnncweGrUigZysnw1jzAaW3Vgwj
+         /SIW4ZSWYUN37ujaQg78EcAlJAPLQNA6FYumStpaSiBuXSoh8Hnbzi8Nk0lqSRLTZWcB
+         9Metw3IapY6utEoa0gVCdnmy3iqvoslklj89hV3YXHy1nHQ68vvPvLIrfdVNi3FEQdN4
+         nymg2dgw0JZ6YD9UPLlAj13cR05hWMlpYTcpEBGq5ND6/dptRPCDByxp8Kd2XkMNveVt
+         pW0Q==
+X-Gm-Message-State: AOAM532+ZXDlQYHVYw0QFb+QjaBdBQqou1Q7zQncTJISmEtYFeJg0Z+a
+	HIp185R3CurUOZ9gAZtNPq4Aoi+NvI7iaXDtddk=
+X-Google-Smtp-Source: ABdhPJymPQmCPephmtvvGgvTJ9qXUAy9+vTOzk0nqX6VFvFHj2Ac6jlWIxdR98Gj9PN5UOpkPuQkKw==
+X-Received: by 2002:aca:fd58:: with SMTP id b85mr6045740oii.52.1617290959525;
+        Thu, 01 Apr 2021 08:29:19 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.10
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:29:13 -0700 (PDT)
+        Thu, 01 Apr 2021 08:29:19 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/15] libtool: make sure autoheader run before autoconf
-Date: Thu,  1 Apr 2021 05:27:40 -1000
-Message-Id: <ac63b30ac7dce558c9de5be985c153e4617157d5.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/15] populate_sdk_ext: Avoid copying and producing .pyc files
+Date: Thu,  1 Apr 2021 05:27:41 -1000
+Message-Id: <e3d027b48bf54fef9420cd1cd4f04a9bedf8d032.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 
-autoheader will update ../libtool-2.4.6/libltdl/config-h.in which
-autoconf needs, so there comes a race sometimes as below:
- | configure.ac:45: error: required file 'config-h.in' not found
- | touch '../libtool-2.4.6/libltdl/config-h.in'
+Since pyc cache files are really system specific, no real reason to copy or
+generate them during the eSDK build process.  Also generating them has the
+possibility of re-using inodes that pseudo may have been tracking, leading
+a build failure.
 
-So make sure autoheader run before autoconf to avoid this race.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d8451cbef5906b67756582fdfc44eb01ed3512fc)
+(cherry picked from commit ce8eba263647ae63a722122e28f26af46ae083a0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtool/libtool-2.4.6.inc                 |  1 +
- ...-sure-autoheader-run-before-autoconf.patch | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
+ meta/classes/populate_sdk_ext.bbclass | 4 +++-
+ meta/lib/oe/copy_buildsystem.py       | 6 +++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index 8e17b56d46..19a03d4733 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://unwind-opt-parsing.patch \
-            file://0001-libtool-Fix-support-for-NIOS2-processor.patch \
-            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
-+           file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
-           "
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index d63abf4f30..aa00d5397c 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -247,7 +247,9 @@ python copy_buildsystem () {
  
- SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
-diff --git a/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
-new file mode 100644
-index 0000000000..2e9908725e
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
-@@ -0,0 +1,35 @@
-+From dfbbbd359e43e0a55fbea06f2647279ad8761cb9 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 24 Mar 2021 03:04:13 +0000
-+Subject: [PATCH] Makefile.am: make sure autoheader run before autoconf
-+
-+autoheader will update ../libtool-2.4.6/libltdl/config-h.in which
-+autoconf needs, so there comes a race sometimes as below:
-+ | configure.ac:45: error: required file 'config-h.in' not found
-+ | touch '../libtool-2.4.6/libltdl/config-h.in'
-+
-+So make sure autoheader run before autoconf to avoid this race.
-+
-+Upstream-Status: Submitted [libtool-patches@gnu.org maillist]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 4142c90..fe1a9fc 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -365,7 +365,7 @@ lt_configure_deps = $(lt_aclocal_m4) $(lt_aclocal_m4_deps)
-+ $(lt_aclocal_m4): $(lt_aclocal_m4_deps)
-+ 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(ACLOCAL) -I ../m4
-+ 
-+-$(lt_configure): $(lt_configure_deps)
-++$(lt_configure): $(lt_configure_deps) $(lt_config_h_in)
-+ 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(AUTOCONF)
-+ 
-+ $(lt_config_h_in): $(lt_configure_deps)
-+-- 
-+2.29.2
-+
+     # Create a layer for new recipes / appends
+     bbpath = d.getVar('BBPATH')
+-    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')])
++    env = os.environ.copy()
++    env['PYTHONDONTWRITEBYTECODE'] = '1'
++    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')], env=env)
+ 
+     # Create bblayers.conf
+     bb.utils.mkdirhier(baseoutpath + '/conf')
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 31a84f5b06..d97bf9d1b9 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -20,7 +20,7 @@ def _smart_copy(src, dest):
+     mode = os.stat(src).st_mode
+     if stat.S_ISDIR(mode):
+         bb.utils.mkdirhier(dest)
+-        cmd = "tar --exclude='.git' --xattrs --xattrs-include='*' -chf - -C %s -p . \
++        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs --xattrs-include='*' -chf - -C %s -p . \
+         | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
+         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+     else:
+@@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs, input_sstate_cache, output_sstate_cac
+     bb.note('Generating sstate-cache...')
+ 
+     nativelsbstring = d.getVar('NATIVELSBSTRING')
+-    bb.process.run("gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
++    bb.process.run("PYTHONDONTWRITEBYTECODE=1 gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
+     if fixedlsbstring and nativelsbstring != fixedlsbstring:
+         nativedir = output_sstate_cache + '/' + nativelsbstring
+         if os.path.isdir(nativedir):
+@@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile, cmdprefix='', cwd=None, lo
+         logparam = '-l %s' % logfile
+     else:
+         logparam = ''
+-    cmd = "%sBB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
++    cmd = "%sPYTHONDONTWRITEBYTECODE=1 BB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
+     env = dict(d.getVar('BB_ORIGENV', False))
+     env.pop('BUILDDIR', '')
+     env.pop('BBPATH', '')
 -- 
 2.25.1
 
