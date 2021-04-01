@@ -1,105 +1,79 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web12.1103.1617290939663552284
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web10.1102.1617290945030534161
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 08:28:59 -0700
+ Thu, 01 Apr 2021 08:29:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=doNTys7D;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f175.google.com with SMTP id d12so2121011oiw.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:28:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mdI6lcKo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f51.google.com with SMTP id h6-20020a0568300346b02901b71a850ab4so2452947ote.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 08:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/cMLnshuHp+C2b8U89t7zHjvxL8pDh1q8wSmg+90csA=;
-        b=doNTys7DEY1v8cIyyRBc4PLzsa6Q5RSuTXWaMY/KB44joo40Efrg+uECwLCJ9e8ksw
-         sa8ylCAHCsbCiNS0Oz6ck2mW/U5E/3eNB2+5JPG4eHRRoiIR7v6JHAYZFOM5NPW5kiA/
-         0oHGjrbPwKI4CYiiKlWEFgru1LjB/5KVPEU+hgk87h1IlwrrnZKJ508rnQVqHy/C8tk+
-         Ws5ojBh2cvyNKVHggWAhRpW10FJqrgGSrbhaOzVsLrIPWIeN3EG5uS9o4lW2WCOoBFvo
-         XUlQozTzpKdqJlsl9ZZbGEJxmXfvZpDguhZb9XuPqc7KUGuq6LcWkkUFBmwWHYuT+WoM
-         U61A==
+        bh=Lp+vES1eL8AlgDefAOI00hliNy0eOeeVKFeCNxPXeE8=;
+        b=mdI6lcKoyKKDffsWYVYRmlsbWsL/Nc1FAFWCcu4b+SpzmJTKdgczUodv84hMww1ved
+         68AoZ7rQnQX2pLSpDnN51e7+tnQKRG1KhZ146y8yULD29lDGqXmhMkyURrpIPZdugWQ+
+         n0/FlpU4zPq2ZCz/W1Z7537c/zU/0f/mRSJaFLjV3CiZKucZKFB+IqVQ92SFAXehgp32
+         m/Pr7IKx7Sy5LENUlGSiP92OK7aRGjMB3iWsG/gSTDRiq990tyPoEJ5UfkLVOZkwpPz9
+         phj5wuE8w6pPR0lpFkRiy8DWERn52960SRV4SbDO1AQvihH5WcunpzKmkhxs7M2fUtgO
+         qmRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/cMLnshuHp+C2b8U89t7zHjvxL8pDh1q8wSmg+90csA=;
-        b=Pwh68dpqPpSwLZ2i2VydhG13vkohoKsieJ7Nf4E+kKJpbL5Gq/6uscEKZXWxIvuj2b
-         enPAxjN0j6C1XzOVDkCRA2BJhj5hMs+O1QLEY/BRqK53M56vv+Iovr6jit/HGRACZGwO
-         tUxvlyHrAdipu8Hq/219ywQCIdownEOJeQ305qnOHcGXPXaCVaQCZGuyQwo9MqYY0/2/
-         uKOW/Sq+iMEjArDcrdqb5Gfs9wxZaf0NCAZw9IskPxgYoejY2cg6T3yryllIMQxYgFGK
-         1x48ZUqRkiBk23vyOqpaoRG9OqZtnZ8afsiOyX+pbY9mCyXSgUS6KxeW7OMPoTIQdhb4
-         cBEA==
-X-Gm-Message-State: AOAM530wf0J0ilxPEX6Lb00Df4j6bT5iSAWF42oEMWjYuI1N1dgmTpCN
-	lC93QdvdhvpwG4r59/RsxTiN1iKUzW/4a2coH2U=
-X-Google-Smtp-Source: ABdhPJzJqrEYckIQM0uFvlkHaiNTQ49L4AOjqJnCureYfEgHi7Hbsw9EA3miHuW9wd1DOaobD1F++g==
-X-Received: by 2002:aca:530e:: with SMTP id h14mr6452423oib.79.1617290938586;
-        Thu, 01 Apr 2021 08:28:58 -0700 (PDT)
+        bh=Lp+vES1eL8AlgDefAOI00hliNy0eOeeVKFeCNxPXeE8=;
+        b=BVTlEO4aeVY66QPpNv69yBFERxEfgjnhplYGB+v7W9I6GSAMiB8TLZ+cnO8AI58951
+         Bth1s/JeZCZU9XJELBaB58D1QmMEh6OJ/fRhBqbXKsQnYexC4+B8FWhP5Xj0/sCectqu
+         iQVJyyYWCT7DNx/1r7F8OiisneWByhJ/y/3IgGoJoooyEd7SpHW/tuBlWWRgQsS0o8Li
+         qe1HwjDDfoG2f9MEpHRQfTngFTgE1mQ+zLL4mNUru3nTKgGZffG/ZCgaIgt9LS4AGeaX
+         pPzUmtsw/BN8V/KaG/LewPPu5TzbIViLDYX1PVxVgrlPbux9wzTsL6RLf2CXflBtUcmf
+         qGyg==
+X-Gm-Message-State: AOAM531FBUBF5jsh059c9mMVqsaWEW/m8euNm/9sT3ErdcKllxdRuYdg
+	/fgli1VyvPsvNZsZ8CCCUIvkH3WVU2YNZPHPQgU=
+X-Google-Smtp-Source: ABdhPJzv9R+kwi/h8pj9C51HL2d7vgDnzNfd5rDcmMWOjQtgR6Fzll5A0guDfZKKCIZuPpZt3g6ngg==
+X-Received: by 2002:a05:6830:1c6e:: with SMTP id s14mr7415922otg.17.1617290943936;
+        Thu, 01 Apr 2021 08:29:03 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.28.55
+        by smtp.gmail.com with ESMTPSA id u7sm1159610ooq.13.2021.04.01.08.29.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 08:28:58 -0700 (PDT)
+        Thu, 01 Apr 2021 08:29:03 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/15] run-postinsts: do not remove postinsts directory.
-Date: Thu,  1 Apr 2021 05:27:37 -1000
-Message-Id: <d913d2fbd431ccc10a6197c4dc8858dfd9a91426.1617290310.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/15] documentation-audit.sh: Fix typo in specifying LICENSE_FLAGS_WHITELIST
+Date: Thu,  1 Apr 2021 05:27:38 -1000
+Message-Id: <ca95497a2d29620f84849a8f92b8bd05aae107f8.1617290310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617290309.git.steve@sakoman.com>
 References: <cover.1617290309.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Anton D. Kachalov" <gmouse@google.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-When running on the systems having read-only rootfs backed by overlayfs,
-removing the whole directory lead to create a special char device file
-on the upperdir to reflect directory's removal. Once it is required to
-upgrade the whole read-only image that might contain new postinsts scripts,
-it will be impossible to run such scripts with a "deletion mark" file
-on the overlayfs -- the whole directory will be marked as deleted regardless
-new files in it.
-
-Signed-off-by: Anton D. Kachalov <gmouse@google.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a27b62b225ffeecec47c249a0b86cc54d775add)
+(cherry picked from commit 410a45639d84a3d69a65133593da32062196dd59)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../run-postinsts/run-postinsts/run-postinsts          | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ scripts/contrib/documentation-audit.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index f84a7e18c8..95dccb9cae 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -72,12 +72,12 @@ exec_postinst_scriptlets() {
- 		else
- 			echo "ERROR: postinst $i failed."
- 			[ "$POSTINST_LOGGING" = "1" ] && eval echo "ERROR: postinst $i failed." $append_log
--			remove_pi_dir=0
-+			remove_rcsd_link=0
- 		fi
- 	done
- }
+diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
+index 1191f57a8e..f436f9bae0 100755
+--- a/scripts/contrib/documentation-audit.sh
++++ b/scripts/contrib/documentation-audit.sh
+@@ -27,7 +27,7 @@ fi
  
--remove_pi_dir=1
-+remove_rcsd_link=1
- if $pm_installed; then
- 	case $pm in
- 		"ipk")
-@@ -92,9 +92,7 @@ else
- 	exec_postinst_scriptlets
- fi
+ echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
+ echo "REMINDER: you need to set LICENSE_FLAGS_WHITELIST appropriately in local.conf or "
+-echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"Commercial\""
++echo " you'll get false positives.  For example, LICENSE_FLAGS_WHITELIST = \"commercial\""
  
--# since all postinstalls executed successfully, remove the postinstalls directory
--# and the rcS.d link
--if [ $remove_pi_dir = 1 ]; then
--	rm -rf $pi_dir
-+# since all postinstalls executed successfully, remove the rcS.d link
-+if [ $remove_rcsd_link = 1 ]; then
- 	remove_rcsd_link
- fi
+ for pkg in `bitbake -s | awk '{ print \$1 }'`; do
+ 	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
 -- 
 2.25.1
 
