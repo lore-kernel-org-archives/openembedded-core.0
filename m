@@ -1,126 +1,76 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web12.6722.1617309095486561139
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web09.7006.1617310136511615880
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 13:31:35 -0700
+ Thu, 01 Apr 2021 13:48:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=qMFtcirf;
- spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: nm@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 131KVVCJ112911;
-	Thu, 1 Apr 2021 15:31:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1617309091;
-	bh=zYlys5HejR5BHYeRwN4wNjvf2XSabGtvEClohP90XIc=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=qMFtcirfPIZ4plXCl1d0r470ESgaIUZzb0ShbK956kWJeVqiPuD/2WXJr77ZfG2WA
-	 Sq1deGRdZBOuOfrXx/QBc1SDfdFyHRcXpzYF4mMi8zObi+ti9iiERI3b4ceE/3s7kt
-	 NzLQFGxuqoPvUIZ5qYabpbixxPAsc59KqW8mHDTU=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 131KVVex029181
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 1 Apr 2021 15:31:31 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 1 Apr
- 2021 15:31:31 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 1 Apr 2021 15:31:31 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 131KVVqv060496;
-	Thu, 1 Apr 2021 15:31:31 -0500
-Date: Thu, 1 Apr 2021 15:31:31 -0500
-From: "Nishanth Menon" <nm@ti.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Denys Dmytriyenko <denis@denix.org>,
-        Patches and discussions about the
- oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] make-mod-scripts: pass CROSS_COMPILE to configure and build
-Message-ID: <20210401203131.6sxb4rnpopuvkzni@upstate>
-References: <1617235191-37594-1-git-send-email-denis@denix.org>
- <CADkTA4PmeaiFRZLxFkJ=TJnWLcMHYnEn_tvNUwZ4N+uHV05S-Q@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bgwhMdgp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: champagne.guillaume.c@gmail.com)
+Received: by mail-qt1-f176.google.com with SMTP id f12so2473837qtq.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 13:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVNzKyVBuqm7+9ZVB0l4mH+Q/qFF6ShduPkknG5K9uQ=;
+        b=bgwhMdgpmorKTQCr+JtsdON53h1bGfHa6Tja4UknPt2VyF2RCn3gAIZOk0tsR4HO5O
+         7vY4iiZNGiBz0D2RAhxp/qvCzK0d0UdsmffqLBLJqYmiP1nct7JdO+3LdOwyRx/YwZar
+         OUgF7fD9wp1jj8oMuJ0c8O0bsMcQainQbvLnmPkEouAfkiTzr0A7MkvXHrlJOA9j5d8T
+         tqAA1LUpckjfFGulq7a1EvjRnm1krH/M67ePbXRH1EOHSfAb7yDnhNjSqmss+QmaCN24
+         L/jB0S/yuFaHX8PcRM9uwe2bwqnblStOPnACzSOsqSPTS6YDoBLooIf5U+PsMZdhijcp
+         WqqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LVNzKyVBuqm7+9ZVB0l4mH+Q/qFF6ShduPkknG5K9uQ=;
+        b=Uw1JNuWLHpE8VZoH4wIegdx+dRqokT78RpXsDnmONhHi9rGnbMPmRMA8Nr9jDVc1HA
+         XkXJ457XaSv/d+KNLkDvhRlyAZaJRjJe3kX6uYdm2BbApSAe9tQP45Et/SdDGK6XuKO5
+         XsmJPgetsNQuWTzKK5nITBg6sZH/2CL3N4v73EyeebY43ysL9cziM9xyzzoc/z+Ccdxd
+         IHoLI3inxoim2vBrU+Z02HHaQq+zgBekBMCLUikYdqRy1e1erfsSzSLbmhtcSu691Qaa
+         x1Ue1WSzlyujhrWyVAz3iKt+2M1BNgeLEI0Fk1AWWj3RJ1Mf9B9SybL5Cwo/dJaDF2Sm
+         mtbw==
+X-Gm-Message-State: AOAM5311u6dwCCSf08SeYBTNclkG/UeK12P9kjoxoPj+1gONoFiRtdcq
+	ZNIt5vuaQJvlv58qu2ufVQlvlcVzGDY=
+X-Google-Smtp-Source: ABdhPJy8wycaRAAu4K0QLbHm7NBlRVxKMB7vZ7vLyeqKjSc56aIHeI3FPkBME3q89e579OnQEwcb1Q==
+X-Received: by 2002:a05:622a:486:: with SMTP id p6mr9015144qtx.98.1617310135573;
+        Thu, 01 Apr 2021 13:48:55 -0700 (PDT)
+Return-Path: <champagne.guillaume.c@gmail.com>
+Received: from gchdesk.Sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
+        by smtp.googlemail.com with ESMTPSA id o7sm4985165qki.63.2021.04.01.13.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 13:48:55 -0700 (PDT)
+From: "Guillaume Champagne" <champagne.guillaume.c@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+Subject: [PATCH] image-live.bbclass: optional depends when ROOTFS empty
+Date: Thu,  1 Apr 2021 16:48:49 -0400
+Message-Id: <20210401204849.4360-1-champagne.guillaume.c@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4PmeaiFRZLxFkJ=TJnWLcMHYnEn_tvNUwZ4N+uHV05S-Q@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 09:22-20210401, Bruce Ashfield wrote:
-> On Wed, Mar 31, 2021 at 8:00 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> >
-> > Fixes:
-> > |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/checksyscalls.sh
-> > |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/atomic/check-atomics.sh
-> > |   LDS     arch/arm64/kernel/vdso/vdso.lds
-> > |   CC      arch/arm64/kernel/vdso/vgettimeofday.o
-> > |   AS      arch/arm64/kernel/vdso/note.o
-> > |   AS      arch/arm64/kernel/vdso/sigreturn.o
-> > |   LD      arch/arm64/kernel/vdso/vdso.so.dbg
-> > |   VDSOSYM include/generated/vdso-offsets.h
-> > |   OBJCOPY arch/arm64/kernel/vdso/vdso.so
-> > | objcopy: Unable to recognise the format of the input file `arch/arm64/kernel/vdso/vdso.so.dbg'
-> > | /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/vdso/Makefile:61: recipe for target 'arch/arm64/kernel/vdso/vdso.so' failed
-> >
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> I like the lighter touch of this patch. I still can't explain why this
-> isn't necessary on one of my builders, but is on the other .. but that
-> of course isn't relevant to this!
-> 
-> I've reviewed and tested this, so no concerns from my end.
-> 
-> Queue the cheesy -by lines:
-> 
-> Reviewed-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Tested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
+`ROOTFS` is optional. It can be empty if the live image doesn't require
+a rootfs.  In such cases, the build doesn't depend on
+`do_image_{LIVE_ROOTFS_TYPE}`.
 
-Sounds good to me as well.. Thanks for discussing this chain[1].
+Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+---
+ meta/classes/image-live.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Tested-by: Nishanth Menon <nm@ti.com>
-
-
-Though I still don't understand the rationale why would we not move
-CROSS_COMPILE from kernel.bbclass to kernel-arch.bbclass instead of
-having to duplicate it here? after all KERNEL_CC etc are in that realm
-and would'nt CROSS_COMPILE fall in that bucket?
-
-> > Cc: Nishanth Menon <nm@ti.com>
-> > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
-> > ---
-> >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > index 92ffa47..b2b50b9 100644
-> > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > @@ -19,7 +19,7 @@ DEPENDS += "bc-native bison-native"
-> >  DEPENDS += "gmp-native"
-> >
-> >  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-> > -EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
-> > +EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
-> >
-> >  # Build some host tools under work-shared.  CC, LD, and AR are probably
-> >  # not used, but this is the historical way of invoking "make scripts".
-> > --
-> > 2.7.4
-> >
-> 
-> 
-> -- 
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 1b2183eadd..8b08305cdb 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -30,7 +30,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+                         virtual/kernel:do_deploy \
+                         ${MLPREFIX}syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot \
+-                        ${PN}:do_image_${@d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')} \
++                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
+                         "
+ 
+ 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+2.20.1
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/150143
