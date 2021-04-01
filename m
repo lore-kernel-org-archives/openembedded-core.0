@@ -1,137 +1,94 @@
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.58])
- by mx.groups.io with SMTP id smtpd.web12.3570.1617296517633191377
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web09.4048.1617297955467647279
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 10:01:58 -0700
+ Thu, 01 Apr 2021 10:25:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=HKztdqmo;
- spf=pass (domain: windriver.com, ip: 40.107.75.58, mailfrom: yifan.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NxwZjMkFGA1e03+vq7lLtSW53sSIezSGM8YFHwdc+BFBCewTPh9rPIt2ZequC2119n6P87mwKYoQRjQssJLaBaWjMqoYB17S8vSvVb2d+E0hs0uX4CvqBhnK33cHeVsy/9p0JS7t1Nj414lcq/qeOuFQh6pPqnP3pRHv/9JWRH6VF7NkHDL1tHK1Chzyn/PCp78GwEDlExGY+WPQG14LQZjEoE8q6L/ed8Sct89+6I7XdXT4jQZU5+ytndwjV7VEcKg8JGimO7YgYng1JNPX8CUyI6V896NSRFKyBHgPr38nfgjP/9/Y7mSB6Bn8geB1DQ0SBCvuKb4hqs43pFKjwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QD+jhmtI8xmobeucjrHwFYQzQIVpESHNQFPEgUb8o/g=;
- b=azRsRjdCMxHVNl3+kSO0RN2QKMxxx/vikrardNqUynYAZAh7RBiwvjFFAMMwPC2x4Gl2Rs/YYb5yYS3sm+BqUukyYmPkBdZs1xR3DeOTcAiCxEON11/a9IaNtsDzt1KX6jVEr01eFu/k9nr/ah2aZsYIlNEV/gS9dDRbc72rqBxAUHFS7judQeCvM7t/epPEGSzyalXQxukO3slb2P3s3kbpiLlXVnLJqp54YixkUXZXx+zghwn5fGkH4r8UprFJWvK22g9WIWuYzwZoo3sgSXG8vCHZs1YRdoXkTD0aSMv7Ucx2RiHwZskGOdDhgkVwgtXrv1rYCcO7KZB2zL9eoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QD+jhmtI8xmobeucjrHwFYQzQIVpESHNQFPEgUb8o/g=;
- b=HKztdqmo/ihmYFuYWKQNSMYscDqNUl5SWA3faHP+2BwW89a5uG+ejlstI6tuFzc06DhJP0VEtBrTaC4IOBo+U3nxDGDGNxIGcTbRzefdkUhoWXwV5U30bZ13SpjOLI2DmVhbf7COtiI/FD+jNkJWDjASFLeRZn60O6Wf21vM2v4=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
- by SA2PR11MB5146.namprd11.prod.outlook.com (2603:10b6:806:116::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Thu, 1 Apr
- 2021 17:01:55 +0000
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::24e6:c5dd:a024:807f]) by SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::24e6:c5dd:a024:807f%9]) with mapi id 15.20.3977.033; Thu, 1 Apr 2021
- 17:01:55 +0000
-From: "Yi Fan Yu" <yifan.yu@windriver.com>
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=S0dpc5Z6;
+ spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.156.1, mailfrom: klaus@linux.vnet.ibm.com)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 131H4OXm109847
+	for <openembedded-core@lists.openembedded.org>; Thu, 1 Apr 2021 13:25:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=aHgw5Qkw+8g9SSz1eECcY6oUhCBArwEMTWocFuzEZQI=;
+ b=S0dpc5Z6loe9UBd80xKEV1sAwE1TX0dyuIkIy/ofhoKRoienxA5eeUzLmY5YFS9nHyZK
+ niHFMtbks/AJ19eKnSLYI+QXLv9+Ap7vmiWsWGABhKNQcUNtM3pjtxxr8Wb1UxoHTdaz
+ sz7rqLj8r6OwgHH20CdnqDM8A/YSVUNmp2kATHTMuZ61oPUbPqKs2rPephkGcHDajekD
+ WTS7IvdsVugPknJdtUvjdVxBQKoxwynGmv4L5hYpsC4iVrbryoiphbRxXHTd2ENnEhaU
+ iu7xE9+ezHYZXyC7mPLHTM2VzyGyjWe9UXREUVPf/MKtDNHXTaTp1tbFrNzsas9mJwRE /w== 
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 37n8r0jxm7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 13:25:54 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+	by ppma01wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 131HIdfS019242
+	for <openembedded-core@lists.openembedded.org>; Thu, 1 Apr 2021 17:25:53 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
+	by ppma01wdc.us.ibm.com with ESMTP id 37n2905r8e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 17:25:53 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
+	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 131HPrf728377526
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 1 Apr 2021 17:25:53 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3BDC4112064;
+	Thu,  1 Apr 2021 17:25:53 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 72B9D112063;
+	Thu,  1 Apr 2021 17:25:52 +0000 (GMT)
+Received: from T480-KlausKiwi.localdomain (unknown [9.80.234.42])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Thu,  1 Apr 2021 17:25:52 +0000 (GMT)
+From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] valgrind: print failed ptest details
-Date: Thu,  1 Apr 2021 13:01:41 -0400
-Message-ID: <20210401170141.16479-1-yifan.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0075.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::14) To SA0PR11MB4719.namprd11.prod.outlook.com
- (2603:10b6:806:95::17)
-Return-Path: yifan.yu@windriver.com
+Cc: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Subject: [PATCH] uboot: Deploy default symlinks with fitImage
+Date: Thu,  1 Apr 2021 14:25:41 -0300
+Message-Id: <20210401172541.30934-1-klaus@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0075.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.32 via Frontend Transport; Thu, 1 Apr 2021 17:01:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 91308c5e-d205-459f-af29-08d8f52fda94
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5146:
-X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB51469B259A3D7272BF9B6647807B9@SA2PR11MB5146.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ig1HFn5yMgOTXx5QGIbQBWY0zgpSq8vl9PWKUWIIw055bfmAPWk9BBIRL6L8noYg5TkHkMWswuZHgTZDE0IOAXJuzS4Lp4+1GNWKOZU7nT2ZHeq8h6esobuQld/27MhG6T3UIT8eP1BFEAjdlsEWR6NvkGc4LJm84nxqW1efBYsYNY1FAHToP+QM4Yv51o/SmPMrszyn27czKpHE1rilApkowFAV9FYeVpR3uIdp2jIgsEA+nO4ZulN14amevcUJVaiVAApbLOBWGtEfIkGOgI3rdAFmfWjZvtS7iZ430qhVDFITxUpiyHm4FwcPMCG99B5Wi/iAIWaw+eVmQREqZFapDZW/0fTAdtolYTDyVkLlTxEP2FnTCDdsLssSj6f4xppyDcfQVLhLKdYP4lb7W8DSqbDV//CyuizP1F8auXGNbR8gfVaqqK1KdTrfdye0mBSuruGl8BPCvCAitC2TgMZq47lNTaV4PPehzgpvqlNLe2SxWDxoXDRdP5Wcj95q1iUVdSVlzBA/WZ3cQ+gT0YjSN0BOvUIJS5+FWGaDhuiRC0wA/DVkdbC2n8o7sSur6maQkiYHkilsF7vUvhwCkK1B2WlHsvebZCbJTGMHdAmj8mX71NH1BblFfRKoACTAu3lTXqSlixCrKMJ73hy0Jw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(366004)(39850400004)(346002)(36756003)(8676002)(6486002)(86362001)(8936002)(83380400001)(316002)(186003)(6916009)(16526019)(2616005)(956004)(26005)(6506007)(1076003)(478600001)(66946007)(38100700001)(2906002)(66556008)(66476007)(5660300002)(6666004)(6512007)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?A4uFaIx5aFtlu2w5b6R1T/8vuEcjUJKk8fOfv8pDcqFBR0SFYrW0K/h24krE?=
- =?us-ascii?Q?XgXPk03F7yokUlkVc21MYj4TbsXwmOaA6fu3gW6XMmwrlRMf7kibM9GzwOHi?=
- =?us-ascii?Q?GGWI5jcsSYpZauAGPm70kRNormh6aII3w2kq3++KmiPPIG0AQmS/WrXrYOGI?=
- =?us-ascii?Q?/2IJuLG9sJN7eT9s9rCMXOKbF8lNcOwCRHvZUeySAHrQx8O92VJah+Sgreuw?=
- =?us-ascii?Q?05IwSuZKav6xHUWs8BHphoCoXKC725TQ7aMvJpSFusSFmKV4S4tXRVf8popU?=
- =?us-ascii?Q?GN8qk5J+Np/xbYFEdD2q4Rh11q2juBoedKP+00IYzQvDFJ7/B4pz6VSwiOb2?=
- =?us-ascii?Q?Jkr8kznq0Kdzd+hAdAaiFOvX2+6ZkyCGHTHFxpmyI2/6hWWM138KnoDPzXv3?=
- =?us-ascii?Q?oi04BO6fzWMpcjQ7E7x8/e3kexMU0qz4O1RAimvaQz6MurQ6+bZAvnWbHhsO?=
- =?us-ascii?Q?4KF6hwW/4IVJcqpImFkmH0np1lYL+MZqsflXEOTa3e3Sf7olodin4A3ey15w?=
- =?us-ascii?Q?IN3h8m+/a8e1j9RZybehM3rBm+LJRDCfL+fHcXDidVcTfJ4nc5WvyUrruV+r?=
- =?us-ascii?Q?bsKqFohGu+WNM234SW15aggEHa9iDfs2VSOl0iQBrw7onuZK0fApjl/9CE9b?=
- =?us-ascii?Q?oSKXbxeVDlA+8Pm7maDEgU3gd6D4DumfaGAEYYNn6TeSi+mOHtvPNT/6oBkX?=
- =?us-ascii?Q?15FHJHbGD20jtdxYUJBa7cZuVcVmFIIALiBroP0qG2iuOw8XlmZihqHgOxoE?=
- =?us-ascii?Q?GyToWje0DKB6NvMeeOxnm4Dtt3n5sH90/FLwElCramAxvOjKl4aix5IMSJpW?=
- =?us-ascii?Q?Xzr1cqO55ebDbJvCUIJ/098hNjwYwoaAowatbpsPvQXzO0MQW6BwdxMe0mwZ?=
- =?us-ascii?Q?yN6qVmuZSyuuzSvPs9uoKRPdNGopMEZL6l9AVPGrSEg26R2CgIsoqSpQSvYV?=
- =?us-ascii?Q?cF96V3S8lpHAW+pRcpU/XWfuj5nhAf6E6iPnFQZ0/oPf8njio6D0VREF4XXW?=
- =?us-ascii?Q?4BeMXndy8AgLFHNjSQmMVMJnBE4ufkhCTVYyWJ230Sw4RdKXayf/XsZ398Fs?=
- =?us-ascii?Q?WBe0YJcSEynfaoSd75PI1vFh4TG8idqb4YWXFsHn9UsOi09NLbNWSeVO72Sk?=
- =?us-ascii?Q?FHQw7PNDMMBeJzrZfejt4Nii/zeYmObDyEfWi5dZX8xpEl1/rukitxgpOl9p?=
- =?us-ascii?Q?ENNg67EAlHgmjKvPDEr2w2Pk21UokB/59kWwCAOPqS9EhEYo5cnu8gmzuxJR?=
- =?us-ascii?Q?cxkxs1z0FYMkD9wFka4RueuNn1fMQtQNNwLZg+ugGwXofTWA3CtJVe3OYdm7?=
- =?us-ascii?Q?RYfjFAC2lI6MI7sHr6R5/Wi+?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91308c5e-d205-459f-af29-08d8f52fda94
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 17:01:55.4132
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YYo4J3yvRRLo9QbnNUK+1j1eAN6f8pikjf2Yp1oxtKieLyGXu/IImEi1hCGNqYJKY6ag8Dbu+iNiwB3le+rngw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5146
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: A7LK8JQRRx7mezK7Sx81i-6InVPFzn3l
+X-Proofpoint-GUID: A7LK8JQRRx7mezK7Sx81i-6InVPFzn3l
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-04-01_09:2021-04-01,2021-04-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ mlxlogscore=912 clxscore=1015 lowpriorityscore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103310000 definitions=main-2104010109
+Content-Transfer-Encoding: 8bit
 
-Some intermittent failures in valgrind are hard
-reproduce.
+Some image recipes uses ${DEPLOY_DIR_IMAGE}/${UBOOT_BINARY} to create
+their images. Force the re-creation of those symlinks pointing to the
+u-boot-fitImage in case UBOOT_FITIMAGE_ENABLE is set.
 
-Printing the difference between actual and expected
-will make understanding them slightly easier.
-
-[YOCTO #14294]
-
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
 ---
- meta/recipes-devtools/valgrind/valgrind/run-ptest | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/uboot-sign.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recip=
-es-devtools/valgrind/valgrind/run-ptest
-index 3e0205fe6e..60d243276b 100755
---- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
-+++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
-@@ -56,6 +56,16 @@ for i in `cat remove-for-all`; do
-    mv $i.IGNORE $i.vgtest;
- done
-=20
-+echo "Failed test details..."
-+failed_tests=3D`grep FAIL: ${LOG} | awk '{print $2}'`
-+for test in $failed_tests; do
-+    for diff_results in `ls $test*.diff`; do
-+        echo $diff_results
-+        echo '************'
-+        cat  $diff_results
-+    done
-+done
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 85304d452e..d11882f90f 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -473,6 +473,15 @@ do_deploy_prepend_pn-${UBOOT_PN}() {
+ 
+ }
+ 
++do_deploy_append_pn-${UBOOT_PN}() {
++	# If we're creating a u-boot fitImage, point u-boot.bin
++	# symlink since it might get used by image recipes
++	if [ "${UBOOT_FITIMAGE_ENABLE}" = "1" ] ; then
++		ln -sf ${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_BINARY}
++		ln -sf ${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_SYMLINK}
++	fi
++}
 +
- passed=3D`grep PASS: ${LOG}|wc -l`
- failed=3D`grep FAIL: ${LOG}|wc -l`
- skipped=3D`grep SKIP: ${LOG}|wc -l`
---=20
-2.29.2
+ python () {
+     if (   (d.getVar('UBOOT_SIGN_ENABLE') == '1'
+             or d.getVar('UBOOT_FITIMAGE_ENABLE') == '1')
+-- 
+2.25.1
 
