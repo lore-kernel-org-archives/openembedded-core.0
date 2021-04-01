@@ -1,109 +1,126 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.6743.1617309034727317702
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by mx.groups.io with SMTP id smtpd.web12.6722.1617309095486561139
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Apr 2021 13:30:35 -0700
+ Thu, 01 Apr 2021 13:31:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tQMPR3kq;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.45, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f45.google.com with SMTP id v11so2981057wro.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Apr 2021 13:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8D5VIL4ollbCmmXy5v+4mbJCDrcWofWeCiUJqzdZ/1I=;
-        b=tQMPR3kq/thJt4Ha4JxvlhWyAx642GQWHQ5BsjCPdX+7a4hgmtrKrgOPvPEvWRzrVR
-         oGeL5Qjj1JjPrKHQWjmrv0CvhDVfT9Zs0GM7VYuuKUfRdS2cFxN8yfgm1YSS3Xqye9uV
-         VNS7VLAlGBeLb7w845mzu4H0LERLcOGdl+3GRV/I2WQtfeOaJThUNQUwJ4ZEf/z7mIyr
-         tIQvd4Xzcna7s//odH+FaCo+FwSM5dVVqphWES+2KdgbxGIdn8iO9troips84/+v3dfi
-         omkkxnTzPBBHXB5GCxyg1fl9hrpzLEDSIS84467IciAM2JVgD0Gp8lEmIX8Yn4qL95z3
-         +5Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8D5VIL4ollbCmmXy5v+4mbJCDrcWofWeCiUJqzdZ/1I=;
-        b=h5ETS/iHajRlA7M9K0TJPj09NasSZSmBqylYzUDHR06B3MdadG/nurjMwRWPME/KQh
-         rx0it/qVVC29FXbqNH5wq+x264Kno5V3cymeaWqXXj27uv7U6Y/1zgxBioHeLNpB1cjW
-         hBG0KhKHy6fVwvuD3eThA2rh0wjkxutPetcS/RE6Kr740xVMZdo/Q2OItIflABqr7USH
-         rWUV7roSVdhnQv6pq68Ltcl2BJyeJMc/YAqy0BVUvtLMXLJzb1YcIVVeF8ln3cDX6zkI
-         lRtStXBA6ootv/YQk/E6cEuep1YUZUnIcWEH3jdr4b3/lhljmSvQnRzDrMvzOgkps7T7
-         PUgg==
-X-Gm-Message-State: AOAM533kHM7eCLx5msE1vqp4Ux4ezHyfiYAkWufow8QVTBr8Qdds0BSs
-	pnMpe4o/CN1vcqRo0IZiDTbwfkSEqujUBzMIY3VwRQ==
-X-Google-Smtp-Source: ABdhPJxuiD6Re9Xqvg27KCWI3JmsbvgqoHFQim9AM7BSMPiMGkzai4cJbdenITMQWx13/Z/tLKdYE2Jr8icSLSHRpM8=
-X-Received: by 2002:adf:fcc7:: with SMTP id f7mr11808245wrs.400.1617309033092;
- Thu, 01 Apr 2021 13:30:33 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=qMFtcirf;
+ spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: nm@ti.com)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 131KVVCJ112911;
+	Thu, 1 Apr 2021 15:31:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1617309091;
+	bh=zYlys5HejR5BHYeRwN4wNjvf2XSabGtvEClohP90XIc=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=qMFtcirfPIZ4plXCl1d0r470ESgaIUZzb0ShbK956kWJeVqiPuD/2WXJr77ZfG2WA
+	 Sq1deGRdZBOuOfrXx/QBc1SDfdFyHRcXpzYF4mMi8zObi+ti9iiERI3b4ceE/3s7kt
+	 NzLQFGxuqoPvUIZ5qYabpbixxPAsc59KqW8mHDTU=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 131KVVex029181
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 1 Apr 2021 15:31:31 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 1 Apr
+ 2021 15:31:31 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Thu, 1 Apr 2021 15:31:31 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 131KVVqv060496;
+	Thu, 1 Apr 2021 15:31:31 -0500
+Date: Thu, 1 Apr 2021 15:31:31 -0500
+From: "Nishanth Menon" <nm@ti.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Denys Dmytriyenko <denis@denix.org>,
+        Patches and discussions about the
+ oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] make-mod-scripts: pass CROSS_COMPILE to configure and build
+Message-ID: <20210401203131.6sxb4rnpopuvkzni@upstate>
+References: <1617235191-37594-1-git-send-email-denis@denix.org>
+ <CADkTA4PmeaiFRZLxFkJ=TJnWLcMHYnEn_tvNUwZ4N+uHV05S-Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1617290309.git.steve@sakoman.com> <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com>
- <CAJ86T=VowO_dOjSw-hSs2B+dnHwhnKcEiRoywhBwa_E7tWkMcQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=VowO_dOjSw-hSs2B+dnHwhnKcEiRoywhBwa_E7tWkMcQ@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 1 Apr 2021 10:30:20 -1000
-Message-ID: <CAOSpxdZiyjWbhtfNdfLDseOt=Rg5dow0UY4EGUANjM5FRJtcbg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 13/15] packagegroups: delete useless "PROVIDES" lines
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CADkTA4PmeaiFRZLxFkJ=TJnWLcMHYnEn_tvNUwZ4N+uHV05S-Q@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Thu, Apr 1, 2021 at 10:07 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Thu, Apr 1, 2021 at 8:29 AM Steve Sakoman <steve@sakoman.com> wrote:
+On 09:22-20210401, Bruce Ashfield wrote:
+> On Wed, Mar 31, 2021 at 8:00 PM Denys Dmytriyenko <denis@denix.org> wrote:
 > >
-> > From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+> > Fixes:
+> > |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/checksyscalls.sh
+> > |   CALL    /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/scripts/atomic/check-atomics.sh
+> > |   LDS     arch/arm64/kernel/vdso/vdso.lds
+> > |   CC      arch/arm64/kernel/vdso/vgettimeofday.o
+> > |   AS      arch/arm64/kernel/vdso/note.o
+> > |   AS      arch/arm64/kernel/vdso/sigreturn.o
+> > |   LD      arch/arm64/kernel/vdso/vdso.so.dbg
+> > |   VDSOSYM include/generated/vdso-offsets.h
+> > |   OBJCOPY arch/arm64/kernel/vdso/vdso.so
+> > | objcopy: Unable to recognise the format of the input file `arch/arm64/kernel/vdso/vdso.so.dbg'
+> > | /OE/poky-master/build/tmp/work-shared/qemuarm64/kernel-source/arch/arm64/kernel/vdso/Makefile:61: recipe for target 'arch/arm64/kernel/vdso/vdso.so' failed
 > >
-> > There is apparently no functional value to "PROVIDES" lines anymore in
-> > packagegroup recipe files, so remove the lonely couple of examples
-> > left.
->
-> Seems questionable for backporting to a stable release. The bogus
-> PROVIDES lines have been there for more than a decade without causing
-> any issues (ie removing them isn't fixing a bug).
+> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
+> I like the lighter touch of this patch. I still can't explain why this
+> isn't necessary on one of my builders, but is on the other .. but that
+> of course isn't relevant to this!
+> 
+> I've reviewed and tested this, so no concerns from my end.
+> 
+> Queue the cheesy -by lines:
+> 
+> Reviewed-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Tested-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
 
-My rationale for including this was that users often take our recipes
-as templates for their own, so best we model good behavior :-)
+Sounds good to me as well.. Thanks for discussing this chain[1].
 
-But I don't feel strongly about it so I'll drop from my pull request.
-That's what this review period is for, so thanks for taking a
-thoughtful look at the patches!
 
-Steve
+Tested-by: Nishanth Menon <nm@ti.com>
 
-> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit 6f2c9602bc5fc6794b852ec20f40ea62a55ada1e)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+
+Though I still don't understand the rationale why would we not move
+CROSS_COMPILE from kernel.bbclass to kernel-arch.bbclass instead of
+having to duplicate it here? after all KERNEL_CC etc are in that realm
+and would'nt CROSS_COMPILE fall in that bucket?
+
+> > Cc: Nishanth Menon <nm@ti.com>
+> > Signed-off-by: Denys Dmytriyenko <denis@denix.org>
 > > ---
-> >  meta/recipes-core/packagegroups/packagegroup-base.bb     | 1 -
-> >  meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 -
-> >  2 files changed, 2 deletions(-)
+> >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > index 1f802da09b..c32664917f 100644
-> > --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> > @@ -8,7 +8,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+> > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > index 92ffa47..b2b50b9 100644
+> > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > @@ -19,7 +19,7 @@ DEPENDS += "bc-native bison-native"
+> >  DEPENDS += "gmp-native"
 > >
-> >  inherit packagegroup
+> >  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+> > -EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
+> > +EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
 > >
-> > -PROVIDES = "${PACKAGES}"
-> >  PACKAGES = ' \
-> >              packagegroup-base \
-> >              packagegroup-base-extended \
-> > diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-> > index b345e314ad..20fe6fc092 100644
-> > --- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-> > +++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
-> > @@ -7,7 +7,6 @@ PR = "r2"
-> >
-> >  inherit packagegroup
-> >
-> > -PROVIDES = "${PACKAGES}"
-> >  PACKAGES = "${PN}-server ${PN}-client"
-> >
-> >  SUMMARY_${PN}-client = "NFS client"
+> >  # Build some host tools under work-shared.  CC, LD, and AR are probably
+> >  # not used, but this is the historical way of invoking "make scripts".
 > > --
-> > 2.25.1
+> > 2.7.4
 > >
-> >
-> > 
-> >
+> 
+> 
+> -- 
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+-- 
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+
+[1] https://lists.openembedded.org/g/openembedded-core/message/150143
