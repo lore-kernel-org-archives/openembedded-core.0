@@ -1,82 +1,54 @@
-Received: from anavi.org (anavi.org [91.215.217.29])
- by mx.groups.io with SMTP id smtpd.web08.14886.1617363944611264546
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web11.15640.1617366640522468137
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Apr 2021 04:45:45 -0700
+ Fri, 02 Apr 2021 05:30:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 spf.securedserverspace.com}: parse error for token &{10 18 _netblocks4.securedserverspace.com}: limit exceeded (domain: konsulko.com, ip: 91.215.217.29, mailfrom: leon.anavi@konsulko.com)
-Received: from [78.130.197.211] (port=48588 helo=localhost.localdomain)
-	by voyager.icnhost.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-	(Exim 4.92)
-	(envelope-from <leon.anavi@konsulko.com>)
-	id 1lSIFA-00071r-LN; Fri, 02 Apr 2021 14:45:41 +0300
-From: "Leon Anavi" <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [meta-oe][PATCH] python3-setuptools-rust: Add release 0.11.6
-Date: Fri,  2 Apr 2021 14:45:21 +0300
-Message-Id: <20210402114521.3888-1-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.17.1
-X-OutGoing-Spam-Status: No, score=-0.5
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:46986 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1lSIwf-00BmH4-QA; Fri, 02 Apr 2021 08:30:38 -0400
+Date: Fri, 2 Apr 2021 08:30:34 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Andre McCurdy <armccurdy@gmail.com>
+cc: Steve Sakoman <steve@sakoman.com>, 
+    OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][dunfell 13/15] packagegroups: delete useless "PROVIDES" lines
+In-Reply-To: <CAJ86T=VowO_dOjSw-hSs2B+dnHwhnKcEiRoywhBwa_E7tWkMcQ@mail.gmail.com>
+Message-ID: <9b71cdff-2c58-1df0-a7a0-78e4f79c88d4@crashcourse.ca>
+References: <cover.1617290309.git.steve@sakoman.com> <cd4f70f47c82377d65c51a7c9a9759188dfbb5b1.1617290310.git.steve@sakoman.com> <CAJ86T=VowO_dOjSw-hSs2B+dnHwhnKcEiRoywhBwa_E7tWkMcQ@mail.gmail.com>
+MIME-Version: 1.0
+X-OutGoing-Spam-Status: No, score=-1.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - voyager.icnhost.net
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
 X-AntiAbuse: Original Domain - lists.openembedded.org
 X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - konsulko.com
-X-Get-Message-Sender-Via: voyager.icnhost.net: authenticated_id: leon@anavi.org
-X-Authenticated-Sender: voyager.icnhost.net: leon@anavi.org
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-Add setuptools-rust release 0.11.6:
+On Thu, 1 Apr 2021, Andre McCurdy wrote:
 
-- Respect CARGO_BUILD_TARGET environment variable if set.
-- Add setuptools_rust.__version__ and require setuptools >= 46.1.
+> On Thu, Apr 1, 2021 at 8:29 AM Steve Sakoman <steve@sakoman.com> wrote:
+> >
+> > From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+> >
+> > There is apparently no functional value to "PROVIDES" lines
+> > anymore in packagegroup recipe files, so remove the lonely couple
+> > of examples left.
+>
+> Seems questionable for backporting to a stable release. The bogus
+> PROVIDES lines have been there for more than a decade without
+> causing any issues (ie removing them isn't fixing a bug).
 
-This recipe is required as a dependency of Python packages relying
-on Rust, for example newer versions of python3-cryptography from
-layer meta-python.
+  i agree that this is probably not worth backporting, but i'm a
+minimalist in the sense of, if something has no value, it should be
+removed in the *current* code base. backport? nah, i'm not *that*
+pedantic.
 
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
----
- .../python/python3-setuptools-rust_0.11.6.bb  | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools-rust_0.11.6.bb
-
-diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_0.11.6.bb b/meta/recipes-devtools/python/python3-setuptools-rust_0.11.6.bb
-new file mode 100644
-index 0000000000..58b6f8180f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools-rust_0.11.6.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Setuptools rust extension plugin"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
-+
-+SRC_URI[sha256sum] = "a5b5954909cbc5d66b914ee6763f81fa2610916041c7266105a469f504a7c4ca"
-+
-+inherit pypi setuptools3
-+
-+#UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
-+
-+DEPENDS += "\
-+    ${PYTHON_PN}-wheel-native \
-+    ${PYTHON_PN}-setuptools-scm-native \
-+"
-+
-+RDEPENDS_${PN} = "\
-+    ${PYTHON_PN}-json \
-+    ${PYTHON_PN}-py \
-+    ${PYTHON_PN}-setuptools \
-+    ${PYTHON_PN}-toml \
-+"
-+
-+RDEPENDS_${PN}_class-native = "\
-+    ${PYTHON_PN}-setuptools-native \
-+    ${PYTHON_PN}-toml-native \
-+"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
-
+rday
