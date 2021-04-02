@@ -1,218 +1,234 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.web12.19868.1617384783754436514
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web08.19825.1617384867255459900
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Apr 2021 10:33:03 -0700
+ Fri, 02 Apr 2021 10:34:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tTEmA6pQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id g5so1637380uan.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Apr 2021 10:33:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XHNrN9QG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f46.google.com with SMTP id v23so1633573uaq.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Apr 2021 10:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7qTJK8ip52v09icEq8K4aJG9RINAzYUa04wzcs45SUA=;
-        b=tTEmA6pQvLVaGnKKxo01lm1L391M63eDBy7iJLX66A0Xbf386plBAw9SL39BdUY/hs
-         Te7bMIHTqwwWcyBeCHbRahlFRPV6YAJ+p03Jl0MJ091mGSRC2sbOe9ABSEliz3d7GPEF
-         4nctmfNgFByIaCnmGuyK/TxxcUrUoU07zJpRY6SvBEiTepmeeM4DCFXPE8W+FJAvkFNc
-         i/XVAZvrr+ybdLuJKJLxgfAXDjKITS5PUf+l9gv/XS/tut/4Re6ODUBUxav/gGWxDSG5
-         /o6V5ap8szi+UhYCK5DHcjdtdsnlB42WLs7iWV06sQ3fHNHOg1OcOhHzdj4n+66FtLPs
-         Pcog==
+        bh=XV6IPSXc4CO15hD+SfAlGi6ZYaIzwH6Y9SBAkeTTnJ8=;
+        b=XHNrN9QGonPROc8EVcPoC/vESbP6TEI0PH6wIDMQ68CU2u0B+QHUzpghcpwkExRiC8
+         qLKLPTifLNUTqLqefP462arpbYo/72l32KUGTNd4EhL522bHLIVR6gukBk7JOLt9Xl2K
+         dP7VppQAFABmeFVRgO4515cCyj4J57VJltLPLXqIu154DhPhNBxShJfnU1RY3kgTftrr
+         HKOw0oL21ZqOAMEYQuT5Gi0ncP+gxoJ6+EjcEY2584vNcJFN1sxmgOMrD24dGsvWbdJT
+         OBXq9L921fQIYGkXoN8xwLLEwOJ5hoHq3Ui3Qa/8Vca+UoWQR/GPJ5k0rWluf02ftf1E
+         y/cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7qTJK8ip52v09icEq8K4aJG9RINAzYUa04wzcs45SUA=;
-        b=JvT95Dzu3kF+Mh1YiPszCMlJyO0LQr7Wc8u04pQOVHAYZdxqnLoidG6TRlBSc0YIIF
-         TpVED9PyCy5Uq+w2+YOFpiuU3VOauNWPmSeHw3IjD36KQM4r3SXjUNAEHq9KPR4Miq8R
-         y88AJ8R0vjinTCwhRJ9oEAQE6iY2q6ENwahe27KlkKZ8s7EVkBklxkUYGjYN/QXI+kRy
-         PQM7AGN88MbR6/gqPSVtmQNYdt1kCRyEcW6AZa/FMoJMCcoXLxByVUHgbGtkMJT9rrrw
-         Z0cDy5kz0Cy1szcvRBBS4ktFvOtOyAmxhW2Yy+H8c9ZKsMYwF4zpoXHWMQcyMOjVCjsn
-         9E3w==
-X-Gm-Message-State: AOAM531nt1DXtAT0jgpHUxagN54UNtFU04E+H6dBq7WXvxX9xBbVW2hg
-	PX78k5cGUOAx/78BAPHGz+3A21ZckkUDP/j+6kw=
-X-Google-Smtp-Source: ABdhPJwYP6DmauigP+C9rSlqBscf4fujsj5ubNmRpskT2/vw+fs83UfnIlEFXsZ+f2Wm2y5lwRL6CEK6vSzNIm1Idyc=
-X-Received: by 2002:ab0:2c16:: with SMTP id l22mr9545742uar.100.1617384782878;
- Fri, 02 Apr 2021 10:33:02 -0700 (PDT)
+        bh=XV6IPSXc4CO15hD+SfAlGi6ZYaIzwH6Y9SBAkeTTnJ8=;
+        b=gNurW5CW0B/kGfhe/5p/iqb181MpgcOfPFWPReBrmoxL3440+nmMXwLhqDftpUzH7j
+         bCLpVdM80i/tPY1OkCPrS87UqzPilUYJrF22u61nMjxJrQCH3VNbfSUWe0hrwagYYGaI
+         uavSB3Rofy5ZrDe9+ejTrhAevO6QIUOn+gMR8v8P7bfKvSe4ZouleKH0rxP7IetVQIrC
+         2yq6U6dYU9dMKq9Cb3D5pwJ9R0H8Y7GAxHGZzpIUe+u7t1jaLbzXj6b7enHk/92fmTad
+         W6c24gQXWa4wgaC+4zKcw4B0vkYPjQnsEiQ7lb3hQ2N5jR6PqkqiqnQ1FRBbMDTIxVso
+         ENMA==
+X-Gm-Message-State: AOAM531Vo/WwxxO/tiCELz25ne73PkIx85KmrO25MD4PCAtZmSAbysg7
+	C4JNLM5/YVnauKGybxsesLPiHpxBdlVCN+yuy5o=
+X-Google-Smtp-Source: ABdhPJzCN2rZrBwKTmGH4k7nvUpxYGWYazbFqpn+09UUE/WmIGPLN2GeQFt0tza2SZU9bvmnDKAxGrNNGIEuhk8DubM=
+X-Received: by 2002:ab0:2a92:: with SMTP id h18mr9094585uar.22.1617384866372;
+ Fri, 02 Apr 2021 10:34:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210331225051.3823769-1-raj.khem@gmail.com> <20210401101908.qsyswliokyze37tm@jama>
  <CAMKF1srP43Xoew=7=R7XDJsDX5-dHp6z0UXPbPJ6-GSogDdxmg@mail.gmail.com>
- <CA+chaQd7XR9rY9Yz3dJrtJC2Lg2DjJYugGXQdkGEqjjqaQUKSw@mail.gmail.com> <CAMKF1srEkJwqGU2ydh8DREiTmtC0+VLRUziMKRJftVN+75-1qA@mail.gmail.com>
-In-Reply-To: <CAMKF1srEkJwqGU2ydh8DREiTmtC0+VLRUziMKRJftVN+75-1qA@mail.gmail.com>
+ <CA+chaQd7XR9rY9Yz3dJrtJC2Lg2DjJYugGXQdkGEqjjqaQUKSw@mail.gmail.com>
+ <CAMKF1srEkJwqGU2ydh8DREiTmtC0+VLRUziMKRJftVN+75-1qA@mail.gmail.com> <CANNYZj_ca+FqWYKk-2-Kd3rAR4eb3bOfdn-TigQu-VCeKpp1yw@mail.gmail.com>
+In-Reply-To: <CANNYZj_ca+FqWYKk-2-Kd3rAR4eb3bOfdn-TigQu-VCeKpp1yw@mail.gmail.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 2 Apr 2021 19:32:51 +0200
-Message-ID: <CANNYZj_ca+FqWYKk-2-Kd3rAR4eb3bOfdn-TigQu-VCeKpp1yw@mail.gmail.com>
+Date: Fri, 2 Apr 2021 19:34:14 +0200
+Message-ID: <CANNYZj96LMBpdABsmv2Xf+sGW1nn+SZi547XU3JOEAjPMKr_yw@mail.gmail.com>
 Subject: Re: [PATCH] mesa-gl: Use swrast gallium driver
 To: Khem Raj <raj.khem@gmail.com>
 Cc: Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross@burtonini.com>, 
 	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000072d95605bf00bd47"
+Content-Type: multipart/alternative; boundary="0000000000006cddbc05bf00c2fb"
 
---00000000000072d95605bf00bd47
+--0000000000006cddbc05bf00c2fb
 Content-Type: text/plain; charset="UTF-8"
 
-I think we should actually disable dri (non-gallium) drivers altogether.
-They're only useful for ancient x86 hardware, and upstream is talking about
-removing them from mainline branch and onto a legacy branch in 21.2
-timeframe.
+Link: https://lists.freedesktop.org/archives/mesa-dev/2021-March/224984.html
 
 Alex
 
-On Fri, 2 Apr 2021 at 19:30, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, 2 Apr 2021 at 19:32, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-> yeah we need to start using nouveau dri driver perhaps instead of swrast
+> I think we should actually disable dri (non-gallium) drivers altogether.
+> They're only useful for ancient x86 hardware, and upstream is talking about
+> removing them from mainline branch and onto a legacy branch in 21.2
+> timeframe.
 >
-> On Fri, Apr 2, 2021 at 3:15 AM Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> >
-> > Unfortunately it still fails the same for qemux86* with this change.
-> >
-> > Enabling wayland PACKAGECONFIG doesn't help as well.
-> >
-> > Building for qemuarm with empty DRIDRIVERS does pass the do_configure
-> with:
-> > EXTRA_OEMESON="     -Dshared-glapi=enabled
->  -Dgallium-opencl=disabled     -Dglx-read-only-text=true
->  -Dplatforms='wayland'   -Ddri-drivers=  -Ddri3=disabled  -Degl=disabled
-> -Delf-tls=false -Dgallium-drivers=swrast,swrast  -Dllvm=disabled
-> -Dgbm=disabled  -D
-> > gles1=disabled -Dgles2=disabled -Dopengl=true -Dosmesa=true
-> -Dlibunwind=disabled -Dgallium-va=disabled -Dgallium-vdpau=disabled
-> -Dvulkan-drivers='' -Dglx=disabled  -Dgallium-xa=disabled
-> -Dgallium-xvmc=disabled"
-> >
-> > which is a bit surprising as mesa-gl_21.0.0.bb comment says:
-> > # When NOT using X11, we need to make sure we have at least one driver
-> enabled
-> > and now the only build which isn't broken by the 21 upgrade is the one
-> without any driver.
-> >
-> > and x86 and x86-64 always enable some DRIDRIVERS in mesa.inc:
-> > DRIDRIVERS_class-native = "nouveau"
-> > DRIDRIVERS_class-nativesdk = "nouveau"
-> > DRIDRIVERS_append_x86_class-target = ",r100,r200,nouveau,i965,i915"
-> > DRIDRIVERS_append_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
-> >
-> > Maybe this upgrade to development version 21.0.0 should be reverted and
-> 21.0.1 should be merged after this meta-gl breakage is resolved somehow?
-> >
-> > On Thu, Apr 1, 2021 at 3:58 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> On Thu, Apr 1, 2021 at 3:19 AM Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> >> >
-> >> > On Wed, Mar 31, 2021 at 03:50:51PM -0700, Khem Raj wrote:
-> >> > > Fixes
-> >> > > ../mesa-21.0.0/meson.build:21:0: ERROR: Options "swrast" are not in
-> allowed choices: "auto, i915, i965, r100, r200, nouveau"
-> >> > >
-> >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > > Cc: Martin Jansa <Martin.Jansa@gmail.com>
-> >> > > ---
-> >> > >  meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb | 2 +-
-> >> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> > >
-> >> > > diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> > > index e50782be1c..fc8b4f7504 100644
-> >> > > --- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> > > +++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> > > @@ -12,4 +12,4 @@ PACKAGECONFIG ??= "opengl dri
-> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
-> >> > >  PACKAGECONFIG_class-target = "opengl dri
-> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
-> >> > >
-> >> > >  # When NOT using X11, we need to make sure we have swrast
-> available.
-> >> > > -DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
-> 'x11', '', ',swrast', d)}"
-> >> > > +GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
-> 'x11', '', ',swrast', d)}"
-> >> >
-> >> > With:
-> >> > DISTRO_FEATURES_remove = "x11"
-> >> > PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
-> >> > PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
-> >> > in local.conf this is unfortunately still failing, now with:
-> >> >
-> >> > ../mesa-21.0.0/meson.build:519:4: ERROR: Problem encountered:
-> building dri drivers require at least one windowing system
-> >> >
-> >> > whole log:
-> >> > http://errors.yoctoproject.org/Errors/Details/575265/
-> >> >
-> >> > adding nouveau to DRIDRIVERS like normal mesa doesn't help in this
-> case,
-> >> > because I was building for qemux86-64 which already has bunch of
-> >> > DRIDRIVERS added by default (but adding at least one DRIDRIVER might
-> be still
-> >> > needed for other architectures).
-> >> >
-> >>
-> >> classic OSMesa is removed and swrast gallium drivers are needed for
-> osmsa to run
-> >> could you also add below patch and try. ?
-> >>
-> >>
-> >> diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> index fc8b4f7504..47b14fb97f 100644
-> >> --- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> +++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-> >> @@ -8,8 +8,8 @@ S = "${WORKDIR}/mesa-${PV}"
-> >>
-> >> # At least one DRI rendering engine is required to build mesa.
-> >> # When no X11 is available, use osmesa for the rendering engine.
-> >> -PACKAGECONFIG ??= "opengl dri ${@bb.utils.contains('DISTRO_FEATURES',
-> >> 'x11', 'x11', 'osmesa', d)}"
-> >> -PACKAGECONFIG_class-target = "opengl dri
-> >> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
-> >> +PACKAGECONFIG ??= "opengl dri ${@bb.utils.contains('DISTRO_FEATURES',
-> >> 'x11', 'x11', 'osmesa gallium', d)}"
-> >> +PACKAGECONFIG_class-target = "opengl dri
-> >> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa
-> >> gallium', d)}"
-> >>
-> >> # When NOT using X11, we need to make sure we have swrast available.
-> >> GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
-> >> 'x11', '', ',swrast', d)}"
-> >>
-> >>
-> >> > # $DRIDRIVERS [4 operations]
-> >> > #   _append[x86_class-target]
-> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:107
-> >> > #     ",r100,r200,nouveau,i965,i915"
-> >> > #   _append[x86-64_class-target]
-> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:108
-> >> > #     ",r100,r200,nouveau,i965,i915"
-> >> > #   override[class-native]:set
-> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:105
-> >> > #     "nouveau"
-> >> > #   override[class-nativesdk]:set
-> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:106
-> >> > #     "nouveau"
-> >> > # pre-expansion value:
-> >> > #   ",r100,r200,nouveau,i965,i915"
-> >> > DRIDRIVERS=",r100,r200,nouveau,i965,i915"
-> >> >
-> >> > Reverting Alex's upgrade to 21.0.0 allows to build mesa-gl again and
-> it should surely pass AB build :).
+> Alex
+>
+> On Fri, 2 Apr 2021 at 19:30, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> yeah we need to start using nouveau dri driver perhaps instead of swrast
+>>
+>> On Fri, Apr 2, 2021 at 3:15 AM Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>> >
+>> > Unfortunately it still fails the same for qemux86* with this change.
+>> >
+>> > Enabling wayland PACKAGECONFIG doesn't help as well.
+>> >
+>> > Building for qemuarm with empty DRIDRIVERS does pass the do_configure
+>> with:
+>> > EXTRA_OEMESON="     -Dshared-glapi=enabled
+>>  -Dgallium-opencl=disabled     -Dglx-read-only-text=true
+>>  -Dplatforms='wayland'   -Ddri-drivers=  -Ddri3=disabled  -Degl=disabled
+>> -Delf-tls=false -Dgallium-drivers=swrast,swrast  -Dllvm=disabled
+>> -Dgbm=disabled  -D
+>> > gles1=disabled -Dgles2=disabled -Dopengl=true -Dosmesa=true
+>> -Dlibunwind=disabled -Dgallium-va=disabled -Dgallium-vdpau=disabled
+>> -Dvulkan-drivers='' -Dglx=disabled  -Dgallium-xa=disabled
+>> -Dgallium-xvmc=disabled"
+>> >
+>> > which is a bit surprising as mesa-gl_21.0.0.bb comment says:
+>> > # When NOT using X11, we need to make sure we have at least one driver
+>> enabled
+>> > and now the only build which isn't broken by the 21 upgrade is the one
+>> without any driver.
+>> >
+>> > and x86 and x86-64 always enable some DRIDRIVERS in mesa.inc:
+>> > DRIDRIVERS_class-native = "nouveau"
+>> > DRIDRIVERS_class-nativesdk = "nouveau"
+>> > DRIDRIVERS_append_x86_class-target = ",r100,r200,nouveau,i965,i915"
+>> > DRIDRIVERS_append_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
+>> >
+>> > Maybe this upgrade to development version 21.0.0 should be reverted and
+>> 21.0.1 should be merged after this meta-gl breakage is resolved somehow?
+>> >
+>> > On Thu, Apr 1, 2021 at 3:58 PM Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >> On Thu, Apr 1, 2021 at 3:19 AM Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>> >> >
+>> >> > On Wed, Mar 31, 2021 at 03:50:51PM -0700, Khem Raj wrote:
+>> >> > > Fixes
+>> >> > > ../mesa-21.0.0/meson.build:21:0: ERROR: Options "swrast" are not
+>> in allowed choices: "auto, i915, i965, r100, r200, nouveau"
+>> >> > >
+>> >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> >> > > Cc: Martin Jansa <Martin.Jansa@gmail.com>
+>> >> > > ---
+>> >> > >  meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb | 2 +-
+>> >> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> > >
+>> >> > > diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> > > index e50782be1c..fc8b4f7504 100644
+>> >> > > --- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> > > +++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> > > @@ -12,4 +12,4 @@ PACKAGECONFIG ??= "opengl dri
+>> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
+>> >> > >  PACKAGECONFIG_class-target = "opengl dri
+>> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
+>> >> > >
+>> >> > >  # When NOT using X11, we need to make sure we have swrast
+>> available.
+>> >> > > -DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
+>> 'x11', '', ',swrast', d)}"
+>> >> > > +GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
+>> 'x11', '', ',swrast', d)}"
+>> >> >
+>> >> > With:
+>> >> > DISTRO_FEATURES_remove = "x11"
+>> >> > PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
+>> >> > PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
+>> >> > in local.conf this is unfortunately still failing, now with:
+>> >> >
+>> >> > ../mesa-21.0.0/meson.build:519:4: ERROR: Problem encountered:
+>> building dri drivers require at least one windowing system
+>> >> >
+>> >> > whole log:
+>> >> > http://errors.yoctoproject.org/Errors/Details/575265/
+>> >> >
+>> >> > adding nouveau to DRIDRIVERS like normal mesa doesn't help in this
+>> case,
+>> >> > because I was building for qemux86-64 which already has bunch of
+>> >> > DRIDRIVERS added by default (but adding at least one DRIDRIVER might
+>> be still
+>> >> > needed for other architectures).
+>> >> >
+>> >>
+>> >> classic OSMesa is removed and swrast gallium drivers are needed for
+>> osmsa to run
+>> >> could you also add below patch and try. ?
+>> >>
+>> >>
+>> >> diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> index fc8b4f7504..47b14fb97f 100644
+>> >> --- a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> +++ b/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
+>> >> @@ -8,8 +8,8 @@ S = "${WORKDIR}/mesa-${PV}"
+>> >>
+>> >> # At least one DRI rendering engine is required to build mesa.
+>> >> # When no X11 is available, use osmesa for the rendering engine.
+>> >> -PACKAGECONFIG ??= "opengl dri ${@bb.utils.contains('DISTRO_FEATURES',
+>> >> 'x11', 'x11', 'osmesa', d)}"
+>> >> -PACKAGECONFIG_class-target = "opengl dri
+>> >> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
+>> >> +PACKAGECONFIG ??= "opengl dri ${@bb.utils.contains('DISTRO_FEATURES',
+>> >> 'x11', 'x11', 'osmesa gallium', d)}"
+>> >> +PACKAGECONFIG_class-target = "opengl dri
+>> >> ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa
+>> >> gallium', d)}"
+>> >>
+>> >> # When NOT using X11, we need to make sure we have swrast available.
+>> >> GALLIUMDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES',
+>> >> 'x11', '', ',swrast', d)}"
+>> >>
+>> >>
+>> >> > # $DRIDRIVERS [4 operations]
+>> >> > #   _append[x86_class-target]
+>> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:107
+>> >> > #     ",r100,r200,nouveau,i965,i915"
+>> >> > #   _append[x86-64_class-target]
+>> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:108
+>> >> > #     ",r100,r200,nouveau,i965,i915"
+>> >> > #   override[class-native]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:105
+>> >> > #     "nouveau"
+>> >> > #   override[class-nativesdk]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-graphics/mesa/mesa.inc:106
+>> >> > #     "nouveau"
+>> >> > # pre-expansion value:
+>> >> > #   ",r100,r200,nouveau,i965,i915"
+>> >> > DRIDRIVERS=",r100,r200,nouveau,i965,i915"
+>> >> >
+>> >> > Reverting Alex's upgrade to 21.0.0 allows to build mesa-gl again and
+>> it should surely pass AB build :).
+>>
 >
 
---00000000000072d95605bf00bd47
+--0000000000006cddbc05bf00c2fb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I think we should actually disable dri (non-gallium) =
-drivers altogether. They&#39;re only useful for ancient x86 hardware, and u=
-pstream is talking about removing them from mainline branch and onto a lega=
-cy branch in 21.2 timeframe.</div><div><br></div><div>Alex<br></div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri,=
- 2 Apr 2021 at 19:30, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">ra=
-j.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">yeah we need to start using nouveau dri driver perhaps inst=
-ead of swrast<br>
+<div dir=3D"ltr"><div>Link: <a href=3D"https://lists.freedesktop.org/archiv=
+es/mesa-dev/2021-March/224984.html">https://lists.freedesktop.org/archives/=
+mesa-dev/2021-March/224984.html</a></div><div><br></div><div>Alex<br></div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Fri, 2 Apr 2021 at 19:32, Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
+anavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>I think we sh=
+ould actually disable dri (non-gallium) drivers altogether. They&#39;re onl=
+y useful for ancient x86 hardware, and upstream is talking about removing t=
+hem from mainline branch and onto a legacy branch in 21.2 timeframe.</div><=
+div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Fri, 2 Apr 2021 at 19:30, Khem Raj &lt;=
+<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">y=
+eah we need to start using nouveau dri driver perhaps instead of swrast<br>
 <br>
 On Fri, Apr 2, 2021 at 3:15 AM Martin Jansa &lt;<a href=3D"mailto:martin.ja=
 nsa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br>
@@ -390,5 +406,6 @@ enembedded-core/meta/recipes-graphics/mesa/mesa.inc:105<br>
 &gt;&gt; &gt; Reverting Alex&#39;s upgrade to 21.0.0 allows to build mesa-g=
 l again and it should surely pass AB build :).<br>
 </blockquote></div>
+</blockquote></div>
 
---00000000000072d95605bf00bd47--
+--0000000000006cddbc05bf00c2fb--
