@@ -1,50 +1,50 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web08.22386.1617396406344893466
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.22757.1617396406794778969
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Apr 2021 13:46:46 -0700
+ Fri, 02 Apr 2021 13:46:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qhHE4f/s;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id r12so8856119ejr.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hv4P0TDO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id h10so6484963edt.13
         for <openembedded-core@lists.openembedded.org>; Fri, 02 Apr 2021 13:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=H9F87XpiBHREs42QWMBnCjFbC0zs4sfSH6IOe4ptDC4=;
-        b=qhHE4f/sAEmPrdveV2dSX6+wpezFDGT9tU3o5bwaJpe5EKyIVe0KZpj2nIgHw6Gv1K
-         mCGdzmZeczps1WdKb14rrWVJHEbsAJKp17NRBEIF1z12NIFomryJ9Fudbno9bu5Ejf0e
-         99peoPmUwcYqjsOLwtn28m0z1JBlQLJcZ6891L0RfhKkQYBe2cRYXf/4D2hhHDwfeWap
-         7kYURAAAt/LICdAcEKMGk40bVHsVzv+ydpQCh26K9b/Tqu1l9VSv9XPfKa8oYzJwvrLJ
-         ObllzM0uxZB7Gb21cCAquUX4XUa2rLWEgn/woAkdaiqnn5i3JBDyMSwQ+6x/URO/XhFg
-         lqfw==
+        bh=W/yhZWRVWInvEQAXOkCPuFNLfglhOJNP9pqez8TkREc=;
+        b=hv4P0TDOmY/hAYukEjQbg0+nNjwZ7OHQW7eNCuSQrQCxQ1bVoYqy+WAzmYedQXXmKq
+         o9ce41eQqLxOXSkzi/UvsDMRLAI+Z3qFA/gqxtTBJj/Ta76LBKxY/enkTVh8IMCv33/q
+         HlkdG9v2mG/NNf5LLfvlZVmkOn79fOFoEb8KpROUKI7hIeoc5ewyDyTdsz10+XnSXIvg
+         wJkGYHDadbQTlnPCBR6i4z0xWis5nPR1v8qMb/asxgM7wTiWoveZHOIervSL+Dm6er11
+         JkfyYA41saTbrVx4jxYES180lJPtYyisO1JN9TxjNIeFH7OK73yJtJYLVqPrt58jsRQm
+         uQ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=H9F87XpiBHREs42QWMBnCjFbC0zs4sfSH6IOe4ptDC4=;
-        b=thSXampvLsmzYNaH+Uyzr8g07T+401inrKM+zMaEKOEoQYADG4T1MwGzXv7yb+VPwy
-         Soc6d3Q4LnJ4DFJ3Ti0lAA+gRukoHk0YdcRHMr+KQkA9toxKDaOQN2+aw2jNL7qf7YTW
-         zdWCshuEEhvyV9MEBUEbqXz3ORkbau+x/+hIWa/EsFvyL5XsyJtkTmnEAdGOQYalrihf
-         y+8IBiZRtAUAlKtQ+c0O5s70geAHPwP664E1m2YrTVJMcxTIWmZF263hWRFHwhpEMMeC
-         CzdgWWp3SXzTimyr/5Z275SoG76hMlx0ovKBPJX+wOVMZSIB6isfEjgfWHENF02IcNj0
-         vbMg==
-X-Gm-Message-State: AOAM532tYF+tjd0IpiSmnpE9CaPbQg12G+yG2dsNUnPIAblnzMYvgsKJ
-	PzVlDohGGMMI6UUmJ8IWtZsok2z9zfk=
-X-Google-Smtp-Source: ABdhPJwux1Y+hWC1LR2hVN4keAxeeP2exGxerI37Gr6SYOmSvaOvxS9I6eIZ8NPmUf0T8OHr35XGvg==
-X-Received: by 2002:a17:906:af97:: with SMTP id mj23mr16310781ejb.419.1617396404756;
-        Fri, 02 Apr 2021 13:46:44 -0700 (PDT)
+        bh=W/yhZWRVWInvEQAXOkCPuFNLfglhOJNP9pqez8TkREc=;
+        b=I+Kh9o0drKxycY1flyPn1UPHS8EBV5aAcweRdZbGElcJpVo35S8f4A8n/CiiMLoCjf
+         KAY8NONdUUssgHzIq9Zsk347lz37sTofB/klobNK1HUBM42Mue38AhCDuWY+ZxdNDOAX
+         r/k47NTqrxnqayWSKgyqW1dNx1mnyMAgxVsRnCvHnkPvngOCo6F05RjJxSnlgTwOzna3
+         G54ZxArGepIG6TVkbyM3lpI0PlcQPyLjPRTh2nC837zlSYesmXo3NSo+4a2oe8hSPRtv
+         wQdjX+VY4wuWYt5sy/FEmMqb2KqpBelTygNPP2NjWX9yNY8olVi+7ePbN2vdSUFXYJmr
+         oj1Q==
+X-Gm-Message-State: AOAM531MeAkWKutGoxLvkIiUt5SYiUP9NjPOSUwEhdEoO9XshuLqLojB
+	0sPwqBiya6C3gkpMPK5RVlXqoHNP9vk=
+X-Google-Smtp-Source: ABdhPJxMrDeQ4RyLS/pNcWlZKk/bltzJaO2SOB/I7yaFZlQA/O+8jOSHbJwEN9bsst3eYafuzMnogQ==
+X-Received: by 2002:a05:6402:3493:: with SMTP id v19mr17885332edc.355.1617396405436;
+        Fri, 02 Apr 2021 13:46:45 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id a22sm5845623edu.14.2021.04.02.13.46.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 13:46:44 -0700 (PDT)
+        Fri, 02 Apr 2021 13:46:45 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/6] mesa: update 21.0.0 -> 21.0.1
-Date: Fri,  2 Apr 2021 22:46:23 +0200
-Message-Id: <20210402204627.207068-2-alex.kanavin@gmail.com>
+Subject: [PATCH 3/6] ptest-runner: correct version check
+Date: Fri,  2 Apr 2021 22:46:24 +0200
+Message-Id: <20210402204627.207068-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210402204627.207068-1-alex.kanavin@gmail.com>
 References: <20210402204627.207068-1-alex.kanavin@gmail.com>
@@ -53,34 +53,21 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_21.0.0.bb => mesa-gl_21.0.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.0.0.bb => mesa_21.0.1.bb} (100%)
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb b/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 67b0835d9f..862e4fa9b8 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+index 8b9938f572..0d23a3ee89 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+@@ -12,7 +12,6 @@ PV .= "+git${SRCPV}"
  
--SRC_URI[sha256sum] = "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
-+SRC_URI[sha256sum] = "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+ "
+-UPSTREAM_VERSION_UNKNOWN = "1"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ S = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-graphics/mesa/mesa_21.0.0.bb b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa_21.0.1.bb
 -- 
 2.29.2
 
