@@ -1,95 +1,84 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web08.22387.1617396408803289302
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web12.32300.1617467844857519279
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Apr 2021 13:46:49 -0700
+ Sat, 03 Apr 2021 09:37:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mZf2dDoW;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id hq27so8830448ejc.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Apr 2021 13:46:48 -0700 (PDT)
+ dkim=pass header.i=@madison.systems header.s=google header.b=iBNj3M5z;
+ spf=pass (domain: madison.systems, ip: 209.85.210.171, mailfrom: matt@madison.systems)
+Received: by mail-pf1-f171.google.com with SMTP id x126so485384pfc.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Apr 2021 09:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WSBT79PlsX7Al5APm4iMtsTyXAiwuXxLmCQXN701EHc=;
-        b=mZf2dDoW2CriRkw7ncf+BA8eWxljTXFnaA2h2b77mk48DPqNfEeSMPARN5tgtzGSbQ
-         JMxsRNbHQbNlzGoybfOxLN+zJPorZo2qSY3T4XDdyMdypLOuwohSMiH8RXMGRW2E7iAn
-         DmXQyCljPjjaNyTcJxP1k2CLVFYTXdsUEsbmSix0I/rTQWQd09vbhTe5p/icQWZH8UuK
-         B/AgH5u9dyUNaa0PzVzfxGkOdACTqflHCH/yUlpICeroqPU14KEItlUuqvMJKIHy11Mc
-         tKLky4Y/LN+rEwZ+ewmj3Ao678Qx2BIcB4ZZ+jys4IPym/Xv1GoW9ynyAomO9Z52+1oL
-         BF6g==
+        d=madison.systems; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q82qy7Je2fdTrS9J2dgQgjZtMeDuEME5krxoDV28pbc=;
+        b=iBNj3M5z/b3EJAV6/n0P+7oy6OwDwyJhsCBCRvGNbZNLciqW6HIHDMFc1FaV4/PYZR
+         jpPnb10e94wgc+i46SM7KbstO+/v8HxaB8z21ki1W0tUhb9KovkaAz5tRn/D6C4UvdKR
+         /04v1NXEUW8umdkc91XRUdeB0ZhVi1Pzy6HKI1+BzHEZ8nqirtvLrbl5+F/nyvL3bJ/U
+         JKz1FV14M3Y63aLL4dKyGHvXepLxnyLmr6EliJYB+xfs6dBF9+TYtuhe4rH4VCwMeqPv
+         7lb0hs9DT0cd0Gctg6ONSSCNPmbQ3uOd6d9qIs6VCbm5R3Qk85HlR4Oxdnm7ckZo5fwa
+         MuGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WSBT79PlsX7Al5APm4iMtsTyXAiwuXxLmCQXN701EHc=;
-        b=QPJrjBS21YeOHLw4GKExHT7ORvbOLIQdX1eVCpjtsi9iiTj7g8Ur13DZ3y+n7AzB7a
-         OBTYSfsP/xiiGLeeb2u3foiydjmjoGwFhqF09ErqwObvUfvGH+bTW1fEV1TFW9Cb2g9i
-         /B4cTr/vYxFiiaXKGqOXKdsg3ZuFkoZOjhJh0wuCxijCtT6VLnapzP3EWEpEm7Qsig4v
-         IuYL+ZknoiKskTYbp1NYC2/3bKhtmEMrEIDzuQohAd3zqXeq1P/U8tCiqWt4+DHC65dc
-         4QaVawVtHTs0q8faa0Hs4v/fgHKFhFdRlli3atCuuHNh8i5daw+E7o7pA5vpN2kOtnFE
-         fHaA==
-X-Gm-Message-State: AOAM533HwBCe07GqIkIqPLSrCv8B+kJ4S7NZExapLWPN0s//DSKkVxPu
-	bJmFwpl9mBIzqEw86Uw3cfCpBVUfjEg=
-X-Google-Smtp-Source: ABdhPJwadu6FQ62lI7MewPSgLdPNpxzOdcZ/HUCRdVO2sH1NOiQUpkDU0piBU+4C1VS/7PwbuCMhiA==
-X-Received: by 2002:a17:907:c16:: with SMTP id ga22mr15840995ejc.120.1617396407414;
-        Fri, 02 Apr 2021 13:46:47 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id a22sm5845623edu.14.2021.04.02.13.46.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q82qy7Je2fdTrS9J2dgQgjZtMeDuEME5krxoDV28pbc=;
+        b=btfrV9AobmGXjPTZECg8cS9KWJE8crv2cge6eDOjE0+QIg8H532KFk3zscLWGl+Q73
+         YKvckFA/Bf5MexGbKekSaok0ky9IFb1XBC5FeiBli76/kBML9V85v63+ZKHZIYNv4m6V
+         in8GyxIkAtKfEY6IVOd+wSoJqh/kE9dUeZKQoB/D0M3Tq0PckgonhAGPOwhlIYvkKqsB
+         DWVGWAT4RvdXlvq9PKV2PYZRXkYOqKPEagjEhTCd7yqSn+xxj/no6e6QcexMJR54Rexj
+         IwwIHUyjYPEFizk00kM5mkKvf6Mo6jp6nD42PdMNcLbmqeJ/UanCVxvF9vz3gmW1x3sf
+         g2zA==
+X-Gm-Message-State: AOAM532SWirwFNktnaxR37+ElUugmtmV1VdI2R5H1P+zaa1+btAHdhHO
+	Zn/kyHvt9wxWHAbyi9uOooORmfEve+CzU63H
+X-Google-Smtp-Source: ABdhPJzk45B5IZUxyy2NvFf8wJfX9BTQ6p8QX9si8UuMALKE0OLyyHGikyfa/RyagwYZvLMQn6eOLQ==
+X-Received: by 2002:a65:41c6:: with SMTP id b6mr16147242pgq.7.1617467843952;
+        Sat, 03 Apr 2021 09:37:23 -0700 (PDT)
+Return-Path: <matt@madison.systems>
+Received: from legion.athrat.org (76-209-242-28.lightspeed.mtryca.sbcglobal.net. [76.209.242.28])
+        by smtp.gmail.com with ESMTPSA id 205sm11803745pfc.201.2021.04.03.09.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 13:46:47 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Sat, 03 Apr 2021 09:37:23 -0700 (PDT)
+From: "Matt Madison" <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 6/6] mesa: enable dri in native/nativesdk through gallium drivers
-Date: Fri,  2 Apr 2021 22:46:27 +0200
-Message-Id: <20210402204627.207068-6-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210402204627.207068-1-alex.kanavin@gmail.com>
-References: <20210402204627.207068-1-alex.kanavin@gmail.com>
+Cc: Armin Kuster <akuster808@gmail.com>,
+	Matt Madison <matt@madison.systems>
+Subject: [PATCH] libxcb: use PN for naming dynamic packages
+Date: Sat,  3 Apr 2021 09:36:04 -0700
+Message-Id: <20210403163604.592627-1-matt@madison.systems>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Previously, dri was enabled via a token dri driver (swrast, then
-nouveau). Upstream is discussing removing dri drivers altogether
-(they're becoming difficult to support and only needed for obsolete
-x86 hardware), so let's prepare for that happening in the future:
+so an explicit runtime dependency on one of the library
+packages doesn't generate a message about libxcb and
+libxcb-native both being providers.
 
-https://lists.freedesktop.org/archives/mesa-dev/2021-March/224984.html
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/recipes-graphics/mesa/mesa.inc       | 4 ++--
- meta/recipes-graphics/mesa/mesa_21.0.1.bb | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-lib/libxcb_1.14.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index d7f34739de..caf3c62ad8 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -87,8 +87,8 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
-                    elf-tls \
- 		   "
--PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls x11"
--PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls x11"
-+PACKAGECONFIG_class-native ?= "gbm gallium egl opengl elf-tls x11"
-+PACKAGECONFIG_class-nativesdk ?= "gbm gallium egl opengl elf-tls x11"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+index e9f6051b6e..f0a223a19c 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+@@ -19,7 +19,7 @@ BBCLASSEXTEND = "native nativesdk"
  
- PACKAGECONFIG_remove_libc-musl = "elf-tls"
+ DEPENDS = "xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
  
-diff --git a/meta/recipes-graphics/mesa/mesa_21.0.1.bb b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
-index d578c75e39..8c584d8e9f 100644
---- a/meta/recipes-graphics/mesa/mesa_21.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa_21.0.1.bb
-@@ -1,6 +1,4 @@
- require ${BPN}.inc
+-PACKAGES_DYNAMIC = "^libxcb-.*"
++PACKAGES_DYNAMIC = "^${PN}-.*"
  
--DRIDRIVERS_class-native = "nouveau"
--DRIDRIVERS_class-nativesdk = "nouveau"
- DRIDRIVERS_append_x86_class-target = ",r100,r200,nouveau,i965,i915"
- DRIDRIVERS_append_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
+ FILES_${PN} = "${libdir}/libxcb.so.*"
+ 
+@@ -35,5 +35,5 @@ do_install_append () {
+ }
+ 
+ python populate_packages_prepend () {
+-    do_split_packages(d, '${libdir}', r'^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
++    do_split_packages(d, '${libdir}', r'^libxcb-(.*)\.so\..*$', '${PN}-%s', 'XCB library module for %s', allow_links=True)
+ }
 -- 
-2.29.2
+2.27.0
 
