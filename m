@@ -1,102 +1,100 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.5573.1617634147215471454
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web08.5884.1617634439479862425
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Apr 2021 07:49:07 -0700
+ Mon, 05 Apr 2021 07:53:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iKUU4giC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so7705806wml.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Apr 2021 07:49:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=n7mu/3Xz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id c204so4562432pfc.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Apr 2021 07:53:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=d5uNZxsDGPjLPKVCLkqTwAd0ByiXVtejioa2KczKtrs=;
-        b=iKUU4giChQkFlcILInCXQvoeq7qoRNcuRLVXymGiQ4S+lriil99FO34rFlh7Wdiewe
-         8UZXYgQqZ5f+coyiSt2sPlsNtj17iVHyBwflx+9azv8y0pBR5vyurc11ax9A9eQY9TtF
-         SZf2l7/LVtPqJRzM0uc1CE5UeAaKTIvFdlaFk=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aMuNjxwYIUNXK7RSJdCDgWjvM2eyX9rFDfN6gyITYoU=;
+        b=n7mu/3XzQWRFBa/k9PB+JI/ixqAhULR5QOIc7l1ZNdllATplmLsIzYdJM+XCj3NsIr
+         /+4zsc8O4hzbOBdnF6WJacK3BYSKmRpSFkp97+Sn3abUrmll4rCRHR3QF3zzKhMdZjO7
+         OT7sdL3NXKa2zuC4lx4RDewW/+dvYcOic91OjIyLoWx3uCOTocFTLwT1SajZlybDXQ28
+         JC4yXARxBnrv9UEErwjzmD9/Om7YQXoc7gw7VZdWIZlh78ygRja1nh9frXiOHkyo5h85
+         RV4oyS6vZwcN/7YikxHBe4PfBDeneN7I59LHf1VMpoWvgGGD7q4bb7yEj4ZJL9sPC4r+
+         R2lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=d5uNZxsDGPjLPKVCLkqTwAd0ByiXVtejioa2KczKtrs=;
-        b=OFwTsrRHLNY20ZzTUbQWsL0huuMgh17L+xiTdifv6MlE9UAt5B7+8f5OWUeklJtlO4
-         fYPhXfqLkqkr1hqo++YKyCCn9NXnHz5KI4hR1S5KRyCj6PYEdsRYvv0DwTglyuBRReCt
-         IJMUGFWTj5BH1VU1lQGILX+UaXpQ6/UTfngoG+Qok4d9pp3NbxzCpkNZBoOAw4hhbHpo
-         pcSumH+hO6SOCR1ZozIEjsY1rASR0L5FUGzUF7pVtls516yiI5EV+gCHkUEsE9OeZOzn
-         pByhOpyiReNOADGsZ57ChLRgoMyR01yEVuJMwHPcROn2unYCunVOmR7wrwnIAkeztnVQ
-         7tGA==
-X-Gm-Message-State: AOAM530WYv4v7Lw8kqLOx9PskYX1u/4IqGev2xof4LYvmAlDWDHEYasj
-	MtrrbjNt6pGjZQctbD6BF0fqcQ==
-X-Google-Smtp-Source: ABdhPJwgo7zyHKjMrUqCruSjpM+nCVhpyiwKbID9ZHrk+9d2H6ol+jY8z9/YEQFD7GgmgbljISS+Eg==
-X-Received: by 2002:a05:600c:44c3:: with SMTP id f3mr11701725wmo.133.1617634145850;
-        Mon, 05 Apr 2021 07:49:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1d45:30a1:7018:4816? ([2001:8b0:aba:5f3c:1d45:30a1:7018:4816])
-        by smtp.gmail.com with ESMTPSA id c6sm28052683wri.32.2021.04.05.07.49.05
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aMuNjxwYIUNXK7RSJdCDgWjvM2eyX9rFDfN6gyITYoU=;
+        b=TINWGDNTTjuoQK1HJhJhSD8Wx914bb+LtH7L9jT+nkQnbf61jcmodp32HDnpso1Cyk
+         zTO5Fn95ni4sVjGGRyzpeP2lY8uY3sCAGjNdbtAkx08DefRZxaW/TdVZkNyvVwrnkI5V
+         ZBlC5lIKhzVC6UVvS3MlHrdtE+tmHLmu3caXPu7XdIiRxk5ungRpzz1OiCebraxahPKb
+         6yBvjo0N9iXOyqnlU80Q30qmefbcVRM4H98o9UTqMx33V8fpIc+dhT64av1F55OsEdvi
+         paAycVVsSiUBojHvB4H3MuFrdrcTdJwE/z9MsxN1hcV9JVy4wi3G5gj9MWs5Y+C1zZDa
+         vWmg==
+X-Gm-Message-State: AOAM531w+K6Q9liQMBsplQ4PMCWR0/N+fJaHFxKvagA1UG4hb0S2kcc1
+	9GGOp97zhuR7vmsdHonZ7P7DtCbg+VyXwH1okPs=
+X-Google-Smtp-Source: ABdhPJyut8DT0YlFLb9mzC+wQJzUqHV0zM99Czih4WpEYMn1x/GKPUkCNmya8g0Kipgq6jlTQjE6dQ==
+X-Received: by 2002:a63:f40b:: with SMTP id g11mr23721605pgi.133.1617634438242;
+        Mon, 05 Apr 2021 07:53:58 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id g3sm15427734pfk.186.2021.04.05.07.53.55
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 07:49:05 -0700 (PDT)
-Message-ID: <e2274153af85315f9a45eea15a75e758a21029a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Autobuilder data collection for intermittent bugs
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
-	 <sakib.sajal@windriver.com>
-Cc: Trevor Gamblin <trevor.gamblin@windriver.com>, Steve Sakoman
-	 <steve@sakoman.com>, OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 05 Apr 2021 15:49:02 +0100
-In-Reply-To: <e3306564-a457-4735-1ad2-0d06a484c8f9@windriver.com>
-References: <768fd8d6-09bb-3e87-fd37-267ac9352866@windriver.com>
-	 <e2a237d0cc34d56882de9d064287b81858a48a56.camel@linuxfoundation.org>
-	 <afde9c35-3113-3663-75e1-791b73eeac65@windriver.com>
-	 <9cea6a57043657d69ed020b6d6f773a9b8b69ffb.camel@linuxfoundation.org>
-	 <5bf201ae-4bd9-3a80-5917-a09f17521b2f@windriver.com>
-	 <f1a4b9050c271bc21e0fb68fe5701efbddcb56f4.camel@linuxfoundation.org>
-	 <e3306564-a457-4735-1ad2-0d06a484c8f9@windriver.com>
-User-Agent: Evolution 3.40.0-1 
+        Mon, 05 Apr 2021 07:53:57 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/6] RFC: Enable world reproducibility testing
+Date: Mon,  5 Apr 2021 04:53:26 -1000
+Message-Id: <cover.1617633691.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-04-04 at 15:56 -0400, Randy MacLeod wrote:
-> > 
-> > 
-> > Rather than messing with the main index which is "production", could you just create
-> > your own for now for testing? :)
-> 
-> Yes, we've figured all that out, thanks.
-> We'll send you a patch once we've completed testing on our instance of
-> the YP AB, early this week.
-> 
-> > 
-> > FWIW I added tmpfs testing for qemu images into master-next (needs ab-helper
-> > master-next too) so it will be interesting to compare builds running with that
-> > with the previous build bug trends.
-> 
-> Any conclusions so far?
+This patch series enables world reproducibility testing so that we can begin monitoring
+progress on reproducibile builds for dunfell. It also includes a version update for
+diffoscope to better enable debugging failed packages.
 
-I think it helps make the runtime testing more consistent but we are seeing 
-a number of "qemu didn't start in 120s" messages instead. That is probably
-more desirable than random runtime failures in qemu.
+The main downside to merging this series is increased autobuilder load to run the world
+tests.
 
-We have still seen one valgrind ptest failure with the tmpfs patch too so it
-doesn't remove all of them.
+I've been testing this over the past couple of months and have updated the exclusion list for
+dunfell as I've encountered intemittent reproducibility issues (see selftest/reproducible:
+adjust exclusion list for dunfell)
 
-It also won't fix the bitbake server starting timeout problem.
+Most recent passing test of a-full on autobuilder:
 
-I'm leaning to merging it.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2024
 
-I did note that in the 120s qemu timeout, we did get a list of other
-processes that were running:
+Once this patch is merged reproducibility reports will be published at:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1973
+https://www.yoctoproject.org/reproducible-build-results/?branch=dunfell
 
-and it shows webkit being built. Would be interesting to correlate against
-other failures, see what the pattern of running tasks is.
+The following changes since commit d044d9c0cb672c499059eb273e399ce4aee17e0d:
 
-Cheers,
+  image,populate_sdk_base: move 'func' flag setting for sdk command vars (2021-04-02 04:21:56 -1000)
 
-Richard
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
+Alexander Kanavin (3):
+  selftest/reproducible: enable world reproducibility test
+  selftest/reproducible: add an exclusion list for items that are not
+    yet reproducible
+  selftest/reproducible: track unusued entries in the exclusion list
 
+Richard Purdie (2):
+  selftest/reproducible: Sort the unused exclusion list
+  diffoscope: Upgrade 136 -> 168
+
+Steve Sakoman (1):
+  selftest/reproducible: adjust exclusion list for dunfell
+
+ meta/lib/oeqa/selftest/cases/reproducible.py  | 80 ++++++++++++++++++-
+ .../{diffoscope_136.bb => diffoscope_168.bb}  | 15 ++--
+ 2 files changed, 84 insertions(+), 11 deletions(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_136.bb => diffoscope_168.bb} (46%)
+
+-- 
+2.25.1
 
