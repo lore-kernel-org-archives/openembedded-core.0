@@ -1,160 +1,110 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web12.4027.1617661469469500680
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web12.4179.1617662138732800393
  for <Openembedded-core@lists.openembedded.org>;
- Mon, 05 Apr 2021 15:24:30 -0700
+ Mon, 05 Apr 2021 15:35:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qJ2P8mP3;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.42, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f42.google.com with SMTP id c8so12140948wrq.11
-        for <Openembedded-core@lists.openembedded.org>; Mon, 05 Apr 2021 15:24:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QYXp4c9A;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id z1so14034598ybf.6
+        for <Openembedded-core@lists.openembedded.org>; Mon, 05 Apr 2021 15:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=Dpi3snEqcfTaqBJ5KUpcbqCTM50RGi4QO08KzGwR1iQ=;
-        b=qJ2P8mP3UPXbIA+C2QNQZxdgXlUib6b+UhfEIMMoEwLBbeUlTqmCl+u4paG1QzydN4
-         wQGlmPjXrwfMVQ0kL0MaJ7LDwl299bBhZ20Q6hxZa9RzwTnStjAzC5bAan/G7Yu5CL67
-         lKe2cqyPRrX6HfZp4025m5QAuCpP1RRW9XQpoJBKcAcXZQY42XnHFWTwlAL7vKxQkWVk
-         yYdhAQA/hT51gKtm8Kyn2R1nbZBTPbVNs++vK7UR6v9Vy2pjm8MrU68hB0YL17WeSTau
-         SMm3C0FfhmlJxFbP2xrPevqXgdX30ZCUm0DQkiK53skrwq1LBOPSrJO8tUkc0Z2xfeav
-         iUQg==
+        bh=SdrDTJoK+9Zgzt/gEJqLPIOgbnYRF31vYYhuhNnIv+E=;
+        b=QYXp4c9AsY6rNobeGduFOO61Bq0cMyUFgqRw2E5xm1ZaJssDbZtzZ0Xr5Bs8ER1lrq
+         r6VarJ8d0WJX2Xp/PGJwoZXoFqtL5YLen/k3cHLpGiENE7eJl1vRJzsgPbJFurB2xVvs
+         B+Ov2mBGjow4wR1k0m8cANZjYEA9CsjJZIWRpIb4F1i2OM+TZGXQuxUHHyMkP4cUXeCB
+         jO6gIsvHa1ueYPFb3WuA4GQPSdbiSAJmXoHW83aVsPuu/4th38hPdsflQFdL33MnsrFT
+         8UEsfc4L9SCRc7/wgj85vZ7uLIYA2RN6BXUrEaw1owiQsTgJFEOsme5JUe0mbHi3mj9c
+         ytqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Dpi3snEqcfTaqBJ5KUpcbqCTM50RGi4QO08KzGwR1iQ=;
-        b=kpuGcjqucOh+pl/6fXcp8oCSSUKVVZ6i6Z2cTJnyNQbpDd8uMN2hcyYr7IOylIbd6E
-         U1sneUhBNeF//0zs9hBCnqP0G2KE91mqtrgvHXUfrhDnxtv+6hASlsp1+ZlNrqDl0GFI
-         Z+V2QHuaSb7DAeuzgQiDt8MYPd86cJqINjp4lZAMWph+4guGURRZIYm1TDXPH0fxetvz
-         5E3TCUfJ0C/EbU5PqYhxGbG9H2QTYgOZi4Joi0TnGoZNoCrlUSVvr6MSbm6d6+KtTOyx
-         svtCPYLYmlAeJtn2qYguTnM8VENoEoHMOE7gKMegipBuWKSBmG0h4r2cdWhRolZ1N+Fl
-         CyFA==
-X-Gm-Message-State: AOAM530YqK5e9fBzH/RVsLBFCIPdrUgXnYyaHCqlZW8/a/1e7Ju68iGh
-	lFd7p4iESCpB62WEW1ZoC6J/QaZTn6AVC74eyi/RKA==
-X-Google-Smtp-Source: ABdhPJwsQ0oa91o55v+FMrOwcsb0KokHdldq+JRtvWuVQ5SmN2RCaHAdLkgZPaHmh9K8wCEq6YXCQNxobdPNquU/0Gg=
-X-Received: by 2002:adf:ff89:: with SMTP id j9mr18857138wrr.350.1617661467649;
- Mon, 05 Apr 2021 15:24:27 -0700 (PDT)
+        bh=SdrDTJoK+9Zgzt/gEJqLPIOgbnYRF31vYYhuhNnIv+E=;
+        b=uh0ExCGfj0Pv09Agn9DwVLRq8ChVCVrLl4oV11ku3GickQ1Og9C4n9pbKHxy3D0cF9
+         gn+lfpSjoOjAzKvOHsxYROdsqMi/m1px8IyXmDSSMKL1YzcL6l6ikIDhTUx7OQku6w3i
+         3IhAJRtaRMMoZcXtd5+oqyJLW6yizStYHBxsUJxYsy8Gs1veyR/IJIgLh6jIGt3MbLrX
+         sUUEgf5L7esnZ9cCVdsVW1FDx0E+Y0agXdgxgIqZr1rUBDZ329Xu6lsDduLvJZ3C4fel
+         jMb7rUxNc2vZVzMQtib6VS2jS0lcS3hqa55gAXJrzU3nIMq30A7+zgizHDzM9aWh1K27
+         3KEg==
+X-Gm-Message-State: AOAM5338S63mNL1teRe5jxl8EOkahhb8U583N3c0Dqu+pPabUJZPEFjB
+	XgWFVevGc6Ovgh6S/LBexhOR4acOj4YmPQe4RFs=
+X-Google-Smtp-Source: ABdhPJycKNiF8BuOnP5jdgMf4kbXofNSHM4XzH0jvJaje3eorq7ExNxGiTphQNH4QAZgi0w0GeaiwDsJo9qUOqCkHQ0=
+X-Received: by 2002:a25:d8ca:: with SMTP id p193mr17478133ybg.61.1617662137977;
+ Mon, 05 Apr 2021 15:35:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210405054035.11312-1-Rahul.Taya@kpit.com>
-In-Reply-To: <20210405054035.11312-1-Rahul.Taya@kpit.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 5 Apr 2021 12:24:16 -1000
-Message-ID: <CAOSpxdaSos9cRBrWGYtAL5kaY=amvi6USSyazxv4=dUT6TLWNQ@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] qemu: Add fix for CVE-2020-13791
-To: Rahul Taya <Rahul.Taya@kpit.com>
+References: <20210405132946.22548-1-Sana.Kazi@kpit.com>
+In-Reply-To: <20210405132946.22548-1-Sana.Kazi@kpit.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Mon, 5 Apr 2021 12:35:25 -1000
+Message-ID: <CAGDS+nkyKZpj-Q8ux-bS+Cy3Hjm_sggNRFCLvboeV=dZZtfg8w@mail.gmail.com>
+Subject: Re: [OE-core] [poky][dunfell][PATCH] openssh: Whitelist CVE-2008-3844 and CVE-2020-15778
+To: Sana Kazi <Sana.Kazi@kpit.com>
 Cc: Patches and discussions about the oe-core layer <Openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Nisha Parrakat <nisha.parrakat@kpit.com>, Harpritkaur.Bhandari@kpit.com
+	Nisha Parrakat <nisha.parrakat@kpit.com>, 
+	Purushottam Choudhary <Purushottam.Choudhary@kpit.com>, 
+	Harpritkaur Bhandari <Harpritkaur.Bhandari@kpit.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Sorry, this patch does not apply:
+On Mon, Apr 5, 2021 at 3:30 AM Sana Kazi <Sana.Kazi@kpit.com> wrote:
+>
+> Whitelisted below CVEs reported for openssh:
+>
+> CVE-2008-3844 was reported in OpenSSH on Red Hat Enterprise Linux
+> and certain packages may have been compromised and has been fixed
+> by Red Hat. This CVE is not applicable as our source is OpenBSD.
+> Hence, this CVE  is not reported for other distros and
+> can be whitelisted.
+> Links:
+> https://securitytracker.com/id?1020730
+> https://www.securityfocus.com/bid/30794
+>
+> For CVE-2020-15778 OpenSSH through 8.3p1 is affected.
+> Hence, it can be whitelisted for 8.2p1
 
-Applying: qemu: Add fix for CVE-2020-13791
-Using index info to reconstruct a base tree...
-error: patch failed: meta/recipes-devtools/qemu/qemu.inc:54
-error: meta/recipes-devtools/qemu/qemu.inc: patch does not apply
-error: Did you hand edit your patch?
-It does not apply to blobs recorded in its index.
-Patch failed at 0001 qemu: Add fix for CVE-2020-13791
-
-It appears that something in your patch submission process is
-expanding tabs into spaces.
-
-Perhaps you could try using git-send-email for patch submission.
+This explanation doesn't make sense to me!  If 8.2p1 is affected, why
+are you proposing to whitelist it?
 
 Steve
 
-On Sun, Apr 4, 2021 at 7:41 PM Rahul Taya <Rahul.Taya@kpit.com> wrote:
+> https://nvd.nist.gov/vuln/detail/CVE-2020-15778
 >
-> Added below patch to fix CVE-2020-13791
->
-> CVE-2020-13791.patch
->
-> Signed-off-by: Rahul Taya <Rahul.Taya@kpit.com>
+> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
 > ---
->  meta/recipes-devtools/qemu/qemu.inc           |  1 +
->  .../qemu/qemu/CVE-2020-13791.patch            | 52 +++++++++++++++++++
->  2 files changed, 53 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
+>  meta/recipes-connectivity/openssh/openssh_8.2p1.bb | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools=
-/qemu/qemu.inc
-> index 5e8d3e09ff..7f8053cdd5 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -54,6 +54,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.ta=
-r.xz \
->            file://CVE-2020-24352.patch \
->            file://CVE-2020-25723.patch \
->            file://CVE-2021-20203.patch \
-> +          file://CVE-2020-13791.patch \
->            "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+> diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/r=
+ecipes-connectivity/openssh/openssh_8.2p1.bb
+> index fe94f30503..f8037db986 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+> @@ -32,6 +32,20 @@ SRC_URI[sha256sum] =3D "43925151e6cf6cee1450190c0e9af=
+4dc36b41c12737619edff8bcebdff
+>  # and when running in a Kerberos environment. As such it is not relevan=
+t to OpenEmbedded
+>  CVE_CHECK_WHITELIST +=3D "CVE-2014-9278"
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch b/meta=
-/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
-> new file mode 100644
-> index 0000000000..6582abce59
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
-> @@ -0,0 +1,52 @@
-> +From f7d6a635fa3b7797f9d072e280f065bf3cfcd24d Mon Sep 17 00:00:00 2001
-> +From: Prasad J Pandit <pjp@fedoraproject.org>
-> +Date: Thu, 4 Jun 2020 17:05:25 +0530
-> +Subject: [PATCH] pci: assert configuration access is within bounds
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
+> +# CVE-2008-3844 was reported in OpenSSH on Red Hat Enterprise Linux
+> +# and certain packages may have been compromised and has been fixed
+> +# by Red Hat. This CVE is not applicable as our source is OpenBSD.
+> +# Hence, this CVE  is not reported for other distros
+> +# and can be marked whitelisted.
+> +# https://securitytracker.com/id?1020730
+> +# https://www.securityfocus.com/bid/30794
+> +CVE_CHECK_WHITELIST +=3D "CVE-2008-3844"
 > +
-> +While accessing PCI configuration bytes, assert that
-> +'address + len' is within PCI configuration space.
+> +# For CVE-2020-15778 OpenSSH through 8.3p1 is affected.
+> +# Hence, it can be whitelisted for 8.2p1
+> +# https://nvd.nist.gov/vuln/detail/CVE-2020-15778
+> +CVE_CHECK_WHITELIST +=3D "CVE-2020-15778"
 > +
-> +Generally it is within bounds. This is more of a defensive
-> +assert, in case a buggy device was to send 'address' which
-> +may go out of bounds.
-> +
-> +Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> +Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> +Message-Id: <20200604113525.58898-1-ppandit@redhat.com>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> +
-> +CVE: CVE-2020-13791
-> +Upstream-Status: Backport[https://github.com/qemu/qemu/commit/f7d6a635f=
-a3b7797f9d072e280f065bf3cfcd24d.patch]
-> +Comment: No hunks refreshed and no warnings were seen while applying pa=
-tch.
-> +Affected version: >=3D4.2.0 but patch already present in Master and Gat=
-esgarth branches.
-> +Signed-off-by: Rahul Taya <Rahul.Taya@kpit.com>
-> +---
-> + hw/pci/pci.c | 4 ++++
-> + 1 file changed, 4 insertions(+)
-> +
-> +diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> +index 70c66965f56..7bf2ae6d92a 100644
-> +--- a/hw/pci/pci.c
-> ++++ b/hw/pci/pci.c
-> +@@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
-> + {
-> +     uint32_t val =3D 0;
-> +
-> ++    assert(address + len <=3D pci_config_size(d));
-> ++
-> +     if (pci_is_express_downstream_port(d) &&
-> +         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, =
-2)) {
-> +         pcie_sync_bridge_lnk(d);
-> +@@ -1394,6 +1396,8 @@ void pci_default_write_config(PCIDevice *d, uint3=
-2_t addr, uint32_t val_in, int
-> +     int i, was_irq_disabled =3D pci_irq_disabled(d);
-> +     uint32_t val =3D val_in;
-> +
-> ++    assert(addr + l <=3D pci_config_size(d));
-> ++
-> +     for (i =3D 0; i < l; val >>=3D 8, ++i) {
-> +         uint8_t wmask =3D d->wmask[addr + i];
-> +         uint8_t w1cmask =3D d->w1cmask[addr + i];
+>  PAM_SRC_URI =3D "file://sshd"
+>
+>  inherit manpages useradd update-rc.d update-alternatives systemd
 > --
 > 2.17.1
 >
