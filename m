@@ -1,84 +1,64 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web08.1200.1617602190622510950
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web09.2578.1617616774426334833
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Apr 2021 22:56:30 -0700
+ Mon, 05 Apr 2021 02:59:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FPci3b/O;
- spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id j7so7799396qtx.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Apr 2021 22:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PkfOABkL+WCFKWwHUjzHbJ7ac+YFouJgr/bjIzfiBYw=;
-        b=FPci3b/ObssMrwWRv4RovPTkCrl/xKZWH1l5/kpXnO0Ck8tpAicbl3fvCXqpoXYDri
-         vM5W1YOItP17ma70P2FnBahNq7pMWeK0n84uPdKUU5m8B8TP7RE8IqUwmZmTlJvKqJ+k
-         OT/QCpuo9wwr3KuAm/uIPBlDAmNLJTYuAksPxf6uCEtuodrZYTM5krFr/DgybjhGpwgi
-         5TBfdsnA1VaIHbN9PMd4M1Lok9/PpgXONJcgwVG0OE0R9C6REb/uG22CYVHYVG29bQVk
-         hoVGDlUD8xIrVt/X0o3KT3ruXfbSjSjMq7JwrcOMXcVJTVu7YHTJ05c9ejyP7XGyRY3x
-         iyyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PkfOABkL+WCFKWwHUjzHbJ7ac+YFouJgr/bjIzfiBYw=;
-        b=MwMtCBfOX1lJgvVOFSrdRRy7NNU76H11dG47vqq8xK8rOJEtg6sAG1H+kxjAVVbyQ5
-         ER4tsBtk6Qydu4XHQI3RIfDQLvBbkIY1EzO4F/8Yg5Itn4IUjWtqGY8ijUxCzk4rr6Dz
-         VcQ8SjxI9Q9nsXos2Ry6APEfgO+UFtIHD8dxrfYfyGlwvoPu1mu3byeTcVap+K+0S7K7
-         11TkfCD0Wvz1lQCz14HwjjR5KQxWI/babVraUaIdbK0iUXgFOIpY1WTwL6Mu3EAIfVa0
-         3Mn0J0jwOxr2rLiwPISwpobR5i7akDVIq3KxFtYatbexefb6iN9bmdLbOgEh6q3CluXa
-         Jclg==
-X-Gm-Message-State: AOAM5318QAeoU525cxSCIdp5biNrFftMLeXEc2C02rbBpl78jeN+L8RE
-	U4hijTvWHa4fXr/dhS5kvGQAwPZtfVdY/5P9x/k=
-X-Google-Smtp-Source: ABdhPJzZWM92o5CB0evjdwKgxVrY9qF/h3XPBg8ReyKqs5BVqgoMQXJYttxBF44JuvEdOIrk7fMRh3KAk/MbfutbxbA=
-X-Received: by 2002:ac8:6e85:: with SMTP id c5mr20447578qtv.299.1617602189705;
- Sun, 04 Apr 2021 22:56:29 -0700 (PDT)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:44852 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1lTM16-007soL-E9; Mon, 05 Apr 2021 05:59:32 -0400
+Date: Mon, 5 Apr 2021 05:59:30 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] couple questions about IMAGE_BASENAME usage
+In-Reply-To: <7aa5c545-5359-890a-3bb9-c687a7a9e3ce@linux.microsoft.com>
+Message-ID: <43fc86f2-932-98e0-cff8-1760d7c8d498@crashcourse.ca>
+References: <e14d17a5-53e9-8e68-4f59-59a95a1d9e@crashcourse.ca> <7aa5c545-5359-890a-3bb9-c687a7a9e3ce@linux.microsoft.com>
 MIME-Version: 1.0
-References: <1617200547-62088-1-git-send-email-wangmy@fujitsu.com> <1617200547-62088-4-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1617200547-62088-4-git-send-email-wangmy@fujitsu.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 4 Apr 2021 22:56:02 -0700
-Message-ID: <CAMKF1so7TnQm5Ei6oyvFZHpGya8nKJAYunqP2Y1wgopR=OowVw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ell: upgrade 0.38 -> 0.39
-To: wangmy <wangmy@fujitsu.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-iwd fails to build with this upgrade, its expecting some bult sources
-from ell and they dont exist. Please take a look
+On Sun, 4 Apr 2021, Alejandro Hernandez Samaniego wrote:
 
-https://errors.yoctoproject.org/Errors/Details/575442/
+> On 4/2/2021 12:13 PM, Robert P. J. Day wrote:
+>
+>   also, i'm curious about the difference between these two image
+> recipes:
+>
+> core-image-minimal-initramfs.bb:export IMAGE_BASENAME = "${MLPREFIX}core-image-minimal-initramfs"
+> core-image-tiny-initramfs.bb:export IMAGE_BASENAME = "core-image-tiny-initramfs"
+>
+> why does the first accommodate the multilib prefix MLPREFIX, while
+> the second does not?
+>
+> The recipe for core-image-tiny-initramfs is based on
+> core-image-minimal-initramfs, going throught the git log it seems
+> that a bug was found and it was only fixed for
+> core-image-minimal-initramfs and not for the tiny one at
+> e18b7e77ed7, I encourage you to send patches for these kind of
+> findings, after doing some digging if something is still not making
+> sense, then theres a chance it needs to be fixed (like tihs one)
 
-even 1.13 upgrade fails,
+  mucking around with git log and blame, i note that MLPREFIX was
+added to that first image along with this line in image-live.bbclass:
 
-On Wed, Mar 31, 2021 at 7:22 AM wangmy <wangmy@fujitsu.com> wrote:
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-core/ell/{ell_0.38.bb => ell_0.39.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/ell/{ell_0.38.bb => ell_0.39.bb} (90%)
->
-> diff --git a/meta/recipes-core/ell/ell_0.38.bb b/meta/recipes-core/ell/ell_0.39.bb
-> similarity index 90%
-> rename from meta/recipes-core/ell/ell_0.38.bb
-> rename to meta/recipes-core/ell/ell_0.39.bb
-> index 7d3a339978..68ec4cb4a4 100644
-> --- a/meta/recipes-core/ell/ell_0.38.bb
-> +++ b/meta/recipes-core/ell/ell_0.39.bb
-> @@ -17,7 +17,7 @@ inherit autotools pkgconfig
->  SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
->             file://0001-pem.c-do-not-use-rawmemchr.patch \
->             "
-> -SRC_URI[sha256sum] = "c1b7ae5676eec310f08757b3d8652b8e818776be1897fb5deb59e55f02a012a7"
-> +SRC_URI[sha256sum] = "653e2e139e23ed31e03c56c05f15321a9e818e2dca00a315c18d2c7b72f15d08"
->
->  do_configure_prepend () {
->      mkdir -p ${S}/build-aux
-> --
-> 2.25.1
->
->
-> 
->
+INITRD_IMAGE_LIVE ?= "${MLPREFIX}core-image-minimal-initramfs"
+
+  so my initial reaction was to simply add ${MLPREFIX} to the second
+image mentioned above, but now i'm not so sure -- i'm open to
+suggestions.
+
+rday
