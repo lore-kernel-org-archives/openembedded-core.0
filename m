@@ -1,83 +1,103 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.11626.1617714519597800008
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.158.5])
+ by mx.groups.io with SMTP id smtpd.web11.11803.1617715279579241270
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Apr 2021 06:08:39 -0700
+ Tue, 06 Apr 2021 06:21:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=YzDDQ7rx;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pemorrow@linux.microsoft.com)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 210FA20B5681;
-	Tue,  6 Apr 2021 06:08:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 210FA20B5681
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1617714519;
-	bh=40vxoPq3HfgizkPez0GMBzOfKmQcMQ/XBXwvthgeSSE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YzDDQ7rxDjPXCyy+yaD2X7rnvFRUspGtvmOMHKLticp/A43VJyFqzRh/fe2L3Trk6
-	 qBeRysOx8XRnh3C9jRPl/CkB9Xbhg/xsniI5CeYgt+QsHSa/i9065aqLYrn5qwCQ3+
-	 xDpr0k+fxIX1SrbfcnRUQnvIlUY4v/6FQdC91eOY=
-From: "Peter Morrow" <pemorrow@linux.microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Cc: peter.morrow@microsoft.com,
-	raj.khem@gmail.com
-Subject: [dunfell][PATCH 2/2] go_1.14: don't set -buildmode=pie when building for windows targets
-Date: Tue,  6 Apr 2021 06:07:58 -0700
-Message-Id: <1617714478-10348-2-git-send-email-pemorrow@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1617714478-10348-1-git-send-email-pemorrow@linux.microsoft.com>
-References: <1617714478-10348-1-git-send-email-pemorrow@linux.microsoft.com>
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=qC+sQs3L;
+ spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.158.5, mailfrom: klaus@linux.vnet.ibm.com)
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 136D53I7104256;
+	Tue, 6 Apr 2021 09:21:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=k2jns/F88LeSyodYkbox75sZ+cQPdV8uQxHh4yoWJlU=;
+ b=qC+sQs3Le0Qqp3cl1KHayMsW2mAo+wgQD3YyXifF6+/S64XFj+lZ5MgVXBjKDYZiV/r8
+ HP6P/c6XCFZ8xRciOua63kK4lGoarLkhrk47qXVa/yELjzsRGwrZF70NEKQrJa4mzfXn
+ xjqkD2luBhUsmXGP98Q5licQkdoc8arZpAp3xXh4saOli5A6Osr4v7glEp50mA+vJL8n
+ 7p76nZ4CGbVEmAH4S3a3ldxag+jZIF9gD3JIFkvNII0iDsnL99nkY2+Vb0YBzQavxExv
+ 8n65r6ZE5pIm8JHOefT6mgUgpqgCXa7BsT6qArxO8Gs/mCthUHVTTDKAi9LsuHY5Dbrx 7g== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 37q605b2xs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Apr 2021 09:21:11 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+	by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 136DHeuv016945;
+	Tue, 6 Apr 2021 13:21:11 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+	by ppma02dal.us.ibm.com with ESMTP id 37q3293u3s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Apr 2021 13:21:11 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 136DLAh431588862
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 6 Apr 2021 13:21:10 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 74457AC05F;
+	Tue,  6 Apr 2021 13:21:10 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3ADF9AC05E;
+	Tue,  6 Apr 2021 13:21:09 +0000 (GMT)
+Received: from [9.80.197.108] (unknown [9.80.197.108])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+	Tue,  6 Apr 2021 13:21:09 +0000 (GMT)
+Subject: Re: [OE-core] [PATCH v2 0/4] u-boot: Support for SPL verified boot
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org
+References: <20210326201410.13906-1-klaus@linux.vnet.ibm.com>
+ <f303476a66be3cc3beea01d3a71e2db1ef1d44c4.camel@linuxfoundation.org>
+From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
+Message-ID: <c6e39587-2a84-fe75-5311-81be9f5fae84@linux.vnet.ibm.com>
+Date: Tue, 6 Apr 2021 10:21:07 -0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+MIME-Version: 1.0
+In-Reply-To: <f303476a66be3cc3beea01d3a71e2db1ef1d44c4.camel@linuxfoundation.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -mbGHgxatpX_t03fD6ESbt51c0knIeJl
+X-Proofpoint-GUID: -mbGHgxatpX_t03fD6ESbt51c0knIeJl
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-04-06_03:2021-04-01,2021-04-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104030000 definitions=main-2104060090
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-go 1.14 for windows targets does not support -buildmode=pie, disable it and use
-the default buildmode instead. Support for -buildmode=pie for windows targets
-is added with go 1.15 (https://golang.org/doc/go1.15) which is added to poky in
-gatesgarth.
 
-Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
----
- meta/classes/go.bbclass             | 8 ++++----
- meta/recipes-devtools/go/go_1.14.bb | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index a9e31b5..8ff482b 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -144,11 +144,11 @@ FILES_${PN}-staticdev = "${libdir}/go/pkg"
- 
- INSANE_SKIP_${PN} += "ldflags"
- 
--# Add -buildmode=pie to GOBUILDFLAGS to satisfy "textrel" QA checking, but mips
--# doesn't support -buildmode=pie, so skip the QA checking for mips and its
--# variants.
-+# Add -buildmode=pie to GOBUILDFLAGS to satisfy "textrel" QA checking, but
-+# windows/mips/riscv doesn't support -buildmode=pie, so skip the QA checking
-+# for windows/mips/riscv and their variants.
- python() {
--    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv' in d.getVar('TARGET_ARCH'):
-+    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv' in d.getVar('TARGET_ARCH') or 'windows' in d.getVar('TARGET_GOOS'):
-         d.appendVar('INSANE_SKIP_%s' % d.getVar('PN'), " textrel")
-     else:
-         d.appendVar('GOBUILDFLAGS', ' -buildmode=pie')
-diff --git a/meta/recipes-devtools/go/go_1.14.bb b/meta/recipes-devtools/go/go_1.14.bb
-index bc90a13..c175279 100644
---- a/meta/recipes-devtools/go/go_1.14.bb
-+++ b/meta/recipes-devtools/go/go_1.14.bb
-@@ -3,11 +3,11 @@ require go-target.inc
- 
- export GOBUILDMODE=""
- export CGO_ENABLED_riscv64 = ""
--# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but mips/riscv
--# doesn't support -buildmode=pie, so skip the QA checking for mips/riscv and its
--# variants.
-+# Add pie to GOBUILDMODE to satisfy "textrel" QA checking, but
-+# windows/mips/riscv doesn't support -buildmode=pie, so skip the QA checking
-+# for windows/mips/riscv and their variants.
- python() {
--    if 'mips' in d.getVar('TARGET_ARCH',True) or 'riscv' in d.getVar('TARGET_ARCH',True):
-+    if 'mips' in d.getVar('TARGET_ARCH',True) or 'riscv' in d.getVar('TARGET_ARCH',True) or 'windows' in d.getVar('TARGET_GOOS', True):
-         d.appendVar('INSANE_SKIP_%s' % d.getVar('PN',True), " textrel")
-     else:
-         d.setVar('GOBUILDMODE', 'pie')
+On 4/6/2021 7:57 AM, Richard Purdie wrote:
+> On Fri, 2021-03-26 at 17:14 -0300, Klaus Heinrich Kiwi wrote:
+>> This patch series aims at extending U-Boot's verified boot support to
+>> also include SPL.
+
+>> Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> 
+> I've merged this, I wanted to say a big thanks for writing some test cases
+> for these code paths. It should start to help a lot in this area in the
+> future. I'm going to be asking that future fixes in this area add/improve
+> test cases to cover issues too.
+> 
+
+
+Thanks Richard.
+
+FYI, there's a patch I sent recently with relatively important fixes (for some
+corner cases) that should apply on top of the patches above:
+
+Subject: [PATCH] uboot: Fixes SPL verified boot on corner cases
+Date: Mar 31, 2021
+
+I'd recommend applying that patch as well, before yocto / other projects start
+pulling from oe-core.
+
+Thanks,
+
+  -Klaus
+
 -- 
-1.8.3.1
-
+Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
