@@ -1,57 +1,74 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
- by mx.groups.io with SMTP id smtpd.web11.8810.1617694446164306779
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.10112.1617705967909766067
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Apr 2021 00:34:06 -0700
+ Tue, 06 Apr 2021 03:46:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ROvlAft2;
- spf=pass (domain: gmail.com, ip: 209.85.219.180, mailfrom: jupiter.hce@gmail.com)
-Received: by mail-yb1-f180.google.com with SMTP id l187so8976462ybl.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Apr 2021 00:34:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MadLk8eJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id v11so13667075wro.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Apr 2021 03:46:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=XEJLD3FP50KGNNkoeIgZgSvbnGHL0MAEwOPR9Uihb9k=;
-        b=ROvlAft2XIt7FsfeiYDNt9Dew0uoOi8Hnxld5DO+DZHWAOKwmYDaICYxdzGkdZtHwD
-         +uhmI04b6H2bqaquTo2NKcEDskTYiNm0ciIkdTbH0IFvYAssCqSDFXjvf5QtZYeJlPk+
-         ei5XejkZ+a4aymlpWHoC/fhhGvBPd6Udy7hOadLgIUbpBAAnNFTsHoDq47n/keWDK/rz
-         2+NL+r6A6MewUsHPl1EgMN/qjZGh4n6ZU+z2SDW1lNXXRAsL4kLDrN75ba34y5FaBPV7
-         LSNaDbGf+osBRBhenxnzH5tCmU9XGQ/1BSU29CWPawWzxErw78fPCH9Jg+/gkthlbNyc
-         +Pqg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=wvGNkM8N2L0oRG6yjAk9xjtNso5nKgDY2ZLXAAKx8Nc=;
+        b=MadLk8eJruQoih0c/OkwNn13AXfziV5AuRsAxvS9r9J620ImVTLoL7XA+9gTBnzhOo
+         fdjvQj9FvixcXheyMnny6twXOVKq+kcxFpz2OrAranZOedecmNjznXb4uxtbeYxZmcOc
+         ex0Zn0AKn9z2wPhxV2SQhEREIwz1JryzBylOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=XEJLD3FP50KGNNkoeIgZgSvbnGHL0MAEwOPR9Uihb9k=;
-        b=mPzCf0xrR4bN7GPEtucn7sJMnAHiykWS7K9UcW3nKFYqfA+U8B59ayYabTM7sVyHT1
-         +RKOg/7wCHkuCPhvFtYryG6k55aA6QqP1k1Z6QdtDtc69TO6nRh9FSHcxW/bY1HPm5PG
-         MNc9aRuQRN5ntXAR2LOEGY1VOcoQDte8MJ/sx8IKq496eplmGbJtMEglDG8r2L9dV9Sp
-         iy025JL2CpNFAGegCoIQBj6iCsfjUttoxMNA3qN4VsOzNiloODrSHjv+fF6srWnOuf4E
-         U8p9w6g8IdBc5s0QDPP9JO5578ZEvJ6LJx8FWcdnem7ZNjFarvNJ+pPQM2GMwGo2u2Za
-         cPNg==
-X-Gm-Message-State: AOAM531DYvVMsguQG3DLTVHWbbAykxkbvHBRaEv5qvT+Sr//B9bb60bQ
-	Mu5BMmu5n66jkbig2r+yRFJsayApS5hq1yT+Gf0=
-X-Google-Smtp-Source: ABdhPJxCccxnQZbXoKpBnJF9HDRjgkiVR18oLuz17JjEECVqGx8Vy1mXUbbGPRMEX2dSXzQjkhhc+q7q6eDwTMMNbt8=
-X-Received: by 2002:a25:8407:: with SMTP id u7mr8045470ybk.156.1617694445381;
- Tue, 06 Apr 2021 00:34:05 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=wvGNkM8N2L0oRG6yjAk9xjtNso5nKgDY2ZLXAAKx8Nc=;
+        b=LbuYdxkaP8os/FfdZ2U72btLgysY/IrP9pxEtcqRsGbf0UTUqO3q8Sj/8X9VneOr0y
+         dsSFx84vysP1C7cnyJ2UbPBRSXt3SAAE7M1692yI2cwBbx5xy0+23c0TmVOiqyTRTWCG
+         jaBV5bbQSZIBYkqMBApdaW17/DeJG35SJO9FcDXWGLFiHcI9ouXt/vFysqWhFFIvxWKk
+         mWA/cq8eA5sH2ah6GE7/cZeQlURADWu1i1d75FxBJOWPR7aFdUqYTtcpYOZBOsJBXs7n
+         7K/V/vaIEwlFK3prEX9dIgjjVh3jD8O6qb3cvtByf7ckvOk3iW0+5slh4Le9dRpnqPdu
+         gQQw==
+X-Gm-Message-State: AOAM530y2mjyl7BVmFfBkGH3MY9qLWSD2FpOq/FNlwoOSXmGIqILpJsQ
+	yM+YRJBsZ2Hc/Hz1N+NmlYvAxQ==
+X-Google-Smtp-Source: ABdhPJylMXY6Xb/1tyEoprhGD/VTwPSRFmG6uGQXqorPdlck4p1o3R9BX/MR5d7bYpH3Rb+SOmgGiQ==
+X-Received: by 2002:a05:6000:1204:: with SMTP id e4mr8306069wrx.266.1617705966476;
+        Tue, 06 Apr 2021 03:46:06 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:7a9e:d3b:5548:6469? ([2001:8b0:aba:5f3c:7a9e:d3b:5548:6469])
+        by smtp.gmail.com with ESMTPSA id o2sm4119777wry.4.2021.04.06.03.46.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 03:46:06 -0700 (PDT)
+Message-ID: <cbe5c99c22843b74999ac88d244337faeaff8f34.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 0/6] RFC: Enable world reproducibility testing
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 06 Apr 2021 11:46:05 +0100
+In-Reply-To: <cover.1617633691.git.steve@sakoman.com>
+References: <cover.1617633691.git.steve@sakoman.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-From: "JH" <jupiter.hce@gmail.com>
-Date: Tue, 6 Apr 2021 17:33:28 +1000
-Message-ID: <CAA=hcWRmH9m3ynX9w7_FXVfeK=ofrbneqZ7Z8QQj6ShftESteA@mail.gmail.com>
-Subject: WiFi P2P support
-To: Yocto discussion list <yocto@yoctoproject.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2021-04-05 at 04:53 -1000, Steve Sakoman wrote:
+> This patch series enables world reproducibility testing so that we can begin monitoring
+> progress on reproducibile builds for dunfell. It also includes a version update for
+> diffoscope to better enable debugging failed packages.
+> 
+> The main downside to merging this series is increased autobuilder load to run the world
+> tests.
+> 
+> I've been testing this over the past couple of months and have updated the exclusion list for
+> dunfell as I've encountered intemittent reproducibility issues (see selftest/reproducible:
+> adjust exclusion list for dunfell)
 
-I am building WiFi wlan Linux image on Zeus using Linux WiFi
-linux-firmware-sd8801 and connman, I need to add WiFi P2P support, is
-it sufficient to create wpa-supplicant_2.9.bbappend to enable
-CONFIG_P2P=y (it is disabled in wpa-supplicant_2.9 defconfig)?
+Much as I hate loading up the autobuilder, improving reproducibility in dunfell
+where we can relatively easily is a good thing.
 
-Do I need to make other changes on OE configurations?
+It could be we just don't test it on as many targets as in master?
 
-Thank you very much.
+[which means I'm in favour of these patches]
 
-Kind regards,
+Cheers,
 
-jupier
+Richard
+
