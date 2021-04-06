@@ -1,103 +1,111 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.158.5])
- by mx.groups.io with SMTP id smtpd.web11.11803.1617715279579241270
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.11927.1617716064006752164
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Apr 2021 06:21:20 -0700
+ Tue, 06 Apr 2021 06:34:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=qC+sQs3L;
- spf=none, err=permanent DNS error (domain: linux.vnet.ibm.com, ip: 148.163.158.5, mailfrom: klaus@linux.vnet.ibm.com)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 136D53I7104256;
-	Tue, 6 Apr 2021 09:21:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=k2jns/F88LeSyodYkbox75sZ+cQPdV8uQxHh4yoWJlU=;
- b=qC+sQs3Le0Qqp3cl1KHayMsW2mAo+wgQD3YyXifF6+/S64XFj+lZ5MgVXBjKDYZiV/r8
- HP6P/c6XCFZ8xRciOua63kK4lGoarLkhrk47qXVa/yELjzsRGwrZF70NEKQrJa4mzfXn
- xjqkD2luBhUsmXGP98Q5licQkdoc8arZpAp3xXh4saOli5A6Osr4v7glEp50mA+vJL8n
- 7p76nZ4CGbVEmAH4S3a3ldxag+jZIF9gD3JIFkvNII0iDsnL99nkY2+Vb0YBzQavxExv
- 8n65r6ZE5pIm8JHOefT6mgUgpqgCXa7BsT6qArxO8Gs/mCthUHVTTDKAi9LsuHY5Dbrx 7g== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 37q605b2xs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 Apr 2021 09:21:11 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-	by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 136DHeuv016945;
-	Tue, 6 Apr 2021 13:21:11 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
-	by ppma02dal.us.ibm.com with ESMTP id 37q3293u3s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 Apr 2021 13:21:11 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 136DLAh431588862
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 6 Apr 2021 13:21:10 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 74457AC05F;
-	Tue,  6 Apr 2021 13:21:10 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3ADF9AC05E;
-	Tue,  6 Apr 2021 13:21:09 +0000 (GMT)
-Received: from [9.80.197.108] (unknown [9.80.197.108])
-	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-	Tue,  6 Apr 2021 13:21:09 +0000 (GMT)
-Subject: Re: [OE-core] [PATCH v2 0/4] u-boot: Support for SPL verified boot
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core@lists.openembedded.org
-Cc: joel@jms.id.au, andrew@aj.id.au, openbmc@lists.ozlabs.org
-References: <20210326201410.13906-1-klaus@linux.vnet.ibm.com>
- <f303476a66be3cc3beea01d3a71e2db1ef1d44c4.camel@linuxfoundation.org>
-From: "Klaus Heinrich Kiwi" <klaus@linux.vnet.ibm.com>
-Message-ID: <c6e39587-2a84-fe75-5311-81be9f5fae84@linux.vnet.ibm.com>
-Date: Tue, 6 Apr 2021 10:21:07 -0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79AA61FB
+	for <openembedded-core@lists.openembedded.org>; Tue,  6 Apr 2021 06:34:22 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 234653F73D
+	for <openembedded-core@lists.openembedded.org>; Tue,  6 Apr 2021 06:34:22 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/selftest: add test case for SRC_URI dependency sniffing
+Date: Tue,  6 Apr 2021 14:34:20 +0100
+Message-Id: <20210406133420.2675977-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <f303476a66be3cc3beea01d3a71e2db1ef1d44c4.camel@linuxfoundation.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -mbGHgxatpX_t03fD6ESbt51c0knIeJl
-X-Proofpoint-GUID: -mbGHgxatpX_t03fD6ESbt51c0knIeJl
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-04-06_03:2021-04-01,2021-04-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104030000 definitions=main-2104060090
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+Add tests to verify that SRC_URI dependency sniffing works correctly.
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/lib/oeqa/selftest/cases/fetch.py | 54 +++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-On 4/6/2021 7:57 AM, Richard Purdie wrote:
-> On Fri, 2021-03-26 at 17:14 -0300, Klaus Heinrich Kiwi wrote:
->> This patch series aims at extending U-Boot's verified boot support to
->> also include SPL.
+diff --git a/meta/lib/oeqa/selftest/cases/fetch.py b/meta/lib/oeqa/selfte=
+st/cases/fetch.py
+index 76cbadf2ff..67e85d3e4c 100644
+--- a/meta/lib/oeqa/selftest/cases/fetch.py
++++ b/meta/lib/oeqa/selftest/cases/fetch.py
+@@ -2,6 +2,9 @@
+ # SPDX-License-Identifier: MIT
+ #
+=20
++import tempfile
++import textwrap
++import bb.tinfoil
+ import oe.path
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake
+@@ -49,3 +52,54 @@ MIRRORS_forcevariable =3D "git://.*/.* http://download=
+s.yoctoproject.org/mirror/so
+         self.write_config(features)
+         oe.path.remove(dldir, recurse=3DTrue)
+         bitbake("dbus-wait -c fetch -f")
++
++
++class Dependencies(OESelftestTestCase):
++    def write_recipe(self, content):
++        f =3D tempfile.NamedTemporaryFile(mode=3D"wt", suffix=3D".bb")
++        f.write(content)
++        f.flush()
++        return f
++
++    def test_dependencies(self):
++        """
++        Verify that the correct dependencies are generated for specific =
+SRC_URI entries.
++        """
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=3DFalse, quiet=3D2)
++
++            r =3D """
++            LICENSE=3D"CLOSED"
++            SRC_URI=3D"http://example.com/tarball.zip"
++            """
++            f =3D self.write_recipe(textwrap.dedent(r))
++            d =3D tinfoil.parse_recipe_file(f.name)
++            self.assertIn("wget-native", d.getVarFlag("do_fetch", "depen=
+ds"))
++            self.assertIn("unzip-native", d.getVarFlag("do_unpack", "dep=
+ends"))
++
++            # Verify that the downloadfilename overrides the URI
++            r =3D """
++            LICENSE=3D"CLOSED"
++            SRC_URI=3D"https://example.com/tarball;downloadfilename=3Dso=
+mething.zip"
++            """
++            f =3D self.write_recipe(textwrap.dedent(r))
++            d =3D tinfoil.parse_recipe_file(f.name)
++            self.assertIn("wget-native", d.getVarFlag("do_fetch", "depen=
+ds"))
++            self.assertIn("unzip-native", d.getVarFlag("do_unpack", "dep=
+ends") or "")
++
++            r =3D """
++            LICENSE=3D"CLOSED"
++            SRC_URI=3D"ftp://example.com/tarball.lz"
++            """
++            f =3D self.write_recipe(textwrap.dedent(r))
++            d =3D tinfoil.parse_recipe_file(f.name)
++            self.assertIn("wget-native", d.getVarFlag("do_fetch", "depen=
+ds"))
++            self.assertIn("lzip-native", d.getVarFlag("do_unpack", "depe=
+nds"))
++
++            r =3D """
++            LICENSE=3D"CLOSED"
++            SRC_URI=3D"git://example.com/repo"
++            """
++            f =3D self.write_recipe(textwrap.dedent(r))
++            d =3D tinfoil.parse_recipe_file(f.name)
++            self.assertIn("git-native", d.getVarFlag("do_fetch", "depend=
+s"))
+--=20
+2.25.1
 
->> Signed-off-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-> 
-> I've merged this, I wanted to say a big thanks for writing some test cases
-> for these code paths. It should start to help a lot in this area in the
-> future. I'm going to be asking that future fixes in this area add/improve
-> test cases to cover issues too.
-> 
-
-
-Thanks Richard.
-
-FYI, there's a patch I sent recently with relatively important fixes (for some
-corner cases) that should apply on top of the patches above:
-
-Subject: [PATCH] uboot: Fixes SPL verified boot on corner cases
-Date: Mar 31, 2021
-
-I'd recommend applying that patch as well, before yocto / other projects start
-pulling from oe-core.
-
-Thanks,
-
-  -Klaus
-
--- 
-Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
