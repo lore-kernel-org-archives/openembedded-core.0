@@ -1,75 +1,41 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web09.7809.1617805146392607467
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web08.10269.1617814092396877937
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Apr 2021 07:19:06 -0700
+ Wed, 07 Apr 2021 09:48:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=j5TzHK9K;
- spf=pass (domain: linaro.org, ip: 209.85.210.45, mailfrom: anibal.limon@linaro.org)
-Received: by mail-ot1-f45.google.com with SMTP id s11-20020a056830124bb029021bb3524ebeso18261708otp.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Apr 2021 07:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kesCTiVzwPVaPkSEPMmjRtpUrIGT51HuAY6gGTaIGD4=;
-        b=j5TzHK9KJu58SQJVdnFAQUX2LzydVNfrtBtblzehiIUHPc5ckD08bC9hz921Xj2mi0
-         4aHn5z6gpEJERk3fTq0mpiuwsAxwIZB9GSDsfZAyu3kG86WBPBU883OPNTtmGGRRQAmg
-         2CtCkQk0LFGkJ/pe9tBFYilFMnRXG6fvCjkGQJ78bDci6i63bKjh+jg+jtiWDAmicwLz
-         BK/E7wdauNz7+UHSm82/FXf8JkrSR+SFS/lb3wLstsM9xPNE06FN27CwXPEUb4+oXSzl
-         TKBioLyAmLlm2/SsyoBxiy8riUz43hONTk1xHRqb9RrBSb2ljRASecg79NLHZqRi7yv+
-         Yc2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kesCTiVzwPVaPkSEPMmjRtpUrIGT51HuAY6gGTaIGD4=;
-        b=SxnKNdQjRN1ps6sUay//cnFYjJfCUvpweF+qYob16OlKhOcFCSqn7ju1Rsmbb7PMOt
-         UAXzxXH+C507yyeI42RX9RlKGWJjCCBM4Xc7DYVhe6O37AO3TXMr5i+48efGiebiKrrq
-         RXioY+KXhupNBBmkQn44FXM56jqOm7Ol9EbTmf43K9Mz6EoxHmwk8XBZzuXky4diOVY1
-         Nh75CPU471XrbquLdzRBeuAOdmAqmVxIBR8Gx+ntPFlq3l1xBNgC8/DfYf7W8FjDGjKb
-         Tl3I7xC3Cbmg+0A977UdUb375oYYrm2MYAskn2OslGWYFMbcmalYWS9vYhI63LMOthHr
-         YMTg==
-X-Gm-Message-State: AOAM533ZFfqBLkoybwQwH4Dz6eT66tztfSDz1o0AX0NgGHHN9mUQF1L3
-	Y3Swh4c0R2sROZ/CVoqif0gQYH3IrbOpEw==
-X-Google-Smtp-Source: ABdhPJxu/ZF8G08MHarCDmC7q5Y75S+m9Ja+0besG4rHWG0Ml04NxKufQ+MW9zvtqfq3bdwNv+BGFg==
-X-Received: by 2002:a9d:63d4:: with SMTP id e20mr3156540otl.135.1617805145722;
-        Wed, 07 Apr 2021 07:19:05 -0700 (PDT)
-Return-Path: <anibal.limon@linaro.org>
-Received: from blackbox.Home ([2806:10b7:2:5369:2c32:cfff:fe8e:de1f])
-        by smtp.gmail.com with ESMTPSA id h20sm4664337oor.8.2021.04.07.07.19.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 07:19:05 -0700 (PDT)
-From: "Anibal Limon" <anibal.limon@linaro.org>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: uol@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1lUBLe-0003H8-QD; Wed, 07 Apr 2021 18:48:10 +0200
+Received: from uol by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1lUBLe-0000S7-Bh; Wed, 07 Apr 2021 18:48:10 +0200
+From: =?UTF-8?B?VWxyaWNoIMOWbG1hbm4=?= <u.oelmann@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH] build-appliance-image: Update to master head revision
-Date: Wed,  7 Apr 2021 09:19:03 -0500
-Message-Id: <20210407141903.12612-1-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.31.0
+Cc: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+Subject: [PATCH] arch-armv6m.inc: fix access rights
+Date: Wed,  7 Apr 2021 18:48:05 +0200
+Message-Id: <20210407164805.1693-1-u.oelmann@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/machine/include/arm/arch-armv6m.inc | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ mode change 100755 => 100644 meta/conf/machine/include/arm/arch-armv6m.inc
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index 925235db60..1aeb952db2 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -24,7 +24,7 @@ IMAGE_FSTYPES = "wic.vmdk wic.vhd wic.vhdx"
- 
- inherit core-image setuptools3
- 
--SRCREV ?= "c6483187f96c6d21b7129ad78de3ff976fbe5970"
-+SRCREV ?= "42514ade8bdb9502f49a56752561f6c2e9f23348"
- SRC_URI = "git://git.yoctoproject.org/poky \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
+diff --git a/meta/conf/machine/include/arm/arch-armv6m.inc b/meta/conf/machine/include/arm/arch-armv6m.inc
+old mode 100755
+new mode 100644
 -- 
-2.31.0
+2.29.2
 
