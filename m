@@ -1,71 +1,75 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.6696.1617800388290853475
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web09.7809.1617805146392607467
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Apr 2021 05:59:48 -0700
+ Wed, 07 Apr 2021 07:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=T54TMfzN;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pemorrow@linux.microsoft.com)
-Received: by linux.microsoft.com (Postfix, from userid 1045)
-	id B1D0120B5680; Wed,  7 Apr 2021 05:59:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B1D0120B5680
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1617800387;
-	bh=SjnjyJ6aHiwPQYJoXBdLZiERxhDcTJBIFXkMePvX3gU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T54TMfzNZNfT9TFMdOS/+YanFhKvj7RiU65LO3Jo10zWIX6CVmDdkclsWPe7ZAlez
-	 LcIhGRAgbbeNPoAq8KGIQCRDCHOKOoez/1j+4bgxD+LCOKg7zjqsSuW32KAwBD2S0p
-	 HKEZw1ftwFpB8ZjQc2v727nZdsY2IDJHBwn7utQE=
-Date: Wed, 7 Apr 2021 05:59:47 -0700
-From: "Peter Morrow" <pemorrow@linux.microsoft.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	peter.morrow@microsoft.com
-Subject: Re: [meta-mingw][PATCH] go: add environment setup batch file for go
-Message-ID: <20210407125947.GA29156@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1617791467-4066-1-git-send-email-pemorrow@linux.microsoft.com>
- <CAJdd5GZZkiq=r5yR2oSLNheVhoqLTDVUCDau1iGKexr=i3Mteg@mail.gmail.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=j5TzHK9K;
+ spf=pass (domain: linaro.org, ip: 209.85.210.45, mailfrom: anibal.limon@linaro.org)
+Received: by mail-ot1-f45.google.com with SMTP id s11-20020a056830124bb029021bb3524ebeso18261708otp.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Apr 2021 07:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kesCTiVzwPVaPkSEPMmjRtpUrIGT51HuAY6gGTaIGD4=;
+        b=j5TzHK9KJu58SQJVdnFAQUX2LzydVNfrtBtblzehiIUHPc5ckD08bC9hz921Xj2mi0
+         4aHn5z6gpEJERk3fTq0mpiuwsAxwIZB9GSDsfZAyu3kG86WBPBU883OPNTtmGGRRQAmg
+         2CtCkQk0LFGkJ/pe9tBFYilFMnRXG6fvCjkGQJ78bDci6i63bKjh+jg+jtiWDAmicwLz
+         BK/E7wdauNz7+UHSm82/FXf8JkrSR+SFS/lb3wLstsM9xPNE06FN27CwXPEUb4+oXSzl
+         TKBioLyAmLlm2/SsyoBxiy8riUz43hONTk1xHRqb9RrBSb2ljRASecg79NLHZqRi7yv+
+         Yc2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kesCTiVzwPVaPkSEPMmjRtpUrIGT51HuAY6gGTaIGD4=;
+        b=SxnKNdQjRN1ps6sUay//cnFYjJfCUvpweF+qYob16OlKhOcFCSqn7ju1Rsmbb7PMOt
+         UAXzxXH+C507yyeI42RX9RlKGWJjCCBM4Xc7DYVhe6O37AO3TXMr5i+48efGiebiKrrq
+         RXioY+KXhupNBBmkQn44FXM56jqOm7Ol9EbTmf43K9Mz6EoxHmwk8XBZzuXky4diOVY1
+         Nh75CPU471XrbquLdzRBeuAOdmAqmVxIBR8Gx+ntPFlq3l1xBNgC8/DfYf7W8FjDGjKb
+         Tl3I7xC3Cbmg+0A977UdUb375oYYrm2MYAskn2OslGWYFMbcmalYWS9vYhI63LMOthHr
+         YMTg==
+X-Gm-Message-State: AOAM533ZFfqBLkoybwQwH4Dz6eT66tztfSDz1o0AX0NgGHHN9mUQF1L3
+	Y3Swh4c0R2sROZ/CVoqif0gQYH3IrbOpEw==
+X-Google-Smtp-Source: ABdhPJxu/ZF8G08MHarCDmC7q5Y75S+m9Ja+0besG4rHWG0Ml04NxKufQ+MW9zvtqfq3bdwNv+BGFg==
+X-Received: by 2002:a9d:63d4:: with SMTP id e20mr3156540otl.135.1617805145722;
+        Wed, 07 Apr 2021 07:19:05 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.Home ([2806:10b7:2:5369:2c32:cfff:fe8e:de1f])
+        by smtp.gmail.com with ESMTPSA id h20sm4664337oor.8.2021.04.07.07.19.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 07:19:05 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] build-appliance-image: Update to master head revision
+Date: Wed,  7 Apr 2021 09:19:03 -0500
+Message-Id: <20210407141903.12612-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <CAJdd5GZZkiq=r5yR2oSLNheVhoqLTDVUCDau1iGKexr=i3Mteg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 07, 2021 at 07:56:01AM -0500, Joshua Watt wrote:
-> On Wed, Apr 7, 2021 at 5:31 AM Peter Morrow
-> <pemorrow@linux.microsoft.com> wrote:
-> >
-> > When building the nativesdk for mingw we need to set GOROOT in order to build
-> > anything out of the box.
-> >
-> > Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
-> > ---
-> >  recipes-devtools/go/go_%.bbappend | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >  create mode 100644 recipes-devtools/go/go_%.bbappend
-> >
-> > diff --git a/recipes-devtools/go/go_%.bbappend b/recipes-devtools/go/go_%.bbappend
-> > new file mode 100644
-> > index 0000000..9933108
-> > --- /dev/null
-> > +++ b/recipes-devtools/go/go_%.bbappend
-> > @@ -0,0 +1,9 @@
-> > +do_install_append_class-nativesdk_mingw32() {
-> > +    install -d ${D}${SDKPATHNATIVE}/environment-setup.d
-> > +
-> > +    cat <<EOF > ${D}${SDKPATHNATIVE}/environment-setup.d/go.bat
-> > +set GOROOT=%OECORE_NATIVE_SYSROOT%\\usr\\lib\\${BPN}
-> > +EOF
-> > +}
-> > +
-> > +FILES_${PN}_append_class-nativesdk_mingw32 = " ${SDKPATHNATIVE}/environment-setup.d"
-> > --
-> > 1.8.3.1
-> >
-> 
-> I've put this patch in master-next oe meta-mingw. This is the wrong
-> mailing list for these patches, please use
-> yocto@lists.yoctoproject.org time.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Thanks, noted.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Peter.
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 925235db60..1aeb952db2 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -24,7 +24,7 @@ IMAGE_FSTYPES = "wic.vmdk wic.vhd wic.vhdx"
+ 
+ inherit core-image setuptools3
+ 
+-SRCREV ?= "c6483187f96c6d21b7129ad78de3ff976fbe5970"
++SRCREV ?= "42514ade8bdb9502f49a56752561f6c2e9f23348"
+ SRC_URI = "git://git.yoctoproject.org/poky \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
+-- 
+2.31.0
+
