@@ -1,93 +1,72 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.3])
- by mx.groups.io with SMTP id smtpd.web08.4157.1617862163990816345
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web08.4308.1617863315079877398
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Apr 2021 23:09:24 -0700
+ Wed, 07 Apr 2021 23:28:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VLUjSA5s;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.3, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1617862162; i=@fujitsu.com;
-	bh=P4FwKojdnQS+3hNUiOQ9VXe/eeviBpJLCHobjklyy7Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=VLUjSA5sDACKL99Yh+XWO7VR7i/+e/WvJ+JYUTltOMaOIjL9ai5B530NxCBOkfGgP
-	 L8sUnLdqm55GDdU3cPl87XBTfrKhzMLVYljWCHHIPZv6Y4pyTJbLTPPdWKRyvzUfnn
-	 13DtKByZRaJWuNMECtmxIMKTGr/k5SA1jH4pukxtMXTlHsmGc8S/8YhbVtpFa6PjCe
-	 +h4zmhJymJ97Uk+nP0g1C+lkOv1xLqPSDPMY2k5jAPGPufauyb/mIpXt5VltEwklJp
-	 Nd6gkl/kz9RN9mdCx5VwAHp8au5Rdlbdtdl6TfIOCbSO5CSOU2PnhW20YCyqAtaXWW
-	 Tl4t38dWaB8tA==
-Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.symcld.net id A7/1D-41911-21E9E606; Thu, 08 Apr 2021 06:09:22 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRWlGSWpSXmKPExsViZ8MRqis4Ly/
-  BYNJHM4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePx4e1sBXfYK35NPMrWwPiXrYuRi0NIYAuT
-  xJelh9khnOOMEidXf2LqYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vYQWxhAQuJ8
-  48ugJWzAMU3PHjGAmLzCjhKXH00B6xGQkBBYsrD98wgNqeAk8SN7+fBaoSAap6vecQKUS8ocX
-  LmExaI+RISB1+8YIboVZSYfbmZBcKukuj8cJxtAiP/LCQts5C0LGBkWsVomVSUmZ5RkpuYmaN
-  raGCga2horAskjQ30Eqt0E/VSS3WTU/NKihKBsnqJ5cV6xZW5yTkpenmpJZsYgQGZUsjQtIPx
-  3asPeocYJTmYlER5syblJQjxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4O2fC5QTLEpNT61Iy8wBR
-  gdMWoKDR0mEt2w2UJq3uCAxtzgzHSJ1ilFRSpz3yByghABIIqM0D64NFpGXGGWlhHkZGRgYhH
-  gKUotyM0tQ5V8xinMwKgnz7geZwpOZVwI3/RXQYiagxSUHc0EWlyQipKQamE69m/JIVtkol+s
-  R89PuKR2ie+JdqmUUbk497XPu5zY383vqL/8vLVsf4nZjteBewdmPc+0iD4hrCM9mWDGb82ut
-  tYXix2vtvnMKGDb8eWvf0ZB07l7dzOpTlgULrG6fevMpSHU9V62qf3rGF2c5pUi7DNsb81bFb
-  F4kEXz24yK90m+H5+lLRJ+sqco7//3MPL1OS/mT+11XPt5iuohPdgI/d4aV9d8D968wfXxxd4
-  3FY/WGmQdn/09OSRY/mp4hnaqxQ5/lzB8BnbDkIzbnXVJC7s3KSZWsemLwLmj6lvyU0lki6ks
-  PrtznvDzL/WLkqiuiNXF/rj73Xb5m02b2zR5LfGTibp9+Vfv8zn5ZrgtKLMUZiYZazEXFiQBI
-  eiAXQwMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-4.tower-232.messagelabs.com!1617862161!1010203!1
-X-Originating-IP: [62.60.8.85]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23370 invoked from network); 8 Apr 2021 06:09:21 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-4.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Apr 2021 06:09:21 -0000
-Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13869Ld0006343
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Apr 2021 07:09:21 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 8 Apr 2021 07:09:19 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libportal: upgrade 0.3 -> 0.4
-Date: Thu, 8 Apr 2021 14:09:04 +0800
-Message-ID: <1617862144-5153-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1617862144-5153-1-git-send-email-wangmy@fujitsu.com>
-References: <1617862144-5153-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rxbkHk37;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: samuli.piippo@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id r8so2017842lfp.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Apr 2021 23:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KpxMTw1dQv2cAktbXZS+1w3/tzlCV1QnKYhcOttTEFE=;
+        b=rxbkHk37kxN4e7Pu6qhTqYiGu05L6wd8lxOcVMG/1gvs5JHY5FfqKYFeoXUPCJ/rCF
+         7vf3VcyF6jEKU7Z1t02NpJoRoUZTVpL1zr6qQMhyvYE8gewX9sQq6zQEmfazghpzWCBU
+         8I3M4B0PAqQJpBCzogPG74U5tpN40Akwy8H17+akU1AmUKwmeffGzw0bmTHrrGPXLg03
+         GSwkmk9UM2re29PTI/fUxDKm9Xr0FIptEfJzJVvx9/sa3iBBaAMdy2WbcqXfP+dpYp/m
+         m9tagtu/EkYRKSw6NHqSzbcaJfJlgQTg9fc/WFW6z+c8twoQMUto7+b0ZVfHh+YiZP+O
+         qsAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KpxMTw1dQv2cAktbXZS+1w3/tzlCV1QnKYhcOttTEFE=;
+        b=FrtfDGk5t9R5n/KlZb944HRVlh1s8BGCqhreky/s33Lu38DTvyeEfFQsqakZS5nStC
+         GLRoX/YTJJ1UxJfS9YrQ3rYh85k3h5hK47a7UPElSMTrrAo6O8J96NGS+u//ZQDz4vVX
+         F500LHxtCFwsIcWcIagy8yBYJ8MD70xRpM5OOAR4GPWl40syRSjMgru5DGpWOl6hYqCa
+         0WlaxakdlXkfnDI4deQmHrSymEMzqE5CBkILcAKBbSc1Geg7JheEOX6EO9VhzqFPCN2c
+         l81MVjLQHJi8AaNwYv99Qx+RBD1aC243z6IEC3rG/b+ZJ/fScUzPlybW0pdTTMVMCu67
+         IpXA==
+X-Gm-Message-State: AOAM532y3hXhtqAkv/q6VFqFaMmf1v8unXwpPfuELnQojwms38/Ukf3k
+	+IsMcuML6oKmCkogDQNu/JuctXSxzrDV3Q==
+X-Google-Smtp-Source: ABdhPJyI2I8+OpQveRV23suLveJU7Pf+K8JrlF7PKh8PL/3BkEeG6/DF+TNqwz+9rtyBEwazbcJ4+g==
+X-Received: by 2002:a19:6557:: with SMTP id c23mr5223758lfj.422.1617863312943;
+        Wed, 07 Apr 2021 23:28:32 -0700 (PDT)
+Return-Path: <samuli.piippo@gmail.com>
+Received: from munkone.intra.qt.io (62-183-187-94.co.dnainternet.fi. [62.183.187.94])
+        by smtp.gmail.com with ESMTPSA id k9sm2749587ljg.57.2021.04.07.23.28.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 23:28:32 -0700 (PDT)
+From: "Samuli Piippo" <samuli.piippo@gmail.com>
+X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] assimp: BBCLASSEXTEND to native and nativesdk
+Date: Thu,  8 Apr 2021 09:28:26 +0300
+Message-Id: <20210408062826.1715930-1-samuli.piippo@qt.io>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+At least some Qt tooling depends on assimp.
+
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
 ---
- .../libportal/{libportal_0.3.bb => libportal_0.4.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libportal/{libportal_0.3.bb => libportal_0.4.bb} (92%)
+ meta/recipes-graphics/vulkan/assimp_5.0.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-gnome/libportal/libportal_0.3.bb b/meta/recipes-gnome/libportal/libportal_0.4.bb
-similarity index 92%
-rename from meta/recipes-gnome/libportal/libportal_0.3.bb
-rename to meta/recipes-gnome/libportal/libportal_0.4.bb
-index bc4ff3784c..03e681f58c 100644
---- a/meta/recipes-gnome/libportal/libportal_0.3.bb
-+++ b/meta/recipes-gnome/libportal/libportal_0.4.bb
-@@ -7,7 +7,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
+index 5a8c62e64d..4eb0cefffc 100644
+--- a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
++++ b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
+@@ -21,3 +21,5 @@ S = "${WORKDIR}/git"
+ inherit cmake
  
- SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https"
--SRCREV = "a609e06d0c4adc5c510cf9ac7b060db3d368e78f"
-+SRCREV = "f68764e288ede516d902b131cc4fadded3804059"
- S = "${WORKDIR}/git"
- 
- GTKDOC_MESON_OPTION = 'gtk_doc'
+ EXTRA_OECMAKE = "-DASSIMP_BUILD_ASSIMP_TOOLS=OFF -DASSIMP_BUILD_TESTS=OFF -DASSIMP_LIB_INSTALL_DIR=${baselib}"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.1
 
