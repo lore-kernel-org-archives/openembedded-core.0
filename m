@@ -1,81 +1,637 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.20.1617903331599739846
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web08.452.1617905046383955790
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 10:35:31 -0700
+ Thu, 08 Apr 2021 11:04:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IHv7V36S;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so1781042pjg.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 10:35:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CwLl/D1l;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: wallinux@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id a1so3385115ljp.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 11:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=FdSaj/3l1DWrd6mQ9OpsV53OJOqggNOElC9OyBawyyU=;
-        b=IHv7V36SEU0DhuqxVyjqnczEJQlOuSkyOdxthpLn4jSJ33akXq/9Yt0vqjHriEvtWl
-         9HFGZpGnWmYD2orriimvN75PoTdPbgOWmu5XdnD4dHTSzBt0blC7sNkC+3Z+DDcRj6nZ
-         y1qyj/yVEegyAe3IBkoOyeSsV1M5sVx6MmkY1VcoA/rv9H5vXQ/yyv31l08TKd3Kd/id
-         9gM+m5S6mDnVzj+iHm6yoZMgWXKv3ErS3/S9bbi/nXxHSPjc9ebJyC+qpxnJI/CF2lhE
-         eOWGzzOx6OeL3KIdoLZo+tSE8Lj4ZxsWcKtmHAp66KKVG26o91S0Q1t84Rpw5+VqLujd
-         SFgQ==
+        bh=LGSnEh/FYKYp6Yszp9sA3KXNE+9W5NypQzp9+X2quK0=;
+        b=CwLl/D1lyU12q8qEraiK2u41FCjUSSJSAPvZP8RWRHXJfoGf9Kt9dfHrEKaC78fJA9
+         34IENz0sP4YoRROU4RqSY0rl48F92Kn+3dUcsnfWE8581Af8O9iw/Wuqzwtbe/h42AAe
+         9nclFqr5MTxNJH4qZb6ZJsnt3xe70+wZixTwjhZGA4/CQyxa0HoT4QhC/huTmvJ0uJNt
+         8M3STFKjg6J+7PgKzWT5OxvGOIcBIfNG5Ah6IF5AZ89Pg62CK1w0p4gH+GWDwwSZoACc
+         dgNOR+efVMG6xuQinw/lkmuKxHkw2XTONzf1GA3ZwFsZ+KtdjgHtYheVxn3nVF8pRkU2
+         +U0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=FdSaj/3l1DWrd6mQ9OpsV53OJOqggNOElC9OyBawyyU=;
-        b=lt6ldS2fLHKfZQFqDsAdBzCPKDhcXgWq32JcNeyoCHb+UszncoiPoz91T/24h/RFae
-         w7G4mOgzLBDEXHy/uR52ZktlD5jwJcP6KuIYEIJ8QW5rGOgwZ6+36ORKemJKfNUEOzki
-         f0K/CmBcBPJFIuxCjqX6rvu9ogE3h6of5GcokySekksT0/XQiuDCQyLsFLx4ZhDM5AMa
-         oSR39ShUFkccF3bIFWMxe0TxXyaOcUC3ZwyaOxs2A6TvMKvBs5FD1oUgOPpWfXPCFF+h
-         o5kW6lkkfZgpexvl5RJp+F5+btUzQPku0YAV7VYCbsitgNRSSa1epJhFt8t8kDy0uhzj
-         C05A==
-X-Gm-Message-State: AOAM532PnJ1Zg7R6DmH5sj8rRjmYPzaiwEOxQZETiiWOyj85Tas1RkSV
-	285661DoTy7zgJvzvG8Fszk=
-X-Google-Smtp-Source: ABdhPJz65c+LuSDt3OsPdJomVdxiCFiXNUH+JLBzLJH+4/BgHceBR65wzsgacT2ByRSkrwdBWvMZZg==
-X-Received: by 2002:a17:902:9043:b029:e9:3900:5590 with SMTP id w3-20020a1709029043b02900e939005590mr8898173plz.76.1617903331097;
-        Thu, 08 Apr 2021 10:35:31 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:8584:8dcf:4365:ddcb? ([2601:646:9200:a0f0:8584:8dcf:4365:ddcb])
-        by smtp.gmail.com with ESMTPSA id w3sm68811pjg.7.2021.04.08.10.35.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Apr 2021 10:35:30 -0700 (PDT)
-Subject: Re: [OE-core] [gatesgarth][PATCH] binutils: backport fix for gold with theads enabled from 2.36.0
-To: Martin Jansa <Martin.Jansa@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: anibal.limon@linaro.org
-References: <20210408160138.240195-1-Martin.Jansa@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <813ff0f0-cc8a-cbbe-b8b3-2ed8717ecce8@gmail.com>
-Date: Thu, 8 Apr 2021 10:35:29 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LGSnEh/FYKYp6Yszp9sA3KXNE+9W5NypQzp9+X2quK0=;
+        b=B3nIB36DVVDyXsIXvaOzwjV0ZdXBeG/lrmx6s59FCbAqRMM6L4DSr7cHD1z3EBAK95
+         T5wD8wHjIpOg8LjX0anj2JBjDjSKcIqMz0t0zmoHSz7xqMw75ETNN+woSLzwglsYsc6t
+         UbQD3r/jrLfVdi2zAmpRkbPWyIQRFcQl63vFUbxvjTO8AgPurZBa9le5vyyYZpp7+NcQ
+         kbwrnn6O0i3SuuyDfJ6paGPAGUp2Jys0i4pS/MvUzs4QJ6S25TDkxYaRLrSf2t/gNSL4
+         /sh34ubw2emBYc6eQe+Z5WPRyBLhM2+FPDic+XDB1A+CB7hRymNCQ1Cn1rzxaHIH2VBc
+         brPQ==
+X-Gm-Message-State: AOAM532Rbdz10MRXCfGN++owtZNZua1sScbCM4VBr6KONn9RKpaV7EDi
+	4gkXHTi8sd9B8CPXq84jTtMNHpidLHAMPg==
+X-Google-Smtp-Source: ABdhPJwViukWMSXKbKJ6IfAoRunch39i14qN23RpWXw+9nxAerBI/D6QwQ0zvYdqHUK4KUU+Kg2S8w==
+X-Received: by 2002:a2e:9c8e:: with SMTP id x14mr6789139lji.312.1617905043044;
+        Thu, 08 Apr 2021 11:04:03 -0700 (PDT)
+Return-Path: <wallinux@gmail.com>
+Received: from arn-awallin-linux-l5.corp.ad.wrs.com (h-82-196-111-243.NA.cust.bahnhof.se. [82.196.111.243])
+        by smtp.gmail.com with ESMTPSA id b25sm902ljo.80.2021.04.08.11.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 11:04:02 -0700 (PDT)
+From: "Anders Wallin" <wallinux@gmail.com>
+X-Google-Original-From: Anders Wallin <anders.wallin@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Anders Wallin <anders.wallin@windriver.com>,
+	Paul Eggleton <bluelightning@bluelightning.org>,
+	Saul Wold <saul.wold@windriver.com>
+Subject: [OE-core][PATCH v2] scripts/contrib/image-manifest: add new script
+Date: Thu,  8 Apr 2021 20:03:36 +0200
+Message-Id: <20210408180336.2670839-1-anders.wallin@windriver.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210408160138.240195-1-Martin.Jansa@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+image-manifest: script to generate product/image specific BOM
 
+The image-manifest script generates image specific reports based on
+an image manifest file. Currently there is data generated by buildhistory,
+pkgdata, and license manifest but this data is poorly formated and spread
+across multiple text files. This script can generate a single JSON output
+file that is machine readable by other tools.
 
-On 4/8/21 9:01 AM, Martin Jansa wrote:
-> * building chromium with gold and threads triggers this issue:
->    [1/2] SOLINK ./libcbe.so
->    FAILED: libcbe.so libcbe.so.TOC
->    python "../../git/src/build/toolchain/gcc_solink_wrapper.py" --readelf="readelf" --nm="nm" --sofile="./libcbe.so" --tocfile="./libcbe.so.TOC" --output="./libcbe.so" -- i686-oe-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=chromium/84.0.4147.89-4-r41.1/recipe-sysroot -shared -Wl,-soname="libcbe.so" -fPIC -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,-z,defs -Wl,--as-needed -fuse-ld=gold -Wl,--threads -Wl,--thread-count=4 -m32 -Wl,-O2 -Wl,--gc-sections -rdynamic --sysroot=../../recipe-sysroot -L../../recipe-sysroot/lib -L../../recipe-sysroot/usr/lib -Lchromium/84.0.4147.89-4-r41.1/recipe-sysroot -o "./libcbe.so" @"./libcbe.so.rsp"
->    collect2: fatal error: ld terminated with signal 11 [Segmentation fault]
->    compilation terminated.
-> 
-> * removing threads/thread-count is one possible work around, but then
->    the use of gold for performance makes even less sense, that's why
->    chromium from meta-browser uses LLD by default:
->    https://github.com/OSSystems/meta-browser/commit/15228b01903d4ca801916e55c7618fa5a71019b7
->    https://lld.llvm.org/#performance
->    but lets backport this as other recipes might also reproduce this
->    issue
-> 
+The manifest-info collects package information and stores the information
+in a tarball. manifest-info can be configured using a json configuration
+file. The default configuration including all possible options can be
+dumped using the dump-config subcommand.
 
+image-manifest takes an image manifest file as input to get the runtime
+dependencies. As an option image-manifest can also use the build dependency
+file, pn-buildlist, to get the build dependencies excluding native
+packages.
 
-lgtm
+This script extends the oe-image-manifest script [0] done by Paul Eggleton
+
+[0]
+https://github.com/intel/clear-linux-dissector-web/blob/master/layerindex/static/files/oe-image-manifest
+
+------------------------------------------------------
+usage: image-manifest [-h] [-d] [-q] <subcommand> ...
+
+Image manifest utility
+
+options:
+  -h, --help     show this help message and exit
+  -d, --debug    Enable debug output
+  -q, --quiet    Print only errors
+
+subcommands:
+  recipe-info    Get recipe info
+  list-depends   List dependencies
+  list-recipes   List recipes producing packages within an image
+  list-packages  List packages within an image
+  list-layers    List included layers
+  dump-config    Dump default config
+  manifest-info  Export recipe info for a manifest
+Use image-manifest <subcommand> --help to get help on a specific command
+
+Co-developed-by: Paul Eggleton <bluelightning@bluelightning.org>
+Signed-off-by: Anders Wallin <anders.wallin@windriver.com>
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ scripts/contrib/image-manifest | 523 +++++++++++++++++++++++++++++++++
+ 1 file changed, 523 insertions(+)
+ create mode 100755 scripts/contrib/image-manifest
+
+diff --git a/scripts/contrib/image-manifest b/scripts/contrib/image-manifest
+new file mode 100755
+index 0000000000..3c07a73a4e
+--- /dev/null
++++ b/scripts/contrib/image-manifest
+@@ -0,0 +1,523 @@
++#!/usr/bin/env python3
++
++# Script to extract information from image manifests
++#
++# Copyright (C) 2018 Intel Corporation
++# Copyright (C) 2021 Wind River Systems, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++import sys
++import os
++import argparse
++import logging
++import json
++import shutil
++import tempfile
++import tarfile
++from collections import OrderedDict
++
++scripts_path = os.path.dirname(__file__)
++lib_path = scripts_path + '/../lib'
++sys.path = sys.path + [lib_path]
++
++import scriptutils
++logger = scriptutils.logger_create(os.path.basename(__file__))
++
++import argparse_oe
++import scriptpath
++bitbakepath = scriptpath.add_bitbake_lib_path()
++if not bitbakepath:
++    logger.error("Unable to find bitbake by searching parent directory of this script or PATH")
++    sys.exit(1)
++logger.debug('Using standard bitbake path %s' % bitbakepath)
++scriptpath.add_oe_lib_path()
++
++import bb.tinfoil
++import bb.utils
++import oe.utils
++import oe.recipeutils
++
++def get_pkg_list(manifest):
++    pkglist = []
++    with open(manifest, 'r') as f:
++        for line in f:
++            linesplit = line.split()
++            if len(linesplit) == 3:
++                # manifest file
++                pkglist.append(linesplit[0])
++            elif len(linesplit) == 1:
++                # build dependency file
++                pkglist.append(linesplit[0])
++    return sorted(pkglist)
++
++def list_packages(args):
++    pkglist = get_pkg_list(args.manifest)
++    for pkg in pkglist:
++        print('%s' % pkg)
++
++def pkg2recipe(tinfoil, pkg):
++    if "-native" in pkg:
++        logger.info('skipping %s' % pkg)
++        return None
++
++    pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
++    pkgdatafile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
++    logger.debug('pkgdatafile %s' % pkgdatafile)
++    try:
++        f = open(pkgdatafile, 'r')
++        for line in f:
++            if line.startswith('PN:'):
++                recipe = line.split(':', 1)[1].strip()
++                return recipe
++    except Exception:
++        logger.warning('%s is missing' % pkgdatafile)
++        return None
++
++def get_recipe_list(manifest, tinfoil):
++    pkglist = get_pkg_list(manifest)
++    recipelist = []
++    for pkg in pkglist:
++        recipe = pkg2recipe(tinfoil,pkg)
++        if recipe:
++            if not recipe in recipelist:
++                recipelist.append(recipe)
++
++    return sorted(recipelist)
++
++def list_recipes(args):
++    import bb.tinfoil
++    with bb.tinfoil.Tinfoil() as tinfoil:
++        tinfoil.logger.setLevel(logger.getEffectiveLevel())
++        tinfoil.prepare(config_only=True)
++        recipelist = get_recipe_list(args.manifest, tinfoil)
++        for recipe in sorted(recipelist):
++            print('%s' % recipe)
++
++def list_layers(args):
++
++    def find_git_repo(pth):
++        checkpth = pth
++        while checkpth != os.sep:
++            if os.path.exists(os.path.join(checkpth, '.git')):
++                return checkpth
++            checkpth = os.path.dirname(checkpth)
++        return None
++
++    def get_git_remote_branch(repodir):
++        try:
++            stdout, _ = bb.process.run(['git', 'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'], cwd=repodir)
++        except bb.process.ExecutionError as e:
++            stdout = None
++        if stdout:
++            return stdout.strip()
++        else:
++            return None
++
++    def get_git_head_commit(repodir):
++        try:
++            stdout, _ = bb.process.run(['git', 'rev-parse', 'HEAD'], cwd=repodir)
++        except bb.process.ExecutionError as e:
++            stdout = None
++        if stdout:
++            return stdout.strip()
++        else:
++            return None
++
++    def get_git_repo_url(repodir, remote='origin'):
++        import bb.process
++        # Try to get upstream repo location from origin remote
++        try:
++            stdout, _ = bb.process.run(['git', 'remote', '-v'], cwd=repodir)
++        except bb.process.ExecutionError as e:
++            stdout = None
++        if stdout:
++            for line in stdout.splitlines():
++                splitline = line.split()
++                if len(splitline) > 1:
++                    if splitline[0] == remote and scriptutils.is_src_url(splitline[1]):
++                        return splitline[1]
++        return None
++
++    with bb.tinfoil.Tinfoil() as tinfoil:
++        tinfoil.logger.setLevel(logger.getEffectiveLevel())
++        tinfoil.prepare(config_only=False)
++        layers = OrderedDict()
++        for layerdir in tinfoil.config_data.getVar('BBLAYERS').split():
++            layerdata = OrderedDict()
++            layername = os.path.basename(layerdir)
++            logger.debug('layername %s, layerdir %s' % (layername, layerdir))
++            if layername in layers:
++                logger.warning('layername %s is not unique in configuration' % layername)
++                layername = os.path.basename(os.path.dirname(layerdir)) + '_' + os.path.basename(layerdir)
++                logger.debug('trying layername %s' % layername)
++                if layername in layers:
++                    logger.error('Layer name %s is not unique in configuration' % layername)
++                    sys.exit(2)
++            repodir = find_git_repo(layerdir)
++            if repodir:
++                remotebranch = get_git_remote_branch(repodir)
++                remote = 'origin'
++                if remotebranch and '/' in remotebranch:
++                    rbsplit = remotebranch.split('/', 1)
++                    layerdata['actual_branch'] = rbsplit[1]
++                    remote = rbsplit[0]
++                layerdata['vcs_url'] = get_git_repo_url(repodir, remote)
++                if os.path.abspath(repodir) != os.path.abspath(layerdir):
++                    layerdata['vcs_subdir'] = os.path.relpath(layerdir, repodir)
++                commit = get_git_head_commit(repodir)
++                if commit:
++                    layerdata['vcs_commit'] = commit
++            layers[layername] = layerdata
++
++    json.dump(layers, args.output, indent=2)
++
++def get_recipe(args):
++    with bb.tinfoil.Tinfoil() as tinfoil:
++        tinfoil.logger.setLevel(logger.getEffectiveLevel())
++        tinfoil.prepare(config_only=True)
++
++        recipe = pkg2recipe(tinfoil, args.package)
++        print(' %s package provided by %s' % (args.package, recipe))
++
++def pkg_dependencies(args):
++    def get_recipe_info(tinfoil, recipe):
++        try:
++            info = tinfoil.get_recipe_info(recipe)
++        except Exception:
++            logger.error('Failed to get recipe info for: %s' % recipe)
++            sys.exit(1)
++        if not info:
++            logger.warning('No recipe info found for: %s' % recipe)
++            sys.exit(1)
++        append_files = tinfoil.get_file_appends(info.fn)
++        appends = True
++        data = tinfoil.parse_recipe_file(info.fn, appends, append_files)
++        data.pn = info.pn
++        data.pv = info.pv
++        return data
++
++    def find_dependencies(tinfoil, assume_provided, recipe_info, packages, rn, order):
++        spaces = '  ' * order
++        data = recipe_info[rn]
++        if args.native:
++            logger.debug('%s- %s' % (spaces, data.pn))
++        elif "-native" not in data.pn:
++            if "cross" not in data.pn:
++                logger.debug('%s- %s' % (spaces, data.pn))
++
++        depends = []
++        for dep in data.depends:
++            if dep not in assume_provided:
++                depends.append(dep)
++
++        # First find all dependencies not in package list.
++        for dep in depends:
++            if dep not in packages:
++                packages.append(dep)
++                dep_data = get_recipe_info(tinfoil, dep)
++                # Do this once now to reduce the number of bitbake calls.
++                dep_data.depends = dep_data.getVar('DEPENDS').split()
++                recipe_info[dep] = dep_data
++
++        # Then recursively analyze all of the dependencies for the current recipe.
++        for dep in depends:
++            find_dependencies(tinfoil, assume_provided, recipe_info, packages, dep, order + 1)
++
++    with bb.tinfoil.Tinfoil() as tinfoil:
++        tinfoil.logger.setLevel(logger.getEffectiveLevel())
++        tinfoil.prepare()
++
++        assume_provided = tinfoil.config_data.getVar('ASSUME_PROVIDED').split()
++        logger.debug('assumed provided:')
++        for ap in sorted(assume_provided):
++            logger.debug(' - %s' % ap)
++
++        recipe = pkg2recipe(tinfoil, args.package)
++        data = get_recipe_info(tinfoil, recipe)
++        data.depends = []
++        depends = data.getVar('DEPENDS').split()
++        for dep in depends:
++            if dep not in assume_provided:
++                data.depends.append(dep)
++
++        recipe_info = dict([(recipe, data)])
++        packages = []
++        find_dependencies(tinfoil, assume_provided, recipe_info, packages, recipe, order=1)
++
++        print('\nThe following packages are required to build %s' % recipe)
++        for p in sorted(packages):
++            data = recipe_info[p]
++            if "-native" not in data.pn:
++                if "cross" not in data.pn:
++                    print(" %s (%s)" % (data.pn,p))
++
++        if args.native:
++            print('\nThe following native packages are required to build %s' % recipe)
++            for p in sorted(packages):
++                data = recipe_info[p]
++                if "-native" in data.pn:
++                    print(" %s(%s)" % (data.pn,p))
++                if "cross" in data.pn:
++                    print(" %s(%s)" % (data.pn,p))
++
++def default_config():
++    vlist = OrderedDict()
++    vlist['PV'] = 'yes'
++    vlist['SUMMARY'] = 'no'
++    vlist['DESCRIPTION'] = 'no'
++    vlist['SECTION'] = 'no'
++    vlist['LICENSE'] = 'yes'
++    vlist['HOMEPAGE'] = 'no'
++    vlist['BUGTRACKER'] = 'no'
++    vlist['PROVIDES'] = 'no'
++    vlist['BBCLASSEXTEND'] = 'no'
++    vlist['DEPENDS'] = 'no'
++    vlist['PACKAGECONFIG'] = 'no'
++    vlist['SRC_URI'] = 'yes'
++    vlist['SRCREV'] = 'yes'
++    vlist['EXTRA_OECONF'] = 'no'
++    vlist['EXTRA_OESCONS'] = 'no'
++    vlist['EXTRA_OECMAKE'] = 'no'
++    vlist['EXTRA_OEMESON'] = 'no'
++
++    clist = OrderedDict()
++    clist['variables'] = vlist
++    clist['filepath'] = 'no'
++    clist['sha256sum'] = 'no'
++    clist['layerdir'] = 'no'
++    clist['layer'] = 'no'
++    clist['inherits'] = 'no'
++    clist['source_urls'] = 'no'
++    clist['packageconfig_opts'] = 'no'
++    clist['patches'] = 'no'
++    clist['packagedir'] = 'no'
++    return clist
++
++def dump_config(args):
++    config = default_config()
++    f = open('default_config.json', 'w')
++    json.dump(config, f, indent=2)
++    logger.info('Default config list dumped to default_config.json')
++
++def export_manifest_info(args):
++
++    def handle_value(value):
++        if value:
++            return oe.utils.squashspaces(value)
++        else:
++            return value
++
++    if args.config:
++        logger.debug('config: %s' % args.config)
++        f = open(args.config, 'r')
++        config = json.load(f, object_pairs_hook=OrderedDict)
++    else:
++        config = default_config()
++    if logger.isEnabledFor(logging.DEBUG):
++        print('Configuration:')
++        json.dump(config, sys.stdout, indent=2)
++        print('')
++
++    tmpoutdir = tempfile.mkdtemp(prefix=os.path.basename(__file__)+'-')
++    logger.debug('tmp dir: %s' % tmpoutdir)
++
++    # export manifest
++    shutil.copy2(args.manifest,os.path.join(tmpoutdir, "manifest"))
++
++    with bb.tinfoil.Tinfoil(tracking=True) as tinfoil:
++        tinfoil.logger.setLevel(logger.getEffectiveLevel())
++        tinfoil.prepare(config_only=False)
++
++        pkglist = get_pkg_list(args.manifest)
++        # export pkg list
++        f = open(os.path.join(tmpoutdir, "pkgs"), 'w')
++        for pkg in pkglist:
++            f.write('%s\n' % pkg)
++        f.close()
++
++        recipelist = []
++        for pkg in pkglist:
++            recipe = pkg2recipe(tinfoil,pkg)
++            if recipe:
++                if not recipe in recipelist:
++                    recipelist.append(recipe)
++        recipelist.sort()
++        # export recipe list
++        f = open(os.path.join(tmpoutdir, "recipes"), 'w')
++        for recipe in recipelist:
++            f.write('%s\n' % recipe)
++        f.close()
++
++        try:
++            rvalues = OrderedDict()
++            for pn in sorted(recipelist):
++                logger.debug('Package: %s' % pn)
++                rd = tinfoil.parse_recipe(pn)
++
++                rvalues[pn] = OrderedDict()
++
++                for varname in config['variables']:
++                    if config['variables'][varname] == 'yes':
++                        rvalues[pn][varname] = handle_value(rd.getVar(varname))
++
++                fpth = rd.getVar('FILE')
++                layerdir = oe.recipeutils.find_layerdir(fpth)
++                if config['filepath'] == 'yes':
++                    rvalues[pn]['filepath'] = os.path.relpath(fpth, layerdir)
++                    if config['sha256sum'] == 'yes':
++                        rvalues[pn]['sha256sum'] = bb.utils.sha256_file(fpth)
++
++                if config['layerdir'] == 'yes':
++                    rvalues[pn]['layerdir'] = layerdir
++
++                if config['layer'] == 'yes':
++                    rvalues[pn]['layer'] = os.path.basename(layerdir)
++
++                if config['inherits'] == 'yes':
++                    gr = set(tinfoil.config_data.getVar("__inherit_cache") or [])
++                    lr = set(rd.getVar("__inherit_cache") or [])
++                    rvalues[pn]['inherits'] = sorted({os.path.splitext(os.path.basename(r))[0] for r in lr if r not in gr})
++
++                if config['source_urls'] == 'yes':
++                    rvalues[pn]['source_urls'] = []
++                    for url in (rd.getVar('SRC_URI') or '').split():
++                        if not url.startswith('file://'):
++                            url = url.split(';')[0]
++                            rvalues[pn]['source_urls'].append(url)
++
++                if config['packageconfig_opts'] == 'yes':
++                    rvalues[pn]['packageconfig_opts'] = OrderedDict()
++                    for key in rd.getVarFlags('PACKAGECONFIG').keys():
++                        if key == 'doc':
++                            continue
++                        rvalues[pn]['packageconfig_opts'][key] = rd.getVarFlag('PACKAGECONFIG', key, True)
++
++                if config['patches'] == 'yes':
++                    patches = oe.recipeutils.get_recipe_patches(rd)
++                    rvalues[pn]['patches'] = []
++                    if patches:
++                        recipeoutdir = os.path.join(tmpoutdir, pn, 'patches')
++                        bb.utils.mkdirhier(recipeoutdir)
++                        for patch in patches:
++                            # Patches may be in other layers too
++                            patchlayerdir = oe.recipeutils.find_layerdir(patch)
++                            # patchlayerdir will be None for remote patches, which we ignore
++                            # (since currently they are considered as part of sources)
++                            if patchlayerdir:
++                                rvalues[pn]['patches'].append((os.path.basename(patchlayerdir), os.path.relpath(patch, patchlayerdir)))
++                                shutil.copy(patch, recipeoutdir)
++
++                if config['packagedir'] == 'yes':
++                    pn_dir = os.path.join(tmpoutdir, pn)
++                    bb.utils.mkdirhier(pn_dir)
++                    f = open(os.path.join(pn_dir, 'recipe.json'), 'w')
++                    json.dump(rvalues[pn], f, indent=2)
++                    f.close()
++
++            with open(os.path.join(tmpoutdir, 'recipes.json'), 'w') as f:
++                json.dump(rvalues, f, indent=2)
++
++            if args.output:
++                outname = os.path.basename(args.output)
++            else:
++                outname = os.path.splitext(os.path.basename(args.manifest))[0]
++            if outname.endswith('.tar.gz'):
++                outname = outname[:-7]
++            elif outname.endswith('.tgz'):
++                outname = outname[:-4]
++
++            tarfn = outname
++            if tarfn.endswith(os.sep):
++                tarfn = tarfn[:-1]
++            if not tarfn.endswith(('.tar.gz', '.tgz')):
++                tarfn += '.tar.gz'
++            with open(tarfn, 'wb') as f:
++                with tarfile.open(None, "w:gz", f) as tar:
++                    tar.add(tmpoutdir, outname)
++        finally:
++            shutil.rmtree(tmpoutdir)
++
++
++def main():
++    parser = argparse_oe.ArgumentParser(description="Image manifest utility",
++                                        epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
++    parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
++    parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
++    subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
++    subparsers.required = True
++
++    # get recipe info
++    parser_get_recipes = subparsers.add_parser('recipe-info',
++                                          help='Get recipe info',
++                                          description='Get recipe information for a package')
++    parser_get_recipes.add_argument('package', help='Package name')
++    parser_get_recipes.set_defaults(func=get_recipe)
++
++    # list runtime dependencies
++    parser_pkg_dep = subparsers.add_parser('list-depends',
++                                          help='List dependencies',
++                                          description='List dependencies required to build the package')
++    parser_pkg_dep.add_argument('--native', help='also print native  and cross packages', action='store_true')
++    parser_pkg_dep.add_argument('package', help='Package name')
++    parser_pkg_dep.set_defaults(func=pkg_dependencies)
++
++    # list recipes
++    parser_recipes = subparsers.add_parser('list-recipes',
++                                          help='List recipes producing packages within an image',
++                                          description='Lists recipes producing the packages that went into an image, using the manifest and pkgdata')
++    parser_recipes.add_argument('manifest', help='Manifest file')
++    parser_recipes.set_defaults(func=list_recipes)
++
++    # list packages
++    parser_packages = subparsers.add_parser('list-packages',
++                                          help='List packages within an image',
++                                          description='Lists packages that went into an image, using the manifest')
++    parser_packages.add_argument('manifest', help='Manifest file')
++    parser_packages.set_defaults(func=list_packages)
++
++    # list layers
++    parser_layers = subparsers.add_parser('list-layers',
++                                          help='List included layers',
++                                          description='Lists included layers')
++    parser_layers.add_argument('-o', '--output', help='Output file - defaults to stdout if not specified',
++                                default=sys.stdout, type=argparse.FileType('w'))
++    parser_layers.set_defaults(func=list_layers)
++
++    # dump default configuration file
++    parser_dconfig = subparsers.add_parser('dump-config',
++                                          help='Dump default config',
++                                          description='Dump default config to default_config.json')
++    parser_dconfig.set_defaults(func=dump_config)
++
++    # export recipe info for packages in manifest
++    parser_export = subparsers.add_parser('manifest-info',
++                                          help='Export recipe info for a manifest',
++                                          description='Export recipe information using the manifest')
++    parser_export.add_argument('-c', '--config', help='load config from json file')
++    parser_export.add_argument('-o', '--output', help='Output file (tarball) - defaults to manifest name if not specified')
++    parser_export.add_argument('manifest', help='Manifest file')
++    parser_export.set_defaults(func=export_manifest_info)
++
++    args = parser.parse_args()
++
++    if args.debug:
++        logger.setLevel(logging.DEBUG)
++        logger.debug("Debug Enabled")
++    elif args.quiet:
++        logger.setLevel(logging.ERROR)
++
++    ret = args.func(args)
++
++    return ret
++
++
++if __name__ == "__main__":
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc()
++    sys.exit(ret)
+-- 
+2.31.1
+
