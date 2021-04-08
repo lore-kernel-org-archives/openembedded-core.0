@@ -1,82 +1,136 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.9666.1617894615240231636
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.57.1617897703399604215
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 08:10:15 -0700
+ Thu, 08 Apr 2021 09:01:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=U8+cQL8e;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.52, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f52.google.com with SMTP id a12so2491414wrq.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 08:10:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qa0rIAxu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id r12so3941640ejr.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uitUOYId7m1XjEn+oiG3rN+mjf5KxvUCvO7QIS7HcfQ=;
-        b=U8+cQL8e9EHDK4AJ24OsMUBAmf5wteJUZ8gvngf0Bg99nPC9fdxel1JIA5qVdkfR8H
-         /tmcoW/paRCM+tnyjEdMoGHOtDGNoF/Qj3N1R7Ow0BCSjB4+fV7qfs9//EaFLEZ2YLS2
-         E8xHtVFSf0iiBSe0W9ETI2SnSwQBCh5XwO+MD/oWZwE9wacPUCG4GVwHhSMIS8HfcWZ4
-         D+Cu5+ZnG/gpa0tTRwG05guEq3Ku96niT/RJ3b3nxMeOeLo7zsg1IEj74MtW3ZfCKEL5
-         6YrfGYZNySjj3otaMr3qDTpwHDUY2aGBuu/n8frsLp7Sl68r81d3bOU7jsKqwpXE3wDF
-         CirA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vmYJ061AeOkcFSTyJ9X941UvpAlZmVL74wwYdh7xFqM=;
+        b=Qa0rIAxuPMvNg62OY5RbG+Lc5niiYoYeyYq5fsO2bakXfjPOPCcpmApqNb1LnB7HCV
+         ytJIttgTviFJHCAnaI9XZA79Glnw9payT2BPB3rGH9I6hQxjlmd0qQ7DNfW26atJXfrZ
+         tKpAPE8vpX1Y3PrG1/RuU8rvvFrZfVdyFhRhyMPtfTO9zql90/zsZomWWO2lOVrsRmLy
+         P2KVuTNvhFdcuDuIq8Nv79BHfg5Q3c8GvQd19h8w72H4fPtAVUBR2BC3aTySw8MnCn3a
+         WFskpigM6AZgAj324S1v7gPNIaPCr3puQarfPSESuzZZ7HA15IGEuHTW+LzL3B4qMBAt
+         NlyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uitUOYId7m1XjEn+oiG3rN+mjf5KxvUCvO7QIS7HcfQ=;
-        b=pvzXOdgNKsdPeUEkwQZ79Bpqcf2DWybZUmRBjcgbCVHtVXSREiw7Cir6eXZRGq7SRU
-         9sQEUWrYfRaebG+sfybzbqs8WAONxuxdZokvMjPVcDcFSi6BCVI8VfQak2pplCf2cCO2
-         ieC/ZxDB0GHz/uJdR4EeWwaCrT928iEZ1mXaANuECV695mzQACSiqFCS1DwZMZ3X+H+h
-         02G9uFuWCBXSxolX24ViE/h5sT5ECOIN6F3qVEwVk3Du4gjbXUUhS0Zyr574i+m9feRo
-         70HjNkof/9sY4wFUUeFkp4CVnfQ7hbU7twHXkG16e60FNiP+BXnJeORVc3E1LU4iCWCJ
-         NIQQ==
-X-Gm-Message-State: AOAM531Is4GThdKGHURTvh1QJ1yv2G7/tk8DItaKjBOUZ/IiJdlN4P+O
-	RG79vssRXHokL9EzQvjnDUKdWk7MIDlqcSNhUDQenQ==
-X-Google-Smtp-Source: ABdhPJwHQm6hRcgmUMvn7zXywAb1TANvN+JLNYE6K5gl21raHGzGwoA/5pN556rqoR6WCyawtfnGA5HX5sz4NZZ25Lo=
-X-Received: by 2002:adf:f98c:: with SMTP id f12mr9903361wrr.329.1617894613741;
- Thu, 08 Apr 2021 08:10:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vmYJ061AeOkcFSTyJ9X941UvpAlZmVL74wwYdh7xFqM=;
+        b=mDPkWkvmWt6a08SOR5EsoY4+PI3oW2VChg3Bk3ar/6cs9jwmvvCPm088ED8+ZlmIrV
+         JAtFpsv3BRVsURYwtNE2HhPstyhAMnBP9pHvJezI+WM1aphZKq6Xy2CO9e7gFsoCWL1L
+         8kgZOXLDOMpkQrRnFgQPfvcxgLJ0GFUF1ioAJ9pm+6NSd077cn22Gv2E8Q50OKI8dYFG
+         rh6tdHnlDG/8b+u/VMPJrw28rbETp1kbGsjMmtc2TF6pKFT8TgvjwcuRoNm3dLF1uVJ/
+         A69TFOhrSSck5MOPPefxspmO/ta1LBavqhYjDjpd4sdblAqNf9laUmIRpvXusQdabO/L
+         h+Zg==
+X-Gm-Message-State: AOAM530lcXslcR0XmVvPaFy7rbN+ynBe/kM/2Fw4ac2mJRsLL4cRTTRP
+	u9RHVTX/Krtf6KvMHAgaGyYClmsSM40=
+X-Google-Smtp-Source: ABdhPJyRSh/esaj/xH2TOf+FGvvIBJZw3SL3tEJMyXpoCVZF6q5qZGGxE2gM4E8v61Cc/oiEdTRvFg==
+X-Received: by 2002:a17:906:714a:: with SMTP id z10mr11277243ejj.455.1617897701752;
+        Thu, 08 Apr 2021 09:01:41 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id c19sm1629973edv.49.2021.04.08.09.01.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 09:01:41 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: anibal.limon@linaro.org,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [gatesgarth][PATCH] binutils: backport fix for gold with theads enabled from 2.36.0
+Date: Thu,  8 Apr 2021 18:01:38 +0200
+Message-Id: <20210408160138.240195-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210407141903.12612-1-anibal.limon@linaro.org>
-In-Reply-To: <20210407141903.12612-1-anibal.limon@linaro.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 8 Apr 2021 05:10:01 -1000
-Message-ID: <CAOSpxdYjjhcKO12YE_xQFQxWLDqDiqZoAMeDP2WGdqpuPJ9k8g@mail.gmail.com>
-Subject: Re: [dunfell][PATCH] build-appliance-image: Update to master head revision
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Richard typically updates build-appliance-image SRCREV as part of the
-release process.  So this will happen in dunfell as part of the 3.1.7
-release process in the next week or so.
+* building chromium with gold and threads triggers this issue:
+  [1/2] SOLINK ./libcbe.so
+  FAILED: libcbe.so libcbe.so.TOC
+  python "../../git/src/build/toolchain/gcc_solink_wrapper.py" --readelf="readelf" --nm="nm" --sofile="./libcbe.so" --tocfile="./libcbe.so.TOC" --output="./libcbe.so" -- i686-oe-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=chromium/84.0.4147.89-4-r41.1/recipe-sysroot -shared -Wl,-soname="libcbe.so" -fPIC -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,-z,defs -Wl,--as-needed -fuse-ld=gold -Wl,--threads -Wl,--thread-count=4 -m32 -Wl,-O2 -Wl,--gc-sections -rdynamic --sysroot=../../recipe-sysroot -L../../recipe-sysroot/lib -L../../recipe-sysroot/usr/lib -Lchromium/84.0.4147.89-4-r41.1/recipe-sysroot -o "./libcbe.so" @"./libcbe.so.rsp"
+  collect2: fatal error: ld terminated with signal 11 [Segmentation fault]
+  compilation terminated.
 
-Steve
+* removing threads/thread-count is one possible work around, but then
+  the use of gold for performance makes even less sense, that's why
+  chromium from meta-browser uses LLD by default:
+  https://github.com/OSSystems/meta-browser/commit/15228b01903d4ca801916e55c7618fa5a71019b7
+  https://lld.llvm.org/#performance
+  but lets backport this as other recipes might also reproduce this
+  issue
 
-On Wed, Apr 7, 2021 at 4:19 AM An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.=
-org> wrote:
->
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/m=
-eta/recipes-core/images/build-appliance-image_15.0.0.bb
-> index 925235db60..1aeb952db2 100644
-> --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> @@ -24,7 +24,7 @@ IMAGE_FSTYPES =3D "wic.vmdk wic.vhd wic.vhdx"
->
->  inherit core-image setuptools3
->
-> -SRCREV ?=3D "c6483187f96c6d21b7129ad78de3ff976fbe5970"
-> +SRCREV ?=3D "42514ade8bdb9502f49a56752561f6c2e9f23348"
->  SRC_URI =3D "git://git.yoctoproject.org/poky \
->             file://Yocto_Build_Appliance.vmx \
->             file://Yocto_Build_Appliance.vmxf \
-> --
-> 2.31.0
->
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../binutils/binutils-2.35.1.inc              |  1 +
+ ..._counts_lock-is-initialized-before-u.patch | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.35.1.inc b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
+index 775af2b8f2..6290d5b191 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.35.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
+@@ -44,5 +44,6 @@ SRC_URI = "\
+      file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
+      file://0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patch \
+      file://CVE-2020-35448.patch \
++     file://0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+new file mode 100644
+index 0000000000..f46415f440
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+@@ -0,0 +1,41 @@
++From de24fc96bf24fca470a9ca13176ad9ad9cc4d5a9 Mon Sep 17 00:00:00 2001
++From: Nick Gasson <nick.gasson@arm.com>
++Date: Mon, 2 Nov 2020 12:02:05 +0800
++Subject: [PATCH] gold: ensure file_counts_lock is initialized before using
++
++Since upgrading to binutils 2.35 I've been experiencing random memory
++corruption related crashes with ld.gold --threads. It's caused by
++multiple threads concurrently pushing elements onto the shared
++std::vector in File_read::record_file_read(). This vector is supposed to
++be protected by file_counts_lock, but that is initialized lazily and
++might be NULL when File_read::open() is called, in which case
++Hold_optional_lock silently skips locking it.
++
++Fix by calling the initialize() method before attempting to acquire the
++lock, the same as other places that use file_counts_lock.
++
++	PR 26827
++	* fileread.cc (File_read::open): Ensure file_counts_lock is
++	initialized.
++	* testsuite/Makefile.am (check_PROGRAMS): Add a test that passes
++	-Wl,--threads.
++	* testsuite/Makefile.in: Regenerate.
++
++Upstream-Status: Backport [af61e84fd2d from 2.36.0]
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ gold/fileread.cc | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/gold/fileread.cc b/gold/fileread.cc
++index f5ca719360d..0b5228e2afd 100644
++--- a/gold/fileread.cc
+++++ b/gold/fileread.cc
++@@ -212,6 +212,7 @@ File_read::open(const Task* task, const std::string& name)
++       gold_debug(DEBUG_FILES, "Attempt to open %s succeeded",
++ 		 this->name_.c_str());
++       this->token_.add_writer(task);
+++      file_counts_initialize_lock.initialize();
++       Hold_optional_lock hl(file_counts_lock);
++       record_file_read(this->name_);
++     }
+-- 
+2.30.2
+
