@@ -1,98 +1,103 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web08.6054.1617877827411004014
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.7470.1617886655539161897
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 03:30:28 -0700
+ Thu, 08 Apr 2021 05:57:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bytesatwork-ch.20150623.gappssmtp.com header.s=20150623 header.b=urUmYhTW;
- spf=pass (domain: bytesatwork.ch, ip: 209.85.128.49, mailfrom: daniel.ammann@bytesatwork.ch)
-Received: by mail-wm1-f49.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so964465wmj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 03:30:27 -0700 (PDT)
+ dkim=pass header.i=@hyprua-org.20150623.gappssmtp.com header.s=20150623 header.b=gWB8cp2h;
+ spf=none, err=SPF record not found (domain: hyprua.org, ip: 209.85.221.42, mailfrom: mathieu.dubois-briand@hyprua.org)
+Received: by mail-wr1-f42.google.com with SMTP id e12so2026229wro.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 05:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytesatwork-ch.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        d=hyprua-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xcrJ2FYGJSytN5L9f1ZU4bu/n6FMH0ritk8P1Ek8aAg=;
-        b=urUmYhTWmgtK+UnVtTgNs7tV3hR/Lt6xvqcNS+xe99Pf8a2Gl7m8MNXPsHkUvvmBvh
-         KpaMNE5u5yvx5sueGQGfbi9CAuGbeopyVPKHPk8L/G7FpI3dGg3vJCmy5Yk2zxk0e19f
-         Wvoti43F6HcuK1AKX4NSiGoNvoIsMpcJ6+TU2gc9+koMH2c0W0o2zOmuEJIWSlP0sgvl
-         vjTz48DhO1uZw5dHzqM8BPErLMfncml7WU7zLjz/OR1KQiAGOee5SSyTWAqJujFMt0nF
-         O4xPEd68uFNIFTmGK653xxoAAn+j8/zqKImleTDzZQ5VBPEMoqaBqC8zQHl5UbwYTqba
-         brSA==
+        bh=NAB2mdYqcTorZbGrGCg/kpBoThuTxte1NCeyZz2XZlg=;
+        b=gWB8cp2hq8vln+J31QwZVNyYI/Gvsrw7Gz5uJCM+peR/jnjSfrm3mkXWV/0HjXCQy5
+         K/9zIcaZXuruix5DoYj8I++IDPBs9qgaZ7leWpOK13FhcYwoMQiC53Z9n452e3docc/4
+         +0YlYbPq0NbBNfF3TenxGxKpsHV4PpSZy4YnZ3ZKuREKGc1O1DI8KauYcTYceSbaWY0M
+         Zop2BD7/Sll5o3fkSIb8NtTQvzuQbFYI6iUchl9vCFnqW7VgQDl0unwomtFegXwgTk3H
+         aoPkUTl26O/Lt+l/kMplQocDl+RzogazbH2GOXyuI2JVWahksDc304vAHI8+1L3OtMYA
+         yB8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xcrJ2FYGJSytN5L9f1ZU4bu/n6FMH0ritk8P1Ek8aAg=;
-        b=JR4emBcPm6n2vB1oleBukkkpm7JQluIVoHI7phYXGOAE4VkqyZhLa6YL1clAikgDtZ
-         WaXuqXFSMdSFh22MthDXaoTAPK6Wyq1n4+mINCbRhklhBARuRPi2/uMYDqBLfI2ozIbk
-         ++uhDnWLvxRDed0LKXFZAqpyhKWLh17iv2+ANOWTrht0/Ek08fdKRQBa7U9HAFoddjL8
-         C9YHhCgELqvDU4TExz8haNmPEZ5banPgC5Tvy4xJFHpir4TFHah7F/Mn3GKVPq/VnZgz
-         WtPtrmjCAEqMmxZKsVOi7yoV/HpU9fI3hg4Lb92nsGo7thXc1hoS0/PubU4uFnTtjjLG
-         KlFw==
-X-Gm-Message-State: AOAM531vgsYKwVP86TveykRuEEJ6H5Kv9REwJqiuFBeYlGe4l/P0TbJV
-	PtkOmpU9eJiQx99q0J0N+w4Tu2GVzAoG1iIO
-X-Google-Smtp-Source: ABdhPJyY+Oam8VgkkCf3Dxv0+Vr0A8GNXdlsfC78FtU3AWcdnEJHMA2fL2J5VwS4X7qWp/yJUkbvEQ==
-X-Received: by 2002:a05:600c:219a:: with SMTP id e26mr1347486wme.64.1617877825826;
-        Thu, 08 Apr 2021 03:30:25 -0700 (PDT)
-Return-Path: <daniel.ammann@bytesatwork.ch>
-Received: from mimas.bytesatwork.ch (162.40.150.83.ftth.as8758.net. [83.150.40.162])
-        by smtp.gmail.com with ESMTPSA id 7sm7867124wry.60.2021.04.08.03.30.25
+        bh=NAB2mdYqcTorZbGrGCg/kpBoThuTxte1NCeyZz2XZlg=;
+        b=aN4lqL8isfPzfITawwx8zdC6OkJZ7wCY4PnNgF8nH/k4mUUxJxbh5qBNchJPTZCxlu
+         b6kD9YdHSENX/zOeOo5D7KM59hAu7tXKwWoROnMZhlapl58+4hkZy4v7tvSFv/3j9B1u
+         3/tvuPfyoKUF+anHLv1YYf0zeAHnjtCXjR7S0PxyIY2fdxfdzgVI/P+aISQDXg5X56Xt
+         YO6BMrSI/tdHTwCdT4XbdOc4UXwIW127tR1vngavk0O8zgw/nXFo3TfU8LPrhpDiq1vO
+         7fV4ptn1PLtA024TXNh/GWIwaL79AtCBDJk3uW5kzQhMbrYgajH78DyfBAB2tSkdAij+
+         z42w==
+X-Gm-Message-State: AOAM530dcJGNIAR4KqpTEXPZ5lWeZrJLfb7t6ZqOYz4PJS7d8a69Ioq1
+	3fIKR9s0mGleHiKSJJkdGyC+A6Vz4+hK4BQy
+X-Google-Smtp-Source: ABdhPJzoTngaTgAOsR+QC/J8uL5pnJ4c4v18nq8eq7AhdyXRGSQbccNjcwlxl7OyXNqRFO/c+KYswg==
+X-Received: by 2002:adf:f58b:: with SMTP id f11mr11197815wro.322.1617886653659;
+        Thu, 08 Apr 2021 05:57:33 -0700 (PDT)
+Return-Path: <mathieu.dubois-briand@hyprua.org>
+Received: from WIPC17090108.witekio.dom ([2a01:e0a:4b9:9060:e944:e560:9cfe:1967])
+        by smtp.gmail.com with ESMTPSA id y10sm17375267wrp.31.2021.04.08.05.57.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 03:30:25 -0700 (PDT)
-From: "Daniel Ammann" <daniel.ammann@bytesatwork.ch>
+        Thu, 08 Apr 2021 05:57:33 -0700 (PDT)
+From: mathieu.dubois-briand@hyprua.org
+X-Google-Original-From: Mathieu Dubois-Briand <mbriand@witekio.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] archiver: Fix typos
-Date: Thu,  8 Apr 2021 12:30:11 +0200
-Message-Id: <20210408103012.2313-1-daniel.ammann@bytesatwork.ch>
-X-Mailer: git-send-email 2.20.1
+Cc: Mathieu Dubois-Briand <mbriand@witekio.com>
+Subject: [PATCH] e2fsprogs: use default inode size for small fs
+Date: Thu,  8 Apr 2021 14:57:21 +0200
+Message-Id: <20210408125721.3524723-1-mbriand@witekio.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Daniel Ammann <daniel.ammann@bytesatwork.ch>
----
- meta/classes/archiver.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Patch e2fsprogs configuration file so the default inode size when
+formatting a "small" partition (less than 512MB) is the global default
+size (256 bytes) and not a specific value (128 bytes).
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 858507b343..a3962306b1 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -118,7 +118,7 @@ python () {
-         d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_patched' % pn)
-     elif ar_src == "configured":
-         # We can't use "addtask do_ar_configured after do_configure" since it
--        # will cause the deptask of do_populate_sysroot to run not matter what
-+        # will cause the deptask of do_populate_sysroot to run no matter what
-         # archives we need, so we add the depends here.
+Inode size of 128 bytes can only store 32 bits timestamps, forbidding
+dates beyond January 19, 2038. Following warning message can be seen in
+kernel log when mounting such partition in rw mode:
+
+ext4 filesystem being mounted at /mnt supports timestamps until 2038
+(0x7fffffff)
+
+Signed-off-by: Mathieu Dubois-Briand <mbriand@witekio.com>
+---
+ ...se-default-inode-size-for-small-filesystems.patch | 12 ++++++++++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.1.bb  |  1 +
+ 2 files changed, 13 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/use-default-inode-size-for-small-filesystems.patch
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/use-default-inode-size-for-small-filesystems.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/use-default-inode-size-for-small-filesystems.patch
+new file mode 100644
+index 000000000000..97e4b1f9c6e7
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/use-default-inode-size-for-small-filesystems.patch
+@@ -0,0 +1,12 @@
++diff --git c/misc/mke2fs.conf.in w/misc/mke2fs.conf.in
++index 01e35cf83150..29f41dc06df1 100644
++--- c/misc/mke2fs.conf.in
+++++ w/misc/mke2fs.conf.in
++@@ -16,7 +16,6 @@
++ 	}
++ 	small = {
++ 		blocksize = 1024
++-		inode_size = 128
++ 		inode_ratio = 4096
++ 	}
++ 	floppy = {
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.1.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.1.bb
+index be8b67c35d0e..bf62a688f859 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.1.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.1.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
  
-         # There is a corner case with "gcc-source-${PV}" recipes, they don't have
-@@ -163,7 +163,7 @@ python () {
-                 d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:do_ar_configured' % pn)
- }
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
+                                 file://quiet-debugfs.patch \
++                                file://use-default-inode-size-for-small-filesystems.patch \
+ "
  
--# Take all the sources for a recipe and puts them in WORKDIR/archiver-work/.
-+# Take all the sources for a recipe and put them in WORKDIR/archiver-work/.
- # Files in SRC_URI are copied directly, anything that's a directory
- # (e.g. git repositories) is "unpacked" and then put into a tarball.
- python do_ar_original() {
-@@ -463,7 +463,7 @@ python do_unpack_and_patch() {
-     ar_sysroot_native = d.getVar('STAGING_DIR_NATIVE')
-     pn = d.getVar('PN')
  
--    # The kernel class functions require it to be on work-shared, so we dont change WORKDIR
-+    # The kernel class functions require it to be on work-shared, so we don't change WORKDIR
-     if not is_work_shared(d):
-         # Change the WORKDIR to make do_unpack do_patch run in another dir.
-         d.setVar('WORKDIR', ar_workdir)
-@@ -505,7 +505,7 @@ python do_unpack_and_patch() {
- # of the output file ensures that we create it each time the recipe
- # gets rebuilt, at least as long as a PR server is used. We also rely
- # on that mechanism to catch changes in the file content, because the
--# file content is not part of of the task signature either.
-+# file content is not part of the task signature either.
- do_ar_recipe[vardepsexclude] += "BBINCLUDED"
- python do_ar_recipe () {
-     """
 -- 
-2.20.1
+2.25.1
 
