@@ -1,52 +1,115 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web09.13156.1617826064247428901
+Received: from smtp0.taitradio.net (smtp0.taitradio.net [202.37.96.22])
+ by mx.groups.io with SMTP id smtpd.web11.1821.1617844517874546980
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Apr 2021 13:07:44 -0700
+ Wed, 07 Apr 2021 18:15:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Bvs5DoDp;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: twoerner@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id e8so20769612iok.5;
-        Wed, 07 Apr 2021 13:07:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=XGaENESI2XfSMzRuu5h2NLMo1s/wV090jzAHbm9+pCA=;
-        b=Bvs5DoDp6A0Qr9deAmndyQ7srmRCUtP5+QKDdQ851tV1eXtda9wRmVk4Nus3yLGWaH
-         2zru3mG5Kjay9NU5kQ6ujXOFwAmlwvL77GiU8ZRfEOYdjLKiUlvBDyjXUooCQ4dxlCN/
-         BgM2rpfwMYqCk+/cVdMePUbVswh77pmRF4h8gilrMa/vvMpozJ6nhSdcUDHLhYIUPj3q
-         oX58YKkW+L+jNXsZ6dbC11vr71YHJsbTK1BnkVDrMKBYMdUjJC2s5v/4V8nKh2Z5QMOM
-         Iwf2I2LHB+fg9fu59vnWv9XuFEUagS2NwO/6Aqo7iWRw02ksLPlTakUXrtQtQNoigwA6
-         +50w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=XGaENESI2XfSMzRuu5h2NLMo1s/wV090jzAHbm9+pCA=;
-        b=un2JjM4F2YwkckzmqIACIiMxhABwu2dpU3e0uFsFiXMswILR9DT4JGtTMxMUclD3p+
-         otY085e2Pi4L9xUfpGcSRiD5UmUsPi3aSA+BCTuYlCrh2fDO1mxqReHneByJZmZNx1QK
-         Uhzv+8iePFQsjGirgS43uN6EAkJFaqkcpYDqYYpdOwPmviweUIZa4FIczexBt55NBiHE
-         OJVDfJCo4EJyu+t//xkk87y1O9cnMmzyNZz6eVRECKRbP1Va7F3pBinXHwCaPt50dOoM
-         znQcuWcvylHCmX15zX8EwWgyZDyMAcZ1+gLC5w5mC8nEC0YIaW6/aXqDHRWdnmZcrqdX
-         2jIA==
-X-Gm-Message-State: AOAM530LhOoPPrrrmfd3Nx+tAF+xsaojmtoGRbrAWj6HlHVLlPVZU6cD
-	JmmkPYdNBk8HjWGA1tn5PGtXeUpPJlxcp/5ZLb8UjCA1/8Q=
-X-Google-Smtp-Source: ABdhPJwI9X9zuhSioe+zRionr9pfVDE12KYBc470b26vJbLb4514izniwr/Cjnxh1kHm2rMwlrzA2A7v/OWFzyMGSLI=
-X-Received: by 2002:a5e:8d09:: with SMTP id m9mr3741279ioj.29.1617826063418;
- Wed, 07 Apr 2021 13:07:43 -0700 (PDT)
+ dkim=missing; spf=pass (domain: taitradio.com, ip: 202.37.96.22, mailfrom: douglas.royds@taitradio.com)
+Received: from acheron.taitradio.net (unknown [172.16.182.87])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 0EAACE07F7;
+	Thu,  8 Apr 2021 13:09:10 +1200 (NZST)
+From: "Douglas" <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Douglas Royds <douglas.royds@taitradio.com>
+Subject: [PATCH 0/2] externalsrc: Detect code changes in submodules
+Date: Thu,  8 Apr 2021 13:08:53 +1200
+Message-Id: <20210408010855.345237-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: "Trevor Woerner" <twoerner@gmail.com>
-Date: Wed, 7 Apr 2021 16:07:31 -0400
-Message-ID: <CAHUNapQ4DGnGBQUOOrVL6ygVqOzoMVkxNEC19FDRk_C8GgteLg@mail.gmail.com>
-Subject: Yocto Project Summit - registration open
-To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	automated-testing@yoctoproject.org, yocto@lists.yoctoproject.org, 
-	yocto-advocacy@yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Registration is now open for the upcoming Yocto Project Summit!!
+Further to 50ff9afb39, only detect code changes in submodules that are
+subdirectories of the EXTERNALSRC directory.
 
-details: https://www.yoctoproject.org/yocto-project-virtual-summit-2021/
-CfP: https://pretalx.com/yocto-project-summit-2021/cfp
-registration: https://www.cvent.com/d/yjq4dr/4W?ct=868bfddd-ca91-46bb-aaa5-62d2b61b2501
+The (undocumented) git submodule--helper returns a path
+for each submodule relative to the top of the repo.
+Don't add submodules that are not within our EXTERNALSRC subtree.
 
-PS: Don't forget to get in your talk proposals! The CfP closes April 25th
+If we unpack one git repo inside another, like this:
+
+    SRC_URI =3D "git://${GIT_SERVER}/repo1;name=3Drepo1;destsuffix=3Drepo=
+1 \
+               git://${GIT_SERVER}/repo2;name=3Drepo2;destsuffix=3Drepo1/=
+repo2 \
+               "
+
+Git status reports, for repo1:
+
+    Untracked files:
+      (use "git add <file>..." to include in what will be committed)
+    	repo2/
+
+If we run `devtool modify` on this recipe, do_patch runs with:
+
+    PATCHTOOL =3D "git"
+    PATCH_COMMIT_FUNCTIONS =3D "1"
+
+The `patch_task_postfunc` (patch.bbclass, line 82) runs a `git add .` on =
+the
+top-level repo1, leaving the checkout in an invalid state. The following =
+git
+warning does not appear in the log:
+
+    $ git add .
+    warning: adding embedded git repository: repo2
+    hint: You've added another git repository inside your current reposit=
+ory.
+    hint: Clones of the outer repository will not contain the contents of
+    hint: the embedded repository and will not know how to obtain it.
+    hint: If you meant to add a submodule, use:
+    hint:
+    hint: 	git submodule add <url> repo2
+    hint:
+    hint: If you added this path by mistake, you can remove it from the
+    hint: index with:
+    hint:
+    hint: 	git rm --cached repo2
+    hint:
+    hint: See "git help submodule" for more information.
+
+    $ git submodule status
+    fatal: no submodule mapping found in .gitmodules for path 'repo2'
+
+No further git submodule commands can be run on the checkout.
+
+We could enhance the `patch_task_postfunc` to look for any embedded git
+checkouts and add them as submodules, but this seems unnecessary complexi=
+ty for
+an obscure edge-case. Although the git repo is left in an invalid state w=
+ith
+respect to the submodules, it still serves the purpose required by devtoo=
+l:
+To take further commits, and generate patch files from them.
+
+We are still able to run these commands to examine any submodules,
+where git submodule--helper reports paths relative to the top of the chec=
+kout:
+
+    $ git ls-files --stage | grep ^160000
+    160000 5feee12d6e974dd8c0614cf5b593380b046439a5 0   repo2
+
+    $ git submodule--helper list
+    160000 5feee12d6e974dd8c0614cf5b593380b046439a5 0   repo2
+
+When a recipe sets EXTERNALSRC to a subdirectory of the git checkout, we =
+test
+for the existence of the reported submodule paths within the EXTERNALSRC
+directory.
+
+The latest versions of git submodule--helper accept a path to a subdirect=
+ory and
+correctly report no submodules within that subdirectory. Regrettably, we =
+still
+support git versions that don't accept a path to a subdirectory.
+
+[YOCTO #14333]
+
+Douglas Royds (2):
+  Revert "externalsrc: Detect code changes in submodules"
+  externalsrc: Detect code changes in submodules
+
+ meta/classes/externalsrc.bbclass | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+--=20
+2.25.1
+
