@@ -1,71 +1,44 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.5468.1617872670490018455
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web10.6056.1617877042876907806
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 02:04:30 -0700
+ Thu, 08 Apr 2021 03:17:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 13894S3K011347
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Apr 2021 02:04:29 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 8 Apr 2021 02:04:28 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Thu, 8 Apr 2021 02:04:28 -0700
-From: "hongxu" <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] deb: apply postinstall on sdk
-Date: Thu, 8 Apr 2021 02:04:28 -0700
-Message-ID: <20210408090428.78741-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:42352 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1lURiz-005wNP-2x
+	for openembedded-core@lists.openembedded.org; Thu, 08 Apr 2021 06:17:21 -0400
+Date: Thu, 8 Apr 2021 06:17:19 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: is there a standard for pkg_{pre,post}... and appending/prepending?
+Message-ID: <122e62-d2a0-c117-67d5-9a93baca6e8@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-If not postinstall applied, some nativesdk command could not be found
-in sdk due to update-alternatives in postinst not be executed, such as chroot:
 
-$ which chroot
-/sbin/chroot
-$ which chroot.coreutils
-path-to-sdk/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/chroot.coreutils
+  just noticed the following (probably harmless) inconsistency in
+oe-core/meta:
 
-After applying the fix
-$ which chroot
-path-to-sdk/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/chroot
-$ which chroot.coreutils
-path-to-sdk/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/chroot.coreutils
+classes/manpages.bbclass:pkg_postinst_append_${MAN_PKG} () {
+classes/manpages.bbclass:pkg_postrm_append_${MAN_PKG} () {
+recipes-core/dropbear/dropbear.inc:pkg_postrm_append_${PN} () {
+recipes-core/busybox/busybox.inc:pkg_postinst_${PN}_prepend () {
+recipes-core/busybox/busybox.inc:pkg_postinst_${PN}_append () {
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oe/package_manager/deb/sdk.py | 4 ++++
- 1 file changed, 4 insertions(+)
+for consistency, should the package name go before or after?
 
-diff --git a/meta/lib/oe/package_manager/deb/sdk.py b/meta/lib/oe/package_manager/deb/sdk.py
-index 9859d8f32d..f4b0b6510a 100644
---- a/meta/lib/oe/package_manager/deb/sdk.py
-+++ b/meta/lib/oe/package_manager/deb/sdk.py
-@@ -65,6 +65,8 @@ class PkgSdk(Sdk):
- 
-         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
- 
-+        self.target_pm.run_pre_post_installs()
-+
-         self.target_pm.run_intercepts(populate_sdk='target')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
-@@ -78,6 +80,8 @@ class PkgSdk(Sdk):
-         self._populate_sysroot(self.host_pm, self.host_manifest)
-         self.install_locales(self.host_pm)
- 
-+        self.host_pm.run_pre_post_installs()
-+
-         self.host_pm.run_intercepts(populate_sdk='host')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
--- 
-2.27.0
-
+rday
