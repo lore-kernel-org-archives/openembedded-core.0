@@ -1,619 +1,83 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web09.171.1617899540369768130
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web12.161.1617899544504750565
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 09:32:20 -0700
+ Thu, 08 Apr 2021 09:32:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1xvVuhQS;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f42.google.com with SMTP id t23-20020a0568301e37b02901b65ab30024so2881511otr.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=h8VCyV62;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.47, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f47.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso963623otb.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/4hbIM9psXL8Z24pDx8GsW+zttWkG9VL/uSuIb5I5u8=;
-        b=1xvVuhQSyITB7y1D8TNCg3AmeOtCorrzlFpM4FzQYXQwx/WanqnaVJe3r7jVrtFT0U
-         Of74JBKOe7UrXk/lYxC20LEJtBVWP5VEo+/eFSVX5b4AoeAtH9vvn3/Agqm6+4JxMFab
-         01TylLpwzgsqA7U/IYOJT6sFPD5Sk1cucjWTiwsW8Nv+4Yo3s5Wmue6JlCHj0Sd8KIz2
-         9mEtk9TwwBbp0d/4X/DvRLEW6MDNXTSxf8wc1M8FNw4zfScFSvxeGq1KAinilCS9ck8N
-         oiNgiHJA9rhaIxTZ1uNR3miK2mzZVeP8bfx7x8PuOjyGI4Fu/XHAcjPcUg/fxD6Ajswy
-         WehQ==
+        bh=JImC1Lqd/a54etJ3kZtZSceTw09e4ArXM4BsfS2GwFM=;
+        b=h8VCyV62L7Rug9Nm+4TWQ/j2Ikwy0qg7+enQHe+WFey9yryisjIj+OI2BUUFPFwBLG
+         1xUMbkD/9OmyZ3tUPLyAzDDywJgnJpvJvtXfSkNWZdsrUv5WxCMcSs/YJSl7nTlrFdTe
+         7B1m56Ugdj0TGr6SJLqBGfSSKiFu1XHBhC/LhMGeKRBEQ6Ni34hLPMkCxTKiNfje4KtW
+         gskGoyaIzK7sy6t2J2HF9tqrIUljhnOUdmeZYvk/4HCWnHMYPrEjj4AeWW1q8+OF2s9H
+         1UCeirb3jQDfS7B7a2beGEQ13PgyrB5t6JcTzb5XAwib8e4FTmlkrjrBdluRDo4UDMCa
+         yHUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/4hbIM9psXL8Z24pDx8GsW+zttWkG9VL/uSuIb5I5u8=;
-        b=Ry5c2oiFf6S07iWV63x0aolY8LerSuq1gqPUS7ElsFn6yRYWvGo3lFP34XmKb/fQFh
-         F0OgL45WP6IfS/8fa8mE/D3CCKfggA6L9NA/TiqZUXijdqW9VOcpHvBaM62Dr0ubMm3J
-         q4Xhq56qb9Dx+IPANNLDulpzzeDEgrUykD4TNgzsICiq/f7ggbCRF/5NYaeXJHFrv7Ry
-         ho+EeqQZF9NZ/8aJspaFod/5TuTIEw0sVB6BsEn4oUZRWjqa4We+CUh8VnV6Hz5/od0A
-         hrpIqDQrV66aBVSMpgQ0gtWcLpHEe4CqsqHS7pvTndetWOL2zxSjGacTVvHrfF/ZduzA
-         SQFQ==
-X-Gm-Message-State: AOAM533ST2TUhkz84k2EAl8It4o2P88KTZ0Scltw695adpTzLGq08/ER
-	B5I3ZZRcCBVt5CS+sN5TrSclttWMLC9bmXxMqDo=
-X-Google-Smtp-Source: ABdhPJx9vtUM0jBgH3rWGJYBu7VVni7nb+Tef1M9E9F5/aK8ulQsPCdDOZSXjIRDY6msmlz9xZ0VTQ==
-X-Received: by 2002:a9d:4e1a:: with SMTP id p26mr8249545otf.202.1617899538896;
-        Thu, 08 Apr 2021 09:32:18 -0700 (PDT)
+        bh=JImC1Lqd/a54etJ3kZtZSceTw09e4ArXM4BsfS2GwFM=;
+        b=SXHcWVjHqtWGLXVoa3R3wGg+wnAW1MTo8asDkqhFPxEReo9nb2xvMxdr9A0D3VZ+3f
+         oyaLWpMrY5M5xbOG4UYd9mhojHxi3/S59vZ1gdLRLe4P5vH9UlLZWv6JiSK2FgWLnZdc
+         EFgY9AR3aprEO7r5I9/4eUMbLhjk1icos/2CqvhSLvv2+DNddZF0u+XbVaBgee6Z2DHv
+         s9VWDeyAhWcdoSyDA9tXvywWUMsmeot27xBTO0h9UYcELyCkTClvUDi6/p6Xu6SUXQtF
+         sianS/hv7nGUI7mtHBHdTsNoXO229D5Kfj7daiEHcN8J14P0eJYkjC47JLQyEqAPYJ5T
+         gq2w==
+X-Gm-Message-State: AOAM532ZLVEugmPmAX2Z3v3HhgzKBe9tbK6dOGPRSc1Ka8CqSD74PHkr
+	nEYKzKUym3Sd8aD1H6Lj/MpaQU6pj0hihOD/h34=
+X-Google-Smtp-Source: ABdhPJx/VKSsaX6EDzghfTbELnzwWRlvhisGWgy4UOeCzt1JiudxFQGVTb6Oro3oNda6KdYq1r+6gw==
+X-Received: by 2002:a9d:37b4:: with SMTP id x49mr8371466otb.237.1617899543282;
+        Thu, 08 Apr 2021 09:32:23 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.15
+        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 09:32:18 -0700 (PDT)
+        Thu, 08 Apr 2021 09:32:22 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/11] curl: Patch CVE-2021-22876 & CVE-2021-22890
-Date: Thu,  8 Apr 2021 06:31:08 -1000
-Message-Id: <46e6ca4291045d4694537a26c9b8185313cfd64e.1617899121.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/11] image-live.bbclass: optional depends when ROOTFS empty
+Date: Thu,  8 Apr 2021 06:31:09 -1000
+Message-Id: <612ec1a471695638e0bf3f6b68d40522843ab188.1617899121.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617899121.git.steve@sakoman.com>
 References: <cover.1617899121.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mike Crowe <mac@mcrowe.com>
+From: Guillaume Champagne <champagne.guillaume.c@gmail.com>
 
-Take patches from Ubuntu 20.04 7.68.0-1ubuntu2.5, which is close enough
-that they apply without conflicts.
+`ROOTFS` is optional. It can be empty if the live image doesn't require
+a rootfs.  In such cases, the build doesn't depend on
+`do_image_{LIVE_ROOTFS_TYPE}`.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 96f47c39f1d17f073243913d524bde84add41d8f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/CVE-2021-22876.patch            |  59 +++
- .../curl/curl/CVE-2021-22890.patch            | 464 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
- 3 files changed, 525 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22876.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22890.patch
+ meta/classes/image-live.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2021-22876.patch b/meta/recipes-support/curl/curl/CVE-2021-22876.patch
-new file mode 100644
-index 0000000000..fc396aabef
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2021-22876.patch
-@@ -0,0 +1,59 @@
-+transfer: strip credentials from the auto-referer header field
-+
-+CVE-2021-22876
-+
-+Patch taken from Ubuntu curl 7.68.0-1ubuntu2.5.
-+
-+Bug: https://curl.se/docs/CVE-2021-22876.html
-+Upstream-Status: backport
-+---
-+ lib/transfer.c | 25 +++++++++++++++++++++++--
-+ 1 file changed, 23 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index e76834eb3..744e1c00b 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -1570,6 +1570,9 @@ CURLcode Curl_follow(struct Curl_easy *data,
-+       data->set.followlocation++; /* count location-followers */
-+ 
-+       if(data->set.http_auto_referer) {
-++        CURLU *u;
-++        char *referer;
-++
-+         /* We are asked to automatically set the previous URL as the referer
-+            when we get the next URL. We pick the ->url field, which may or may
-+            not be 100% correct */
-+@@ -1579,9 +1582,27 @@ CURLcode Curl_follow(struct Curl_easy *data,
-+           data->change.referer_alloc = FALSE;
-+         }
-+ 
-+-        data->change.referer = strdup(data->change.url);
-+-        if(!data->change.referer)
-++        /* Make a copy of the URL without crenditals and fragment */
-++        u = curl_url();
-++        if(!u)
-++          return CURLE_OUT_OF_MEMORY;
-++
-++        uc = curl_url_set(u, CURLUPART_URL, data->change.url, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_FRAGMENT, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_USER, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_set(u, CURLUPART_PASSWORD, NULL, 0);
-++        if(!uc)
-++          uc = curl_url_get(u, CURLUPART_URL, &referer, 0);
-++
-++        curl_url_cleanup(u);
-++
-++        if(uc || referer == NULL)
-+           return CURLE_OUT_OF_MEMORY;
-++
-++        data->change.referer = referer;
-+         data->change.referer_alloc = TRUE; /* yes, free this later */
-+       }
-+     }
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-support/curl/curl/CVE-2021-22890.patch b/meta/recipes-support/curl/curl/CVE-2021-22890.patch
-new file mode 100644
-index 0000000000..8c0ecbfe7f
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2021-22890.patch
-@@ -0,0 +1,464 @@
-+vtls: add 'isproxy' argument to Curl_ssl_get/addsessionid()
-+
-+To make sure we set and extract the correct session.
-+
-+Patch taken from Ubuntu curl 7.68.0-1ubuntu2.5.
-+
-+CVE-2021-22890
-+
-+Reported-by: Mingtao Yang
-+Bug: https://curl.se/docs/CVE-2021-22890.html
-+Upstream-Status: backport
-+---
-+ lib/vtls/bearssl.c   |  9 +++++---
-+ lib/vtls/gtls.c      |  9 +++++---
-+ lib/vtls/mbedtls.c   |  8 ++++---
-+ lib/vtls/mesalink.c  |  9 +++++---
-+ lib/vtls/openssl.c   | 52 ++++++++++++++++++++++++++++++++++----------
-+ lib/vtls/schannel.c  | 10 +++++----
-+ lib/vtls/sectransp.c |  9 ++++----
-+ lib/vtls/vtls.c      |  9 ++++++--
-+ lib/vtls/vtls.h      |  2 ++
-+ lib/vtls/wolfssl.c   |  8 ++++---
-+ 10 files changed, 88 insertions(+), 37 deletions(-)
-+
-+diff --git a/lib/vtls/bearssl.c b/lib/vtls/bearssl.c
-+index 67f945831..32cb0a4c2 100644
-+--- a/lib/vtls/bearssl.c
-++++ b/lib/vtls/bearssl.c
-+@@ -372,7 +372,8 @@ static CURLcode bearssl_connect_step1(struct connectdata *conn, int sockindex)
-+     void *session;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &session, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &session, NULL, sockindex)) {
-+       br_ssl_engine_set_session_parameters(&BACKEND->ctx.eng, session);
-+       infof(data, "BearSSL: re-using session ID\n");
-+     }
-+@@ -560,10 +561,12 @@ static CURLcode bearssl_connect_step3(struct connectdata *conn, int sockindex)
-+       return CURLE_OUT_OF_MEMORY;
-+     br_ssl_engine_get_session_parameters(&BACKEND->ctx.eng, session);
-+     Curl_ssl_sessionid_lock(conn);
-+-    incache = !(Curl_ssl_getsessionid(conn, &oldsession, NULL, sockindex));
-++    incache = !(Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                                      &oldsession, NULL, sockindex));
-+     if(incache)
-+       Curl_ssl_delsessionid(conn, oldsession);
-+-    ret = Curl_ssl_addsessionid(conn, session, 0, sockindex);
-++    ret = Curl_ssl_addsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                                session, 0, sockindex);
-+     Curl_ssl_sessionid_unlock(conn);
-+     if(ret) {
-+       free(session);
-+diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
-+index 5f740eeba..46e149c7d 100644
-+--- a/lib/vtls/gtls.c
-++++ b/lib/vtls/gtls.c
-+@@ -937,7 +937,8 @@ gtls_connect_step1(struct connectdata *conn,
-+     size_t ssl_idsize;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &ssl_sessionid, &ssl_idsize, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &ssl_sessionid, &ssl_idsize, sockindex)) {
-+       /* we got a session id, use it! */
-+       gnutls_session_set_data(session, ssl_sessionid, ssl_idsize);
-+ 
-+@@ -1485,7 +1486,8 @@ gtls_connect_step3(struct connectdata *conn,
-+       gnutls_session_get_data(session, connect_sessionid, &connect_idsize);
-+ 
-+       Curl_ssl_sessionid_lock(conn);
-+-      incache = !(Curl_ssl_getsessionid(conn, &ssl_sessionid, NULL,
-++      incache = !(Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                                        &ssl_sessionid, NULL,
-+                                         sockindex));
-+       if(incache) {
-+         /* there was one before in the cache, so instead of risking that the
-+@@ -1494,7 +1496,8 @@ gtls_connect_step3(struct connectdata *conn,
-+       }
-+ 
-+       /* store this session id */
-+-      result = Curl_ssl_addsessionid(conn, connect_sessionid, connect_idsize,
-++      result = Curl_ssl_addsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                                     connect_sessionid, connect_idsize,
-+                                      sockindex);
-+       Curl_ssl_sessionid_unlock(conn);
-+       if(result) {
-+diff --git a/lib/vtls/mbedtls.c b/lib/vtls/mbedtls.c
-+index f057315f3..19df8478e 100644
-+--- a/lib/vtls/mbedtls.c
-++++ b/lib/vtls/mbedtls.c
-+@@ -453,7 +453,8 @@ mbed_connect_step1(struct connectdata *conn,
-+     void *old_session = NULL;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &old_session, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &old_session, NULL, sockindex)) {
-+       ret = mbedtls_ssl_set_session(&BACKEND->ssl, old_session);
-+       if(ret) {
-+         Curl_ssl_sessionid_unlock(conn);
-+@@ -709,6 +710,7 @@ mbed_connect_step3(struct connectdata *conn,
-+     int ret;
-+     mbedtls_ssl_session *our_ssl_sessionid;
-+     void *old_ssl_sessionid = NULL;
-++    bool isproxy = SSL_IS_PROXY() ? TRUE : FALSE;
-+ 
-+     our_ssl_sessionid = malloc(sizeof(mbedtls_ssl_session));
-+     if(!our_ssl_sessionid)
-+@@ -727,10 +729,10 @@ mbed_connect_step3(struct connectdata *conn,
-+ 
-+     /* If there's already a matching session in the cache, delete it */
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &old_ssl_sessionid, NULL, sockindex))
-++    if(!Curl_ssl_getsessionid(conn, isproxy, &old_ssl_sessionid, NULL, sockindex))
-+       Curl_ssl_delsessionid(conn, old_ssl_sessionid);
-+ 
-+-    retcode = Curl_ssl_addsessionid(conn, our_ssl_sessionid, 0, sockindex);
-++    retcode = Curl_ssl_addsessionid(conn, isproxy, our_ssl_sessionid, 0, sockindex);
-+     Curl_ssl_sessionid_unlock(conn);
-+     if(retcode) {
-+       mbedtls_ssl_session_free(our_ssl_sessionid);
-+diff --git a/lib/vtls/mesalink.c b/lib/vtls/mesalink.c
-+index cab1e390b..79d1e3dfa 100644
-+--- a/lib/vtls/mesalink.c
-++++ b/lib/vtls/mesalink.c
-+@@ -263,7 +263,8 @@ mesalink_connect_step1(struct connectdata *conn, int sockindex)
-+     void *ssl_sessionid = NULL;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &ssl_sessionid, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &ssl_sessionid, NULL, sockindex)) {
-+       /* we got a session id, use it! */
-+       if(!SSL_set_session(BACKEND->handle, ssl_sessionid)) {
-+         Curl_ssl_sessionid_unlock(conn);
-+@@ -347,12 +348,14 @@ mesalink_connect_step3(struct connectdata *conn, int sockindex)
-+     bool incache;
-+     SSL_SESSION *our_ssl_sessionid;
-+     void *old_ssl_sessionid = NULL;
-++    bool inproxy = SSL_IS_PROXY() ? TRUE : FALSE;
-+ 
-+     our_ssl_sessionid = SSL_get_session(BACKEND->handle);
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+     incache =
-+-      !(Curl_ssl_getsessionid(conn, &old_ssl_sessionid, NULL, sockindex));
-++      !(Curl_ssl_getsessionid(conn, isproxy, &old_ssl_sessionid,
-++                              NULL, sockindex));
-+     if(incache) {
-+       if(old_ssl_sessionid != our_ssl_sessionid) {
-+         infof(data, "old SSL session ID is stale, removing\n");
-+@@ -363,7 +366,7 @@ mesalink_connect_step3(struct connectdata *conn, int sockindex)
-+ 
-+     if(!incache) {
-+       result = Curl_ssl_addsessionid(
-+-        conn, our_ssl_sessionid, 0 /* unknown size */, sockindex);
-++        conn, isproxy, our_ssl_sessionid, 0 /* unknown size */, sockindex);
-+       if(result) {
-+         Curl_ssl_sessionid_unlock(conn);
-+         failf(data, "failed to store ssl session");
-+diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-+index 1d09cadca..64f43605a 100644
-+--- a/lib/vtls/openssl.c
-++++ b/lib/vtls/openssl.c
-+@@ -422,12 +422,23 @@ static int ossl_get_ssl_conn_index(void)
-+  */
-+ static int ossl_get_ssl_sockindex_index(void)
-+ {
-+-  static int ssl_ex_data_sockindex_index = -1;
-+-  if(ssl_ex_data_sockindex_index < 0) {
-+-    ssl_ex_data_sockindex_index = SSL_get_ex_new_index(0, NULL, NULL, NULL,
-+-        NULL);
-++  static int sockindex_index = -1;
-++  if(sockindex_index < 0) {
-++    sockindex_index = SSL_get_ex_new_index(0, NULL, NULL, NULL, NULL);
-+   }
-+-  return ssl_ex_data_sockindex_index;
-++  return sockindex_index;
-++}
-++
-++/* Return an extra data index for proxy boolean.
-++ * This index can be used with SSL_get_ex_data() and SSL_set_ex_data().
-++ */
-++static int ossl_get_proxy_index(void)
-++{
-++  static int proxy_index = -1;
-++  if(proxy_index < 0) {
-++    proxy_index = SSL_get_ex_new_index(0, NULL, NULL, NULL, NULL);
-++  }
-++  return proxy_index;
-+ }
-+ 
-+ static int passwd_callback(char *buf, int num, int encrypting,
-+@@ -1079,7 +1090,8 @@ static int Curl_ossl_init(void)
-+ #endif
-+ 
-+   /* Initialize the extra data indexes */
-+-  if(ossl_get_ssl_conn_index() < 0 || ossl_get_ssl_sockindex_index() < 0)
-++  if(ossl_get_ssl_conn_index() < 0 || ossl_get_ssl_sockindex_index() < 0 ||
-++     ossl_get_proxy_index() < 0)
-+     return 0;
-+ 
-+   return 1;
-+@@ -2341,8 +2353,10 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
-+   curl_socket_t *sockindex_ptr;
-+   int connectdata_idx = ossl_get_ssl_conn_index();
-+   int sockindex_idx = ossl_get_ssl_sockindex_index();
-++  int proxy_idx = ossl_get_proxy_index();
-++  bool isproxy;
-+ 
-+-  if(connectdata_idx < 0 || sockindex_idx < 0)
-++  if(connectdata_idx < 0 || sockindex_idx < 0 || proxy_idx < 0)
-+     return 0;
-+ 
-+   conn = (struct connectdata*) SSL_get_ex_data(ssl, connectdata_idx);
-+@@ -2355,13 +2369,18 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
-+   sockindex_ptr = (curl_socket_t*) SSL_get_ex_data(ssl, sockindex_idx);
-+   sockindex = (int)(sockindex_ptr - conn->sock);
-+ 
-++  isproxy = SSL_get_ex_data(ssl, proxy_idx) ? TRUE : FALSE;
-++
-+   if(SSL_SET_OPTION(primary.sessionid)) {
-+     bool incache;
-+     void *old_ssl_sessionid = NULL;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    incache = !(Curl_ssl_getsessionid(conn, &old_ssl_sessionid, NULL,
-+-                                      sockindex));
-++    if(isproxy)
-++      incache = FALSE;
-++    else
-++      incache = !(Curl_ssl_getsessionid(conn, isproxy,
-++                                        &old_ssl_sessionid, NULL, sockindex));
-+     if(incache) {
-+       if(old_ssl_sessionid != ssl_sessionid) {
-+         infof(data, "old SSL session ID is stale, removing\n");
-+@@ -2371,7 +2390,7 @@ static int ossl_new_session_cb(SSL *ssl, SSL_SESSION *ssl_sessionid)
-+     }
-+ 
-+     if(!incache) {
-+-      if(!Curl_ssl_addsessionid(conn, ssl_sessionid,
-++      if(!Curl_ssl_addsessionid(conn, isproxy, ssl_sessionid,
-+                                       0 /* unknown size */, sockindex)) {
-+         /* the session has been put into the session cache */
-+         res = 1;
-+@@ -2868,16 +2887,25 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
-+     void *ssl_sessionid = NULL;
-+     int connectdata_idx = ossl_get_ssl_conn_index();
-+     int sockindex_idx = ossl_get_ssl_sockindex_index();
-++    int proxy_idx = ossl_get_proxy_index();
-+ 
-+-    if(connectdata_idx >= 0 && sockindex_idx >= 0) {
-++    if(connectdata_idx >= 0 && sockindex_idx >= 0 && proxy_idx >= 0) {
-+       /* Store the data needed for the "new session" callback.
-+        * The sockindex is stored as a pointer to an array element. */
-+       SSL_set_ex_data(BACKEND->handle, connectdata_idx, conn);
-+       SSL_set_ex_data(BACKEND->handle, sockindex_idx, conn->sock + sockindex);
-++#ifndef CURL_DISABLE_PROXY
-++      SSL_set_ex_data(BACKEND->handle, proxy_idx, SSL_IS_PROXY() ? (void *) 1:
-++                      NULL);
-++#else
-++      SSL_set_ex_data(BACKEND->handle, proxy_idx, NULL);
-++#endif
-++
-+     }
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &ssl_sessionid, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &ssl_sessionid, NULL, sockindex)) {
-+       /* we got a session id, use it! */
-+       if(!SSL_set_session(BACKEND->handle, ssl_sessionid)) {
-+         Curl_ssl_sessionid_unlock(conn);
-+diff --git a/lib/vtls/schannel.c b/lib/vtls/schannel.c
-+index f665ee340..a354ce95d 100644
-+--- a/lib/vtls/schannel.c
-++++ b/lib/vtls/schannel.c
-+@@ -487,7 +487,8 @@ schannel_connect_step1(struct connectdata *conn, int sockindex)
-+   /* check for an existing re-usable credential handle */
-+   if(SSL_SET_OPTION(primary.sessionid)) {
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, (void **)&old_cred, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              (void **)&old_cred, NULL, sockindex)) {
-+       BACKEND->cred = old_cred;
-+       DEBUGF(infof(data, "schannel: re-using existing credential handle\n"));
-+ 
-+@@ -1193,8 +1194,9 @@ schannel_connect_step3(struct connectdata *conn, int sockindex)
-+   struct ssl_connect_data *connssl = &conn->ssl[sockindex];
-+   SECURITY_STATUS sspi_status = SEC_E_OK;
-+   CERT_CONTEXT *ccert_context = NULL;
-++  bool isproxy = SSL_IS_PROXY();
-+ #ifdef DEBUGBUILD
-+-  const char * const hostname = SSL_IS_PROXY() ? conn->http_proxy.host.name :
-++  const char * const hostname = isproxy ? conn->http_proxy.host.name :
-+     conn->host.name;
-+ #endif
-+ #ifdef HAS_ALPN
-+@@ -1268,7 +1270,7 @@ schannel_connect_step3(struct connectdata *conn, int sockindex)
-+     struct curl_schannel_cred *old_cred = NULL;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    incache = !(Curl_ssl_getsessionid(conn, (void **)&old_cred, NULL,
-++    incache = !(Curl_ssl_getsessionid(conn, isproxy, (void **)&old_cred, NULL,
-+                                       sockindex));
-+     if(incache) {
-+       if(old_cred != BACKEND->cred) {
-+@@ -1280,7 +1282,7 @@ schannel_connect_step3(struct connectdata *conn, int sockindex)
-+       }
-+     }
-+     if(!incache) {
-+-      result = Curl_ssl_addsessionid(conn, (void *)BACKEND->cred,
-++      result = Curl_ssl_addsessionid(conn, isproxy, (void *)BACKEND->cred,
-+                                      sizeof(struct curl_schannel_cred),
-+                                      sockindex);
-+       if(result) {
-+diff --git a/lib/vtls/sectransp.c b/lib/vtls/sectransp.c
-+index 7dd028fb7..9c67d465a 100644
-+--- a/lib/vtls/sectransp.c
-++++ b/lib/vtls/sectransp.c
-+@@ -1376,7 +1376,8 @@ static CURLcode sectransp_connect_step1(struct connectdata *conn,
-+   const char * const ssl_cafile = SSL_CONN_CONFIG(CAfile);
-+   const bool verifypeer = SSL_CONN_CONFIG(verifypeer);
-+   char * const ssl_cert = SSL_SET_OPTION(cert);
-+-  const char * const hostname = SSL_IS_PROXY() ? conn->http_proxy.host.name :
-++  bool isproxy = SSL_IS_PROXY();
-++  const char * const hostname = isproxy ? conn->http_proxy.host.name :
-+     conn->host.name;
-+   const long int port = SSL_IS_PROXY() ? conn->port : conn->remote_port;
-+ #ifdef ENABLE_IPV6
-+@@ -1584,7 +1585,7 @@ static CURLcode sectransp_connect_step1(struct connectdata *conn,
-+ 
-+ #ifdef USE_NGHTTP2
-+       if(data->set.httpversion >= CURL_HTTP_VERSION_2 &&
-+-         (!SSL_IS_PROXY() || !conn->bits.tunnel_proxy)) {
-++         (!isproxy || !conn->bits.tunnel_proxy)) {
-+         CFArrayAppendValue(alpnArr, CFSTR(NGHTTP2_PROTO_VERSION_ID));
-+         infof(data, "ALPN, offering %s\n", NGHTTP2_PROTO_VERSION_ID);
-+       }
-+@@ -1916,7 +1917,7 @@ static CURLcode sectransp_connect_step1(struct connectdata *conn,
-+     size_t ssl_sessionid_len;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, (void **)&ssl_sessionid,
-++    if(!Curl_ssl_getsessionid(conn, isproxy, (void **)&ssl_sessionid,
-+                               &ssl_sessionid_len, sockindex)) {
-+       /* we got a session id, use it! */
-+       err = SSLSetPeerID(BACKEND->ssl_ctx, ssl_sessionid, ssl_sessionid_len);
-+@@ -1944,7 +1945,7 @@ static CURLcode sectransp_connect_step1(struct connectdata *conn,
-+         return CURLE_SSL_CONNECT_ERROR;
-+       }
-+ 
-+-      result = Curl_ssl_addsessionid(conn, ssl_sessionid, ssl_sessionid_len,
-++      result = Curl_ssl_addsessionid(conn, isproxy, ssl_sessionid, ssl_sessionid_len,
-+                                      sockindex);
-+       Curl_ssl_sessionid_unlock(conn);
-+       if(result) {
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index dfefa1bd5..aaf73ef8f 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -305,6 +305,7 @@ void Curl_ssl_sessionid_unlock(struct connectdata *conn)
-+  * there's one suitable, it is provided. Returns TRUE when no entry matched.
-+  */
-+ bool Curl_ssl_getsessionid(struct connectdata *conn,
-++                           const bool isProxy,
-+                            void **ssl_sessionid,
-+                            size_t *idsize, /* set 0 if unknown */
-+                            int sockindex)
-+@@ -315,7 +316,6 @@ bool Curl_ssl_getsessionid(struct connectdata *conn,
-+   long *general_age;
-+   bool no_match = TRUE;
-+ 
-+-  const bool isProxy = CONNECT_PROXY_SSL();
-+   struct ssl_primary_config * const ssl_config = isProxy ?
-+     &conn->proxy_ssl_config :
-+     &conn->ssl_config;
-+@@ -324,6 +324,11 @@ bool Curl_ssl_getsessionid(struct connectdata *conn,
-+   int port = isProxy ? (int)conn->port : conn->remote_port;
-+   *ssl_sessionid = NULL;
-+ 
-++#ifdef CURL_DISABLE_PROXY
-++  if(isProxy)
-++    return TRUE;
-++#endif
-++
-+   DEBUGASSERT(SSL_SET_OPTION(primary.sessionid));
-+ 
-+   if(!SSL_SET_OPTION(primary.sessionid))
-+@@ -411,6 +416,7 @@ void Curl_ssl_delsessionid(struct connectdata *conn, void *ssl_sessionid)
-+  * later on.
-+  */
-+ CURLcode Curl_ssl_addsessionid(struct connectdata *conn,
-++                               bool isProxy,
-+                                void *ssl_sessionid,
-+                                size_t idsize,
-+                                int sockindex)
-+@@ -423,7 +429,6 @@ CURLcode Curl_ssl_addsessionid(struct connectdata *conn,
-+   char *clone_conn_to_host;
-+   int conn_to_port;
-+   long *general_age;
-+-  const bool isProxy = CONNECT_PROXY_SSL();
-+   struct ssl_primary_config * const ssl_config = isProxy ?
-+     &conn->proxy_ssl_config :
-+     &conn->ssl_config;
-+diff --git a/lib/vtls/vtls.h b/lib/vtls/vtls.h
-+index a81b2f22d..a5e348752 100644
-+--- a/lib/vtls/vtls.h
-++++ b/lib/vtls/vtls.h
-+@@ -202,6 +202,7 @@ void Curl_ssl_sessionid_unlock(struct connectdata *conn);
-+  * under sessionid mutex).
-+  */
-+ bool Curl_ssl_getsessionid(struct connectdata *conn,
-++                           const bool isproxy,
-+                            void **ssl_sessionid,
-+                            size_t *idsize, /* set 0 if unknown */
-+                            int sockindex);
-+@@ -211,6 +212,7 @@ bool Curl_ssl_getsessionid(struct connectdata *conn,
-+  * object with cache (e.g. incrementing refcount on success)
-+  */
-+ CURLcode Curl_ssl_addsessionid(struct connectdata *conn,
-++                               const bool isProxy,
-+                                void *ssl_sessionid,
-+                                size_t idsize,
-+                                int sockindex);
-+diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
-+index 8c2d3f4a2..dd9f907ff 100644
-+--- a/lib/vtls/wolfssl.c
-++++ b/lib/vtls/wolfssl.c
-+@@ -392,7 +392,8 @@ wolfssl_connect_step1(struct connectdata *conn,
-+     void *ssl_sessionid = NULL;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    if(!Curl_ssl_getsessionid(conn, &ssl_sessionid, NULL, sockindex)) {
-++    if(!Curl_ssl_getsessionid(conn, SSL_IS_PROXY() ? TRUE : FALSE,
-++                              &ssl_sessionid, NULL, sockindex)) {
-+       /* we got a session id, use it! */
-+       if(!SSL_set_session(BACKEND->handle, ssl_sessionid)) {
-+         char error_buffer[WOLFSSL_MAX_ERROR_SZ];
-+@@ -618,9 +619,10 @@ wolfssl_connect_step3(struct connectdata *conn,
-+     void *old_ssl_sessionid = NULL;
-+ 
-+     our_ssl_sessionid = SSL_get_session(BACKEND->handle);
-++    bool isproxy = SSL_IS_PROXY() ? TRUE : FALSE;
-+ 
-+     Curl_ssl_sessionid_lock(conn);
-+-    incache = !(Curl_ssl_getsessionid(conn, &old_ssl_sessionid, NULL,
-++    incache = !(Curl_ssl_getsessionid(conn, isproxy, &old_ssl_sessionid, NULL,
-+                                       sockindex));
-+     if(incache) {
-+       if(old_ssl_sessionid != our_ssl_sessionid) {
-+@@ -631,7 +633,7 @@ wolfssl_connect_step3(struct connectdata *conn,
-+     }
-+ 
-+     if(!incache) {
-+-      result = Curl_ssl_addsessionid(conn, our_ssl_sessionid,
-++      result = Curl_ssl_addsessionid(conn, isproxy, our_ssl_sessionid,
-+                                      0 /* unknown size */, sockindex);
-+       if(result) {
-+         Curl_ssl_sessionid_unlock(conn);
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 4cc35c2c51..13ab29cf69 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -17,6 +17,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2020-8284.patch \
-            file://CVE-2020-8285.patch \
-            file://CVE-2020-8286.patch \
-+           file://CVE-2021-22876.patch \
-+           file://CVE-2021-22890.patch \
- "
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 54058b350d..e9eba1fc4b 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -30,7 +30,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+                         virtual/kernel:do_deploy \
+                         ${MLPREFIX}syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot \
+-                        ${PN}:do_image_${@d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')} \
++                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
+                         "
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+ 
 -- 
 2.25.1
 
