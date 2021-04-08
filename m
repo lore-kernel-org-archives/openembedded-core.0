@@ -1,59 +1,60 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web11.4096.1617860912048212765
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.3])
+ by mx.groups.io with SMTP id smtpd.web12.4222.1617860931298662680
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Apr 2021 22:48:32 -0700
+ Wed, 07 Apr 2021 22:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=EoFo5QS8;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=WWjWZ347;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.3, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1617860910; i=@fujitsu.com;
-	bh=r/XHsBRX6yPl3QyTucv/4vUmwft+H3nEEorkM1rnmkw=;
+	s=170520fj; t=1617860929; i=@fujitsu.com;
+	bh=4UDERn/aQCvI98bXeinCZU4ql3MIRKgD4RFE0wfzO8Q=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=EoFo5QS8ma3ub4zm4Lq2MDdjLTM1QCHNSoJ5kM3HpW0jcpC34gmwR24eq3CcUtxuI
-	 BmwXoqtWnapIfVe+gJJsHOMYNU6bc+CDI/E4/mu7p2OFn4744cU0Of29brCBtRZNS6
-	 pusAR66dbjXwxkMV8eJwCMEMQCLbrF9Kx8/9873mPlXmX1JS8E+amHLFrc73z9pZXT
-	 cQR3yPBpgypMyrO21y5YceJDXmGIc8KB4hHoRMJ/x3gtVuCbC6ADGP5HyI8Pqygr6C
-	 d16VlesxDDQBPVxiBZCA71Ds1uAOl090uiWJX5iHFhy0AbiW8aemTTaQDeeV2VosnK
-	 VoFhaz7CfmXBA==
-Received: from [100.112.199.60] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-b.eu-west-1.aws.symcld.net id A7/8A-46412-E299E606; Thu, 08 Apr 2021 05:48:30 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+GYqqs7My/
-  B4MMHE4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePS7ZtsBT/ZK+ZtOc/WwNjP3sXIxSEksIVJ
-  4l/fCyYIZzejxNKfu5m7GDk52AR0Jc49XgtUxcEhIqAncfWfKEhYWMBcoq/pGguIzSKgIjHr8
-  1owm1fAQ2Lru1uMILaEgILElIfvmSHighInZz4Bq2EWkJA4+OIFM8hICQFFidnT5SHKqyTOzv
-  7CNIGRZxaSjllIOhYwMq1itEgqykzPKMlNzMzRNTQw0DU0NNI1tLTQNTQ20Eus0k3SSy3VLU8
-  tLtE11EssL9YrrsxNzknRy0st2cQIDKKUgmNNOxhPvv6gd4hRkoNJSZQ3a1JeghBfUn5KZUZi
-  cUZ8UWlOavEhRhkODiUJXu0ZQDnBotT01Iq0zBxgQMOkJTh4lER426cDpXmLCxJzizPTIVKnG
-  BWlxHkngiQEQBIZpXlwbbAousQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmHc3yBSezLwSuO
-  mvgBYzAS0uOZgLsrgkESEl1cDk5hgRFXdvVpE9Z3rclUtx35x86iqOPGlY9Shk27EpB7Jbzdf
-  /3SyQbNszc5lixctKdfFZOznmdM4PnDo3MYV/B1t9Va8t79zfHBs6XLef57B+ULBlj9wVC8+f
-  z5+dmFF+dP3yAImqB2cvyZzdufePyakc84WWW7MvTzzKozrfXmOdIGOi395PreWql8NNwo9aR
-  xzYIT7hmM+xL02+Et3d2fxbv2mdKz9U1bZu0ftpR0/IT6qdPEn5/OmjG9dslWX6Yay47MW1I4
-  z/g2KFX3jNe3Hm8Ufh2p9Wp1NdLcr6tSTeO7mrWkhP+nvtjCRL91wma7dXNdPimD69zr129Iq
-  Ce41k8vZtyWrn25/c0f1zWYmlOCPRUIu5qDgRAPqii78dAwAA
+	b=WWjWZ347uNymNVKuIZyBr31KydPAVH+0NA83JcHy/KXjnQOwcYcYBJsowxg5nXjmL
+	 iZsoSiD5xIlnY4iuxIIx/MNv1SUDcaB9U6ERv/+oqA5IsW3cRBzRi/rAkLohFRra7X
+	 by4Cgwn7gpSU04EnaMVeQTht8kFUC4OeW5NwXR4bgrb1pW1FggJQXk9fmtjfVj7OxI
+	 9/feNkshXJWaftawxetmmK8YrUtWrJaEUeMpr52cjWn+6N+Q/A3c55e5enhKI7VNJR
+	 Wbw+d1ppOiiwzn2eRbSF1ixpHkyB/DB4RFa835GSS5fNIpixC0oDL4svLl0gHLDk70
+	 Dl8QEnovl1sDw==
+Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-central-1.aws.symcld.net id 0C/73-41911-1499E606; Thu, 08 Apr 2021 05:48:49 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8MRqus4My/
+  B4PIrcYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeN832G2gj8cFb1fzrE3MM7n6GLk5BAS2MIk
+  8XuRVBcjF5C9m1Hiz7/FrCAJNgFdiXOP17J3MXJwiAjoSVz9JwoSFhZwkPjybDsLiM0ioCLx6
+  M8HZhCbV8BDYtXpWWC2hICCxJSH76HighInZz4Bq2cWkJA4+OIFM8hICQFFidnT5SHKqyTOzv
+  7CNIGRZxaSjllIOhYwMq1itEgqykzPKMlNzMzRNTQw0DU0NNY11DU11Eus0k3USy3VTU7NKyl
+  KBErqJZYX6xVX5ibnpOjlpZZsYgSGUEoho/EOxoOvP+gdYpTkYFIS5c2alJcgxJeUn1KZkVic
+  EV9UmpNafIhRhoNDSYJXewZQTrAoNT21Ii0zBxjOMGkJDh4lEd726UBp3uKCxNzizHSI1CnGW
+  I4rq5YsYuZ4sxZEvgWTbffuAsl2MDlzwcHVzByzwOT99kNA8gGIFGLJy89LlRLnnQgyVABkaE
+  ZpHtxKWOxeYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMuxtkCk9mXgncZa+AjmYCOrrkYC7
+  I0SWJCCmpBibxBw0c4jpxf7fotcX1xwou/38r3dfB2IvvecIOqQm+fTzXMh8v2MUQ1dsRw9BR
+  tENGt4XJZ0uOYHXQxQrjtxPPMgnkbLDYfKty5/7fJiv8lve6V75YtuC8mWcKd1zTif1ij188k
+  1tYaDNVRqNh9q59pqy+51XX6079d+WkULWOYfpkES+mN+4CCz7N79y0dZVmfcYR1sjJhSonL5
+  9h1mcQEGxh3hKRIK7stM33yoS303P7tz2LUj/9Yl8rk11SDsuRimfsKRvatCZver2zvuD2mYV
+  8RdYHrq/wP6F3acWGhp0L73en3ih/9NFujbDX/YRFlx8pij63Y9Ir/SOmZLtgg1zi6ce7vd+4
+  rCx8XanEUpyRaKjFXFScCABGz1JJWAMAAA==
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-4.tower-291.messagelabs.com!1617860909!567950!1
-X-Originating-IP: [62.60.8.149]
+X-Msg-Ref: server-9.tower-226.messagelabs.com!1617860928!689054!1
+X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 30691 invoked from network); 8 Apr 2021 05:48:29 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-4.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Apr 2021 05:48:29 -0000
+Received: (qmail 9875 invoked from network); 8 Apr 2021 05:48:49 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-9.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Apr 2021 05:48:49 -0000
 Received: from R01UKEXCASM223.r01.fujitsu.local (ex2k13_223.fs.fujitsu.com [10.182.185.121])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1385mTUm029665
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1385mm47030677
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Apr 2021 06:48:29 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Apr 2021 06:48:48 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 8 Apr 2021 06:48:27 +0100
+ (TLS) id 15.0.1497.2; Thu, 8 Apr 2021 06:48:47 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] ruby: upgrade 3.0.0 -> 3.0.1
-Date: Thu, 8 Apr 2021 22:20:14 +0800
-Message-ID: <1617891614-52202-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] libva-utils: upgrade 2.10.0 -> 2.11.1
+Date: Thu, 8 Apr 2021 22:20:33 +0800
+Message-ID: <1617891633-52249-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -63,26 +64,28 @@ Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- meta/recipes-devtools/ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb} (97%)
+ .../libva/{libva-utils_2.10.0.bb => libva-utils_2.11.1.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-utils_2.10.0.bb => libva-utils_2.11.1.bb} (90%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_3.0.0.bb b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/ruby/ruby_3.0.0.bb
-rename to meta/recipes-devtools/ruby/ruby_3.0.1.bb
-index 28e12c3cd7..944cb81c1d 100644
---- a/meta/recipes-devtools/ruby/ruby_3.0.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.0.1.bb
-@@ -8,7 +8,7 @@ SRC_URI += " \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            "
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.10.0.bb b/meta/recipes-graphics/libva/libva-utils_2.11.1.bb
+similarity index 90%
+rename from meta/recipes-graphics/libva/libva-utils_2.10.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.11.1.bb
+index 828f4fb317..096d80b68d 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.10.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.11.1.bb
+@@ -14,8 +14,8 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
  
--SRC_URI[sha256sum] = "a13ed141a1c18eb967aac1e33f4d6ad5f21be1ac543c344e0d6feeee54af8e28"
-+SRC_URI[sha256sum] = "369825db2199f6aeef16b408df6a04ebaddb664fb9af0ec8c686b0ce7ab77727"
+-SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.10-branch"
+-SRCREV = "f112ee75fcd1472131b20f901b93f6ac1d293fad"
++SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.11-branch"
++SRCREV = "c0145a895ebe9b24cde5c441733f90482f1e3d71"
+ S = "${WORKDIR}/git"
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
 -- 
 2.25.1
 
