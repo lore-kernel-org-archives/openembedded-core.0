@@ -1,81 +1,78 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
- by mx.groups.io with SMTP id smtpd.web12.161.1617899544504750565
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web10.178.1617899552654601118
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 09:32:24 -0700
+ Thu, 08 Apr 2021 09:32:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=h8VCyV62;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.47, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f47.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso963623otb.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:24 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tiMt0FHJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.181, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f181.google.com with SMTP id i81so2776357oif.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=JImC1Lqd/a54etJ3kZtZSceTw09e4ArXM4BsfS2GwFM=;
-        b=h8VCyV62L7Rug9Nm+4TWQ/j2Ikwy0qg7+enQHe+WFey9yryisjIj+OI2BUUFPFwBLG
-         1xUMbkD/9OmyZ3tUPLyAzDDywJgnJpvJvtXfSkNWZdsrUv5WxCMcSs/YJSl7nTlrFdTe
-         7B1m56Ugdj0TGr6SJLqBGfSSKiFu1XHBhC/LhMGeKRBEQ6Ni34hLPMkCxTKiNfje4KtW
-         gskGoyaIzK7sy6t2J2HF9tqrIUljhnOUdmeZYvk/4HCWnHMYPrEjj4AeWW1q8+OF2s9H
-         1UCeirb3jQDfS7B7a2beGEQ13PgyrB5t6JcTzb5XAwib8e4FTmlkrjrBdluRDo4UDMCa
-         yHUA==
+        bh=P97RIji1/8Bo4WmNlTWBCm74+1m9fzVmPrwJO6bF57U=;
+        b=tiMt0FHJAelAU5/VplPaWaJiOvCPVQmRpWpg2soX0F1BuGCnNV3ErAsWpILzq8Hkx9
+         4SU44TqOq7eTqxx0RpLu3Gox/+Kc9ARsQXPcoP56wHP0CuaQlENTT4CUvcEzovkWFcqS
+         r9CNgw/IFucnFFdOFQhDuAyojbI7dcG1vL3bVcpWkWhb96IuS7S0IVJWJa8vnOA8yv90
+         Qcq3iIX2+ff6kO7sHB04UCVuRY7KDrLlajXsSKyzIur2FGtgcCvz1QTt+RqpR9Ul4Vxj
+         PtrZgmXhOArdIq9eoN5w50x0VSQ5dckcv29nnYD2Vf+m+EvK/14+Hsfyzqkd6oQy9KAf
+         P9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JImC1Lqd/a54etJ3kZtZSceTw09e4ArXM4BsfS2GwFM=;
-        b=SXHcWVjHqtWGLXVoa3R3wGg+wnAW1MTo8asDkqhFPxEReo9nb2xvMxdr9A0D3VZ+3f
-         oyaLWpMrY5M5xbOG4UYd9mhojHxi3/S59vZ1gdLRLe4P5vH9UlLZWv6JiSK2FgWLnZdc
-         EFgY9AR3aprEO7r5I9/4eUMbLhjk1icos/2CqvhSLvv2+DNddZF0u+XbVaBgee6Z2DHv
-         s9VWDeyAhWcdoSyDA9tXvywWUMsmeot27xBTO0h9UYcELyCkTClvUDi6/p6Xu6SUXQtF
-         sianS/hv7nGUI7mtHBHdTsNoXO229D5Kfj7daiEHcN8J14P0eJYkjC47JLQyEqAPYJ5T
-         gq2w==
-X-Gm-Message-State: AOAM532ZLVEugmPmAX2Z3v3HhgzKBe9tbK6dOGPRSc1Ka8CqSD74PHkr
-	nEYKzKUym3Sd8aD1H6Lj/MpaQU6pj0hihOD/h34=
-X-Google-Smtp-Source: ABdhPJx/VKSsaX6EDzghfTbELnzwWRlvhisGWgy4UOeCzt1JiudxFQGVTb6Oro3oNda6KdYq1r+6gw==
-X-Received: by 2002:a9d:37b4:: with SMTP id x49mr8371466otb.237.1617899543282;
-        Thu, 08 Apr 2021 09:32:23 -0700 (PDT)
+        bh=P97RIji1/8Bo4WmNlTWBCm74+1m9fzVmPrwJO6bF57U=;
+        b=cnSrw3r94JPqe1Sq2bK9qCini91aukFtfHiILug+RChxzzPgSXHRdTeY5HOcCtFw5I
+         eNgkwTtwAVgylXle6d1s5m6bh+kPqGizCBrMAKeqPQjUwZJgGauV6IJLz+OuCWHZsNFO
+         OmHN0TBN6zzPmNNE8ec4qX83YxqaFGQClhP9QzMIO0IaBW9nb5HVkquKzmZrxaWrNuDX
+         Y1ld0AePfJvl9tuTKKMOF2/vcFF04hwQuqAIsrwUIHIS6xBvJ7u+I9DvHTFikCaUYdNY
+         5Hp1UxTnzULFaCYEJmXEjDkszAocAP3+BqnKuo1sGv2gUCyOZZY4Txed0+WRBuA7WTZV
+         QRRw==
+X-Gm-Message-State: AOAM530DzdKX3bSovfzn6lTfJ7e15ltn/AzRGzxzbvBemSYDZr4/pVi8
+	Fbb3KKjRkGra7IU2/+vTzr9K9xbfyedcdoCdrVo=
+X-Google-Smtp-Source: ABdhPJwjQ891T14jiajnyTGHgCL3AgeYecPwsbWQqLYxn0d9P6rP+z4IrTibZT2dEof44Kbn0Hxf8Q==
+X-Received: by 2002:aca:4004:: with SMTP id n4mr6713075oia.89.1617899548573;
+        Thu, 08 Apr 2021 09:32:28 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.20
+        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 09:32:22 -0700 (PDT)
+        Thu, 08 Apr 2021 09:32:28 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/11] image-live.bbclass: optional depends when ROOTFS empty
-Date: Thu,  8 Apr 2021 06:31:09 -1000
-Message-Id: <612ec1a471695638e0bf3f6b68d40522843ab188.1617899121.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/11] goarch: map target os to windows for mingw* TARGET_OS
+Date: Thu,  8 Apr 2021 06:31:10 -1000
+Message-Id: <cbc074c2bbf5956ff225e794bb0b214c94a93d75.1617899121.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617899121.git.steve@sakoman.com>
 References: <cover.1617899121.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Guillaume Champagne <champagne.guillaume.c@gmail.com>
+From: Peter Morrow <pemorrow@linux.microsoft.com>
 
-`ROOTFS` is optional. It can be empty if the live image doesn't require
-a rootfs.  In such cases, the build doesn't depend on
-`do_image_{LIVE_ROOTFS_TYPE}`.
+mingw32/mingw64 is not a supported value for GOOS, so map from 'mingw*' to
+'windows' to enable building for windows targets.
 
-Signed-off-by: Guillaume Champagne <champagne.guillaume.c@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 96f47c39f1d17f073243913d524bde84add41d8f)
+Signed-off-by: Peter Morrow <pemorrow@linux.microsoft.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/goarch.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 54058b350d..e9eba1fc4b 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -30,7 +30,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         virtual/kernel:do_deploy \
-                         ${MLPREFIX}syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot \
--                        ${PN}:do_image_${@d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')} \
-+                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
-                         "
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 1099b95769..ecd3044edd 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -114,6 +114,8 @@ def go_map_mips(a, f, d):
+ def go_map_os(o, d):
+     if o.startswith('linux'):
+         return 'linux'
++    elif o.startswith('mingw'):
++        return 'windows'
+     return o
  
  
 -- 
