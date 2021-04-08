@@ -1,136 +1,168 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web09.57.1617897703399604215
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.58.1617899115763207829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 09:01:43 -0700
+ Thu, 08 Apr 2021 09:25:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qa0rIAxu;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id r12so3941640ejr.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vmYJ061AeOkcFSTyJ9X941UvpAlZmVL74wwYdh7xFqM=;
-        b=Qa0rIAxuPMvNg62OY5RbG+Lc5niiYoYeyYq5fsO2bakXfjPOPCcpmApqNb1LnB7HCV
-         ytJIttgTviFJHCAnaI9XZA79Glnw9payT2BPB3rGH9I6hQxjlmd0qQ7DNfW26atJXfrZ
-         tKpAPE8vpX1Y3PrG1/RuU8rvvFrZfVdyFhRhyMPtfTO9zql90/zsZomWWO2lOVrsRmLy
-         P2KVuTNvhFdcuDuIq8Nv79BHfg5Q3c8GvQd19h8w72H4fPtAVUBR2BC3aTySw8MnCn3a
-         WFskpigM6AZgAj324S1v7gPNIaPCr3puQarfPSESuzZZ7HA15IGEuHTW+LzL3B4qMBAt
-         NlyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vmYJ061AeOkcFSTyJ9X941UvpAlZmVL74wwYdh7xFqM=;
-        b=mDPkWkvmWt6a08SOR5EsoY4+PI3oW2VChg3Bk3ar/6cs9jwmvvCPm088ED8+ZlmIrV
-         JAtFpsv3BRVsURYwtNE2HhPstyhAMnBP9pHvJezI+WM1aphZKq6Xy2CO9e7gFsoCWL1L
-         8kgZOXLDOMpkQrRnFgQPfvcxgLJ0GFUF1ioAJ9pm+6NSd077cn22Gv2E8Q50OKI8dYFG
-         rh6tdHnlDG/8b+u/VMPJrw28rbETp1kbGsjMmtc2TF6pKFT8TgvjwcuRoNm3dLF1uVJ/
-         A69TFOhrSSck5MOPPefxspmO/ta1LBavqhYjDjpd4sdblAqNf9laUmIRpvXusQdabO/L
-         h+Zg==
-X-Gm-Message-State: AOAM530lcXslcR0XmVvPaFy7rbN+ynBe/kM/2Fw4ac2mJRsLL4cRTTRP
-	u9RHVTX/Krtf6KvMHAgaGyYClmsSM40=
-X-Google-Smtp-Source: ABdhPJyRSh/esaj/xH2TOf+FGvvIBJZw3SL3tEJMyXpoCVZF6q5qZGGxE2gM4E8v61Cc/oiEdTRvFg==
-X-Received: by 2002:a17:906:714a:: with SMTP id z10mr11277243ejj.455.1617897701752;
-        Thu, 08 Apr 2021 09:01:41 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id c19sm1629973edv.49.2021.04.08.09.01.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 09:01:41 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E8A2D6E
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Apr 2021 09:25:13 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB3443F73D
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Apr 2021 09:25:12 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Cc: anibal.limon@linaro.org,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [gatesgarth][PATCH] binutils: backport fix for gold with theads enabled from 2.36.0
-Date: Thu,  8 Apr 2021 18:01:38 +0200
-Message-Id: <20210408160138.240195-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH][pseudo] client: strip trailing slashes when opening an ignored path
+Date: Thu,  8 Apr 2021 17:25:09 +0100
+Message-Id: <20210408162509.4016524-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-* building chromium with gold and threads triggers this issue:
-  [1/2] SOLINK ./libcbe.so
-  FAILED: libcbe.so libcbe.so.TOC
-  python "../../git/src/build/toolchain/gcc_solink_wrapper.py" --readelf="readelf" --nm="nm" --sofile="./libcbe.so" --tocfile="./libcbe.so.TOC" --output="./libcbe.so" -- i686-oe-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=chromium/84.0.4147.89-4-r41.1/recipe-sysroot -shared -Wl,-soname="libcbe.so" -fPIC -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,-z,defs -Wl,--as-needed -fuse-ld=gold -Wl,--threads -Wl,--thread-count=4 -m32 -Wl,-O2 -Wl,--gc-sections -rdynamic --sysroot=../../recipe-sysroot -L../../recipe-sysroot/lib -L../../recipe-sysroot/usr/lib -Lchromium/84.0.4147.89-4-r41.1/recipe-sysroot -o "./libcbe.so" @"./libcbe.so.rsp"
-  collect2: fatal error: ld terminated with signal 11 [Segmentation fault]
-  compilation terminated.
+The pseudo client path map stores paths that have been sanitised, but
+in the ignored-path (PSEUDO_IGNORE_PATHS) codepath for open() calls this
+sanitising wasn't performed so it is possible for paths that end with a
+trailing slash to be entered.
 
-* removing threads/thread-count is one possible work around, but then
-  the use of gold for performance makes even less sense, that's why
-  chromium from meta-browser uses LLD by default:
-  https://github.com/OSSystems/meta-browser/commit/15228b01903d4ca801916e55c7618fa5a71019b7
-  https://lld.llvm.org/#performance
-  but lets backport this as other recipes might also reproduce this
-  issue
+This then subsequently interacts badly with path manipulation, resulting
+in the situation where doing:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  fd =3D open("/some/path/")
+  parent_fd =3D openat(fd, "../)
+
+results in parent_fd actually pointing at /some/path still.
+
+Solve this by ensuring that any trailing slashes are removed from the
+path when adding to the map in the ignore short-circuit.
+
+Also add a test case for this to ensure that it doesn't regress in the
+future.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../binutils/binutils-2.35.1.inc              |  1 +
- ..._counts_lock-is-initialized-before-u.patch | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+ Makefile.in         |  1 +
+ pseudo_client.c     | 11 ++++++++-
+ test/test-openat.c  | 55 +++++++++++++++++++++++++++++++++++++++++++++
+ test/test-openat.sh |  7 ++++++
+ 4 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 test/test-openat.c
+ create mode 100755 test/test-openat.sh
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.35.1.inc b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-index 775af2b8f2..6290d5b191 100644
---- a/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-@@ -44,5 +44,6 @@ SRC_URI = "\
-      file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
-      file://0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patch \
-      file://CVE-2020-35448.patch \
-+     file://0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+diff --git a/Makefile.in b/Makefile.in
+index 6eff522..cf13010 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -76,6 +76,7 @@ all: $(LIBPSEUDO) $(PSEUDO) $(PSEUDODB) $(PSEUDOLOG) $(=
+PSEUDO_PROFILE)
+=20
+ test: all | $(BIN) $(LIB) $(LOCALSTATE)
+ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-rename-fstat test/test-re=
+name-fstat.c
++	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o test/test-openat test/test-openat.c
+ 	@./run_tests.sh -v
+=20
+ install-lib: $(LIBPSEUDO)
+diff --git a/pseudo_client.c b/pseudo_client.c
+index f846d54..579db33 100644
+--- a/pseudo_client.c
++++ b/pseudo_client.c
+@@ -1629,7 +1629,16 @@ pseudo_client_op(pseudo_op_t op, int access, int f=
+d, int dirfd, const char *path
+ 	if (op !=3D OP_CHROOT && op !=3D OP_CHDIR && op !=3D OP_CLOSE && op !=3D=
+ OP_DUP
+ 			&& pseudo_client_ignore_path_chroot(path, 0)) {
+ 		if (op =3D=3D OP_OPEN) {
+-			pseudo_client_path(fd, path);
++			/* Sanitise the path to have no trailing slash as this is convention =
+in the database */
++			char *stripped_path;
++			pathlen =3D strlen(path);
++			if (pathlen > 2 && (path[pathlen - 1]) =3D=3D '/') {
++				stripped_path =3D strndup(path, pathlen-1);
++				pseudo_client_path(fd, stripped_path);
++				free(stripped_path);
++			} else {
++				pseudo_client_path(fd, path);
++			}
+ 		}
+ 		/* reenable wrappers */
+ 		pseudo_magic();
+diff --git a/test/test-openat.c b/test/test-openat.c
 new file mode 100644
-index 0000000000..f46415f440
+index 0000000..b710285
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
-@@ -0,0 +1,41 @@
-+From de24fc96bf24fca470a9ca13176ad9ad9cc4d5a9 Mon Sep 17 00:00:00 2001
-+From: Nick Gasson <nick.gasson@arm.com>
-+Date: Mon, 2 Nov 2020 12:02:05 +0800
-+Subject: [PATCH] gold: ensure file_counts_lock is initialized before using
++++ b/test/test-openat.c
+@@ -0,0 +1,55 @@
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <limits.h>
++#include <unistd.h>
++#include <string.h>
 +
-+Since upgrading to binutils 2.35 I've been experiencing random memory
-+corruption related crashes with ld.gold --threads. It's caused by
-+multiple threads concurrently pushing elements onto the shared
-+std::vector in File_read::record_file_read(). This vector is supposed to
-+be protected by file_counts_lock, but that is initialized lazily and
-+might be NULL when File_read::open() is called, in which case
-+Hold_optional_lock silently skips locking it.
++char *path_of(int fd) {
++    ssize_t len;
++    char proc[PATH_MAX], real[PATH_MAX];
++    snprintf(proc, sizeof(proc), "/proc/self/fd/%d", fd);
++    len =3D readlink(proc, real, sizeof(real));
++    real[len] =3D '\0';
++    return strdup(real);
++}
 +
-+Fix by calling the initialize() method before attempting to acquire the
-+lock, the same as other places that use file_counts_lock.
++/*
++* Test that recusing up the tree with openat(fd, "../") handles slashes
++* correctly and doesn't end up opening the same directory instead of goi=
+ng up a
++* level.
++*/
++int main () {
++    int fd, dir_fd;
++    struct stat st;
++    ino_t ino;
++    char *path;
 +
-+	PR 26827
-+	* fileread.cc (File_read::open): Ensure file_counts_lock is
-+	initialized.
-+	* testsuite/Makefile.am (check_PROGRAMS): Add a test that passes
-+	-Wl,--threads.
-+	* testsuite/Makefile.in: Regenerate.
++    fd =3D openat(AT_FDCWD, ".", O_DIRECTORY, 0);
++    fstat(fd, &st);
++    ino =3D st.st_ino;
 +
-+Upstream-Status: Backport [af61e84fd2d from 2.36.0]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ gold/fileread.cc | 1 +
-+ 1 file changed, 1 insertion(+)
++    while (1) {
++        path =3D path_of(fd);
++        //puts(path);
 +
-+diff --git a/gold/fileread.cc b/gold/fileread.cc
-+index f5ca719360d..0b5228e2afd 100644
-+--- a/gold/fileread.cc
-++++ b/gold/fileread.cc
-+@@ -212,6 +212,7 @@ File_read::open(const Task* task, const std::string& name)
-+       gold_debug(DEBUG_FILES, "Attempt to open %s succeeded",
-+ 		 this->name_.c_str());
-+       this->token_.add_writer(task);
-++      file_counts_initialize_lock.initialize();
-+       Hold_optional_lock hl(file_counts_lock);
-+       record_file_read(this->name_);
-+     }
--- 
-2.30.2
++        dir_fd =3D openat(fd, "../", O_DIRECTORY, 0);
++        fstat(dir_fd, &st);
++        if (st.st_ino =3D=3D ino) {
++            if (strcmp(path, "/") =3D=3D 0) {
++                //puts("Reached top of tree");
++                return 0;
++            } else {
++                //puts("Recursion failed!");
++                return 1;
++            }
++        }
++
++        free (path);
++        ino =3D st.st_ino;
++        fd =3D dir_fd;
++    }
++    return 0;
++}
+diff --git a/test/test-openat.sh b/test/test-openat.sh
+new file mode 100755
+index 0000000..0455586
+--- /dev/null
++++ b/test/test-openat.sh
+@@ -0,0 +1,7 @@
++#! /bin/sh
++
++# Test with and without paths being ignored. The bug was with paths bein=
+g ignored.
++
++./test/test-openat
++
++PSEUDO_IGNORE_PATHS=3D/ ./test/test-openat
+--=20
+2.25.1
 
