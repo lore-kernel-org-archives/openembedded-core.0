@@ -1,50 +1,50 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web09.168.1617899525183132616
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+ by mx.groups.io with SMTP id smtpd.web08.162.1617899529728785775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Apr 2021 09:32:05 -0700
+ Thu, 08 Apr 2021 09:32:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BSYS080A;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.43, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f43.google.com with SMTP id k14-20020a9d7dce0000b02901b866632f29so2900303otn.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=la1QmnaD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.54, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f54.google.com with SMTP id s16-20020a0568301490b02901b83efc84a0so2844846otq.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Apr 2021 09:32:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=wckvPoSarcR/AkvEy1aIFz9vKupzps/fWZP4xZsU9KY=;
-        b=BSYS080ACAJ3XeDSTEHf9hP2awCPIgjW6vNHkWCbnPqT2sOvT1pWvI5yz7ey6MrJgA
-         Z2pxqgHOPb2PTzylJWrUATAVTHJRrsVN5IXEf8KliWuigLGAjuA7UEgP/w7GEEXztOgx
-         PwpsjG2Rn7/Feth5Eg0w155DbeFSzP/O2E/0/u8C4fzwmT1yb4DMB/ZzlFE54S1gtGoM
-         YkLp1F0oeN6aw8ZxR0/z/DWcPemmAuTraMnlfV7zSMEqdJ3UVpZSRM3iXJ+AwYA9QoTm
-         K9FebT0oGxWJOsF/5kDd6Foj/rgUFYNmWWCesLv9Aikcelmtp6TokbzdoRQaY8D2Yw6O
-         3P6A==
+        bh=goXltlZs5IxfLWbnfJIPvAvLppoJCHPXueeTBKzU7Vk=;
+        b=la1QmnaD1Uetc2Ys1a8mKUSSUedFnudY9/dsanDVr1uu5PoboWifc/vP3kA94CyCqZ
+         hjIUHnulLtAQ/Jzdpn/e+eKuEAmpbAg4GPLbNAQhavektL0PWLpOoP2lVDeylxk8L14A
+         kNHr7PwM3ubN75fPAJJ3KZnCVbDU7BX7BNXNpGcKJYCyEpf/urPmRMIvzWsi7dqsPqJX
+         bmWgxp/5OTyzYLpS/nj6h/JYT5ujY7f3vD2Qi/o7uA90l9WKHpNzBqxar8r51rPBu/ds
+         f7zBVDDDrhlu9GzZ+KR6hfobgl5bL/j2u8hmzkgZjhLbb4ujOXKUipitlL8eBubS1mnk
+         oTEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wckvPoSarcR/AkvEy1aIFz9vKupzps/fWZP4xZsU9KY=;
-        b=ozoMrUMLlC7+7lY5fKUKaTpmsHn/YFpwCeQ9t533zerKUWcnuN7oVECnF/nAYBorNe
-         rPonHMBnsiQInGiZDxCtiQv+k9YV6uAQXGNuTqiIBu6sgdsymfZkRDm47QKgr31LyPma
-         y9sHCaqf40zzicgHQfs+a+V0ZtWO0N4Cc03OL1qIGuAgryQMi34a3aQ8nPDitZWE+EAb
-         DmahVOyuJv1wfxtadcvc1cAKj7pul72Vc6cJVPrspo61RV8TVxyrB64INzjrxJ5HAiCy
-         I4wu+TbmHeeeqK8A2JD1Ys6RWKF+HUa+YOrHqnM1a6RI20/aslTXQ6FFXETUT2KfnIc1
-         gVYw==
-X-Gm-Message-State: AOAM53164LLnJgwgbsKBX/+ug17ewf5H2isT0tCfonEGJPHjR3cfGFZr
-	yPTafWPPuR9WINNjDZAnqTN86sp+/xXu/Xcacyk=
-X-Google-Smtp-Source: ABdhPJxuGzpef4Taz///KB5+oyJzh0Jcgsm3f9jPYggMDdRysgZCE3J6yA+ztQbyIJ0gDvUyAkeN6w==
-X-Received: by 2002:a9d:5614:: with SMTP id e20mr8212301oti.304.1617899523855;
-        Thu, 08 Apr 2021 09:32:03 -0700 (PDT)
+        bh=goXltlZs5IxfLWbnfJIPvAvLppoJCHPXueeTBKzU7Vk=;
+        b=KnrjwesO9/RwkQTzEd/CGrYZH6hTojxW+qjoTchsjfyglOFz0Q+8f3lOuABS8zOwNP
+         /KnQIdfYuRtFh6wXdXMfzm/Xtp5q1LF1VJAo7ANd1XUYb4UN1Z25EzsEcsz6dfxs68dX
+         DQ35At8191KPdlVNVy3oY99W3Yb3d5FCnHNmY48ozxjgBUKuK2C18Pm0PPXM2ufu0UuL
+         VjUccd/JpEYOHf5QCcV/m66200GRvdgx7afgYzULcxkOgRYQ1GkVAQaVuVf9Cw+HiYw4
+         BdvDhrxR22Z+7uQ4FUplrUN374TZlCUnOrVXQKtdyTa+QZvQ4KiOgzn9PvOljTWs6kFX
+         1yPg==
+X-Gm-Message-State: AOAM533BCMkCOMxnzb9/iMhOxXo6Y9VOg2SifnKrrrbgcmSfD6jYB0/b
+	jvbumPd7ZUvL7TxKARZQYIm6tmz4WLlUxqEzGkE=
+X-Google-Smtp-Source: ABdhPJx1yVxqdF8XLhtd5ujB6MNAPMDUJVefOZsCJlheoK04yxn97OB2GuHv8wftu3DtLfcUX0CO9w==
+X-Received: by 2002:a9d:6c2:: with SMTP id 60mr8550623otx.89.1617899528656;
+        Thu, 08 Apr 2021 09:32:08 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.00
+        by smtp.gmail.com with ESMTPSA id j10sm5546705oos.27.2021.04.08.09.32.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 09:32:03 -0700 (PDT)
+        Thu, 08 Apr 2021 09:32:08 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/11] selftest/reproducible: Sort the unused exclusion list
-Date: Thu,  8 Apr 2021 06:31:05 -1000
-Message-Id: <b406720d65135a898f04a92949b05ba0108c9970.1617899121.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/11] diffoscope: Upgrade 136 -> 168
+Date: Thu,  8 Apr 2021 06:31:06 -1000
+Message-Id: <e7ef1854677e7872f71c16cf6eeed4b0900a5be1.1617899121.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617899121.git.steve@sakoman.com>
 References: <cover.1617899121.git.steve@sakoman.com>
@@ -53,28 +53,53 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This makes comparisions between lists easier.
+Needed to support reproducible build testing on autobuilder
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d2c52125d1cdc06c7e08d507ca68f3e4612a4314)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../{diffoscope_136.bb => diffoscope_168.bb}      | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_136.bb => diffoscope_168.bb} (46%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index b331c3dedf..f5e3bff5a4 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -122,7 +122,7 @@ class PackageCompareResults(object):
-         return 'same=%i different=%i different_excluded=%i missing=%i total=%i\nunused_exclusions=%s' % (len(self.same), len(self.different), len(self.different_excluded), len(self.missing), len(self.total), self.unused_exclusions())
+diff --git a/meta/recipes-support/diffoscope/diffoscope_136.bb b/meta/recipes-support/diffoscope/diffoscope_168.bb
+similarity index 46%
+rename from meta/recipes-support/diffoscope/diffoscope_136.bb
+rename to meta/recipes-support/diffoscope/diffoscope_168.bb
+index e699d15e90..00a8195c84 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_136.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_168.bb
+@@ -1,10 +1,5 @@
+ SUMMARY = "in-depth comparison of files, archives, and directories"
+-DESCRIPTION = "Tries to get to the bottom of what makes files or directories \
+-different. It will recursively unpack archives of many kinds and transform \
+-various binary formats into more human-readable form to compare them. \
+-It can compare two tarballs, ISO images, or PDF just as easily."
+ HOMEPAGE = "https://diffoscope.org/"
+-BUGTRACKER = "https://salsa.debian.org/reproducible-builds/diffoscope/-/issues"
+ LICENSE = "GPL-3.0+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
-     def unused_exclusions(self):
--        return set(exclude_packages) - self.active_exclusions
-+        return sorted(set(exclude_packages) - self.active_exclusions)
+@@ -12,12 +7,18 @@ PYPI_PACKAGE = "diffoscope"
  
- def compare_file(reference, test, diffutils_sysroot):
-     result = CompareResult()
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "c84d8d308a40176ba2f5dc4abdbf6f73"
+-SRC_URI[sha256sum] = "0d6486d6eb6e0445ba21fee2e8bdd3a366ce786bfac98e00e5a95038b7815f15"
++SRC_URI[sha256sum] = "c6f1dc3e75b7e2e5ceac4f857fbd2ee0ddb3f0169c2b39ea9187af34208e98de"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
+ 
+ # Dependencies don't build for musl
+ COMPATIBLE_HOST_libc-musl = 'null'
+ 
++do_install_append_class-native() {
++	create_wrapper ${D}${bindir}/diffoscope \
++		MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
++		RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
++		RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
++}
++
+ BBCLASSEXTEND = "native"
 -- 
 2.25.1
 
