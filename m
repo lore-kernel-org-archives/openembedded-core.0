@@ -1,67 +1,85 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.9183.1617974826935781613
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.9220.1617974956294909237
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Apr 2021 06:27:07 -0700
+ Fri, 09 Apr 2021 06:29:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bEEOd9Ml;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id g18-20020a7bc4d20000b0290116042cfdd8so4752854wmk.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Apr 2021 06:27:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjZPE4zD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id y124-20020a1c32820000b029010c93864955so4737363wmy.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Apr 2021 06:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=sm0qablWXmcm5qH3ILy/zg7YD9ny+NBT/VLZln0ouq4=;
-        b=bEEOd9MleLU4kpiGtoI19iEnAR12xT9QxBnUbwmGeCivEkDMO9fn7SpWj6BeWfsKht
-         qP2Kxl4r/dYRZOhCCukjP9jspeotVhNyDmVz+/K6qdZcTfpYf3rTOncDriAOQBCZ2uYX
-         lZocslly9lrXNFTdLLvJk/rIx0dOupjosCinw=
+        bh=c3FxJTAaqhkUeDRCEYKNtTPPu2nsGaABm+zIQKxm1+Q=;
+        b=bjZPE4zDj2h2M0nMX69sQEyD7jhGYdsLQ81Kh+DkAEE1+i/aKZx7QZfHBztMOkmyEB
+         8chEzn6vjd5t+YDJ91Tzrg6lQ7s1sLObJ6F7K0y9ae9sRKwlzb8BIOkWgZ1ezqw1fGih
+         R0gssk7V1s1/0TEQAz55StctTb49rmPqeZuLc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=sm0qablWXmcm5qH3ILy/zg7YD9ny+NBT/VLZln0ouq4=;
-        b=Vx0xP67Ewve0qsINNCv2csXb5r+bKN3eXEV66Fv1sn97ngRacrvsfbgaIhGIA2IHSA
-         aVwzjU72MYfRhNIM0GxrlN+PukgDvXlaLJN49lTOKiTnBFtGDvpuEF221uYzfzAytrab
-         U5Sbnzo36fj/+QEO87Hxo4uHs2eMsPUm5/dW2PnPTvuZtQLGyDuAD5HHhM1TYTy7vTiJ
-         cPN6DNHAW6rYq6BHfSxdEP24itlIBDbszxx/Z3l6VcwV5eUWv3TXd5gxIXTdX9oIH7TC
-         /xLKQRCyn6QvNqqjWdFanCUyVBzB3ouU26fNbAQBFGYtm1KRKGsHKK2629z0nJHO+IYn
-         5Psw==
-X-Gm-Message-State: AOAM530IfKXxyZPDQJX6N0pWi5pR1za7qKpvvir48bpYqoufzH4I+dHB
-	vI/rvU1G+E1UKqclDMPG1qjCUQ==
-X-Google-Smtp-Source: ABdhPJxibDTQqcgUTFQiBLyn7WRdqOelc9O2+Fl6g8aO4BJljVM4tLApghR/IflhzmW7Rtlmessbiw==
-X-Received: by 2002:a05:600c:3541:: with SMTP id i1mr13802978wmq.97.1617974825374;
-        Fri, 09 Apr 2021 06:27:05 -0700 (PDT)
+        bh=c3FxJTAaqhkUeDRCEYKNtTPPu2nsGaABm+zIQKxm1+Q=;
+        b=b7TkM5XhDd4R3aTeUmYb8eDoNTn2vMyXFC4XOiTwFu/Y48QcpAWH3KIT+onya4zTR7
+         VzEFMJ79d4Kc2QG8lXQw6peZjH6zZfAPEL9fhmd3am40+njwryKZpiJtqhxeCVfo71sA
+         7Do345MmQNu3W5mzEzWhmdDn1460aTSlTsIxg9E4X5iCSuNvPvS2UgCz/tgffKGS4r+g
+         /laToMd92rtJwpf5BBV+t21qOtKXOC7e+qcZhTDxiemScN9WwN3OTT8GOnq70N+myEHY
+         CeIT+SbOio4bsu6417QqQ5uwq0KpG0+p2RcWPdzLxbA3Q5LvyZSi1oFRmCOtDCeOOYLw
+         lJpw==
+X-Gm-Message-State: AOAM532GoEkSW1K9gyX1JGwXL+Eae+0PDRafmFUJU3QFy1zX2LfJHCU0
+	KmeTmmMwqjFJWtvNgr0sLY0kV7rPX04uLA==
+X-Google-Smtp-Source: ABdhPJzRrMRSN0hg8m7661YMSWT6TDNNmWRGx6a4wHbTIt7ibj52l4XydnpvU7R/nUy5BRly6KRT0A==
+X-Received: by 2002:a1c:7311:: with SMTP id d17mr2210581wmb.183.1617974954925;
+        Fri, 09 Apr 2021 06:29:14 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:434b:3ea0:b8b8:6ecc? ([2001:8b0:aba:5f3c:434b:3ea0:b8b8:6ecc])
-        by smtp.gmail.com with ESMTPSA id x1sm4664756wro.66.2021.04.09.06.27.04
+        by smtp.gmail.com with ESMTPSA id d7sm5062685wrw.63.2021.04.09.06.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 06:27:05 -0700 (PDT)
-Message-ID: <f1cdbaa3f50b68f4519ba919385f9c068df57dc3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] terminal: Fix tmux new-session on older tmux versions (<1.9)
+        Fri, 09 Apr 2021 06:29:14 -0700 (PDT)
+Message-ID: <14155d492f56b0a462173ac631bef7944b14194b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH][pseudo] client: strip trailing slashes when opening an ignored path
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: pbbudny@amazon.com, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 09 Apr 2021 14:27:04 +0100
-In-Reply-To: <db9c2955d3904d79b1dc38ed2e655260@EX13D38UWB003.ant.amazon.com>
-References: <db9c2955d3904d79b1dc38ed2e655260@EX13D38UWB003.ant.amazon.com>
+To: Ross Burton <ross@burtonini.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 09 Apr 2021 14:29:13 +0100
+In-Reply-To: <20210408162509.4016524-1-ross.burton@arm.com>
+References: <20210408162509.4016524-1-ross.burton@arm.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-04-08 at 18:09 +0000, Budny, Peter via lists.openembedded.org wrote:
-> `tmux new -c` fails on tmux older than 1.9, when that flag was added.
-> We can omit the flag for older versions of tmux, and the working
-> directory gets set even without it.
+On Thu, 2021-04-08 at 17:25 +0100, Ross Burton wrote:
+> The pseudo client path map stores paths that have been sanitised, but
+> in the ignored-path (PSEUDO_IGNORE_PATHS) codepath for open() calls this
+> sanitising wasn't performed so it is possible for paths that end with a
+> trailing slash to be entered.
+> 
+> This then subsequently interacts badly with path manipulation, resulting
+> in the situation where doing:
+> 
+>   fd = open("/some/path/")
+>   parent_fd = openat(fd, "../)
+> 
+> results in parent_fd actually pointing at /some/path still.
+> 
+> Solve this by ensuring that any trailing slashes are removed from the
+> path when adding to the map in the ignore short-circuit.
+> 
+> Also add a test case for this to ensure that it doesn't regress in the
+> future.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/lib/oe/terminal.py | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+>  Makefile.in         |  1 +
+>  pseudo_client.c     | 11 ++++++++-
+>  test/test-openat.c  | 55 +++++++++++++++++++++++++++++++++++++++++++++
+>  test/test-openat.sh |  7 ++++++
+>  4 files changed, 73 insertions(+), 1 deletion(-)
+>  create mode 100644 test/test-openat.c
+>  create mode 100755 test/test-openat.sh
 
-Thanks for the patch, could you resend with a Signed-off-by line though 
-please?
-
-Also, a minor tweak to the prefix in the shortlog to "lib/oe/terminal:"
-would be great since it needs resending.
+Merged to the oe-core branch, thanks. Bonus kudos for a new test! :)
 
 Cheers,
 
