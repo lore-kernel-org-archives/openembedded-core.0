@@ -1,87 +1,68 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.9220.1617974956294909237
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.10646.1617980418911207153
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Apr 2021 06:29:16 -0700
+ Fri, 09 Apr 2021 08:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjZPE4zD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id y124-20020a1c32820000b029010c93864955so4737363wmy.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Apr 2021 06:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=c3FxJTAaqhkUeDRCEYKNtTPPu2nsGaABm+zIQKxm1+Q=;
-        b=bjZPE4zDj2h2M0nMX69sQEyD7jhGYdsLQ81Kh+DkAEE1+i/aKZx7QZfHBztMOkmyEB
-         8chEzn6vjd5t+YDJ91Tzrg6lQ7s1sLObJ6F7K0y9ae9sRKwlzb8BIOkWgZ1ezqw1fGih
-         R0gssk7V1s1/0TEQAz55StctTb49rmPqeZuLc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=c3FxJTAaqhkUeDRCEYKNtTPPu2nsGaABm+zIQKxm1+Q=;
-        b=b7TkM5XhDd4R3aTeUmYb8eDoNTn2vMyXFC4XOiTwFu/Y48QcpAWH3KIT+onya4zTR7
-         VzEFMJ79d4Kc2QG8lXQw6peZjH6zZfAPEL9fhmd3am40+njwryKZpiJtqhxeCVfo71sA
-         7Do345MmQNu3W5mzEzWhmdDn1460aTSlTsIxg9E4X5iCSuNvPvS2UgCz/tgffKGS4r+g
-         /laToMd92rtJwpf5BBV+t21qOtKXOC7e+qcZhTDxiemScN9WwN3OTT8GOnq70N+myEHY
-         CeIT+SbOio4bsu6417QqQ5uwq0KpG0+p2RcWPdzLxbA3Q5LvyZSi1oFRmCOtDCeOOYLw
-         lJpw==
-X-Gm-Message-State: AOAM532GoEkSW1K9gyX1JGwXL+Eae+0PDRafmFUJU3QFy1zX2LfJHCU0
-	KmeTmmMwqjFJWtvNgr0sLY0kV7rPX04uLA==
-X-Google-Smtp-Source: ABdhPJzRrMRSN0hg8m7661YMSWT6TDNNmWRGx6a4wHbTIt7ibj52l4XydnpvU7R/nUy5BRly6KRT0A==
-X-Received: by 2002:a1c:7311:: with SMTP id d17mr2210581wmb.183.1617974954925;
-        Fri, 09 Apr 2021 06:29:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:434b:3ea0:b8b8:6ecc? ([2001:8b0:aba:5f3c:434b:3ea0:b8b8:6ecc])
-        by smtp.gmail.com with ESMTPSA id d7sm5062685wrw.63.2021.04.09.06.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 06:29:14 -0700 (PDT)
-Message-ID: <14155d492f56b0a462173ac631bef7944b14194b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][pseudo] client: strip trailing slashes when opening an ignored path
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 09 Apr 2021 14:29:13 +0100
-In-Reply-To: <20210408162509.4016524-1-ross.burton@arm.com>
-References: <20210408162509.4016524-1-ross.burton@arm.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39B901FB
+	for <openembedded-core@lists.openembedded.org>; Fri,  9 Apr 2021 08:00:17 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEC393F694
+	for <openembedded-core@lists.openembedded.org>; Fri,  9 Apr 2021 08:00:16 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glslang: strip whitespace in pkgconfig file
+Date: Fri,  9 Apr 2021 16:00:14 +0100
+Message-Id: <20210409150014.3643624-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-04-08 at 17:25 +0100, Ross Burton wrote:
-> The pseudo client path map stores paths that have been sanitised, but
-> in the ignored-path (PSEUDO_IGNORE_PATHS) codepath for open() calls this
-> sanitising wasn't performed so it is possible for paths that end with a
-> trailing slash to be entered.
-> 
-> This then subsequently interacts badly with path manipulation, resulting
-> in the situation where doing:
-> 
->   fd = open("/some/path/")
->   parent_fd = openat(fd, "../)
-> 
-> results in parent_fd actually pointing at /some/path still.
-> 
-> Solve this by ensuring that any trailing slashes are removed from the
-> path when adding to the map in the ignore short-circuit.
-> 
-> Also add a test case for this to ensure that it doesn't regress in the
-> future.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  Makefile.in         |  1 +
->  pseudo_client.c     | 11 ++++++++-
->  test/test-openat.c  | 55 +++++++++++++++++++++++++++++++++++++++++++++
->  test/test-openat.sh |  7 ++++++
->  4 files changed, 73 insertions(+), 1 deletion(-)
->  create mode 100644 test/test-openat.c
->  create mode 100755 test/test-openat.sh
+Whilst pkg-config is fine with .pc files containing leading whitespace,
+pkgconf is less forgiving.
 
-Merged to the oe-core branch, thanks. Bonus kudos for a new test! :)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../0001-generate-glslang-pkg-config.patch    | 22 +++++++++----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-=
+pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-gl=
+slang-pkg-config.patch
+index ef092f17a1..cddd330971 100644
+--- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-con=
+fig.patch
++++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-con=
+fig.patch
+@@ -34,14 +34,14 @@ index 00000000..64b6882d
+ --- /dev/null
+ +++ b/glslang/glslang.pc.cmake.in
+ @@ -0,0 +1,11 @@
+-+    prefix=3D@CMAKE_INSTALL_PREFIX@
+-+    exec_prefix=3D@CMAKE_INSTALL_PREFIX@
+-+    libdir=3D${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+-+    includedir=3D${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+-+   =20
+-+    Name: @PROJECT_NAME@
+-+    Description: OpenGL and OpenGL ES shader front end and validator
+-+    Requires:
+-+    Version: @GLSLANG_VERSION@
+-+    Libs: -L${libdir} -lglslang -lOSDependent -lHLSL -lOGLCompiler -lSP=
+VRemapper
+-+    Cflags: -I${includedir}
+++prefix=3D@CMAKE_INSTALL_PREFIX@
+++exec_prefix=3D@CMAKE_INSTALL_PREFIX@
+++libdir=3D${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+++includedir=3D${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+++
+++Name: @PROJECT_NAME@
+++Description: OpenGL and OpenGL ES shader front end and validator
+++Requires:
+++Version: @GLSLANG_VERSION@
+++Libs: -L${libdir} -lglslang -lOSDependent -lHLSL -lOGLCompiler -lSPVRem=
+apper
+++Cflags: -I${includedir}
+--=20
+2.25.1
 
