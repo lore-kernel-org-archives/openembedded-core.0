@@ -1,155 +1,73 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web09.8077.1618077492427570071
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.16926.1618143445303823119
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Apr 2021 10:58:12 -0700
+ Sun, 11 Apr 2021 05:17:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KxaMFZxB;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id g24so6762845qts.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Apr 2021 10:58:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aObUUYNs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id x7so10042016wrw.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Apr 2021 05:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1eh6r00mfp/TI5p6BpwnVtw3f1T53+WUbXDQtpGV8dw=;
-        b=KxaMFZxB3RRXtt5GbS+EgQ5/0KdQDpAaaC8D4aRzfQyvwZbnLuePHBlBl9/UA8Ogbp
-         prNHBiTeOhJogEb1Jp2Qqnb1HMbEg36SpsqxkTdVTBPOCpSDEkPkzJPbmAY3LPmh+cBZ
-         3JhJvT+I2OkO6nvmOoab8eUzv8+eZjNwyztue6zfMTaZqhmJaUMx6uY+cCpaTPZNYQrD
-         sF2FolzancXWydRGIPo7Es3j3o965OvAnfizTh3laxM+PxVm8kRpBOGenLRzDvteg6Wv
-         yEIw/GA2aeNGs6NIxxEnUAQr1tKBHz9XtZXQJqaYdJi00RcHErs4hEdkkwV9d8Yfk0Qm
-         +g6g==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=MpCZBD0rIQD2DXzRvWTi4ndCzXoKi30FPTzrkMDyHc0=;
+        b=aObUUYNseBxYcbukFYm4410F6Uji4n89Cq/F9QUiE/k/Eaq8p3Pt36ehTFg8nB4rVx
+         wcAB2h9pso3idAXRoNkuIllOBOUxpDkJdCwIvkvQmCSXxQr9mOajC+o63kcy14zrXwOl
+         6vUvY9QjCxJBTEnXiwTL62zhXtKgDGCMCgmhM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1eh6r00mfp/TI5p6BpwnVtw3f1T53+WUbXDQtpGV8dw=;
-        b=nxQ+zYzlGTfjRJ3T8d+a77jJniybjLMST1Rv0FTyw35f1AviZ3lu9HWyBkJzsQrjy1
-         fweTt2lwHX7QwAVmjdAketJGpCEpZo9yWjCx3R7dtrhMZQdZT2kIKCn/9bEFNJGRduLi
-         5YxcLkkI/VQ/D/8/9aOL8AH6+ieJJvyXUrBaaAn0bxQGHIL4+l9RK5zSgrCAXzgR9KUG
-         VuuRnYhv+m/JxzOalEHMnpQpP+oalmxMOTFBB2haCJ8yQUWsE6XTvFh2mbG8wTHGwkSv
-         nFQd/vUGxm8+m5EwUjwRmO5hjMbFHpXlIniWxQZ915o16wrbJQ1EyKzATWzV4UexFuzT
-         oRgg==
-X-Gm-Message-State: AOAM532afNLCsQdyKpHYvGhZZAPeOfMTZ7PKNblPdLTRk+e+AoDcH3fD
-	2cyw95MK8h/a9J0kKMxFDQIlHWbiXdD2qCPzNhA=
-X-Google-Smtp-Source: ABdhPJxX/K52DiuEa9ASYyyd8GorFw1uMaXDmKRmwyfIDW54vw5BjIyDo1yH1OBVT+jlU60aotAyf3dDoW4Zhw2Vd0E=
-X-Received: by 2002:ac8:7ef9:: with SMTP id r25mr8001962qtc.369.1618077491613;
- Sat, 10 Apr 2021 10:58:11 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=MpCZBD0rIQD2DXzRvWTi4ndCzXoKi30FPTzrkMDyHc0=;
+        b=N38duanDUB5YK3yx7xynWK3I0BlD8Y+vUkQXfM+6GyZhB/pw9l2ynaJDIk1nzMvSeb
+         4l/z2eaRZRnSC4AK5Mp0eCO2pr3/rVOSG+4wXOz2bh63HqmPjDRVTFNFkVEaITdprDWH
+         sBhfV60w7hJtM6wDdrJhAcVG6GvgDs6HGnI8RVXShwNwW/wbTTrsIJlBX3QyoImoejTI
+         3p25s0ps3Tq0tRRkV+Mi6uU9+NlkptCNmFKJ7kJRFpnwr49R01IGVLKwHnOVc8DCsrdS
+         tVdNVNbDeAGwt8ZUtUUDRdJ5X75/REVatLEHaMLmjzy022SXW6tydKmLWq9raEEAEFaa
+         4oFw==
+X-Gm-Message-State: AOAM530or+zsMJiNsDfpMoB4kkZVkthPgyiz1RdbQvSHHPcyXQtCThnN
+	ej7ryK7yRj9JYda/2K5jmVDUHA==
+X-Google-Smtp-Source: ABdhPJzS1ioGKOQE3ktHWCeK57fuklQ3K6xD6ScW4wspjGk0x7UVA2A0ntgDdTXQ1uOHvufuWSYpWg==
+X-Received: by 2002:adf:fccd:: with SMTP id f13mr19408019wrs.222.1618143443689;
+        Sun, 11 Apr 2021 05:17:23 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f26:aac8:608c:a5ca? ([2001:8b0:aba:5f3c:f26:aac8:608c:a5ca])
+        by smtp.gmail.com with ESMTPSA id b187sm1891630wmh.17.2021.04.11.05.17.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Apr 2021 05:17:23 -0700 (PDT)
+Message-ID: <e5b63b5a5c0d8aaeee01a78ac94cf771098a6bc5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] gcc: Upgrade to 10.3.0 bug-fix release
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross@burtonini.com>
+Date: Sun, 11 Apr 2021 13:17:19 +0100
+In-Reply-To: <20210410084015.4110978-1-raj.khem@gmail.com>
+References: <20210410084015.4110978-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-References: <20210330213019.2300696-1-raj.khem@gmail.com> <e0ae7b52770cea4b073f0e5d108af408781066cf.camel@linuxfoundation.org>
-In-Reply-To: <e0ae7b52770cea4b073f0e5d108af408781066cf.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 10 Apr 2021 10:58:00 -0700
-Message-ID: <CAMKF1spGGNJJ2bKVxjwikTDepYhsbeb0tqScQ2wU5UVGS_3LdA@mail.gmail.com>
-Subject: Re: [OE-core] [RFT][PATCH 0/2] GCC 11 Pre-release
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Joshua Watt <JPEWhacker@gmail.com>, Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001b524805bfa20632"
-
---0000000000001b524805bfa20632
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Thanks for testing it out I think I will try to address them in a follow up
-perhaps next week
+On Sat, 2021-04-10 at 01:40 -0700, Khem Raj wrote:
+> Drop aarch64 backports which are already upstream
+> List of bugs fixed is [1]
+> 
+> [1] https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&list_id=298084&resolution=FIXED&target_milestone=10.3
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Delete duplicate definition of BINV
 
-On Sat, Apr 10, 2021 at 8:13 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Seems to have triggered:
 
-> On Tue, 2021-03-30 at 14:30 -0700, Khem Raj wrote:
-> > This patchset updates to upcoming gcc 11 release, Please give it a try
-> > in your test beds if you have cycles, since there is still sometime left
-> > for final GCC 11 release perhaps we can squeeze in some bugfixes
-> >
-> > They are also available via git here
-> >
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-11
->
-> I ran this through with the gnutls fix you found. There appear to be
-> reproducubility issues in gcc:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/118/builds/159/steps/12/logs/stdio
->
-> An issue with meta-mingw:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/3296
->
-> Missing maintainers entry:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2004
->
-> valgrind ptest regressions on x86 and arm (even with the valgrind upgrade):
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1688/steps/12/logs/stdio
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1976/steps/12/logs/stdio
->
-> Cheers,
->
-> Richard
->
->
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2005/steps/14/logs/stdio
 
---0000000000001b524805bfa20632
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+One is an easy fix to the maintainers entry for gcc-source, the other,
+a failure in a new selftest for sysroot posioning added by Ross, 
+"oe-selftest -r buildoptions.Poisoning.test_poisoning".
 
-<div dir=3D"auto">Thanks for testing it out I think I will try to address t=
-hem in a follow up perhaps next week=C2=A0</div><div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 10, 2021 at 8:13=
- AM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">On Tue, 2021-03-30 at 14:30 -0700, Khem Raj wrote:<br>
-&gt; This patchset updates to upcoming gcc 11 release, Please give it a try=
-<br>
-&gt; in your test beds if you have cycles, since there is still sometime le=
-ft<br>
-&gt; for final GCC 11 release perhaps we can squeeze in some bugfixes<br>
-&gt; <br>
-&gt; They are also available via git here<br>
-&gt; <a href=3D"https://git.openembedded.org/openembedded-core-contrib/log/=
-?h=3Dkraj/gcc-11" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
-dded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-11</a><br>
-<br>
-I ran this through with the gnutls fix you found. There appear to be=C2=A0<=
-br>
-reproducubility=C2=A0issues in gcc:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/118/buil=
-ds/159/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/118/builds/159/steps/12/logs/=
-stdio</a><br>
-<br>
-An issue with meta-mingw:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/89/build=
-s/3296" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/89/builds/3296</a><br>
-<br>
-Missing maintainers entry:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
-s/2004" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/79/builds/2004</a><br>
-<br>
-valgrind ptest regressions on x86 and arm (even with the valgrind upgrade):=
-<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/1688/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1688/steps/12/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
-s/1976/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1976/steps/12/logs/=
-stdio</a><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
+Cheers,
 
---0000000000001b524805bfa20632--
+Richard
+
