@@ -1,73 +1,83 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.16926.1618143445303823119
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.19432.1618156151666666989
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Apr 2021 05:17:25 -0700
+ Sun, 11 Apr 2021 08:49:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aObUUYNs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id x7so10042016wrw.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Apr 2021 05:17:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PdmJKH4V;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id em21-20020a17090b0155b029014e204a81e6so795457pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Apr 2021 08:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=MpCZBD0rIQD2DXzRvWTi4ndCzXoKi30FPTzrkMDyHc0=;
-        b=aObUUYNseBxYcbukFYm4410F6Uji4n89Cq/F9QUiE/k/Eaq8p3Pt36ehTFg8nB4rVx
-         wcAB2h9pso3idAXRoNkuIllOBOUxpDkJdCwIvkvQmCSXxQr9mOajC+o63kcy14zrXwOl
-         6vUvY9QjCxJBTEnXiwTL62zhXtKgDGCMCgmhM=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=StBm9G6GxWdGsco1hKR4jKAGQ/i8a/VyD4nIFTzEeCk=;
+        b=PdmJKH4V2l1nJegNTGlIGJ7eTRTnAAg7lhfGtn5O264OhgdfsklT7+YIHjvzXsNZs5
+         cN+OiktNy3dDU6ZFE4J7IIomTYs7WglZLonqI7PEffGXRQuPGPb6HceVK3v8usnKD9ZW
+         Smnckp6lXPzVv5dnWVyGmOgO6U7lnhh/L67yE5jcdm5fMrJYo0MnDwjOZfwEJcPoylwY
+         FidBMr3nCRK0fWUTk5l6/XhI8/FxUGLEdhOgi0sstDjMAfLtOmkm2LYaOnYXi4iSIGN8
+         A+WS7VU/+ai1MjhP4+E9NQwZS+dPImjObJ672Z7wZg4CT1Nt8wsKEUlZ8wgE1KZCOaqJ
+         lN+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=MpCZBD0rIQD2DXzRvWTi4ndCzXoKi30FPTzrkMDyHc0=;
-        b=N38duanDUB5YK3yx7xynWK3I0BlD8Y+vUkQXfM+6GyZhB/pw9l2ynaJDIk1nzMvSeb
-         4l/z2eaRZRnSC4AK5Mp0eCO2pr3/rVOSG+4wXOz2bh63HqmPjDRVTFNFkVEaITdprDWH
-         sBhfV60w7hJtM6wDdrJhAcVG6GvgDs6HGnI8RVXShwNwW/wbTTrsIJlBX3QyoImoejTI
-         3p25s0ps3Tq0tRRkV+Mi6uU9+NlkptCNmFKJ7kJRFpnwr49R01IGVLKwHnOVc8DCsrdS
-         tVdNVNbDeAGwt8ZUtUUDRdJ5X75/REVatLEHaMLmjzy022SXW6tydKmLWq9raEEAEFaa
-         4oFw==
-X-Gm-Message-State: AOAM530or+zsMJiNsDfpMoB4kkZVkthPgyiz1RdbQvSHHPcyXQtCThnN
-	ej7ryK7yRj9JYda/2K5jmVDUHA==
-X-Google-Smtp-Source: ABdhPJzS1ioGKOQE3ktHWCeK57fuklQ3K6xD6ScW4wspjGk0x7UVA2A0ntgDdTXQ1uOHvufuWSYpWg==
-X-Received: by 2002:adf:fccd:: with SMTP id f13mr19408019wrs.222.1618143443689;
-        Sun, 11 Apr 2021 05:17:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f26:aac8:608c:a5ca? ([2001:8b0:aba:5f3c:f26:aac8:608c:a5ca])
-        by smtp.gmail.com with ESMTPSA id b187sm1891630wmh.17.2021.04.11.05.17.23
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=StBm9G6GxWdGsco1hKR4jKAGQ/i8a/VyD4nIFTzEeCk=;
+        b=R5DGE6Xo1Np4K8vvH/F8kTdX/ug06rGancRUBrdZvEDs0H2W95Ko6OLIn/UDmFHLU1
+         w/NOTQi8N4QdOBEYsTuekKi7iFKCKo+B1fsF95xrUUolGCrmu10xP8IRVSRRoLR//SgT
+         AFxe3c+R6Jhq9gPP/9o4v/Rb2VStoPvO2jYsZPrKQDdhmgm7Bj9Nn78htI91CPVBEaSS
+         RRZ7Phon/dLbQztAtTVGy5gaQu2KI/9C7/2PsEvMJIsEjDvWM3pmHf45Fdi8WVF4gxyZ
+         gu1aDo/5cOtjtCEhiZelqrn9ij1RwedViGzJZiwc9XXjYmlEBNPVCidm+gmHUWUMsJeb
+         4Hww==
+X-Gm-Message-State: AOAM530QQiXvfNHZ/KBuqxBBboQT7ihB57bNOz58D+WbqEh5zta6fcfW
+	qqs8E+jy/uDKQ6iO9Us+/qvtarsTKYE=
+X-Google-Smtp-Source: ABdhPJxtu0HES80sRpqRUiwssZBKsw2sHTgvaczlQpBhffOshtjnPtlxgiy06mr8pKcY4XcI73s/oA==
+X-Received: by 2002:a17:902:7c94:b029:e6:e1d7:62b7 with SMTP id y20-20020a1709027c94b02900e6e1d762b7mr21882669pll.29.1618156150639;
+        Sun, 11 Apr 2021 08:49:10 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:b887:cf12:9d4d:daab])
+        by smtp.gmail.com with ESMTPSA id 23sm8630547pgo.53.2021.04.11.08.49.09
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 05:17:23 -0700 (PDT)
-Message-ID: <e5b63b5a5c0d8aaeee01a78ac94cf771098a6bc5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] gcc: Upgrade to 10.3.0 bug-fix release
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross@burtonini.com>
-Date: Sun, 11 Apr 2021 13:17:19 +0100
-In-Reply-To: <20210410084015.4110978-1-raj.khem@gmail.com>
-References: <20210410084015.4110978-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.40.0-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+        Sun, 11 Apr 2021 08:49:10 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] binutils: rename BRANCH var
+Date: Sun, 11 Apr 2021 08:49:00 -0700
+Message-Id: <20210411154900.20331-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Sat, 2021-04-10 at 01:40 -0700, Khem Raj wrote:
-> Drop aarch64 backports which are already upstream
-> List of bugs fixed is [1]
-> 
-> [1] https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&list_id=298084&resolution=FIXED&target_milestone=10.3
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Delete duplicate definition of BINV
+If BRANCH is defined in local.conf then that name is used to d/l sources
+for binutils. You will get this error:
 
-Seems to have triggered:
+Fetcher failure for URL: 'git://sourceware.org/git/binutils-gdb.git;branch=hardknott;protocol=git'. Unable to fetch URL from any source.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/2005/steps/14/logs/stdio
+Rename to SRCBRANCH like glibc has to avoid the more common variable name BRANCH.
 
-One is an easy fix to the maintainers entry for gcc-source, the other,
-a failure in a new selftest for sysroot posioning added by Ross, 
-"oe-selftest -r buildoptions.Poisoning.test_poisoning".
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.36.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc b/meta/recipes-devtools/binutils/binutils-2.36.inc
+index 2968291889..f638f02e8f 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.36.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
+@@ -19,13 +19,13 @@ def binutils_branch_version(d):
+ PV = "2.36.1"
+ CVE_VERSION = "2.36.1"
+ BINUPV = "${@binutils_branch_version(d)}"
+-#BRANCH = "binutils-${BINUPV}-branch"
+-BRANCH ?= "binutils-2_36-branch"
++#SRCBRANCH = "binutils-${BINUPV}-branch"
++SRCBRANCH ?= "binutils-2_36-branch"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+ SRCREV ?= "7651a4871c225925ffdfda0a8c91a6ed370cd9a1"
+-BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${BRANCH};protocol=git"
++BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
+      file://0004-configure-widen-the-regexp-for-SH-architectures.patch \
+-- 
+2.17.1
 
