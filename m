@@ -1,50 +1,50 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web08.9428.1618172809845280550
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.23235.1618172871245798200
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Apr 2021 13:26:50 -0700
+ Sun, 11 Apr 2021 13:27:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P4G2e9Mh;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so8315327pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Apr 2021 13:26:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I7VdtwVW;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so5878077pjv.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Apr 2021 13:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=w5msrU7AdliHbXg6huMFIYmm6qBZ0dgLm9aGEyZOGVI=;
-        b=P4G2e9MhB1yjy+0R+nNM7426afDy+FZLQ7mRFgmhjj/kx//5gxUuSdpvj5KAGs/L8v
-         xvY4TNLCNLsNHq2+lxUKqzpHT2/cdAOeoX5zIc9e41T9+DnbFQ36aqFm5K4LuLtmqlZR
-         gi4K14PxPxBuy6OdPqXHty0dwxBpxy+DCAfIzKJXKth5HKPOu9NR1a84V+XaVhhiiFEx
-         vx3zFc9+oGnezplkLz8NyrwyAX6XTiUDGwJ677pganl1YaUmoWrxjRH0D8RXV14/lI9L
-         ixvVoRkKjAklcjD+XUrKt6jhBWjb0TE6e4ANc+bjqksdaswsWXNkS1CJ+2xtIY8EFYJt
-         k9kA==
+        bh=sppEzBn+ncOk1c/dX/nRAEJlwpXNvRwxRifigbtB+g8=;
+        b=I7VdtwVWn6BOcgzLENg5KmrnxqM/P2ffdEn86EfUV9J4/PcGzyshYu57JbS0Im5M3s
+         8hP5d33H4o9WYmipmSXIAMBqn741WykYWqXupr3lonpO3koJqBqogMDQy952X1L8Yuu3
+         ARyijWrkFkXoUyH9D44gX7zJUc3nkvRrwWeJmX8J0DBnxjbetLLuVtCK6HVUboGPu+Iq
+         T5nvT79Xjwhu+vr1TukfQbnHK4jADhjBxvYXEyHN+IcodK4mes8ILdDWIkXyCshyhkNl
+         +pq3l2UsflewVbW4LdpB3+9RJtplQ5PzYO0WZISCYGbpJ62uWloVMdFhJtR2Er+cL4c6
+         jOKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=w5msrU7AdliHbXg6huMFIYmm6qBZ0dgLm9aGEyZOGVI=;
-        b=GhsPTpDewc3oMP75cP0i7FtbVNRUnJVJ1wysGy8Vm7Lqlu7mCSuvvTOE4VTjaeFCrq
-         emD2NWTGHf7Dt47tTimq3cnVB5f9zR65hwH6vqcPEJJxzqsZ+AQ5aUoOVPEpCd5JDwb/
-         BEx6isDe61HCWmrwOweXZLIzl7WvwP26iEysliuKENRutdYcZQVCCjB3CTSZSZQpcfps
-         AKu9dPz9IlfC3lLteAIcDcwTXx2RSy8FCZQGzj9yOovw0wz4zi+QqSfwYdiQWTePDV63
-         /0kki77aMu0bMNAdlhCPAMk19mUdIrN0fqPg6DFq9xyOe2l5LNKMovBTaPDhMJwybAw4
-         Vp5Q==
-X-Gm-Message-State: AOAM533uU/FBxkqPgRc5cy045BOrg0ypqkYLjpt+mRav+jbhZqyf7ev5
-	gg9LMsbYa9enJ8i7pW2Pkfjp3mTIc0zeDA==
-X-Google-Smtp-Source: ABdhPJwdf4BvwNEAz2kgB8hqwFN9+l8l8OkNrqXMzLguMlQGlfJZXl3vTuR5m6quuQBBRbdVJZXR4w==
-X-Received: by 2002:a17:90a:bf84:: with SMTP id d4mr24383167pjs.118.1618172807948;
-        Sun, 11 Apr 2021 13:26:47 -0700 (PDT)
+        bh=sppEzBn+ncOk1c/dX/nRAEJlwpXNvRwxRifigbtB+g8=;
+        b=QOSVAjQk884inhqqt135Xx/r3XKIJEW/+k8aOHNws6W0M2c2RF3MWWDZ5+bJo2ucLm
+         zfbt/lMd87fnbUVg1twFlYlU58sAvNa9xVgCPETm922vh8+WGeGGlQNSWW8Z794AEU4z
+         SxAVI5xptueyzkc55A0I1LNIdkziErRqpUU1s/QU+ybPRGcxZJv/1+fv/UwF4AaoshoI
+         mEJeydtcwQa4a/KyYM6cgOSpxQ2/gmYysXaOarBp9BDbb5g31X2vPfn+7AYDKUtwXZNr
+         lH6OD6p25Q0/UcKQ+MbGfsXj5+7y8BJgUuuSuYYRAlfk+AoCW5A0bYIInM04/SbCVtHM
+         4tzw==
+X-Gm-Message-State: AOAM53291vXg9ghWQBA1vKZVc7Eunonshj07N0QB+okW9jHT4dWyo+/b
+	97duJDBJnnqZg91os1l5m3UPrQ/15kmX5g==
+X-Google-Smtp-Source: ABdhPJwPPu5kGfvOKE48GCl1V7X3X2LkXRKHr2cEJlS9Wo/LVju0am3mt5FE5tcDJwHxgkoEqkizsQ==
+X-Received: by 2002:a17:902:6907:b029:ea:d1e8:b80b with SMTP id j7-20020a1709026907b02900ead1e8b80bmr6857137plk.41.1618172869728;
+        Sun, 11 Apr 2021 13:27:49 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
-        by smtp.gmail.com with ESMTPSA id x18sm7899544pfu.32.2021.04.11.13.26.47
+        by smtp.gmail.com with ESMTPSA id mv13sm1517730pjb.29.2021.04.11.13.27.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 13:26:47 -0700 (PDT)
+        Sun, 11 Apr 2021 13:27:49 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gcc: Upgrade to 10.3.0 bug-fix release
-Date: Sun, 11 Apr 2021 13:26:45 -0700
-Message-Id: <20210411202645.388693-1-raj.khem@gmail.com>
+Subject: [PATCH v3] gcc: Upgrade to 10.3.0 bug-fix release
+Date: Sun, 11 Apr 2021 13:27:46 -0700
+Message-Id: <20210411202746.388822-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,7 +56,8 @@ List of bugs fixed is [1]
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Fix maintainer entry to use PV
+v2: Fix BINV
+v3: Fix maintainer entry to use PV
     Fix include poison patch which was old version
 
  meta/conf/distro/include/maintainers.inc      |   2 +-
@@ -152,19 +153,19 @@ index c0cd8b31d5..7fcb058fea 100644
 --- a/meta/recipes-devtools/gcc/gcc-10.2.inc
 +++ b/meta/recipes-devtools/gcc/gcc-10.3.inc
 @@ -2,11 +2,11 @@ require gcc-common.inc
- 
+
  # Third digit in PV should be incremented after a minor release
- 
+
 -PV = "10.2.0"
 +PV = "10.3.0"
- 
+
  # BINV should be incremented to a revision after a minor gcc release
- 
+
 -BINV = "10.2.0"
 +BINV = "10.3.0"
- 
+
  FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
- 
+
 @@ -65,13 +65,9 @@ SRC_URI = "\
             file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
             file://0036-mingw32-Enable-operation_not_supported.patch \
@@ -178,7 +179,7 @@ index c0cd8b31d5..7fcb058fea 100644
  "
 -SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
 +SRC_URI[sha256sum] = "64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344"
- 
+
  S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  # For dev release snapshotting
 diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_10.2.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_10.3.bb
@@ -273,8 +274,8 @@ index c060accd99..0000000000
 -+	STXP		w(tmp2), x2, x3, [x4]
 - 	cbnz		w(tmp2), 0b
 - 1:	ret
-- 
---- 
+-
+---
 -2.26.2
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch b/meta/recipes-devtools/gcc/gcc/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
@@ -336,9 +337,9 @@ index 73de4c7590..0000000000
 ---- a/gcc/config/aarch64/aarch64-protos.h
 -+++ b/gcc/config/aarch64/aarch64-protos.h
 -@@ -781,4 +781,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
-- 
+-
 - tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
-- 
+-
 -+extern bool aarch64_harden_sls_retbr_p (void);
 -+extern bool aarch64_harden_sls_blr_p (void);
 -+
@@ -350,7 +351,7 @@ index 73de4c7590..0000000000
 -@@ -14494,6 +14494,79 @@ aarch64_validate_mcpu (const char *str, const struct processor **res,
 -   return false;
 - }
-- 
+-
 -+/* Straight line speculation indicators.  */
 -+enum aarch64_sls_hardening_type
 -+{
@@ -430,13 +431,13 @@ index 73de4c7590..0000000000
 -@@ -14738,6 +14811,9 @@ aarch64_override_options (void)
 -   selected_arch = NULL;
 -   selected_tune = NULL;
-- 
+-
 -+  if (aarch64_harden_sls_string)
 -+    aarch64_validate_sls_mitigation (aarch64_harden_sls_string);
 -+
 -   if (aarch64_branch_protection_string)
 -     aarch64_validate_mbranch_protection (aarch64_branch_protection_string);
-- 
+-
 -diff --git a/gcc/config/aarch64/aarch64.opt b/gcc/config/aarch64/aarch64.opt
 -index d99d14c..5170361 100644
 ---- a/gcc/config/aarch64/aarch64.opt
@@ -444,7 +445,7 @@ index 73de4c7590..0000000000
 -@@ -71,6 +71,10 @@ mgeneral-regs-only
 - Target Report RejectNegative Mask(GENERAL_REGS_ONLY) Save
 - Generate code which uses only the general registers.
-- 
+-
 -+mharden-sls=
 -+Target RejectNegative Joined Var(aarch64_harden_sls_string)
 -+Generate code to mitigate against straight line speculation.
@@ -467,7 +468,7 @@ index 73de4c7590..0000000000
 -@@ -17065,6 +17066,17 @@ functions.  The optional argument @samp{b-key} can be used to sign the functions
 - with the B-key instead of the A-key.
 - @samp{bti} turns on branch target identification mechanism.
-- 
+-
 -+@item -mharden-sls=@var{opts}
 -+@opindex mharden-sls
 -+Enable compiler hardening against straight line speculation (SLS).
@@ -482,7 +483,7 @@ index 73de4c7590..0000000000
 - @item -msve-vector-bits=@var{bits}
 - @opindex msve-vector-bits
 - Specify the number of bits in an SVE vector register.  This option only has
---- 
+---
 -2.7.4
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
@@ -497,7 +498,7 @@ index 82ae9f8d14..6beedacf66 100644
  Subject: [PATCH] gcc-4.3.1: ARCH_FLAGS_FOR_TARGET
 @@ -12,10 +12,10 @@ Upstream-Status: Inappropriate [embedded specific]
   2 files changed, 2 insertions(+), 2 deletions(-)
- 
+
  diff --git a/configure b/configure
 -index 4cc938ebb7d..226a64939d1 100755
 +index f2ec106a86e..9350b0cf3ed 100755
@@ -507,7 +508,7 @@ index 82ae9f8d14..6beedacf66 100644
 +@@ -7723,7 +7723,7 @@ fi
   # for target_alias and gcc doesn't manage it consistently.
   target_configargs="--cache-file=./config.cache ${target_configargs}"
-  
+
 @@ -25,10 +25,10 @@ index 4cc938ebb7d..226a64939d1 100755
    *" newlib "*)
     case " $target_configargs " in
@@ -520,7 +521,7 @@ index 82ae9f8d14..6beedacf66 100644
 +@@ -3228,7 +3228,7 @@ fi
   # for target_alias and gcc doesn't manage it consistently.
   target_configargs="--cache-file=./config.cache ${target_configargs}"
-  
+
 diff --git a/meta/recipes-devtools/gcc/gcc/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch b/meta/recipes-devtools/gcc/gcc/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
 deleted file mode 100644
 index 823cc8b668..0000000000
@@ -623,13 +624,13 @@ index 823cc8b668..0000000000
 ---- a/gcc/config/aarch64/aarch64-protos.h
 -+++ b/gcc/config/aarch64/aarch64-protos.h
 -@@ -781,6 +781,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
-- 
+-
 - tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
-- 
+-
 -+const char *aarch64_sls_barrier (int);
 - extern bool aarch64_harden_sls_retbr_p (void);
 - extern bool aarch64_harden_sls_blr_p (void);
-- 
+-
 -diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
 -index 437a9cf..44e3d1f 100644
 ---- a/gcc/config/aarch64/aarch64.c
@@ -642,13 +643,13 @@ index 823cc8b668..0000000000
 --  int offset2 = 20;
 -+  int offset1 = 24;
 -+  int offset2 = 28;
-- 
+-
 -   if (aarch64_bti_enabled ())
 -     {
 -@@ -10876,6 +10876,17 @@ aarch64_asm_trampoline_template (FILE *f)
 -     }
 -   asm_fprintf (f, "\tbr\t%s\n", reg_names [IP1_REGNUM]);
-- 
+-
 -+  /* We always emit a speculation barrier.
 -+     This is because the same trampoline template is used for every nested
 -+     function.  Since nested functions are not particularly common or
@@ -669,7 +670,7 @@ index 823cc8b668..0000000000
 -   rtx fnaddr, mem, a_tramp;
 --  const int tramp_code_sz = 16;
 -+  const int tramp_code_sz = 24;
-- 
+-
 -   /* Don't need to copy the trailing D-words, we fill those in below.  */
 --  emit_block_move (m_tramp, assemble_trampoline_template (),
 -+  /* We create our own memory address in Pmode so that `emit_block_move` can
@@ -692,7 +693,7 @@ index 823cc8b668..0000000000
 -@@ -22924,6 +22941,22 @@ aarch64_file_end_indicate_exec_stack ()
 - #undef GNU_PROPERTY_AARCH64_FEATURE_1_BTI
 - #undef GNU_PROPERTY_AARCH64_FEATURE_1_AND
-- 
+-
 -+/* Helper function for straight line speculation.
 -+   Return what barrier should be emitted for straight line speculation
 -+   mitigation.
@@ -710,7 +711,7 @@ index 823cc8b668..0000000000
 -+}
 -+
 - /* Target-specific selftests.  */
-- 
+-
 - #if CHECKING_P
 -diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
 -index 1ce23c6..c21015f 100644
@@ -721,13 +722,13 @@ index 823cc8b668..0000000000
 - #define AARCH64_ISA_F64MM	   (aarch64_isa_flags & AARCH64_FL_F64MM)
 - #define AARCH64_ISA_BF16	   (aarch64_isa_flags & AARCH64_FL_BF16)
 -+#define AARCH64_ISA_SB  	   (aarch64_isa_flags & AARCH64_FL_SB)
-- 
+-
 - /* Crypto is an optional extension to AdvSIMD.  */
 - #define TARGET_CRYPTO (TARGET_SIMD && AARCH64_ISA_CRYPTO)
 -@@ -378,6 +379,9 @@ extern unsigned aarch64_architecture_version;
 - #define TARGET_FIX_ERR_A53_835769_DEFAULT 1
 - #endif
-- 
+-
 -+/* SB instruction is enabled through +sb.  */
 -+#define TARGET_SB (AARCH64_ISA_SB)
 -+
@@ -735,16 +736,16 @@ index 823cc8b668..0000000000
 - #define TARGET_FIX_ERR_A53_835769	\
 -   ((aarch64_fix_a53_err835769 == 2)	\
 -@@ -1058,8 +1062,10 @@ typedef struct
-- 
+-
 - #define RETURN_ADDR_RTX aarch64_return_addr
-- 
+-
 --/* BTI c + 3 insns + 2 pointer-sized entries.  */
 --#define TRAMPOLINE_SIZE	(TARGET_ILP32 ? 24 : 32)
 -+/* BTI c + 3 insns
 -+   + sls barrier of DSB + ISB.
 -+   + 2 pointer-sized entries.  */
 -+#define TRAMPOLINE_SIZE	(24 + (TARGET_ILP32 ? 8 : 16))
-- 
+-
 - /* Trampolines contain dwords, so must be dword aligned.  */
 - #define TRAMPOLINE_ALIGNMENT 64
 -diff --git a/gcc/config/aarch64/aarch64.md b/gcc/config/aarch64/aarch64.md
@@ -754,7 +755,7 @@ index 823cc8b668..0000000000
 -@@ -407,10 +407,25 @@
 - ;; Attribute that specifies whether the alternative uses MOVPRFX.
 - (define_attr "movprfx" "no,yes" (const_string "no"))
-- 
+-
 -+;; Attribute to specify that an alternative has the length of a single
 -+;; instruction plus a speculation barrier.
 -+(define_attr "sls_length" "none,retbr,casesi" (const_string "none"))
@@ -775,7 +776,7 @@ index 823cc8b668..0000000000
 -+		 (const_int 24))
 -+	]
 -+	  (const_int 4)))
-- 
+-
 - ;; Strictly for compatibility with AArch32 in pipeline models, since AArch64 has
 - ;; no predicated insns.
 -@@ -447,8 +462,12 @@
@@ -791,7 +792,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "type" "branch")
 -+   (set_attr "sls_length" "retbr")]
 - )
-- 
+-
 - (define_insn "jump"
 -@@ -765,7 +784,7 @@
 -   "*
@@ -801,7 +802,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "sls_length" "casesi")
 -    (set_attr "type" "branch")]
 - )
-- 
+-
 -@@ -844,18 +863,23 @@
 -   [(return)]
 -   ""
@@ -828,7 +829,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "type" "branch")
 -+   (set_attr "sls_length" "retbr")]
 - )
-- 
+-
 - (define_expand "return"
 -@@ -867,8 +891,12 @@
 - (define_insn "simple_return"
@@ -843,7 +844,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "type" "branch")
 -+   (set_attr "sls_length" "retbr")]
 - )
-- 
+-
 - (define_insn "*cb<optab><mode>1"
 -@@ -1066,10 +1094,16 @@
 -    (unspec:DI [(match_operand:DI 2 "const_int_operand")] UNSPEC_CALLEE_ABI)
@@ -864,7 +865,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "type" "branch, branch")
 -+   (set_attr "sls_length" "retbr,none")]
 - )
-- 
+-
 - (define_insn "*sibcall_value_insn"
 -@@ -1080,10 +1114,16 @@
 -    (unspec:DI [(match_operand:DI 3 "const_int_operand")] UNSPEC_CALLEE_ABI)
@@ -885,7 +886,7 @@ index 823cc8b668..0000000000
 -+  [(set_attr "type" "branch, branch")
 -+   (set_attr "sls_length" "retbr,none")]
 - )
-- 
+-
 - ;; Call subroutine returning any type.
 -diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-retbr-pacret.c
 -new file mode 100644
@@ -1124,14 +1125,14 @@ index 823cc8b668..0000000000
 -+++ b/gcc/testsuite/lib/target-supports.exp
 -@@ -9432,7 +9432,7 @@ proc check_effective_target_aarch64_tiny { } {
 - # various architecture extensions via the .arch_extension pseudo-op.
-- 
+-
 - foreach { aarch64_ext } { "fp" "simd" "crypto" "crc" "lse" "dotprod" "sve"
 --			  "i8mm" "f32mm" "f64mm" "bf16" } {
 -+			  "i8mm" "f32mm" "f64mm" "bf16" "sb" } {
 -     eval [string map [list FUNC $aarch64_ext] {
 - 	proc check_effective_target_aarch64_asm_FUNC_ok { } {
 - 	  if { [istarget aarch64*-*-*] } {
---- 
+---
 -2.7.4
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch b/meta/recipes-devtools/gcc/gcc/0002-gcc-poison-system-directories.patch
@@ -1146,7 +1147,7 @@ index 697bdc8219..c96f170196 100644
  Subject: [PATCH] gcc: poison-system-directories
 @@ -27,7 +27,7 @@ Upstream-Status: Pending
   7 files changed, 86 insertions(+), 2 deletions(-)
- 
+
  diff --git a/gcc/common.opt b/gcc/common.opt
 -index 3ec7743ea..d3c3e51dc 100644
 +index ec5235c3a41..ca942863064 100644
@@ -1178,11 +1179,11 @@ index 697bdc8219..c96f170196 100644
 -@@ -30280,6 +30283,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
 +@@ -30276,6 +30279,22 @@ if test "${enable_version_specific_runtime_libs+set}" = set; then :
   fi
-  
-  
+
+
 @@ -107,10 +107,10 @@ index 2a9d646b4..a848792f2 100755
-  
-  
+
+
  diff --git a/gcc/configure.ac b/gcc/configure.ac
 -index 51cce36ce..66ffde305 100644
 +index 84dceb8074a..13eace6cfc6 100644
@@ -1192,7 +1193,7 @@ index 697bdc8219..c96f170196 100644
 +@@ -6608,6 +6608,22 @@ AC_ARG_ENABLE(version-specific-runtime-libs,
                   [specify that runtime libraries should be
                    installed in a compiler-specific directory])])
-  
+
 @@ -134,10 +134,10 @@ index 51cce36ce..66ffde305 100644
   AC_SUBST(subdirs)
   AC_SUBST(srcdir)
@@ -1214,7 +1215,7 @@ index 697bdc8219..c96f170196 100644
 +@@ -6926,6 +6927,14 @@ made up of data only and thus requires no special treatment.  But, for
   most targets, it is made up of code and thus requires the stack to be
   made executable in order for the program to work properly.
-  
+
 @@ -161,10 +161,10 @@ index d929eb109..aa5ff88b1 100644
   @opindex Wfloat-equal
   @opindex Wno-float-equal
@@ -1248,9 +1249,9 @@ index 697bdc8219..c96f170196 100644
  @@ -26,6 +26,7 @@
 @@ -226,6 +226,3 @@ index 94eaba7b1..bfad4ebe3 100644
   }
-  
+
   /* Use given -I paths for #include "..." but not #include <...>, and
---- 
+---
 -2.25.1
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch b/meta/recipes-devtools/gcc/gcc/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
@@ -1429,12 +1430,12 @@ index 716a367172..0000000000
 -+++ b/gcc/config/aarch64/aarch64-protos.h
 -@@ -782,6 +782,7 @@ extern const atomic_ool_names aarch64_ool_ldeor_names;
 - tree aarch64_resolve_overloaded_builtin_general (location_t, tree, void *);
-- 
+-
 - const char *aarch64_sls_barrier (int);
 -+const char *aarch64_indirect_call_asm (rtx);
 - extern bool aarch64_harden_sls_retbr_p (void);
 - extern bool aarch64_harden_sls_blr_p (void);
-- 
+-
 -diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
 -index 2389d49..0f7bba3 100644
 ---- a/gcc/config/aarch64/aarch64.c
@@ -1448,7 +1449,7 @@ index 716a367172..0000000000
 -+
 -   if (GP_REGNUM_P (regno))
 -     return GENERAL_REGS;
-- 
+-
 -@@ -10939,6 +10942,7 @@ aarch64_class_max_nregs (reg_class_t regclass, machine_mode mode)
 -   unsigned int nregs, vec_flags;
 -   switch (regclass)
@@ -1459,23 +1460,23 @@ index 716a367172..0000000000
 -     case GENERAL_REGS:
 -@@ -13155,10 +13159,12 @@ aarch64_register_move_cost (machine_mode mode,
 -     = aarch64_tune_params.regmove_cost;
-- 
+-
 -   /* Caller save and pointer regs are equivalent to GENERAL_REGS.  */
 --  if (to == TAILCALL_ADDR_REGS || to == POINTER_REGS)
 -+  if (to == TAILCALL_ADDR_REGS || to == POINTER_REGS
 -+      || to == STUB_REGS)
 -     to = GENERAL_REGS;
-- 
+-
 --  if (from == TAILCALL_ADDR_REGS || from == POINTER_REGS)
 -+  if (from == TAILCALL_ADDR_REGS || from == POINTER_REGS
 -+      || from == STUB_REGS)
 -     from = GENERAL_REGS;
-- 
+-
 -   /* Make RDFFR very expensive.  In particular, if we know that the FFR
 -@@ -22957,6 +22963,215 @@ aarch64_sls_barrier (int mitigation_required)
 -     : "";
 - }
-- 
+-
 -+static GTY (()) tree aarch64_sls_shared_thunks[30];
 -+static GTY (()) bool aarch64_sls_shared_thunks_needed = false;
 -+const char *indirect_symbol_names[30] = {
@@ -1686,12 +1687,12 @@ index 716a367172..0000000000
 -+}
 -+
 - /* Target-specific selftests.  */
-- 
+-
 - #if CHECKING_P
 -@@ -23507,6 +23722,12 @@ aarch64_libgcc_floating_mode_supported_p
 - #undef TARGET_MD_ASM_ADJUST
 - #define TARGET_MD_ASM_ADJUST arm_md_asm_adjust
-- 
+-
 -+#undef TARGET_ASM_FILE_END
 -+#define TARGET_ASM_FILE_END aarch64_asm_file_end
 -+
@@ -1699,7 +1700,7 @@ index 716a367172..0000000000
 -+#define TARGET_ASM_FUNCTION_EPILOGUE aarch64_sls_emit_blr_function_thunks
 -+
 - struct gcc_target targetm = TARGET_INITIALIZER;
-- 
+-
 - #include "gt-aarch64.h"
 -diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
 -index 8e0fc37..7331450 100644
@@ -1708,7 +1709,7 @@ index 716a367172..0000000000
 -@@ -643,6 +643,16 @@ extern unsigned aarch64_architecture_version;
 - #define GP_REGNUM_P(REGNO)						\
 -   (((unsigned) (REGNO - R0_REGNUM)) <= (R30_REGNUM - R0_REGNUM))
-- 
+-
 -+/* Registers known to be preserved over a BL instruction.  This consists of the
 -+   GENERAL_REGS without x16, x17, and x30.  The x30 register is changed by the
 -+   BL instruction itself, while the x16 and x17 registers may be used by
@@ -1721,7 +1722,7 @@ index 716a367172..0000000000
 -+
 - #define FP_REGNUM_P(REGNO)			\
 -   (((unsigned) (REGNO - V0_REGNUM)) <= (V31_REGNUM - V0_REGNUM))
-- 
+-
 -@@ -667,6 +677,7 @@ enum reg_class
 - {
 -   NO_REGS,
@@ -1761,7 +1762,7 @@ index 716a367172..0000000000
 -+++ b/gcc/config/aarch64/aarch64.md
 -@@ -1022,16 +1022,15 @@
 - )
-- 
+-
 - (define_insn "*call_insn"
 --  [(call (mem:DI (match_operand:DI 0 "aarch64_call_insn_operand" "r, Usf"))
 -+  [(call (mem:DI (match_operand:DI 0 "aarch64_call_insn_operand" "Ucr, Usf"))
@@ -1776,11 +1777,11 @@ index 716a367172..0000000000
 --  [(set_attr "type" "call, call")]
 --)
 -+  [(set_attr "type" "call, call")])
-- 
+-
 - (define_expand "call_value"
 -   [(parallel
 -@@ -1050,13 +1049,13 @@
-- 
+-
 - (define_insn "*call_value_insn"
 -   [(set (match_operand 0 "" "")
 --	(call (mem:DI (match_operand:DI 1 "aarch64_call_insn_operand" "r, Usf"))
@@ -1802,7 +1803,7 @@ index 716a367172..0000000000
 -@@ -24,6 +24,15 @@
 - (define_register_constraint "Ucs" "TAILCALL_ADDR_REGS"
 -   "@internal Registers suitable for an indirect tail call")
-- 
+-
 -+(define_register_constraint "Ucr"
 -+    "aarch64_harden_sls_blr_p () ? STUB_REGS : GENERAL_REGS"
 -+  "@internal Registers to be used for an indirect call.
@@ -1814,19 +1815,19 @@ index 716a367172..0000000000
 -+
 - (define_register_constraint "w" "FP_REGS"
 -   "Floating point and SIMD vector registers.")
-- 
+-
 -diff --git a/gcc/config/aarch64/predicates.md b/gcc/config/aarch64/predicates.md
 -index 215fcec..1754b1e 100644
 ---- a/gcc/config/aarch64/predicates.md
 -+++ b/gcc/config/aarch64/predicates.md
 -@@ -32,7 +32,8 @@
-- 
+-
 - (define_predicate "aarch64_general_reg"
 -   (and (match_operand 0 "register_operand")
 --       (match_test "REGNO_REG_CLASS (REGNO (op)) == GENERAL_REGS")))
 -+       (match_test "REGNO_REG_CLASS (REGNO (op)) == STUB_REGS
 -+		    || REGNO_REG_CLASS (REGNO (op)) == GENERAL_REGS")))
-- 
+-
 - ;; Return true if OP a (const_int 0) operand.
 - (define_predicate "const0_operand"
 -diff --git a/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c b/gcc/testsuite/gcc.target/aarch64/sls-mitigation/sls-miti-blr-bti.c
@@ -1914,7 +1915,7 @@ index 716a367172..0000000000
 -+
 -+/* { dg-final { scan-assembler-not {\tblr\t} } } */
 -+/* { dg-final { scan-assembler {\tbr\tx[0-9][0-9]?} } } */
---- 
+---
 -2.7.4
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch b/meta/recipes-devtools/gcc/gcc/0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
@@ -1929,7 +1930,7 @@ index 27237feb5a..39b616e82e 100644
  Subject: [PATCH] gcc-4.3.3: SYSROOT_CFLAGS_FOR_TARGET
 @@ -26,10 +26,10 @@ Upstream-Status: Pending
   1 file changed, 32 insertions(+)
- 
+
  diff --git a/configure b/configure
 -index 226a64939d1..b31dc137fc9 100755
 +index 9350b0cf3ed..8ed565c51b3 100755
@@ -1937,9 +1938,9 @@ index 27237feb5a..39b616e82e 100644
  +++ b/configure
 -@@ -6971,6 +6971,38 @@ fi
 +@@ -6972,6 +6972,38 @@ fi
-  
-  
-  
+
+
+
 diff --git a/meta/recipes-devtools/gcc/gcc/0004-64-bit-multilib-hack.patch b/meta/recipes-devtools/gcc/gcc/0004-64-bit-multilib-hack.patch
 index 7c751bef65..04d8bdf331 100644
 --- a/meta/recipes-devtools/gcc/gcc/0004-64-bit-multilib-hack.patch
@@ -1981,12 +1982,12 @@ index 4020c9e3cf..9f5b96eb63 100644
 @@ -74,7 +74,7 @@ index f12d8d12150..cf6cb428e7d 100644
   -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
   -u @var{symbol}  -z @var{keyword}}
-  
+
 -@@ -14407,6 +14410,33 @@ Specify that the program entry point is @var{entry}.  The argument is
 +@@ -14468,6 +14471,33 @@ Specify that the program entry point is @var{entry}.  The argument is
   interpreted by the linker; the GNU linker accepts either a symbol name
   or an address.
-  
+
 @@ -109,7 +109,7 @@ index f12d8d12150..cf6cb428e7d 100644
   @opindex pie
   Produce a dynamically linked position independent executable on targets
@@ -2008,7 +2009,7 @@ index 9fbbe80703..7e43284c17 100644
  Subject: [PATCH] COLLECT_GCC_OPTIONS
 @@ -14,10 +14,10 @@ Upstream-Status: Pending
   1 file changed, 9 insertions(+)
- 
+
  diff --git a/gcc/gcc.c b/gcc/gcc.c
 -index f8be58ce0a6..48b0f9dde81 100644
 +index 1ee962acfaa..39b1635651a 100644
@@ -2017,7 +2018,7 @@ index 9fbbe80703..7e43284c17 100644
 -@@ -4806,6 +4806,15 @@ set_collect_gcc_options (void)
 +@@ -4809,6 +4809,15 @@ set_collect_gcc_options (void)
   		sizeof ("COLLECT_GCC_OPTIONS=") - 1);
-  
+
     first_time = TRUE;
 diff --git a/meta/recipes-devtools/gcc/gcc/0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc/0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
 index a764bdd0f4..c7693a8b77 100644
@@ -2031,7 +2032,7 @@ index a764bdd0f4..c7693a8b77 100644
  Subject: [PATCH] Use the defaults.h in ${B} instead of ${S}, and t-oe in ${B}
 @@ -26,7 +26,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
   4 files changed, 7 insertions(+), 7 deletions(-)
- 
+
  diff --git a/gcc/Makefile.in b/gcc/Makefile.in
 -index 543b477ff18..a67d2cc18d6 100644
 +index 646db219460..501a5f16d9f 100644
@@ -2076,7 +2077,7 @@ index 714db3bef5..707066291f 100644
  Subject: [PATCH] fortran cross-compile hack.
 @@ -16,10 +16,10 @@ Upstream-Status: Inappropriate [embedded specific]
   2 files changed, 2 insertions(+), 2 deletions(-)
- 
+
  diff --git a/libgfortran/configure b/libgfortran/configure
 -index b4cf854ddb3..e8e0ac3b1cf 100755
 +index 1b4a8b10609..d7ab18fc9f9 100755
@@ -2084,7 +2085,7 @@ index 714db3bef5..707066291f 100644
  +++ b/libgfortran/configure
 -@@ -13090,7 +13090,7 @@ esac
 +@@ -13092,7 +13092,7 @@ esac
-  
+
   # We need gfortran to compile parts of the library
   #AC_PROG_FC(gfortran)
 diff --git a/meta/recipes-devtools/gcc/gcc/0009-cpp-honor-sysroot.patch b/meta/recipes-devtools/gcc/gcc/0009-cpp-honor-sysroot.patch
@@ -2122,7 +2123,7 @@ index 625e2d8709..1aa29e6ac5 100644
  Subject: [PATCH] MIPS64: Default to N64 ABI
 @@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [OE config specific]
   1 file changed, 5 insertions(+), 5 deletions(-)
- 
+
  diff --git a/gcc/config.gcc b/gcc/config.gcc
 -index cf1a87e2efd..37c4221a39f 100644
 +index 6fcdd771d4c..feafcadfcac 100644
@@ -2164,7 +2165,7 @@ index e357976330..ee34836ea0 100644
 +@@ -78,7 +78,7 @@ extern const char *host_detect_local_cpu (int argc, const char **argv);
      When the -shared link option is used a final link is not being
      done.  */
-  
+
 @@ -227,10 +227,10 @@ index 81201e67a2f..8b6fc577594 100644
   #undef  LINK_SPEC
   #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
@@ -2177,7 +2178,7 @@ index e357976330..ee34836ea0 100644
 +@@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.  If not see
      When the -shared link option is used a final link is not being
      done.  */
-  
+
 diff --git a/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch b/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch
 index 88e1715b5c..ad2df92192 100644
 --- a/meta/recipes-devtools/gcc/gcc/0012-gcc-Fix-argument-list-too-long-error.patch
@@ -2190,13 +2191,13 @@ index 88e1715b5c..ad2df92192 100644
  Subject: [PATCH] gcc: Fix argument list too long error.
 @@ -22,17 +22,18 @@ fix. Add the sort to the original gcc code, leaving the tr+sort to fix the origi
  issue but include the new files too as reported by Zhuang <qiuguang.zqg@alibaba-inc.com>
- 
+
  Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ---
   gcc/Makefile.in | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
- 
+
  diff --git a/gcc/Makefile.in b/gcc/Makefile.in
 -index a67d2cc18d6..480c9366418 100644
 +index 501a5f16d9f..674f1057aaf 100644
@@ -2223,7 +2224,7 @@ index 207cdb57af..b93ae837ac 100644
  Subject: [PATCH] Disable sdt.
 @@ -25,10 +25,10 @@ Upstream-Status: Inappropriate [hack]
   4 files changed, 19 insertions(+), 19 deletions(-)
- 
+
  diff --git a/gcc/configure b/gcc/configure
 -index b26e8fc7fee..6080f86145e 100755
 +index 4d903cf40e8..156090550c2 100755
@@ -2236,7 +2237,7 @@ index 207cdb57af..b93ae837ac 100644
   have_sys_sdt_h=no
 @@ -48,10 +48,10 @@ index b26e8fc7fee..6080f86145e 100755
   $as_echo "$have_sys_sdt_h" >&6; }
-  
+
  diff --git a/gcc/configure.ac b/gcc/configure.ac
 -index 26fa46802c7..42be5252778 100644
 +index 07aacfee055..f31a43e7dd3 100644
@@ -2245,7 +2246,7 @@ index 207cdb57af..b93ae837ac 100644
 -@@ -6190,15 +6190,15 @@ fi
 +@@ -6203,15 +6203,15 @@ fi
   AC_SUBST([enable_default_ssp])
-  
+
   # Test for <sys/sdt.h> on the target.
 @@ -77,10 +77,10 @@ index 26fa46802c7..42be5252778 100644
   # Check if TFmode long double should be used by default or not.
@@ -2259,10 +2260,10 @@ index 207cdb57af..b93ae837ac 100644
 +@@ -21986,11 +21986,11 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
   ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
   ac_compiler_gnu=$ac_cv_c_compiler_gnu
-  
+
 @@ -96,10 +96,10 @@ index 9f9c5a2419a..71ed13b815b 100755
   $as_echo "$glibcxx_cv_sys_sdt_h" >&6; }
-  
+
  diff --git a/libstdc++-v3/configure.ac b/libstdc++-v3/configure.ac
 -index 699e55fd829..5c7a7bda439 100644
 +index 07cf05b6856..dd5f26957d5 100644
@@ -2305,7 +2306,7 @@ index 1dc4bb859a..d86da6517f 100644
  Subject: [PATCH] Use the multilib config files from ${B} instead of using the
 @@ -18,10 +18,10 @@ Upstream-Status: Inappropriate [configuration]
   2 files changed, 36 insertions(+), 8 deletions(-)
- 
+
  diff --git a/gcc/configure b/gcc/configure
 -index 6080f86145e..825a9652329 100755
 +index 156090550c2..fde89ad8e89 100755
@@ -2319,7 +2320,7 @@ index 1dc4bb859a..d86da6517f 100644
 @@ -46,7 +46,7 @@ index 6080f86145e..825a9652329 100755
   done
   tmake_file="${tmake_file_}${omp_device_property_tmake_file}"
-  
+
 -@@ -12699,6 +12709,10 @@ tm_file_list="options.h"
 +@@ -12704,6 +12714,10 @@ tm_file_list="options.h"
   tm_include_list="options.h insn-constants.h"
@@ -2341,7 +2342,7 @@ index 1dc4bb859a..d86da6517f 100644
 @@ -86,7 +86,7 @@ index 42be5252778..6099eb3251f 100644
   done
   tmake_file="${tmake_file_}${omp_device_property_tmake_file}"
-  
+
 -@@ -2132,6 +2142,10 @@ tm_file_list="options.h"
 +@@ -2137,6 +2147,10 @@ tm_file_list="options.h"
   tm_include_list="options.h insn-constants.h"
@@ -2379,7 +2380,7 @@ index 2797b2c22d..9e9f2874db 100644
  Subject: [PATCH] Ensure target gcc headers can be included
 @@ -21,7 +21,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   2 files changed, 6 insertions(+)
- 
+
  diff --git a/gcc/Makefile.in b/gcc/Makefile.in
 -index 480c9366418..011c7ac2db6 100644
 +index 674f1057aaf..087bf3f1137 100644
@@ -2392,7 +2393,7 @@ index 2797b2c22d..9e9f2874db 100644
   # Directory in which all plugin resources are installed
 -@@ -2946,6 +2947,7 @@ CFLAGS-intl.o += -DLOCALEDIR=\"$(localedir)\"
 +@@ -2948,6 +2949,7 @@ CFLAGS-intl.o += -DLOCALEDIR=\"$(localedir)\"
-  
+
   PREPROCESSOR_DEFINES = \
     -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
 diff --git a/meta/recipes-devtools/gcc/gcc/0020-Don-t-search-host-directory-during-relink-if-inst_pr.patch b/meta/recipes-devtools/gcc/gcc/0020-Don-t-search-host-directory-during-relink-if-inst_pr.patch
@@ -2437,7 +2438,7 @@ index 80c4d2292c..d981b37658 100644
  Subject: [PATCH] libcc1: fix libcc1's install path and rpath
 @@ -20,10 +20,10 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
   2 files changed, 4 insertions(+), 4 deletions(-)
- 
+
  diff --git a/libcc1/Makefile.am b/libcc1/Makefile.am
 -index c005b0dad4a..ec31d35b7b9 100644
 +index fe7b64cbc6f..bdd0617049b 100644
@@ -2447,7 +2448,7 @@ index 80c4d2292c..d981b37658 100644
 +@@ -40,8 +40,8 @@ libiberty = $(if $(wildcard $(libiberty_noasan)),$(Wc)$(libiberty_noasan), \
   	    $(Wc)$(libiberty_normal)))
   libiberty_dep = $(patsubst $(Wc)%,%,$(libiberty))
-  
+
 @@ -35,10 +35,10 @@ index c005b0dad4a..ec31d35b7b9 100644
   if ENABLE_PLUGIN
   plugin_LTLIBRARIES = libcc1plugin.la libcp1plugin.la
@@ -2459,7 +2460,7 @@ index 80c4d2292c..d981b37658 100644
 -@@ -393,8 +393,8 @@ libiberty = $(if $(wildcard $(libiberty_noasan)),$(Wc)$(libiberty_noasan), \
 +@@ -394,8 +394,8 @@ libiberty = $(if $(wildcard $(libiberty_noasan)),$(Wc)$(libiberty_noasan), \
   	    $(Wc)$(libiberty_normal)))
-  
+
   libiberty_dep = $(patsubst $(Wc)%,%,$(libiberty))
 diff --git a/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc/0024-handle-sysroot-support-for-nativesdk-gcc.patch
 index dc3e6da65a..6c75c0f2bf 100644
@@ -2473,7 +2474,7 @@ index dc3e6da65a..6c75c0f2bf 100644
  Subject: [PATCH] handle sysroot support for nativesdk-gcc
 @@ -41,7 +41,7 @@ Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
   6 files changed, 70 insertions(+), 48 deletions(-)
- 
+
  diff --git a/gcc/c-family/c-opts.c b/gcc/c-family/c-opts.c
 -index 58ba0948e79..806bbcfb7a5 100644
 +index c51d6d34726..aa7507df2cf 100644
@@ -2499,7 +2500,7 @@ index dc3e6da65a..6c75c0f2bf 100644
      compiler has been installed, and use paths relative to that
      location instead.  */
 @@ -249,7 +249,7 @@ index c87f603955f..535d5c3bb65 100644
-  
+
   /* For native compilers, these are well-known paths containing
      components that may be provided by the system.  For cross
 -@@ -1510,9 +1513,9 @@ static const char *const standard_startfile_prefix = STANDARD_STARTFILE_PREFIX;
@@ -2509,18 +2510,18 @@ index dc3e6da65a..6c75c0f2bf 100644
   static const char *md_startfile_prefix_1 = MD_STARTFILE_PREFIX_1;
 @@ -261,7 +261,7 @@ index c87f603955f..535d5c3bb65 100644
     = STANDARD_STARTFILE_PREFIX_2;
-  
+
   /* A relative path to be used in finding the location of tools
 -@@ -5952,6 +5955,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
 +@@ -5955,6 +5958,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
   	      }
   	    break;
-  
+
 @@ -344,6 +344,3 @@ index 1a403e535bd..c26d07bde12 100644
-  
+
         /* We used to strip trailing DIR_SEPARATORs here, but that can
   	 sometimes yield a result with no separator when one was coded
---- 
+---
 -2.29.2
 -
 diff --git a/meta/recipes-devtools/gcc/gcc/0025-Search-target-sysroot-gcc-version-specific-dirs-with.patch b/meta/recipes-devtools/gcc/gcc/0025-Search-target-sysroot-gcc-version-specific-dirs-with.patch
@@ -2535,7 +2536,7 @@ index abf1f8491f..e8b52daf25 100644
  Subject: [PATCH] Search target sysroot gcc version specific dirs with
 @@ -51,10 +51,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 28 insertions(+), 1 deletion(-)
- 
+
  diff --git a/gcc/gcc.c b/gcc/gcc.c
 -index 535d5c3bb65..04647ae812d 100644
 +index 912c2febf94..24a92bf27f9 100644
@@ -2549,7 +2550,7 @@ index abf1f8491f..e8b52daf25 100644
 @@ -63,7 +63,7 @@ index 535d5c3bb65..04647ae812d 100644
   	  path = XNEWVEC (char, len);
   	}
-  
+
 -@@ -2628,6 +2628,33 @@ for_each_path (const struct path_prefix *paths,
 +@@ -2631,6 +2631,33 @@ for_each_path (const struct path_prefix *paths,
   	  /* Look first in MACHINE/VERSION subdirectory.  */
@@ -2661,7 +2662,7 @@ index 702279af0e..0b93a055c2 100644
  Subject: [PATCH] fix segmentation fault in precompiled header generation
 @@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 21 insertions(+), 5 deletions(-)
- 
+
  diff --git a/libcpp/lex.c b/libcpp/lex.c
 -index 56ac3a1dd73..73a951148b3 100644
 +index 665297af776..0ac5d67ddf0 100644
@@ -2690,7 +2691,7 @@ index ba7c2b8fd5..8a8eda89b1 100644
  Subject: [PATCH] Re-introduce spe commandline options
 @@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 12 insertions(+)
- 
+
  diff --git a/gcc/config/rs6000/rs6000.opt b/gcc/config/rs6000/rs6000.opt
 -index f95b8279270..0e52d51409d 100644
 +index 4e3792bcefa..edfa4f7de48 100644
@@ -2717,7 +2718,7 @@ index 4ce9dc6def..7dd334494d 100644
  Subject: [PATCH] libgcc_s: Use alias for __cpu_indicator_init instead of
 @@ -39,10 +39,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   3 files changed, 6 insertions(+), 6 deletions(-)
- 
+
  diff --git a/gcc/config/i386/i386-expand.c b/gcc/config/i386/i386-expand.c
 -index 48f00c5fcfc..468f5f71fac 100644
 +index 47d52550e5e..9cb8cc7950e 100644
@@ -2740,7 +2741,7 @@ index 4ce9dc6def..7dd334494d 100644
 +@@ -516,7 +516,7 @@ __cpu_indicator_init (void)
     return 0;
   }
-  
+
 diff --git a/meta/recipes-devtools/gcc/gcc/0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch b/meta/recipes-devtools/gcc/gcc/0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch
 index dd1bf6dedc..b746f17e4e 100644
 --- a/meta/recipes-devtools/gcc/gcc/0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch
@@ -2772,7 +2773,7 @@ index de82a3a539..f2d6e30a07 100644
  Subject: [PATCH] mingw32: Enable operation_not_supported
 @@ -12,15 +12,15 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
- 
+
  diff --git a/libstdc++-v3/config/os/mingw32/error_constants.h b/libstdc++-v3/config/os/mingw32/error_constants.h
 -index 68ac72a78fb..71cd5815b81 100644
 +index 2222c5227c4..35290eabfa7 100644
@@ -2814,7 +2815,7 @@ index addecb4bd8..65c3e398fe 100644
  Subject: [PATCH] libatomic, libgomp, libitc: Fix bootstrap [PR70454]
 @@ -28,6 +28,7 @@ libitm/
  	__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4.
- 
+
  Upstream-Status: Backport [master post 10.x release]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ---
@@ -2822,7 +2823,7 @@ index addecb4bd8..65c3e398fe 100644
   libgomp/configure.tgt   | 35 +++++++++++---------------
 @@ -35,7 +36,7 @@ Upstream-Status: Backport [master post 10.x release]
   3 files changed, 64 insertions(+), 64 deletions(-)
- 
+
  diff --git a/libatomic/configure.tgt b/libatomic/configure.tgt
 -index 5dd0926d20..6ea082a29b 100644
 +index 5dd0926d207..6ea082a29bc 100644
@@ -2830,7 +2831,7 @@ index addecb4bd8..65c3e398fe 100644
  +++ b/libatomic/configure.tgt
  @@ -81,32 +81,40 @@ case "${target_cpu}" in
 @@ -104,7 +105,7 @@ index 5dd0926d20..6ea082a29b 100644
-  
+
     *)			ARCH="${target_cpu}" ;;
  diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
 -index 4790a31e39..761ef2a7db 100644
@@ -2839,7 +2840,7 @@ index addecb4bd8..65c3e398fe 100644
  +++ b/libgomp/configure.tgt
  @@ -70,28 +70,23 @@ if test x$enable_linux_futex = xyes; then
 @@ -152,10 +153,10 @@ index 4790a31e39..761ef2a7db 100644
-  
+
       # Note that sparcv7 and sparcv8 is not included here.  We need cas.
  diff --git a/libitm/configure.tgt b/libitm/configure.tgt
 -index 04109160e9..ca62bac627 100644
@@ -2848,9 +2849,9 @@ index addecb4bd8..65c3e398fe 100644
  +++ b/libitm/configure.tgt
 -@@ -58,16 +58,23 @@ case "${target_cpu}" in
 +@@ -59,16 +59,23 @@ case "${target_cpu}" in
-  
+
     arm*)		ARCH=arm ;;
-  
+
 @@ -189,7 +190,7 @@ index 04109160e9..ca62bac627 100644
   	XCFLAGS="${XCFLAGS} -mrtm"
   	ARCH=x86
@@ -2859,7 +2860,7 @@ index addecb4bd8..65c3e398fe 100644
 +@@ -103,16 +110,6 @@ case "${target_cpu}" in
   	ARCH=sparc
   	;;
-  
+
 diff --git a/meta/recipes-devtools/gcc/gcc_10.2.bb b/meta/recipes-devtools/gcc/gcc_10.3.bb
 similarity index 100%
 rename from meta/recipes-devtools/gcc/gcc_10.2.bb
@@ -2876,6 +2877,5 @@ diff --git a/meta/recipes-devtools/gcc/libgfortran_10.2.bb b/meta/recipes-devtoo
 similarity index 100%
 rename from meta/recipes-devtools/gcc/libgfortran_10.2.bb
 rename to meta/recipes-devtools/gcc/libgfortran_10.3.bb
--- 
+--
 2.31.1
-
