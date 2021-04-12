@@ -1,108 +1,115 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web09.2419.1618256692887795163
+Received: from smtp-fw-9103.amazon.com (smtp-fw-9103.amazon.com [207.171.188.200])
+ by mx.groups.io with SMTP id smtpd.web08.3170.1618259329370476489
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 12:44:53 -0700
+ Mon, 12 Apr 2021 13:28:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nNjfgrVw;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id x11so15477198qkp.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 12:44:52 -0700 (PDT)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=mfCekJ36;
+ spf=pass (domain: amazon.com, ip: 207.171.188.200, mailfrom: prvs=729d0702c=pbbudny@amazon.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lIme6gELxwDLT3R1HJoRLIng9RY8VcvvHuEOJAiTBKk=;
-        b=nNjfgrVw+hl7sQGTZYoLsbOOsQG/9CxsLgxaLYroLd3qeRdj2qvhkB6lK26sJCxF+v
-         oC7l+rqwRgMEpteJdhRE/Qtgdb1PhwMzm9AE40ySgRwrWELpyTuK7YJErurUZb4qo972
-         auTlVrqWHAyWlaOQeIi7tdwF8SrrU/Dcnt5O+qHKIdAsLAjj97HECWvoF9AqgYpRi8CQ
-         q/YTmJOC7UPf5MCKXf5lWpht2pOFhEIxxvuXLw/Dt8l89Le0N+ocRfAB8jyUDK7y2qwa
-         MHJaiMTOzXD+lasPxzeARIWpe7VT/G0Q5YCJuFiNRWBgBqITmRFB7Ye+sDdYMEYjW8qg
-         htNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lIme6gELxwDLT3R1HJoRLIng9RY8VcvvHuEOJAiTBKk=;
-        b=QgI80KUA0Vc+qV/n2hg/QMIhqCmFPJuYtEIeLqzrjLjeX9/dhZIVgYqdR3v3UmiCZp
-         axjLawkc35RpokCilbXfEngR/lOFsmBWF6an9K8aAyNa3EaBdwPb9rCUGjUa5A49sr7K
-         BZ1vqs8uyp8OyEbYBfVJyzzecYaGxcNKrIfj6HJ92C3gx7hVelyFf/8ZLShsEWpPOskp
-         5P0ye76xpVD9yQs03KkuuTUU9iSDr0e4tYp+dKPqlON+66S6nm1gw3iJ1k4LE3fGeNS5
-         C5x7HBf7iV/43Kh1bLZIGovp55dqv0h9ytcUFAcu9lRSaqgUTxh306A3RdzaNszrcRmz
-         JY5w==
-X-Gm-Message-State: AOAM532jvpYhh7tTWyookle7iql/gJ+Dct+RC6DVR/ucYIN9TXq2ZeDS
-	1FP20JOu2FX7zYk7AwY8Hrm4DzW3rg+fYXdwVsg=
-X-Google-Smtp-Source: ABdhPJwsIwIJB3j200YWriXIR217P1iu01GKaSdvT09MExXDNdhwCTG1T6ycStoo6UMlUYJs8lAfWk/g0gXRiwk6Zw4=
-X-Received: by 2002:a37:8ec4:: with SMTP id q187mr28516816qkd.381.1618256691924;
- Mon, 12 Apr 2021 12:44:51 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1618259329; x=1649795329;
+  h=from:to:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=LhjsW4UwHgXinwv/8GqtebPdheC0Is3PYeSaLLO65uc=;
+  b=mfCekJ361VcdHj0xI6rNEs96qOTAoqUhy3vlV0tfIk1+TC9s1irnJORO
+   LoTRBxtvtsDrK5baeL/dO6jZ/MQR2z2vjE2GsjgwvkLaxmeryeLkZZj5z
+   LK5yIB7u3aX/Lhx6zTvmeQv7uX6V86bVag9pDeFczDNNOp4Tf+bYO6m3+
+   s=;
+X-IronPort-AV: E=Sophos;i="5.82,216,1613433600"; 
+   d="scan'208,223";a="925429916"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-out-9103.sea19.amazon.com with ESMTP; 12 Apr 2021 20:28:48 +0000
+Received: from EX13MTAUWB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+	by email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com (Postfix) with ESMTPS id 4FC9FA1866
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 20:28:48 +0000 (UTC)
+Received: from EX13D38UWB002.ant.amazon.com (10.43.161.171) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 12 Apr 2021 20:28:47 +0000
+Received: from EX13D38UWB003.ant.amazon.com (10.43.161.178) by
+ EX13D38UWB002.ant.amazon.com (10.43.161.171) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 12 Apr 2021 20:28:47 +0000
+Received: from EX13D38UWB003.ant.amazon.com ([10.43.161.178]) by
+ EX13D38UWB003.ant.amazon.com ([10.43.161.178]) with mapi id 15.00.1497.012;
+ Mon, 12 Apr 2021 20:28:47 +0000
+From: "Budny, Peter" <pbbudny@amazon.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2] lib/oe/terminal: Fix tmux new-session on older tmux versions
+Thread-Topic: [PATCHv2] lib/oe/terminal: Fix tmux new-session on older tmux
+ versions
+Thread-Index: Adcv2mYJ4IXLqfOWSbe7jyibm4i9rg==
+Date: Mon, 12 Apr 2021 20:28:47 +0000
+Message-ID: <8b7d9ad8d3564c4e98203b8c337e327f@EX13D38UWB003.ant.amazon.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.161.102]
 MIME-Version: 1.0
-References: <D3Uc.1618248485581174676.TPEa@lists.openembedded.org>
-In-Reply-To: <D3Uc.1618248485581174676.TPEa@lists.openembedded.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 12 Apr 2021 12:44:25 -0700
-Message-ID: <CAMKF1spF-OQ6Q5GnK89tD0KhgnerwOcDLyOPDQ_Zmn963hsxUw@mail.gmail.com>
-Subject: Re: [OE-core] Initramfs with OpenSBI for a RISCV SoC
-To: sathishmls@yahoo.com
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 12, 2021 at 10:28 AM sathishmls via lists.openembedded.org
-<sathishmls=3Dyahoo.com@lists.openembedded.org> wrote:
->
-> Hi,
->
-> i pulled openembedded-core, meta-openembedded, meta-riscv layers
-> In build/local/auto.conf, added INITRAMFS_IMAGE =3D "core-image-minimal-=
-initramfs" and INITRAMFS_IMAGE_BUNDLE =3D "1"
-> I created core-image-minimal-initramfs.bbappend with adding riscv to COM=
-PATIBLE_HOST
->
-> trying to build with "bitbake riscv-initramfs-image"
->
-> (without adding INITRAMFS_IMAGE in build/local/auto.conf, able to get su=
-ccessfully the kernel Image files, dtbs, riscv-initramfs-image-mach1-??????=
-?.rootfs.cpio.gz, except initramfs is NOT bundled along with the kernel Ima=
-ge which i want)
->
+From 92be587f2c71b6beb6f4f79c882b3c31a4e41f38 Mon Sep 17 00:00:00 2001
+From: Peter Budny <pbbudny@amazon.com>
+Date: Mon, 12 Apr 2021 20:23:17 +0000
+Subject: [PATCH] lib/oe/terminal: Fix tmux new-session on older tmux versio=
+ns
+ (<1.9)
 
-you can try to build just the kernel which should build the initramfs
-image too or build any other image than 'core-image-minimal-initramfs.
+`tmux new -c` fails on tmux older than 1.9, when that flag was added.
+We can omit the flag for older versions of tmux, and the working
+directory gets set even without it.
 
-bitbake core-image-minimal
+Signed-off-by: Peter Budny <pbbudny@amazon.com>
+---
+ meta/lib/oe/terminal.py | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-e.g.
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index e4045559fc..c8b8b4d6fe 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -160,7 +160,12 @@ class Tmux(Terminal):
+         # devshells, if it's already there, add a new window to it.
+         window_name =3D 'devshell-%i' % os.getpid()
+=20
+-        self.command =3D 'tmux new -c "{{cwd}}" -d -s {0} -n {0} "{{comman=
+d}}"'.format(window_name)
++        self.command =3D 'tmux new -c "{{cwd}}" -d -s {0} -n {0} "{{comman=
+d}}"'
++        if not check_tmux_version('1.9'):
++            # `tmux new-session -c` was added in 1.9;
++            # older versions fail with that flag
++            self.command =3D 'tmux new -d -s {0} -n {0} "{{command}}"'
++        self.command =3D self.command.format(window_name)
+         Terminal.__init__(self, sh_cmd, title, env, d)
+=20
+         attach_cmd =3D 'tmux att -t {0}'.format(window_name)
+@@ -247,13 +252,18 @@ def spawn(name, sh_cmd, title=3DNone, env=3DNone, d=
+=3DNone):
+         except OSError:
+            return
+=20
++def check_tmux_version(desired):
++    vernum =3D check_terminal_version("tmux")
++    if vernum and LooseVersion(vernum) < desired:
++        return False
++    return vernum
++
+ def check_tmux_pane_size(tmux):
+     import subprocess as sub
+     # On older tmux versions (<1.9), return false. The reason
+     # is that there is no easy way to get the height of the active panel
+     # on current window without nested formats (available from version 1.9=
+)
+-    vernum =3D check_terminal_version("tmux")
+-    if vernum and LooseVersion(vernum) < '1.9':
++    if not check_tmux_version('1.9'):
+         return False
+     try:
+         p =3D sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}=
+"' % tmux,
+--=20
+2.23.3
 
-> getting the following circular dependency error
->
-> Identifying dependency loops (this may take a short while)...
->
-> ERROR:
-> Dependency loop #1 found:
->   Task /media/meta-mach1/recipes-kernel/linux/linux-mainline_5.11.bb:do_=
-bundle_initramfs (dependent Tasks ['linux-mainline_5.11.bb:do_install', 'co=
-re-image-minimal-initramfs.bb:do_image_complete'])
->   Task /media/meta-mach1/recipes-kernel/linux/linux-mainline_5.11.bb:do_=
-deploy (dependent Tasks ['linux-mainline_5.11.bb:do_bundle_initramfs', 'pig=
-z_2.6.bb:do_populate_sysroot', 'linux-mainline_5.11.bb:do_packagedata', 'de=
-pmodwrapper-cross_1.0.bb:do_populate_sysroot', 'linux-mainline_5.11.bb:do_p=
-opulate_sysroot'])
->   Task /media/openembedded-core/meta/recipes-bsp/opensbi/opensbi_0.9.bb:=
-do_compile (dependent Tasks ['linux-mainline_5.11.bb:do_deploy', 'opensbi_0=
-.9.bb:do_configure'])
->   Task /media/openembedded-core/meta/recipes-bsp/opensbi/opensbi_0.9.bb:=
-do_install (dependent Tasks ['opensbi_0.9.bb:do_compile', 'pseudo_git.bb:do=
-_populate_sysroot'])
->   Task /media/openembedded-core/meta/recipes-bsp/opensbi/opensbi_0.9.bb:=
-do_populate_sysroot (dependent Tasks ['opensbi_0.9.bb:do_install', 'binutil=
-s-cross_2.36.bb:do_populate_sysroot'])
->   Task /media/openembedded-core/meta/recipes-core/images/core-image-mini=
-mal-initramfs.bb:do_image_complete (dependent Tasks ['opensbi_0.9.bb:do_pop=
-ulate_sysroot', 'core-image-minimal-initramfs.bb:do_image_cpio', 'core-imag=
-e-minimal-initramfs.bb:do_image'])
->
->
-> ERROR: Command execution failed: 1
->
-> Please suggest
->=20
->
