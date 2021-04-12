@@ -1,213 +1,128 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web10.28984.1618211295330188897
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web09.29432.1618218515903981471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 00:08:15 -0700
+ Mon, 12 Apr 2021 02:08:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: naveen.kumar.saini@intel.com)
-IronPort-SDR: SmxAEBnFfJnXJbLLZZAIfrMhsnt/A2BonadfNqJEqEX3SDt9SRJNTg2x9UN7zMrTqkEPeA1PkR
- 4FpvYRUVGF3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="190940652"
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
-   d="scan'208,217";a="190940652"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 00:08:14 -0700
-IronPort-SDR: FOT85tlNElm4mzimCdoOFkzGdVO3EUDijN9nFXGW1nD6Xj2embrbkQ/pFy89GhGqB+T1Yc+tIs
- At0jwzKBrbtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
-   d="scan'208,217";a="398255349"
-Received: from pgsmsx602.gar.corp.intel.com ([10.108.199.137])
-  by orsmga002.jf.intel.com with ESMTP; 12 Apr 2021 00:08:12 -0700
-Received: from kmsmsx603.gar.corp.intel.com (172.21.219.143) by
- pgsmsx602.gar.corp.intel.com (10.108.199.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 12 Apr 2021 15:08:11 +0800
-Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143]) by
- kmsmsx603.gar.corp.intel.com ([172.21.219.143]) with mapi id 15.01.2106.013;
- Mon, 12 Apr 2021 15:08:11 +0800
-From: "Naveen Saini" <naveen.kumar.saini@intel.com>
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-CC: Joshua Watt <JPEWhacker@gmail.com>, Randy MacLeod
-	<randy.macleod@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [RFT][PATCH 0/2] GCC 11 Pre-release
-Thread-Topic: [OE-core] [RFT][PATCH 0/2] GCC 11 Pre-release
-Thread-Index: AQHXJavvTLL2ZZIZ/E2pDjE3kFLGWKqtZqcAgAAt+wCAAvMiAA==
-Date: Mon, 12 Apr 2021 07:08:11 +0000
-Message-ID: <2e67319e33b141cf9b772dafd87217de@intel.com>
-References: <20210330213019.2300696-1-raj.khem@gmail.com>
- <e0ae7b52770cea4b073f0e5d108af408781066cf.camel@linuxfoundation.org>
- <CAMKF1spGGNJJ2bKVxjwikTDepYhsbeb0tqScQ2wU5UVGS_3LdA@mail.gmail.com>
-In-Reply-To: <CAMKF1spGGNJJ2bKVxjwikTDepYhsbeb0tqScQ2wU5UVGS_3LdA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-x-originating-ip: [10.108.32.68]
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 63uQHKu1fHRqCqVc35Vi/rBwV2Es7KF+SgRAsh1Ls5053tTC177e5kFnTo4m6RPTjiO0AZBxx4
+ et4gb6PBtYkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="255467865"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="255467865"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:34 -0700
+IronPort-SDR: OobW4tmU9s6dUUKkrZ7c5drvtZXiOR0aSQfzeVSGbg3CtQvs/ZY8BUaoQpqsVaNfENWiuPSA+j
+ wD5BSj0chxew==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="531809016"
+Received: from pchuang-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.174.143])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:33 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/18] review request
+Date: Mon, 12 Apr 2021 17:08:08 +0800
+Message-Id: <cover.1618210563.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_2e67319e33b141cf9b772dafd87217deintelcom_"
+Content-Transfer-Encoding: 8bit
 
---_000_2e67319e33b141cf9b772dafd87217deintelcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Please review these next set of changes for gatesgarth. Builds cleanly
+on autobuilder.
 
-KFNXQVQpIExpc3RpbmcgcmVtYWluaW5nIGZhaWx1cmVzOg0KDQpxZW11IGxhdW5jaCBmYWlsdXJl
-IHRlc3RpbWFnZToNCmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29u
-LyMvYnVpbGRlcnMvNTkvYnVpbGRzLzMyNzgvc3RlcHMvMTQvbG9ncy9zdGRpbw0KDQpMVFAgZmFp
-bHVyZXM6DQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1
-aWxkZXJzLzk1L2J1aWxkcy8xNzk4L3N0ZXBzLzEyL2xvZ3Mvc3RkaW8NCmh0dHBzOi8vYXV0b2J1
-aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvOTYvYnVpbGRzLzE2NDgv
-c3RlcHMvMTIvbG9ncy9zdGRpbw0KDQoNCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
-IE9uIEJlaGFsZiBPZiBLaGVtIFJhag0KU2VudDogU3VuZGF5LCBBcHJpbCAxMSwgMjAyMSAxOjU4
-IEFNDQpUbzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmc+DQpDYzogSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPjsgUmFuZHkgTWFjTGVv
-ZCA8cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUkZUXVtQQVRDSCAwLzJd
-IEdDQyAxMSBQcmUtcmVsZWFzZQ0KDQpUaGFua3MgZm9yIHRlc3RpbmcgaXQgb3V0IEkgdGhpbmsg
-SSB3aWxsIHRyeSB0byBhZGRyZXNzIHRoZW0gaW4gYSBmb2xsb3cgdXAgcGVyaGFwcyBuZXh0IHdl
-ZWsNCg0KT24gU2F0LCBBcHIgMTAsIDIwMjEgYXQgODoxMyBBTSBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzxtYWlsdG86cmljaGFyZC5wdXJkaWVAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4+IHdyb3RlOg0KT24gVHVlLCAyMDIxLTAzLTMwIGF0IDE0OjMwIC0w
-NzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gVGhpcyBwYXRjaHNldCB1cGRhdGVzIHRvIHVwY29taW5n
-IGdjYyAxMSByZWxlYXNlLCBQbGVhc2UgZ2l2ZSBpdCBhIHRyeQ0KPiBpbiB5b3VyIHRlc3QgYmVk
-cyBpZiB5b3UgaGF2ZSBjeWNsZXMsIHNpbmNlIHRoZXJlIGlzIHN0aWxsIHNvbWV0aW1lIGxlZnQN
-Cj4gZm9yIGZpbmFsIEdDQyAxMSByZWxlYXNlIHBlcmhhcHMgd2UgY2FuIHNxdWVlemUgaW4gc29t
-ZSBidWdmaXhlcw0KPg0KPiBUaGV5IGFyZSBhbHNvIGF2YWlsYWJsZSB2aWEgZ2l0IGhlcmUNCj4g
-aHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29yZS1jb250cmliL2xv
-Zy8/aD1rcmFqL2djYy0xMQ0KDQpJIHJhbiB0aGlzIHRocm91Z2ggd2l0aCB0aGUgZ251dGxzIGZp
-eCB5b3UgZm91bmQuIFRoZXJlIGFwcGVhciB0byBiZQ0KcmVwcm9kdWN1YmlsaXR5IGlzc3VlcyBp
-biBnY2M6DQoNCmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMv
-YnVpbGRlcnMvMTE4L2J1aWxkcy8xNTkvc3RlcHMvMTIvbG9ncy9zdGRpbw0KDQpBbiBpc3N1ZSB3
-aXRoIG1ldGEtbWluZ3c6DQoNCmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90
-eXBob29uLyMvYnVpbGRlcnMvODkvYnVpbGRzLzMyOTYNCg0KTWlzc2luZyBtYWludGFpbmVycyBl
-bnRyeToNCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9i
-dWlsZGVycy83OS9idWlsZHMvMjAwNA0KDQp2YWxncmluZCBwdGVzdCByZWdyZXNzaW9ucyBvbiB4
-ODYgYW5kIGFybSAoZXZlbiB3aXRoIHRoZSB2YWxncmluZCB1cGdyYWRlKToNCg0KaHR0cHM6Ly9h
-dXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy84Mi9idWlsZHMv
-MTY4OC9zdGVwcy8xMi9sb2dzL3N0ZGlvDQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVj
-dC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgxL2J1aWxkcy8xOTc2L3N0ZXBzLzEyL2xvZ3Mvc3Rk
-aW8NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQo=
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2039
 
---_000_2e67319e33b141cf9b772dafd87217deintelcom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Thanks,
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25s
-eTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgltc28tZmFyZWFzdC1sYW5n
-dWFnZTpFTi1VUzt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7
-DQoJbWFyZ2luOjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcyLjBwdDt9DQpkaXYuV29yZFNlY3Rpb24x
-DQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4
-bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94
-bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2
-OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFw
-ZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLU1ZIiBs
-aW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFrLXdvcmQiPg0K
-PGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+KFNXQVQpIExpc3RpbmcgcmVtYWluaW5n
-IGZhaWx1cmVzOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0
-LWxhbmd1YWdlOkVOLVVTIj5xZW11IGxhdW5jaCBmYWlsdXJlIHRlc3RpbWFnZTo8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVh
-c3QtbGFuZ3VhZ2U6RU4tVVMiPjxhIGhyZWY9Imh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9q
-ZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNTkvYnVpbGRzLzMyNzgvc3RlcHMvMTQvbG9ncy9z
-dGRpbyI+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWls
-ZGVycy81OS9idWlsZHMvMzI3OC9zdGVwcy8xNC9sb2dzL3N0ZGlvPC9hPjxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5MVFAgZmFp
-bHVyZXM6IDxvOnA+DQo8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48YSBocmVmPSJodHRwczovL2F1
-dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzk1L2J1aWxkcy8x
-Nzk4L3N0ZXBzLzEyL2xvZ3Mvc3RkaW8iPmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0
-Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvOTUvYnVpbGRzLzE3OTgvc3RlcHMvMTIvbG9ncy9zdGRp
-bzwvYT48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxhIGhyZWY9Imh0dHBzOi8vYXV0b2J1
-aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvOTYvYnVpbGRzLzE2NDgv
-c3RlcHMvMTIvbG9ncy9zdGRpbyI+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3Jn
-L3R5cGhvb24vIy9idWlsZGVycy85Ni9idWlsZHMvMTY0OC9zdGVwcy8xMi9sb2dzL3N0ZGlvPC9h
-PjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6
-bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4w
-cHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0Ux
-RTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4t
-VVMiPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwv
-Yj5LaGVtIFJhajxicj4NCjxiPlNlbnQ6PC9iPiBTdW5kYXksIEFwcmlsIDExLCAyMDIxIDE6NTgg
-QU08YnI+DQo8Yj5Ubzo8L2I+IFJpY2hhcmQgUHVyZGllICZsdDtyaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnJmd0Ozxicj4NCjxiPkNjOjwvYj4gSm9zaHVhIFdhdHQgJmx0O0pQRVdo
-YWNrZXJAZ21haWwuY29tJmd0OzsgUmFuZHkgTWFjTGVvZCAmbHQ7cmFuZHkubWFjbGVvZEB3aW5k
-cml2ZXIuY29tJmd0Ozsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtSRlRdW1BBVENIIDAvMl0gR0NDIDEx
-IFByZS1yZWxlYXNlPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPlRoYW5rcyBmb3IgdGVzdGluZyBpdCBvdXQgSSB0aGluayBJIHdpbGwgdHJ5IHRv
-IGFkZHJlc3MgdGhlbSBpbiBhIGZvbGxvdyB1cCBwZXJoYXBzIG5leHQgd2VlayZuYnNwOzxvOnA+
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFNhdCwg
-QXByIDEwLCAyMDIxIGF0IDg6MTMgQU0gUmljaGFyZCBQdXJkaWUgJmx0OzxhIGhyZWY9Im1haWx0
-bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIj5yaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxi
-bG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEu
-MHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJp
-Z2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4w
-cHQiPk9uIFR1ZSwgMjAyMS0wMy0zMCBhdCAxNDozMCAtMDcwMCwgS2hlbSBSYWogd3JvdGU6PGJy
-Pg0KJmd0OyBUaGlzIHBhdGNoc2V0IHVwZGF0ZXMgdG8gdXBjb21pbmcgZ2NjIDExIHJlbGVhc2Us
-IFBsZWFzZSBnaXZlIGl0IGEgdHJ5PGJyPg0KJmd0OyBpbiB5b3VyIHRlc3QgYmVkcyBpZiB5b3Ug
-aGF2ZSBjeWNsZXMsIHNpbmNlIHRoZXJlIGlzIHN0aWxsIHNvbWV0aW1lIGxlZnQ8YnI+DQomZ3Q7
-IGZvciBmaW5hbCBHQ0MgMTEgcmVsZWFzZSBwZXJoYXBzIHdlIGNhbiBzcXVlZXplIGluIHNvbWUg
-YnVnZml4ZXM8YnI+DQomZ3Q7IDxicj4NCiZndDsgVGhleSBhcmUgYWxzbyBhdmFpbGFibGUgdmlh
-IGdpdCBoZXJlPGJyPg0KJmd0OyA8YSBocmVmPSJodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3Jn
-L29wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWIvbG9nLz9oPWtyYWovZ2NjLTExIiB0YXJnZXQ9Il9i
-bGFuayI+DQpodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNv
-bnRyaWIvbG9nLz9oPWtyYWovZ2NjLTExPC9hPjxicj4NCjxicj4NCkkgcmFuIHRoaXMgdGhyb3Vn
-aCB3aXRoIHRoZSBnbnV0bHMgZml4IHlvdSBmb3VuZC4gVGhlcmUgYXBwZWFyIHRvIGJlJm5ic3A7
-PGJyPg0KcmVwcm9kdWN1YmlsaXR5Jm5ic3A7aXNzdWVzIGluIGdjYzo8YnI+DQo8YnI+DQo8YSBo
-cmVmPSJodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxk
-ZXJzLzExOC9idWlsZHMvMTU5L3N0ZXBzLzEyL2xvZ3Mvc3RkaW8iIHRhcmdldD0iX2JsYW5rIj5o
-dHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzEx
-OC9idWlsZHMvMTU5L3N0ZXBzLzEyL2xvZ3Mvc3RkaW88L2E+PGJyPg0KPGJyPg0KQW4gaXNzdWUg
-d2l0aCBtZXRhLW1pbmd3Ojxicj4NCjxicj4NCjxhIGhyZWY9Imh0dHBzOi8vYXV0b2J1aWxkZXIu
-eW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvODkvYnVpbGRzLzMyOTYiIHRhcmdl
-dD0iX2JsYW5rIj5odHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8j
-L2J1aWxkZXJzLzg5L2J1aWxkcy8zMjk2PC9hPjxicj4NCjxicj4NCk1pc3NpbmcgbWFpbnRhaW5l
-cnMgZW50cnk6PGJyPg0KPGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3By
-b2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy83OS9idWlsZHMvMjAwNCIgdGFyZ2V0PSJfYmxh
-bmsiPmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRl
-cnMvNzkvYnVpbGRzLzIwMDQ8L2E+PGJyPg0KPGJyPg0KdmFsZ3JpbmQgcHRlc3QgcmVncmVzc2lv
-bnMgb24geDg2IGFuZCBhcm0gKGV2ZW4gd2l0aCB0aGUgdmFsZ3JpbmQgdXBncmFkZSk6PGJyPg0K
-PGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhv
-b24vIy9idWlsZGVycy84Mi9idWlsZHMvMTY4OC9zdGVwcy8xMi9sb2dzL3N0ZGlvIiB0YXJnZXQ9
-Il9ibGFuayI+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9i
-dWlsZGVycy84Mi9idWlsZHMvMTY4OC9zdGVwcy8xMi9sb2dzL3N0ZGlvPC9hPjxicj4NCjxhIGhy
-ZWY9Imh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRl
-cnMvODEvYnVpbGRzLzE5NzYvc3RlcHMvMTIvbG9ncy9zdGRpbyIgdGFyZ2V0PSJfYmxhbmsiPmh0
-dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvODEv
-YnVpbGRzLzE5NzYvc3RlcHMvMTIvbG9ncy9zdGRpbzwvYT48YnI+DQo8YnI+DQpDaGVlcnMsPGJy
-Pg0KPGJyPg0KUmljaGFyZDxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Anuj
 
---_000_2e67319e33b141cf9b772dafd87217deintelcom_--
+The following changes since commit fdae970656cc421c542af9856bc9ae038c61db13:
+
+  build-appliance-image: Update to gatesgarth head revision (2021-03-28 22:33:00 +0100)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Anatol Belski (1):
+  glibc: Pull latest 2.32 HEAD
+
+Anton D. Kachalov (1):
+  run-postinsts: do not remove postinsts directory.
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.105
+  linux-yocto/5.4: update to v5.4.107
+
+Christopher Larson (2):
+  buildhistory: add missing vardepsexcludes
+  image,populate_sdk_base: move 'func' flag setting for sdk command vars
+
+Dorinda Bassey (1):
+  devshell.bbclass: Exceptions displayed within devpyshell
+
+Guillaume Champagne (1):
+  image-live.bbclass: optional depends when ROOTFS empty
+
+Khem Raj (1):
+  documentation-audit.sh: Fix typo in specifying LICENSE_FLAGS_WHITELIST
+
+Lee Chee Yang (2):
+  cve-update-db-native: consider version suffix when update CVE db
+  cve-check: CVE_VERSION_SUFFIX to work with patched release
+
+Martin Jansa (1):
+  binutils: backport fix for gold with theads enabled from 2.36.0
+
+Michael Trensch (1):
+  linux-firmware: Fix packaging
+
+Mikko Rapeli (1):
+  openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
+
+Mingli Yu (1):
+  libtool: make sure autoheader run before autoconf
+
+Minjae Kim (1):
+  git: fix CVE-2021-21300
+
+Petr Vorel (1):
+  scripts/verify-bashisms: Update checkbashisms.pl URL
+
+Richard Purdie (1):
+  selftest/wic: Fix dependency issue in rawcopy test
+
+ meta/classes/buildhistory.bbclass             |   3 +
+ meta/classes/devshell.bbclass                 |   1 +
+ meta/classes/image-live.bbclass               |   2 +-
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/populate_sdk_base.bbclass        |   7 +
+ meta/lib/oe/cve_check.py                      |   7 +-
+ meta/lib/oeqa/selftest/cases/cve_check.py     |   8 +
+ meta/lib/oeqa/selftest/cases/wic.py           |  18 +-
+ .../{openssl_1.1.1j.bb => openssl_1.1.1k.bb}  |   2 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.32.bb         |   2 +-
+ .../recipes-core/meta/cve-update-db-native.bb |   7 +-
+ .../binutils/binutils-2.35.1.inc              |   1 +
+ ..._counts_lock-is-initialized-before-u.patch |  41 +++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ .../git/git/CVE-2021-21300.patch              | 304 ++++++++++++++++++
+ .../libtool/libtool-2.4.6.inc                 |   1 +
+ ...-sure-autoheader-run-before-autoconf.patch |  35 ++
+ .../run-postinsts/run-postinsts/run-postinsts |  10 +-
+ meta/recipes-extended/sudo/sudo.inc           |   2 +
+ .../linux-firmware/linux-firmware_20210208.bb |  41 ++-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ scripts/contrib/documentation-audit.sh        |   2 +-
+ scripts/verify-bashisms                       |   2 +-
+ 26 files changed, 490 insertions(+), 50 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb} (98%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2021-21300.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
+
+-- 
+2.30.2
+
