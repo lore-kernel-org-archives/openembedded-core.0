@@ -1,27 +1,27 @@
 Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.29432.1618218515903981471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 02:08:58 -0700
+ Mon, 12 Apr 2021 02:08:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Ex70ZstWuewNR39Fgk6Dnz2Gm+3KI7Zzpxscmp99/zeQzLlV1k7yQJMCZ/gxO+c4KGvaDq1JUp
- B2VA2RW8UHLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="255467958"
+IronPort-SDR: 5DQ+clbmDeT/h5ZmddQHjhMwttaBBukbnUcyXIn/Xbc/3NAXgL1yqwEySg1z3/u+qHII+5ZHe9
+ hALgisFylh8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="255467960"
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="255467958"
+   d="scan'208";a="255467960"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:58 -0700
-IronPort-SDR: gCjqx33dUz0sJN+MP12f2WejrPInGH7lLpXWdfsr7ZOy9vy5Gi/cfQB6/m2+06ULcUvdsT8mAq
- FHG4ykCOftpg==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:59 -0700
+IronPort-SDR: 2u9n5oJU5Ddl9jUPCXBIDHCL2/c278TwCVWV6sTXHRLzfm5PyEWrveF7xezmiq1POX4vQZd5Wx
+ h80z5zsTpn2A==
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="531809162"
+   d="scan'208";a="531809170"
 Received: from pchuang-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.174.143])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:57 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:58 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 16/18] buildhistory: add missing vardepsexcludes
-Date: Mon, 12 Apr 2021 17:08:24 +0800
-Message-Id: <2b7d4a7a1deb6c2565410a65be0368f6e8bb3efb.1618210563.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 17/18] image,populate_sdk_base: move 'func' flag setting for sdk command vars
+Date: Mon, 12 Apr 2021 17:08:25 +0800
+Message-Id: <01f9a99f04f0c8c135e167832215f4c1919fdb55.1618210563.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1618210563.git.anuj.mittal@intel.com>
 References: <cover.1618210563.git.anuj.mittal@intel.com>
@@ -30,37 +30,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Christopher Larson <kergoth@gmail.com>
 
-For POPULATE_SDK_POST_TARGET_COMMAND, POPULATE_SDK_POST_HOST_COMMAND, and SDK_POSTPROCESS_COMMAND, the appropriate entries were added to vardepvalueexclude, but we want them in vardepsexclude as well.
+Setting the 'func' flag on the commands variables ensures that they are parsed
+as shell, and therefore that the referenced commands contents are included in
+checksums. Doing this only in image.bbclass means that this is missing in
+recipes that are not images, but which inherit populate_sdk or populate_sdk_base
+directly, so move it to the latter.
+
+[YOCTO #13998]
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 554b17e0bbe5190e4b03121f2ed06f4845012a71)
+(cherry picked from commit edc28907ce19a7298059dd388933c58a9c6c28b9)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/buildhistory.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/image.bbclass             | 2 +-
+ meta/classes/populate_sdk_base.bbclass | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 3a6780da34..726f17a946 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -674,13 +674,16 @@ IMAGE_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_imageinfo"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
- POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_get_sdk_installed_target;"
- POPULATE_SDK_POST_TARGET_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_target;| buildhistory_get_sdk_installed_target;"
-+POPULATE_SDK_POST_TARGET_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_target buildhistory_get_sdk_installed_target"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 60b07de221..2f1d5cfb46 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -112,7 +112,7 @@ def rootfs_command_variables(d):
+             'IMAGE_PREPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POSTPROCESS_COMMANDS','DEB_PREPROCESS_COMMANDS','DEB_POSTPROCESS_COMMANDS']
  
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host;"
- POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_get_sdk_installed_host;"
- POPULATE_SDK_POST_HOST_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_host;| buildhistory_get_sdk_installed_host;"
-+POPULATE_SDK_POST_HOST_COMMAND[vardepsexclude] += "buildhistory_list_installed_sdk_host buildhistory_get_sdk_installed_host"
+ python () {
+-    variables = rootfs_command_variables(d) + sdk_command_variables(d)
++    variables = rootfs_command_variables(d)
+     for var in variables:
+         if d.getVar(var, False):
+             d.setVarFlag(var, 'func', '1')
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 942d3ec091..635b3a6b80 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -329,6 +329,13 @@ def sdk_variables(d):
  
- SDK_POSTPROCESS_COMMAND_append = " buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
- SDK_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
-+SDK_POSTPROCESS_COMMAND[vardepsexclude] += "buildhistory_get_sdkinfo buildhistory_get_extra_sdkinfo"
+ do_populate_sdk[vardeps] += "${@sdk_variables(d)}"
  
- python buildhistory_write_sigs() {
-     if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
++python () {
++    variables = sdk_command_variables(d)
++    for var in variables:
++        if d.getVar(var, False):
++            d.setVarFlag(var, 'func', '1')
++}
++
+ do_populate_sdk[file-checksums] += "${TOOLCHAIN_SHAR_REL_TMPL}:True \
+                                     ${TOOLCHAIN_SHAR_EXT_TMPL}:True"
+ 
 -- 
 2.30.2
 
