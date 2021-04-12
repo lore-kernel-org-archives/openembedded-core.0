@@ -1,116 +1,372 @@
 Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.29432.1618218515903981471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 02:08:37 -0700
+ Mon, 12 Apr 2021 02:08:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: DP+sxpyp5PLTUT1Zf90SpS3d9BoPkzT0Xij7IKI/J7h9+feanHhDblrTdEneY5QlmcaYwu+Jz5
- CLY+sE7T8iLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="255467869"
+IronPort-SDR: DxZHNGBTVR3A0UVFrfMdPcglcWuG6iIGafBXTG6Y6LQ2H7iWpBV5/icI6+4Ozdo+b7+nvxkkjh
+ 6gaAMACqENuA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="255467872"
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="255467869"
+   d="scan'208";a="255467872"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:37 -0700
-IronPort-SDR: PUuvjYZ5STWNOyKqR4db9LCQz41l+arIKuvf4kIbt1mZdspdkdImDfqIHFsAeZBBLcmMr+Bgym
- PqxRJ6NRM+7A==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:39 -0700
+IronPort-SDR: PRVPKKWykaRBTCqe+vFLiEhAy0h9zVbR65OV+x+c+DxEML77+cyFGXU4qlidny3bfctkPN4iyD
+ +B7o5xVGzC8w==
 X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="531809031"
+   d="scan'208";a="531809040"
 Received: from pchuang-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.174.143])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:36 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:08:37 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 02/18] binutils: backport fix for gold with theads enabled from 2.36.0
-Date: Mon, 12 Apr 2021 17:08:10 +0800
-Message-Id: <eaf4548a58d1b926b38beab28d75f8710c8b078a.1618210563.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 03/18] git: fix CVE-2021-21300
+Date: Mon, 12 Apr 2021 17:08:11 +0800
+Message-Id: <51450bb2a1cce636258c207d52696e436daa5097.1618210563.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1618210563.git.anuj.mittal@intel.com>
 References: <cover.1618210563.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Minjae Kim <flowergom@gmail.com>
 
-* building chromium with gold and threads triggers this issue:
-  [1/2] SOLINK ./libcbe.so
-  FAILED: libcbe.so libcbe.so.TOC
-  python "../../git/src/build/toolchain/gcc_solink_wrapper.py" --readelf="readelf" --nm="nm" --sofile="./libcbe.so" --tocfile="./libcbe.so.TOC" --output="./libcbe.so" -- i686-oe-linux-g++  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=chromium/84.0.4147.89-4-r41.1/recipe-sysroot -shared -Wl,-soname="libcbe.so" -fPIC -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,-z,defs -Wl,--as-needed -fuse-ld=gold -Wl,--threads -Wl,--thread-count=4 -m32 -Wl,-O2 -Wl,--gc-sections -rdynamic --sysroot=../../recipe-sysroot -L../../recipe-sysroot/lib -L../../recipe-sysroot/usr/lib -Lchromium/84.0.4147.89-4-r41.1/recipe-sysroot -o "./libcbe.so" @"./libcbe.so.rsp"
-  collect2: fatal error: ld terminated with signal 11 [Segmentation fault]
-  compilation terminated.
+checkout: fix bug that makes checkout follow symlinks in leading path
 
-* removing threads/thread-count is one possible work around, but then
-  the use of gold for performance makes even less sense, that's why
-  chromium from meta-browser uses LLD by default:
-  https://github.com/OSSystems/meta-browser/commit/15228b01903d4ca801916e55c7618fa5a71019b7
-  https://lld.llvm.org/#performance
-  but lets backport this as other recipes might also reproduce this
-  issue
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
+CVE: CVE-2021-21300
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../binutils/binutils-2.35.1.inc              |  1 +
- ..._counts_lock-is-initialized-before-u.patch | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ .../git/git/CVE-2021-21300.patch              | 304 ++++++++++++++++++
+ 2 files changed, 307 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2021-21300.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.35.1.inc b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-index 775af2b8f2..6290d5b191 100644
---- a/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-@@ -44,5 +44,6 @@ SRC_URI = "\
-      file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
-      file://0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patch \
-      file://CVE-2020-35448.patch \
-+     file://0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 586a305b27..3e78254eec 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -8,7 +8,9 @@ PROVIDES_append_class-native = " git-replacement-native"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
+-           file://fixsort.patch"
++           file://fixsort.patch \
++	   file://CVE-2021-21300.patch \
++"
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
+diff --git a/meta/recipes-devtools/git/git/CVE-2021-21300.patch b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
 new file mode 100644
-index 0000000000..f46415f440
+index 0000000000..390570fe78
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
-@@ -0,0 +1,41 @@
-+From de24fc96bf24fca470a9ca13176ad9ad9cc4d5a9 Mon Sep 17 00:00:00 2001
-+From: Nick Gasson <nick.gasson@arm.com>
-+Date: Mon, 2 Nov 2020 12:02:05 +0800
-+Subject: [PATCH] gold: ensure file_counts_lock is initialized before using
++++ b/meta/recipes-devtools/git/git/CVE-2021-21300.patch
+@@ -0,0 +1,304 @@
++From ba07d31bd2140190c4d8c197c9b8a503544b4c29 Mon Sep 17 00:00:00 2001
++From: Minjae Kim <flowrgom@gmail.com>
++Date: Sat, 27 Mar 2021 14:05:56 +0900
++Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
++ leading path
 +
-+Since upgrading to binutils 2.35 I've been experiencing random memory
-+corruption related crashes with ld.gold --threads. It's caused by
-+multiple threads concurrently pushing elements onto the shared
-+std::vector in File_read::record_file_read(). This vector is supposed to
-+be protected by file_counts_lock, but that is initialized lazily and
-+might be NULL when File_read::open() is called, in which case
-+Hold_optional_lock silently skips locking it.
++Before checking out a file, we have to confirm that all of its leading
++components are real existing directories. And to reduce the number of
++lstat() calls in this process, we cache the last leading path known to
++contain only directories. However, when a path collision occurs (e.g.
++when checking out case-sensitive files in case-insensitive file
++systems), a cached path might have its file type changed on disk,
++leaving the cache on an invalid state. Normally, this doesn't bring
++any bad consequences as we usually check out files in index order, and
++therefore, by the time the cached path becomes outdated, we no longer
++need it anyway (because all files in that directory would have already
++been written).
 +
-+Fix by calling the initialize() method before attempting to acquire the
-+lock, the same as other places that use file_counts_lock.
++But, there are some users of the checkout machinery that do not always
++follow the index order. In particular: checkout-index writes the paths
++in the same order that they appear on the CLI (or stdin); and the
++delayed checkout feature -- used when a long-running filter process
++replies with "status=delayed" -- postpones the checkout of some entries,
++thus modifying the checkout order.
 +
-+	PR 26827
-+	* fileread.cc (File_read::open): Ensure file_counts_lock is
-+	initialized.
-+	* testsuite/Makefile.am (check_PROGRAMS): Add a test that passes
-+	-Wl,--threads.
-+	* testsuite/Makefile.in: Regenerate.
++When we have to check out an out-of-order entry and the lstat() cache is
++invalid (due to a previous path collision), checkout_entry() may end up
++using the invalid data and thrusting that the leading components are
++real directories when, in reality, they are not. In the best case
++scenario, where the directory was replaced by a regular file, the user
++will get an error: "fatal: unable to create file 'foo/bar': Not a
++directory". But if the directory was replaced by a symlink, checkout
++could actually end up following the symlink and writing the file at a
++wrong place, even outside the repository. Since delayed checkout is
++affected by this bug, it could be used by an attacker to write
++arbitrary files during the clone of a maliciously crafted repository.
 +
-+Upstream-Status: Backport [af61e84fd2d from 2.36.0]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Some candidate solutions considered were to disable the lstat() cache
++during unordered checkouts or sort the entries before passing them to
++the checkout machinery. But both ideas include some performance penalty
++and they don't future-proof the code against new unordered use cases.
++
++Instead, we now manually reset the lstat cache whenever we successfully
++remove a directory. Note: We are not even checking whether the directory
++was the same as the lstat cache points to because we might face a
++scenario where the paths refer to the same location but differ due to
++case folding, precomposed UTF-8 issues, or the presence of `..`
++components in the path. Two regression tests, with case-collisions and
++utf8-collisions, are also added for both checkout-index and delayed
++checkout.
++
++Note: to make the previously mentioned clone attack unfeasible, it would
++be sufficient to reset the lstat cache only after the remove_subtree()
++call inside checkout_entry(). This is the place where we would remove a
++directory whose path collides with the path of another entry that we are
++currently trying to check out (possibly a symlink). However, in the
++interest of a thorough fix that does not leave Git open to
++similar-but-not-identical attack vectors, we decided to intercept
++all `rmdir()` calls in one fell swoop.
++
++This addresses CVE-2021-21300.
++
++Co-authored-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++Signed-off-by: Matheus Tavares <matheus.bernardino@usp.br>
++
++Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
++CVE: CVE-2021-21300
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
 +---
-+ gold/fileread.cc | 1 +
-+ 1 file changed, 1 insertion(+)
++ cache.h                         |  1 +
++ compat/mingw.c                  |  2 ++
++ git-compat-util.h               |  5 +++++
++ symlinks.c                      | 24 ++++++++++++++++++++
++ t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
++ t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
++ t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
++ 7 files changed, 129 insertions(+), 3 deletions(-)
 +
-+diff --git a/gold/fileread.cc b/gold/fileread.cc
-+index f5ca719360d..0b5228e2afd 100644
-+--- a/gold/fileread.cc
-++++ b/gold/fileread.cc
-+@@ -212,6 +212,7 @@ File_read::open(const Task* task, const std::string& name)
-+       gold_debug(DEBUG_FILES, "Attempt to open %s succeeded",
-+ 		 this->name_.c_str());
-+       this->token_.add_writer(task);
-++      file_counts_initialize_lock.initialize();
-+       Hold_optional_lock hl(file_counts_lock);
-+       record_file_read(this->name_);
-+     }
++diff --git a/cache.h b/cache.h
++index 6544264..64226c3 100644
++--- a/cache.h
+++++ b/cache.h
++@@ -1733,6 +1733,7 @@ int has_symlink_leading_path(const char *name, int len);
++ int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
++ int check_leading_path(const char *name, int len);
++ int has_dirs_only_path(const char *name, int len, int prefix_len);
+++extern void invalidate_lstat_cache(void);
++ void schedule_dir_for_removal(const char *name, int len);
++ void remove_scheduled_dirs(void);
++ 
++diff --git a/compat/mingw.c b/compat/mingw.c
++index 8ee0b64..be2b88e 100644
++--- a/compat/mingw.c
+++++ b/compat/mingw.c
++@@ -364,6 +364,8 @@ int mingw_rmdir(const char *pathname)
++ 	       ask_yes_no_if_possible("Deletion of directory '%s' failed. "
++ 			"Should I try again?", pathname))
++ 	       ret = _wrmdir(wpathname);
+++	if (!ret)
+++		invalidate_lstat_cache();
++ 	return ret;
++ }
++ 
++diff --git a/git-compat-util.h b/git-compat-util.h
++index 5637114..d983853 100644
++--- a/git-compat-util.h
+++++ b/git-compat-util.h
++@@ -345,6 +345,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
++ #define platform_core_config noop_core_config
++ #endif
++ 
+++int lstat_cache_aware_rmdir(const char *path);
+++#if !defined(__MINGW32__) && !defined(_MSC_VER)
+++#define rmdir lstat_cache_aware_rmdir
+++#endif
+++
++ #ifndef has_dos_drive_prefix
++ static inline int git_has_dos_drive_prefix(const char *path)
++ {
++diff --git a/symlinks.c b/symlinks.c
++index 69d458a..7dbb6b2 100644
++--- a/symlinks.c
+++++ b/symlinks.c
++@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
++  */
++ static int threaded_has_dirs_only_path(struct cache_def *cache, const char *name, int len, int prefix_len)
++ {
+++	/*
+++	 * Note: this function is used by the checkout machinery, which also
+++	 * takes care to properly reset the cache when it performs an operation
+++	 * that would leave the cache outdated. If this function starts caching
+++	 * anything else besides FL_DIR, remember to also invalidate the cache
+++	 * when creating or deleting paths that might be in the cache.
+++	 */
++ 	return lstat_cache(cache, name, len,
++ 			   FL_DIR|FL_FULLPATH, prefix_len) &
++ 		FL_DIR;
++@@ -321,3 +328,20 @@ void remove_scheduled_dirs(void)
++ {
++ 	do_remove_scheduled_dirs(0);
++ }
+++
+++void invalidate_lstat_cache(void)
+++{
+++	reset_lstat_cache(&default_cache);
+++}
+++
+++#undef rmdir
+++int lstat_cache_aware_rmdir(const char *path)
+++{
+++	/* Any change in this function must be made also in `mingw_rmdir()` */
+++	int ret = rmdir(path);
+++
+++	if (!ret)
+++		invalidate_lstat_cache();
+++
+++	return ret;
+++}
++diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
++index 4bfffa9..c42f51e 100755
++--- a/t/t0021-conversion.sh
+++++ b/t/t0021-conversion.sh
++@@ -957,4 +957,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
++ 	grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
++ '
++ 
+++for mode in 'case' 'utf-8'
+++do
+++	case "$mode" in
+++	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
+++	utf-8)
+++		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
+++		mode_prereq='UTF8_NFD_TO_NFC' ;;
+++	esac
+++
+++	test_expect_success PERL,SYMLINKS,$mode_prereq \
+++	"delayed checkout with $mode-collision don't write to the wrong place" '
+++		test_config_global filter.delay.process \
+++			"\"$TEST_ROOT/rot13-filter.pl\" --always-delay delayed.log clean smudge delay" &&
+++		test_config_global filter.delay.required true &&
+++		git init $mode-collision &&
+++		(
+++			cd $mode-collision &&
+++			mkdir target-dir &&
+++			empty_oid=$(printf "" | git hash-object -w --stdin) &&
+++			symlink_oid=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
+++			attr_oid=$(echo "$dir/z filter=delay" | git hash-object -w --stdin) &&
+++			cat >objs <<-EOF &&
+++			100644 blob $empty_oid	$dir/x
+++			100644 blob $empty_oid	$dir/y
+++			100644 blob $empty_oid	$dir/z
+++			120000 blob $symlink_oid	$symlink
+++			100644 blob $attr_oid	.gitattributes
+++			EOF
+++			git update-index --index-info <objs &&
+++			git commit -m "test commit"
+++		) &&
+++		git clone $mode-collision $mode-collision-cloned &&
+++		# Make sure z was really delayed
+++		grep "IN: smudge $dir/z .* \\[DELAYED\\]" $mode-collision-cloned/delayed.log &&
+++		# Should not create $dir/z at $symlink/z
+++		test_path_is_missing $mode-collision/target-dir/z
+++	'
+++done
+++
++ test_done
++diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
++index cd32a82..7bb9376 100644
++--- a/t/t0021/rot13-filter.pl
+++++ b/t/t0021/rot13-filter.pl
++@@ -2,9 +2,15 @@
++ # Example implementation for the Git filter protocol version 2
++ # See Documentation/gitattributes.txt, section "Filter Protocol"
++ #
++-# The first argument defines a debug log file that the script write to.
++-# All remaining arguments define a list of supported protocol
++-# capabilities ("clean", "smudge", etc).
+++# Usage: rot13-filter.pl [--always-delay] <log path> <capabilities>
+++#
+++# Log path defines a debug log file that the script writes to. The
+++# subsequent arguments define a list of supported protocol capabilities
+++# ("clean", "smudge", etc).
+++#
+++# When --always-delay is given all pathnames with the "can-delay" flag
+++# that don't appear on the list bellow are delayed with a count of 1
+++# (see more below).
++ #
++ # This implementation supports special test cases:
++ # (1) If data with the pathname "clean-write-fail.r" is processed with
++@@ -53,6 +59,13 @@ sub gitperllib {
++ use Git::Packet;
++ 
++ my $MAX_PACKET_CONTENT_SIZE = 65516;
+++
+++my $always_delay = 0;
+++if ( $ARGV[0] eq '--always-delay' ) {
+++	$always_delay = 1;
+++	shift @ARGV;
+++}
+++
++ my $log_file                = shift @ARGV;
++ my @capabilities            = @ARGV;
++ 
++@@ -134,6 +147,8 @@ sub rot13 {
++ 			if ( $buffer eq "can-delay=1" ) {
++ 				if ( exists $DELAY{$pathname} and $DELAY{$pathname}{"requested"} == 0 ) {
++ 					$DELAY{$pathname}{"requested"} = 1;
+++				} elsif ( !exists $DELAY{$pathname} and $always_delay ) {
+++					$DELAY{$pathname} = { "requested" => 1, "count" => 1 };
++ 				}
++ 			} elsif ($buffer =~ /^(ref|treeish|blob)=/) {
++ 				print $debug " $buffer";
++diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
++index 57cbdfe..f223a02 100755
++--- a/t/t2006-checkout-index-basic.sh
+++++ b/t/t2006-checkout-index-basic.sh
++@@ -21,4 +21,44 @@ test_expect_success 'checkout-index -h in broken repository' '
++ 	test_i18ngrep "[Uu]sage" broken/usage
++ '
++ 
+++for mode in 'case' 'utf-8'
+++do
+++	case "$mode" in
+++	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
+++	utf-8)
+++		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
+++		mode_prereq='UTF8_NFD_TO_NFC' ;;
+++	esac
+++
+++	test_expect_success SYMLINKS,$mode_prereq \
+++	"checkout-index with $mode-collision don't write to the wrong place" '
+++		git init $mode-collision &&
+++		(
+++			cd $mode-collision &&
+++			mkdir target-dir &&
+++			empty_obj_hex=$(git hash-object -w --stdin </dev/null) &&
+++			symlink_hex=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
+++			cat >objs <<-EOF &&
+++			100644 blob ${empty_obj_hex}	${dir}/x
+++			100644 blob ${empty_obj_hex}	${dir}/y
+++			100644 blob ${empty_obj_hex}	${dir}/z
+++			120000 blob ${symlink_hex}	${symlink}
+++			EOF
+++			git update-index --index-info <objs &&
+++			# Note: the order is important here to exercise the
+++			# case where the file at ${dir} has its type changed by
+++			# the time Git tries to check out ${dir}/z.
+++			#
+++			# Also, we use core.precomposeUnicode=false because we
+++			# want Git to treat the UTF-8 paths transparently on
+++			# Mac OS, matching what is in the index.
+++			#
+++			git -c core.precomposeUnicode=false checkout-index -f \
+++				${dir}/x ${dir}/y ${symlink} ${dir}/z &&
+++			# Should not create ${dir}/z at ${symlink}/z
+++			test_path_is_missing target-dir/z
+++		)
+++	'
+++done
+++
++ test_done
++-- 
++2.17.1
++
 -- 
 2.30.2
 
