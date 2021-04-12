@@ -1,89 +1,90 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web09.33853.1618240411123368455
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.34289.1618240650539837652
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 08:13:31 -0700
+ Mon, 12 Apr 2021 08:17:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qxH9Ym6h;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id h7so10160145qtx.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 08:13:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GrAdYEbG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: aj.bagwell@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id sd23so12243474ejb.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 08:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=f+RXN6B+3/bl1n8PIt6C/h9h0xRUyYFDBAfIMGGkWwc=;
-        b=qxH9Ym6h2GFwDmfUf917R0RzXzYKfjI5dFQARyuxhgBYOKDrEg/8dNELyCO+nLnQnc
-         MbP5HbkZgOIrmgYcpz6rbE6Q0BZFsaxoB/CydTxC0KPbqyJqZgxGEYV4T9oNG0K1QWNF
-         h8H0exbxYxbDIiCgi7qV8lwVVD82DptG9iaHZH3z+z/rO1r+dumt17WoyChuia+Isp7Q
-         Pca6WYHupUxqjxQPt3WNs9g2ddDxbddjjxWXAb7/myrYo6KXa5IVduDZsarWhlj/DD9V
-         mWEjOvaqqBLVgTaXp1XSKHrQOMvNnAYV3qRWmC+5Kcdn0CcVgOdX0th5dUdULHqVTRW8
-         aYEw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kk2kELdJqMUvIT5uVBR1vFG+5LVX07s5TAQpJZFe1Dc=;
+        b=GrAdYEbGYQxXKYbFQ/RUZ2MmNAlX/I9Fok0+4iV6k1WLpm3t3CKt44DM5TXdxCUbIB
+         xj9lnhWtnG9CwaHPkPfqQ0hyRP8hgzNuiYzxMdyAPSFdftJrP0Rugq/ViW+F1u222O+Q
+         6CXy0w6HXuRR9NWg4ILRMFmvpo0Kq1IHG7XKq/AuNB9XTvykdDFdsv+68RgcSOHqk3Yp
+         Byv8pH7GRyhoMVhGiqjWhipf6XhDA6huNL7zksIK/6Q9A/IXFZW+EBzW3J9CymvSgqJN
+         LxEult5hgk7jNfZOplLONRmCnqH7vsCl/hcvgOCRE/Ths/V/H3ByNfYbElUfmWMKr+8M
+         Va1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=f+RXN6B+3/bl1n8PIt6C/h9h0xRUyYFDBAfIMGGkWwc=;
-        b=D7+M1znvQ/xH18QC2ZC8cRH4R+hRi6tBYECporYmopJ7rwGN4wVNuV55EMw6vSB6vj
-         ephwnVxSzsj3rxyC5m+tFA5EMpQXmi94JzfK/o3aomaY0OzkVqreYAhkcOMOPYjPzfOx
-         M8Ov3U7bEUSnCTczSBIDpC4aMLBDlaVa6KqB2NcYkKtv3YQFCiaS/3DADRUtpSPxCQr3
-         oExqLatc8ADD1JMWKlP5LeZjcB4B+Azo6eP/kDPcgT+zKuqILtR7uU0CRVXsDkipnCJo
-         MekhfTaNocoA6RdTac9j1gmyIEn+Kw9UeHrpzOGloH8Zevaop6L0PR/wS0kXaKorgOyX
-         +8IA==
-X-Gm-Message-State: AOAM531SCRROqwHjMJBX+ebA/2OJr5SGN4A7j04END6db1/oQnLuHOOY
-	soGsojrNZbLFPK9kJBMMX0yIF2IV/3S4ow==
-X-Google-Smtp-Source: ABdhPJzBvoaTqglBUy9loQ4rfV/7ahUME63BTrSObLWFlKfflrl/u/GjI0Af0VHSV5Z2FNe0F7zfog==
-X-Received: by 2002:ac8:5f10:: with SMTP id x16mr26579309qta.6.1618240410267;
-        Mon, 12 Apr 2021 08:13:30 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id j129sm8112787qkf.110.2021.04.12.08.13.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 08:13:29 -0700 (PDT)
-Date: Mon, 12 Apr 2021 11:13:28 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: He Zhe <zhe.he@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-yocto-dev: add features/scsi/scsi-debug.scc features/gpio/mockup.scc to KERNEL_FEATURES
-Message-ID: <20210412151325.GA37958@gmail.com>
-References: <20210409081647.37679-1-zhe.he@windriver.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kk2kELdJqMUvIT5uVBR1vFG+5LVX07s5TAQpJZFe1Dc=;
+        b=CH1FaThfb760GTaK5rKGRJYrmwZw51cEctC5quKO5eTYrW3gp+Crl7w52FBC8pG3S5
+         rST+yRLTj2g1aKd6BHOgn5/xXHwIvwZxfhvWs5C1I/IBc3LuRXmdLtwSkTEuNVZHUG7i
+         aBNkJmKvf+7M4Z3jPQUbd7u+ziQRctPL/fbvqS6A2TNpi4b4YhLg7VCh9H944zPKB/ND
+         mYF0cR0dmdiJ5cuwwx1+N2Cxr2yoccjcp1MC2lx+7LSTjW7k8FAbtxbGfD9/ZorJNri8
+         rbqKYvgtgSVVC/gA9F6x615ZsypstnO6asZogY/S3Yzf6YqR+7R0bX1cWFQNos7iek4j
+         FjVg==
+X-Gm-Message-State: AOAM532ri5W+zskHW7hvA5hIyl+wL8zZtlDJK8XwcHf7WMp+X5qS/R5F
+	8ul8E8DKbu1HFVf6ZhKcy+76yaJZqN4osQ==
+X-Google-Smtp-Source: ABdhPJzqfaLP1fv+Vx3DUd3wj/5Cl+vp3qUzSa6uGAa7fTFFjY0D7uUZpoUbiSovhEbMKqXINtqoyg==
+X-Received: by 2002:a17:907:c28:: with SMTP id ga40mr27507476ejc.444.1618240648801;
+        Mon, 12 Apr 2021 08:17:28 -0700 (PDT)
+Return-Path: <aj.bagwell@gmail.com>
+Received: from CMM-C02QQ1FRG8WL.localdomain (cpc108959-cmbg20-2-0-cust309.5-4.cable.virginm.net. [80.0.21.54])
+        by smtp.gmail.com with ESMTPSA id hc43sm6041103ejc.97.2021.04.12.08.17.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Apr 2021 08:17:28 -0700 (PDT)
+From: "Anthony Bagwell" <aj.bagwell@gmail.com>
+X-Google-Original-From: AJ Bagwell <anthony.bagwell@hivehome.com>
+To: openembedded-core@lists.openembedded.org
+Cc: AJ Bagwell <anthony.bagwell@hivehome.com>
+Subject: [OE-core][PATCH] systemd: upgrade 247.4 -> 247.6
+Date: Mon, 12 Apr 2021 16:17:08 +0100
+Message-Id: <20210412151708.52522-1-anthony.bagwell@hivehome.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <20210409081647.37679-1-zhe.he@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+---
+ .../systemd/{systemd-boot_247.4.bb => systemd-boot_247.6.bb}    | 0
+ .../systemd/{systemd-conf_247.3.bb => systemd-conf_247.6.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../recipes-core/systemd/{systemd_247.4.bb => systemd_247.6.bb} | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot_247.4.bb => systemd-boot_247.6.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_247.3.bb => systemd-conf_247.6.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_247.4.bb => systemd_247.6.bb} (100%)
 
-In message: [PATCH] linux-yocto-dev: add features/scsi/scsi-debug.scc features/gpio/mockup.scc to KERNEL_FEATURES
-on 09/04/2021 He Zhe wrote:
+diff --git a/meta/recipes-core/systemd/systemd-boot_247.4.bb b/meta/recipes-core/systemd/systemd-boot_247.6.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_247.4.bb
+rename to meta/recipes-core/systemd/systemd-boot_247.6.bb
+diff --git a/meta/recipes-core/systemd/systemd-conf_247.3.bb b/meta/recipes-core/systemd/systemd-conf_247.6.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-conf_247.3.bb
+rename to meta/recipes-core/systemd/systemd-conf_247.6.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 098bca98f1..7d3b3064ba 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "069525e84a67375e27429cb490e8d28af78e673a"
++SRCREV = "17472dca0160cbe7b807ca648475fd70d0d62fe5"
+ SRCBRANCH = "v247-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd_247.4.bb b/meta/recipes-core/systemd/systemd_247.6.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_247.4.bb
+rename to meta/recipes-core/systemd/systemd_247.6.bb
+-- 
+2.24.0
 
-> Add features/scsi/scsi-debug.scc and features/gpio/mockup.scc to
-> KERNEL_FEATURES to meet ptest requirement as what we did for other
-> linux-yocto*.
-
-Staged.
-
-I'll send this with my next pull request.
-
-Bruce
-
-> 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> index 8725473d1c..ee41d612fd 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> @@ -50,5 +50,7 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc
->  KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
->  
->  KERNEL_VERSION_SANITY_SKIP = "1"
-> -- 
-> 2.17.1
-> 
