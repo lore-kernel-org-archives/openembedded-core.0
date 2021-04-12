@@ -1,214 +1,149 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web12.33883.1618239020796996482
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web12.34153.1618239851334368165
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Apr 2021 07:50:20 -0700
+ Mon, 12 Apr 2021 08:04:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=up13SpOd;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id c123so9131034qke.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 07:50:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KyrAJbyr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id j24so2858186oii.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Apr 2021 08:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=3Y22gmClpVDV+fRESU6QjSk2NRBVjAMsy9J8PqEyt7k=;
-        b=up13SpOdoqn8Jvf0FzwixgtCTV2pmjOC7i3Qifwh8bGhmYjthXjIK9aH4moVC/MCwk
-         TcDfjEIOgUvPIaS+7QztZShaesvxKivKUPZVUsAHHV0pcXZcI4xr1qBqAY9GVzPHM2R7
-         d6fy4p61v2FgnrO2INwvN1JKgSvUeItpZ/0nRHrrov7nW+ar8keCRXYYLjwHBXXZTW/j
-         3vo+8BA2KQdar7vxmSLG+3dEdka12TjM5SZUbHQoWnSSTzQggcj0I+CjDigi6+aunUW9
-         THtMTBu5/ZXSXkqiPRBx8/lEXtkLnO6PfaQ48HKiGSRusdWruSC9akZ6mThxPftmK26T
-         jJVw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=Ddjy4PN8/g3bAuUb8Cx034pOuCmTRcPNDsY0Vyj16Wc=;
+        b=KyrAJbyrN+NGb4qjd5BGEcBqbmZwNME3vQ/72+fBBvWA3+qWwZrl8eezRsDEL/ieQd
+         Yx0vTkFI7WtpjcCrRaPizsa8hrk/9irRQ8u3qjtvOTjj6CapItbrduOsMYu5qurJeQmM
+         wx12hVi/W6qcE8iYKnzlDG6fW2fNTHSbVIzA/rzhRSTKqQhac+zc5JS+Qn4JbQZtKqp5
+         h5zJXmNEVHFrsb9FoSwkOCJbRrFSz/rxFNJtTyQDzGDQLLuLel2VU08Ye1yqGnKivE7y
+         zUVDbPu6+yl3vrYN5zopI2RdFUVXZlj02YLfqvFWmVoEsdyc/YmYfH7F9FZGrQdCQYAX
+         IuJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=3Y22gmClpVDV+fRESU6QjSk2NRBVjAMsy9J8PqEyt7k=;
-        b=FBIEvJ2jRfE5pa+Z59qNuiMb/1xJEL1uuwOsPGh3tg3xQv/SqCmFtJBUtD/OSDLESF
-         It77XfXeBg1VzYMicMt8elhFJJtfbR5jiLJNEodkOBmdeGA+NF6luFTgBOwiYRgZHqVk
-         L7BFAlK+DWNK9+sgdw8w9WjRbZ3g2rkCRjSBYD58m+INM6OvrRJH+s7ZYWbY1O+64pPb
-         UYji4PBjcp1u8koHNDrWx2odMlcA5UlPsW/5Ie07xnmP9diM/brVMFvwtnt/faKuy7fX
-         AKZaVwBaR3Lxy1Kmuivp/6Op0YQeonCWIfFbO7Nr9cuOkD3MO7EBD5M3sT9XrvJyay3H
-         7RjA==
-X-Gm-Message-State: AOAM532jIrnf6HHWV3Ci6SGu2jWYtF9clDXph+eUG2A+Qz0ZNzyR1Kui
-	BcTxlUdAo2ryvqVO+iErX4mpCB/5SnBrUMJ4MKA=
-X-Google-Smtp-Source: ABdhPJwVmaGmiEOQt6UtHnGtH5+NW+Ty2GdmUW83rpx1s4yxOwV3R8BhxwgUtkHJSBcIqs/fZqgxSAhki+KjhIMA3WU=
-X-Received: by 2002:a37:8c4:: with SMTP id 187mr2464265qki.125.1618239019904;
- Mon, 12 Apr 2021 07:50:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a37:6f07:0:0:0:0:0 with HTTP; Mon, 12 Apr 2021 07:50:19
- -0700 (PDT)
-In-Reply-To: <e1f15324-16c8-9ff8-2918-7766fce4e8c0@gmail.com>
-References: <20210411154900.20331-1-akuster808@gmail.com> <CAMKF1so45P=eZyYuLr2SVwfYQscM81URUQR37urrmppPdKJLWg@mail.gmail.com>
- <e1f15324-16c8-9ff8-2918-7766fce4e8c0@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 12 Apr 2021 07:50:19 -0700
-Message-ID: <CAMKF1sp0WbFsk6w_V2fSHZZfMpF_wSW31fpJS6kcMzENPae6FQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: rename BRANCH var
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f16fd305bfc7a119"
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=Ddjy4PN8/g3bAuUb8Cx034pOuCmTRcPNDsY0Vyj16Wc=;
+        b=VPMCPsq2uzPuTC5GwArvV2nPr94UPdsy1bkWHOZtbHbo473hicTIEALC8FbX72emPm
+         K9NY/u7gs4W92UDB6+Uk8X5FLRJkQFbck3g3N3HiijpQT2qVsrtwokhIyzEcPowtbfwb
+         LLAbMHrWpGDY6ZLNRPeLqBUTMwqbtmc5U4I3vv07R3SUYDiMr2KjdOlvSbSBE9jdKucn
+         mT/Ff5eALOWO1aFXuhXIFfR1myosVMlTyR0zX5cvT0y8iGhOWEgqL6DyJ8XGlWnRa0Uj
+         TT22iLB0s6CKZ5CrQP9M/x7Q0fxODEC2fAQbkRw1/pQ4Jgdjh/lv8l1rcwW+W0CchKgl
+         2GHg==
+X-Gm-Message-State: AOAM5314bk/pJyocCsg/x2riJ9Ies15DXRlQtkzPP9QeyVKfrJQRw72i
+	RuYeXVToK9oo5KP3WAWzVWPOZHZAKBHBxAKcE2A=
+X-Google-Smtp-Source: ABdhPJw1r+7r4/bN4vnOuN6+R/FM1JvHtAo//fU8pkbDbPFzGnKsncgWPPIOxSCXg/wszLzB0sOMxA==
+X-Received: by 2002:a54:4586:: with SMTP id z6mr10596302oib.159.1618239850040;
+        Mon, 12 Apr 2021 08:04:10 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id v6sm2225329ook.40.2021.04.12.08.04.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 08:04:09 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 21FB6960325; Mon, 12 Apr 2021 05:04:01 -1000 (HST)
+Subject: OE-core CVE metrics for gatesgarth on Mon 12 Apr 2021 05:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210412150401.21FB6960325@nuc.router0800d9.com>
+Date: Mon, 12 Apr 2021 05:04:01 -1000 (HST)
 
---000000000000f16fd305bfc7a119
-Content-Type: text/plain; charset="UTF-8"
+Branch: gatesgarth
 
-On Monday, April 12, 2021, akuster808 <akuster808@gmail.com> wrote:
+New this week:
+CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
+CVE-2021-22876: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22876 *
+CVE-2021-22890: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22890 *
+CVE-2021-30004: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-30004 *
 
->
->
-> On 4/11/21 11:03 AM, Khem Raj wrote:
-> > On Sun, Apr 11, 2021 at 8:49 AM akuster <akuster808@gmail.com> wrote:
-> >> If BRANCH is defined in local.conf then that name is used to d/l sources
-> >> for binutils. You will get this error:
-> >>
-> >> Fetcher failure for URL: 'git://sourceware.org/git/
-> binutils-gdb.git;branch=hardknott;protocol=git'. Unable to fetch URL from
-> any source.
-> >>
-> >> Rename to SRCBRANCH like glibc has to avoid the more common variable
-> name BRANCH.
-> >>
-> >> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> >> ---
-> >>  meta/recipes-devtools/binutils/binutils-2.36.inc | 6 +++---
-> >>  1 file changed, 3 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc
-> b/meta/recipes-devtools/binutils/binutils-2.36.inc
-> >> index 2968291889..f638f02e8f 100644
-> >> --- a/meta/recipes-devtools/binutils/binutils-2.36.inc
-> >> +++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
-> >> @@ -19,13 +19,13 @@ def binutils_branch_version(d):
-> >>  PV = "2.36.1"
-> >>  CVE_VERSION = "2.36.1"
-> >>  BINUPV = "${@binutils_branch_version(d)}"
-> >> -#BRANCH = "binutils-${BINUPV}-branch"
-> >> -BRANCH ?= "binutils-2_36-branch"
-> >> +#SRCBRANCH = "binutils-${BINUPV}-branch"
-> >> +SRCBRANCH ?= "binutils-2_36-branch"
-> > if dropping to use BINUPV then lets drop setting this as well. Which
-> > also means you can drop
-> i wasn't the one who dropped BINUPV. Those were already commented out via
-> b71294c4de binutils: Upgrade to binutils 2.32
->
->
-> > binutils_branch_version as well which is fine with me.
->
-> I can do V2 to clean that up.
->
->
-That will be cool
+Removed this week:
 
-
-> -armin
-> >
-> >>  UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
-> >>
-> >>  SRCREV ?= "7651a4871c225925ffdfda0a8c91a6ed370cd9a1"
-> >> -BINUTILS_GIT_URI ?= "git://sourceware.org/git/
-> binutils-gdb.git;branch=${BRANCH};protocol=git"
-> >> +BINUTILS_GIT_URI ?= "git://sourceware.org/git/
-> binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
-> >>  SRC_URI = "\
-> >>       ${BINUTILS_GIT_URI} \
-> >>       file://0004-configure-widen-the-regexp-for-SH-architectures.patch
-> \
-> >> --
-> >> 2.17.1
-> >>
-> >>
-> >> 
-> >>
->
->
->
-
---000000000000f16fd305bfc7a119
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, April 12, 2021, akuster808 &lt;<a href=3D"mailto:akuster=
-808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><br>
-<br>
-On 4/11/21 11:03 AM, Khem Raj wrote:<br>
-&gt; On Sun, Apr 11, 2021 at 8:49 AM akuster &lt;<a href=3D"mailto:akuster=
-808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; If BRANCH is defined in local.conf then that name is used to d/l =
-sources<br>
-&gt;&gt; for binutils. You will get this error:<br>
-&gt;&gt;<br>
-&gt;&gt; Fetcher failure for URL: &#39;git://<a href=3D"http://sourceware.=
-org/git/binutils-gdb.git;branch=3Dhardknott;protocol=3Dgit" target=3D"_blan=
-k">sourceware.org/git/<wbr>binutils-gdb.git;branch=3D<wbr>hardknott;protoco=
-l=3Dgit</a>&#39;. Unable to fetch URL from any source.<br>
-&gt;&gt;<br>
-&gt;&gt; Rename to SRCBRANCH like glibc has to avoid the more common varia=
-ble name BRANCH.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmai=
-l.com">akuster808@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/recipes-devtools/<wbr>binutils/binutils-2.36.inc | 6 +=
-++---<br>
-&gt;&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-devtools/<wbr>binutils/binutils-2.36.in=
-c b/meta/recipes-devtools/<wbr>binutils/binutils-2.36.inc<br>
-&gt;&gt; index 2968291889..f638f02e8f 100644<br>
-&gt;&gt; --- a/meta/recipes-devtools/<wbr>binutils/binutils-2.36.inc<br>
-&gt;&gt; +++ b/meta/recipes-devtools/<wbr>binutils/binutils-2.36.inc<br>
-&gt;&gt; @@ -19,13 +19,13 @@ def binutils_branch_version(d):<br>
-&gt;&gt;=C2=A0 PV =3D &quot;2.36.1&quot;<br>
-&gt;&gt;=C2=A0 CVE_VERSION =3D &quot;2.36.1&quot;<br>
-&gt;&gt;=C2=A0 BINUPV =3D &quot;${@binutils_branch_version(d)<wbr>}&quot;<=
-br>
-&gt;&gt; -#BRANCH =3D &quot;binutils-${BINUPV}-branch&quot;<br>
-&gt;&gt; -BRANCH ?=3D &quot;binutils-2_36-branch&quot;<br>
-&gt;&gt; +#SRCBRANCH =3D &quot;binutils-${BINUPV}-branch&quot;<br>
-&gt;&gt; +SRCBRANCH ?=3D &quot;binutils-2_36-branch&quot;<br>
-&gt; if dropping to use BINUPV then lets drop setting this as well. Which<=
-br>
-&gt; also means you can drop<br>
-i wasn&#39;t the one who dropped BINUPV. Those were already commented out =
-via<br>
-b71294c4de binutils: Upgrade to binutils 2.32<br>
-<br>
-<br>
-&gt; binutils_branch_version as well which is fine with me.<br>
-<br>
-I can do V2 to clean that up.<br>
-<br></blockquote><div><br></div><div>That will be cool</div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
--armin<br>
-&gt;<br>
-&gt;&gt;=C2=A0 UPSTREAM_CHECK_GITTAGREGEX =3D &quot;binutils-(?P&lt;pver&g=
-t;\d+_(\d_?)*<wbr>)&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 SRCREV ?=3D &quot;<wbr>7651a4871c225925ffdfda0a8c91a6<wbr>e=
-d370cd9a1&quot;<br>
-&gt;&gt; -BINUTILS_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.o=
-rg/git/binutils-gdb.git;branch=3D${BRANCH};protocol=3Dgit" target=3D"_blank=
-">sourceware.org/git/<wbr>binutils-gdb.git;branch=3D${<wbr>BRANCH};protocol=
-=
-=3Dgit</a>&quot;<br>
-&gt;&gt; +BINUTILS_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.o=
-rg/git/binutils-gdb.git;branch=3D${SRCBRANCH};protocol=3Dgit" target=3D"_bl=
-ank">sourceware.org/git/<wbr>binutils-gdb.git;branch=3D${<wbr>SRCBRANCH};pr=
-otocol=3Dgit</a>&quot;<br>
-&gt;&gt;=C2=A0 SRC_URI =3D &quot;\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0${BINUTILS_GIT_URI} \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-configure-widen-<wbr>the-re=
-gexp-for-SH-<wbr>architectures.patch \<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.17.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; <br>
-&gt;&gt;<br>
-<br>
-<br>
-</blockquote>
-
---000000000000f16fd305bfc7a119--
+Full list:  Found 90 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15863: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-17525: subversion https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17525 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
+CVE-2020-28493: python3-jinja2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28493 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35492: cairo:cairo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35492 *
+CVE-2020-35521: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35521 *
+CVE-2020-35522: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35522 *
+CVE-2020-35523: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35523 *
+CVE-2020-35524: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35524 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-20193: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20193 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20227: sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20227 *
+CVE-2021-20231: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20231 *
+CVE-2021-20232: gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20232 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20263: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20263 *
+CVE-2021-20271: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20271 *
+CVE-2021-20284: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20284 *
+CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
+CVE-2021-21300: git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-21300 *
+CVE-2021-22876: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22876 *
+CVE-2021-22890: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22890 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27218: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27218 *
+CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
+CVE-2021-27918: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
+CVE-2021-28041: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28041 *
+CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
+CVE-2021-28831: busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28831 *
+CVE-2021-30004: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-30004 *
+CVE-2021-3326: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3326 *
+CVE-2021-3392: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3392 *
+CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
+CVE-2021-3416: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3416 *
+CVE-2021-3418: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+CVE-2021-3449: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3449 *
+CVE-2021-3450: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3450 *
