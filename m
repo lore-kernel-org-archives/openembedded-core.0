@@ -1,100 +1,70 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.6364.1618304415068175123
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+ by mx.groups.io with SMTP id smtpd.web11.6705.1618305884017039376
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Apr 2021 02:00:15 -0700
+ Tue, 13 Apr 2021 02:24:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13D90Dh0000394
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Apr 2021 02:00:13 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 13 Apr 2021 02:00:13 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Tue, 13 Apr 2021 02:00:12 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] libtool: make sure autoheader run before automake
-Date: Tue, 13 Apr 2021 17:00:11 +0800
-Message-ID: <20210413090011.17281-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <16755D603EDF58FD.21262@lists.openembedded.org>
-References: <16755D603EDF58FD.21262@lists.openembedded.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+ dkim=pass header.i=@google.com header.s=20161025 header.b=hLGBRUW7;
+ spf=pass (domain: flex--krellan.bounces.google.com, ip: 209.85.219.202, mailfrom: 3w2n1yackaaimtgnncpiqqing.eqo@flex--krellan.bounces.google.com)
+Received: by mail-yb1-f202.google.com with SMTP id g7so15570246ybm.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Apr 2021 02:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=7tV4uIQ9PR0Lzdn2WR7CkcYnw3POYtHpYDx1Cnm2F6w=;
+        b=hLGBRUW7X1iudjc0OHSIzCQuHOyyTQ/lPngblpKJzqvwq5KrKBGagAH46xxsKRKgOf
+         F7MA/7yJYLTPIFQlaWM+GBn27IjKoeSRON5ZkMt29w8rwwJVg0HyPhLEBERJYarR123h
+         FEGraf9gDmCKie4v94qX126zSYhtzZSV/Vv0md/wqsKJsSoTIBx3M2fOAuWDAnpoNWoi
+         YHEp7475Im0v6GnbNTNLbmWzjmJu5byyuJ5lvV697EQ/I6TkaPvdttjOFY2v8ofjI2h0
+         5hP7cRpyIR2izjBcZPsKRI5Bbjm5yV56dIyJeD4STIhHwebR5mY3ukYczl3ZmEST5CHS
+         xabg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=7tV4uIQ9PR0Lzdn2WR7CkcYnw3POYtHpYDx1Cnm2F6w=;
+        b=ljV/bUYrQBV+MPzoAAMB3hvi9nMGqC+VfOAC/Q8uP1Fp1wo1ijw8n09wzVNSvOrHyI
+         ggjBC/WSBrfqnL3HJxrTCRy0gJ38TvW10fPrZbYGNm6DJjibuLdExhlpibYigyar2gYg
+         eBDoEKDFp0qRCFUzWFIH0JN9HFMD2PWyiKnWOStkl0bHqDoP8QN4rmd+cz3tDpzw9ak6
+         lpk2V1fIkCWHRZvlIbC8hkQSpoqhr6wv9j+JSJI/MKuodwB3mTX0Z66DWgfkAWII3lfA
+         G56Qjrx8HMOolVhC726+iTwwC1r9tdLxUm1Ef8PgeVomvkoT9AMH4ZZRVE14S9VEE2lW
+         b+Zg==
+X-Gm-Message-State: AOAM531VK6sLAcrICKpq0G20KskZBhbWhwpEEpoTUYEUrP1GBtSD+585
+	/1+nsE5k4OHwyvOaUkYQOpgOA52TmPJA/NZnTCRNif1PlryMo7VcLEV2xuKI/n3Nuc2VsJqE0m2
+	StVTsCRVKymi1xtDVmLQpvZ1StD7Q5Gt36FC15iHOi3r09q/rXyXNtB9tFuB5gSwQm82mx3gJFn
+	wGaU5n702JP2cQ
+X-Google-Smtp-Source: ABdhPJzIeQayyhu6zZumPQ/O5/Z0BmCXtKIXLrhWlebclH1nQtqoF8AmmpV0BMa/W27kGBy8+5TMJuYX2Ped
+X-Received: from multiball.svl.corp.google.com ([2620:15c:2c5:3:847c:b0ec:1386:15ca])
+ (user=krellan job=sendgmr) by 2002:a05:6902:721:: with SMTP id
+ l1mr37868915ybt.474.1618305883020; Tue, 13 Apr 2021 02:24:43 -0700 (PDT)
+Date: Tue, 13 Apr 2021 02:24:32 -0700
+Message-Id: <20210413092432.3688149-1-krellan@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
+Subject: [PATCH] libxcb: Add inherit python3native
+From: krellan@google.com
+To: openembedded-core@lists.openembedded.org
+Cc: Josh Lehan <krellan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+During compilation, the local Python environment leaks into
+the Bitbake build. Adding "inherit python3native" fixes this.
 
-When use automake to generate Makefile.in from Makefile.am, there
-comes below race:
- | configure.ac:45: error: required file 'config-h.in' not found
-
-It is because the file config-h.in in updating process by autoheader,
-so make automake run after autoheader to avoid the above race.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Josh Lehan <krellan@google.com>
 ---
- .../libtool/libtool-2.4.6.inc                 |  1 +
- ...-sure-autoheader-run-before-automake.patch | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
+ meta/recipes-graphics/xorg-lib/libxcb_1.14.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index 19a03d4733..e9225e140c 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://0001-libtool-Fix-support-for-NIOS2-processor.patch \
-            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
-            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
-+           file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
-           "
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+index f0a223a19c..40c7b1cc3c 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+@@ -24,6 +24,7 @@ PACKAGES_DYNAMIC = "^${PN}-.*"
+ FILES_${PN} = "${libdir}/libxcb.so.*"
  
- SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
-diff --git a/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
-new file mode 100644
-index 0000000000..87f8492346
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
-@@ -0,0 +1,35 @@
-+From e82c06584f02e3e4487aa73aa05981e2a35dc6d1 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Tue, 13 Apr 2021 07:17:29 +0000
-+Subject: [PATCH] Makefile.am: make sure autoheader run before automake
-+
-+When use automake to generate Makefile.in from Makefile.am, there
-+comes below race:
-+ | configure.ac:45: error: required file 'config-h.in' not found
-+
-+It is because the file config-h.in in updating process by autoheader,
-+so make automake run after autoheader to avoid the above race.
-+
-+Upstream-Status: Submitted [libtool-patches@gnu.org maillist]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2752ecc..29950db 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -328,7 +328,7 @@ EXTRA_DIST     += $(lt_aclocal_m4) \
-+ 		  $(lt_obsolete_m4) \
-+ 		  $(stamp_mk)
-+ 
-+-$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4)
-++$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4) $(lt_config_h_in)
-+ 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(AUTOMAKE) Makefile
-+ 
-+ # Don't let unused scripts leak into the libltdl Makefile
-+-- 
-+2.29.2
-+
+ inherit autotools pkgconfig features_check
++inherit python3native
+ 
+ # The libxau and others requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
 -- 
-2.17.1
+2.31.1.295.g9ea45b61b8-goog
 
