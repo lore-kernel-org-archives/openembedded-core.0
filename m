@@ -1,86 +1,80 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web09.14709.1618413558395015774
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web12.15238.1618415293951426084
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 08:19:18 -0700
+ Wed, 14 Apr 2021 08:48:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20150623.gappssmtp.com header.s=20150623 header.b=p84nksKk;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.41, mailfrom: jdmason@kudzu.us)
-Received: by mail-qv1-f41.google.com with SMTP id gv2so749749qvb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 08:19:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WlYsPkeA;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id m18so8132434plc.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 08:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JNJddTUrwcoXcuTpFKhRcecPTTcFpbc80pdSsh77mgc=;
-        b=p84nksKkrJq1HOASKQgrcN+/hYHLrqZ9+QhynU+58MhyELz2qLp3ZiutMEQMn1M4yy
-         7ecWg43/9KZdj0hPqF5Qemsf/hlKvxbjDpG9Pm/Qv9W9EetEGNRb2Loo6fQmBqa3/wbC
-         6yXlyzpSo1bvSjXkX8rO0u47QFp9WXpAotnyV4YErbbeTO2/j7AkPkAoF5vAN23Puz+x
-         ySKwRgt8DvBqgZBEi09NtKtBIghEdtyNVQJihtXJd0wstzKH8w5Ap2jZU1749ueSO0Db
-         hr6VEZlJ3AMIdoxZLaFpiIRlcgRIkEuyX13U4XCqFcbjGVQ3HEPajGPyoVYgIoU3bHJu
-         tdyQ==
+        bh=W4NqjaJSg7dNg0ceLyJYKdacHiiujqudXEiTyqX7vTk=;
+        b=WlYsPkeAMETOCChn/xIXG6aEPPCATnzuQQ+0YsiE+2U+9RvdCq58f8aey3uaZ555AF
+         Hl7p5kD97JScIGz55KJbwhRVsHThl7B0V5tE0Oz00hbSkl6Dc1MVmKh7c+BbYqSxkbOX
+         bCSqnomBjcV4pwuDBn4v+Dfe0BDrXnVpKZlqtkmh4JP+ThTAxGKA2VXYbTZ5DSjohhgW
+         3WXMcFf+xzWV8QU9+QGB0HlWfQ0y2UVXEYMr0MHn84pf5cUHvPE+oRwLpO2GbA/DV+Qc
+         VDgXoSaK/R3tgPzheNu2vBl4yz8ESGmZuNcIQpEoaKaw6fbQor0FwKyYN61cFP34z3ch
+         xnXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JNJddTUrwcoXcuTpFKhRcecPTTcFpbc80pdSsh77mgc=;
-        b=gYFFmCvK4pXf/4ltRvM99S6zGKlksvkaoLaTyLIRmi3ozfJWPOiBz58ilNT9O9mhbi
-         vkTqtiQVK6SiXiqrt9bIi577uDa6lqkOwn6qwsFy+8KB2nrLRvUPdY6RiziLaLSdf/OF
-         IW132LreBJOhFG2B1q2X27B34lGumtEqeGalZF4eo6+J+UEEDuL7GacvKZhhFAe8do4t
-         hbnFDaGLkcjgFpOZxeENcAHxEGr5Fkz/PrJcW4M602fBkfsyai59aXf16uY0/iCe9NOA
-         raPunfRfVRhVJVBIc5rQInp5mAfjadXJJInf6Z2SCfcDI7p3dUofEVy2HUtUYGb4LFeA
-         cv8Q==
-X-Gm-Message-State: AOAM5320uEhLiY3/zCKE7ejmZrclPaLHQbYv3u9kn4qSJ9nVlKPLUoHB
-	9WfL3iTO15SVXQed2alyfj0OJ1lDgt19ew==
-X-Google-Smtp-Source: ABdhPJyjTHumdhg+OzZP1AdwurLMGRYGnbXfagl/O6/8zZ9Z11UDDXbuaDCRZOuGLw5xM3momtNQzg==
-X-Received: by 2002:a05:6214:849:: with SMTP id dg9mr302651qvb.30.1618413557407;
-        Wed, 14 Apr 2021 08:19:17 -0700 (PDT)
-Return-Path: <jdmason@kudzu.us>
-Received: from localhost ([2605:a601:a601:f800:fdd8:668a:3c97:6f4d])
-        by smtp.gmail.com with ESMTPSA id x82sm9710752qkb.0.2021.04.14.08.19.16
-        for <openembedded-core@lists.openembedded.org>
+        bh=W4NqjaJSg7dNg0ceLyJYKdacHiiujqudXEiTyqX7vTk=;
+        b=FvnzPWhRjLZ8BLXeAuLPxzWdCiTgzksfvDo209WKobgaAP5HKkGc96v9rZi+1Vy5Ur
+         0BSdUpaXl7ERYNIPbfnQuDeJ11VxBQNYrq4wJd9guemIc1lFr4x5ix8NdCBa41db3X1q
+         MTjgSrIUli1MgQH8iPBYozwBO4QNDn0e/r9OxyWaEVW5WBY7meUCrVoIsOu0cZPMCGqe
+         0CJAqG8w0EYz4V/mwwyNEzrxdwu4FlhKBErFA0nCt3o1r473TlJqqcJU84oK2nY6wFT4
+         Ggz/h3WotE6qJCp8/4bh3jSoLkr+KUXRTTnnWuQg4Msf2Gneshj5cT/KWdS7fvT2pLbO
+         JR1g==
+X-Gm-Message-State: AOAM531ct1tBAsGHiYuj+zw6I5wQGbtkmLehRzABtvPe6bL6Nq3bxXGc
+	WViEuk0V6VQYflVfvt/r5DVlB8245kgdEw==
+X-Google-Smtp-Source: ABdhPJz03rrX6ZCHwsM3+YIrmNbbB9LtqBrhlWePOhS19a1gFhELuvIxE/msVKp7rJ6GVkWLDxbnlA==
+X-Received: by 2002:a17:902:fe8a:b029:e6:5f:62e with SMTP id x10-20020a170902fe8ab02900e6005f062emr22410255plm.48.1618415293233;
+        Wed, 14 Apr 2021 08:48:13 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::630])
+        by smtp.gmail.com with ESMTPSA id o3sm5358176pjm.30.2021.04.14.08.48.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 08:19:17 -0700 (PDT)
-From: "Jon Mason" <jdmason@kudzu.us>
+        Wed, 14 Apr 2021 08:48:12 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime: space needed
-Date: Wed, 14 Apr 2021 11:19:16 -0400
-Message-Id: <20210414151916.14863-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.20.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] valgrind: Delete trailing whitespaces
+Date: Wed, 14 Apr 2021 08:48:09 -0700
+Message-Id: <20210414154810.2010487-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Messages are currently being printed as:
-	Test requires dropbear, oropenssh-sshd to be installed
-but should be
-	Test requires dropbear, or openssh-sshd to be installed
-Adding the space after the 'or' corrects this.
-
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/runtime/decorator/package.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/valgrind/valgrind_3.17.0.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/runtime/decorator/package.py
-index 57178655ccab..2d7e174dbfdf 100644
---- a/meta/lib/oeqa/runtime/decorator/package.py
-+++ b/meta/lib/oeqa/runtime/decorator/package.py
-@@ -45,14 +45,14 @@ class OEHasPackage(OETestDecorator):
-             msg = 'Checking if %s is not installed' % ', '.join(unneed_pkgs)
-             self.logger.debug(msg)
-             if not self.case.tc.image_packages.isdisjoint(unneed_pkgs):
--                msg = "Test can't run with %s installed" % ', or'.join(unneed_pkgs)
-+                msg = "Test can't run with %s installed" % ', or '.join(unneed_pkgs)
-                 self._decorator_fail(msg)
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+index 2eea84c229..eb7b9d2383 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+@@ -55,7 +55,6 @@ COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+ # argument. Change expected stderr files accordingly.
+ do_patch_append() {
+     bb.build.exec_func('do_sed_paths', d)
+-    
+ }
  
-         if need_pkgs:
-             msg = 'Checking if at least one of %s is installed' % ', '.join(need_pkgs)
-             self.logger.debug(msg)
-             if self.case.tc.image_packages.isdisjoint(need_pkgs):
--                msg = "Test requires %s to be installed" % ', or'.join(need_pkgs)
-+                msg = "Test requires %s to be installed" % ', or '.join(need_pkgs)
-                 self._decorator_fail(msg)
- 
-     def _decorator_fail(self, msg):
+ do_sed_paths() {
+@@ -157,7 +156,7 @@ do_install_ptest() {
+     #
+     # The regression tests require scripts and data files that are not
+     # copied to the build directory.  They must be copied from the
+-    # source directory. 
++    # source directory.
+     saved_dir=$PWD
+     for parent_dir in ${S} ${B} ; do
+         cd $parent_dir
 -- 
-2.20.1
+2.31.1
 
