@@ -1,264 +1,281 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web11.20434.1618435821720330470
+ by mx.groups.io with SMTP id smtpd.web11.20609.1618436767064046669
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 14:30:22 -0700
+ Wed, 14 Apr 2021 14:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=HhJ9XUFV;
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=pgmTuLPE;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
 Received: from [10.8.1.2] (unknown [107.158.96.43])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6189420B8001;
-	Wed, 14 Apr 2021 14:30:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6189420B8001
+	by linux.microsoft.com (Postfix) with ESMTPSA id C3CE620B8001;
+	Wed, 14 Apr 2021 14:46:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C3CE620B8001
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1618435820;
-	bh=4xtYxCmUOmyYLXRdMzfa0iNPzLmeNhu4GVjny1VHMwE=;
+	s=default; t=1618436766;
+	bh=/jH1DdMxyhLapc+S6tLSkAygGs5AjcSPMtIB9Qdm624=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=HhJ9XUFVeJ7t2VgjIpRYYEUfDtVc0CV5BiP6nNKggxtCpOvo/wAh388X8h0vl6fs3
-	 Xoni9dAESDm9K01Xew/qHPeAVluuTUFY48jVBXVs5talLwLfArMjB5STBEVZnsriHT
-	 PPzzCfq6Q3uxkVeCrmZ5cHA987ZsU2cOjp3KbVhw=
-Subject: Re: [OE-core] [PATCH v3] gcc: Upgrade to 10.3.0 bug-fix release
-To: Khem Raj <raj.khem@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210411202746.388822-1-raj.khem@gmail.com>
- <dd4c72b2aaf48cb7f015030e232bc2641e38f2ef.camel@linuxfoundation.org>
- <CAMKF1spL71KJfmpPT7F09gc=RB8NPgKFRewAtHhj7bFNp-H8Sg@mail.gmail.com>
- <b5a702f99841616420c8d82b013fd91aa0c11d9d.camel@linuxfoundation.org>
- <2fa1da72-593b-a064-5591-f75e571fe11b@gmail.com>
+	b=pgmTuLPELssi9fiwZfo3oLq1v/nHAMYnz79v+XcnOxUIWi8699QTtaKYnYP/0JVSD
+	 N8UI6kFthZtTJDvqfbU5Bq+iAXuqxxFV8cUs2Y5yUOWeMJiy+qrtX57sRR4VSYH6hM
+	 HNHxH7bTPoOqJ/SxlpQ501qqFS4ZELKUsE8ESEck=
+Subject: Re: [OE-core] [PATCH v2] go: upgrade 1.16.2 -> 1.16.3
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: wangmy <wangmy@fujitsu.com>
+References: <20210410013005.2232041-1-raj.khem@gmail.com>
 From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
-Message-ID: <60020db7-baa5-029b-75dc-6bbc6b97fff2@linux.microsoft.com>
-Date: Wed, 14 Apr 2021 21:33:03 +0000
+Message-ID: <876f7807-4d37-94bc-0592-806ded94c87d@linux.microsoft.com>
+Date: Wed, 14 Apr 2021 21:48:55 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <2fa1da72-593b-a064-5591-f75e571fe11b@gmail.com>
+In-Reply-To: <20210410013005.2232041-1-raj.khem@gmail.com>
 Content-Type: multipart/alternative;
- boundary="------------BE6F10AA8F67B3323D525B7C"
+ boundary="------------D9C594157C96769F3C7F9E70"
 Content-Language: en-US
 
---------------BE6F10AA8F67B3323D525B7C
+--------------D9C594157C96769F3C7F9E70
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hey Khem,
+Hello,
 
-In case you're not aware, the Distrodata.test_maintainers fails on this on=
-e:
 
-The following recipes do not have a maintainer assigned to them. Please=20
-add an entry to meta/conf/distro/include/maintainers.inc file.
-gcc-source-10.3.0=20
-(/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-devtoo=
-ls/gcc/gcc-source_10.3.bb)
+This one is causing failures in test_yocto_source_mirror
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2022/ste=
-ps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2037/steps/23/logs/stdio
 
-Cheers,
+although since its still on master-next my guess is that its sources 
+havent been published
+
+yet to downloads.yoctoproject.org
+
+
 Alejandro
 
 
-On 4/12/21 3:27 PM, Khem Raj wrote:
+On 4/10/21 1:30 AM, Khem Raj wrote:
+> From: wangmy <wangmy@fujitsu.com>
 >
+> This is bugfix release in 1.16 series [1]
 >
-> On 4/12/21 2:54 AM, Richard Purdie wrote:
->> On Sun, 2021-04-11 at 16:20 -0700, Khem Raj wrote:
->>> On Sun, Apr 11, 2021 at 3:12 PM Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>>
->>>> On Sun, 2021-04-11 at 13:27 -0700, Khem Raj wrote:
->>>>> Drop aarch64 backports which are already upstream
->>>>> List of bugs fixed is [1]
->>>>>
->>>>> [1]=20
->>>>> https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=3DRESOLVED&list_=
-id=3D298084&resolution=3DFIXED&target_milestone=3D10.3
->>>>>
->>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>> ---
->>>>> v2: Fix BINV
->>>>> v3: Fix maintainer entry to use PV
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Fix include poison patch which was old=
- version
->>>>
->>>> Not sure we can put PV into a maintainer's entry like that as it is=
-=20
->>>> in the global
->>>> namespace, it isn't gcc specific.
->>>
->>> I checked it with bitbake -e and seems to be effective.
->>>
->>
->> "bitbake -e" didn't show the correct thing for me so I tweaked the patc=
-h
->> in master-next.
+> [1] https://github.com/golang/go/issues?q=milestone%3AGo1.16.3+label%3ACherryPickApproved
 >
-> OK but its a bit confusing, here is what master-next shows fot me
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Fix checksums and improve commit msg
 >
-> % bitbake -e gcc-source-10.3.0 | grep "RECIPE_MAINTAINER=3D"
-> RECIPE_MAINTAINER=3D"Khem Raj <raj.khem@gmail.com>"
+>   meta/recipes-devtools/go/{go-1.16.2.inc => go-1.16.3.inc}     | 4 ++--
+>   ...{go-binary-native_1.16.2.bb => go-binary-native_1.16.3.bb} | 4 ++--
+>   ...o-cross-canadian_1.16.2.bb => go-cross-canadian_1.16.3.bb} | 0
+>   .../go/{go-cross_1.16.2.bb => go-cross_1.16.3.bb}             | 0
+>   .../go/{go-crosssdk_1.16.2.bb => go-crosssdk_1.16.3.bb}       | 0
+>   .../go/{go-native_1.16.2.bb => go-native_1.16.3.bb}           | 0
+>   .../go/{go-runtime_1.16.2.bb => go-runtime_1.16.3.bb}         | 0
+>   meta/recipes-devtools/go/{go_1.16.2.bb => go_1.16.3.bb}       | 0
+>   8 files changed, 4 insertions(+), 4 deletions(-)
+>   rename meta/recipes-devtools/go/{go-1.16.2.inc => go-1.16.3.inc} (88%)
+>   rename meta/recipes-devtools/go/{go-binary-native_1.16.2.bb => go-binary-native_1.16.3.bb} (83%)
+>   rename meta/recipes-devtools/go/{go-cross-canadian_1.16.2.bb => go-cross-canadian_1.16.3.bb} (100%)
+>   rename meta/recipes-devtools/go/{go-cross_1.16.2.bb => go-cross_1.16.3.bb} (100%)
+>   rename meta/recipes-devtools/go/{go-crosssdk_1.16.2.bb => go-crosssdk_1.16.3.bb} (100%)
+>   rename meta/recipes-devtools/go/{go-native_1.16.2.bb => go-native_1.16.3.bb} (100%)
+>   rename meta/recipes-devtools/go/{go-runtime_1.16.2.bb => go-runtime_1.16.3.bb} (100%)
+>   rename meta/recipes-devtools/go/{go_1.16.2.bb => go_1.16.3.bb} (100%)
 >
+> diff --git a/meta/recipes-devtools/go/go-1.16.2.inc b/meta/recipes-devtools/go/go-1.16.3.inc
+> similarity index 88%
+> rename from meta/recipes-devtools/go/go-1.16.2.inc
+> rename to meta/recipes-devtools/go/go-1.16.3.inc
+> index e65caf8197..ebd25a5eaa 100644
+> --- a/meta/recipes-devtools/go/go-1.16.2.inc
+> +++ b/meta/recipes-devtools/go/go-1.16.3.inc
+> @@ -1,7 +1,7 @@
+>   require go-common.inc
+>   
+>   GO_BASEVERSION = "1.16"
+> -PV = "1.16.2"
+> +PV = "1.16.3"
+>   FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+>   
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+> @@ -17,4 +17,4 @@ SRC_URI += "\
+>       file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+>       file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
+>   "
+> -SRC_URI[main.sha256sum] = "37ca14287a23cb8ba2ac3f5c3dd8adbc1f7a54b9701a57824bf19a0b271f83ea"
+> +SRC_URI[main.sha256sum] = "b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25"
+> diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.2.bb b/meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+> similarity index 83%
+> rename from meta/recipes-devtools/go/go-binary-native_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+> index 4fb060173c..d01a2bd8f1 100644
+> --- a/meta/recipes-devtools/go/go-binary-native_1.16.2.bb
+> +++ b/meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+>   PROVIDES = "go-native"
+>   
+>   SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+> -SRC_URI[go_linux_amd64.sha256sum] = "542e936b19542e62679766194364f45141fde55169db2d8d01046555ca9eb4b8"
+> -SRC_URI[go_linux_arm64.sha256sum] = "6924601d998a0917694fd14261347e3798bd2ad6b13c4d7f2edd70c9d57f62ab"
+> +SRC_URI[go_linux_amd64.sha256sum] = "951a3c7c6ce4e56ad883f97d9db74d3d6d80d5fec77455c6ada6c1f7ac4776d2"
+> +SRC_URI[go_linux_arm64.sha256sum] = "566b1d6f17d2bc4ad5f81486f0df44f3088c3ed47a3bec4099d8ed9939e90d5d"
+>   
+>   UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+>   UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+> diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-cross-canadian_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-cross-canadian_1.16.3.bb
+> diff --git a/meta/recipes-devtools/go/go-cross_1.16.2.bb b/meta/recipes-devtools/go/go-cross_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-cross_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-cross_1.16.3.bb
+> diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-crosssdk_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-crosssdk_1.16.3.bb
+> diff --git a/meta/recipes-devtools/go/go-native_1.16.2.bb b/meta/recipes-devtools/go/go-native_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-native_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-native_1.16.3.bb
+> diff --git a/meta/recipes-devtools/go/go-runtime_1.16.2.bb b/meta/recipes-devtools/go/go-runtime_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-runtime_1.16.2.bb
+> rename to meta/recipes-devtools/go/go-runtime_1.16.3.bb
+> diff --git a/meta/recipes-devtools/go/go_1.16.2.bb b/meta/recipes-devtools/go/go_1.16.3.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go_1.16.2.bb
+> rename to meta/recipes-devtools/go/go_1.16.3.bb
 >
->>
->>>> I also couldn't get this patch to apply, is it on a branch somewhere?
->>>> ]
->>>
->>> Its on kraj/gcc11 branch on contrib tree
->>>
->>> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/g=
-cc11=20
->>>
->>
->> Thanks, I've queued up another test run.
->>
->> Cheers,
->>
->> Richard
->>
->
->=20
+> 
 >
 
---------------BE6F10AA8F67B3323D525B7C
+--------------D9C594157C96769F3C7F9E70
 Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
 <html>
   <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <p>Hey Khem,</p>
-    In case you're not aware, the Distrodata.test_maintainers fails on
-    this one:<br>
-    <br>
-    The following recipes do not have a maintainer assigned to them.
-    Please add an entry to meta/conf/distro/include/maintainers.inc
-    file.<br>
-    gcc-source-10.3.0
-(/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-devtoo=
-ls/gcc/gcc-source_10.3.bb)<br>
-    <br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/87/builds/2022/steps/14/logs/stdio">https://autobu=
-ilder.yoctoproject.org/typhoon/#/builders/87/builds/2022/steps/14/logs/stdi=
-o</a><br>
-    <br>
-    Cheers,<br>
-    Alejandro<br>
+    <p>Hello,</p>
     <p><br>
     </p>
-    <div class=3D"moz-cite-prefix">On 4/12/21 3:27 PM, Khem Raj wrote:<br>
+    <p>This one is causing failures in test_yocto_source_mirror <br>
+    </p>
+    <p><a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2037/steps/23/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2037/steps/23/logs/stdio</a><br>
+    </p>
+    <p>although since its still on master-next my guess is that its
+      sources havent been published</p>
+    <p>yet to downloads.yoctoproject.org<br>
+    </p>
+    <p><br>
+    </p>
+    <p>Alejandro<br>
+    </p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/10/21 1:30 AM, Khem Raj wrote:<br>
     </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:2fa1da72-593b-a064-5591-f75e571fe11b@gmail.com">
+    <blockquote type="cite"
+      cite="mid:20210410013005.2232041-1-raj.khem@gmail.com">
+      <pre class="moz-quote-pre" wrap="">From: wangmy <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
+
+This is bugfix release in 1.16 series [1]
+
+[1] <a class="moz-txt-link-freetext" href="https://github.com/golang/go/issues?q=milestone%3AGo1.16.3+label%3ACherryPickApproved">https://github.com/golang/go/issues?q=milestone%3AGo1.16.3+label%3ACherryPickApproved</a>
+
+Signed-off-by: Wang Mingyu <a class="moz-txt-link-rfc2396E" href="mailto:wangmy@fujitsu.com">&lt;wangmy@fujitsu.com&gt;</a>
+Signed-off-by: Khem Raj <a class="moz-txt-link-rfc2396E" href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
+---
+v2: Fix checksums and improve commit msg
+
+ meta/recipes-devtools/go/{go-1.16.2.inc =&gt; go-1.16.3.inc}     | 4 ++--
+ ...{go-binary-native_1.16.2.bb =&gt; go-binary-native_1.16.3.bb} | 4 ++--
+ ...o-cross-canadian_1.16.2.bb =&gt; go-cross-canadian_1.16.3.bb} | 0
+ .../go/{go-cross_1.16.2.bb =&gt; go-cross_1.16.3.bb}             | 0
+ .../go/{go-crosssdk_1.16.2.bb =&gt; go-crosssdk_1.16.3.bb}       | 0
+ .../go/{go-native_1.16.2.bb =&gt; go-native_1.16.3.bb}           | 0
+ .../go/{go-runtime_1.16.2.bb =&gt; go-runtime_1.16.3.bb}         | 0
+ meta/recipes-devtools/go/{go_1.16.2.bb =&gt; go_1.16.3.bb}       | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.16.2.inc =&gt; go-1.16.3.inc} (88%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.2.bb =&gt; go-binary-native_1.16.3.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.2.bb =&gt; go-cross-canadian_1.16.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.2.bb =&gt; go-cross_1.16.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.2.bb =&gt; go-crosssdk_1.16.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.2.bb =&gt; go-native_1.16.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.2.bb =&gt; go-runtime_1.16.3.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.2.bb =&gt; go_1.16.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.16.2.inc b/meta/recipes-devtools/go/go-1.16.3.inc
+similarity index 88%
+rename from meta/recipes-devtools/go/go-1.16.2.inc
+rename to meta/recipes-devtools/go/go-1.16.3.inc
+index e65caf8197..ebd25a5eaa 100644
+--- a/meta/recipes-devtools/go/go-1.16.2.inc
++++ b/meta/recipes-devtools/go/go-1.16.3.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.16"
+-PV = "1.16.2"
++PV = "1.16.3"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707">"file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"</a>
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     <a class="moz-txt-link-freetext" href="file://0008-use-GOBUILDMODE-to-set-buildmode.patch">file://0008-use-GOBUILDMODE-to-set-buildmode.patch</a> \
+     <a class="moz-txt-link-freetext" href="file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch">file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch</a> \
+ "
+-SRC_URI[main.sha256sum] = "37ca14287a23cb8ba2ac3f5c3dd8adbc1f7a54b9701a57824bf19a0b271f83ea"
++SRC_URI[main.sha256sum] = "b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.2.bb b/meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.16.2.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+index 4fb060173c..d01a2bd8f1 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.16.2.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.16.3.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707">"file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"</a>
+ PROVIDES = "go-native"
+ 
+ SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}">"https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"</a>
+-SRC_URI[go_linux_amd64.sha256sum] = "542e936b19542e62679766194364f45141fde55169db2d8d01046555ca9eb4b8"
+-SRC_URI[go_linux_arm64.sha256sum] = "6924601d998a0917694fd14261347e3798bd2ad6b13c4d7f2edd70c9d57f62ab"
++SRC_URI[go_linux_amd64.sha256sum] = "951a3c7c6ce4e56ad883f97d9db74d3d6d80d5fec77455c6ada6c1f7ac4776d2"
++SRC_URI[go_linux_arm64.sha256sum] = "566b1d6f17d2bc4ad5f81486f0df44f3088c3ed47a3bec4099d8ed9939e90d5d"
+ 
+ UPSTREAM_CHECK_URI = <a class="moz-txt-link-rfc2396E" href="https://golang.org/dl/">"https://golang.org/dl/"</a>
+ UPSTREAM_CHECK_REGEX = "go(?P&lt;pver&gt;\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.16.2.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.16.3.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.16.2.bb b/meta/recipes-devtools/go/go-cross_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.16.2.bb
+rename to meta/recipes-devtools/go/go-cross_1.16.3.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.16.2.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.16.3.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.16.2.bb b/meta/recipes-devtools/go/go-native_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.16.2.bb
+rename to meta/recipes-devtools/go/go-native_1.16.3.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.16.2.bb b/meta/recipes-devtools/go/go-runtime_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.16.2.bb
+rename to meta/recipes-devtools/go/go-runtime_1.16.3.bb
+diff --git a/meta/recipes-devtools/go/go_1.16.2.bb b/meta/recipes-devtools/go/go_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.16.2.bb
+rename to meta/recipes-devtools/go/go_1.16.3.bb
+</pre>
       <br>
-      <br>
-      On 4/12/21 2:54 AM, Richard Purdie wrote:
-      <br>
-      <blockquote type=3D"cite">On Sun, 2021-04-11 at 16:20 -0700, Khem
-        Raj wrote:
-        <br>
-        <blockquote type=3D"cite">On Sun, Apr 11, 2021 at 3:12 PM Richard
-          Purdie
-          <br>
-          <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:richard.purdie=
-@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a> wrote:
-          <br>
-          <blockquote type=3D"cite">
-            <br>
-            On Sun, 2021-04-11 at 13:27 -0700, Khem Raj wrote:
-            <br>
-            <blockquote type=3D"cite">Drop aarch64 backports which are
-              already upstream
-              <br>
-              List of bugs fixed is [1]
-              <br>
-              <br>
-              [1]
-<a class=3D"moz-txt-link-freetext" href=3D"https://gcc.gnu.org/bugzilla/bu=
-glist.cgi?bug_status=3DRESOLVED&amp;list_id=3D298084&amp;resolution=3DFIXED=
-&amp;target_milestone=3D10.3">https://gcc.gnu.org/bugzilla/buglist.cgi?bug_=
-status=3DRESOLVED&amp;list_id=3D298084&amp;resolution=3DFIXED&amp;target_mi=
-lestone=3D10.3</a><br>
-              <br>
-              Signed-off-by: Khem Raj <a class=3D"moz-txt-link-rfc2396E" h=
-ref=3D"mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
-              <br>
-              ---
-              <br>
-              v2: Fix BINV
-              <br>
-              v3: Fix maintainer entry to use PV
-              <br>
-              =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Fix include poison patch which=
- was old version
-              <br>
-            </blockquote>
-            <br>
-            Not sure we can put PV into a maintainer's entry like that
-            as it is in the global
-            <br>
-            namespace, it isn't gcc specific.
-            <br>
-          </blockquote>
-          <br>
-          I checked it with bitbake -e and seems to be effective.
-          <br>
-          <br>
-        </blockquote>
-        <br>
-        "bitbake -e" didn't show the correct thing for me so I tweaked
-        the patch
-        <br>
-        in master-next.
-        <br>
-      </blockquote>
-      <br>
-      OK but its a bit confusing, here is what master-next shows fot me
-      <br>
-      <br>
-      % bitbake -e gcc-source-10.3.0 | grep "RECIPE_MAINTAINER=3D"
-      <br>
-      RECIPE_MAINTAINER=3D"Khem Raj <a class=3D"moz-txt-link-rfc2396E" hre=
-f=3D"mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>"
-      <br>
-      <br>
-      <br>
-      <blockquote type=3D"cite">
-        <br>
-        <blockquote type=3D"cite">
-          <blockquote type=3D"cite">I also couldn't get this patch to
-            apply, is it on a branch somewhere?
-            <br>
-            ]
-            <br>
-          </blockquote>
-          <br>
-          Its on kraj/gcc11 branch on contrib tree
-          <br>
-          <br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://git.openembedded.org/op=
-enembedded-core-contrib/log/?h=3Dkraj/gcc11">https://git.openembedded.org/o=
-penembedded-core-contrib/log/?h=3Dkraj/gcc11</a>
-          <br>
-        </blockquote>
-        <br>
-        Thanks, I've queued up another test run.
-        <br>
-        <br>
-        Cheers,
-        <br>
-        <br>
-        Richard
-        <br>
-        <br>
-      </blockquote>
-      <br>
-      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
 
 </pre>
@@ -266,4 +283,4 @@ penembedded-core-contrib/log/?h=3Dkraj/gcc11</a>
   </body>
 </html>
 
---------------BE6F10AA8F67B3323D525B7C--
+--------------D9C594157C96769F3C7F9E70--
