@@ -1,58 +1,57 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web12.16104.1618418422552670557
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.16044.1618418423391188038
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 09:40:22 -0700
+ Wed, 14 Apr 2021 09:40:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fAcnuOEW;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id z16so14808105pga.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 09:40:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=D7TmEBKy;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id nm3-20020a17090b19c3b029014e1bbf6c60so6936046pjb.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 09:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oJjrS2aFO1TXBfQ65qKV9k7SFkOaMSFJk7cvLWavJwQ=;
-        b=fAcnuOEW9C69KQpLa7T6qfVs1GDNRBsU8pHSW5HIbOzsPnD6Gva5rEyjc+6gTymuEq
-         AcXmjcgxkxb7z5QBMkQecGU+N9MSXhRoZuGvjL+9lFL34psMdeCl1ymMNrbP9RfpgKLc
-         rJ/jT8vYQqMiGoBlVO+6Tjw3QkTkyFIVODi2zOZPGiFnf6XB4IjWjbSbAcMHjHQh/e8E
-         F17Qm2IXtqEJNCIYJJuzkTSG6doqDLt0cWlLmU0UDq/6fxcuBRT1zA872YAxW4Opnnm3
-         U7F8cPSPRpGV1DTKNrPbemqr7NrlpmRnnjS0qKBGBnuettTVjL47QK2Eqln6yoOiZxoE
-         LcHA==
+        bh=+VEBngtT7QjE9Io0YjrzcEva3g5sdmBDoffgLVzm8k0=;
+        b=D7TmEBKyfTyui0s/rXaKbq3cjerl69gUSukw+SiKub0Y1ILMzK1zXmAnmQL0ny21V6
+         O22PTXSSZbM7FwmUBk5eds8fmeHLYrk/NxeIoZ+NSGNCNHlTr33yLYB6R9Xt6u/0OvXh
+         J4+Agwp/WH7k0yf5pC6FbrLswoVhBJ2OGBM3mF3F63Gkas7poD7xUVlhNoU5+kIzrg1l
+         4j0Oqogg1wBhTIi1tezEQ8DnTLMEhKI1YPyrpJSZkjQiXevszAI6ZuKEjlQEj7CTTA0E
+         FXDLwCNwojff/+296DO46RA5Dh9eBN7+2QA542ntpTXxsrIWTRjiMUFo7wC+N7my9TUV
+         DapA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oJjrS2aFO1TXBfQ65qKV9k7SFkOaMSFJk7cvLWavJwQ=;
-        b=kSeQ78d/AB7L6lwLCOsmI0oJ5VUCYdw7Mpo9DHUOpEHRiGxJZJTyhdWbWPxVedQaOO
-         ORPcAD6RCKqbnJnjfqk5uAb8LldwMorVf8onxzmCsIfeipEDx0w2s2oMC8gGFEKsGE2A
-         bId4UULX7xTvHPNeez9zhOsv/GGduFb9J/91iKXhWejQj4/icCsdItOIvGYLRRKNswcl
-         T+M2RD0LUztzaVej2TYFtSXdVZ+rcF44G4QIi9WM94uLVbuYraSmJU6VEe1EqG2MjAzg
-         qHZMk+qjtOkD61+UNz2lYSRUNn4ginOyxlUgc7sKpjhwI4+i3KlyvM3kcZSSYqK4QOTR
-         mGCA==
-X-Gm-Message-State: AOAM530dfvhC5idzt3lUUr9HkkdMGXA2QyVil6w6YARB6n6wy+iCtc6o
-	0BrrEr8tbDPh6Zo7NeedKjJViiXe+oQDqQ==
-X-Google-Smtp-Source: ABdhPJxqo3zeuElQhXYmo+NeVJqU7lo+ywbzYWf/SVIGsw0Id8G7KzIRTXIqgzph2PBXqiNFkOtW2Q==
-X-Received: by 2002:aa7:952b:0:b029:23f:44a1:ac86 with SMTP id c11-20020aa7952b0000b029023f44a1ac86mr12524568pfp.12.1618418421922;
-        Wed, 14 Apr 2021 09:40:21 -0700 (PDT)
+        bh=+VEBngtT7QjE9Io0YjrzcEva3g5sdmBDoffgLVzm8k0=;
+        b=V9zk+/5nBNVPMbIitSUjwodLxIn8nTp8VVEqMAlT61FegqyO7L3HGC3Rgg55w486Ik
+         C38Tw/R9BBlytsRJREUPbydE4XcXjGGrB+1rRlRVzEvzaiHrSb4Y+gu15FauDUcLOF7W
+         KUKrNIBvV/BVa1XGqKKsGJKHJWz3wV2QxVZyzm6Jwz6oeLytd1Wz9AEzyczQ7UmOuEJI
+         5xEZ9dlTNoUdcSJUVzngPOgZAaOPQvDSI3DHLDQ8IuOZoX8R6dVJzTcVRNbypr1qaPuL
+         3w6PAtnY841nYSDmLs3zVwy6c+mPPYD3gDCCuJkvQNx8ZIdZGHzPDu0tJIuBFjOT/PdJ
+         NFWw==
+X-Gm-Message-State: AOAM533SjTFsFxwhRZ6OWc1pChfzjTlfxyenrZ7lW3Y0BE1f/6r5XeWJ
+	bR7ZkAZcAVSD21qeWOUWF/9bF53EZ0xoVw==
+X-Google-Smtp-Source: ABdhPJwaEs74wxtcWoOTCrFhW9jvEzImAeatPbUMD4zeQ0qhG4cWNKS7R5kqbjXhGZwu+r6MQibkbQ==
+X-Received: by 2002:a17:90b:8d6:: with SMTP id ds22mr4492917pjb.220.1618418422795;
+        Wed, 14 Apr 2021 09:40:22 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::630])
-        by smtp.gmail.com with ESMTPSA id s1sm93832pgc.28.2021.04.14.09.40.21
+        by smtp.gmail.com with ESMTPSA id s1sm93832pgc.28.2021.04.14.09.40.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 09:40:21 -0700 (PDT)
+        Wed, 14 Apr 2021 09:40:22 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [v2 2/3] valgrind: Add glibc-src to ptest rdeps
-Date: Wed, 14 Apr 2021 09:40:17 -0700
-Message-Id: <20210414164018.2027379-2-raj.khem@gmail.com>
+Subject: [v2 3/3] valgrind: Add libstdc++ debug symbols for ptest
+Date: Wed, 14 Apr 2021 09:40:18 -0700
+Message-Id: <20210414164018.2027379-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210414164018.2027379-1-raj.khem@gmail.com>
 References: <20210414164018.2027379-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-gdbserver tests look for glibc sources ( rtld.c )
-or else they are flagged as differences and tests marked as failures
+new/delete symbols are needed by overloaded-new.post test
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
@@ -60,15 +59,15 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-index eb7b9d2383..d8324f1dc6 100644
+index d8324f1dc6..4eb948f2db 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
 @@ -136,7 +136,7 @@ RDEPENDS_${PN}-ptest += " bash coreutils file \
     perl-module-file-basename perl-module-file-glob perl-module-getopt-long \
     perl-module-overloading perl-module-cwd perl-module-ipc-open3 \
     perl-module-carp perl-module-symbol \
--   procps sed ${PN}-dbg ${PN}-src"
-+   procps sed ${PN}-dbg ${PN}-src ${TCLIBC}-src"
+-   procps sed ${PN}-dbg ${PN}-src ${TCLIBC}-src"
++   procps sed ${PN}-dbg ${PN}-src ${TCLIBC}-src gcc-runtime-dbg"
  RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
  
  # One of the tests contains a bogus interpreter path on purpose.
