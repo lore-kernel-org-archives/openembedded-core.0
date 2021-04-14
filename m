@@ -1,80 +1,77 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web12.15238.1618415293951426084
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web08.15115.1618415296277495803
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 08:48:14 -0700
+ Wed, 14 Apr 2021 08:48:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WlYsPkeA;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id m18so8132434plc.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 08:48:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=N3BqC5J7;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so12739157pjb.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 08:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W4NqjaJSg7dNg0ceLyJYKdacHiiujqudXEiTyqX7vTk=;
-        b=WlYsPkeAMETOCChn/xIXG6aEPPCATnzuQQ+0YsiE+2U+9RvdCq58f8aey3uaZ555AF
-         Hl7p5kD97JScIGz55KJbwhRVsHThl7B0V5tE0Oz00hbSkl6Dc1MVmKh7c+BbYqSxkbOX
-         bCSqnomBjcV4pwuDBn4v+Dfe0BDrXnVpKZlqtkmh4JP+ThTAxGKA2VXYbTZ5DSjohhgW
-         3WXMcFf+xzWV8QU9+QGB0HlWfQ0y2UVXEYMr0MHn84pf5cUHvPE+oRwLpO2GbA/DV+Qc
-         VDgXoSaK/R3tgPzheNu2vBl4yz8ESGmZuNcIQpEoaKaw6fbQor0FwKyYN61cFP34z3ch
-         xnXA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=S6z0oiMRBl/5mSV1NC4Ej7ih/W0vHaipvWOg4YRsb9E=;
+        b=N3BqC5J7s7JVEOC3j5L3nGvKJ0D8pU3wfh7gvfCffdvXD0fJwcD+ETmvzYeCOWZIWP
+         MumvVsyM3g5JgOwxy1WXEA7dXr0Bp/DtdHPBdJyU8wdBDk9WzjpdY3ajdPYxDMyXu1nW
+         5cWsy+i2e7xRqE3eAvP7mMH9wJ/PQu1OG5U/RMxTeOXEIOqEH+HpVXEfwSotJ1JNutba
+         AoUQKQKGjVuq7+WuOjV+4i3GkNzfj0z2ectuJVBvhKAbpPIuwCVhDBMoyJ1pNNyYqOv0
+         rpf6V0BUcDVSH2nBucGOr169wchp2rpDGIePgKplr4XIV6+/YIkPSZNst72r6Yq9bsug
+         120g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W4NqjaJSg7dNg0ceLyJYKdacHiiujqudXEiTyqX7vTk=;
-        b=FvnzPWhRjLZ8BLXeAuLPxzWdCiTgzksfvDo209WKobgaAP5HKkGc96v9rZi+1Vy5Ur
-         0BSdUpaXl7ERYNIPbfnQuDeJ11VxBQNYrq4wJd9guemIc1lFr4x5ix8NdCBa41db3X1q
-         MTjgSrIUli1MgQH8iPBYozwBO4QNDn0e/r9OxyWaEVW5WBY7meUCrVoIsOu0cZPMCGqe
-         0CJAqG8w0EYz4V/mwwyNEzrxdwu4FlhKBErFA0nCt3o1r473TlJqqcJU84oK2nY6wFT4
-         Ggz/h3WotE6qJCp8/4bh3jSoLkr+KUXRTTnnWuQg4Msf2Gneshj5cT/KWdS7fvT2pLbO
-         JR1g==
-X-Gm-Message-State: AOAM531ct1tBAsGHiYuj+zw6I5wQGbtkmLehRzABtvPe6bL6Nq3bxXGc
-	WViEuk0V6VQYflVfvt/r5DVlB8245kgdEw==
-X-Google-Smtp-Source: ABdhPJz03rrX6ZCHwsM3+YIrmNbbB9LtqBrhlWePOhS19a1gFhELuvIxE/msVKp7rJ6GVkWLDxbnlA==
-X-Received: by 2002:a17:902:fe8a:b029:e6:5f:62e with SMTP id x10-20020a170902fe8ab02900e6005f062emr22410255plm.48.1618415293233;
-        Wed, 14 Apr 2021 08:48:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=S6z0oiMRBl/5mSV1NC4Ej7ih/W0vHaipvWOg4YRsb9E=;
+        b=cT3qJqknMpZy8ZRc3TqycF6XYX1r0/9h340tulMD5qxC5nVjK6gWovsdKIndliO24j
+         xkggI8pEHtaK/Dxn5xtzzeds12lmOyoiHGYHav+HPZUE8jK8sQkCbJj9QmAMgZzo+DiV
+         UVX/UBF7zQW1O+0qUatyeLwS+kwMaEd9fRlCuTcDowbbmRA/5H4WTpT4Rf8i/d8OKu4l
+         vB/aa/ggBVmKZwAfUeZIa73RwQZ+nIpi/SheI25IW5ZmsuJk/v/IWeskcMDHizdfanUd
+         kb3TmkMOmMAHL0EjvV2/tLuFdlzYMlcfvDIEiwhYK+yX65DTGdt4OEKNuZDK1zyS6+JQ
+         YcNg==
+X-Gm-Message-State: AOAM531WuMRspv5jWAtuegFAIm16oLdW+znathlbLnljKfjlcGmy+c3/
+	w9MUkeOM67GO8J6M5dEZQ5kZD2JzbQA1yw==
+X-Google-Smtp-Source: ABdhPJyeiwWs7P5+Vq8OhyVL3pS7vkTJCZ23FQ3ZoKwckrwjUdTgkFqnXJ8j81JG9Xhlp5XuEKSm4A==
+X-Received: by 2002:a17:902:c981:b029:eb:3b3c:541c with SMTP id g1-20020a170902c981b02900eb3b3c541cmr7919980plc.6.1618415295389;
+        Wed, 14 Apr 2021 08:48:15 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::630])
-        by smtp.gmail.com with ESMTPSA id o3sm5358176pjm.30.2021.04.14.08.48.12
+        by smtp.gmail.com with ESMTPSA id o3sm5358176pjm.30.2021.04.14.08.48.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 08:48:12 -0700 (PDT)
+        Wed, 14 Apr 2021 08:48:15 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] valgrind: Delete trailing whitespaces
-Date: Wed, 14 Apr 2021 08:48:09 -0700
-Message-Id: <20210414154810.2010487-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] valgrind: Add glibc-src to ptest rdeps
+Date: Wed, 14 Apr 2021 08:48:10 -0700
+Message-Id: <20210414154810.2010487-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210414154810.2010487-1-raj.khem@gmail.com>
+References: <20210414154810.2010487-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+gdbserver tests look for glibc sources ( rtld.c )
+or else they are flagged as differences and tests marked as failures
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.17.0.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-devtools/valgrind/valgrind_3.17.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-index 2eea84c229..eb7b9d2383 100644
+index eb7b9d2383..f3d08bc1c7 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
-@@ -55,7 +55,6 @@ COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
- # argument. Change expected stderr files accordingly.
- do_patch_append() {
-     bb.build.exec_func('do_sed_paths', d)
--    
- }
+@@ -137,7 +137,7 @@ RDEPENDS_${PN}-ptest += " bash coreutils file \
+    perl-module-overloading perl-module-cwd perl-module-ipc-open3 \
+    perl-module-carp perl-module-symbol \
+    procps sed ${PN}-dbg ${PN}-src"
+-RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
++RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils glibc-src"
  
- do_sed_paths() {
-@@ -157,7 +156,7 @@ do_install_ptest() {
-     #
-     # The regression tests require scripts and data files that are not
-     # copied to the build directory.  They must be copied from the
--    # source directory. 
-+    # source directory.
-     saved_dir=$PWD
-     for parent_dir in ${S} ${B} ; do
-         cd $parent_dir
+ # One of the tests contains a bogus interpreter path on purpose.
+ # Skip file dependency check
 -- 
 2.31.1
 
