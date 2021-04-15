@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.1363.1618510600238628654
+ by mx.groups.io with SMTP id smtpd.web11.1351.1618510601697272735
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 51BC038C13BC
+	by mail.yoctoproject.org (Postfix) with ESMTP id 5906438C13CF
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:40 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to 6e9c35bf19164c10392f24287364ba7e8206d5f8 FAILED
-Message-ID: <MADEUP.16761AD15664DA76.12681@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============1883131021569552382=="
+Subject: [AUH] libinput: upgrading to 1.17.1 SUCCEEDED
+Message-ID: <MADEUP.16761AD159B1BD64.4047@lists.openembedded.org>
+X-Groupsio-MsgNum: 150558
+Content-Type: multipart/mixed; boundary="===============2260237779767576011=="
 
---===============1883131021569552382==
+--===============2260237779767576011==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,55 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *6e9c35bf19164c10392f24287364ba7e8206d5f8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libinput* to *1.17.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libinput-upgrade-1.16.4-1.17.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade vulkan-samples -S 6e9c35bf19164c10392f24287364ba7e8206d5f8
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.50.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:251d1bcf658ba01ce1d29799e9ed3e58c9a66beb"
-workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-ERROR: Command Error: 'sh -c 'PATCHFILE="0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch" git -c user.name="OpenEmbedded" -c user.email="oe.patch@oe" commit -F /tmp/tmpt6qe5tny --author="Alexander Kanavin <alex.kanavin@gmail.com>" --date="Sun, 1 Nov 2020 23:19:22 +0000"'' exited with 0  Output:
-stdout: On branch devtool-orig
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-  (commit or discard the untracked or modified content in submodules)
-	modified:   third_party/spirv-cross (modified content)
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-stderr: 
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git-r0/devtooltmp-9yub5l7y/temp/log.do_patch.3557559
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-ERROR: Extracting source for vulkan-samples failed
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -79,4 +44,97 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1883131021569552382==--
+--===============2260237779767576011==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libinput/libinput-bin: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput-dev: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput-locale: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput-ptest: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+packages/core2-32-poky-linux/libinput/libinput: FILELIST: added "/usr/libexec/libinput/libinput-analyze-recording /usr/libexec/libinput/libinput-analyze-touch-down-state"
+
+--===============2260237779767576011==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libinput-upgrade-1.16.4-1.17.1.patch"
+
+From 617412f3627f693d1453b563c4b4f21a89a65557 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Thu, 15 Apr 2021 14:00:08 +0000
+Subject: [PATCH] libinput: upgrade 1.16.4 -> 1.17.1
+
+---
+ .../wayland/{libinput_1.16.4.bb => libinput_1.17.1.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.16.4.bb => libinput_1.17.1.bb} (95%)
+
+diff --git a/meta/recipes-graphics/wayland/libinput_1.16.4.bb b/meta/recipes-graphics/wayland/libinput_1.17.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/wayland/libinput_1.16.4.bb
+rename to meta/recipes-graphics/wayland/libinput_1.17.1.bb
+index 17b73e3827..9ffb22876b 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.16.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.17.1.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            file://determinism.patch \
+            "
+-SRC_URI[sha256sum] = "65923a06d5a8970e4a999c4668797b9b689614b62b1d44432ab1c87b65e39e29"
++SRC_URI[sha256sum] = "e51c50f3ce253961bed452d9f93102cc26128406975ab88ff9ec9e6c3b875137"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+-- 
+2.27.0
+
+
+--===============2260237779767576011==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libinput: SRC_URI changed from "http://www.freedesktop.org/software/libinput/libinput-1.16.4.tar.xz file://run-ptest file://determinism.patch" to "http://www.freedesktop.org/software/libinput/libinput-1.17.1.tar.xz file://run-ptest file://determinism.patch"
+packages/core2-32-poky-linux/libinput: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-bin: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-bin: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-bin: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-dbg: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 4480232 to 4868796 (+9%)
+packages/core2-32-poky-linux/libinput/libinput-dev: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-dev: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-dev: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-dev: PKGSIZE changed from 191975 to 191967 (-0%)
+packages/core2-32-poky-linux/libinput/libinput-doc: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-doc: PKGSIZE changed from 38565 to 41407 (+7%)
+packages/core2-32-poky-linux/libinput/libinput-locale: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-locale: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-locale: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-ptest: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1138598 to 1179126 (+4%)
+packages/core2-32-poky-linux/libinput/libinput-src: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-src: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-src: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput-src: PKGSIZE changed from 3154797 to 3224419 (+2%)
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput-staticdev: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput: PV changed from "1.16.4" to "1.17.1"
+packages/core2-32-poky-linux/libinput/libinput: PKGV changed from 1.16.4 [default] to 1.17.1 [default]
+packages/core2-32-poky-linux/libinput/libinput: FILELIST: added "/usr/libexec/libinput/libinput-analyze-touch-down-state /usr/libexec/libinput/libinput-analyze-recording"
+packages/core2-32-poky-linux/libinput/libinput: PKGSIZE changed from 1008202 to 1053435 (+4%)
+
+--===============2260237779767576011==--
