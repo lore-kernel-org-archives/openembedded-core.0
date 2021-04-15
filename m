@@ -1,132 +1,114 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web08.3355.1618467756389223608
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web12.3436.1618468526217092806
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 23:22:36 -0700
+ Wed, 14 Apr 2021 23:35:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=NKM+q6bZ;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618467754; i=@fujitsu.com;
-	bh=uKQjAoHW+Yq51Kk5DWbZT8QKfi3PEv4tQc9xJJT0bvY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=NKM+q6bZflMgmMBAiCnyWOzuNUOfvpSaRFHuIOUiGR78aWOJF5gNGGkGV/ux3c2uz
-	 j8+5eNH2VDtqmEASHIzh4k+iyEACaZO5ZICppoG6UArXjSgxhE6u1lBl/7Og1mT0Bk
-	 UppH+9qFN4JeNiIKLARRA354p/LIwgRRdAuElfQVSn5AMS5YC3R91gi2ro/ZaboB7c
-	 0gw2J61WkAz/OtwC+FbwY0eCS5TlXziDf50k0G7/ZraeF7pZUeSuuBy8UWv9mhN/xX
-	 kvyxOlpIDLoDylxkBbp0TtSYV3Pp5oiWTFv+a16nl3SOUUCDncxn/NLrTEWoZPLMIN
-	 IBKq/OaU0Augw==
-Received: from [100.112.199.60] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-b.eu-west-1.aws.symcld.net id F8/D5-46412-AABD7706; Thu, 15 Apr 2021 06:22:34 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRWlGSWpSXmKPExsViZ8MRqrvqdnm
-  CwZyjfBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aiN/9YCu6JVHS2nGBqYLwm1MXIxSEkMItJ
-  4kjrBFYIZzejxLa+tUxdjJwcbAK6Eucer2XvYuTgEBHQk7j6TxQkLCxgK3Gzt4cVJMwioCrxo
-  ksdJMwr4CEx58QVNhBbQkBBYsrD98wQcUGJkzOfsIDYzAISEgdfvGAGaZUQUJSYPV0eorxSYv
-  u0s4wTGHlmIemYhaRjASPTKkaLpKLM9IyS3MTMHF1DAwNdQ0MjXUNLC11DYwO9xCrdJL3UUt3
-  y1OISXUO9xPJiveLK3OScFL281JJNjMAQSik41rSD8eTrD3qHGCU5mJREeQ+tKEsQ4kvKT6nM
-  SCzOiC8qzUktPsQow8GhJMG751Z5gpBgUWp6akVaZg4wnGHSEhw8SiK8ujeB0rzFBYm5xZnpE
-  KlTjLoc734uXsQsxJKXn5cqJc4rAowOIQGQoozSPLgRsNi6xCgrJczLyMDAIMRTkFqUm1mCKv
-  +KUZyDUUmYNxlkCk9mXgncpldARzABHVGxqhTkiJJEhJRUA9MKMddVLfmeclnWm3tyHvKkSgc
-  cTotctv6kWu2/X7eUj/L6S/lWzJe6ua+MsVrzckx/tgWrgBTLAuE4jfkmOxmjlr1eWhpbXJrI
-  WD9x3qNPez66/l/Uobblz/MroaHuxXJaF152qOnd3hEuEHBPx5FJSrV/37Sy0qLporYbPYQXP
-  S7yOGd78Ma27O7IMH/B1If7T3z4M/3p/vRz9i/uR+00mrr2wbX8BaZGmbevb31zLVFpRvkzF9
-  99zp/3/Ph0zqqo/11opsbcLwe4JuwTjeEQWPHyNItXsvJLmX0/89dl/YzSOvdV+2uuEc/JX9s
-  0uc7OebSeK3+7l90drbkCnPI76x0P8byfYiDXwOTDXqLEUpyRaKjFXFScCADGQ5ekKAMAAA==
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-5.tower-291.messagelabs.com!1618467753!1070067!1
-X-Originating-IP: [62.60.8.85]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 15399 invoked from network); 15 Apr 2021 06:22:34 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-5.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 06:22:34 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13F6MXId032551
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 07:22:33 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 15 Apr 2021 07:22:32 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libdrm: upgrade 2.4.104 -> 2.4.105
-Date: Thu, 15 Apr 2021 22:54:16 +0800
-Message-ID: <1618498456-53236-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jANwJLm7;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id f12so17430939qtf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 23:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nFQTHO1slFSdkBLnjEUuLJtPDEH0hzwZo9Rc8aOdlZM=;
+        b=jANwJLm7mtQscwGUp/T9uTJ+uHMXMNhmdyMujYkpKqfMyIbAoajns9GLRlFoDkp4X3
+         Dpg94cmK43VLeoAVfQwTVfwWHZFgfMh6FMtHSGqEFrxuMQfJneVGvfzxE2B1xpDP5AjB
+         l5RneTpYynvgJYa+v9iII/92TRES878DOQQjEUEynbnhZWbgQ/hov0iKMB3qDkOoBbqT
+         cZYuptSlurIQDFI3Mbr+CmgnPV0TbcVZ9nkvx2Mvvb/UZtGv2td1Tgvxs3vJq0rB8NBD
+         bmt2sQ1pSthUjdtooUtDlgz2myITtTFlibi2prgv45W/pU7pSV4pgvPsap4t5gAgOOVI
+         YmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nFQTHO1slFSdkBLnjEUuLJtPDEH0hzwZo9Rc8aOdlZM=;
+        b=Fb4z6619YTyAUrk1JFoF44NU/eKEtTDRHIQAV+CMujZmu/GO+LUvXXlFXcTypC/fxs
+         hXp1P5uOVC+9pzE3KgT7h8xnTWrzWsTLuRDiYk/n/AHRlpFGffYm5sDU99tbJ9z7W9Lz
+         hanOFOCZAGaINoLc3UgfQIcUwGVKT/IvkXgG1kcW7sZ7bc/vV5jHcrnMo3zMFHhPUBOh
+         m7DuxkqpV7MUi8hKEfOGMLT6SIlcewUlZOuVPEfs/TMTInmJh0tF+vb7bH9oGKlSw/JX
+         iI/dhdAWCVF7AyB3dCigyiZo4HjEgYCcZv9eYdOHib6kHyHdTFTnkVzCKUEEygmSOT4p
+         HV9Q==
+X-Gm-Message-State: AOAM531rLxgx3DkBHaYU/P/4BBfBpY/YjtlUFe8ocwFu6yWXM/cC3/Zt
+	iGLlgQU3ZUBE3suQpVQOlnPVZvwWs8XVpEvVb/Y=
+X-Google-Smtp-Source: ABdhPJwVSqwK19NC7H1flAJ+iRmFofrvCUs9XgQFi5ekN7Szmm0HGMWuOJ3inQhB3/14+q/wvl5OIShy+5SvlebmWZA=
+X-Received: by 2002:ac8:7ef9:: with SMTP id r25mr1656923qtc.369.1618468525314;
+ Wed, 14 Apr 2021 23:35:25 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+References: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 14 Apr 2021 23:34:59 -0700
+Message-ID: <CAMKF1sq8v+JCUCq3omDQF7B30YQu1i6DGBfExvpkGSMpi6ErfA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: upgrade 68.2 -> 69.1
+To: wangmy <wangmy@fujitsu.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-0001-meson-Also-search-for-rst2man.py.patch
-removed since it is included in 2.4.105
+On Wed, Apr 14, 2021 at 11:08 PM wangmy <wangmy@fujitsu.com> wrote:
+>
+> refresh 0001-icu-Added-armeb-support.patch
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../icu/icu/0001-icu-Added-armeb-support.patch              | 6 +++---
+>  meta/recipes-support/icu/{icu_68.2.bb => icu_69.1.bb}       | 5 ++---
+>  2 files changed, 5 insertions(+), 6 deletions(-)
+>  rename meta/recipes-support/icu/{icu_68.2.bb => icu_69.1.bb} (95%)
+>
+> diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+> index 145efc0e01..c5dc0611c2 100644
+> --- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+> +++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+> @@ -13,7 +13,7 @@ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
+> -index 8c6a0e1..cf89907 100644
+> +index c937463..feaad0f 100644
+>  --- a/i18n/double-conversion-utils.h
+>  +++ b/i18n/double-conversion-utils.h
+>  @@ -115,7 +115,7 @@ int main(int argc, char** argv) {
+> @@ -24,7 +24,7 @@ index 8c6a0e1..cf89907 100644
+>  +    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
+>       defined(__hppa__) || defined(__ia64__) || \
+>       defined(__mips__) || \
+> -     defined(__nios2__) || \
+> +     defined(__nios2__) || defined(__ghs) || \
+>  --
+> -2.7.4
+> +2.25.1
+>
+> diff --git a/meta/recipes-support/icu/icu_68.2.bb b/meta/recipes-support/icu/icu_69.1.bb
+> similarity index 95%
+> rename from meta/recipes-support/icu/icu_68.2.bb
+> rename to meta/recipes-support/icu/icu_69.1.bb
+> index 1ca87feee4..b79acba0cc 100644
+> --- a/meta/recipes-support/icu/icu_68.2.bb
+> +++ b/meta/recipes-support/icu/icu_69.1.bb
+> @@ -106,14 +106,13 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+>             ${DATA_SRC_URI};name=data \
+>             file://filter.json \
+>             file://fix-install-manx.patch \
+> -           file://0001-icu-Added-armeb-support.patch \
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
----
- ...001-meson-Also-search-for-rst2man.py.patch | 30 -------------------
- .../{libdrm_2.4.104.bb => libdrm_2.4.105.bb}  |  3 +-
- 2 files changed, 1 insertion(+), 32 deletions(-)
- delete mode 100644 meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
- rename meta/recipes-graphics/drm/{libdrm_2.4.104.bb => libdrm_2.4.105.bb} (95%)
+I think we should not be deleting the patch from SRC_URI
 
-diff --git a/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch b/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
-deleted file mode 100644
-index 67fafd40c3..0000000000
---- a/meta/recipes-graphics/drm/libdrm/0001-meson-Also-search-for-rst2man.py.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 4129a8c6911b6b0ef3665cb167da6b635c29614d Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@cn.fujitsu.com>
--Date: Mon, 8 Feb 2021 17:30:52 +0900
--Subject: [PATCH] meson: Also search for rst2man.py
--
--That's what upstream docutils installs by default.
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/drm/-/commit/62b9a3eee9bdaafa766e92d5bebeb4e59845c45a]
--
--Signed-off-by: Heiko Becker's avatarHeiko Becker <heirecka@exherbo.org>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index a4d8d70..07d2e08 100644
----- a/meson.build
--+++ b/meson.build
--@@ -261,7 +261,7 @@ else
-- endif
-- 
-- with_man_pages = get_option('man-pages')
---prog_rst2man = find_program('rst2man', required: with_man_pages == 'true')
--+prog_rst2man = find_program('rst2man', 'rst2man.py', required: with_man_pages == 'true')
-- with_man_pages = with_man_pages != 'false' and prog_rst2man.found()
-- 
-- config.set10('HAVE_VISIBILITY',
---- 
--2.25.1
--
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.104.bb b/meta/recipes-graphics/drm/libdrm_2.4.105.bb
-similarity index 95%
-rename from meta/recipes-graphics/drm/libdrm_2.4.104.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.105.bb
-index ff869d6db9..8cb82ad123 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.104.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.105.bb
-@@ -11,10 +11,9 @@ PROVIDES = "drm"
- DEPENDS = "libpthread-stubs"
- 
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
--           file://0001-meson-Also-search-for-rst2man.py.patch \
-           "
- 
--SRC_URI[sha256sum] = "d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb"
-+SRC_URI[sha256sum] = "1d1d024b7cadc63e2b59cddaca94f78864940ab440843841113fbac6afaf2a46"
- 
- inherit meson pkgconfig manpages
- 
--- 
-2.25.1
-
+>             "
+>
+>  SRC_URI_append_class-target = "\
+>             file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+>            "
+> -SRC_URI[code.sha256sum] = "c79193dee3907a2199b8296a93b52c5cb74332c26f3d167269487680d479d625"
+> -SRC_URI[data.sha256sum] = "2989b466fa010edc41297e12fdd5ae47c2610ad68b63af1a0bd2a1acfaf497f3"
+> +SRC_URI[code.sha256sum] = "4cba7b7acd1d3c42c44bb0c14be6637098c7faf2b330ce876bc5f3b915d09745"
+> +SRC_URI[data.sha256sum] = "4fc2d8cfc3343673123586fca3967404abd4e346fba5515829204533b3bae4bf"
+>
+>  UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
+>  UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
+> --
+> 2.25.1
+>
+>
+> 
+>
