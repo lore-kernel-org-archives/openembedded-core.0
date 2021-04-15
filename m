@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.1308.1618510600269848684
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web08.1307.1618510599926392070
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 08DC838C13BE
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0C9B238C13C5
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] help2man: upgrading to 1.48.3 SUCCEEDED
-Message-ID: <MADEUP.16761AD0DAC4ABA7.4047@lists.openembedded.org>
-X-Groupsio-MsgNum: 150511
-Content-Type: multipart/mixed; boundary="===============0340935042417649990=="
+Subject: [AUH] libdnf: upgrading to 0.62.0 FAILED
+Message-ID: <MADEUP.16761AD0DD46478A.25572@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============4468904387926552102=="
 
---===============0340935042417649990==
+--===============4468904387926552102==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,63 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *help2man* to *1.48.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libdnf* to *0.62.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-help2man-upgrade-1.48.2-1.48.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libdnf failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a1ae2f3a70a4216e3ef64d1aed30ef9921a3778a"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+WARNING: Command 'git rebase 9a0e17562b19586b3ffa70fa93eb961b558794c7' failed:
+Rebasing (1/7)
+Rebasing (2/7)
+Rebasing (3/7)
+Rebasing (4/7)
+Rebasing (5/7)
+Rebasing (6/7)
+Rebasing (7/7)
+error: could not apply 956c000d... libdnf/config.h: avoid the use of non-portable __WORDSIZE
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply 956c000d... libdnf/config.h: avoid the use of non-portable __WORDSIZE
+Auto-merging libdnf/config.h
+CONFLICT (content): Merge conflict in libdnf/config.h
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libdnf
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libdnf/libdnf_0.62.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,64 +87,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0340935042417649990==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-help2man-upgrade-1.48.2-1.48.3.patch"
-
-From 931727ebfcfadd5064de33af1d6eb2bc26bc97ba Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 04:57:25 +0000
-Subject: [PATCH] help2man: upgrade 1.48.2 -> 1.48.3
-
----
- .../help2man/{help2man_1.48.2.bb => help2man_1.48.3.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/help2man/{help2man_1.48.2.bb => help2man_1.48.3.bb} (89%)
-
-diff --git a/meta/recipes-devtools/help2man/help2man_1.48.2.bb b/meta/recipes-devtools/help2man/help2man_1.48.3.bb
-similarity index 89%
-rename from meta/recipes-devtools/help2man/help2man_1.48.2.bb
-rename to meta/recipes-devtools/help2man/help2man_1.48.3.bb
-index 3e9b509ed4..a612c0896c 100644
---- a/meta/recipes-devtools/help2man/help2man_1.48.2.bb
-+++ b/meta/recipes-devtools/help2man/help2man_1.48.3.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "20cb36111df91d61741a20680912ab0e4c59da479c3fb05837c6f0a8cb7cb467"
-+SRC_URI[sha256sum] = "8361ff3c643fbd391064e97e5f54592ca28b880eaffbf566a68e0ad800d1a8ac"
- 
- inherit autotools
- 
--- 
-2.27.0
-
-
---===============0340935042417649990==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/help2man/help2man-dbg: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-dbg: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man-dev: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-dev: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man-doc: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-doc: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man-locale: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-locale: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man-src: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-src: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man-staticdev: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man-staticdev: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man/help2man: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man/help2man: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man: PV changed from "1.48.2" to "1.48.3"
-packages/core2-32-poky-linux/help2man: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
-packages/core2-32-poky-linux/help2man: SRC_URI changed from "https://ftp.gnu.org/gnu/help2man/help2man-1.48.2.tar.xz" to "https://ftp.gnu.org/gnu/help2man/help2man-1.48.3.tar.xz"
-
---===============0340935042417649990==--
+--===============4468904387926552102==--
