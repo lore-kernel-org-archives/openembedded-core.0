@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.1291.1618510600040293984
+ by mx.groups.io with SMTP id smtpd.web11.1348.1618510600151102655
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 122D738C13C1
+	by mail.yoctoproject.org (Postfix) with ESMTP id 4D74138C13BB
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:41 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libwpe: upgrading to 1.10.0 SUCCEEDED
-Message-ID: <MADEUP.16761AD1840C84CA.25572@lists.openembedded.org>
-X-Groupsio-MsgNum: 150575
-Content-Type: multipart/mixed; boundary="===============1952305236748042098=="
+Subject: [AUH] gnupg: upgrading to 2.3.0 FAILED
+Message-ID: <MADEUP.16761AD1898919CC.6349@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============0952430609068497277=="
 
---===============1952305236748042098==
+--===============0952430609068497277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,97 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libwpe* to *1.10.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gnupg* to *2.3.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libwpe-upgrade-1.8.0-1.10.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gnupg failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:e0d69b94b3ff24303d6279406833883d73a11495"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 16 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.0.tar.bz2...
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 815 .bb files complete (813 cached, 2 parsed). 1439 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:e0d69b94b3ff24303d6279406833883d73a11495"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  19% |#######                             | ETA:  0:00:00
+Adding changed files:  39% |##############                      | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 33628b58a058123d8159e788be2fb48eca762f85' failed:
+Rebasing (1/5)
+error: could not apply a3456e0... Use pkg-config to find pth instead of pth-config.
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply a3456e0... Use pkg-config to find pth instead of pth-config.
+CONFLICT (modify/delete): m4/gnupg-pth.m4 deleted in HEAD and modified in a3456e0... Use pkg-config to find pth instead of pth-config.. Version a3456e0... Use pkg-config to find pth instead of pth-config. of m4/gnupg-pth.m4 left in tree.
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gnupg
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gnupg/gnupg_2.3.0.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,94 +121,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1952305236748042098==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libwpe/libwpe-dev: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-doc: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-locale: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-staticdev: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-Changes to packages/core2-32-poky-linux/libwpe (sysroot):
-  /usr/lib/libwpe-1.0.so.1 changed symlink target from libwpe-1.0.so.1.4.3 to libwpe-1.0.so.1.5.1
-  /usr/lib/libwpe-1.0.so.1.4.3 moved to /usr/lib/libwpe-1.0.so.1.5.1
-  /usr/include/wpe-1.0/wpe/libwpe-version.h was added
-
---===============1952305236748042098==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-libwpe-upgrade-1.8.0-1.10.0.patch"
-
-From 3beb3f1b6c57ec606b60125f496e007cbd40702b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 16:01:56 +0000
-Subject: [PATCH] libwpe: upgrade 1.8.0 -> 1.10.0
-
----
- meta/recipes-sato/webkit/{libwpe_1.8.0.bb => libwpe_1.10.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{libwpe_1.8.0.bb => libwpe_1.10.0.bb} (90%)
-
-diff --git a/meta/recipes-sato/webkit/libwpe_1.8.0.bb b/meta/recipes-sato/webkit/libwpe_1.10.0.bb
-similarity index 90%
-rename from meta/recipes-sato/webkit/libwpe_1.8.0.bb
-rename to meta/recipes-sato/webkit/libwpe_1.10.0.bb
-index 164831be39..d90557e3af 100644
---- a/meta/recipes-sato/webkit/libwpe_1.8.0.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.10.0.bb
-@@ -14,7 +14,7 @@ inherit cmake features_check
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "a6f00a7d091cbd4db57fe7ee3b4c12c6350921d654ed79812800a26c888481d2"
-+SRC_URI[sha256sum] = "2415e270d45e3595ed4052bc105f733744dc2d3677e12ff4a831e5029841084d"
- 
- # This is a tweak of upstream-version-is-even needed because
- # ipstream directory contains tarballs for other components as well.
--- 
-2.27.0
-
-
---===============1952305236748042098==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libwpe: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe: SRC_URI changed from "https://wpewebkit.org/releases/libwpe-1.8.0.tar.xz" to "https://wpewebkit.org/releases/libwpe-1.10.0.tar.xz"
-packages/core2-32-poky-linux/libwpe: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-dbg: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-dbg: PKGSIZE changed from 234132 to 234448 (+0%)
-packages/core2-32-poky-linux/libwpe/libwpe-dbg: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-dbg: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-dev: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-dev: PKGSIZE changed from 235931 to 236343 (+0%)
-packages/core2-32-poky-linux/libwpe/libwpe-dev: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-dev: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-doc: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-doc: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-doc: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-locale: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-locale: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-locale: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-src: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-src: PKGSIZE changed from 209199 to 209620 (+0%)
-packages/core2-32-poky-linux/libwpe/libwpe-src: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-src: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe-staticdev: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe-staticdev: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe-staticdev: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-packages/core2-32-poky-linux/libwpe/libwpe: PV changed from "1.8.0" to "1.10.0"
-packages/core2-32-poky-linux/libwpe/libwpe: FILELIST: removed "/usr/lib/libwpe-1.0.so.1.4.3", added "/usr/lib/libwpe-1.0.so.1.5.1"
-packages/core2-32-poky-linux/libwpe/libwpe: PKGV changed from 1.8.0 [default] to 1.10.0 [default]
-Changes to packages/core2-32-poky-linux/libwpe (sysroot):
-  /usr/lib/libwpe-1.0.so.1 changed symlink target from libwpe-1.0.so.1.4.3 to libwpe-1.0.so.1.5.1
-  /usr/lib/libwpe-1.0.so.1.4.3 moved to /usr/lib/libwpe-1.0.so.1.5.1
-  /usr/include/wpe-1.0/wpe/libwpe-version.h was added
-
---===============1952305236748042098==--
+--===============0952430609068497277==--
