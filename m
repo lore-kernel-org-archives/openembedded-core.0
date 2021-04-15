@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.1305.1618510599615473954
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web09.1330.1618510599872298479
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A467638C1264
+	by mail.yoctoproject.org (Postfix) with ESMTP id 94A1038C1258
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] autoconf-archive: upgrading to 2021.02.19 SUCCEEDED
-Message-ID: <MADEUP.16761AD0C23B7520.4047@lists.openembedded.org>
-X-Groupsio-MsgNum: 150493
-Content-Type: multipart/mixed; boundary="===============2787471424907196983=="
+Subject: [AUH] systemd-boot: upgrading to 248 FAILED
+Message-ID: <MADEUP.16761AD0C2CEBCBE.25572@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6641368655470919495=="
 
---===============2787471424907196983==
+--===============6641368655470919495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,47 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *autoconf-archive* to *2021.02.19* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemd-boot* to *248* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-autoconf-archive-upgrade-2019.01.06-2021.02.19.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade systemd-boot -V 248 -S 938bdfc0fa737d86eb3ecc70506e11e5f740e0dc
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:49fda3c70cf7f38ff7dd5b2c80b590202ee938b7"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+ERROR: Revision 938bdfc0fa737d86eb3ecc70506e11e5f740e0dc was found on multiple branches: 
+  main
+  v248-stable
+Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,78 +71,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2787471424907196983==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/all-poky-linux/autoconf-archive (sysroot):
-  /usr/share/aclocal/ax_boost_process.m4 was added
-  /usr/share/aclocal/ax_check_pcre2.m4 was added
-  /usr/share/aclocal/ax_int128.m4 was added
-  /usr/share/aclocal/ax_prepend_flag.m4 was added
-  /usr/share/aclocal/ax_prog_robot.m4 was added
-
---===============2787471424907196983==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-autoconf-archive-upgrade-2019.01.06-2021.02.19.patch"
-
-From 201ace8130f0bd9047a9b7b4fdfe951bc5e93f10 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 03:20:19 +0000
-Subject: [PATCH] autoconf-archive: upgrade 2019.01.06 -> 2021.02.19
-
----
- ...nf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/autoconf-archive/{autoconf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} (78%)
-
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-similarity index 78%
-rename from meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-rename to meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-index 13593d7bb3..54079b5f09 100644
---- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
-     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "d46413c8b00a125b1529bae385bbec55"
--SRC_URI[sha256sum] = "17195c833098da79de5778ee90948f4c5d90ed1a0cf8391b4ab348e2ec511e3f"
-+SRC_URI[sha256sum] = "e8a6eb9d28ddcba8ffef3fa211653239e9bf239aba6a01a6b7cfc7ceaec69cbd"
- 
- inherit autotools allarch texinfo
- 
--- 
-2.27.0
-
-
---===============2787471424907196983==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PV changed from "2019.01.06" to "2021.02.19"
-packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
-packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGSIZE changed from 46036 to 46547 (+1%)
-packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PV changed from "2019.01.06" to "2021.02.19"
-packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
-packages/all-poky-linux/autoconf-archive/autoconf-archive: PV changed from "2019.01.06" to "2021.02.19"
-packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
-packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGSIZE changed from 2068942 to 2092330 (+1%)
-packages/all-poky-linux/autoconf-archive: PV changed from "2019.01.06" to "2021.02.19"
-packages/all-poky-linux/autoconf-archive: SRC_URI changed from "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2019.01.06.tar.xz" to "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2021.02.19.tar.xz"
-packages/all-poky-linux/autoconf-archive: PKGV changed from 2019.01.06 [default] to 2021.02.19 [default]
-Changes to packages/all-poky-linux/autoconf-archive (sysroot):
-  /usr/share/aclocal/ax_boost_process.m4 was added
-  /usr/share/aclocal/ax_check_pcre2.m4 was added
-  /usr/share/aclocal/ax_int128.m4 was added
-  /usr/share/aclocal/ax_prepend_flag.m4 was added
-  /usr/share/aclocal/ax_prog_robot.m4 was added
-
---===============2787471424907196983==--
+--===============6641368655470919495==--
