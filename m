@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.1347.1618510599283185887
+ by mx.groups.io with SMTP id smtpd.web12.1289.1618510599557339342
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 6D76538C08EA
+	by mail.yoctoproject.org (Postfix) with ESMTP id 86CCD38C11C9
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-efi: upgrading to 3.0.13 SUCCEEDED
-Message-ID: <MADEUP.16761AD09EAE9462.4047@lists.openembedded.org>
-X-Groupsio-MsgNum: 150483
-Content-Type: multipart/mixed; boundary="===============5458096692667988142=="
+Subject: [AUH] ell: upgrading to 0.39 SUCCEEDED
+Message-ID: <MADEUP.16761AD0AD541E73.25572@lists.openembedded.org>
+X-Groupsio-MsgNum: 150484
+Content-Type: multipart/mixed; boundary="===============4545102384130855841=="
 
---===============5458096692667988142==
+--===============4545102384130855841==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-efi* to *3.0.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *ell* to *0.39* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gnu-efi-upgrade-3.0.12-3.0.13.patch
+    - apply the patch: git am 0001-ell-upgrade-0.38-0.39.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,111 +44,78 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5458096692667988142==
+--===============4545102384130855841==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/gnu-efi (sysroot):
-  /usr/include/efi/eficonex.h was added
-  /usr/include/efi/lib.h was added
+Changes to packages/core2-32-poky-linux/ell (sysroot):
+  /usr/include/ell/tester.h was added
 
---===============5458096692667988142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-ERROR: Nothing PROVIDES 'gnu-efi'
-gnu-efi was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
-Parsing of 814 .bb files complete (0 cached, 814 parsed). 1438 targets, 66 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============5458096692667988142==
+--===============4545102384130855841==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-gnu-efi-upgrade-3.0.12-3.0.13.patch"
+Content-Disposition: attachment; filename="0001-ell-upgrade-0.38-0.39.patch"
 
-From 9a99cdec774cd989be760e94c14cecf769741a61 Mon Sep 17 00:00:00 2001
+From 0dc4b98635c7db09b49b6a47cd19111ffee83f75 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 01:40:45 +0000
-Subject: [PATCH] gnu-efi: upgrade 3.0.12 -> 3.0.13
+Date: Thu, 15 Apr 2021 03:07:07 +0000
+Subject: [PATCH] ell: upgrade 0.38 -> 0.39
 
 ---
- .../gnu-efi/{gnu-efi_3.0.12.bb => gnu-efi_3.0.13.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.12.bb => gnu-efi_3.0.13.bb} (95%)
+ meta/recipes-core/ell/{ell_0.38.bb => ell_0.39.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.38.bb => ell_0.39.bb} (90%)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
-similarity index 95%
-rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
-rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
-index d27126603f..fa9886037c 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.13.bb
-@@ -19,8 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
-            file://gnu-efi-3.0.9-fix-clang-build.patch \
+diff --git a/meta/recipes-core/ell/ell_0.38.bb b/meta/recipes-core/ell/ell_0.39.bb
+similarity index 90%
+rename from meta/recipes-core/ell/ell_0.38.bb
+rename to meta/recipes-core/ell/ell_0.39.bb
+index 7d3a339978..68ec4cb4a4 100644
+--- a/meta/recipes-core/ell/ell_0.38.bb
++++ b/meta/recipes-core/ell/ell_0.39.bb
+@@ -17,7 +17,7 @@ inherit autotools pkgconfig
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+            file://0001-pem.c-do-not-use-rawmemchr.patch \
             "
+-SRC_URI[sha256sum] = "c1b7ae5676eec310f08757b3d8652b8e818776be1897fb5deb59e55f02a012a7"
++SRC_URI[sha256sum] = "653e2e139e23ed31e03c56c05f15321a9e818e2dca00a315c18d2c7b72f15d08"
  
--SRC_URI[md5sum] = "926763ff37bc9db3a9035cec41eb2f45"
--SRC_URI[sha256sum] = "0196f2e1fd3c334b66e610a608a0e59233474c7a01bec7bc53989639aa327669"
-+SRC_URI[sha256sum] = "2fccf715279c46ee69c4859186af8150d07a13f4d19876e5459cd65be82d3b7d"
- 
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
- COMPATIBLE_HOST_armv4 = 'null'
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.27.0
 
 
---===============5458096692667988142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-ERROR: Nothing PROVIDES 'gnu-efi'
-gnu-efi was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
-Parsing of 814 .bb files complete (0 cached, 814 parsed). 1438 targets, 58 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============5458096692667988142==
+--===============4545102384130855841==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-dbg: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-dbg: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-dev: PKGSIZE changed from 358374 to 365662 (+2%)
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-dev: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-dev: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-doc: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-doc: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-locale: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-locale: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-src: PKGSIZE changed from 340060 to 343685 (+1%)
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-src: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-src: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-staticdev: PKGSIZE changed from 341348 to 353568 (+4%)
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-staticdev: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi-staticdev: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi/gnu-efi: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi/gnu-efi: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi: PKGV changed from 3.0.12 [default] to 3.0.13 [default]
-packages/core2-32-poky-linux/gnu-efi: PV changed from "3.0.12" to "3.0.13"
-packages/core2-32-poky-linux/gnu-efi: SRC_URI changed from "https://downloads.sourceforge.net/gnu-efi/files/gnu-efi-3.0.12.tar.bz2 file://parallel-make-archives.patch file://lib-Makefile-fix-parallel-issue.patch file://gnu-efi-3.0.9-fix-clang-build.patch" to "https://downloads.sourceforge.net/gnu-efi/files/gnu-efi-3.0.13.tar.bz2 file://parallel-make-archives.patch file://lib-Makefile-fix-parallel-issue.patch file://gnu-efi-3.0.9-fix-clang-build.patch"
-Changes to packages/core2-32-poky-linux/gnu-efi (sysroot):
-  /usr/include/efi/eficonex.h was added
-  /usr/include/efi/lib.h was added
+packages/core2-32-poky-linux/ell/ell-dbg: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-dbg: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell-dbg: PKGSIZE changed from 1395964 to 1413104 (+1%)
+packages/core2-32-poky-linux/ell/ell-dev: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-dev: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell-dev: PKGSIZE changed from 133528 to 136465 (+2%)
+packages/core2-32-poky-linux/ell/ell-doc: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-doc: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell-locale: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-locale: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell-src: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-src: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell-src: PKGSIZE changed from 1261723 to 1284473 (+2%)
+packages/core2-32-poky-linux/ell/ell-staticdev: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell-staticdev: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell/ell: PKGV changed from 0.38 [default] to 0.39 [default]
+packages/core2-32-poky-linux/ell/ell: PKGSIZE changed from 507051 to 519339 (+2%)
+packages/core2-32-poky-linux/ell: PV changed from "0.38" to "0.39"
+packages/core2-32-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.38.tar.xz file://0001-pem.c-do-not-use-rawmemchr.patch" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.39.tar.xz file://0001-pem.c-do-not-use-rawmemchr.patch"
+packages/core2-32-poky-linux/ell: PKGV changed from 0.38 [default] to 0.39 [default]
+Changes to packages/core2-32-poky-linux/ell (sysroot):
+  /usr/include/ell/tester.h was added
 
---===============5458096692667988142==--
+--===============4545102384130855841==--
