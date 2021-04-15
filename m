@@ -1,71 +1,93 @@
-Received: from dent.vctlabs.com (dent.vctlabs.com [207.154.65.135])
- by mx.groups.io with SMTP id smtpd.web12.1686.1618453946423089125
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web10.1741.1618454273384652054
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 19:32:26 -0700
+ Wed, 14 Apr 2021 19:37:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: vctlabs.com, ip: 207.154.65.135, mailfrom: sjl@vctlabs.com)
-Received: by dent.vctlabs.com (Postfix, from userid 112)
-	id 2FE6F2802F9; Wed, 14 Apr 2021 19:32:22 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on dent.vctlabs.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham autolearn_force=no version=3.4.2
-Received: from codepurple (c-73-158-3-176.hsd1.ca.comcast.net [73.158.3.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dent.vctlabs.com (Postfix) with ESMTPSA id 02DFE2801DF
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 19:32:06 -0700 (PDT)
-Date: Wed, 14 Apr 2021 19:32:08 -0700
-From: "S. Lockwood-Childs" <sjl@vctlabs.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH] image_types.bbclass: tar: support EXTRA_IMGAGECMD
-Message-ID: <20210415023208.GQ1189447@codepurple>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: FQXJOItefRkbTtlI0sobNhZ9P9Av3aDmvSd0R+0qVic5+MtAWKxgdtN5EH6I2xnMfyBebRLkmq
+ G0YAqMknVGbg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="192651556"
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="192651556"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 19:37:52 -0700
+IronPort-SDR: GVdNn1W/oE9ZwMI+Xc58ZAMaLMyrOWIuT7/vXkewDWOLnwOZUnfaeOX3TaTdxN9IBu957/sl3r
+ f8N/eIoR6jpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="418574342"
+Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Apr 2021 19:37:51 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 15 Apr 2021 10:37:50 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
+ Thu, 15 Apr 2021 10:37:50 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "sjl@vctlabs.com" <sjl@vctlabs.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH] image_types.bbclass: tar: support EXTRA_IMGAGECMD
+Thread-Topic: [OE-core] [gatesgarth][PATCH] image_types.bbclass: tar: support
+ EXTRA_IMGAGECMD
+Thread-Index: AQHXMZ+Vwr93NbkywEWk1Josdhojvaq0V0aA
+Date: Thu, 15 Apr 2021 02:37:50 +0000
+Message-ID: <223a6806479ee1bcd9b3b7967ca1219917a132b7.camel@intel.com>
+References: <20210415023208.GQ1189447@codepurple>
+In-Reply-To: <20210415023208.GQ1189447@codepurple>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3531AB01F7806447966FDB3964CF5F60@intel.com>
+Content-Transfer-Encoding: base64
 
-The primary motivation for making tar image options configurable
-is to provide choice on a per-machine basis between gnu and posix
-formats. Neither one is suitable for all use cases.
-* gnu isn't compatible when xattrs are required
-* posix can cause locale headaches
-  https://groups.google.com/g/swupdate/c/zUOSqmkk7cA
-
-One could say "just fix your image installer" but it's nice to be able
-to still produce images that currently-deployed systems can handle,
-for instance to make update packages to update your updater :)
-
-Default is still posix format, so current behavior is unchanged
-unless EXTRA_IMAGECMD_tar is customized.
-
-Signed-off-by: S. Lockwood-Childs <sjl@vctlabs.com>
----
- meta/classes/image_types.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 30951ae366..c0dca351d5 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -110,7 +110,7 @@ IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
- 
- IMAGE_CMD_TAR ?= "tar"
- # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
--IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --format=posix --numeric-owner -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
-+IMAGE_CMD_tar = "${IMAGE_CMD_TAR} --sort=name --numeric-owner ${EXTRA_IMAGECMD} -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
- 
- do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
- IMAGE_CMD_cpio () {
-@@ -228,6 +228,9 @@ EXTRA_IMAGECMD_ext4 ?= "-i 4096"
- EXTRA_IMAGECMD_btrfs ?= "-n 4096"
- EXTRA_IMAGECMD_f2fs ?= ""
- 
-+# Customize tar format if needed, since gnu and posix have different drawbacks
-+EXTRA_IMAGECMD_tar ?= "--format=posix"
-+
- do_image_cpio[depends] += "cpio-native:do_populate_sysroot"
- do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
- do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
--- 
-2.20.1
-
+SGksDQoNCk9uIFdlZCwgMjAyMS0wNC0xNCBhdCAxOTozMiAtMDcwMCwgUy4gTG9ja3dvb2QtQ2hp
+bGRzIHdyb3RlOg0KPiBUaGUgcHJpbWFyeSBtb3RpdmF0aW9uIGZvciBtYWtpbmcgdGFyIGltYWdl
+IG9wdGlvbnMgY29uZmlndXJhYmxlDQo+IGlzIHRvIHByb3ZpZGUgY2hvaWNlIG9uIGEgcGVyLW1h
+Y2hpbmUgYmFzaXMgYmV0d2VlbiBnbnUgYW5kIHBvc2l4DQo+IGZvcm1hdHMuIE5laXRoZXIgb25l
+IGlzIHN1aXRhYmxlIGZvciBhbGwgdXNlIGNhc2VzLg0KPiAqIGdudSBpc24ndCBjb21wYXRpYmxl
+IHdoZW4geGF0dHJzIGFyZSByZXF1aXJlZA0KPiAqIHBvc2l4IGNhbiBjYXVzZSBsb2NhbGUgaGVh
+ZGFjaGVzDQo+IMKgIGh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZy9zd3VwZGF0ZS9jL3pVT1Nx
+bWtrN2NBDQo+IA0KPiBPbmUgY291bGQgc2F5ICJqdXN0IGZpeCB5b3VyIGltYWdlIGluc3RhbGxl
+ciIgYnV0IGl0J3MgbmljZSB0byBiZSBhYmxlDQo+IHRvIHN0aWxsIHByb2R1Y2UgaW1hZ2VzIHRo
+YXQgY3VycmVudGx5LWRlcGxveWVkIHN5c3RlbXMgY2FuIGhhbmRsZSwNCj4gZm9yIGluc3RhbmNl
+IHRvIG1ha2UgdXBkYXRlIHBhY2thZ2VzIHRvIHVwZGF0ZSB5b3VyIHVwZGF0ZXIgOikNCj4gDQo+
+IERlZmF1bHQgaXMgc3RpbGwgcG9zaXggZm9ybWF0LCBzbyBjdXJyZW50IGJlaGF2aW9yIGlzIHVu
+Y2hhbmdlZA0KPiB1bmxlc3MgRVhUUkFfSU1BR0VDTURfdGFyIGlzIGN1c3RvbWl6ZWQuDQo+IA0K
+DQpUaGlzIHdvdWxkIG5lZWQgdG8gYmUgcHJvcG9zZWQgZm9yIGFuZCBtZXJnZWQgaW4gbWFzdGVy
+IGJyYW5jaCBmaXJzdA0KYmVmb3JlIGl0IGNhbiBiZSBiYWNrcG9ydGVkIHRvIGEgc3RhYmxlIGJy
+YW5jaC4NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gU2lnbmVkLW9mZi1ieTogUy4gTG9ja3dvb2Qt
+Q2hpbGRzIDxzamxAdmN0bGFicy5jb20+DQo+IC0tLQ0KPiDCoG1ldGEvY2xhc3Nlcy9pbWFnZV90
+eXBlcy5iYmNsYXNzIHwgNSArKysrLQ0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvaW1hZ2Vf
+dHlwZXMuYmJjbGFzcw0KPiBiL21ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNsYXNzDQo+IGlu
+ZGV4IDMwOTUxYWUzNjYuLmMwZGNhMzUxZDUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy9p
+bWFnZV90eXBlcy5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy9pbWFnZV90eXBlcy5iYmNs
+YXNzDQo+IEBAIC0xMTAsNyArMTEwLDcgQEAgSU1BR0VfQ01EX3NxdWFzaGZzLWx6NCA9ICJta3Nx
+dWFzaGZzDQo+ICR7SU1BR0VfUk9PVEZTfSAke0lNR0RFUExPWURJUn0vJHtJTUFHRV9OQU0NCj4g
+wqANCj4gwqBJTUFHRV9DTURfVEFSID89ICJ0YXIiDQo+IMKgIyBpZ25vcmUgcmV0dXJuIGNvZGUg
+MSAiZmlsZSBjaGFuZ2VkIGFzIHdlIHJlYWQgaXQiIGFzIG90aGVyDQo+IHRhc2tzKGUuZy4gZG9f
+aW1hZ2Vfd2ljKSBtYXkgYmUgaGFyZGxpbmtpbmcgcm9vdGZzDQo+IC1JTUFHRV9DTURfdGFyID0g
+IiR7SU1BR0VfQ01EX1RBUn0gLS1zb3J0PW5hbWUgLS1mb3JtYXQ9cG9zaXggLS0NCj4gbnVtZXJp
+Yy1vd25lciAtY2YgJHtJTUdERVBMT1lESVJ9LyR7SU1BR0VfTkFNRX0ke0lNQUdFX05BTUVfU1VG
+RklYfS50YXINCj4gLUMgJHtJTUFHRV9ST09URlN9IC4gfHwgWyAkPyAtZXEgMSBdIg0KPiArSU1B
+R0VfQ01EX3RhciA9ICIke0lNQUdFX0NNRF9UQVJ9IC0tc29ydD1uYW1lIC0tbnVtZXJpYy1vd25l
+cg0KPiAke0VYVFJBX0lNQUdFQ01EfSAtY2YNCj4gJHtJTUdERVBMT1lESVJ9LyR7SU1BR0VfTkFN
+RX0ke0lNQUdFX05BTUVfU1VGRklYfS50YXIgLUMNCj4gJHtJTUFHRV9ST09URlN9IC4gfHwgWyAk
+PyAtZXEgMSBdIg0KPiDCoA0KPiDCoGRvX2ltYWdlX2NwaW9bY2xlYW5kaXJzXSArPSAiJHtXT1JL
+RElSfS9jcGlvX2FwcGVuZCINCj4gwqBJTUFHRV9DTURfY3BpbyAoKSB7DQo+IEBAIC0yMjgsNiAr
+MjI4LDkgQEAgRVhUUkFfSU1BR0VDTURfZXh0NCA/PSAiLWkgNDA5NiINCj4gwqBFWFRSQV9JTUFH
+RUNNRF9idHJmcyA/PSAiLW4gNDA5NiINCj4gwqBFWFRSQV9JTUFHRUNNRF9mMmZzID89ICIiDQo+
+IMKgDQo+ICsjIEN1c3RvbWl6ZSB0YXIgZm9ybWF0IGlmIG5lZWRlZCwgc2luY2UgZ251IGFuZCBw
+b3NpeCBoYXZlIGRpZmZlcmVudA0KPiBkcmF3YmFja3MNCj4gK0VYVFJBX0lNQUdFQ01EX3RhciA/
+PSAiLS1mb3JtYXQ9cG9zaXgiDQo+ICsNCj4gwqBkb19pbWFnZV9jcGlvW2RlcGVuZHNdICs9ICJj
+cGlvLW5hdGl2ZTpkb19wb3B1bGF0ZV9zeXNyb290Ig0KPiDCoGRvX2ltYWdlX2pmZnMyW2RlcGVu
+ZHNdICs9ICJtdGQtdXRpbHMtbmF0aXZlOmRvX3BvcHVsYXRlX3N5c3Jvb3QiDQo+IMKgZG9faW1h
+Z2VfY3JhbWZzW2RlcGVuZHNdICs9ICJ1dGlsLWxpbnV4LW5hdGl2ZTpkb19wb3B1bGF0ZV9zeXNy
+b290Ig0KPiANCj4gDQo+IA0KDQo=
