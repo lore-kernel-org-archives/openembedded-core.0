@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.1289.1618510599557339342
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web08.1308.1618510600269848684
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 28D2238C13D5
+	by mail.yoctoproject.org (Postfix) with ESMTP id 08DC838C13BE
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-numpy: upgrading to 1.20.2 SUCCEEDED
-Message-ID: <MADEUP.16761AD0E2BD5830.12681@lists.openembedded.org>
-X-Groupsio-MsgNum: 150510
-Content-Type: multipart/mixed; boundary="===============5029423442436599591=="
+Subject: [AUH] help2man: upgrading to 1.48.3 SUCCEEDED
+Message-ID: <MADEUP.16761AD0DAC4ABA7.4047@lists.openembedded.org>
+X-Groupsio-MsgNum: 150511
+Content-Type: multipart/mixed; boundary="===============0340935042417649990=="
 
---===============5029423442436599591==
+--===============0340935042417649990==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-numpy* to *1.20.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *help2man* to *1.48.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-numpy-upgrade-1.20.1-1.20.2.patch
+    - apply the patch: git am 0001-help2man-upgrade-1.48.2-1.48.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,80 +44,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5029423442436599591==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.9/site-packages/numpy-1.20.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/numpy-1.20.2-py3.9.egg-info
-
---===============5029423442436599591==
+--===============0340935042417649990==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-numpy-upgrade-1.20.1-1.20.2.patch"
+ filename="0001-help2man-upgrade-1.48.2-1.48.3.patch"
 
-From 447b4d9f5f2af9d679b7583fb976c8e4c8edee83 Mon Sep 17 00:00:00 2001
+From 931727ebfcfadd5064de33af1d6eb2bc26bc97ba Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 05:50:01 +0000
-Subject: [PATCH] python3-numpy: upgrade 1.20.1 -> 1.20.2
+Date: Thu, 15 Apr 2021 04:57:25 +0000
+Subject: [PATCH] help2man: upgrade 1.48.2 -> 1.48.3
 
 ---
- .../{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb}        | 2 +-
+ .../help2man/{help2man_1.48.2.bb => help2man_1.48.3.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb} (96%)
+ rename meta/recipes-devtools/help2man/{help2man_1.48.2.bb => help2man_1.48.3.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-index 6c3b886782..0a60ca7467 100644
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
- "
--SRC_URI[sha256sum] = "9bf51d69ebb4ca9239e55bedc2185fe2c0ec222da0adee7ece4125414676846d"
-+SRC_URI[sha256sum] = "c049f410c78e76ffb0af830a8afbdf8baac09897b4152b97b1a3b8345ee338ff"
+diff --git a/meta/recipes-devtools/help2man/help2man_1.48.2.bb b/meta/recipes-devtools/help2man/help2man_1.48.3.bb
+similarity index 89%
+rename from meta/recipes-devtools/help2man/help2man_1.48.2.bb
+rename to meta/recipes-devtools/help2man/help2man_1.48.3.bb
+index 3e9b509ed4..a612c0896c 100644
+--- a/meta/recipes-devtools/help2man/help2man_1.48.2.bb
++++ b/meta/recipes-devtools/help2man/help2man_1.48.3.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
  
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "20cb36111df91d61741a20680912ab0e4c59da479c3fb05837c6f0a8cb7cb467"
++SRC_URI[sha256sum] = "8361ff3c643fbd391064e97e5f54592ca28b880eaffbf566a68e0ad800d1a8ac"
+ 
+ inherit autotools
+ 
 -- 
 2.27.0
 
 
---===============5029423442436599591==
+--===============0340935042417649990==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v1.20.1/numpy-1.20.1.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://0001-numpy-core-Define-RISCV-32-support.patch file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v1.20.2/numpy-1.20.2.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://0001-numpy-core-Define-RISCV-32-support.patch file://run-ptest"
-packages/core2-32-poky-linux/python3-numpy: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 30985968 to 30993640 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 17807853 to 17810904 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 28704728 to 28731819 (+0%)
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.9/site-packages/numpy-1.20.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/numpy-1.20.2-py3.9.egg-info
+packages/core2-32-poky-linux/help2man/help2man-dbg: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-dbg: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man-dev: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-dev: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man-doc: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-doc: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man-locale: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-locale: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man-src: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-src: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man-staticdev: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man-staticdev: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man/help2man: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man/help2man: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man: PV changed from "1.48.2" to "1.48.3"
+packages/core2-32-poky-linux/help2man: PKGV changed from 1.48.2 [default] to 1.48.3 [default]
+packages/core2-32-poky-linux/help2man: SRC_URI changed from "https://ftp.gnu.org/gnu/help2man/help2man-1.48.2.tar.xz" to "https://ftp.gnu.org/gnu/help2man/help2man-1.48.3.tar.xz"
 
---===============5029423442436599591==--
+--===============0340935042417649990==--
