@@ -1,134 +1,125 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web10.1105.1618450244135275680
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web12.1101.1618450511543252463
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 18:30:44 -0700
+ Wed, 14 Apr 2021 18:35:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OERY10Wl;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 65so24317208ybc.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Apr 2021 18:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FXYg5kWnv+KZ6zlpHgoiirAToRxl+ZFYS2XQMZDBuf4=;
-        b=OERY10WllJH1p84F39/OSndaI1jbIOY5HM3W5mD1tuYIbHz8dSnaMxbASYREBZ5qXf
-         hGwyx3hHklCHV7GzD8KjtbpD3L3gc8g1yzSYMUEd1iDBQji9hpV1GByk1MTNdHS2MO6E
-         c204HllFA4oM5H0uyuTkWoLssuOJteZM6YZvkYy2CC1AuLHQZ/qRcGCRWY33pP6tk513
-         NXys3CCikqIG+6M47JLBUjsjLHt3wmsxr4Vd4H1PYcm8smJeLVUL4hzkKAI/gzoWSfyC
-         MNFst2I6jR5iBK5MST1tKV1PhDQs54mMfqQFIGTAVxP9y93Nh5QTof6mGf7Hm/UBx0Vr
-         cKzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FXYg5kWnv+KZ6zlpHgoiirAToRxl+ZFYS2XQMZDBuf4=;
-        b=b9cDCwRI+hpRV+s6ZfXMmdUdP/m3PrvQ1X8vBa9DvQHNNq9bz+3HjZlGhC045i1dqx
-         Xr3HO/hADOz+r16Ku2xe/NIdRq9RYuwEmFscX880Xp3b+lU+6I6e2P79BPW/9LrcQN/7
-         59CB/Znmdm81ZYeKeQ/VC8KP80sloer7wGqE+znrWKcI4YnMUCsxswBaiZoMCE0g3ZER
-         ij/sRg6iGx5T1a0wrdOI+6FKSGxdAymLTlgs5tvlcm1GUXLihoea3rmay0iv2uuWXSja
-         +1u+t2S0O7dqJ0rWfrQewmUDOCAJFLQ266hD0VvCSy//7Q3k9kUlkErtlo6kMipJ00XW
-         dAHA==
-X-Gm-Message-State: AOAM533eFAsIS0V3XrUdfWnHHEfx2w6M+Yr0vR3jOmXYiDWTknHNLTYr
-	WY6WXQOSdPmc4Fr/ENvZEHCJCcd/JM6CRYPFBfhO5yT1HRA=
-X-Google-Smtp-Source: ABdhPJzIU7035yOEkojtZiC7RZeIH1U/YZGkzwNHGHr89qyy5+Vm/oRrv2ZvC9aIjHneICGd66owf0jwhdj61K3gSfk=
-X-Received: by 2002:a5b:ec1:: with SMTP id a1mr1017934ybs.369.1618450243365;
- Wed, 14 Apr 2021 18:30:43 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 1z5erKtJ6UvWTu5NW2OPKKYLrPx28B6JPnKXaEDvY2QWnEAZrwZd5V28cZcYQUnbNBggO+HMTk
+ 5IyIZWjv/yFw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="194335709"
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="194335709"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 18:35:10 -0700
+IronPort-SDR: 7cBrm9j/s7pj6/b9smP57CM75dMphnlJbWfRWkiyV3XmdeUhtWd3S7mt2u1IA/r2pg6dpVvhFx
+ p9vaDDMQxwvQ==
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="532975558"
+Received: from rdsharma-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.140.131])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 18:35:08 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/18] pull request
+Date: Thu, 15 Apr 2021 09:35:04 +0800
+Message-Id: <cover.1618450421.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210411202746.388822-1-raj.khem@gmail.com> <dd4c72b2aaf48cb7f015030e232bc2641e38f2ef.camel@linuxfoundation.org>
- <CAMKF1spL71KJfmpPT7F09gc=RB8NPgKFRewAtHhj7bFNp-H8Sg@mail.gmail.com>
- <b5a702f99841616420c8d82b013fd91aa0c11d9d.camel@linuxfoundation.org>
- <2fa1da72-593b-a064-5591-f75e571fe11b@gmail.com> <60020db7-baa5-029b-75dc-6bbc6b97fff2@linux.microsoft.com>
-In-Reply-To: <60020db7-baa5-029b-75dc-6bbc6b97fff2@linux.microsoft.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 14 Apr 2021 18:30:17 -0700
-Message-ID: <CAMKF1sr0t2BqXXLjLCG_WqYHBjUP7Shn-O+QBtNjJJKPNpnE1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] gcc: Upgrade to 10.3.0 bug-fix release
-To: Alejandro Hernandez <alhe@linux.microsoft.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 14, 2021 at 2:30 PM Alejandro Hernandez
-<alhe@linux.microsoft.com> wrote:
->
-> Hey Khem,
->
-> In case you're not aware, the Distrodata.test_maintainers fails on this one:
->
-> The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> gcc-source-10.3.0 (/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-devtools/gcc/gcc-source_10.3.bb)
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2022/steps/14/logs/stdio
->
+Please merge these changes in gatesgarth.
 
-RP fixed it locally on master-next, is this run with latest
-master-next ? if not then perhaps it will be interesting to see if you
-can get a run with latest master-next
+Thanks,
 
-> Cheers,
-> Alejandro
->
->
-> On 4/12/21 3:27 PM, Khem Raj wrote:
->
->
->
-> On 4/12/21 2:54 AM, Richard Purdie wrote:
->
-> On Sun, 2021-04-11 at 16:20 -0700, Khem Raj wrote:
->
-> On Sun, Apr 11, 2021 at 3:12 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->
->
-> On Sun, 2021-04-11 at 13:27 -0700, Khem Raj wrote:
->
-> Drop aarch64 backports which are already upstream
-> List of bugs fixed is [1]
->
-> [1] https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&list_id=298084&resolution=FIXED&target_milestone=10.3
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Fix BINV
-> v3: Fix maintainer entry to use PV
->      Fix include poison patch which was old version
->
->
-> Not sure we can put PV into a maintainer's entry like that as it is in the global
-> namespace, it isn't gcc specific.
->
->
-> I checked it with bitbake -e and seems to be effective.
->
->
-> "bitbake -e" didn't show the correct thing for me so I tweaked the patch
-> in master-next.
->
->
-> OK but its a bit confusing, here is what master-next shows fot me
->
-> % bitbake -e gcc-source-10.3.0 | grep "RECIPE_MAINTAINER="
-> RECIPE_MAINTAINER="Khem Raj <raj.khem@gmail.com>"
->
->
->
-> I also couldn't get this patch to apply, is it on a branch somewhere?
-> ]
->
->
-> Its on kraj/gcc11 branch on contrib tree
->
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc11
->
->
-> Thanks, I've queued up another test run.
->
-> Cheers,
->
-> Richard
->
->
-> 
->
+Anuj
+
+The following changes since commit fdae970656cc421c542af9856bc9ae038c61db13:
+
+  build-appliance-image: Update to gatesgarth head revision (2021-03-28 22:33:00 +0100)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Anatol Belski (1):
+  glibc: Pull latest 2.32 HEAD
+
+Anton D. Kachalov (1):
+  run-postinsts: do not remove postinsts directory.
+
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.105
+  linux-yocto/5.4: update to v5.4.107
+
+Christopher Larson (2):
+  buildhistory: add missing vardepsexcludes
+  image,populate_sdk_base: move 'func' flag setting for sdk command vars
+
+Dorinda Bassey (1):
+  devshell.bbclass: Exceptions displayed within devpyshell
+
+Guillaume Champagne (1):
+  image-live.bbclass: optional depends when ROOTFS empty
+
+Khem Raj (1):
+  documentation-audit.sh: Fix typo in specifying LICENSE_FLAGS_WHITELIST
+
+Lee Chee Yang (2):
+  cve-update-db-native: consider version suffix when update CVE db
+  cve-check: CVE_VERSION_SUFFIX to work with patched release
+
+Martin Jansa (1):
+  binutils: backport fix for gold with theads enabled from 2.36.0
+
+Michael Trensch (1):
+  linux-firmware: Fix packaging
+
+Mikko Rapeli (1):
+  openssl: update to 1.1.1k to fix CVE-2021-3450 and CVE-2021-3449
+
+Mingli Yu (1):
+  libtool: make sure autoheader run before autoconf
+
+Minjae Kim (1):
+  git: fix CVE-2021-21300
+
+Petr Vorel (1):
+  scripts/verify-bashisms: Update checkbashisms.pl URL
+
+Richard Purdie (1):
+  selftest/wic: Fix dependency issue in rawcopy test
+
+ meta/classes/buildhistory.bbclass             |   3 +
+ meta/classes/devshell.bbclass                 |   1 +
+ meta/classes/image-live.bbclass               |   2 +-
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/populate_sdk_base.bbclass        |   7 +
+ meta/lib/oe/cve_check.py                      |   7 +-
+ meta/lib/oeqa/selftest/cases/cve_check.py     |   8 +
+ meta/lib/oeqa/selftest/cases/wic.py           |  18 +-
+ .../{openssl_1.1.1j.bb => openssl_1.1.1k.bb}  |   2 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.32.bb         |   2 +-
+ .../recipes-core/meta/cve-update-db-native.bb |   7 +-
+ .../binutils/binutils-2.35.1.inc              |   1 +
+ ..._counts_lock-is-initialized-before-u.patch |  41 +++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ .../git/git/CVE-2021-21300.patch              | 304 ++++++++++++++++++
+ .../libtool/libtool-2.4.6.inc                 |   1 +
+ ...-sure-autoheader-run-before-autoconf.patch |  35 ++
+ .../run-postinsts/run-postinsts/run-postinsts |  10 +-
+ meta/recipes-extended/sudo/sudo.inc           |   2 +
+ .../linux-firmware/linux-firmware_20210208.bb |  41 ++-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ scripts/contrib/documentation-audit.sh        |   2 +-
+ scripts/verify-bashisms                       |   2 +-
+ 26 files changed, 490 insertions(+), 50 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1j.bb => openssl_1.1.1k.bb} (98%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gold-ensure-file_counts_lock-is-initialized-before-u.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2021-21300.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch
+
+-- 
+2.30.2
+
