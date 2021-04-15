@@ -1,72 +1,97 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.2192.1618530198901886864
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.2])
+ by mx.groups.io with SMTP id smtpd.web12.2144.1618530625030432703
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Apr 2021 16:43:19 -0700
+ Thu, 15 Apr 2021 16:50:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id er3so4113513qvb.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 16:43:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:organization:content-transfer-encoding;
-        bh=+0qgm/Dy/Bkd1O46C2TEf8D+Bk276fbkKeuuTIYUaJA=;
-        b=IsAURQrqL1ODcLx2z1pzlpJKg/rFjF9XrmkDm7BJD5VbH7LlYPK/N4OcB0YR2qeKcB
-         fIEHEDNcU8grL5pXtBz4GjvySqGbmIxy7KpR5tSMM8RcUhvXyR5xiRYMTY4SuSFGB5g8
-         AcmNWFmgM/XzNb6lrobRXEv9Gl2Bov9bbNoY+UUf73RHIpWeoIa1SilfpSftwniEQwyD
-         BPdPPO7ykG/2GBfQ0s8NMt/YvqTOSEfmB1rSAlGHrjKFE1YYJR3Snl4tl5fSo64t3Uw9
-         TjUMPAF9anUW7rkATHrfpRiJfSZSXwc+7R/QzGeqi53uBf8RZVnAIiQKplFvN1RKadYo
-         nhWw==
-X-Gm-Message-State: AOAM530z+ejqGxwbXUZqu73MXZv8wY2aBCXliC0Q6UyhSa9GrYYJPH9V
-	shTVbvDS2MAYHTTB6DJFQmME7mi7f/yKssYE
-X-Google-Smtp-Source: ABdhPJySVb3Zqr0LjF8JmKiVFH65SLi2GXTHyNECf/BqARsZZhnfRSEaLXDHt/mqYrclBAMXR1XrdA==
-X-Received: by 2002:a0c:d605:: with SMTP id c5mr5567940qvj.25.1618530197851;
-        Thu, 15 Apr 2021 16:43:17 -0700 (PDT)
-Return-Path: <otavio.salvador@gmail.com>
-Received: from localhost (200-180-244-11.user3p.brasiltelecom.net.br. [200.180.244.11])
-        by smtp.gmail.com with ESMTPSA id h7sm1698432qka.39.2021.04.15.16.43.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 16:43:17 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] gstreamer1.0-plugins-base: Use bb.utils.filter to reduce code
-Date: Thu, 15 Apr 2021 20:43:04 -0300
-Message-Id: <20210415234304.2035707-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210415234304.2035707-1-otavio@ossystems.com.br>
-References: <20210415234304.2035707-1-otavio@ossystems.com.br>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=dS2ivG+j;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1618530623; i=@fujitsu.com;
+	bh=3jHTfDi368BpgGmZXEfLnY47XkH8ZSg/FLqBEzENuyE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=dS2ivG+jAHgFM6HQrZlg64LK/QVXJGIrsUEncn0SGYOv1mh3No9/HAJKLTPpG6Hc6
+	 YGtjVDB1ebVo/ubSTVdBesELaKdzfOMZUVF6bKA1+Zg/yt1U5SPJwzdaaVqoJ+ORtr
+	 /NxR1WyE8F5kfjReUhvbVIJMYLAbzzZBqG514aFOmutIARIczDfd46POYTqSz6iuzF
+	 qOScfpht5gPMDlQOwMZ+aD864fYyA/yhRYVPKOMQZIrEYxfVi+Y6U1LODTMWELaOe9
+	 za7kv+UeEyITEKMr+5A24wBGVIN0/SvlH4gy0Pg+at0lBo/rJzPlPpTtFOjfRgUnW6
+	 QAUoYK1NxH8Rg==
+Received: from [100.113.0.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-central-1.aws.symcld.net id 30/CE-55623-E31D8706; Thu, 15 Apr 2021 23:50:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRWlGSWpSXmKPExsViZ8MRomt3sSL
+  BYPNFWYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPL4+KCVTwVH75NZGlg/M7VxcjFISQwi0li
+  8ppHTBDOcUaJDcu/sHQxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfPewgtrCAjcT/7
+  08YQWwWAVWJExM2sILYvAJOEt1NB5lBbAkBBYkpD98zQ8QFJU7OfMICMUdC4uCLF1A1ihKzLz
+  ezQNiVEp3rFzBOYOSdhaRlFpKWBYxMqxgtkooy0zNKchMzc3QNDQx0DQ2NdQ11TQ31Eqt0E/V
+  SS3WTU/NKihKBknqJ5cV6xZW5yTkpenmpJZsYgcGVUshovIPx4OsPeocYJTmYlER5D60oSxDi
+  S8pPqcxILM6ILyrNSS0+xCjDwaEkwetyviJBSLAoNT21Ii0zBxjoMGkJDh4lEd5PIGne4oLE3
+  OLMdIjUKUZdjiurlixiFmLJy89LlRLn3QJSJABSlFGaBzcCFnWXGGWlhHkZGRgYhHgKUotyM0
+  tQ5V8xinMwKgnzloJM4cnMK4Hb9AroCCagIypWlYIcUZKIkJJqYIqRPlVgGzH/mKjlrMWB9bl
+  ykz4/af/UqejkmpB5gz1N6tpMnp22bCrX3fSDxacnPpFSf9WTKl/b+NduYnj119M/LG8dPuhz
+  LHR+3t/1X104n8drbZk42VC/1f9Uw6TgA5+tbs81W/4vRH6PxfvCWRMlgqTFk5tjHQ2EF2ly2
+  L75WbcpO+nqYc87tqpJlzKMfgj/EXG3UNvIP+Hv1S37FPj2b6xXahA6v7vcz67df9c721NefK
+  LTHkrf81hjo1efq3al+Un4S7ON/WkiwrKcU4KZcy7IsZWvF76ycglT6fIzq0873ljpdt9VeG9
+  KeVvtM8UpMYXC+1WS1/1qjtJetcI64Mi/fMn1zAfurj5hoMRSnJFoqMVcVJwIAC+eV+k1AwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-18.tower-232.messagelabs.com!1618530621!1574957!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 14276 invoked from network); 15 Apr 2021 23:50:22 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-18.tower-232.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 23:50:22 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13FNoFWh032024
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 00:50:21 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 16 Apr 2021 00:50:14 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] mesa: upgrade 21.0.1 -> 21.0.2
+Date: Fri, 16 Apr 2021 07:50:02 +0800
+Message-ID: <1618530602-26607-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
+ .../mesa/{mesa-gl_21.0.1.bb => mesa-gl_21.0.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_21.0.1.bb => mesa-gl_21.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb} (100%)
 
-Changes in v2:
-- drop _append as we are not appending the variable
-
- .../gstreamer/gstreamer1.0-plugins-base_1.18.4.bb          | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-index 4621d9f198..beddfb0386 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-@@ -67,12 +67,7 @@ PACKAGECONFIG[wayland]      = ",,wayland-native wayland wayland-protocols libdrm
- PACKAGECONFIG[dispmanx]     = ",,virtual/libomxil"
- PACKAGECONFIG[viv-fb]       = ",,virtual/libgles2 virtual/libg2d"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index caf3c62ad8..5705ae0f08 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+            "
  
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', ' x11', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gbm', ' gbm', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayland', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'egl', ' egl', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'viv-fb', ' viv-fb', '', d)}"
-+OPENGL_WINSYS = "${@bb.utils.filter('PACKAGECONFIG', 'x11 gbm wayland dispmanx egl viv-fb', d)}"
+-SRC_URI[sha256sum] = "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
++SRC_URI[sha256sum] = "46c1dc5bb54a372dee43ec3c067229c299187d5bdadf1402756bbf66a6df5b88"
  
- EXTRA_OEMESON += " \
-     -Ddoc=disabled \
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_21.0.1.bb b/meta/recipes-graphics/mesa/mesa_21.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_21.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_21.0.2.bb
 -- 
-2.31.0
+2.25.1
 
