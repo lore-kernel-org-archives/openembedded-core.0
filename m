@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.1306.1618510599802092869
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web09.1333.1618510600781612472
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2DA8738C13D8
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 6F60F38C0921
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cython: upgrading to 0.29.23 SUCCEEDED
-Message-ID: <MADEUP.16761AD0FFAC95F6.12681@lists.openembedded.org>
-X-Groupsio-MsgNum: 150525
-Content-Type: multipart/mixed; boundary="===============5045690437274203608=="
+Subject: [AUH] u-boot-tools: upgrading to 2021.04 FAILED
+Message-ID: <MADEUP.16761AD10429F4DA.4047@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============0736526553784449336=="
 
---===============5045690437274203608==
+--===============0736526553784449336==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,66 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cython* to *0.29.23* has Succeeded.
+that the automatic attempt to upgrade the recipe *u-boot-tools* to *2021.04* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-cython-upgrade-0.29.22-0.29.23.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe u-boot-tools failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:aa0116db4c95157e11a4e2ad0b6dd564b9f35ca0"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 0 seconds
+INFO: Extracting upgraded version source...
+WARNING: Command 'git rebase b46dd116ce03e235f2a7d4843c6278e1da44b5e1' failed:
+Rebasing (1/3)
+error: could not apply 0539677a76... image: Adjust the workings of fit_check_format()
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply 0539677a76... image: Adjust the workings of fit_check_format()
+Auto-merging include/image.h
+CONFLICT (content): Merge conflict in include/image.h
+Auto-merging drivers/net/fsl-mc/mc.c
+Auto-merging drivers/fpga/socfpga_arria10.c
+Auto-merging common/splash_source.c
+Auto-merging common/image-fit.c
+CONFLICT (content): Merge conflict in common/image-fit.c
+Auto-merging common/image-fdt.c
+Auto-merging cmd/disk.c
+Auto-merging cmd/bootm.c
+Auto-merging arch/arm/cpu/armv8/sec_firmware.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/u-boot-tools
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/u-boot-tools/u-boot-tools_2021.04.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,80 +90,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5045690437274203608==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.9/site-packages/Cython-0.29.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Cython-0.29.23-py3.9.egg-info
-
---===============5045690437274203608==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.22.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.23.tar.gz"
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 8539632 to 8540500 (+0%)
-packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8488652 to 8489141 (+0%)
-packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.22 [default] to 0.29.23 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.22" to "0.29.23"
-packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 8547483 to 8548382 (+0%)
-Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.9/site-packages/Cython-0.29.22-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Cython-0.29.23-py3.9.egg-info
-
---===============5045690437274203608==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-cython-upgrade-0.29.22-0.29.23.patch"
-
-From c1b6d5f6d784425e99c0814bc37ca62305127a78 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 06:00:03 +0000
-Subject: [PATCH] python3-cython: upgrade 0.29.22 -> 0.29.23
-
----
- meta/recipes-devtools/python/python-cython.inc                  | 2 +-
- .../{python3-cython_0.29.22.bb => python3-cython_0.29.23.bb}    | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.22.bb => python3-cython_0.29.23.bb} (100%)
-
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 0e6bac06a7..04fd2ec2b7 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[sha256sum] = "df6b83c7a6d1d967ea89a2903e4a931377634a297459652e4551734c48195406"
-+SRC_URI[sha256sum] = "6a0d31452f0245daacb14c979c77e093eb1a546c760816b5eed0047686baad8e"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
- 
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.22.bb b/meta/recipes-devtools/python/python3-cython_0.29.23.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-cython_0.29.22.bb
-rename to meta/recipes-devtools/python/python3-cython_0.29.23.bb
--- 
-2.27.0
-
-
---===============5045690437274203608==--
+--===============0736526553784449336==--
