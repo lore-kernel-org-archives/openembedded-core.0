@@ -1,21 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.1328.1618510599548439712
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web08.1306.1618510599802092869
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9141238C123F
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8F97E38C1237
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt: upgrading to 4.4.19 FAILED
-Message-ID: <MADEUP.16761AD0BD9889EF.6349@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============4307272564401410931=="
+Subject: [AUH] libxcrypt-compat: upgrading to 4.4.19 FAILED
+Message-ID: <MADEUP.16761AD0BD907094.25572@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5478865587657107313=="
 
---===============4307272564401410931==
+--===============5478865587657107313==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,11 +23,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt* to *4.4.19* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libxcrypt-compat* to *4.4.19* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libxcrypt failed.
+Running 'devtool upgrade' for recipe libxcrypt-compat failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -60,18 +60,18 @@ NOTE: Writing buildhistory took: 1 seconds
 INFO: Extracting upgraded version source...
 WARNING: Command 'git rebase c79119414d7e30017d7b49566e7e4ea35112bdc8' failed:
 Rebasing (1/1)
-error: could not apply c917022... configure.ac: do not use compute-symver-floor
+error: could not apply 3c7eefd... configure.ac: do not use compute-symver-floor
 Resolve all conflicts manually, mark them as resolved with
 "git add/rm <conflicted_files>", then run "git rebase --continue".
 You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply c917022... configure.ac: do not use compute-symver-floor
+Could not apply 3c7eefd... configure.ac: do not use compute-symver-floor
 Auto-merging configure.ac
 CONFLICT (content): Merge conflict in configure.ac
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libxcrypt
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libxcrypt/libxcrypt_4.4.19.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libxcrypt-compat
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libxcrypt-compat/libxcrypt-compat_4.4.19.bb
 INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
 
 
@@ -82,4 +82,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4307272564401410931==--
+--===============5478865587657107313==--
