@@ -1,21 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.1310.1618510600358578106
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web10.1363.1618510600238628654
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0FCAA38C0912
+	by mail.yoctoproject.org (Postfix) with ESMTP id 4D88B38C13FB
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm: upgrading to 12.0.0 FAILED
-Message-ID: <MADEUP.16761AD0FD1DC667.12681@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3493119068432682894=="
+Subject: [AUH] python3-setuptools: upgrading to 56.0.0 SUCCEEDED
+Message-ID: <MADEUP.16761AD0FE23B4B7.25572@lists.openembedded.org>
+X-Groupsio-MsgNum: 150523
+Content-Type: multipart/mixed; boundary="===============2386451959788320580=="
 
---===============3493119068432682894==
+--===============2386451959788320580==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,53 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *llvm* to *12.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *56.0.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-setuptools-upgrade-54.1.1-56.0.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade llvm -V 12.0.0 -S d28af7c654d8db0b68c175db5ce212d74fb5e9bc
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-INFO: Extracting current version source...
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.50.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:0db26c56b65fce507f541b5ae5267204f0508fbe"
-workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
-    ret = main()
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 553, in upgrade
-    old_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 468, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/llvm/LICENSE.TXT'
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -77,4 +44,125 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============3493119068432682894==--
+--===============2386451959788320580==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py was removed
+  /usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py was removed
+  /usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc was removed
+
+--===============2386451959788320580==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-54.1.1-56.0.0.patch"
+
+From 749b84c9de62ee7fb9b32ecd5cb4060b0c56c9d1 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Thu, 15 Apr 2021 06:36:53 +0000
+Subject: [PATCH] python3-setuptools: upgrade 54.1.1 -> 56.0.0
+
+---
+ ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
+ ...hon3-setuptools_54.1.1.bb => python3-setuptools_56.0.0.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_54.1.1.bb => python3-setuptools_56.0.0.bb} (94%)
+
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 680edbe704..5dd55f19a2 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 6380cc63f79abe8b8404c9be5ed5f213a70c8c6a Mon Sep 17 00:00:00 2001
++From 552758405739be9ae220bbd158c2a1b7176fe292 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index eeb21b5..eca1edd 100644
++index 0917804..eed4a5a 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+ @@ -636,6 +636,11 @@ class easy_install(Command):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_54.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_56.0.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_54.1.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_56.0.0.bb
+index 74264a3814..07a82ad21b 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_54.1.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_56.0.0.bb
+@@ -10,7 +10,7 @@ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ 
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ 
+-SRC_URI[sha256sum] = "1ce82798848a978696465866bb3aaab356003c42d6143e1111fcf069ac838274"
++SRC_URI[sha256sum] = "08a1c0f99455307c48690f00d5c2ac2c1ccfab04df00454fef854ec145b81302"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+-- 
+2.27.0
+
+
+--===============2386451959788320580==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-54.1.1.tar.gz file://0001-change-shebang-to-python3.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-56.0.0.tar.gz file://0001-change-shebang-to-python3.patch"
+packages/core2-32-poky-linux/python3-setuptools: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 859239 to 859576 (+0%)
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "54.1.1" to "56.0.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 3028858 to 3029204 (+0%)
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 54.1.1 [default] to 56.0.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info -> /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py"
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py was removed
+  /usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.9/site-packages/setuptools-54.1.1-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/setuptools-56.0.0-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/setuptools/command/bdist_wininst.py was removed
+  /usr/lib/python3.9/site-packages/setuptools/command/__pycache__/bdist_wininst.cpython-39.pyc was removed
+
+--===============2386451959788320580==--
