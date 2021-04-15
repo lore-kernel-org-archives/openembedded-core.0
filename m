@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.1290.1618510599610507745
+ by mx.groups.io with SMTP id smtpd.web08.1305.1618510599615473954
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 897CC38C11E1
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8B1AF38C11E5
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] expat: upgrading to 2.3.0 FAILED
-Message-ID: <MADEUP.16761AD0B0E4CDD9.12681@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0517244559419560213=="
+Subject: [AUH] glib-2.0: upgrading to 2.68.1 FAILED
+Message-ID: <MADEUP.16761AD0B229CCB6.6349@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3725444126831697667=="
 
---===============0517244559419560213==
+--===============3725444126831697667==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *expat* to *2.3.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *glib-2.0* to *2.68.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe expat failed.
+Running 'devtool upgrade' for recipe glib-2.0 failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1438 entries from dependency cache.
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -53,14 +54,14 @@ meta-yocto-bsp       = "tmp-auh-upgrades:b9d6cdf5304265533ba719ac5963a000167cdae
 workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 22 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
+NOTE: Writing buildhistory took: 1 seconds
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://downloads.sourceforge.net/expat/expat-2.3.0.tar.bz2...
+INFO: Fetching https://ftp.gnome.org/pub/GNOME/sources/glib/2.68/glib-2.68.1.tar.xz...
 Loading cache...done.
 Loaded 1438 entries from dependency cache.
 Parsing recipes...done.
@@ -83,32 +84,41 @@ meta-yocto-bsp       = "tmp-auh-upgrades:b9d6cdf5304265533ba719ac5963a000167cdae
 workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
+Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 18 (0% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  21% |#######                             | ETA:  0:00:00
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
-WARNING: Command 'git rebase eb10b0fc1fb52a6177f044e9e6e06e7de889cf4b' failed:
-Rebasing (1/2)
-Rebasing (2/2)
-error: could not apply 0840db7... Add output of tests result
+WARNING: Command 'git rebase 5b74654b254ca4e731d8edf1fd8262ae658e1b25' failed:
+Rebasing (1/41)
+Rebasing (2/41)
+Rebasing (3/41)
+Rebasing (4/41)
+Rebasing (5/41)
+Rebasing (6/41)
+Rebasing (7/41)
+error: could not apply a224ab2... Set host_machine correctly when building with mingw32
 Resolve all conflicts manually, mark them as resolved with
 "git add/rm <conflicted_files>", then run "git rebase --continue".
 You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 0840db7... Add output of tests result
-Auto-merging tests/runtests.c
-Auto-merging tests/minicheck.c
-CONFLICT (content): Merge conflict in tests/minicheck.c
+Could not apply a224ab2... Set host_machine correctly when building with mingw32
+Auto-merging meson.build
+Auto-merging glib/tests/meson.build
+Auto-merging gio/tests/meson.build
+CONFLICT (content): Merge conflict in gio/tests/meson.build
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/expat
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/expat/expat_2.3.0.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/glib-2.0
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/glib-2.0/glib-2.0_2.68.1.bb
 
 
 
@@ -119,4 +129,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0517244559419560213==--
+--===============3725444126831697667==--
