@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.1351.1618510601697272735
+ by mx.groups.io with SMTP id smtpd.web12.1290.1618510599610507745
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Apr 2021 11:16:43 -0700
+ Thu, 15 Apr 2021 11:16:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 275D138C13DD
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0B48438C13B7
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:41 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Tim Orling <timothy.t.orling@linux.intel.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.40.0 SUCCEEDED
-Message-ID: <MADEUP.16761AD182F2AEE5.6349@lists.openembedded.org>
-X-Groupsio-MsgNum: 150565
-Content-Type: multipart/mixed; boundary="===============0155466860640243494=="
+Subject: [AUH] x264: upgrading to 55d517bc4569272a2c9a367a4106c234aba2ffbc SUCCEEDED
+Message-ID: <MADEUP.16761AD174A34D2D.4047@lists.openembedded.org>
+X-Groupsio-MsgNum: 150566
+Content-Type: multipart/mixed; boundary="===============8727196127402931426=="
 
---===============0155466860640243494==
+--===============8727196127402931426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.40.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *x264* to *55d517bc4569272a2c9a367a4106c234aba2ffbc* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.38.0-2.40.0.patch
+    - apply the patch: git am 0001-x264-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,229 +44,189 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0155466860640243494==
+--===============8727196127402931426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: RRECOMMENDS: added "libxi-dbg"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 675556 to 755068 (+12%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: RDEPENDS: added "libxi (['>= 1.7.10'])"
-Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
-  /usr/include/at-spi-2.0/atspi/atspi-device.h was added
-  /usr/include/at-spi-2.0/atspi/atspi-device-legacy.h was added
-  /usr/include/at-spi-2.0/atspi/atspi-device-x11.h was added
+packages/core2-32-poky-linux/x264/x264-bin: RPROVIDES: removed "x264-bin (['= r3039+git0+544c61f082'])", added "x264-bin (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-bin: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-dbg: RPROVIDES: removed "x264-dbg (['= r3039+git0+544c61f082'])", added "x264-dbg (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-dbg: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-dev: RPROVIDES: removed "x264-dev (['= r3039+git0+544c61f082'])", added "x264-dev (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-dev: RDEPENDS: removed "x264 (['= r3039+git0+544c61f082-r0'])", added "x264 (['= r3039+git0+55d517bc45-r0'])"
+packages/core2-32-poky-linux/x264/x264-dev: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-doc: RPROVIDES: removed "x264-doc (['= r3039+git0+544c61f082'])", added "x264-doc (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-doc: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-locale: RPROVIDES: removed "x264-locale (['= r3039+git0+544c61f082'])", added "x264-locale (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-locale: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-src: RPROVIDES: removed "x264-src (['= r3039+git0+544c61f082'])", added "x264-src (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-src: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-staticdev: RPROVIDES: removed "x264-staticdev (['= r3039+git0+544c61f082'])", added "x264-staticdev (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-staticdev: RDEPENDS: removed "x264-dev (['= r3039+git0+544c61f082-r0'])", added "x264-dev (['= r3039+git0+55d517bc45-r0'])"
+packages/core2-32-poky-linux/x264/x264-staticdev: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264: RPROVIDES: removed "x264 (['= r3039+git0+544c61f082'])", added "x264 (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
 
---===============0155466860640243494==
+--===============8727196127402931426==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.38.0-2.40.0.patch"
+ filename="0001-x264-upgrade-to-latest-revision.patch"
 
-From 890e11f3debe2f246a20bc709f98576f702d269a Mon Sep 17 00:00:00 2001
+From 234e0dfae56e0ef721fc44882f6692cc9cbf356b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 16:18:59 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.38.0 -> 2.40.0
+Date: Thu, 15 Apr 2021 15:52:51 +0000
+Subject: [PATCH] x264: upgrade to latest revision
 
 ---
- .../atk/{at-spi2-core_2.38.0.bb => at-spi2-core_2.40.0.bb}      | 2 +-
+ meta/recipes-multimedia/x264/x264_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.38.0.bb => at-spi2-core_2.40.0.bb} (94%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.38.0.bb b/meta/recipes-support/atk/at-spi2-core_2.40.0.bb
-similarity index 94%
-rename from meta/recipes-support/atk/at-spi2-core_2.38.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.40.0.bb
-index a74e4cd5cf..e80fa260f0 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.40.0.bb
-@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index f95fb0c41e..81354a8fd3 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+-SRCREV = "544c61f082194728d0391fb280a6e138ba320a96"
++SRCREV = "55d517bc4569272a2c9a367a4106c234aba2ffbc"
  
--SRC_URI[sha256sum] = "84e36c3fe66862133f5fe229772b76aa2526e10de5014a3778f2fa46ce550da5"
-+SRC_URI[sha256sum] = "4196a7d30a0051e52a67b8ce4283fe79ae5e4e14a725719934565adf1d333429"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
+ PV = "r3039+git${SRCPV}"
  
 -- 
 2.27.0
 
 
---===============0155466860640243494==
+--===============8727196127402931426==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1438 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 814 .bb files complete (813 cached, 1 parsed). 1438 targets, 31 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.50.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.3"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:277e423913f5bacc6f345353912473aa2c00f425"
+workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 8 Network 0 Missed 7 Current 124 (53% match, 94% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 506 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_fetch)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_fetch: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_fetch: Succeeded
+NOTE: Running task 547 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_unpack)
+NOTE: Running task 548 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_unpack: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_unpack: Succeeded
+NOTE: Running task 549 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_patch)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_patch: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_patch: Succeeded
+NOTE: Running task 550 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 551 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_populate_lic)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_populate_lic: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 552 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_configure)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_populate_lic: Succeeded
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_configure: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_configure: Succeeded
+NOTE: Running task 553 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_compile)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_compile: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_compile: Succeeded
+NOTE: Running task 554 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_install)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_install: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_install: Succeeded
+NOTE: Running task 555 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_package)
+NOTE: Running task 556 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_populate_sysroot)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_populate_sysroot: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package: Succeeded
+NOTE: Running task 557 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_packagedata)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_packagedata: Started
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-src went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-dbg went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-staticdev went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-dev went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-doc went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-locale went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264-bin went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+ERROR: x264-r3039+gitAUTOINC+55d517bc45-r0 do_packagedata: QA Issue: Package version for package x264 went backwards which would break package feeds (from 0:r3039+git0+544c61f082-r0 to 0:r3039+git0+55d517bc45-r0) [version-going-backwards]
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_packagedata: Succeeded
+NOTE: Running task 558 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_package_write_rpm)
+NOTE: Running task 559 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_package_qa)
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package_write_rpm: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package_qa: Started
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package_qa: Succeeded
+NOTE: recipe x264-r3039+gitAUTOINC+55d517bc45-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 560 of 560 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/x264/x264_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 560 tasks of which 545 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There were 8 ERROR messages shown, returning a non-zero exit code.
+
+--===============8727196127402931426==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 675556 to 755068 (+12%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: RRECOMMENDS: added "libxi-dbg"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 698887 to 748994 (+7%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGSIZE changed from 669 to 683 (+2%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 919002 to 969714 (+6%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: RDEPENDS: added "libxi (['>= 1.7.10'])"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 409206 to 428507 (+5%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.38.0" to "2.40.0"
-packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.38.0 [default] to 2.40.0 [default]
-packages/core2-32-poky-linux/at-spi2-core: SRC_URI changed from "https://ftp.gnome.org/pub/GNOME/sources/at-spi2-core/2.38/at-spi2-core-2.38.0.tar.xz" to "https://ftp.gnome.org/pub/GNOME/sources/at-spi2-core/2.40/at-spi2-core-2.40.0.tar.xz"
-packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.38.0" to "2.40.0"
-Changes to packages/core2-32-poky-linux/at-spi2-core (sysroot):
-  /usr/include/at-spi-2.0/atspi/atspi-device.h was added
-  /usr/include/at-spi-2.0/atspi/atspi-device-legacy.h was added
-  /usr/include/at-spi-2.0/atspi/atspi-device-x11.h was added
+packages/core2-32-poky-linux/x264: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264: PKGV changed from r3039+gitAUTOINC+544c61f082 [default] to r3039+gitAUTOINC+55d517bc45 [default]
+packages/core2-32-poky-linux/x264/x264-bin: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-bin: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-bin: RPROVIDES: removed "x264-bin (['= r3039+git0+544c61f082'])", added "x264-bin (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-dbg: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-dbg: PKGSIZE changed from 12095304 to 12094744 (-0%)
+packages/core2-32-poky-linux/x264/x264-dbg: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-dbg: RPROVIDES: removed "x264-dbg (['= r3039+git0+544c61f082'])", added "x264-dbg (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-dev: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-dev: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-dev: RPROVIDES: removed "x264-dev (['= r3039+git0+544c61f082'])", added "x264-dev (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-dev: RDEPENDS: removed "x264 (['= r3039+git0+544c61f082-r0'])", added "x264 (['= r3039+git0+55d517bc45-r0'])"
+packages/core2-32-poky-linux/x264/x264-doc: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-doc: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-doc: RPROVIDES: removed "x264-doc (['= r3039+git0+544c61f082'])", added "x264-doc (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-locale: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-locale: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-locale: RPROVIDES: removed "x264-locale (['= r3039+git0+544c61f082'])", added "x264-locale (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-src: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-src: PKGSIZE changed from 1982078 to 1982264 (+0%)
+packages/core2-32-poky-linux/x264/x264-src: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-src: RPROVIDES: removed "x264-src (['= r3039+git0+544c61f082'])", added "x264-src (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-staticdev: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264-staticdev: PKGSIZE changed from 5850304 to 5849952 (-0%)
+packages/core2-32-poky-linux/x264/x264-staticdev: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264-staticdev: RPROVIDES: removed "x264-staticdev (['= r3039+git0+544c61f082'])", added "x264-staticdev (['= r3039+git0+55d517bc45'])"
+packages/core2-32-poky-linux/x264/x264-staticdev: RDEPENDS: removed "x264-dev (['= r3039+git0+544c61f082-r0'])", added "x264-dev (['= r3039+git0+55d517bc45-r0'])"
+packages/core2-32-poky-linux/x264/x264: PV changed from "r3039+gitAUTOINC+544c61f082" to "r3039+gitAUTOINC+55d517bc45"
+packages/core2-32-poky-linux/x264/x264: PKGV changed from r3039+git0+544c61f082 to r3039+git0+55d517bc45
+packages/core2-32-poky-linux/x264/x264: RPROVIDES: removed "x264 (['= r3039+git0+544c61f082'])", added "x264 (['= r3039+git0+55d517bc45'])"
 
---===============0155466860640243494==--
+--===============8727196127402931426==--
