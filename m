@@ -1,49 +1,49 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.4619.1618479278151512413
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.4643.1618479281199687687
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Apr 2021 02:34:38 -0700
+ Thu, 15 Apr 2021 02:34:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AH+Fas9P;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id j7so11739072plx.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 02:34:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ehq/zVAC;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id 20so7780438pll.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 02:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=B5Mi4CrmlMOARqdN+Fz7R7GANRwB2Ep5mwIkCRVvpIM=;
-        b=AH+Fas9PJlaXB0XuhrS0cN9cjPRTxPGmzmUtayMzotycaZiXaDQ/eqsM08l788B7Od
-         dpVz7wng0XQpuyluFP9vDIL+GrKghINeegl+/9xgxVXQJBhEQtViJ2YTv+p64976XnR+
-         Yzubv+y0MJgZ03ZhE7A4BXzy1PcVXVQYMlc2CAH3CRg3M71L/zT4XE6Loje1BF5O2e3P
-         lu8oaN4R92+3YjhGEYkyCzq+hdAtGPYLlWdx1eDz0HkhgBc2ysiFFUY0Hw7BpT8yJohE
-         0T9PkN8m6HeZwp1YsVl9bU7d2pd9MQzsW623K/H6OeVMEkIgyR+nePwhcsfmlpn4LgHk
-         fY/g==
+        bh=WfkOVL8ERi/22/e+2ST0ebs2FyxgV7SfiqIycvpDBkk=;
+        b=ehq/zVACKQhnIzIjEjb8vTkN2PkJjb8/gcelHQNZUQv31uq+8wr3V541Mr+0PpnHcY
+         kakJ/Q3HnJqQVZZMFd7EPKnCsW/dGBWer6xqhd6ChZdzAd2QuvtQu/nX0zq8ge20zRSF
+         yglvCTicS/dNeIILRZVfAulv/K5440TduBONz0hrE0Jj4H898FSKI8jGfN7X8t7ZnrdD
+         LBlkdwiP9YHMmuZ9sbwOzk8E6O84tgAARI/b2CYe9QO4xfR6di1di4JjsJK26y03qWxR
+         8AQvlsAEoE1/qKGjgKi7YMgDRcid4ISmq9oorvtDWjnP11QGq+/HZqZwAoyU9i5+QctY
+         j9aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=B5Mi4CrmlMOARqdN+Fz7R7GANRwB2Ep5mwIkCRVvpIM=;
-        b=mAIT5UD18MwKoyGuGkUTN10qM+AMiOYidkkVzeNktaayAo0fasKfZjQNCjDosYVa5E
-         zWM7eZOvjY8aF6OP/CC24mmbBHvnl//N03WRf2ukQwmhowkNScJV8w+EhGgK2hB1ke3y
-         Mdg88JGvRgM6d6cLnCYZBvYUo9zqzI2CL/TSZnDcaI6+JTouq7w1sL4WkHbMZwxt5pAR
-         Kb20yWFvNHNRjBjau187y7e9q48gp/jJKBETj53V9v0PN2au2V5XHdHUFW7LId2ENWx4
-         KTGwbPIdPRgwCtclhq27sUwsVfMByzVR/gYKOEXdB7aysUAYd6lGiILS3f7v2FhhvQoU
-         R2/Q==
-X-Gm-Message-State: AOAM533xp5+tp0y4A4WDjYUKoYC9LI8DXoFOZYdTLRR2Eqke6fYhwf8v
-	8MjNZOHYzkXut1saFBS92F5UiXTDZFRXxmcn
-X-Google-Smtp-Source: ABdhPJyxsvkse30bOw216xZIaXfkjIg3zoD9rdvdIDm6/6bI+pVhwoCKVHn9SOlod3efEZ+217k4pA==
-X-Received: by 2002:a17:90b:4a04:: with SMTP id kk4mr3067402pjb.68.1618479277432;
-        Thu, 15 Apr 2021 02:34:37 -0700 (PDT)
+        bh=WfkOVL8ERi/22/e+2ST0ebs2FyxgV7SfiqIycvpDBkk=;
+        b=QQqz1kymj6hPZKib6+AkBJExjeyv0koxSm1rOLYmoC5i9IPBpQ1AeTGpVq2BRVmHQy
+         gtnB5EgmfGt8Fj6FMMyF8eigxX29bHkh0Uiz6srh5rUAnoAg9C+DwOGqNhQgI9isytJc
+         4rwFuy6S8mk8eDQZQSWRk3r5kP8q3HQnCBSNUAKGwRq3/WO046cEBrfTa8juqVk1EfN5
+         WrEXsNuZN6ZcDX17YNmSAJlBE6/08wj/3+gbiG4VvOyiPxe2lv0VP35/tfY8fYEG/HWb
+         s5j3v7Nu+DysgBeASRnxYmF2Uc8f1/cIfuuiuPE70ZzZ36EohDg4n1Pduf9bHt8YkU/r
+         zvZA==
+X-Gm-Message-State: AOAM53119/W5lbwEH23smlSUE7pm3FkWSK4TDrhLeqgEPfv4tJ2aKMO3
+	uPqLSlKfjR8jBvNIGGQyGyxIYeLDIvIxxWaF
+X-Google-Smtp-Source: ABdhPJwhr0hY1i7jR+/F3lUqG81jFRfHLnWnd1xruycBZLwt4YFsw1MqtCEKkVnYTV9MkaZkaMYwLw==
+X-Received: by 2002:a17:903:189:b029:e5:d7c3:a264 with SMTP id z9-20020a1709030189b02900e5d7c3a264mr2802857plg.6.1618479280495;
+        Thu, 15 Apr 2021 02:34:40 -0700 (PDT)
 Return-Path: <vinay.m.engg@gmail.com>
 Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id ms9sm1994851pjb.32.2021.04.15.02.34.36
+        by smtp.gmail.com with ESMTPSA id ms9sm1994851pjb.32.2021.04.15.02.34.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 02:34:37 -0700 (PDT)
+        Thu, 15 Apr 2021 02:34:40 -0700 (PDT)
 From: "Vinay Kumar" <vinay.m.engg@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vinay Kumar <vinay.m.engg@gmail.com>
-Subject: [PATCH 3/8] The rust.py is oe-selftest script to build remote-test-server, qemu-image and boot image in slirp mode. Once the image gets booted throgh "check" the testing starts by copying the "remote-test-server" in to the image.
-Date: Thu, 15 Apr 2021 02:32:22 -0700
-Message-Id: <20210415093227.175608-3-vinay.m.engg@gmail.com>
+Subject: [PATCH 4/8] In rust testing we have to boot image in slirp mode along with qemu monitor via telnet. Also, we are passing "-serial mon:stdio -serial" to fix runtime errors like, "failed with Connection reset by peer" observed during execution on image.
+Date: Thu, 15 Apr 2021 02:32:23 -0700
+Message-Id: <20210415093227.175608-4-vinay.m.engg@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210415093227.175608-1-vinay.m.engg@gmail.com>
 References: <CANNYZj85zmWjRe2KR53u_eF-DDf47eR9eOJnP1Ch0Df6COoAaA@mail.gmail.com>
@@ -51,59 +51,29 @@ References: <CANNYZj85zmWjRe2KR53u_eF-DDf47eR9eOJnP1Ch0Df6COoAaA@mail.gmail.com>
 
 Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py | 43 ++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+ meta/lib/oeqa/utils/qemurunner.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-new file mode 100644
-index 0000000000..62851256c2
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: MIT
-+import os
-+from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 77ec939ad7..dd70a1d77d 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -184,7 +184,14 @@ class QemuRunner:
+         # and analyze descendents in order to determine it.
+         if os.path.exists(self.qemu_pidfile):
+             os.remove(self.qemu_pidfile)
+-        self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile {1}"'.format(bootparams, self.qemu_pidfile)
 +
-+class RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
++        #In case of rust test we are explicitely passing slirp and qemu monitor via telnet.
++        if "slirp" in launch_cmd:
++            self.use_slirp = True
++            self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile {1} -monitor telnet:127.0.0.1:1234,server,nowait -serial mon:stdio -serial null"'.format(bootparams, self.qemu_pidfile)
++        else:
++            self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile {1}"'.format(bootparams, self.qemu_pidfile)
 +
-+	def run_check(self, *suites, ssh = None):
-+		# configure ssh target
-+		features = []
-+		if ssh is not None:
-+			features.append('TOOLCHAIN_TEST_TARGET = "ssh"')
-+			features.append('TOOLCHAIN_TEST_HOST = "{0}"'.format(ssh))
-+			features.append('TOOLCHAIN_TEST_HOST_USER = "root"')
-+			features.append('TOOLCHAIN_TEST_HOST_PORT = "22"')
-+		self.write_config("\n".join(features))
-+
-+		# Start testing once the remote-test-server is ready and image is booted.
-+		recipe = "rust-test"
-+		bitbake("{} -c check".format(recipe))
-+
-+	def run_check_emulated(self, *args, **kwargs):
-+		# build remote-test-server before image build
-+		recipe = "rust-test"	
-+		bitbake("{} -c compile".format(recipe))
-+
-+		# build core-image-minimal with required packages
-+		default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
-+		features = []
-+		features.append('IMAGE_FEATURES += "ssh-server-openssh"')
-+		features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
-+		self.write_config("\n".join(features))
-+		bitbake("core-image-minimal")
-+		# wrap the execution with a qemu instance
-+		with runqemu("core-image-minimal", runqemuparams = "nographic slirp") as qemu:
-+			return self.run_check(*args, ssh=qemu.ip, **kwargs)
-+
-+@OETestTag("toolchain-system")
-+class RustSelfTestSystemEmulated(RustSelfTestBase):
-+	def test_rust(self):
-+		self.run_check_emulated("rust")
+         if qemuparams:
+             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
+ 
 -- 
 2.17.1
 
