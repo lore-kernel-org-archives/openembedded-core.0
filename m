@@ -1,123 +1,93 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.5])
- by mx.groups.io with SMTP id smtpd.web11.3269.1618466885628582543
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web10.3279.1618466886020801099
  for <openembedded-core@lists.openembedded.org>;
  Wed, 14 Apr 2021 23:08:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=eQoy0cU9;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.5, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=B41kU9gz;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618466883; i=@fujitsu.com;
-	bh=GE019pva19SQlGSlyaSsdBaze58IawzBbx6yzdrMt3I=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=eQoy0cU9wGjAtVvLhzrmvUdWRRUxHfVYwCv3hLsVE2GgplEsNdYE5vwlNohZCREsR
-	 /z6uIi3l4Y2q/MOBYL8hseaWmpxbgVJndF1jL2XAxBkGFkEKxkhyYu9cBbgxdpfwyL
-	 EFAbWPFhOla2SKpPhXYyg3SfgP2NuR2b5ASeGbKdCUYisD/tEWqr8/tMQHV3CqH4ge
-	 VRa/GXhsoiH2kMojFZnGNAZA1Qgw9ILBr/7EGMnK7SOFGn19dpw1+m+XzKETrgsPPT
-	 FejxpTu9s8OVyVSk29EV9tJeyW8LG6Uf76atYnCOTpKJe2Ratf8He+5fF/ed4t6bOp
-	 NUCLV/GWxJ1Wg==
-Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id EE/D0-01834-348D7706; Thu, 15 Apr 2021 06:08:03 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRout8ozz
-  B4MwpKYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeN/22vmgrkiFZfevWFqYLwo2MXIxSEkMItJ
-  4s36PSwQznFGiamfrrJ3MXJysAmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3z1gJcICJhIH/
-  2xiBbFZBFQlnv2dwwRi8wo4Sfz9eIANxJYQUJCY8vA9M0RcUOLkzCcsEHMkJA6+eMEMUaMoMf
-  tyMwuEXSnRuX4B4wRG3llIWmYhaVnAyLSK0TypKDM9oyQ3MTNH19DAQNfQ0EjX0NJE18xML7F
-  KN1EvtVS3PLW4RNdQL7G8WK+4Mjc5J0UvL7VkEyMwuFIKDjntYHz/+oPeIUZJDiYlUd5DK8oS
-  hPiS8lMqMxKLM+KLSnNSiw8xynBwKEnw7rhWniAkWJSanlqRlpkDDHSYtAQHj5II77frQGne4
-  oLE3OLMdIjUKUZFKXFeGZCEAEgiozQPrg0WXZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCf
-  PWgEzhycwrgZv+CmgxE9DiilWlIItLEhFSUg1MQSZPf4Ys0FJU3z1nkVdNt+FVIwbv7VkLk9X
-  unNR3frB0SrOM1eJWhY/Vs/rFbjhVnjrx6MDZzRcerlLJL/jtNrP9xJ/HR/Jz+OWOF//Zr3rG
-  QCL2psPWo5IlOW15iw4yz57KXMSpu/wIs7+04InFnrJGfz5+elkZ6fOxRexAoayY7BoT3eB/N
-  ka9zW+tj7OXqPHpVrF+qbN8uC+C4TdrUPq+6doBZQq+mssrPxy7rGUeVpv/vPD2lMPXr4fb3T
-  S8/rdZTPth7kqmzhjNW/cKvqm26797xHz0/ezfmSIdLzhdlrY9uxDv8eihsnf87ukxeipdQlI
-  cAvWVjLd06ybbPVkS27CGw+BC48HH0xWUWIozEg21mIuKEwGSGMqEKQMAAA==
+	s=170520fj; t=1618466884; i=@fujitsu.com;
+	bh=iispOonD84J76crSpxMQCeeXLjECZwcYFl9rpBrpQVw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=B41kU9gzs23qbXz1iwJ9iI63lYH4LqWXwsg9ohWWYvY4oCVqJ/6eDbgOyummxAkr9
+	 c0F4on1BbGnf3j9zDPfWyQ/79r7d2SBUYnstdJzK9R0khHu/yKMPc256HoE1eJ2yaF
+	 D8mSJWvQhOAZ4ro+ZLsE9LnAERzpW+PXL6Nw2vnFz17BWhMXFnqsY6kOIg9yqCweMZ
+	 3SF9aLBaTGIL6jutpA1mCLlrO9Ev2ww2aJ/zBsPb2hVfVjEL0j4fu+EYieb0du/Fbg
+	 cGTNFJUiySD8/+ZcPeLqBRIW42x5yHkBSMoIFezmYy9nkL18k11TQw6ayU+7b7ypdh
+	 lOPlHFcpGR/2g==
+Received: from [100.113.6.49] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 63/46-14281-448D7706; Thu, 15 Apr 2021 06:08:04 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRout8ozz
+  B4PoBXYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPJ/HusBbM5Kr4tM29gPMjexcjFISQwi0li
+  yocFLBDOcUaJY6v+MXcxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfPewgtrCAlcSOO
+  W8YQWwWAVWJzyensIHYvAJOEleufWQFsSUEFCSmPHwPNpJTwFli8r5FYPVCQDUvO2ewQtQLSp
+  yc+YQFYr6ExMEXL5ghehUlZl9uZoGwKyU61y9gnMDIPwtJyywkLQsYmVYxWiYVZaZnlOQmZub
+  oGhoY6BoaGuua6RqZGOglVukm6aWW6ian5pUUJQJl9RLLi/WKK3OTc1L08lJLNjECwzGlkO3D
+  DsYpbz7oHWKU5GBSEuU9tKIsQYgvKT+lMiOxOCO+qDQntfgQowwHh5IE745r5QlCgkWp6akVa
+  Zk5wNiASUtw8CiJ8H67DpTmLS5IzC3OTIdInWJUlBLnlQFJCIAkMkrz4Npg8XiJUVZKmJeRgY
+  FBiKcgtSg3swRV/hWjOAejkjBvDcgUnsy8Erjpr4AWMwEtrlhVCrK4JBEhJdXAxLLlv8TVHRe
+  2WnMF7de/c3/hg1291x4Ih/pfvjpzFzvLJenZSyvTeYJVmqwmOxktOPuwS7B7avxBeWYeUfb0
+  NP9tp37aNbDbdnG//5yq8rnz6f+vTM2aPqYF2w70rV7AfFZ6hpfrqlf/eoI2z+l79kia+a2Xm
+  5rxJ8mlcw3mxQbMkbuj3Wvz3J9/xaP9lf52G8x/qBo4bv93bk/y1jkCR+rfcx//NfuJo85eX1
+  0G6+rnsktbQ5+ePrPyaP0Miws7K0q2HjvwfYHZrSyr8w1fuX90bZReXHNt4vYSNd4C/QNrTMs
+  cBFZe3lyt9r16y8cT4sstXjdJ2DHZfiy5aM9qYtGQMfkqi+D0vo8tSy7LbVdiKc5INNRiLipO
+  BADknh2VQgMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-10.tower-271.messagelabs.com!1618466883!1415220!1
+X-Msg-Ref: server-3.tower-248.messagelabs.com!1618466883!224436!1
 X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 19158 invoked from network); 15 Apr 2021 06:08:03 -0000
+Received: (qmail 28346 invoked from network); 15 Apr 2021 06:08:03 -0000
 Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-10.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 06:08:03 -0000
+  by server-3.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 06:08:03 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13F682s6005084
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13F682s7005084
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 07:08:03 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 15 Apr 2021 07:07:31 +0100
+ (TLS) id 15.0.1497.2; Thu, 15 Apr 2021 07:07:34 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] icu: upgrade 68.2 -> 69.1
-Date: Thu, 15 Apr 2021 14:07:18 +0800
-Message-ID: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] man-pages: upgrade 5.10 -> 5.11
+Date: Thu, 15 Apr 2021 14:07:19 +0800
+Message-ID: <1618466841-24292-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
+References: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Content-Type: text/plain
 
-refresh 0001-icu-Added-armeb-support.patch
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../icu/icu/0001-icu-Added-armeb-support.patch              | 6 +++---
- meta/recipes-support/icu/{icu_68.2.bb => icu_69.1.bb}       | 5 ++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-support/icu/{icu_68.2.bb => icu_69.1.bb} (95%)
+ .../man-pages/{man-pages_5.10.bb => man-pages_5.11.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/man-pages/{man-pages_5.10.bb => man-pages_5.11.bb} (91%)
 
-diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-index 145efc0e01..c5dc0611c2 100644
---- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-+++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-@@ -13,7 +13,7 @@ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-extended/man-pages/man-pages_5.10.bb b/meta/recipes-extended/man-pages/man-pages_5.11.bb
+similarity index 91%
+rename from meta/recipes-extended/man-pages/man-pages_5.10.bb
+rename to meta/recipes-extended/man-pages/man-pages_5.11.bb
+index 8874516aa2..3cd0bc5259 100644
+--- a/meta/recipes-extended/man-pages/man-pages_5.10.bb
++++ b/meta/recipes-extended/man-pages/man-pages_5.11.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
  
- diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
--index 8c6a0e1..cf89907 100644
-+index c937463..feaad0f 100644
- --- a/i18n/double-conversion-utils.h
- +++ b/i18n/double-conversion-utils.h
- @@ -115,7 +115,7 @@ int main(int argc, char** argv) {
-@@ -24,7 +24,7 @@ index 8c6a0e1..cf89907 100644
- +    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
-      defined(__hppa__) || defined(__ia64__) || \
-      defined(__mips__) || \
--     defined(__nios2__) || \
-+     defined(__nios2__) || defined(__ghs) || \
- -- 
--2.7.4
-+2.25.1
+-SRC_URI[sha256sum] = "f2ce94a7250c49910db91806996699e1deac656097d4d53bdf56bdab4b61f228"
++SRC_URI[sha256sum] = "3759aee7cd4a229173d3cb651fbba438777bee6206da8d75ea04caaa7c8662b0"
  
-diff --git a/meta/recipes-support/icu/icu_68.2.bb b/meta/recipes-support/icu/icu_69.1.bb
-similarity index 95%
-rename from meta/recipes-support/icu/icu_68.2.bb
-rename to meta/recipes-support/icu/icu_69.1.bb
-index 1ca87feee4..b79acba0cc 100644
---- a/meta/recipes-support/icu/icu_68.2.bb
-+++ b/meta/recipes-support/icu/icu_69.1.bb
-@@ -106,14 +106,13 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            ${DATA_SRC_URI};name=data \
-            file://filter.json \
-            file://fix-install-manx.patch \
--           file://0001-icu-Added-armeb-support.patch \
-            "
+ inherit manpages
  
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-           "
--SRC_URI[code.sha256sum] = "c79193dee3907a2199b8296a93b52c5cb74332c26f3d167269487680d479d625"
--SRC_URI[data.sha256sum] = "2989b466fa010edc41297e12fdd5ae47c2610ad68b63af1a0bd2a1acfaf497f3"
-+SRC_URI[code.sha256sum] = "4cba7b7acd1d3c42c44bb0c14be6637098c7faf2b330ce876bc5f3b915d09745"
-+SRC_URI[data.sha256sum] = "4fc2d8cfc3343673123586fca3967404abd4e346fba5515829204533b3bae4bf"
- 
- UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
- UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
 -- 
 2.25.1
 
