@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.1330.1618510599872298479
+ by mx.groups.io with SMTP id smtpd.web09.1331.1618510600196464745
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C5EEA38C13AA
+	by mail.yoctoproject.org (Postfix) with ESMTP id 892E438C125F
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:40 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] babeltrace2: upgrading to 2.0.4 SUCCEEDED
-Message-ID: <MADEUP.16761AD173DD689F.4047@lists.openembedded.org>
-X-Groupsio-MsgNum: 150563
-Content-Type: multipart/mixed; boundary="===============7517392268530005596=="
+Subject: [AUH] libxres: upgrading to 1.2.1 SUCCEEDED
+Message-ID: <MADEUP.16761AD161A18B75.12681@lists.openembedded.org>
+X-Groupsio-MsgNum: 150564
+Content-Type: multipart/mixed; boundary="===============4349095948074525540=="
 
---===============7517392268530005596==
+--===============4349095948074525540==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *babeltrace2* to *2.0.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxres* to *1.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-babeltrace2-upgrade-2.0.3-2.0.4.patch
+    - apply the patch: git am 0001-libxres-upgrade-1.2.0-1.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,71 +44,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7517392268530005596==
+--===============4349095948074525540==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-babeltrace2-upgrade-2.0.3-2.0.4.patch"
+ filename="0001-libxres-upgrade-1.2.0-1.2.1.patch"
 
-From 9b1a58677134c36555e7f9c6e712375c246bf1ca Mon Sep 17 00:00:00 2001
+From 86aa65e0566ce86938d6ec358ed808fe7f8b8129 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 15:15:31 +0000
-Subject: [PATCH] babeltrace2: upgrade 2.0.3 -> 2.0.4
+Date: Thu, 15 Apr 2021 14:39:30 +0000
+Subject: [PATCH] libxres: upgrade 1.2.0 -> 1.2.1
 
 ---
- .../lttng/{babeltrace2_2.0.3.bb => babeltrace2_2.0.4.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{babeltrace2_2.0.3.bb => babeltrace2_2.0.4.bb} (98%)
+ .../xorg-lib/{libxres_1.2.0.bb => libxres_1.2.1.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxres_1.2.0.bb => libxres_1.2.1.bb} (77%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-index 32ba75bf36..7fb524eeb0 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.4.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
-            file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-            file://0001-Make-manpages-multilib-identical.patch \
-            "
--SRCREV = "91d154476e66735d705adda9ca5cbf5b5eea5940"
-+SRCREV = "23e8cf4e6fdc1d0b230e964dafac08a57e6228e6"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+diff --git a/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb b/meta/recipes-graphics/xorg-lib/libxres_1.2.1.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
+rename to meta/recipes-graphics/xorg-lib/libxres_1.2.1.bb
+index af6bb19a25..29a799a328 100644
+--- a/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxres_1.2.1.bb
+@@ -16,5 +16,4 @@ PE = "1"
  
- S = "${WORKDIR}/git"
+ XORG_PN = "libXres"
+ 
+-SRC_URI[md5sum] = "5d6d443d1abc8e1f6fc1c57fb27729bb"
+-SRC_URI[sha256sum] = "ff75c1643488e64a7cfbced27486f0f944801319c84c18d3bd3da6bf28c812d4"
++SRC_URI[sha256sum] = "b6e6fb1ebb61610e56017edd928fb89a5f53b3f4f990078309877468663b2b11"
 -- 
 2.27.0
 
 
---===============7517392268530005596==
+--===============4349095948074525540==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dbg: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dbg: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dbg: PKGSIZE changed from 7821172 to 7870028 (+1%)
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dev: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dev: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-dev: PKGSIZE changed from 1185972 to 1185993 (+0%)
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-doc: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-doc: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-doc: PKGSIZE changed from 392698 to 393922 (+0%)
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-locale: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-locale: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-ptest: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-ptest: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-ptest: PKGSIZE changed from 11345745 to 11357223 (+0%)
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-src: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-src: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-src: PKGSIZE changed from 5358731 to 5368028 (+0%)
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-staticdev: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2-staticdev: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2/babeltrace2: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
-packages/core2-32-poky-linux/babeltrace2/babeltrace2: PKGSIZE changed from 2185785 to 2193977 (+0%)
-packages/core2-32-poky-linux/babeltrace2: PV changed from "2.0.3" to "2.0.4"
-packages/core2-32-poky-linux/babeltrace2: PKGV changed from 2.0.3 [default] to 2.0.4 [default]
+packages/core2-32-poky-linux/libxres: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXres-1.2.0.tar.bz2" to "https://www.x.org/releases//individual/lib/libXres-1.2.1.tar.bz2"
+packages/core2-32-poky-linux/libxres/libxres-dbg: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-dbg: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres-dev: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-dev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres-dev: PKGSIZE changed from 2828 to 2892 (+2%)
+packages/core2-32-poky-linux/libxres/libxres-doc: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-doc: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres-locale: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-locale: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres-src: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-src: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres-src: PKGSIZE changed from 14224 to 14350 (+1%)
+packages/core2-32-poky-linux/libxres/libxres-staticdev: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres-staticdev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/libxres/libxres: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/libxres/libxres: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
 
---===============7517392268530005596==--
+--===============4349095948074525540==--
