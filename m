@@ -1,62 +1,62 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web10.3279.1618466886020801099
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [])
+ by mx.groups.io with SMTP id smtpd.web11.3269.1618466885628582543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Apr 2021 23:08:06 -0700
+ Wed, 14 Apr 2021 23:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=B41kU9gz;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=KV2ShurH;
+ spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618466884; i=@fujitsu.com;
-	bh=iispOonD84J76crSpxMQCeeXLjECZwcYFl9rpBrpQVw=;
+	s=170520fj; t=1618466883; i=@fujitsu.com;
+	bh=MLci134JPXRj+hSOB263wOodJZp/qih6/tOqd6G73fs=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=B41kU9gzs23qbXz1iwJ9iI63lYH4LqWXwsg9ohWWYvY4oCVqJ/6eDbgOyummxAkr9
-	 c0F4on1BbGnf3j9zDPfWyQ/79r7d2SBUYnstdJzK9R0khHu/yKMPc256HoE1eJ2yaF
-	 D8mSJWvQhOAZ4ro+ZLsE9LnAERzpW+PXL6Nw2vnFz17BWhMXFnqsY6kOIg9yqCweMZ
-	 3SF9aLBaTGIL6jutpA1mCLlrO9Ev2ww2aJ/zBsPb2hVfVjEL0j4fu+EYieb0du/Fbg
-	 cGTNFJUiySD8/+ZcPeLqBRIW42x5yHkBSMoIFezmYy9nkL18k11TQw6ayU+7b7ypdh
-	 lOPlHFcpGR/2g==
-Received: from [100.113.6.49] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-central-1.aws.symcld.net id 63/46-14281-448D7706; Thu, 15 Apr 2021 06:08:04 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRout8ozz
-  B4PoBXYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPJ/HusBbM5Kr4tM29gPMjexcjFISQwi0li
-  yocFLBDOcUaJY6v+MXcxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfPewgtrCAlcSOO
-  W8YQWwWAVWJzyensIHYvAJOEleufWQFsSUEFCSmPHwPNpJTwFli8r5FYPVCQDUvO2ewQtQLSp
-  yc+YQFYr6ExMEXL5ghehUlZl9uZoGwKyU61y9gnMDIPwtJyywkLQsYmVYxWiYVZaZnlOQmZub
-  oGhoY6BoaGuua6RqZGOglVukm6aWW6ian5pUUJQJl9RLLi/WKK3OTc1L08lJLNjECwzGlkO3D
-  DsYpbz7oHWKU5GBSEuU9tKIsQYgvKT+lMiOxOCO+qDQntfgQowwHh5IE745r5QlCgkWp6akVa
-  Zk5wNiASUtw8CiJ8H67DpTmLS5IzC3OTIdInWJUlBLnlQFJCIAkMkrz4Npg8XiJUVZKmJeRgY
-  FBiKcgtSg3swRV/hWjOAejkjBvDcgUnsy8Erjpr4AWMwEtrlhVCrK4JBEhJdXAxLLlv8TVHRe
-  2WnMF7de/c3/hg1291x4Ih/pfvjpzFzvLJenZSyvTeYJVmqwmOxktOPuwS7B7avxBeWYeUfb0
-  NP9tp37aNbDbdnG//5yq8rnz6f+vTM2aPqYF2w70rV7AfFZ6hpfrqlf/eoI2z+l79kia+a2Xm
-  5rxJ8mlcw3mxQbMkbuj3Wvz3J9/xaP9lf52G8x/qBo4bv93bk/y1jkCR+rfcx//NfuJo85eX1
-  0G6+rnsktbQ5+ePrPyaP0Miws7K0q2HjvwfYHZrSyr8w1fuX90bZReXHNt4vYSNd4C/QNrTMs
-  cBFZe3lyt9r16y8cT4sstXjdJ2DHZfiy5aM9qYtGQMfkqi+D0vo8tSy7LbVdiKc5INNRiLipO
-  BADknh2VQgMAAA==
+	b=KV2ShurHHUX3Qcfcodgu5/BVaxB1UCpkgZO1eWeUZZcTpKykBMZGboxZOb05VNBs5
+	 KHGPKq2IAq5eeizg1/e0sjS0mlvn7pQF/5ZgN1h+RmNGlyY4Hr61FAS9ButztPmA56
+	 eyNAz3X9EABlgneLVccfp9oR+iRbUV3VjPDHdx2QFPp64+xF1vMSd02QcSas/1ZoE1
+	 gC42NJJQyLEGahzc5c/nXt5W2s6sopIujtFu0zPghqH4d6KnlZyCaq9bJ0ZmICG5aZ
+	 PV4l7OojTDfdPuKnZw0YUao/Y/4cW03pTt2WgxR0IVYWAkPsU+x7TzomKHW79I1VaS
+	 pytihfWrncocg==
+Received: from [100.112.192.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-a.eu-west-1.aws.symcld.net id AD/D0-01834-348D7706; Thu, 15 Apr 2021 06:08:03 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRWlGSWpSXmKPExsViZ8MxVdf5Rnm
+  CwcPrvBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aiJZcYC+ZzVsy7fIG1gXE6RxcjF4eQwCwm
+  iVfL37JCOMcZJRZu3MPUxcjJwSagJjH91g2gBAeHiICexNV/oiBhZgEViRe/e9hBwsIClhIXL
+  nqBhFkEVCVOrJ/IDGLzCjhJLF5zgR3ElhBQkJjy8D1YnFPAWWLyvkWMILYQUM3LzhmsEPWCEi
+  dnPmGBGC8hcfDFC2aIXkWJ2ZebWSDsSonO9QsYJzDyz0LSMgtJywJGplWM5klFmekZJbmJmTm
+  6hgYGuoaGRrqGlqa6JmZ6iVW6iXqppbrlqcUluoZ6ieXFesWVuck5KXp5qSWbGIGhmFJwWG8H
+  44Q3H/QOMUpyMCmJ8h5aUZYgxJeUn1KZkVicEV9UmpNafIhRhoNDSYJ3x7XyBCHBotT01Iq0z
+  BxgXMCkJTh4lER4v10HSvMWFyTmFmemQ6ROMepyXFm1ZBGzEEtefl6qlDivDEiRAEhRRmke3A
+  hYjF5ilJUS5mVkYGAQ4ilILcrNLEGVf8UozsGoJMxbAzKFJzOvBG7TK6AjmICOqFhVCnJESSJ
+  CSqqBaV79lXSvLbk3mH/z5Gbp3yk8+Sj0dtpfT1lXPlGx7gens1ZJhgb0O2YuiBR2PSlc0C84
+  xSo+/dAPs1/rH+TP7j1y7ekRb3ujIm5veQberLVSCxdynmYsYtj21Ibjat7bjoeH3vR8Pqez+
+  NovqcXbza6l6+x28OsL5wupX7pAkVn3asb3hdf6FcNaL5u1xMdEzfONWilzI0DXviiPIfmJza
+  tTkaLed7fN9amq7Gp12/k0dN5sTSm27eY3bRxfaZd2Ns0M+aVwcY4gt+WbMp+r538EZb5zedV
+  6y+Hnp3W8i/3+9S7+NiO8RT9zq8Em99YeldXGPlH3i88u9f7wWqToVgrvlmqDEKnWi6znwyYq
+  sRRnJBpqMRcVJwIAPamRtUwDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-248.messagelabs.com!1618466883!224436!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-23.tower-267.messagelabs.com!1618466882!1467925!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 28346 invoked from network); 15 Apr 2021 06:08:03 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-3.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 06:08:03 -0000
+Received: (qmail 5630 invoked from network); 15 Apr 2021 06:08:03 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-23.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Apr 2021 06:08:03 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13F682s7005084
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13F67kQ3031807
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 07:08:03 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 07:08:02 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 15 Apr 2021 07:07:34 +0100
+ (TLS) id 15.0.1497.2; Thu, 15 Apr 2021 07:07:37 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] man-pages: upgrade 5.10 -> 5.11
-Date: Thu, 15 Apr 2021 14:07:19 +0800
-Message-ID: <1618466841-24292-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mesa: upgrade 21.0.1 -> 21.0.2
+Date: Thu, 15 Apr 2021 14:07:20 +0800
+Message-ID: <1618466841-24292-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
 References: <1618466841-24292-1-git-send-email-wangmy@fujitsu.com>
@@ -68,26 +68,28 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../man-pages/{man-pages_5.10.bb => man-pages_5.11.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/man-pages/{man-pages_5.10.bb => man-pages_5.11.bb} (91%)
+ meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
+ meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb} (100%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.10.bb b/meta/recipes-extended/man-pages/man-pages_5.11.bb
-similarity index 91%
-rename from meta/recipes-extended/man-pages/man-pages_5.10.bb
-rename to meta/recipes-extended/man-pages/man-pages_5.11.bb
-index 8874516aa2..3cd0bc5259 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.10.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.11.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index caf3c62ad8..5705ae0f08 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+            "
  
--SRC_URI[sha256sum] = "f2ce94a7250c49910db91806996699e1deac656097d4d53bdf56bdab4b61f228"
-+SRC_URI[sha256sum] = "3759aee7cd4a229173d3cb651fbba438777bee6206da8d75ea04caaa7c8662b0"
+-SRC_URI[sha256sum] = "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
++SRC_URI[sha256sum] = "46c1dc5bb54a372dee43ec3c067229c299187d5bdadf1402756bbf66a6df5b88"
  
- inherit manpages
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
  
+diff --git a/meta/recipes-graphics/mesa/mesa_21.0.1.bb b/meta/recipes-graphics/mesa/mesa_21.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_21.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_21.0.2.bb
 -- 
 2.25.1
 
