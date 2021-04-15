@@ -1,21 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.1306.1618510599802092869
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web12.1290.1618510599610507745
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8F97E38C1237
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9621838C125F
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:38 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt-compat: upgrading to 4.4.19 FAILED
-Message-ID: <MADEUP.16761AD0BD907094.25572@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============5478865587657107313=="
+Subject: [AUH] systemd: upgrading to 248 FAILED
+Message-ID: <MADEUP.16761AD0BEF13E60.6349@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============7805710224401889680=="
 
---===============5478865587657107313==
+--===============7805710224401889680==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt-compat* to *4.4.19* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *systemd* to *248* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libxcrypt-compat failed.
+The following devtool command failed:  upgrade systemd -V 248 -S 938bdfc0fa737d86eb3ecc70506e11e5f740e0dc
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1438 entries from dependency cache.
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -48,7 +49,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8bb710388c7387751b4139c8b71eb049d15f74db"
+meta-yocto-bsp       = "tmp-auh-upgrades:49fda3c70cf7f38ff7dd5b2c80b590202ee938b7"
 workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
 
 Initialising tasks...done.
@@ -57,22 +58,12 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-WARNING: Command 'git rebase c79119414d7e30017d7b49566e7e4ea35112bdc8' failed:
-Rebasing (1/1)
-error: could not apply 3c7eefd... configure.ac: do not use compute-symver-floor
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 3c7eefd... configure.ac: do not use compute-symver-floor
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libxcrypt-compat
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libxcrypt-compat/libxcrypt-compat_4.4.19.bb
-INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+ERROR: Revision 938bdfc0fa737d86eb3ecc70506e11e5f740e0dc was found on multiple branches: 
+  main
+  v248-stable
+Please provide the correct branch in the devtool command with "--srcbranch" or "-B" option.
 
 
 
@@ -82,4 +73,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5478865587657107313==--
+--===============7805710224401889680==--
