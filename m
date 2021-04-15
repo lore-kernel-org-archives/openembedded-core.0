@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.1307.1618510599926392070
+ by mx.groups.io with SMTP id smtpd.web12.1291.1618510600040293984
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0C9B238C13C5
+	by mail.yoctoproject.org (Postfix) with ESMTP id 204CA38C1238
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdnf: upgrading to 0.62.0 FAILED
-Message-ID: <MADEUP.16761AD0DD46478A.25572@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============4468904387926552102=="
+Subject: [AUH] pkgconf: upgrading to 1.7.4 SUCCEEDED
+Message-ID: <MADEUP.16761AD0DE443548.6349@lists.openembedded.org>
+X-Groupsio-MsgNum: 150513
+Content-Type: multipart/mixed; boundary="===============0554907903403382128=="
 
---===============4468904387926552102==
+--===============0554907903403382128==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,63 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libdnf* to *0.62.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pkgconf* to *1.7.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-pkgconf-upgrade-1.7.3-1.7.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe libdnf failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1438 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.50.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.3"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a1ae2f3a70a4216e3ef64d1aed30ef9921a3778a"
-workspace            = "master:ddc9e2fd33abe6a0de7b4e0dacdb6f530ee99871"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Network 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting upgraded version source...
-WARNING: Command 'git rebase 9a0e17562b19586b3ffa70fa93eb961b558794c7' failed:
-Rebasing (1/7)
-Rebasing (2/7)
-Rebasing (3/7)
-Rebasing (4/7)
-Rebasing (5/7)
-Rebasing (6/7)
-Rebasing (7/7)
-error: could not apply 956c000d... libdnf/config.h: avoid the use of non-portable __WORDSIZE
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 956c000d... libdnf/config.h: avoid the use of non-portable __WORDSIZE
-Auto-merging libdnf/config.h
-CONFLICT (content): Merge conflict in libdnf/config.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libdnf
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libdnf/libdnf_0.62.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -87,4 +44,68 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4468904387926552102==--
+--===============0554907903403382128==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.dereferenced.org/pkgconf/pkgconf-1.7.3.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.dereferenced.org/pkgconf/pkgconf-1.7.4.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/core2-32-poky-linux/pkgconf: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 218144 to 218576 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 22683 to 22759 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 26893 to 27272 (+1%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 238567 to 239605 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf: PV changed from "1.7.3" to "1.7.4"
+packages/core2-32-poky-linux/pkgconf/pkgconf: PKGV changed from 1.7.3 [default] to 1.7.4 [default]
+
+--===============0554907903403382128==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-pkgconf-upgrade-1.7.3-1.7.4.patch"
+
+From 7b02594156e0c96b0ac239c787294efc70448dd2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Thu, 15 Apr 2021 05:27:26 +0000
+Subject: [PATCH] pkgconf: upgrade 1.7.3 -> 1.7.4
+
+---
+ .../pkgconf/{pkgconf_1.7.3.bb => pkgconf_1.7.4.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_1.7.3.bb => pkgconf_1.7.4.bb} (96%)
+
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.7.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.7.4.bb
+similarity index 96%
+rename from meta/recipes-devtools/pkgconf/pkgconf_1.7.3.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_1.7.4.bb
+index 12496c3849..93832105f0 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.7.3.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_1.7.4.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "b846aea51cf696c3392a0ae58bef93e2e72f8e7073ca6ad1ed8b01c85871f9c0"
++SRC_URI[sha256sum] = "d73f32c248a4591139a6b17777c80d4deab6b414ec2b3d21d0a24be348c476ab"
+ 
+ inherit autotools
+ 
+-- 
+2.27.0
+
+
+--===============0554907903403382128==--
