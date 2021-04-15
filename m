@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web10.1363.1618510600238628654
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web11.1351.1618510601697272735
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Apr 2021 11:16:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C0A5538C1241
+	by mail.yoctoproject.org (Postfix) with ESMTP id CD9B638C13E2
 	for <openembedded-core@lists.openembedded.org>; Thu, 15 Apr 2021 18:16:39 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gcr: upgrading to 3.40.0 SUCCEEDED
-Message-ID: <MADEUP.16761AD125A060BD.25572@lists.openembedded.org>
-X-Groupsio-MsgNum: 150541
-Content-Type: multipart/mixed; boundary="===============0750380818197600845=="
+Subject: [AUH] gobject-introspection: upgrading to 1.68.0 SUCCEEDED
+Message-ID: <MADEUP.16761AD12F7748CF.4047@lists.openembedded.org>
+X-Groupsio-MsgNum: 150542
+Content-Type: multipart/mixed; boundary="===============5909916481678967451=="
 
---===============0750380818197600845==
+--===============5909916481678967451==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gcr* to *3.40.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.68.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gcr-upgrade-3.38.1-3.40.0.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.66.1-1.68.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,245 +44,142 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0750380818197600845==
+--===============5909916481678967451==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-gcr-upgrade-3.38.1-3.40.0.patch"
+ filename="0001-gobject-introspection-upgrade-1.66.1-1.68.0.patch"
 
-From ffd3bdb0a82bbf9542f629b6290f8d7698569a08 Mon Sep 17 00:00:00 2001
+From 8de5c505f65caca740b924d17cc2e6a6492dda00 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Thu, 15 Apr 2021 11:39:45 +0000
-Subject: [PATCH] gcr: upgrade 3.38.1 -> 3.40.0
+Date: Thu, 15 Apr 2021 11:48:37 +0000
+Subject: [PATCH] gobject-introspection: upgrade 1.66.1 -> 1.68.0
 
 ---
- meta/recipes-gnome/gcr/{gcr_3.38.1.bb => gcr_3.40.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gcr/{gcr_3.38.1.bb => gcr_3.40.0.bb} (93%)
+ ...pository-directory-for-native-builds.patch |  2 +-
+ ...ude-girepo_dep-if-introspection-data.patch | 25 -------------------
+ ...6.1.bb => gobject-introspection_1.68.0.bb} |  3 +--
+ 3 files changed, 2 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-meson.build-exclude-girepo_dep-if-introspection-data.patch
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.66.1.bb => gobject-introspection_1.68.0.bb} (98%)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.38.1.bb b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-similarity index 93%
-rename from meta/recipes-gnome/gcr/gcr_3.38.1.bb
-rename to meta/recipes-gnome/gcr/gcr_3.40.0.bb
-index 563087a360..64a1195aab 100644
---- a/meta/recipes-gnome/gcr/gcr_3.38.1.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-@@ -17,7 +17,7 @@ GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 185ebc154a..9071245a84 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+@@ -1,4 +1,4 @@
+-From 41c3ee549787333a073a3ce6303efef625c74dce Mon Sep 17 00:00:00 2001
++From 5c606356523431769dffb02fffd2fbca8fb20232 Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-meson.build-exclude-girepo_dep-if-introspection-data.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-meson.build-exclude-girepo_dep-if-introspection-data.patch
+deleted file mode 100644
+index 8fba0124cf..0000000000
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-meson.build-exclude-girepo_dep-if-introspection-data.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From ef5446af0ddad6a341b47957097ac40c6cb5e6d3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 20 Oct 2020 22:40:14 +0200
+-Subject: [PATCH] meson.build: exclude girepo_dep if introspection data is
+- disabled
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/248]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 14af2b1..a3c27c3 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -283,7 +283,7 @@ pkg.generate(
+- # FIXME: meson.override_dependency() and declare_dependency()'s variable arguments
+- # are new in Meson 0.54.0, older versions of Meson won't be able to use g-i as
+- # subproject anyway
+--if meson.version().version_compare('>=0.54.0')
+-+if meson.version().version_compare('>=0.54.0') and get_option('build_introspection_data') == true
+-   girepo_dep = declare_dependency(
+-     sources: typelibs,
+-     dependencies: girepo_dep,
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
+similarity index 98%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
+index ebac8d3a43..4c986a574f 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.68.0.bb
+@@ -15,10 +15,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
  
--SRC_URI[archive.sha256sum] = "17fcaf9c4a93a65fb1c72b82643bb102c13344084687d5886ea66313868d9ec9"
-+SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
+-           file://0001-meson.build-exclude-girepo_dep-if-introspection-data.patch \
+            "
  
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)}"
- PACKAGECONFIG[gtk] = "-Dgtk=true,-Dgtk=false,gtk+3"
+-SRC_URI[sha256sum] = "dd44a55ee5f426ea22b6b89624708f9e8d53f5cc94e5485c15c87cb30e06161d"
++SRC_URI[sha256sum] = "d229242481a201b84a0c66716de1752bca41db4133672cfcfb37c93eb6e54a27"
+ 
+ SRC_URI_append_class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+ 
 -- 
 2.27.0
 
 
---===============0750380818197600845==
+--===============5909916481678967451==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+Changes to packages/core2-32-poky-linux/gobject-introspection (sysroot):
+  /usr/lib/gobject-introspection/giscanner/libtoolimporter.py was removed
+Changes to packages/x86_64-linux/gobject-introspection-native (sysroot):
+  /usr/lib/gobject-introspection/giscanner/libtoolimporter.py was removed
+
+--===============5909916481678967451==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gcr/gcr-dbg: PKGSIZE changed from 3128616 to 3136640 (+0%)
-packages/core2-32-poky-linux/gcr/gcr-dbg: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-dbg: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-dev: PKGSIZE changed from 1524632 to 1524780 (+0%)
-packages/core2-32-poky-linux/gcr/gcr-dev: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-dev: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-doc: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-doc: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-af: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-af: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ar: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ar: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-as: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-as: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ast: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ast: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-az: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-az: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-be+latin: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-be+latin: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-be: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-be: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-bg: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-bg: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-bn-in: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-bn-in: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-bn: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-bn: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-bs: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-bs: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ca+valencia: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ca+valencia: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ca: PKGSIZE changed from 17389 to 17397 (+0%)
-packages/core2-32-poky-linux/gcr/gcr-locale-ca: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ca: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ckb: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ckb: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-cs: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-cs: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-cy: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-cy: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-da: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-da: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-de: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-de: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-dz: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-dz: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-el: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-el: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-en+shaw: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-en+shaw: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-en-ca: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-en-ca: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-en-gb: PKGSIZE changed from 16238 to 16406 (+1%)
-packages/core2-32-poky-linux/gcr/gcr-locale-en-gb: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-en-gb: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-eo: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-eo: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-es: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-es: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-et: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-et: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-eu: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-eu: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-fa: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-fa: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-fi: PKGSIZE changed from 12343 to 13439 (+9%)
-packages/core2-32-poky-linux/gcr/gcr-locale-fi: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-fi: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-fr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-fr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-fur: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-fur: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ga: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ga: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-gl: PKGSIZE changed from 17319 to 17326 (+0%)
-packages/core2-32-poky-linux/gcr/gcr-locale-gl: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-gl: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-gu: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-gu: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-he: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-he: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-hi: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-hi: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-hr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-hr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-hu: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-hu: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-id: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-id: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-is: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-is: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-it: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-it: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ja: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ja: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ka: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ka: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-kk: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-kk: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-kn: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-kn: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ko: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ko: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-lt: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-lt: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-lv: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-lv: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-mai: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-mai: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-mg: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-mg: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-mk: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-mk: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ml: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ml: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-mn: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-mn: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-mr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-mr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ms: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ms: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-nb: PKGSIZE changed from 15875 to 16831 (+6%)
-packages/core2-32-poky-linux/gcr/gcr-locale-nb: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-nb: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ne: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ne: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-nl: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-nl: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-nn: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-nn: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-oc: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-oc: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-or: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-or: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-pa: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-pa: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-pl: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-pl: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-pt-br: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-pt-br: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-pt: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-pt: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ro: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ro: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ru: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ru: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-rw: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-rw: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-si: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-si: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sk: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sk: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sl: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sl: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sq: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sq: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sr+latin: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sr+latin: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-sv: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-sv: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ta: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ta: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-te: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-te: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-tg: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-tg: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-th: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-th: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-tr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-tr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-ug: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-ug: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-uk: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-uk: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-vi: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-vi: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-xh: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-xh: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-cn: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-cn: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-hk: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-hk: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-tw: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-locale-zh-tw: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-src: PKGSIZE changed from 2458814 to 2449592 (-0%)
-packages/core2-32-poky-linux/gcr/gcr-src: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-src: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr-staticdev: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr-staticdev: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr/gcr: PKGSIZE changed from 1571359 to 1563213 (-1%)
-packages/core2-32-poky-linux/gcr/gcr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr/gcr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
-packages/core2-32-poky-linux/gcr: PV changed from "3.38.1" to "3.40.0"
-packages/core2-32-poky-linux/gcr: SRC_URI changed from "https://ftp.gnome.org/pub/GNOME/sources/gcr/3.38/gcr-3.38.1.tar.xz;name=archive" to "https://ftp.gnome.org/pub/GNOME/sources/gcr/3.40/gcr-3.40.0.tar.xz;name=archive"
-packages/core2-32-poky-linux/gcr: PKGV changed from 3.38.1 [default] to 3.40.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1576600 to 1577120 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGSIZE changed from 12124346 to 12137478 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 1450591 to 1450838 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: FILELIST: removed "/usr/lib/gobject-introspection/giscanner/libtoolimporter.py"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGSIZE changed from 1925721 to 1923191 (-0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+packages/core2-32-poky-linux/gobject-introspection: PV changed from "1.66.1" to "1.68.0"
+packages/core2-32-poky-linux/gobject-introspection: SRC_URI changed from "https://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/1.66/gobject-introspection-1.66.1.tar.xz file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch file://0001-meson.build-exclude-girepo_dep-if-introspection-data.patch" to "https://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch"
+packages/core2-32-poky-linux/gobject-introspection: PKGV changed from 1.66.1 [default] to 1.68.0 [default]
+Changes to packages/core2-32-poky-linux/gobject-introspection (sysroot):
+  /usr/lib/gobject-introspection/giscanner/libtoolimporter.py was removed
+Changes to packages/x86_64-linux/gobject-introspection-native (sysroot):
+  /usr/lib/gobject-introspection/giscanner/libtoolimporter.py was removed
 
---===============0750380818197600845==--
+--===============5909916481678967451==--
