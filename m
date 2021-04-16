@@ -1,142 +1,128 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web08.5770.1618557487250510221
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.89])
+ by mx.groups.io with SMTP id smtpd.web08.6447.1618563931703681433
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Apr 2021 00:18:07 -0700
+ Fri, 16 Apr 2021 02:05:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b7U2WHUM;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id f17so36181826lfu.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 00:18:06 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=DAiuCQZB;
+ spf=pass (domain: windriver.com, ip: 40.107.243.89, mailfrom: qiang.zhang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TLoeOvexsX5WEcCR7tbb/o7vrNWxucbmIJFlABbiRy5T9WEDmj3QrvE5f/+jd9jk6NjdL+AyN9DBEdbqZWxxW5jIMN1aHfSfqQM6+nTgO1LZsrssM6Qvz3nzM2iok0Efo/GwpRWXYJTo8jgW8U7ehlwUdXo/UEVunC0G0bbc2xQVoi9fSyUBMQmxIhH69AWExO6DCAYydcm7fJrA5o+NkyePrazww+zPsXNECEFOKA/f97/0KRwLFXAZm7n7GlJS6aWOY+QuDNBX7NAlBWCdULZ1u3xbg0hUFtypkYeyC8kIr6uFgRI3JU+Y7GsZgtnl58QS9wzYEm3aKC3bA+fp8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k76BnnHgexIY9gZjDYSVvRvzb9VBAYki8B2eeF94daQ=;
+ b=JT6uTniZVACX8Od1kinDy1okp0v9KxyQvZ6wLNzpqbD3duS+jTRUqySE9df6vzRTwBsCm7g6f2JbBdIkw4GSd8Oil4R/LFd7t4zhur7ZtLBqEgvER8D7LFH0VwydhETYSstuggl1E/IVzxkyYx4qPsZHQjR9MdUuvdNTfdVPy8pal+5p14Koabk7TVQ3KTB3CODiSJdeCqZt7B5JM5Q3o8WAElvQWj+kwERFFVD4112LM+3iUo2ktAVNrpjsNZIvvAM0AuDXkrSEY5sSA/YoRjNEZ6YiCSFf1Fve7Gte9jfj72VD/pCDg70K8gukVkdckOv0MUeIr9PKMeeNktvegw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CHEONtjvsRckZ7hQmHJDRornHd/ciEuWW0MAPcEnaXE=;
-        b=b7U2WHUMMIYhwAsYi291rBNxzrznlmAyBKiwlUKjp692/75QiwqLK8Ay/wLzuC5hK2
-         PY3TuIMRiTmCMjiHcpDLE7Zv4aXg2dZ+8QVb2Plnqci1U4v+NzfkTIcSMmwhLUWQX8as
-         c3pJU3qtyqOYhxQ6XQjQEBckML0TYeloOlxwsSCvSOo9Pnax4hDR4PLo6WJg9gYlTiPn
-         0hn+4aKJgFJHkIycA8kEoI+sxn5ZeIybG+VqHwsIZ8bfUZMowo1oDB7hCQHviMtFn/UY
-         AoC/kZWXZK7s7A2rRT3VpzuG8SRmkkz6HHQR9jQTHA4fTVume+c7nEkrMylQl+0DNPQM
-         UMFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CHEONtjvsRckZ7hQmHJDRornHd/ciEuWW0MAPcEnaXE=;
-        b=dwf6VZ881o/L5ll6FQ5dHr1lul1iDgR9Ms/e/i837+ZglgDdc/Zl+JZuXgjsGyqWzQ
-         fv0vYo6EdYFKl6TivT2OAmrBqgZ9rgCfnJWiCtIFWfo+wOnRNEhB/rAwGTq48So+yhMQ
-         fqRCHzfqg8fAorJZ1p8PuS8b5TLMTP5fHYdyUefVt7ATGTq8O4/q6wVQLAElyYmZT/vi
-         5d6SYT98ISY02lpLgueFcfP7wBgj1SW0zjLjBHxdZ9YIKUUOhLh7yOvVOmPge6qyzabK
-         kUOlrg5xDfJU9jsArJ3dkzcccLLxM9Y1c3oWO89wJDsSrzH9undEiZqs6UAWu4QIp0ze
-         XJGw==
-X-Gm-Message-State: AOAM530nQueo2znV7e8WCLILDedu891eSOTHM8hK66qQEP7oRkOsev+o
-	83k6oMOGh3ltbpzBWotjCodzGIn66GrTGHPfG0g=
-X-Google-Smtp-Source: ABdhPJwbAl4Op30yhfuSPoTwSlUQS0q7WOIsfBnG41vCCQRK7kkWF6L1a+loNQlk6NvBKKeLSlgUC6+aiUPZi4h60SE=
-X-Received: by 2002:a19:6d07:: with SMTP id i7mr2032811lfc.568.1618557485032;
- Fri, 16 Apr 2021 00:18:05 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k76BnnHgexIY9gZjDYSVvRvzb9VBAYki8B2eeF94daQ=;
+ b=DAiuCQZBjJEFiD50z4+6zgdLqkcUgFwRZ07wFGUSUPrVEdLUPMJEkD0UWpB3E/+kBpiY8AyLNcScPk4uEO5fvnFBsmQ9I7ISsBl6zr/4F3rYei3VVd2bViP7ClYSVkBpmy22dOPMn9LRlicJM7mO2EqJ6e2OqoYv/9pssYdlY0w=
+Authentication-Results: redrectangle.org; dkim=none (message not signed)
+ header.d=none;redrectangle.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16)
+ by DM5PR11MB1578.namprd11.prod.outlook.com (2603:10b6:4:e::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.21; Fri, 16 Apr 2021 09:05:30 +0000
+Received: from DM6PR11MB4202.namprd11.prod.outlook.com
+ ([fe80::60c5:cd78:8edd:d274]) by DM6PR11MB4202.namprd11.prod.outlook.com
+ ([fe80::60c5:cd78:8edd:d274%5]) with mapi id 15.20.4020.024; Fri, 16 Apr 2021
+ 09:05:30 +0000
+From: "Zhang, Qiang" <qiang.zhang@windriver.com>
+To: robert.joslyn@redrectangle.org,
+	bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org,
+	linux-yocto@lists.yoctoproject.org
+Subject: [PATCH] rt-tests: Update the latest branches
+Date: Fri, 16 Apr 2021 17:05:58 +0800
+Message-Id: <20210416090558.1681-1-qiang.zhang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR03CA0049.apcprd03.prod.outlook.com
+ (2603:1096:202:17::19) To DM6PR11MB4202.namprd11.prod.outlook.com
+ (2603:10b6:5:1df::16)
+Return-Path: qiang.zhang@windriver.com
 MIME-Version: 1.0
-References: <20210416053729.1021506-1-robert.joslyn@redrectangle.org> <20210416053729.1021506-2-robert.joslyn@redrectangle.org>
-In-Reply-To: <20210416053729.1021506-2-robert.joslyn@redrectangle.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Fri, 16 Apr 2021 00:17:54 -0700
-Message-ID: <CAJ86T=VARprmYY1mPKa7uG0pNpzpdJXBXu_-PYtBPvDRaZqohQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/3] btrfs-tools: Add PACKAGECONFIG options
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HK2PR03CA0049.apcprd03.prod.outlook.com (2603:1096:202:17::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.7 via Frontend Transport; Fri, 16 Apr 2021 09:05:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0249c365-29eb-49c0-0cc5-08d900b6c869
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1578:
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR11MB1578C0CA4951EEDE224D853FFF4C9@DM5PR11MB1578.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	CJqpJPso6pOcQ3x8xcRETm8zdwxINr/KvN2mzDjlc3xgvLxJdFsEArOOJmghwqPQvwLiw7J/8f/YJ1bWl7zedETIvq4Ml+/PaMSjIaQGMV6nK5cMsUmSSn0gMgzL2d6Fs2qOFIIsaZKFE5wo4SCTsOp7Joum+OlbibkfEHXMr3dPvCpppTp8HhCuedGnwL33UNsVatdI5gH1+8aLezAOGamoeeEr8oqoEfDeyF3tytMoaRK764vqUMErtyWh3ykmEetUSUVoxgBI8kWuxmDK1UQY5H9wHqk/5OubLFazLOOnrq4OV/AI0fhVSBWbjsF6uw3C3n9mONz6cequhkNsCwbFAh7qH08MwMgL8OTUAlj8cZnQnMrSoWs2Ym0J7wwLqEXQxzPS5BPkji4XjkmFK04/Kfbo7tskFqVBKuLkS6P3I8+OgkMwmOLAc+SZbaMWK04ZCBxf/Be/wl1PKsEpK4GAAjnGtjnF6O58vKdBckCbkPnvi9SDLgLqL4sN/xpbHjsKetf8X9+uSFNZqjIu7ak/xpX7PHfaZVh0qxWgFiKxdC7o7Mbtj5hYhMYJmRbLE3xT5pHiYKF2XONcIbKOraQrltsh/bQB3rBneI42YxK7OJmZt+fbcVT4MQy7Kjy3pV1XqrGbxzNmmpfg2q1v2yOXjO/b9fHpoyMxGADTNYE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4202.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(136003)(376002)(39850400004)(5660300002)(2906002)(26005)(8676002)(186003)(956004)(38100700002)(9686003)(6666004)(316002)(2616005)(36756003)(6486002)(8936002)(38350700002)(52116002)(16526019)(1076003)(66556008)(4744005)(86362001)(6512007)(478600001)(4326008)(6506007)(66476007)(83380400001)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?Oa0v81TqLqAh2TGrc3BFWoPwk2xxaxNqqXYIt1eRRM3me4QiqOcx9S6v8dUW?=
+ =?us-ascii?Q?D8JlO9Q5k+kPDRtFFkyYLsY+4SVGqfC4unqT4xGVt6jo8roNY7PXuZvwfAUv?=
+ =?us-ascii?Q?WBJfguc27G7MQvvToWxKEUysSedrMJ7Flsa3ANbjs3peBt5meZC8U++URLV9?=
+ =?us-ascii?Q?/ZPneyESMNKQuBXCxGF5SIrkDICc7si9Qra/X/5RG/ygwUpF3zUnP88xazaE?=
+ =?us-ascii?Q?7nvPceaBOAQjo7JaMdA/BYYbNtcwqYSPEKppGJauxJ/7fqRnG9f1pw6V9f9v?=
+ =?us-ascii?Q?vjwuQfzpT69O7tWhv4P7GtDlcOBWCveBp/GZZ67TxfQcHmoIgiK3NWw91IPS?=
+ =?us-ascii?Q?BI7LsAyyMuQ3px4N1rUmBZ2iV7VQeYbqEpLxUhnDs1TEcIn+xujxucslynZV?=
+ =?us-ascii?Q?DjBTluD0orDRIyoJsrXWZXPAHbzAvV+fKtMVz1NlqjSAI8kmb51bqrI7bKXd?=
+ =?us-ascii?Q?gn52VkbaszHUczgjDdv+eoIL9K15cH9dA9yohSHtQsEMzrWkW0VnuCf2oH/3?=
+ =?us-ascii?Q?/RT0EckoDbpQi0tC2mE6Su1qS1sfs4BtRnY8d9cqXr0Nu+NijR1skCuhAtjW?=
+ =?us-ascii?Q?57eC9c+L5JK7EGD1ZTj7/cB5/9501STR4hMsbtBKLI7TD/RRxV3/GQ/lhO45?=
+ =?us-ascii?Q?WrUvrz80g1p0IdyMp/yemE/Mah5nlfi0nqNhKdzK4wogN2v0WyrIv/+vesZK?=
+ =?us-ascii?Q?J58WzRHgLgQnHwSamY2W7J586dPbWGi4sWsDHaRhkR0kpf6f5SGSJ/x0mWOA?=
+ =?us-ascii?Q?OcER9B68fOugRybneg5QAsuCiOsImpdAooAULcixlCenm9bqbcdo2xlexFuT?=
+ =?us-ascii?Q?61CRMfCmsraOHxlgsldM2zh4DocjVdZ1zWm9PNxs/bamwbLBXzxpQ+TZn956?=
+ =?us-ascii?Q?yMoyMkJUylqOB3V5G029NbNirbcvDdLl6rgd/iq99ZgvOgtAuo0+rDLlzVje?=
+ =?us-ascii?Q?2aykM4wH0HYBNjEZ9T8culzg7Ay7h2B16FQD/6iPl00YesB0O6g4QV6seAz7?=
+ =?us-ascii?Q?owLUyf8dBAiaTD26oyhiLZGEwZvTzLBHNr7b058QJ3pxm4YCng63438F74Fd?=
+ =?us-ascii?Q?76K+GNJUSzV6MdBD2kjOpbbAsC7t6LP3mp3MuGdr0MQUAcGByTUGcj8+hQjn?=
+ =?us-ascii?Q?z47GE7Mviztois01PkdnCw178sNF6ANUFgMfhsHOxPw7YIMRdxZlptqRFlcj?=
+ =?us-ascii?Q?lHQ7x7dOCGn1Xr7VRFJJypGjIL/G7Nfth/QINoszEafqL1sU0mIxPFa4AUk2?=
+ =?us-ascii?Q?dUClOajKEBWHVZGtWwCvt1/lBKSIEoZutzy/kd4kXAX6ixfJ4Ll6iHFY0pdK?=
+ =?us-ascii?Q?jd0gaW9sdbdzC7hB+HZTvwek?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0249c365-29eb-49c0-0cc5-08d900b6c869
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4202.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 09:05:29.9509
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: whrKHc0E82vmy574UtDxJ5F4PMxyFzdY/zSj5DxVQutpLcJJJmKgYEubKy7AQRTjF35NxXpctdj2AUwMaMfItWXyDVmRE1iym4AjcE2KS6M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1578
+Content-Type: text/plain
 
-On Thu, Apr 15, 2021 at 10:38 PM Robert Joslyn
-<robert.joslyn@redrectangle.org> wrote:
->
-> Add options to make it easier to control which features are enabled. All
-> of these default to enabled by upstream, so keep them enabled to
-> maintain previous behavior.
->
-> The convert option also supports reiserfs, but no recipes exist in the
-> layer index. Limit the option to ext filesystems until someone cares
-> enough to make reiserfs recipes.
->
-> Remove acl and attr from DEPENDS, as they do not apper to be needed. Add
-> zlib since it is required.
->
-> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-> ---
->  .../btrfs-tools/btrfs-tools_5.11.1.bb         | 26 ++++++++++++++++---
->  1 file changed, 23 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-> index 2ab476a88e..b875ea1aa1 100644
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-> @@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = " \
->      file://libbtrfsutil/COPYING.LESSER;md5=3000208d539ec061b899bce1d9ce9404 \
->  "
->  SECTION = "base"
-> -DEPENDS = "util-linux attr e2fsprogs lzo acl"
-> +DEPENDS = "lzo util-linux zlib"
->  DEPENDS_append_class-target = " udev"
->  RDEPENDS_${PN} = "libgcc"
->
-> @@ -22,17 +22,37 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
->             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
->             "
->
-> -PACKAGECONFIG ??= "python"
-> +PACKAGECONFIG ??= " \
-> +    ${@bb.utils.filter('DISTRO_FEATURES', 'largefile', d)} \
+From: Zqiang <qiang.zhang@windriver.com>
 
-The largefile distro feature is for historical reference only. Recipes
-should always enable largefile support regardless of the distro
-feature (which will eventually be removed).
+When run cyclictest, the parameter enable NUAM. but in some BSP
+which not support NUMA, will causes the test program to exit
+directly and does not carry out subsequent operations, the
+latest changes have fixed this problem.
 
-> +    backtrace \
-> +    programs \
-> +    shared \
-> +    convert \
-> +    python \
-> +    crypto-builtin \
+"3aec580 rt-tests: Don't assume numa is available at runtime"
 
-This is not conventional formatting for a list of PACKAGECONFIG
-options. Maybe have a look at some other recipes in oe-core to get a
-feel for the typical style.
+Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+---
+ meta/recipes-rt/rt-tests/rt-tests.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +"
-> +PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile"
-> +PACKAGECONFIG[backtrace] = "--enable-backtrace,--disable-backtrace"
->  PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
-> +PACKAGECONFIG[programs] = "--enable-programs,--disable-programs"
-> +PACKAGECONFIG[shared] = "--enable-shared,--disable-shared"
-> +PACKAGECONFIG[static] = "--enable-static,--disable-static"
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 9358f13d06..0c89bad91f 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,5 +1,5 @@
+ # Version 1.8
+-SRCREV = "32819581cc0509c9d58c33c3061f57abe0c40c88"
++SRCREV = "6af88067da16c6e69243b376c3b6454ec694460b"
+ PE = "1"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
+-- 
+2.29.2
 
-The choice to build shared and/or static libs is not something which
-is typically controlled by PACKAGECONFIG options.
-
-> +PACKAGECONFIG[convert] = "--enable-convert --with-convert=ext2,--disable-convert --without-convert,e2fsprogs"
->  PACKAGECONFIG[python] = "--enable-python,--disable-python,python3-setuptools-native"
->  PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
->
-> +# Pick only one crypto provider
-> +PACKAGECONFIG[crypto-builtin] = "--with-crypto=builtin"
-> +PACKAGECONFIG[crypto-libgcrypt] = "--with-crypto=libgcrypt,,libgcrypt"
-> +PACKAGECONFIG[crypto-libsodium] = "--with-crypto=libsodium,,libsodium"
-> +PACKAGECONFIG[crypto-libkcapi] = "--with-crypto=libkcapi,,libkcapi"
-> +
->  inherit autotools-brokensep pkgconfig manpages
->  inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'distutils3-base', '', d)}
->
->  CLEANBROKEN = "1"
->
-> -EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
-> +PACKAGECONFIG_remove_libc-musl = "backtrace"
-
-Use of _remove in core recipes is discouraged.
-
->  EXTRA_PYTHON_CFLAGS = "${DEBUG_PREFIX_MAP}"
->  EXTRA_PYTHON_CFLAGS_class-native = ""
->  EXTRA_PYTHON_LDFLAGS = "${LDFLAGS}"
-> --
-> 2.26.3
->
->
-> 
->
