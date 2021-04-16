@@ -1,208 +1,88 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.3])
- by mx.groups.io with SMTP id smtpd.web08.3414.1618537325509493021
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web10.3996.1618541531006464325
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Apr 2021 18:42:06 -0700
+ Thu, 15 Apr 2021 19:52:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=ea8RoeC6;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.3, mailfrom: zangrc.fnst@fujitsu.com)
-Return-Path: <zangrc.fnst@fujitsu.com>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=yuA/VYiS;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112, mailfrom: zhengrq.fnst@fujitsu.com)
+Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618537323; i=@fujitsu.com;
-	bh=vmAWYqDqTvxeWPD0Yp3Vx81r9sJAkAa22Ylvz3+b3D0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=ea8RoeC6Vk0K+spTIsoMPxIe44jTHid/bx+9pnoCPw+KpwUdVsnvwhWvl81aOgKQh
-	 7xqITSuB0m8MLaVgSKGmvoczx/aWy1D8Gt5PmHQKOiHfu0WalIIvJNYALum1JhxiJ/
-	 O0RYu8o/DvxT+Br9TSMYUwZWXVnZWW5bHm1osxas/hs5jjoWUUqtL3GN3dBYuROdRm
-	 u7nE/e9C6LXZ/qC183cfnYJ4IHcTML3RX9ISkLWtLUcbtWDuYRjP7JswiUu5O08uRE
-	 Q9z/xgp5d7Dvg3b+jjXEmI0Kcw+C1vx5G3ezuuutFZyQMTTz2jHjUjGge9Tz9V7W8f
-	 lKzKSg3w3woYw==
-Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 97/0E-24644-A6BE8706; Fri, 16 Apr 2021 01:42:02 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxVTfrdUW
-  CwbSVbBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b9261MBW3BFRPO32NuYHzi08XIxSEkMItJ
-  Yu/iZWwQznFGiX2HrgE5nBxsAjoSHS+6WboYOThEBPQkrv4TBQkLCzhIrOuewwJiswioSsxr/
-  ckOYvMKuElM7TrPDGJLCChITHn4nhkiLihxcuYTsHpmoPruI0+ZIGx5ieats6HqFSW27zzDAm
-  FXSmyfdpZxAiPvLCTts5C0z0LSvoCReRWjRVJRZnpGSW5iZo6uoYGBrqGhka6hJRAbmeklVuk
-  m6qWW6panFpfoGuollhfrFVfmJuek6OWllmxiBIZdSsGBuh2MD15/0DvEKMnBpCTKe2hFWYIQ
-  X1J+SmVGYnFGfFFpTmrxIUYZDg4lCV7nFxUJQoJFqempFWmZOcAYgElLcPAoifB+eAmU5i0uS
-  MwtzkyHSJ1iVJQS510AkhAASWSU5sG1weLuEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3k
-  aQKTyZeSVw018BLWYCWlyxqhRkcUkiQkqqgUnP6vmPLY+F7EP9E08IHbPlkYh2f1J2ccfcg2t
-  j2pmWzbEvmLKWMf59ZvuzwJC3MzaINsg8OfFxwrTiY0W/tbyZrnxOXOnwVuZFsPODAwazLDLl
-  5B8ozTTOZyhuLzW4uKpKWq7j03Op/6UaopWhr2pPBOeYtf16dTU9PGP2/5dXhXwCn7wwFTy/S
-  CzdudMmzklganFOe6NdF3tV0avrTw2LCqbOLGrdZuW0Ouy+nC57cKHpMlPr35KuRiI7Q7OSRS
-  ZyaQsGnmpwdYz0jeB+FfapdMPMG0d0E1POP17EdOxvx7r7TZo6cRq6ut87GDyfnTn0W/ga/zT
-  mn9VmOTvmlWd8Zsm+sdeffY3G5TtZSizFGYmGWsxFxYkA+3C0qjYDAAA=
-X-Env-Sender: zangrc.fnst@fujitsu.com
-X-Msg-Ref: server-19.tower-267.messagelabs.com!1618537321!1545874!1
-X-Originating-IP: [62.60.8.149]
+	s=170520fj; t=1618541528; i=@fujitsu.com;
+	bh=WvAE464L4BWFBLfHkMdqF4KrNdLXYISzRWzZYQeKzBw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=yuA/VYiSyVx7TZdvLbsCKD3b2I1nl0iJBCoJ+dR3i+G3Aw3OA5nTqEoEkkZt1+Kw2
+	 0uuj1HqMTFkEOJjXy+7WHgYyF+nAJmKFaw/WtixJtpIPES6PozzgOz0wczVk+MCSTA
+	 spqSr/kKpVbEJUMaB9rRhvoYRosy0OQHmMp5ugiAOmpqSyH9MWL5uRw8phux/vxpo5
+	 xM5k+hVBPUNPNcBvST2GQmpgp+EDREYZ7M+eR4Wms5Wvrcv6yZUoV4MBBFle9Co/EA
+	 hPplN7D/rm0DQnspUxkuGVadvZzeax77wPkDkqnUQj0nJnpwjzuEmtL2xVnAO5ToCD
+	 O5Wjmi75yr6qQ==
+Received: from [100.113.6.193] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-b.eu-central-1.aws.symcld.net id FF/82-38008-8DBF8706; Fri, 16 Apr 2021 02:52:08 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRqnv9d0W
+  CwbVJNhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bXpaesBW2cFff3PGJqYFzL0cXIxSEkMItJ
+  4vvMZywQzm5Gif83Whm7GDk52AR0Jc49XsvexcjBISKgJ3H1nyhIWFjATeL07n9sIDaLgKrEk
+  b2rWEFsXgEPicYNR8FsCQEFiSkP3zNDxAUlTs58wgJiMwtISBx88YIZZKSEgKLE7OnyEOWVEt
+  unnWWcwMgzC0nHLCQdCxiZVjFaJBVlpmeU5CZm5ugaGhjoGhoa65rpWpjrJVbpJumlluomp+a
+  VFCUCJfUSy4v1iitzk3NS9PJSSzYxAoMopZAtfAfjmdcf9A4xSnIwKYnyHlpRliDEl5SfUpmR
+  WJwRX1Sak1p8iFGGg0NJgnfBz4oEIcGi1PTUirTMHGBAw6QlOHiURHhf/gJK8xYXJOYWZ6ZDp
+  E4x6nJcWbVkEbMQS15+XqqUOO8KkCIBkKKM0jy4EbDousQoKyXMy8jAwCDEU5BalJtZgir/il
+  Gcg1FJmLcUZApPZl4J3KZXQEcwAR1RsaoU5IiSRISUVAMTw74HVvlKNhca7nQoC100XDzl/LO
+  COcJamYubz15IuaA5o1NoU/LESVp3vOTldXwPpc6pnPF07d7lvU4zzrquaDK/kxxx/WSpdVoy
+  S20jd0V+GLPQ59u6Px7bGm1zL38/f+eNvCexeotWC87kUIuL6ratS+GOPPhG9N/mtd9/xT5Pv
+  Lo4bNnMr/G1j5X9I/rWHTW2PnJ8bnjh5Kw9MtXz9ym/5mrl3Cn34rmNwCKnKpe/8e83/bnwdK
+  KUf4to7houxaLt7cXmBxRezr7y33Ri+XHvJpE/rTYSZX2/0s/2rfeJjtAOj9K/zfcs7w/7hBO
+  bLYv2PnC2fqrQc/2hf33QqaudzRUM0qapcQLcdXuVWIozEg21mIuKEwHVOrunKQMAAA==
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-15.tower-238.messagelabs.com!1618541527!2550732!1
+X-Originating-IP: [62.60.8.85]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 28016 invoked from network); 16 Apr 2021 01:42:02 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-19.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Apr 2021 01:42:02 -0000
+Received: (qmail 20912 invoked from network); 16 Apr 2021 02:52:07 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-15.tower-238.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Apr 2021 02:52:07 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13G1fuFc014248
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13G2pxG5012084
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 02:42:01 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 03:52:07 +0100
+Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 16 Apr 2021 02:41:54 +0100
-From: "zangrc" <zangrc.fnst@fujitsu.com>
+ (TLS) id 15.0.1497.2; Fri, 16 Apr 2021 03:51:58 +0100
+From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] maintainers.inc: Modify email address
-Date: Fri, 16 Apr 2021 09:41:48 +0800
-Message-ID: <1618537308-7241-1-git-send-email-zangrc.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-pygobject: upgrade 3.38.0 -> 3.40.1
+Date: Fri, 16 Apr 2021 19:23:46 +0800
+Message-ID: <1618572226-69259-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
+X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-zangrc.fnst@cn.fujitsu.com -> zangrc.fnst@fujitsu.com
-wangmy@cn.fujitsu.com -> wangmy@fujitsu.com
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- meta/conf/distro/include/maintainers.inc | 36 ++++++++++++------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ ...{python3-pygobject_3.38.0.bb => python3-pygobject_3.40.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.38.0.bb => python3-pygobject_3.40.1.bb} (93%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 6276331857..1eed6aad48 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -78,7 +78,7 @@ RECIPE_MAINTAINER_pn-boost =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-boost-build-native =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bootchart2 =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bsd-headers =3D "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER_pn-btrfs-tools =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-btrfs-tools =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-build-appliance-image =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-build-sysroots =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -157,14 +157,14 @@ RECIPE_MAINTAINER_pn-dos2unix =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-dosfstools =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dpkg =3D "An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.com>"
- RECIPE_MAINTAINER_pn-dropbear =3D "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-dtc =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-dtc =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-dwarfsrcfiles =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-e2fsprogs =3D "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ed =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-efivar =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-efibootmgr =3D "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER_pn-elfutils =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
--RECIPE_MAINTAINER_pn-ell =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-elfutils =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
-+RECIPE_MAINTAINER_pn-ell =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-enchant2 =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-encodings =3D "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -279,7 +279,7 @@ RECIPE_MAINTAINER_pn-intltool =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-iproute2 =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-iptables =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-iputils =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
--RECIPE_MAINTAINER_pn-iso-codes =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-iso-codes =3D "Wang Mingyu <wangmy@cn.ujitsu.com>"
- RECIPE_MAINTAINER_pn-itstool =3D "Andreas M=C3=BCller <schnitzeltony@gmail.com>"
- RECIPE_MAINTAINER_pn-iw =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-libjpeg-turbo =3D "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -364,16 +364,16 @@ RECIPE_MAINTAINER_pn-libogg =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libomxil =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpam =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpcap =3D "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-libpciaccess =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-libpciaccess =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-libpcre =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libpcre2 =3D "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-libpipeline =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-libpipeline =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-libpng =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libportal =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libproxy =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpthread-stubs =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libpsl =3D "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-librepo =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-librepo =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-librsvg =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libsamplerate0 =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER_pn-libsdl2 =3D "Yi Zhao <yi.zhao@windriver.com>"
-@@ -395,7 +395,7 @@ RECIPE_MAINTAINER_pn-libtool-native =3D "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-libucontext =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libunistring =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libunwind =3D "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER_pn-liburcu =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-liburcu =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-liburi-perl =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libusb1 =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libubootenv =3D "Stefano Babic <sbabic@denx.de>"
-@@ -403,7 +403,7 @@ RECIPE_MAINTAINER_pn-libuv =3D "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libva =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-initial =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-utils =3D "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-libvorbis =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-libvorbis =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-libwebp =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libwpe =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libx11 =3D "Armin Kuster <akuster808@gmail.com>"
-@@ -444,7 +444,7 @@ RECIPE_MAINTAINER_pn-libxtst =3D "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxv =3D "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxvmc =3D "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxxf86vm =3D "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-libyaml =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-libyaml =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-lighttpd =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-linux-dummy =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-linux-firmware =3D "Otavio Salvador <otavio.salvador@ossystems.com.br>"
-@@ -509,7 +509,7 @@ RECIPE_MAINTAINER_pn-modutils-initscripts =3D "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-mpeg2dec =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-mpfr =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-mpg123 =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-msmtp =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-msmtp =3D "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER_pn-mtd-utils =3D "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-mtdev =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mtools =3D "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -587,7 +587,7 @@ RECIPE_MAINTAINER_pn-python3-async =3D "Oleksandr Kravchuk <open.source@oleksandr-
- RECIPE_MAINTAINER_pn-python3-atomicwrites =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-attrs =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-cython =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-dbus =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-dbus =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-dbusmock =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-docutils =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-pycryptodome =3D "Joshua Watt <JPEWhacker@gmail.com>"
-@@ -609,21 +609,21 @@ RECIPE_MAINTAINER_pn-python3-nose =3D "Oleksandr Kravchuk <open.source@oleksandr-k
- RECIPE_MAINTAINER_pn-python3-numpy =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-packaging =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-pathlib2 =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-python3-pbr =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
--RECIPE_MAINTAINER_pn-python3-pip =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pbr =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pip =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pluggy =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-py =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-python3-pycairo =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pycairo =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyelftools =3D "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-pygments =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python3-pygobject =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pygobject =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyparsing =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-pytest =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons-native =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-setuptools =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-setuptools-scm =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-python3-six =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-six =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-smmap =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-sortedcontainers =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-subunit =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.40.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.40.1.bb
+index 8df3150e37..f5679a4ba2 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.40.1.bb
+@@ -16,7 +16,7 @@ SRC_URI = " \
+     http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
+     file://0001-Do-not-build-tests.patch \
+ "
+-SRC_URI[sha256sum] = "0372d1bb9122fc19f500a249b1f38c2bb67485000f5887497b4b205b3e7084d5"
++SRC_URI[sha256sum] = "00c6d591f4cb40c335ab1fd3e8c17869ba15cfda54416fe363290af766790035"
+ 
+ UNKNOWN_CONFIGURE_WHITELIST = "introspection"
+ 
 -- 
 2.25.1
 
