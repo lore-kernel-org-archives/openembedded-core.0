@@ -1,143 +1,148 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.464.1618596460195789935
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web08.2086.1618603427355032380
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Apr 2021 11:07:40 -0700
+ Fri, 16 Apr 2021 13:03:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=URU7gbl2;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id u17so43423833ejk.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 11:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j3KUpRWr7YghrQtXxtWU8Ju5oGJhAfIzivvr+Q8vxIw=;
-        b=URU7gbl2AeHBIHCbLjBFM4x6oYbWiQ/rfqU7m9F6xaHBqgQarGfbs1ymxnzlUq5U9q
-         C9iugjgNhurznlgHeTfCUPzzUol2kOyyl1CydgNUWbOCeGCrzUBEPcqPNdTwoxVtxJYf
-         rpaGLzFwb6NXnIdT+EH9xo0NbdviRhk8xQF76rpif/oFDm8AQhmHFb/damIz5+2T+Q0V
-         vxdwAtpHwLQf3Bhxbqv2+qBH3BAC6ytz73hiD/2mxL3mIDozwBzxa/cZ0ANAVFJtOv5F
-         yy8kEr/i42ctTfj4NgsesHd90rEngxU3d8WgilzxaEmn82nsQ+hkQMnhQHtHBMjIvDJs
-         /dUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j3KUpRWr7YghrQtXxtWU8Ju5oGJhAfIzivvr+Q8vxIw=;
-        b=t9nJwzNvmBZ32s8xo7JUsUlVVJEiP0ljuSCMDLsPN1JuG6rlD+4PhDfRWGdSOY1/kq
-         eM3LngRJi5oHpk+9U0kpSAA0C0nb4PtB7IFhCbN+qRmRzqY+xYQ3jUUsd1QPy2jBiVHt
-         ujDjSzzZ/nH9a3HVPW4c9K4P0HEVABwpLHn05EI05NLbS7PuGASTiymlcISS8BE+QT7U
-         Y5t6jApSS5oDd73vJB4ASbLNEnjosxfvl3rHo/uevSa3v8CkQju+6Pq2Fouh+dKkj2IR
-         wwzKhaIS0hlELdJZhyPrPHjdNuXH7rWm4Uc+AG/Oo9f6bma1HEXLo6TyK0w8kq/+fcGl
-         Y7lQ==
-X-Gm-Message-State: AOAM531F6+y0bU0lJ4+R6zLzun29VAddAFK5dGqRorbETi+UnuqwR+ah
-	hK7XiWUPGQfVM3eIUpWy754PxupzZG1jEZgAzPU=
-X-Google-Smtp-Source: ABdhPJzXsVC4GBleptF/y6/gFknQ+Zp8IlXd4oE6ZitlmzS6pKuUj/d0R9YO6nWocljKqLZAl/Yxn+xaIeVBSzjg79Q=
-X-Received: by 2002:a17:906:f210:: with SMTP id gt16mr9555358ejb.22.1618596398750;
- Fri, 16 Apr 2021 11:06:38 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: redrectangle.org, ip: 217.70.183.197, mailfrom: robert.joslyn@redrectangle.org)
+X-Originating-IP: 173.197.191.182
+Received: from loomas.localdomain (rrcs-173-197-191-182.west.biz.rr.com [173.197.191.182])
+	(Authenticated sender: robert.joslyn@redrectangle.org)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D77221C0003;
+	Fri, 16 Apr 2021 20:03:44 +0000 (UTC)
+From: "Robert Joslyn" <robert.joslyn@redrectangle.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH] webkitgtk: Update to 2.32.0
+Date: Fri, 16 Apr 2021 13:02:49 -0700
+Message-Id: <20210416200249.3262139-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210416164310.275973-1-adrian.freihofer@siemens.com>
-In-Reply-To: <20210416164310.275973-1-adrian.freihofer@siemens.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 16 Apr 2021 14:06:27 -0400
-Message-ID: <CADkTA4O9o1-ivXKjUiidMh+b7qTegDnDwV0Y_dViwCBOz7aCEg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: support uImage kernel
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 16, 2021 at 12:43 PM Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
->
-> u-boot's uImage kernel format is not supported by Qemu. Extract the
-> kernel from the uImage to a temporary directory.
->
+Remove upstreamed patch.
 
-I'd suggest that we should document in the commit log why someone
-wouldn't just build a kernel image format that is already supported by
-runqemu (which is what I typically do). I'm guessing it is some sort
-of h/w boot being re-purposed to qemu emulation, and this is to avoid
-building a second kernel image ?
+Add gamepad PACKAGECONFIG. Although upstream enables it by default,
+leave it disabled because the libmanette recipe is in meta-oe.
 
-Additionally, this should have some sort of test, or the code is going
-to bitrot due to not being run by anything in core.
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ ...ics-check-to-include-1-byte-CAS-test.patch | 77 -------------------
+ ...ebkitgtk_2.30.5.bb => webkitgtk_2.32.0.bb} |  4 +-
+ 2 files changed, 2 insertions(+), 79 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.30.5.bb => webkitgtk_2.32.0.bb} (97%)
 
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  scripts/runqemu | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index ba0b701aff..fa630fc7a4 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -163,6 +163,7 @@ class BaseConfig(object):
->          self.bios = ''
->          self.kernel_cmdline = ''
->          self.kernel_cmdline_script = ''
-> +        self.temp_kernel_dir = None
->          self.bootparams = ''
->          self.dtb = ''
->          self.fstype = ''
-> @@ -1422,10 +1423,26 @@ class BaseConfig(object):
->          self.setup_serial()
->          self.setup_vga()
->
-> +    def dump_uimage(self):
-> +        if self.kernel and self.get('KERNEL_IMAGETYPE') == 'uImage':
-> +            import tempfile
-> +            self.temp_kernel_dir = tempfile.mkdtemp()
-> +            kernel = os.path.join(self.temp_kernel_dir, 'image')
-> +            dumpimage_bin = os.path.join(self.bindir_native, 'dumpimage')
-> +            image_link_name = self.get('IMAGE_LINK_NAME')
-> +            logger.info('Running: %s' % str([dumpimage_bin, "-o ", kernel, self.kernel]))
-> +            staging_bindir_native = '%s/usr/bin' % self.get('STAGING_DIR_NATIVE')
-> +            dumpimage_bin = os.path.join(staging_bindir_native, 'dumpimage')
-> +            subprocess.run([dumpimage_bin, "-p", "0", "-o", kernel, self.kernel])
-> +            return kernel
-> +        return self.kernel
-> +
->      def start_qemu(self):
->          import shlex
-> -        if self.kernel:
-> -            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (self.kernel, self.kernel_cmdline,
-> +
-> +        kernel = self.dump_uimage()
-> +        if kernel:
-> +            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (kernel, self.kernel_cmdline,
->                                                                  self.kernel_cmdline_script, self.get('QB_KERNEL_CMDLINE_APPEND'),
->                                                                  self.bootparams)
-
-If the kernel never fails from the dup_uimage() command, why test for
-it ? I don't see how the routine could return something that doesn't
-pass the test. If so, aren't we going to run into more cryptic errors
-(or traceback) later if there was some sort of failure.
-
-The existing code doesn't look like it is completely error proofed
-either, that just came to mind when looking at the patch.
-
-Bruce
-
->              if self.bios:
-> @@ -1481,6 +1498,9 @@ class BaseConfig(object):
->              shutil.rmtree(self.rootfs)
->              shutil.rmtree('%s.pseudo_state' % self.rootfs)
->
-> +        if self.temp_kernel_dir:
-> +            shutil.rmtree(self.temp_kernel_dir)
-> +
->          self.cleaned = True
->
->      def run_bitbake_env(self, mach=None):
-> --
-> 2.26.3
->
->
-> 
->
-
-
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+deleted file mode 100644
+index 93bda4d754..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From 40520b0de69d8ca8e659248f5ffe641f33cc6dee Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 9 Mar 2021 14:16:58 -0800
+-Subject: [PATCH] Extend atomics check to include 1-byte CAS test
+-
+-Rename ATOMIC_INT64_REQUIRES_LIBATOMIC to ATOMICS_REQUIRE_LIBATOMIC so
+-it can reflect broader range which is now checked
+-
+-Rename ATOMIC_INT64_IS_BUILTIN to ATOMICS_ARE_BUILTIN
+-
+-Upstream-Status: Submitted [https://bugs.webkit.org/attachment.cgi?bugid=222959]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Source/JavaScriptCore/CMakeLists.txt   |  2 +-
+- Source/WebKit/CMakeLists.txt           |  2 +-
+- Source/cmake/WebKitCompilerFlags.cmake | 15 ++++++++++-----
+- 3 files changed, 12 insertions(+), 7 deletions(-)
+-
+---- a/Source/JavaScriptCore/CMakeLists.txt
+-+++ b/Source/JavaScriptCore/CMakeLists.txt
+-@@ -129,7 +129,7 @@ if (USE_CAPSTONE)
+-     list(APPEND JavaScriptCore_LIBRARIES capstone)
+- endif ()
+- 
+--if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
+-+if (ATOMICS_REQUIRE_LIBATOMIC)
+-     list(APPEND JavaScriptCore_LIBRARIES atomic)
+- endif ()
+- 
+---- a/Source/WebKit/CMakeLists.txt
+-+++ b/Source/WebKit/CMakeLists.txt
+-@@ -337,7 +337,7 @@ if (USE_LIBWEBRTC)
+-     list(APPEND WebKit_LIBRARIES webrtc)
+- endif ()
+- 
+--if (ATOMIC_INT64_REQUIRES_LIBATOMIC)
+-+if (ATOMICS_REQUIRE_LIBATOMIC)
+-     list(APPEND WebKit_PRIVATE_LIBRARIES atomic)
+- endif ()
+- 
+---- a/Source/cmake/WebKitCompilerFlags.cmake
+-+++ b/Source/cmake/WebKitCompilerFlags.cmake
+-@@ -280,12 +280,17 @@ endif ()
+- if (COMPILER_IS_GCC_OR_CLANG)
+-     set(ATOMIC_TEST_SOURCE "
+-         #include <atomic>
+--        int main() { std::atomic<int64_t> i(0); i++; return 0; }
+-+        int main() {
+-+          std::atomic<int64_t> i(0);
+-+          std::atomic<int8_t> j(0);
+-+          i++; j++;
+-+          return 0;
+-+        }
+-     ")
+--    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_IS_BUILTIN)
+--    if (NOT ATOMIC_INT64_IS_BUILTIN)
+-+    check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_ARE_BUILTIN)
+-+    if (NOT ATOMICS_ARE_BUILTIN)
+-         set(CMAKE_REQUIRED_LIBRARIES atomic)
+--        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMIC_INT64_REQUIRES_LIBATOMIC)
+-+        check_cxx_source_compiles("${ATOMIC_TEST_SOURCE}" ATOMICS_REQUIRE_LIBATOMIC)
+-         unset(CMAKE_REQUIRED_LIBRARIES)
+-     endif ()
+- endif ()
+---- a/Source/WTF/wtf/CMakeLists.txt
+-+++ b/Source/WTF/wtf/CMakeLists.txt
+-@@ -529,6 +529,10 @@ list(APPEND WTF_LIBRARIES
+-     ICU::uc
+- )
+- 
+-+if (ATOMICS_REQUIRE_LIBATOMIC)
+-+    list(APPEND WTF_LIBRARIES atomic)
+-+endif ()
+-+
+- set(WTF_INTERFACE_LIBRARIES WTF)
+- set(WTF_INTERFACE_INCLUDE_DIRECTORIES ${WTF_FRAMEWORK_HEADERS_DIR})
+- set(WTF_INTERFACE_DEPENDENCIES WTF_CopyHeaders)
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
+similarity index 97%
+rename from meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
+index cdc3f9b584..42ba801758 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
+@@ -18,11 +18,10 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-with-musl.patch \
+            file://include_xutil.patch \
+            file://reduce-memory-overheads.patch \
+-           file://0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch \
+            file://musl-lower-stack-usage.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
++SRC_URI[sha256sum] = "9d7df4dae9ada2394257565acc2a68ace9308c4c61c3fcc00111dc1f11076bf0"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
+@@ -59,6 +58,7 @@ PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+ PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
+ PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
+ PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
++PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
+ 
+ # webkitgtk is full of /usr/bin/env python, particular for generating docs
+ do_configure[postfuncs] += "setup_python_link"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.26.3
+
