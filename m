@@ -1,255 +1,208 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.86])
- by mx.groups.io with SMTP id smtpd.web12.3248.1618536405056281402
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.3])
+ by mx.groups.io with SMTP id smtpd.web08.3414.1618537325509493021
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Apr 2021 18:26:45 -0700
+ Thu, 15 Apr 2021 18:42:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ZAHknkJr;
- spf=pass (domain: windriver.com, ip: 40.107.92.86, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g9kJNiLwqXYPs/kmxbUSZw0PZYm0ORZJZOZCxZ52Ag/j2V7uio3Tb0qP+85YP1iHMpM73pnmySteRcX5KsjtLEoVPHfzKiqYr/Xwzejzu+gCz5JB00UX4dNM5WAb08UnDs3dP9VtPOI9y3ubXsuoGn4/MT+pd35ntlcL3/Y1RFqOxMGJcuPQbC5lbJCCYO9WfZ2H5PNmL1IV4/3+kDF2y1MEF6tH3/Sog7x1xZbYOhfr7GSSKm0cc6GY622NkiLJ67pVEZD7frwxIasbc2qaIaK2qt7JDQgsMUwzXoedulKNMd/9tbJFbbR+EX5tJF+HofKO4ayslkfPd3DWn40cdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1/uGk5bpPm1QEyFxuu3HAmrzAZy0Y4pvhPd+go7Rrd4=;
- b=PBFXrOWETMQl3+87ECCYeA41pV0OiprfxcpU8mOllFQFb+BwzgLiKM4e+J6xEfcC5DYqsc4D5msDBU44jOIjQSTfV61SVRQOvTtpGKLFCy0KFs+22wnVPMrjQwhB1uJ9rJC3WtDRyIJa6iBO8S7Ho2me1HZm4mQOR82ODOMS/EqC0cJc36CpePmxrOMDWEfroNkgtXW3NAMh0v8sc1pZDhJrhNGsiOCOmE4SbC7pWPCPt8Ml+H4kkBHmqLjvig87CLT7lVFdOmmmSolK2pAWRRxvtzrHlijg+4d3mk5cqO1O5HJf8ATjqvz5QczX8LIruoM4BqA9Mmgv+jtrrqSfLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1/uGk5bpPm1QEyFxuu3HAmrzAZy0Y4pvhPd+go7Rrd4=;
- b=ZAHknkJrhCJXEaN7dlGTYYbfuoae1Z7NZSpqJOtTmCeI3lWxq8SUXq3VobXcnWPkdWVGiHEPSDkLemJTMAPalUDZNycUgJvFLthTYIw0HIiHwmXbdlZNkCync5OSbonIQY5/ktT/wccqsSGZ9Jp237NWbx+MJhmUpNtaPDevsHM=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BY5PR11MB4388.namprd11.prod.outlook.com (2603:10b6:a03:1c9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.22; Fri, 16 Apr
- 2021 01:26:42 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b%7]) with mapi id 15.20.4042.018; Fri, 16 Apr 2021
- 01:26:42 +0000
-Subject: Re: [OE-core][PATCH] base.bbclass: remove obsolete hosttools
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20210415080103.109691-1-Qi.Chen@windriver.com>
- <f1e774378de966fd8a8820e28bd547c07e482d07.camel@linuxfoundation.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <04249d31-588d-6702-8c63-ab138787bbce@windriver.com>
-Date: Fri, 16 Apr 2021 09:35:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <f1e774378de966fd8a8820e28bd547c07e482d07.camel@linuxfoundation.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR02CA0159.apcprd02.prod.outlook.com
- (2603:1096:201:1f::19) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com header.s=170520fj header.b=ea8RoeC6;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.3, mailfrom: zangrc.fnst@fujitsu.com)
+Return-Path: <zangrc.fnst@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1618537323; i=@fujitsu.com;
+	bh=vmAWYqDqTvxeWPD0Yp3Vx81r9sJAkAa22Ylvz3+b3D0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=ea8RoeC6Vk0K+spTIsoMPxIe44jTHid/bx+9pnoCPw+KpwUdVsnvwhWvl81aOgKQh
+	 7xqITSuB0m8MLaVgSKGmvoczx/aWy1D8Gt5PmHQKOiHfu0WalIIvJNYALum1JhxiJ/
+	 O0RYu8o/DvxT+Br9TSMYUwZWXVnZWW5bHm1osxas/hs5jjoWUUqtL3GN3dBYuROdRm
+	 u7nE/e9C6LXZ/qC183cfnYJ4IHcTML3RX9ISkLWtLUcbtWDuYRjP7JswiUu5O08uRE
+	 Q9z/xgp5d7Dvg3b+jjXEmI0Kcw+C1vx5G3ezuuutFZyQMTTz2jHjUjGge9Tz9V7W8f
+	 lKzKSg3w3woYw==
+Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 97/0E-24644-A6BE8706; Fri, 16 Apr 2021 01:42:02 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxVTfrdUW
+  CwbSVbBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b9261MBW3BFRPO32NuYHzi08XIxSEkMItJ
+  Yu/iZWwQznFGiX2HrgE5nBxsAjoSHS+6WboYOThEBPQkrv4TBQkLCzhIrOuewwJiswioSsxr/
+  ckOYvMKuElM7TrPDGJLCChITHn4nhkiLihxcuYTsHpmoPruI0+ZIGx5ieats6HqFSW27zzDAm
+  FXSmyfdpZxAiPvLCTts5C0z0LSvoCReRWjRVJRZnpGSW5iZo6uoYGBrqGhka6hJRAbmeklVuk
+  m6qWW6panFpfoGuollhfrFVfmJuek6OWllmxiBIZdSsGBuh2MD15/0DvEKMnBpCTKe2hFWYIQ
+  X1J+SmVGYnFGfFFpTmrxIUYZDg4lCV7nFxUJQoJFqempFWmZOcAYgElLcPAoifB+eAmU5i0uS
+  MwtzkyHSJ1iVJQS510AkhAASWSU5sG1weLuEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3k
+  aQKTyZeSVw018BLWYCWlyxqhRkcUkiQkqqgUnP6vmPLY+F7EP9E08IHbPlkYh2f1J2ccfcg2t
+  j2pmWzbEvmLKWMf59ZvuzwJC3MzaINsg8OfFxwrTiY0W/tbyZrnxOXOnwVuZFsPODAwazLDLl
+  5B8ozTTOZyhuLzW4uKpKWq7j03Op/6UaopWhr2pPBOeYtf16dTU9PGP2/5dXhXwCn7wwFTy/S
+  CzdudMmzklganFOe6NdF3tV0avrTw2LCqbOLGrdZuW0Ouy+nC57cKHpMlPr35KuRiI7Q7OSRS
+  ZyaQsGnmpwdYz0jeB+FfapdMPMG0d0E1POP17EdOxvx7r7TZo6cRq6ut87GDyfnTn0W/ga/zT
+  mn9VmOTvmlWd8Zsm+sdeffY3G5TtZSizFGYmGWsxFxYkA+3C0qjYDAAA=
+X-Env-Sender: zangrc.fnst@fujitsu.com
+X-Msg-Ref: server-19.tower-267.messagelabs.com!1618537321!1545874!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 28016 invoked from network); 16 Apr 2021 01:42:02 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-19.tower-267.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Apr 2021 01:42:02 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13G1fuFc014248
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Apr 2021 02:42:01 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 16 Apr 2021 02:41:54 +0100
+From: "zangrc" <zangrc.fnst@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] maintainers.inc: Modify email address
+Date: Fri, 16 Apr 2021 09:41:48 +0800
+Message-ID: <1618537308-7241-1-git-send-email-zangrc.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR02CA0159.apcprd02.prod.outlook.com (2603:1096:201:1f::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 01:26:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 127c1774-93d0-4cea-8f4c-08d90076b0df
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4388:
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB438816344CEEBD9D25F2DB76ED4C9@BY5PR11MB4388.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	LIx1I3aHeaMWugOVXw/9z97zIrsnY2DZbW8WFLW1hYgwIlsxP9CsCuQ33O/QUIu3PQTDum2ablq+Da0U7qi8UK2yjjTLClj0qL5quASJw5YGPQ7qAxiIU61rG3XRE2Nu5Z4foerAfLNCpbr7ESrZbla4hO/Rfz5yaxvZsIT0qEJU5MssFPpT8c6kR1VPMl+0KMk0OFc2Fzz1xdqzPQ7gKEsH2G7jThYwLcmxI7+NUbIUQAFjJyAtpb9EQa2gJhFsVOdY6aITJGRk2kVvdDmRWqLslQ/JN0GbsRbqiLWdwcTkawTLhSC9CNFLueAOW1hYQ9UJ+tiYeo5rFlFMqeHZ6rmzps9PYUBjpWw5/WPNpHGeKpkO8iIqwpZaxbIOD1pCMzuEC4fh9vQ4qCsO0doJLNm0rz2R+1nYC0PPEaTGoIRPQxFjpVowqcCCxzYGgbu9FTUXcd6JveKLexaB9tTYFwXZbxf1xOgcuU1lPvvMmfVfjOVF8GGZ5fJNcYThx171k9qxnMQkBJG3KkrqIa4W1DrOfYQxA+wEouRXI6SYMHpje3HMWMZsg4geo5cary4Gth6L98P1nIrw0xr/r6E5ClgI72mRNWlEkW4Ng8sKFHQqfLrubTWn5NKLiweJb1xf4Kk4BBRQOH0ww6PTSVuE8SzsHMykZrVeIx6FV52BnfzyYW+t+7LRobYGyNg3yilsnORPCnubY5t11RD7VtOS+9ZEru/aAZyqNFIQTbwU0R70BFLOMI0ZGD1HsJyvsy4Yov1O3lESBLZoQHne7Mdun+W5t+WOLXSQMnMCyRlM8hJCm/5Dd/TytIN4LfUBkVqqA7y+R+uu65zDWp3Y/tjW5A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39840400004)(376002)(396003)(366004)(136003)(956004)(31696002)(2616005)(66556008)(86362001)(83380400001)(186003)(6706004)(33964004)(38100700002)(478600001)(66476007)(26005)(52116002)(8676002)(31686004)(16576012)(166002)(36756003)(2906002)(16526019)(6666004)(38350700002)(5660300002)(316002)(8936002)(53546011)(966005)(66946007)(6486002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?NTY2SzB3bzhSdGViM1E2dXFpNlJaRHEvYktGMWd2Q1RYbFBrbnR5VjNwb3Yr?=
- =?utf-8?B?ZlcySVQ1S2dPN1NpVFpvU1JHbHlOTitYOVpuV0YvU09Gc2t6eTRLeitGRGhw?=
- =?utf-8?B?ZGVEWnprOW1kMVhndmJzMU9GVkhDQkJMNG4yNHJjaDZ3Ylh3d3ZLbmVybGg4?=
- =?utf-8?B?bkFTbVN4SGVLZDJjNTJ1N3loa2QwWGRPbzBxREZ1MEdWYmNsNDQ2ekc4VXBw?=
- =?utf-8?B?K1h4RndPMVhmNFpJQjJReCtieE1vZzY2UDB1KysyTWFmdUk0YUV1eC9rYkVL?=
- =?utf-8?B?SU9BcGZ6TUhJdGhqSmVleWxkZUNjWTQ4bUF6bUtJcFpXdkpIekFWNWVRa3E3?=
- =?utf-8?B?TGVRTmtYVmdUeXhxaDR6VHVBVVR4SzY5d1FRZkxVRmFWZ1MrbDZmTWdPb0ds?=
- =?utf-8?B?OUpvYk8zUlhic0daSUYrbS9ibnB4S0x0ZEtpVk5GQ3M5TTNqUG82MWFOTk94?=
- =?utf-8?B?Yzh6cVkzSDdWZkgwSTRCL1FDNzlrRlZ4NUtnYmtOSnNYT3QvWUZyRmdTcHlQ?=
- =?utf-8?B?TkdabWxTUWF6aXpTY2VJNjZhZTRvUG13ZmdwL2RZenZTeUNneDdkejljSTZ0?=
- =?utf-8?B?Rk1SUzJrWE40RXRVb2xNUkdmMFBUYStUanQrQWlwL1ZxeXNuSEE0TGRyVVA5?=
- =?utf-8?B?RHErNzFQN2NXVWpqSnFwNXdXdzNGd2ZaMHczcXNyVm9YdFVHQjlHTnV2NUVN?=
- =?utf-8?B?d0RpVW82NGF3cTZ4MjYrbDVkZTJ1LzVWOGdLZXR6QmZHVHRtMVFRY0tKM2x6?=
- =?utf-8?B?eG02ckZLUmJBeUNOQVJYMkpZZzBKeWVYVHRVcTZTQ2xVMVhEaFFVUWZFQTJ3?=
- =?utf-8?B?REpOUTA0QzM0cjBwdVg5cnJkOWpnL3FkbDJ2bzV5T05TWlFOdWR6ZjVKbmVL?=
- =?utf-8?B?b1dYL2l1YXlMcXNvOExrbkE1WWhLV0dKeWZqNnB1K3M4eU84Mm9IVG90RUhw?=
- =?utf-8?B?Ty9rWkJHaVcxMW5aMm5aOU50Qklhdkp1M0ZtTHUzU0x0TW9mc2JnaTllaUJ6?=
- =?utf-8?B?MTZXZ3laWmxvR3dOcW9WR0tqSEZmbWRPMjd4eTRDMjNxSUlUZ01zNHZYaVMw?=
- =?utf-8?B?YVI4N1RiclYwYklSa2hTNm9WZVV2NDZQT0k4OGtHSUxUZDY4Wm0vRitvWGFJ?=
- =?utf-8?B?VEpwcXMxVmlYZFFmT0U5NWxYd1Y0c1BjdHduUGd1UzRoOFM5NWw2T0lGZDRr?=
- =?utf-8?B?REFmcExCVVVlaFZTa1ByZExWVFRMb3d5NlVWSE9qRkFWa0xhWU9xVTU5ekc1?=
- =?utf-8?B?ekdRV205RVBEVUR5M1I0czU1RWZhNWFMekNyV090VlNMNlBaajJmUElkR0JI?=
- =?utf-8?B?aDZ2Y2g5YWhhT0k1QWY3bXgrUS9la0hEZzFKSUdRQUlUNWg2WHhwRDV0cFd3?=
- =?utf-8?B?YXdJTEViRHh2T1BBVnJpWlExamNMU3JzYURLUmdMZWYxNzFJQjBuNEtqR3Rh?=
- =?utf-8?B?WWZmZ3k5cVFoL0VSV3cwVnpiaVE2WTNsTmp6NzdodEJpaDQ5eTBSdEhIbnRx?=
- =?utf-8?B?NGQ4YlcwUUg5blpzSHdmN2VKUVFkQ2xKTGdoOTZQSDlPbElyZWpUbkV5R01F?=
- =?utf-8?B?eTRFMmFMZVhJYlNJQ0Mram8zVXJFOXVkUG13SXpEcDVXZ29MSFFSQmgvZEZO?=
- =?utf-8?B?N0tqUG9uMjJSNVA1eVNMMzNVa01XZjlwY05McjZ0SEdJekg4MVRxWEd0c0xL?=
- =?utf-8?B?Z21qcEp3ckkySEx3Qi81R2FmSWNkOU9MeTh4UElvd1ppZFYySFFBZDRIaVlo?=
- =?utf-8?Q?0XruUiXhDypodZ2mphAIGwsDRoGhF6PLXlA7/iQ?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 127c1774-93d0-4cea-8f4c-08d90076b0df
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 01:26:42.5846
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AYT32bmlRQL7KdqJPK+hOvYQAh2orFbG3dKqyTXCKUg8Lp5xPA9sLkwGTlzxSyp1ng65+B8sphliDDoNXK3sCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4388
-Content-Type: multipart/alternative;
- boundary="------------0E5BD15F7FE324BD83D25629"
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
 
---------------0E5BD15F7FE324BD83D25629
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+zangrc.fnst@cn.fujitsu.com -> zangrc.fnst@fujitsu.com
+wangmy@cn.fujitsu.com -> wangmy@fujitsu.com
 
-On 04/15/2021 10:18 PM, Richard Purdie wrote:
-> On Thu, 2021-04-15 at 01:01 -0700, Chen Qi wrote:
->> If some tool is removed from HOSTTOOLS or HOSTTOOLS_NONFATAL, it
->> will not be removed from TMPDIR/hosttools in an existing build
->> directory. This is unexpected. Any tool that is not specified in
->> HOSTTOOLS and HOSTTOOLS_NONFATAL should be filtered out.
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com <mailto:Qi.Chen@windriver.com>>
->> ---
->>   meta/classes/base.bbclass | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
->> index 4dd01ade33..eef573d1ce 100644
->> --- a/meta/classes/base.bbclass
->> +++ b/meta/classes/base.bbclass
->> @@ -145,6 +145,13 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
->>       if notfound and fatal:
->>           bb.fatal("The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % " ".join(notfound))
->>   
->>
->> +def clean_hosttools_dir(dest, tools):
->> +    import glob
->> +    desttools = glob.glob('%s/*' % dest)
->
-> I think you want os.listdir() here?
->
->> +    for dt in desttools:
->> +        if os.path.basename(dt) not in tools:
->> +            os.unlink(dt)
->> +
->
-> We didn't do this as it was assumed people very very rarely remove 
-> anything from HOSTTOOLS and
-> if they did, they'd know what else they needed to do. This does add 
-> yet more housekeeping to every
-> build which I try to avoid doing for performance :/.
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Zang Ruochen <zangrc.fnst@fujitsu.com>
+---
+ meta/conf/distro/include/maintainers.inc | 36 ++++++++++++------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-Got it. Thanks for the clarification.
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 6276331857..1eed6aad48 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -78,7 +78,7 @@ RECIPE_MAINTAINER_pn-boost =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-boost-build-native =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-bootchart2 =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-bsd-headers =3D "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER_pn-btrfs-tools =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-btrfs-tools =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-build-appliance-image =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-build-sysroots =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-builder =3D "Richard Purdie <richard.purdie@linuxfoundation.org>"
+@@ -157,14 +157,14 @@ RECIPE_MAINTAINER_pn-dos2unix =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-dosfstools =3D "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-dpkg =3D "An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.com>"
+ RECIPE_MAINTAINER_pn-dropbear =3D "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER_pn-dtc =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-dtc =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-dwarfsrcfiles =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-e2fsprogs =3D "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ed =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-efivar =3D "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-efibootmgr =3D "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER_pn-elfutils =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+-RECIPE_MAINTAINER_pn-ell =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-elfutils =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
++RECIPE_MAINTAINER_pn-ell =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-enchant2 =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-encodings =3D "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-epiphany =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+@@ -279,7 +279,7 @@ RECIPE_MAINTAINER_pn-intltool =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-iproute2 =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-iptables =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-iputils =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
+-RECIPE_MAINTAINER_pn-iso-codes =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-iso-codes =3D "Wang Mingyu <wangmy@cn.ujitsu.com>"
+ RECIPE_MAINTAINER_pn-itstool =3D "Andreas M=C3=BCller <schnitzeltony@gmail.com>"
+ RECIPE_MAINTAINER_pn-iw =3D "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-libjpeg-turbo =3D "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -364,16 +364,16 @@ RECIPE_MAINTAINER_pn-libogg =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libomxil =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libpam =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libpcap =3D "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-libpciaccess =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-libpciaccess =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-libpcre =3D "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libpcre2 =3D "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-libpipeline =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-libpipeline =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-libpng =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libportal =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libproxy =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libpthread-stubs =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libpsl =3D "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-librepo =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-librepo =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-librsvg =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libsamplerate0 =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-libsdl2 =3D "Yi Zhao <yi.zhao@windriver.com>"
+@@ -395,7 +395,7 @@ RECIPE_MAINTAINER_pn-libtool-native =3D "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-libucontext =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libunistring =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libunwind =3D "Bruce Ashfield <bruce.ashfield@gmail.com>"
+-RECIPE_MAINTAINER_pn-liburcu =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-liburcu =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-liburi-perl =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libusb1 =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libubootenv =3D "Stefano Babic <sbabic@denx.de>"
+@@ -403,7 +403,7 @@ RECIPE_MAINTAINER_pn-libuv =3D "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libva =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libva-initial =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libva-utils =3D "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-libvorbis =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-libvorbis =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-libwebp =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libwpe =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libx11 =3D "Armin Kuster <akuster808@gmail.com>"
+@@ -444,7 +444,7 @@ RECIPE_MAINTAINER_pn-libxtst =3D "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxv =3D "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxvmc =3D "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxxf86vm =3D "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-libyaml =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-libyaml =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-lighttpd =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-linux-dummy =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-linux-firmware =3D "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+@@ -509,7 +509,7 @@ RECIPE_MAINTAINER_pn-modutils-initscripts =3D "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-mpeg2dec =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-mpfr =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-mpg123 =3D "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-msmtp =3D "Wang Mingyu <wangmy@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-msmtp =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-mtd-utils =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER_pn-mtdev =3D "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-mtools =3D "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -587,7 +587,7 @@ RECIPE_MAINTAINER_pn-python3-async =3D "Oleksandr Kravchuk <open.source@oleksandr-
+ RECIPE_MAINTAINER_pn-python3-atomicwrites =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-attrs =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-cython =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python3-dbus =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-dbus =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-dbusmock =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-docutils =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-pycryptodome =3D "Joshua Watt <JPEWhacker@gmail.com>"
+@@ -609,21 +609,21 @@ RECIPE_MAINTAINER_pn-python3-nose =3D "Oleksandr Kravchuk <open.source@oleksandr-k
+ RECIPE_MAINTAINER_pn-python3-numpy =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-packaging =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-pathlib2 =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python3-pbr =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+-RECIPE_MAINTAINER_pn-python3-pip =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-pbr =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-pip =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pluggy =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-py =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python3-pycairo =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-pycairo =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pyelftools =3D "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-python3-pygments =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python3-pygobject =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-pygobject =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pyparsing =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-pytest =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-scons =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-scons-native =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-setuptools =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-setuptools-scm =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-python3-six =3D "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-six =3D "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-smmap =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-sortedcontainers =3D "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-subunit =3D "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-- 
+2.25.1
 
-Best Regards,
-Chen Qi
-
->
-> 
->
-
-
---------------0E5BD15F7FE324BD83D25629
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 04/15/2021 10:18 PM, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:f1e774378de966fd8a8820e28bd547c07e482d07.camel@linuxfoundation.org" type="cite">
-      
-      <div>On Thu, 2021-04-15 at 01:01 -0700, Chen Qi wrote:</div>
-      <blockquote type="cite" style="margin:0 0 0 .8ex; border-left:2px
-        #729fcf solid;padding-left:1ex">
-        <pre>If some tool is removed from HOSTTOOLS or HOSTTOOLS_NONFATAL, it</pre>
-        <pre>will not be removed from TMPDIR/hosttools in an existing build</pre>
-        <pre>directory. This is unexpected. Any tool that is not specified in</pre>
-        <pre>HOSTTOOLS and HOSTTOOLS_NONFATAL should be filtered out.</pre>
-        <pre>
-</pre>
-        <pre>Signed-off-by: Chen Qi &lt;<a moz-do-not-send="true" href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;</pre>
-        <pre>---</pre>
-        <pre>&nbsp;meta/classes/base.bbclass | 8 ++++++++</pre>
-        <pre>&nbsp;1 file changed, 8 insertions(+)</pre>
-        <pre>
-</pre>
-        <pre>diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass</pre>
-        <pre>index 4dd01ade33..eef573d1ce 100644</pre>
-        <pre>--- a/meta/classes/base.bbclass</pre>
-        <pre>+++ b/meta/classes/base.bbclass</pre>
-        <pre>@@ -145,6 +145,13 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):</pre>
-        <pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if notfound and fatal:</pre>
-        <pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bb.fatal(&quot;The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s&quot; % &quot; &quot;.join(notfound))</pre>
-        <pre>&nbsp;
-
-</pre>
-        <pre>+def clean_hosttools_dir(dest, tools):</pre>
-        <pre>+    import glob</pre>
-        <pre>+    desttools = glob.glob('%s/*' % dest)</pre>
-      </blockquote>
-      <div><br>
-      </div>
-      <div>I think you want os.listdir() here?</div>
-      <div><br>
-      </div>
-      <blockquote type="cite" style="margin:0 0 0 .8ex; border-left:2px
-        #729fcf solid;padding-left:1ex">
-        <pre>+    for dt in desttools:</pre>
-        <pre>+        if os.path.basename(dt) not in tools:</pre>
-        <pre>+            os.unlink(dt)</pre>
-        <pre>+</pre>
-      </blockquote>
-      <div><br>
-      </div>
-      <div>We didn't do this as it was assumed people very very rarely
-        remove anything from HOSTTOOLS and&nbsp;</div>
-      <div>if they did, they'd know what else they needed to do. This
-        does add yet more housekeeping to every</div>
-      <div>build which I try to avoid doing for performance :/.</div>
-      <div><br>
-      </div>
-      <div>Cheers,</div>
-      <div><br>
-      </div>
-      <div>Richard&nbsp;</div>
-      <br>
-    </blockquote>
-    <br>
-    Got it. Thanks for the clarification.<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote cite="mid:f1e774378de966fd8a8820e28bd547c07e482d07.camel@linuxfoundation.org" type="cite">
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------0E5BD15F7FE324BD83D25629--
