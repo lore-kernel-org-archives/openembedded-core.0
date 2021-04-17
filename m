@@ -1,130 +1,92 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web11.1514.1618620529555849759
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web12.4799.1618671714549986306
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Apr 2021 17:48:49 -0700
+ Sat, 17 Apr 2021 08:01:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=HYL0RMNM;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
-Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ACC5720B8004;
-	Fri, 16 Apr 2021 17:48:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ACC5720B8004
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1618620529;
-	bh=DuhzvdgbJ3ubUyZiamm6Xm7+IfUZILP9CC8hVBI2f0E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HYL0RMNMAKj9NMewI6cvCGFpH4SLENHSCOi245ZpKf10JkcXe5zOAjgH1NzPRdfoe
-	 P9kuRwwgADl8c5NvJzgXLQY40uwJaLb9EAFSONe6Z/pOsE8JxP5Pwzub2miCEPtSJW
-	 +kTbltTHbCSXx/UXiAtZf55F04yl71MLHk/pGsJo=
-From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [PATCH 2/2] python3: Upgrade 3.9.2 -> 3.9.4
-Date: Fri, 16 Apr 2021 18:48:35 -0600
-Message-Id: <20210417004835.2958450-2-alhe@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210417004835.2958450-1-alhe@linux.microsoft.com>
-References: <20210417004835.2958450-1-alhe@linux.microsoft.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fCBm6z6U;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id dp18so10241345qvb.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Apr 2021 08:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=T+4moY1d1q36Dbx8Mhk+Oob/s+cOvG7gOLktMmxmERw=;
+        b=fCBm6z6UjUpivnROQL00GlRiiXRNP20Gd/IzQhCPKQL3YLTEErRSCV/8PGDoP1n31D
+         WJnrnXp80y8RQyYWyuCUMqXfotmZFMSAS++TRStQWHMH2x97r/S68U+986hEzEl0weQX
+         HWKgk4W+s/FpYz3HF8tlYjKIz7Bner4NSdR3CNcq5sc55g46UV0xLgXyd1joeG+sNSWH
+         HDkUpwaQ3Ypq2SCUJI620raCOWkD6QDz8p6NIZR4KI5zuCc1jGhJkIMCbfzJqvoquE03
+         AxnvLzMX2xTEBJRkCCQO7YarKvgYWfo4L4b5KKjgPkMNIlXiotkoV+AZmJ7Ku0EiHSdo
+         jllQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=T+4moY1d1q36Dbx8Mhk+Oob/s+cOvG7gOLktMmxmERw=;
+        b=n0mJmhmdQ/Vh0NAm2zr+eTr+ByyUa5OHvlBS9QXt8RwCbh/s5Q2uIgjWu4FMbRMIvv
+         Y0hQKCYd7nlbpQ75UuEsJN8u4ZZiVtuMeUlVUPuIugBrPtFsAzU39/cV30D76qZFLHcu
+         yoJe5JybPaTjoYE/+jqQvt6A0cxdcUs5FWsO4nV59NsoXGeyXptlD1Y42DJ4r3/Nat8p
+         gkV8TyTZcdKDAvcuJKefTBc4OYb8MGBCX2TpfPE4B56sF0ALBovGisqLq6u250netk8P
+         zCtaJsSIrp5J4e1awogqhmbOFT/U2I+fXVrPr/3uwPvbJPIJ+F2e1YyrnUMOfbYYwU+z
+         xh7A==
+X-Gm-Message-State: AOAM5330nBXK9lcqig1b/qdiWEIAo1Dp9g2C7tc8se6LE3rPeT3qp9os
+	tnBrLkWQwlxf/wdNfAi0QJIM0klKQn6awmQNdzM=
+X-Google-Smtp-Source: ABdhPJzCQ3xWRNMwGMK9fEyriKR8pIV2IUELzFkrISk1RzD05b2V3Fnsw18XXm6CqBkzkxCzOJWUtL4Z2fg65T4MNb0=
+X-Received: by 2002:ad4:5bef:: with SMTP id k15mr12120555qvc.16.1618671713480;
+ Sat, 17 Apr 2021 08:01:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210416222834.273394-1-paulo.zaneti@gmail.com>
+In-Reply-To: <20210416222834.273394-1-paulo.zaneti@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 17 Apr 2021 08:01:26 -0700
+Message-ID: <CAMKF1soMF+Ep-bgaFBmGcVsuNVrzoPixwtcW081JPvhNBovWGw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perl: fix startperl configuration option for perl-native
+To: Paulo Cesar Zaneti <paulo.zaneti@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+I am seeing failure in native recipes e.g. opkg-utils-native
 
-- Rebased patch 0001-test_locale.py-correct-the-test-output-format
-  Maintainer needs to sign CLA and resubmit
-- configure now explicitly requires autoconf-archive to be present
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
----
- ...le.py-correct-the-test-output-format.patch | 22 +++++++++----------
- .../{python3_3.9.2.bb =3D> python3_3.9.4.bb}    |  4 ++--
- 2 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.9.2.bb =3D> python3_3.9.4=
-.bb} (99%)
+| /usr/bin/env: =E2=80=98nativeperl-native/perl=E2=80=99: No such file or =
+directory
+| make: *** [Makefile:26: opkg-build.1] Error 127
+| WARNING: /mnt/b/yoe/master/build/tmp/work/x86_64-linux/opkg-utils-native=
+/0.4.3-r0/temp/run.do_compil
+e.2244982:187 exit 1 from 'exit 1'
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-cor=
-rect-the-test-output-format.patch b/meta/recipes-devtools/python/python3/=
-0001-test_locale.py-correct-the-test-output-format.patch
-index 35b7e0c480..c3d1e06d00 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-th=
-e-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-th=
-e-test-output-format.patch
-@@ -23,24 +23,24 @@ Before this patch:
-=20
- Upstream-Status: Submitted [https://github.com/python/cpython/pull/15132=
-]
-=20
-+
-+Rebased for 3.9.4, still not accepted upstream Signed-off-by: Alejandro =
-Hernandez <alejandro@enedino.org>
-+
- Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
- ---
-  Lib/test/test_locale.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
--diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
--index e2c2178..558d63c 100644
----- a/Lib/test/test_locale.py
--+++ b/Lib/test/test_locale.py
--@@ -527,7 +527,7 @@ class TestMiscellaneous(unittest.TestCase):
-+Index: Python-3.9.4/Lib/test/test_locale.py
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- Python-3.9.4.orig/Lib/test/test_locale.py
-++++ Python-3.9.4/Lib/test/test_locale.py
-+@@ -562,7 +562,7 @@ class TestMiscellaneous(unittest.TestCas
-              self.skipTest('test needs Turkish locale')
-          loc =3D locale.getlocale(locale.LC_CTYPE)
-          if verbose:
- -            print('testing with %a' % (loc,), end=3D' ', flush=3DTrue)
- +            print('testing with %a...' % (loc,), end=3D' ', flush=3DTru=
-e)
--         locale.setlocale(locale.LC_CTYPE, loc)
--         self.assertEqual(loc, locale.getlocale(locale.LC_CTYPE))
--=20
----=20
--2.7.4
--
-+         try:
-+             locale.setlocale(locale.LC_CTYPE, loc)
-+         except locale.Error as exc:
-diff --git a/meta/recipes-devtools/python/python3_3.9.2.bb b/meta/recipes=
--devtools/python/python3_3.9.4.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.9.2.bb
-rename to meta/recipes-devtools/python/python3_3.9.4.bb
-index fd1172335a..cb371ceed7 100644
---- a/meta/recipes-devtools/python/python3_3.9.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.4.bb
-@@ -38,7 +38,7 @@ SRC_URI_append_class-native =3D " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] =3D "3c2034c54f811448f516668dce09d24008a0716c3a794dd8=
-639b5388cbde247d"
-+SRC_URI[sha256sum] =3D "4b0e6644a76f8df864ae24ac500a51bbf68bd098f6a173e2=
-7d3b61cdca9aa134"
-=20
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -69,7 +69,7 @@ ALTERNATIVE_LINK_NAME[python3-config] =3D "${bindir}/py=
-thon${PYTHON_MAJMIN}-config
- ALTERNATIVE_TARGET[python3-config] =3D "${bindir}/python${PYTHON_MAJMIN}=
--config-${MULTILIB_SUFFIX}"
-=20
-=20
--DEPENDS =3D "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib =
-virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
-+DEPENDS =3D "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib =
-virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-arc=
-hive-native"
- DEPENDS_append_class-target =3D " python3-native"
- DEPENDS_append_class-nativesdk =3D " python3-native"
-=20
---=20
-2.25.1
-
+On Fri, Apr 16, 2021 at 3:29 PM Paulo Cesar Zaneti
+<paulo.zaneti@gmail.com> wrote:
+>
+> Unlike vanilla Perl "Configure" script, perl-cross "configure" does not
+> derive "startperl" from "bin". It instead derives from "perlpath".
+>
+> This patch aims to fix "startperl" configuration option for perl-native =
+by
+> correctly setting "perlpath" on perl-cross "configure" script.
+>
+> Signed-off-by: Paulo Cesar Zaneti <paulo.zaneti@gmail.com>
+> ---
+>  meta/recipes-devtools/perl/perl_5.32.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/perl/perl_5.32.1.bb b/meta/recipes-de=
+vtools/perl/perl_5.32.1.bb
+> index b28040c7fb..82c2922066 100644
+> --- a/meta/recipes-devtools/perl/perl_5.32.1.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.32.1.bb
+> @@ -95,6 +95,7 @@ do_configure_class-nativesdk() {
+>  do_configure_class-native() {
+>      ./configure --prefix=3D${prefix} \
+>      -Dbin=3D${bindir}/perl-native \
+> +    -Dperlpath=3D${bindir}/perl-native/perl \
+>      -Duseshrplib \
+>      -Dsoname=3Dlibperl.so.5 \
+>      -Dvendorprefix=3D${prefix} \
+> --
+> 2.25.1
+>
+>
+>=20
+>
