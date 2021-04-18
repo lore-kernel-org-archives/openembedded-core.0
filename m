@@ -1,96 +1,82 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web08.8992.1618733801215547229
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web09.8778.1618733801887863473
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Apr 2021 01:16:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MheRVaQb;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id h11so3518987pfn.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i+zFdWcS;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so18653328pjb.4
         for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 01:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+anTLplYgOQ/5SGsabVSMWoqWG4+dnKi0EHXSiZIE+U=;
-        b=MheRVaQbmspcY8RraC62oH/bPAt3veC7/AxGvOHADWYuNpo5bkbqF/BlPQInCecFBG
-         W1lVTKmgv5RNUzT6EtKLYro/TD6tcNeQGsK4Jw783LvvM7b4UXLypwU/zbgdpd4AjEcH
-         F51BIFXY+E7GGcpYqbeewr4595sp8riPqgTmcM26GR8xJ11LeG0DNHKpAL30siNO/1do
-         OiITeaX2r4D1z9TXreivmCaROOt5U+y/gEoR9e8x9ZVnIIQoIfqHjWlA2kgkb8UEi451
-         rNnK/nDXJW0C0zOOxwntIfhZoHPnzd1IyO/4uy0fiI7ikdhCAjueDoXP9BFDEFNu8rL8
-         zG5Q==
+        bh=ZUKeYmxAeMsz/7VD5vP1dk6GvMyw4Hwv42MB+SznWjI=;
+        b=i+zFdWcSqJDpsOxhp2SLPFcwcZqNyE95GsJ553lZykQy0iEDzCQyohiumiDhe0mhxQ
+         4ZkPZHD9MJcc9sClMOUVX9VgrigcFM773uHKAGg/azhBCv7G/lwjBeuXDuQDTkATKo0P
+         12N7xrAhlQfCQ1q9y1FZTwaYj+ddf93omWPOFX7j1Q0/tqw3mTHaevz9xjM63TnIm1r8
+         psfsEsWXBdgXvb8gsJFgR6fRBmZtvKOz0rHkzqi8UV5VJMqKEL0xGrlXsJsEHAtXsuSg
+         tx2m7iHc04AOQoTfsVg4ITbMV+9rbVmupdHWawKznfzEqzSyyhrcrDlqEXRn/nmpK3m8
+         RFUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+anTLplYgOQ/5SGsabVSMWoqWG4+dnKi0EHXSiZIE+U=;
-        b=sON2sPeLCpJSyPTiOg2K3epnjtoFwY8WwQYV0HhPd8fjByUovWDs8HSDGDaKbTLggV
-         +AdvMg2Vu8xFbL1vSZAmaaUoix0vM3r4CTY80VN1x1t5pXp0khNAUWHaEHvBA/loc+Fr
-         VkL1tJ3KQ/HGJvifxvqp3RWpak5uvbS6oAUralx4vagE56bwj9+k355RWuyyIB/n2xx9
-         GLVkNJ3lBIcAovZ4PAxQdKZcCoOzJZhzDAf3LcDMoLRVityXaTvfw1NSILx6HIJ089kM
-         Y/GWtIu/aFBIbMYtqM7QXhLtPy28tvBcYdlA7+GEb3wpbT7NdT8U3MBoYz8P/pi2l8M2
-         Z5xQ==
-X-Gm-Message-State: AOAM532bBXM1eST+WkkOl4R9y3vaCaprSHU+Re0+wKwHJM9bBB5FqHrX
-	q/XoyNl4Qu8kYWUMJlaZVTTM4waJ/lvO6w==
-X-Google-Smtp-Source: ABdhPJz0ex6xnH4hVoQ5yRXuHLbG5v1QJOG21rOsO9b1Sitn0FUr3QWV5iYmepTKh6DlZO57HWNAAA==
-X-Received: by 2002:a63:f212:: with SMTP id v18mr6600174pgh.343.1618733800559;
-        Sun, 18 Apr 2021 01:16:40 -0700 (PDT)
+        bh=ZUKeYmxAeMsz/7VD5vP1dk6GvMyw4Hwv42MB+SznWjI=;
+        b=fi/k3aTZVdsPXXyCESBYzefjwoMNm/PUGFgj/8TDXPz7Q9Z3Fz6fkL2bfJji/54dQL
+         /cj/hdMyo9I2exqlF0YaLAfXUsXyahkkWsATJpB6DkkigEf9+DlRYCmG1PhzqSb/i5HZ
+         FLf4SqDggwkspC6Xu3q9FsHPs/28JNw7M0S5gecfaZlRrIXUJhvtGneEHsdpPU2Ykfd2
+         23lGGP0q/ZoLATxS0OZUiLhXbEECn7KSkd3IuYn907pm4ZdVE6wam6Vr0tQiQMgdkVqk
+         atnYQuRKn8ArC/T0rH2eAoRScr42ynM3r5aci1gzEnaYqjWZ0HCEj+vG/kaUcvv7RJo8
+         cd6Q==
+X-Gm-Message-State: AOAM530/dfREGNcu+b8ZzF72pNpZSYE9NZOhMihmzrdrcR7ZvgS73rf5
+	ndVVcYSZxphd77gcJY/c/qMCuV/j4mUo9A==
+X-Google-Smtp-Source: ABdhPJzCkSbeJgTkR2tkfLlzUDYwe4F9NdSkYBq8IfSttgLl2VWHT1aDUJHALan4mNvS1pd94Rc5vQ==
+X-Received: by 2002:a17:902:8688:b029:ea:f782:5eae with SMTP id g8-20020a1709028688b02900eaf7825eaemr17316737plo.15.1618733801280;
+        Sun, 18 Apr 2021 01:16:41 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::630])
-        by smtp.gmail.com with ESMTPSA id g2sm2339211pju.18.2021.04.18.01.16.39
+        by smtp.gmail.com with ESMTPSA id g2sm2339211pju.18.2021.04.18.01.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 18 Apr 2021 01:16:40 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/6] gstreamer1.0-plugins-bad: Add packageconfigs for hls crypto backends
-Date: Sun, 18 Apr 2021 01:16:33 -0700
-Message-Id: <20210418081634.3169548-5-raj.khem@gmail.com>
+Subject: [PATCH 6/6] libpsl: Add config knobs for runtime/builtin conversion choices
+Date: Sun, 18 Apr 2021 01:16:34 -0700
+Message-Id: <20210418081634.3169548-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210418081634.3169548-1-raj.khem@gmail.com>
 References: <20210418081634.3169548-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use openssl by default
+Use libicu by default
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_1.18.4.bb      | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-support/libpsl/libpsl_0.21.1.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.4.bb
-index ce2082ee32..96f01391b4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.4.bb
-@@ -28,8 +28,8 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
--    bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
--    ttml uvch264 webp \
-+    bz2 closedcaption curl dash dtls hls openssl rsvg sbc smoothstreaming \
-+    sndfile ttml uvch264 webp \
- "
+diff --git a/meta/recipes-support/libpsl/libpsl_0.21.1.bb b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
+index db4b3a5991..4fc0ad8acb 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.21.1.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.21.1.bb
+@@ -16,11 +16,10 @@ SRC_URI[sha256sum] = "ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896
  
- PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
-@@ -45,7 +45,11 @@ PACKAGECONFIG[dtls]            = "-Ddtls=enabled,-Ddtls=disabled,openssl"
- PACKAGECONFIG[faac]            = "-Dfaac=enabled,-Dfaac=disabled,faac"
- PACKAGECONFIG[faad]            = "-Dfaad=enabled,-Dfaad=disabled,faad2"
- PACKAGECONFIG[fluidsynth]      = "-Dfluidsynth=enabled,-Dfluidsynth=disabled,fluidsynth"
--PACKAGECONFIG[hls]             = "-Dhls=enabled -Dhls-crypto=nettle,-Dhls=disabled,nettle"
-+PACKAGECONFIG[hls]             = "-Dhls=enabled,-Dhls=disabled,"
-+# Pick atleast one crypto backend below when enabling hls
-+PACKAGECONFIG[nettle]          = "-Dhls-crypto=nettle,,nettle"
-+PACKAGECONFIG[openssl]         = "-Dhls-crypto=openssl,,openssl"
-+PACKAGECONFIG[gcrypt]          = "-Dhls-crypto=libgcrypt,,libgcrypt"
- # the gl packageconfig enables OpenGL elements that haven't been ported
- # to -base yet. They depend on the gstgl library in -base, so we do
- # not add GL dependencies here, since these are taken care of in -base.
-@@ -148,4 +152,3 @@ FILES_${PN}-freeverb += "${datadir}/gstreamer-1.0/presets/GstFreeverb.prs"
- FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/1.0/opencv*"
- FILES_${PN}-transcode += "${datadir}/gstreamer-1.0/encoding-profiles"
- FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-1.0/presets/GstVoAmrwbEnc.prs"
+ UPSTREAM_CHECK_URI = "https://github.com/rockdaboot/libpsl/releases"
+ 
+-DEPENDS = "libidn2"
 -
+ inherit autotools gettext gtk-doc manpages pkgconfig lib_package
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ?= "icu"
+ PACKAGECONFIG[manpages] = "--enable-man,--disable-man,libxslt-native"
+-
++PACKAGECONFIG[icu] = "--enable-runtime=libicu --enable-builtin=libicu,,icu"
++PACKAGECONFIG[idn2] = "--enable-runtime=libidn2 --enable-builtin=libidn2,,libidn2 libunistring"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.31.1
 
