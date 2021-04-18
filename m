@@ -1,77 +1,62 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web09.4810.1618701109452323163
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web12.7309.1618717381807521352
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Apr 2021 16:11:50 -0700
+ Sat, 17 Apr 2021 20:43:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@oleksandr-kravchuk-com.20150623.gappssmtp.com header.s=20150623 header.b=eRE6Grtq;
- spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com, ip: 209.85.167.48, mailfrom: open.source@oleksandr-kravchuk.com)
-Received: by mail-lf1-f48.google.com with SMTP id j18so50360178lfg.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Apr 2021 16:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PZ388moZ7wLmWhHuC/M4VHlqnQ6DcK6DywwdopheglY=;
-        b=eRE6Grtq+OrocAoiqz4UyLi0HVFD6NmWcW3ocFujYtG6dL8jHLKN3FMcTKT//3Ai0T
-         nwvcLdontdpiy2FR9zwRVY51V974/kPxSdt0ttPFDRBcdcYDja1XTlIvPtscg/F1Edwj
-         DHziTRtXAolhGcQfAEB4C2eek60quF7Hp5S9kVnKdewEEV/OsYi3sw7eIsvARBRw6xIB
-         SsKcUT5XCGOJSOEyS/qnaIGhaoNMMNo0Yokw6Bt0gTCso73zUjDVLY7s4ZKg6wECJzMe
-         23iWue+d+rQ3pOQxwvuwCULdxke4zXcrQ7HAOSxg9xUQqiBPLjSnNMrM65m+7UQ9zEw2
-         LLGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PZ388moZ7wLmWhHuC/M4VHlqnQ6DcK6DywwdopheglY=;
-        b=oEXKm7s1ZIrJMzqYEzAUvJz0CCIzrdTG6SR3g+rvFduMCHdqzG95A6RcRaE4JVMkQY
-         Wxh9zzmpQjJEwY3Crt1/Zr1E2qw4X4QQx8oIsaPL9IXItRxS739tuKWoObRHLHmzgkhD
-         AT1moouqzGxU0MVw44Lp1tqZW1CvapcmSPoBexLiDf1IshSrglc+iuK96+SKvkJFQMsq
-         Ae2IeZX5FsReQ6a3EdCE0wxW8RD/R9CBZz/3uJvjwQDmyu39u2PuSph32Veg2v/lHTcI
-         mC4kKJx+qEAya6ektVgO41S6/qO7ucDYmx5xdCf2M6x68f8Pgo1u80YieTzgF79u0dgG
-         IRuw==
-X-Gm-Message-State: AOAM532WeJuPZNHeNYLMsBo7rjLKxURmOeCkorL4LsUnp/PchmkOIx7k
-	9SxsWVLrTu9W0D9B5cpXCpKw+T7AyDUPSEQX
-X-Google-Smtp-Source: ABdhPJzmv3+rOECSRa+jGYwpvi136ixtKA8pXESYUDm1VfeyWNwwj84O+3Xsv4QCbgDG5J+TOTWijA==
-X-Received: by 2002:ac2:46ed:: with SMTP id q13mr7259180lfo.543.1618701107301;
-        Sat, 17 Apr 2021 16:11:47 -0700 (PDT)
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se. [213.89.0.115])
-        by smtp.gmail.com with ESMTPSA id p20sm898118lfu.306.2021.04.17.16.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Apr 2021 16:11:46 -0700 (PDT)
-From: "Oleksandr Kravchuk" <open.source@oleksandr-kravchuk.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: redrectangle.org, ip: 217.70.183.195, mailfrom: robert.joslyn@redrectangle.org)
+X-Originating-IP: 173.197.191.182
+Received: from localhost.localdomain (rrcs-173-197-191-182.west.biz.rr.com [173.197.191.182])
+	(Authenticated sender: robert.joslyn@redrectangle.org)
+	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 5647060002;
+	Sun, 18 Apr 2021 03:42:58 +0000 (UTC)
+From: "Robert Joslyn" <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] autoconf-archive: update to 2021.02.19
-Date: Sun, 18 Apr 2021 01:11:41 +0200
-Message-Id: <20210417231141.407616-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
+Date: Sat, 17 Apr 2021 20:40:39 -0700
+Message-Id: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- ...nf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/autoconf-archive/{autoconf-archive_2019.01.06.bb => autoconf-archive_2021.02.19.bb} (78%)
+Update licensing, as libtrfsutil is under LGPLv3+. Note that libtrfsutil
+is in the process of being relicensed to LGPLv2.1+:
+	https://github.com/kdave/btrfs-progs/issues/323
 
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-similarity index 78%
-rename from meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-rename to meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-index 13593d7bb3..54079b5f09 100644
---- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2021.02.19.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
-     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ .../{btrfs-tools_5.10.1.bb => btrfs-tools_5.11.1.bb}     | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.10.1.bb => btrfs-tools_5.11.1.bb} (88%)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+index fca010d4ae..2ab476a88e 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+@@ -7,14 +7,17 @@ btrfs and an utility (btrfs-convert) to make a btrfs filesystem from an ext3."
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "d46413c8b00a125b1529bae385bbec55"
--SRC_URI[sha256sum] = "17195c833098da79de5778ee90948f4c5d90ed1a0cf8391b4ab348e2ec511e3f"
-+SRC_URI[sha256sum] = "e8a6eb9d28ddcba8ffef3fa211653239e9bf239aba6a01a6b7cfc7ceaec69cbd"
+ HOMEPAGE = "https://btrfs.wiki.kernel.org"
  
- inherit autotools allarch texinfo
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
++LICENSE = "GPLv2 & LGPLv3+"
++LIC_FILES_CHKSUM = " \
++    file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067 \
++    file://libbtrfsutil/COPYING.LESSER;md5=3000208d539ec061b899bce1d9ce9404 \
++"
+ SECTION = "base"
+ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
  
+-SRCREV = "f2ffce38b9c1477a7350bfe165f0e34b9bde40f5"
++SRCREV = "8d5051f279f7994fb80536ef8f846f06d121d898"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
 -- 
-2.25.1
+2.26.3
 
