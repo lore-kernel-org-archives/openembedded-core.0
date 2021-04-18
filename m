@@ -1,56 +1,74 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.13758.1618765250614768285
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web09.16841.1618781530435598354
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 10:00:50 -0700
+ Sun, 18 Apr 2021 14:32:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: randy.macleod@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13IH0nfE015723
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 10:00:49 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Sun, 18 Apr 2021 10:00:49 -0700
-Received: from vme.wrs.com (172.25.44.2) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2242.4 via Frontend
- Transport; Sun, 18 Apr 2021 10:00:49 -0700
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] oe-time-dd-test.sh: increase timeout to 15 sec
-Date: Sun, 18 Apr 2021 13:00:48 -0400
-Message-ID: <20210418170048.150940-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.27.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SOr/Sjy6;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso447404pjn.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 14:32:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qDUPkQJG1w+394uIfoP1+Al+VWIocoV/Y4ZabMVEnq4=;
+        b=SOr/Sjy6UZuc6Nk83f1LOEeNGxY78R0SSVP6B335TTX4iwzzNeB66n8iBlneeg69Nf
+         vNgrEzo/au4Wfo1YTYHwrOpBQl7v0vjaA6AfoI3JZnEBgq1+wZn0+l4fL9KJ+wWmqxQ5
+         Oa6e/Pej4leM7TidDIG1VNGtPHJ6xh0i0Je96Li/AYaYAXyl02dP5wGOdR/bIuAKLtwZ
+         KhDYTR3ugJpncP9kw9GPo9I4NVd8yWoGXOc2iLP2ZYEciIGJaqlviBtMHjUkJ+8TLhOc
+         vqjBmQJt9gN2/DjM27sBb6Yupcu8WDqFA9/+P8hnFCoY58jnwWNApQqfCsaESU0wlNGr
+         94nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qDUPkQJG1w+394uIfoP1+Al+VWIocoV/Y4ZabMVEnq4=;
+        b=L9j0RgnWsiE0POnRnmigTzrzIyY/uq+P/RYOacBmOGDsE5jsSJRRP6w69+eAoH1AYm
+         Vv144fc8k0bHEy6lWo63QEw9yV9KoNj/Q9XpG4IrKOMQ8g428C9Q5ZGgJRPV9CNLcCPG
+         /1pVeXvZX1vzDIaONNFcHF7WtWOuvy/UNQcPrRocs8+W3BdDJR95T3NgYIiRS4h6W25u
+         k2bCu3MfoSzyInQ4IUjVlg4APetwONplAA1S3/85oQaSoHFT8ejqs0ePxyXObNThD44X
+         Efg0O6IWFvwXCiP0I7C08KGiL5oxayKpwgz5qmUMDRYMKZhm9STG1hjv5AL7F2PV0kBx
+         rFvQ==
+X-Gm-Message-State: AOAM532RMNioWZWhjfq0fZLdPmgdsIa4bpnY+KG3SSlBM0lgOlFl9rAj
+	4JZL4bHNCEy5e4gO9hRrMfbps9imLQWa8w==
+X-Google-Smtp-Source: ABdhPJwAhmLlcPKJrBW1oohE3P90hrmv1Ncr7drtrQOrRqCMSeZmKlaE7Bz1tvL8NnODhOjMEJJYWg==
+X-Received: by 2002:a17:90a:d18a:: with SMTP id fu10mr21206167pjb.233.1618781529773;
+        Sun, 18 Apr 2021 14:32:09 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
+        by smtp.gmail.com with ESMTPSA id fw24sm12303500pjb.21.2021.04.18.14.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Apr 2021 14:32:09 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] epiphany: Add missing dependency on gnutls
+Date: Sun, 18 Apr 2021 14:32:07 -0700
+Message-Id: <20210418213207.1591440-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-With the previous timeout of 5 seconds, there would be
-builds such as:
-   https://autobuilder.yocto.io/pub/non-release/20210417-13/
-which produced 17 files with top output with top running 454 times
-and that's a bit too much data to analyze for each run. By
-increasing the timeout, we'll find the worse problems
-first, fix them and then we can decrease the timeout if needed.
+This was being pulled in by other dependencies thus far
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- scripts/oe-time-dd-test.sh | 2 +-
+ meta/recipes-gnome/epiphany/epiphany_3.38.3.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/oe-time-dd-test.sh b/scripts/oe-time-dd-test.sh
-index 5b25e6bd97..459071e732 100755
---- a/scripts/oe-time-dd-test.sh
-+++ b/scripts/oe-time-dd-test.sh
-@@ -13,7 +13,7 @@ usage() {
-         echo "Usage: $0 <count>"
- }
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+index 889de16d00..ce24336ace 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/epiphany"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--TIMEOUT=5
-+TIMEOUT=15
+-DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
++DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr gnutls \
+ 	   gsettings-desktop-schemas libxml2-native \
+ 	   glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
  
- if [ $# -ne 1 ]; then
-         usage
 -- 
-2.27.0
+2.31.1
 
