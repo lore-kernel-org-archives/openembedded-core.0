@@ -1,62 +1,87 @@
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web12.7309.1618717381807521352
+ by mx.groups.io with SMTP id smtpd.web11.7439.1618717391870936673
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Apr 2021 20:43:02 -0700
+ Sat, 17 Apr 2021 20:43:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: redrectangle.org, ip: 217.70.183.195, mailfrom: robert.joslyn@redrectangle.org)
 X-Originating-IP: 173.197.191.182
 Received: from localhost.localdomain (rrcs-173-197-191-182.west.biz.rr.com [173.197.191.182])
 	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 5647060002;
-	Sun, 18 Apr 2021 03:42:58 +0000 (UTC)
+	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B696460002;
+	Sun, 18 Apr 2021 03:43:09 +0000 (UTC)
 From: "Robert Joslyn" <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
-Date: Sat, 17 Apr 2021 20:40:39 -0700
-Message-Id: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
+Subject: [PATCH v2 2/3] btrfs-tools: Add PACKAGECONFIG options
+Date: Sat, 17 Apr 2021 20:40:40 -0700
+Message-Id: <20210418034041.108754-2-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
+References: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update licensing, as libtrfsutil is under LGPLv3+. Note that libtrfsutil
-is in the process of being relicensed to LGPLv2.1+:
-	https://github.com/kdave/btrfs-progs/issues/323
+Add options to make it easier to control which features are enabled. All
+of these default to enabled by upstream, so keep them enabled to
+maintain previous behavior.
+
+The convert option also supports reiserfs, but no recipes exist in the
+layer index. Limit the option to ext filesystems until someone cares
+enough to make reiserfs recipes.
+
+Remove acl and attr from DEPENDS, as they do not apper to be needed. Add
+zlib since it is required.
 
 Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- .../{btrfs-tools_5.10.1.bb => btrfs-tools_5.11.1.bb}     | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.10.1.bb => btrfs-tools_5.11.1.bb} (88%)
+ .../btrfs-tools/btrfs-tools_5.11.1.bb          | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-similarity index 88%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-index fca010d4ae..2ab476a88e 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+index 2ab476a88e..73d0237635 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
 +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
-@@ -7,14 +7,17 @@ btrfs and an utility (btrfs-convert) to make a btrfs filesystem from an ext3."
- 
- HOMEPAGE = "https://btrfs.wiki.kernel.org"
- 
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
-+LICENSE = "GPLv2 & LGPLv3+"
-+LIC_FILES_CHKSUM = " \
-+    file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067 \
-+    file://libbtrfsutil/COPYING.LESSER;md5=3000208d539ec061b899bce1d9ce9404 \
-+"
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = " \
+     file://libbtrfsutil/COPYING.LESSER;md5=3000208d539ec061b899bce1d9ce9404 \
+ "
  SECTION = "base"
- DEPENDS = "util-linux attr e2fsprogs lzo acl"
+-DEPENDS = "util-linux attr e2fsprogs lzo acl"
++DEPENDS = "lzo util-linux zlib"
  DEPENDS_append_class-target = " udev"
  RDEPENDS_${PN} = "libgcc"
  
--SRCREV = "f2ffce38b9c1477a7350bfe165f0e34b9bde40f5"
-+SRCREV = "8d5051f279f7994fb80536ef8f846f06d121d898"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+@@ -22,16 +22,30 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
             file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
             "
+ 
+-PACKAGECONFIG ??= "python"
++PACKAGECONFIG ??= " \
++    programs \
++    convert \
++    python \
++    crypto-builtin \
++"
+ PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
++PACKAGECONFIG[programs] = "--enable-programs,--disable-programs"
++PACKAGECONFIG[convert] = "--enable-convert --with-convert=ext2,--disable-convert --without-convert,e2fsprogs"
+ PACKAGECONFIG[python] = "--enable-python,--disable-python,python3-setuptools-native"
+ PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
+ 
++# Pick only one crypto provider
++PACKAGECONFIG[crypto-builtin] = "--with-crypto=builtin"
++PACKAGECONFIG[crypto-libgcrypt] = "--with-crypto=libgcrypt,,libgcrypt"
++PACKAGECONFIG[crypto-libsodium] = "--with-crypto=libsodium,,libsodium"
++PACKAGECONFIG[crypto-libkcapi] = "--with-crypto=libkcapi,,libkcapi"
++
+ inherit autotools-brokensep pkgconfig manpages
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'distutils3-base', '', d)}
+ 
+ CLEANBROKEN = "1"
+ 
++EXTRA_OECONF = "--enable-largefile"
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
+ EXTRA_PYTHON_CFLAGS = "${DEBUG_PREFIX_MAP}"
+ EXTRA_PYTHON_CFLAGS_class-native = ""
 -- 
 2.26.3
 
