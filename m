@@ -1,167 +1,126 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.11522.1618754016569097517
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web11.11638.1618754660365571927
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 06:53:36 -0700
+ Sun, 18 Apr 2021 07:04:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EYkwv5cw;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id mh2so27355502ejb.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 06:53:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=P/WeXDuH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f175.google.com with SMTP id m13so32911989oiw.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 07:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=C/fjoiex0OVfoPzi2Fu5gPCePtfnqrzOxhs06IjlEws=;
-        b=EYkwv5cwqjq0ty4dG1AiphZ+R07VuW5KaMT8XwCVXtd8GESl1q+emA2fv7enGkf1ur
-         GWTySfr2CILVfyPGmn/YlCb2qNOil666xF+axZyAP7JcfFqOJQbQTVdigPePzxy5+PRO
-         suNGaaRD9b7cwnqqGZcsEQKqG6EQTbdfaViKNvDtXTaIupvjZ0jQTLuE51RbJhh04Ono
-         Bcv17eJx62DTbfArP/m9yJdJSQ+ysmt4iT6tUr6gRUpfwp26G13ZphTmfPCTeAAOM411
-         rWeOD8+qQnm5I5e8ITlhrkWXrEmlogh87+Q0M5nCwgG8mN8Q45vHkXR+M4b366sx/FA2
-         lYfQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=ojr7Zxdz9RzrgESaC1PRB7X5N0RjWCS0oJTPPZ7EBRM=;
+        b=P/WeXDuHx4QEZa1jQTGSgaWXEMENz6vYmA8enoXL/SiERdNbPnpj15pxMMzkseYOt8
+         C59FwPhiue//9RJ8bQ5jzQeYKmXUapVkzHahjV2RRoJ/XYGp/2PKfI11D7KKzK98R1jv
+         239uQT+dm2E8lJOHJF/VFk2OuhCIKCUgVkpDfr/Nq+Wqk6Iir4EE9ipKtdtwYYF9Q9Vr
+         Lx7x71lCe4GwuoJkFDKkijpbux+B152QmLE76LR8GKVUUIZoQdVzIJ74QpJ2Zoo3hH51
+         PybSuRbfqEqLNip803DFdLG0rzEKUf41qcO15jg+sLXqvn64LpJ31zyMs2Uv6/5F8Nwj
+         oL0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=C/fjoiex0OVfoPzi2Fu5gPCePtfnqrzOxhs06IjlEws=;
-        b=bGuFGsY4olWA6l5iV9c99OgkjhSlp3MlkmsP/epWL8vokyHiXtgourdysjMuouWPRo
-         lRP08jyT78Td0CCQfEaJJlHIQWWIr+9g6HG2O/SDyUdxpVQNLfTq/UcWJMGlAasAFvbX
-         9YCRxwC5SOIb/1cgFSr1PEtllD6bujZbNSY9H34uVGuQvKGzU7/kBkr7LlRMD2+2MSCV
-         LLD0tC6bqDJfWNLeZG37b0xFg+ugCCwtH+1dc9eJ4lKMhSCMR0G4k3iKJPR8/kq6HNkA
-         Xepvag2kxLMUJZjA6MUkziT1ohANviXpUhkgJtelXo/A9bgD0voDj63H0eSzFUaCpLRl
-         0cYA==
-X-Gm-Message-State: AOAM531nRa18BDcfFELcovvxk35QGiONoDM7ELqn8MlawIbFg/vTX5p8
-	E5K2tJH5hW9/SGrwaz4jJgc=
-X-Google-Smtp-Source: ABdhPJxQ/daJIamJBzckFkPH1c2frYtZZahqO7t/MCS/eteYQh+9PKfR90g3la8qTRVuh47T9+PkzQ==
-X-Received: by 2002:a17:906:f1cf:: with SMTP id gx15mr18146440ejb.143.1618754015094;
-        Sun, 18 Apr 2021 06:53:35 -0700 (PDT)
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from md2ramxc.lan.ffah.ch ([62.32.0.69])
-        by smtp.gmail.com with ESMTPSA id w1sm10604624edt.89.2021.04.18.06.53.33
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=ojr7Zxdz9RzrgESaC1PRB7X5N0RjWCS0oJTPPZ7EBRM=;
+        b=BzGDaGRLUypLGZ1OxzubZv9GVm6Zdyw78lCBEUbreKloZ3lj9cgmpAEEaNdFmrfLsA
+         LBOecQnQvEXhRmzcES/pA77+SrV3X8WydUj7O/aXckfGcfuyUAoJA7tdR0uDIfBZYTBy
+         /50Cwq88B0P9O/CCqtICgEGcL/a9X1QYldbbjjIaMYqibaAAAUPrHpJjvB+V/HxB3hQ2
+         sNaKq/k0R9KuOMohF3l6XO9NuwJ/gXhN7/FELQFedUyGFoK6UvHJ9bzAVVdxvZYOLIDo
+         i7ub1G6aff3i2kQh4v+Xa4G/umRE4/OS25KvVZZE7GvMCIlLTP/6zEISGSjE6bneJ4BT
+         HrmA==
+X-Gm-Message-State: AOAM5330KCNqpMhu32RPm95UNb/GBsxtVRKdwocLhe6lFRpxIJktBy9k
+	B6Z0STcNfbeVI6GyiBaTL5jMwbH7tQmiBxpIAaM=
+X-Google-Smtp-Source: ABdhPJwLyxxWhHKTrmr26oItY+iRRGt48651vek4/5sDhGNBOfo+p3ym0tlYMubeNR7bwagBritqKw==
+X-Received: by 2002:a54:4809:: with SMTP id j9mr12148774oij.4.1618754659088;
+        Sun, 18 Apr 2021 07:04:19 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id r9sm566811otn.64.2021.04.18.07.04.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 06:53:34 -0700 (PDT)
-Message-ID: <8438897677c280b503ecad1bd08d172c75c18c11.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: support uImage kernel
-From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Apr 2021 15:53:32 +0200
-In-Reply-To: <CADkTA4O9o1-ivXKjUiidMh+b7qTegDnDwV0Y_dViwCBOz7aCEg@mail.gmail.com>
-References: <20210416164310.275973-1-adrian.freihofer@siemens.com>
-	 <CADkTA4O9o1-ivXKjUiidMh+b7qTegDnDwV0Y_dViwCBOz7aCEg@mail.gmail.com>
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        Sun, 18 Apr 2021 07:04:18 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id B4E2896036A; Sun, 18 Apr 2021 04:04:06 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 18 Apr 2021 04:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210418140406.B4E2896036A@nuc.router0800d9.com>
+Date: Sun, 18 Apr 2021 04:04:06 -1000 (HST)
 
-Hi Bruce,
+Branch: master
 
-Thank you for asking the right questions. This patch should be ignored.
+New this week:
 
-On Fri, 2021-04-16 at 14:06 -0400, Bruce Ashfield wrote:
-> On Fri, Apr 16, 2021 at 12:43 PM Adrian Freihofer
-> <adrian.freihofer@gmail.com> wrote:
-> > u-boot's uImage kernel format is not supported by Qemu. Extract the
-> > kernel from the uImage to a temporary directory.
-> > 
-> 
-> I'd suggest that we should document in the commit log why someone
-> wouldn't just build a kernel image format that is already supported by
-> runqemu (which is what I typically do). I'm guessing it is some sort
-> of h/w boot being re-purposed to qemu emulation, and this is to avoid
-> building a second kernel image ?
-> 
-The runqemu script explicitly checks for the uImage type. However, my
-conclusion so far is that Qemu does not support this format, or at
-least it is broken. I've been thinking about adding more reasonable
-feedback to the user instead of just launching the uImage and running
-into an infinite loop of nothing. However this would need deeper
-understanding of Qemus's support for e.g. uImage format or better ctest
-cases covering this use cases.
+Removed this week:
+CVE-2020-35517: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35517 *
+CVE-2021-22876: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22876 *
+CVE-2021-22890: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-22890 *
+CVE-2021-28153: glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28153 *
+CVE-2021-30004: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-30004 *
 
-> Additionally, this should have some sort of test, or the code is going
-> to bitrot due to not being run by anything in core.
-The current runquem-related test cases only cover the x86_64 MACHINE.Regardless of the discussion around this patch, it might be useful to
-cover more machines there as well. This would make it possible to test
-some more image formats, such as uImage and fitImage, which are more
-widely used on ARM machines. I will have a look at that.
-
-Regards,
-Adrian
-> 
-> > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > ---
-> >  scripts/runqemu | 24 ++++++++++++++++++++++--
-> >  1 file changed, 22 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/scripts/runqemu b/scripts/runqemu
-> > index ba0b701aff..fa630fc7a4 100755
-> > --- a/scripts/runqemu
-> > +++ b/scripts/runqemu
-> > @@ -163,6 +163,7 @@ class BaseConfig(object):
-> >          self.bios = ''
-> >          self.kernel_cmdline = ''
-> >          self.kernel_cmdline_script = ''
-> > +        self.temp_kernel_dir = None
-> >          self.bootparams = ''
-> >          self.dtb = ''
-> >          self.fstype = ''
-> > @@ -1422,10 +1423,26 @@ class BaseConfig(object):
-> >          self.setup_serial()
-> >          self.setup_vga()
-> > 
-> > +    def dump_uimage(self):
-> > +        if self.kernel and self.get('KERNEL_IMAGETYPE') == 'uImage':
-> > +            import tempfile
-> > +            self.temp_kernel_dir = tempfile.mkdtemp()
-> > +            kernel = os.path.join(self.temp_kernel_dir, 'image')
-> > +            dumpimage_bin = os.path.join(self.bindir_native, 'dumpimage')
-> > +            image_link_name = self.get('IMAGE_LINK_NAME')
-> > +            logger.info('Running: %s' % str([dumpimage_bin, "-o ", kernel, self.kernel]))
-> > +            staging_bindir_native = '%s/usr/bin' % self.get('STAGING_DIR_NATIVE')
-> > +            dumpimage_bin = os.path.join(staging_bindir_native, 'dumpimage')
-> > +            subprocess.run([dumpimage_bin, "-p", "0", "-o", kernel, self.kernel])
-> > +            return kernel
-> > +        return self.kernel
-> > +
-> >      def start_qemu(self):
-> >          import shlex
-> > -        if self.kernel:
-> > -            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (self.kernel, self.kernel_cmdline,
-> > +
-> > +        kernel = self.dump_uimage()
-> > +        if kernel:
-> > +            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (kernel, self.kernel_cmdline,
-> >                                                                  self.kernel_cmdline_script, self.get('QB_KERNEL_CMDLINE_APPEND'),
-> >                                                                  self.bootparams)
-> 
-> If the kernel never fails from the dup_uimage() command, why test for
-> it ? I don't see how the routine could return something that doesn't
-> pass the test. If so, aren't we going to run into more cryptic errors
-> (or traceback) later if there was some sort of failure.
-> 
-> The existing code doesn't look like it is completely error proofed
-> either, that just came to mind when looking at the patch.
-> 
-> Bruce
-> 
-> >              if self.bios:
-> > @@ -1481,6 +1498,9 @@ class BaseConfig(object):
-> >              shutil.rmtree(self.rootfs)
-> >              shutil.rmtree('%s.pseudo_state' % self.rootfs)
-> > 
-> > +        if self.temp_kernel_dir:
-> > +            shutil.rmtree(self.temp_kernel_dir)
-> > +
-> >          self.cleaned = True
-> > 
-> >      def run_bitbake_env(self, mach=None):
-> > --
-> > 2.26.3
-> > 
-> > 
-> > 
-> > 
-> 
-> 
-
+Full list:  Found 66 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-10713: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14308: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15706: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35492: cairo:cairo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35492 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20263: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20263 *
+CVE-2021-20271: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20271 *
+CVE-2021-20305: nettle:nettle-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20305 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-3392: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3392 *
+CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
+CVE-2021-3416: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3416 *
+CVE-2021-3418: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
