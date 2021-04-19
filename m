@@ -1,267 +1,158 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web09.1626.1618790804169146269
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.76])
+ by mx.groups.io with SMTP id smtpd.web12.2098.1618793684423832347
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 17:06:44 -0700
+ Sun, 18 Apr 2021 17:54:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EtKOwOuO;
- spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f180.google.com with SMTP id s5so25537404qkj.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:44 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=REK9YciH;
+ spf=pass (domain: windriver.com, ip: 40.107.94.76, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Iqc7dWZcQpoQaRxk6BszB8DYVaBVA/yamBTxtRy6TcCaexyq50bve0cVOVnxsedw715oEUaXZOd2axV9Dfk0pOHGcqoOfTsqZsbnaeSvz184qBrwddvSaqfvONn0roXVtIqpurMRTrG/FDo9O3sFre65WA8uCyrcRadc+A7lfgQBnSH4RDpQ8dY/4MyNuvu06IX2nw7VVSABjOUYQGNAVQ8/zxd8+FP2qYVKwIuYhOK1DoSqj5FQ8Ac/u1+CcByPTZymkCWywVG/hujNI0catQutjl6mnfoqc7f6AY3tCCHMfVJrLpr6T6QmPlkJhwAWOFSjcHKsPaRLnqcLmUonnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INSO2Kjax6VXjpAkev1lmgGXQ0E/ODUmNVkU/VzKh0Q=;
+ b=hD9Akx4oYm41kT4BdG/ByfS7P1iZoTH0tMoUBKuLbX/Pd6R3g+841jznjtyMYL5HMiP5VPF6d5DLq1cnZOHHAECtQ1ebSwG8WV66RSiGd5XgYRVZRZc4YdzsqLeB6J/FwqM9csTIDziRE1qR93f/09tvDZ3QM62QbJ6TgLZ+XCZJeCzWqW9TajTamaApJ8duMtPQzmFb21PsA54+3/N+Xl8V6VizY886AQ3BrB1JbXxHdrnCTPdd2PVze5ySDIomW6g2z77blNDpFhfZR8fWoPwFPzZBYmKA5WnG2HfTVdUbt5wVYOrdA5UQpKW34v+Hp2B3Zhc1WK9X04b81H/L6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1f+m/ya/JxHyktIaf++wbXihMikjCRk19EU5XYtj/BA=;
-        b=EtKOwOuOA8CXdfSjUiSE1fQx/m/65Q+gjy+/jT30BNQXdK2C6qoCTKN/SzqHU+QPge
-         LrevY8Dmca95inV2m77rjP2fdAotj0ao80TkqohvPRJDuX2Hvw0+P8/TDaNcgPba/qyz
-         GZQQh5L3rMxes7pegLWR6dxyMZuGVS6zYYaqd62GZ8SoOrNEVFX226d8z+2gZ/KE8KIZ
-         ZNEyMmuBr+pZh+2aBwxKm6b3k5ixgUxWfGNM7UaLaZE7hDd7rNVWMETd4F832amUQ0Ao
-         WRAVYR7WNZa+77ZVWcQ6baQbrMsnG6NTG/Su7i5mufkT0uhLp+Gsi5drAN2WZ+oGBCGP
-         D7yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1f+m/ya/JxHyktIaf++wbXihMikjCRk19EU5XYtj/BA=;
-        b=kPwUvaYfn4yXhhS4/bNxr+RhGcUya0S7AWaDe5f3XVU6xnmskq5EB45p28IdNIQAC9
-         rMVbjXxZjw9Rxj60/04uG8pwf7fBm0nsCH7OP8OiOdPXgZXpGhfZryCsLxHmpQhVqPCh
-         8m+vkRpUTbK4U4zpaLctmjO8Y7NQ4/BhYDc6mUFdjmUiZGXQhX2vgpQMBmKylAyHdjmh
-         N1xfUedJfEYlwvOnK6IQyv/4w8ULxwSIFjOKQRH7Ikovis3D8Jfz/YCTG9FXnFHPsfY7
-         I34QIutYywcDjgo+MxHNEbZH+I9hn3wALu3TrclS3seS5HU4Bqml/l1hd2Ue+5VlucQk
-         opxA==
-X-Gm-Message-State: AOAM533mnumBPUbbULEKS3KwR4rmxvg2AdJQVPxizgCqGrZTO+Pwmsh9
-	tnPhKPqxkQO6FsfbCueP5ZI=
-X-Google-Smtp-Source: ABdhPJzylzIWBjlVYMWhvd/fqfTpLqYFt6M4BWQSEjBy/UpkO77BLGmkHHIqaWP4AuzTnFzQ5pKhHQ==
-X-Received: by 2002:a05:620a:1341:: with SMTP id c1mr9414007qkl.77.1618790803295;
-        Sun, 18 Apr 2021 17:06:43 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 17:06:42 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] linux-yocto/5.4: update to v5.4.112
-Date: Sun, 18 Apr 2021 20:06:32 -0400
-Message-Id: <7ba2e0c0c056c586de70b333c7ead39968b9b7e2.1618790681.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1618790681.git.bruce.ashfield@gmail.com>
-References: <cover.1618790681.git.bruce.ashfield@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INSO2Kjax6VXjpAkev1lmgGXQ0E/ODUmNVkU/VzKh0Q=;
+ b=REK9YciHfc9ACXIDGg4n9RCDtWezhcTrGziVQINrwRAdT7OBYnGI1NkVD0VhyBJxsGdn85v0CN8ZGFbyt9hHXq4xILk4ebW3tbVYHwdOJvkQaGFJHOsSbgINPTc725kbIp1Yq7cqAKxVEWdkiRq+vdryTxGGdAtln8JgemOQkDU=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.21; Mon, 19 Apr
+ 2021 00:54:41 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5%7]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
+ 00:54:41 +0000
+Subject: Re: [OE-core] [PATCH] oe-time-dd-test.sh: increase timeout to 15 sec
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+To: openembedded-core@lists.openembedded.org,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1677026B4C4FCC42.11056@lists.openembedded.org>
+Message-ID: <d00380f2-3214-f8ad-3faf-454d932878e9@windriver.com>
+Date: Sun, 18 Apr 2021 20:54:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <1677026B4C4FCC42.11056@lists.openembedded.org>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: SJ0PR03CA0285.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::20) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by SJ0PR03CA0285.namprd03.prod.outlook.com (2603:10b6:a03:39e::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 00:54:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9dc8b69b-9a46-40d2-98a9-08d902cdb6f5
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB25383498978DD4A56CF1B3D8F8499@DM6PR11MB2538.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	GlhIaEetrd/hQkjfjc0XEVaus/SuUZDtjE2k+FXuxSu0q9giejyKsVT1tpF/ItIKW840PcLWHRXULcIkDPtdX1e0LV3IhFMCUTA2TfyhbS2D3sC+qUVzr+NtQsn8KXD1GDoLnK9X8G/oidJR41/wKzue4gs4XuUtR6R9Bglu/qS6TkX2LgJHd33S6lF/RtSR5ixwaA965OgOKtpqgvBieHLyDS4OF05EQWJTP4hnRroxexnEoRVtp3kaDBhCtvv/myWlMfRceAjkkUOACL9BkUOUK9zRMhSF1rnfXFbbSMx7y4E1DvGOzbJmla7gJ4PoD+n3dW0a4z5nEeefVVl2vHp6Cgnum8wkl6JZDqRK0D5l6nEMUr1c2HG2/wHQW5ocnFjBOhV5J0r7GtBsKeyNOkJ29HKR3wQclhz+yXQsxQSeBNhDTLF+hRf2le7Wv7aNVEpkM6quoci/oQw+5QlvJ5NgeQQp9rdIlhpX5aC9k0ktKIVLqGNFYa6coIF9wUWX8M42G4FRD/2Jkew/VHTKeyxolo3WCljJj+hpsVh6OdfPHkYjDFMg8DPTPNQxF5rDHMLv4s5XqYDzs4sjKvK55j07GiS67yy2A5Z2mCEKmXO4s+5xVAZKzs/P1W6+hfyIxDHbO1KOdSdGnoQN/h4uOoHiugO/wMAiu1glAWRKBA0rvaKMbJq42SqTlEJTU+QGxpo+8SpUY6lagzP9XrnkG8i68pOCTMym+ee7KLwNLJIWowO7faaEl3CYCvtYbZSCvCuvSExX2xPGN/INylfoB9n1rtbqcLifhnUu/LT/H40=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(396003)(346002)(376002)(366004)(136003)(52116002)(8936002)(83380400001)(6916009)(36756003)(38100700002)(26005)(86362001)(8676002)(316002)(66556008)(66946007)(53546011)(38350700002)(2906002)(16576012)(5660300002)(478600001)(31686004)(956004)(2616005)(6486002)(966005)(31696002)(66476007)(6666004)(186003)(16526019)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?dHFPcjhkMGRWNTBHQUR4bk5FQ2xoRm5KZ0R3MG9YVmVKSlYxQVNIL0xHSndn?=
+ =?utf-8?B?R3RZbS83MU9iMTUyVmFQcndiK091b01kQU9KemlubXNMUXZpUGc3SjJqZzRx?=
+ =?utf-8?B?QnA2Q1UzUVgweFkxQ2hJdTcxWHpweUZmUjRrMDA1ZHJMZGVhbGdqV0I0Qy9o?=
+ =?utf-8?B?UDZORDhRZWI0emtKRHdXY1N4WjVDMzNrYTJ6MjdabmRtOU9iOWQxVjlzcG5U?=
+ =?utf-8?B?ZGlFOGQwUFVXNHdKQTNHZE03UlNBZHFwQzcvQUxERnNLeXhuWG9LNHIzcFZv?=
+ =?utf-8?B?QkVrTXVzUnV6N09QU25SYVJwQysvN0t4Mnh2TEZya2IzQk1FZFJMdHVIcnFp?=
+ =?utf-8?B?QzdxTXVqdUhwVzYvWktuVzZaMmowQ1NXeDNFV3pHbFIzeFJKV0hkeU9TbHpG?=
+ =?utf-8?B?aklEQi92amkzR1hMM2lsSzd5VGdzV2lLQVVCa0ZKZ095ODBRSitER3J0OHpX?=
+ =?utf-8?B?T3lwV1F4dnM2SU9tZ3Z3Z3Y1bHNFY3RlTGpPYnZKREYwTytDVTZKNGZJZ0FI?=
+ =?utf-8?B?OWE1OEJ3Mnp0OUdHd3ZsendRQk5QTGs1RzdzbXp6VGFCZkhHRUpBdmZKTW5V?=
+ =?utf-8?B?dGEzUStPV2NmcktMb05GU0JTcXZWNDNMTENQVFkwdUpTN1pPTEpZNzJwS2Fo?=
+ =?utf-8?B?b2w4ekYxUTZWYm4zSURGZktXczNURmlGZFdTZDZtL2FLWFdNUDBlQllPQzVy?=
+ =?utf-8?B?R3lOdFFPczJuV3lJUmhMWTQzTVlKMWFuYlZFU3FjVGUrbmpLS1MwRmlBU0ky?=
+ =?utf-8?B?Y2FIT1RmSktPdU5hcWRIL1FWUWxFVkNYcnp0MDZTZ0UvbkZiZGRnYSs1QWFr?=
+ =?utf-8?B?dndpY1VGUVE5T01LQ0NiSXhuQ0FHWG91a0p5Y1BldnVnQlNYZkxMYU1SUEhu?=
+ =?utf-8?B?QkdRYTRUNWticE5sdmZXaDFwVnZHYnJzMTkxOXlPMDdUM01Bb2xJOEVzZ3p4?=
+ =?utf-8?B?eFRyVjliQi9PcUdvb0RFUFNxZzV0ak9laCtGc2tlbmpJRTVRTEk1NzZtODR1?=
+ =?utf-8?B?TzM2T0QwZzlCOVVnNkJZS0pWTFBFdXdYNElnVCtlRzNnOW8rMWhzZUV1RXNZ?=
+ =?utf-8?B?WThRUStmR1gxcThWeEJKR0NMd0JmcDdtRDg0K0FQL0dpQk8rY0xORVdJWXEw?=
+ =?utf-8?B?SzNzQTEyb2xEcWxCMERBRSt2TWQrVHpvT1ZhcGkvdFNUVGVhVWk5QjFpVTRC?=
+ =?utf-8?B?ZmswNWJyb2lSdklFekJxUVFUVExqYU1kc3NSMks2dElZY0Npb1JqcTMrVGNG?=
+ =?utf-8?B?NTRGUzhxSnpHLzdwSGtRY3V0dEF3S3VmQ0NSN3ZxUmhpNFpDT0lHaEZpekNw?=
+ =?utf-8?B?V3NRVHdMbmhVdG1obzlUWTJad3pUd2JXR1NGU0tiVmtCTCsxcWJUK1lGSWl4?=
+ =?utf-8?B?Z0JhVWlJb0VpUnNKWGlpY2FsM0w1TU1hR01wYUJXL2RvemVHbmtTcDluM1pu?=
+ =?utf-8?B?Nkg4OXhFVlFqUEQxOHRmdkRhVUZJMSttbXJ5SE5rcWl5RmRndjE2RFJ5cWtJ?=
+ =?utf-8?B?NkJpczNodWs2ZFdIbFZ6UlJJZnoxKzhOK2xnVGU2Z01KVW15bVhwS0t1d0M1?=
+ =?utf-8?B?MUpnVmd5bUhPL1dDd0FEWDR4STY5UHdwVnpWUzJhd1RkV3hGR0NlKzRrYVhI?=
+ =?utf-8?B?MGhHL2tDMis4QWI1RVhVN01sajMzRlFaUWt4bjgzQzhqRWVvUjdUdjErSFBX?=
+ =?utf-8?B?YjkxbjAxV1VjdjFOT1VPdGJoQU9MRi80Nlg5VmxPZ3N0bWJzV3l6cDN2bW01?=
+ =?utf-8?Q?yHlXbzVGeie7pAbqHaRrr33W9ybQ0IVMG67vjG9?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dc8b69b-9a46-40d2-98a9-08d902cdb6f5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 00:54:41.3224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Foiis0d5RipwaLOq9QtEz7NeJkHSUUsFAkaAtBIbINnn/XDDQ9I7ZgRJht0KbQjYXvO0aQmX8VRw4Y6/OJsava8fDcbkPyDhbRsc/sSS5c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2538
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On 2021-04-18 1:00 p.m., Randy MacLeod wrote:
+> With the previous timeout of 5 seconds, there would be
+> builds such as:
+>     https://autobuilder.yocto.io/pub/non-release/20210417-13/
+> which produced 17 files with top output with top running 454 times
+> and that's a bit too much data to analyze for each run. By
+> increasing the timeout, we'll find the worse problems
+> first, fix them and then we can decrease the timeout if needed.
+> 
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>   scripts/oe-time-dd-test.sh | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/oe-time-dd-test.sh b/scripts/oe-time-dd-test.sh
+> index 5b25e6bd97..459071e732 100755
+> --- a/scripts/oe-time-dd-test.sh
+> +++ b/scripts/oe-time-dd-test.sh
+> @@ -13,7 +13,7 @@ usage() {
+>           echo "Usage: $0 <count>"
+>   }
+>   
+> -TIMEOUT=5
+> +TIMEOUT=15
+>   
+>   if [ $# -ne 1 ]; then
+>           usage
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+Please merge the corresponding change to yocto-autobuilder-helper:
 
-    8f55ad4daf00 Linux 5.4.112
-    ea42fd91d304 Revert "cifs: Set CIFS_MOUNT_USE_PREFIX_PATH flag on setting cifs_sb->prepath."
-    7ee5bde3164c net: ieee802154: stop dump llsec params for monitors
-    b4042ecc12cb net: ieee802154: forbid monitor for del llsec seclevel
-    e82f8b7713ab net: ieee802154: forbid monitor for set llsec params
-    948a2817f71d net: ieee802154: fix nl802154 del llsec devkey
-    b3a105e15cd6 net: ieee802154: fix nl802154 add llsec key
-    4097afd93df7 net: ieee802154: fix nl802154 del llsec dev
-    7d32fc7964d6 net: ieee802154: fix nl802154 del llsec key
-    8f4c815c74f4 net: ieee802154: nl-mac: fix check on panid
-    38ea2b3ed00f net: mac802154: Fix general protection fault
-    6e7098f56c83 drivers: net: fix memory leak in peak_usb_create_dev
-    32e2f9a708e1 drivers: net: fix memory leak in atusb_probe
-    0a790ad1358b net: tun: set tun->dev->addr_len during TUNSETLINK processing
-    ed13df88c6d5 cfg80211: remove WARN_ON() in cfg80211_sme_connect
-    628ac886dfba net: sched: bump refcount for new action in ACT replace mode
-    3dbafee8426f dt-bindings: net: ethernet-controller: fix typo in NVMEM
-    f4c5968da773 clk: socfpga: fix iomem pointer cast on 64-bit
-    35ba6d9240ee RAS/CEC: Correct ce_add_elem()'s returned values
-    f666ad4f8d87 RDMA/addr: Be strict with gid size
-    44d03319fe77 RDMA/cxgb4: check for ipv6 address properly while destroying listener
-    3ca5345db92c net/mlx5: Fix PBMC register mapping
-    798d94a274fb net/mlx5: Fix placement of log_max_flow_counter
-    9716aac17419 net: hns3: clear VF down state bit before request link status
-    9dd7092d1a96 openvswitch: fix send of uninitialized stack memory in ct limit reply
-    731abf396e37 net: openvswitch: conntrack: simplify the return expression of ovs_ct_limit_get_default_limit()
-    d0aab59f0993 perf inject: Fix repipe usage
-    d3343a35d108 s390/cpcmd: fix inline assembly register clobbering
-    c88fa8d4f994 workqueue: Move the position of debug_work_activate() in __queue_work()
-    14060454cdb9 clk: fix invalid usage of list cursor in unregister
-    bedda47d5dce clk: fix invalid usage of list cursor in register
-    b3717885865c net: macb: restore cmp registers on resume path
-    c61fe6b7e21f scsi: ufs: core: Fix wrong Task Tag used in task management request UPIUs
-    81fddc7be649 scsi: ufs: core: Fix task management request completion timeout
-    f6abec1a3172 scsi: ufs: Use blk_{get,put}_request() to allocate and free TMFs
-    a8d2d45c70c7 scsi: ufs: Avoid busy-waiting by eliminating tag conflicts
-    c5efc9d26c84 scsi: ufs: Fix irq return code
-    537a2449cc6f net: udp: Add support for getsockopt(..., ..., UDP_GRO, ..., ...);
-    de8c5962bdae drm/msm: Set drvdata to NULL when msm_drm_init() fails
-    e22ce1d21b42 i40e: Fix display statistics for veb_tc
-    7c0d2372298f soc/fsl: qbman: fix conflicting alignment attributes
-    c178e8a19937 net/rds: Fix a use after free in rds_message_map_pages
-    73f88cc2bf5c net/mlx5: Don't request more than supported EQs
-    029416e14be2 net/mlx5e: Fix ethtool indication of connector type
-    1f3010fc3fe6 ASoC: sunxi: sun4i-codec: fill ASoC card owner
-    db4600aa938c net: phy: broadcom: Only advertise EEE for supported modes
-    6aa7d2621b19 nfp: flower: ignore duplicate merge hints from FW
-    bbbee59f4f32 net/ncsi: Avoid channel_monitor hrtimer deadlock
-    c66b672a231c ARM: dts: imx6: pbab01: Set vmmc supply for both SD interfaces
-    c991ca6a2c79 net:tipc: Fix a double free in tipc_sk_mcast_rcv
-    200c8453287f cxgb4: avoid collecting SGE_QBASE regs during traffic
-    e9bdd3e45f0e gianfar: Handle error code at MAC address change
-    516c436ff5d6 can: bcm/raw: fix msg_namelen values depending on CAN_REQUIRED_SIZE
-    ca443546f8d4 arm64: dts: imx8mm/q: Fix pad control of SD1_DATA0
-    840a181729ac sch_red: fix off-by-one checks in red_check_params()
-    accb27006595 amd-xgbe: Update DMA coherency values
-    e472f6814ceb hostfs: fix memory handling in follow_link()
-    613f35568a5d hostfs: Use kasprintf() instead of fixed buffer formatting
-    fec47d458add i40e: Fix kernel oops when i40e driver removes VF's
-    c0aacaa0a8f2 i40e: Added Asym_Pause to supported link modes
-    f819977ad42c xfrm: Fix NULL pointer dereference on policy lookup
-    bac7e764e5d5 ASoC: wm8960: Fix wrong bclk and lrclk with pll enabled for some chips
-    b32969aaed1c ASoC: SOF: Intel: HDA: fix core status verification
-    99b4e9af8f00 ASoC: SOF: Intel: hda: remove unnecessary parentheses
-    540ddeed5c51 esp: delete NETIF_F_SCTP_CRC bit from features for esp offload
-    a128e07b472b net: xfrm: Localize sequence counter per network namespace
-    34659399e713 regulator: bd9571mwv: Fix AVS and DVFS voltage range
-    d78e99dd4960 xfrm: interface: fix ipv4 pmtu check to honor ip header df
-    7977d5fe3d5b net: dsa: lantiq_gswip: Configure all remaining GSWIP_MII_CFG bits
-    249908ed36a8 net: dsa: lantiq_gswip: Don't use PHY auto polling
-    910e785ba8de virtio_net: Add XDP meta data support
-    0534f1f1bc76 i2c: turn recovery error on init to debug
-    cafced041915 usbip: synchronize event handler with sysfs code paths
-    37168011d427 usbip: vudc synchronize sysfs code paths
-    06fedcc6870e usbip: stub-dev synchronize sysfs code paths
-    6a435364b608 usbip: add sysfs_lock to synchronize sysfs code paths
-    b02bded94b91 net: let skb_orphan_partial wake-up waiters.
-    fd8a95d56050 net-ipv6: bugfix - raw & sctp - switch to ipv6_can_nonlocal_bind()
-    b5e7653ffdd1 net: hsr: Reset MAC header for Tx path
-    a9311be5f617 mac80211: fix TXQ AC confusion
-    5a4f39f19e6f net: sched: sch_teql: fix null-pointer dereference
-    2f5edf14f62a i40e: Fix sparse error: 'vsi->netdev' could be null
-    b31d91e9e8c8 i40e: Fix sparse warning: missing error code 'err'
-    599200ad44e7 net: ensure mac header is set in virtio_net_hdr_to_skb()
-    158a9b815c54 bpf, sockmap: Fix sk->prot unhash op reset
-    0242251d6a97 ethernet/netronome/nfp: Fix a use after free in nfp_bpf_ctrl_msg_rx
-    4a2933c88399 net: hso: fix null-ptr-deref during tty device unregistration
-    ef2ccf84071f ice: Cleanup fltr list in case of allocation issues
-    0df579b3de8c ice: Fix for dereference of NULL pointer
-    1aecc5781101 ice: Increase control queue timeout
-    9de1caa1103f batman-adv: initialize "struct batadv_tvlv_tt_vlan_data"->reserved field
-    79407ae3475e ARM: dts: turris-omnia: configure LED[2]/INTn pin as interrupt pin
-    9dfd74a8c015 parisc: avoid a warning on u8 cast for cmpxchg on u8 pointers
-    957d0308aa36 parisc: parisc-agp requires SBA IOMMU driver
-    507c2009dc4c fs: direct-io: fix missing sdio->boundary
-    f495bedb001b ocfs2: fix deadlock between setattr and dio_end_io_write
-    52999a66c0b3 nds32: flush_dcache_page: use page_mapping_file to avoid races with swapoff
-    75fd54ea1b60 ia64: fix user_stack_pointer() for ptrace()
-    7a92396bf8dd gcov: re-fix clang-11+ support
-    c2b3cf2c70d6 drm/i915: Fix invalid access to ACPI _DSM objects
-    0e8f850e26b2 net: dsa: lantiq_gswip: Let GSWIP automatically set the xMII clock
-    6649b5eda131 net: ipv6: check for validity before dereferencing cfg->fc_nlinfo.nlh
-    a09acbb53934 xen/evtchn: Change irq_info lock to raw_spinlock_t
-    aa0cff2e0751 nfc: Avoid endless loops caused by repeated llcp_sock_connect()
-    404daa4d62a3 nfc: fix memory leak in llcp_sock_connect()
-    41bc58ba0945 nfc: fix refcount leak in llcp_sock_connect()
-    c89903c9eff2 nfc: fix refcount leak in llcp_sock_bind()
-    12289d9840d6 ASoC: intel: atom: Stop advertising non working S24LE support
-    c99780f782aa ALSA: hda/realtek: Fix speaker amp setup on Acer Aspire E1
-    da8f3cc5771e ALSA: aloop: Fix initialization of controls
-    8732c2df9d15 counter: stm32-timer-cnt: fix ceiling miss-alignment with reload register
+[yocto] [PATCH yocto-autobuilder-helper] config.json: measure every 60 
+seconds
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+before this one.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index b78a163b9c..e52c9ebe0e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "cccae402fe6c1892e4395e25bd482d6bc8f00826"
--SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
-+SRCREV_machine ?= "324e77d816cf6434507ab29140beb24044009efa"
-+SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.111"
-+LINUX_VERSION ?= "5.4.112"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 059a7196fe..f07375c761 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.111"
-+LINUX_VERSION ?= "5.4.112"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "519d4d331aad2c1302530c5af0b4356b6f362be9"
--SRCREV_machine ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
-+SRCREV_machine_qemuarm ?= "8463db325b93f0669446f68c19334cfe11ffb9c2"
-+SRCREV_machine ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 92e6a489e0..38833ff8f7 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "eee89fab3a932bbd8a54995a5da2ac15af2d929f"
--SRCREV_machine_qemuarm64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_machine_qemumips ?= "7cafd60186c08ce6d941ad1bcfc539950534a178"
--SRCREV_machine_qemuppc ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_machine_qemuriscv64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_machine_qemux86 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_machine_qemux86-64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_machine_qemumips64 ?= "e7d9c5457ce29ae61c37580888743951f2bf65b9"
--SRCREV_machine ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
--SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
-+SRCREV_machine_qemuarm ?= "133328e5d558f6060a5633d71506a6b716bb4fc6"
-+SRCREV_machine_qemuarm64 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_machine_qemumips ?= "eef7365804592f95bceefa143cdb3cc19e8c6b66"
-+SRCREV_machine_qemuppc ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_machine_qemuriscv64 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_machine_qemux86 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_machine_qemux86-64 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_machine_qemumips64 ?= "996fe040c8d8d01a9af6be42dae3844d127471bf"
-+SRCREV_machine ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
-+SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.111"
-+LINUX_VERSION ?= "5.4.112"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+../Randy
+
+> 
+> 
+> 
+> 
+> 
+
+
 -- 
-2.19.1
-
+# Randy MacLeod
+# Wind River Linux
