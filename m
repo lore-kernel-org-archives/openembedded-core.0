@@ -1,50 +1,50 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web09.1624.1618790801286830332
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web09.1625.1618790802293208282
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 17:06:41 -0700
+ Sun, 18 Apr 2021 17:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dAUvbLAy;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id o5so34348423qkb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rrVdlcST;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id q136so13360591qka.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ydoEnt4x5PGaR870MinTut+l3P2WgGOVQZ96SYD268I=;
-        b=dAUvbLAyDt4c0ws/Vsy/3eaHXyS/iRxLCqbKXa7W+bab/J5A4+piieffyn1/75gx+7
-         CBNhGlpPN9NK0NQQ6TmBE8i3l6b3EzD3JAsqDG/ll+HWWR/ejs8KKmUmFqeXLg4NDUzV
-         2z7i82p5fhzOO8EIpGkI8JXORwVv8l63y1PuOhS7m0P1vSwj1MRQGQvplVugaHCxvafp
-         2jYFIo3Ovkb5rtjTUaARsRCYy9wkbbTx89oedHpImJC5VFAo6Zx5tvXw0XuYhWTdMbdg
-         ldnSSPRZ1hvaCY/H8j2KmqwrnxUYrHAbqEsv9rSK9tNAXKH2c6uqupOUN4OOqAv18kT/
-         QSmQ==
+        bh=Uo2f2z0Voh6ZphBvzZ64DIdv1x+MehPbXHd3R2vmSCo=;
+        b=rrVdlcSTYsDdevvCrXPSIfmDpimI35uulgGJsNV40K567x2HijhjFUIg+dnfgE0+EU
+         uKGkxy2wz+weyPKIWiF6N9LTsLVBcG5l/YJ8JsrUNHgHDU2NWxblapokoJhCbPv+5Y70
+         Z1+Qyx55nDi6IyM4G/aSq4JArnPo1mfDZet59+zXJUyD+TMPgxd0jTA5TmTGkwzwA2UY
+         lHrS3tnVABZVv5wuNInPUrjoWyQJISBKM6y77uSBywqomvlVf5WUaSnH8qH3cnEdq0ee
+         C0kFG348Ao1j7t7zgjAA6ZMClyJGlHU+dNSSz7RRW0RkPYu158N9d8Tl2tGVFRNWxIwP
+         Tnqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ydoEnt4x5PGaR870MinTut+l3P2WgGOVQZ96SYD268I=;
-        b=Qt6mxXxDjXCgUMDnuOOHfwsmkiG3W+owIuj+FeqOhygX9xJ9Za4uJBsvcR+qTudOoQ
-         w6Ty/AA8sgnXV8KpQI4YU+sPr7w+cduoHZ4degzsnLzRvnjHLogDm6VTRBFKzM6cTZnn
-         eeDH6IY76vqdAVNqLoqWOKJNfh6feHVgFJRl+FNTVaE5W097M9LTpI+sqK+aQeC7j+vR
-         8wmxyJCdg5W+Fdd+kIGLkN8goRszYhtkGYqeE18ZhuZprQN1q6F5OdCVSV3114rugQ2+
-         QJ3GeUX1KueJm5Ahx1nimjSWqPJXcHZ0AhVJHDQK/QDkuiOGKkdpqdWRNs4ZUl7FCwCp
-         fKAw==
-X-Gm-Message-State: AOAM533c/wIHZF5NIUyongbZULg4hJTkHKCTXHsiUZl86Ohm2AbzFIwi
-	fEqTfXwOOduvw7Enc9AP3U9uJVT8mUv3kw==
-X-Google-Smtp-Source: ABdhPJworScWeXK98YO2O+2gnWD0ir1PyDwjrrc+u0LkLNNHTfwsWJAAsX+0CKVTic1gHjWA8Xk9iA==
-X-Received: by 2002:a37:c202:: with SMTP id i2mr3094568qkm.296.1618790800422;
-        Sun, 18 Apr 2021 17:06:40 -0700 (PDT)
+        bh=Uo2f2z0Voh6ZphBvzZ64DIdv1x+MehPbXHd3R2vmSCo=;
+        b=AeEfxaWEU7KxorY2/T3EiTD4qOfCGSWs7JVwrqdClJiXUB0MojtUZTUf+xeehn58LB
+         44DVlYOezC4OpepRo514EoIugWE2C8bDP50Za1fpOHiRddNUfch1FGsyCQq8cNlQ52kg
+         1offU47xnzjlPq++9yqaalmxpDnN9L8r6p9Z9YKZ3W1+o5RVJeP75ByuxRgngRkMibM3
+         GjGU/4AzN0ZxFlqP77sL49bcoZu6zXe01xutAAU5IQrJi6rGtpxpaoQxCO/TDoBJSpKZ
+         rG4RpHudfSo92aZw8iamqN1dYszsSJtDcHQz9BXqiuZ3YHvUTZ8p/mWByaR9re28Scgq
+         svkw==
+X-Gm-Message-State: AOAM533rysbrLpOvGX3TiK82IQzOSKmfrQVE9w4JVYBytS1DaXh8qsQl
+	Pj+gARb6p42xig/nVHEXGZ2YIXIpDmMCwA==
+X-Google-Smtp-Source: ABdhPJx8gpeKr4vLP/cM7pi7hYt8VjO7VG9ZWX3DysJO6VTa8f+bcXGWsqJlOOl1hjycRXXs9CSfTQ==
+X-Received: by 2002:a37:a993:: with SMTP id s141mr9595259qke.265.1618790801335;
+        Sun, 18 Apr 2021 17:06:41 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.39
+        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 17:06:39 -0700 (PDT)
+        Sun, 18 Apr 2021 17:06:40 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/10] linux-yocto/5.4: update to v5.4.111
-Date: Sun, 18 Apr 2021 20:06:29 -0400
-Message-Id: <c9463647d6cae4fce4bde1c18025d01f17b5ce33.1618790681.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 08/10] linux-yocto/5.10: update to v5.10.30
+Date: Sun, 18 Apr 2021 20:06:30 -0400
+Message-Id: <dab3836af8929831877267bce046b1720ba0bc1e.1618790681.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1618790681.git.bruce.ashfield@gmail.com>
 References: <cover.1618790681.git.bruce.ashfield@gmail.com>
@@ -53,200 +53,291 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+Updating linux-yocto/5.10 to the latest korg -stable release that comprises
 the following commits:
 
-    a49e5ea5e045 Linux 5.4.111
-    45f540622d5b init/Kconfig: make COMPILE_TEST depend on HAS_IOMEM
-    43dd03f08819 init/Kconfig: make COMPILE_TEST depend on !S390
-    f5eb7e12a75d nvme-mpath: replace direct_make_request with generic_make_request
-    6cce30548058 bpf, x86: Validate computation of branch displacements for x86-32
-    a0b3927a07be bpf, x86: Validate computation of branch displacements for x86-64
-    20c60bbc1c54 cifs: Silently ignore unknown oplock break handle
-    754c82a6bf48 cifs: revalidate mapping when we open files for SMB1 POSIX
-    e5991b4fcedb ia64: fix format strings for err_inject
-    3e9292b39862 ia64: mca: allocate early mca with GFP_ATOMIC
-    9b872bac1923 scsi: target: pscsi: Clean up after failure in pscsi_map_sg()
-    e2db0e66139a x86/build: Turn off -fcf-protection for realmode targets
-    0465098898ef platform/x86: thinkpad_acpi: Allow the FnLock LED to change state
-    5a8c30e8acad netfilter: conntrack: Fix gre tunneling over ipv6
-    e84a795b8a0b drm/msm: Ratelimit invalid-fence message
-    daf5aaa8e6e0 drm/msm/adreno: a5xx_power: Don't apply A540 lm_setup to other GPUs
-    6abe3dad0afe mac80211: choose first enabled channel for monitor
-    37b51460b25a mISDN: fix crash in fritzpci
-    901d39f7b2ce net: pxa168_eth: Fix a potential data race in pxa168_eth_remove
-    dc7c4d30d6e0 net/mlx5e: Enforce minimum value check for ICOSQ size
-    b0e2b3271236 bpf, x86: Use kvmalloc_array instead kmalloc_array in bpf_jit_comp
-    e5868baa1e3c platform/x86: intel-hid: Support Lenovo ThinkPad X1 Tablet Gen 2
-    422c68101110 bus: ti-sysc: Fix warning on unbind if reset is not deasserted
-    bec7103b04a9 ARM: dts: am33xx: add aliases for mmc interfaces
-    59c8e3329268 Linux 5.4.110
-    cde4e338c2b2 drivers: video: fbcon: fix NULL dereference in fbcon_cursor()
-    0ca13611d33f staging: rtl8192e: Change state information from u16 to u8
-    f9974f189c67 staging: rtl8192e: Fix incorrect source in memcpy()
-    fd5ce87aee48 usb: dwc2: Prevent core suspend when port connection flag is 0
-    85e1752ae0ed usb: dwc2: Fix HPRT0.PrtSusp bit setting for HiKey 960 board.
-    26d2284a0580 usb: gadget: udc: amd5536udc_pci fix null-ptr-dereference
-    25c13ca8302f USB: cdc-acm: fix use-after-free after probe failure
-    b5aedddb621e USB: cdc-acm: fix double free on probe failure
-    7220bba3066e USB: cdc-acm: downgrade message to debug
-    62da51d0e7b7 USB: cdc-acm: untangle a circular dependency between callback and softint
-    7443350af8cb cdc-acm: fix BREAK rx code path adding necessary calls
-    58cace45f84b usb: xhci-mtk: fix broken streams issue on 0.96 xHCI
-    a22e35f7b4fb usb: musb: Fix suspend with devices connected for a64
-    e94dec2765b5 USB: quirks: ignore remote wake-up on Fibocom L850-GL LTE modem
-    2ecf5803557b usbip: vhci_hcd fix shift out-of-bounds in vhci_hub_control()
-    5ecfad1efbc3 firewire: nosy: Fix a use-after-free bug in nosy_ioctl()
-    58073dc536a6 extcon: Fix error handling in extcon_dev_register
-    e3a3d5005e63 extcon: Add stubs for extcon_register_notifier_all() functions
-    67ff75be1ab1 pinctrl: rockchip: fix restore error in resume
-    c92e8a8ecb9d vfio/nvlink: Add missing SPAPR_TCE_IOMMU depends
-    7f93d47677dd reiserfs: update reiserfs_xattrs_initialized() condition
-    4dc52ce56d63 drm/amdgpu: check alignment on CPU page for bo map
-    f9b3b70fd468 drm/amdgpu: fix offset calculation in amdgpu_vm_bo_clear_mappings()
-    00bd9c22409e mm: fix race by making init_zero_pfn() early_initcall
-    558ab52776c0 tracing: Fix stack trace event size
-    07b19a118d2f PM: runtime: Fix ordering in pm_runtime_get_suppliers()
-    72a667681cc4 PM: runtime: Fix race getting/putting suppliers at probe
-    b6e7dbf0ed9c xtensa: move coprocessor_flush to the .text section
-    c3715f06f9ad ALSA: hda/realtek: call alc_update_headset_mode() in hp_automute_hook
-    09a08fd89996 ALSA: hda/realtek: fix a determine_headset_type issue for a Dell AIO
-    3acbf473a885 ALSA: hda: Add missing sanity checks in PM prepare/complete callbacks
-    65f92e40cc6d ALSA: hda: Re-add dropped snd_poewr_change_state() calls
-    05dd1a4223c5 ALSA: usb-audio: Apply sample rate quirk to Logitech Connect
-    42c83e3bca43 bpf: Remove MTU check in __bpf_skb_max_len
-    aca623d79cb7 net: wan/lmc: unregister device when no matching device is found
-    f22854911523 appletalk: Fix skb allocation size in loopback case
-    4ff476b88135 net: ethernet: aquantia: Handle error cleanup of start on open
-    ee898d95f446 ath10k: hold RCU lock when calling ieee80211_find_sta_by_ifaddr()
-    0b8dfb61f29a brcmfmac: clear EAP/association status bits on linkdown events
-    2d0e594c1316 can: tcan4x5x: fix max register value
-    4ac1feff6ea6 net: introduce CAN specific pointer in the struct net_device
-    23394679aa56 can: dev: move driver related infrastructure into separate subdir
-    7ca4feb37e9e flow_dissector: fix TTL and TOS dissection on IPv4 fragments
-    ee5055593d0e net: mvpp2: fix interrupt mask/unmask skip condition
-    aa9345d10f0a ext4: do not iput inode under running transaction in ext4_rename()
-    5e39a73e47ef locking/ww_mutex: Simplify use_ww_ctx & ww_ctx handling
-    84bd602c14b7 thermal/core: Add NULL pointer check before using cooling device stats
-    50c38f76b51d ASoC: rt5659: Update MCLK rate in set_sysclk()
-    b6408fd7eb89 staging: comedi: cb_pcidas64: fix request_irq() warn
-    b9fe8673b874 staging: comedi: cb_pcidas: fix request_irq() warn
-    7390a1cdf304 scsi: qla2xxx: Fix broken #endif placement
-    6e79f829e791 scsi: st: Fix a use after free in st_open()
-    98052c40e3ac vhost: Fix vhost_vq_reset()
-    57aa4f30911a powerpc: Force inlining of cpu_has_feature() to avoid build failure
-    dcf4b6e710c7 NFSD: fix error handling in NFSv4.0 callbacks
-    990a0fa1ccbb ASoC: cs42l42: Always wait at least 3ms after reset
-    6d197691a1c5 ASoC: cs42l42: Fix mixer volume control
-    aa74bf73937c ASoC: cs42l42: Fix channel width support
-    47ae33d5b32b ASoC: cs42l42: Fix Bitclock polarity inversion
-    5952cf385ceb ASoC: es8316: Simplify adc_pga_gain_tlv table
-    381679aec216 ASoC: sgtl5000: set DAP_AVC_CTRL register to correct default value on probe
-    57b8a192872a ASoC: rt5651: Fix dac- and adc- vol-tlv values being off by a factor of 10
-    b75073a37c65 ASoC: rt5640: Fix dac- and adc- vol-tlv values being off by a factor of 10
-    ca3f8dcd6d94 iomap: Fix negative assignment to unsigned sis->pages in iomap_swapfile_activate
-    c899b8391a54 rpc: fix NULL dereference on kmalloc failure
-    0e71c59b2450 fs: nfsd: fix kconfig dependency warning for NFSD_V4
-    9b68d3ed8aa8 ext4: fix bh ref count on error paths
-    721a6f64c0bc ext4: shrink race window in ext4_should_retry_alloc()
-    05d891e76dde module: harden ELF info handling
-    6a8df0821f67 module: avoid *goto*s in module_sig_check()
-    d9b98ccdfed0 module: merge repetitive strings in module_sig_check()
-    1a8c5fbe2f1d modsign: print module name along with error message
-    120589bb0970 ipv6: weaken the v4mapped source check
-    1225bb45c87b selinux: vsock: Set SID for socket returned by accept()
+    1e798745fa8e Linux 5.10.30
+    b451aed56348 Revert "net: sched: bump refcount for new action in ACT replace mode"
+    a22115c3492f net: ieee802154: stop dump llsec params for monitors
+    f872fb3feadd net: ieee802154: forbid monitor for del llsec seclevel
+    a933bcbb1f7f net: ieee802154: forbid monitor for set llsec params
+    0238c7b47f77 net: ieee802154: fix nl802154 del llsec devkey
+    d06a96e72803 net: ieee802154: fix nl802154 add llsec key
+    399f38c420ee net: ieee802154: fix nl802154 del llsec dev
+    07699fcce052 net: ieee802154: fix nl802154 del llsec key
+    8bfb45fa131d net: ieee802154: nl-mac: fix check on panid
+    38731bbcd9f0 net: mac802154: Fix general protection fault
+    9f51a42d81f6 drivers: net: fix memory leak in peak_usb_create_dev
+    160ac0d55d52 drivers: net: fix memory leak in atusb_probe
+    4d9117b7404a net: tun: set tun->dev->addr_len during TUNSETLINK processing
+    26ab092615f5 cfg80211: remove WARN_ON() in cfg80211_sme_connect
+    138a6e1dc35e gpiolib: Read "gpio-line-names" from a firmware node
+    300368c59cf0 net: sched: bump refcount for new action in ACT replace mode
+    982dd14fba0f dt-bindings: net: ethernet-controller: fix typo in NVMEM
+    c65a000a236e lockdep: Address clang -Wformat warning printing for %hd
+    4c4aa344edf4 clk: socfpga: fix iomem pointer cast on 64-bit
+    674ddb52f94b RAS/CEC: Correct ce_add_elem()'s returned values
+    253acf2e983b vdpa/mlx5: Fix wrong use of bit numbers
+    0ddb34c2ccce vdpa/mlx5: should exclude header length and fcs from mtu
+    5700c3d4abb2 RDMA/addr: Be strict with gid size
+    e53ff6e59144 i40e: Fix parameters in aq_get_phy_register()
+    999852207464 drm/vc4: crtc: Reduce PV fifo threshold on hvs4
+    d8a0861e269d RDMA/qedr: Fix kernel panic when trying to access recv_cq
+    3fa7ae3f3754 perf report: Fix wrong LBR block sorting
+    7f40e9332898 RDMA/cxgb4: check for ipv6 address properly while destroying listener
+    03ad6a2521a0 net/mlx5: Fix PBMC register mapping
+    1312f11eb33d net/mlx5: Fix PPLM register mapping
+    f92faf0bdd25 net/mlx5: Fix placement of log_max_flow_counter
+    f780a0808827 net: hns3: clear VF down state bit before request link status
+    f473789db536 tipc: increment the tmp aead refcnt before attaching it
+    3292c4fc9ce2 can: mcp251x: fix support for half duplex SPI host controllers
+    a96f1ed70927 iwlwifi: fix 11ax disabled bit in the regulatory capability flags
+    363d610a9652 i2c: designware: Adjust bus_freq_hz when refuse high speed mode set
+    cc5418973cc9 openvswitch: fix send of uninitialized stack memory in ct limit reply
+    3e288c3a7d55 net: openvswitch: conntrack: simplify the return expression of ovs_ct_limit_get_default_limit()
+    3b70c6f26364 perf inject: Fix repipe usage
+    d9dc1b406cb9 s390/cpcmd: fix inline assembly register clobbering
+    7943f749f0d2 workqueue: Move the position of debug_work_activate() in __queue_work()
+    b3f29ed5dd4b clk: fix invalid usage of list cursor in unregister
+    2307baac56af clk: fix invalid usage of list cursor in register
+    d9c55b2d3368 net: macb: restore cmp registers on resume path
+    af36da5becfb net: cls_api: Fix uninitialised struct field bo->unlocked_driver_cb
+    ffd5f1e87c15 scsi: ufs: core: Fix wrong Task Tag used in task management request UPIUs
+    ff9231ddfec8 scsi: ufs: core: Fix task management request completion timeout
+    71ee255d0698 mptcp: forbit mcast-related sockopt on MPTCP sockets
+    24bbfe89b1c7 net: udp: Add support for getsockopt(..., ..., UDP_GRO, ..., ...);
+    a08d5d3bec53 drm/msm: Set drvdata to NULL when msm_drm_init() fails
+    7290bf419894 RDMA/rtrs-clt: Close rtrs client conn before destroying rtrs clt session files
+    49cfa2b20193 i40e: Fix display statistics for veb_tc
+    e8c96b57a781 soc/fsl: qbman: fix conflicting alignment attributes
+    553290002aa8 xdp: fix xdp_return_frame() kernel BUG throw for page_pool memory model
+    4cfae7b23889 net/rds: Fix a use after free in rds_message_map_pages
+    05bbe9d85a4c net/mlx5: Don't request more than supported EQs
+    86530effd18f net/mlx5e: Fix ethtool indication of connector type
+    bde64eac2379 net/mlx5e: Fix mapping of ct_label zero
+    d65b66ca3334 ASoC: sunxi: sun4i-codec: fill ASoC card owner
+    dcdf0876b040 I2C: JZ4780: Fix bug for Ingenic X1000.
+    f295dfc831bc net: phy: broadcom: Only advertise EEE for supported modes
+    7a896e189361 nfp: flower: ignore duplicate merge hints from FW
+    6af631d1caf2 net: qrtr: Fix memory leak on qrtr_tx_wait failure
+    dfe7805e6aa6 net/ncsi: Avoid channel_monitor hrtimer deadlock
+    ae4a8d10ac8b ARM: dts: imx6: pbab01: Set vmmc supply for both SD interfaces
+    e5e5ecc9d9fd net:tipc: Fix a double free in tipc_sk_mcast_rcv
+    f273e3726e14 cxgb4: avoid collecting SGE_QBASE regs during traffic
+    63a64c366ce0 net: dsa: Fix type was not set for devlink port
+    ed613d96842e gianfar: Handle error code at MAC address change
+    1eb5f4e00755 ethernet: myri10ge: Fix a use after free in myri10ge_sw_tso
+    759b44d247c6 mlxsw: spectrum: Fix ECN marking in tunnel decapsulation
+    d02b68a92905 can: isotp: fix msg_namelen values depending on CAN_REQUIRED_SIZE
+    1d3837ca7335 can: bcm/raw: fix msg_namelen values depending on CAN_REQUIRED_SIZE
+    58f8f1074039 xfrm: Provide private skb extensions for segmented and hw offloaded ESP packets
+    bc0b89a9a28f arm64: dts: imx8mm/q: Fix pad control of SD1_DATA0
+    d9670f5e77e5 drivers/net/wan/hdlc_fr: Fix a double free in pvc_xmit
+    d38bce5adcd9 sch_red: fix off-by-one checks in red_check_params()
+    985c9bb1b594 geneve: do not modify the shared tunnel info when PMTU triggers an ICMP reply
+    f3bc1885746f vxlan: do not modify the shared tunnel info when PMTU triggers an ICMP reply
+    f33f79703a4e amd-xgbe: Update DMA coherency values
+    e5a3449ce16a hostfs: fix memory handling in follow_link()
+    3cc4db1213a4 i40e: Fix kernel oops when i40e driver removes VF's
+    9856607c9c29 i40e: Added Asym_Pause to supported link modes
+    d4d4c6a4ca7c virtchnl: Fix layout of RSS structures
+    95d58bf5ed43 xfrm: Fix NULL pointer dereference on policy lookup
+    48a443026bb6 ASoC: wm8960: Fix wrong bclk and lrclk with pll enabled for some chips
+    f6db9dbfa6b6 ASoC: SOF: Intel: HDA: fix core status verification
+    ef4ddd1d6d93 esp: delete NETIF_F_SCTP_CRC bit from features for esp offload
+    0224432a8fc1 net: xfrm: Localize sequence counter per network namespace
+    1e6a3b41cf2a ARM: OMAP4: PM: update ROM return address for OSWR and OFF
+    042b2cad81de ARM: OMAP4: Fix PMIC voltage domains for bionic
+    1f51cb88e788 regulator: bd9571mwv: Fix AVS and DVFS voltage range
+    b267688ce007 remoteproc: qcom: pil_info: avoid 64-bit division
+    c7a175a24b0e xfrm: Use actual socket sk instead of skb socket for xfrm_output_resume
+    3b74ce529ece xfrm: interface: fix ipv4 pmtu check to honor ip header df
+    2d62d6980c2b ice: Recognize 860 as iSCSI port in CEE mode
+    fd92e7aacc16 ice: Refactor DCB related variables out of the ice_port_info struct
+    4a78ae127803 net: sched: fix err handler in tcf_action_init()
+    3c7d3d188ca7 KVM: x86/mmu: preserve pending TLB flush across calls to kvm_tdp_mmu_zap_sp
+    25fc773b21ce KVM: x86/mmu: Don't allow TDP MMU to yield when recovering NX pages
+    be2c527b5d39 KVM: x86/mmu: Ensure TLBs are flushed for TDP MMU during NX zapping
+    0aa4dd9e5132 KVM: x86/mmu: Ensure TLBs are flushed when yielding during GFN range zap
+    3c7a18440638 KVM: x86/mmu: Yield in TDU MMU iter even if no SPTES changed
+    85f4ff2b06af KVM: x86/mmu: Ensure forward progress when yielding in TDP MMU iter
+    1cd17c5c9b8a KVM: x86/mmu: Rename goal_gfn to next_last_level_gfn
+    b4a3a0d27924 KVM: x86/mmu: Merge flush and non-flush tdp_mmu_iter_cond_resched
+    8f90432d7f59 KVM: x86/mmu: change TDP MMU yield function returns to match cond_resched
+    5ea9e6038d29 i2c: turn recovery error on init to debug
+    efa869b68be9 percpu: make pcpu_nr_empty_pop_pages per chunk type
+    c441949184a9 scsi: target: iscsi: Fix zero tag inside a trace event
+    d8e7fa8509d7 scsi: pm80xx: Fix chip initialization failure
+    0c47d8a55f7f driver core: Fix locking bug in deferred_probe_timeout_work_func()
+    f06cb4641b15 usbip: synchronize event handler with sysfs code paths
+    28dc9237fe83 usbip: vudc synchronize sysfs code paths
+    513765b186c9 usbip: stub-dev synchronize sysfs code paths
+    68be610c19a5 usbip: add sysfs_lock to synchronize sysfs code paths
+    126ce97d39cf thunderbolt: Fix off by one in tb_port_find_retimer()
+    256ece954961 thunderbolt: Fix a leak in tb_retimer_add()
+    b830650c1a0c net: let skb_orphan_partial wake-up waiters.
+    5d9216b85100 net-ipv6: bugfix - raw & sctp - switch to ipv6_can_nonlocal_bind()
+    b82816d77875 net: hsr: Reset MAC header for Tx path
+    9b9c910ccc19 mac80211: fix TXQ AC confusion
+    cc357c29358d mac80211: fix time-is-after bug in mlme
+    cc1a702e6ec0 cfg80211: check S1G beacon compat element length
+    fea52345f422 nl80211: fix potential leak of ACL params
+    42e4450e3790 nl80211: fix beacon head validation
+    81692c6add7e net: sched: fix action overwrite reference counting
+    cdcf3829f418 net: sched: sch_teql: fix null-pointer dereference
+    422eda625516 vdpa/mlx5: Fix suspend/resume index restoration
+    89e406e95278 i40e: Fix sparse errors in i40e_txrx.c
+    12e1438a0946 i40e: Fix sparse error: uninitialized symbol 'ring'
+    2472ba1c46b4 i40e: Fix sparse error: 'vsi->netdev' could be null
+    792387118204 i40e: Fix sparse warning: missing error code 'err'
+    f0b4c9acf5fe net: ensure mac header is set in virtio_net_hdr_to_skb()
+    72c5de25ba83 bpf, sockmap: Fix incorrect fwd_alloc accounting
+    00c01de1a994 bpf, sockmap: Fix sk->prot unhash op reset
+    d921baabd964 bpf: Refcount task stack in bpf_get_task_stack
+    caef7806141a libbpf: Only create rx and tx XDP rings when necessary
+    4cc9177b099e libbpf: Restore umem state after socket create failure
+    5aa7df172207 libbpf: Ensure umem pointer is non-NULL before dereferencing
+    b52e88638f71 ethernet/netronome/nfp: Fix a use after free in nfp_bpf_ctrl_msg_rx
+    d86046a77535 bpf: link: Refuse non-O_RDWR flags in BPF_OBJ_GET
+    b7004ecafade bpf: Enforce that struct_ops programs be GPL-only
+    3015db3de715 libbpf: Fix bail out from 'ringbuf_process_ring()' on error
+    dc195928d7e4 net: hso: fix null-ptr-deref during tty device unregistration
+    c2743e0a631c ice: fix memory leak of aRFS after resuming from suspend
+    6bd4e822925d iwlwifi: pcie: properly set LTR workarounds on 22000 devices
+    e5386e87f8aa ice: Cleanup fltr list in case of allocation issues
+    9d1c342c5018 ice: Use port number instead of PF ID for WoL
+    b69686110291 ice: Fix for dereference of NULL pointer
+    4d73a6143d40 ice: remove DCBNL_DEVRESET bit from PF state
+    286830a8469c ice: fix memory allocation call
+    4686a26e9536 ice: prevent ice_open and ice_stop during reset
+    ef7ed8c77d1c ice: Increase control queue timeout
+    6590b7bfbc2b ice: Continue probe on link/PHY errors
+    9a7bc0c40367 batman-adv: initialize "struct batadv_tvlv_tt_vlan_data"->reserved field
+    d1173effc574 ARM: dts: turris-omnia: configure LED[2]/INTn pin as interrupt pin
+    4941889535f3 parisc: avoid a warning on u8 cast for cmpxchg on u8 pointers
+    597121792eb4 parisc: parisc-agp requires SBA IOMMU driver
+    9b54dad28def of: property: fw_devlink: do not link ".*,nr-gpios"
+    009c5665278b ethtool: fix incorrect datatype in set_eee ops
+    3a675c1b507f fs: direct-io: fix missing sdio->boundary
+    b1a5122554ae ocfs2: fix deadlock between setattr and dio_end_io_write
+    4fabcf229477 nds32: flush_dcache_page: use page_mapping_file to avoid races with swapoff
+    7d9da660affc ia64: fix user_stack_pointer() for ptrace()
+    8e5bfafedf6d gcov: re-fix clang-11+ support
+    43908139368e LOOKUP_MOUNTPOINT: we are cleaning "jumped" flag too late
+    de427b662bfb IB/hfi1: Fix probe time panic when AIP is enabled with a buggy BIOS
+    856f60e3e800 ACPI: processor: Fix build when CONFIG_ACPI_PROCESSOR=m
+    8599a39adca8 drm/i915: Fix invalid access to ACPI _DSM objects
+    bf991df9535e net: dsa: lantiq_gswip: Configure all remaining GSWIP_MII_CFG bits
+    c4ae852ec940 net: dsa: lantiq_gswip: Don't use PHY auto polling
+    ba39959bfebd net: dsa: lantiq_gswip: Let GSWIP automatically set the xMII clock
+    40375bc3d0f9 net: ipv6: check for validity before dereferencing cfg->fc_nlinfo.nlh
+    005c5afa9f85 xen/evtchn: Change irq_info lock to raw_spinlock_t
+    a28124e8ad03 selinux: fix race between old and new sidtab
+    fd75d73aa214 selinux: fix cond_list corruption when changing booleans
+    4f29b08e238f selinux: make nslot handling in avtab more robust
+    a12a2fa9a129 nfc: Avoid endless loops caused by repeated llcp_sock_connect()
+    568ac94df580 nfc: fix memory leak in llcp_sock_connect()
+    99b596199e84 nfc: fix refcount leak in llcp_sock_connect()
+    6fb003e5ae18 nfc: fix refcount leak in llcp_sock_bind()
+    117557711974 ASoC: intel: atom: Stop advertising non working S24LE support
+    c4a6fb0e8389 ALSA: hda/conexant: Apply quirk for another HP ZBook G5 model
+    6c9119de7ffe ALSA: hda/realtek: Fix speaker amp setup on Acer Aspire E1
+    6efe4c1f4d17 ALSA: aloop: Fix initialization of controls
+    4c933ff31f21 xfrm/compat: Cleanup WARN()s that can be user-triggered
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 8c4c94577b..b78a163b9c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+index ce88554830..b22eb94e41 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
 @@ -11,13 +11,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "918e7836663cbad861b254f181d3545977d4492f"
--SRCREV_meta ?= "0fdc53770a263755ea5e995d5b74dd9a8cd06d8b"
-+SRCREV_machine ?= "cccae402fe6c1892e4395e25bd482d6bc8f00826"
-+SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
+-SRCREV_machine ?= "a1cb83d2e69b4c895cefa0e8716c8e9021d757bf"
+-SRCREV_meta ?= "6dbb20d3127b3380779a11b1552429c5d4a0417e"
++SRCREV_machine ?= "60ca2b8c07383a2d46fef1b668e34dff90c1b404"
++SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
  
--LINUX_VERSION ?= "5.4.109"
-+LINUX_VERSION ?= "5.4.111"
+-LINUX_VERSION ?= "5.10.29"
++LINUX_VERSION ?= "5.10.30"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 5a392742ca..059a7196fe 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+index 3581f3b4b0..54575a7917 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
 @@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "5.4.109"
-+LINUX_VERSION ?= "5.4.111"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.10.29"
++LINUX_VERSION ?= "5.10.30"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "1dd2723e9895767d459c7c60c0074b3bce5c0d52"
--SRCREV_machine ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_meta ?= "0fdc53770a263755ea5e995d5b74dd9a8cd06d8b"
-+SRCREV_machine_qemuarm ?= "519d4d331aad2c1302530c5af0b4356b6f362be9"
-+SRCREV_machine ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
+-SRCREV_machine_qemuarm ?= "bbc9efbcc604d823555794878f966b2ad7e5f4ca"
+-SRCREV_machine ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_meta ?= "6dbb20d3127b3380779a11b1552429c5d4a0417e"
++SRCREV_machine_qemuarm ?= "ee7efde0c94e8b2eba1a5a2709f2d21874ac7525"
++SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index d925fe7a72..92e6a489e0 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+index 278f8a67fe..e93e41c69b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+@@ -13,17 +13,17 @@ KBRANCH_qemux86  ?= "v5.10/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.10/standard/base"
+ KBRANCH_qemumips64 ?= "v5.10/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "f4d1abedbb7a850f9ccb058c2c63f1dffc46e485"
--SRCREV_machine_qemuarm64 ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_machine_qemumips ?= "7f54002c5db332f2a8a9c842f1d6aa56e3946cb8"
--SRCREV_machine_qemuppc ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_machine_qemuriscv64 ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_machine_qemux86 ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_machine_qemux86-64 ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_machine_qemumips64 ?= "0addc7475d8fc1e8ca6f33ec90bf4b78085c0975"
--SRCREV_machine ?= "08d98ec7a622f02cd6584ec93ad9c135cf0ea538"
--SRCREV_meta ?= "0fdc53770a263755ea5e995d5b74dd9a8cd06d8b"
-+SRCREV_machine_qemuarm ?= "eee89fab3a932bbd8a54995a5da2ac15af2d929f"
-+SRCREV_machine_qemuarm64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_machine_qemumips ?= "7cafd60186c08ce6d941ad1bcfc539950534a178"
-+SRCREV_machine_qemuppc ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_machine_qemuriscv64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_machine_qemux86 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_machine_qemux86-64 ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_machine_qemumips64 ?= "e7d9c5457ce29ae61c37580888743951f2bf65b9"
-+SRCREV_machine ?= "5dba555ee7d5317a9720d33403e1e1f8e560b3fc"
-+SRCREV_meta ?= "5973c11656b6d5221a764be1b2f1622c7e905e6c"
+-SRCREV_machine_qemuarm ?= "13b4e1548d504dca91ff49abba5be4df728840e6"
+-SRCREV_machine_qemuarm64 ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemumips ?= "ba6c1c115792e0c80412a7e0b54d6003cfbed491"
+-SRCREV_machine_qemuppc ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemuriscv64 ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemuriscv32 ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemux86 ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemux86-64 ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_machine_qemumips64 ?= "2e99735de1312c0403ff23cb0c50fa8153e80be7"
+-SRCREV_machine ?= "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+-SRCREV_meta ?= "6dbb20d3127b3380779a11b1552429c5d4a0417e"
++SRCREV_machine_qemuarm ?= "4f13e8499f2bfc9d95dcc70b981ea16351ff088b"
++SRCREV_machine_qemuarm64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemumips ?= "64f8949180b1a6375abef20eebf735e853701c71"
++SRCREV_machine_qemuppc ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemuriscv64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemuriscv32 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemux86 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemux86-64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_machine_qemumips64 ?= "6bf49ed9b223173d918b7c0140b8d0561bc2674c"
++SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
++SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
  
- # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
  # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+@@ -32,7 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.109"
-+LINUX_VERSION ?= "5.4.111"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.10.29"
++LINUX_VERSION ?= "5.10.30"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
