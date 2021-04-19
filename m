@@ -1,44 +1,43 @@
-Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com [207.54.68.121])
- by mx.groups.io with SMTP id smtpd.web09.5260.1618814404075916131
+Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
+ by mx.groups.io with SMTP id smtpd.web09.5391.1618815570338993986
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 23:40:05 -0700
+ Sun, 18 Apr 2021 23:59:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=bWGLmEan;
- spf=pass (domain: bmw.de, ip: 207.54.68.121, mailfrom: prvs=736b5af68=mikko.rapeli@bmw.de)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=Rw5GNaP7;
+ spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=736b5af68=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1618814404; x=1650350404;
+  t=1618815570; x=1650351570;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-id:content-transfer-encoding:
    mime-version;
-  bh=bHX0/ITSD5VHkBfQIaNb3eZiE8dGQfqMNa8v+8568r4=;
-  b=bWGLmEanyKCwmEOWAoHu005eUAePJI10Va9uESYh7IJ9LLDf6OlR0f99
-   WSQyj6UoWPA3777w+DIOr1AxtLAZdZ4nIyuAay/xxMGrzm/G8Ra6SSkZr
-   zwsjpI+kGOdGkbXbcGgGVtPJo3AdmUreVfGvLVy9xW4GjmhPPDOQkPHt3
+  bh=hFxalU/Mknk2Hz4Yedlav4M4DtBix2FINYP4Er3gv2c=;
+  b=Rw5GNaP7Nu+qRhx44Z8aZAk+v2jBAAzjb7vbI8mYd1vUe/ode2pGZm95
+   VBnygUurYj0XQ3iun2W9Zg2AudPVcpa0AptuyiSixKY6SftttGFohapEg
+   J6g14sNy2Q1ySeNFYLRLNhflV7LnjjfxVHudSxRCs87879mk9LHI1r7I+
    k=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 19 Apr 2021 08:40:01 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw4.muc with ESMTP/TLS;
- 19 Apr 2021 08:40:01 +0200
-Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
- by esabb5.muc with ESMTP/TLS; 19 Apr 2021 08:40:01 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
- (160.46.167.68) with Microsoft SMTP Server (TLS;
- Mon, 19 Apr 2021 08:40:00 +0200
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 19 Apr 2021 08:59:27 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw2.muc with ESMTP/TLS;
+ 19 Apr 2021 08:59:27 +0200
+Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp) ([160.46.167.67])
+ by esabb3.muc with ESMTP/TLS; 19 Apr 2021 08:59:27 +0200
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33k.europe.bmw.corp
+ (160.46.167.67) with Microsoft SMTP Server (TLS;
+ Mon, 19 Apr 2021 08:59:26 +0200
 Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
  smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.012; Mon,
- 19 Apr 2021 08:40:00 +0200
+ 19 Apr 2021 08:59:26 +0200
 From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <raj.khem@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>, <andrei@gherzan.ro>
-Subject: Re: [OE-core] [PATCH] ca-certificates: Fix openssl runtime cert dependencies
-Thread-Topic: [OE-core] [PATCH] ca-certificates: Fix openssl runtime cert
- dependencies
-Thread-Index: AQHXNKWoy+Ro9nE9uEGNTdqQYt0HWKq7QtCA
-Date: Mon, 19 Apr 2021 06:40:00 +0000
-Message-ID: <YH0lv7n57pN7rsN7@korppu>
-References: <20210418225310.1624909-1-raj.khem@gmail.com>
-In-Reply-To: <20210418225310.1624909-1-raj.khem@gmail.com>
+To: <zhengrq.fnst@fujitsu.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
+Thread-Topic: [OE-core] [PATCH] db: correct CVE_PRODUCT
+Thread-Index: AQHXNNrO6VhqyPEvD0CXWLkAisR5F6q7R9OA
+Date: Mon, 19 Apr 2021 06:59:26 +0000
+Message-ID: <YH0qTWrdEX5VH3eS@korppu>
+References: <1618839901-127113-1-git-send-email-zhengrq.fnst@fujitsu.com>
+In-Reply-To: <1618839901-127113-1-git-send-email-zhengrq.fnst@fujitsu.com>
 Accept-Language: en-US, de-DE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -46,71 +45,42 @@ x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0B59595548D2324E9C73CC3BF3A42A43@bmwmail.corp>
+Content-ID: <527AA160BC94B54488CF38F94A1B16FE@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Apr 19, 2021 at 09:45:01PM +0800, zhengruoqin wrote:
+> In the CVE database, now it use db2 instead of oracle_berkeley_db.
+> So, in order to be handled correctly by CVE check, modify CVE_ PRODUCT.
 
-On Sun, Apr 18, 2021 at 03:53:10PM -0700, Khem Raj wrote:
-> With commit dc778c70449ee5401b5a24ad18b22b88338c47c5, dependency was
-> moved to openssl-bin which in itself was a fine change, but dropping
-> dependency on openssl too should have been kept along, dropping this
-> meant that openssl binary wont be able to validate secure connections as
-> the CApath files wont be installed, which infact are required for
-> openssl bins to work, following call e.g. fails
->=20
-> $ openssl s_client -connect google.com:443
-
-This sounds a lot like a ptest or selftest? Maybe using
-some yocto server instead of google though.
-
-Cheers,
+Which CVEs, please add an example? In the past oracle_berkeley_db was used=
+.
+I wonder if both would need to be there, or if using the new value is
+sufficient from now on.
 
 -Mikko
 
-> ....
-> New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
-> Server public key is 256 bit
-> Secure Renegotiation IS NOT supported
-> Compression: NONE
-> Expansion: NONE
-> No ALPN negotiated
-> Early data was not sent
-> Verify return code: 20 (unable to get local issuer certificate)
-> ....
->=20
-> The local issuer certs are not found in default location
-> /usr/lib/ssh-1.1/certs, this dir and its content is installed by openssl=
- package
-> therefore re-add the dependency on openssl
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Andrei Gherzan <andrei@gherzan.ro>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 > ---
->  .../ca-certificates/ca-certificates_20210119.bb             | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  meta/recipes-support/db/db_5.3.28.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_202101=
-19.bb b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-> index 888a235c1a..7dcc86fdc1 100644
-> --- a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-> @@ -83,8 +83,8 @@ do_install_append_class-native () {
->      SYSROOT=3D"${D}${base_prefix}" ${D}${sbindir}/update-ca-certificate=
-s
->  }
+> diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support=
+/db/db_5.3.28.bb
+> index 9cb57e6a53..05720053f4 100644
+> --- a/meta/recipes-support/db/db_5.3.28.bb
+> +++ b/meta/recipes-support/db/db_5.3.28.bb
+> @@ -15,7 +15,7 @@ HOMEPAGE =3D "https://www.oracle.com/database/technolo=
+gies/related/berkeleydb.html
+>  LICENSE =3D "Sleepycat"
+>  RCONFLICTS_${PN} =3D "db3"
 >  
-> -RDEPENDS_${PN}_class-target =3D "openssl-bin"
-> -RDEPENDS_${PN}_class-native =3D "openssl-native"
-> -RDEPENDS_${PN}_class-nativesdk =3D "nativesdk-openssl-bin"
-> +RDEPENDS_${PN}_append_class-target =3D " openssl-bin openssl"
-> +RDEPENDS_${PN}_append_class-native =3D " openssl-native"
-> +RDEPENDS_${PN}_append_class-nativesdk =3D " nativesdk-openssl-bin nativ=
-esdk-openssl"
+> -CVE_PRODUCT =3D "oracle_berkeley_db"
+> +CVE_PRODUCT =3D "db2"
+>  CVE_VERSION =3D "11.2.${PV}"
 >  
->  BBCLASSEXTEND =3D "native nativesdk"
+>  PR =3D "r1"
 > --=20
-> 2.31.1
+> 2.25.1
 >=20
 
 >=20
