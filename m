@@ -1,87 +1,66 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.682.1618865038655696809
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.741.1618865191922156363
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 13:43:59 -0700
+ Mon, 19 Apr 2021 13:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eXnDSIRw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id y5-20020a05600c3645b0290132b13aaa3bso7030489wmq.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 13:43:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IJAVjnjV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id c15so26450023wro.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 13:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=9AybZvhagqN37vtjGHXYeWh4D4F7ilrPtAj6k1WzcII=;
-        b=eXnDSIRwiON/SPSu2+oIarlFfT4PjMuEMDk352IgOfGyANcrlEjK0JWnM3bdNzdYmM
-         rSevyz1Xu7TN669QVkZchcvc0fQ1neO2hD12tZq1wUP/162PxcTBKACRMSs4tisG5Aii
-         BNlcCle3GRDd8wMDg4+QHX2giA8zFafham4MY=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=nMj3v7jYNaRGErJC9WkYqiXwV9/V5IGrZBIsMuBiglc=;
+        b=IJAVjnjV8OU7wrAg9npl4PnAFScjDrBjvrGP9YWHZK7G6G8snM97pDvIewQbEi6NHj
+         NhPyFzCazXyXZnbnjIHfWtJOOaY6GbrjLQLpaBKEwdyxUekWovf05c6RZ+geLh8BE49K
+         pyoks9KORI+0vF819Y14iFYCLGpt6FsfqIla8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9AybZvhagqN37vtjGHXYeWh4D4F7ilrPtAj6k1WzcII=;
-        b=jLmFYAuVwGK2/0pIePbREyjziJF7K5EpRcQhVCruLDkV23t4ap7G92KZVQ/SCIbMPt
-         kgXeynYL+Au1lgMare0PW1xnl2E2758052O7SwbdRG41+ovCDFZlitBtsbxz8KbIAk6e
-         ZUeGyqsAZqErZsm3nZ+opr5fqpaRDU9bb8HYx+jgDCu9LkP9aagfAgsGkgBphOhHoJs7
-         AR1S5+X9UbMv56LYGbRNxBjSFSismn58i5Nvt0kbOKrsxqBswKfc6TdI+ZvB8aQObzXX
-         neL/MNhaJVsNLtPrGYuW7yP4w/2pSLmVorUvGpUwJ9t1nliHYTun96gPasHFb7GXbb7Q
-         gfog==
-X-Gm-Message-State: AOAM5304AwOoHMQl2B8UqffxqmOtXaPAe09S4+seEFAKHIntOgwb6rHK
-	MXD//kV8u8i3FDGGHiEwhuZ2jQ==
-X-Google-Smtp-Source: ABdhPJy6qvSUpAiOPJRrv7v5BeMRsZiX4maJCK+CO/o9wIptdxHvZRGJ1X/AygrNz3xZZyNhoM7pLw==
-X-Received: by 2002:a1c:f705:: with SMTP id v5mr809196wmh.105.1618864977261;
-        Mon, 19 Apr 2021 13:42:57 -0700 (PDT)
+        bh=nMj3v7jYNaRGErJC9WkYqiXwV9/V5IGrZBIsMuBiglc=;
+        b=ae2A6Kt+OkSeQKkMnJ0Y3gxxjCd6+Jcgw533wltwwp3nPsgxPDNS40yG/DUdRiLniA
+         PZQGh4Xa5O2zHZArgDOhV4FbvdYhufWrYp5yJFolWHJT4lAYO+IXRZ98wB+ZUpBl4ceR
+         gFggqrbAFq2fXT4A7ialKhDwuMhf3T4sa/FIgS7145XwTVY7CMVDYjY1EPbqlBJ48sH3
+         m1zInbzJZbh5UeTNXPNm/JKY0lXDRzFNehy+o0Cb+di3WpvCASGJLKWCg0UD7Vio5Da3
+         a24BR4Obyp7jUETLCv3smWcl+exUYONdUnQKpnZ0DmrdydvlRF55wmG0DNpbk8MRF2n6
+         PnyQ==
+X-Gm-Message-State: AOAM532Ac8Wn8eeC+IHwhXsHw+9OGwZ8a6u6iIBUfRSCNcEnlwZ4lr4D
+	1nFx13EjjDitwrRtBhbF18bvHA==
+X-Google-Smtp-Source: ABdhPJy/cS9Y2a1quI7Cly5OPOboaYKt8lB2GUjId71U0KsNjnDAfggHBm7hwVHSaj8JTF4WMuUrng==
+X-Received: by 2002:adf:d1e6:: with SMTP id g6mr16181113wrd.130.1618865190519;
+        Mon, 19 Apr 2021 13:46:30 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:e28b:7bcb:6782:eaf2? ([2001:8b0:aba:5f3c:e28b:7bcb:6782:eaf2])
-        by smtp.gmail.com with ESMTPSA id l7sm27143226wrb.35.2021.04.19.13.42.56
+        by smtp.gmail.com with ESMTPSA id g1sm16386568wrd.69.2021.04.19.13.46.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 13:42:56 -0700 (PDT)
-Message-ID: <6058118357d8a7604faaa961066937f346fcaa7c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/4] default-distrovars.inc: add debuginfod to default DISTRO_FEATURES
+        Mon, 19 Apr 2021 13:46:30 -0700 (PDT)
+Message-ID: <b1d7cef227a165fc12f8f21649edda3d13e0dc3c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Naveen Saini <naveen.kumar.saini@intel.com>
-Date: Mon, 19 Apr 2021 21:42:55 +0100
-In-Reply-To: <16774CB2FBD0E460.32333@lists.openembedded.org>
-References: <20210419090044.582453-1-alex.kanavin@gmail.com>
-	 <20210419090044.582453-3-alex.kanavin@gmail.com>
-	 <16774CB2FBD0E460.32333@lists.openembedded.org>
+To: Naveen Saini <naveen.kumar.saini@intel.com>, Robert Joslyn
+ <robert.joslyn@redrectangle.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Apr 2021 21:46:28 +0100
+In-Reply-To: <cc9a601cb41a48c5b6b0f325bfb049d2@intel.com>
+References: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
+	 <cc9a601cb41a48c5b6b0f325bfb049d2@intel.com>
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2021-04-19 at 16:41 +0100, Richard Purdie via lists.openembedded.org wrote:
-> On Mon, 2021-04-19 at 11:00 +0200, Alexander Kanavin wrote:
-> > Obtaining debug information by having it served automatically via http
-> > is far more pleasant than messing about with debugfs and gdbserver or
-> > transferring and installing -dbg packages by hand.
-> > 
-> > I believe we should follow the desktop distros and have it enabled
-> > out of the box. Please see the following commit for the description
-> > of how it works.
-> > 
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/conf/distro/include/default-distrovars.inc  | 2 +-
-> >  meta/recipes-devtools/binutils/binutils_2.36.bb  | 2 +-
-> >  meta/recipes-devtools/elfutils/elfutils_0.183.bb | 2 +-
-> >  meta/recipes-devtools/gdb/gdb-common.inc         | 2 +-
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
+On Mon, 2021-04-19 at 03:38 +0000, Naveen Saini wrote:
+> [SWAT}
+> It causing util-linux build failure on non-gpl3 build.
 > 
-> I agree we should do this, it did blow up in testing:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/3289/steps/11/logs/stdio
-> 
-> Hopefully an easy fix?
+> ERROR: Nothing RPROVIDES 'btrfs-tools' (but /home/pokybuild/yocto-worker/non-gpl3/build/meta/recipes-core/util-linux/util-linux_2.36.2.bb RDEPENDS on or otherwise requires it)
+> btrfs-tools was skipped: it has incompatible license(s): LGPL-3.0-or-later
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/3312
 
-Also:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1993
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/1705
-
-(elfutils ptest warning)
+Just FYI I've a fix queued for this one to meta-gplv2.
 
 Cheers,
 
