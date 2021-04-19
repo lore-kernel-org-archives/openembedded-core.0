@@ -1,101 +1,103 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.920.1618786393227933007
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web09.1621.1618790795030226615
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 15:53:13 -0700
+ Sun, 18 Apr 2021 17:06:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NxAgzbPX;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id p12so22937321pgj.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 15:53:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ae+sIYA2;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id h13so15631847qka.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kaz2pl5BdrM4/hQpO0bgyQjaOqUMV4uT+hCh37JRfdg=;
-        b=NxAgzbPXg6aDN9JiIWbebTbSU5qoC6Nv8UZaWJlhxnO1fhlo1HfKe4RmDiinL0gF+j
-         ZnoHINm/glSPgjhWl6OAfbEnUlUT7ejfxvL+KRTjdU++LPKY7Oi5cgwcoxY0LUfIQLxl
-         LmlIALFXxIVg/neZmrDXpYx0Mr/TYfF2cwP/TEwy1sUqzn8bdfFYwd10xytz6OWQvree
-         YXQ7TEZi9Mj8on29wH1tuD7nix/oR0R62C8nCvNIChHCu3TzKMU5yRAVIyXXnjUs4BZ9
-         kmwxhHfdhS8ISo1XoaRrBHBjk1SrIZpI9RxXhuaNVo2PpLz37ExatODwe0ix/xJ0KF8n
-         Zfrw==
+        bh=Eyhe7ZhVQj/favSbuQdM157w/KiqZdwbpq307iwmV18=;
+        b=ae+sIYA2u03ba0MtPdg5eFCneT0EeJz/8sXiGjy3ld6tEeoZ43LcEZRI89AkuhRP+Z
+         cvbBNiSOfQqBcX8ysIJkaut6PAF8Bbex6chJUNNq0MZBeL1iuZvps//LbACguJH6hR0d
+         7Mb+sUuSJ2JQ5kn8xJBTsEd+LXg6auAB4CiFaIHgCztFZ4TO3KhLlWAYKdPN6rg4t5+3
+         b3R1Jw9eUXNqC7uWTZP7TBb7ONED2/Qoci3FyM6d3cxuhhh9oGHyGxyA2BDUkEsWjWUO
+         75/Qkj8Qz/IC62BgG14bgXEIQgzewe2a4GcJW7J70CMCH+/zaEEyuglb8Il/zdbfNp89
+         4Plg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kaz2pl5BdrM4/hQpO0bgyQjaOqUMV4uT+hCh37JRfdg=;
-        b=GDooFimIhFzzJVWrPuk3KVXvs5GjS8LYfSKc3vTkG6nksOZoW3CSrNO3uS31aYvpd+
-         C05U3WNBqYWlZZGMaLFugDsvl8458To0Q7PwcGJPgJ+oa4xAPU1Cv4qEx3itxaI2w77L
-         VYHjBHPQgMr2tUi4vwWyTm1H3gB6c32Ggd37XAEG+AUVIG5WQS/YNX0Ni5xG67oUUJxN
-         gP7sP967eEAK6fLtpPxLyJSbfKFDa1GkrBXu3lvMN8Ywet/5UuM9SCZtgUWpgJQJtRE7
-         yGHJhXiq1rC5gGDZCLdcFwEYUKuLNR+p5bALL30MXp1mUQGbwYrFBjH2ganMF31MZUAw
-         RUcA==
-X-Gm-Message-State: AOAM532iVyGSXdTiKnEpPqV8HbZ4O7AW7jDSCD+nlTP+w68GlRDTpxci
-	i42gOSgOG+TF7G6EUISTLzNWuWLctbKEfA==
-X-Google-Smtp-Source: ABdhPJyc0PB4+ZTTlcqvqCgS3Cx8LmiZ7AGw+LUCuFpk82j7XX5OKUsuiZ/i1rOPLsJXjvqplBQZfg==
-X-Received: by 2002:a63:1c22:: with SMTP id c34mr8917616pgc.408.1618786392493;
-        Sun, 18 Apr 2021 15:53:12 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0:db81:2f56:60e4:2c64])
-        by smtp.gmail.com with ESMTPSA id v22sm10685146pff.105.2021.04.18.15.53.11
+        bh=Eyhe7ZhVQj/favSbuQdM157w/KiqZdwbpq307iwmV18=;
+        b=cpopU1wp5fZiyx10lSTZIEbXTHGhORhhIFJw4jpQgGAQB1GL/POVwVO2KNxRmqL1MA
+         sUVBQ+2B9VUKRTwhA00x8DCJi0evpd2kY18Ppg//6rrkxgGxbSB+9lR/EzkHqecncSjN
+         6dMtXcCVBv6G7f5KteghHlY6qyMTZOqG7hEiPPaNPvNXODBxixSyLTBEempzw2D2ltea
+         C1PHp0MAAwyVVgZTz4Fxi6idqqZOCaje16iz/ZE3YNU8r39F9dVg06Z3gCQN4PYpjsup
+         L+KFa9oKqluVt9be76D6xaGaOtB67naxKJHI5CcKMsP4MqUDtSB7x1tLvw9TiA0q08Rl
+         QkCA==
+X-Gm-Message-State: AOAM532meOQj5O5Rr5zqE3InIUUlmsCdop4ug2aGVACRB8b3RICW6eq7
+	WuHvo/YZ0hefzyBw9smwRFg=
+X-Google-Smtp-Source: ABdhPJw5Wd61QLz7kRDScGqKJBu/rS+sD7UJ7PlOawCREn8nP6er1Z+Wf0IjzFNR1WmpC7p3+QMhvA==
+X-Received: by 2002:a37:9547:: with SMTP id x68mr9560626qkd.474.1618790794225;
+        Sun, 18 Apr 2021 17:06:34 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
+        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 15:53:12 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Andrei Gherzan <andrei@gherzan.ro>
-Subject: [PATCH] ca-certificates: Fix openssl runtime cert dependencies
-Date: Sun, 18 Apr 2021 15:53:10 -0700
-Message-Id: <20210418225310.1624909-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        Sun, 18 Apr 2021 17:06:33 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/10] kernel: consolidated pull request
+Date: Sun, 18 Apr 2021 20:06:22 -0400
+Message-Id: <cover.1618790681.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With commit dc778c70449ee5401b5a24ad18b22b88338c47c5, dependency was
-moved to openssl-bin which in itself was a fine change, but dropping
-dependency on openssl too should have been kept along, dropping this
-meant that openssl binary wont be able to validate secure connections as
-the CApath files wont be installed, which infact are required for
-openssl bins to work, following call e.g. fails
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-$ openssl s_client -connect google.com:443
+Richard,
 
-....
-New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
-Server public key is 256 bit
-Secure Renegotiation IS NOT supported
-Compression: NONE
-Expansion: NONE
-No ALPN negotiated
-Early data was not sent
-Verify return code: 20 (unable to get local issuer certificate)
-....
+Here's the -stable and bug fixes that I've been sitting on while hardknott went
+through the final steps of release.
 
-The local issuer certs are not found in default location
-/usr/lib/ssh-1.1/certs, this dir and its content is installed by openssl package
-therefore re-add the dependency on openssl
+I've been building these locally without issue, so I don't expect much trouble.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Andrei Gherzan <andrei@gherzan.ro>
----
- .../ca-certificates/ca-certificates_20210119.bb             | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I've also put the kern-tools change back into the queue that caused some warnings
+when I submitted it before, but those warnings should now be dealth with. That
+being said, I'll watch the AB and deal with anythingt that falls out.
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-index 888a235c1a..7dcc86fdc1 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-@@ -83,8 +83,8 @@ do_install_append_class-native () {
-     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
- }
- 
--RDEPENDS_${PN}_class-target = "openssl-bin"
--RDEPENDS_${PN}_class-native = "openssl-native"
--RDEPENDS_${PN}_class-nativesdk = "nativesdk-openssl-bin"
-+RDEPENDS_${PN}_append_class-target = " openssl-bin openssl"
-+RDEPENDS_${PN}_append_class-native = " openssl-native"
-+RDEPENDS_${PN}_append_class-nativesdk = " nativesdk-openssl-bin nativesdk-openssl"
- 
- BBCLASSEXTEND = "native nativesdk"
+Bruce
+
+The following changes since commit d08d362cf98e9f3b6e99f4f9e33638e1fceffbaf:
+
+  bitbake: tinfoil/data_smart: Allow variable history emit() to function remotely (2021-04-18 11:38:22 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  kern-tools: add dropped options to audit output
+  linux-yocto/5.4: update to v5.4.109
+  linux-yocto/5.10: update to v5.10.27
+  linux-yocto/5.10: BSP configuration fixes
+  linux-yocto/5.10: update to v5.10.29
+  linux-yocto/5.4: update to v5.4.111
+  linux-yocto/5.10: update to v5.10.30
+  linux-yocto-rt/5.10: update to -rt34
+  linux-yocto/5.4: update to v5.4.112
+
+He Zhe (1):
+  linux-yocto-dev: add features/scsi/scsi-debug.scc
+    features/gpio/mockup.scc to KERNEL_FEATURES
+
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 ++
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
+ 8 files changed, 40 insertions(+), 38 deletions(-)
+
 -- 
-2.31.1
+2.19.1
 
