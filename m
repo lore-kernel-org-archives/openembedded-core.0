@@ -1,103 +1,93 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web09.1621.1618790795030226615
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web11.1622.1618790795967350615
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 17:06:35 -0700
+ Sun, 18 Apr 2021 17:06:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ae+sIYA2;
- spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f182.google.com with SMTP id h13so15631847qka.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z3/Ym8LH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id d15so21304793qkc.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 17:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Eyhe7ZhVQj/favSbuQdM157w/KiqZdwbpq307iwmV18=;
-        b=ae+sIYA2u03ba0MtPdg5eFCneT0EeJz/8sXiGjy3ld6tEeoZ43LcEZRI89AkuhRP+Z
-         cvbBNiSOfQqBcX8ysIJkaut6PAF8Bbex6chJUNNq0MZBeL1iuZvps//LbACguJH6hR0d
-         7Mb+sUuSJ2JQ5kn8xJBTsEd+LXg6auAB4CiFaIHgCztFZ4TO3KhLlWAYKdPN6rg4t5+3
-         b3R1Jw9eUXNqC7uWTZP7TBb7ONED2/Qoci3FyM6d3cxuhhh9oGHyGxyA2BDUkEsWjWUO
-         75/Qkj8Qz/IC62BgG14bgXEIQgzewe2a4GcJW7J70CMCH+/zaEEyuglb8Il/zdbfNp89
-         4Plg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6j201mV5Rme6/KYqz4i7ynFYiEOkutf060CcWJwkkx0=;
+        b=Z3/Ym8LHDXPAJ/ECJjuY1ywPe43TZ61Ot45GW/xnrY7xa8RGbRUWGn0CkreJOri1+W
+         k3kXZQ6hgWb/wcXK+oCABSyTZA8JiQomLFQsffqgQt4WOIHdQMkLEEyPKi+gr13fJP1/
+         cBByV9afNOwSGSoI5qgdqP9fKbwHE+oEymAJPQCQ6XAiMliJXjFCY2ESG8zwBCKC0USY
+         8cmpk/NLJisKvbTNo/zFJbVtCw2wsPHjCqZBTHEHt+AGQyXdCuggwQMW/pHJuSjcfPVj
+         LwaQJtgTJ4DofdhwUGQ08y6ha5N0P2hyx4mckrtzlfGzAhibILlCxfBvmSdB+B2fiTvv
+         WJaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Eyhe7ZhVQj/favSbuQdM157w/KiqZdwbpq307iwmV18=;
-        b=cpopU1wp5fZiyx10lSTZIEbXTHGhORhhIFJw4jpQgGAQB1GL/POVwVO2KNxRmqL1MA
-         sUVBQ+2B9VUKRTwhA00x8DCJi0evpd2kY18Ppg//6rrkxgGxbSB+9lR/EzkHqecncSjN
-         6dMtXcCVBv6G7f5KteghHlY6qyMTZOqG7hEiPPaNPvNXODBxixSyLTBEempzw2D2ltea
-         C1PHp0MAAwyVVgZTz4Fxi6idqqZOCaje16iz/ZE3YNU8r39F9dVg06Z3gCQN4PYpjsup
-         L+KFa9oKqluVt9be76D6xaGaOtB67naxKJHI5CcKMsP4MqUDtSB7x1tLvw9TiA0q08Rl
-         QkCA==
-X-Gm-Message-State: AOAM532meOQj5O5Rr5zqE3InIUUlmsCdop4ug2aGVACRB8b3RICW6eq7
-	WuHvo/YZ0hefzyBw9smwRFg=
-X-Google-Smtp-Source: ABdhPJw5Wd61QLz7kRDScGqKJBu/rS+sD7UJ7PlOawCREn8nP6er1Z+Wf0IjzFNR1WmpC7p3+QMhvA==
-X-Received: by 2002:a37:9547:: with SMTP id x68mr9560626qkd.474.1618790794225;
-        Sun, 18 Apr 2021 17:06:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6j201mV5Rme6/KYqz4i7ynFYiEOkutf060CcWJwkkx0=;
+        b=QA8Tdv8VlBqdfST7998OFWFfPKjmJ6UkPFTq3dd5pGR9QuuOzwWiDZXhILLTsDNTkU
+         Npm9JKOnOzk6rJrOQJt3Ktga1IQzDR01cSNtV2OaenKF8mraMZxGNZCnAXmCNTi3HtEW
+         ZmvgZLGaL1ch7JsBAgjDgOFwTFlE93/ble3TdCjg/JU3HviP8iKx35zDBYVQGZZuvhMg
+         WOI3ToH9V2fH1tnN2hWaP4itigvDMnjcnIXyQ6dgJ+SaEiQHy+zXnWEnv9gKDylfJ5SN
+         /+zbxwiQFpDIRQjdtSt3YbTDtvgpB/5pNWmiscP/C1dopQn972ZYwcBi6utj9Ui+M87h
+         hReA==
+X-Gm-Message-State: AOAM531cM6CTdKP+Fz31pc7Qo1IZZYmXFFZp3TEyXvLD6pAwyM1rdCBt
+	lyBz9xkSmdBpshyk07vLiqw=
+X-Google-Smtp-Source: ABdhPJzZbFST+Iy9Le1D1it8ez5/7/jhyVfeyd5fIMUSu2sDySm0ECrpPxEel2IK3gWYfh3C0jhL5A==
+X-Received: by 2002:a37:43d4:: with SMTP id q203mr9833827qka.124.1618790795164;
+        Sun, 18 Apr 2021 17:06:35 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.33
+        by smtp.gmail.com with ESMTPSA id n136sm8641759qka.133.2021.04.18.17.06.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 17:06:33 -0700 (PDT)
+        Sun, 18 Apr 2021 17:06:34 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/10] kernel: consolidated pull request
-Date: Sun, 18 Apr 2021 20:06:22 -0400
-Message-Id: <cover.1618790681.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 01/10] kern-tools: add dropped options to audit output
+Date: Sun, 18 Apr 2021 20:06:23 -0400
+Message-Id: <71952a3534b9570aeddc867207074026c54e0675.1618790681.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1618790681.git.bruce.ashfield@gmail.com>
+References: <cover.1618790681.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+The rewrite of the configuration audit code dropped the ability to
+generate warnings for configuration options that didn't make it into
+the final .config.
 
-Here's the -stable and bug fixes that I've been sitting on while hardknott went
-through the final steps of release.
+We integrated the following commit to restore those warnings:
 
-I've been building these locally without issue, so I don't expect much trouble.
+    symbol_why: classify based on config.queue hints
 
-I've also put the kern-tools change back into the queue that caused some warnings
-when I submitted it before, but those warnings should now be dealth with. That
-being said, I'll watch the AB and deal with anythingt that falls out.
+    The config.queue has typing hints inline with each fragment,
+    we should be using them to further classify the options, and
+    not only relying on the special hardware.cfg, etc, files that
+    are part of the meta data
 
-Bruce
+    We also should be checking for options that were set to a
+    non 'no' value, and that don't make it into the final .config,
+    since without that check it means we are missing some warnings.
 
-The following changes since commit d08d362cf98e9f3b6e99f4f9e33638e1fceffbaf:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  bitbake: tinfoil/data_smart: Allow variable history emit() to function remotely (2021-04-18 11:38:22 +0100)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (9):
-  kern-tools: add dropped options to audit output
-  linux-yocto/5.4: update to v5.4.109
-  linux-yocto/5.10: update to v5.10.27
-  linux-yocto/5.10: BSP configuration fixes
-  linux-yocto/5.10: update to v5.10.29
-  linux-yocto/5.4: update to v5.4.111
-  linux-yocto/5.10: update to v5.10.30
-  linux-yocto-rt/5.10: update to -rt34
-  linux-yocto/5.4: update to v5.4.112
-
-He Zhe (1):
-  linux-yocto-dev: add features/scsi/scsi-debug.scc
-    features/gpio/mockup.scc to KERNEL_FEATURES
-
- .../kern-tools/kern-tools-native_git.bb       |  2 +-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 ++
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
- 8 files changed, 40 insertions(+), 38 deletions(-)
-
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 1d900d85fa..70b8518304 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249
+ 
+ DEPENDS = "git-native"
+ 
+-SRCREV = "8f6aaab7f64c6de30d267e31a73f7c3bb30125a9"
++SRCREV = "00dfcab64b85bcb61208724a1588662184ebdd59"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
+ 
 -- 
 2.19.1
 
