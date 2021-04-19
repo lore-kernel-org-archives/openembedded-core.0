@@ -1,87 +1,105 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.3])
- by mx.groups.io with SMTP id smtpd.web10.4865.1618809216063031400
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.4887.1618809458166057487
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 22:13:37 -0700
+ Sun, 18 Apr 2021 22:17:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=gG4v6div;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.3, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1618809214; i=@fujitsu.com;
-	bh=ZbYaxCr45/Yj9Zvdodd9/Eb/MDMFHcCwqJDKXP/H0z4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=gG4v6div3qlzyvd0VPgRPetUSIUYttIPnx+E2rwNQuCA33mGuB1k6/OQnNqULSL9g
-	 lmwyrLitRLBiFGszojAckEyoP5/AFqyoEmVtPr7EeLsRBngfaKF1GWFcmf9wst31aE
-	 owAz9oUUZEtS5ural9iVEX62/WtZlifhEy/M3EQU8YoEFhJXAfQayq6BQmPx1AxeCF
-	 pXgKGiqOP6QyohFz0YS9tAhiskoN7ovQdUn4exUaDISnPgYPFfBC/nz55IBFfCf1oW
-	 zyvrQMFBkwve/MH/RPmbaMOtJ1bAOF7IS7kPGuhEBcRDbLAl5nvktfi2a4pUscfalC
-	 qNADHYH66+V+w==
-Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 02/B9-24644-E711D706; Mon, 19 Apr 2021 05:13:34 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+GYqlsrWJt
-  gMO2NjcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrF32T2mgt+sFZ+v7WVrYJzP2sXIxSEkMItJ
-  4srXtSxdjJxAzm5Gia1dsiA2m4CuxLnHa9m7GDk4RAT0JK7+EwUJCwsYSSw4848ZxGYRUJW4+
-  P0RmM0r4Cmxd/1TsDESAgoSUx6+h4oLSpyc+QQsziwgIXHwxQtmkJESAooSs6fLQ5RXSmyfdp
-  ZxAiPPLCQds5B0LGBkWsVokVSUmZ5RkpuYmaNraGCga2hopGtoCcQmJnqJVbqJeqmluuWpxSW
-  6hnqJ5cV6xZW5yTkpenmpJZsYgSGUUnBgwg7G/a8/6B1ilORgUhLlvXy6MkGILyk/pTIjsTgj
-  vqg0J7X4EKMMB4eSBO8t/toEIcGi1PTUirTMHGA4w6QlOHiURHh38ACleYsLEnOLM9MhUqcYF
-  aXEeX0EgBICIImM0jy4NlgMXWKUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzLsAZApPZl4J3P
-  RXQIuZgBbvnl8JsrgkESEl1cC0fKvZq/ApfEe3d/8KLG71Wr/xto3Jvj9O9lHZhw+1VT/qYcn
-  ZFDZzfmXc7yVNIjYdP/1rt9xbYVVVs4O7qcP1Iq/0ckmO1g9hn2xLTHZ0tcuEfC1fN3VdN3Pr
-  0V9RtfVGWcXy29z/1V1Il5ihLZxsKX3jyELJWkObIP5H33lzI2/8O7n73JQwV7GJgsmpYR88n
-  E9vqGgvNfzesbMlvT5vV77UIa4rt5y92/M/XtoRcp53n9HErxvzNrTq/DcTDN04uWr5l1iP9F
-  kazmwTXX9KfLv8OP/iHJv3Uu8nZrkz3f0z9WbXxQ9h91d5nfe/wyl/RvnQ7vDNnd+mHv5asvb
-  K7qope788if64bJVDmp2TEktxRqKhFnNRcSIAyo+2dBwDAAA=
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-34.tower-265.messagelabs.com!1618809213!3914!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 15988 invoked from network); 19 Apr 2021 05:13:33 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-34.tower-265.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 19 Apr 2021 05:13:33 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13J5DOCO027491
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 06:13:33 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 19 Apr 2021 06:13:22 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] db: correct CVE_PRODUCT
-Date: Mon, 19 Apr 2021 21:45:01 +0800
-Message-ID: <1618839901-127113-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=c9gZVuEK;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id j3so16342750qvs.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Apr 2021 22:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LeWGTXJBuQlhirQEnotc6JNhij1GzZNOR/t30LHYczA=;
+        b=c9gZVuEKgSDLBqzDRMPWXq2C+OOk0ey7F3iABIuBdQx3mofykdSIyumwVmueW8Lm8g
+         iLtpSjsmiHrGqLZUtDqaW6464uwy+hKqMNBIB7HUs/jLmmZFHv1Ad1k7WIrEo2tWnddh
+         4j7hh9nOSbepXVYXAn/uFqkzV0uRcpRxDgLVSwOrndSget7IPjAv9dOEkV1kjYHEyb50
+         p0KDX60ADeIBfGMvtJ9y26oMRhta085na3Eq6fTlSDcXlIjHx06ZYPJYvBIWos/l0YmI
+         QNPto6k33LUe0FU36K34sAAJbOUP9XAV+h54W/UeT+oA1md3f4dov+Inet6RgjnsiPLX
+         A1sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LeWGTXJBuQlhirQEnotc6JNhij1GzZNOR/t30LHYczA=;
+        b=sz0rccUF+GVGARE6+O58omqk0tGxZSFi5xkV+8I2tV4Msvbjm7XDePKkQaIvIjNQBM
+         VLmrt7Kp8I6mklf+TmAw/KAIG6bNzC/YdO2T/pdwFSv9RJ9tXfBRaF2GnCYlncRFcbwt
+         Cg3Z4Cycon80HCSLeB7s8Uxm2sztVdod5Ye7YoiHrc2HuHTghZiJBQJPgPp+e27NhatW
+         R9hdQueJwnrMBBFkx+ryQNH8LjN/Z2AUI+6Em58rC6C7DowN493AENd7Fbq3YtKY1eho
+         JkrRO86JgHhKwjLQdJrs9S2KjywQoQotdoGlT82LA2y+ShadJxbqQ8ewPdrWLBVkIBdZ
+         YvEg==
+X-Gm-Message-State: AOAM531r8lqQ2Uh4X/E6v21Rsa9Opnv3XG4Gd5GaEXGdlQL/S8y2Q+4m
+	BDEk5dMG6bjQDM5FvuhfVJFTiH+zTuz1XLL6BLI=
+X-Google-Smtp-Source: ABdhPJw4bnqqmmpFwVTkUD82/mmxWtqloMD4TLm+xTohGnc2zMJ5GKaYCZBvLphVOHo4MmOYCk+6h20tKQfbpEuZto8=
+X-Received: by 2002:ad4:5bef:: with SMTP id k15mr18454811qvc.16.1618809457218;
+ Sun, 18 Apr 2021 22:17:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+References: <20210418213207.1591440-1-raj.khem@gmail.com> <470e6ec7142c4202b7aaa5be3201f9ce@intel.com>
+In-Reply-To: <470e6ec7142c4202b7aaa5be3201f9ce@intel.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sun, 18 Apr 2021 22:17:11 -0700
+Message-ID: <CAMKF1so6AGSai9FxxzEWiriKcY35JU9yw3mz6m1zOD+=hYCgdA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] epiphany: Add missing dependency on gnutls
+To: "Saini, Naveen Kumar" <naveen.kumar.saini@intel.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-In the CVE database, now it use db2 instead of oracle_berkeley_db.
-So, in order to be handled correctly by CVE check, modify CVE_ PRODUCT.
+On Sun, Apr 18, 2021 at 7:51 PM Saini, Naveen Kumar
+<naveen.kumar.saini@intel.com> wrote:
+>
+> [SWAT]
+>
+> Configuration failure:
+>
+> Run-time dependency hogweed found: NO (tried pkgconfig)
+>
+> ../epiphany-3.38.3/meson.build:92:0: ERROR: Dependency "hogweed" not found, tried pkgconfig
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3317
+>
+> Does this patch fix it ?
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
----
- meta/recipes-support/db/db_5.3.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+yes
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index 9cb57e6a53..05720053f4 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -15,7 +15,7 @@ HOMEPAGE = "https://www.oracle.com/database/technologies/related/berkeleydb.html
- LICENSE = "Sleepycat"
- RCONFLICTS_${PN} = "db3"
- 
--CVE_PRODUCT = "oracle_berkeley_db"
-+CVE_PRODUCT = "db2"
- CVE_VERSION = "11.2.${PV}"
- 
- PR = "r1"
--- 
-2.25.1
-
+>
+> Regards,
+> Naveen
+>
+>
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Khem Raj
+> > Sent: Monday, April 19, 2021 5:32 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Khem Raj <raj.khem@gmail.com>
+> > Subject: [OE-core] [PATCH] epiphany: Add missing dependency on gnutls
+> >
+> > This was being pulled in by other dependencies thus far
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-gnome/epiphany/epiphany_3.38.3.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> > b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> > index 889de16d00..ce24336ace 100644
+> > --- a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> > +++ b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> > @@ -6,7 +6,7 @@ BUGTRACKER =
+> > "https://gitlab.gnome.org/GNOME/epiphany"
+> >  LICENSE = "GPLv3+"
+> >  LIC_FILES_CHKSUM =
+> > "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> >
+> > -DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+> > +DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr gnutls
+> > \
+> >          gsettings-desktop-schemas libxml2-native \
+> >          glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
+> >
+> > --
+> > 2.31.1
+>
