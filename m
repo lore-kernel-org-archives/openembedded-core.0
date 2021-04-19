@@ -1,158 +1,123 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.76])
- by mx.groups.io with SMTP id smtpd.web12.2098.1618793684423832347
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web08.2252.1618794583335671710
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 17:54:45 -0700
+ Sun, 18 Apr 2021 18:09:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=REK9YciH;
- spf=pass (domain: windriver.com, ip: 40.107.94.76, mailfrom: randy.macleod@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Iqc7dWZcQpoQaRxk6BszB8DYVaBVA/yamBTxtRy6TcCaexyq50bve0cVOVnxsedw715oEUaXZOd2axV9Dfk0pOHGcqoOfTsqZsbnaeSvz184qBrwddvSaqfvONn0roXVtIqpurMRTrG/FDo9O3sFre65WA8uCyrcRadc+A7lfgQBnSH4RDpQ8dY/4MyNuvu06IX2nw7VVSABjOUYQGNAVQ8/zxd8+FP2qYVKwIuYhOK1DoSqj5FQ8Ac/u1+CcByPTZymkCWywVG/hujNI0catQutjl6mnfoqc7f6AY3tCCHMfVJrLpr6T6QmPlkJhwAWOFSjcHKsPaRLnqcLmUonnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=INSO2Kjax6VXjpAkev1lmgGXQ0E/ODUmNVkU/VzKh0Q=;
- b=hD9Akx4oYm41kT4BdG/ByfS7P1iZoTH0tMoUBKuLbX/Pd6R3g+841jznjtyMYL5HMiP5VPF6d5DLq1cnZOHHAECtQ1ebSwG8WV66RSiGd5XgYRVZRZc4YdzsqLeB6J/FwqM9csTIDziRE1qR93f/09tvDZ3QM62QbJ6TgLZ+XCZJeCzWqW9TajTamaApJ8duMtPQzmFb21PsA54+3/N+Xl8V6VizY886AQ3BrB1JbXxHdrnCTPdd2PVze5ySDIomW6g2z77blNDpFhfZR8fWoPwFPzZBYmKA5WnG2HfTVdUbt5wVYOrdA5UQpKW34v+Hp2B3Zhc1WK9X04b81H/L6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=INSO2Kjax6VXjpAkev1lmgGXQ0E/ODUmNVkU/VzKh0Q=;
- b=REK9YciHfc9ACXIDGg4n9RCDtWezhcTrGziVQINrwRAdT7OBYnGI1NkVD0VhyBJxsGdn85v0CN8ZGFbyt9hHXq4xILk4ebW3tbVYHwdOJvkQaGFJHOsSbgINPTc725kbIp1Yq7cqAKxVEWdkiRq+vdryTxGGdAtln8JgemOQkDU=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.21; Mon, 19 Apr
- 2021 00:54:41 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::8d3b:70ab:5fc7:9eb5]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::8d3b:70ab:5fc7:9eb5%7]) with mapi id 15.20.4042.024; Mon, 19 Apr 2021
- 00:54:41 +0000
-Subject: Re: [OE-core] [PATCH] oe-time-dd-test.sh: increase timeout to 15 sec
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-To: openembedded-core@lists.openembedded.org,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1677026B4C4FCC42.11056@lists.openembedded.org>
-Message-ID: <d00380f2-3214-f8ad-3faf-454d932878e9@windriver.com>
-Date: Sun, 18 Apr 2021 20:54:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <1677026B4C4FCC42.11056@lists.openembedded.org>
-X-Originating-IP: [198.48.226.187]
-X-ClientProxiedBy: SJ0PR03CA0285.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::20) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
-Return-Path: randy.macleod@windriver.com
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: zthRk1vIbfeCeBypQKGJS+3kVHBSXpZ4CKJ+49kkGwxa4oOYxrxVuXhBBP5Y3SA4aq8VIaSY6z
+ 5qVqlM1zYaeA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175357709"
+X-IronPort-AV: E=Sophos;i="5.82,232,1613462400"; 
+   d="scan'208";a="175357709"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2021 18:09:40 -0700
+IronPort-SDR: KZ82B5tZupPkeAYZImFMeJuGHuQNgceojp0miPy+3cI4QMzOWYSqY/3EQK+Fd90F4Qc8YWUVH0
+ pGVatr6oRmbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,232,1613462400"; 
+   d="scan'208";a="454093812"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2021 18:09:39 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 19 Apr 2021 09:09:38 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
+ Mon, 19 Apr 2021 09:09:38 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH 00/18] pull request
+Thread-Topic: [OE-core] [gatesgarth][PATCH 00/18] pull request
+Thread-Index: AQHXMZeZt8Z976sjg0C35oCNzIvlrKq6iAoA
+Date: Mon, 19 Apr 2021 01:09:38 +0000
+Message-ID: <f6c090a618b54d1c0e383559033fb0eeae76e7ba.camel@intel.com>
+References: <1675E42AA574C6DF.10637@lists.openembedded.org>
+In-Reply-To: <1675E42AA574C6DF.10637@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.25.44.2] (198.48.226.187) by SJ0PR03CA0285.namprd03.prod.outlook.com (2603:10b6:a03:39e::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Mon, 19 Apr 2021 00:54:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9dc8b69b-9a46-40d2-98a9-08d902cdb6f5
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB25383498978DD4A56CF1B3D8F8499@DM6PR11MB2538.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	GlhIaEetrd/hQkjfjc0XEVaus/SuUZDtjE2k+FXuxSu0q9giejyKsVT1tpF/ItIKW840PcLWHRXULcIkDPtdX1e0LV3IhFMCUTA2TfyhbS2D3sC+qUVzr+NtQsn8KXD1GDoLnK9X8G/oidJR41/wKzue4gs4XuUtR6R9Bglu/qS6TkX2LgJHd33S6lF/RtSR5ixwaA965OgOKtpqgvBieHLyDS4OF05EQWJTP4hnRroxexnEoRVtp3kaDBhCtvv/myWlMfRceAjkkUOACL9BkUOUK9zRMhSF1rnfXFbbSMx7y4E1DvGOzbJmla7gJ4PoD+n3dW0a4z5nEeefVVl2vHp6Cgnum8wkl6JZDqRK0D5l6nEMUr1c2HG2/wHQW5ocnFjBOhV5J0r7GtBsKeyNOkJ29HKR3wQclhz+yXQsxQSeBNhDTLF+hRf2le7Wv7aNVEpkM6quoci/oQw+5QlvJ5NgeQQp9rdIlhpX5aC9k0ktKIVLqGNFYa6coIF9wUWX8M42G4FRD/2Jkew/VHTKeyxolo3WCljJj+hpsVh6OdfPHkYjDFMg8DPTPNQxF5rDHMLv4s5XqYDzs4sjKvK55j07GiS67yy2A5Z2mCEKmXO4s+5xVAZKzs/P1W6+hfyIxDHbO1KOdSdGnoQN/h4uOoHiugO/wMAiu1glAWRKBA0rvaKMbJq42SqTlEJTU+QGxpo+8SpUY6lagzP9XrnkG8i68pOCTMym+ee7KLwNLJIWowO7faaEl3CYCvtYbZSCvCuvSExX2xPGN/INylfoB9n1rtbqcLifhnUu/LT/H40=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39830400003)(396003)(346002)(376002)(366004)(136003)(52116002)(8936002)(83380400001)(6916009)(36756003)(38100700002)(26005)(86362001)(8676002)(316002)(66556008)(66946007)(53546011)(38350700002)(2906002)(16576012)(5660300002)(478600001)(31686004)(956004)(2616005)(6486002)(966005)(31696002)(66476007)(6666004)(186003)(16526019)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?dHFPcjhkMGRWNTBHQUR4bk5FQ2xoRm5KZ0R3MG9YVmVKSlYxQVNIL0xHSndn?=
- =?utf-8?B?R3RZbS83MU9iMTUyVmFQcndiK091b01kQU9KemlubXNMUXZpUGc3SjJqZzRx?=
- =?utf-8?B?QnA2Q1UzUVgweFkxQ2hJdTcxWHpweUZmUjRrMDA1ZHJMZGVhbGdqV0I0Qy9o?=
- =?utf-8?B?UDZORDhRZWI0emtKRHdXY1N4WjVDMzNrYTJ6MjdabmRtOU9iOWQxVjlzcG5U?=
- =?utf-8?B?ZGlFOGQwUFVXNHdKQTNHZE03UlNBZHFwQzcvQUxERnNLeXhuWG9LNHIzcFZv?=
- =?utf-8?B?QkVrTXVzUnV6N09QU25SYVJwQysvN0t4Mnh2TEZya2IzQk1FZFJMdHVIcnFp?=
- =?utf-8?B?QzdxTXVqdUhwVzYvWktuVzZaMmowQ1NXeDNFV3pHbFIzeFJKV0hkeU9TbHpG?=
- =?utf-8?B?aklEQi92amkzR1hMM2lsSzd5VGdzV2lLQVVCa0ZKZ095ODBRSitER3J0OHpX?=
- =?utf-8?B?T3lwV1F4dnM2SU9tZ3Z3Z3Y1bHNFY3RlTGpPYnZKREYwTytDVTZKNGZJZ0FI?=
- =?utf-8?B?OWE1OEJ3Mnp0OUdHd3ZsendRQk5QTGs1RzdzbXp6VGFCZkhHRUpBdmZKTW5V?=
- =?utf-8?B?dGEzUStPV2NmcktMb05GU0JTcXZWNDNMTENQVFkwdUpTN1pPTEpZNzJwS2Fo?=
- =?utf-8?B?b2w4ekYxUTZWYm4zSURGZktXczNURmlGZFdTZDZtL2FLWFdNUDBlQllPQzVy?=
- =?utf-8?B?R3lOdFFPczJuV3lJUmhMWTQzTVlKMWFuYlZFU3FjVGUrbmpLS1MwRmlBU0ky?=
- =?utf-8?B?Y2FIT1RmSktPdU5hcWRIL1FWUWxFVkNYcnp0MDZTZ0UvbkZiZGRnYSs1QWFr?=
- =?utf-8?B?dndpY1VGUVE5T01LQ0NiSXhuQ0FHWG91a0p5Y1BldnVnQlNYZkxMYU1SUEhu?=
- =?utf-8?B?QkdRYTRUNWticE5sdmZXaDFwVnZHYnJzMTkxOXlPMDdUM01Bb2xJOEVzZ3p4?=
- =?utf-8?B?eFRyVjliQi9PcUdvb0RFUFNxZzV0ak9laCtGc2tlbmpJRTVRTEk1NzZtODR1?=
- =?utf-8?B?TzM2T0QwZzlCOVVnNkJZS0pWTFBFdXdYNElnVCtlRzNnOW8rMWhzZUV1RXNZ?=
- =?utf-8?B?WThRUStmR1gxcThWeEJKR0NMd0JmcDdtRDg0K0FQL0dpQk8rY0xORVdJWXEw?=
- =?utf-8?B?SzNzQTEyb2xEcWxCMERBRSt2TWQrVHpvT1ZhcGkvdFNUVGVhVWk5QjFpVTRC?=
- =?utf-8?B?ZmswNWJyb2lSdklFekJxUVFUVExqYU1kc3NSMks2dElZY0Npb1JqcTMrVGNG?=
- =?utf-8?B?NTRGUzhxSnpHLzdwSGtRY3V0dEF3S3VmQ0NSN3ZxUmhpNFpDT0lHaEZpekNw?=
- =?utf-8?B?V3NRVHdMbmhVdG1obzlUWTJad3pUd2JXR1NGU0tiVmtCTCsxcWJUK1lGSWl4?=
- =?utf-8?B?Z0JhVWlJb0VpUnNKWGlpY2FsM0w1TU1hR01wYUJXL2RvemVHbmtTcDluM1pu?=
- =?utf-8?B?Nkg4OXhFVlFqUEQxOHRmdkRhVUZJMSttbXJ5SE5rcWl5RmRndjE2RFJ5cWtJ?=
- =?utf-8?B?NkJpczNodWs2ZFdIbFZ6UlJJZnoxKzhOK2xnVGU2Z01KVW15bVhwS0t1d0M1?=
- =?utf-8?B?MUpnVmd5bUhPL1dDd0FEWDR4STY5UHdwVnpWUzJhd1RkV3hGR0NlKzRrYVhI?=
- =?utf-8?B?MGhHL2tDMis4QWI1RVhVN01sajMzRlFaUWt4bjgzQzhqRWVvUjdUdjErSFBX?=
- =?utf-8?B?YjkxbjAxV1VjdjFOT1VPdGJoQU9MRi80Nlg5VmxPZ3N0bWJzV3l6cDN2bW01?=
- =?utf-8?Q?yHlXbzVGeie7pAbqHaRrr33W9ybQ0IVMG67vjG9?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dc8b69b-9a46-40d2-98a9-08d902cdb6f5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2021 00:54:41.3224
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Foiis0d5RipwaLOq9QtEz7NeJkHSUUsFAkaAtBIbINnn/XDDQ9I7ZgRJht0KbQjYXvO0aQmX8VRw4Y6/OJsava8fDcbkPyDhbRsc/sSS5c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2538
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9D545EEEA439F14ABF93D4E5C36340D4@intel.com>
+Content-Transfer-Encoding: base64
 
-On 2021-04-18 1:00 p.m., Randy MacLeod wrote:
-> With the previous timeout of 5 seconds, there would be
-> builds such as:
->     https://autobuilder.yocto.io/pub/non-release/20210417-13/
-> which produced 17 files with top output with top running 454 times
-> and that's a bit too much data to analyze for each run. By
-> increasing the timeout, we'll find the worse problems
-> first, fix them and then we can decrease the timeout if needed.
-> 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->   scripts/oe-time-dd-test.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/oe-time-dd-test.sh b/scripts/oe-time-dd-test.sh
-> index 5b25e6bd97..459071e732 100755
-> --- a/scripts/oe-time-dd-test.sh
-> +++ b/scripts/oe-time-dd-test.sh
-> @@ -13,7 +13,7 @@ usage() {
->           echo "Usage: $0 <count>"
->   }
->   
-> -TIMEOUT=5
-> +TIMEOUT=15
->   
->   if [ $# -ne 1 ]; then
->           usage
-
-Please merge the corresponding change to yocto-autobuilder-helper:
-
-[yocto] [PATCH yocto-autobuilder-helper] config.json: measure every 60 
-seconds
-
-before this one.
-
-../Randy
-
-> 
-> 
-> 
-> 
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+UGluZw0KDQpPbiBUaHUsIDIwMjEtMDQtMTUgYXQgMDk6MzUgKzA4MDAsIEFudWogTWl0dGFsIHdy
+b3RlOg0KPiBQbGVhc2UgbWVyZ2UgdGhlc2UgY2hhbmdlcyBpbiBnYXRlc2dhcnRoLg0KPiANCj4g
+VGhhbmtzLA0KPiANCj4gQW51ag0KPiANCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNv
+bW1pdA0KPiBmZGFlOTcwNjU2Y2M0MjFjNTQyYWY5ODU2YmM5YWUwMzhjNjFkYjEzOg0KPiANCj4g
+wqAgYnVpbGQtYXBwbGlhbmNlLWltYWdlOiBVcGRhdGUgdG8gZ2F0ZXNnYXJ0aCBoZWFkIHJldmlz
+aW9uICgyMDIxLTAzLQ0KPiAyOCAyMjozMzowMCArMDEwMCkNCj4gDQo+IGFyZSBhdmFpbGFibGUg
+aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KPiANCj4gwqAgZ2l0Oi8vcHVzaC5vcGVuZW1iZWRk
+ZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWINCj4gc3RhYmxlL2dhdGVzZ2FydGgtbmV4
+dA0KPiANCj4gQW5hdG9sIEJlbHNraSAoMSk6DQo+IMKgIGdsaWJjOiBQdWxsIGxhdGVzdCAyLjMy
+IEhFQUQNCj4gDQo+IEFudG9uIEQuIEthY2hhbG92ICgxKToNCj4gwqAgcnVuLXBvc3RpbnN0czog
+ZG8gbm90IHJlbW92ZSBwb3N0aW5zdHMgZGlyZWN0b3J5Lg0KPiANCj4gQnJ1Y2UgQXNoZmllbGQg
+KDIpOg0KPiDCoCBsaW51eC15b2N0by81LjQ6IHVwZGF0ZSB0byB2NS40LjEwNQ0KPiDCoCBsaW51
+eC15b2N0by81LjQ6IHVwZGF0ZSB0byB2NS40LjEwNw0KPiANCj4gQ2hyaXN0b3BoZXIgTGFyc29u
+ICgyKToNCj4gwqAgYnVpbGRoaXN0b3J5OiBhZGQgbWlzc2luZyB2YXJkZXBzZXhjbHVkZXMNCj4g
+wqAgaW1hZ2UscG9wdWxhdGVfc2RrX2Jhc2U6IG1vdmUgJ2Z1bmMnIGZsYWcgc2V0dGluZyBmb3Ig
+c2RrIGNvbW1hbmQNCj4gdmFycw0KPiANCj4gRG9yaW5kYSBCYXNzZXkgKDEpOg0KPiDCoCBkZXZz
+aGVsbC5iYmNsYXNzOiBFeGNlcHRpb25zIGRpc3BsYXllZCB3aXRoaW4gZGV2cHlzaGVsbA0KPiAN
+Cj4gR3VpbGxhdW1lIENoYW1wYWduZSAoMSk6DQo+IMKgIGltYWdlLWxpdmUuYmJjbGFzczogb3B0
+aW9uYWwgZGVwZW5kcyB3aGVuIFJPT1RGUyBlbXB0eQ0KPiANCj4gS2hlbSBSYWogKDEpOg0KPiDC
+oCBkb2N1bWVudGF0aW9uLWF1ZGl0LnNoOiBGaXggdHlwbyBpbiBzcGVjaWZ5aW5nDQo+IExJQ0VO
+U0VfRkxBR1NfV0hJVEVMSVNUDQo+IA0KPiBMZWUgQ2hlZSBZYW5nICgyKToNCj4gwqAgY3ZlLXVw
+ZGF0ZS1kYi1uYXRpdmU6IGNvbnNpZGVyIHZlcnNpb24gc3VmZml4IHdoZW4gdXBkYXRlIENWRSBk
+Yg0KPiDCoCBjdmUtY2hlY2s6IENWRV9WRVJTSU9OX1NVRkZJWCB0byB3b3JrIHdpdGggcGF0Y2hl
+ZCByZWxlYXNlDQo+IA0KPiBNYXJ0aW4gSmFuc2EgKDEpOg0KPiDCoCBiaW51dGlsczogYmFja3Bv
+cnQgZml4IGZvciBnb2xkIHdpdGggdGhlYWRzIGVuYWJsZWQgZnJvbSAyLjM2LjANCj4gDQo+IE1p
+Y2hhZWwgVHJlbnNjaCAoMSk6DQo+IMKgIGxpbnV4LWZpcm13YXJlOiBGaXggcGFja2FnaW5nDQo+
+IA0KPiBNaWtrbyBSYXBlbGkgKDEpOg0KPiDCoCBvcGVuc3NsOiB1cGRhdGUgdG8gMS4xLjFrIHRv
+IGZpeCBDVkUtMjAyMS0zNDUwIGFuZCBDVkUtMjAyMS0zNDQ5DQo+IA0KPiBNaW5nbGkgWXUgKDEp
+Og0KPiDCoCBsaWJ0b29sOiBtYWtlIHN1cmUgYXV0b2hlYWRlciBydW4gYmVmb3JlIGF1dG9jb25m
+DQo+IA0KPiBNaW5qYWUgS2ltICgxKToNCj4gwqAgZ2l0OiBmaXggQ1ZFLTIwMjEtMjEzMDANCj4g
+DQo+IFBldHIgVm9yZWwgKDEpOg0KPiDCoCBzY3JpcHRzL3ZlcmlmeS1iYXNoaXNtczogVXBkYXRl
+IGNoZWNrYmFzaGlzbXMucGwgVVJMDQo+IA0KPiBSaWNoYXJkIFB1cmRpZSAoMSk6DQo+IMKgIHNl
+bGZ0ZXN0L3dpYzogRml4IGRlcGVuZGVuY3kgaXNzdWUgaW4gcmF3Y29weSB0ZXN0DQo+IA0KPiDC
+oG1ldGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqDCoCAzICsNCj4gwqBtZXRhL2NsYXNzZXMvZGV2c2hlbGwuYmJjbGFzc8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDEgKw0KPiDCoG1ldGEvY2xhc3Nlcy9pbWFnZS1s
+aXZlLmJiY2xhc3PCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKy0NCj4gwqBt
+ZXRhL2NsYXNzZXMvaW1hZ2UuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHzCoMKgIDIgKy0NCj4gwqBtZXRhL2NsYXNzZXMvcG9wdWxhdGVfc2RrX2Jhc2UuYmJj
+bGFzc8KgwqDCoMKgwqDCoMKgIHzCoMKgIDcgKw0KPiDCoG1ldGEvbGliL29lL2N2ZV9jaGVjay5w
+ecKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA3ICstDQo+
+IMKgbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9jdmVfY2hlY2sucHnCoMKgwqDCoCB8wqDC
+oCA4ICsNCj4gwqBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3dpYy5wecKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHzCoCAxOCArLQ0KPiDCoC4uLi97b3BlbnNzbF8xLjEuMWouYmIgPT4gb3BlbnNz
+bF8xLjEuMWsuYmJ9wqAgfMKgwqAgMiArLQ0KPiDCoG1ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2ds
+aWJjLXZlcnNpb24uaW5jwqDCoMKgwqAgfMKgwqAgMiArLQ0KPiDCoG1ldGEvcmVjaXBlcy1jb3Jl
+L2dsaWJjL2dsaWJjXzIuMzIuYmLCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKy0NCj4gwqAuLi4v
+cmVjaXBlcy1jb3JlL21ldGEvY3ZlLXVwZGF0ZS1kYi1uYXRpdmUuYmIgfMKgwqAgNyArLQ0KPiDC
+oC4uLi9iaW51dGlscy9iaW51dGlscy0yLjM1LjEuaW5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfMKgwqAgMSArDQo+IMKgLi4uX2NvdW50c19sb2NrLWlzLWluaXRpYWxpemVkLWJlZm9yZS11
+LnBhdGNoIHzCoCA0MSArKysNCj4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC5pbmPC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNCArLQ0KPiDCoC4uLi9naXQvZ2l0L0NWRS0y
+MDIxLTIxMzAwLnBhdGNowqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAzMDQNCj4gKysrKysr
+KysrKysrKysrKysrDQo+IMKgLi4uL2xpYnRvb2wvbGlidG9vbC0yLjQuNi5pbmPCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsNCj4gwqAuLi4tc3VyZS1hdXRvaGVhZGVy
+LXJ1bi1iZWZvcmUtYXV0b2NvbmYucGF0Y2ggfMKgIDM1ICsrDQo+IMKgLi4uL3J1bi1wb3N0aW5z
+dHMvcnVuLXBvc3RpbnN0cy9ydW4tcG9zdGluc3RzIHzCoCAxMCArLQ0KPiDCoG1ldGEvcmVjaXBl
+cy1leHRlbmRlZC9zdWRvL3N1ZG8uaW5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArDQo+
+IMKgLi4uL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJlXzIwMjEwMjA4LmJiIHzCoCA0MSAr
+Ky0NCj4gwqAuLi4vbGludXgvbGludXgteW9jdG8tcnRfNS40LmJiwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8wqDCoCA2ICstDQo+IMKgLi4uL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNS40
+LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDggKy0NCj4gwqBtZXRhL3JlY2lwZXMt
+a2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzUuNC5iYsKgIHzCoCAyMiArLQ0KPiDCoHNjcmlwdHMv
+Y29udHJpYi9kb2N1bWVudGF0aW9uLWF1ZGl0LnNowqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArLQ0K
+PiDCoHNjcmlwdHMvdmVyaWZ5LWJhc2hpc21zwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArLQ0KPiDCoDI2IGZpbGVzIGNoYW5nZWQsIDQ5MCBpbnNl
+cnRpb25zKCspLCA1MCBkZWxldGlvbnMoLSkNCj4gwqByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vcGVuc3NsL3tvcGVuc3NsXzEuMS4xai5iYiA9Pg0KPiBvcGVuc3NsXzEuMS4xay5i
+Yn0gKDk4JSkNCj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jp
+bnV0aWxzL2JpbnV0aWxzLzAwMDEtDQo+IGdvbGQtZW5zdXJlLWZpbGVfY291bnRzX2xvY2staXMt
+aW5pdGlhbGl6ZWQtYmVmb3JlLXUucGF0Y2gNCj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2dpdC9naXQvQ1ZFLTIwMjEtDQo+IDIxMzAwLnBhdGNoDQo+IMKgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJ0b29sL2xpYnRvb2wvMDAw
+MS0NCj4gTWFrZWZpbGUuYW0tbWFrZS1zdXJlLWF1dG9oZWFkZXItcnVuLWJlZm9yZS1hdXRvY29u
+Zi5wYXRjaA0KPiANCj4gDQo+IA0KPiANCg0K
