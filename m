@@ -1,90 +1,101 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web12.6423.1618822852649871829
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.6334.1618822853414101810
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 Apr 2021 02:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RJgRZgMa;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id g5so44989760ejx.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 02:00:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a9/JZE+W;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id n2so51668613ejy.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 02:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Q3Zd1UgX1yya9R5OMyaDrNG8nSLKOo7l+168neRKPc=;
-        b=RJgRZgMamBGZJy3m6FhaKMKbPDYG+S/nkQdxf9LC8Bib/KWHEJ2u/exf9caRp/ssig
-         6jqPyF7sKvzE8wq/t5S0niup7Yd5Ng29cTAteSMEmwPRJQUGlg3S/4bV1G6gz0trlFIh
-         XuesXmXGF6r3PyjYXjmfrARWgjboZqOod53JZXyK7AZaF3GVTTFXX6MomuDbu5B8mPJ7
-         dMZs6Q5K3OrUSchyj0a3UB1CXTQNobvO84v8CquIektIx8qYDngs3/ssAh1bFx40y3Cs
-         4+e4Ktzt6I7YAVAWuYlZTt6lZWMBdEWDjuuarBSfbHxzmQtUfZjTLR92POETP1e5lYj4
-         LgPw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qJwyiOEDKgS/cO1Fsf4az5qSnUlTp2us+0Z0aX23zt4=;
+        b=a9/JZE+WTloKL1xQlG16pmXzv7buZshGFQ9Af5wH3Kgd2lAwKYbI/ds27oAwxmk6nF
+         wee288y3uZ94+ouu3Ru90Xn32g8lVAQy1pB205Rpu0MYw/jqQ5hk04ub8iB4T/VXKfcd
+         qYq89hSfBtfLXG16tX2UibkSrV4zR1E3KSj6YD95Y35e5NtQ0oFaNQxs2FXrMRC658bb
+         Sx0+V+/grarpwocaQUYc5cmFlpDhjLxtgRjcdh8/EokH0YzB7clfWSyWGMuW3HXspbe0
+         mQr3XhBiHVlXjCpLtWzBPLHXo3RelkQOjER+v3l30Spez80bzklAFJTwN70b6902IAsr
+         rFWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4Q3Zd1UgX1yya9R5OMyaDrNG8nSLKOo7l+168neRKPc=;
-        b=JNNLqSvSWa3bLrD02GJzJizTdQ/AHsYtFv6AkvGP+23ipHBccOc3I/7w0Wmn9S8ByU
-         FfoRnUhaCTYus0UbDRP6s09rYkIBk+lq4K3kxtwMVUAjuOkZi6pEV+/1ekmfYLv/EFYZ
-         EoLLwS6eixJ5gRN7BSFY3fPO6mFF/xfRe/Ll7mnFVvqnOn3qTsON1sIFijqjuHgR/75W
-         meBwsXxR/IxXcwMV2cbJMYTYYiI5KbaLj7TMlFiXKZMrZGiOmsSuXavry/15qSpgTtFU
-         EYIuCvSk60rTCgr+UyS/39ycQIOCirtvdGtJB0Tw1gVwOOmY7XFpcWYCWBf0/j6+AsMI
-         hROg==
-X-Gm-Message-State: AOAM533C6Lh6RSw1X7dCSFMlsDfWAMqp3Zxs7aOGVObq8PmD9wG1fBp0
-	ywPTlHXPCb/h23ZPDIBhzsJ4i+3GIPuapQ==
-X-Google-Smtp-Source: ABdhPJxJtrdEto/VGm9vZVIKNbYqPURb54rQ8YU/TjsOObrzVAOyJaVJnCwVc716ke/YhAzEFOBaUQ==
-X-Received: by 2002:a17:906:4e93:: with SMTP id v19mr20586006eju.215.1618822851198;
-        Mon, 19 Apr 2021 02:00:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qJwyiOEDKgS/cO1Fsf4az5qSnUlTp2us+0Z0aX23zt4=;
+        b=kkT8pJ9lIbbnVEofR3DE5RUJcl6iEbWvW9V4fAeHUmzyN7h26WsNG+KnavWelHCorM
+         257h/V/XlUw61gRExFLkwLw3/xccp8kiw2Y1t6EhDSefZMVZ7LKGZ1Yy349/eZmvHdcZ
+         pzZAYD+u0XEVlFSA2z6VExiIVSOpgVF+FqFlNMQPkP0OL4tmJ+f/xYkiBNwh36h/rJdL
+         WBV38ZBHsEjVJRqQsYHQpiORzd/VezBN+n0ls0mtPLGSFdF4EvAMi/+nLC21JkicYnSr
+         6Iq+y5lS0Sp91ypWE8WKwRshzOUdm5+GFZC2WXDOSH7v54PpdNEJJUIqQIqdC4ALQnVX
+         BYUA==
+X-Gm-Message-State: AOAM5336CMpWW1dOlKkTvrIItQw093y9LAiZDlT0BIhc3vRzOTrChgS0
+	x9/IuP24+5rlJjQxGUGcjp+Yq7lGePMSEg==
+X-Google-Smtp-Source: ABdhPJzmHpdXdc8IdwMQRVX9WXZf7h0oVthdofokZakVTyJLthWg6YobB/qVG5rtl98ie+VAlFLF9g==
+X-Received: by 2002:a17:906:9ac5:: with SMTP id ah5mr20473156ejc.360.1618822852032;
+        Mon, 19 Apr 2021 02:00:52 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id dc24sm3596474ejb.123.2021.04.19.02.00.50
+        by smtp.gmail.com with ESMTPSA id dc24sm3596474ejb.123.2021.04.19.02.00.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 02:00:50 -0700 (PDT)
+        Mon, 19 Apr 2021 02:00:51 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/4] scripts/oe-debuginfod: correct several issues
-Date: Mon, 19 Apr 2021 11:00:41 +0200
-Message-Id: <20210419090044.582453-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/4] libmicrohttpd: add a recipe from meta-oe
+Date: Mon, 19 Apr 2021 11:00:42 +0200
+Message-Id: <20210419090044.582453-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210419090044.582453-1-alex.kanavin@gmail.com>
+References: <20210419090044.582453-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Particularly:
-- nesting subprocess.run() inside subprocess.check_output() does not work at all.
-How was this tested?
-- -R and -U options can be combined; no need to separate the invocations based
-on packaging format
-- both exception handlers are unnecessary; we can simply print the hint if
-invocation did not succeed
-- to run debuginfod from its own sysroot, '-c addto_recipe_sysroot' for elfutils-native
-must be executed
+This is required to enable debuginfod in elfutils.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/oe-debuginfod | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ .../libmicrohttpd/libmicrohttpd_0.9.72.bb     | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
 
-diff --git a/scripts/oe-debuginfod b/scripts/oe-debuginfod
-index 967dd5807c..5560769888 100755
---- a/scripts/oe-debuginfod
-+++ b/scripts/oe-debuginfod
-@@ -20,12 +20,7 @@ if __name__ == "__main__":
-         package_classes_var = "DEPLOY_DIR_" + tinfoil.config_data.getVar("PACKAGE_CLASSES").split()[0].replace("package_", "").upper()
-         feed_dir = tinfoil.config_data.getVar(package_classes_var, expand=True)
- 
--    try:
--        if package_classes_var == "DEPLOY_DIR_RPM":
--            subprocess.check_output(subprocess.run(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-R', feed_dir]))
--        else:
--            subprocess.check_output(subprocess.run(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-U', feed_dir]))
--    except subprocess.CalledProcessError:
--        print("\nTo use the debuginfod server Please ensure that this variable PACKAGECONFIG_pn-elfutils-native = \"debuginfod libdebuginfod\" is set in the local.conf")
--    except KeyboardInterrupt:
--            sys.exit(1)
-+    subprocess.call(['bitbake', '-c', 'addto_recipe_sysroot', 'elfutils-native'])
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
+new file mode 100644
+index 0000000000..66c48da3b7
+--- /dev/null
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
+@@ -0,0 +1,31 @@
++DESCRIPTION = "A small C library that is supposed to make it easy to run an HTTP server as part of another application"
++HOMEPAGE = "http://www.gnu.org/software/libmicrohttpd/"
++LICENSE = "LGPL-2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=57d09285feac8a64efa878e692b14f36"
++SECTION = "net"
 +
-+    subprocess.call(['oe-run-native', 'elfutils-native', 'debuginfod', '--verbose', '-R', '-U', feed_dir])
-+    print("\nTo use the debuginfod server please ensure that this variable PACKAGECONFIG_pn-elfutils-native = \"debuginfod libdebuginfod\" is set in the local.conf")
++DEPENDS = "file"
++
++SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
++SRC_URI[md5sum] = "2a286193af88ab2ae3149748d4b46187"
++SRC_URI[sha256sum] = "0ae825f8e0d7f41201fd44a0df1cf454c1cb0bc50fe9d59c26552260264c2ff8"
++
++inherit autotools lib_package pkgconfig gettext
++
++CFLAGS += "-pthread -D_REENTRANT"
++
++EXTRA_OECONF += "--disable-static --with-gnutls=${STAGING_LIBDIR}/../"
++
++PACKAGECONFIG ?= "curl https"
++PACKAGECONFIG_append_class-target = "\
++        ${@bb.utils.filter('DISTRO_FEATURES', 'largefile', d)} \
++"
++PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
++PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl,"
++PACKAGECONFIG[https] = "--enable-https,--disable-https,libgcrypt gnutls,"
++
++do_compile_append() {
++    sed -i s:-L${STAGING_LIBDIR}::g libmicrohttpd.pc
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
