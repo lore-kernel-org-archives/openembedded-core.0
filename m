@@ -1,97 +1,71 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.7431.1618831010416934416
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web08.8452.1618836378409606186
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 04:16:50 -0700
+ Mon, 19 Apr 2021 05:46:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bl48LfNq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id w7-20020a1cdf070000b0290125f388fb34so17832518wmg.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 04:16:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cx+AJLB0;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id r9so52700531ejj.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 05:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ydanm/9GHVnU+oAy8eOmC6Pa4BcU48BDfqBIZl1atI0=;
-        b=bl48LfNqAIq5IJeSwxXV5grDOHToG9fJgxP9XSeM1KnlA4Y0dqJkR29a1V3a5VWFJ6
-         PhIhLelChH/P6IC86Z+JBgS1P3jYeDRtyAnCXd+snNeFUqrGFztLnekKEY3YKjHPI6Qj
-         VaOFNrCBndf5hcgJoAaC72JNS7m85xgvjnauI=
+        bh=Jos64smipTcJZZWUHU4GWxHtDILaagUA/4wvNZxMMNs=;
+        b=cx+AJLB02Wes7El+7wWGHlpb784oz6mFn4yMg7WW00unBqMOyx2Dgr9FOmfjCvQhvc
+         VXoBNeyiN8uAz8arpRgoCZC3tpYEEIvkRDNBeh9t1iwoHTgFz5kCHJ9gzs0SpUaOTHKL
+         u1nCyN6q17cp3UBVJxAGL6WUlfexsZxt6aNwt+ycg7OGCtt74sySJY0wyhmZMgMLoTm0
+         kSiyzIvMCKGPMHK+MoG6tIHFt6vvxyP9hwwyfHaSoaJ+R2854knDrhCazwvbrjaKhQvt
+         oJOoC7ugaUqExrN29FIb5pAmXl+ywMI+MGo1SxRTOrHZx4Ko3yQdt90SZCBEpjWHuamO
+         BpbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ydanm/9GHVnU+oAy8eOmC6Pa4BcU48BDfqBIZl1atI0=;
-        b=mX2+iiKa5wOJgBmR/CX6VLaRZ4lzZFdypCxN2tDj9kO1Ip1/y1TywPdZlFrmoYZmbi
-         fv/ypMOvlvRrxkx4XN7KCjIz7xFHBR5NmtN1Pb2VFbnnIyzmsgo5dly+penMZ2jWTvWT
-         gXvQzo/8burME/1dNLG5w75HutXmlzzNJXjYIFyogIDjcHpwcN2qtMfrypxyhndmqxl0
-         wighUxjdC4Qiguy6/gXDumIBccrhSFjl7gxEw4Adn4Q+UeTexRsPSFs+hvz1LNCvVz/R
-         68SoKQ4Vf9ybNBhBLIoaPiY1OaTUuWKSrnJ9W9JdnmPKJTRCn/grnhWLJXYkCxEYpN2n
-         bWQQ==
-X-Gm-Message-State: AOAM531dVx3Cu8Ofkqoft4FHF8ynwIJ7bZCsh1//dgY9DFfo6PR3DY4I
-	HpNBn9Xlt/jNuugREZLj5mXamWpS/HYHKg==
-X-Google-Smtp-Source: ABdhPJwFiP4FyMQ97XvZ6eicFJmC5jmQXFOdfFrlv1RyqPm+OmwLiEJYutJyLVF1cufdDZQyO1BxNQ==
-X-Received: by 2002:a7b:cb4e:: with SMTP id v14mr20793168wmj.47.1618831008662;
-        Mon, 19 Apr 2021 04:16:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3b9d:2a57:e60:cfc4])
-        by smtp.gmail.com with ESMTPSA id c2sm19199037wmr.22.2021.04.19.04.16.48
-        for <openembedded-core@lists.openembedded.org>
+        bh=Jos64smipTcJZZWUHU4GWxHtDILaagUA/4wvNZxMMNs=;
+        b=f1cjL6r8JYDUE7ZUYI4lN8MPo4oLFXpS3E/sdCLGiYCEYDM3aGmWitLWmIUfNAqK0K
+         ppjLb37YhhGnRPJ268O4oPPOd7gC9FXODJoaBrcyFp6ajKEiq3xT8xK2+iN9ASYs/wlc
+         OdtG+U6KyTQdwdPEQ16Lng6vJ0ENXm+tMw7fz+bgO6MV+e9uFoMnD6SzfuVnHFG77DuM
+         z567kVJnBOFl909JXAFH/7K+cKYwP+wYjTShxZPOkMD5XjtDN/WNEhJ+GZtAwJkYCEB/
+         koqUZCmBQhxAITWq7XMbdgG6NMJSeOtPx9xIVL27MFgLwmZzKGjQkcsLHEBTPyevn9t+
+         TsUQ==
+X-Gm-Message-State: AOAM532Ru1iYfl0rri13dEs72BY1wZ2chtcujt76mxv48jaq59JIVx/O
+	xERsVDQ1XVi98N3lCxPfA6zOqhCswW24Gg==
+X-Google-Smtp-Source: ABdhPJzR9G1mMxa1KmGAmIvQy83n1W3cpNzgIt6tbofJVpfjDXEBAxZMFOZNaniV424z8uc9eqcIzQ==
+X-Received: by 2002:a17:906:7714:: with SMTP id q20mr3178966ejm.167.1618836376836;
+        Mon, 19 Apr 2021 05:46:16 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id jt20sm1444612ejb.79.2021.04.19.05.46.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 04:16:48 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Mon, 19 Apr 2021 05:46:16 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity: Further improve directory sanity tests
-Date: Mon, 19 Apr 2021 12:16:47 +0100
-Message-Id: <20210419111647.1465532-1-richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] maintainers.inc: add libmicrohttpd entry
+Date: Mon, 19 Apr 2021 14:46:04 +0200
+Message-Id: <20210419124604.584629-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add tests to ensure COREBASE/TMPDIR doon't contain ".." as this causes
-hard to understand build failures.
-
-Also rework the code to test TMPDIR and COREBASE for all the patterns
-since they may be set differently and one may contain problematic
-characters.
-
-[YOCTO #14111]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/sanity.bbclass | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 14ffac0bf28..a377917f2a9 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -882,15 +882,18 @@ def check_sanity_everybuild(status, d):
-         except:
-             pass
- 
--    oeroot = d.getVar('COREBASE')
--    if oeroot.find('+') != -1:
--        status.addresult("Error, you have an invalid character (+) in your COREBASE directory path. Please move the installation to a directory which doesn't include any + characters.")
--    if oeroot.find('@') != -1:
--        status.addresult("Error, you have an invalid character (@) in your COREBASE directory path. Please move the installation to a directory which doesn't include any @ characters.")
--    if oeroot.find('%') != -1:
--        status.addresult("Error, you have an invalid character (%) in your COREBASE directory path which causes problems with python string formatting. Please move the installation to a directory which doesn't include any % characters.") 
--    if oeroot.find(' ') != -1:
--        status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
-+    for checkdir in ['COREBASE', 'TMPDIR']:
-+        val = d.getVar(checkdir)
-+        if val.find('..') != -1:
-+            status.addresult("Error, you have '..' in your %s directory path. Please ensure the variable contains an absolute path as this can break some recipe builds in obtuse ways." % checkdir)
-+        if val.find('+') != -1:
-+            status.addresult("Error, you have an invalid character (+) in your %s directory path. Please move the installation to a directory which doesn't include any + characters." % checkdir)
-+        if val.find('@') != -1:
-+            status.addresult("Error, you have an invalid character (@) in your %s directory path. Please move the installation to a directory which doesn't include any @ characters." % checkdir)
-+        if val.find(' ') != -1:
-+            status.addresult("Error, you have a space in your %s directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this." % checkdir)
-+        if val.find('%') != -1:
-+            status.addresult("Error, you have an invalid character (%) in your %s directory path which causes problems with python string formatting. Please move the installation to a directory which doesn't include any % characters." % checkdir)
- 
-     # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
-     import re
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e1b1afcd7e..9d4e2ea741 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -350,6 +350,7 @@ RECIPE_MAINTAINER_pn-libjitterentropy = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libksba = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libmd = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER_pn-libmicrohttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmodule-build-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
 -- 
 2.30.2
 
