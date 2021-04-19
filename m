@@ -1,40 +1,41 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web11.4134.1618802662519377028
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web12.4284.1618803510655463607
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 20:24:22 -0700
+ Sun, 18 Apr 2021 20:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: naveen.kumar.saini@intel.com)
-IronPort-SDR: Fu45ubrbL/VsgbzTSCgn/Ak5NPuxE1RsAfWpeZ+xz67lnkyc6he0YcW0O69Mj5CU4aZg4CATf0
- mkzOSyffLZZQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="259220181"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: WLtVq1Lx1+/La3GQPHMaZjbkBF59T78BouwuBgKpYtTtJHS7txFrWAO6cnOc+2hUaWEXN/JwWl
+ p1RM5E3h+mBg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="182393784"
 X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; 
-   d="scan'208";a="259220181"
+   d="scan'208";a="182393784"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2021 20:24:20 -0700
-IronPort-SDR: u4Z3vaS5xsDgAHbyMMLj2x2Fwl86Csw2IOb4QuftYlWQ513ERKDNFfc+mQ1ry8drKxeuyALotv
- dU8XvK6esgMw==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2021 20:38:26 -0700
+IronPort-SDR: 8Hipx/BM//fmR7RCCnFfQw3848S9RoKP8XYGfeIOUvF/Vz2LsSOGJ3b6y5vZS1eME+EdoJks2V
+ VDXNVBHB0rDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; 
-   d="scan'208";a="454126512"
+   d="scan'208";a="454130263"
 Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2021 20:24:19 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2021 20:38:25 -0700
 Received: from kmsmsx603.gar.corp.intel.com (172.21.219.143) by
  kmsmsx603.gar.corp.intel.com (172.21.219.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 19 Apr 2021 11:24:18 +0800
+ 15.1.2106.2; Mon, 19 Apr 2021 11:38:24 +0800
 Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143]) by
  kmsmsx603.gar.corp.intel.com ([172.21.219.143]) with mapi id 15.01.2106.013;
- Mon, 19 Apr 2021 11:24:18 +0800
+ Mon, 19 Apr 2021 11:38:24 +0800
 From: "Naveen Saini" <naveen.kumar.saini@intel.com>
-To: wangmy <wangmy@fujitsu.com>, "openembedded-core@lists.openembedded.org"
+To: Robert Joslyn <robert.joslyn@redrectangle.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2] mesa: upgrade 21.0.1 -> 21.0.2
-Thread-Topic: [OE-core] [PATCH v2] mesa: upgrade 21.0.1 -> 21.0.2
-Thread-Index: AQHXMlIktwfIf6pyk0au1o5kf0kexqq7MFrA
-Date: Mon, 19 Apr 2021 03:24:18 +0000
-Message-ID: <2044e75fb6ae49a297d7114cc55337c1@intel.com>
-References: <1618530602-26607-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1618530602-26607-1-git-send-email-wangmy@fujitsu.com>
+Subject: Re: [OE-core] [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
+Thread-Topic: [OE-core] [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
+Thread-Index: AQHXNATyFLhDiWQzlUSs2gvqZQIegKq7Mhjw
+Date: Mon, 19 Apr 2021 03:38:24 +0000
+Message-ID: <cc9a601cb41a48c5b6b0f325bfb049d2@intel.com>
+References: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
+In-Reply-To: <20210418034041.108754-1-robert.joslyn@redrectangle.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -47,63 +48,71 @@ Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-[SWAT]
-Oe-selftest on fedora failed.=20
+[SWAT}
+It causing util-linux build failure on non-gpl3 build.
 
-RESULTS - virgl.VirglTest.test_kmscube: FAILED (0.30s)
+ERROR: Nothing RPROVIDES 'btrfs-tools' (but /home/pokybuild/yocto-worker/no=
+n-gpl3/build/meta/recipes-core/util-linux/util-linux_2.36.2.bb RDEPENDS on =
+or otherwise requires it)
+btrfs-tools was skipped: it has incompatible license(s): LGPL-3.0-or-later
+https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/3312
 
-AssertionError: 'renderer: "virgl"' not found in 'Using display 0x55dccc056=
-2e0 with EGL version 1.4
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/2005
-
-Regards,
-Naveen
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of wangmy
-> Sent: Friday, April 16, 2021 7:50 AM
+> core@lists.openembedded.org> On Behalf Of Robert Joslyn
+> Sent: Sunday, April 18, 2021 11:41 AM
 > To: openembedded-core@lists.openembedded.org
-> Cc: Wang Mingyu <wangmy@fujitsu.com>
-> Subject: [OE-core] [PATCH v2] mesa: upgrade 21.0.1 -> 21.0.2
+> Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+> Subject: [OE-core] [PATCH v2 1/3] btrfs-tools: Update to 5.11.1
 >=20
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Update licensing, as libtrfsutil is under LGPLv3+. Note that libtrfsutil =
+is in the
+> process of being relicensed to LGPLv2.1+:
+> 	https://github.com/kdave/btrfs-progs/issues/323
+>=20
+> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 > ---
->  .../mesa/{mesa-gl_21.0.1.bb =3D> mesa-gl_21.0.2.bb}               | 0
->  meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
->  meta/recipes-graphics/mesa/{mesa_21.0.1.bb =3D> mesa_21.0.2.bb}   | 0
->  3 files changed, 1 insertion(+), 1 deletion(-)  rename meta/recipes-
-> graphics/mesa/{mesa-gl_21.0.1.bb =3D> mesa-gl_21.0.2.bb} (100%)  rename
-> meta/recipes-graphics/mesa/{mesa_21.0.1.bb =3D> mesa_21.0.2.bb} (100%)
+>  .../{btrfs-tools_5.10.1.bb =3D> btrfs-tools_5.11.1.bb}     | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)  rename meta/recipes-
+> devtools/btrfs-tools/{btrfs-tools_5.10.1.bb =3D> btrfs-tools_5.11.1.bb} (=
+88%)
 >=20
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb b/meta/recipes-
-> graphics/mesa/mesa-gl_21.0.2.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-> rename to meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
-> graphics/mesa/mesa.inc
-> index caf3c62ad8..5705ae0f08 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -21,7 +21,7 @@ SRC_URI =3D
-> "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
-tch \
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
+> b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+> similarity index 88%
+> rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
+> rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+> index fca010d4ae..2ab476a88e 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.10.1.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.11.1.bb
+> @@ -7,14 +7,17 @@ btrfs and an utility (btrfs-convert) to make a btrfs
+> filesystem from an ext3."
+>=20
+>  HOMEPAGE =3D "https://btrfs.wiki.kernel.org"
+>=20
+> -LICENSE =3D "GPLv2"
+> -LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dfcb02dc552a041dee27e4b85c7396067"
+> +LICENSE =3D "GPLv2 & LGPLv3+"
+> +LIC_FILES_CHKSUM =3D " \
+> +    file://COPYING;md5=3Dfcb02dc552a041dee27e4b85c7396067 \
+> +
+> +file://libbtrfsutil/COPYING.LESSER;md5=3D3000208d539ec061b899bce1d9ce94
+> 04 \ "
+>  SECTION =3D "base"
+>  DEPENDS =3D "util-linux attr e2fsprogs lzo acl"
+>  DEPENDS_append_class-target =3D " udev"
+>  RDEPENDS_${PN} =3D "libgcc"
+>=20
+> -SRCREV =3D "f2ffce38b9c1477a7350bfe165f0e34b9bde40f5"
+> +SRCREV =3D "8d5051f279f7994fb80536ef8f846f06d121d898"
+>  SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-
+> progs.git \
+>             file://0001-Add-a-possibility-to-specify-where-python-modules=
+-
+> ar.patch \
 >             "
->=20
-> -SRC_URI[sha256sum] =3D
-> "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
-> +SRC_URI[sha256sum] =3D
-> "46c1dc5bb54a372dee43ec3c067229c299187d5bdadf1402756bbf66a6df5b88"
->=20
->  UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa_21.0.1.bb b/meta/recipes-
-> graphics/mesa/mesa_21.0.2.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_21.0.1.bb
-> rename to meta/recipes-graphics/mesa/mesa_21.0.2.bb
 > --
-> 2.25.1
+> 2.26.3
 
