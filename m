@@ -1,123 +1,103 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web08.2252.1618794583335671710
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web09.3808.1618800709082808139
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Apr 2021 18:09:44 -0700
+ Sun, 18 Apr 2021 19:51:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: zthRk1vIbfeCeBypQKGJS+3kVHBSXpZ4CKJ+49kkGwxa4oOYxrxVuXhBBP5Y3SA4aq8VIaSY6z
- 5qVqlM1zYaeA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="175357709"
-X-IronPort-AV: E=Sophos;i="5.82,232,1613462400"; 
-   d="scan'208";a="175357709"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2021 18:09:40 -0700
-IronPort-SDR: KZ82B5tZupPkeAYZImFMeJuGHuQNgceojp0miPy+3cI4QMzOWYSqY/3EQK+Fd90F4Qc8YWUVH0
- pGVatr6oRmbg==
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: +cm3J3MabYb3tATMxCufVo6VNWsgYmoLxNH8pxu+EN/T/CopVuEFID34WggA1CWDx2d+IeYVdj
+ 1QIOBwDRpyXQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9958"; a="259217960"
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; 
+   d="scan'208";a="259217960"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2021 19:51:47 -0700
+IronPort-SDR: Wk8OXPjvr2LRVZJ6UQ/3Oog2LylcCxmiiw4gesHwBkaf7s0/kzP+zdAmBeKVOs1EJYM/+/drF2
+ Egz2dqOfEryQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,232,1613462400"; 
-   d="scan'208";a="454093812"
-Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2021 18:09:39 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.82,233,1613462400"; 
+   d="scan'208";a="384839269"
+Received: from kmsmsx601.gar.corp.intel.com ([172.21.219.141])
+  by orsmga006.jf.intel.com with ESMTP; 18 Apr 2021 19:51:46 -0700
+Received: from kmsmsx603.gar.corp.intel.com (172.21.219.143) by
+ kmsmsx601.gar.corp.intel.com (172.21.219.141) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 19 Apr 2021 09:09:38 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
- Mon, 19 Apr 2021 09:09:38 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [gatesgarth][PATCH 00/18] pull request
-Thread-Topic: [OE-core] [gatesgarth][PATCH 00/18] pull request
-Thread-Index: AQHXMZeZt8Z976sjg0C35oCNzIvlrKq6iAoA
-Date: Mon, 19 Apr 2021 01:09:38 +0000
-Message-ID: <f6c090a618b54d1c0e383559033fb0eeae76e7ba.camel@intel.com>
-References: <1675E42AA574C6DF.10637@lists.openembedded.org>
-In-Reply-To: <1675E42AA574C6DF.10637@lists.openembedded.org>
+ 15.1.2106.2; Mon, 19 Apr 2021 10:51:45 +0800
+Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143]) by
+ kmsmsx603.gar.corp.intel.com ([172.21.219.143]) with mapi id 15.01.2106.013;
+ Mon, 19 Apr 2021 10:51:45 +0800
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] epiphany: Add missing dependency on gnutls
+Thread-Topic: [OE-core] [PATCH] epiphany: Add missing dependency on gnutls
+Thread-Index: AQHXNJpMvCLgcGNokU6pB9y1GVAZDqq7I7FA
+Date: Mon, 19 Apr 2021 02:51:45 +0000
+Message-ID: <470e6ec7142c4202b7aaa5be3201f9ce@intel.com>
+References: <20210418213207.1591440-1-raj.khem@gmail.com>
+In-Reply-To: <20210418213207.1591440-1-raj.khem@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
 x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9D545EEEA439F14ABF93D4E5C36340D4@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-UGluZw0KDQpPbiBUaHUsIDIwMjEtMDQtMTUgYXQgMDk6MzUgKzA4MDAsIEFudWogTWl0dGFsIHdy
-b3RlOg0KPiBQbGVhc2UgbWVyZ2UgdGhlc2UgY2hhbmdlcyBpbiBnYXRlc2dhcnRoLg0KPiANCj4g
-VGhhbmtzLA0KPiANCj4gQW51ag0KPiANCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNv
-bW1pdA0KPiBmZGFlOTcwNjU2Y2M0MjFjNTQyYWY5ODU2YmM5YWUwMzhjNjFkYjEzOg0KPiANCj4g
-wqAgYnVpbGQtYXBwbGlhbmNlLWltYWdlOiBVcGRhdGUgdG8gZ2F0ZXNnYXJ0aCBoZWFkIHJldmlz
-aW9uICgyMDIxLTAzLQ0KPiAyOCAyMjozMzowMCArMDEwMCkNCj4gDQo+IGFyZSBhdmFpbGFibGUg
-aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0KPiANCj4gwqAgZ2l0Oi8vcHVzaC5vcGVuZW1iZWRk
-ZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWINCj4gc3RhYmxlL2dhdGVzZ2FydGgtbmV4
-dA0KPiANCj4gQW5hdG9sIEJlbHNraSAoMSk6DQo+IMKgIGdsaWJjOiBQdWxsIGxhdGVzdCAyLjMy
-IEhFQUQNCj4gDQo+IEFudG9uIEQuIEthY2hhbG92ICgxKToNCj4gwqAgcnVuLXBvc3RpbnN0czog
-ZG8gbm90IHJlbW92ZSBwb3N0aW5zdHMgZGlyZWN0b3J5Lg0KPiANCj4gQnJ1Y2UgQXNoZmllbGQg
-KDIpOg0KPiDCoCBsaW51eC15b2N0by81LjQ6IHVwZGF0ZSB0byB2NS40LjEwNQ0KPiDCoCBsaW51
-eC15b2N0by81LjQ6IHVwZGF0ZSB0byB2NS40LjEwNw0KPiANCj4gQ2hyaXN0b3BoZXIgTGFyc29u
-ICgyKToNCj4gwqAgYnVpbGRoaXN0b3J5OiBhZGQgbWlzc2luZyB2YXJkZXBzZXhjbHVkZXMNCj4g
-wqAgaW1hZ2UscG9wdWxhdGVfc2RrX2Jhc2U6IG1vdmUgJ2Z1bmMnIGZsYWcgc2V0dGluZyBmb3Ig
-c2RrIGNvbW1hbmQNCj4gdmFycw0KPiANCj4gRG9yaW5kYSBCYXNzZXkgKDEpOg0KPiDCoCBkZXZz
-aGVsbC5iYmNsYXNzOiBFeGNlcHRpb25zIGRpc3BsYXllZCB3aXRoaW4gZGV2cHlzaGVsbA0KPiAN
-Cj4gR3VpbGxhdW1lIENoYW1wYWduZSAoMSk6DQo+IMKgIGltYWdlLWxpdmUuYmJjbGFzczogb3B0
-aW9uYWwgZGVwZW5kcyB3aGVuIFJPT1RGUyBlbXB0eQ0KPiANCj4gS2hlbSBSYWogKDEpOg0KPiDC
-oCBkb2N1bWVudGF0aW9uLWF1ZGl0LnNoOiBGaXggdHlwbyBpbiBzcGVjaWZ5aW5nDQo+IExJQ0VO
-U0VfRkxBR1NfV0hJVEVMSVNUDQo+IA0KPiBMZWUgQ2hlZSBZYW5nICgyKToNCj4gwqAgY3ZlLXVw
-ZGF0ZS1kYi1uYXRpdmU6IGNvbnNpZGVyIHZlcnNpb24gc3VmZml4IHdoZW4gdXBkYXRlIENWRSBk
-Yg0KPiDCoCBjdmUtY2hlY2s6IENWRV9WRVJTSU9OX1NVRkZJWCB0byB3b3JrIHdpdGggcGF0Y2hl
-ZCByZWxlYXNlDQo+IA0KPiBNYXJ0aW4gSmFuc2EgKDEpOg0KPiDCoCBiaW51dGlsczogYmFja3Bv
-cnQgZml4IGZvciBnb2xkIHdpdGggdGhlYWRzIGVuYWJsZWQgZnJvbSAyLjM2LjANCj4gDQo+IE1p
-Y2hhZWwgVHJlbnNjaCAoMSk6DQo+IMKgIGxpbnV4LWZpcm13YXJlOiBGaXggcGFja2FnaW5nDQo+
-IA0KPiBNaWtrbyBSYXBlbGkgKDEpOg0KPiDCoCBvcGVuc3NsOiB1cGRhdGUgdG8gMS4xLjFrIHRv
-IGZpeCBDVkUtMjAyMS0zNDUwIGFuZCBDVkUtMjAyMS0zNDQ5DQo+IA0KPiBNaW5nbGkgWXUgKDEp
-Og0KPiDCoCBsaWJ0b29sOiBtYWtlIHN1cmUgYXV0b2hlYWRlciBydW4gYmVmb3JlIGF1dG9jb25m
-DQo+IA0KPiBNaW5qYWUgS2ltICgxKToNCj4gwqAgZ2l0OiBmaXggQ1ZFLTIwMjEtMjEzMDANCj4g
-DQo+IFBldHIgVm9yZWwgKDEpOg0KPiDCoCBzY3JpcHRzL3ZlcmlmeS1iYXNoaXNtczogVXBkYXRl
-IGNoZWNrYmFzaGlzbXMucGwgVVJMDQo+IA0KPiBSaWNoYXJkIFB1cmRpZSAoMSk6DQo+IMKgIHNl
-bGZ0ZXN0L3dpYzogRml4IGRlcGVuZGVuY3kgaXNzdWUgaW4gcmF3Y29weSB0ZXN0DQo+IA0KPiDC
-oG1ldGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB8wqDCoCAzICsNCj4gwqBtZXRhL2NsYXNzZXMvZGV2c2hlbGwuYmJjbGFzc8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDEgKw0KPiDCoG1ldGEvY2xhc3Nlcy9pbWFnZS1s
-aXZlLmJiY2xhc3PCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKy0NCj4gwqBt
-ZXRhL2NsYXNzZXMvaW1hZ2UuYmJjbGFzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHzCoMKgIDIgKy0NCj4gwqBtZXRhL2NsYXNzZXMvcG9wdWxhdGVfc2RrX2Jhc2UuYmJj
-bGFzc8KgwqDCoMKgwqDCoMKgIHzCoMKgIDcgKw0KPiDCoG1ldGEvbGliL29lL2N2ZV9jaGVjay5w
-ecKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA3ICstDQo+
-IMKgbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9jdmVfY2hlY2sucHnCoMKgwqDCoCB8wqDC
-oCA4ICsNCj4gwqBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3dpYy5wecKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHzCoCAxOCArLQ0KPiDCoC4uLi97b3BlbnNzbF8xLjEuMWouYmIgPT4gb3BlbnNz
-bF8xLjEuMWsuYmJ9wqAgfMKgwqAgMiArLQ0KPiDCoG1ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2ds
-aWJjLXZlcnNpb24uaW5jwqDCoMKgwqAgfMKgwqAgMiArLQ0KPiDCoG1ldGEvcmVjaXBlcy1jb3Jl
-L2dsaWJjL2dsaWJjXzIuMzIuYmLCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDIgKy0NCj4gwqAuLi4v
-cmVjaXBlcy1jb3JlL21ldGEvY3ZlLXVwZGF0ZS1kYi1uYXRpdmUuYmIgfMKgwqAgNyArLQ0KPiDC
-oC4uLi9iaW51dGlscy9iaW51dGlscy0yLjM1LjEuaW5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqAgMSArDQo+IMKgLi4uX2NvdW50c19sb2NrLWlzLWluaXRpYWxpemVkLWJlZm9yZS11
-LnBhdGNoIHzCoCA0MSArKysNCj4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC5pbmPC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNCArLQ0KPiDCoC4uLi9naXQvZ2l0L0NWRS0y
-MDIxLTIxMzAwLnBhdGNowqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAzMDQNCj4gKysrKysr
-KysrKysrKysrKysrDQo+IMKgLi4uL2xpYnRvb2wvbGlidG9vbC0yLjQuNi5pbmPCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsNCj4gwqAuLi4tc3VyZS1hdXRvaGVhZGVy
-LXJ1bi1iZWZvcmUtYXV0b2NvbmYucGF0Y2ggfMKgIDM1ICsrDQo+IMKgLi4uL3J1bi1wb3N0aW5z
-dHMvcnVuLXBvc3RpbnN0cy9ydW4tcG9zdGluc3RzIHzCoCAxMCArLQ0KPiDCoG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC9zdWRvL3N1ZG8uaW5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArDQo+
-IMKgLi4uL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJlXzIwMjEwMjA4LmJiIHzCoCA0MSAr
-Ky0NCj4gwqAuLi4vbGludXgvbGludXgteW9jdG8tcnRfNS40LmJiwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB8wqDCoCA2ICstDQo+IMKgLi4uL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNS40
-LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDggKy0NCj4gwqBtZXRhL3JlY2lwZXMt
-a2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzUuNC5iYsKgIHzCoCAyMiArLQ0KPiDCoHNjcmlwdHMv
-Y29udHJpYi9kb2N1bWVudGF0aW9uLWF1ZGl0LnNowqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArLQ0K
-PiDCoHNjcmlwdHMvdmVyaWZ5LWJhc2hpc21zwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfMKgwqAgMiArLQ0KPiDCoDI2IGZpbGVzIGNoYW5nZWQsIDQ5MCBpbnNl
-cnRpb25zKCspLCA1MCBkZWxldGlvbnMoLSkNCj4gwqByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9vcGVuc3NsL3tvcGVuc3NsXzEuMS4xai5iYiA9Pg0KPiBvcGVuc3NsXzEuMS4xay5i
-Yn0gKDk4JSkNCj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jp
-bnV0aWxzL2JpbnV0aWxzLzAwMDEtDQo+IGdvbGQtZW5zdXJlLWZpbGVfY291bnRzX2xvY2staXMt
-aW5pdGlhbGl6ZWQtYmVmb3JlLXUucGF0Y2gNCj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2dpdC9naXQvQ1ZFLTIwMjEtDQo+IDIxMzAwLnBhdGNoDQo+IMKgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJ0b29sL2xpYnRvb2wvMDAw
-MS0NCj4gTWFrZWZpbGUuYW0tbWFrZS1zdXJlLWF1dG9oZWFkZXItcnVuLWJlZm9yZS1hdXRvY29u
-Zi5wYXRjaA0KPiANCj4gDQo+IA0KPiANCg0K
+[SWAT]=20
+
+Configuration failure:=20
+
+Run-time dependency hogweed found: NO (tried pkgconfig)
+
+../epiphany-3.38.3/meson.build:92:0: ERROR: Dependency "hogweed" not found,=
+ tried pkgconfig
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/3317
+
+Does this patch fix it ?
+
+Regards,
+Naveen
+
+
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Khem Raj
+> Sent: Monday, April 19, 2021 5:32 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Khem Raj <raj.khem@gmail.com>
+> Subject: [OE-core] [PATCH] epiphany: Add missing dependency on gnutls
+>=20
+> This was being pulled in by other dependencies thus far
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-gnome/epiphany/epiphany_3.38.3.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> index 889de16d00..ce24336ace 100644
+> --- a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> +++ b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> @@ -6,7 +6,7 @@ BUGTRACKER =3D
+> "https://gitlab.gnome.org/GNOME/epiphany"
+>  LICENSE =3D "GPLv3+"
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae504"
+>=20
+> -DEPENDS =3D "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+> +DEPENDS =3D "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr g=
+nutls
+> \
+>  	   gsettings-desktop-schemas libxml2-native \
+>  	   glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
+>=20
+> --
+> 2.31.1
+
