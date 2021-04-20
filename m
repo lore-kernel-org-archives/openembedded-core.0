@@ -1,103 +1,91 @@
-Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com [207.54.68.121])
- by mx.groups.io with SMTP id smtpd.web10.6590.1618899711214225078
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.7723.1618906939945888426
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 23:21:52 -0700
+ Tue, 20 Apr 2021 01:22:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=HiloE2uu;
- spf=pass (domain: bmw.de, ip: 207.54.68.121, mailfrom: prvs=737acabf9=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1618899711; x=1650435711;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=goTxlbeYEOQgbcA6lYL2Ut5hKBh2+HX+pRSutqSOPDo=;
-  b=HiloE2uu7jQgCQCSpIO/SkT1WkeMO3Rg3ifmDvDBck+4E3oiW7JACWn2
-   0L5DQrY76EAr+9V72DIt2PKKhxJv4Tg8RL0dO4dyNlUXkmWuYJ8oxKxvV
-   KhlY6assCQe2GlZLPQ/nj22DlkK0g8kebWaOuoxBk5NAAw0JMvsoU6TAr
-   s=;
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
- esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 20 Apr 2021 08:21:48 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw5.muc with ESMTP/TLS;
- 20 Apr 2021 08:21:46 +0200
-Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
- by esabb3.muc with ESMTP/TLS; 20 Apr 2021 08:21:47 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
- (160.46.167.68) with Microsoft SMTP Server (TLS;
- Tue, 20 Apr 2021 08:21:47 +0200
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Tue,
- 20 Apr 2021 08:21:47 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <Qi.Chen@windriver.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] db: update CVE_PRODUCT
-Thread-Topic: [OE-core][PATCH] db: update CVE_PRODUCT
-Thread-Index: AQHXNY2Ls7TN5jdL9Eih2nBFN6VNdaq8zj4A
-Date: Tue, 20 Apr 2021 06:21:47 +0000
-Message-ID: <YH5y+sroyvAtOYjC@korppu>
-References: <20210420023252.61501-1-Qi.Chen@windriver.com>
-In-Reply-To: <20210420023252.61501-1-Qi.Chen@windriver.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13K8MHtv031851
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 01:22:18 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 20 Apr 2021 01:22:16 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.4 via Frontend Transport; Tue, 20 Apr 2021 01:22:16 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libpam: make volatile files created successfully
+Date: Tue, 20 Apr 2021 16:22:15 +0800
+Message-ID: <20210420082215.16223-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E18037F875FCD045A07AE0F1D75E7AA2@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi,
+From: Changqing Li <changqing.li@windriver.com>
 
-On Mon, Apr 19, 2021 at 07:32:52PM -0700, Chen Qi wrote:
-> Update CVE_PRODUCT to also include 'berkeley_db'. For example,
-> CVE-2020-2981 uses 'berkeley_db'.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../pam/libpam/pam-volatiles.conf             |  1 +
+ meta/recipes-extended/pam/libpam_1.5.1.bb     | 21 +++++++++++++++++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/pam/libpam/pam-volatiles.conf
 
-Yep, this is correct. The situation is rather complex as CVE-2020-2981
-is an example of a bug which only affects the newer version with a lot
-of additional (buggy?) features from Oracle. The db5.3 (Debian source pack=
-age name)
-and yocto db recipes are not affected by this.
+diff --git a/meta/recipes-extended/pam/libpam/pam-volatiles.conf b/meta/recipes-extended/pam/libpam/pam-volatiles.conf
+new file mode 100644
+index 0000000000..d8b8259a93
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/pam-volatiles.conf
+@@ -0,0 +1 @@
++d /var/run/sepermit 0755 root root - -
+diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-extended/pam/libpam_1.5.1.bb
+index f225487688..4363e16b9b 100644
+--- a/meta/recipes-extended/pam/libpam_1.5.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
+            file://0001-modules-pam_namespace-Makefile.am-correctly-install-.patch \
+            file://0001-Makefile.am-support-usrmage.patch \
+            file://run-ptest \
++           file://pam-volatiles.conf \
+            "
+ 
+ SRC_URI[sha256sum] = "201d40730b1135b1b3cdea09f2c28ac634d73181ccd0172ceddee3649c5792fc"
+@@ -125,8 +126,18 @@ do_install() {
+ 
+ 	# don't install /var/run when populating rootfs. Do it through volatile
+ 	rm -rf ${D}${localstatedir}
+-	install -d ${D}${sysconfdir}/default/volatiles
+-	install -m 0644 ${WORKDIR}/99_pam ${D}${sysconfdir}/default/volatiles
++
++        if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','false','true',d)}; then
++            rm -rf ${D}${sysconfdir}/init.d/
++            rm -rf ${D}${sysconfdir}/rc*
++            install -d ${D}${sysconfdir}/tmpfiles.d
++            install -m 0644 ${WORKDIR}/pam-volatiles.conf \
++                    ${D}${sysconfdir}/tmpfiles.d/pam.conf
++        else
++            install -d ${D}${sysconfdir}/default/volatiles
++            install -m 0644 ${WORKDIR}/99_pam \
++                    ${D}${sysconfdir}/default/volatiles/
++        fi
+ 
+ 	install -d ${D}${sysconfdir}/pam.d/
+ 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
+@@ -146,6 +157,12 @@ do_install_ptest() {
+     fi
+ }
+ 
++pkg_postinst_${PN}() {
++         if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
++                 /etc/init.d/populate-volatile.sh update
++         fi
++}
++
+ inherit features_check
+ REQUIRED_DISTRO_FEATURES = "pam"
+ 
+-- 
+2.17.1
 
-https://security-tracker.debian.org/tracker/CVE-2020-2981
-
-Hence, the CVE checker data needs to know the version and the vendors and =
-even
-then there may be false positives for it. It's a good idea to check what D=
-ebian
-and Ubuntu do with the same source package and CVEs...
-
-Acked-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-
-Cheers,
-
--Mikko
-
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-support/db/db_5.3.28.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support=
-/db/db_5.3.28.bb
-> index 9cb57e6a53..b2ae98f05c 100644
-> --- a/meta/recipes-support/db/db_5.3.28.bb
-> +++ b/meta/recipes-support/db/db_5.3.28.bb
-> @@ -15,7 +15,7 @@ HOMEPAGE =3D "https://www.oracle.com/database/technolo=
-gies/related/berkeleydb.html
->  LICENSE =3D "Sleepycat"
->  RCONFLICTS_${PN} =3D "db3"
->  
-> -CVE_PRODUCT =3D "oracle_berkeley_db"
-> +CVE_PRODUCT =3D "oracle_berkeley_db berkeley_db"
->  CVE_VERSION =3D "11.2.${PV}"
->  
->  PR =3D "r1"
-> --=20
-> 2.30.2
->=20
-
->=20
->=20
->=20
