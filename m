@@ -1,17 +1,17 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.59])
- by mx.groups.io with SMTP id smtpd.web10.4811.1618885161389063464
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.77])
+ by mx.groups.io with SMTP id smtpd.web12.4908.1618885950619720448
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 19:19:21 -0700
+ Mon, 19 Apr 2021 19:32:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=PNcTUoGH;
- spf=pass (domain: windriver.com, ip: 40.107.237.59, mailfrom: qi.chen@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ebH7Aza7;
+ spf=pass (domain: windriver.com, ip: 40.107.237.77, mailfrom: qi.chen@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U1dhQ/xfTf/SkN0ESdii/qbMpsOSPxfqrETW5CqXyp2aquifkb1gUSwoikty+x80IBC91ytYpgWBYvLDRjnKXc/gpfWYhJSYjWbYqDwunhdHJqXVO5YyYP6oJHr8/dAAM2G3WA0u+Rms8F/EXA27+VPOM8mPMQDN5DeUAVsJy6jet8I2N66fKKSU+sfLX9WxSAVp+xp+0x/H5G9nMkIVdiDcoxFJj5KW5N+sPbdbcXvhpROGS96NW7Xb1btN84Zao+aD51pBenT+djtGZkDW4Ldo6NfUSQBade2HMqJ8+8xBqJQjwMTmL0XN5HSLQGeCUL88eRfT8W+Zwd85ITR7mA==
+ b=SIYFkC+k5Y7yiM67VWrMrztqCXzOXWKhPKaZP6OxRo5ulmIZo/oht5ZE1QDr1GNTHLvguakmbP/gLlBLcY6BAd747TbdZp1GCxIrwCbHZZ39QrzRT8gsH+77Io/kW5nkRxiVBKtRl/0gThQZrqSptO6BHQDctO1ZjiRHOlzi8EQjqq6RAZlHTuKoIw6S0Vep4ll2+Cn8HWG79GfB4SeQW8z0H1amI8xlF1CG9u5UgX5OWMspV/Gk/xw6fNl5z7VSnR0dKsUEa9N5ZQYmlBzWoNTlrCjS2G3OSweeJyjY95MDmyGrrlJOtUuNmmxTbInB5LyMt7mwKJ+WBTLGst8XUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j+d/KilneBWn0T805xzKjxr+6vzk9WH4rjISlhrK5bI=;
- b=R6xV/hhtdmAVMrz/evHKpItZ8FhbGyIVIf+pX+dVDH7p/xferdxcxg5pjD9sV9w0f/pmzcTHrWAiVmBtz2tYALxPYChLSgHp76F/LMEUpqz7imYAxXQLP6Gn7k9d6BCvmEPAcfdf+bolE0Y5gpCRhxBk/9NqD5CbXDVYjYKyfx+RSZx7lDyBgAIPFjIsgj2S8gGpYJTsBWJ2Tr8EtKNJRhbODWf2JE9O+VjjnK5EYYLKFr2nEAzgaFmKiOykNU9FJh/vrVRfIvTuCI2LDla+Ve4/q0pBim9lz51DhZW2ZohtmVnpldpdltPxnQdhB375rhcpXtY/BwDyzbIa5hnu4A==
+ bh=4EH34jVEmRzK60O82h7rrGGYcTUGEXddAe9/F+GHHGA=;
+ b=g6DYIsPoXcMRL8ZF8TMgo+kgx2SrWj3e7Owy29g9RSdbDIgPt8C1L4G2tS/+EeRvcexv8RmfmNoHLBAtLkv6sXDZleJEi69yKIddHeNoteSYP01UZsg//mawuaiwYZGyO/GYcgu2AQgGvBxX+pLvFOyhfsgKyrSj/fH4j253qS5IvZSijcMrYHUWsLaegrVmzNLBxF2umosvyuHrR+LX6zgQdMhsdaez0bVDpZ7tIefV1WtMUIRGMspdAvS7IsqU2vqM5AgwUa8XLi4dHQKG6nN6xhnx9LKfT3/SqYIJDzX/T8DiA4KPyQGZ1bIYJFauBFLrDTwzL3vznK3bQFgz/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,199 +19,465 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j+d/KilneBWn0T805xzKjxr+6vzk9WH4rjISlhrK5bI=;
- b=PNcTUoGHZ0OQL6iNYOQ9ZoUT6x0OAcBUodBgcAXIdpq69khACmZODcKirKZt63mzHEDjIQpG5PgIPWzja1ErCpVrI3nA/mGUCKRcLatT/w4pYfrtMbOptKIrKRuAnlvXAqxps06GeDtD43oX/lQd/wfHwCu8yDfl/rQ5L5aPPQg=
+ bh=4EH34jVEmRzK60O82h7rrGGYcTUGEXddAe9/F+GHHGA=;
+ b=ebH7Aza7mGZ7yzgni91+nlzpZUDrWxnUl4m8HpdZjljB54IRx07qRsYbsWKlYuva/KmF1syl300dg42rZ/sVa+4LF8j2aa6p2VomA7LUUhFvoyws8kn3d3Kpoi8CRD1V9v7Q9rKy9nfyoJKf84f9adN0GEmtI7ltYkPMkmLIwzs=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BYAPR11MB3349.namprd11.prod.outlook.com (2603:10b6:a03:1c::21) with
+ by BYAPR11MB2727.namprd11.prod.outlook.com (2603:10b6:a02:c7::29) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Tue, 20 Apr
- 2021 02:19:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26; Tue, 20 Apr
+ 2021 02:32:27 +0000
 Received: from BYAPR11MB3480.namprd11.prod.outlook.com
  ([fe80::5091:f32:2586:572b]) by BYAPR11MB3480.namprd11.prod.outlook.com
  ([fe80::5091:f32:2586:572b%7]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
- 02:19:19 +0000
+ 02:32:27 +0000
 Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
 To: "zhengrq.fnst@fujitsu.com" <zhengrq.fnst@fujitsu.com>,
  "Mikko.Rapeli@bmw.de" <Mikko.Rapeli@bmw.de>
 References: <1618839901-127113-1-git-send-email-zhengrq.fnst@fujitsu.com>
  <YH0qTWrdEX5VH3eS@korppu>
  <OS3PR01MB6241D19197EB67173486060E8B489@OS3PR01MB6241.jpnprd01.prod.outlook.com>
-CC: "openembedded-core@lists.openembedded.org"
+ <16776F7A4F5368B1.4443@lists.openembedded.org>
+Cc: "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
 From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <64ee209f-542e-9b79-fa4b-03faa4a7903a@windriver.com>
-Date: Tue, 20 Apr 2021 10:27:35 +0800
+Message-ID: <a7ddce56-bf9e-0c35-e4a7-86c1b07e19e6@windriver.com>
+Date: Tue, 20 Apr 2021 10:40:50 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
  Thunderbird/45.4.0
-In-Reply-To: <OS3PR01MB6241D19197EB67173486060E8B489@OS3PR01MB6241.jpnprd01.prod.outlook.com>
+In-Reply-To: <16776F7A4F5368B1.4443@lists.openembedded.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: BL0PR02CA0034.namprd02.prod.outlook.com
- (2603:10b6:207:3c::47) To BYAPR11MB3480.namprd11.prod.outlook.com
+X-ClientProxiedBy: HKAPR03CA0019.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::6) To BYAPR11MB3480.namprd11.prod.outlook.com
  (2603:10b6:a03:79::27)
 Return-Path: Qi.Chen@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.141] (60.247.85.82) by BL0PR02CA0034.namprd02.prod.outlook.com (2603:10b6:207:3c::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.4042.16 via Frontend Transport; Tue, 20 Apr 2021 02:19:08 +0000
+Received: from [128.224.162.141] (60.247.85.82) by HKAPR03CA0019.apcprd03.prod.outlook.com (2603:1096:203:c9::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.4065.8 via Frontend Transport; Tue, 20 Apr 2021 02:32:25 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db12a647-260e-42e5-b933-08d903a2b3f8
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3349:
+X-MS-Office365-Filtering-Correlation-Id: c0cbd6bf-85d4-49e3-dfec-08d903a489b2
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2727:
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3349297EC527BAA85319691FED489@BYAPR11MB3349.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+	<BYAPR11MB272771FB62A77C81CE626150ED489@BYAPR11MB2727.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	wFUdqAlDmFxa1zEYm8AqRMLplOOIX2uUKGxr34mIx4Roe6PQ4DaTBkXDyMu5GCcolJN97yC96qp1rkfJsaVRKD+sWRlMFnpKeWOyR8Yv/mLCxu5WqhFn9oUAL/n5LlBP5G1GcszZIU7DGtzqT6XOtMctW02gzg3lUVF4qilq+1EZHTyCNTEXU05y3cREKmj6o22uFLH9uUY7Pi5kltZp9gIycQHozqCCMVni0+47YT3BFeX1L+nEH0zZdRTrcurdEf3J5lep3bVvLG0Or303CqglAu5Q4ON8Qnoh8AFPyAdxZKXLkraqEOQxuqRufYSL79lzaQ8bXEU5kRg06Ey6jFskKEw6lPRBLswEijlH36lTrqQtok+ftbJDGhIeTHAXb8Ur0Rz5JOe6sxJ2vbYayHHk60n5d59XqAEsxq8nG+GSK2922e4qFpEXLf1woxjzy2n5y836tw7HUHjbKJv1q050Mx71sDdOv91kKdsIydKlgY7vcWMtEYPCbeQN7rHega/n4PmBg3KMHO9MT+AKNqySaLpcLxNTLYzrZbG1c/IvnOizlirM9B7KInslJ1KvlMz2Jv6su5+fxCIUulWsUJZsiXCN1c6HTo3xNSbew2NHzWOXVEB48WqHkGJLOkbXy/yAF2UJx4UqPXQQ7cmrI2ZdYS83tgyl2Nmg5fRPem4e9soWr/Px+iWqQz9w/hcefNDrXiodd60lmJDveW0eaL9XCutJE5Z+TKJ1/y7tM52o8ECoYq63IHkz/RPizpmk0J1x5eMNUPogRXss1Q0vAUUbqbTLSWPCu9gRPkRDGlBq6lU5LlpDhhIo28PNvHxu
+	Q+48+fnS4CcoClsPjyYyfoxrQ09Q0qa3DGBiVr/c/nBf6TgT8CaJ8AZSVzAnCaif3H6TwfTGYwru6DmkwPuQPpeHdv3CZuOeLy4qKzODyUMYi57SA0ovSzqTGwuKXvuWv/KpC82Ne6xLWN1YTWVRuBxWtmUk1UUzm6+vk5pxoNAGszE3i/sa1iRzFVlAKbZeXl7MDyufDCY2Cehnj8qEjoZw/63sksDGHCCc6Hf2Antekc323Q310VrS+nFHX5Be6rnUz+ReJT60a2ZKGSPKgCvRb46RR/DYoF+n8eWyFKIG0i5dqNGH6dSRHwEAk+xNNm3Ra7yogZO1SUk1fwLa5JO6OsfqstxvHkdR0WJNPX7KewON2kLmm2MmICSkermBUZn9URcBC7ndGD2AN1fihBD2ULd/WzUcVN9meVAd1PIHXD364vx15w7zWoUH3DKUoRMU3YINsbh5isRqX06A2F9HPDnVAShYUF7JWvj6LPCd2ajyqJWjsqtq24g95z+gS9T0CVCneV0FrpS4U52MtrllcYjtBZJz1Tk7KU9BwAC+Dg8ohgY2e3H7NSbXoIWoevrfxqsTlwdNDLVJi2x55j7v/NSdXDbYNzoWgE3s2jWyzL0KByeVOuO5Vy/MtnRJNwawPNVQYccd5GOLQGa/rMS61fJGCSVpN5khb479hDcdbWrxWMVx64+KeHW2L5GUKba/6OYLdF38shls2iImZQc/nxkcpMUmQy/jHbibR4UWc9qsckAgG7u7l79U7y/k7KVK91BxRtbXTo/R/y38b9e+D17YkySg2p799mMvxZ1ppT9tyidPOB63MERV31ph
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(366004)(396003)(136003)(376002)(346002)(6666004)(31696002)(53546011)(83380400001)(5660300002)(66946007)(956004)(52116002)(66476007)(2906002)(66556008)(316002)(38100700002)(16576012)(966005)(26005)(86362001)(8676002)(31686004)(110136005)(8936002)(38350700002)(4326008)(478600001)(6486002)(6706004)(186003)(2616005)(16526019)(36756003)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(136003)(39850400004)(346002)(396003)(52116002)(2616005)(6486002)(38100700002)(21615005)(6666004)(66556008)(83380400001)(53546011)(478600001)(2906002)(31696002)(6706004)(16576012)(33964004)(316002)(36756003)(4326008)(8936002)(66946007)(8676002)(956004)(86362001)(186003)(16526019)(166002)(31686004)(966005)(5660300002)(110136005)(66476007)(26005)(38350700002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?4EsOKQoBvXb+J24oOpUjVtMhAeM8dvd9Lh7guSNzptY5UrsPy+0jUa/IgtZe?=
- =?us-ascii?Q?1kODzpfuECI3vQ9RTTaqCbaEpqQdL7Px0vk7XVjcdYCQo1I3KPLn3ujlfl9U?=
- =?us-ascii?Q?W9nvbDiij/HdSGRIIPxh6RKh5FLqtPnLVUFEiimpLCzjrb1n5vpdqYp9FDzq?=
- =?us-ascii?Q?rrmBQ5o1tX2gaw9k/PjpjfGMD/2Hgplx0pEVWRtIC42XxQgmeElX25SVu/P5?=
- =?us-ascii?Q?EN8I5DTfw0/up0MdQw9JOHfZOV+fziuhCHAV9iwcBRtxQpCjYeY4OdoVkj+W?=
- =?us-ascii?Q?gXrvZoCzXHur2BIKTdTgF6f4jFnxVYsYzUs/nwtRDCeRsv1s39a2twyRbIjM?=
- =?us-ascii?Q?XzW4GUIpvi5mWM7MDwJpvDp9zN3dyImwpXE+GkSY71MFSu4tP4PYpXFMSFdO?=
- =?us-ascii?Q?tjHet1xz55XjFZ6XurKUSp2fle+GEKJnLqt8QhVnsTl8J23TsxNYDsRy0Lm7?=
- =?us-ascii?Q?dA+5KoxGusiuEeotOgSUL0iospnf7ZNfkajR3WBN28V3Vfczg+nIu6FK/JdO?=
- =?us-ascii?Q?0FWgUO5HW/k75crLzFU23AQ9gOhvqAYljNUQYJfXNFFqlIcePdwPvMtJOKNf?=
- =?us-ascii?Q?mohGy4B+XUvHsTK7dcs39s9YOL+fvDZgCe26Xnv2gdILz9b42lNxVHglRCxM?=
- =?us-ascii?Q?dCBbIPQOm/DKPpV1Sx7WP39xMNe81u9dww4JZOE9uCvy/WQPnRWiX2cg3Dx5?=
- =?us-ascii?Q?KWcuVzQgQ9F70jY1ejryxNKsgycV/fpT10aeGZrjKE8/Ss1ctc71qZrxZX0m?=
- =?us-ascii?Q?FTBjWfZ2e/xgSkxuRKGhrrjTYekRIgSJRxbCA8UWuHyTJ2Lugsg29J/Ese0X?=
- =?us-ascii?Q?I0TAl3MbFvZeTRfKPQn/rjToYB7fArkwqwo9xlnK09uIne3AmWhxod/1LUjO?=
- =?us-ascii?Q?jQFZiGDSC3DECuucF/uzsKEXAiiJgXzD/nWD5jwo9PQ1qeYC6aZ86tgecZ8X?=
- =?us-ascii?Q?AiZyuBDqGeMB9Hc0o5hv/gHf4+nv6zOaZKu44xyGjKVhD8zorYtIc+ZsIRBL?=
- =?us-ascii?Q?sW/eX4ba2n7Gzee3CsGh0qIsDIcknK97VUgyHnYwnCSVa+BJmyQwIV+/8Uub?=
- =?us-ascii?Q?fuWP/ZS8bz7QtCnEWAUgQ3yfoqBOHw2pD8YfeHX8bzCDikVSgzDPSoqEUdpk?=
- =?us-ascii?Q?I7siCI4YQbhREEkUoI9XoYLZjcjpn9P6lQrrV5TC1ruV4Rrh+qAEAbP1VUfK?=
- =?us-ascii?Q?0g85kxp48GTYSiAtLcBUbayqXHAz65qThfSSAR228KjYYM0QSmi7E9/hlC3i?=
- =?us-ascii?Q?DDJ6zPUDA49h3Wi34wctLRNh/AfcbZQJicOQ5z9kPDBsYsLe1gn18bsDuquw?=
- =?us-ascii?Q?ls6o2bpb9R81uCyV6IpomhvC?=
+	=?utf-8?B?TUFKdGd3OUlSbGxrNzlLM21mdGNVdmZ3RWRjUWVGRVNRSzNuVzZiWVQxSk9W?=
+ =?utf-8?B?WXA0VE9mV01hL05IajMwMjA4ckJ2RWg1Z1hMR1hMMTdWd1lqcy85RDlCRUVp?=
+ =?utf-8?B?eUo0QlpWWmNRbC9VOVo5MXIwTWFibXltNnRVdHlTNnJwSjhya1hxZW1Ra3k2?=
+ =?utf-8?B?bE1TTmpVZ2lYVDQ2d0puampNSlBVd29JYVBjdTIvRjVRcU11K1JCbHV3cmxF?=
+ =?utf-8?B?MGpTcnc5eDVrWXN4S3oyUXZ0b1lRQndOODE3UXZJZ2MwOTlUTE1hTjNLbGR3?=
+ =?utf-8?B?c3hXVVVmUmYzcnZSWHY1R05tQnVURW5MMkZFbG9EcS9yM2F2RlkwWHovS1lN?=
+ =?utf-8?B?SVF3RGh6eG9SQnNvZHRuWUxMSUZuSTBhektJMDR4WVRmZm5VaWk5S2pIZ0dw?=
+ =?utf-8?B?eGdTNVFvdndkeVVXdGdPM2QwZ2Fac1oxeG1SSThlUFR3bW1paCtMVlU5Q1FC?=
+ =?utf-8?B?NlVFRmZNZDltQXI5cU1MSDdLcjBuSW5oT3FVNEJXd3pyMElZZGFWSDlVWlJq?=
+ =?utf-8?B?NSsxYWwwVUQ5L3FlU2JmM004QWdtZ202S2JMTlI2cjFIaFE4a3dVZWt4SGRz?=
+ =?utf-8?B?VkVld29QZTRrc2Q1cm5TRTBiWnRZTVRUWmxnVENnNVB0aDZMVzBFMmxBcTht?=
+ =?utf-8?B?RFQ3cE9GajFKZmVGRjJuVjVObVBtM3RwT0dRdit2U0VpVk9RbWErak16S0pV?=
+ =?utf-8?B?MCttakxmVmxjd3JVUDJnRWdXU21oVEFIaTgrbG1XN29yU3dGMlhaQ0lsVnc1?=
+ =?utf-8?B?dHRPUldTcFI0TlJaR0ZraDc5WUtNMFFLZmYrMzlqSG9vOXVPT0R5V2V5TjZJ?=
+ =?utf-8?B?L3dZb2FiaXVVZ1pmcnQzSWZYRkVPOUJjUFFMZWp4N3hRZUdUV0wweWk1czBK?=
+ =?utf-8?B?ZU9uZVlrQUVSWlVJcmZ2WUZnb0ZOa29TQk9GZUhUb0JEN0FhVjRhV05DbjVV?=
+ =?utf-8?B?ZEQzZEk1OG5jTmFDZXFuUHJHd0NvbWs4c29oZzVWcm10eFdsSnR1REZKODJs?=
+ =?utf-8?B?Ukhzdk4wcjMxNk5rNHpkTGNxdHpuOHRyQzFXMk1zVnluaGtZbW5qYzgxY0Qw?=
+ =?utf-8?B?d3NoZjFTSGwrbGE4RTFkY3ZuY3l5bko1cW14T3dHRXRsaUp1WkNaQnp1VUwy?=
+ =?utf-8?B?MlZha3NMU3MvSkRKV1dLK3czbkgvNXNOWUF1WUJUbktjSFFwWUpWb1A2NG00?=
+ =?utf-8?B?WjRTQ3NDeVhwRlZnaDBnei9XaGhsL05HSHZTMTdLdFJMVHRMS1RzL0Fmc0pY?=
+ =?utf-8?B?TGh5ZGFlalhwS1VwdjBvcEdNTGxmYngyLzNJQ2FhSytSd21RRXR6ZHlEMDB6?=
+ =?utf-8?B?TzNsT3hicHZyUFBGWDlJRkZBQXZ4MW85K2xtRnJUQXBOVnlTV1FLMmZBNXhX?=
+ =?utf-8?B?OU9TQm8ycWhtNkVpcWEyS0xjTHlVaFRoVWswYXVERXMrSVpGb0RUM1dtVFlx?=
+ =?utf-8?B?NjlZUHRwUjh4MkxZQTBjdHFVQSs5UEh0VGdJNFRiVzhlaVFYeFNvSmtLZjBv?=
+ =?utf-8?B?a21OMmJKaTIyVzdEOUovVklRdnZaMFRrMnE4clptMUVaWVFHZSs3NlYxMldn?=
+ =?utf-8?B?TThld3lpRGE3RStUNWl5NWJmcnBSY1VUZDk3Zk4xQkRLaDRnMGtVVEpYUDVh?=
+ =?utf-8?B?THlWdlRVcThJbXFEbzhqb3owaDlLclpjRzNrWnkxRTVpbE9pLzFkdmsyQWZi?=
+ =?utf-8?B?VWpOb1oyUnk2dDdXTWlKa25waUV4WCtSd1UvaVdOSTNoRmJGbHpleDNBeUlt?=
+ =?utf-8?Q?jIfuZnIoFIfbBg3B+SC9T3IP+H1Vya86fVdxmxy?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db12a647-260e-42e5-b933-08d903a2b3f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0cbd6bf-85d4-49e3-dfec-08d903a489b2
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 02:19:19.0711
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2021 02:32:27.1685
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yjqAkStbE2nk9R3dbF7jR1WXVvleliZTfCjmqdTl0q7dL79rcUUtKiYknKk1ykbGq9w5NPO9q9MKYl5lOx9TEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3349
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-UserPrincipalName: laCyy2Q6SVJFi6teONwVmOqy49rxCcWZ7uH3RmLEoA2mvB9P9iAKkLHTkkKOmRw1BDyArQHmZgCl+lqv3fSjRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2727
+Content-Type: multipart/alternative;
+ boundary="------------B534655663921321C892DD54"
 
-I think they are two different projects.
-https://www.ibm.com/products/db2-database
-https://www.oracle.com/database/technologies/related/berkeleydb.html
+--------------B534655663921321C892DD54
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-You can also use the original json file to check.
+Hi Zheng,
 
-e.g.
-$ grep -l 'cpe:.*:oracle:oracle_berkeley_db:' ~/.cvedb/nvdcve-1.1-*.json
-/home/qichen/.cvedb/nvdcve-1.1-2016.json
-/home/qichen/.cvedb/nvdcve-1.1-2017.json
-$ grep -l 'cpe:.*:ibm:db2:'=20
-~/.cvedb/nvdcve-1.1-*.json/home/qichen/.cvedb/nvdcve-1.1-2005.json
-/home/qichen/.cvedb/nvdcve-1.1-2010.json
-/home/qichen/.cvedb/nvdcve-1.1-2012.json
-/home/qichen/.cvedb/nvdcve-1.1-2013.json
-/home/qichen/.cvedb/nvdcve-1.1-2014.json
-/home/qichen/.cvedb/nvdcve-1.1-2015.json
-/home/qichen/.cvedb/nvdcve-1.1-2016.json
-/home/qichen/.cvedb/nvdcve-1.1-2017.json
-/home/qichen/.cvedb/nvdcve-1.1-2018.json
-/home/qichen/.cvedb/nvdcve-1.1-2019.json
-/home/qichen/.cvedb/nvdcve-1.1-2020.json
-/home/qichen/.cvedb/nvdcve-1.1-Modified.json
+Looking at it further. I have to say that your observation is correct. 
+The CVE_PRODUCT for 'db' recipe is not complete.
+Both 'oracle_berkeley_db' and 'berkeley_db' are used.
+I've sent out a patch to fix it.
 
 Best Regards,
 Chen Qi
 
-On 04/20/2021 09:55 AM, zhengrq.fnst@fujitsu.com wrote:
-> Hi, Mikko, Chen
+On 04/20/2021 10:27 AM, Chen Qi wrote:
+> I think they are two different projects.
+> https://www.ibm.com/products/db2-database
+> https://www.oracle.com/database/technologies/related/berkeleydb.html
 >
-> Now, cve_check can't checkout any cve issues of db. I read new nvdcve_1.=
-1.db and guess the name of CVE_ PRODUCT should be corrected.
-> ps: I don't have the old nvdcve_1.1.db, so, I can't make sure that the o=
-ld name of db is "oracle_berkeley_db".
+> You can also use the original json file to check.
 >
-> $ grep oracle_berkeley_db SELECT_FROM_PRODUCTS.log
-> $
-> $ grep "|db2|" SELECT_FROM_PRODUCTS.log
-> CVE-2010-0462|ibm|db2|9.1|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp1|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp2|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp2a|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp3|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp3a|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp4|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp4a|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp5|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp6|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp6a|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp7|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp7a|=3D||
-> CVE-2010-0462|ibm|db2|9.1_fp8|=3D||
-> CVE-2010-0462|ibm|db2|9.5|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp1|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp2|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp2a|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp3|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp3a|=3D||
-> CVE-2010-0462|ibm|db2|9.5_fp3b|=3D||
-> ......
+> e.g.
+> $ grep -l 'cpe:.*:oracle:oracle_berkeley_db:' ~/.cvedb/nvdcve-1.1-*.json
+> /home/qichen/.cvedb/nvdcve-1.1-2016.json
+> /home/qichen/.cvedb/nvdcve-1.1-2017.json
+> $ grep -l 'cpe:.*:ibm:db2:' 
+> ~/.cvedb/nvdcve-1.1-*.json/home/qichen/.cvedb/nvdcve-1.1-2005.json
+> /home/qichen/.cvedb/nvdcve-1.1-2010.json
+> /home/qichen/.cvedb/nvdcve-1.1-2012.json
+> /home/qichen/.cvedb/nvdcve-1.1-2013.json
+> /home/qichen/.cvedb/nvdcve-1.1-2014.json
+> /home/qichen/.cvedb/nvdcve-1.1-2015.json
+> /home/qichen/.cvedb/nvdcve-1.1-2016.json
+> /home/qichen/.cvedb/nvdcve-1.1-2017.json
+> /home/qichen/.cvedb/nvdcve-1.1-2018.json
+> /home/qichen/.cvedb/nvdcve-1.1-2019.json
+> /home/qichen/.cvedb/nvdcve-1.1-2020.json
+> /home/qichen/.cvedb/nvdcve-1.1-Modified.json
 >
-> Best regards
-> Zheng
+> Best Regards,
+> Chen Qi
 >
->
->> -----Original Message-----
->> From: Mikko.Rapeli@bmw.de <Mikko.Rapeli@bmw.de>
->> Sent: Monday, April 19, 2021 2:59 PM
->> To: Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5 <zhengrq.fnst@fujitsu.com>
->> Cc: openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
+> On 04/20/2021 09:55 AM, zhengrq.fnst@fujitsu.com wrote:
+>> Hi, Mikko, Chen
 >>
->> On Mon, Apr 19, 2021 at 09:45:01PM +0800, zhengruoqin wrote:
->>> In the CVE database, now it use db2 instead of oracle_berkeley_db.
->>> So, in order to be handled correctly by CVE check, modify CVE_ PRODUCT=
-.
->> Which CVEs, please add an example? In the past oracle_berkeley_db was u=
-sed.
->> I wonder if both would need to be there, or if using the new value is s=
-ufficient
->> from now on.
+>> Now, cve_check can't checkout any cve issues of db. I read new 
+>> nvdcve_1.1.db and guess the name of CVE_ PRODUCT should be corrected.
+>> ps: I don't have the old nvdcve_1.1.db, so, I can't make sure that 
+>> the old name of db is "oracle_berkeley_db".
 >>
->> -Mikko
+>> $ grep oracle_berkeley_db SELECT_FROM_PRODUCTS.log
+>> $
+>> $ grep "|db2|" SELECT_FROM_PRODUCTS.log
+>> CVE-2010-0462|ibm|db2|9.1|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp1|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp2|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp2a|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp3|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp3a|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp4|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp4a|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp5|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp6|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp6a|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp7|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp7a|=||
+>> CVE-2010-0462|ibm|db2|9.1_fp8|=||
+>> CVE-2010-0462|ibm|db2|9.5|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp1|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp2|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp2a|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp3|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp3a|=||
+>> CVE-2010-0462|ibm|db2|9.5_fp3b|=||
+>> ......
 >>
->>> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
->>> ---
->>>   meta/recipes-support/db/db_5.3.28.bb | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> Best regards
+>> Zheng
+>>
+>>
+>>> -----Original Message-----
+>>> From: Mikko.Rapeli@bmw.de <Mikko.Rapeli@bmw.de>
+>>> Sent: Monday, April 19, 2021 2:59 PM
+>>> To: Zheng, Ruoqin/郑 若钦 <zhengrq.fnst@fujitsu.com>
+>>> Cc: openembedded-core@lists.openembedded.org
+>>> Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
 >>>
->>> diff --git a/meta/recipes-support/db/db_5.3.28.bb
->>> b/meta/recipes-support/db/db_5.3.28.bb
->>> index 9cb57e6a53..05720053f4 100644
->>> --- a/meta/recipes-support/db/db_5.3.28.bb
->>> +++ b/meta/recipes-support/db/db_5.3.28.bb
->>> @@ -15,7 +15,7 @@ HOMEPAGE =3D
->>> "https://www.oracle.com/database/technologies/related/berkeleydb.html
->>>   LICENSE =3D "Sleepycat"
->>>   RCONFLICTS_${PN} =3D "db3"
+>>> On Mon, Apr 19, 2021 at 09:45:01PM +0800, zhengruoqin wrote:
+>>>> In the CVE database, now it use db2 instead of oracle_berkeley_db.
+>>>> So, in order to be handled correctly by CVE check, modify CVE_ 
+>>>> PRODUCT.
+>>> Which CVEs, please add an example? In the past oracle_berkeley_db 
+>>> was used.
+>>> I wonder if both would need to be there, or if using the new value 
+>>> is sufficient
+>>> from now on.
 >>>
->>> -CVE_PRODUCT =3D "oracle_berkeley_db"
->>> +CVE_PRODUCT =3D "db2"
->>>   CVE_VERSION =3D "11.2.${PV}"
+>>> -Mikko
 >>>
->>>   PR =3D "r1"
->>> --
->>> 2.25.1
->>>
->>>=20
->>>
+>>>> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+>>>> ---
+>>>>   meta/recipes-support/db/db_5.3.28.bb | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-support/db/db_5.3.28.bb
+>>>> b/meta/recipes-support/db/db_5.3.28.bb
+>>>> index 9cb57e6a53..05720053f4 100644
+>>>> --- a/meta/recipes-support/db/db_5.3.28.bb
+>>>> +++ b/meta/recipes-support/db/db_5.3.28.bb
+>>>> @@ -15,7 +15,7 @@ HOMEPAGE =
+>>>> "https://www.oracle.com/database/technologies/related/berkeleydb.html
+>>>>   LICENSE = "Sleepycat"
+>>>>   RCONFLICTS_${PN} = "db3"
+>>>>
+>>>> -CVE_PRODUCT = "oracle_berkeley_db"
+>>>> +CVE_PRODUCT = "db2"
+>>>>   CVE_VERSION = "11.2.${PV}"
+>>>>
+>>>>   PR = "r1"
+>>>> -- 
+>>>> 2.25.1
+>>>>
+>>>>
+>>>>
+>
+>
+>
+> 
+>
 
+
+--------------B534655663921321C892DD54
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">Hi Zheng,<br>
+      <br>
+      Looking at it further. I have to say that your observation is
+      correct. The CVE_PRODUCT for 'db' recipe is not complete.<br>
+      Both 'oracle_berkeley_db' and 'berkeley_db' are used.<br>
+      I've sent out a patch to fix it.<br>
+      <br>
+      Best Regards,<br>
+      Chen Qi<br>
+      <br>
+      On 04/20/2021 10:27 AM, Chen Qi wrote:<br>
+    </div>
+    <blockquote cite="mid:16776F7A4F5368B1.4443@lists.openembedded.org" type="cite">I think they are two different projects.
+      <br>
+      <a class="moz-txt-link-freetext" href="https://www.ibm.com/products/db2-database">https://www.ibm.com/products/db2-database</a>
+      <br>
+<a class="moz-txt-link-freetext" href="https://www.oracle.com/database/technologies/related/berkeleydb.html">https://www.oracle.com/database/technologies/related/berkeleydb.html</a>
+      <br>
+      <br>
+      You can also use the original json file to check.
+      <br>
+      <br>
+      e.g.
+      <br>
+      $ grep -l 'cpe:.*:oracle:oracle_berkeley_db:'
+      ~/.cvedb/nvdcve-1.1-*.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2016.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2017.json
+      <br>
+      $ grep -l 'cpe:.*:ibm:db2:'
+      ~/.cvedb/nvdcve-1.1-*.json/home/qichen/.cvedb/nvdcve-1.1-2005.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2010.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2012.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2013.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2014.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2015.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2016.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2017.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2018.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2019.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-2020.json
+      <br>
+      /home/qichen/.cvedb/nvdcve-1.1-Modified.json
+      <br>
+      <br>
+      Best Regards,
+      <br>
+      Chen Qi
+      <br>
+      <br>
+      On 04/20/2021 09:55 AM, <a class="moz-txt-link-abbreviated" href="mailto:zhengrq.fnst@fujitsu.com">zhengrq.fnst@fujitsu.com</a> wrote:
+      <br>
+      <blockquote type="cite">Hi, Mikko, Chen
+        <br>
+        <br>
+        Now, cve_check can't checkout any cve issues of db. I read new
+        nvdcve_1.1.db and guess the name of CVE_ PRODUCT should be
+        corrected.
+        <br>
+        ps: I don't have the old nvdcve_1.1.db, so, I can't make sure
+        that the old name of db is &quot;oracle_berkeley_db&quot;.
+        <br>
+        <br>
+        $ grep oracle_berkeley_db SELECT_FROM_PRODUCTS.log
+        <br>
+        $
+        <br>
+        $ grep &quot;|db2|&quot; SELECT_FROM_PRODUCTS.log
+        <br>
+        CVE-2010-0462|ibm|db2|9.1|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp1|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp2|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp2a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp3|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp3a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp4|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp4a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp5|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp6|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp6a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp7|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp7a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.1_fp8|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp1|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp2|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp2a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp3|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp3a|=||
+        <br>
+        CVE-2010-0462|ibm|db2|9.5_fp3b|=||
+        <br>
+        ......
+        <br>
+        <br>
+        Best regards
+        <br>
+        Zheng
+        <br>
+        <br>
+        <br>
+        <blockquote type="cite">-----Original Message-----
+          <br>
+          From: <a class="moz-txt-link-abbreviated" href="mailto:Mikko.Rapeli@bmw.de">Mikko.Rapeli@bmw.de</a> <a class="moz-txt-link-rfc2396E" href="mailto:Mikko.Rapeli@bmw.de">&lt;Mikko.Rapeli@bmw.de&gt;</a>
+          <br>
+          Sent: Monday, April 19, 2021 2:59 PM
+          <br>
+          To: Zheng, Ruoqin/郑 若钦 <a class="moz-txt-link-rfc2396E" href="mailto:zhengrq.fnst@fujitsu.com">&lt;zhengrq.fnst@fujitsu.com&gt;</a>
+          <br>
+          Cc: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+          <br>
+          Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
+          <br>
+          <br>
+          On Mon, Apr 19, 2021 at 09:45:01PM +0800, zhengruoqin wrote:
+          <br>
+          <blockquote type="cite">In the CVE database, now it use db2
+            instead of oracle_berkeley_db.
+            <br>
+            So, in order to be handled correctly by CVE check, modify
+            CVE_ PRODUCT.
+            <br>
+          </blockquote>
+          Which CVEs, please add an example? In the past
+          oracle_berkeley_db was used.
+          <br>
+          I wonder if both would need to be there, or if using the new
+          value is sufficient
+          <br>
+          from now on.
+          <br>
+          <br>
+          -Mikko
+          <br>
+          <br>
+          <blockquote type="cite">Signed-off-by: Zheng Ruoqin
+            <a class="moz-txt-link-rfc2396E" href="mailto:zhengrq.fnst@fujitsu.com">&lt;zhengrq.fnst@fujitsu.com&gt;</a>
+            <br>
+            ---
+            <br>
+            &nbsp; meta/recipes-support/db/db_5.3.28.bb | 2 +-
+            <br>
+            &nbsp; 1 file changed, 1 insertion(+), 1 deletion(-)
+            <br>
+            <br>
+            diff --git a/meta/recipes-support/db/db_5.3.28.bb
+            <br>
+            b/meta/recipes-support/db/db_5.3.28.bb
+            <br>
+            index 9cb57e6a53..05720053f4 100644
+            <br>
+            --- a/meta/recipes-support/db/db_5.3.28.bb
+            <br>
+            +++ b/meta/recipes-support/db/db_5.3.28.bb
+            <br>
+            @@ -15,7 +15,7 @@ HOMEPAGE =
+            <br>
+&quot;<a class="moz-txt-link-freetext" href="https://www.oracle.com/database/technologies/related/berkeleydb.html">https://www.oracle.com/database/technologies/related/berkeleydb.html</a>
+            <br>
+            &nbsp; LICENSE = &quot;Sleepycat&quot;
+            <br>
+            &nbsp; RCONFLICTS_${PN} = &quot;db3&quot;
+            <br>
+            <br>
+            -CVE_PRODUCT = &quot;oracle_berkeley_db&quot;
+            <br>
+            +CVE_PRODUCT = &quot;db2&quot;
+            <br>
+            &nbsp; CVE_VERSION = &quot;11.2.${PV}&quot;
+            <br>
+            <br>
+            &nbsp; PR = &quot;r1&quot;
+            <br>
+            --
+            <br>
+            2.25.1
+            <br>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+      <br>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">
+
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------B534655663921321C892DD54--
