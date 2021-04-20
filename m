@@ -1,122 +1,125 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web09.10036.1618921888294091689
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.11488.1618928615582259439
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Apr 2021 05:31:28 -0700
+ Tue, 20 Apr 2021 07:23:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B69NvWqD;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id z2so2058129qkb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 05:31:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fPVZnIeL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id w4so34092532wrt.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 07:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hwMFnhcJK6b87qrPILL92II9LiYrH7Qv6LrkE4zf6uU=;
-        b=B69NvWqDHOe/GDKLC+H3U1Ggq6h/YyXbl3eJx27qG4IYZSRakMicIrce+Aowo1E8M2
-         ctuz18cNkAHumE7eOdzooLR+aBFqhN/YDGiCBXnSblS1H0EfAjao+MkfC+aGF8fL7eAl
-         mOn/eVhOby50DO160fevb18m1t1OTPQ9nMoEgU5HT/P/C+f59p1yLwqKBatApKQ23v55
-         92skUB1551NstuKeagjA98TcNopnzQ7InQjpnlMmH3WOAmBuyVH+fdXaaEiq8eVrQwbO
-         WO8rjqcjPTgJKKyTFqxbLeB5MggQc6hcYvafoGo2+Lhdg3fLHarwHL41k4Y5bNzCr2jK
-         N4gA==
+        bh=5UauEbCgOYHm3IX2AKhPlMTqg6HOo3a3oU+iH2aewAk=;
+        b=fPVZnIeLWiLW0MPVvWwFRy+j9dGgqE3NMdwq+sPY/kngHYJEfUv6K4aH5nuOqVRpXC
+         R7be9cXEZ/fq/Xxk2noUOewqaxGTYRmOpjEibLIHD+nFTLK3aiIYexuEEHhVyHB9c7kq
+         YXLx1ZcWa7rXNkKiokBizseXW8Sqr+kvtEaqk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hwMFnhcJK6b87qrPILL92II9LiYrH7Qv6LrkE4zf6uU=;
-        b=msofOIKbBBRf/WsuYEJ/RN4UdZPshZzTY0E1wpebhq5naWRkKwDDayeP2nm+lO8O64
-         /Yf/f6e/I0DBbkTn2yCxsn147UewphQS5T1nIKO15CidgnMtgio0v7lrX9lsuREJQLwn
-         qeQcMMjzfqD69MRgNaYrYmDaoQ5d8gHBqP/Qu6kD8UbKf2pnaGHpqM0tlBoNbhWCFK/h
-         C3X25qyG48hl7lvMt16ryc7SUDk1J6Se3tgyB0fLyoGjTGvQydJ6nbYEfKvXTfwjkYD8
-         fKWuLi1su//ukxoAIEx10NbJr6ALIy2JKYdkiviyy5FAQZtt0Eu8XNzNpbEglmXQreYj
-         mN8A==
-X-Gm-Message-State: AOAM530+ss/HoHqXrh7ijRzeheX0MJCliGoLb+b31n/wRc8kyv0qJJ1H
-	fk8IUvFSgXGixmCDRuOSu9Y=
-X-Google-Smtp-Source: ABdhPJzJWcd7CD3nJ8D87qgVs1Akfft9LOxDarVejECuNH0UvfCz3h6pN/QHH5Ic34fSjkCKwZNr2g==
-X-Received: by 2002:a37:4042:: with SMTP id n63mr16710347qka.501.1618921887416;
-        Tue, 20 Apr 2021 05:31:27 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from build.lan (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id v65sm12231946qkc.125.2021.04.20.05.31.26
+        bh=5UauEbCgOYHm3IX2AKhPlMTqg6HOo3a3oU+iH2aewAk=;
+        b=XpfYDJ5B78NVG5WYMWOFPfFjYBmTqZsygQbxS7GbFFjXPLgB0g9uZnlX4JAX6Wi0qz
+         gxZf2G2MBKFsQRunjCsdG+X/+kUA6Ex8d+TAvK9dq18gb/wpr6xgdE3XDUeBDcV0BKZL
+         U5XlNPFj5u8rJ4tgiiN31MYTLbHF0rActpeXbMnXpZVwssWahauv5E+tFG/TDNLKb5Kt
+         mtNkidFw0aRoMYpVXkZKepwFvFw9/bmgANP4/RCxwQR427cN87f0a80PGK/uUAaOnkVL
+         Oe0qEUlqrHkcFJvWVzhqRO5rJjRaS5k6HTbiFagJj8jBC87LyJMqBMR7ijZfy3oIffes
+         WSVA==
+X-Gm-Message-State: AOAM530x171U0PBlXDSoVjlguT2h/AXudhXknGNJpTBPqh8Joycy/tW8
+	fnFoQ/c928PbGHeNXtp7QpsLnoOcWm7o2g==
+X-Google-Smtp-Source: ABdhPJyI0KvIz8LaVhrFyTFA+5/35aPefxJLAJRs2jZrnNGjzVBkZff0Xx5oJV8qXEZTUgbCUh2FRg==
+X-Received: by 2002:a5d:564a:: with SMTP id j10mr21296417wrw.108.1618928613885;
+        Tue, 20 Apr 2021 07:23:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e28b:7bcb:6782:eaf2])
+        by smtp.gmail.com with ESMTPSA id n18sm21327518wrw.11.2021.04.20.07.23.33
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 05:31:27 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/5.10: fix arm defconfig warnings
-Date: Tue, 20 Apr 2021 08:31:26 -0400
-Message-Id: <20210420123126.63409-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Tue, 20 Apr 2021 07:23:33 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] patchelf: Backport fix from upstream for note section overlap error
+Date: Tue, 20 Apr 2021 15:23:33 +0100
+Message-Id: <20210420142333.1518359-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Backport a patch from upstream to fix an error:
+patchelf: cannot normalize PT_NOTE segment: non-contiguous SHT_NOTE sections
 
-A recent fix to the kern-tools promoted some previously unseen
-issues to warnings. This commit fixes them by tagging some BT
-options as non-hardware so they won't generate warnings if they
-don't appear in the final .config. These are sub BT options and
-shouldn't warn when/if their controlling option is disabled by
-a fragment.
+seen on our ubuntu1604 autobuilder worker.
 
-    40a967b115f base: exclude some BT options as non-hardware
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 12 ++++++------
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ ...c83653ce1b5fc201ff6db93b966394766814.patch | 44 +++++++++++++++++++
+ .../patchelf/patchelf_0.12.bb                 |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/6edec83653ce1b5fc201ff6db93b966394766814.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 20faff811a..dacff74bce 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-devtools/patchelf/patchelf/6edec83653ce1b5fc201ff6db93b966394766814.patch b/meta/recipes-devtools/patchelf/patchelf/6edec83653ce1b5fc201ff6db93b966394766814.patch
+new file mode 100644
+index 00000000000..ba35ec6ffcd
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/6edec83653ce1b5fc201ff6db93b966394766814.patch
+@@ -0,0 +1,44 @@
++From 6edec83653ce1b5fc201ff6db93b966394766814 Mon Sep 17 00:00:00 2001
++From: rmnull <rmnull@users.noreply.github.com>
++Date: Tue, 18 Aug 2020 20:22:52 +0530
++Subject: [PATCH] mark phdrs synced with sections, avoid rechecking it when
++ syncing note sections to segments.
++
++This also serves as a bug fix when a previously synced note segment
++overlaps with another section and creates a false alarm.
++
++Upstream-Status: Backport
++---
++ src/patchelf.cc | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/src/patchelf.cc b/src/patchelf.cc
++index 05ec793..622f0b6 100644
++--- a/src/patchelf.cc
+++++ b/src/patchelf.cc
++@@ -669,6 +669,7 @@ void ElfFile<ElfFileParamNames>::writeReplacedSections(Elf_Off & curOff,
++             memset(contents + rdi(shdr.sh_offset), 'X', rdi(shdr.sh_size));
++     }
++ 
+++    std::set<unsigned int> noted_phdrs = {};
++     for (auto & i : replacedSections) {
++         std::string sectionName = i.first;
++         auto & shdr = findSection(sectionName);
++@@ -721,7 +722,7 @@ void ElfFile<ElfFileParamNames>::writeReplacedSections(Elf_Off & curOff,
++                 shdr.sh_addralign = orig_shdr.sh_addralign;
++ 
++             for (unsigned int j = 0; j < phdrs.size(); ++j)
++-                if (rdi(phdrs[j].p_type) == PT_NOTE) {
+++                if (rdi(phdrs[j].p_type) == PT_NOTE && noted_phdrs.find(j) == noted_phdrs.end()) {
++                     Elf_Off p_start = rdi(phdrs[j].p_offset);
++                     Elf_Off p_end = p_start + rdi(phdrs[j].p_filesz);
++                     Elf_Off s_start = rdi(orig_shdr.sh_offset);
++@@ -739,6 +740,8 @@ void ElfFile<ElfFileParamNames>::writeReplacedSections(Elf_Off & curOff,
++                     phdrs[j].p_offset = shdr.sh_offset;
++                     phdrs[j].p_vaddr = phdrs[j].p_paddr = shdr.sh_addr;
++                     phdrs[j].p_filesz = phdrs[j].p_memsz = shdr.sh_size;
+++
+++                    noted_phdrs.insert(j);
++                 }
++         }
++ 
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.12.bb b/meta/recipes-devtools/patchelf/patchelf_0.12.bb
+index 95886c6d3a9..2eb09aee321 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.12.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.12.bb
+@@ -6,6 +6,7 @@ LICENSE = "GPLv3"
  
- SRCREV_machine ?= "ac98a75ef2bc550f67454bd738ede581c8846ff3"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https \
+            file://handle-read-only-files.patch \
++           file://6edec83653ce1b5fc201ff6db93b966394766814.patch \
+            "
+ SRCREV = "8d3a16e97294e3c5521c61b4c8835499c9918264"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 54575a7917..21a2e89115 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "ee7efde0c94e8b2eba1a5a2709f2d21874ac7525"
- SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index e93e41c69b..e6859a2319 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -17,13 +17,13 @@ SRCREV_machine_qemuarm ?= "4f13e8499f2bfc9d95dcc70b981ea16351ff088b"
- SRCREV_machine_qemuarm64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
- SRCREV_machine_qemumips ?= "64f8949180b1a6375abef20eebf735e853701c71"
- SRCREV_machine_qemuppc ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemuriscv64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemuriscv32 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemux86 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemux86-64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
-+SRCREV_machine_qemuriscv64 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemuriscv32 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemux86 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemux86-64 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
- SRCREV_machine_qemumips64 ?= "6bf49ed9b223173d918b7c0140b8d0561bc2674c"
--SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_machine ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.19.1
+2.30.2
 
