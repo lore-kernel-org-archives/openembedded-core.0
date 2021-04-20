@@ -1,51 +1,668 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.4911.1618885975554050370
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.5197.1618888007456629510
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 19:32:55 -0700
+ Mon, 19 Apr 2021 20:06:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13K2WrZO007297
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 19:32:53 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: GWeTL0R+5uBKtHDvq77QLhgoAMUIT/9OYmj6szuFDExxq9F9pjDBKYsV6NV38t62osZggBtzmx
+ crjnDomqOdqg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="216018274"
+X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; 
+   d="scan'208";a="216018274"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2021 20:06:46 -0700
+IronPort-SDR: NwU8dJ5wLriTLz6k5MerYN6/4ysKO/hiCmB0LPycvGQrJwECA858w1gSkJE7MN8m5g9EQRcbfF
+ 1Pr0MC1e1ZHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,235,1613462400"; 
+   d="scan'208";a="400850338"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by orsmga002.jf.intel.com with ESMTP; 19 Apr 2021 20:06:45 -0700
+Received: from kmsmsx603.gar.corp.intel.com (172.21.219.143) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 19 Apr 2021 19:32:52 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Mon, 19 Apr 2021 19:32:52 -0700
-From: "Chen Qi" <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] db: update CVE_PRODUCT
-Date: Mon, 19 Apr 2021 19:32:52 -0700
-Message-ID: <20210420023252.61501-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.30.2
+ 15.1.2106.2; Tue, 20 Apr 2021 11:06:44 +0800
+Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143]) by
+ kmsmsx603.gar.corp.intel.com ([172.21.219.143]) with mapi id 15.01.2106.013;
+ Tue, 20 Apr 2021 11:06:44 +0800
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 08/10] linux-yocto/5.10: update to v5.10.30
+Thread-Topic: [OE-core] [PATCH 08/10] linux-yocto/5.10: update to v5.10.30
+Thread-Index: AQHXNK/nImLateNKKESy/LmEMvSB1qq8t0Kw
+Date: Tue, 20 Apr 2021 03:06:44 +0000
+Message-ID: <fa358a51084541f680e207decb3dfce9@intel.com>
+References: <cover.1618790681.git.bruce.ashfield@gmail.com>
+ <dab3836af8929831877267bce046b1720ba0bc1e.1618790681.git.bruce.ashfield@gmail.com>
+In-Reply-To: <dab3836af8929831877267bce046b1720ba0bc1e.1618790681.git.bruce.ashfield@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Update CVE_PRODUCT to also include 'berkeley_db'. For example,
-CVE-2020-2981 uses 'berkeley_db'.
+[SWAT]
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-support/db/db_5.3.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Kernel config warnings  for 'n1sdp' machine from meta-arm build:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/911/step=
+s/12/logs/stdio
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index 9cb57e6a53..b2ae98f05c 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -15,7 +15,7 @@ HOMEPAGE = "https://www.oracle.com/database/technologies/related/berkeleydb.html
- LICENSE = "Sleepycat"
- RCONFLICTS_${PN} = "db3"
- 
--CVE_PRODUCT = "oracle_berkeley_db"
-+CVE_PRODUCT = "oracle_berkeley_db berkeley_db"
- CVE_VERSION = "11.2.${PV}"
- 
- PR = "r1"
--- 
-2.30.2
+WARNING: linux-yocto-5.10.30+gitAUTOINC+b7125842b7_8465e471f5-r0 do_kernel_=
+configcheck: [kernel config]: specified values did not make it into the ker=
+nel's final configuration:
+
+    [NOTE]: 'CONFIG_ACPI_APEI_PCIEAER' last val (y) and .config val (n) do =
+not match
+    [INFO]: CONFIG_ACPI_APEI_PCIEAER : n=20
+    [INFO]: raw config text:
+
+        config ACPI_APEI_PCIEAER
+        	bool "APEI PCIe AER logging/recovering support"
+        	depends on ACPI_APEI && PCIEAER && ACPI
+        	help
+        	  PCIe AER errors may be reported via APEI firmware first mode.
+        	  Turn on this option to enable the corresponding support.
+
+        Config 'ACPI_APEI_PCIEAER' has the following Direct dependencies (A=
+CPI_APEI_PCIEAER=3Dn):
+                ACPI_APEI(=3Dy) && PCIEAER(=3Dn) && ACPI(=3Dy)
+        Parent dependencies are:
+             PCIEAER [n] ACPI [y] ACPI_APEI [y]
+    [INFO]: config 'CONFIG_ACPI_APEI_PCIEAER' was set, but it wasn't assign=
+able, check (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_BT_HCIBTUSB' last val (m) and .config val (n) do not ma=
+tch
+    [INFO]: CONFIG_BT_HCIBTUSB : n=20
+    [INFO]: raw config text:
+
+        config BT_HCIBTUSB
+        	tristate "HCI USB driver"
+        	select BT_INTEL
+        	depends on USB && BT && NET
+        	help
+        	  Bluetooth HCI USB driver.
+        	  This driver is required if you want to use Bluetooth devices wit=
+h
+        	  USB interface.
+	 =20
+        	  Say Y here to compile support for Bluetooth USB devices into the
+        	  kernel or say M to compile it as module (btusb).
+
+        Config 'BT_HCIBTUSB' has the following Direct dependencies (BT_HCIB=
+TUSB=3Dn):
+                USB(=3Dy) && BT(=3Dn) && NET(=3Dy)
+        Parent dependencies are:
+             BT [n] USB [y] NET [y]
+    [INFO]: config 'CONFIG_BT_HCIBTUSB' was set, but it wasn't assignable, =
+check (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_BT_HCIUART' last val (m) and .config val (n) do not mat=
+ch
+    [INFO]: CONFIG_BT_HCIUART : n=20
+    [INFO]: raw config text:
+
+        config BT_HCIUART
+        	tristate "HCI UART driver"
+        	depends on (SERIAL_DEV_BUS || !SERIAL_DEV_BUS) && (NVMEM || !NVMEM=
+) && TTY && BT && NET
+        	help
+        	  Bluetooth HCI UART driver.
+        	  This driver is required if you want to use Bluetooth devices wit=
+h
+        	  serial port interface. You will also need this driver if you hav=
+e
+        	  UART based Bluetooth PCMCIA and CF devices like Xircom Credit Ca=
+rd
+        	  adapter and BrainBoxes Bluetooth PC Card.
+	 =20
+        	  Say Y here to compile support for Bluetooth UART devices into th=
+e
+        	  kernel or say M to compile it as module (hci_uart).
+
+        Config 'BT_HCIUART' has the following Direct dependencies (BT_HCIUA=
+RT=3Dn):
+                SERIAL_DEV_BUS(=3Dy) || !SERIAL_DEV_BUS(=3Dy) (=3Dy) && NVM=
+EM(=3Dy) || !NVMEM(=3Dy) (=3Dy) && TTY(=3Dy) && BT(=3Dn) && NET(=3Dy)
+        Parent dependencies are:
+             BT [n] NVMEM [y] TTY [y] NET [y] SERIAL_DEV_BUS [y]
+    [INFO]: config 'CONFIG_BT_HCIUART' was set, but it wasn't assignable, c=
+heck (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_BT_HCIUART_LL' last val (y) and .config val (n) do not =
+match
+    [INFO]: CONFIG_BT_HCIUART_LL : n=20
+    [INFO]: raw config text:
+
+        config BT_HCIUART_LL
+        	bool "HCILL protocol support"
+        	select BT_HCIUART_H4
+        	depends on BT_HCIUART_SERDEV && BT && NET
+        	help
+        	  HCILL (HCI Low Level) is a serial protocol for communication
+        	  between Bluetooth device and host. This protocol is required for
+        	  serial Bluetooth devices that are based on Texas Instruments'
+        	  BRF chips.
+	 =20
+        	  Say Y here to compile support for HCILL protocol.
+
+        Config 'BT_HCIUART_LL' has the following Direct dependencies (BT_HC=
+IUART_LL=3Dn):
+                BT_HCIUART_SERDEV(=3Dn) && BT(=3Dn) && NET(=3Dy)
+        Parent dependencies are:
+             BT_HCIUART_SERDEV [n] BT [n] NET [y]
+    [INFO]: config 'CONFIG_BT_HCIUART_LL' was set, but it wasn't assignable=
+, check (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_BT_HCIUART_BCM' last val (y) and .config val (n) do not=
+ match
+    [INFO]: CONFIG_BT_HCIUART_BCM : n=20
+    [INFO]: raw config text:
+
+        config BT_HCIUART_BCM
+        	bool "Broadcom protocol support"
+        	select BT_HCIUART_H4
+        	select BT_BCM
+        	depends on BT_HCIUART && BT_HCIUART_SERDEV && (!ACPI || SERIAL_DEV=
+_CTRL_TTYPORT) && GPIOLIB && BT && NET
+        	help
+        	  The Broadcom protocol support enables Bluetooth HCI over serial
+        	  port interface for Broadcom Bluetooth controllers.
+	 =20
+        	  Say Y here to compile support for Broadcom protocol.
+
+        Config 'BT_HCIUART_BCM' has the following Direct dependencies (BT_H=
+CIUART_BCM=3Dn):
+                BT_HCIUART(=3Dn) && BT_HCIUART_SERDEV(=3Dn) && !ACPI(=3Dy) =
+|| SERIAL_DEV_CTRL_TTYPORT(=3Dy) (=3Dy) && GPIOLIB(=3Dy) && BT(=3Dn) && NET=
+(=3Dy)
+        Parent dependencies are:
+             BT [n] ACPI [y] BT_HCIUART [n] GPIOLIB [y] NET [y] BT_HCIUART_=
+SERDEV [n] SERIAL_DEV_CTRL_TTYPORT [y]
+    [INFO]: config 'CONFIG_BT_HCIUART_BCM' was set, but it wasn't assignabl=
+e, check (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_BT_HCIUART_QCA' last val (y) and .config val (n) do not=
+ match
+    [INFO]: CONFIG_BT_HCIUART_QCA : n=20
+    [INFO]: raw config text:
+
+        config BT_HCIUART_QCA
+        	bool "Qualcomm Atheros protocol support"
+        	select BT_HCIUART_H4
+        	select BT_QCA
+        	depends on BT_HCIUART && BT_HCIUART_SERDEV && BT && NET
+        	help
+        	  The Qualcomm Atheros protocol supports HCI In-Band Sleep feature
+        	  over serial port interface(H4) between controller and host.
+        	  This protocol is required for UART clock control for QCA Bluetoo=
+th
+        	  devices.
+	 =20
+        	  Say Y here to compile support for QCA protocol.
+
+        Config 'BT_HCIUART_QCA' has the following Direct dependencies (BT_H=
+CIUART_QCA=3Dn):
+                BT_HCIUART(=3Dn) && BT_HCIUART_SERDEV(=3Dn) && BT(=3Dn) && =
+NET(=3Dy)
+        Parent dependencies are:
+             BT [n] BT_HCIUART [n] NET [y] BT_HCIUART_SERDEV [n]
+    [INFO]: config 'CONFIG_BT_HCIUART_QCA' was set, but it wasn't assignabl=
+e, check (parent) dependencies
+
+
+    [NOTE]: 'CONFIG_LEGACY_PTY_COUNT' last val (16) and .config val (n) do =
+not match
+    [INFO]: CONFIG_LEGACY_PTY_COUNT : n=20
+    [INFO]: raw config text:
+
+        config LEGACY_PTY_COUNT
+        	int "Maximum number of legacy PTY in use"
+        	range 0 256
+        	default "256"
+        	depends on LEGACY_PTYS && TTY
+        	help
+        	  The maximum number of legacy PTYs that can be used at any one ti=
+me.
+        	  The default is 256, and should be more than enough.  Embedded
+        	  systems may want to reduce this to save memory.
+	 =20
+        	  When not in use, each legacy PTY occupies 12 bytes on 32-bit
+        	  architectures and 24 bytes on 64-bit architectures.
+
+        Config 'LEGACY_PTY_COUNT' has the following Direct dependencies (LE=
+GACY_PTY_COUNT=3Dn):
+                LEGACY_PTYS(=3Dn) && TTY(=3Dy)
+        Parent dependencies are:
+             256 [256] TTY [y] LEGACY_PTYS [n] 256 [256] 0 [0]
+    [INFO]: config 'CONFIG_LEGACY_PTY_COUNT' was set, but it wasn't assigna=
+ble, check (parent) dependencies
+
+
+
+
+
+
+
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Bruce Ashfield
+> Sent: Monday, April 19, 2021 8:07 AM
+> To: richard.purdie@linuxfoundation.org
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 08/10] linux-yocto/5.10: update to v5.10.30
+>=20
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>=20
+> Updating linux-yocto/5.10 to the latest korg -stable release that compris=
+es
+> the following commits:
+>=20
+>     1e798745fa8e Linux 5.10.30
+>     b451aed56348 Revert "net: sched: bump refcount for new action in ACT
+> replace mode"
+>     a22115c3492f net: ieee802154: stop dump llsec params for monitors
+>     f872fb3feadd net: ieee802154: forbid monitor for del llsec seclevel
+>     a933bcbb1f7f net: ieee802154: forbid monitor for set llsec params
+>     0238c7b47f77 net: ieee802154: fix nl802154 del llsec devkey
+>     d06a96e72803 net: ieee802154: fix nl802154 add llsec key
+>     399f38c420ee net: ieee802154: fix nl802154 del llsec dev
+>     07699fcce052 net: ieee802154: fix nl802154 del llsec key
+>     8bfb45fa131d net: ieee802154: nl-mac: fix check on panid
+>     38731bbcd9f0 net: mac802154: Fix general protection fault
+>     9f51a42d81f6 drivers: net: fix memory leak in peak_usb_create_dev
+>     160ac0d55d52 drivers: net: fix memory leak in atusb_probe
+>     4d9117b7404a net: tun: set tun->dev->addr_len during TUNSETLINK
+> processing
+>     26ab092615f5 cfg80211: remove WARN_ON() in cfg80211_sme_connect
+>     138a6e1dc35e gpiolib: Read "gpio-line-names" from a firmware node
+>     300368c59cf0 net: sched: bump refcount for new action in ACT replace
+> mode
+>     982dd14fba0f dt-bindings: net: ethernet-controller: fix typo in NVMEM
+>     c65a000a236e lockdep: Address clang -Wformat warning printing for %hd
+>     4c4aa344edf4 clk: socfpga: fix iomem pointer cast on 64-bit
+>     674ddb52f94b RAS/CEC: Correct ce_add_elem()'s returned values
+>     253acf2e983b vdpa/mlx5: Fix wrong use of bit numbers
+>     0ddb34c2ccce vdpa/mlx5: should exclude header length and fcs from mtu
+>     5700c3d4abb2 RDMA/addr: Be strict with gid size
+>     e53ff6e59144 i40e: Fix parameters in aq_get_phy_register()
+>     999852207464 drm/vc4: crtc: Reduce PV fifo threshold on hvs4
+>     d8a0861e269d RDMA/qedr: Fix kernel panic when trying to access recv_c=
+q
+>     3fa7ae3f3754 perf report: Fix wrong LBR block sorting
+>     7f40e9332898 RDMA/cxgb4: check for ipv6 address properly while
+> destroying listener
+>     03ad6a2521a0 net/mlx5: Fix PBMC register mapping
+>     1312f11eb33d net/mlx5: Fix PPLM register mapping
+>     f92faf0bdd25 net/mlx5: Fix placement of log_max_flow_counter
+>     f780a0808827 net: hns3: clear VF down state bit before request link s=
+tatus
+>     f473789db536 tipc: increment the tmp aead refcnt before attaching it
+>     3292c4fc9ce2 can: mcp251x: fix support for half duplex SPI host contr=
+ollers
+>     a96f1ed70927 iwlwifi: fix 11ax disabled bit in the regulatory capabil=
+ity flags
+>     363d610a9652 i2c: designware: Adjust bus_freq_hz when refuse high
+> speed mode set
+>     cc5418973cc9 openvswitch: fix send of uninitialized stack memory in c=
+t limit
+> reply
+>     3e288c3a7d55 net: openvswitch: conntrack: simplify the return express=
+ion
+> of ovs_ct_limit_get_default_limit()
+>     3b70c6f26364 perf inject: Fix repipe usage
+>     d9dc1b406cb9 s390/cpcmd: fix inline assembly register clobbering
+>     7943f749f0d2 workqueue: Move the position of debug_work_activate() in
+> __queue_work()
+>     b3f29ed5dd4b clk: fix invalid usage of list cursor in unregister
+>     2307baac56af clk: fix invalid usage of list cursor in register
+>     d9c55b2d3368 net: macb: restore cmp registers on resume path
+>     af36da5becfb net: cls_api: Fix uninitialised struct field bo-
+> >unlocked_driver_cb
+>     ffd5f1e87c15 scsi: ufs: core: Fix wrong Task Tag used in task managem=
+ent
+> request UPIUs
+>     ff9231ddfec8 scsi: ufs: core: Fix task management request completion
+> timeout
+>     71ee255d0698 mptcp: forbit mcast-related sockopt on MPTCP sockets
+>     24bbfe89b1c7 net: udp: Add support for getsockopt(..., ..., UDP_GRO, =
+...,
+> ...);
+>     a08d5d3bec53 drm/msm: Set drvdata to NULL when msm_drm_init() fails
+>     7290bf419894 RDMA/rtrs-clt: Close rtrs client conn before destroying =
+rtrs clt
+> session files
+>     49cfa2b20193 i40e: Fix display statistics for veb_tc
+>     e8c96b57a781 soc/fsl: qbman: fix conflicting alignment attributes
+>     553290002aa8 xdp: fix xdp_return_frame() kernel BUG throw for
+> page_pool memory model
+>     4cfae7b23889 net/rds: Fix a use after free in rds_message_map_pages
+>     05bbe9d85a4c net/mlx5: Don't request more than supported EQs
+>     86530effd18f net/mlx5e: Fix ethtool indication of connector type
+>     bde64eac2379 net/mlx5e: Fix mapping of ct_label zero
+>     d65b66ca3334 ASoC: sunxi: sun4i-codec: fill ASoC card owner
+>     dcdf0876b040 I2C: JZ4780: Fix bug for Ingenic X1000.
+>     f295dfc831bc net: phy: broadcom: Only advertise EEE for supported mod=
+es
+>     7a896e189361 nfp: flower: ignore duplicate merge hints from FW
+>     6af631d1caf2 net: qrtr: Fix memory leak on qrtr_tx_wait failure
+>     dfe7805e6aa6 net/ncsi: Avoid channel_monitor hrtimer deadlock
+>     ae4a8d10ac8b ARM: dts: imx6: pbab01: Set vmmc supply for both SD
+> interfaces
+>     e5e5ecc9d9fd net:tipc: Fix a double free in tipc_sk_mcast_rcv
+>     f273e3726e14 cxgb4: avoid collecting SGE_QBASE regs during traffic
+>     63a64c366ce0 net: dsa: Fix type was not set for devlink port
+>     ed613d96842e gianfar: Handle error code at MAC address change
+>     1eb5f4e00755 ethernet: myri10ge: Fix a use after free in myri10ge_sw_=
+tso
+>     759b44d247c6 mlxsw: spectrum: Fix ECN marking in tunnel decapsulation
+>     d02b68a92905 can: isotp: fix msg_namelen values depending on
+> CAN_REQUIRED_SIZE
+>     1d3837ca7335 can: bcm/raw: fix msg_namelen values depending on
+> CAN_REQUIRED_SIZE
+>     58f8f1074039 xfrm: Provide private skb extensions for segmented and h=
+w
+> offloaded ESP packets
+>     bc0b89a9a28f arm64: dts: imx8mm/q: Fix pad control of SD1_DATA0
+>     d9670f5e77e5 drivers/net/wan/hdlc_fr: Fix a double free in pvc_xmit
+>     d38bce5adcd9 sch_red: fix off-by-one checks in red_check_params()
+>     985c9bb1b594 geneve: do not modify the shared tunnel info when PMTU
+> triggers an ICMP reply
+>     f3bc1885746f vxlan: do not modify the shared tunnel info when PMTU
+> triggers an ICMP reply
+>     f33f79703a4e amd-xgbe: Update DMA coherency values
+>     e5a3449ce16a hostfs: fix memory handling in follow_link()
+>     3cc4db1213a4 i40e: Fix kernel oops when i40e driver removes VF's
+>     9856607c9c29 i40e: Added Asym_Pause to supported link modes
+>     d4d4c6a4ca7c virtchnl: Fix layout of RSS structures
+>     95d58bf5ed43 xfrm: Fix NULL pointer dereference on policy lookup
+>     48a443026bb6 ASoC: wm8960: Fix wrong bclk and lrclk with pll enabled =
+for
+> some chips
+>     f6db9dbfa6b6 ASoC: SOF: Intel: HDA: fix core status verification
+>     ef4ddd1d6d93 esp: delete NETIF_F_SCTP_CRC bit from features for esp
+> offload
+>     0224432a8fc1 net: xfrm: Localize sequence counter per network
+> namespace
+>     1e6a3b41cf2a ARM: OMAP4: PM: update ROM return address for OSWR
+> and OFF
+>     042b2cad81de ARM: OMAP4: Fix PMIC voltage domains for bionic
+>     1f51cb88e788 regulator: bd9571mwv: Fix AVS and DVFS voltage range
+>     b267688ce007 remoteproc: qcom: pil_info: avoid 64-bit division
+>     c7a175a24b0e xfrm: Use actual socket sk instead of skb socket for
+> xfrm_output_resume
+>     3b74ce529ece xfrm: interface: fix ipv4 pmtu check to honor ip header =
+df
+>     2d62d6980c2b ice: Recognize 860 as iSCSI port in CEE mode
+>     fd92e7aacc16 ice: Refactor DCB related variables out of the ice_port_=
+info
+> struct
+>     4a78ae127803 net: sched: fix err handler in tcf_action_init()
+>     3c7d3d188ca7 KVM: x86/mmu: preserve pending TLB flush across calls to
+> kvm_tdp_mmu_zap_sp
+>     25fc773b21ce KVM: x86/mmu: Don't allow TDP MMU to yield when
+> recovering NX pages
+>     be2c527b5d39 KVM: x86/mmu: Ensure TLBs are flushed for TDP MMU
+> during NX zapping
+>     0aa4dd9e5132 KVM: x86/mmu: Ensure TLBs are flushed when yielding
+> during GFN range zap
+>     3c7a18440638 KVM: x86/mmu: Yield in TDU MMU iter even if no SPTES
+> changed
+>     85f4ff2b06af KVM: x86/mmu: Ensure forward progress when yielding in
+> TDP MMU iter
+>     1cd17c5c9b8a KVM: x86/mmu: Rename goal_gfn to next_last_level_gfn
+>     b4a3a0d27924 KVM: x86/mmu: Merge flush and non-flush
+> tdp_mmu_iter_cond_resched
+>     8f90432d7f59 KVM: x86/mmu: change TDP MMU yield function returns to
+> match cond_resched
+>     5ea9e6038d29 i2c: turn recovery error on init to debug
+>     efa869b68be9 percpu: make pcpu_nr_empty_pop_pages per chunk type
+>     c441949184a9 scsi: target: iscsi: Fix zero tag inside a trace event
+>     d8e7fa8509d7 scsi: pm80xx: Fix chip initialization failure
+>     0c47d8a55f7f driver core: Fix locking bug in
+> deferred_probe_timeout_work_func()
+>     f06cb4641b15 usbip: synchronize event handler with sysfs code paths
+>     28dc9237fe83 usbip: vudc synchronize sysfs code paths
+>     513765b186c9 usbip: stub-dev synchronize sysfs code paths
+>     68be610c19a5 usbip: add sysfs_lock to synchronize sysfs code paths
+>     126ce97d39cf thunderbolt: Fix off by one in tb_port_find_retimer()
+>     256ece954961 thunderbolt: Fix a leak in tb_retimer_add()
+>     b830650c1a0c net: let skb_orphan_partial wake-up waiters.
+>     5d9216b85100 net-ipv6: bugfix - raw & sctp - switch to
+> ipv6_can_nonlocal_bind()
+>     b82816d77875 net: hsr: Reset MAC header for Tx path
+>     9b9c910ccc19 mac80211: fix TXQ AC confusion
+>     cc357c29358d mac80211: fix time-is-after bug in mlme
+>     cc1a702e6ec0 cfg80211: check S1G beacon compat element length
+>     fea52345f422 nl80211: fix potential leak of ACL params
+>     42e4450e3790 nl80211: fix beacon head validation
+>     81692c6add7e net: sched: fix action overwrite reference counting
+>     cdcf3829f418 net: sched: sch_teql: fix null-pointer dereference
+>     422eda625516 vdpa/mlx5: Fix suspend/resume index restoration
+>     89e406e95278 i40e: Fix sparse errors in i40e_txrx.c
+>     12e1438a0946 i40e: Fix sparse error: uninitialized symbol 'ring'
+>     2472ba1c46b4 i40e: Fix sparse error: 'vsi->netdev' could be null
+>     792387118204 i40e: Fix sparse warning: missing error code 'err'
+>     f0b4c9acf5fe net: ensure mac header is set in virtio_net_hdr_to_skb()
+>     72c5de25ba83 bpf, sockmap: Fix incorrect fwd_alloc accounting
+>     00c01de1a994 bpf, sockmap: Fix sk->prot unhash op reset
+>     d921baabd964 bpf: Refcount task stack in bpf_get_task_stack
+>     caef7806141a libbpf: Only create rx and tx XDP rings when necessary
+>     4cc9177b099e libbpf: Restore umem state after socket create failure
+>     5aa7df172207 libbpf: Ensure umem pointer is non-NULL before
+> dereferencing
+>     b52e88638f71 ethernet/netronome/nfp: Fix a use after free in
+> nfp_bpf_ctrl_msg_rx
+>     d86046a77535 bpf: link: Refuse non-O_RDWR flags in BPF_OBJ_GET
+>     b7004ecafade bpf: Enforce that struct_ops programs be GPL-only
+>     3015db3de715 libbpf: Fix bail out from 'ringbuf_process_ring()' on er=
+ror
+>     dc195928d7e4 net: hso: fix null-ptr-deref during tty device unregistr=
+ation
+>     c2743e0a631c ice: fix memory leak of aRFS after resuming from suspend
+>     6bd4e822925d iwlwifi: pcie: properly set LTR workarounds on 22000 dev=
+ices
+>     e5386e87f8aa ice: Cleanup fltr list in case of allocation issues
+>     9d1c342c5018 ice: Use port number instead of PF ID for WoL
+>     b69686110291 ice: Fix for dereference of NULL pointer
+>     4d73a6143d40 ice: remove DCBNL_DEVRESET bit from PF state
+>     286830a8469c ice: fix memory allocation call
+>     4686a26e9536 ice: prevent ice_open and ice_stop during reset
+>     ef7ed8c77d1c ice: Increase control queue timeout
+>     6590b7bfbc2b ice: Continue probe on link/PHY errors
+>     9a7bc0c40367 batman-adv: initialize "struct batadv_tvlv_tt_vlan_data"=
+-
+> >reserved field
+>     d1173effc574 ARM: dts: turris-omnia: configure LED[2]/INTn pin as
+> interrupt pin
+>     4941889535f3 parisc: avoid a warning on u8 cast for cmpxchg on u8 poi=
+nters
+>     597121792eb4 parisc: parisc-agp requires SBA IOMMU driver
+>     9b54dad28def of: property: fw_devlink: do not link ".*,nr-gpios"
+>     009c5665278b ethtool: fix incorrect datatype in set_eee ops
+>     3a675c1b507f fs: direct-io: fix missing sdio->boundary
+>     b1a5122554ae ocfs2: fix deadlock between setattr and dio_end_io_write
+>     4fabcf229477 nds32: flush_dcache_page: use page_mapping_file to avoid
+> races with swapoff
+>     7d9da660affc ia64: fix user_stack_pointer() for ptrace()
+>     8e5bfafedf6d gcov: re-fix clang-11+ support
+>     43908139368e LOOKUP_MOUNTPOINT: we are cleaning "jumped" flag too
+> late
+>     de427b662bfb IB/hfi1: Fix probe time panic when AIP is enabled with a
+> buggy BIOS
+>     856f60e3e800 ACPI: processor: Fix build when
+> CONFIG_ACPI_PROCESSOR=3Dm
+>     8599a39adca8 drm/i915: Fix invalid access to ACPI _DSM objects
+>     bf991df9535e net: dsa: lantiq_gswip: Configure all remaining
+> GSWIP_MII_CFG bits
+>     c4ae852ec940 net: dsa: lantiq_gswip: Don't use PHY auto polling
+>     ba39959bfebd net: dsa: lantiq_gswip: Let GSWIP automatically set the =
+xMII
+> clock
+>     40375bc3d0f9 net: ipv6: check for validity before dereferencing cfg-
+> >fc_nlinfo.nlh
+>     005c5afa9f85 xen/evtchn: Change irq_info lock to raw_spinlock_t
+>     a28124e8ad03 selinux: fix race between old and new sidtab
+>     fd75d73aa214 selinux: fix cond_list corruption when changing booleans
+>     4f29b08e238f selinux: make nslot handling in avtab more robust
+>     a12a2fa9a129 nfc: Avoid endless loops caused by repeated
+> llcp_sock_connect()
+>     568ac94df580 nfc: fix memory leak in llcp_sock_connect()
+>     99b596199e84 nfc: fix refcount leak in llcp_sock_connect()
+>     6fb003e5ae18 nfc: fix refcount leak in llcp_sock_bind()
+>     117557711974 ASoC: intel: atom: Stop advertising non working S24LE
+> support
+>     c4a6fb0e8389 ALSA: hda/conexant: Apply quirk for another HP ZBook G5
+> model
+>     6c9119de7ffe ALSA: hda/realtek: Fix speaker amp setup on Acer Aspire =
+E1
+>     6efe4c1f4d17 ALSA: aloop: Fix initialization of controls
+>     4c933ff31f21 xfrm/compat: Cleanup WARN()s that can be user-triggered
+>=20
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+>  .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+>  meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+>  3 files changed, 19 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+> b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+> index ce88554830..b22eb94e41 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+> @@ -11,13 +11,13 @@ python () {
+>          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel=
+ to
+> linux-yocto-rt to enable it")  }
+>=20
+> -SRCREV_machine ?=3D "a1cb83d2e69b4c895cefa0e8716c8e9021d757bf"
+> -SRCREV_meta ?=3D "6dbb20d3127b3380779a11b1552429c5d4a0417e"
+> +SRCREV_machine ?=3D "60ca2b8c07383a2d46fef1b668e34dff90c1b404"
+> +SRCREV_meta ?=3D "b7125842b7ce188e7846a49fcb15a71c54806d6c"
+>=20
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-
+> yocto.git;branch=3D${KBRANCH};name=3Dmachine \
+>             git://git.yoctoproject.org/yocto-kernel-
+> cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-5.10;destsuffix=3D${KMETA}"
+>=20
+> -LINUX_VERSION ?=3D "5.10.29"
+> +LINUX_VERSION ?=3D "5.10.30"
+>=20
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e46"
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+> b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+> index 3581f3b4b0..54575a7917 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
+> @@ -6,7 +6,7 @@ KCONFIG_MODE =3D "--allnoconfig"
+>=20
+>  require recipes-kernel/linux/linux-yocto.inc
+>=20
+> -LINUX_VERSION ?=3D "5.10.29"
+> +LINUX_VERSION ?=3D "5.10.30"
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e46"
+>=20
+>  DEPENDS +=3D "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '',=
+ d)}"
+> @@ -15,9 +15,9 @@ DEPENDS +=3D "openssl-native util-linux-native"
+>  KMETA =3D "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL =3D "2"
+>=20
+> -SRCREV_machine_qemuarm ?=3D
+> "bbc9efbcc604d823555794878f966b2ad7e5f4ca"
+> -SRCREV_machine ?=3D "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_meta ?=3D "6dbb20d3127b3380779a11b1552429c5d4a0417e"
+> +SRCREV_machine_qemuarm ?=3D
+> "ee7efde0c94e8b2eba1a5a2709f2d21874ac7525"
+> +SRCREV_machine ?=3D "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_meta ?=3D "b7125842b7ce188e7846a49fcb15a71c54806d6c"
+>=20
+>  PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes=
+-
+> kernel/linux/linux-yocto_5.10.bb
+> index 278f8a67fe..e93e41c69b 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+> @@ -13,17 +13,17 @@ KBRANCH_qemux86  ?=3D "v5.10/standard/base"
+>  KBRANCH_qemux86-64 ?=3D "v5.10/standard/base"
+>  KBRANCH_qemumips64 ?=3D "v5.10/standard/mti-malta64"
+>=20
+> -SRCREV_machine_qemuarm ?=3D
+> "13b4e1548d504dca91ff49abba5be4df728840e6"
+> -SRCREV_machine_qemuarm64 ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemumips ?=3D
+> "ba6c1c115792e0c80412a7e0b54d6003cfbed491"
+> -SRCREV_machine_qemuppc ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemuriscv64 ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemuriscv32 ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemux86 ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemux86-64 ?=3D
+> "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_machine_qemumips64 ?=3D
+> "2e99735de1312c0403ff23cb0c50fa8153e80be7"
+> -SRCREV_machine ?=3D "fd21e2d609ad3343f03d78bc0cbce8da7d7c2a57"
+> -SRCREV_meta ?=3D "6dbb20d3127b3380779a11b1552429c5d4a0417e"
+> +SRCREV_machine_qemuarm ?=3D
+> "4f13e8499f2bfc9d95dcc70b981ea16351ff088b"
+> +SRCREV_machine_qemuarm64 ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemumips ?=3D
+> "64f8949180b1a6375abef20eebf735e853701c71"
+> +SRCREV_machine_qemuppc ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemuriscv64 ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemuriscv32 ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemux86 ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemux86-64 ?=3D
+> "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_machine_qemumips64 ?=3D
+> "6bf49ed9b223173d918b7c0140b8d0561bc2674c"
+> +SRCREV_machine ?=3D "8465e471f5b4855d01012a18cd5fa516061c0358"
+> +SRCREV_meta ?=3D "b7125842b7ce188e7846a49fcb15a71c54806d6c"
+>=20
+>  # remap qemuarm to qemuarma15 for the 5.8 kernel  #
+> KMACHINE_qemuarm ?=3D "qemuarma15"
+> @@ -32,7 +32,7 @@ SRC_URI =3D "git://git.yoctoproject.org/linux-
+> yocto.git;name=3Dmachine;branch=3D${KBRA
+>             git://git.yoctoproject.org/yocto-kernel-
+> cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-5.10;destsuffix=3D${KMETA}"
+>=20
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e46"
+> -LINUX_VERSION ?=3D "5.10.29"
+> +LINUX_VERSION ?=3D "5.10.30"
+>=20
+>  DEPENDS +=3D "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '',=
+ d)}"
+>  DEPENDS +=3D "openssl-native util-linux-native"
+> --
+> 2.19.1
 
