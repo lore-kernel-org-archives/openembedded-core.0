@@ -1,275 +1,167 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.3915.1618879872657532552
+Received: from esa16.fujitsucc.c3s2.iphmx.com (esa16.fujitsucc.c3s2.iphmx.com [216.71.158.33])
+ by mx.groups.io with SMTP id smtpd.web10.4568.1618883715753747539
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Apr 2021 17:51:12 -0700
+ Mon, 19 Apr 2021 18:55:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MjR17Sxo;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id h15so6685133pfv.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Apr 2021 17:51:12 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.onmicrosoft.com header.s=selector2-fujitsu-onmicrosoft-com header.b=fJRuZii9;
+ spf=neutral (domain: fujitsu.com, ip: 216.71.158.33, mailfrom: zhengrq.fnst@fujitsu.com)
+IronPort-SDR: jEJ9PFpKcU194p0wscKUZXpfzXRRCMfk92dOyT/jyKVLh0/4hnn1Vlmr9qwlZoFrF94rJ1oxQR
+ pVSY5iVVDzAwKcOb76KXc3yZzL4POJSXcXm4mguws30CbLmyyt85gN9UGJZ3z0H/g4O0Ulbc7l
+ 0tSG79Dx9e+/m4Xt4aZrftmAgkcF9fBXmLfYTws87vu+DL5Yfo5FNOl9TcEEQ/vWxrxjOjh7XQ
+ 7jXlgAhe4Wa0QvhGC5grxopqngVWOzxf6nDXl38oacFcOH4+CHMGquUwnNqla9jbztDVSr5YUr
+ VfM=
+X-IronPort-AV: E=McAfee;i="6200,9189,9959"; a="30004092"
+X-IronPort-AV: E=Sophos;i="5.82,235,1613401200"; 
+   d="scan'208";a="30004092"
+Received: from mail-ty1jpn01lp2056.outbound.protection.outlook.com (HELO JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.56])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 10:55:13 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kv/E4ZKhLfyKTdejmK/4LQDyq8CpPbgObh8i1r9/T8owc5BAhDJJcymg3M5Be2WiyK0+b7Y6gP+vGxRizMhUaEddcfsw0FnNR8R79/yanyB6ZD4Y3D71rwMr+MdVjKDJWyL7WHSA8BNuotLiRmNWoWkknaIZxZamkptOuDoOO1+dZNW/pNOAmpMX3R+A/Jy5EvcctDqY4ywXgs2MNvaOwxJ99dmuSeyCl/r4+YaofhiDkOq/XKZsrD+gIAWCZAxYpmyasLkIhHuKZs+7fAE3GTMJU6CFi55t4zr1WA8YwaXe5/Uk9TO4R1/ufPFwGz0U5vcgYxboX3MAMRB3S4KUgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A36EgN5Ru/ahqQb5wIW4xbeDDbMdEV4kcKWE2zlJwf0=;
+ b=XI26NzQ4ttH0OUXqZ+xuqbMvfMrnJYspzYI/FPI9fOYcybC3S87PoUdYYb48QLilb/ssMRMfJL7L+22LrOc89CTVB+E26p2lsNtD5l1sS/MugWf5eyb9k/OwYu2dVnIUCAcYdR8ACwyHaThBNxELWb4UN0ki4/iQZmEE3RwzM1EptxdAduft16nvVHETvG40mB9AxjkLjqoB/FkaNlxESYeU4WABlQcV81smKd6bQ3KX2bknaHNHU7PCwnKgel1gRpz/ZLmGgp0oFZCzTGknM31e7bLfp8k5x2T6/lHbVZIzadJxzWFfRWjZyFgxtPwm9n7GG61VncJr95XF7MF3iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=s5Qv6RzX45+OO3AApp62DNtgidOMe96LAwovPcHsnbs=;
-        b=MjR17SxoMmeS8LhYI3Lkqquc+ZZY4nNxsfzAVXdC7a+ZZyiYruSj/qfP26LNHZjRo0
-         0SktdLoObYIEKNZae9j14ZMpt/DMqcwCQg1d5gruVvEq+Nov5BfCh7rWaggyH8WG/L8Q
-         kSvLIqaTs1WVx4/IDD4mIoW7A352wm87IaYV6t39q4JHdA0C+vzr6sg16lydqq0v1RJ3
-         dYB6pc1IV/0SAK/7BGma8G+gHsoQpLl9vSGNwzukeGpxkc3C2gbpsvh9IuAgSaw7SwlE
-         jRtBEFjIUjSnWz9rQ1Ynx7cgD7eDrMIfHnr3TP4Zjs3IuH6a3YfUbJn0NS5xM6xHsl/B
-         pxSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=s5Qv6RzX45+OO3AApp62DNtgidOMe96LAwovPcHsnbs=;
-        b=cjqZYCPcOVs6FhRQ7ODtggIDeuUlmi1YZH4rxY4kETFj2NXGgAo7+MYHmYIEuuygFY
-         CSmZK09ZecFB81P2jYp6W4ssNNuKbxB8S658cumlvEwWGNVdXyI42PaJvOrO4J90f8C8
-         /rab8a3nnaxIuFUABMqjK+eN9tYCumDxsWm1oj9tHTBcL0MUthoCoLSNm8fWwE6Hk2Jk
-         5CxqPpo5UITYqJRfsZaOo/FjvSR3OxsGlrkyKL8W7tRNT4xYTtLp9lkw1UPqH/4MbugB
-         Nhf3fptPJitKo4gYm+ofM/K6wCirs1IxotIZ+v83H+rSCqaviiVcnw9UQ9ySHb0WktS1
-         5r8g==
-X-Gm-Message-State: AOAM533jjIGbqZi3ymgRtp1FuiiK8pp3lzixPG7QPD7GwcHLzJfQXsNG
-	umAi7t94E2+AhfPxpF/cooc=
-X-Google-Smtp-Source: ABdhPJxzZ27JmtSMbi3o66b+BHHwX17z+fgamBpSTleOTnmsUobsS9CdgjEU7xWtcjGOCUc+KkIbQA==
-X-Received: by 2002:a62:d153:0:b029:257:9600:c95a with SMTP id t19-20020a62d1530000b02902579600c95amr21859055pfl.78.1618879872222;
-        Mon, 19 Apr 2021 17:51:12 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
-        by smtp.gmail.com with ESMTPSA id oa9sm516736pjb.44.2021.04.19.17.51.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Apr 2021 17:51:11 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A36EgN5Ru/ahqQb5wIW4xbeDDbMdEV4kcKWE2zlJwf0=;
+ b=fJRuZii9VeLJF6CYcufruydGD0ObzMlwHqJesSuZvSaNXddM+AlEUuknJNE5FywPKiIVRi3dbfc/Jw66HtXwmNcsBQiVVZS2fPBEOQfU26jm9vn3QCpL32fWA1Qp3dUvYbyXhycyJjG7VY6/EufHNNEfDFEezbfkCbpKJeiWYLg=
+Received: from OS3PR01MB6241.jpnprd01.prod.outlook.com (2603:1096:604:f1::6)
+ by OSBPR01MB3382.jpnprd01.prod.outlook.com (2603:1096:604:45::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.19; Tue, 20 Apr
+ 2021 01:55:09 +0000
+Received: from OS3PR01MB6241.jpnprd01.prod.outlook.com
+ ([fe80::e967:b2f:bf48:b83e]) by OS3PR01MB6241.jpnprd01.prod.outlook.com
+ ([fe80::e967:b2f:bf48:b83e%5]) with mapi id 15.20.4042.024; Tue, 20 Apr 2021
+ 01:55:09 +0000
+From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
+To: "Mikko.Rapeli@bmw.de" <Mikko.Rapeli@bmw.de>, ChenQi
+	<Qi.Chen@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 19 Apr 2021 17:51:10 -0700
-Message-ID: <06a201d7357f$42450fe0$c6cf2fa0$@gmail.com>
+Subject: Re: [OE-core] [PATCH] db: correct CVE_PRODUCT
+Thread-Topic: [OE-core] [PATCH] db: correct CVE_PRODUCT
+Thread-Index: AQHXNOmIoYnwoz1wP0u7yzV8lnoa+qq8pNZQ
+Date: Tue, 20 Apr 2021 01:55:09 +0000
+Message-ID: 
+ <OS3PR01MB6241D19197EB67173486060E8B489@OS3PR01MB6241.jpnprd01.prod.outlook.com>
+References: <1618839901-127113-1-git-send-email-zhengrq.fnst@fujitsu.com>
+ <YH0qTWrdEX5VH3eS@korppu>
+In-Reply-To: <YH0qTWrdEX5VH3eS@korppu>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: bmw.de; dkim=none (message not signed)
+ header.d=none;bmw.de; dmarc=none action=none header.from=fujitsu.com;
+x-originating-ip: [180.96.28.100]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bc245f2f-9d84-452a-8a01-08d9039f5459
+x-ms-traffictypediagnostic: OSBPR01MB3382:
+x-microsoft-antispam-prvs: 
+ <OSBPR01MB338243D881281C26F9A225AA8B489@OSBPR01MB3382.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 5DoEFFQeydsgH7QVNdOxFVOQs1S2BVcjG/avLVUzGIElbb+pnF8e2BGH3PpQWp5FiKewEwxW9S931x53yLOj6844qN4JlR/PbCZTMV3ozhJM56YYDMpulANx+r/bKAmAWfXxPHq7viAbBlM5lI0De39WabHLzp8EYNkcRvL6aN7ZpBLyj41EX1r5M9OC3LYr6SvlFuvHCCsnFnDMaj+r56yrjEXV83WBCL2J+yLMIbMkveSyJvAP8OJr0KThkr705Af/w1CUW/Jbc9kl6Kjb1ZLIapEhi4eTqwA7Gp75eUDVdQd4IR8e/dfnEG2Kw3NBsOGNk3N4UEq4bmr1Fayl0QmK+VWU9JkB5FeRM/e8zRh7CdX243ZsDt5h3TdZKiZ+F7ScYC82OsYLULWp1Nsa6P1oUzqZLlyLiuHusyjM/A3xgoBsgSHjbTDWw9giqIYr/k6rzKA9j8v0wMjnxbEjyAWEIqo0aJL7MfSAcqxmcVElDwu52nv9Qd6J81arDx/+5uYci6Oo6/gBB6RE8Bivnh2Dzqr0GXsxsAopckOUaVGv69MfnDEAVWhkzB3iGr1VFhoL2yn7C7Pk3oi11UODfkNcB0YScKlOii1n2JFqRBDuJJmpPqSEsgOOHf2xnqNSciM/Dtgh7T+cBP6uTWAT7eA6wACVg5uLNF1CG1PF07VZKnMcs95ncZTA0pTN7gwX
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB6241.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(396003)(136003)(39860400002)(8936002)(66446008)(55016002)(9686003)(2906002)(122000001)(4326008)(76116006)(7696005)(110136005)(478600001)(66556008)(66946007)(8676002)(64756008)(66476007)(966005)(33656002)(26005)(186003)(85182001)(83380400001)(6506007)(5660300002)(71200400001)(52536014)(316002)(53546011)(86362001)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?gb2312?B?b2d6Z01EcWxNSUxMUndJWXA3elJHeG9pQzVGNlluSFI5aXNhVGJkL1I2Vit2?=
+ =?gb2312?B?SGZJcHFkYUUvNThremQzMWNrNTlqU1VpNStORm1hNi9RL09UNGhHSU1wMm16?=
+ =?gb2312?B?aGdwOFNNWG5nKzE0enFZZmo5RU14ZGhlckN4Sk5UVVN2WndGY1lIYkZIOWNl?=
+ =?gb2312?B?YVBGQkFBaWxhOFhXMlo5U2QwV1M4aW1SdjJ3Y2FUc2RYek9GeUJuZlhXdzJo?=
+ =?gb2312?B?bTNQQzFjZDVFTUpoR2EwQ08vMFhmR1pDckdSWjRRamhTTFdBc0lCM1lVLzJP?=
+ =?gb2312?B?ZzAyZHFKN05GZEwyUjdVVm05V1QzQlpsUU1oWjVDd2JISzUvMjlIU0V6b0dX?=
+ =?gb2312?B?ZjUzb2NnSzlMNnZ4bVFvaFF6eXduUU56c1UwSFhudFVFRmRrODExTkltaXZY?=
+ =?gb2312?B?cUZqZEkrT24wRlRsSklqZlF5YzJVelZIT3hqWHZCUWYyMTd6bWtlMUZOYnlB?=
+ =?gb2312?B?eGxPWG8vSlBsQXVmd3k0UllYNmhiSVZ4MmFkL2tJS1lCbWVCRndrOUdKOFhy?=
+ =?gb2312?B?LzVrTU95ZGE1RkZkYzlQMEFJSG5CckpBby83bHFlbXJpUGJqSVR4WnUybUpX?=
+ =?gb2312?B?MmlTcGdLZGlUYVlscWtnWnl4T1dCcU8vbjJFS0gxbkFHYlEzV25FQVVMTTRs?=
+ =?gb2312?B?UUFFZkwybmZkd3l4L3gxejhVNVl2MFpFcWkxeHR6SFZhbWp4RTJDVlptbFhE?=
+ =?gb2312?B?S0poZFdQbkxpdndUbTNwb1REZHZ3QUJlQ002czFwMVJ4bURkOXNWWTJhMExP?=
+ =?gb2312?B?NHFSTGl2VzFUd1ErVGV2eHpKMjNJWm5ZeWp3azIyQmVzSWFWTkpnNXZyc0ZX?=
+ =?gb2312?B?VnZVZWdzTDcwd25wZjFUQy8rV3JuQkkzM3kwSi9BVUlqVXI1WTkwWTRCak5y?=
+ =?gb2312?B?LzA1VVp2TTM5RmZWV2JDS0RKeUt3UG5kUkUvRk4wMFUxdDJlZEQrZWFvbHpQ?=
+ =?gb2312?B?TTJmZGRIN2s5ampudkVZNWVSbDh0R2hNYjhDeDZqc3NYeWluVXd0OUlxUjRF?=
+ =?gb2312?B?YkJnck55SWNMM1JoVlVKMnM0MW9JalZKZDlGZlR2MEZmWTdtQk1sdTRpdTFY?=
+ =?gb2312?B?SFA4Qk1nbXdHOVZEV24xSCtBaFR5UlhkNWpkNGc5T244VDJ1L0ZDeFY1RFBx?=
+ =?gb2312?B?R3M3VFUyaEhoVURDZVgrRDc2Mi8ySitJcG1rekFxSjJvZ2RNZDA0eXdCdWlo?=
+ =?gb2312?B?MjgyNUZsL29taktRMTEwcmJVeFBxQVpmZlp5Z0VGbDVlcngxQk1BYWQ5emQy?=
+ =?gb2312?B?QXRUOWJLc1ZSQXpERFV6bGtkeGFDa3pKQUVqMnNZWUcwQlY2RlNoZVQvWHZw?=
+ =?gb2312?B?RFVyQmVobDU2UnNiaDZ6V2lvK21jUThKYy9hOU9ObE8wcWJtRHJmOTdIS0hC?=
+ =?gb2312?B?endvOVRpVUpvQ1Y0dWlUU3JxNHNCZkhXVmU3dWR6aUZ4Uk9MUHJXSUxlT2ZU?=
+ =?gb2312?B?UCs4T0NUelBVYUJkZDMxK3RCbVcrTUd4eTM4UHNZZFBCbEM1elUyaWptTUpz?=
+ =?gb2312?B?T2RwbkZSb0ZqZVF1S1hURmFmdXdBSEd3a3VXZ2h4RUlmZGl1WWd4N3V2RzJD?=
+ =?gb2312?B?VndNMGdkeGdWT3JkQzFvT1dqTE9rWDEvZ1c0MzgwQ2NocTRqOU5nVCthS3Z5?=
+ =?gb2312?B?dndDM0ZEUlFZQ2w1Y3M5dTUzQnF3S2phYTJxeW9DOGpwVlUwRXc3eW5ualdW?=
+ =?gb2312?B?NlhPNDFRR0IyaDlPNTA5SktMQVBjVHUxOTRSRTNGRWV0clRBVHhod3c5OUVB?=
+ =?gb2312?Q?grBzj/0Mo1dVx7JkwV+R0hMvRP2PiUBNO7znktk?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQDkAkMuDMwxw5iFDogTppe009IVFA==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_06A3_01D73544.95E8A8E0"
-Content-Language: en-us
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB6241.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc245f2f-9d84-452a-8a01-08d9039f5459
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2021 01:55:09.8159
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /mV2/gjMemsMVEMtTd7Zpt7Y6h+PKtkIag/tyWkq26s7DLdkfbBouowv0GUxKZA7ZJtIlV5kso9aTq4h92eQ0KGDrwaJEXqoakVMUFPqa10=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3382
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-------=_NextPart_000_06A3_01D73544.95E8A8E0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 357
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_06A3_01D73544.95E8A8E0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_1111_01D72FC1.1F0083C0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 357 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_06A3_01D73544.95E8A8E0--
+SGksIE1pa2tvLCBDaGVuDQoNCk5vdywgY3ZlX2NoZWNrIGNhbid0IGNoZWNrb3V0IGFueSBjdmUg
+aXNzdWVzIG9mIGRiLiBJIHJlYWQgbmV3IG52ZGN2ZV8xLjEuZGIgYW5kIGd1ZXNzIHRoZSBuYW1l
+IG9mIENWRV8gUFJPRFVDVCBzaG91bGQgYmUgY29ycmVjdGVkLg0KcHM6IEkgZG9uJ3QgaGF2ZSB0
+aGUgb2xkIG52ZGN2ZV8xLjEuZGIsIHNvLCBJIGNhbid0IG1ha2Ugc3VyZSB0aGF0IHRoZSBvbGQg
+bmFtZSBvZiBkYiBpcyAib3JhY2xlX2JlcmtlbGV5X2RiIi4NCg0KJCBncmVwIG9yYWNsZV9iZXJr
+ZWxleV9kYiBTRUxFQ1RfRlJPTV9QUk9EVUNUUy5sb2cgDQokIA0KJCBncmVwICJ8ZGIyfCIgU0VM
+RUNUX0ZST01fUFJPRFVDVFMubG9nDQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS4xfD18fA0KQ1ZF
+LTIwMTAtMDQ2MnxpYm18ZGIyfDkuMV9mcDF8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS4x
+X2ZwMnw9fHwNCkNWRS0yMDEwLTA0NjJ8aWJtfGRiMnw5LjFfZnAyYXw9fHwNCkNWRS0yMDEwLTA0
+NjJ8aWJtfGRiMnw5LjFfZnAzfD18fA0KQ1ZFLTIwMTAtMDQ2MnxpYm18ZGIyfDkuMV9mcDNhfD18
+fA0KQ1ZFLTIwMTAtMDQ2MnxpYm18ZGIyfDkuMV9mcDR8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxk
+YjJ8OS4xX2ZwNGF8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS4xX2ZwNXw9fHwNCkNWRS0y
+MDEwLTA0NjJ8aWJtfGRiMnw5LjFfZnA2fD18fA0KQ1ZFLTIwMTAtMDQ2MnxpYm18ZGIyfDkuMV9m
+cDZhfD18fA0KQ1ZFLTIwMTAtMDQ2MnxpYm18ZGIyfDkuMV9mcDd8PXx8DQpDVkUtMjAxMC0wNDYy
+fGlibXxkYjJ8OS4xX2ZwN2F8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS4xX2ZwOHw9fHwN
+CkNWRS0yMDEwLTA0NjJ8aWJtfGRiMnw5LjV8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS41
+X2ZwMXw9fHwNCkNWRS0yMDEwLTA0NjJ8aWJtfGRiMnw5LjVfZnAyfD18fA0KQ1ZFLTIwMTAtMDQ2
+MnxpYm18ZGIyfDkuNV9mcDJhfD18fA0KQ1ZFLTIwMTAtMDQ2MnxpYm18ZGIyfDkuNV9mcDN8PXx8
+DQpDVkUtMjAxMC0wNDYyfGlibXxkYjJ8OS41X2ZwM2F8PXx8DQpDVkUtMjAxMC0wNDYyfGlibXxk
+YjJ8OS41X2ZwM2J8PXx8DQouLi4uLi4NCg0KQmVzdCByZWdhcmRzDQpaaGVuZw0KDQoNCj4gLS0t
+LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWlra28uUmFwZWxpQGJtdy5kZSA8TWlr
+a28uUmFwZWxpQGJtdy5kZT4NCj4gU2VudDogTW9uZGF5LCBBcHJpbCAxOSwgMjAyMSAyOjU5IFBN
+DQo+IFRvOiBaaGVuZywgUnVvcWluL9ajIMj0x9UgPHpoZW5ncnEuZm5zdEBmdWppdHN1LmNvbT4N
+Cj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVj
+dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGRiOiBjb3JyZWN0IENWRV9QUk9EVUNUDQo+IA0KPiBP
+biBNb24sIEFwciAxOSwgMjAyMSBhdCAwOTo0NTowMVBNICswODAwLCB6aGVuZ3J1b3FpbiB3cm90
+ZToNCj4gPiBJbiB0aGUgQ1ZFIGRhdGFiYXNlLCBub3cgaXQgdXNlIGRiMiBpbnN0ZWFkIG9mIG9y
+YWNsZV9iZXJrZWxleV9kYi4NCj4gPiBTbywgaW4gb3JkZXIgdG8gYmUgaGFuZGxlZCBjb3JyZWN0
+bHkgYnkgQ1ZFIGNoZWNrLCBtb2RpZnkgQ1ZFXyBQUk9EVUNULg0KPiANCj4gV2hpY2ggQ1ZFcywg
+cGxlYXNlIGFkZCBhbiBleGFtcGxlPyBJbiB0aGUgcGFzdCBvcmFjbGVfYmVya2VsZXlfZGIgd2Fz
+IHVzZWQuDQo+IEkgd29uZGVyIGlmIGJvdGggd291bGQgbmVlZCB0byBiZSB0aGVyZSwgb3IgaWYg
+dXNpbmcgdGhlIG5ldyB2YWx1ZSBpcyBzdWZmaWNpZW50DQo+IGZyb20gbm93IG9uLg0KPiANCj4g
+LU1pa2tvDQo+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0
+QGZ1aml0c3UuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtc3VwcG9ydC9kYi9kYl81
+LjMuMjguYmIgfCAyICstDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Ri
+L2RiXzUuMy4yOC5iYg0KPiA+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGIvZGJfNS4zLjI4LmJi
+DQo+ID4gaW5kZXggOWNiNTdlNmE1My4uMDU3MjAwNTNmNCAxMDA2NDQNCj4gPiAtLS0gYS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9kYi9kYl81LjMuMjguYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9kYi9kYl81LjMuMjguYmINCj4gPiBAQCAtMTUsNyArMTUsNyBAQCBIT01FUEFHRSA9
+DQo+ID4gImh0dHBzOi8vd3d3Lm9yYWNsZS5jb20vZGF0YWJhc2UvdGVjaG5vbG9naWVzL3JlbGF0
+ZWQvYmVya2VsZXlkYi5odG1sDQo+ID4gIExJQ0VOU0UgPSAiU2xlZXB5Y2F0Ig0KPiA+ICBSQ09O
+RkxJQ1RTXyR7UE59ID0gImRiMyINCj4gPg0KPiA+IC1DVkVfUFJPRFVDVCA9ICJvcmFjbGVfYmVy
+a2VsZXlfZGIiDQo+ID4gK0NWRV9QUk9EVUNUID0gImRiMiINCj4gPiAgQ1ZFX1ZFUlNJT04gPSAi
+MTEuMi4ke1BWfSINCj4gPg0KPiA+ICBQUiA9ICJyMSINCj4gPiAtLQ0KPiA+IDIuMjUuMQ0KPiA+
+DQo+IA0KPiA+DQo+ID4gDQo+ID4NCg==
