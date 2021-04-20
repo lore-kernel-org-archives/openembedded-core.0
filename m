@@ -1,157 +1,260 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web12.12966.1618934357878700328
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+ by mx.groups.io with SMTP id smtpd.web12.36.1618935792718619069
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Apr 2021 08:59:17 -0700
+ Tue, 20 Apr 2021 09:23:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lFkreU+s;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id 20so15962089pll.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 08:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UJ0EGC1dsNnqHauP1jNb7ECHY/pck84/3oL5X4TKy4c=;
-        b=lFkreU+sNl6VWWUSBrl/ox9JjCAU7gCGres8NQByw7IGDTKazsD9UVfS7Uztd2mcpg
-         nC5iaRAGMzfZpP/PUuiOjTpSBf9Ds+GForliUUwdSUNmYiVjNE1dD4e6GTFQoxtLPAop
-         Q/Hc1isQfD6EngqmlJt13bSSS676INY3C5GqB9AIkuBhHR4wHOw/1t46VCQKNR4h76Nk
-         aRW7ryOAVqkDQbbXFViqRMGyVU4FqZd9iAVAPrizKsXd9I7xsQPIWOaj5EZ/KoZMNLbF
-         /MoMTt2IGSBGEK0Gjm6b8hGWf/rklMQmD+CcRbVIpgWgMliaqmU2PU3vnyGmlplRqK5Q
-         g2DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=UJ0EGC1dsNnqHauP1jNb7ECHY/pck84/3oL5X4TKy4c=;
-        b=DOnvGi70oV5LiGcYz7hF3RerpkYUELXlcdVkAzcTHpMUkxvCh3VpRlF56HBXqxNh/o
-         HWhYosNP0xvmZzNa2AdYCV8nF5guMu+qExmTDx5ybeIQniBPKEnhmoD3+YYBm1qZOfYo
-         w4dWCwZZZjLmHQ55T9zb+7ISOWyZTw71tGvB9AF8PDgDAx4zYSMpNsqaw5n8n9zSNBsF
-         BRxjGD3fLKSGZg8IU0oIAu/q88hKhYqyus0xwx+9rNNnzDsFS4rJHut+2Hao2k4tH9cK
-         CYdhbP168Pw5H+A+gkthjy0YUT6bvWKpCf5CATdLG9eMjvblPUyPjN3Nel6IcnLbT21x
-         7TcQ==
-X-Gm-Message-State: AOAM532CdmnCSsuEkugt4nGdC4fIGTm5rRUL92UZR4qyAy2kFW1sYJkC
-	9hiCi7FXO3ORzlpYVZXdJ3DXqpmaAxvnng==
-X-Google-Smtp-Source: ABdhPJyFeU9E65a3c28RNgvX1foLYbxgvwAa/ZjUwvhY1y1CdfHcPSOKCBaoIEUOTBwJ6WITuEIyEA==
-X-Received: by 2002:a17:90a:e50a:: with SMTP id t10mr5926285pjy.32.1618934357108;
-        Tue, 20 Apr 2021 08:59:17 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:692a:2f5c:cdd4:70fe? ([2601:646:9200:a0f0:692a:2f5c:cdd4:70fe])
-        by smtp.gmail.com with ESMTPSA id h22sm15627215pfn.55.2021.04.20.08.59.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Apr 2021 08:59:16 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 1/2] elfutils: correct debuginfod builds on x32
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210420120549.608450-1-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <b79886e0-9872-b957-21b4-587b1858f9b7@gmail.com>
-Date: Tue, 20 Apr 2021 08:59:15 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ dkim=missing; spf=pass (domain: soulik.info, ip: 108.61.200.231, mailfrom: ayaka@soulik.info)
+Received: from misaki.sumomo.pri (unknown [IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
+	by kozue.soulik.info (Postfix) with ESMTPA id 19E85100788;
+	Wed, 21 Apr 2021 01:23:06 +0900 (JST)
+From: "Randy Li" <ayaka@soulik.info>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com,
+	contact@emersion.fr,
+	kl@kl.wtf,
+	ayaka <ayaka@soulik.info>
+Subject: [PATCH v2] seatd: add seatd recipe
+Date: Wed, 21 Apr 2021 00:22:59 +0800
+Message-Id: <20210420162259.179433-1-ayaka@soulik.info>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210420120549.608450-1-alex.kanavin@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+From: ayaka <ayaka@soulik.info>
 
+Weston would adapt the libseat for granting privilege and VT switch.
+wlroots has merged it.
 
-On 4/20/21 5:05 AM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   .../elfutils/elfutils_0.183.bb                |  3 +
->   ...infod-client.c-correct-string-format.patch | 60 +++++++++++++++++++
->   2 files changed, 63 insertions(+)
->   create mode 100644 meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> 
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-> index 8b1dece200..a4ea8da32e 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
-> @@ -29,6 +29,9 @@ SRC_URI_append_libc-musl = " \
->              file://0004-Fix-error-on-musl.patch \
->              file://0015-config-eu.am-do-not-use-Werror.patch \
->              "
-> +SRC_URI_append_x86-x32 = " \
-> +           file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
-> +           "
->   SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
->   
->   inherit autotools gettext ptest pkgconfig
-> diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> new file mode 100644
-> index 0000000000..a2737b9fe6
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
-> @@ -0,0 +1,60 @@
-> +From f4231bfbb61cd4962638766a7072f4295ed39150 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Mon, 19 Apr 2021 23:29:10 +0200
-> +Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on x32
-> +
-> +Upstream-Status: Inappropriate [x32-specific; few, if any people care about it anymore]
+Signed-off-by: ayaka <ayaka@soulik.info>
+---
+ .../nativesdk-packagegroup-sdk-host.bb        |  2 -
+ ...build-fixup-standalone-without-seatd.patch | 71 +++++++++++++++++++
+ meta/recipes-core/seatd/libseat/init          | 50 +++++++++++++
+ meta/recipes-core/seatd/libseat_0.5.0.bb      | 43 +++++++++++
+ 4 files changed, 164 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/seatd/libseat/0001-build-fixup-stan=
+dalone-without-seatd.patch
+ create mode 100644 meta/recipes-core/seatd/libseat/init
+ create mode 100644 meta/recipes-core/seatd/libseat_0.5.0.bb
 
-This is worth upstreaming, since 32 bit architectures with 64bit time_t 
-will need.
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-h=
+ost.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.=
+bb
+index ae989011f4..3e4e148c45 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -11,8 +11,6 @@ PACKAGEGROUP_DISABLE_COMPLEMENTARY =3D "1"
+=20
+ RDEPENDS_${PN} =3D "\
+     nativesdk-pkgconfig \
+-    nativesdk-qemu \
+-    nativesdk-qemu-helper \
+     nativesdk-pseudo \
+     nativesdk-unfs3 \
+     nativesdk-opkg \
+diff --git a/meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-=
+without-seatd.patch b/meta/recipes-core/seatd/libseat/0001-build-fixup-st=
+andalone-without-seatd.patch
+new file mode 100644
+index 0000000000..66e1ac73ab
+--- /dev/null
++++ b/meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-without=
+-seatd.patch
+@@ -0,0 +1,71 @@
++From 084df8ab271ce4b09c1ef5d9c5a859b2d02d20e7 Mon Sep 17 00:00:00 2001
++From: ayaka <ayaka@soulik.info>
++Date: Mon, 19 Apr 2021 22:15:46 +0800
++Subject: [PATCH] build: fixup standalone without seatd
++
++I think that server option means the same thing as seatd, so I
++get rid of it.
++---
++ meson.build       | 10 +++++-----
++ meson_options.txt |  1 -
++ 2 files changed, 5 insertions(+), 6 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 7a70cb6..a2166c5 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -104,10 +104,11 @@ server_files =3D [
++=20
++ with_seatd =3D get_option('seatd') =3D=3D 'enabled'
++ with_builtin =3D get_option('builtin') =3D=3D 'enabled'
++-with_server =3D get_option('server') =3D=3D 'enabled'
++=20
++-if with_seatd
+++if with_seatd or with_builtin
++ 	private_files +=3D 'libseat/backend/seatd.c'
+++endif
+++if with_seatd
++ 	add_project_arguments('-DSEATD_ENABLED=3D1', language: 'c')
++ endif
++=20
++@@ -189,7 +190,7 @@ libseat =3D declare_dependency(
++ 	variables: libseat_vars,
++ )
++=20
++-if with_server
+++if with_seatd
++ 	executable(
++ 		'seatd',
++ 		[ server_files, 'seatd/seatd.c' ],
++@@ -221,7 +222,7 @@ foreach name, value : tests
++ 		include_directories: [include_directories('.', 'include')]))
++ endforeach
++=20
++-if with_server
+++if with_seatd
++ 	scdoc =3D dependency('scdoc', required: get_option('man-pages'), versi=
+on: '>=3D 1.9.7', native: true)
++ else
++ 	scdoc =3D disabler()
++@@ -252,7 +253,6 @@ endif
++ summary({
++ 	'seatd': with_seatd,
++ 	'builtin': with_builtin,
++-	'server': with_server,
++ 	'systemd': logind.found() and logind_provider =3D=3D 'systemd',
++ 	'elogind': logind.found() and logind_provider =3D=3D 'elogind',
++ }, bool_yn: true)
++diff --git a/meson_options.txt b/meson_options.txt
++index 144ce7a..c61d473 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -1,7 +1,6 @@
++ option('logind', type: 'combo', choices: ['auto', 'disabled', 'elogind'=
+, 'systemd'], value: 'auto', description: 'logind support')
++ option('seatd', type: 'combo', choices: ['enabled', 'disabled'], value:=
+ 'enabled', description: 'seatd support')
++ option('builtin', type: 'combo', choices: ['enabled', 'disabled'], valu=
+e: 'disabled', description: 'builtin seatd server')
++-option('server', type: 'combo', choices: ['enabled', 'disabled'], value=
+: 'enabled', description: 'seatd server')
++ option('examples', type: 'combo', choices: ['enabled', 'disabled'], val=
+ue: 'disabled', description: 'libseat example programs')
++ option('man-pages', type: 'feature', value: 'auto', description: 'Gener=
+ate and install man pages')
++ option('defaultpath', type: 'string', value: '', description: 'Default =
+location for seatd socket (empty for default)')
++--=20
++2.30.2
++
+diff --git a/meta/recipes-core/seatd/libseat/init b/meta/recipes-core/sea=
+td/libseat/init
+new file mode 100644
+index 0000000000..8c9d77255d
+--- /dev/null
++++ b/meta/recipes-core/seatd/libseat/init
+@@ -0,0 +1,50 @@
++#!/bin/sh
++#
++### BEGIN INIT INFO
++# Provides:          seatd
++# Short-Description: Start seat management daemon
++# Required-Start:    $local_fs $remote_fs
++# Required-Stop:     $local_fs $remote_fs
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++### END INIT INFO
++
++PATH=3D/bin:/usr/bin:/sbin:/usr/sbin
++
++test -x /usr/bin/seatd || exit 0
++
++# For configuration of the init script use the file
++# /etc/default/seatd, do not edit this init script.
++
++seatd_group=3D"seatd"
++
++[ -e /etc/default/seatd ] && . /etc/default/seatd
++
++NAME=3Dseatd
++DAEMON=3D/usr/bin/seatd
++STOP_RETRY_SCHEDULE=3D'TERM/10/forever/KILL/1'
++
++. /etc/init.d/functions
++
++case "$1" in
++  start)
++    start-stop-daemon --start --backgroud --quiet --pidfile /var/run/$NA=
+ME.pid \
++	    --exec $DAEMON -- -g $seatd_group
++    ;;
++
++  stop)
++    killproc $NAME
++    ;;
++
++  restart)
++    $0 stop
++    sleep 1
++    $0 start
++    ;;
++  *)
++    echo "Usage: $0 {start|stop|restart}"
++    exit 1
++
++esac
++
++exit 0
+diff --git a/meta/recipes-core/seatd/libseat_0.5.0.bb b/meta/recipes-core=
+/seatd/libseat_0.5.0.bb
+new file mode 100644
+index 0000000000..8067d32a26
+--- /dev/null
++++ b/meta/recipes-core/seatd/libseat_0.5.0.bb
+@@ -0,0 +1,43 @@
++SUMMARY =3D "Seat management daemon and library"
++HOMEPAGE =3D "https://git.sr.ht/~kennylevinsen/seatd"
++SECTION =3D "base"
++
++DESCRIPTION =3D "A minimal seat management daemon, and a universal seat =
+management \
++library. Seat management takes care of mediating access to shared device=
+s \
++(graphics, input), without requiring the applications needing access to =
+be root."
++
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE;beginline=3D3;md5=3D6a01e8ccc65bea4=
+e8bfa79b09ea1444c"
++
++SRCREV =3D "5535c2c3b19b42ebfe4c451600059e9418e401a6"
++SRCBRANCH =3D "master"
++SRC_URI =3D "git://git.sr.ht/~kennylevinsen/seatd;protocol=3Dhttp;branch=
+=3D${SRCBRANCH} \
++           file://0001-build-fixup-standalone-without-seatd.patch \
++           file://init"
++
++S =3D "${WORKDIR}/git"
++
++inherit pkgconfig meson useradd update-rc.d
++
++PACKAGECONFIG ??=3D "${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager'=
+, 'systemd', 'systemd', 'seatd', d)}"
++
++PACKAGECONFIG[seatd] =3D "-Dseatd=3Denabled, -Dseatd=3Ddisabled"
++PACKAGECONFIG[systemd] =3D "-Dlogind=3Dsystemd, -Dlogind=3Ddisabled, sys=
+temd dbus"
++
++PACKAGES +=3D "seatd"
++
++FILES_${PN} =3D "${libdir}/lib*${SOLIBS}"
++FILES_seatd =3D "${bindir}/seatd ${sysconfdir}"
++
++do_install_append() {
++	if [ "${VIRTUAL-RUNTIME_init_manager}" !=3D "systemd" ]; then
++		install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd
++	fi
++}
++
++INITSCRIPT_NAME =3D "seatd"
++INITSCRIPT_PARAMS =3D "start 8 5 2 . stop 21 0 1 6 ."
++
++USERADD_PACKAGES =3D "seatd"
++
++GROUPADD_PARAM_seatd =3D "-r seatd"
+--=20
+2.30.2
 
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + debuginfod/debuginfod-client.c | 10 +++++-----
-> + 1 file changed, 5 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
-> +index de26af5..a840f23 100644
-> +--- a/debuginfod/debuginfod-client.c
-> ++++ b/debuginfod/debuginfod-client.c
-> +@@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-> +   if (fd < 0)
-> +     return -errno;
-> +
-> +-  if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
-> ++  if (dprintf(fd, "%lld", cache_clean_default_interval_s) < 0)
-> +     return -errno;
-> +
-> +   /* init max age config file.  */
-> +@@ -237,7 +237,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
-> +       && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
-> +     return -errno;
-> +
-> +-  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
-> ++  if (dprintf(fd, "%lld", cache_default_max_unused_age_s) < 0)
-> +     return -errno;
-> +
-> +   return 0;
-> +@@ -263,7 +263,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> +       if (interval_file == NULL)
-> +         return -errno;
-> +
-> +-      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
-> ++      int rc = fprintf(interval_file, "%lld", cache_clean_default_interval_s);
-> +       fclose(interval_file);
-> +
-> +       if (rc < 0)
-> +@@ -275,7 +275,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> +   interval_file = fopen(interval_path, "r");
-> +   if (interval_file)
-> +     {
-> +-      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
-> ++      if (fscanf(interval_file, "%lld", &clean_interval) != 1)
-> +         clean_interval = cache_clean_default_interval_s;
-> +       fclose(interval_file);
-> +     }
-> +@@ -291,7 +291,7 @@ debuginfod_clean_cache(debuginfod_client *c,
-> +   max_unused_file = fopen(max_unused_path, "r");
-> +   if (max_unused_file)
-> +     {
-> +-      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
-> ++      if (fscanf(max_unused_file, "%lld", &max_unused_age) != 1)
-> +         max_unused_age = cache_default_max_unused_age_s;
-> +       fclose(max_unused_file);
-> +     }
-> 
-> 
-> 
-> 
-> 
