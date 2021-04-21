@@ -1,81 +1,82 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.3834.1619041254768878858
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web12.3874.1619041537025837685
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Apr 2021 14:40:54 -0700
+ Wed, 21 Apr 2021 14:45:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=p+tjOF81;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id w6so15603290pfc.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Apr 2021 14:40:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bPv3P3CUpXomjb+OkwAS9Ox87u+eLN7k5cYl0ZXSaOI=;
-        b=p+tjOF81Dkd4J4Uk19yIwrVa6yoemtVuVpKtoRzVoiMZEvoiHWb4Fl5px3cqlrfGtY
-         /EEF1C8bhDB4aLRXDne81hcq7E3Lkw90GEZvoY9+z9sSG/D77a836hspxEHsgnVxvdnP
-         33pigz48pIY7rRiR4IeN888t9DoyE5qwxIUzmRflp52SvcGKUakTgK5/3lPT0WTwzDcz
-         1/m8G1rGZtFy4QP4mOhEKvKpOmtDdlODFkUJftlLei7/BSgNBr2dxWs+MNqv7ssfsIdu
-         l1ZHuNTNKoYKIyltV+0XR2MeoQoANBwTBMIEYK75zxX2x+cYY6XYBXoaVC7UPdL88Hud
-         LEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bPv3P3CUpXomjb+OkwAS9Ox87u+eLN7k5cYl0ZXSaOI=;
-        b=omIobTHBvVimxoiAUukiPlq05J+du7gRUOr1T+goCL5bBdERaq3tzVOf4BG2twFuH0
-         +KGU37G3PRC48B2Q3FKcuuraIqT7z0AyKp4z4vCJyv8QjfD19QxSm2+9HpbcRnhI/n3z
-         kYs/K0xCUHqhk9rPbWSRtgpo+ZToQc6oHMr/tmR+ns3E7nUlHIllZ+X77mYgP/OBZNXr
-         53+UQs0gJlLA1yjmm85WeDLHScQ2iZGGeFGGAnmT11Fc3Q5eu172zvqrVC3q/5OE1Tc1
-         FCtZmw+R7OPXCdeBtKt39cxuxpMCKssSOadXoKTZS9lJily788sM31N8J86gqALGPiv+
-         5qZw==
-X-Gm-Message-State: AOAM530D7gdQF/IR48mnmQ2LNYFBhZIaYz40ClAGPMmhHgsvRpUciWfC
-	kvWXTeeGW5rr4KB48nMqKBPTQSrqWX8KkA==
-X-Google-Smtp-Source: ABdhPJxMZ5lM1lNL3HYAJkuWvIah6frnMfpvRnzQfd3C4FxthUt0MsJRcP+gruj1ZjsEybBxV68nAA==
-X-Received: by 2002:a65:4d49:: with SMTP id j9mr194580pgt.113.1619041253842;
-        Wed, 21 Apr 2021 14:40:53 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
-        by smtp.gmail.com with ESMTPSA id a129sm230189pfa.36.2021.04.21.14.40.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 14:40:53 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] weston: Drop loading xwayland.so module
-Date: Wed, 21 Apr 2021 14:40:51 -0700
-Message-Id: <20210421214051.3374048-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 6C21540C2A;
+	Wed, 21 Apr 2021 21:45:36 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9M-hY-NNun7b; Wed, 21 Apr 2021 21:45:36 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 373C540B66;
+	Wed, 21 Apr 2021 21:45:35 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 887931745C6; Wed, 21 Apr 2021 17:45:34 -0400 (EDT)
+Date: Wed, 21 Apr 2021 17:45:34 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] standard for names for local source mirror tarballs for git-based recipes?
+Message-ID: <20210421214534.GT15937@denix.org>
+References: <373df555-e7c2-f0b4-11c5-575d209391ea@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <373df555-e7c2-f0b4-11c5-575d209391ea@crashcourse.ca>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This module is no longer installed by x11 instead it uses a stand along
-server for xwayland, as a result when xwayland is enabled in
-packageconfig in weston then it fails to load xwayland.so during runtime
+On Wed, Apr 21, 2021 at 07:44:45AM -0400, Robert P. J. Day wrote:
+> 
+>   based on my recommendation, colleague created a local source mirror
+> to start collecting tarballs so as to minimize amount of downloading
+> for various builds. names of tarballs that correspond to fixed
+> (versioned) tarballs was fairly obvious, but he got stuck trying to
+> local source mirror a tarball for googletest (from meta-oe), which
+> contains (among other things):
+> 
+>   googletest_git.bb
+>   ...
+>   PV = "1.10.0"
+>   S = "${WORKDIR}/git"
+>   SRCREV = "703bd9caab50b139428cea1aaff9974ebee5742e"
+>   SRC_URI = "git://github.com/google/googletest.git"
+> 
+> he wasn't sure what name the tarball should have in order to be
+> recognized in the local source mirror. i didn't have the answer off
+> the top of my head, but since for years i've enhanced all my builds
+> with a site.conf file containing:
+> 
+>   SOURCE_MIRROR_URL ?= "file:///home/rpjday/oe/dist/tarballs/"
+>   INHERIT += "own-mirrors"
+>   BB_GENERATE_MIRROR_TARBALLS = "1"
+> 
+> i just added googletest to a random build to see what i'd get, and
+> got:
+> 
+>   git2_github.com.google.googletest.git.tar.gz
+> 
+> i guess i'd never paid close attention to the name generation for such
+> things, but i'm *assuming* that the name generation by the appropriate
+> fetcher code simply encodes everything there is to know about the
+> source so that the appropriate tarball is recognized as the local
+> source mirror version for that recipe. is that about right?
+> 
+>   second question: clearly, the simple name of that tarball doesn't
+> encode the PV or SRCREV values, so what happens if the base recipe
+> suddenly bumps PV up to 1.11.0? i'm sure the answer is obvious, i've
+> just never thought about it.
 
-Fixes
+The tarball with the previous clonedir will be unpacked and bitbake will check 
+if required SRCREV exists in there. If not, it will try to update the clonedir 
+from upstream.
 
-[21:07:12.-100663296] Old Xwayland module loading detected: Please use --xwayland command line option or set xwayland=true in the [core] section in weston.ini
-[21:07:12.-100663296] Loading module '/usr/lib/libweston-9/xwayland.so'
-[21:07:12.-100663296] Failed to load module: /usr/lib/libweston-9/xwayland.so: cannot open shared object file: No such file or directory
-[21:07:12.-100663296] Destroying fbdev output.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/wayland/weston/xwayland.weston-start | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-index b483c97cf1..db384b1a53 100644
---- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-+++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-@@ -2,6 +2,4 @@
- 
- if type Xwayland  >/dev/null 2>/dev/null; then
- 	mkdir -p /tmp/.X11-unix
--
--	add_weston_argument "--modules=xwayland.so"
- fi
 -- 
-2.31.1
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
