@@ -1,95 +1,66 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.6548.1618970334201761167
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web08.7592.1618977446813170078
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Apr 2021 18:58:54 -0700
+ Tue, 20 Apr 2021 20:57:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13L1wq5O015962
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 18:58:52 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 20 Apr 2021 18:58:52 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Tue, 20 Apr 2021 18:58:51 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] rpm: Upgrade to 4.16.1.3
-Date: Wed, 21 Apr 2021 09:58:50 +0800
-Message-ID: <20210421015850.21034-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gH+IoUyC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id o5so13024238ljc.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 20:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tUkDb5AZgBGFWBXBiMhe/JSzFUqwaD5IERuSqkkyR70=;
+        b=gH+IoUyCIpkzfRkydhwMnyxhJnbvLobYS9ZstH/qjnqN31rywKwYWhFPPfQq8Cpxd9
+         aJ6HMU0euiynIwxckFymvDdnGPyCCeIdvTFAeZI9SeVxwAYSuJx4fy/NXMsreBCEQ4Ha
+         92UnncJ8W93rgthSMPrXrXHYJiakWR23muqbjCGBJ7nyP55AymMRkUhet6c1b0jIQRRY
+         SnCYv2bolCRiFGWN+LEUokUEr6/5ASPHnu1/oG5rnPvTqvvq6LOeKsttVPkyKPSQpWR1
+         Dd5HQ3ORHqZDHAPTWFQf6QrHv8c0/QdAuZNPpXYzbGo2z+7LxVDAzxo6HnmOIArcotkF
+         7tLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tUkDb5AZgBGFWBXBiMhe/JSzFUqwaD5IERuSqkkyR70=;
+        b=ha6c/zR8xeZ0IXd2xogUpT3t5PNInpWuLklNw8oja4Siyd6A7chIUZ8hK9yocdfveX
+         F2YZmRRfTDhHI6NlyyBkPw9A8Yfsd8KOIPhKkY+usJqj6gaJXOssDHqtxWb0n/uJ1fnX
+         EzPNrr3N9S03q1Hh5Ca0QGDi9/ZYuNp1/5gp4Xvrzm92Ne5pfxZMCA6y9IffPwrbZgtM
+         39bxak8jGLEtPSQDPWsuiSMs34xG+JETvoY7t0XCfoRyvDWc3JTO/RO0tiyocXku5Q1z
+         3gTxKaDxjgh46uQmgfLgUNW1esnLTeF4My3nLzpdjfYhcXi9CT4IAqvmZZWBNbw1/u6m
+         uopQ==
+X-Gm-Message-State: AOAM530ULv6HwzhF8urPX+bNyYQuYQWscKY570S9ejmrr5D0bMEH5BK9
+	mJHJrqpMSOPnQ+S4JtogUmH9CDolwnJHGTIEeVc=
+X-Google-Smtp-Source: ABdhPJxHmwVyz9Cg4dH0hpcKeH7m3tKxBpWsWGu3yosbjXJmLdbN9yVgKc6iZZWiblG+Ie2ZaLYnF9ilOwAguERgJXU=
+X-Received: by 2002:a2e:7212:: with SMTP id n18mr12513303ljc.378.1618977444812;
+ Tue, 20 Apr 2021 20:57:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <CAJ86T=XGxEyZYc7pH3Me1_Cx+H1+OAjNjo45veLhyPFv+eEWsA@mail.gmail.com>
+ <1397.1618951559627472345@lists.openembedded.org>
+In-Reply-To: <1397.1618951559627472345@lists.openembedded.org>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 20 Apr 2021 20:57:13 -0700
+Message-ID: <CAJ86T=W1995MMCUqA9pjWf=DVp9ws+Dpq7kPttksfOUNPT2Uyg@mail.gmail.com>
+Subject: Re: [OE-core] [yocto-security] [PATCH] busybox: use openssl for TLS connections whenever possible
+To: Shachar Menashe <shachar@vdoo.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Tue, Apr 20, 2021 at 1:46 PM Shachar Menashe <shachar@vdoo.com> wrote:
+>
+> Last time we talked about this I thought we would need to change something in openssl build settings to make the openssl binary get built just for this solution, and that was what got rejected.
+> But actually now I see (or perhaps it got changed) that the openssl binary is built anyways, in any build that already relies on openssl.
+> So my suggestion is to enable this feature. Like I said in builds with openssl it will make everything more secure in a transparent manner, and in builds without openssl it will display a warning just like today.
+> I wouldn't consider it a hacky solution since this is the official solution for this issue.
 
-Fixes some security vulnerabilities such as CVE-2021-3421 and
-CVE-2021-20271.
+It's very clearly a hack. Maybe it's the "official solution" for
+supporting https with busybox wget, but OE has a wider scope - we're
+not limited to busybox wget if a better overall solution is available.
 
-Rebase 0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-to avoid fuzz warnings.
+> This is also exacerbated due to the fact that there are no other alternatives for secure download from CLI (ex. the sato build doesn't contain the "curl" standalone binary)
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...ot-hardcode-lib-rpm-as-the-installation-path-for.patch | 8 ++++----
- .../rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb}              | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb} (99%)
+I don't see an issue with adding curl to any OE reference image which
+needs an https client.
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 38d755205c..d8fcc16729 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,4 +1,4 @@
--From 9bbe3f8564705aafcdcc5f2f033f9241a97f47c6 Mon Sep 17 00:00:00 2001
-+From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 6c78568e4..76b1d40e4 100644
-+index fe35a90fa..b2faec6f3 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -966,7 +966,7 @@ else
-@@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
- diff --git a/rpm.am b/rpm.am
--index cd40a16be..e6941e09f 100644
-+index 8e1dc2184..3d889ec86 100644
- --- a/rpm.am
- +++ b/rpm.am
- @@ -1,10 +1,10 @@
-@@ -55,4 +55,4 @@ index cd40a16be..e6941e09f 100644
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 10:2:1
-+ rpm_version_info = 10:3:1
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-similarity index 99%
-rename from meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
-rename to meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index d369c706a2..7c03b41fc8 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -43,7 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            "
- 
- PE = "1"
--SRCREV = "278883a704ea36c97974d0f2d65d41abe78b0e2a"
-+SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.29.2
-
+> 
+>
