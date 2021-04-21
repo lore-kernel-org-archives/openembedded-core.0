@@ -1,87 +1,74 @@
 Received: from mga03.intel.com (mga03.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.8497.1618985195073168650
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Apr 2021 23:06:39 -0700
+ Tue, 20 Apr 2021 23:06:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 6HYT3EU8Q/xiE8j8Myb7o3erC7z33VciUxMOfjv/G3N5rmxMBOZwOxMo8nP++UC+cU3TVIrYwI
- iSeUat7AUE3w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="195671514"
+IronPort-SDR: Zh7z7pzl6XHTRLPF3j/0zMFKmkZpAsLE6ZtMbuHRQueiAB85yMyhBnNXaXlQisHHzhrq6+DyGF
+ tnbdxYW4z9ig==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="195671523"
 X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="195671514"
+   d="scan'208";a="195671523"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 23:06:39 -0700
-IronPort-SDR: z/DaxXtbYbyDKrrPEPbqv5rUqgIJzUQ0WGWSJcXFWaZTsrKwpkecc4cW0UFiBmoHg2/annDxlo
- aaegk3mNjI9Q==
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 23:06:40 -0700
+IronPort-SDR: BVMhE874au7ui4+sDGBB5PEsEkn8sYKVfLRSplMkZx1jRrOuu3D+xFzAZtPkavPuzAAEv7w3UQ
+ 39umlTzzPdOQ==
 X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="385684433"
+   d="scan'208";a="385684440"
 Received: from slow4-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.70.252])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 23:06:37 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2021 23:06:39 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 5/8] insane: clean up some more warning messages
-Date: Wed, 21 Apr 2021 14:06:17 +0800
-Message-Id: <80395724a6450f7aabbb6ac06e4647244eac5e64.1618984878.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 6/8] externalsrc: Detect code changes in submodules
+Date: Wed, 21 Apr 2021 14:06:18 +0800
+Message-Id: <8e6d103e17debc93e0627b96c2910aadd14aab7f.1618984878.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1618984878.git.anuj.mittal@intel.com>
 References: <cover.1618984878.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross@burtonini.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Further to 50ff9afb39, only detect code changes in submodules that are
+subdirectories of the EXTERNALSRC directory.
+
+The (undocumented) git submodule--helper returns a path
+for each submodule relative to the top of the repo.
+Don't add submodules that are not within our source subtree.
+
+[YOCTO #14333]
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2abe18682192e7b38b9af5a5043906f2f069648f)
+(cherry picked from commit 1c18225d3ef94a41fc073ae87c163b68e6d46571)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/insane.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/externalsrc.bbclass | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c6dff9659c..44dbed875b 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -175,7 +175,7 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-             if rpath_eq(rpath, libdir) or rpath_eq(rpath, base_libdir):
-                 # The dynamic linker searches both these places anyway.  There is no point in
-                 # looking there again.
--                package_qa_add_message(messages, "useless-rpaths", "%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
-+                package_qa_add_message(messages, "useless-rpaths", "%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d, name), rpath))
- 
- QAPATHTEST[dev-so] = "package_qa_check_dev"
- def package_qa_check_dev(path, name, d, elf, messages):
-@@ -184,8 +184,8 @@ def package_qa_check_dev(path, name, d, elf, messages):
-     """
- 
-     if not name.endswith("-dev") and not name.endswith("-dbg") and not name.endswith("-ptest") and not name.startswith("nativesdk-") and path.endswith(".so") and os.path.islink(path):
--        package_qa_add_message(messages, "dev-so", "non -dev/-dbg/nativesdk- package contains symlink .so: %s path '%s'" % \
--                 (name, package_qa_clean_path(path,d)))
-+        package_qa_add_message(messages, "dev-so", "non -dev/-dbg/nativesdk- package %s contains symlink .so '%s'" % \
-+                 (name, package_qa_clean_path(path, d, name)))
- 
- QAPATHTEST[dev-elf] = "package_qa_check_dev_elf"
- def package_qa_check_dev_elf(path, name, d, elf, messages):
-@@ -195,8 +195,8 @@ def package_qa_check_dev_elf(path, name, d, elf, messages):
-     install link-time .so files that are linker scripts.
-     """
-     if name.endswith("-dev") and path.endswith(".so") and not os.path.islink(path) and elf:
--        package_qa_add_message(messages, "dev-elf", "-dev package contains non-symlink .so: %s path '%s'" % \
--                 (name, package_qa_clean_path(path,d)))
-+        package_qa_add_message(messages, "dev-elf", "-dev package %s contains non-symlink .so '%s'" % \
-+                 (name, package_qa_clean_path(path, d, name)))
- 
- QAPATHTEST[staticdev] = "package_qa_check_staticdev"
- def package_qa_check_staticdev(path, name, d, elf, messages):
-@@ -209,7 +209,7 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
- 
-     if not name.endswith("-pic") and not name.endswith("-staticdev") and not name.endswith("-ptest") and path.endswith(".a") and not path.endswith("_nonshared.a") and not '/usr/lib/debug-static/' in path and not '/.debug-static/' in path:
-         package_qa_add_message(messages, "staticdev", "non -staticdev package contains static .a library: %s path '%s'" % \
--                 (name, package_qa_clean_path(path,d)))
-+                 (name, package_qa_clean_path(path,d, name)))
- 
- QAPATHTEST[mime] = "package_qa_check_mime"
- def package_qa_check_mime(path, name, d, elf, messages):
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index c7b2bf2f49..3d6b80bee2 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -220,11 +220,12 @@ def srctree_hash_files(d, srcdir=None):
+             submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list'], cwd=s_dir, env=env).decode("utf-8")
+             for line in submodule_helper.splitlines():
+                 module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
+-                proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+-                proc.communicate()
+-                proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+-                stdout, _ = proc.communicate()
+-                git_sha1 += stdout.decode("utf-8")
++                if os.path.isdir(module_dir):
++                    proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
++                    proc.communicate()
++                    proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
++                    stdout, _ = proc.communicate()
++                    git_sha1 += stdout.decode("utf-8")
+             sha1 = hashlib.sha1(git_sha1.encode("utf-8")).hexdigest()
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
 -- 
 2.30.2
 
