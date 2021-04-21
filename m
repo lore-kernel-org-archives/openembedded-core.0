@@ -1,67 +1,168 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.1833.1619032886914927955
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.1934.1619033300593068356
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Apr 2021 12:21:27 -0700
+ Wed, 21 Apr 2021 12:28:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BIFic47A;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id y5-20020a05600c3645b0290132b13aaa3bso1814592wmq.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Apr 2021 12:21:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lK8u9/pj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id w6so15284568pfc.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Apr 2021 12:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=8V/TyF337gAH9vdlKDbbG9A2b8+yU9h2MItELQFueUE=;
-        b=BIFic47AoSORAgV63EhsPqKn+YK7NRFwIG/aB8OztLXs/sfLESLrIHCVk72YI+amah
-         esDWk1fNo2zyODfDpKzx74EF+BoWtTelNi/M8KY6Hd3KQGdyErs6+p/iXlb7aP8bYXTL
-         A4e3+QXBMzOlLYnBgLwy5k7X+WtNa+Rz0RyYM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YXmTNnZpySSjUQhxF61t2c68VBmYI3G1N+E9FLLy5EE=;
+        b=lK8u9/pjcCaG2X9WjkoyvkuMRfAIArkDp7Lyb5GTGCEVYpi8NiHmiSHZN/bNFvamUH
+         2MB9m6cucvVr3nYw6pm+Rkru4uY9E4KfraBR16Wk6LVI65ckKkJ1xr9LgoS1JvBlHf9G
+         SSRK3NV+UJMiD9HfDPih18o5TBNAKobW+ClYoPPHgxp32RCmE8en2DjQ4cgmkMK2/tA2
+         mI8/jJCd9KX1TMGtBIDvBeoXerA6dnceWYm85XZcxDDiA0lARJ4Vajw63uF1vUm6cm6Q
+         QhNK6WzrziCAFe760102BYg/l0GnILynH7lVrrOVVJ2knGqNvGAEenLIT/oL/AeL4WT3
+         +btw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=8V/TyF337gAH9vdlKDbbG9A2b8+yU9h2MItELQFueUE=;
-        b=oWRQnSmN4lHPWJHmZAr6ZBUx6Xn+ye72ftz0QCtO79h6HXgKfHlanagg5ZnPcRiyyB
-         broYn3ci7DbDZgftUE3nJTVdTRhCRbvumCrtJNKojI2uftIrsqNkPQ1ordQZSZx3VuDg
-         2xyoXguRf+G5i6bA1CaTwLuz3EDYKvq/zRDBuwK6C7Vs6pCYoP5vUmnxKudAV7VHkIQY
-         iy0yisFfEsgAIYVNNdsmwib/yHTHkDYouUOQDIz1RYaMRIuOS7zPLk1huOzVc9zWkPvb
-         g907LF8TCj5CZPuN16zuJYqcCgcAZnq6SP+YTZGGL/ajSwrLypuagTx0A7NJ58zq3w2r
-         gFzg==
-X-Gm-Message-State: AOAM533X7COyi5LLIzU4EbuAww20ObPHunKwFku8S5mwOu8BzQbumv06
-	mpaYW5XzvIOOcY+ET7Hjl+7pRQ==
-X-Google-Smtp-Source: ABdhPJzkZzrXoXf8zrQ+xnPPLRoK8qrVE88QIlYdf3U0TPF0KSrH0mLZ5Yxr9YjWCyiiaC6bPl4zqw==
-X-Received: by 2002:a1c:f30a:: with SMTP id q10mr11175342wmq.128.1619032885455;
-        Wed, 21 Apr 2021 12:21:25 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:95dc:b210:2777:ba53? ([2001:8b0:aba:5f3c:95dc:b210:2777:ba53])
-        by smtp.gmail.com with ESMTPSA id p13sm450201wrt.0.2021.04.21.12.21.25
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YXmTNnZpySSjUQhxF61t2c68VBmYI3G1N+E9FLLy5EE=;
+        b=DVAwKb4mJobUMqs6wZKJbV9IVS3DjFtP9aB95+esKxOtDUQ1sveph8eR8/ZV12UGP/
+         /AHsCWPd6PBk5HjoUAN7YNP4PcmHy5Ro6fEHE6iAXXyR26yEK/52hdsvrxV9Dqzif95E
+         2+QgY+1003t/SFH6Xtdn799EsSabHAkKmgLFgIQChls8no+z8nsYI8Ti/O0mMjqoo48A
+         vm5pPRGfZdzogC7aF6G6ooI6rmeX30lv5Div7zsxbfH8+w3sgub8P7MDLVdorNoHZ88F
+         21ADsJ0x+ydcyfoqTYedc9d3UjXZPSsKCbZ7ixtlpbLmGwC0+7318S2S71IGDG+hu53H
+         CVHg==
+X-Gm-Message-State: AOAM532ivR64atl3lMOafbNtY5o5KPpGarp0BZ6DJyCsbP/R2uvuKgwm
+	I/2EvudsrSobDNJLnPivB+tlJsehYEl3tQ==
+X-Google-Smtp-Source: ABdhPJyiVyW6kfLG3s36LBamUFsO6eXTpN75o6sAcbdUwxiYKglo0Y2rQlzfSss/gSmDN72yKZX1yg==
+X-Received: by 2002:a63:5b26:: with SMTP id p38mr23644348pgb.141.1619033299708;
+        Wed, 21 Apr 2021 12:28:19 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
+        by smtp.gmail.com with ESMTPSA id k69sm186163pga.45.2021.04.21.12.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 12:21:25 -0700 (PDT)
-Message-ID: <aebbbcf8d29afec37b4a9c459eca8ab24112137f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Devendra Tewari <devendra.tewari@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>, OE
-	Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Apr 2021 20:21:14 +0100
-In-Reply-To: <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
-References: 
-	<d59ab2e71f0115018fb1c957276ce71e3292cd95.camel@linuxfoundation.org>
-	 <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        Wed, 21 Apr 2021 12:28:19 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] elfutils: Make 64bit time_t fix generic
+Date: Wed, 21 Apr 2021 12:28:17 -0700
+Message-Id: <20210421192817.1718155-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-04-21 at 16:15 -0300, Devendra Tewari wrote:
-> That's a neat idea - if the exception handler catches OSError with error number 
-> 18 (Invalid cross-device link) in os.rename, it should attempt shutil.move, 
-> otherwise it should re-throw the exception with raise. A wrapper function 
-> will make it easier to handle other situations as they arise. I'll update the patch.
+Apply it always since more than x32 needs it
 
-Sounds good. Could you also please split the patch into two, one for bitbake
-and one for OE-Core since they are two different repositories.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../elfutils/elfutils_0.183.bb                |  4 +--
+ ...infod-client.c-correct-string-format.patch | 32 +++++++++++++------
+ 2 files changed, 24 insertions(+), 12 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.183.bb b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
+index dfc3a3fa5b..7aebaf1b6d 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.183.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.183.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
+            file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
++           file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
+            "
+ SRC_URI_append_libc-musl = " \
+            file://0002-musl-libs.patch \
+@@ -29,9 +30,6 @@ SRC_URI_append_libc-musl = " \
+            file://0004-Fix-error-on-musl.patch \
+            file://0015-config-eu.am-do-not-use-Werror.patch \
+            "
+-SRC_URI_append_x86-x32 = " \
+-           file://0001-debuginfod-debuginfod-client.c-correct-string-format.patch \
+-           "
+ SRC_URI[sha256sum] = "c3637c208d309d58714a51e61e63f1958808fead882e9b607506a29e5474f2c5"
+ 
+ inherit autotools gettext ptest pkgconfig
+diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+index a2737b9fe6..5bd6ba961c 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-correct-string-format.patch
+@@ -1,16 +1,27 @@
+-From f4231bfbb61cd4962638766a7072f4295ed39150 Mon Sep 17 00:00:00 2001
++From 14dfe84943b8f9e6f504536d8735ef6356210b40 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Apr 2021 23:29:10 +0200
+-Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on x32
++Subject: [PATCH] debuginfod/debuginfod-client.c: correct string format on
++ 32bit arches with 64bit time_t
++
++Use intmax_t to print time_t
++
++time_t is platform dependent and some of architectures e.g.
++x32, riscv32, arc use 64bit time_t even while they are 32bit
++architectures, therefore directly using integer printf formats will not
++work portably, use intmax_t to typecast time_t into printf family of
++functions
++
++Upstream-Status: Pending
+ 
+-Upstream-Status: Inappropriate [x32-specific; few, if any people care about it anymore]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  debuginfod/debuginfod-client.c | 10 +++++-----
+  1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+-index de26af5..a840f23 100644
++index de26af5..39e28f2 100644
+ --- a/debuginfod/debuginfod-client.c
+ +++ b/debuginfod/debuginfod-client.c
+ @@ -229,7 +229,7 @@ debuginfod_init_cache (char *cache_path, char *interval_path, char *maxage_path)
+@@ -18,7 +29,7 @@ index de26af5..a840f23 100644
+      return -errno;
+  
+ -  if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
+-+  if (dprintf(fd, "%lld", cache_clean_default_interval_s) < 0)
+++  if (dprintf(fd, "%jd", (intmax_t)cache_clean_default_interval_s) < 0)
+      return -errno;
+  
+    /* init max age config file.  */
+@@ -27,7 +38,7 @@ index de26af5..a840f23 100644
+      return -errno;
+  
+ -  if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
+-+  if (dprintf(fd, "%lld", cache_default_max_unused_age_s) < 0)
+++  if (dprintf(fd, "%jd", (intmax_t)cache_default_max_unused_age_s) < 0)
+      return -errno;
+  
+    return 0;
+@@ -36,7 +47,7 @@ index de26af5..a840f23 100644
+          return -errno;
+  
+ -      int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
+-+      int rc = fprintf(interval_file, "%lld", cache_clean_default_interval_s);
+++      int rc = fprintf(interval_file, "%jd", (intmax_t)cache_clean_default_interval_s);
+        fclose(interval_file);
+  
+        if (rc < 0)
+@@ -45,7 +56,7 @@ index de26af5..a840f23 100644
+    if (interval_file)
+      {
+ -      if (fscanf(interval_file, "%ld", &clean_interval) != 1)
+-+      if (fscanf(interval_file, "%lld", &clean_interval) != 1)
+++      if (fscanf(interval_file, "%jd", (intmax_t*)(&clean_interval)) != 1)
+          clean_interval = cache_clean_default_interval_s;
+        fclose(interval_file);
+      }
+@@ -54,7 +65,10 @@ index de26af5..a840f23 100644
+    if (max_unused_file)
+      {
+ -      if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
+-+      if (fscanf(max_unused_file, "%lld", &max_unused_age) != 1)
+++      if (fscanf(max_unused_file, "%jd", (intmax_t*)(&max_unused_age)) != 1)
+          max_unused_age = cache_default_max_unused_age_s;
+        fclose(max_unused_file);
+      }
++-- 
++2.31.1
++
+-- 
+2.31.1
 
