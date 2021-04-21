@@ -1,249 +1,95 @@
-Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
- by mx.groups.io with SMTP id smtpd.web08.6328.1618968886998788459
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web08.6548.1618970334201761167
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Apr 2021 18:34:47 -0700
+ Tue, 20 Apr 2021 18:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: soulik.info, ip: 108.61.200.231, mailfrom: ayaka@soulik.info)
-Received: from [IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4] (unknown [IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
-	by kozue.soulik.info (Postfix) with ESMTPSA id 652E01007A7;
-	Wed, 21 Apr 2021 10:34:42 +0900 (JST)
-Subject: Re: [OE-core] [PATCH v3] seatd: add seatd recipe
-To: Joshua Watt <jpewhacker@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com, contact@emersion.fr, kl@kl.wtf
-References: <20210420234341.182745-1-ayaka@soulik.info>
- <50825f3b-3c5f-1b51-d01f-eb850cca4da3@gmail.com>
-From: "Randy Li" <ayaka@soulik.info>
-Message-ID: <434efd41-dd9a-ac4e-4ac4-681b982678c0@soulik.info>
-Date: Wed, 21 Apr 2021 09:34:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13L1wq5O015962
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Apr 2021 18:58:52 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 20 Apr 2021 18:58:52 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.4 via Frontend Transport; Tue, 20 Apr 2021 18:58:51 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] rpm: Upgrade to 4.16.1.3
+Date: Wed, 21 Apr 2021 09:58:50 +0800
+Message-ID: <20210421015850.21034-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <50825f3b-3c5f-1b51-d01f-eb850cca4da3@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On 4/21/21 9:26 AM, Joshua Watt wrote:
->
->
-> On 4/20/21 6:43 PM, Randy Li wrote:
->> Seat management takes care of mediating access to shared devices
->> (graphics, input), without requiring the applications needing access to
->> be root.
->>
->> weston would depend on it as well as wlroots.
->>
->> Signed-off-by: Randy Li<ayaka@soulik.info>
->> ---
->>   ...build-fixup-standalone-without-seatd.patch | 71 +++++++++++++++++++
->>   meta/recipes-core/seatd/libseat/init          | 50 +++++++++++++
->>   meta/recipes-core/seatd/libseat_0.5.0.bb      | 43 +++++++++++
->>   3 files changed, 164 insertions(+)
->>   create mode 100644 meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-without-seatd.patch
->>   create mode 100644 meta/recipes-core/seatd/libseat/init
->>   create mode 100644 meta/recipes-core/seatd/libseat_0.5.0.bb
->>
->> diff --git a/meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-without-seatd.patch b/meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-without-seatd.patch
->> new file mode 100644
->> index 0000000000..66e1ac73ab
->> --- /dev/null
->> +++ b/meta/recipes-core/seatd/libseat/0001-build-fixup-standalone-without-seatd.patch
->> @@ -0,0 +1,71 @@
->> +From 084df8ab271ce4b09c1ef5d9c5a859b2d02d20e7 Mon Sep 17 00:00:00 2001
->> +From: ayaka<ayaka@soulik.info>
->> +Date: Mon, 19 Apr 2021 22:15:46 +0800
->> +Subject: [PATCH] build: fixup standalone without seatd
->> +
->> +I think that server option means the same thing as seatd, so I
->> +get rid of it.
->
-> I don't understand the purpose of this patch; why do we need to get 
-> rid of the server?
->
-I also sent this patch to the upstream, seatd is the server of libseat, 
-besides you could build a libseat with a embedded server without 
-shipping the seatd.
+Fixes some security vulnerabilities such as CVE-2021-3421 and
+CVE-2021-20271.
 
-Then the feature opinions "server" and "seatd" are both controlling the 
-same thing.
+Rebase 0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+to avoid fuzz warnings.
 
-I sent this patch because I tended to use the built-in version for 
-sysvinit before, but later the maintainer make a decision that built-in 
-server would be removed in the future. Anyway, those two opinions are 
-still duplicated.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...ot-hardcode-lib-rpm-as-the-installation-path-for.patch | 8 ++++----
+ .../rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb}              | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb} (99%)
 
->> +---
->> + meson.build       | 10 +++++-----
->> + meson_options.txt |  1 -
->> + 2 files changed, 5 insertions(+), 6 deletions(-)
->> +
->> +diff --git a/meson.build b/meson.build
->> +index 7a70cb6..a2166c5 100644
->> +--- a/meson.build
->> ++++ b/meson.build
->> +@@ -104,10 +104,11 @@ server_files = [
->> +
->> + with_seatd = get_option('seatd') == 'enabled'
->> + with_builtin = get_option('builtin') == 'enabled'
->> +-with_server = get_option('server') == 'enabled'
->> +
->> +-if with_seatd
->> ++if with_seatd or with_builtin
->> + 	private_files += 'libseat/backend/seatd.c'
->> ++endif
->> ++if with_seatd
->> + 	add_project_arguments('-DSEATD_ENABLED=1', language: 'c')
->> + endif
->> +
->> +@@ -189,7 +190,7 @@ libseat = declare_dependency(
->> + 	variables: libseat_vars,
->> + )
->> +
->> +-if with_server
->> ++if with_seatd
->> + 	executable(
->> + 		'seatd',
->> + 		[ server_files, 'seatd/seatd.c' ],
->> +@@ -221,7 +222,7 @@ foreach name, value : tests
->> + 		include_directories: [include_directories('.', 'include')]))
->> + endforeach
->> +
->> +-if with_server
->> ++if with_seatd
->> + 	scdoc = dependency('scdoc', required: get_option('man-pages'), version: '>= 1.9.7', native: true)
->> + else
->> + 	scdoc = disabler()
->> +@@ -252,7 +253,6 @@ endif
->> + summary({
->> + 	'seatd': with_seatd,
->> + 	'builtin': with_builtin,
->> +-	'server': with_server,
->> + 	'systemd': logind.found() and logind_provider == 'systemd',
->> + 	'elogind': logind.found() and logind_provider == 'elogind',
->> + }, bool_yn: true)
->> +diff --git a/meson_options.txt b/meson_options.txt
->> +index 144ce7a..c61d473 100644
->> +--- a/meson_options.txt
->> ++++ b/meson_options.txt
->> +@@ -1,7 +1,6 @@
->> + option('logind', type: 'combo', choices: ['auto', 'disabled', 'elogind', 'systemd'], value: 'auto', description: 'logind support')
->> + option('seatd', type: 'combo', choices: ['enabled', 'disabled'], value: 'enabled', description: 'seatd support')
->> + option('builtin', type: 'combo', choices: ['enabled', 'disabled'], value: 'disabled', description: 'builtin seatd server')
->> +-option('server', type: 'combo', choices: ['enabled', 'disabled'], value: 'enabled', description: 'seatd server')
->> + option('examples', type: 'combo', choices: ['enabled', 'disabled'], value: 'disabled', description: 'libseat example programs')
->> + option('man-pages', type: 'feature', value: 'auto', description: 'Generate and install man pages')
->> + option('defaultpath', type: 'string', value: '', description: 'Default location for seatd socket (empty for default)')
->> +--
->> +2.30.2
->> +
->> diff --git a/meta/recipes-core/seatd/libseat/init b/meta/recipes-core/seatd/libseat/init
->> new file mode 100644
->> index 0000000000..8c9d77255d
->> --- /dev/null
->> +++ b/meta/recipes-core/seatd/libseat/init
->> @@ -0,0 +1,50 @@
->> +#!/bin/sh
->> +#
->> +### BEGIN INIT INFO
->> +# Provides:          seatd
->> +# Short-Description: Start seat management daemon
->> +# Required-Start:    $local_fs $remote_fs
->> +# Required-Stop:     $local_fs $remote_fs
->> +# Default-Start:     2 3 4 5
->> +# Default-Stop:      0 1 6
->> +### END INIT INFO
->> +
->> +PATH=/bin:/usr/bin:/sbin:/usr/sbin
->> +
->> +test -x /usr/bin/seatd || exit 0
->> +
->> +# For configuration of the init script use the file
->> +# /etc/default/seatd, do not edit this init script.
->> +
->> +seatd_group="seatd"
->> +
->> +[ -e /etc/default/seatd ] && . /etc/default/seatd
->> +
->> +NAME=seatd
->> +DAEMON=/usr/bin/seatd
->> +STOP_RETRY_SCHEDULE='TERM/10/forever/KILL/1'
->> +
->> +. /etc/init.d/functions
->> +
->> +case "$1" in
->> +  start)
->> +    start-stop-daemon --start --backgroud --quiet --pidfile /var/run/$NAME.pid \
->> +	    --exec $DAEMON -- -g $seatd_group
->> +    ;;
->> +
->> +  stop)
->> +    killproc $NAME
->> +    ;;
->> +
->> +  restart)
->> +    $0 stop
->> +    sleep 1
->> +    $0 start
->> +    ;;
->> +  *)
->> +    echo "Usage: $0 {start|stop|restart}"
->> +    exit 1
->> +
->> +esac
->> +
->> +exit 0
->> diff --git a/meta/recipes-core/seatd/libseat_0.5.0.bb b/meta/recipes-core/seatd/libseat_0.5.0.bb
->> new file mode 100644
->> index 0000000000..8067d32a26
->> --- /dev/null
->> +++ b/meta/recipes-core/seatd/libseat_0.5.0.bb
->> @@ -0,0 +1,43 @@
->> +SUMMARY = "Seat management daemon and library"
->> +HOMEPAGE ="https://git.sr.ht/~kennylevinsen/seatd"
->> +SECTION = "base"
->> +
->> +DESCRIPTION = "A minimal seat management daemon, and a universal seat management \
->> +library. Seat management takes care of mediating access to shared devices \
->> +(graphics, input), without requiring the applications needing access to be root."
->> +
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM ="file://LICENSE;beginline=3;md5=6a01e8ccc65bea4e8bfa79b09ea1444c"
->> +
->> +SRCREV = "5535c2c3b19b42ebfe4c451600059e9418e401a6"
->> +SRCBRANCH = "master"
->> +SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=http;branch=${SRCBRANCH} \
->> +file://0001-build-fixup-standalone-without-seatd.patch  \
->> +file://init"
->> +
->> +S = "${WORKDIR}/git"
->> +
->> +inherit pkgconfig meson useradd update-rc.d
->> +
->> +PACKAGECONFIG ??="${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager', 'systemd', 
->> 'systemd', 'seatd', d)}"
->> +
->> +PACKAGECONFIG[seatd] = "-Dseatd=enabled, -Dseatd=disabled"
->> +PACKAGECONFIG[systemd] = "-Dlogind=systemd, -Dlogind=disabled, systemd dbus"
->> +
->> +PACKAGES += "seatd"
->> +
->> +FILES_${PN} = "${libdir}/lib*${SOLIBS}"
->> +FILES_seatd = "${bindir}/seatd ${sysconfdir}"
->> +
->> +do_install_append() {
->> +	if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
->> +		install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd
->> +	fi
->> +}
->> +
->> +INITSCRIPT_NAME = "seatd"
->> +INITSCRIPT_PARAMS = "start 8 5 2 . stop 21 0 1 6 ."
->> +
->> +USERADD_PACKAGES = "seatd"
->> +
->> +GROUPADD_PARAM_seatd = "-r seatd"
->>
->> 
->>
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index 38d755205c..d8fcc16729 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From 9bbe3f8564705aafcdcc5f2f033f9241a97f47c6 Mon Sep 17 00:00:00 2001
++From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 6c78568e4..76b1d40e4 100644
++index fe35a90fa..b2faec6f3 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -966,7 +966,7 @@ else
+@@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+ diff --git a/rpm.am b/rpm.am
+-index cd40a16be..e6941e09f 100644
++index 8e1dc2184..3d889ec86 100644
+ --- a/rpm.am
+ +++ b/rpm.am
+ @@ -1,10 +1,10 @@
+@@ -55,4 +55,4 @@ index cd40a16be..e6941e09f 100644
+ +rpmconfigdir = $(libdir)/rpm
+  
+  # Libtool version (current-revision-age) for all our libraries
+- rpm_version_info = 10:2:1
++ rpm_version_info = 10:3:1
+diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+similarity index 99%
+rename from meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
+rename to meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+index d369c706a2..7c03b41fc8 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+@@ -43,7 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
+            "
+ 
+ PE = "1"
+-SRCREV = "278883a704ea36c97974d0f2d65d41abe78b0e2a"
++SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.29.2
+
