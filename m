@@ -1,161 +1,95 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web10.13843.1619103931965207351
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web12.242.1619105402947822621
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 08:05:32 -0700
+ Thu, 22 Apr 2021 08:30:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aC1i/Vni;
- spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id s5so37805985qkj.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:05:31 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=P6JOG1uR;
+ spf=pass (domain: linaro.org, ip: 209.85.219.46, mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qv1-f46.google.com with SMTP id bs7so21692887qvb.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RFMPK//NyZsJdkkPFIBImQAcznl1TXTGUFhR93F9iN0=;
-        b=aC1i/Vni+cetcoZVe7DQ9dn4onhq/wpPOzSZYyGcoIkKeHkfpHzWhjiWMk4sdTeVSd
-         f0rJIWCSryo79vX/4tHCRyvXOlTYVGWnoBfOjiMJ43tj+6IcInS5fdaNPA48R2GvWuCW
-         MckUlqBW8l83jOUl3ITo7+4uFjYukNKZNq6DNcjodtNdGZcLVhsawkLD8Llmxq1DZKNS
-         Dwn0wn0D1Jj0xmuyDe/QHTXf2OcOC5AVJn78JipYQe1Yy3/VEkT0RqcJ0JTTK8GP6L1Z
-         tOIK0iMA7BORC0M3/0QgKLt1kN4Vax/aS7hnvXmXUO6UXV7Q8VTwjJ2Z9qxd05fCSdCa
-         sliw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=KHl/sjYBgxZ14L2evAfciiJxkAAjUMMNeLSNS48lWdc=;
+        b=P6JOG1uRcQ6RACn8OVC4bAuuHDbzKmsKFsPVTtNed1wkyRNwX1khSVx8DT6X/DCQdH
+         De6L6obLwckVWzPxS0chj+HwOTPIgrj3welzhpC1ceyLVWrPfMwqvOgZIZOI8dYSlMZV
+         Dgem3808K6NEH4A5GodvDaMN7N1w0tSSsEbAZIWIqICchTDEzH+Ek3dMTfGpc4znwOU4
+         7wsVGd0CRwrKZR1DIPitXCvE1dZM/PR1imT7teXjg6kjraDcuGfC8mn/+dFXnBF7iAeY
+         +RjYR8LENNmLq7K5w2+P6Nic1m1ZUsw7Q4BY0+fQdsZMBvs2ttlcoPJlUAyzO+ShcOuL
+         cQlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RFMPK//NyZsJdkkPFIBImQAcznl1TXTGUFhR93F9iN0=;
-        b=n0J7dMRzIZvJfCkBkidvol14JPqYVhm47k+8pgDoxvbR0UGcsNpCmUbo3UcnYGZ02N
-         C0KAYEW1zoJE6wtSoge6ElTO9XXK3ZUAqT1uXfIA0wuYz3kEzkMavNIpmqIwGwyottuI
-         8QZY2HA8CiL0JmowWAp/epaDx61xPWRZDN6/q0qW8NhSwBq/0Tks98iDXvYj/OmxNbjb
-         gXsBu0pHsJxZz57rWm0fRZAC6b6LZw8JsFxT7yUEa00RF+ZTJQli+80JKSzXH7Ih6OqL
-         PEHWpFPkbZml792QWwMTlaxFT4D6uwx7SWzuA7Q+H11OeksJKR1molIlmfPO//8vDJBL
-         Ekhw==
-X-Gm-Message-State: AOAM532GC5pUl9/ziswj6qhUZLlN8IG1PeMFogI9ro/s8MX0tLQPILNa
-	MULkhXii2PkbrIaI9RbUdL5T7sst4PyKkhg0BXo=
-X-Google-Smtp-Source: ABdhPJwVo2kD+GBfpWiDNLU5nq6KbdpbQasTHucWpdqWqn1wxp6Mrv+BfH1TwkTN3DOjrxruxXE87/Dtjw6A0zxyZQY=
-X-Received: by 2002:a37:9607:: with SMTP id y7mr4153705qkd.25.1619103930984;
- Thu, 22 Apr 2021 08:05:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210422144152.29206-1-mikko.rapeli@bmw.de>
-In-Reply-To: <20210422144152.29206-1-mikko.rapeli@bmw.de>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 22 Apr 2021 08:05:20 -0700
-Message-ID: <CAMKF1sq8YwMNdL7f-COjZLDxzNL=8CPrZmX-1WwDqYZc=aASOQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] lz4: use CFLAGS from bitbake
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KHl/sjYBgxZ14L2evAfciiJxkAAjUMMNeLSNS48lWdc=;
+        b=IzpqcSiIPDSPybHYA0kVg64Ckz1kYIu06tPVU5S38JRqzs0iER9WDSyAucfwjaxhGd
+         YUJZ7PWYfO1WO07PV0JMVf4/ZeLLb7g3ABXoSdPRQ8SpqYW7YIHmTj/U27XwNZlGs10L
+         1a32cUDffoVbBccGBl0QNwQnC9ZfAH+Kz/+25zzP1WwMz1HxR1v3VeIDuKN49SaG/+JQ
+         bO2TjrI5ZZjJ44KjNJsimv2IlgCqP+pPPwoCJfaj2bCoXxkmdHP5GoNtXUdNeVbUL39l
+         Iob5FVLqnioMe/IODM3MRYbb9CgPiv/YsiK4i42P8wennkfPTmpY813hpnUZkxRAmQDu
+         rVLQ==
+X-Gm-Message-State: AOAM531/eRm/fX3Wf2RZICs1UZhZTycL8yM1LMlhbRUjNHajN68wSqTH
+	S0ODe2bogoaZL9VLfRl0od9JWg==
+X-Google-Smtp-Source: ABdhPJwQ4n0NneYwU3yizUcjyUGRY6Smie8CBA+Wl169ucVrlXps250f527u3dTjMaYPoUahT5x1YA==
+X-Received: by 2002:a0c:e24e:: with SMTP id x14mr4176017qvl.33.1619105402021;
+        Thu, 22 Apr 2021 08:30:02 -0700 (PDT)
+Return-Path: <ralph.siemsen@linaro.org>
+Received: from localhost (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id x19sm2316817qkx.107.2021.04.22.08.30.00
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 22 Apr 2021 08:30:01 -0700 (PDT)
+Date: Thu, 22 Apr 2021 11:30:00 -0400
+From: "Ralph Siemsen" <ralph.siemsen@linaro.org>
+To: Konrad Weihmann <kweihmann@outlook.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a92f3c05c091029a"
+Subject: Re: [OE-core] [PATCH] cve-update-db-native: skip on empty cpe23Uri
+Message-ID: <20210422153000.GA16506@maple.netwinder.org>
+References: <AM9PR09MB46420BB6685CA903F63B2575A8469@AM9PR09MB4642.eurprd09.prod.outlook.com>
+MIME-Version: 1.0
+In-Reply-To: <AM9PR09MB46420BB6685CA903F63B2575A8469@AM9PR09MB4642.eurprd09.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
---000000000000a92f3c05c091029a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Konrad,
 
-On Thu, Apr 22, 2021 at 7:42 AM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+On Thu, Apr 22, 2021 at 08:51:43AM +0200, Konrad Weihmann wrote:
 
-> Currently lz4 uses it's own defaults which include O3 optimization.
-> Switch from O3 to bitbake default O2 reduces binary package size
-> from 467056 to 331888 bytes. Enables also building with Os if needed.
+>Recently an entry in the NVD DB appeared that looks like that
+>{'vulnerable': True, 'cpe_name': []}.
+>As besides all the vulnerable flag no data is present we would get
+>a KeyError exception on acccess.
+>Use get method on dictionary and return if no meta data is present
 
+Thank you for this fix. With it applied, I am getting error:
 
-These could impact runtime performance have you
-Checked what the rough impact is ?
-Secondly we will be using non default set which could result in errors les=
-s
-seen by others over time I have realized it=E2=80=99s also good to open a =
-dialog
-upstream and get the reasoning behind not letting distro defaults apply
-some packages do have valid reasons
+Exception: AttributeError: 'NoneType' object has no attribute 'split'
 
+I was able to make it work by adjusting the patch slightly, see below.
+Note that I am a python rookie, so this may not be the proper solution.
 
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  meta/recipes-support/lz4/lz4_1.9.3.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/lz4/lz4_1.9.3.bb
-> b/meta/recipes-support/lz4/lz4_1.9.3.bb
-> index effc530b94..3905ef7dbc 100644
-> --- a/meta/recipes-support/lz4/lz4_1.9.3.bb
-> +++ b/meta/recipes-support/lz4/lz4_1.9.3.bb
-> @@ -22,7 +22,7 @@ S =3D "${WORKDIR}/git"
->  # Fixed in r118, which is larger than the current version.
->  CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
->
-> -EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' DESTDIR=3D${D} LIBDIR=
-=
-=3D${libdir}
-> INCLUDEDIR=3D${includedir} BUILD_STATIC=3Dno"
-> +EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' CFLAGS=3D'${CFLAGS}'
-> DESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATI=
-C=3Dno"
->
->  do_install() {
->         oe_runmake install
-> --
-> 2.20.1
->
->
->=20
->
->
+Regards,
+Ralph
 
---000000000000a92f3c05c091029a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+--
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Apr 22, 2021 at 7:42 AM Mikko Rapeli &lt;<a href=
-=3D"mailto:mikko.rapeli@bmw.de">mikko.rapeli@bmw.de</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">Currently lz4 uses it&#39;s own defaults w=
-hich include O3 optimization.<br>
-Switch from O3 to bitbake default O2 reduces binary package size<br>
-from 467056 to 331888 bytes. Enables also building with Os if needed.</blo=
-ckquote><div dir=3D"auto"><br></div><div dir=3D"auto">These could impact ru=
-ntime performance have you</div><div dir=3D"auto">Checked what the rough im=
-pact is ?=C2=A0</div><div dir=3D"auto">Secondly we will be using non defaul=
-t set which could result in errors less seen by others over time I have rea=
-lized it=E2=80=99s also good to open a dialog upstream and get the reasonin=
-g behind not letting distro defaults apply some packages do have valid reas=
-ons=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" d=
-ir=3D"auto"><br>
-<br>
-Signed-off-by: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@bmw.de" tar=
-get=3D"_blank">mikko.rapeli@bmw.de</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/lz4/<a href=3D"http://lz4_1.9.3.bb" rel=3D"nore=
-ferrer" target=3D"_blank">lz4_1.9.3.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-support/lz4/<a href=3D"http://lz4_1.9.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">lz4_1.9.3.bb</a> b/meta/recipes-support/=
-lz4/<a href=3D"http://lz4_1.9.3.bb" rel=3D"noreferrer" target=3D"_blank">lz=
-4_1.9.3.bb</a><br>
-index effc530b94..3905ef7dbc 100644<br>
---- a/meta/recipes-support/lz4/<a href=3D"http://lz4_1.9.3.bb" rel=3D"nore=
-ferrer" target=3D"_blank">lz4_1.9.3.bb</a><br>
-+++ b/meta/recipes-support/lz4/<a href=3D"http://lz4_1.9.3.bb" rel=3D"nore=
-ferrer" target=3D"_blank">lz4_1.9.3.bb</a><br>
-@@ -22,7 +22,7 @@ S =3D &quot;${WORKDIR}/git&quot;<br>
-=C2=A0# Fixed in r118, which is larger than the current version.<br>
-=C2=A0CVE_CHECK_WHITELIST +=3D &quot;CVE-2014-4715&quot;<br>
-<br>
--EXTRA_OEMAKE =3D &quot;PREFIX=3D${prefix} CC=3D&#39;${CC}&#39; DESTDIR=3D=
-${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3Dno&quot;<=
-br>
-+EXTRA_OEMAKE =3D &quot;PREFIX=3D${prefix} CC=3D&#39;${CC}&#39; CFLAGS=3D&=
-#39;${CFLAGS}&#39; DESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${include=
-dir} BUILD_STATIC=3Dno&quot;<br>
-<br>
-=C2=A0do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake install<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000a92f3c05c091029a--
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index f27ade40db..c38f16afac 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -130,7 +130,10 @@ def parse_node_and_insert(c, node, cveId):
+         for cpe in node.get('cpe_match', ()):
+             if not cpe['vulnerable']:
+                 return
+-            cpe23 = cpe['cpe23Uri'].split(':')
++            cpe23 = cpe.get('cpe23Uri')
++            if not cpe23:
++                return
++            cpe23 = cpe23.split(':')
+             vendor = cpe23[3]
+             product = cpe23[4]
+             version = cpe23[5]
+--
+2.17.1
