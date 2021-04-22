@@ -1,138 +1,102 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web12.750.1619107475281638882
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.772.1619107498399205540
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 09:04:35 -0700
+ Thu, 22 Apr 2021 09:04:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aaIRms2c;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id e2so19449948plh.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 09:04:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LjT6CCd7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id o16so10161239plg.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 09:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=4ds60bdQEv5hFaDhvdg3PN3OBYZKZkEtxZx8v82ltbo=;
-        b=aaIRms2cLfkowH4A1e89qL8CkqoQWjoLG8xBxoov6JqMEGvwOng6kreLqlBoD03x+u
-         5UIgocmMK9Ldwcxn8ZCXOcNE6085GbVoK+FZzkUUAH63SSP9ROcZTPYzwKnCJrug2DCO
-         5NqTAPXns4mcuPxXvuFogdhP6zcyy186PnkiEndvwzNbiJLOEl3HfwDNOYh4VT4c2bQ6
-         vx47v+Rhdb8RX1VOG7aRBuP+5VHvrIwT6ccc1DmqtPF9nTXtOZkqmEz0L/gS0xldlyHF
-         glpXaqO9mvWFThcanX1aKbFIMDrslFFNZBkpQHze/YJTEVNLr/grZ+C43Byhs0rzz1jt
-         6teg==
+        bh=/uh+Pv68WyszpK/PPSPDu9gqHBlCIbKJE/yQ628PWog=;
+        b=LjT6CCd7V0X1IxqPuW0hOD0J3DR6luhjkL7HXmGfEOlh49hw60l5A7XLW0WDv+l8r3
+         G2NvTFuPGBQJGaY4pz9NhBIyNEf0+5h2J7Br+UEIk4qi94ZJXUl0h2Soa16Ye+sU62bM
+         7/4Pc/YTXeCJDX2P3FA6leSYuBzWNTsZyOmnLvG5TQyOXiSEjx3BCiTgjkfkgA0vACRr
+         yLeYV/EZ/hm6BDTgG/algMRScdfPr6+LLuJpQ4VHRssVUXxNDk6uTVXZzZbMLwDa3aTa
+         zBkJEmy129JVgtL1zCmKvtLj6cstxIj2XsvdBZXXQDW6uWAiuc19bSZkDnekEoc5Gke2
+         xfbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=4ds60bdQEv5hFaDhvdg3PN3OBYZKZkEtxZx8v82ltbo=;
-        b=Ab6mG7dNV/JK0nYPYm6QD46v4YRqxBMZCmXNqXhMKNW8ZXRSPfE4YrLM3H33tGj65l
-         9Svdu1wN6DK/UHkc3NQ/CM447rnHoor27NXLNcbYTErVJ/+zxVIh8dAww5OAThTXw51S
-         8SuUmxj8OdLq46aCd0Pg/pdumseSW5apOEdPhqOl2gqX4K0ZbaYHk0PHSdkavYusW2+z
-         aKmkO7wbq5qBiN1BaBFraRPV3OXe9byBWpg2CElnS9sFL0tnxu3avsCyK9/VIdCBxOhG
-         fFl8iIFO5mQsa1o+xYC6eynY1VcfoIRzFfhfsuoDUUEvNmu5+PW0mP4mRoktd203FDDK
-         HDOQ==
-X-Gm-Message-State: AOAM533lFlyvGbb7jF1hUdgyiJavhYSTGEXI2OpbUujeJsV6H8LOp4Du
-	aaTYSvvmtvotsy3Q9c7BvStKVzTXyYcsXQ==
-X-Google-Smtp-Source: ABdhPJwcF9Aqbqlie+dGdPQL658/hnSQCq3nJXPhHfXtx5g1nRliqQUiDxsAd7dSNQmxpRQDmsNnRw==
-X-Received: by 2002:a17:90a:644b:: with SMTP id y11mr4647932pjm.229.1619107474433;
-        Thu, 22 Apr 2021 09:04:34 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
-        by smtp.gmail.com with ESMTPSA id j27sm2856861pgb.54.2021.04.22.09.04.33
+        bh=/uh+Pv68WyszpK/PPSPDu9gqHBlCIbKJE/yQ628PWog=;
+        b=mnXqyHwU7IW3JaTME8Y3BSMUJgBMn3v+nwy7CGK7sLjJCOcz1doRMWU/2ZGKtuZtJ3
+         /bauiL45MS+faYOPrKGu3GAFRilU1M/G8CVrR9N8gcQ3XaJkZkjfu6Vg+HSzbxGg5o9E
+         BAeCLb1JyTTpokejaZ5FqzBApFCCKocxTCAD5TsaVac36sIXLiBnoxUuysOvs6ey1Swu
+         6gXxntVFjyU9/aD99+GGqTv8/TpFcPE12VOdDtRZ0oQhQQzOs+KNSM5JnIeYtLli8U5S
+         6B/oWFkNuqTUJp55Ku0JuOFUrwlxxAelEGjp0v7cXAbHYEz6MQlCHIAaDEieSpedcJvi
+         gnPg==
+X-Gm-Message-State: AOAM533AkE0Kx5PoDalOuzGLQ128t8UqfiYelKbyx7zOm9/ACRTpl2Xl
+	45wyvZgA9lj0iaVnt22laeqdIF8hM4Hr2mQO1ls=
+X-Google-Smtp-Source: ABdhPJx9ke4WAr5x/kV8wSbrMHLlO+7DjwAGJAxSXrsSqUd5QHkcZghOR6eNX87+wjtq2MtWgakRVQ==
+X-Received: by 2002:a17:902:8601:b029:e6:7b87:8add with SMTP id f1-20020a1709028601b02900e67b878addmr4185730plo.3.1619107497280;
+        Thu, 22 Apr 2021 09:04:57 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id i63sm2568309pfg.112.2021.04.22.09.04.56
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 09:04:34 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Thu, 22 Apr 2021 09:04:56 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] llvm: Upgrade to LLVM 12 release
-Date: Thu, 22 Apr 2021 09:04:32 -0700
-Message-Id: <20210422160432.584499-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
+Date: Thu, 22 Apr 2021 06:04:22 -1000
+Message-Id: <cover.1619107396.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop backported patch
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc   |  2 +-
- .../llvm/0001-nfc-Fix-missing-include.patch   | 26 -------------------
- meta/recipes-devtools/llvm/llvm_git.bb        |  7 +++--
- 3 files changed, 4 insertions(+), 31 deletions(-)
- delete mode 100644 meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
+The following changes since commit a3de6239e98efafe3668396e69133ffee3d9b27f:
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 594108ec1c..a0c35eed09 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -26,7 +26,7 @@ QEMUVERSION ?= "5.2%"
- GOVERSION ?= "1.16%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
- # llvm version being used, so always bump it with llvm recipe version bump
--LLVMVERSION ?= "11.1.0"
-+LLVMVERSION ?= "12.0.0"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch b/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
-deleted file mode 100644
-index f6dee77ab2..0000000000
---- a/meta/recipes-devtools/llvm/llvm/0001-nfc-Fix-missing-include.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 3b7e611bd58ba842470d17374c550e14bceca5c7 Mon Sep 17 00:00:00 2001
--From: serge-sans-paille <sguelton@redhat.com>
--Date: Tue, 10 Nov 2020 14:55:25 +0100
--Subject: [PATCH] [nfc] Fix missing include
--
--Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/b498303066a63a203d24f739b2d2e0e56dca70d1]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- llvm/utils/benchmark/src/benchmark_register.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/llvm/utils/benchmark/src/benchmark_register.h b/llvm/utils/benchmark/src/benchmark_register.h
--index 0705e219f2fa..4caa5ad4da07 100644
----- a/llvm/utils/benchmark/src/benchmark_register.h
--+++ b/llvm/utils/benchmark/src/benchmark_register.h
--@@ -1,6 +1,7 @@
-- #ifndef BENCHMARK_REGISTER_H
-- #define BENCHMARK_REGISTER_H
-- 
--+#include <limits>
-- #include <vector>
-- 
-- #include "check.h"
---- 
--2.30.1
--
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index db6694339c..8a5d3dc9bf 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -19,8 +19,8 @@ inherit cmake pkgconfig
- 
- PROVIDES += "llvm${PV}"
- 
--MAJOR_VERSION = "11"
--MINOR_VERSION = "1"
-+MAJOR_VERSION = "12"
-+MINOR_VERSION = "0"
- PATCH_VERSION = "0"
- 
- PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
-@@ -29,12 +29,11 @@ LLVM_RELEASE = "${PV}"
- LLVM_DIR = "llvm${LLVM_RELEASE}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "1fdec59bffc11ae37eb51a1b9869f0696bfd5312"
-+SRCREV = "fa0971b87fb2c9d14d1bba2551e61f02f18f329b"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
-            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
--           file://0001-nfc-Fix-missing-include.patch;striplevel=2 \
-            "
- 
- UPSTREAM_CHECK_GITTAGREGEX = "llvmorg-(?P<pver>\d+(\.\d+)+)"
+  build-appliance-image: Update to dunfell head revision (2021-04-13 14:12:06 +0100)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (3):
+  selftest/reproducible: enable world reproducibility test
+  selftest/reproducible: add an exclusion list for items that are not
+    yet reproducible
+  selftest/reproducible: track unusued entries in the exclusion list
+
+Guillaume Champagne (1):
+  image-live.bbclass: optional depends when ROOTFS empty
+
+Mike Crowe (1):
+  curl: Patch CVE-2021-22876 & CVE-2021-22890
+
+Peter Morrow (2):
+  goarch: map target os to windows for mingw* TARGET_OS
+  go_1.14: don't set -buildmode=pie when building for windows targets
+
+Richard Purdie (3):
+  selftest/reproducible: Sort the unused exclusion list
+  diffoscope: Upgrade 136 -> 168
+  diffoscope: Upgrade 168 -> 172
+
+Steve Sakoman (1):
+  selftest/reproducible: adjust exclusion list for dunfell
+
+ meta/classes/go.bbclass                       |   8 +-
+ meta/classes/goarch.bbclass                   |   2 +
+ meta/classes/image-live.bbclass               |   2 +-
+ meta/lib/oeqa/selftest/cases/reproducible.py  |  80 ++-
+ meta/recipes-devtools/go/go_1.14.bb           |   8 +-
+ .../curl/curl/CVE-2021-22876.patch            |  59 +++
+ .../curl/curl/CVE-2021-22890.patch            | 464 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   2 +
+ .../{diffoscope_136.bb => diffoscope_172.bb}  |  15 +-
+ 9 files changed, 620 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22876.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2021-22890.patch
+ rename meta/recipes-support/diffoscope/{diffoscope_136.bb => diffoscope_172.bb} (46%)
+
 -- 
-2.31.1
+2.25.1
 
