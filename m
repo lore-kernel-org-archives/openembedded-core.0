@@ -1,92 +1,247 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web09.1955.1619115780030488026
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.3034.1619120101759400026
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 11:23:00 -0700
+ Thu, 22 Apr 2021 12:35:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hpa7Rvkb;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id 1so34584904qtb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 11:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6kmV6zTPPxi7A5yNi01Cn5R2Mx3ABQou7S4SO+nXY34=;
-        b=hpa7RvkbKteHy8MWyyb5libgzStBq8LxKkWfsI6sG31NxCwIzlM0XVcaMsuBh2WKUU
-         Tjm/3bpKb+gddnGHQFj+pFS/no40b/OEzZCTx0mrvo90XacuAaamgHJg1bJlGLVbP2Nf
-         0i4GmTeI2Cf5jmmvJfAlGBHPKETbOtEYA2V5twgZTBT/VVZwWFr2FqMsw8mnMEEi7c/m
-         AJZEQX8gMny9gojcvMhVdnMtRiiDAUJkOEk93ovFRismj+CogfHY8VrL54xBLzco6TW6
-         dpVo1wQfmKb5CNxmC/L5oF+iO5ezD2vcdnxrOxGayRSU2OGdozzF8jelKFCIZxEV3fJf
-         21fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6kmV6zTPPxi7A5yNi01Cn5R2Mx3ABQou7S4SO+nXY34=;
-        b=IPM9X4cAKr4EjHG182yN0to9o5d7APYf7MEPdQHEyN9cQf+nJwUqXcZAVt85p1K6UF
-         HDjsAhVuS1cJAjtwAeHENk4HatqqmlAHBZFq9nQ1HR0204mA9izEIgMHxK1X047H3Ltw
-         Aspxawx7m2TgbLYccFS6yUDRxEkjRqCk8L9Z0ahlrX9fVQld6b3HHD5BfoK5p68sJpmW
-         8ahbLM78lCVg4zuL3L1q7PNfXFVB7dJd6uR3ZNjFY0zUZguzibGX58r90sZMhNm44LKp
-         Pqa2/pj7lfBvPvsou04hW0m+YX9Q/WdRZxS8VtyTru1NoEnlFitJz1Jq46JgNDUKgEDJ
-         9+qg==
-X-Gm-Message-State: AOAM531nH08bHNzQ9TJjV2ljiEOjT6palr3OZ27DOTGbk/Oizr8bwzmS
-	UmLzTK+Nl5+AVY6mvRi3w9KWlV1S0qLwR5ZG0sI=
-X-Google-Smtp-Source: ABdhPJyFm1Q486keVKv75FIdd4JI6APgdUgOOimB3K4XqS09aMQJu2sObJlVEx015G2QzqtB5slq0UzA4s51TYcD8H4=
-X-Received: by 2002:ac8:5cc4:: with SMTP id s4mr4408781qta.214.1619115778998;
- Thu, 22 Apr 2021 11:22:58 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=o7Iw0B7z;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.1.99] (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A943220B8001;
+	Thu, 22 Apr 2021 12:35:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A943220B8001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1619120101;
+	bh=hDZTKVeLivUbxjtIvsZtwVk6gcJHnNm3lfZ85yaRg8U=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=o7Iw0B7zvMUGCREjP2UoxHReiAw7oQtUMrgtRtiOJR9VuX5ek9t3nckZCitI8SWWa
+	 UovaU7QTFInqMrRe7fjMqeeAzcM8eMPZqGcTTvKdUXzooicW5X8govHelZORtk+F6e
+	 4yvLd7UnGr8XUR3EyN1AmDoHkfkoTlrJaRSxYpcE=
+Subject: Re: [OE-core] [meta-oe][PATCH v2] cve-update-db-native: skip on empty cpe23Uri
+To: Ralph Siemsen <ralph.siemsen@linaro.org>,
+ Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <AM9PR09MB464219591A09F7157448D429A8469@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <20210422171249.GA926@maple.netwinder.org>
+From: "Alejandro Hernandez Samaniego" <alhe@linux.microsoft.com>
+Message-ID: <f0004ab2-3c2b-8fee-ef75-1b0c5420787a@linux.microsoft.com>
+Date: Thu, 22 Apr 2021 13:34:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210419090224.582794-1-alex.kanavin@gmail.com> <20210419090224.582794-2-alex.kanavin@gmail.com>
-In-Reply-To: <20210419090224.582794-2-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 22 Apr 2021 11:22:33 -0700
-Message-ID: <CAMKF1sp28bZmTCm9obLskD1-ofGugOY5bt+qh90n4qQr0RO35A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] weston: use standalone xwayland instead of outdated xserver-xorg version
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210422171249.GA926@maple.netwinder.org>
+Content-Type: multipart/alternative;
+ boundary="------------86256F595E69CADF2F47C542"
+Content-Language: en-US
 
-On Mon, Apr 19, 2021 at 2:02 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-graphics/wayland/weston_9.0.0.bb       | 2 +-
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 1 -
->  2 files changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-> index 50fbfa613b..34ac66d4e9 100644
-> --- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-> @@ -124,7 +124,7 @@ SUMMARY_libweston-${WESTON_MAJOR_VERSION} = "Helper library for implementing 'wa
->  FILES_${PN}-examples = "${bindir}/*"
->
->  FILES_${PN}-xwayland = "${libdir}/libweston-${WESTON_MAJOR_VERSION}/xwayland.so"
-> -RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
-> +RDEPENDS_${PN}-xwayland += "xwayland"
+--------------86256F595E69CADF2F47C542
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-this patch causes weston to not start with sysvinit since xwayland.so
-plugin is no longer available, I have sent a follow up
-to fix this fallout.
+Hey Konrad,
 
+Seems to work on my side as well, it applies cleanly for dunfell as=20
+well, I will send=C2=A0 it again so it gets backported since that also bro=
+ken.
+
+Cheers,
+
+Alejandro
+
+Tested-by: Alejandro Hernandez <alhe@linux.microsoft.com>
+
+On 4/22/21 11:12 AM, Ralph Siemsen wrote:
+> On Thu, Apr 22, 2021 at 06:48:27PM +0200, Konrad Weihmann wrote:
+>> Recently an entry in the NVD DB appeared that looks like that
+>> {'vulnerable': True, 'cpe_name': []}.
+>> As besides all the vulnerable flag no data is present we would get
+>> a KeyError exception on acccess.
+>> Use get method on dictionary and return if no meta data is present
+>> Also quit if the length of the array after splitting is less than 6
 >
->  RDEPENDS_${PN} += "xkeyboard-config"
->  RRECOMMENDS_${PN} = "weston-init liberation-fonts"
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> index b3e03744c0..da025171db 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -122,7 +122,6 @@ EXTRA_OECONF += "--with-fop=no \
->  OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"
->  PACKAGECONFIG ??= "dga dri2 udev ${XORG_CRYPTO} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${OPENGL_PKGCONFIGS}', '', d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'xwayland', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd systemd-logind', '', d)} \
->  "
+> Seems to work fine here. Thanks for the quick action.
 >
-> --
-> 2.30.2
+> Tested-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 >
+>> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+>> ---
+>> v2: handle the case where key is set but value is none and
+>> =C2=A0=C2=A0 if resulting array is shorter than expected
+>>
+>> meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
+>> 1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb=20
+>> b/meta/recipes-core/meta/cve-update-db-native.bb
+>> index 25ec6bac71..e5822cee58 100644
+>> --- a/meta/recipes-core/meta/cve-update-db-native.bb
+>> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+>> @@ -139,7 +139,12 @@ def parse_node_and_insert(c, node, cveId):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for cpe in node.get('cpe_mat=
+ch', ()):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if n=
+ot cpe['vulnerable']:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpe=
+23 =3D cpe['cpe23Uri'].split(':')
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpe=
+23 =3D cpe.get('cpe23Uri')
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+not cpe23:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpe=
+23 =3D cpe23.split(':')
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+len(cpe23) < 6:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vend=
+or =3D cpe23[3]
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 prod=
+uct =3D cpe23[4]
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vers=
+ion =3D cpe23[5]
+>> --=20
+>> 2.25.1
+>>
 >
-> 
+>=20
 >
+
+--------------86256F595E69CADF2F47C542
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body>
+    <p>Hey Konrad,</p>
+    <p>Seems to work on my side as well, it applies cleanly for dunfell
+      as well, I will send=C2=A0 it again so it gets backported since that
+      also broken.</p>
+    <p>Cheers,</p>
+    <p>Alejandro<br>
+    </p>
+    <p>Tested-by: Alejandro Hernandez <a class=3D"moz-txt-link-rfc2396E" h=
+ref=3D"mailto:alhe@linux.microsoft.com">&lt;alhe@linux.microsoft.com&gt;</a=
+> <br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 4/22/21 11:12 AM, Ralph Siemsen
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20210422171249.GA926@maple.netwinder.org">On Thu, Apr
+      22, 2021 at 06:48:27PM +0200, Konrad Weihmann wrote:
+      <br>
+      <blockquote type=3D"cite">Recently an entry in the NVD DB appeared
+        that looks like that
+        <br>
+        {'vulnerable': True, 'cpe_name': []}.
+        <br>
+        As besides all the vulnerable flag no data is present we would
+        get
+        <br>
+        a KeyError exception on acccess.
+        <br>
+        Use get method on dictionary and return if no meta data is
+        present
+        <br>
+        Also quit if the length of the array after splitting is less
+        than 6
+        <br>
+      </blockquote>
+      <br>
+      Seems to work fine here. Thanks for the quick action.
+      <br>
+      <br>
+      Tested-by: Ralph Siemsen <a class=3D"moz-txt-link-rfc2396E" href=3D"=
+mailto:ralph.siemsen@linaro.org">&lt;ralph.siemsen@linaro.org&gt;</a>
+      <br>
+      <br>
+      <blockquote type=3D"cite">Signed-off-by: Konrad Weihmann
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:kweihmann@outloo=
+k.com">&lt;kweihmann@outlook.com&gt;</a>
+        <br>
+        ---
+        <br>
+        v2: handle the case where key is set but value is none and
+        <br>
+        =C2=A0=C2=A0 if resulting array is shorter than expected
+        <br>
+        <br>
+        meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
+        <br>
+        1 file changed, 6 insertions(+), 1 deletion(-)
+        <br>
+        <br>
+        diff --git a/meta/recipes-core/meta/cve-update-db-native.bb
+        b/meta/recipes-core/meta/cve-update-db-native.bb
+        <br>
+        index 25ec6bac71..e5822cee58 100644
+        <br>
+        --- a/meta/recipes-core/meta/cve-update-db-native.bb
+        <br>
+        +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+        <br>
+        @@ -139,7 +139,12 @@ def parse_node_and_insert(c, node, cveId):
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for cpe in node.get('cp=
+e_match', ()):
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ if not cpe['vulnerable']:
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=
+=C2=A0=C2=A0=C2=A0=C2=A0 return
+        <br>
+        -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 cpe23 =3D cpe['cpe23Uri'].split(':')
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 cpe23 =3D cpe.get('cpe23Uri')
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 if not cpe23:
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 return
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 cpe23 =3D cpe23.split(':')
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 if len(cpe23) &lt; 6:
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 return
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ vendor =3D cpe23[3]
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ product =3D cpe23[4]
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ version =3D cpe23[5]
+        <br>
+        --=C2=A0<br>
+        2.25.1
+        <br>
+        <br>
+      </blockquote>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------86256F595E69CADF2F47C542--
