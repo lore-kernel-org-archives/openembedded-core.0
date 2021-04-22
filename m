@@ -1,59 +1,60 @@
-Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.84])
- by mx.groups.io with SMTP id smtpd.web12.9162.1619076578788608258
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.116])
+ by mx.groups.io with SMTP id smtpd.web10.9055.1619076611904069608
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 00:29:39 -0700
+ Thu, 22 Apr 2021 00:30:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JAZhU2vn;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.84, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ecxDxOgQ;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.116, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619076577; i=@fujitsu.com;
-	bh=dHKp4/6iab0Tf8ES+F/0wzVtgmQ3wowcedute6m7rUU=;
+	s=170520fj; t=1619076609; i=@fujitsu.com;
+	bh=819OaLlGh1z0w464ab6NguWvLnws4PqjFm94x7NaVPo=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=JAZhU2vnDxqQiU/tut3EHNdz3BirKYX91eri4P5WexQzvjdDCfj78C62oJDLMaItf
-	 wcYmRnUy9OBuxCNI6xTfwPHfkwn6SEvYHWNbqUwbIG+QISF+KgiJvJCuryjqfx+emM
-	 Uqv2SoPK5/Uu9Q7ZcP3MtsOVTAIW+bFp11fbFjz5vATNynkkkLhb0NAgX8NruER9Xs
-	 +tzAPocGsigFqJTcT0NWSzXXx1RFuI0NfMumDVZiYfP0O2mt3mfkLuEah/c8k59pfz
-	 nWZt2G5gsfI8gpyDj6qj0JZVdT6eIxYY9GB+9bRkcjQi4jz4NwTEtDDn1ZuFQVQDTV
-	 RB00zcGua6b5g==
-Received: from [100.112.199.60] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id 0E/4F-64503-0E521806; Thu, 22 Apr 2021 07:29:36 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+EI0X2g2ph
-  g8OKSpsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnF03i62goUcFRuf/WJuYDzE3sXIxSEkMItJ
-  4lZjF1MXIyeQs5tRom1XEYjNJqArce7xWqAiDg4RAT2Jq/9EQcLCAtYSHTOns4PYLAKqEjsWP
-  wBr5RXwkOjqmAMWlxBQkJjy8D0zRFxQ4uTMJywgNrOAhMTBFy+YQUZKCChKzJ4uD1FeKbF92l
-  nGCYw8s5B0zELSsYCRaRWjRVJRZnpGSW5iZo6uoYGBrqGhka6hpYWuobmxXmKVbpJeaqlueWp
-  xia6hXmJ5sV5xZW5yTopeXmrJJkZgCKUUHFu7g7HnzQe9Q4ySHExKorwL+RoThPiS8lMqMxKL
-  M+KLSnNSiw8xynBwKEnwJgODUkiwKDU9tSItMwcYzjBpCQ4eJRFeFpA0b3FBYm5xZjpE6hSjo
-  pQ4b4QKUEIAJJFRmgfXBouhS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJWEeVeBTOHJzCuBm/
-  4KaDET0GLtKbUgi0sSEVJSDUyek4TqqpbKP75qbMy/vlWw4Md85ZMRHRtP+i87cG7KGWPm8GW
-  WfE9a5klPrBV2sSqfbu51VPrAxuQNTIoi6+MaPjLELDimLblPxTl7yq77kr9V19r/uMdbET8l
-  3DZBTP4g34WbCZYhUky6PnK2f7asuNt1v3ze7fgLQuvdDzqw2h0ze/Dk+O5TF4KOcD3kvfZL+
-  r+9fxzjfJvqT/lPF56qTE2QyXx/VcTAwp29+IHrDfvvQvmZvbuu5Go94pqWYVHE8ar46663ds
-  WNFktCb+xiu+lzxp0rp9RCJPbSh23RU01lIzZZ6zfftM5cIRKZc6Is1rLh1/4Ireo9DckRi/Z
-  OKzsmKK3Eldt1IilXWImlOCPRUIu5qDgRAH5iThAcAwAA
+	b=ecxDxOgQ8GK5h/HLMm95f1QD2k46u+MBMjMSer8y2EpxQIiEr/9DjCyzf9Riy1Eh/
+	 K8yBzS80H3Q8VBNL+f2bN0mRL+3Z3Yv2+FgGx02XFfcLkgfw/k068zT2cXzIwxmLI+
+	 vssvrVulIzDYSiqNKNPZPs/bgzb3cctfWQ7bAMt7V4ssWYfJs1oFU097Ur1/Pb2jk/
+	 /0+5zXsS8qrxjoAy2VrjTju6YNC8dCV//ATg3XzQI83Mlg83sku3ua6+tfInhRV7qq
+	 UUKGSWC2ROhSNjFyUcwoSBR1gMD4mariP+jXsakDMPeA5Tm4HUoUffDVAY2I+J5ebM
+	 lEMnjFHWOSr0A==
+Received: from [100.113.6.49] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-b.eu-central-1.aws.symcld.net id E1/EF-33844-10621806; Thu, 22 Apr 2021 07:30:09 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8MxVZdRrTH
+  BYH2TgMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrFuX0rBEvaK3RM7WBoYj7N1MXJxCAnMYpLY
+  MWERlLObUWJP81HWLkZODjYBXYlzj9eydzFycIgI6Elc/ScKEhYWsJHo2trPAmKzCKhKHLm7j
+  BHE5hXwkDh88CCYLSGgIDHl4XtmiLigxMmZT8DqmQUkJA6+eMEMMlJCQFFi9nR5iPJKie3Tzj
+  JOYOSZhaRjFpKOBYxMqxgtk4oy0zNKchMzc3QNDQx0DQ2NdU11jUwM9RKrdJP0Ukt1k1PzSoo
+  SgbJ6ieXFesWVuck5KXp5qSWbGIFBlFLI+nEH46HXH/QOMUpyMCmJ8i7ka0wQ4kvKT6nMSCzO
+  iC8qzUktPsQow8GhJMGbrAqUEyxKTU+tSMvMAQY0TFqCg0dJhJcFJM1bXJCYW5yZDpE6xRjLc
+  WXVkkXMHG/Wgsi3YLLt3l0g2Q4mZy44uJqZYxaYvN9+CEg+AJFCLHn5ealS4rwRKkBDBUCGZp
+  Tmwa2ERe8lRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8q0Cm8GTmlcBd9groaCago7Wn1II
+  cXZKIkJJqYFp/f+LTJVKbIg71XQxyZzVQ93Pesu3jOzWOmh+3NhybwbLqz7emqC8l7euluKb/
+  6SnjfWPK/OPKhfqjTP9XhLnPbaldWZ3pWuihm93qmyb61NOXh6mtP6BA/U3ClqJLK7Zu25lyI
+  YNt+7vE0PrLbfsSee/pqM2QK66uNlSe587uHFLft6y3SPzchDsqU5OTZyyPeZL+bWGC2J1U4W
+  1GHusvyz7RLg1pmhtkxzE7VnflW6PJ6w5f9bAoSElfcID907/Hxxt7zgY8nZB7o+3O/QVumnz
+  BJYu4evwUXi1kTDzypjPO5DhzydRnmgzzb1UYnVvgd/mZzc3jfa88HrcZCT81j2Bu6P6VEbbg
+  Su38ZiWW4oxEQy3mouJEAPc8pH1ZAwAA
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-3.tower-285.messagelabs.com!1619076576!1642235!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-2.tower-248.messagelabs.com!1619076608!573369!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 13132 invoked from network); 22 Apr 2021 07:29:36 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-3.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Apr 2021 07:29:36 -0000
+Received: (qmail 2152 invoked from network); 22 Apr 2021 07:30:09 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-2.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Apr 2021 07:30:09 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13M7TaRH003150
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13M7U8vG028302
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:29:36 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:30:08 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 08:29:34 +0100
+ (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 08:30:06 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libical: upgrade 3.0.9 -> 3.0.10
-Date: Fri, 23 Apr 2021 00:01:28 +0800
-Message-ID: <1619107288-54433-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] libsolv: upgrade 0.7.18 -> 0.7.19
+Date: Fri, 23 Apr 2021 00:01:45 +0800
+Message-ID: <1619107305-54472-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -63,26 +64,26 @@ Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../libical/{libical_3.0.9.bb => libical_3.0.10.bb}             | 2 +-
+ .../libsolv/{libsolv_0.7.18.bb => libsolv_0.7.19.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libical/{libical_3.0.9.bb => libical_3.0.10.bb} (95%)
+ rename meta/recipes-extended/libsolv/{libsolv_0.7.18.bb => libsolv_0.7.19.bb} (95%)
 
-diff --git a/meta/recipes-support/libical/libical_3.0.9.bb b/meta/recipes-support/libical/libical_3.0.10.bb
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.18.bb b/meta/recipes-extended/libsolv/libsolv_0.7.19.bb
 similarity index 95%
-rename from meta/recipes-support/libical/libical_3.0.9.bb
-rename to meta/recipes-support/libical/libical_3.0.10.bb
-index 4c7027d14b..30d6bbfd0f 100644
---- a/meta/recipes-support/libical/libical_3.0.9.bb
-+++ b/meta/recipes-support/libical/libical_3.0.10.bb
-@@ -14,7 +14,7 @@ SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+rename from meta/recipes-extended/libsolv/libsolv_0.7.18.bb
+rename to meta/recipes-extended/libsolv/libsolv_0.7.19.bb
+index cce20655dd..98e106f6f8 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.18.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.19.bb
+@@ -11,7 +11,7 @@ DEPENDS = "expat zlib"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git \
  "
--SRC_URI[sha256sum] = "bd26d98b7fcb2eb0cd5461747bbb02024ebe38e293ca53a7dfdcb2505265a728"
-+SRC_URI[sha256sum] = "f933b3e6cf9d56a35bb5625e8e4a9c3a50239a85aea05ed842932c1a1dc336b4"
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
  
- inherit cmake pkgconfig
+-SRCREV = "35e172e9fb99594b49c630cb188dab9d2b2c4dc7"
++SRCREV = "c773294be6b0a2425f344a8999f173fb00cfd16f"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
 -- 
 2.25.1
 
