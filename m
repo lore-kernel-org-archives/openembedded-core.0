@@ -1,102 +1,111 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.8315.1619070233719203922
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.92.70.69])
+ by mx.groups.io with SMTP id smtpd.web09.8722.1619074335343231770
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Apr 2021 22:43:53 -0700
+ Wed, 21 Apr 2021 23:52:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=g3FVJoRP;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id m11so30916718pfc.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Apr 2021 22:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vaDMk99ZbXCjpYLF63N5MXBQCbYXsln8RdvXNqmQXWU=;
-        b=g3FVJoRPiyyEoXZrApoBZ3lz2+HerYesGDCR8cshiq5gdqqrRLOrPTfjvTHpP+nqqZ
-         ilIfL+N1nipWZE0a6UqwPBl/Wsb+ioPxQKqpXCFzNPFYHXTe+S5jFVpkvyiGPCTgJYD7
-         cfhA0MNvUwyirWoOAOy86fGY+EHGKBuA/xZMCu/qSlU0XpWY40S5ARHHNObghniOAuk3
-         j+gvwJIqi8nNrolkoj+JcCcHXCNRfTXxyjt+fKA8H0OgU16xTziObYJh7/V4Lb2MMUrj
-         7QsX0Un1DYlHBV2QdH8L/D4War/a0/FMmA5WF2G24btVHoOFQrokOFiI08tlybx+24Pj
-         n/EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vaDMk99ZbXCjpYLF63N5MXBQCbYXsln8RdvXNqmQXWU=;
-        b=HqMkdH4qmgYlkTlix0EFABI2nE7PMfldns7MwzC+qrjmK5Xd09PAVC1qAoHopOE8fI
-         4+hfvV7oqOJ/RS1ldipY6W3Pj16c0Tc8lKXmDWnvl2IOmd1KZugd+v1jsX8m6Zo6GFLa
-         MObPw9lgk1K53d2CAWE/G5Y4FrPezn0EBjvK6j1cSeTTRDXW+fCjzTDm4F501nYH7eiq
-         IfY7oiFHN8Pg8wkODoEEClYoz69AVZucNtarfkXzx47cE+HwAJGz/GT5K0IDsMrBdh6t
-         SmhOmSJvYaCPfk12Yq2CWJHMR5i99jU8XMecjnx2GZURw88TzoJmP7KURoycvIPPAxkr
-         Qa2g==
-X-Gm-Message-State: AOAM5335iyU74/ivU1iMSy6EVsP7LnwAmsxwzo/lssxzcJCsRzQsRi6w
-	E3tW5VszwvpO3GN97Q8fA2ryLDC0fd0Bkw==
-X-Google-Smtp-Source: ABdhPJx2VTxRDbe0nzjbl5QnvrdlRuPVKko1OiFAIrKoblNtdmjlKz03MHGFJAwm/bKKZE16lZzNCg==
-X-Received: by 2002:a65:5888:: with SMTP id d8mr1773411pgu.23.1619070231977;
-        Wed, 21 Apr 2021 22:43:51 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
-        by smtp.gmail.com with ESMTPSA id r1sm984254pfh.153.2021.04.21.22.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 22:43:51 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=GeJl5PZ5;
+ spf=pass (domain: outlook.com, ip: 40.92.70.69, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RhYwaiR2lO9/3EShOF2T4JInuLFo0w/Nl+PaYQaoZ3yj1gcmK8SKlKP4732SHJ9daKQO5CAd59LernDAiQ73Dmt/kNsLJyB08x/Hsr/8LvvB53dbDY+64Bq37eEpvoKioOuaTzyfZeu9dS0dT4SYX8DcbBssxh8whxi2KCPhzUo1i+1Hloh2AmP7F0V2UDfYqIi+e9xXIGLK1KgZuWAbarubbGgOVCI385t25eNUTrfir8Hkmmo0SsLG2R+F+mfY21XzlNQ6/8O+rJv+kR5RIujNIlAyRiL4leELP5CaAkcDnPtMFeLyuEh5APneXP+4cNSAHZgrsNSjIpRg9bj36w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kJg3d2U6xFB6F+C9sMzv3v2vjLb9OXSu4CyR5iYqN9w=;
+ b=K8eenDdAOoMo4o+4heVA5bDmpJmDzOidt4Op4Y3G1cZEW8QaKr1bKPpz1mZRDhmxjgoHsRadKX7yrGduV8es2Iq8pT5qWZOoo4bADmp12EZvZ5pQYVsRMdTYcLr5U7KONjuZOfMcRkkUcrb5ELooe+Y/JXJgWEPWzNjWVKoqvR8BTE1a8MYZxDIb/v9UoO5t/vJK/nG0e5B0SWWBHzxktSV2iZat5P66vqRZwfx4ssEU0t9rW9j0GoVMq/4an4JpwCzw2xTRurpen0RawZzdl8zoRQklFTXNpkFqYhYaYDBxaT9yJqv3kGQA5vTWJtLBJKgNPO8+SGJf40jCWhT++g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kJg3d2U6xFB6F+C9sMzv3v2vjLb9OXSu4CyR5iYqN9w=;
+ b=GeJl5PZ59oVgYl/atlcPqA4Hlc1tCgN1yAy3iuMw8E7L9u6qvA2iTsfliRpnaKTt6Nt68b7bl0yHyaFQ4e3ZeYWjfkRO/w/jlwrtPqo8Ee6onle7f0gXT68JNOD+wwUC3z8paoUtF5/haTmruM4L3FIYOC/K7A7aZiYQJiDXX+lKCiZRcEx1bCT0fXi3NVQmqRMFAArkxqHhRz+pdvREVH6WMf37V2PctwV4evDB85Qhbd3pSacWnMFhbHITK++/Ym1sai7N+oS+1KsJOrDTMyJQxRdIiyaTQPFSLDYReu7Y0PLyB/rFYbnywMFtZa0GyeT9Teh/xMdp1nOoFFJ8RA==
+Received: from DB5EUR03FT006.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e0a::49) by
+ DB5EUR03HT024.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::481)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Thu, 22 Apr
+ 2021 06:52:12 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:7e0a::43) by DB5EUR03FT006.mail.protection.outlook.com
+ (2a01:111:e400:7e0a::106) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
+ Transport; Thu, 22 Apr 2021 06:52:12 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:FC9A84A8755BB2DC46D2D720C815B75DA139CFED22D1716EBFBD8D2FE834CA80;UpperCasedChecksum:6779CC3FD5084B788E611CBDE7CA1254F774D65438C12E8A5FD90F8AB328375E;SizeAsReceived:7305;Count:45
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::a49a:d6ef:d598:e471]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::a49a:d6ef:d598:e471%7]) with mapi id 15.20.4065.021; Thu, 22 Apr 2021
+ 06:52:12 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to latest master
-Date: Wed, 21 Apr 2021 22:43:49 -0700
-Message-Id: <20210422054349.3448084-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] cve-update-db-native: skip on empty cpe23Uri
+Date: Thu, 22 Apr 2021 08:51:43 +0200
+Message-ID: <AM9PR09MB46420BB6685CA903F63B2575A8469@AM9PR09MB4642.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [cWMdUBiKu8RbRGq1vvMJW/VAw60KUr+u]
+X-ClientProxiedBy: AS8PR04CA0111.eurprd04.prod.outlook.com
+ (2603:10a6:20b:31e::26) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20210422065143.2995411-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (87.141.90.56) by AS8PR04CA0111.eurprd04.prod.outlook.com (2603:10a6:20b:31e::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22 via Frontend Transport; Thu, 22 Apr 2021 06:52:12 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 5ebd8538-bd27-4371-bf81-08d9055b2840
+X-MS-Exchange-SLBlob-MailProps: 
+	7MJMDUNTCtyu2s+u4PQccG4S+e56nxP57WhO3O8H7PUA9C/57Z0VL/aIeE7ocMkXY2IaR1cuUAXIQGju20M+7BHTAY22WxO3STQiShCZQ3p3kZf5TY1FKxa0F2+GzfunD8OwhzEb1N8xENODoLpjPGMLDcSlODVsOXmmPHfaeOrxHtSZYS7UWIA7cWaugBZ9Ikik7grTdVjOITScObZ2OSUKWUBRGuxXIysqGjx+MMBNxq8Z9eOp6FjnmwVR7Gru8Z54L65ANfNtoS8QvhdrucTJtDjrazU6PyZqA29OewlDr5ZFtT0YfFKtjXwqM6oyssXi8sJfWFrrM0e3KblVLGldsCTIChei3qVlFD4kf/KRjJrv8gEmORicH1Lm4aC+nqMlOl+BdXEhlL9C4Ir471JjL5OmB2PZRaIvaYbrQ0j4Gt2/gyTxS6vvKbQp+RMo0Ki/+kaQa6zQCQ0RezIoao6WinriGa4/dzRyJxsX/oTSJ+uvnj9L6qRTFu2hA6Iei80pFQ9KPllsPZXujsc5JikDAEycyv8m3mCmTEjVdJAyXbP1rD2xNHn6K2gHr7LSMqKataN0fD0Mj88o1kfN3Ey/rsgVmpfMm2QS51T/6npC9TDc+/X+BgRjbamE2aD4xnj1ZFqLrQ3dcBfFrtc4D9dd7P0rDuCQQveEhwnnonwbwJSiEhtZaPujs5Q6405VnM/Mw3xGcavof38GsYGXwXw7W+eJ6pdoc5t4dgdBlEvY65USg/ZUGQ==
+X-MS-TrafficTypeDiagnostic: DB5EUR03HT024:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	SV4osyHRF19BNRG4XdsGlJkgwklAeYEvxdJnJw2l8o1si/01czh6/5xMzLzSalxi0F2nsA7YyMOVMmwy4Rb2SKhwVTHek5utHgS0uI8fe+ZLMG8mplmQ5iC4D9hniF7cjjzTiCq7sjKWMnFAzhhDE5iYIbOl+QP/wLQS8ojZp5zc8AeOnU348cIOWe7vWHNGPcg3+1JDCXFd6hp+9fFCPwHhWpSQ+Ty3AdpvQE4q5dd5FXI8Ro7Cs6C06G+ix3/J+Pj34Vir8qd1d8PlugNnHQtYHd5kEIFkK4hObcLBI8S8ezsvTfkkV4s7Seq7y8RAOit8nHoDl3WB0Duw0NVpwJifNo9mxkxGJbiVlPCEcmeEUDmLpzwIF1JU8RysjPAtRfCxNDOTTouVocopcr32dg==
+X-MS-Exchange-AntiSpam-MessageData: 
+	p0T3Ote5M3Pk4OV7GjFSw5czQL/9n174q03rAyv2azEihE4QofeNxN8R/yLi16bUXeblh3Hhz8vj7qpKxNJuwnxOAcfYhXjDwJRcFMvV4Qoe+0QjwxDRIogT2mmUolXgmigIL8sIE9AmnpP666Fi0A==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ebd8538-bd27-4371-bf81-08d9055b2840
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 06:52:12.8256
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR03FT006.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT024
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-changelog [1]
+Recently an entry in the NVD DB appeared that looks like that
+{'vulnerable': True, 'cpe_name': []}.
+As besides all the vulnerable flag no data is present we would get
+a KeyError exception on acccess.
+Use get method on dictionary and return if no meta data is present
 
-* aad50fcd fix regression in dl_iterate_phdr reporting of modules with no TLS
-* 0ea78a64 nscd: fall back gracefully on kernels without AF_UNIX support
-* 95a540e1 mallocng/aligned_alloc: check for malloc failure
-* 2c00f95c make epoll_[p]wait a cancellation point
-* 521b4d27 fix dl_iterate_phdr dlpi_tls_data reporting to match spec
-* 122002f0 remove no-longer-needed special case handling in popen
-* 8ef9d46f use internal malloc for posix_spawn file actions objects
-* cfdfd5ea don't fail to map library/executable with zero-length segment maps
-* e48e99c1 suppress isascii() macro for C++
-* b129cd86 guard against compilers failing to handle setjmp specially by default
-* 3309e2d7 aarch64/bits/mman.h: add PROT_MTE from linux v5.10
-* 44331150 aarch64/bits/hwcap.h: add HWCAP2_MTE from linux v5.10
-* 42aa19a0 add aarch64/bits/mman.h with PROT_BTI from linux v5.8
-* b7554b5e aarch64/bits/hwcap.h: add HWCAP2_BTI from linux v5.8
-* 87b8f148 signal.h: add MTE specific SIGSEGV codes from linux v5.10
-* 19239cde sys/prctl.h: add MTE related constants from linux v5.10
-* 8b29f023 elf.h: add NT_ARM_TAGGED_ADDR_CTRL from linux v5.10
-* d7210f0c sys/mman.h: add MAP_HUGE_16KB from linux v5.10
-* a7456524 sys/mount.h: add MS_NOSYMFOLLOW from linux v5.10
-* 54ca1cc7 sys/membarrier.h: add new constants from linux v5.10
-* fd285f9d bits/syscall.h: add process_madvise from linux v5.10
-* 49b6df3d fix error return value for cuserid
-* cc577d0e fix misuse of getpwuid_r in cuserid
-* a75283d7 cuserid: don't return truncated results
-* ef137da6 cuserid: support invocation with a null pointer argument
-
-[1] https://git.musl-libc.org/cgit/musl/log/\?qt\=range\&q\=e5d2823631bbfebacf48e1a34ed28f28d7cb2570..aad50fcd791e009961621ddfbe3d4c245fd689a3
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index e6f9e2441e..ef8bc2eec3 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "e5d2823631bbfebacf48e1a34ed28f28d7cb2570"
-+SRCREV = "aad50fcd791e009961621ddfbe3d4c245fd689a3"
- 
- BASEVER = "1.2.2"
- 
--- 
-2.31.1
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-=
+core/meta/cve-update-db-native.bb
+index 25ec6bac71..1599396c92 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -139,7 +139,9 @@ def parse_node_and_insert(c, node, cveId):
+         for cpe in node.get('cpe_match', ()):
+             if not cpe['vulnerable']:
+                 return
+-            cpe23 =3D cpe['cpe23Uri'].split(':')
++            cpe23 =3D cpe.get('cpe23Uri', '').split(':')
++            if not cpe23:
++                return
+             vendor =3D cpe23[3]
+             product =3D cpe23[4]
+             version =3D cpe23[5]
+--=20
+2.25.1
 
