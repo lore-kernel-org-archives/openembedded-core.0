@@ -1,87 +1,93 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web08.9093.1619077061486380967
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.82])
+ by mx.groups.io with SMTP id smtpd.web11.9243.1619078063778923752
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 00:37:41 -0700
+ Thu, 22 Apr 2021 00:54:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IplxAUEu;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id w3so67337859ejc.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 00:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IC5+uzwXocsNDk18kqltcTcfO0tyYs9tj5GpKlgFuoc=;
-        b=IplxAUEugeWz2RlxYzX/9CG39R3oM5Z2HnUD5xZxm/lYwfq4XRA8cNF7+sJ2iwbIPP
-         VWmBLsGg3X5RlkECf7QD7Tzy03xb7T7BfwU88uzPbw4z9upfUoU6ZyMyk2djrVCb4Igz
-         25wgXUCMmPtiQwC3/EluL1Js9MWpzWmJz/3Be108zBl+tW8UJame760VlF5x4Jyf9M7C
-         dDCpYZVWS/QYAfowvXhwDUyOaqjZ3OrVJfSg1g1tymxDWZoDwLhxsZ6QNooyKH5+zKud
-         pxcXY8hOYVfvYEADKtWgn83PbCdOxhRl1b+uWKix7I9vWNkCCtERlXoA3XFTvwD9TjWa
-         wayw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IC5+uzwXocsNDk18kqltcTcfO0tyYs9tj5GpKlgFuoc=;
-        b=Fb77Bn48dKF0f9gJ5YTfCPQFkrZaLX8CHiGD6T1W8Kfyrn+KyrqQw7dZoh4c2ehzX8
-         TLCwjnwpLmppDBjnybVGsS8YFlF71pZjrqhA6RdVfpinsPrjLwbaXiBY0V5dAvAD4+vY
-         28/+QvhX8h664kt6hXUApGk8JSFvlYg267t5OIHgE4P4usvgJ3hWkUVzpKIyT+GfeF/h
-         yXPMXLeBl40DPllP48dlZpw29CrGRg+T/8o6oi4qXN+mkq1IiNrNPcelL8liP05oY8X1
-         24egg5Yejw/1sl3W/dyb+ePnaun6Zwu7hhRQK+vYjpoHfNESqlEmqkNFsK5MZhTnhAaj
-         tJQg==
-X-Gm-Message-State: AOAM533A3MLM1nNgZ2WzQl4LdcwKzfpXt3uE6l6ic27nyQ6cxCSTJx/E
-	gvPGve5ArXtE7RBWy2sXaJS8w6lDs1g=
-X-Google-Smtp-Source: ABdhPJwiR4sJZPpIrvkUvsG4iAIckDQC8jTizrRusydLBCyBJnoCmWNXSDVQ+/adXgN6DHNE/sE4mg==
-X-Received: by 2002:a17:906:8551:: with SMTP id h17mr1903182ejy.377.1619077059817;
-        Thu, 22 Apr 2021 00:37:39 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id v16sm1328861edt.53.2021.04.22.00.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 00:37:39 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] xwayland: add opengl to REQUIRED_DISTRO_FEATURES
-Date: Thu, 22 Apr 2021 09:37:33 +0200
-Message-Id: <20210422073733.11837-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=TPyv+cKM;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.82, mailfrom: wangmy@fujitsu.com)
+Return-Path: <wangmy@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1619078062; i=@fujitsu.com;
+	bh=/ZNRlbyYkg+tW6s61sNaQ8Xp0q+VWmosnIHmg0/IR/M=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=TPyv+cKMTAZdsOS5rWs/+SVuJMwNcdq4vPLvGoppkjtoxvxShxfRCBqYsgSvnkSPk
+	 sYMDZs4w5H50sa4GIPN0818Vadu6ZBnp1mJeln21WFNUruIiwxPhXwtNAPEm2RL2+W
+	 uhjWk5iZsUqdHikacz3t3jsOSwDu05Cbb2Z9Ftlv5aiChLtTn6GnxoNjRVkUPZAkWD
+	 Hn0sVIMXUZlGJlWL/4ktiYPHtZTNVOVB9Zdga7WEg5tkYp+iQGXEzHQajGM6hHy+z3
+	 MUF5PZNBGJEP9hNbx/Koe0gzhzRkgIUkAra5dSWLNtgN1I4LRZ/X26d3TKhHMZ5XO7
+	 0Uln76SGdZnGQ==
+Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 4C/55-60958-EAB21806; Thu, 22 Apr 2021 07:54:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRWlGSWpSXmKPExsViZ8MxVXetdmO
+  CwfWNJhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b3lttsBa0cFacOLWRrYJzO3sXIxSEkMItJ
+  Yt20ZiYI5zijxMv9Nxm7GDk52ATUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x52EFtYwFri2
+  YlWJhCbRUBV4vPWx8wgNq+Ao0Tbrt1gNRICChJTHr4Hi3MKOEmsO32FCWSkEFDNwsOhEOWCEi
+  dnPmGBGC8hcfDFC2aIVkWJ2ZebWSDsSonO9QsYJzDyz0LSMgtJywJGplWMFklFmekZJbmJmTm
+  6hgYGuoaGRrqGlha6hubGeolVukl6qaW65anFJbqGeonlxXrFlbnJOSl6eaklmxiBwZhScGzt
+  DsaeNx/0DjFKcjApifIu5GtMEOJLyk+pzEgszogvKs1JLT7EKMPBoSTB+0ILKCdYlJqeWpGWm
+  QOMDJi0BAePkgivPUiat7ggMbc4Mx0idYpRUUqcdzVIQgAkkVGaB9cGi8ZLjLJSwryMDAwMQj
+  wFqUW5mSWo8q8YxTkYlYR5L2sCTeHJzCuBm/4KaDET0GLtKbUgi0sSEVJSDUzl8V+5uPdWW0a
+  IuCfkqonKr/r/bp3X8cWzX+dyLEv43fstZrbf3ylW4vIP7nuJBgVEFC4vM7Zvtfy7sYdZcss0
+  3aX3PtepWHGuDfP3EFnVtGXWl9dhqdXizT9Wnxa6/+lz2IF7r9uebK/afH5Fr2TuwT3K+Y/OT
+  vZunZRk1yE7Z+bKdedEHks4ej1u2PYytePn1qc5RszGRYonDn4ujLGQvBe8tvPGG1UV2Xq2pe
+  tv/Ovfp63B3auXv/NdUrqn/rlgXlse34knlSeuu/7C7cQz4TcmO947J7O7uUqe6lS+HHRtdaw
+  j+/s1e082/74+4eBx83d8ol8Pb9+368SHl08dzhTr1Zvzar5Sbd1zY36VEktxRqKhFnNRcSIA
+  niByUkEDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-8.tower-285.messagelabs.com!1619078061!1645187!1
+X-Originating-IP: [62.60.8.149]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 6699 invoked from network); 22 Apr 2021 07:54:21 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-8.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Apr 2021 07:54:21 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13M7sIwH005992
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:54:21 +0100
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 08:54:19 +0100
+From: "wangmy" <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mtools: upgrade 4.0.26 -> 4.0.27
+Date: Thu, 22 Apr 2021 15:54:03 +0800
+Message-ID: <1619078047-5587-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1619078047-5587-1-git-send-email-wangmy@fujitsu.com>
+References: <1619078047-5587-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
-* it depends on libepoxy which has this restriction
-* fixes:
-  ERROR: Nothing PROVIDES 'libepoxy' (but openembedded-core/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb DEPENDS on or otherwise requires it)
-  libepoxy was skipped: missing required distro feature 'opengl' (not in DISTRO_FEATURES)
-  ERROR: Nothing RPROVIDES 'xwayland' (but openembedded-core/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb RDEPENDS on or otherwise requires it)
-  No eligible RPROVIDERs exist for 'xwayland'
-  NOTE: Runtime target 'xwayland' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['xwayland']
-  ERROR: Nothing RPROVIDES 'xwayland-dev' (but openembedded-core/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb RDEPENDS on or otherwise requires it)
-  No eligible RPROVIDERs exist for 'xwayland-dev'
-  NOTE: Runtime target 'xwayland-dev' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['xwayland-dev']
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-graphics/xwayland/xwayland_21.1.1.bb | 2 +-
+ .../mtools/{mtools_4.0.26.bb => mtools_4.0.27.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.26.bb => mtools_4.0.27.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-index 82765cdaf9..b2ff25fbbc 100644
---- a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-@@ -13,7 +13,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
- SRC_URI[sha256sum] = "31f261ce51bbee76a6ca3ec02aa367ffa2b5efa2b98412df57ccefd7a19003ce"
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.26.bb b/meta/recipes-devtools/mtools/mtools_4.0.27.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.26.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.27.bb
+index 4938713065..c6fa02ebdf 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.26.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.27.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "539f1c8b476a16e198d8bcb10a5799e22e69de49d854f7dbd85b64c2a45dea1a"
++SRC_URI[sha256sum] = "9c88c8d9244e54768e40b92c005e61ec4e084ea7c070df9184caf1a6408838b3"
  
- inherit meson features_check
--REQUIRED_DISTRO_FEATURES = "x11"
-+REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
- DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy"
- 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
-2.30.2
+2.25.1
 
