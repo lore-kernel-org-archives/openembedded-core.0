@@ -1,60 +1,60 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web10.9278.1619078318474218989
+Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web08.9305.1619078364286646678
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 00:58:38 -0700
+ Thu, 22 Apr 2021 00:59:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ip1VtIWF;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=MPzbqqCo;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619078317; i=@fujitsu.com;
-	bh=YLdvlaSUCa/5u9ZkepLpN3WPS/I4yoeBkI80AGAEziI=;
+	s=170520fj; t=1619078361; i=@fujitsu.com;
+	bh=gqJM8TY4+yn+iPgi+at47Tk1Y8hmxFJxDwXO9c8cGAI=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ip1VtIWF3+uL3souZ6VofDQNpUG/MV1MbkWVvvOgXupx7Sj8nhl7Lupk9wr+oVno5
-	 lEQWxS3kLFvpi8Oqv56UOBqEkTnA9Uyjujke5B6JM0RDoDO9QbUpNIAlfPIS+WzBjQ
-	 8Henq10YsTQiu4I00sZerBv4Tat5lyHNr1BXxWFU9K0xpX1lgijLdVpiSYp2MIJsuu
-	 pNUHkjyhDwqsi20v75yfygR02j926/PbXXMLsnzDvLpqUuT6I1MpS8HNsZQQ8Y8ydU
-	 oDATohg6YxiJsKyDK7sp50Kg4YeExTlYt7PWWZmYkhclgdHl0ToGgVzYp1aDPjXf5F
-	 CguHvbD/h5Lgw==
-Received: from [100.112.192.143] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 39/A0-53635-DAC21806; Thu, 22 Apr 2021 07:58:37 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRWlGSWpSXmKPExsViZ8MRqrtGpzH
-  B4PNnXYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePU/j/MBa+5K+ZM38HawPieq4uRi0NIYBaT
-  xJIlS9m7GDmBnOOMEjd7NEBsNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQkXjxuwesXFjASuL5l
-  A4WEJtFQFXi6tvDjCA2r4CjxK0ft9lAbAkBBYkpD98zQ8QFJU7OfMICMUdC4uCLF8wQNYoSsy
-  83s0DYlRKd6xcwTmDknYWkZRaSlgWMTKsYLZKKMtMzSnITM3N0DQ0MdA0NjXQNLY10jQxM9BK
-  rdBP1Ukt1y1OLS3QN9RLLi/WKK3OTc1L08lJLNjECgyul4MCZHYynXn/QO8QoycGkJMq7kK8x
-  QYgvKT+lMiOxOCO+qDQntfgQowwHh5IE7wstoJxgUWp6akVaZg4w0GHSEhw8SiK89iBp3uKCx
-  NzizHSI1ClGRSlx3tUgCQGQREZpHlwbLLouMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmld
-  cGmsKTmVcCN/0V0GImoMXaU2pBFpckIqSkGpgS1295cGtbi8n7w8pG5lu0Tq/1es+p8dloTVH
-  Ql5b/z36XhLFktC87p34pYlrfu2Kzmu3CdXf3qjo2dTdlM54OZ5m+l+/lPr17a3r9Zz1d5peW
-  +fdJ2PqpAZ2XGbfWbP5UotjGn/jZ7O8sLrVlX7I8d5lyfl8QUPBDxalrvoSB55RF2ycaqXzna
-  AwTXN3C6OLrUnWnxnfeBfHPywzYWSKNPuVWRdqelcy/t+xyt8EiFea9YvvtXQp6qpwcnnldVu
-  /5rvP4gYd9oNChJ/z+i1t7r5h+unevifuM/bRdH/ZMddj7nb0wNCP4m3mzwkrnbs2MK4q5N/S
-  0Hcsywu+0fY/R/VZ2tMTrSs2cPfGTm5RYijMSDbWYi4oTATD4kJYpAwAA
+	b=MPzbqqCo7LlL71e10lXkbz6mjyYTqX2kbtEZ83zmMB8z2+goiGP8zbe9tbHzYy/gY
+	 xnFBykDKyQJE65Fhnj6WzXB8tDksXQZWTync6ohrSxr6xtuLip4znnGdUHHDTftFiK
+	 1/1W9S1AC9i7LPDvIZ/1/FOPRHkQvJPKb9WodFDHa878iRK7iIm730MlmayXqHJeZN
+	 W6OBAKEjtlDaY5nLBUUklX5NrEYEXLS4wPAZj9O8E2ER2gKvua39Xe9IuoyxqKVnc5
+	 kHlRtP9YR0p0rYS1WxFYf+XWCC1inUIDxY7yeD5XxYSORzepV8qEr+eFlEZrOtR2wa
+	 CnqUJN0KNeLVA==
+Received: from [100.113.2.232] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-a.eu-central-1.aws.symcld.net id 73/B8-07430-9DC21806; Thu, 22 Apr 2021 07:59:21 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKIsWRWlGSWpSXmKPExsViZ8MxVfemTmO
+  CQfMFWYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPhwU+MBZ84KuYcb2VpYJzI0cXIySEkMItJ
+  onWVdRcjF5B9nFHiyIE3rCAJNgE1iem3bgDZHBwiAnoSV/+JgoSZBVQkXvzuYQcJCws4Spw6k
+  Q0SZhFQlZi7ZTEjiM0LFO76MBXMlhBQkJjy8D0zRFxQ4uTMJywQYyQkDr54wQxRoygx+3IzC4
+  RdKdG5fgHjBEbeWUhaZiFpWcDItIrRIqkoMz2jJDcxM0fX0MBA19DQWNdI19RQL7FKN1EvtVQ
+  3OTWvpCgRKKmXWF6sV1yZm5yTopeXWrKJERhaKYVMxjsYr73+oHeIUZKDSUmUdyFfY4IQX1J+
+  SmVGYnFGfFFpTmrxIUYZDg4lCd4XWkA5waLU9NSKtMwcYJjDpCU4eJREeO1B0rzFBYm5xZnpE
+  KlTjIpS4ryrQRICIImM0jy4NlhsXWKUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzCuvDTSFJz
+  OvBG76K6DFTECLtafUgiwuSURISTUw3WCuVtITE1g3QU3X+dJVp7ZXL6POlZ/Xvc6xoUvQf1H
+  f3z6LmatWeB3l/yKwyomTO/n8Qx+x2pwpOlvM17X6iziV/L8Zd141x2ZVf/PFwOKaxz//xnCW
+  ze4MSsg9coPPttzq4A/7kwWzGB856p8sLiloUs4Q2DjzVuAE/h0qN6PPXcmqMT28mWevBsOBt
+  6vzf+T8ujnNtqdrS/FGMfkcw6Z3x1h+TVnG3Xu4qMlKMnNuZ3ZAvebEHbniPUekenfHhXN0Jl
+  jpPyxPnNYq+abs79oLxx/baJwIXLGxtN6W4ffKHoZFPzfcPrc45Y24yY+7n1jkvm35e7c3Ss9
+  4hdit4Hi18A1lPzp/aRZtaWNXYinOSDTUYi4qTgQAaWGJ5igDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-271.messagelabs.com!1619078316!1931623!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-3.tower-226.messagelabs.com!1619078360!199243!1
+X-Originating-IP: [62.60.8.149]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 29100 invoked from network); 22 Apr 2021 07:58:36 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-15.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Apr 2021 07:58:36 -0000
+Received: (qmail 7019 invoked from network); 22 Apr 2021 07:59:21 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+  by server-3.tower-226.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 22 Apr 2021 07:59:21 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13M7wanX009198
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13M7xKLp008345
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:58:36 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 08:59:20 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 08:58:34 +0100
+ (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 08:59:18 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] boost: upgrade 1.75.0 -> 1.76.0
-Date: Thu, 22 Apr 2021 15:58:24 +0800
-Message-ID: <1619078305-5630-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] wpebackend-fdo: upgrade 1.8.2 -> 1.8.3
+Date: Thu, 22 Apr 2021 15:59:10 +0800
+Message-ID: <1619078350-5670-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
@@ -64,32 +64,26 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../boost/{boost-1.75.0.inc => boost-1.76.0.inc}                | 2 +-
- meta/recipes-support/boost/{boost_1.75.0.bb => boost_1.76.0.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/boost/{boost-1.75.0.inc => boost-1.76.0.inc} (90%)
- rename meta/recipes-support/boost/{boost_1.75.0.bb => boost_1.76.0.bb} (100%)
+ .../webkit/{wpebackend-fdo_1.8.2.bb => wpebackend-fdo_1.8.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.8.2.bb => wpebackend-fdo_1.8.3.bb} (89%)
 
-diff --git a/meta/recipes-support/boost/boost-1.75.0.inc b/meta/recipes-support/boost/boost-1.76.0.inc
-similarity index 90%
-rename from meta/recipes-support/boost/boost-1.75.0.inc
-rename to meta/recipes-support/boost/boost-1.76.0.inc
-index e5a8488c58..3ae5a25b29 100644
---- a/meta/recipes-support/boost/boost-1.75.0.inc
-+++ b/meta/recipes-support/boost/boost-1.76.0.inc
-@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
+diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.8.2.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb
+similarity index 89%
+rename from meta/recipes-sato/webkit/wpebackend-fdo_1.8.2.bb
+rename to meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb
+index 2ce631a73c..d27111a456 100644
+--- a/meta/recipes-sato/webkit/wpebackend-fdo_1.8.2.bb
++++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.3.bb
+@@ -13,7 +13,7 @@ inherit meson features_check
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[sha256sum] = "953db31e016db7bb207f11432bef7df100516eeb746843fa0486a222e3fd49cb"
-+SRC_URI[sha256sum] = "f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "98c291071128326a72918d670a46ef63268c43267928560ac3b84b6aebb2d78d"
++SRC_URI[sha256sum] = "3d0b4282a1bd9e0664d7a20abe14e982f3285296ac62de56cae2a404b9d28b9e"
  
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost_1.75.0.bb b/meta/recipes-support/boost/boost_1.76.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.75.0.bb
-rename to meta/recipes-support/boost/boost_1.76.0.bb
+ # This is a tweak of upstream-version-is-even needed because
+ # ipstream directory contains tarballs for other components as well.
 -- 
 2.25.1
 
