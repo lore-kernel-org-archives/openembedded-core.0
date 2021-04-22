@@ -1,112 +1,118 @@
-Received: from EUR03-DB5-obe.outbound.protection.outlook.com (EUR03-DB5-obe.outbound.protection.outlook.com [40.92.71.54])
- by mx.groups.io with SMTP id smtpd.web10.1362.1619129547036856319
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.2169.1619132916721891661
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 15:12:27 -0700
+ Thu, 22 Apr 2021 16:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@hotmail.com header.s=selector1 header.b=Z3rLKBa3;
- spf=pass (domain: hotmail.com, ip: 40.92.71.54, mailfrom: falital@hotmail.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m/8/toDNwDsaR+vqOwEaRABTqUIp+TIqvW8v+8zoDJTT2w/VjiluARyZ6v68m5t9xW+UTWlYb1nKoZiwFmX9Yekxhz+ytvOxQcZ0uRjFlX4x4uwX9nc7lB1l9PeUKfbN7YKR+XGcX0kCcDUo7Fbi4B5OMTgwEpcWbgbT13oWTnu6BsYJX235DRziDUZhxIZd5ZrM/g2y/DgORrOlmykouqFs3MlNFudqXV6mIBJ614XUPVEkXbdYZVyLpMVp3lWfBdyr0YnKSxw8KtitulzXtEdf/VbPfNXfrufpgTytWiSP2TfAUQ1P9Nnlh6xIkdU0K4AZrWFjjZgvfAyCb1FUug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DBXk0g8Qy+H82rc7Ym7HZMJ+zJM6s7LdHhRUlFlJaQ4=;
- b=Rm+Cr33ue3zw07INjEGCGGK+Hcl7+Dti9iAQkZjM/HZwO4YeZIz8al0h9owTYSdW3Vp6migkCMaBf+WksKVzihg1cqpq7Smq7l53Alyz3V9RYRXwdHbu1y/UIFWRaQg5jp0g6zjgA2ZWFEir6csVkFmnWqh8FdwTyIY11g5s9FTqOxwrLqUnwIPYFlJXkOw6VPgLbMboP/gbisTSwX9DgOJ4nit28HKoc7H6hxeyEhnEnGaMGpvo2GYchRqF8kFafULOvCUSARDKodk+uIMQD55MvtR3bOWZ7znyczoUmNQehLS08jfJnBb/oh+19FufehO3K5zofmk1zZ3fgsxhjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DBXk0g8Qy+H82rc7Ym7HZMJ+zJM6s7LdHhRUlFlJaQ4=;
- b=Z3rLKBa3PHWsesO7dLIR3fS8k58rc3WCOryUS0xkeYtsIGzPhl7FQAkR2u2w7pya20rs/KwAwqk/jc3B+eQhYSNWz0Bmoeyc7myAgXDT9h92ouZ3FrOYuvr2v2lOqswnlc9sLRBywDMhN7w5WoP8KzWJnD5RdFZ/nWx40w6bFEGmei82v9Pna276eYu0pQ68mDvhQ+Gyef86kwEbIE4vhlAUv/vYGTRc0SDxpWGrt0kGD0GZ1SJ16fr/duUVtcNtV94knBvl2qowhtSH/J0WT08r8lWnPcqgQGol9I4kfqx619FBcrmz+6nDcAKwfA6EEIJkxKZghUdFDmlpuwrkxQ==
-Received: from VE1EUR03FT006.eop-EUR03.prod.protection.outlook.com
- (2a01:111:e400:7e09::4a) by
- VE1EUR03HT078.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e09::408)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Thu, 22 Apr
- 2021 22:12:25 +0000
-Received: from AM9PR02MB6530.eurprd02.prod.outlook.com
- (2a01:111:e400:7e09::4b) by VE1EUR03FT006.mail.protection.outlook.com
- (2a01:111:e400:7e09::116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
- Transport; Thu, 22 Apr 2021 22:12:25 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:B85A6115EF325A7C9B48A21AA9483935ECC6AA93A9EB8533958F65F32A170F61;UpperCasedChecksum:0EEF86CD202B265EC30C88E1BA895B4C3D780C008274FE920B1FBBFF4B29A7B9;SizeAsReceived:7305;Count:45
-Received: from AM9PR02MB6530.eurprd02.prod.outlook.com
- ([fe80::fc5a:bc2f:e0a4:4a62]) by AM9PR02MB6530.eurprd02.prod.outlook.com
- ([fe80::fc5a:bc2f:e0a4:4a62%3]) with mapi id 15.20.4065.021; Thu, 22 Apr 2021
- 22:12:24 +0000
-From: falital@hotmail.com
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JQ7/4x69;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id y124-20020a1c32820000b029010c93864955so178766wmy.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 16:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZE7jxTRAa8YV2ZlDfeil2TZ9X9DtGgXPESbjrOSymhE=;
+        b=JQ7/4x699u7Drhsl7aStTo0hlk9pBoWPfisO6yE7RQZBtKOQ60ii8Tq9B/CDvlGvfk
+         N34yiENXMNhhdLpBOSTIE0najJl2KGkA/sckae0m1x/ULGTKXvLb0+pMyFKr+Pl3BUqP
+         aoPzq7xQ8GW/BhP3ILxey/Oi8tPPy5IRD1jCk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZE7jxTRAa8YV2ZlDfeil2TZ9X9DtGgXPESbjrOSymhE=;
+        b=jh9xa5BqugMbfPbhprB3B7ZXMfxEpKacFNu0/AF44qOsthwkjFI+lg2SerIXcf9W5p
+         CvtAXnlo087Iv8vsZ0KzbkR4wDjQSbBn2jAS1yQqVT9TvxJuhkFlOfD1MDq0QDHJ5yT6
+         VGwMJLcV5yT5qSs30VJGXfeg4Oo7RZcYuAyvGYuOB96W2lsXG/xRFH1RolerZJiS521+
+         lVmu/ye0yr8aKG5Cj2v3eL3+A1ECcW3gbYEcdoXqx4hM9Rae5GOJA532va1JRF2xIu+T
+         SqUX5h5LyWYCx7ZPhF22ZHA6BznaeBTDwTIT4nL72dR07AH6PpWGRMV0osfXUXrR4PpE
+         wh0Q==
+X-Gm-Message-State: AOAM533VVB9SxG649dJm2W+sZr8MzEASUeGEkqEAyJomF//RadAJR4oK
+	FfHyngnm0X9IVeS+tEJRcwGWP3aRoCTWnQ==
+X-Google-Smtp-Source: ABdhPJwg1W+DOcxur2opJR8uXV5JDP99qAw3m35FK3l7Xz9e0OFocPeQ+4HhBK02GLwwkkc4S4DMNg==
+X-Received: by 2002:a7b:c195:: with SMTP id y21mr1105386wmi.178.1619132914688;
+        Thu, 22 Apr 2021 16:08:34 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9e5d:1acf:2dd2:29e6])
+        by smtp.gmail.com with ESMTPSA id k22sm6502438wrh.5.2021.04.22.16.08.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Apr 2021 16:08:34 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-CC: Savvas Etairidis <falital@hotmail.com>
-Subject: [PATCH] cve-update-db-native: Check cpe object for validity
-Date: Fri, 23 Apr 2021 00:11:36 +0200
-Message-ID: <AM9PR02MB653052B255DD850376AED7E1B4469@AM9PR02MB6530.eurprd02.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-X-TMN: [ZiuXYIbF3WH1yUbCKjSwlJpyXJgIVFOo]
-X-ClientProxiedBy: AM0PR04CA0024.eurprd04.prod.outlook.com
- (2603:10a6:208:122::37) To AM9PR02MB6530.eurprd02.prod.outlook.com
- (2603:10a6:20b:2c8::18)
-Return-Path: falital@hotmail.com
-X-Microsoft-Original-Message-ID: <20210422221136.2709-1-falital@hotmail.com>
+Subject: [PATCH] runqemu: Ensure we cleanup snapshot files after image run
+Date: Fri, 23 Apr 2021 00:08:34 +0100
+Message-Id: <20210422230834.1594956-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Ranger.localdomain (178.203.145.67) by AM0PR04CA0024.eurprd04.prod.outlook.com (2603:10a6:208:122::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend Transport; Thu, 22 Apr 2021 22:12:24 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 45
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 5bc84a60-8cbf-4fe8-4d51-08d905dbb537
-X-MS-Exchange-SLBlob-MailProps: 
-	SNmTuH/oRumJKdvLkJ7DDU+ceTJyY7l3pj2ryWMF6/QecMeaskJ92YbNdD6944nY4aWsT/vNsdCSCeKc1NMai8lMwIRILKOPusYylbgrapwb6nEY4wRcNrbsYMh4DsgbOWQXUKHXAK6JxPOtDQuW8MwkhDMxGtr8XveaaJE4azq6DT7WWRLtOYQJs0w4tYBzcaWfHKO6hfqCF6y748uHvtbSrMHyYUAxr5ZWpovAh6WYrGV0DTOGUWjYqYhGmfRSb7hm9WF4dRdVpkDK1znX2X6/C28QeWLAUekBHQ1B3aPGUP48EvUCE+1fwgFYtrXk4q8fwJpbBKbPSv9Lb2edG7vh54WyjpG03LfWXFr2aQRcvom0SPWhQeyGf3biZ/vh/90Ia4K+1TkXCHPbUiari5gs6ZM2l9Aj48bd1kGJwasGEajyABz0YF0s1BPZA6+ZFyMpUNorYB02hvhebEbhbYquuZgte+VPYx8LiGVenjLxIvMHQHesFHEm8K1uUcaIJi0GmixNsSXOhyAjjuMbyN4JdvaMK3Q7/DHJ5XV7k9G2G97omxxI/Z7huOiZGZTuDc+0Bo6kahohRhXhVzv1HYptIF3EMOSXIlDI/WDVVpT6AWLVPseCyvM5tG34QRnbXa3pn6TjqUtrPh0+I2n0N6q50pBqaoBGVve4Rejw4DRdWhklZHZesh+sBsjPCfEc2z3fU6w4GCragqRoFoRqQqIFyke0uyKnh9OK83PLu8QxnGhZA24irBGbAl4kSBMzF2C1tL4jNdPCl+ELR+3F/ligPzH86UmTrd8Wd+fyz+Y03hN4DvTgcEeE7UtF7pRi
-X-MS-TrafficTypeDiagnostic: VE1EUR03HT078:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	J4DK1LSwcW1OX0bix+frCD5WbdFSPEqnoOGwsrKUcJwgv7a1VsKaSXpAgpky8i3VpUd0GlhmlgWxcuxSVz3vSPY3/m+jg61tmhGljTS8k3ksLj48STRl940nivHxOclbjDCVGuLtBvApVuosGAqZaHCgin4aki6Mm1G61rKwNU3+Ku6bz4XciAMLfQ/M9IREF98aQGWFW1X3t86CMuJKuwju71FpFWOT5zhSDErERS22rA0BeUJBgN4MUvLMeerKedUOwoXLht/lJQF1cqmy1Y3aveIEvIEthswMZ1PhyWbgxTpUS6TfMQKQRYccQcsd27O/NT63QudIvuUmApdD6pbGccxSryINJGQjTc4SLciDxPLylUc7FTmtfNio6cPhi7Z/NBDS0UPN0k+V93lJ1HFjOJsM2uVsHRN0DJ/clVJqzUx0hPdM2D0qg4wak2bk
-X-MS-Exchange-AntiSpam-MessageData: 
-	x2BuGrTRJyDDzZgDNmZUY42kPYdFmwlhtZ02a/n+qN+N5zTzfv0yrGmo2bNlYDDrlXjnu+GyXelM6hZEKs+6lcY6LEsmYsM0XCXJ5DyajHa2RI9vZFQv6h9weK5iPivOXk7zRLuf7mZRBOet2+KJFg==
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bc84a60-8cbf-4fe8-4d51-08d905dbb537
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 22:12:24.7904
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT006.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT078
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-In case the cpe object is missing required properties
-it is not valid based on its json schema definition,
-since it is not valid the routine will fail throwing
-an exeption which will lead to a broken build.
-To fix this we ingore this entry.
+We need to cleanup snapshot files if we make a copy of them to ensure
+the tmpfs doesn't run out of space. There is already NFS code needing
+this so make it a generic code path.
 
-Signed-off-by: Savvas Etairidis <falital@hotmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/runqemu | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-=
-core/meta/cve-update-db-native.bb
-index 25ec6bac71..50ac62251e 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -137,6 +137,10 @@ def parse_node_and_insert(c, node, cveId):
-=20
-     def cpe_generator():
-         for cpe in node.get('cpe_match', ()):
-+            # Check if cpe has all mandatory fields based on its schema
-+            # https://csrc.nist.gov/schema/nvd/feed/1.1/nvd_cve_feed_json_=
-1.1.schema
-+            if 'cpe23Uri' not in cpe or 'vulnerable' not in cpe:
-+                return
-             if not cpe['vulnerable']:
-                 return
-             cpe23 =3D cpe['cpe23Uri'].split(':')
---=20
-2.25.1
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ba0b701aff3..edd17d09c4a 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -145,7 +145,6 @@ class BaseConfig(object):
+         self.qemu_opt = ''
+         self.qemu_opt_script = ''
+         self.qemuparams = ''
+-        self.clean_nfs_dir = False
+         self.nfs_server = ''
+         self.rootfs = ''
+         # File name(s) of a OVMF firmware file or variable store,
+@@ -210,6 +209,8 @@ class BaseConfig(object):
+         self.qemupid = None
+         # avoid cleanup twice
+         self.cleaned = False
++        # Files to cleanup after run
++        self.cleanup_files = []
+ 
+     def acquire_taplock(self, error=True):
+         logger.debug("Acquiring lockfile %s..." % self.taplock)
+@@ -1020,8 +1021,9 @@ class BaseConfig(object):
+                 logger.info('Running %s...' % str(cmd))
+                 if subprocess.call(cmd) != 0:
+                     raise RunQemuError('Failed to run %s' % cmd)
+-                self.clean_nfs_dir = True
+                 self.rootfs = dest
++                self.cleanup_files.append(self.rootfs)
++                self.cleanup_files.append('%s.pseudo_state' % self.rootfs)
+ 
+         # Start the userspace NFS server
+         cmd = ('runqemu-export-rootfs', 'start', self.rootfs)
+@@ -1204,6 +1206,7 @@ class BaseConfig(object):
+             self.rootfs = newrootfs
+             # Don't need a second copy now!
+             self.snapshot = False
++            self.cleanup_files.append(newrootfs)
+ 
+         qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
+         if qb_rootfs_opt:
+@@ -1476,10 +1479,13 @@ class BaseConfig(object):
+         if self.saved_stty:
+             subprocess.check_call(("stty", self.saved_stty))
+ 
+-        if self.clean_nfs_dir:
+-            logger.info('Removing %s' % self.rootfs)
+-            shutil.rmtree(self.rootfs)
+-            shutil.rmtree('%s.pseudo_state' % self.rootfs)
++        if self.cleanup_files:
++            for ent in self.cleanup_files:
++                logger.info('Removing %s' % ent)
++                if os.path.isfile(ent):
++                    os.remove(ent)
++                else:
++                    shutil.rmtree(ent)
+ 
+         self.cleaned = True
+ 
+-- 
+2.30.2
 
