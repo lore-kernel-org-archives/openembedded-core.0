@@ -1,50 +1,50 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.10042.1619186414283172969
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.10319.1619186416947394214
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 07:00:14 -0700
+ Fri, 23 Apr 2021 07:00:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SK6lMzAz;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id g16so8408316plq.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uo+Hlia2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so1251785pjh.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LcHBlXq93IgNjcF9FtzSZ1wGoQIDizhfE/ksV1NsEF0=;
-        b=SK6lMzAzM+nLX13lWUbKKpQNw+noZ+Tw4IGPBVar/pvVNX9+f8joiK+TWaCt/j6YGN
-         VoT06UeIHkfZ86gaJ3hHpAu9PrIFoJo6rj0ZN1lCB4vGiEZNLE3egGPjmdFC33SXmg36
-         fmRpw+Gi/A0kff/aj4Xl7Zh+6ceZMe1FG49ILQikMIOuT/M1qX3k0hWzrMs0LDiCrNlq
-         gWQXveXLAOigOrHnHZV/Eusd/CTW92RvAo/eTleI76nW/U7ZPJltr41dVLTsDG14Hubl
-         usULAH+cAQWYvCgtyF42XMKiFAJ6wDCJlSPs6waISNLpx6fN3zddQAfm5cPun9xOc72d
-         trMA==
+        bh=zeUDQT7bG8GsMJwiUv1MoloVqEtUNwJ+zzm5L3T0+1o=;
+        b=uo+Hlia22w0plHuNNrTiVhc7zL8h49SJbnRmr8PD1fyjkd788NlOKWRKzygpfar644
+         TDIrz4NwGdaJYp3qPb7IyTV+yvZ8bXaSepTcw9pekVl11psUNEg0mzrNRFhaZWg9BFUQ
+         HKQ4GQ6e0pGljQFTKSioMaA/qk1NqjJRQDKXPU2U8Dxl4WlW9cCNNe3CMoYmtUzfh5EW
+         ljHydH2m8FR2ORTNGfEQ/kkb0wgSIXbaqNWJ8GLVszsUATs1xSphXuKJMRPkn+f7srrR
+         8AVaIL8Wc60kqhDttRkX+FpV9NAR89YMjVcTvx+6upSqp0263WfelhrW76LYMDTNv9ZL
+         3wkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LcHBlXq93IgNjcF9FtzSZ1wGoQIDizhfE/ksV1NsEF0=;
-        b=F3LRGbY6CanoC07LrFn5QTCjRO4ciCWU4B681vLErIPiaC6iwPM6Ly/CyPysOJJoHD
-         QOB3p//WnCsPTeYIvtu1foVkNyfTSnwYlm9cxNNVOLRowZsuOB5yTKQP15L5hFbtx3nP
-         mvr/U1dJY1RKGHIvsiO0fRnfDNkbKx9PwaI38E6NK+c22GZkdCc/MBGnnjj4MvjOWSL3
-         E/9+y4SP/Tx8UmaRh0pxyPbCuSQo5u+7QDnDT8/pOXqSamOqZD1qXvOxNBrVvDLZUIr5
-         dy/2Uo/C4+8moQk4DZhAHYDHYNpdgbsha0nrpEwlY1kd0yRWBcRnL1vpqt7xVQJUfYkO
-         VrbA==
-X-Gm-Message-State: AOAM5309nCZyKzEoZtwCXibL6iSIGpYpsUYtibtedk2jIVQX0Kj1FGto
-	BiC/XRy0rwglXt5vS20rpyTVvQCc0COVVS6S0UA=
-X-Google-Smtp-Source: ABdhPJw+82SnPVcdHfqqU36s/pxZL56nQhjVA0XS4Oq1P9MxBFTgslBdDgq6zIrW1EukAqpCO+p34Q==
-X-Received: by 2002:a17:903:248e:b029:ec:b399:7d75 with SMTP id p14-20020a170903248eb02900ecb3997d75mr3835426plw.35.1619186413168;
-        Fri, 23 Apr 2021 07:00:13 -0700 (PDT)
+        bh=zeUDQT7bG8GsMJwiUv1MoloVqEtUNwJ+zzm5L3T0+1o=;
+        b=EJ0aZFq1W5CHp9kVfzCwYuvFZOflnVh8xdKlTiMdjdc+nn+grF/68lg4spmVRvRSXt
+         cfYUO5W9aWL+l3cUeU5FT21uog9QOBZNdSf11d3xH4dG+vLUtXFGkJD0kDrS3AaHIurM
+         Rnb/w1xFKY+suoHvGAzGGXAtZg+W6xjooF37jMfMfs8FlDqqSEFTCnvgwCqw/FiEWxhI
+         2azZ1GKKVM+RlFE5GlynlWH6bBw8pm5DnwdR5dUY6O91NVA42OceazT68uSgCMkWzdA1
+         rkO2AdXexWK//Fg9Gxaad/qtr7W5XsYAAYMyfpK5ctQtXFeeEwMtlxzkuAS3BoOVdHOc
+         3sEA==
+X-Gm-Message-State: AOAM530cdB9h3eehIWcbWGoxKpsvo9x74QnVNqcpyyA13+ZpQhLomfGU
+	gP3EnUjhixPaa9ZWFOWJ/THr2DqBbBly3PEfi/4=
+X-Google-Smtp-Source: ABdhPJzjd7Z34/UyAmNzYFC7mjFsuBkl/L24YB2G/nJ2vTv71GeLZMqS3raWyRIYtYqNxd7d8bwj1A==
+X-Received: by 2002:a17:90a:8906:: with SMTP id u6mr4636462pjn.162.1619186415927;
+        Fri, 23 Apr 2021 07:00:15 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.12
+        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 07:00:12 -0700 (PDT)
+        Fri, 23 Apr 2021 07:00:15 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/19] sanity: Add error check for '%' in build path
-Date: Fri, 23 Apr 2021 03:58:49 -1000
-Message-Id: <cce199341ab9a3d6678c57afa803ccd83806de20.1619186107.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/19] sanity: Further improve directory sanity tests
+Date: Fri, 23 Apr 2021 03:58:50 -1000
+Message-Id: <bfce6e9e3aab025938672731f9daedea24ad1fdb.1619186107.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1619186107.git.steve@sakoman.com>
 References: <cover.1619186107.git.steve@sakoman.com>
@@ -53,33 +53,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-It has been reported that '%' characters in build paths break with python
-exceptions, probably due to confusion with python string escaping. Whilst it
-is probably fixable, showing the user a human readable error is better given
-it doesn't work.
+Add tests to ensure COREBASE/TMPDIR doon't contain ".." as this causes
+hard to understand build failures.
 
-[YOCTO #14282]
+Also rework the code to test TMPDIR and COREBASE for all the patterns
+since they may be set differently and one may contain problematic
+characters.
+
+[YOCTO #14111]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 31a3cf78452270131a657be45e76569515cff7ef)
+(cherry picked from commit f22a6e46d003aba516a9a0cc7f94eae678d846b7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sanity.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/sanity.bbclass | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 866d066288..5b6b7b598e 100644
+index 5b6b7b598e..83bced2db3 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -887,6 +887,8 @@ def check_sanity_everybuild(status, d):
-         status.addresult("Error, you have an invalid character (+) in your COREBASE directory path. Please move the installation to a directory which doesn't include any + characters.")
-     if oeroot.find('@') != -1:
-         status.addresult("Error, you have an invalid character (@) in your COREBASE directory path. Please move the installation to a directory which doesn't include any @ characters.")
-+    if oeroot.find('%') != -1:
-+        status.addresult("Error, you have an invalid character (%) in your COREBASE directory path which causes problems with python string formatting. Please move the installation to a directory which doesn't include any % characters.") 
-     if oeroot.find(' ') != -1:
-         status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
+@@ -882,15 +882,18 @@ def check_sanity_everybuild(status, d):
+         except:
+             pass
  
+-    oeroot = d.getVar('COREBASE')
+-    if oeroot.find('+') != -1:
+-        status.addresult("Error, you have an invalid character (+) in your COREBASE directory path. Please move the installation to a directory which doesn't include any + characters.")
+-    if oeroot.find('@') != -1:
+-        status.addresult("Error, you have an invalid character (@) in your COREBASE directory path. Please move the installation to a directory which doesn't include any @ characters.")
+-    if oeroot.find('%') != -1:
+-        status.addresult("Error, you have an invalid character (%) in your COREBASE directory path which causes problems with python string formatting. Please move the installation to a directory which doesn't include any % characters.") 
+-    if oeroot.find(' ') != -1:
+-        status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
++    for checkdir in ['COREBASE', 'TMPDIR']:
++        val = d.getVar(checkdir)
++        if val.find('..') != -1:
++            status.addresult("Error, you have '..' in your %s directory path. Please ensure the variable contains an absolute path as this can break some recipe builds in obtuse ways." % checkdir)
++        if val.find('+') != -1:
++            status.addresult("Error, you have an invalid character (+) in your %s directory path. Please move the installation to a directory which doesn't include any + characters." % checkdir)
++        if val.find('@') != -1:
++            status.addresult("Error, you have an invalid character (@) in your %s directory path. Please move the installation to a directory which doesn't include any @ characters." % checkdir)
++        if val.find(' ') != -1:
++            status.addresult("Error, you have a space in your %s directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this." % checkdir)
++        if val.find('%') != -1:
++            status.addresult("Error, you have an invalid character (%) in your %s directory path which causes problems with python string formatting. Please move the installation to a directory which doesn't include any % characters." % checkdir)
+ 
+     # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
+     import re
 -- 
 2.25.1
 
