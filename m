@@ -1,146 +1,250 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web09.70.1619196572693436238
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.83])
+ by mx.groups.io with SMTP id smtpd.web10.147.1619198324376374494
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 09:49:33 -0700
+ Fri, 23 Apr 2021 10:18:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RuTnFyhA;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id r20so25082249ejo.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 09:49:32 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=SFCxWY2o;
+ spf=pass (domain: windriver.com, ip: 40.107.100.83, mailfrom: stefan.ghinea@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jwu5RKt2kNbFgZsnH5zeNLTbFIdf8sOTIpl3C2GO6LYCWEwnTe/V3EiLXV1VV9hDET9FTGks0hcPt0LJoe5n7m0Rtf/wqcDbJqTNVHGAz5t9kZgTXKf3374nRyXyucSwU3X/T/grHY1tcP+axiR1uwX0ArQYA+w/2HDMfDCV7LD42H442jN/ISk9Bb47uEI91T5jRkPtU/eG0kL8jUTSZXC9v7KxeXkMfVoNzQ3M+2GY+9X4SBXYuI8RK91nTXRZsVz+mlNaI58/MVj6BcQx7aTW3yfeJVS9wWdIKtwD4nQ/WP6ISurih5fwZoswxxjFZMqEcKbvMVPxVeqlyLPOwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zruqFrUwlizXsBynJlV2ydXQqVgCH6K3fqehUTzXDoI=;
+ b=gfFIOBMLb+TNixC0riq5KLjN0PFzCVDdVw72aFp3h2zUTyPHfFCwwQy4die0TRh2FWunbP1DLZZHMeUnvBFjg5zgPh3o4rlVeUBJfa/yjN7GP7MFly8vWnWuETPI4wsRqyWIYY2d6cu4/WR1ifuXQtB/9/xJANdDjQjSmSShmQxvqYeN8ngGzkGhyOuNOF1M3gtA1Mv1nNWSk2VD2Nl60KbvenSXX0VmMEpxCW4zJSX5A6TFSbcwy4qIbTvnFz3HMaFJCKdsQ+81FcTH3oH4kuT59amjQqgO99rRsZ0c6oNwtGtLXkHVE9f9rWob7FBO47emQyQSE2QgYl79UHfLBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ndOaZwnq2jixZefwX+I95sJduuQmptHzWUxjJoGeBII=;
-        b=RuTnFyhADe720P5htK6O/adn/UI5soEvidXQR5P7kubhUOWT0JdMOWqLcgqXCrDXzj
-         Y20uFpiuD7ijogMe9OW/8OdUSOgagq7vdw0T3qNh06ZRp3j463qqqxuJr4ac341zkSzo
-         ydwdULFzTHZZEj/JvlHv9wHfwrp28pK/G1+KUc0X7HsxxAY9NYsVlWGgq3iaJ8Kw5GDc
-         NsNtT/g0Iua+j9yqJt3kKciCAyKM9xY9NccCiGUS/TxaeC4VEc6xTrgMvsAflxqjysFt
-         fdBA2vzPZGLBfHDwsj2Ofh2BinZ584fFgJRVVnzYJtLvkIyohSXDyd3HR8n5yC5MRcNE
-         /ppA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ndOaZwnq2jixZefwX+I95sJduuQmptHzWUxjJoGeBII=;
-        b=Kwg51l+hjYVng0AXP+BI4axl/BbIaIOsIA+wXqvOwwXmPD5/t7pzdXKUArvy+Mhxjb
-         88aXVfIyt+tuFaA/bjXtqh9pyuCP/fca567mk7aT3yUJ6kQE120D1qqe2FnFm8kHvstE
-         KPdLMWDElLSb+8XEZB1Zp8NiIr5lx4K0W0CUPx+j1JjfSBvo93U8+4zhmHbwB7cWe5Qu
-         44JPPjvfKT5mbTnYjBmyLKO7mOXM+TBdJMyQX2qFLa5cro0hKJsrXzCCBaNr9BU8HRIg
-         H4CaP6+AW3uhiiK/ehkBFKs0uZR4kvB6ReQa+8lh9GaohchQmFr7PrC5J82+paghdASS
-         Fr0Q==
-X-Gm-Message-State: AOAM5327RtJQQlNN+2Ri6llmzcBsGHohT6ZPalMqeXSmFOBxSowypjb8
-	Zd2gHuX/l14H7JyR3w6JICH7wBT2KLAKQ0uHO6Y=
-X-Google-Smtp-Source: ABdhPJyaggCKvGtaZz7he0ocJD6D8tjp7rxadlRPNREaW6XJW3d6KYkt4lUyMChMhTtNeIlSWmLtNKIU3jGRg0xAnpM=
-X-Received: by 2002:a17:906:3749:: with SMTP id e9mr5255814ejc.247.1619196570939;
- Fri, 23 Apr 2021 09:49:30 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zruqFrUwlizXsBynJlV2ydXQqVgCH6K3fqehUTzXDoI=;
+ b=SFCxWY2ogZR1zFCYAbVM5sfS7keZfXGe+BH30oEMkDxrz+6uKLEEVtAE56v2efnPh1Bxe7qHYSdUtT3SZ8lkwHzjqatFhs6915pW14wy7aCoA4i/Hd+9vVP/S+qNnKs145TVvX0nxddJSfjRfivzVNv2y46QHwms4DbQUtSTGKQ=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SJ0PR11MB4989.namprd11.prod.outlook.com (2603:10b6:a03:2d9::22)
+ by BY5PR11MB4337.namprd11.prod.outlook.com (2603:10b6:a03:1c1::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20; Fri, 23 Apr
+ 2021 17:18:42 +0000
+Received: from SJ0PR11MB4989.namprd11.prod.outlook.com
+ ([fe80::7037:7346:6da2:e8cb]) by SJ0PR11MB4989.namprd11.prod.outlook.com
+ ([fe80::7037:7346:6da2:e8cb%7]) with mapi id 15.20.4065.023; Fri, 23 Apr 2021
+ 17:18:42 +0000
+From: "Stefan Ghinea" <stefan.ghinea@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] [OE-core] libssh2: fix build failure with option no-ecdsa
+Date: Fri, 23 Apr 2021 20:18:26 +0300
+Message-Id: <20210423171826.14423-1-stefan.ghinea@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [89.137.231.29]
+X-ClientProxiedBy: VI1PR02CA0050.eurprd02.prod.outlook.com
+ (2603:10a6:802:14::21) To SJ0PR11MB4989.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d9::22)
+Return-Path: stefan.ghinea@windriver.com
 MIME-Version: 1.0
-References: <Gvtb.1619190188941654950.yc90@lists.openembedded.org>
- <CADkTA4PbOd459xYigZh9q4Eh5hxyK50t=poH6B4HOqhNeMYnCA@mail.gmail.com> <da4aace2-faba-d14b-1565-4c3ae192e63d@windriver.com>
-In-Reply-To: <da4aace2-faba-d14b-1565-4c3ae192e63d@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 23 Apr 2021 12:49:19 -0400
-Message-ID: <CADkTA4MEZpTO4GuFGccu-5zfZGm7rrE19L03SO--jrV-_n_fzw@mail.gmail.com>
-Subject: Re: [OE-core] Need suggestions: in case where linux-lib-headers and the kernel versions differ
-To: Yi Fan Yu <yifan.yu@windriver.com>
-Cc: Sourabh Banerjee <sbanerje@codeaurora.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (89.137.231.29) by VI1PR02CA0050.eurprd02.prod.outlook.com (2603:10a6:802:14::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend Transport; Fri, 23 Apr 2021 17:18:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6efc88ed-9920-4ef1-1307-08d9067bd7ed
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4337:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB43375022C957A970048A753DF2459@BY5PR11MB4337.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	g0D/EHkO3GkVqa5AZY/YbQEDanlqu2z+7xf9sZOiaiideY3BCi8RppAwcl56DCooPV93+QEDiyIhtiGL0L0ZDJxFyNIC8sNAMmiZRuIIbNmHLYTRk+wSs2iIJ8+sU8BOyYnW+alUyQ9tMxCtm7i6sQn0EpMc87FF9MW6604ArdIY9+iCS6YAAkkDMFDLN1HoAGFChsfUPV3eo8Q45yFwMgmYA0IuB3Q7zlj5E5h+uZar7wTl7VtkWBihTIPUv/K+FOQ9EEFnZqDlPraEyOCmfoV7fFKFQIq4tP0c9K5gj6IBrI0WvoKmuXsKak+DbpU8YegWASDInoWkUQnpKA1syj/fcCdlW6T6LRC3ABk1wR8xs2eFavAh2K5qzmvEjVf6UjKDDuevNidiGO4pTqburHRVpDUEAJCPV1NIJ3tbR6LQVyxGU1zvbu6VkJvgKYhqgUS5bFjxrhlEa0kXv8T3Rvez1mTv8NmqHOkIyCSTRpm7IqqbzDiYpppwfJ3xDHbrPQ1KgagF9Upw4YqmjGaEDCYppfXNX5TM4T/RfM0XLb5H1yxit4XkNfwkdSTCpDemBEAnO8/52zRzUXa+LdbEEHmPvUYsNCUeIyldJ8LHLg3FZFJE9yEv4hgeFz7KwfZvQ4NuF+n8O1N4GoF0+9yqAW/tcMD0emTcxGIBKxaRXjQoKs+iI1EVTY2jdYCYoeudnZ5khsxVx5ACbDq2bLdjQefoTnmspVjdM2AUZaFDu7iz6nGwskldkWkBET6avd4I
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4989.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(366004)(376002)(136003)(39840400004)(1076003)(38350700002)(38100700002)(6486002)(2616005)(956004)(66476007)(66946007)(66556008)(478600001)(6916009)(86362001)(966005)(52116002)(8676002)(44832011)(5660300002)(6512007)(8936002)(36756003)(6506007)(83380400001)(316002)(2906002)(26005)(186003)(16526019)(6666004)(69590400013);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?0Lw0l7rdRQH4P2Ci5CIS1sBRXLVk9/CbkbnjqVz6VcJG3DdMOcGjzFAWyGPz?=
+ =?us-ascii?Q?r5L//HHXyA0EwS5RQtHuw6tsTYMD+7mGBFx05OR9pafS6BI86YHqxnaW23ZP?=
+ =?us-ascii?Q?9qV+1IDECtqHQ3NGS8Z7P6Yb+C5g0WIiVlM+pMwyA81VoBBrmie4UUxPb2yQ?=
+ =?us-ascii?Q?QENxGiuEERgICmoPZMSS7BsJQ3w+puUGNTPUlDUeR+DpsE3hsTjua2htgew7?=
+ =?us-ascii?Q?sUqyT4kH+EUEhhQuH6m3L8Fm5aXY5/CLinHSHaQ2ZYnvHWJL/knoBjOyTtAq?=
+ =?us-ascii?Q?KNFqpcK1z+ZEGip0qcGK3OHJ0ZZ8Vz6e8u883OhW3dR/dYx3H0IQU6kbhkX3?=
+ =?us-ascii?Q?yIwx9PKS9QiW8sBBuQkjGFZCqwUnRZ/yF+GdQJQTWoPVtVGG5aBQby84dysg?=
+ =?us-ascii?Q?ko8/BiFOmJ6yfmc0G4LSeJj04S3y5dHFWDJ+MMmV5snhNKHPHKVHdprTBPtj?=
+ =?us-ascii?Q?XYxByzVAs7xETpabXqOO79LOxWutmBKyzNgab1Qi8wdc/CFoPbQb70fdxpsY?=
+ =?us-ascii?Q?A23I/DLGIlqbEctQ0zKOWscY1ax3HFA6gEICeB7Hs91Pb2+/oaDoaCyWhvYJ?=
+ =?us-ascii?Q?Tnom6DL3CCbZuDvH7KbxG/AfsTVlYcC7/l/9J25XLda6CzOU2CJbRhHhYbxa?=
+ =?us-ascii?Q?2QRdHz3DrUiX/VgnnraYldLmN/HgdeygdeY10ghxSiAsy3uKVmEUvZxTMFOe?=
+ =?us-ascii?Q?QDez+Gpnb/OJc3wsBm/tKLwgEQUU4LfthFwuhZRPH0I5WbOxvy08KhY23vlM?=
+ =?us-ascii?Q?phUcHi4Fq/jJ7vqP2oymKlBC9QPqPkaUOs10HO2trRxlt7MAbcQVpu/ZdoIH?=
+ =?us-ascii?Q?x44S/6W3PUGd2VO9AhbMQ1lucgweLapM9+NTsjg6ZE8Ya5iDybw59KByUc7v?=
+ =?us-ascii?Q?vDm5c9PpMdXa/T5Hxh9y8SwknJlJMtRQMY9NtJ6+v5UQDQ9cdsGa6+m4X7CC?=
+ =?us-ascii?Q?YbB9gQFgqMARAPjBc2A6zoQyW13woFkXFNG6Jb6Sy2VO+X9hqE4gCXLbJpvq?=
+ =?us-ascii?Q?7ZQ2hrgLWU43gUO1lHSO2hspw3PndHPRWwOHdeKuAxX3WakrW2RWOVP3HFfi?=
+ =?us-ascii?Q?RQkLDVEkI5Oe3JZjW7HXcwdZeU3SoNdAYYXZ1xf2a72V0ajWP3YiWODz2GjE?=
+ =?us-ascii?Q?vn1caez+d9z2hg4fJykbZxakiDxK67Tj0ekIQv9XgYg4xbq50Yc7dGOCui5U?=
+ =?us-ascii?Q?qs0xsjELvjyzCyq+Xrr+HrbW9OuqSwYtPxzD0qD0bS+XFiWn0ncDSBK8nTxO?=
+ =?us-ascii?Q?9c8pW/s1hGVoWJmY27vgqfo8jrEkZ2FV87Zh3VnY+dh+AROL6dGk7z1DdBnX?=
+ =?us-ascii?Q?Dpta9dADVJIItRnLHdeHwbWP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6efc88ed-9920-4ef1-1307-08d9067bd7ed
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4989.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2021 17:18:42.5696
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OOJjQg43xz6zM5JAit84lfvaXNEdVeMIla7l01PyLTkcFAq3J3HNtSlRbs8+Ah/83HmnaRM3HBOX4q9213XZDYBOtSjfh4e+SKO+hdD8zJA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4337
+Content-Type: text/plain
 
-On Fri, Apr 23, 2021 at 12:06 PM Yi Fan Yu <yifan.yu@windriver.com> wrote:
->
-> On 4/23/21 11:35 AM, Bruce Ashfield wrote:
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > On Fri, Apr 23, 2021 at 11:03 AM Sourabh Banerjee
-> > <sbanerje@codeaurora.org> wrote:
-> >>
-> >> Hi All,
-> >> I need your suggestion on how to reconcile if the linux-libc-headers and kernel versions are different?
-> >> For this discussion let's consider we are using the LTS branch YP-3.1 (Dunfell).
-> >> With Dunfell let's consider following 3 cases:
-> >>
-> >> 1) Machine is supported on 5.4 kernel
-> >>      Kernel Recipe: linux-yocto_5.4.bb
-> >>      libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
-> >>      There is no conflict in this case as libc-headers and linux-yocto are on same version.
-> >>
-> >> 2) Machine is supported on a higher kernel (let's say 5.10)
-> >>      Kernel Recipe: Let's assume provided by a BSP layer, linux_5.10.bb
-> >>      libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
-> >>      The kernel version is higher in this case. But, should be okay as 5.10 UAPI is backward compatible and supports  linux-libc-headers_5.4 completely.
-> >>
-> >> 3) Machine is supported on a lower kernel (let's say 4.19)
-> >>      Kernel Recipe: Let's assume provided by a BSP layer, linux_4.19.bb
-> >>      libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
-> >>      The kernel version is lower in this case. I suppose, this may lead to some runtime issues? As the kernel built from 4.19 will not be able to support 5.4 UAPI fully.
-> >>      What's the recommendation here? Should the BSP provider port linux-libc-header_4.19.bb in BSP layer and set PREFERRED_VERSION_linux-libc-headers = "4.19%"
-> >>
-> >
-> > This is not something that we've really seen happen.  When the
-> > libc-headers are property used, they'll check/probe for functionality
-> > and use what is available.
-> >
-> > If you have drivers/applications going directly at the libc-headers,
-> > versus the toolchain use. That is a different question. In this case,
-> > you'd be better of dealing with these on a per-application basis, and
-> > pointing them at alternate headers.
-> >
-> > You can dream up all sorts of issues, and most of them don't happen in
-> > practice. I've run hundreds of kernels that are older than the
-> > libc-headers, and have never run into an issue with standard,
-> > non-machine specific applications.
-> >
-> > Just look at master of oe-core. We continue to support 5.4, after I've
-> > bumped the headers to 5.10.
-> >
-> maybe unrelated and anecdotal:
->
-> I looked at a windriver bug related to a test in libnl called `test-genl`
->
-> The failure only occurred in 5.4.X kernel.
-> and I was able to narrow it down to the 5.10 header update oe-core
-> causing the failure.
->
+libssh2 fails at do_compile if
+DEPRECATED_CRYPTO_FLAGS = "no-ecdsa" is set in recipe:
 
-libnl is known for this. It's basically the ioctl of the networking world.
+../src/.libs/libssh2.so: undefined reference to
+`LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY'
 
-So that's consistent with what I said, it is rare, and is usually in
-tightly coupled applications. When that happens, we almost always just
-carry a header or two along with the application itself.
+References:
+https://github.com/libssh2/libssh2/issues/549
 
-Bruce
+Upstream patches:
+https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
 
-> (if you are interested in details, talk to randy...)
->
-> > Cheers,
-> >
-> > Bruce
-> >
-> >>      I suspect this as UAPI headers such as following differ, and what if this leads to runtime issues in case #3
-> >>        -  videodev2.h: This header is enhanced in 5.4
-> >>        -  fsverity.h : this header is not present in 4.19
-> >>
-> >> --
-> >> Regards,
-> >> Sourabh
-> >>
-> >>
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
-> > 
-> >
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+---
+ ...EC-macro-outside-of-if-check-549-550.patch | 112 ++++++++++++++++++
+ meta/recipes-support/libssh2/libssh2_1.9.0.bb |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
 
-
-
+diff --git a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+new file mode 100644
+index 0000000000..b331c1bf81
+--- /dev/null
++++ b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+@@ -0,0 +1,112 @@
++From 1f76151c92e1b52e9c24ebf06adc77fbd6c062bc Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Tue, 26 Jan 2021 11:41:21 -0800
++Subject: [PATCH] kex.c: move EC macro outside of if check #549 (#550)
++
++File: kex.c
++
++Notes:
++Moved the macro LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY outside of the LIBSSH2_ECDSA since it's also now used by the ED25519 code.
++
++Sha 256, 384 and 512 need to be defined for all backends now even if they aren't used directly. I believe this is already the case, but just a heads up.
++
++Credit:
++Stefan-Ghinea
++
++Upstream-Status: Backport
++
++Reference to upstream patch:
++https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
++---
++ src/kex.c | 66 +++++++++++++++++++++++++++----------------------------
++ 1 file changed, 33 insertions(+), 33 deletions(-)
++
++diff --git a/src/kex.c b/src/kex.c
++index cb16639..19ab6ec 100644
++--- a/src/kex.c
+++++ b/src/kex.c
++@@ -1885,39 +1885,6 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
++ }
++ 
++ 
++-#if LIBSSH2_ECDSA
++-
++-/* kex_session_ecdh_curve_type
++- * returns the EC curve type by name used in key exchange
++- */
++-
++-static int
++-kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
++-{
++-    int ret = 0;
++-    libssh2_curve_type type;
++-
++-    if(name == NULL)
++-        return -1;
++-
++-    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP256;
++-    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP384;
++-    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP521;
++-    else {
++-        ret = -1;
++-    }
++-
++-    if(ret == 0 && out_type) {
++-        *out_type = type;
++-    }
++-
++-    return ret;
++-}
++-
++-
++ /* LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY
++  *
++  * Macro that create and verifies EC SHA hash with a given digest bytes
++@@ -2027,6 +1994,39 @@ kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
++ }                                                                       \
++ 
++ 
+++#if LIBSSH2_ECDSA
+++
+++/* kex_session_ecdh_curve_type
+++ * returns the EC curve type by name used in key exchange
+++ */
+++
+++static int
+++kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
+++{
+++    int ret = 0;
+++    libssh2_curve_type type;
+++
+++    if(name == NULL)
+++        return -1;
+++
+++    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP256;
+++    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP384;
+++    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP521;
+++    else {
+++        ret = -1;
+++    }
+++
+++    if(ret == 0 && out_type) {
+++        *out_type = type;
+++    }
+++
+++    return ret;
+++}
+++
+++
++ /* ecdh_sha2_nistp
++  * Elliptic Curve Diffie Hellman Key Exchange
++  */
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
+index 0b8ccbd217..a5451628e7 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2019-17498.patch \
+            file://0001-configure-Conditionally-undefine-backend-m4-macro.patch \
+            file://run-ptest \
++           file://0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch \
+ "
+ 
+ SRC_URI_append_ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
