@@ -1,95 +1,76 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.5858.1619156466343861343
+Received: from esa8.hc324-48.eu.iphmx.com (esa8.hc324-48.eu.iphmx.com [207.54.65.242])
+ by mx.groups.io with SMTP id smtpd.web08.5803.1619156950402867243
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 22:41:06 -0700
+ Thu, 22 Apr 2021 22:49:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N5f50s027369
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 22:41:05 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 22 Apr 2021 22:41:04 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 22:41:04 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] rpm: Upgrade to 4.16.1.3
-Date: Fri, 23 Apr 2021 13:41:03 +0800
-Message-ID: <20210423054103.37908-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=pAbG4443;
+ spf=pass (domain: bmw.de, ip: 207.54.65.242, mailfrom: prvs=740451202=mikko.rapeli@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1619156950; x=1650692950;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=daBpY1zkj6im2ZN2Bi0vRc0c1rvho+yRLjvJT2tQnNc=;
+  b=pAbG4443T3/u6VxPvQCLGBKaLoTyI7UBu3jtKSlySCLPD3lf48n6XW8w
+   mNr5uQIQpyyHy87O6KxxVBwLbEXDsc41hyB4iCUHsjp7KcqC3WAtkkEv+
+   iB4VVzuaNj99/pnh3539S4hbZeUfBR3TWCl0GE0OwEFuNn+jm8raokr6Z
+   k=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa8.hc324-48.eu.iphmx.com with ESMTP/TLS; 23 Apr 2021 07:49:08 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw4.muc with ESMTP/TLS;
+ 23 Apr 2021 07:49:07 +0200
+Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
+ by esabb2.muc with ESMTP/TLS; 23 Apr 2021 07:49:07 +0200
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
+ (160.46.167.68) with Microsoft SMTP Server (TLS;
+ Fri, 23 Apr 2021 07:49:07 +0200
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Fri,
+ 23 Apr 2021 07:49:07 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <raj.khem@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] lz4: use CFLAGS from bitbake
+Thread-Topic: [OE-core] [PATCH 2/2] lz4: use CFLAGS from bitbake
+Thread-Index: AQHXN4WoRPskzvBziEeS57cY7Phh7qrAgUAAgAD27AA=
+Date: Fri, 23 Apr 2021 05:49:07 +0000
+Message-ID: <YIJf0rTBgrKAtI3B@korppu>
+References: <20210422144152.29206-1-mikko.rapeli@bmw.de>
+ <CAMKF1sq8YwMNdL7f-COjZLDxzNL=8CPrZmX-1WwDqYZc=aASOQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sq8YwMNdL7f-COjZLDxzNL=8CPrZmX-1WwDqYZc=aASOQ@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E360B1917EBE7F4CA83948C2983B9081@bmwmail.corp>
+Content-Transfer-Encoding: base64
 
-From: Mingli Yu <mingli.yu@windriver.com>
-
-Fixes some security vulnerabilities such as CVE-2021-3421 and
-CVE-2021-20271.
-
-Rebase 0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-to avoid fuzz warnings.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...ot-hardcode-lib-rpm-as-the-installation-path-for.patch | 8 ++++----
- .../rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb}              | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb} (99%)
-
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 38d755205c..d8fcc16729 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -1,4 +1,4 @@
--From 9bbe3f8564705aafcdcc5f2f033f9241a97f47c6 Mon Sep 17 00:00:00 2001
-+From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 6c78568e4..76b1d40e4 100644
-+index fe35a90fa..b2faec6f3 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -966,7 +966,7 @@ else
-@@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
- diff --git a/rpm.am b/rpm.am
--index cd40a16be..e6941e09f 100644
-+index 8e1dc2184..3d889ec86 100644
- --- a/rpm.am
- +++ b/rpm.am
- @@ -1,10 +1,10 @@
-@@ -55,4 +55,4 @@ index cd40a16be..e6941e09f 100644
- +rpmconfigdir = $(libdir)/rpm
-  
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 10:2:1
-+ rpm_version_info = 10:3:1
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-similarity index 99%
-rename from meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
-rename to meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-index d369c706a2..7c03b41fc8 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
-@@ -43,7 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            "
- 
- PE = "1"
--SRCREV = "278883a704ea36c97974d0f2d65d41abe78b0e2a"
-+SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.17.1
-
+T24gVGh1LCBBcHIgMjIsIDIwMjEgYXQgMDg6MDU6MjBBTSAtMDcwMCwgS2hlbSBSYWogd3JvdGU6
+DQo+IE9uIFRodSwgQXByIDIyLCAyMDIxIGF0IDc6NDIgQU0gTWlra28gUmFwZWxpIDxtaWtrby5y
+YXBlbGlAYm13LmRlPiB3cm90ZToNCj4gDQo+ID4gQ3VycmVudGx5IGx6NCB1c2VzIGl0J3Mgb3du
+IGRlZmF1bHRzIHdoaWNoIGluY2x1ZGUgTzMgb3B0aW1pemF0aW9uLg0KPiA+IFN3aXRjaCBmcm9t
+IE8zIHRvIGJpdGJha2UgZGVmYXVsdCBPMiByZWR1Y2VzIGJpbmFyeSBwYWNrYWdlIHNpemUNCj4g
+PiBmcm9tIDQ2NzA1NiB0byAzMzE4ODggYnl0ZXMuIEVuYWJsZXMgYWxzbyBidWlsZGluZyB3aXRo
+IE9zIGlmIG5lZWRlZC4NCj4gDQo+IA0KPiBUaGVzZSBjb3VsZCBpbXBhY3QgcnVudGltZSBwZXJm
+b3JtYW5jZSBoYXZlIHlvdQ0KPiBDaGVja2VkIHdoYXQgdGhlIHJvdWdoIGltcGFjdCBpcyA/DQoN
+Ck5vcGUsIGhhdmUgbm90IGNoZWNrZWQgdGhpcy4gSSd2ZSBidWlsZCBteSB0YXJnZXRzIHdpdGgg
+dGhpcyBwYXRjaA0KYW5kIGhhdmUgbm90IG5vdGljZWQgYW55IG1ham9yIHBlcmZvcm1hbmNlIHJl
+Z3Jlc3Npb24uIElmIHRoZXJlIGlzDQphIHBlcmZvcm1hbmNlIHByb2JsZW0sIHRoZW4gSSdkIHJh
+dGhlciBzZWUgTzMgZXhwbGljaXRseSBzZXQgaW4gdGhlIHJlY2lwZSwNCmZvciBleGFtcGxlIGZv
+ciBuYXRpdmUgdGFyZ2V0Lg0KDQo+IFNlY29uZGx5IHdlIHdpbGwgYmUgdXNpbmcgbm9uIGRlZmF1
+bHQgc2V0IHdoaWNoIGNvdWxkIHJlc3VsdCBpbiBlcnJvcnMgbGVzcw0KPiBzZWVuIGJ5IG90aGVy
+cyBvdmVyIHRpbWUgSSBoYXZlIHJlYWxpemVkIGl04oCZcyBhbHNvIGdvb2QgdG8gb3BlbiBhIGRp
+YWxvZw0KPiB1cHN0cmVhbSBhbmQgZ2V0IHRoZSByZWFzb25pbmcgYmVoaW5kIG5vdCBsZXR0aW5n
+IGRpc3RybyBkZWZhdWx0cyBhcHBseQ0KPiBzb21lIHBhY2thZ2VzIGRvIGhhdmUgdmFsaWQgcmVh
+c29ucw0KDQpJJ3ZlIHNlZW4gYnVncyB3aXRoIE8zIG9wdGltemlhdGlvbiBsZXZlbCB0b28gb24g
+c29tZSB0YXJnZXQgYXJjaHMuDQpJIHdvdWxkIG5vdCBlbmFibGUgdGhhdCBieSBkZWZhdWx0LiBC
+dXQgSSBkbyB1bmRlcnN0YW5kIHlvdXIgY29uY2Vybi4NCg0KSW4gc2ltaWxhciB3YXlzLCBJIHdh
+cyBjaGVja2luZyBmZm1wZWcsIGF0dHIsIGFjbCBldGMgd2hpY2ggd2VyZSBkZWZhdWx0aW5nDQp0
+byBPMyBpbiBvbGRlciB2ZXJzaW9ucyBidXQgd2l0aCBuZXcgcG9reSBtYXN0ZXIgdmVyc2lvbnMg
+bm93IGJlaGF2ZSB3ZWxsDQphbmQgdXNlIGJpdGJha2UgZGVmYXVsdCBPMi4gSSBndWVzcyB0aGVy
+ZSB0b28gbm8gbWFqb3IgcGVyZm9ybWFuY2UgcmVncmVzc2lvbnMNCmhhdmUgYmVlbiBkZXRlY3Rl
+ZC4NCg0KQ2hlZXJzLA0KDQotTWlra28=
