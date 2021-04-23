@@ -1,86 +1,110 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.10191.1619186408737542182
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.10194.1619186411803533787
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 07:00:08 -0700
+ Fri, 23 Apr 2021 07:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sn3pV9cA;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id g1-20020a17090adac1b0290150d07f9402so1223530pjx.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jxJ6bQ3O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id gq23-20020a17090b1057b0290151869af68bso1227928pjb.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=k4PgJ5FFzBUEUj1t9r/Wmczefi6PiA4IEi9uvN/WGAY=;
-        b=sn3pV9cAWTqrmotZ66E9Banemz6to5n76XcbO+3w3wjfX3AM21+d5ddLs5JGYpL/E/
-         eFTyIN5MH79krtBGV5DsN7j4PNVDniFRrOfF+ihM9xHSt46q6rODfVAsk/njO5EfD30y
-         ayYLkK8Qq5IujCSEFtrdzbtBI8K9dGu68Pq+v9lQ8HSzfOYwK8Ai/RYlbGJC44g0fGRH
-         8ZbRo6B3TE3uRb9YMSz06KsjHfODc2oDCB5TDNN2fWKuaYxkn1TekENCAhvX9PskKYrG
-         ySFv/E5l6B3D4iTwpVtUT2+S1kmQ6GLU+75j13T8J0OHKKT8t9Qwb71vwErIkX1GGZp2
-         xqEA==
+        bh=L+No3jxz2CczKmM0h0KdEmtXtvUhhKhvX64PGQBcSQ8=;
+        b=jxJ6bQ3OFE2JsyhebNrfM2CW0XkczJQDg0pr4gZo3d5MXnMQTA/d0Eas+NNmILK3a9
+         9YhPwsbdspD7JRAeHjGJ9ImoRDttCJ1xOfjqjDLd9Zh16JHvDH5zkVp8LaJu8vQMWB/V
+         1MkJ/RWSVaTUriOk9+Wr0H6IZMf1ZfMgm5r0X5tx6FgNQH5L+amYn24cXI8+Fx+fkkXr
+         Fk4TSlsyNb0MiGXFlSMPBeT+mVA30jliW2EN6kWfduXAZrCLhij0kzaUkIwCWCsHpfEt
+         kTbUlOWyE4WhSF/8K7Qf63g34CllgWlrciZwT2lwD8Y4gYPFDGfn3lyLqFXw3PBpx291
+         frrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=k4PgJ5FFzBUEUj1t9r/Wmczefi6PiA4IEi9uvN/WGAY=;
-        b=q/F66fRfuThlZ8JEuAAyQQFmW9qzVLFg3//EZnpBH7tiAPbxmPmNQATkKQ8SH1h3S6
-         KmDnEbu/KMeJkCbRWe6DSoINDQzA9PIHvWlgST3EvEjJB29nf8pcIS6dl67lExDydVGy
-         KHwzPiZ/CabG8nsvm+IKt9GJhj+agaaHQrT4UCtLcjtFiKESKaEqBCWf2NMjqTHTdJu2
-         df4BEW7RhyqlfQof1jCDU2nkzZKCEGuXgGUdzNAt/ATfnR6CfhVMv2ivjjH6pyzMTXQV
-         4d/2OcSRWQkul6/CB9Ak3Lw/y1TxRE8hU110zbQuGWtjaL54nVJIlwH6qEJARk5iSqNj
-         oCOw==
-X-Gm-Message-State: AOAM533AErLKX14fHW1CPvmTRQX3LD/yoCHd39CuEQNXnEoUPXOLJCEL
-	iDbcLsoGA0eq0mEMJBW0G4SaUFt1rj4/t9SnO0w=
-X-Google-Smtp-Source: ABdhPJxDGDgkj9km6SeR300sXBRfjZvolBdSDazDWE0QCpTWzou470svhJKj43QqLqhrz1HFxDR5Kg==
-X-Received: by 2002:a17:902:b703:b029:eb:59c3:a9b0 with SMTP id d3-20020a170902b703b02900eb59c3a9b0mr3760246pls.45.1619186407895;
-        Fri, 23 Apr 2021 07:00:07 -0700 (PDT)
+        bh=L+No3jxz2CczKmM0h0KdEmtXtvUhhKhvX64PGQBcSQ8=;
+        b=bPFmaVRuTp287TijriA9zt7mrJctrmvCpGu15jJZSOyn8/SbuO2xbLK0dtR3/IaPs0
+         cxhKGt+txo3t+8z33Z6GjgyY1cEIG3MX0E5djeFR1qQsUtLPxZ+f+QhCNY1Cxz3U2hHJ
+         VHqyNuZ7cLH3R0UpqMcDtbQxQfe9LU6kWb+ONdToGmPvVFR0Nc/kxpvRtYjjDPjQSIev
+         +VBEAUpADHkFhL4ZVRPbWI95mwycRiBBU6991aK0wLYNHu+NF08e4fU4Z7z9Cq1c+tsw
+         AiRzmiQ2Lg12n0j4IVNs1IehRh1o6ZGrdFvafaM1vRdurPsbnLS4L4JnrCr7OhDRAawD
+         155A==
+X-Gm-Message-State: AOAM532E3VDXCLEjeSfLdtwThN+LLfGJV8rj2iAgsQVfowjzitNL+6S7
+	9/v+c3b6lHoDyhG7JzqBbhBaFJof+gfxtXTCQMs=
+X-Google-Smtp-Source: ABdhPJyx6ZpvFn3AUyMhBtbxiljOZQ5VRdoBkb3FGJlh7s719zHD74Jlk4JsHkWgYSQ7i2oE4B+5/g==
+X-Received: by 2002:a17:90a:5295:: with SMTP id w21mr4570098pjh.94.1619186410772;
+        Fri, 23 Apr 2021 07:00:10 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.06
+        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 07:00:06 -0700 (PDT)
+        Fri, 23 Apr 2021 07:00:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/19] oeqa/selftest: Ensure packages classes are set correctly for maintainers test
-Date: Fri, 23 Apr 2021 03:58:47 -1000
-Message-Id: <8717bf4f3c875b094ee29b4f3420ff5ad9cad1f3.1619186107.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/19] insane: clean up some more warning messages
+Date: Fri, 23 Apr 2021 03:58:48 -1000
+Message-Id: <4acbb63105b241f537414d0ab6d09b269cf8202b.1619186107.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1619186107.git.steve@sakoman.com>
 References: <cover.1619186107.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
 
-The dnf packages aren't parsed if rpm isn't in PACKAGE_CLASSES which means
-the aintainers test failes for OE-Core (where ipk is the default) but not
-for poky (where the default is rpm).
-
-Ensure PACKAGE_CLASSES is set so it works in all cases.
-
-[YOCTO #14277]
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 842b11107363357ed933cfcf619f1cf23f0d841e)
+(cherry picked from commit 2abe18682192e7b38b9af5a5043906f2f069648f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/distrodata.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-index e1cfc3b621..8e5e24db3d 100644
---- a/meta/lib/oeqa/selftest/cases/distrodata.py
-+++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-@@ -63,7 +63,7 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
-                      return True
-             return False
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 09e8fbd8e4..eb19425652 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -174,7 +174,7 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+             if rpath_eq(rpath, libdir) or rpath_eq(rpath, base_libdir):
+                 # The dynamic linker searches both these places anyway.  There is no point in
+                 # looking there again.
+-                package_qa_add_message(messages, "useless-rpaths", "%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
++                package_qa_add_message(messages, "useless-rpaths", "%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d, name), rpath))
  
--        feature = 'require conf/distro/include/maintainers.inc\nLICENSE_FLAGS_WHITELIST += " commercial"\nPARSE_ALL_RECIPES = "1"\n'
-+        feature = 'require conf/distro/include/maintainers.inc\nLICENSE_FLAGS_WHITELIST += " commercial"\nPARSE_ALL_RECIPES = "1"\nPACKAGE_CLASSES = "package_ipk package_deb package_rpm"\n'
-         self.write_config(feature)
+ QAPATHTEST[dev-so] = "package_qa_check_dev"
+ def package_qa_check_dev(path, name, d, elf, messages):
+@@ -183,8 +183,8 @@ def package_qa_check_dev(path, name, d, elf, messages):
+     """
  
-         with bb.tinfoil.Tinfoil() as tinfoil:
+     if not name.endswith("-dev") and not name.endswith("-dbg") and not name.endswith("-ptest") and not name.startswith("nativesdk-") and path.endswith(".so") and os.path.islink(path):
+-        package_qa_add_message(messages, "dev-so", "non -dev/-dbg/nativesdk- package contains symlink .so: %s path '%s'" % \
+-                 (name, package_qa_clean_path(path,d)))
++        package_qa_add_message(messages, "dev-so", "non -dev/-dbg/nativesdk- package %s contains symlink .so '%s'" % \
++                 (name, package_qa_clean_path(path, d, name)))
+ 
+ QAPATHTEST[dev-elf] = "package_qa_check_dev_elf"
+ def package_qa_check_dev_elf(path, name, d, elf, messages):
+@@ -194,8 +194,8 @@ def package_qa_check_dev_elf(path, name, d, elf, messages):
+     install link-time .so files that are linker scripts.
+     """
+     if name.endswith("-dev") and path.endswith(".so") and not os.path.islink(path) and elf:
+-        package_qa_add_message(messages, "dev-elf", "-dev package contains non-symlink .so: %s path '%s'" % \
+-                 (name, package_qa_clean_path(path,d)))
++        package_qa_add_message(messages, "dev-elf", "-dev package %s contains non-symlink .so '%s'" % \
++                 (name, package_qa_clean_path(path, d, name)))
+ 
+ QAPATHTEST[staticdev] = "package_qa_check_staticdev"
+ def package_qa_check_staticdev(path, name, d, elf, messages):
+@@ -208,7 +208,7 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
+ 
+     if not name.endswith("-pic") and not name.endswith("-staticdev") and not name.endswith("-ptest") and path.endswith(".a") and not path.endswith("_nonshared.a") and not '/usr/lib/debug-static/' in path and not '/.debug-static/' in path:
+         package_qa_add_message(messages, "staticdev", "non -staticdev package contains static .a library: %s path '%s'" % \
+-                 (name, package_qa_clean_path(path,d)))
++                 (name, package_qa_clean_path(path,d, name)))
+ 
+ QAPATHTEST[mime] = "package_qa_check_mime"
+ def package_qa_check_mime(path, name, d, elf, messages):
 -- 
 2.25.1
 
