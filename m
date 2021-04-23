@@ -1,136 +1,136 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.5439.1619153115694629130
+ by mx.groups.io with SMTP id smtpd.web08.5374.1619153115173069694
  for <openembedded-core@lists.openembedded.org>;
  Thu, 22 Apr 2021 21:45:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N4jFSm022170
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N4jD3Y022164
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 21:45:15 -0700
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 21:45:14 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 22 Apr 2021 21:45:14 -0700
+ 15.1.2242.4; Thu, 22 Apr 2021 21:45:13 -0700
 Received: from localhost.localdomain (128.224.72.54) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 21:45:14 -0700
+ 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 21:45:12 -0700
 From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/6] qemu: fix CVE-2021-20221
-Date: Fri, 23 Apr 2021 00:45:02 -0400
-Message-ID: <20210423044505.105208-3-sakib.sajal@windriver.com>
+Subject: [PATCH 1/6] qemu: fix CVE-2021-20181
+Date: Fri, 23 Apr 2021 00:45:00 -0400
+Message-ID: <20210423044505.105208-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210423044505.105208-1-sakib.sajal@windriver.com>
-References: <20210423044505.105208-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 13N4jFSm022170
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20221.patch            | 70 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
+ .../qemu/qemu/CVE-2021-20181.patch            | 81 +++++++++++++++++++
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index fc9c9e15f9..f118772208 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f0416b0379..65e0489a97 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -36,6 +36,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
-.xz \
+@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-35517_1.patch \
+            file://CVE-2020-35517_2.patch \
             file://CVE-2020-35517_3.patch \
-            file://CVE-2021-20181.patch \
-            file://CVE-2020-29443.patch \
-+           file://CVE-2021-20221.patch \
++           file://CVE-2021-20181.patch \
             "
- UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch b/meta/=
-recipes-devtools/qemu/qemu/CVE-2021-20221.patch
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 new file mode 100644
-index 0000000000..d762a51d02
+index 0000000000..1b8c77f838
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20221.patch
-@@ -0,0 +1,70 @@
-+From e428bcfb86fb46d9773ae11e69712052dcff3d45 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <f4bug@amsat.o=
-rg>
-+Date: Sun, 31 Jan 2021 11:34:01 +0100
-+Subject: [PATCH] hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR register
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
+@@ -0,0 +1,81 @@
++From c2d2d14e8deece958bbc4fc649d22c3564bc4e7e Mon Sep 17 00:00:00 2001
++From: Greg Kurz <groug@kaod.org>
++Date: Thu, 14 Jan 2021 17:04:12 +0100
++Subject: [PATCH] 9pfs: Fully restart unreclaim loop (CVE-2021-20181)
 +
-+Per the ARM Generic Interrupt Controller Architecture specification
-+(document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
-+not 10:
++Depending on the client activity, the server can be asked to open a huge
++number of file descriptors and eventually hit RLIMIT_NOFILE. This is
++currently mitigated using a reclaim logic : the server closes the file
++descriptors of idle fids, based on the assumption that it will be able
++to re-open them later. This assumption doesn't hold of course if the
++client requests the file to be unlinked. In this case, we loop on the
++entire fid list and mark all related fids as unreclaimable (the reclaim
++logic will just ignore them) and, of course, we open or re-open their
++file descriptors if needed since we're about to unlink the file.
 +
-+  - 4.3 Distributor register descriptions
-+  - 4.3.15 Software Generated Interrupt Register, GICD_SG
++This is the purpose of v9fs_mark_fids_unreclaim(). Since the actual
++opening of a file can cause the coroutine to yield, another client
++request could possibly add a new fid that we may want to mark as
++non-reclaimable as well. The loop is thus restarted if the re-open
++request was actually transmitted to the backend. This is achieved
++by keeping a reference on the first fid (head) before traversing
++the list.
 +
-+    - Table 4-21 GICD_SGIR bit assignments
++This is wrong in several ways:
++- a potential clunk request from the client could tear the first
++  fid down and cause the reference to be stale. This leads to a
++  use-after-free error that can be detected with ASAN, using a
++  custom 9p client
++- fids are added at the head of the list : restarting from the
++  previous head will always miss fids added by a some other
++  potential request
 +
-+    The Interrupt ID of the SGI to forward to the specified CPU
-+    interfaces. The value of this field is the Interrupt ID, in
-+    the range 0-15, for example a value of 0b0011 specifies
-+    Interrupt ID 3.
++All these problems could be avoided if fids were being added at the
++end of the list. This can be achieved with a QSIMPLEQ, but this is
++probably too much change for a bug fix. For now let's keep it
++simple and just restart the loop from the current head.
 +
-+Correct the irq mask to fix an undefined behavior (which eventually
-+lead to a heap-buffer-overflow, see [Buglink]):
++Fixes: CVE-2021-20181
++Buglink: https://bugs.launchpad.net/qemu/+bug/1911666
++Reported-by: Zero Day Initiative <zdi-disclosures@trendmicro.com>
++Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
++Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
++Message-Id: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
++Signed-off-by: Greg Kurz <groug@kaod.org>
 +
-+   $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,ac=
-cel=3Dqtest -qtest stdio
-+   [I 1612088147.116987] OPENED
-+  [R +0.278293] writel 0x8000f00 0xff4affb0
-+  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds f=
-or type 'uint8_t [16][8]'
-+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm=
-_gic.c:1498:13
-+
-+This fixes a security issue when running with KVM on Arm with
-+kernel-irqchip=3Doff. (The default is kernel-irqchip=3Don, which is
-+unaffected, and which is also the correct choice for performance.)
-+
-+Cc: qemu-stable@nongnu.org
-+Fixes: CVE-2021-20221
-+Fixes: 9ee6e8bb853 ("ARMv7 support.")
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-+Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-+Message-id: 20210131103401.217160-1-f4bug@amsat.org
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+
-+Upstream-Status: Backport [edfe2eb4360cde4ed5d95bda7777edcb3510f76a]
-+CVE: CVE-2021-20221
++Upstream-Status: Backport [89fbea8737e8f7b954745a1ffc4238d377055305]
++CVE: CVE-2021-20181
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/intc/arm_gic.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ hw/9pfs/9p.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-+index c60dc6b5e..fbde60de0 100644
-+--- a/hw/intc/arm_gic.c
-++++ b/hw/intc/arm_gic.c
-+@@ -1474,7 +1474,7 @@ static void gic_dist_writel(void *opaque, hwaddr o=
-ffset,
-+         int target_cpu;
-+=20
-+         cpu =3D gic_get_current_cpu(s);
-+-        irq =3D value & 0x3ff;
-++        irq =3D value & 0xf;
-+         switch ((value >> 24) & 3) {
-+         case 0:
-+             mask =3D (value >> 16) & ALL_CPU_MASK;
-+--=20
++diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
++index 94df440fc..6026b51a1 100644
++--- a/hw/9pfs/9p.c
+++++ b/hw/9pfs/9p.c
++@@ -502,9 +502,9 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++ {
++     int err;
++     V9fsState *s = pdu->s;
++-    V9fsFidState *fidp, head_fid;
+++    V9fsFidState *fidp;
++ 
++-    head_fid.next = s->fid_list;
+++again:
++     for (fidp = s->fid_list; fidp; fidp = fidp->next) {
++         if (fidp->path.size != path->size) {
++             continue;
++@@ -524,7 +524,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++              * switched to the worker thread
++              */
++             if (err == 0) {
++-                fidp = &head_fid;
+++                goto again;
++             }
++         }
++     }
++-- 
 +2.29.2
 +
---=20
+-- 
 2.25.1
 
