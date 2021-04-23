@@ -1,28 +1,26 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.5376.1619153117773117403
+ by mx.groups.io with SMTP id smtpd.web12.5587.1619154713735117148
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 21:45:17 -0700
+ Thu, 22 Apr 2021 22:11:54 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N4jHqV022181
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N5Bqj8024577
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 21:45:17 -0700
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 22:11:52 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 22 Apr 2021 21:45:16 -0700
+ 15.1.2242.4; Thu, 22 Apr 2021 22:11:52 -0700
 Received: from localhost.localdomain (128.224.72.54) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 21:45:16 -0700
+ 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 22:11:51 -0700
 From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 6/6] qemu: fix CVE-2021-20257
-Date: Fri, 23 Apr 2021 00:45:05 -0400
-Message-ID: <20210423044505.105208-6-sakib.sajal@windriver.com>
+Subject: [hardknott][PATCH 1/6] qemu: fix CVE-2021-20181
+Date: Fri, 23 Apr 2021 01:11:35 -0400
+Message-ID: <20210423051140.106348-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210423044505.105208-1-sakib.sajal@windriver.com>
-References: <20210423044505.105208-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -30,80 +28,106 @@ Content-Type: text/plain
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20257.patch            | 55 +++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
+ .../qemu/qemu/CVE-2021-20181.patch            | 81 +++++++++++++++++++
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 177e453fff..5797bbecf2 100644
+index a625809597..d9fa845ddb 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -53,6 +53,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_8.patch \
-            file://CVE-2021-3416_9.patch \
-            file://CVE-2021-3416_10.patch \
-+           file://CVE-2021-20257.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://determinism.patch \
+            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
+ 	   file://CVE-2021-20203.patch \
++           file://CVE-2021-20181.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 new file mode 100644
-index 0000000000..7175b24e99
+index 0000000000..1b8c77f838
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
-@@ -0,0 +1,55 @@
-+From affdf476543405045c281a7c67d1eaedbcea8135 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Wed, 24 Feb 2021 13:45:28 +0800
-+Subject: [PATCH] e1000: fail early for evil descriptor
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
+@@ -0,0 +1,81 @@
++From c2d2d14e8deece958bbc4fc649d22c3564bc4e7e Mon Sep 17 00:00:00 2001
++From: Greg Kurz <groug@kaod.org>
++Date: Thu, 14 Jan 2021 17:04:12 +0100
++Subject: [PATCH] 9pfs: Fully restart unreclaim loop (CVE-2021-20181)
 +
-+During procss_tx_desc(), driver can try to chain data descriptor with
-+legacy descriptor, when will lead underflow for the following
-+calculation in process_tx_desc() for bytes:
++Depending on the client activity, the server can be asked to open a huge
++number of file descriptors and eventually hit RLIMIT_NOFILE. This is
++currently mitigated using a reclaim logic : the server closes the file
++descriptors of idle fids, based on the assumption that it will be able
++to re-open them later. This assumption doesn't hold of course if the
++client requests the file to be unlinked. In this case, we loop on the
++entire fid list and mark all related fids as unreclaimable (the reclaim
++logic will just ignore them) and, of course, we open or re-open their
++file descriptors if needed since we're about to unlink the file.
 +
-+            if (tp->size + bytes > msh)
-+                bytes = msh - tp->size;
++This is the purpose of v9fs_mark_fids_unreclaim(). Since the actual
++opening of a file can cause the coroutine to yield, another client
++request could possibly add a new fid that we may want to mark as
++non-reclaimable as well. The loop is thus restarted if the re-open
++request was actually transmitted to the backend. This is achieved
++by keeping a reference on the first fid (head) before traversing
++the list.
 +
-+This will lead a infinite loop. So check and fail early if tp->size if
-+greater or equal to msh.
++This is wrong in several ways:
++- a potential clunk request from the client could tear the first
++  fid down and cause the reference to be stale. This leads to a
++  use-after-free error that can be detected with ASAN, using a
++  custom 9p client
++- fids are added at the head of the list : restarting from the
++  previous head will always miss fids added by a some other
++  potential request
 +
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
-+Cc: Prasad J Pandit <ppandit@redhat.com>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
++All these problems could be avoided if fids were being added at the
++end of the list. This can be achieved with a QSIMPLEQ, but this is
++probably too much change for a bug fix. For now let's keep it
++simple and just restart the loop from the current head.
 +
-+Upstream-Status: Backport [3de46e6fc489c52c9431a8a832ad8170a7569bd8]
-+CVE: CVE-2021-20257
++Fixes: CVE-2021-20181
++Buglink: https://bugs.launchpad.net/qemu/+bug/1911666
++Reported-by: Zero Day Initiative <zdi-disclosures@trendmicro.com>
++Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
++Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
++Message-Id: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
++Signed-off-by: Greg Kurz <groug@kaod.org>
++
++Upstream-Status: Backport [89fbea8737e8f7b954745a1ffc4238d377055305]
++CVE: CVE-2021-20181
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/net/e1000.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ hw/9pfs/9p.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-+index cf22c4f07..c3564c7ce 100644
-+--- a/hw/net/e1000.c
-++++ b/hw/net/e1000.c
-+@@ -670,6 +670,9 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         msh = tp->tso_props.hdr_len + tp->tso_props.mss;
-+         do {
-+             bytes = split_size;
-++            if (tp->size >= msh) {
-++                goto eop;
-++            }
-+             if (tp->size + bytes > msh)
-+                 bytes = msh - tp->size;
++diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
++index 94df440fc..6026b51a1 100644
++--- a/hw/9pfs/9p.c
+++++ b/hw/9pfs/9p.c
++@@ -502,9 +502,9 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++ {
++     int err;
++     V9fsState *s = pdu->s;
++-    V9fsFidState *fidp, head_fid;
+++    V9fsFidState *fidp;
 + 
-+@@ -695,6 +698,7 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         tp->size += split_size;
++-    head_fid.next = s->fid_list;
+++again:
++     for (fidp = s->fid_list; fidp; fidp = fidp->next) {
++         if (fidp->path.size != path->size) {
++             continue;
++@@ -524,7 +524,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++              * switched to the worker thread
++              */
++             if (err == 0) {
++-                fidp = &head_fid;
+++                goto again;
++             }
++         }
 +     }
-+ 
-++eop:
-+     if (!(txd_lower & E1000_TXD_CMD_EOP))
-+         return;
-+     if (!(tp->cptse && tp->size < tp->tso_props.hdr_len)) {
 +-- 
 +2.29.2
 +
