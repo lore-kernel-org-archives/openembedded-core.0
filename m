@@ -1,104 +1,132 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.7604.1619170990672652963
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.10182.1619186393621915343
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 02:43:11 -0700
+ Fri, 23 Apr 2021 06:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N9h90U012348
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 02:43:09 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 23 Apr 2021 02:43:09 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Fri, 23 Apr 2021 02:43:08 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gcr: fix one parallel build failure
-Date: Fri, 23 Apr 2021 17:43:07 +0800
-Message-ID: <20210423094307.14200-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zqmnOje2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id e9so8290754plj.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 06:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eiQZ4Z0+kRBm/E13YnQvLeqoq/2Cug1quJ6cWSKDDZo=;
+        b=zqmnOje2O6RWaV+wixO7ZMg2AfDwfWHsB29qENum6gjgGWmAaUT4IyWJcCsAOg8Gtg
+         FUzOu53pI9jTzLm9epJbZGhUlUjzQykpQlGo494iZNBdoCbPvD+X0E6YFKH+iQaful5C
+         VUY3Rg7XvZjJhT6biOLPCK0bPSCCekNMPlCwMN58kempzvCzWao3DkIAoFKj8Otb/uUb
+         EPQiJqfqQmJMzm001TKEq17B33dOnRB7o6kESNFH1+e2Zmfw/Bcrr8aZe6kCKvl68KZ9
+         IIxXvhu3rc9PmI/I1vw9rSeZkMk7/NA0OctFcvMrQuFf18fnNigENLwoeuBE/8M4v36V
+         U2dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eiQZ4Z0+kRBm/E13YnQvLeqoq/2Cug1quJ6cWSKDDZo=;
+        b=LQgo9ldYMmO4iy5FgGqRuweRBzPAUjaYudo2svmT1bbXqMuz9sGZnEiZ1jz/IEeK+h
+         CnIEcTg3ETmFWyZwKSQg8SfO/A+i/nkFasqkmhZCEKKJuTzgkCs2yHqDB8D8V/KPeS4M
+         zpnUOs8dd2UiIzGgV4dMgX69QAQzqYd+yguYuEdFgeR1nK5VyDQSz5Ed+KeOv36u1Kpt
+         iKLBdh12FIK8L3gbCNliCHbtI0QkzrIkZtyBH3vpUuKnE1BULIX745AMz6OYM3uHr41e
+         EIfYrkAV1/p84DrjK9z7Qv1FLjrMKvRhF84J5xSnO7q7Dcq5JJUAo3dQPqAgOcOPkPJM
+         nzOQ==
+X-Gm-Message-State: AOAM530AQwBKsmarTivHTcuxQYfXWZEhJqNlV86IJP0ze2Sc/KZf0ufQ
+	GHsHAbglV0yUmEKv4nBilWeOnWqpPIcqs4X6tAI=
+X-Google-Smtp-Source: ABdhPJz8Ztfc68dEZqNlgVbreNRDqJJ4aN1Ol055VgpNdS4qx9X0E1vgXAj001DForl+4FnhzhDRcg==
+X-Received: by 2002:a17:902:8544:b029:ec:8b6b:d98f with SMTP id d4-20020a1709028544b02900ec8b6bd98fmr3844135plo.68.1619186392433;
+        Fri, 23 Apr 2021 06:59:52 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.06.59.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 06:59:51 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/19] Patch review
+Date: Fri, 23 Apr 2021 03:58:42 -1000
+Message-Id: <cover.1619186107.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+Please review this next set of patches for dunfell and have comments back by
+end of day Monday.
 
-ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
-dependency, following error occurred intermittently during doing parallel
-build:
+Passed a-full on autobuilder:
 
- -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c ../gcr-3.38.1/ui/gcr-live-search.c
-../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: gcr/gcr-marshal.h: No such file or directory
-   32 | #include "gcr/gcr-marshal.h"
-      |          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2063
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...build-fix-one-parallel-build-failure.patch | 37 +++++++++++++++++++
- meta/recipes-gnome/gcr/gcr_3.40.0.bb          |  2 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+The following changes since commit a1b0631c4723d2a98eb9e80ec85a00bc46276783:
 
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-new file mode 100644
-index 0000000000..81c4bdbbcc
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-@@ -0,0 +1,37 @@
-+From cb3708bad88e713e4ccf705cb8c14c5996cd9d06 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 23 Apr 2021 16:32:38 +0800
-+Subject: [PATCH] gcr/meson.build: fix one parallel build failure
-+
-+ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
-+dependency, following error occurred intermittently during doing parallel
-+build:
-+
-+ -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c ../gcr-3.38.1/ui/gcr-live-search.c
-+../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: gcr/gcr-marshal.h: No such file or directory
-+   32 | #include "gcr/gcr-marshal.h"
-+      |          ^~~~~~~~~~~~~~~~~~~
-+compilation terminated.
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/68/diffs]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ gcr/meson.build | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/gcr/meson.build b/gcr/meson.build
-+index 06c3a63..d9d4b8f 100644
-+--- a/gcr/meson.build
-++++ b/gcr/meson.build
-+@@ -181,6 +181,7 @@ gcr_base_dep = declare_dependency(
-+   sources: [
-+     gcr_enums_gen[1],
-+     gcr_oids[1],
-++    gcr_marshal_gen[1],
-+   ],
-+ )
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-index 64a1195aab..14072ef589 100644
---- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-@@ -17,6 +17,8 @@ GNOMEBASEBUILDCLASS = "meson"
- GTKDOC_MESON_OPTION = "gtk_doc"
- inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
- 
-+SRC_URI += "file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch"
-+
- SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)}"
+  go_1.14: don't set -buildmode=pie when building for windows targets (2021-04-19 04:27:15 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.109
+  linux-yocto/5.4: update to v5.4.111
+  linux-yocto/5.4: update to v5.4.112
+  linux-yocto/5.4: fix arm defconfig warnings
+
+Douglas Royds (2):
+  Revert "externalsrc: Detect code changes in submodules"
+  externalsrc: Detect code changes in submodules
+
+Gavin Li (1):
+  kmod: do not symlink config.guess/config.sub during autoreconf
+
+Khem Raj (1):
+  ca-certificates: Fix openssl runtime cert dependencies
+
+Mingli Yu (2):
+  libtool: make sure autoheader run before automake
+  groff: not ship /usr/bin/grap2graph
+
+Peter Budny (1):
+  lib/oe/terminal: Fix tmux new-session on older tmux versions (<1.9)
+
+Richard Purdie (5):
+  oeqa/selftest: Hardcode test assumptions about heartbeat event timings
+  oeqa/selftest: Ensure packages classes are set correctly for
+    maintainers test
+  sanity: Add error check for '%' in build path
+  sanity: Further improve directory sanity tests
+  pseudo: Upgrade to add trailing slashes ignore path fix
+
+Ross Burton (1):
+  insane: clean up some more warning messages
+
+Stefan Ghinea (1):
+  wpa-supplicant: fix CVE-2021-30004
+
+Yanfei Xu (1):
+  parselogs: ignore floppy error on qemu-system-x86 at boot stage
+
+ meta/classes/externalsrc.bbclass              |   7 +-
+ meta/classes/insane.bbclass                   |  12 +-
+ meta/classes/sanity.bbclass                   |  19 ++-
+ meta/lib/oe/terminal.py                       |  16 ++-
+ meta/lib/oeqa/runtime/cases/parselogs.py      |   2 +
+ meta/lib/oeqa/selftest/cases/buildoptions.py  |   6 +-
+ meta/lib/oeqa/selftest/cases/distrodata.py    |   2 +-
+ .../wpa-supplicant/CVE-2021-30004.patch       | 123 ++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |   1 +
+ .../libtool/libtool-2.4.6.inc                 |   1 +
+ ...-sure-autoheader-run-before-automake.patch |  35 +++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ meta/recipes-extended/groff/groff_1.22.4.bb   |   4 +
+ meta/recipes-kernel/kmod/kmod.inc             |   1 -
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 ++--
+ .../ca-certificates_20210119.bb               |   6 +-
+ 18 files changed, 226 insertions(+), 47 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-30004.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
+
 -- 
-2.17.1
+2.25.1
 
