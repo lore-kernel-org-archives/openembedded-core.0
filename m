@@ -1,112 +1,81 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.5558.1619154716288996009
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web09.5747.1619155899212435433
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 22:11:56 -0700
+ Thu, 22 Apr 2021 22:31:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13N5BtoO024592
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 22:11:56 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Thu, 22 Apr 2021 22:11:55 -0700
-Received: from localhost.localdomain (128.224.72.54) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Thu, 22 Apr 2021 22:11:55 -0700
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 6/6] qemu: fix CVE-2021-20257
-Date: Fri, 23 Apr 2021 01:11:40 -0400
-Message-ID: <20210423051140.106348-6-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210423051140.106348-1-sakib.sajal@windriver.com>
-References: <20210423051140.106348-1-sakib.sajal@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IzSWAAfp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id 18so22216516qtz.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 22:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dgrqEWSBrjY2CTtMIWGTAUQY4zK1B0zjKPvBVkVnpjA=;
+        b=IzSWAAfpOlBEip8vh4cZSqTGp0OI5hxjwpQCIZeTXNaFtPD4oIEGl+J9xgqnzwADKc
+         PPdD1JRlrCReuwkisug8FFHerOtadQxbUJHeqwxryPASYw0sHoqWoAw6xPIDlHPK1oTj
+         NmSHQZRkC+lCgkoaBMs6OoDBAFmuRDd4yxgCpgNgZaTM811PX1Nu7+H90B/mX8jgg6w1
+         eRATSdGeO3ic5JMIrzofOh3PRrXm4W3JLwbERKeGYPSsaz6eJxtafmd2UjiWvRNdyUBI
+         aZ+EsnSlfu1WPhJhm5yjjDsOTT2SKJAl2dM6QZJZkN3bmR6aO5ya3pfGhzOsDI/WiZu2
+         95Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dgrqEWSBrjY2CTtMIWGTAUQY4zK1B0zjKPvBVkVnpjA=;
+        b=jFkhCLmGP2vR2BhB6epteYmFxFSJSb0f7B16r5v9x8/qKV5my4GuToAtOzsxy0YddR
+         mrt9Vr+HEUlA0gT3kbUChoEfjnEt/nfwu9eOxwW1A6SBO25HVQ4DJ65bzwgZIZCTzzKn
+         IxFV0A0NRaxRknV8Yka8GEibOE3frAc5wkMqLU/hoBx+ZFBQbfKljOBynkJ7L7gnj2zP
+         BkOSN0M2qz6T79HibRoAqo0TJdV2m4YfTTMz/5VzxjCq91/0RKCh6HIB6BuriyZ9wAU2
+         5FxNTXIYqyFZX2iBS5SwTx1wBQPO16mAv0GSpWXO6cRKOKGO5SoCkD0LlWLsq/rGFZwL
+         WjRQ==
+X-Gm-Message-State: AOAM530DaePNo1MwqURTnHKtwF2yMW3y2Yoi9ddToXERCe4zM27f3ovE
+	mmF+i9ofs9nT5q1QCd+2z4Bldc1argwvmf8GTMk=
+X-Google-Smtp-Source: ABdhPJxt6vZ9aoMugidsPGJcT61MOejj5UGD755l6CoEETZN/D6K2EL+/UPCgc7L7Z9jk4cuyf2UI1CG8bvZ0TTj43Y=
+X-Received: by 2002:ac8:5a46:: with SMTP id o6mr2073615qta.289.1619155898354;
+ Thu, 22 Apr 2021 22:31:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <1619078047-5587-1-git-send-email-wangmy@fujitsu.com> <1619078047-5587-5-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1619078047-5587-5-git-send-email-wangmy@fujitsu.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 22 Apr 2021 22:31:12 -0700
+Message-ID: <CAMKF1sq9OEK=LYu7oo8=LwmT0Z5piunXeiad0KF-rVWMnN6G_w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] tiff: upgrade 4.2.0 -> 4.3.0
+To: wangmy <wangmy@fujitsu.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20257.patch            | 55 +++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
+this breaks gd package in meta-oe see
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f41bda4f16..a0b7f19239 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -50,6 +50,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_8.patch \
-            file://CVE-2021-3416_9.patch \
-            file://CVE-2021-3416_10.patch \
-+           file://CVE-2021-20257.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
-new file mode 100644
-index 0000000000..7175b24e99
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20257.patch
-@@ -0,0 +1,55 @@
-+From affdf476543405045c281a7c67d1eaedbcea8135 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Wed, 24 Feb 2021 13:45:28 +0800
-+Subject: [PATCH] e1000: fail early for evil descriptor
-+
-+During procss_tx_desc(), driver can try to chain data descriptor with
-+legacy descriptor, when will lead underflow for the following
-+calculation in process_tx_desc() for bytes:
-+
-+            if (tp->size + bytes > msh)
-+                bytes = msh - tp->size;
-+
-+This will lead a infinite loop. So check and fail early if tp->size if
-+greater or equal to msh.
-+
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
-+Cc: Prasad J Pandit <ppandit@redhat.com>
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+Upstream-Status: Backport [3de46e6fc489c52c9431a8a832ad8170a7569bd8]
-+CVE: CVE-2021-20257
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ hw/net/e1000.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-+index cf22c4f07..c3564c7ce 100644
-+--- a/hw/net/e1000.c
-++++ b/hw/net/e1000.c
-+@@ -670,6 +670,9 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         msh = tp->tso_props.hdr_len + tp->tso_props.mss;
-+         do {
-+             bytes = split_size;
-++            if (tp->size >= msh) {
-++                goto eop;
-++            }
-+             if (tp->size + bytes > msh)
-+                 bytes = msh - tp->size;
-+ 
-+@@ -695,6 +698,7 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
-+         tp->size += split_size;
-+     }
-+ 
-++eop:
-+     if (!(txd_lower & E1000_TXD_CMD_EOP))
-+         return;
-+     if (!(tp->cptse && tp->size < tp->tso_props.hdr_len)) {
-+-- 
-+2.29.2
-+
--- 
-2.25.1
+https://errors.yoctoproject.org/Errors/Details/577264/
 
+On Thu, Apr 22, 2021 at 12:54 AM wangmy <wangmy@fujitsu.com> wrote:
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../recipes-multimedia/libtiff/{tiff_4.2.0.bb => tiff_4.3.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-multimedia/libtiff/{tiff_4.2.0.bb => tiff_4.3.0.bb} (95%)
+>
+> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.2.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> similarity index 95%
+> rename from meta/recipes-multimedia/libtiff/tiff_4.2.0.bb
+> rename to meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> index ea8580a25e..abf0a67740 100644
+> --- a/meta/recipes-multimedia/libtiff/tiff_4.2.0.bb
+> +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> @@ -10,7 +10,7 @@ CVE_PRODUCT = "libtiff"
+>
+>  SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+>            "
+> -SRC_URI[sha256sum] = "eb0484e568ead8fa23b513e9b0041df7e327f4ee2d22db5a533929dfc19633cb"
+> +SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+>
+>  # exclude betas
+>  UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
+> --
+> 2.25.1
+>
+>
+> 
+>
