@@ -1,129 +1,79 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web09.6044.1619158467565429164
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web09.6233.1619160180017575858
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 23:14:27 -0700
+ Thu, 22 Apr 2021 23:43:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: aTm3U2ACqJVsgoBQYFoMCrgqTTIb/Zrn1aOmVVVDGL9cNPvM6n+gpYr9Q9z8ogcivmh6ueJO4W
- OJ4MsPz9Eocw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="195579494"
-X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; 
-   d="scan'208";a="195579494"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2021 23:14:26 -0700
-IronPort-SDR: nKmXlQWN7Z4MM8nB6qjZJexfYF8v08pewYZcRAFrKrqSFp7bxvSvt8zZgL+nD0ZiiK3K+TVHFc
- SCrAfA6qZBkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,244,1613462400"; 
-   d="scan'208";a="421653380"
-Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Apr 2021 23:14:25 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 23 Apr 2021 14:14:24 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
- Fri, 23 Apr 2021 14:14:24 +0800
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 2A4LpyG05a3Xdbk8E0U9loYXlE+AzKZG0p3EhDZO4wg5dfxE5xjvutf1GijcsfFF6i2JYME1IU
+ GfwTjwxmAtsQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9962"; a="176147707"
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; 
+   d="scan'208";a="176147707"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2021 23:42:58 -0700
+IronPort-SDR: YCtV8SIZwnVqVnXzWraIXly+XEzEmT7kCGRjX+bofPByexLl/vbGVSbg9GZHLEosXdBWt2La72
+ fjedna0q2UGQ==
+X-IronPort-AV: E=Sophos;i="5.82,245,1613462400"; 
+   d="scan'208";a="392010621"
+Received: from schang3-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.147.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2021 23:42:56 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "changqing.li@windriver.com" <changqing.li@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH][hardknott] gdk-pixbuf: fix CVE-2021-20240
-Thread-Topic: [OE-core] [PATCH][hardknott] gdk-pixbuf: fix CVE-2021-20240
-Thread-Index: AQHXN07nTO4XoxehGUGC8rIdy+rRgarBFW4AgAACO4CAAANtAA==
-Date: Fri, 23 Apr 2021 06:14:24 +0000
-Message-ID: <e7bea6f909e7a01cb51cb8e59ce188c35e4b4601.camel@intel.com>
-References: <20210422080959.3147-1-changqing.li@windriver.com>
-	 <04ce3eb269095b9a704ad969b9b5e242fa3df4c8.camel@intel.com>
-	 <a5c51b81-9a7c-f661-7d4f-8be9db04dc44@windriver.com>
-In-Reply-To: <a5c51b81-9a7c-f661-7d4f-8be9db04dc44@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 0/8] pull request (cover letter only)
+Date: Fri, 23 Apr 2021 14:42:50 +0800
+Message-Id: <cover.1619160020.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9562FD28CFA56E4B90E8DD526823CE4D@intel.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-T24gRnJpLCAyMDIxLTA0LTIzIGF0IDE0OjAyICswODAwLCBDaGFuZ3FpbmcgTGkgd3JvdGU6DQo+
-IA0KPiBPbiA0LzIzLzIxIDE6NTQgUE0sIE1pdHRhbCwgQW51aiB3cm90ZToNCj4gPiBbUGxlYXNl
-IG5vdGU6IFRoaXMgZS1tYWlsIGlzIGZyb20gYW4gRVhURVJOQUwgZS1tYWlsIGFkZHJlc3NdDQo+
-ID4gDQo+ID4gVGhpcyBzaG91bGQgYmUgcHJvcG9zZWQgZm9yIG1hc3RlciB0b28uIFdlJ3JlIHN0
-aWxsIGF0IDIuNDAuMA0KPiA+IHRoZXJlLg0KPiA+IA0KPiA+IFRoYW5rcywNCj4gPiANCj4gPiBB
-bnVqDQo+IEkgcGxhbiB0b8KgIHVwZ3JhZGUgZ2RrLXBpeGJ1ZiBvbiBtYXN0ZXIgdG8gMi40Mi42
-LCB3aGljaCBhbHJlYWR5IGZpeCANCj4gdGhpcyBDVkUuDQoNCkdyZWF0LCB0aGFua3MhDQoNCj4g
-PiANCj4gPiBPbiBUaHUsIDIwMjEtMDQtMjIgYXQgMTY6MDkgKzA4MDAsIENoYW5ncWluZyBMaSB3
-cm90ZToNCj4gPiA+IEZyb206IENoYW5ncWluZyBMaSA8Y2hhbmdxaW5nLmxpQHdpbmRyaXZlci5j
-b20+DQo+ID4gPiANCj4gPiA+IFNpZ25lZC1vZmYtYnk6IENoYW5ncWluZyBMaSA8Y2hhbmdxaW5n
-LmxpQHdpbmRyaXZlci5jb20+DQo+ID4gPiAtLS0NCj4gPiA+IMKgIC4uLi9nZGstcGl4YnVmL0NW
-RS0yMDIxLTIwMjQwLnBhdGNowqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA0MA0KPiA+ID4gKysrKysr
-KysrKysrKysrKysrKw0KPiA+ID4gwqAgLi4uL2dkay1waXhidWYvZ2RrLXBpeGJ1Zl8yLjQwLjAu
-YmLCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMSArDQo+ID4gPiDCoCAyIGZpbGVzIGNoYW5nZWQs
-IDQxIGluc2VydGlvbnMoKykNCj4gPiA+IMKgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lw
-ZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstDQo+ID4gPiBwaXhidWYvQ1ZFLQ0KPiA+ID4gMjAyMS0y
-MDI0MC5wYXRjaA0KPiA+ID4gDQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
-L2dkay1waXhidWYvZ2RrLXBpeGJ1Zi9DVkUtMjAyMS0NCj4gPiA+IDIwMjQwLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zi9DVkUtMjAyMS0NCj4gPiA+IDIw
-MjQwLnBhdGNoDQo+ID4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gaW5kZXggMDAwMDAw
-MDAwMC4uZmU1OTRiMjRiYg0KPiA+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ID4gKysrIGIvbWV0YS9y
-ZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zi9DVkUtMjAyMS0NCj4gPiA+IDIwMjQw
-LnBhdGNoDQo+ID4gPiBAQCAtMCwwICsxLDQwIEBADQo+ID4gPiArRnJvbSAwODZlOGFkZjRjYzM1
-MmNkMTE1NzJmOTYwNjZiMDAxYjU0NWYzNTRlIE1vbiBTZXAgMTcNCj4gPiA+IDAwOjAwOjAwDQo+
-ID4gPiAyMDAxDQo+ID4gPiArRnJvbTogRW1tYW51ZWxlIEJhc3NpIDxlYmFzc2lAZ25vbWUub3Jn
-Pg0KPiA+ID4gK0RhdGU6IFdlZCwgMSBBcHIgMjAyMCAxODoxMTo1NSArMDEwMA0KPiA+ID4gK1N1
-YmplY3Q6IFtQQVRDSF0gQ2hlY2sgdGhlIG1lbXNldCBsZW5ndGggYXJndW1lbnQNCj4gPiA+ICsN
-Cj4gPiA+ICtBdm9pZCBvdmVyZmxvd3MgYnkgdXNpbmcgdGhlIGNoZWNrZWQgbXVsdGlwbGljYXRp
-b24gbWFjcm8gZm9yDQo+ID4gPiBnc2l6ZS4NCj4gPiA+ICsNCj4gPiA+ICtGaXhlczogIzEzMg0K
-PiA+ID4gKw0KPiA+ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnRlZA0KPiA+ID4gWw0KPiA+
-ID4gaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2dkay1waXhidWYvLS9jb21taXQvMDg2
-ZThhZGY0Y2MzNTJjZDExNTcyZjk2MDY2YjAwMWI1NDVmMzU0ZQ0KPiA+ID4gXQ0KPiA+ID4gK0NW
-RTogQ1ZFLTIwMjEtMjAyNDANCj4gPiA+ICsNCj4gPiA+ICtTaWduZWQtb2ZmLWJ5OiBDaGFuZ3Fp
-bmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2ZXIuY29tPg0KPiA+ID4gKy0tLQ0KPiA+ID4gKyBn
-ZGstcGl4YnVmL2lvLWdpZi1hbmltYXRpb24uYyB8IDYgKysrKystDQo+ID4gPiArIDEgZmlsZSBj
-aGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiA+ICsNCj4gPiA+ICtk
-aWZmIC0tZ2l0IGEvZ2RrLXBpeGJ1Zi9pby1naWYtYW5pbWF0aW9uLmMgYi9nZGstcGl4YnVmL2lv
-LWdpZi0NCj4gPiA+IGFuaW1hdGlvbi5jDQo+ID4gPiAraW5kZXggYzlkYjNjNjZlLi40OTY3NGZk
-MmUgMTAwNjQ0DQo+ID4gPiArLS0tIGEvZ2RrLXBpeGJ1Zi9pby1naWYtYW5pbWF0aW9uLmMNCj4g
-PiA+ICsrKysgYi9nZGstcGl4YnVmL2lvLWdpZi1hbmltYXRpb24uYw0KPiA+ID4gK0BAIC00MTIs
-MTEgKzQxMiwxNSBAQCBnZGtfcGl4YnVmX2dpZl9hbmltX2l0ZXJfZ2V0X3BpeGJ1Zg0KPiA+ID4g
-KEdka1BpeGJ1ZkFuaW1hdGlvbkl0ZXIgKmFuaW1faXRlcikNCj4gPiA+ICsNCj4gPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgIC8qIElmIG5vIHJlbmRlcmVkIGZyYW1lLCByZW5kZXIgdGhlIGZpcnN0IGZy
-YW1lICovDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBpZiAoYW5pbS0+bGFzdF9mcmFtZSA9PSBO
-VUxMKSB7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnc2l6ZSBsZW4g
-PSAwOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChhbmltLT5s
-YXN0X2ZyYW1lX2RhdGEgPT0gTlVMTCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYW5pbS0+bGFzdF9mcmFtZV9kYXRhID0gZ2RrX3BpeGJ1
-Zl9uZXcNCj4gPiA+IChHREtfQ09MT1JTUEFDRV9SR0IsIFRSVUUsIDgsIGFuaW0tPndpZHRoLCBh
-bmltLT5oZWlnaHQpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
-IChhbmltLT5sYXN0X2ZyYW1lX2RhdGEgPT0gTlVMTCkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE5VTEw7DQo+ID4gPiArLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtZW1zZXQgKGdka19waXhidWZfZ2V0X3BpeGVs
-cyAoYW5pbS0NCj4gPiA+ID4gbGFzdF9mcmFtZV9kYXRhKSwgMCwgZ2RrX3BpeGJ1Zl9nZXRfcm93
-c3RyaWRlIChhbmltLQ0KPiA+ID4gPiBsYXN0X2ZyYW1lX2RhdGEpICogYW5pbS0+aGVpZ2h0KTsN
-Cj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChnX3NpemVfY2hlY2tl
-ZF9tdWwgKCZsZW4sDQo+ID4gPiBnZGtfcGl4YnVmX2dldF9yb3dzdHJpZGUgKGFuaW0tPmxhc3Rf
-ZnJhbWVfZGF0YSksIGFuaW0tPmhlaWdodCkpDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbWVtc2V0IChnZGtfcGl4YnVmX2dldF9waXhlbHMg
-KGFuaW0tDQo+ID4gPiA+IGxhc3RfZnJhbWVfZGF0YSksIDAsIGxlbik7DQo+ID4gPiArK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbHNlDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE5VTEw7DQo+ID4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29tcG9zaXRlX2ZyYW1lIChhbmltLCBnX2xpc3Rf
-bnRoX2RhdGEgKGFuaW0tDQo+ID4gPiA+IGZyYW1lcywgMCkpOw0KPiA+ID4gK8KgwqDCoMKgwqDC
-oMKgwqAgfQ0KPiA+ID4gKw0KPiA+ID4gKy0tDQo+ID4gPiArR2l0TGFiDQo+ID4gPiBkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zl8yLjQwLjAuYmIN
-Cj4gPiA+IGIvbWV0YS9yZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zl8yLjQwLjAu
-YmINCj4gPiA+IGluZGV4IDIyNmUxYzdiODkuLmYwMWRhMzJlNzEgMTAwNjQ0DQo+ID4gPiAtLS0g
-YS9tZXRhL3JlY2lwZXMtZ25vbWUvZ2RrLXBpeGJ1Zi9nZGstcGl4YnVmXzIuNDAuMC5iYg0KPiA+
-ID4gKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2dkay1waXhidWYvZ2RrLXBpeGJ1Zl8yLjQwLjAu
-YmINCj4gPiA+IEBAIC0yNiw2ICsyNiw3IEBAIFNSQ19VUkkgPQ0KPiA+ID4gIiR7R05PTUVfTUlS
-Uk9SfS8ke0JQTn0vJHtNQUpfVkVSfS8ke0JQTn0tJHtQVn0udGFyLnh6IFwNCj4gPiA+IA0KPiA+
-ID4gZmlsZTovLzAwMDYtQnVpbGQtdGh1bWJuYWlsZXItYW5kLXRlc3RzLWFsc28taW4tY3Jvc3Mt
-YnVpbGRzLnBhdGNoDQo+ID4gPiDCoFwNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBm
-aWxlOi8vbWlzc2luZy10ZXN0LWRhdGEucGF0Y2jCoFwNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBmaWxlOi8vQ1ZFLTIwMjAtMjkzODUucGF0Y2jCoFwNCj4gPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBmaWxlOi8vQ1ZFLTIwMjEtMjAyNDAucGF0Y2jCoFwNCj4gPiA+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAiDQo+ID4gPiANCj4gPiA+IMKgIFNSQ19VUklfYXBwZW5kX2NsYXNz
-LXRhcmdldCA9ICIgXA0KPiA+ID4gDQo+ID4gPiANCj4gPiA+IA0KDQo=
+Please merge these changes.
+
+Thanks,
+
+Anuj
+
+The following changes since commit d1283b74cc29d1cbcab56bf1075a244ea5082025:
+
+  image-live.bbclass: optional depends when ROOTFS empty (2021-04-09 14:04:40 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Chen Qi (1):
+  busybox: fix CVE-2021-28831
+
+Douglas Royds (1):
+  externalsrc: Detect code changes in submodules
+
+Peter Budny (1):
+  lib/oe/terminal: Fix tmux new-session on older tmux versions (<1.9)
+
+Richard Purdie (3):
+  pseudo: Upgrade to add trailing slashes ignore path fix
+  oeqa/selftest: Hardcode test assumptions about heartbeat event timings
+  sanity: Add error check for '%' in build path
+
+Ross Burton (1):
+  insane: clean up some more warning messages
+
+Stefan Ghinea (1):
+  wpa-supplicant: fix CVE-2021-30004
+
+ meta/classes/externalsrc.bbclass              |  11 +-
+ meta/classes/insane.bbclass                   |  12 +-
+ meta/classes/sanity.bbclass                   |   2 +
+ meta/lib/oe/terminal.py                       |  16 ++-
+ meta/lib/oeqa/selftest/cases/buildoptions.py  |   6 +-
+ .../wpa-supplicant/CVE-2021-30004.patch       | 123 ++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |   1 +
+ ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch |  58 +++++++++
+ meta/recipes-core/busybox/busybox_1.32.0.bb   |   3 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ 10 files changed, 215 insertions(+), 19 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2021-30004.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
+
+-- 
+2.30.2
+
