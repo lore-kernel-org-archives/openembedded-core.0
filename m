@@ -1,94 +1,93 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.10210.1619186433605095641
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.10327.1619186436680542538
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 07:00:33 -0700
+ Fri, 23 Apr 2021 07:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=d66AYFWZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d124so34094575pfa.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kA4RauHf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id m6-20020a17090a8586b02901507e1acf0fso1312482pjn.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 07:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=uW0f+AQ/yaTbdvIKFzCAamUt2V2j+OC/SZ8tdtdnawg=;
-        b=d66AYFWZnAClI2emJVzP8aNe76CP7JkRXZh2lluKmgucti/AnhZZcuK0ZjiUWYFiTN
-         AWiFWxSfp6ZD3FKwismxHs+qCD+YYNbpXvfFvgZ10sI/GRcEvw0giyz7FXw9A9G7RmUB
-         iKVd8K9r3RQ/VDNCVH4P8PPT9VdoJWciMpeuYoJK5Q53eulonGD0RvtI14b71v+lmoAg
-         YPjLl/g89MTMigVeFUmAFoNhx8VnHwK8xdaXtighy1PUOvYr6/6bN9ugXBRJbZfqtlNY
-         OqRpfMMse+FdBv9jlMy/NVBat5KuW8s600667BoahBGj4A/lgu/JpMlLmhHh3pu6y9Mt
-         qDww==
+        bh=BEJs2p8GUvstoapJDiKRASVqlQ/xi4jo/caYKmiydX4=;
+        b=kA4RauHfA6ZY06NykQ53ILgdLsYcSK74xAAnrTcXOU6OwK5UebqtdgRMVuFqUXP28P
+         Q7Gfn78aowQiiimdC5Z7K2p4hieny4kFDLN/vCYevIP+hDjnsmQ1pkokcl1eoE2arAV5
+         nR0+YhsOMrWXyHvnJpzH9x8BxtjBE0spWnMp5y1dI5ty0ap8fEgXHrvQWpm6B93WYe4+
+         ZB6fOzI7v08piC6KgChwDuv4T/mQjeJjNs/7GMq9WKk+gVa7Zi2E7B1ZGQNM8ueGHufl
+         ALc4lTtQv5nU5DyGYuSglljH4qe41cFf9FHP4yzqGna1QuwxAJ6fuRbHmUIq67goHSpm
+         fjoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uW0f+AQ/yaTbdvIKFzCAamUt2V2j+OC/SZ8tdtdnawg=;
-        b=F3kk/hgp1S1Co/Iac3yRHOkZPv6GWqdKBOorh3StjcTOH1dTp4z1/wtDak3T2356dt
-         K62AtHtGnnnzLTZwIb1Z6GG2Lv/96BoBS9l2J1PolVU+GPjAG2S5sg1i4buH8zCypOPR
-         ztFzbeThH7XH72qpUYmdu0gYgd+fvXdQq8Z77uKlPNaPIVGwhyWezUPiRdLsny3hxuYZ
-         nTeAFv64sFcl/vOTqTULzfJYSB9kRNhcUkldxGbdcOc8QjLTrk5kamDtHx+IhF1NkRwf
-         AdfvLortEa+3KCxVNKr5LG9F7dh6DdlTZvSo3cyoc8BeNmZO+6JWzllRtN0mYC4r+VEE
-         B2dA==
-X-Gm-Message-State: AOAM531unF35WlcCoiLKHEdfxnHrLPfAySQ6RjtQBACVPjRzZE98a/JR
-	NbIt8z9XOY9lsrruQQKfhoh2MkTWM1mhKwQjHtw=
-X-Google-Smtp-Source: ABdhPJz5QI0PD/lFg+o3LCusDbQfLRTbRWijxOWEufud7l3TG5kstjLwEXfHr2aCniNaCmtRDkQ2eA==
-X-Received: by 2002:a63:5814:: with SMTP id m20mr3994272pgb.82.1619186432784;
-        Fri, 23 Apr 2021 07:00:32 -0700 (PDT)
+        bh=BEJs2p8GUvstoapJDiKRASVqlQ/xi4jo/caYKmiydX4=;
+        b=UzYRI0bIkcY3Ps3rXNMYFM6Z0QWjp4qSbZenBM2j9KoK9q2zpwdbl2AcF7CQnFmPAn
+         4jEvOYbHJuwYxh/cNI5k65AU/M11Di9Jcw+a2v/IHUzAMHRAdBp4roD5rt1mU7idFVYw
+         dFlbPeaEXu283sedJ7+QDO4AooN3qu2HIr/F5DRuEyGFnMZrr3ixSeZkFWFL5ia7Bak6
+         N/yAHbecQWteYcjJIRaiJ1P4nZuAzVhC9k79fen/YsswElhWHw5CTg5eqHGRibWzqdv2
+         rJQnBGXj7QEdKbk/46+rYDv5zxuRmUrswEpBibcG+i7wkJ+V1QCC8h43Ku1bSP9ZRgMQ
+         qObg==
+X-Gm-Message-State: AOAM532Ok93SZxBXPeTmf7ep8UILANP4wYj9C7spMGh1baXuLLqBV+qL
+	59HqRxmqjkM0lF+iyux919vBcPd0aYeM+HZxQMU=
+X-Google-Smtp-Source: ABdhPJwPoin3Ud37MQDU11tuWmj1sHZTAln/NCMaB5ZbsXbdkY2ig5DFc84acA14s5eHYN3DTX5c5g==
+X-Received: by 2002:a17:90b:1b07:: with SMTP id nu7mr5938237pjb.170.1619186435796;
+        Fri, 23 Apr 2021 07:00:35 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.31
+        by smtp.gmail.com with ESMTPSA id b25sm4988379pfd.7.2021.04.23.07.00.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 07:00:31 -0700 (PDT)
+        Fri, 23 Apr 2021 07:00:34 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/19] groff: not ship /usr/bin/grap2graph
-Date: Fri, 23 Apr 2021 03:58:55 -1000
-Message-Id: <5619bc0e98c02cf80601eb399bb205f33f8e4098.1619186107.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/19] parselogs: ignore floppy error on qemu-system-x86 at boot stage
+Date: Fri, 23 Apr 2021 03:58:56 -1000
+Message-Id: <982236ed40f7e1fb912d52155495286fa1ca4757.1619186107.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1619186107.git.steve@sakoman.com>
 References: <cover.1619186107.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-grap2graph which converts a GRAP diagram into a cropped image fails
-to run as below:
- $ grap2graph
- /usr/bin/grap2graph: line 89: convert: command not found
- /usr/bin/grap2graph: warning: falling back to old '-crop 0x0' trim method
- /usr/bin/grap2graph: line 104: convert: command not found
- /usr/bin/grap2graph: line 103: grap: command not found
+We can disable floppy drive by BIOS on a hardware, but an empty floppy
+drive is connected by default on qemu-system-x86. Linux usually detect
+the device and modprode the matched floppy.ko at the boot stage. Due to
+we don't specify a floppy deivce in qemu boot arguments, then the errors
+about floppy reading comes out.
 
-Considering we don't often need to convert a GRAP diagram into
-a cropped image and the recipe ImageMagick which provides convert
-command is in meta-oe layer, so don't ship the related files to
-avoid the confusion about the above run time error.
+It is harmless and normal, so we could ignore this error message on
+qemux86.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Seen if kernel-modules is included in the image which pulls in the
+relavent kernel module.
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01402.html
+
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 251be7279a475ee18c0c53fe9795bb37bffc2b45)
+(cherry picked from commit 3359f23ee9351c70997d5e0a17d17d1e47d59623)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/groff/groff_1.22.4.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
-index 983cb9aea6..f0e9eb6a8a 100644
---- a/meta/recipes-extended/groff/groff_1.22.4.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.4.bb
-@@ -62,6 +62,10 @@ do_install_append() {
- 	rm -rf ${D}${bindir}/glilypond
- 	rm -rf ${D}${libdir}/groff/glilypond
- 	rm -rf ${D}${mandir}/man1/glilypond*
-+
-+	# not ship /usr/bin/grap2graph and its releated man files
-+	rm -rf ${D}${bindir}/grap2graph
-+	rm -rf ${D}${mandir}/man1/grap2graph*
- }
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index a1791b5cca..f703927660 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -88,6 +88,8 @@ qemux86_common = [
+     'tsc: HPET/PMTIMER calibration failed',
+     "modeset(0): Failed to initialize the DRI2 extension",
+     "glamor initialization failed",
++    "blk_update_request: I/O error, dev fd0, sector 0 op 0x0:(READ)",
++    "floppy: error",
+ ] + common_errors
  
- do_install_append_class-native() {
+ ignore_errors = {
 -- 
 2.25.1
 
