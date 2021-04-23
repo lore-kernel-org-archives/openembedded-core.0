@@ -1,108 +1,102 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web08.1038.1619192159917301490
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.1453.1619193569851047421
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Apr 2021 08:36:00 -0700
+ Fri, 23 Apr 2021 08:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sH6r0y4j;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id g17so57242951edm.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 08:35:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zv+zm6fd;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id n10so14279971plc.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Apr 2021 08:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4jCQO2W6IHPRdhO3QGnLPCReoFNlWKUt3219ox2l2ng=;
-        b=sH6r0y4jHYdHGpdCNkxMnNphc24MKWZ08IDgdzzMptWV7m6AMyAnHjSn9dAWtezXJh
-         dDDGe0uOe849tJVSQaM6y7U08w7JruwzXrx+za/pXL05F1OsdqIK2sG2cCLbgTofauah
-         NnUrEApwaXq3pSwC7lBW1LNX2z+npQoi59Hpl0GE+9yF7UOyb7Nei658mrQB2Xqk/tNJ
-         wIZtBHY2lev5zP+6stAWpc57nDrhWsekGwS9pr2YCM6Jjb6Y3c8GTiBax/07UKxdl00p
-         scD87+QZ6ZRNBaAbmColeYOZRDPoXytx+/3y9vXQCZRqWBafRZy9PcsxLoy/EwoffEq3
-         GvYw==
+        h=subject:from:to:cc:references:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=a5ECvUVZhmIG4HDSXcTI86kbN0st7Wh7TTPyB3lBHkI=;
+        b=Zv+zm6fdPtLq6uNngisO8SiW8OFS+WebY5J+DIbV4/fthLpyC01IZNuS3RxM2SrlzG
+         ReqbAp9YD+CTVlK+0B9TR12DihG32j5KED9j4o8fYMv50ITxqjSy2AoEWw4nv3WzRCGN
+         m37hYwxlnYowTl6kI5NaCaBd+3QXdPD9fjzx/mLMMz2SkxClJYXHSe/GCUlfeko4GF+S
+         i2A9B+5bu4c8TOVOdDefltkYfvjZgv8vy2K/ZOoxJkRNKOA2aiOX+eAC59Cu+tAMzwvc
+         7MpheIcievziN/uLOr8NSpKdhLibhEPRlil9hQUBEkY8AHTwpSJpTadhoX1+/T7mjoZW
+         IMGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4jCQO2W6IHPRdhO3QGnLPCReoFNlWKUt3219ox2l2ng=;
-        b=i0DGfslbCBO1lUkz5Z126fvZBDjI7f3aFi27KnTvP5sSFq1qOm1JXKcGNbadnH6bNy
-         sLBIIvwGxiqtbSObCYhzfAXGf/sc1PQg2C3R7lyGaSo3OvbjQ3BpCsWabBW8RYJRySct
-         JprM+dKz2Z+C1jun+OtlUo9rmXg2kK+8utA5rZqs0BIf+kOMtRFGEGsGlnWfFllMbt0m
-         MmVh/x5qdqq8KP1pHFXxu7an12iHOeOU54EV5je1ewtO0mFgsKEm6bvwkenNpY9Nf2v2
-         TmBZDKVfK2+8I7rc4LaxGAqk1FelMN/bcOtG866vI99zjRjFHPjQlUByQsN/XzLA25E4
-         sp8w==
-X-Gm-Message-State: AOAM5331Cd3aeoyicG1RSEzmoxPaWoTOTz/G3L7exFJjoMg1Kbro+GjD
-	eCO2UXp4JhLi5IlB8q9y8WlCGRLXTRIaFvV+dWc=
-X-Google-Smtp-Source: ABdhPJwkq2AudHWmo2/sZw0qnohFMfB4hsJEJMBepSbymuXWGvsCI1mChovHadE4EAX4DEwILWYYMbWoT4Vp4Yf9xws=
-X-Received: by 2002:a05:6402:27d3:: with SMTP id c19mr5275507ede.129.1619192158415;
- Fri, 23 Apr 2021 08:35:58 -0700 (PDT)
+        h=x-gm-message-state:subject:from:to:cc:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=a5ECvUVZhmIG4HDSXcTI86kbN0st7Wh7TTPyB3lBHkI=;
+        b=mp4WUKSrs7nwSyUu8oq1FqMvikp7hjks46ecS/Rkv8tg4XTzSs6gzbvL+Xc2r7txKt
+         eBDdmNtbF2j7rG52BbH6a2EzHmFNi5fyOWymZVVfq5EqauZaqDoL9ximoA41xtNck8AL
+         4X+tQ0I6Kt12xbeZvdgejkxLwxYWartzolYpIlQjoc1MfOo1OunYsqYIUVJhI8crg8WY
+         2tpXYaebrp673QWkkc4Dxa21zcPcfSoIy0a8ZcgBOHqLATq/DA7G6RDOP2ZfwzzgQYa6
+         UYhT6A/Bag2EEXQlqx6hWza8OX6PHRZYpJPpmNJGio6OXNXshWfiOkZ7UYFSSyNiVJph
+         ElSg==
+X-Gm-Message-State: AOAM5327HqiuVqvxGKGYaBc5U9YEHC0P7hHn6QHrTbardnBK4RiLvsZ8
+	zyRU/rGD8+r0Z5aiuwFPwT4G/6iRYOQtWw==
+X-Google-Smtp-Source: ABdhPJyN8pSmkDW+DuTX1zen2fB3RfxT/YtNu3ii5TDXnPutsCa3TcaZXffydww5VrbvB0fC1Y28ng==
+X-Received: by 2002:a17:902:8202:b029:ec:b398:6d73 with SMTP id x2-20020a1709028202b02900ecb3986d73mr4719291pln.37.1619193568961;
+        Fri, 23 Apr 2021 08:59:28 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:11fe:f444:6c85:56b? ([2601:646:9200:a0f0:11fe:f444:6c85:56b])
+        by smtp.gmail.com with ESMTPSA id d3sm8176344pjw.35.2021.04.23.08.59.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Apr 2021 08:59:28 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] tiff: upgrade 4.2.0 -> 4.3.0
+From: "Khem Raj" <raj.khem@gmail.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <1619078047-5587-1-git-send-email-wangmy@fujitsu.com>
+ <1619078047-5587-5-git-send-email-wangmy@fujitsu.com>
+ <CAMKF1sq9OEK=LYu7oo8=LwmT0Z5piunXeiad0KF-rVWMnN6G_w@mail.gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <a81e426a-737d-17d8-0df9-52fa8fdd4a31@gmail.com>
+Date: Fri, 23 Apr 2021 08:59:27 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <Gvtb.1619190188941654950.yc90@lists.openembedded.org>
-In-Reply-To: <Gvtb.1619190188941654950.yc90@lists.openembedded.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 23 Apr 2021 11:35:47 -0400
-Message-ID: <CADkTA4PbOd459xYigZh9q4Eh5hxyK50t=poH6B4HOqhNeMYnCA@mail.gmail.com>
-Subject: Re: [OE-core] Need suggestions: in case where linux-lib-headers and the kernel versions differ
-To: Sourabh Banerjee <sbanerje@codeaurora.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMKF1sq9OEK=LYu7oo8=LwmT0Z5piunXeiad0KF-rVWMnN6G_w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 23, 2021 at 11:03 AM Sourabh Banerjee
-<sbanerje@codeaurora.org> wrote:
->
-> Hi All,
-> I need your suggestion on how to reconcile if the linux-libc-headers and kernel versions are different?
-> For this discussion let's consider we are using the LTS branch YP-3.1 (Dunfell).
-> With Dunfell let's consider following 3 cases:
->
-> 1) Machine is supported on 5.4 kernel
->     Kernel Recipe: linux-yocto_5.4.bb
->     libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
->     There is no conflict in this case as libc-headers and linux-yocto are on same version.
->
-> 2) Machine is supported on a higher kernel (let's say 5.10)
->     Kernel Recipe: Let's assume provided by a BSP layer, linux_5.10.bb
->     libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
->     The kernel version is higher in this case. But, should be okay as 5.10 UAPI is backward compatible and supports  linux-libc-headers_5.4 completely.
->
-> 3) Machine is supported on a lower kernel (let's say 4.19)
->     Kernel Recipe: Let's assume provided by a BSP layer, linux_4.19.bb
->     libc-headers: meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.4.bb
->     The kernel version is lower in this case. I suppose, this may lead to some runtime issues? As the kernel built from 4.19 will not be able to support 5.4 UAPI fully.
->     What's the recommendation here? Should the BSP provider port linux-libc-header_4.19.bb in BSP layer and set PREFERRED_VERSION_linux-libc-headers = "4.19%"
->
 
-This is not something that we've really seen happen.  When the
-libc-headers are property used, they'll check/probe for functionality
-and use what is available.
 
-If you have drivers/applications going directly at the libc-headers,
-versus the toolchain use. That is a different question. In this case,
-you'd be better of dealing with these on a per-application basis, and
-pointing them at alternate headers.
-
-You can dream up all sorts of issues, and most of them don't happen in
-practice. I've run hundreds of kernels that are older than the
-libc-headers, and have never run into an issue with standard,
-non-machine specific applications.
-
-Just look at master of oe-core. We continue to support 5.4, after I've
-bumped the headers to 5.10.
-
-Cheers,
-
-Bruce
-
->     I suspect this as UAPI headers such as following differ, and what if this leads to runtime issues in case #3
->       -  videodev2.h: This header is enhanced in 5.4
->       -  fsverity.h : this header is not present in 4.19
->
-> --
-> Regards,
-> Sourabh
+On 4/22/21 10:31 PM, Khem Raj wrote:
+> this breaks gd package in meta-oe see
 > 
->
+> https://errors.yoctoproject.org/Errors/Details/577264/
+> 
 
+FWIW I have sent a fix for this to meta-oe layer
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> On Thu, Apr 22, 2021 at 12:54 AM wangmy <wangmy@fujitsu.com> wrote:
+>>
+>> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+>> ---
+>>   .../recipes-multimedia/libtiff/{tiff_4.2.0.bb => tiff_4.3.0.bb} | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>   rename meta/recipes-multimedia/libtiff/{tiff_4.2.0.bb => tiff_4.3.0.bb} (95%)
+>>
+>> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.2.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+>> similarity index 95%
+>> rename from meta/recipes-multimedia/libtiff/tiff_4.2.0.bb
+>> rename to meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+>> index ea8580a25e..abf0a67740 100644
+>> --- a/meta/recipes-multimedia/libtiff/tiff_4.2.0.bb
+>> +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+>> @@ -10,7 +10,7 @@ CVE_PRODUCT = "libtiff"
+>>
+>>   SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+>>             "
+>> -SRC_URI[sha256sum] = "eb0484e568ead8fa23b513e9b0041df7e327f4ee2d22db5a533929dfc19633cb"
+>> +SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+>>
+>>   # exclude betas
+>>   UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
+>> --
+>> 2.25.1
+>>
+>>
+>> 
+>>
