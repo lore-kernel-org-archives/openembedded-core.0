@@ -1,118 +1,105 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.2169.1619132916721891661
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.4021.1619143683229530690
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Apr 2021 16:08:37 -0700
+ Thu, 22 Apr 2021 19:08:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JQ7/4x69;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id y124-20020a1c32820000b029010c93864955so178766wmy.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 16:08:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WBRrvbDE;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id j14-20020a17090a694eb0290152d92c205dso412221pjm.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Apr 2021 19:08:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZE7jxTRAa8YV2ZlDfeil2TZ9X9DtGgXPESbjrOSymhE=;
-        b=JQ7/4x699u7Drhsl7aStTo0hlk9pBoWPfisO6yE7RQZBtKOQ60ii8Tq9B/CDvlGvfk
-         N34yiENXMNhhdLpBOSTIE0najJl2KGkA/sckae0m1x/ULGTKXvLb0+pMyFKr+Pl3BUqP
-         aoPzq7xQ8GW/BhP3ILxey/Oi8tPPy5IRD1jCk=
+        bh=6HcxeEkkwXC2WaUKmctSBImFaURPzwhQ+BbBA3UwVs4=;
+        b=WBRrvbDE6kMOW68WnarLUU5S7yQbAmt8sQ7VdXzmC6fG37OQYEOQX9cx6XgFbNHMq5
+         RNWYeQcoEv6zZMCxUTSshI/GJzc6dEmfkPKTLyqC9tGeloJDoGXorVB3dGmahhMyYKtV
+         9xycQXGSzWTj9jHBFAM8mUebF8iwFKgquq0XKACXVPXWjBDaJh6TPel0mTFi1a9SAfE7
+         fUMySYjqK90JOq/jOw8ARuE4WqHjCPJ17zTYvRTDOYu+aBeE+XewJBer8WCQy4h2D6Xd
+         uTGHZ6ZI38CE+mEg634gt+3zJDdDdo9DJZCjShKiu8hwF37Y6WNa8ebkdKdJKFUr/Jp3
+         bMgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZE7jxTRAa8YV2ZlDfeil2TZ9X9DtGgXPESbjrOSymhE=;
-        b=jh9xa5BqugMbfPbhprB3B7ZXMfxEpKacFNu0/AF44qOsthwkjFI+lg2SerIXcf9W5p
-         CvtAXnlo087Iv8vsZ0KzbkR4wDjQSbBn2jAS1yQqVT9TvxJuhkFlOfD1MDq0QDHJ5yT6
-         VGwMJLcV5yT5qSs30VJGXfeg4Oo7RZcYuAyvGYuOB96W2lsXG/xRFH1RolerZJiS521+
-         lVmu/ye0yr8aKG5Cj2v3eL3+A1ECcW3gbYEcdoXqx4hM9Rae5GOJA532va1JRF2xIu+T
-         SqUX5h5LyWYCx7ZPhF22ZHA6BznaeBTDwTIT4nL72dR07AH6PpWGRMV0osfXUXrR4PpE
-         wh0Q==
-X-Gm-Message-State: AOAM533VVB9SxG649dJm2W+sZr8MzEASUeGEkqEAyJomF//RadAJR4oK
-	FfHyngnm0X9IVeS+tEJRcwGWP3aRoCTWnQ==
-X-Google-Smtp-Source: ABdhPJwg1W+DOcxur2opJR8uXV5JDP99qAw3m35FK3l7Xz9e0OFocPeQ+4HhBK02GLwwkkc4S4DMNg==
-X-Received: by 2002:a7b:c195:: with SMTP id y21mr1105386wmi.178.1619132914688;
-        Thu, 22 Apr 2021 16:08:34 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9e5d:1acf:2dd2:29e6])
-        by smtp.gmail.com with ESMTPSA id k22sm6502438wrh.5.2021.04.22.16.08.34
-        for <openembedded-core@lists.openembedded.org>
+        bh=6HcxeEkkwXC2WaUKmctSBImFaURPzwhQ+BbBA3UwVs4=;
+        b=oM8YzTGMt9bo4u5O8tH3zkj/oowg5ilwRWBe4i0RChPiu9UCJ92PoNrBecjO+eSdl7
+         VxFBI1/fy0gnBQKlAwHSAGzQX8NT9EEoxqqu3hPh+3PK1sVRW1isB6O/6O4BMXYsVF3u
+         GY3PloD2OFKH4gXd7NyHCLJZ33lriKoiMSQwjUeHH3YvWgDV+Oqpzr4CwUZurqU39J29
+         1/ZZUKK4huFiL+xwHV1QG2HEjvcmaxDdySwZtjL3k980NFlBHY0DduIwVacdg/4XFZak
+         eqjIhp0o8f24dgjgAH83UpfXUK16JhMdkKtuseLCLePxGEutRSSfhL/iQDjEeXB74Yox
+         j7DA==
+X-Gm-Message-State: AOAM5325GWY0LA9FBChaUrCQe8mtH35oRUulJd69cTQoYGzRQaA9Gp1g
+	bJAcGPRQ7gmzP5yPkEP5xNfLWwj+xSBkZg==
+X-Google-Smtp-Source: ABdhPJwM0D0MQ4xZ7xZVctsJU/wfqwNi2XmNNl73s8o6MFG+z+Sg+h1REuWKuEAOlrfa20Xg5CWA/w==
+X-Received: by 2002:a17:902:db0e:b029:eb:8b29:a809 with SMTP id m14-20020a170902db0eb02900eb8b29a809mr1751447plx.11.1619143682525;
+        Thu, 22 Apr 2021 19:08:02 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::bc1b])
+        by smtp.gmail.com with ESMTPSA id f2sm3187111pfe.177.2021.04.22.19.08.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 16:08:34 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Thu, 22 Apr 2021 19:08:02 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] runqemu: Ensure we cleanup snapshot files after image run
-Date: Fri, 23 Apr 2021 00:08:34 +0100
-Message-Id: <20210422230834.1594956-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-docutils: Upgrade to 0.17.1
+Date: Thu, 22 Apr 2021 19:07:59 -0700
+Message-Id: <20210423020759.3720767-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We need to cleanup snapshot files if we make a copy of them to ensure
-the tmpfs doesn't run out of space. There is already NFS code needing
-this so make it a generic code path.
+This was in meta-python for a while so merge the changes here
+and  upgrade, once applied, delete from meta-python
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- scripts/runqemu | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ .../python/python3-docutils_0.16.bb             | 17 -----------------
+ .../python/python3-docutils_0.17.1.bb           | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-docutils_0.16.bb
+ create mode 100644 meta/recipes-devtools/python/python3-docutils_0.17.1.bb
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index ba0b701aff3..edd17d09c4a 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -145,7 +145,6 @@ class BaseConfig(object):
-         self.qemu_opt = ''
-         self.qemu_opt_script = ''
-         self.qemuparams = ''
--        self.clean_nfs_dir = False
-         self.nfs_server = ''
-         self.rootfs = ''
-         # File name(s) of a OVMF firmware file or variable store,
-@@ -210,6 +209,8 @@ class BaseConfig(object):
-         self.qemupid = None
-         # avoid cleanup twice
-         self.cleaned = False
-+        # Files to cleanup after run
-+        self.cleanup_files = []
- 
-     def acquire_taplock(self, error=True):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-@@ -1020,8 +1021,9 @@ class BaseConfig(object):
-                 logger.info('Running %s...' % str(cmd))
-                 if subprocess.call(cmd) != 0:
-                     raise RunQemuError('Failed to run %s' % cmd)
--                self.clean_nfs_dir = True
-                 self.rootfs = dest
-+                self.cleanup_files.append(self.rootfs)
-+                self.cleanup_files.append('%s.pseudo_state' % self.rootfs)
- 
-         # Start the userspace NFS server
-         cmd = ('runqemu-export-rootfs', 'start', self.rootfs)
-@@ -1204,6 +1206,7 @@ class BaseConfig(object):
-             self.rootfs = newrootfs
-             # Don't need a second copy now!
-             self.snapshot = False
-+            self.cleanup_files.append(newrootfs)
- 
-         qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
-         if qb_rootfs_opt:
-@@ -1476,10 +1479,13 @@ class BaseConfig(object):
-         if self.saved_stty:
-             subprocess.check_call(("stty", self.saved_stty))
- 
--        if self.clean_nfs_dir:
--            logger.info('Removing %s' % self.rootfs)
--            shutil.rmtree(self.rootfs)
--            shutil.rmtree('%s.pseudo_state' % self.rootfs)
-+        if self.cleanup_files:
-+            for ent in self.cleanup_files:
-+                logger.info('Removing %s' % ent)
-+                if os.path.isfile(ent):
-+                    os.remove(ent)
-+                else:
-+                    shutil.rmtree(ent)
- 
-         self.cleaned = True
- 
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.16.bb b/meta/recipes-devtools/python/python3-docutils_0.16.bb
+deleted file mode 100644
+index 50547a1b0c..0000000000
+--- a/meta/recipes-devtools/python/python3-docutils_0.16.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-SUMMARY = "Text processing system for documentation"
+-HOMEPAGE = "http://docutils.sourceforge.net"
+-SECTION = "devel/python"
+-LICENSE = "PSF & BSD-2-Clause & GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
+-
+-DEPENDS = "python3"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
+-SRC_URI[md5sum] = "9ccb6f332e23360f964de72c8ea5f0ed"
+-SRC_URI[sha256sum] = "7d4e999cca74a52611773a42912088078363a30912e8822f7a3d38043b767573"
+-
+-S = "${WORKDIR}/docutils-${PV}"
+-
+-inherit distutils3
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.17.1.bb b/meta/recipes-devtools/python/python3-docutils_0.17.1.bb
+new file mode 100644
+index 0000000000..54a809847f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-docutils_0.17.1.bb
+@@ -0,0 +1,11 @@
++SUMMARY = "Docutils is a modular system for processing documentation into useful formats"
++HOMEPAGE = "http://docutils.sourceforge.net"
++SECTION = "devel/python"
++LICENSE = "PSF & BSD-2-Clause & GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=836a1950177996968a49ff477a4a61c4"
++
++SRC_URI[sha256sum] = "686577d2e4c32380bb50cbb22f575ed742d58168cee37e99117a854bcd88f125"
++
++inherit pypi setuptools3
++
++BBCLASSEXTEND = "native"
 -- 
-2.30.2
+2.31.1
 
