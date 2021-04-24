@@ -1,56 +1,67 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web10.6183.1619269112147466662
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.6770.1619272267686084829
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 05:58:33 -0700
+ Sat, 24 Apr 2021 06:51:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=y0h84/cJ;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 607058172F;
-	Sat, 24 Apr 2021 14:58:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1619269109;
-	bh=A4nhvK2Ghqe1tTNIuCjlI2tMfNlo1Cf+OCWaAAbp6YM=;
-	h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-	b=y0h84/cJhqQHNlGdmZEZKPPvm4Ans6+dC0RrIHmHevI+ksgXYl/xv5VRk7d5OK21Y
-	 umKi24T/jdFOr6QPRZvRBFrvWtUvSt2NULcaNfowEWdiZrbqx2lugO/6BY3QvFeEyj
-	 uU0+5LLr0MOOkrlLNyQA4H095FszAjAfrDYbMNd8WOaGGQl2ldOCcmArAXAezMA4SE
-	 22dXzXYieuVEmcDVNk6UpL1gznKSGVH61wFY4AqGzSrc04LQ0Qgn9bfhoR9tXoiVqg
-	 Qbnj34/SlmTxxcVXwNBj25FfEXiu5U+ez2YaHbxT/Qz6in8fRscp9+3JgXdJyqmVPH
-	 ZIZdW/YrrLE7Q==
-Subject: Re: [PATCH V2] linux-firmware: Package RSI 911x WiFi firmware
-From: "Marek Vasut" <marex@denx.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MizrTiMs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id e7so42203919wrs.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 06:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i1+vPUvHxVX7CorMT16dwDnGoZC3GVefyvnD8I6Z658=;
+        b=MizrTiMscoWkoC7i+pBNU0/Y/VsdnRy1I8ReesdvWrQRdabjZah2dSVmjwNZ1j9DVe
+         SBWt0O6zzW77N4ILQ7OK7fxTN+Ftrrult4mbKrqR62wiMMj4BWaqbjTS7+giTNSFF69c
+         CTVANYussNVX8MNKUA7RnGJK+WVcNqsKRncpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i1+vPUvHxVX7CorMT16dwDnGoZC3GVefyvnD8I6Z658=;
+        b=R+e0D++nCndzjxENo1x8mxB3jJI5Rq7fnPIFnDhK5XsmYM0M2zPrVxYWBETyg+/aBw
+         ZSOnsR4UIsncaK8dhdgE61cPebBbddRMUdu4tHL3qRyNOpa4Ch4t7ZX8hqWmpf0zPp5q
+         dcecMRpsJoE1CaR4yoW2Pr/WW+pHY+Jc/1u5IzU8J4x1fSziSXKaE453qRffzxZ87fy5
+         baslB894QJw+vLV6SxOe8fzD2rtkB5WPYRWBSn47kP51tWIWsZImp9N0luIVOxczqpBK
+         PYw4sdaJgc/drlw4YE2P8IH9qZPHT8hjksPtA3wxPu3TAel1X234SMPVsP1qHDJ/VzyM
+         3jPw==
+X-Gm-Message-State: AOAM53188gxfqouYi96efB/ofOQiBW+y5aPiQYihKkQ3RjvsSNpJcWMn
+	QXqMGKghHuRWNsnCGESx3a4mCbXkanl3jA==
+X-Google-Smtp-Source: ABdhPJyge6mwE2WkBW5+RdjjaQdvF7IUf6JC2fjkNfVyf+mtmgFikufUKeiEsCj0F3H7NY4PiqFSXg==
+X-Received: by 2002:a5d:4c88:: with SMTP id z8mr11288381wrs.154.1619272266073;
+        Sat, 24 Apr 2021 06:51:06 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5c62:6d9d:139d:d68c])
+        by smtp.gmail.com with ESMTPSA id u17sm12584554wmq.30.2021.04.24.06.51.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Apr 2021 06:51:05 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Steve Sakoman <steve@sakoman.com>
-References: <20210312205736.102998-1-marex@denx.de>
- <997ce1d3-9961-1760-a16b-53f06bcf8237@denx.de>
-Message-ID: <296fcb47-7f51-db9c-702a-7ca923aa4a9c@denx.de>
-Date: Sat, 24 Apr 2021 14:58:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Subject: [PATCH] pyyaml: Add missing HOMEPAGE
+Date: Sat, 24 Apr 2021 14:51:05 +0100
+Message-Id: <20210424135105.1645522-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <997ce1d3-9961-1760-a16b-53f06bcf8237@denx.de>
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/25/21 7:47 PM, Marek Vasut wrote:
-> On 3/12/21 9:57 PM, Marek Vasut wrote:
->> The RSI 911x WiFi firmware is already part of the linux-firmware
->> repository, package it to make it easily available.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Cc: Steve Sakoman <steve@sakoman.com>
->> ---
->> V2: Rebase on current oe-core/master
-> 
-> Bump ?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Any news on this patch ?
+diff --git a/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb b/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
+index c3025fdc662..db8325f90b9 100644
+--- a/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
++++ b/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
+@@ -1,5 +1,6 @@
+ SUMMARY = "Python support for YAML"
+ DEPENDS += "libyaml ${PYTHON_PN}-cython-native"
++HOMEPAHE = "https://pyyaml.org/"
+ 
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=6d8242660a8371add5fe547adf083079"
+-- 
+2.30.2
+
