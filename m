@@ -1,123 +1,150 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.2875.1619292972780861560
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web09.4546.1619302587422119607
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 12:36:13 -0700
+ Sat, 24 Apr 2021 15:16:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Ud4rsH+R;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.43, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f43.google.com with SMTP id e7so42770500wrs.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 12:36:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DSt/eV5g;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id f12so38993452qtf.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 15:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/zBosSfiuAhHUfv7ioRtSeBQlTcuKOoasGawZHq4ses=;
-        b=Ud4rsH+R4jYhqAN80GV49iOsqmLOTVKg9ix0qG1MPry02j7quTMVH14NKi/0XX+4/e
-         kZ5DmcJZgxvivNpi8CYFHIVyXc+xAk+bXa+dI+wybnDFsq0YufbfOWmV4trQRDBo8zYt
-         HnThDETIl/ATtdRZyciCbdvM6mgTYveRoVQzNqHh4JeOkFia6iRorqnLJPEok31PXT/P
-         P9iXvDBa6cM/5oLtOHwB9gmrM4LDUdKdlYjjlQOUYPAJ/3taATqKF0GTA7HCtkbXYR8D
-         eFNWN2Gw1FkkJcoMt4LdaRfmTPiZJ93Dy7SRMrnMkdDnD7FTsNK491ClrfafhtrdqOUE
-         isrg==
+        bh=Fvggf34fJ0tZAtWE5jhpwUYNpKhTSVVB8XHG8/xpfaE=;
+        b=DSt/eV5g+z9QbRnWkw6rZ0irgsJyhQykLoFYARzJL1dWnU9DOm6s1V4IdCw90VDigG
+         WgR8mxIl8TfWyBlIyaLQ3I2XSkGyXrjfvPmCEqn9jkCCjd6Gyg9P8rP7sTFPcJh7J0Mi
+         NmLM4d8suZKc5CrGfRyEdUktOak8DBwb6eS5MCXNOP/t7sGmQ2QAl5R4ChzBE4tDoC3V
+         NJUSTN7yPOR6ZeoywPpFu6SqoPa9P11TULS+pCCCa8cl8MUyZsm83INA8qhZBm26aNEh
+         pXiRE318OE+oXFU0cX8khWJTVkSf/nKQexyEfeOA9NQe/ng4VjHjPvRvXa3kvZDyovoF
+         QSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/zBosSfiuAhHUfv7ioRtSeBQlTcuKOoasGawZHq4ses=;
-        b=frYKrqjmi/jHTbhfnsHSNUDwf5sHcCpuyPuf3rYRsvmL/wGOeaPWbONW02NcNGh7e0
-         uRiMxLSxib5HROyhaSyX7tAhQdaphbGB0Gs26WahK0M34OIFUG0aZkVE2csGr4qV1dAC
-         oQnP5MDCTcpKDHTqdtStQPjn+TD4bUpURiPSqxoqvmru0cwe9GQyTa4BqPET2gQ/f2FG
-         TYJbVimLnPihaSBbcpj6LSymqD6NvZb4ctPFr00XhmrlU99Q7efzxaygd+9GEVZrXaDb
-         FJlIxRMsvG8jK7QUQW1JUGFQw0OhoBubbpVyNwTOfx3o+rUlniqgGPmT7LyzkHbTenRS
-         cIzA==
-X-Gm-Message-State: AOAM530mlU4h0eKSGsHZsjYpbCWzAyIFidQYMLINFAl1IKgK5Piz2D18
-	/AUwO9tPVkPJEb4Xv10kxrDJqnQd7In9Hh05eQ0KEw==
-X-Google-Smtp-Source: ABdhPJzGdu/w+F0hsVL7LAharrJLwH1ekN73fBigSeiWOY/S4AgzmaZLU2JsdSS5f+azfrvc8uux6knfoqlj1lJ1Xzs=
-X-Received: by 2002:a05:6000:120b:: with SMTP id e11mr12361965wrx.299.1619292971197;
- Sat, 24 Apr 2021 12:36:11 -0700 (PDT)
+        bh=Fvggf34fJ0tZAtWE5jhpwUYNpKhTSVVB8XHG8/xpfaE=;
+        b=hiBxfnupc2Q5/RHA5PCNC9iBp+TMkew+fAvsZzq+0kxwtWUHWxactgk3CDoC804Ttq
+         IjfjTsG5feJU+0FVONpcVQsRCzC7cejOhp+jqOwc5LzTIf7wcblbzFQwFNmf6F/kIlc9
+         Qs+rKySHP8Yi62DgSYTrZZ2xcF0lpQIGBTZfLdV6I7iicBoAJF2DGu2dqoVGWN0qtKZd
+         mrBAccZIW8ry7KrQX7tFr8KJYmt/G+dVdHHsvfSedE3VDDAgOG7mY2QK5ATpM2yyRAqL
+         Qjb4bdnWk5b71O4eBthgShdXJLp4l+dQvn7BtAI9lLrH5JueiqR/zWzoRfklAFsHsCIT
+         U74A==
+X-Gm-Message-State: AOAM5339dkJV4XrcAATlnKzqsV2/aRb33RbxkX9LrsnfkaE4OtT1Rxty
+	06HMB+Hk5N16Fe8vccAEYWQXKkLHDbKpR4IGCos=
+X-Google-Smtp-Source: ABdhPJwHcch6X657w8tY4AFdAkvXesJ9wyN47PxZ3pZZrAWpZf3asM4JlJ2KK9T4r6663J2kEehEvolLNc1UHCf4ro0=
+X-Received: by 2002:ac8:7c4d:: with SMTP id o13mr9726106qtv.369.1619302586452;
+ Sat, 24 Apr 2021 15:16:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210423142515.9032-1-kai_uwe.broulik@mbition.io>
-In-Reply-To: <20210423142515.9032-1-kai_uwe.broulik@mbition.io>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Sat, 24 Apr 2021 09:36:00 -1000
-Message-ID: <CAOSpxdYJoLyOLrgg6ukmHtnj1jG8oS=bXRPbGp9KBenuStJWtQ@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
-To: kai_uwe.broulik@mbition.io
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Jose Quaresma <quaresma.jose@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20210424155639.1131482-1-akuster808@gmail.com> <20210424155639.1131482-2-akuster808@gmail.com>
+In-Reply-To: <20210424155639.1131482-2-akuster808@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 24 Apr 2021 15:16:00 -0700
+Message-ID: <CAMKF1sqK5+BHjiDcY=JJeueeUHw+3WPpu0hE-4EddpBF0OFvLQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/6] libseccomp: move recipe from meta-security to core
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Apr 23, 2021 at 4:26 AM Kai Uwe Broulik via
-lists.openembedded.org
-<kai_uwe.broulik=mbition.io@lists.openembedded.org> wrote:
+riscv32 is not happy
+
+ERROR: Nothing PROVIDES 'libseccomp' (but
+/home/jenkins/oe/world/yoe/sources/openembedded-core/meta/recipes-core/systemd/systemd_247.6.bb,
+/home/jenkins/oe/world/yoe/sources/openembedded-core/meta/recipes-support/gnutls/gnutls_3.7.1.bb
+DEPENDS on or otherwise requires it)
+libseccomp was skipped: incompatible with host riscv32-yoe-linux (not
+in COMPATIBLE_HOST)
+
+see
+http://jenkins.nas-admin.org/view/OE/job/oe_world_qemuriscv32/1123/consoleFull
+
+On Sat, Apr 24, 2021 at 8:56 AM Armin Kuster <akuster808@gmail.com> wrote:
 >
-> The code in ext/qt/meson.build looks for the Qt5WaylandClient pkg-config file.
-> Without this module, qmlglsink will not work with Wayland.
-> This can be tested by checking whether or not HAVE_QT_WAYLAND has
-> been added to the cflags in the autogenerated ninja file.
+> ptest results:
+> Regression Test Summary
+>  tests run: 1404
+>  tests skipped: 369
+>  tests passed: 1402
+>  tests failed: 2
+>  tests errored: 154
 >
-> Writen by:
-> Carlos Rafael Giani
-> https://lists.openembedded.org/g/openembedded-core/message/143574
+> Add feature_check so that the other recipes who can take
+> advantage of this funtionality can enable it.
 >
-> (From OE-Core rev: ba2e0f647894b51d2f365b1d2eee7b673ddf8b7e)
->
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 41bba2b226ff5332561a644a2fd4a2c8b8d7d967)
-> Signed-off-by: Kai Uwe Broulik <kai_uwe.broulik@mbition.io>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
 > ---
->  .../gstreamer/gstreamer1.0-plugins-good_1.16.3.bb            | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  .../libseccomp/files/run-ptest                |  4 ++
+>  .../libseccomp/libseccomp_2.5.1.bb            | 49 +++++++++++++++++++
+>  2 files changed, 53 insertions(+)
+>  create mode 100644 meta/recipes-support/libseccomp/files/run-ptest
+>  create mode 100644 meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-> index 168bff4137..a5adf81f3b 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-> @@ -34,6 +34,9 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
->  X11ENABLEOPTS = "-Dximagesrc=enabled -Dximagesrc-xshm=enabled -Dximagesrc-xfixes=enabled -Dximagesrc-xdamage=enabled"
->  X11DISABLEOPTS = "-Dximagesrc=disabled -Dximagesrc-xshm=disabled -Dximagesrc-xfixes=disabled -Dximagesrc-xdamage=disabled"
->
-> +QT5WAYLANDDEPENDS = "${@bb.utils.contains("DISTRO_FEATURES", "wayland", "qtwayland", "", d)}"
+> diff --git a/meta/recipes-support/libseccomp/files/run-ptest b/meta/recipes-support/libseccomp/files/run-ptest
+> new file mode 100644
+> index 00000000000..54b4a63cd2c
+> --- /dev/null
+> +++ b/meta/recipes-support/libseccomp/files/run-ptest
+> @@ -0,0 +1,4 @@
+> +#!/bin/sh
 > +
-> +PACKAGECONFIG[asm]        = "-Dasm=enabled,-Dasm=disabled,nasm-native"
-
-Fails on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/3358/steps/11/logs/errors
-
-stdio: ERROR: gstreamer1.0-plugins-good-1.16.3-r0 do_configure: QA
-Issue: gstreamer1.0-plugins-good: configure was passed unrecognised
-options: asm [unknown-configure-option]
-stdio: ERROR: gstreamer1.0-plugins-good-1.16.3-r0 do_configure: Fatal
-QA errors found, failing task.
-stdio: ERROR: Logfile of failure stored in:
-/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/gstreamer1.0-plugins-good/1.16.3-r0/temp/log.do_configure.1203818
-stdio: ERROR: Task
-(/home/pokybuild/yocto-worker/beaglebone/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb:do_configure)
-failed with exit code '1'
-stdio: ERROR: Command . ./oe-init-build-env; bitbake core-image-sato
-core-image-sato-dev core-image-sato-sdk core-image-minimal
-core-image-minimal-dev core-image-sato-ptest
-core-image-sato:do_populate_sdk -k failed with exit code 1, see errors
-above. (1619285301.1: 548.0)
-
-Steve
-
->  PACKAGECONFIG[bz2]        = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
->  PACKAGECONFIG[cairo]      = "-Dcairo=enabled,-Dcairo=disabled,cairo"
->  PACKAGECONFIG[dv1394]     = "-Ddv1394=enabled,-Ddv1394=disabled,libiec61883 libavc1394 libraw1394"
-> @@ -48,7 +51,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
->  PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
->  PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
->  PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
-> -PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native"
-> +PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
->  PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
->  PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
->  PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
+> +cd tests
+> +./regression -a
+> diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+> new file mode 100644
+> index 00000000000..667d5da8242
+> --- /dev/null
+> +++ b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+> @@ -0,0 +1,49 @@
+> +SUMMARY = "interface to seccomp filtering mechanism"
+> +DESCRIPTION = "The libseccomp library provides and easy to use, platform independent,interface to the Linux Kernel's syscall filtering mechanism: seccomp."
+> +SECTION = "security"
+> +LICENSE = "LGPL-2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
+> +
+> +DEPENDS += "gperf-native"
+> +
+> +SRCREV = "4bf70431a339a2886ab8c82e9a45378f30c6e6c7"
+> +
+> +SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5 \
+> +           file://run-ptest \
+> +           "
+> +
+> +COMPATIBLE_HOST_riscv32 = "null"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools-brokensep pkgconfig ptest features_check
+> +
+> +REQUIRED_DISTRO_FEATURES = "seccomp"
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[python] = "--enable-python, --disable-python, python3"
+> +
+> +DISABLE_STATIC = ""
+> +
+> +do_compile_ptest() {
+> +    oe_runmake -C tests check-build
+> +}
+> +
+> +do_install_ptest() {
+> +    install -d ${D}${PTEST_PATH}/tests
+> +    install -d ${D}${PTEST_PATH}/tools
+> +    for file in $(find tests/* -executable -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
+> +    done
+> +    for file in $(find tests/*.tests -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
+> +    done
+> +    for file in $(find tools/* -executable -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tools
+> +    done
+> +}
+> +
+> +FILES_${PN} = "${bindir} ${libdir}/${BPN}.so*"
+> +FILES_${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
+> +
+> +RDEPENDS_${PN}-ptest = "coreutils bash"
 > --
-> 2.24.0
+> 2.25.1
 >
 >
 > 
