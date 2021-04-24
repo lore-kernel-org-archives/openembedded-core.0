@@ -1,76 +1,80 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web09.7063.1619273904991228670
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.7181.1619274396219342590
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 07:18:25 -0700
+ Sat, 24 Apr 2021 07:26:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y9tXKLPV;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id h15so15387709qvu.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 07:18:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d3F6g/bb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id p6so44563376wrn.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 07:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O9q2sdLXMKy9qsWKQPr9OQHgKdSVAiVU9kwg7LtkK5A=;
-        b=Y9tXKLPVfCCVIhYKDFlIqOXEKJsWakI5Rd4iBlOJXxwIwfMh71XEgSE//uUto7fXSP
-         /oQqUtqt3zigpBb+ucrtkk0K8VXu7GKn04bkIVp4QyX94o4w/qlDeV7/50uV0dS0Bbst
-         PSWp8A1Z3h5Cw9563PvxzraREBjBgbsxS/aG4c9PvS1fDimDy5xfHMFXFG6bkvtEJ+VL
-         KJKmdmHPSb+ZSEm6fKmRA2GmkvhM3GV4EaL2bfkkhU33bRjKoD8MOEFas5Xt0217JS6s
-         Lpq6OkIASn+LanFUs7sC9aealslJotKIIBL8i6ZfXHbQJ4puKjAXVdvSSM+XpjM0xjAC
-         yskA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vxzNLbNRKzoto7OHeEm4wZVAGSwCG1250LuVwl5zYV8=;
+        b=d3F6g/bbw26rVI1V5jAQnVo+3+j9nSX8T+ad3O+cOL4BGkPahyn2jISSDZWqpxEhxE
+         AlWSO9a1uh0lPiDfQIiy5HS49LqaABOxUYQzWeuRRL4LRMm8TCoKkeW4dDOIIqNA9Zgo
+         9dFAdZfZFnl4l8paIJm0iwU8BIjXS1NE9bveQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O9q2sdLXMKy9qsWKQPr9OQHgKdSVAiVU9kwg7LtkK5A=;
-        b=QGHF7QBP3KiWcuvnP5VtSEpkG4kk8FFR+33u2QiHyM/JYpFVXLXA8siCruA3hhFl6e
-         BD1XXhNAjHGiUUiSjRMCAtJBg6nViM7f1fwVt5VHtXCwt9DoYgqn8CuG6kwDq91UC9tb
-         svcOvsIFp12tNW3ZAal9+KnN9iXUF6LCrWaaMbhDpayaQoLiECZP8SRWXHyvX1YFAJQX
-         9tFqHMCLFit6ux7EBrBPd82QNBuIcywJf+nA40HWY9k6FqHPzACDHz10Hub3lfUBfQYV
-         G1bCa3VAkf49D0pOT0Rc23RVi7QUb8IYM2nCOxJHlQQuGw/M+l2vJnMYbUfAESX56K4c
-         HuKA==
-X-Gm-Message-State: AOAM530puW9yj64YcwP7q2eufAOTdJ+qjtiOLpZelcVD0iXBd/J9uGpY
-	seyDLbTaURlbpPylJJgVtafBEKzlovD+vuvafB4=
-X-Google-Smtp-Source: ABdhPJwnt3SEQ36le1iHBVuKqUM1loQLuk3UW/lG3+glQHalnOBuYFGZTuZinnEoNz3C1yJdLxjEteqJ557R5Cly7/Q=
-X-Received: by 2002:ad4:438e:: with SMTP id s14mr9479250qvr.31.1619273904122;
- Sat, 24 Apr 2021 07:18:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vxzNLbNRKzoto7OHeEm4wZVAGSwCG1250LuVwl5zYV8=;
+        b=fMQnhRa7YsHOL8U9GBk+v/zCYn/6L4ZiAynfxmeiACX35frTh60lMNFn0e93lSkGm6
+         gLxvjPASMx6IctOnoy7DTl1ClQ7rFI9+mX+OdDMwxYZ5YepcTBqhMXb0yUzr0o8wifzz
+         I8rbEOhjuGH/03QfpQ3p0gkh8By4gOzU/lJGuxamjFULoJWAqJpkod4adLmX3Z0RXgBQ
+         V/w7g99Llb2RPJCoWhodHvcIU7iHhwm6ZWaAEMWDdEuhT+bIKPEBkWAaS0vnBfY50bCA
+         uaZ0jVJBf9cQe5drzP7sg0h2GajvXO1XPXWtGYwg1GFIfO5XHBaAUpFs+M850rdAieUF
+         as+w==
+X-Gm-Message-State: AOAM533xE/3y7/O3dzzC4GTF5ilxt5fhObPQ1OQtfmHYerIo1QlugxWL
+	FL3v0cbiLC6me7zfw5gL0B9YfUA02SdskA==
+X-Google-Smtp-Source: ABdhPJyA2Pe6Q0y4KtZfcY1wBQHPRca3IWQOaMxrOl1oKeHACPYwDrfaMPA8El+Gk4bJix55gT6I9Q==
+X-Received: by 2002:a5d:660c:: with SMTP id n12mr3917301wru.87.1619274394351;
+        Sat, 24 Apr 2021 07:26:34 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5c62:6d9d:139d:d68c])
+        by smtp.gmail.com with ESMTPSA id 186sm14189080wme.10.2021.04.24.07.26.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Apr 2021 07:26:34 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] yocto-check-layer: Avoid bug when iterating and autoadding dependencies
+Date: Sat, 24 Apr 2021 15:26:33 +0100
+Message-Id: <20210424142633.1646440-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210424135152.1645643-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210424135152.1645643-1-richard.purdie@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 24 Apr 2021 07:17:57 -0700
-Message-ID: <CAMKF1sqztuEgo=tNnrnmNmT+d767_RYaLPmMUv42MmC7zZTirA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pyyaml: Add missing HOMEPAGE
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-thanks for fixing it.
+If iterating a layer with multiple components and auto-adding dependencies
+the tests can break since layers are never removed and order isn't guaranteed
+to account for that.
 
-On Sat, Apr 24, 2021 at 6:51 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Add a HOMEPAGE to the new recipe to avoid sanity test failures.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb b/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
-> index c3025fdc662..dce1ad57d3f 100644
-> --- a/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
-> +++ b/meta/recipes-devtools/python/python3-pyyaml_5.4.1.bb
-> @@ -1,5 +1,6 @@
->  SUMMARY = "Python support for YAML"
->  DEPENDS += "libyaml ${PYTHON_PN}-cython-native"
-> +HOMEPAGE = "https://pyyaml.org/"
->
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=6d8242660a8371add5fe547adf083079"
-> --
-> 2.30.2
->
->
-> 
->
+Fix this by resetting the layer list back to the original list each time
+before auto-adding the dependencies in each case.
+
+This fixes scanning of meta-openembedded in particular where the sublayers
+may not be added in order of minimal dependency.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/yocto-check-layer | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index b7c83c8b543..deba3cb4f8c 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -138,6 +138,9 @@ def main():
+                 layer['type'] == LayerType.ERROR_BSP_DISTRO:
+             continue
+ 
++        # Reset to a clean backup copy for each run
++        shutil.copyfile(bblayersconf + '.backup', bblayersconf)
++
+         if check_bblayers(bblayersconf, layer['path'], logger):
+             logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
+                "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
+-- 
+2.30.2
+
