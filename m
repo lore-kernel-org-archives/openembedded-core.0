@@ -1,92 +1,76 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web12.315.1619279805992931152
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.273.1619279806918270405
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 08:56:46 -0700
+ Sat, 24 Apr 2021 08:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SNBCPRSG;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id m17so655843plc.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 08:56:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gL4HVIPd;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id a12so36061511pfc.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 08:56:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QZy4u2bgdLOzUIysKFo7gtR/IOFYnJiReKNiTsrZooM=;
-        b=SNBCPRSGem1CEHmyq8Gcw4CLNgbK74IlW/FrqeXwtfWiYNgxvfKhNydT6Xx8vYQbV+
-         I1i23BKB+PYSkVtaVMEBX7GKt0b2Vd6iUitRWx0FVjfn49lG7daKvVwY5TQw2rES18Dj
-         q2UhK88U1J2NDfZDMgd84TIdLDvkjm3xE7GkkIoT8y2HkBlYgcgWLG+ytL+pU6UufNig
-         67oShOEPebfAfopHwN+BRDyiQ0E55IgbEr8iM4DU5jRNHklHCq/IIYFauM95HFOgMjrc
-         RXe7iKgwmWDaYglWUePybi3T0FiOfkRFaOOyKYpzbCsAwPJPp7CpcLGFliJQP5D9Tfyb
-         eurA==
+        bh=dgX4bmvb7pw83rYr7rJc0CBNkIY9cpa98RFpl9xqzL4=;
+        b=gL4HVIPdxXtWLoEeJZ8FND/6mdWNjwoPhg4F5biomd/NTNWI15Jbbk1kLjC9c44sP2
+         HosPsey2Xssc5rEvs6LWftZ6N3AaKvSJPBOtmP7RE57eN0HJC9IQBm2LHq9aYHyA2rB3
+         gDNidgW3USx9nnP2xCsfkogWC2ydiaDy1D9KN2a8GTJj/yyuQiNstdGwRcm/IKwepzs0
+         /IGDEhUI++YGWP6oW0Be1WRvsmDiZNL9TOUCOEg/hfUP/8b1VEJ9cAvJhBkyg0CIh1t6
+         Znn5a9DX8k0hlTokLvc/u9STI6I+FKltuqH/JQacdp8zEINgLnHlHc76bYlxLoghY8Ml
+         cnLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QZy4u2bgdLOzUIysKFo7gtR/IOFYnJiReKNiTsrZooM=;
-        b=h/nPrejztHs9JZZnES5gvPflUsgqRs6NxJIGV7USB6ZZgDNXgcS2T2Fif0UjlpZKsE
-         vzLHvfc7sEqJHjbrh6hLDwtZEuXBMmXV1sD+mxeRo4iBhuqTgusDWr4Emt/zBvIgMsir
-         qcr2p5eMr4egC49BvY/wOXTneALZpN0U1ASa9JAC5YdiD+W/cEmm8xFU0p/oOY51QSEe
-         fpI65wd2nOgJrQ4CzvlVaYRmazoQv+IR1tRUM3zD9zvsEq4KX5KPw3aH7/r6uoL1LP9Q
-         KmVUPCOALKqFbb5+hYPI4RZdA92bqXgv+iEtlHajMnmtR2MEoAx4mW1uzCYeIYxLTeyh
-         xd4w==
-X-Gm-Message-State: AOAM5313niGzw3TQvSRKCmdn64gmbEtfByU75TKBbE3K3yjHJ562cqEN
-	MOtez0HzgBSPLPAeAx2YFKR6l/7XyzXkgg==
-X-Google-Smtp-Source: ABdhPJz29QKOLfWAZ/S5uTRT5AdO7m5BzZjof9FXpP73YMwy+8/YvCeMWAzuAitMThr4AMLByPIWDA==
-X-Received: by 2002:a17:90b:88f:: with SMTP id bj15mr11986336pjb.147.1619279805477;
-        Sat, 24 Apr 2021 08:56:45 -0700 (PDT)
+        bh=dgX4bmvb7pw83rYr7rJc0CBNkIY9cpa98RFpl9xqzL4=;
+        b=aGep6S1N/MGpXaPJjeDcTO5weqwWigrqJyPsoJq7Z67N4vzbpF5QM4EmGTqeTuOdz3
+         ZeL0J0JKuKZpblNm1ZevzWqrC+o8hiMHqrMxN6axnt1PV6JfEE6X+GhAuu1CF8tbhgIb
+         8JhlNv5tBe4pD7FcIJZ1+go0TBJa+qxth0ZXMkFG8uRbsg3cD2iVmc0yplmKXVBmyHnL
+         HTa/DRbs0iATrPpq/W4EaoxSioWcFmYBIxXmqJY6T0oUcanN09VicR2I19dQNuA3ZxX9
+         sk3rZIF5CdU3pEKA1uplTN/LWqupkoGmpCdCJp79vxUEhXNb6UznZh4iTmi7zYDCjPOg
+         h5Jg==
+X-Gm-Message-State: AOAM533aiKqZRiuq7zOihi2zP8kKCyFeQ0fbIEkGwGiqvwsN21NRKYtN
+	SgBRZjAC3/TNqCrpM9ayI4jTNEqNmGvVpQ==
+X-Google-Smtp-Source: ABdhPJxkxBrxtzxV3p0NKudpG5dyG0/3OyxVxiCmLwwaLRTSpOtjSv6pVpM8M7sg+/N8vytYeEiQAg==
+X-Received: by 2002:a65:4c89:: with SMTP id m9mr8768495pgt.330.1619279806375;
+        Sat, 24 Apr 2021 08:56:46 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
-        by smtp.gmail.com with ESMTPSA id a20sm7198299pfi.138.2021.04.24.08.56.44
+        by smtp.gmail.com with ESMTPSA id a20sm7198299pfi.138.2021.04.24.08.56.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 24 Apr 2021 08:56:45 -0700 (PDT)
 From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/6] packagegroups/packagegroup-base: add seccomp grp
-Date: Sat, 24 Apr 2021 15:56:38 +0000
-Message-Id: <20210424155639.1131482-6-akuster808@gmail.com>
+Subject: [PATCH 6/6] default-distrovars.inc: Add seccomp to DISTRO_FEATURES_DEFAULT
+Date: Sat, 24 Apr 2021 15:56:39 +0000
+Message-Id: <20210424155639.1131482-7-akuster808@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210424155639.1131482-1-akuster808@gmail.com>
 References: <20210424155639.1131482-1-akuster808@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This allows for inclusion of the package when
-the FEATURE is set
+Since xattr is included, seccomp should be too
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-base.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 6d4d7e6f7e7..3482ea43133 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -38,6 +38,7 @@ PACKAGES = ' \
-             ${@bb.utils.contains("DISTRO_FEATURES", "ppp", "packagegroup-base-ppp", "", d)} \
-             ${@bb.utils.contains("DISTRO_FEATURES", "smbfs", "packagegroup-base-smbfs", "", d)} \
-             ${@bb.utils.contains("DISTRO_FEATURES", "zeroconf", "packagegroup-base-zeroconf", "", d)} \
-+            ${@bb.utils.contains("DISTRO_FEATURES", "seccomp", "packagegroup-base-seccomp", "", d)} \
-             \
-             '
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 9fcc10f83a7..45f4633c354 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
  
-@@ -76,6 +77,7 @@ RDEPENDS_packagegroup-base = "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'ipsec', 'packagegroup-base-ipsec', '',d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'ppp', 'packagegroup-base-ppp', '',d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'packagegroup-base-zeroconf', '',d)} \
-+    ${@bb.utils.contains("DISTRO_FEATURES", "seccomp", "packagegroup-base-seccomp", "", d)} \
-     "
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat"
++DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
  
- 
-@@ -343,3 +345,7 @@ RDEPENDS_packagegroup-base-serial = "\
- SUMMARY_packagegroup-base-phone = "Cellular telephony (voice) support"
- RDEPENDS_packagegroup-base-phone = "\
-     ofono"
-+
-+SUMMARY_packagegroup-base-seccomp = "Seccomp support"
-+RDEPENDS_packagegroup-base-seccomp = "\
-+    libseccomp"
 -- 
 2.25.1
 
