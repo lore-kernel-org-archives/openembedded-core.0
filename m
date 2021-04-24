@@ -1,76 +1,143 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.273.1619279806918270405
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web12.580.1619281168696206631
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 08:56:47 -0700
+ Sat, 24 Apr 2021 09:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gL4HVIPd;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id a12so36061511pfc.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 08:56:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XjreUnG8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id x11so52569029qkp.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Apr 2021 09:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=dgX4bmvb7pw83rYr7rJc0CBNkIY9cpa98RFpl9xqzL4=;
-        b=gL4HVIPdxXtWLoEeJZ8FND/6mdWNjwoPhg4F5biomd/NTNWI15Jbbk1kLjC9c44sP2
-         HosPsey2Xssc5rEvs6LWftZ6N3AaKvSJPBOtmP7RE57eN0HJC9IQBm2LHq9aYHyA2rB3
-         gDNidgW3USx9nnP2xCsfkogWC2ydiaDy1D9KN2a8GTJj/yyuQiNstdGwRcm/IKwepzs0
-         /IGDEhUI++YGWP6oW0Be1WRvsmDiZNL9TOUCOEg/hfUP/8b1VEJ9cAvJhBkyg0CIh1t6
-         Znn5a9DX8k0hlTokLvc/u9STI6I+FKltuqH/JQacdp8zEINgLnHlHc76bYlxLoghY8Ml
-         cnLg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4+FQTLHhtQjEtmhN6EUEOSiskjnzqi9aATeUWynFFDk=;
+        b=XjreUnG8l9mGx35tL+6tuRUMK7zha2yVGqnwNgwngcCuS4/8ONAXy9SvgJty88EdON
+         9KhQZKXPjQomI/iiSuhzC9XPS3v8TXHRhb+M7lkXQxzq0nFRtWR6H437PihUfnXp1tkv
+         7HSzp34l1Rou7qZ/Mxq/rRzc6Ecz2u4ACz+W3qJELgGyhli1nkuFfTm70mj3J0P52Cu1
+         fOliEFQldDrZz8NVKaUAVWb2RtC2tTTE1eY3jXkxRgd1aFURcUC2JWDp+O9+WspCj7z8
+         OsfTaRX9Exu5fCxvAwtRjU3CrWREhM9kfHP40oN08i/shiDGkzVSUjkLxjYBLzsrgdbr
+         25Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dgX4bmvb7pw83rYr7rJc0CBNkIY9cpa98RFpl9xqzL4=;
-        b=aGep6S1N/MGpXaPJjeDcTO5weqwWigrqJyPsoJq7Z67N4vzbpF5QM4EmGTqeTuOdz3
-         ZeL0J0JKuKZpblNm1ZevzWqrC+o8hiMHqrMxN6axnt1PV6JfEE6X+GhAuu1CF8tbhgIb
-         8JhlNv5tBe4pD7FcIJZ1+go0TBJa+qxth0ZXMkFG8uRbsg3cD2iVmc0yplmKXVBmyHnL
-         HTa/DRbs0iATrPpq/W4EaoxSioWcFmYBIxXmqJY6T0oUcanN09VicR2I19dQNuA3ZxX9
-         sk3rZIF5CdU3pEKA1uplTN/LWqupkoGmpCdCJp79vxUEhXNb6UznZh4iTmi7zYDCjPOg
-         h5Jg==
-X-Gm-Message-State: AOAM533aiKqZRiuq7zOihi2zP8kKCyFeQ0fbIEkGwGiqvwsN21NRKYtN
-	SgBRZjAC3/TNqCrpM9ayI4jTNEqNmGvVpQ==
-X-Google-Smtp-Source: ABdhPJxkxBrxtzxV3p0NKudpG5dyG0/3OyxVxiCmLwwaLRTSpOtjSv6pVpM8M7sg+/N8vytYeEiQAg==
-X-Received: by 2002:a65:4c89:: with SMTP id m9mr8768495pgt.330.1619279806375;
-        Sat, 24 Apr 2021 08:56:46 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
-        by smtp.gmail.com with ESMTPSA id a20sm7198299pfi.138.2021.04.24.08.56.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 08:56:45 -0700 (PDT)
-From: "Armin Kuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] default-distrovars.inc: Add seccomp to DISTRO_FEATURES_DEFAULT
-Date: Sat, 24 Apr 2021 15:56:39 +0000
-Message-Id: <20210424155639.1131482-7-akuster808@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210424155639.1131482-1-akuster808@gmail.com>
-References: <20210424155639.1131482-1-akuster808@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4+FQTLHhtQjEtmhN6EUEOSiskjnzqi9aATeUWynFFDk=;
+        b=WxASqaWg1t7qTEkT1lml6P94N/8j5y1gdAwoslkKOUeiMP5nmxwp7k3T3qaYNtA7ZN
+         mbFVA8Zzz2f0cO2tY8kYebYk9AFWsM5p4ocJAQaSSs95fqE1tkE8mnQjPIWifRMxuTMZ
+         Varwub5nLxKHMAwPPv8QcmZJowtBOYnWR6K4dK35NWkZdJlPUhEL7fQOmP171ODYgkcL
+         qtJFyS7qhVoQdyEmvodIxiexBiAE/d7kbO6hUuNzceeaBmfFuX2CtkOfAkWsK3p7b+k3
+         Fl/zN1yHO7v5Gpb5mdKJVrje80FpJ4tp3WM2hjw/2C8Hen9dBdXF12d2xXF96pnQrX7M
+         ofYw==
+X-Gm-Message-State: AOAM532Cldfp2fjZhO0ItUdzAzt5aw77ET/SJftzcVQZAswTqAxv6obE
+	M0pOzythcd/oOwdDbuL4bBTkhJ5x/vkBUsgDfyQ=
+X-Google-Smtp-Source: ABdhPJx3ylu5bEyuhE+9O4Hgzb7ptk3Y4oEfGBoUdSMzRapoBbB2SwRUZLGJ586V/JpYxPFTrlatuCoZSg06CRbsLtc=
+X-Received: by 2002:a37:9607:: with SMTP id y7mr9587567qkd.25.1619281167723;
+ Sat, 24 Apr 2021 09:19:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210424155639.1131482-1-akuster808@gmail.com> <20210424155639.1131482-2-akuster808@gmail.com>
+In-Reply-To: <20210424155639.1131482-2-akuster808@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 24 Apr 2021 09:19:01 -0700
+Message-ID: <CAMKF1spzMi=8N1+GevuLQzykUXdmaLyDDOPYh64uPEqpKYS8sw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/6] libseccomp: move recipe from meta-security to core
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Since xattr is included, seccomp should be too
+On Sat, Apr 24, 2021 at 8:56 AM Armin Kuster <akuster808@gmail.com> wrote:
+>
+> ptest results:
+> Regression Test Summary
+>  tests run: 1404
+>  tests skipped: 369
+>  tests passed: 1402
+>  tests failed: 2
+>  tests errored: 154
+>
+> Add feature_check so that the other recipes who can take
+> advantage of this funtionality can enable it.
+>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  .../libseccomp/files/run-ptest                |  4 ++
+>  .../libseccomp/libseccomp_2.5.1.bb            | 49 +++++++++++++++++++
+>  2 files changed, 53 insertions(+)
+>  create mode 100644 meta/recipes-support/libseccomp/files/run-ptest
+>  create mode 100644 meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+>
+> diff --git a/meta/recipes-support/libseccomp/files/run-ptest b/meta/recipes-support/libseccomp/files/run-ptest
+> new file mode 100644
+> index 00000000000..54b4a63cd2c
+> --- /dev/null
+> +++ b/meta/recipes-support/libseccomp/files/run-ptest
+> @@ -0,0 +1,4 @@
+> +#!/bin/sh
+> +
+> +cd tests
+> +./regression -a
+> diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+> new file mode 100644
+> index 00000000000..667d5da8242
+> --- /dev/null
+> +++ b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
+> @@ -0,0 +1,49 @@
+> +SUMMARY = "interface to seccomp filtering mechanism"
+> +DESCRIPTION = "The libseccomp library provides and easy to use, platform independent,interface to the Linux Kernel's syscall filtering mechanism: seccomp."
+> +SECTION = "security"
+> +LICENSE = "LGPL-2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
+> +
+> +DEPENDS += "gperf-native"
+> +
+> +SRCREV = "4bf70431a339a2886ab8c82e9a45378f30c6e6c7"
+> +
+> +SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5 \
+> +           file://run-ptest \
+> +           "
+> +
+> +COMPATIBLE_HOST_riscv32 = "null"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools-brokensep pkgconfig ptest features_check
+> +
+> +REQUIRED_DISTRO_FEATURES = "seccomp"
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[python] = "--enable-python, --disable-python, python3"
+> +
+> +DISABLE_STATIC = ""
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+do we need apps to use some static libs ? if so which library is it,
+Or is it all internal?
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 9fcc10f83a7..45f4633c354 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
- LOCALE_UTF8_IS_DEFAULT ?= "1"
- LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
- 
--DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat"
-+DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
- IMAGE_FEATURES ?= ""
- 
--- 
-2.25.1
-
+> +
+> +do_compile_ptest() {
+> +    oe_runmake -C tests check-build
+> +}
+> +
+> +do_install_ptest() {
+> +    install -d ${D}${PTEST_PATH}/tests
+> +    install -d ${D}${PTEST_PATH}/tools
+> +    for file in $(find tests/* -executable -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
+> +    done
+> +    for file in $(find tests/*.tests -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
+> +    done
+> +    for file in $(find tools/* -executable -type f); do
+> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tools
+> +    done
+> +}
+> +
+> +FILES_${PN} = "${bindir} ${libdir}/${BPN}.so*"
+> +FILES_${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
+> +
+> +RDEPENDS_${PN}-ptest = "coreutils bash"
+> --
+> 2.25.1
+>
+>
+> 
+>
