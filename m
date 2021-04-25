@@ -1,17 +1,17 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.63])
- by mx.groups.io with SMTP id smtpd.web12.8131.1619328791436308548
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (NAM04-DM6-obe.outbound.protection.outlook.com [40.107.102.57])
+ by mx.groups.io with SMTP id smtpd.web10.8685.1619336450498913790
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Apr 2021 22:33:12 -0700
+ Sun, 25 Apr 2021 00:40:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=a3FKKxqY;
- spf=pass (domain: windriver.com, ip: 40.107.94.63, mailfrom: qi.chen@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=MBByvCGg;
+ spf=pass (domain: windriver.com, ip: 40.107.102.57, mailfrom: mingli.yu@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m+QUAiFXJzdu/WO9l1RNqejBg+v7pZK5Up7O7nJP6jLkplEifb7fpF52uvgtMF5czgnQneUgjUvyDknV/0+K+nKTwNO/18c2Oe0iIO7/BkFXhPXpZd6cU4a1WZHVniJORsS77paZStD6B3eSgIBgdKxuTuKWZ4wV/Huv1+1SXEeLyAwi+ByXQi9aKZujjEmMHJuFYe/X0/TBfkN8nZbJAKEtKilcUo6Nx/H6ChSe4dMtxCIGCqgmQZgQyQ9t06zOCRpkSrG/xEoL5helwReeT9WDy9oCRliz/umObgIgSiKWXG6BqnXK9AH5RLGiNfJ7TcZjzjJh2iH1Iy/+eqhp+Q==
+ b=Ww3R3otWUkIInQMrX8np/Z11CSzop/ybKmbqLkxYccQpbnXnVjgurDU/H+pcviBVMMziZUCPUkJeYEScXb9Mqx01d3HA72DLWiWKdsKU6+x2JF8bVShuAcOrO7lfLPlYJIjVHxtNgT3NdmxmRAF9QOM1mmDBmSr0qvDQRnWAFNGS/aDRKjecAXPJvLOA2gs7yBtlAB3UFDYdTQ3cTYgn5+e7r+UFYsR9daZ6JBbAQyt6bNH4DYBFbuKhDDWq2pb6SBwsyro6hhiDDE0EUeiMP8hGdvlFgcljb5Ou33kpHN0cuitOfTLsqjxxnRc/wbNEgp0sWx9jggd87DEKqHtd2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8uXsT1L9b+ciAILcHUWNxIfHBa0/02e2T403Tp5GCQ8=;
- b=izYfQ4mgJgbxU3P9zg4Vj6cIxaNUd+pHOQ6TKiMP6RQdt1OERnbqzQKVxai/sxKLSmz9AkJHOIT4YjBo5CbdDP+SQPzOqRgFrQUOOlenyc1P/i8SPlrI8kn0tHxF0dbMS7HM1ucY08ZfQC/5BdvPZYurJgFRpK2APvlQGG4P1zwaVkASSKU5vMvLQ9jMJ4S/pC+S9mQPtNhO0sznlX/ZAtwzQV7zfZOXrurWgzrkQv/XlayVAYyP2RqB1hVNU8Ig9m2gwxaf4rcEra3LPYrKgniIg14xobGIlQ9JTakGz6PaHRdxPMGy6Av2TnfMn+Hgi+dUU74zAAa6FzflPnn7Cw==
+ bh=QEzezoesx4EwmKyXFVJ16tss86apGXOqoxYLfg1DhCE=;
+ b=CW92SZmiyLNWP/20CBQOE0eGBSUAwr+GzW2XArJapvrcROjLcd25HTNvyZsS4e4+7T3wRTrmH72dKO1lpyiEh9vGTL4BLnbfmZySOLd+lnnCIlxSrPKyLdGah5WAtm/m2daNAnAw00gzoiSTrHlncr73f17ELYc73sDsvQsCB19MY5N47UZqvabriMb+hnDsDz+DBLGWZ4MvUpz2EAY0/MERjoEYg4Ud4gqKux1Pgwq3u5UvfH8MHbQUwVYEJISAOsI+2lU3HdkP8E2c1S6M85K6iGNDOjy+cqTMDmtJWFq6nlFT9WBRlLOsjwTHMHpBt1fO4eXnwkwYvCcdIljOIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,141 +19,168 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8uXsT1L9b+ciAILcHUWNxIfHBa0/02e2T403Tp5GCQ8=;
- b=a3FKKxqY8wMLzPqvFWdFcpOKVMfmFpAL5ZBsdR+s8XgGV7WfTI4o0WMJdiJcF3x3kxrw2P35VnUIa5HbSsvsnFoCy0Ay2sdCyclRcs2oaY52/GqZzy9+ZLWkGixi3avFByPUp35xjEeLrlBSoMAnJKyGAZZ23v+V7gB8NoR2Jms=
+ bh=QEzezoesx4EwmKyXFVJ16tss86apGXOqoxYLfg1DhCE=;
+ b=MBByvCGgYpDDUmPrSPPDgaMSq4RvBc1eEt4tyfwgnJ3AANqa1ELnXKfB7gMo0ko3/aPB2afh01pRbCs1XJCm+7rFH9rekg2/kQ2dIMI3eE7NU0i1LVVnbuRg4WCPOUGtcz/gpGLAqrcb9Qogy6HL0pLGfpYuqxKCkoX90C6ZPug=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by SJ0PR11MB4814.namprd11.prod.outlook.com (2603:10b6:a03:2d8::23) with
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.22; Sun, 25 Apr
- 2021 05:33:10 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::5091:f32:2586:572b%7]) with mapi id 15.20.4065.025; Sun, 25 Apr 2021
- 05:33:10 +0000
-From: "Chen Qi" <Qi.Chen@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Sun, 25 Apr
+ 2021 07:40:48 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::c129:2a53:5093:81e8]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::c129:2a53:5093:81e8%3]) with mapi id 15.20.4065.025; Sun, 25 Apr 2021
+ 07:40:48 +0000
+Subject: Re: [OE-core] [hardknott][PATCH] rpm: Upgrade to 4.16.1.3
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][hardknott][PATCH] rsync: fix CVE-2020-14387
-Date: Sun, 25 Apr 2021 13:32:52 +0800
-Message-Id: <20210425053252.1972-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
+References: <1678663A5E8DE32D.14065@lists.openembedded.org>
+Message-ID: <81b76930-4252-5e00-e410-8b5eca1dc4e4@windriver.com>
+Date: Sun, 25 Apr 2021 15:39:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1678663A5E8DE32D.14065@lists.openembedded.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0066.apcprd04.prod.outlook.com
- (2603:1096:202:14::34) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+X-ClientProxiedBy: HK2PR02CA0177.apcprd02.prod.outlook.com
+ (2603:1096:201:21::13) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK2PR04CA0066.apcprd04.prod.outlook.com (2603:1096:202:14::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend Transport; Sun, 25 Apr 2021 05:33:08 +0000
+Received: from [128.224.162.140] (60.247.85.82) by HK2PR02CA0177.apcprd02.prod.outlook.com (2603:1096:201:21::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.20 via Frontend Transport; Sun, 25 Apr 2021 07:40:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ade4ebbf-ba37-401c-fe5d-08d907ab9c6c
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB4814:
+X-MS-Office365-Filtering-Correlation-Id: ec63335d-774a-438d-0e47-08d907bd7177
+X-MS-TrafficTypeDiagnostic: MW3PR11MB4555:
 X-Microsoft-Antispam-PRVS: 
-	<SJ0PR11MB48145906993CA979C03D92B5ED439@SJ0PR11MB4814.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:94;
+	<MW3PR11MB45556F216571E9990B228EA8F1439@MW3PR11MB4555.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	qTlZozsLW+smzIUh/viIn6F8W7FouNbLFWHDnXdJdgkWaCwIXFNom6bmwyvoUWZGmdP6H1Quk6RBFcrv15CmJikajU1/3ozXF8y/8JXDNR7oQ1Kdvf0+ErI9i/G0XGWPFKWDTyKGInrkZR/9y4prwUi7beWYE6QDF3x6VrOnAOpMi/A3Z+3KPGOtQ8HCYWrDKVvQ2O0OZ40Ur6r+vmd2LMmBQizhvYorcn2f5KY/GFbuGwz3hIbXhxHNliGjUWzomI+HhJRDeNycc4PXeH/nNsKn0VER9zzk0B3sNrdKTAhtGYUgeRiUiAsPkFuVlrdrVVV78OMiuHqd+BOiEZbuZbjE370SpLFbkWhjLQOSMWHwZdk93EKVDMiybpPCdQwl1poI6GMNuiS9k+gYIinuQVAzpOc1rWoutBKsk7WDEJSq9XTAvJuAfsrAEzpPP9O61bLNr2nkvGP1cKfB+0j2dlCZdFMwn6NRrrWna3QXYrAatescJnxdxcgo/rE3oENKW4ikOwaV9JT7v/Nd7lhpDmxJcO0ETX9enzCfCPEUGsp62eaPMCvITadgEvuuqBnXivZ5gXDU3nSKjo5DgFlZHJZirMRJ7X1514I07HQaq3WhPd2CxOExVJdXAzBwXtAoBWg170Vxk4jMzqHvUFdU+5OMmvo8ZhpyQOG+Ec0LWxK8eOxe2xA0tnR9uhClNZqltk9GOSl1cw8NApaKMc0XM8qrEbIZQ51gZrPpMIgm+cI=
+	i7vdR1Z38WVuKyDPcfqKsH/jH5hBxefZh0yFFQNaZuPm2jzAgoZF+3dnoU9DnNgyGH//cAwESbkpuZFne3dd1dW8CrAfkJagbau0IkfROGSTe55lS8IadLZOfkowLWE4+Z2YDpnOewmBLpKZkd+9yrjxdjB4meXV/54j2DBBP7iy+yYXYM30TXrTl6AyObiB0wY+Ze5m552ncs87Qw5moUX6tvhKvAYv8LYPjRe8EB2TlVJOpK0SdF6t9twkgSVr6hWkaPsAnQmpoLB0BgGSQVXmvfFEzje2yAemA5YRgdm4tLXEq+MJAQLFLkop801Xhrt5N+MkN6/MnIv11f5Vz+4kSDptOEyNcY4FTsJMPd7wWZlkcLn9+dJGfTbLpV6Y4qw6gUruJviC2nc6pdkOOUcl5Iw8yxFs1xF8hk3mxLGOyTNgspmSlK49s5DLB/SanvCI/V54fmDXAvwxAL1jO502qjLEpey7kH10GyAfu3BCEb6da/dFFogARnehUgh8/mfz99QyzbWfb4Wn+VqWZFTHklNy5z3CD0UVK9fJNcDq4Kni9juMqAHABJKrql7uFgqko0bXwPp8P4uDZVEcUxue8FEFXcIjjk9JvnoV7jxcJuAsg4zdMy0xXzJckXuLEdxhyp39biqwI0RQf5jR0eC5LM3rPsFLAiO60Msau9DW3OH8xQR0jGzVzw8Pnho0560Saon//2RDOpfhApDFSDeot7isbkJGswVNKfquZM0DaYVADL8P6a+cVKc4M+wxhb4JPuZMU+3QeGYyB4U6qqp0S/PDH4XZaAt2o9iVjFWVRyvth8o/rWiC8fUEv4ZF
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39830400003)(6486002)(2616005)(956004)(186003)(36756003)(66946007)(26005)(8936002)(16526019)(38100700002)(6916009)(66476007)(86362001)(66556008)(6512007)(8676002)(52116002)(478600001)(2906002)(38350700002)(83380400001)(5660300002)(6506007)(1076003)(6666004)(316002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39830400003)(136003)(376002)(366004)(186003)(16526019)(2906002)(36756003)(8936002)(316002)(86362001)(16576012)(31686004)(66556008)(26005)(8676002)(6486002)(2616005)(956004)(66476007)(66946007)(5660300002)(966005)(31696002)(83380400001)(6666004)(38100700002)(38350700002)(478600001)(53546011)(6916009)(6706004)(52116002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?nryU00l+EmBiFHOD88PABMs+ipZUR8omcoRcsJkW/mk94M/rYdWQlrGuqPI+?=
- =?us-ascii?Q?C+DKczq+PzqiMrmVAPnmcLoaMX2rmi/PJHoR4nYMfgJGS4aY8HIqs1ZUikCw?=
- =?us-ascii?Q?BAL6NwNAE7oFZ2aMC6wKYckeMx/p4FkACC29Stk8kt/WuE3CzHgazzQjT1TM?=
- =?us-ascii?Q?C0OTXHSFjTIOTjbhn560VxV8qWURJL25OcJLtIrmQFncQAXSBJxDsqUdcGnW?=
- =?us-ascii?Q?0aRvH2ZsMLXdTOgODFdPXHSVAuRPU/240cSw/zv1FZsZidynFwMNQ9J9dJOw?=
- =?us-ascii?Q?1KIF4cpXlnM9ilqNtbEPgRVh1HQBbws1FfqgfXL8uEVCms9jsOOOLrG/splW?=
- =?us-ascii?Q?3rlwF6kuULrMVbXowOXFX8fdvfQ2Z/uJs/n7aggC6Y3+UiqYuRhGAxlveWyF?=
- =?us-ascii?Q?/D8ssZyKnlBEUVVdO3K76gzFd3thJSh4tDdhAAP2kRTiFzLLKtXgR3s68/r6?=
- =?us-ascii?Q?/k5kzhOYXva0wYfLHn1hDEjS0q6L5OAOPX1FjJn2L8daMPRjbGJ8vrW22Fd4?=
- =?us-ascii?Q?RziZFu6fuqjYg1r4KFA8cfNZ/f3LZoQBZXlicy+eZ5ggVyE+5grxpnHKespE?=
- =?us-ascii?Q?uBW5afrhDzUI7RIU9Knp7G4uTE91ZmDffwvQwxI+bxH5gQjt5jLRjDNxOoG9?=
- =?us-ascii?Q?XR5FRa++vstZ9vYjyNSAsUMrr4RAMB1Ssf6a6YwRUxT5T23yW1oRyuZ0HczV?=
- =?us-ascii?Q?gGMvtH5VuMMs/DG/BNym2/pwOlqnNQxPsr6ncKmar+Hj0H+B7uymlE/bSUh4?=
- =?us-ascii?Q?YnPOhdMFgRixqcA2ysD2rUDu1tWMhi6BTXSttQHHbFq1TeFND9sIQqKm4npz?=
- =?us-ascii?Q?uYSVPYxMl0lbPyochzE3XidpsqIOQAfBIgOhRrrpv1tfrgFztQBbN6mGLqEv?=
- =?us-ascii?Q?gv0Ax13aRNhc9kWVWM6L/Xw960+BqlBdnUm7fMVDnT61hW+bvlTB+Z4xcesw?=
- =?us-ascii?Q?y9tyZstg88rqZ8LaM7sF3VPYFrcNkKXu6hyMHMebX9Yep9VI5gY2fcHAKscO?=
- =?us-ascii?Q?kxiL85UElWT0ZuxwWQKEGWH3CZGSqyILa4cAgfwY2VRSf7g0z5KAsVysN0Tv?=
- =?us-ascii?Q?y0MVVr/Yu+bdatPnL5h/Eiw4GCjUplMgGck2+naa9zlo+kwHqM5TML18pOv6?=
- =?us-ascii?Q?YI/fp1dN//Vr7XsmBK8i9uEgnLRBIqVP5EQNUQzCzG138PaFZJKT3ZiAa2XC?=
- =?us-ascii?Q?eETH4QV0uzmKRRDUCmVXiryV9eT2of/geKvlHNY8my/sxFiEIceiolzxfHce?=
- =?us-ascii?Q?TAgTsnYtsjP8Pl4DdVMpCOJIArGSto3CXU8GqN4OcaaP3nzeCZC2TZ++tqw5?=
- =?us-ascii?Q?b/2V3BxOpisVAGvqAKoRBOy0?=
+	=?utf-8?B?TTlBU0VzQVVoeVREL3NIcHBNSEdNdEMxMlhHY3psdlhiMlE3TDFGNlJpbUlN?=
+ =?utf-8?B?OCtJV1BGTnFKNG4rUlQwVVZMd2EyaG91VFhPWjBXVWN5bGpJdTAva0JrUTRL?=
+ =?utf-8?B?dUFDVFlDbDlhbDdMVnIvbkhmMnVrUUlWbVRoNnM4Ykg3enl3bnZCUE1kNE82?=
+ =?utf-8?B?WnBNOFIvbVlYdlNuQlZIV2gvUEowMVZhRzBhM2pmc2NQV09mY1p4TEJSYVky?=
+ =?utf-8?B?NHE4SkNWN0RwL2tPT1dENDdicXVXZnlHYXIvc2tuM09wckZldlkxNGhkYUx6?=
+ =?utf-8?B?WlZhMFpKZWVJMmRFREU1anJkQXI1RlFSc3NKaGFQVlhvTTZNSUQ4THV1S090?=
+ =?utf-8?B?MDl0SzlZaEk4cGdRT2JQUnprVEpWSWVhWWdvMFlnb0JsMEVYTlZMUGM5ZGJv?=
+ =?utf-8?B?alhsZTZYbUJsRUR1RDBIZW1hSEs3Umx6WW80eUlQUzBNdnlFRGNkdXNYWlRS?=
+ =?utf-8?B?V1JUTm9mUWFieE1sK1J0TmYxRklEMkp0T1dONlVCakZtRmExTW96QXZBZ2pD?=
+ =?utf-8?B?cTdYZzh0R0hRd3ZSUmxuK2RkQ2xWcm5GZlVlQjZMeFVSTnozRXlUa1ZJL3Fw?=
+ =?utf-8?B?UHdralcyam1QVDVJaEZZdllSdHRTTG9sZVI5RGVOeWdUNXpnY29hbkJLZHZz?=
+ =?utf-8?B?akRBMXZ4c21GdW9KOXB6aTMyNitwR09CWjhrdVJaaFlGVFhTMXA5bHQ1Y09j?=
+ =?utf-8?B?UWs0SE5Vaytqa0REa0hFTW8vdzJvNXpOR0RFNXc0bjBOc3FxdVEyNEk3TkR5?=
+ =?utf-8?B?WTFxNDJtbEM0eGZzdDBFdmtTL3hBYWNVK3pzYVE3YjZYTGdTdDdxTlgzb3R3?=
+ =?utf-8?B?TEkwY3h4THFPRTZINWxrak8zR0FxWlM2T3VwV29wWnJuSVVjK3hya2d4KzVU?=
+ =?utf-8?B?bFNSZk84aWNvRm0xTzZwYnVnWk5JNE01UFZVWFRMYUI2YjFnUkZyUVV0UWww?=
+ =?utf-8?B?Z3RFSVBRdEJqamtEM1M5V1BvMEZrU3Nic05YR3ZwNG04a0JBcTZ1SGlyd2JW?=
+ =?utf-8?B?a0FISTNyRlVmNHZnUzZpS0xPYkJPUGJsWGZ6ZVNpTjZpRFZlMHRnbENrVU8w?=
+ =?utf-8?B?L2traHF0c1dyOVFIa2JTQS9yekVIQkVuTXdJME4yUVllcEV5QlBkdUg5N2E5?=
+ =?utf-8?B?Vi81b3BCWS9OUmtoTUtoUUpvUEhhb0JRZ0JabEtxWWtzRHk2UWUvZWd3WnRR?=
+ =?utf-8?B?YU1Md2tmbnJWQWhXRk15R2FXbk5ScXpncDJ5aWpkTS9RQVhTUVd3RWNFWVRO?=
+ =?utf-8?B?TnFQQzJQUW52clFzd05MSGc0QmNBY3oyMGl0Rm8rTUdNeUpTczVSQWtwU3NW?=
+ =?utf-8?B?MzVmbXZ4dVdzMGh2YkttS0YvRElzWnlyRHNJcFdHNGtaaEZvNlh2SDlXVHFE?=
+ =?utf-8?B?ajdTMm9LaTdVN3VHUkFZbHdQc1BBaEJVZE9hY1NMNGordXNKT1Y5ejBRUmFV?=
+ =?utf-8?B?dlJqYlZQZWdkN284cmRpNmFPenVmWDAyMkIzdXcrNC80aFErbFc3MVVmbmZB?=
+ =?utf-8?B?bk5nNHNUMExlaFd2YTBHU29jSTVtall6bC9aV2JpMS9jb3ZQLzhFMkdnOEU0?=
+ =?utf-8?B?ckdjRTgzeWYybXcyVk9ZM2d2OXdrZDEyNlEvNmRQOWdZRDBhMituOGsxSk4x?=
+ =?utf-8?B?ekpRWGQwTEVuMTdYWjIvcnFhYXFUb0xETkpncDZVVVdOREdOOVJqanhkRVVx?=
+ =?utf-8?B?ZUNBWTVjM3J2SnJIWmN6QnVsaHhnUTRYNy9acFBkRXpadlhiSE1DUXFFbVFJ?=
+ =?utf-8?Q?KGvw3ur8LQC57wnlJKpyAE7nFDR2cCh8Tai1auS?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ade4ebbf-ba37-401c-fe5d-08d907ab9c6c
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec63335d-774a-438d-0e47-08d907bd7177
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2021 05:33:09.9284
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2021 07:40:48.4253
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HgdwXZA7E+YhmO/QfTAwcyF8RQL4KAmQIUokTjAlBkRgaFrn2MCc+nJcVkfD6GHr/QLx/gDW32Hs0+NpDjItCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4814
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8caa0Q6XFGA5QvZXyBcnLDYnywuYrQZIajJf/Cfeyt9bI5eQGr8PSvZ4Y4NVPbntD4G0uSSC7SuqqY+2wxUdRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4555
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Backport patch to fix CVE-2020-14387.
+Ping.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...-the-hostname-in-the-certificate-whe.patch | 31 +++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.2.3.bb    |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
+Thanks,
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch b/meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
-new file mode 100644
-index 0000000000..2d51ddf965
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
-@@ -0,0 +1,31 @@
-+From fbe85634d88e82fbb439ae2a5d1aca8b8c309bea Mon Sep 17 00:00:00 2001
-+From: Matt McCutchen <matt@mattmccutchen.net>
-+Date: Wed, 26 Aug 2020 12:16:08 -0400
-+Subject: [PATCH] rsync-ssl: Verify the hostname in the certificate when using
-+ openssl.
-+
-+CVE: CVE-2020-14387
-+
-+Upstream-Status: Backport [https://git.samba.org/?p=rsync.git;a=commit;h=c3f7414]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ rsync-ssl | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rsync-ssl b/rsync-ssl
-+index 8101975..46701af 100755
-+--- a/rsync-ssl
-++++ b/rsync-ssl
-+@@ -129,7 +129,7 @@ function rsync_ssl_helper {
-+     fi
-+ 
-+     if [[ $RSYNC_SSL_TYPE == openssl ]]; then
-+-	exec $RSYNC_SSL_OPENSSL s_client $caopt $certopt -quiet -verify_quiet -servername $hostname -connect $hostname:$port
-++	exec $RSYNC_SSL_OPENSSL s_client $caopt $certopt -quiet -verify_quiet -servername $hostname -verify_hostname $hostname -connect $hostname:$port
-+     elif [[ $RSYNC_SSL_TYPE == gnutls ]]; then
-+ 	exec $RSYNC_SSL_GNUTLS --logfile=/dev/null $gnutls_cert_opt $gnutls_opts $hostname:$port
-+     else
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.2.3.bb b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
-index 8b36a8ebde..cb18667755 100644
---- a/meta/recipes-devtools/rsync/rsync_3.2.3.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.2.3.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://rsyncd.conf \
-            file://makefile-no-rebuild.patch \
-            file://determism.patch \
-+           file://0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch \
-            "
- 
- SRC_URI[sha256sum] = "becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e"
--- 
-2.17.1
-
+On 4/23/21 1:41 PM, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Fixes some security vulnerabilities such as CVE-2021-3421 and
+> CVE-2021-20271.
+> 
+> Rebase 0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+> to avoid fuzz warnings.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   ...ot-hardcode-lib-rpm-as-the-installation-path-for.patch | 8 ++++----
+>   .../rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb}              | 2 +-
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+>   rename meta/recipes-devtools/rpm/{rpm_4.16.1.2.bb => rpm_4.16.1.3.bb} (99%)
+> 
+> diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+> index 38d755205c..d8fcc16729 100644
+> --- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+> +++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+> @@ -1,4 +1,4 @@
+> -From 9bbe3f8564705aafcdcc5f2f033f9241a97f47c6 Mon Sep 17 00:00:00 2001
+> +From 7b2dd83d8fcd06af8e583b53da79ed0033793d46 Mon Sep 17 00:00:00 2001
+>   From: Alexander Kanavin <alex.kanavin@gmail.com>
+>   Date: Mon, 27 Feb 2017 09:43:30 +0200
+>   Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+> @@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>    3 files changed, 4 insertions(+), 4 deletions(-)
+>   
+>   diff --git a/configure.ac b/configure.ac
+> -index 6c78568e4..76b1d40e4 100644
+> +index fe35a90fa..b2faec6f3 100644
+>   --- a/configure.ac
+>   +++ b/configure.ac
+>   @@ -966,7 +966,7 @@ else
+> @@ -40,7 +40,7 @@ index 35c8cf9df..9d8b2825c 100644
+>    %_infodir		%{_datadir}/info
+>    %_mandir		%{_datadir}/man
+>   diff --git a/rpm.am b/rpm.am
+> -index cd40a16be..e6941e09f 100644
+> +index 8e1dc2184..3d889ec86 100644
+>   --- a/rpm.am
+>   +++ b/rpm.am
+>   @@ -1,10 +1,10 @@
+> @@ -55,4 +55,4 @@ index cd40a16be..e6941e09f 100644
+>   +rpmconfigdir = $(libdir)/rpm
+>    
+>    # Libtool version (current-revision-age) for all our libraries
+> - rpm_version_info = 10:2:1
+> + rpm_version_info = 10:3:1
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
+> rename to meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> index d369c706a2..7c03b41fc8 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.16.1.2.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.16.1.3.bb
+> @@ -43,7 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
+>              "
+>   
+>   PE = "1"
+> -SRCREV = "278883a704ea36c97974d0f2d65d41abe78b0e2a"
+> +SRCREV = "3659b8a04f5b8bacf6535e0124e7fe23f15286bd"
+>   
+>   S = "${WORKDIR}/git"
+>   
+> 
+> 
+> 
+> 
+> 
