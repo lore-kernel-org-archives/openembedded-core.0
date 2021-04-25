@@ -1,53 +1,48 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.4826.1619375234789666183
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web08.5253.1619377182358759353
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 11:27:14 -0700
+ Sun, 25 Apr 2021 11:59:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=guClNspn;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id p12so38624373pgj.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Apr 2021 11:27:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TCy9V1en;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id c19so1609815pfv.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Apr 2021 11:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=+pSMqgpVorgjtVH+YEN2a9pl9j3kr+TjTk2oyOEY/c8=;
-        b=guClNspnMol/0jOBzzLsg+75zRxIsxtpzT3v9ytzL+GdzPe9Wrx5i5Q3rE0oE/OxKY
-         iK97eji1aBn2OxnBrbh3yGMU9cROmjg29aNuaM7XFQYWX8AiMg5HYFvb3Q+i7WtvTh8L
-         ODS112O4kuQog3CXlvviEHsbWnIvH8uEplInTBXqLyAqi2s/72DuliPqvZLw6J2sEJeC
-         GTeFS05YYkSN8X8dZOX6ZPmBklvlLRyLUBIBUQ+GdxpV1+P78lNboTU3HnNlHYTihVJf
-         gOVU9DwpvF/b5mSpTg7jGjLJJC/kB3KTutUOHUYX4ZUf5A57Buiflo26IYTlIwoi9Zqi
-         pZWw==
+        bh=BrpGfSHQ8jUto3/pPw3e/1hCyHDdf3KnICBqBeIPvh8=;
+        b=TCy9V1enH5ButLOSBePHn7Tt8DiGpJKkTIy4e+wRuIdTWRO7a6LI1V6L3xbL5LZ7ef
+         MeKr3pXw7gHWhMkFu0EHMR6XaPzJAm4I98o2sLkdh8yPZI/RcKwU59in+hKiH0UxHsqA
+         Yyg3Wj/kc2OtDH4SG6x8pQ7d1/ty6XV2lqQngCuWGx5dJNgGd/q25oN1uILioN4FAguE
+         h5MfsoGNe/cwlQ4GTFjRQfSct6qkYlTKcsJA7zDZNZ9x0gH23fqzfNDF4E5dhl/VUXuN
+         ik8zYWSD/CN9givhUFeTQvZW/ASH88Jb4vuWzfrAAbDKUw8Fqtnnr1hq/gi8E2TSRur1
+         5YTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=+pSMqgpVorgjtVH+YEN2a9pl9j3kr+TjTk2oyOEY/c8=;
-        b=LJ3q22vOM8g3wXt7Pi7FMgMJ0KUuOmnrcEONKsRUU6vuHKdlDSyzhqNnyoHyT6I+Jx
-         L7YQDDa/ZeknUqfDdMquPI6mLMS4EvotU/DMTJS//C3zC9pHRR5TzqMq8BU2m/Gaqpp0
-         vNSe0pjry1d5LarcMfcWm88Kh2ITJFRs0oJbb7hqo/3+rvXE+v4AGxRSOVAUWctPm6Bv
-         efMN/XsEr32/Y6d/HmpHP+SZGjPL8HR1FlZmg0tSL2/oICVDbBOGc4uESAWTfNJfhbxX
-         fXHPQpLP4b/RoU7LzwmgKn8Gt3RbnGWX6rqVJm6UcDP/1ss08kO3ROTcA1kzl7tn2j0P
-         R75g==
-X-Gm-Message-State: AOAM531yGX8NlvpK2MoxWLcC8/lyW6JRfTqUtP4MvEI8r0Zkcsyi+KXo
-	eUdq0JNnjzNMEBNXC4AF8TTZtRf5jPWVFw==
-X-Google-Smtp-Source: ABdhPJxGovQ3f/Qf82yEwxmpkcBpqJVYVH1KzBsOcj1ezMm6cwrvXj+sEG+kDxlgfesiSJE9CITW0Q==
-X-Received: by 2002:a63:d111:: with SMTP id k17mr1910354pgg.362.1619375234190;
-        Sun, 25 Apr 2021 11:27:14 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=BrpGfSHQ8jUto3/pPw3e/1hCyHDdf3KnICBqBeIPvh8=;
+        b=Yb0mgOxdx/AlPr1k2mmOqBJdmmYEZ6wM6aStJYX/lSlQ563shsawXMiRiYE9aEsXp9
+         nsvIxacMM04igUeAWBmhQ7o5qwwmjAM74zo5Av6pBAQDut87z328Z4X3X22WX282GPlS
+         8jswpM49CrkqD+pOqlYjxvmv6R7PMDdq0zs0bVG4I4ZZK4GwAQNpi9GxB6WWwFSRPrOe
+         7KyCOwGf+4Ug0JHMw7FyWFtAaclGX8cRMzl2TVnqMevDvT/VH5CNcVxnPSzAx8IM0ScQ
+         KT+71B10hTL3si+MwTayNb08tOnB69Uyv42OK+H3W78ezyLkTVVn85wNGgeV3TqAr/U9
+         G9BA==
+X-Gm-Message-State: AOAM533yLIBW0thtw2uF9tskRaIFOxSycHU8QQ12dndsLwmkOMtSpY7W
+	nF4G7HcnKWEO7L2X3Nqb1ZGMc2VDuhiVLw==
+X-Google-Smtp-Source: ABdhPJxSiN5rfrWmLKP/jHUrh/S3Ogzarf7uRFntArSfXKV2f6kRddakBqHRKMLqRgKiCqdNbqge1A==
+X-Received: by 2002:a62:920d:0:b029:25d:102a:f0a4 with SMTP id o13-20020a62920d0000b029025d102af0a4mr13836000pfd.37.1619377181703;
+        Sun, 25 Apr 2021 11:59:41 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from ?IPv6:2601:202:4180:a5c0:880e:6a48:f6c3:8404? ([2601:202:4180:a5c0:880e:6a48:f6c3:8404])
-        by smtp.gmail.com with ESMTPSA id w14sm3483265pfn.3.2021.04.25.11.27.13
+        by smtp.gmail.com with ESMTPSA id o30sm9501262pgc.55.2021.04.25.11.59.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Apr 2021 11:27:13 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 1/6] libseccomp: move recipe from meta-security to core
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210424155639.1131482-1-akuster808@gmail.com>
- <20210424155639.1131482-2-akuster808@gmail.com>
- <CAMKF1sqK5+BHjiDcY=JJeueeUHw+3WPpu0hE-4EddpBF0OFvLQ@mail.gmail.com>
- <CAMKF1soMa-pBf3hFCqDQnJ7x-Ff1NcKB8udir2W9oEVRQieY7A@mail.gmail.com>
+        Sun, 25 Apr 2021 11:59:41 -0700 (PDT)
+Subject: Re: [PATCH] apt: Fix build on musl when seccomp is enabled
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20210425160100.2731765-1-raj.khem@gmail.com>
 From: "Armin Kuster" <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -92,131 +87,95 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
  ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
  8CS2NxU=
-Message-ID: <e7514d10-0ecc-bac5-0839-ac2d17f8834a@gmail.com>
-Date: Sun, 25 Apr 2021 11:27:13 -0700
+Message-ID: <d637fdcc-76bb-dfb3-0a13-a1c31ce05f92@gmail.com>
+Date: Sun, 25 Apr 2021 11:59:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soMa-pBf3hFCqDQnJ7x-Ff1NcKB8udir2W9oEVRQieY7A@mail.gmail.com>
+In-Reply-To: <20210425160100.2731765-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 4/24/21 8:46 PM, Khem Raj wrote:
-> musl/x86 apt fails
+On 4/25/21 9:01 AM, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Armin Kuster <akuster808@gmail.com>
+> ---
+>  ...atat64-and-prlimit64-defines-on-musl.patch | 48 +++++++++++++++++++
+>  meta/recipes-devtools/apt/apt_2.2.2.bb        |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+>
+> diff --git a/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch b/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+> new file mode 100644
+> index 0000000000..f1816836b5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/apt/apt/0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch
+> @@ -0,0 +1,48 @@
+> +From e849b161ce1d87ab369b921438abcf5b3a03e186 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Sun, 25 Apr 2021 08:57:03 -0700
+> +Subject: [PATCH] Hide fstatat64 and prlimit64 defines on musl
+> +
+> +musl defines fstatat64 and prlimit64 as macros which confuses the
+> +seccomp sysall rewiring since there are syscalls with same names
 
-Right. RP told me yesterday. I have been looking into it.
-
-I say your patch. thanks.
+Thanks. This builds now.
 
 -armin
->
-> https://errors.yoctoproject.org/Errors/Details/577480/
->
-> On Sat, Apr 24, 2021 at 3:16 PM Khem Raj <raj.khem@gmail.com> wrote:
->> riscv32 is not happy
->>
->> ERROR: Nothing PROVIDES 'libseccomp' (but
->> /home/jenkins/oe/world/yoe/sources/openembedded-core/meta/recipes-core/systemd/systemd_247.6.bb,
->> /home/jenkins/oe/world/yoe/sources/openembedded-core/meta/recipes-support/gnutls/gnutls_3.7.1.bb
->> DEPENDS on or otherwise requires it)
->> libseccomp was skipped: incompatible with host riscv32-yoe-linux (not
->> in COMPATIBLE_HOST)
->>
->> see
->> http://jenkins.nas-admin.org/view/OE/job/oe_world_qemuriscv32/1123/consoleFull
->>
->> On Sat, Apr 24, 2021 at 8:56 AM Armin Kuster <akuster808@gmail.com> wrote:
->>> ptest results:
->>> Regression Test Summary
->>>  tests run: 1404
->>>  tests skipped: 369
->>>  tests passed: 1402
->>>  tests failed: 2
->>>  tests errored: 154
->>>
->>> Add feature_check so that the other recipes who can take
->>> advantage of this funtionality can enable it.
->>>
->>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>> ---
->>>  .../libseccomp/files/run-ptest                |  4 ++
->>>  .../libseccomp/libseccomp_2.5.1.bb            | 49 +++++++++++++++++++
->>>  2 files changed, 53 insertions(+)
->>>  create mode 100644 meta/recipes-support/libseccomp/files/run-ptest
->>>  create mode 100644 meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
->>>
->>> diff --git a/meta/recipes-support/libseccomp/files/run-ptest b/meta/recipes-support/libseccomp/files/run-ptest
->>> new file mode 100644
->>> index 00000000000..54b4a63cd2c
->>> --- /dev/null
->>> +++ b/meta/recipes-support/libseccomp/files/run-ptest
->>> @@ -0,0 +1,4 @@
->>> +#!/bin/sh
->>> +
->>> +cd tests
->>> +./regression -a
->>> diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
->>> new file mode 100644
->>> index 00000000000..667d5da8242
->>> --- /dev/null
->>> +++ b/meta/recipes-support/libseccomp/libseccomp_2.5.1.bb
->>> @@ -0,0 +1,49 @@
->>> +SUMMARY = "interface to seccomp filtering mechanism"
->>> +DESCRIPTION = "The libseccomp library provides and easy to use, platform independent,interface to the Linux Kernel's syscall filtering mechanism: seccomp."
->>> +SECTION = "security"
->>> +LICENSE = "LGPL-2.1"
->>> +LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
->>> +
->>> +DEPENDS += "gperf-native"
->>> +
->>> +SRCREV = "4bf70431a339a2886ab8c82e9a45378f30c6e6c7"
->>> +
->>> +SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5 \
->>> +           file://run-ptest \
->>> +           "
->>> +
->>> +COMPATIBLE_HOST_riscv32 = "null"
->>> +
->>> +S = "${WORKDIR}/git"
->>> +
->>> +inherit autotools-brokensep pkgconfig ptest features_check
->>> +
->>> +REQUIRED_DISTRO_FEATURES = "seccomp"
->>> +
->>> +PACKAGECONFIG ??= ""
->>> +PACKAGECONFIG[python] = "--enable-python, --disable-python, python3"
->>> +
->>> +DISABLE_STATIC = ""
->>> +
->>> +do_compile_ptest() {
->>> +    oe_runmake -C tests check-build
->>> +}
->>> +
->>> +do_install_ptest() {
->>> +    install -d ${D}${PTEST_PATH}/tests
->>> +    install -d ${D}${PTEST_PATH}/tools
->>> +    for file in $(find tests/* -executable -type f); do
->>> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
->>> +    done
->>> +    for file in $(find tests/*.tests -type f); do
->>> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
->>> +    done
->>> +    for file in $(find tools/* -executable -type f); do
->>> +        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tools
->>> +    done
->>> +}
->>> +
->>> +FILES_${PN} = "${bindir} ${libdir}/${BPN}.so*"
->>> +FILES_${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
->>> +
->>> +RDEPENDS_${PN}-ptest = "coreutils bash"
->>> --
->>> 2.25.1
->>>
->>>
->>> 
->>>
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + methods/aptmethod.h | 12 ++++++++++--
+> + 1 file changed, 10 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/methods/aptmethod.h b/methods/aptmethod.h
+> +index bd50e80..3085aed 100644
+> +--- a/methods/aptmethod.h
+> ++++ b/methods/aptmethod.h
+> +@@ -121,6 +121,12 @@ protected:
+> +       if (ctx == NULL)
+> + 	 return _error->FatalE("HttpMethod::Configuration", "Cannot init seccomp");
+> + 
+> ++#ifndef __GLIBC__
+> ++#pragma push_macro("fstatat64")
+> ++#pragma push_macro("prlimit64")
+> ++#undef fstatat64
+> ++#undef prlimit64
+> ++#endif
+> + #define ALLOW(what)                                                     \
+> +    if ((rc = seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(what), 0))) \
+> +       return _error->FatalE("HttpMethod::Configuration", "Cannot allow %s: %s", #what, strerror(-rc));
+> +@@ -320,9 +326,11 @@ protected:
+> + 	 if ((rc = seccomp_rule_add(ctx, SCMP_ACT_ALLOW, seccomp_syscall_resolve_name(custom.c_str()), 0)))
+> + 	    return _error->FatalE("aptMethod::Configuration", "Cannot allow %s: %s", custom.c_str(), strerror(-rc));
+> +       }
+> +-
+> + #undef ALLOW
+> +-
+> ++#ifndef __GLIBC__
+> ++#pragma pop_macro("fstatat64")
+> ++#pragma pop_macro("prlimit64")
+> ++#endif
+> +       rc = seccomp_load(ctx);
+> +       if (rc == -EINVAL)
+> +       {
+> +-- 
+> +2.31.1
+> +
+> diff --git a/meta/recipes-devtools/apt/apt_2.2.2.bb b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> index 7d1bce558d..27bc1c75fd 100644
+> --- a/meta/recipes-devtools/apt/apt_2.2.2.bb
+> +++ b/meta/recipes-devtools/apt/apt_2.2.2.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+>             file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
+>             file://0001-srvrec-Keep-support-for-older-resolver.patch \
+>             file://0001-cmake-Do-not-build-po-files.patch \
+> +           file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch \
+>             "
+>  
+>  SRC_URI_append_class-native = " \
 
