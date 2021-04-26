@@ -1,105 +1,78 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.972.1619398464930781840
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:45 -0700
+ Sun, 25 Apr 2021 17:54:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: elRp5tPiV04nBJplEbqgqewF5aocqIBuwSaAI9a9GnpN72GiI+SR9Krh2dKHT/ksXL0s7OmNjN
- DZEfF/Pj9LuA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818217"
+IronPort-SDR: QtMLEUTXg0rnKXdg3NJzDkSbX24Mw/hXVG+r3nCBUkovynreQoIyDFH3LzzQEN+oWxQeOOyZV7
+ FA7LZph5ZzpA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818219"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818217"
+   d="scan'208";a="195818219"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:45 -0700
-IronPort-SDR: dDYHy1eOw7GMYen0FAQdBQYf5B0S06hipoAH+Jtk2Va2EdEkvdzUad/gUBY3JVOXgudimosESO
- 34VDI19gx3vQ==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:46 -0700
+IronPort-SDR: 69hRJF0FlHpuc9yXff+8O86nVktjg7MtBujAjNkVgczwd5aYTj8QDMT8fnQ2NjWZrpqrVZdXSv
+ /hY2Pgb5cgiw==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067437"
+   d="scan'208";a="454067446"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:44 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:45 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 37/64] libtool: make sure autoheader run before automake
-Date: Mon, 26 Apr 2021 08:53:08 +0800
-Message-Id: <55372f0b2d8c57954a704a967178c75d19e0af89.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 38/64] kmod: do not symlink config.guess/config.sub during autoreconf
+Date: Mon, 26 Apr 2021 08:53:09 +0800
+Message-Id: <fd12e5872813a4750ef2603a357170dd3f0f44e1.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Gavin Li <gavin@matician.com>
 
-When use automake to generate Makefile.in from Makefile.am, there
-comes below race:
- | configure.ac:45: error: required file 'config-h.in' not found
+I was encountering the following race condition on poky:
 
-It is because the file config-h.in in updating process by autoheader,
-so make automake run after autoheader to avoid the above race.
+- automake-native does do_install.
+- automake-native does do_populate_sysroot. This hardlinks config.guess
+  and config.sub into ${D}.
+- kmod-native does do_configure. This runs `autoreconf`, which runs
+  `automake --add-missing` (symlinks config.guess/config.sub from
+  recipe-sysroot-native to build dir), then runs `gnu-configize` (copies
+  _its own_ config.guess/config.sub _on top_ of the already existing
+  ones). Since the destinations already had symlinks, the copy would
+  overwrite config.guess/config.sub in recipe-sysroot-native, which
+  would in turn overwrite the same in ${D} due to being hardlinked.
+- automake-native does do_package. The outhash is thus calculated on the
+  clobbered config.guess/config.sub files.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+With hash equivalency enabled, the different outhash produced a
+different unihash, which kept me from reusing sstate between my laptop
+and my build server. This race condition would happen only on the build
+server (BB_NUMBER_THREADS = 32) but never on my laptop
+(BB_NUMBER_THREADS = 6).
+
+I didn't see the --install and --symlink flags being used by any other
+recipe, so I removed them, and that fixed the issue.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1fc0a4a98e65db7efba8bb5cb835101ea5dd865b)
+(cherry picked from commit 89d675efd633b495daa4a3a57420b9c309497035)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../libtool/libtool-2.4.6.inc                 |  1 +
- ...-sure-autoheader-run-before-automake.patch | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
+ meta/recipes-kernel/kmod/kmod.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index 19a03d4733..e9225e140c 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://0001-libtool-Fix-support-for-NIOS2-processor.patch \
-            file://0001-libtool-Check-for-static-libs-for-internal-compiler-.patch \
-            file://0001-Makefile.am-make-sure-autoheader-run-before-autoconf.patch \
-+           file://0001-Makefile.am-make-sure-autoheader-run-before-automake.patch \
-           "
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index ccda9f2b73..ba5ec7f650 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -26,7 +26,6 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
  
- SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
-diff --git a/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
-new file mode 100644
-index 0000000000..87f8492346
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/0001-Makefile.am-make-sure-autoheader-run-before-automake.patch
-@@ -0,0 +1,35 @@
-+From e82c06584f02e3e4487aa73aa05981e2a35dc6d1 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Tue, 13 Apr 2021 07:17:29 +0000
-+Subject: [PATCH] Makefile.am: make sure autoheader run before automake
-+
-+When use automake to generate Makefile.in from Makefile.am, there
-+comes below race:
-+ | configure.ac:45: error: required file 'config-h.in' not found
-+
-+It is because the file config-h.in in updating process by autoheader,
-+so make automake run after autoheader to avoid the above race.
-+
-+Upstream-Status: Submitted [libtool-patches@gnu.org maillist]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2752ecc..29950db 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -328,7 +328,7 @@ EXTRA_DIST     += $(lt_aclocal_m4) \
-+ 		  $(lt_obsolete_m4) \
-+ 		  $(stamp_mk)
-+ 
-+-$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4)
-++$(lt_Makefile_in): $(lt_Makefile_am) $(lt_aclocal_m4) $(lt_config_h_in)
-+ 	$(AM_V_GEN)cd '$(srcdir)/$(ltdl_dir)' && $(AUTOMAKE) Makefile
-+ 
-+ # Don't let unused scripts leak into the libltdl Makefile
-+-- 
-+2.29.2
-+
+ S = "${WORKDIR}/git"
+ 
+-EXTRA_AUTORECONF += "--install --symlink"
+ EXTRA_OECONF +=" --enable-tools --with-zlib"
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
 -- 
 2.30.2
 
