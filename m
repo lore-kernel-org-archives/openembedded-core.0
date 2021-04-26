@@ -1,27 +1,27 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.972.1619398464930781840
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:30 -0700
+ Sun, 25 Apr 2021 17:54:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: ow7Bfetg9/g9pURdkFFWxKaE85k28ENAc7uJQSM2OiNSStj4VquwkTsPle2FP+LeYD4/+qT//3
- rwUlw4lI6Okw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818147"
+IronPort-SDR: 2nai/OrNYtvH6iX9yn8EM7Oz0QBkyutY2aSA/2kXjNXdX5cTxCLY8qh7BSH9wD7erdequ7T6/8
+ VuTd0opyGQig==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818159"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818147"
+   d="scan'208";a="195818159"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:30 -0700
-IronPort-SDR: nQ28PV/XWksBlfGt1oRfcKp/bCCfE14ArrL3Fopbx2Pj67qkoSP4HQozw4Du4uVxBlL6894wrQ
- HCrsn5q4WCRQ==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:31 -0700
+IronPort-SDR: Ub1riTn2dlfPhXomLVXvrrf7FAOIqWWuAPcbf8P9amnUpHwa9R8Shg2v3Da5ohRab3mgOAHRcj
+ iX6sR9zdWrfg==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067384"
+   d="scan'208";a="454067391"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:29 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:30 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 26/64] mesa: upgrade 21.0.1 -> 21.0.2
-Date: Mon, 26 Apr 2021 08:52:57 +0800
-Message-Id: <c94987889ccf82746221574a41d7d27464254467.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 27/64] go: update SRC_URI to use https protocol
+Date: Mon, 26 Apr 2021 08:52:58 +0800
+Message-Id: <3659a2dd7fc246f1f9e8b474ed45de5d18fd558f.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
@@ -30,39 +30,27 @@ Content-Transfer-Encoding: 8bit
 
 From: wangmy <wangmy@fujitsu.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 58ad359da1b05820ea3dc4ae3f789ccb8991fc32)
+(cherry picked from commit 2a1eb731ed3bcb049192550e362b771c3a9ea6eb)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../mesa/{mesa-gl_21.0.1.bb => mesa-gl_21.0.2.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_21.0.1.bb => mesa-gl_21.0.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.0.1.bb => mesa_21.0.2.bb} (100%)
+ meta/recipes-devtools/go/go-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index caf3c62ad8..5705ae0f08 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index f18d928c70..39a681a712 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
  
--SRC_URI[sha256sum] = "379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
-+SRC_URI[sha256sum] = "46c1dc5bb54a372dee43ec3c067229c299187d5bdadf1402756bbf66a6df5b88"
+ inherit goarch
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_21.0.1.bb b/meta/recipes-graphics/mesa/mesa_21.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa_21.0.2.bb
+-SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz;name=main"
++SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
+ S = "${WORKDIR}/go"
+ B = "${S}"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
 -- 
 2.30.2
 
