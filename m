@@ -1,66 +1,68 @@
-Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
- by mx.groups.io with SMTP id smtpd.web12.3425.1619419352648704079
+Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
+ by mx.groups.io with SMTP id smtpd.web09.4200.1619426355568530110
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 23:42:33 -0700
+ Mon, 26 Apr 2021 01:39:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=YseTY7jV;
- spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=743277ded=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1619419352; x=1650955352;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=zik0yHwoWqSB7+KdFl9/0GwuhYjZJKoU+42E6c3ugnQ=;
-  b=YseTY7jV8dev5ERCXXfRNrBLd4K1qaYzxRgR72VnJ4f7S1tvBGarHcE9
-   JSDXrXC/h0MgIRUpwHR7kEs5QeP93/9RqkkVTw2oYO7dVYrcAo+X/rubV
-   7m8hw+hQuG54bx0QGA9DmkT7s5YMGqjStNNLyH+smpbL2pNc7Cwv988Gq
-   w=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 26 Apr 2021 08:42:28 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw4.muc with ESMTP/TLS;
- 26 Apr 2021 08:42:28 +0200
-Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
- by esabb5.muc with ESMTP/TLS; 26 Apr 2021 08:42:27 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
- (160.46.167.69) with Microsoft SMTP Server (TLS;
- Mon, 26 Apr 2021 08:42:27 +0200
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Mon,
- 26 Apr 2021 08:42:27 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <akuster808@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 4/6] systemd: Enable seccomp if FEATURE is set
-Thread-Topic: [OE-core] [PATCH 4/6] systemd: Enable seccomp if FEATURE is set
-Thread-Index: AQHXOSKg8eNoxLaF90y2+nUQxKmZ76rGOtcA
-Date: Mon, 26 Apr 2021 06:42:27 +0000
-Message-ID: <YIZg0i/V+nW4aTKG@korppu>
-References: <20210424155639.1131482-1-akuster808@gmail.com>
- <20210424155639.1131482-5-akuster808@gmail.com>
-In-Reply-To: <20210424155639.1131482-5-akuster808@gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4FTJGR2B5mz5tlL;
+	Mon, 26 Apr 2021 10:39:07 +0200 (CEST)
+Date: Mon, 26 Apr 2021 10:39:06 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: docs@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [docs] [PATCH] dev-manual/common-tasks.rst: correct the documentation for debuginfod
+Message-ID: <20210426083906.4rsmmjryx5mso5bv@qschulz>
+References: <20210423174024.705459-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4B342C2D2463D64CA59B6A7E5ABFAC60@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210423174024.705459-1-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Alex,
 
-Patch itself is ok, but I'll just comment that I've seen some boot time reg=
-ressions
-coming from systemd seccomp support. On NXP iMX8 and dunfell, systemd neede=
-d a
-few 100 ms more time in early boot if seccomp was enabled. I could not figu=
-re out
-where this was lost though. Could be just kernel or BSP SW configuration pr=
-oblem that
-we had. Ideas what could be causing this would be nice to hear...
+On Fri, Apr 23, 2021 at 07:40:24PM +0200, Alexander Kanavin wrote:
+> Particularly,
+> - correctly describe the use of DEBUGINFOD_URLS; drop it from bitbake variables
+> - all necessary component tweaks are enabled by default via DISTRO_FEATURES
+> - provide on-target examples of what to look for when things work properly
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  documentation/dev-manual/common-tasks.rst | 40 ++++++++++++++---------
+>  documentation/ref-manual/variables.rst    |  6 ----
+>  2 files changed, 24 insertions(+), 22 deletions(-)
+> 
+> diff --git a/documentation/dev-manual/common-tasks.rst b/documentation/dev-manual/common-tasks.rst
+> index dcd3a11c3e..e3b9dcef18 100644
+> --- a/documentation/dev-manual/common-tasks.rst
+> +++ b/documentation/dev-manual/common-tasks.rst
+> @@ -9705,39 +9705,47 @@ methods you can use: running a debuginfod server and using gdbserver.
+>  Using the debuginfod server method
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> -"debuginfod" from "elfutils" is a way to distribute "debuginfo" files.
+> -Running a "debuginfod" server makes debug symbols readily available,
+> +``debuginfod`` from ``elfutils`` is a way to distribute ``debuginfo`` files.
+> +Running a ``debuginfod`` server makes debug symbols readily available,
+>  which means you don't need to download debugging information
+>  and the binaries of the process being debugged. You can just fetch
+>  debug symbols from the server.
+>  
+> -To run a debuginfod server, you need to do the following:
+> +To run a ``debuginfod`` server, you need to do the following:
+>  
+> --  Ensure that this variable is set in your ``local.conf`` file::
+> +-  Ensure that ``debuginfod`` is present in :term:`DISTRO_FEATURES`
+> +   (it already is in ``OpenEmbedded-core`` defaults and ``poky`` reference distribution).
+> +   If not, set::
 
-Cheers,
+I would add where this is supposed to be set (in a distro conf file or
+in local.conf if I'm not mistaken?), since it was an information that
+was there initially.
 
--Mikko=
+For the rest:
+Reviewed-by: Quentin Schulz <foss@0leil.net>
+
+Thanks,
+Quentin
