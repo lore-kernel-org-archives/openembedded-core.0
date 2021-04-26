@@ -1,56 +1,70 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.972.1619398464930781840
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:32 -0700
+ Sun, 25 Apr 2021 17:54:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 2nai/OrNYtvH6iX9yn8EM7Oz0QBkyutY2aSA/2kXjNXdX5cTxCLY8qh7BSH9wD7erdequ7T6/8
- VuTd0opyGQig==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818159"
+IronPort-SDR: akQlWRWKbl1SuuhuLevFcscdml3t82Bz5y6Mpi1lNSFVOsL293cS1deWYGnPkowXy4u0JS+mJ1
+ NjbXqE3JCXkw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818170"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818159"
+   d="scan'208";a="195818170"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:31 -0700
-IronPort-SDR: Ub1riTn2dlfPhXomLVXvrrf7FAOIqWWuAPcbf8P9amnUpHwa9R8Shg2v3Da5ohRab3mgOAHRcj
- iX6sR9zdWrfg==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:33 -0700
+IronPort-SDR: ef5G8R34+upvvQg/vryt1dC3eaznOgIEVw3OuHKw5/eSAkYkV4SZ0+Z+paQ1uFxcfi4bsTYvr7
+ nii3M0bbwxIQ==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067391"
+   d="scan'208";a="454067394"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:30 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:32 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 27/64] go: update SRC_URI to use https protocol
-Date: Mon, 26 Apr 2021 08:52:58 +0800
-Message-Id: <3659a2dd7fc246f1f9e8b474ed45de5d18fd558f.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 28/64] parselogs: ignore floppy error on qemu-system-x86 at boot stage
+Date: Mon, 26 Apr 2021 08:52:59 +0800
+Message-Id: <0e449143839f8de338b4a18fb27e8380d80e9b2f.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: wangmy <wangmy@fujitsu.com>
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+We can disable floppy drive by BIOS on a hardware, but an empty floppy
+drive is connected by default on qemu-system-x86. Linux usually detect
+the device and modprode the matched floppy.ko at the boot stage. Due to
+we don't specify a floppy deivce in qemu boot arguments, then the errors
+about floppy reading comes out.
+
+It is harmless and normal, so we could ignore this error message on
+qemux86.
+
+Seen if kernel-modules is included in the image which pulls in the
+relavent kernel module.
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01402.html
+
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2a1eb731ed3bcb049192550e362b771c3a9ea6eb)
+(cherry picked from commit 3359f23ee9351c70997d5e0a17d17d1e47d59623)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/go-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
-index f18d928c70..39a681a712 100644
---- a/meta/recipes-devtools/go/go-common.inc
-+++ b/meta/recipes-devtools/go/go-common.inc
-@@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 4714741aff..1bb0425521 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -88,6 +88,8 @@ qemux86_common = [
+     'tsc: HPET/PMTIMER calibration failed',
+     "modeset(0): Failed to initialize the DRI2 extension",
+     "glamor initialization failed",
++    "blk_update_request: I/O error, dev fd0, sector 0 op 0x0:(READ)",
++    "floppy: error",
+ ] + common_errors
  
- inherit goarch
- 
--SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz;name=main"
-+SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
- S = "${WORKDIR}/go"
- B = "${S}"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
+ ignore_errors = {
 -- 
 2.30.2
 
