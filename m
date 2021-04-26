@@ -1,74 +1,84 @@
-Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [217.26.49.174])
- by mx.groups.io with SMTP id smtpd.web08.431.1619472488044702151
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.9.1619472575029171855
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Apr 2021 14:28:08 -0700
+ Mon, 26 Apr 2021 14:29:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: reto-schneider.ch, ip: 217.26.49.174, mailfrom: code@reto-schneider.ch)
-Received: from [10.0.2.45] (helo=asmtp012.mail.hostpoint.ch)
-	by mxout014.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1lb8lx-0003oS-KN; Mon, 26 Apr 2021 23:28:05 +0200
-Received: from [2a02:168:6182:1:6da9:5990:7c25:6a2f] (helo=ryzen2700.home.reto-schneider.ch)
-	by asmtp012.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3 (FreeBSD))
-	(envelope-from <code@reto-schneider.ch>)
-	id 1lb8lx-0004SX-Hx; Mon, 26 Apr 2021 23:28:05 +0200
-X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
-From: "Reto Schneider" <code@reto-schneider.ch>
-To: openembedded-core@lists.openembedded.org
-Cc: Reto Schneider <reto.schneider@husqvarnagroup.com>
-Subject: [PATCH v2 1/2] license_image.bbclass: Detect broken symlinks
-Date: Mon, 26 Apr 2021 23:27:56 +0200
-Message-Id: <20210426212757.10409-1-code@reto-schneider.ch>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OwzSr5Bt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: petr.vorel@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id n21so10372148eji.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Apr 2021 14:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=c+M/zrtvytdJjJczvnyXdlF+pj8l1eGgbvdMLTmUVws=;
+        b=OwzSr5Btcs8wzkhct1Aafwblu0wCW/SlQtQ7ufzeFDZ0PZJPz7EnJ6ZxxDRIudGx5u
+         2+552Qb9nPrMj/5NvOV9/CgpX+L5MHYh6LRanHLiJQbdwE7SPmGNA0+8IzsgRQ0onoNF
+         84BGRCAFKmbjWeNEdcVSd25II6nm/7oIYoSxyI05MV+UtpMidSzQ1pwJQ295NO+PK58t
+         8RrvkwnIGDdLw7/PfZnGcsrMOBrD8OBty9GPAf0UxTtzKl75Xgp5IlAX8kuNPTjW8FsZ
+         t7/KvYbOp7t31FtaoNLPB4cGcx6yw4DwMqn8J0rjwYk8kiq4E+lVs7wR8vFARTSH8eGH
+         LBNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=c+M/zrtvytdJjJczvnyXdlF+pj8l1eGgbvdMLTmUVws=;
+        b=cqBFbz60kCoGLsyu6BD16tZ5u38Xlf02MSVkGcXjAtv7+V6xL3Z3LFp/uBLL2NNMJl
+         KXyM5FwAkVSn3cjdEdYCnMSIxCmb3id9BmF8rAT96iwf4m8lThobABfkN6ixTA9lY6Bp
+         3MeA1GPZsV+HwoF1aB73BBMPPcVCXBzCfv/4lauNBedyJM6eT8oH6kKbi8yZXdjQ0LxL
+         q2DS5Aj5Z96hj+PvNciMLVPMer6zADpUwK2ux211w6b192zB0b5elc+gMUQ4snljVlz5
+         +WpB2c6sPJWUtg5ZQk6iFG291wz3F5EM2a3AP6cnMrRXSz0hSAs1926HAXCip2DDBqEf
+         GRZQ==
+X-Gm-Message-State: AOAM530A1s0OCt0drXaRvKHRnsmF6oIcIAK29zcljIHr9pTz3FXyOQFj
+	6xE1lw12UYrps9VySy4Zrao=
+X-Google-Smtp-Source: ABdhPJzvUFLdOh3mwPxg6pof7LMI0PYHBFk/tG+GYgEzq1Juu0d315epZmRaUDPu13DxnLUGVfyb3A==
+X-Received: by 2002:a17:906:cf8f:: with SMTP id um15mr20232580ejb.547.1619472573467;
+        Mon, 26 Apr 2021 14:29:33 -0700 (PDT)
+Return-Path: <petr.vorel@gmail.com>
+Received: from pevik ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id g8sm4367617ejt.25.2021.04.26.14.29.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 14:29:32 -0700 (PDT)
+Date: Mon, 26 Apr 2021 23:29:30 +0200
+From: "Petr Vorel" <petr.vorel@gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Khem Raj <raj.khem@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] LTP drop MUSL specific patch
+Message-ID: <YIcwurySkHcO7/MY@pevik>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <YIcMLMtsNSTlinqq@pevik>
+ <CAJ86T=VDx=w4FB34BZhsGcFYO8zAJ27kE6t9d_3xbBvkpOPDfg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ86T=VDx=w4FB34BZhsGcFYO8zAJ27kE6t9d_3xbBvkpOPDfg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Reto Schneider <reto.schneider@husqvarnagroup.com>
+Hi Andre,
 
-Find and report symlinks which point to a non-existing file.
+> On Mon, Apr 26, 2021 at 11:53 AM Petr Vorel <petr.vorel@gmail.com> wrote:
 
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
----
-Version 2: No changes
+> > Hi Khem, Richard,
 
- meta/classes/license_image.bbclass | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+> > I'd like to replace MUSL specific patch
+> > meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
+> > with just removing broken files. We use this in upstream CI for Alpine, I ported
+> > it to Buildroot [2], where works well. It's better because it does allow to
+> > handle MUSL without rebasing this patch.
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index c96b032ebd..b9a0f2359b 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -1,3 +1,5 @@
-+ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
-+
- python write_package_manifest() {
-     # Get list of installed packages
-     license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
-@@ -104,8 +106,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-     copy_lic_manifest = d.getVar('COPY_LIC_MANIFEST')
-     copy_lic_dirs = d.getVar('COPY_LIC_DIRS')
-     if rootfs and copy_lic_manifest == "1":
--        rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS'), 
--                                'usr', 'share', 'common-licenses')
-+        rootfs_license_dir = d.getVar('ROOTFS_LICENSE_DIR')
-         bb.utils.mkdirhier(rootfs_license_dir)
-         rootfs_license_manifest = os.path.join(rootfs_license_dir,
-                 os.path.split(license_manifest)[1])
-@@ -267,3 +268,13 @@ python do_populate_lic_deploy() {
- addtask populate_lic_deploy before do_build after do_image_complete
- do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
- 
-+python license_qa_dead_symlink() {
-+    import os
-+
-+    for root, dirs, files in os.walk(d.getVar('ROOTFS_LICENSE_DIR')):
-+        for file in files:
-+            full_path = root + "/" + file
-+            if os.path.islink(full_path) and not os.path.exists(full_path):
-+                bb.error("broken symlink: " + full_path)
-+}
-+IMAGE_QA_COMMANDS += "license_qa_dead_symlink"
--- 
-2.29.2
+> > I was looking into the docs, it looks to me that do_configure [3] might be good hook
+> > to add it into. But it looks like by default it contains oe_runmake clean [4].
+> > Or should I use different hook? And how to find the default content of chosen
+> > hook? (if I need to extend it, I'll have to provide the original as well)
 
+> Changes to source files, including removing them, should be done as
+> part of the do_patch task. Since do_patch is implemented in python you
+> can't simply _append shell script commands to it, but you can add a
+> shell function via do_patch[postfuncs]. If you grep for
+> "do_patch[postfuncs]" in oe-core you should find a few examples.
+
+Great, thanks a lot!
+
+Kind regards,
+Petr
