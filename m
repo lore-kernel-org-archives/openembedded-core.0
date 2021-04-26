@@ -1,93 +1,84 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.3123.1619415959561459793
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 22:46:03 -0700
+ Sun, 25 Apr 2021 22:46:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: pQJcMjBXqH4rsRSW1jNKgKjDgGfXP6BkoAbsrjVGy/+aCrN0ctMUVe22894bkl0OQGYR4q6nQX
- BifNzsDg1nYw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281613565"
+IronPort-SDR: sd5GpgweIyhJqfqcpAP/YM3LO0Up4M/3ARygZ1Vs+NpBql4hTxjtsdntAF+xiTJm8f3YI8DQa5
+ ++ImpS0IilbA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281613568"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="281613565"
+   d="scan'208";a="281613568"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:03 -0700
-IronPort-SDR: o3NS1DYESdtZYpHH/28M1PpXXw+J42VCQZc0kZjQCxcD90fcp41QZ0r4jRYmbQ43+NTIrcf4Ql
- M2L6By+6K1cw==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:04 -0700
+IronPort-SDR: Em3VneRqDIjQ0qeludPLw39sTY6KRz5zRSfV1xLt+XlrcMHVJFlX8j5XJH88tvJCOl0crzXqMG
+ K7oNCHcA+LnQ==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="385670707"
+   d="scan'208";a="385670714"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:02 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:03 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 5/8] linux-yocto/5.4: fix arm defconfig warnings
-Date: Mon, 26 Apr 2021 13:45:43 +0800
-Message-Id: <e9693b562a46c0e019d05e01174e7f8c8e13b6e3.1619409036.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 6/8] ca-certificates: Fix openssl runtime cert dependencies
+Date: Mon, 26 Apr 2021 13:45:44 +0800
+Message-Id: <b2a233c9c5fb919d6507683bdf27a4435a2b5285.1619409036.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619409036.git.anuj.mittal@intel.com>
 References: <cover.1619409036.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-A recent fix to the kern-tools promoted some previously unseen
-issues to warnings. This commit fixes them by tagging some BT
-options as non-hardware so they won't generate warnings if they
-don't appear in the final .config. These are sub BT options and
-shouldn't warn when/if their controlling option is disabled by
-a fragment.
+With commit dc778c70449ee5401b5a24ad18b22b88338c47c5, dependency was
+moved to openssl-bin which in itself was a fine change, but dropping
+dependency on openssl too should have been kept along, dropping this
+meant that openssl binary wont be able to validate secure connections as
+the CApath files wont be installed, which infact are required for
+openssl bins to work, following call e.g. fails
 
-    d7fd0213b75 base: exclude some BT options as non-hardware
+$ openssl s_client -connect google.com:443
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+....
+New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+Server public key is 256 bit
+Secure Renegotiation IS NOT supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+Early data was not sent
+Verify return code: 20 (unable to get local issuer certificate)
+....
+
+The local issuer certs are not found in default location
+/usr/lib/ssh-1.1/certs, this dir and its content is installed by openssl package
+therefore re-add the dependency on openssl
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Andrei Gherzan <andrei@gherzan.ro>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a86c8251905baf5bf4714f3db01cdfae02383839)
+(cherry picked from commit eaf377315efc73d6ffe361372a873918b3bb3bf5)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../ca-certificates/ca-certificates_20210119.bb             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index c7f6427448..da1d5b72da 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -12,7 +12,7 @@ python () {
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
+index 888a235c1a..7dcc86fdc1 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
+@@ -83,8 +83,8 @@ do_install_append_class-native () {
+     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
  }
  
- SRCREV_machine ?= "324e77d816cf6434507ab29140beb24044009efa"
--SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
-+SRCREV_meta ?= "d7fd0213b75ce9b6206f63dbdd435ab326598642"
+-RDEPENDS_${PN}_class-target = "openssl-bin"
+-RDEPENDS_${PN}_class-native = "openssl-native"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-openssl-bin"
++RDEPENDS_${PN}_append_class-target = " openssl-bin openssl"
++RDEPENDS_${PN}_append_class-native = " openssl-native"
++RDEPENDS_${PN}_append_class-nativesdk = " nativesdk-openssl-bin nativesdk-openssl"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index f07375c761..1edc632de7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "8463db325b93f0669446f68c19334cfe11ffb9c2"
- SRCREV_machine ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
--SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
-+SRCREV_meta ?= "d7fd0213b75ce9b6206f63dbdd435ab326598642"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 6b8bd283e0..53cfabb3a7 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
- SRCREV_machine_qemux86-64 ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
- SRCREV_machine_qemumips64 ?= "996fe040c8d8d01a9af6be42dae3844d127471bf"
- SRCREV_machine ?= "5f54b437b6502d3febee553100b2cb2a9e0c5f8a"
--SRCREV_meta ?= "5017570a130f142365dfdcd043d84143fdd6e255"
-+SRCREV_meta ?= "d7fd0213b75ce9b6206f63dbdd435ab326598642"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
