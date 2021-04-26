@@ -1,58 +1,213 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.928.1619398501109409766
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:55:07 -0700
+ Sun, 25 Apr 2021 17:55:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: ql40nn8Zv2XSCji4NFAtf39Qm6Fo3vJ495FQOJepphPxlalahuhL0lJwycj/9UkDN5Z1xF0Rfb
- cF/KBa86Omnw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818284"
+IronPort-SDR: yc0aH/3lDR0s0D4tjfGlI8GAYtFyJBxVLKPQV8YQ4joAWL6yz43QzfnMSvOlxkOKjv+W3glo57
+ hLqr74Gf3L4w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818287"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818284"
+   d="scan'208";a="195818287"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:07 -0700
-IronPort-SDR: sq4MW2zjdtZsCUkiu2yUbSJ3YggXsr0y1JNekUJiIHUTc+NkN7zfoavuOBibG8wW5Aub8Sf5si
- gOXHXseMNSdg==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:08 -0700
+IronPort-SDR: ypiAKoy2sgFtNf5/5hTsR9VYMeTo4UJDiiOneT+D8w2EepElOgMBpN4SnDjOAd4TZoyEBwNQLH
+ K5lJdNjel5RA==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067559"
+   d="scan'208";a="454067560"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:06 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:07 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 52/64] lttng-tools: Fix path for test_python_looging
-Date: Mon, 26 Apr 2021 08:53:23 +0800
-Message-Id: <73bc035151760ce6d07bb3541607544f71adae7e.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 53/64] cairo: fix CVE-2020-35492
+Date: Mon, 26 Apr 2021 08:53:24 +0800
+Message-Id: <69d693c4800c43b62bc216d7c1763d17e19ed421.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Anders Wallin <wallinux@gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-" was missing
-
-Signed-off-by: Anders Wallin <anders.wallin@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e1780ccfc89e9ff4e260276f28ffa0bb8e9b44e1)
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../cairo/cairo/CVE-2020-35492.patch          | 121 ++++++++++++++++++
+ .../cairo/cairo/bug-image-compositor.ref.png  | Bin 0 -> 185 bytes
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  11 ++
+ 3 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-index 281107db2c..6132daf1a1 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.3.bb
-@@ -155,7 +155,7 @@ do_install_ptest () {
-         -i ${D}${PTEST_PATH}/tests/unit/Makefile
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+new file mode 100644
+index 0000000000..f8e69beb0b
+--- /dev/null
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+@@ -0,0 +1,121 @@
++From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
++From: Heiko Lewin <heiko.lewin@worldiety.de>
++Date: Tue, 15 Dec 2020 16:48:19 +0100
++Subject: [PATCH] Fix mask usage in image-compositor
++
++CVE: CVE-2020-35492
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/cairo/cairo/-/commit/03a820b173ed1fdef6ff14b4468f5dbc02ff59be?merge_request_iid=85]
++
++original patch from upstream has a binary file, it will cause
++do_patch failed with "git binary diffs are not supported".
++
++so add do_patch_append in recipe to add this binary source. when removing
++this patch, please also remove do_patch_append for this patch
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ src/cairo-image-compositor.c                |   8 ++--
++ test/Makefile.sources                       |   1 +
++ test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
++ 3 files changed, 44 insertions(+), 4 deletions(-)
++ create mode 100644 test/bug-image-compositor.c
++
++diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
++index 79ad69f68..4f8aaed99 100644
++--- a/src/cairo-image-compositor.c
+++++ b/src/cairo-image-compositor.c
++@@ -2610,14 +2610,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ 		    unsigned num_spans)
++ {
++     cairo_image_span_renderer_t *r = abstract_renderer;
++-    uint8_t *m;
+++    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
++     int x0;
++ 
++     if (num_spans == 0)
++ 	return CAIRO_STATUS_SUCCESS;
++ 
++     x0 = spans[0].x;
++-    m = r->_buf;
+++    m = base;
++     do {
++ 	int len = spans[1].x - spans[0].x;
++ 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
++@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ 				      spans[0].x, y,
++ 				      spans[1].x - spans[0].x, h);
++ 
++-	    m = r->_buf;
+++	    m = base;
++ 	    x0 = spans[1].x;
++ 	} else if (spans[0].coverage == 0x0) {
++ 	    if (spans[0].x != x0) {
++@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
++ #endif
++ 	    }
++ 
++-	    m = r->_buf;
+++	    m = base;
++ 	    x0 = spans[1].x;
++ 	} else {
++ 	    *m++ = spans[0].coverage;
++diff --git a/test/Makefile.sources b/test/Makefile.sources
++index 7eb73647f..86494348d 100644
++--- a/test/Makefile.sources
+++++ b/test/Makefile.sources
++@@ -34,6 +34,7 @@ test_sources = \
++ 	bug-source-cu.c					\
++ 	bug-extents.c					\
++ 	bug-seams.c					\
+++	bug-image-compositor.c				\
++ 	caps.c						\
++ 	checkerboard.c					\
++ 	caps-joins.c					\
++diff --git a/test/bug-image-compositor.c b/test/bug-image-compositor.c
++new file mode 100644
++index 000000000..fc4fd370b
++--- /dev/null
+++++ b/test/bug-image-compositor.c
++@@ -0,0 +1,39 @@
+++#include "cairo-test.h"
+++
+++static cairo_test_status_t
+++draw (cairo_t *cr, int width, int height)
+++{
+++    cairo_set_source_rgb (cr, 0., 0., 0.);
+++    cairo_paint (cr);
+++
+++    cairo_set_source_rgb (cr, 1., 1., 1.);
+++    cairo_set_line_width (cr, 1.);
+++
+++    cairo_pattern_t *p = cairo_pattern_create_linear (0, 0, width, height);
+++    cairo_pattern_add_color_stop_rgb (p, 0, 0.99, 1, 1);
+++    cairo_pattern_add_color_stop_rgb (p, 1, 1, 1, 1);
+++    cairo_set_source (cr, p);
+++
+++    cairo_move_to (cr, 0.5, -1);
+++    for (int i = 0; i < width; i+=3) {
+++	cairo_rel_line_to (cr, 2, 2);
+++	cairo_rel_line_to (cr, 1, -2);
+++    }
+++
+++    cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+++    cairo_stroke (cr);
+++
+++    cairo_pattern_destroy(p);
+++
+++    return CAIRO_TEST_SUCCESS;
+++}
+++
+++
+++CAIRO_TEST (bug_image_compositor,
+++	    "Crash in image-compositor",
+++	    "stroke, stress", /* keywords */
+++	    NULL, /* requirements */
+++	    10000, 1,
+++	    NULL, draw)
+++	    
+++	    
++-- 
++GitLab
+diff --git a/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png b/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..939f659d2c8620e9927a3a79f5e96fb639c418be
+GIT binary patch
+literal 185
+zcmeAS@N?(olHy`uVBq!ia0y~yP!|BQ89A7M<o7+wF+hqf$=lt9;Xep2*t>i(P$bXO
+z#WAE}&f8-f1se=_SPWL_NSx=C)BnJ0eBr6Z%1egFEOv(*t#+|{>X&v^RS7GQe(vez
+lf)$wgmAfM(p2Sx&&i!{gWy)N&qd=P(JYD@<);T3K0RWsgHuC@g
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index 68f993d7ca..d48da1a4c7 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -27,6 +27,8 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://CVE-2018-19876.patch \
+            file://CVE-2019-6461.patch \
+            file://CVE-2019-6462.patch \
++           file://CVE-2020-35492.patch \
++           file://bug-image-compositor.ref.png \
+           "
  
-     # Fix hardcoded build path
--    sed -e 's#TESTAPP_PATH=.*/tests/regression/#TESTAPP_PATH=${PTEST_PATH}/tests/regression/#' \
-+    sed -e 's#TESTAPP_PATH=.*/tests/regression/#TESTAPP_PATH="${PTEST_PATH}/tests/regression/#' \
-         -i ${D}${PTEST_PATH}/tests/regression/ust/python-logging/test_python_logging
+ SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+@@ -64,6 +66,15 @@ export ac_cv_lib_bfd_bfd_openr="no"
+ # Ensure we don't depend on LZO
+ export ac_cv_lib_lzo2_lzo2a_decompress="no"
  
-     # Substitute links to installed binaries.
++#for CVE-2020-35492.patch
++do_patch_append() {
++    bb.build.exec_func('do_cp_binary_source', d)
++}
++
++do_cp_binary_source () {
++	cp ${WORKDIR}/bug-image-compositor.ref.png ${S}/test/reference/
++}
++
+ do_install_append () {
+ 	rm -rf ${D}${bindir}/cairo-sphinx
+ 	rm -rf ${D}${libdir}/cairo/cairo-fdr*
 -- 
 2.30.2
 
