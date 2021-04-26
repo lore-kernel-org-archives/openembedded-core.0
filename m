@@ -1,115 +1,147 @@
-Received: from mga14.intel.com (mga14.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.972.1619398464930781840
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web09.928.1619398501109409766
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:58 -0700
+ Sun, 25 Apr 2021 17:55:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: PRNQIaG3kWJV3ginOqUzIyahkomYOblLhUk7rHGchqACf1pd8VYSm2fn5WIoQZy2/e3cEZtAu0
- 60IN3W9Q5JQA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818256"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: bHoBpODPoG2aszvIhU524/+KtGb+AUYwfYMeitJ5Zge3uD0GcysrGfXyftyxqV4gcw2t/X9xwW
+ tsORJ54x3QvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818261"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818256"
+   d="scan'208";a="195818261"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:58 -0700
-IronPort-SDR: DIu7oD1Gu20howGxLzGWVsIwI77eu9ObQ857oxGaF8GN0WHGqFZy+4SE2AHnpMlRh4TgWGhYbh
- BoYvD5V/SLVg==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:00 -0700
+IronPort-SDR: uvH9uqS8Glzf5Ku8DS4RCwJlGUj8Dva6Jlt1yhy2rPyrMIjdIS5rOTsXj4LEhPhWEUSatCECbP
+ dAVI8eJzigNQ==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067496"
+   d="scan'208";a="454067507"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:57 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:59 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 45/64] libxshmfence: Build fixes for riscv32
-Date: Mon, 26 Apr 2021 08:53:16 +0800
-Message-Id: <45fedd892d2263ac14ceae16f1f9c5ed2b312ff7.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 47/64] Revert "externalsrc: Detect code changes in submodules"
+Date: Mon, 26 Apr 2021 08:53:18 +0800
+Message-Id: <4d961d6b794b389f8a2d062d5e7c0ae1ddc49e36.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
 
-NR_futex is not defined by newer architectures e.g. riscv32 as
-they only have 64bit variant of time_t. Glibc defines SYS_futex
-interface based on __NR_futex, since this is used in applications,
-such applications start to fail to build for these newer architectures.
+This reverts commit 4525310d49d115a37705f04ac5c03d639e5e8f8c.
 
-Define a fallback to alias __NR_futex to __NR_futex_time64 to make
-SYS_futex keep working.
+Further to 50ff9afb39, only detect code changes in submodules that are
+subdirectories of the EXTERNALSRC directory.
 
-Reference: https://git.openembedded.org/openembedded-core/commit/?id=7a218adf9990f5e18d0b6a33eb34091969f979c7
+The (undocumented) git submodule--helper returns a path
+for each submodule relative to the top of the repo.
+Don't add submodules that are not within our EXTERNALSRC subtree.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+If we unpack one git repo inside another, like this:
+
+    SRC_URI = "git://${GIT_SERVER}/repo1;name=repo1;destsuffix=repo1 \
+               git://${GIT_SERVER}/repo2;name=repo2;destsuffix=repo1/repo2 \
+               "
+
+Git status reports, for repo1:
+
+    Untracked files:
+      (use "git add <file>..." to include in what will be committed)
+	repo2/
+
+If we run `devtool modify` on this recipe, do_patch runs with:
+
+    PATCHTOOL = "git"
+    PATCH_COMMIT_FUNCTIONS = "1"
+
+The `patch_task_postfunc` (patch.bbclass, line 82) runs a `git add .` on the
+top-level repo1, leaving the checkout in an invalid state. The following git
+warning does not appear in the log:
+
+    $ git add .
+    warning: adding embedded git repository: repo2
+    hint: You've added another git repository inside your current repository.
+    hint: Clones of the outer repository will not contain the contents of
+    hint: the embedded repository and will not know how to obtain it.
+    hint: If you meant to add a submodule, use:
+    hint:
+    hint: 	git submodule add <url> repo2
+    hint:
+    hint: If you added this path by mistake, you can remove it from the
+    hint: index with:
+    hint:
+    hint: 	git rm --cached repo2
+    hint:
+    hint: See "git help submodule" for more information.
+
+    $ git submodule status
+    fatal: no submodule mapping found in .gitmodules for path 'repo2'
+
+No further git submodule commands can be run on the checkout.
+
+We could enhance the `patch_task_postfunc` to look for any embedded git
+checkouts and add them as submodules, but this seems unnecessary complexity for
+an obscure edge-case. Although the git repo is left in an invalid state with
+respect to the submodules, it still serves the purpose required by devtool:
+To take further commits, and generate patch files from them.
+
+We are still able to run these commands to examine any submodules,
+where git submodule--helper reports paths relative to the top of the checkout:
+
+    $ git ls-files --stage | grep ^160000
+    160000 5feee12d6e974dd8c0614cf5b593380b046439a5 0   repo2
+
+    $ git submodule--helper list
+    160000 5feee12d6e974dd8c0614cf5b593380b046439a5 0   repo2
+
+When a recipe sets EXTERNALSRC to a subdirectory of the git checkout, we test
+for the existence of the reported submodule paths within the EXTERNALSRC
+directory.
+
+The latest versions of git submodule--helper accept a path to a subdirectory and
+correctly report no submodules within that subdirectory. Regrettably, we still
+support git versions that don't accept a path to a subdirectory.
+
+[YOCTO #14333]
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 81599bf32135187b34726d41e9f619d22ca1bdd1)
+(cherry picked from commit 2055718fdd19f925e236d67823017323bbd92a4b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...h-Define-SYS_futex-if-it-does-not-ex.patch | 39 +++++++++++++++++++
- .../xorg-lib/libxshmfence_1.3.bb              |  4 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxshmfence/0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch
+ meta/classes/externalsrc.bbclass | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence/0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch b/meta/recipes-graphics/xorg-lib/libxshmfence/0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch
-new file mode 100644
-index 0000000000..3e87794d20
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence/0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch
-@@ -0,0 +1,39 @@
-+From 5827f6389a227157958d14a687fb29223cb3a03a Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 7 Apr 2021 07:48:42 +0000
-+Subject: [PATCH] xshmfence_futex.h: Define SYS_futex if it does not exist
-+
-+_NR_futex is not defines by newer architectures e.g. riscv32 as
-+they only have 64bit variant of time_t. Glibc defines SYS_futex
-+interface based on __NR_futex, since this is used in applications,
-+such applications start to fail to build for these newer architectures.
-+This patch defines a fallback to alias __NR_futex to __NR_futex_time64
-+to make SYS_futex keep working.
-+
-+Reference: https://git.openembedded.org/openembedded-core/commit/?id=7a218adf9990f5e18d0b6a33eb34091969f979c7
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ src/xshmfence_futex.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/xshmfence_futex.h b/src/xshmfence_futex.h
-+index 673ac0e..a71efa5 100644
-+--- a/src/xshmfence_futex.h
-++++ b/src/xshmfence_futex.h
-+@@ -53,6 +53,10 @@ static inline int futex_wait(int32_t *addr, int32_t value) {
-+ #include <sys/time.h>
-+ #include <sys/syscall.h>
-+ 
-++#if !defined(SYS_futex) && defined(SYS_futex_time64)
-++#define SYS_futex SYS_futex_time64
-++#endif
-++
-+ static inline long sys_futex(void *addr1, int op, int val1, struct timespec *timeout, void *addr2, int val3)
-+ {
-+ 	return syscall(SYS_futex, addr1, op, val1, timeout, addr2, val3);
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-index cc45696530..d153c7a603 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-@@ -13,7 +13,9 @@ DEPENDS += "virtual/libx11"
- 
- EXTRA_OECONF += "--with-shared-memory-dir=/dev/shm"
- 
--BBCLASSEXTEND = "native nativesdk"
-+SRC_URI += "file://0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch"
- 
- SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
- SRC_URI[sha256sum] = "b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 54cc7edbae..c7b2bf2f49 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -217,16 +217,14 @@ def srctree_hash_files(d, srcdir=None):
+             env['GIT_INDEX_FILE'] = tmp_index.name
+             subprocess.check_output(['git', 'add', '-A', '.'], cwd=s_dir, env=env)
+             git_sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env).decode("utf-8")
+-            submodule_helper = subprocess.check_output(['git', 'submodule', 'status'], cwd=s_dir, env=env).decode("utf-8")
++            submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list'], cwd=s_dir, env=env).decode("utf-8")
+             for line in submodule_helper.splitlines():
+-                module_relpath = line.split()[1]
+-                if not module_relpath.split('/')[0] == '..':
+-                    module_dir = os.path.join(s_dir, module_relpath)
+-                    proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+-                    proc.communicate()
+-                    proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+-                    stdout, _ = proc.communicate()
+-                    git_sha1 += stdout.decode("utf-8")
++                module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
++                proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
++                proc.communicate()
++                proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
++                stdout, _ = proc.communicate()
++                git_sha1 += stdout.decode("utf-8")
+             sha1 = hashlib.sha1(git_sha1.encode("utf-8")).hexdigest()
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
 -- 
 2.30.2
 
