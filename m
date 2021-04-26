@@ -1,213 +1,104 @@
-Received: from mga14.intel.com (mga14.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.928.1619398501109409766
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web12.917.1619398513291207353
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:55:08 -0700
+ Sun, 25 Apr 2021 17:55:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: yc0aH/3lDR0s0D4tjfGlI8GAYtFyJBxVLKPQV8YQ4joAWL6yz43QzfnMSvOlxkOKjv+W3glo57
- hLqr74Gf3L4w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818287"
-X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818287"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: ZWZZ6hY1rx2iJursu9ZKpsJDy6vds60MZ7U+laFAbRWNpGrD+9ZGdBQfPx/cnjoyVB/bFzxHKx
+ lt9YT67lUDmQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="257568888"
+X-IronPort-AV: E=Sophos;i="5.82,250,1613462400"; 
+   d="scan'208";a="257568888"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:08 -0700
-IronPort-SDR: ypiAKoy2sgFtNf5/5hTsR9VYMeTo4UJDiiOneT+D8w2EepElOgMBpN4SnDjOAd4TZoyEBwNQLH
- K5lJdNjel5RA==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:11 -0700
+IronPort-SDR: aFr/2A37vrwNPlbYNQxBD2FVZVJ/XEI/IAzBDjlrDl7r+3XlnRqs/E7Su8NqmWvFk/73+vozR1
+ osHl1LJijR3Q==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067560"
+   d="scan'208";a="454067576"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:07 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:10 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 53/64] cairo: fix CVE-2020-35492
-Date: Mon, 26 Apr 2021 08:53:24 +0800
-Message-Id: <69d693c4800c43b62bc216d7c1763d17e19ed421.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 55/64] runqemu: Ensure we cleanup snapshot files after image run
+Date: Mon, 26 Apr 2021 08:53:26 +0800
+Message-Id: <63f3c44f51cf36d3ac550ebb2292eb8e08d1b8d4.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+We need to cleanup snapshot files if we make a copy of them to ensure
+the tmpfs doesn't run out of space. There is already NFS code needing
+this so make it a generic code path.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a3e0eec5a4785a0c4859455eb10b43aa832e606d)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../cairo/cairo/CVE-2020-35492.patch          | 121 ++++++++++++++++++
- .../cairo/cairo/bug-image-compositor.ref.png  | Bin 0 -> 185 bytes
- meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  11 ++
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
+ scripts/runqemu | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-new file mode 100644
-index 0000000000..f8e69beb0b
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-@@ -0,0 +1,121 @@
-+From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
-+From: Heiko Lewin <heiko.lewin@worldiety.de>
-+Date: Tue, 15 Dec 2020 16:48:19 +0100
-+Subject: [PATCH] Fix mask usage in image-compositor
-+
-+CVE: CVE-2020-35492
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/cairo/cairo/-/commit/03a820b173ed1fdef6ff14b4468f5dbc02ff59be?merge_request_iid=85]
-+
-+original patch from upstream has a binary file, it will cause
-+do_patch failed with "git binary diffs are not supported".
-+
-+so add do_patch_append in recipe to add this binary source. when removing
-+this patch, please also remove do_patch_append for this patch
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/cairo-image-compositor.c                |   8 ++--
-+ test/Makefile.sources                       |   1 +
-+ test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
-+ 3 files changed, 44 insertions(+), 4 deletions(-)
-+ create mode 100644 test/bug-image-compositor.c
-+
-+diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
-+index 79ad69f68..4f8aaed99 100644
-+--- a/src/cairo-image-compositor.c
-++++ b/src/cairo-image-compositor.c
-+@@ -2610,14 +2610,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ 		    unsigned num_spans)
-+ {
-+     cairo_image_span_renderer_t *r = abstract_renderer;
-+-    uint8_t *m;
-++    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
-+     int x0;
-+ 
-+     if (num_spans == 0)
-+ 	return CAIRO_STATUS_SUCCESS;
-+ 
-+     x0 = spans[0].x;
-+-    m = r->_buf;
-++    m = base;
-+     do {
-+ 	int len = spans[1].x - spans[0].x;
-+ 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
-+@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ 				      spans[0].x, y,
-+ 				      spans[1].x - spans[0].x, h);
-+ 
-+-	    m = r->_buf;
-++	    m = base;
-+ 	    x0 = spans[1].x;
-+ 	} else if (spans[0].coverage == 0x0) {
-+ 	    if (spans[0].x != x0) {
-+@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ #endif
-+ 	    }
-+ 
-+-	    m = r->_buf;
-++	    m = base;
-+ 	    x0 = spans[1].x;
-+ 	} else {
-+ 	    *m++ = spans[0].coverage;
-+diff --git a/test/Makefile.sources b/test/Makefile.sources
-+index 7eb73647f..86494348d 100644
-+--- a/test/Makefile.sources
-++++ b/test/Makefile.sources
-+@@ -34,6 +34,7 @@ test_sources = \
-+ 	bug-source-cu.c					\
-+ 	bug-extents.c					\
-+ 	bug-seams.c					\
-++	bug-image-compositor.c				\
-+ 	caps.c						\
-+ 	checkerboard.c					\
-+ 	caps-joins.c					\
-+diff --git a/test/bug-image-compositor.c b/test/bug-image-compositor.c
-+new file mode 100644
-+index 000000000..fc4fd370b
-+--- /dev/null
-++++ b/test/bug-image-compositor.c
-+@@ -0,0 +1,39 @@
-++#include "cairo-test.h"
-++
-++static cairo_test_status_t
-++draw (cairo_t *cr, int width, int height)
-++{
-++    cairo_set_source_rgb (cr, 0., 0., 0.);
-++    cairo_paint (cr);
-++
-++    cairo_set_source_rgb (cr, 1., 1., 1.);
-++    cairo_set_line_width (cr, 1.);
-++
-++    cairo_pattern_t *p = cairo_pattern_create_linear (0, 0, width, height);
-++    cairo_pattern_add_color_stop_rgb (p, 0, 0.99, 1, 1);
-++    cairo_pattern_add_color_stop_rgb (p, 1, 1, 1, 1);
-++    cairo_set_source (cr, p);
-++
-++    cairo_move_to (cr, 0.5, -1);
-++    for (int i = 0; i < width; i+=3) {
-++	cairo_rel_line_to (cr, 2, 2);
-++	cairo_rel_line_to (cr, 1, -2);
-++    }
-++
-++    cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-++    cairo_stroke (cr);
-++
-++    cairo_pattern_destroy(p);
-++
-++    return CAIRO_TEST_SUCCESS;
-++}
-++
-++
-++CAIRO_TEST (bug_image_compositor,
-++	    "Crash in image-compositor",
-++	    "stroke, stress", /* keywords */
-++	    NULL, /* requirements */
-++	    10000, 1,
-++	    NULL, draw)
-++	    
-++	    
-+-- 
-+GitLab
-diff --git a/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png b/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
-new file mode 100644
-index 0000000000000000000000000000000000000000..939f659d2c8620e9927a3a79f5e96fb639c418be
-GIT binary patch
-literal 185
-zcmeAS@N?(olHy`uVBq!ia0y~yP!|BQ89A7M<o7+wF+hqf$=lt9;Xep2*t>i(P$bXO
-z#WAE}&f8-f1se=_SPWL_NSx=C)BnJ0eBr6Z%1egFEOv(*t#+|{>X&v^RS7GQe(vez
-lf)$wgmAfM(p2Sx&&i!{gWy)N&qd=P(JYD@<);T3K0RWsgHuC@g
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index 68f993d7ca..d48da1a4c7 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -27,6 +27,8 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://CVE-2018-19876.patch \
-            file://CVE-2019-6461.patch \
-            file://CVE-2019-6462.patch \
-+           file://CVE-2020-35492.patch \
-+           file://bug-image-compositor.ref.png \
-           "
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ba0b701aff..edd17d09c4 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -145,7 +145,6 @@ class BaseConfig(object):
+         self.qemu_opt = ''
+         self.qemu_opt_script = ''
+         self.qemuparams = ''
+-        self.clean_nfs_dir = False
+         self.nfs_server = ''
+         self.rootfs = ''
+         # File name(s) of a OVMF firmware file or variable store,
+@@ -210,6 +209,8 @@ class BaseConfig(object):
+         self.qemupid = None
+         # avoid cleanup twice
+         self.cleaned = False
++        # Files to cleanup after run
++        self.cleanup_files = []
  
- SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
-@@ -64,6 +66,15 @@ export ac_cv_lib_bfd_bfd_openr="no"
- # Ensure we don't depend on LZO
- export ac_cv_lib_lzo2_lzo2a_decompress="no"
+     def acquire_taplock(self, error=True):
+         logger.debug("Acquiring lockfile %s..." % self.taplock)
+@@ -1020,8 +1021,9 @@ class BaseConfig(object):
+                 logger.info('Running %s...' % str(cmd))
+                 if subprocess.call(cmd) != 0:
+                     raise RunQemuError('Failed to run %s' % cmd)
+-                self.clean_nfs_dir = True
+                 self.rootfs = dest
++                self.cleanup_files.append(self.rootfs)
++                self.cleanup_files.append('%s.pseudo_state' % self.rootfs)
  
-+#for CVE-2020-35492.patch
-+do_patch_append() {
-+    bb.build.exec_func('do_cp_binary_source', d)
-+}
-+
-+do_cp_binary_source () {
-+	cp ${WORKDIR}/bug-image-compositor.ref.png ${S}/test/reference/
-+}
-+
- do_install_append () {
- 	rm -rf ${D}${bindir}/cairo-sphinx
- 	rm -rf ${D}${libdir}/cairo/cairo-fdr*
+         # Start the userspace NFS server
+         cmd = ('runqemu-export-rootfs', 'start', self.rootfs)
+@@ -1204,6 +1206,7 @@ class BaseConfig(object):
+             self.rootfs = newrootfs
+             # Don't need a second copy now!
+             self.snapshot = False
++            self.cleanup_files.append(newrootfs)
+ 
+         qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
+         if qb_rootfs_opt:
+@@ -1476,10 +1479,13 @@ class BaseConfig(object):
+         if self.saved_stty:
+             subprocess.check_call(("stty", self.saved_stty))
+ 
+-        if self.clean_nfs_dir:
+-            logger.info('Removing %s' % self.rootfs)
+-            shutil.rmtree(self.rootfs)
+-            shutil.rmtree('%s.pseudo_state' % self.rootfs)
++        if self.cleanup_files:
++            for ent in self.cleanup_files:
++                logger.info('Removing %s' % ent)
++                if os.path.isfile(ent):
++                    os.remove(ent)
++                else:
++                    shutil.rmtree(ent)
+ 
+         self.cleaned = True
+ 
 -- 
 2.30.2
 
