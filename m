@@ -1,48 +1,72 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.12556.1619466740088712387
+Received: from mxout012.mail.hostpoint.ch (mxout012.mail.hostpoint.ch [217.26.49.172])
+ by mx.groups.io with SMTP id smtpd.web11.279.1619470115771334726
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Apr 2021 12:52:20 -0700
+ Mon, 26 Apr 2021 13:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13QJqI18031985
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 26 Apr 2021 12:52:18 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 26 Apr 2021 12:52:18 -0700
-Received: from localhost.localdomain (128.224.72.75) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Mon, 26 Apr 2021 12:52:17 -0700
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] oe-time-dd-test.sh: collect cooker log when timeout is exceeded
-Date: Mon, 26 Apr 2021 15:51:59 -0400
-Message-ID: <20210426195159.154328-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: reto-schneider.ch, ip: 217.26.49.172, mailfrom: code@reto-schneider.ch)
+Received: from [10.0.2.45] (helo=asmtp012.mail.hostpoint.ch)
+	by mxout012.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1lb89h-000DFE-1G; Mon, 26 Apr 2021 22:48:33 +0200
+Received: from [2a02:168:6182:1:6da9:5990:7c25:6a2f] (helo=ryzen2700.home.reto-schneider.ch)
+	by asmtp012.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92.3 (FreeBSD))
+	(envelope-from <code@reto-schneider.ch>)
+	id 1lb89g-000Lhc-Uu; Mon, 26 Apr 2021 22:48:32 +0200
+X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
+From: code@reto-schneider.ch
+To: openembedded-core@lists.openembedded.org
+Cc: Reto Schneider <reto.schneider@husqvarnagroup.com>
+Subject: [PATCH 1/2] license_image.bbclass: Detect broken symlinks
+Date: Mon, 26 Apr 2021 22:48:27 +0200
+Message-Id: <20210426204828.12339-1-code@reto-schneider.ch>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Collect the last 30 lines from the cooker.log
-whenever the timeout is exceeded.
+From: Reto Schneider <reto.schneider@husqvarnagroup.com>
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Find and report symlinks which point to a non-existing file.
+
+Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
- scripts/oe-time-dd-test.sh | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/license_image.bbclass | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/oe-time-dd-test.sh b/scripts/oe-time-dd-test.sh
-index 459071e732..46b218b76a 100755
---- a/scripts/oe-time-dd-test.sh
-+++ b/scripts/oe-time-dd-test.sh
-@@ -25,4 +25,5 @@ timeout ${TIMEOUT} dd if=/dev/zero of=oe-time-dd-test.dat bs=1024 count=$1 conv=
- if [ $? -ne 0 ]; then
- 	echo "Timeout used: ${TIMEOUT}"
- 	top -c -b -n1 -w 512
-+	tail -30 tmp*/log/cooker/*/console-latest.log
- fi
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index c96b032ebd..b9a0f2359b 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -1,3 +1,5 @@
++ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
++
+ python write_package_manifest() {
+     # Get list of installed packages
+     license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
+@@ -104,8 +106,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+     copy_lic_manifest = d.getVar('COPY_LIC_MANIFEST')
+     copy_lic_dirs = d.getVar('COPY_LIC_DIRS')
+     if rootfs and copy_lic_manifest == "1":
+-        rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS'), 
+-                                'usr', 'share', 'common-licenses')
++        rootfs_license_dir = d.getVar('ROOTFS_LICENSE_DIR')
+         bb.utils.mkdirhier(rootfs_license_dir)
+         rootfs_license_manifest = os.path.join(rootfs_license_dir,
+                 os.path.split(license_manifest)[1])
+@@ -267,3 +268,13 @@ python do_populate_lic_deploy() {
+ addtask populate_lic_deploy before do_build after do_image_complete
+ do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
+ 
++python license_qa_dead_symlink() {
++    import os
++
++    for root, dirs, files in os.walk(d.getVar('ROOTFS_LICENSE_DIR')):
++        for file in files:
++            full_path = root + "/" + file
++            if os.path.islink(full_path) and not os.path.exists(full_path):
++                bb.error("broken symlink: " + full_path)
++}
++IMAGE_QA_COMMANDS += "license_qa_dead_symlink"
 -- 
-2.25.1
+2.29.2
 
