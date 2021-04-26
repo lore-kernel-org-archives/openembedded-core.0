@@ -1,104 +1,62 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.909.1619398455294766979
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:18 -0700
+ Sun, 25 Apr 2021 17:54:20 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: U2hKm9wLWy/HkP5RhhATTEnhcxWwzQTou9wGPy+XBz4pzTOcXGC2NJ9yScNER0liWOcUgysMwb
- PgmE2UL6Tg9g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818087"
+IronPort-SDR: yEf3gVK7kMo6qYaru/i/ypCT09/MDQj/P4vA5V2458pygtqx7Vk1w9aVjB8oGFZscLtpt3v6hS
+ PZHPv75MEpKg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818094"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818087"
+   d="scan'208";a="195818094"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:18 -0700
-IronPort-SDR: BgIaDqY/5GYGxUnp5/sCznufkzZl0y1TgF/MWceiusEW0S1A+5Qlpc/+crgXfMfpznlPhZF4oX
- FHVyWf6A5Fhg==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:19 -0700
+IronPort-SDR: XZ4HPufiOD7b1lCDlwHGrylJLeq8qrFiBPqBC7tQurY80u1/4Z1oSNTtJ29wZ4f2Gs1S+7vIo3
+ gjWE2N5S6Lvw==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067306"
+   d="scan'208";a="454067317"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:17 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:18 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 17/64] linux-yocto/5.10: fix arm defconfig warnings
-Date: Mon, 26 Apr 2021 08:52:48 +0800
-Message-Id: <70515be581fef634a96a72a892dcff3ec4f890c0.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 18/64] nettle: upgrade 3.7.1 -> 3.7.2
+Date: Mon, 26 Apr 2021 08:52:49 +0800
+Message-Id: <95f038986eb53c3e1ae1b5aac96e1f2b9a235e63.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-A recent fix to the kern-tools promoted some previously unseen
-issues to warnings. This commit fixes them by tagging some BT
-options as non-hardware so they won't generate warnings if they
-don't appear in the final .config. These are sub BT options and
-shouldn't warn when/if their controlling option is disabled by
-a fragment.
+Version 3.7.2 includes a fix for CVE-2021-20305.
 
-    40a967b115f base: exclude some BT options as non-hardware
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fc7875ce3c68a253f8b8e5d8855c1814731b5a45)
+(cherry picked from commit 29f0ef2e32a9b55d8271fde240a4469070d57729)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 12 ++++++------
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ .../recipes-support/nettle/{nettle_3.7.1.bb => nettle_3.7.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nettle/{nettle_3.7.1.bb => nettle_3.7.2.bb} (96%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 20faff811a..dacff74bce 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-support/nettle/nettle_3.7.1.bb b/meta/recipes-support/nettle/nettle_3.7.2.bb
+similarity index 96%
+rename from meta/recipes-support/nettle/nettle_3.7.1.bb
+rename to meta/recipes-support/nettle/nettle_3.7.2.bb
+index 3bbcf17c7a..f8f3360086 100644
+--- a/meta/recipes-support/nettle/nettle_3.7.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.7.2.bb
+@@ -24,7 +24,7 @@ SRC_URI_append_class-target = "\
+             file://dlopen-test.patch \
+             "
  
- SRCREV_machine ?= "ac98a75ef2bc550f67454bd738ede581c8846ff3"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
+-SRC_URI[sha256sum] = "156621427c7b00a75ff9b34b770b95d34f80ef7a55c3407de94b16cbf436c42e"
++SRC_URI[sha256sum] = "8d2a604ef1cde4cd5fb77e422531ea25ad064679ff0adf956e78b3352e0ef162"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 54575a7917..21a2e89115 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRCREV_machine_qemuarm ?= "ee7efde0c94e8b2eba1a5a2709f2d21874ac7525"
- SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index e93e41c69b..e6859a2319 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -17,13 +17,13 @@ SRCREV_machine_qemuarm ?= "4f13e8499f2bfc9d95dcc70b981ea16351ff088b"
- SRCREV_machine_qemuarm64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
- SRCREV_machine_qemumips ?= "64f8949180b1a6375abef20eebf735e853701c71"
- SRCREV_machine_qemuppc ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemuriscv64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemuriscv32 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemux86 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_machine_qemux86-64 ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
-+SRCREV_machine_qemuriscv64 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemuriscv32 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemux86 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_machine_qemux86-64 ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
- SRCREV_machine_qemumips64 ?= "6bf49ed9b223173d918b7c0140b8d0561bc2674c"
--SRCREV_machine ?= "8465e471f5b4855d01012a18cd5fa516061c0358"
--SRCREV_meta ?= "b7125842b7ce188e7846a49fcb15a71c54806d6c"
-+SRCREV_machine ?= "d6e20b2257ecfa6e796a45a4175863862a28fa11"
-+SRCREV_meta ?= "40a967b115fdbac34fc980d0e27ac2373a031189"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
 2.30.2
 
