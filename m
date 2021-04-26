@@ -1,75 +1,76 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web09.1181.1619400025529747980
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web09.3122.1619415956730921110
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 18:20:25 -0700
+ Sun, 25 Apr 2021 22:45:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PJPLIBzX;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id y1so12393442plg.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Apr 2021 18:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s71XJln5oXO3ZN/SmuFiodYzXw3jSIFtsO40QIr6moQ=;
-        b=PJPLIBzXw/OJbMsraECILGZl0J2DpRiuLShrgNinM+KkOpGScLND1qfxNFdFuek4ZM
-         GaZEaMlr89w9R9XzOe4lc7sn04DmWxcEpZVRmcYCujlSg0WukMxh5lz5CQxQ9s/KEo+K
-         UVZX4QhMEvZ77lsnXbmkMgOZnPavuNDaHt4wQQhCHFnpb4uX29oGIgncJ96NQWHwLkuj
-         y06/7qhtShAKPygtTPRtS1lr43dl+OaoaW8SDmVwI2ZIDtWzLX34hZ9HE74mmdnNb6pB
-         2ik2tOpeEMmLthjGeO/lANLf7YN0+ltMFFaZRtxGi2bp9Gfo+lJ/mi26x4I6L0HwPYQL
-         ZGTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s71XJln5oXO3ZN/SmuFiodYzXw3jSIFtsO40QIr6moQ=;
-        b=BGyEPMZ7xiVmnDTy754YYrstEbuYdqI8gayORPP5Vzih0MKKZLMwGgU2UC9gFn5XoK
-         LEQrKK4DOX6T1z1TS1KbY7VxYs7pB1fkyxdyhu8EVOoK+hL4WTwi5AJw0sVZJxNH3N/Z
-         5UGu/IcNqlfb2fGJC77oQDldxue8z8FxF15xx/TCzW1wX76ecS3lUt7Ik0NKNZVcRjV8
-         vJbsxgc91PuqbNZRMT5eQ1gi/Yug9+dLh62eYvM2WrERsAjaps+5Re4QS0CEGcEwAT1y
-         gPvGx1wY8CXP+6XchMh+NeeOyM+iW3FSUpkvFM13e0+pGFi6nBp349ajPJZ2/TB08NsA
-         34yg==
-X-Gm-Message-State: AOAM530wXNjxWv3YJgeRt7OC/0rPZ30uiUE/St+/kPsK/xDvRUgzipxU
-	lBPRd1wQfHBUd1Kjgux1k9Ex/+TGAgJLLQ==
-X-Google-Smtp-Source: ABdhPJylerouwaHoMaMjhVacfxi5F/k3plGKway2+VONvmxzMukViN0I2u+ZTGCNc6G/RP/MxObIoA==
-X-Received: by 2002:a17:90b:1486:: with SMTP id js6mr11272639pjb.210.1619400024663;
-        Sun, 25 Apr 2021 18:20:24 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ef3])
-        by smtp.gmail.com with ESMTPSA id 140sm2432112pgg.6.2021.04.25.18.20.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Apr 2021 18:20:24 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: TO4Wu5+WaO1shbPT/AQAMNV2lSa6SMhVWgfyFZ8s60BXQvWFo9g8c3CypcsuPXM80+jp/wR7pF
+ /p6vCwti3fpg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281613557"
+X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
+   d="scan'208";a="281613557"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:45:55 -0700
+IronPort-SDR: AIL5mIrk7koYGRDLnlVeU5q/0sFbT+PJpJhZxeVLGIRjwFTFwKz7v7SyafRhnYVUUIC6XXaZ6m
+ EhM3nFYm3tWA==
+X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
+   d="scan'208";a="385670668"
+Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:45:54 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] default-distrovars.inc: Remove seccomp for riscv32
-Date: Sun, 25 Apr 2021 18:20:22 -0700
-Message-Id: <20210426012022.424092-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [gatesgarth][PATCH 0/8] review request
+Date: Mon, 26 Apr 2021 13:45:38 +0800
+Message-Id: <cover.1619409036.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-libseccomp needs too be ported to rv32 first
+Please review these changes for gatesgarth. Builds cleanly on
+autobuilder except for one failure that doesn't look related to the
+changes.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/default-distrovars.inc | 3 +++
- 1 file changed, 3 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2078
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 45f4633c35..ac10245767 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -10,6 +10,9 @@ LOCALE_UTF8_ONLY ?= "0"
- LOCALE_UTF8_IS_DEFAULT ?= "1"
- LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
- 
-+# seccomp is not yet ported to rv32
-+DISTRO_FEATURES_DEFAULT_remove_riscv32 = "seccomp"
-+
- DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
- IMAGE_FEATURES ?= ""
+Thanks,
+
+Anuj
+
+The following changes since commit 147a08dced5e565f19f4987a3c199780dc00f878:
+
+  busybox: fix CVE-2021-28831 (2021-04-20 10:37:33 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.109
+  linux-yocto/5.4: update to v5.4.111
+  linux-yocto/5.4: update to v5.4.112
+  linux-yocto/5.4: fix arm defconfig warnings
+
+Gavin Li (1):
+  kmod: do not symlink config.guess/config.sub during autoreconf
+
+Khem Raj (1):
+  ca-certificates: Fix openssl runtime cert dependencies
+
+Konrad Weihmann (1):
+  cve-update-db-native: skip on empty cpe23Uri
+
+Richard Purdie (1):
+  sanity: Further improve directory sanity tests
+
+ meta/classes/sanity.bbclass                   | 21 ++++++++++--------
+ .../recipes-core/meta/cve-update-db-native.bb |  7 +++++-
+ meta/recipes-kernel/kmod/kmod.inc             |  1 -
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ .../ca-certificates_20210119.bb               |  6 ++---
+ 7 files changed, 39 insertions(+), 32 deletions(-)
+
 -- 
-2.31.1
+2.30.2
 
