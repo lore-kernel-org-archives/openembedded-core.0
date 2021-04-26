@@ -1,68 +1,144 @@
 Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.917.1619398513291207353
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:55:14 -0700
+ Sun, 25 Apr 2021 17:55:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 12bt86IYOfAPbkUgTov+ahUI0e03v/EoHyqF4SRoh//OqaBzJ6xG1ShLy6WfXuWED/5h47KUj1
- fYaU9DBCIu5w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="257568897"
+IronPort-SDR: urMybB6fqrSpY159R4H4pvkf/ZgMErCpbAST4KMxxHL6tTHZekYa/80I70n8cUzEZfeQLbc5ql
+ 5JaE23AMVyZg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="257568899"
 X-IronPort-AV: E=Sophos;i="5.82,250,1613462400"; 
-   d="scan'208";a="257568897"
+   d="scan'208";a="257568899"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:14 -0700
-IronPort-SDR: xcF6KKOsjP7bLR/nPzgAq+xaXmJPO2cjek5eVhUFd91UQm+MlOQZYHqaGHmrBY/cDxbz6vQWhs
- mf/d34SkmV4g==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:15 -0700
+IronPort-SDR: zUBb2WjN2CDF8c+5hYmvO9+x6h+FTvBGX4q2X5MFBhwCUEZDPpx9OdHx0IpYknMWpAIP41KKZ3
+ A8PtcIdsObJA==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067583"
+   d="scan'208";a="454067593"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:13 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:55:14 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 57/64] cve-update-db-native: skip on empty cpe23Uri
-Date: Mon, 26 Apr 2021 08:53:28 +0800
-Message-Id: <650eaa56b83b5698ad7b95337607959e018ff6c0.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 58/64] qemu: fix CVE-2021-20181
+Date: Mon, 26 Apr 2021 08:53:29 +0800
+Message-Id: <a993a379bb490efbbf507f5dccda5ab358e8afea.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Konrad Weihmann <kweihmann@outlook.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Recently an entry in the NVD DB appeared that looks like that
-{'vulnerable': True, 'cpe_name': []}.
-As besides all the vulnerable flag no data is present we would get
-a KeyError exception on acccess.
-Use get method on dictionary and return if no meta data is present
-Also quit if the length of the array after splitting is less than 6
-
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 00ce2796d97de2bc376b038d0ea7969088791d34)
+(cherry picked from commit c2f79065ef0684f2c0bdb92f1b03e690ab730b8c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-20181.patch            | 81 +++++++++++++++++++
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 25ec6bac71..e5822cee58 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -139,7 +139,12 @@ def parse_node_and_insert(c, node, cveId):
-         for cpe in node.get('cpe_match', ()):
-             if not cpe['vulnerable']:
-                 return
--            cpe23 = cpe['cpe23Uri'].split(':')
-+            cpe23 = cpe.get('cpe23Uri')
-+            if not cpe23:
-+                return
-+            cpe23 = cpe23.split(':')
-+            if len(cpe23) < 6:
-+                return
-             vendor = cpe23[3]
-             product = cpe23[4]
-             version = cpe23[5]
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f0416b0379..65e0489a97 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-35517_1.patch \
+            file://CVE-2020-35517_2.patch \
+            file://CVE-2020-35517_3.patch \
++           file://CVE-2021-20181.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
+new file mode 100644
+index 0000000000..1b8c77f838
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20181.patch
+@@ -0,0 +1,81 @@
++From c2d2d14e8deece958bbc4fc649d22c3564bc4e7e Mon Sep 17 00:00:00 2001
++From: Greg Kurz <groug@kaod.org>
++Date: Thu, 14 Jan 2021 17:04:12 +0100
++Subject: [PATCH] 9pfs: Fully restart unreclaim loop (CVE-2021-20181)
++
++Depending on the client activity, the server can be asked to open a huge
++number of file descriptors and eventually hit RLIMIT_NOFILE. This is
++currently mitigated using a reclaim logic : the server closes the file
++descriptors of idle fids, based on the assumption that it will be able
++to re-open them later. This assumption doesn't hold of course if the
++client requests the file to be unlinked. In this case, we loop on the
++entire fid list and mark all related fids as unreclaimable (the reclaim
++logic will just ignore them) and, of course, we open or re-open their
++file descriptors if needed since we're about to unlink the file.
++
++This is the purpose of v9fs_mark_fids_unreclaim(). Since the actual
++opening of a file can cause the coroutine to yield, another client
++request could possibly add a new fid that we may want to mark as
++non-reclaimable as well. The loop is thus restarted if the re-open
++request was actually transmitted to the backend. This is achieved
++by keeping a reference on the first fid (head) before traversing
++the list.
++
++This is wrong in several ways:
++- a potential clunk request from the client could tear the first
++  fid down and cause the reference to be stale. This leads to a
++  use-after-free error that can be detected with ASAN, using a
++  custom 9p client
++- fids are added at the head of the list : restarting from the
++  previous head will always miss fids added by a some other
++  potential request
++
++All these problems could be avoided if fids were being added at the
++end of the list. This can be achieved with a QSIMPLEQ, but this is
++probably too much change for a bug fix. For now let's keep it
++simple and just restart the loop from the current head.
++
++Fixes: CVE-2021-20181
++Buglink: https://bugs.launchpad.net/qemu/+bug/1911666
++Reported-by: Zero Day Initiative <zdi-disclosures@trendmicro.com>
++Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
++Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
++Message-Id: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
++Signed-off-by: Greg Kurz <groug@kaod.org>
++
++Upstream-Status: Backport [89fbea8737e8f7b954745a1ffc4238d377055305]
++CVE: CVE-2021-20181
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/9pfs/9p.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
++index 94df440fc..6026b51a1 100644
++--- a/hw/9pfs/9p.c
+++++ b/hw/9pfs/9p.c
++@@ -502,9 +502,9 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++ {
++     int err;
++     V9fsState *s = pdu->s;
++-    V9fsFidState *fidp, head_fid;
+++    V9fsFidState *fidp;
++ 
++-    head_fid.next = s->fid_list;
+++again:
++     for (fidp = s->fid_list; fidp; fidp = fidp->next) {
++         if (fidp->path.size != path->size) {
++             continue;
++@@ -524,7 +524,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
++              * switched to the worker thread
++              */
++             if (err == 0) {
++-                fidp = &head_fid;
+++                goto again;
++             }
++         }
++     }
++-- 
++2.29.2
++
 -- 
 2.30.2
 
