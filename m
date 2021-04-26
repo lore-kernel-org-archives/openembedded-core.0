@@ -1,73 +1,58 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.972.1619398464930781840
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 17:54:40 -0700
+ Sun, 25 Apr 2021 17:54:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 3AXz86ras9IGFEABFFF4oiT/T9wo+eJVp4a6OvzO8dNYb6o8bTGkh/K6hFm8TjQqtBaOAmaR1U
- Lw05+3VE4Fxw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818200"
+IronPort-SDR: CKqo/17mK7g7Qw1D2Dr21GquFJGycJaUsRkcR5agFTU8Ymoia8oUtnfklfFTHk3mSE8GvhOuQh
+ +fEHUfNoGUeA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195818204"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="195818200"
+   d="scan'208";a="195818204"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:40 -0700
-IronPort-SDR: CUVqlpI5R5/bIE2XOKpGxPPIvYpgZ5Jict20hi8G+SJncZyaJyEs8QnuNbsFFYCqQs9rBy0vV+
- uUuslAADzmuQ==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:41 -0700
+IronPort-SDR: xuXKvBazXKzatGTPQDU9RoccboZ2nMSsv+Xk/r7Au5Qor7oaAJpstWMtxZq0tFoRtH9J74+SSp
+ d4kFGQ9jB7OA==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="454067420"
+   d="scan'208";a="454067425"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:39 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 17:54:40 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 33/64] systemd: upgrade 247.4 -> 247.6
-Date: Mon, 26 Apr 2021 08:53:04 +0800
-Message-Id: <7580c864a4afdf72b34c94c694e590f087bf5298.1619397968.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 34/64] modutils-initscripts: Bail out when no module is installed
+Date: Mon, 26 Apr 2021 08:53:05 +0800
+Message-Id: <1aa5d8231a7e4ee2f19afbe12aa49fc19c854062.1619397968.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619397968.git.anuj.mittal@intel.com>
 References: <cover.1619397968.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Anthony Bagwell <aj.bagwell@gmail.com>
+From: Kevin Hao <kexin.hao@windriver.com>
 
+Fix the following warning when boot with a core-image-minimal rootfs:
+  depmod: can't change directory to 'lib/modules/5.10.25-yocto-standard': No such file or directory
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63fbf39b8aa3d94ca2db719d1a53190045dbb86d)
+(cherry picked from commit c34650400182a1104a5fbe03e54f5cea69eb1900)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../systemd/{systemd-boot_247.4.bb => systemd-boot_247.6.bb}    | 0
- .../systemd/{systemd-conf_247.3.bb => systemd-conf_247.6.bb}    | 0
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- .../recipes-core/systemd/{systemd_247.4.bb => systemd_247.6.bb} | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/systemd/{systemd-boot_247.4.bb => systemd-boot_247.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-conf_247.3.bb => systemd-conf_247.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_247.4.bb => systemd_247.6.bb} (100%)
+ meta/recipes-kernel/modutils-initscripts/files/modutils.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_247.4.bb b/meta/recipes-core/systemd/systemd-boot_247.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_247.4.bb
-rename to meta/recipes-core/systemd/systemd-boot_247.6.bb
-diff --git a/meta/recipes-core/systemd/systemd-conf_247.3.bb b/meta/recipes-core/systemd/systemd-conf_247.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-conf_247.3.bb
-rename to meta/recipes-core/systemd/systemd-conf_247.6.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 098bca98f1..7d3b3064ba 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-kernel/modutils-initscripts/files/modutils.sh b/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+index 28fe6f92d7..67e1dcd990 100755
+--- a/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
++++ b/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+@@ -13,6 +13,7 @@
  
--SRCREV = "069525e84a67375e27429cb490e8d28af78e673a"
-+SRCREV = "17472dca0160cbe7b807ca648475fd70d0d62fe5"
- SRCBRANCH = "v247-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ LOAD_MODULE=modprobe
+ [ -f /proc/modules ] || exit 0
++[ -d /lib/modules/`uname -r` ] || exit 0
  
-diff --git a/meta/recipes-core/systemd/systemd_247.4.bb b/meta/recipes-core/systemd/systemd_247.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_247.4.bb
-rename to meta/recipes-core/systemd/systemd_247.6.bb
+ # Test if modules.dep exists and has a size greater than zero
+ if [ ! -s /lib/modules/`uname -r`/modules.dep ]; then
 -- 
 2.30.2
 
