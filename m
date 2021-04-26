@@ -1,65 +1,74 @@
-Received: from mxout017.mail.hostpoint.ch (mxout017.mail.hostpoint.ch [217.26.49.177])
- by mx.groups.io with SMTP id smtpd.web12.431.1619472488052627567
+Received: from mxout014.mail.hostpoint.ch (mxout014.mail.hostpoint.ch [217.26.49.174])
+ by mx.groups.io with SMTP id smtpd.web08.431.1619472488044702151
  for <openembedded-core@lists.openembedded.org>;
  Mon, 26 Apr 2021 14:28:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: reto-schneider.ch, ip: 217.26.49.177, mailfrom: code@reto-schneider.ch)
+ dkim=missing; spf=pass (domain: reto-schneider.ch, ip: 217.26.49.174, mailfrom: code@reto-schneider.ch)
 Received: from [10.0.2.45] (helo=asmtp012.mail.hostpoint.ch)
-	by mxout017.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
+	by mxout014.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
 	(envelope-from <code@reto-schneider.ch>)
-	id 1lb8lx-000EaK-MV; Mon, 26 Apr 2021 23:28:05 +0200
+	id 1lb8lx-0003oS-KN; Mon, 26 Apr 2021 23:28:05 +0200
 Received: from [2a02:168:6182:1:6da9:5990:7c25:6a2f] (helo=ryzen2700.home.reto-schneider.ch)
 	by asmtp012.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
 	(Exim 4.92.3 (FreeBSD))
 	(envelope-from <code@reto-schneider.ch>)
-	id 1lb8lx-0004SX-Jl; Mon, 26 Apr 2021 23:28:05 +0200
+	id 1lb8lx-0004SX-Hx; Mon, 26 Apr 2021 23:28:05 +0200
 X-Authenticated-Sender-Id: reto-schneider@reto-schneider.ch
 From: "Reto Schneider" <code@reto-schneider.ch>
 To: openembedded-core@lists.openembedded.org
 Cc: Reto Schneider <reto.schneider@husqvarnagroup.com>
-Subject: [PATCH v2 2/2] license_image.bbclass: Fix symlink to generic license files
-Date: Mon, 26 Apr 2021 23:27:57 +0200
-Message-Id: <20210426212757.10409-2-code@reto-schneider.ch>
+Subject: [PATCH v2 1/2] license_image.bbclass: Detect broken symlinks
+Date: Mon, 26 Apr 2021 23:27:56 +0200
+Message-Id: <20210426212757.10409-1-code@reto-schneider.ch>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210426212757.10409-1-code@reto-schneider.ch>
-References: <20210426212757.10409-1-code@reto-schneider.ch>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Reto Schneider <reto.schneider@husqvarnagroup.com>
 
-Link to the canonical filename of a license as only this one exists.
-
-Fixes commit 670fe71dd18ea675f35581db4a61fda137f8bf00
-[license_image.bbclass: use canonical name for license files].
+Find and report symlinks which point to a non-existing file.
 
 Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-Version 2: Fix link to commit
+Version 2: No changes
 
- meta/classes/license_image.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/license_image.bbclass | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index b9a0f2359b..73cebb4d55 100644
+index c96b032ebd..b9a0f2359b 100644
 --- a/meta/classes/license_image.bbclass
 +++ b/meta/classes/license_image.bbclass
-@@ -144,12 +144,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                             continue
+@@ -1,3 +1,5 @@
++ROOTFS_LICENSE_DIR = "${IMAGE_ROOTFS}/usr/share/common-licenses"
++
+ python write_package_manifest() {
+     # Get list of installed packages
+     license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
+@@ -104,8 +106,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+     copy_lic_manifest = d.getVar('COPY_LIC_MANIFEST')
+     copy_lic_dirs = d.getVar('COPY_LIC_DIRS')
+     if rootfs and copy_lic_manifest == "1":
+-        rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS'), 
+-                                'usr', 'share', 'common-licenses')
++        rootfs_license_dir = d.getVar('ROOTFS_LICENSE_DIR')
+         bb.utils.mkdirhier(rootfs_license_dir)
+         rootfs_license_manifest = os.path.join(rootfs_license_dir,
+                 os.path.split(license_manifest)[1])
+@@ -267,3 +268,13 @@ python do_populate_lic_deploy() {
+ addtask populate_lic_deploy before do_build after do_image_complete
+ do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
  
-                         # Make sure we use only canonical name for the license file
--                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
-+                        generic_lic_file = "generic_%s" % generic_lic
-+                        rootfs_license = os.path.join(rootfs_license_dir, generic_lic_file)
-                         if not os.path.exists(rootfs_license):
-                             oe.path.copyhardlink(pkg_license, rootfs_license)
- 
-                         if not os.path.exists(pkg_rootfs_license):
--                            os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-+                            os.symlink(os.path.join('..', generic_lic_file), pkg_rootfs_license)
-                     else:
-                         if (oe.license.license_ok(canonical_license(d,
-                                 lic), bad_licenses) == False or
++python license_qa_dead_symlink() {
++    import os
++
++    for root, dirs, files in os.walk(d.getVar('ROOTFS_LICENSE_DIR')):
++        for file in files:
++            full_path = root + "/" + file
++            if os.path.islink(full_path) and not os.path.exists(full_path):
++                bb.error("broken symlink: " + full_path)
++}
++IMAGE_QA_COMMANDS += "license_qa_dead_symlink"
 -- 
 2.29.2
 
