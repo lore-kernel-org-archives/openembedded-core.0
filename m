@@ -1,84 +1,78 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.3123.1619415959561459793
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Apr 2021 22:46:04 -0700
+ Sun, 25 Apr 2021 22:46:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: sd5GpgweIyhJqfqcpAP/YM3LO0Up4M/3ARygZ1Vs+NpBql4hTxjtsdntAF+xiTJm8f3YI8DQa5
- ++ImpS0IilbA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281613568"
+IronPort-SDR: zO0JuFoiJ0TZyTaLH1u1qXuDJLfxrOXqElC9+8IeZzbdWGCrqt/2WsehS/R1gHGkeEVafKzFSI
+ Gbb7DKmB/DRA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281613577"
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="281613568"
+   d="scan'208";a="281613577"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:04 -0700
-IronPort-SDR: Em3VneRqDIjQ0qeludPLw39sTY6KRz5zRSfV1xLt+XlrcMHVJFlX8j5XJH88tvJCOl0crzXqMG
- K7oNCHcA+LnQ==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:05 -0700
+IronPort-SDR: ebXxm3VFqxiP+eeqtRbbSGjPud3VciOnDNCle2YNCD1Pc2K63zQ2RTrKVPBEtZa0GKqdepyPSR
+ 9cl8EBqbQmZw==
 X-IronPort-AV: E=Sophos;i="5.82,251,1613462400"; 
-   d="scan'208";a="385670714"
+   d="scan'208";a="385670718"
 Received: from wsan-mobl1.ccr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.45.138])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:03 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2021 22:46:04 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 6/8] ca-certificates: Fix openssl runtime cert dependencies
-Date: Mon, 26 Apr 2021 13:45:44 +0800
-Message-Id: <b2a233c9c5fb919d6507683bdf27a4435a2b5285.1619409036.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 7/8] kmod: do not symlink config.guess/config.sub during autoreconf
+Date: Mon, 26 Apr 2021 13:45:45 +0800
+Message-Id: <b423a574496a7bf6023883584a6d1ad1cdb8f017.1619409036.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619409036.git.anuj.mittal@intel.com>
 References: <cover.1619409036.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Gavin Li <gavin@matician.com>
 
-With commit dc778c70449ee5401b5a24ad18b22b88338c47c5, dependency was
-moved to openssl-bin which in itself was a fine change, but dropping
-dependency on openssl too should have been kept along, dropping this
-meant that openssl binary wont be able to validate secure connections as
-the CApath files wont be installed, which infact are required for
-openssl bins to work, following call e.g. fails
+I was encountering the following race condition on poky:
 
-$ openssl s_client -connect google.com:443
+- automake-native does do_install.
+- automake-native does do_populate_sysroot. This hardlinks config.guess
+  and config.sub into ${D}.
+- kmod-native does do_configure. This runs `autoreconf`, which runs
+  `automake --add-missing` (symlinks config.guess/config.sub from
+  recipe-sysroot-native to build dir), then runs `gnu-configize` (copies
+  _its own_ config.guess/config.sub _on top_ of the already existing
+  ones). Since the destinations already had symlinks, the copy would
+  overwrite config.guess/config.sub in recipe-sysroot-native, which
+  would in turn overwrite the same in ${D} due to being hardlinked.
+- automake-native does do_package. The outhash is thus calculated on the
+  clobbered config.guess/config.sub files.
 
-....
-New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
-Server public key is 256 bit
-Secure Renegotiation IS NOT supported
-Compression: NONE
-Expansion: NONE
-No ALPN negotiated
-Early data was not sent
-Verify return code: 20 (unable to get local issuer certificate)
-....
+With hash equivalency enabled, the different outhash produced a
+different unihash, which kept me from reusing sstate between my laptop
+and my build server. This race condition would happen only on the build
+server (BB_NUMBER_THREADS = 32) but never on my laptop
+(BB_NUMBER_THREADS = 6).
 
-The local issuer certs are not found in default location
-/usr/lib/ssh-1.1/certs, this dir and its content is installed by openssl package
-therefore re-add the dependency on openssl
+I didn't see the --install and --symlink flags being used by any other
+recipe, so I removed them, and that fixed the issue.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Andrei Gherzan <andrei@gherzan.ro>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eaf377315efc73d6ffe361372a873918b3bb3bf5)
+(cherry picked from commit 89d675efd633b495daa4a3a57420b9c309497035)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ca-certificates/ca-certificates_20210119.bb             | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/kmod/kmod.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-index 888a235c1a..7dcc86fdc1 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-@@ -83,8 +83,8 @@ do_install_append_class-native () {
-     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
- }
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 646dff9a97..10a319ac9f 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -26,7 +26,6 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
  
--RDEPENDS_${PN}_class-target = "openssl-bin"
--RDEPENDS_${PN}_class-native = "openssl-native"
--RDEPENDS_${PN}_class-nativesdk = "nativesdk-openssl-bin"
-+RDEPENDS_${PN}_append_class-target = " openssl-bin openssl"
-+RDEPENDS_${PN}_append_class-native = " openssl-native"
-+RDEPENDS_${PN}_append_class-nativesdk = " nativesdk-openssl-bin nativesdk-openssl"
+ S = "${WORKDIR}/git"
  
- BBCLASSEXTEND = "native nativesdk"
+-EXTRA_AUTORECONF += "--install --symlink"
+ EXTRA_OECONF +=" --enable-tools --with-zlib"
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
 -- 
 2.30.2
 
