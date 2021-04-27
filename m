@@ -1,115 +1,86 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web08.2871.1619558357932808251
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.3956.1619563152623812039
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Apr 2021 14:19:18 -0700
+ Tue, 27 Apr 2021 15:39:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 13RLJGNb018440
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 14:19:16 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 27 Apr 2021 14:19:15 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Tue, 27 Apr 2021 14:19:15 -0700
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] buildstats.bbclass: collect data in the same file.
-Date: Tue, 27 Apr 2021 17:19:08 -0400
-Message-ID: <20210427211908.2169-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KKv/5rCm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id p6-20020a05600c3586b029014131bbe5c7so4720393wmq.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 15:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=mpfNYFEdNhtc+/vPcRMN6xYwlGBMIjQ1TBDGB9BYfeI=;
+        b=KKv/5rCmt9XrO+fPGF3+PU78rW2yRlosCrXotYeRnI/M08WBrjIK6ZBg1pA69FNsrB
+         2uWFQFZ7By63cUlgIEhBRHe9R0yxoQc+u3bDTizOYUzmm5VaQkCrU24C93LsNbvWklLZ
+         nhjyrmEn16O4OVfwtyQAWkJIfA+C5YOxJLcWQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mpfNYFEdNhtc+/vPcRMN6xYwlGBMIjQ1TBDGB9BYfeI=;
+        b=Qk+GlKch8ApeRlNnqY/hRlxB7v9bSu84d6V/YkseWWwNLAXG46BQ2jfVO20ONP5yBT
+         UI9ItaYr92DuINwwnK1s8TFx26sT12qgnNKF3Z4YrHLwNfy9mGiOXmudQhSaqjokUrzG
+         b2zLtZl0lmY+CzvbmT3XrHf/HDM5fJQDv+KKlqvAHq2xkZaS5LZ3lwDAJ8pS1eMRkF2V
+         KXeZd0qmGS5Lz/wqexQq4v0OGzheHgTCWMvWYPjjX0otQPaHlA5ceZaLDnVUek3HDPzd
+         +UTwwh15rImW6TQyNIGimaghT2ie4byHwqDCPSE+aYfl8Nv3hIrsSNvltriTzjqpunp0
+         ezUw==
+X-Gm-Message-State: AOAM533pbSH4ykJseptlcBPZ0zZtoY/VmdiKjuh6BDXIxsVaobebGUqy
+	ebpdlI6g4xRsfs7ojJ1SB4yUtw==
+X-Google-Smtp-Source: ABdhPJx6X1Yz+CV2x8q4vn7ufm+UQmRmX+0ZsiMvgEXcrRhEj1BTZGhQJ+RmphXYGZl35Zaq+IxW1g==
+X-Received: by 2002:a1c:2646:: with SMTP id m67mr552466wmm.71.1619563150983;
+        Tue, 27 Apr 2021 15:39:10 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:89c2:a4ad:446:e40? ([2001:8b0:aba:5f3c:89c2:a4ad:446:e40])
+        by smtp.gmail.com with ESMTPSA id a9sm1308284wmj.1.2021.04.27.15.39.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 15:39:10 -0700 (PDT)
+Message-ID: <a825b895707921ccfb5a2d20a0def7982963de21.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Devendra Tewari <devendra.tewari@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>, OE
+	Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Apr 2021 23:39:08 +0100
+In-Reply-To: <3F33A9E1-ED6B-4728-A0CE-49EAAB2CFAC1@gmail.com>
+References: 
+	<d59ab2e71f0115018fb1c957276ce71e3292cd95.camel@linuxfoundation.org>
+	 <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
+	 <aebbbcf8d29afec37b4a9c459eca8ab24112137f.camel@linuxfoundation.org>
+	 <4538E61E-9CE7-4346-877F-FA6CEAEB5074@gmail.com>
+	 <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
+	 <3F33A9E1-ED6B-4728-A0CE-49EAAB2CFAC1@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Previously "at interval" and "on failure" logs were collected
-in separate files. Collect both types of logging in the same
-file for better analysis.
+On Tue, 2021-04-27 at 11:59 -0300, Devendra Tewari wrote:
+> I suspect this is an issue in upstream createrepo_c tool, which has code that does not work across overlay
+> file systems
+> 
+>     if (g_rename(out_repo, old_repodata_path) == -1) {
+>         g_debug("Old repodata doesn't exists: Cannot rename %s -> %s: %s",
+>                 out_repo, old_repodata_path, g_strerror(errno));
+>     } else {
+>         g_debug("Renamed %s -> %s", out_repo, old_repodata_path);
+>         old_repodata_renamed = TRUE;
+>     }
+> 
+> I’ll try patching and report an issue to upstream project.
 
-Introduced new variable which allows different set of commands
-to be run by the different logging, interval or failure. The
-variables are BB_LOG_HOST_STAT_CMDS_INTERVAL and
-BB_LOG_HOST_STAT_CMDS_FAILURE respecteviely.
+I'm starting to worry that you're going to have this problem with many tools doing 
+renames. It does sound like something the container filesystem should be handling rather
+than exposing as a difference in behaviour. I suspect it becomes hard to see
+predictably since builds writing in the same build instance are probably fine
+and it only likely happens for files created in one instance and then later
+renamed in another...
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/classes/buildstats.bbclass | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+Given the breadth of build systems we run, I'm not sure we want to try and
+support this?
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 8e03039aeb..8a1466d3fe 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -104,7 +104,7 @@ def write_task_data(status, logfile, e, d):
-             f.write("Status: FAILED \n")
-         f.write("Ended: %0.2f \n" % e.time)
- 
--def write_host_data(logfile, e, d):
-+def write_host_data(logfile, e, d, type):
-     import subprocess, os, datetime
-     # minimum time allowed for each command to run, in seconds
-     time_threshold = 0.5
-@@ -112,15 +112,22 @@ def write_host_data(logfile, e, d):
-     num_cmds = 0
-     # interval at which data will be logged
-     interval = int(d.getVar("BB_HEARTBEAT_EVENT", False))
--    # the commands to be run at each interval
--    cmds = d.getVar('BB_LOG_HOST_STAT_CMDS')
--    # if no commands are passed, issue a warning and return
--    if cmds is None:
--        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
--        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
--        bb.warn("buildstats: Collecting host data failed. Set BB_LOG_HOST_STAT_CMDS=\"command1 ; command2 ; ... \" in conf/local.conf\n")
--        return
--    # find the total commands
-+    msg = ""
-+    if type == "interval":
-+        cmds = d.getVar('BB_LOG_HOST_STAT_CMDS_INTERVAL')
-+        msg = "Host Stats: Collecting data at interval.\n"
-+        if cmds is None:
-+            d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
-+            bb.warn("buildstats: Collecting host data at intervals failed. Set BB_LOG_HOST_STAT_CMDS_INTERVAL=\"command1 ; command2 ; ... \" in conf/local.conf\n")
-+            return
-+    if type == "failure":
-+        cmds = d.getVar('BB_LOG_HOST_STAT_CMDS_FAILURE')
-+        msg = "Host Stats: Collecting data on failure.\n"
-+        msg += "Failed at task " + e.task + "\n"
-+        if cmds is None:
-+            d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
-+            bb.warn("buildstats: Collecting host data on failure failed. Set BB_LOG_HOST_STAT_CMDS_FAILURE=\"command1 ; command2 ; ... \" in conf/local.conf\n")
-+            return
-     c_san = []
-     for cmd in cmds.split(";"):
-         if len(cmd) == 0:
-@@ -147,6 +154,7 @@ def write_host_data(logfile, e, d):
-     os.environ['PATH'] = path + ":" + opath + ":" + ospath
-     with open(logfile, "a") as f:
-         f.write("Event Time: %f\nDate: %s\n" % (e.time, datetime.datetime.now()))
-+        f.write("%s" % msg)
-         for c in c_san:
-             try:
-                 output = subprocess.check_output(c.split(), stderr=subprocess.STDOUT, timeout=limit).decode('utf-8')
-@@ -171,7 +179,7 @@ python run_buildstats () {
-         taskdir = os.path.join(bsdir, d.getVar('PF'))
-         if isinstance(e, bb.event.HeartbeatEvent) and bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_INTERVAL")):
-             bb.utils.mkdirhier(bsdir)
--            write_host_data(os.path.join(bsdir, "host_stats"), e, d)
-+            write_host_data(os.path.join(bsdir, "host_stats"), e, d, "interval")
- 
-     if isinstance(e, bb.event.BuildStarted):
-         ########################################################################
-@@ -247,7 +255,7 @@ python run_buildstats () {
-         with open(build_status, "a") as f:
-             f.write(d.expand("Failed at: ${PF} at task: %s \n" % e.task))
-             if bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_FAILURE")):
--                write_host_data(build_status, e, d)
-+                write_host_data(os.path.join(bsdir, "host_stats"), e, d, "failure")
- }
- 
- addhandler run_buildstats
--- 
-2.29.2
+Cheers,
+
+Richard
 
