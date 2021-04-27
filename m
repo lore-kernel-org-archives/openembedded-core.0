@@ -1,111 +1,663 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web11.5508.1619511373350270317
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+ by mx.groups.io with SMTP id smtpd.web10.5521.1619511866792641835
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Apr 2021 01:16:13 -0700
+ Tue, 27 Apr 2021 01:24:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: OLSyB0FDGPuJW3Mf0utRL459B04u3ti0rKcZr+Ua6Yc22W74qazlIcBvTWHWnpqJan/PuavIEu
- Y+QkhWQYGrYQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9966"; a="196581368"
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; 
-   d="scan'208";a="196581368"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2021 01:16:10 -0700
-IronPort-SDR: Z0NvGvZ6kOTqzOd9mhdFs0+Lf64aQwlJt9sp2AMq3nNrTyvOrHAZHLWdicOlrJ+n0hJ/Mj6AdI
- orHAvbUDbzZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,254,1613462400"; 
-   d="scan'208";a="425148188"
-Received: from pgsmsx602.gar.corp.intel.com ([10.108.199.137])
-  by orsmga007.jf.intel.com with ESMTP; 27 Apr 2021 01:16:09 -0700
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx602.gar.corp.intel.com (10.108.199.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 27 Apr 2021 16:16:08 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
- Tue, 27 Apr 2021 16:16:08 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "flowergom@gmail.com"
-	<flowergom@gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH] qemu: fix CVE-2021-3392
-Thread-Topic: [OE-core] [hardknott][PATCH] qemu: fix CVE-2021-3392
-Thread-Index: AQHXOzx3JNngJB6jD0aq5fI7gBq/6KrHfpCA
-Date: Tue, 27 Apr 2021 08:16:08 +0000
-Message-ID: <f4f8ccd3bff2f7936575474c4d327e04371a9c46.camel@intel.com>
-References: <20210427080727.1215-1-flowergom@gmail.com>
-In-Reply-To: <20210427080727.1215-1-flowergom@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <340DD29388AAA041B073D41A650A0128@intel.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UO85d+NE;
+ spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: vinay.m.engg@gmail.com)
+Received: by mail-il1-f182.google.com with SMTP id a9so959925ilh.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 01:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=AIJiQDadixXG9L+m/+FMhefTgeRcPIELIGf44zwGQ6g=;
+        b=UO85d+NEWP0u/RlGzdw+RYsZZBsLe7MsOwA9dEQ3IWbRlF1XbZjtCflN5x2ABDa83M
+         jcNxqE9Bq8QWklfkHtgFeqn7Uc8KFRChVBM6i2K1CyzL5acjFG2ml2LWA1/u2OBdshJ4
+         FF7OBdKs0OP1AMOHS0ZyllPr376xH6t9A7+P93ikmGiO7pvQsnrkO5+eGcsiz+DaY+o6
+         cXIV8UpjS59+7ETRgzOwhow5lxsJu9YqfjtF5Tjv5skJBL6QsoFUCxHSRvDgnMgMGn03
+         cfDSlFEHw20Jyw9KbxwmkidzYit+8+Gwl+//z9PQZ1RrAuNodQDDyfSzs0sQsLS8/Z/f
+         t56Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=AIJiQDadixXG9L+m/+FMhefTgeRcPIELIGf44zwGQ6g=;
+        b=CO00XK3a6iRMtgzkIjZBi7eDCgY/AddJXjklZUN1Xk6w/gVf3ICskAM2lO+vUZPOEQ
+         SrrUAmh7kdZHbfODPNONcRgb2VyXvdlQoWE7U1+sPSM+Yyd8DBOw8svhrmEsTk2d9lXy
+         XqkW9CXYaNpR13ZJy0aNzLBwH8e4+qC+PgaKIacjEyG/kRKV/xg15202vh8Cd2f55SH1
+         eqfvpO+pwfuueYJb97k8JnTdbb9Rf/foyEf9+G2l0WEJl8u/v1TG0f7yLmZTTZb1cOKh
+         U9iv/cmV1KZD29HpRTdJ3TgDUg50zxqLwnH8RobxnbmJ993vDEAA9qDXWLSl8siAWts2
+         Q4pQ==
+X-Gm-Message-State: AOAM532qKjFlXizYEz63qJRO9efYFPwEHF9JrdoNvGNZh560FbjUMtmL
+	/3QwyLWhYn4q/GXNybK/1Qi+iulW3r+VdyJs5/4=
+X-Google-Smtp-Source: ABdhPJx35Qg3EcOZJYqKTtI7MJRmIVi97P0n6G/BuYZn7+OOf9B2rfM0fd7qILKYBmf4iSpk5TTKPw==
+X-Received: by 2002:a92:360f:: with SMTP id d15mr18700042ila.31.1619511865376;
+        Tue, 27 Apr 2021 01:24:25 -0700 (PDT)
+Return-Path: <vinay.m.engg@gmail.com>
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com. [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id t7sm1060295ile.87.2021.04.27.01.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 01:24:24 -0700 (PDT)
+From: "Vinay Kumar" <vinay.m.engg@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vinay.kumar@blackfigtech.com,
+	rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	Vinay Kumar <vinay.m.engg@gmail.com>
+Subject: [dunfell][PATCH v2] Binutils: Fix CVE-2021-20197
+Date: Tue, 27 Apr 2021 01:24:14 -0700
+Message-Id: <20210427082414.175235-1-vinay.m.engg@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAOSpxda9YEyN_8=qd__hRwxGFFS6cWZDON9jdK-gbe-K1V=DWQ@mail.gmail.com>
+References: <CAOSpxda9YEyN_8=qd__hRwxGFFS6cWZDON9jdK-gbe-K1V=DWQ@mail.gmail.com>
 
-SGVsbG8sDQoNClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLg0KDQpPbiBUdWUsIDIwMjEtMDQtMjcg
-YXQgMTc6MDcgKzA5MDAsIE1pbmphZSBLaW0gd3JvdGU6DQo+IHNjc2k6IHVzZS1hZnRlci1mcmVl
-IGluIG1wdHNhc19wcm9jZXNzX3Njc2lfaW9fcmVxdWVzdCgpIG9mIG1wdHNhczEwNjgNCj4gZW11
-bGF0b3INCg0KVGhpcyB3aWxsIG5lZWQgeW91ciBTaWduZWQtb2ZmLWJ5LsKgDQoNCkl0IGxvb2tz
-IGxpa2UgeW91IGFyZSBwaWNraW5nIGFuIG9sZGVyIHZlcnNpb24gb2YgdGhlIGNoYW5nZSBmcm9t
-DQptYWlsaW5nIGxpc3QuIFRoZSB1cHN0cmVhbSBjb21taXQgc2hvdWxkIGJlIGJhY2twb3J0ZWQg
-aW5zdGVhZC4NClVwc3RyZWFtLVN0YXR1cyBzaG91bGQgYWxzbyBiZSBCYWNrcG9ydCBpbiB0aGF0
-IGNhc2UuDQoNCmh0dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUvY29tbWl0LzM3OTE2NDJjOGQ2
-MDAyOWFkZjliMDBiY2I0ZTM0ZDdkOGExYWVhNGQNCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gLS0t
-DQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmPCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqAgMSArDQo+IMKgLi4uL3FlbXUvcWVtdS9DVkUtMjAyMS0zMzkyLnBhdGNowqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHwgNDUgKysrKysrKysrKysrKysrKysrKw0KPiDCoDIgZmlsZXMg
-Y2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKQ0KPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11L0NWRS0yMDIxLTMzOTIucGF0Y2gNCj4gDQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYyBiL21ldGEvcmVjaXBl
-cy0NCj4gZGV2dG9vbHMvcWVtdS9xZW11LmluYw0KPiBpbmRleCBhNjI1ODA5NTk3Li4xYzQ4NjZl
-YzBjIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYw0K
-PiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYw0KPiBAQCAtMzEsNiAr
-MzEsNyBAQCBTUkNfVVJJID0gIg0KPiBodHRwczovL2Rvd25sb2FkLnFlbXUub3JnLyR7QlBOfS0k
-e1BWfS50YXIueHrCoFwNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaWxlOi8vZGV0ZXJtaW5p
-c20ucGF0Y2jCoFwNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCANCj4gZmlsZTovLzAwMDEtdGVz
-dHMtbWVzb24uYnVpbGQtdXNlLXJlbGF0aXZlLXBhdGgtdG8tcmVmZXItdG8tZmlsZS5wYXRjaMKg
-DQo+IFwNCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmlsZTovL0NWRS0yMDIxLTIwMjAzLnBhdGNo
-wqBcDQo+ICvCoMKgwqDCoMKgwqDCoMKgwqAgZmlsZTovL0NWRS0yMDIxLTMzOTIucGF0Y2jCoFwN
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAiDQo+IMKgVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAi
-cWVtdS0oP1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciINCj4gwqANCj4gZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUvQ1ZFLTIwMjEtMzM5Mi5wYXRjaA0KPiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUvQ1ZFLTIwMjEtMzM5Mi5wYXRjaA0KPiBuZXcg
-ZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi4xYzY4ODgyN2RiDQo+IC0tLSAv
-ZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS9DVkUtMjAy
-MS0zMzkyLnBhdGNoDQo+IEBAIC0wLDAgKzEsNDUgQEANCj4gK0Zyb20gMzQzMWIwMWI0MzU4NGRl
-NWY3MTBjNDA2MDVmZTMyNTFmODFjMGUxMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zy
-b206IE1pbmphZSBLaW0gPGZsb3dlcmdvbUBnbWFpbC5jb20+DQo+ICtEYXRlOiBUdWUsIDI3IEFw
-ciAyMDIxIDAyOjA5OjQ5ICswMDAwDQo+ICtTdWJqZWN0OiBbUEFUQ0hdIHNjc2k6IG1wdHNhczog
-ZGVxdWV1ZSByZXF1ZXN0IG9iamVjdCBpbiBjYXNlIG9mIGFuDQo+IGVycm9yDQo+ICsgKENWRS0y
-MDIxLTMzOTIpDQo+ICsNCj4gK0Zyb206IFByYXNhZCBKIFBhbmRpdCA8cGpwQGZlZG9yYXByb2pl
-Y3Qub3JnPg0KPiArDQo+ICtXaGlsZSBwcm9jZXNzaW5nIFNDU0kgaS9vIHJlcXVlc3RzIGluDQo+
-IG1wdHNhc19wcm9jZXNzX3Njc2lfaW9fcmVxdWVzdCgpLA0KPiArdGhlIE1lZ2FyYWlkIGVtdWxh
-dG9yIGFwcGVuZHMgbmV3IE1QVFNBU1JlcXVlc3Qgb2JqZWN0ICdyZXEnIHRvDQo+ICt0aGUgJ3Mt
-PnBlbmRpbmcnIHF1ZXVlLiBJbiBjYXNlIG9mIGFuIGVycm9yLCB0aGlzIHNhbWUgb2JqZWN0IGdl
-dHMNCj4gK2RlcXVldWVkIGluIG1wdHNhc19mcmVlX3JlcXVlc3QoKSBvbmx5IGlmIFNDU0lSZXF1
-ZXN0IG9iamVjdA0KPiArJ3JlcS0+c3JlcScgaXMgaW5pdGlhbGlzZWQuIFRoaXMgbWF5IGxlYWQg
-dG8gYSB1c2UtYWZ0ZXItZnJlZSBpc3N1ZS4NCj4gK1VuY29uZGl0aW9uYWxseSBkZXF1ZXVlICdy
-ZXEnIG9iamVjdCBmcm9tICdzLT5wZW5kaW5nJyB0byBhdm9pZCBpdC4NCj4gKw0KPiArRml4ZXM6
-IENWRS0yMDIxLTMzOTINCj4gK0J1Z2xpbms6IGh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3Fl
-bXUvK2J1Zy8xOTE0MjM2DQo+ICtSZXBvcnRlZC1ieTogQ2hlb2x3b28gTXl1bmcgPGN3bXl1bmdA
-c251LmFjLmtyPg0KPiArU2lnbmVkLW9mZi1ieTogUHJhc2FkIEogUGFuZGl0IDxwanBAZmVkb3Jh
-cHJvamVjdC5vcmc+DQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQWNlcHRlZA0KPiArW2h0dHBz
-Oi8vbGlzdHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIxLTAyL21zZzAwNDg4
-Lmh0bWxdDQo+ICtDVkU6IENWRS0yMDIxLTMzOTINCj4gK1NpZ25lZC1vZmYtYnk6IE1pbmphZSBL
-aW0gPGZsb3dlcmdvbUBnbWFpbC5jb20+DQo+ICstLS0NCj4gKyBody9zY3NpL21wdHNhcy5jIHwg
-MiArLQ0KPiArIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-PiArDQo+ICtkaWZmIC0tZ2l0IGEvaHcvc2NzaS9tcHRzYXMuYyBiL2h3L3Njc2kvbXB0c2FzLmMN
-Cj4gK2luZGV4IGY4NjYxNjU0NC4uYWRmZjViMGJmIDEwMDY0NA0KPiArLS0tIGEvaHcvc2NzaS9t
-cHRzYXMuYw0KPiArKysrIGIvaHcvc2NzaS9tcHRzYXMuYw0KPiArQEAgLTI1Nyw4ICsyNTcsOCBA
-QCBzdGF0aWMgdm9pZCBtcHRzYXNfZnJlZV9yZXF1ZXN0KE1QVFNBU1JlcXVlc3QNCj4gKnJlcSkN
-Cj4gK8KgwqDCoMKgwqDCoMKgwqAgcmVxLT5zcmVxLT5oYmFfcHJpdmF0ZSA9IE5VTEw7DQo+ICvC
-oMKgwqDCoMKgwqDCoMKgIHNjc2lfcmVxX3VucmVmKHJlcS0+c3JlcSk7DQo+ICvCoMKgwqDCoMKg
-wqDCoMKgIHJlcS0+c3JlcSA9IE5VTEw7DQo+ICstwqDCoMKgwqDCoMKgwqAgUVRBSUxRX1JFTU9W
-RSgmcy0+cGVuZGluZywgcmVxLCBuZXh0KTsNCj4gK8KgwqDCoMKgIH0NCj4gKyvCoMKgwqAgUVRB
-SUxRX1JFTU9WRSgmcy0+cGVuZGluZywgcmVxLCBuZXh0KTsNCj4gK8KgwqDCoMKgIHFlbXVfc2ds
-aXN0X2Rlc3Ryb3koJnJlcS0+cXNnKTsNCj4gK8KgwqDCoMKgIGdfZnJlZShyZXEpOw0KPiArIH0N
-Cj4gKy0tIA0KPiArMi4xNy4xDQo+ICsNCj4gDQo+IA0KPiANCg0K
+Source: git://sourceware.org/git/binutils-gdb.git
+Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=26945
+
+Backported upstream commit d3edaa91d4cf7202ec14342410194841e2f67f12 to
+binutils-2.34 source, along with commit id dependencies
+(8e03235147a9e774d3ba084e93c2daaa94d1cec, 365f5fb6d0f0da83817431a275e99e6f6babbe04 and 8b69e61d4be276bb862698aaafddc3e779d23c8f).
+
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
+
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+---
+Backported commit id "8b69e61d4be276bb862698aaafddc3e779d23c8f" to fix error with mingw build. And the patch is verified by building Linux and Mingw toolchains for Arm target.
+
+ .../binutils/binutils-2.34.inc                |   1 +
+ .../binutils/binutils/CVE-2021-20197.patch    | 572 ++++++++++++++++++
+ 2 files changed, 573 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index f557fe970c..a586faf5ab 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -46,5 +46,6 @@ SRC_URI = "\
+      file://0001-gas-improve-reproducibility-for-stabs-debugging-data.patch \
+      file://CVE-2020-16592.patch \
+      file://CVE-2020-16598.patch \
++     file://CVE-2021-20197.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
+new file mode 100644
+index 0000000000..423814f98d
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
+@@ -0,0 +1,572 @@
++From d3edaa91d4cf7202ec14342410194841e2f67f12 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 26 Feb 2021 11:30:32 +1030
++Subject: [PATCH v2] Reinstate various pieces backed out from smart_rename changes
++
++In the interests of a stable release various last minute smart_rename
++patches were backed out of the 2.36 branch.  The main reason to
++reinstate some of those backed out changes here is to make necessary
++followup fixes to commit 8e03235147a9 simple cherry-picks from
++mainline.  A secondary reason is that ar -M support isn't fixed for
++pr26945 without this patch.
++
++        PR 26945
++        * ar.c: Don't include libbfd.h.
++        (write_archive): Replace xmalloc+strcpy with xstrdup.
++        * arsup.c (temp_name, real_ofd): New static variables.
++        (ar_open): Use make_tempname and bfd_fdopenw.
++        (ar_save): Adjust to suit ar_open changes.
++        * objcopy.c: Don't include libbfd.h.
++        * rename.c: Rename and reorder variables.
++
++(cherry picked from commit 95b91a043aeaeb546d2fea556d84a2de1e917770)
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
++CVE: CVE-2021-20197
++Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
++---
++ bfd/bfd-in2.h      |   2 +
++ bfd/opncls.c       |  33 ++++++++++
++ binutils/ar.c      |  15 +++--
++ binutils/arsup.c   |  37 ++++++++----
++ binutils/bucomm.c  |   4 +-
++ binutils/bucomm.h  |   5 +-
++ binutils/objcopy.c |  37 +++++++-----
++ binutils/rename.c  | 148 +++++++++++----------------------------------
++ 8 files changed, 133 insertions(+), 148 deletions(-)
++
++diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
++index 2e453c50c18..e53f54a8ab7 100644
++--- a/bfd/bfd-in2.h
+++++ b/bfd/bfd-in2.h
++@@ -588,6 +588,8 @@ bfd *bfd_openr (const char *filename, const char *target);
++ 
++ bfd *bfd_fdopenr (const char *filename, const char *target, int fd);
++ 
+++bfd *bfd_fdopenw (const char *filename, const char *target, int fd);
+++
++ bfd *bfd_openstreamr (const char * filename, const char * target,
++     void * stream);
++ 
++diff --git a/bfd/opncls.c b/bfd/opncls.c
++index a03ad51c8fa..f9da97ed710 100644
++--- a/bfd/opncls.c
+++++ b/bfd/opncls.c
++@@ -370,6 +370,39 @@ bfd_fdopenr (const char *filename, const char *target, int fd)
++   return bfd_fopen (filename, target, mode, fd);
++ }
++ 
+++/*
+++FUNCTION
+++	bfd_fdopenw
+++
+++SYNOPSIS
+++	bfd *bfd_fdopenw (const char *filename, const char *target, int fd);
+++
+++DESCRIPTION
+++	<<bfd_fdopenw>> is exactly like <<bfd_fdopenr>> with the exception that
+++	the resulting BFD is suitable for output.
+++*/
+++
+++bfd *
+++bfd_fdopenw (const char *filename, const char *target, int fd)
+++{
+++  bfd *out = bfd_fdopenr (filename, target, fd);
+++
+++  if (out != NULL)
+++    {
+++      if (!bfd_write_p (out))
+++	{
+++	  close (fd);
+++	  _bfd_delete_bfd (out);
+++	  out = NULL;
+++	  bfd_set_error (bfd_error_invalid_operation);
+++	}
+++      else
+++	out->direction = write_direction;
+++    }
+++
+++  return out;
+++}
+++
++ /*
++ FUNCTION
++ 	bfd_openstreamr
++diff --git a/binutils/ar.c b/binutils/ar.c
++index 1057db9980e..c33a11e0d70 100644
++--- a/binutils/ar.c
+++++ b/binutils/ar.c
++@@ -1195,20 +1195,23 @@ write_archive (bfd *iarch)
++   bfd *obfd;
++   char *old_name, *new_name;
++   bfd *contents_head = iarch->archive_next;
+++  int ofd = -1;
++ 
++-  old_name = (char *) xmalloc (strlen (bfd_get_filename (iarch)) + 1);
++-  strcpy (old_name, bfd_get_filename (iarch));
++-  new_name = make_tempname (old_name);
+++  old_name = xstrdup (bfd_get_filename (iarch));
+++  new_name = make_tempname (old_name, &ofd);
++ 
++   if (new_name == NULL)
++     bfd_fatal (_("could not create temporary file whilst writing archive"));
++ 
++   output_filename = new_name;
++ 
++-  obfd = bfd_openw (new_name, bfd_get_target (iarch));
+++  obfd = bfd_fdopenw (new_name, bfd_get_target (iarch), ofd);
++ 
++   if (obfd == NULL)
++-    bfd_fatal (old_name);
+++    {
+++      close (ofd);
+++      bfd_fatal (old_name);
+++    }
++ 
++   output_bfd = obfd;
++ 
++@@ -1246,7 +1249,7 @@ write_archive (bfd *iarch)
++   /* We don't care if this fails; we might be creating the archive.  */
++   bfd_close (iarch);
++ 
++-  if (smart_rename (new_name, old_name, 0) != 0)
+++  if (smart_rename (new_name, old_name, NULL) != 0)
++     xexit (1);
++   free (old_name);
++   free (new_name);
++diff --git a/binutils/arsup.c b/binutils/arsup.c
++index 00967c972cd..b8ae4f7ec1a 100644
++--- a/binutils/arsup.c
+++++ b/binutils/arsup.c
++@@ -42,6 +42,8 @@ extern int deterministic;
++ 
++ static bfd *obfd;
++ static char *real_name;
+++static char *temp_name;
+++static int real_ofd;
++ static FILE *outfile;
++ 
++ static void
++@@ -149,27 +151,24 @@ maybequit (void)
++ void
++ ar_open (char *name, int t)
++ {
++-  char *tname;
++-  const char *bname = lbasename (name);
++-  real_name = name;
+++  real_name = xstrdup (name);
+++  temp_name = make_tempname (real_name, &real_ofd);
++ 
++-  /* Prepend tmp- to the beginning, to avoid file-name clashes after
++-     truncation on filesystems with limited namespaces (DOS).  */
++-  if (asprintf (&tname, "%.*stmp-%s", (int) (bname - name), name, bname) == -1)
+++  if (temp_name == NULL)
++     {
++-      fprintf (stderr, _("%s: Can't allocate memory for temp name (%s)\n"),
+++      fprintf (stderr, _("%s: Can't open temporary file (%s)\n"),
++ 	       program_name, strerror(errno));
++       maybequit ();
++       return;
++     }
++ 
++-  obfd = bfd_openw (tname, NULL);
+++  obfd = bfd_fdopenw (temp_name, NULL, real_ofd);
++ 
++   if (!obfd)
++     {
++       fprintf (stderr,
++ 	       _("%s: Can't open output archive %s\n"),
++-	       program_name,  tname);
+++	       program_name, temp_name);
++ 
++       maybequit ();
++     }
++@@ -344,16 +343,30 @@ ar_save (void)
++     }
++   else
++     {
++-      char *ofilename = xstrdup (bfd_get_filename (obfd));
+++      struct stat target_stat;
++ 
++       if (deterministic > 0)
++         obfd->flags |= BFD_DETERMINISTIC_OUTPUT;
++ 
++       bfd_close (obfd);
++ 
++-      smart_rename (ofilename, real_name, 0);
+++      if (stat (real_name, &target_stat) != 0)
+++	{
+++	  /* The temp file created in ar_open has mode 0600 as per mkstemp.
+++	     Create the real empty output file here so smart_rename will
+++	     update the mode according to the process umask.  */
+++	  obfd = bfd_openw (real_name, NULL);
+++	  if (obfd != NULL)
+++	    {
+++	      bfd_set_format (obfd, bfd_archive);
+++	      bfd_close (obfd);
+++	    }
+++	}
+++
+++      smart_rename (temp_name, real_name, NULL);
++       obfd = 0;
++-      free (ofilename);
+++      free (temp_name);
+++      free (real_name);
++     }
++ }
++ 
++diff --git a/binutils/bucomm.c b/binutils/bucomm.c
++index 9e6a02843e6..53244201f89 100644
++--- a/binutils/bucomm.c
+++++ b/binutils/bucomm.c
++@@ -532,7 +532,7 @@ template_in_dir (const char *path)
++    as FILENAME.  */
++ 
++ char *
++-make_tempname (const char *filename)
+++make_tempname (const char *filename, int *ofd)
++ {
++   char *tmpname = template_in_dir (filename);
++   int fd;
++@@ -550,7 +550,7 @@ make_tempname (const char *filename)
++       free (tmpname);
++       return NULL;
++     }
++-  close (fd);
+++  *ofd = fd;
++   return tmpname;
++ }
++ 
++diff --git a/binutils/bucomm.h b/binutils/bucomm.h
++index d8318343f78..2b164e0af68 100644
++--- a/binutils/bucomm.h
+++++ b/binutils/bucomm.h
++@@ -51,7 +51,7 @@ int display_info (void);
++ 
++ void print_arelt_descr (FILE *, bfd *, bfd_boolean, bfd_boolean);
++ 
++-char *make_tempname (const char *);
+++char *make_tempname (const char *, int *);
++ char *make_tempdir (const char *);
++ 
++ bfd_vma parse_vma (const char *, const char *);
++@@ -71,7 +71,8 @@ extern void print_version (const char *);
++ /* In rename.c.  */
++ extern void set_times (const char *, const struct stat *);
++ 
++-extern int smart_rename (const char *, const char *, int);
+++extern int smart_rename (const char *, const char *, struct stat *);
+++
++ 
++ /* In libiberty.  */
++ void *xmalloc (size_t);
++diff --git a/binutils/objcopy.c b/binutils/objcopy.c
++index 212e25144e6..5ccbd926610 100644
++--- a/binutils/objcopy.c
+++++ b/binutils/objcopy.c
++@@ -3682,7 +3682,7 @@ set_long_section_mode (bfd *output_bfd, bfd *input_bfd, enum long_section_name_h
++ /* The top-level control.  */
++ 
++ static void
++-copy_file (const char *input_filename, const char *output_filename,
+++copy_file (const char *input_filename, const char *output_filename, int ofd,
++ 	   const char *input_target,   const char *output_target,
++ 	   const bfd_arch_info_type *input_arch)
++ {
++@@ -3757,9 +3757,14 @@ copy_file (const char *input_filename, const char *output_filename,
++       else
++ 	force_output_target = TRUE;
++ 
++-      obfd = bfd_openw (output_filename, output_target);
+++      if (ofd >= 0)
+++	obfd = bfd_fdopenw (output_filename, output_target, ofd);
+++      else
+++	obfd = bfd_openw (output_filename, output_target);
+++
++       if (obfd == NULL)
++ 	{
+++	  close (ofd);
++ 	  bfd_nonfatal_message (output_filename, NULL, NULL, NULL);
++ 	  status = 1;
++ 	  return;
++@@ -3787,13 +3792,19 @@ copy_file (const char *input_filename, const char *output_filename,
++       if (output_target == NULL)
++ 	output_target = bfd_get_target (ibfd);
++ 
++-      obfd = bfd_openw (output_filename, output_target);
+++      if (ofd >= 0)
+++	obfd = bfd_fdopenw (output_filename, output_target, ofd);
+++      else
+++	obfd = bfd_openw (output_filename, output_target);
+++
++       if (obfd == NULL)
++  	{
+++	  close (ofd);
++  	  bfd_nonfatal_message (output_filename, NULL, NULL, NULL);
++  	  status = 1;
++  	  return;
++  	}
+++
++       /* This is a no-op on non-Coff targets.  */
++       set_long_section_mode (obfd, ibfd, long_section_names);
++ 
++@@ -4746,6 +4757,7 @@ strip_main (int argc, char *argv[])
++       int hold_status = status;
++       struct stat statbuf;
++       char *tmpname;
+++      int tmpfd = -1;
++ 
++       if (get_file_size (argv[i]) < 1)
++ 	{
++@@ -4760,7 +4772,7 @@ strip_main (int argc, char *argv[])
++ 
++       if (output_file == NULL
++ 	  || filename_cmp (argv[i], output_file) == 0)
++-	tmpname = make_tempname (argv[i]);
+++	tmpname = make_tempname (argv[i], &tmpfd);
++       else
++ 	tmpname = output_file;
++ 
++@@ -4773,15 +4785,13 @@ strip_main (int argc, char *argv[])
++ 	}
++ 
++       status = 0;
++-      copy_file (argv[i], tmpname, input_target, output_target, NULL);
+++      copy_file (argv[i], tmpname, tmpfd, input_target, output_target, NULL);
++       if (status == 0)
++ 	{
++-	  if (preserve_dates)
++-	    set_times (tmpname, &statbuf);
++ 	  if (output_file != tmpname)
++ 	    status = (smart_rename (tmpname,
++ 				    output_file ? output_file : argv[i],
++-				    preserve_dates) != 0);
+++				    preserve_dates ? &statbuf : NULL) != 0);
++ 	  if (status == 0)
++ 	    status = hold_status;
++ 	}
++@@ -4993,7 +5003,7 @@ copy_main (int argc, char *argv[])
++   bfd_boolean formats_info = FALSE;
++   bfd_boolean use_globalize = FALSE;
++   bfd_boolean use_keep_global = FALSE;
++-  int c;
+++  int c, tmpfd = -1;
++   struct stat statbuf;
++   const bfd_arch_info_type *input_arch = NULL;
++ 
++@@ -5839,7 +5849,7 @@ copy_main (int argc, char *argv[])
++      are the same, then create a temp and rename the result into the input.  */
++   if (output_filename == NULL
++       || filename_cmp (input_filename, output_filename) == 0)
++-    tmpname = make_tempname (input_filename);
+++    tmpname = make_tempname (input_filename, &tmpfd);
++   else
++     tmpname = output_filename;
++ 
++@@ -5847,14 +5857,13 @@ copy_main (int argc, char *argv[])
++     fatal (_("warning: could not create temporary file whilst copying '%s', (error: %s)"),
++ 	   input_filename, strerror (errno));
++ 
++-  copy_file (input_filename, tmpname, input_target, output_target, input_arch);
+++  copy_file (input_filename, tmpname, tmpfd, input_target, output_target,
+++	     input_arch);
++   if (status == 0)
++     {
++-      if (preserve_dates)
++-	set_times (tmpname, &statbuf);
++       if (tmpname != output_filename)
++ 	status = (smart_rename (tmpname, input_filename,
++-				preserve_dates) != 0);
+++				preserve_dates ? &statbuf : NULL) != 0);
++     }
++   else
++     unlink_if_ordinary (tmpname);
++diff --git a/binutils/rename.c b/binutils/rename.c
++index bf3b68d0462..07d44d0f314 100644
++--- a/binutils/rename.c
+++++ b/binutils/rename.c
++@@ -24,14 +24,9 @@
++ 
++ #ifdef HAVE_GOOD_UTIME_H
++ #include <utime.h>
++-#else /* ! HAVE_GOOD_UTIME_H */
++-#ifdef HAVE_UTIMES
+++#elif defined HAVE_UTIMES
++ #include <sys/time.h>
++-#endif /* HAVE_UTIMES */
++-#endif /* ! HAVE_GOOD_UTIME_H */
++-
++-#if ! defined (_WIN32) || defined (__CYGWIN32__)
++-static int simple_copy (const char *, const char *);
+++#endif
++ 
++ /* The number of bytes to copy at once.  */
++ #define COPY_BUF 8192
++@@ -82,7 +77,6 @@ simple_copy (const char *from, const char *to)
++     }
++   return 0;
++ }
++-#endif /* __CYGWIN32__ or not _WIN32 */
++ 
++ /* Set the times of the file DESTINATION to be the same as those in
++    STATBUF.  */
++@@ -91,122 +85,52 @@ void
++ set_times (const char *destination, const struct stat *statbuf)
++ {
++   int result;
++-
++-  {
++ #ifdef HAVE_GOOD_UTIME_H
++-    struct utimbuf tb;
++-
++-    tb.actime = statbuf->st_atime;
++-    tb.modtime = statbuf->st_mtime;
++-    result = utime (destination, &tb);
++-#else /* ! HAVE_GOOD_UTIME_H */
++-#ifndef HAVE_UTIMES
++-    long tb[2];
++-
++-    tb[0] = statbuf->st_atime;
++-    tb[1] = statbuf->st_mtime;
++-    result = utime (destination, tb);
++-#else /* HAVE_UTIMES */
++-    struct timeval tv[2];
++-
++-    tv[0].tv_sec = statbuf->st_atime;
++-    tv[0].tv_usec = 0;
++-    tv[1].tv_sec = statbuf->st_mtime;
++-    tv[1].tv_usec = 0;
++-    result = utimes (destination, tv);
++-#endif /* HAVE_UTIMES */
++-#endif /* ! HAVE_GOOD_UTIME_H */
++-  }
+++  struct utimbuf tb;
+++
+++  tb.actime = statbuf->st_atime;
+++  tb.modtime = statbuf->st_mtime;
+++  result = utime (destination, &tb);
+++#elif defined HAVE_UTIMES
+++  struct timeval tv[2];
+++
+++  tv[0].tv_sec = statbuf->st_atime;
+++  tv[0].tv_usec = 0;
+++  tv[1].tv_sec = statbuf->st_mtime;
+++  tv[1].tv_usec = 0;
+++  result = utimes (destination, tv);
+++#else
+++  long tb[2];
+++
+++  tb[0] = statbuf->st_atime;
+++  tb[1] = statbuf->st_mtime;
+++  result = utime (destination, tb);
+++#endif
++ 
++   if (result != 0)
++     non_fatal (_("%s: cannot set time: %s"), destination, strerror (errno));
++ }
++ 
++-#ifndef S_ISLNK
++-#ifdef S_IFLNK
++-#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
++-#else
++-#define S_ISLNK(m) 0
++-#define lstat stat
++-#endif
++-#endif
++-
++-/* Rename FROM to TO, copying if TO is a link.
++-   Return 0 if ok, -1 if error.  */
+++/* Copy FROM to TO.  TARGET_STAT has the file status that, if non-NULL,
+++   is used to fix up timestamps.  Return 0 if ok, -1 if error.
+++   At one time this function renamed files, but file permissions are
+++   tricky to update given the number of different schemes used by
+++   various systems.  So now we just copy.  */
++ 
++ int
++-smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNUSED)
+++smart_rename (const char *from, const char *to,
+++	      struct stat *target_stat)
++ {
++-  bfd_boolean exists;
++-  struct stat s;
++-  int ret = 0;
++-
++-  exists = lstat (to, &s) == 0;
++-
++-#if defined (_WIN32) && !defined (__CYGWIN32__)
++-  /* Win32, unlike unix, will not erase `to' in `rename(from, to)' but
++-     fail instead.  Also, chown is not present.  */
+++  int ret;
++ 
++-  if (exists)
++-    remove (to);
++-
++-  ret = rename (from, to);
+++  ret = simple_copy (from, to);
++   if (ret != 0)
++-    {
++-      /* We have to clean up here.  */
++-      non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
++-      unlink (from);
++-    }
++-#else
++-  /* Use rename only if TO is not a symbolic link and has
++-     only one hard link, and we have permission to write to it.  */
++-  if (! exists
++-      || (!S_ISLNK (s.st_mode)
++-	  && S_ISREG (s.st_mode)
++-	  && (s.st_mode & S_IWUSR)
++-	  && s.st_nlink == 1)
++-      )
++-    {
++-      ret = rename (from, to);
++-      if (ret == 0)
++-	{
++-	  if (exists)
++-	    {
++-	      /* Try to preserve the permission bits and ownership of
++-		 TO.  First get the mode right except for the setuid
++-		 bit.  Then change the ownership.  Then fix the setuid
++-		 bit.  We do the chmod before the chown because if the
++-		 chown succeeds, and we are a normal user, we won't be
++-		 able to do the chmod afterward.  We don't bother to
++-		 fix the setuid bit first because that might introduce
++-		 a fleeting security problem, and because the chown
++-		 will clear the setuid bit anyhow.  We only fix the
++-		 setuid bit if the chown succeeds, because we don't
++-		 want to introduce an unexpected setuid file owned by
++-		 the user running objcopy.  */
++-	      chmod (to, s.st_mode & 0777);
++-	      if (chown (to, s.st_uid, s.st_gid) >= 0)
++-		chmod (to, s.st_mode & 07777);
++-	    }
++-	}
++-      else
++-	{
++-	  /* We have to clean up here.  */
++-	  non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
++-	  unlink (from);
++-	}
++-    }
++-  else
++-    {
++-      ret = simple_copy (from, to);
++-      if (ret != 0)
++-	non_fatal (_("unable to copy file '%s'; reason: %s"), to, strerror (errno));
+++    non_fatal (_("unable to copy file '%s'; reason: %s"),
+++	       to, strerror (errno));
++ 
++-      if (preserve_dates)
++-	set_times (to, &s);
++-      unlink (from);
++-    }
++-#endif /* _WIN32 && !__CYGWIN32__ */
+++  if (target_stat != NULL)
+++    set_times (to, target_stat);
+++  unlink (from);
++ 
++   return ret;
++ }
++-- 
++2.17.1
++
+-- 
+2.17.1
+
