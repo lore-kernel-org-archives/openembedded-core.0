@@ -1,544 +1,173 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web08.9447.1619535548345520479
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.70])
+ by mx.groups.io with SMTP id smtpd.web09.10420.1619539798828174896
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Apr 2021 07:59:08 -0700
+ Tue, 27 Apr 2021 09:09:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S58isawl;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: devendra.tewari@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id a18so20547047qtj.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 07:59:08 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=dS0uidKn;
+ spf=pass (domain: windriver.com, ip: 40.107.220.70, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L2fasdKf4o/GRMNYUjUEHG6n8hLs5liCcuNML3RNAEuVpr8U/ZjcWMBrJIamPhkJ/+41BfnsbFg/UyAT1G+9TWLo7PpcPCfvc2f5QYyZ3SIKoiKjBHP8a2+FR6uQi+Hqf9PD1jgdniCck3kWHr2bacMwHjdJznGi2Lct/IUcvzSsEFbpwFKCFCt2+d2XOKfnahSqeMUMNTCwRWg1xb3ybTtdxkE6YMXyF0zojGN7SAnIouIc1uxmBJOOivpvpkjYwkddSqQs5qhOuFaRlEGVqrzyz/9nJhep9W/znti3QnHbzR3VECR//EQH4ygPY7auNELwzXY+N0U3N9BM3zZhBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ec5aUulkXizs9Evra90plipQBsfDjhNs1ANv97OBaL8=;
+ b=kA6H3RUjDn9kZU1VY9gibrYjFrn/qp8mcMLpBV/sE6s3L1JKEszYwRsU8BSI136NPPzR+Mm3uuhvDqOHjHpzZ2c3Hc2d48aJRW3a/jeAzsetXvsgAUUG9Ew0J6DNxZbNkwVmnk+gX+Ke56rFsUJ/lsknmn4meCPrY8MZO8mQY8g2H1aiA6pD2ayyrTGkbnZmFx5GD8SiLbCte3O2sqKfltjkhGCe56tE7YLW9RjoESO0wmgUlKMmXF5U2/iGiFz5RdsjwIsGMY/ofzGapNIB/Q5mhSZVkK2yOuPA1z4ddobJsbNWmW4uusuAw0rwugWMHiK+iN4OCvap1wCk2aLB4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=Q8uO5KCcwm9sI3Rpe+IkuEPGR/3y+DRfy3zqYmXk4CQ=;
-        b=S58isawlj2odx7s9Cuo8+NhF6iGeuzUDXxRPKuFYinNnLM5bDu/qsGK1iTfSHlUFm0
-         99nAfwOOQg1qvFjyOOQEjIbuptmHsWkwcIit0KCV/HrL3M/UZMRddCNdNiR8vnIqoQhT
-         KdGzQqwUbjh/5Y0QIsBDAhq9G/jtx3PulqpcZ6+/gPkkfiLlSMXV7Xiky06b2kCcRRUY
-         3TB9Boql/wrT3ZS4y/NrKDE9Z9T+lVr+r/uBXu9gCBcwdiFy37X7q+EbZfGjDMi75GPn
-         MTy7j21rp7RWcxRDh8PnRKiVPOA8RGuXP0AJHZXA61+zyJjWtKHfuP+1kITus2aUUEI6
-         OBWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=Q8uO5KCcwm9sI3Rpe+IkuEPGR/3y+DRfy3zqYmXk4CQ=;
-        b=n7hNguxOckD/2mFxfGPXsQY8nXQpuSntn8o9PGnoySBeAmoPk7mUzMYkQJLpeefIhY
-         Dw3MmF+k8AU7HEOPl8tUQ2DDpE4TN/j1oICbKolmFiV9n/qhaKTX22zzKCH0LrKyszEM
-         /b9FxNmXG83DDxqqKCAcP77SV8Tb0WQZVhI9n/xE5BMwSbC7/w8lxWLwnm1W1oEiXRRD
-         b3yJB2ttG4SIhDojKPd9BzzyoP/f+vKY4kmav0RD/h+MWrBV84EYkXKEt46WEJeBfC2S
-         GTHuXNmBXB/0YyH4fy80vAxLDMpygRtSlNBoKfEwSNvYW3N7fbsJhbM+1IolDs5r5NrC
-         UZzA==
-X-Gm-Message-State: AOAM533N2eAJlmQq+WhdqLVeGyq/Za/J4PwQ6WjuUW80V7k4XpgAEBab
-	KVdNp3t5OD9EspQ2Y23k/T8=
-X-Google-Smtp-Source: ABdhPJwhEr66De5CnZt35hdgo9P1RTNGVGwHJBiyWhNI6DXsEbo7NXpfID5RCV2tAAB3QfH/aN8z6w==
-X-Received: by 2002:ac8:4b41:: with SMTP id e1mr21703269qts.180.1619535547385;
-        Tue, 27 Apr 2021 07:59:07 -0700 (PDT)
-Return-Path: <devendra.tewari@gmail.com>
-Received: from ?IPv6:2804:14d:5487:a7d6:3c62:f961:ae7b:57a? ([2804:14d:5487:a7d6:3c62:f961:ae7b:57a])
-        by smtp.gmail.com with ESMTPSA id m29sm2715370qkm.101.2021.04.27.07.59.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Apr 2021 07:59:07 -0700 (PDT)
-From: "Devendra Tewari" <devendra.tewari@gmail.com>
-Message-Id: <3F33A9E1-ED6B-4728-A0CE-49EAAB2CFAC1@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
-Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
-Date: Tue, 27 Apr 2021 11:59:02 -0300
-In-Reply-To: <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>,
- Andre McCurdy <armccurdy@gmail.com>,
- OE Core mailing list <openembedded-core@lists.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <d59ab2e71f0115018fb1c957276ce71e3292cd95.camel@linuxfoundation.org>
- <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
- <aebbbcf8d29afec37b4a9c459eca8ab24112137f.camel@linuxfoundation.org>
- <4538E61E-9CE7-4346-877F-FA6CEAEB5074@gmail.com>
- <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
-X-Mailer: Apple Mail (2.3654.60.0.2.21)
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B"
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ec5aUulkXizs9Evra90plipQBsfDjhNs1ANv97OBaL8=;
+ b=dS0uidKnZD8UkH/wilTd/AEP/efqHh25NuOmXtSmHmcD7LedM0fyi6WdyCZIljMrHWPv7bgl1zUdngvS6AM5IBozD6U5ZYCkuqW0lecnZfsszpu2kv5S79aO2TfNo6FPhfjEHF4FnX8BtYaoENsRerLC+VSWnF95U8PiiJ4tfmA=
+Authentication-Results: yoctoproject.org; dkim=none (message not signed)
+ header.d=none;yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM5PR1101MB2188.namprd11.prod.outlook.com (2603:10b6:4:53::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21; Tue, 27 Apr
+ 2021 16:09:56 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5%7]) with mapi id 15.20.4087.025; Tue, 27 Apr 2021
+ 16:09:56 +0000
+Subject: Re: [OE-core] [PATCH 6/7] default-distrovars.inc: add wayland/opengl to default distro features
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org,
+ "Wei, Yunguo (Bryan)" <Yunguo.Wei@windriver.com>,
+ Kevin Hao <kexin.hao@windriver.com>,
+ Yocto discussion list <yocto@yoctoproject.org>
+References: <20210423180254.706537-1-alex.kanavin@gmail.com>
+ <20210423180254.706537-6-alex.kanavin@gmail.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <8295040a-2b00-92f2-7ad5-95e2941f0dd6@windriver.com>
+Date: Tue, 27 Apr 2021 12:09:51 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <20210423180254.706537-6-alex.kanavin@gmail.com>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: BYAPR01CA0021.prod.exchangelabs.com (2603:10b6:a02:80::34)
+ To DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by BYAPR01CA0021.prod.exchangelabs.com (2603:10b6:a02:80::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend Transport; Tue, 27 Apr 2021 16:09:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec333403-733f-4490-ae9d-08d90996e60d
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2188:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR1101MB2188C58354B566319E89E21DF8419@DM5PR1101MB2188.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	4iiRBopeXRmfKPCDQ9vJNUi/PiFZvXxS8c31/zAnnGHUVtpDsXi7NVzPa7jVNYEU1rdMnD4/Z7hQki1kY2uYRWqqeTVkidDeTBGSJi19chpNjWf3sOQ7xAs1K5/E7GgTX78ex0BzoTB0MIKDXr/KXTurjjN0JIdRvgz7yOrbUqcir8Dl4SNh/Jl1odiSBliR6W6s53SA5vkyiCpsbaU+WbOKoxbb36dTHjQYun3RLyynMSELrab3p2ys87+6al6i9MaI6A2CABWJ5xkrZ7DLRmyM4lNT1R+i1oiH8Xw3ByK0bYhnPQEVpJc/RRAVPva19VMoDet9KxDyckeRoaXDqlu8tqMFiCeL7XktXI9h3v0WrCdfRUGC7IoVnTx0fXJ1UUrIhGzng1t3LRNZbJWIay6lzePQp6XPabE14uHImwA/MBBez0KtwsI3pp29yPZqj+qQLh9eLMyFEhbdXpwVwqkrWiy9BkJxqBE/vSQYFzCqZuMz7XgeDdYTnM+v+HgH6bSj1sUBstk02Vgtvhu3rHUIYk9l4daPZxt1ksrjQNODtlXHQoes6pWkRBUWQBcUz39+4gzuVBhC5AtwW7rEO61/hOsS/1pfRhTmX4mcFk8IFQcOqyjm60UJhi/ism2tXyOJ81FNYh2Y9wIQOEpyo8F9ASzFVWmJzQuiP9DQ0RLw98AXTTzK7hkOG8hDSLsxn1DIIjKXBkwApILqtnduizuzIBzNvUtfpVVuxYYpGyegT5B92Xvcl19Zlm45i4daFNkJKJ7U1op/AtQ5F8ET9g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39840400004)(366004)(376002)(346002)(396003)(956004)(966005)(2616005)(36756003)(66574015)(8936002)(38100700002)(26005)(52116002)(478600001)(16526019)(316002)(53546011)(6666004)(2906002)(83380400001)(186003)(16576012)(31686004)(8676002)(5660300002)(31696002)(66946007)(66556008)(66476007)(110136005)(86362001)(38350700002)(6486002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?utf-8?B?dGFhSTRjaVg5MitoZDh1SDRwa0MvTTQrdkt3Nk5kNEZybFl4MUJVb2w5Nkow?=
+ =?utf-8?B?UGkybGE5YWdzYXR0TlZkdWVkUEZyT0ZlVWZKWjZHVEl3QURpL0tmdDBQTGx1?=
+ =?utf-8?B?Rk5ndVFFcXhGUWQ4RzlzV1VRbnpnRC9YYTJXVUg0WktMbktxSVdYalZwOSs4?=
+ =?utf-8?B?ZlZFU1V1QVVIeUQ2U25mdU9BeGV4bms5aWxLelorMWR6SEsyZUFDcWc4WWo3?=
+ =?utf-8?B?S0VzdU11TzlySG84akY3T0l1S0QzS3c1aFRxOTk5YzN2UVV6a1dxckxNTDhI?=
+ =?utf-8?B?YnlYMnBkMzdSM25neDBMYXgzQWZyTmluNWFlc0I3aXB5YVdDNFVRa09DRy9M?=
+ =?utf-8?B?dk5Wa0RaMENoU1RMK3M3bWxlUldvR1BIR1VvN3JJZERTd1BlelFiTU9LQVcr?=
+ =?utf-8?B?eWhjdFVEL3d4QUdYSWhKeW1VeTFnUlZtS1VZSWRpMUlVVy9tOEsvekFDcGJm?=
+ =?utf-8?B?dUIvbk1BQ3F5Ry9zT05lUHhmM3F1NjNiU2w5WnNnQ0h0UEpVK0REOVIwMnVS?=
+ =?utf-8?B?Wlk4UUdtSm4xU2JpWDY2YnJpL1lsSUZObEpKS284V1VwWFl6SGd1VW04NndQ?=
+ =?utf-8?B?aFdLU0hyN3d4b09QRlJOL2FUZjRDZ3VFdndxRkNzVlVrUGRFcFNsUWN5a2Z3?=
+ =?utf-8?B?L1hVeG5tYmMxdzNIKy90ZE5Wc2NFaHk5UnNqQkRTaThXc0RpZTdqTlFSbEZV?=
+ =?utf-8?B?dVM0YXdRdlRIbTVGZ2dWc0RwUFA3S1RlaG1QdWpjTFFiZVlZRzdMS0d5TE5i?=
+ =?utf-8?B?cDNPR21SWHNZZmdQWm5YQW9Ub0QxRGE3TXBtWEpFK0ZtTTBTdzl3cjIycXNE?=
+ =?utf-8?B?eGE0eG1wbm04YUZrazlCM3plVGJnOEpRQkF0VU1EakdEcEpraThXYWNtQTFx?=
+ =?utf-8?B?bnBmcmxUSzRJemIzSUNtWWM3aVNBWUd1clJpTE15VUZabVZwc016LzczZjJR?=
+ =?utf-8?B?c3czOG1sTzVMdHYrdjhwR0tXVnNaTEl4elFUK0Q3a0h2UGFzY3VvbHZPMDZP?=
+ =?utf-8?B?MTRQR2NOZkdDRW84dzhtWkRTRWNYRFlWR1E1R2JxaEM4SGpRYUM2M0VVNDg4?=
+ =?utf-8?B?RjNYemhiQVJHQWZ1elpsT3ZON0ZqSjBmdjhMNkx5YTUxcm9tbDNKQ1JENUNJ?=
+ =?utf-8?B?YmVGbjhXWnpuSUdxbmk1R0FpWjhoR1NsM3hUWXBlMHdReDNsdmh0aC9DNi9n?=
+ =?utf-8?B?N3AyRFlsbndvaUNmMlU0OVlvOUpwM1hnNzRhMmdEcHBKZEt0UUt1N3VibVJZ?=
+ =?utf-8?B?QWZqK2lxNXRMQXUremRWQkQ3dUJ0S1RRTklpaGRNT1ByMzU4Yzg5R0ZhTW0x?=
+ =?utf-8?B?Unp5aDQrTHE2aTduQXVYRllMRUp1TVNxdDNmblRYUGkwYzhZQUM4aWtzVm1T?=
+ =?utf-8?B?UFpWRVZuMkxtTU0yQ20ra3pjQlF4ZFJvL0JCc2tNSGpzLy81SUlwZGlnMGc5?=
+ =?utf-8?B?emhtc1o3V0ZYa1lMS21QMFNSbDJhQkQ3VUxXenVTTFVvTE5HWkp1dm5EUnRG?=
+ =?utf-8?B?cTdVV1QyeWp4Q3JzbmpoRmpCa3lIdGNZN1ppRjBkQ3dqQzU3YVpkTUNJUmlG?=
+ =?utf-8?B?b003TVNibk5WbVREdmVhcGxTaHZpV0hPcFZKMnRvQVlFeGFKYmx0S25xQ1dv?=
+ =?utf-8?B?R3VHc3o3SUZYdHZ5QW1lWEpaM0s0N2htMUVYdEh5b0IwemhXMSs4UnlIMHUw?=
+ =?utf-8?B?aUdMeXhTbmcxTEgyU0taV1J0T3RWQ21CVFNiNTBiRnM2K0ZmL002QXB1LzNQ?=
+ =?utf-8?Q?HL4GCOza7TYgFVogpCZ0JtfGnIVePEFSG17Ooj+?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec333403-733f-4490-ae9d-08d90996e60d
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2021 16:09:56.1405
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V8G0ZXVuBVLpF7QgWpv9hzzL4chsh6dQ/uRtcDcUrViGU544H4vGuLwxKr1+C78ciJ2WxhxwXavEBJqYAGWbs78yp4ufZr31+H4PJISmHUE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2188
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
---Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Cross-posting to yocto since this is of general interest.
 
-I suspect this is an issue in upstream createrepo_c tool, which has code =
-that does not work across overlay file systems
+On 2021-04-23 2:02 p.m., Alexander Kanavin wrote:
+> This puts them on equal terms with x11 distro feature
+> (which I think is due).
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/conf/distro/include/default-distrovars.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index 9fcc10f83a..384ee7fc98 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+>   LOCALE_UTF8_IS_DEFAULT ?= "1"
+>   LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
+>   
+> -DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat"
+> +DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat wayland opengl"
+>   DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+>   IMAGE_FEATURES ?= ""
+>   
+> 
 
-    if (g_rename(out_repo, old_repodata_path) =3D=3D -1) {
-        g_debug("Old repodata doesn't exists: Cannot rename %s -> %s: =
-%s",
-                out_repo, old_repodata_path, g_strerror(errno));
-    } else {
-        g_debug("Renamed %s -> %s", out_repo, old_repodata_path);
-        old_repodata_renamed =3D TRUE;
-    }
+We (Wind River) already drop the x11 DF from some of our distros and
+we'd likely do the same for wayland and opengl so while this seems
+like the wrong change for headless systems it is one we could deal with.
 
-I=E2=80=99ll try patching and report an issue to upstream project.
+There was some discussion about this topic on the tech call today and
+people were concerned about BSP support for opengl since the software
+rendering in mesa is horridly slow.
 
-> On 27 Apr 2021, at 08:57, Devendra Tewari <devendra.tewari@gmail.com> =
-wrote:
->=20
-> These patches are working well at my end, but I=E2=80=99m still seeing =
-the following error in do_rootfs, when building incrementally in a =
-container. I=E2=80=99m not sure if this is due to timing issues alluded =
-to earlier or something else entirely. I do know for sure that this is =
-not caused by the patches because it happens even without them.
->=20
-> ERROR: core-image-base-1.0-r0 do_rootfs: Error executing a python =
-function in exec_python_func() autogenerated:
->=20
-> The stack trace of python calls that resulted in this =
-exception/failure was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: =
-<module>
->      0001:
->  *** 0002:do_rootfs(d)
->      0003:
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/classes/image.bbclass',=
- lineno: 247, function: do_rootfs
->      0243:    progress_reporter.next_stage()
->      0244:
->      0245:    # generate rootfs
->      0246:    d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', =
-'1')
->  *** 0247:    create_rootfs(d, progress_reporter=3Dprogress_reporter, =
-logcatcher=3Dlogcatcher)
->      0248:
->      0249:    progress_reporter.finish()
->      0250:}
->      0251:do_rootfs[dirs] =3D "${TOPDIR}"
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
-lineno: 375, function: create_rootfs
->      0371:
->      0372:    img_type =3D d.getVar('IMAGE_PKGTYPE')
->      0373:
->      0374:    cls =3D get_class_for_type(img_type)
->  *** 0375:    cls(d, manifest_dir, progress_reporter, =
-logcatcher).create()
->      0376:    os.environ.clear()
->      0377:    os.environ.update(env_bkp)
->      0378:
->      0379:
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
-lineno: 203, function: create
->      0199:        if self.progress_reporter:
->      0200:            self.progress_reporter.next_stage()
->      0201:
->      0202:        # call the package manager dependent create method
->  *** 0203:        self._create()
->      0204:
->      0205:        sysconfdir =3D self.image_rootfs + =
-self.d.getVar('sysconfdir')
->      0206:        bb.utils.mkdirhier(sysconfdir)
->      0207:        with open(sysconfdir + "/version", "w+") as ver:
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/rootfs.py', lineno: 70, function: _create
->      0066:        rpm_pre_process_cmds =3D =
-self.d.getVar('RPM_PREPROCESS_COMMANDS')
->      0067:        rpm_post_process_cmds =3D =
-self.d.getVar('RPM_POSTPROCESS_COMMANDS')
->      0068:
->      0069:        # update PM index files
->  *** 0070:        self.pm.write_index()
->      0071:
->      0072:        execute_pre_post_process(self.d, =
-rpm_pre_process_cmds)
->      0073:
->      0074:        if self.progress_reporter:
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 141, function: write_index
->      0137:
->      0138:    def write_index(self):
->      0139:        lockfilename =3D self.d.getVar('DEPLOY_DIR_RPM') + =
-"/rpm.lock"
->      0140:        lf =3D bb.utils.lockfile(lockfilename, False)
->  *** 0141:        RpmIndexer(self.d, self.rpm_repo_dir).write_index()
->      0142:        bb.utils.unlockfile(lf)
->      0143:
->      0144:    def insert_feeds_uris(self, feed_uris, feed_base_paths, =
-feed_archs):
->      0145:        from urllib.parse import urlparse
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 11, function: write_index
->      0007:from oe.package_manager import *
->      0008:
->      0009:class RpmIndexer(Indexer):
->      0010:    def write_index(self):
->  *** 0011:        self.do_write_index(self.deploy_dir)
->      0012:
->      0013:    def do_write_index(self, deploy_dir):
->      0014:        if self.d.getVar('PACKAGE_FEED_SIGN') =3D=3D '1':
->      0015:            signer =3D get_signer(self.d, =
-self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 20, function: do_write_index
->      0016:        else:
->      0017:            signer =3D None
->      0018:
->      0019:        createrepo_c =3D bb.utils.which(os.environ['PATH'], =
-"createrepo_c")
->  *** 0020:        result =3D create_index("%s --update -q %s" % =
-(createrepo_c, deploy_dir))
->      0021:        if result:
->      0022:            bb.fatal(result)
->      0023:
->      0024:        # Sign repomd
-> File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-__init__.py', lineno: 26, function: create_index
->      0022:def create_index(arg):
->      0023:    index_cmd =3D arg
->      0024:
->      0025:    bb.note("Executing '%s' ..." % index_cmd)
->  *** 0026:    result =3D subprocess.check_output(index_cmd, =
-stderr=3Dsubprocess.STDOUT, shell=3DTrue).decode("utf-8")
->      0027:    if result:
->      0028:        bb.note(result)
->      0029:
->      0030:def opkg_query(cmd_output):
-> File: '/usr/lib/python3.8/subprocess.py', lineno: 411, function: =
-check_output
->      0407:        # Explicitly passing input=3DNone was previously =
-equivalent to passing an
->      0408:        # empty string. That is maintained here for =
-backwards compatibility.
->      0409:        kwargs['input'] =3D '' if =
-kwargs.get('universal_newlines', False) else b''
->      0410:
->  *** 0411:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, =
-check=3DTrue,
->      0412:               **kwargs).stdout
->      0413:
->      0414:
->      0415:class CompletedProcess(object):
-> File: '/usr/lib/python3.8/subprocess.py', lineno: 512, function: run
->      0508:            # We don't call process.wait() as .__exit__ does =
-that for us.
->      0509:            raise
->      0510:        retcode =3D process.poll()
->      0511:        if check and retcode:
->  *** 0512:            raise CalledProcessError(retcode, process.args,
->      0513:                                     output=3Dstdout, =
-stderr=3Dstderr)
->      0514:    return CompletedProcess(process.args, retcode, stdout, =
-stderr)
->      0515:
->      0516:
-> Exception: subprocess.CalledProcessError: Command =
-'/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-li=
-nux-gnueabi/core-image-base/1.0-r0/recipe-sysroot-native/usr/bin/createrep=
-o_c --update -q =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo' returned non-zero exit =
-status 1.
->=20
-> Subprocess output:
-> Critical: Cannot rename =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/.repodata/ -> =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/repodata/: Directory =
-not empty
->=20
-> ERROR: Logfile of failure stored in: =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/temp/log.do_rootfs.165072
-> ERROR: Task =
-(/home/pi/docker-meta-raspberrypi/layers/poky/meta/recipes-core/images/cor=
-e-image-base.bb:do_rootfs) failed with exit code '1'
->=20
->=20
->> On 21 Apr 2021, at 18:08, Devendra Tewari <devendra.tewari@gmail.com =
-<mailto:devendra.tewari@gmail.com>> wrote:
->>=20
->> Separate patches for bitbake and oe-core, as requested
->>=20
->> =
-<0001-use-bb.utils.rename-to-rename-file-or-directory.patch><0001-use-bb.u=
-tils.rename-to-rename-file-or-directory.patch>
->>=20
->> I've assumed each will be applied to the master-next branch on top of =
-the previous patch.
->>=20
->> Thanks,
->> Devendra
->>=20
->>> On 21 Apr 2021, at 16:21, Richard Purdie =
-<richard.purdie@linuxfoundation.org =
-<mailto:richard.purdie@linuxfoundation.org>> wrote:
->>>=20
->>> On Wed, 2021-04-21 at 16:15 -0300, Devendra Tewari wrote:
->>>> That's a neat idea - if the exception handler catches OSError with =
-error number=20
->>>> 18 (Invalid cross-device link) in os.rename, it should attempt =
-shutil.move,=20
->>>> otherwise it should re-throw the exception with raise. A wrapper =
-function=20
->>>> will make it easier to handle other situations as they arise. I'll =
-update the patch.
->>>=20
->>> Sounds good. Could you also please split the patch into two, one for =
-bitbake
->>> and one for OE-Core since they are two different repositories.
->>>=20
->>> Cheers,
->>>=20
->>> Richard
->>>=20
->>=20
->=20
+Kevin, Bryan,
+Can you comment if you think we'd have any show-stopper problems
+with opengl support for BSPs?
+
+Joshua said that weston has a usable RDP (remote desktop backend) but
+I'm not sure how usable it is especially for single application sharing.
+This contrasts with x11 where you can use X11 forwarding over
+ssh trivially for whole desktops or an application.
+
+In conclusion, I see the value in pushing yocto forward but we may need
+to wait for agreement from BSP folks so let's see what they say.
+
+../Randy
 
 
---Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
+> 
+> 
+> 
+> 
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">I =
-suspect this is an issue in upstream createrepo_c tool, which has code =
-that does not work across overlay file systems<div class=3D""><br =
-class=3D""></div><div class=3D"">&nbsp; =
-&nbsp;&nbsp;if&nbsp;(g_rename(out_repo, old_repodata_path) =3D=3D -1) =
-{<br class=3D"">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;g_debug("Old repodata =
-doesn't exists: Cannot rename&nbsp;%s&nbsp;-&gt;&nbsp;%s:&nbsp;%s",<br =
-class=3D"">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;out_repo, old_repodata_path, g_strerror(errno));<br =
-class=3D"">&nbsp; &nbsp;&nbsp;}&nbsp;else&nbsp;{<br class=3D"">&nbsp; =
-&nbsp; &nbsp; &nbsp;&nbsp;g_debug("Renamed&nbsp;%s&nbsp;-&gt;&nbsp;%s", =
-out_repo, old_repodata_path);<br class=3D"">&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;old_repodata_renamed =3D TRUE;<br class=3D"">&nbsp; =
-&nbsp;&nbsp;}<br class=3D""><br class=3D"">I=E2=80=99ll try patching and =
-report an issue to upstream project.</div><div class=3D""><br =
-class=3D""></div><div class=3D""><div class=3D""><div><blockquote =
-type=3D"cite" class=3D""><div class=3D"">On 27 Apr 2021, at 08:57, =
-Devendra Tewari &lt;<a href=3D"mailto:devendra.tewari@gmail.com" =
-class=3D"">devendra.tewari@gmail.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><meta =
-http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" =
-class=3D""><div style=3D"word-wrap: break-word; -webkit-nbsp-mode: =
-space; line-break: after-white-space;" class=3D"">These patches are =
-working well at my end, but I=E2=80=99m still seeing the following error =
-in do_rootfs, when building incrementally in a container. I=E2=80=99m =
-not sure if this is due to timing issues alluded to earlier or something =
-else entirely.&nbsp;<font class=3D""><span style=3D"caret-color: rgb(0, =
-0, 0);" class=3D"">I do know for sure that this is not caused by the =
-patches because it&nbsp;happens even without them.</span></font><div =
-class=3D""><br class=3D""></div><div =
-class=3D"">ERROR:&nbsp;core-image-base-1.0-r0 do_rootfs: Error executing =
-a python function in exec_python_func() autogenerated:<br class=3D""><br =
-class=3D"">The stack trace of python calls that resulted in this =
-exception/failure was:<br class=3D"">File: 'exec_python_func() =
-autogenerated', lineno: 2, function: &lt;module&gt;<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0001:<br class=3D"">&nbsp;*** 0002:do_rootfs(d)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0003:<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/classes/image.bbclass',=
- lineno: 247, function: do_rootfs<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0243:&nbsp; &nbsp;&nbsp;progress_reporter.next_stage()<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0244:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0245:&nbsp; &nbsp;&nbsp;# generate rootfs<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0246:&nbsp; =
-&nbsp;&nbsp;d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', =
-'1')<br class=3D"">&nbsp;*** 0247:&nbsp; &nbsp;&nbsp;create_rootfs(d, =
-progress_reporter=3Dprogress_reporter, logcatcher=3Dlogcatcher)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0248:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0249:&nbsp; &nbsp;&nbsp;progress_reporter.finish()<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0250:}<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0251:do_rootfs[dirs] =3D "${TOPDIR}"<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
-lineno: 375, function: create_rootfs<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0371:<br class=3D"">&nbsp; &nbsp; &nbsp;0372:&nbsp; =
-&nbsp;&nbsp;img_type =3D d.getVar('IMAGE_PKGTYPE')<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0373:<br class=3D"">&nbsp; &nbsp; &nbsp;0374:&nbsp; =
-&nbsp;&nbsp;cls =3D get_class_for_type(img_type)<br class=3D"">&nbsp;*** =
-0375:&nbsp; &nbsp;&nbsp;cls(d, manifest_dir, progress_reporter, =
-logcatcher).create()<br class=3D"">&nbsp; &nbsp; &nbsp;0376:&nbsp; =
-&nbsp;&nbsp;os.environ.clear()<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0377:&nbsp; &nbsp;&nbsp;os.environ.update(env_bkp)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0378:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0379:<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
-lineno: 203, function: create<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0199:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
-self.progress_reporter:<br class=3D"">&nbsp; &nbsp; &nbsp;0200:&nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;self.progress_reporter.next_stage()<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0201:<br class=3D"">&nbsp; &nbsp; &nbsp;0202:&nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;# call the package manager dependent create method<br =
-class=3D"">&nbsp;*** 0203:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;self._create()<br class=3D"">&nbsp; &nbsp; &nbsp;0204:<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0205:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;sysconfdir =3D self.image_rootfs + =
-self.d.getVar('sysconfdir')<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0206:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;bb.utils.mkdirhier(sysconfdir)<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0207:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;with open(sysconfdir + =
-"/version", "w+") as ver:<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/rootfs.py', lineno: 70, function:&nbsp;_create<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0066:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;rpm_pre_process_cmds =
-=3D self.d.getVar('RPM_PREPROCESS_COMMANDS')<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0067:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;rpm_post_process_cmds =3D =
-self.d.getVar('RPM_POSTPROCESS_COMMANDS')<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0068:<br class=3D"">&nbsp; &nbsp; &nbsp;0069:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;# update PM index files<br class=3D"">&nbsp;*** 0070:&nbsp; =
-&nbsp; &nbsp; &nbsp;&nbsp;self.pm.write_index()<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0071:<br class=3D"">&nbsp; &nbsp; &nbsp;0072:&nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;execute_pre_post_process(self.d, =
-rpm_pre_process_cmds)<br class=3D"">&nbsp; &nbsp; &nbsp;0073:<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0074:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
-self.progress_reporter:<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 141,&nbsp;function: write_index<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0137:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0138:&nbsp; &nbsp;&nbsp;def write_index(self):<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0139:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;lockfilename =3D =
-self.d.getVar('DEPLOY_DIR_RPM') + "/rpm.lock"<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0140:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;lf =3D =
-bb.utils.lockfile(lockfilename, False)<br class=3D"">&nbsp;*** =
-0141:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;RpmIndexer(self.d, =
-self.rpm_repo_dir).write_index()<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0142:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.utils.unlockfile(lf)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0143:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0144:&nbsp; &nbsp;&nbsp;def insert_feeds_uris(self, feed_uris, =
-feed_base_paths, feed_archs):<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0145:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;from urllib.parse import =
-urlparse<br class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 11,&nbsp;function: write_index<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0007:from oe.package_manager import *<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0008:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0009:class RpmIndexer(Indexer):<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0010:&nbsp; &nbsp;&nbsp;def write_index(self):<br =
-class=3D"">&nbsp;*** 0011:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;self.do_write_index(self.deploy_dir)<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0012:<br class=3D"">&nbsp; &nbsp; &nbsp;0013:&nbsp; =
-&nbsp;&nbsp;def do_write_index(self, deploy_dir):<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0014:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
-self.d.getVar('PACKAGE_FEED_SIGN') =3D=3D '1':<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0015:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;signer =
-=3D get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))<br =
-class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-rpm/__init__.py', lineno: 20,&nbsp;function: do_write_index<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0016:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;else:<br class=3D"">&nbsp; &nbsp; &nbsp;0017:&nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;signer =3D None<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0018:<br class=3D"">&nbsp; &nbsp; &nbsp;0019:&nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;createrepo_c =3D bb.utils.which(os.environ['PATH'], =
-"createrepo_c")<br class=3D"">&nbsp;*** 0020:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;result =3D create_index("%s --update -q %s" % (createrepo_c, =
-deploy_dir))<br class=3D"">&nbsp; &nbsp; &nbsp;0021:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;if result:<br class=3D"">&nbsp; &nbsp; &nbsp;0022:&nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.fatal(result)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0023:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0024:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;# Sign repomd<br =
-class=3D"">File: =
-'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
-__init__.py', lineno: 26, function:&nbsp;create_index<br class=3D"">&nbsp;=
- &nbsp; &nbsp;0022:def create_index(arg):<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0023:&nbsp; &nbsp;&nbsp;index_cmd =3D arg<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0024:<br class=3D"">&nbsp; &nbsp; &nbsp;0025:&nbsp; =
-&nbsp;&nbsp;bb.note("Executing '%s' ..." % index_cmd)<br =
-class=3D"">&nbsp;*** 0026:&nbsp; &nbsp;&nbsp;result =3D =
-subprocess.check_output(index_cmd, stderr=3Dsubprocess.STDOUT, =
-shell=3DTrue).decode("utf-8")<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0027:&nbsp; &nbsp;&nbsp;if result:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0028:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.note(result)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0029:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0030:def opkg_query(cmd_output):<br class=3D"">File: =
-'/usr/lib/python3.8/subprocess.py', lineno: 411, function: =
-check_output<br class=3D"">&nbsp; &nbsp; &nbsp;0407:&nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;# Explicitly passing input=3DNone was previously equivalent =
-to passing an<br class=3D"">&nbsp; &nbsp; &nbsp;0408:&nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;# empty string. That is maintained here for backwards =
-compatibility.<br class=3D"">&nbsp; &nbsp; &nbsp;0409:&nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;kwargs['input'] =3D '' if =
-kwargs.get('universal_newlines', False) else b''<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0410:<br class=3D"">&nbsp;*** 0411:&nbsp; =
-&nbsp;&nbsp;return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, =
-check=3DTrue,<br class=3D"">&nbsp; &nbsp; &nbsp;0412:&nbsp;&nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;**kwargs).stdout<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0413:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0414:<br class=3D"">&nbsp; &nbsp; &nbsp;0415:class =
-CompletedProcess(object):<br class=3D"">File: =
-'/usr/lib/python3.8/subprocess.py', lineno: 512, function: run<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0508:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;# We don't call process.wait() as .__exit__ does that for =
-us.<br class=3D"">&nbsp; &nbsp; &nbsp;0509:&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp;&nbsp;raise<br class=3D"">&nbsp; &nbsp; &nbsp;0510:&nbsp; =
-&nbsp; &nbsp; &nbsp;&nbsp;retcode =3D process.poll()<br class=3D"">&nbsp; =
-&nbsp; &nbsp;0511:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if check and =
-retcode:<br class=3D"">&nbsp;*** 0512:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp;&nbsp;raise CalledProcessError(retcode, process.args,<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0513:&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;output=3Dstdout, stderr=3Dstderr)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0514:&nbsp; &nbsp;&nbsp;return =
-CompletedProcess(process.args, retcode, stdout, stderr)<br =
-class=3D"">&nbsp; &nbsp; &nbsp;0515:<br class=3D"">&nbsp; &nbsp; =
-&nbsp;0516:<br class=3D"">Exception: subprocess.CalledProcessError: =
-Command =
-'/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-li=
-nux-gnueabi/core-image-base/1.0-r0/recipe-sysroot-native/usr/bin/createrep=
-o_c --update -q =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo' returned non-zero exit =
-status 1.<br class=3D""><br class=3D"">Subprocess output:<br =
-class=3D"">Critical: Cannot rename =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/.repodata/ -&gt; =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/repodata/: Directory =
-not empty<br class=3D""><br class=3D"">ERROR:&nbsp;Logfile of failure =
-stored in: =
-/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
-ux-gnueabi/core-image-base/1.0-r0/temp/log.do_rootfs.165072<br =
-class=3D"">ERROR:&nbsp;Task =
-(/home/pi/docker-meta-raspberrypi/layers/poky/meta/recipes-core/images/cor=
-e-image-base.bb:do_rootfs)&nbsp;failed with exit code '1'<br =
-class=3D""><br class=3D""><div class=3D""><br class=3D""><blockquote =
-type=3D"cite" class=3D""><div class=3D"">On 21 Apr 2021, at 18:08, =
-Devendra Tewari &lt;<a href=3D"mailto:devendra.tewari@gmail.com" =
-class=3D"">devendra.tewari@gmail.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div =
-class=3D"">Separate patches for bitbake and oe-core, as requested<br =
-class=3D""><br class=3D""><span =
-id=3D"cid:19213B17-A194-4036-882C-82059E962319" =
-class=3D"">&lt;0001-use-bb.utils.rename-to-rename-file-or-directory.patch&=
-gt;</span><span id=3D"cid:9371CE3F-B87A-4759-AFDD-8EBDBA0E60E0" =
-class=3D"">&lt;0001-use-bb.utils.rename-to-rename-file-or-directory.patch&=
-gt;</span><br class=3D""><br class=3D"">I've assumed each will be =
-applied to the master-next branch on top of the previous patch.<br =
-class=3D""><br class=3D"">Thanks,<br class=3D"">Devendra<br class=3D""><br=
- class=3D""><blockquote type=3D"cite" class=3D"">On 21 Apr 2021, at =
-16:21, Richard Purdie &lt;<a =
-href=3D"mailto:richard.purdie@linuxfoundation.org" =
-class=3D"">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br =
-class=3D""><br class=3D"">On Wed, 2021-04-21 at 16:15 -0300, Devendra =
-Tewari wrote:<br class=3D""><blockquote type=3D"cite" class=3D"">That's =
-a neat idea - if the exception handler catches OSError with error number =
-<br class=3D"">18 (Invalid cross-device link) in os.rename, it should =
-attempt shutil.move, <br class=3D"">otherwise it should re-throw the =
-exception with raise. A wrapper function <br class=3D"">will make it =
-easier to handle other situations as they arise. I'll update the =
-patch.<br class=3D""></blockquote><br class=3D"">Sounds good. Could you =
-also please split the patch into two, one for bitbake<br class=3D"">and =
-one for OE-Core since they are two different repositories.<br =
-class=3D""><br class=3D"">Cheers,<br class=3D""><br class=3D"">Richard<br =
-class=3D""><br class=3D""></blockquote><br =
-class=3D""></div></div></blockquote></div><br =
-class=3D""></div></div></div></blockquote></div><br =
-class=3D""></div></div></body></html>=
 
---Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B--
+-- 
+# Randy MacLeod
+# Wind River Linux
