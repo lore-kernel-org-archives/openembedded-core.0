@@ -1,50 +1,50 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web08.5287.1619510638124553032
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.5376.1619510882298019653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Apr 2021 01:03:58 -0700
+ Tue, 27 Apr 2021 01:08:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CwSPVMuP;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: flowergom@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id q10so41793830pgj.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 01:03:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vbLgwHhI;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: flowergom@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id f11-20020a17090a638bb02901524d3a3d48so6674973pjj.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 01:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nK/Vf5TGGWFeH3zvzM593AgTzh6x4nTtQArH8YGS40s=;
-        b=CwSPVMuPIaV5JfKuZi20Pvfq1/NMt5HFrbQVKEP97WqlxJvNxDkU8ZAJC+PE6NLpOz
-         YWLFmIiFKT5mxDCLHcNBj3FBMN9GcmwRy2mPkKPSthEj8l7Q6tJl80t7kGhAv0shCY1w
-         mqQXegnVVT/8rncJ3/Pza9v2Xh9Y2ovm5DaP34JFA+zCvcJBMqqcFd3KXwKjDWY3lTGh
-         3/IRPPNVddv2W7Xpjf4b8HJRopd0qTaVAwEkPv1O8amFuz6/PlV9Ky+8Q9vE31XCFzVz
-         z4ObXN0TvmjA+WPxMcC4xofPHCHRvpGMX6C27zP8Utd7O97UeUmCZRYKyP4NWK51L1LG
-         +9aw==
+        bh=sZyR4o7Qfv1/LOZ8si3gaBf145k9vciA8wavjkRVXtk=;
+        b=vbLgwHhIyWn/jJPsNHgaMcMDPP5eSeijsVXgT252b0XTkkuAp8gBitBxetF2K2K/73
+         sW8zPQXV2LipefVYa2Q5qnet15Jq7BeNRY0Qj+f7sqQglKl5TE3392wimu963FX1mp51
+         wz77vuQKBoZfbCfgOn6UZicsGTPOXEAUqIJaHery2xM9ez0nk51WUG4Ii9hz0Jfjn+Xp
+         pbygFZO9DItTBQ43IIYTeHxxHIv6LiPucPdNTn+bw9AVaD/hMV+dawblukbGW3johU0n
+         bx5rrt1er/Lc8sCHhd0AEJGa4SJipU5QInYdaMr6tGHNxRjwtR23PcphAZb9TpT5FZ9y
+         ZaIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=nK/Vf5TGGWFeH3zvzM593AgTzh6x4nTtQArH8YGS40s=;
-        b=NaEsHbTCFwLjSNgTv71OvBJYGotS4cDZYj3SFk2GkkxLnX43krgde8mY5g6PdRO5ei
-         MWh0hGVpUuOWwWVAYN/ModJ2joWc6zcq6OzQJs6vReBsF7jyowTABSRoOCcp6mqUdBK4
-         jXldJQc0jSW9nkc3SMrkPGhOt/YfYGITucMyXLcso420SzR6BGqVYt5bwP00797XIC1o
-         fHI4fuNkJZY4JG/yriMFgMjCkzOcnstbcgJUMY+bte+R+fW1hLaSKXPAUQqVeLwaIq2b
-         QAiyTARQO930MIwrg9ntzcOYFh7iohBZxAbn2d/AJixdg+CtQF2nCwjWQDLo9QSSRDkS
-         gWxA==
-X-Gm-Message-State: AOAM530Aa14gM6CyfEJ1Lxh5UyGV+zLKT+rXUorA6umQMMXp3PSrhsAw
-	/EnAGI6/N3EoWLX80iaTQnaSzDEaY0QQmCeJ
-X-Google-Smtp-Source: ABdhPJzEirZDTdlMR8yRBHPL/Xd8JUd9uEuOqSUWhJ7eFL4aHDGSptaQqTg0J5QcZgyMPgAvR+FBFg==
-X-Received: by 2002:a63:c111:: with SMTP id w17mr20350935pgf.127.1619510637258;
-        Tue, 27 Apr 2021 01:03:57 -0700 (PDT)
+        bh=sZyR4o7Qfv1/LOZ8si3gaBf145k9vciA8wavjkRVXtk=;
+        b=ViJNMjaxBUbOP59gwFnJ4ngFqpVypPtfaJZunfMXmLxdiT7bMHemIOFooEhYWd6ntu
+         IoJVUl2MIXX3IJqw62S4y71e0fCWh0H8NSv5rvYx0inr/HqMpelEv22pS+RrN8nzDBaL
+         ovZG1u0mAk/Jh5+P77xVA4FcaS86HARBdcvcJqh2ZXExLCeOBboY99/pf/4xLliyBOMt
+         n2tVxAGyHp0Yj40I/H8Oe+x9haoI4LwtwGURifHLtleE0wsDw4e4DBkPwqiVOUTYcgsA
+         D3sZ1vq8mvoyuWl21EtifB6zy+ki/y0Hfy7AXGDzwA8k+ZG3dCKJ3OkM0S0AyvyJDyB3
+         27aQ==
+X-Gm-Message-State: AOAM5323BQnm7t4TQmmqsrRQ8CmBF1rT1zqXk6Ut4bN5cYuWwWCNASsI
+	RRpHrJ8vxbygLHLB9EGjUHmHxLGhWl8Cs8m2
+X-Google-Smtp-Source: ABdhPJwGvY5XApbilRwZ+UidbHqpRvRg9DVvXGXdle7hwEkpVrpgPuC8MvlIGHhbDCl9BBPL1H8DQg==
+X-Received: by 2002:a17:902:d4c2:b029:ed:4a62:abda with SMTP id o2-20020a170902d4c2b02900ed4a62abdamr5031324plg.5.1619510881411;
+        Tue, 27 Apr 2021 01:08:01 -0700 (PDT)
 Return-Path: <flowergom@gmail.com>
 Received: from localhost.localdomain ([116.42.185.119])
-        by smtp.gmail.com with ESMTPSA id s22sm1685649pjs.42.2021.04.27.01.03.55
+        by smtp.gmail.com with ESMTPSA id jx20sm1485759pjb.41.2021.04.27.01.07.59
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Apr 2021 01:03:56 -0700 (PDT)
+        Tue, 27 Apr 2021 01:08:00 -0700 (PDT)
 From: "Minjae Kim" <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [PATCH] qemu: fix CVE-2021-3392
-Date: Tue, 27 Apr 2021 17:03:45 +0900
-Message-Id: <20210427080345.927-1-flowergom@gmail.com>
+Subject: [hardknott][PATCH] qemu: fix CVE-2021-3392
+Date: Tue, 27 Apr 2021 17:07:27 +0900
+Message-Id: <20210427080727.1215-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,13 +57,13 @@ scsi: use-after-free in mptsas_process_scsi_io_request() of mptsas1068 emulator
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5797bbecf2..c8f8826423 100644
+index a625809597..1c4866ec0c 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_9.patch \
-            file://CVE-2021-3416_10.patch \
-            file://CVE-2021-20257.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://determinism.patch \
+            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
+ 	   file://CVE-2021-20203.patch \
 +	   file://CVE-2021-3392.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
