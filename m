@@ -1,1576 +1,544 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web12.9538.1619535118385012663
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web08.9447.1619535548345520479
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Apr 2021 07:51:58 -0700
+ Tue, 27 Apr 2021 07:59:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XjhvjF4A;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id z16so1580901pga.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 07:51:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S58isawl;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: devendra.tewari@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id a18so20547047qtj.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Apr 2021 07:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=XiMprpAC2m7hmIRUFkmZeetbLInI0Kt74Prtj0KJ7Fk=;
-        b=XjhvjF4AHMWLw5RK/lbIwP8H5aJZBiOqC0Rxy/xc8xqcGEtq/8FixTwk0RY/gJfTE+
-         Dtzoh6tk+SbWtIRjTvOMsU2tXVMfIumdjtXNYhds2Z6uZoO+EDRDAtEgGw2nfweGE34X
-         WKJCcQ41G7ZdWuNrZGBXSrT85riXEjwtohz94aN8EwXLOWtd4EK4lmwjjJUhCbn8/zYI
-         qqfiYmM/5oDYuE6nFBzN3NHJmnEB3n8qK38PQmZiv3zYJzj6ndUMKQVyzEUW+KfwlCTM
-         9eKyJwr/W0PcLhzUvrkC94yWVCe6Ei/DCjMnJVFlJWrNMr5PuT5pIc2Zzv2NrDfvnWIQ
-         7htQ==
+        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+         :references;
+        bh=Q8uO5KCcwm9sI3Rpe+IkuEPGR/3y+DRfy3zqYmXk4CQ=;
+        b=S58isawlj2odx7s9Cuo8+NhF6iGeuzUDXxRPKuFYinNnLM5bDu/qsGK1iTfSHlUFm0
+         99nAfwOOQg1qvFjyOOQEjIbuptmHsWkwcIit0KCV/HrL3M/UZMRddCNdNiR8vnIqoQhT
+         KdGzQqwUbjh/5Y0QIsBDAhq9G/jtx3PulqpcZ6+/gPkkfiLlSMXV7Xiky06b2kCcRRUY
+         3TB9Boql/wrT3ZS4y/NrKDE9Z9T+lVr+r/uBXu9gCBcwdiFy37X7q+EbZfGjDMi75GPn
+         MTy7j21rp7RWcxRDh8PnRKiVPOA8RGuXP0AJHZXA61+zyJjWtKHfuP+1kITus2aUUEI6
+         OBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=XiMprpAC2m7hmIRUFkmZeetbLInI0Kt74Prtj0KJ7Fk=;
-        b=YXHkb8ZZ6oA7XPi1/yJxuaGDkdk0GdduOSsTZT4+ATbgczEBKoGmdOn4jSFNYHXiWb
-         sGI+ZuYvpggtd5t+uz566I8WhfoZ6YZEJfQy2bccX7PY7H9xNT6WHDLRg81sf6h8B4Q4
-         xY+aikJPjmZbqMSLqYSsWeqOIle51oPbrrKCHbnUd5Z0iUMDDopxi0Qn2jzDAOTYaw1G
-         tRUPK6tPI41G07QUGTNFfJ6M2CI5CySqRAqL4XUMX8LQoTMTrl3rVkvQ4xkLJuNrfGJN
-         mcaDncbf4Wo+R7sK+NHE4FJMTEs6QrXXgkv4Apj5XIx0WzspjHGPb7TSatJmwlAwdJLa
-         4+gw==
-X-Gm-Message-State: AOAM532fb4D3zWFmjIR7dNV5XG3CkUqluOtxxaHG0/AudJgPTRQxi1Df
-	uQP0J3V0fQsVmtGpTx6kL1wNQYtAd3M=
-X-Google-Smtp-Source: ABdhPJzmxzpHrZf9FzjfHBJS/86oWnSXk44vkQGt0s/Tqh0skne0pdWZy1Hqwc963M7NIgoHCD15qQ==
-X-Received: by 2002:a62:808b:0:b029:252:eddc:afb0 with SMTP id j133-20020a62808b0000b0290252eddcafb0mr24027226pfd.41.1619535117439;
-        Tue, 27 Apr 2021 07:51:57 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (wsip-72-194-163-85.ph.ph.cox.net. [72.194.163.85])
-        by smtp.gmail.com with ESMTPSA id j26sm2848452pfn.47.2021.04.27.07.51.55
+        h=x-gm-message-state:from:message-id:mime-version:subject:date
+         :in-reply-to:cc:to:references;
+        bh=Q8uO5KCcwm9sI3Rpe+IkuEPGR/3y+DRfy3zqYmXk4CQ=;
+        b=n7hNguxOckD/2mFxfGPXsQY8nXQpuSntn8o9PGnoySBeAmoPk7mUzMYkQJLpeefIhY
+         Dw3MmF+k8AU7HEOPl8tUQ2DDpE4TN/j1oICbKolmFiV9n/qhaKTX22zzKCH0LrKyszEM
+         /b9FxNmXG83DDxqqKCAcP77SV8Tb0WQZVhI9n/xE5BMwSbC7/w8lxWLwnm1W1oEiXRRD
+         b3yJB2ttG4SIhDojKPd9BzzyoP/f+vKY4kmav0RD/h+MWrBV84EYkXKEt46WEJeBfC2S
+         GTHuXNmBXB/0YyH4fy80vAxLDMpygRtSlNBoKfEwSNvYW3N7fbsJhbM+1IolDs5r5NrC
+         UZzA==
+X-Gm-Message-State: AOAM533N2eAJlmQq+WhdqLVeGyq/Za/J4PwQ6WjuUW80V7k4XpgAEBab
+	KVdNp3t5OD9EspQ2Y23k/T8=
+X-Google-Smtp-Source: ABdhPJwhEr66De5CnZt35hdgo9P1RTNGVGwHJBiyWhNI6DXsEbo7NXpfID5RCV2tAAB3QfH/aN8z6w==
+X-Received: by 2002:ac8:4b41:: with SMTP id e1mr21703269qts.180.1619535547385;
+        Tue, 27 Apr 2021 07:59:07 -0700 (PDT)
+Return-Path: <devendra.tewari@gmail.com>
+Received: from ?IPv6:2804:14d:5487:a7d6:3c62:f961:ae7b:57a? ([2804:14d:5487:a7d6:3c62:f961:ae7b:57a])
+        by smtp.gmail.com with ESMTPSA id m29sm2715370qkm.101.2021.04.27.07.59.05
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Apr 2021 07:51:56 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Status WW17`21
-Date: Tue, 27 Apr 2021 07:51:55 -0700
-Message-ID: <06bc01d73b74$de697fa0$9b3c7ee0$@gmail.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adc7dLwbuKd5NQPISaOVBuPLqH/HCQ==
+        Tue, 27 Apr 2021 07:59:07 -0700 (PDT)
+From: "Devendra Tewari" <devendra.tewari@gmail.com>
+Message-Id: <3F33A9E1-ED6B-4728-A0CE-49EAAB2CFAC1@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
+Subject: Re: [OE-core] [PATCH] Use shutil.move when os.rename fails
+Date: Tue, 27 Apr 2021 11:59:02 -0300
+In-Reply-To: <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+ Andre McCurdy <armccurdy@gmail.com>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <d59ab2e71f0115018fb1c957276ce71e3292cd95.camel@linuxfoundation.org>
+ <F32A7470-A864-41C0-BA9C-FB611421DC0F@gmail.com>
+ <aebbbcf8d29afec37b4a9c459eca8ab24112137f.camel@linuxfoundation.org>
+ <4538E61E-9CE7-4346-877F-FA6CEAEB5074@gmail.com>
+ <61C98407-3B1A-4C8D-9969-7D3EEAE3B75A@gmail.com>
+X-Mailer: Apple Mail (2.3654.60.0.2.21)
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_06BD_01D73B3A.320F6290"
-Content-Language: en-us
+	boundary="Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B"
 
-------=_NextPart_000_06BD_01D73B3A.320F6290
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-Current Dev Position: YP 3.4 M1
-
-Next Deadline: 7th June 2021 YP 3.4 M1 build
-
- 
-
-Next Team Meetings:
-
-*	Bug Triage meeting Thursday Apr. 29th at 7:30am PDT (
-<https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>
-https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-*	Monthly Project Meeting Tuesday May 4th at 8am PDT (
-<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-<https://zoom.us/j/990892712> )
-*	Weekly Engineering Sync Tuesday Apr. 27th at 8am PDT (
-<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-<https://zoom.us/j/990892712> )
-*	Twitch -  See https://www.twitch.tv/theyoctojester
-
- 
-
-Key Status/Updates:
-
-*	YP 3.1.7 was released.
-*	Patches are now flowing into master for 3.4 for M1 which is now
-undergoing active development.
-*	We added automated yocto-check-layer testing to the YP autobuilder
-for key project layers which include meta-openembedded and
-meta-virtualization as well as member layers. The aim is to ensure key
-project layers interoperate well with each other and we'd like to thank the
-layer maintainers who've helped ensure these layers started passing tests.
-*	Libseccomp has moved to OE-Core due to its widespread use and
-becoming a hard requirement for some software. As such its now in the
-default DISTRO_FEATURES.
-*	There is a potentially controversial proposal to add opengl to the
-default DISTRO_FEATURES as part of the move to wayland rather than X11
-Xserver based systems which people may wish to review carefully.
-*	Elections for the two OE positions on the YP TSC are ongoing on the
-openembedded-members list. Please contact the OE board if you are not a
-member but would like to be.
-*	Intermittent autobuilder issues continue to occur and are now at a
-record high level. You  can see the list of failures we're continuing to see
-by searching for the "AB-INT" tag in bugzilla:
-<https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
-https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
-
-We are working to identify the load pattern on the infrastructure that seems
-to trigger these.
-
- 
-
-Ways to contribute:
-
-*	There are bugs identified as possible for newcomers to the project:
-<https://wiki.yoctoproject.org/wiki/Newcomers>
-https://wiki.yoctoproject.org/wiki/Newcomers
-*	There are bugs that are currently unassigned for YP 3.3. See:
-<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enha
-ncements.2FBugs>
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enhan
-cements.2FBugs
-*	We'd welcome new maintainers for recipes in OE-Core. Please see the
-list at:
-<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/mai
-ntainers.inc>
-http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/main
-tainers.inc and discuss with the existing maintainer, or ask on the OE-Core
-mailing list. We will likely move a chunk of these to "Unassigned" soon to
-help facilitate this.
-
- 
-
-YP 3.4 Milestone Dates:
-
-*	YP 3.4 M1 build date 2021/06/07
-*	YP 3.4 M1 Release date 2021/06/18
-*	YP 3.4 M2 build date 2021/07/12
-*	YP 3.4 M2 Release date 2021/07/23
-*	YP 3.4 M3 build date 2021/08/23
-*	YP 3.4 M3 Release date 2021/09/03
-*	YP 3.4 M4 build date 2021/10/04
-*	YP 3.4 M4 Release date 2021/10/29
-
- 
-
-Planned upcoming dot releases:
-
-*	YP 3.1.7 has been released.
-*	YP 3.2.4 build date 2021/05/3
-*	YP 3.2.4 release date 2021/05/14
-*	YP 3.3.1 build date 2021/05/17
-*	YP 3.3.1 release date 2021/05/28
-*	YP 3.1.8 build date 2021/05/24
-*	YP 3.1.8 release date 2021/06/04
-*	YP 3.1.9 build date 2021/06/21
-*	YP 3.1.9 release date 2021/07/02
-*	YP 3.3.2 build date 2021/07/19
-*	YP 3.3.2 release date 2021/07/30
-*	YP 3.1.10 build date 2021/07/26
-*	YP 3.1.10 release date 2021/08/06
-*	YP 3.1.11 build date 2021/09/13
-*	YP 3.1.11 release date 2021/9/24
-
- 
-
-Tracking Metrics:
-
-*	WDD 2645 (last week 2745) (
-<https://wiki.yoctoproject.org/charts/combo.html>
-https://wiki.yoctoproject.org/charts/combo.html)
-*	OE-Core/Poky Patch Metrics
-
-*	Total patches found: 1314 (last week 1287)
-*	Patches in the Pending State: 496 (38%) [last week 493 (38%)]
-
- 
-
-The Yocto Project's technical governance is through its Technical Steering
-Committee, more information is available at:
-
- <https://wiki.yoctoproject.org/wiki/TSC>
-https://wiki.yoctoproject.org/wiki/TSC
-
- 
-
-The Status reports are now stored on the wiki at:
-<https://wiki.yoctoproject.org/wiki/Weekly_Status>
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
- 
-
-[If anyone has suggestions for other information you'd like to see on this
-weekly status update, let us know!]
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_06BD_01D73B3A.320F6290
-Content-Type: text/html;
-	boundary="----=_NextPart_000_09D6_01D735B9.A4BE8450";
-	charset="us-ascii"
+--Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:219022290;
-	mso-list-template-ids:-1717112298;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:1052387876;
-	mso-list-template-ids:-1127996552;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:1092043342;
-	mso-list-template-ids:-781704424;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:1115102443;
-	mso-list-template-ids:315621892;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4
-	{mso-list-id:1241021735;
-	mso-list-template-ids:1153878166;}
-@list l4:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l4:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l4:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5
-	{mso-list-id:1314944888;
-	mso-list-template-ids:-72193192;}
-@list l5:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l5:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l5:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6
-	{mso-list-id:1466771083;
-	mso-list-template-ids:-780401708;}
-@list l6:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l6:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l6:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7
-	{mso-list-id:1577593841;
-	mso-list-template-ids:-909374832;}
-@list l7:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l7:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l7:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8
-	{mso-list-id:1626889949;
-	mso-list-template-ids:424995962;}
-@list l8:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l8:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l8:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9
-	{mso-list-id:1724871430;
-	mso-list-template-ids:434033832;}
-@list l9:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l9:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l9:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10
-	{mso-list-id:1846436930;
-	mso-list-template-ids:749251562;}
-@list l10:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l10:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l10:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l10:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11
-	{mso-list-id:1860922406;
-	mso-list-template-ids:1451761968;}
-@list l11:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l11:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l11:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l11:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12
-	{mso-list-id:2113013095;
-	mso-list-template-ids:-1125209324;}
-@list l12:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l12:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l12:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l12:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
-Position: YP 3.4 M1</span><o:p></o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: 7th =
-June 2021 YP 3.4 M1 build</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
-Meetings:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
-Apr. 29th at 7:30am PDT (<a =
-href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y=
-0bFd5aVpHVVZ6dz09</span></a>)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
-May 4th at 8am PDT (<a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
-1bkcrYjRrcmJsUT09</span></a><a =
-href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
-Apr. 27th at 8am PDT (<a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
-1bkcrYjRrcmJsUT09</span></a><a =
-href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
-level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
-https://www.twitch.tv/theyoctojester<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Key =
-Status/Updates:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 was =
-released.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Patches are now flowing into =
-master for 3.4 for M1 which is now undergoing active =
-development.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>We added automated =
-yocto-check-layer testing to the YP autobuilder for key project layers =
-which include meta-openembedded and meta-virtualization as well as =
-member layers. The aim is to ensure key project layers interoperate well =
-with each other and we&#8217;d like to thank the layer maintainers =
-who&#8217;ve helped ensure these layers started passing =
-tests.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Libseccomp has moved to OE-Core =
-due to its widespread use and becoming a hard requirement for some =
-software. As such its now in the default =
-DISTRO_FEATURES.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There is a potentially =
-controversial proposal to add opengl to the default DISTRO_FEATURES as =
-part of the move to wayland rather than X11 Xserver based systems which =
-people may wish to review carefully.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Elections for the two OE =
-positions on the YP TSC are ongoing on the openembedded-members list. =
-Please contact the OE board if you are not a member but would like to =
-be.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
-lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Intermittent autobuilder issues =
-continue to occur and are now at a record high level. You&nbsp; can see =
-the list of failures we&#8217;re continuing to see by searching for the =
-&#8220;AB-INT&#8221; tag in bugzilla: <a =
-href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-IN=
-T"><span =
-style=3D'color:#1155CC'>https://bugzilla.yoctoproject.org/buglist.cgi?qui=
-cksearch=3DAB-INT</span></a><o:p></o:p></span></li></ul><p =
-style=3D'mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margin=
--left:.5in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>We are working to =
-identify the load pattern on the infrastructure that seems to trigger =
-these.</span><o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Ways to =
-contribute:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l7 level1 =
-lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There are bugs identified as =
-possible for newcomers to the project: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Newcomers"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Newcomers</spa=
-n></a><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l7 level1 =
-lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There are bugs that are =
-currently unassigned for YP 3.3. See: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unass=
-igned_Enhancements.2FBugs"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
-ium.2B_3.3_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
-i><li style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l7 =
-level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>We&#8217;d welcome new =
-maintainers for recipes in OE-Core. Please see the list at: <a =
-href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/i=
-nclude/maintainers.inc"><span =
-style=3D'color:#1155CC'>http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
-ta/conf/distro/include/maintainers.inc</span></a> and discuss with the =
-existing maintainer, or ask on the OE-Core mailing list. We will likely =
-move a chunk of these to &#8220;Unassigned&#8221; soon to help =
-facilitate this.<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.4 Milestone =
-Dates:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M1 build date =
-2021/06/07<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M1 Release date =
-2021/06/18<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M2 build date =
-2021/07/12<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M2 Release date =
-2021/07/23<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M3 build date =
-2021/08/23<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M3 Release date =
-2021/09/03<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M4 build date =
-2021/10/04<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
-lfo11;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.4 M4 Release date =
-2021/10/29<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
-dot releases:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 has been =
-released.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.4 build date =
-2021/05/3<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2.4 release date =
-2021/05/14<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3.1 build date =
-2021/05/17<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3.1 release date =
-2021/05/28<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.8 build date =
-2021/05/24<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.8 release date =
-2021/06/04<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.9 build date =
-2021/06/21<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.9 release date =
-2021/07/02<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3.2 build date =
-2021/07/19<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.3.2 release date =
-2021/07/30<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.10 build date =
-2021/07/26<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.10 release date =
-2021/08/06<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.11 build date =
-2021/09/13<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
-lfo12;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.11 release date =
-2021/9/24<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
-Metrics:</span><o:p></o:p></p><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>WDD 2645 (last week =
-2745)</span><span style=3D'font-family:Consolas'> (</span><span =
-style=3D'font-family:"Arial",sans-serif'><a =
-href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
-span></a></span><span style=3D'font-family:Consolas'>)</span><span =
-style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>OE-Core/Poky Patch =
-Metrics</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
-style=3D'margin-top:0in;padding-inline-start:48px' type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level2 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Total patches found: 1314 (last =
-week 1287)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level2 =
-lfo13;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
-496 (38%) [last week 493 (38%)]</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
-Project&#8217;s technical governance is through its Technical Steering =
-Committee, more information is available at:</span><o:p></o:p></p><p =
-style=3D'margin:0in'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/TSC</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
-are now stored on the wiki at: </span><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
-suggestions for other information you&#8217;d like to see on this weekly =
-status update, let us know!]</span><o:p></o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+I suspect this is an issue in upstream createrepo_c tool, which has code =
+that does not work across overlay file systems
 
-------=_NextPart_000_06BD_01D73B3A.320F6290--
+    if (g_rename(out_repo, old_repodata_path) =3D=3D -1) {
+        g_debug("Old repodata doesn't exists: Cannot rename %s -> %s: =
+%s",
+                out_repo, old_repodata_path, g_strerror(errno));
+    } else {
+        g_debug("Renamed %s -> %s", out_repo, old_repodata_path);
+        old_repodata_renamed =3D TRUE;
+    }
+
+I=E2=80=99ll try patching and report an issue to upstream project.
+
+> On 27 Apr 2021, at 08:57, Devendra Tewari <devendra.tewari@gmail.com> =
+wrote:
+>=20
+> These patches are working well at my end, but I=E2=80=99m still seeing =
+the following error in do_rootfs, when building incrementally in a =
+container. I=E2=80=99m not sure if this is due to timing issues alluded =
+to earlier or something else entirely. I do know for sure that this is =
+not caused by the patches because it happens even without them.
+>=20
+> ERROR: core-image-base-1.0-r0 do_rootfs: Error executing a python =
+function in exec_python_func() autogenerated:
+>=20
+> The stack trace of python calls that resulted in this =
+exception/failure was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: =
+<module>
+>      0001:
+>  *** 0002:do_rootfs(d)
+>      0003:
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/classes/image.bbclass',=
+ lineno: 247, function: do_rootfs
+>      0243:    progress_reporter.next_stage()
+>      0244:
+>      0245:    # generate rootfs
+>      0246:    d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', =
+'1')
+>  *** 0247:    create_rootfs(d, progress_reporter=3Dprogress_reporter, =
+logcatcher=3Dlogcatcher)
+>      0248:
+>      0249:    progress_reporter.finish()
+>      0250:}
+>      0251:do_rootfs[dirs] =3D "${TOPDIR}"
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
+lineno: 375, function: create_rootfs
+>      0371:
+>      0372:    img_type =3D d.getVar('IMAGE_PKGTYPE')
+>      0373:
+>      0374:    cls =3D get_class_for_type(img_type)
+>  *** 0375:    cls(d, manifest_dir, progress_reporter, =
+logcatcher).create()
+>      0376:    os.environ.clear()
+>      0377:    os.environ.update(env_bkp)
+>      0378:
+>      0379:
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
+lineno: 203, function: create
+>      0199:        if self.progress_reporter:
+>      0200:            self.progress_reporter.next_stage()
+>      0201:
+>      0202:        # call the package manager dependent create method
+>  *** 0203:        self._create()
+>      0204:
+>      0205:        sysconfdir =3D self.image_rootfs + =
+self.d.getVar('sysconfdir')
+>      0206:        bb.utils.mkdirhier(sysconfdir)
+>      0207:        with open(sysconfdir + "/version", "w+") as ver:
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/rootfs.py', lineno: 70, function: _create
+>      0066:        rpm_pre_process_cmds =3D =
+self.d.getVar('RPM_PREPROCESS_COMMANDS')
+>      0067:        rpm_post_process_cmds =3D =
+self.d.getVar('RPM_POSTPROCESS_COMMANDS')
+>      0068:
+>      0069:        # update PM index files
+>  *** 0070:        self.pm.write_index()
+>      0071:
+>      0072:        execute_pre_post_process(self.d, =
+rpm_pre_process_cmds)
+>      0073:
+>      0074:        if self.progress_reporter:
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 141, function: write_index
+>      0137:
+>      0138:    def write_index(self):
+>      0139:        lockfilename =3D self.d.getVar('DEPLOY_DIR_RPM') + =
+"/rpm.lock"
+>      0140:        lf =3D bb.utils.lockfile(lockfilename, False)
+>  *** 0141:        RpmIndexer(self.d, self.rpm_repo_dir).write_index()
+>      0142:        bb.utils.unlockfile(lf)
+>      0143:
+>      0144:    def insert_feeds_uris(self, feed_uris, feed_base_paths, =
+feed_archs):
+>      0145:        from urllib.parse import urlparse
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 11, function: write_index
+>      0007:from oe.package_manager import *
+>      0008:
+>      0009:class RpmIndexer(Indexer):
+>      0010:    def write_index(self):
+>  *** 0011:        self.do_write_index(self.deploy_dir)
+>      0012:
+>      0013:    def do_write_index(self, deploy_dir):
+>      0014:        if self.d.getVar('PACKAGE_FEED_SIGN') =3D=3D '1':
+>      0015:            signer =3D get_signer(self.d, =
+self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 20, function: do_write_index
+>      0016:        else:
+>      0017:            signer =3D None
+>      0018:
+>      0019:        createrepo_c =3D bb.utils.which(os.environ['PATH'], =
+"createrepo_c")
+>  *** 0020:        result =3D create_index("%s --update -q %s" % =
+(createrepo_c, deploy_dir))
+>      0021:        if result:
+>      0022:            bb.fatal(result)
+>      0023:
+>      0024:        # Sign repomd
+> File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+__init__.py', lineno: 26, function: create_index
+>      0022:def create_index(arg):
+>      0023:    index_cmd =3D arg
+>      0024:
+>      0025:    bb.note("Executing '%s' ..." % index_cmd)
+>  *** 0026:    result =3D subprocess.check_output(index_cmd, =
+stderr=3Dsubprocess.STDOUT, shell=3DTrue).decode("utf-8")
+>      0027:    if result:
+>      0028:        bb.note(result)
+>      0029:
+>      0030:def opkg_query(cmd_output):
+> File: '/usr/lib/python3.8/subprocess.py', lineno: 411, function: =
+check_output
+>      0407:        # Explicitly passing input=3DNone was previously =
+equivalent to passing an
+>      0408:        # empty string. That is maintained here for =
+backwards compatibility.
+>      0409:        kwargs['input'] =3D '' if =
+kwargs.get('universal_newlines', False) else b''
+>      0410:
+>  *** 0411:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, =
+check=3DTrue,
+>      0412:               **kwargs).stdout
+>      0413:
+>      0414:
+>      0415:class CompletedProcess(object):
+> File: '/usr/lib/python3.8/subprocess.py', lineno: 512, function: run
+>      0508:            # We don't call process.wait() as .__exit__ does =
+that for us.
+>      0509:            raise
+>      0510:        retcode =3D process.poll()
+>      0511:        if check and retcode:
+>  *** 0512:            raise CalledProcessError(retcode, process.args,
+>      0513:                                     output=3Dstdout, =
+stderr=3Dstderr)
+>      0514:    return CompletedProcess(process.args, retcode, stdout, =
+stderr)
+>      0515:
+>      0516:
+> Exception: subprocess.CalledProcessError: Command =
+'/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-li=
+nux-gnueabi/core-image-base/1.0-r0/recipe-sysroot-native/usr/bin/createrep=
+o_c --update -q =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo' returned non-zero exit =
+status 1.
+>=20
+> Subprocess output:
+> Critical: Cannot rename =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/.repodata/ -> =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/repodata/: Directory =
+not empty
+>=20
+> ERROR: Logfile of failure stored in: =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/temp/log.do_rootfs.165072
+> ERROR: Task =
+(/home/pi/docker-meta-raspberrypi/layers/poky/meta/recipes-core/images/cor=
+e-image-base.bb:do_rootfs) failed with exit code '1'
+>=20
+>=20
+>> On 21 Apr 2021, at 18:08, Devendra Tewari <devendra.tewari@gmail.com =
+<mailto:devendra.tewari@gmail.com>> wrote:
+>>=20
+>> Separate patches for bitbake and oe-core, as requested
+>>=20
+>> =
+<0001-use-bb.utils.rename-to-rename-file-or-directory.patch><0001-use-bb.u=
+tils.rename-to-rename-file-or-directory.patch>
+>>=20
+>> I've assumed each will be applied to the master-next branch on top of =
+the previous patch.
+>>=20
+>> Thanks,
+>> Devendra
+>>=20
+>>> On 21 Apr 2021, at 16:21, Richard Purdie =
+<richard.purdie@linuxfoundation.org =
+<mailto:richard.purdie@linuxfoundation.org>> wrote:
+>>>=20
+>>> On Wed, 2021-04-21 at 16:15 -0300, Devendra Tewari wrote:
+>>>> That's a neat idea - if the exception handler catches OSError with =
+error number=20
+>>>> 18 (Invalid cross-device link) in os.rename, it should attempt =
+shutil.move,=20
+>>>> otherwise it should re-throw the exception with raise. A wrapper =
+function=20
+>>>> will make it easier to handle other situations as they arise. I'll =
+update the patch.
+>>>=20
+>>> Sounds good. Could you also please split the patch into two, one for =
+bitbake
+>>> and one for OE-Core since they are two different repositories.
+>>>=20
+>>> Cheers,
+>>>=20
+>>> Richard
+>>>=20
+>>=20
+>=20
+
+
+--Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">I =
+suspect this is an issue in upstream createrepo_c tool, which has code =
+that does not work across overlay file systems<div class=3D""><br =
+class=3D""></div><div class=3D"">&nbsp; =
+&nbsp;&nbsp;if&nbsp;(g_rename(out_repo, old_repodata_path) =3D=3D -1) =
+{<br class=3D"">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;g_debug("Old repodata =
+doesn't exists: Cannot rename&nbsp;%s&nbsp;-&gt;&nbsp;%s:&nbsp;%s",<br =
+class=3D"">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;out_repo, old_repodata_path, g_strerror(errno));<br =
+class=3D"">&nbsp; &nbsp;&nbsp;}&nbsp;else&nbsp;{<br class=3D"">&nbsp; =
+&nbsp; &nbsp; &nbsp;&nbsp;g_debug("Renamed&nbsp;%s&nbsp;-&gt;&nbsp;%s", =
+out_repo, old_repodata_path);<br class=3D"">&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;old_repodata_renamed =3D TRUE;<br class=3D"">&nbsp; =
+&nbsp;&nbsp;}<br class=3D""><br class=3D"">I=E2=80=99ll try patching and =
+report an issue to upstream project.</div><div class=3D""><br =
+class=3D""></div><div class=3D""><div class=3D""><div><blockquote =
+type=3D"cite" class=3D""><div class=3D"">On 27 Apr 2021, at 08:57, =
+Devendra Tewari &lt;<a href=3D"mailto:devendra.tewari@gmail.com" =
+class=3D"">devendra.tewari@gmail.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><meta =
+http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" =
+class=3D""><div style=3D"word-wrap: break-word; -webkit-nbsp-mode: =
+space; line-break: after-white-space;" class=3D"">These patches are =
+working well at my end, but I=E2=80=99m still seeing the following error =
+in do_rootfs, when building incrementally in a container. I=E2=80=99m =
+not sure if this is due to timing issues alluded to earlier or something =
+else entirely.&nbsp;<font class=3D""><span style=3D"caret-color: rgb(0, =
+0, 0);" class=3D"">I do know for sure that this is not caused by the =
+patches because it&nbsp;happens even without them.</span></font><div =
+class=3D""><br class=3D""></div><div =
+class=3D"">ERROR:&nbsp;core-image-base-1.0-r0 do_rootfs: Error executing =
+a python function in exec_python_func() autogenerated:<br class=3D""><br =
+class=3D"">The stack trace of python calls that resulted in this =
+exception/failure was:<br class=3D"">File: 'exec_python_func() =
+autogenerated', lineno: 2, function: &lt;module&gt;<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0001:<br class=3D"">&nbsp;*** 0002:do_rootfs(d)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0003:<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/classes/image.bbclass',=
+ lineno: 247, function: do_rootfs<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0243:&nbsp; &nbsp;&nbsp;progress_reporter.next_stage()<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0244:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0245:&nbsp; &nbsp;&nbsp;# generate rootfs<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0246:&nbsp; =
+&nbsp;&nbsp;d.setVarFlag('REPRODUCIBLE_TIMESTAMP_ROOTFS', 'export', =
+'1')<br class=3D"">&nbsp;*** 0247:&nbsp; &nbsp;&nbsp;create_rootfs(d, =
+progress_reporter=3Dprogress_reporter, logcatcher=3Dlogcatcher)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0248:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0249:&nbsp; &nbsp;&nbsp;progress_reporter.finish()<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0250:}<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0251:do_rootfs[dirs] =3D "${TOPDIR}"<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
+lineno: 375, function: create_rootfs<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0371:<br class=3D"">&nbsp; &nbsp; &nbsp;0372:&nbsp; =
+&nbsp;&nbsp;img_type =3D d.getVar('IMAGE_PKGTYPE')<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0373:<br class=3D"">&nbsp; &nbsp; &nbsp;0374:&nbsp; =
+&nbsp;&nbsp;cls =3D get_class_for_type(img_type)<br class=3D"">&nbsp;*** =
+0375:&nbsp; &nbsp;&nbsp;cls(d, manifest_dir, progress_reporter, =
+logcatcher).create()<br class=3D"">&nbsp; &nbsp; &nbsp;0376:&nbsp; =
+&nbsp;&nbsp;os.environ.clear()<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0377:&nbsp; &nbsp;&nbsp;os.environ.update(env_bkp)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0378:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0379:<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/rootfs.py', =
+lineno: 203, function: create<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0199:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
+self.progress_reporter:<br class=3D"">&nbsp; &nbsp; &nbsp;0200:&nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;self.progress_reporter.next_stage()<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0201:<br class=3D"">&nbsp; &nbsp; &nbsp;0202:&nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;# call the package manager dependent create method<br =
+class=3D"">&nbsp;*** 0203:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;self._create()<br class=3D"">&nbsp; &nbsp; &nbsp;0204:<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0205:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;sysconfdir =3D self.image_rootfs + =
+self.d.getVar('sysconfdir')<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0206:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;bb.utils.mkdirhier(sysconfdir)<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0207:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;with open(sysconfdir + =
+"/version", "w+") as ver:<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/rootfs.py', lineno: 70, function:&nbsp;_create<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0066:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;rpm_pre_process_cmds =
+=3D self.d.getVar('RPM_PREPROCESS_COMMANDS')<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0067:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;rpm_post_process_cmds =3D =
+self.d.getVar('RPM_POSTPROCESS_COMMANDS')<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0068:<br class=3D"">&nbsp; &nbsp; &nbsp;0069:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;# update PM index files<br class=3D"">&nbsp;*** 0070:&nbsp; =
+&nbsp; &nbsp; &nbsp;&nbsp;self.pm.write_index()<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0071:<br class=3D"">&nbsp; &nbsp; &nbsp;0072:&nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;execute_pre_post_process(self.d, =
+rpm_pre_process_cmds)<br class=3D"">&nbsp; &nbsp; &nbsp;0073:<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0074:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
+self.progress_reporter:<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 141,&nbsp;function: write_index<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0137:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0138:&nbsp; &nbsp;&nbsp;def write_index(self):<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0139:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;lockfilename =3D =
+self.d.getVar('DEPLOY_DIR_RPM') + "/rpm.lock"<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0140:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;lf =3D =
+bb.utils.lockfile(lockfilename, False)<br class=3D"">&nbsp;*** =
+0141:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;RpmIndexer(self.d, =
+self.rpm_repo_dir).write_index()<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0142:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.utils.unlockfile(lf)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0143:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0144:&nbsp; &nbsp;&nbsp;def insert_feeds_uris(self, feed_uris, =
+feed_base_paths, feed_archs):<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0145:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;from urllib.parse import =
+urlparse<br class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 11,&nbsp;function: write_index<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0007:from oe.package_manager import *<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0008:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0009:class RpmIndexer(Indexer):<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0010:&nbsp; &nbsp;&nbsp;def write_index(self):<br =
+class=3D"">&nbsp;*** 0011:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;self.do_write_index(self.deploy_dir)<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0012:<br class=3D"">&nbsp; &nbsp; &nbsp;0013:&nbsp; =
+&nbsp;&nbsp;def do_write_index(self, deploy_dir):<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0014:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if =
+self.d.getVar('PACKAGE_FEED_SIGN') =3D=3D '1':<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0015:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;signer =
+=3D get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))<br =
+class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+rpm/__init__.py', lineno: 20,&nbsp;function: do_write_index<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0016:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;else:<br class=3D"">&nbsp; &nbsp; &nbsp;0017:&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;signer =3D None<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0018:<br class=3D"">&nbsp; &nbsp; &nbsp;0019:&nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;createrepo_c =3D bb.utils.which(os.environ['PATH'], =
+"createrepo_c")<br class=3D"">&nbsp;*** 0020:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;result =3D create_index("%s --update -q %s" % (createrepo_c, =
+deploy_dir))<br class=3D"">&nbsp; &nbsp; &nbsp;0021:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;if result:<br class=3D"">&nbsp; &nbsp; &nbsp;0022:&nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.fatal(result)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0023:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0024:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;# Sign repomd<br =
+class=3D"">File: =
+'/home/pi/docker-meta-raspberrypi/layers/poky/meta/lib/oe/package_manager/=
+__init__.py', lineno: 26, function:&nbsp;create_index<br class=3D"">&nbsp;=
+ &nbsp; &nbsp;0022:def create_index(arg):<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0023:&nbsp; &nbsp;&nbsp;index_cmd =3D arg<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0024:<br class=3D"">&nbsp; &nbsp; &nbsp;0025:&nbsp; =
+&nbsp;&nbsp;bb.note("Executing '%s' ..." % index_cmd)<br =
+class=3D"">&nbsp;*** 0026:&nbsp; &nbsp;&nbsp;result =3D =
+subprocess.check_output(index_cmd, stderr=3Dsubprocess.STDOUT, =
+shell=3DTrue).decode("utf-8")<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0027:&nbsp; &nbsp;&nbsp;if result:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0028:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;bb.note(result)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0029:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0030:def opkg_query(cmd_output):<br class=3D"">File: =
+'/usr/lib/python3.8/subprocess.py', lineno: 411, function: =
+check_output<br class=3D"">&nbsp; &nbsp; &nbsp;0407:&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;# Explicitly passing input=3DNone was previously equivalent =
+to passing an<br class=3D"">&nbsp; &nbsp; &nbsp;0408:&nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;# empty string. That is maintained here for backwards =
+compatibility.<br class=3D"">&nbsp; &nbsp; &nbsp;0409:&nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;kwargs['input'] =3D '' if =
+kwargs.get('universal_newlines', False) else b''<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0410:<br class=3D"">&nbsp;*** 0411:&nbsp; =
+&nbsp;&nbsp;return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, =
+check=3DTrue,<br class=3D"">&nbsp; &nbsp; &nbsp;0412:&nbsp;&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;**kwargs).stdout<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0413:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0414:<br class=3D"">&nbsp; &nbsp; &nbsp;0415:class =
+CompletedProcess(object):<br class=3D"">File: =
+'/usr/lib/python3.8/subprocess.py', lineno: 512, function: run<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0508:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;# We don't call process.wait() as .__exit__ does that for =
+us.<br class=3D"">&nbsp; &nbsp; &nbsp;0509:&nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp;&nbsp;raise<br class=3D"">&nbsp; &nbsp; &nbsp;0510:&nbsp; =
+&nbsp; &nbsp; &nbsp;&nbsp;retcode =3D process.poll()<br class=3D"">&nbsp; =
+&nbsp; &nbsp;0511:&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;if check and =
+retcode:<br class=3D"">&nbsp;*** 0512:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;raise CalledProcessError(retcode, process.args,<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0513:&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;output=3Dstdout, stderr=3Dstderr)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0514:&nbsp; &nbsp;&nbsp;return =
+CompletedProcess(process.args, retcode, stdout, stderr)<br =
+class=3D"">&nbsp; &nbsp; &nbsp;0515:<br class=3D"">&nbsp; &nbsp; =
+&nbsp;0516:<br class=3D"">Exception: subprocess.CalledProcessError: =
+Command =
+'/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-li=
+nux-gnueabi/core-image-base/1.0-r0/recipe-sysroot-native/usr/bin/createrep=
+o_c --update -q =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo' returned non-zero exit =
+status 1.<br class=3D""><br class=3D"">Subprocess output:<br =
+class=3D"">Critical: Cannot rename =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/.repodata/ -&gt; =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo/repodata/: Directory =
+not empty<br class=3D""><br class=3D"">ERROR:&nbsp;Logfile of failure =
+stored in: =
+/home/pi/docker-meta-raspberrypi/build/tmp/work/raspberrypi0_wifi-poky-lin=
+ux-gnueabi/core-image-base/1.0-r0/temp/log.do_rootfs.165072<br =
+class=3D"">ERROR:&nbsp;Task =
+(/home/pi/docker-meta-raspberrypi/layers/poky/meta/recipes-core/images/cor=
+e-image-base.bb:do_rootfs)&nbsp;failed with exit code '1'<br =
+class=3D""><br class=3D""><div class=3D""><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D"">On 21 Apr 2021, at 18:08, =
+Devendra Tewari &lt;<a href=3D"mailto:devendra.tewari@gmail.com" =
+class=3D"">devendra.tewari@gmail.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div =
+class=3D"">Separate patches for bitbake and oe-core, as requested<br =
+class=3D""><br class=3D""><span =
+id=3D"cid:19213B17-A194-4036-882C-82059E962319" =
+class=3D"">&lt;0001-use-bb.utils.rename-to-rename-file-or-directory.patch&=
+gt;</span><span id=3D"cid:9371CE3F-B87A-4759-AFDD-8EBDBA0E60E0" =
+class=3D"">&lt;0001-use-bb.utils.rename-to-rename-file-or-directory.patch&=
+gt;</span><br class=3D""><br class=3D"">I've assumed each will be =
+applied to the master-next branch on top of the previous patch.<br =
+class=3D""><br class=3D"">Thanks,<br class=3D"">Devendra<br class=3D""><br=
+ class=3D""><blockquote type=3D"cite" class=3D"">On 21 Apr 2021, at =
+16:21, Richard Purdie &lt;<a =
+href=3D"mailto:richard.purdie@linuxfoundation.org" =
+class=3D"">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br =
+class=3D""><br class=3D"">On Wed, 2021-04-21 at 16:15 -0300, Devendra =
+Tewari wrote:<br class=3D""><blockquote type=3D"cite" class=3D"">That's =
+a neat idea - if the exception handler catches OSError with error number =
+<br class=3D"">18 (Invalid cross-device link) in os.rename, it should =
+attempt shutil.move, <br class=3D"">otherwise it should re-throw the =
+exception with raise. A wrapper function <br class=3D"">will make it =
+easier to handle other situations as they arise. I'll update the =
+patch.<br class=3D""></blockquote><br class=3D"">Sounds good. Could you =
+also please split the patch into two, one for bitbake<br class=3D"">and =
+one for OE-Core since they are two different repositories.<br =
+class=3D""><br class=3D"">Cheers,<br class=3D""><br class=3D"">Richard<br =
+class=3D""><br class=3D""></blockquote><br =
+class=3D""></div></div></blockquote></div><br =
+class=3D""></div></div></div></blockquote></div><br =
+class=3D""></div></div></body></html>=
+
+--Apple-Mail=_A4D748EC-ED78-4D12-B0ED-7FFF39746B3B--
