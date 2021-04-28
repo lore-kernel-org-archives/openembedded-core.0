@@ -1,70 +1,73 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web11.9240.1619600629347247547
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.9639.1619603499287960699
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 02:03:51 -0700
+ Wed, 28 Apr 2021 02:51:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=neutral (domain: fujitsu.com, ip: <nil>, mailfrom: wangmy@fujitsu.com)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ACmCnBa1lO4X8gBeCImLungqjBa1yeYIsi2QD?=
- =?us-ascii?q?101hICF9WObwra+Ttd4c0gL5jytUZWE4lbm7Sc69aF7V6JId2+gsFJi4Wg2Ogg?=
- =?us-ascii?q?aVBaFkqbDv2jjxXxD5n9Qtt5tIV4hbJJnOAUNhjcD8iTPId+oI5NWc6qiniaP/?=
- =?us-ascii?q?4h5WLT1CUK1r4wdnBgvzKCQfL2N7LKE0G5aG6s1MqyDIQwVzUu2AGnIHU+Lfzu?=
- =?us-ascii?q?ekqLvaZ3c9ayIP2U2liDOl76PCCB6I3hsSeCMn+8ZazUH11yjw5qCuqJiAu3zh?=
- =?us-ascii?q?/l6WyY9XltvnwsZCA8LJqvF9EESLti+YIL55U7nHhi08vf20gWxa7eXkklMxOd?=
- =?us-ascii?q?hp8XPNciWQqRvp4QPp1zEj8BbZuCSlqEqmscrkXyg7FsYEoYpYdyHS400msMo5?=
- =?us-ascii?q?/7lM2wuixuBqJCKFjCLg/MLJSh0vskK1pEApmekVg2cacaZ2Us4okbAi?=
-X-IronPort-AV: E=Sophos;i="5.82,257,1613404800"; 
-   d="scan'208";a="107669073"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 28 Apr 2021 17:03:48 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id E35814D0B891
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 17:03:45 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 28 Apr 2021 17:03:40 +0800
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libjitterentropy: upgrade 3.0.1 -> 3.0.2
-Date: Wed, 28 Apr 2021 17:02:48 +0800
-Message-ID: <1619600568-22344-2-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1619600568-22344-1-git-send-email-wangmy@fujitsu.com>
-References: <1619600568-22344-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@konsulko.com header.s=google header.b=AiDMn23w;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.51, mailfrom: pbarker@konsulko.com)
+Received: by mail-wm1-f51.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so4314399wmb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 02:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i7gaHnJ056lu2Rl8MerFavn4eogNeinLkrj4eWw5Lfk=;
+        b=AiDMn23wAE8dqMC9dkVmZK+RIKFlo+D+zTu9//3662HYJP7vblSna4aNTWUlzmKk7s
+         KCSlu6dYrRVuFDhvQYWjNx6vJcQkBz6yJBlkhVTWksBLvOehO/sRXJsz8bKI/DHvS6Ss
+         p7PgpqW52/61zV4foWAcMTUoGTpji1dFiYfKw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i7gaHnJ056lu2Rl8MerFavn4eogNeinLkrj4eWw5Lfk=;
+        b=TO2DEculxcv0Ex/aky4nvWp2LzW/cVjkwipfiaAWANJoGSxRj8U/QsbQuIFTu13B2+
+         /HpktxDMn5od5f5fhnGq4fGysBfsMR4b69mvjXTdoGFfbUgtWyoppsfdYG57tgSOOCKQ
+         rLBgElh3XgnU1dy1UenrioQT+XfH+3UV0JhpQXsFrmh0ttPOf8BeOiZ/iHkjfDtNYwG0
+         QtvoAJ3zyL18/OrMc7ycKfLGKOeLCZPaoOBYw4L2tCe6jHn5OOfOGtkngyHGueUVCnEm
+         gvYV7cNsnjtYEtMaHx18UPFzKEZRSa+Iu/OEL+KqLx90q0JE35zloRANAMrXc7rTjSzc
+         keEw==
+X-Gm-Message-State: AOAM533WnSdQZf/grOzbgy24bV7AoipxMdMy/ZFZaC+uaCMa1Hjxj6Uo
+	2RL9SiunpxeFC4PbcdEaONnbZ8OVmT7frg==
+X-Google-Smtp-Source: ABdhPJydQObkv062RSEy0mC3YzGMs0fSuBV4Hv9mL1PVelyOxfYg+ka/kLQiBAivM0lq9KEnk+zMaA==
+X-Received: by 2002:a1c:c911:: with SMTP id f17mr30648177wmb.45.1619603497444;
+        Wed, 28 Apr 2021 02:51:37 -0700 (PDT)
+Return-Path: <pbarker@konsulko.com>
+Received: from alpha.home.b5net.uk (cpc76132-clif11-2-0-cust80.12-4.cable.virginm.net. [80.7.160.81])
+        by smtp.gmail.com with ESMTPSA id o17sm2840976wmq.47.2021.04.28.02.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 02:51:37 -0700 (PDT)
+From: "Paul Barker" <pbarker@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <pbarker@konsulko.com>
+Subject: [PATCH] prservice: Use new connect API
+Date: Wed, 28 Apr 2021 10:51:32 +0100
+Message-Id: <20210428095132.7213-1-pbarker@konsulko.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: E35814D0B891.A4937
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+The new prserv connect() function decouples the code in oe-core from the
+exact classes and implementation details used within bitbake. This
+allows us to more easily switch over to a new asyncrpc based prservice.
+
+Signed-off-by: Paul Barker <pbarker@konsulko.com>
 ---
- .../{libjitterentropy_3.0.1.bb => libjitterentropy_3.0.2.bb}    | 2 +-
+ meta/lib/oe/prservice.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libjitterentropy/{libjitterentropy_3.0.1.bb => libjitterentropy_3.0.2.bb} (95%)
 
-diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.0.1.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.0.2.bb
-similarity index 95%
-rename from meta/recipes-support/libjitterentropy/libjitterentropy_3.0.1.bb
-rename to meta/recipes-support/libjitterentropy/libjitterentropy_3.0.2.bb
-index 197bb787ac..8e39974ef3 100644
---- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.0.1.bb
-+++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.0.2.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c69090e97c8fd6372d03099c0a5bc382 \
-                     file://COPYING.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
-                     "
- SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git"
--SRCREV = "747bf030b0ea9c44548b4e29bcfab7ae416675fc"
-+SRCREV = "a0c51e21c2d4322681a320a22de5e2ef13c08196"
- S = "${WORKDIR}/git"
- 
- do_configure[noexec] = "1"
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index fcdbe66c19..15ce060ff6 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -7,7 +7,7 @@ def prserv_make_conn(d, check = False):
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+     try:
+         conn = None
+-        conn = prserv.serv.PRServerConnection(host_params[0], int(host_params[1]))
++        conn = prserv.serv.connect(host_params[0], int(host_params[1]))
+         if check:
+             if not conn.ping():
+                 raise Exception('service not available')
 -- 
-2.25.1
-
-
+2.26.2
 
