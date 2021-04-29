@@ -1,245 +1,239 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web09.4363.1619652060431054559
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.49])
+ by mx.groups.io with SMTP id smtpd.web12.84.1619655488838228604
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 16:21:00 -0700
+ Wed, 28 Apr 2021 17:18:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eA8dtIsz;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id h3so30932357qve.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 16:21:00 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=KOUkxXMH;
+ spf=pass (domain: windriver.com, ip: 40.107.244.49, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R2kELJN2tloz0lwkw7NFA+VjX00F6UoLPRmnZWy22XaOAtQuQLqvJWA8oGULPnhvE7gJAiLPhu+k3tWyAIBn12wtLlnU2vdxvqZqgeJEy8gn29GhWiU/p0lWuWk9ALehCJOoW+/aBCPQFkhMDJP/VtTgD0CvPWULgvpz3m7hmXUS6As1mE4wyNUPl+bwVkvhSKIMDbgCWfuP3T6nS2nofVl/WGhPvnxQO6ZO4FpJwqLuPMLoL1HjGUrDLP+k2osNBPmkS6NoqSRyGJyGBAHz1z7adpl53ypa1rXh01FsoCUsqiC//MVvg04DW1HFY0e/CyZ+YW9FET5Okfc/lvrR9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laZDhfQB6E6iUhCxbBsUQb4QfYoB+3LYZdvqfH9apXA=;
+ b=Ii9qfbNgByuFhX6yiuXDXCAtuDef2vQYS3J/5uwejuWEMupt7kVB7enwrdOIL8ui3BbQ2Ud00VhTFUNd5f6xHpgAXymX9mhoBHXFU6krUmAKp1lo8+eodJg7SQaUD9Owp6A2ZTV6lEn93Upq+Z20F8aJXWXCjJHke7sx3hcvJUE6DxWJ3sGXSnEpeUM5LOTDPeMLPESYgHDBAc753aM+AhmsH4MPKItG5JolLXy8UhppmAWUy1p1aXQ/fYoDHRH2FP4wvQBexaoziaKGhAnzESrG+yPwWFSTEriyEkzAQdLpHpeWsZuG0B78hEx4oVRUzjl95UElAuDKC4641lKZfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jLZauZueMPa2v5QysgsU6fwyLbM7UIw/vu9rSTHAhE4=;
-        b=eA8dtIszO+1frWWz4Oi2vWBJ4HJD5LFHEhN3UStlLem5A9EsjYXYriwzurG6PMWY2h
-         QXgGWt5WkffbFs9o82MATsUu0ZR7jjp8Nr6yjGjl+PaKcEbgGKkUoLxFI1HMd3QmxRQn
-         dJ6natL/UqV8McyCPyxfxnFYd4MOQ8xrJwrU6sb+FzR9RhumedQFOSX6ZQ2HiUhvZklh
-         WpYFoGNtnIrC9G8wq0uRMMOE3m4zpJiApmjnXvyIHrbxfJwid82Ox4hpWF0CkYFyfHfo
-         zWf3bxl1KNXZ6m9MqkMCS/W8T2xS5mUvc/mjq1PCp3UD7ZgfkpCSID+NJl1R1GlbLybR
-         XFgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jLZauZueMPa2v5QysgsU6fwyLbM7UIw/vu9rSTHAhE4=;
-        b=tDGneQhX7DnUDqwGLwBE1Gn9IL27r+I8GfClb2Y9PO6BLTorakxFHv9FWloqhvpa+V
-         bD3h0AnBGy0RRVk5eVMtniNouvCPXBfh3FTtaiu9m7fVo9TLG1aqpoySS+3sz18hOCAa
-         3jgjy27ERrg7vy0STiOsqQbvlSISPY9LKf0Evccc0x60A62YVnE3EENB1CXAUf7u9L/k
-         q5yCnUatpCRU1TpdAPezjVSydBVRxHJTCj4sF8MreF53xM6ymYAML1fRIKibnN6tpYwB
-         A3BuBVRlZTzsgRcjmUcjCADydxJgkWQ6HEPy8xXNAogcrkxM5WOP83jUS0rypt/HsWNa
-         p1+w==
-X-Gm-Message-State: AOAM533SWJ0OGElIX/6R6WpdpvNZybJCKQTxC8ko1dz+f9R9pB4Qxfdv
-	Vb1fzMPB0cigVYv7+SafteRTmWgxPX9QWZ62pZY=
-X-Google-Smtp-Source: ABdhPJyOEDdCOmdNNWEIEDai8EsFQ1p58UohZXyZ8Avl1dP5u+zK5FLPsJxHdxEX/+pOzv/VGkQGK9fpuH6Ovm4Mzfo=
-X-Received: by 2002:ad4:5be1:: with SMTP id k1mr31741138qvc.55.1619652059540;
- Wed, 28 Apr 2021 16:20:59 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laZDhfQB6E6iUhCxbBsUQb4QfYoB+3LYZdvqfH9apXA=;
+ b=KOUkxXMHeMX2jW7yAMCq52co0LAdKrcay4l7zucxKVvLB9ZBi9pemG+uFEiQYx8yarDIV0eWuW8r/MlMK/b5YHuPFiecJ9//J0ZRyQQCfdRMMFtVNz8+TwF0VmzMsxuQ0/Evx0HUBxhbzC4D5b8XswulTS/RZvm/9i4zX8AnHXg=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by DM5PR11MB1692.namprd11.prod.outlook.com (2603:10b6:3:d::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4065.23; Thu, 29 Apr 2021 00:18:06 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::8d3b:70ab:5fc7:9eb5%7]) with mapi id 15.20.4087.025; Thu, 29 Apr 2021
+ 00:18:06 +0000
+Subject: =?UTF-8?B?UmU6IFtsaW51eC15b2N0b10g5Zue5aSNOiBbUEFUQ0hdIHJ0LXRlc3RzOiBVcGRhdGUgdGhlIGxhdGVzdCBicmFuY2hlcw==?=
+To: "Zhang, Qiang" <qiang.zhang@windriver.com>,
+ "robert.joslyn@redrectangle.org" <robert.joslyn@redrectangle.org>,
+ "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20210416090558.1681-1-qiang.zhang@windriver.com>
+ <DM6PR11MB4202B29250ACE47E5FB8023BFF459@DM6PR11MB4202.namprd11.prod.outlook.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <4b33c47b-14b6-41b8-ba98-9c8cb098d68b@windriver.com>
+Date: Wed, 28 Apr 2021 20:18:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <DM6PR11MB4202B29250ACE47E5FB8023BFF459@DM6PR11MB4202.namprd11.prod.outlook.com>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: BYAPR04CA0025.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::38) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-References: <20210428191736.26963-1-petr.vorel@gmail.com>
-In-Reply-To: <20210428191736.26963-1-petr.vorel@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 28 Apr 2021 16:20:33 -0700
-Message-ID: <CAMKF1sqE9vx-nqVKgDMrqsgnxpBoxXg0FzHt+YrPXyoQ0mCcdQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] ltp: Replace musl patches with do_patch[postfuncs]
-To: Petr Vorel <petr.vorel@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yi Zhao <yi.zhao@windriver.com>, =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
-	Andre McCurdy <armccurdy@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by BYAPR04CA0025.namprd04.prod.outlook.com (2603:10b6:a03:40::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25 via Frontend Transport; Thu, 29 Apr 2021 00:18:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4a35d135-e4fc-4db8-dd49-08d90aa442a6
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1692:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR11MB169282F4C281267C69CE960BF85F9@DM5PR11MB1692.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	58NJVCzrIhnij+dDY1BuKVKYjUzjLaRj6Nhf4PP0ns2YJ+30PVt8XggDMbK/U1TaVQHr8UKfmgnnXQCNicd6Q/gWTgay/4eY9vmYxp1HGNX23CRm1/pKfLaeAymP1VVP2EFuPTNxe4KZPX/2rr4QR8QXl/XC0qKtBXCHOUb/lw/6KvcdbRna6Pxe7/Mw5SroLpW7Ijn127zR/RX+z9RviC7suqPoC+thf0JQodTSasrojd27lRhdBKekiJ+4U9iwynvuRf6MTGZFDuqXuzd7164NysecNGzf7m5shXqleXQQQ/dhk7xK1GTx+0DC1o6QQ4ASWWHEKc4tqxFyYZNL8YmKstn9PUpPwj1EM8EYkKZDb7ZqHcfayIw0pxAE4GDC6rejGqM5A3pQwH9B4R4i9kjwFWbo9viZzO4zsPFFRotqlU/2ikFYhE0gJezNCwies3ZtSj93CEg4uj/ob5cCLiyvLiqcSbTeTpvz9MBi2oNiJHVUhH+SsH3ui1ElG3j4UQjGsLryXS4G3Vl0I/fxG0ujEvKS4GBSGoYgSWqq8pOEYbL7LmVbcROZWnq5zMdHTQC4nezT5S/Cf6WKmpRdV5gWYeWsugVjm+4wuP3rv73qv7VADVyS0bBSqO/CXX8ZHhgxEc5ke+W4G/YNzu3H95QRq1teaglcdYLCktasb3fMX81KxTzmfB9p72Qut4mAP4Ke4hXu99zDTNa2J5RBs2yQ0UXzuMA3llnRphDCCzYL6FDfi/TNsmke7fN9vKmhF/CD7wlWls1BsHWS+vTmVklOIcZUxoa/YxGFSy0EL5M=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39840400004)(136003)(366004)(376002)(346002)(186003)(52116002)(8936002)(6486002)(478600001)(966005)(956004)(26005)(110136005)(316002)(16576012)(66556008)(66476007)(66946007)(15650500001)(53546011)(16526019)(4326008)(31696002)(6666004)(38100700002)(31686004)(38350700002)(86362001)(5660300002)(83380400001)(2616005)(2906002)(224303003)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?dfeMBih8oj1m7DGro04RriEgSbumssYlpOuxnrUM8WtQqFLCK3P+X+f4o2u7?=
+ =?us-ascii?Q?LwzGLFH7IrnRTHUPkzG6ASvCdb+4xowB9fC8Bo66lvNbJP+czBxq7+0euzXd?=
+ =?us-ascii?Q?YES/mTHqej4nhkF3GQSDE/lk1au2XTX+JGFPs8kr8TyeL1IPTZ2Px3jCEcDy?=
+ =?us-ascii?Q?SLzBV5ZpLhvpR4P8j5ai4nEtJijEe/3PGL+cMm7oZo1XOTXyjEfZiX2qcEmT?=
+ =?us-ascii?Q?U0CMnO73Mgnw5WQRZhynH/IENUSpzmHpPrAjxMB1ryeYDQJG76tS+vVEclYE?=
+ =?us-ascii?Q?HtUo6slmjh7KYaSsD5X8ivaE2zquKy5bs6dL4D11/nK0orzZo3Sr2hW8Ug8M?=
+ =?us-ascii?Q?kc+7mERrRWOI3GuE+i1ZiUkSeUL5MSfKKx4SPLPKDOXAedFoQKe5AC+zuA0K?=
+ =?us-ascii?Q?oks4JhncUVSvOWsMI4eh8SrS3nBgvhRbIxcfLYQxipkws2KfCYquujAph//C?=
+ =?us-ascii?Q?HIKqAhxrLxRQ6CZ8RYD87FMrui1+eTUY2rI9hwV9qygesi0oRLS2xbiJZSDi?=
+ =?us-ascii?Q?UP8hho38FofbUtC5FiNJ8EuPoMski+6wTaJQDGjUIU1v6ADGCDt8kGpJhiyD?=
+ =?us-ascii?Q?yGVcZlL8ERP1917em+IWuBfNIIyrSLhAWoECff+6wpHrVXC6lwyL1aM3HoNN?=
+ =?us-ascii?Q?KfT0drt3R9HMtR+17aNYCh/Kwbuy+KdJWUz5guIkHWQv5bTB9g4gwKK4n2Si?=
+ =?us-ascii?Q?KRavzz2bhJUh1tzRKfgGQPN3BJutFVCF/aFSYpYhu6byyO6QWAJTtgBW71og?=
+ =?us-ascii?Q?yPqOTpdBhTFY/q6jKc2ex8tD1NQVY1IwjsbgQeW5BWZxmve2JZeEyO/30GiJ?=
+ =?us-ascii?Q?HQocLqg4P6QX0rfvEJMUHCpQczn52dcg4/u6BnjI39BCB3cQ+N3i/KdW/Zlk?=
+ =?us-ascii?Q?XefyITHWD96HwFrNMG+7k/cr3jt+Y51KuPKwHJZubRYW8sWUYtTuYxO0hhHn?=
+ =?us-ascii?Q?wwxaiyW6/yRk3pOOYST42CQrAWgbjJa37H5j+on+gub7IPk+MD4e7+vkO9Kt?=
+ =?us-ascii?Q?dQklFhzTzt1b2IcZGY2a4of2MVW0H2jhjNb/UD8mgglKz0ycAqoDnN/vuMm9?=
+ =?us-ascii?Q?STT5YYH/BjyAkuJzZGeZ/ozmlE20XOPjwua/64SAErMpH/+rjBFiH/E7JzAy?=
+ =?us-ascii?Q?udpmgl4uk+jwKXzShSaNh1it36sg4sOljVBgXOFr+RM9lqCBV4/EuMJFXE/d?=
+ =?us-ascii?Q?tgCd9d1EozYT+Y3ERVW4wJLoH7l6N498xpdhFGYzVN1ctGYNIfbPrzGo7kmx?=
+ =?us-ascii?Q?IA0yln3GzMXPsiF4jiHlcOdOHFxhfD6+OR5XGnogQvhcSQjMw4VxLMUNhzTO?=
+ =?us-ascii?Q?rZ7pq2jFFXdv2PRaCLTRrw7q?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a35d135-e4fc-4db8-dd49-08d90aa442a6
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2021 00:18:06.1000
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gJixqFrqCqsYWw6+WzCbWOyCd23lqbh429+JjhJUtOBxLxla6zO2sxnSX9bVuhQNoXfoEmwIB4jGsu5h0is3bHWOUk8Te7xpp2ayasK9Zcw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1692
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 28, 2021 at 12:17 PM Petr Vorel <petr.vorel@gmail.com> wrote:
->
-> MUSL related build fixes are not going to be upstreamed.  They just not
-> compile broken files, thus replace them with upstream solution for CI:
-> just deleting files for musl (easier to maintain).
->
+Dropping the yocto list since this might cause some people's filters
+to misfile the patch and it's an oe-core patch so that's the only list=20
+that needs to be CCed it seems.
 
-Thanks for doing this Petr, looks good to me.
+On 2021-04-23 4:41 a.m., Zhang, Qiang wrote:
+> Hello robert
+>=20
+>   This change didn't respond for a long time ,
+>   look forward to your reply.
+>=20
+> Thanks
+> Qiang
+>=20
+> ________________________________________
+> =E5=8F=91=E4=BB=B6=E4=BA=BA: Zhang, Qiang <qiang.zhang@windriver.com>
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4: 2021=E5=B9=B44=E6=9C=8816=E6=97=A5=
+ 17:05
+> =E6=94=B6=E4=BB=B6=E4=BA=BA: robert.joslyn@redrectangle.org; bruce.ashfi=
+eld@gmail.com
+> =E6=8A=84=E9=80=81: openembedded-core@lists.openembedded.org; linux-yoct=
+o@lists.yoctoproject.org
+> =E4=B8=BB=E9=A2=98: [PATCH] rt-tests: Update the latest branches
+>=20
+> From: Zqiang <qiang.zhang@windriver.com>
+>=20
+> When run cyclictest, the parameter enable NUAM. but in some BSP
 
-> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+s/NUAM/NUMA/
+
+> which not support NUMA, will causes the test program to exit
+> directly and does not carry out subsequent operations, the
+> latest changes have fixed this problem.
+>=20
+> "3aec580 rt-tests: Don't assume numa is available at runtime"
+>=20
+> Signed-off-by: Zqiang <qiang.zhang@windriver.com>
 > ---
->  .../ltp/0001-Add-more-musl-exclusions.patch   | 32 --------
->  ...option-to-select-libc-implementation.patch | 81 -------------------
->  meta/recipes-extended/ltp/ltp_20210121.bb     | 24 +++++-
->  3 files changed, 21 insertions(+), 116 deletions(-)
->  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
->  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
->
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
-> deleted file mode 100644
-> index f2fc8ee958..0000000000
-> --- a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From ad8e73306cb8293f7d32841e1599fd9048801f1f Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Fri, 20 Dec 2019 13:06:05 +0100
-> -Subject: [PATCH] Add more musl exclusions
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> -[ pvorel: rebase for 20200515: enable accept4_01 ]
-> -[ pvorel: rebase for 20200120: enable fanotify13, fanotify15, setxattr03 ]
-> -Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> ----
-> - testcases/kernel/syscalls/timer_create/Makefile | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/testcases/kernel/syscalls/timer_create/Makefile b/testcases/kernel/syscalls/timer_create/Makefile
-> -index ada241fe1..d454b01e7 100644
-> ---- a/testcases/kernel/syscalls/timer_create/Makefile
-> -+++ b/testcases/kernel/syscalls/timer_create/Makefile
-> -@@ -5,6 +5,10 @@ top_srcdir            ?= ../../../..
-> -
-> - include $(top_srcdir)/include/mk/testcases.mk
-> -
-> -+ifeq ($(LIBC),musl)
-> -+FILTER_OUT_MAKE_TARGETS        := timer_create01 timer_create03
-> -+endif
-> -+
-> - CPPFLAGS              += -D_GNU_SOURCE -I$(abs_srcdir)/../include
-> -
-> - LDLIBS                        += -lpthread -lrt
-> ---
-> -2.26.2
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
-> deleted file mode 100644
-> index 29b2bf7e41..0000000000
-> --- a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
-> +++ /dev/null
-> @@ -1,81 +0,0 @@
-> -From 74958c3e341de713b596c8cfd35b2391d6c7bc09 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Thu, 7 Jan 2016 18:19:03 +0000
-> -Subject: [PATCH] build: Add option to select libc implementation
-> -
-> -There are more than glibc for C library implementation available on
-> -linux now a days, uclibc cloaked like glibc but musl e.g. is very
-> -different and does not implement all GNU extensions.
-> -
-> -Disable tests specifically not building _yet_ on musl based systems
-> -
-> -Upstream-Status: Pending (pvorel: this is not going to be fixed, instead
-> -each test needs to be fixed)
-> -
-> -rt_tgsigqueueinfo fails with:
-> -rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
-> -rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka 'struct <anonymous>'} has no member named '_sifields'; did you mean '__si_fields'?
-> -   42 |  sigval_rcv = uinfo->_sifields._rt.SI_SIGVAL.sival_ptr;
-> -      |                      ^~~~~~~~~
-> -      |                      __si_fields
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -[ pvorel: rebase for 20200515: enable pty, ioctl ]
-> -[ pvorel: rebase for 20200120: enable mallopt, profil, rpc016,
-> -rt_sigsuspend, sbrk_mutex, setdomainname, sethostname, sigsuspend,
-> -testpi-3, testpi-5, testpi-6, ustat; move rt_tgsigqueueinfo
-> -from 0006-rt_tgsigqueueinfo-disable-test-on-musl.patch ]
-> -Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> ----
-> - Makefile                           | 5 +++++
-> - testcases/kernel/sched/Makefile    | 4 +++-
-> - testcases/kernel/syscalls/Makefile | 4 ++++
-> - 3 files changed, 12 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/Makefile b/Makefile
-> -index 768ca4606..e9d679a71 100644
-> ---- a/Makefile
-> -+++ b/Makefile
-> -@@ -41,6 +41,11 @@ vpath %.mk          $(top_srcdir)/mk:$(top_srcdir)/mk/include
-> - UCLINUX                       ?= 0
-> - export UCLINUX
-> -
-> -+# System C library implementation (glibc,uclibc,musl etc.)
-> -+# default to glibc if not set
-> -+LIBC                  ?= glibc
-> -+export LIBC
-> -+
-> - # CLEAN_TARGETS:      Targets which exist solely in clean.
-> - # COMMON_TARGETS:     Targets which exist in all, clean, and install.
-> - # INSTALL_TARGETS:    Targets which exist in clean and install (contains
-> -diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Makefile
-> -index 6a57d79ee..74bb93370 100644
-> ---- a/testcases/kernel/sched/Makefile
-> -+++ b/testcases/kernel/sched/Makefile
-> -@@ -23,5 +23,7 @@
-> - top_srcdir            ?= ../../..
-> -
-> - include $(top_srcdir)/include/mk/env_pre.mk
+>   meta/recipes-rt/rt-tests/rt-tests.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-=
+tests/rt-tests.inc
+> index 9358f13d06..0c89bad91f 100644
+> --- a/meta/recipes-rt/rt-tests/rt-tests.inc
+> +++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+> @@ -1,5 +1,5 @@
+>   # Version 1.8
+> -SRCREV =3D "32819581cc0509c9d58c33c3061f57abe0c40c88"
+> +SRCREV =3D "6af88067da16c6e69243b376c3b6454ec694460b"
+
+This adds 38 commits of the  240 commits on this branch.
+I think that's all we needed for hardknott but now, on master, maybe
+we want to update to HEAD. Is that right Qiang?
+
+Maybe now that hardknott is released, you should be cherry-picking
+a single commit to fix the problem you are seeing.
+
+../Randy
+
+
+
+$ git log --oneline 3281958..6af8806 | wc -l
+38
+
+$ git log --oneline 3281958... | wc -l
+240
+$ git log --oneline 3281958..6af8806
+6af8806 (origin/unstable/devel/latest)
+         signaltest: Add missing --output usage info
+8d6c294 cyclicdeadline: Remove unused include header
+95066b1 cyclicdeadline.c: Fix printf format specifier
+f6881fc cyclictest: Fix printf format specifier
+05a1170 rt-tests: cyclicdeadline.c: Remove dead code
+e62593c rt-tests: remove rt_numa_bitmask_count in rt_numa.h
+3aec580 rt-tests: Don't assume numa is available at runtime
+6b9ac75 Revert "signaltest: Always use libnuma"
+c30fa9f Revert "cyclictest: Always use libnuma"
+bdb8350 Revert "cyclictest: Use affinity_mask for steering thread placemen=
+t"
+29884cf oslat: Fix --cpu-list won't allow to schedule on all possible core=
+s
+80299f1 sigwaittest: Add JSON output feature
+bdb20cd signaltest: Add JSON output feature
+7593a72 oslat: Add quiet command line option
+c7a3abe rt-migrate-test: Add JSON output feature
+4db4a76 oslat: Add JSON output feature
+09edaef svsematest: Add JSON output feature
+cbbe3e1 ptsematest: Add JSON output feature
+e11e675 pmqtest: Add JSON output feature
+68621f3 cyclicdeadline: Add JSON output feature
+24aaf96 cyclictest: Add JSON output feature
+e6ca039 rt-utils: Add JSON common header output helper
+07445ec rt-tests: Rename error.h to rt-error.h
+af0a1e9 rt-tests: oslat: Allocate memory for cpu_set
+27511be oslat: Use cpuset size as upper bound
+a1b862a rt-tests: oslat: print version string
+eadb1a9 rt-numa: Use error message helpers
+3079f1b signaltest: Always use libnuma
+eb6c89c cyclictest: Move verbose message into main
+1b00086 cyclicdeadline: Remove unused struct thread_param
+2433a52 cyclicdeadline: Add missing step command line argument
+890ce10 cyclictest: Remove libnuma API version 1 support
+e09c649 ptsematest: Return correct exit code when showing help
+8ac90e7 pip_stress: De-constify prio_min
+8305e65 cyclictest: Use affinity_mask for steering thread placement
+512d2b7 cyclictest: Always use libnuma
+244f6eb cyclictest: Fix --affinity when intermediate CPUs are offline
+1c65835 rt-tests: rm scripts/do-git-push
+
+$ git branch -a --contains 6af8806
+   remotes/origin/unstable/devel/latest
+
+---
+
+
+>   PE =3D "1"
+>=20
+>   SRC_URI =3D "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;=
+branch=3Dunstable/devel/latest"
 > --
-> -+ifeq ($(LIBC),musl)
-> -+      FILTER_OUT_DIRS += process_stress
-> -+endif
-> - include $(top_srcdir)/include/mk/generic_trunk_target.mk
-> -diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/syscalls/Makefile
-> -index c6dc8d9e7..aa50761ea 100644
-> ---- a/testcases/kernel/syscalls/Makefile
-> -+++ b/testcases/kernel/syscalls/Makefile
-> -@@ -15,6 +15,10 @@ FILTER_OUT_DIRS     += capget capset chmod chown clone fork getcontext llseek \
-> -                  mincore mprotect nftw profil remap_file_pages sbrk
-> - endif
-> -
-> -+ifeq ($(LIBC),musl)
-> -+FILTER_OUT_DIRS       += confstr fmtmsg getcontext rt_tgsigqueueinfo
-> -+endif
-> -+
-> - ifeq ($(UCLIBC),1)
-> - FILTER_OUT_DIRS       += profil
-> - endif
-> ---
-> -2.26.2
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp_20210121.bb b/meta/recipes-extended/ltp/ltp_20210121.bb
-> index d98c9fdc25..7c4b56b76c 100644
-> --- a/meta/recipes-extended/ltp/ltp_20210121.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20210121.bb
-> @@ -34,9 +34,7 @@ PR = "r4"
->  HASHEQUIV_HASH_VERSION .= ".4"
->
->  SRC_URI = "git://github.com/linux-test-project/ltp.git \
-> -           file://0001-build-Add-option-to-select-libc-implementation.patch \
->             file://0007-Fix-test_proc_kill-hanging.patch \
-> -           file://0001-Add-more-musl-exclusions.patch \
->             file://0001-Remove-OOM-tests-from-runtest-mm.patch \
->             file://determinism.patch \
->             file://0001-open_posix_testsuite-generate-makefiles.sh-Avoid-inc.patch \
-> @@ -78,7 +76,7 @@ do_install(){
->      find ${D}${prefix} -name Makefile | xargs -n 1 sed -i \
->           -e 's@[^ ]*-fdebug-prefix-map=[^ "]*@@g' \
->           -e 's@[^ ]*-fmacro-prefix-map=[^ "]*@@g' \
-> -         -e 's@[^ ]*--sysroot=[^ "]*@@g'
-> +         -e 's@[^ ]*--sysroot=[^ "]*@@g'
->
->      # The controllers memcg_stree test seems to cause us hangs and takes 900s
->      # (maybe we expect more regular output?), anyhow, skip it
-> @@ -121,6 +119,26 @@ FILES_${PN} += "${prefix}/* ${prefix}/runtest/* ${prefix}/scenario_groups/* ${pr
->  INHIBIT_PACKAGE_STRIP_FILES = "${prefix}/testcases/bin/nm01 ${prefix}/testcases/bin/ldd01"
->  INSANE_SKIP_${PN} += "already-stripped staticdev"
->
-> +remove_broken_musl_sources() {
-> +       [ "${TCLIBC}" = "musl" ] || return 0
-> +
-> +       cd ${S}
-> +       echo "WARNING: remove unsupported tests (until they're fixed)"
-> +
-> +       # sync with upstream
-> +       # https://github.com/linux-test-project/ltp/blob/master/travis/alpine.sh#L33
-> +       rm -rfv \
-> +               testcases/kernel/sched/process_stress/process.c \
-> +               testcases/kernel/syscalls/confstr/confstr01.c \
-> +               testcases/kernel/syscalls/fmtmsg/fmtmsg01.c \
-> +               testcases/kernel/syscalls/getcontext/getcontext01.c \
-> +               testcases/kernel/syscalls/rt_tgsigqueueinfo/rt_tgsigqueueinfo01.c \
-> +               testcases/kernel/syscalls/timer_create/timer_create01.c \
-> +               testcases/kernel/syscalls/timer_create/timer_create03.c \
-> +               utils/benchmark/ebizzy-0.3
-> +}
-> +do_patch[postfuncs] += "remove_broken_musl_sources"
-> +
->  # Avoid file dependency scans, as LTP checks for things that may or may not
->  # exist on the running system.  For instance it has specific checks for
->  # csh and ksh which are not typically part of OpenEmbedded systems (but
-> --
-> 2.31.1
->
+> 2.29.2
+>=20
+>=20
+>=20
+>=20
+>=20
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
