@@ -1,27 +1,27 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2365.1619671281658268226
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 21:41:30 -0700
+ Wed, 28 Apr 2021 21:41:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: lt/xX4uGBchd1XAx7khr6IXnR4oMEkruCCUFjh5XbH8Rur6uLUZrj68ByNPt/02/8zfVwImx2L
- lgQc/1yWm/oQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258308"
+IronPort-SDR: pIZxv921OOJzVGtCKdLOdv4yAGoUhW0oe99I0PqIl2F/QhaUB7RnvCbMurnUo8zm07EDglBsff
+ JfExRksRbc0w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258314"
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="282258308"
+   d="scan'208";a="282258314"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:29 -0700
-IronPort-SDR: cyNIWAOzSne3t80dTDyxuMfupA9qfdm+JCt+WR76kAhugXjJo/5GWihI1/2GwqZvcCKB+Kun/f
- vFBltTo1Mlag==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:31 -0700
+IronPort-SDR: QYAljkXIfLw60IPgmhiXDLa77SxIcStGzfuHGF4jnN6TKLyQ9RkjEf6oG9qSYBIPBtf2G4J1Tm
+ uK9lKVvHC62w==
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="423883651"
+   d="scan'208";a="423883662"
 Received: from ytakikit-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.43.188])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:28 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:30 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/10] oeqa: tear down oeqa decorators if one of them raises an exception in setup
-Date: Thu, 29 Apr 2021 12:41:03 +0800
-Message-Id: <be45a8271c06ffbb5d97afd33bb15b1143b6cf8d.1619667368.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 07/10] meta/lib/oeqa/core/tests/cases/timeout.py: add a testcase for the previous fix
+Date: Thu, 29 Apr 2021 12:41:04 +0800
+Message-Id: <4665008247cd4bd28da8c8b56c8c604e2e24d2cb.1619667368.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619667368.git.anuj.mittal@intel.com>
 References: <cover.1619667368.git.anuj.mittal@intel.com>
@@ -30,57 +30,70 @@ Content-Transfer-Encoding: 8bit
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Some of the decorators need proper cleanup, such as OETimeout
-which sets a signal handler that needs to be cleared via teardown.
-If this is not done then the signal gets called later with unpredictable effects.
+This is the sequence that didn't properly operate:
 
-This can be seen if there's a test that is skipped via a decorator and sets a timeout
-at the same time: the timeout isn't cleared, and is invoked later in a
-completely unrelated context. The test case for this is added in the
-next commit.
+- a test case that skips and isn't executed
+- a second test case that is skipped via a dependency decorator, and sets a timeout
+- a third test case that takes longer than the timeout from the second
+test case
+
+Without the fix, the timeout is not cleared, and the third test case is
+erroneously aborted. With the fix, the timeout is cleared and the third
+test case is able to complete.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f42a08e1aabf1ca57e0c09d69fb69cc717c7f156)
+(cherry picked from commit 54ef07a9aa1af8f41cfb9a4802929c918efc43c8)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/core/case.py                | 9 +++++++--
- meta/lib/oeqa/core/decorator/oetimeout.py | 5 +++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/core/tests/cases/timeout.py   | 13 +++++++++++++
+ meta/lib/oeqa/core/tests/test_decorators.py |  6 ++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index aae451fef2..bc4446a938 100644
---- a/meta/lib/oeqa/core/case.py
-+++ b/meta/lib/oeqa/core/case.py
-@@ -43,8 +43,13 @@ class OETestCase(unittest.TestCase):
-         clss.tearDownClassMethod()
+diff --git a/meta/lib/oeqa/core/tests/cases/timeout.py b/meta/lib/oeqa/core/tests/cases/timeout.py
+index 5dfecc7b7c..69cf969a67 100644
+--- a/meta/lib/oeqa/core/tests/cases/timeout.py
++++ b/meta/lib/oeqa/core/tests/cases/timeout.py
+@@ -8,6 +8,7 @@ from time import sleep
  
-     def _oeSetUp(self):
--        for d in self.decorators:
--            d.setUpDecorator()
-+        try:
-+            for d in self.decorators:
-+                d.setUpDecorator()
-+        except:
-+            for d in self.decorators:
-+                d.tearDownDecorator()
-+            raise
-         self.setUpMethod()
+ from oeqa.core.case import OETestCase
+ from oeqa.core.decorator.oetimeout import OETimeout
++from oeqa.core.decorator.depends import OETestDepends
  
-     def _oeTearDown(self):
-diff --git a/meta/lib/oeqa/core/decorator/oetimeout.py b/meta/lib/oeqa/core/decorator/oetimeout.py
-index df90d1c798..5e6873ad48 100644
---- a/meta/lib/oeqa/core/decorator/oetimeout.py
-+++ b/meta/lib/oeqa/core/decorator/oetimeout.py
-@@ -24,5 +24,6 @@ class OETimeout(OETestDecorator):
+ class TimeoutTest(OETestCase):
  
-     def tearDownDecorator(self):
-         signal.alarm(0)
--        signal.signal(signal.SIGALRM, self.alarmSignal)
--        self.logger.debug("Removed SIGALRM handler")
-+        if hasattr(self, 'alarmSignal'):
-+            signal.signal(signal.SIGALRM, self.alarmSignal)
-+            self.logger.debug("Removed SIGALRM handler")
+@@ -19,3 +20,15 @@ class TimeoutTest(OETestCase):
+     def testTimeoutFail(self):
+         sleep(2)
+         self.assertTrue(True, msg='How is this possible?')
++
++
++    def testTimeoutSkip(self):
++        self.skipTest("This test needs to be skipped, so that testTimeoutDepends()'s OETestDepends kicks in")
++
++    @OETestDepends(["timeout.TimeoutTest.testTimeoutSkip"])
++    @OETimeout(3)
++    def testTimeoutDepends(self):
++        self.assertTrue(False, msg='How is this possible?')
++
++    def testTimeoutUnrelated(self):
++        sleep(6)
+diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
+index b798bf7d33..5095f39948 100755
+--- a/meta/lib/oeqa/core/tests/test_decorators.py
++++ b/meta/lib/oeqa/core/tests/test_decorators.py
+@@ -133,5 +133,11 @@ class TestTimeoutDecorator(TestBase):
+         msg = "OETestTimeout didn't restore SIGALRM"
+         self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
+ 
++    def test_timeout_cancel(self):
++        tests = ['timeout.TimeoutTest.testTimeoutSkip', 'timeout.TimeoutTest.testTimeoutDepends', 'timeout.TimeoutTest.testTimeoutUnrelated']
++        msg = 'Unrelated test failed to complete'
++        tc = self._testLoader(modules=self.modules, tests=tests)
++        self.assertTrue(tc.runTests().wasSuccessful(), msg=msg)
++
+ if __name__ == '__main__':
+     unittest.main()
 -- 
 2.30.2
 
