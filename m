@@ -1,85 +1,79 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.1560.1619664659821730837
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web09.1567.1619664660806773817
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 19:50:59 -0700
+ Wed, 28 Apr 2021 19:51:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XHnDh7JS;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so10106655pjh.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 19:50:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vQo5sG8o;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id b21so5463969plz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 19:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZZT4ed18d7Pne2aI9PAdoKgC0Vc68vDTcNL6bkjJpBY=;
-        b=XHnDh7JSFoQKKfuZ53SChV1ZrC/R9LwFJlWLAr7wHsaKq2+i9HkMP0gkQ8BKLeJENT
-         K9vHQh5c6YcJ7pwDOk9gpB1RHxA6LcpRJ+83zWHpylENB7pmdYBpX/KJPX0VFatMtHUI
-         x/yWaq86gBAej4hlAr28VtDoCJH0gSRlpsPtBGzEIFv8/BXtkFl6IEDb72f2XDrvh8C5
-         PjvaKhp/7QpZMxeHvXOBQ4BeUxtNKynvpwBv5hP+ujw2HVg9yiQ2YLn9xdja53Nqoorx
-         dqyplBOwfdcrJzBvmoWUCWyOguz4czKvXNjh7/eliYtSFlXV3D7xHP6xSymkozhH2Bv1
-         pm2g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=n989OgFNZeT9zPMwDY/oLjSYPPsS4cREOXkCDqyUX20=;
+        b=vQo5sG8ohS7Sb6DUGlTcdnMKkaivl+4JnBNu9+iYY+EtD8iUYite/+jesKsHPNmvSL
+         LHXx9cr9cCgsrWxJW7L30FTYqQ8uqiYD7ojVny8HsRWa/yZA8a/IhYT4Vy5Jn4NLqmpU
+         wdyTtt+iEHK4i5fdlKldDCc4396rHwOaT9EnFLfNtT+CF3nyFKoBDJ3SG+todNwL8kTq
+         BqyHW1lMLxFUcy7lTywaUNYmkorXTKL20KfmJg2ZcaUBZwLmuHulNqpxwDo2SEiQ7KOM
+         yPO+ouPanPV77YzalMSUpkQVe+8+zSHkjBJSuJA9n56bkRsVsPWK5p3n2vU/BSOEn5tL
+         Rycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZZT4ed18d7Pne2aI9PAdoKgC0Vc68vDTcNL6bkjJpBY=;
-        b=GbCQ5JCOCTQQZjwDxXAIyGvvenx1vfDpUwTWC9tULwj6Pr/LhPQ7PU/ZKkfEPZx1XW
-         Otu7GGVzaQwfyy9BleZNmmSkf5Y61plT+O6csUQqAJMcOgKeHL+2HuwmppHHzLMbWRJK
-         YVFJ5guCPT3vJLQg9qtg//R6ln+HccCTPij4RF+LA7vbg3pBc5lGyRALqSBy7CQqdkGw
-         9wjzqCBSq+27txoh9up3qMlkgTTXCbqXkj/XTWRltfaLrbTchXGeAROE+Nq2oJI7eHGq
-         uKeb5kOXAUS9HmMZ4Z0ec3WWiUmuC0xgG0LBmt8aP5k62X1Oj8ppG4x4bDe2mDhuoXha
-         kZ4A==
-X-Gm-Message-State: AOAM53237c1vKXbLOUd+v+6Mq+zUn1c54d9oKk/gtEW6ylDIKQzyJrCz
-	n3sUnEUdFCoaDqcky1yiYdvWDLTP/Q3ylg==
-X-Google-Smtp-Source: ABdhPJwyQ1EVjHskubns2Bp/TEW88nMGDlErekVTuhLy8kDJsyRKmqhJWkwl2bpJmIv5NABaLuaPjg==
-X-Received: by 2002:a17:90a:a581:: with SMTP id b1mr36512990pjq.53.1619664659062;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=n989OgFNZeT9zPMwDY/oLjSYPPsS4cREOXkCDqyUX20=;
+        b=ECDJ6xIcvuD7ec6rhIUe4mtweIl4YMzbgyPCn5OqeX658zMmmyCE5hnoUG/SlZT/X1
+         Dmpd8l0p2d4bT2Br4e7pgyQGCK5tF1MfI+eafJQ3TduuCtJ5UvP3nr7F3QeoIRDErWQb
+         dqpmWLcftIHK0kWXpS3+qYtpG8g50kU1HI6dmBQyHzaSFtnu16TAX1ysuXPwr7p3+hhy
+         HDa4l+13L7WLpHFZb/AVgyjsKSEYZ7953VfcdDuKBedQD2hRUKWl1GkkUQC8c2HjcZ4H
+         50dSKwI0v6wGdfYTG+JIr5C5jYMf2FWg56DfkOajtQZJvpWByymd9Lx7ezaHbOwfVBhv
+         85fQ==
+X-Gm-Message-State: AOAM53257MhOO38u/+3DpKIGQkv584dzaA203a0lDA6AKDs9TDANHIk7
+	ictuSYdwuv1/7Vl3CSvdOyleE7Mo29YveQ==
+X-Google-Smtp-Source: ABdhPJwfmFmVPj7DhxBpPUnq/h63UiGq0oAqvRHLveDyE7nP8FLx4THwWFNg+4iioz8jv/UKXnqaDA==
+X-Received: by 2002:a17:902:b28b:b029:ed:19aa:5dec with SMTP id u11-20020a170902b28bb02900ed19aa5decmr22547798plr.78.1619664659834;
         Wed, 28 Apr 2021 19:50:59 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ef3])
-        by smtp.gmail.com with ESMTPSA id j7sm864688pfd.129.2021.04.28.19.50.58
+        by smtp.gmail.com with ESMTPSA id j7sm864688pfd.129.2021.04.28.19.50.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 19:50:58 -0700 (PDT)
+        Wed, 28 Apr 2021 19:50:59 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] libid3tag: Filter -ffile-prefix-map too
-Date: Wed, 28 Apr 2021 19:50:56 -0700
-Message-Id: <20210429025057.42312-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH 2/2] libjpeg-turbo: Use --reproducible option for nasm
+Date: Wed, 28 Apr 2021 19:50:57 -0700
+Message-Id: <20210429025057.42312-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210429025057.42312-1-raj.khem@gmail.com>
+References: <20210429025057.42312-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-helps when compiler has -ffile-prefix-map flag which helps
-reproducibility as well
+This ensures that nasm version and timestamps do but appear in build
+outputs
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../libid3tag/libid3tag/cflags_filter.patch               | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-index 0d1d0dc381..1895748d1d 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
-@@ -4,15 +4,13 @@ flags. We need those to generate reproducible binaries. Allow them through.
- Upstream-Status: Pending
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
+index b6efc6bca0..0bd6af8db9 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
+@@ -29,7 +29,7 @@ RCONFLICTS_${PN} += "jpeg"
  
--Index: libid3tag-0.15.1b/configure.ac
--===================================================================
----- libid3tag-0.15.1b.orig/configure.ac
--+++ libid3tag-0.15.1b/configure.ac
-+--- a/configure.ac
-++++ b/configure.ac
- @@ -99,6 +99,10 @@ do
-  	-mno-cygwin)
-  	    shift
-  	    ;;
--+	-fmacro-prefix-map*|-fdebug-prefix-map*)
-++	-fmacro-prefix-map*|-fdebug-prefix-map*|-ffile-prefix-map*)
- +	    CFLAGS="$CFLAGS $1"
- +	    shift
- +	    ;;
+ inherit cmake pkgconfig
+ 
+-export NASMENV = "--debug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++export NASMENV = "--reproducible --debug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
+ 
+ # Add nasm-native dependency consistently for all build arches is hard
+ EXTRA_OECMAKE_append_class-native = " -DWITH_SIMD=False"
 -- 
 2.31.1
 
