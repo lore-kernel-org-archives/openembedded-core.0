@@ -1,598 +1,187 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2365.1619671281658268226
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 21:41:23 -0700
+ Wed, 28 Apr 2021 21:41:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: N3fVRKL6Hrch4PZndvJnZmFneUVTAKeEPIeimyEn2Et8EaYc5mOfyJuTvVpVbJtCtmxLNaIGxS
- Er50Ty6nrBsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258287"
+IronPort-SDR: ypaSD0ycIMyOeacQZsiStI2pjiQneF5Zc1YqbR25Lp2Xyd0x+1eFE6U5WRWIc5Z6mLnhR2NOdV
+ g3OCDkqR9wzA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258293"
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="282258287"
+   d="scan'208";a="282258293"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:22 -0700
-IronPort-SDR: BfwDCoD3y12AItumGYniMJiZd0lSGCSyf6Xi52mZrgXMAaC1CU66vjt6R/PS7LMej6PVURYpoC
- VOAcYBcykp9A==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:25 -0700
+IronPort-SDR: GHAeQB7NbWTrovmTz5VN1rmCEN8+JooRh1OmCjYHCvo4mz7oBYvmwFqp/j3xNomMbFBl+TOFFC
+ tWLwaS8umOEg==
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="423883619"
+   d="scan'208";a="423883633"
 Received: from ytakikit-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.43.188])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:21 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:23 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 01/10] glib-2.0: fix CVE-2021-28153
-Date: Thu, 29 Apr 2021 12:40:58 +0800
-Message-Id: <8a0aae46bc87c00fb4d32f6ce5567cc44cae6d34.1619667368.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 02/10] libssh2: fix build failure with option no-ecdsa
+Date: Thu, 29 Apr 2021 12:40:59 +0800
+Message-Id: <d70cf4cd57d61f7db7179673b211e631c944e0e6.1619667368.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619667368.git.anuj.mittal@intel.com>
 References: <cover.1619667368.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Stefan Ghinea <stefan.ghinea@windriver.com>
 
-Backport patches to fix CVE-2021-28153.
+libssh2 fails at do_compile if
+DEPRECATED_CRYPTO_FLAGS = "no-ecdsa" is set in recipe:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+../src/.libs/libssh2.so: undefined reference to
+`LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY'
+
+References:
+https://github.com/libssh2/libssh2/issues/549
+
+Upstream patches:
+https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
+
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 2bb146e7315f8080cb49a95212231ccb76a4a822)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...outputstream-Fix-a-typo-in-a-comment.patch |  32 ++
- ...-using-g_test_bug_base-in-file-tests.patch |  47 +++
- ...outputstream-Factor-out-a-flag-check.patch |  60 ++++
- ...stream-Fix-CREATE_REPLACE_DESTINATIO.patch | 294 ++++++++++++++++++
- ...stream-Add-a-missing-O_CLOEXEC-flag-.patch |  60 ++++
- meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb |  10 +
- 6 files changed, 503 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0003-glocalfileoutputstream-Factor-out-a-flag-check.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch
+ ...EC-macro-outside-of-if-check-549-550.patch | 112 ++++++++++++++++++
+ meta/recipes-support/libssh2/libssh2_1.9.0.bb |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch
+diff --git a/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
 new file mode 100644
-index 0000000000..e3def1a980
+index 0000000000..b331c1bf81
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch
-@@ -0,0 +1,32 @@
-+From 48dd0d030a2b5240457472d40d8691b80bf5fa78 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@endlessos.org>
-+Date: Wed, 24 Feb 2021 17:33:38 +0000
-+Subject: [PATCH 1/5] glocalfileoutputstream: Fix a typo in a comment
++++ b/meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+@@ -0,0 +1,112 @@
++From 1f76151c92e1b52e9c24ebf06adc77fbd6c062bc Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Tue, 26 Jan 2021 11:41:21 -0800
++Subject: [PATCH] kex.c: move EC macro outside of if check #549 (#550)
 +
-+Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
++File: kex.c
 +
-+CVE: CVE-2021-28153
++Notes:
++Moved the macro LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY outside of the LIBSSH2_ECDSA since it's also now used by the ED25519 code.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/issues/2325]
++Sha 256, 384 and 512 need to be defined for all backends now even if they aren't used directly. I believe this is already the case, but just a heads up.
 +
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++Credit:
++Stefan-Ghinea
++
++Upstream-Status: Backport
++
++Reference to upstream patch:
++https://github.com/libssh2/libssh2/commit/1f76151c92e1b52e9c24ebf06adc77fbd6c062bc
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 +---
-+ gio/glocalfileoutputstream.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/kex.c | 66 +++++++++++++++++++++++++++----------------------------
++ 1 file changed, 33 insertions(+), 33 deletions(-)
 +
-+diff --git a/gio/glocalfileoutputstream.c b/gio/glocalfileoutputstream.c
-+index f34c3e4..e3d31d6 100644
-+--- a/gio/glocalfileoutputstream.c
-++++ b/gio/glocalfileoutputstream.c
-+@@ -854,7 +854,7 @@ handle_overwrite_open (const char    *filename,
-+   mode = mode_from_flags_or_info (flags, reference_info);
-+ 
-+   /* We only need read access to the original file if we are creating a backup.
-+-   * We also add O_CREATE to avoid a race if the file was just removed */
-++   * We also add O_CREAT to avoid a race if the file was just removed */
-+   if (create_backup || readable)
-+     open_flags = O_RDWR | O_CREAT | O_BINARY;
-+   else
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch
-new file mode 100644
-index 0000000000..d8d4d51751
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch
-@@ -0,0 +1,47 @@
-+From 3d7f54ae4cfdddaf1a807879d9263e16cd12ffd3 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@endlessos.org>
-+Date: Wed, 24 Feb 2021 17:34:32 +0000
-+Subject: [PATCH 2/5] tests: Stop using g_test_bug_base() in file tests
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Since a following commit is going to add a new test which references
-+Gitlab, so it’s best to move the URI bases inside the test cases.
-+
-+Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
-+
-+CVE: CVE-2021-28153
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/issues/2325]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ gio/tests/file.c | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/gio/tests/file.c b/gio/tests/file.c
-+index d876965..39d51da 100644
-+--- a/gio/tests/file.c
-++++ b/gio/tests/file.c
-+@@ -686,7 +686,7 @@ test_replace_cancel (void)
-+   guint count;
-+   GError *error = NULL;
-+ 
-+-  g_test_bug ("629301");
-++  g_test_bug ("https://bugzilla.gnome.org/629301");
-+ 
-+   path = g_dir_make_tmp ("g_file_replace_cancel_XXXXXX", &error);
-+   g_assert_no_error (error);
-+@@ -1785,8 +1785,6 @@ main (int argc, char *argv[])
-+ {
-+   g_test_init (&argc, &argv, NULL);
-+ 
-+-  g_test_bug_base ("http://bugzilla.gnome.org/");
-+-
-+   g_test_add_func ("/file/basic", test_basic);
-+   g_test_add_func ("/file/build-filename", test_build_filename);
-+   g_test_add_func ("/file/parent", test_parent);
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0003-glocalfileoutputstream-Factor-out-a-flag-check.patch b/meta/recipes-core/glib-2.0/glib-2.0/0003-glocalfileoutputstream-Factor-out-a-flag-check.patch
-new file mode 100644
-index 0000000000..425a1d402f
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0003-glocalfileoutputstream-Factor-out-a-flag-check.patch
-@@ -0,0 +1,60 @@
-+From 8cc84a2f8c668541aaba584cb9b73c98afeb8e2d Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@endlessos.org>
-+Date: Wed, 10 Mar 2021 16:05:55 +0000
-+Subject: [PATCH 3/5] glocalfileoutputstream: Factor out a flag check
-+
-+This clarifies the code a little. It introduces no functional changes.
-+
-+Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
-+
-+CVE: CVE-2021-28153
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/issues/2325]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ gio/glocalfileoutputstream.c | 7 ++++---
-+ 1 file changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/gio/glocalfileoutputstream.c b/gio/glocalfileoutputstream.c
-+index e3d31d6..392d0b0 100644
-+--- a/gio/glocalfileoutputstream.c
-++++ b/gio/glocalfileoutputstream.c
-+@@ -850,6 +850,7 @@ handle_overwrite_open (const char    *filename,
-+   int res;
-+   int mode;
-+   int errsv;
-++  gboolean replace_destination_set = (flags & G_FILE_CREATE_REPLACE_DESTINATION);
-+ 
-+   mode = mode_from_flags_or_info (flags, reference_info);
-+ 
-+@@ -960,7 +961,7 @@ handle_overwrite_open (const char    *filename,
-+    * to a backup file and rewrite the contents of the file.
-+    */
-+   
-+-  if ((flags & G_FILE_CREATE_REPLACE_DESTINATION) ||
-++  if (replace_destination_set ||
-+       (!(_g_stat_nlink (&original_stat) > 1) && !is_symlink))
-+     {
-+       char *dirname, *tmp_filename;
-+@@ -979,7 +980,7 @@ handle_overwrite_open (const char    *filename,
-+       
-+       /* try to keep permissions (unless replacing) */
-+ 
-+-      if ( ! (flags & G_FILE_CREATE_REPLACE_DESTINATION) &&
-++      if (!replace_destination_set &&
-+ 	   (
-+ #ifdef HAVE_FCHOWN
-+ 	    fchown (tmpfd, _g_stat_uid (&original_stat), _g_stat_gid (&original_stat)) == -1 ||
-+@@ -1120,7 +1121,7 @@ handle_overwrite_open (const char    *filename,
-+ 	}
-+     }
-+ 
-+-  if (flags & G_FILE_CREATE_REPLACE_DESTINATION)
-++  if (replace_destination_set)
-+     {
-+       g_close (fd, NULL);
-+       
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch b/meta/recipes-core/glib-2.0/glib-2.0/0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch
-new file mode 100644
-index 0000000000..54a9f452d6
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch
-@@ -0,0 +1,294 @@
-+From ed8f2235da7d2a408bfa18c1003f4a07f90b05e8 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@endlessos.org>
-+Date: Wed, 24 Feb 2021 17:36:07 +0000
-+Subject: [PATCH 4/5] glocalfileoutputstream: Fix CREATE_REPLACE_DESTINATION
-+ with symlinks
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The `G_FILE_CREATE_REPLACE_DESTINATION` flag is equivalent to unlinking
-+the destination file and re-creating it from scratch. That did
-+previously work, but in the process the code would call `open(O_CREAT)`
-+on the file. If the file was a dangling symlink, this would create the
-+destination file (empty). That’s not an intended side-effect, and has
-+security implications if the symlink is controlled by a lower-privileged
-+process.
-+
-+Fix that by not opening the destination file if it’s a symlink, and
-+adjusting the rest of the code to cope with
-+ - the fact that `fd == -1` is not an error iff `is_symlink` is true,
-+ - and that `original_stat` will contain the `lstat()` results for the
-+   symlink now, rather than the `stat()` results for its target (again,
-+   iff `is_symlink` is true).
-+
-+This means that the target of the dangling symlink is no longer created,
-+which was the bug. The symlink itself continues to be replaced (as
-+before) with the new file — this is the intended behaviour of
-+`g_file_replace()`.
-+
-+The behaviour for non-symlink cases, or cases where the symlink was not
-+dangling, should be unchanged.
-+
-+Includes a unit test.
-+
-+Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
-+
-+Fixes: #2325
-+
-+CVE: CVE-2021-28153
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/issues/2325]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ gio/glocalfileoutputstream.c |  77 ++++++++++++++++++-------
-+ gio/tests/file.c             | 108 +++++++++++++++++++++++++++++++++++
-+ 2 files changed, 163 insertions(+), 22 deletions(-)
-+
-+diff --git a/gio/glocalfileoutputstream.c b/gio/glocalfileoutputstream.c
-+index 392d0b0..a2c7e3c 100644
-+--- a/gio/glocalfileoutputstream.c
-++++ b/gio/glocalfileoutputstream.c
-+@@ -878,16 +878,22 @@ handle_overwrite_open (const char    *filename,
-+       /* Could be a symlink, or it could be a regular ELOOP error,
-+        * but then the next open will fail too. */
-+       is_symlink = TRUE;
-+-      fd = g_open (filename, open_flags, mode);
-++      if (!replace_destination_set)
-++        fd = g_open (filename, open_flags, mode);
-+     }
-+-#else
-+-  fd = g_open (filename, open_flags, mode);
-+-  errsv = errno;
-++#else  /* if !O_NOFOLLOW */
-+   /* This is racy, but we do it as soon as possible to minimize the race */
-+   is_symlink = g_file_test (filename, G_FILE_TEST_IS_SYMLINK);
-++
-++  if (!is_symlink || !replace_destination_set)
-++    {
-++      fd = g_open (filename, open_flags, mode);
-++      errsv = errno;
-++    }
-+ #endif
-+ 
-+-  if (fd == -1)
-++  if (fd == -1 &&
-++      (!is_symlink || !replace_destination_set))
-+     {
-+       char *display_name = g_filename_display_name (filename);
-+       g_set_error (error, G_IO_ERROR,
-+@@ -898,15 +904,30 @@ handle_overwrite_open (const char    *filename,
-+       return -1;
-+     }
-+ 
-+-  res = g_local_file_fstat (fd,
-+-                            G_LOCAL_FILE_STAT_FIELD_TYPE |
-+-                            G_LOCAL_FILE_STAT_FIELD_MODE |
-+-                            G_LOCAL_FILE_STAT_FIELD_UID |
-+-                            G_LOCAL_FILE_STAT_FIELD_GID |
-+-                            G_LOCAL_FILE_STAT_FIELD_MTIME |
-+-                            G_LOCAL_FILE_STAT_FIELD_NLINK,
-+-                            G_LOCAL_FILE_STAT_FIELD_ALL, &original_stat);
-+-  errsv = errno;
-++  if (!is_symlink)
-++    {
-++      res = g_local_file_fstat (fd,
-++                                G_LOCAL_FILE_STAT_FIELD_TYPE |
-++                                G_LOCAL_FILE_STAT_FIELD_MODE |
-++                                G_LOCAL_FILE_STAT_FIELD_UID |
-++                                G_LOCAL_FILE_STAT_FIELD_GID |
-++                                G_LOCAL_FILE_STAT_FIELD_MTIME |
-++                                G_LOCAL_FILE_STAT_FIELD_NLINK,
-++                                G_LOCAL_FILE_STAT_FIELD_ALL, &original_stat);
-++      errsv = errno;
-++    }
-++  else
-++    {
-++      res = g_local_file_lstat (filename,
-++                                G_LOCAL_FILE_STAT_FIELD_TYPE |
-++                                G_LOCAL_FILE_STAT_FIELD_MODE |
-++                                G_LOCAL_FILE_STAT_FIELD_UID |
-++                                G_LOCAL_FILE_STAT_FIELD_GID |
-++                                G_LOCAL_FILE_STAT_FIELD_MTIME |
-++                                G_LOCAL_FILE_STAT_FIELD_NLINK,
-++                                G_LOCAL_FILE_STAT_FIELD_ALL, &original_stat);
-++      errsv = errno;
-++    }
-+ 
-+   if (res != 0)
-+     {
-+@@ -923,16 +944,27 @@ handle_overwrite_open (const char    *filename,
-+   if (!S_ISREG (_g_stat_mode (&original_stat)))
-+     {
-+       if (S_ISDIR (_g_stat_mode (&original_stat)))
-+-	g_set_error_literal (error,
-+-                             G_IO_ERROR,
-+-                             G_IO_ERROR_IS_DIRECTORY,
-+-                             _("Target file is a directory"));
-+-      else
-+-	g_set_error_literal (error,
-++        {
-++          g_set_error_literal (error,
-++                               G_IO_ERROR,
-++                               G_IO_ERROR_IS_DIRECTORY,
-++                               _("Target file is a directory"));
-++          goto err_out;
-++        }
-++      else if (!is_symlink ||
-++#ifdef S_ISLNK
-++               !S_ISLNK (_g_stat_mode (&original_stat))
-++#else
-++               FALSE
-++#endif
-++               )
-++        {
-++          g_set_error_literal (error,
-+                              G_IO_ERROR,
-+                              G_IO_ERROR_NOT_REGULAR_FILE,
-+                              _("Target file is not a regular file"));
-+-      goto err_out;
-++          goto err_out;
-++        }
-+     }
-+   
-+   if (etag != NULL)
-+@@ -1015,7 +1047,8 @@ handle_overwrite_open (const char    *filename,
-+ 	    }
-+ 	}
-+ 
-+-      g_close (fd, NULL);
-++      if (fd >= 0)
-++        g_close (fd, NULL);
-+       *temp_filename = tmp_filename;
-+       return tmpfd;
-+     }
-+diff --git a/gio/tests/file.c b/gio/tests/file.c
-+index 39d51da..ddd1ffc 100644
-+--- a/gio/tests/file.c
-++++ b/gio/tests/file.c
-+@@ -805,6 +805,113 @@ test_replace_cancel (void)
-+   g_object_unref (tmpdir);
++diff --git a/src/kex.c b/src/kex.c
++index cb16639..19ab6ec 100644
++--- a/src/kex.c
+++++ b/src/kex.c
++@@ -1885,39 +1885,6 @@ kex_method_diffie_hellman_group_exchange_sha256_key_exchange
 + }
 + 
-++static void
-++test_replace_symlink (void)
++ 
++-#if LIBSSH2_ECDSA
++-
++-/* kex_session_ecdh_curve_type
++- * returns the EC curve type by name used in key exchange
++- */
++-
++-static int
++-kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
++-{
++-    int ret = 0;
++-    libssh2_curve_type type;
++-
++-    if(name == NULL)
++-        return -1;
++-
++-    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP256;
++-    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP384;
++-    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
++-        type = LIBSSH2_EC_CURVE_NISTP521;
++-    else {
++-        ret = -1;
++-    }
++-
++-    if(ret == 0 && out_type) {
++-        *out_type = type;
++-    }
++-
++-    return ret;
++-}
++-
++-
++ /* LIBSSH2_KEX_METHOD_EC_SHA_HASH_CREATE_VERIFY
++  *
++  * Macro that create and verifies EC SHA hash with a given digest bytes
++@@ -2027,6 +1994,39 @@ kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
++ }                                                                       \
++ 
++ 
+++#if LIBSSH2_ECDSA
+++
+++/* kex_session_ecdh_curve_type
+++ * returns the EC curve type by name used in key exchange
+++ */
+++
+++static int
+++kex_session_ecdh_curve_type(const char *name, libssh2_curve_type *out_type)
 ++{
-++#ifdef G_OS_UNIX
-++  gchar *tmpdir_path = NULL;
-++  GFile *tmpdir = NULL, *source_file = NULL, *target_file = NULL;
-++  GFileOutputStream *stream = NULL;
-++  const gchar *new_contents = "this is a test message which should be written to source and not target";
-++  gsize n_written;
-++  GFileEnumerator *enumerator = NULL;
-++  GFileInfo *info = NULL;
-++  gchar *contents = NULL;
-++  gsize length = 0;
-++  GError *local_error = NULL;
+++    int ret = 0;
+++    libssh2_curve_type type;
 ++
-++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/2325");
-++  g_test_summary ("Test that G_FILE_CREATE_REPLACE_DESTINATION doesn’t follow symlinks");
+++    if(name == NULL)
+++        return -1;
 ++
-++  /* Create a fresh, empty working directory. */
-++  tmpdir_path = g_dir_make_tmp ("g_file_replace_symlink_XXXXXX", &local_error);
-++  g_assert_no_error (local_error);
-++  tmpdir = g_file_new_for_path (tmpdir_path);
+++    if(strcmp(name, "ecdh-sha2-nistp256") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP256;
+++    else if(strcmp(name, "ecdh-sha2-nistp384") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP384;
+++    else if(strcmp(name, "ecdh-sha2-nistp521") == 0)
+++        type = LIBSSH2_EC_CURVE_NISTP521;
+++    else {
+++        ret = -1;
+++    }
 ++
-++  g_test_message ("Using temporary directory %s", tmpdir_path);
-++  g_free (tmpdir_path);
+++    if(ret == 0 && out_type) {
+++        *out_type = type;
+++    }
 ++
-++  /* Create symlink `source` which points to `target`. */
-++  source_file = g_file_get_child (tmpdir, "source");
-++  target_file = g_file_get_child (tmpdir, "target");
-++  g_file_make_symbolic_link (source_file, "target", NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  /* Ensure that `target` doesn’t exist */
-++  g_assert_false (g_file_query_exists (target_file, NULL));
-++
-++  /* Replace the `source` symlink with a regular file using
-++   * %G_FILE_CREATE_REPLACE_DESTINATION, which should replace it *without*
-++   * following the symlink */
-++  stream = g_file_replace (source_file, NULL, FALSE  /* no backup */,
-++                           G_FILE_CREATE_REPLACE_DESTINATION, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_output_stream_write_all (G_OUTPUT_STREAM (stream), new_contents, strlen (new_contents),
-++                             &n_written, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_cmpint (n_written, ==, strlen (new_contents));
-++
-++  g_output_stream_close (G_OUTPUT_STREAM (stream), NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_clear_object (&stream);
-++
-++  /* At this point, there should still only be one file: `source`. It should
-++   * now be a regular file. `target` should not exist. */
-++  enumerator = g_file_enumerate_children (tmpdir,
-++                                          G_FILE_ATTRIBUTE_STANDARD_NAME ","
-++                                          G_FILE_ATTRIBUTE_STANDARD_TYPE,
-++                                          G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  info = g_file_enumerator_next_file (enumerator, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_nonnull (info);
-++
-++  g_assert_cmpstr (g_file_info_get_name (info), ==, "source");
-++  g_assert_cmpint (g_file_info_get_file_type (info), ==, G_FILE_TYPE_REGULAR);
-++
-++  g_clear_object (&info);
-++
-++  info = g_file_enumerator_next_file (enumerator, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_null (info);
-++
-++  g_file_enumerator_close (enumerator, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_clear_object (&enumerator);
-++
-++  /* Double-check that `target` doesn’t exist */
-++  g_assert_false (g_file_query_exists (target_file, NULL));
-++
-++  /* Check the content of `source`. */
-++  g_file_load_contents (source_file,
-++                        NULL,
-++                        &contents,
-++                        &length,
-++                        NULL,
-++                        &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_cmpstr (contents, ==, new_contents);
-++  g_assert_cmpuint (length, ==, strlen (new_contents));
-++  g_free (contents);
-++
-++  /* Tidy up. */
-++  g_file_delete (source_file, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_file_delete (tmpdir, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++
-++  g_clear_object (&target_file);
-++  g_clear_object (&source_file);
-++  g_clear_object (&tmpdir);
-++#else  /* if !G_OS_UNIX */
-++  g_test_skip ("Symlink replacement tests can only be run on Unix")
-++#endif
+++    return ret;
 ++}
 ++
-+ static void
-+ on_file_deleted (GObject      *object,
-+ 		 GAsyncResult *result,
-+@@ -1798,6 +1905,7 @@ main (int argc, char *argv[])
-+   g_test_add_data_func ("/file/async-create-delete/4096", GINT_TO_POINTER (4096), test_create_delete);
-+   g_test_add_func ("/file/replace-load", test_replace_load);
-+   g_test_add_func ("/file/replace-cancel", test_replace_cancel);
-++  g_test_add_func ("/file/replace-symlink", test_replace_symlink);
-+   g_test_add_func ("/file/async-delete", test_async_delete);
-+   g_test_add_func ("/file/copy-preserve-mode", test_copy_preserve_mode);
-+   g_test_add_func ("/file/measure", test_measure);
+++
++ /* ecdh_sha2_nistp
++  * Elliptic Curve Diffie Hellman Key Exchange
++  */
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch
-new file mode 100644
-index 0000000000..0ab9a750ab
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch
-@@ -0,0 +1,60 @@
-+From ab4ee65fb5778964fa3cca9b3d6749711ef9ba19 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@endlessos.org>
-+Date: Wed, 24 Feb 2021 17:42:24 +0000
-+Subject: [PATCH 5/5] glocalfileoutputstream: Add a missing O_CLOEXEC flag to
-+ replace()
-+
-+Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
-+
-+CVE: CVE-2021-28153
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/issues/2325]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ gio/glocalfileoutputstream.c | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/gio/glocalfileoutputstream.c b/gio/glocalfileoutputstream.c
-+index a2c7e3c..4c512ea 100644
-+--- a/gio/glocalfileoutputstream.c
-++++ b/gio/glocalfileoutputstream.c
-+@@ -63,6 +63,12 @@
-+ #define O_BINARY 0
-+ #endif
-+ 
-++#ifndef O_CLOEXEC
-++#define O_CLOEXEC 0
-++#else
-++#define HAVE_O_CLOEXEC 1
-++#endif
-++
-+ struct _GLocalFileOutputStreamPrivate {
-+   char *tmp_filename;
-+   char *original_filename;
-+@@ -1239,7 +1245,7 @@ _g_local_file_output_stream_replace (const char        *filename,
-+   sync_on_close = FALSE;
-+ 
-+   /* If the file doesn't exist, create it */
-+-  open_flags = O_CREAT | O_EXCL | O_BINARY;
-++  open_flags = O_CREAT | O_EXCL | O_BINARY | O_CLOEXEC;
-+   if (readable)
-+     open_flags |= O_RDWR;
-+   else
-+@@ -1269,8 +1275,11 @@ _g_local_file_output_stream_replace (const char        *filename,
-+       set_error_from_open_errno (filename, error);
-+       return NULL;
-+     }
-+-  
-+- 
-++#if !defined(HAVE_O_CLOEXEC) && defined(F_SETFD)
-++  else
-++    fcntl (fd, F_SETFD, FD_CLOEXEC);
-++#endif
-++
-+   stream = g_object_new (G_TYPE_LOCAL_FILE_OUTPUT_STREAM, NULL);
-+   stream->priv->fd = fd;
-+   stream->priv->sync_on_close = sync_on_close;
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-index 3909b76ddf..e5e65a4aad 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb
-@@ -50,6 +50,16 @@ SRC_URI += "\
-            file://0028-gresource-Fix-a-pointer-mismatch-with-an-atomic-load.patch \
-            file://0029-docs-Document-not-to-use-volatile-qualifiers.patch \
+diff --git a/meta/recipes-support/libssh2/libssh2_1.9.0.bb b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
+index 0b8ccbd217..a5451628e7 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.9.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.9.0.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2019-17498.patch \
+            file://0001-configure-Conditionally-undefine-backend-m4-macro.patch \
+            file://run-ptest \
++           file://0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch \
  "
-+
-+# Fix CVE-2021-28153
-+SRC_URI += "\
-+           file://0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch \
-+           file://0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch \
-+           file://0003-glocalfileoutputstream-Factor-out-a-flag-check.patch \
-+           file://0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch \
-+           file://0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch \
-+"
-+
- SRC_URI_append_class-native = " file://relocate-modules.patch"
  
- SRC_URI[sha256sum] = "09f158769f6f26b31074e15b1ac80ec39b13b53102dfae66cfe826fb2cc65502"
+ SRC_URI_append_ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
 -- 
 2.30.2
 
