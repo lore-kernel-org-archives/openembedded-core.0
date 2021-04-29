@@ -1,59 +1,59 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web10.6268.1619700222574280496
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web12.6244.1619700239784109920
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 05:43:42 -0700
+ Thu, 29 Apr 2021 05:44:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=aX36HCFm;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=hHKw4SWr;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619700220; i=@fujitsu.com;
-	bh=VX0zfuBxw0vgKO47qyzNk9Wlz97G/AxWIliKU9AAZpo=;
+	s=170520fj; t=1619700237; i=@fujitsu.com;
+	bh=vKMsaJnwsZNGDEyuyyptNLC8KL398A3CtaVqkUzAp+o=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=aX36HCFmodNqKEtyU4fpKam37yFpQWjA87ifPgZF12vxOiflIoF77H60Am8mdeXDH
-	 WzKmb94zT4jEnyhIu3MqOwPy3ETaIvhJla5uEGG5tbD6hLjiBwWPeopRGA2ZmTmMZq
-	 TojXYKhyXvkW5Do1oHhSb7BvBY4xJgApbfwhIDUNS1bP0TjmZPGpkHEIZQ7kJ/m6iC
-	 GaEafD4juas18iZxLMT3yUmB8c/AlawzZY95Ojpu5eJrqRRqFKgeDJV9cqr2g4vU1a
-	 JaHvWm30Z4X+IAA0e7ZsFveP2u9y/XcjlKW1oEBHXbcJ2kigqMoueT6txrnUBJC+Yb
-	 8tR5ervhCD60A==
-Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 5E/A7-53635-CF9AA806; Thu, 29 Apr 2021 12:43:40 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeJIrShJLcpLzFFi42Kxs+EI0f2zsiv
-  BYOZFUYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePI1Z+sBRNZKtbMFmpgvMncxcjFISQwi0ni
-  /6Hv7BDObkaJ7R0zgBxODjYBXYlzj9cC2RwcIgJ6Elf/iYKEhQVsJF6cagMrYRFQlXjW9YQVx
-  OYVcJe40HEQLC4hoCAx5eF7Zoi4oMTJmU9YQGxmAQmJgy9eMIOMlBBQlJg9XR6ivFJi+7SzjB
-  MYeWYh6ZiFpGMBI9MqRvOkosz0jJLcxMwcXUMDA11DQyNdQ0tTXWMTvcQq3US91FLd8tTiEl1
-  DvcTyYr3iytzknBS9vNSSTYzAAEopOKy0g/Hd6w96hxglOZiURHm3dHYmCPEl5adUZiQWZ8QX
-  leakFh9ilOHgUJLg3bCiK0FIsCg1PbUiLTMHGMwwaQkOHiUR3iJgQAvxFhck5hZnpkOkTjEqS
-  onzzgTpEwBJZJTmwbXBIugSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHeDpApPJl5JXDTXw
-  EtZgJavOx8G8jikkSElFQDU+WeCu/XbbNn/OUMrZN1tHR1aPvXm3cv+YF7hNBdf36vx/r78j6
-  7cV+fkWXydG35sV8Ku5cqp+/KnqlhsEHvbtxEtz1XvjtvbpZsaLGJ5Ly8f/VtXZfunId/U1gr
-  P8k11mtfMMy2DDq/4uKxg5cd8jqVP/lnm5t8+/7ii3fLzvrPeuuuXr1vknxdpfjJ6ZTu2T9S2
-  SsPZ6lprFpmkGXiX3k2h+n++cXpgj0mH5M0rp4Mem77wrLEnqH4fkdvrNj/DVNMbzl5rVmZ33
-  ROP5wlavo+6xPFukHtn8L2z8g1ZpsR2Nkpflv+fHHAsc8mzvJlL7znB9iIfP8QKn5/0wF5s6q
-  XZ+Zf5WBOlWyxjfRUYinOSDTUYi4qTgQAxu1a1BsDAAA=
+	b=hHKw4SWr00huNdH/EUivhJBPAyTZkdmFOtnlo+OU4BbCrfzimI426R5kiyZIg3+w7
+	 oeYLD/eCIJHyYzHAGKl7YY6vW/TmsNn82GkeJYwgveaEd+6EkL1zILr+5hbnfhqIEJ
+	 bFDl2MTAfzz3qfBfBXOoxcV9Mm1Uxqe+Y09GLrSopblZ8Vn6cUFKXdiNCykX4Wzec4
+	 wWrPlmPdIvWW+SCyD6lJStN0P9rPX/B6sOiHHQ2oCNgVd/dV4T3w0eMMGYfai8L/WX
+	 RGI5BgrUnTZ8OaEY2GBXaRg4ZEQPP03/W47P5Dpiv3AGSJ8odo84pE2SZEy6DchAGO
+	 YfvNd6blCyEIg==
+Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-b.eu-west-1.aws.symcld.net id 5F/85-46412-D0AAA806; Thu, 29 Apr 2021 12:43:57 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+EI0eVd1ZV
+  gMHWSjMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnF310P2gqWcFZs/HGBpYLzM0cXIxSEkMItJ
+  YtXpf0wQzm5GiQNr5rF2MXJysAnoSpx7vJa9i5GDQ0RAT+LqP1GQsLCAt0Tjm8lsIDaLgKpE1
+  98usHJeAXeJWYsWgcUlBBQkpjx8zwwRF5Q4OfMJC4jNLCAhcfDFC2aQkRICihKzp8tDlFdKbJ
+  92lnECI88sJB2zkHQsYGRaxWiRVJSZnlGSm5iZo2toYKBraGika2hppmtkaKKXWKWbpJdaqlu
+  eWlyia6iXWF6sV1yZm5yTopeXWrKJERhEKQVHru1gPPD6g94hRkkOJiVR3i2dnQlCfEn5KZUZ
+  icUZ8UWlOanFhxhlODiUJHg3rOhKEBIsSk1PrUjLzAEGNExagoNHSYS3aCVQmre4IDG3ODMdI
+  nWKUVFKnHcmSJ8ASCKjNA+uDRZFlxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ83aATOHJzC
+  uBm/4KaDET0OJl59tAFpckIqSkGpimzJx9Ueff5R/tlV+lDG4w7O/ZUd5jl+g5k69c+Uuk0Ze
+  X98O/x/9OfKuzV9Ahy2P5llTZY059l74Z6QcU8/3d983ORXdqxcFNHhGTcr8fexHr2arhG/Vg
+  3qqnW1I2TrQ+NivkXIHnj6daKysW5HjzX+tVfl7q8OHz2g/s6cwc02K41H4ob5t2+ofJGh0V1
+  wv5JWfT1d9+TAg4c/5Vr9fE2u7+VGXhd2ck2DTi2PM10gRz3842fhWyIl3GL/hoz/7P16L3Jg
+  ZfEjvSqNq+KVvn1x1LoblJ2unBjeWH6ldYHwxxTHWvX774zRfGry94bAMmu/oFqE26wCDn9fO
+  ztsKMuL2OZbP3h/aHSM9MXanEUpyRaKjFXFScCADcjX/ZHQMAAA==
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-31.tower-271.messagelabs.com!1619700220!247359!1
+X-Msg-Ref: server-30.tower-287.messagelabs.com!1619700237!259440!1
 X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
+X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 20443 invoked from network); 29 Apr 2021 12:43:40 -0000
+Received: (qmail 13028 invoked from network); 29 Apr 2021 12:43:57 -0000
 Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-31.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:40 -0000
+  by server-30.tower-287.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:57 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TChdj6028583
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TChmh2028683
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:39 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:57 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:38 +0100
+ (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:49 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] shaderc: upgrade 2020.5 -> 2021.0
-Date: Thu, 29 Apr 2021 20:43:30 +0800
-Message-ID: <1619700210-5544-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] wireless-regdb: upgrade 2020.11.20 -> 2021.04.21
+Date: Thu, 29 Apr 2021 20:43:43 +0800
+Message-ID: <1619700223-5580-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -63,14 +63,26 @@ Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb}              | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb} (100%)
+ ...ireless-regdb_2020.11.20.bb => wireless-regdb_2021.04.21.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.11.20.bb => wireless-regdb_2021.04.21.bb} (94%)
 
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.5.bb b/meta/recipes-graphics/shaderc/shaderc_2021.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/shaderc/shaderc_2020.5.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2021.0.bb
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
+index b3567bca95..f79c0b29ea 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.04.21.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+ 
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "b4164490d82ff7b0086e812ac42ab27baf57be24324d4c0ee1c5dd6ba27f2a52"
++SRC_URI[sha256sum] = "9e4c02b2a9710df4dbdb327c39612e8cbbae6495987afeddaebab28c1ea3d8fa"
+ 
+ inherit bin_package allarch
+ 
 -- 
 2.25.1
 
