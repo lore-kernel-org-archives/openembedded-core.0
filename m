@@ -1,60 +1,59 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.66])
- by mx.groups.io with SMTP id smtpd.web08.6155.1619700186950823491
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.68])
+ by mx.groups.io with SMTP id smtpd.web08.6158.1619700205006835545
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 05:43:07 -0700
+ Thu, 29 Apr 2021 05:43:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HovqJzpE;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.66, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ye8WFSB8;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.68, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619700184; i=@fujitsu.com;
-	bh=/xEiDPa4fF1TNukGyw9oTrb/bJj98yeMnkQTSoKBZGY=;
+	s=170520fj; t=1619700203; i=@fujitsu.com;
+	bh=5s1sae4LHwiczgSA1GDeiYgSqLKLo0+ovjjTLCKDKAg=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=HovqJzpEM05ATYMgBggbHH52Pt4fIGtEu40nGT8o92u951TcZwM667V2Fsq+OYSST
-	 Mj293D59FMCbjvRxkzf6zGwaSuFIOwJ3j5UWSTN3ZnD1qlnYSooS7+jc+phCmAOpWK
-	 zZReYUk0adAqOdmETb5MG2tCwhsUAV2Od7W97yCzKXdQqaWdgIiGwktDZyHDHUKUBL
-	 UeHrNrAqNUxHLjX9vJ/Xf0R2IsyyodVHJrA1fkYoQZx8/6+PJgEwcw0TjWsXhv1nwk
-	 BdsCytPdGQmKLD3S7uAm/LjKEMRpodOi76q1uwPnSXQg/XimVCGh3g+LXsv2yPzYiN
-	 MqM8QLY/ve68w==
-Received: from [100.112.198.228] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 38/DF-60958-8D9AA806; Thu, 29 Apr 2021 12:43:04 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRqntjZVe
-  CwdS/0hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bZiRwF2zkrZkw6zdbAeIOji5GLQ0hgFpNE
-  69+VTBDObkaJI61v2bsYOTnYBHQlzj1eC2RzcIgI6Elc/ScKEhYWcJI4cPsdWAmLgKrE7f6jr
-  CA2r4C7xMc9fUwgtoSAgsSUh++ZIeKCEidnPmEBsZkFJCQOvnjBDDJSQkBRYvZ0eYjySont08
-  4yTmDkmYWkYxaSjgWMTKsYLZKKMtMzSnITM3N0DQ0MdA0NjXQNLc10jQyN9RKrdJP0Ukt1y1O
-  LS3QN9RLLi/WKK3OTc1L08lJLNjECQyil4MjVHYzdbz7oHWKU5GBSEuXd0tmZIMSXlJ9SmZFY
-  nBFfVJqTWnyIUYaDQ0mCd8OKrgQhwaLU9NSKtMwcYDjDpCU4eJREeIuAIS3EW1yQmFucmQ6RO
-  sXoyvFs7ZJFzBwb5i0Fkv/v3gWS/QsOrmbmuNl+aDWzEEtefl6qlDjvTJDZAiDNGaV5cKNhsX
-  iJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjBvB8gUnsy8ErgLXgEdxwR03LLzbSDHlSQipKQ
-  amA4x34tftXyVuL7Qv0/ZPztnWFeU1rkHKH9e9uSE0VXZdve3Jfr5fDnLq58s/f5C9Ns0Z+HQ
-  /PagKy1bK5R2CS7k+GVSnj2Tf7v+UbO83xP2TXxRXZmr/971gqxQzCTWa3MqWQXyu2P4uII8H
-  BJO+a52fam1dT9z8DmWtQrxJkfOHOcPZzktK32L5eVCn/Knl6K/3pp5UCFJY0bhXIW4rSf6P5
-  7YtXiuo9utidH/P71VmFjGUFZbEFWff6R/bfgHQ9bAJ43dMW439BMyXXJeNBbL1LBVTHm+//+
-  0dw55DFdmp1xbNofRUmXThoojf1Uc3/GIFab4P99RbDvvrn9hVedv3yWz4qd4Bqos8Ji7S4ml
-  OCPRUIu5qDgRAO2hWGFAAwAA
+	b=ye8WFSB857gtGszzeaSY3HXYrV8vREoikMXOOwQwT/JGZW3euaDv8x8Z+UNjmz+HK
+	 7WFg2tUANR+WVHzmeNS0IKkBCmGr/OP0K96l33aU6ajKL0sDdsIG7rUpjNNxcLJ4wO
+	 2boa7MTDJ3LDDcQ8NYwNVnfkPBDGCjyeiG/RcK+TeOBnjOj6yfIebVvVmhIMN72hHU
+	 tt9uVjM2sbkz5bmsmwSejvJDQjXwuvPzRHjNdYixbA9dHlZl3bDuVtbDzGkuKId6OG
+	 zGo2g0RAKZeJXNqQ4PsiaQ2X+TA03NMvSkMbyLDFtALugmrIPrfmKYcJh/3IWK0eGs
+	 Xd0enOK7VgEeQ==
+Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id 8C/64-64503-AE9AA806; Thu, 29 Apr 2021 12:43:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+GYovtqZVe
+  CwcwZGhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8avxqVMBY84Kx6sPMrawPiZo4uRi0NIYBaT
+  xO0ZixghnN2MEjMuX2DrYuTkYBPQlTj3eC17FyMHh4iAnsTVf6IgYWEBJ4lVnyczgYRZBFQl1
+  i41AwnzCrhL7N/yH6xTQkBBYsrD98wQcUGJkzOfsIDYzAISEgdfvGAGaZUQUJSYPV0eorxSYv
+  u0s4wTGHlmIemYhaRjASPTKkaLpKLM9IyS3MTMHF1DAwNdQ0MjXUNLC11Dc2O9xCrdJL3UUt3
+  y1OISXUO9xPJiveLK3OScFL281JJNjMAQSik4tnYHY8+bD3qHGCU5mJREebd0diYI8SXlp1Rm
+  JBZnxBeV5qQWH2KU4eBQkuDdsKIrQUiwKDU9tSItMwcYzjBpCQ4eJRHeImBIC/EWFyTmFmemQ
+  6ROMSpKifPOBOkTAElklObBtcFi6BKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd4OkCk8mX
+  klcNNfAS1mAlq87HwbyOKSRISUVANTyJXmfW2GnacuLWFZGiL6s3Hb7N9nnk13+qMzS/nR9pt
+  5/2TNTxVu/zXxRJDQ5pDIygjuhM2ac92Wrlha+eOknqeMcoKa/wdjTgGpxjsHBc82zFN+mr6v
+  svpCte7mohu300OON27Lmr7i8607UyayFBUab5vRnv14+ZX3m8wETwRnzNN9LepamNh2Kf7Kg
+  46d2c/6Hubbbtsyu63t9P7D195cCG30azp1YOeehlMVG7sOvirJ/nrjc5Rkj/6XvWGly9TVjp
+  jOjsjZnGTvefXgh2tdiyxWhz6sevomuIf/6gSvLd8u5xd8iZb2e3JIZAP/NNO5+x7n5WTWGdd
+  aLmBkvXva12qnuPbfO0+qIiZI6imxFGckGmoxFxUnAgAXTQW5HAMAAA==
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-5.tower-291.messagelabs.com!1619700184!78762!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-12.tower-287.messagelabs.com!1619700202!258796!1
+X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
+X-StarScan-Version: 9.60.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22500 invoked from network); 29 Apr 2021 12:43:04 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-5.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:04 -0000
+Received: (qmail 8373 invoked from network); 29 Apr 2021 12:43:22 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-12.tower-287.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:22 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TCh4v2024708
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TChMTh021813
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:04 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:22 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:02 +0100
+ (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:20 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libmicrohttpd: upgrade 0.9.72 -> 0.9.73
-Date: Thu, 29 Apr 2021 20:42:53 +0800
-Message-ID: <1619700173-5440-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-numpy: upgrade 1.20.1 -> 1.20.2
+Date: Thu, 29 Apr 2021 20:43:10 +0800
+Message-ID: <1619700190-5500-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -64,28 +63,26 @@ Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../{libmicrohttpd_0.9.72.bb => libmicrohttpd_0.9.73.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.72.bb => libmicrohttpd_0.9.73.bb} (87%)
+ .../{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python-numpy/{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb} (96%)
 
-diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
-similarity index 87%
-rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
-rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
-index 66c48da3b7..219f0c44d6 100644
---- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
-+++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
-@@ -7,8 +7,8 @@ SECTION = "net"
- DEPENDS = "file"
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
+rename to meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
+index 6c3b886782..0a60ca7467 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
+ "
+-SRC_URI[sha256sum] = "9bf51d69ebb4ca9239e55bedc2185fe2c0ec222da0adee7ece4125414676846d"
++SRC_URI[sha256sum] = "c049f410c78e76ffb0af830a8afbdf8baac09897b4152b97b1a3b8345ee338ff"
  
- SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
--SRC_URI[md5sum] = "2a286193af88ab2ae3149748d4b46187"
--SRC_URI[sha256sum] = "0ae825f8e0d7f41201fd44a0df1cf454c1cb0bc50fe9d59c26552260264c2ff8"
-+SRC_URI[md5sum] = "2b15949b1633e4fa487e08cdcc97f0e3"
-+SRC_URI[sha256sum] = "a37b2f1b88fd1bfe74109586be463a434d34e773530fc2a74364cfcf734c032e"
- 
- inherit autotools lib_package pkgconfig gettext
- 
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.25.1
 
