@@ -1,76 +1,101 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web12.2169.1619669449765775130
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.2365.1619671281658268226
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 21:10:49 -0700
+ Wed, 28 Apr 2021 21:41:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JDQcsWER;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id v13so20454124ple.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 21:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jmrTFTKxVQkXslwJjvrXwqrD1HSJKT9JJVGDkBa4qMU=;
-        b=JDQcsWERQRyTXd8Kq7m/E2D3ptVQyPfmxxo+UCdTZLxNIGYCnMj7Cte5ZXZWbS4Q9W
-         69DtEc6RCLwjavK51WCPmSvdmLzP8Jh850SvGesV72oOAs7eGU6hfc+OUv/LA4qRc+7D
-         YxqRoGIvzXgTrOQGaEtnN7wiAyBZwr5Fbz+Alupq+6kkTEavZ9FwCfG0E/DEBpp179b3
-         NvuXdqaM0wseoVJCYIfSH3+8CgrsukWtO4zNUlvk0gbVkq9uS5K2T2iuIXGg+W8YdjMw
-         w5dnAZBIikhubk3mQU6+fTN1rvusSEvZuBV6ve9vNXNN9xMEyZrsd7CV/EifETN64H/W
-         9K9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jmrTFTKxVQkXslwJjvrXwqrD1HSJKT9JJVGDkBa4qMU=;
-        b=afSsK1FMwLIZ8sdhRk9SPmOzhaLydOV4yX0Ce4DeFwsjDsdTr7AdA5dDGjX1z1+Lxj
-         weX7w5+Txqz8UQ5qOKFC7cDnQWWpjLRRAhCpICMhhvFt7cT7+dR15XKw/wPh8YaliSUE
-         QC84iLhZjs4Gvw/U0YdobACrrpnV9/w3ZJ1BVo+Lk7mB1wHaSZXW+ijQB7r2LustEiz4
-         IOavZzLTk0+vQV5WW27FY9BG3YBkwxDMNsYqpf1UkDWtnhGQkcJJdYLuGfQy8dS2Kkal
-         +SwwRhUPeU0KUjMOzalAlHSgZbpwplkduKgF7vdZisEukY/7VYhuemrwU1VhUDL4xZnS
-         dwjg==
-X-Gm-Message-State: AOAM530+LPKRwQNlxhc0uvsU4H6ieXVFf31yc/Shz6rugWf5qdVd5b0V
-	v7SKnQ8+Qpmy7ArPTezKHDnH62Z1251crg==
-X-Google-Smtp-Source: ABdhPJx6xkY1svOOxxu+V04+isjp5eq4Y8woIeSnPpcXWAhwP+iJgoA1DK5VewR7Khk/Zb/mroRhZQ==
-X-Received: by 2002:a17:90b:4ac1:: with SMTP id mh1mr7380643pjb.95.1619669448868;
-        Wed, 28 Apr 2021 21:10:48 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ef3])
-        by smtp.gmail.com with ESMTPSA id y8sm1033521pgr.48.2021.04.28.21.10.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 21:10:48 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 0iFMqOFcSpYUYuOg2jhJ3RcrYsXPJEhbZjbKuPRK0eS532yJtqPM69kL2enHQOs7JbPqnxQtO9
+ 3dtiGDwBNxEw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258271"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
+   d="scan'208";a="282258271"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:20 -0700
+IronPort-SDR: EymSHZips8wGNIYfJkVumjzvEF9VohTAE7jYse6j7GGvHaKSuQ8ZDDONK41wmXMgSfkFFlY1pf
+ 4i5X7RCOOw9g==
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
+   d="scan'208";a="423883605"
+Received: from ytakikit-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.43.188])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:19 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] bitbake.conf: Use -ffile-prefix-map option in DEBUG_PREFIX_MAP
-Date: Wed, 28 Apr 2021 21:10:46 -0700
-Message-Id: <20210429041046.2573804-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [hardknott][PATCH 00/10] review request
+Date: Thu, 29 Apr 2021 12:40:57 +0800
+Message-Id: <cover.1619667368.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace -fdebug-prefix-map/-fmacro-prefix-map with -ffile-prefix-map which is
-superset of all -f*-prefix-map options
+Please review these changes for hardknott. Builds cleanly on autobuilder
+except for one intermittent and unrelated change.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/bitbake.conf | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks,
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a0e0c77fe6..37a1a4383e 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -609,8 +609,7 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
- # Optimization flags.
- ##################################################################
- # Beware: applied last to first
--DEBUG_PREFIX_MAP ?= "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
--                     -fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
-+DEBUG_PREFIX_MAP ?= "-ffile-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
-                      -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-                      -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
- "
+Anuj
+
+The following changes since commit 3357bbf0dad31306d5e16ad306d3e931042eec61:
+
+  go: Use dl.google.com for SRC_URI (2021-04-26 08:44:53 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Alexander Kanavin (2):
+  oeqa: tear down oeqa decorators if one of them raises an exception in
+    setup
+  meta/lib/oeqa/core/tests/cases/timeout.py: add a testcase for the
+    previous fix
+
+Chen Qi (3):
+  glib-2.0: fix CVE-2021-28153
+  weston: fix build failure due to race condition
+  rsync: fix CVE-2020-14387
+
+Kai Kang (2):
+  kernel-yocto.bbclass: chdir to ${WORKDIR} for do_kernel_checkout
+  cmake.bbclass: remove ${B} before cmake_do_configure
+
+Richard Purdie (2):
+  yocto-check-layer: Avoid bug when iterating and autoadding
+    dependencies
+  patchelf: Backport fix from upstream for note section overlap error
+
+Stefan Ghinea (1):
+  libssh2: fix build failure with option no-ecdsa
+
+ meta/classes/cmake.bbclass                    |   8 +-
+ meta/classes/kernel-yocto.bbclass             |   2 +-
+ meta/lib/oeqa/core/case.py                    |   9 +-
+ meta/lib/oeqa/core/decorator/oetimeout.py     |   5 +-
+ meta/lib/oeqa/core/tests/cases/timeout.py     |  13 +
+ meta/lib/oeqa/core/tests/test_decorators.py   |   6 +
+ ...outputstream-Fix-a-typo-in-a-comment.patch |  32 ++
+ ...-using-g_test_bug_base-in-file-tests.patch |  47 +++
+ ...outputstream-Factor-out-a-flag-check.patch |  60 ++++
+ ...stream-Fix-CREATE_REPLACE_DESTINATIO.patch | 294 ++++++++++++++++++
+ ...stream-Add-a-missing-O_CLOEXEC-flag-.patch |  60 ++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.66.7.bb |  10 +
+ ...c83653ce1b5fc201ff6db93b966394766814.patch |  44 +++
+ .../patchelf/patchelf_0.12.bb                 |   1 +
+ ...-the-hostname-in-the-certificate-whe.patch |  31 ++
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb    |   1 +
+ ...001-meson.build-fix-incorrect-header.patch |  32 ++
+ meta/recipes-graphics/wayland/weston_9.0.0.bb |   1 +
+ ...EC-macro-outside-of-if-check-549-550.patch | 112 +++++++
+ meta/recipes-support/libssh2/libssh2_1.9.0.bb |   1 +
+ scripts/yocto-check-layer                     |   3 +
+ 21 files changed, 762 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-glocalfileoutputstream-Fix-a-typo-in-a-comment.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Stop-using-g_test_bug_base-in-file-tests.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0003-glocalfileoutputstream-Factor-out-a-flag-check.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0004-glocalfileoutputstream-Fix-CREATE_REPLACE_DESTINATIO.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0005-glocalfileoutputstream-Add-a-missing-O_CLOEXEC-flag-.patch
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/6edec83653ce1b5fc201ff6db93b966394766814.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-meson.build-fix-incorrect-header.patch
+ create mode 100644 meta/recipes-support/libssh2/files/0001-kex.c-move-EC-macro-outside-of-if-check-549-550.patch
+
 -- 
-2.31.1
+2.30.2
 
