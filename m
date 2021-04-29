@@ -1,59 +1,59 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.68])
- by mx.groups.io with SMTP id smtpd.web08.6158.1619700205006835545
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web10.6268.1619700222574280496
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 05:43:25 -0700
+ Thu, 29 Apr 2021 05:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ye8WFSB8;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.68, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=aX36HCFm;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: zhengrq.fnst@fujitsu.com)
 Return-Path: <zhengrq.fnst@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619700203; i=@fujitsu.com;
-	bh=5s1sae4LHwiczgSA1GDeiYgSqLKLo0+ovjjTLCKDKAg=;
+	s=170520fj; t=1619700220; i=@fujitsu.com;
+	bh=VX0zfuBxw0vgKO47qyzNk9Wlz97G/AxWIliKU9AAZpo=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ye8WFSB857gtGszzeaSY3HXYrV8vREoikMXOOwQwT/JGZW3euaDv8x8Z+UNjmz+HK
-	 7WFg2tUANR+WVHzmeNS0IKkBCmGr/OP0K96l33aU6ajKL0sDdsIG7rUpjNNxcLJ4wO
-	 2boa7MTDJ3LDDcQ8NYwNVnfkPBDGCjyeiG/RcK+TeOBnjOj6yfIebVvVmhIMN72hHU
-	 tt9uVjM2sbkz5bmsmwSejvJDQjXwuvPzRHjNdYixbA9dHlZl3bDuVtbDzGkuKId6OG
-	 zGo2g0RAKZeJXNqQ4PsiaQ2X+TA03NMvSkMbyLDFtALugmrIPrfmKYcJh/3IWK0eGs
-	 Xd0enOK7VgEeQ==
-Received: from [100.112.196.73] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-west-1.aws.symcld.net id 8C/64-64503-AE9AA806; Thu, 29 Apr 2021 12:43:22 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeJIrShJLcpLzFFi42Kxs+GYovtqZVe
-  CwcwZGhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8avxqVMBY84Kx6sPMrawPiZo4uRi0NIYBaT
-  xO0ZixghnN2MEjMuX2DrYuTkYBPQlTj3eC17FyMHh4iAnsTVf6IgYWEBJ4lVnyczgYRZBFQl1
-  i41AwnzCrhL7N/yH6xTQkBBYsrD98wQcUGJkzOfsIDYzAISEgdfvGAGaZUQUJSYPV0eorxSYv
-  u0s4wTGHlmIemYhaRjASPTKkaLpKLM9IyS3MTMHF1DAwNdQ0MjXUNLC11Dc2O9xCrdJL3UUt3
-  y1OISXUO9xPJiveLK3OScFL281JJNjMAQSik4tnYHY8+bD3qHGCU5mJREebd0diYI8SXlp1Rm
-  JBZnxBeV5qQWH2KU4eBQkuDdsKIrQUiwKDU9tSItMwcYzjBpCQ4eJRHeImBIC/EWFyTmFmemQ
-  6ROMSpKifPOBOkTAElklObBtcFi6BKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd4OkCk8mX
-  klcNNfAS1mAlq87HwbyOKSRISUVANTyJXmfW2GnacuLWFZGiL6s3Hb7N9nnk13+qMzS/nR9pt
-  5/2TNTxVu/zXxRJDQ5pDIygjuhM2ac92Wrlha+eOknqeMcoKa/wdjTgGpxjsHBc82zFN+mr6v
-  svpCte7mohu300OON27Lmr7i8607UyayFBUab5vRnv14+ZX3m8wETwRnzNN9LepamNh2Kf7Kg
-  46d2c/6Hubbbtsyu63t9P7D195cCG30azp1YOeehlMVG7sOvirJ/nrjc5Rkj/6XvWGly9TVjp
-  jOjsjZnGTvefXgh2tdiyxWhz6sevomuIf/6gSvLd8u5xd8iZb2e3JIZAP/NNO5+x7n5WTWGdd
-  aLmBkvXva12qnuPbfO0+qIiZI6imxFGckGmoxFxUnAgAXTQW5HAMAAA==
+	b=aX36HCFmodNqKEtyU4fpKam37yFpQWjA87ifPgZF12vxOiflIoF77H60Am8mdeXDH
+	 WzKmb94zT4jEnyhIu3MqOwPy3ETaIvhJla5uEGG5tbD6hLjiBwWPeopRGA2ZmTmMZq
+	 TojXYKhyXvkW5Do1oHhSb7BvBY4xJgApbfwhIDUNS1bP0TjmZPGpkHEIZQ7kJ/m6iC
+	 GaEafD4juas18iZxLMT3yUmB8c/AlawzZY95Ojpu5eJrqRRqFKgeDJV9cqr2g4vU1a
+	 JaHvWm30Z4X+IAA0e7ZsFveP2u9y/XcjlKW1oEBHXbcJ2kigqMoueT6txrnUBJC+Yb
+	 8tR5ervhCD60A==
+Received: from [100.112.193.211] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-a.eu-west-1.aws.symcld.net id 5E/A7-53635-CF9AA806; Thu, 29 Apr 2021 12:43:40 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeJIrShJLcpLzFFi42Kxs+EI0f2zsiv
+  BYOZFUYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePI1Z+sBRNZKtbMFmpgvMncxcjFISQwi0ni
+  /6Hv7BDObkaJ7R0zgBxODjYBXYlzj9cC2RwcIgJ6Elf/iYKEhQVsJF6cagMrYRFQlXjW9YQVx
+  OYVcJe40HEQLC4hoCAx5eF7Zoi4oMTJmU9YQGxmAQmJgy9eMIOMlBBQlJg9XR6ivFJi+7SzjB
+  MYeWYh6ZiFpGMBI9MqRvOkosz0jJLcxMwcXUMDA11DQyNdQ0tTXWMTvcQq3US91FLd8tTiEl1
+  DvcTyYr3iytzknBS9vNSSTYzAAEopOKy0g/Hd6w96hxglOZiURHm3dHYmCPEl5adUZiQWZ8QX
+  leakFh9ilOHgUJLg3bCiK0FIsCg1PbUiLTMHGMwwaQkOHiUR3iJgQAvxFhck5hZnpkOkTjEqS
+  onzzgTpEwBJZJTmwbXBIugSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHeDpApPJl5JXDTXw
+  EtZgJavOx8G8jikkSElFQDU+WeCu/XbbNn/OUMrZN1tHR1aPvXm3cv+YF7hNBdf36vx/r78j6
+  7cV+fkWXydG35sV8Ku5cqp+/KnqlhsEHvbtxEtz1XvjtvbpZsaLGJ5Ly8f/VtXZfunId/U1gr
+  P8k11mtfMMy2DDq/4uKxg5cd8jqVP/lnm5t8+/7ii3fLzvrPeuuuXr1vknxdpfjJ6ZTu2T9S2
+  SsPZ6lprFpmkGXiX3k2h+n++cXpgj0mH5M0rp4Mem77wrLEnqH4fkdvrNj/DVNMbzl5rVmZ33
+  ROP5wlavo+6xPFukHtn8L2z8g1ZpsR2Nkpflv+fHHAsc8mzvJlL7znB9iIfP8QKn5/0wF5s6q
+  XZ+Zf5WBOlWyxjfRUYinOSDTUYi4qTgQAxu1a1BsDAAA=
 X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-12.tower-287.messagelabs.com!1619700202!258796!1
-X-Originating-IP: [62.60.8.148]
+X-Msg-Ref: server-31.tower-271.messagelabs.com!1619700220!247359!1
+X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
+X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 8373 invoked from network); 29 Apr 2021 12:43:22 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-12.tower-287.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:22 -0000
+Received: (qmail 20443 invoked from network); 29 Apr 2021 12:43:40 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-31.tower-271.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:40 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TChMTh021813
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TChdj6028583
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:22 +0100
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:39 +0100
 Received: from localhost.localdomain (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:20 +0100
+ (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:38 +0100
 From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] python3-numpy: upgrade 1.20.1 -> 1.20.2
-Date: Thu, 29 Apr 2021 20:43:10 +0800
-Message-ID: <1619700190-5500-1-git-send-email-zhengrq.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] shaderc: upgrade 2020.5 -> 2021.0
+Date: Thu, 29 Apr 2021 20:43:30 +0800
+Message-ID: <1619700210-5544-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
@@ -63,26 +63,14 @@ Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.20.1.bb => python3-numpy_1.20.2.bb} (96%)
+ .../shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb}              | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2020.5.bb => shaderc_2021.0.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-index 6c3b886782..0a60ca7467 100644
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.2.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
- "
--SRC_URI[sha256sum] = "9bf51d69ebb4ca9239e55bedc2185fe2c0ec222da0adee7ece4125414676846d"
-+SRC_URI[sha256sum] = "c049f410c78e76ffb0af830a8afbdf8baac09897b4152b97b1a3b8345ee338ff"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.5.bb b/meta/recipes-graphics/shaderc/shaderc_2021.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/shaderc/shaderc_2020.5.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2021.0.bb
 -- 
 2.25.1
 
