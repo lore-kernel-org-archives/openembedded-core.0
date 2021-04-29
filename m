@@ -1,149 +1,91 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.5935.1619698555607343541
+Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web08.6155.1619700186950823491
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 05:15:55 -0700
+ Thu, 29 Apr 2021 05:43:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Oz63psHQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id i3so52574003edt.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 05:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BQHMKuqvG0E38m6bupOB3mfFsJc2YlZU3JoanJvvTkI=;
-        b=Oz63psHQh6W9yjiKLWJuRC3O8SKOaHjO1x6YOmbgV796AhILvBi2nNYhndTR7jXCYJ
-         dxQG0dFGqD2NG0UlgoEnRpZQ39QEkgRlry+g/wanAS5Ifdcbj2chKN5pkqdl4k8+3MZa
-         a2FWH0RlOkcjeHz8Y7+kXfhezwLjtlqF0PXM4EXQCwcxXmEp9Aij72GrkGb1fRq3yS0R
-         a770eXSYe9KqPgc/edPo0zU7ThcsFtZasIGDU1HuTHCJSId32FGlh5O8CjmQfY2egyPZ
-         fpj55HDlObXnyJ+WD5Y+a5/FykMvz4VV0PE/jqoGMulQy492O3aUsNI0LVBWfo/jWu+e
-         QSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BQHMKuqvG0E38m6bupOB3mfFsJc2YlZU3JoanJvvTkI=;
-        b=EkYdrI+/bxKjR8rj3Xp/bqYwBOayhin8Fwor1lcpRp6m2l6x/c0XWbl9Y9D0l09gNl
-         V/EAF74LBrRHclH6SQdsw2a8Cwo6AKzgOA1Ctl7IZPJIX8tUkkE+/Sjzw18Rgc+/u6Vu
-         CPm2IxOaoxJ07t8pbGD0VlhKZdcfHPX8ugy+KBxsX+5YHpeNRF0BeU6kYo8RwnwKEOoN
-         5zLhejZq/nybXe5TySeXgeKwXYNzHB0qSZ37vc/Uqang8yHpbUsUrQ/5h8Ny4NeQtJWN
-         +xYkj/yPnOzOmXLwG3WU/ENZX9UdZRaQUEF28DKncxpSvkmDVlse0THbIbYa/0NsatvY
-         4SzQ==
-X-Gm-Message-State: AOAM533Ij90C5t436HOZ+tqFPTb6193krx4VWt9XiXW7pluRw4BotsXG
-	4py37+SRQbTxlLfPDovW+xs3YcwhUH/Kx4UBPdM=
-X-Google-Smtp-Source: ABdhPJxzVsCwPAzIk2NqI8yHWGjV2ah1iGl40HF3J6+WGYkcLMrT8WljpL19CZod9/HFINSJ9KzCwSDPiJ6aU3BKLg8=
-X-Received: by 2002:a05:6402:652:: with SMTP id u18mr2607461edx.388.1619698554088;
- Thu, 29 Apr 2021 05:15:54 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HovqJzpE;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66, mailfrom: zhengrq.fnst@fujitsu.com)
+Return-Path: <zhengrq.fnst@fujitsu.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1619700184; i=@fujitsu.com;
+	bh=/xEiDPa4fF1TNukGyw9oTrb/bJj98yeMnkQTSoKBZGY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=HovqJzpEM05ATYMgBggbHH52Pt4fIGtEu40nGT8o92u951TcZwM667V2Fsq+OYSST
+	 Mj293D59FMCbjvRxkzf6zGwaSuFIOwJ3j5UWSTN3ZnD1qlnYSooS7+jc+phCmAOpWK
+	 zZReYUk0adAqOdmETb5MG2tCwhsUAV2Od7W97yCzKXdQqaWdgIiGwktDZyHDHUKUBL
+	 UeHrNrAqNUxHLjX9vJ/Xf0R2IsyyodVHJrA1fkYoQZx8/6+PJgEwcw0TjWsXhv1nwk
+	 BdsCytPdGQmKLD3S7uAm/LjKEMRpodOi76q1uwPnSXQg/XimVCGh3g+LXsv2yPzYiN
+	 MqM8QLY/ve68w==
+Received: from [100.112.198.228] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.eu-west-1.aws.symcld.net id 38/DF-60958-8D9AA806; Thu, 29 Apr 2021 12:43:04 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRWlGSWpSXmKPExsViZ8MRqntjZVe
+  CwdS/0hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bZiRwF2zkrZkw6zdbAeIOji5GLQ0hgFpNE
+  69+VTBDObkaJI61v2bsYOTnYBHQlzj1eC2RzcIgI6Elc/ScKEhYWcJI4cPsdWAmLgKrE7f6jr
+  CA2r4C7xMc9fUwgtoSAgsSUh++ZIeKCEidnPmEBsZkFJCQOvnjBDDJSQkBRYvZ0eYjySont08
+  4yTmDkmYWkYxaSjgWMTKsYLZKKMtMzSnITM3N0DQ0MdA0NjXQNLc10jQyN9RKrdJP0Ukt1y1O
+  LS3QN9RLLi/WKK3OTc1L08lJLNjECQyil4MjVHYzdbz7oHWKU5GBSEuXd0tmZIMSXlJ9SmZFY
+  nBFfVJqTWnyIUYaDQ0mCd8OKrgQhwaLU9NSKtMwcYDjDpCU4eJREeIuAIS3EW1yQmFucmQ6RO
+  sXoyvFs7ZJFzBwb5i0Fkv/v3gWS/QsOrmbmuNl+aDWzEEtefl6qlDjvTJDZAiDNGaV5cKNhsX
+  iJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjBvB8gUnsy8ErgLXgEdxwR03LLzbSDHlSQipKQ
+  amA4x34tftXyVuL7Qv0/ZPztnWFeU1rkHKH9e9uSE0VXZdve3Jfr5fDnLq58s/f5C9Ns0Z+HQ
+  /PagKy1bK5R2CS7k+GVSnj2Tf7v+UbO83xP2TXxRXZmr/971gqxQzCTWa3MqWQXyu2P4uII8H
+  BJO+a52fam1dT9z8DmWtQrxJkfOHOcPZzktK32L5eVCn/Knl6K/3pp5UCFJY0bhXIW4rSf6P5
+  7YtXiuo9utidH/P71VmFjGUFZbEFWff6R/bfgHQ9bAJ43dMW439BMyXXJeNBbL1LBVTHm+//+
+  0dw55DFdmp1xbNofRUmXThoojf1Uc3/GIFab4P99RbDvvrn9hVedv3yWz4qd4Bqos8Ji7S4ml
+  OCPRUIu5qDgRAO2hWGFAAwAA
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-5.tower-291.messagelabs.com!1619700184!78762!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 22500 invoked from network); 29 Apr 2021 12:43:04 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-5.tower-291.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 12:43:04 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13TCh4v2024708
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 13:43:04 +0100
+Received: from localhost.localdomain (10.167.225.35) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 13:43:02 +0100
+From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] libmicrohttpd: upgrade 0.9.72 -> 0.9.73
+Date: Thu, 29 Apr 2021 20:42:53 +0800
+Message-ID: <1619700173-5440-1-git-send-email-zhengrq.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <167A52A9F0F767AB.22271@lists.openembedded.org>
-In-Reply-To: <167A52A9F0F767AB.22271@lists.openembedded.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 29 Apr 2021 14:15:43 +0200
-Message-ID: <CA+chaQfJFA-Teo3SL4-F2qxT6JKThZWir_zpQq1gk8t26aT=nQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rootfs.py: find .ko.gz and .ko.xz kernel modules as well
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Christophe Chapuis <chris.chapuis@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000f5aee205c11b7417"
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Type: text/plain
 
---000000000000f5aee205c11b7417
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+---
+ .../{libmicrohttpd_0.9.72.bb => libmicrohttpd_0.9.73.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.72.bb => libmicrohttpd_0.9.73.bb} (87%)
 
-Ignore this for now, something else seems to be still broken. Will send v2
-later.
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
+similarity index 87%
+rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
+rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
+index 66c48da3b7..219f0c44d6 100644
+--- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.72.bb
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.73.bb
+@@ -7,8 +7,8 @@ SECTION = "net"
+ DEPENDS = "file"
+ 
+ SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
+-SRC_URI[md5sum] = "2a286193af88ab2ae3149748d4b46187"
+-SRC_URI[sha256sum] = "0ae825f8e0d7f41201fd44a0df1cf454c1cb0bc50fe9d59c26552260264c2ff8"
++SRC_URI[md5sum] = "2b15949b1633e4fa487e08cdcc97f0e3"
++SRC_URI[sha256sum] = "a37b2f1b88fd1bfe74109586be463a434d34e773530fc2a74364cfcf734c032e"
+ 
+ inherit autotools lib_package pkgconfig gettext
+ 
+-- 
+2.25.1
 
-On Thu, Apr 29, 2021 at 2:05 PM Martin Jansa via lists.openembedded.org
-<Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
-
-> From: Christophe Chapuis <chris.chapuis@gmail.com>
->
-> * with xz PACKAGECONFIG enabled in kmod and xz module compression enabled
-> in kernel
->   the do_rootfs task doesn't run depmod in the image, because it thinks
-> there are no modules:
->   NOTE: No Kernel Modules found, not running depmod
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Christophe Chapuis <chris.chapuis@gmail.com>
-> ---
->  meta/lib/oe/rootfs.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index 5f81023040..e4de0bfddf 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -305,7 +305,7 @@ class Rootfs(object, metaclass=ABCMeta):
->      def _check_for_kernel_modules(self, modules_dir):
->          for root, dirs, files in os.walk(modules_dir, topdown=True):
->              for name in files:
-> -                found_ko = name.endswith(".ko")
-> +                found_ko = name.endswith(".ko") or
-> name.endswith(".ko.gz") or name.endswith(".ko.xz")
->                  if found_ko:
->                      return found_ko
->          return False
-> --
-> 2.30.2
->
->
-> 
->
->
-
---000000000000f5aee205c11b7417
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ignore this for now, something else seems to be still brok=
-en. Will send v2 later.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Thu, Apr 29, 2021 at 2:05 PM Martin Jansa via <a =
-href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;Marti=
-n.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lis=
-ts.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">From: Christophe Chapuis &lt;<a href=3D"mailto:chris.cha=
-puis@gmail.com" target=3D"_blank">chris.chapuis@gmail.com</a>&gt;<br>
-<br>
-* with xz PACKAGECONFIG enabled in kmod and xz module compression enabled =
-in kernel<br>
-=C2=A0 the do_rootfs task doesn&#39;t run depmod in the image, because it =
-thinks there are no modules:<br>
-=C2=A0 NOTE: No Kernel Modules found, not running depmod<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
-target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
-Signed-off-by: Christophe Chapuis &lt;<a href=3D"mailto:chris.chapuis@gmai=
-l.com" target=3D"_blank">chris.chapuis@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/rootfs.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py<br>
-index 5f81023040..e4de0bfddf 100644<br>
---- a/meta/lib/oe/rootfs.py<br>
-+++ b/meta/lib/oe/rootfs.py<br>
-@@ -305,7 +305,7 @@ class Rootfs(object, metaclass=3DABCMeta):<br>
-=C2=A0 =C2=A0 =C2=A0def _check_for_kernel_modules(self, modules_dir):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for root, dirs, files in os.walk(modules=
-_dir, topdown=3DTrue):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for name in files:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found_ko =3D name=
-.endswith(&quot;.ko&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 found_ko =3D name=
-.endswith(&quot;.ko&quot;) or name.endswith(&quot;.ko.gz&quot;) or name.end=
-swith(&quot;.ko.xz&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if found_ko:=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0return found_ko<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000f5aee205c11b7417--
