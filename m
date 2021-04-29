@@ -1,98 +1,85 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.115])
- by mx.groups.io with SMTP id smtpd.web10.1065.1619661515233702936
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.1560.1619664659821730837
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 18:58:36 -0700
+ Wed, 28 Apr 2021 19:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=U0mjX6z1;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.115, mailfrom: wangmy@fujitsu.com)
-Return-Path: <wangmy@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1619661513; i=@fujitsu.com;
-	bh=A56t8y6KEMF/17A4smpWttZ6fNM45H/cBfRMtRNxplY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=U0mjX6z1oDE2ZdLFPVDhWwqdkGky1sr2XmUmGP5bqOkGJgp1dHtXPlUEfH5bAkBAn
-	 hUC8f882hmBYhiRuUnE62g1iD9Aaifzz7B9wBmO4dY4hRePqANgyO/9aCsSy+yDDmm
-	 6UzPa/7s+IHCpMQUuqDXWtaasdThPFZTjvprUtVUImcWjFwQadqnyf7GPaJB+hRl9p
-	 J2Tvhev7GCFM7C2XA/fGNtYjrAvi4c+XgqaMpOX6KKDRFcrgKo+J6npafPPNCAIdPQ
-	 SA8wcM5QjAzEQQHb/vwxfgHHF5B9GSeNK4MTkctH5fbp6l0wupdABMoErC3Kd7lZUy
-	 Q0hen/CyxhHxA==
-Received: from [100.113.6.193] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-b.eu-central-1.aws.symcld.net id 2B/3A-44603-8C21A806; Thu, 29 Apr 2021 01:58:32 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsViZ8MxVfeEUFe
-  CwerLghZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aMRQ9YClbxVLzeV9XA+J2ri5GLQ0hgFpPE
-  pb3bWCGc44wSndPXM3cxcnKwCahJTL91AyjBwSEioCdx9Z8oSJhZQEXixe8edhBbWMBSYk7bL
-  jYQm0VAVeJpSxsTiM0r4CTx4NAGVhBbQkBBYsrD98wQcUGJkzOfsEDMkZA4+OIFM0SNosTsy8
-  0sEHaFxOvDl5gnMPLOQtIyC0nLAkamVYyWSUWZ6RkluYmZObqGBga6hobGuua6RqZGeolVukl
-  6qaW6yal5JUWJQFm9xPJiveLK3OScFL281JJNjMDwSilk/7OD8frrD3qHGCU5mJREebd0diYI
-  8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuCtE+hKEBIsSk1PrUjLzAGGOkxagoNHSYS3nR8ozVtck
-  JhbnJkOkTrFqMtxZdWSRcxCLHn5ealS4rwcgkBFAiBFGaV5cCNgcXeJUVZKmJeRgYFBiKcgtS
-  g3swRV/hWjOAejkjCvDsgUnsy8ErhNr4COYAI6Ytn5NpAjShIRUlINTL03lk3yu2KxZAW3Lbe
-  D1huv92v/vFi8fpfurT++hYpBrz7I7FjzlCffQcqR3duP0UBE6t1J64AX8yrc2zeJm4p816s7
-  eTPfzpZ900sPA1mTYyaJzyZFRP080so7ne+2Juua7P0pc3Y4VLRcNekWOyg+wU17P8NuFbHib
-  4rhf/Z+1Vmo47KmJvyT9e9VCTWfN1tNcd3cKPJk8wTVrKY5Xs81ZSby+WZMurDkt11kkqR8hK
-  qmpaT8nppO7lwDnVnaZRlCU9rlqvk+bw06tVDu+KU94f4eD2+qSm60ucTxaquWW2HOzwmntn6
-  e2GedZq3k//TVxxtuf1radvyLv77u4hwh0ZzDy2pE9bM6b5kwKrEUZyQaajEXFScCAPXqsjM2
-  AwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-18.tower-248.messagelabs.com!1619661511!229229!1
-X-Originating-IP: [62.60.8.149]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23918 invoked from network); 29 Apr 2021 01:58:32 -0000
-Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
-  by server-18.tower-248.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 29 Apr 2021 01:58:32 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 13T1wQEF012971
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 02:58:31 +0100
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 02:58:24 +0100
-From: "wangmy" <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] mesa: upgrade 21.0.2 -> 21.0.3
-Date: Thu, 29 Apr 2021 09:58:13 +0800
-Message-ID: <1619661493-24302-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XHnDh7JS;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so10106655pjh.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Apr 2021 19:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZZT4ed18d7Pne2aI9PAdoKgC0Vc68vDTcNL6bkjJpBY=;
+        b=XHnDh7JSFoQKKfuZ53SChV1ZrC/R9LwFJlWLAr7wHsaKq2+i9HkMP0gkQ8BKLeJENT
+         K9vHQh5c6YcJ7pwDOk9gpB1RHxA6LcpRJ+83zWHpylENB7pmdYBpX/KJPX0VFatMtHUI
+         x/yWaq86gBAej4hlAr28VtDoCJH0gSRlpsPtBGzEIFv8/BXtkFl6IEDb72f2XDrvh8C5
+         PjvaKhp/7QpZMxeHvXOBQ4BeUxtNKynvpwBv5hP+ujw2HVg9yiQ2YLn9xdja53Nqoorx
+         dqyplBOwfdcrJzBvmoWUCWyOguz4czKvXNjh7/eliYtSFlXV3D7xHP6xSymkozhH2Bv1
+         pm2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZZT4ed18d7Pne2aI9PAdoKgC0Vc68vDTcNL6bkjJpBY=;
+        b=GbCQ5JCOCTQQZjwDxXAIyGvvenx1vfDpUwTWC9tULwj6Pr/LhPQ7PU/ZKkfEPZx1XW
+         Otu7GGVzaQwfyy9BleZNmmSkf5Y61plT+O6csUQqAJMcOgKeHL+2HuwmppHHzLMbWRJK
+         YVFJ5guCPT3vJLQg9qtg//R6ln+HccCTPij4RF+LA7vbg3pBc5lGyRALqSBy7CQqdkGw
+         9wjzqCBSq+27txoh9up3qMlkgTTXCbqXkj/XTWRltfaLrbTchXGeAROE+Nq2oJI7eHGq
+         uKeb5kOXAUS9HmMZ4Z0ec3WWiUmuC0xgG0LBmt8aP5k62X1Oj8ppG4x4bDe2mDhuoXha
+         kZ4A==
+X-Gm-Message-State: AOAM53237c1vKXbLOUd+v+6Mq+zUn1c54d9oKk/gtEW6ylDIKQzyJrCz
+	n3sUnEUdFCoaDqcky1yiYdvWDLTP/Q3ylg==
+X-Google-Smtp-Source: ABdhPJwyQ1EVjHskubns2Bp/TEW88nMGDlErekVTuhLy8kDJsyRKmqhJWkwl2bpJmIv5NABaLuaPjg==
+X-Received: by 2002:a17:90a:a581:: with SMTP id b1mr36512990pjq.53.1619664659062;
+        Wed, 28 Apr 2021 19:50:59 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ef3])
+        by smtp.gmail.com with ESMTPSA id j7sm864688pfd.129.2021.04.28.19.50.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 19:50:58 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] libid3tag: Filter -ffile-prefix-map too
+Date: Wed, 28 Apr 2021 19:50:56 -0700
+Message-Id: <20210429025057.42312-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+helps when compiler has -ffile-prefix-map flag which helps
+reproducibility as well
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../mesa/{mesa-gl_21.0.2.bb => mesa-gl_21.0.3.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.0.2.bb => mesa_21.0.3.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_21.0.2.bb => mesa-gl_21.0.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.0.2.bb => mesa_21.0.3.bb} (100%)
+ .../libid3tag/libid3tag/cflags_filter.patch               | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_21.0.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_21.0.3.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 5705ae0f08..a85f94c75e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            "
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
+index 0d1d0dc381..1895748d1d 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
++++ b/meta/recipes-multimedia/libid3tag/libid3tag/cflags_filter.patch
+@@ -4,15 +4,13 @@ flags. We need those to generate reproducible binaries. Allow them through.
+ Upstream-Status: Pending
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  
--SRC_URI[sha256sum] = "46c1dc5bb54a372dee43ec3c067229c299187d5bdadf1402756bbf66a6df5b88"
-+SRC_URI[sha256sum] = "565c6f4bd2d5747b919454fc1d439963024fc78ca56fd05158c3b2cde2f6912b"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_21.0.2.bb b/meta/recipes-graphics/mesa/mesa_21.0.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_21.0.3.bb
+-Index: libid3tag-0.15.1b/configure.ac
+-===================================================================
+---- libid3tag-0.15.1b.orig/configure.ac
+-+++ libid3tag-0.15.1b/configure.ac
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -99,6 +99,10 @@ do
+  	-mno-cygwin)
+  	    shift
+  	    ;;
+-+	-fmacro-prefix-map*|-fdebug-prefix-map*)
+++	-fmacro-prefix-map*|-fdebug-prefix-map*|-ffile-prefix-map*)
+ +	    CFLAGS="$CFLAGS $1"
+ +	    shift
+ +	    ;;
 -- 
-2.25.1
+2.31.1
 
