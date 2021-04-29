@@ -1,99 +1,99 @@
 Received: from mga05.intel.com (mga05.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2365.1619671281658268226
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Apr 2021 21:41:31 -0700
+ Wed, 28 Apr 2021 21:41:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: pIZxv921OOJzVGtCKdLOdv4yAGoUhW0oe99I0PqIl2F/QhaUB7RnvCbMurnUo8zm07EDglBsff
- JfExRksRbc0w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258314"
+IronPort-SDR: mhSS7kCQvbGB5JCrkVixv+om87Two87k/1xHppSskrNITZ/LVv6Va9o9IV6hJ3r6Y+4gaZ1msO
+ CsT2WXfgDUPw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282258338"
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="282258314"
+   d="scan'208";a="282258338"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:31 -0700
-IronPort-SDR: QYAljkXIfLw60IPgmhiXDLa77SxIcStGzfuHGF4jnN6TKLyQ9RkjEf6oG9qSYBIPBtf2G4J1Tm
- uK9lKVvHC62w==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:32 -0700
+IronPort-SDR: S/HRpJEhjkVjKMmHUIqcavNRN73a2EiuMswIK7sRa+F4e1WrpJMm9rba+YFauij5+vzcAEZ35o
+ xJnf5jLbtYXw==
 X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="423883662"
+   d="scan'208";a="423883673"
 Received: from ytakikit-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.43.188])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:30 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 21:41:31 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 07/10] meta/lib/oeqa/core/tests/cases/timeout.py: add a testcase for the previous fix
-Date: Thu, 29 Apr 2021 12:41:04 +0800
-Message-Id: <4665008247cd4bd28da8c8b56c8c604e2e24d2cb.1619667368.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 08/10] weston: fix build failure due to race condition
+Date: Thu, 29 Apr 2021 12:41:05 +0800
+Message-Id: <9147e34486d7d45365e590140c5f08aa4be367ee.1619667368.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1619667368.git.anuj.mittal@intel.com>
 References: <cover.1619667368.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-This is the sequence that didn't properly operate:
+The wayland.c actually include 'xdg-shell-client-protocol.h' instead of
+the server one, so fix it. Otherwise, it's possible to get build failure
+due to race condition.
 
-- a test case that skips and isn't executed
-- a second test case that is skipped via a dependency decorator, and sets a timeout
-- a third test case that takes longer than the timeout from the second
-test case
-
-Without the fix, the timeout is not cleared, and the third test case is
-erroneously aborted. With the fix, the timeout is cleared and the third
-test case is able to complete.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54ef07a9aa1af8f41cfb9a4802929c918efc43c8)
+(cherry picked from commit bd2a9a4d82f66f1ff414c392bcf234d8dbd5e553)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/core/tests/cases/timeout.py   | 13 +++++++++++++
- meta/lib/oeqa/core/tests/test_decorators.py |  6 ++++++
- 2 files changed, 19 insertions(+)
+ ...001-meson.build-fix-incorrect-header.patch | 32 +++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_9.0.0.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-meson.build-fix-incorrect-header.patch
 
-diff --git a/meta/lib/oeqa/core/tests/cases/timeout.py b/meta/lib/oeqa/core/tests/cases/timeout.py
-index 5dfecc7b7c..69cf969a67 100644
---- a/meta/lib/oeqa/core/tests/cases/timeout.py
-+++ b/meta/lib/oeqa/core/tests/cases/timeout.py
-@@ -8,6 +8,7 @@ from time import sleep
+diff --git a/meta/recipes-graphics/wayland/weston/0001-meson.build-fix-incorrect-header.patch b/meta/recipes-graphics/wayland/weston/0001-meson.build-fix-incorrect-header.patch
+new file mode 100644
+index 0000000000..06e0f7baec
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/0001-meson.build-fix-incorrect-header.patch
+@@ -0,0 +1,32 @@
++From a2ba4714a6872e547621d29d9ddcb0f374b88cf6 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 20 Apr 2021 20:42:18 -0700
++Subject: [PATCH] meson.build: fix incorrect header
++
++The wayland.c actually include 'xdg-shell-client-protocol.h' instead of
++the server one, so fix it. Otherwise, it's possible to get build failure
++due to race condition.
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ libweston/backend-wayland/meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libweston/backend-wayland/meson.build b/libweston/backend-wayland/meson.build
++index 7e82513..29270b5 100644
++--- a/libweston/backend-wayland/meson.build
+++++ b/libweston/backend-wayland/meson.build
++@@ -10,7 +10,7 @@ srcs_wlwl = [
++ 	fullscreen_shell_unstable_v1_protocol_c,
++ 	presentation_time_protocol_c,
++ 	presentation_time_server_protocol_h,
++-	xdg_shell_server_protocol_h,
+++	xdg_shell_client_protocol_h,
++ 	xdg_shell_protocol_c,
++ ]
++ 
++-- 
++2.30.2
++
+diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+index 50fbfa613b..bcbac06d58 100644
+--- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -11,6 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+            file://0001-tests-include-fcntl.h-for-open-O_RDWR-O_CLOEXEC-and-.patch \
++           file://0001-meson.build-fix-incorrect-header.patch \
+ "
  
- from oeqa.core.case import OETestCase
- from oeqa.core.decorator.oetimeout import OETimeout
-+from oeqa.core.decorator.depends import OETestDepends
- 
- class TimeoutTest(OETestCase):
- 
-@@ -19,3 +20,15 @@ class TimeoutTest(OETestCase):
-     def testTimeoutFail(self):
-         sleep(2)
-         self.assertTrue(True, msg='How is this possible?')
-+
-+
-+    def testTimeoutSkip(self):
-+        self.skipTest("This test needs to be skipped, so that testTimeoutDepends()'s OETestDepends kicks in")
-+
-+    @OETestDepends(["timeout.TimeoutTest.testTimeoutSkip"])
-+    @OETimeout(3)
-+    def testTimeoutDepends(self):
-+        self.assertTrue(False, msg='How is this possible?')
-+
-+    def testTimeoutUnrelated(self):
-+        sleep(6)
-diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
-index b798bf7d33..5095f39948 100755
---- a/meta/lib/oeqa/core/tests/test_decorators.py
-+++ b/meta/lib/oeqa/core/tests/test_decorators.py
-@@ -133,5 +133,11 @@ class TestTimeoutDecorator(TestBase):
-         msg = "OETestTimeout didn't restore SIGALRM"
-         self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
- 
-+    def test_timeout_cancel(self):
-+        tests = ['timeout.TimeoutTest.testTimeoutSkip', 'timeout.TimeoutTest.testTimeoutDepends', 'timeout.TimeoutTest.testTimeoutUnrelated']
-+        msg = 'Unrelated test failed to complete'
-+        tc = self._testLoader(modules=self.modules, tests=tests)
-+        self.assertTrue(tc.runTests().wasSuccessful(), msg=msg)
-+
- if __name__ == '__main__':
-     unittest.main()
+ SRC_URI_append_libc-musl = " file://dont-use-plane-add-prop.patch "
 -- 
 2.30.2
 
