@@ -1,125 +1,175 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.52])
- by mx.groups.io with SMTP id smtpd.web09.8183.1619765943498743524
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.11222.1619788121197711617
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 23:59:04 -0700
+ Fri, 30 Apr 2021 06:08:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=nYPWBLWh;
- spf=pass (domain: windriver.com, ip: 40.107.92.52, mailfrom: qiang.zhang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gGqz2JlHC4j4R84QSs3V1VuXzv7YMI4uDnrNhyZgn+P1J8X+XGbHptGZEo+cFxf15t8UntUTfRnftSqEDRcq/FSriGjQ65G/8WeuOYEWNcxEamWczOoUxHKVHA3vD1rKO0RKnm6pbhvbTEk5OR2n2LfGKVnWD9QTWetGhdDUasMdVjT0ScxQ8Ht2Ch/wGNUQK75nibO5TQx9gqfz9obH7UMVEH9D7ryoLs0SxsjLPY/lJi6i2gF56q6Wh5/j/bODTi8hi3lTSnNOQwzDpe+36m6997sAPKrFt6mjicAWsp5ySF5T6j34CLCm27Bhl7X/7vGpL15DXIlNULPX/8zaUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dwcfJPXEv90uZdNoxMT/8G+GxbLs1R8fIGt9QqQj4Ak=;
- b=WXX341C2yTvYr8OKopB2BAm6sBN41sxPYEJUR/BG282l2ykZOeYYdM8VGTokHtY+zCWLQnCR7qkDZCjfzSpYj4QaZ7vbfFasIRoC6E/Z/SnYQk1Cfey86oA6asIJuVKbt7LNeqF8xD1zKQKe6ZTjOy+69YHhmxL+LKj+3IxM0nE8JFN1knS3ESCfjvuk7JotbZN4K6hEFHTrYWliUerc+5lfeABDuFVc4uKyvOqumnmULBFhuk1byZAdHBSEgjCGZhkkdsI8u4xp0JgIuLT+nFL+81TxZf1jHKpfwCyAv45SnD4M4wmkRg48iHUCVcyG06qtivzjsubhLhqi7chCDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Lc7rjlhC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id f15-20020a05600c4e8fb029013f5599b8a9so1705509wmq.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 06:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dwcfJPXEv90uZdNoxMT/8G+GxbLs1R8fIGt9QqQj4Ak=;
- b=nYPWBLWhGOKsy5mWsXqGrekY5VtnyNTJs8icU71FRqrE8xEeKAbgWVmF3SQMufFGm16lu0hSJlTsCEsIegZHuBxcU+nlNeLCsGdcf6sa9wFagIhK6cT6A3OQ8fK41czKkqkRVvJO9ly49u5IUBT+LVh6m2pKH74LggvLjcbcUT4=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16)
- by DM5PR1101MB2186.namprd11.prod.outlook.com (2603:10b6:4:52::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.26; Fri, 30 Apr
- 2021 06:59:01 +0000
-Received: from DM6PR11MB4202.namprd11.prod.outlook.com
- ([fe80::60c5:cd78:8edd:d274]) by DM6PR11MB4202.namprd11.prod.outlook.com
- ([fe80::60c5:cd78:8edd:d274%5]) with mapi id 15.20.4065.027; Fri, 30 Apr 2021
- 06:59:01 +0000
-From: "Zhang, Qiang" <qiang.zhang@windriver.com>
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TsMT8YlSdXhrrHepkMQjQNBBDV8ifrE1xT/TY9gAh6U=;
+        b=Lc7rjlhCh9+MEUx29BIObUA08UlOiz3qLRFJ9jjEv09+rOm+DH03OIbfsQmfVmYaPm
+         m0y4iRS6r/rMBU1uQyd1gT8Gfh0Exe8XQZwY4N8g3ZC5gnsKZ8glp0zJULS6gkhSBiyx
+         cd4uD+N3/YmrpQhPdHtx0aC4LGmc5saibWWGI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TsMT8YlSdXhrrHepkMQjQNBBDV8ifrE1xT/TY9gAh6U=;
+        b=nMOqgDmNA+SqADMhxdljttXHvX6xOzD1ZX/X1MibKFQkaIQh/Y+mtlWW007U4wKjTX
+         zDoxDrr7xT0Pso3lpatUb7uOAGnIgLsSJvQDwxeX+7SGElDEppv0f8e0E6pKnK0fOZ/R
+         AlXG2mSKC5nqcPe0WUTVhcARKh1y2nV81qy7zZwThb93B9gNbfgeDPjW+D9ev3BYaKf5
+         ImtJ1/YILBhVV/LdApx4S/LHJBy6MjOy4scAVBtP4iXcm1Dk2dUr+GkCQeXgF5gR7Gfs
+         D3KXoPeRjmww/WTIc8+1L2mlCZPl1inR5ZL/wUzXkml74w/D6bfpKe+Mky/W1SgyYdBT
+         hHSQ==
+X-Gm-Message-State: AOAM530SYR+UkE4VVepE1fBKAUmlNM2JE+NFHZ6KtL4zA9OkwQ7Rh/Gw
+	TV0dk+N20kj46ePHrjYEHXm2FmU2WOFtvA==
+X-Google-Smtp-Source: ABdhPJz70NFhZtXnhMBS/XZ9dfkLeHrhZGb4HKmrrLp/WPFF+X8jJDFnkhWFBtAPscT+2TV9HnPDcA==
+X-Received: by 2002:a1c:4e0f:: with SMTP id g15mr6150097wmh.184.1619788119304;
+        Fri, 30 Apr 2021 06:08:39 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:38ed:4baa:ed1c:e489])
+        by smtp.gmail.com with ESMTPSA id f6sm2208561wrt.19.2021.04.30.06.08.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Apr 2021 06:08:38 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] rt-tests: Update rt-tests
-Date: Fri, 30 Apr 2021 14:59:46 +0800
-Message-Id: <20210430065946.1475-1-qiang.zhang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0058.apcprd04.prod.outlook.com
- (2603:1096:202:14::26) To DM6PR11MB4202.namprd11.prod.outlook.com
- (2603:10b6:5:1df::16)
-Return-Path: qiang.zhang@windriver.com
+Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol version issues
+Date: Fri, 30 Apr 2021 14:08:38 +0100
+Message-Id: <20210430130838.1801707-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core1-vm1.wrs.com (60.247.85.82) by HK2PR04CA0058.apcprd04.prod.outlook.com (2603:1096:202:14::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.33 via Frontend Transport; Fri, 30 Apr 2021 06:58:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0656921a-1478-4be9-e54b-08d90ba56ec1
-X-MS-TrafficTypeDiagnostic: DM5PR1101MB2186:
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR1101MB2186FEE6C0FCA59C19D920F5FF5E9@DM5PR1101MB2186.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	wPRvFE7x7N4o4WrdZK0W7njLVRZwOA3ayk5PsshhHFPEJVWQ1hlMMg3yUKrBqKl4yu1fIMhV1qCxb70KTyDCAC66yObBg3UWR9VDdUoQnr+3JsYJBJY3TM0b1k7z7WWtHrmEaPjaJw0kn7qPKuylW6KeSv1qg01auriuRlZdApua8LB5wm3xAYF08q7pgE3W+g4sR2GTAh7ZYcUWR/OtPx8bxm1yJySHWIiVGhBP6LVrdtw+wN1gd65VxlVEjp8xDOyHy4RTTi7booxlOAewnVDIj+Lt1qMgF7m+dOW6RDuK6FG85aJskOSvsqf9sFL4DSCqakq1+m+gRys9+RD7ohWw1KTIdGw/yAtLDto7GazCZ/Y/BEoVviRw3KIQBpeYT0BOBT8k9PCKIc1CVzcvVoEJEL/c4xahU5NNdKTIKPjhmp8pOIuDlxvVf4hYNqP0qjTW72yU/AilbNcDE4Mv+1jV22rEi46AzBI7scrVj8oJLTDiiZY3VBh3tAXvUuqXzyXrgV6gzPqBqAGIk/66V3Gy1m5iywY+WT0xCGCgG4iHIRtGCaDiJbZn6VrQUx86LyxyeXVoOihKc54xWogmxtMmk6UGoDSZGYSa8k+BQzHVQCYw7tafSbdI4e/YVJdwl6ZopUo2v4AUA7fiao1VqQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4202.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(376002)(136003)(396003)(346002)(6916009)(1076003)(8676002)(66476007)(2616005)(956004)(316002)(478600001)(66556008)(6666004)(2906002)(66946007)(52116002)(86362001)(38350700002)(9686003)(6512007)(83380400001)(38100700002)(5660300002)(6486002)(15650500001)(4744005)(36756003)(186003)(8936002)(6506007)(16526019)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?JdgUlslSZUwXs5D8VKzVbpwH4U8WQJCxW+fZy9bNKqs+nEXAQr4ePqNSXbKd?=
- =?us-ascii?Q?prMmHbnkh26rXsje/flIyPggIL/TPeRSiUYx+FTcd3PWBZh7rDriv1ZLmaKu?=
- =?us-ascii?Q?qgJZx3HnPQnUcZa9OMniT+Q8YXccXDm6VVrDqo49kIfBAu2H3tQPKJPE3tPh?=
- =?us-ascii?Q?W5u1vyH0mAIaG44fXOMTM3SMx68NZulfy2lgWqnCElmxRQv4gdUr9LEgDeeq?=
- =?us-ascii?Q?CCMC4sQ4ZZF8VUqfodmhIWeqtpg/UNSyiC6o9UwW8aMn2lwea3xHyVKbPAyS?=
- =?us-ascii?Q?TlcKoVgjaaHsguV6OV8Ikw0xua0SUCx3BcvXROOgVyZemSZ335Z65LtBQReE?=
- =?us-ascii?Q?rPY2RbSb/ELUFNCn4wbVSocNJka56k4Vg/r56ov2U9XWbTASMrxXoWg7RgM/?=
- =?us-ascii?Q?+ioPp7Qp2j+A+bxP/a2S1EanBpLHIiw9zes/qqMsYL3FNirzBFYFHRvVZ3v6?=
- =?us-ascii?Q?kTEuOUe9Eh7LxzHP9OWnPv3ZZrr1LfU+5AkQkglKeUAm3Tii++mF7B0/KurE?=
- =?us-ascii?Q?6BEIvThyY0F36D/Lu3hN+X1O5p5cUZw9gP4u98U5o4B8fNEige6Cd+FHFXIW?=
- =?us-ascii?Q?9TE+XmcTpy5w2drKVOJ0cTJaFeQXPm5KM/Hgi2/SMSf/sCmrDr2CPOFBGXMw?=
- =?us-ascii?Q?tALe9vuPTvKXk7CouobPk2VVV2t9Y9dCp/Razhm7d7fr38sJBxQTFliDOW8O?=
- =?us-ascii?Q?01qjwSv/EGbRqb8QPrqj+PTgM1l90fAU1FhovRSeo/NaVhPyvFoT8rNSpNMs?=
- =?us-ascii?Q?UhvfYGUZh6obt4QfQyOjfZoCZyjvID/yG+DHnIbReKiwOupXpWOWIUJw1pYw?=
- =?us-ascii?Q?GW0ehEPSl9QHZdnYr+538smoZ40VxoN3Lmtxdv+6Zbf/pOQNnNDmWHCetZx3?=
- =?us-ascii?Q?0PJUw54snwwg7HBm0LsVbuULZtl7mQJi8rZsAlzlbQuFpSvN3oFJzbLKAOvc?=
- =?us-ascii?Q?wv9R54Qj/wWyWJztDj0v57dBEj5fKvRM5bnBYvF6WKhMPrswIbMDbBC6pmYJ?=
- =?us-ascii?Q?0+aZAgBRZhCxGMDr1IdZkEwg1cVcOO/hoRXSLQ7rLxQe66LW526smKcTMezt?=
- =?us-ascii?Q?GLqbpX+aPIfgF8LPI22zNI/bPmpgBd41z5GfNOcVOTLIFmnyyuRu+i/skern?=
- =?us-ascii?Q?7DYTdrLUbstHBhSuI1qxTPwFMGvzifFlE8BKfNXBQcXlgESh3lLzlzrGZ9pX?=
- =?us-ascii?Q?Tr3wAJAk0ZLrCY5l/M4hrMhCEMyIOn03xkGRW9JSKmUsgxO6c4brAKsHMe+O?=
- =?us-ascii?Q?/yl+bjqYnX8HkvKpaomE9OqpzKeLKWUCEMVvsMblSXu4J6aPuj1dLXOdicLH?=
- =?us-ascii?Q?7kGN0x/zwV8C4VgNWlk3L4HW?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0656921a-1478-4be9-e54b-08d90ba56ec1
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4202.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2021 06:59:00.9203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0lRpFthsopu6jK9sCd//IUURlMYenZknRWcgYOqg5Va1+ultdpmRhSBrdVMT7FEaOxSojtx6VliDC/8CN0fhlkZy6OCo4gCFeHSWO7ykQ6U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2186
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Zqiang <qiang.zhang@windriver.com>
+This patch upgrades to the 4.4.19 release and replaces a configure patch
+from "libxcrypt: fix sporadic failures in nativesdk-libxcrypt-compat" with
+a fix to avoid leading spaces in CFLAGS causing failures.
 
-When run cyclictest, the parameter enable NUMA. but in some BSP
-which not support NUMA, will causes the test program to exit
-directly and does not carry out subsequent operations, the
-latest changes have fixed this problem. so update to the
-latest branch to resolve.
+The license changed a few filenames listed in the license but the overall
+license remains unchanged.
 
-Signed-off-by: Zqiang <qiang.zhang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-rt/rt-tests/rt-tests.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...e.ac-do-not-use-compute-symver-floor.patch | 32 -------------------
+ .../libxcrypt/files/fix_cflags_handling.patch | 24 ++++++++++++++
+ ...t_4.4.18.bb => libxcrypt-compat_4.4.19.bb} |  0
+ meta/recipes-core/libxcrypt/libxcrypt.inc     | 10 +++---
+ ...ibxcrypt_4.4.18.bb => libxcrypt_4.4.19.bb} |  0
+ 5 files changed, 29 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
+ create mode 100644 meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+ rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.18.bb => libxcrypt-compat_4.4.19.bb} (100%)
+ rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.18.bb => libxcrypt_4.4.19.bb} (100%)
 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 9358f13d06..0c89bad91f 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
- # Version 1.8
--SRCREV = "32819581cc0509c9d58c33c3061f57abe0c40c88"
-+SRCREV = "6af88067da16c6e69243b376c3b6454ec694460b"
- PE = "1"
+diff --git a/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch b/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
+deleted file mode 100644
+index 4e6b427104e..00000000000
+--- a/meta/recipes-core/libxcrypt/files/0001-configure.ac-do-not-use-compute-symver-floor.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From b28bb856ccebe8fded51d11362bf5920699eed59 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 18 Mar 2021 10:52:13 +0000
+-Subject: [PATCH] configure.ac: do not use compute-symver-floor
+-
+-This script (newly introduced in 4.4.18) sporadically fails, without
+-failing configure(), which has been reported at
+-https://github.com/besser82/libxcrypt/issues/123
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- configure.ac | 6 +-----
+- 1 file changed, 1 insertion(+), 5 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 45b91b4..f3ba945 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -426,11 +426,7 @@ if test x$enable_shared != xyes; then enable_obsolete_api=0; fi
+- # need to be binary backward compatible with.
+- if test $enable_obsolete_api = 1; then
+-   AC_MSG_CHECKING([minimum symbol version to use for compatibility symbols])
+--  SYMVER_FLOOR=$(
+--    $PERL ${srcdir}/build-aux/compute-symver-floor \
+--      ${srcdir}/lib/libcrypt.minver $host_os $host_cpu \
+--    2>&AS_MESSAGE_LOG_FD
+--  )
+-+  SYMVER_FLOOR=GLIBC_2.0
+-   AC_MSG_RESULT([$SYMVER_FLOOR])
+-   case "$SYMVER_FLOOR" in
+-     ERROR)
+diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+new file mode 100644
+index 00000000000..273385db41b
+--- /dev/null
++++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+@@ -0,0 +1,24 @@
++If you pass CFLAGS with a leading space, " " gets passed to popen and convinces
++gcc to try and open a file called " ". This results in a confusing error message
++like:
++
++x86_64-pokysdk-linux-gcc: error: : No such file or directory
++
++Avoid this by stripping empty elements out of CFLAGS.
++
++Upstream-Status: Pending
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: a/build-aux/compute-symver-floor
++===================================================================
++--- a/build-aux/compute-symver-floor
+++++ b/build-aux/compute-symver-floor
++@@ -36,6 +36,8 @@ sub preprocessor_check {
++         die "C compiler not available\n" unless @CC;
++ 
++         @CFLAGS = sh_split($ENV{CFLAGS} // q{});
+++        # Remove empty elements, particularly leading ones which cause issues with popen below
+++        @CFLAGS = grep {$_} @CFLAGS;
++ 
++         # We call ensure_C_locale here, not from the main section,
++         # because this sub might not get called at all, in which
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.18.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.19.bb
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index b5ca863d54b..694e55546f0 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -3,18 +3,18 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
+ HOMEPAGE = "https://github.com/besser82/libxcrypt"
+ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LICENSING;md5=bd5d9777dfe7076c4f2928f12fed226a \
++LIC_FILES_CHKSUM = "file://LICENSING;md5=afed27a72ae2a8075978299eebaa1f5d \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     "
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
+ inherit autotools pkgconfig
+ 
+-SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
+-           file://0001-configure.ac-do-not-use-compute-symver-floor.patch \
+-           "
+-SRCREV = "94d84f92ca123d851586016c4678eb1f21c19029"
++SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
++SRCREV = "c79119414d7e30017d7b49566e7e4ea35112bdc8"
+ SRCBRANCH ?= "develop"
+ 
++SRC_URI += "file://fix_cflags_handling.patch"
++
+ PROVIDES = "virtual/crypt"
+ 
+ FILES_${PN} = "${libdir}/libcrypt*.so.* \
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.18.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.19.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.18.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.19.bb
 -- 
-2.17.1
+2.30.2
 
