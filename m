@@ -1,128 +1,84 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web09.6614.1619750762424621908
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.7036.1619756291778247044
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Apr 2021 19:46:02 -0700
+ Thu, 29 Apr 2021 21:18:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rdbeoyVi;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id s20so19996169plr.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 19:46:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LozkYOG9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d124so4841767pfa.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Apr 2021 21:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=EetSUhrLiHnPzh2upnxxqpRp+QViNGczqwu0l05ka3E=;
-        b=rdbeoyVi3jgXkisZjx5LnTdEnXSXzIRxuk+fIOHJ+bZKId228HlM7pI7GkR/zrx8Og
-         rL8DjHLZapi2F9FjVPuvTRJXcYwsstKS1/D1usV2j8ahdfgE2XSp9Ep12CEhuZG6Jq2C
-         1Fl5hSmGSJbuZl+p0KgNDCX+WJG8Sz2QmUvPuhe/MBx5c9Lmbi6qd5UC7NErmcdRBQar
-         EnI1MhYjl2rhh6g4g87sHOlsxHbUBuotK8ecHt75k1Tta2MWPk4wf4F+B47S+sojU4tP
-         WeIrW5krZbUWPUVhKHjcxHGk2TVtl/t0su2BRZnFCZHjvh0dgOiX3LYern6zcWVlqcOr
-         sQFw==
+        bh=qLFQygdHWPMy3kn9H6BxcUGoKWeGRoJG28CkbSQzpRo=;
+        b=LozkYOG9EIsYguK44N+Rj+BDhQfYy67HAqJJq0+vHLOocu591Zj0PY+yjmSDkAU0KZ
+         zCjhqCSnyR2H+MRVO244sEC6ma13EklGzbrqt7B83z8C7JqUMkMKrFayOwbeIQ3IYW/5
+         yQRSQ4FjMFUNPT6qYV7qeJz4ynwIDdecrTZdQWkZqkVYpO598W/f+OgKOxvfDWK5fBFp
+         DsjHI52WTwuYxsRkV8qZQYf88IjmF+PT8HJiOTF7TYWpMS2IP0NXSBxUegybZIslc4h2
+         EsGJ7DtvTa32S0WxaN7o8swybZKbDK20O2YJnU3gppxLNhczElXrIYxA5q9uWZ1k1tHy
+         e7+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=EetSUhrLiHnPzh2upnxxqpRp+QViNGczqwu0l05ka3E=;
-        b=ukub62Ox/6ANvgr1e7tBQDzrtx7y/8WzsrW1OYUUMhQ+OEofSU2LrH/tDuwCsIpvBz
-         uhH+KZekMqIrUYNS8T9GGX6Pxyuu08j3Bx+63vIheBTyTLRHJdmPeHBeG8BXK5lK6Y6y
-         jfcbKmqME42FqCxikTn4gSGEqBLUFKa5HX2l363CNn+uAxamV+6hyWFnRPj3MAHM7O5a
-         ScP4eX8Y4cDj6Zlj76+ry6k7ErXwUgSJ9bvhnJCf0bM0OkgQhP9Cs8fxIkQrqMKY9Ule
-         yJjbEOnbeq/T6+AXKELf9VkP3t9GO6+tWP3o8A+3iB4Be6PQSGqokOhnfaaGn2KMQJTJ
-         ZphQ==
-X-Gm-Message-State: AOAM532Ce3EMhNopXkJpFBZbkoLQM8fQh9QP6T7KRxkhhiVpsUVxZ6X0
-	jVBdd4lxDuxh0b39V3cM45ugzIdlF179GQ==
-X-Google-Smtp-Source: ABdhPJzUpdFTb9joF0Ci+WSAZ0spDsy8FI/25HZx1RDyEzkNVye8b/mnwR2wa/7fAiZv5RpEOS9rAA==
-X-Received: by 2002:a17:902:8486:b029:ec:c4bb:57d3 with SMTP id c6-20020a1709028486b02900ecc4bb57d3mr2993664plo.24.1619750761657;
-        Thu, 29 Apr 2021 19:46:01 -0700 (PDT)
+        bh=qLFQygdHWPMy3kn9H6BxcUGoKWeGRoJG28CkbSQzpRo=;
+        b=mbXXvraI2QkPGX4YYsRdiQYF2MM8RSS0DhRAD/XXVfjFp9pzrt3IRwj+uaBp3zUTW4
+         6vtMy3qTk/hZNDp1jAhRUTfg9Qx5twmMoNtK1D5Trn3xmYuNmFD3UdKQpjLuyXDoYc0g
+         657wPlcN6r2aibsK6xm6Tj2l06B7c0RUeGpB28CHS7n+HaU7A1EviEOqLzusBcTnzCKL
+         BkN/pj2ohtkXP/yNKBmkJFwCdSEL46wQfd9m0YPp8hAxR4jXtgRLsWKbrGmH3Pmoxvnh
+         Daw05jHvwc++41naDlTwUg4+4TJquu043tD2ooi9MOpQVy9TW4Ov/g+FHjpiy+op/2zo
+         Ll5Q==
+X-Gm-Message-State: AOAM533TcQ2rbKaeofJdqkFmS1+jYgqfQD3tp+Z3BtTK4Lmu9g6Cqbsd
+	A/SSgCayJ3sjV9sseLr06httP5mFdJ8Asg==
+X-Google-Smtp-Source: ABdhPJztg4AzoYLCqSRE15TtgDOpXPzn47cwR+cFml8ddK/JiGfNhvlBbOHMUGOjRMjWgSNKi8SGcw==
+X-Received: by 2002:a62:8407:0:b029:27f:2cae:df86 with SMTP id k7-20020a6284070000b029027f2caedf86mr3034197pfd.63.1619756290815;
+        Thu, 29 Apr 2021 21:18:10 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ef3])
-        by smtp.gmail.com with ESMTPSA id n27sm401679pfv.142.2021.04.29.19.46.01
+        by smtp.gmail.com with ESMTPSA id g18sm591891pfb.178.2021.04.29.21.18.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 19:46:01 -0700 (PDT)
+        Thu, 29 Apr 2021 21:18:10 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3] busybox: Enable long options for enabled applets
-Date: Thu, 29 Apr 2021 19:45:59 -0700
-Message-Id: <20210430024559.2352123-1-raj.khem@gmail.com>
+Subject: [PATCH 1/2] bash: Include files needed for run-heredoc ptest
+Date: Thu, 29 Apr 2021 21:18:07 -0700
+Message-Id: <20210430041808.2520362-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-certain applets are enabled but the long options are not enabled for
-them, it results in subtle failures in ptests where its expecting these
-options e.g. gzip --best is commonly used in many package tests e.g.
+These files are used by this ptest case
 
-root@qemux86-64:/usr/lib# grep -r "\-\-best" *
-acl/ptest/Makefile:GZIP_ENV = --best
-attr/ptest/Makefile:GZIP_ENV = --best
-coreutils/ptest/Makefile:GZIP_ENV = --best
-ethtool/ptest/Makefile:GZIP_ENV = --best
-libxml2/ptest/Makefile:GZIP_ENV = --best
-lttng-tools/ptest/Makefile:GZIP_ENV = --best
-opkg/ptest/Makefile:GZIP_ENV = --best
-perl/ptest/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm:    COMPRESS     ('gzip --best')
-python3.9/test/test_gzip.py:        for compress_level in ('--fast', '--best'):
-...
-
-this ensures that these options are enabled by default, which makes them more
-compatible than now with coreutils provided utilities
-
-busybox size grows by 4K which perhaps is acceptable
-
---rwxr-xr-x root       root           817704 ./bin/busybox.nosuid
-+-rwxr-xr-x root       root           821800 ./bin/busybox.nosuid
-
-This makes autopoint-3/gettext pass
-
-This patch add all the long options to this fragment. The long options
-for a tool will only get enabled if the corresponding tool/feature is
-enabled in main defconfig, otherwise it will be ignored in final .config
+103,108d102
+< cat: ../y.tab.c: No such file or directory
+< cmp: ../y.tab.c: No such file or directory
+< cat: /usr/lib/bash/ptest/config.h: No such file or directory
+< cmp: /usr/lib/bash/ptest/config.h: No such file or directory
+< cat: /usr/lib/bash/ptest/version.h: No such file or directory
+< cmp: /usr/lib/bash/ptest/version.h: No such file or directory
+FAIL: run-heredoc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Add all *_LONG_OPTIONS, so they can be enabled if main tool/applet
-    is enabled
-v3: Move the long options to a dedicated cfg and enable it by default
+ meta/recipes-extended/bash/bash.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
- meta/recipes-core/busybox/busybox/longopts.cfg | 15 +++++++++++++++
- meta/recipes-core/busybox/busybox_1.33.0.bb    |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/longopts.cfg
-
-diff --git a/meta/recipes-core/busybox/busybox/longopts.cfg b/meta/recipes-core/busybox/busybox/longopts.cfg
-new file mode 100644
-index 0000000000..dcfab99919
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/longopts.cfg
-@@ -0,0 +1,15 @@
-+CONFIG_FEATURE_GUNZIP_LONG_OPTIONS=y
-+CONFIG_FEATURE_GZIP_LONG_OPTIONS=y
-+CONFIG_FEATURE_TAR_LONG_OPTIONS=y
-+CONFIG_FEATURE_CHOWN_LONG_OPTIONS=y
-+CONFIG_FEATURE_CP_LONG_OPTIONS=y
-+CONFIG_FEATURE_INSTALL_LONG_OPTIONS=y
-+CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS=y
-+CONFIG_FEATURE_RUN_PARTS_LONG_OPTIONS=y
-+CONFIG_FEATURE_START_STOP_DAEMON_LONG_OPTIONS=y
-+CONFIG_FEATURE_DIFF_LONG_OPTIONS=y
-+CONFIG_FEATURE_BC_LONG_OPTIONS=y
-+CONFIG_FEATURE_FTPGETPUT_LONG_OPTIONS=y
-+CONFIG_FEATURE_IPCALC_LONG_OPTIONS=y
-+CONFIG_FEATURE_NSLOOKUP_LONG_OPTIONS=y
-+CONFIG_FEATURE_WGET_LONG_OPTIONS=y
-diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
-index 58e9cf7fce..a92fa2fe5f 100644
---- a/meta/recipes-core/busybox/busybox_1.33.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-@@ -31,6 +31,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
-            file://getopts.cfg \
-+           file://longopts.cfg \
-            file://resize.cfg \
-            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
-            ${@["", "file://rcS.default"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index d3e1dfdb30..7350601c65 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -91,6 +91,9 @@ do_install_append_class-target () {
+ do_install_ptest () {
+ 	make INSTALL_TEST_DIR=${D}${PTEST_PATH}/tests install-test
+ 	cp ${B}/Makefile ${D}${PTEST_PATH}
++	cp ${B}/config.h ${D}${PTEST_PATH}
++	cp ${B}/version.h ${D}${PTEST_PATH}
++	cp ${S}/y.tab.[ch] ${D}${PTEST_PATH}
+ 	install -D ${WORKDIR}/run-bash-ptests ${D}${PTEST_PATH}/run-bash-ptests
+         sed -i -e 's/^Makefile/_Makefile/' -e "s,--sysroot=${STAGING_DIR_TARGET},,g" \
+ 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
 -- 
 2.31.1
 
