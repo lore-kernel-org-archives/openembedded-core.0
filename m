@@ -1,340 +1,231 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web08.193.1619801437238534338
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.77])
+ by mx.groups.io with SMTP id smtpd.web10.363.1619802041795557378
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 09:50:37 -0700
+ Fri, 30 Apr 2021 10:00:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FX0pUofo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-lj1-f180.google.com with SMTP id o16so81584915ljp.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 09:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PactuW8gErgEdPHXK6ceOhDh33gqxb/VXlvvIeqk/RQ=;
-        b=FX0pUofoAwar+1lWaMJ/dcYvz9Z7f7CxZGWeKY0htq44bzVSPErDZykumdQrYbl+Gz
-         YVkZZbjZYoPLLTnh44Cj/9ihLWHD0034rXNdkSSa2hKrmxEdxsu2DpLyvZJKC6h6tK2j
-         GziMjYO0rsvk1rlGnF3kGUC8k40d/tfOeCatE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PactuW8gErgEdPHXK6ceOhDh33gqxb/VXlvvIeqk/RQ=;
-        b=ESAssAFQkbn2bKVT67wOiZf5MoH7A6ytFkufAobDWyTMgUrJgt4F4IyDTt2CK0LQ5j
-         kRukaz3CZou4/luDZfDtwIdLm3mDRHibc3/KFTg1XUqH8U+dVgMQtPgINyxVzeMBzHaN
-         aD5xzalcrs0bLGv57fFsJ+x5AEJTlIWLQgviWSv7WH/V0+2zZdyC8OK+xfuJ9mMD78lG
-         pul/BgyjhDxx6o7KCUiWyMbaN5yU8EOTiX6M6U+H4njetiiNBsFQb9x3WL9V8KKBpm8O
-         vKbdQWetghXjCrN3ESsJQAOe9v3doKXE82RYOnCgKqVGCHi394Nly1UZFoxNcGJu3hQx
-         o+8Q==
-X-Gm-Message-State: AOAM532yNW9tN9ObFaNxJGFz2B7o3O5+E81HRi2IZtrqEJf9yVUXDaWT
-	AuDGMYesK5ryNPvVOL8nVl0TPH7W+oa1wUkWnbIIbA==
-X-Google-Smtp-Source: ABdhPJzCqahw9Tv8zhx378m//B6kp8K1NQCjbQVEd3WoX10W1YvXydtaA6X5OZqduHGJ3xRyXxMu3HQI8b1HB2l5lJo=
-X-Received: by 2002:a2e:9149:: with SMTP id q9mr4524616ljg.28.1619801435305;
- Fri, 30 Apr 2021 09:50:35 -0700 (PDT)
+ dkim=pass header.i=@spinetix.com header.s=selector2 header.b=VOVBS775;
+ spf=pass (domain: spinetix.com, ip: 40.107.8.77, mailfrom: diego.santacruz@spinetix.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cG4YqFdzUgPYzIrAEwdTpyGLBAKsaCNTxWk+gemCzOtyei5EqZJSq+rdyh2p9BiE5JeKzDr549FNV9d3UpRMB0kL7T0M4K0lr1iyrOG93tDX9pnTAubzCzFG3EBG68bxpgch/4cp4b/y+3/dYq4JV6VdiYNaSWIoahoSJGEHdZ6IopZmOO2jcWxeSzerxvfAcIoRSz6hmlDx+mTO0JNv2p29g2Hz8uPpqaMKnb4IbuaacUpkOHsyrhxm21V9udvKDa07Kb24zFKUdBZnggwupsUJT9tWBuiOcJv8Q0ZxL3BHcD79itn0UMDV83+jIhHo7CGDvAtDbu2ZBq2vqjosLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0fPkK7qe7gEVqvjW84rRAqgMGKsb5gbpUOuv0exAZ90=;
+ b=V1ikPj7lf/oumaYSRjPXAxrFWx5iIKC5CrJlt4oZk1AqxMRWFv65w6kICtU2789XYwrlsivPifJo1pQTlUUd9XTlikOUBCbXCIwJiVTJS97RPFbwAh3VUNPFzJCVFrAtmuu0j6Dy+efCuxWpbOdmx+xFizzGTAY/ehDee0PVPusf2YdVv9tu3xSLdkah09u4iug6du+JFEbOFw8p5ulP0GoLhJtd4GnlKZa+XkmX+KNkA2njnU+z5gbdRF8cnsS2XXtI0EzYS67fpV9buGia/wkBhrU8HG636j8jEnh/d3BOPf28PiwGukeQx/S/R0GbX0RQlA+HfT4s4V++T17dTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
+ dkim=pass header.d=spinetix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0fPkK7qe7gEVqvjW84rRAqgMGKsb5gbpUOuv0exAZ90=;
+ b=VOVBS775hQg9mW9I5itZxi1xk4pDRCohP6deRpYCrF1xMGRL9NjEZ+fo5PUb+gAlO9GM85vaCJZmux0eJnWgD9yOfWOIWixBEsaDW03bN4OIT98IGq1RJF136VMD4/wY/oSGQtqqy2qxYlNaCNPeq5ohHlQxG9rkiAtgViP/ZVc=
+Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+ (2603:10a6:6:e::19) by DB7PR01MB4666.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:6e::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25; Fri, 30 Apr
+ 2021 17:00:38 +0000
+Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+ ([fe80::4ca6:4c0e:d299:9764]) by
+ DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+ ([fe80::4ca6:4c0e:d299:9764%3]) with mapi id 15.20.4065.027; Fri, 30 Apr 2021
+ 17:00:37 +0000
+From: "Diego Santa Cruz" <diego.santacruz@spinetix.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Unihash warning building kernels in Yocto 3.1.7
+Thread-Topic: Unihash warning building kernels in Yocto 3.1.7
+Thread-Index: Adc94keMh2EjTyR0Qb2I9MEwyjYHOw==
+Date: Fri, 30 Apr 2021 17:00:37 +0000
+Message-ID: 
+ <DB6PR0102MB26302BA4C54F13FC351F8C0A885E9@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+Accept-Language: en-GB, fr-CH, fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=spinetix.com;
+x-originating-ip: [178.197.220.125]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6923ee6f-940f-4631-9a2a-08d90bf97a78
+x-ms-traffictypediagnostic: DB7PR01MB4666:
+x-microsoft-antispam-prvs: 
+ <DB7PR01MB4666888C6F776CD0E609A5F7885E9@DB7PR01MB4666.eurprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:162;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ X728FPDYjkWNx/7ym67DthYkZZpVwh5wWIHvTbhK9eqhG0gw5bzfXP5tXiq5SjEmwIquIYL2nsr1JgxqBNg7g8iJuOvhq+eQXSYBBPxPGOLq2AOUHp2INN/omw0h84vwJIXIRSpNqzcwAeJP3hU+eir3FjdaXpMKkwlX05Un+J12SjJcVCRBCHUqW2i3/EnqaRsGqSZaP5I82p5gmopqxqy/N9sDyAJm+tczWtIOYOImBN2uo2XXrJYsoW3pKMQN1etPOTXGTt7F8D6XZyyCJPinWFsppOI/lFx1Q2hmyZ8mLNH1eQdyXFE6ZziSKCYUHc+/evMjCuAfGGweISUiceSfAjkfW0M3oJGWURQ7N7hRX/XsDR0y+zyoeFAJFBDDDysHy2c+/d866eM3cmJvki/ZuUnzSUjk0CE40G6UdY75hNvPdoI5+8BaA3Z1n1nTfMnz07WxRrO3ojoS0RmmEeIw5aqmaYGNUyuW3xpQN6HJw7IHFwsKNkWU7ZRUoq6272GWIbrDuvRS56VNUBWRZKUGE5dPw5NtrkIrODVw5ZblWkm8d264tk9qt4tapmFBADG/2j18JTG9i28NppJugS8LWehWt83uyrpcliNi0bg=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR0102MB2630.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(136003)(39830400003)(396003)(38100700002)(66476007)(55016002)(66556008)(86362001)(478600001)(66946007)(6916009)(7696005)(5660300002)(66446008)(71200400001)(122000001)(52536014)(64756008)(83380400001)(4744005)(8936002)(6506007)(76116006)(8676002)(9686003)(316002)(33656002)(2906002)(186003)(9326002)(26005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?us-ascii?Q?ygLt6TYr+zf0r9x1LRS1HtSoCzwsch84+OLhPZboOiPrS4k9CXdsMwNfs76+?=
+ =?us-ascii?Q?UimXwKi77TcjXZAF70a9fdwqbKZbuRqYurg9RlXJLQzcOe1s4AVftCvmab3I?=
+ =?us-ascii?Q?o/x0fK+6aWsIKAnA8bZI8AImYl2j45S4GhibsaXD7Aez0oXWJjSmrfFiDZ3p?=
+ =?us-ascii?Q?S/MMLS6aLLSSzKptE7f5Qrpn19WfQXrq4xzJq1HTXiPmMHFjx9WMDBp99zMp?=
+ =?us-ascii?Q?QPaWBDwsu8eZD5fnsVixfa5X5bqknuHbp6AXDeMbuU9aylWFGpVoxzsXyrAN?=
+ =?us-ascii?Q?BocypAwxgL2tPWSprhH6omliG45+bz0rJJQ99zNECwyeRjr+kTPz84ZGVB89?=
+ =?us-ascii?Q?aEmBJI61oqwFG63PO/pjZtQ1VSBYnMgKXBewJgaFWETJzm/jHJ8Qj8YtXIS5?=
+ =?us-ascii?Q?IPrvxuoZe8ds09IBKTADbXmFpNch8RV38qWYfyllZzpCONl0od1QDTtc5Pd8?=
+ =?us-ascii?Q?1yh6Y/kDhm0WgQhmtYx71ltS+nCbpz5M7vNIx9aXc8IkWGl34uwHsBm+DhlC?=
+ =?us-ascii?Q?5YyJCMy+wBt/131KRul8t/WQ+i5eX4o3JfWtFivy0LLvrbzR/1ilfIyt1pro?=
+ =?us-ascii?Q?yho5KCGgcKfKnDlSFrct2GcdrxPYF6FQDLnly7DtpieNG8cj9e4MMHIztRzr?=
+ =?us-ascii?Q?DIrCw9yjgmTFGN6l+ZgqcDezjdOzugiWviDL6rdN7Kk0VtvfCW3qhBtifiSZ?=
+ =?us-ascii?Q?xu57dfwVJoz116rI5HBOUFOvLINm8xZA/Q4SrRzBP10QHZyifw2VbOdoXV3o?=
+ =?us-ascii?Q?ocpTFiLSuH1H44Vd2qGxEsmRCMUEPWkJxE7maWrA+hEUBT6aw2ahmfb7j+xm?=
+ =?us-ascii?Q?I+nmJ36CKi3UePGdW7/dh03UxWb0w1oU1Do0e7u9OuAR2g1ZVJ8M6A1AOBev?=
+ =?us-ascii?Q?/ntmjdNWiw3UieQ6c652+Wb7Vf7HJznC2Cdn8ZHrNjCMXIkLP+2tGx/1SvGj?=
+ =?us-ascii?Q?YgURtxY6IYwT+gzCG2R1e+O0HBBfKnEsBuIUj4jysB37e0RDw87OUm1YfgYv?=
+ =?us-ascii?Q?JCw6YyWk+6kZH9xuSGBzuadDEE6qcvXvN76vTcCDs4ojRj5jjlYhFZ7lcwZp?=
+ =?us-ascii?Q?zGScKnp61ugsdlpzYOxan7R82DUv7akmwO1uEJjWmEuQvgCINYL0qBMHNwgy?=
+ =?us-ascii?Q?mgR1q+AhDVw4SO+QYxmxVutHlca3FI2ksDk9InHOJ4lw3fUecpeBBJ2K4xZW?=
+ =?us-ascii?Q?ie3Qcy7tWwKCPPmcCS8/XGZnjohyCJGMitRgs1Knp87bXmh4posw47DmFv/9?=
+ =?us-ascii?Q?3W6m3a8yYJB68rjg9ACecO6KtXME+49lzWNH1Ed2xgin2wtdY0t9AdhwEeTk?=
+ =?us-ascii?Q?68WYwpiiuQLUG5lkzY2P+3w8?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20210420182838.958151-1-raj.khem@gmail.com> <20210420182838.958151-2-raj.khem@gmail.com>
- <YIs5x0X89EfRXduW@piout.net> <CAMKF1sr4MCyKV-YfEA7FwSwQXbJq7hHMOGuqYokYPgMX+WkQEw@mail.gmail.com>
- <CAMKF1sqSZuBt1BjtbnW4AAXh_i2mAXWqTqbdv5k9eweZuqj4ug@mail.gmail.com>
-In-Reply-To: <CAMKF1sqSZuBt1BjtbnW4AAXh_i2mAXWqTqbdv5k9eweZuqj4ug@mail.gmail.com>
-From: "Michael Halstead" <mhalstead@linuxfoundation.org>
-Date: Fri, 30 Apr 2021 09:50:24 -0700
-Message-ID: <CADfgfoYwUp51w4Rm=rRJJ=jB=XPfWeSow42pzGC3LFGs3mEO6w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] go: Use dl.google.com for SRC_URI
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000288b5005c13369e0"
+X-OriginatorOrg: spinetix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6923ee6f-940f-4631-9a2a-08d90bf97a78
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2021 17:00:37.7353
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4nmdi8FxH1NwU6JklYnbUnppvlFj+ZmqWb3za0E8ZJNUlePxfaX3yAxG1Y5YzOvy/iIvgGr3OnRmHnxG8LqbipuqjvLM4HWr8dv6rmXLOoM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR01MB4666
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DB6PR0102MB26302BA4C54F13FC351F8C0A885E9DB6PR0102MB2630_"
 
---000000000000288b5005c13369e0
-Content-Type: text/plain; charset="UTF-8"
-
-I've removed the following:
-go1.16.3.src.tar.gz ( 0 bytes)
-go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25
-( 20912861 bytes)
-
-I can add a job to check for 0 byte tarballs. Do you think that would be
-helpful?
-
-
-On Thu, Apr 29, 2021 at 4:26 PM Khem Raj <raj.khem@gmail.com> wrote:
-
-> you also want to get rid of *.lock files as well.
->
-> On Thu, Apr 29, 2021 at 4:24 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Adding Miachel as well.
-> >
-> > this seems to be running
-> > buildoptions.SourceMirroring.test_yocto_source_mirror selftest, which
-> > AFAICT should force downloads from yp mirror only
-> > when I check the YP mirror then this tarball exists there
-> >
-> > http://downloads.yoctoproject.org/mirror/sources/go1.16.3.src.tar.gz
-> >
-> > but problem is that its 0 sized.
-> >
-> > Secondly I also see a bad checksum file there
-> >
-> >
-> http://downloads.yoctoproject.org/mirror/sources/go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25
-> >
-> > I am seeing that there are lot of *_bad-checksum_* files in YP src
-> > mirror http://downloads.yoctoproject.org/mirror/sources/
-> >
-> > Michael,
-> >
-> > Can we delete these *_bad-checksum_* files as well as zero-sized
-> > tarballs please?
-> >
-> > On Thu, Apr 29, 2021 at 3:57 PM Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > On 20/04/2021 11:28:38-0700, Khem Raj wrote:
-> > > > golang.org/dl is resolving to this anyway
-> > > >
-> > >
-> > > Unfortunately, this is still an issue on the autobuilders:
-> > >
-> > > ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: The URL: '
-> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main' is not trusted
-> and cannot be used
-> > > ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: Fetcher failure for URL: '
-> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main'. Unable to fetch
-> URL from any source.
-> > > ERROR: Logfile of failure stored in:
-> /home/pokybuild/yocto-worker/a-quick/build/build-st/tmp/work/x86_64-linux/go-cross-core2-32/1.16.3-r0/temp/log.do_fetch.525
-> > > ERROR: go-runtime-1.16.3-r0 do_fetch: The URL: '
-> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main' is not trusted
-> and cannot be used
-> > > ERROR: go-runtime-1.16.3-r0 do_fetch: Fetcher failure for URL: '
-> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main'. Unable to fetch
-> URL from any source.
-> > > ERROR: Logfile of failure stored in:
-> /home/pokybuild/yocto-worker/a-quick/build/build-st/tmp/work/core2-32-poky-linux/go-runtime/1.16.3-r0/temp/log.do_fetch.544
-> > >
-> > > This is fairly reproducible:
-> > >
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1404/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1403/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1402/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1401/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2076/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2074/steps/23/logs/stdio
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2070/steps/23/logs/stdio
-> > >
-> > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >  meta/recipes-devtools/go/go-common.inc | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-devtools/go/go-common.inc
-> b/meta/recipes-devtools/go/go-common.inc
-> > > > index 39a681a712..c368b95b69 100644
-> > > > --- a/meta/recipes-devtools/go/go-common.inc
-> > > > +++ b/meta/recipes-devtools/go/go-common.inc
-> > > > @@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
-> > > >
-> > > >  inherit goarch
-> > > >
-> > > > -SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
-> > > > +SRC_URI = "https://dl.google.com/go/go${PV}.src.tar.gz;name=main"
-> > > >  S = "${WORKDIR}/go"
-> > > >  B = "${S}"
-> > > >  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
-> > > > --
-> > > > 2.31.1
-> > > >
-> > >
-> > > >
-> > > > 
-> > > >
-> > >
-> > >
-> > > --
-> > > Alexandre Belloni, co-owner and COO, Bootlin
-> > > Embedded Linux and Kernel engineering
-> > > https://bootlin.com
->
-
-
--- 
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
-
---000000000000288b5005c13369e0
-Content-Type: text/html; charset="UTF-8"
+--_000_DB6PR0102MB26302BA4C54F13FC351F8C0A885E9DB6PR0102MB2630_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I&#39;ve removed the following:</div>go1.16.3.src.tar=
-.gz ( 0 bytes)<br>go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e38=
-2313bcc2d2eed31dfa706b60a04103ce83a71a25 (=C2=A020912861 bytes)<div><br></d=
-iv><div>I can add a job to check for 0 byte tarballs. Do you think that wou=
-ld be helpful?<br><div><br></div></div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 29, 2021 at 4:26 PM Khem=
- Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">you also w=
-ant to get rid of *.lock files as well.<br>
-<br>
-On Thu, Apr 29, 2021 at 4:24 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
-ail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Adding Miachel as well.<br>
-&gt;<br>
-&gt; this seems to be running<br>
-&gt; buildoptions.SourceMirroring.test_yocto_source_mirror selftest, which=
-<br>
-&gt; AFAICT should force downloads from yp mirror only<br>
-&gt; when I check the YP mirror then this tarball exists there<br>
-&gt;<br>
-&gt; <a href=3D"http://downloads.yoctoproject.org/mirror/sources/go1.16.3.=
-src.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproj=
-ect.org/mirror/sources/go1.16.3.src.tar.gz</a><br>
-&gt;<br>
-&gt; but problem is that its 0 sized.<br>
-&gt;<br>
-&gt; Secondly I also see a bad checksum file there<br>
-&gt;<br>
-&gt; <a href=3D"http://downloads.yoctoproject.org/mirror/sources/go1.16.3.=
-src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04=
-103ce83a71a25" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctop=
-roject.org/mirror/sources/go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca4=
-7a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25</a><br>
-&gt;<br>
-&gt; I am seeing that there are lot of *_bad-checksum_* files in YP src<br=
->
-&gt; mirror <a href=3D"http://downloads.yoctoproject.org/mirror/sources/" =
-rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproject.org/mirr=
-or/sources/</a><br>
-&gt;<br>
-&gt; Michael,<br>
-&gt;<br>
-&gt; Can we delete these *_bad-checksum_* files as well as zero-sized<br>
-&gt; tarballs please?<br>
-&gt;<br>
-&gt; On Thu, Apr 29, 2021 at 3:57 PM Alexandre Belloni<br>
-&gt; &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank=
-">alexandre.belloni@bootlin.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hello,<br>
-&gt; &gt;<br>
-&gt; &gt; On 20/04/2021 11:28:38-0700, Khem Raj wrote:<br>
-&gt; &gt; &gt; <a href=3D"http://golang.org/dl" rel=3D"noreferrer" target=
-=3D"_blank">golang.org/dl</a> is resolving to this anyway<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Unfortunately, this is still an issue on the autobuilders:<br>
-&gt; &gt;<br>
-&gt; &gt; ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: The URL: &#39;<a hr=
-ef=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" rel=3D"nore=
-ferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3.src.tar.gz;name=
-=
-=3Dmain</a>&#39; is not trusted and cannot be used<br>
-&gt; &gt; ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: Fetcher failure for=
- URL: &#39;<a href=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dm=
-ain" rel=3D"noreferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3=
-.src.tar.gz;name=3Dmain</a>&#39;. Unable to fetch URL from any source.<br>
-&gt; &gt; ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worke=
-r/a-quick/build/build-st/tmp/work/x86_64-linux/go-cross-core2-32/1.16.3-r0/=
-temp/log.do_fetch.525<br>
-&gt; &gt; ERROR: go-runtime-1.16.3-r0 do_fetch: The URL: &#39;<a href=3D"h=
-ttps://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" rel=3D"noreferrer"=
- target=3D"_blank">https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain=
-</a>&#39; is not trusted and cannot be used<br>
-&gt; &gt; ERROR: go-runtime-1.16.3-r0 do_fetch: Fetcher failure for URL: &=
-#39;<a href=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" re=
-l=3D"noreferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3.src.ta=
-r.gz;name=3Dmain</a>&#39;. Unable to fetch URL from any source.<br>
-&gt; &gt; ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worke=
-r/a-quick/build/build-st/tmp/work/core2-32-poky-linux/go-runtime/1.16.3-r0/=
-temp/log.do_fetch.544<br>
-&gt; &gt;<br>
-&gt; &gt; This is fairly reproducible:<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1404/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1404/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1403/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1403/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1402/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1402/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1401/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1401/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2076/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2076/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2074/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2074/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2070/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2070/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/go/go-common.inc | 2 +-<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/=
-recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; index 39a681a712..c368b95b69 100644<br>
-&gt; &gt; &gt; --- a/meta/recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; +++ b/meta/recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; @@ -14,7 +14,7 @@ LICENSE =3D &quot;BSD-3-Clause&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 inherit goarch<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -SRC_URI =3D &quot;<a href=3D"https://golang.org/dl/go$%7BP=
-V%7D.src.tar.gz;name=3Dmain" rel=3D"noreferrer" target=3D"_blank">https://g=
-olang.org/dl/go${PV}.src.tar.gz;name=3Dmain</a>&quot;<br>
-&gt; &gt; &gt; +SRC_URI =3D &quot;<a href=3D"https://dl.google.com/go/go$%=
-7BPV%7D.src.tar.gz;name=3Dmain" rel=3D"noreferrer" target=3D"_blank">https:=
-//dl.google.com/go/go${PV}.src.tar.gz;name=3Dmain</a>&quot;<br>
-&gt; &gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/go&quot;<br>
-&gt; &gt; &gt;=C2=A0 B =3D &quot;${S}&quot;<br>
-&gt; &gt; &gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;(?P&lt;pver&gt;\d+(\.\=
-d+)+)\.src\.tar&quot;<br>
-&gt; &gt; &gt; --<br>
-&gt; &gt; &gt; 2.31.1<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; Alexandre Belloni, co-owner and COO, Bootlin<br>
-&gt; &gt; Embedded Linux and Kernel engineering<br>
-&gt; &gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_bl=
-ank">https://bootlin.com</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature"><div dir=3D"ltr">Michael Halstead<div>Linux Fou=
-ndation / Yocto Project</div><div>Systems Operations Engineer</div></div></=
-div>
+Hello,
 
---000000000000288b5005c13369e0--
+I just updated to Yocto 3.1.7 (from 3.1.5) and I got the following warning =
+while building a kernel recipe.
+
+  do_install: Task do_install requested do_package unihash, but it was not =
+available
+
+I tracked this down to OE-Core commit 0c28edf4bf0d2f92bf3a47406041c63acd90b=
+acf ("package.bbclass: hash equivalency and pr service") and it makes sense=
+ since do_package runs after do_install and in dunfell we can find the foll=
+owing in kernel.bbclass
+
+  do_install[prefuncs] +=3D "package_get_auto_pr"
+
+Merging OE-Core commit 36fe4db8ae827a93abe9fce6740459d215411965 ("kernel.bb=
+class: Remove do_install[prefunc] no longer needed") should normally solve =
+this warning by removing the above line, but I do not know if that change i=
+s safe in dunfell.
+
+Could that be merged in? Or is there something else that could be done to a=
+void the warning?
+
+Our build system flags a production build as bad if there is a warning, so =
+this is kind of annoying.
+
+Best,
+
+Diego
+--
+Diego Santa Cruz, PhD
+Technology Architect
+spinetix.com
+
+
+--_000_DB6PR0102MB26302BA4C54F13FC351F8C0A885E9DB6PR0102MB2630_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I just updated to Yocto 3.1.7 (from 3.1.5) and I got=
+ the following warning while building a kernel recipe.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">&nbsp; do_install: Task do_install requested do_pack=
+age unihash, but it was not available<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I tracked this down to OE-Core commit 0c28edf4bf0d2f=
+92bf3a47406041c63acd90bacf (&#8220;package.bbclass: hash equivalency and pr=
+ service&#8221;) and it makes sense since do_package runs after do_install =
+and in dunfell we can find the following in kernel.bbclass<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">&nbsp; do_install[prefuncs] +=3D &quot;package_get_a=
+uto_pr&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Merging OE-Core commit 36fe4db8ae827a93abe9fce674045=
+9d215411965 (&#8220;kernel.bbclass: Remove do_install[prefunc] no longer ne=
+eded&#8221;) should normally solve this warning by removing the above line,=
+ but I do not know if that change is safe in dunfell.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Could that be merged in? Or is there something else =
+that could be done to avoid the warning?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Our build system flags a production build as bad if =
+there is a warning, so this is kind of annoying.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Best,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Diego<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;mso-margin-bottom-a=
+lt:auto"><span style=3D"font-size:9.0pt;font-family:&quot;Arial&quot;,sans-=
+serif">--
+<br>
+<b>Diego Santa Cruz, PhD<br>
+</b><span style=3D"color:gray">Technology Architect<br>
+spinetix.com</span></span><span style=3D"font-size:12.0pt;font-family:&quot=
+;Times New Roman&quot;,serif;color:gray"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_DB6PR0102MB26302BA4C54F13FC351F8C0A885E9DB6PR0102MB2630_--
