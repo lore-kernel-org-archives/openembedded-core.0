@@ -1,122 +1,664 @@
 Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.13415.1619796860531096913
+ by mx.groups.io with SMTP id smtpd.web10.13145.1619796869322739380
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 08:34:20 -0700
+ Fri, 30 Apr 2021 08:34:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KYlI0bCp;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QAIm0sX+;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so1939931pjh.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 08:34:20 -0700 (PDT)
+Received: by mail-pj1-f52.google.com with SMTP id lp8so6574283pjb.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 08:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=74OlB0WdNo2DvfTTETUudKcgZjZbfJPRvlMLw6GW1hc=;
-        b=KYlI0bCpGrd07wJBUsOGkopWvxF6Z4C+CHpdOPpZ+KCFA53RzZHQLx0L6SgTdAd78R
-         nRFpc72fia3ACHihBDb+XhYPN/eBHSOiJGt2rcluHPcUu7WF0gC5P96pKxidhwFlB0N2
-         sDW+J3K8yNyj1HFEDt8YvcRi4WsVU5GGqBdIG0LeeE/eYTuaY3bz+bPfvKU7L7vTmm2a
-         dVoXJEBzccGnVSK4OyjsBz6sY7ydmKwJkSCvTKkziO9xfLWzAKjsmBDJ/UidNwhzHSJo
-         msPfm784xw/knH6J3ushwGn8X+b03oP+8g38mDFBD/Mx/sJWpWvpsDnpXsDtKJpfzxeC
-         iJBg==
+        bh=pqEdAb6DP3mE4+bHXKdseClbUhpl8eLquv9FQjVzSEU=;
+        b=QAIm0sX+/XlROMYlDklHBw9430jpoGNHE3snYp+WHjV9vh3uVbKL5dnt89yIHHFNlJ
+         pG3Vjrty4v7ciVsfJXP67NNJpIREGbanz/hVpOPqQJJ5OdwMB6d0l0rqeQ6iOp1RpVWZ
+         QMeZ7Ub30IabxuGP5reX/8WJoi5YPnDQcKvbDXRN5VL1cujGk3h3qWQdjMsu62vHRqua
+         RT+dPezuwTq5bcMP39AeaRP5pE2brB+2340NKFRiGy1qGIoWxygMcdbPYsE3jK2r7nJE
+         Ps8Evg5msDvVeN4quh5U8W+B9Q5/Sfw8sg0eT9s+YwistfE0bXWMGNtKhijy9tf5HmLA
+         XFrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=74OlB0WdNo2DvfTTETUudKcgZjZbfJPRvlMLw6GW1hc=;
-        b=PuvnC7CbtcP72W+k6LqqOgbqCNdj4duCXBkrgO58lxL/rd12WqpGlfB8wfdCg9upwn
-         pYewUogd5brMHHebg9l6K23KJEAgUsZEJtVcpDVx2UOtZPn6ZY3YlV6biuVQcMZBqsWa
-         ct4xnSsMZnYBQORXjFLv+9KaG5iRlkNZSlmPUN/Ifwvz9MGqac29lYO8C7dbwYft6lAR
-         HO/Tw1pvsTifYWT9//J7LJ7tCqJ6LtWnQIM8yKlXKZ0HnYW8a/x/54zenbcg6ss1/DtG
-         N2hp8paGSshFmGK4Xy8KEeI+bwm2/27jB9iGoJINZtcQrhGecoWaebdo5zrN5wjV4kfT
-         rEAA==
-X-Gm-Message-State: AOAM532kgQipin467q3pl5VPWgWm4w17IAY4cLs4RU+U2LaYwurCKiul
-	eCg7t7Ua2dXZIpsgdLy6y2YdGQhFNxOHDDuM
-X-Google-Smtp-Source: ABdhPJxC9aQI65hGXEecZWsmZ6ywusLlnSCQF9HWv1mRm+vca027iksL7vkzj8oxLm7NzgMxRG/Ryg==
-X-Received: by 2002:a17:90b:110b:: with SMTP id gi11mr15195728pjb.173.1619796859472;
-        Fri, 30 Apr 2021 08:34:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pqEdAb6DP3mE4+bHXKdseClbUhpl8eLquv9FQjVzSEU=;
+        b=Cdej13KHV+JA2TkTyyPngFSfEGgU2vK8Vf3eYNHnu1fUWoLf5lCG5wDA33dWHpbf0z
+         LWfIQqU7iPtB1OpGVrxlzvqXmzVCYTKFtrRuTzMpH//EmFLdwvonxfEt9Yj1w1LkEll8
+         +VbBnPmkmOzUv8Ja1ACn97AKvDdfrU7jgnAy33rzTHiTlQP08BBGtIgtixJD84kUeNYH
+         LbcMKVxtCrb8TtanpiYB94bRqgce5AXOJD8Eia8Qbk8rju0qYQNz9TZ5HclzvSd5FcjF
+         L7Yn8rxK63/qH5WlCicX7w+y1QJkSdqrRaEraky0xrETrz56/TngIEmuYTlBKSTQKgBE
+         vVnQ==
+X-Gm-Message-State: AOAM531akWbvheL22VyB1ere6kYkh7sPQawyEcpLxajOlfrSye988CUO
+	puHvNiQ6Dq16LvJ6VYIiKlxzar8S2W4Ylx9a
+X-Google-Smtp-Source: ABdhPJw4rxvyUgntS8Oiw4XeMtVZjqMJC9tsukMm8qdPtJp1lya857ccxKi2ojz2TJlFqxDRKnXrEA==
+X-Received: by 2002:a17:90b:1d86:: with SMTP id pf6mr5859787pjb.59.1619796868000;
+        Fri, 30 Apr 2021 08:34:28 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id x9sm2900386pfq.197.2021.04.30.08.34.14
+        by smtp.gmail.com with ESMTPSA id x9sm2900386pfq.197.2021.04.30.08.34.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 08:34:19 -0700 (PDT)
+        Fri, 30 Apr 2021 08:34:27 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Fri, 30 Apr 2021 05:33:39 -1000
-Message-Id: <cover.1619796615.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/12] Binutils: Fix CVE-2021-20197
+Date: Fri, 30 Apr 2021 05:33:40 -1000
+Message-Id: <c98f3563937dc55605cc1f09c096f7cd716a78ce.1619796615.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1619796615.git.steve@sakoman.com>
+References: <cover.1619796615.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review this next set of patches for dunfell and have comments back by
-end of day Tuesday.
+From: Vinay Kumar <vinay.m.engg@gmail.com>
 
-Passed a-full on autobuilder:
+Source: git://sourceware.org/git/binutils-gdb.git
+Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=26945
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2087
+Backported upstream commit d3edaa91d4cf7202ec14342410194841e2f67f12 to
+binutils-2.34 source, along with commit id dependencies
+(8e03235147a9e774d3ba084e93c2daaa94d1cec, 365f5fb6d0f0da83817431a275e99e6f6babbe04 and 8b69e61d4be276bb862698aaafddc3e779d23c8f).
 
-The following changes since commit 2cc9e06807026b86038db88c2175c626feadc0be:
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
 
-  linux-yocto/5.4: fix arm defconfig warnings (2021-04-22 06:23:22 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (2):
-  oeqa: tear down oeqa decorators if one of them raises an exception in
-    setup
-  meta/lib/oeqa/core/tests/cases/timeout.py: add a testcase for the
-    previous fix
-
-Diego Sueiro (1):
-  oeqa/selftest/bblayers: Add test case for bitbake-layers
-    layerindex-show-depends
-
-Khem Raj (1):
-  go: Use dl.google.com for SRC_URI
-
-Konrad Weihmann (1):
-  cve-update-db-native: skip on empty cpe23Uri
-
-Marek Vasut (1):
-  linux-firmware: Package RSI 911x WiFi firmware
-
-Reto Schneider (2):
-  license_image.bbclass: Detect broken symlinks
-  license_image.bbclass: Fix symlink to generic license files
-
-Richard Purdie (1):
-  yocto-check-layer: Avoid bug when iterating and autoadding
-    dependencies
-
-Vinay Kumar (1):
-  Binutils: Fix CVE-2021-20197
-
-Zhang Qiang (1):
-  kernel.bbclass: Configuration for environment with HOSTCXX
-
-wangmy (1):
-  go: update SRC_URI to use https protocol
-
- meta/classes/kernel.bbclass                   |   2 +
- meta/classes/license_image.bbclass            |  20 +-
- meta/lib/oeqa/core/case.py                    |   9 +-
- meta/lib/oeqa/core/decorator/oetimeout.py     |   5 +-
- meta/lib/oeqa/core/tests/cases/timeout.py     |  13 +
- meta/lib/oeqa/core/tests/test_decorators.py   |   6 +
- meta/lib/oeqa/selftest/cases/bblayers.py      |   5 +
- .../recipes-core/meta/cve-update-db-native.bb |   7 +-
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../binutils/binutils-2.34.inc                |   1 +
  .../binutils/binutils/CVE-2021-20197.patch    | 572 ++++++++++++++++++
- meta/recipes-devtools/go/go-common.inc        |   2 +-
- .../linux-firmware/linux-firmware_20210208.bb |  11 +
- scripts/yocto-check-layer                     |   3 +
- 13 files changed, 646 insertions(+), 10 deletions(-)
+ 2 files changed, 573 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index f557fe970c..a586faf5ab 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -46,5 +46,6 @@ SRC_URI = "\
+      file://0001-gas-improve-reproducibility-for-stabs-debugging-data.patch \
+      file://CVE-2020-16592.patch \
+      file://CVE-2020-16598.patch \
++     file://CVE-2021-20197.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
+new file mode 100644
+index 0000000000..423814f98d
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-20197.patch
+@@ -0,0 +1,572 @@
++From d3edaa91d4cf7202ec14342410194841e2f67f12 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 26 Feb 2021 11:30:32 +1030
++Subject: [PATCH v2] Reinstate various pieces backed out from smart_rename changes
++
++In the interests of a stable release various last minute smart_rename
++patches were backed out of the 2.36 branch.  The main reason to
++reinstate some of those backed out changes here is to make necessary
++followup fixes to commit 8e03235147a9 simple cherry-picks from
++mainline.  A secondary reason is that ar -M support isn't fixed for
++pr26945 without this patch.
++
++        PR 26945
++        * ar.c: Don't include libbfd.h.
++        (write_archive): Replace xmalloc+strcpy with xstrdup.
++        * arsup.c (temp_name, real_ofd): New static variables.
++        (ar_open): Use make_tempname and bfd_fdopenw.
++        (ar_save): Adjust to suit ar_open changes.
++        * objcopy.c: Don't include libbfd.h.
++        * rename.c: Rename and reorder variables.
++
++(cherry picked from commit 95b91a043aeaeb546d2fea556d84a2de1e917770)
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
++CVE: CVE-2021-20197
++Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
++---
++ bfd/bfd-in2.h      |   2 +
++ bfd/opncls.c       |  33 ++++++++++
++ binutils/ar.c      |  15 +++--
++ binutils/arsup.c   |  37 ++++++++----
++ binutils/bucomm.c  |   4 +-
++ binutils/bucomm.h  |   5 +-
++ binutils/objcopy.c |  37 +++++++-----
++ binutils/rename.c  | 148 +++++++++++----------------------------------
++ 8 files changed, 133 insertions(+), 148 deletions(-)
++
++diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
++index 2e453c50c18..e53f54a8ab7 100644
++--- a/bfd/bfd-in2.h
+++++ b/bfd/bfd-in2.h
++@@ -588,6 +588,8 @@ bfd *bfd_openr (const char *filename, const char *target);
++ 
++ bfd *bfd_fdopenr (const char *filename, const char *target, int fd);
++ 
+++bfd *bfd_fdopenw (const char *filename, const char *target, int fd);
+++
++ bfd *bfd_openstreamr (const char * filename, const char * target,
++     void * stream);
++ 
++diff --git a/bfd/opncls.c b/bfd/opncls.c
++index a03ad51c8fa..f9da97ed710 100644
++--- a/bfd/opncls.c
+++++ b/bfd/opncls.c
++@@ -370,6 +370,39 @@ bfd_fdopenr (const char *filename, const char *target, int fd)
++   return bfd_fopen (filename, target, mode, fd);
++ }
++ 
+++/*
+++FUNCTION
+++	bfd_fdopenw
+++
+++SYNOPSIS
+++	bfd *bfd_fdopenw (const char *filename, const char *target, int fd);
+++
+++DESCRIPTION
+++	<<bfd_fdopenw>> is exactly like <<bfd_fdopenr>> with the exception that
+++	the resulting BFD is suitable for output.
+++*/
+++
+++bfd *
+++bfd_fdopenw (const char *filename, const char *target, int fd)
+++{
+++  bfd *out = bfd_fdopenr (filename, target, fd);
+++
+++  if (out != NULL)
+++    {
+++      if (!bfd_write_p (out))
+++	{
+++	  close (fd);
+++	  _bfd_delete_bfd (out);
+++	  out = NULL;
+++	  bfd_set_error (bfd_error_invalid_operation);
+++	}
+++      else
+++	out->direction = write_direction;
+++    }
+++
+++  return out;
+++}
+++
++ /*
++ FUNCTION
++ 	bfd_openstreamr
++diff --git a/binutils/ar.c b/binutils/ar.c
++index 1057db9980e..c33a11e0d70 100644
++--- a/binutils/ar.c
+++++ b/binutils/ar.c
++@@ -1195,20 +1195,23 @@ write_archive (bfd *iarch)
++   bfd *obfd;
++   char *old_name, *new_name;
++   bfd *contents_head = iarch->archive_next;
+++  int ofd = -1;
++ 
++-  old_name = (char *) xmalloc (strlen (bfd_get_filename (iarch)) + 1);
++-  strcpy (old_name, bfd_get_filename (iarch));
++-  new_name = make_tempname (old_name);
+++  old_name = xstrdup (bfd_get_filename (iarch));
+++  new_name = make_tempname (old_name, &ofd);
++ 
++   if (new_name == NULL)
++     bfd_fatal (_("could not create temporary file whilst writing archive"));
++ 
++   output_filename = new_name;
++ 
++-  obfd = bfd_openw (new_name, bfd_get_target (iarch));
+++  obfd = bfd_fdopenw (new_name, bfd_get_target (iarch), ofd);
++ 
++   if (obfd == NULL)
++-    bfd_fatal (old_name);
+++    {
+++      close (ofd);
+++      bfd_fatal (old_name);
+++    }
++ 
++   output_bfd = obfd;
++ 
++@@ -1246,7 +1249,7 @@ write_archive (bfd *iarch)
++   /* We don't care if this fails; we might be creating the archive.  */
++   bfd_close (iarch);
++ 
++-  if (smart_rename (new_name, old_name, 0) != 0)
+++  if (smart_rename (new_name, old_name, NULL) != 0)
++     xexit (1);
++   free (old_name);
++   free (new_name);
++diff --git a/binutils/arsup.c b/binutils/arsup.c
++index 00967c972cd..b8ae4f7ec1a 100644
++--- a/binutils/arsup.c
+++++ b/binutils/arsup.c
++@@ -42,6 +42,8 @@ extern int deterministic;
++ 
++ static bfd *obfd;
++ static char *real_name;
+++static char *temp_name;
+++static int real_ofd;
++ static FILE *outfile;
++ 
++ static void
++@@ -149,27 +151,24 @@ maybequit (void)
++ void
++ ar_open (char *name, int t)
++ {
++-  char *tname;
++-  const char *bname = lbasename (name);
++-  real_name = name;
+++  real_name = xstrdup (name);
+++  temp_name = make_tempname (real_name, &real_ofd);
++ 
++-  /* Prepend tmp- to the beginning, to avoid file-name clashes after
++-     truncation on filesystems with limited namespaces (DOS).  */
++-  if (asprintf (&tname, "%.*stmp-%s", (int) (bname - name), name, bname) == -1)
+++  if (temp_name == NULL)
++     {
++-      fprintf (stderr, _("%s: Can't allocate memory for temp name (%s)\n"),
+++      fprintf (stderr, _("%s: Can't open temporary file (%s)\n"),
++ 	       program_name, strerror(errno));
++       maybequit ();
++       return;
++     }
++ 
++-  obfd = bfd_openw (tname, NULL);
+++  obfd = bfd_fdopenw (temp_name, NULL, real_ofd);
++ 
++   if (!obfd)
++     {
++       fprintf (stderr,
++ 	       _("%s: Can't open output archive %s\n"),
++-	       program_name,  tname);
+++	       program_name, temp_name);
++ 
++       maybequit ();
++     }
++@@ -344,16 +343,30 @@ ar_save (void)
++     }
++   else
++     {
++-      char *ofilename = xstrdup (bfd_get_filename (obfd));
+++      struct stat target_stat;
++ 
++       if (deterministic > 0)
++         obfd->flags |= BFD_DETERMINISTIC_OUTPUT;
++ 
++       bfd_close (obfd);
++ 
++-      smart_rename (ofilename, real_name, 0);
+++      if (stat (real_name, &target_stat) != 0)
+++	{
+++	  /* The temp file created in ar_open has mode 0600 as per mkstemp.
+++	     Create the real empty output file here so smart_rename will
+++	     update the mode according to the process umask.  */
+++	  obfd = bfd_openw (real_name, NULL);
+++	  if (obfd != NULL)
+++	    {
+++	      bfd_set_format (obfd, bfd_archive);
+++	      bfd_close (obfd);
+++	    }
+++	}
+++
+++      smart_rename (temp_name, real_name, NULL);
++       obfd = 0;
++-      free (ofilename);
+++      free (temp_name);
+++      free (real_name);
++     }
++ }
++ 
++diff --git a/binutils/bucomm.c b/binutils/bucomm.c
++index 9e6a02843e6..53244201f89 100644
++--- a/binutils/bucomm.c
+++++ b/binutils/bucomm.c
++@@ -532,7 +532,7 @@ template_in_dir (const char *path)
++    as FILENAME.  */
++ 
++ char *
++-make_tempname (const char *filename)
+++make_tempname (const char *filename, int *ofd)
++ {
++   char *tmpname = template_in_dir (filename);
++   int fd;
++@@ -550,7 +550,7 @@ make_tempname (const char *filename)
++       free (tmpname);
++       return NULL;
++     }
++-  close (fd);
+++  *ofd = fd;
++   return tmpname;
++ }
++ 
++diff --git a/binutils/bucomm.h b/binutils/bucomm.h
++index d8318343f78..2b164e0af68 100644
++--- a/binutils/bucomm.h
+++++ b/binutils/bucomm.h
++@@ -51,7 +51,7 @@ int display_info (void);
++ 
++ void print_arelt_descr (FILE *, bfd *, bfd_boolean, bfd_boolean);
++ 
++-char *make_tempname (const char *);
+++char *make_tempname (const char *, int *);
++ char *make_tempdir (const char *);
++ 
++ bfd_vma parse_vma (const char *, const char *);
++@@ -71,7 +71,8 @@ extern void print_version (const char *);
++ /* In rename.c.  */
++ extern void set_times (const char *, const struct stat *);
++ 
++-extern int smart_rename (const char *, const char *, int);
+++extern int smart_rename (const char *, const char *, struct stat *);
+++
++ 
++ /* In libiberty.  */
++ void *xmalloc (size_t);
++diff --git a/binutils/objcopy.c b/binutils/objcopy.c
++index 212e25144e6..5ccbd926610 100644
++--- a/binutils/objcopy.c
+++++ b/binutils/objcopy.c
++@@ -3682,7 +3682,7 @@ set_long_section_mode (bfd *output_bfd, bfd *input_bfd, enum long_section_name_h
++ /* The top-level control.  */
++ 
++ static void
++-copy_file (const char *input_filename, const char *output_filename,
+++copy_file (const char *input_filename, const char *output_filename, int ofd,
++ 	   const char *input_target,   const char *output_target,
++ 	   const bfd_arch_info_type *input_arch)
++ {
++@@ -3757,9 +3757,14 @@ copy_file (const char *input_filename, const char *output_filename,
++       else
++ 	force_output_target = TRUE;
++ 
++-      obfd = bfd_openw (output_filename, output_target);
+++      if (ofd >= 0)
+++	obfd = bfd_fdopenw (output_filename, output_target, ofd);
+++      else
+++	obfd = bfd_openw (output_filename, output_target);
+++
++       if (obfd == NULL)
++ 	{
+++	  close (ofd);
++ 	  bfd_nonfatal_message (output_filename, NULL, NULL, NULL);
++ 	  status = 1;
++ 	  return;
++@@ -3787,13 +3792,19 @@ copy_file (const char *input_filename, const char *output_filename,
++       if (output_target == NULL)
++ 	output_target = bfd_get_target (ibfd);
++ 
++-      obfd = bfd_openw (output_filename, output_target);
+++      if (ofd >= 0)
+++	obfd = bfd_fdopenw (output_filename, output_target, ofd);
+++      else
+++	obfd = bfd_openw (output_filename, output_target);
+++
++       if (obfd == NULL)
++  	{
+++	  close (ofd);
++  	  bfd_nonfatal_message (output_filename, NULL, NULL, NULL);
++  	  status = 1;
++  	  return;
++  	}
+++
++       /* This is a no-op on non-Coff targets.  */
++       set_long_section_mode (obfd, ibfd, long_section_names);
++ 
++@@ -4746,6 +4757,7 @@ strip_main (int argc, char *argv[])
++       int hold_status = status;
++       struct stat statbuf;
++       char *tmpname;
+++      int tmpfd = -1;
++ 
++       if (get_file_size (argv[i]) < 1)
++ 	{
++@@ -4760,7 +4772,7 @@ strip_main (int argc, char *argv[])
++ 
++       if (output_file == NULL
++ 	  || filename_cmp (argv[i], output_file) == 0)
++-	tmpname = make_tempname (argv[i]);
+++	tmpname = make_tempname (argv[i], &tmpfd);
++       else
++ 	tmpname = output_file;
++ 
++@@ -4773,15 +4785,13 @@ strip_main (int argc, char *argv[])
++ 	}
++ 
++       status = 0;
++-      copy_file (argv[i], tmpname, input_target, output_target, NULL);
+++      copy_file (argv[i], tmpname, tmpfd, input_target, output_target, NULL);
++       if (status == 0)
++ 	{
++-	  if (preserve_dates)
++-	    set_times (tmpname, &statbuf);
++ 	  if (output_file != tmpname)
++ 	    status = (smart_rename (tmpname,
++ 				    output_file ? output_file : argv[i],
++-				    preserve_dates) != 0);
+++				    preserve_dates ? &statbuf : NULL) != 0);
++ 	  if (status == 0)
++ 	    status = hold_status;
++ 	}
++@@ -4993,7 +5003,7 @@ copy_main (int argc, char *argv[])
++   bfd_boolean formats_info = FALSE;
++   bfd_boolean use_globalize = FALSE;
++   bfd_boolean use_keep_global = FALSE;
++-  int c;
+++  int c, tmpfd = -1;
++   struct stat statbuf;
++   const bfd_arch_info_type *input_arch = NULL;
++ 
++@@ -5839,7 +5849,7 @@ copy_main (int argc, char *argv[])
++      are the same, then create a temp and rename the result into the input.  */
++   if (output_filename == NULL
++       || filename_cmp (input_filename, output_filename) == 0)
++-    tmpname = make_tempname (input_filename);
+++    tmpname = make_tempname (input_filename, &tmpfd);
++   else
++     tmpname = output_filename;
++ 
++@@ -5847,14 +5857,13 @@ copy_main (int argc, char *argv[])
++     fatal (_("warning: could not create temporary file whilst copying '%s', (error: %s)"),
++ 	   input_filename, strerror (errno));
++ 
++-  copy_file (input_filename, tmpname, input_target, output_target, input_arch);
+++  copy_file (input_filename, tmpname, tmpfd, input_target, output_target,
+++	     input_arch);
++   if (status == 0)
++     {
++-      if (preserve_dates)
++-	set_times (tmpname, &statbuf);
++       if (tmpname != output_filename)
++ 	status = (smart_rename (tmpname, input_filename,
++-				preserve_dates) != 0);
+++				preserve_dates ? &statbuf : NULL) != 0);
++     }
++   else
++     unlink_if_ordinary (tmpname);
++diff --git a/binutils/rename.c b/binutils/rename.c
++index bf3b68d0462..07d44d0f314 100644
++--- a/binutils/rename.c
+++++ b/binutils/rename.c
++@@ -24,14 +24,9 @@
++ 
++ #ifdef HAVE_GOOD_UTIME_H
++ #include <utime.h>
++-#else /* ! HAVE_GOOD_UTIME_H */
++-#ifdef HAVE_UTIMES
+++#elif defined HAVE_UTIMES
++ #include <sys/time.h>
++-#endif /* HAVE_UTIMES */
++-#endif /* ! HAVE_GOOD_UTIME_H */
++-
++-#if ! defined (_WIN32) || defined (__CYGWIN32__)
++-static int simple_copy (const char *, const char *);
+++#endif
++ 
++ /* The number of bytes to copy at once.  */
++ #define COPY_BUF 8192
++@@ -82,7 +77,6 @@ simple_copy (const char *from, const char *to)
++     }
++   return 0;
++ }
++-#endif /* __CYGWIN32__ or not _WIN32 */
++ 
++ /* Set the times of the file DESTINATION to be the same as those in
++    STATBUF.  */
++@@ -91,122 +85,52 @@ void
++ set_times (const char *destination, const struct stat *statbuf)
++ {
++   int result;
++-
++-  {
++ #ifdef HAVE_GOOD_UTIME_H
++-    struct utimbuf tb;
++-
++-    tb.actime = statbuf->st_atime;
++-    tb.modtime = statbuf->st_mtime;
++-    result = utime (destination, &tb);
++-#else /* ! HAVE_GOOD_UTIME_H */
++-#ifndef HAVE_UTIMES
++-    long tb[2];
++-
++-    tb[0] = statbuf->st_atime;
++-    tb[1] = statbuf->st_mtime;
++-    result = utime (destination, tb);
++-#else /* HAVE_UTIMES */
++-    struct timeval tv[2];
++-
++-    tv[0].tv_sec = statbuf->st_atime;
++-    tv[0].tv_usec = 0;
++-    tv[1].tv_sec = statbuf->st_mtime;
++-    tv[1].tv_usec = 0;
++-    result = utimes (destination, tv);
++-#endif /* HAVE_UTIMES */
++-#endif /* ! HAVE_GOOD_UTIME_H */
++-  }
+++  struct utimbuf tb;
+++
+++  tb.actime = statbuf->st_atime;
+++  tb.modtime = statbuf->st_mtime;
+++  result = utime (destination, &tb);
+++#elif defined HAVE_UTIMES
+++  struct timeval tv[2];
+++
+++  tv[0].tv_sec = statbuf->st_atime;
+++  tv[0].tv_usec = 0;
+++  tv[1].tv_sec = statbuf->st_mtime;
+++  tv[1].tv_usec = 0;
+++  result = utimes (destination, tv);
+++#else
+++  long tb[2];
+++
+++  tb[0] = statbuf->st_atime;
+++  tb[1] = statbuf->st_mtime;
+++  result = utime (destination, tb);
+++#endif
++ 
++   if (result != 0)
++     non_fatal (_("%s: cannot set time: %s"), destination, strerror (errno));
++ }
++ 
++-#ifndef S_ISLNK
++-#ifdef S_IFLNK
++-#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
++-#else
++-#define S_ISLNK(m) 0
++-#define lstat stat
++-#endif
++-#endif
++-
++-/* Rename FROM to TO, copying if TO is a link.
++-   Return 0 if ok, -1 if error.  */
+++/* Copy FROM to TO.  TARGET_STAT has the file status that, if non-NULL,
+++   is used to fix up timestamps.  Return 0 if ok, -1 if error.
+++   At one time this function renamed files, but file permissions are
+++   tricky to update given the number of different schemes used by
+++   various systems.  So now we just copy.  */
++ 
++ int
++-smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNUSED)
+++smart_rename (const char *from, const char *to,
+++	      struct stat *target_stat)
++ {
++-  bfd_boolean exists;
++-  struct stat s;
++-  int ret = 0;
++-
++-  exists = lstat (to, &s) == 0;
++-
++-#if defined (_WIN32) && !defined (__CYGWIN32__)
++-  /* Win32, unlike unix, will not erase `to' in `rename(from, to)' but
++-     fail instead.  Also, chown is not present.  */
+++  int ret;
++ 
++-  if (exists)
++-    remove (to);
++-
++-  ret = rename (from, to);
+++  ret = simple_copy (from, to);
++   if (ret != 0)
++-    {
++-      /* We have to clean up here.  */
++-      non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
++-      unlink (from);
++-    }
++-#else
++-  /* Use rename only if TO is not a symbolic link and has
++-     only one hard link, and we have permission to write to it.  */
++-  if (! exists
++-      || (!S_ISLNK (s.st_mode)
++-	  && S_ISREG (s.st_mode)
++-	  && (s.st_mode & S_IWUSR)
++-	  && s.st_nlink == 1)
++-      )
++-    {
++-      ret = rename (from, to);
++-      if (ret == 0)
++-	{
++-	  if (exists)
++-	    {
++-	      /* Try to preserve the permission bits and ownership of
++-		 TO.  First get the mode right except for the setuid
++-		 bit.  Then change the ownership.  Then fix the setuid
++-		 bit.  We do the chmod before the chown because if the
++-		 chown succeeds, and we are a normal user, we won't be
++-		 able to do the chmod afterward.  We don't bother to
++-		 fix the setuid bit first because that might introduce
++-		 a fleeting security problem, and because the chown
++-		 will clear the setuid bit anyhow.  We only fix the
++-		 setuid bit if the chown succeeds, because we don't
++-		 want to introduce an unexpected setuid file owned by
++-		 the user running objcopy.  */
++-	      chmod (to, s.st_mode & 0777);
++-	      if (chown (to, s.st_uid, s.st_gid) >= 0)
++-		chmod (to, s.st_mode & 07777);
++-	    }
++-	}
++-      else
++-	{
++-	  /* We have to clean up here.  */
++-	  non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
++-	  unlink (from);
++-	}
++-    }
++-  else
++-    {
++-      ret = simple_copy (from, to);
++-      if (ret != 0)
++-	non_fatal (_("unable to copy file '%s'; reason: %s"), to, strerror (errno));
+++    non_fatal (_("unable to copy file '%s'; reason: %s"),
+++	       to, strerror (errno));
++ 
++-      if (preserve_dates)
++-	set_times (to, &s);
++-      unlink (from);
++-    }
++-#endif /* _WIN32 && !__CYGWIN32__ */
+++  if (target_stat != NULL)
+++    set_times (to, target_stat);
+++  unlink (from);
++ 
++   return ret;
++ }
++-- 
++2.17.1
++
 -- 
 2.25.1
 
