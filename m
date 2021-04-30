@@ -1,364 +1,115 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web08.822.1619804094421007443
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web08.1644.1619808250080287289
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 10:34:54 -0700
+ Fri, 30 Apr 2021 11:44:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P8GAUXx/;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id n22so12603408qtk.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 10:34:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AzUwGX/d;
+ spf=pass (domain: gmail.com, ip: 209.85.219.172, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f172.google.com with SMTP id t94so31135137ybi.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 11:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z3UD5gyw1/HK6Q3Bm2SUQfaIXxyZj3/+2BEY5mzbxNk=;
-        b=P8GAUXx/wCSxgZyZQRQROLe3HPU9mnjv6MEPGYXydV5MfcIw3MxVs69gNQbRkH2Ez2
-         wZ5ndErRZy0Q+GPBXiWqIUF31wTDGNG6YpXmcD1tgznr5TO06X9Sv8fjTRkLst7a7rHA
-         nN8LPzS+iGiZKAibKvivg1dWZ81RpylTS80ULBHAs8D+jc8pPxNUSnO28P22X9kqD78E
-         HEUkVt33WnjpObOJqR8SZxPj/pdMdik4EzmjPUNyJiRo7P+vk61bcP9Hz8ehbdG+e2sj
-         YWBpXynBmsm1CSWEgKEb1HR4ZtgeJz7zFPf+yguYkXl3mLF2nBxqrQF1pIWuP25vC3ig
-         TWRg==
+         :cc:content-transfer-encoding;
+        bh=XV2bgXeeRqUX8DZlFumyek8xOPvd/7GaCCOocW9ATxc=;
+        b=AzUwGX/dc1QIck+qP3T2os9m5/KHKMg+3QMe8BIBXhfe1J8R+TxjigSt/+jHoaH63Q
+         T3d5oDdFs05ZrEQViKpylr6J1jpe48v7f+RuA5CnQ6Duz+g3X5asq7zvihVIH33bdSAc
+         GMLCPnUqHUGOmvxBUg8GLvlM72htg4Pe5p6panA+Ex/7VFHdHgN9fsZuhXhkP89RhT5C
+         odj4x7eN/L9RL1binm7i32QsxZjHElNHEHCsAcdCUGA6p5n0ZYjZg9yKOWsDYRqPVgnT
+         MBSyT3JPAZ+rbW36m1DLZhnFne0aTlEvqcbYBICM1DU3icCY8ms/P5FqABEYMENYf4EY
+         r7uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z3UD5gyw1/HK6Q3Bm2SUQfaIXxyZj3/+2BEY5mzbxNk=;
-        b=kzK5CEPVRAstgxcgHAY2KjoXbyQyHG4ZJpDU+e8nWCvW1FwOAR5RN51QF/Py+UlYFO
-         3ZwVaz4XajWg3dmpJylZp0xEsswuHxk1FZGa+JQOHlBtXgN4Fqg3y8RYFrSxwx99PhIr
-         QKRRFAJ2CNDzwwJ5FyeLubqVFD4aQne2MV35jCoY0BtRr9aL6AQC4EtLF9Xj4OQh8lDm
-         +1pGfjfeKrQ6KyTRNB9ytOygKUNcj5vYy+66hCvcvT8FZOVzXh2sNokjN5K1CO2c/Eey
-         k4hw4mkAxxt5zmylnplFuvBpshE3ngqQ0UBZeVBsdR57WAeCUVEn4CHTW2QdyT1RjBCW
-         u9tA==
-X-Gm-Message-State: AOAM533nPN7tJ1JqFc4d+144yZdsQRBGTmEkeCTs+iVmslhsauHs+dwb
-	7mFdNqV/uay0QznCbdmScM+xWOGwA7oQgNr9Nxg=
-X-Google-Smtp-Source: ABdhPJwVP69L4nIS3jIrm9Qjm2kLa11rXrGh4iNj0Yjfg9uRgaFEFB/mPpXi+HJ8xqGh6F0uioYPcYXE/9LWoO/vg8I=
-X-Received: by 2002:ac8:5cc4:: with SMTP id s4mr5423988qta.214.1619804093425;
- Fri, 30 Apr 2021 10:34:53 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=XV2bgXeeRqUX8DZlFumyek8xOPvd/7GaCCOocW9ATxc=;
+        b=tg9EX6KPz9sJLe6KoCnRKy2rFr0BZuzeuIrF2ubGbxPaA0LkIa1WpoTHQ8Ub3QugTP
+         nP2N0x68oQkvCR/K57Slg14HrehD+QpuIvRzkCcPTqng1EdAhX1JOZklqLCTsVDa2Yb1
+         zwGCv11rC8mMBt3u3lepCCDl+PGZ1ulXrfpvxARHRXAKo3J4J4SbahWt/bTYfyUKdUTy
+         /daARJYhlZFqtouY57MrRqWtIpZN88FtTikxB0K9bKQH1fzR4G9+ZSGmE72NLUNLHRsS
+         0tE50rG0N/H1khv0wPhO5DgMJ7M+8Ck0q2xQ/qH4LWGPJwfrtBRJ2a+zXdLYsHXTm6/8
+         Q0/Q==
+X-Gm-Message-State: AOAM531e/sq7WQleEJOuATOaPoTXBJ5VBsyw2Phk4gKG9PKsA/xDmHFP
+	q1n632ojA2tZG7nl6GqGrlertLltH/I6TOnqNts=
+X-Google-Smtp-Source: ABdhPJyUA+78dKuc69L43hinhJkQVHxt99tZZliLVcBslbP/wi42MFfY92hN4alh30AvJ8viKIR1q5en9IhbeWgUNh8=
+X-Received: by 2002:a25:bc89:: with SMTP id e9mr8837563ybk.97.1619808249328;
+ Fri, 30 Apr 2021 11:44:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210420182838.958151-1-raj.khem@gmail.com> <20210420182838.958151-2-raj.khem@gmail.com>
- <YIs5x0X89EfRXduW@piout.net> <CAMKF1sr4MCyKV-YfEA7FwSwQXbJq7hHMOGuqYokYPgMX+WkQEw@mail.gmail.com>
- <CAMKF1sqSZuBt1BjtbnW4AAXh_i2mAXWqTqbdv5k9eweZuqj4ug@mail.gmail.com> <CADfgfoYwUp51w4Rm=rRJJ=jB=XPfWeSow42pzGC3LFGs3mEO6w@mail.gmail.com>
-In-Reply-To: <CADfgfoYwUp51w4Rm=rRJJ=jB=XPfWeSow42pzGC3LFGs3mEO6w@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 30 Apr 2021 10:34:41 -0700
-Message-ID: <CAMKF1srnbw6__=7X12PQaopLWvcUg7phD5wph0m_xMrEdpzEbg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] go: Use dl.google.com for SRC_URI
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009830c705c134078f"
-
---0000000000009830c705c134078f
+References: <DB6PR0102MB26302BA4C54F13FC351F8C0A885E9@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+In-Reply-To: <DB6PR0102MB26302BA4C54F13FC351F8C0A885E9@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Fri, 30 Apr 2021 08:43:57 -1000
+Message-ID: <CAGDS+nk51u31+-NR2k1u-y375RL0TyCEkm9L=7Va7eQcuRQwCA@mail.gmail.com>
+Subject: Re: [OE-core] Unihash warning building kernels in Yocto 3.1.7
+To: diego.santacruz@spinetix.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Mark Hatle <mark.hatle@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Apr 30, 2021 at 9:50 AM Michael Halstead <
-mhalstead@linuxfoundation.org> wrote:
-
-> I've removed the following:
-> go1.16.3.src.tar.gz ( 0 bytes)
-> go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25
-> ( 20912861 bytes)
->
-> I can add a job to check for 0 byte tarballs. Do you think that would be
-> helpful?
->
-
-Yes it will be very helpful and also remove the bad-checksum files too they
-are bad downloads of corrupt tarballs
-
->
->
->
-> On Thu, Apr 29, 2021 at 4:26 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->> you also want to get rid of *.lock files as well.
->>
->> On Thu, Apr 29, 2021 at 4:24 PM Khem Raj <raj.khem@gmail.com> wrote:
->> >
->> > Adding Miachel as well.
->> >
->> > this seems to be running
->> > buildoptions.SourceMirroring.test_yocto_source_mirror selftest, which
->> > AFAICT should force downloads from yp mirror only
->> > when I check the YP mirror then this tarball exists there
->> >
->> > http://downloads.yoctoproject.org/mirror/sources/go1.16.3.src.tar.gz
->> >
->> > but problem is that its 0 sized.
->> >
->> > Secondly I also see a bad checksum file there
->> >
->> >
->> http://downloads.yoctoproject.org/mirror/sources/go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25
->> >
->> > I am seeing that there are lot of *_bad-checksum_* files in YP src
->> > mirror http://downloads.yoctoproject.org/mirror/sources/
->> >
->> > Michael,
->> >
->> > Can we delete these *_bad-checksum_* files as well as zero-sized
->> > tarballs please?
->> >
->> > On Thu, Apr 29, 2021 at 3:57 PM Alexandre Belloni
->> > <alexandre.belloni@bootlin.com> wrote:
->> > >
->> > > Hello,
->> > >
->> > > On 20/04/2021 11:28:38-0700, Khem Raj wrote:
->> > > > golang.org/dl is resolving to this anyway
->> > > >
->> > >
->> > > Unfortunately, this is still an issue on the autobuilders:
->> > >
->> > > ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: The URL: '
->> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main' is not trusted
->> and cannot be used
->> > > ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: Fetcher failure for URL:
->> 'https://dl.google.com/go/go1.16.3.src.tar.gz;name=main'. Unable to
->> fetch URL from any source.
->> > > ERROR: Logfile of failure stored in:
->> /home/pokybuild/yocto-worker/a-quick/build/build-st/tmp/work/x86_64-linux/go-cross-core2-32/1.16.3-r0/temp/log.do_fetch.525
->> > > ERROR: go-runtime-1.16.3-r0 do_fetch: The URL: '
->> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main' is not trusted
->> and cannot be used
->> > > ERROR: go-runtime-1.16.3-r0 do_fetch: Fetcher failure for URL: '
->> https://dl.google.com/go/go1.16.3.src.tar.gz;name=main'. Unable to fetch
->> URL from any source.
->> > > ERROR: Logfile of failure stored in:
->> /home/pokybuild/yocto-worker/a-quick/build/build-st/tmp/work/core2-32-poky-linux/go-runtime/1.16.3-r0/temp/log.do_fetch.544
->> > >
->> > > This is fairly reproducible:
->> > >
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1404/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1403/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1402/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1401/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2076/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2074/steps/23/logs/stdio
->> > >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2070/steps/23/logs/stdio
->> > >
->> > >
->> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > > > ---
->> > > >  meta/recipes-devtools/go/go-common.inc | 2 +-
->> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
->> > > >
->> > > > diff --git a/meta/recipes-devtools/go/go-common.inc
->> b/meta/recipes-devtools/go/go-common.inc
->> > > > index 39a681a712..c368b95b69 100644
->> > > > --- a/meta/recipes-devtools/go/go-common.inc
->> > > > +++ b/meta/recipes-devtools/go/go-common.inc
->> > > > @@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
->> > > >
->> > > >  inherit goarch
->> > > >
->> > > > -SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
->> > > > +SRC_URI = "https://dl.google.com/go/go${PV}.src.tar.gz;name=main"
->> > > >  S = "${WORKDIR}/go"
->> > > >  B = "${S}"
->> > > >  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
->> > > > --
->> > > > 2.31.1
->> > > >
->> > >
->> > > >
->> > > > 
->> > > >
->> > >
->> > >
->> > > --
->> > > Alexandre Belloni, co-owner and COO, Bootlin
->> > > Embedded Linux and Kernel engineering
->> > > https://bootlin.com
->>
->
->
-> --
-> Michael Halstead
-> Linux Foundation / Yocto Project
-> Systems Operations Engineer
->
-
---0000000000009830c705c134078f
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Apr 30, 2021 at 9:50 AM Michael Halstead &lt;<a hr=
-ef=3D"mailto:mhalstead@linuxfoundation.org">mhalstead@linuxfoundation.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div=
->I&#39;ve removed the following:</div>go1.16.3.src.tar.gz ( 0 bytes)<br>go1=
-.16.3.src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706=
-b60a04103ce83a71a25 (=C2=A020912861 bytes)<div><br></div><div>I can add a j=
-ob to check for 0 byte tarballs. Do you think that would be helpful?</div><=
-/div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes it will=
- be very helpful and also remove the bad-checksum files too they are bad do=
-wnloads of corrupt tarballs=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-dir=3D"ltr"><div dir=3D"auto"><br><div><br></div></div></div><br><div class=
-=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 29, 202=
-1 at 4:26 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_=
-blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">you also want to get rid of *.lock files as well.<=
-br>
-<br>
-On Thu, Apr 29, 2021 at 4:24 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gm=
-ail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Adding Miachel as well.<br>
-&gt;<br>
-&gt; this seems to be running<br>
-&gt; buildoptions.SourceMirroring.test_yocto_source_mirror selftest, which=
-<br>
-&gt; AFAICT should force downloads from yp mirror only<br>
-&gt; when I check the YP mirror then this tarball exists there<br>
-&gt;<br>
-&gt; <a href=3D"http://downloads.yoctoproject.org/mirror/sources/go1.16.3.=
-src.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproj=
-ect.org/mirror/sources/go1.16.3.src.tar.gz</a><br>
-&gt;<br>
-&gt; but problem is that its 0 sized.<br>
-&gt;<br>
-&gt; Secondly I also see a bad checksum file there<br>
-&gt;<br>
-&gt; <a href=3D"http://downloads.yoctoproject.org/mirror/sources/go1.16.3.=
-src.tar.gz_bad-checksum_b298d29de9236ca47a023e382313bcc2d2eed31dfa706b60a04=
-103ce83a71a25" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctop=
-roject.org/mirror/sources/go1.16.3.src.tar.gz_bad-checksum_b298d29de9236ca4=
-7a023e382313bcc2d2eed31dfa706b60a04103ce83a71a25</a><br>
-&gt;<br>
-&gt; I am seeing that there are lot of *_bad-checksum_* files in YP src<br=
+On Fri, Apr 30, 2021 at 7:00 AM Diego Santa Cruz via
+lists.openembedded.org
+<diego.santacruz=3Dspinetix.com@lists.openembedded.org> wrote:
 >
-&gt; mirror <a href=3D"http://downloads.yoctoproject.org/mirror/sources/" =
-rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproject.org/mirr=
-or/sources/</a><br>
-&gt;<br>
-&gt; Michael,<br>
-&gt;<br>
-&gt; Can we delete these *_bad-checksum_* files as well as zero-sized<br>
-&gt; tarballs please?<br>
-&gt;<br>
-&gt; On Thu, Apr 29, 2021 at 3:57 PM Alexandre Belloni<br>
-&gt; &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank=
-">alexandre.belloni@bootlin.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Hello,<br>
-&gt; &gt;<br>
-&gt; &gt; On 20/04/2021 11:28:38-0700, Khem Raj wrote:<br>
-&gt; &gt; &gt; <a href=3D"http://golang.org/dl" rel=3D"noreferrer" target=
-=3D"_blank">golang.org/dl</a> is resolving to this anyway<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Unfortunately, this is still an issue on the autobuilders:<br>
-&gt; &gt;<br>
-&gt; &gt; ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: The URL: &#39;<a hr=
-ef=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" rel=3D"nore=
-ferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3.src.tar.gz;name=
-=
-=3Dmain</a>&#39; is not trusted and cannot be used<br>
-&gt; &gt; ERROR: go-cross-core2-32-1.16.3-r0 do_fetch: Fetcher failure for=
- URL: &#39;<a href=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dm=
-ain" rel=3D"noreferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3=
-.src.tar.gz;name=3Dmain</a>&#39;. Unable to fetch URL from any source.<br>
-&gt; &gt; ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worke=
-r/a-quick/build/build-st/tmp/work/x86_64-linux/go-cross-core2-32/1.16.3-r0/=
-temp/log.do_fetch.525<br>
-&gt; &gt; ERROR: go-runtime-1.16.3-r0 do_fetch: The URL: &#39;<a href=3D"h=
-ttps://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" rel=3D"noreferrer"=
- target=3D"_blank">https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain=
-</a>&#39; is not trusted and cannot be used<br>
-&gt; &gt; ERROR: go-runtime-1.16.3-r0 do_fetch: Fetcher failure for URL: &=
-#39;<a href=3D"https://dl.google.com/go/go1.16.3.src.tar.gz;name=3Dmain" re=
-l=3D"noreferrer" target=3D"_blank">https://dl.google.com/go/go1.16.3.src.ta=
-r.gz;name=3Dmain</a>&#39;. Unable to fetch URL from any source.<br>
-&gt; &gt; ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worke=
-r/a-quick/build/build-st/tmp/work/core2-32-poky-linux/go-runtime/1.16.3-r0/=
-temp/log.do_fetch.544<br>
-&gt; &gt;<br>
-&gt; &gt; This is fairly reproducible:<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1404/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1404/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1403/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1403/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1402/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1402/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/85/builds/1401/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1401/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2076/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2076/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2074/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2074/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builde=
-rs/83/builds/2070/steps/23/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/2070/ste=
-ps/23/logs/stdio</a><br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/go/go-common.inc | 2 +-<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/=
-recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; index 39a681a712..c368b95b69 100644<br>
-&gt; &gt; &gt; --- a/meta/recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; +++ b/meta/recipes-devtools/go/go-common.inc<br>
-&gt; &gt; &gt; @@ -14,7 +14,7 @@ LICENSE =3D &quot;BSD-3-Clause&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 inherit goarch<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -SRC_URI =3D &quot;<a href=3D"https://golang.org/dl/go$%7BP=
-V%7D.src.tar.gz;name=3Dmain" rel=3D"noreferrer" target=3D"_blank">https://g=
-olang.org/dl/go${PV}.src.tar.gz;name=3Dmain</a>&quot;<br>
-&gt; &gt; &gt; +SRC_URI =3D &quot;<a href=3D"https://dl.google.com/go/go$%=
-7BPV%7D.src.tar.gz;name=3Dmain" rel=3D"noreferrer" target=3D"_blank">https:=
-//dl.google.com/go/go${PV}.src.tar.gz;name=3Dmain</a>&quot;<br>
-&gt; &gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/go&quot;<br>
-&gt; &gt; &gt;=C2=A0 B =3D &quot;${S}&quot;<br>
-&gt; &gt; &gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;(?P&lt;pver&gt;\d+(\.\=
-d+)+)\.src\.tar&quot;<br>
-&gt; &gt; &gt; --<br>
-&gt; &gt; &gt; 2.31.1<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; Alexandre Belloni, co-owner and COO, Bootlin<br>
-&gt; &gt; Embedded Linux and Kernel engineering<br>
-&gt; &gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_bl=
-ank">https://bootlin.com</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-"><div dir=3D"ltr">Michael Halstead<div>Linux Foundation / Yocto Project</d=
-iv><div>Systems Operations Engineer</div></div></div>
-</blockquote></div></div>
+> Hello,
+>
+>
+>
+> I just updated to Yocto 3.1.7 (from 3.1.5) and I got the following warni=
+ng while building a kernel recipe.
+>
+>
+>
+>   do_install: Task do_install requested do_package unihash, but it was n=
+ot available
+>
+>
+>
+> I tracked this down to OE-Core commit 0c28edf4bf0d2f92bf3a47406041c63acd=
+90bacf (=E2=80=9Cpackage.bbclass: hash equivalency and pr service=E2=80=9D)=
+ and it makes sense since do_package runs after do_install and in dunfell w=
+e can find the following in kernel.bbclass
+>
+>
+>
+>   do_install[prefuncs] +=3D "package_get_auto_pr"
+>
+>
+>
+> Merging OE-Core commit 36fe4db8ae827a93abe9fce6740459d215411965 (=E2=80=
+=9Ckernel.bbclass: Remove do_install[prefunc] no longer needed=E2=80=9D) s=
+hould normally solve this warning by removing the above line, but I do not =
+know if that change is safe in dunfell.
+>
+>
+>
+> Could that be merged in? Or is there something else that could be done t=
+o avoid the warning?
 
---0000000000009830c705c134078f--
+I can do some testing with that patch.  cc-ing Mark to see if he has
+any comments since he is the patch author.
+
+Steve
+
+
+> Our build system flags a production build as bad if there is a warning, =
+so this is kind of annoying.
+>
+>
+>
+> Best,
+>
+>
+>
+> Diego
+>
+> --
+> Diego Santa Cruz, PhD
+> Technology Architect
+> spinetix.com
+>
+>
+>
+>
+>=20
+>
