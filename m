@@ -1,120 +1,193 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
- by mx.groups.io with SMTP id smtpd.web09.1692.1619808352375244599
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.3871.1619815362129463390
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 11:45:52 -0700
+ Fri, 30 Apr 2021 13:42:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LQ9GO4Yo;
- spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f179.google.com with SMTP id b131so8883156ybg.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 11:45:52 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=n1kvDYzH;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hk1RX/rWgEgKBfObm/lVD2dMcCMgPJFJOCiTPSdoltU=;
-        b=LQ9GO4YoeHbZByBm5zAZ/bRTaUh9hTuEtODI6keFrXyecJgVaCP0yEh10beCL8UORv
-         81hgpYdYboKBdqFys19jW07C//uWC5lc2Z+saN6qNrtZRVXUs4ain/cd6XJ/TTYDxcTO
-         akMyt6VKeLwOp6twwHNkqiFXzyVGlwvmPRB46Yl/JqLb1XTp/qlrKSKlUlTyUKJJWkq+
-         ZFlF5evdQhbziJPQGxQKjDKQOQ8M+FozkHE03gPWNpxSxLk2HSllzKzuseisHnihzuWb
-         sDk4jYi8CefpnylwB9qJdIje6iSm4B0SCCIDFu5QTHBgPi33qmQxiyHO7vixSgDCTqrr
-         9DAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hk1RX/rWgEgKBfObm/lVD2dMcCMgPJFJOCiTPSdoltU=;
-        b=QX9uiMLQkocCXZ+L7GaSqartZ4I0aS4ejhEKtx7TrtlNLh8MdxUur2Km2lO8/weQXG
-         1j29mpkMHTCVgQdLN9kRItFwNQPcyB5cXoV+36YIFtW5pv4ssa2y37qDy3VtTZ2x5TnF
-         bwu9WoHAXgmziVr3duEN6yzZI8l/Uuop08dOx9mieTabK2OkKKyve24RIF0R9VIyks2A
-         OZoLpCSt48Q9AGLxr5reXVaOpbkj1PHDH0zs7i4t0LrEjSFhpJchR6QYsiQDoLZ1tYVU
-         1uPxlWpPPnVw2+D7/XUhAOwVmkGQO2aHt6bpJb/boc7Wd+w0iWDNRItvGGcJSBpig5cW
-         NYWQ==
-X-Gm-Message-State: AOAM532tkUu58rT/jDg/uvbvvWLB5JSxE1hp6HiaOE3ltT/BujCyCBaX
-	eYPVH2LW5dq3uDktoUBkCL1qUXmsfB17sLvOVS8=
-X-Google-Smtp-Source: ABdhPJx1OXG5Yrx9PLQAR1UEn5FB4Vy2wU1GnVdgrFPClF2WP/XXlQswwBIG7FIJ16svxmJSu91nWD2g5GUrQKi/PVc=
-X-Received: by 2002:a25:30d5:: with SMTP id w204mr8499315ybw.416.1619808351632;
- Fri, 30 Apr 2021 11:45:51 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1619815362;
+  x=1651351362;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=L6ZZF8u8zrE7yHD107xwjAxjWWX6OMiXwYVp6hHURL4=;
+  b=n1kvDYzHefflNUSTarXji9m/uagu/5JIU6lVlyDZmOsYJCkSzFUX0wcV
+   9u+KFBE9gWJOktnoTcDF7hfoXOp9nT6H3QOaQDdv3CbNOdS3YgQ1aE2kn
+   eCQzOEWuKqJqIg7LAYIUewD87WYxiSV+GT2kFtD39v6msJelCKTTKLMii
+   +Ulcw8BV58u9Ixx41n2vLiWyMV3O2EY0jjjxuKaHQM6LFoB8DjhrocK2o
+   3+uCLoKMRHMjCEgIVAOtH+EWfwQ/opvXOXVspzYgNWaVxNnLZ9lp2ISef
+   jCnonllztKBCch45u00fyK9/j/ixubiPieFIGXqzBC0eyR9puhy8unLo/
+   g==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Paulo Cesar Zaneti <paulo.zaneti@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] perl: fix startperl configuration option for perl-native
+Thread-Topic: [OE-core] [PATCH] perl: fix startperl configuration option for
+ perl-native
+Thread-Index: AQHXMw/kHtvhxux070CisTqWBv2VjKq4rWwAgAKrqgCAAGuSAIAR0yUA
+Date: Fri, 30 Apr 2021 20:42:39 +0000
+Message-ID: <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
+References: <4145ce915f734aae9f53ab2575521f2d@intel.com>
+ <25102.1618841602267269069@lists.openembedded.org>
+In-Reply-To: <25102.1618841602267269069@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <DB6PR0102MB26302BA4C54F13FC351F8C0A885E9@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
- <CAGDS+nk51u31+-NR2k1u-y375RL0TyCEkm9L=7Va7eQcuRQwCA@mail.gmail.com>
-In-Reply-To: <CAGDS+nk51u31+-NR2k1u-y375RL0TyCEkm9L=7Va7eQcuRQwCA@mail.gmail.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 30 Apr 2021 08:45:39 -1000
-Message-ID: <CAGDS+nkq70RdM5SRVTabnsY5i4aB-VuDeeFraA9kyc=1HoCREw@mail.gmail.com>
-Subject: Re: [OE-core] Unihash warning building kernels in Yocto 3.1.7
-To: diego.santacruz@spinetix.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Mark Hatle <mark.hatle@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_"
 
-Trying again with Mark's correct email address!
+--_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Apr 30, 2021 at 8:43 AM Steve Sakoman <sakoman@gmail.com> wrote:
->
-> On Fri, Apr 30, 2021 at 7:00 AM Diego Santa Cruz via
-> lists.openembedded.org
-> <diego.santacruz=3Dspinetix.com@lists.openembedded.org> wrote:
-> >
-> > Hello,
-> >
-> >
-> >
-> > I just updated to Yocto 3.1.7 (from 3.1.5) and I got the following war=
-ning while building a kernel recipe.
-> >
-> >
-> >
-> >   do_install: Task do_install requested do_package unihash, but it was=
- not available
-> >
-> >
-> >
-> > I tracked this down to OE-Core commit 0c28edf4bf0d2f92bf3a47406041c63a=
-cd90bacf (=E2=80=9Cpackage.bbclass: hash equivalency and pr service=E2=80=
-=9D) and it makes sense since do_package runs after do_install and in dunf=
-ell we can find the following in kernel.bbclass
-> >
-> >
-> >
-> >   do_install[prefuncs] +=3D "package_get_auto_pr"
-> >
-> >
-> >
-> > Merging OE-Core commit 36fe4db8ae827a93abe9fce6740459d215411965 (=E2=
-=80=9Ckernel.bbclass: Remove do_install[prefunc] no longer needed=E2=80=9D=
-) should normally solve this warning by removing the above line, but I do n=
-ot know if that change is safe in dunfell.
-> >
-> >
-> >
-> > Could that be merged in? Or is there something else that could be done=
- to avoid the warning?
->
-> I can do some testing with that patch.  cc-ing Mark to see if he has
-> any comments since he is the patch author.
->
-> Steve
->
->
-> > Our build system flags a production build as bad if there is a warning=
-, so this is kind of annoying.
-> >
-> >
-> >
-> > Best,
-> >
-> >
-> >
-> > Diego
-> >
-> > --
-> > Diego Santa Cruz, PhD
-> > Technology Architect
-> > spinetix.com
-> >
-> >
-> >
-> >
-> >=20
-> >
+V2VsbCwgaXQgZGlkIGJyZWFrIG91ciBidWlsZHMuIEkgbm93IGdldCB0aGUgZm9sbG93aW5nIGVy
+cm9yIHdoZW4gYnVpbGRpbmcgYSBuYXRpdmUgcmVjaXBlIHRoYXQgaW5oZXJpdHMgcGVybG5hdGl2
+ZSBhbmQgdHJpZXMgdG8gcnVuIHBvZDJtYW46DQoNCnwgL2Jpbi9zaDogL2hvbWUvcGtqL+KApi9y
+ZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2Jpbi9wb2QybWFuOiAvaG9tZS9wa2ov4oCmL3JlY2lw
+ZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL3BlcjogYmFkIGludGVycHJldGVyOiBObyBzdWNoIGZp
+bGUgb3IgZGlyZWN0b3J5DQoNClRoaXMgaXMgYmVjYXVzZSB0aGUgZmlyc3QgdHdvIGxpbmVzIG9m
+IHRoZSBwb2QybWFuIHNjcmlwdCBub3cgbG9va3MgbGlrZQ0KDQojIS9ob21lL3Brai/igKYvcmVj
+aXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vcGVybA0KICAgIGV2YWwgJ2V4ZWMgL2hvbWUvcGtq
+L+KApi9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2Jpbi9wZXJsIC1TICQwICR7MSsiJEAifScN
+Cg0KaW5zdGVhZCBvZiB0aGUgcHJldmlvdXM6DQoNCiMhL3Vzci9iaW4vZW52IG5hdGl2ZXBlcmwN
+CiAgICBldmFsICdleGVjIC91c3IvYmluL2VudiBuYXRpdmVwZXJsIC1TICQwICR7MSsiJEAifScN
+Cg0KSS5lLiwgdGhlIHNlZCBjb21tYW5kIGluIHBlcmzigJlzIGRvX2luc3RhbGxfYXBwZW5kX2Ns
+YXNzLW5hdGl2ZSgpIGRvZXMgbm90IHNlZW0gdG8gaGF2ZSBkb25lIGFueXRoaW5nLCB3aGljaCBp
+cyBiZWNhdXNlIHRoZXJlIGlzIG5vIOKAnHBlcmwtbmF0aXZlLiovcGVybCIgaW4gdGhlIHBhdGgg
+dG8gbWF0Y2ggKGFzIGNhbiBiZSBzZWVuIGFib3ZlKSwgaXQgaXMganVzdCDigJxwZXJs4oCdLCB3
+aGljaCBpcyB3aGF0IHRoZSBvbGQgY29kZSB3YXMgbG9va2luZyBmb3IuDQoNClsgSW4gdGhlIGFi
+b3ZlIGV4YW1wbGVzLCBJIGhhdmUgcmVwbGFjZWQgYSBsb25naXNoIHBhcnQgb2YgdGhlIHBhdGgg
+d2l0aCDigKYgdG8gcHJvdGVjdCB0aGUgaW5ub2NlbnQuIF0NCg0KLy9QZXRlcg0KDQpGcm9tOiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGF1bG8gQ2VzYXIgWmFuZXRp
+DQpTZW50OiBkZW4gMTkgYXByaWwgMjAyMSAxNjoxMw0KVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwZXJs
+OiBmaXggc3RhcnRwZXJsIGNvbmZpZ3VyYXRpb24gb3B0aW9uIGZvciBwZXJsLW5hdGl2ZQ0KDQpJ
+IGp1c3QgcmUtc2VuZCB0aGUgcGF0Y2ggd2l0aCBhZGRpdGlvbmFsIGZpeCBmb3IgdGhlIGJ1aWxk
+IGZhaWx1cmUuDQoNCkkgdGhpbmsgdGhlIGJhc2ljIHByb2JsZW0gd2FzIGFuIGluY29uc2lzdGVu
+Y3kgaW4gdGhlIHdheSBwZXJsIHJlY2lwZSBhbmQgY3Bhbi5iYmNsYXNzIGNvbnZlcnQgdGhlIGFi
+c29sdXRlIHBlcmwgcGF0aCB0byBlbnYgcGF0aC4NClZlcnNpb24gMiBvZiB0aGUgcGF0Y2ggdHJp
+ZXMgdG8gdXNlIHNhbWUgY3Bhbi5iYmNsYXNzIGFwcHJvYWNoIG9uIHRoZSBwZXJsIHJlY2lwZS4N
+Cg0KQmVmb3JlIHN1Ym1pdHRpbmcgSSBqdXN0IHJhbiAiYml0YmFrZSAtayB3b3JsZCIuIEkgaG9w
+ZSBpdCBkb2Vzbid0IGJyZWFrIHRoZSBidWlsZCBhZ2Fpbi4NCg==
+
+--_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZTox
+MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0Kc3Bhbi5FbWFpbFN0
+eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNh
+bGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglmb250LXdlaWdodDpub3JtYWw7
+DQoJZm9udC1zdHlsZTpub3JtYWw7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6
+ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZh
+cmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBw
+dCA3OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRp
+di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
+IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
+IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
+OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
+IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
+bGFuZz0iU1YiIGxpbms9IiMwNTYzQzEiIHZsaW5rPSIjOTU0RjcyIiBzdHlsZT0id29yZC13cmFw
+OmJyZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFz
+dC1sYW5ndWFnZTpFTi1VUyI+V2VsbCwgaXQgZGlkIGJyZWFrIG91ciBidWlsZHMuIEkgbm93IGdl
+dCB0aGUgZm9sbG93aW5nIGVycm9yIHdoZW4gYnVpbGRpbmcgYSBuYXRpdmUgcmVjaXBlIHRoYXQg
+aW5oZXJpdHMgcGVybG5hdGl2ZSBhbmQgdHJpZXMgdG8gcnVuIHBvZDJtYW46PG86cD48L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
+PSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtZmFtaWx5OkNvbnNvbGFzO2NvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFu
+Z3VhZ2U6RU4tVVMiPnwgL2Jpbi9zaDogL2hvbWUvcGtqL+KApi9yZWNpcGUtc3lzcm9vdC1uYXRp
+dmUvdXNyL2Jpbi9wb2QybWFuOiAvaG9tZS9wa2ov4oCmL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91
+c3IvYmluL3BlcjogYmFkIGludGVycHJldGVyOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5PG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpw
+PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
+PlRoaXMgaXMgYmVjYXVzZSB0aGUgZmlyc3QgdHdvIGxpbmVzIG9mIHRoZSBwb2QybWFuIHNjcmlw
+dCBub3cgbG9va3MgbGlrZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1s
+YW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTpDb25zb2xhcztj
+b2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4jIS9ob21lL3Brai/igKYv
+cmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vcGVybDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1p
+bHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Jm5i
+c3A7Jm5ic3A7Jm5ic3A7IGV2YWwgJ2V4ZWMgL2hvbWUvcGtqL+KApi9yZWNpcGUtc3lzcm9vdC1u
+YXRpdmUvdXNyL2Jpbi9wZXJsIC1TICQwICR7MSYjNDM7JnF1b3Q7JEAmcXVvdDt9JzxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
+dHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
+VVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5pbnN0
+ZWFkIG9mIHRoZSBwcmV2aW91czo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29s
+YXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+IyEvdXNyL2Jpbi9l
+bnYgbmF0aXZlcGVybDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0
+MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IGV2YWwg
+J2V4ZWMgL3Vzci9iaW4vZW52IG5hdGl2ZXBlcmwgLVMgJDAgJHsxJiM0MzsmcXVvdDskQCZxdW90
+O30nPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6
+RU4tVVMiPkkuZS4sIHRoZSBzZWQgY29tbWFuZCBpbiBwZXJs4oCZcyBkb19pbnN0YWxsX2FwcGVu
+ZF9jbGFzcy1uYXRpdmUoKSBkb2VzIG5vdCBzZWVtIHRvIGhhdmUgZG9uZSBhbnl0aGluZywgd2hp
+Y2ggaXMgYmVjYXVzZSB0aGVyZSBpcyBubyDigJxwZXJsLW5hdGl2ZS4qL3BlcmwmcXVvdDsgaW4g
+dGhlIHBhdGggdG8gbWF0Y2gNCiAoYXMgY2FuIGJlIHNlZW4gYWJvdmUpLCBpdCBpcyBqdXN0IOKA
+nHBlcmzigJ0sIHdoaWNoIGlzIHdoYXQgdGhlIG9sZCBjb2RlIHdhcyBsb29raW5nIGZvci48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
+IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+
+WyBJbiB0aGUgYWJvdmUgZXhhbXBsZXMsIEkgaGF2ZSByZXBsYWNlZCBhIGxvbmdpc2ggcGFydCBv
+ZiB0aGUgcGF0aCB3aXRoIOKApiB0byBwcm90ZWN0IHRoZSBpbm5vY2VudC4gXTxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
+ZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
+IHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4vL1BldGVy
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
+ZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRp
+dj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBw
+dDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxz
+cGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiPiBvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5QYXVsbyBD
+ZXNhciBaYW5ldGk8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDE5IGFwcmlsIDIwMjEgMTY6MTM8YnI+
+DQo8Yj5Ubzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+
+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHBlcmw6IGZpeCBzdGFydHBl
+cmwgY29uZmlndXJhdGlvbiBvcHRpb24gZm9yIHBlcmwtbmF0aXZlPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBqdXN0IHJlLXNlbmQgdGhlIHBhdGNoIHdp
+dGggYWRkaXRpb25hbCBmaXggZm9yIHRoZSBidWlsZCBmYWlsdXJlLjxicj4NCjxicj4NCkkgdGhp
+bmsgdGhlIGJhc2ljIHByb2JsZW0gd2FzIGFuIGluY29uc2lzdGVuY3kgaW4gdGhlIHdheSBwZXJs
+IHJlY2lwZSBhbmQgY3Bhbi5iYmNsYXNzIGNvbnZlcnQgdGhlIGFic29sdXRlIHBlcmwgcGF0aCB0
+byBlbnYgcGF0aC48YnI+DQpWZXJzaW9uIDIgb2YgdGhlIHBhdGNoIHRyaWVzIHRvIHVzZSBzYW1l
+IGNwYW4uYmJjbGFzcyBhcHByb2FjaCBvbiB0aGUgcGVybCByZWNpcGUuPGJyPg0KPGJyPg0KQmVm
+b3JlIHN1Ym1pdHRpbmcgSSBqdXN0IHJhbiAmcXVvdDtiaXRiYWtlIC1rIHdvcmxkJnF1b3Q7LiBJ
+IGhvcGUgaXQgZG9lc24ndCBicmVhayB0aGUgYnVpbGQgYWdhaW4uDQo8bzpwPjwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+
+--_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_--
