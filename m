@@ -1,91 +1,93 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web09.13597.1619796925605753936
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.13574.1619797472609302714
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 08:35:25 -0700
+ Fri, 30 Apr 2021 08:44:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=J0XXd8/A;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id c17so14114517pfn.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 08:35:25 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JIYIv+qQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id d11so13221220wrw.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Apr 2021 08:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=pu9NEN7A1K8VR7rXthkq7xWLe+hYfn+OuCfMrwZ/tCI=;
-        b=J0XXd8/AUprj0nqEo1DbMTppFMiZ7vh/7oaC7Jca2hu+8RbK/3qBi+aUaYPppwknEy
-         IxLBOEnWU7WqA5aI8rUk6PWQp/ZnGKPGmJltsCy0/pR0BaUE59BC3YiE7boqlvttbbB2
-         VGzoKJpguODh0K8fSK/vvO2WYnQU1L4JUjnzmFO4Dzb9pKeiJPXFpKS3l0NR45wkSmEd
-         wFwEOWR1vxiF28ETAy87mBOQuCkxu9RHGscBqRHLtSUI8fJcDvwMPq4UEiBfKtiMDxIz
-         7fLcUd2B4B3xttzof/pOgvILiqQtd9sHbhgMF7XaOYOfyqM7YX/d+wrzjGCMijLN5Qjx
-         ucHg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=9ofgVjUQPTENWVfEiF4xs+3Gpp7fqiRwF01VrjkPzZM=;
+        b=JIYIv+qQ531kXZRkpmu13sHlEzAka4g/j88hE66g6/xvufuK3WFrr3iacTR7apOvFp
+         nA+/xCVBI9w40S7XtfThLSVHufG2lhqKdRhZIgl0+JvYiXdgNyC2CAPnSAFeBXXa++8Y
+         4l0EhOcFnSFLyytrcXx3cWZ1hDjAt9ZAI3uRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pu9NEN7A1K8VR7rXthkq7xWLe+hYfn+OuCfMrwZ/tCI=;
-        b=fjGaN2PnRVGipTk7Js2vAWv7f1CmQMoeaYZDNDcqGsuDqVC/mf+VfhJAQtolNAwDIG
-         IrSqdLlVSKlSoiL4E1L3g2iCd6QxrpyT02796OZCHoheMd9P/J+/iHcL+1/NJYdbTvRV
-         Tafi367XLLgO3v9gBOG7fW6exp+X6J559QEeleAkj/Ri6W9PsWv2dNr3fiudgWb9DpwQ
-         MJhw/qB1NQkJocIS1emt17eHHUHA2MY5xlxLlcdelOXKSxkUxTJE3RwT5iKynnPpEi/0
-         1Br+YpIW8an+hBKPcOaYV7W0qa3ipl9KN+Frm6MzCZQ3rmQEIEU9przueBHO4br6aIq+
-         IcQA==
-X-Gm-Message-State: AOAM533qKrV075/G061QZwLs7ibUs/WrKNKk4onsbAanF2PS1YZiyInp
-	rjhefngDjZNZ/iVtFbCks2v1JImYgnasXVp8
-X-Google-Smtp-Source: ABdhPJzoO99r5nYKfzm9+onoJ4Th7N2HlqLkm94O1TyUfs0kN8uEvM/r+s4sIqrEZlPMzugo0tzqbQ==
-X-Received: by 2002:a63:5004:: with SMTP id e4mr5043336pgb.61.1619796924784;
-        Fri, 30 Apr 2021 08:35:24 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([72.173.249.164])
-        by smtp.gmail.com with ESMTPSA id x9sm2900386pfq.197.2021.04.30.08.35.21
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=9ofgVjUQPTENWVfEiF4xs+3Gpp7fqiRwF01VrjkPzZM=;
+        b=U0HhRgmcVHxR0YXtyjEulUFk4X56c4TMoB6DZnEOhKFeSx6jis/UnnXXu2ZIAzfVL2
+         3FEY/c62DeOlRQdrfqLImv2ohESqX0GyJkkasbhEkRY0ikuZuSL8r0BNW0v8VBxbpfaR
+         takhyXzjZbUTzCBFTIVxqbIOOEO+WeO0xls+NrximetWzy4IfpQWRdGOXvzTbyY282L3
+         /tVK8P1ZX52wuNaQhGeC8C6FqNJWd7iV2vYTYOCfQyM4kOWfi0DGZmDk4jQrGtCF/GUI
+         CGbL6//U2NV4oXMeTDROzGatgi29eQhiaemEtLQgfJ3FM+cptYZr/f/8yKy4noAKlSWJ
+         dbMQ==
+X-Gm-Message-State: AOAM533INt9BD5NQfbybXHPuFzR33BdMUWmLblckbC7tA9xIRjswbIW5
+	ooR2fFAqajQXIExLPqC9wZoRFQ==
+X-Google-Smtp-Source: ABdhPJyXTWOBFOyyow1ZvFdli9k9ASZHGwlyeMmkDA94cT0ruvSAbI/JvLs9Svb+Ai/G2BVqWwC6Iw==
+X-Received: by 2002:adf:b301:: with SMTP id j1mr7817218wrd.301.1619797471102;
+        Fri, 30 Apr 2021 08:44:31 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:38ed:4baa:ed1c:e489? ([2001:8b0:aba:5f3c:38ed:4baa:ed1c:e489])
+        by smtp.gmail.com with ESMTPSA id b12sm2799892wro.28.2021.04.30.08.44.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 08:35:24 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] license_image.bbclass: Fix symlink to generic license files
-Date: Fri, 30 Apr 2021 05:33:51 -1000
-Message-Id: <5a3a9aa0012328b064bcde09b195ccbc8a5c4e50.1619796615.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1619796615.git.steve@sakoman.com>
+        Fri, 30 Apr 2021 08:44:30 -0700 (PDT)
+Message-ID: <01250a308dc7b262963fae41d95c0f1d68b455e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 07/12] go: Use dl.google.com for SRC_URI
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Apr 2021 16:44:27 +0100
+In-Reply-To: <327b83f6460dc069f22e1ce68f09af12d25ce4bb.1619796615.git.steve@sakoman.com>
 References: <cover.1619796615.git.steve@sakoman.com>
+	 <327b83f6460dc069f22e1ce68f09af12d25ce4bb.1619796615.git.steve@sakoman.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-From: Reto Schneider <reto.schneider@husqvarnagroup.com>
+On Fri, 2021-04-30 at 05:33 -1000, Steve Sakoman wrote:
+> From: Khem Raj <raj.khem@gmail.com>
+> 
+> golang.org/dl is resolving to this anyway
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 8470e38ac1d9f9bb6d8a4ee43724af452d080057)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-devtools/go/go-common.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+> index 39a681a712..c368b95b69 100644
+> --- a/meta/recipes-devtools/go/go-common.inc
+> +++ b/meta/recipes-devtools/go/go-common.inc
+> @@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
+>  
+> 
+> 
+> 
+>  inherit goarch
+>  
+> 
+> 
+> 
+> -SRC_URI = "https://golang.org/dl/go${PV}.src.tar.gz;name=main"
+> +SRC_URI = "https://dl.google.com/go/go${PV}.src.tar.gz;name=main"
+>  S = "${WORKDIR}/go"
+>  B = "${S}"
+>  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
 
-Link to the canonical filename of a license as only this one exists.
 
-Fixes commit 670fe71dd18ea675f35581db4a61fda137f8bf00
-[license_image.bbclass: use canonical name for license files].
+We are seeing autobuilder issues with some go downloads which we may want to
+resolve before merging this.
 
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 64b1ba978e079c345e1f7fbd1bf44052fc3dd857)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/license_image.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index cfb0606da9..1396a95f47 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -145,12 +145,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                             continue
- 
-                         # Make sure we use only canonical name for the license file
--                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
-+                        generic_lic_file = "generic_%s" % generic_lic
-+                        rootfs_license = os.path.join(rootfs_license_dir, generic_lic_file)
-                         if not os.path.exists(rootfs_license):
-                             oe.path.copyhardlink(pkg_license, rootfs_license)
- 
-                         if not os.path.exists(pkg_rootfs_license):
--                            os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-+                            os.symlink(os.path.join('..', generic_lic_file), pkg_rootfs_license)
-                     else:
-                         if (oe.license.license_ok(canonical_license(d,
-                                 lic), bad_licenses) == False or
--- 
-2.25.1
+Richard
 
