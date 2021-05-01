@@ -1,129 +1,78 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web12.10089.1619891224637503189
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web08.10152.1619891225625871611
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 May 2021 10:47:04 -0700
+ Sat, 01 May 2021 10:47:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ADKVguGh;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id y32so773970pga.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 10:47:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RSOlEt2L;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id f6-20020a17090a6546b029015088cf4a1eso1005026pjs.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 10:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=G+9BmNpcqGd4AkL3kXjrpQK4NtpqQjVlWw7EWOujbc0=;
-        b=ADKVguGh8IS3nX5Zds3igQZY2VDp9Gy0sO/PrGkoOJrzojxM6fG+rREdF6aLFA3iVH
-         BPYJV8dEtJAaRA8k67NQrAbuxgiVK09dDs4AMi2h3OBSM6TeQN+ySEs8bW3n6DO6EuBF
-         EBv/BT3nTYoVAwNQ7X5gGXD9sfAepGiNxmDmzA5xxxBv5sF0iwrwd/Y2vvoX9s6v399C
-         kUYcFLhiNKdLrFpd17WtLah9WXWB5j5JbRoxys0vvFyuqyzjqWi64y5f1bW8icfB1/VM
-         EPwaGc2DCqR2cxt0lfCOHa8HVX9ltXWUjSKuVYzssGhAPsed1vK8qqqHKOaFgVIDJCW7
-         gTcA==
+        bh=yjYYZtwud3zSplU0NwFrebwuNYBQbwurUs3wWwd+g3g=;
+        b=RSOlEt2LyKx1ud8MhlOTw/FvkZ3W4gn3+0rm29Tz1vydzsnnwMnjKT9OJWkeGPyAra
+         ut7GqvLbhR59HVzcgAq5/bt74kcQ6c/O2EOB8xUOeCLAqMm5jccaRLJJQ2YURMEbQpcI
+         jhmhB8UAk2SYAQKzZ1QgEA5RlSGL/YIsWRrOai1UdJF+Znc6Oiw0x56ouE+HPcntRVmh
+         xzO8D4xalhZFKpExWARAL4RsrxciGfCHSqcV8xPYUAEC78UmCrXcqVFDMpYpPiZqpYL2
+         Z8e+cKi68EbCSb3QXwfzvywuMceMZ2y6kF34VpxzR+Kp0JioSrioj4m8u15rTxIfGkSk
+         CSNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=G+9BmNpcqGd4AkL3kXjrpQK4NtpqQjVlWw7EWOujbc0=;
-        b=QCNOEwr+KNZnWdTiYRo5/6CavSLqFIuxMdzvzCEp0m4WyPmdIy4dgiHiYDo/3bW61y
-         0Pi4EatETUcu83ih8soSgYicO0fw8ST5MVi1+BIggWzJoMUCpF/mCs/9gi6rSpyPNCnR
-         /gwu1fFRkb1F1+IuROx2OsgcYClgQb165CgYAXJbSsbN85aWwo3mSAUUl38HEeGkA7Lm
-         d87mAyiWHZ2hPbiSXS63Lur2I1+eTUXTAb+unxUjB6OIE64cB/ai7VZTcAjLBIL1bx3d
-         qRlFvVTuzFuMtem2uUUGyDBzDjUJ0YynX29V14NUowGJroFhPa3sjWQITO/Phn121MhA
-         plTQ==
-X-Gm-Message-State: AOAM531GnpxTgIrrMExvjb6srDSgVSswjImGFfJID/h4RZJsXP3GU1B7
-	BzLzJJhk800p2LKg8jQnmeywF4+Rc5ldTQ==
-X-Google-Smtp-Source: ABdhPJyPspMGXXexglKzURoSMyaat0sVPyhsa2jp4f3N/zYR2ONZJ6KjFoDyyGGzixPJ06ufYaUASw==
-X-Received: by 2002:a63:f965:: with SMTP id q37mr10268760pgk.132.1619891223982;
-        Sat, 01 May 2021 10:47:03 -0700 (PDT)
+        bh=yjYYZtwud3zSplU0NwFrebwuNYBQbwurUs3wWwd+g3g=;
+        b=VXYUlRPgUCL+G0EcLwSrryI66YpHugUevAV+2G6RbertspFdJFUZ2jeS33/8R++j9a
+         0mkqyX6pvotlITslgGZeLe5IGZ9jED/SUv3dG0HGXKxRiydGA28kuqGp3uuzTn8Z7l0w
+         M5Sf6VIveqtL/KlQzVSYbBpx0D6HpRuTbCoZNltFe7zTb+oeJXR/Cr+0MShVvhHEG5Wy
+         LpqAUmpFXc+S2hPt14mJwIxXWF7j7ABzvCRcKIwrXsz8zZo9nvNVshgKgYUIvTIbMmng
+         6jwxbGg42BOxVLifythQNnJflQsMKaWmtNMEkrc6/QnsADpEOl9qGE4ekzjiqcnOZBda
+         FEJw==
+X-Gm-Message-State: AOAM531tKy+TkuTDo2MZPnsKp2JQnztnEx8tD90xZa7Oc9vypfhzboMO
+	m6QvmxdFl5kNpb/AbQ9Sx0iO+jX8CzTi3A==
+X-Google-Smtp-Source: ABdhPJymIJkruRzk4eIpJKz56A4rJ0OvjDp3kkJqmufWJHQugfcgNL2IlY+12roE5sL8TfU3oXhaYw==
+X-Received: by 2002:a17:90a:d512:: with SMTP id t18mr19317054pju.108.1619891224971;
+        Sat, 01 May 2021 10:47:04 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
-        by smtp.gmail.com with ESMTPSA id h9sm5750098pgl.67.2021.05.01.10.47.03
+        by smtp.gmail.com with ESMTPSA id h9sm5750098pgl.67.2021.05.01.10.47.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 May 2021 10:47:03 -0700 (PDT)
+        Sat, 01 May 2021 10:47:04 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] bluez: Fix shadowing of pause function from libc
-Date: Sat,  1 May 2021 10:46:57 -0700
-Message-Id: <20210501174658.524270-3-raj.khem@gmail.com>
+Subject: [PATCH 4/4] valgrind: Disable leak_cpp_interior test
+Date: Sat,  1 May 2021 10:46:58 -0700
+Message-Id: <20210501174658.524270-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210501174658.524270-1-raj.khem@gmail.com>
 References: <20210501174658.524270-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+This test is known to fail and especially is prominent with GCC-11
+where stdc++17 is enabled by default
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...se-funciton-to-avoid-shadowing-glibc.patch | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch
+ meta/recipes-devtools/valgrind/valgrind_3.17.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a7b628ce1b..74b59e406c 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -52,6 +52,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-+           file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+index 4eb948f2db..ebbd83dd3f 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.17.0.bb
+@@ -233,6 +233,9 @@ do_install_ptest() {
+     # https://bugs.kde.org/show_bug.cgi?id=402833
+     rm ${D}${PTEST_PATH}/memcheck/tests/overlap.vgtest
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch
-new file mode 100644
-index 0000000000..d9067df02d
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch
-@@ -0,0 +1,48 @@
-+From 8adab7f1e04948e78854953f9373cac741445a0f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 30 Apr 2021 21:09:33 -0700
-+Subject: [PATCH] audio: Rename pause funciton to avoid shadowing glibc
-+ defintions
++    # This is known failure see https://bugs.kde.org/show_bug.cgi?id=435732
++    rm ${D}${PTEST_PATH}/memcheck/tests/leak_cpp_interior.vgtest
 +
-+Fixes
-+profiles/audio/media.c:1284:13: error: static declaration of 'pause' follows non-static declaration
-+static bool pause(void *user_data)
-+            ^
-+/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/bluez5/5.56-r0/recipe-sysroot/usr/include/unistd.h:478:12: note: previous declaration is here
-+extern int pause (void);
-+           ^
-+../bluez-5.56/profiles/audio/media.c:1334:11: warning: incompatible function pointer types initializing 'bool (*)(void *)' with an expression of type 'int (void)' [-Wincompatible-function-pointer-types]
-+        .pause = pause,
-+                 ^~~~~
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ profiles/audio/media.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/profiles/audio/media.c b/profiles/audio/media.c
-+index c84bbe2..7110089 100644
-+--- a/profiles/audio/media.c
-++++ b/profiles/audio/media.c
-+@@ -1281,7 +1281,7 @@ static bool stop(void *user_data)
-+ 	return media_player_send(mp, "Stop");
-+ }
-+ 
-+-static bool pause(void *user_data)
-++static bool apause(void *user_data)
-+ {
-+ 	struct media_player *mp = user_data;
-+ 
-+@@ -1331,7 +1331,7 @@ static struct avrcp_player_cb player_cb = {
-+ 	.set_volume = set_volume,
-+ 	.play = play,
-+ 	.stop = stop,
-+-	.pause = pause,
-++	.pause = apause,
-+ 	.next = next,
-+ 	.previous = previous,
-+ };
-+-- 
-+2.31.1
-+
+     # As the binary isn't stripped or debug-splitted, the source file isn't fetched
+     # via dwarfsrcfiles either, so it needs to be installed manually.
+     mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
 -- 
 2.31.1
 
