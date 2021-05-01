@@ -1,85 +1,70 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.10207.1619891222878873358
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.10088.1619891223813381178
  for <openembedded-core@lists.openembedded.org>;
  Sat, 01 May 2021 10:47:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XLr4kgM5;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id p4so1288298pfo.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 10:47:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UEd2cTeh;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id j7so796869pgi.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 10:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tZMoQgBRaDcm0BVnx6Ko8AEx/dDvq35dTWBByNiPaoo=;
-        b=XLr4kgM5kasUBeuK0r7XlJzvX60t46DozKqw7PHqOw0t1UtLA7MXcPz0Us5QiQEDSY
-         Xx3K3Nbeow8zTh3PrQQIE8bgRDRycyMSplrh5HRPuu32zx/aqY48LL3JBTEGBMu7Tpvt
-         Z3dYvs44VNKKKJvJpMMhiYnOKkXi3Ccs8h4Aw7a4UrSOTwkoxnxbj2V7Cu0n8HTs7uz6
-         VeES1Uvx4TUTq6cKHv8fG+e3I2sG6NKM6E6a3R4X3OcGYfYE6fUAHcop52HXF2kA2Xky
-         dGQWbP1LADc0MlD9x+v0+k60fvRRbGTMa5QJbAv2Sg/X6xF+nx5ROa9eY6673oVVMQzK
-         zd0g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/Y+Dme7ZtcDpd25pR21civl9mzcxuPJlgQxCJPW+wlQ=;
+        b=UEd2cTehEepkX/tqhD0YuZurbmgBDhEvPKvHkSKW7hTpjni9YvsdWKwZZEw94p/NYb
+         lhyfPO+mcmRgIsLbB/gcxsbq1M5JvIofyx0F5fReckV2c8kFn4pyoh+QYRYSSVCOfO1j
+         sh5tu01/+nUkHTLjuOXn/uyEm8pSOrjrZBtDYO6MJtl6kftJa6Q0wjN874Vnzf9rBCNZ
+         Vvt7zsAM8Qb4cHhpK2jmMKshiH4G+WGJfpzvcRgBoj3xcWZ936xD43zLf/tAxYk6goL3
+         bui88iWGoonzCV8BRymqbiF++qpqTugUbNtl8JzZ12sEXligITyRZ5P4iBq1yyr5Y05s
+         zUcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tZMoQgBRaDcm0BVnx6Ko8AEx/dDvq35dTWBByNiPaoo=;
-        b=ohmjOp83RpB8ZwtPsp/FhdnXIBxdTjPWs52wfIutZQIA1e/9lfy9Mdur874E4ONmrh
-         PRUXJFJAyg2wlRe8bIRHOqYa2Mt+vAoklD/nNbShbAGiQvXvRP5eoDyHgCNk/eVotOqa
-         T+rxHiIWRgpfLgRv5EPfxpHeVE1Or2ezJ2hOCj+DSTDXFjpm/fKo6U6I3tdeYwSTT0XZ
-         aHUki1WYEXPFHD85tAejRy2Ybxl/r4XMTeZPZyAbHQQBVmtP1nDYwN41FDhPwJdtNMuh
-         jSIEfu0DFYn2ikhxmtFYLVQvwJx6PLH0IakX6RpJ3aIWmcfXxCihgifY1OraFjzvkzlE
-         loKw==
-X-Gm-Message-State: AOAM533DYsJUzo7qCt7Q0ySKjpQ0M0U0gw1j9+cNXkunl57Bd3hTp0bZ
-	5aJV78pYnMDHnR2D5AtWQ88uxlPrLtVilw==
-X-Google-Smtp-Source: ABdhPJy3nnlzoK7QedC6KpC0RmF/5RZQYywpjWvvXMlvt1xCzRwLTMbwodyF4kafx+GTiFd3nLR0eA==
-X-Received: by 2002:a62:1890:0:b029:28e:1cac:9fff with SMTP id 138-20020a6218900000b029028e1cac9fffmr3794733pfy.8.1619891221997;
-        Sat, 01 May 2021 10:47:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/Y+Dme7ZtcDpd25pR21civl9mzcxuPJlgQxCJPW+wlQ=;
+        b=XEmUXBNtqZryhmF/bghd2MRiG/lCY1OedCD1gZE6BTwhQzq9p5juNPS/y4aGTcKy4D
+         exGay9NAGRcg9KF4E51pwLz7lcC13L4WIoOFjaCBqL4AMC868Lqf0x7yRjk2YyK47JeL
+         SLNNCt/on29GBQacEavZymgfPXO2SmvDwKgDGNMsLy0mJdZO4kxbi0dph9clCTc5E0x0
+         p83dYQI2yXZ4O1B622LB7/C7YErDMou2c3iiUmrixKcYf5UzKAmF8iSaKJfoGszzkQ6x
+         QhY7S+FX8K0M05TGsgRNaXDMAnLZkXeuyo+smQxRUj5uxXEU/xEBj4x/VUd5us0SowV+
+         D1pQ==
+X-Gm-Message-State: AOAM532zlLmzZ2vGue3ooJx3HmOIE/0VhFBXdbPtMBLD47Gy+aA3rQ5o
+	nQoOxP3dnTwsRk9gmsMTqaKFhOlmmk32YQ==
+X-Google-Smtp-Source: ABdhPJwUsM8tHmtnWzNnS5a4rbRUbYoMZ9lJowJtZxyd42lENrkk8zzTHqCFCjRg/uupbaX6LXXVmQ==
+X-Received: by 2002:a62:81c4:0:b029:257:cf19:2f02 with SMTP id t187-20020a6281c40000b0290257cf192f02mr10248624pfd.50.1619891223084;
+        Sat, 01 May 2021 10:47:03 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
-        by smtp.gmail.com with ESMTPSA id h9sm5750098pgl.67.2021.05.01.10.47.01
+        by smtp.gmail.com with ESMTPSA id h9sm5750098pgl.67.2021.05.01.10.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 May 2021 10:47:01 -0700 (PDT)
+        Sat, 01 May 2021 10:47:02 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/4] m4: Do not use SIGSTKSZ
-Date: Sat,  1 May 2021 10:46:55 -0700
-Message-Id: <20210501174658.524270-1-raj.khem@gmail.com>
+Subject: [PATCH 2/4] findutils: Do not use SIGSTKSZ
+Date: Sat,  1 May 2021 10:46:56 -0700
+Message-Id: <20210501174658.524270-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210501174658.524270-1-raj.khem@gmail.com>
+References: <20210501174658.524270-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes
-../../m4-1.4.18/lib/c-stack.c:55:26: error: missing binary operator before token "("
-   55 | #elif HAVE_LIBSIGSEGV && SIGSTKSZ < 16384
-      |                          ^~~~~~~~
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/m4/m4-1.4.18.inc        |  1 +
- .../m4/0001-c-stack-stop-using-SIGSTKSZ.patch | 84 +++++++++++++++++++
+ .../0001-c-stack-stop-using-SIGSTKSZ.patch    | 84 +++++++++++++++++++
+ .../diffutils/diffutils_3.7.bb                |  1 +
  2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
 
-diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
-index a9b63c1bf6..6475b02f8b 100644
---- a/meta/recipes-devtools/m4/m4-1.4.18.inc
-+++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
-@@ -9,6 +9,7 @@ inherit autotools texinfo ptest
- SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
-            file://ac_config_links.patch \
-            file://m4-1.4.18-glibc-change-work-around.patch \
-+           file://0001-c-stack-stop-using-SIGSTKSZ.patch \
-            "
- SRC_URI_append_class-target = " file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-                                 file://run-ptest \
-diff --git a/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch b/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
+diff --git a/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch b/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
 new file mode 100644
-index 0000000000..883b8a2075
+index 0000000000..50e627fa30
 --- /dev/null
-+++ b/meta/recipes-devtools/m4/m4/0001-c-stack-stop-using-SIGSTKSZ.patch
++++ b/meta/recipes-extended/diffutils/diffutils/0001-c-stack-stop-using-SIGSTKSZ.patch
 @@ -0,0 +1,84 @@
-+From 69238f15129f35eb4756ad8e2004e0d7907cb175 Mon Sep 17 00:00:00 2001
++From 87b3a8f9ceb2cf0a5c8b72e460465fb9ff2d62d9 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
 +Date: Fri, 30 Apr 2021 17:40:36 -0700
 +Subject: [PATCH] c-stack: stop using SIGSTKSZ
@@ -96,7 +81,7 @@ index 0000000000..883b8a2075
 + 1 file changed, 13 insertions(+), 9 deletions(-)
 +
 +diff --git a/lib/c-stack.c b/lib/c-stack.c
-+index 5353c08..863f764 100644
++index 9bbe6fe..e0874c9 100644
 +--- a/lib/c-stack.c
 ++++ b/lib/c-stack.c
 +@@ -51,13 +51,14 @@
@@ -118,7 +103,7 @@ index 0000000000..883b8a2075
 + #endif
 + 
 + #include <stdlib.h>
-+@@ -131,7 +132,8 @@ die (int signo)
++@@ -136,7 +137,8 @@ die (int signo)
 + /* Storage for the alternate signal stack.  */
 + static union
 + {
@@ -128,7 +113,7 @@ index 0000000000..883b8a2075
 + 
 +   /* These other members are for proper alignment.  There's no
 +      standard way to guarantee stack alignment, but this seems enough
-+@@ -203,10 +205,11 @@ c_stack_action (void (*action) (int))
++@@ -208,10 +210,11 @@ c_stack_action (void (*action) (int))
 +   program_error_message = _("program error");
 +   stack_overflow_message = _("stack overflow");
 + 
@@ -141,7 +126,7 @@ index 0000000000..883b8a2075
 +     {
 +       errno = ENOTSUP;
 +       return -1;
-+@@ -279,14 +282,15 @@ c_stack_action (void (*action) (int))
++@@ -284,14 +287,15 @@ c_stack_action (void (*action) (int))
 +   stack_t st;
 +   struct sigaction act;
 +   st.ss_flags = 0;
@@ -163,6 +148,18 @@ index 0000000000..883b8a2075
 +-- 
 +2.31.1
 +
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+index 8111ae6065..b9a54fea54 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+@@ -6,6 +6,7 @@ require diffutils.inc
+ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-Skip-strip-trailing-cr-test-case.patch \
++           file://0001-c-stack-stop-using-SIGSTKSZ.patch \
+ "
+ 
+ SRC_URI[md5sum] = "4824adc0e95dbbf11dfbdfaad6a1e461"
 -- 
 2.31.1
 
