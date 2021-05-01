@@ -1,193 +1,89 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.3871.1619815362129463390
- for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Apr 2021 13:42:42 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=n1kvDYzH;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1619815362;
-  x=1651351362;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=L6ZZF8u8zrE7yHD107xwjAxjWWX6OMiXwYVp6hHURL4=;
-  b=n1kvDYzHefflNUSTarXji9m/uagu/5JIU6lVlyDZmOsYJCkSzFUX0wcV
-   9u+KFBE9gWJOktnoTcDF7hfoXOp9nT6H3QOaQDdv3CbNOdS3YgQ1aE2kn
-   eCQzOEWuKqJqIg7LAYIUewD87WYxiSV+GT2kFtD39v6msJelCKTTKLMii
-   +Ulcw8BV58u9Ixx41n2vLiWyMV3O2EY0jjjxuKaHQM6LFoB8DjhrocK2o
-   3+uCLoKMRHMjCEgIVAOtH+EWfwQ/opvXOXVspzYgNWaVxNnLZ9lp2ISef
-   jCnonllztKBCch45u00fyK9/j/ixubiPieFIGXqzBC0eyR9puhy8unLo/
-   g==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Paulo Cesar Zaneti <paulo.zaneti@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] perl: fix startperl configuration option for perl-native
-Thread-Topic: [OE-core] [PATCH] perl: fix startperl configuration option for
- perl-native
-Thread-Index: AQHXMw/kHtvhxux070CisTqWBv2VjKq4rWwAgAKrqgCAAGuSAIAR0yUA
-Date: Fri, 30 Apr 2021 20:42:39 +0000
-Message-ID: <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
-References: <4145ce915f734aae9f53ab2575521f2d@intel.com>
- <25102.1618841602267269069@lists.openembedded.org>
-In-Reply-To: <25102.1618841602267269069@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+Subject: repo and bitbake
+To: openembedded-core@lists.openembedded.org
+From: "Mike" <rabarberpie@gmail.com>
+X-Originating-Location: Kaevlinge, Skåne County, SE (78.70.86.237)
+X-Originating-Platform: Linux Chrome 89
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_"
+Date: Sat, 01 May 2021 09:44:59 -0700
+Message-ID: <eKyI.1619887499215737113.OOuc@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="mE13fdAvKhRlUbbgK7kE"
 
---_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_
+--mE13fdAvKhRlUbbgK7kE
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-V2VsbCwgaXQgZGlkIGJyZWFrIG91ciBidWlsZHMuIEkgbm93IGdldCB0aGUgZm9sbG93aW5nIGVy
-cm9yIHdoZW4gYnVpbGRpbmcgYSBuYXRpdmUgcmVjaXBlIHRoYXQgaW5oZXJpdHMgcGVybG5hdGl2
-ZSBhbmQgdHJpZXMgdG8gcnVuIHBvZDJtYW46DQoNCnwgL2Jpbi9zaDogL2hvbWUvcGtqL+KApi9y
-ZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2Jpbi9wb2QybWFuOiAvaG9tZS9wa2ov4oCmL3JlY2lw
-ZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL3BlcjogYmFkIGludGVycHJldGVyOiBObyBzdWNoIGZp
-bGUgb3IgZGlyZWN0b3J5DQoNClRoaXMgaXMgYmVjYXVzZSB0aGUgZmlyc3QgdHdvIGxpbmVzIG9m
-IHRoZSBwb2QybWFuIHNjcmlwdCBub3cgbG9va3MgbGlrZQ0KDQojIS9ob21lL3Brai/igKYvcmVj
-aXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vcGVybA0KICAgIGV2YWwgJ2V4ZWMgL2hvbWUvcGtq
-L+KApi9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL2Jpbi9wZXJsIC1TICQwICR7MSsiJEAifScN
-Cg0KaW5zdGVhZCBvZiB0aGUgcHJldmlvdXM6DQoNCiMhL3Vzci9iaW4vZW52IG5hdGl2ZXBlcmwN
-CiAgICBldmFsICdleGVjIC91c3IvYmluL2VudiBuYXRpdmVwZXJsIC1TICQwICR7MSsiJEAifScN
-Cg0KSS5lLiwgdGhlIHNlZCBjb21tYW5kIGluIHBlcmzigJlzIGRvX2luc3RhbGxfYXBwZW5kX2Ns
-YXNzLW5hdGl2ZSgpIGRvZXMgbm90IHNlZW0gdG8gaGF2ZSBkb25lIGFueXRoaW5nLCB3aGljaCBp
-cyBiZWNhdXNlIHRoZXJlIGlzIG5vIOKAnHBlcmwtbmF0aXZlLiovcGVybCIgaW4gdGhlIHBhdGgg
-dG8gbWF0Y2ggKGFzIGNhbiBiZSBzZWVuIGFib3ZlKSwgaXQgaXMganVzdCDigJxwZXJs4oCdLCB3
-aGljaCBpcyB3aGF0IHRoZSBvbGQgY29kZSB3YXMgbG9va2luZyBmb3IuDQoNClsgSW4gdGhlIGFi
-b3ZlIGV4YW1wbGVzLCBJIGhhdmUgcmVwbGFjZWQgYSBsb25naXNoIHBhcnQgb2YgdGhlIHBhdGgg
-d2l0aCDigKYgdG8gcHJvdGVjdCB0aGUgaW5ub2NlbnQuIF0NCg0KLy9QZXRlcg0KDQpGcm9tOiBv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGF1bG8gQ2VzYXIgWmFuZXRp
-DQpTZW50OiBkZW4gMTkgYXByaWwgMjAyMSAxNjoxMw0KVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwZXJs
-OiBmaXggc3RhcnRwZXJsIGNvbmZpZ3VyYXRpb24gb3B0aW9uIGZvciBwZXJsLW5hdGl2ZQ0KDQpJ
-IGp1c3QgcmUtc2VuZCB0aGUgcGF0Y2ggd2l0aCBhZGRpdGlvbmFsIGZpeCBmb3IgdGhlIGJ1aWxk
-IGZhaWx1cmUuDQoNCkkgdGhpbmsgdGhlIGJhc2ljIHByb2JsZW0gd2FzIGFuIGluY29uc2lzdGVu
-Y3kgaW4gdGhlIHdheSBwZXJsIHJlY2lwZSBhbmQgY3Bhbi5iYmNsYXNzIGNvbnZlcnQgdGhlIGFi
-c29sdXRlIHBlcmwgcGF0aCB0byBlbnYgcGF0aC4NClZlcnNpb24gMiBvZiB0aGUgcGF0Y2ggdHJp
-ZXMgdG8gdXNlIHNhbWUgY3Bhbi5iYmNsYXNzIGFwcHJvYWNoIG9uIHRoZSBwZXJsIHJlY2lwZS4N
-Cg0KQmVmb3JlIHN1Ym1pdHRpbmcgSSBqdXN0IHJhbiAiYml0YmFrZSAtayB3b3JsZCIuIEkgaG9w
-ZSBpdCBkb2Vzbid0IGJyZWFrIHRoZSBidWlsZCBhZ2Fpbi4NCg==
+Hi!
 
---_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_
+I am a beginner to bitbake and openembedded, so please bear with me.
+
+In short, I have a custom system where I want to fetch all=C2=A0source cod=
+e from a Gerrit server using the (Google) repo tool.
+So, after repo init and sync, all source code is populated in my workspace=
+ (thus, bitbake doesn't have to fetch or patch the sources).
+The SW modules themselves use regular CMake, make, or autotools for buildi=
+ng.
+The workspace looks like:
+(workdir)/subsystem_A/SW_module_1
+(workdir)/subsystem_A/SW_module_2
+(workdir)/subsystem_B/...
+(workdir)/product_X/meta-...=C2=A0 =C2=A0 =C2=A0(this is were all bitbake =
+files are stored in order to build product X)
+(workdir)/product_Y/meta-...=C2=A0 =C2=A0 =C2=A0(this is were all bitbake =
+files are stored in order to build product Y; common configs/recipes will b=
+e a common product layer)
+In product_X folder, I also plan to have a script that sets up the build e=
+nv (similar to oe-init-build-env), creating folder:
+(workdir/build/
+and populate it with bblayers.conf and local.conf. bblayers.conf will add =
+the layers at (workdir)/product_X/meta-...
+From here, the building of the SW modules as well as the final image takes=
+ place using bitbake.
+The end result of the build is a ext4 file system image, which is flashed =
+onto target device.
+
+First basic question:
+How do I properly set SRC_URI in the recipes to point to the SW_modules ab=
+ove, with no fetching/patching. Can I avoid that bitbake
+copy the source files to the build/tmp folder?
+I don't want to list the source files in the recipe really, I just want to=
+ refer to folder (workdir)/subsystem_A/SW_module_1
+as the CMakeLists.txt (for CMake) tells which files to build etc. Thus, "f=
+ile:://" doesn't sound a good idea.
+I want to use inherit cmake and DEPENDS for managing deps.
+
+Thanks!
+Mike
+
+--mE13fdAvKhRlUbbgK7kE
 Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZTox
-MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0Kc3Bhbi5FbWFpbFN0
-eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglmb250LXdlaWdodDpub3JtYWw7
-DQoJZm9udC1zdHlsZTpub3JtYWw7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6
-ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZh
-cmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBw
-dCA3OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
-IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
-IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
-OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
-IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
-bGFuZz0iU1YiIGxpbms9IiMwNTYzQzEiIHZsaW5rPSIjOTU0RjcyIiBzdHlsZT0id29yZC13cmFw
-OmJyZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFz
-dC1sYW5ndWFnZTpFTi1VUyI+V2VsbCwgaXQgZGlkIGJyZWFrIG91ciBidWlsZHMuIEkgbm93IGdl
-dCB0aGUgZm9sbG93aW5nIGVycm9yIHdoZW4gYnVpbGRpbmcgYSBuYXRpdmUgcmVjaXBlIHRoYXQg
-aW5oZXJpdHMgcGVybG5hdGl2ZSBhbmQgdHJpZXMgdG8gcnVuIHBvZDJtYW46PG86cD48L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
-PSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
-c3R5bGU9ImZvbnQtZmFtaWx5OkNvbnNvbGFzO2NvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFu
-Z3VhZ2U6RU4tVVMiPnwgL2Jpbi9zaDogL2hvbWUvcGtqL+KApi9yZWNpcGUtc3lzcm9vdC1uYXRp
-dmUvdXNyL2Jpbi9wb2QybWFuOiAvaG9tZS9wa2ov4oCmL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91
-c3IvYmluL3BlcjogYmFkIGludGVycHJldGVyOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpw
-PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
-PlRoaXMgaXMgYmVjYXVzZSB0aGUgZmlyc3QgdHdvIGxpbmVzIG9mIHRoZSBwb2QybWFuIHNjcmlw
-dCBub3cgbG9va3MgbGlrZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTpDb25zb2xhcztj
-b2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4jIS9ob21lL3Brai/igKYv
-cmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vcGVybDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1p
-bHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Jm5i
-c3A7Jm5ic3A7Jm5ic3A7IGV2YWwgJ2V4ZWMgL2hvbWUvcGtqL+KApi9yZWNpcGUtc3lzcm9vdC1u
-YXRpdmUvdXNyL2Jpbi9wZXJsIC1TICQwICR7MSYjNDM7JnF1b3Q7JEAmcXVvdDt9JzxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
-dHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJz
-cDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5pbnN0
-ZWFkIG9mIHRoZSBwcmV2aW91czo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVh
-c3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29s
-YXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+IyEvdXNyL2Jpbi9l
-bnYgbmF0aXZlcGVybDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0
-MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IGV2YWwg
-J2V4ZWMgL3Vzci9iaW4vZW52IG5hdGl2ZXBlcmwgLVMgJDAgJHsxJiM0MzsmcXVvdDskQCZxdW90
-O30nPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
-Zz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6
-RU4tVVMiPkkuZS4sIHRoZSBzZWQgY29tbWFuZCBpbiBwZXJs4oCZcyBkb19pbnN0YWxsX2FwcGVu
-ZF9jbGFzcy1uYXRpdmUoKSBkb2VzIG5vdCBzZWVtIHRvIGhhdmUgZG9uZSBhbnl0aGluZywgd2hp
-Y2ggaXMgYmVjYXVzZSB0aGVyZSBpcyBubyDigJxwZXJsLW5hdGl2ZS4qL3BlcmwmcXVvdDsgaW4g
-dGhlIHBhdGggdG8gbWF0Y2gNCiAoYXMgY2FuIGJlIHNlZW4gYWJvdmUpLCBpdCBpcyBqdXN0IOKA
-nHBlcmzigJ0sIHdoaWNoIGlzIHdoYXQgdGhlIG9sZCBjb2RlIHdhcyBsb29raW5nIGZvci48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
-IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+
-WyBJbiB0aGUgYWJvdmUgZXhhbXBsZXMsIEkgaGF2ZSByZXBsYWNlZCBhIGxvbmdpc2ggcGFydCBv
-ZiB0aGUgcGF0aCB3aXRoIOKApiB0byBwcm90ZWN0IHRoZSBpbm5vY2VudC4gXTxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
-ZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8
-L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
-IHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4vL1BldGVy
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
-ZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRp
-dj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBw
-dDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxz
-cGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiPiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5QYXVsbyBD
-ZXNhciBaYW5ldGk8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDE5IGFwcmlsIDIwMjEgMTY6MTM8YnI+
-DQo8Yj5Ubzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+
-DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHBlcmw6IGZpeCBzdGFydHBl
-cmwgY29uZmlndXJhdGlvbiBvcHRpb24gZm9yIHBlcmwtbmF0aXZlPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBqdXN0IHJlLXNlbmQgdGhlIHBhdGNoIHdp
-dGggYWRkaXRpb25hbCBmaXggZm9yIHRoZSBidWlsZCBmYWlsdXJlLjxicj4NCjxicj4NCkkgdGhp
-bmsgdGhlIGJhc2ljIHByb2JsZW0gd2FzIGFuIGluY29uc2lzdGVuY3kgaW4gdGhlIHdheSBwZXJs
-IHJlY2lwZSBhbmQgY3Bhbi5iYmNsYXNzIGNvbnZlcnQgdGhlIGFic29sdXRlIHBlcmwgcGF0aCB0
-byBlbnYgcGF0aC48YnI+DQpWZXJzaW9uIDIgb2YgdGhlIHBhdGNoIHRyaWVzIHRvIHVzZSBzYW1l
-IGNwYW4uYmJjbGFzcyBhcHByb2FjaCBvbiB0aGUgcGVybCByZWNpcGUuPGJyPg0KPGJyPg0KQmVm
-b3JlIHN1Ym1pdHRpbmcgSSBqdXN0IHJhbiAmcXVvdDtiaXRiYWtlIC1rIHdvcmxkJnF1b3Q7LiBJ
-IGhvcGUgaXQgZG9lc24ndCBicmVhayB0aGUgYnVpbGQgYWdhaW4uDQo8bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+<p>Hi!<br /><br />I am a beginner to bitbake and openembedded, so please be=
+ar with me.<br /><br />In short, I have a custom system where I want to fet=
+ch all&nbsp;source code from a Gerrit server using the (Google) repo tool.<=
+br />So, after repo init and sync, all source code is populated in my works=
+pace (thus, bitbake doesn't have to fetch or patch the sources).<br />The S=
+W modules themselves use regular CMake, make, or autotools for building.<br=
+ />The workspace looks like:<br />(workdir)/subsystem_A/SW_module_1<br />(w=
+orkdir)/subsystem_A/SW_module_2<br />(workdir)/subsystem_B/...<br />(workdi=
+r)/product_X/meta-...&nbsp; &nbsp; &nbsp;(this is were all bitbake files ar=
+e stored in order to build product X)<br />(workdir)/product_Y/meta-...&nbs=
+p; &nbsp; &nbsp;(this is were all bitbake files are stored in order to buil=
+d product Y; common configs/recipes will be a common product layer)<br />In=
+ product_X folder, I also plan to have a script that sets up the build env =
+(similar to oe-init-build-env), creating folder:<br />(workdir/build/<br />=
+and populate it with bblayers.conf and local.conf. bblayers.conf will add t=
+he layers at (workdir)/product_X/meta-...<br />From here, the building of t=
+he SW modules as well as the final image takes place using bitbake.<br />Th=
+e end result of the build is a ext4 file system image, which is flashed ont=
+o target device.<br /><br />First basic question:<br />How do I properly se=
+t SRC_URI in the recipes to point to the SW_modules above, with no fetching=
+/patching. Can I avoid that bitbake<br />copy the source files to the build=
+/tmp folder?<br />I don't want to list the source files in the recipe reall=
+y, I just want to refer to folder (workdir)/subsystem_A/SW_module_1<br />as=
+ the CMakeLists.txt (for CMake) tells which files to build etc. Thus, "file=
+:://" doesn't sound a good idea.<br />I want to use inherit cmake and DEPEN=
+DS for managing deps.<br /><br />Thanks!<br />Mike<br /><br /></p>
 
---_000_28e9a1a4251849bcafde43dc01684bd5XBOX03axiscom_--
+--mE13fdAvKhRlUbbgK7kE--
