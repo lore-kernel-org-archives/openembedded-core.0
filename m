@@ -1,190 +1,310 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web11.10464.1619892663485785752
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.13170.1619903546193642896
  for <openembedded-core@lists.openembedded.org>;
- Sat, 01 May 2021 11:11:03 -0700
+ Sat, 01 May 2021 14:12:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pOM3I6Hr;
- spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: jeanmarie.lemetayer@gmail.com)
-Received: by mail-yb1-f178.google.com with SMTP id 82so2171161yby.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 11:11:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mgvEn+37;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id a11so784387plh.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 01 May 2021 14:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bAaupy8HQly8yCviqXS8t6kh8tv2Uo7yLw2EJiycudc=;
-        b=pOM3I6HrMi9/v3xnORpa/CA3Mr5dT4nzZV3f0FCpWxRhf43MD6Y9EyWZjh69wvxX7y
-         fe+vzxr7EqCIvsms5oAudeBDR83QNK+XXKSCpoP5a+G0tf+p9oLbyqtwPtnQIW4fJw20
-         uKDCOL/BqhQxOvbaMbjb5J+fGsp0QP2kXMYdV+HZ7OwUaxJJzLjMXi530JaNp0HA/+WL
-         wnng4encVy/YGV+tBZNxpu9YYNqRzOV/62HkbhodpMXYI+awKY9CgOhUXQlcaZqhuO7v
-         784DpnqUdi4B5SY4zprjNGVfGxcZsz/1h0ZiBlvAzVbanmKXpAhBcV3p/NL/ee2kFVcm
-         ZUiA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ElLa/ewEceo6jgz+aunJZy9HmPOK6gF0Tmf8zun4+0k=;
+        b=mgvEn+37JWWdbUSyuTHH9bbRTo9R1B+v3DQmDd/wNszF6kw5jDBEJJ3J8T1aNpNGFn
+         ztOcf7eaaDM60Fdzwr0o8i2KMyjpK1DXka/DSXQPEcgQja9UVSMd7dxWmmMPyE95BT0v
+         95XbAUr5VrO8+SG35beR2fpuni1vQpnkkmml5zPR4OmOHvd+4r59NxllGbAacC+pFI6j
+         jSKNDJwEli5kWhUCFGGQtCFEKnK0EwDCKYiZqJ4lLKrgMGT8mDyWoc+VnggDFwTcMc8D
+         ETeVBUy5hg3PXJ9ydBVX1HqHp+ugGW2FhLwWzufFPyb9WIGn0txKsO1JGjHtNdS1j75n
+         daag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bAaupy8HQly8yCviqXS8t6kh8tv2Uo7yLw2EJiycudc=;
-        b=d9gKncTUkyF2S03h4zFQ6aRbuT45GOL3nJ0RfrOOn9JqoVPgGR8i6cT6bLO2Zb2x6l
-         JeXChKjggMpE5nmqZGEC+Ka2tFXX4rVs1nXHWKRMgxEirCFQCwGjU6TQltPVYr/rM2+T
-         cjX5TtM9G8pTWCynB/CKPJQmgmeLVMgYKVx8/QDucZtaQOw9t3b+5C6GbqIEE/6/9ZVH
-         j6JjQEqIuP9jWdAGFhN+ryojDnHoKvEeDWG/nlC7oPztU0FvbRPZvP7j7i85CDuqI2NC
-         mvV4A1X/l9K+LptlAOJqAjbpHcngZIFPi5VRA3eIs60gyqtkC9ThKmW0GntSbL40ESMt
-         A2Hg==
-X-Gm-Message-State: AOAM532A2pAJ0UbYX9EyHjLDVTsyc/LJxkPW6JrG9kqDD7F5+JKHIJxE
-	Fd78Ps7cH8IMsGOTuttd1iGrxp46VeROg8cutWI=
-X-Google-Smtp-Source: ABdhPJw2lQ9WDBQqHQghWS2spMN4aTidFwkO7oUNbHP6H9VrnNDK3S8XfgcZsciMnrFeuC/i9Es7ccDVDlV0AgAvgp0=
-X-Received: by 2002:a25:2702:: with SMTP id n2mr15491443ybn.179.1619892662625;
- Sat, 01 May 2021 11:11:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ElLa/ewEceo6jgz+aunJZy9HmPOK6gF0Tmf8zun4+0k=;
+        b=oFO2xmLUN+GVfUE5g73u7j1wJxowD62jBzIGCFzO5lyXCx38F7jJB/k4ZwD3aqFcpA
+         AX+2i5aHXdM6JQVQCFxigHbCtj1DEGBRfN/mjbtj7jZqMJ35R6/U0u4AGwbKnQ+/AfdC
+         4Pd+BSm3VOQzpc5wIuyVmZnjkFcZAPPvgtdqVplxRhHkOnwRtwyXYCCbwn8PtlsId+kB
+         1T+qb4IX/p9lJLxKeVkaYvCFkgmFlwunW3CqTTmjXdEc9wMthnxcEORYlB9eXLEUbw6G
+         yh/YMLE78nJvtvOK+Yg4QdA6qRG8nHmeLj1nBHsrrjZ0AsBq+g/OcceHwGv1cErp8hkV
+         tijA==
+X-Gm-Message-State: AOAM530NNJBIy8Gyoo4AKNwyovArMiDRYhmPnXnZADEgxVgODUFGHe/l
+	3V4xBJ7CTPq4JAmWTA4S6j4XmayHMorzwQ==
+X-Google-Smtp-Source: ABdhPJwQtaSHvRiXifJg6Jh6phA85EADWSqtDR9nDcH8ATjMqXYuOgSTQAbRAvnV656Iyf3C4rmdEA==
+X-Received: by 2002:a17:90a:b907:: with SMTP id p7mr12167121pjr.79.1619903545171;
+        Sat, 01 May 2021 14:12:25 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
+        by smtp.gmail.com with ESMTPSA id d3sm6094926pgu.8.2021.05.01.14.12.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 May 2021 14:12:24 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Joshua Watt <jpewhacker@gmail.com>
+Subject: [PATCH] pkgconfig: Fix nativesdk builds for mingw sdk hosts
+Date: Sat,  1 May 2021 14:12:21 -0700
+Message-Id: <20210501211221.1101809-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <eKyI.1619887499215737113.OOuc@lists.openembedded.org>
-In-Reply-To: <eKyI.1619887499215737113.OOuc@lists.openembedded.org>
-From: "Jean-Marie Lemetayer" <jeanmarie.lemetayer@gmail.com>
-Date: Sat, 1 May 2021 11:10:51 -0700
-Message-ID: <CAAdc0hwp+11o93K68jtqqW6yO=S2Gzj+5h1D7j6WrpSir=w7aA@mail.gmail.com>
-Subject: Re: [OE-core] repo and bitbake
-To: Mike <rabarberpie@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000baea1805c148a601"
+Content-Transfer-Encoding: 8bit
 
---000000000000baea1805c148a601
-Content-Type: text/plain; charset="UTF-8"
+pkgconfig uses a vendored version of ancient glib-2.0, which does not
+have many of fixes that current glib-2.0 will have, we enable this
+internal version for nativesdk/native recipe, which on mingw hosts does
+not work well, as its missing necessary mingw support. This patch
+backports couple of fixes which makes GCC11 happy
 
-Hi Mike,
+but its going to be a constant source of pain as long as we support mingw
 
-I have started a project to use yocto in a repo environment. This is called
-openbar (https://github.com/openbar) but it is still a draft.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Joshua Watt <jpewhacker@gmail.com>
+---
+ ...-support-for-the-__int64-type.-See-1.patch | 144 ++++++++++++++++++
+ ...9-printf-format-specifiers-on-Window.patch |  68 +++++++++
+ .../pkgconfig/pkgconfig_git.bb                |   2 +
+ 3 files changed, 214 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-remove-support-for-the-__int64-type.-See-1.patch
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use-C99-printf-format-specifiers-on-Window.patch
 
-There is a wrapper makefile (the wizard) which starts bitbake in a docker
-environment and allows you to use .config files to specify a build with
-additional actions (use "make help" for the complete usage) .
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-remove-support-for-the-__int64-type.-See-1.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-remove-support-for-the-__int64-type.-See-1.patch
+new file mode 100644
+index 0000000000..bee4585724
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-remove-support-for-the-__int64-type.-See-1.patch
+@@ -0,0 +1,144 @@
++From 7e821441c482917e54435a07893272d87d3ad9e5 Mon Sep 17 00:00:00 2001
++From: Christoph Reiter <reiter.christoph@gmail.com>
++Date: Fri, 24 Aug 2018 19:43:04 +0200
++Subject: [PATCH] autotools: remove support for the __int64 type. See #1313
++
++__int64 was the 64bit type for Visual Studio before it added support for
++"long long" with VS2013. I think this was used to build glib with mingw and
++make the result usable for VS 6.0 which didn't support "long long" (??)
++
++Given that newer MSVC links against a different crt and mixing is not supported
++and everything supports "long long" nowadays just remove it.
++
++This is also a cleanup for printf format changes needed for #1497
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/GNOME/glib/commit/7e821441c4]
++---
++ configure.ac | 43 ++++---------------------------------------
++ 1 file changed, 4 insertions(+), 39 deletions(-)
++
++--- a/glib/configure.ac
+++++ b/glib/configure.ac
++@@ -550,7 +550,6 @@ AC_CHECK_SIZEOF(long)
++ AC_CHECK_SIZEOF(int)
++ AC_CHECK_SIZEOF(void *)
++ AC_CHECK_SIZEOF(long long)
++-AC_CHECK_SIZEOF(__int64)
++ 
++ AC_CACHE_CHECK([for sig_atomic_t], ac_cv_type_sig_atomic_t,
++   [AC_TRY_LINK([#include <signal.h>
++@@ -564,7 +563,7 @@ if test x$ac_cv_type_sig_atomic_t = xyes
++      [Define if you have the 'sig_atomic_t' type.])
++ fi
++ 
++-if test x$ac_cv_sizeof_long = x8 || test x$ac_cv_sizeof_long_long = x8 || test x$ac_cv_sizeof___int64 = x8 ; then
+++if test x$ac_cv_sizeof_long = x8 || test x$ac_cv_sizeof_long_long = x8 ; then
++   :
++ else
++   AC_MSG_ERROR([
++@@ -573,7 +572,7 @@ else
++ ])
++ fi
++ 
++-AS_IF([test x$glib_native_win32 != xyes && test x$ac_cv_sizeof_long_long = x8], [
+++AS_IF([test x$ac_cv_sizeof_long_long = x8], [
++ 	# long long is a 64 bit integer.
++ 	AC_MSG_CHECKING(for format to printf and scanf a guint64)
++ 	AC_CACHE_VAL(glib_cv_long_long_format,[
++@@ -599,14 +598,6 @@ AS_IF([test x$glib_native_win32 != xyes
++ 	    AC_DEFINE(HAVE_INT64_AND_I64,1,[define to support printing 64-bit integers with format I64])
++           fi
++ 	], [AC_MSG_RESULT(none)])
++-],[ test x$ac_cv_sizeof___int64 = x8], [
++-	# __int64 is a 64 bit integer.
++-	AC_MSG_CHECKING(for format to printf and scanf a guint64)
++-	# We know this is MSVCRT.DLL, and what the formats are
++-	glib_cv_long_long_format=I64
++-	AC_MSG_RESULT(%${glib_cv_long_long_format}u)
++-        AC_DEFINE(HAVE_LONG_LONG_FORMAT,1,[define if system printf can print long long])
++-	AC_DEFINE(HAVE_INT64_AND_I64,1,[define to support printing 64-bit integers with format I64])
++ ])
++ 
++ AC_C_CONST
++@@ -872,9 +863,6 @@ case $ac_cv_sizeof_size_t in
++   $ac_cv_sizeof_long_long)
++       glib_size_type='long long'
++       ;;
++-  $ac_cv_sizeof__int64)
++-      glib_size_type='__int64'
++-      ;;
++   *)  AC_MSG_ERROR([No type matching size_t in size])
++       ;;
++ esac
++@@ -931,9 +919,6 @@ case $ac_cv_sizeof_ssize_t in
++   $ac_cv_sizeof_long_long)
++       glib_ssize_type='long long'
++       ;;
++-  $ac_cv_sizeof__int64)
++-      glib_ssize_type='__int64'
++-      ;;
++   *)  AC_MSG_ERROR([No type matching ssize_t in size])
++       ;;
++ esac
++@@ -2985,17 +2970,6 @@ $ac_cv_sizeof_long_long)
++   gint64_constant='(G_GNUC_EXTENSION (val##LL))'
++   guint64_constant='(G_GNUC_EXTENSION (val##ULL))'
++   ;;
++-$ac_cv_sizeof___int64)
++-  gint64='__int64'
++-  if test -n "$glib_cv_long_long_format"; then
++-    gint64_modifier='"'$glib_cv_long_long_format'"'
++-    gint64_format='"'$glib_cv_long_long_format'i"'
++-    guint64_format='"'$glib_cv_long_long_format'u"'
++-  fi
++-  glib_extension=
++-  gint64_constant='(val##i64)'
++-  guint64_constant='(val##ui64)'
++-  ;;
++ esac
++ glib_size_t=$ac_cv_sizeof_size_t
++ glib_ssize_t=$ac_cv_sizeof_ssize_t
++@@ -3020,7 +2994,7 @@ long)
++   gsize_format='"lu"'
++   glib_msize_type='LONG'
++   ;;
++-"long long"|__int64)
+++"long long")
++   gsize_modifier='"I64"'
++   gsize_format='"I64u"'
++   glib_msize_type='INT64'
++@@ -3043,7 +3017,7 @@ long)
++   gssize_format='"li"'
++   glib_mssize_type='LONG'
++   ;;
++-"long long"|__int64)
+++"long long")
++   gssize_modifier='"I64"'
++   gssize_format='"I64i"'
++   glib_mssize_type='INT64'
++@@ -3080,14 +3054,6 @@ $ac_cv_sizeof_long_long)
++   glib_gpi_cast='(gint64)'
++   glib_gpui_cast='(guint64)'
++   ;;
++-$ac_cv_sizeof___int64)
++-  glib_intptr_type_define=__int64
++-  gintptr_modifier='"I64"'
++-  gintptr_format='"I64i"'
++-  guintptr_format='"I64u"'
++-  glib_gpi_cast='(gint64)'
++-  glib_gpui_cast='(guint64)'
++-  ;;
++ *)
++   glib_unknown_void_p=yes
++   ;;
++@@ -3258,9 +3224,6 @@ $ac_cv_sizeof_long)
++ $ac_cv_sizeof_long_long)
++   gint64='long long'
++   ;;
++-$ac_cv_sizeof___int64)
++-  gint64='__int64'
++-  ;;
++ esac
++ 
++ AC_CHECK_TYPE([guint32],,,[typedef unsigned $gint32 guint32;])
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use-C99-printf-format-specifiers-on-Window.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use-C99-printf-format-specifiers-on-Window.patch
+new file mode 100644
+index 0000000000..a4e92da34b
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use-C99-printf-format-specifiers-on-Window.patch
+@@ -0,0 +1,68 @@
++From 3d7cde654c4c6f3bdad32f5521f28f5802a7c377 Mon Sep 17 00:00:00 2001
++From: Christoph Reiter <reiter.christoph@gmail.com>
++Date: Fri, 24 Aug 2018 21:46:47 +0200
++Subject: [PATCH] autotools: use C99 printf format specifiers on Windows. Fixes
++ #1497
++
++Since we now require a C99 compatible printf and use gnulib on Windows,
++we also mark our printf functions as gnu_printf. GCC complains about the
++Windows specific I64 specifiers we still write to glibconfig.h with the
++autotools build.
++
++To fix this switch all I64(x) to ll(x).
++
++This also makes the glibconfig.h output for those macros match the ones
++we get when using meson.
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/GNOME/glib/commit/3d7cde654c]
++---
++ configure.ac | 18 +++++++++---------
++ 1 file changed, 9 insertions(+), 9 deletions(-)
++
++--- a/glib/configure.ac
+++++ b/glib/configure.ac
++@@ -576,7 +576,7 @@ AS_IF([test x$ac_cv_sizeof_long_long = x
++ 	# long long is a 64 bit integer.
++ 	AC_MSG_CHECKING(for format to printf and scanf a guint64)
++ 	AC_CACHE_VAL(glib_cv_long_long_format,[
++-		for format in ll q I64; do
+++		for format in ll q; do
++ 		  AC_TRY_RUN([#include <stdio.h>  
++ 			int main()
++ 			{
++@@ -2995,8 +2995,8 @@ long)
++   glib_msize_type='LONG'
++   ;;
++ "long long")
++-  gsize_modifier='"I64"'
++-  gsize_format='"I64u"'
+++  gsize_modifier='"ll"'
+++  gsize_format='"llu"'
++   glib_msize_type='INT64'
++   ;;
++ esac
++@@ -3018,8 +3018,8 @@ long)
++   glib_mssize_type='LONG'
++   ;;
++ "long long")
++-  gssize_modifier='"I64"'
++-  gssize_format='"I64i"'
+++  gssize_modifier='"ll"'
+++  gssize_format='"lli"'
++   glib_mssize_type='INT64'
++   ;;
++ esac
++@@ -3048,9 +3048,9 @@ $ac_cv_sizeof_long)
++   ;;
++ $ac_cv_sizeof_long_long)
++   glib_intptr_type_define='long long'
++-  gintptr_modifier='"I64"'
++-  gintptr_format='"I64i"'
++-  guintptr_format='"I64u"'
+++  gintptr_modifier='"ll"'
+++  gintptr_format='"lli"'
+++  guintptr_format='"llu"'
++   glib_gpi_cast='(gint64)'
++   glib_gpui_cast='(guint64)'
++   ;;
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index 52ef2a9779..72db876ad0 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -16,6 +16,8 @@ SRC_URI = "git://anongit.freedesktop.org/pkg-config \
+            file://pkg-config-native.in \
+            file://fix-glib-configure-libtool-usage.patch \
+            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
++           file://0001-autotools-remove-support-for-the-__int64-type.-See-1.patch \
++           file://0001-autotools-use-C99-printf-format-specifiers-on-Window.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.31.1
 
-It also exports the REPODIR variable (the root of the repo tree) to bitbake
-using the BB_ENV_EXTRAWHITE variable (
-https://www.yoctoproject.org/docs/latest/bitbake-user-manual/bitbake-user-manual.html#var-bb-BB_ENV_EXTRAWHITE
-).
-
-Finally I wanted to have the same use case as you, I was thinking of using
-the externalsrc class (
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/externalsrc.bbclass)
-the same way devtool do. I think mixing this class with something
-equivalent to the REPODIR variable should work.
-
-Let me know if you have succeeded.
-
-Best regards,
-Jean-Marie
-
-
-
-
-On Sat, May 1, 2021 at 9:45 AM Mike <rabarberpie@gmail.com> wrote:
-
-> Hi!
->
-> I am a beginner to bitbake and openembedded, so please bear with me.
->
-> In short, I have a custom system where I want to fetch all source code
-> from a Gerrit server using the (Google) repo tool.
-> So, after repo init and sync, all source code is populated in my workspace
-> (thus, bitbake doesn't have to fetch or patch the sources).
-> The SW modules themselves use regular CMake, make, or autotools for
-> building.
-> The workspace looks like:
-> (workdir)/subsystem_A/SW_module_1
-> (workdir)/subsystem_A/SW_module_2
-> (workdir)/subsystem_B/...
-> (workdir)/product_X/meta-...     (this is were all bitbake files are
-> stored in order to build product X)
-> (workdir)/product_Y/meta-...     (this is were all bitbake files are
-> stored in order to build product Y; common configs/recipes will be a common
-> product layer)
-> In product_X folder, I also plan to have a script that sets up the build
-> env (similar to oe-init-build-env), creating folder:
-> (workdir/build/
-> and populate it with bblayers.conf and local.conf. bblayers.conf will add
-> the layers at (workdir)/product_X/meta-...
-> From here, the building of the SW modules as well as the final image takes
-> place using bitbake.
-> The end result of the build is a ext4 file system image, which is flashed
-> onto target device.
->
-> First basic question:
-> How do I properly set SRC_URI in the recipes to point to the SW_modules
-> above, with no fetching/patching. Can I avoid that bitbake
-> copy the source files to the build/tmp folder?
-> I don't want to list the source files in the recipe really, I just want to
-> refer to folder (workdir)/subsystem_A/SW_module_1
-> as the CMakeLists.txt (for CMake) tells which files to build etc. Thus,
-> "file:://" doesn't sound a good idea.
-> I want to use inherit cmake and DEPENDS for managing deps.
->
-> Thanks!
-> Mike
->
->
-> 
->
->
-
---000000000000baea1805c148a601
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Mike,<div><br></div><div>I have started a project to us=
-e yocto in a repo environment. This is called openbar=C2=A0(<a href=3D"http=
-s://github.com/openbar">https://github.com/openbar</a>) but it is still a d=
-raft.</div><div><br></div><div>There is a wrapper makefile (the wizard) whi=
-ch starts bitbake in a docker environment and allows you to use .config fil=
-es to specify a build with additional actions=20
-
- (use &quot;make help&quot; for the complete usage)
-
-.</div><div><br></div><div>It also exports the REPODIR variable (the root =
-of the repo tree) to bitbake using the=C2=A0BB_ENV_EXTRAWHITE variable (<a =
-href=3D"https://www.yoctoproject.org/docs/latest/bitbake-user-manual/bitbak=
-e-user-manual.html#var-bb-BB_ENV_EXTRAWHITE">https://www.yoctoproject.org/d=
-ocs/latest/bitbake-user-manual/bitbake-user-manual.html#var-bb-BB_ENV_EXTRA=
-WHITE</a>).</div><div></div><div><br></div><div>Finally I wanted to have th=
-e same use case as you, I was thinking of using the externalsrc class (<a h=
-ref=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/ext=
-ernalsrc.bbclass">http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/=
-classes/externalsrc.bbclass</a>) the same way devtool do. I think mixing th=
-is class with something equivalent to the REPODIR=C2=A0variable should work=
-.</div><div><br></div><div>Let me know if you have=C2=A0succeeded.</div><di=
-v><br></div><div>Best regards,</div><div>Jean-Marie</div><div><br></div><di=
-v><br></div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Sat, May 1, 2021 at 9:45 AM Mike &lt;<a href=
-=3D"mailto:rabarberpie@gmail.com">rabarberpie@gmail.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><p>Hi!<br><br>I am =
-a beginner to bitbake and openembedded, so please bear with me.<br><br>In s=
-hort, I have a custom system where I want to fetch all=C2=A0source code fro=
-m a Gerrit server using the (Google) repo tool.<br>So, after repo init and =
-sync, all source code is populated in my workspace (thus, bitbake doesn&#39=
-;t have to fetch or patch the sources).<br>The SW modules themselves use re=
-gular CMake, make, or autotools for building.<br>The workspace looks like:<=
-br>(workdir)/subsystem_A/SW_module_1<br>(workdir)/subsystem_A/SW_module_2<b=
-r>(workdir)/subsystem_B/...<br>(workdir)/product_X/meta-...=C2=A0 =C2=A0 =
-=C2=A0(this is were all bitbake files are stored in order to build product=
- X)<br>(workdir)/product_Y/meta-...=C2=A0 =C2=A0 =C2=A0(this is were all bi=
-tbake files are stored in order to build product Y; common configs/recipes =
-will be a common product layer)<br>In product_X folder, I also plan to have=
- a script that sets up the build env (similar to oe-init-build-env), creati=
-ng folder:<br>(workdir/build/<br>and populate it with bblayers.conf and loc=
-al.conf. bblayers.conf will add the layers at (workdir)/product_X/meta-...<=
-br>From here, the building of the SW modules as well as the final image tak=
-es place using bitbake.<br>The end result of the build is a ext4 file syste=
-m image, which is flashed onto target device.<br><br>First basic question:<=
-br>How do I properly set SRC_URI in the recipes to point to the SW_modules =
-above, with no fetching/patching. Can I avoid that bitbake<br>copy the sour=
-ce files to the build/tmp folder?<br>I don&#39;t want to list the source fi=
-les in the recipe really, I just want to refer to folder (workdir)/subsyste=
-m_A/SW_module_1<br>as the CMakeLists.txt (for CMake) tells which files to b=
-uild etc. Thus, &quot;file:://&quot; doesn&#39;t sound a good idea.<br>I wa=
-nt to use inherit cmake and DEPENDS for managing deps.<br><br>Thanks!<br>Mi=
-ke<br><br></p>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000baea1805c148a601--
