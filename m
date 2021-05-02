@@ -1,88 +1,80 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.26175.1619994000777359385
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.26171.1619994559148102530
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 May 2021 15:20:01 -0700
+ Sun, 02 May 2021 15:29:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BAI1r9MG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id p6-20020a05600c3586b029014131bbe5c7so4716449wmq.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 15:20:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YZpGORhN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so2441291wmh.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 15:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LAjV7rcDVOGNezxuN1ZkP13euQLua4re3w+ywozj4m8=;
-        b=BAI1r9MGqrpwHs+cdhwBTj+ZW9J2ZZDljf69S7PeP4srVw5E4QgGLX9m/lyO64cbIU
-         EiWwpuDpfG16k4Ksm7LP1xK/UseftgeKYOmFBXog+yW/q4nc+Fbabls4iVyxYmdU0YF+
-         OFodsX6t7O2FvzrjU/NslsaZamc/B/I+fW1PA=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=mYqDcHiSfUzPRM4RjGc+prVLKROpB5TaswjvXOf12LU=;
+        b=YZpGORhNe7UoyC9VSW93qdoEqZoVowfBBop2d7H485hsxpTwlnGeFW23zYAM45he6Q
+         F5SlQi/0l4es9Mbrhn9antj1yj3EtNFMmtnw+Z3WIzIto24XA20vJ5IC0RmMg6QuORMm
+         U+yTQ3a6dPCOZZkD0BswcCIqXklUJ0oayiqWk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LAjV7rcDVOGNezxuN1ZkP13euQLua4re3w+ywozj4m8=;
-        b=SgalMsLA+uVWcAxlAIgkkI71yBz5ktfBtPNnNExopgGkJbVfiKdWnaas2npNKD4AyJ
-         NcX5FHB7DJDJRAknoqK8RxebpnSk6udYMUQ9nJWtdGSRvuosMZEHSc8kIyjFYD9p9jqK
-         s1zJEyJHmEcRfFbR6i1bI+86r7nR89DlTyUMNC68ac8P1by43rAT8KZNdkY8vw0Wid1r
-         eIB+YYAH0SwvqjLYyVVynAsQqSQU+WKA8WeUa5X1yZEMyNssAznnSAbYQheOCHl1NHOd
-         hSmTxMA685FhtC1qh8vlaxsvAqwHUszPF4SqHy5pg8epYLkKaIIf3jugxRb8eYdT87xu
-         Fl/g==
-X-Gm-Message-State: AOAM531ubIrbYAsTPaGOpBxXMBpL0tMRgUJdIUGslYFcbJsKpYCI0ReH
-	zF31Nch5a3uhmOrrNAt1ZOd34+DXR20gIA==
-X-Google-Smtp-Source: ABdhPJwJNBwlnw/GX6fxdrMa0MDssfqEmLQPKDEvP0ymiTCj9fMNvptcfxEc2+QC+89yBZtA8gqkVQ==
-X-Received: by 2002:a05:600c:1994:: with SMTP id t20mr4627401wmq.177.1619993999134;
-        Sun, 02 May 2021 15:19:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mYqDcHiSfUzPRM4RjGc+prVLKROpB5TaswjvXOf12LU=;
+        b=ZssK3Zugir7WCjIsEnfTd5XgIpQlUsaN+WMn7lSjzbwAq1k1ra5/hOGXDXmf/AEVLq
+         GLWozhNy/zmosKEdOCQ4cOzHKKgK2Id2bKxvRv/Oy1jbXwzZINoTAZRrmH5aCq7tbpND
+         U5C/SEuMtsXDIxhHFyrCfz9KALW43K06qRAkkwSz2PUBDDWqnGylThnyLBhgnDP4Gx0u
+         HiSV11+jvSmyHIvhc+XDuQ/ryaUpvLywfcFgpHoCpbeXfZCKiQOXh6qLA4IyUdoshsZ6
+         PmPK2AukTXM8nz8EHZQnh0u/5BZogpkte0qgtoAn8m1NmwZHNQkiQAtu2GnSEsk8a191
+         w4Qw==
+X-Gm-Message-State: AOAM530Qnyk3k47UkccT3GFg0/Da9eQtYVRQf7/hcm+SGZrbVyRGNGp/
+	3uiawB56ultlUbWRJMgYGm7L0Q==
+X-Google-Smtp-Source: ABdhPJz1RHp23DHZdY7DFSwjUrhiNr7SqVRDhZGjQel3mQNJ0qcLf+28YaSGrNXNtdHen2hZkD1wdQ==
+X-Received: by 2002:a1c:6382:: with SMTP id x124mr28825156wmb.142.1619994557660;
+        Sun, 02 May 2021 15:29:17 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2abe:bb29:590f:e028])
-        by smtp.gmail.com with ESMTPSA id n22sm7071110wmo.12.2021.05.02.15.19.58
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:2abe:bb29:590f:e028? ([2001:8b0:aba:5f3c:2abe:bb29:590f:e028])
+        by smtp.gmail.com with ESMTPSA id x8sm10185829wru.70.2021.05.02.15.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 May 2021 15:19:58 -0700 (PDT)
+        Sun, 02 May 2021 15:29:17 -0700 (PDT)
+Message-ID: <a7cd5d19859941f77793559f61cf64fbbc603d53.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] ptest-runner: libgcc must be installed for pthread_cancel to work
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] patchelf: Fix alignment patch
-Date: Sun,  2 May 2021 23:19:56 +0100
-Message-Id: <20210502221956.1879204-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+To: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 02 May 2021 23:29:15 +0100
+In-Reply-To: <20210502175441.368688-1-quaresma.jose@gmail.com>
+References: <20210502175441.368688-1-quaresma.jose@gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The previous fix was in the right direction but needed to account
-for the section alignment of the current section. Tweak the patch
-to handle this.
+On Sun, 2021-05-02 at 18:54 +0100, Jose Quaresma wrote:
+> found on runqemu core-image-minimal with gstreamer ptest-runner
+> 
+> STOP: ptest-runner
+> libgcc_s.so.1 must be installed for pthread_cancel to work
+> Aborted
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+> index 57a3ae005b..fe6ef2a43f 100644
+> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+> @@ -26,3 +26,5 @@ do_compile () {
+>  do_install () {
+>  	install -D -m 0755 ${S}/ptest-runner ${D}${bindir}/ptest-runner
+>  }
+> +
+> +RDEPENDS_${PN} += "libgcc"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../patchelf/patchelf/alignmentfix.patch      | 20 ++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Just to check, this was a missing symbol in ptest-runner and not in gstreamer?
 
-diff --git a/meta/recipes-devtools/patchelf/patchelf/alignmentfix.patch b/meta/recipes-devtools/patchelf/patchelf/alignmentfix.patch
-index 62e11a5e7f8..a06876e50a1 100644
---- a/meta/recipes-devtools/patchelf/patchelf/alignmentfix.patch
-+++ b/meta/recipes-devtools/patchelf/patchelf/alignmentfix.patch
-@@ -31,12 +31,14 @@ Index: git/src/patchelf.cc
- ===================================================================
- --- git.orig/src/patchelf.cc
- +++ git/src/patchelf.cc
--@@ -1035,6 +1035,8 @@ void ElfFile<ElfFileParamNames>::normali
--                 phdrs.push_back(new_phdr);
-- 
--             curr_off += size;
--+            /* The next section offset would be aligned */
--+            curr_off = roundUp(curr_off, sectionAlignment);
--         }
--     }
--     wri(hdr->e_phnum, phdrs.size());
-+@@ -1010,8 +1010,9 @@ void ElfFile<ElfFileParamNames>::normali
-+             size_t size = 0;
-+             for (const auto & shdr : shdrs) {
-+                 if (rdi(shdr.sh_type) != SHT_NOTE) continue;
-+-                if (rdi(shdr.sh_offset) != curr_off) continue;
-++                if (rdi(shdr.sh_offset) != roundUp(curr_off, rdi(shdr.sh_addralign))) continue;
-+                 size = rdi(shdr.sh_size);
-++                curr_off = roundUp(curr_off, rdi(shdr.sh_addralign));
-+                 break;
-+             }
-+             if (size == 0)
--- 
-2.30.2
+Cheers,
+
+Richard
 
