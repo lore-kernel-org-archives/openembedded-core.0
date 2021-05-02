@@ -1,80 +1,91 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.24888.1619985698723441546
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web08.24854.1619986349483198314
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 May 2021 13:01:39 -0700
+ Sun, 02 May 2021 13:12:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eEAdeaWh;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so2322001wmh.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 13:01:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RACV32br;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id m12so2270332pgr.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 13:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AK98PbobFsWlS93pw7wZiZZ7hTI4o2yPrp+7JwDdIqw=;
-        b=eEAdeaWhn1t9MOYILYrG7MJE54SVC5Yb+B9M1/Lymhvk9Bxan75YOqM1F4wSD2wQAT
-         SaBLgtSkOuqg1XunxEME90T3MhTXVKT4VGXcYMPUb6RGG3LEkVxyToODRMPZRY6JVI1N
-         4C3Bt0w1pvzuqcjE6XO0XYlm74QIT58O+I0+dEc+18Q5/NRqBsXqGXzACf+AnVZOppRS
-         jP42uj+7uSVcTT6pc2TtH/kFEwDzTe4cl4cHlveXPMvf1pycmR6Wll41F9Zrnijd8BrP
-         o7EiDJqBzNDn2HANjpL1NorAuBK5g4qOVU+HDag4UPf7+8YQzeQ3JYBKlWAWB5hO0pxW
-         FCHw==
+        bh=GsHeaFYBh4k3uU1PKIGzNMvHFQjvEUxW3RQBUPi0odc=;
+        b=RACV32br0M39IHlQoilK69tOj4KlIq99QcorwCIiE9JynEoQJM//GADuzSw/R8NefO
+         1oDDErzzm+5+qOzLMe7NZAEHBTOn8mdokt3vwlCRQVa0hVCS1l8L4fwgUsHR7paJDzYw
+         EEsRSiDgQYPjfoXgKWS3Uo5JQHiRblkgiUB/Lj23/YutWYoCw2XdRp8/LXBoxzJOq2Tg
+         XDYA8ug3we0O0tdAVNHQ3/IgW1xk7jI/+rI8R72439QHj8UcnoD+A4ipyJtxUNrZW9E+
+         oeiwnR3/zVL6/k3T8qsWqnOlRx4NBFk2De21nOSs0V1NSMaTAIMMtJJpHiZL4DsxGkTD
+         Oe+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AK98PbobFsWlS93pw7wZiZZ7hTI4o2yPrp+7JwDdIqw=;
-        b=WHmConuZDWgnI4NeiETCz8poLF7QeDGHdRpkvGHQEAVR5DLenWnYjjySrDk2kLkZHo
-         a/ycOFTPWm2e3YEjyN5PzWp1ZyDmb6NpmJIko/YQDvkDDuv1Z5tbtS7WZHVcwpUrDlX8
-         51oFP62Nfd9IKYpaSCkIOqowfm5qT93fbgXsp18+4AVXOkrT7QFVMQr4GFRvDRXcNuZL
-         LJ5O+jpffhFkrWxe62yqkxFL9ZhiHLVpQvXZcbZX37KH5b8y0iSeFMxXEPU2T5RA+MqP
-         FVRlWAR6NJZcIS8GjX3i8cEvkviS9BrV2RzhFAiJnebs7HtX7O83ZmM8r/0c6PHuN+Sp
-         pIyA==
-X-Gm-Message-State: AOAM530cZyPAvJEU6YsF3W8xavPutgwlP+UhgWSNhnzmKDLaGxfOA9FR
-	ZPnYVbe7vGJDXV1XuV5w5UrLo83FAiY=
-X-Google-Smtp-Source: ABdhPJxGed4+SCeENMCJLJZZqEVaasOZuOyAId5WRWWLdEaP6QiX25uoE3F7tY8hvTN16O53RZx+rQ==
-X-Received: by 2002:a05:600c:322a:: with SMTP id r42mr6867331wmp.98.1619985697055;
-        Sun, 02 May 2021 13:01:37 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from thanks-buchmuellers.speedport.ip (p200300f07f3e2e361c96f36d2ea84abd.dip0.t-ipconnect.de. [2003:f0:7f3e:2e36:1c96:f36d:2ea8:4abd])
-        by smtp.gmail.com with ESMTPSA id d22sm10237181wrc.50.2021.05.02.13.01.36
+        bh=GsHeaFYBh4k3uU1PKIGzNMvHFQjvEUxW3RQBUPi0odc=;
+        b=ETGc3vDQW5rKqu6LtXA35UgXjAgZ281RSt2j3am1aPs/dVkEmdHcqZcaujp9xGip46
+         DI4HS+OtlwtsOMwJDGZJsmHQ/rTU/MFbIbSLLoYBHxokIg8GYfRaCyyF+zHSUKEq0J6J
+         EhCAnxijtVxDBFJNIKAMCvRfoyq/9BcA0crDK+8KHIltPt4EL8zV5ERveGSSgLj4hwER
+         TmTmC1Nv97UN7lKQcmvG3qlkrC1mmrmGzOTQY15sN1g48XJfpzhaoToE4zedIOrPQERz
+         UiWW3sJgcWw6cLrkP/UOSnB5c1A2ckIyOnfMi8VVf5gqWwVZTu7neMNlF0Rxtc5/ec93
+         jZSQ==
+X-Gm-Message-State: AOAM533JpNlNDQ3Jp53cesiuoCtNznk2zNVe6RTJwO4b+X/dN4zzjLpo
+	z2P5FnPKk4SiA7QZf6OO+kAo1qBP6vc4HQ==
+X-Google-Smtp-Source: ABdhPJzD41T07Noz4rTGLdLcGgWAnVjFriQF0qlCYI9PqM/9X4I7XQPPlXNi18n4hTw+6/K2vxUQRQ==
+X-Received: by 2002:a65:6a50:: with SMTP id o16mr15205179pgu.6.1619986348758;
+        Sun, 02 May 2021 13:12:28 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from hilo.hsdl.ca.comcast.net (c-67-181-203-136.hsd1.ca.comcast.net. [67.181.203.136])
+        by smtp.gmail.com with ESMTPSA id y15sm8500530pgq.63.2021.05.02.13.12.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 May 2021 13:01:36 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+        Sun, 02 May 2021 13:12:28 -0700 (PDT)
+From: "Armin Kuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xwayland: remove protocol.txt - it clashes with xserver-xorg
-Date: Sun,  2 May 2021 22:01:28 +0200
-Message-Id: <20210502200128.1043667-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH] testimage: hangs if missing debug-tweaks
+Date: Sun,  2 May 2021 20:12:27 +0000
+Message-Id: <20210502201227.3587958-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* Images with wayland-compositors + xwayland + xserver fail to build
-* Fedora - they introduced standalone xwayland - does same [1]
+The only clue is this:
 
-[1] https://src.fedoraproject.org/rpms/xorg-x11-server-Xwayland/blob/rawhide/f/xorg-x11-server-Xwayland.spec
+WARNING: core-image-minimal-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
+WARNING: core-image-minimal-1.0-r0 do_testimage: The output:
+root
+Login incorrect
+qemux86 login:
+Login timed out after 60 seconds
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Poky (Yocto Project Reference Distro) 3.3+snapshot-65e75bd5d40c10509a3416026e551b7b7111c42a qemux86 /dev/ttyS1
+
+qemux86 login: <<< run_serial(): command timed out after 120 seconds without output >>>
+
+Hangs here....
+
+We should issue a error and quit.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xwayland/xwayland_21.1.1.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/testimage.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-index b2ff25fbbc..8b1c96fc4a 100644
---- a/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_21.1.1.bb
-@@ -17,5 +17,10 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 43de9d4d767..18ebbf90ec5 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -142,6 +142,10 @@ do_testimage[depends] += "${TESTIMAGEDEPENDS}"
+ do_testimage[lockfiles] += "${TESTIMAGELOCK}"
  
- DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy"
- 
-+do_install_append() {
-+    # remove files not needed and clashing with xserver-xorg
-+    rm -rf ${D}/${libdir}/xorg/
-+}
+ def testimage_sanity(d):
++    if (bb.utils.contains("IMAGE_FEATURES", [ 'debug-tweaks'], False, True, d)):
++        bb.fatal('testimage requires a blank root password'
++                'Please check if debug-tweaks is IMAGE_FEATURES.')
 +
- FILES_${PN} += "${libdir}/xorg/protocol.txt"
- 
+     if (d.getVar('TEST_TARGET') == 'simpleremote'
+         and (not d.getVar('TEST_TARGET_IP')
+              or not d.getVar('TEST_SERVER_IP'))):
 -- 
-2.30.2
+2.25.1
 
