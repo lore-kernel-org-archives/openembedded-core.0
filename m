@@ -1,77 +1,82 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web09.16.1620062191236231667
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web12.1265.1620067343554920960
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 10:16:31 -0700
+ Mon, 03 May 2021 11:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dHYCOdAh;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id w3so9028120ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 10:16:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=os2FBc9K;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id x2so9529414lff.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 11:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6qqUYyl3HDJgSEtB4/0OZdV2z+FfrYPplVp/fx14TtU=;
-        b=dHYCOdAhYtDMnW4O7EclOxN5jQgtWLSXlUsSwF9/r0hAR1gVrNKRBMfxtQ7wh+1/l1
-         0wZ+I0BlhNR1in35foxrffFhCtv89qUQSDrOu+5l7pqkjrgXEDFtnT5aY/rF4EF77dtX
-         hBo1O41UaNCbCT2u3BAb55qUWPIJFh6sNUiPoaaq4UelmaGdMxAfqzGo1wcye30OVwif
-         cP5zhjgEmTkZIZn7i5Up8icpUUv1Suu+o9nliIKsd/Fx4Z5SBjxpdzAWDvFChwx/1NaQ
-         tFj4QCfaxjO0nxTahhS+vQT9QXTliuLjeGzc+eV52muBjYVH6i8I9SC1iGT5TZuTF+PW
-         ARgQ==
+         :cc;
+        bh=fQVuRU6eoa+tTNNOornp7VKyU1uRWalaG2+5pLpHl+Q=;
+        b=os2FBc9KhHvoW5MhAyn220U7Z0OxUVZBu7Iw8ZfaxaYT3rL0+RzM8moE+V0nCijCON
+         3rFCWlO2pbHS6NRd5q+qGKScY+fzbI+s2+CiPBlMOcnNm56S79d9/X9m09yuuYRpUdJG
+         5T0++Ufx+Tbl+5syyeo9ipUyriwL4gHY7J8RbsyTiu/iFvC4sL2EOkJblSmSAKzafFqm
+         C8NQ/QL5x4VCkFGV3vq2nLKMQ9BCpPqRbCH7x+w/XjwgXUXuWkGtfR8kNEOyZOy1Hf7Q
+         7Dl74tcjH++meCujECgJhVzi6T3mjF84+UjnjDNuEiR6yYf4MGc1+D9uwhe4MRVhtfGL
+         eQ2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6qqUYyl3HDJgSEtB4/0OZdV2z+FfrYPplVp/fx14TtU=;
-        b=NRp/0hbGi/HjtCSMCcSGW/3ncbzuIdP2qbVHf7moAsD9mGS+sjen5hzVO6wpUnjGQf
-         OZeWmc2qEmMjmonOEIo0nfDW+BXNOI00wqsn02LTTwRW4/Ew5+yGOpzbQVTXNWAyWq+8
-         iz6QoWAQngTWFqzCIiCUOTWokjaaxOCTFmINC2pxZzv2TAFhM15j3XGVKDu2rkOcwMEJ
-         1VgR/jqltEb3inKrK5mRwTt8DRfYR6hL7mra5BsSIOojY2vXJQlf8t64ranZZGl/OPiN
-         n4zp2eE08Mv4EUrW9rmyYpJfdFlXYTVJ2/h6bB3MarrWI1h0eTkyth/6YoptEPbcfVAL
-         TXZw==
-X-Gm-Message-State: AOAM530hrGQnwbmceveHwWgfrdIg3md2Pztsd5j/URExh3rxHtPUFWAo
-	5SkyWLUkhZirUoKPT/wCSdQhY691DQxgqsjY/rw=
-X-Google-Smtp-Source: ABdhPJwtL4UiNikWt3VKFfMk8EmmJr49U+3AMkbQkQtvsonSklganZZX3B9hrTpReC0CGCy5zvi0eu1NjQWo21dUHs0=
-X-Received: by 2002:a17:907:9612:: with SMTP id gb18mr17951332ejc.408.1620062189714;
- Mon, 03 May 2021 10:16:29 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=fQVuRU6eoa+tTNNOornp7VKyU1uRWalaG2+5pLpHl+Q=;
+        b=X3KqYa/vrf+QnqteqZYx+vF8pICe3pR/lhFMSb/xErhB9DQ6SC6ZqMGV3Om8NxWBbr
+         L0tPka0fK6UirShd+nYppAvudevIYnQX6XSe2HpjJZdQg8Gt1BBfuBDYfG83BbPzj7A0
+         CdfYFI1PzqqvFhdOMmwIpWeKVFeBOx+JQC1TBF6sUuh8SCi6nL6qwDe5TRtoYX+AdBBI
+         ExRyv/XNursc5PLjbVJ7WJBzoBjZjhRSWf+nLN5OqrmZdQZhjBXiA5LoQRV/KSZ7+dSW
+         NxXmTbY8kqA142McyfASWon8ad2HhVKrwLXY1roWUNcQgggntA/CpZHzbo127NZeOSOt
+         30rA==
+X-Gm-Message-State: AOAM530yYahv43zbcAoNUHlM+1n9U1dtKCoLHZx8PrvPQMixqQWIrVEY
+	cSq9jzkhlW8ZvjKBhHd36625KxpVnlUxWJM6RqM=
+X-Google-Smtp-Source: ABdhPJzg5fUOB1IZZ9IIJBfL8SF2EAN3P6fBfrZ+ANvZq7r6zCSje4mlxExwVaO6IuI9wdWdkdSu46GPLT3niec1RsI=
+X-Received: by 2002:ac2:528d:: with SMTP id q13mr5753223lfm.73.1620067341388;
+ Mon, 03 May 2021 11:42:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210502175441.368688-1-quaresma.jose@gmail.com>
- <167B517A343BA3A6.25516@lists.openembedded.org> <CANPvuRnX=tSwOzFn3Vkx6JRg5rigu-Gy86SFpsXY5COLDpDvgQ@mail.gmail.com>
- <9fa68475197d0b0d6c0dfa250fc433e101d9ed9a.camel@linuxfoundation.org>
-In-Reply-To: <9fa68475197d0b0d6c0dfa250fc433e101d9ed9a.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 3 May 2021 18:17:46 +0100
-Message-ID: <CANPvuRko-KR6yh=8HbMzcQ_M+j8DcLxu5=tZFjGZ8Q7tKez4hA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] gstreamer1.0: update ptest patch
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <14306152-1445-7a44-523-beb73a6dbda@crashcourse.ca>
+In-Reply-To: <14306152-1445-7a44-523-beb73a6dbda@crashcourse.ca>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Mon, 3 May 2021 11:42:09 -0700
+Message-ID: <CAJ86T=WaeNQCJr4ednad1znvq8LV3P6wYvPwrzZh4rHWUDma-A@mail.gmail.com>
+Subject: Re: [OE-core] how to add a "-dev" package to host SDK?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-segunda, 3/05/2021 =C3=A0(s) 15:06:
+On Mon, May 3, 2021 at 7:55 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> On Mon, 2021-05-03 at 09:52 +0100, Jose Quaresma wrote:
-> > I have a question regarding the patches submission, what is the most
-> > appropriate option to submit them ?
-> >
-> > 1 - send all patches as it is submitted upstream
-> > 2 - squash all patches it in single one
+>   colleague asks a simple question (and i'm not in front of my dev box
+> at the moment so i can't verify what i'm about to suggest): how to add
+> the header files in a given "-dev" package to the host component of
+> the SDK?
+
+The implication of that is that you want to use a header file from a
+host component of the SDK to be able to compile additional tools etc
+to run on the host after the SDK has been created?
+
+Normally the SDK tools etc which run on the host are all compiled as
+part of creating the SDK, not afterwards.
+
+>   i haven't spent a lot of time messing with SDKs (that is about to
+> change), but as i read it, if one wants to add the contents of any
+> given development package to the host SDK, it would look like:
 >
-> I think you'd done 1) and that seemed reasonable to me? It makes sense
-> to have the separate changes identified.
-
-Yes, I have included all the patches as been sent upstream.
-Thank you for the answer.
-
+>   TOOLCHAIN_HOST_TASK_append = " nativesdk-fubar-dev"
 >
-> Cheers,
+>   i have no idea what the rationale is here, i'm just trying to
+> address the question, which in addition asks, "if you add something
+> like that to the host side, is it automatically added to the target
+> side?"
+
+It's not.
+
+>   i'm pretty sure it isn't, but i can check that after i log in. i
+> have no idea what they're up to here, i just want to answer the
+> question.
 >
-> Richard
+> rday
 >
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
+> 
+>
