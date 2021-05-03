@@ -1,27 +1,27 @@
 Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.34639.1620052602095814023
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 07:36:45 -0700
+ Mon, 03 May 2021 07:36:46 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: NMmbuNYsju8/6It5cRyTLxm86Sb/SIt93yXTNJJpKLb2lb3qwsNgcMlfaWzHshiDH+vqbi29X/
- 46P7fDCxuaOg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="197849520"
+IronPort-SDR: nnkhnrxND4ShAG/6JzDi3DfcOsFZ60jW4kH70OaeTPDwk1mnJFlCwbRS1ZNdI0Fh/l8vb2+yqP
+ kWQwDcHO5QAw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="197849534"
 X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="197849520"
+   d="scan'208";a="197849534"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:44 -0700
-IronPort-SDR: k112Gazh1FpnlxEfWkBfznMjYMiE3qF9q+OiWi9zF0a9JTVnRIzCYUfCJK5j0mu8Mh0DJPDcjw
- KWhRfMt5bvgg==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:46 -0700
+IronPort-SDR: 6gGbZ85u8Z6AuZR91tvImkNbhJWxXNRUatM+TFDYwtrs3GaoyC2WGT+GNl122ElnZsrgPqwB6d
+ vM8Slk4QGTAA==
 X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="405697122"
+   d="scan'208";a="405697134"
 Received: from semohdyu-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.72.206])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:43 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:44 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 2/6] cairo: fix CVE-2020-35492
-Date: Mon,  3 May 2021 22:36:30 +0800
-Message-Id: <58e9ecbda48faff9c1babc90504eb76805eb9266.1620052258.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 3/6] gdk-pixbuf: fix CVE-2021-20240
+Date: Mon,  3 May 2021 22:36:31 +0800
+Message-Id: <69314f890b208ac5ac5d63b905c42f3d3c39da7c.1620052258.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620052258.git.anuj.mittal@intel.com>
 References: <cover.1620052258.git.anuj.mittal@intel.com>
@@ -33,181 +33,69 @@ From: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../cairo/cairo/CVE-2020-35492.patch          | 121 ++++++++++++++++++
- .../cairo/cairo/bug-image-compositor.ref.png  | Bin 0 -> 185 bytes
- meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  11 ++
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
+ .../gdk-pixbuf/CVE-2021-20240.patch           | 40 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
 
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
 new file mode 100644
-index 0000000000..f8e69beb0b
+index 0000000000..fe594b24bb
 --- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-@@ -0,0 +1,121 @@
-+From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
-+From: Heiko Lewin <heiko.lewin@worldiety.de>
-+Date: Tue, 15 Dec 2020 16:48:19 +0100
-+Subject: [PATCH] Fix mask usage in image-compositor
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+@@ -0,0 +1,40 @@
++From 086e8adf4cc352cd11572f96066b001b545f354e Mon Sep 17 00:00:00 2001
++From: Emmanuele Bassi <ebassi@gnome.org>
++Date: Wed, 1 Apr 2020 18:11:55 +0100
++Subject: [PATCH] Check the memset length argument
 +
-+CVE: CVE-2020-35492
++Avoid overflows by using the checked multiplication macro for gsize.
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/cairo/cairo/-/commit/03a820b173ed1fdef6ff14b4468f5dbc02ff59be?merge_request_iid=85]
++Fixes: #132
 +
-+original patch from upstream has a binary file, it will cause
-+do_patch failed with "git binary diffs are not supported".
-+
-+so add do_patch_append in recipe to add this binary source. when removing
-+this patch, please also remove do_patch_append for this patch
++Upstream-Status: Backported [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/086e8adf4cc352cd11572f96066b001b545f354e]
++CVE: CVE-2021-20240
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ src/cairo-image-compositor.c                |   8 ++--
-+ test/Makefile.sources                       |   1 +
-+ test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
-+ 3 files changed, 44 insertions(+), 4 deletions(-)
-+ create mode 100644 test/bug-image-compositor.c
++ gdk-pixbuf/io-gif-animation.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
-+index 79ad69f68..4f8aaed99 100644
-+--- a/src/cairo-image-compositor.c
-++++ b/src/cairo-image-compositor.c
-+@@ -2610,14 +2610,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ 		    unsigned num_spans)
-+ {
-+     cairo_image_span_renderer_t *r = abstract_renderer;
-+-    uint8_t *m;
-++    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
-+     int x0;
++diff --git a/gdk-pixbuf/io-gif-animation.c b/gdk-pixbuf/io-gif-animation.c
++index c9db3c66e..49674fd2e 100644
++--- a/gdk-pixbuf/io-gif-animation.c
+++++ b/gdk-pixbuf/io-gif-animation.c
++@@ -412,11 +412,15 @@ gdk_pixbuf_gif_anim_iter_get_pixbuf (GdkPixbufAnimationIter *anim_iter)
 + 
-+     if (num_spans == 0)
-+ 	return CAIRO_STATUS_SUCCESS;
++         /* If no rendered frame, render the first frame */
++         if (anim->last_frame == NULL) {
+++                gsize len = 0;
++                 if (anim->last_frame_data == NULL)
++                         anim->last_frame_data = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, anim->width, anim->height);
++                 if (anim->last_frame_data == NULL)
++                         return NULL;
++-                memset (gdk_pixbuf_get_pixels (anim->last_frame_data), 0, gdk_pixbuf_get_rowstride (anim->last_frame_data) * anim->height);
+++                if (g_size_checked_mul (&len, gdk_pixbuf_get_rowstride (anim->last_frame_data), anim->height))
+++                        memset (gdk_pixbuf_get_pixels (anim->last_frame_data), 0, len);
+++                else
+++                        return NULL;
++                 composite_frame (anim, g_list_nth_data (anim->frames, 0));
++         }
 + 
-+     x0 = spans[0].x;
-+-    m = r->_buf;
-++    m = base;
-+     do {
-+ 	int len = spans[1].x - spans[0].x;
-+ 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
-+@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ 				      spans[0].x, y,
-+ 				      spans[1].x - spans[0].x, h);
-+ 
-+-	    m = r->_buf;
-++	    m = base;
-+ 	    x0 = spans[1].x;
-+ 	} else if (spans[0].coverage == 0x0) {
-+ 	    if (spans[0].x != x0) {
-+@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-+ #endif
-+ 	    }
-+ 
-+-	    m = r->_buf;
-++	    m = base;
-+ 	    x0 = spans[1].x;
-+ 	} else {
-+ 	    *m++ = spans[0].coverage;
-+diff --git a/test/Makefile.sources b/test/Makefile.sources
-+index 7eb73647f..86494348d 100644
-+--- a/test/Makefile.sources
-++++ b/test/Makefile.sources
-+@@ -34,6 +34,7 @@ test_sources = \
-+ 	bug-source-cu.c					\
-+ 	bug-extents.c					\
-+ 	bug-seams.c					\
-++	bug-image-compositor.c				\
-+ 	caps.c						\
-+ 	checkerboard.c					\
-+ 	caps-joins.c					\
-+diff --git a/test/bug-image-compositor.c b/test/bug-image-compositor.c
-+new file mode 100644
-+index 000000000..fc4fd370b
-+--- /dev/null
-++++ b/test/bug-image-compositor.c
-+@@ -0,0 +1,39 @@
-++#include "cairo-test.h"
-++
-++static cairo_test_status_t
-++draw (cairo_t *cr, int width, int height)
-++{
-++    cairo_set_source_rgb (cr, 0., 0., 0.);
-++    cairo_paint (cr);
-++
-++    cairo_set_source_rgb (cr, 1., 1., 1.);
-++    cairo_set_line_width (cr, 1.);
-++
-++    cairo_pattern_t *p = cairo_pattern_create_linear (0, 0, width, height);
-++    cairo_pattern_add_color_stop_rgb (p, 0, 0.99, 1, 1);
-++    cairo_pattern_add_color_stop_rgb (p, 1, 1, 1, 1);
-++    cairo_set_source (cr, p);
-++
-++    cairo_move_to (cr, 0.5, -1);
-++    for (int i = 0; i < width; i+=3) {
-++	cairo_rel_line_to (cr, 2, 2);
-++	cairo_rel_line_to (cr, 1, -2);
-++    }
-++
-++    cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-++    cairo_stroke (cr);
-++
-++    cairo_pattern_destroy(p);
-++
-++    return CAIRO_TEST_SUCCESS;
-++}
-++
-++
-++CAIRO_TEST (bug_image_compositor,
-++	    "Crash in image-compositor",
-++	    "stroke, stress", /* keywords */
-++	    NULL, /* requirements */
-++	    10000, 1,
-++	    NULL, draw)
-++	    
-++	    
 +-- 
 +GitLab
-diff --git a/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png b/meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
-new file mode 100644
-index 0000000000000000000000000000000000000000..939f659d2c8620e9927a3a79f5e96fb639c418be
-GIT binary patch
-literal 185
-zcmeAS@N?(olHy`uVBq!ia0y~yP!|BQ89A7M<o7+wF+hqf$=lt9;Xep2*t>i(P$bXO
-z#WAE}&f8-f1se=_SPWL_NSx=C)BnJ0eBr6Z%1egFEOv(*t#+|{>X&v^RS7GQe(vez
-lf)$wgmAfM(p2Sx&&i!{gWy)N&qd=P(JYD@<);T3K0RWsgHuC@g
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index 68f993d7ca..d48da1a4c7 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -27,6 +27,8 @@ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://CVE-2018-19876.patch \
-            file://CVE-2019-6461.patch \
-            file://CVE-2019-6462.patch \
-+           file://CVE-2020-35492.patch \
-+           file://bug-image-compositor.ref.png \
-           "
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+index 16708fd581..32af2de1e8 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
+            file://missing-test-data.patch \
+            file://CVE-2020-29385.patch \
++           file://CVE-2021-20240.patch \
+            "
  
- SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
-@@ -64,6 +66,15 @@ export ac_cv_lib_bfd_bfd_openr="no"
- # Ensure we don't depend on LZO
- export ac_cv_lib_lzo2_lzo2a_decompress="no"
- 
-+#for CVE-2020-35492.patch
-+do_patch_append() {
-+    bb.build.exec_func('do_cp_binary_source', d)
-+}
-+
-+do_cp_binary_source () {
-+	cp ${WORKDIR}/bug-image-compositor.ref.png ${S}/test/reference/
-+}
-+
- do_install_append () {
- 	rm -rf ${D}${bindir}/cairo-sphinx
- 	rm -rf ${D}${libdir}/cairo/cairo-fdr*
+ SRC_URI_append_class-target = " \
 -- 
 2.30.2
 
