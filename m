@@ -1,296 +1,110 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
- by mx.groups.io with SMTP id smtpd.web08.1524.1620079832045131684
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web08.2320.1620083814539952745
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 15:10:32 -0700
+ Mon, 03 May 2021 16:16:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rf4NVDSf;
- spf=pass (domain: gmail.com, ip: 209.85.221.179, mailfrom: paulo.zaneti@gmail.com)
-Received: by mail-vk1-f179.google.com with SMTP id b21so1571692vkb.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 15:10:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cGR0GiAl;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id h127so787581pfe.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 16:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GaA6mfzzsVErEZOWN5jPZhLGYhQKQm2jgwxFb3jhPCs=;
-        b=Rf4NVDSfC9uGHezMweluYHcZrcVrhK5Jcicz2s7Je4rp3geqj9wEiQQM+VOKr4y19Z
-         pf6NUixww9/0lkU4cUxHiF77+T1toJpGhItPJkfYhvh0wbV5vD68OALqGmtMDgPBC6+K
-         EDoIu+9cG3DVPlXr+71ojqSgpsCpfAaggr9v/o5k9RMG++vBlvXIXHX6Wl8jTT722ozK
-         CbcxKIf6WoTWAZBY+ostEBbCLjEWPYni8qK4XvF44qCoOK8aV/oIReawz0qTgdJyVJHc
-         g3VozYar3hLX3sfP4EhZWj6FGdHtxai+F/MY+WNjJi+j7jRSWZjaYupHXa9/L0M4fyR6
-         zm/A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdEohfHzvO0U0kXy317DLUTYAeiQL/oBUHpIK0Vn1Q8=;
+        b=cGR0GiAlp27FN7D+eD4nAX01CG20F01RgGtFnRAskPYNW6L6B/nTeeFpAQAD0VnKLx
+         JLjyzU61Cm+972GiOdNVKUxH42kRnJ2ETdLNkuBoU8xzlVyIx6FWsrOgZVIZq4a045ON
+         iJVHi0jIEL5VmdQkQFWRlLPd+lZ71Wyd+w5tqhCZKv2d0Mm8tTxfWGxz7D7GwlhGq4P1
+         bDWMSwCHCYnhRl1QeRIezB69IBwHz2c++1wQW/K7aX4+2peG6bAiSmdiANJ9n2KY1fuK
+         vunOAe+FQWhRSDX8cRuGakNnFDbKkuHZpBHcEEELXGyv6WzdiLqGhEWZM6mnkz8PXZSt
+         iM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GaA6mfzzsVErEZOWN5jPZhLGYhQKQm2jgwxFb3jhPCs=;
-        b=Jx5oPpbty69NxeAEX3NKMVpv8rkJatQpAIGIdl53Mvnbd5OI+u7MXwmTiCtvPwk5yF
-         piC0YwE0mJ8WzjqkJOZc1AZtSlmpz+qNbRNXfkfwz/jG33CWMc+xWtZWZas7Db0GT0mH
-         46EkEyP9RrRu+5aFA0tFxWqUvbaISq6VylGMq6YL0oLUEtoh0LBOjsw4OBqh/Zo6YP3n
-         D34GXiqAsDVdKEJ5hd4FIbQE11o7S2XbZZ65VVGK7UZvHnMf2CTyRCDDCetX8KH6xX69
-         +Vg+lRX864tI6OrN8EUc+AjiULO4neG+vEtJvG5LhbMw8H5pwpoMFkzwnldeaUeLUW6h
-         OtEw==
-X-Gm-Message-State: AOAM53017NTABjhwhrQXVIwD5hMBDHTVOE7Vwu3UaFvouGjfFIhTsX+t
-	kcSQOIkkKHDISuTyUyMvM6LgGkYiJ9GPSkjoJTk=
-X-Google-Smtp-Source: ABdhPJwZGWsFc5mBSRl7UmJAofK6Pk7FUQvZs5dURxodgIbzHEnxduUOBK0J8feP3si4h7xIWjRYYrWfVIem04qOC0E=
-X-Received: by 2002:a1f:b2d4:: with SMTP id b203mr10130330vkf.12.1620079831176;
- Mon, 03 May 2021 15:10:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pdEohfHzvO0U0kXy317DLUTYAeiQL/oBUHpIK0Vn1Q8=;
+        b=YbHv0tG8+8wubxoZ4UMT0eS/lEXJnFMTGCsHzE1FFxbNImvWJDuMzn2VYRO065rJE7
+         BvtdDZFmZSYiE8uO1Zgoyfy98rJH3lMRVBApSGY0siRZiLfkfIF++k+/cTZFsXAsfXH9
+         zWSDsH+DgfPuMrbAe/XwOJ4TSeAxgmsZ1bun8PQAVs11Orkf2PqNkqrNNgcuzI7bb5RS
+         N/t0EaFYgbOH7pQyzuW02SbcuRuwASsIN7Gj9HKayk49K1nuYDXeaZj8lkbC0xael5Um
+         cqoDlqXQVT6ULml8GxudnqvGjyKZOf6AtgVOgsaGHA3RcAwQWOsjjKNVk1leM19h0lTR
+         Xy7A==
+X-Gm-Message-State: AOAM5327Q7H+IpHQ+3v+8QGq2g7mf01rciptznckvnkhaObwVLjoIJxR
+	xdeZrptU10AaRkfcLS0CCiLpD/PLnmkvQQ==
+X-Google-Smtp-Source: ABdhPJy1GRm4aYDG9B+ybg3GQJsrWNuWo1q+nf9Iy4U7V7vn10ezCmD5n6PXPSYiqsz7SVwe4R8udg==
+X-Received: by 2002:a63:ff25:: with SMTP id k37mr387037pgi.360.1620083813609;
+        Mon, 03 May 2021 16:16:53 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
+        by smtp.gmail.com with ESMTPSA id t9sm800494pgg.6.2021.05.03.16.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 May 2021 16:16:53 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] busybox: Fix reproducibility
+Date: Mon,  3 May 2021 16:16:51 -0700
+Message-Id: <20210503231651.731010-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <4145ce915f734aae9f53ab2575521f2d@intel.com> <25102.1618841602267269069@lists.openembedded.org>
- <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
-In-Reply-To: <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
-From: "Paulo Cesar Zaneti" <paulo.zaneti@gmail.com>
-Date: Mon, 3 May 2021 19:10:19 -0300
-Message-ID: <CAP77v2q8rerbKzLsz8dbrLgu9T3dMdbaiGmDM+a33BUz0fzQzA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perl: fix startperl configuration option for perl-native
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d8599805c1743a65"
+Content-Transfer-Encoding: 8bit
 
---000000000000d8599805c1743a65
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The ensures that globbing results in same order irrespective of shell in
+use
 
-Hi Peter,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...Use-C-locale-when-calling-sed-on-glo.patch | 28 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.33.0.bb   |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
 
-The motivation for the patch is just using a correct value for "startperl"
-configuration when build perl-native.
-Without the patch, this configuration option is set to a non existent path.
+diff --git a/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+new file mode 100644
+index 0000000000..e0a22c5bb3
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+@@ -0,0 +1,28 @@
++From bff7f16f7f41de8df67beb03722f235828ef2249 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 3 May 2021 15:48:19 -0700
++Subject: [PATCH] gen_build_files: Use C locale when calling sed on globbed files
++
++sort order is different based on chosen locale and also default shell
++being bash or dash
++
++This sets the environment variable LC_ALL to the value C, which will
++enforce bytewise sorting, irrespective of the shell
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ scripts/gen_build_files.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/scripts/gen_build_files.sh
+++++ b/scripts/gen_build_files.sh
++@@ -4,6 +4,8 @@
++ # but users complain that many sed implementations
++ # are misinterpreting --.
++ 
+++export LC_ALL=C
+++
++ test $# -ge 2 || { echo "Syntax: $0 SRCTREE OBJTREE"; exit 1; }
++ 
++ # cd to objtree
+diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
+index a92fa2fe5f..c334c42000 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
+@@ -48,6 +48,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://rev.cfg \
+            file://pgrep.cfg \
+            file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
++           file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
+            "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-- 
+2.31.1
 
-When I fixed "startperl", tools like "pod2man" stopped working as the
-"do_install_append_class-native()"  function expected the non existent path
-on the shebang string (#! ...).
-So I also had to change the "do_install_append_class()".
-If you look at function "cpan_do_install()" in meta/classes/cpan.bbclass,
-you see that both functions now use same pattern for shebang string
-substitution.
-
-I can't understand why the pod2man in your build is still using the non
-existent path on the shebang string.
-
-Would you mind to execute the following steps and send me the results? That
-may help me understand a bit better.
-
-bitbake perl-native -c compile -f
-head -1 $(find */work/*/perl-native/ -name pod2man)
-grep "startperl=3D" */work/*/perl-native/*/perl*/lib/Config_heavy.pl
-*/work/*/perl-native/*/perl*/config.log
-
-You may partially replace the complete path by some "..." as you did before=
-.
-
-I hope we can find a solution to replace the patch with another one that
-fixes the "startperl" configuration without breaking your build.
-
-Regards,
-Paulo
-
-On Fri, Apr 30, 2021 at 5:42 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> Well, it did break our builds. I now get the following error when buildin=
-g
-> a native recipe that inherits perlnative and tries to run pod2man:
->
->
->
-> | /bin/sh: /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/pod2man:
-> /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/per: bad interpreter: N=
-o such
-> file or directory
->
->
->
-> This is because the first two lines of the pod2man script now looks like
->
->
->
-> #!/home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl
->
->     eval 'exec /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl -S =
-$0
-> ${1+"$@"}'
->
->
->
-> instead of the previous:
->
->
->
-> #!/usr/bin/env nativeperl
->
->     eval 'exec /usr/bin/env nativeperl -S $0 ${1+"$@"}'
->
->
->
-> I.e., the sed command in perl=E2=80=99s do_install_append_class-native() =
-does not
-> seem to have done anything, which is because there is no
-> =E2=80=9Cperl-native.*/perl" in the path to match (as can be seen above),=
- it is
-> just =E2=80=9Cperl=E2=80=9D, which is what the old code was looking for.
->
->
->
-> [ In the above examples, I have replaced a longish part of the path with =
-=E2=80=A6
-> to protect the innocent. ]
->
->
->
-> //Peter
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *Paulo Cesar
-> Zaneti
-> *Sent:* den 19 april 2021 16:13
-> *To:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH] perl: fix startperl configuration option
-> for perl-native
->
->
->
-> I just re-send the patch with additional fix for the build failure.
->
-> I think the basic problem was an inconsistency in the way perl recipe and
-> cpan.bbclass convert the absolute perl path to env path.
-> Version 2 of the patch tries to use same cpan.bbclass approach on the per=
-l
-> recipe.
->
-> Before submitting I just ran "bitbake -k world". I hope it doesn't break
-> the build again.
->
-
---000000000000d8599805c1743a65
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Peter,</div><div><br></div><div>The motivation for=
- the patch is just using a correct value for &quot;startperl&quot; configur=
-ation when build perl-native.</div><div>Without the patch, this configurati=
-on option is set to a non existent path.</div><div><br></div><div>When I fi=
-xed &quot;startperl&quot;, tools like &quot;pod2man&quot; stopped working a=
-s the &quot;do_install_append_class-native()&quot;=C2=A0 function expected =
-the non existent path on the shebang string (#! ...).</div><div>So I also h=
-ad to change the &quot;do_install_append_class()&quot;.</div><div>If you lo=
-ok at function &quot;cpan_do_install()&quot; in meta/classes/cpan.bbclass, =
-you see that both functions now use same pattern for shebang string substit=
-ution.</div><div><br></div><div>I can&#39;t understand why the pod2man in y=
-our build is still using the non existent path on the shebang string.</div>=
-<div><br></div><div>Would you mind to execute the following steps and send =
-me the results? That may help me understand a bit better.</div><div><br></d=
-iv><div>bitbake perl-native -c compile -f<br>head -1 $(find */work/*/perl-n=
-ative/ -name pod2man)<br>grep &quot;startperl=3D&quot; */work/*/perl-native=
-/*/perl*/lib/Config_heavy.pl */work/*/perl-native/*/perl*/config.log</div><=
-div><br></div><div>You may partially replace the complete path by some &quo=
-t;...&quot; as you did before.</div><div><br></div><div>I hope we can find =
-a solution to replace the patch with another one that fixes the &quot;start=
-perl&quot; configuration without breaking your build.</div><div><br></div><=
-div>Regards,</div><div>Paulo<br></div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 30, 2021 at 5:42 PM Peter=
- Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjel=
-lerstedt@axis.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-
-
-
-
-
-<div style=3D"overflow-wrap: break-word;" lang=3D"SV">
-<div class=3D"gmail-m_-3454985988550602063WordSection1">
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-Well, it did break our builds. I now get the following error when building =
-a native recipe that inherits perlnative and tries to run pod2man:<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:rgb(148,54=
-,52)" lang=3D"EN-US">| /bin/sh: /home/pkj/=E2=80=A6/recipe-sysroot-native/u=
-sr/bin/pod2man: /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/per: bad =
-interpreter: No such file or directory<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-This is because the first two lines of the pod2man script now looks like<u>=
-</u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:rgb(148,54=
-,52)" lang=3D"EN-US">#!/home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/pe=
-rl<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:rgb(148,54=
-,52)" lang=3D"EN-US">=C2=A0=C2=A0=C2=A0 eval &#39;exec /home/pkj/=E2=80=A6/=
-recipe-sysroot-native/usr/bin/perl -S $0 ${1+&quot;$@&quot;}&#39;<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-instead of the previous:<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:rgb(148,54=
-,52)" lang=3D"EN-US">#!/usr/bin/env nativeperl<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:rgb(148,54=
-,52)" lang=3D"EN-US">=C2=A0=C2=A0=C2=A0 eval &#39;exec /usr/bin/env nativep=
-erl -S $0 ${1+&quot;$@&quot;}&#39;<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-I.e., the sed command in perl=E2=80=99s do_install_append_class-native() do=
-es not seem to have done anything, which is because there is no =E2=80=9Cpe=
-rl-native.*/perl&quot; in the path to match
- (as can be seen above), it is just =E2=80=9Cperl=E2=80=9D, which is what t=
-he old code was looking for.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-[ In the above examples, I have replaced a longish part of the path with =
-=E2=80=A6 to protect the innocent. ]<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-//Peter<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
-<u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bord=
-er-style:none none none solid;border-width:medium medium medium 1.5pt;paddi=
-ng:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;borde=
-r-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm"=
->
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"=
-mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembe=
-dded-core@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>Paulo Cesar Zaneti<br>
-<b>Sent:</b> den 19 april 2021 16:13<br>
-<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core] [PATCH] perl: fix startperl configuration opt=
-ion for perl-native<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">I just re-send the patch with additional fix for the=
- build failure.<br>
-<br>
-I think the basic problem was an inconsistency in the way perl recipe and c=
-pan.bbclass convert the absolute perl path to env path.<br>
-Version 2 of the patch tries to use same cpan.bbclass approach on the perl =
-recipe.<br>
-<br>
-Before submitting I just ran &quot;bitbake -k world&quot;. I hope it doesn&=
-#39;t break the build again.
-<u></u><u></u></p>
-</div>
-</div>
-</div>
-
-</blockquote></div>
-
---000000000000d8599805c1743a65--
