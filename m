@@ -1,181 +1,186 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web12.51.1620071769120820685
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+ by mx.groups.io with SMTP id smtpd.web12.1.1620072208509003521
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 12:56:09 -0700
+ Mon, 03 May 2021 13:03:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=nk+LdySu;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.177, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f177.google.com with SMTP id n22so4638705qtk.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 12:56:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YuYaE/CZ;
+ spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: paulo.zaneti@gmail.com)
+Received: by mail-vs1-f42.google.com with SMTP id k19so3615543vsg.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 13:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=R6L6HJZLuSSxyM7uWPioxPbQmcoI92DJssEmJPP8W10=;
-        b=nk+LdySuZhtE/pb01Jwt6XXv4fmdHCQHClFUMybRQs26QkuPsCzbzcs3Liwd89Zlzt
-         Usn5mvR3E1o80bEuKbuqkMTcGSgUmjcmAbLQTBKw0usRL0u2anpOZwHeGU3SiI6rdxtr
-         Sc8/oFEP8uB1PuyefOsskj4jinRTd4B7CK1k+SRRL3Pjq/6ddArxhpBBjVjj253xx6ms
-         SQXDYIHWIQhLAaYajrueBW0k5vnQLAUGg1SttFaUf2vLPZ/AR26AxAGpuDKiCCwrl9V2
-         RrK9ZFEzby7X34LUcPob5PTlLTMMWZuf/+St1GT6W5iS0BSMfFqHUI/ts8g/8zSQRCcP
-         YTew==
+        bh=3gMs0XJyCymgEiBCBu4dIsSd4u02ofzPphDAhDTQ5xw=;
+        b=YuYaE/CZGfD2vYlbUPkVXzl7PQwIqJmKeMnYu1RrzAXGAU+oUg2O5LE8wTUARACwfM
+         YNZWg9V5BaqkTYOxOvdik9yVr4+9HtKaECBVe2SZfihIhRp6eEDiN3J67KBOPkjoLV3T
+         Ek711YYmWOBBg6dCXqwNO+uh5nlYqPm0e55PMSrQ3H4qDGO/tlPSk3qF562o02+9CKZa
+         NkHYR+TR2w9wgwGOTYst4NCZJfvtfFLEwCy4rAqULnqJX92VthvFdkPwvBLCIB1XvFU1
+         /ea2v1i36aw/uO+g719qr5JQO6+GRFvwKNgIIb2uCVnw2wDwKrHU/k+akYq+MkAKIQKy
+         jusA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=R6L6HJZLuSSxyM7uWPioxPbQmcoI92DJssEmJPP8W10=;
-        b=KQCxG+SuXIZsYbzlMl0hy0iZ74IluIQGHbG6GGK2HIoUh/jum3XybVyR3nYWFj3fZg
-         KBYXpy/VanRmxq7Jc1Day46sT5dipSYiVc7KlQZxbl1RwE2YhC++2PoOYNVu0coevyed
-         gikA+ewrkQYhXeo1U56+TVH5qFg/JsauH8+noFjwqfNAbjYzQv5TmTxSZfmSSUXQLVRm
-         mVD6uHKRRRDpNvWRCBCMkurzsxmkRGom9xHPUd7/9dSnBe5pArwGV4aeSADXHlih9CMk
-         4cPKwIUnMATMDt9VM7LRiyMMTh8VKd/veD62BedAw6Qarp/y+bsq09pbf0nR8vFYuoyu
-         yI8A==
-X-Gm-Message-State: AOAM533GHotTlVfLgdo16cL7P60wNiqbbtSF8elgmxVDhNxPyga1Ae5W
-	S6yncZSbwBIqa3Z1QibdQ+ToxiPQ0ykdW2vU
-X-Google-Smtp-Source: ABdhPJzS1dDA70000jaYp+/5K/KCMFFLnF2JXBRxEnfiHdHW6ni7SdpQIU1lQCfD5xQ7TkfD/kBsHg==
-X-Received: by 2002:ac8:7757:: with SMTP id g23mr7278940qtu.46.1620071768001;
-        Mon, 03 May 2021 12:56:08 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com. [209.85.222.176])
-        by smtp.gmail.com with ESMTPSA id g18sm9286569qke.21.2021.05.03.12.56.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 12:56:07 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f176.google.com with SMTP id a2so6344484qkh.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 12:56:07 -0700 (PDT)
-X-Received: by 2002:ae9:dc47:: with SMTP id q68mr21178316qkf.197.1620071767252;
- Mon, 03 May 2021 12:56:07 -0700 (PDT)
+        bh=3gMs0XJyCymgEiBCBu4dIsSd4u02ofzPphDAhDTQ5xw=;
+        b=Wy7fLkxXegNR5fNiM40ejQBLPodUUBj087ATCk+8dcBOGxbkkFHyrW5VIYaQkLC0xD
+         gbiSxibmDSTX2Zce8wEfMH+pXYYpcp6RkyOysKbqRY7KpoaadzxQC0vbwRd/sZYssDLH
+         aVSziNmvA+nDKCY9Nm/eXFvauncKPcDld9NYxqFgqJdlKq8dTLDRtJkzAX6e3QEU21Z/
+         eZpY3Iv03vyR40eLqdE5Ow4BYPQ/RWNbhMDPMIl6EY0KXYuSM9Q2TQGJ37bxcFcntH6b
+         7eocAkuHmNsjn+hjXYIhpIhI36+DZgBrl9wvpEQo2h9IIcsyNO8YJaSAP4p9fR6ONeHp
+         0KyQ==
+X-Gm-Message-State: AOAM532pOG7nXLPO9/KfyI2l6kBPXhYK674d2WOfkWH2MQnN5bQeFhvu
+	pWjbirOq2lHbI5Wfne8uLHf8lf68GY4ieBTVCd8=
+X-Google-Smtp-Source: ABdhPJyjGtl7UWz+3t9eAMpi5m1e7iUiWMLdVulVrUOpcT3U3YqB5/pdXBEOkUtFCs3FaTW6mYh9k11IcwXDEaXkqMU=
+X-Received: by 2002:a05:6102:30ae:: with SMTP id y14mr8659830vsd.30.1620072207437;
+ Mon, 03 May 2021 13:03:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <4145ce915f734aae9f53ab2575521f2d@intel.com> <25102.1618841602267269069@lists.openembedded.org>
- <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
-In-Reply-To: <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com>
-Date: Mon, 3 May 2021 16:55:55 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKp3n3gx-Op-4MnqkmnV=6TbJcF3hSA+Wc4dKQjH3A6ykQ@mail.gmail.com>
-Message-ID: <CAP9ODKp3n3gx-Op-4MnqkmnV=6TbJcF3hSA+Wc4dKQjH3A6ykQ@mail.gmail.com>
+ <28e9a1a4251849bcafde43dc01684bd5@XBOX03.axis.com> <CAP9ODKp3n3gx-Op-4MnqkmnV=6TbJcF3hSA+Wc4dKQjH3A6ykQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKp3n3gx-Op-4MnqkmnV=6TbJcF3hSA+Wc4dKQjH3A6ykQ@mail.gmail.com>
+From: "Paulo Cesar Zaneti" <paulo.zaneti@gmail.com>
+Date: Mon, 3 May 2021 17:03:15 -0300
+Message-ID: <CAP77v2qZx8P0P8S0NrXFPM-9HGvhUrZP_cJhQZN5PysgYK39FA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] perl: fix startperl configuration option for perl-native
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Paulo Cesar Zaneti <paulo.zaneti@gmail.com>, 
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
 	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000032a4d405c1725a50"
+Content-Type: multipart/alternative; boundary="0000000000006f52fe05c1727499"
 
---00000000000032a4d405c1725a50
+--0000000000006f52fe05c1727499
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Yes, I agree to revert until we find out a solution for everyone needs.
 
-Couldn't the OE-Core:f2d1523b19cb066a4a06609f036822fe4a8b43f0 to be
-reverted in meanwhile?
+Should I send a patch reverting it ?
 
-Em sex., 30 de abr. de 2021 =C3=A0s 17:42, Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> escreveu:
+On Mon, May 3, 2021 at 4:56 PM Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-> Well, it did break our builds. I now get the following error when buildi=
-ng
-> a native recipe that inherits perlnative and tries to run pod2man:
+> Hello,
 >
+> Couldn't the OE-Core:f2d1523b19cb066a4a06609f036822fe4a8b43f0 to be
+> reverted in meanwhile?
 >
+> Em sex., 30 de abr. de 2021 =C3=A0s 17:42, Peter Kjellerstedt <
+> peter.kjellerstedt@axis.com> escreveu:
 >
-> | /bin/sh: /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/pod2man:
-> /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/per: bad interpreter: =
-No such
-> file or directory
+>> Well, it did break our builds. I now get the following error when
+>> building a native recipe that inherits perlnative and tries to run pod2=
+man:
+>>
+>>
+>>
+>> | /bin/sh: /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/pod2man:
+>> /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/per: bad interpreter:=
+ No such
+>> file or directory
+>>
+>>
+>>
+>> This is because the first two lines of the pod2man script now looks lik=
+e
+>>
+>>
+>>
+>> #!/home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl
+>>
+>>     eval 'exec /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl -=
+S $0
+>> ${1+"$@"}'
+>>
+>>
+>>
+>> instead of the previous:
+>>
+>>
+>>
+>> #!/usr/bin/env nativeperl
+>>
+>>     eval 'exec /usr/bin/env nativeperl -S $0 ${1+"$@"}'
+>>
+>>
+>>
+>> I.e., the sed command in perl=E2=80=99s do_install_append_class-native(=
+) does not
+>> seem to have done anything, which is because there is no
+>> =E2=80=9Cperl-native.*/perl" in the path to match (as can be seen above=
+), it is
+>> just =E2=80=9Cperl=E2=80=9D, which is what the old code was looking for=
+.
+>>
+>>
+>>
+>> [ In the above examples, I have replaced a longish part of the path wit=
+h
+>> =E2=80=A6 to protect the innocent. ]
+>>
+>>
+>>
+>> //Peter
+>>
+>>
+>>
+>> *From:* openembedded-core@lists.openembedded.org <
+>> openembedded-core@lists.openembedded.org> *On Behalf Of *Paulo Cesar
+>> Zaneti
+>> *Sent:* den 19 april 2021 16:13
+>> *To:* openembedded-core@lists.openembedded.org
+>> *Subject:* Re: [OE-core] [PATCH] perl: fix startperl configuration
+>> option for perl-native
+>>
+>>
+>>
+>> I just re-send the patch with additional fix for the build failure.
+>>
+>> I think the basic problem was an inconsistency in the way perl recipe a=
+nd
+>> cpan.bbclass convert the absolute perl path to env path.
+>> Version 2 of the patch tries to use same cpan.bbclass approach on the
+>> perl recipe.
+>>
+>> Before submitting I just ran "bitbake -k world". I hope it doesn't brea=
+k
+>> the build again.
+>>
+>>=20
+>>
+>>
 >
->
->
-> This is because the first two lines of the pod2man script now looks like
->
->
->
-> #!/home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl
->
->     eval 'exec /home/pkj/=E2=80=A6/recipe-sysroot-native/usr/bin/perl -S=
- $0
-> ${1+"$@"}'
->
->
->
-> instead of the previous:
->
->
->
-> #!/usr/bin/env nativeperl
->
->     eval 'exec /usr/bin/env nativeperl -S $0 ${1+"$@"}'
->
->
->
-> I.e., the sed command in perl=E2=80=99s do_install_append_class-native()=
- does not
-> seem to have done anything, which is because there is no
-> =E2=80=9Cperl-native.*/perl" in the path to match (as can be seen above)=
-, it is
-> just =E2=80=9Cperl=E2=80=9D, which is what the old code was looking for.
->
->
->
-> [ In the above examples, I have replaced a longish part of the path with=
- =E2=80=A6
-> to protect the innocent. ]
->
->
->
-> //Peter
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *Paulo Cesar
-> Zaneti
-> *Sent:* den 19 april 2021 16:13
-> *To:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH] perl: fix startperl configuration optio=
-n
-> for perl-native
->
->
->
-> I just re-send the patch with additional fix for the build failure.
->
-> I think the basic problem was an inconsistency in the way perl recipe an=
-d
-> cpan.bbclass convert the absolute perl path to env path.
-> Version 2 of the patch tries to use same cpan.bbclass approach on the pe=
-rl
-> recipe.
->
-> Before submitting I just ran "bitbake -k world". I hope it doesn't break
-> the build again.
->
->=20
->
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 >
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---00000000000032a4d405c1725a50
+--0000000000006f52fe05c1727499
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>Couldn&#39;t the OE-C=
-ore:f2d1523b19cb066a4a06609f036822fe4a8b43f0 to be reverted in meanwhile?<b=
-r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">Em sex., 30 de abr. de 2021 =C3=A0s 17:42, Peter Kjellerstedt &lt;<=
-a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</=
-a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
+<div dir=3D"ltr"><div>Yes, I agree to revert until we find out a solution f=
+or everyone needs.</div><div><br></div><div>Should I send a patch reverting=
+ it ?<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, May 3, 2021 at 4:56 PM Otavio Salvador &lt;<a href=
+=
+=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com=
+.br</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr"><div>Hello,</div><div><br></div><div>Couldn&#39;t the O=
+E-Core:f2d1523b19cb066a4a06609f036822fe4a8b43f0 to be reverted in meanwhile=
+?<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Em sex., 30 de abr. de 2021 =C3=A0s 17:42, Peter Kjellerstedt &l=
+t;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kj=
+ellerstedt@axis.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
 
 
 
 
 
-<div style=3D"overflow-wrap: break-word;" lang=3D"SV">
-<div class=3D"gmail-m_3946672890407767838WordSection1">
+<div lang=3D"SV">
+<div>
 <p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US"=
 >Well, it did break our builds. I now get the following error when building=
  a native recipe that inherits perlnative and tries to run pod2man:<u></u><=
@@ -269,14 +274,13 @@ Before submitting I just ran &quot;bitbake -k world&quot;. I hope it doesn=
 <br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a=
- href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystem=
-s.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.co=
-m.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53=
-) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</=
-div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Otavio Sa=
+lvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossy=
+stems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank=
+">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div>
+</blockquote></div>
 
---00000000000032a4d405c1725a50--
+--0000000000006f52fe05c1727499--
