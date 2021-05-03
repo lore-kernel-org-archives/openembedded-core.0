@@ -1,106 +1,87 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.26574.1619996435412123197
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web11.27176.1620000260722269760
  for <openembedded-core@lists.openembedded.org>;
- Sun, 02 May 2021 16:00:35 -0700
+ Sun, 02 May 2021 17:04:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ekPGKth1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id n205so1382961wmf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 16:00:35 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=usgr35qv;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.51, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f51.google.com with SMTP id r13so1824471qvm.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 17:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=x5SrZoppnsU0t9Wg8czO46hA7snND6YIKLP0+xxN23w=;
-        b=ekPGKth1jzRbC/dtdc7QzPLdS1aEwtTRBOurzDaAC1ZC/SqEzHN8eGNQrxWzcS97y0
-         3gC32QCIhLpkhhCE1l8wt4nO9eqm8dnDTB5PZtA63BW8zRQNPuxSdgmwt3B6LfKDeE6c
-         EBBGgzaxchHPOfRj+WBzHPhc8yPCRvE7eD1XM=
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:date:message-id:subject:to;
+        bh=4EVPJdqSEU0gqDDSuNkXNx1N21j4TNykndYbZhdLVgQ=;
+        b=usgr35qvFQP3lk8ud4Kvo9kwfgbchltNngubRpA2fOhcFyLSxjzx4Zp1fqDw1flG3+
+         YtjmyGcQzCeLcYt8zwsS3JgOiQQy2pNFS0EaM2+ekURhSuxYprx+RfMOLjW7nA4KvaKi
+         mTHu3wijkxbJPNTO05Q2/KnElU1dq8RDZWXPD6IHpPHQk3FbhImpNcz1vOW4WapiudWH
+         5KUORy9XbEvrX5Gn5uG6RBS+8VD0YyqGAIxEyA1ZQAEDst/amQbyQeVZ+r/E951dBmjH
+         uoduZUK8xcEex97PZyajmiqyQPaK1FxUDJgXDuJg0bIVasWThgWaYJNX1yBHuC1IEoE2
+         pbvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=x5SrZoppnsU0t9Wg8czO46hA7snND6YIKLP0+xxN23w=;
-        b=QBOEQ1pYmP7PDkaYc7ZIXBzuXTtmUsT/gI2n2MzijItT6DqAROupfuJH3WQ/J9b0Ls
-         901SAUd6RpzTcssFQ0fRVOHOXxxRpu9p4bm5x2IAVSCMYWrAYMZr7yHF8VJ1KwioX4hu
-         jRYMmTEJgMQKnmIfUWcRuw0oATXxMV5fItn9J9RCYRWsEw/jwwrS1cAzbeRGFlWWpfQH
-         hK+6dj8pbDGx/3WwYGyuGZvklu8JQgYGEA4qvpI3nLf3+YGaKYu95OucWueyA7DvE7Ms
-         cr/TZDWzYq7ChpaqQ2YnouX5SKmnJ5PMpsOiTgEr6MlCIVqm9BQpkis0SeVBVKg0xuG9
-         5zuQ==
-X-Gm-Message-State: AOAM530UxkdMsVOgfhWhOBjYPO6B7LirH+e/BVO3Rz/+ioXDZCQB/s/C
-	uRZPTCukSWXjln8LmDQYIrcjhA==
-X-Google-Smtp-Source: ABdhPJx14wEw+jtzAXI1iwF2d+VKy7NUNbzBUHk96OE6CLODPaivwDj6KMFMMtGLISy7oPkrB2Jc3g==
-X-Received: by 2002:a05:600c:210f:: with SMTP id u15mr2376893wml.167.1619996433869;
-        Sun, 02 May 2021 16:00:33 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2abe:bb29:590f:e028? ([2001:8b0:aba:5f3c:2abe:bb29:590f:e028])
-        by smtp.gmail.com with ESMTPSA id f3sm10509574wrp.7.2021.05.02.16.00.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 May 2021 16:00:33 -0700 (PDT)
-Message-ID: <f9d76fc95bd43c5418eb5c947c48399f5f15b7a2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] testimage: hangs if missing debug-tweaks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 May 2021 00:00:31 +0100
-In-Reply-To: <20210502201227.3587958-1-akuster808@gmail.com>
-References: <20210502201227.3587958-1-akuster808@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
+        bh=4EVPJdqSEU0gqDDSuNkXNx1N21j4TNykndYbZhdLVgQ=;
+        b=RY4GdrrNMzJNRjv++XX5nKIvQgvO+G1AEPS4fBzSiJV2h5OUc5/omlC9Nm6vb9UwIw
+         XUu5cbSF/Cjr3HXA2BNuDCFDubGuW0FavgkpEjR/SmOIk5Gwv0eRmtYQS3KJgNLnl4dp
+         y1DEy3sjnUE4xEWaia1Wg+n71Vd6tCPMSzqOw1BiMMjy5DeO2/AvU2t1B30qXeV/j64z
+         /sVlQTUv3weFe1aaN7ki7NyJtpnkY+pBYfI9s64u2YrqGxZocbDaY3SwC9za57BJnapG
+         9tBf9PCd43PHcxWjfM7+jzHG8UNmBc3+6dLIZNSKzEiAvbc40tRnGl4X3BmMNMSIg7u6
+         DpMg==
+X-Gm-Message-State: AOAM530Vw8CptdGE3H8XUZWRW3OgF3P1VKKPiitkst491QDxAujgSvS6
+	ZDbNSMa9+gV4U0Svzr04i4b/33vOr6HgYtLx
+X-Google-Smtp-Source: ABdhPJwC5OgGjaSAfzBiUm378Tr3Cfv5R6VlKxGPSwPIlSMoc1eXSFRlECy3EX834XM01Ivbz4b4bA==
+X-Received: by 2002:ad4:4f82:: with SMTP id em2mr16871949qvb.55.1620000259683;
+        Sun, 02 May 2021 17:04:19 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
+        by smtp.gmail.com with ESMTPSA id h65sm7145497qkc.128.2021.05.02.17.04.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 May 2021 17:04:19 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qv1-f45.google.com with SMTP id h3so1807661qve.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 02 May 2021 17:04:19 -0700 (PDT)
+X-Received: by 2002:a0c:f3d0:: with SMTP id f16mr12826318qvm.1.1620000258821;
+ Sun, 02 May 2021 17:04:18 -0700 (PDT)
 MIME-Version: 1.0
+Date: Sun, 2 May 2021 21:04:07 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqJhiss1VOz8KF-cfQ5Hpq2MvOddMyd7ARvxBo6qkccYA@mail.gmail.com>
+Message-ID: <CAP9ODKqJhiss1VOz8KF-cfQ5Hpq2MvOddMyd7ARvxBo6qkccYA@mail.gmail.com>
+Subject: OpenEmbedded generated toolchain fail to build latest Linux
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Andrey Zhizhikin <andrey.z@gmail.com>, "Purdie, Richard" <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-05-02 at 20:12 +0000, Armin Kuster wrote:
-> The only clue is this:
-> 
-> WARNING: core-image-minimal-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
-> WARNING: core-image-minimal-1.0-r0 do_testimage: The output:
-> root
-> Login incorrect
-> qemux86 login:
-> Login timed out after 60 seconds
-> 
-> Poky (Yocto Project Reference Distro) 3.3+snapshot-65e75bd5d40c10509a3416026e551b7b7111c42a qemux86 /dev/ttyS1
-> 
-> qemux86 login: <<< run_serial(): command timed out after 120 seconds without output >>>
-> 
-> Hangs here....
-> 
-> We should issue a error and quit.
+Hello all,
 
-What happens if I set IMAGE_FEATURES = "empty-root-password allow-empty-password"?
+While doing the upgrade of our Linux recipe to 5.12[1] we found that
+we are unable to fully build it using the generated toolchain.
 
-Should we disable the serial monitoring if these or debug-tweaks isn't 
-enabled? I'm surprised it causes the image to hang, it should just trigger the
-warning but continue to work...
+1. https://github.com/Freescale/meta-freescale/pull/756
 
-Cheers,
+We could improve it, adding the nativesdk-gmp and nativesdk-gmp-dev to
+the toolchain however I ended facing another issue:
 
-Richard
+cc1: error: cannot load plugin
+./scripts/gcc-plugins/arm_ssp_per_task_plugin.so:
+./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: undefined symbol:
+_ZN8opt_pass14set_pass_paramEjb
+cc1: error: cannot load plugin
+./scripts/gcc-plugins/arm_ssp_per_task_plugin.so:
+./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: undefined symbol:
+_ZN8opt_pass14set_pass_paramEjb
+make[1]: *** [scripts/Makefile.build:271: scripts/mod/empty.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make[1]: *** [scripts/Makefile.build:116:
+scripts/mod/devicetable-offsets.s] Error 1
+make: *** [Makefile:1234: prepare0] Error 2
 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/classes/testimage.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-> index 43de9d4d767..18ebbf90ec5 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -142,6 +142,10 @@ do_testimage[depends] += "${TESTIMAGEDEPENDS}"
->  do_testimage[lockfiles] += "${TESTIMAGELOCK}"
->  
-> 
-> 
-> 
->  def testimage_sanity(d):
-> +    if (bb.utils.contains("IMAGE_FEATURES", [ 'debug-tweaks'], False, True, d)):
-> +        bb.fatal('testimage requires a blank root password'
-> +                'Please check if debug-tweaks is IMAGE_FEATURES.')
-> +
->      if (d.getVar('TEST_TARGET') == 'simpleremote'
->          and (not d.getVar('TEST_TARGET_IP')
->               or not d.getVar('TEST_SERVER_IP'))):
-> 
-> 
+I tried that on an Ubuntu 20.04 and an Arch Linux system and it failed
+on both cases. For now, I ended disabling the GCC_PLUGIN support and
+moved on but it does not seem to be a good long term solution.
 
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
