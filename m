@@ -1,119 +1,80 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.31527.1620036936988517287
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web12.32219.1620041623838669312
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 03:15:37 -0700
+ Mon, 03 May 2021 04:33:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BVOoNzh2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id b11-20020a7bc24b0000b0290148da0694ffso2993451wmj.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 03:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=4AAdDfJwf0GEvZAaEXbqxqOJMAu6CwM6qEZSBPOvPZQ=;
-        b=BVOoNzh2Nazdd0H012f2XOdUSSLAqjBNn711/eR8YvUzgXobSP4TO1WgE0LodQMG63
-         1J9E5nLtXyeXTXNfMbI7sqT2K5DJ6+kyluTej4FemReu/jiPMCrsHiIqNi2fVbeYEqnZ
-         z4NwVz9C1dL4+8rMLw2cJTB82MOostoriXbSc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4AAdDfJwf0GEvZAaEXbqxqOJMAu6CwM6qEZSBPOvPZQ=;
-        b=kbgkFuwjfFcjdKMQ6pm/3n6EdRjcGYyxuiLLgY4qa38/Apa+3OGXfpVq0G/WHVLUIr
-         EAuX4iiF69NrmWJGNd/Hw1VQz2jbNhqkMCDrM5/LjC3tMI+rf9+82GJDRV2OYTDHrzPw
-         Ql/2nZswyK22sg9b31YVIfPSwidd77h4+7XdmPrw6zCEGDJRgzPtxmszlMz69vkFdM+E
-         ccUJzMrbhXoNkP5KPwf0vrO8njioofWivuclxSslEBKQrNBhqw9SFpSYsayXmnfTYREt
-         iKlUg78RVBDWl4Ulj+EQHv90j3VFKr2ZXZ7QaNdC8e/Zrz2jFPSNKbhiNdeSR5aTzJn4
-         yBvg==
-X-Gm-Message-State: AOAM5324zxkdMg+9Hfyh92fPkMwTx28sJt2voqo+Zfj9Wx4AW3OiqdL4
-	gJzUmVZ4zRLUKejmkbXU5PeItw==
-X-Google-Smtp-Source: ABdhPJxdTLEaXc0ZfrriZtDg3s/O2phdiY0k7z1YrPJysmgEKrrD6olBdZNHFIR+LRHCYY9Q6LO9Lw==
-X-Received: by 2002:a7b:ca42:: with SMTP id m2mr20920914wml.67.1620036935434;
-        Mon, 03 May 2021 03:15:35 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:2abe:bb29:590f:e028? ([2001:8b0:aba:5f3c:2abe:bb29:590f:e028])
-        by smtp.gmail.com with ESMTPSA id l21sm23213282wme.10.2021.05.03.03.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 03:15:34 -0700 (PDT)
-Message-ID: <c8638685a3ba0a9e67e1a7731b81b9f3e6992d09.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] testimage: hangs if missing debug-tweaks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 May 2021 11:15:33 +0100
-In-Reply-To: <a7d93e2b-608f-b5f3-e3fb-16abb2cba514@gmail.com>
-References: <20210502201227.3587958-1-akuster808@gmail.com>
-	 <f9d76fc95bd43c5418eb5c947c48399f5f15b7a2.camel@linuxfoundation.org>
-	 <a7d93e2b-608f-b5f3-e3fb-16abb2cba514@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+ dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=u+64I+Fa;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: sbabic@denx.de)
+Received: from mail-internal.denx.de (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: noc@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id E1992824AD
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 May 2021 13:33:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1620041620;
+	bh=kbJtmMAqO7TdddzhqCYPENGUiqBH3GyRTosObcAIq+c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=u+64I+FaY3w8HYt4IO1Ew8CU54tZTcqIG+yQ83e9yAgF9HoaKVSo9SIL8PY+eeC90
+	 +QEgDv7u8b55O0ZF0We7Poz5Xlk3LWowsq9y+zHOg2H8TOxvfn+2aqqcWirJh0PMlg
+	 MsLDJr6p2djQk9C+4Wtc0oWyR9aDkXuYDCHX8nhLMBNwNEGMCJx923hn7mOatN9wYZ
+	 BYv/PJeWD733sx7QuGiHA0VaTEoWbdGt22WY5rkBdEy5XU5gcRaZUsLLEWjxyVQhmH
+	 n+0Z4sNo4cgstp09vTMm/XXiwvlyKHLHLSIoLO0x+PoeIXk//zlL6AQ7lG4Gl6wUsB
+	 NrfOT/Y8Vj0QA==
+Received: from pollux.denx.de (pollux [192.168.1.1])
+	by mail-internal.denx.de (Postfix) with ESMTP id CA6A9181A45
+	for <openembedded-core@lists.openembedded.org>; Mon,  3 May 2021 13:33:36 +0200 (CEST)
+Received: by pollux.denx.de (Postfix, from userid 531)
+	id 9EE821A8BAF; Mon,  3 May 2021 13:33:36 +0200 (CEST)
+From: "Stefano Babic" <sbabic@denx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Stefano Babic <sbabic@denx.de>
+Subject: [PATCH] libubootenv: upgrade 0.3.1 -> 0.3.2
+Date: Mon,  3 May 2021 13:33:34 +0200
+Message-Id: <20210503113334.1143865-1-sbabic@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2021-05-02 at 23:24 -0700, akuster808 wrote:
-> 
-> On 5/2/21 4:00 PM, Richard Purdie wrote:
-> > On Sun, 2021-05-02 at 20:12 +0000, Armin Kuster wrote:
-> > > The only clue is this:
-> > > 
-> > > WARNING: core-image-minimal-1.0-r0 do_testimage: Couldn't login into serial console as root using blank password
-> > > WARNING: core-image-minimal-1.0-r0 do_testimage: The output:
-> > > root
-> > > Login incorrect
-> > > qemux86 login:
-> > > Login timed out after 60 seconds
-> > > 
-> > > Poky (Yocto Project Reference Distro) 3.3+snapshot-65e75bd5d40c10509a3416026e551b7b7111c42a qemux86 /dev/ttyS1
-> > > 
-> > > qemux86 login: <<< run_serial(): command timed out after 120 seconds without output >>>
-> > > 
-> > > Hangs here....
-> > > 
-> > > We should issue a error and quit.
-> > What happens if I set IMAGE_FEATURES = "empty-root-password allow-empty-password"?
-> Do you expect folks to use undocumented internal only settings? (Just
-> added them)
+This is a bugfix release which includes the following changes:
 
-They may be undocumented but we should fix that. We're meant to be replacing
-debug-tweaks with more explicit options.
+f4ab25d shared library: Link against zlib
+e663439 Always fsync file writes
+80b7f31 Treat '=3D' as an illegal character in variable names
+950f541 libuboot_env: fix calculation of usable envsize
+fb88032 Correct initialisations in libuboot_configure
+20d1ec7 Force writing of environment if default is used
+5ca11bd libuboot_env: correct length to usable env size length
+cd4a8f1 libuboot_env_store: fix env double-null termination
+9510164 uboot_env: fix infinite loop on short read (EOF)
 
-> > Should we disable the serial monitoring if these or debug-tweaks isn't 
-> > enabled? 
-> Will look into it.
+Signed-off-by: Stefano Babic <sbabic@denx.de>
+---
+ .../u-boot/{libubootenv_0.3.1.bb =3D> libubootenv_0.3.2.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{libubootenv_0.3.1.bb =3D> libubootenv_0.=
+3.2.bb} (94%)
 
-Thanks, I think that would be the better fix here.
-
-> > I'm surprised it causes the image to hang, it should just trigger the
-> > warning but continue to work...
-> WARNING: core-image-minimal-1.0-r0 do_testimage: Couldn't login into
-> serial console as root using blank password
-> WARNING: core-image-minimal-1.0-r0 do_testimage: The output:
-> root
-> Login incorrect
-> qemux86 login:
-> Login timed out after 60 seconds
-> 
-> Poky (Yocto Project Reference Distro)
-> 3.3+snapshot-65e75bd5d40c10509a3416026e551b7b7111c42a qemux86 /dev/ttyS1
-> 
-> qemux86 login: <<< run_serial(): command timed out after 120 seconds
-> without output >>>
-> 
-> 
-> Currently  1 running tasks (732 of 732)  99%
-> > #################################################### |
-> 0: core-image-minimal-1.0-r0 do_testimage - 10m15s (pid 879458) <<<<---
-> how long should one wait???
-> 
-> TEST_SUITES = "ssh scp ping"
-> 
-> not testing much.
-
-That shouldn't happen and we should look into it, worth a bug if you don't
-plan to...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb b/meta/recipes-=
+bsp/u-boot/libubootenv_0.3.2.bb
+similarity index 94%
+rename from meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb
+rename to meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+index 613e3161fb..2cf87c794e 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.3.1.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://Licenses/lgpl-2.1.txt;md5=3D=
+4fbd65380cdd255951079008b36
+ SECTION =3D "libs"
+=20
+ SRC_URI =3D "git://github.com/sbabic/libubootenv;protocol=3Dhttps"
+-SRCREV =3D "824551ac77bab1d0f7ae34d7a7c77b155240e754"
++SRCREV =3D "ba7564f5006d09bec51058cf4f5ac90d4dc18b3c"
+=20
+ S =3D "${WORKDIR}/git"
+=20
+--=20
+2.25.1
 
