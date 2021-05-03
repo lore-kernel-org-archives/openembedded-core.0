@@ -1,197 +1,270 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.34378.1620051017974206977
+ by mx.groups.io with SMTP id smtpd.web10.34254.1620051018299181322
  for <openembedded-core@lists.openembedded.org>;
  Mon, 03 May 2021 07:10:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 143EAGxM003383
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 143EAH7n003386
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 May 2021 07:10:16 -0700
+	for <openembedded-core@lists.openembedded.org>; Mon, 3 May 2021 07:10:18 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 3 May 2021 07:10:16 -0700
+ 15.1.2242.4; Mon, 3 May 2021 07:10:17 -0700
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Mon, 3 May 2021 07:10:15 -0700
+ 15.1.2242.4 via Frontend Transport; Mon, 3 May 2021 07:10:17 -0700
 From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] qemu: fix CVE-2020-27821
-Date: Mon, 3 May 2021 10:10:12 -0400
-Message-ID: <20210503141013.28102-1-sakib.sajal@windriver.com>
+Subject: [PATCH 2/2] qemu: fix CVE-2021-20263
+Date: Mon, 3 May 2021 10:10:13 -0400
+Message-ID: <20210503141013.28102-2-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210503141013.28102-1-sakib.sajal@windriver.com>
+References: <20210503141013.28102-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-memory: clamp cached translation in case it points to an MMIO region
+virtiofs: drop remapped security.capability xattr as needed
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-27821.patch            | 143 ++++++++++++++++++
- 2 files changed, 144 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+ .../qemu/qemu/CVE-2021-20263.patch            | 214 ++++++++++++++++++
+ 2 files changed, 215 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 062d7907cf..d120b0822f 100644
+index d120b0822f..486f404668 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -55,6 +55,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_10.patch \
+@@ -56,6 +56,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2021-20257.patch \
  	   file://CVE-2021-3392.patch \
-+           file://CVE-2020-27821.patch \
+            file://CVE-2020-27821.patch \
++           file://CVE-2021-20263.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
 new file mode 100644
-index 0000000000..58622f0487
+index 0000000000..4f9a91f0c6
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
-@@ -0,0 +1,143 @@
-+From 279f90a9ab07304f0a49fc10e4bfd1243a8cddbe Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Tue, 1 Dec 2020 09:29:56 -0500
-+Subject: [PATCH 1/2] memory: clamp cached translation in case it points to an
-+ MMIO region
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
+@@ -0,0 +1,214 @@
++From aaa5f8e00c2e85a893b972f1e243fb14c26b70dc Mon Sep 17 00:00:00 2001
++From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
++Date: Wed, 24 Feb 2021 19:56:25 +0000
++Subject: [PATCH 2/2] virtiofs: drop remapped security.capability xattr as
++ needed
 +
-+In using the address_space_translate_internal API, address_space_cache_init
-+forgot one piece of advice that can be found in the code for
-+address_space_translate_internal:
++On Linux, the 'security.capability' xattr holds a set of
++capabilities that can change when an executable is run, giving
++a limited form of privilege escalation to those programs that
++the writer of the file deemed worthy.
 +
-+    /* MMIO registers can be expected to perform full-width accesses based only
-+     * on their address, without considering adjacent registers that could
-+     * decode to completely different MemoryRegions.  When such registers
-+     * exist (e.g. I/O ports 0xcf8 and 0xcf9 on most PC chipsets), MMIO
-+     * regions overlap wildly.  For this reason we cannot clamp the accesses
-+     * here.
-+     *
-+     * If the length is small (as is the case for address_space_ldl/stl),
-+     * everything works fine.  If the incoming length is large, however,
-+     * the caller really has to do the clamping through memory_access_size.
-+     */
++Any write causes the 'security.capability' xattr to be dropped,
++stopping anyone from gaining privilege by modifying a blessed
++file.
 +
-+address_space_cache_init is exactly one such case where "the incoming length
-+is large", therefore we need to clamp the resulting length---not to
-+memory_access_size though, since we are not doing an access yet, but to
-+the size of the resulting section.  This ensures that subsequent accesses
-+to the cached MemoryRegionSection will be in range.
++Fuse relies on the daemon to do this dropping, and in turn the
++daemon relies on the host kernel to drop the xattr for it.  However,
++with the addition of -o xattrmap, the xattr that the guest
++stores its capabilities in is now not the same as the one that
++the host kernel automatically clears.
 +
-+With this patch, the enclosed testcase notices that the used ring does
-+not fit into the MSI-X table and prints a "qemu-system-x86_64: Cannot map used"
-+error.
++Where the mapping changes 'security.capability', explicitly clear
++the remapped name to preserve the same behaviour.
 +
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++This bug is assigned CVE-2021-20263.
 +
-+Upstream-Status: Backport [4bfb024bc76973d40a359476dc0291f46e435442]
-+CVE: CVE-2020-27821
++Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
++Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
++
++Upstream-Status: Backport [e586edcb410543768ef009eaa22a2d9dd4a53846]
++CVE: CVE-2021-20263
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ softmmu/physmem.c       | 10 ++++++++
-+ tests/qtest/fuzz-test.c | 51 +++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 61 insertions(+)
++ docs/tools/virtiofsd.rst         |  4 ++
++ tools/virtiofsd/passthrough_ll.c | 77 +++++++++++++++++++++++++++++++-
++ 2 files changed, 80 insertions(+), 1 deletion(-)
 +
-+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-+index 3027747c0..2cd1de4a2 100644
-+--- a/softmmu/physmem.c
-++++ b/softmmu/physmem.c
-+@@ -3255,6 +3255,7 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
-+     AddressSpaceDispatch *d;
-+     hwaddr l;
-+     MemoryRegion *mr;
-++    Int128 diff;
++diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
++index 866b7db3e..00554c75b 100644
++--- a/docs/tools/virtiofsd.rst
+++++ b/docs/tools/virtiofsd.rst
++@@ -228,6 +228,10 @@ The 'map' type adds a number of separate rules to add **prepend** as a prefix
++ to the matched **key** (or all attributes if **key** is empty).
++ There may be at most one 'map' rule and it must be the last rule in the set.
 + 
-+     assert(len > 0);
-+ 
-+@@ -3263,6 +3264,15 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
-+     d = flatview_to_dispatch(cache->fv);
-+     cache->mrs = *address_space_translate_internal(d, addr, &cache->xlat, &l, true);
-+ 
-++    /*
-++     * cache->xlat is now relative to cache->mrs.mr, not to the section itself.
-++     * Take that into account to compute how many bytes are there between
-++     * cache->xlat and the end of the section.
-++     */
-++    diff = int128_sub(cache->mrs.size,
-++		      int128_make64(cache->xlat - cache->mrs.offset_within_region));
-++    l = int128_get64(int128_min(diff, int128_make64(l)));
+++Note: When the 'security.capability' xattr is remapped, the daemon has to do
+++extra work to remove it during many operations, which the host kernel normally
+++does itself.
 ++
-+     mr = cache->mrs.mr;
-+     memory_region_ref(mr);
-+     if (memory_access_is_direct(mr, is_write)) {
-+diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
-+index 9cb4c42bd..28739248e 100644
-+--- a/tests/qtest/fuzz-test.c
-++++ b/tests/qtest/fuzz-test.c
-+@@ -47,6 +47,55 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
-+     qtest_outl(s, 0x5d02, 0xebed205d);
++ xattr-mapping Examples
++ ----------------------
++ 
++diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
++index 03c5e0d13..c9197da86 100644
++--- a/tools/virtiofsd/passthrough_ll.c
+++++ b/tools/virtiofsd/passthrough_ll.c
++@@ -160,6 +160,7 @@ struct lo_data {
++     int posix_lock;
++     int xattr;
++     char *xattrmap;
+++    char *xattr_security_capability;
++     char *source;
++     char *modcaps;
++     double timeout;
++@@ -226,6 +227,8 @@ static __thread bool cap_loaded = 0;
++ 
++ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
++                                 uint64_t mnt_id);
+++static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+++                            char **out_name);
++ 
++ static int is_dot_or_dotdot(const char *name)
++ {
++@@ -365,6 +368,37 @@ out:
++     return ret;
 + }
 + 
 ++/*
-++ * Here a MemoryRegionCache pointed to an MMIO region but had a
-++ * larger size than the underlying region.
+++ * The host kernel normally drops security.capability xattr's on
+++ * any write, however if we're remapping xattr names we need to drop
+++ * whatever the clients security.capability is actually stored as.
 ++ */
-++static void test_mmio_oob_from_memory_region_cache(void)
+++static int drop_security_capability(const struct lo_data *lo, int fd)
 ++{
-++    QTestState *s;
+++    if (!lo->xattr_security_capability) {
+++        /* We didn't remap the name, let the host kernel do it */
+++        return 0;
+++    }
+++    if (!fremovexattr(fd, lo->xattr_security_capability)) {
+++        /* All good */
+++        return 0;
+++    }
 ++
-++    s = qtest_init("-M pc-q35-5.2 -display none -m 512M "
-++		   "-device virtio-scsi,num_queues=8,addr=03.0 ");
+++    switch (errno) {
+++    case ENODATA:
+++        /* Attribute didn't exist, that's fine */
+++        return 0;
 ++
-++    qtest_outl(s, 0xcf8, 0x80001811);
-++    qtest_outb(s, 0xcfc, 0x6e);
-++    qtest_outl(s, 0xcf8, 0x80001824);
-++    qtest_outl(s, 0xcf8, 0x80001813);
-++    qtest_outl(s, 0xcfc, 0xa080000);
-++    qtest_outl(s, 0xcf8, 0x80001802);
-++    qtest_outl(s, 0xcfc, 0x5a175a63);
-++    qtest_outb(s, 0x6e08, 0x9e);
-++    qtest_writeb(s, 0x9f003, 0xff);
-++    qtest_writeb(s, 0x9f004, 0x01);
-++    qtest_writeb(s, 0x9e012, 0x0e);
-++    qtest_writeb(s, 0x9e01b, 0x0e);
-++    qtest_writeb(s, 0x9f006, 0x01);
-++    qtest_writeb(s, 0x9f008, 0x01);
-++    qtest_writeb(s, 0x9f00a, 0x01);
-++    qtest_writeb(s, 0x9f00c, 0x01);
-++    qtest_writeb(s, 0x9f00e, 0x01);
-++    qtest_writeb(s, 0x9f010, 0x01);
-++    qtest_writeb(s, 0x9f012, 0x01);
-++    qtest_writeb(s, 0x9f014, 0x01);
-++    qtest_writeb(s, 0x9f016, 0x01);
-++    qtest_writeb(s, 0x9f018, 0x01);
-++    qtest_writeb(s, 0x9f01a, 0x01);
-++    qtest_writeb(s, 0x9f01c, 0x01);
-++    qtest_writeb(s, 0x9f01e, 0x01);
-++    qtest_writeb(s, 0x9f020, 0x01);
-++    qtest_writeb(s, 0x9f022, 0x01);
-++    qtest_writeb(s, 0x9f024, 0x01);
-++    qtest_writeb(s, 0x9f026, 0x01);
-++    qtest_writeb(s, 0x9f028, 0x01);
-++    qtest_writeb(s, 0x9f02a, 0x01);
-++    qtest_writeb(s, 0x9f02c, 0x01);
-++    qtest_writeb(s, 0x9f02e, 0x01);
-++    qtest_writeb(s, 0x9f030, 0x01);
-++    qtest_outb(s, 0x6e10, 0x00);
-++    qtest_quit(s);
+++    case ENOTSUP:
+++        /* FS didn't support attribute anyway, also fine */
+++        return 0;
+++
+++    default:
+++        /* Hmm other error */
+++        return errno;
+++    }
 ++}
 ++
-+ int main(int argc, char **argv)
++ static void lo_map_init(struct lo_map *map)
 + {
-+     const char *arch = qtest_get_arch();
-+@@ -58,6 +107,8 @@ int main(int argc, char **argv)
-+                        test_lp1878263_megasas_zero_iov_cnt);
-+         qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
-+                        test_lp1878642_pci_bus_get_irq_level_assert);
-++        qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
-++                       test_mmio_oob_from_memory_region_cache);
++     map->elems = NULL;
++@@ -717,6 +751,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
++         uid_t uid = (valid & FUSE_SET_ATTR_UID) ? attr->st_uid : (uid_t)-1;
++         gid_t gid = (valid & FUSE_SET_ATTR_GID) ? attr->st_gid : (gid_t)-1;
++ 
+++        saverr = drop_security_capability(lo, ifd);
+++        if (saverr) {
+++            goto out_err;
+++        }
+++
++         res = fchownat(ifd, "", uid, gid, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
++         if (res == -1) {
++             goto out_err;
++@@ -735,6 +774,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
++             }
++         }
++ 
+++	saverr = drop_security_capability(lo, truncfd);
+++        if (saverr) {
+++            if (!fi) {
+++                close(truncfd);
+++            }
+++            goto out_err;
+++        }
+++
++         res = ftruncate(truncfd, attr->st_size);
++         if (!fi) {
++             saverr = errno;
++@@ -1726,6 +1773,13 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
++         if (fd < 0) {
++             return -fd;
++         }
+++        if (fi->flags & (O_TRUNC)) {
+++            int err = drop_security_capability(lo, fd);
+++            if (err) {
+++                close(fd);
+++                return err;
+++            }
+++        }
 +     }
 + 
-+     return g_test_run();
++     pthread_mutex_lock(&lo->mutex);
++@@ -2114,6 +2168,12 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
++              "lo_write_buf(ino=%" PRIu64 ", size=%zd, off=%lu)\n", ino,
++              out_buf.buf[0].size, (unsigned long)off);
++ 
+++    res = drop_security_capability(lo_data(req), out_buf.buf[0].fd);
+++    if (res) {
+++        fuse_reply_err(req, res);
+++        return;
+++    }
+++
++     /*
++      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
++      * clearing setuid/setgid on file.
++@@ -2353,6 +2413,7 @@ static void parse_xattrmap(struct lo_data *lo)
++ {
++     const char *map = lo->xattrmap;
++     const char *tmp;
+++    int ret;
++ 
++     lo->xattr_map_nentries = 0;
++     while (*map) {
++@@ -2383,7 +2444,7 @@ static void parse_xattrmap(struct lo_data *lo)
++              * the last entry.
++              */
++             parse_xattrmap_map(lo, map, sep);
++-            return;
+++            break;
++         } else {
++             fuse_log(FUSE_LOG_ERR,
++                      "%s: Unexpected type;"
++@@ -2452,6 +2513,19 @@ static void parse_xattrmap(struct lo_data *lo)
++         fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
++         exit(1);
++     }
+++
+++    ret = xattr_map_client(lo, "security.capability",
+++                           &lo->xattr_security_capability);
+++    if (ret) {
+++        fuse_log(FUSE_LOG_ERR, "Failed to map security.capability: %s\n",
+++                strerror(ret));
+++        exit(1);
+++    }
+++    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
+++        /* 1-1 mapping, don't need to do anything */
+++        free(lo->xattr_security_capability);
+++        lo->xattr_security_capability = NULL;
+++    }
++ }
++ 
++ /*
++@@ -3480,6 +3554,7 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
++ 
++     free(lo->xattrmap);
++     free_xattrmap(lo);
+++    free(lo->xattr_security_capability);
++     free(lo->source);
++ }
++ 
 +-- 
 +2.29.2
 +
