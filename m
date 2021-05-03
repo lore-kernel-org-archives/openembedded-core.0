@@ -1,696 +1,77 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.59.1620061766518889492
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.16.1620062191236231667
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 10:09:27 -0700
+ Mon, 03 May 2021 10:16:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qw5MugTC;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id t11-20020a05600c198bb02901476e13296aso3934207wmq.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 10:09:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dHYCOdAh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id w3so9028120ejc.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 10:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3ETvIeplgGXkglKxgk1FAy8qzreS3Khtg3m9Bf7lXbE=;
-        b=qw5MugTCWDmxKSRE+jWtMReMgMls3gGSRP+SzF7kbLfcPvhYqnSTkUvVUSg+5p3Td+
-         3QvO8ZlWwhvf3gVGF8XE/ICSkpxlkr8SWaKoRS6ebj3LcbSE/JhJfs80iJ7XzZU5VmPS
-         Dz4i7dDH80v+5DMBFip9MeC8T/sNOPL1QF1p2aasLnH3EWfJQS5w7C84yowm8/1Stt4y
-         KRB4a9sb6BU6DfBbS1NQ0HeZjgDRx7vkSN+u+SC0O7mv6WisVca2GBPrBOx2OYhI90oJ
-         iLFpmNm0eMVHN/sInE4huWEaP9Bl3QqQaA6a8yphhkSZNKATcFFYwlAg968gzQk+rnZ0
-         lSqQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6qqUYyl3HDJgSEtB4/0OZdV2z+FfrYPplVp/fx14TtU=;
+        b=dHYCOdAhYtDMnW4O7EclOxN5jQgtWLSXlUsSwF9/r0hAR1gVrNKRBMfxtQ7wh+1/l1
+         0wZ+I0BlhNR1in35foxrffFhCtv89qUQSDrOu+5l7pqkjrgXEDFtnT5aY/rF4EF77dtX
+         hBo1O41UaNCbCT2u3BAb55qUWPIJFh6sNUiPoaaq4UelmaGdMxAfqzGo1wcye30OVwif
+         cP5zhjgEmTkZIZn7i5Up8icpUUv1Suu+o9nliIKsd/Fx4Z5SBjxpdzAWDvFChwx/1NaQ
+         tFj4QCfaxjO0nxTahhS+vQT9QXTliuLjeGzc+eV52muBjYVH6i8I9SC1iGT5TZuTF+PW
+         ARgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3ETvIeplgGXkglKxgk1FAy8qzreS3Khtg3m9Bf7lXbE=;
-        b=aR7A06fQaxeR/8CCTLWsv+fwrg6tzcIz1rAM4m7CQECYW9mx7qCaGZN1tQn6AUWQLH
-         3uj6GkAxFbln6MO9+s1jc23tusyfmklVdTXin6YNe8HGQWHuGZHOeHXVxqXAFzZkxKPD
-         jJ4OqMKiWWIDF2SnTz547vDNGTOoDtV15XOfgZi6CTPfcXmGoHhQyxM07TLLaWmkLHwM
-         1OAhTOZehdcPB839jeYuS/OgDWStczWmMJi+/H5ZZEFA/dA37fub3eQgz1vpZ+7KdTTd
-         wHioCNFo+yUOdG5Vs2UgLCwaiR/i3WwTrV41w/dwx1DkuW3CpsNJe4fCv0rT3J3E8h13
-         bE3A==
-X-Gm-Message-State: AOAM530m/cJeK0yZgsh+hBfZREQ1ACqJzLgG7RSrIinefykSro0yIcO1
-	bUCTuihwyQ+mMvVj3YmX0JAAffrBSLiINQ==
-X-Google-Smtp-Source: ABdhPJwPrMsY1E7q7v04TGi0ZAJn4hzXMtCsSAhTpdGfTvb2Cx1UensCf/3mnWT9/dlztq1cFpqNIQ==
-X-Received: by 2002:a05:600c:2296:: with SMTP id 22mr25819372wmf.165.1620061764406;
-        Mon, 03 May 2021 10:09:24 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from CTW-01195.lan ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id v17sm12692045wrd.89.2021.05.03.10.09.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 10:09:24 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2 3/3] gstreamer1.0: update ptest patch
-Date: Mon,  3 May 2021 18:10:42 +0100
-Message-Id: <20210503171042.123645-3-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210503171042.123645-1-quaresma.jose@gmail.com>
-References: <20210503171042.123645-1-quaresma.jose@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6qqUYyl3HDJgSEtB4/0OZdV2z+FfrYPplVp/fx14TtU=;
+        b=NRp/0hbGi/HjtCSMCcSGW/3ncbzuIdP2qbVHf7moAsD9mGS+sjen5hzVO6wpUnjGQf
+         OZeWmc2qEmMjmonOEIo0nfDW+BXNOI00wqsn02LTTwRW4/Ew5+yGOpzbQVTXNWAyWq+8
+         iz6QoWAQngTWFqzCIiCUOTWokjaaxOCTFmINC2pxZzv2TAFhM15j3XGVKDu2rkOcwMEJ
+         1VgR/jqltEb3inKrK5mRwTt8DRfYR6hL7mra5BsSIOojY2vXJQlf8t64ranZZGl/OPiN
+         n4zp2eE08Mv4EUrW9rmyYpJfdFlXYTVJ2/h6bB3MarrWI1h0eTkyth/6YoptEPbcfVAL
+         TXZw==
+X-Gm-Message-State: AOAM530hrGQnwbmceveHwWgfrdIg3md2Pztsd5j/URExh3rxHtPUFWAo
+	5SkyWLUkhZirUoKPT/wCSdQhY691DQxgqsjY/rw=
+X-Google-Smtp-Source: ABdhPJwtL4UiNikWt3VKFfMk8EmmJr49U+3AMkbQkQtvsonSklganZZX3B9hrTpReC0CGCy5zvi0eu1NjQWo21dUHs0=
+X-Received: by 2002:a17:907:9612:: with SMTP id gb18mr17951332ejc.408.1620062189714;
+ Mon, 03 May 2021 10:16:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210502175441.368688-1-quaresma.jose@gmail.com>
+ <167B517A343BA3A6.25516@lists.openembedded.org> <CANPvuRnX=tSwOzFn3Vkx6JRg5rigu-Gy86SFpsXY5COLDpDvgQ@mail.gmail.com>
+ <9fa68475197d0b0d6c0dfa250fc433e101d9ed9a.camel@linuxfoundation.org>
+In-Reply-To: <9fa68475197d0b0d6c0dfa250fc433e101d9ed9a.camel@linuxfoundation.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Mon, 3 May 2021 18:17:46 +0100
+Message-ID: <CANPvuRko-KR6yh=8HbMzcQ_M+j8DcLxu5=tZFjGZ8Q7tKez4hA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] gstreamer1.0: update ptest patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- rework the ptest patch with a new one that are sent upstream [1].
-- it uses the same approach as the existing patch in OE-Core but
-  is based on the glib meson installed-tests [2] logic.
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+segunda, 3/05/2021 =C3=A0(s) 15:06:
+>
+> On Mon, 2021-05-03 at 09:52 +0100, Jose Quaresma wrote:
+> > I have a question regarding the patches submission, what is the most
+> > appropriate option to submit them ?
+> >
+> > 1 - send all patches as it is submitted upstream
+> > 2 - squash all patches it in single one
+>
+> I think you'd done 1) and that seemed reasonable to me? It makes sense
+> to have the separate changes identified.
 
-* qemux86-64 ptest-runner result
-  SUMMARY: total=105; passed=105; skipped=0; failed=0; user=20.4s; system=4.7s; maxrss=9928
+Yes, I have included all the patches as been sent upstream.
+Thank you for the answer.
 
-[1] - https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/789
-[2] - https://gitlab.gnome.org/GNOME/glib/-/commit/1bba3276bb3b7a878860ac01483574599b23853c
+>
+> Cheers,
+>
+> Richard
+>
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- .../gstreamer/gstreamer1.0-ptest.inc          |  23 --
- ...meson-Add-option-for-installed-tests.patch | 257 ------------------
- ...spect-the-idententaion-used-in-meson.patch |  36 +++
- ...ts-add-support-for-install-the-tests.patch | 110 ++++++++
- ...s-use-a-dictionaries-for-environment.patch |  48 ++++
- ...-the-environment-for-installed_tests.patch |  58 ++++
- .../gstreamer/gstreamer1.0/run-ptest          |   2 +
- .../gstreamer/gstreamer1.0_1.18.4.bb          |  10 +-
- 8 files changed, 261 insertions(+), 283 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-respect-the-idententaion-used-in-meson.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-support-for-install-the-tests.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-a-dictionaries-for-environment.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-install-the-environment-for-installed_tests.patch
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
-deleted file mode 100644
-index b698067041..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
-+++ /dev/null
-@@ -1,23 +0,0 @@
--inherit ptest-gnome
--
--TEST_FILES_PATH = "${datadir}/installed-tests/gstreamer-1.0/test-files"
--RUN_PTEST_FILE = "${D}${PTEST_PATH}/run-ptest"
--
--EXTRA_OEMESON += "-Dtest-files-path=${TEST_FILES_PATH}"
--
--GST_TEST_SUITE_NAME ?= "gstreamer-1.0"
--
--# Using do_install_ptest_base instead of do_install_ptest, since
--# the default do_install_ptest_base is hardcoded to expect Makefiles.
--do_install_ptest_base() {
--    # Generate run-ptest file
--    echo "#!/usr/bin/env sh" > "${RUN_PTEST_FILE}"
--    echo "gnome-desktop-testing-runner ${GST_TEST_SUITE_NAME}" >> "${RUN_PTEST_FILE}"
--    chmod 0755 "${RUN_PTEST_FILE}"
--
--    # Install additional files required by tests
--    if [ -d "${S}/tests/files" ] ; then
--        install -d "${D}/${TEST_FILES_PATH}"
--        install -m 0644 "${S}/tests/files"/* "${D}/${TEST_FILES_PATH}"
--    fi
--}
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch
-deleted file mode 100644
-index bf5e57249c..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-meson-Add-option-for-installed-tests.patch
-+++ /dev/null
-@@ -1,257 +0,0 @@
--From cf8077a7e3ab0ae236ebde79b7fc0b02eac658de Mon Sep 17 00:00:00 2001
--From: Carlos Rafael Giani <crg7475@mailbox.org>
--Date: Fri, 25 Oct 2019 00:06:26 +0200
--Subject: [PATCH 3/3] meson: Add option for installed tests
--
--This adds an option for producing installed versions of the unit tests.
--These versions don't need meson to run (only a small shell script). This
--makes it easier to run cross compiled tests on a target machine.
--
--Upstream-Status: Pending
--
--Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-----
-- build-aux/gen-installed-test-desc.py     | 18 ++++++
-- build-aux/gen-installed-test-shscript.py | 25 ++++++++
-- meson_options.txt                        |  2 +
-- tests/check/meson.build                  | 46 +++++++++++++-
-- tests/files/testfile                     | 80 ++++++++++++++++++++++++
-- 5 files changed, 170 insertions(+), 1 deletion(-)
-- create mode 100644 build-aux/gen-installed-test-desc.py
-- create mode 100644 build-aux/gen-installed-test-shscript.py
-- create mode 100644 tests/files/testfile
--
--diff --git a/build-aux/gen-installed-test-desc.py b/build-aux/gen-installed-test-desc.py
--new file mode 100644
--index 000000000..69e8a0faf
----- /dev/null
--+++ b/build-aux/gen-installed-test-desc.py
--@@ -0,0 +1,18 @@
--+import sys
--+import os
--+import argparse
--+
--+def write_template(filename, data):
--+    with open(filename, 'w') as f:
--+        f.write(data)
--+
--+def build_template(testdir, testname):
--+    return "[Test]\nType=session\nExec={}\n".format(os.path.join(testdir, testname))
--+
--+argparser = argparse.ArgumentParser(description='Generate installed-test data.')
--+argparser.add_argument('--test-execdir', metavar='dir', required=True, help='Installed test directory')
--+argparser.add_argument('--testname', metavar='name', required=True, help='Installed test name')
--+argparser.add_argument('--output', metavar='file', required=True, help='Output file')
--+args = argparser.parse_args()
--+
--+write_template(args.output, build_template(args.test_execdir, args.testname))
--diff --git a/build-aux/gen-installed-test-shscript.py b/build-aux/gen-installed-test-shscript.py
--new file mode 100644
--index 000000000..5da86fb37
----- /dev/null
--+++ b/build-aux/gen-installed-test-shscript.py
--@@ -0,0 +1,25 @@
--+import sys
--+import os
--+import argparse
--+
--+def write_template(filename, data):
--+    with open(filename, 'w') as f:
--+        f.write(data)
--+
--+def build_template(testdir, testname):
--+    return ''.join([
--+        "#!/usr/bin/env sh\n",
--+        "export GST_STATE_IGNORE_ELEMENTS=''\n",
--+        "export CK_DEFAULT_TIMEOUT=20\n",
--+        "export GST_PLUGIN_LOADING_WHITELIST='gstreamer'\n",
--+        "{}\n".format(os.path.join(testdir, testname)),
--+    ])
--+
--+argparser = argparse.ArgumentParser(description='Generate installed-test data.')
--+argparser.add_argument('--test-execdir', metavar='dir', required=True, help='Installed test directory')
--+argparser.add_argument('--testname', metavar='name', required=True, help='Installed test name')
--+argparser.add_argument('--output', metavar='file', required=True, help='Output file')
--+args = argparser.parse_args()
--+
--+write_template(args.output, build_template(args.test_execdir, args.testname))
--+os.chmod(args.output, 0o755)
--diff --git a/meson_options.txt b/meson_options.txt
--index 72c3997e2..346c423d4 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -15,6 +15,8 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
-- option('memory-alignment', type: 'combo',
--        choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
--        value: 'malloc')
--+option('installed-tests', type : 'boolean', value : false, description : 'enable installed tests')
--+option('test-files-path', type : 'string', description : 'Path where to find test files')
-- 
-- # Feature options
-- option('check', type : 'feature', value : 'auto', description : 'Build unit test libraries')
--diff --git a/tests/check/meson.build b/tests/check/meson.build
--index a617cf159..e629131c5 100644
----- a/tests/check/meson.build
--+++ b/tests/check/meson.build
--@@ -120,11 +120,17 @@ if add_languages('cpp', native: false, required: false)
--   ]
-- endif
-- 
--+test_files_path = get_option('test-files-path')
--+if test_files_path == ''
--+  test_files_path = meson.current_source_dir() + '/../files'
--+endif
--+message('Using path "@0@" as the path to read test files from'.format(test_files_path))
--+
-- test_defines = [
--   '-UG_DISABLE_ASSERT',
--   '-UG_DISABLE_CAST_CHECKS',
--   '-DGST_CHECK_TEST_ENVIRONMENT_BEACON="GST_STATE_IGNORE_ELEMENTS"',
---  '-DTESTFILE="' + meson.current_source_dir() + '/meson.build"',
--+  '-DTESTFILE="@0@"'.format(test_files_path + '/testfile'),
--   '-DGST_DISABLE_DEPRECATED',
-- ]
-- 
--@@ -138,6 +144,14 @@ endif
-- glib_deps = [gio_dep, gobject_dep, gmodule_dep, glib_dep]
-- gst_deps = [gst_dep, gst_base_dep, gst_check_dep, gst_net_dep, gst_controller_dep]
-- 
--+installed_tests_datadir = join_paths(prefix, get_option('datadir'), 'installed-tests', 'gstreamer-1.0')
--+installed_tests_execdir = join_paths(prefix, libexecdir, 'installed-tests', 'gstreamer-1.0')
--+installed_tests_enabled = get_option('installed-tests')
--+
--+python = import('python').find_installation()
--+gen_installed_test_desc = files('../../build-aux/gen-installed-test-desc.py')
--+gen_installed_test_shscript = files('../../build-aux/gen-installed-test-shscript.py')
--+
-- foreach t : core_tests
--   fname = t[0]
--   test_name = fname.split('.')[0].underscorify()
--@@ -151,8 +165,38 @@ foreach t : core_tests
--         include_directories : [configinc],
--         link_with : link_with_libs,
--         dependencies : test_deps + glib_deps + gst_deps,
--+        install_dir: installed_tests_execdir,
--+        install: installed_tests_enabled
--     )
-- 
--+    if installed_tests_enabled
--+      installed_test_shscript = test_name + '.sh'
--+      shscript = custom_target (test_name + '_shscript',
--+                                output: installed_test_shscript,
--+                                command: [
--+                                  python,
--+                                  gen_installed_test_shscript,
--+                                  '--test-execdir=@0@'.format(installed_tests_execdir),
--+                                  '--testname=@0@'.format(test_name),
--+                                  '--output=@0@'.format(join_paths('@OUTDIR@', installed_test_shscript)),
--+                                ],
--+                                install: true,
--+                                install_dir: installed_tests_execdir)
--+
--+      installed_test_desc = test_name + '.test'
--+      data = custom_target(test_name + '_desc',
--+                           output: installed_test_desc,
--+                           command: [
--+                             python,
--+                             gen_installed_test_desc,
--+                             '--test-execdir=@0@'.format(installed_tests_execdir),
--+                             '--testname=@0@'.format(installed_test_shscript),
--+                             '--output=@0@'.format(join_paths('@OUTDIR@', installed_test_desc)),
--+                           ],
--+                           install: true,
--+                           install_dir: installed_tests_datadir)
--+    endif
--+
--     env = environment()
--     env.set('GST_PLUGIN_PATH_1_0', meson.build_root())
--     env.set('GST_PLUGIN_SYSTEM_PATH_1_0', '')
--diff --git a/tests/files/testfile b/tests/files/testfile
--new file mode 100644
--index 000000000..89954e0e2
----- /dev/null
--+++ b/tests/files/testfile
--@@ -0,0 +1,80 @@
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
--+................................................................................
---- 
--2.29.2
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-respect-the-idententaion-used-in-meson.patch
-new file mode 100644
-index 0000000000..6f571a12d8
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-respect-the-idententaion-used-in-meson.patch
-@@ -0,0 +1,36 @@
-+From 122e5ac3dd16a461b6ae595605490c8f5d1c3a9d Mon Sep 17 00:00:00 2001
-+From: Jose Quaresma <quaresma.jose@gmail.com>
-+Date: Sun, 11 Apr 2021 19:48:13 +0100
-+Subject: [PATCH 1/4] tests: respect the idententaion used in meson
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/789]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ tests/check/meson.build | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/tests/check/meson.build b/tests/check/meson.build
-+index a617cf159..b2636714b 100644
-+--- a/tests/check/meson.build
-++++ b/tests/check/meson.build
-+@@ -146,11 +146,11 @@ foreach t : core_tests
-+ 
-+   if not skip_test
-+     exe = executable(test_name, fname,
-+-        c_args : gst_c_args + test_defines,
-+-        cpp_args : gst_c_args + test_defines,
-+-        include_directories : [configinc],
-+-        link_with : link_with_libs,
-+-        dependencies : test_deps + glib_deps + gst_deps,
-++      c_args : gst_c_args + test_defines,
-++      cpp_args : gst_c_args + test_defines,
-++      include_directories : [configinc],
-++      link_with : link_with_libs,
-++      dependencies : test_deps + glib_deps + gst_deps,
-+     )
-+ 
-+     env = environment()
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-support-for-install-the-tests.patch
-new file mode 100644
-index 0000000000..b77fb5797f
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-support-for-install-the-tests.patch
-@@ -0,0 +1,110 @@
-+From c9e93c7a3e4d2773abef4f5e1464af24f36700b3 Mon Sep 17 00:00:00 2001
-+From: Jose Quaresma <quaresma.jose@gmail.com>
-+Date: Sun, 11 Apr 2021 19:48:13 +0100
-+Subject: [PATCH 2/4] tests: add support for install the tests
-+
-+This will provide to run the tests using the gnome-desktop-testing [1]
-+
-+[1] https://wiki.gnome.org/Initiatives/GnomeGoals/InstalledTests
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/789]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ meson.build             |  5 +++++
-+ meson_options.txt       |  1 +
-+ template.test.in        |  3 +++
-+ tests/check/meson.build | 22 +++++++++++++++++++++-
-+ 4 files changed, 30 insertions(+), 1 deletion(-)
-+ create mode 100644 template.test.in
-+
-+diff --git a/meson.build b/meson.build
-+index c4e8774f5..1abf4eb26 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -562,6 +562,11 @@ if bashcomp_dep.found()
-+   endif
-+ endif
-+ 
-++installed_tests_metadir = join_paths(datadir, 'installed-tests', meson.project_name())
-++installed_tests_execdir = join_paths(libexecdir, 'installed-tests', meson.project_name())
-++installed_tests_enabled = get_option('installed-tests')
-++installed_tests_template = files('template.test.in')
-++
-+ plugins_install_dir = join_paths(get_option('libdir'), 'gstreamer-1.0')
-+ 
-+ pkgconfig = import('pkgconfig')
-+diff --git a/meson_options.txt b/meson_options.txt
-+index c8cee3762..b5da40eaa 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -15,6 +15,7 @@ option('poisoning', type : 'boolean', value : false, description : 'Enable poiso
-+ option('memory-alignment', type: 'combo',
-+        choices : ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesize'],
-+        value: 'malloc')
-++option('installed-tests', type : 'boolean', value : false, description : 'Enable installed tests')
-+ 
-+ # Feature options
-+ option('check', type : 'feature', value : 'auto', description : 'Build unit test libraries')
-+diff --git a/template.test.in b/template.test.in
-+new file mode 100644
-+index 000000000..f701627f8
-+--- /dev/null
-++++ b/template.test.in
-+@@ -0,0 +1,3 @@
-++[Test]
-++Type=session
-++Exec=@installed_tests_dir@/@program@
-+diff --git a/tests/check/meson.build b/tests/check/meson.build
-+index b2636714b..a697a7b06 100644
-+--- a/tests/check/meson.build
-++++ b/tests/check/meson.build
-+@@ -124,10 +124,16 @@ test_defines = [
-+   '-UG_DISABLE_ASSERT',
-+   '-UG_DISABLE_CAST_CHECKS',
-+   '-DGST_CHECK_TEST_ENVIRONMENT_BEACON="GST_STATE_IGNORE_ELEMENTS"',
-+-  '-DTESTFILE="' + meson.current_source_dir() + '/meson.build"',
-+   '-DGST_DISABLE_DEPRECATED',
-+ ]
-+ 
-++testfile = meson.current_source_dir() + '/meson.build'
-++if installed_tests_enabled
-++  install_data(testfile, install_dir : installed_tests_metadir, rename : 'testfile')
-++  testfile = installed_tests_metadir + '/testfile'
-++endif
-++test_defines += '-DTESTFILE="@0@"'.format(testfile)
-++
-+ # sanity checking
-+ if get_option('check').disabled()
-+   if get_option('tests').enabled()
-+@@ -151,6 +157,8 @@ foreach t : core_tests
-+       include_directories : [configinc],
-+       link_with : link_with_libs,
-+       dependencies : test_deps + glib_deps + gst_deps,
-++      install_dir: installed_tests_execdir,
-++      install: installed_tests_enabled,
-+     )
-+ 
-+     env = environment()
-+@@ -162,6 +170,18 @@ foreach t : core_tests
-+     env.set('GST_PLUGIN_SCANNER_1_0', gst_scanner_dir + '/gst-plugin-scanner')
-+     env.set('GST_PLUGIN_LOADING_WHITELIST', 'gstreamer')
-+ 
-++    if installed_tests_enabled
-++      test_conf = configuration_data()
-++      test_conf.set('installed_tests_dir', join_paths(prefix, installed_tests_execdir))
-++      test_conf.set('program', test_name)
-++      configure_file(
-++        input: installed_tests_template,
-++        output: test_name + '.test',
-++        install_dir: installed_tests_metadir,
-++        configuration: test_conf
-++      )
-++    endif
-++
-+     test(test_name, exe, env: env, timeout : 3 * 60)
-+   endif
-+ endforeach
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-a-dictionaries-for-environment.patch
-new file mode 100644
-index 0000000000..46813cec3d
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-a-dictionaries-for-environment.patch
-@@ -0,0 +1,48 @@
-+From e82dedec1803922656e92285fc1bb75b2cdc0aad Mon Sep 17 00:00:00 2001
-+From: Jose Quaresma <quaresma.jose@gmail.com>
-+Date: Sat, 24 Apr 2021 10:34:47 +0100
-+Subject: [PATCH 3/4] tests: use a dictionaries for environment
-+
-+meson environment() can't be passed to configure_file and it is needed for installed_tests,
-+use a dictionary as this is simplest solution to install the environment.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/789]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ tests/check/meson.build | 19 +++++++++++--------
-+ 1 file changed, 11 insertions(+), 8 deletions(-)
-+
-+diff --git a/tests/check/meson.build b/tests/check/meson.build
-+index a697a7b06..f64524904 100644
-+--- a/tests/check/meson.build
-++++ b/tests/check/meson.build
-+@@ -161,14 +161,17 @@ foreach t : core_tests
-+       install: installed_tests_enabled,
-+     )
-+ 
-+-    env = environment()
-+-    env.set('GST_PLUGIN_PATH_1_0', meson.build_root())
-+-    env.set('GST_PLUGIN_SYSTEM_PATH_1_0', '')
-+-    env.set('GST_STATE_IGNORE_ELEMENTS', '')
-+-    env.set('CK_DEFAULT_TIMEOUT', '20')
-+-    env.set('GST_REGISTRY', '@0@/@1@.registry'.format(meson.current_build_dir(), test_name))
-+-    env.set('GST_PLUGIN_SCANNER_1_0', gst_scanner_dir + '/gst-plugin-scanner')
-+-    env.set('GST_PLUGIN_LOADING_WHITELIST', 'gstreamer')
-++    # environment() can't be passed to configure_file and it is needed for installed_tests
-++    # use a dictionary as this is simplest solution to install the environment
-++    env = {
-++      'GST_PLUGIN_PATH_1_0': meson.build_root(),
-++      'GST_PLUGIN_SYSTEM_PATH_1_0': '',
-++      'GST_STATE_IGNORE_ELEMENTS': '',
-++      'CK_DEFAULT_TIMEOUT': '20',
-++      'GST_REGISTRY': '@0@/@1@.registry'.format(meson.current_build_dir(), test_name),
-++      'GST_PLUGIN_SCANNER_1_0': gst_scanner_dir + '/gst-plugin-scanner',
-++      'GST_PLUGIN_LOADING_WHITELIST': 'gstreamer',
-++    }
-+ 
-+     if installed_tests_enabled
-+       test_conf = configuration_data()
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-install-the-environment-for-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-install-the-environment-for-installed_tests.patch
-new file mode 100644
-index 0000000000..eabe7bcbe1
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-install-the-environment-for-installed_tests.patch
-@@ -0,0 +1,58 @@
-+From 57d2965e979f886e03eecd7e351bf01812053971 Mon Sep 17 00:00:00 2001
-+From: Jose Quaresma <quaresma.jose@gmail.com>
-+Date: Sun, 2 May 2021 01:58:01 +0100
-+Subject: [PATCH 4/4] tests: install the environment for installed_tests
-+
-+- adapt the test environment for installed_tests
-+- install the test environment for installed_tests
-+- run the tests using the installed environment
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/789]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ template.test.in        |  2 +-
-+ tests/check/meson.build | 18 ++++++++++++++++++
-+ 2 files changed, 19 insertions(+), 1 deletion(-)
-+
-+diff --git a/template.test.in b/template.test.in
-+index f701627f8..9a3fbdd09 100644
-+--- a/template.test.in
-++++ b/template.test.in
-+@@ -1,3 +1,3 @@
-+ [Test]
-+ Type=session
-+-Exec=@installed_tests_dir@/@program@
-++Exec=sh -c 'set -aex && source @installed_tests_dir@/@program@.env && exec @installed_tests_dir@/@program@'
-+diff --git a/tests/check/meson.build b/tests/check/meson.build
-+index f64524904..a67e0f8dd 100644
-+--- a/tests/check/meson.build
-++++ b/tests/check/meson.build
-+@@ -183,6 +183,24 @@ foreach t : core_tests
-+         install_dir: installed_tests_metadir,
-+         configuration: test_conf
-+       )
-++
-++      env += {'GST_REGISTRY': '~/.cache/gstreamer-1.0/@0@.registry'.format(test_name)}
-++      configure_file(
-++        output: test_name + '.env',
-++        install_dir: installed_tests_execdir,
-++        configuration : env,
-++      )
-++      # helper to convert a meson environment dictionay object exported with configure_file
-++      # this also remove not needed variables for the installed tests
-++      meson.add_postconf_script('sed', '-i',
-++        '-e', '/^#define/!d',
-++        '-e', 's/^#define //g',
-++        '-e', '/^GST_PLUGIN_PATH_1_0/d',
-++        '-e', '/^GST_PLUGIN_SYSTEM_PATH_1_0/d',
-++        '-e', '/^GST_PLUGIN_SCANNER_1_0/d',
-++        '-e', 's/ /=/',
-++        join_paths(meson.current_build_dir(), test_name + '.env')
-++      )
-+     endif
-+ 
-+     test(test_name, exe, env: env, timeout : 3 * 60)
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-new file mode 100755
-index 0000000000..0cfa955f03
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-@@ -0,0 +1,2 @@
-+#!/usr/bin/env sh
-+gnome-desktop-testing-runner gstreamer
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.4.bb
-index b275a3430b..8f135b3839 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.4.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPLv2+"
- 
- DEPENDS = "glib-2.0 glib-2.0-native libxml2 bison-native flex-native"
- 
--inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection
-+inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection ptest-gnome
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
-@@ -16,10 +16,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
- S = "${WORKDIR}/gstreamer-${PV}"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-+           file://run-ptest \
-            file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
-            file://0002-Remove-unused-valgrind-detection.patch \
-            file://0003-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch \
--           file://0004-meson-Add-option-for-installed-tests.patch \
-+           file://0004-tests-respect-the-idententaion-used-in-meson.patch \
-+           file://0005-tests-add-support-for-install-the-tests.patch \
-+           file://0006-tests-use-a-dictionaries-for-environment.patch \
-+           file://0007-tests-install-the-environment-for-installed_tests.patch \
-            "
- SRC_URI[sha256sum] = "9aeec99b38e310817012aa2d1d76573b787af47f8a725a65b833880a094dfbc5"
- 
-@@ -68,4 +72,4 @@ FILES_${PN}-dbg += "${datadir}/gdb ${datadir}/gstreamer-1.0/gdb"
- 
- CVE_PRODUCT = "gstreamer"
- 
--require gstreamer1.0-ptest.inc
-+PTEST_BUILD_HOST_FILES = ""
--- 
-2.31.1
+--=20
+Best regards,
 
+Jos=C3=A9 Quaresma
