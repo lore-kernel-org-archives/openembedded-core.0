@@ -1,273 +1,79 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.34254.1620051018299181322
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web10.34639.1620052602095814023
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 07:10:18 -0700
+ Mon, 03 May 2021 07:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 143EAH7n003386
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 3 May 2021 07:10:18 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 3 May 2021 07:10:17 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Mon, 3 May 2021 07:10:17 -0700
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] qemu: fix CVE-2021-20263
-Date: Mon, 3 May 2021 10:10:13 -0400
-Message-ID: <20210503141013.28102-2-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210503141013.28102-1-sakib.sajal@windriver.com>
-References: <20210503141013.28102-1-sakib.sajal@windriver.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: aNnZMgEAgo1BF/GeHpLQyEeDO0GA+TFN3q4M56tXelHOBDzQAQCoWBifT/Rf7nJlUc5nIn1PtR
+ tj1KBJ8/kyrQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="197849503"
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
+   d="scan'208";a="197849503"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:41 -0700
+IronPort-SDR: 6fsvk+ue8dxdjFRLnjlmV9COiA1BmVeOBRJX2QfpItAWkUFrfoHPgWdQdYGpXM0v9F4CJ6iEO2
+ QJkjJmP38Eig==
+X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
+   d="scan'208";a="405697096"
+Received: from semohdyu-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.72.206])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 07:36:40 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 0/6] review request
+Date: Mon,  3 May 2021 22:36:28 +0800
+Message-Id: <cover.1620052258.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-virtiofs: drop remapped security.capability xattr as needed
+Please review these changes for gatesgarth. Builds cleanly on
+autobuilder.
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-20263.patch            | 214 ++++++++++++++++++
- 2 files changed, 215 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
+Thanks,
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d120b0822f..486f404668 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -56,6 +56,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-20257.patch \
- 	   file://CVE-2021-3392.patch \
-            file://CVE-2020-27821.patch \
-+           file://CVE-2021-20263.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
-new file mode 100644
-index 0000000000..4f9a91f0c6
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
-@@ -0,0 +1,214 @@
-+From aaa5f8e00c2e85a893b972f1e243fb14c26b70dc Mon Sep 17 00:00:00 2001
-+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-+Date: Wed, 24 Feb 2021 19:56:25 +0000
-+Subject: [PATCH 2/2] virtiofs: drop remapped security.capability xattr as
-+ needed
-+
-+On Linux, the 'security.capability' xattr holds a set of
-+capabilities that can change when an executable is run, giving
-+a limited form of privilege escalation to those programs that
-+the writer of the file deemed worthy.
-+
-+Any write causes the 'security.capability' xattr to be dropped,
-+stopping anyone from gaining privilege by modifying a blessed
-+file.
-+
-+Fuse relies on the daemon to do this dropping, and in turn the
-+daemon relies on the host kernel to drop the xattr for it.  However,
-+with the addition of -o xattrmap, the xattr that the guest
-+stores its capabilities in is now not the same as the one that
-+the host kernel automatically clears.
-+
-+Where the mapping changes 'security.capability', explicitly clear
-+the remapped name to preserve the same behaviour.
-+
-+This bug is assigned CVE-2021-20263.
-+
-+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-+
-+Upstream-Status: Backport [e586edcb410543768ef009eaa22a2d9dd4a53846]
-+CVE: CVE-2021-20263
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ docs/tools/virtiofsd.rst         |  4 ++
-+ tools/virtiofsd/passthrough_ll.c | 77 +++++++++++++++++++++++++++++++-
-+ 2 files changed, 80 insertions(+), 1 deletion(-)
-+
-+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-+index 866b7db3e..00554c75b 100644
-+--- a/docs/tools/virtiofsd.rst
-++++ b/docs/tools/virtiofsd.rst
-+@@ -228,6 +228,10 @@ The 'map' type adds a number of separate rules to add **prepend** as a prefix
-+ to the matched **key** (or all attributes if **key** is empty).
-+ There may be at most one 'map' rule and it must be the last rule in the set.
-+ 
-++Note: When the 'security.capability' xattr is remapped, the daemon has to do
-++extra work to remove it during many operations, which the host kernel normally
-++does itself.
-++
-+ xattr-mapping Examples
-+ ----------------------
-+ 
-+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-+index 03c5e0d13..c9197da86 100644
-+--- a/tools/virtiofsd/passthrough_ll.c
-++++ b/tools/virtiofsd/passthrough_ll.c
-+@@ -160,6 +160,7 @@ struct lo_data {
-+     int posix_lock;
-+     int xattr;
-+     char *xattrmap;
-++    char *xattr_security_capability;
-+     char *source;
-+     char *modcaps;
-+     double timeout;
-+@@ -226,6 +227,8 @@ static __thread bool cap_loaded = 0;
-+ 
-+ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-+                                 uint64_t mnt_id);
-++static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-++                            char **out_name);
-+ 
-+ static int is_dot_or_dotdot(const char *name)
-+ {
-+@@ -365,6 +368,37 @@ out:
-+     return ret;
-+ }
-+ 
-++/*
-++ * The host kernel normally drops security.capability xattr's on
-++ * any write, however if we're remapping xattr names we need to drop
-++ * whatever the clients security.capability is actually stored as.
-++ */
-++static int drop_security_capability(const struct lo_data *lo, int fd)
-++{
-++    if (!lo->xattr_security_capability) {
-++        /* We didn't remap the name, let the host kernel do it */
-++        return 0;
-++    }
-++    if (!fremovexattr(fd, lo->xattr_security_capability)) {
-++        /* All good */
-++        return 0;
-++    }
-++
-++    switch (errno) {
-++    case ENODATA:
-++        /* Attribute didn't exist, that's fine */
-++        return 0;
-++
-++    case ENOTSUP:
-++        /* FS didn't support attribute anyway, also fine */
-++        return 0;
-++
-++    default:
-++        /* Hmm other error */
-++        return errno;
-++    }
-++}
-++
-+ static void lo_map_init(struct lo_map *map)
-+ {
-+     map->elems = NULL;
-+@@ -717,6 +751,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-+         uid_t uid = (valid & FUSE_SET_ATTR_UID) ? attr->st_uid : (uid_t)-1;
-+         gid_t gid = (valid & FUSE_SET_ATTR_GID) ? attr->st_gid : (gid_t)-1;
-+ 
-++        saverr = drop_security_capability(lo, ifd);
-++        if (saverr) {
-++            goto out_err;
-++        }
-++
-+         res = fchownat(ifd, "", uid, gid, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+         if (res == -1) {
-+             goto out_err;
-+@@ -735,6 +774,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-+             }
-+         }
-+ 
-++	saverr = drop_security_capability(lo, truncfd);
-++        if (saverr) {
-++            if (!fi) {
-++                close(truncfd);
-++            }
-++            goto out_err;
-++        }
-++
-+         res = ftruncate(truncfd, attr->st_size);
-+         if (!fi) {
-+             saverr = errno;
-+@@ -1726,6 +1773,13 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-+         if (fd < 0) {
-+             return -fd;
-+         }
-++        if (fi->flags & (O_TRUNC)) {
-++            int err = drop_security_capability(lo, fd);
-++            if (err) {
-++                close(fd);
-++                return err;
-++            }
-++        }
-+     }
-+ 
-+     pthread_mutex_lock(&lo->mutex);
-+@@ -2114,6 +2168,12 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-+              "lo_write_buf(ino=%" PRIu64 ", size=%zd, off=%lu)\n", ino,
-+              out_buf.buf[0].size, (unsigned long)off);
-+ 
-++    res = drop_security_capability(lo_data(req), out_buf.buf[0].fd);
-++    if (res) {
-++        fuse_reply_err(req, res);
-++        return;
-++    }
-++
-+     /*
-+      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
-+      * clearing setuid/setgid on file.
-+@@ -2353,6 +2413,7 @@ static void parse_xattrmap(struct lo_data *lo)
-+ {
-+     const char *map = lo->xattrmap;
-+     const char *tmp;
-++    int ret;
-+ 
-+     lo->xattr_map_nentries = 0;
-+     while (*map) {
-+@@ -2383,7 +2444,7 @@ static void parse_xattrmap(struct lo_data *lo)
-+              * the last entry.
-+              */
-+             parse_xattrmap_map(lo, map, sep);
-+-            return;
-++            break;
-+         } else {
-+             fuse_log(FUSE_LOG_ERR,
-+                      "%s: Unexpected type;"
-+@@ -2452,6 +2513,19 @@ static void parse_xattrmap(struct lo_data *lo)
-+         fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
-+         exit(1);
-+     }
-++
-++    ret = xattr_map_client(lo, "security.capability",
-++                           &lo->xattr_security_capability);
-++    if (ret) {
-++        fuse_log(FUSE_LOG_ERR, "Failed to map security.capability: %s\n",
-++                strerror(ret));
-++        exit(1);
-++    }
-++    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
-++        /* 1-1 mapping, don't need to do anything */
-++        free(lo->xattr_security_capability);
-++        lo->xattr_security_capability = NULL;
-++    }
-+ }
-+ 
-+ /*
-+@@ -3480,6 +3554,7 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
-+ 
-+     free(lo->xattrmap);
-+     free_xattrmap(lo);
-++    free(lo->xattr_security_capability);
-+     free(lo->source);
-+ }
-+ 
-+-- 
-+2.29.2
-+
+Anuj
+
+The following changes since commit 8b0aef3f504d650c3208f11b62a7926aa90967f1:
+
+  sanity: Further improve directory sanity tests (2021-04-23 23:20:58 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Changqing Li (2):
+  cairo: fix CVE-2020-35492
+  gdk-pixbuf: fix CVE-2021-20240
+
+Chen Qi (1):
+  rsync: fix CVE-2020-14387
+
+Marek Vasut (1):
+  linux-firmware: Package RSI 911x WiFi firmware
+
+Richard Purdie (1):
+  yocto-check-layer: Avoid bug when iterating and autoadding
+    dependencies
+
+hongxu (1):
+  deb: apply postinstall on sdk
+
+ meta/lib/oe/package_manager/deb/sdk.py        |   4 +
+ ...-the-hostname-in-the-certificate-whe.patch |  31 +++++
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb    |   1 +
+ .../gdk-pixbuf/CVE-2021-20240.patch           |  40 ++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
+ .../cairo/cairo/CVE-2020-35492.patch          | 121 ++++++++++++++++++
+ .../cairo/cairo/bug-image-compositor.ref.png  | Bin 0 -> 185 bytes
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  11 ++
+ .../linux-firmware/linux-firmware_20210208.bb |  11 ++
+ scripts/yocto-check-layer                     |   3 +
+ 10 files changed, 223 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
+
 -- 
-2.29.2
+2.30.2
 
