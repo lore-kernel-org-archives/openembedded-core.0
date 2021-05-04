@@ -1,110 +1,109 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web08.2320.1620083814539952745
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web09.3528.1620089870351842487
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 16:16:54 -0700
+ Mon, 03 May 2021 17:57:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cGR0GiAl;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id h127so787581pfe.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 03 May 2021 16:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pdEohfHzvO0U0kXy317DLUTYAeiQL/oBUHpIK0Vn1Q8=;
-        b=cGR0GiAlp27FN7D+eD4nAX01CG20F01RgGtFnRAskPYNW6L6B/nTeeFpAQAD0VnKLx
-         JLjyzU61Cm+972GiOdNVKUxH42kRnJ2ETdLNkuBoU8xzlVyIx6FWsrOgZVIZq4a045ON
-         iJVHi0jIEL5VmdQkQFWRlLPd+lZ71Wyd+w5tqhCZKv2d0Mm8tTxfWGxz7D7GwlhGq4P1
-         bDWMSwCHCYnhRl1QeRIezB69IBwHz2c++1wQW/K7aX4+2peG6bAiSmdiANJ9n2KY1fuK
-         vunOAe+FQWhRSDX8cRuGakNnFDbKkuHZpBHcEEELXGyv6WzdiLqGhEWZM6mnkz8PXZSt
-         iM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pdEohfHzvO0U0kXy317DLUTYAeiQL/oBUHpIK0Vn1Q8=;
-        b=YbHv0tG8+8wubxoZ4UMT0eS/lEXJnFMTGCsHzE1FFxbNImvWJDuMzn2VYRO065rJE7
-         BvtdDZFmZSYiE8uO1Zgoyfy98rJH3lMRVBApSGY0siRZiLfkfIF++k+/cTZFsXAsfXH9
-         zWSDsH+DgfPuMrbAe/XwOJ4TSeAxgmsZ1bun8PQAVs11Orkf2PqNkqrNNgcuzI7bb5RS
-         N/t0EaFYgbOH7pQyzuW02SbcuRuwASsIN7Gj9HKayk49K1nuYDXeaZj8lkbC0xael5Um
-         cqoDlqXQVT6ULml8GxudnqvGjyKZOf6AtgVOgsaGHA3RcAwQWOsjjKNVk1leM19h0lTR
-         Xy7A==
-X-Gm-Message-State: AOAM5327Q7H+IpHQ+3v+8QGq2g7mf01rciptznckvnkhaObwVLjoIJxR
-	xdeZrptU10AaRkfcLS0CCiLpD/PLnmkvQQ==
-X-Google-Smtp-Source: ABdhPJy1GRm4aYDG9B+ybg3GQJsrWNuWo1q+nf9Iy4U7V7vn10ezCmD5n6PXPSYiqsz7SVwe4R8udg==
-X-Received: by 2002:a63:ff25:: with SMTP id k37mr387037pgi.360.1620083813609;
-        Mon, 03 May 2021 16:16:53 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
-        by smtp.gmail.com with ESMTPSA id t9sm800494pgg.6.2021.05.03.16.16.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 16:16:53 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] busybox: Fix reproducibility
-Date: Mon,  3 May 2021 16:16:51 -0700
-Message-Id: <20210503231651.731010-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 373D440C1E;
+	Tue,  4 May 2021 00:57:49 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XSrcWEF_LJPF; Tue,  4 May 2021 00:57:49 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1397C40A28;
+	Tue,  4 May 2021 00:57:47 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id B79BB1745DB; Mon,  3 May 2021 20:57:46 -0400 (EDT)
+Date: Mon, 3 May 2021 20:57:46 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: Andre McCurdy <armccurdy@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] how to add a "-dev" package to host SDK?
+Message-ID: <20210504005746.GL21867@denix.org>
+References: <14306152-1445-7a44-523-beb73a6dbda@crashcourse.ca>
+ <CAJ86T=WaeNQCJr4ednad1znvq8LV3P6wYvPwrzZh4rHWUDma-A@mail.gmail.com>
+ <35c8bcd5-bc86-1a8a-e0d6-a35ef9bb2d47@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <35c8bcd5-bc86-1a8a-e0d6-a35ef9bb2d47@crashcourse.ca>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The ensures that globbing results in same order irrespective of shell in
-use
+On Mon, May 03, 2021 at 03:41:50PM -0400, Robert P. J. Day wrote:
+> On Mon, 3 May 2021, Andre McCurdy wrote:
+> 
+> > On Mon, May 3, 2021 at 7:55 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > >
+> > >   colleague asks a simple question (and i'm not in front of my dev
+> > > box at the moment so i can't verify what i'm about to suggest):
+> > > how to add the header files in a given "-dev" package to the host
+> > > component of the SDK?
+> >
+> > The implication of that is that you want to use a header file from a
+> > host component of the SDK to be able to compile additional tools etc
+> > to run on the host after the SDK has been created?
+> 
+>   i am *assuming* that's the plan, but i was provided with no actual
+> rationale, only asked how to do it. i'm going to harangue people
+> tomorrow regarding what they're after.
+> 
+> > Normally the SDK tools etc which run on the host are all compiled as
+> > part of creating the SDK, not afterwards.
+> 
+>   that's my understanding but, again, i'm just responding to a very
+> specific request; i guess we'll soon see if that's the right approach
+> to what they're looking for.
+> 
+> > >   i haven't spent a lot of time messing with SDKs (that is about to
+> > > change), but as i read it, if one wants to add the contents of any
+> > > given development package to the host SDK, it would look like:
+> > >
+> > >   TOOLCHAIN_HOST_TASK_append = " nativesdk-fubar-dev"
+> > >
+> > >   i have no idea what the rationale is here, i'm just trying to
+> > > address the question, which in addition asks, "if you add something
+> > > like that to the host side, is it automatically added to the target
+> > > side?"
+> >
+> > It's not.
+> 
+>   i was pretty sure it wasn't but i tried a number of examples just to
+> be absolutely sure. however, i did notice something i didn't
+> understand. (this is my first foray into messing with SDKs so these
+> will be simple questions.)
+> 
+>   as a test, i built a core-image-minimal for qemuarm64, then started
+> playing with:
+> 
+>   TOOLCHAIN_HOST_TASK_append = " ..."
+> 
+> to see what was added to the host manifest file.
+> 
+>   when i added:
+> 
+>   TOOLCHAIN_HOST_TASK_append = " nativesdk-expect"
+> 
+> then, sure enough, that package was added to the host manifest file.
+> however, when i added the -dev package:
+> 
+>   TOOLCHAIN_HOST_TASK_append = " nativesdk-expect-dev"
+> 
+> then *both* packages were added, as in, the regular package was
+> dragged along with the -dev package, which *seems* reasonable, but
+> where in the code (class file?) is this processing done? put another
+> way, under what circumstances will adding a -dev package to the host
+> portion of the SDK necessarily add the primary package?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...Use-C-locale-when-calling-sed-on-glo.patch | 28 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.33.0.bb   |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+By default, ${PN}-dev RDEPENDS on ${PN} automatically, if not changed:
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
-new file mode 100644
-index 0000000000..e0a22c5bb3
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
-@@ -0,0 +1,28 @@
-+From bff7f16f7f41de8df67beb03722f235828ef2249 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 3 May 2021 15:48:19 -0700
-+Subject: [PATCH] gen_build_files: Use C locale when calling sed on globbed files
-+
-+sort order is different based on chosen locale and also default shell
-+being bash or dash
-+
-+This sets the environment variable LC_ALL to the value C, which will
-+enforce bytewise sorting, irrespective of the shell
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ scripts/gen_build_files.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/scripts/gen_build_files.sh
-++++ b/scripts/gen_build_files.sh
-+@@ -4,6 +4,8 @@
-+ # but users complain that many sed implementations
-+ # are misinterpreting --.
-+ 
-++export LC_ALL=C
-++
-+ test $# -ge 2 || { echo "Syntax: $0 SRCTREE OBJTREE"; exit 1; }
-+ 
-+ # cd to objtree
-diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
-index a92fa2fe5f..c334c42000 100644
---- a/meta/recipes-core/busybox/busybox_1.33.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-@@ -48,6 +48,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rev.cfg \
-            file://pgrep.cfg \
-            file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
-+           file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
-            "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
+https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbake.conf#n321
+
 -- 
-2.31.1
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
