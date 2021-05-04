@@ -1,110 +1,81 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web10.20.1620161488058020374
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.104.1620167538383712058
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 13:51:28 -0700
+ Tue, 04 May 2021 15:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:32804 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1le20t-0000ww-7r; Tue, 04 May 2021 16:51:27 -0400
-Date: Tue, 4 May 2021 16:51:22 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] making the meaning of "FILES_${PN}-bin" a little more obvious?
-In-Reply-To: <682545dbbe96af7d1fba65e31c3309c7207e85b5.camel@linuxfoundation.org>
-Message-ID: <2c9e1527-9c4e-1d4c-84a2-962884af228@crashcourse.ca>
-References: <bff7177-906f-f4e7-8085-6f245ad9a262@crashcourse.ca>  <b2fe670bee26b1d723e9bcdf6cbb3d77fa732a11.camel@linuxfoundation.org>  <6b33f481-616-f965-dc5b-b671751b657a@crashcourse.ca>
- <682545dbbe96af7d1fba65e31c3309c7207e85b5.camel@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VV20ouPL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id d4so11012050wru.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 15:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=T2TxDOV4e4FRNUKKQDhQM9+ekxwD22LvMpj+8dv9TcY=;
+        b=VV20ouPLpLYMuAG2sWNZyBGEgQnrHP/Oqlm42WhZQdgU6NiDIWhFNgfPWxywQVDc1+
+         0yTukw5HBjyKzvioFya3wntjPw1aXsfmElyC5s6fmYUjFb06hYmfKgx2D6AkggNb0DJq
+         9M9m+Tx5ml/ZHOuRSzaj4npcB0ijzqZATuC8M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=T2TxDOV4e4FRNUKKQDhQM9+ekxwD22LvMpj+8dv9TcY=;
+        b=FBZQ13Af2tD1Z11B7ZHphFeWw1Mbb5a5kJqxzEwDGTALCZPyCtUk1gjuNHtgLwHR5d
+         9YlApTYLfTsxRTDFHcT4LD1wuLeBX4gTQeRP0XBqPT+T22l8JmPE+A4tMtevJ53RZ6vp
+         LfDJKZa5nCWn220peio+kxV6kNdz1VMaDd4W/ZAPmR3smyiMKyjw8fA7x8lnYQcyUz+8
+         AMefe+W5EuUqk3TqrU28kLMEBcy8/bor2SKmubhSaozmniVgmQ+aXHzUPxsoIrGORXJL
+         vtjqv7NN9LFm0Jqumh/vZh5vAHgnFK+uIaxP285cAToefswvF4Kv6Ey+UGDpJmr93GJy
+         mBHA==
+X-Gm-Message-State: AOAM530PLu9NUqxcXI/Llo7I+sbmBqFnKaRb+AzK4zj8RERJ+kYv0NJa
+	fxRTz3QLpgQaqxkITPPRBIyKVw==
+X-Google-Smtp-Source: ABdhPJz0zvJwNIJ3k1Datpeo83jD9gaR3RKZitMO1CvtqxC4hfEr72Zgc8pEPKcfxwZGtkFL2EUTeQ==
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr34234310wrj.75.1620167536671;
+        Tue, 04 May 2021 15:32:16 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:8041:e424:9226:62e7? ([2001:8b0:aba:5f3c:8041:e424:9226:62e7])
+        by smtp.gmail.com with ESMTPSA id m11sm17446560wri.44.2021.05.04.15.32.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 May 2021 15:32:16 -0700 (PDT)
+Message-ID: <5a4091d0cb7b20f7d41e33b67fb5b7502b2e58b4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [yocto] Yocto Project Status WW18`21
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen Jolley
+	 <sjolley.yp.pm@gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 04 May 2021 23:32:15 +0100
+In-Reply-To: <CANNYZj-agAhiswr-8qpsQPQ=hP0Orv5zdLtAEEqcVGTTjhWyPw@mail.gmail.com>
+References: <168601d740f4$44e42800$ceac7800$@gmail.com>
+	 <CANNYZj-agAhiswr-8qpsQPQ=hP0Orv5zdLtAEEqcVGTTjhWyPw@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: multipart/mixed; boundary="8323328-2096765584-1620161486=:11211"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---8323328-2096765584-1620161486=:11211
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+On Tue, 2021-05-04 at 18:38 +0200, Alexander Kanavin wrote:
+> On Tue, 4 May 2021 at 16:46, Stephen Jolley <sjolley.yp.pm@gmail.com> wrote:
+> > We are pleased to announce that our April 2022 release (potentially 3.5) will 
+> > be the next LTS as per our original two year schedule. If there are features 
+> > desired in the next LTS, now is the time to get them submitted and stabilized
+> > ready.
+> > 
+> 
+> What will happen to the current LTS at that point? Will support be cut off, 
+> will there be a transition window, or is it currently undefined?
 
-On Tue, 4 May 2021, Richard Purdie wrote:
+We have discussed extending it but we currently only have the funding for the
+originally planned 2 years. Discussions are continuing but since we do all 
+agree that the next LTS will start then, we decided to at least let people 
+plan against that.
 
-> On Tue, 2021-05-04 at 16:31 -0400, Robert P. J. Day wrote:
-> > On Tue, 4 May 2021, Richard Purdie wrote:
-> >
-> > > On Tue, 2021-05-04 at 09:31 -0400, Robert P. J. Day wrote:
-> > > >   more nitpickery, but i note in OE's current bitbake.conf the
-> > > > initially odd definitions:
-> > > >
-> > > >   FILES_${PN} = "${bindir}/* ${sbindir}/* ...'
-> > > >      ... snip ...
-> > > >
-> > > >   FILES_${PN}-bin = "${bindir}/* ${sbindir}/*"
-> > > >
-> > > > i say "odd" since someone perusing that file could be confused, first,
-> > > > that that "-bin" package definition overlaps with the base package
-> > > > file list and, more, that just above that, the definition of PACKAGES
-> > > > doesn't include the "-bin" package:
-> > > >
-> > > >   PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev \
-> > > >       ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-> > > >
-> > > > so anyone currently RTFS is likely to stop and think, "what the heck
-> > > > is the '-bin' package defined for if it's not even included in the
-> > > > normal package list?"
-> > > >
-> > > >   of course, one need to consult lib_package.bbclass to finally
-> > > > understand what its purpose is:
-> > > >
-> > > >   PACKAGE_BEFORE_PN = "${PN}-bin"
-> > > >
-> > > > but if that's the only purpose for that package definition, would it
-> > > > not make more sense to just move it to lib_package.bbclass so it's
-> > > > next to the variable setting that actually causes it to be processed?
-> > > >
-> > > >   of course it works as is, it just seems unnecessarily confusing,
-> > > > unless there's some subtle ordering requirement happening here.
-> > >
-> > > I suspect such a change may break as some other recipe may use
-> > > ${PN}-bin but not the class. We'd need a careful audit to figure it
-> > > out...
-> >
-> >   i know this seems like a minor point, but i'll expand on this a bit
-> > more, then i'll shut the hell up about it.
-> >
-> >   as i read it, the *only* context where a package called
-> > "FILES_${PN}-bin" makes sense is to separate the binaries from an
-> > obvious library package, where -- in the overwhelming number of cases
-> > -- any binaries that accompany a library package are non-essential
-> > executables for things like, say, configuration, or a demo program, or
-> > possibly debugging, that sort of thing.
-> >
-> >   so you're absolutely right -- combining the package definition with
-> > its inclusion in the PACKAGES variable in lib_package.bbclass might
-> > very well break something, but i submit that that's something that can
-> > then be cleaned up, the object being that, whenever anyone sees
-> > "FILES_${PN}-bin", they know *exactly* what it's being used for and
-> > the code is clearer. if any recipe is using that variable for any
-> > other reason, i submit that it's being misused and should be "fixed."
->
-> I have no objection to the idea, I just wanted to make it clear there is 
-> work that has to be done to do this. If someone steps up and does the work,
-> great. What I don't particularly want is an untested patch which breaks 
-> things and then I get forced into cleaning up the mess.
+Unless funding/support is secured, dunfell would move to community support
+if anyone were willing to step up, or become EOL and replaced by the new LTS.
+There would likely be some period of overlap of a few months to transition.
 
-  i'll do an audit of a number of layers i have on my system, and if
-it looks horrendous, i'll just drop the idea. if not, i'll work on the
-patch.
+There is also concern about pressuring wider community layers for longer support
+cycles which is something we need to think about.
 
-rday
+Cheers,
 
---8323328-2096765584-1620161486=:11211--
+Richard
+
