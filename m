@@ -1,45 +1,78 @@
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web11.3038.1620118180220367734
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web09.3805.1620124679104884906
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 01:49:40 -0700
+ Tue, 04 May 2021 03:37:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:57626 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1ldqkM-0001aq-2b; Tue, 04 May 2021 04:49:37 -0400
-Date: Tue, 4 May 2021 04:49:32 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Denys Dmytriyenko <denis@denix.org>
-cc: Andre McCurdy <armccurdy@gmail.com>, 
-    OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] how to add a "-dev" package to host SDK?
-In-Reply-To: <20210504005746.GL21867@denix.org>
-Message-ID: <706f507b-2f1c-6f5c-45b0-ccfe9c15ad18@crashcourse.ca>
-References: <14306152-1445-7a44-523-beb73a6dbda@crashcourse.ca> <CAJ86T=WaeNQCJr4ednad1znvq8LV3P6wYvPwrzZh4rHWUDma-A@mail.gmail.com> <35c8bcd5-bc86-1a8a-e0d6-a35ef9bb2d47@crashcourse.ca> <20210504005746.GL21867@denix.org>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S+Urk6YG;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id v5so1718588ljg.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 03:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bP6zHDLhN8phSqG8qphlj2pEOscFNLjTf9QMK8BnKww=;
+        b=S+Urk6YG7wN0ZFHQ4ldSMNcWuh3JK+SjdfGokSb3M9W6GmIK33Ybz4JLXW6GSaUVmG
+         8tt1MqZ26UYWGCvMHSv4NDaOYW8eLPMJUC9wK+6pT96KCuJsud5Jb6oFa6hMbNTl7L8U
+         NXv217SDfHiXRRAG9R0i7F8se/fFwwVlQ32GbuEhuANJzslGPMUWqPyYtDN3KVxMKMFw
+         gmMZJnTbMks6HIcCXRwsupwlabkYPtPb2+BYW0V5LtI3k0tZdzwXjEfhFEZzcpJb5lhM
+         QzoLPQDA2DYfjp5Wco/i3x8gd9l8cXRYKSpzo7dmz9OQlYZ9O9CxUiV/HTd4JeJnHc86
+         7SWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bP6zHDLhN8phSqG8qphlj2pEOscFNLjTf9QMK8BnKww=;
+        b=CIvicbhnnhY+KL2gn+JwVFIBpiQ3tyi1QuOZScxdo0/tw0f6vTAigeQMC8zpXd+qMJ
+         TcfS2901puFYzOJEAcYu9vusKMeoAlnZ891YQdpFHv5/+AyETRbvhnaQ281Q06+yfyRm
+         m2I/NLIqMgO2dKtHv4e8Bc6bzMF6kxix1WvPhqRE0Dv+fLzUW/5DljNo7RPK9m3QRsLQ
+         0a/hpqE8vcPPJ4XtrFltLwSZj0k/hPucHB9PtLh3QnjU8reElY/aHKdR1sIov9iYpT+g
+         BvTWDKj8ajrFiAsNdt68vJcCEuWy45WkDSaAdChmJy3xdhroxOlc5NO6FRhDQFOvYUjv
+         7X4Q==
+X-Gm-Message-State: AOAM530TwZHA+4AM6EgdAJT13cuwvHuE7zAZWoCHLhW4taiQWgbbGeL0
+	jaFLRVI1FZTU4mivcKw0uxdHdH6nxYA=
+X-Google-Smtp-Source: ABdhPJwNFFXNRy8lj4n9CLsAeXxbCm4owqwdmzZUbC2TDNIhMS983Ow1rjGdVfbsump4JgCk8R1FyA==
+X-Received: by 2002:a05:651c:1031:: with SMTP id w17mr8424265ljm.195.1620124677084;
+        Tue, 04 May 2021 03:37:57 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from localhost.localdomain (m83-185-39-71.cust.tele2.se. [83.185.39.71])
+        by smtp.gmail.com with ESMTPSA id m17sm230639lfh.146.2021.05.04.03.37.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 May 2021 03:37:56 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: sergio.prado@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] kernel-fitimage.bbclass: fix a wrong conditional check
+Date: Tue,  4 May 2021 12:37:51 +0200
+Message-Id: <20210504103751.340800-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Mon, 3 May 2021, Denys Dmytriyenko wrote:
+From: Ming Liu <liu.ming50@gmail.com>
 
-... snip ...
+It should check if "${UBOOT_SIGN_ENABLE}" equals to "1" instead of
+checking if "${UBOOT_SIGN_ENABLE}" is not empty since it could be "0".
 
-> By default, ${PN}-dev RDEPENDS on ${PN} automatically, if not changed:
->
-> https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbake.conf#n321
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  yup, that's the line i was looking for, thanks.
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 5cfd8af99d..993e159c75 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -331,7 +331,7 @@ fitimage_emit_section_config() {
+ 
+ 	conf_csum="${FIT_HASH_ALG}"
+ 	conf_sign_algo="${FIT_SIGN_ALG}"
+-	if [ -n "${UBOOT_SIGN_ENABLE}" ] ; then
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
+ 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+ 	fi
+ 
+-- 
+2.29.0
 
-rday
