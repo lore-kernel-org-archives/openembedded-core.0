@@ -1,81 +1,80 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.104.1620167538383712058
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web09.895.1620172169479636381
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 15:32:18 -0700
+ Tue, 04 May 2021 16:49:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VV20ouPL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id d4so11012050wru.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 15:32:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mzs7Nsn2;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id c17so658196pfn.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 16:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=T2TxDOV4e4FRNUKKQDhQM9+ekxwD22LvMpj+8dv9TcY=;
-        b=VV20ouPLpLYMuAG2sWNZyBGEgQnrHP/Oqlm42WhZQdgU6NiDIWhFNgfPWxywQVDc1+
-         0yTukw5HBjyKzvioFya3wntjPw1aXsfmElyC5s6fmYUjFb06hYmfKgx2D6AkggNb0DJq
-         9M9m+Tx5ml/ZHOuRSzaj4npcB0ijzqZATuC8M=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mQVJssc2f1nl8wagFlmwzcmOgM2tDgzeiW3ai816p3k=;
+        b=mzs7Nsn2YIn4YTAxLU3JQNuXNnna9SpWcndUQTXN8z7slAnr2kvzaOrulEQ7iSzEwP
+         64NzDEPJW/kxbGfT7fcbXsVfoNECw/VE8jAj4CKN+S3m8XRTC9YJe3RqYXcb2XFIHAZd
+         mHhM4U6XjsEp/yOwipKzB8E8OODgNdk7p2LwWB4oOz+BxJhYGA/6Y2JeSyeMst5UVkSG
+         NC9RnANxpglBfCWwMnEl64XfHbDSRIIsYpO9WSFN2zkHgMPK6Hgo2z7sBGjf0+5KZZ6h
+         JXHy1nS3TFwp3A5XXudXAZozJnDI77Kv5rOVkbLKf73sP+YPX3Hq+ficCvDM3h/mgdq0
+         o/MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=T2TxDOV4e4FRNUKKQDhQM9+ekxwD22LvMpj+8dv9TcY=;
-        b=FBZQ13Af2tD1Z11B7ZHphFeWw1Mbb5a5kJqxzEwDGTALCZPyCtUk1gjuNHtgLwHR5d
-         9YlApTYLfTsxRTDFHcT4LD1wuLeBX4gTQeRP0XBqPT+T22l8JmPE+A4tMtevJ53RZ6vp
-         LfDJKZa5nCWn220peio+kxV6kNdz1VMaDd4W/ZAPmR3smyiMKyjw8fA7x8lnYQcyUz+8
-         AMefe+W5EuUqk3TqrU28kLMEBcy8/bor2SKmubhSaozmniVgmQ+aXHzUPxsoIrGORXJL
-         vtjqv7NN9LFm0Jqumh/vZh5vAHgnFK+uIaxP285cAToefswvF4Kv6Ey+UGDpJmr93GJy
-         mBHA==
-X-Gm-Message-State: AOAM530PLu9NUqxcXI/Llo7I+sbmBqFnKaRb+AzK4zj8RERJ+kYv0NJa
-	fxRTz3QLpgQaqxkITPPRBIyKVw==
-X-Google-Smtp-Source: ABdhPJz0zvJwNIJ3k1Datpeo83jD9gaR3RKZitMO1CvtqxC4hfEr72Zgc8pEPKcfxwZGtkFL2EUTeQ==
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr34234310wrj.75.1620167536671;
-        Tue, 04 May 2021 15:32:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:8041:e424:9226:62e7? ([2001:8b0:aba:5f3c:8041:e424:9226:62e7])
-        by smtp.gmail.com with ESMTPSA id m11sm17446560wri.44.2021.05.04.15.32.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mQVJssc2f1nl8wagFlmwzcmOgM2tDgzeiW3ai816p3k=;
+        b=kgFaMNWX/S1/kXFFGNUZSdsKtFifZ0nhqFuSm/s48OhAcCFLHEII/lbOE1esODv3Ml
+         lGnHWcSqD5YMLzBoosbD2/vomUyJhIsCHgb8AnabCJuI/NEBloYKzk/FgHgx6Sy4nesi
+         mUg+nff1Ro4U4I4vaWIr0UT359KJsrujWzqg4d2ZXmxCUOjJ+3pXQD8HhcUlHEeXi7ra
+         3AP89+9hZeTNjFpDIsFaXxwwL2UxH3e60x79lwM7lasasrJdlp+wfZ3ASYU3v3LO9Zle
+         cSs7V4x0Trn4EL3LtFO8gKa4w8LDDtKcvqTRyfnzyyhkCQbA0o0gRFRgJfnJT5IoLgHS
+         8qRA==
+X-Gm-Message-State: AOAM5323+N1ExnX+MqzR1nG83nJFOPl/Qd3d64KUFmkIP2YpTd1KTDcr
+	uyOYeMRSX0H4lo1kVYpbRgEm00+l3fIt5g==
+X-Google-Smtp-Source: ABdhPJzTDa2R/kBCx7gEQYN1ANMW01nt8k1VCJ3wVpFMYtBDebw4sNuWKP4v5KMHBHptGpEhTNRJow==
+X-Received: by 2002:a63:1a48:: with SMTP id a8mr25468344pgm.81.1620172168684;
+        Tue, 04 May 2021 16:49:28 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a7ac])
+        by smtp.gmail.com with ESMTPSA id a18sm4802336pgg.51.2021.05.04.16.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 15:32:16 -0700 (PDT)
-Message-ID: <5a4091d0cb7b20f7d41e33b67fb5b7502b2e58b4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [yocto] Yocto Project Status WW18`21
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen Jolley
-	 <sjolley.yp.pm@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 04 May 2021 23:32:15 +0100
-In-Reply-To: <CANNYZj-agAhiswr-8qpsQPQ=hP0Orv5zdLtAEEqcVGTTjhWyPw@mail.gmail.com>
-References: <168601d740f4$44e42800$ceac7800$@gmail.com>
-	 <CANNYZj-agAhiswr-8qpsQPQ=hP0Orv5zdLtAEEqcVGTTjhWyPw@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        Tue, 04 May 2021 16:49:28 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] strace: Upgrade to 5.12
+Date: Tue,  4 May 2021 16:49:22 -0700
+Message-Id: <20210504234922.3142058-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-05-04 at 18:38 +0200, Alexander Kanavin wrote:
-> On Tue, 4 May 2021 at 16:46, Stephen Jolley <sjolley.yp.pm@gmail.com> wrote:
-> > We are pleased to announce that our April 2022 release (potentially 3.5) will 
-> > be the next LTS as per our original two year schedule. If there are features 
-> > desired in the next LTS, now is the time to get them submitted and stabilized
-> > ready.
-> > 
-> 
-> What will happen to the current LTS at that point? Will support be cut off, 
-> will there be a transition window, or is it currently undefined?
+Changes are here [1]
 
-We have discussed extending it but we currently only have the funding for the
-originally planned 2 years. Discussions are continuing but since we do all 
-agree that the next LTS will start then, we decided to at least let people 
-plan against that.
+[1] https://github.com/strace/strace/releases/tag/v5.12
 
-Unless funding/support is secured, dunfell would move to community support
-if anyone were willing to step up, or become EOL and replaced by the new LTS.
-There would likely be some period of overlap of a few months to transition.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/strace/{strace_5.11.bb => strace_5.12.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/strace/{strace_5.11.bb => strace_5.12.bb} (96%)
 
-There is also concern about pressuring wider community layers for longer support
-cycles which is something we need to think about.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/strace/strace_5.11.bb b/meta/recipes-devtools/strace/strace_5.12.bb
+similarity index 96%
+rename from meta/recipes-devtools/strace/strace_5.11.bb
+rename to meta/recipes-devtools/strace/strace_5.12.bb
+index f6a91df1d2..6a8996535b 100644
+--- a/meta/recipes-devtools/strace/strace_5.11.bb
++++ b/meta/recipes-devtools/strace/strace_5.12.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://uintptr_t.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
+            "
+-SRC_URI[sha256sum] = "ffe340b10c145a0f85734271e9cce56457d23f21a7ea5931ab32f8cf4e793879"
++SRC_URI[sha256sum] = "29171edf9d252f89c988a4c340dfdec662f458cb8c63d85431d64bab5911e7c4"
+ 
+ inherit autotools ptest
+ 
+-- 
+2.31.1
 
