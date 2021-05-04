@@ -1,83 +1,45 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web12.3720.1620090687638051556
+Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
+ by mx.groups.io with SMTP id smtpd.web11.3038.1620118180220367734
  for <openembedded-core@lists.openembedded.org>;
- Mon, 03 May 2021 18:11:27 -0700
+ Tue, 04 May 2021 01:49:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0D2AA40C1E;
-	Tue,  4 May 2021 01:11:27 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KrKqz4ao0rFp; Tue,  4 May 2021 01:11:27 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id D99ED40A28;
-	Tue,  4 May 2021 01:11:24 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 994121745DB; Mon,  3 May 2021 21:11:24 -0400 (EDT)
-Date: Mon, 3 May 2021 21:11:24 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Subject: Re: [OE-core] [PATCH] cml1.bbclass: Return sorted list of cfg files
-Message-ID: <20210504011124.GM21867@denix.org>
-References: <20210503063600.1595267-1-raj.khem@gmail.com>
- <AM9PR09MB4642187F03FA1776B00F4688A85B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.107.13]:57626 helo=fedora)
+	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1ldqkM-0001aq-2b; Tue, 04 May 2021 04:49:37 -0400
+Date: Tue, 4 May 2021 04:49:32 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Denys Dmytriyenko <denis@denix.org>
+cc: Andre McCurdy <armccurdy@gmail.com>, 
+    OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] how to add a "-dev" package to host SDK?
+In-Reply-To: <20210504005746.GL21867@denix.org>
+Message-ID: <706f507b-2f1c-6f5c-45b0-ccfe9c15ad18@crashcourse.ca>
+References: <14306152-1445-7a44-523-beb73a6dbda@crashcourse.ca> <CAJ86T=WaeNQCJr4ednad1znvq8LV3P6wYvPwrzZh4rHWUDma-A@mail.gmail.com> <35c8bcd5-bc86-1a8a-e0d6-a35ef9bb2d47@crashcourse.ca> <20210504005746.GL21867@denix.org>
 MIME-Version: 1.0
-In-Reply-To: <AM9PR09MB4642187F03FA1776B00F4688A85B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, May 03, 2021 at 08:57:02AM +0200, Konrad Weihmann wrote:
-> On 03.05.21 08:36, Khem Raj wrote:
-> >Since these files are passed to merge_config.sh its better to use a
-> >sorted list, so we can be sure that this list is always fed in same
-> >order irrespective of python versions on host
-> >
-> >Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >---
-> >  meta/classes/cml1.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-> >index d319d66ab2..1c3d70b48d 100644
-> >--- a/meta/classes/cml1.bbclass
-> >+++ b/meta/classes/cml1.bbclass
-> >@@ -6,7 +6,7 @@ def find_cfgs(d):
-> >          if s.endswith('.cfg'):
-> >              sources_list.append(s)
-> >-    return sources_list
-> >+    return sorted(sources_list)
-> 
-> Just as a thought, wouldn't it be better to have the ordering
-> defined based on recipe/layer meta data?
-> 
-> Previously ordering was more or less based on the inode number of
-> the files - now it's alphabetically.
-> 
-> I know that config fragments should be self containing, but seen
-> enough real world examples where that isn't the case, so for them
-> this might cause a breaking change (tbf the behavior before wasn't
-> fully deterministic as well)
+On Mon, 3 May 2021, Denys Dmytriyenko wrote:
 
-Correct, config fragments can come from different places and it's quite 
-common for latter fragments to amend some former fragments in the list. 
-So, sorting them either way would sure enhance determinism, but surely 
-break a lot of existing functionality out there...
+... snip ...
 
+> By default, ${PN}-dev RDEPENDS on ${PN} automatically, if not changed:
+>
+> https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbake.conf#n321
 
-> But this issue isn't limited to this particular piece of code here
-> and might need some more general solution.
-> 
-> >  cml1_do_configure() {
-> >  	set -e
-> >
+  yup, that's the line i was looking for, thanks.
 
--- 
-Regards,
-Denys Dmytriyenko <denis@denix.org>
-PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
-Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
+rday
