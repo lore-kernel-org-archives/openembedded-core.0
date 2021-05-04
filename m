@@ -1,84 +1,73 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.web10.8586.1620146327998626478
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.8810.1620147116997000443
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 09:38:48 -0700
+ Tue, 04 May 2021 09:51:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bfmx1owM;
- spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id x9so3249276uao.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 09:38:47 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=f51JimIh;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.53, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f53.google.com with SMTP id v12so10181118wrq.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 04 May 2021 09:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5A3zIp3UCnANfc7IrNbqkU44TOq5g6A2ic6Z/nCtyOY=;
-        b=bfmx1owMA/6kV8Rd2dUJeNqpiVnOpLFHUfYU9pTDUKm59v206iFCGeh18rTUj8p3mM
-         G2gb7A6mk1yn0fQYZLBOcq9PzjyxL1unZOtucwek4B+jVFSy3FGVd58+i3tn/N63SliU
-         vur9VKWk46Jy5hdDqcMFaD0ijD+YvXYK2kYke/y7b88BUzOpMqbK1XIFuq7dgVVLbjAh
-         qhuiJ/msCsKsNkCXDeOKpF+F5dP8m7BxtpGzn8rE1TkF3hAJ3Z4EepSa+oog/pfaoM6f
-         oYU4dinLjhcEBxISDqYl/M+rcEA+pBawdUteOXxV4NSgavrpkredOsIaeyOF/lImGZo4
-         Kh4w==
+         :cc:content-transfer-encoding;
+        bh=kdAioCRkupxezbEVDahnGlETyfLAjRBy0OeREJu/8Ds=;
+        b=f51JimIhM+JIajjjjn8GoPR6licNBKYVYhHwQ3Ef5bw4JMo1JvdSvuj4iDBrRCwBtW
+         kw9t+ZImJE1fZ+KM/lvjqKJ2LKb6dpTR1/AEF4Bwl0acikuEq8A008up7mm9B5nyp5pS
+         H+EGTb1WZV5w6nHi96peiBlucS0V2bcw0QhQHkXn0p8/Y6eu5n1IFIZnOK8+2XMIXz0t
+         AOgPEeQiofCnB8SZ7gsiVxHIyyg9KWm84X9tx3drD62oa4pQFjineMHpDI90dtmQ8ukl
+         CQAUOiHgNvjoHodA5uGI+ZU7OLmlMZoE4tpmCktkAJLCAHn3XBH/ExwntC90EVqawm8n
+         NgBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5A3zIp3UCnANfc7IrNbqkU44TOq5g6A2ic6Z/nCtyOY=;
-        b=SeLQae7S66unW2mA76VBcbZ8lmrOpyiO/7NtONag3g6kku3rEUrECOD4sazvYrHcGp
-         OP5MAuXNnp6LWFdJfvHDwg7QAGK0oaMoSJVeMLn3+FfO4P7FpSxewMQAj2fRWaR/wkaA
-         hAXmXsloKsmE+ou4fFuLgGnnBfYCOIoX1LYhSNPXFyzkGpdPbqFrHW1DaWNwJe7SJu77
-         Na+76J+mjtH2zEf39vH2bP53T5vGt0Q2bomIUjABVMJSYTbpXm+F5aP7hWBUa6TSF3Tl
-         lT335s8mCYbtKdazjC2nLxkcxJTyELFLXjKrteR1DtfO+LNIe55BtAiUn37BbU2FbOjO
-         grhA==
-X-Gm-Message-State: AOAM5303wOxLNkA13zlZEUw2WMTr8zyMRNpZ/fHUHB1qed6X7T1VgNI8
-	rJagTHpE+F74n1YJs94wh2vk3J+uYf5b3cNcG3g=
-X-Google-Smtp-Source: ABdhPJw9vdAxKHqTIwJZCfB0FKtaYiM/jTUUGc1Us+eMO8oNgtC0Dl2lS742DZXDESB773Us4QC+AOrSzZOKaxBAPvs=
-X-Received: by 2002:a9f:2465:: with SMTP id 92mr21238658uaq.71.1620146327168;
- Tue, 04 May 2021 09:38:47 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kdAioCRkupxezbEVDahnGlETyfLAjRBy0OeREJu/8Ds=;
+        b=DotgsA2Xh30zJtIdoa2jvnuH298TdQBCu84uUiPnZbfaaSSS8Z8MjOzEQDNwG3VNjx
+         00yG+lcuo8qgIMprXhB6T+T/7D4LWNsnaopXmb8zFSt5sQJWHEFbGwqtgPdQoBO4WHpZ
+         5DmvpRSLWbXWK7LQry+F7w8Cd8nznLhcvQZqcC7GkN2edhAEdoNq6TnPxVeLHdeEOXBp
+         dBcjF2LsU0wWJDl8Vv3e8hQSfGA4YE1C5hIs92DGd/H4eHXibvaJKJCl667vFMtbYadb
+         /DDZJVfMlMDDXJVcVGL4cLKt8MUDqePzmNvMBbhAyNkNfxlqAT+Hjc8izg2gfHIf4BV+
+         yJHg==
+X-Gm-Message-State: AOAM532URqTDiHm6rlE+9QPQoNyL/pdBdS042CDgXKCR2TDxl2A+mLkp
+	nssuevFBBnQ2uie62Jd80loBBd3P49KGQdn6ijMI6Q==
+X-Google-Smtp-Source: ABdhPJys57XJbxo3e5isLtkWf2DqtusAVD1O8alk+i6KDqtntd5ZQ1501nU/CLTpSeWO0OoaTZ8EzPkAEMVOgcJL8Kw=
+X-Received: by 2002:a5d:64eb:: with SMTP id g11mr33434106wri.260.1620147115541;
+ Tue, 04 May 2021 09:51:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <168601d740f4$44e42800$ceac7800$@gmail.com>
-In-Reply-To: <168601d740f4$44e42800$ceac7800$@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 4 May 2021 18:38:35 +0200
-Message-ID: <CANNYZj-agAhiswr-8qpsQPQ=hP0Orv5zdLtAEEqcVGTTjhWyPw@mail.gmail.com>
-Subject: Re: [yocto] Yocto Project Status WW18`21
-To: Stephen Jolley <sjolley.yp.pm@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000050ad6005c183b691"
-
---00000000000050ad6005c183b691
+References: <1696db50-c2d4-1ef5-50ad-0afbe12f6a0a@3mdeb.com>
+In-Reply-To: <1696db50-c2d4-1ef5-50ad-0afbe12f6a0a@3mdeb.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 4 May 2021 17:51:44 +0100
+Message-ID: <CAAnfSTtgai9XY1FFDPa1edKvonC-+JNog8jDbjMmbfjycnp-gA@mail.gmail.com>
+Subject: Re: Development of fwupd recipe
+To: =?UTF-8?Q?Norbert_Kami=C5=84ski?= <norbert.kaminski@3mdeb.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Maciej Pijanowski <maciej.pijanowski@3mdeb.com>, =?UTF-8?Q?Piotr_Kr=C3=B3l?= <piotr.krol@3mdeb.com>, 
+	Richard Hughes <hughsient@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-
-On Tue, 4 May 2021 at 16:46, Stephen Jolley <sjolley.yp.pm@gmail.com> wrote:
-
-> We are pleased to announce that our April 2022 release (potentially 3.5)
-> will be the next LTS as per our original two year schedule. If there are
-> features desired in the next LTS, now is the time to get them submitted and
-> stabilized ready.
->
-
-What will happen to the current LTS at that point? Will support be cut off,
-will there be a transition window, or is it currently undefined?
-
-Alex
-
---00000000000050ad6005c183b691
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 4 May 2021 at 16:46, Stephen Jolley &lt;<a href=3D"mailto:sj=
-olley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div style=3D"overflow-wrap: =
-break-word;" lang=3D"EN-US"><div><span style=3D"font-family:&quot;Arial&quo=
-t;,sans-serif">We are pleased to announce that our April 2022 release (pote=
-ntially 3.5) will be the next LTS as per our original two year schedule. If=
- there are features desired in the next LTS, now is the time to get them su=
-bmitted and stabilized ready.</span><br>
-</div></div></blockquote><div><br></div><div>What will happen to the curren=
-t LTS at that point? Will support be cut off, will there be a transition wi=
-ndow, or is it currently undefined?</div><div><br></div><div>Alex<br></div>=
-</div></div>
+I've prototype recipes for meta-oe but haven't yet sent them out.  I
+should be doing this shortly though.
 
---00000000000050ad6005c183b691--
+Ross
+
+On Fri, 23 Apr 2021 at 09:52, Norbert Kami=C5=84ski
+<norbert.kaminski@3mdeb.com> wrote:
+>
+> Hi all,
+>
+> We (3mdeb Team) are interested in fwupd recipe development. We saw that
+> Ross Burton did some great work on this topic (fixing fwupd
+> dependencies), and we would like to know if there is any work in
+> progress that we could help with. Currently, we are porting fwupd
+> to *BSDs, so if you have any questions or troubles with the fwupd recipe,
+> feel free to ask.
+>
+> Best regards,
+>
+> Norbert Kami=C5=84ski
+> Embedded Systems Engineer
+> http://3mdeb.com | @3mdeb_com
+>
