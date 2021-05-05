@@ -1,105 +1,148 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga07.intel.com (mga07.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.2478.1620181240800385476
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 19:20:40 -0700
+ Tue, 04 May 2021 19:20:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /6ttu6B9MxLnQQMFE7ez/wvTASB1IUL9th29JRUo7wI5xugifcI3MBFlxcDHWUFstkNlvuNKfE
- CIpV6qJIUKhg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262063970"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: EwVENbIJJsU9VJ2WcF7H8uJwwGCwoHnq9zeobkq4t99bm8YWrElf+3kGEziupaJlxS/T6Aw0js
+ 6bJUJU9e8ugw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262063975"
 X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="262063970"
+   d="scan'208";a="262063975"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:39 -0700
-IronPort-SDR: DHLXy9NOim/npNbOiQmMEWgy2h0ppekKfssdubS70cve/MpY5noGhYA5UfzCxPdSJ1PxebHfAy
- d8HhJeOMvb0g==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:41 -0700
+IronPort-SDR: ZJ1VY6AYdbSwaLETMMfbENocp0lRJqdtfBow4fh2vBrwHrmTdvwc8kuzwL+/NtaF+Si6bO9gkn
+ nKDhu/ywjQ0A==
 X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="531392212"
+   d="scan'208";a="531392217"
 Received: from teohzhiq-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.150.148])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:38 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:39 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] Revert "qemu: fix CVE-2021-3392"
-Date: Wed,  5 May 2021 10:20:33 +0800
-Message-Id: <20210505022034.337915-1-anuj.mittal@intel.com>
+Subject: [PATCH 2/2] qemu: fix CVE-2021-3392
+Date: Wed,  5 May 2021 10:20:34 +0800
+Message-Id: <20210505022034.337915-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210505022034.337915-1-anuj.mittal@intel.com>
+References: <20210505022034.337915-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-
-This reverts commit 5e8e08df8b5d0040ad911d3c51f63e7fec1858b4.
-
-This is an incomplete fix.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 -
- .../qemu/qemu/CVE-2021-3392.patch             | 45 -------------------
- 2 files changed, 46 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3392.patch             | 89 +++++++++++++++++++
+ 2 files changed, 90 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 062d7907cf..46b784241e 100644
+index 46b784241e..b5995d0e6a 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,7 +54,6 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2021-3416_9.patch \
             file://CVE-2021-3416_10.patch \
             file://CVE-2021-20257.patch \
--	   file://CVE-2021-3392.patch \
++           file://CVE-2021-3392.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
 diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-deleted file mode 100644
-index 1c688827db..0000000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 3431b01b43584de5f710c40605fe3251f81c0e11 Mon Sep 17 00:00:00 2001
--From: Minjae Kim <flowergom@gmail.com>
--Date: Tue, 27 Apr 2021 02:09:49 +0000
--Subject: [PATCH] scsi: mptsas: dequeue request object in case of an error
-- (CVE-2021-3392)
--
--From: Prasad J Pandit <pjp@fedoraproject.org>
--
--While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
--the Megaraid emulator appends new MPTSASRequest object 'req' to
--the 's->pending' queue. In case of an error, this same object gets
--dequeued in mptsas_free_request() only if SCSIRequest object
--'req->sreq' is initialised. This may lead to a use-after-free issue.
--Unconditionally dequeue 'req' object from 's->pending' to avoid it.
--
--Fixes: CVE-2021-3392
--Buglink: https://bugs.launchpad.net/qemu/+bug/1914236
--Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
--Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
--
--Upstream-Status: Acepted
--[https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00488.html]
--CVE: CVE-2021-3392
--Signed-off-by: Minjae Kim <flowergom@gmail.com>
-----
-- hw/scsi/mptsas.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
--index f86616544..adff5b0bf 100644
----- a/hw/scsi/mptsas.c
--+++ b/hw/scsi/mptsas.c
--@@ -257,8 +257,8 @@ static void mptsas_free_request(MPTSASRequest *req)
--         req->sreq->hba_private = NULL;
--         scsi_req_unref(req->sreq);
--         req->sreq = NULL;
---        QTAILQ_REMOVE(&s->pending, req, next);
--     }
--+    QTAILQ_REMOVE(&s->pending, req, next);
--     qemu_sglist_destroy(&req->qsg);
--     g_free(req);
-- }
---- 
--2.17.1
--
+new file mode 100644
+index 0000000000..af94cff7e8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+@@ -0,0 +1,89 @@
++From 3791642c8d60029adf9b00bcb4e34d7d8a1aea4d Mon Sep 17 00:00:00 2001
++From: Michael Tokarev <mjt@tls.msk.ru>
++Date: Mon, 19 Apr 2021 15:42:47 +0200
++Subject: [PATCH] mptsas: Remove unused MPTSASState 'pending' field
++ (CVE-2021-3392)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
++the Megaraid emulator appends new MPTSASRequest object 'req' to
++the 's->pending' queue. In case of an error, this same object gets
++dequeued in mptsas_free_request() only if SCSIRequest object
++'req->sreq' is initialised. This may lead to a use-after-free issue.
++
++Since s->pending is actually not used, simply remove it from
++MPTSASState.
++
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
++Message-id: 20210419134247.1467982-1-f4bug@amsat.org
++Message-Id: <20210416102243.1293871-1-mjt@msgid.tls.msk.ru>
++Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
++Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
++BugLink: https://bugs.launchpad.net/qemu/+bug/1914236 (CVE-2021-3392)
++Fixes: e351b826112 ("hw: Add support for LSI SAS1068 (mptsas) device")
++[PMD: Reworded description, added more tags]
++Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++CVE: CVE-2021-3392
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=3791642c8d60029adf9b00bcb4e34d7d8a1aea4d]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ hw/scsi/mptsas.c | 6 ------
++ hw/scsi/mptsas.h | 1 -
++ 2 files changed, 7 deletions(-)
++
++diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
++index 7416e7870614..db3219e7d206 100644
++--- a/hw/scsi/mptsas.c
+++++ b/hw/scsi/mptsas.c
++@@ -251,13 +251,10 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
++ 
++ static void mptsas_free_request(MPTSASRequest *req)
++ {
++-    MPTSASState *s = req->dev;
++-
++     if (req->sreq != NULL) {
++         req->sreq->hba_private = NULL;
++         scsi_req_unref(req->sreq);
++         req->sreq = NULL;
++-        QTAILQ_REMOVE(&s->pending, req, next);
++     }
++     qemu_sglist_destroy(&req->qsg);
++     g_free(req);
++@@ -303,7 +300,6 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
++     }
++ 
++     req = g_new0(MPTSASRequest, 1);
++-    QTAILQ_INSERT_TAIL(&s->pending, req, next);
++     req->scsi_io = *scsi_io;
++     req->dev = s;
++ 
++@@ -1319,8 +1315,6 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
++ 
++     s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
++ 
++-    QTAILQ_INIT(&s->pending);
++-
++     scsi_bus_new(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info, NULL);
++ }
++ 
++diff --git a/hw/scsi/mptsas.h b/hw/scsi/mptsas.h
++index b85ac1a5fcc7..c046497db719 100644
++--- a/hw/scsi/mptsas.h
+++++ b/hw/scsi/mptsas.h
++@@ -79,7 +79,6 @@ struct MPTSASState {
++     uint16_t reply_frame_size;
++ 
++     SCSIBus bus;
++-    QTAILQ_HEAD(, MPTSASRequest) pending;
++ };
++ 
++ void mptsas_fix_scsi_io_endianness(MPIMsgSCSIIORequest *req);
 -- 
 2.30.2
 
