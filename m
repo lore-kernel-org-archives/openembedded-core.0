@@ -1,171 +1,95 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.475.1620253307639494949
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web12.625.1620253963259197653
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 15:21:48 -0700
+ Wed, 05 May 2021 15:32:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RyVMUilI;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id t4so5334809ejo.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 15:21:47 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CY3z3ZvV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id l13so3480145wru.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 15:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1SpHDRZj+PMj2r4byjGc9f/u4ZdIFJNllQIEw5ZAuko=;
-        b=RyVMUilI7aI/tXlgkrOLyXLzOu4pOsx12KwPdtCbWxHUuvbpxiSWUXMBOob1Qcd4bq
-         1sJ+Kd8ko7+gNEkLmTJwneJiGvHAwAWWIamMfAU0GHUjPMgSZ1nOZEAgJ5AUICXxH8GZ
-         LaZOipck74Eb4H4U/0gbA/tNQgrv1rjCMQwPwYcqiE0G3N5QOHCBVHqdugw0t0s0z3A+
-         iadOGlDVX0bnEivWGhWSVh7rHemAqXMraTb1SxJuL8oy1fx95mNJhPTElqc7pqoUgSjX
-         +zPHDji00qOtqiKd2deOUFfDh/2ycb6nLWzhZwPT3TBTyJThplIGWRdW61JtNljDTQ+k
-         sAIQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=beBZR0SLq1ZXayscAbZR2kwcycuBc7TED3+UGNemlqo=;
+        b=CY3z3ZvVzn/6+IzZQWlzdtkh8Uz2Xvz7/RTLyEBo2QOZekES7BR2JFsP/ihBdwKN2G
+         GHVomXrX/SGQ+dVNYCepujLBxIiEmpE0P3tf2ObONdsha/F2qVLByuSOQLuBVW3Klwrp
+         cYDgUpkIh85znxxTJxuNaIfCgLY4CmpspLtR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1SpHDRZj+PMj2r4byjGc9f/u4ZdIFJNllQIEw5ZAuko=;
-        b=SPEr10HB8/9HhCYlf/DYaJ02nM2lrk2jMGQ/zX+zQ0pSi+DUPMlABWpUxQlt140xk3
-         c/8CXcUkeeWQwK1zJkf6mlTVpmXzwyrnzFauuCVJ3KwTh9JPhWeYLmvPS3bZ0qABT5DK
-         PaXcwgFJbkfdWUJtEKJqR1rLkAVBEao7fSSRIHgSMYqLzmKT4R4lKzE44oSBlvc6kcjj
-         odPUIGseQXpEbR1WEtxQZe5eaQU0JSAm92rqZZ2yDqXdQfP1i/rZaWy/05+0K2GuRJzL
-         UnP9q11FceUmEPA9r4RnY0yI6ALHOFtiSSSiJKxukemu/9pskpANay5X6id1HAlqIdec
-         gF0Q==
-X-Gm-Message-State: AOAM533+jSvmqF35gEaiSdQPQMW2iaVw46/g6uJGUjWc9Uf6hWxxTyvC
-	rebNI86ZpaJKx5cpwICP3SPX29jPvsZv3ci2rQY=
-X-Google-Smtp-Source: ABdhPJx5pLauTA6Tl++N17VoCW892lWJ/zoX6NTwEo3A94OrJHScMhDf3wFP+6va48R9moPmSyD2ChrC912MyBlUt28=
-X-Received: by 2002:a17:906:53d1:: with SMTP id p17mr961907ejo.470.1620253306095;
- Wed, 05 May 2021 15:21:46 -0700 (PDT)
-MIME-Version: 1.0
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=beBZR0SLq1ZXayscAbZR2kwcycuBc7TED3+UGNemlqo=;
+        b=VavuF2UwRFsLXlS1aVot4ZXyhp8466757Y+OP5cOMyrlHn1V93EpXNv/38Tk4W9I2x
+         I7rDHhZe3BQeMuvz02qwc1yrl31GNl+1PPWc7n/eVP4Zjp5V2bnnrlebO7+KZG7XrNQi
+         SgAJAaDzZhzL2CVt/NErIY5akPnUbPrnbgPOX4jvDrGgQverJ7VfwvzLEBne8pWbhtCR
+         UQae/WNL/+UQuTFg+/KjbpaVVvGk/pIemW+LUBHCDdOk386OnJunOvfvKg2pcfMvypDp
+         REEMhXNrX0vfpQe0CvX9+jpRQ+MMCv6iNOw73yuG5utPV3vkZ2JmRQ+gQO4gXUNV5B2A
+         Z08w==
+X-Gm-Message-State: AOAM533ZkF4A3UZuZtwkFR8ZgL4IVyIZXB4AMKoWxWht73uUFQmL7GC+
+	plZ7QyL3NjsSdJZusPwSPGHj/Q==
+X-Google-Smtp-Source: ABdhPJyaOFDFVXyEMAU6ANnGT29WPbHgYRjSUx0uvpFLyg28tB98DEScQtSJVN+RzfYJp9wqXqwEEg==
+X-Received: by 2002:a5d:654b:: with SMTP id z11mr1305938wrv.167.1620253961746;
+        Wed, 05 May 2021 15:32:41 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e? ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
+        by smtp.gmail.com with ESMTPSA id a2sm1004586wrn.13.2021.05.05.15.32.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 May 2021 15:32:41 -0700 (PDT)
+Message-ID: <e08e70ad086f413733bf5ba3cabdd558926a9868.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 06/61] expat: upgrade 2.2.10 -> 2.3.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 05 May 2021 23:32:40 +0100
+In-Reply-To: <20210505151850.660512-6-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-10-alex.kanavin@gmail.com> <CAMKF1sr=EyGjLS3U0VfujRXsmOGQzuLC56foz-TpFnWnRD5WVg@mail.gmail.com>
- <CAP9ODKon3P5TQn7rKC4ifXePWpE5Rie4z+pO4pxdWPruUn71zQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKon3P5TQn7rKC4ifXePWpE5Rie4z+pO4pxdWPruUn71zQ@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 6 May 2021 00:21:34 +0200
-Message-ID: <CA+chaQf4Q23PDeZ2KoFohtgdc-GUXFK=t7NFptxw-jcOJ9z1Tw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 10/61] cmake: update 3.19.5 -> 3.20.1
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c18b7905c19c9eae"
-
---000000000000c18b7905c19c9eae
+	 <20210505151850.660512-6-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-It's actually from 2013, see:
-https://github.com/meta-qt5/meta-qt5/commit/671313d0b5e09e0b49a90ed944cd33=
-fb3d6457b0
+On Wed, 2021-05-05 at 17:17 +0200, Alexander Kanavin wrote:
+> Drop 0001-Add-output-of-tests-result.patch
+> (difficult to rebase).
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../0001-Add-output-of-tests-result.patch     | 83 -------------------
+>  .../expat/{expat_2.2.10.bb => expat_2.3.0.bb} |  7 +-
+>  2 files changed, 3 insertions(+), 87 deletions(-)
+>  delete mode 100644 meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+>  rename meta/recipes-core/expat/{expat_2.2.10.bb => expat_2.3.0.bb} (81%)
+> 
+> diff --git a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+> deleted file mode 100644
+> index c5c18ead74..0000000000
+> --- a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+> +++ /dev/null
+> @@ -1,83 +0,0 @@
+> -From aa84835a00bfd65e784d58411e76f60658e939dc Mon Sep 17 00:00:00 2001
+> -From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> -Date: Tue, 18 Feb 2020 19:04:55 +0200
+> -Subject: [PATCH] Add output of tests result
+> -
+> -Added console output of testing results in form 'RESULT: TEST_NAME'.
+> -
+> -Changed verbose mode of test application set by '-v' ('--verbose')
+> -argument to CK_NORMAL.
+> -Added new supported argument '-vv' ('--extra-verbose') that changes
+> -verbose mode of test application to CK_VERBOSE. Results of each test
+> -are shown in output only if this mode is set.
+> -
+> -Upstream-Status: Denied
+> -
+> -This patch changes potentially deprecated feature that shoud be changed
+> -in upstream. [https://github.com/libexpat/libexpat/issues/382]
+> -
 
-it had couple iterations in meta-qt5 before it was moved to oe-core in:
-https://github.com/meta-qt5/meta-qt5/commit/17f240df
-http://git.openembedded.org/openembedded-core/commit/?h=3Ddaisy&id=3D4f2de=
-e0d8c2c3f60cb8f8021343e973cae31fc50
-as bunch of sed calls which were later changed to a .patch in 2018
-http://git.openembedded.org/openembedded-core/commit/?id=3D9e58926f1cea9d5=
-cb18cb923855d1ae98f88a8ac
+Doesn't removing this degrade the accuracy of the ptest reporting?
 
-Now with RSS this shouldn't be so big issue, that rebuilding cmake-native
-after qtbase-native won't suddenly detect Qt support for CMake, but it
-should be tested on host with Qt5 installed to make sure it's not detected
-from host and stays explicitly disabled (maybe there is a flag for that
-nowadays - I didn't check in last 8 years :)).
+Cheers,
 
-On Wed, May 5, 2021 at 10:52 PM Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+Richard
 
-> Hello,
->
-> Em qua., 5 de mai. de 2021 =C3=A0s 15:35, Khem Raj <raj.khem@gmail.com>
-> escreveu:
-> >
-> > before we remove it, lets hear a Review from Otavio and perhaps he has
-> > better history with this patch
-> >
-> > On Wed, May 5, 2021 at 8:19 AM Alexander Kanavin <alex.kanavin@gmail.c=
-om>
-> wrote:
-> > >
-> > > Remove 0002-cmake-Prevent-the-detection-of-Qt5.patch
-> > > (patch purpose and failing scenarios unclear; disabling
-> > > is better done through configuration options which
-> > > are available for all of these items).
->
-> Try build it on a host with Qt to see if it fails. This is what comes
-> to my mind. I don't recall the details as it was done in 2018 ...
-> gosh, I am getting old.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
->
->=20
->
->
-
---000000000000c18b7905c19c9eae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It&#39;s actually from 2013, see:<div><a href=3D"https://g=
-ithub.com/meta-qt5/meta-qt5/commit/671313d0b5e09e0b49a90ed944cd33fb3d6457b0=
-">https://github.com/meta-qt5/meta-qt5/commit/671313d0b5e09e0b49a90ed944cd3=
-3fb3d6457b0</a><br></div><div><br></div><div>it had couple iterations in me=
-ta-qt5 before it was moved to oe-core in:</div><div><a href=3D"https://gith=
-ub.com/meta-qt5/meta-qt5/commit/17f240df">https://github.com/meta-qt5/meta-=
-qt5/commit/17f240df</a><br></div><div><a href=3D"http://git.openembedded.or=
-g/openembedded-core/commit/?h=3Ddaisy&amp;id=3D4f2dee0d8c2c3f60cb8f8021343e=
-973cae31fc50">http://git.openembedded.org/openembedded-core/commit/?h=3Ddai=
-sy&amp;id=3D4f2dee0d8c2c3f60cb8f8021343e973cae31fc50</a><br></div><div>as b=
-unch of sed calls which were later changed to a .patch in 2018</div><div><a=
- href=3D"http://git.openembedded.org/openembedded-core/commit/?id=3D9e58926=
-f1cea9d5cb18cb923855d1ae98f88a8ac">http://git.openembedded.org/openembedded=
--core/commit/?id=3D9e58926f1cea9d5cb18cb923855d1ae98f88a8ac</a><br></div><d=
-iv><br></div><div>Now with RSS this shouldn&#39;t be so big issue, that reb=
-uilding cmake-native after qtbase-native won&#39;t suddenly detect Qt suppo=
-rt for CMake, but it should be tested on host with Qt5 installed to make su=
-re it&#39;s not detected from host and stays explicitly disabled (maybe the=
-re is a flag for that nowadays - I didn&#39;t check in last 8 years :)).</d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Wed, May 5, 2021 at 10:52 PM Otavio Salvador &lt;<a href=3D"mailto:ot=
-avio.salvador@ossystems.com.br">otavio.salvador@ossystems.com.br</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
-<br>
-Em qua., 5 de mai. de 2021 =C3=A0s 15:35, Khem Raj &lt;<a href=3D"mailto:r=
-aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; escreveu:<b=
-r>
-&gt;<br>
-&gt; before we remove it, lets hear a Review from Otavio and perhaps he ha=
-s<br>
-&gt; better history with this patch<br>
-&gt;<br>
-&gt; On Wed, May 5, 2021 at 8:19 AM Alexander Kanavin &lt;<a href=3D"mailt=
-o:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; =
-wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; Remove 0002-cmake-Prevent-the-detection-of-Qt5.patch<br>
-&gt; &gt; (patch purpose and failing scenarios unclear; disabling<br>
-&gt; &gt; is better done through configuration options which<br>
-&gt; &gt; are available for all of these items).<br>
-<br>
-Try build it on a host with Qt to see if it fails. This is what comes<br>
-to my mind. I don&#39;t recall the details as it was done in 2018 ...<br>
-gosh, I am getting old.<br>
-<br>
--- <br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blan=
-k">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"ht=
-tp://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://cod=
-e.ossystems.com.br</a><br>
-Mobile: +55 (53) 9 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: +1 =
-(347) 903-9750<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000c18b7905c19c9eae--
