@@ -1,197 +1,119 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.75])
- by mx.groups.io with SMTP id smtpd.web12.10166.1620229182445194455
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.11219.1620232749218701130
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:39:42 -0700
+ Wed, 05 May 2021 09:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=Qm4otR5d;
- spf=pass (domain: outlook.com, ip: 40.92.64.75, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JW0ib+qXY12URGbi7jE6TVaxE85xkpz+v4V6hEl7GSBqE9wYt1jvdHEduKnFibi8sBOdKx6CwCLbzby2JvwZOqF5WJNmf8Yl7zhAp6HypPF6A5a8Vs6bVT/glYJJMPjyRpX2pBrgejVPpa3LUC0IYiRkTXWPOIkf/qGh8Az1Ia0ABoxNWSnwAVo3rnxe9VwODDR09Kg9cVQLOIjXjB3V6zTa2FUtkWsGwWgsV9L5uFdAjm1lac7ONCqhct6pk5D7VRE6JsMP1LB/m54ksrVoOFTJLZlsTB7iEsO1r6eTMixb/6Ukzrn9RgMbaoW62nal5h5KDXN1gc6HhurXCPb/Cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SMRSVn1ogiPYy1u8O4di4B/ny/d1xetdqf07ZZ/HyIo=;
- b=KBSBou4ybaW4eCJjtiUmAo8VVd0t0bShLzgUg43/vmqetKKmFaftBonrq0u27+hrYMwRrUKRZFpQTbu+JVregDJShFhDGenY7LSEFmdLo7Boo/d8VgJ7TFZGCNJujnrUGYSQw+e5+tWm6tfTZIAfJReql/PG+nb0IkLkiYnz3RYr1Lp3XkAnINW3t1CovSmvokqxZ43y7frm8qKWLuKDuiAcm+s+Xb6PNdnUX0AL0gY27KraEHDV4a/BkLQ6k9mP+/T+fx69hOM3ss4l5lMfnVrxgCZnsmzr3hW1xOFlZ5o6e7TPbIOPHAsXZiU/B5P+jiG8EwXnsoplbN03G3CApQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SMRSVn1ogiPYy1u8O4di4B/ny/d1xetdqf07ZZ/HyIo=;
- b=Qm4otR5de5Owz9AATBNHXoQJPJarhzREI9pZk9DswZCCC7pUGnwfz3A+VQEc2r1xmN/2RE8jV6nIA8YpnDOJSYFAVDQSBOtkgq+BmeuN/duaBcKjC3q32/2TMgFpNLOm+J/rV7vmHn12NyFsFU/Ra302ixawQ3jy0FAj65A+mVxvaCPvSZ7JCYSqIUvbZo2XicIYRXskszhYoH/5ZpvNb7PwOmNIfyT4BhzLhrHsL9INFF0QHgHQA2MGSob2DItOCPVkZ1r23Fld7Ahm+vfd5UeZpd8XzKbUXtpVYppse15sXpon67u5QCqk0v8KUW5p8D/b8YcSTf5m4Dkazpirww==
-Received: from HE1EUR01FT016.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e18::45) by
- HE1EUR01HT080.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e18::255)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27; Wed, 5 May
- 2021 15:39:40 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- (2a01:111:e400:7e18::52) by HE1EUR01FT016.mail.protection.outlook.com
- (2a01:111:e400:7e18::169) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
- Transport; Wed, 5 May 2021 15:39:40 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:5F1B40F2D072A2C6311E18E43D70D92543D57BB46D9E3C6FED8E10866ED48257;UpperCasedChecksum:B202401D8670478673A9F4B53B8BD5F03787CBB8FA8FAA1CA074E1938A37CEC7;SizeAsReceived:8754;Count:47
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::9c9b:9858:17df:de84]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::9c9b:9858:17df:de84%6]) with mapi id 15.20.4108.025; Wed, 5 May 2021
- 15:39:40 +0000
-Subject: Re: [OE-core] [PATCH 57/61] python3: add markdown/smartypants/typogrify modules
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-57-alex.kanavin@gmail.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB4642132C2006E4609CA966C7A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Wed, 5 May 2021 17:39:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-In-Reply-To: <20210505151850.660512-57-alex.kanavin@gmail.com>
-X-TMN: [o4MKLQw+YcgmHrcnIu1yODsdhy1k6Z6M]
-X-ClientProxiedBy: AM5PR0701CA0013.eurprd07.prod.outlook.com
- (2603:10a6:203:51::23) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <e3181f3f-c799-8ed3-cfb8-95a0a92884e5@outlook.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TIfGM4Cg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so1501892wmb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 09:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=xlhDauOI+GZcCc9Q3EuIlandZ2ZaeijUQhvWZFumY64=;
+        b=TIfGM4Cg7mjILdF+TJsWCoggRr5SLY9aTddAKJw73176R76yEeWCKxRul+DSt0hi7c
+         ORU+vVhraSJiQ0//JV7iwztABk/feUexVY1po/Wgg1XYlZbm8gaNzbidSZzpnSyfjCON
+         vkE5BW0d4OjAqLBJYlr2uhAfeoXuTY1uPOozE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=xlhDauOI+GZcCc9Q3EuIlandZ2ZaeijUQhvWZFumY64=;
+        b=e/niufidl+fuULk4hdCQd7IWm5jXLBR2e75F7SgBIeJjza7GOj6+PZYgqR42FR5hSC
+         JUWwvPvUDpmzNAaAsCA0Quc1ZW+BW3jcjzwIl55wmU+KSRqn8IRHlJcRCyoe+q1JAJhl
+         bRqg3Li0IZ2ZHMvMA7wgXkGejyoS44u4KrtVXNnvD2S6OQN1fR/NBcwUXBW6W7nYyy7w
+         78hC1xtOJi3fs3ngZ9NYtMjNyixkFgerCl+a8BfoLEMQru/Su6IgBJTZOaBsnYRzQh4C
+         clv+OHwarCk2g98VSQYZqtL6qCDTdzkwmwy2qTtpSavpgtr9RgV12pjh9ig3KPRyv9L7
+         5FLA==
+X-Gm-Message-State: AOAM532h/aL5DGFLp9Doh5VHWWMI7YzWSqrI4OUhdYXqanfLe07mtJgr
+	N9JPZANsmFpfZDPmui9L7UenPQ==
+X-Google-Smtp-Source: ABdhPJy4JfMcElM6mlw8V4pf547LtOe7PoeU3GsVUFCsb/1AgUhuPiodsZqVDoxw0J9OBai0Bj8A+Q==
+X-Received: by 2002:a1c:1b43:: with SMTP id b64mr10826960wmb.178.1620232747720;
+        Wed, 05 May 2021 09:39:07 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:8041:e424:9226:62e7? ([2001:8b0:aba:5f3c:8041:e424:9226:62e7])
+        by smtp.gmail.com with ESMTPSA id z66sm7027662wmc.4.2021.05.05.09.39.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 May 2021 09:39:07 -0700 (PDT)
+Message-ID: <cf25df93316d68f215c03609788d940eef4bbf9b.camel@linuxfoundation.org>
+Subject: qemuppc shutdown issues - disable serial console for it?
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, openembedded-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 05 May 2021 17:39:06 +0100
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.89.134) by AM5PR0701CA0013.eurprd07.prod.outlook.com (2603:10a6:203:51::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.14 via Frontend Transport; Wed, 5 May 2021 15:39:39 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 23b08db3-89c7-41c7-0a4c-08d90fdbfef0
-X-MS-TrafficTypeDiagnostic: HE1EUR01HT080:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	wxtzljbtnLtPsEKbVypqgXHyGV1w6RnGSKatsV4+ckcsocDYToG6yxJsupQ1NVdz6y8M4bmOX2yk9yVkabcAJR+Ao5mE9D9isvZ35y+USB49VcU2i74NiZytHUk/TxKgFh7ZtmyHohIlWEYyyj8byPkaqQlam1K6SQw+s0OaELiw7dhPezSbLN0Bnh1Mu2v62VmErRqOKEOF87Pdmsom7EAq6pXYkAt94IUGkLWaa48vM7xFJ6egdv1Z8RDMovB6VNSPEy5pJBUGmoznj/zOaltd0hlIJscsD1lHGr8aNIdKXA9lYuMX5YqFG334aoJOLGENpTHbLtvOVAsOdENm53J6o1kt+zocU7+qWYp2SP+TYChbLIU3LGL4RxRa9IjgcCRlHDPtfPAFXhRM5QzTsWu7w5sfa0G+/cMHikyLSNFB3zdYyqEhn1623MSL+lr6htTZ5Gxv1nKMQ6rqwfjB/Q==
-X-MS-Exchange-AntiSpam-MessageData: 
-	YdgY4WQHh7frrtWuLTy15DygXkZmOoavfSXwRRVHxPBQnL8L6CLuqOYif/rig+YAvMBcSXxXXxPEaMDXUhcWvMeVQ3cvhjM0rNR5ur0OtXFspQXbzdOZM6F3il/nCYiCbvqeZNwiXcFbuR1wv85utA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23b08db3-89c7-41c7-0a4c-08d90fdbfef0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 15:39:40.1045
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	HE1EUR01FT016.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR01HT080
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+We've been seeing a lot of the qemuppc shutdown issue and I decided to look 
+into it. The really worrying thing looking at the logs locally is the serial
+ports are showing irq issues and becoming disabled as nobody would handle them.
+Errors like:
+
+[    9.194886] irq 36: nobody cared (try booting with the "irqpoll" option)
+[    9.198712] CPU: 0 PID: 127 Comm: bootlogd Not tainted 5.10.30-yocto-standard #1
+[    9.202283] Call Trace:
+[    9.205611] [d1005f00] [c00a0da8] __report_bad_irq+0x50/0x138 (unreliable)
+[    9.209347] [d1005f30] [c00a0cc0] note_interrupt+0x324/0x378
+[    9.212855] [d1005f70] [c009d138] handle_irq_event+0xe8/0x104
+[    9.216353] [d1005fa0] [c00a1d9c] handle_fasteoi_irq+0xc0/0x29c
+[    9.219960] [d1005fc0] [c009b798] generic_handle_irq+0x40/0x5c
+[    9.223496] [d1005fd0] [c00075d0] __do_irq+0x58/0x188
+[    9.226948] [d1005ff0] [c0010040] call_do_irq+0x20/0x38
+[    9.230391] [d29eda60] [c0007788] do_IRQ+0x88/0xfc
+[    9.233860] [d29eda90] [c0016454] ret_from_except+0x0/0x14
+[    9.237288] --- interrupt: 501 at __setup_irq+0x3c4/0x838
+[    9.237288]     LR = __setup_irq+0x790/0x838
+[    9.244155] [d29edb88] [c009f0a4] request_threaded_irq+0x114/0x1c8
+[    9.247672] [d29edbb8] [c07a5a18] pmz_startup+0x17c/0x32c
+[    9.251203] [d29edbd8] [c07a1140] uart_port_startup+0x184/0x2f8
+[    9.254651] [d29edc08] [c07a1974] uart_port_activate+0x78/0xf4
+[    9.258141] [d29edc28] [c07839f8] tty_port_open+0xd4/0x170
+[    9.261579] [d29edc58] [c079db74] uart_open+0x2c/0x48
+[    9.265116] [d29edc68] [c077a288] tty_open+0x168/0x640
+[    9.268574] [d29edcd8] [c0280be8] chrdev_open+0x138/0x2a4
+[    9.272123] [d29edd18] [c027421c] do_dentry_open+0x228/0x410
+[    9.275643] [d29edd48] [c028e9f4] path_openat+0xb04/0xf28
+[    9.279184] [d29eddd8] [c02917e4] do_filp_open+0x120/0x164
+[    9.282535] [d29ede98] [c0276238] do_sys_openat2+0xd8/0x19c
+[    9.285790] [d29edee8] [c0276574] sys_openat+0x88/0xdc
+[    9.289096] [d29edf38] [c00160d8] ret_from_syscall+0x0/0x34
+[    9.292620] --- interrupt: c01 at 0xfec3738
+[    9.292620]     LR = 0xfec36e0
+[    9.299035] handlers:
+[    9.302312] [<7f7f7da8>] pmz_interrupt
+[    9.305541] Disabling IRQ #36
+
+(and the irqpoll option does not help)
+
+This is problematic as the shutdown test uses the serial interface to shut down
+the system. If the serial interface fails to login or run the command, game over
+for the test.
+
+Looking at the defconfig, the serial stuff is handled through CONFIG_SERIAL_PMACZILOG
+and the pmac_zliog.c driver. There is an interesting section of code in there for
+CONFIG_SERIAL_PMACZILOG_CONSOLE which had me asking "really?" about what it does
+with interrupts.
+
+Chucking:
+
+# CONFIG_SERIAL_PMACZILOG_CONSOLE is not set
+
+into a .cfg for the kernel meant the above traces went away. Whether than was due to
+the console logging changing or it really fixed some kind of race, hard to say.
+
+My instinct says we should disable the above and test for a bit, see if
+the shutdown issues don't happen so much.
+
+Bruce: Any thoughts on that?
+
+I suspect there is also some qmp related serial console race as ever since
+we added the qmp code, the shutdown timeout issues spread to other arches.
+
+Cheers,
+
+Richard
 
 
-
-On 05.05.21 17:18, Alexander Kanavin wrote:
-> This is needed to enable gi-docgen, a successor to gtk-doc
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   meta/conf/distro/include/maintainers.inc           |  3 +++
->   .../python/python3-markdown_3.3.3.bb               | 14 ++++++++++++++
->   .../python/python3-smartypants_2.0.0.bb            | 12 ++++++++++++
->   .../python/python3-typogrify_2.0.7.bb              | 14 ++++++++++++++
->   4 files changed, 43 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python3-markdown_3.3.3.bb
->   create mode 100644 meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
->   create mode 100644 meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 140f7b490e..0c3e3628ba 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -608,6 +608,7 @@ RECIPE_MAINTAINER_pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfound
->   RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> +RECIPE_MAINTAINER_pn-python3-markdown = "Alexander Kanavin <alex.kanavin@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->   RECIPE_MAINTAINER_pn-python3-more-itertools = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> @@ -630,11 +631,13 @@ RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.
->   RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-setuptools-scm = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-python3-six = "Zang Ruochen <zangrc.fnst@fujitsu.com>"
-> +RECIPE_MAINTAINER_pn-python3-smartypants = "Alexander Kanavin <alex.kanavin@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-sortedcontainers = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-toml = "Tim Orling <timothy.t.orling@linux.intel.com>"
-> +RECIPE_MAINTAINER_pn-python3-typogrify = "Alexander Kanavin <alex.kanavin@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-wcwidth = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-python3-zipp = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-qemu = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-> diff --git a/meta/recipes-devtools/python/python3-markdown_3.3.3.bb b/meta/recipes-devtools/python/python3-markdown_3.3.3.bb
-> new file mode 100644
-> index 0000000000..c456f05541
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-markdown_3.3.3.bb
-> @@ -0,0 +1,14 @@
-> +SUMMARY = "A Python implementation of John Gruber's Markdown."
-> +HOMEPAGE = "https://python-markdown.github.io/"
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM = "file://LICENSE.md;md5=745aaad0c69c60039e638bff9ffc59ed"
-> +
-> +inherit pypi setuptools3
-> +
-> +PYPI_PACKAGE = "Markdown"
-> +SRC_URI[md5sum] = "034e3bccfde211d44b4a7a69cb290ba0"
-> +SRC_URI[sha256sum] = "5d9f2b5ca24bc4c7a390d22323ca4bad200368612b5aaa7796babf971d2b2f18"
-> +
-> +BBCLASSEXTEND = "native"
-> +
-> +RDEPENDS_${PN} += "${PYTHON_PN}-logging ${PYTHON_PN}-setuptools"
-> diff --git a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-> new file mode 100644
-> index 0000000000..8acc971c35
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-
-According to pypi this isn't the latest version, but 2.0.1 isn't 
-available as sources - also this project is unmaintained and the repo 
-isn't even available anymore - what's the process for these kind of recipes?
-
-> @@ -0,0 +1,12 @@
-> +SUMMARY = "Translator of plain ASCII punctuation characters into 'smart' typographic punctuation HTML entities"
-> +HOMEPAGE = "https://pythonhosted.org/smartypants/"
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=977036977591ac666c728921ecc54c4f"
-> +
-> +inherit pypi setuptools3
-> +
-> +PYPI_PACKAGE = "smartypants"
-> +SRC_URI[sha256sum] = "7812353a32022699a1aa8cd5626e01c94a946dcaeedaee2d0b382bae4c4cbf36"
-> +
-> +BBCLASSEXTEND = "native"
-> +
-> diff --git a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-> new file mode 100644
-> index 0000000000..3becb0dd8d
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-> @@ -0,0 +1,14 @@
-> +SUMMARY = "Filters to enhance web typography, including support for Django & Jinja templates"
-> +HOMEPAGE = "https://github.com/mintchaos/typogrify"
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=12bc792d6f5415dbf421f3fd183c6dd2"
-> +
-> +inherit pypi setuptools3
-> +
-> +PYPI_PACKAGE = "typogrify"
-> +SRC_URI[sha256sum] = "8be4668cda434163ce229d87ca273a11922cb1614cb359970b7dc96eed13cb38"
-> +
-> +BBCLASSEXTEND = "native"
-> +
-> +RDEPENDS_${PN} += "${PYTHON_PN}-smartypants"
-> +
-> 
-> 
-> 
-> 
-> 
