@@ -1,122 +1,137 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web11.1516.1620241911068629335
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web11.1667.1620242582528328891
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 12:11:51 -0700
+ Wed, 05 May 2021 12:23:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ntEx5LNM;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id b4so1645235vst.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 12:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UhiUFeRSnGl8vgk+zqB+saA0oJWS15L6Fn5KpUKyItU=;
-        b=ntEx5LNM1TbXj/woeUNPAy9+gFy4l0BeYCDNLH/UxYNYOuG1rOBktLGwJ18IWl46bL
-         1Sppiv19ZUniORJ9sH/MTAeIaSsxRWmVNVLhkYDw8w5V8+p3QS04nF8yIHHcxpaslu3E
-         7JYyTHbV/pP/2B7Gn8+6a2vQsLM/IJmp5rpM0X3JcKqr0oUOG3fqPZeTNV9EPPpdd1c8
-         LEcD/rRhuU1Z/2Kx6b/sFsiwWZ2FpR+iFwgnZDCOci5YWsH367LsmjYteIXwXZkg7jd6
-         D7h4VO4kLuUfQS83OZ+czB+xlKdaMbuWW8UxuzVdn+K425G2JpoVbQQYi3WpfwnoorL/
-         7IOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UhiUFeRSnGl8vgk+zqB+saA0oJWS15L6Fn5KpUKyItU=;
-        b=aqIYVUJLcn8slAjFskXV6cmWA+WsFMzJuSRzoETVMuyad1UbVuTbaWLNSwYgOfmmec
-         4rOSuHPO59Yv/j1p+IEU3Slphmny1iELAp2yt2g1J3zLwxsa1f02oI7jKTUgxnwPbbLe
-         IIINX6CfCQWC4gaCH/bUX+nG5WlSTLfNxdawtAlpbsEDKSI1xVn0Oexd4/SjiNfLDf6j
-         KxtJ9OblaFsYbpaKE9bhwFe4xnVqAoQ0BxzlSvVjN19pwcbjWeiDSTD02WH+XWYibyF5
-         j9K9MXZa10HtLvavC5kZXAoJD8umiEiLdjp3i1THCvYhAd4X4CZ8WVzVdHXbTn41UPm5
-         TuQg==
-X-Gm-Message-State: AOAM532rZ4p4kD3WgJDXS0bSvsJc9iC5B/9EZpNc+rC+B/N9g3V+jpKT
-	2VbCfJJQ3lTZEqp6CHR0PdhNGmh6T/IcSHWNmWY=
-X-Google-Smtp-Source: ABdhPJyNmo4EjuISdpE6f6XeKJaNVWvG/hiusVyNJ6i3qgVJD78DWYONHNKleOyCWnGaoUZRXZL9w9snMZG/Q3Y1WoA=
-X-Received: by 2002:a67:1447:: with SMTP id 68mr359035vsu.20.1620241910289;
- Wed, 05 May 2021 12:11:50 -0700 (PDT)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 145JMtjo001546
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Wed, 5 May 2021 14:23:01 -0500
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        bitbake-devel <bitbake-devel@lists.openembedded.org>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Subject: Multiconfig - sstate-cache re-use and error
+Message-ID: <269aefdd-0d6e-a73a-4d18-83ac609a55a3@kernel.crashing.org>
+Date: Wed, 5 May 2021 14:22:55 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-57-alex.kanavin@gmail.com> <AM9PR09MB4642132C2006E4609CA966C7A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAMKF1sreCuyXW2wNh_1xaG+E_T=NFLuLq68vmFQegDJ1HTWiYg@mail.gmail.com>
- <CANNYZj8VfB5sO4O3tjpUDHseBTMwYG-kRGwVUERmAjJSH61=oA@mail.gmail.com> <AM9PR09MB464224482626504F72484641A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: <AM9PR09MB464224482626504F72484641A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 5 May 2021 21:11:38 +0200
-Message-ID: <CANNYZj9M5Gy34YJacwpYLvbyBREpAdPT5_uszJs5p=LnPXyLHg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 57/61] python3: add markdown/smartypants/typogrify modules
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000008358f105c199f7c5"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---0000000000008358f105c199f7c5
-Content-Type: text/plain; charset="UTF-8"
+I'm cross posting this cause I suspect it's a bitbake bug, but it requires
+sstate-cache / setscene stuff which is from the oe-core side of things.  I
+really don't know what is causing the problem, but I can at least reproduce it,
+even if it ends up taking a while.
 
-On Wed, 5 May 2021 at 21:06, Konrad Weihmann <kweihmann@outlook.com> wrote:
+The configuration.  I'm building a system that has 4 multiconfigs (plus the
+regular configuration), with the output being an SDK (main config), and 4
+different rootfs from the multiconfig.  (See below for actual setup details for
+the reproducer.)
 
-> On 05.05.21 21:03, Alexander Kanavin wrote:
-> > The repo is here:
-> > https://github.com/leohemsted/smartypants.py
-> > <https://github.com/leohemsted/smartypants.py>
-> >
-> > I opened an issue:
-> > https://github.com/mintchaos/typogrify/issues/56
-> > <https://github.com/mintchaos/typogrify/issues/56>
->
-> Thanks for that one - but if this project is still alive (just relocated
-> from bitbucket to GH), wouldn't it make more sense to introduce the
-> 2.0.1 version pulled via git instead of the pretty outdated 2.0.0 from
-> pypi?
->
+What is happening.  The system starts building and appears to correctly defer
+the building of the duplicate components.  Eventually it will start building the
+item that is not deferred, and soon after it appears to change what is deferred
+and will attempt to call setscene tasks, but the sstate-cache has not yet been
+written to by the first task.  This is occurring on a completely new build, no
+existing sstate-cache.
 
-I don't think it's alive, open issues and PRs all dead, last commit in 2017
-shortly after 2.0.1 release.
+The console-log can show the order in which things are happening for a small
+subset, so might be helpful.  In this chunk socat ended up showing this behavior:
 
-If it becomes alive again, it'll almost certainly be a fork in another
-location,
-and pypi would then automatically take care of it for us. Besides pypi
-recipes are
-much easier to write, and this is a very marginal module :)
+NOTE: Deferring mc:qemuarm64-one:socat.bb:do_deploy_source_date_epoch after
+mc:qemuarm64-four:socat.bb:do_deploy_source_date_epoch
+[repeat for do_package]
+[repeat for do_package_qa]
+[repeat for do_package_write_rpm]
+[repeat for do_packagedata]
+[repeat for do_populate_lic]
+[repeat for do_populate_sysroot]
+*** repeat the sequence above for mc:qemuarm64-three which defers for four ***
+*** repeat the sequence above for mc:qemuarm64-two which defers for four ***
+NOTE: Running task 1362 of 15106 (mc:qemuarm64-four:socat_1.7.4.1.bb:do_fetch)
+NOTE: recipe socat-1.7.4.1-r0: task do_fetch: Started
+NOTE: recipe socat-1.7.4.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1397 of 15106 (mc:qemuarm64-four:socat_1.7.4.1.bb:do_unpack)
+NOTE: recipe socat-1.7.4.1-r0: task do_unpack: Started
+NOTE: recipe socat-1.7.4.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2617 of 15106 (mc:qemuarm64-four:socat_1.7.4.1.bb:do_patch)
+NOTE: recipe socat-1.7.4.1-r0: task do_patch: Started
+NOTE: recipe socat-1.7.4.1-r0: task do_patch: Succeeded
+NOTE: Running task 2711 of 15106
+(mc:qemuarm64-four:socat_1.7.4.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe socat-1.7.4.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe socat-1.7.4.1-r0: task do_deploy_source_date_epoch: Succeeded
+(starts deferring three again after one)
+NOTE: Deferring mc:qemuarm64-three:socat_1.7.4.1.bb:do_deploy_source_date_epoch
+after mc:qemuarm64-one:socat_1.7.4.1.bb:do_deploy_source_date_epoch
+[repeat for do_package]
+[repeat for do_package_qa]
+[repeat for do_package_write_rpm]
+[repeat for do_packagedata]
+[repeat for do_populate_lic]
+[repeat for do_populate_sysroot]
+*** repeat the defer sequence above for mc:qemuarm64-two for one ***
+NOTE: Running setscene task 1930 of 5424
+(mc:qemuarm64-one:socat_1.7.4.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe socat-1.7.4.1-r0: task do_populate_sysroot_setscene: Started
+ERROR: mc:qemuarm64-one:socat-1.7.4.1-r0 do_populate_sysroot_setscene: No
+suitable staging package found
+ERROR: Logfile of failure stored in:
+...socat/1.7.4.1-r0/temp/log.do_populate_sysroot_setscene.154008
+NOTE: recipe socat-1.7.4.1-r0: task do_populate_sysroot_setscene: Failed
+WARNING: Setscene task
+(mc:qemuarm64-one:socat_1.7.4.1.bb:do_populate_sysroot_setscene) failed with
+exit code '1' - real task will be run instead
+NOTE: Running task 3183 of 15106
+(mc:qemuarm64-four:/socat_1.7.4.1.bb:do_populate_lic)
+... now we have components of 'one' and 'four' building ...  eventually two and
+three unlock as well and may build at the same time...
 
-Alex
+(Note, this build happened to be socat first, but other builds I've run have
+different things that end up going first -- and it's not always the same items.)
 
---0000000000008358f105c199f7c5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reproducer:
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 5 May 2021 at 21:06, Konrad Weihmann &lt;<a href=3D"mailto:k=
-weihmann@outlook.com">kweihmann@outlook.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">On 05.05.21 21:03, Alexander Kan=
-avin wrote:<br>
-&gt; The repo is here:<br>
-&gt; <a href=3D"https://github.com/leohemsted/smartypants.py" rel=3D"norefe=
-rrer" target=3D"_blank">https://github.com/leohemsted/smartypants.py</a> <b=
-r>
-&gt; &lt;<a href=3D"https://github.com/leohemsted/smartypants.py" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/leohemsted/smartypants.py</a=
->&gt;<br>
-&gt; <br>
-&gt; I opened an issue:<br>
-&gt; <a href=3D"https://github.com/mintchaos/typogrify/issues/56" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/mintchaos/typogrify/issues/5=
-6</a> <br>
-&gt; &lt;<a href=3D"https://github.com/mintchaos/typogrify/issues/56" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/mintchaos/typogrify/is=
-sues/56</a>&gt;<br>
-<br>
-Thanks for that one - but if this project is still alive (just relocated <b=
-r>
-from bitbucket to GH), wouldn&#39;t it make more sense to introduce the <br=
->
-2.0.1 version pulled via git instead of the pretty outdated 2.0.0 from pypi=
-?<br></blockquote><div><br></div><div>I don&#39;t think it&#39;s alive, ope=
-n issues and PRs all dead, last commit in 2017 shortly after 2.0.1 release.=
- <br></div><div><br></div><div>If it becomes alive again, it&#39;ll almost =
-certainly be a fork in another location,</div><div>and pypi would then auto=
-matically take care of it for us. Besides pypi recipes are <br></div><div>m=
-uch easier to write, and this is a very marginal module :)</div><div><br></=
-div><div>Alex<br></div></div></div>
+latest version of poky
 
---0000000000008358f105c199f7c5--
+$ . ./oe-init-build-env build-mc
+$ mkdir conf/multiconfig
+
+add the following files to multiconfig directory:
+
+conf/multiconfig/qemuarm64-one.conf:
+MACHINE = "qemuarm64"
+SOC_VARIANT = "one"
+TMPDIR = "${TOPDIR}/tmp-${MACHINE}-${SOC_VARIANT}-${TCLIBC}"
+
+conf/multiconfig/qemuarm64-two.conf:
+MACHINE = "qemuarm64"
+SOC_VARIANT = "two"
+TMPDIR = "${TOPDIR}/tmp-${MACHINE}-${SOC_VARIANT}-${TCLIBC}"
+
+conf/multiconfig/qemuarm64-three.conf:
+MACHINE = "qemuarm64"
+SOC_VARIANT = "three"
+TMPDIR = "${TOPDIR}/tmp-${MACHINE}-${SOC_VARIANT}-${TCLIBC}"
+
+conf/multiconfig/qemuarm64-four.conf:
+MACHINE = "qemuarm64"
+SOC_VARIANT = "four"
+TMPDIR = "${TOPDIR}/tmp-${MACHINE}-${SOC_VARIANT}-${TCLIBC}"
+
+edit the conf/local.conf and add:
+
+BBMULTICONFIG += "qemuarm64-one"
+BBMULTICONFIG += "qemuarm64-two"
+BBMULTICONFIG += "qemuarm64-three"
+BBMULTICONFIG += "qemuarm64-four"
+
+Start the build:
+$ bitbake buildtools-tarball mc:qemuarm64-one:core-image-minimal
+mc:qemuarm64-two:core-image-minimal mc:qemuarm64-three:core-image-minimal
+mc:qemuarm64-four:core-image-minimal
