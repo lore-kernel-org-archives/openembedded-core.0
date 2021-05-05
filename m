@@ -1,118 +1,106 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web12.403.1620252981103210281
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+ by mx.groups.io with SMTP id smtpd.web09.507.1620253290170369250
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 15:16:21 -0700
+ Wed, 05 May 2021 15:21:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dkn2E3ZL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id d11so3452239wrw.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 15:16:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RaPprlG6;
+ spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f50.google.com with SMTP id b4so1903850vst.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 15:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AZtbIvJGKVo3qs9KES3DSnxazKcm6ZkCpidwkS8Sl4Q=;
-        b=dkn2E3ZLWjXDR9jvE9CW0MM9u8vbB3/Uzl3/t7M/Z3sc8eP2ypW7d9TSOK+hA3zA/x
-         2WYpHTqaCrEhjZEa2br6PlQ8aupx3vJmB+ZGMDx+IVDjUCGXJ+b74kjUduQcxhLBGELo
-         ISq7s17iwGVMRgITROQB2a4FjxD/bR4EEtmH4=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SKNQ4knYca7GKJ0PakDJxHCY3O5uM/pWAR/ZWh2JIlM=;
+        b=RaPprlG6VKJzvk6MHBsrBpjACAzy3K1//sE58KL9u5i8JD22p0+TfjiZKV6XtycyYc
+         JVsPsMLVXlJVcVi02mGS7EJVTfdzzYbVaM9jMLBbBFGVFDIPN1sCGK3dtFa8z91upUge
+         BYEKY0NUcBB4ZFe17obdvapCp/WMaI9rtQ1+KjP26FrmKXbh+Ed/dCARcTDKrE6uuAxi
+         pmX/kJb94SfSUujA4wed7x39aNgkCMtITAFec22GFPAKq0s5P1hi3eWOvWe5F/ynBIQc
+         noyyKEpUFIulMOTFOA2ZDHgJATW0I60y4IWjHIGvrz0VEuT6fGNeHq0GrRZOCdhuHpTa
+         kRTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AZtbIvJGKVo3qs9KES3DSnxazKcm6ZkCpidwkS8Sl4Q=;
-        b=mafdIFMY48PlL+z7HgECV6uQfZgTnCvXSuMfxim9lLQKDg+LnlajBOWz8zcwgO9Jfg
-         8O5xc7OCTKaRjXsvnmSYtr2LZPecbX9CDrSB+/GfB4lsGm6TIpZPHi2yvEJw4yZRpjTW
-         e2VGF9dlGxAmVs6ampkHCtH5qbAOIK6xw2PDmBdJ6lh1gqOwEuIukcHMg5jNMEUoGzhv
-         hG6u5DCWGRpkAywdqdiN3tBIdYtBcAj6iDf0TK9egR5iCCtRcHctUWc9qOtjws7A4DA6
-         7reMHHCoMN9VpxWLv/vnT2FywDnf6bXrkFK8GsKHjAPHur8I8k5NZsEsthscNo/XsAOG
-         XRTQ==
-X-Gm-Message-State: AOAM533PLua/p/+hLL+3+AVRMcaka2Mv89J0NhB+/wlMX1TzPajlrrN/
-	arG0AmCKeHRkHAUVebwHg56G0g==
-X-Google-Smtp-Source: ABdhPJyTqM7n//wHyqwUmc6s7q/SUDd1icIjtWir8P5doneF67veN2kv3KyPqgOZWwywziM5Qd6BhA==
-X-Received: by 2002:a05:6000:180a:: with SMTP id m10mr1243783wrh.215.1620252979592;
-        Wed, 05 May 2021 15:16:19 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e? ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
-        by smtp.gmail.com with ESMTPSA id l14sm898664wrv.94.2021.05.05.15.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 15:16:19 -0700 (PDT)
-Message-ID: <669dfd1f4c2d3c444cbff5c467187ed24306b4e6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 58/61] gi-docgen: add a recipe and class
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 May 2021 23:16:16 +0100
-In-Reply-To: <CAMKF1spWRv+mhtzRti5vpn8ja94CgrJLnJ5sSt10VaX_AUhHbg@mail.gmail.com>
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
-	 <20210505151850.660512-58-alex.kanavin@gmail.com>
-	 <CAMKF1spEqemKRZAwWnDMupsSmk7rteUef6P1HbmC0-KtsOjO_w@mail.gmail.com>
-	 <CANNYZj9scBK7xAZpR1A3Fs9AiC8MT_EZHqszbGfiAkZSZgMYwg@mail.gmail.com>
-	 <443c94b6db48ae6b7daae10b529b8ea420be4add.camel@linuxfoundation.org>
-	 <CAMKF1so4BWNatThY_tixepiRUvzH=kfE7_4BWHroj4RnzSVQyA@mail.gmail.com>
-	 <0dc03ad24ae6700f7757b6afca84c37758759d29.camel@linuxfoundation.org>
-	 <CAMKF1spWRv+mhtzRti5vpn8ja94CgrJLnJ5sSt10VaX_AUhHbg@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SKNQ4knYca7GKJ0PakDJxHCY3O5uM/pWAR/ZWh2JIlM=;
+        b=h5IBPHwxAlXgK39uOuPDUYStgjDHFbe5IA1NHKFwP8lYIdyKrmTNRO74Cmrcu2WJaz
+         bZcGKrzXWpB+LYE0jdvq7vmAPFlvpVoWq+LZLnWiF03Mhx4wM5OnkTdA5eyKLEQZ/Kxu
+         9pPPts4XdTKY+7jHiNWwbAJslGR2BEOH+IR7z29vy7SGNKV/mYRhqFtuqG98j4qGPE7C
+         FHUxmenv0NBVOOuTPizAscJnLBrttbz5Rn1tTupGSQ38/aq+rUooLXdXmO9z1EBU6xb3
+         VvRWxgPuOOMx8+ey93MxqusQZ1o0Ta2GLDKdAVKhhZoHniHRE591kX+BIBZ72H0dIjLy
+         JaMA==
+X-Gm-Message-State: AOAM533crOM0GZmAelE+jVfSSeZUIqWOSbxtlFx3AsEzP5q+zpqbFdCm
+	BrX/49YSD6iTSioLgyUwhjuaDewTEP2TEidpFiA=
+X-Google-Smtp-Source: ABdhPJwkYUa1r4Ipf2IFomG7dOZ8OtV3IEoK9xIb5jpw7JyWQgWGCEAm1OX8RCL1CrwUCljH/6+0tu9OGJDVlsPytJc=
+X-Received: by 2002:a67:8c1:: with SMTP id 184mr1064637vsi.31.1620253289286;
+ Wed, 05 May 2021 15:21:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-23-alex.kanavin@gmail.com> <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
+ <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com>
+ <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com> <CANNYZj8iZrEC0kc5GGJSb6ddBH77Tz_pN+pFzuD0Hhbdjhpjbw@mail.gmail.com>
+ <CAMKF1sozSbDLB08dWLOTnSAFFpgp3j7rkoQ-7NGe5fYF7f+ceQ@mail.gmail.com>
+ <CANNYZj85oAj0YAZVo7J4=5d1Zti=aLmaT+-_gftA-ZWdg8JYxQ@mail.gmail.com> <CAMKF1spJ3sJnhT59PGeaGwfsoSbS1QuZEqFdgY0bxBVbES=fVQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spJ3sJnhT59PGeaGwfsoSbS1QuZEqFdgY0bxBVbES=fVQ@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 6 May 2021 00:21:18 +0200
+Message-ID: <CANNYZj_-boTZn5hxaEZvdfQmGauNpZ6LFkm=GLo78Uzgz7zSaA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c1117e05c19c9dbc"
+
+--000000000000c1117e05c19c9dbc
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2021-05-05 at 15:07 -0700, Khem Raj wrote:
-> On Wed, May 5, 2021 at 2:52 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Wed, 2021-05-05 at 14:28 -0700, Khem Raj wrote:
-> > > On Wed, May 5, 2021 at 2:09 PM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > 
-> > > > On Wed, 2021-05-05 at 20:45 +0200, Alexander Kanavin wrote:
-> > > > > On Wed, 5 May 2021 at 20:05, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > > On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > > > > > > 
-> > > > > > > This seems to be the gtk-doc successor, and gnome
-> > > > > > > projects such as pango and gdk-pixbuf have started
-> > > > > > > transitioning to it.
-> > > > > > > 
-> > > > > > 
-> > > > > > going through
-> > > > > > https://gitlab.gnome.org/GNOME/gi-docgen#disclaimer
-> > > > > > 
-> > > > > > it seems that its still under development and not declared stable, so
-> > > > > > I am wary of the churn it will cause.
-> > > > > > I would prefer to wait until at least its declared prime time for
-> > > > > > system wide inclusion.
-> > > > > > 
-> > > > > 
-> > > > > 
-> > > > > It is only built if you enable api-documentation, and even then used only
-> > > > > in pango and gdk-pixbuf. I'd say it's fairly well contained.
-> > > > 
-> > > > I did also have a quick chat with friends in that community and their advice
-> > > > was that it was ok to switch now FWIW...
-> > > 
-> > > ok, that helps, perhaps they can reflect this assertion in document above?
-> > > but still, depending upon abandoned packages needs to be answered by
-> > > upstream IMO before we tread down this path
-> > 
-> > Reading that disclaimer, it seems to be saying they're making it work for gtk.
-> > We're using it in the gtk related components it is being developed for so I'm
-> > not sure there is an issue. What it says not to do is use it for general non-gtk
-> > code. We're not using it outside gtk?
-> 
-> This above says
-> 
-> GI-DocGen is still in development. The recommended use of GI-DocGen is
-> to add it as a sub-project to your Meson build system, and vendor it
-> when releasing dist archives.
-> 
-> we are trying to use it in system mode and not vendored along with
-> packages which need it. Perhaps I am misunderstanding?
+On Thu, 6 May 2021 at 00:02, Khem Raj <raj.khem@gmail.com> wrote:
 
-Effectively we are vendoring it since only things with a dependency on it will see it
-and we're only depending on it from things which it is intended for. It isn't like 
-we're making it a system wide development tool.
+>
+> order is, look for ncursesw first so this sed operation removes ncursesw
+> from search paths.
+> and this commits mentions this change was intentional
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=188862de64b
+>
+> so why should it be dropped without understanding the repercussions of it?
+>
 
-Cheers,
+PKG_CHECK_MODULES does not check for things in order listed (first second
+or whatever), it checks for all of them as a set, or it errors out
+otherwise if anything in the set is not available.
 
-Richard
+Besides, you're asking the question backwards. It should be: why should we
+change the upstream choice if we don't understand the repercussions of
+doing that?
 
+Alex
+
+--000000000000c1117e05c19c9dbc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 6 May 2021 at 00:02, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
+=3D"gmail_quote"><br><div style=3D"font-family:monospace,monospace">order i=
+s, look for ncursesw first so this sed operation removes ncursesw from sear=
+ch paths.</div><div style=3D"font-family:monospace,monospace">and this comm=
+its mentions this change was intentional</div><div style=3D"font-family:mon=
+ospace,monospace"><br></div><div style=3D"font-family:monospace,monospace">=
+<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D1888=
+62de64b" target=3D"_blank">https://git.openembedded.org/openembedded-core/c=
+ommit/?id=3D188862de64b</a><br></div><div style=3D"font-family:monospace,mo=
+nospace"><br></div><div style=3D"font-family:monospace,monospace">so why sh=
+ould it be dropped without understanding the repercussions=C2=A0of it?</div=
+></div></div></blockquote><div><br></div>PKG_CHECK_MODULES does not check f=
+or things in order listed (first second or whatever), it checks for all of =
+them as a set, or it errors out otherwise if anything in the set is not ava=
+ilable. <br></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_=
+quote">Besides, you&#39;re asking the question backwards. It should be: why=
+ should we change the upstream choice if we don&#39;t understand the reperc=
+ussions of doing that?</div><div class=3D"gmail_quote"><br></div><div class=
+=3D"gmail_quote"></div><div class=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000c1117e05c19c9dbc--
