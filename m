@@ -1,50 +1,50 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.9792.1620227961150624769
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.9847.1620227961694515552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:21 -0700
+ Wed, 05 May 2021 08:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HNyXfzzD;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id w3so3462764ejc.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dON3eAOv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id l7so2523924edb.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=g0yDuv/6zmqCA4DvtMGiCc9SjcDUhtWCSk39MCjmI5E=;
-        b=HNyXfzzDrlmVDRfX4p0IdbEE3/vTibYaGs10W9rk5f0MDIvJUa16BODtk7dEqnl4E/
-         3PnXRsbkseT65E36Um2KQMIzkDDFVSi/Z48CME/FefZt0K90vAvsNc2KDuaXAHJodldE
-         u7fyo8Cp2YFsvchMo/pcQ3b/6kHssLV9mh0loagIXO2O6RrVZCLoKJaI2uVOwrsO6e7H
-         Dw0B1NPm61MB87PSHq+JPeq0a3ICBZW1MtdZIxLA2yu+ArjuMrLjBsa+9v0LAH0PQnNp
-         b6CjVZQQkI1k2ze5VffZWE8NQ/YRPYqKfXQ+cNL9tM7wN3BAiyNdKJK0xwQmNcKw3Xvo
-         XAyA==
+        bh=8SHl7j7mHhJSWJxTj1A2CG+ltQLFE75kbGw4vhQiAxA=;
+        b=dON3eAOvS4GGDPmvGArtg1btF7IGh4H4Hb3dZc+o3AfBjBaWUw7popg/pXh4EZd6Ed
+         NBwA2C/8NW0cBKEtrdTdTLZ4FAFw/Q32vimAJXA9rfruW1XhiwUZqN4cGOAbDyMGrKpZ
+         1h0hCbalxhOVJDjcwvmIattfbGD4bgfWycJEGRbDmiLMGSnGPiU8HzydVFwWIV4qHn+m
+         eWJ7HcoepvliPUjYNtdX+IZHmsQHffT73V9jM3LgTmfJ3cavcYj0sk6iTo4sHDnFxXQT
+         mAu3P/3/m0QovM/pbQLfxFQcoU+Sr4hQx8wBsyBpEggdPQxHaiwNOG7oO3VsSzKm0cY/
+         lJAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=g0yDuv/6zmqCA4DvtMGiCc9SjcDUhtWCSk39MCjmI5E=;
-        b=G/MhV/wo0BfJ+F6YWx8KqodVyu2jYmvcfdBBi4qYizwGVAiCKCBSjHylchkmVx0rrM
-         K46iyCj3DqqAorBRAwlZOSXFKWG8ijkeOWKotXFl7+HrOkMWKwEGmvRuR2b30X17hWBU
-         iRjPRjCcbYXGlq4NzQ2lsk450yKQDrpwVMhTK5N8NpcMtApjK9v0p7z3s8/bHAG+CJcR
-         qfeH/ggrcNt4mcGoDyohAsqSsK3jYLZquF3UQ9Td/fGB4JxXD5i0y2zDio6sS/Yizemj
-         K2wsrBKCbDsMINxrHdZznLbGGPggrF78Cpx5eH2A8gOYWa1qgCFpeq+L9nvhcuGc7swx
-         Ey8A==
-X-Gm-Message-State: AOAM533ydHHBlIJZ1uwcG90EoRBHDnoQeZpZb2ERBF/Unl/WFMoydyAa
-	RpYTaaYRn/Z8KgmQP3L06tRjYBBAMe7veg==
-X-Google-Smtp-Source: ABdhPJwp1hJ8uQVRMhOCwkupGyqDUdli/7nPVFJM31vhxemeFy0bkXL6R3dwhz6Mo4uUM8AifaRQ3A==
-X-Received: by 2002:a17:906:82c9:: with SMTP id a9mr29132045ejy.58.1620227959198;
-        Wed, 05 May 2021 08:19:19 -0700 (PDT)
+        bh=8SHl7j7mHhJSWJxTj1A2CG+ltQLFE75kbGw4vhQiAxA=;
+        b=HQnlvYAmADcUS1HoM4jPC/wa63qC9ad8KbJaz/LmKMSKNbf2YcrqYt0blahIB6dNkX
+         eH4ABl36lYgDbJ2c+9SSg69QIoydgXTnPEYqDlY/oZ94nIqMcdlX5HpJ2muzV/4LPGGZ
+         wq4oN0rZmlF106YpUSDpWiHAuTJmyBOB5sfeyZI+S02dLNF6ogZTmYlU7qrZUDy55zKl
+         c7C1B9HFU/Mg6NVRtSGCqVBfPhV2d98BdXFlJj0tl9wSbmJq1IaMCKwQzxLsJcxCUEMj
+         yU0423FrJqSGoRbL032lcbz92Zsfq50qguZ4FWZZwtI7oj1zFEDMRIQLhnRUBf3mVdTt
+         3owg==
+X-Gm-Message-State: AOAM533nW31264cc1AXr9InkfyHDfWRqxqas9zgB23M7rhnkklfiryeP
+	HUDT1XUe13hwmUJMv5MPugWtYAQAsjLvsg==
+X-Google-Smtp-Source: ABdhPJz02uzMPM406+ltyOP91Tolew1BVpTAWlLLPwSHigLhjAiGFWYkRxSXWZJpqXLJOqGCh+CNYQ==
+X-Received: by 2002:a50:fe05:: with SMTP id f5mr16753171edt.288.1620227960301;
+        Wed, 05 May 2021 08:19:20 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.18
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:18 -0700 (PDT)
+        Wed, 05 May 2021 08:19:19 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 29/61] cronie: upgrade 1.5.5 -> 1.5.7
-Date: Wed,  5 May 2021 17:18:18 +0200
-Message-Id: <20210505151850.660512-29-alex.kanavin@gmail.com>
+Subject: [PATCH 30/61] dnf: upgrade 4.6.0 -> 4.7.0
+Date: Wed,  5 May 2021 17:18:19 +0200
+Message-Id: <20210505151850.660512-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
@@ -53,27 +53,122 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../cronie/{cronie_1.5.5.bb => cronie_1.5.7.bb}                | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.5.5.bb => cronie_1.5.7.bb} (95%)
+ ...-dnf-rpm-miscutils.py-fix-usage-of-_.patch | 39 +++++++++++++++++++
+ ...s.py-do-not-hardcode-usr-bin-rpmkeys.patch | 37 ++++++++++++++++++
+ .../dnf/{dnf_4.6.0.bb => dnf_4.7.0.bb}        |  4 +-
+ 3 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dnf/dnf/0001-dnf-rpm-miscutils.py-fix-usage-of-_.patch
+ create mode 100644 meta/recipes-devtools/dnf/dnf/0002-dnf-rpm-miscutils.py-do-not-hardcode-usr-bin-rpmkeys.patch
+ rename meta/recipes-devtools/dnf/{dnf_4.6.0.bb => dnf_4.7.0.bb} (94%)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.5.bb b/meta/recipes-extended/cronie/cronie_1.5.7.bb
-similarity index 95%
-rename from meta/recipes-extended/cronie/cronie_1.5.5.bb
-rename to meta/recipes-extended/cronie/cronie_1.5.7.bb
-index 0def4a187d..d0abdd8398 100644
---- a/meta/recipes-extended/cronie/cronie_1.5.5.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.7.bb
-@@ -25,8 +25,7 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
- PAM_SRC_URI = "file://crond_pam_config.patch"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-dnf-rpm-miscutils.py-fix-usage-of-_.patch b/meta/recipes-devtools/dnf/dnf/0001-dnf-rpm-miscutils.py-fix-usage-of-_.patch
+new file mode 100644
+index 0000000000..99afe09840
+--- /dev/null
++++ b/meta/recipes-devtools/dnf/dnf/0001-dnf-rpm-miscutils.py-fix-usage-of-_.patch
+@@ -0,0 +1,39 @@
++From 2729c00f0060beab8537a9bebc796b170949093d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 4 May 2021 22:03:30 +0200
++Subject: [PATCH 1/2] dnf/rpm/miscutils.py: fix usage of _()
++
++Specifically:
++- an import of _ was missing
++- _ was reused for a different purpose
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf/pull/1762]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ dnf/rpm/miscutils.py | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/dnf/rpm/miscutils.py b/dnf/rpm/miscutils.py
++index 235aaf28f..7e33d4c42 100644
++--- a/dnf/rpm/miscutils.py
+++++ b/dnf/rpm/miscutils.py
++@@ -22,6 +22,7 @@ import subprocess
++ import logging
++ 
++ from dnf.i18n import ucd
+++from dnf.i18n import _
++ from shutil import which
++ 
++ 
++@@ -46,7 +47,7 @@ def _verifyPkgUsingRpmkeys(package, installroot):
++             env={'LC_ALL': 'C'},
++             stdout=subprocess.PIPE,
++             cwd='/') as p:
++-        data, _ = p.communicate()
+++        data, err = p.communicate()
++     if p.returncode != 0 or data != (package.encode('ascii', 'strict') + b': digests signatures OK\n'):
++         return 0
++     else:
++-- 
++2.31.1
++
+diff --git a/meta/recipes-devtools/dnf/dnf/0002-dnf-rpm-miscutils.py-do-not-hardcode-usr-bin-rpmkeys.patch b/meta/recipes-devtools/dnf/dnf/0002-dnf-rpm-miscutils.py-do-not-hardcode-usr-bin-rpmkeys.patch
+new file mode 100644
+index 0000000000..b4c9e074d6
+--- /dev/null
++++ b/meta/recipes-devtools/dnf/dnf/0002-dnf-rpm-miscutils.py-do-not-hardcode-usr-bin-rpmkeys.patch
+@@ -0,0 +1,37 @@
++From dc14022a99dc017c52c484efb32729729baf854c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 4 May 2021 22:07:32 +0200
++Subject: [PATCH 2/2] dnf/rpm/miscutils.py: do not hardcode /usr/bin/rpmkeys
++
++Some build systems (e.g. Yocto) place a specially configured
++rpmkeys executable elsewhere and set up PATH accordingly;
++it's better to always take it from there.
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf/pull/1763]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ dnf/rpm/miscutils.py | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/dnf/rpm/miscutils.py b/dnf/rpm/miscutils.py
++index 7e33d4c42..fcd956db9 100644
++--- a/dnf/rpm/miscutils.py
+++++ b/dnf/rpm/miscutils.py
++@@ -30,11 +30,9 @@ logger = logging.getLogger('dnf')
++ 
++ 
++ def _verifyPkgUsingRpmkeys(package, installroot):
++-    rpmkeys_binary = '/usr/bin/rpmkeys'
++-    if not os.path.isfile(rpmkeys_binary):
++-        rpmkeys_binary = which("rpmkeys")
++-        logger.info(_('Using rpmkeys executable from {path} to verify signature for package: {package}.').format(
++-            path=rpmkeys_binary, package=package))
+++    rpmkeys_binary = which("rpmkeys")
+++    logger.info(_('Using rpmkeys executable from {path} to verify signature for package: {package}.').format(
+++        path=rpmkeys_binary, package=package))
++ 
++     if not os.path.isfile(rpmkeys_binary):
++         logger.critical(_('Cannot find rpmkeys executable to verify signatures.'))
++-- 
++2.31.1
++
+diff --git a/meta/recipes-devtools/dnf/dnf_4.6.0.bb b/meta/recipes-devtools/dnf/dnf_4.7.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/dnf/dnf_4.6.0.bb
+rename to meta/recipes-devtools/dnf/dnf_4.7.0.bb
+index 6651e64352..7314eaf7b8 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.6.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.7.0.bb
+@@ -16,9 +16,11 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
+            file://0030-Run-python-scripts-using-env.patch \
+            file://0001-set-python-path-for-completion_helper.patch \
+            file://0001-dnf-write-the-log-lock-to-root.patch \
++           file://0001-dnf-rpm-miscutils.py-fix-usage-of-_.patch \
++           file://0002-dnf-rpm-miscutils.py-do-not-hardcode-usr-bin-rpmkeys.patch \
+            "
  
--SRC_URI[md5sum] = "351a37d0b5bd0144816724b4482747ad"
--SRC_URI[sha256sum] = "be34c79505e5544323281854744b9955ff16b160ee569f9df7c0dddae5720eac"
-+SRC_URI[sha256sum] = "538bcfaf2e986e5ae1edf6d1472a77ea8271d6a9005aee2497a9ed6e13320eb3"
+-SRCREV = "c826d7db401ebf9b59b2fa74570a919e4af2673e"
++SRCREV = "395541fbf8f87f81cdca7567f22be1182e55bea7"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
- inherit autotools update-rc.d useradd systemd
- 
+ S = "${WORKDIR}/git"
 -- 
 2.31.1
 
