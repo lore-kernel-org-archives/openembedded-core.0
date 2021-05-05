@@ -1,151 +1,176 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.9839.1620227950966737227
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.10075.1620227951929158396
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:11 -0700
+ Wed, 05 May 2021 08:19:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f3l+N9WH;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id b25so3458494eju.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kil3EQvN;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id zg3so3445429ejb.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DOIcnr1iPwS8DyiYn6abAIPWn6E7df2bRAwG/NRuuc4=;
-        b=f3l+N9WHhn8Ueu+6Y5S8s/yOXYmYRsMPYrIhP0qXhkRaUdmOvQMLt2Dn8SAmiccjDv
-         CJGrbx+gNhBd8U7amfqT1mn2Kuc4qBcLTFm+6HtX8ACX/cVpU6s34jhGhsu6w8P1J8YS
-         l0SFC3yD+vw53opRf1uqkF87RJeVAzqraSNJ/AMycs/mWOTQiD7j7BhGdpQpMLvix1PI
-         987weHy7r0sfLh+2r/4WNnvy6shLrnFZH9YWCm8x0srQqN74d9gCrIvCMNs2PDp5/KMK
-         L+TTRslHfR8nyfo/be+2nRuSO870H4xagFzZyqH594hnLFb+rpMwR6HsioL6+tD26Gcy
-         qPkQ==
+        bh=NjKjUvNNc/mMAzvuK/7rZA/+OOw9vAShiNxSwcR+y/E=;
+        b=kil3EQvNW8EDvxnryHl4owMrAZYjMuELkFBayXuZXb6OzcsfP7MGT643cQIAWMllWG
+         XYQtZUZqvNY7Q15L39ZTmhy+DL9Vld7TX7xAlVp76TaJoDrUfnAIu6dMe38mC78+PdiU
+         cYuLN4eXe3glUrFsCGzeamYelB53qiVfppDJKGJZRP0dnjKcN8t9WIcNXoG0h1MNtmjt
+         z5RO00R/+H1Bfe3d8Ej46qx6lCNg8X1tr6+2LEturnI76Vmd8en3iLBuGnw+m8Tcs49K
+         2nv2qMh7ebhc0OLbk9wzl5R/nqQrj1jEiCYEoqN8/ymhK7X2TBy7nXsWXGZvmkzYraPJ
+         mHDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DOIcnr1iPwS8DyiYn6abAIPWn6E7df2bRAwG/NRuuc4=;
-        b=uHPqMV5Cun+eF+1Asmm5br1mz7Nf7Q/0wsQsP4qDRdv3JF/FnohcKfQkhYBQFBBg9G
-         EqFe4Pz/IC/LBi1RtyJEp/6Sq+6unBD4q3DjL8QjaoMOJNMt958yNiQg2EbK6yQajkC2
-         +SDV7TFAhlOMvsVo9ykhrB3YzqpiEfc5gdlsH/PvhMVzcqek/rjPd/Cf3mECQCSlyini
-         kyMwoU0EUWrJfdBZejHHNy7yt6ZHOe5K97RxIsy4Ns4hmyAy2gRCHWl7IUO4Zf5fc9oe
-         h8MJplBOXXBjlh8sxFwIkgk/MTYU+mK/p9ep09a/rqGjBkuLPFm3jPwjZ058hjTz/SXy
-         Jd7w==
-X-Gm-Message-State: AOAM531bd93oR2WtJHeLBosrtJ6EDDD3WVW5ElWlthqMNvA2TjZHYXVy
-	IEh9Ey/5cyGMA3SAG4UcC0NFnyQMuX4a5g==
-X-Google-Smtp-Source: ABdhPJxe1rUWu/oEZ8zOfU2yoEkxq+ItUf06ZbluuhcZtxMhp7sP+4FiKWUQmeRpyZ4yD8iQEyAEOg==
-X-Received: by 2002:a17:906:90cf:: with SMTP id v15mr28136729ejw.432.1620227949577;
-        Wed, 05 May 2021 08:19:09 -0700 (PDT)
+        bh=NjKjUvNNc/mMAzvuK/7rZA/+OOw9vAShiNxSwcR+y/E=;
+        b=hbgUXTi98nH/aOsXjOHy1DpT7xzBRIHA0ml5dVsqTxOt1B9aM9KwJftazYKxcL5TLd
+         ciitmg0n7WozP4Y41t/OvRghNX4HZIkH6BOKmZMZLgLevWp8faU7DLY9F4rnLYS51oM6
+         MATm/6IbIHLRLFPzNCYU+W2AYT41Ss2yNYdCcrVppF3ZOlp7lLgV/+7TRv56cTRTLcFN
+         LR72xdMiK/BSbxCHNyWketv+kYmui3+L+7Z9RT82fopPkf1g8p/t7TcvTHDnz7f8NVS3
+         Acbkbg2u4Y/P3Kqgs46bL6dafItxsqkMRjR5a4pHN2I8/f30QQK5yPA4MY+nYCCKvhiW
+         3Ulw==
+X-Gm-Message-State: AOAM531FxKj/0p1gvcSD559xA7WKUCcHmjxqE3PWArjdTE/BBBSyETYp
+	6K1uWaTt9NTrvy5mjnLRVJ0bQfwtm3N+1w==
+X-Google-Smtp-Source: ABdhPJyvCrr9EZ5oJj3K3zwvbYOuTdNhtiw6SBfTKZ95Pnd1sQlGJa+9i786a4kQrcnAyYp89qcPjg==
+X-Received: by 2002:a17:906:4c8e:: with SMTP id q14mr19713135eju.281.1620227950492;
+        Wed, 05 May 2021 08:19:10 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.08
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:09 -0700 (PDT)
+        Wed, 05 May 2021 08:19:10 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/61] libgudev: update 234 -> 236
-Date: Wed,  5 May 2021 17:18:06 +0200
-Message-Id: <20210505151850.660512-17-alex.kanavin@gmail.com>
+Subject: [PATCH 18/61] puzzes: update to latest revision
+Date: Wed,  5 May 2021 17:18:07 +0200
+Message-Id: <20210505151850.660512-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert to meson.
+Convert to cmake, drop all the unneeded cruft from the recipe.
 
+License-Update: additional contributors
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...01-gudevenumtypes-make-deterministic.patch | 44 +++++++++++++++++++
- .../{libgudev_234.bb => libgudev_236.bb}      | 12 +++--
- 2 files changed, 53 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
- rename meta/recipes-gnome/libgudev/{libgudev_234.bb => libgudev_236.bb} (70%)
+ ...rmat-overflow-if-the-compiler-suppor.patch | 32 ----------------
+ meta/recipes-sato/puzzles/puzzles_git.bb      | 38 +++----------------
+ 2 files changed, 5 insertions(+), 65 deletions(-)
+ delete mode 100644 meta/recipes-sato/puzzles/files/0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch
 
-diff --git a/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch b/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
-new file mode 100644
-index 0000000000..aaec9cd20d
---- /dev/null
-+++ b/meta/recipes-gnome/libgudev/files/0001-gudevenumtypes-make-deterministic.patch
-@@ -0,0 +1,44 @@
-+From 078c0db2bc3adf7c665190ee7a9263d7fd1ec618 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 29 Apr 2021 13:06:12 +0200
-+Subject: [PATCH] gudevenumtypes: make deterministic
-+
-+@filename@ writes the full path to the generated file,
-+which can vary in CI systems and make outputs non-reproducible.
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libgudev/-/merge_requests/15]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gudev/gudevenumtypes.c.template | 2 +-
-+ gudev/gudevenumtypes.h.template | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gudev/gudevenumtypes.c.template b/gudev/gudevenumtypes.c.template
-+index fc30b39..4918f7e 100644
-+--- a/gudev/gudevenumtypes.c.template
-++++ b/gudev/gudevenumtypes.c.template
-+@@ -4,7 +4,7 @@
-+ /*** END file-header ***/
-+ 
-+ /*** BEGIN file-production ***/
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-+diff --git a/gudev/gudevenumtypes.h.template b/gudev/gudevenumtypes.h.template
-+index d0ab339..79bf7c4 100644
-+--- a/gudev/gudevenumtypes.h.template
-++++ b/gudev/gudevenumtypes.h.template
-+@@ -9,7 +9,7 @@ G_BEGIN_DECLS
-+ 
-+ /*** BEGIN file-production ***/
-+ 
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-gnome/libgudev/libgudev_234.bb b/meta/recipes-gnome/libgudev/libgudev_236.bb
-similarity index 70%
-rename from meta/recipes-gnome/libgudev/libgudev_234.bb
-rename to meta/recipes-gnome/libgudev/libgudev_236.bb
-index 9cea36df5b..daa578ddb1 100644
---- a/meta/recipes-gnome/libgudev/libgudev_234.bb
-+++ b/meta/recipes-gnome/libgudev/libgudev_236.bb
-@@ -5,18 +5,24 @@ other programming languages, such as Javascript, because of GObject \
- introspection support."
- HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
--SRC_URI[archive.sha256sum] = "1baeacacf0db42fa073ad5183d1decce9317857416a2b0f82ce3370d711a2e37"
-+SRC_URI[archive.sha256sum] = "e50369d06d594bae615eb7aeb787de304ebaad07a26d1043cef8e9c7ab7c9524"
+diff --git a/meta/recipes-sato/puzzles/files/0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch b/meta/recipes-sato/puzzles/files/0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch
+deleted file mode 100644
+index d40a3b1ef9..0000000000
+--- a/meta/recipes-sato/puzzles/files/0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 337799e40350b3db2441cc98f65ec36a74dfb356 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 21 Apr 2017 12:18:08 -0700
+-Subject: [PATCH] Use -Wno-error=format-overflow= if the compiler supports it
+-
+-we need this warning to be suppressed with gcc7+
+-however older compilers dont support it so we need
+-a way to disble it only if compiler supports it
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 3a38c95..bb9035e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -42,7 +42,7 @@ fi
+- if test "x$GCC" = "xyes"; then
+-   AC_MSG_CHECKING([for usable gcc warning flags])
+-   gccwarningflags=
+--  for flag in -Wall -Werror -std=c89 -pedantic; do
+-+  for flag in -Wall -Werror -std=c89 -pedantic -Wno-error=format-overflow=; do
+-     ac_save_CFLAGS="$CFLAGS"
+-     ac_save_LIBS="$LIBS"
+-     CFLAGS="$CFLAGS$gccwarningflags $flag $GTK_CFLAGS"
+--- 
+-2.12.2
+-
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 16a08585cc..f5e49a4ab2 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -2,17 +2,14 @@ SUMMARY = "Simon Tatham's Portable Puzzle Collection"
+ DESCRIPTION = "Collection of small computer programs which implement one-player puzzle games."
+ HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=6099f4981f9461d7f411091e69a7f07a"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=93c2525113e094a4a744cf14d4de07e2"
  
--DEPENDS = "glib-2.0 udev"
-+SRC_URI_append = " file://0001-gudevenumtypes-make-deterministic.patch"
+-DEPENDS = "libxt"
+-
+-# The libxt requires x11 in DISTRO_FEATURES
++# gtk support includes a bunch of x11 headers
+ REQUIRED_DISTRO_FEATURES = "x11"
  
--EXTRA_OECONF = "--disable-umockdev"
-+DEPENDS = "glib-2.0 udev"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            file://fix-compiling-failure-with-option-g-O.patch \
+            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
+-           file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
+            file://0001-pattern.c-Change-string-lenght-parameter-to-be-size_.patch \
+            file://fix-ki-uninitialized.patch \
+            file://0001-malloc-Check-for-excessive-values-to-malloc.patch \
+@@ -20,27 +17,15 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            "
  
- RCONFLICTS_${PN} = "systemd (<= 220)"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "84cb4c6701e027090ff3fd955ce08065e20121b2"
++SRCREV = "c0da615a933a6676e2c6b957368067ca1bc10abd"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
  
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ S = "${WORKDIR}/git"
  
-+GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gobject-introspection gtk-doc
+-inherit autotools features_check pkgconfig
+-
+-PACKAGECONFIG ??= "gtk3"
+-PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
+-PACKAGECONFIG[gtk3] = "--with-gtk=3,,gtk+3,"
+-
+-CFLAGS_append = " -Wno-deprecated-declarations"
+-
+-ASNEEDED = ""
++inherit cmake features_check pkgconfig
  
-+GIR_MESON_ENABLE_FLAG = 'enabled'
-+GIR_MESON_DISABLE_FLAG = 'disabled'
-+
-+GTKDOC_MESON_OPTION = "gtk_doc"
-+
- UPSTREAM_CHECK_URI = "http://ftp.gnome.org/pub/GNOME/sources/libgudev/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>(\d+))"
+-do_configure_prepend () {
+-    cd ${S}
+-    ./mkfiles.pl
+-    cd ${B}
+-}
++DEPENDS += "gtk+3"
+ 
+ do_install_append () {
+     # net conflicts with Samba, so rename it
+@@ -68,16 +53,3 @@ STOP
+     done
+ }
+ 
+-PACKAGES += "${PN}-extra"
+-
+-FILES_${PN} = ""
+-FILES_${PN}-extra = "${prefix}/bin ${datadir}/applications"
+-
+-python __anonymous () {
+-    var = d.expand("FILES_${PN}")
+-    data = d.getVar(var, False)
+-    for name in ("bridges", "fifteen", "inertia", "map", "samegame", "slant"):
+-        data = data + " ${bindir}/%s" % name
+-        data = data + " ${datadir}/applications/%s.desktop" % name
+-    d.setVar(var, data)
+-}
 -- 
 2.31.1
 
