@@ -1,50 +1,50 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web09.9779.1620227947014299252
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web12.9830.1620227947838090778
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:07 -0700
+ Wed, 05 May 2021 08:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GqfYmg70;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id u21so3414648ejo.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PdOxqfpf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id b25so3458240eju.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=T7AvumahgHglonlkes/2vX3CGr3U/W+I63+flkAsz54=;
-        b=GqfYmg708DnQN4WjPtDZqBhVfYaszlha34auQwSmu5XxbEMEExMBM7Q04luwdMwcV+
-         OQMytMeiAnn61wZUqyrv7v7g9NvULYBbT15cdZvaA6MnZWFGf4rW+CCUJSE942I7ccQy
-         e6aBamolSgqRelz2k9/E7yL0YO8kQ5dwCqE8vAtrhNVdiv4QlzqlFsZyN4ZciSyyHU47
-         BqLo6T68I87E5R7B2NfPTtKPrOZAH3Lm+y0ISx4+sNXo8ascd4K6FYIo+EZnRqQQ8ZzA
-         tgvPSPKB22ozKlt3JjP+HuMAdzuYt5g2g3pAXP7U0dgAyAPqbbkETwgcxNTq5A5mMcRg
-         xJHw==
+        bh=n7TVuEfiwlsOsVgWbzXMf4FmapRs11DyCXXcLuqPYHg=;
+        b=PdOxqfpf2bETCefQZiZdFe1YjXxKtOTN5OF8wEuqDOho6c986Cu5oVR0EX+6RrAvPI
+         9uVZYv8/+uuEeXULoUCFkELvZXfxWZ62h7wND7gibEcvQ+C8WuyjrGwVvRVka52yvFTd
+         4LWcBg/DR/SxpebCvCpE5l43EifXbsNHTYnR1VTIBETuq7O5nxVzvxkBet48lWA0vuqU
+         FihA2bBldLjbnVrxBVISlaH5a70NlOCF/wUQg7DaSOIhEA8Tw6M49H09397jsNrNsZtZ
+         IKWO8ZPtoI515RUOvMmih9rsXZeadGFtUWuXIaaW3zI84n2LdKAVgB4e00bASEC/ACN2
+         jdgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T7AvumahgHglonlkes/2vX3CGr3U/W+I63+flkAsz54=;
-        b=DjUgc7/hHdHUQJOul++s1q13zGx7QFxMW2aMEE29uLjFR9miwY6vRw7ajfLxAEwzX+
-         X2QthTsq/2Uv3A88GRIspTctCVc9tEE2qgIBY9CSZu1I7FwdZYlYjyf9JF2VAgPwuprJ
-         bgOdWE2fWGKFfAJCenBBPxzGp54yjB2vpsd54YuKzB/a5gNECDFNN1iWbwjewl4I3IF9
-         u+p3SeQsaqARvWvNACAv5gHwqRibqlkHnPQH39y4jFrm/ZAQ8jF3vDHIAQfWCvRCbi/S
-         b2u769Rtzzdfp8EIvT+IBCX4Bw3oEgxssRWpSWvm/fJ+iER/n/kofMnV00kyoURqt7kH
-         /htQ==
-X-Gm-Message-State: AOAM530HCwi054nV7XhsUrJ7Ryjn5UTgH410uRrj70HIBgVOdjz9xV77
-	UlOiICH0Geb3NUJ4TjesLRTZ/41NG7eumg==
-X-Google-Smtp-Source: ABdhPJxHKnnRZBGqH48UZR0X4UPDvxbwSyNyTlv47w6MwCz8TI5B11R4b2FpSVUa3zHkXNh1vbF67g==
-X-Received: by 2002:a17:906:22cf:: with SMTP id q15mr28840233eja.474.1620227945652;
-        Wed, 05 May 2021 08:19:05 -0700 (PDT)
+        bh=n7TVuEfiwlsOsVgWbzXMf4FmapRs11DyCXXcLuqPYHg=;
+        b=tbtmMCgCsJDKwKs4FqKvY9P0rQMkdWq/YLhay3S0aakJeFN0IOh8HGN2KoghI1K7Y1
+         eLCUhDywwgSNcdLBMydYTYtrEvUCy86WMkzciY4AVf34yGETHv3Efk6yAyfj/VAY4NW0
+         DSbZegwbAcHaTPZ9UstVv/vIuh6fb/qzDDcUU5kXjOswJrqQ8q64S1KUgSSvSKf4hFDG
+         Kg4gdzBRKYgM0O9QHa1/h/fNOpOqgvzOrNzR5J47agLtMnB09aRj7a0EOMPV9Hq35ly8
+         aZu1a3LWM6zw93dl+u7MZC9GdSyBo6U8jmYt9Kku+YkSevTy8XyF5cNKWuaFxJV+KEQt
+         Ldng==
+X-Gm-Message-State: AOAM5313xe8Dwse8boKkKX3FzYf7YxlJMNCN2X69pDDAqzIOxEltXUKK
+	kb8RNaL7DCw9Na86AgY8wZ86RCZWKwJtSQ==
+X-Google-Smtp-Source: ABdhPJzLxDLb9xAc2jnXqpJ5xhnA1ibnqvtK1nM7gvnZeKgfpbgIpUTaE95S/3U9yvTmFBvIcYYv7A==
+X-Received: by 2002:a17:907:628d:: with SMTP id nd13mr8548271ejc.299.1620227946385;
+        Wed, 05 May 2021 08:19:06 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
         by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:05 -0700 (PDT)
+        Wed, 05 May 2021 08:19:06 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/61] systemd: backport a patch to avoid unnecessary rsync dependency with latest meson
-Date: Wed,  5 May 2021 17:18:01 +0200
-Message-Id: <20210505151850.660512-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/61] pulseaudio: unbreak build with latest meson
+Date: Wed,  5 May 2021 17:18:02 +0200
+Message-Id: <20210505151850.660512-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
@@ -53,84 +53,55 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...d25119a495009ea62f79e5daec34cc464628.patch | 53 +++++++++++++++++++
- meta/recipes-core/systemd/systemd.inc         |  4 +-
- 2 files changed, 56 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/files/7c5fd25119a495009ea62f79e5daec34cc464628.patch
+ ...ild-remove-dependency-on-doxygen-bin.patch | 26 +++++++++++++++++++
+ .../pulseaudio/pulseaudio_14.2.bb             |  1 +
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
 
-diff --git a/meta/recipes-core/systemd/files/7c5fd25119a495009ea62f79e5daec34cc464628.patch b/meta/recipes-core/systemd/files/7c5fd25119a495009ea62f79e5daec34cc464628.patch
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
 new file mode 100644
-index 0000000000..ae449791f1
+index 0000000000..b1a43bd7f0
 --- /dev/null
-+++ b/meta/recipes-core/systemd/files/7c5fd25119a495009ea62f79e5daec34cc464628.patch
-@@ -0,0 +1,53 @@
-+From 7c5fd25119a495009ea62f79e5daec34cc464628 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
-+Date: Mon, 12 Apr 2021 14:03:32 +0200
-+Subject: [PATCH] meson: do not fail if rsync is not installed with meson
-+ 0.57.2
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
+@@ -0,0 +1,26 @@
++From 4ee244d0824e772ab35abb0f9df5e8088e16fc5d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 26 Apr 2021 19:30:40 +0200
++Subject: [PATCH] doxygen/meson.build: remove dependency on doxygen binary
 +
-+https://github.com/mesonbuild/meson/issues/8641
++New meson refuses to complete confuguration if doxygen is absent
++even if this target is never actually run. As we never run it,
++let's remove it, until upstream and/or meson figure out that it's
++optional and should be treated as such.
 +
-+Our CI started to fail. Even if the change is reverted in meson,
-+we need a quick workaround here.
-+
-+Upstream-Status: Backport
++Upstream-Status: Inappropriate [needs proper upstream fix]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ man/meson.build | 25 ++++++++++++++-----------
-+ 1 file changed, 14 insertions(+), 11 deletions(-)
++ doxygen/meson.build | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+diff --git a/man/meson.build b/man/meson.build
-+index 3cae8446cda..f9c4b83dc81 100644
-+--- a/man/meson.build
-++++ b/man/meson.build
-+@@ -184,17 +184,20 @@ html = custom_target(
-+         depends : html_pages,
-+         command : ['echo'])
++diff --git a/doxygen/meson.build b/doxygen/meson.build
++index afc0e49..df55c83 100644
++--- a/doxygen/meson.build
+++++ b/doxygen/meson.build
++@@ -6,5 +6,3 @@ doxygen_conf = configure_file(
++   configuration : cdata,
++ )
 + 
-+-run_target(
-+-        'doc-sync',
-+-        depends : man_pages + html_pages,
-+-        command : ['rsync', '-rlv',
-+-                   '--delete-excluded',
-+-                   '--include=man',
-+-                   '--include=*.html',
-+-                   '--exclude=*',
-+-                   '--omit-dir-times',
-+-                   meson.current_build_dir(),
-+-                   get_option('www-target')])
-++rsync = find_program('rsync', required : false)
-++if rsync.found()
-++        run_target(
-++                'doc-sync',
-++                depends : man_pages + html_pages,
-++                command : [rsync, '-rlv',
-++                           '--delete-excluded',
-++                           '--include=man',
-++                           '--include=*.html',
-++                           '--exclude=*',
-++                           '--omit-dir-times',
-++                           meson.current_build_dir(),
-++                           get_option('www-target')])
-++endif
-+ 
-+ ############################################################
-+ 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 7d3b3064ba..3a919fd82b 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -16,6 +16,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- 
- SRCREV = "17472dca0160cbe7b807ca648475fd70d0d62fe5"
- SRCBRANCH = "v247-stable"
--SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
-+SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH} \
-+           file://7c5fd25119a495009ea62f79e5daec34cc464628.patch \
-+"
- 
- S = "${WORKDIR}/git"
++-run_target('doxygen',
++-  command : ['doxygen', doxygen_conf])
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+index 03b99306b3..9b8338a665 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
+@@ -6,6 +6,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-build-sys-Add-an-option-for-enabling-disabling-Valgr.patch \
+            file://0001-meson-Check-for-__get_cpuid.patch \
+            file://volatiles.04_pulse \
++           file://0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch \
+            "
+ SRC_URI[md5sum] = "1efc916251910f1e9d4df7810e3e69f8"
+ SRC_URI[sha256sum] = "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f3488a2562a9ff66f1"
 -- 
 2.31.1
 
