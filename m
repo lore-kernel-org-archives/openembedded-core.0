@@ -1,148 +1,214 @@
-Received: from mga06.intel.com (mga06.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.2678.1620182277277667806
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.49])
+ by mx.groups.io with SMTP id smtpd.web12.4891.1620202636154813503
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 19:37:58 -0700
+ Wed, 05 May 2021 01:17:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: rKWcYWZD+E8tgx+tXypRNeG5MMCPzXaP2fPmal1iZm3bTK//1Al8s5CeexYB1Qa2sBXJzZaLEl
- PgtBqp2/3jvw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="259400552"
-X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="259400552"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:37:56 -0700
-IronPort-SDR: IAPkSdjvbvbuRpPhdPnTGVg282LQQtWil7nZvKRd5kJkOxk2HyeBqVEr7sLphaC3oofLkTmbqt
- ziBxH5TyY7Kg==
-X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="433586197"
-Received: from teohzhiq-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.150.148])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:37:55 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] qemu: fix CVE-2021-3392
-Date: Wed,  5 May 2021 10:37:44 +0800
-Message-Id: <20210505023744.343484-2-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505023744.343484-1-anuj.mittal@intel.com>
-References: <20210505023744.343484-1-anuj.mittal@intel.com>
+ dkim=pass header.i=@spinetix.com header.s=selector2 header.b=mxCvgXQr;
+ spf=pass (domain: spinetix.com, ip: 40.107.21.49, mailfrom: diego.santacruz@spinetix.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e8Qf1fZa7ZATkSzmkzAG/elcFwuAtt/zcIKIZr28X2YcIBvLn6XfLl+v8qqXjPiKPrvESN221rF2T/feuza1uzrW/s6hUQqUAPFJYDTICmD23FdI2I2AE3nCk6exyYWCTC2DSJ0MoraEDiOb2o+h3VmRKXms23JTiXleSLi/P+b1Zg85v71g2kFOg6I6guHmuVQJtfywYScxEWDqKrKMD7U9+SWYJUThnjcGIgZj1YWbEiUL8iqe93P2KlkHWeSHX+tXfOc79b4oD7ywQ7WOHdZRAcb7uaM52bIIdlqghbEudd3q0klvg+IyCc/YPn8UlGwEIo78boX0yxo8wPhdyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JnXTpVc8+VVNVZj/1DH42OiHHTToxWcu4uM6nPnwx8A=;
+ b=a8Q6Ve9XZaxQV13fd8BhdXs/awuB8cQWIXhgLwV3IN8sQwvQSBcEmygFm8Bw8F+DM8dZLmkzOANudkWshQ62lIzu7WRPnSnIQ2ScLFWYq6AnpRDPqSlGueq54KpdLd2NlCwmI4/avyMj1eHr8AszNxIUgnG+76EpNMx+avmoL/xTPl7SW/w2VTrsTcGFtXTSISl8s8rTCJoxDdYAYliiL9t3oRpXc6p6vgREwno2bPBEiRKUoNv4BDAu2jV1yLCfNI4LbLnb+q0+rphN3bsQfWuwDm9cS35JJRzEd1SsKHVQhTgJ9ISMs7mqNo0g9NTemrF43skLVBv/dEP4rhT44g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
+ dkim=pass header.d=spinetix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JnXTpVc8+VVNVZj/1DH42OiHHTToxWcu4uM6nPnwx8A=;
+ b=mxCvgXQrlSr8cn+nXXJLD0MCgF17bkACCFOxtEQdfj7ToF0CQf3P99HqHdFbSMjSxiq/GL5njVmWI3nZS2L7q816uyIYtbFrjGw9Dk+ni8iRHhqrBsJqljdvhih/YNRrj+MynnwZoHRLN4EXbmpisKKFBQrvYM7hdLSFkJX5saM=
+Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+ (2603:10a6:6:e::19) by DBAPR01MB6677.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:181::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.25; Wed, 5 May
+ 2021 08:17:11 +0000
+Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+ ([fe80::d4be:af2c:d43:bcc9]) by
+ DB6PR0102MB2630.eurprd01.prod.exchangelabs.com ([fe80::d4be:af2c:d43:bcc9%7])
+ with mapi id 15.20.4108.025; Wed, 5 May 2021 08:17:11 +0000
+From: "Diego Santa Cruz" <diego.santacruz@spinetix.com>
+To: Steve Sakoman <sakoman@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Mark Hatle
+	<mark.hatle@kernel.crashing.org>
+Subject: Re: [OE-core] Unihash warning building kernels in Yocto 3.1.7
+Thread-Topic: [OE-core] Unihash warning building kernels in Yocto 3.1.7
+Thread-Index: Adc94keMh2EjTyR0Qb2I9MEwyjYHOwADn9mAAAAPM4AA5WHzsA==
+Date: Wed, 5 May 2021 08:17:10 +0000
+Message-ID: 
+ <DB6PR0102MB26301A3BB6E92C6EAFE8200788599@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+References: 
+ <DB6PR0102MB26302BA4C54F13FC351F8C0A885E9@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+ <CAGDS+nk51u31+-NR2k1u-y375RL0TyCEkm9L=7Va7eQcuRQwCA@mail.gmail.com>
+ <CAGDS+nkq70RdM5SRVTabnsY5i4aB-VuDeeFraA9kyc=1HoCREw@mail.gmail.com>
+In-Reply-To: 
+ <CAGDS+nkq70RdM5SRVTabnsY5i4aB-VuDeeFraA9kyc=1HoCREw@mail.gmail.com>
+Accept-Language: en-GB, fr-CH, fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=spinetix.com;
+x-originating-ip: [2a02:120b:2c6f:c0:8d32:1256:b046:e275]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 864fa1c0-7fd2-4a55-39eb-08d90f9e2ea7
+x-ms-traffictypediagnostic: DBAPR01MB6677:
+x-microsoft-antispam-prvs: 
+ <DBAPR01MB6677041819AAC4DC8862C5A688599@DBAPR01MB6677.eurprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:119;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Y3c2bOhxLZRC39x7wvyi3v29+kB84aFS2QPc+BhS2g7LuQB2CMqT9S19fCWMGIu7WPk/8E61jSsVL2rrwVM7y1r7y37UWhyMEnIWkNqZrZKI905mdaWIGDLdJLUD2opQEXorgBuT9FunNuOlJA8Rz/1+XMrQJ0QnBK0mdCm65j/kgv3HERLlkVpU4uWL0xVy5qkuUBMt9IPnLzNS+jatQipaFr+ynVE/Azqua5S7PGGRWhLHy4WSYii9uR7ezxXPMdUdM1+/v0yR+Xm5/82va3vjV1sPXzGdks3pj6wQu49uq2GakAZ98/WrKkePLp7aSUnZIdwAZy+RXQPcm7mAe+kdzkUWscPxWqIOZs0ImgnzP6NlklhIF3gssmJKp7b521Bb8wli+S76nwGyRx6SrvXLyq6ftFy4RZPKTraPTZvrt7kLLktO1oDYUDrSmn4oCHDe999q2W0IUAuSZUjLe3BTxdVqlgzZwKB0s0RKraV28DvoeX0tjRy5sLQe0qeUNIPQinqV+b7m/kj+53SOX/kS/WK62CJfGugit7A7FA9gMITOSmAkVey1ChAJlR8Z/54VbeFg0rR0SBC0wisHQ5S8pby9aQEmUfkDc8xRzlJ+S0417wevBR8eg4WETTQH63bt/ll9XOUxSBGgYkftnIgvElW37pY5DVg3VUNCKGAvf0mI3TotVxxMQxvrXZzb
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR0102MB2630.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(64756008)(66556008)(83380400001)(9686003)(38100700002)(186003)(6506007)(52536014)(86362001)(5660300002)(53546011)(66446008)(66476007)(45080400002)(122000001)(33656002)(6916009)(8936002)(7696005)(8676002)(316002)(966005)(76116006)(71200400001)(55016002)(478600001)(4326008)(2906002)(66946007)(54906003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?us-ascii?Q?hpM8PjMozkFouZ6Yw0W/YJu4dXOf5HRoXl1ABMVYVYG3AUKwdHrnX4WVUDoH?=
+ =?us-ascii?Q?8kmm8786UJgmcOiOA083wE729nNbYpMP2MxD6uo2PI61jnxd1l/lmfvtsfqo?=
+ =?us-ascii?Q?z7q4Gc7Tmenr6BlbH/U9c7jJFjycS8fSZ78iAKSQWOgBKBoNWPMZfWcXam+8?=
+ =?us-ascii?Q?uTKKNwtWac9EMGlyBRaS/O/uunN80cRhw5l+OHsdrUfwvb3EnZsIndyxoGxO?=
+ =?us-ascii?Q?GvI4xtGhLyws4mdlSQ5X8HKWonuGBETb4kaPUHmqWeLA0cSsL3TQHw1mmnsv?=
+ =?us-ascii?Q?0OY/OqGZmh84QE7yxpc3U/m/W9RlKgpDdNVxn8MV/bCLKZFZTPG4q2qDka88?=
+ =?us-ascii?Q?O7TVGOvmB/reRwkhPkndx9dP5eqwMiUX71O02yv5xK01a5/y18p5ONxahwXy?=
+ =?us-ascii?Q?jqhSaIVI9BEZ0ugguseLgVgWoUT+6um6tpqgjwUBrdVoyIQXx532/XqrjEq5?=
+ =?us-ascii?Q?++LPp2yzPh9X2cut20akXpZWe8us8OfsD1wzL0SUMjR8GWZ+iPNtc3otHUiP?=
+ =?us-ascii?Q?hV0HaHJZ4+9RqO+aeeF9AB6HtXpU02s2cBL8D5f2gobZtQrwG/2CxQoV2ibe?=
+ =?us-ascii?Q?+ZW/AeCvCuxg9digpjrsjWyP1cbtyhdvjaYBuZOYUUmEPRifrOfXUuZWX+R7?=
+ =?us-ascii?Q?LKzsxF5ZR2YGXZNJ2xEaovVzMl9K+JvaV/+bJsvQUQb+wkvC/ASmoLykUk5K?=
+ =?us-ascii?Q?XLfow05k1dfgcOkL5gYMQtPyDNoN3/JRrgYhgHpQ7ETyYGu/pN7QeC6vxBIz?=
+ =?us-ascii?Q?Bhl+yqC8J+4NtIVH+6xrXf0+uEZZPgTy2ovPV7/hkeyBk2aCefNdttJtd4EI?=
+ =?us-ascii?Q?vwlVXVsShzv+Hl5bg1PF9tedYedQEMIEh6j9Dv6gMhCOg+MG6b+BkSZZd+UU?=
+ =?us-ascii?Q?8u5svxrZSrXd3CaXsnuh7LU+YreTLrLLCmFA9BlOA0ykKUNqEvwGaDwgWhiW?=
+ =?us-ascii?Q?DEPnuRFX7MIWJoJOeGtG0eiNN038WAVLAIiMXUmLWQxg/Sl0VDCyQAF0HuH+?=
+ =?us-ascii?Q?tslgg1iUAzdI5SBsL5auIPw5z2CLPwschPscnBoJw+KSwqiA/aYq4ocgEAZ8?=
+ =?us-ascii?Q?ABhgU+vgSlrdIlUTDpBZIvL4JjH9/AWWSwDhmPsb50LgkyFZJBMYg0jA45kX?=
+ =?us-ascii?Q?TP2zhjkrklqqoKXnVSaIKONRnD/AgKDopHArfnFCKmRvvDJpIcUf+b8XuTk/?=
+ =?us-ascii?Q?aJe7PD554ZNDIJdFNVEMACbJteUhBidgJJrC3bejkvmUYpeUjEfgsGgv6w4Y?=
+ =?us-ascii?Q?EGJRYVtM7HgVEvQ5fwx2qOZH+iIS6nU87IlrjxhLT7VbOyYpnF7gKOKBWqa5?=
+ =?us-ascii?Q?oC9p18SbuOgUYrBuo/FlSq/2a2VVhYnfJfU+ukfSlgcVY7yxj2UTEeeSRPLd?=
+ =?us-ascii?Q?TbS8d3waD738xaIe8bBYfhn70GpY?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: spinetix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 864fa1c0-7fd2-4a55-39eb-08d90f9e2ea7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2021 08:17:10.9797
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PYi336cFyGSDcrUZS50V1wYGAD3vhxeWemH5fVC++uj+usc2uE8g6QZR7WFYOiyMOje6WZj187KeAP57MQXEtDkPoLPU5c0soogHaijsXuM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR01MB6677
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3392.patch             | 89 +++++++++++++++++++
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+Hi Steve, Mark,
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 810d8b7c8a..384b0c19b0 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -56,6 +56,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-20257.patch \
-            file://CVE-2020-27821.patch \
-            file://CVE-2021-20263.patch \
-+           file://CVE-2021-3392.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-new file mode 100644
-index 0000000000..af94cff7e8
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-@@ -0,0 +1,89 @@
-+From 3791642c8d60029adf9b00bcb4e34d7d8a1aea4d Mon Sep 17 00:00:00 2001
-+From: Michael Tokarev <mjt@tls.msk.ru>
-+Date: Mon, 19 Apr 2021 15:42:47 +0200
-+Subject: [PATCH] mptsas: Remove unused MPTSASState 'pending' field
-+ (CVE-2021-3392)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
-+the Megaraid emulator appends new MPTSASRequest object 'req' to
-+the 's->pending' queue. In case of an error, this same object gets
-+dequeued in mptsas_free_request() only if SCSIRequest object
-+'req->sreq' is initialised. This may lead to a use-after-free issue.
-+
-+Since s->pending is actually not used, simply remove it from
-+MPTSASState.
-+
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Message-id: 20210419134247.1467982-1-f4bug@amsat.org
-+Message-Id: <20210416102243.1293871-1-mjt@msgid.tls.msk.ru>
-+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+BugLink: https://bugs.launchpad.net/qemu/+bug/1914236 (CVE-2021-3392)
-+Fixes: e351b826112 ("hw: Add support for LSI SAS1068 (mptsas) device")
-+[PMD: Reworded description, added more tags]
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+
-+CVE: CVE-2021-3392
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=3791642c8d60029adf9b00bcb4e34d7d8a1aea4d]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ hw/scsi/mptsas.c | 6 ------
-+ hw/scsi/mptsas.h | 1 -
-+ 2 files changed, 7 deletions(-)
-+
-+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-+index 7416e7870614..db3219e7d206 100644
-+--- a/hw/scsi/mptsas.c
-++++ b/hw/scsi/mptsas.c
-+@@ -251,13 +251,10 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
-+ 
-+ static void mptsas_free_request(MPTSASRequest *req)
-+ {
-+-    MPTSASState *s = req->dev;
-+-
-+     if (req->sreq != NULL) {
-+         req->sreq->hba_private = NULL;
-+         scsi_req_unref(req->sreq);
-+         req->sreq = NULL;
-+-        QTAILQ_REMOVE(&s->pending, req, next);
-+     }
-+     qemu_sglist_destroy(&req->qsg);
-+     g_free(req);
-+@@ -303,7 +300,6 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
-+     }
-+ 
-+     req = g_new0(MPTSASRequest, 1);
-+-    QTAILQ_INSERT_TAIL(&s->pending, req, next);
-+     req->scsi_io = *scsi_io;
-+     req->dev = s;
-+ 
-+@@ -1319,8 +1315,6 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
-+ 
-+     s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
-+ 
-+-    QTAILQ_INIT(&s->pending);
-+-
-+     scsi_bus_new(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info, NULL);
-+ }
-+ 
-+diff --git a/hw/scsi/mptsas.h b/hw/scsi/mptsas.h
-+index b85ac1a5fcc7..c046497db719 100644
-+--- a/hw/scsi/mptsas.h
-++++ b/hw/scsi/mptsas.h
-+@@ -79,7 +79,6 @@ struct MPTSASState {
-+     uint16_t reply_frame_size;
-+ 
-+     SCSIBus bus;
-+-    QTAILQ_HEAD(, MPTSASRequest) pending;
-+ };
-+ 
-+ void mptsas_fix_scsi_io_endianness(MPIMsgSCSIIORequest *req);
--- 
-2.30.2
+Any news on this one? I have been doing our own builds with the equivalent=
+ of that patch for our BSPs with a linux-intel derived kernel recipe plus a=
+nother internal kernel recipe (both using kernel.bbclass) and I have not fo=
+und any issues with it.
 
+Best,
+
+Diego
+
+--
+Diego Santa Cruz, PhD
+Technology Architect
+T +41 21 341 15 50
+diego.santacruz@spinetix.com | Subscribe to our Newlsetter
+spinetix.com
+
+
+
+
+> -----Original Message-----
+> From: Steve Sakoman <sakoman@gmail.com>
+> Sent: 30 April 2021 20:46
+> To: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+> Cc: openembedded-core@lists.openembedded.org; Mark Hatle
+> <mark.hatle@kernel.crashing.org>
+> Subject: Re: [OE-core] Unihash warning building kernels in Yocto 3.1.7
+>=20
+> Trying again with Mark's correct email address!
+>=20
+> On Fri, Apr 30, 2021 at 8:43 AM Steve Sakoman <sakoman@gmail.com>
+> wrote:
+> >
+> > On Fri, Apr 30, 2021 at 7:00 AM Diego Santa Cruz via
+> > lists.openembedded.org
+> > <diego.santacruz=3Dspinetix.com@lists.openembedded.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > >
+> > >
+> > > I just updated to Yocto 3.1.7 (from 3.1.5) and I got the following w=
+arning
+> while building a kernel recipe.
+> > >
+> > >
+> > >
+> > >   do_install: Task do_install requested do_package unihash, but it w=
+as not
+> available
+> > >
+> > >
+> > >
+> > > I tracked this down to OE-Core commit
+> 0c28edf4bf0d2f92bf3a47406041c63acd90bacf ("package.bbclass: hash
+> equivalency and pr service") and it makes sense since do_package runs af=
+ter
+> do_install and in dunfell we can find the following in kernel.bbclass
+> > >
+> > >
+> > >
+> > >   do_install[prefuncs] +=3D "package_get_auto_pr"
+> > >
+> > >
+> > >
+> > > Merging OE-Core commit 36fe4db8ae827a93abe9fce6740459d215411965
+> ("kernel.bbclass: Remove do_install[prefunc] no longer needed") should
+> normally solve this warning by removing the above line, but I do not kno=
+w if
+> that change is safe in dunfell.
+> > >
+> > >
+> > >
+> > > Could that be merged in? Or is there something else that could be do=
+ne
+> to avoid the warning?
+> >
+> > I can do some testing with that patch.  cc-ing Mark to see if he has
+> > any comments since he is the patch author.
+> >
+> > Steve
+> >
+> >
+> > > Our build system flags a production build as bad if there is a warni=
+ng, so
+> this is kind of annoying.
+> > >
+> > >
+> > >
+> > > Best,
+> > >
+> > >
+> > >
+> > > Diego
+> > >
+> > > --
+> > > Diego Santa Cruz, PhD
+> > > Technology Architect
+> > > spinetix.com
+> > >
+> > >
+> > >
+> > >
+> > >=20
+> > >
