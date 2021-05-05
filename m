@@ -1,84 +1,99 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web11.152.1620250813122026321
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.73.1620251566524030787
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 14:40:13 -0700
+ Wed, 05 May 2021 14:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fGBGdvma;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so3072861oth.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 14:40:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dZ2Xmu2W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id n205so2264216wmf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 14:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d/yWJOKZddbUzetSnd4eaqTYjusp+EVDT14XWQfYJ80=;
-        b=fGBGdvma3JuBnO7M03oj6IwQXpXHUU404DDc3y9AA66+/MRqKpn9pOXgrNGjm5jWw9
-         EmyOAr/L5Z7k9vMnDZgOyTxvym/kC7+E4M3icId6Q8v37uGLQX2rY2ZJQJldp7emwkM3
-         SvGsDWw3YAmYzsKiezzRJBeuQqm3s1ws0C9/1urIZJSxvfm2YnCHL874kFW6IEyQs7zI
-         MIML58o+T2VSsLLb/xEqIKTlwt0ySSVR0tuEWXwntqPNjDJFfM69rJEIubQohsZzoAQ3
-         kJS0oLqwOdT9p33vc13AqPU8/qBcV5KRtCnsbuG1jxzuqM0R4mWOWjU+dA6JSVj0tQBo
-         0dHg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=0JeEZhf+kdqyY6F9rbCW6/i5ibATIY7sycVytU7CPiU=;
+        b=dZ2Xmu2Wp9HgoOC2Q6V5+DcJqnOUhRmlzi3I9sbebSlwXiFcQeInVwfwumRVY07Eav
+         SiYk1UrASW8cdkStH7LqLzzn9nfxD5mp0eR6HECrPFvpc3Cp3e2tDT5dSZ4TDdnKVLMh
+         JlZxs7Gsb9Pg9dVcac7L53ZhpNiSe/uBPzN2Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d/yWJOKZddbUzetSnd4eaqTYjusp+EVDT14XWQfYJ80=;
-        b=PO0y7HKNHCEPkbVt9UWnWjnzFp8JWtQZwKPlGW3uzgWd8Dfxr8hPfgxMlyeKdXDwRF
-         Hd6P3dqHeLxgWCapU7/OFUD4KrqZqQQcereV7ODscGc9YO3mjxrg9R8FW/Iy+kq05rQU
-         kGU52P3oIn03mZzzPgB0kwOwQT22/6pR2a/UjbTXXgycW2J03Mfdm00kDzCwHyxcuTxw
-         XhAPZCOSu8usumz97NiP9dYzAASZPMtDZNZ+cWxoi2qpX4/4uQPihO95jMm6HmjdR0Jk
-         CQw/9BroEbny+zzxqdnuFwj/Kl6OMvoqnALbxqMEui+ig+mvkAA89ttbG2FQRWLoH3Qw
-         Ad6g==
-X-Gm-Message-State: AOAM530xe39oWKmm5jXwL3I71TsVHkCZrCZJnRhNafGTOhh4TdlnIxI9
-	ZL9Pn/5DJ2pm4fuA5Y8BCNSbK/4IQ5I=
-X-Google-Smtp-Source: ABdhPJyavmIZvozB1BDtFfq/H0cfErcjAJP53LL+7Jf2AEI5fe/XoBQ3WEBSAvk8ySscha6XzG9tuw==
-X-Received: by 2002:a05:6830:2117:: with SMTP id i23mr646736otc.170.1620250812299;
-        Wed, 05 May 2021 14:40:12 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id g26sm169915otr.37.2021.05.05.14.40.11
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=0JeEZhf+kdqyY6F9rbCW6/i5ibATIY7sycVytU7CPiU=;
+        b=PMefYzJt/q3V+349/SWWo2pCEKVyjGXMeg+l9HZ+XZcNvocUwELE2X8/h3BAOPL7CL
+         5QVzxo8Vz1pkudtO4BPME26O6YnC5DyscGevaQPPDWC4i3Z41E8uKP05VBQx3Lq9N3nw
+         sq5EW3yNoLLUvEXnuLh+qnddQq5wQ7IU/29l5IK9/es1baf5kE3tBIN4NP9Ao+whpSMe
+         rUO+gI+vYIGolMLFQM69S9Fv9aG88l9FiKIYLdIMB0bf2gb4GSYEowRMyh7gi6y3aTR6
+         j/QtRaqyyNFGBYBRVrJMmsQXJVm9wSU+c3wn1wZwvpCiLEBnSncypzIiPXu/4NT332wg
+         NRTw==
+X-Gm-Message-State: AOAM531JPcKXPGMt6upxGrRUDp6Uf2ZxuYZH9QWL6kNN9p2/Gpdy63Ba
+	dzG3Pew0JhOdP6W6SrlxUGKlpA==
+X-Google-Smtp-Source: ABdhPJxPKz/nL1lh/FAqTLkYU488GTQunrc3yR5PZs7fFSDdIsc0o8c0GFimDVbph+bxhUM0p7DpkA==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr12171855wmc.79.1620251564781;
+        Wed, 05 May 2021 14:52:44 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e? ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
+        by smtp.gmail.com with ESMTPSA id w7sm800627wru.51.2021.05.05.14.52.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 14:40:11 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
-Date: Wed,  5 May 2021 16:40:06 -0500
-Message-Id: <20210505214006.10382-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        Wed, 05 May 2021 14:52:44 -0700 (PDT)
+Message-ID: <0dc03ad24ae6700f7757b6afca84c37758759d29.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 58/61] gi-docgen: add a recipe and class
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Wed, 05 May 2021 22:52:43 +0100
+In-Reply-To: <CAMKF1so4BWNatThY_tixepiRUvzH=kfE7_4BWHroj4RnzSVQyA@mail.gmail.com>
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+	 <20210505151850.660512-58-alex.kanavin@gmail.com>
+	 <CAMKF1spEqemKRZAwWnDMupsSmk7rteUef6P1HbmC0-KtsOjO_w@mail.gmail.com>
+	 <CANNYZj9scBK7xAZpR1A3Fs9AiC8MT_EZHqszbGfiAkZSZgMYwg@mail.gmail.com>
+	 <443c94b6db48ae6b7daae10b529b8ea420be4add.camel@linuxfoundation.org>
+	 <CAMKF1so4BWNatThY_tixepiRUvzH=kfE7_4BWHroj4RnzSVQyA@mail.gmail.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Instead of having find directly invoke touch for each file in the root
-file system, pass a list to xargs for batching. This significantly
-reduces the number of times the touch program is invoked and speeds up
-the do_image task time:
+On Wed, 2021-05-05 at 14:28 -0700, Khem Raj wrote:
+> On Wed, May 5, 2021 at 2:09 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > On Wed, 2021-05-05 at 20:45 +0200, Alexander Kanavin wrote:
+> > > On Wed, 5 May 2021 at 20:05, Khem Raj <raj.khem@gmail.com> wrote:
+> > > > On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> > > > > 
+> > > > > This seems to be the gtk-doc successor, and gnome
+> > > > > projects such as pango and gdk-pixbuf have started
+> > > > > transitioning to it.
+> > > > > 
+> > > > 
+> > > > going through
+> > > > https://gitlab.gnome.org/GNOME/gi-docgen#disclaimer
+> > > > 
+> > > > it seems that its still under development and not declared stable, so
+> > > > I am wary of the churn it will cause.
+> > > > I would prefer to wait until at least its declared prime time for
+> > > > system wide inclusion.
+> > > > 
+> > > 
+> > > 
+> > > It is only built if you enable api-documentation, and even then used only
+> > > in pango and gdk-pixbuf. I'd say it's fairly well contained.
+> > 
+> > I did also have a quick chat with friends in that community and their advice
+> > was that it was ok to switch now FWIW...
+> 
+> ok, that helps, perhaps they can reflect this assertion in document above?
+> but still, depending upon abandoned packages needs to be answered by
+> upstream IMO before we tread down this path
 
-    PKG           TASK      ABSDIFF  RELDIFF  CPUTIME1 -> CPUTIME2
-    my-image      do_image   -45.3s   -94.2%     48.1s -> 2.8s
+Reading that disclaimer, it seems to be saying they're making it work for gtk.
+We're using it in the gtk related components it is being developed for so I'm
+not sure there is an issue. What it says not to do is use it for general non-gtk 
+code. We're not using it outside gtk?
 
-    Cumulative cputime:
-      -44.3s    -92.3%    00:48.1 (48.1s) -> 00:03.7 (3.7s)
+Cheers,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 013455f492..353cc67175 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -657,7 +657,7 @@ reproducible_final_image_task () {
-         fi
-         # Set mtime of all files to a reproducible value
-         bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
--        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
-+        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
-     fi
- }
- 
--- 
-2.31.1
+Richard
 
