@@ -1,247 +1,155 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.10074.1620227945661001954
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web09.9778.1620227946528020896
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 May 2021 08:19:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lL4fdTRB;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id u3so3417889eja.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SGBpBFx+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id u13so2505785edd.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zHAA0yifaxqv+l7uWfZJ510AaE2PWw2Y83EwgIFwyxw=;
-        b=lL4fdTRBwJwn4kp2KIxKZZYr5s20g5XdBknfc4bSgcH9PSZMimbbTtt3FcjhLsMR/I
-         1uSuz45qfU9j3yBEqqDSv02+whMLOHUflE1jFEb3sYe7XnwEfMD2SQ1Eds1cRVPdCecT
-         1Xt9F+TwmvYxYTZ6kHsBfHgY7N9A7j0Rtz3vdord/+ECKj/SAROHNJOIiW7ro2VjydkZ
-         L9dc1byzR7cGXxtMv/Fty9Lx12Nt9Gw5hU1j+9r7Y8eAH7CbAYLC4cLWNDeafmb3rUtH
-         8vVNCS/4jgj5Ax38M0VtoEc53Y1h1vjZSam+5ZjzvitvV+2GMDMwXWdue0vzqYC8cOC/
-         SDng==
+        bh=1Nprt1Ff+K64IwMh4DdQHxXa4EKx7kegIJwDoSdiyQo=;
+        b=SGBpBFx+9FNij9C2i+vAwPcrmon4LkM47Ty67iG9ofufRpPqO06QUGQyWPqq58JE/3
+         0laYI6Ab6q4nvKh6qaJCdPQGhhylPuJKI1rHja7vNBXLxdZISkVMe/DxEjbRZwzLDElE
+         j2Ueyo8Eq+uxPf+L1hJ29zXgY84yPUZcuHeuurSloKAehD1D6fHcmygiKttbvb10sl//
+         tiqcgEO1vzKNgkK3Uvx5Od2/bZMNeH0sbp14Vv/RLCdnHtKZDsCoRSqeKjmgNSsgamtN
+         uJSqbuziizNfK6J3kLCmB6d7Q9Y9y7rwATVVqaeK0JpfEPaHG82YtNaAmMJ+GZh3d7tD
+         HeyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zHAA0yifaxqv+l7uWfZJ510AaE2PWw2Y83EwgIFwyxw=;
-        b=RypHj5CnLWMPu1Uq6X6H1E6+8bzdqvqmo4lAsgLz6cFW7MQbxaKSsktjQKLBgkcXZO
-         rvHWWhzbTorAtfpwnzvuqH/nuuiaz/VTDjv7BZSjNB7XrSzIaelK3OrvcWG7zhZ+FqEV
-         pPdwnyCHVVYExCOi/JoSnk7W6XBSmXY0BiB4qgg5AIE3o554f+B/E86VgvE3+UlW4Fcc
-         j/L+ltjyma2HrqyiPSWsEHmrE90UbJsc69VnGcECN5+iUB2VfYZqCPH1OLek6jhbTDxW
-         KRCWR9yCgGgzNadpx8zf9CRc7APYMo8Zz6mkUl3WI0g9TYtWjgArDV0vkirVF4Jh82xT
-         AXIQ==
-X-Gm-Message-State: AOAM531W7yWWxG7pSXQl7C0Yn9/No2rACG2IAyLAac3gSUXdZSBL1VXj
-	et5K/3QayU3YQSJpqP4lI2XUNA7XjPlYgQ==
-X-Google-Smtp-Source: ABdhPJxFSHJlHjor3H+AhXKSkGbNAXskT7xYXhDJYTSQ0vv6uCfif787U42ZJtCzES8h1yCKJWnTBg==
-X-Received: by 2002:a17:906:82c9:: with SMTP id a9mr29130683ejy.58.1620227944195;
+        bh=1Nprt1Ff+K64IwMh4DdQHxXa4EKx7kegIJwDoSdiyQo=;
+        b=Q1mHQq9dDngrswtQ6Wrtc2EN1zrBg5CgIwDRuCF3m4mRGVKC1x6niPL3vh7AegQXAG
+         sT4zJByMyToCsJfgtui1R1u3ln1VbhwhHURvirF6JGxts1ZjyMtT1S6p71KfS8OEzMLf
+         bsCygtaOQmnzWP8JVYng9zEXC5ejBM75tWml1xcwopfc4HSOHmxUhmfE5/5ctgLiF1yR
+         IjM3/feLIiBb0pdp0CmSmSMM+FYSf+tJX3EuIGGBlQQ/Z0Uo/dtgpBn2Qm3q3c9gQCem
+         U3gCgEBCyV5UL2d/kpPLYRqPfkHKaIfJHBjgeJ/H9HKL1HtSxjsio0pho3J43xQrl2I8
+         uQwQ==
+X-Gm-Message-State: AOAM532gjUPdHAFkgOZEOD5OiUfgHSqJgcrgAWLkzPMUEfTCtNi8azYr
+	eWdzmV7hg4RrWMqiXviJUfaJuWfnuHEQAg==
+X-Google-Smtp-Source: ABdhPJxHytWTI333Ueo5h26bpF8WrOyu0xPGNVN2qz5XgzT/7zA721Tduq4QsQ7/Zfxde0FUvqzayw==
+X-Received: by 2002:a05:6402:51ce:: with SMTP id r14mr15425343edd.151.1620227944954;
         Wed, 05 May 2021 08:19:04 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.03
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:03 -0700 (PDT)
+        Wed, 05 May 2021 08:19:04 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 10/61] cmake: update 3.19.5 -> 3.20.1
-Date: Wed,  5 May 2021 17:17:59 +0200
-Message-Id: <20210505151850.660512-10-alex.kanavin@gmail.com>
+Subject: [PATCH 11/61] meson: update 0.57.1 -> 0.57.2
+Date: Wed,  5 May 2021 17:18:00 +0200
+Message-Id: <20210505151850.660512-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove 0002-cmake-Prevent-the-detection-of-Qt5.patch
-(patch purpose and failing scenarios unclear; disabling
-is better done through configuration options which
-are available for all of these items).
-
-License-Update: copyright years
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ative_3.19.5.bb => cmake-native_3.20.1.bb} |   0
- meta/recipes-devtools/cmake/cmake.inc         |   5 +-
- ...stem-use-oe-environment-vars-to-load.patch |   2 +-
- ...2-cmake-Prevent-the-detection-of-Qt5.patch | 122 ------------------
- .../{cmake_3.19.5.bb => cmake_3.20.1.bb}      |   0
- 5 files changed, 3 insertions(+), 126 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.19.5.bb => cmake-native_3.20.1.bb} (100%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
- rename meta/recipes-devtools/cmake/{cmake_3.19.5.bb => cmake_3.20.1.bb} (100%)
+ meta/recipes-devtools/meson/meson.inc         |  4 +--
+ .../0001-Make-CPU-family-warnings-fatal.patch |  2 +-
+ ...ectly-set-uid-gid-of-installed-files.patch | 28 -------------------
+ ...pport-building-allarch-recipes-again.patch |  2 +-
+ .../{meson_0.57.1.bb => meson_0.57.2.bb}      |  0
+ ...on_0.57.1.bb => nativesdk-meson_0.57.2.bb} |  0
+ 6 files changed, 3 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
+ rename meta/recipes-devtools/meson/{meson_0.57.1.bb => meson_0.57.2.bb} (100%)
+ rename meta/recipes-devtools/meson/{nativesdk-meson_0.57.1.bb => nativesdk-meson_0.57.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.19.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.19.5.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.20.1.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index e0f59a6c67..2e6059f980 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -10,19 +10,18 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=c721f56fce89ba2eadc2fdd8ba1f4d83 \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=31023e1d3f51ca90a58f55bcee8e2339 \
-                     file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
-                     "
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index e186dede92..149d06637f 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -14,10 +14,9 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://disable-rpath-handling.patch \
+            file://cross-prop-default.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+-           file://0001-minstall-Correctly-set-uid-gid-of-installed-files.patch \
+            file://gi-target-dep.patch \
+            "
+-SRC_URI[sha256sum] = "72e1c782ba9bda204f4a1ed57f98d027d7b6eb9414c723eebbd6ec7f1955c8a6"
++SRC_URI[sha256sum] = "3a83e7b1c5de94fa991ec34d9b198d94f38ed699d3524cb0fdf3b99fd23d4cc5"
  
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- 
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
--           file://0002-cmake-Prevent-the-detection-of-Qt5.patch \
-            file://0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+@@ -25,7 +24,6 @@ SRC_URI_append_class-native = " \
  "
  
--SRC_URI[sha256sum] = "c432296eb5dec6d71eae15d140f6297d63df44e9ffe3e453628d1dc8fc4201ce"
-+SRC_URI[sha256sum] = "3f1808b9b00281df06c91dd7a021d7f52f724101000da7985a401678dfe035b0"
+ # remove at next version upgrade or when output changes
+-PR = "r1"
+ HASHEQUIV_HASH_VERSION .= ".1"
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-index 8181510324..06e10bf861 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+ UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 0808891a27..300797f9ee 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
 @@ -1,4 +1,4 @@
--From 66d5b27dc37ef6243f6549e16d0285ba6c064a6e Mon Sep 17 00:00:00 2001
-+From ac9b8d316ff3e013bc9d3c063db99aa1f064ce6a Mon Sep 17 00:00:00 2001
- From: Cody P Schafer <dev@codyps.com>
- Date: Thu, 27 Apr 2017 11:35:05 -0400
- Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
-diff --git a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+-From 76934bcbf2cfa7304e8864e28c51f58adda0392f Mon Sep 17 00:00:00 2001
++From 198e2de24adf5845e3ba389b533cf43440ee8acb Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+diff --git a/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch b/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
 deleted file mode 100644
-index 33db07ccf0..0000000000
---- a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+index d55b7cc7c7..0000000000
+--- a/meta/recipes-devtools/meson/meson/0001-minstall-Correctly-set-uid-gid-of-installed-files.patch
 +++ /dev/null
-@@ -1,122 +0,0 @@
--From 98abade8cc119e076e4c5f1461c5188f6d49c1d8 Mon Sep 17 00:00:00 2001
--From: Otavio Salvador <otavio@ossystems.com.br>
--Date: Wed, 17 Jan 2018 10:02:14 -0200
--Subject: [PATCH] cmake: Prevent the detection of Qt5
+@@ -1,28 +0,0 @@
+-From 3f6f4964dc79ae986f44afe1687922381f237edd Mon Sep 17 00:00:00 2001
+-From: Peter Kjellerstedt <pkj@axis.com>
+-Date: Wed, 3 Mar 2021 12:47:28 +0100
+-Subject: [PATCH] minstall: Correctly set uid/gid of installed files
 -
--Organization: O.S. Systems Software LTDA.
+-In commit caab4d3d, the uid and gid arguments passed to os.chown() by
+-set_chown() were accidentally swapped, causing files to end up with
+-incorrect owner/group if the owner and group are not the same.
 -
--CMake doesn't have dependency on qt4/qt5, so these tests usually fail
--but still can cause undeterministic results or build failures (when
--OE_QMAKE_PATH_EXTERNAL_HOST_BINS is undefined or native qmake removed
--while running the test in cmake)
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--
+-Upstream-Status: Backport [https://github.com/mesonbuild/meson/commit/6226ac26ef63335bfb817db02b3f295c78214a82]
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ----
-- Source/QtDialog/CMakeLists.txt                     | 2 +-
-- Tests/CMakeLists.txt                               | 2 +-
-- Tests/Qt4And5Automoc/CMakeLists.txt                | 4 ++--
-- Tests/QtAutogen/AutogenGuiTest.cmake               | 3 +--
-- Tests/QtAutogen/MacOsFW/CMakeLists.txt             | 2 +-
-- Tests/RunCMake/CMakeLists.txt                      | 2 +-
-- Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake | 2 +-
-- 7 files changed, 8 insertions(+), 9 deletions(-)
+- mesonbuild/minstall.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/Source/QtDialog/CMakeLists.txt b/Source/QtDialog/CMakeLists.txt
--index 452a303..d0a9fb4 100644
----- a/Source/QtDialog/CMakeLists.txt
--+++ b/Source/QtDialog/CMakeLists.txt
--@@ -3,7 +3,7 @@
+-diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
+-index 785ff5869..07da408aa 100644
+---- a/mesonbuild/minstall.py
+-+++ b/mesonbuild/minstall.py
+-@@ -148,7 +148,7 @@ def set_chown(path: str, user: T.Optional[str] = None, group: T.Optional[str] =
+-         Use a real function rather than a lambda to help mypy out. Also real
+-         functions are faster.
+-         """
+--        real_os_chown(path, gid, uid, dir_fd=dir_fd, follow_symlinks=follow_symlinks)
+-+        real_os_chown(path, uid, gid, dir_fd=dir_fd, follow_symlinks=follow_symlinks)
 - 
-- project(QtDialog)
-- CMake_OPTIONAL_COMPONENT(cmake-gui)
---find_package(Qt5Widgets REQUIRED)
--+#find_package(Qt5Widgets REQUIRED)
-- 
-- set(CMake_QT_EXTRA_LIBRARIES)
-- 
--diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
--index 1fb47cb..e022229 100644
----- a/Tests/CMakeLists.txt
--+++ b/Tests/CMakeLists.txt
--@@ -251,7 +251,7 @@ if(BUILD_TESTING)
--     set(CMake_TEST_Qt5 1)
--   endif()
--   if(CMake_TEST_Qt5)
---    find_package(Qt5Widgets QUIET NO_MODULE)
--+    #find_package(Qt5Widgets QUIET NO_MODULE)
--   endif()
-- 
--   if(NOT CMake_TEST_EXTERNAL_CMAKE)
--diff --git a/Tests/Qt4And5Automoc/CMakeLists.txt b/Tests/Qt4And5Automoc/CMakeLists.txt
--index ad74961..a9dd74b 100644
----- a/Tests/Qt4And5Automoc/CMakeLists.txt
--+++ b/Tests/Qt4And5Automoc/CMakeLists.txt
--@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 2.8.12)
-- project(Qt4And5Automoc)
-- 
-- if (QT_REVERSE_FIND_ORDER)
---  find_package(Qt5Core REQUIRED)
--+  #find_package(Qt5Core REQUIRED)
--   find_package(Qt4 REQUIRED)
-- else()
--   find_package(Qt4 REQUIRED)
---  find_package(Qt5Core REQUIRED)
--+  #find_package(Qt5Core REQUIRED)
-- endif()
-- 
-- set(CMAKE_AUTOMOC ON)
--diff --git a/Tests/QtAutogen/AutogenGuiTest.cmake b/Tests/QtAutogen/AutogenGuiTest.cmake
--index b76d341..a6e0acb 100644
----- a/Tests/QtAutogen/AutogenGuiTest.cmake
--+++ b/Tests/QtAutogen/AutogenGuiTest.cmake
--@@ -22,8 +22,7 @@ if (QT_TEST_VERSION EQUAL 4)
--   endmacro()
-- 
-- elseif(QT_TEST_VERSION EQUAL 5)
---
---  find_package(Qt5Widgets REQUIRED)
--+  #find_package(Qt5Widgets REQUIRED)
-- 
--   set(QT_QTCORE_TARGET Qt5::Core)
--   set(QT_LIBRARIES Qt5::Widgets)
--diff --git a/Tests/QtAutogen/MacOsFW/CMakeLists.txt b/Tests/QtAutogen/MacOsFW/CMakeLists.txt
--index c08efc4..87e25d9 100644
----- a/Tests/QtAutogen/MacOsFW/CMakeLists.txt
--+++ b/Tests/QtAutogen/MacOsFW/CMakeLists.txt
--@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
-- project(MacOsFW)
-- include("../AutogenGuiTest.cmake")
-- 
---find_package(Qt5Test REQUIRED)
--+#find_package(Qt5Test REQUIRED)
-- 
-- set(CMAKE_CXX_STANDARD 11)
-- set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/bin)
--diff --git a/Tests/RunCMake/CMakeLists.txt b/Tests/RunCMake/CMakeLists.txt
--index 370dd76..6bacbff 100644
----- a/Tests/RunCMake/CMakeLists.txt
--+++ b/Tests/RunCMake/CMakeLists.txt
--@@ -473,7 +473,7 @@ if(NOT WIN32)
-- endif ()
-- 
-- find_package(Qt4 QUIET)
---find_package(Qt5Core QUIET)
--+#find_package(Qt5Core QUIET)
-- if (QT4_FOUND AND Qt5Core_FOUND AND NOT Qt5Core_VERSION VERSION_LESS 5.1.0)
--   add_RunCMake_test(IncompatibleQt)
-- endif()
--diff --git a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
--index 4fccdc4..b76e1e5 100644
----- a/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
--+++ b/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
--@@ -1,6 +1,6 @@
-- 
-- find_package(Qt4 REQUIRED)
---find_package(Qt5Core REQUIRED)
--+#find_package(Qt5Core REQUIRED)
-- 
-- add_executable(mainexe main.cpp)
-- target_link_libraries(mainexe Qt4::QtCore Qt5::Core)
-diff --git a/meta/recipes-devtools/cmake/cmake_3.19.5.bb b/meta/recipes-devtools/cmake/cmake_3.20.1.bb
+-     try:
+-         os.chown = chown
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index ddc34c2f49..f6175a194c 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From 6efb6114836fd4a1e012aa03b37f3beeeb22b466 Mon Sep 17 00:00:00 2001
++From ac1021a3abf612e8be9b19eecb97062e0c314701 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_0.57.1.bb b/meta/recipes-devtools/meson/meson_0.57.2.bb
 similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.19.5.bb
-rename to meta/recipes-devtools/cmake/cmake_3.20.1.bb
+rename from meta/recipes-devtools/meson/meson_0.57.1.bb
+rename to meta/recipes-devtools/meson/meson_0.57.2.bb
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.57.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.57.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/nativesdk-meson_0.57.1.bb
+rename to meta/recipes-devtools/meson/nativesdk-meson_0.57.2.bb
 -- 
 2.31.1
 
