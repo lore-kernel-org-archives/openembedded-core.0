@@ -1,50 +1,50 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.9837.1620227957643623054
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.9843.1620227958444843501
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:17 -0700
+ Wed, 05 May 2021 08:19:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ek2Hn4Oj;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id n2so3453096ejy.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vewRPoBG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id y7so3433935ejj.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wlSTBmqZ6JGoSII3HKScCOl4myWPFgYtBm/x8LyKYEk=;
-        b=ek2Hn4Ojl7gkISRZcM42cDMWYqJnft25s0OZfAc6V4D26zX/8eOsheABCtWsDFg2XO
-         6CFUsrQgrKZwgQXK7MmI1ywkM2YeVSen1dalWi6eYbr9HsKWv6fLf6+RslP7aam53xHX
-         x4+ASMCn3sCY9BlyLYEM1EnKAj53EeYBBC9RXQ7F7hqnCiDcbG1diVJjUoUmq28ivlGk
-         MLU9bQ4WhxdoUAxy1qi/m6zC0cbI1J9I65B8n35WlSau+p0xusSfhODw02zbF1CrfnDr
-         VQlYajBy2hR6q8f+ZpywG6X05D9qwui8pxjj5knxNGZAFsmqNJiWwRBoa6m9Qr4Cpuim
-         VeMw==
+        bh=LHX1xVWsfTzDMGA9EFVqKYIZqAfwR9800urEZDrNBBc=;
+        b=vewRPoBGa2R70Cf9tun0bzPwm3P8ZeANVBKhl8Owtv/9rmLIitFmdwEMY+5tHKFgSs
+         ySu4ai+5/+B6Q+8H1Qcelo/McuTNkcmFHOp6EftiJg0I+qCzTrWjJuQ3BgOxO9e3yr0h
+         EWX391AqSupwc/o52sxjljve4nmj/bR74dWYFBxjbzKQdL1+TARswY88NbjAGLnx42bB
+         ZqzmZ8JSZ0Aa6xkw+dejMJ7UksmTryJ42b/a3fxVVeafwKf7b60Z6vjMfwNpqH6oPMNb
+         ssdGzJqLZWBhVieIBPUtXZSMLNkZ9mcUFg6bqlHvXBPuRx6ut8JVvPVwhYcOmW+5Vgrx
+         4/Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wlSTBmqZ6JGoSII3HKScCOl4myWPFgYtBm/x8LyKYEk=;
-        b=kQNZ2Cu+CDLlTb7/0DnD44B4IkhNCi8OZQoBSpJaiJMORdfHcNmeCF60TCN3kZSjoF
-         LVZ2/M9TujZ7vpP5ViLSQVJWGXOf+YxXHn/K3FxK0rVtiqi7NJ4uVwujw1iyQwlxJClO
-         i8I4uJmfx/bZCIGfiw7kK7QrLKJTnB7Syei04H6MSZ9pCu77ig3wGfo+QYOXjygrin0L
-         aPrJWdWHPwxd7IHQmOWzbLacp/Prc9HcgnCuPszJrBC0/WtBhSDLy9k3pmQyz5qjcmMd
-         N4yfxllg7faQsVM2RgBkidh2LCWpuPApBCD/hX02EEelxit0BIr7VNFn6m02/+ojxuhg
-         nx/Q==
-X-Gm-Message-State: AOAM531GvQmTstRyFeXYAUQMOcVk1qANPY46/li35cMgnJD6bTUeB9dm
-	YMIrFMOuKpgPGY+fFEefGz8v/8jf+2PH+A==
-X-Google-Smtp-Source: ABdhPJz8r+enGFPC8f42HCDpGnVWZ1mt9eeso2VILRAojhbv8KxcIO0z2lhK3/nIsGmekW7RWvo7Fw==
-X-Received: by 2002:a17:906:7189:: with SMTP id h9mr28121050ejk.71.1620227956277;
+        bh=LHX1xVWsfTzDMGA9EFVqKYIZqAfwR9800urEZDrNBBc=;
+        b=J+3u9a6hWFrW4T2YkEdylNd2ntf7U6P2G3GO8fCiccGFN6/kw4JbHLABSOIO7y5eLo
+         sx8XlPASTlTx3gwm0ujHbe98fbVdLMkpB/2qEgzLs5HBGJBwhM2NZJcW6P/H110EsVjq
+         hDdkDBoCAcoGdALZLucm6xrVZXVRp8CetJ6TmbWmPW+lrC50aiajBA26xtOYxtWZhsoJ
+         KdyHLkMztmYkyvE97VbvKu8OAtuEDUnmjDuJcVSloTJoHpl9e180A1KFNynaY0jgWjSO
+         BiWeA6BwhXtJK39Cgr6MDTKtCU3JiqcnQ7fvTqO9y4jvK3qmBzmUwWIj3MaR8novaELa
+         n23w==
+X-Gm-Message-State: AOAM531SfdqAVlmlGcNUjaTvv8r30LTgCEmRq9huBw3VAiGe6wtoTiLN
+	MHCjy41e9k5ivsZpUmiCmF20afEyxD2y5A==
+X-Google-Smtp-Source: ABdhPJxJEKnQUZL43TNuQ427u6xlftSmXe3N6vKOyUywq/Bn3GQNHScZgenCC7Cvzz+iiuNuHf939Q==
+X-Received: by 2002:a17:907:3f1c:: with SMTP id hq28mr25996257ejc.349.1620227956991;
         Wed, 05 May 2021 08:19:16 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.15
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:15 -0700 (PDT)
+        Wed, 05 May 2021 08:19:16 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 25/61] acl: upgrade 2.2.53 -> 2.3.1
-Date: Wed,  5 May 2021 17:18:14 +0200
-Message-Id: <20210505151850.660512-25-alex.kanavin@gmail.com>
+Subject: [PATCH 26/61] bind: upgrade 9.16.12 -> 9.16.13
+Date: Wed,  5 May 2021 17:18:15 +0200
+Message-Id: <20210505151850.660512-26-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
@@ -53,27 +53,80 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/attr/{acl_2.2.53.bb => acl_2.3.1.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/attr/{acl_2.2.53.bb => acl_2.3.1.bb} (94%)
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.16.12 => bind-9.16.13}/bind9                   | 0
+ .../bind/{bind-9.16.12 => bind-9.16.13}/conf.patch              | 0
+ .../bind/{bind-9.16.12 => bind-9.16.13}/generate-rndc-key.sh    | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.16.12 => bind-9.16.13}/named.service           | 0
+ .../bind/{bind_9.16.12.bb => bind_9.16.13.bb}                   | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.12 => bind-9.16.13}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.16.12.bb => bind_9.16.13.bb} (98%)
 
-diff --git a/meta/recipes-support/attr/acl_2.2.53.bb b/meta/recipes-support/attr/acl_2.3.1.bb
-similarity index 94%
-rename from meta/recipes-support/attr/acl_2.2.53.bb
-rename to meta/recipes-support/attr/acl_2.3.1.bb
-index 7cee45948d..7f6cbf5c43 100644
---- a/meta/recipes-support/attr/acl_2.2.53.bb
-+++ b/meta/recipes-support/attr/acl_2.3.1.bb
-@@ -21,8 +21,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
-            file://0001-test-patch-out-failing-bits.patch \
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.13/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.13/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/bind9 b/meta/recipes-connectivity/bind/bind-9.16.13/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/bind9
+rename to meta/recipes-connectivity/bind/bind-9.16.13/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.13/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.13/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.16.13/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.13/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.13/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.13/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.12/named.service b/meta/recipes-connectivity/bind/bind-9.16.13/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.12/named.service
+rename to meta/recipes-connectivity/bind/bind-9.16.13/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.12.bb b/meta/recipes-connectivity/bind/bind_9.16.13.bb
+similarity index 98%
+rename from meta/recipes-connectivity/bind/bind_9.16.12.bb
+rename to meta/recipes-connectivity/bind/bind_9.16.13.bb
+index 09f77038fa..6127b13e8d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.12.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.13.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
  
--SRC_URI[md5sum] = "007aabf1dbb550bcddde52a244cd1070"
--SRC_URI[sha256sum] = "06be9865c6f418d851ff4494e12406568353b891ffe1f596b34693c387af26c7"
-+SRC_URI[sha256sum] = "760c61c68901b37fdd5eefeeaf4c0c7a26bdfdd8ac747a1edff1ce0e243c11af"
+-SRC_URI[sha256sum] = "9914af9311fd349cab441097898d94fb28d0bfd9bf6ed04fe1f97f042644da7f"
++SRC_URI[sha256sum] = "a54cc793fa5b69b35f610f2095760f8238dff5cfd52419f7ee1c9c227da4cc08"
  
- inherit autotools gettext ptest
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.16 follow the ESV versions divisible by 4
 -- 
 2.31.1
 
