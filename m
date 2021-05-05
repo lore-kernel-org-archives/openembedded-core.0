@@ -1,98 +1,98 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web10.1216.1620240579006695280
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web11.1255.1620240745108837257
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 11:49:39 -0700
+ Wed, 05 May 2021 11:52:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gxkq9Yiv;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id a12so892868uak.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 11:49:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eyopzXj5;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id h18so1630304vsp.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 11:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=O3phQ5WnH+fjpqqGeLyWt4jMMOe0eKPE4Jb+7JdOf+w=;
-        b=gxkq9Yive6Nc9EV21JdnPlaoydN9dIvJLKJ7wJZgLhL/RJGC/yY9lGc2mkZfgIIs14
-         9aPqTJ/gXzOdy+dd9ST86V1gDptbdgcduv+fzI6RZoBlqy4x5T/YsBzQ/x/DCB0QWSoW
-         R2WeUIsC3Q3BS2kYKL7FWqzwH0z+Z8XkIFl6rgqM2skJREls1WFve6Rhz9wLJb0N8fXO
-         Emt/LLVBD8pJDPS2miuC7iJWfzSlHoSYg7l2+D25r1Nnbrlc0DO871nq5AgjiZr0zWLm
-         GowOEAGGYG2YIy3aUHGvITajiUbsoNk+5M7Xztb4qDH7P6SlUUlHWt0NVYXwZxqufzmH
-         lw1w==
+        bh=VK1ZaAJ8rCX0fsgfF+E5VOU1M6UvdWrY8FZF9e5u6cA=;
+        b=eyopzXj5bZWD6z9a0nZIfpMCE0ALqXkuZhKSmlqIxNJSP80X1EG4emol31E62BRsT1
+         gusKRGwQHh4C05du9WR9JHdr0Jy06o5cVrl3675+Z99kpQT6LKVK/fqNeu44wZW5AuA+
+         UQlsNrS6Lj2OWNMTsDAmuXuHmR3oWMHnzazS+HWgM/LkanfWm4htgplSlPS6r+0n9cgC
+         fmprMjMsF7rstOmzziHdcKtYySuOPDM0ehITGXsXguD62wR3Fs4FHvW/9SJDtjZyMA3n
+         jmzVmO1wsphKUMHvEaIxXjOqs1WJ7vIzMNFK30sEyw2SPH0AGabPMfOWt1iP55VJpirH
+         7Ojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=O3phQ5WnH+fjpqqGeLyWt4jMMOe0eKPE4Jb+7JdOf+w=;
-        b=Zbl+bZiLvz4Ewg/SNFKtA1Zl3eLin4kghDfQqKn1te/NkqJxn7BkIIgLKYCns1h/CI
-         Sx3qoyka7ObLNC2FBEd2KTgB0As7b63i5nwdYojrLnitREmQKuUC7kqbUhZ+n0qoHIQT
-         Ud5uN7NPncRhGF5GI6OBnTmxuN8r1ce1wTwsO9iBoYG1JlDHjo+UCfBZFx9QZHOltivL
-         FSO6SywC7s/HyojGT30MbH2bMVpyxBweO5eENG3C+WVOcCmT7RXv2nE4yQAjgGNMq0sN
-         XNgiVDZ4qw1wig5RXoQHQ1YHsMmQHiebV4T3+x3DaYtV59GxgaqyWgbbtKRNxhjC31Mt
-         kSgw==
-X-Gm-Message-State: AOAM531gj5PiFyyODvs5O8AR9vERnBFQQocjY6IH6L3reTjjM560XOQv
-	H8QOF6XjXUt6Pq1vbCu2A4vFttJcTPWqxHTHxb8=
-X-Google-Smtp-Source: ABdhPJyA0Lw/auZNGLOZIDLnB1LPyvLlz3CHO9CpgTq+yXEDPxUhbkBSLEs3OJ7ZJ1nj7yHhDWrOIRnclCi+ifq7xHM=
-X-Received: by 2002:ab0:2c16:: with SMTP id l22mr626240uar.100.1620240578272;
- Wed, 05 May 2021 11:49:38 -0700 (PDT)
+        bh=VK1ZaAJ8rCX0fsgfF+E5VOU1M6UvdWrY8FZF9e5u6cA=;
+        b=SFSfVufU7KfiT7eTgq7E+CxqXpuDSPeO8UIc8hl7erU417Jz49dGVsLH8fV/rLBHbs
+         vzsYupP5Sxj3MFhuztlz7+zmMAiYlT6vkwQmWMXEmOpKQK0aMf85p0C23wIOR8lw1mxl
+         sxH36eJzFRFBD3+3gi+rXv4CR9gsiDgd7MUycbYB/RiodoVLiswYPJZyvIYaKnqOwxE3
+         79grqJrdB9MTm1td51QEL/YvYqHF++U3T3vuP4MEgr403gLUwXjwgYoqEcvoCivk3nmB
+         6P0HqnPF9xVgBWXbuBIdm+zXyy6OylZCrB67undrZUcJUSBm4+PB8UJfeR5D5QO5YE7v
+         vtug==
+X-Gm-Message-State: AOAM531tEjW6KZ3zld81EZhhkonxS/0WJPDZspuBpg8NSkC0UfxDyYSz
+	vroOI2mJdhlDnXCMmpoOyHo1RunFEz0w1SiCN54=
+X-Google-Smtp-Source: ABdhPJzpwzlK69jztZgOS8qKIi2zQnJEGPEB1Flt/eKpjhKDJkSnGZnIbpBCCnSqlVeF6ceHQFg45qMO69OBt1VOxzE=
+X-Received: by 2002:a67:c401:: with SMTP id c1mr190723vsk.51.1620240742885;
+ Wed, 05 May 2021 11:52:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-50-alex.kanavin@gmail.com> <CAMKF1sqe2_HiA4VBArE0SSGF8fpNUTeZaHh23Uo6P6WJMJAhMg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqe2_HiA4VBArE0SSGF8fpNUTeZaHh23Uo6P6WJMJAhMg@mail.gmail.com>
+ <20210505151850.660512-23-alex.kanavin@gmail.com> <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
+In-Reply-To: <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 5 May 2021 20:49:26 +0200
-Message-ID: <CANNYZj9wiSNuQYkMf=bzbyeTCSgDeB65-fJDxb81iCMS0diZbw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 50/61] python3-setuptools: upgrade 54.1.1 -> 56.0.0
+Date: Wed, 5 May 2021 20:52:12 +0200
+Message-ID: <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
 To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001e60ce05c199a815"
+Content-Type: multipart/alternative; boundary="000000000000ee2dfa05c199b1f3"
 
---0000000000001e60ce05c199a815
+--000000000000ee2dfa05c199b1f3
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 5 May 2021 at 20:07, Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, 5 May 2021 at 20:13, Khem Raj <raj.khem@gmail.com> wrote:
 
 > On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin <alex.kanavin@gmail.com>
 > wrote:
 > >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > Drop awful ncurses hack; please make a proper patch with a configure
+> > option and PACKAGECONFIG.
 > >
 >
-> change does not match the subject. Is something missing here ?
+> Lets not delete this unless its causing trouble as it will break
+> existing functionality that users might be depending upon.
+> if there is better fix please propose that instead
 >
 
-Someone else's update merged first, and rebase on top of that left only
-these pieces instead of dropping the patch. I'll remove it now locally.
+Sorry, no. If I do not understand what it does, the version update is
+incompatible with it,
+and there is no trouble detected by the AB from dropping it, then it has to
+go.
 
 Alex
 
---0000000000001e60ce05c199a815
+--000000000000ee2dfa05c199b1f3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Wed, 5 May 2021 at 20:07, Khem Raj &lt;<a href=
-=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, =
-May 5, 2021 at 8:20 AM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin=
-@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 5 May 2021 at 20:13, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">On Wed, May 5, 2021 at 8:20 AM Alexander Kana=
+vin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.ka=
+navin@gmail.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | =
-4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; Drop awful ncurses hack; please make a proper patch with a configure<b=
+r>
+&gt; option and PACKAGECONFIG.<br>
 &gt;<br>
 <br>
-change does not match the subject. Is something missing here ?<br></blockqu=
-ote><div><br></div><div>Someone else&#39;s update merged first, and rebase =
-on top of that left only these pieces instead of dropping the patch. I&#39;=
-ll remove it now locally.<br></div><div><br></div><div>Alex<br></div></div>=
-</div>
-</div>
+Lets not delete this unless its causing trouble as it will break<br>
+existing functionality that users might be depending upon.<br>
+if there is better fix please propose that instead<br></blockquote><div><br=
+></div><div>Sorry, no. If I do not understand what it does, the version upd=
+ate is incompatible with it,<br></div><div>and there is no trouble detected=
+ by the AB from dropping it, then it has to go.<br></div><div><br></div><di=
+v>Alex<br></div></div></div>
 
---0000000000001e60ce05c199a815--
+--000000000000ee2dfa05c199b1f3--
