@@ -1,125 +1,124 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.805.1620239151375087866
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web12.860.1620239316478256349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 11:25:51 -0700
+ Wed, 05 May 2021 11:28:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ryGwdGTk;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id q5so1741243qvv.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 11:25:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ltV1CaRa;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id dl3so1756146qvb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 11:28:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dzGZX/ccC02UFPvaGCH8LWwrnAFt6ddbLBUXyELzKaM=;
-        b=ryGwdGTkOeiY6krDZ2fHxOxIWLfqQtIo/TM/VNNv7uqNWPwIVQDOdQuuhcfGORUeHS
-         1pqwFMWpuxNMo5n71xit3frDAm2XRdvmZqhieKS6ebVjl9K4EHEYDcQdgu5M2fUDbAPE
-         vuYtgrMQmybqOfVcOqvp6VAZbvfSZeWa93lx3dWqkAMHbQgslBdQi24HjcmtdwsV2+3D
-         NcoKIrYudrtVv+RQOAilSt2jr1AU0FIXe/gtvf7DDinCUAn/C1Bygj/7rca/Ft7pMEja
-         1RwZEkbLhL07MA5lIIuxndeUcfGzgxkuJlIfQL5DFsrM73SKmEzQHpBxGy3gyZN6PU34
-         aNrw==
+        bh=NujRrsQSh70r/jYvJmL/H4Heup9D0ujr7V2l8XOUQMU=;
+        b=ltV1CaRazmWzm9NxxeGEQA2UIGuY6d+cCc52J/Tk+nhByxpJtxzE8PkDIzg+wSG2Ac
+         rntVV0nqQCxKtz/JBfh8Y7F2IwTYbIX5LQnphXkdBej//hNy4yoSZuCfPjTWwYR5kxzw
+         prTdVb7+dvyfc1pHb6HgKwBr8FhFiGMadNte+RYBcmuypg7PybkoMiToWc/VaWwE11zq
+         4ACYv1VbOlrdhGDrBvIjHdT9cbmS6lyL/mPS+NLycROOlxVBpP9/PKvtqMAp5Ifi0508
+         EMcMth0a6giBZMBAky2DkdyFg2JBC3MPust+Wa64apsaG+YhZtUF0JYh35b8bspZ8roI
+         /95g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dzGZX/ccC02UFPvaGCH8LWwrnAFt6ddbLBUXyELzKaM=;
-        b=jzfaOQ61kDdf5pbN3JjrkyB+Zc5O8boBxX6SBlEEPDqJRBdEEjtsTbMdjXKlSPQtgU
-         bBHUqivGq1gZDENzaCfZEoNdPRcIMy4qym8QjRm1kk1Z2jFhQO8Z9F0IcqvjUiYNUtyp
-         MLXZeKmI6Wt8Ng8oqec8qpxl/T+uPIDOaAk+x8L7+UIkZBJmFAv5jlFwebyYdbe/OWGp
-         OmPvqlni3awePQUJPWw9q8Kw4CIwkpxm4LdLkZNQ1NJsQXLdXW8fGiTaBt7YUQkNwZOJ
-         a50oygMrVxBFemrKIpt+5JYDK2RmUFvzH6mhboVaHn72ZsxpaDrWLN4Btt/UsQDSfmmz
-         Bogg==
-X-Gm-Message-State: AOAM531LAw4XkQsuUR1vdg3GUsfsPPD2rGw3fzQDXPl9/Qjkq72TNJV0
-	qdrachko/snN8lQ/xH9mf3qaS016i780mrjaxZU=
-X-Google-Smtp-Source: ABdhPJziL1Qdg/uenzjokG9Suk/O8uuhvRHDYr0ePrsA2gWnhikHw48YFUGtFFofmlKAuD7D01bNtj9hBpiLtDkSeGc=
-X-Received: by 2002:ad4:4dc8:: with SMTP id cw8mr16353qvb.16.1620239150545;
- Wed, 05 May 2021 11:25:50 -0700 (PDT)
+        bh=NujRrsQSh70r/jYvJmL/H4Heup9D0ujr7V2l8XOUQMU=;
+        b=erltqvKf3xKaQpGaYkVvCmuHXsUFPsog7geEXqTidpwFOYpx9NUAlhKJq1hIjYD2vS
+         4CxigWv2SORifnjUnW3KpOV8CF3eRfgRVuiHnrv8eWPS1mAcirq1DNCkVnAvsyp3RXqo
+         1fGAS6+rNsB200V0c5IyRJGNCKtP+q8PB9UZ2S3TfniT3OLka2Oy5/wGPuazHjgLlWPp
+         unbR+nKh1cGUv3iZKR43tDhGHUYWvkJ2Umd7z22ftfEEFutyxQu3CCQMlhbpYUv4b2f/
+         ejw0zgTSlAwzR5M9eM/5bynkyz+Tc4W4FtJEbhetynbPA4EkvpaZHuxs+sfjsheY1DIa
+         Patg==
+X-Gm-Message-State: AOAM532od25YSYveGVBiMlD7RY4laEBAvSS0E+3R5O52RPFTb/dUEeZJ
+	p6aoyH3/ce7GcAJlMSCgQuzsiHytqCB3LE8MLOc=
+X-Google-Smtp-Source: ABdhPJxIyLrFHeTSIKqBObeJFtDjjUyUoQbw8gK8qx51WX1vvPk80MHn/gSEaF00Zz9Ol7Pu3fRBvLNbJvC6Gyy1rQ0=
+X-Received: by 2002:a0c:b218:: with SMTP id x24mr33083214qvd.55.1620239315650;
+ Wed, 05 May 2021 11:28:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210505151850.660512-1-alex.kanavin@gmail.com> <20210505151850.660512-22-alex.kanavin@gmail.com>
-In-Reply-To: <20210505151850.660512-22-alex.kanavin@gmail.com>
+References: <20210505151850.660512-1-alex.kanavin@gmail.com> <20210505151850.660512-15-alex.kanavin@gmail.com>
+In-Reply-To: <20210505151850.660512-15-alex.kanavin@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 5 May 2021 11:25:24 -0700
-Message-ID: <CAMKF1spN4wQfxxiVoMmavZ+7v+gKzyU9H0wK4YAJWNV9qv7RVw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 22/61] ffmpeg: update 4.3.2 -> 4.4
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Trevor Gamblin <Trevor.Gamblin@windriver.com>
+Date: Wed, 5 May 2021 11:28:09 -0700
+Message-ID: <CAMKF1sobYs1KisJyP+c=67dWwTEKeuXOPVAaHokHDwzuimqP=A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 15/61] bluez5: upgrade 5.56 -> 5.58
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> Drop mips64_cpu_detection.patch as upstream
-> has changed the code in a way that's difficult
-> to rebase.
->
-
-Trevor was working on it and he has being trying to fix it for mips
-case as well. So lets leave this to him
-
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  .../ffmpeg/ffmpeg/mips64_cpu_detection.patch  | 32 -------------------
->  .../ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} |  3 +-
->  2 files changed, 1 insertion(+), 34 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
->  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} (98%)
+>  meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+>  ....am-add-missing-mkdir-for-ell-shared.patch | 25 +++++++++++++++++++
+
+see this https://lists.01.org/hyperkitty/list/iwd@lists.01.org/message/SYX6Z7SUQHU7UWM6ECZTTJ6SPODIS6KB/
+
+
+>  .../bluez5/{bluez5_5.56.bb => bluez5_5.58.bb} |  3 +--
+>  3 files changed, 27 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+>  rename meta/recipes-connectivity/bluez5/{bluez5_5.56.bb => bluez5_5.58.bb} (91%)
 >
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
-> deleted file mode 100644
-> index 69429af8f0..0000000000
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -It will add -mips64r6 and -mips64r2 to cmdline which will
-> -cause conflicts
-> -
-> -in OE we user mips32r2 and mips64r2 for mips arch versions
-> -so there is no benefit of detecting it automatically by
-> -poking at tools especially in cross env
-> -
-> -Fixes errors like
-> -
-> -linking -mnan=2008 module with previous -mnan=legacy modules
-> -failed to merge target specific data of file
-> -
-> --Khem
-> -Upstream-Status: Inappropriate [OE-Specific]
-> -
-> -Index: ffmpeg-3.1.1/configure
-> -===================================================================
-> ---- ffmpeg-3.1.1.orig/configure
-> -+++ ffmpeg-3.1.1/configure
-> -@@ -5220,12 +5220,9 @@ elif enabled mips; then
-> -
-> -     # Enable minimum ISA based on selected options
-> -     if enabled mips64; then
-> --        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
-> -         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
-> -         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
-> -     else
-> --        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
-> --        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
-> -         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
-> -         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
-> -     fi
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> similarity index 98%
-> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> index 08be38ca50..19a8e58370 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> @@ -24,10 +24,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->                      file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
->
->  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> -           file://mips64_cpu_detection.patch \
->             file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+> index 74b59e406c..635cad813e 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+>             file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+>             file://0001-test-gatt-Fix-hung-issue.patch \
+>             file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch \
+> +           file://0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch \
 >             "
-> -SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
-> +SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+>  S = "${WORKDIR}/bluez-${PV}"
 >
->  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
->  ARM_INSTRUCTION_SET_armv4 = "arm"
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+> new file mode 100644
+> index 0000000000..03b42f73cb
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+> @@ -0,0 +1,25 @@
+> +From d341ba650af1b7068d9ad034732b4f41b91bb2c1 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Sun, 25 Apr 2021 18:56:41 +0200
+> +Subject: [PATCH] Makefile.am: add missing mkdir for ell/shared
+> +
+> +This addresses build errors out of source tree.
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + Makefile.am | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index be5d5c7..72ad425 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -623,6 +623,7 @@ lib/bluetooth/%.h: lib/%.h
+> +       $(AM_V_GEN)$(LN_S) -f $(abspath $<) $@
+> +
+> + ell/shared: Makefile
+> ++      $(AM_V_at)$(MKDIR_P) ell
+> +       $(AM_V_GEN)for f in $(ell_shared) ; do \
+> +               if [ ! -f $$f ] ; then \
+> +                       $(LN_S) -t ell -f $(abs_srcdir)/../ell/$$f ; \
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb b/meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+> similarity index 91%
+> rename from meta/recipes-connectivity/bluez5/bluez5_5.56.bb
+> rename to meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+> index 676cb2dbb2..186a621c44 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb
+> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+> @@ -1,7 +1,6 @@
+>  require bluez5.inc
+>
+> -SRC_URI[md5sum] = "e6c51b2aefa7c56ff072819a78611fa5"
+> -SRC_URI[sha256sum] = "59c4dba9fc8aae2a6a5f8f12f19bc1b0c2dc27355c7ca3123eed3fe6bd7d0b9d"
+> +SRC_URI[sha256sum] = "c8065e75a5eb67236849ef68a354b1700540305a8c88ef0a0fd6288f19daf1f1"
+>
+>  # noinst programs in Makefile.tools that are conditional on READLINE
+>  # support
 > --
 > 2.31.1
 >
