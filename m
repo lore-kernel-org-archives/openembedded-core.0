@@ -1,128 +1,125 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.10076.1620227954494775674
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.9785.1620227955466824819
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:14 -0700
+ Wed, 05 May 2021 08:19:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qFGTWVW8;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id l4so3426662ejc.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FgeTiPE2;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id r9so3473940ejj.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=siRbpo0qY/CC7Iu6wTQ7qSfJI1yL7i0SuKyyjh0iqqI=;
-        b=qFGTWVW8gKqE0xr0yA728KdZ8U/5mz4NE3DirEfIBKwlYstQVEab9s0Cs8SqhWy3mA
-         ZFZvnD3tP5W660TqbIuGDTFF//mTrggp1QdZHQIQDMuuNHXw/ayGb6Qhtp1BdEJZLQLp
-         kU/JL1Rr9OXyeBVpl8wpvZ46WQbWBJwHcxAOCQDFFzfyxVGnVjsCdBOqohU3nNL3krXr
-         5qqOeOZR6ulXpfXop1ZF+rpbxZIXb/D+e4pzAvEi9FgkZXGsPz/kBuZs3WHQGSE30Y/S
-         jQapLgQbraGYS/oW0t6gYUm9J3ZV+FAzWSASaGNrYz4IgmQW/4P0JfYngi4X7MxbRTaQ
-         VS8w==
+        bh=OJ/kcSgmb+597eKT4mfjsLCW9RnYgftuqr+IrCKr5y4=;
+        b=FgeTiPE2pipY/IiloS2hvGPWmRcUbauN8munh1ELrWgHH2LtkdbZUArtipvcW/PVWj
+         2YpfjoaQRLQb5OEMRnLHG271qF6QY5nM/FzlHhn1sPcaH9US0IKz8kV1KclaL85d5tnn
+         cPm1uon8SIOlSIZUoBni2TpBjrUOiXT2rZnUC1zKNdNkqe1qh5At53U5uxcXJ7+ZpJCU
+         iOC7xUvIcmaw0D8oaW5t/HmroNuUYfWnPcTRxB437PmvUrjB5ex5RtRDT0J5++sGZM+m
+         t1RHDgWJ8BB4c7d2bx3s85Ls06yJZmHcDw0W9RhiD/73Yl4wBwYcSpT8nqYOYCIJ+TAL
+         DNig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=siRbpo0qY/CC7Iu6wTQ7qSfJI1yL7i0SuKyyjh0iqqI=;
-        b=F3vu+0Wemq9nQ+d/Q/H69w5Y6EEYotlyUPYxXrFufHdpMPJ3KvN7QhgDYCkNRWabro
-         bOkpPUN1Zds4WZu1lIutFBAx5MeLM79ANpENPWD/uBj95SDYMant8L46yn0GLtHdb6dp
-         gqYyELpEl2qcxmVbNhjPc9OsrzcN7YV2bW6fQQw32L4+p7DFAT9YxQ6LL/jVHwuM32bI
-         RaJq2FWKpXUsLE91ZIC7ABzS2mpaZAtAlHY1VkxbP2LrwI4wOcPURFiJNiZ9QRBLRDyI
-         icImMGu7TZLq597Z1SPnQEUO9GW4217n7QUxMIUX/EWA+3YSCfrMYsyeX1S+BhWsv82V
-         E8tQ==
-X-Gm-Message-State: AOAM532k5jUYv1Ca7VGXOJ6QnDxEeGoEjDslMX7Ip+kYwjFmci92xe6h
-	Mc3RtXd217Y1yFJ6KC2w0Y/AZxh0jjsc5g==
-X-Google-Smtp-Source: ABdhPJw1JQBDCpgfuS5p7/vqHb26AXZZ3fmK3rDtIcBSAGf8o2CR3rUwmMEoPJJqfOsgHZSNJweXqA==
-X-Received: by 2002:a17:906:fb8e:: with SMTP id lr14mr22510869ejb.357.1620227952957;
-        Wed, 05 May 2021 08:19:12 -0700 (PDT)
+        bh=OJ/kcSgmb+597eKT4mfjsLCW9RnYgftuqr+IrCKr5y4=;
+        b=S33vkQBiXQDHfniRqO2TPdt3AJhL7m1LklD9JG+pnHUTx5KATGJlm3kq0xfcPok6z8
+         25oVjBoycWtUApozEvOs99uwHxt+DF3JgaS1jZCkXO7/ajP8+2SG0/gUj1eK6ieRMEx+
+         pDkJuwhTnb4KGfb+5OInjKvYvVMDuct4i9HgWo+zO2SMfgJ9t8uFw8VDTus/iaZ0KAQw
+         tiFpXJku9MZHjf9UtSAhfvIrZ72f+ASYzTgvq9342HPtr99hl1jBJsKCvzgWc9SiX8IB
+         sAk5r6Evj38pZxUmvgOeD5S7PM0LqQnOAC8hJc/eCOpR341muKFobYOBl0cNZMNtmZFl
+         In+Q==
+X-Gm-Message-State: AOAM533OaKPw86oHz1A3KaXSmzyMFDehZv7dB98+fB35lPlP3DEdDBhh
+	kOPbJYz+3TMHjwX5eQTzsfZ6XRLAaDw3Zw==
+X-Google-Smtp-Source: ABdhPJy3pKUuz0g5jT2D9BgdclFBKcfuCnieHdX8MightM6e8p+1ndm82bgrBjwEVbgG4HL8ZgoE2g==
+X-Received: by 2002:a17:906:5ad5:: with SMTP id x21mr28173258ejs.422.1620227953951;
+        Wed, 05 May 2021 08:19:13 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.12
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:12 -0700 (PDT)
+        Wed, 05 May 2021 08:19:13 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 21/61] virglrenderer: update 0.8.2 -> 0.9.1
-Date: Wed,  5 May 2021 17:18:10 +0200
-Message-Id: <20210505151850.660512-21-alex.kanavin@gmail.com>
+Subject: [PATCH 22/61] ffmpeg: update 4.3.2 -> 4.4
+Date: Wed,  5 May 2021 17:18:11 +0200
+Message-Id: <20210505151850.660512-22-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop 0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch,
-issue fixed upstream.
+Drop mips64_cpu_detection.patch as upstream
+has changed the code in a way that's difficult
+to rebase.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...d-libc-check-to-be-platform-OS-check.patch | 36 -------------------
- ...nderer_0.8.2.bb => virglrenderer_0.9.1.bb} |  5 ++-
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch
- rename meta/recipes-graphics/virglrenderer/{virglrenderer_0.8.2.bb => virglrenderer_0.9.1.bb} (78%)
+ .../ffmpeg/ffmpeg/mips64_cpu_detection.patch  | 32 -------------------
+ .../ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} (98%)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
 deleted file mode 100644
-index a0ac3aefdd..0000000000
---- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch
+index 69429af8f0..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--From 3d30df8d8ccb919733b5339b2a82474305b83998 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 6 Aug 2019 01:19:48 +0000
--Subject: [PATCH] gallium: Expand libc check to be platform OS check
+@@ -1,32 +0,0 @@
+-It will add -mips64r6 and -mips64r2 to cmdline which will
+-cause conflicts
 -
--endianness on musl based systems can also be detected in same way as
--glibc, therefore check for __linux__ define instead of __GLIBC__
+-in OE we user mips32r2 and mips64r2 for mips arch versions
+-so there is no benefit of detecting it automatically by
+-poking at tools especially in cross env
 -
--Fixes build on musl/mips
+-Fixes errors like
 -
--| ../../../../git/src/gallium/include/pipe/p_config.h:171:2: error: #error Unknown Endianness
--| #error Unknown Endianness
--|  ^~~~~
+-linking -mnan=2008 module with previous -mnan=legacy modules
+-failed to merge target specific data of file
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/gallium/include/pipe/p_config.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+--Khem
+-Upstream-Status: Inappropriate [OE-Specific]
 -
--diff --git a/src/gallium/include/pipe/p_config.h b/src/gallium/include/pipe/p_config.h
--index d603681..71cdf49 100644
----- a/src/gallium/include/pipe/p_config.h
--+++ b/src/gallium/include/pipe/p_config.h
--@@ -130,7 +130,7 @@
--  * Endian detection.
--  */
+-Index: ffmpeg-3.1.1/configure
+-===================================================================
+---- ffmpeg-3.1.1.orig/configure
+-+++ ffmpeg-3.1.1/configure
+-@@ -5220,12 +5220,9 @@ elif enabled mips; then
 - 
---#ifdef __GLIBC__
--+#ifdef __linux__
-- #include <endian.h>
-- 
-- #if __BYTE_ORDER == __LITTLE_ENDIAN
---- 
--2.17.1
--
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-similarity index 78%
-rename from meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-rename to meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-index 52821195d1..3991895823 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-@@ -9,9 +9,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+-     # Enable minimum ISA based on selected options
+-     if enabled mips64; then
+--        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
+-         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
+-         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
+-     else
+--        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
+--        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
+-         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
+-         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
+-     fi
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+similarity index 98%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+index 08be38ca50..19a8e58370 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
+@@ -24,10 +24,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
- DEPENDS = "libdrm virtual/libgl libepoxy"
--SRCREV = "7d204f3927be65fb3365dce01dbcd04d447a4985"
--SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
--           file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
-+SRCREV = "363915595e05fb252e70d6514be2f0c0b5ca312b"
-+SRC_URI = "git://anongit.freedesktop.org/virglrenderer;branch=branch-0.9.1 \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-           file://mips64_cpu_detection.patch \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
             "
+-SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
++SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
  
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET_armv4 = "arm"
 -- 
 2.31.1
 
