@@ -1,91 +1,94 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web09.2034.1620243809568525095
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web10.2147.1620244191875740436
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 12:43:29 -0700
+ Wed, 05 May 2021 12:49:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rJ2uAljR;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id cl24-20020a17090af698b0290157efd14899so1456591pjb.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 12:43:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CufjnL/a;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id r18so1706125vso.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 12:49:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Jk/fh+8zJ7J2q3k/u3RoLVd6K5rvL/a/MPR3KTHnBFI=;
-        b=rJ2uAljRdj7QnngMY9RbQvvXiy5S1sySZe95tMudzS48VoSYqsT/Tk2GvP1ZGzgG5w
-         l0JUvWQbNNeUP9kJB2P6kM6uFQc05eNk+UiROrVFlzsjs/mkxzMZHY11wTZdVFAgyh3j
-         DTfXZmVkpfbC4bVGubefUU9JFwJhWs2azlMzQpuk4zkZa6m+6NlihbTqj+QD0S05pkN4
-         tzoC6rqkfBAJ8D9Jmhu5PRg6shKUULxQVX0vOBrs0XEHQYxB6/dz86JxDHQeL372YIml
-         EM1MWmXbm+dEJcScvnUPdTIpo969O+rtbwK1BxAPDF/RW+ON5EW/rIdF+9iYlgytBg27
-         4o1Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ErO62Rjje0Ud2V9gE6SLKEyUs9iy9EcltHIUWVRwog4=;
+        b=CufjnL/a0dvgZiMXHQuiH33puFYG83znzaiB36VgWvxrrEAFyWVGUgKt7GURgyPqj2
+         eDNh4oOKhV67QI0hyESuvOdiNuWn1UwLAKDlZ+I0/KhfWP5zgeAjHKJlD+oe4AktQ9JI
+         VrevfiUTqJr86xBXichUxuFpbY8SxyX0AdkZWogzRZl6uBWAHmsamF/7E5CxEbPwHp9A
+         5OB71K+mbAHF4XU4u249x9uSn62ySfpfb6Ohi8JYNfPH6+n7fYdn9fu3bAlJudVq28DC
+         zYVWZocCgF7aqGCRS8xzVTDImBB5+IJzQFwi80XGCQxC4NrtUPAoC7WRVFDzWcj2PItL
+         z5XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Jk/fh+8zJ7J2q3k/u3RoLVd6K5rvL/a/MPR3KTHnBFI=;
-        b=I0b+A+EMpMa3qLLfBo1M5CvCOlFQebtBQh/S56oB9gpcVl7JelOkZEI+hGAycY0fwD
-         RbZT4nQ5Btfd0T0wLILjlVq58NhGXMlmxI7FWbmXFyTWiP/JPbslsf8R49VezIgiSYG3
-         e2lnrKzlYLWHK/YtccYPyDGySvNEtjii36YL0GbaWHC6i0CfMo7O2VxfmbjrkqBqFFFv
-         U9wXUscudho2VMHpoG5c9YFzedzNOpupP1X39QIHNd2c3ey9nXDf+wShOlnwh133zbkX
-         3FogeVJUhcBr1g5ioX8uzdtfYtvShgh/7UB6t8IhAvqXHDOBQcqYXo6Mm6DRi3qAxcW4
-         MUOw==
-X-Gm-Message-State: AOAM533sh+47Poyk+eteE+70/VGkJOMSlj8ffdXIKbKJXbRXmGTsFkQS
-	nQV/I2QtxQLSkxYyxsdrtvjL0t9VBOl6xg==
-X-Google-Smtp-Source: ABdhPJyWxDhybKZMOj7tA3eHjY6xDMu5IB+hfqgT+mzTo7voAEPKqT6/J875tbyuidZ3US7tFpDn+A==
-X-Received: by 2002:a17:90a:b78d:: with SMTP id m13mr13693126pjr.47.1620243808726;
-        Wed, 05 May 2021 12:43:28 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:c0f3:6794:1988:a526? ([2601:646:9200:a0f0:c0f3:6794:1988:a526])
-        by smtp.gmail.com with ESMTPSA id g34sm36880pgg.59.2021.05.05.12.43.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 May 2021 12:43:28 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-23-alex.kanavin@gmail.com>
- <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
- <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com>
-Date: Wed, 5 May 2021 12:43:27 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ErO62Rjje0Ud2V9gE6SLKEyUs9iy9EcltHIUWVRwog4=;
+        b=sFBuV68WQDqTKBrLC66Xz75txlFkCPXWf2vLky7oK9yILdpmMjrDaCDyC5Vf8JXCzu
+         LCCpyhGHjdJWjLgvMUxq61j2y46scwHSZBKHY2d31n6zST3YQv4FTloREWpTLPnCqFgK
+         89eCXmmOqzpuWPrW9kE9r5oKXt4PZoOK0lp+YOxz2UMl4WHVFLp4yj8WUIVMENg0+hkg
+         wZ5enHvlWH4z5F+sI9qpziPDDDbWjmyHOv8RjSovcDiLtQYliXiJdyDc6vVtH8vBT9gf
+         RmwjokjLmXSacnxDwx71bKrcfgFYzxfo7Xby3mu1YNw3hqTZEE7jLBDbkJKMzi1I+Twn
+         jmEg==
+X-Gm-Message-State: AOAM5301tdnl4lA1lIyERL/V93kU2Ewn5xnDpfUfrwBHCeJiHk0dXc6x
+	iJ8nfYag8oAdyNqg/QPuGuqQRp4Y3rfWbEI0BoY=
+X-Google-Smtp-Source: ABdhPJwERhBF62E/z1FoS1OCfxZNVU+xq8rJZZFtA9iVgAOq2O5Tv0yhrgzDxMWKUC+O7CicN/QoZrqd4EAUbd/kBvY=
+X-Received: by 2002:a67:1447:: with SMTP id 68mr484635vsu.20.1620244191073;
+ Wed, 05 May 2021 12:49:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-23-alex.kanavin@gmail.com> <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
+ <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com> <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com>
+In-Reply-To: <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 5 May 2021 21:49:39 +0200
+Message-ID: <CANNYZj8iZrEC0kc5GGJSb6ddBH77Tz_pN+pFzuD0Hhbdjhpjbw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000075591005c19a7f11"
 
+--00000000000075591005c19a7f11
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 5 May 2021 at 21:43, Khem Raj <raj.khem@gmail.com> wrote:
 
-On 5/5/21 11:52 AM, Alexander Kanavin wrote:
-> On Wed, 5 May 2021 at 20:13, Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
->     On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin
->     <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
->      >
->      > Drop awful ncurses hack; please make a proper patch with a configure
->      > option and PACKAGECONFIG.
->      >
-> 
->     Lets not delete this unless its causing trouble as it will break
->     existing functionality that users might be depending upon.
->     if there is better fix please propose that instead
-> 
-> 
-> Sorry, no. If I do not understand what it does, the version update is 
-> incompatible with it,
-> and there is no trouble detected by the AB from dropping it, then it has 
-> to go.
+> > Sorry, no. If I do not understand what it does, the version update is
+> > incompatible with it,
+> > and there is no trouble detected by the AB from dropping it, then it has
+> > to go.
+>
+> OK thats fair, no one knows everything so drop this patch from your v2
+> series and let someone else handle it.
+>
 
-OK thats fair, no one knows everything so drop this patch from your v2 
-series and let someone else handle it.
+I assure you, nobody else will do it. I regularly drop poorly written
+things that are a maintenance headache, if you have specific objections or
+use cases or issue reproducers, please state them, but saying 'don't remove
+because it might be useful to somebody, somewhere' is far too vague.
 
-> 
-> Alex
+Alex
+
+--00000000000075591005c19a7f11
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 5 May 2021 at 21:43, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">&gt; Sorry, no. If I do not understand what i=
+t does, the version update is <br>
+&gt; incompatible with it,<br>
+&gt; and there is no trouble detected by the AB from dropping it, then it h=
+as <br>
+&gt; to go.<br>
+<br>
+OK thats fair, no one knows everything so drop this patch from your v2 <br>
+series and let someone else handle it.<br></blockquote><div><br></div><div>=
+I assure you, nobody else will do it. I regularly drop poorly written thing=
+s that are a maintenance headache, if you have specific objections or use c=
+ases or issue reproducers, please state them, but saying &#39;don&#39;t rem=
+ove because it might be useful to somebody, somewhere&#39; is far too vague=
+.</div><div><br></div><div>Alex<br></div></div></div>
+
+--00000000000075591005c19a7f11--
