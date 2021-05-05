@@ -1,50 +1,50 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web12.9830.1620227947838090778
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web09.9781.1620227948757490588
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:08 -0700
+ Wed, 05 May 2021 08:19:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PdOxqfpf;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id b25so3458240eju.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jaZn1bVa;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id m12so3488175eja.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=n7TVuEfiwlsOsVgWbzXMf4FmapRs11DyCXXcLuqPYHg=;
-        b=PdOxqfpf2bETCefQZiZdFe1YjXxKtOTN5OF8wEuqDOho6c986Cu5oVR0EX+6RrAvPI
-         9uVZYv8/+uuEeXULoUCFkELvZXfxWZ62h7wND7gibEcvQ+C8WuyjrGwVvRVka52yvFTd
-         4LWcBg/DR/SxpebCvCpE5l43EifXbsNHTYnR1VTIBETuq7O5nxVzvxkBet48lWA0vuqU
-         FihA2bBldLjbnVrxBVISlaH5a70NlOCF/wUQg7DaSOIhEA8Tw6M49H09397jsNrNsZtZ
-         IKWO8ZPtoI515RUOvMmih9rsXZeadGFtUWuXIaaW3zI84n2LdKAVgB4e00bASEC/ACN2
-         jdgw==
+        bh=E9n2tqJL6dv+JaiEU18rleQK6Bbcxvb0xQ2CgHisZtw=;
+        b=jaZn1bVaKcsWMcaaC1Wo3iOHf9u/LtzVmag269lgZeQgsnTRoZ4RCbHmDmfgIFadBD
+         HtHlrP5ej/Xo8le4MY+Rvo1rvhoV/BuXraKPo0MpLzuoFXj42T/GDmKEmcvs+ReL/OLg
+         78aA8qb/OgQUdOFHOwFYn38TOnU5nHx8AD5cCM9yMjiGbaltx/n6CG6kbJtWDrKdJre/
+         ASAYfcPDHWDBD7uB22mFZ69WhgUmUuAeZasg2pP5do9+KBDpAEs7w4UAwGfbfHxxvTqt
+         eBFKMDVfcWAy3ETIwR0G0ommuA5jkYwfmiCPDSTY9Q0jlFvzEZMsjmtqhjW08wUW6jJj
+         i5Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n7TVuEfiwlsOsVgWbzXMf4FmapRs11DyCXXcLuqPYHg=;
-        b=tbtmMCgCsJDKwKs4FqKvY9P0rQMkdWq/YLhay3S0aakJeFN0IOh8HGN2KoghI1K7Y1
-         eLCUhDywwgSNcdLBMydYTYtrEvUCy86WMkzciY4AVf34yGETHv3Efk6yAyfj/VAY4NW0
-         DSbZegwbAcHaTPZ9UstVv/vIuh6fb/qzDDcUU5kXjOswJrqQ8q64S1KUgSSvSKf4hFDG
-         Kg4gdzBRKYgM0O9QHa1/h/fNOpOqgvzOrNzR5J47agLtMnB09aRj7a0EOMPV9Hq35ly8
-         aZu1a3LWM6zw93dl+u7MZC9GdSyBo6U8jmYt9Kku+YkSevTy8XyF5cNKWuaFxJV+KEQt
-         Ldng==
-X-Gm-Message-State: AOAM5313xe8Dwse8boKkKX3FzYf7YxlJMNCN2X69pDDAqzIOxEltXUKK
-	kb8RNaL7DCw9Na86AgY8wZ86RCZWKwJtSQ==
-X-Google-Smtp-Source: ABdhPJzLxDLb9xAc2jnXqpJ5xhnA1ibnqvtK1nM7gvnZeKgfpbgIpUTaE95S/3U9yvTmFBvIcYYv7A==
-X-Received: by 2002:a17:907:628d:: with SMTP id nd13mr8548271ejc.299.1620227946385;
-        Wed, 05 May 2021 08:19:06 -0700 (PDT)
+        bh=E9n2tqJL6dv+JaiEU18rleQK6Bbcxvb0xQ2CgHisZtw=;
+        b=mfNe5sjxWY4/Acrgqg51lkXsLtSi6Q/kO86om5DTG4U918MNyx7CPFWR+DcIBfciAA
+         XxUxf/EqFCVRpdY2wpzW6nvNVEgjK2AuzhUtfcpLDcBNktRiH62w+T14/+PTiTw5vuj4
+         1Tb6oQ9HlROmLCypYYojhZCZVBetMAN9635SLUtnXCh475vjI3bPoLxP/hLYwztjfseK
+         Jv7Dc5BHS53GvewAA1pHUR6yLiu82uVmG+wYEypXxAKORk42+SIm1hHg2tUcG+Gn+17L
+         vJjNuUztpmFP0sWWKk7Xfy7h6bP92Aff45D8B2KA73ti6aAk9KcrEgw8MRif94iOUYK3
+         b37A==
+X-Gm-Message-State: AOAM532y/ZPvymCKS4loalt8qPvXCugyVBKe7qNedL67DfN5Zat0xU+D
+	2tlGSw+7p542mMtghKoPMNAhd5pxFXUGTw==
+X-Google-Smtp-Source: ABdhPJwnATJHEBJRg/p2Gwjt+02L0L0ajdbxgEeRT5j+bGmxWvEHdsP6Q+NWAvlR6Qo/s9VXtRp2FQ==
+X-Received: by 2002:a17:906:4cc5:: with SMTP id q5mr28095465ejt.302.1620227947372;
+        Wed, 05 May 2021 08:19:07 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.05
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:06 -0700 (PDT)
+        Wed, 05 May 2021 08:19:07 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/61] pulseaudio: unbreak build with latest meson
-Date: Wed,  5 May 2021 17:18:02 +0200
-Message-Id: <20210505151850.660512-13-alex.kanavin@gmail.com>
+Subject: [PATCH 14/61] libdnf: upgrade 0.58.0 -> 0.62.0
+Date: Wed,  5 May 2021 17:18:03 +0200
+Message-Id: <20210505151850.660512-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
@@ -53,55 +53,65 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ild-remove-dependency-on-doxygen-bin.patch | 26 +++++++++++++++++++
- .../pulseaudio/pulseaudio_14.2.bb             |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
+ ...h-avoid-the-use-of-non-portable-__WORD.patch | 17 ++++++++++-------
+ .../{libdnf_0.58.0.bb => libdnf_0.62.0.bb}      |  2 +-
+ 2 files changed, 11 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/libdnf/{libdnf_0.58.0.bb => libdnf_0.62.0.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
-new file mode 100644
-index 0000000000..b1a43bd7f0
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch
-@@ -0,0 +1,26 @@
-+From 4ee244d0824e772ab35abb0f9df5e8088e16fc5d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Apr 2021 19:30:40 +0200
-+Subject: [PATCH] doxygen/meson.build: remove dependency on doxygen binary
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
+index f8d256e011..b740521fda 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
+@@ -1,23 +1,26 @@
+-From 8aa5402393fabaf4fff51be3af4868e8dfab6da7 Mon Sep 17 00:00:00 2001
++From fc0b81bb717db3f41513f09f6661676a7aea6dd4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 9 Mar 2021 19:30:42 +0000
+ Subject: [PATCH] libdnf/config.h: avoid the use of non-portable __WORDSIZE
+ 
+ Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1159]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
-+New meson refuses to complete confuguration if doxygen is absent
-+even if this target is never actually run. As we never run it,
-+let's remove it, until upstream and/or meson figure out that it's
-+optional and should be treated as such.
-+
-+Upstream-Status: Inappropriate [needs proper upstream fix]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ doxygen/meson.build | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/doxygen/meson.build b/doxygen/meson.build
-+index afc0e49..df55c83 100644
-+--- a/doxygen/meson.build
-++++ b/doxygen/meson.build
-+@@ -6,5 +6,3 @@ doxygen_conf = configure_file(
-+   configuration : cdata,
-+ )
-+ 
-+-run_target('doxygen',
-+-  command : ['doxygen', doxygen_conf])
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
-index 03b99306b3..9b8338a665 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.2.bb
-@@ -6,6 +6,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-build-sys-Add-an-option-for-enabling-disabling-Valgr.patch \
-            file://0001-meson-Check-for-__get_cpuid.patch \
-            file://volatiles.04_pulse \
-+           file://0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch \
+ ---
+- libdnf/config.h | 8 +++-----
+- 1 file changed, 3 insertions(+), 5 deletions(-)
++ libdnf/config.h | 9 +++------
++ 1 file changed, 3 insertions(+), 6 deletions(-)
+ 
+ diff --git a/libdnf/config.h b/libdnf/config.h
+-index 16121f6f..2925923e 100644
++index 01b330b4..dbd53f5e 100644
+ --- a/libdnf/config.h
+ +++ b/libdnf/config.h
+-@@ -18,12 +18,10 @@
+-  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-  */
++@@ -20,14 +20,11 @@
+  
++ #ifdef __APPLE__
++ #include <stdint.h>
++-#else
+ -#include <bits/wordsize.h>
++ #endif
+ +#include <limits.h>
+  
+ -#if __WORDSIZE == 32
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
+similarity index 97%
+rename from meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
+index dbe68d5a15..e2c2c41c6a 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
+            file://0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch \
             "
- SRC_URI[md5sum] = "1efc916251910f1e9d4df7810e3e69f8"
- SRC_URI[sha256sum] = "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f3488a2562a9ff66f1"
+ 
+-SRCREV = "85278894f21bc1957dc47a2a09ddacf59bc3cda8"
++SRCREV = "9a0e17562b19586b3ffa70fa93eb961b558794c7"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.31.1
 
