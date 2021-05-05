@@ -1,153 +1,139 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web08.9835.1620227988440119441
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web10.10086.1620227988824503024
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:48 -0700
+ Wed, 05 May 2021 08:19:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fFMLmT23;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id u21so3418019ejo.13
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GQnyBtj7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id c22so2496905edn.7
         for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6vrTaWgYRYWKrQ8+D96qAXtFzFaqd16lUZ/WDfT3Tc8=;
-        b=fFMLmT23B7puxn1zh7a0RLScyQbIzFShG/qih0N5gW/S5QrtJkXpqD8x25DwpcB6yn
-         /zEm0awssviEdD8gga1DFrr0Y2HzxlmGsv6RTNoYphsiaePUrRnMuqrJR7166zGs9QJF
-         r9YnGF2nski8SWLPOzJqYT4i9SiQX26f3SlY9TXH5f2V0LrjD2MlNTUsUpDC3SG+cV4z
-         AO/DePB8Q8DIATyhUVLF4Wa0yEhxjSE7H8TqsN5wzMK7yERqOQ1VPPXyFCZn2RRClk7t
-         KISrCmnEUusCrxcqSgZiS7PHFK7RfWkJdun1rMl/xYWR4mmBBBaB5sTPOns712/O7VXB
-         tV7A==
+        bh=G72maB+/1v7wFwju78x9NaPx+aLPgU5UulwRQFM32Y0=;
+        b=GQnyBtj7mW5A9LM4M+6ODbdOYklGON6L+Un2JbKoXbWsNtJldJGS0axc0LVfP7Ab0h
+         isyDAKUSPokyuVJ8EAn0lNkSmE8zJ4nkBu5ZX6/uTbbONr2n/zUrfgM50xYC5YuZAHGa
+         cbmvoWl4JygxI/JLp9/3vQ2VUpcVy5c32xjC8ZXeaDQ+OvrsP8trC/xEscZWa9qY4DEJ
+         IEJeSx2hwXx+xfMCmPyyh8VmdKjIjv+Eygxyhd6JAVI/hDsYbWnT3dPvUa4dMKao82cc
+         ApNhoCBTy6ukxiNcH2FDpf6VqejJd5eWlrsBv+17nnG8Rq8P6jkqpxr0zIOr4+sGbyno
+         Le9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6vrTaWgYRYWKrQ8+D96qAXtFzFaqd16lUZ/WDfT3Tc8=;
-        b=m4uUvMxJgjjaV2HDLfOEkk7GcFgNBZ2TvXBwpipO0V2HS6P9Ymc/1f4mwchMAZ1R2Z
-         7PRFLSw79Cf5SF4KCZroPkbU5eOLkEZUTdzlV7veQiuJR+zmVjrshLyWYvLZX736GIK9
-         k50K0glSvfaGgOk1H6g6tzFG0/OgRmLjm4ygIfFTEWarcOmjI758SN5QuklezueL0Q2i
-         IEjQj4Vae9m5szjyCK17VDhfeLzo9mT4drOuXKI5l+qEDKLU04Gi1ztbS4V4sTmX+KJA
-         OfZi9J95dBRDw8kJaBQqqW1vqH5sv0UbHv5FJEgJZu4lfyGsnN+uSiwLBjPpOxCacMu0
-         hJyA==
-X-Gm-Message-State: AOAM532/CudLIJPDbHYekL/Ia6TqHBf+4QxvgvmEvUvetAPMJjQSFkuO
-	XAJDZ8Lc4zEPz+7rTLb1akzsdhk8J/ytYA==
-X-Google-Smtp-Source: ABdhPJypLGtI4oXrYHSEDONO02PQq7tg1CHexFTk+ZHuyLB8aMETxkHREzSC0kx7URLpLYHLdNwP9A==
-X-Received: by 2002:a17:906:454:: with SMTP id e20mr28553504eja.17.1620227982415;
-        Wed, 05 May 2021 08:19:42 -0700 (PDT)
+        bh=G72maB+/1v7wFwju78x9NaPx+aLPgU5UulwRQFM32Y0=;
+        b=cVoTgwpuZ5guiXgteZRzQdr5vNoT0X5GD9YmU6+wLsyHAvHh2n5+h6oV2OopmScU9n
+         F1lmbr/fUAh+riwdt6JtRzLTAK8b1EbXnmYj3EH5rFx7xcLdsA7YFCTtJCCAkDqH8AtD
+         cm6LxdBE2i5/FMJnExqwQH0za5TycagCJ1vogausN4UwT0RTEVB+l/Z/zNShepIVO/lt
+         TOsApD5I7YLytY4BgVIK+RrYMb4iBNDZgZLPJCVR68u/8mAWhf00GEcdapQGEfhloGgy
+         O9LFfAJPmAV2dCoDCqFs1dLD/5NpJ1Ym8mOkfJ3X7mvss2vhXglQ4Kf40K4tn0pIrwMj
+         6ZUQ==
+X-Gm-Message-State: AOAM533MDo5A0XL7ZGEvIyXdZtbLTZpAV76Ai5rVokEugdiXojr+IjPs
+	Tc7vZRi8VOJQbA4CPoGqPXHOyXBuWYKnNw==
+X-Google-Smtp-Source: ABdhPJxnBkDFl5BwTI+nPRQdbaUJnVujFTLTifTOxYq6/CA6CPJFq+jGRW1mKfHwB2BmNbqSo7+Rww==
+X-Received: by 2002:a05:6402:6d4:: with SMTP id n20mr32576151edy.134.1620227987400;
+        Wed, 05 May 2021 08:19:47 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.41
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:42 -0700 (PDT)
+        Wed, 05 May 2021 08:19:47 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 57/61] python3: add markdown/smartypants/typogrify modules
-Date: Wed,  5 May 2021 17:18:46 +0200
-Message-Id: <20210505151850.660512-57-alex.kanavin@gmail.com>
+Subject: [PATCH 58/61] gi-docgen: add a recipe and class
+Date: Wed,  5 May 2021 17:18:47 +0200
+Message-Id: <20210505151850.660512-58-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is needed to enable gi-docgen, a successor to gtk-doc
+This seems to be the gtk-doc successor, and gnome
+projects such as pango and gdk-pixbuf have started
+transitioning to it.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc           |  3 +++
- .../python/python3-markdown_3.3.3.bb               | 14 ++++++++++++++
- .../python/python3-smartypants_2.0.0.bb            | 12 ++++++++++++
- .../python/python3-typogrify_2.0.7.bb              | 14 ++++++++++++++
- 4 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-markdown_3.3.3.bb
- create mode 100644 meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
+ meta/classes/gi-docgen.bbclass                | 24 +++++++++++++++++++
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ meta/recipes-gnome/gi-docgen/gi-docgen_git.bb | 22 +++++++++++++++++
+ 3 files changed, 47 insertions(+)
+ create mode 100644 meta/classes/gi-docgen.bbclass
+ create mode 100644 meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
 
+diff --git a/meta/classes/gi-docgen.bbclass b/meta/classes/gi-docgen.bbclass
+new file mode 100644
+index 0000000000..5750f7028d
+--- /dev/null
++++ b/meta/classes/gi-docgen.bbclass
+@@ -0,0 +1,24 @@
++# gi-docgen is a new gnome documentation generator, which
++# seems to be a successor to gtk-doc:
++# https://gitlab.gnome.org/GNOME/gi-docgen
++
++# This variable is set to True if api-documentation is in
++# DISTRO_FEATURES, and False otherwise.
++GIDOCGEN_ENABLED ?= "${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'True', 'False', d)}"
++# When building native recipes, disable gi-docgen, as it is not necessary,
++# pulls in additional dependencies, and makes build times longer
++GIDOCGEN_ENABLED_class-native = "False"
++GIDOCGEN_ENABLED_class-nativesdk = "False"
++
++# meson: default option name to enable/disable gi-docgen. This matches most
++# projects' configuration. In doubts - check meson_options.txt in project's
++# source path.
++GIDOCGEN_MESON_OPTION ?= 'gtk_doc'
++GIDOCGEN_MESON_ENABLE_FLAG ?= 'true'
++GIDOCGEN_MESON_DISABLE_FLAG ?= 'false'
++
++# Auto enable/disable based on GIDOCGEN_ENABLED
++EXTRA_OEMESON_prepend = "-D${GIDOCGEN_MESON_OPTION}=${@bb.utils.contains('GIDOCGEN_ENABLED', 'True', '${GIDOCGEN_MESON_ENABLE_FLAG}', '${GIDOCGEN_MESON_DISABLE_FLAG}', d)} "
++
++DEPENDS_append = "${@' gi-docgen-native gi-docgen' if d.getVar('GIDOCGEN_ENABLED') == 'True' else ''}"
++
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 140f7b490e..0c3e3628ba 100644
+index 0c3e3628ba..bfebd68acf 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -608,6 +608,7 @@ RECIPE_MAINTAINER_pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfound
- RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-markdown = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-python3-more-itertools = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-@@ -630,11 +631,13 @@ RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.
- RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-setuptools-scm = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-six = "Zang Ruochen <zangrc.fnst@fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-smartypants = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-sortedcontainers = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-toml = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-typogrify = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-wcwidth = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-zipp = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-qemu = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/recipes-devtools/python/python3-markdown_3.3.3.bb b/meta/recipes-devtools/python/python3-markdown_3.3.3.bb
+@@ -205,6 +205,7 @@ RECIPE_MAINTAINER_pn-gdk-pixbuf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gettext = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-gettext-minimal-native = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ghostscript = "Hongxu Jia <hongxu.jia@windriver.com>"
++RECIPE_MAINTAINER_pn-gi-docgen = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-git = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-glew = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-glib-2.0 = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
 new file mode 100644
-index 0000000000..c456f05541
+index 0000000000..4d779a9bdd
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-markdown_3.3.3.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "A Python implementation of John Gruber's Markdown."
-+HOMEPAGE = "https://python-markdown.github.io/"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=745aaad0c69c60039e638bff9ffc59ed"
++++ b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
+@@ -0,0 +1,22 @@
++SUMMARY = "Documentation tool for GObject-based libraries"
++DESCRIPTION = "GI-DocGen is a document generator for GObject-based libraries. GObject is \
++the base type system of the GNOME project. GI-Docgen reuses the \
++introspection data generated by GObject-based libraries to generate the API \
++reference of these libraries, as well as other ancillary documentation."
++HOMEPAGE = "https://gnome.pages.gitlab.gnome.org/gi-docgen/"
 +
-+inherit pypi setuptools3
++LICENSE = "GPLv3+ & Apache-2.0"
++LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f01202478cfe813c0e7f80b326"
 +
-+PYPI_PACKAGE = "Markdown"
-+SRC_URI[md5sum] = "034e3bccfde211d44b4a7a69cb290ba0"
-+SRC_URI[sha256sum] = "5d9f2b5ca24bc4c7a390d22323ca4bad200368612b5aaa7796babf971d2b2f18"
++SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
++
++PV = "2021.5"
++SRCREV = "7dee859321573f9c843ef7fb136f11142cb6ddf8"
++
++S = "${WORKDIR}/git"
++
++inherit setuptools3
++
++RDEPENDS_${PN} += "python3-asyncio python3-core python3-jinja2 python3-json python3-markdown python3-markupsafe python3-pygments python3-toml python3-typogrify python3-xml"
 +
 +BBCLASSEXTEND = "native"
-+
-+RDEPENDS_${PN} += "${PYTHON_PN}-logging ${PYTHON_PN}-setuptools"
-diff --git a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-new file mode 100644
-index 0000000000..8acc971c35
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "Translator of plain ASCII punctuation characters into 'smart' typographic punctuation HTML entities"
-+HOMEPAGE = "https://pythonhosted.org/smartypants/"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=977036977591ac666c728921ecc54c4f"
-+
-+inherit pypi setuptools3
-+
-+PYPI_PACKAGE = "smartypants"
-+SRC_URI[sha256sum] = "7812353a32022699a1aa8cd5626e01c94a946dcaeedaee2d0b382bae4c4cbf36"
-+
-+BBCLASSEXTEND = "native"
-+
-diff --git a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-new file mode 100644
-index 0000000000..3becb0dd8d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "Filters to enhance web typography, including support for Django & Jinja templates"
-+HOMEPAGE = "https://github.com/mintchaos/typogrify"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=12bc792d6f5415dbf421f3fd183c6dd2"
-+
-+inherit pypi setuptools3
-+
-+PYPI_PACKAGE = "typogrify"
-+SRC_URI[sha256sum] = "8be4668cda434163ce229d87ca273a11922cb1614cb359970b7dc96eed13cb38"
-+
-+BBCLASSEXTEND = "native"
-+
-+RDEPENDS_${PN} += "${PYTHON_PN}-smartypants"
-+
 -- 
 2.31.1
 
