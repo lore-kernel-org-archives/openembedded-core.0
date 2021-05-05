@@ -1,148 +1,94 @@
-Received: from mga07.intel.com (mga07.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.2478.1620181240800385476
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web12.2585.1620181317113122971
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 May 2021 19:20:42 -0700
+ Tue, 04 May 2021 19:21:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: EwVENbIJJsU9VJ2WcF7H8uJwwGCwoHnq9zeobkq4t99bm8YWrElf+3kGEziupaJlxS/T6Aw0js
- 6bJUJU9e8ugw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="262063975"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: ulCL64lYOqwUFOaj32Cidywjdb2VZ9B6Gk+9rkd2SeHMIkdnzADSAuXzEkGhFRArx8jeZ2pLWV
+ 1F/XmIYWQ3+g==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="178335138"
 X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="262063975"
+   d="scan'208";a="178335138"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:41 -0700
-IronPort-SDR: ZJ1VY6AYdbSwaLETMMfbENocp0lRJqdtfBow4fh2vBrwHrmTdvwc8kuzwL+/NtaF+Si6bO9gkn
- nKDhu/ywjQ0A==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:21:56 -0700
+IronPort-SDR: H3jmIfoGqC1VG73qyH5MhzOyztD3hKCn72UEiiGEX1VBPnkMkVEciI5IzP80yJYTWnbWwN9YkB
+ cq+qSKKjAKWg==
 X-IronPort-AV: E=Sophos;i="5.82,273,1613462400"; 
-   d="scan'208";a="531392217"
+   d="scan'208";a="531392591"
 Received: from teohzhiq-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.150.148])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:20:39 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 19:21:54 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemu: fix CVE-2021-3392
-Date: Wed,  5 May 2021 10:20:34 +0800
-Message-Id: <20210505022034.337915-2-anuj.mittal@intel.com>
+Cc: peter@hatina.eu
+Subject: [gatesgarth][PATCH] populate_sdk_ext: Avoid copying and producing .pyc files
+Date: Wed,  5 May 2021 10:21:47 +0800
+Message-Id: <20210505022147.338186-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505022034.337915-1-anuj.mittal@intel.com>
-References: <20210505022034.337915-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+
+Since pyc cache files are really system specific, no real reason to copy or
+generate them during the eSDK build process.  Also generating them has the
+possibility of re-using inodes that pseudo may have been tracking, leading
+a build failure.
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ce8eba263647ae63a722122e28f26af46ae083a0)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3392.patch             | 89 +++++++++++++++++++
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+ meta/classes/populate_sdk_ext.bbclass | 4 +++-
+ meta/lib/oe/copy_buildsystem.py       | 6 +++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 46b784241e..b5995d0e6a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_9.patch \
-            file://CVE-2021-3416_10.patch \
-            file://CVE-2021-20257.patch \
-+           file://CVE-2021-3392.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 9112ab6c5e..14689ec6ac 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -251,7 +251,9 @@ python copy_buildsystem () {
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-new file mode 100644
-index 0000000000..af94cff7e8
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-@@ -0,0 +1,89 @@
-+From 3791642c8d60029adf9b00bcb4e34d7d8a1aea4d Mon Sep 17 00:00:00 2001
-+From: Michael Tokarev <mjt@tls.msk.ru>
-+Date: Mon, 19 Apr 2021 15:42:47 +0200
-+Subject: [PATCH] mptsas: Remove unused MPTSASState 'pending' field
-+ (CVE-2021-3392)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
-+the Megaraid emulator appends new MPTSASRequest object 'req' to
-+the 's->pending' queue. In case of an error, this same object gets
-+dequeued in mptsas_free_request() only if SCSIRequest object
-+'req->sreq' is initialised. This may lead to a use-after-free issue.
-+
-+Since s->pending is actually not used, simply remove it from
-+MPTSASState.
-+
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Message-id: 20210419134247.1467982-1-f4bug@amsat.org
-+Message-Id: <20210416102243.1293871-1-mjt@msgid.tls.msk.ru>
-+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+BugLink: https://bugs.launchpad.net/qemu/+bug/1914236 (CVE-2021-3392)
-+Fixes: e351b826112 ("hw: Add support for LSI SAS1068 (mptsas) device")
-+[PMD: Reworded description, added more tags]
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+
-+CVE: CVE-2021-3392
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=3791642c8d60029adf9b00bcb4e34d7d8a1aea4d]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ hw/scsi/mptsas.c | 6 ------
-+ hw/scsi/mptsas.h | 1 -
-+ 2 files changed, 7 deletions(-)
-+
-+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-+index 7416e7870614..db3219e7d206 100644
-+--- a/hw/scsi/mptsas.c
-++++ b/hw/scsi/mptsas.c
-+@@ -251,13 +251,10 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
-+ 
-+ static void mptsas_free_request(MPTSASRequest *req)
-+ {
-+-    MPTSASState *s = req->dev;
-+-
-+     if (req->sreq != NULL) {
-+         req->sreq->hba_private = NULL;
-+         scsi_req_unref(req->sreq);
-+         req->sreq = NULL;
-+-        QTAILQ_REMOVE(&s->pending, req, next);
-+     }
-+     qemu_sglist_destroy(&req->qsg);
-+     g_free(req);
-+@@ -303,7 +300,6 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
-+     }
-+ 
-+     req = g_new0(MPTSASRequest, 1);
-+-    QTAILQ_INSERT_TAIL(&s->pending, req, next);
-+     req->scsi_io = *scsi_io;
-+     req->dev = s;
-+ 
-+@@ -1319,8 +1315,6 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
-+ 
-+     s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
-+ 
-+-    QTAILQ_INIT(&s->pending);
-+-
-+     scsi_bus_new(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info, NULL);
-+ }
-+ 
-+diff --git a/hw/scsi/mptsas.h b/hw/scsi/mptsas.h
-+index b85ac1a5fcc7..c046497db719 100644
-+--- a/hw/scsi/mptsas.h
-++++ b/hw/scsi/mptsas.h
-+@@ -79,7 +79,6 @@ struct MPTSASState {
-+     uint16_t reply_frame_size;
-+ 
-+     SCSIBus bus;
-+-    QTAILQ_HEAD(, MPTSASRequest) pending;
-+ };
-+ 
-+ void mptsas_fix_scsi_io_endianness(MPIMsgSCSIIORequest *req);
+     # Create a layer for new recipes / appends
+     bbpath = d.getVar('BBPATH')
+-    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')])
++    env = os.environ.copy()
++    env['PYTHONDONTWRITEBYTECODE'] = '1'
++    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')], env=env)
+ 
+     # Create bblayers.conf
+     bb.utils.mkdirhier(baseoutpath + '/conf')
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 31a84f5b06..d97bf9d1b9 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -20,7 +20,7 @@ def _smart_copy(src, dest):
+     mode = os.stat(src).st_mode
+     if stat.S_ISDIR(mode):
+         bb.utils.mkdirhier(dest)
+-        cmd = "tar --exclude='.git' --xattrs --xattrs-include='*' -chf - -C %s -p . \
++        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs --xattrs-include='*' -chf - -C %s -p . \
+         | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
+         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+     else:
+@@ -259,7 +259,7 @@ def create_locked_sstate_cache(lockedsigs, input_sstate_cache, output_sstate_cac
+     bb.note('Generating sstate-cache...')
+ 
+     nativelsbstring = d.getVar('NATIVELSBSTRING')
+-    bb.process.run("gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
++    bb.process.run("PYTHONDONTWRITEBYTECODE=1 gen-lockedsig-cache %s %s %s %s %s" % (lockedsigs, input_sstate_cache, output_sstate_cache, nativelsbstring, filterfile or ''))
+     if fixedlsbstring and nativelsbstring != fixedlsbstring:
+         nativedir = output_sstate_cache + '/' + nativelsbstring
+         if os.path.isdir(nativedir):
+@@ -286,7 +286,7 @@ def check_sstate_task_list(d, targets, filteroutfile, cmdprefix='', cwd=None, lo
+         logparam = '-l %s' % logfile
+     else:
+         logparam = ''
+-    cmd = "%sBB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
++    cmd = "%sPYTHONDONTWRITEBYTECODE=1 BB_SETSCENE_ENFORCE=1 PSEUDO_DISABLED=1 oe-check-sstate %s -s -o %s %s" % (cmdprefix, targets, filteroutfile, logparam)
+     env = dict(d.getVar('BB_ORIGENV', False))
+     env.pop('BUILDDIR', '')
+     env.pop('BBPATH', '')
 -- 
 2.30.2
 
