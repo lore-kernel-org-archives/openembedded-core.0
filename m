@@ -1,71 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.9818.1620227938110234027
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.9822.1620227938626918376
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 May 2021 08:18:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=T50hg15f;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id d14so2480379edc.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:18:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I+cFzwU2;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a4so3487726ejk.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CnukaELthpkII1gEhvmZB0LfIz9cliUsoJF3zr5r68A=;
-        b=T50hg15fDvEAI4Gh0gXjDULZ3YiGRAUy7HaE6O7ET/C4VddOE9KU4VUa8rN6636rk4
-         vO/OcHpNE6WhqZS6jOBlfIc9Dyl7KtansC7qADo20fYuM3FhH5RwhYlnrQJ5GrNr4vw0
-         CW6BliTl+8ZD87bUbG4W6YsKlUF90VT+spotoMm+5XEjagQivpW8P560XC9kFLEg/gG2
-         XxFxbJdrXy/QEw7yCbHuhqRFEwARufWkaMPRzgGMeZfw6sTObiuYWy+kFTqLJg0cudnb
-         QuDqHAp4U4/qj6d3kxQH2GcfS3SGe+JpdFE6O0OQntHjUHcM5P/DKPKKjs4sQMzK6/U9
-         eoXg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dYtYlzLiEMz3AXqUv/ppRaboU72SfTIRdyV0BvdOKTo=;
+        b=I+cFzwU2lW/dh5EnOGFGB+lQsqBt7HEWoEhAE3biBGf4/WDCdZriEfZsnXMW6Q/yY6
+         gQi/lVzKaszCad8lJPtUVM/cbz8zGiSa4V7J3B6OMzzjqv1XVLo6JaPtn6d/95ykbkM5
+         RPi6lhli+LnMZG1oUqP83fiC4We0KKFQlNMsXdoVzwv/c+Wp2BtkGR6AlJGT3xEgeuNn
+         HqqXmd1hUopQDkuPD/aMjBzaLIDiMTWd+iPRQIPXFedNvaBigw82aXN143VbjFWFUUYc
+         dnDTwzwcAWl5bY2zE/vb5OlxRtCmc005InPll0Rvgf1WK+mM/9BxT6bO9QoOIcZU+Vd0
+         yAcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CnukaELthpkII1gEhvmZB0LfIz9cliUsoJF3zr5r68A=;
-        b=pCWdQ+FKvMD2GU6CABU7hva1HW4/g4ka0LYukCak6k6dyjnpUFbAiNqg2ktX31s/3t
-         96OeM1/UWNlQpbk2WABcE61qLts0sAKYkoTqwzInB6Ox7KIfWxuZv3SB8lcbXXzyFmS/
-         NCm+J8MCIqN5Is0qP157iiguKvR1lIqv274+Tx1un3/n9zKZRBsRaQ+ieEYRPShkUM1l
-         fd/3C0m12nHqrgmlLIlckauHZKN9oX6FSW/EmdL/u4hYGUDn37Xg1kKgCT6UIB+14/rG
-         +yCqlbovTx4G09D3VHLl2fC9iFx0rWs0FJiN57/psNYtwnKWlQgpCl1xXW80aHX3CTjT
-         k4Kg==
-X-Gm-Message-State: AOAM533pmD76B81Nwa5vea3oI9qnRFRLCXWVXoz5pfyfgsDLn+DIKa/5
-	ekb7uXmzE0e9GoUekUKCp/IlgOABRdwAJQ==
-X-Google-Smtp-Source: ABdhPJy4qGvnmUDj3mnXxHLxkXyK61E1b9ks3Vtac3YwZu0559/RqPUN8UqNI0bz6EDalxlltO1TIA==
-X-Received: by 2002:a05:6402:d05:: with SMTP id eb5mr11920316edb.6.1620227936555;
-        Wed, 05 May 2021 08:18:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dYtYlzLiEMz3AXqUv/ppRaboU72SfTIRdyV0BvdOKTo=;
+        b=URgJALttiMvo4fmN1/ejFmMO0q5LU5GAUW50AYilNl7QttgpLponEZI9ir7XNJonEn
+         lIdPdkoUJjN65aLzlzhkXfGUbMKJMQKaepQVoFrJupsrwkWlC/5BhgPdM7sZr5nr8wEF
+         0kaUgNTK+WxIhXGDl755I1LUnrvPhvxuiuHPGaK8b5J5Da3Zx0iS/mt9T37FhN/ZREd6
+         Fhl0YF3Tj9xte8M3kvFSkaz7HXwgbSK6yNeiKMQND5ZhjKZeu6lkfMrr8VZi5bHGGa0Q
+         HQO5T0nwihTiKQM7TsOFbriSnmqbIMQQPFUZ0p5Bif4hC8NK//ySbpbiGEU3hu4S8X+8
+         RcWQ==
+X-Gm-Message-State: AOAM532vcYMuC+nDDm1p0EgbhmroTqpLgscW3vJwjLHD3VUQs5tioQ8s
+	bZqQRS98YKNaF28mWFb68FwgX38vG7mfjw==
+X-Google-Smtp-Source: ABdhPJy5coZTWpHVOQW9aCzR2nWsAA1oPlSu9knjN8G4/Reg4x+GFeMUfYT6kGAQD4lJcXdOyvMqxQ==
+X-Received: by 2002:a17:906:90cf:: with SMTP id v15mr28135589ejw.432.1620227937273;
+        Wed, 05 May 2021 08:18:57 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.18.55
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.18.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 05 May 2021 08:18:56 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 01/61] boost: correct upstream version check
-Date: Wed,  5 May 2021 17:17:50 +0200
-Message-Id: <20210505151850.660512-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/61] go: correct upstream version check
+Date: Wed,  5 May 2021 17:17:51 +0200
+Message-Id: <20210505151850.660512-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/boost/boost-1.76.0.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/go/go-common.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/boost/boost-1.76.0.inc b/meta/recipes-support/boost/boost-1.76.0.inc
-index 3ae5a25b29..eb5d484976 100644
---- a/meta/recipes-support/boost/boost-1.76.0.inc
-+++ b/meta/recipes-support/boost/boost-1.76.0.inc
-@@ -15,6 +15,6 @@ SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.b
- SRC_URI[sha256sum] = "f0397ba6e982c4450f27bf32a2a83292aba035b827a5623a14636ea583318c41"
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index c368b95b69..ad77caeea4 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -17,6 +17,7 @@ inherit goarch
+ SRC_URI = "https://dl.google.com/go/go${PV}.src.tar.gz;name=main"
+ S = "${WORKDIR}/go"
+ B = "${S}"
++UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.src\.tar"
  
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
--UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
-+UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
- 
- S = "${WORKDIR}/${BOOST_P}"
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 -- 
 2.31.1
 
