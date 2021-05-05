@@ -1,73 +1,83 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web09.8567.1620223436598130376
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web12.9274.1620226005719106771
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 07:03:57 -0700
+ Wed, 05 May 2021 07:46:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o+UzVD9X;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id z9so2707381lfu.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 07:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ddu0cmKQxoZOvYp4Rtgswqfe74f3gExO8hII7cdJ32U=;
-        b=o+UzVD9XAC+i8InHk7bs0vuodTejT0KRV/FZhiQ2SNdwaRkCe0jU1l4G/3HMD7fH18
-         HU4XLd3mVnBrI1TSG5dos6FnhJaVa3bsDPSscKtQQT6X5MYHJUzpYzCG75Rki+81Oq8d
-         9PA7GXWkL3Wee2XnZXLNaJuO+KWVu++smAqOgjq4o3a8Rd+g5784ynV8DWjuThBhYSdu
-         cDWHb4RV2gSCNQL14Ae8rbi94jIPcr4nSPz6xy+stzYhhY4+/blQ26pwoHaDLdKs7cLS
-         LpKf5pLYQD7aviejjTaVEbfmRvkb0vPIpgX4jSWCbaH+HRPe5btGTSlrhqbkuLwgZw4z
-         NNnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ddu0cmKQxoZOvYp4Rtgswqfe74f3gExO8hII7cdJ32U=;
-        b=datlNLrx+06gjd7JWcz2pxRGxj7pIYqUD902kXq8D38T94MCar3as22IYge12kaGgU
-         zidVZAutI/lC42dGhRlG1q2DwJkARLKUkerXLmlfuaEJ7N6Bw/EaX0s7zuxmHoKWCeUg
-         CVOIIlvBDmUXmxKJWanVvSlHDZmi3Ph9Z82lbJNkuqF2W44a0Bb2OJN7uAiOG6Z3Ii7l
-         Tb64DPbu3OispPCTiDuzZ/QeOFAnCHYv4ACgx3lJntTjeGy4PSbRy/6FHN3lRpmQJJ4I
-         q6+zeDYHSi9Du4WmDbYoMB4EbRB8lJ8QYLybRKLZzXUUHB5Xkf/oT1SSfBmyAb/v6T7/
-         76Dw==
-X-Gm-Message-State: AOAM531LbCAQ/8VWrSfhdam/iZcwpMo3bQCXRbttrwSAIHGXo/aLhoWw
-	XQWREKDPwF6nfwogAF463aMz5JWDc9zUi31mnUE=
-X-Google-Smtp-Source: ABdhPJw+B3StMQkGc4iMxoEqhh4TJY8mPrgodS5tTTTIziGdj9QI0EsU2pcMMRA99xUGVtqn6Arxt1HUkSAY3lW38xU=
-X-Received: by 2002:a19:691c:: with SMTP id e28mr2874516lfc.434.1620223434493;
- Wed, 05 May 2021 07:03:54 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 8JtSOdTNuSayOxo3fS+HVUP69xAbhKWXsRe1ea+36XBrpyxDgyea4LtXiK0sDotYh0/yofYiuY
+ FKMahLE0AIoQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="177776811"
+X-IronPort-AV: E=Sophos;i="5.82,275,1613462400"; 
+   d="scan'208";a="177776811"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 07:46:42 -0700
+IronPort-SDR: yaNyHdz3O5zwk4Ra+U2RMY1Sxqrgxy6nrCJRxO49FG95uh2P6Lu3jN2xdFHBtIooo0I92r5E8B
+ rMtt4VHu2s0g==
+X-IronPort-AV: E=Sophos;i="5.82,275,1613462400"; 
+   d="scan'208";a="539570585"
+Received: from cwchuah-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.137.96])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 07:46:41 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 0/7] pull request (cover letter only)
+Date: Wed,  5 May 2021 22:46:34 +0800
+Message-Id: <cover.1620225552.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210429113046.172473-1-vinay.m.engg@gmail.com>
- <CANUMPcVfOziaV8Y3OW_XR3-Ysyjor6Ci8bA8y8kU2HYyvjSojQ@mail.gmail.com> <94f2fcf456e059128fc7b4804a52b4c21ee9dfd6.camel@linuxfoundation.org>
-In-Reply-To: <94f2fcf456e059128fc7b4804a52b4c21ee9dfd6.camel@linuxfoundation.org>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Wed, 5 May 2021 19:33:42 +0530
-Message-ID: <CANUMPcVgMD6YjxyNCOP_0wyKKwkG_F-15-E+3SWKCGy5AjjCbQ@mail.gmail.com>
-Subject: Re: [OE-core] [hardknott][PATCH] Binutils: Fix CVE-2021-20197
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	vinay.kumar@blackfigtech.com, Randy MacLeod <rwmacleod@gmail.com>, 
-	umesh kalappa0 <umesh.kalappa0@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi RIchard,
+Final pull request before the final gatesgarth dot release. 
 
-Will send patch for the Master branch.
+Thanks,
 
-Regards,
-Vinay
+Anuj
 
-On Wed, May 5, 2021 at 6:51 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2021-05-05 at 17:02 +0530, Vinay Kumar wrote:
-> > Hi Steve,
-> >
-> > Any update on considering this patch in the "hardknott" branch ?
->
-> Anuj is maintaining hardknott, not Steve. Also, doesn't this patch
-> need to be applied to master first before we can backport it?
->
-> Cheers,
->
-> RIchard
->
+The following changes since commit 8b0aef3f504d650c3208f11b62a7926aa90967f1:
+
+  sanity: Further improve directory sanity tests (2021-04-23 23:20:58 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Changqing Li (2):
+  cairo: fix CVE-2020-35492
+  gdk-pixbuf: fix CVE-2021-20240
+
+Chen Qi (1):
+  rsync: fix CVE-2020-14387
+
+Marek Vasut (1):
+  linux-firmware: Package RSI 911x WiFi firmware
+
+Mark Hatle (1):
+  populate_sdk_ext: Avoid copying and producing .pyc files
+
+Richard Purdie (1):
+  yocto-check-layer: Avoid bug when iterating and autoadding
+    dependencies
+
+hongxu (1):
+  deb: apply postinstall on sdk
+
+ meta/classes/populate_sdk_ext.bbclass         |   4 +-
+ meta/lib/oe/copy_buildsystem.py               |   6 +-
+ meta/lib/oe/package_manager/deb/sdk.py        |   4 +
+ ...-the-hostname-in-the-certificate-whe.patch |  31 +++++
+ meta/recipes-devtools/rsync/rsync_3.2.3.bb    |   1 +
+ .../gdk-pixbuf/CVE-2021-20240.patch           |  40 ++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |   1 +
+ .../cairo/cairo/CVE-2020-35492.patch          | 121 ++++++++++++++++++
+ .../cairo/cairo/bug-image-compositor.ref.png  | Bin 0 -> 185 bytes
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  11 ++
+ .../linux-firmware/linux-firmware_20210208.bb |  11 ++
+ scripts/yocto-check-layer                     |   3 +
+ 12 files changed, 229 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/rsync/files/0001-rsync-ssl-Verify-the-hostname-in-the-certificate-whe.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2021-20240.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/bug-image-compositor.ref.png
+
+-- 
+2.30.2
+
