@@ -1,50 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web09.9781.1620227948757490588
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.9831.1620227949406128258
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 May 2021 08:19:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jaZn1bVa;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id m12so3488175eja.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cK9AhELs;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id n2so3452427ejy.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=E9n2tqJL6dv+JaiEU18rleQK6Bbcxvb0xQ2CgHisZtw=;
-        b=jaZn1bVaKcsWMcaaC1Wo3iOHf9u/LtzVmag269lgZeQgsnTRoZ4RCbHmDmfgIFadBD
-         HtHlrP5ej/Xo8le4MY+Rvo1rvhoV/BuXraKPo0MpLzuoFXj42T/GDmKEmcvs+ReL/OLg
-         78aA8qb/OgQUdOFHOwFYn38TOnU5nHx8AD5cCM9yMjiGbaltx/n6CG6kbJtWDrKdJre/
-         ASAYfcPDHWDBD7uB22mFZ69WhgUmUuAeZasg2pP5do9+KBDpAEs7w4UAwGfbfHxxvTqt
-         eBFKMDVfcWAy3ETIwR0G0ommuA5jkYwfmiCPDSTY9Q0jlFvzEZMsjmtqhjW08wUW6jJj
-         i5Xg==
+        bh=YK2eWJPJI0i5GJh5nX4OS6h9RuP15tmoXvmMLBGPZok=;
+        b=cK9AhELsi78NjdAutZcBYaTM7wEXWwDytfFWzhhxuox0LqesC2P2p1Lqq9eB+Yimmb
+         IDyBUz9+7iwCBIHvjPfXxDeH+A6kPjmarqUig5bg9ALN6AvSLozvJd40IMdSaW3Bhurt
+         rCN7BIiWRCk+QuhiGmqnpQNQzVvVtP16IEAUQCg+Se+FMmqREHki2pBBR/yE7Lc8xKsI
+         Eq3plIAqpq20IzxMt2oxFCrj/YQGREEmeEJWZ71wUD5w6i3kjPrjnvZ09am51JPeJ8Yq
+         RTKPpoVRb2Cz7O3PsHK4p1KyV15DVaavRoJPu69VxZ7kom6N4xOeCu5ASMGCHKNpXFgU
+         6ydA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=E9n2tqJL6dv+JaiEU18rleQK6Bbcxvb0xQ2CgHisZtw=;
-        b=mfNe5sjxWY4/Acrgqg51lkXsLtSi6Q/kO86om5DTG4U918MNyx7CPFWR+DcIBfciAA
-         XxUxf/EqFCVRpdY2wpzW6nvNVEgjK2AuzhUtfcpLDcBNktRiH62w+T14/+PTiTw5vuj4
-         1Tb6oQ9HlROmLCypYYojhZCZVBetMAN9635SLUtnXCh475vjI3bPoLxP/hLYwztjfseK
-         Jv7Dc5BHS53GvewAA1pHUR6yLiu82uVmG+wYEypXxAKORk42+SIm1hHg2tUcG+Gn+17L
-         vJjNuUztpmFP0sWWKk7Xfy7h6bP92Aff45D8B2KA73ti6aAk9KcrEgw8MRif94iOUYK3
-         b37A==
-X-Gm-Message-State: AOAM532y/ZPvymCKS4loalt8qPvXCugyVBKe7qNedL67DfN5Zat0xU+D
-	2tlGSw+7p542mMtghKoPMNAhd5pxFXUGTw==
-X-Google-Smtp-Source: ABdhPJwnATJHEBJRg/p2Gwjt+02L0L0ajdbxgEeRT5j+bGmxWvEHdsP6Q+NWAvlR6Qo/s9VXtRp2FQ==
-X-Received: by 2002:a17:906:4cc5:: with SMTP id q5mr28095465ejt.302.1620227947372;
-        Wed, 05 May 2021 08:19:07 -0700 (PDT)
+        bh=YK2eWJPJI0i5GJh5nX4OS6h9RuP15tmoXvmMLBGPZok=;
+        b=Ssob8wl0HlTVtHu9zg8IcvhDkN/Gsw8odc4vBFwGdxzpp8tAKpz2xzV8PN0fKRy0Eu
+         mASJ8Lcd82cSl9LL8NfjEdxzBW1FDJITD7IaLiimSJCqrLv1U62XZ9q+qGPyFwBAP94M
+         5t9M9Eev6NQlMwmjMNRj3M88lj51BNtLtuWVJxrFiTU4Fcr+CjhS5rnRckIb4a/pH2OO
+         BIiEZmZkwssSLdlOB5C1mvNsL8VpFwPX5YdDDpD2sL9R4hem5z6AJGdL1FwskGL3tjje
+         M2+ZGW7MtzvH8GFm5Ep6+GNg9hC9H1KN+OsrfuYZzEpF8pz2uio/tlnQTJ7wadXinsP4
+         uknA==
+X-Gm-Message-State: AOAM531gf2UPk/rloJkYD0kiAutQmDjXS4KF9oOf2PlVva9+NUDHHNCx
+	e5XOYKt9kCMwz1sPKw+Iimv0VLXAQCcEaQ==
+X-Google-Smtp-Source: ABdhPJyXtATI6h5th1CY9duh73vBJjizu4K0NvYwovD+BGQ+x+dY1t8/8EqPOSFrz4NLq4F07jdBSQ==
+X-Received: by 2002:a17:907:2075:: with SMTP id qp21mr28576087ejb.421.1620227948040;
+        Wed, 05 May 2021 08:19:08 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.06
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 05 May 2021 08:19:07 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/61] libdnf: upgrade 0.58.0 -> 0.62.0
-Date: Wed,  5 May 2021 17:18:03 +0200
-Message-Id: <20210505151850.660512-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/61] bluez5: upgrade 5.56 -> 5.58
+Date: Wed,  5 May 2021 17:18:04 +0200
+Message-Id: <20210505151850.660512-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
@@ -53,65 +53,72 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...h-avoid-the-use-of-non-portable-__WORD.patch | 17 ++++++++++-------
- .../{libdnf_0.58.0.bb => libdnf_0.62.0.bb}      |  2 +-
- 2 files changed, 11 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/libdnf/{libdnf_0.58.0.bb => libdnf_0.62.0.bb} (97%)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ....am-add-missing-mkdir-for-ell-shared.patch | 25 +++++++++++++++++++
+ .../bluez5/{bluez5_5.56.bb => bluez5_5.58.bb} |  3 +--
+ 3 files changed, 27 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.56.bb => bluez5_5.58.bb} (91%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
-index f8d256e011..b740521fda 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch
-@@ -1,23 +1,26 @@
--From 8aa5402393fabaf4fff51be3af4868e8dfab6da7 Mon Sep 17 00:00:00 2001
-+From fc0b81bb717db3f41513f09f6661676a7aea6dd4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 9 Mar 2021 19:30:42 +0000
- Subject: [PATCH] libdnf/config.h: avoid the use of non-portable __WORDSIZE
- 
- Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1159]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-- libdnf/config.h | 8 +++-----
-- 1 file changed, 3 insertions(+), 5 deletions(-)
-+ libdnf/config.h | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
- 
- diff --git a/libdnf/config.h b/libdnf/config.h
--index 16121f6f..2925923e 100644
-+index 01b330b4..dbd53f5e 100644
- --- a/libdnf/config.h
- +++ b/libdnf/config.h
--@@ -18,12 +18,10 @@
--  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
--  */
-+@@ -20,14 +20,11 @@
-  
-+ #ifdef __APPLE__
-+ #include <stdint.h>
-+-#else
- -#include <bits/wordsize.h>
-+ #endif
- +#include <limits.h>
-  
- -#if __WORDSIZE == 32
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
-similarity index 97%
-rename from meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
-index dbe68d5a15..e2c2c41c6a 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.58.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.62.0.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-            file://0001-libdnf-config.h-avoid-the-use-of-non-portable-__WORD.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 74b59e406c..635cad813e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0001-audio-Rename-pause-funciton-to-avoid-shadowing-glibc.patch \
++           file://0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch \
             "
+ S = "${WORKDIR}/bluez-${PV}"
  
--SRCREV = "85278894f21bc1957dc47a2a09ddacf59bc3cda8"
-+SRCREV = "9a0e17562b19586b3ffa70fa93eb961b558794c7"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+new file mode 100644
+index 0000000000..03b42f73cb
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Makefile.am-add-missing-mkdir-for-ell-shared.patch
+@@ -0,0 +1,25 @@
++From d341ba650af1b7068d9ad034732b4f41b91bb2c1 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Sun, 25 Apr 2021 18:56:41 +0200
++Subject: [PATCH] Makefile.am: add missing mkdir for ell/shared
++
++This addresses build errors out of source tree.
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index be5d5c7..72ad425 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -623,6 +623,7 @@ lib/bluetooth/%.h: lib/%.h
++ 	$(AM_V_GEN)$(LN_S) -f $(abspath $<) $@
++ 
++ ell/shared: Makefile
+++	$(AM_V_at)$(MKDIR_P) ell
++ 	$(AM_V_GEN)for f in $(ell_shared) ; do \
++ 		if [ ! -f $$f ] ; then \
++ 			$(LN_S) -t ell -f $(abs_srcdir)/../ell/$$f ; \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb b/meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+similarity index 91%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.56.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+index 676cb2dbb2..186a621c44 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.56.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.58.bb
+@@ -1,7 +1,6 @@
+ require bluez5.inc
  
- S = "${WORKDIR}/git"
+-SRC_URI[md5sum] = "e6c51b2aefa7c56ff072819a78611fa5"
+-SRC_URI[sha256sum] = "59c4dba9fc8aae2a6a5f8f12f19bc1b0c2dc27355c7ca3123eed3fe6bd7d0b9d"
++SRC_URI[sha256sum] = "c8065e75a5eb67236849ef68a354b1700540305a8c88ef0a0fd6288f19daf1f1"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
 -- 
 2.31.1
 
