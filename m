@@ -1,125 +1,99 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web09.9785.1620227955466824819
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web09.9786.1620227956123659891
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 08:19:15 -0700
+ Wed, 05 May 2021 08:19:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FgeTiPE2;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id r9so3473940ejj.3
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dNKSQrMW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id u13so2506495edd.3
         for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 08:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OJ/kcSgmb+597eKT4mfjsLCW9RnYgftuqr+IrCKr5y4=;
-        b=FgeTiPE2pipY/IiloS2hvGPWmRcUbauN8munh1ELrWgHH2LtkdbZUArtipvcW/PVWj
-         2YpfjoaQRLQb5OEMRnLHG271qF6QY5nM/FzlHhn1sPcaH9US0IKz8kV1KclaL85d5tnn
-         cPm1uon8SIOlSIZUoBni2TpBjrUOiXT2rZnUC1zKNdNkqe1qh5At53U5uxcXJ7+ZpJCU
-         iOC7xUvIcmaw0D8oaW5t/HmroNuUYfWnPcTRxB437PmvUrjB5ex5RtRDT0J5++sGZM+m
-         t1RHDgWJ8BB4c7d2bx3s85Ls06yJZmHcDw0W9RhiD/73Yl4wBwYcSpT8nqYOYCIJ+TAL
-         DNig==
+        bh=JNBSW7YhvETa5mtAzFRyacQ+pLI/7pGIvAUPK9O5/4o=;
+        b=dNKSQrMWr4Ox7Eg6+stEN3DhVC9ROlaSEInCcFkV7ZWfb4lTGXa5XmZLp+J96rKfiH
+         e7cit6r2g0rMzY7hU4W5Xp31Huvlgpgu1VLUJzj/JJS2OgmOtZ+IcoGbROENu4m7sL5J
+         THif7NZZFxdN6WxRXv3ixmaXKrrk0bmY4pzyiaS0I0IEMl8BTPn/Nq/Atjvcd9qgqsWH
+         iWE4ralmazvO1zn5KEN8V4Zqi72XQ0eWTYRVm2O3WNoNJs5jFvG2IiCjRt/QJcuJpJX3
+         MeAknCx3GZsTb5nPKSKSXvFgQ+H9tiY+Jcx9Hcv1LMaCKB17HM4GOiS2Zqgp7Ne9p6P9
+         zvHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OJ/kcSgmb+597eKT4mfjsLCW9RnYgftuqr+IrCKr5y4=;
-        b=S33vkQBiXQDHfniRqO2TPdt3AJhL7m1LklD9JG+pnHUTx5KATGJlm3kq0xfcPok6z8
-         25oVjBoycWtUApozEvOs99uwHxt+DF3JgaS1jZCkXO7/ajP8+2SG0/gUj1eK6ieRMEx+
-         pDkJuwhTnb4KGfb+5OInjKvYvVMDuct4i9HgWo+zO2SMfgJ9t8uFw8VDTus/iaZ0KAQw
-         tiFpXJku9MZHjf9UtSAhfvIrZ72f+ASYzTgvq9342HPtr99hl1jBJsKCvzgWc9SiX8IB
-         sAk5r6Evj38pZxUmvgOeD5S7PM0LqQnOAC8hJc/eCOpR341muKFobYOBl0cNZMNtmZFl
-         In+Q==
-X-Gm-Message-State: AOAM533OaKPw86oHz1A3KaXSmzyMFDehZv7dB98+fB35lPlP3DEdDBhh
-	kOPbJYz+3TMHjwX5eQTzsfZ6XRLAaDw3Zw==
-X-Google-Smtp-Source: ABdhPJy3pKUuz0g5jT2D9BgdclFBKcfuCnieHdX8MightM6e8p+1ndm82bgrBjwEVbgG4HL8ZgoE2g==
-X-Received: by 2002:a17:906:5ad5:: with SMTP id x21mr28173258ejs.422.1620227953951;
-        Wed, 05 May 2021 08:19:13 -0700 (PDT)
+        bh=JNBSW7YhvETa5mtAzFRyacQ+pLI/7pGIvAUPK9O5/4o=;
+        b=dRnMZU5V2PWi/J5bvaIhPiRX0VJXdvQO17QLmt4uNVpLNPS69ka7pBGeRzAER+10pE
+         WJy/93oWl3z89IhvudNspdoe6LNvJxvQff6H/gOLAszWugSCx0SnMjmWlwvKwbTCQmDh
+         ehAeJwj5TI4BcqLsFL5ZySP3bA3y42A7l3G6Oio1yf7+IJ6N5azz+hQkSTvb/5hTDTJ9
+         mX5LxKiMiHU5HsmRGM9fSwH6ykAXaqOxa6r82IOG5egvp+Mp+c+BAQ5u7KDbUPT5YfT+
+         yl33s0e1WAqB8RLYpC7fxAwCgS0M11k6BQ0//ixn6IN+T6zyfrgJwpoXCslHP8CQmynX
+         Ie9Q==
+X-Gm-Message-State: AOAM532HVprvox4rtKk5VPOwRMeHSM3VT7JsRpAWZmclwbBZlY8BNlXa
+	q8XpEXKzhZJljIZoTyMxItv3LrYr5sX18w==
+X-Google-Smtp-Source: ABdhPJzhXVp78O9GWkkes01xQGniVKH6/hMRHLoe/h61s2xp69bhvguPItWbzb2RkT5q8ZLTTF+Rgw==
+X-Received: by 2002:a05:6402:d05:: with SMTP id eb5mr11922045edb.6.1620227954791;
+        Wed, 05 May 2021 08:19:14 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.13
+        by smtp.gmail.com with ESMTPSA id y11sm3018479ejj.55.2021.05.05.08.19.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 08:19:13 -0700 (PDT)
+        Wed, 05 May 2021 08:19:14 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/61] ffmpeg: update 4.3.2 -> 4.4
-Date: Wed,  5 May 2021 17:18:11 +0200
-Message-Id: <20210505151850.660512-22-alex.kanavin@gmail.com>
+Subject: [PATCH 23/61] powertop: update 2.13 -> 2.14
+Date: Wed,  5 May 2021 17:18:12 +0200
+Message-Id: <20210505151850.660512-23-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505151850.660512-1-alex.kanavin@gmail.com>
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop mips64_cpu_detection.patch as upstream
-has changed the code in a way that's difficult
-to rebase.
+Drop awful ncurses hack; please make a proper patch with a configure
+option and PACKAGECONFIG.
+
+Adjust LDFLAGS as somehow -pthread isn't there --> link failures.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ffmpeg/ffmpeg/mips64_cpu_detection.patch  | 32 -------------------
- .../ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} |  3 +-
- 2 files changed, 1 insertion(+), 34 deletions(-)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.3.2.bb => ffmpeg_4.4.bb} (98%)
+ .../{powertop_2.13.bb => powertop_2.14.bb}         | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+ rename meta/recipes-kernel/powertop/{powertop_2.13.bb => powertop_2.14.bb} (64%)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
-deleted file mode 100644
-index 69429af8f0..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--It will add -mips64r6 and -mips64r2 to cmdline which will
--cause conflicts
--
--in OE we user mips32r2 and mips64r2 for mips arch versions
--so there is no benefit of detecting it automatically by
--poking at tools especially in cross env
--
--Fixes errors like
--
--linking -mnan=2008 module with previous -mnan=legacy modules
--failed to merge target specific data of file
--
---Khem
--Upstream-Status: Inappropriate [OE-Specific]
--
--Index: ffmpeg-3.1.1/configure
--===================================================================
----- ffmpeg-3.1.1.orig/configure
--+++ ffmpeg-3.1.1/configure
--@@ -5220,12 +5220,9 @@ elif enabled mips; then
-- 
--     # Enable minimum ISA based on selected options
--     if enabled mips64; then
---        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
--         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
--         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
--     else
---        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
---        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
--         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
--         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
--     fi
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-index 08be38ca50..19a8e58370 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-@@ -24,10 +24,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-kernel/powertop/powertop_2.13.bb b/meta/recipes-kernel/powertop/powertop_2.14.bb
+similarity index 64%
+rename from meta/recipes-kernel/powertop/powertop_2.13.bb
+rename to meta/recipes-kernel/powertop/powertop_2.14.bb
+index 8c7e78fd94..cb7f3c4dc1 100644
+--- a/meta/recipes-kernel/powertop/powertop_2.13.bb
++++ b/meta/recipes-kernel/powertop/powertop_2.14.bb
+@@ -9,21 +9,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+ SRC_URI = "git://github.com/fenrus75/powertop;protocol=https \
+     file://0001-wakeup_xxx.h-include-limits.h.patch \
+ "
+-SRCREV = "184cee06b2d64679bae5f806fe0a218827fdde99"
++SRCREV = "52f022f9bbe6e060fba11701d657a8d9762702ba"
  
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
--           file://mips64_cpu_detection.patch \
-            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
-            "
--SRC_URI[sha256sum] = "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
-+SRC_URI[sha256sum] = "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+ S = "${WORKDIR}/git"
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET_armv4 = "arm"
+-inherit autotools gettext pkgconfig bash-completion
++LDFLAGS_append = " -pthread"
+ 
+-# we do not want libncursesw if we can
+-do_configure_prepend() {
+-    # configure.ac checks for delwin() in "ncursesw ncurses" so let's drop first one
+-    sed -i -e "s/ncursesw//g" ${S}/configure.ac
+-    mkdir -p ${B}/src/tuning/
+-    echo "${PV}" > ${S}/version-long
+-    echo "${PV}" > ${S}/version-short
+-    cp ${STAGING_DATADIR}/aclocal/ax_require_defined.m4 ${S}/m4/
+-}
++inherit autotools gettext pkgconfig bash-completion
+ 
+ inherit update-alternatives
+ ALTERNATIVE_${PN} = "powertop"
 -- 
 2.31.1
 
