@@ -1,94 +1,103 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web10.2147.1620244191875740436
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.web12.2391.1620245439684204977
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 12:49:52 -0700
+ Wed, 05 May 2021 13:10:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CufjnL/a;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id r18so1706125vso.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 12:49:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bnjhfqme;
+ spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f42.google.com with SMTP id g24so957452uak.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 13:10:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ErO62Rjje0Ud2V9gE6SLKEyUs9iy9EcltHIUWVRwog4=;
-        b=CufjnL/a0dvgZiMXHQuiH33puFYG83znzaiB36VgWvxrrEAFyWVGUgKt7GURgyPqj2
-         eDNh4oOKhV67QI0hyESuvOdiNuWn1UwLAKDlZ+I0/KhfWP5zgeAjHKJlD+oe4AktQ9JI
-         VrevfiUTqJr86xBXichUxuFpbY8SxyX0AdkZWogzRZl6uBWAHmsamF/7E5CxEbPwHp9A
-         5OB71K+mbAHF4XU4u249x9uSn62ySfpfb6Ohi8JYNfPH6+n7fYdn9fu3bAlJudVq28DC
-         zYVWZocCgF7aqGCRS8xzVTDImBB5+IJzQFwi80XGCQxC4NrtUPAoC7WRVFDzWcj2PItL
-         z5XA==
+        bh=6WuQcSgrLQFlFcwKbrgrbk3LE9DCe1R1VFm9LrI46EQ=;
+        b=bnjhfqmec5ko/R75R6mg/RwOBF/idIqVnTMR0RB8zaPikqMSmimSp/NeJDk81q49UP
+         6c7CoJGNDzgjNsBVzxk0E3eXYLC2XgGYfGch4c16Y/UzLcpdXpNsQ9sVxWJ26vwXybiQ
+         lD+cga5zzgYQXJMczcCrtFs0n2fkts2wGwD8JfAnz7QFMnDrbgiFiPSAz9MV/9vuqiWG
+         Ugy/N6DJR7nbkYVnR6BNboE3aHMIWQeg0mkpegd54GyZOlv1iv5vjpln7EwITQZq6zNO
+         cN2+vKlGVuT7JAxkMDFic9QFc2l4AOialY5NRdooyUGQNhdixiloXEqWgMd+rRTpYCoh
+         rhng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ErO62Rjje0Ud2V9gE6SLKEyUs9iy9EcltHIUWVRwog4=;
-        b=sFBuV68WQDqTKBrLC66Xz75txlFkCPXWf2vLky7oK9yILdpmMjrDaCDyC5Vf8JXCzu
-         LCCpyhGHjdJWjLgvMUxq61j2y46scwHSZBKHY2d31n6zST3YQv4FTloREWpTLPnCqFgK
-         89eCXmmOqzpuWPrW9kE9r5oKXt4PZoOK0lp+YOxz2UMl4WHVFLp4yj8WUIVMENg0+hkg
-         wZ5enHvlWH4z5F+sI9qpziPDDDbWjmyHOv8RjSovcDiLtQYliXiJdyDc6vVtH8vBT9gf
-         RmwjokjLmXSacnxDwx71bKrcfgFYzxfo7Xby3mu1YNw3hqTZEE7jLBDbkJKMzi1I+Twn
-         jmEg==
-X-Gm-Message-State: AOAM5301tdnl4lA1lIyERL/V93kU2Ewn5xnDpfUfrwBHCeJiHk0dXc6x
-	iJ8nfYag8oAdyNqg/QPuGuqQRp4Y3rfWbEI0BoY=
-X-Google-Smtp-Source: ABdhPJwERhBF62E/z1FoS1OCfxZNVU+xq8rJZZFtA9iVgAOq2O5Tv0yhrgzDxMWKUC+O7CicN/QoZrqd4EAUbd/kBvY=
-X-Received: by 2002:a67:1447:: with SMTP id 68mr484635vsu.20.1620244191073;
- Wed, 05 May 2021 12:49:51 -0700 (PDT)
+        bh=6WuQcSgrLQFlFcwKbrgrbk3LE9DCe1R1VFm9LrI46EQ=;
+        b=Ysvt6XCwlhx0R2QHDePg7yn5RlMt9Z5YT3KFqJMKkfySa40dQ62YqQN4ybXGoHxVI9
+         rgukb7TfVpqawK/hkkcMZ/ok6O0WXJxt+xym25Ak0ZcvfEypgBH6jjViCngwjt+BxdDU
+         Ary1Wx8lUBrhr6EaVyt7Jy2oPFpp1hnRaRsnnpM8RjYfxEjknmZklDjUgWdzn6JDRaBu
+         8UUXCtIRz3kgMmnCd21dX4MNLgPXXnAWS/mKud45YciRbphl5cal5CXLYAn8eChCAJrD
+         zQ9siJly1kdvS96yvyDVda17EGV+89l4DA+itiGMGfzm3PHnOp9v6miFTkfpvGnDzDwy
+         eoiw==
+X-Gm-Message-State: AOAM532x8I6mLi2DLp42FJM7uqoLkQWhRYSJZMTHNnUEZkTtEMR1AL7L
+	AbksGBzXFZsMPUURh94XMU797fMup3uEUmu+gWs=
+X-Google-Smtp-Source: ABdhPJyVLhdZk6slxmuAxmYeNqmuvJox0GUf3Cxqrzv+TuNqLN6YSGLzSIiIgary5XzInbzp/rkWe6TDf2RBt7afrBk=
+X-Received: by 2002:ab0:310a:: with SMTP id e10mr903294ual.93.1620245438897;
+ Wed, 05 May 2021 13:10:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-23-alex.kanavin@gmail.com> <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
- <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com> <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com>
-In-Reply-To: <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com>
+ <20210505151850.660512-57-alex.kanavin@gmail.com> <AM9PR09MB4642132C2006E4609CA966C7A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAMKF1sreCuyXW2wNh_1xaG+E_T=NFLuLq68vmFQegDJ1HTWiYg@mail.gmail.com>
+ <CANNYZj8VfB5sO4O3tjpUDHseBTMwYG-kRGwVUERmAjJSH61=oA@mail.gmail.com>
+ <AM9PR09MB464224482626504F72484641A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CANNYZj9M5Gy34YJacwpYLvbyBREpAdPT5_uszJs5p=LnPXyLHg@mail.gmail.com> <AM9PR09MB46420A8B633050319875E0C8A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: <AM9PR09MB46420A8B633050319875E0C8A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 5 May 2021 21:49:39 +0200
-Message-ID: <CANNYZj8iZrEC0kc5GGJSb6ddBH77Tz_pN+pFzuD0Hhbdjhpjbw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000075591005c19a7f11"
+Date: Wed, 5 May 2021 22:10:27 +0200
+Message-ID: <CANNYZj--syg752mKKJVTqhPmo70viw0fEwJVB08GuXRuwbyZ5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 57/61] python3: add markdown/smartypants/typogrify modules
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: Khem Raj <raj.khem@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d5a34405c19ac918"
 
---00000000000075591005c19a7f11
+--000000000000d5a34405c19ac918
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 5 May 2021 at 21:43, Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, 5 May 2021 at 21:25, Konrad Weihmann <kweihmann@outlook.com> wrote:
 
-> > Sorry, no. If I do not understand what it does, the version update is
-> > incompatible with it,
-> > and there is no trouble detected by the AB from dropping it, then it has
-> > to go.
+> Agree - looking at
+> https://github.com/leohemsted/smartypants.py/compare/v2.0.0...master
+> there isn't much of a functional change either.
 >
-> OK thats fair, no one knows everything so drop this patch from your v2
-> series and let someone else handle it.
+> The status of typogrify isn't also not very convincing - changes from
+> 2014 till today haven't been released - so it might be worth a shot to
+> open a ticket at gi-docgen and ask about the need for this
+> outdated/likely unmaintained dependency
 >
 
-I assure you, nobody else will do it. I regularly drop poorly written
-things that are a maintenance headache, if you have specific objections or
-use cases or issue reproducers, please state them, but saying 'don't remove
-because it might be useful to somebody, somewhere' is far too vague.
+This
+https://github.com/mintchaos/typogrify/commit/dda5baed03b7948fe101b0c691aaf330157d7f94
+is recent enough that I don't think that is necessary yet. Let's see what
+they say about smartypants.
 
 Alex
 
---00000000000075591005c19a7f11
+--000000000000d5a34405c19ac918
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 5 May 2021 at 21:43, Khem Raj &lt;<a href=3D"mailto:raj.khem=
-@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">&gt; Sorry, no. If I do not understand what i=
-t does, the version update is <br>
-&gt; incompatible with it,<br>
-&gt; and there is no trouble detected by the AB from dropping it, then it h=
-as <br>
-&gt; to go.<br>
+_attr">On Wed, 5 May 2021 at 21:25, Konrad Weihmann &lt;<a href=3D"mailto:k=
+weihmann@outlook.com">kweihmann@outlook.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Agree - looking at <br>
+<a href=3D"https://github.com/leohemsted/smartypants.py/compare/v2.0.0...ma=
+ster" rel=3D"noreferrer" target=3D"_blank">https://github.com/leohemsted/sm=
+artypants.py/compare/v2.0.0...master</a> <br>
+there isn&#39;t much of a functional change either.<br>
 <br>
-OK thats fair, no one knows everything so drop this patch from your v2 <br>
-series and let someone else handle it.<br></blockquote><div><br></div><div>=
-I assure you, nobody else will do it. I regularly drop poorly written thing=
-s that are a maintenance headache, if you have specific objections or use c=
-ases or issue reproducers, please state them, but saying &#39;don&#39;t rem=
-ove because it might be useful to somebody, somewhere&#39; is far too vague=
-.</div><div><br></div><div>Alex<br></div></div></div>
+The status of typogrify isn&#39;t also not very convincing - changes from <=
+br>
+2014 till today haven&#39;t been released - so it might be worth a shot to =
+<br>
+open a ticket at gi-docgen and ask about the need for this <br>
+outdated/likely unmaintained dependency<br></blockquote><div><br></div><div=
+>This</div><div><a href=3D"https://github.com/mintchaos/typogrify/commit/dd=
+a5baed03b7948fe101b0c691aaf330157d7f94">https://github.com/mintchaos/typogr=
+ify/commit/dda5baed03b7948fe101b0c691aaf330157d7f94</a></div><div>is recent=
+ enough that I don&#39;t think that is necessary yet. Let&#39;s see what th=
+ey say about smartypants.<br></div><div><br></div><div>Alex<br> </div></div=
+></div>
 
---00000000000075591005c19a7f11--
+--000000000000d5a34405c19ac918--
