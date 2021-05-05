@@ -1,99 +1,177 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.73.1620251566524030787
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.web11.104.1620251692139125120
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 14:52:46 -0700
+ Wed, 05 May 2021 14:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dZ2Xmu2W;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id n205so2264216wmf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 14:52:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JPTn0LEj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f170.google.com with SMTP id s131so790715vka.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 05 May 2021 14:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0JeEZhf+kdqyY6F9rbCW6/i5ibATIY7sycVytU7CPiU=;
-        b=dZ2Xmu2Wp9HgoOC2Q6V5+DcJqnOUhRmlzi3I9sbebSlwXiFcQeInVwfwumRVY07Eav
-         SiYk1UrASW8cdkStH7LqLzzn9nfxD5mp0eR6HECrPFvpc3Cp3e2tDT5dSZ4TDdnKVLMh
-         JlZxs7Gsb9Pg9dVcac7L53ZhpNiSe/uBPzN2Q=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IURok85a8SNGn8Bw45tr6FGEXterRPKlkuJc5b8MyM8=;
+        b=JPTn0LEjqBd+IkeVgpi6FpNMKqCR6KV6oqov92QFaIvRRIsrvQzovzJV3i4MQtjHbL
+         S7QUPiND5UX9Msp7fmGnMBs0vtUMNAStngaByzUdljuCTmcH1ZASsA49heAIl9aIB7bM
+         L3+68oRASy8ifC5F0L4qWHYv2hrxx+hkwu+6zLpR9fBfX5qhgTzGv5SXrFIkm7I+hy5f
+         2YWY8q/hg+LOOPYg17sssPm5t/HZobOLCEXwNGdBDBYzn9WzxT5FFbIdEKyFoqciISgb
+         7Xsr/lplVnxFroOEIaqsZXxHm8sC2zPI1A7iCgC/K3yNSZ/z23F8rz4lK5ayQJGCw4Aa
+         kxmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0JeEZhf+kdqyY6F9rbCW6/i5ibATIY7sycVytU7CPiU=;
-        b=PMefYzJt/q3V+349/SWWo2pCEKVyjGXMeg+l9HZ+XZcNvocUwELE2X8/h3BAOPL7CL
-         5QVzxo8Vz1pkudtO4BPME26O6YnC5DyscGevaQPPDWC4i3Z41E8uKP05VBQx3Lq9N3nw
-         sq5EW3yNoLLUvEXnuLh+qnddQq5wQ7IU/29l5IK9/es1baf5kE3tBIN4NP9Ao+whpSMe
-         rUO+gI+vYIGolMLFQM69S9Fv9aG88l9FiKIYLdIMB0bf2gb4GSYEowRMyh7gi6y3aTR6
-         j/QtRaqyyNFGBYBRVrJMmsQXJVm9wSU+c3wn1wZwvpCiLEBnSncypzIiPXu/4NT332wg
-         NRTw==
-X-Gm-Message-State: AOAM531JPcKXPGMt6upxGrRUDp6Uf2ZxuYZH9QWL6kNN9p2/Gpdy63Ba
-	dzG3Pew0JhOdP6W6SrlxUGKlpA==
-X-Google-Smtp-Source: ABdhPJxPKz/nL1lh/FAqTLkYU488GTQunrc3yR5PZs7fFSDdIsc0o8c0GFimDVbph+bxhUM0p7DpkA==
-X-Received: by 2002:a1c:7419:: with SMTP id p25mr12171855wmc.79.1620251564781;
-        Wed, 05 May 2021 14:52:44 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e? ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
-        by smtp.gmail.com with ESMTPSA id w7sm800627wru.51.2021.05.05.14.52.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 14:52:44 -0700 (PDT)
-Message-ID: <0dc03ad24ae6700f7757b6afca84c37758759d29.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 58/61] gi-docgen: add a recipe and class
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 May 2021 22:52:43 +0100
-In-Reply-To: <CAMKF1so4BWNatThY_tixepiRUvzH=kfE7_4BWHroj4RnzSVQyA@mail.gmail.com>
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
-	 <20210505151850.660512-58-alex.kanavin@gmail.com>
-	 <CAMKF1spEqemKRZAwWnDMupsSmk7rteUef6P1HbmC0-KtsOjO_w@mail.gmail.com>
-	 <CANNYZj9scBK7xAZpR1A3Fs9AiC8MT_EZHqszbGfiAkZSZgMYwg@mail.gmail.com>
-	 <443c94b6db48ae6b7daae10b529b8ea420be4add.camel@linuxfoundation.org>
-	 <CAMKF1so4BWNatThY_tixepiRUvzH=kfE7_4BWHroj4RnzSVQyA@mail.gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IURok85a8SNGn8Bw45tr6FGEXterRPKlkuJc5b8MyM8=;
+        b=TS6pUX+sukJmKu+6EC8GAsEyyRDojwV5/0TpUBCEoBWVc7ZAZdfo2hlREu/DFzBuhv
+         +no2g7zvyaP1GClPDgg+hGVeYD2nz4IGfkbF9MbCcEQcKaXnrlJAA6A6FxTxoioTEpz9
+         jo1cIxcyF2HlxvjAvd8pOYYE2auYn+3MFfxpnOsq0yiROtc/pLXeWRLzOZytVmCDmrc/
+         XAtNgRnBwOuBtJuK9Cd/UbSftBRh0GQHDYHIbt0QmRxPE5EhS9jzIvaRGkv4mHfocQo2
+         B+zpNKSd7dEkLflS5GRFDLhevCTP8oPj5HDeaP10hhyc0/3fyAGahgNztj+AJ001Xz9c
+         +bRg==
+X-Gm-Message-State: AOAM531KCwaAbkKTyGihMVzms97QOMtCCQ9l4uF9VzZZTfZT2/760yVX
+	M5GeRtPmcWKMgHem6ttTybfi7PRpU/Z7AyzLVRg=
+X-Google-Smtp-Source: ABdhPJxYonjn1ie5LuS0mMHRWSnB0s1OaZlhiyVwgDf+pWWM5YYWicGBWYZjfHBUH+JTgX3GFlcrl0NUGqbmGtSuQ50=
+X-Received: by 2002:a1f:2a95:: with SMTP id q143mr640817vkq.8.1620251691283;
+ Wed, 05 May 2021 14:54:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-23-alex.kanavin@gmail.com> <CAMKF1srGBpzk-BiFnSM_+1pEoCByUkcPrJo2VDmSRUwGgbn18Q@mail.gmail.com>
+ <CANNYZj8Q7GLF_6oLZQ9oZYO3nMKkThZnj7CZGL=duS1u_wQicA@mail.gmail.com>
+ <46ffd119-9523-cb0f-d582-ced91ccccef6@gmail.com> <CANNYZj8iZrEC0kc5GGJSb6ddBH77Tz_pN+pFzuD0Hhbdjhpjbw@mail.gmail.com>
+ <CAMKF1sozSbDLB08dWLOTnSAFFpgp3j7rkoQ-7NGe5fYF7f+ceQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sozSbDLB08dWLOTnSAFFpgp3j7rkoQ-7NGe5fYF7f+ceQ@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 5 May 2021 23:54:39 +0200
+Message-ID: <CANNYZj85oAj0YAZVo7J4=5d1Zti=aLmaT+-_gftA-ZWdg8JYxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 23/61] powertop: update 2.13 -> 2.14
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000817a9c05c19c3ed7"
+
+--000000000000817a9c05c19c3ed7
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-05-05 at 14:28 -0700, Khem Raj wrote:
-> On Wed, May 5, 2021 at 2:09 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Wed, 2021-05-05 at 20:45 +0200, Alexander Kanavin wrote:
-> > > On Wed, 5 May 2021 at 20:05, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > On Wed, May 5, 2021 at 8:20 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > > > > 
-> > > > > This seems to be the gtk-doc successor, and gnome
-> > > > > projects such as pango and gdk-pixbuf have started
-> > > > > transitioning to it.
-> > > > > 
-> > > > 
-> > > > going through
-> > > > https://gitlab.gnome.org/GNOME/gi-docgen#disclaimer
-> > > > 
-> > > > it seems that its still under development and not declared stable, so
-> > > > I am wary of the churn it will cause.
-> > > > I would prefer to wait until at least its declared prime time for
-> > > > system wide inclusion.
-> > > > 
-> > > 
-> > > 
-> > > It is only built if you enable api-documentation, and even then used only
-> > > in pango and gdk-pixbuf. I'd say it's fairly well contained.
-> > 
-> > I did also have a quick chat with friends in that community and their advice
-> > was that it was ok to switch now FWIW...
-> 
-> ok, that helps, perhaps they can reflect this assertion in document above?
-> but still, depending upon abandoned packages needs to be answered by
-> upstream IMO before we tread down this path
+On Wed, 5 May 2021 at 23:26, Khem Raj <raj.khem@gmail.com> wrote:
 
-Reading that disclaimer, it seems to be saying they're making it work for gtk.
-We're using it in the gtk related components it is being developed for so I'm
-not sure there is an issue. What it says not to do is use it for general non-gtk 
-code. We're not using it outside gtk?
+> I went through the history and some of these changes were added by
+> you, so I hope you know why they were needed
 
-Cheers,
 
-Richard
+None of them are needed to build the new version and therefore none should
+be kept. Sorry, but I do have a strong view on this: the experience with
+various recipes I had to rewrite from scratch because of all the
+intractable, undocumented cruft they accumulated over the years taught me
+this.
 
+
+> # we do not want libncursesw if we can
+> do_configure_prepend() {
+>     # configure.ac checks for delwin() in "ncursesw ncurses" so let's
+> drop first one
+>     sed -i -e "s/ncursesw//g" ${S}/configure.ac
+> }
+>
+> since we control enabling widechar support in ncurses via
+> ENABLE_WIDEC, its better to either check for that here perhaps via a
+> DISTRO_FEATURE or just disable the widechar support
+> like it is doing.
+>
+
+It's doing:
+
+PKG_CHECK_MODULES([NCURSES], [ncursesw ncurses], [LIBS="$LIBS $ncurses_LIBS"
+], [
+AC_SEARCH_LIBS([delwin], [ncursesw ncurses], [], [
+AC_MSG_ERROR([ncurses is required but was not found])
+], [])
+]
+
+Unless you explain why the above is wrong (even though it builds without
+any problem), I'd say you're veering too much towards bikeshedding here.
+
+Alex
+
+--000000000000817a9c05c19c3ed7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 5 May 2021 at 23:26, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">I went through the history and some of these =
+changes were added by<br>
+you, so I hope you know why they were needed</blockquote><br><div>None of t=
+hem are needed to build the new version and therefore none should be kept. =
+Sorry, but I do have a strong view on this: the experience with various rec=
+ipes I had to rewrite from scratch because of all the intractable, undocume=
+nted cruft they accumulated over the years taught me this.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"># we do not w=
+ant libncursesw if we can<br>
+do_configure_prepend() {<br>
+=C2=A0 =C2=A0 # <a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a> checks for delwin() in &quot;ncursesw ncurses&=
+quot; so let&#39;s<br>
+drop first one<br>
+=C2=A0 =C2=A0 sed -i -e &quot;s/ncursesw//g&quot; ${S}/<a href=3D"http://co=
+nfigure.ac" rel=3D"noreferrer" target=3D"_blank">configure.ac</a><br>
+}<br>
+<br>
+since we control enabling widechar support in ncurses via<br>
+ENABLE_WIDEC, its better to either check for that here perhaps via a<br>
+DISTRO_FEATURE or just disable the widechar support<br>
+like it is doing.<br></blockquote><div><br></div><div>It&#39;s doing:</div>=
+<div><br></div><div><table class=3D"gmail-highlight gmail-tab-size gmail-js=
+-file-line-container"><tbody><tr><td id=3D"gmail-LC120" class=3D"gmail-blob=
+-code gmail-blob-code-inner gmail-js-file-line">PKG_CHECK_MODULES(<span cla=
+ss=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</span>NCURSES<span class=
+=3D"gmail-pl-pds">]</span></span>, <span class=3D"gmail-pl-c1"><span class=
+=3D"gmail-pl-pds">[</span>ncursesw ncurses<span class=3D"gmail-pl-pds">]</s=
+pan></span>, <span class=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</sp=
+an>LIBS=3D&quot;$LIBS $ncurses_LIBS&quot;<span class=3D"gmail-pl-pds">]</sp=
+an></span>, <span class=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</spa=
+n></span></td>
+      </tr>
+      <tr>
+        </tr></tbody></table><table class=3D"gmail-highlight gmail-tab-size=
+ gmail-js-file-line-container"><tbody><tr><td id=3D"gmail-LC121" class=3D"g=
+mail-blob-code gmail-blob-code-inner gmail-js-file-line"><span class=3D"gma=
+il-pl-c1">	<span class=3D"gmail-pl-k">AC_SEARCH_LIBS</span><span class=3D"g=
+mail-pl-pds">(</span><span class=3D"gmail-pl-c1"><span class=3D"gmail-pl-pd=
+s">[</span>delwin<span class=3D"gmail-pl-pds">]</span></span>, <span class=
+=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</span>ncursesw ncurses<span=
+ class=3D"gmail-pl-pds">]</span></span>, <span class=3D"gmail-pl-c1"><span =
+class=3D"gmail-pl-pds">[</span><span class=3D"gmail-pl-pds">]</span></span>=
+, <span class=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</span></span><=
+/span></td>
+      </tr>
+      <tr>
+        </tr></tbody></table><table class=3D"gmail-highlight gmail-tab-size=
+ gmail-js-file-line-container"><tbody><tr><td id=3D"gmail-LC122" class=3D"g=
+mail-blob-code gmail-blob-code-inner gmail-js-file-line"><span class=3D"gma=
+il-pl-c1"><span class=3D"gmail-pl-c1">		<span class=3D"gmail-pl-k">AC_MSG_E=
+RROR</span><span class=3D"gmail-pl-pds">(</span><span class=3D"gmail-pl-c1"=
+><span class=3D"gmail-pl-pds">[</span>ncurses is required but was not found=
+<span class=3D"gmail-pl-pds">]</span></span><span class=3D"gmail-pl-pds">)<=
+/span></span></span></td>
+      </tr>
+      <tr>
+        </tr></tbody></table><table class=3D"gmail-highlight gmail-tab-size=
+ gmail-js-file-line-container"><tbody><tr><td id=3D"gmail-LC123" class=3D"g=
+mail-blob-code gmail-blob-code-inner gmail-js-file-line"><span class=3D"gma=
+il-pl-c1"><span class=3D"gmail-pl-c1">	<span class=3D"gmail-pl-pds">]</span=
+></span>, <span class=3D"gmail-pl-c1"><span class=3D"gmail-pl-pds">[</span>=
+<span class=3D"gmail-pl-pds">]</span></span><span class=3D"gmail-pl-pds">)<=
+/span></span></td>
+      </tr>
+      <tr>
+        </tr></tbody></table><span class=3D"gmail-pl-c1"><span class=3D"gma=
+il-pl-pds">]</span></span></div></div><div class=3D"gmail_quote"><br></div>=
+<div class=3D"gmail_quote">Unless you explain why the above is wrong (even =
+though it builds without any problem), I&#39;d say you&#39;re veering too m=
+uch towards bikeshedding here.</div><div class=3D"gmail_quote"><br></div><d=
+iv class=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000817a9c05c19c3ed7--
