@@ -1,91 +1,139 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.1753.1620242594022297120
+Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.103])
+ by mx.groups.io with SMTP id smtpd.web10.1783.1620242714876707406
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 May 2021 12:23:15 -0700
+ Wed, 05 May 2021 12:25:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=xIu0VN2O;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 5F83882CA8;
-	Wed,  5 May 2021 21:23:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1620242590;
-	bh=o/+hjwS0Z6Lzr3gGMVD4H3Bvgo+oA+SN3/JKpHkhRQo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=xIu0VN2O6uCDk7PqYKvsg8BlUDVui1vXUHeDG2A3pvLKu02dOAf7N4G9I2fS1/L53
-	 mHJKc65PhDumhjRe+BRQpqqv0lPVw5PDXJTuGfdYkzRha0l2Dnwygk2FzQ7THuSwXq
-	 OJSnKZwLXe+U7ws9WjPM8cJzfh3cUIhq1S/d1b4k9UPemqvfBr4b9f/0/aZ4Xq1oBT
-	 WdaNUIoDGg5irTB2imvmhLGEsIillAlRSjI/luM+EOd3BILkxLYdAWyltjN1/aMJlz
-	 UjNkFjVPl0Yv5oBJcoeejXl+gUP3fgWuenUXgqfojsGbQM7DetEnvCD49exlDWYwrn
-	 f/8DHbQVb7Xuw==
-From: "Marek Vasut" <marex@denx.de>
-To: openembedded-core@lists.openembedded.org,
-	steve@sakoman.com
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH] make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
-Date: Wed,  5 May 2021 21:23:03 +0200
-Message-Id: <20210505192303.124067-1-marex@denx.de>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=Q+WIiVB1;
+ spf=pass (domain: outlook.com, ip: 40.92.51.103, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KZFRafq6LyfyI+dWQKr9xKjMrqT/RMuATRRFWmG5ivuhXXHyTH3tGCHgxUN6PBLWb2emfHzUuLj/GXwrTWR1aZ7+Z/BEWOCNfXXFRCbzQ68MSxS03ggcITBrbztYwZovDA+X9PWxE6b3K6hzr2VZDmdKaIALESJaW5LNX3iEqrDpbQT86d7WJX4mYPhVBfz8c39rHWt39xOE82ZU9m2Nhlg1OWSosBkEbXvUOS3kedxPLF/fSIlldYjC+rpbqBemQruO1JrhkcXMBMxCd8wheK+cByF+9F/FdFOGHuSqcQKgdQXYSDVtjZUyxA3AnbeDVHsGs8ilHBm99rb1jkrFNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jm0X8b5Ck7e2Zg3oeUXThdM9BpqOIK5OiPD+p5a/b0E=;
+ b=aKrC8JAS1L0xetoMPslNeEAx8BGk152hECSgnxBfwSbZlzuihJRW+rIE3xmwMa8n67EBALrtXxmN7nDVWaIkidEahUpyajPE8yiGGpML5Q/z/vLcJ5KeLpr7yME1rKGiFKL7QCK+9WL/RKdSoOplhFY6Y/vzzJOKZERKWmXdcK6Ij89wiTIQAikETuZBbna/LXKLhUy3LGEd+uT8rHjxVMUSZUHwSWqLyVnTlfloeoKV091370zHTOaBvSXCmo71JD1uyXVdWqtU7Md8Dk3qJv0PzzCrcR7Bii7P6qYmbB0fKujGSqp5t3dDbUYa7WB0Tji5Cfq0r1OJNUCEjEf8Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jm0X8b5Ck7e2Zg3oeUXThdM9BpqOIK5OiPD+p5a/b0E=;
+ b=Q+WIiVB1CqB2Qd3Ti/HcHR7IPwWLk+ZZyhRvcZTjla3ZaX/8Rg+W8sNdgidmycm66Bys5KY/wwaOaso7nxU86kseD9nQc9y0QZTxKXrUUf/8UeW+YLU+S/KSmfC2hrneSfin3nHSvO4kJZqQhON1uwoylYAIvQsgc9crPhxhq+XmBYFHn+VJ2HG3WrKzvyA9UUdQ1N7TnpquC1IRoRGq1H/Qgsfcv12nj5/Sh8Yew11UAUc1PzFh65/D3GBwrkLDz+9hvjC40HaZP+BjUlChRr3B5BLthfZ3Xn8eY0rwLn7g/r/CRA4xzNh/XGwnKlQkGA8bHbaA+URmzNXbnY523Q==
+Received: from VI1EUR06FT040.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc37::48) by
+ VI1EUR06HT098.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc37::286)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.27; Wed, 5 May
+ 2021 19:25:13 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:fc37::52) by VI1EUR06FT040.mail.protection.outlook.com
+ (2a01:111:e400:fc37::327) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Wed, 5 May 2021 19:25:13 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:3FCD59A275052D2FA904AA3082B4E36C1E549E8D3536F55EF700982EDB160822;UpperCasedChecksum:11864A021AEBFBDB8801F91AB87809592BC67AEC8846B468B6F963C02902564C;SizeAsReceived:9226;Count:48
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::9c9b:9858:17df:de84]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::9c9b:9858:17df:de84%6]) with mapi id 15.20.4108.025; Wed, 5 May 2021
+ 19:25:13 +0000
+Subject: Re: [OE-core] [PATCH 57/61] python3: add markdown/smartypants/typogrify modules
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-57-alex.kanavin@gmail.com>
+ <AM9PR09MB4642132C2006E4609CA966C7A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAMKF1sreCuyXW2wNh_1xaG+E_T=NFLuLq68vmFQegDJ1HTWiYg@mail.gmail.com>
+ <CANNYZj8VfB5sO4O3tjpUDHseBTMwYG-kRGwVUERmAjJSH61=oA@mail.gmail.com>
+ <AM9PR09MB464224482626504F72484641A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CANNYZj9M5Gy34YJacwpYLvbyBREpAdPT5_uszJs5p=LnPXyLHg@mail.gmail.com>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM9PR09MB46420A8B633050319875E0C8A8599@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Wed, 5 May 2021 21:25:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+In-Reply-To: <CANNYZj9M5Gy34YJacwpYLvbyBREpAdPT5_uszJs5p=LnPXyLHg@mail.gmail.com>
+X-TMN: [kOA8rZUivISAOrpixyFBwixGUW6m4eVH]
+X-ClientProxiedBy: AM6PR10CA0100.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:8c::41) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <a14715f9-fd1e-e0f1-6a1d-501f7c44bdda@outlook.com>
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.89.134) by AM6PR10CA0100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:8c::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend Transport; Wed, 5 May 2021 19:25:12 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: d599c34d-069b-4fba-f172-08d90ffb8150
+X-MS-TrafficTypeDiagnostic: VI1EUR06HT098:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	7lALnQCCh+eJBSw5LetaExAevpsKby7cAdLhBRZ3EjRsIkm/e7hR/5n/890hFKedWPj8FzeqPhJWlGjRTckbH4f2h6mINwdn/8Z8135Lni3FBsqJg2/ENEiK4AWRDzVoOMFG5bEOWwPskgmNPXUa7Yu2ihAnwlYWSUgznmQN0ltVAQhxmi4XQaOPf458/fMeGsknXGkZVxW87OLr4C1tmfChdDS1hPb6Ds3QcM2MueD2USIOAx+daYcWIvFnGakof6/xV/EduU6reK2DFZmkOdv/YKdTIRP1Sm07HlIBf5NzyTlNNIjO7p8Eg3UcvEd9BAyLPprDfmBYhkYiroOO0XN+bXyjdOVLfPNXva6l+qw8AtywCzA3KJ4eX9626Lk0kOUQtjelgltOyFM+WgEnX6+SHrfHcurx/tjGAfH2qtI=
+X-MS-Exchange-AntiSpam-MessageData: 
+	CHOrg9PP8JhurO9fm2JoBMviyxptqgry7DiECRv2/ZiXctUfbwwVwEYvvZqG+EbrQoHORzOv6PkoZjj9oca9LJHE7uSckrLHNlzrRv4d4/Bd0PoDid2KcYmi7UEa6fkvOGw+l6dVzrFju2orO8TlBg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d599c34d-069b-4fba-f172-08d90ffb8150
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 19:25:13.2221
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VI1EUR06FT040.eop-eur06.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR06HT098
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-With kernel v5.8+ and gcc10 plugins, we can run into the following build =
-error:
 
-      HOSTCXX -fPIC scripts/gcc-plugins/arm_ssp_per_task_plugin.o
-    In file included from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/qemuarm-pok=
-y-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/usr/bin/arm=
--poky-linux-gnueabi/../../lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-g=
-nueabi/10.1.0/plugin/include/gcc-plugin.h:28,
-                     from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work-shared/qemu=
-arm/kernel-source/scripts/gcc-plugins/gcc-common.h:7,
-                     from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work-shared/qemu=
-arm/kernel-source/scripts/gcc-plugins/arm_ssp_per_task_plugin.c:3:
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/qemuarm-pok=
-y-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/usr/bin/arm=
--poky-linux-gnueabi/../../lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-g=
-nueabi/10.1.0/plugin/include/system.h:687:10:
-    fatal error: gmp.h: No such file or directory
-      687 | #include <gmp.h>
-          |          ^~~~~~~
+On 05.05.21 21:11, Alexander Kanavin wrote:
+> On Wed, 5 May 2021 at 21:06, Konrad Weihmann <kweihmann@outlook.com 
+> <mailto:kweihmann@outlook.com>> wrote:
+> 
+>     On 05.05.21 21:03, Alexander Kanavin wrote:
+>      > The repo is here:
+>      > https://github.com/leohemsted/smartypants.py
+>     <https://github.com/leohemsted/smartypants.py>
+>      > <https://github.com/leohemsted/smartypants.py
+>     <https://github.com/leohemsted/smartypants.py>>
+>      >
+>      > I opened an issue:
+>      > https://github.com/mintchaos/typogrify/issues/56
+>     <https://github.com/mintchaos/typogrify/issues/56>
+>      > <https://github.com/mintchaos/typogrify/issues/56
+>     <https://github.com/mintchaos/typogrify/issues/56>>
+> 
+>     Thanks for that one - but if this project is still alive (just
+>     relocated
+>     from bitbucket to GH), wouldn't it make more sense to introduce the
+>     2.0.1 version pulled via git instead of the pretty outdated 2.0.0
+>     from pypi?
+> 
+> 
+> I don't think it's alive, open issues and PRs all dead, last commit in 
+> 2017 shortly after 2.0.1 release.
+> 
+> If it becomes alive again, it'll almost certainly be a fork in another 
+> location,
+> and pypi would then automatically take care of it for us. Besides pypi 
+> recipes are
+> much easier to write, and this is a very marginal module :)
+> 
+> Alex
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb055446e0fe4771c8bd6122e79d43ef8db2e45b)
----
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Agree - looking at 
+https://github.com/leohemsted/smartypants.py/compare/v2.0.0...master 
+there isn't much of a functional change either.
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
- b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 87b7d240f5..b58fa9a603 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -16,8 +16,10 @@ do_compile[depends] +=3D "virtual/kernel:do_compile_ke=
-rnelmodules"
- RDEPENDS_${PN}-dev =3D ""
-=20
- DEPENDS +=3D "bc-native bison-native"
-+DEPENDS +=3D "gmp-native"
-=20
- EXTRA_OEMAKE =3D " HOSTCC=3D"${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS=
-}" HOSTCPP=3D"${BUILD_CPP}""
-+EXTRA_OEMAKE +=3D " HOSTCXX=3D"${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LD=
-FLAGS}""
-=20
- # Build some host tools under work-shared.  CC, LD, and AR are probably
- # not used, but this is the historical way of invoking "make scripts".
---=20
-2.30.2
-
+The status of typogrify isn't also not very convincing - changes from 
+2014 till today haven't been released - so it might be worth a shot to 
+open a ticket at gi-docgen and ask about the need for this 
+outdated/likely unmaintained dependency
