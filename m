@@ -1,84 +1,89 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.8482.1620303289633033381
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.8464.1620303388418215381
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 05:14:50 -0700
+ Thu, 06 May 2021 05:16:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: michael.opdenacker@bootlin.com)
-X-Originating-IP: 109.208.196.11
-Received: from [10.0.0.10] (lfbn-mar-1-666-11.w109-208.abo.wanadoo.fr [109.208.196.11])
-	(Authenticated sender: michael.opdenacker@bootlin.com)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id C3DBC1C000B;
-	Thu,  6 May 2021 12:14:47 +0000 (UTC)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure message
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-References: <20210505175614.66322-1-michael.opdenacker@bootlin.com>
- <20210506092523.puuhdp77ho3egljd@qschulz>
-From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-Message-ID: <2c3fd721-3822-8620-13a5-54efde3efe01@bootlin.com>
-Date: Thu, 6 May 2021 14:14:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fgGeuAgt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id n15so1278393edw.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 05:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=geY7whiNwQ38XTYxdpB387GjnflKK6IDdIUjNPQYN7w=;
+        b=fgGeuAgtkG8DRSrwI22Z/Pb69pAZsgaA1ZfiMXbR5LeU6Ap5vbns/AU6NeJ+HnkiH1
+         mKdyjc8KTl1Shcb8Bt4ryfyWxcCbz0RQLRgvDCq2+jS99Pa9zDOGWPQT13AK8VCmXo1k
+         QoEJxYUizxeqnSf7RuHLBnSmKv/FPj+HfspBJnjD/F4Abi2fsKytAcPiHu93eZhJIAWE
+         l1punltZDafRRYO7BSPLL9tFGKwNkOJAO6QALUIMsUyV23CT5EvzB/jbUh6bzUx43n3i
+         +0KuUNe4VhQ618gtgsYlwsNNEdBpu2/Mrlc2uhXV6ZGMTDIuEpl7VOVb83/P2ucuU8CR
+         0t3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=geY7whiNwQ38XTYxdpB387GjnflKK6IDdIUjNPQYN7w=;
+        b=HKEF/Q8k34kZ3Xd79RzaMDPuoyXIs/r1sjIFKaT2riMkqj0rNB98Rilaou5M7AewRQ
+         cgWs+XY9OM+n3VJxhT6/tDR18rblIpW+ahzkhsXkziyfzpyOX/zDJY5I2G0QZ2jqjjze
+         Gg6HG2821pLqnc1z6c4YXXPZW1ROpPgp7w+StNHc0TvYkqfbjkhqNahZ1zlYH6NXdV/w
+         BYVPWTMye9JhsskM5ojKIjl4clh7mOS56Wv4vfQ2NCheoGyUSMfJHH5b0hhZkL05/DY1
+         fuEVCicK1bK8FThO+RM5/+2fcC2EbV1wS9ACBecn28f5NG5HBCCHP28zKOmwN3gqCSoy
+         JdLg==
+X-Gm-Message-State: AOAM532e1uzGb4k2Km0nGB4i4zSHEK518voH3Nx2Sao89b/lSBpg2URp
+	oXbNA+kcXnts15deOijNooYltQJ4CB4mgkQu0EE=
+X-Google-Smtp-Source: ABdhPJw108UvqOp4htpBRQEL8jVkKj8dfuBNdZH5KId2rFgGdtq7Lw7wk/UXPw9H/g+RdmcSJm708O07bFgb8dSoxvI=
+X-Received: by 2002:a05:6402:105a:: with SMTP id e26mr4808626edu.164.1620303386925;
+ Thu, 06 May 2021 05:16:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210506092523.puuhdp77ho3egljd@qschulz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20210505175821.39714-1-bruce.ashfield@gmail.com> <a86ae7902cb7b63b25b9696d617a1012663f89a0.camel@linuxfoundation.org>
+In-Reply-To: <a86ae7902cb7b63b25b9696d617a1012663f89a0.camel@linuxfoundation.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 6 May 2021 08:16:15 -0400
+Message-ID: <CADkTA4PheTUxTbFTU0Sn9xmmh7rN50Lryws5WLKbAYg+DsCQaQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-yocto/5.10: qemuppc32: reduce serial shutdown issues
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Quentin,
-
-Thanks for the review!
-
-On 5/6/21 11:25 AM, Quentin Schulz wrote:
-> Hi Michael,
+On Thu, May 6, 2021 at 3:30 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Wed, May 05, 2021 at 07:56:15PM +0200, Michael Opdenacker wrote:
->> This expands the error message when a network failure is detected.
->> It happens that some ISPs or networks block the default example.com
->> domain. Therefore, instead of disabling network access, it
->> lets the user know how to modify the test URL.
->>
->> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
->> ---
->>  meta/classes/sanity.bbclass | 9 ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index a377917f2a..e907a3566f 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -392,9 +392,12 @@ def check_connectivity(d):
->>              msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
->>              if len(msg) == 0:
->>                  msg = "%s.\n" % err
->> -                msg += "    Please ensure your host's network is configured correctly,\n"
->> -                msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
->> -                msg += "    all required sources are on local disk.\n"
->> +                msg += "    Please ensure your host's network is configured correctly.\n"
->> +                msg += "    If your ISP or network is blocking the above URL,\n"
->> +                msg += "    try with another domain name, for example by setting:\n"
->> +                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.yoctoproject.org/\""
->> +                msg += "    You could also set BB_NO_NETWORK = \"1\" to disable network\n"
->> +                msg += "    access if all required sources are on local disk.\n"
-> I have my doubts that we want to explicit all ways to get rid of the
-> message. I'd see more an indication to look at the documentation for
-> this.... and since I wanted to check what we had in the docs for
-> CONNECTIVITY_CHECK_URIS I discovered we don't have anything for
-> that variable in YP documentation!
+> On Wed, 2021-05-05 at 13:58 -0400, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Integrating the following commit(s) to linux-yocto/5.10:
+> >
+> >     qemuppc32: reduce serial issues seen on shutdown
+> >
 >
-> That would be a nice addition even if you keep the message as is!
+> Thanks for this, I appreciate being able to test it quickly. We are seeing
+> a warning from it:
+>
+> WARNING: linux-yocto-5.10.34+gitAUTOINC+16df1d13c6_85c17ad073-r0 do_kernel_configcheck: [kernel config]: This
+> BSP contains fragments with warnings:
+> [INFO]: Fragments with duplicated configuration options:
+>     - fragment configs/v5.10/standard/qemuppc/bsp/qemu-ppc32/qemu-ppc32.cfg has a duplicated option: CONFIG_SERIAL_PMACZILOG_CONSOLE
+>
 
-Sure, I was definitely planning to add such documentation.
+hahah! of course.
 
-Any other thoughts about making this error message more helpful?
+Don't you hate it when your own checks keep you honest ?
 
-Cheers,
+I'm now both enabling that, and then disabling it within the same
+fragment. Which is why it warns.
 
-Michael.
+I'll send a v2 shortly.
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+
 
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
