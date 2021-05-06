@@ -1,186 +1,79 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.7609.1620298428117273492
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.7932.1620300146488874839
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 03:53:50 -0700
+ Thu, 06 May 2021 04:22:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=Y2H0fEkp;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
-Received: from anbelski-lsg-linux-yocto-1.irsgb21fvobu5fvmalxug44hib.xx.internal.cloudapp.net (unknown [52.247.218.173])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8209A20B7178
-	for <openembedded-core@lists.openembedded.org>; Thu,  6 May 2021 03:53:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8209A20B7178
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1620298427;
-	bh=UYHjZf9a2MOvfN0eGaaV5xrZaxyd+GxZpM9it2oh+ls=;
-	h=From:To:Subject:Date:From;
-	b=Y2H0fEkpPcBNx/XTn42bghJdIj0/+6FG8raxznv4aq71nqEFM0ebcUuQE1YUFlTjM
-	 lI4Zg5WPDyOU6Zrgwh1n8Sy319bY/7G3avCTLnEMsTyx0QNJYM0NYEwpDXVO/G3Rpb
-	 f7Lt1wKl3gjfSXyeOz6acwUnpDAIjkwrF36eOoy0=
-From: "Anatol Belski" <anbelski@linux.microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH] tar: Fix CVE-2021-20193
-Date: Thu,  6 May 2021 10:53:41 +0000
-Message-Id: <20210506105341.30549-1-anbelski@linux.microsoft.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SriRcmEP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id a4so5204305wrr.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 04:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=QaFX3xYRLBjv6PfoSjeFP1JDDZM/FOsXrWwvaRxZxhQ=;
+        b=SriRcmEPhBZClLmKxVEFgXzt2TZHXn6IkI2AQ2u8hShyhuDEMWItrnEtH+D9+FzV5/
+         VdDvcEdW1IQ5cmVwPVZpaNJH7nPXDsxQx7xXSbjPVuUwv1G5uGsBHDiq6Vp2mCMTDxck
+         lIAZCR2odx4kQarRo6xoJcsvPPEOZzRWIlFbk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=QaFX3xYRLBjv6PfoSjeFP1JDDZM/FOsXrWwvaRxZxhQ=;
+        b=oVKZb1RNKAQd0HWFVXcn39F+10hx+OJUVOwzmzm/VRAjOOu3We5tf6C3zmGFAsxx56
+         DyHHSUHfsMBNI44OvH543sasgsCTo0aPk2ieAHhhHfR9G6gzJV5y4C/JEOawIEcMY0y1
+         VTdKSKufbzrrM69JXTJlPgCN6GQz9Hz8vL/4ykxz9FBhOfIQM6Qirr8ojQqplJ9uAfmy
+         bfUX0CfpLnNzRVt8+Jh01zUDo5lcDGIzipfw2dAGXn2tfuU+Eic2qdAjrZGCWielD5La
+         Tavx+Rf1vdE+YoFhCRI9iRU42cYBLd48MwnwAaqZNu84fIEIifLgKfV1ZJHYgztt92u5
+         xLrg==
+X-Gm-Message-State: AOAM531TzUI8TUZFmZjWqY0oov9ubht2USgL4qxmzV0Rp3w+jeA5ReFY
+	dIoUrdtiKsXJllhluz2cdvtN+g==
+X-Google-Smtp-Source: ABdhPJySP+7KhCHS+RKDaMaa+mWwmLTphsRCnLp6xeKDrIrTdhphZdkXR0iLLlPNtaZTI0t8vDMCmQ==
+X-Received: by 2002:a5d:4304:: with SMTP id h4mr4560774wrq.210.1620300144992;
+        Thu, 06 May 2021 04:22:24 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e? ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
+        by smtp.gmail.com with ESMTPSA id l5sm2930463wmh.0.2021.05.06.04.22.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 04:22:24 -0700 (PDT)
+Message-ID: <3878e27fb895718b8c5d65f444fea443a56e0587.camel@linuxfoundation.org>
+Subject: Next Yocto Project LTS - April 2022
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>, openembedded-core
+ <openembedded-core@lists.openembedded.org>,
+ "<yocto@lists.yoctoproject.org>" <yocto@lists.yoctoproject.org>
+Date: Thu, 06 May 2021 12:22:23 +0100
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
----
- .../tar/tar/CVE-2021-20193.patch              | 133 ++++++++++++++++++
- meta/recipes-extended/tar/tar_1.32.bb         |   1 +
- 2 files changed, 134 insertions(+)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+I'm pleased to be able to announce that the project is planning to have
+the April 2022 release next year be our next LTS release.
 
-diff --git a/meta/recipes-extended/tar/tar/CVE-2021-20193.patch b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
-new file mode 100644
-index 0000000000..89e8e20844
---- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
-@@ -0,0 +1,133 @@
-+From d9d4435692150fa8ff68e1b1a473d187cc3fd777 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Sun, 17 Jan 2021 20:41:11 +0200
-+Subject: Fix memory leak in read_header
-+
-+Bug reported in https://savannah.gnu.org/bugs/?59897
-+
-+* src/list.c (read_header): Don't return directly from the loop.
-+Instead set the status and break.  Return the status.  Free
-+next_long_name and next_long_link before returning.
-+
-+CVE: CVE-2021-20193
-+Upstream-Status: Backport
-+[https://git.savannah.gnu.org/cgit/tar.git/patch/?id=d9d4435692150fa8ff68e1b1a473d187cc3fd777]
-+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
-+
-+---
-+ src/list.c | 40 ++++++++++++++++++++++++++++------------
-+ 1 file changed, 28 insertions(+), 12 deletions(-)
-+
-+diff --git a/src/list.c b/src/list.c
-+index e40a5c8..d7ef441 100644
-+--- a/src/list.c
-++++ b/src/list.c
-+@@ -408,26 +408,27 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	     enum read_header_mode mode)
-+ {
-+   union block *header;
-+-  union block *header_copy;
-+   char *bp;
-+   union block *data_block;
-+   size_t size, written;
-+-  union block *next_long_name = 0;
-+-  union block *next_long_link = 0;
-++  union block *next_long_name = NULL;
-++  union block *next_long_link = NULL;
-+   size_t next_long_name_blocks = 0;
-+   size_t next_long_link_blocks = 0;
-+-
-++  enum read_header status = HEADER_SUCCESS;
-++  
-+   while (1)
-+     {
-+-      enum read_header status;
-+-
-+       header = find_next_block ();
-+       *return_block = header;
-+       if (!header)
-+-	return HEADER_END_OF_FILE;
-++	{
-++	  status = HEADER_END_OF_FILE;
-++	  break;
-++	}
-+ 
-+       if ((status = tar_checksum (header, false)) != HEADER_SUCCESS)
-+-	return status;
-++	break;
-+ 
-+       /* Good block.  Decode file size and return.  */
-+ 
-+@@ -437,7 +438,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	{
-+ 	  info->stat.st_size = OFF_FROM_HEADER (header->header.size);
-+ 	  if (info->stat.st_size < 0)
-+-	    return HEADER_FAILURE;
-++	    {
-++	      status = HEADER_FAILURE;
-++	      break;
-++	    }
-+ 	}
-+ 
-+       if (header->header.typeflag == GNUTYPE_LONGNAME
-+@@ -447,10 +451,14 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	  || header->header.typeflag == SOLARIS_XHDTYPE)
-+ 	{
-+ 	  if (mode == read_header_x_raw)
-+-	    return HEADER_SUCCESS_EXTENDED;
-++	    {
-++	      status = HEADER_SUCCESS_EXTENDED;
-++	      break;
-++	    }
-+ 	  else if (header->header.typeflag == GNUTYPE_LONGNAME
-+ 		   || header->header.typeflag == GNUTYPE_LONGLINK)
-+ 	    {
-++	      union block *header_copy;
-+ 	      size_t name_size = info->stat.st_size;
-+ 	      size_t n = name_size % BLOCKSIZE;
-+ 	      size = name_size + BLOCKSIZE;
-+@@ -517,7 +525,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      xheader_decode_global (&xhdr);
-+ 	      xheader_destroy (&xhdr);
-+ 	      if (mode == read_header_x_global)
-+-		return HEADER_SUCCESS_EXTENDED;
-++		{
-++		  status = HEADER_SUCCESS_EXTENDED;
-++		  break;
-++		}
-+ 	    }
-+ 
-+ 	  /* Loop!  */
-+@@ -536,6 +547,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      name = next_long_name->buffer + BLOCKSIZE;
-+ 	      recent_long_name = next_long_name;
-+ 	      recent_long_name_blocks = next_long_name_blocks;
-++	      next_long_name = NULL;
-+ 	    }
-+ 	  else
-+ 	    {
-+@@ -567,6 +579,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      name = next_long_link->buffer + BLOCKSIZE;
-+ 	      recent_long_link = next_long_link;
-+ 	      recent_long_link_blocks = next_long_link_blocks;
-++	      next_long_link = NULL;
-+ 	    }
-+ 	  else
-+ 	    {
-+@@ -578,9 +591,12 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	    }
-+ 	  assign_string (&info->link_name, name);
-+ 
-+-	  return HEADER_SUCCESS;
-++	  break;
-+ 	}
-+     }
-++  free (next_long_name);
-++  free (next_long_link);
-++  return status;
-+ }
-+ 
-+ #define ISOCTAL(c) ((c)>='0'&&(c)<='7')
-+-- 
-+cgit v1.2.1
-+
-diff --git a/meta/recipes-extended/tar/tar_1.32.bb b/meta/recipes-extended/tar/tar_1.32.bb
-index ebe6cb0dbd..3ae6d674a5 100644
---- a/meta/recipes-extended/tar/tar_1.32.bb
-+++ b/meta/recipes-extended/tar/tar_1.32.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
-            file://musl_dirent.patch \
-+           file://CVE-2021-20193.patch \
- "
- 
- SRC_URI[md5sum] = "17917356fff5cb4bd3cd5a6c3e727b05"
--- 
-2.17.1
+This fits in with our original announced plan of 2 year cycles and 
+recognises that the LTS has been well received by members and our 
+community. It also aligns well with LTS releases of other projects
+meaning we have "co-travellers".
+
+The current dunfell LTS would be due to end at that time. There has
+been discussion about extending it beyond the currently planned 
+timeframe but no agreement/decision has been made on the extra finance 
+that would require at this time. There is also some concern about the 
+potential pressure on layer maintainers in wider ecosystem which we
+plan to investigate further.
+
+By confirming this now, we're hoping to give people a chance to align
+strategies and plan for feature development to land into the LTS. There
+is a clear need for any new/experimental changes to be planned/developed
+now in order to ensure they're ready and stabilised for the LTS.
+
+Cheers,
+
+Richard
+
+
+
+
 
