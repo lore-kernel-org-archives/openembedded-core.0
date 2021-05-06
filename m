@@ -1,75 +1,64 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.6381.1620287463445637631
+Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
+ by mx.groups.io with SMTP id smtpd.web11.7001.1620293127894479392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 00:51:03 -0700
+ Thu, 06 May 2021 02:25:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dqrC+prl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id a10-20020a05600c068ab029014dcda1971aso2668482wmn.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 00:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=My94w2eTXXKYNhK2BluWLDRCtA7N6OnVo2pnhPQGU8s=;
-        b=dqrC+prle/u61lBPX8fXudmx2SuPzUjDF4sCTtMQyX+T4drssxQUfOf0CRfTsg1SUH
-         8OZl3BtWBx0IS3GimxMB7j9sAXOQGuh0YUrGSgmzapbhGC6Bpd0Prc1bZR9EHd1KGYDP
-         4dFmdmJihNklJSLhrK7/hxSl+QNS+fAUzSenk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=My94w2eTXXKYNhK2BluWLDRCtA7N6OnVo2pnhPQGU8s=;
-        b=fR6AzW4cQ4SSj764o9zoeMUDdTbJqZv26ch+RXgPe5kiwzdfKjxR7xa/mnEGqzkOZ+
-         VoxeEMzQPACySsTjznMZXQCPLMdcosptjQ2awC6Gp9LEvDuoFYixSlQUzOhAjPVA0LLA
-         BDqfKUjrg3F/w5nFe3qkGSUIy9QGgW3vi+9/6INK9u6yDBa47TmW5kEIvptyQUXmriwz
-         L5vwMQaYrhCMVZiAmy7CqGt7KtJ+2qYSPR2nOH9N7Xl9PtwMj/23EWM96dJ+0yJA+usX
-         Jalmn4tGbdtxVleZq1aq3Tqw28izqa7FBOepYv47GpFTXM4z6Mb17IOYXD2s/DkUBfmk
-         NzUw==
-X-Gm-Message-State: AOAM5329SnVdviDSCRZD8rF2K0Pc+IspgT6XoGqdz/qGNNnfJWFwNKJo
-	8QZGa5U71cKCoBnSm7HLt/4U3awBekgq3w==
-X-Google-Smtp-Source: ABdhPJwPS1CHmWYWA/pY3RCr9pwzfLgWYuOR1hpY+dAKy9higV35JAbGR1mYvENaOAokjeZ2EC1JHg==
-X-Received: by 2002:a1c:3d44:: with SMTP id k65mr2439610wma.121.1620287461938;
-        Thu, 06 May 2021 00:51:01 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
-        by smtp.gmail.com with ESMTPSA id q16sm2251437wmj.24.2021.05.06.00.51.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 00:51:01 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] lib/package_manager: Use shutil.copy instead of bb.utils.copyfile for intercepts
-Date: Thu,  6 May 2021 08:51:00 +0100
-Message-Id: <20210506075100.1984260-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210506075100.1984260-1-richard.purdie@linuxfoundation.org>
-References: <20210506075100.1984260-1-richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4FbSq83kgZz5tlD;
+	Thu,  6 May 2021 11:25:24 +0200 (CEST)
+Date: Thu, 6 May 2021 11:25:23 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure message
+Message-ID: <20210506092523.puuhdp77ho3egljd@qschulz>
+References: <20210505175614.66322-1-michael.opdenacker@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210505175614.66322-1-michael.opdenacker@bootlin.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If the scripts/postinst-intercepts is owned by root/root then the copyfile() calls
-will fail due to chown issues. We don't care about ownership of these files so
-use shutil.copy() instead which won't perform any chown.
+Hi Michael,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/package_manager/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, May 05, 2021 at 07:56:15PM +0200, Michael Opdenacker wrote:
+> This expands the error message when a network failure is detected.
+> It happens that some ISPs or networks block the default example.com
+> domain. Therefore, instead of disabling network access, it
+> lets the user know how to modify the test URL.
+> 
+> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+> ---
+>  meta/classes/sanity.bbclass | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index a377917f2a..e907a3566f 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -392,9 +392,12 @@ def check_connectivity(d):
+>              msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
+>              if len(msg) == 0:
+>                  msg = "%s.\n" % err
+> -                msg += "    Please ensure your host's network is configured correctly,\n"
+> -                msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
+> -                msg += "    all required sources are on local disk.\n"
+> +                msg += "    Please ensure your host's network is configured correctly.\n"
+> +                msg += "    If your ISP or network is blocking the above URL,\n"
+> +                msg += "    try with another domain name, for example by setting:\n"
+> +                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.yoctoproject.org/\""
+> +                msg += "    You could also set BB_NO_NETWORK = \"1\" to disable network\n"
+> +                msg += "    access if all required sources are on local disk.\n"
 
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
-index 8e7128b1958..4d22bc0296c 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -189,7 +189,7 @@ class PackageManager(object, metaclass=ABCMeta):
-         bb.utils.remove(self.intercepts_dir, True)
-         bb.utils.mkdirhier(self.intercepts_dir)
-         for intercept in postinst_intercepts:
--            bb.utils.copyfile(intercept, os.path.join(self.intercepts_dir, os.path.basename(intercept)))
-+            shutil.copy(intercept, os.path.join(self.intercepts_dir, os.path.basename(intercept)))
- 
-     @abstractmethod
-     def _handle_intercept_failure(self, failed_script):
--- 
-2.30.2
+I have my doubts that we want to explicit all ways to get rid of the
+message. I'd see more an indication to look at the documentation for
+this.... and since I wanted to check what we had in the docs for
+CONNECTIVITY_CHECK_URIS I discovered we don't have anything for
+that variable in YP documentation!
 
+That would be a nice addition even if you keep the message as is!
+
+Thanks for the patch :)
+
+Cheers,
+Quentin
