@@ -1,71 +1,99 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.1439.1620316616706414142
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.2592.1620321187786795384
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 08:56:57 -0700
+ Thu, 06 May 2021 10:13:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ERrNEV+0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id d4so6164072wru.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 08:56:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=a38RhkeK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id b15so5631564pfl.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 10:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0EIk1CyCg244ZljzOEuH5+zKVToWA9uHHB43n3BeGwA=;
-        b=ERrNEV+0tS2ARu1EuahUUNe23e1oMwgNMYR694xjEdnafptOUWqC4Od0+//yvgCl/E
-         ZskA0NULuvb3ZsK3CdNEPWFfZbJjrKQEUAUXfkp3YPKMHKebHuNAk/F0JXe8OVFF3X+P
-         kp4slRT/KNYHVh8tuGdiiiCguryJxyeC7AST0=
+        bh=y0aiJSgA7xdRycqjCFFdpue0o63AaK8oup7vCmjOR9A=;
+        b=a38RhkeKPD/9HpU6kkEavo+Sk44NhjXBvMy0ESmxbfzcteSx2KLrZiyUbc8W0XS+Gf
+         fwlPignk+FgvmWb8SntUgX9DykmUSN6sne6CaXNnPgHzqkJWrufWXmNUHACJDPltxQLL
+         Ah6WcjbydAUMY+m+MR9aPVNxhas3A7UL1H5cx7XkdiTTTaUysN/iVUOTvaHLJI3VSAHn
+         YpTkJn4bYlE8OXQmoZR6ZCxnq2YCXWyDWXUkn9WZ1tFsnj+ZJuns37F54bo+2RftXP6v
+         Yu88oaJhv9amJLqpdvZ8G7cMi3FWc7ex5W5JayjXG3q52FSs/ZthXxaGmt1tQ9zUmxQj
+         KBDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0EIk1CyCg244ZljzOEuH5+zKVToWA9uHHB43n3BeGwA=;
-        b=tlCEl1KJKEASACsk310TOQ/d/ERTrONdqCPEpDu13tSz5uZC9DPgs97iww5yGNKT0G
-         9HR2/VakbbyRhHZUx93lHKlNsQSX3LHvMnyWcfh83bZT9sp8wjQHCUwCRT8YSyB6b++N
-         Rraxkdn642sO6WjC4QH0evWwv8uvNEp2bsoYyTBMhaPH5XIqUxjCvn7eei9Kqlk+pg2G
-         wezpdwqVvAYu3OZpstRqnGlOIapHoczeYTLoxm+v0YMnln3rrccF/g39wgcrWn2Cy17s
-         nzM3UZOAxPaRUmSF79SmD6Rjy3QJGGI992FhCBPjOWphj/mWQtFKAKqyzOcZn81IRHWl
-         yjRw==
-X-Gm-Message-State: AOAM5327Ivrq0Tz7ULRwXekVSZD+jlRBtNP47ALCgMYVvcICUbiZoc6n
-	fpCDnwQKhrT+iDbfA/eCQprtSd50f9W57g==
-X-Google-Smtp-Source: ABdhPJxWBVd+OH1ektAIar4EfJ29e7EDubAHX7+Hw/tY4+M3SN3M9bcuCza4uawGs/URFb4d3/13uA==
-X-Received: by 2002:adf:f1ca:: with SMTP id z10mr6147939wro.271.1620316615170;
-        Thu, 06 May 2021 08:56:55 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:d0ab:d9f1:6e0d:9f6e])
-        by smtp.gmail.com with ESMTPSA id a15sm5599471wrx.9.2021.05.06.08.56.54
+        bh=y0aiJSgA7xdRycqjCFFdpue0o63AaK8oup7vCmjOR9A=;
+        b=TUj2ZnC+SIX27L4DI4jf5fIhZkgakwzjUBv3ZxH5OfbdqjgdkBlx9qt6UHfOofhFNr
+         N4t5m1HADQEGhgSKmXvJ9k55ZVqRPNVcbIHpcDpfYxPbXCDznWueHuB1Dc30kqGcXkxp
+         ecEdY7repsbU5mcXCTNwn1LpuPapx32B4oo4LLffmhwK9UxsNClgxj/r6spk8hXaevW8
+         jAtbzjTlkeMuomUafsH2cuDvpgny9BimFN439vhVo1CAEVKVIpRdPRU9dnikRPpFvOHL
+         MEphgTIRSa+yDiQs2VTxGXFV/q2acCT6Keh97KFSlK9QBdaFK3uWMHIKn5o78Ip0RWc7
+         z1Ew==
+X-Gm-Message-State: AOAM530zwz1OHpRgpRhA4IZ/Nw9WC0VgnOIf60d8HZsyJrm0+mE6a/uv
+	feLTADFblKf7w9Zkc5v4WcvQvHJfTLSqcdZm
+X-Google-Smtp-Source: ABdhPJwFE4GtXWAi3PmJLqda9UctiTpPzTfa/GktGAHibNxoZEApBoLrfXqUK4k4CcAoR07O7RjBjQ==
+X-Received: by 2002:a62:ee09:0:b029:247:56aa:dfa6 with SMTP id e9-20020a62ee090000b029024756aadfa6mr5767943pfi.69.1620321186285;
+        Thu, 06 May 2021 10:13:06 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from localhost.localdomain ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id n18sm2265997pgj.71.2021.05.06.10.13.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 08:56:54 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Thu, 06 May 2021 10:13:05 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ptest-packagelists: Add expat-ptest to fast ptests
-Date: Thu,  6 May 2021 16:56:54 +0100
-Message-Id: <20210506155654.2006163-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+Subject: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list for intractable CVE's
+Date: Thu,  6 May 2021 07:12:32 -1000
+Message-Id: <20210506171232.2832063-1-steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This ptest package was accidentally not enabled. The tests run quickly (2s) and
-pass so add to the standard test suite.
+The preferred methods for CVE resolution are:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+1. Version upgrades where possible
+2. Patches where not possible
+3. Database updates where version info is incorrect
+4. Exclusion from checking where it is determined that the CVE
+   does not apply to our environment
+
+In some cases none of these methods are possible. For example the
+CVE may be decades old with no apparent resolution, and with broken
+links that make further research impractical.
+
+This patch creates a mechanism for users to remove this type of
+CVE from the cve-check results via an optional include file.
+
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/ptest-packagelists.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../distro/include/cve-extra-exclusions.inc    | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/conf/distro/include/cve-extra-exclusions.inc
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index e0a876dbdc7..70d5fa8877f 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -14,6 +14,7 @@ PTESTS_FAST = "\
-     diffutils-ptest \
-     elfutils-ptest \
-     ethtool-ptest \
-+    expat-ptest \
-     flex-ptest \
-     gawk-ptest \
-     gdbm-ptest \
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+new file mode 100644
+index 0000000000..956b3a9a3c
+--- /dev/null
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -0,0 +1,18 @@
++# This file contains a list of CVE's where resolution has proven to be impractical.
++# It contains all the information we are aware of about an issue and analysis about
++# why we believe it can't be fixed/handled. Additional information is welcome through
++# patches to the file.
++#
++# Include this file in your local.conf or distro.conf to exclude these CVE's
++# from the cve-check results
++
++# strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006
++# CVE is more than 20 years old with no resolution evident
++# broken links in CVE database references make resolution impractical
++CVE_CHECK_WHITELIST += "CVE-2000-0006"
++
++# groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803
++# CVE is more than 20 years old with no resolution evident
++# broken links in CVE database references make resolution impractical
++CVE_CHECK_WHITELIST += "CVE-2000-0803"
++
 -- 
-2.30.2
+2.25.1
 
