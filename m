@@ -1,342 +1,128 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.138])
- by mx.groups.io with SMTP id smtpd.web12.520.1620313240794459614
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.53])
+ by mx.groups.io with SMTP id smtpd.web10.1328.1620316140337326426
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 08:00:42 -0700
+ Thu, 06 May 2021 08:49:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nobleogroup.onmicrosoft.com header.s=selector2-nobleogroup-onmicrosoft-com header.b=DW7LA4SA;
- spf=pass (domain: nobleo.nl, ip: 40.107.13.138, mailfrom: ishu.goel@nobleo.nl)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=YHROvtvk;
+ spf=pass (domain: windriver.com, ip: 40.107.244.53, mailfrom: saul.wold@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WaQzkEfeCfGo0V7FXKDZqicZabVvXE9RrqzyK4fFYwU/eZzg94PbdG0OBz2UKcfW113LLBg9sXMtrNM1aox7T+/zpq+fsjNLfZi+B7ZofhMOCFAMDE4vN/ZQkx8EQyOI0Ib2cu7ayUs9Vu77X4lgHhp0lFGkZBgtQvzu4RjWNuvrNSE8dJ/v4OnDN6TuYODmRGmCGrbGd9zyCeqeb7Na08S+BdVVMelX32DUoVDMSpBNs5oCl2PyuFoWjImQmmCixGhghK4KlA1Gz7beid0LRSUWlYsZ0+VuiRdRTe6caqquv0X6fH0YQrKAZG5+77rvd0+SZfnArvlmy0DxvI3mUA==
+ b=DM0ABOCv7uqpcd/UFWaz2wVGuxnc8CEWzccJoWWsttlDyy0vxu04SdZdP6pHFu0j57kOAZCW5/WvHQ+zGQuwyIGqXIhu4x+ib1yjDGP0TtD+CF5ba6GQDLHkBJpAk3LYohtXrdFKbjYKRLlYpoxCkS6wU37V6W6/WpGWN7VTJoVCeVjWUtK28mQ+grjyK9dPiTwu3bunrEGVCw+BEsXdywu3QAXdoditH/rdgGMFAfsfTV8zNyMJeyDoExOlZkqvZOsmtq7MW9LG347c/ltaAqm6tnhtokfIoiiEo3n+E8vsuulONteumFDy1zILeMsHKyaTm+qyQYMWykmwoyZbaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nrhnczxOiOPIeRyrUv+SWTUTlCz2bPrrLzKcxuyvWyg=;
- b=oFrS0a9SAsmMmDnSxKcRJawMkqOE+03gYD2ZM1J7rFJu+bsGJRLxY7uOHxjVDlhSEjyfW/SdtxkPiS8rJbyP1WrKB98MnKn8YcfvauXNPkDmOH1rdSOrmZ3DrNnliHaTS9JuTHjuGglB1sj/Iq56Ur9cz2UQmNmDbUxBmiKXNCVwje++X0vmVbijUoSMqEGZ/yg3bldSRRiZBVimFzmYgTR8TwJiIyH7YhuiGDDgEAGiX3VMa/TmrazOonpJE+31JTuG3/lJ9fIyD4XfnSBv6fig7AggOkyUjlXl8LMLqyD34Onqkbqyx7QgteiOCjXdpBzC5VgwBYiMP8NzFt4qkA==
+ bh=bicY0CdtHX2w29JAiz0sZNKfEUEfmREyupE7iEDIaeI=;
+ b=iF5dudadDS/novFHZWaMwKplc8B2xFUBUT9A/hBRNZluOkWNRSA7mR+RYa0/Y3CcDuwxc3/J7a8hrlnjBO+WahUqroSGSZxf+Li6lnlEy//AtOVfXdjEHBnHZ2bJAhRHta89PEiVgAXEyng6D0ExvGfjcwLlZhtvCBpSnAA+o4o+M8R8XH47rPVnqZkPzzXn+4R6yhvCnPz1YqAPbJFmide8jjxNfNTnVE40kixcX8GRD1evmZ+IgJK1WCB2VUodWH2JhM2koW6sRXVcET+K7CLzFctHSubR8sF5qXvbbKve9YIUvFg4zl/6ZVBC6UBfBO8/0QZgajo+diuLvybG1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nobleo.nl; dmarc=pass action=none header.from=nobleo.nl;
- dkim=pass header.d=nobleo.nl; arc=none
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nobleogroup.onmicrosoft.com; s=selector2-nobleogroup-onmicrosoft-com;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nrhnczxOiOPIeRyrUv+SWTUTlCz2bPrrLzKcxuyvWyg=;
- b=DW7LA4SAe7lGALSOROfBBFjEPeU3L+bO/9sNWDpEOTScsqnEaTe1dAjH+iVD/rR+Ns2TfamEFr62uWIsyjIC9gbiyPGNeqwvPhxRHFoUtWNgEnQuCgqQPIXhKIsS+r02sabyaSb4XwSh/eUDc+quoAj9b+dZAslvInKED0FSISE=
-Received: from AM0PR0402MB3475.eurprd04.prod.outlook.com
- (2603:10a6:208:1a::32) by AM0PR04MB6994.eurprd04.prod.outlook.com
- (2603:10a6:208:188::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Thu, 6 May
- 2021 15:00:38 +0000
-Received: from AM0PR0402MB3475.eurprd04.prod.outlook.com
- ([fe80::90dc:ba1c:5749:ef8]) by AM0PR0402MB3475.eurprd04.prod.outlook.com
- ([fe80::90dc:ba1c:5749:ef8%6]) with mapi id 15.20.4065.039; Thu, 6 May 2021
- 15:00:37 +0000
-From: "Ishu Goel" <ishu.goel@nobleo.nl>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] CMake fails with yocto
-Thread-Topic: [OE-core] CMake fails with yocto
-Thread-Index: AQHXQZCusR9Qi8OP9kS3uG6FeMtIy6rVSXKAgAFEfxo=
-Date: Thu, 6 May 2021 15:00:37 +0000
-Message-ID: 
- <AM0PR0402MB3475DD2712EF800DF3BBDC02FB589@AM0PR0402MB3475.eurprd04.prod.outlook.com>
-References: 
- <AM0PR0402MB3475803C5E790CA079CE2B35FB599@AM0PR0402MB3475.eurprd04.prod.outlook.com>,<7ccf3572-30b8-c6b6-9785-92766844aa6d@gmail.com>
-In-Reply-To: <7ccf3572-30b8-c6b6-9785-92766844aa6d@gmail.com>
-Accept-Language: en-US, nl-NL
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=nobleo.nl;
-x-originating-ip: [94.190.201.89]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7ef51e53-1563-47fa-5865-08d9109fb56f
-x-ms-traffictypediagnostic: AM0PR04MB6994:
-x-microsoft-antispam-prvs: 
- <AM0PR04MB699434A75B9386B0EF3D0EFBFB589@AM0PR04MB6994.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- n5NztwDo0FuCndn3BDvI2+ZHOz7C/gFu9P3NEaHEfOy70CKwHQFiou0LXkXfpuObCjU3AfEyLjYFM2j9WT5aJAXkJ7eEAed8mXbd+ZVh4joU7au8w2FX8m+vr8wPLw1X/4xvutc6EoAwQkChz1hRRtwug3Tk9AEjp4dyr4a+6NRxC3focloTp8dBlcvUe8UMyi7M2aInZOkRt+S771ODLPYNBJL7Qo+PIzQ/wS1Jo5AUXBWletLuPVkL4A27WwJOuul+Gady/fWFku5/zUjOWmO2cMqklz4/mZZBWdBMPdxv+PNpNrIOlFBodrKe/q1B5VoN23jMnY0HbBjujA5lGjollxEDrHC6jPvZxqnf8AE2+0mCWHn3LvGNM37iqE8VpSpCPnST5VS44UkwJtxF3Z1kJldJddAmt6MiXLl4nFceI2PJ1HBnuq6BjImmf79NMW62Y7CwEa4ZS7ltd8xdhIz9BRt9T6GQwlswWWgBka7sNH1Yy3zybSyohugSdHLWBaBwag2GJFe4A7PE/t9dTreUrS21hPWujm2zj4K6EuBYT3m+2nqrTyUPmPNcFVhd7T2g1SjfaMGcBAOFTg2+6LtmxZvvLgjry0n9qjvo4hB08w78TKQXZll0K0r1jKih+4Zxo0YKCZReTp0r91niWdoefa5RuEIt25qmslpmgoMLcEQVnBSW7Ies17jtrFLQ
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR0402MB3475.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(136003)(39830400003)(376002)(346002)(8676002)(26005)(8936002)(64756008)(76116006)(66946007)(66446008)(66556008)(71200400001)(186003)(6506007)(5660300002)(478600001)(19627405001)(122000001)(53546011)(66476007)(38100700002)(966005)(33656002)(110136005)(9686003)(316002)(44832011)(52536014)(86362001)(166002)(2906002)(83380400001)(7696005)(55016002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 
- =?us-ascii?Q?Es5wz3WM9MAVDLmMLVXhyLYGX62K7vKVm8EESNMoa0c7hXleD906fqUjNUF0?=
- =?us-ascii?Q?pczsJ/KNqVZKyZBJHH+JT72UDxMWuZGtTecVASIsdDhQ2AOqS7I/L9528tyz?=
- =?us-ascii?Q?phTrGetCrky/owZqLGnJ1+eSmft7tovgMfWVDNOTqrDYganJupFUSCOrAjbf?=
- =?us-ascii?Q?7OnmH6/+bwJhKnmt2YpyWUAFEjvuB0HQJpnlCnCPIJ93GJstHpmOWA4gotMR?=
- =?us-ascii?Q?PgaVqrt/UJAxxtIle4vAQqqs5wHNYhd5zn0fqkCFnAX/7uflt2L1ZjfnfNKQ?=
- =?us-ascii?Q?wGfdF6oklalu9TgtCbdCtBibi16cpXhxMcBG2rYjPqztDve4HH2g1v+wQ02s?=
- =?us-ascii?Q?aSucwOmLNTvbiLI4yfgBRQga9Ir5KbXbc52HEa5LWpRoXjVt12OeElZk151m?=
- =?us-ascii?Q?9LPXLU/+JqIg+8uxyQ/Fj3AaruDLrTviR11vdP0sGr+OVPoVC8bMQl7vlwCH?=
- =?us-ascii?Q?j+TklF/EwUcR7yi8JBYpjJD1R62bL3iRGqGfdS7NdT4S5Ulakjtx6TGXm4dw?=
- =?us-ascii?Q?IGhpTZMDcNvugA+Y4NPUU5tPpJjrhrD9F8n+QZnxfgrsbP76zWU6VVat/uPT?=
- =?us-ascii?Q?u7MklaDQSD8WkaBLwbdYioc5SLVn4IPl7By77SUrSfQhbAIekkku6YeST8V/?=
- =?us-ascii?Q?1736CBUEnRmLSBYxVmyKpqG2bC88ZPGgkUIpGGeeaB8ba8Sys3/MDCdgNzqf?=
- =?us-ascii?Q?+4p7MvzTwEyMXqw0+VWY8p+1VpdXuhXg/lEq5XCJnXaqeLMsIpee/6s/XKnP?=
- =?us-ascii?Q?6vfzCasQWmQ6rTfL6yMhXKDAaAtqqdB0hW/hnUVHFCox2QoYKcMCF3VzKRNB?=
- =?us-ascii?Q?mBNNUeCKBzWGci6Dk/nac990bdF2qlN06uKcwOnoLYtAuD7kUrgFSmh7aHiB?=
- =?us-ascii?Q?RkTdSuMjTsSipy8UWM77a1Db7UpVUReAOhr/+EAF7Hmk9FvdFSWFhSNj/xkp?=
- =?us-ascii?Q?VgWnI5kEOTDhooVSk/mFNZK4VJqDF/Tr37GjYfgjtez3m5Y2p/fm9TGh1Z8x?=
- =?us-ascii?Q?B4zmkdpza9PfrRcXsaoFAacgrQKq57dR++AJFIGZjt6wYtGxacoVNhufV+Ap?=
- =?us-ascii?Q?zm5gJ3e68ynLczmoNXwJDDE8Cb8KXpcwuX+5PslZeRCoawsqRY++K3ra3XGe?=
- =?us-ascii?Q?iDvOiQAyQV7t5q6epcff4FEHwIiKthjDdYzqkvev/W/BwVgmS//GQ0jUEuqH?=
- =?us-ascii?Q?8km7fchpuEgm9gQl2Uf5TMYqGuChKozT3plm+FP61T3PhkwTX9HUoRzKRibj?=
- =?us-ascii?Q?8oDsZi4Ri+9ckvNb4VGNfYyOoE3CB/ieUDwNBQShOoLpQc1Neva+onjjUkLk?=
- =?us-ascii?Q?Q4s=3D?=
-x-ms-exchange-transport-forked: True
+ bh=bicY0CdtHX2w29JAiz0sZNKfEUEfmREyupE7iEDIaeI=;
+ b=YHROvtvk68vFS7Magrr/wIUBQeQq6W7VU1NDPrwy3flkWlwuzzOBNTPUe74Eh+C5eX39Uihtu0OFBhyeikKHkWbhHEG/qK+uaisdQz7fIt6Bmcv1I7FnvSWWAljlc6LvAAzh/5dYUGYgALE6cHxXKOXUJTErSroYQ5YMC1g4i4Y=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by MWHPR11MB1903.namprd11.prod.outlook.com (2603:10b6:300:10e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.25; Thu, 6 May
+ 2021 15:48:58 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::351e:20b5:1ef6:48f7]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::351e:20b5:1ef6:48f7%6]) with mapi id 15.20.4065.039; Thu, 6 May 2021
+ 15:48:57 +0000
+From: "Saul Wold" <Saul.Wold@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemurunner: change warning to info
+Date: Thu,  6 May 2021 08:48:44 -0700
+Message-ID: <20210506154845.1247433-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [71.238.119.71]
+X-ClientProxiedBy: MW4PR04CA0062.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::7) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
+Return-Path: saul.wold@windriver.com
 MIME-Version: 1.0
-X-OriginatorOrg: nobleo.nl
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yocto-hs.bigsur.com.bigsur.com (71.238.119.71) by MW4PR04CA0062.namprd04.prod.outlook.com (2603:10b6:303:6b::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 15:48:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 730c6ad8-3753-4065-8a87-08d910a67582
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1903:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB1903A21B208518CD2AEB5B0BEE589@MWHPR11MB1903.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:169;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	sQ8HEfnQR4KssNXLsRkZSIe6pO6GabVUkvCWAeT8CXNIDUdAAps/CpQo4cP+hsx4ilAf5IJeKXDX3wxLCusVimREKkcOdvO/EYdhB7rzo4GerMmncCpr0tuyTy3MjpkE5rpWdZs2PwOSjqdkIAsNlbRz3lesR4ZMSow2HZNr0LkHfgEFJigloLi5Lm/ioy0bjLSqlGhc0MjNOCpMBQOKCuNosdsDJyQv4B9hF/LdpPASKpak51R6kO1zC9doG0wxc0N49tW0AbZdZZxSh4VrrLfmgHfPTk53TWcCi4OgsW1g1/vmpB2/nXkK7kfNHfDao7WxA7bB7Hb99d/gOwtyNE7zaZjq0J0e+lxdXqdTi3t6h/5yBikkggG40rrUWMDDnhR+XIvX23veGoq4h6bFyBOzA14KAM+G20v7El6/OGrA5ZMTy0JjWh8XMN3FtFHgjLYpNberFYFO/p58tyBPvNzRGgDjEgQJc1XJUITmr02Ud7bRHlAcKdTI08VyUKtE4WtMry4QXyLoZDms0sIDloJXBljjfwxlSQgdYA3QL+sEbndOz8IRhD96BOC1HldYAUMC4xCEUWcc8WaqsFSNmFBo4aKiimoHRhns5w2Q49bjTeD4Rcke9nUha1W5M/5uYchL5hd0fuDcbzinNucFKg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(396003)(39850400004)(346002)(366004)(38350700002)(38100700002)(1076003)(478600001)(66946007)(44832011)(16526019)(316002)(83380400001)(2616005)(6666004)(66556008)(4744005)(36756003)(26005)(66476007)(8676002)(956004)(86362001)(6916009)(6512007)(8936002)(5660300002)(186003)(2906002)(6506007)(52116002)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?uMTIk34HqIQSjmJfmftayd8ToME/4jlDT7dKjywkOEsfhf0XrQeheEiXSulM?=
+ =?us-ascii?Q?Qvdw7nkMnj55WVvf9VkRwJgh5+7OKO81gijZPLAURIyjgswx/ZHhrAzWkg71?=
+ =?us-ascii?Q?Mid3HLAdGmYtgG28IIYmk575RZYy3FRA/sEHevrdXfbkKe7KFzNO/wKpW5nP?=
+ =?us-ascii?Q?/Oeter5MRgfGMhSDQ7SF0lCZcrhJfQ9ABo0/6uUBjCVDwUvjm03SAekMxUCy?=
+ =?us-ascii?Q?mHFwzcHQYxkDtYG8U+4Vf/GhGh967j+72/3utNjNM/QLSAjIPB0PhvFqHunX?=
+ =?us-ascii?Q?sdYZn+/iltT3fsZkyMpgVH/iURKkpnhZauSf1HAD6kBMdOltv97SZEb72QC0?=
+ =?us-ascii?Q?F47zaq2+Kn1i+yeq24CKZjO1HV8YvPPfPqg1ko2JUmWp9/Yoo8wF1JUTpJky?=
+ =?us-ascii?Q?ftoztcTw9i2nM+FkYExT8kOvoo9/936sntbeACAfOdxTOP4fzrJQ1lJCK5kj?=
+ =?us-ascii?Q?4vXLx6mOyDUYRQrpWnPeSsBFTwUyq3xkrfTPSDE75sVrHe8e63iai/E2nyzn?=
+ =?us-ascii?Q?+zZMojCo/b4hrteao8bkBIlu/x+oq1v8nPTCO78zn6U2PBLxQ3wjgVTOuvWv?=
+ =?us-ascii?Q?8+jP2SJ1hr/F/LYk9fKfu2UsqgFAJKUOf8O/ObOIWxNHqo7OitwSrmQ4oRE2?=
+ =?us-ascii?Q?COG0boH7fBhR9J+X6RBkupqD4shiqFrOx7VCpFz4OgL2PrPkvbZ/dadF5xzU?=
+ =?us-ascii?Q?MJWzyeggFm4yehXcGBhv6YnPGeQgGiS0M4vV/iDc7GbmtNb633P9yyCw8BHc?=
+ =?us-ascii?Q?Y97qW3C/GvIyVw/guRGSEWfiyxwdEXPeX6O1vrEpTUXmziO0wvpVqbWlIkbE?=
+ =?us-ascii?Q?tUZ9vHw6idOerbM672YkpWJjhp299Rc72sFggX6ZeQehAtNZcYkBNGouT+KT?=
+ =?us-ascii?Q?Iyzn3lyc+/CqzQbbve/5y5k9eKTxV46zcp/9dFXKKl+vID1eQnwlZa/ZP8Zk?=
+ =?us-ascii?Q?GZ63/LQG0GD4TsDhdiGznXOuuDoONaa5DpEeMd8Z4+f/w9qH4beOvFi3ypIg?=
+ =?us-ascii?Q?MZm99Kol6pJoS+R1yYpvkegvD3Htcyr03NGTcNd6el2KQS3Q90PVoQAanyDv?=
+ =?us-ascii?Q?wbVHegPvzG8ZxyvVgRTCM8Gv1pD/1mdim2aN5/czuTOpJc6IVPauXgVm3JU2?=
+ =?us-ascii?Q?AC738yIOR9/SJrS9nVUYhRMv1wtFTvTuDVrY6jr9AoIMU/HjsGfsP8slxQnP?=
+ =?us-ascii?Q?xIcRnYq/BXTKiFbWOH3vsuV7amiW1W89IU5VzgIPC7Iaoc5QmXMoGbyEjfx7?=
+ =?us-ascii?Q?u+tcij0o0ChmNno6n+2cTxjReF61lYPG154kzPZ6S3SMG1hRXpl23HmZAiS8?=
+ =?us-ascii?Q?OUx4BtJg8jh/aUhhWyJS7oVL?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 730c6ad8-3753-4065-8a87-08d910a67582
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR0402MB3475.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ef51e53-1563-47fa-5865-08d9109fb56f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2021 15:00:37.8194
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 15:48:57.4339
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d354334-64ad-4352-9b8b-cf80e736aa70
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dngbcdsWN+wTCWWAiZBumUcdGL3Tsu2P4fFboq9SaqDPeTAFsrUYhRILgmH57krD2fYeIpOkzN0PCba18hI9Qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6994
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AM0PR0402MB3475DD2712EF800DF3BBDC02FB589AM0PR0402MB3475_"
-
---_000_AM0PR0402MB3475DD2712EF800DF3BBDC02FB589AM0PR0402MB3475_
-Content-Type: text/plain; charset="us-ascii"
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W141xTWBW3IyzydKnY3c4akpuxVPR3BnLA/ysSxOOrOzjIuF4nw5R6A49jG17iTbW1QI1Yfm7nSeajMMUy0Yig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1903
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hello Khem,
+This information is useful, but should not be a warning level.
 
-Thank you for looking into this issue. Below is the content of pseudo.log =
-file as asked by you.
+[YOCTO #14382]
 
-debug_logfile: fd 2
-pid 453 [parent 452], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 452.
-db cleanup for server shutdown, 08:07:22.373
-memory-to-file backup complete, 08:07:22.373.
-db cleanup finished, 08:07:22.373
-debug_logfile: fd 2
-pid 869 [parent 868], doing new pid setup and server start
-Setup complete, sending SIGUSR1 to pid 868.
-path mismatch [3 links]: ino 3169066 db '/home/developer/work/build/tmp-gl=
-ibc/work/cortexa72-oe-linux/hellocmake/1.0-r0/package/usr/src/debug/hellocm=
-ake/1.0-r0/hellocmake.cpp' req '/home/developer/work/build/tmp-glibc/work/c=
-ortexa72-oe-linux/hellocmake/1.0-r0/hellocmake.cpp'.
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The problem seems to be 'path mismatch' but I do not know why that occurs?=
- Not sure if helpful, I am using bitbake version 1.48 and CMake version 3.1=
-3.1. Please help me in finding out what is wrong?
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemuru=
+nner.py
+index 3d3213d3d31..69fee27511f 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -304,7 +304,7 @@ class QemuRunner:
+                 self.logger.debug("QMP Port does not exist waiting for it =
+to be created")
+                 endtime =3D time.time() + self.runqemutime
+                 while not os.path.exists(qmp_port) and self.is_alive() and=
+ time.time() < endtime:
+-                   self.logger.warning("QMP port does not exist yet!")
++                   self.logger.info("QMP port does not exist yet!")
+                    time.sleep(0.5)
+                 if not os.path.exists(qmp_port) and self.is_alive():
+                     self.logger.warning("QMP Port still does not exist but=
+ QEMU is alive")
+--=20
+2.25.1
 
-With regards,
-Ishu
-________________________________
-From: Khem Raj <raj.khem@gmail.com>
-Sent: Wednesday, May 5, 2021 21:38
-To: Ishu Goel <ishu.goel@nobleo.nl>; openembedded-core@lists.openembedded.=
-org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] CMake fails with yocto
-
-
-
-On 5/5/21 2:26 AM, Ishu Goel wrote:
-> Hello,
->
-> I am using CMake with Yocto and working on the hellocmake example
-> provided here:
-> https://github.com/joaocfernandes/Learn-Yocto/blob/master/develop/Recipe=
--CMake.md
-> When I bake the hellocmake recipe it builds perfectly the first time.
-> But when I make any change in the source file 'hellocmake.cpp' and bake,
-> I get the following error:
->
-> ERROR: hellocmake-1.0-r0 do_install: Execution of
-> '/home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake=
-/1.0-r0/temp/run.do_install.147'
-> failed with exit code 1:
-> abort()ing pseudo client by server request. See
-> https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this=
-.
-> Check logfile:
-> /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake/=
-1.0-r0/pseudo//pseudo.log
-> Child aborted
-> CMake Error: Generator: execution of make failed. Make command was:
-> ninja -v -j 4 install &&
-> WARNING: exit code 1 from a shell command.
->
-> ERROR: Logfile of failure stored in:
-> /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocmake/=
-1.0-r0/temp/log.do_install.147
->
->
-> I want to know what I am doing wrong? I noticed that if I clean the
-> previous build of hellocmake, I do not get this error. How can I make
-> sure that CMake works every time with yocto?
->
-
-you perhaps are not doing anything wrong. pseudo is a tool used by yocto
-underneath and its bailing out for some reason. maybe you can share the
-pseudo.log file and it might have more details.
-
-> With regards,
->
-> *Ishu Goel*
-> Software Designer
->
-> Nobleo Technology BV
->
-> Heggeranklaan 1
->
-> 5643BP Eindhoven
->
->
-> *E *ishu.goel@nobleo.nl**
->
-> *I**www.nobleo.nl <http://www.nobleo.nl/>*
->
->
->
->=20
->
-
---_000_AM0PR0402MB3475DD2712EF800DF3BBDC02FB589AM0PR0402MB3475_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii=
-">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-b=
-ottom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-Hello Khem,<br>
-<br>
-Thank you for looking into this issue. Below is the content of pseudo.log =
-file as asked by you.
-<br>
-<br>
-debug_logfile: fd 2<br>
-pid 453 [parent 452], doing new pid setup and server start<br>
-Setup complete, sending SIGUSR1 to pid 452.<br>
-db cleanup for server shutdown, 08:07:22.373<br>
-memory-to-file backup complete, 08:07:22.373.<br>
-db cleanup finished, 08:07:22.373<br>
-debug_logfile: fd 2<br>
-pid 869 [parent 868], doing new pid setup and server start<br>
-Setup complete, sending SIGUSR1 to pid 868.<br>
-path mismatch [3 links]: ino 3169066 db '/home/developer/work/build/tmp-gl=
-ibc/work/cortexa72-oe-linux/hellocmake/1.0-r0/package/usr/src/debug/hellocm=
-ake/1.0-r0/hellocmake.cpp' req '/home/developer/work/build/tmp-glibc/work/c=
-ortexa72-oe-linux/hellocmake/1.0-r0/hellocmake.cpp'.<br>
-<br>
-The problem seems to be 'path mismatch' but I do not know why that occurs?=
- Not sure if helpful, I am using bitbake version 1.48 and CMake version 3.1=
-3.1. Please help me in finding out what is wrong?</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-With regards,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-Ishu<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" s=
-tyle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Khem Raj &lt;raj.khe=
-m@gmail.com&gt;<br>
-<b>Sent:</b> Wednesday, May 5, 2021 21:38<br>
-<b>To:</b> Ishu Goel &lt;ishu.goel@nobleo.nl&gt;; openembedded-core@lists.=
-openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] CMake fails with yocto</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt=
-;">
-<div class=3D"PlainText"><br>
-<br>
-On 5/5/21 2:26 AM, Ishu Goel wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I am using CMake with Yocto and working on the hellocmake example <br=
->
-&gt; provided here: <br>
-&gt; <a href=3D"https://github.com/joaocfernandes/Learn-Yocto/blob/master/=
-develop/Recipe-CMake.md">
-https://github.com/joaocfernandes/Learn-Yocto/blob/master/develop/Recipe-C=
-Make.md</a><br>
-&gt; When I bake the hellocmake recipe it builds perfectly the first time.=
- <br>
-&gt; But when I make any change in the source file 'hellocmake.cpp' and ba=
-ke, <br>
-&gt; I get the following error:<br>
-&gt; <br>
-&gt; ERROR: hellocmake-1.0-r0 do_install: Execution of <br>
-&gt; '/home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocm=
-ake/1.0-r0/temp/run.do_install.147'
-<br>
-&gt; failed with exit code 1:<br>
-&gt; abort()ing pseudo client by server request. See <br>
-&gt; <a href=3D"https://wiki.yoctoproject.org/wiki/Pseudo_Abort">https://w=
-iki.yoctoproject.org/wiki/Pseudo_Abort</a> for more details on this.<br>
-&gt; Check logfile: <br>
-&gt; /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocma=
-ke/1.0-r0/pseudo//pseudo.log<br>
-&gt; Child aborted<br>
-&gt; CMake Error: Generator: execution of make failed. Make command was: <=
-br>
-&gt; ninja -v -j 4 install &amp;&amp;<br>
-&gt; WARNING: exit code 1 from a shell command.<br>
-&gt; <br>
-&gt; ERROR: Logfile of failure stored in: <br>
-&gt; /home/developer/work/build/tmp-glibc/work/cortexa72-oe-linux/hellocma=
-ke/1.0-r0/temp/log.do_install.147<br>
-&gt; <br>
-&gt; <br>
-&gt; I want to know what I am doing wrong? I noticed that if I clean the <=
-br>
-&gt; previous build of hellocmake, I do not get this error. How can I make=
- <br>
-&gt; sure that CMake works every time with yocto?<br>
-&gt; <br>
-<br>
-you perhaps are not doing anything wrong. pseudo is a tool used by yocto <=
-br>
-underneath and its bailing out for some reason. maybe you can share the <b=
-r>
-pseudo.log file and it might have more details.<br>
-<br>
-&gt; With regards,<br>
-&gt; <br>
-&gt; *Ishu Goel*<br>
-&gt; Software Designer<br>
-&gt; <br>
-&gt; Nobleo Technology BV<br>
-&gt; <br>
-&gt; Heggeranklaan 1<br>
-&gt; <br>
-&gt; 5643BP Eindhoven<br>
-&gt; <br>
-&gt; <br>
-&gt; *E *ishu.goel@nobleo.nl**<br>
-&gt; <br>
-&gt; *I**www.nobleo.nl &lt;<a href=3D"http://www.nobleo.nl/">http://www.no=
-bleo.nl/</a>&gt;*<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_AM0PR0402MB3475DD2712EF800DF3BBDC02FB589AM0PR0402MB3475_--
