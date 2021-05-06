@@ -1,82 +1,77 @@
-Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com [207.54.68.121])
- by mx.groups.io with SMTP id smtpd.web09.9337.1620308640197408006
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.9784.1620309750476251323
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 06:44:01 -0700
+ Thu, 06 May 2021 07:02:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=CNoN3RSi;
- spf=pass (domain: bmw.de, ip: 207.54.68.121, mailfrom: prvs=7537dae32=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hzxY+trB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.221.41, mailfrom: steve@sakoman.com)
+Received: by mail-wr1-f41.google.com with SMTP id a4so5756854wrr.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 07:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1620308640; x=1651844640;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=9gJo0zZezHB9XsvcUioDIWEpjFCKjFrSqR+U80LL5Uk=;
-  b=CNoN3RSi4qhZnOMQAYdymRYUWmRJBDQMpNEjqX9fx1xqkbx9u5fVL8Nv
-   EEG+ZBWiu7/QoEya+8IYDL7MTHwRnQ6wiLs1DUPbqjo+LenYiwcprXf3c
-   YM7pNzSU0xV7nMjwynkh17Swx9rt+t+M0bzHwuyHXR+VzqvOiVE5wdrnj
-   o=;
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 06 May 2021 15:43:58 +0200
-Received: from esabb6.muc ([160.50.100.50])  by esagw3.muc with ESMTP/TLS;
- 06 May 2021 15:43:55 +0200
-Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
- by esabb6.muc with ESMTP/TLS; 06 May 2021 15:43:55 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
- (160.46.167.69) with Microsoft SMTP Server (TLS;
- Thu, 6 May 2021 15:43:54 +0200
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Thu,
- 6 May 2021 15:43:54 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <JPEWhacker@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>,
-	<steve@sakoman.com>
-Subject: Re: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
-Thread-Topic: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
-Thread-Index: AQHXQfdGxnqd2DoQs0mG0mRqbiUvc6rWVQGAgAABPYA=
-Date: Thu, 6 May 2021 13:43:54 +0000
-Message-ID: <YJPymaMrLiAtwq/O@korppu>
-References: <20210505214006.10382-1-JPEWhacker@gmail.com>
- <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
-In-Reply-To: <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CjexoIdRY/Gyz+6sncPzpI2sF0dCkHIoAtG+atc4Zi4=;
+        b=hzxY+trB5rANDfkArhYItWQhrs+HtkKWrqLsr0OB2eUGK76ZMuPo8susDPhR8HhWDM
+         SKJvSUGaSyLZtSbYDQecDINFakO1GgQHx04IoRIyEoUGMi06Ieraxa3/VwjbbhmaXnY6
+         nMiTjT9GBI6Htp+wAtxlOn4PewjF8YnX3hYRvoU+hA5tYbstlrar94gyPXXzGsDoQm+L
+         U+FMnW6Nxxe3PN1379imk8FRRu5w6PQkF0gQQnuWeo5F79GBQaVdo8fBxbEjG4Crutjg
+         +ih1sVyJbqFcFDgTy4RBjkCIp30ZzzoTzWkOCPwJn0bt/qQaGyGShDEnd2/QCV+8IniV
+         /yEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CjexoIdRY/Gyz+6sncPzpI2sF0dCkHIoAtG+atc4Zi4=;
+        b=WlmNNhv0sPysiEOSUc08x7tHXwkhV2mkZr/prlU3QnBAmsOSk4q4HlHo0UTl/kt7kK
+         SwevH8u3RQ1hb7zBB9B9AWia7qh/HwPGE87ycQJgv+bEzxxYA2EgDClmlC30P4eNzo6N
+         EqYhhYhdeOyIsVD/+2aNlAC0hBW5gAtXqWq28AKe5CE0H3HlwrGTxk0ZSKJ6UV51669A
+         DUPqwJqNM37D9UNHp8YANf/JZ67046oG9AIGNk2Ccbyuhti7x0G+Wn8V5tD9JnkX2vab
+         2ScUM5auvqQrzZcRTqMqmo2U6jjTZy+wZaTOr7mQYqnfWdzmIfl/3Zir8gbv/Clo/Stj
+         OGTw==
+X-Gm-Message-State: AOAM533WCdK17MK9oaKH8MlnOuFuCXlze+d7cJIj5xXQ59t0w6E/RJgY
+	gJrs/TkYI1Pf74uZFk9yHO4218+bSd4XjiSQbiD6jA==
+X-Google-Smtp-Source: ABdhPJzqgmRsibcY5Jq13VL+1FFJddGNEVzQQ/8t1pLmtcyhgZ3K5cVj6/zCnUQkjpztoUVrIwD8+igbXW4hCq7f+aQ=
+X-Received: by 2002:adf:ee83:: with SMTP id b3mr5294293wro.329.1620309748384;
+ Thu, 06 May 2021 07:02:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6B328FCE476CB64488B6A3ACF80201C5@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+References: <20210505214006.10382-1-JPEWhacker@gmail.com> <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
+In-Reply-To: <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Thu, 6 May 2021 04:02:16 -1000
+Message-ID: <CAOSpxdasVRPCEmQwcfHN=6xvHaVYgcDF74KxSRe0_0u4aAvwsA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anuj Mittal <anuj.mittal@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 06, 2021 at 08:39:27AM -0500, Joshua Watt wrote:
-> Can we backport this to hardknott and dunfell (and gatesgarth if it's st=
-ill
-> active)?
+On Thu, May 6, 2021 at 3:39 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+>
+> Can we backport this to hardknott and dunfell (and gatesgarth if it's
+> still active)?
 
-Yes indeed, please to dunfell!
+Yes, will backport to dunfell!
 
--Mikko, who also marked the patch but didn't have time to put it to test o=
-n dunfell..
+Steve
 
 > On 5/5/21 4:40 PM, Joshua Watt wrote:
 > > Instead of having find directly invoke touch for each file in the root
 > > file system, pass a list to xargs for batching. This significantly
 > > reduces the number of times the touch program is invoked and speeds up
 > > the do_image task time:
-> >=20
+> >
 > >      PKG           TASK      ABSDIFF  RELDIFF  CPUTIME1 -> CPUTIME2
 > >      my-image      do_image   -45.3s   -94.2%     48.1s -> 2.8s
-> >=20
+> >
 > >      Cumulative cputime:
 > >        -44.3s    -92.3%    00:48.1 (48.1s) -> 00:03.7 (3.7s)
-> >=20
+> >
 > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 > > ---
 > >   meta/classes/image.bbclass | 2 +-
 > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
+> >
 > > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
 > > index 013455f492..353cc67175 100644
 > > --- a/meta/classes/image.bbclass
@@ -84,15 +79,9 @@ n dunfell..
 > > @@ -657,7 +657,7 @@ reproducible_final_image_task () {
 > >           fi
 > >           # Set mtime of all files to a reproducible value
-> >           bbnote "reproducible_final_image_task: mtime set to $REPRODU=
-CIBLE_TIMESTAMP_ROOTFS"
-> > -        find  ${IMAGE_ROOTFS} -exec touch -h  --date=3D@$REPRODUCIBLE=
-_TIMESTAMP_ROOTFS {} \;
-> > +        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=3D@=
-$REPRODUCIBLE_TIMESTAMP_ROOTFS
+> >           bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
+> > -        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
+> > +        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
 > >       fi
 > >   }
-
->=20
->=20
->=20
+> >
