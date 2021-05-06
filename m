@@ -1,64 +1,186 @@
-Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
- by mx.groups.io with SMTP id smtpd.web11.7001.1620293127894479392
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.7683.1620298137289760498
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 02:25:28 -0700
+ Thu, 06 May 2021 03:48:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4FbSq83kgZz5tlD;
-	Thu,  6 May 2021 11:25:24 +0200 (CEST)
-Date: Thu, 6 May 2021 11:25:23 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure message
-Message-ID: <20210506092523.puuhdp77ho3egljd@qschulz>
-References: <20210505175614.66322-1-michael.opdenacker@bootlin.com>
-MIME-Version: 1.0
-In-Reply-To: <20210505175614.66322-1-michael.opdenacker@bootlin.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=SxJZ7YZF;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from anbelski-lsg-linux-yocto-1.irsgb21fvobu5fvmalxug44hib.xx.internal.cloudapp.net (unknown [52.247.218.173])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4684720B7178
+	for <openembedded-core@lists.openembedded.org>; Thu,  6 May 2021 03:48:56 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4684720B7178
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1620298136;
+	bh=UYHjZf9a2MOvfN0eGaaV5xrZaxyd+GxZpM9it2oh+ls=;
+	h=From:To:Subject:Date:From;
+	b=SxJZ7YZFndwIDzmPuyAF2NR3JUdqsfYhv/2ZYRxyKisQAs/7stZB6WkRkAG9lKYSB
+	 0MgtIAvzLRTE3P7+Aat/0q9IITnqkbnnxtbNJ0CtpF8YFkQstWQvEFLwW5AgScreY+
+	 oOtyxRXY8BAw8RxvZQG//vG+W3bR4Azjv6Vzudjs=
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [dunfell][PATCH] tar: Fix CVE-2021-20193
+Date: Thu,  6 May 2021 10:48:37 +0000
+Message-Id: <20210506104837.30115-1-anbelski@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-Hi Michael,
+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+---
+ .../tar/tar/CVE-2021-20193.patch              | 133 ++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.32.bb         |   1 +
+ 2 files changed, 134 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2021-20193.patch
 
-On Wed, May 05, 2021 at 07:56:15PM +0200, Michael Opdenacker wrote:
-> This expands the error message when a network failure is detected.
-> It happens that some ISPs or networks block the default example.com
-> domain. Therefore, instead of disabling network access, it
-> lets the user know how to modify the test URL.
-> 
-> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-> ---
->  meta/classes/sanity.bbclass | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index a377917f2a..e907a3566f 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -392,9 +392,12 @@ def check_connectivity(d):
->              msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
->              if len(msg) == 0:
->                  msg = "%s.\n" % err
-> -                msg += "    Please ensure your host's network is configured correctly,\n"
-> -                msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
-> -                msg += "    all required sources are on local disk.\n"
-> +                msg += "    Please ensure your host's network is configured correctly.\n"
-> +                msg += "    If your ISP or network is blocking the above URL,\n"
-> +                msg += "    try with another domain name, for example by setting:\n"
-> +                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.yoctoproject.org/\""
-> +                msg += "    You could also set BB_NO_NETWORK = \"1\" to disable network\n"
-> +                msg += "    access if all required sources are on local disk.\n"
+diff --git a/meta/recipes-extended/tar/tar/CVE-2021-20193.patch b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+new file mode 100644
+index 0000000000..89e8e20844
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+@@ -0,0 +1,133 @@
++From d9d4435692150fa8ff68e1b1a473d187cc3fd777 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Sun, 17 Jan 2021 20:41:11 +0200
++Subject: Fix memory leak in read_header
++
++Bug reported in https://savannah.gnu.org/bugs/?59897
++
++* src/list.c (read_header): Don't return directly from the loop.
++Instead set the status and break.  Return the status.  Free
++next_long_name and next_long_link before returning.
++
++CVE: CVE-2021-20193
++Upstream-Status: Backport
++[https://git.savannah.gnu.org/cgit/tar.git/patch/?id=d9d4435692150fa8ff68e1b1a473d187cc3fd777]
++Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
++
++---
++ src/list.c | 40 ++++++++++++++++++++++++++++------------
++ 1 file changed, 28 insertions(+), 12 deletions(-)
++
++diff --git a/src/list.c b/src/list.c
++index e40a5c8..d7ef441 100644
++--- a/src/list.c
+++++ b/src/list.c
++@@ -408,26 +408,27 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	     enum read_header_mode mode)
++ {
++   union block *header;
++-  union block *header_copy;
++   char *bp;
++   union block *data_block;
++   size_t size, written;
++-  union block *next_long_name = 0;
++-  union block *next_long_link = 0;
+++  union block *next_long_name = NULL;
+++  union block *next_long_link = NULL;
++   size_t next_long_name_blocks = 0;
++   size_t next_long_link_blocks = 0;
++-
+++  enum read_header status = HEADER_SUCCESS;
+++  
++   while (1)
++     {
++-      enum read_header status;
++-
++       header = find_next_block ();
++       *return_block = header;
++       if (!header)
++-	return HEADER_END_OF_FILE;
+++	{
+++	  status = HEADER_END_OF_FILE;
+++	  break;
+++	}
++ 
++       if ((status = tar_checksum (header, false)) != HEADER_SUCCESS)
++-	return status;
+++	break;
++ 
++       /* Good block.  Decode file size and return.  */
++ 
++@@ -437,7 +438,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	{
++ 	  info->stat.st_size = OFF_FROM_HEADER (header->header.size);
++ 	  if (info->stat.st_size < 0)
++-	    return HEADER_FAILURE;
+++	    {
+++	      status = HEADER_FAILURE;
+++	      break;
+++	    }
++ 	}
++ 
++       if (header->header.typeflag == GNUTYPE_LONGNAME
++@@ -447,10 +451,14 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	  || header->header.typeflag == SOLARIS_XHDTYPE)
++ 	{
++ 	  if (mode == read_header_x_raw)
++-	    return HEADER_SUCCESS_EXTENDED;
+++	    {
+++	      status = HEADER_SUCCESS_EXTENDED;
+++	      break;
+++	    }
++ 	  else if (header->header.typeflag == GNUTYPE_LONGNAME
++ 		   || header->header.typeflag == GNUTYPE_LONGLINK)
++ 	    {
+++	      union block *header_copy;
++ 	      size_t name_size = info->stat.st_size;
++ 	      size_t n = name_size % BLOCKSIZE;
++ 	      size = name_size + BLOCKSIZE;
++@@ -517,7 +525,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	      xheader_decode_global (&xhdr);
++ 	      xheader_destroy (&xhdr);
++ 	      if (mode == read_header_x_global)
++-		return HEADER_SUCCESS_EXTENDED;
+++		{
+++		  status = HEADER_SUCCESS_EXTENDED;
+++		  break;
+++		}
++ 	    }
++ 
++ 	  /* Loop!  */
++@@ -536,6 +547,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	      name = next_long_name->buffer + BLOCKSIZE;
++ 	      recent_long_name = next_long_name;
++ 	      recent_long_name_blocks = next_long_name_blocks;
+++	      next_long_name = NULL;
++ 	    }
++ 	  else
++ 	    {
++@@ -567,6 +579,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	      name = next_long_link->buffer + BLOCKSIZE;
++ 	      recent_long_link = next_long_link;
++ 	      recent_long_link_blocks = next_long_link_blocks;
+++	      next_long_link = NULL;
++ 	    }
++ 	  else
++ 	    {
++@@ -578,9 +591,12 @@ read_header (union block **return_block, struct tar_stat_info *info,
++ 	    }
++ 	  assign_string (&info->link_name, name);
++ 
++-	  return HEADER_SUCCESS;
+++	  break;
++ 	}
++     }
+++  free (next_long_name);
+++  free (next_long_link);
+++  return status;
++ }
++ 
++ #define ISOCTAL(c) ((c)>='0'&&(c)<='7')
++-- 
++cgit v1.2.1
++
+diff --git a/meta/recipes-extended/tar/tar_1.32.bb b/meta/recipes-extended/tar/tar_1.32.bb
+index ebe6cb0dbd..3ae6d674a5 100644
+--- a/meta/recipes-extended/tar/tar_1.32.bb
++++ b/meta/recipes-extended/tar/tar_1.32.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
+            file://musl_dirent.patch \
++           file://CVE-2021-20193.patch \
+ "
+ 
+ SRC_URI[md5sum] = "17917356fff5cb4bd3cd5a6c3e727b05"
+-- 
+2.17.1
 
-I have my doubts that we want to explicit all ways to get rid of the
-message. I'd see more an indication to look at the documentation for
-this.... and since I wanted to check what we had in the docs for
-CONNECTIVITY_CHECK_URIS I discovered we don't have anything for
-that variable in YP documentation!
-
-That would be a nice addition even if you keep the message as is!
-
-Thanks for the patch :)
-
-Cheers,
-Quentin
