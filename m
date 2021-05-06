@@ -1,91 +1,98 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web08.9454.1620308368877365427
+Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com [207.54.68.121])
+ by mx.groups.io with SMTP id smtpd.web09.9337.1620308640197408006
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 06:39:29 -0700
+ Thu, 06 May 2021 06:44:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=snzB3dwT;
- spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f174.google.com with SMTP id u16so5504697oiu.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 06:39:28 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=CNoN3RSi;
+ spf=pass (domain: bmw.de, ip: 207.54.68.121, mailfrom: prvs=7537dae32=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:references:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=chSqFb1g1Z95OTyz0EakrM7GWCFQb56TkH1GIMapNbk=;
-        b=snzB3dwTBGb7elHuUSEeHrGbRdTWSQTh1fMwZEz4V774wjYAQ6+jUdiF+JHXwU3i5t
-         ycp66FgwTywA+juMYwGG+//EmZQ46WAvVnAo4yGYI+IPYl5o8WD7lZAjBDAwx/vaLCvH
-         5lu9QgvDf7s5iCu7YOUKBhFUjUIeMjjDa5nX3Oiz7E869N8/0Rf0TaiUUm58RDL8a6/B
-         NUcKlDBPUAiAAcDAi51Uun3Bgpxuaf0jePz4nfOGTS86z+A/x5+GaM70fP2JaCeABaZD
-         tfd29OebU0iI/8PWYHVw7f205aAb3JEkLkUrNLsVizk4pA93Ta7vFSOfhnebkCR/L8Xy
-         CY+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=chSqFb1g1Z95OTyz0EakrM7GWCFQb56TkH1GIMapNbk=;
-        b=UBZ7HxvU0zZvzLGyDmreTrpb5sv4m/pymhghVWDVFPIhpUUuzWMs9yiwlvvjSEuWvu
-         i+R1MUUgo29f47baFsA5ty84XPQezjxNY7Fp6IXW2ig1pJJoCnfrFI6AQ0BhQ2h1Lw5U
-         txZX3hZIq4XzvCiYh0pjPJLAWRMpBrOReqNp/rN/5N0QiD55gQZxBTW/2LZ6baoF14Gs
-         F58A+lcWo8cDouT7BgeTvH/398KxOyBgcHMKdajzYsdUQ2Q4n7p3Y0JkVNswBPX4lRLw
-         mAw7BBdgDQftQy8/imna4V04I47Hzejc2ogTPXwgIEHlCfxgNlXkZWCuI/bY9hHvWvai
-         6tHg==
-X-Gm-Message-State: AOAM533ztBi/L3tOQB+w8//DyDkWWlV2K7QbT89MaoYVOlu0Xc4nnarF
-	gqUXD/D/EqSwIYx/Ig5NyXw=
-X-Google-Smtp-Source: ABdhPJzF68mAICZoWtwX1WVCL8xBfqIPI/xl2IA6OKPuqby4qCyL4Fg4MToSpUFHqHt/6R6dr2NCyg==
-X-Received: by 2002:aca:5845:: with SMTP id m66mr10828027oib.0.1620308368240;
-        Thu, 06 May 2021 06:39:28 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id r14sm588596oth.3.2021.05.06.06.39.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 May 2021 06:39:27 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1620308640; x=1651844640;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=9gJo0zZezHB9XsvcUioDIWEpjFCKjFrSqR+U80LL5Uk=;
+  b=CNoN3RSi4qhZnOMQAYdymRYUWmRJBDQMpNEjqX9fx1xqkbx9u5fVL8Nv
+   EEG+ZBWiu7/QoEya+8IYDL7MTHwRnQ6wiLs1DUPbqjo+LenYiwcprXf3c
+   YM7pNzSU0xV7nMjwynkh17Swx9rt+t+M0bzHwuyHXR+VzqvOiVE5wdrnj
+   o=;
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 06 May 2021 15:43:58 +0200
+Received: from esabb6.muc ([160.50.100.50])  by esagw3.muc with ESMTP/TLS;
+ 06 May 2021 15:43:55 +0200
+Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp) ([160.46.167.69])
+ by esabb6.muc with ESMTP/TLS; 06 May 2021 15:43:55 +0200
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33m.europe.bmw.corp
+ (160.46.167.69) with Microsoft SMTP Server (TLS;
+ Thu, 6 May 2021 15:43:54 +0200
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Thu,
+ 6 May 2021 15:43:54 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <JPEWhacker@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>,
+	<steve@sakoman.com>
 Subject: Re: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
-To: openembedded-core@lists.openembedded.org
+Thread-Topic: [OE-core][PATCH] classes/image: Use xargs to set file timestamps
+Thread-Index: AQHXQfdGxnqd2DoQs0mG0mRqbiUvc6rWVQGAgAABPYA=
+Date: Thu, 6 May 2021 13:43:54 +0000
+Message-ID: <YJPymaMrLiAtwq/O@korppu>
 References: <20210505214006.10382-1-JPEWhacker@gmail.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>, Steve Sakoman <steve@sakoman.com>
-Message-ID: <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
-Date: Thu, 6 May 2021 08:39:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
+In-Reply-To: <5ae0a2df-0ea1-a23f-6932-8088739fee29@gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-In-Reply-To: <20210505214006.10382-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <6B328FCE476CB64488B6A3ACF80201C5@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Can we backport this to hardknott and dunfell (and gatesgarth if it's 
-still active)?
+On Thu, May 06, 2021 at 08:39:27AM -0500, Joshua Watt wrote:
+> Can we backport this to hardknott and dunfell (and gatesgarth if it's st=
+ill
+> active)?
 
-On 5/5/21 4:40 PM, Joshua Watt wrote:
-> Instead of having find directly invoke touch for each file in the root
-> file system, pass a list to xargs for batching. This significantly
-> reduces the number of times the touch program is invoked and speeds up
-> the do_image task time:
->
->      PKG           TASK      ABSDIFF  RELDIFF  CPUTIME1 -> CPUTIME2
->      my-image      do_image   -45.3s   -94.2%     48.1s -> 2.8s
->
->      Cumulative cputime:
->        -44.3s    -92.3%    00:48.1 (48.1s) -> 00:03.7 (3.7s)
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   meta/classes/image.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 013455f492..353cc67175 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -657,7 +657,7 @@ reproducible_final_image_task () {
->           fi
->           # Set mtime of all files to a reproducible value
->           bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
-> -        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
-> +        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
->       fi
->   }
->   
+Yes indeed, please to dunfell!
+
+-Mikko, who also marked the patch but didn't have time to put it to test o=
+n dunfell..
+
+> On 5/5/21 4:40 PM, Joshua Watt wrote:
+> > Instead of having find directly invoke touch for each file in the root
+> > file system, pass a list to xargs for batching. This significantly
+> > reduces the number of times the touch program is invoked and speeds up
+> > the do_image task time:
+> >=20
+> >      PKG           TASK      ABSDIFF  RELDIFF  CPUTIME1 -> CPUTIME2
+> >      my-image      do_image   -45.3s   -94.2%     48.1s -> 2.8s
+> >=20
+> >      Cumulative cputime:
+> >        -44.3s    -92.3%    00:48.1 (48.1s) -> 00:03.7 (3.7s)
+> >=20
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >   meta/classes/image.bbclass | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index 013455f492..353cc67175 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -657,7 +657,7 @@ reproducible_final_image_task () {
+> >           fi
+> >           # Set mtime of all files to a reproducible value
+> >           bbnote "reproducible_final_image_task: mtime set to $REPRODU=
+CIBLE_TIMESTAMP_ROOTFS"
+> > -        find  ${IMAGE_ROOTFS} -exec touch -h  --date=3D@$REPRODUCIBLE=
+_TIMESTAMP_ROOTFS {} \;
+> > +        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=3D@=
+$REPRODUCIBLE_TIMESTAMP_ROOTFS
+> >       fi
+> >   }
+
+>=20
+>=20
+>=20
