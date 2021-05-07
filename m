@@ -1,540 +1,412 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web08.527.1620330336480950157
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.4101.1620349251185104935
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 12:45:36 -0700
+ Thu, 06 May 2021 18:00:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hFbSYNMK;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id t20so672072qtx.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 06 May 2021 12:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=on/gVpVpkBS28xa/oGWKp5mw0gD2ADfdThfQgvU6sLE=;
-        b=hFbSYNMKuOEe/OmszKyUxgs9Z6Z5zrisQFrd+BwZL5wP3NxsZYHrnVN6SRiXCN56sX
-         TgNjUOG595ouMwD7FteBzzi2Ii0xQRYLCcOwvOnHY9p6koEBYK/HKWRmSElQS3YwLeBc
-         sRcHJANLWgKQdyty1xbe1c+y+HMD5jL0tCWBdZPHH6Lr2+Il4fNMZcEs21jugwuJehg3
-         imB0jdU8pCr6FE/65DulkWz7MUfqXgQ0bCo08uCbnCbervWjL1x/4vyr5pf4gM6CYWxt
-         Byakj8tWs1RTWOUfaMbCy40hlyQ2vMvbOSUs3dSOJdnrF3WL+Qey9tQnUFtX8sY4ekp5
-         KIZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=on/gVpVpkBS28xa/oGWKp5mw0gD2ADfdThfQgvU6sLE=;
-        b=RaqbFU6NOBmbvHbFH/7Kz/BwjAaWmqLtwdJuG58SdNN71XoKjp5AEWIW20k4YU4HYh
-         NCTQ19cnkf7zBz3Qar+oKRQNKLAJ8s/BfRcnWE71+o0iJRvl1c0Hri2U3jC7l3u7cGbd
-         eED8cJkEkaO850XRUDj6gwGJ2I71iO4zGiba2+KVTHO4b0v0nkVvMnvq0Z2t3TPsE+EA
-         r0YKE4f+XC4zP15tlMRc36qLG9/TZbVXL1HEjX4rdrqKE7kZIDFj6Z7DtT8T8s8F8wWc
-         nEmGYvKswe6hKSo7VmBQx+kj5ASNfnZXPZ31DZEyaNlSQ6l039K+1+IBpguwCQyP3N9I
-         iCXg==
-X-Gm-Message-State: AOAM53282+A+07nRM/NZHHnWSDytq3XDHybxozN+YnmjNScQftE5mjw/
-	igsONVSAztGPBgRyzp7Ww4ErZgNf7eX3gSpZZ3g=
-X-Google-Smtp-Source: ABdhPJxCu03zZ6i+IKbluaL2ky0dj3Gt/X0R48WQ4Hg2NuUm1RoqjdK8sOjSpHqceNytiR+NlLp1a+H7rzoo9YVGGtw=
-X-Received: by 2002:ac8:5ccb:: with SMTP id s11mr5786728qta.299.1620330335378;
- Thu, 06 May 2021 12:45:35 -0700 (PDT)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: whq/HsDI2pWGm5w84CjqRY9nonULGGLyPmHE2jFtUKz4oAzLtAdhGfFRS947e582Z88ft3mJG7
+ hXmWr5mIfUkg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="284065995"
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="284065995"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2021 18:00:48 -0700
+IronPort-SDR: 0/30afp8rAeJFcFZMQOyUZVAeDxitaL5jYOQ/sUxK9PsJr+nceDwZ9bwNS6gRecyqe4I+ZxgPR
+ eKAflySgqpJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="431014817"
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
+  by fmsmga008.fm.intel.com with ESMTP; 06 May 2021 18:00:47 -0700
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 7 May 2021 09:00:46 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.2106.013;
+ Fri, 7 May 2021 09:00:46 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "vinay.m.engg@gmail.com" <vinay.m.engg@gmail.com>
+CC: "vinay.kumar@blackfigtech.com" <vinay.kumar@blackfigtech.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "rwmacleod@gmail.com"
+	<rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
+Subject: Re: [OE-core] [hardknott][PATCH] Binutils: Fix CVE-2021-20197
+Thread-Topic: [OE-core] [hardknott][PATCH] Binutils: Fix CVE-2021-20197
+Thread-Index: AQHXPOs44N+p5lNpwUiZEcCHIaeHzarVNnEAgACvcQCAANL+AA==
+Date: Fri, 7 May 2021 01:00:46 +0000
+Message-ID: <eba9f2cbb58cee3ae79e3db6ffd968d2f1c0d5c1.camel@intel.com>
+References: <20210429113046.172473-1-vinay.m.engg@gmail.com>
+	 <4064cc6aa03b56a7e3aa5e403fc4c17ed5bef77d.camel@intel.com>
+	 <CANUMPcUyz7S_ynQGEtoq03TjnD-ccJZF9=Vfin+QGe7TW_GkEg@mail.gmail.com>
+In-Reply-To: <CANUMPcUyz7S_ynQGEtoq03TjnD-ccJZF9=Vfin+QGe7TW_GkEg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-4-alex.kanavin@gmail.com> <CAMKF1sqRMjd3Xv_v+tRAfjo0-MUdAgCM+eGxpY=8Of7yLjtGmg@mail.gmail.com>
- <CANNYZj-fx280scYZs2nBiTor5fxyn62z00vy32Zu76i051JZsQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-fx280scYZs2nBiTor5fxyn62z00vy32Zu76i051JZsQ@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 6 May 2021 12:45:09 -0700
-Message-ID: <CAMKF1sopCbSOCy3ydRD8hX6yj2rfcRY1qQcwp3-cfBucoE-x0Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/61] gdk-pixbuf: update 2.40.0 -> 2.42.6
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E968ACEC70B7F04B99D089E657A1CCEF@intel.com>
+Content-Transfer-Encoding: base64
 
-On Thu, May 6, 2021 at 11:49 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> No package 'gdk-pixbuf-xlib-2.0' found
->
-> gdk-pixbuf has fully removed support for this:
-> https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/38
->
-
-in this pull they talk about soft API break, have we understood the
-breadth of it?
-For icewm, I guess forcing iceWM to upgrade to latest will fix this
-build break.
-
-> Alex
->
->
-> On Thu, 6 May 2021 at 16:56, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> seeing failures on meta-oe builds
->>
->> https://errors.yoctoproject.org/Errors/Details/580243/
->>
->> On Wed, May 5, 2021 at 8:19 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->> >
->> > Note: jpg/png loaders are now builtin and no longer
->> > provided as separate packages.
->> >
->> > Drop backport missing-test-data.patch.
->> >
->> > Drop no longer needed 0004-Do-not-run-tests-when-building.patch
->> >
->> > Rebase 0004-Do-not-run-tests-when-building.patch
->> >
->> > Rework 0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
->> > so that it can be applied to both native and target builds.
->> >
->> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > ---
->> >  ...bnailer-and-pixdata-cross-compile-fa.patch | 95 +++++++++++++++++++
->> >  ...-around-thumbnailer-cross-compile-fa.patch | 94 ------------------
->> >  .../0004-Do-not-run-tests-when-building.patch | 39 --------
->> >  ...ailer-and-tests-also-in-cross-builds.patch |  9 +-
->> >  .../gdk-pixbuf/CVE-2020-29385.patch           | 55 -----------
->> >  .../gdk-pixbuf/missing-test-data.patch        | 30 ------
->> >  ...-pixbuf_2.40.0.bb => gdk-pixbuf_2.42.6.bb} | 21 +---
->> >  7 files changed, 105 insertions(+), 238 deletions(-)
->> >  create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-and-pixdata-cross-compile-fa.patch
->> >  delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
->> >  delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
->> >  delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
->> >  delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
->> >  rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.40.0.bb => gdk-pixbuf_2.42.6.bb} (85%)
->> >
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-and-pixdata-cross-compile-fa.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-and-pixdata-cross-compile-fa.patch
->> > new file mode 100644
->> > index 0000000000..2aa9164750
->> > --- /dev/null
->> > +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Work-around-thumbnailer-and-pixdata-cross-compile-fa.patch
->> > @@ -0,0 +1,95 @@
->> > +From dcaf3106e2cca27f728a8bd26127430500a1136e Mon Sep 17 00:00:00 2001
->> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
->> > +Date: Fri, 22 Feb 2019 13:22:06 +0100
->> > +Subject: [PATCH] Work-around thumbnailer and pixdata cross-compile failure
->> > +
->> > +Use native gdk-pixbuf-print-mime-types and gdk-pixbuf-pixdata
->> > +when generating the thumbnail metadata and resources.
->> > +
->> > +This works but the mime types will come from native
->> > +loader.cache (which will only contain in-tree loaders), not from the
->> > +target loader.cache.
->> > +
->> > +The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
->> > +
->> > +Upstream-Status: Inappropriate [workaround]
->> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > +
->> > +---
->> > + tests/meson.build       | 11 +++++++++--
->> > + thumbnailer/meson.build | 23 ++++++++++++++++++++++-
->> > + 2 files changed, 31 insertions(+), 3 deletions(-)
->> > +
->> > +diff --git a/tests/meson.build b/tests/meson.build
->> > +index 7c6cb11..07121f1 100644
->> > +--- a/tests/meson.build
->> > ++++ b/tests/meson.build
->> > +@@ -8,13 +8,20 @@ if enabled_loaders.contains('png') and host_system != 'windows'
->> > +   # Resources; we cannot use gnome.compile_resources() here, because we need to
->> > +   # override the environment in order to use the utilities we just built instead
->> > +   # of the system ones
->> > ++
->> > ++  if not meson.is_cross_build()
->> > ++  pixdata_binary = gdk_pixbuf_pixdata.full_path()
->> > ++  else
->> > ++  pixdata_binary = 'gdk-pixbuf-pixdata'
->> > ++  endif
->> > ++
->> > +   resources_c = custom_target('resources.c',
->> > +     input: 'resources.gresource.xml',
->> > +     output: 'resources.c',
->> > +     command: [
->> > +       gen_resources,
->> > +       '--glib-compile-resources=@0@'.format(glib_compile_resources.full_path()),
->> > +-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > ++      '--pixdata=@0@'.format(pixdata_binary),
->> > +       '--loaders=@0@'.format(loaders_cache.full_path()),
->> > +       '--sourcedir=@0@'.format(meson.current_source_dir()),
->> > +       '--source',
->> > +@@ -33,7 +40,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
->> > +     command: [
->> > +       gen_resources,
->> > +       '--glib-compile-resources=@0@'.format(glib_compile_resources.full_path()),
->> > +-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > ++      '--pixdata=@0@'.format(pixdata_binary),
->> > +       '--loaders=@0@'.format(loaders_cache.full_path()),
->> > +       '--sourcedir=@0@'.format(meson.current_source_dir()),
->> > +       '--header',
->> > +diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
->> > +index 8c741e0..5a3b52a 100644
->> > +--- a/thumbnailer/meson.build
->> > ++++ b/thumbnailer/meson.build
->> > +@@ -14,7 +14,27 @@ gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
->> > +                                          install: true,
->> > +                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
->> > +
->> > +-custom_target('thumbnailer',
->> > ++if meson.is_cross_build()
->> > ++    custom_target('thumbnailer',
->> > ++              input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
->> > ++              output: 'gdk-pixbuf-thumbnailer.thumbnailer',
->> > ++              command: [
->> > ++                gen_thumbnailer,
->> > ++                '--printer=gdk-pixbuf-print-mime-types',
->> > ++                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > ++                '--loaders=@0@'.format(loaders_cache.full_path()),
->> > ++                '--bindir=@0@'.format(gdk_pixbuf_bindir),
->> > ++                '@INPUT@',
->> > ++                '@OUTPUT@',
->> > ++              ],
->> > ++              depends: [
->> > ++                gdk_pixbuf_print_mime_types,
->> > ++                gdk_pixbuf_pixdata,
->> > ++              ],
->> > ++              install: true,
->> > ++              install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
->> > ++else
->> > ++    custom_target('thumbnailer',
->> > +               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
->> > +               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
->> > +               command: [
->> > +@@ -33,3 +53,4 @@ custom_target('thumbnailer',
->> > +               ],
->> > +               install: true,
->> > +               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
->> > ++endif
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
->> > deleted file mode 100644
->> > index a9c7600eb3..0000000000
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
->> > +++ /dev/null
->> > @@ -1,94 +0,0 @@
->> > -From 2d1b65bd1272ad63b7fbd4babd9a8e8c296d15b5 Mon Sep 17 00:00:00 2001
->> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
->> > -Date: Fri, 22 Feb 2019 13:22:06 +0100
->> > -Subject: [PATCH] (target only) Work-around thumbnailer and pixdata
->> > - cross-compile failure
->> > -
->> > -Use native gdk-pixbuf-print-mime-types and gdk-pixbuf-pixdata
->> > -when generating the thumbnail metadata and resources.
->> > -
->> > -This works but the mime types will come from native
->> > -loader.cache (which will only contain in-tree loaders), not from the
->> > -target loader.cache.
->> > -
->> > -The upstream issue is https://bugzilla.gnome.org/show_bug.cgi?id=779057
->> > -
->> > -Upstream-Status: Inappropriate [workaround]
->> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > -
->> > ----
->> > - build-aux/gen-thumbnailer.py |  2 --
->> > - tests/meson.build            | 11 +++++++++--
->> > - thumbnailer/meson.build      |  5 +----
->> > - 3 files changed, 10 insertions(+), 8 deletions(-)
->> > -
->> > -diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
->> > -index 05ac821..c5b99ab 100644
->> > ---- a/build-aux/gen-thumbnailer.py
->> > -+++ b/build-aux/gen-thumbnailer.py
->> > -@@ -20,8 +20,6 @@ argparser.add_argument('output', help='Output file')
->> > - args = argparser.parse_args()
->> > -
->> > - newenv = os.environ.copy()
->> > --newenv['GDK_PIXBUF_PIXDATA'] = args.pixdata
->> > --newenv['GDK_PIXBUF_MODULE_FILE'] = args.loaders
->> > - # 'nt': NT-based Windows, see https://docs.python.org/3/library/os.html
->> > - if os.name == 'nt':
->> > -     gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
->> > -diff --git a/tests/meson.build b/tests/meson.build
->> > -index 8ed7cc1..e011b77 100644
->> > ---- a/tests/meson.build
->> > -+++ b/tests/meson.build
->> > -@@ -1,12 +1,19 @@
->> > - # Resources; we cannot use gnome.compile_resources() here, because we need to
->> > - # override the environment in order to use the utilities we just built instead
->> > - # of the system ones
->> > -+
->> > -+if not meson.is_cross_build()
->> > -+pixdata_binary = gdk_pixbuf_pixdata.full_path()
->> > -+else
->> > -+pixdata_binary = 'gdk-pixbuf-pixdata'
->> > -+endif
->> > -+
->> > - resources_c = custom_target('resources.c',
->> > -   input: 'resources.gresource.xml',
->> > -   output: 'resources.c',
->> > -   command: [
->> > -     gen_resources,
->> > --    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > -+    '--pixdata=@0@'.format(pixdata_binary),
->> > -     '--loaders=@0@'.format(loaders_cache.full_path()),
->> > -     '--sourcedir=@0@'.format(meson.current_source_dir()),
->> > -     '--source',
->> > -@@ -24,7 +31,7 @@ resources_h = custom_target('resources.h',
->> > -   output: 'resources.h',
->> > -   command: [
->> > -     gen_resources,
->> > --    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > -+    '--pixdata=@0@'.format(pixdata_binary),
->> > -     '--loaders=@0@'.format(loaders_cache.full_path()),
->> > -     '--sourcedir=@0@'.format(meson.current_source_dir()),
->> > -     '--header',
->> > -diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
->> > -index aaafec8..71bd61b 100644
->> > ---- a/thumbnailer/meson.build
->> > -+++ b/thumbnailer/meson.build
->> > -@@ -18,9 +18,7 @@ custom_target('thumbnailer',
->> > -               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
->> > -               command: [
->> > -                 gen_thumbnailer,
->> > --                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
->> > --                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
->> > --                '--loaders=@0@'.format(loaders_cache.full_path()),
->> > -+                '--printer=gdk-pixbuf-print-mime-types',
->> > -                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
->> > -                 '@INPUT@',
->> > -                 '@OUTPUT@',
->> > -@@ -28,7 +26,6 @@ custom_target('thumbnailer',
->> > -               depends: [
->> > -                 gdk_pixbuf_print_mime_types,
->> > -                 gdk_pixbuf_pixdata,
->> > --                loaders_cache,
->> > -               ],
->> > -               install: true,
->> > -               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
->> > deleted file mode 100644
->> > index 96c546f271..0000000000
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
->> > +++ /dev/null
->> > @@ -1,39 +0,0 @@
->> > -From 3c4a6c147ae8a0962ba9194373d8a41d14eed44f Mon Sep 17 00:00:00 2001
->> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
->> > -Date: Fri, 22 Feb 2019 13:23:55 +0100
->> > -Subject: [PATCH] Do not run tests when building
->> > -
->> > -Upstream-Status: Inappropriate [cross-compile specific]
->> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > ----
->> > - tests/meson.build | 17 -----------------
->> > - 1 file changed, 17 deletions(-)
->> > -
->> > -diff --git a/tests/meson.build b/tests/meson.build
->> > -index 4fa3fbc..6ef7884 100644
->> > ---- a/tests/meson.build
->> > -+++ b/tests/meson.build
->> > -@@ -138,23 +138,6 @@ foreach t: installed_tests
->> > -     install_dir: installed_test_bindir,
->> > -   )
->> > -
->> > --  # Two particularly slow tests
->> > --  if test_suites.contains('slow')
->> > --    timeout = 300
->> > --  else
->> > --    timeout = 30
->> > --  endif
->> > --
->> > --  test(test_name, test_bin,
->> > --    suite: test_suites,
->> > --    args: [ '-k', '--tap' ],
->> > --    env: [
->> > --      'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
->> > --      'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
->> > --      'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
->> > --    ],
->> > --    timeout: timeout,
->> > --  )
->> > - endforeach
->> > -
->> > - executable('pixbuf-read',
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
->> > index 0fe13a387a..cd9f88befc 100644
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
->> > +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
->> > @@ -1,19 +1,20 @@
->> > -From 1a532e090c558a830de9503f56e23414e880bb95 Mon Sep 17 00:00:00 2001
->> > +From d02a8e202d2fe5caf3449683e0ccdf84a482a325 Mon Sep 17 00:00:00 2001
->> >  From: Alexander Kanavin <alex.kanavin@gmail.com>
->> >  Date: Wed, 5 Jun 2019 14:17:55 +0200
->> >  Subject: [PATCH] Build thumbnailer and tests also in cross builds.
->> >
->> >  Upstream-Status: Inappropriate [relies on oe-core specific hacks]
->> >  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> > +
->> >  ---
->> >   meson.build | 6 ++----
->> >   1 file changed, 2 insertions(+), 4 deletions(-)
->> >
->> >  diff --git a/meson.build b/meson.build
->> > -index d104cea..7acb88a 100644
->> > +index 73034d1..d114016 100644
->> >  --- a/meson.build
->> >  +++ b/meson.build
->> > -@@ -397,10 +397,8 @@ endif
->> > +@@ -378,10 +378,8 @@ subdir('gdk-pixbuf')
->> >   # i18n
->> >   subdir('po')
->> >
->> > @@ -25,4 +26,4 @@ index d104cea..7acb88a 100644
->> >  +subdir('thumbnailer')
->> >
->> >   # Documentation
->> > - subdir('docs')
->> > + build_docs = get_option('gtk_doc') or get_option('docs')
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
->> > deleted file mode 100644
->> > index 3fef2bc1eb..0000000000
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
->> > +++ /dev/null
->> > @@ -1,55 +0,0 @@
->> > -From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
->> > -From: Robert Ancell <robert.ancell@canonical.com>
->> > -Date: Mon, 30 Nov 2020 12:26:12 +1300
->> > -Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
->> > -
->> > -The code value after a reset wasn't being validated, which means we would
->> > -accept invalid codes. This could cause an infinite loop in the decoder.
->> > -
->> > -Fixes CVE-2020-29385
->> > -
->> > -Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
->> > -
->> > -Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
->> > -CVE: CVE-2020-29385
->> > -Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
->> > -
->> > ----
->> > - gdk-pixbuf/lzw.c                    |  13 +++++++------
->> > - 1 files changed, 7 insertions(+), 6 deletions(-)
->> > - create mode 100644 tests/test-images/fail/hang_114.gif
->> > -
->> > -diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
->> > -index 9e052a6f7..105daf2b1 100644
->> > ---- a/gdk-pixbuf/lzw.c
->> > -+++ b/gdk-pixbuf/lzw.c
->> > -@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
->> > -                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
->> > -                                         if (self->code < self->code_table_size)
->> > -                                                 add_code (self, self->code);
->> > --                                        else if (self->code == self->code_table_size)
->> > -+                                        else
->> > -                                                 add_code (self, self->last_code);
->> > --                                        else {
->> > --                                                /* Invalid code received - just stop here */
->> > --                                                self->last_code = self->eoi_code;
->> > --                                                return output_length;
->> > --                                        }
->> > -
->> > -                                         /* When table is full increase code size */
->> > -                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
->> > -                                                 self->code_size++;
->> > -                                 }
->> > -
->> > -+                                /* Invalid code received - just stop here */
->> > -+                                if (self->code >= self->code_table_size) {
->> > -+                                        self->last_code = self->eoi_code;
->> > -+                                        return output_length;
->> > -+                                }
->> > -+
->> > -                                 /* Convert codeword into indexes */
->> > -                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
->> > -                         }
->> > ---
->> > -2.25.1
->> > -
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
->> > deleted file mode 100644
->> > index 6c758fd61c..0000000000
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
->> > +++ /dev/null
->> > @@ -1,30 +0,0 @@
->> > -Upstream-Status: Backport
->> > -Signed-off-by: Ross Burton <ross.burton@intel.com>
->> > -
->> > -From d8d231c01ef2e59856da8a5c26ace955e5f29370 Mon Sep 17 00:00:00 2001
->> > -From: Ross Burton <ross.burton@intel.com>
->> > -Date: Mon, 25 Nov 2019 17:05:46 +0000
->> > -Subject: [PATCH] tests: install circular-table.gif
->> > -
->> > -This test data was added for the pixbuf-gif-circular-table test (added October
->> > -2018 in 0b9d004) but because the file was never actually installed the installed
->> > -test suite never passes.
->> > ----
->> > - tests/meson.build | 1 +
->> > - 1 file changed, 1 insertion(+)
->> > -
->> > -diff --git a/tests/meson.build b/tests/meson.build
->> > -index 5116fc2b9..80ed3e8b2 100644
->> > ---- a/tests/meson.build
->> > -+++ b/tests/meson.build
->> > -@@ -97,6 +97,7 @@ test_data = [
->> > -   'bug775693.pixdata',
->> > -   'bug775229.pixdata',
->> > -   'aero.gif',
->> > -+  'circular-table.gif'
->> > - ]
->> > -
->> > - installed_test_bindir = join_paths(gdk_pixbuf_libexecdir, 'installed-tests', meson.project_name())
->> > ---
->> > -2.20.1
->> > -
->> > diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
->> > similarity index 85%
->> > rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
->> > rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
->> > index 226e1c7b89..2734a11f96 100644
->> > --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
->> > +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
->> > @@ -22,41 +22,30 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
->> >             file://fatal-loader.patch \
->> >             file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
->> >             file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
->> > -           file://0004-Do-not-run-tests-when-building.patch \
->> >             file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
->> > -           file://missing-test-data.patch \
->> > -           file://CVE-2020-29385.patch \
->> > +           file://0001-Work-around-thumbnailer-and-pixdata-cross-compile-fa.patch \
->> >             "
->> >
->> > -SRC_URI_append_class-target = " \
->> > -           file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
->> > -           "
->> > -SRC_URI_append_class-nativesdk = " \
->> > -           file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
->> > -           "
->> > -
->> > -SRC_URI[md5sum] = "05eb1ebc258ba905f1c8644ef49de064"
->> > -SRC_URI[sha256sum] = "1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6"
->> > +SRC_URI[sha256sum] = "c4a6b75b7ed8f58ca48da830b9fa00ed96d668d3ab4b1f723dcf902f78bde77f"
->> >
->> >  inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
->> >
->> > -GIR_MESON_OPTION = 'gir'
->> > +GIR_MESON_OPTION = 'introspection'
->> > +GIR_MESON_ENABLE_FLAG = "enabled"
->> > +GIR_MESON_DISABLE_FLAG = "disabled"
->> >
->> >  LIBV = "2.10.0"
->> >
->> >  GDK_PIXBUF_LOADERS ?= "png jpeg"
->> >
->> >  PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
->> > -                 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
->> >                   ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
->> >  PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
->> >
->> >  PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
->> >  PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
->> >  PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
->> > -PACKAGECONFIG[jpeg2000] = "-Djasper=true,-Djasper=false,jasper"
->> >  PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
->> > -PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
->> >
->> >  PACKAGES =+ "${PN}-xlib"
->> >
->> > --
->> > 2.31.1
->> >
->> >
->> > 
->> >
+T24gVGh1LCAyMDIxLTA1LTA2IGF0IDE3OjU1ICswNTMwLCBWaW5heSBLdW1hciB3cm90ZToNCj4g
+SGkgQW51aiwNCj4gDQo+IFRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KPiANCj4gPiA+IFRoaXMg
+ZG9lc24ndCBsb29rIGxpa2UgYSBjaGVycnkgcGljayBvZjogDQo+ID4gPiBodHRwczovL2dpdGh1
+Yi5jb20vYm1pbm9yL2JpbnV0aWxzLWdkYi9jb21taXQvZDNlZGFhOTFkNGNmNzIwMmVjMTQzNDI0
+MTAxOTQ4NDFlMmY2N2YxMg0KPiA+ID4gV2hhdCBlbHNlIGlzIGluIHRoZXJlPw0KPiANCj4gY2hl
+cnJ5IHBpY2tlZCBjb21taXQgaWRzIGluIHRoZSBiZWxvdyBvcmRlciB0byAiU1JDUkVWIiBvZiBi
+aW51dGlscy0NCj4gMi4zNi5pbmMuDQo+IA0KPiAxLiA4ZTAzMjM1MTQ3YTllNzc0ZDNiYTA4NGU5
+M2MyZGExYWE5NGQxY2VjDQo+IDIuIGQzZWRhYTkxZDRjZjcyMDJlYzE0MzQyNDEwMTk0ODQxZTJm
+NjdmMTINCj4gMy4gOGI2OWU2MWQ0YmUyNzZiYjg2MjY5OGFhYWZkZGMzZTc3OWQyM2M4Zg0KPiAN
+Cj4gRGlyZWN0IGNoZXJyeS1waWNrIG9mICJkM2VkYWE5MWQ0Y2Y3MjAyZWMxNDM0MjQxMDE5NDg0
+MWUyZjY3ZjEyIiBpbnRvDQo+ICJTUkNSRVYiIGdpdmVzIGVycm9ycyBkdWUgdG8gdGhlIGNoYW5n
+ZXMgaW4gYXJzdXAuYyBmaWxlLiBTbyB1c2VkDQo+IDhlMDMyMzUxNDdhOWU3NzRkM2JhMDg0ZTkz
+YzJkYTFhYTk0ZDFjZWMgKGJpbnV0aWxzOiBBdm9pZCByZW5hbWluZw0KPiBvdmVyIGV4aXN0aW5n
+IGZpbGVzKS4NCj4gDQo+IFRoZSBjb21taXQgaWQgOGI2OWU2MWQ0YmUyNzZiYjg2MjY5OGFhYWZk
+ZGMzZTc3OWQyM2M4ZiBpcw0KPiB0byBmaXggdGhlIGJpbnV0aWxzIGJ1aWxkIGVycm9yIHdpdGgg
+TWluZ3cuDQoNCkkgdGhpbmsgaXQgc2hvdWxkIGJlIDMgc2VwYXJhdGUgcGF0Y2hlcyBpbiB0aGF0
+IGNhc2UuIFJpZ2h0IG5vdywgdGhlDQpwYXRjaCBoZWFkZXIgaXMgd3JvbmcgYXMgaXQncyBub3Qg
+dGhlIHVwc3RyZWFtIGNvbW1pdCB0aGF0IGl0IGlzDQpjbGFpbWluZyB0byBiZS4NCg0KVGhhbmtz
+LA0KDQpBbnVqDQoNCj4gDQo+ID4gPiBBbHNvIHRoaXMgZGlkbid0IGFwcGx5IG9uIGhhcmRrbm90
+dCBhbmQgSSBoYWQgdG8gcmViYXNlIGl0Lg0KPiA+ID4gUGxlYXNlIGFsc28NCj4gPiA+IHVzZSBi
+IGluIHRoZSBzdWJqZWN0IGZvciBiaW51dGlscy4NCj4gDQo+IFdpbGwgc2VuZCBhIHYyIHBhdGNo
+IHdpdGggY29ycmVjdGlvbnMuDQo+IA0KPiBSZWdhcmRzLA0KPiBWaW5heQ0KPiANCj4gT24gVGh1
+LCBNYXkgNiwgMjAyMSBhdCA3OjI3IEFNIE1pdHRhbCwgQW51aiA8YW51ai5taXR0YWxAaW50ZWwu
+Y29tPg0KPiB3cm90ZToNCj4gPiANCj4gPiBPbiBUaHUsIDIwMjEtMDQtMjkgYXQgMDQ6MzAgLTA3
+MDAsIFZpbmF5IEt1bWFyIHdyb3RlOg0KPiA+ID4gU291cmNlOiBnaXQ6Ly9zb3VyY2V3YXJlLm9y
+Zy9naXQvYmludXRpbHMtZ2RiLmdpdA0KPiA+ID4gVHJhY2tpbmcgLS0gaHR0cHM6Ly9zb3VyY2V3
+YXJlLm9yZy9idWd6aWxsYS9zaG93X2J1Zy5jZ2k/aWQ9MjY5NDUNCj4gPiA+IA0KPiA+ID4gQmFj
+a3BvcnRlZCB1cHN0cmVhbSBjb21taXQNCj4gPiA+IGQzZWRhYTkxZDRjZjcyMDJlYzE0MzQyNDEw
+MTk0ODQxZTJmNjdmMTIgdG8NCj4gPiA+IGJpbnV0aWxzLTIuMzYgc291cmNlIGFsb25nIHdpdGgg
+Y29tbWl0IGlkIGRlcGVuZGVuY2llcw0KPiA+ID4gKDhlMDMyMzUxNDdhOWU3NzRkM2JhMDg0ZTkz
+YzJkYTFhYTk0ZDFjZWMgYW5kDQo+ID4gPiA4YjY5ZTYxZDRiZTI3NmJiODYyNjk4YWFhZmRkYzNl
+Nzc5ZDIzYzhmKS4NCj4gPiA+IA0KPiA+ID4gVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbDQo+
+ID4gPiBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC9naXR3ZWIuY2dpP3A9YmludXRpbHMtZ2Ri
+LmdpdDtoPWQzZWRhYTkxZDRjZjcyMDJlYzE0MzQyNDEwMTk0ODQxZTJmNjdmMTINCj4gPiA+IF0N
+Cj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogVmluYXkgS3VtYXIgPHZpbmF5Lm0uZW5nZ0Bn
+bWFpbC5jb20+DQo+ID4gPiAtLS0NCj4gPiA+IFRoaXMgcGF0Y2ggaXMgdmVyaWZpZWQgYnkgYnVp
+bGRpbmcgYm90aCBMaW51eCBhbmQgTWluZ3cNCj4gPiA+IHRvb2xjaGFpbnMgZm9yDQo+ID4gPiBB
+Uk0gdGFyZ2V0LCBhbmQgZXhlY3V0ZWQgImJpbnV0aWxzIiByZWdyZXNzc2lvbiB0ZXN0aW5nLg0K
+PiA+ID4gDQo+ID4gPiDCoC4uLi9iaW51dGlscy9iaW51dGlscy0yLjM2LmluY8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsNCj4gPiA+IMKgLi4uL2JpbnV0aWxzL2JpbnV0
+aWxzL0NWRS0yMDIxLTIwMTk3LnBhdGNowqDCoMKgIHwgMzg4DQo+ID4gPiArKysrKysrKysrKysr
+KysrKysNCj4gPiA+IMKgMiBmaWxlcyBjaGFuZ2VkLCAzODkgaW5zZXJ0aW9ucygrKQ0KPiA+IA0K
+PiA+IFRoaXMgZG9lc24ndCBsb29rIGxpa2UgYSBjaGVycnkgcGljayBvZjoNCj4gPiANCj4gPiBo
+dHRwczovL2dpdGh1Yi5jb20vYm1pbm9yL2JpbnV0aWxzLWdkYi9jb21taXQvZDNlZGFhOTFkNGNm
+NzIwMmVjMTQzNDI0MTAxOTQ4NDFlMmY2N2YxMg0KPiA+IA0KPiA+IFdoYXQgZWxzZSBpcyBpbiB0
+aGVyZT8NCj4gPiANCj4gPiBBbHNvIHRoaXMgZGlkbid0IGFwcGx5IG9uIGhhcmRrbm90dCBhbmQg
+SSBoYWQgdG8gcmViYXNlIGl0LiBQbGVhc2UNCj4gPiBhbHNvDQo+ID4gdXNlIGIgaW4gdGhlIHN1
+YmplY3QgZm9yIGJpbnV0aWxzLg0KPiA+IA0KPiA+IFRoYW5rcywNCj4gPiANCj4gPiBBbnVqDQo+
+ID4gDQo+ID4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmlu
+dXRpbHMvYmludXRpbHMvQ1ZFLQ0KPiA+ID4gMjAyMS0NCj4gPiA+IDIwMTk3LnBhdGNoDQo+ID4g
+PiANCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmlu
+dXRpbHMtMi4zNi5pbmMNCj4gPiA+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0aWxzL2Jp
+bnV0aWxzLTIuMzYuaW5jDQo+ID4gPiBpbmRleCBiZWRkZjYwMWZkLi42NjA4MGRmY2VlIDEwMDY0
+NA0KPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0aWxzL2JpbnV0aWxzLTIu
+MzYuaW5jDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRp
+bHMtMi4zNi5pbmMNCj4gPiA+IEBAIC0zNiw1ICszNiw2IEBAIFNSQ19VUkkgPSAiXA0KPiA+ID4g
+wqDCoMKgwqDCoCBmaWxlOi8vMDAxNS1zeW5jLXdpdGgtT0UtbGlidG9vbC1jaGFuZ2VzLnBhdGNo
+wqBcDQo+ID4gPiDCoMKgwqDCoMKgIA0KPiA+ID4gZmlsZTovLzAwMTYtQ2hlY2stZm9yLWNsYW5n
+LWJlZm9yZS1jaGVja2luZy1nY2MtdmVyc2lvbi5wYXRjaMKgXA0KPiA+ID4gDQo+ID4gPiBmaWxl
+Oi8vMDAxNy1BZGQtc3VwcG9ydC1mb3ItdGhlLURXX0ZPUk1fc3RyeC1mb3Jtcy10by10aGUtQkZE
+LWxpLnBhdGNoDQo+ID4gPiBcDQo+ID4gPiArwqDCoMKgwqAgZmlsZTovL0NWRS0yMDIxLTIwMTk3
+LnBhdGNowqBcDQo+ID4gPiDCoCINCj4gPiA+IMKgU8KgID0gIiR7V09SS0RJUn0vZ2l0Ig0KPiA+
+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlscy9D
+VkUtMjAyMS0NCj4gPiA+IDIwMTk3LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0
+aWxzL2JpbnV0aWxzL0NWRS0yMDIxLQ0KPiA+ID4gMjAxOTcucGF0Y2gNCj4gPiA+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRleCAwMDAwMDAwMDAwLi5kNjExN2I2NWE0DQo+ID4gPiAt
+LS0gL2Rldi9udWxsDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMv
+YmludXRpbHMvQ1ZFLTIwMjEtDQo+ID4gPiAyMDE5Ny5wYXRjaA0KPiA+ID4gQEAgLTAsMCArMSwz
+ODggQEANCj4gPiA+ICtGcm9tIGQzZWRhYTkxZDRjZjcyMDJlYzE0MzQyNDEwMTk0ODQxZTJmNjdm
+MTIgTW9uIFNlcCAxNw0KPiA+ID4gMDA6MDA6MDAgMjAwMQ0KPiA+ID4gK0Zyb206IEFsYW4gTW9k
+cmEgPGFtb2RyYUBnbWFpbC5jb20+DQo+ID4gPiArRGF0ZTogRnJpLCAyNiBGZWIgMjAyMSAxMToz
+MDozMiArMTAzMA0KPiA+ID4gK1N1YmplY3Q6IFtQQVRDSF0gUmVpbnN0YXRlIHZhcmlvdXMgcGll
+Y2VzIGJhY2tlZCBvdXQgZnJvbQ0KPiA+ID4gc21hcnRfcmVuYW1lDQo+ID4gPiBjaGFuZ2VzDQo+
+ID4gPiArDQo+ID4gPiArSW4gdGhlIGludGVyZXN0cyBvZiBhIHN0YWJsZSByZWxlYXNlIHZhcmlv
+dXMgbGFzdCBtaW51dGUNCj4gPiA+IHNtYXJ0X3JlbmFtZQ0KPiA+ID4gK3BhdGNoZXMgd2VyZSBi
+YWNrZWQgb3V0IG9mIHRoZSAyLjM2IGJyYW5jaC7CoCBUaGUgbWFpbiByZWFzb24gdG8NCj4gPiA+
+ICtyZWluc3RhdGUgc29tZSBvZiB0aG9zZSBiYWNrZWQgb3V0IGNoYW5nZXMgaGVyZSBpcyB0byBt
+YWtlDQo+ID4gPiBuZWNlc3NhcnkNCj4gPiA+ICtmb2xsb3d1cCBmaXhlcyB0byBjb21taXQgOGUw
+MzIzNTE0N2E5IHNpbXBsZSBjaGVycnktcGlja3MgZnJvbQ0KPiA+ID4gK21haW5saW5lLsKgIEEg
+c2Vjb25kYXJ5IHJlYXNvbiBpcyB0aGF0IGFyIC1NIHN1cHBvcnQgaXNuJ3QgZml4ZWQNCj4gPiA+
+IGZvcg0KPiA+ID4gK3ByMjY5NDUgd2l0aG91dCB0aGlzIHBhdGNoLg0KPiA+ID4gKw0KPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgIFBSIDI2OTQ1DQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKiBhci5jOiBE
+b24ndCBpbmNsdWRlIGxpYmJmZC5oLg0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgICh3cml0ZV9hcmNo
+aXZlKTogUmVwbGFjZSB4bWFsbG9jK3N0cmNweSB3aXRoIHhzdHJkdXAuDQo+ID4gPiArwqDCoMKg
+wqDCoMKgwqAgKiBhcnN1cC5jICh0ZW1wX25hbWUsIHJlYWxfb2ZkKTogTmV3IHN0YXRpYyB2YXJp
+YWJsZXMuDQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKGFyX29wZW4pOiBVc2UgbWFrZV90ZW1wbmFt
+ZSBhbmQgYmZkX2Zkb3BlbncuDQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKGFyX3NhdmUpOiBBZGp1
+c3QgdG8gc3VpdCBhcl9vcGVuIGNoYW5nZXMuDQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKiBvYmpj
+b3B5LmM6IERvbid0IGluY2x1ZGUgbGliYmZkLmguDQo+ID4gPiArwqDCoMKgwqDCoMKgwqAgKiBy
+ZW5hbWUuYzogUmVuYW1lIGFuZCByZW9yZGVyIHZhcmlhYmxlcy4NCj4gPiA+ICsNCj4gPiA+ICso
+Y2hlcnJ5IHBpY2tlZCBmcm9tIGNvbW1pdA0KPiA+ID4gOTViOTFhMDQzYWVhZWI1NDZkMmZlYTU1
+NmQ4NGEyZGUxZTkxNzc3MCkNCj4gPiA+ICsNCj4gPiA+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2tw
+b3J0IFsNCj4gPiA+IGh0dHBzOi8vc291cmNld2FyZS5vcmcvZ2l0L2dpdHdlYi5jZ2k/cD1iaW51
+dGlscy1nZGIuZ2l0O2g9ZDNlZGFhOTFkNGNmNzIwMmVjMTQzNDI0MTAxOTQ4NDFlMmY2N2YxMg0K
+PiA+ID4gXQ0KPiA+ID4gK0NWRTogQ1ZFLTIwMjEtMjAxOTcNCj4gPiA+ICtTaWduZWQtb2ZmLWJ5
+OiBWaW5heSBLdW1hciA8dmluYXkubS5lbmdnQGdtYWlsLmNvbT4NCj4gPiA+ICstLS0NCj4gPiA+
+ICsgYmludXRpbHMvYXIuY8KgwqDCoMKgwqAgfMKgwqAgNiArLQ0KPiA+ID4gKyBiaW51dGlscy9h
+cnN1cC5jwqDCoCB8wqAgMzcgKysrKysrKystLS0tDQo+ID4gPiArIGJpbnV0aWxzL2J1Y29tbS5o
+wqAgfMKgwqAgMyArLQ0KPiA+ID4gKyBiaW51dGlscy9vYmpjb3B5LmMgfMKgwqAgOSArLS0NCj4g
+PiA+ICsgYmludXRpbHMvcmVuYW1lLmPCoCB8IDE0OCArKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KPiA+ID4gLS0tLS0tDQo+ID4gPiAtDQo+ID4gPiArIDUgZmlsZXMgY2hh
+bmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMTM2IGRlbGV0aW9ucygtKQ0KPiA+ID4gKw0KPiA+ID4g
+K2RpZmYgLS1naXQgYS9iaW51dGlscy9hci5jIGIvYmludXRpbHMvYXIuYw0KPiA+ID4gK2luZGV4
+IDQ1YTM0ZTNhNmNmLi40NGRmNDhjNWM2NyAxMDA2NDQNCj4gPiA+ICstLS0gYS9iaW51dGlscy9h
+ci5jDQo+ID4gPiArKysrIGIvYmludXRpbHMvYXIuYw0KPiA+ID4gK0BAIC0yNSw3ICsyNSw2IEBA
+DQo+ID4gPiArDQo+ID4gPiArICNpbmNsdWRlICJzeXNkZXAuaCINCj4gPiA+ICsgI2luY2x1ZGUg
+ImJmZC5oIg0KPiA+ID4gKy0jaW5jbHVkZSAibGliYmZkLmgiDQo+ID4gPiArICNpbmNsdWRlICJs
+aWJpYmVydHkuaCINCj4gPiA+ICsgI2luY2x1ZGUgInByb2dyZXNzLmgiDQo+ID4gPiArICNpbmNs
+dWRlICJnZXRvcHQuaCINCj4gPiA+ICtAQCAtMTI1NSw4ICsxMjU0LDcgQEAgd3JpdGVfYXJjaGl2
+ZSAoYmZkICppYXJjaCkNCj4gPiA+ICvCoMKgIGJmZCAqY29udGVudHNfaGVhZCA9IGlhcmNoLT5h
+cmNoaXZlX25leHQ7DQo+ID4gPiArwqDCoCBpbnQgb2ZkID0gLTE7DQo+ID4gPiArDQo+ID4gPiAr
+LcKgIG9sZF9uYW1lID0gKGNoYXIgKikgeG1hbGxvYyAoc3RybGVuIChiZmRfZ2V0X2ZpbGVuYW1l
+DQo+ID4gPiAoaWFyY2gpKSArDQo+ID4gPiAxKTsNCj4gPiA+ICstwqAgc3RyY3B5IChvbGRfbmFt
+ZSwgYmZkX2dldF9maWxlbmFtZSAoaWFyY2gpKTsNCj4gPiA+ICsrwqAgb2xkX25hbWUgPSB4c3Ry
+ZHVwIChiZmRfZ2V0X2ZpbGVuYW1lIChpYXJjaCkpOw0KPiA+ID4gK8KgwqAgbmV3X25hbWUgPSBt
+YWtlX3RlbXBuYW1lIChvbGRfbmFtZSwgJm9mZCk7DQo+ID4gPiArDQo+ID4gPiArwqDCoCBpZiAo
+bmV3X25hbWUgPT0gTlVMTCkNCj4gPiA+ICtAQCAtMTMwOCw3ICsxMzA2LDcgQEAgd3JpdGVfYXJj
+aGl2ZSAoYmZkICppYXJjaCkNCj4gPiA+ICvCoMKgIC8qIFdlIGRvbid0IGNhcmUgaWYgdGhpcyBm
+YWlsczsgd2UgbWlnaHQgYmUgY3JlYXRpbmcgdGhlDQo+ID4gPiBhcmNoaXZlLg0KPiA+ID4gKi8N
+Cj4gPiA+ICvCoMKgIGJmZF9jbG9zZSAoaWFyY2gpOw0KPiA+ID4gKw0KPiA+ID4gKy3CoCBpZiAo
+c21hcnRfcmVuYW1lIChuZXdfbmFtZSwgb2xkX25hbWUsIDApICE9IDApDQo+ID4gPiArK8KgIGlm
+IChzbWFydF9yZW5hbWUgKG5ld19uYW1lLCBvbGRfbmFtZSwgTlVMTCkgIT0gMCkNCj4gPiA+ICvC
+oMKgwqDCoCB4ZXhpdCAoMSk7DQo+ID4gPiArwqDCoCBmcmVlIChvbGRfbmFtZSk7DQo+ID4gPiAr
+wqDCoCBmcmVlIChuZXdfbmFtZSk7DQo+ID4gPiArZGlmZiAtLWdpdCBhL2JpbnV0aWxzL2Fyc3Vw
+LmMgYi9iaW51dGlscy9hcnN1cC5jDQo+ID4gPiAraW5kZXggNTQwM2EwYzVkNzQuLmY3Y2U4ZjBi
+YzgyIDEwMDY0NA0KPiA+ID4gKy0tLSBhL2JpbnV0aWxzL2Fyc3VwLmMNCj4gPiA+ICsrKysgYi9i
+aW51dGlscy9hcnN1cC5jDQo+ID4gPiArQEAgLTQyLDYgKzQyLDggQEAgZXh0ZXJuIGludCBkZXRl
+cm1pbmlzdGljOw0KPiA+ID4gKw0KPiA+ID4gKyBzdGF0aWMgYmZkICpvYmZkOw0KPiA+ID4gKyBz
+dGF0aWMgY2hhciAqcmVhbF9uYW1lOw0KPiA+ID4gKytzdGF0aWMgY2hhciAqdGVtcF9uYW1lOw0K
+PiA+ID4gKytzdGF0aWMgaW50IHJlYWxfb2ZkOw0KPiA+ID4gKyBzdGF0aWMgRklMRSAqb3V0Zmls
+ZTsNCj4gPiA+ICsNCj4gPiA+ICsgc3RhdGljIHZvaWQNCj4gPiA+ICtAQCAtMTQ5LDI3ICsxNTEs
+MjQgQEAgbWF5YmVxdWl0ICh2b2lkKQ0KPiA+ID4gKyB2b2lkDQo+ID4gPiArIGFyX29wZW4gKGNo
+YXIgKm5hbWUsIGludCB0KQ0KPiA+ID4gKyB7DQo+ID4gPiArLcKgIGNoYXIgKnRuYW1lOw0KPiA+
+ID4gKy3CoCBjb25zdCBjaGFyICpibmFtZSA9IGxiYXNlbmFtZSAobmFtZSk7DQo+ID4gPiArLcKg
+IHJlYWxfbmFtZSA9IG5hbWU7DQo+ID4gPiArK8KgIHJlYWxfbmFtZSA9IHhzdHJkdXAgKG5hbWUp
+Ow0KPiA+ID4gKyvCoCB0ZW1wX25hbWUgPSBtYWtlX3RlbXBuYW1lIChyZWFsX25hbWUsICZyZWFs
+X29mZCk7DQo+ID4gPiArDQo+ID4gPiArLcKgIC8qIFByZXBlbmQgdG1wLSB0byB0aGUgYmVnaW5u
+aW5nLCB0byBhdm9pZCBmaWxlLW5hbWUgY2xhc2hlcw0KPiA+ID4gYWZ0ZXINCj4gPiA+ICstwqDC
+oMKgwqAgdHJ1bmNhdGlvbiBvbiBmaWxlc3lzdGVtcyB3aXRoIGxpbWl0ZWQgbmFtZXNwYWNlcyAo
+RE9TKS7CoA0KPiA+ID4gKi8NCj4gPiA+ICstwqAgaWYgKGFzcHJpbnRmICgmdG5hbWUsICIlLipz
+dG1wLSVzIiwgKGludCkgKGJuYW1lIC0gbmFtZSksDQo+ID4gPiBuYW1lLA0KPiA+ID4gYm5hbWUp
+ID09IC0xKQ0KPiA+ID4gKyvCoCBpZiAodGVtcF9uYW1lID09IE5VTEwpDQo+ID4gPiArwqDCoMKg
+wqAgew0KPiA+ID4gKy3CoMKgwqDCoMKgIGZwcmludGYgKHN0ZGVyciwgXygiJXM6IENhbid0IGFs
+bG9jYXRlIG1lbW9yeSBmb3IgdGVtcA0KPiA+ID4gbmFtZQ0KPiA+ID4gKCVzKVxuIiksDQo+ID4g
+PiArK8KgwqDCoMKgwqAgZnByaW50ZiAoc3RkZXJyLCBfKCIlczogQ2FuJ3Qgb3BlbiB0ZW1wb3Jh
+cnkgZmlsZQ0KPiA+ID4gKCVzKVxuIiksDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgcHJvZ3JhbV9uYW1lLCBzdHJlcnJvcihlcnJubykpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoCBt
+YXliZXF1aXQgKCk7DQo+ID4gPiArwqDCoMKgwqDCoMKgIHJldHVybjsNCj4gPiA+ICvCoMKgwqDC
+oCB9DQo+ID4gPiArDQo+ID4gPiArLcKgIG9iZmQgPSBiZmRfb3BlbncgKHRuYW1lLCBOVUxMKTsN
+Cj4gPiA+ICsrwqAgb2JmZCA9IGJmZF9mZG9wZW53ICh0ZW1wX25hbWUsIE5VTEwsIHJlYWxfb2Zk
+KTsNCj4gPiA+ICsNCj4gPiA+ICvCoMKgIGlmICghb2JmZCkNCj4gPiA+ICvCoMKgwqDCoCB7DQo+
+ID4gPiArwqDCoMKgwqDCoMKgIGZwcmludGYgKHN0ZGVyciwNCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBfKCIlczogQ2FuJ3Qgb3BlbiBvdXRwdXQgYXJjaGl2ZSAlc1xuIiksDQo+
+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcm9ncmFtX25hbWUswqAgdG5hbWUpOw0K
+PiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJvZ3JhbV9uYW1lLCB0ZW1wX25hbWUp
+Ow0KPiA+ID4gKw0KPiA+ID4gK8KgwqDCoMKgwqDCoCBtYXliZXF1aXQgKCk7DQo+ID4gPiArwqDC
+oMKgwqAgfQ0KPiA+ID4gK0BAIC0zNDQsMTYgKzM0MywzMCBAQCBhcl9zYXZlICh2b2lkKQ0KPiA+
+ID4gK8KgwqDCoMKgIH0NCj4gPiA+ICvCoMKgIGVsc2UNCj4gPiA+ICvCoMKgwqDCoCB7DQo+ID4g
+PiArLcKgwqDCoMKgwqAgY2hhciAqb2ZpbGVuYW1lID0geHN0cmR1cCAoYmZkX2dldF9maWxlbmFt
+ZSAob2JmZCkpOw0KPiA+ID4gKyvCoMKgwqDCoMKgIHN0cnVjdCBzdGF0IHRhcmdldF9zdGF0Ow0K
+PiA+ID4gKw0KPiA+ID4gK8KgwqDCoMKgwqDCoCBpZiAoZGV0ZXJtaW5pc3RpYyA+IDApDQo+ID4g
+PiArwqDCoMKgwqDCoMKgwqDCoCBvYmZkLT5mbGFncyB8PSBCRkRfREVURVJNSU5JU1RJQ19PVVRQ
+VVQ7DQo+ID4gPiArDQo+ID4gPiArwqDCoMKgwqDCoMKgIGJmZF9jbG9zZSAob2JmZCk7DQo+ID4g
+PiArDQo+ID4gPiArLcKgwqDCoMKgwqAgc21hcnRfcmVuYW1lIChvZmlsZW5hbWUsIHJlYWxfbmFt
+ZSwgMCk7DQo+ID4gPiArK8KgwqDCoMKgwqAgaWYgKHN0YXQgKHJlYWxfbmFtZSwgJnRhcmdldF9z
+dGF0KSAhPSAwKQ0KPiA+ID4gKyvCoMKgwqDCoMKgIHsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqAg
+LyogVGhlIHRlbXAgZmlsZSBjcmVhdGVkIGluIGFyX29wZW4gaGFzIG1vZGUgMDYwMCBhcw0KPiA+
+ID4gcGVyDQo+ID4gPiBta3N0ZW1wLg0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoCBDcmVh
+dGUgdGhlIHJlYWwgZW1wdHkgb3V0cHV0IGZpbGUgaGVyZSBzbw0KPiA+ID4gc21hcnRfcmVuYW1l
+DQo+ID4gPiB3aWxsDQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgIHVwZGF0ZSB0aGUgbW9k
+ZSBhY2NvcmRpbmcgdG8gdGhlIHByb2Nlc3MgdW1hc2suwqAgKi8NCj4gPiA+ICsrwqDCoMKgwqDC
+oMKgwqAgb2JmZCA9IGJmZF9vcGVudyAocmVhbF9uYW1lLCBOVUxMKTsNCj4gPiA+ICsrwqDCoMKg
+wqDCoMKgwqAgaWYgKG9iZmQgIT0gTlVMTCkNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgIHsN
+Cj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiZmRfc2V0X2Zvcm1hdCAob2JmZCwgYmZk
+X2FyY2hpdmUpOw0KPiA+ID4gKyvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJmZF9jbG9zZSAob2Jm
+ZCk7DQo+ID4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoCB9DQo+ID4gPiArK8KgwqDCoMKgwqAgfQ0K
+PiA+ID4gKysNCj4gPiA+ICsrwqDCoMKgwqDCoCBzbWFydF9yZW5hbWUgKHRlbXBfbmFtZSwgcmVh
+bF9uYW1lLCBOVUxMKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqAgb2JmZCA9IDA7DQo+ID4gPiArLcKg
+wqDCoMKgwqAgZnJlZSAob2ZpbGVuYW1lKTsNCj4gPiA+ICsrwqDCoMKgwqDCoCBmcmVlICh0ZW1w
+X25hbWUpOw0KPiA+ID4gKyvCoMKgwqDCoMKgIGZyZWUgKHJlYWxfbmFtZSk7DQo+ID4gPiArwqDC
+oMKgwqAgfQ0KPiA+ID4gKyB9DQo+ID4gPiArDQo+ID4gPiArZGlmZiAtLWdpdCBhL2JpbnV0aWxz
+L2J1Y29tbS5oIGIvYmludXRpbHMvYnVjb21tLmgNCj4gPiA+ICtpbmRleCA5MWY2YTViMjI4Zi4u
+YWE3ZTMzZDhjZDEgMTAwNjQ0DQo+ID4gPiArLS0tIGEvYmludXRpbHMvYnVjb21tLmgNCj4gPiA+
+ICsrKysgYi9iaW51dGlscy9idWNvbW0uaA0KPiA+ID4gK0BAIC03MSw3ICs3MSw4IEBAIGV4dGVy
+biB2b2lkIHByaW50X3ZlcnNpb24gKGNvbnN0IGNoYXIgKik7DQo+ID4gPiArIC8qIEluIHJlbmFt
+ZS5jLsKgICovDQo+ID4gPiArIGV4dGVybiB2b2lkIHNldF90aW1lcyAoY29uc3QgY2hhciAqLCBj
+b25zdCBzdHJ1Y3Qgc3RhdCAqKTsNCj4gPiA+ICsNCj4gPiA+ICstZXh0ZXJuIGludCBzbWFydF9y
+ZW5hbWUgKGNvbnN0IGNoYXIgKiwgY29uc3QgY2hhciAqLCBpbnQpOw0KPiA+ID4gKytleHRlcm4g
+aW50IHNtYXJ0X3JlbmFtZSAoY29uc3QgY2hhciAqLCBjb25zdCBjaGFyICosIHN0cnVjdA0KPiA+
+ID4gc3RhdCAqKTsNCj4gPiA+ICsrDQo+ID4gPiArDQo+ID4gPiArIC8qIEluIGxpYmliZXJ0eS7C
+oCAqLw0KPiA+ID4gKyB2b2lkICp4bWFsbG9jIChzaXplX3QpOw0KPiA+ID4gK2RpZmYgLS1naXQg
+YS9iaW51dGlscy9vYmpjb3B5LmMgYi9iaW51dGlscy9vYmpjb3B5LmMNCj4gPiA+ICtpbmRleCBl
+YWIzYjZkYjU4NS4uNzNhYThiYzI1MTQgMTAwNjQ0DQo+ID4gPiArLS0tIGEvYmludXRpbHMvb2Jq
+Y29weS5jDQo+ID4gPiArKysrIGIvYmludXRpbHMvb2JqY29weS5jDQo+ID4gPiArQEAgLTIwLDcg
+KzIwLDYgQEANCj4gPiA+ICsNCj4gPiA+ICsgI2luY2x1ZGUgInN5c2RlcC5oIg0KPiA+ID4gKyAj
+aW5jbHVkZSAiYmZkLmgiDQo+ID4gPiArLSNpbmNsdWRlICJsaWJiZmQuaCINCj4gPiA+ICsgI2lu
+Y2x1ZGUgInByb2dyZXNzLmgiDQo+ID4gPiArICNpbmNsdWRlICJnZXRvcHQuaCINCj4gPiA+ICsg
+I2luY2x1ZGUgImxpYmliZXJ0eS5oIg0KPiA+ID4gK0BAIC00ODYxLDEyICs0ODYwLDEwIEBAIHN0
+cmlwX21haW4gKGludCBhcmdjLCBjaGFyICphcmd2W10pDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIG91dHB1dF90YXJnZXQsIE5VTEwpOw0KPiA+ID4gK8KgwqDCoMKgwqDC
+oCBpZiAoc3RhdHVzID09IDApDQo+ID4gPiArwqDCoMKgwqDCoMKgIHsNCj4gPiA+ICstwqDCoMKg
+wqDCoMKgwqAgaWYgKHByZXNlcnZlX2RhdGVzKQ0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqAg
+c2V0X3RpbWVzICh0bXBuYW1lLCAmc3RhdGJ1Zik7DQo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoCBp
+ZiAob3V0cHV0X2ZpbGUgIT0gdG1wbmFtZSkNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBz
+dGF0dXMgPSAoc21hcnRfcmVuYW1lICh0bXBuYW1lLA0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG91dHB1
+dF9maWxlID8gb3V0cHV0X2ZpbGUgOg0KPiA+ID4gYXJndltpXSwNCj4gPiA+ICstwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHByZXNlcnZlX2RhdGVzKSAhPSAwKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByZXNlcnZlX2RhdGVz
+ID8gJnN0YXRidWYgOg0KPiA+ID4gTlVMTCkNCj4gPiA+ICE9IDApOw0KPiA+ID4gK8KgwqDCoMKg
+wqDCoMKgwqAgaWYgKHN0YXR1cyA9PSAwKQ0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
+YXR1cyA9IGhvbGRfc3RhdHVzOw0KPiA+ID4gK8KgwqDCoMKgwqDCoCB9DQo+ID4gPiArQEAgLTU5
+MzEsMTEgKzU5MjgsOSBAQCBjb3B5X21haW4gKGludCBhcmdjLCBjaGFyICphcmd2W10pDQo+ID4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvdXRwdXRfdGFyZ2V0LCBpbnB1dF9hcmNoKTsNCj4g
+PiA+ICvCoMKgIGlmIChzdGF0dXMgPT0gMCkNCj4gPiA+ICvCoMKgwqDCoCB7DQo+ID4gPiArLcKg
+wqDCoMKgwqAgaWYgKHByZXNlcnZlX2RhdGVzKQ0KPiA+ID4gKy3CoMKgwqDCoMKgIHNldF90aW1l
+cyAodG1wbmFtZSwgJnN0YXRidWYpOw0KPiA+ID4gK8KgwqDCoMKgwqDCoCBpZiAodG1wbmFtZSAh
+PSBvdXRwdXRfZmlsZW5hbWUpDQo+ID4gPiArwqDCoMKgwqDCoMKgIHN0YXR1cyA9IChzbWFydF9y
+ZW5hbWUgKHRtcG5hbWUsIGlucHV0X2ZpbGVuYW1lLA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByZXNlcnZlX2RhdGVz
+KSAhPSAwKTsNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBwcmVzZXJ2ZV9kYXRlcyA/ICZzdGF0YnVmIDogTlVMTCkNCj4g
+PiA+ICE9DQo+ID4gPiAwKTsNCj4gPiA+ICvCoMKgwqDCoCB9DQo+ID4gPiArwqDCoCBlbHNlDQo+
+ID4gPiArwqDCoMKgwqAgdW5saW5rX2lmX29yZGluYXJ5ICh0bXBuYW1lKTsNCj4gPiA+ICtkaWZm
+IC0tZ2l0IGEvYmludXRpbHMvcmVuYW1lLmMgYi9iaW51dGlscy9yZW5hbWUuYw0KPiA+ID4gK2lu
+ZGV4IDY1YWQ1YmY1MmM0Li43MmE5MzIzZDcyYyAxMDA2NDQNCj4gPiA+ICstLS0gYS9iaW51dGls
+cy9yZW5hbWUuYw0KPiA+ID4gKysrKyBiL2JpbnV0aWxzL3JlbmFtZS5jDQo+ID4gPiArQEAgLTI0
+LDE0ICsyNCw5IEBADQo+ID4gPiArDQo+ID4gPiArICNpZmRlZiBIQVZFX0dPT0RfVVRJTUVfSA0K
+PiA+ID4gKyAjaW5jbHVkZSA8dXRpbWUuaD4NCj4gPiA+ICstI2Vsc2UgLyogISBIQVZFX0dPT0Rf
+VVRJTUVfSCAqLw0KPiA+ID4gKy0jaWZkZWYgSEFWRV9VVElNRVMNCj4gPiA+ICsrI2VsaWYgZGVm
+aW5lZCBIQVZFX1VUSU1FUw0KPiA+ID4gKyAjaW5jbHVkZSA8c3lzL3RpbWUuaD4NCj4gPiA+ICst
+I2VuZGlmIC8qIEhBVkVfVVRJTUVTICovDQo+ID4gPiArLSNlbmRpZiAvKiAhIEhBVkVfR09PRF9V
+VElNRV9IICovDQo+ID4gPiArLQ0KPiA+ID4gKy0jaWYgISBkZWZpbmVkIChfV0lOMzIpIHx8IGRl
+ZmluZWQgKF9fQ1lHV0lOMzJfXykNCj4gPiA+ICstc3RhdGljIGludCBzaW1wbGVfY29weSAoY29u
+c3QgY2hhciAqLCBjb25zdCBjaGFyICopOw0KPiA+ID4gKysjZW5kaWYNCj4gPiA+ICsNCj4gPiA+
+ICsgLyogVGhlIG51bWJlciBvZiBieXRlcyB0byBjb3B5IGF0IG9uY2UuwqAgKi8NCj4gPiA+ICsg
+I2RlZmluZSBDT1BZX0JVRiA4MTkyDQo+ID4gPiArQEAgLTgyLDcgKzc3LDYgQEAgc2ltcGxlX2Nv
+cHkgKGNvbnN0IGNoYXIgKmZyb20sIGNvbnN0IGNoYXIgKnRvKQ0KPiA+ID4gK8KgwqDCoMKgIH0N
+Cj4gPiA+ICvCoMKgIHJldHVybiAwOw0KPiA+ID4gKyB9DQo+ID4gPiArLSNlbmRpZiAvKiBfX0NZ
+R1dJTjMyX18gb3Igbm90IF9XSU4zMiAqLw0KPiA+ID4gKw0KPiA+ID4gKyAvKiBTZXQgdGhlIHRp
+bWVzIG9mIHRoZSBmaWxlIERFU1RJTkFUSU9OIHRvIGJlIHRoZSBzYW1lIGFzDQo+ID4gPiB0aG9z
+ZSBpbg0KPiA+ID4gK8KgwqDCoCBTVEFUQlVGLsKgICovDQo+ID4gPiArQEAgLTkxLDEyMiArODUs
+NTIgQEAgdm9pZA0KPiA+ID4gKyBzZXRfdGltZXMgKGNvbnN0IGNoYXIgKmRlc3RpbmF0aW9uLCBj
+b25zdCBzdHJ1Y3Qgc3RhdCAqc3RhdGJ1ZikNCj4gPiA+ICsgew0KPiA+ID4gK8KgwqAgaW50IHJl
+c3VsdDsNCj4gPiA+ICstDQo+ID4gPiArLcKgIHsNCj4gPiA+ICsgI2lmZGVmIEhBVkVfR09PRF9V
+VElNRV9IDQo+ID4gPiArLcKgwqDCoCBzdHJ1Y3QgdXRpbWJ1ZiB0YjsNCj4gPiA+ICstDQo+ID4g
+PiArLcKgwqDCoCB0Yi5hY3RpbWUgPSBzdGF0YnVmLT5zdF9hdGltZTsNCj4gPiA+ICstwqDCoMKg
+IHRiLm1vZHRpbWUgPSBzdGF0YnVmLT5zdF9tdGltZTsNCj4gPiA+ICstwqDCoMKgIHJlc3VsdCA9
+IHV0aW1lIChkZXN0aW5hdGlvbiwgJnRiKTsNCj4gPiA+ICstI2Vsc2UgLyogISBIQVZFX0dPT0Rf
+VVRJTUVfSCAqLw0KPiA+ID4gKy0jaWZuZGVmIEhBVkVfVVRJTUVTDQo+ID4gPiArLcKgwqDCoCBs
+b25nIHRiWzJdOw0KPiA+ID4gKy0NCj4gPiA+ICstwqDCoMKgIHRiWzBdID0gc3RhdGJ1Zi0+c3Rf
+YXRpbWU7DQo+ID4gPiArLcKgwqDCoCB0YlsxXSA9IHN0YXRidWYtPnN0X210aW1lOw0KPiA+ID4g
+Ky3CoMKgwqAgcmVzdWx0ID0gdXRpbWUgKGRlc3RpbmF0aW9uLCB0Yik7DQo+ID4gPiArLSNlbHNl
+IC8qIEhBVkVfVVRJTUVTICovDQo+ID4gPiArLcKgwqDCoCBzdHJ1Y3QgdGltZXZhbCB0dlsyXTsN
+Cj4gPiA+ICstDQo+ID4gPiArLcKgwqDCoCB0dlswXS50dl9zZWMgPSBzdGF0YnVmLT5zdF9hdGlt
+ZTsNCj4gPiA+ICstwqDCoMKgIHR2WzBdLnR2X3VzZWMgPSAwOw0KPiA+ID4gKy3CoMKgwqAgdHZb
+MV0udHZfc2VjID0gc3RhdGJ1Zi0+c3RfbXRpbWU7DQo+ID4gPiArLcKgwqDCoCB0dlsxXS50dl91
+c2VjID0gMDsNCj4gPiA+ICstwqDCoMKgIHJlc3VsdCA9IHV0aW1lcyAoZGVzdGluYXRpb24sIHR2
+KTsNCj4gPiA+ICstI2VuZGlmIC8qIEhBVkVfVVRJTUVTICovDQo+ID4gPiArLSNlbmRpZiAvKiAh
+IEhBVkVfR09PRF9VVElNRV9IICovDQo+ID4gPiArLcKgIH0NCj4gPiA+ICsrwqAgc3RydWN0IHV0
+aW1idWYgdGI7DQo+ID4gPiArKw0KPiA+ID4gKyvCoCB0Yi5hY3RpbWUgPSBzdGF0YnVmLT5zdF9h
+dGltZTsNCj4gPiA+ICsrwqAgdGIubW9kdGltZSA9IHN0YXRidWYtPnN0X210aW1lOw0KPiA+ID4g
+KyvCoCByZXN1bHQgPSB1dGltZSAoZGVzdGluYXRpb24sICZ0Yik7DQo+ID4gPiArKyNlbGlmIGRl
+ZmluZWQgSEFWRV9VVElNRVMNCj4gPiA+ICsrwqAgc3RydWN0IHRpbWV2YWwgdHZbMl07DQo+ID4g
+PiArKw0KPiA+ID4gKyvCoCB0dlswXS50dl9zZWMgPSBzdGF0YnVmLT5zdF9hdGltZTsNCj4gPiA+
+ICsrwqAgdHZbMF0udHZfdXNlYyA9IDA7DQo+ID4gPiArK8KgIHR2WzFdLnR2X3NlYyA9IHN0YXRi
+dWYtPnN0X210aW1lOw0KPiA+ID4gKyvCoCB0dlsxXS50dl91c2VjID0gMDsNCj4gPiA+ICsrwqAg
+cmVzdWx0ID0gdXRpbWVzIChkZXN0aW5hdGlvbiwgdHYpOw0KPiA+ID4gKysjZWxzZQ0KPiA+ID4g
+KyvCoCBsb25nIHRiWzJdOw0KPiA+ID4gKysNCj4gPiA+ICsrwqAgdGJbMF0gPSBzdGF0YnVmLT5z
+dF9hdGltZTsNCj4gPiA+ICsrwqAgdGJbMV0gPSBzdGF0YnVmLT5zdF9tdGltZTsNCj4gPiA+ICsr
+wqAgcmVzdWx0ID0gdXRpbWUgKGRlc3RpbmF0aW9uLCB0Yik7DQo+ID4gPiArKyNlbmRpZg0KPiA+
+ID4gKw0KPiA+ID4gK8KgwqAgaWYgKHJlc3VsdCAhPSAwKQ0KPiA+ID4gK8KgwqDCoMKgIG5vbl9m
+YXRhbCAoXygiJXM6IGNhbm5vdCBzZXQgdGltZTogJXMiKSwgZGVzdGluYXRpb24sDQo+ID4gPiBz
+dHJlcnJvcg0KPiA+ID4gKGVycm5vKSk7DQo+ID4gPiArIH0NCj4gPiA+ICsNCj4gPiA+ICstI2lm
+bmRlZiBTX0lTTE5LDQo+ID4gPiArLSNpZmRlZiBTX0lGTE5LDQo+ID4gPiArLSNkZWZpbmUgU19J
+U0xOSyhtKSAoKChtKSAmIFNfSUZNVCkgPT0gU19JRkxOSykNCj4gPiA+ICstI2Vsc2UNCj4gPiA+
+ICstI2RlZmluZSBTX0lTTE5LKG0pIDANCj4gPiA+ICstI2RlZmluZSBsc3RhdCBzdGF0DQo+ID4g
+PiArLSNlbmRpZg0KPiA+ID4gKy0jZW5kaWYNCj4gPiA+ICstDQo+ID4gPiArLS8qIFJlbmFtZSBG
+Uk9NIHRvIFRPLCBjb3B5aW5nIGlmIFRPIGlzIGEgbGluay4NCj4gPiA+ICstwqDCoCBSZXR1cm4g
+MCBpZiBvaywgLTEgaWYgZXJyb3IuwqAgKi8NCj4gPiA+ICsrLyogQ29weSBGUk9NIHRvIFRPLsKg
+IFRBUkdFVF9TVEFUIGhhcyB0aGUgZmlsZSBzdGF0dXMgdGhhdCwgaWYNCj4gPiA+IG5vbi0NCj4g
+PiA+IE5VTEwsDQo+ID4gPiArK8KgwqAgaXMgdXNlZCB0byBmaXggdXAgdGltZXN0YW1wcy7CoCBS
+ZXR1cm4gMCBpZiBvaywgLTEgaWYgZXJyb3IuDQo+ID4gPiArK8KgwqAgQXQgb25lIHRpbWUgdGhp
+cyBmdW5jdGlvbiByZW5hbWVkIGZpbGVzLCBidXQgZmlsZQ0KPiA+ID4gcGVybWlzc2lvbnMgYXJl
+DQo+ID4gPiArK8KgwqAgdHJpY2t5IHRvIHVwZGF0ZSBnaXZlbiB0aGUgbnVtYmVyIG9mIGRpZmZl
+cmVudCBzY2hlbWVzIHVzZWQNCj4gPiA+IGJ5DQo+ID4gPiArK8KgwqAgdmFyaW91cyBzeXN0ZW1z
+LsKgIFNvIG5vdyB3ZSBqdXN0IGNvcHkuwqAgKi8NCj4gPiA+ICsNCj4gPiA+ICsgaW50DQo+ID4g
+PiArLXNtYXJ0X3JlbmFtZSAoY29uc3QgY2hhciAqZnJvbSwgY29uc3QgY2hhciAqdG8sIGludA0K
+PiA+ID4gcHJlc2VydmVfZGF0ZXMNCj4gPiA+IEFUVFJJQlVURV9VTlVTRUQpDQo+ID4gPiArK3Nt
+YXJ0X3JlbmFtZSAoY29uc3QgY2hhciAqZnJvbSwgY29uc3QgY2hhciAqdG8sDQo+ID4gPiArK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IHN0YXQgKnRhcmdldF9zdGF0KQ0KPiA+ID4gKyB7
+DQo+ID4gPiArLcKgIGJmZF9ib29sZWFuIGV4aXN0czsNCj4gPiA+ICstwqAgc3RydWN0IHN0YXQg
+czsNCj4gPiA+ICstwqAgaW50IHJldCA9IDA7DQo+ID4gPiArLQ0KPiA+ID4gKy3CoCBleGlzdHMg
+PSBsc3RhdCAodG8sICZzKSA9PSAwOw0KPiA+ID4gKy0NCj4gPiA+ICstI2lmIGRlZmluZWQgKF9X
+SU4zMikgJiYgIWRlZmluZWQgKF9fQ1lHV0lOMzJfXykNCj4gPiA+ICstwqAgLyogV2luMzIsIHVu
+bGlrZSB1bml4LCB3aWxsIG5vdCBlcmFzZSBgdG8nIGluIGByZW5hbWUoZnJvbSwNCj4gPiA+IHRv
+KScNCj4gPiA+IGJ1dA0KPiA+ID4gKy3CoMKgwqDCoCBmYWlsIGluc3RlYWQuwqAgQWxzbywgY2hv
+d24gaXMgbm90IHByZXNlbnQuwqAgKi8NCj4gPiA+ICsrwqAgaW50IHJldDsNCj4gPiA+ICsNCj4g
+PiA+ICstwqAgaWYgKGV4aXN0cykNCj4gPiA+ICstwqDCoMKgIHJlbW92ZSAodG8pOw0KPiA+ID4g
+Ky0NCj4gPiA+ICstwqAgcmV0ID0gcmVuYW1lIChmcm9tLCB0byk7DQo+ID4gPiArK8KgIHJldCA9
+IHNpbXBsZV9jb3B5IChmcm9tLCB0byk7DQo+ID4gPiArwqDCoCBpZiAocmV0ICE9IDApDQo+ID4g
+PiArLcKgwqDCoCB7DQo+ID4gPiArLcKgwqDCoMKgwqAgLyogV2UgaGF2ZSB0byBjbGVhbiB1cCBo
+ZXJlLsKgICovDQo+ID4gPiArLcKgwqDCoMKgwqAgbm9uX2ZhdGFsIChfKCJ1bmFibGUgdG8gcmVu
+YW1lICclcyc7IHJlYXNvbjogJXMiKSwgdG8sDQo+ID4gPiBzdHJlcnJvcg0KPiA+ID4gKGVycm5v
+KSk7DQo+ID4gPiArLcKgwqDCoMKgwqAgdW5saW5rIChmcm9tKTsNCj4gPiA+ICstwqDCoMKgIH0N
+Cj4gPiA+ICstI2Vsc2UNCj4gPiA+ICstwqAgLyogVXNlIHJlbmFtZSBvbmx5IGlmIFRPIGlzIG5v
+dCBhIHN5bWJvbGljIGxpbmsgYW5kIGhhcw0KPiA+ID4gKy3CoMKgwqDCoCBvbmx5IG9uZSBoYXJk
+IGxpbmssIGFuZCB3ZSBoYXZlIHBlcm1pc3Npb24gdG8gd3JpdGUgdG8NCj4gPiA+IGl0LsKgICov
+DQo+ID4gPiArLcKgIGlmICghIGV4aXN0cw0KPiA+ID4gKy3CoMKgwqDCoMKgIHx8ICghU19JU0xO
+SyAocy5zdF9tb2RlKQ0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoCAmJiBTX0lTUkVHIChzLnN0X21v
+ZGUpDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgICYmIChzLnN0X21vZGUgJiBTX0lXVVNSKQ0KPiA+
+ID4gKy3CoMKgwqDCoMKgwqDCoCAmJiBzLnN0X25saW5rID09IDEpDQo+ID4gPiArLcKgwqDCoMKg
+wqAgKQ0KPiA+ID4gKy3CoMKgwqAgew0KPiA+ID4gKy3CoMKgwqDCoMKgIHJldCA9IHJlbmFtZSAo
+ZnJvbSwgdG8pOw0KPiA+ID4gKy3CoMKgwqDCoMKgIGlmIChyZXQgPT0gMCkNCj4gPiA+ICstwqDC
+oMKgwqDCoCB7DQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgIGlmIChleGlzdHMpDQo+ID4gPiArLcKg
+wqDCoMKgwqDCoMKgwqDCoCB7DQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogVHJ5
+IHRvIHByZXNlcnZlIHRoZSBwZXJtaXNzaW9uIGJpdHMgYW5kDQo+ID4gPiBvd25lcnNoaXAgb2YN
+Cj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBUTy7CoCBGaXJzdCBnZXQgdGhl
+IG1vZGUgcmlnaHQgZXhjZXB0IGZvciB0aGUNCj4gPiA+IHNldHVpZA0KPiA+ID4gKy3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJpdC7CoCBUaGVuIGNoYW5nZSB0aGUgb3duZXJzaGlwLsKg
+IFRoZW4gZml4IHRoZQ0KPiA+ID4gc2V0dWlkDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgYml0LsKgIFdlIGRvIHRoZSBjaG1vZCBiZWZvcmUgdGhlIGNob3duIGJlY2F1c2UN
+Cj4gPiA+IGlmIHRoZQ0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNob3du
+IHN1Y2NlZWRzLCBhbmQgd2UgYXJlIGEgbm9ybWFsIHVzZXIsIHdlDQo+ID4gPiB3b24ndCBiZQ0K
+PiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFibGUgdG8gZG8gdGhlIGNobW9k
+IGFmdGVyd2FyZC7CoCBXZSBkb24ndCBib3RoZXINCj4gPiA+IHRvDQo+ID4gPiArLcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgZml4IHRoZSBzZXR1aWQgYml0IGZpcnN0IGJlY2F1c2UgdGhh
+dCBtaWdodA0KPiA+ID4gaW50cm9kdWNlDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgYSBmbGVldGluZyBzZWN1cml0eSBwcm9ibGVtLCBhbmQgYmVjYXVzZSB0aGUNCj4gPiA+
+IGNob3duDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgd2lsbCBjbGVhciB0
+aGUgc2V0dWlkIGJpdCBhbnlob3cuwqAgV2Ugb25seSBmaXgNCj4gPiA+IHRoZQ0KPiA+ID4gKy3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNldHVpZCBiaXQgaWYgdGhlIGNob3duIHN1Y2Nl
+ZWRzLCBiZWNhdXNlIHdlDQo+ID4gPiBkb24ndA0KPiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHdhbnQgdG8gaW50cm9kdWNlIGFuIHVuZXhwZWN0ZWQgc2V0dWlkIGZpbGUNCj4g
+PiA+IG93bmVkIGJ5DQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdGhlIHVz
+ZXIgcnVubmluZyBvYmpjb3B5LsKgICovDQo+ID4gPiArLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Y2htb2QgKHRvLCBzLnN0X21vZGUgJiAwNzc3KTsNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBpZiAoY2hvd24gKHRvLCBzLnN0X3VpZCwgcy5zdF9naWQpID49IDApDQo+ID4gPiArLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNobW9kICh0bywgcy5zdF9tb2RlICYgMDc3NzcpOw0K
+PiA+ID4gKy3CoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPiA+ID4gKy3CoMKgwqDCoMKgIH0NCj4gPiA+
+ICstwqDCoMKgwqDCoCBlbHNlDQo+ID4gPiArLcKgwqDCoMKgwqAgew0KPiA+ID4gKy3CoMKgwqDC
+oMKgwqDCoCAvKiBXZSBoYXZlIHRvIGNsZWFuIHVwIGhlcmUuwqAgKi8NCj4gPiA+ICstwqDCoMKg
+wqDCoMKgwqAgbm9uX2ZhdGFsIChfKCJ1bmFibGUgdG8gcmVuYW1lICclcyc7IHJlYXNvbjogJXMi
+KSwgdG8sDQo+ID4gPiBzdHJlcnJvciAoZXJybm8pKTsNCj4gPiA+ICstwqDCoMKgwqDCoMKgwqAg
+dW5saW5rIChmcm9tKTsNCj4gPiA+ICstwqDCoMKgwqDCoCB9DQo+ID4gPiArLcKgwqDCoCB9DQo+
+ID4gPiArLcKgIGVsc2UNCj4gPiA+ICstwqDCoMKgIHsNCj4gPiA+ICstwqDCoMKgwqDCoCByZXQg
+PSBzaW1wbGVfY29weSAoZnJvbSwgdG8pOw0KPiA+ID4gKy3CoMKgwqDCoMKgIGlmIChyZXQgIT0g
+MCkNCj4gPiA+ICstwqDCoMKgwqDCoCBub25fZmF0YWwgKF8oInVuYWJsZSB0byBjb3B5IGZpbGUg
+JyVzJzsgcmVhc29uOiAlcyIpLCB0bywNCj4gPiA+IHN0cmVycm9yIChlcnJubykpOw0KPiA+ID4g
+KyvCoMKgwqAgbm9uX2ZhdGFsIChfKCJ1bmFibGUgdG8gY29weSBmaWxlICclcyc7IHJlYXNvbjog
+JXMiKSwNCj4gPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRvLCBzdHJlcnJvciAoZXJy
+bm8pKTsNCj4gPiA+ICsNCj4gPiA+ICstwqDCoMKgwqDCoCBpZiAocHJlc2VydmVfZGF0ZXMpDQo+
+ID4gPiArLcKgwqDCoMKgwqAgc2V0X3RpbWVzICh0bywgJnMpOw0KPiA+ID4gKy3CoMKgwqDCoMKg
+IHVubGluayAoZnJvbSk7DQo+ID4gPiArLcKgwqDCoCB9DQo+ID4gPiArLSNlbmRpZiAvKiBfV0lO
+MzIgJiYgIV9fQ1lHV0lOMzJfXyAqLw0KPiA+ID4gKyvCoCBpZiAodGFyZ2V0X3N0YXQgIT0gTlVM
+TCkNCj4gPiA+ICsrwqDCoMKgIHNldF90aW1lcyAodG8sIHRhcmdldF9zdGF0KTsNCj4gPiA+ICsr
+wqAgdW5saW5rIChmcm9tKTsNCj4gPiA+ICsNCj4gPiA+ICvCoMKgIHJldHVybiByZXQ7DQo+ID4g
+PiArIH0NCj4gPiA+ICstLQ0KPiA+ID4gKzIuMTcuMQ0KPiA+ID4gKw0KPiA+ID4gDQo+ID4gPiAN
+Cj4gPiA+IA0KPiA+IA0KDQo=
