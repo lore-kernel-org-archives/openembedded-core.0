@@ -1,181 +1,530 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web08.14957.1620413287900621496
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web12.15700.1620417677025221720
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 11:48:08 -0700
+ Fri, 07 May 2021 13:01:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=l9mpibhg;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a4so15092100ejk.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 07 May 2021 11:48:07 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=sPM61l+W;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.193, mailfrom: vinicius.aquino@ossystems.com.br)
+Received: by mail-qt1-f193.google.com with SMTP id o1so7524418qta.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 07 May 2021 13:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=a/eOgE1YMLCXftWLDU3Jw4SFFVYS5NyUrAAxSU4RZzM=;
-        b=l9mpibhgpsq7OKTORyTVFqU7vaTHZDluWsWnlRoTUcQSq1pF2axT5WCQaAry2CBVn+
-         RTh61VesWiYXjTgbnFqupyq/hU5Tv1t3a8+HsqcYRtc/HkEeSH+oNLQ/tFxC1rKX/aQk
-         /B91BYgX0s7NwqLPkumEuBbtowq53oy/V4I5D2caj3hOWmcen3VR/w1jtVyO3yvSB8c2
-         y8j25o+loipMo9PNg5ciXVNhrk6d0aWiF+6yscsZgT8wyq5BNti85BF00OogzTlJ+ohr
-         rWKfo34EpKSCiLlMFuo5SxydiIPDuQTHQ+Uk74ZHS2LFiwX2WA4QRO3K6N0ZN9aNLUi0
-         4zRA==
+        bh=vl0gkmH+jWZ80YxfpBFSPSa/37DWr451s3CyuOBhcVg=;
+        b=sPM61l+WExTEuhC7ihh2jNQjiqr4mC+RNc/+jzlIa68dB3NJZj4fGP0x94PDLksCeU
+         mMCGHarPEr+w5f7EnNSD83dDjgYPTqfcVYkGSvHCCMpXHxXSTCvTnitbNnRPw4JuJoj/
+         H/Exnan05siurWsc/6xnIU8h7HEpKR5aY2qsAo8sZid2BpdnVWLJz2eqnv4SDgZR0ZKN
+         UBMb4bqZcPSKVowUfCDq5iPW9ttI2m31XLtcmzqjuSJ3DGMkvhdOi+Vj4MTh2tKdgUk6
+         NGwZzhhJPyn5/OQsOoOTmsHkEGacloCEjYrWd4jaOG5aPpgoMyD9uf9mj0QY73SZHe2E
+         AFoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=a/eOgE1YMLCXftWLDU3Jw4SFFVYS5NyUrAAxSU4RZzM=;
-        b=UGSZw1UJ6JiJbPOBAr8Z1DEaPaMRzzgd75qmiPSif2z9yQwHKMpyRqHgpP30OZZ4de
-         qle2ITSBz091uZgX+2drtqWolA3IzdAPf3Fv6FX90KGWZ0OjQ1fqtaJDL8urNJKGi2XK
-         074j09vZgWGBlyOiyy7T7S9Al1twB613igZMBcn+6RnXa5FTY0j6q0X0WotsWcY94/VG
-         a4iTN2K4px8p56VL2u469EC3KBr33FiO7itkgHd7dA+6zDqWid69GNq6qHzdv9C3jCM9
-         IWGM9TAUxlXBnzY4w77v0t8oA+km1aHvOLuiX4ffaJdNNjsZ9CSKqnPvleMlG9mcDxk+
-         cu5A==
-X-Gm-Message-State: AOAM5339PspZ80sS9lhwsbeH1k3P5fsjyi1a8TMSfmUVMJ6fooQUqdXp
-	3FDv+inU/2NIS1Kg4md5nFAlEEG8Jso=
-X-Google-Smtp-Source: ABdhPJwxhrffi0dGdSlrqnJYswlXdI8tlRrzqIIwdkdSrNDVBQ/upKQvzxTmyxD+A3/9khC6VOoohA==
-X-Received: by 2002:a17:906:a0a:: with SMTP id w10mr11423328ejf.416.1620413286291;
-        Fri, 07 May 2021 11:48:06 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id u8sm4556790edo.71.2021.05.07.11.48.05
+        bh=vl0gkmH+jWZ80YxfpBFSPSa/37DWr451s3CyuOBhcVg=;
+        b=rLoDg34llcjlZylAD8kBEinmm0sp3IcXSZa+XQCYUbs7LyPx5nH9KNFWh3MNUAplSk
+         M9ftgmqjCvkQ0g4GKJpjghW1OXZMCcHec8Nz7PVDbPa/tzILJeTRz4/Rbl4x3tePPzoC
+         QZmX0YXvweqty+KbiC/XlpKdxR4K+5IkLn5Lrc3kMNpFRtO0s2rPbzQmgrfBGcvX0nNP
+         Xr/V8Cc/Vl2OkPcxBkbxKARLun6ACB/NbVnupaJ8qMqtH2N4nWyLL8UflDs+PQel7DX2
+         OezO7QYWaGnvgEVzz+2el7I3ToP1285Cabl1urCJ12tgIH1tcSrq8KEltLAj4gZFiVui
+         /uTQ==
+X-Gm-Message-State: AOAM5314RFuWqs7BoBeQ9i91Omde86zBBQ6vLwUp0lY03pMzbaoo6knl
+	2z0lZQxYJ15o+qBUyC/8TrWDw87yOAo7XYdk
+X-Google-Smtp-Source: ABdhPJyeJ6k/AvvV+y3zp78uBFVVKEbQA4HXVUy4ikgjvZuIxeDKnumCNROTjE7bGS3DQpQw3c1jew==
+X-Received: by 2002:ac8:1098:: with SMTP id a24mr10601792qtj.291.1620417675433;
+        Fri, 07 May 2021 13:01:15 -0700 (PDT)
+Return-Path: <vinicius.aquino@ossystems.com.br>
+Received: from monster.lab.ossystems (200-180-244-11.user3p.brasiltelecom.net.br. [200.180.244.11])
+        by smtp.gmail.com with ESMTPSA id f12sm4046914qkm.123.2021.05.07.13.01.13
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 11:48:05 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Fri, 07 May 2021 13:01:14 -0700 (PDT)
+From: =?UTF-8?B?Vmluw61jaXVzIE9zc2FuZXMgQXF1aW5v?= <vinicius.aquino@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] ptest: add a test for orphaned ptests, and restore ones found by it
-Date: Fri,  7 May 2021 20:48:01 +0200
-Message-Id: <20210507184801.733222-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [OE-core][PATCH] lttng-modules: backport patches to fix build against 5.12+ kernel
+Date: Fri,  7 May 2021 17:00:58 -0300
+Message-Id: <20210507200058.3598278-1-vinicius.aquino@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Particularly, numactl, numpy and libseccomp are disabled for now
-due to failures or lack of qemu support. The rest have been verified
-to pass quickly.
+Add the following patches from stable-2.12 branch of lttng repository
+to fix errors when building lttng-modules against 5.12+ kernel
+since they are not present on the release 2.12.5:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+- 17cd2dc9 fix: block: add a disk_uevent helper (v5.12)
+- 127135b6 fix backport: block: add a disk_uevent helper (v5.12)
+- 853d5903 fix: mm, tracing: kfree event name mismatching with
+provider kmem (v5.12)
+
+Signed-off-by: Vinicius Aquino <vinicius.aquino@ossystems.com.br>
 ---
- meta/classes/ptest.bbclass                    | 11 ++++
- .../distro/include/ptest-packagelists.inc     | 50 +++++++++++++++----
- 2 files changed, 50 insertions(+), 11 deletions(-)
+ ...block-add-a-disk_uevent-helper-v5.12.patch | 305 ++++++++++++++++++
+ ...block-add-a-disk_uevent-helper-v5.12.patch |  48 +++
+ ...free-event-name-mismatching-with-pro.patch |  71 ++++
+ .../lttng/lttng-modules_2.12.5.bb             |   3 +
+ 4 files changed, 427 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 47611edea2..a270bf4cc5 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -20,6 +20,8 @@ RRECOMMENDS_${PN}-ptest += "ptest-runner"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch b/meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
+new file mode 100644
+index 0000000000..3a2280ccdc
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
+@@ -0,0 +1,305 @@
++From 17cd2dc91cb82ed342b0da699f2b1a70c1bf6a03 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 15 Mar 2021 14:54:02 -0400
++Subject: [PATCH 2/4] fix: block: add a disk_uevent helper (v5.12)
++
++See upstream commit:
++
++  commit bc359d03c7ec1bf3b86d03bafaf6bbb21e6414fd
++  Author: Christoph Hellwig <hch@lst.de>
++  Date:   Sun Jan 24 11:02:39 2021 +0100
++
++    block: add a disk_uevent helper
++
++    Add a helper to call kobject_uevent for the disk and all partitions, and
++    unexport the disk_part_iter_* helpers that are now only used in the core
++    block code.
++
++Upstream-status: Backport [2.12.6]
++
++Change-Id: If6e8797049642ab382d5699660ee1dd734e92c90
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ Makefile               |   1 +
++ lttng-statedump-impl.c |  34 +++++++++----
++ src/wrapper/genhd.c    | 111 +++++++++++++++++++++++++++++++++++++++++
++ wrapper/genhd.h        |  62 +++++++++++++++++++++++
++ 4 files changed, 198 insertions(+), 10 deletions(-)
++ create mode 100644 src/wrapper/genhd.c
++
++diff --git a/Makefile b/Makefile
++index a9aff3f1..34043cfb 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -80,6 +80,7 @@ ifneq ($(KERNELRELEASE),)
++                         wrapper/kallsyms.o \
++                         wrapper/irqdesc.o \
++                         wrapper/fdtable.o \
+++                        wrapper/genhd.o \
++                         lttng-wrapper-impl.o
++ 
++   ifneq ($(CONFIG_HAVE_SYSCALL_TRACEPOINTS),)
++diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
++index 60b937c9..5511c7e8 100644
++--- a/lttng-statedump-impl.c
+++++ b/lttng-statedump-impl.c
++@@ -250,13 +250,17 @@ int lttng_enumerate_block_devices(struct lttng_session *session)
++ 	struct device_type *ptr_disk_type;
++ 	struct class_dev_iter iter;
++ 	struct device *dev;
+++	int ret = 0;
++ 
++ 	ptr_block_class = wrapper_get_block_class();
++-	if (!ptr_block_class)
++-		return -ENOSYS;
+++	if (!ptr_block_class) {
+++		ret = -ENOSYS;
+++		goto end;
+++	}
++ 	ptr_disk_type = wrapper_get_disk_type();
++ 	if (!ptr_disk_type) {
++-		return -ENOSYS;
+++		ret = -ENOSYS;
+++		goto end;
++ 	}
++ 	class_dev_iter_init(&iter, ptr_block_class, NULL, ptr_disk_type);
++ 	while ((dev = class_dev_iter_next(&iter))) {
++@@ -272,22 +276,32 @@ int lttng_enumerate_block_devices(struct lttng_session *session)
++ 		    (disk->flags & GENHD_FL_SUPPRESS_PARTITION_INFO))
++ 			continue;
++ 
++-		disk_part_iter_init(&piter, disk, DISK_PITER_INCL_PART0);
++-		while ((part = disk_part_iter_next(&piter))) {
+++		/*
+++		 * The original 'disk_part_iter_init' returns void, but our
+++		 * wrapper can fail to lookup the original symbol.
+++		 */
+++		if (wrapper_disk_part_iter_init(&piter, disk, DISK_PITER_INCL_PART0) < 0) {
+++			ret = -ENOSYS;
+++			goto iter_exit;
+++		}
+++
+++		while ((part = wrapper_disk_part_iter_next(&piter))) {
++ 			char name_buf[BDEVNAME_SIZE];
++ 
++ 			if (lttng_get_part_name(disk, part, name_buf) == -ENOSYS) {
++-				disk_part_iter_exit(&piter);
++-				class_dev_iter_exit(&iter);
++-				return -ENOSYS;
+++				wrapper_disk_part_iter_exit(&piter);
+++				ret = -ENOSYS;
+++				goto iter_exit;
++ 			}
++ 			trace_lttng_statedump_block_device(session,
++ 					lttng_get_part_devt(part), name_buf);
++ 		}
++-		disk_part_iter_exit(&piter);
+++		wrapper_disk_part_iter_exit(&piter);
++ 	}
+++iter_exit:
++ 	class_dev_iter_exit(&iter);
++-	return 0;
+++end:
+++	return ret;
++ }
++ 
++ #ifdef CONFIG_INET
++diff --git a/src/wrapper/genhd.c b/src/wrapper/genhd.c
++new file mode 100644
++index 00000000..a5a6c410
++--- /dev/null
+++++ b/src/wrapper/genhd.c
++@@ -0,0 +1,111 @@
+++/* SPDX-License-Identifier: (GPL-2.0-only OR LGPL-2.1-only)
+++ *
+++ * wrapper/genhd.c
+++ *
+++ * Wrapper around disk_part_iter_(init|next|exit). Using KALLSYMS to get the
+++ * addresses when available, else we need to have a kernel that exports this
+++ * function to GPL modules. This export was removed in 5.12.
+++ *
+++ * Copyright (C) 2021 Michael Jeanson <mjeanson@efficios.com>
+++ */
+++
+++#include <lttng/kernel-version.h>
+++#include <linux/module.h>
+++#include <wrapper/genhd.h>
+++
+++#if (defined(CONFIG_KALLSYMS) && \
+++	(LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,12,0)))
+++
+++#include <wrapper/kallsyms.h>
+++
+++static
+++void (*disk_part_iter_init_sym)(struct disk_part_iter *piter, struct gendisk *disk,
+++			unsigned int flags);
+++
+++static
+++LTTNG_DISK_PART_TYPE *(*disk_part_iter_next_sym)(struct disk_part_iter *piter);
+++
+++static
+++void (*disk_part_iter_exit_sym)(struct disk_part_iter *piter);
+++
+++/*
+++ * This wrapper has an 'int' return type instead of the original 'void', to be
+++ * able to report the symbol lookup failure to the caller.
+++ *
+++ * Return 0 on success, -1 on error.
+++ */
+++int wrapper_disk_part_iter_init(struct disk_part_iter *piter, struct gendisk *disk,
+++                          unsigned int flags)
+++{
+++	if (!disk_part_iter_init_sym)
+++		disk_part_iter_init_sym = (void *) kallsyms_lookup_funcptr("disk_part_iter_init");
+++
+++	if (disk_part_iter_init_sym) {
+++		disk_part_iter_init_sym(piter, disk, flags);
+++	} else {
+++		printk_once(KERN_WARNING "LTTng: disk_part_iter_init symbol lookup failed.\n");
+++		return -1;
+++	}
+++	return 0;
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_init);
+++
+++LTTNG_DISK_PART_TYPE *wrapper_disk_part_iter_next(struct disk_part_iter *piter)
+++{
+++	if (!disk_part_iter_next_sym)
+++		disk_part_iter_next_sym = (void *) kallsyms_lookup_funcptr("disk_part_iter_next");
+++
+++	if (disk_part_iter_next_sym) {
+++		return disk_part_iter_next_sym(piter);
+++	} else {
+++		printk_once(KERN_WARNING "LTTng: disk_part_iter_next symbol lookup failed.\n");
+++		return NULL;
+++	}
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_next);
+++
+++/*
+++ * We don't return an error on symbol lookup failure here because there is
+++ * nothing the caller can do to cleanup the iterator.
+++ */
+++void wrapper_disk_part_iter_exit(struct disk_part_iter *piter)
+++{
+++	if (!disk_part_iter_exit_sym)
+++		disk_part_iter_exit_sym = (void *) kallsyms_lookup_funcptr("disk_part_iter_exit");
+++
+++	if (disk_part_iter_exit_sym) {
+++		disk_part_iter_exit_sym(piter);
+++	} else {
+++		printk_once(KERN_WARNING "LTTng: disk_part_iter_exit symbol lookup failed.\n");
+++	}
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_exit);
+++
+++#else
+++
+++/*
+++ * This wrapper has an 'int' return type instead of the original 'void', so the
+++ * kallsyms variant can report the symbol lookup failure to the caller.
+++ *
+++ * This variant always succeeds and returns 0.
+++ */
+++int wrapper_disk_part_iter_init(struct disk_part_iter *piter, struct gendisk *disk,
+++                          unsigned int flags)
+++{
+++	disk_part_iter_init(piter, disk, flags);
+++	return 0;
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_init);
+++
+++LTTNG_DISK_PART_TYPE *wrapper_disk_part_iter_next(struct disk_part_iter *piter)
+++{
+++	return disk_part_iter_next(piter);
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_next);
+++
+++void wrapper_disk_part_iter_exit(struct disk_part_iter *piter)
+++{
+++	disk_part_iter_exit(piter);
+++}
+++EXPORT_SYMBOL_GPL(wrapper_disk_part_iter_exit);
+++#endif
++diff --git a/wrapper/genhd.h b/wrapper/genhd.h
++index 98feb57b..6bae239d 100644
++--- a/wrapper/genhd.h
+++++ b/wrapper/genhd.h
++@@ -13,6 +13,13 @@
++ #define _LTTNG_WRAPPER_GENHD_H
++ 
++ #include <linux/genhd.h>
+++#include <lttng/kernel-version.h>
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,11,0))
+++#define LTTNG_DISK_PART_TYPE struct block_device
+++#else
+++#define LTTNG_DISK_PART_TYPE struct hd_struct
+++#endif
++ 
++ #ifdef CONFIG_KALLSYMS_ALL
++ 
++@@ -94,4 +101,59 @@ struct device_type *wrapper_get_disk_type(void)
++ 
++ #endif
++ 
+++/*
+++ * This wrapper has an 'int' return type instead of the original 'void', to be
+++ * able to report the symbol lookup failure to the caller.
+++ *
+++ * Return 0 on success, -1 on error.
+++ */
+++int wrapper_disk_part_iter_init(struct disk_part_iter *piter, struct gendisk *disk,
+++                          unsigned int flags);
+++LTTNG_DISK_PART_TYPE *wrapper_disk_part_iter_next(struct disk_part_iter *piter);
+++void wrapper_disk_part_iter_exit(struct disk_part_iter *piter);
+++
+++/*
+++ * Canary function to check for 'disk_part_iter_init()' at compile time.
+++ *
+++ * From 'include/linux/genhd.h':
+++ *
+++ *   extern void disk_part_iter_init(struct disk_part_iter *piter,
+++ *                                   struct gendisk *disk, unsigned int flags);
+++ *
+++ */
+++static inline
+++void __canary__disk_part_iter_init(struct disk_part_iter *piter, struct gendisk *disk,
+++		unsigned int flags)
+++{
+++	disk_part_iter_init(piter, disk, flags);
+++}
+++
+++/*
+++ * Canary function to check for 'disk_part_iter_next()' at compile time.
+++ *
+++ * From 'include/linux/genhd.h':
+++ *
+++ *   struct block_device *disk_part_iter_next(struct disk_part_iter *piter);
+++ *
+++ */
+++static inline
+++LTTNG_DISK_PART_TYPE *__canary__disk_part_iter_next(struct disk_part_iter *piter)
+++{
+++	return disk_part_iter_next(piter);
+++}
+++
+++/*
+++ * Canary function to check for 'disk_part_iter_exit()' at compile time.
+++ *
+++ * From 'include/linux/genhd.h':
+++ *
+++ *   extern void disk_part_iter_exit(struct disk_part_iter *piter);
+++ *
+++ */
+++static inline
+++void __canary__disk_part_iter_exit(struct disk_part_iter *piter)
+++{
+++	return disk_part_iter_exit(piter);
+++}
+++
++ #endif /* _LTTNG_WRAPPER_GENHD_H */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch b/meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
+new file mode 100644
+index 0000000000..e32b3e7a2e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
+@@ -0,0 +1,48 @@
++From 127135b6a45d5fca828815c62308f72de97e5739 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Thu, 15 Apr 2021 13:56:24 -0400
++Subject: [PATCH 3/4] fix backport: block: add a disk_uevent helper (v5.12)
++
++Upstream-Status: Backport [2.12.6]
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I717162069990577abe78e5e7fed28816f32b2c84
++---
++ {src/wrapper => wrapper}/genhd.c | 2 +-
++ wrapper/genhd.h                  | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++ rename {src/wrapper => wrapper}/genhd.c (98%)
++
++diff --git a/src/wrapper/genhd.c b/wrapper/genhd.c
++similarity index 98%
++rename from src/wrapper/genhd.c
++rename to wrapper/genhd.c
++index a5a6c410..cbec06f7 100644
++--- a/src/wrapper/genhd.c
+++++ b/wrapper/genhd.c
++@@ -9,7 +9,7 @@
++  * Copyright (C) 2021 Michael Jeanson <mjeanson@efficios.com>
++  */
++ 
++-#include <lttng/kernel-version.h>
+++#include <lttng-kernel-version.h>
++ #include <linux/module.h>
++ #include <wrapper/genhd.h>
++ 
++diff --git a/wrapper/genhd.h b/wrapper/genhd.h
++index 6bae239d..1b4a4201 100644
++--- a/wrapper/genhd.h
+++++ b/wrapper/genhd.h
++@@ -13,7 +13,7 @@
++ #define _LTTNG_WRAPPER_GENHD_H
++ 
++ #include <linux/genhd.h>
++-#include <lttng/kernel-version.h>
+++#include <lttng-kernel-version.h>
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,11,0))
++ #define LTTNG_DISK_PART_TYPE struct block_device
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
+new file mode 100644
+index 0000000000..dfc9427dca
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
+@@ -0,0 +1,71 @@
++From 853d5903a200d8a15b3f38780ddaea5c92fa1a03 Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Mon, 19 Apr 2021 09:09:28 +0000
++Subject: [PATCH 4/4] fix: mm, tracing: kfree event name mismatching with
++ provider kmem (v5.12)
++
++a8bc8ae5c932 ("fix: mm, tracing: record slab name for kmem_cache_free() (v5.12)")
++introduces the following call trace for kfree. This is caused by mismatch
++between kfree event and its provider kmem.
++
++This patch maps kfree to kmem_kfree.
++
++WARNING: CPU: 2 PID: 42294 at src/lttng-probes.c:81 fixup_lazy_probes+0xb0/0x1b0 [lttng_tracer]
++CPU: 2 PID: 42294 Comm: modprobe Tainted: G           O      5.12.0-rc6-yoctodev-standard #1
++Hardware name: Intel Corporation JACOBSVILLE/JACOBSVILLE, BIOS JBVLCRB2.86B.0014.P20.2004020248 04/02/2020
++RIP: 0010:fixup_lazy_probes+0xb0/0x1b0 [lttng_tracer]
++Code: 75 28 83 c3 01 3b 5d c4 74 22 48 8b 4d d0 48 63
++      c3 4c 89 e2 4c 89 f6 48 8b 04 c1 4c 8b 38 4c 89
++      ff e8 64 9f 4b de 85 c0 74 c3 <0f> 0b 48 8b 05 bf
++      f2 1e 00 48 8d 50 e8 48 3d f0 a0 98 c0 75 18 eb
++RSP: 0018:ffffb976807bfbe0 EFLAGS: 00010286
++RAX: 00000000ffffffff RBX: 0000000000000004 RCX: 0000000000000004
++RDX: 0000000000000066 RSI: ffffffffc03c10a7 RDI: ffffffffc03c11a1
++RBP: ffffb976807bfc28 R08: 0000000000000000 R09: 0000000000000001
++R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000004
++R13: ffffffffc03c2000 R14: ffffffffc03c10a7 R15: ffffffffc03c11a1
++FS:  00007f0ef9533740(0000) GS:ffffa100faa00000(0000) knlGS:0000000000000000
++CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
++CR2: 0000561e8f0aa000 CR3: 000000015b318000 CR4: 0000000000350ee0
++Call Trace:
++ lttng_probe_register+0x38/0xe0 [lttng_tracer]
++ ? __event_probe__module_load+0x520/0x520 [lttng_probe_module]
++ __lttng_events_init__module+0x15/0x20 [lttng_probe_module]
++ do_one_initcall+0x68/0x310
++ ? kmem_cache_alloc_trace+0x2ad/0x4c0
++ ? do_init_module+0x28/0x280
++ do_init_module+0x62/0x280
++ load_module+0x26e4/0x2920
++ ? kernel_read_file+0x22e/0x290
++ __do_sys_finit_module+0xb1/0xf0
++ __x64_sys_finit_module+0x1a/0x20
++ do_syscall_64+0x38/0x50
++ entry_SYSCALL_64_after_hwframe+0x44/0xae
++
++Upstream-Status: Backport [2.12.6]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I00e8ee2b8c35f6f8602c88295f5113fbbd139709
++---
++ instrumentation/events/lttng-module/kmem.h | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/kmem.h b/instrumentation/events/lttng-module/kmem.h
++index d787ea54..c9edee61 100644
++--- a/instrumentation/events/lttng-module/kmem.h
+++++ b/instrumentation/events/lttng-module/kmem.h
++@@ -88,7 +88,9 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc_node, kmem_cache_alloc_node,
++ )
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,12,0))
++-LTTNG_TRACEPOINT_EVENT(kfree,
+++LTTNG_TRACEPOINT_EVENT_MAP(kfree,
+++
+++	kmem_kfree,
++ 
++ 	TP_PROTO(unsigned long call_site, const void *ptr),
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
+index 5b05c644a6..1a01cb0c01 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.5.bb
+@@ -15,6 +15,9 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-Fix-filter-interpreter-early-exits-on-uninitialized-.patch  \
+            file://0003-fix-mm-tracing-record-slab-name-for-kmem_cache_free-.patch \
+            file://0004-Fix-kretprobe-null-ptr-deref-on-session-destroy.patch \
++           file://0005-fix-block-add-a-disk_uevent-helper-v5.12.patch \
++           file://0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch \
++           file://0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch \
+            "
  
- PACKAGES =+ "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
- 
-+require conf/distro/include/ptest-packagelists.inc
-+
- do_configure_ptest() {
-     :
- }
-@@ -116,4 +118,13 @@ python () {
-     if not(d.getVar('PTEST_ENABLED') == "1"):
-         for i in ['do_configure_ptest_base', 'do_compile_ptest_base', 'do_install_ptest_base']:
-             bb.build.deltask(i, d)
-+
-+    # This checks that ptest package is actually included
-+    # in standard oe-core ptest images - only for oe-core recipes
-+    if not 'meta/recipes' in d.getVar('FILE') or not(d.getVar('PTEST_ENABLED') == "1"):
-+        return
-+
-+    enabled_ptests = " ".join([d.getVar('PTESTS_FAST'),d.getVar('PTESTS_SLOW'), d.getVar('PTESTS_PROBLEMS')]).split()
-+    if d.getVar('PN') + "-ptest" not in enabled_ptests:
-+         bb.error("Recipe %s supports ptests but is not included in oe-core's conf/distro/include/ptest-packagelists.inc" % d.getVar("PN"))
- }
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index e0a876dbdc..953d2d6c43 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -14,17 +14,22 @@ PTESTS_FAST = "\
-     diffutils-ptest \
-     elfutils-ptest \
-     ethtool-ptest \
-+    expat-ptest \
-     flex-ptest \
-     gawk-ptest \
-     gdbm-ptest \
-     gdk-pixbuf-ptest \
-     gettext-ptest \
-+    glib-networking-ptest \
-     gzip-ptest \
-     json-glib-ptest \
-     libconvert-asn1-perl-ptest \
-     liberror-perl-ptest \
-+    libnl-ptest \
-     libmodule-build-perl-ptest \
-+    libpam-ptest \
-     libpcre-ptest \
-+    libssh2-ptest \
-     libtimedate-perl-ptest \
-     libtest-needs-perl-ptest \
-     liburi-perl-ptest \
-@@ -43,6 +48,12 @@ PTESTS_FAST = "\
-     opkg-ptest \
-     pango-ptest \
-     parted-ptest \
-+    python3-atomicwrites-ptest \
-+    python3-jinja2-ptest \
-+    python3-markupsafe-ptest \
-+    python3-more-itertools-ptest \
-+    python3-pluggy-ptest \
-+    python3-wcwidth-ptest \
-     qemu-ptest \
-     quilt-ptest \
-     sed-ptest \
-@@ -51,17 +62,7 @@ PTESTS_FAST = "\
-     zlib-ptest \
- "
- PTESTS_FAST_remove_mips64 = "qemu-ptest"
--
--#PTESTS_PROBLEMS = "\
--#    ruby-ptest \ # Timeout
--#    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0
--#    lz4-ptest \ # Needs a rewrite
--#    rt-tests-ptest \ # Needs to be checked whether it runs at all
--#    bash-ptest \ # Test outcomes are non-deterministic by design
--#    ifupdown-ptest \ # Tested separately in lib/oeqa/selftest/cases/imagefeatures.py
--#    mdadm-ptest \ # Tests rely on non-deterministic sleep() amounts
--#    libinput-ptest \ # Tests need an unloaded system to be reliable
--#"
-+PTESTS_PROBLEMS_append_mips64 = "qemu-ptest"
- 
- PTESTS_SLOW = "\
-     babeltrace-ptest \
-@@ -85,3 +86,30 @@ PTESTS_SLOW = "\
- "
- 
- PTESTS_SLOW_remove_riscv64 = "valgrind-ptest"
-+PTESTS_PROBLEMS_append_riscv64 = "valgrind-ptest"
-+
-+#    ruby-ptest \ # Timeout
-+#    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0
-+#    lz4-ptest \ # Needs a rewrite
-+#    rt-tests-ptest \ # Needs to be checked whether it runs at all
-+#    bash-ptest \ # Test outcomes are non-deterministic by design
-+#    ifupdown-ptest \ # Tested separately in lib/oeqa/selftest/cases/imagefeatures.py
-+#    mdadm-ptest \ # Tests rely on non-deterministic sleep() amounts
-+#    libinput-ptest \ # Tests need an unloaded system to be reliable
-+#    numactl-ptest \ # qemu not (yet) configured for numa; all tests are skipped
-+#    libseccomp-ptest \ #  tests failed: 38; add to slow tests once addressed
-+#    python3-numpy-ptest \ # requires even more RAM and (possibly) disk space; multiple failures
-+
-+PTESTS_PROBLEMS = "\
-+    ruby-ptest \
-+    clutter-1.0-ptest \
-+    lz4-ptest \
-+    rt-tests-ptest \
-+    bash-ptest \
-+    ifupdown-ptest \
-+    mdadm-ptest \
-+    libinput-ptest \
-+    libseccomp-ptest \
-+    numactl-ptest \
-+    python3-numpy-ptest \
-+"
+ SRC_URI[sha256sum] = "c4d1a1b42c728e37b6b7947ae16563a011c4b297311aa04d56f9a1791fb5a30a"
 -- 
-2.31.1
+2.20.1
 
