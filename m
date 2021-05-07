@@ -1,110 +1,90 @@
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web11.6336.1620367375639451209
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web09.6764.1620369316366907140
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 May 2021 23:02:56 -0700
+ Thu, 06 May 2021 23:35:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=ZrK3bNBX;
- spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=7544c86ba=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1620367375; x=1651903375;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=pcHDGlaZDOwqzUGz/ppOiUplf3w9V/gJ6TjDV7THHlw=;
-  b=ZrK3bNBXpK13Fjfo8d48H5zv0yPAciJZGOO3xZm0hS17oMOuHKI2xUr2
-   iYoGmNdCT936nrXow2X57s+uafZT88Mt0ca87K7YvScH4jpAUhaOjz6Fz
-   YIIceZbGcpH7H4+k5DwzIQwD20dPsLEHJ+GMv7EXUMOTHxnydnKjn4zRl
-   I=;
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 07 May 2021 08:02:52 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw1.muc with ESMTP/TLS;
- 07 May 2021 08:02:52 +0200
-Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp) ([160.46.167.68])
- by esabb5.muc with ESMTP/TLS; 07 May 2021 08:02:52 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33l.europe.bmw.corp
- (160.46.167.68) with Microsoft SMTP Server (TLS;
- Fri, 7 May 2021 08:02:52 +0200
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Fri,
- 7 May 2021 08:02:52 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <steve@sakoman.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list for intractable CVE's
-Thread-Topic: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list
- for intractable CVE's
-Thread-Index: AQHXQpsm0j6kN6Yrw02UGPeqZqaLy6rXZnsA
-Date: Fri, 7 May 2021 06:02:51 +0000
-Message-ID: <YJTYCgxanqxIZvIw@korppu>
-References: <20210506171232.2832063-1-steve@sakoman.com>
-In-Reply-To: <20210506171232.2832063-1-steve@sakoman.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: iIG+pT7A6kXqZh13PrlYnDbEH8zm6whBqHt1ASpGWWS4RVSKiFThrJH9Gcl5/2KAgjnoyGyill
+ H7szPkwz+A3Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198310460"
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="198310460"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2021 23:35:15 -0700
+IronPort-SDR: f31LwqBfxv0cPs15lVi6V7YDwM7MJ2s4UjlH6hcy+HnnClT57knjHc//xvyQaqPDBDsNJ5PERr
+ OkK6H3ZYpdRg==
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="389919654"
+Received: from sthum-mobl6.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.243.238])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2021 23:35:12 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] lsb-release: fix reproducibility failure
+Date: Fri,  7 May 2021 14:35:07 +0800
+Message-Id: <20210507063507.59889-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <653E0FD8696C6248BACC413A7ABCE655@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Make sure help2man output is reproducible. Fixes:
 
-On Thu, May 06, 2021 at 07:12:32AM -1000, Steve Sakoman wrote:
-> The preferred methods for CVE resolution are:
->=20
-> 1. Version upgrades where possible
-> 2. Patches where not possible
-> 3. Database updates where version info is incorrect
-> 4. Exclusion from checking where it is determined that the CVE
->    does not apply to our environment
->=20
-> In some cases none of these methods are possible. For example the
-> CVE may be decades old with no apparent resolution, and with broken
-> links that make further research impractical.
->=20
-> This patch creates a mechanism for users to remove this type of
-> CVE from the cve-check results via an optional include file.
->=20
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  .../distro/include/cve-extra-exclusions.inc    | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->  create mode 100644 meta/conf/distro/include/cve-extra-exclusions.inc
->=20
-> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/con=
-f/distro/include/cve-extra-exclusions.inc
-> new file mode 100644
-> index 0000000000..956b3a9a3c
-> --- /dev/null
-> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-> @@ -0,0 +1,18 @@
-> +# This file contains a list of CVE's where resolution has proven to be i=
-mpractical.
-> +# It contains all the information we are aware of about an issue and ana=
-lysis about
-> +# why we believe it can't be fixed/handled. Additional information is we=
-lcome through
-> +# patches to the file.
-> +#
-> +# Include this file in your local.conf or distro.conf to exclude these C=
-VE's
-> +# from the cve-check results
-> +
-> +# strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2000-000=
-6
-> +# CVE is more than 20 years old with no resolution evident
-> +# broken links in CVE database references make resolution impractical
-> +CVE_CHECK_WHITELIST +=3D "CVE-2000-0006"
+| .\"·DO·NOT·MODIFY·THIS·FILE!··It·was·generated·by·help2man·1.022.	.\"·DO·NOT·MODIFY·THIS·FILE!··It·was·generated·by·help2man·1.022.
+| .TH·FSG·"1"·"April·2021"·"FSG·lsb_release·v1.4"·FSG	.TH·FSG·"1"·"May·2021"·"FSG·lsb_release·v1.4"·FSG
+| .SH·NAME	3 	.SH·NAME
 
-Could this be specific to a recipe?
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../help2man-reproducibility.patch            | 27 +++++++++++++++++++
+ meta/recipes-extended/lsb/lsb-release_1.4.bb  |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
 
-It may be that CVE data changes and adds new CPEs and the same CVE could st=
-ill
-be valid for another recipe. I think the analysis also applies to a single
-recipe.
+diff --git a/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch b/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+new file mode 100644
+index 0000000000..f32cd18370
+--- /dev/null
++++ b/meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+@@ -0,0 +1,27 @@
++lsb-release maintains it's own copy of help2man. Include the support
++for specifying SOURCE_DATE_EPOCH from upstream.
++
++Upstream-Status: Pending
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
++diff --git a/help2man b/help2man
++index 13015c2..63439db 100755
++--- a/help2man
+++++ b/help2man
++@@ -173,7 +173,14 @@ my ($help_text, $version_text) = map {
++ 	or die "$this_program: can't get `--$_' info from $ARGV[0]\n"
++ } qw(help), $opt_version_key;
++ 
++-my $date = strftime "%B %Y", localtime;
+++my $epoch_secs = time;
+++if (exists $ENV{SOURCE_DATE_EPOCH} and $ENV{SOURCE_DATE_EPOCH} =~ /^(\d+)$/)
+++{
+++    $epoch_secs = $1;
+++    $ENV{TZ} = 'UTC0';
+++}
+++
+++my $date = strftime "%B %Y", localtime $epoch_secs;
++ (my $program = $ARGV[0]) =~ s!.*/!!;
++ my $package = $program;
++ my $version;
+diff --git a/meta/recipes-extended/lsb/lsb-release_1.4.bb b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+index 3e8f7a13ec..bafc18fcc0 100644
+--- a/meta/recipes-extended/lsb/lsb-release_1.4.bb
++++ b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar.gz \
+            file://0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch \
+            file://0001-Remove-timestamp-from-manpage.patch \
++           file://help2man-reproducibility.patch \
+            "
+ 
+ SRC_URI[md5sum] = "30537ef5a01e0ca94b7b8eb6a36bb1e4"
+-- 
+2.30.2
 
-Cheers,
-
--Mikko=
