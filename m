@@ -1,27 +1,27 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.6883.1620370974892359593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 00:03:20 -0700
+ Fri, 07 May 2021 00:03:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 2p862mOTxIf9LuU9+/U7DKYapqY2FB/EozAJYgVVMLAq9LDC4Z9lHSGt7h6RYQxYtup4n0xCuC
- ktOQIyemzyhg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794791"
+IronPort-SDR: CWtAD5lZQB3ASm9FE/rZ5G7tFY6f2i/tTZhWN7E9VjK+UjULBmSEjmMkc6fv2qyBYiODKzylz4
+ rid68axFwF6w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794796"
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="185794791"
+   d="scan'208";a="185794796"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:20 -0700
-IronPort-SDR: UVDCDRoxPh9KbxF/D3szicic0BP66jbNh52dSYP+9BPcw0uKGXiYLwyMyc+4N8C7J7BbFBNYOK
- kyWaw9f6znYA==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:21 -0700
+IronPort-SDR: W07QwXeebcMGSxUnjKs/SYLniw3/JIDmBeN/lxzU3lTVC5cHGzz9lNQDqV9Dks6n27v2esp4El
+ pA8T3GkTwTXw==
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="407331664"
+   d="scan'208";a="407331678"
 Received: from sthum-mobl6.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.243.238])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:19 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:20 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 22/31] busybox: Fix reproducibility
-Date: Fri,  7 May 2021 15:02:34 +0800
-Message-Id: <b5bb7b5499b7a1ece9ef6592166709fecd5e6935.1620370571.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 23/31] webkitgtk: Fix reproducibility in minibrowser
+Date: Fri,  7 May 2021 15:02:35 +0800
+Message-Id: <283e6adb30a1946d4b870ab0f2d69c1b230a70e4.1620370571.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620370571.git.anuj.mittal@intel.com>
 References: <cover.1620370571.git.anuj.mittal@intel.com>
@@ -30,65 +30,65 @@ Content-Transfer-Encoding: 8bit
 
 From: Khem Raj <raj.khem@gmail.com>
 
-The ensures that globbing results in same order irrespective of shell in
-use
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fdeee94fa78f91613850500b209b75a6608241d0)
+(cherry picked from commit 8f08ca440b6c2ad3494808ffa4ec6091722c0339)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...Use-C-locale-when-calling-sed-on-glo.patch | 28 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.33.0.bb   |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+ .../0001-MiniBrowser-Fix-reproduciblity.patch | 31 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch b/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
 new file mode 100644
-index 0000000000..e0a22c5bb3
+index 0000000000..98d2d1ded9
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch
-@@ -0,0 +1,28 @@
-+From bff7f16f7f41de8df67beb03722f235828ef2249 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-MiniBrowser-Fix-reproduciblity.patch
+@@ -0,0 +1,31 @@
++From dcf9ae0dc0b4510eddbeeea09e11edfb123f95af Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 3 May 2021 15:48:19 -0700
-+Subject: [PATCH] gen_build_files: Use C locale when calling sed on globbed files
++Date: Sun, 2 May 2021 13:10:49 -0700
++Subject: [PATCH] MiniBrowser: Fix reproduciblity
 +
-+sort order is different based on chosen locale and also default shell
-+being bash or dash
++Do not emit references to source dir in generated sourcecode
 +
-+This sets the environment variable LC_ALL to the value C, which will
-+enforce bytewise sorting, irrespective of the shell
-+
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=225283]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ scripts/gen_build_files.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Tools/MiniBrowser/gtk/CMakeLists.txt | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+--- a/scripts/gen_build_files.sh
-++++ b/scripts/gen_build_files.sh
-+@@ -4,6 +4,8 @@
-+ # but users complain that many sed implementations
-+ # are misinterpreting --.
++diff --git a/Tools/MiniBrowser/gtk/CMakeLists.txt b/Tools/MiniBrowser/gtk/CMakeLists.txt
++index 93b62521..482d3b00 100644
++--- a/Tools/MiniBrowser/gtk/CMakeLists.txt
+++++ b/Tools/MiniBrowser/gtk/CMakeLists.txt
++@@ -51,8 +51,8 @@ add_custom_command(
++     OUTPUT ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
++            ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
++     MAIN_DEPENDENCY ${MiniBrowser_DIR}/browser-marshal.list
++-    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --body > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
++-    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --header > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
+++    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --body --skip-source > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.c
+++    COMMAND glib-genmarshal --prefix=browser_marshal ${MiniBrowser_DIR}/browser-marshal.list --header --skip-source > ${MiniBrowser_DERIVED_SOURCES_DIR}/BrowserMarshal.h
++     VERBATIM)
 + 
-++export LC_ALL=C
-++
-+ test $# -ge 2 || { echo "Syntax: $0 SRCTREE OBJTREE"; exit 1; }
-+ 
-+ # cd to objtree
-diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
-index 58e9cf7fce..b2a30ba16f 100644
---- a/meta/recipes-core/busybox/busybox_1.33.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-@@ -47,6 +47,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rev.cfg \
-            file://pgrep.cfg \
-            file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
-+           file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
++ if (USE_GTK4)
++-- 
++2.31.1
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+index cdc3f9b584..1fefc75c49 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+@@ -20,6 +20,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://reduce-memory-overheads.patch \
+            file://0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch \
+            file://musl-lower-stack-usage.patch \
++           file://0001-MiniBrowser-Fix-reproduciblity.patch \
             "
- SRC_URI_append_libc-musl = " file://musl.cfg "
  
+ SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
 -- 
 2.30.2
 
