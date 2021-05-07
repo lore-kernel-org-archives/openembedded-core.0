@@ -1,168 +1,208 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.6883.1620370974892359593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 00:03:13 -0700
+ Fri, 07 May 2021 00:03:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: +eTZP5qEuxU9oqFsGXqnEjjKjBExsn3mmpvL4xh2njGLNBGJ+z1/OW3NDKsdnRHOIV7OuCsMGT
- GiwVUZ1IUdeg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794762"
+IronPort-SDR: tLc/B2jdsAWFPDikwA8TaTeAuwiAg/4Lo60k4FOTOYDRC1Gpi0cfJsU473AmmhuLGUQSpIw5bC
+ eTQ9WghTcPEQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794764"
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="185794762"
+   d="scan'208";a="185794764"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:13 -0700
-IronPort-SDR: FOhsf9ojheghxstNO5T2NZMeMMO751/S+9fb6k0dj/YTCCehRawNHu7lVoX+eJjjNaxyRIWo5S
- 4B900Ata8BVw==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:14 -0700
+IronPort-SDR: d3ru+l106r2OHVcK9wA+4v7mN/qG97mAZBHY2mP58StJsf69lEx4Pu8HXBtjmZGXnBk3s8hxtN
+ zmiDUz0sm5kw==
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="407331628"
+   d="scan'208";a="407331638"
 Received: from sthum-mobl6.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.243.238])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:12 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:13 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 17/31] linux-yocto/5.4: update to v5.4.116
-Date: Fri,  7 May 2021 15:02:29 +0800
-Message-Id: <b41af8ae8fce5b1c8d32cebcc85315517775a3cc.1620370571.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 18/31] qemu: fix CVE-2020-27821
+Date: Fri,  7 May 2021 15:02:30 +0800
+Message-Id: <5240cce285d3baea513da0fc577b69e6f078a527.1620370571.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620370571.git.anuj.mittal@intel.com>
 References: <cover.1620370571.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+memory: clamp cached translation in case it points to an MMIO region
 
-    370636ffbb86 Linux 5.4.116
-    e23967af130b bpf: Update selftests to reflect new error states
-    ef4e68f0af04 bpf: Tighten speculative pointer arithmetic mask
-    4dc6e55e282f bpf: Move sanitize_val_alu out of op switch
-    876d1cec9369 bpf: Refactor and streamline bounds check into helper
-    4158e5fea3b1 bpf: Improve verifier error messages for users
-    15de0c537bf7 bpf: Rework ptr_limit into alu_limit and add common error path
-    f7fbedc90909 bpf: Ensure off_reg has no mixed signed bounds for all types
-    4a163b1c7053 bpf: Move off_reg into sanitize_ptr_alu
-    19bfeb47e96b Linux 5.4.115
-    af7099bad495 USB: CDC-ACM: fix poison/unpoison imbalance
-    d7fad2ce15bd net: hso: fix NULL-deref on disconnect regression
-    699017fe0de4 x86/crash: Fix crash_setup_memmap_entries() out-of-bounds access
-    b3962b4e8334 ia64: tools: remove duplicate definition of ia64_mf() on ia64
-    763cbe5e1ebb ia64: fix discontig.c section mismatches
-    3dce9c4bb546 csky: change a Kconfig symbol name to fix e1000 build error
-    892f6bc55746 cavium/liquidio: Fix duplicate argument
-    2ccca124620e xen-netback: Check for hotplug-status existence before watching
-    78687d6a3213 s390/entry: save the caller of psw_idle
-    026490fac496 net: geneve: check skb is large enough for IPv4/IPv6 header
-    caaf9371ecad ARM: dts: Fix swapped mmc order for omap3
-    be60afbb9136 HID: wacom: Assign boolean values to a bool variable
-    116ee59ef886 HID: alps: fix error return code in alps_input_configured()
-    a4e2b91cea52 HID: google: add don USB id
-    aefb6ac6ac11 perf auxtrace: Fix potential NULL pointer dereference
-    39638289595b perf/x86/kvm: Fix Broadwell Xeon stepping in isolation_ucodes[]
-    319a06e58ed7 perf/x86/intel/uncore: Remove uncore extra PCI dev HSWEP_PCI_PCU_3
-    82808cc02681 locking/qrwlock: Fix ordering in queued_write_lock_slowpath()
-    c6eb92b37af1 arm64: dts: allwinner: Revert SD card CD GPIO for Pine64-LTS
-    37ee803d7ed7 pinctrl: lewisburg: Update number of pins in community
-    dbb355960ef9 gpio: omap: Save and restore sysconfig
-    835c8d688e1e s390/ptrace: return -ENOSYS when invalid syscall is supplied
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 667352cc46429f3d8eca12cf93c26be2d26e5d74)
+(cherry picked from commit df92b3359743ed1837fa57df8035d121f5c5676b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2020-27821.patch            | 143 ++++++++++++++++++
+ 2 files changed, 144 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 972b6306a6..939bef0ca9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5797bbecf2..3e5838d671 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3416_9.patch \
+            file://CVE-2021-3416_10.patch \
+            file://CVE-2021-20257.patch \
++           file://CVE-2020-27821.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRCREV_machine ?= "da52117f6cbb53b6242803d432e8649a964f0435"
--SRCREV_meta ?= "e335eb1ff7c2948e263b9d59f1664c5bf198e4cf"
-+SRCREV_machine ?= "b62ae8bedb024e67e7c5cda51840454a4170c858"
-+SRCREV_meta ?= "cf20a3c44f5ef181b16ed80e9c2683f76b1ead20"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.114"
-+LINUX_VERSION ?= "5.4.116"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 3886388ea9..e3750dd7f1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.114"
-+LINUX_VERSION ?= "5.4.116"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "06631306658b18d4e29f721a43479d90effc3fc2"
--SRCREV_machine ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_meta ?= "e335eb1ff7c2948e263b9d59f1664c5bf198e4cf"
-+SRCREV_machine_qemuarm ?= "80bd6016a9bdaed4b66ddffffa8c8e62d7c1f8a6"
-+SRCREV_machine ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_meta ?= "cf20a3c44f5ef181b16ed80e9c2683f76b1ead20"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index d2743638ad..38404a1935 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "d62f2d60acebc640c2749532e1527d1f117003d6"
--SRCREV_machine_qemuarm64 ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_machine_qemumips ?= "ec6cca9ea72879a0d06ce1243e952a42a3435607"
--SRCREV_machine_qemuppc ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_machine_qemuriscv64 ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_machine_qemux86 ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_machine_qemux86-64 ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_machine_qemumips64 ?= "fd8bb72df12890ec21b27b83e26492ba527ebea3"
--SRCREV_machine ?= "6d78e8ad5697bdad4bd76d0eeb44daca8cbe108d"
--SRCREV_meta ?= "e335eb1ff7c2948e263b9d59f1664c5bf198e4cf"
-+SRCREV_machine_qemuarm ?= "e71df0530eefcac1b3248329e385bcefbad6336e"
-+SRCREV_machine_qemuarm64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_machine_qemumips ?= "07445052fdd15e60b30dc5ae9d162c2e6bba47d1"
-+SRCREV_machine_qemuppc ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_machine_qemuriscv64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_machine_qemux86 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_machine_qemux86-64 ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_machine_qemumips64 ?= "b36d79d6f2aaf9dadec352f611e7b9becf2b9a55"
-+SRCREV_machine ?= "ea7a54fa402727f3c4bc4a1904d4a9590e7c8b85"
-+SRCREV_meta ?= "cf20a3c44f5ef181b16ed80e9c2683f76b1ead20"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.114"
-+LINUX_VERSION ?= "5.4.116"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+new file mode 100644
+index 0000000000..58622f0487
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-27821.patch
+@@ -0,0 +1,143 @@
++From 279f90a9ab07304f0a49fc10e4bfd1243a8cddbe Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Tue, 1 Dec 2020 09:29:56 -0500
++Subject: [PATCH 1/2] memory: clamp cached translation in case it points to an
++ MMIO region
++
++In using the address_space_translate_internal API, address_space_cache_init
++forgot one piece of advice that can be found in the code for
++address_space_translate_internal:
++
++    /* MMIO registers can be expected to perform full-width accesses based only
++     * on their address, without considering adjacent registers that could
++     * decode to completely different MemoryRegions.  When such registers
++     * exist (e.g. I/O ports 0xcf8 and 0xcf9 on most PC chipsets), MMIO
++     * regions overlap wildly.  For this reason we cannot clamp the accesses
++     * here.
++     *
++     * If the length is small (as is the case for address_space_ldl/stl),
++     * everything works fine.  If the incoming length is large, however,
++     * the caller really has to do the clamping through memory_access_size.
++     */
++
++address_space_cache_init is exactly one such case where "the incoming length
++is large", therefore we need to clamp the resulting length---not to
++memory_access_size though, since we are not doing an access yet, but to
++the size of the resulting section.  This ensures that subsequent accesses
++to the cached MemoryRegionSection will be in range.
++
++With this patch, the enclosed testcase notices that the used ring does
++not fit into the MSI-X table and prints a "qemu-system-x86_64: Cannot map used"
++error.
++
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Upstream-Status: Backport [4bfb024bc76973d40a359476dc0291f46e435442]
++CVE: CVE-2020-27821
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ softmmu/physmem.c       | 10 ++++++++
++ tests/qtest/fuzz-test.c | 51 +++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 61 insertions(+)
++
++diff --git a/softmmu/physmem.c b/softmmu/physmem.c
++index 3027747c0..2cd1de4a2 100644
++--- a/softmmu/physmem.c
+++++ b/softmmu/physmem.c
++@@ -3255,6 +3255,7 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
++     AddressSpaceDispatch *d;
++     hwaddr l;
++     MemoryRegion *mr;
+++    Int128 diff;
++ 
++     assert(len > 0);
++ 
++@@ -3263,6 +3264,15 @@ int64_t address_space_cache_init(MemoryRegionCache *cache,
++     d = flatview_to_dispatch(cache->fv);
++     cache->mrs = *address_space_translate_internal(d, addr, &cache->xlat, &l, true);
++ 
+++    /*
+++     * cache->xlat is now relative to cache->mrs.mr, not to the section itself.
+++     * Take that into account to compute how many bytes are there between
+++     * cache->xlat and the end of the section.
+++     */
+++    diff = int128_sub(cache->mrs.size,
+++		      int128_make64(cache->xlat - cache->mrs.offset_within_region));
+++    l = int128_get64(int128_min(diff, int128_make64(l)));
+++
++     mr = cache->mrs.mr;
++     memory_region_ref(mr);
++     if (memory_access_is_direct(mr, is_write)) {
++diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
++index 9cb4c42bd..28739248e 100644
++--- a/tests/qtest/fuzz-test.c
+++++ b/tests/qtest/fuzz-test.c
++@@ -47,6 +47,55 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
++     qtest_outl(s, 0x5d02, 0xebed205d);
++ }
++ 
+++/*
+++ * Here a MemoryRegionCache pointed to an MMIO region but had a
+++ * larger size than the underlying region.
+++ */
+++static void test_mmio_oob_from_memory_region_cache(void)
+++{
+++    QTestState *s;
+++
+++    s = qtest_init("-M pc-q35-5.2 -display none -m 512M "
+++		   "-device virtio-scsi,num_queues=8,addr=03.0 ");
+++
+++    qtest_outl(s, 0xcf8, 0x80001811);
+++    qtest_outb(s, 0xcfc, 0x6e);
+++    qtest_outl(s, 0xcf8, 0x80001824);
+++    qtest_outl(s, 0xcf8, 0x80001813);
+++    qtest_outl(s, 0xcfc, 0xa080000);
+++    qtest_outl(s, 0xcf8, 0x80001802);
+++    qtest_outl(s, 0xcfc, 0x5a175a63);
+++    qtest_outb(s, 0x6e08, 0x9e);
+++    qtest_writeb(s, 0x9f003, 0xff);
+++    qtest_writeb(s, 0x9f004, 0x01);
+++    qtest_writeb(s, 0x9e012, 0x0e);
+++    qtest_writeb(s, 0x9e01b, 0x0e);
+++    qtest_writeb(s, 0x9f006, 0x01);
+++    qtest_writeb(s, 0x9f008, 0x01);
+++    qtest_writeb(s, 0x9f00a, 0x01);
+++    qtest_writeb(s, 0x9f00c, 0x01);
+++    qtest_writeb(s, 0x9f00e, 0x01);
+++    qtest_writeb(s, 0x9f010, 0x01);
+++    qtest_writeb(s, 0x9f012, 0x01);
+++    qtest_writeb(s, 0x9f014, 0x01);
+++    qtest_writeb(s, 0x9f016, 0x01);
+++    qtest_writeb(s, 0x9f018, 0x01);
+++    qtest_writeb(s, 0x9f01a, 0x01);
+++    qtest_writeb(s, 0x9f01c, 0x01);
+++    qtest_writeb(s, 0x9f01e, 0x01);
+++    qtest_writeb(s, 0x9f020, 0x01);
+++    qtest_writeb(s, 0x9f022, 0x01);
+++    qtest_writeb(s, 0x9f024, 0x01);
+++    qtest_writeb(s, 0x9f026, 0x01);
+++    qtest_writeb(s, 0x9f028, 0x01);
+++    qtest_writeb(s, 0x9f02a, 0x01);
+++    qtest_writeb(s, 0x9f02c, 0x01);
+++    qtest_writeb(s, 0x9f02e, 0x01);
+++    qtest_writeb(s, 0x9f030, 0x01);
+++    qtest_outb(s, 0x6e10, 0x00);
+++    qtest_quit(s);
+++}
+++
++ int main(int argc, char **argv)
++ {
++     const char *arch = qtest_get_arch();
++@@ -58,6 +107,8 @@ int main(int argc, char **argv)
++                        test_lp1878263_megasas_zero_iov_cnt);
++         qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
++                        test_lp1878642_pci_bus_get_irq_level_assert);
+++        qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
+++                       test_mmio_oob_from_memory_region_cache);
++     }
++ 
++     return g_test_run();
++-- 
++2.29.2
++
 -- 
 2.30.2
 
