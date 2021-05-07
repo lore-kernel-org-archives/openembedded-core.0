@@ -1,279 +1,60 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.6883.1620370974892359593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 00:03:16 -0700
+ Fri, 07 May 2021 00:03:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: g3AxxWMMh3OV88w06noKtdR9xQ+4lTlvs0FoBfXMsOvjJDY9M559Tl3YUQXwO6APm0SxzdUOwv
- L/i3lUtR2xog==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794768"
+IronPort-SDR: NiwSjobgOcRmW+ntjY2Q/Vm/AiGw0L6OTud2kk2lN2/CTEuZ3IHYmAcYgJpmY57D3rl1hA59K2
+ 8U3XZm8V2axw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794779"
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="185794768"
+   d="scan'208";a="185794779"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:16 -0700
-IronPort-SDR: FS98SfVGlNCAc0cKaTrMIX3mnKRm87ool2AcPp+avafMa0xUMax1jKNyHgm61r47LylfXKtW2S
- 281XdVm20qnQ==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:17 -0700
+IronPort-SDR: k2eSjTWifTbo+psl2+zU+vEHGikqi0QBeZGukevZwYCzWJIbXUhKYj8MxOwVeMQYSA9WlKl6Qy
+ 7lZRAi7Y2VJw==
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="407331641"
+   d="scan'208";a="407331645"
 Received: from sthum-mobl6.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.243.238])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:15 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:16 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 19/31] qemu: fix CVE-2021-20263
-Date: Fri,  7 May 2021 15:02:31 +0800
-Message-Id: <56f948329e2780ce8845646b0bb499d82e197d85.1620370571.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 20/31] ptest-runner: libgcc must be installed for pthread_cancel to work
+Date: Fri,  7 May 2021 15:02:32 +0800
+Message-Id: <0eeb4dd1e9dbbbe205ff9821a398c44d5769f798.1620370571.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620370571.git.anuj.mittal@intel.com>
 References: <cover.1620370571.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-virtiofs: drop remapped security.capability xattr as needed
+This only affects glibc systems and have been
+found on runqemu core-image-minimal with gstreamer ptest-runner
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+STOP: ptest-runner
+libgcc_s.so.1 must be installed for pthread_cancel to work
+Aborted
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7ad71de89dd60700cbaad2df1937bc3d743112da)
+(cherry picked from commit 1cb679e6a4528a2cef16f65342d5e65adb14cb16)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-20263.patch            | 214 ++++++++++++++++++
- 2 files changed, 215 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 3e5838d671..f090cb402f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -55,6 +55,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3416_10.patch \
-            file://CVE-2021-20257.patch \
-            file://CVE-2020-27821.patch \
-+           file://CVE-2021-20263.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
-new file mode 100644
-index 0000000000..4f9a91f0c6
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20263.patch
-@@ -0,0 +1,214 @@
-+From aaa5f8e00c2e85a893b972f1e243fb14c26b70dc Mon Sep 17 00:00:00 2001
-+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-+Date: Wed, 24 Feb 2021 19:56:25 +0000
-+Subject: [PATCH 2/2] virtiofs: drop remapped security.capability xattr as
-+ needed
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+index 57a3ae005b..6bd10d2fec 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
+@@ -26,3 +26,5 @@ do_compile () {
+ do_install () {
+ 	install -D -m 0755 ${S}/ptest-runner ${D}${bindir}/ptest-runner
+ }
 +
-+On Linux, the 'security.capability' xattr holds a set of
-+capabilities that can change when an executable is run, giving
-+a limited form of privilege escalation to those programs that
-+the writer of the file deemed worthy.
-+
-+Any write causes the 'security.capability' xattr to be dropped,
-+stopping anyone from gaining privilege by modifying a blessed
-+file.
-+
-+Fuse relies on the daemon to do this dropping, and in turn the
-+daemon relies on the host kernel to drop the xattr for it.  However,
-+with the addition of -o xattrmap, the xattr that the guest
-+stores its capabilities in is now not the same as the one that
-+the host kernel automatically clears.
-+
-+Where the mapping changes 'security.capability', explicitly clear
-+the remapped name to preserve the same behaviour.
-+
-+This bug is assigned CVE-2021-20263.
-+
-+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-+
-+Upstream-Status: Backport [e586edcb410543768ef009eaa22a2d9dd4a53846]
-+CVE: CVE-2021-20263
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ docs/tools/virtiofsd.rst         |  4 ++
-+ tools/virtiofsd/passthrough_ll.c | 77 +++++++++++++++++++++++++++++++-
-+ 2 files changed, 80 insertions(+), 1 deletion(-)
-+
-+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-+index 866b7db3e..00554c75b 100644
-+--- a/docs/tools/virtiofsd.rst
-++++ b/docs/tools/virtiofsd.rst
-+@@ -228,6 +228,10 @@ The 'map' type adds a number of separate rules to add **prepend** as a prefix
-+ to the matched **key** (or all attributes if **key** is empty).
-+ There may be at most one 'map' rule and it must be the last rule in the set.
-+ 
-++Note: When the 'security.capability' xattr is remapped, the daemon has to do
-++extra work to remove it during many operations, which the host kernel normally
-++does itself.
-++
-+ xattr-mapping Examples
-+ ----------------------
-+ 
-+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-+index 03c5e0d13..c9197da86 100644
-+--- a/tools/virtiofsd/passthrough_ll.c
-++++ b/tools/virtiofsd/passthrough_ll.c
-+@@ -160,6 +160,7 @@ struct lo_data {
-+     int posix_lock;
-+     int xattr;
-+     char *xattrmap;
-++    char *xattr_security_capability;
-+     char *source;
-+     char *modcaps;
-+     double timeout;
-+@@ -226,6 +227,8 @@ static __thread bool cap_loaded = 0;
-+ 
-+ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
-+                                 uint64_t mnt_id);
-++static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-++                            char **out_name);
-+ 
-+ static int is_dot_or_dotdot(const char *name)
-+ {
-+@@ -365,6 +368,37 @@ out:
-+     return ret;
-+ }
-+ 
-++/*
-++ * The host kernel normally drops security.capability xattr's on
-++ * any write, however if we're remapping xattr names we need to drop
-++ * whatever the clients security.capability is actually stored as.
-++ */
-++static int drop_security_capability(const struct lo_data *lo, int fd)
-++{
-++    if (!lo->xattr_security_capability) {
-++        /* We didn't remap the name, let the host kernel do it */
-++        return 0;
-++    }
-++    if (!fremovexattr(fd, lo->xattr_security_capability)) {
-++        /* All good */
-++        return 0;
-++    }
-++
-++    switch (errno) {
-++    case ENODATA:
-++        /* Attribute didn't exist, that's fine */
-++        return 0;
-++
-++    case ENOTSUP:
-++        /* FS didn't support attribute anyway, also fine */
-++        return 0;
-++
-++    default:
-++        /* Hmm other error */
-++        return errno;
-++    }
-++}
-++
-+ static void lo_map_init(struct lo_map *map)
-+ {
-+     map->elems = NULL;
-+@@ -717,6 +751,11 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-+         uid_t uid = (valid & FUSE_SET_ATTR_UID) ? attr->st_uid : (uid_t)-1;
-+         gid_t gid = (valid & FUSE_SET_ATTR_GID) ? attr->st_gid : (gid_t)-1;
-+ 
-++        saverr = drop_security_capability(lo, ifd);
-++        if (saverr) {
-++            goto out_err;
-++        }
-++
-+         res = fchownat(ifd, "", uid, gid, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+         if (res == -1) {
-+             goto out_err;
-+@@ -735,6 +774,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-+             }
-+         }
-+ 
-++	saverr = drop_security_capability(lo, truncfd);
-++        if (saverr) {
-++            if (!fi) {
-++                close(truncfd);
-++            }
-++            goto out_err;
-++        }
-++
-+         res = ftruncate(truncfd, attr->st_size);
-+         if (!fi) {
-+             saverr = errno;
-+@@ -1726,6 +1773,13 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-+         if (fd < 0) {
-+             return -fd;
-+         }
-++        if (fi->flags & (O_TRUNC)) {
-++            int err = drop_security_capability(lo, fd);
-++            if (err) {
-++                close(fd);
-++                return err;
-++            }
-++        }
-+     }
-+ 
-+     pthread_mutex_lock(&lo->mutex);
-+@@ -2114,6 +2168,12 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-+              "lo_write_buf(ino=%" PRIu64 ", size=%zd, off=%lu)\n", ino,
-+              out_buf.buf[0].size, (unsigned long)off);
-+ 
-++    res = drop_security_capability(lo_data(req), out_buf.buf[0].fd);
-++    if (res) {
-++        fuse_reply_err(req, res);
-++        return;
-++    }
-++
-+     /*
-+      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
-+      * clearing setuid/setgid on file.
-+@@ -2353,6 +2413,7 @@ static void parse_xattrmap(struct lo_data *lo)
-+ {
-+     const char *map = lo->xattrmap;
-+     const char *tmp;
-++    int ret;
-+ 
-+     lo->xattr_map_nentries = 0;
-+     while (*map) {
-+@@ -2383,7 +2444,7 @@ static void parse_xattrmap(struct lo_data *lo)
-+              * the last entry.
-+              */
-+             parse_xattrmap_map(lo, map, sep);
-+-            return;
-++            break;
-+         } else {
-+             fuse_log(FUSE_LOG_ERR,
-+                      "%s: Unexpected type;"
-+@@ -2452,6 +2513,19 @@ static void parse_xattrmap(struct lo_data *lo)
-+         fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
-+         exit(1);
-+     }
-++
-++    ret = xattr_map_client(lo, "security.capability",
-++                           &lo->xattr_security_capability);
-++    if (ret) {
-++        fuse_log(FUSE_LOG_ERR, "Failed to map security.capability: %s\n",
-++                strerror(ret));
-++        exit(1);
-++    }
-++    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
-++        /* 1-1 mapping, don't need to do anything */
-++        free(lo->xattr_security_capability);
-++        lo->xattr_security_capability = NULL;
-++    }
-+ }
-+ 
-+ /*
-+@@ -3480,6 +3554,7 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
-+ 
-+     free(lo->xattrmap);
-+     free_xattrmap(lo);
-++    free(lo->xattr_security_capability);
-+     free(lo->source);
-+ }
-+ 
-+-- 
-+2.29.2
-+
++RDEPENDS_${PN}_append_libc-glibc = " libgcc"
 -- 
 2.30.2
 
