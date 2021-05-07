@@ -1,60 +1,60 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.6883.1620370974892359593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 00:03:17 -0700
+ Fri, 07 May 2021 00:03:19 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: NiwSjobgOcRmW+ntjY2Q/Vm/AiGw0L6OTud2kk2lN2/CTEuZ3IHYmAcYgJpmY57D3rl1hA59K2
- 8U3XZm8V2axw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794779"
+IronPort-SDR: qwQDKJbopO40+YkntD9h9h+LrBY/xs2DX4mNmtw5A6TGTB9fVp1ABv64tOULd4GXfYoJphRzE4
+ 6UZgw/Y4/o+w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="185794784"
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="185794779"
+   d="scan'208";a="185794784"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:17 -0700
-IronPort-SDR: k2eSjTWifTbo+psl2+zU+vEHGikqi0QBeZGukevZwYCzWJIbXUhKYj8MxOwVeMQYSA9WlKl6Qy
- 7lZRAi7Y2VJw==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:19 -0700
+IronPort-SDR: N5qYEZph9Sx1BBAH/3V+59fGfYSs71ugvwUyw87vLxfCxpa9MxorwcBkAk9RXVrDnRUsVsYUCI
+ ofLFE9GeOYgQ==
 X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
-   d="scan'208";a="407331645"
+   d="scan'208";a="407331653"
 Received: from sthum-mobl6.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.243.238])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:16 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2021 00:03:17 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 20/31] ptest-runner: libgcc must be installed for pthread_cancel to work
-Date: Fri,  7 May 2021 15:02:32 +0800
-Message-Id: <0eeb4dd1e9dbbbe205ff9821a398c44d5769f798.1620370571.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 21/31] libjpeg-turbo: Use --reproducible option for nasm
+Date: Fri,  7 May 2021 15:02:33 +0800
+Message-Id: <66db1962e49e6d06d388e4df9b31fc8db5372a42.1620370571.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620370571.git.anuj.mittal@intel.com>
 References: <cover.1620370571.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-This only affects glibc systems and have been
-found on runqemu core-image-minimal with gstreamer ptest-runner
+This ensures that nasm version and timestamps do but appear in build
+outputs
 
-STOP: ptest-runner
-libgcc_s.so.1 must be installed for pthread_cancel to work
-Aborted
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1cb679e6a4528a2cef16f65342d5e65adb14cb16)
+(cherry picked from commit 2f69c00c4bc1de6cd518fd78f67ff3ca863392f3)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
-index 57a3ae005b..6bd10d2fec 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.1.bb
-@@ -26,3 +26,5 @@ do_compile () {
- do_install () {
- 	install -D -m 0755 ${S}/ptest-runner ${D}${bindir}/ptest-runner
- }
-+
-+RDEPENDS_${PN}_append_libc-glibc = " libgcc"
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
+index b6efc6bca0..0bd6af8db9 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.6.bb
+@@ -29,7 +29,7 @@ RCONFLICTS_${PN} += "jpeg"
+ 
+ inherit cmake pkgconfig
+ 
+-export NASMENV = "--debug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++export NASMENV = "--reproducible --debug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
+ 
+ # Add nasm-native dependency consistently for all build arches is hard
+ EXTRA_OECMAKE_append_class-native = " -DWITH_SIMD=False"
 -- 
 2.30.2
 
