@@ -1,88 +1,86 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.3985.1620462639466391106
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.4441.1620465428183722538
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 May 2021 01:30:39 -0700
+ Sat, 08 May 2021 02:17:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
-Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9A3BF20B7178;
-	Sat,  8 May 2021 01:30:38 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9A3BF20B7178
-From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GuVMC9b4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id n84so6502569wma.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 02:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vM8R7xEhNcNm6I1xRdlEX9ncVGDKEoJa6NfPGQparEo=;
+        b=GuVMC9b4KcUmrdYju+oIFuXIBKP2xcpZRiEjhP5dRfjs6rUi6PhcDStsEUQRhLu457
+         MlgUi37lvCSGtPFbF/ARX30tgRvOiwDnJ9dg2z8X7/kfAeJCew+csgm5SMS3/GIyJSOp
+         ScoZ01A6stScoD0ozZNeGFZj2vTMKnYsPlTKs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vM8R7xEhNcNm6I1xRdlEX9ncVGDKEoJa6NfPGQparEo=;
+        b=ep0gK94QJFCbRJEqygI9s1q10KRXWGxZZv2eq1SO1g46EqYfGJ7Gl13CdTV/RetMvg
+         KOBYwoFENtldqNo4nPYugmtKV2SP2YJsYLw/G+vaw25orsg3i8RFi6JOEMoIaLVXWvKN
+         jHElXJSW76Ne1PRUn8NPWzdkiWncJGcheSAIZuNuQ+ljjBiJcA49Xc9wX6JY3hZU95E4
+         fQvQAyFvbtoVYWyRt/lRlBzbJxKaI1wul5WRx9y076MH7U9TFCCl/g9ZZyPBWDXgNA5n
+         pUSAbaYkj39wS5RgZzc3YNxGSkPLwLD031xdX0V+M7RHw3pCbS/2TLV3K1JwMkXKdPKL
+         U11A==
+X-Gm-Message-State: AOAM533NIK+Zve4q/zcMqeJcUajIpTTld2U32N9uNsj3A8vO/vHgis9q
+	UoOM11T4/rsmxMkQCIDx+sCpRO6BiBTvtA==
+X-Google-Smtp-Source: ABdhPJw4mogIWhsgUllZ9fENOK1b5S76nW/96AUWwhADajXAeEOoryZ2SOXdY5R2gBwS/HgOqhtWww==
+X-Received: by 2002:a7b:c38d:: with SMTP id s13mr25663015wmj.43.1620465426603;
+        Sat, 08 May 2021 02:17:06 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8b6c:ea91:f112:97a5])
+        by smtp.gmail.com with ESMTPSA id n20sm7193296wmk.12.2021.05.08.02.17.06
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 May 2021 02:17:06 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [PATCH] baremetal-helloworld: Enable RISC-V 64 port
-Date: Sat,  8 May 2021 02:30:31 -0600
-Message-Id: <20210508083031.1448886-1-alejandro@enedino.org>
-X-Mailer: git-send-email 2.25.1
+Subject: [PATCH] oeqa/qemurunner: Fix binary vs str issue
+Date: Sat,  8 May 2021 10:17:05 +0100
+Message-Id: <20210508091705.2084982-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Add support for MACHINE=3Dqemuriscv64.
+The recent logging changes for qemurunner showed up as errors on the
+autobuilder where decode couldn't be called on the returned string.
+Since the code returns binary data, return b'' instead of '' to match
+to avoid tracebacks.
 
-$ runqemu nographic
+One of these cases was newly added, copied from the other which has
+been there for a long time, always broken.
 
-BIOS: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv=
-64.elf]
-MACHINE: [qemuriscv64]
-
-runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/=
-recipe-sysroot-native/usr/bin/qemu-system-riscv64
-
-Hello OpenEmbedded on RISC-V 64!
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../baremetal-examples/baremetal-helloworld_git.bb   | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal=
--helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/b=
-aremetal-helloworld_git.bb
-index ee945c1ff0..3b7b8193a7 100644
---- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
-orld_git.bb
-+++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
-orld_git.bb
-@@ -4,7 +4,7 @@ DESCRIPTION =3D "These are introductory examples to showc=
-ase the use of QEMU to ru
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39346640a23c701e4f459e05f56f4=
-449"
-=20
--SRCREV =3D "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
-+SRCREV =3D "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
- PV =3D "0.1+git${SRCPV}"
-=20
- SRC_URI =3D "git://github.com/aehs29/baremetal-helloqemu.git;protocol=3D=
-https;branch=3Dmaster"
-@@ -28,12 +28,13 @@ inherit baremetal-image
- # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
- # but the examples can also be run on other architectures/machines
- # such as vexpress-a15 by overriding the setting on the machine.conf
--COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64"
-+COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
-=20
- BAREMETAL_QEMUARCH ?=3D ""
- BAREMETAL_QEMUARCH_qemuarmv5 =3D "versatile"
- BAREMETAL_QEMUARCH_qemuarm =3D "arm"
- BAREMETAL_QEMUARCH_qemuarm64 =3D "aarch64"
-+BAREMETAL_QEMUARCH_qemuriscv64 =3D "riscv64"
-=20
- EXTRA_OEMAKE_append =3D " QEMUARCH=3D${BAREMETAL_QEMUARCH} V=3D1"
-=20
-@@ -49,3 +50,10 @@ FILES_${PN} +=3D " \
-     ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
-     ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
- "
-+
-+# RISC-V tunes set the BIOS, redefine since runqemu jumps there
-+QB_DEFAULT_BIOS_qemuriscv64 =3D "${IMAGE_LINK_NAME}.elf"
-+
-+# Use the medium-any code model for the RISC-V 64 bit implementation,
-+# since medlow can only access addresses below 0x80000000
-+CFLAGS_append_qemuriscv64 =3D " -mcmodel=3Dmedany"
---=20
-2.25.1
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 69fee27511f..899152c7adc 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -724,7 +724,7 @@ class LoggingThread(threading.Thread):
+             data = self.readsock.recv(count)
+         except socket.error as e:
+             if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
+-                return ''
++                return b''
+             else:
+                 raise
+ 
+@@ -737,7 +737,7 @@ class LoggingThread(threading.Thread):
+             # until qemu exits.
+             if not self.canexit:
+                 raise Exception("Console connection closed unexpectedly")
+-            return ''
++            return b''
+ 
+         return data
+ 
+-- 
+2.30.2
 
