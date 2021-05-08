@@ -1,66 +1,63 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.5690.1620476329154519712
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.5849.1620476650742461146
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 May 2021 05:18:49 -0700
+ Sat, 08 May 2021 05:24:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SykrDdv7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id t18so11860234wry.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 05:18:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IiiO/dz1;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id m37so9305811pgb.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 05:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Iigz6MaMu1TDmRUQFRS38WYrMcDjfWnQPAKcCJGkbMk=;
-        b=SykrDdv7r1GGPEjCy7wJLoJyCggU1yTI6rACtik9n35X39xb+076VnLSrVklwU39DK
-         f0gyA7aClsIYdOmOblZa8y2UOWrHMPKsxXC9/fntZzv1+AAJimUnqTEl61a8GmPlhmI/
-         /V5SrX0fOxm4CtqcJT4nohhNjNDjL6JjDN6iM=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vnTrQ8QrKEuhsEd8ICpDUNGOWZlekKCshEUW+V8AZps=;
+        b=IiiO/dz1pOEP3ti7oMYHpH9KNsaBYpW4/f0cN/jPKnurkVT2ugZ++nGW9HPXsTAK+Q
+         NCYBaOmIDRT+X3WgArMJwplI05/9TczpEYwNn/JOkbBPVbNTYsNjhtP5TXGYAcTOny1B
+         d35P9WTCpn53gztv1bpHlRgR7ijcUwRV49gmzGDnBQQf/rA4srLbb4Mhd3sm6DxN4xHn
+         hW3oKL9vqmF7t3ZA2OPhhJVcKIOCcMNqRUCijzdKrPOKCHSNWvCpyO2OlqpiXVMEpTIY
+         2UjDeKvd2lqbv53WPiUqv1tHF9Ig/ZL2kKGgpKPz85gg6qKrAhlP0kaSl1L2ntDCP39w
+         1dzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Iigz6MaMu1TDmRUQFRS38WYrMcDjfWnQPAKcCJGkbMk=;
-        b=mpdaIBTqcjJ0JvZ41pbMTMzMI8icVBGPxKpJ2HKXoph0CygfN4U/2m13+oyHgFFP0j
-         Qr5+SkXkTIhtF13OgGxMP6thI+7zUw3EKY5K2Bk+kT8bMzcPrjEl2SKrLM51HbgPJwkW
-         cwJgai1CVWeJOW3Y02xfcyi/rBRF2L2jvdJw+olg57fRmduZwAn5V3zWb4gSsAlQ1HAF
-         XYR7Bg6bA5Qt5G+7/pVlbFrZjCjmBfcXUZ3nkQUjfTZlhdjQhuyKJ8GjAWqgyzxSP6q/
-         QODn8tN7M+8sEX+gplPr8CEWgBjTalYpWTGqkeSNJiACxg3iSzux/ESlhBYLsKvPlhIw
-         9jTw==
-X-Gm-Message-State: AOAM533pT+Pj2NKQYO994xOdq0zOcdOTiYjs4qz0Xp6Q2NVgFWVj2O+X
-	xCQvFAoa0lvaRzSDdhp2iZXAj831SWEMWw==
-X-Google-Smtp-Source: ABdhPJxA4NtEkOoF5zHnbMUp9zEEfACPlABG0NRtDarV42nlCEZAPD10dQNB/T1nCy/tvnxN6s4/Wg==
-X-Received: by 2002:a5d:5242:: with SMTP id k2mr19271372wrc.269.1620476327715;
-        Sat, 08 May 2021 05:18:47 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:8b6c:ea91:f112:97a5? ([2001:8b0:aba:5f3c:8b6c:ea91:f112:97a5])
-        by smtp.gmail.com with ESMTPSA id n20sm7866043wmk.12.2021.05.08.05.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 05:18:47 -0700 (PDT)
-Message-ID: <e53853537f647bff8284ead69df0cceda5f5d9d5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: fix build with gcc11
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 08 May 2021 13:18:43 +0100
-In-Reply-To: <20210508121437.839561-1-schnitzeltony@gmail.com>
-References: <20210508121437.839561-1-schnitzeltony@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vnTrQ8QrKEuhsEd8ICpDUNGOWZlekKCshEUW+V8AZps=;
+        b=WY9/0i2nBPxgsxCsEmn6z4z4g9nwDpm3YpxughVejHncsBajZBc7Do6hK8T20wbLHN
+         oiIBk9ktJyu3rj8DjffySTRyN6SvxlglOi/JK0INOV/dIDrrrdqbxpnhjhUYUIivDXh7
+         kGQEsTOT90f9bmwEpStkpsIGI1IY2sFq9ciK7HKIow9J2Hy6g0QljAay+XAbho/mL87d
+         +UDuNtuJOsTIMXYmDUMaWOEHOFLgeAzc1n8/eu9zQ2rFN/SGMeT9tYWtbjafybLFDcjH
+         IsYKWB1h1AT9V42cbdxfwVzfESSB3bD/1w83h0bl05KnXO/U1YTpai+Hr3w8Fj/Zs6ie
+         kCKw==
+X-Gm-Message-State: AOAM530OA0XQiEPD7BRNngqwrLuKLr9kRAx5aEWIm4K9rBqBhBJKAdyS
+	7uTvubHWp483qJkkOnk+aJVojW9hpZXlOV8pKuA=
+X-Google-Smtp-Source: ABdhPJzztofyGKqZsmOoijMzHNGkWamJKxcUK9zkQwB7jyUHVELRFbQXPQY+6RrRPjmoi0X8VtNeG/Rs/gBC5L+BVOM=
+X-Received: by 2002:a62:3344:0:b029:28c:6f0f:cb90 with SMTP id
+ z65-20020a6233440000b029028c6f0fcb90mr14963249pfz.58.1620476650097; Sat, 08
+ May 2021 05:24:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210508121437.839561-1-schnitzeltony@gmail.com> <e53853537f647bff8284ead69df0cceda5f5d9d5.camel@linuxfoundation.org>
+In-Reply-To: <e53853537f647bff8284ead69df0cceda5f5d9d5.camel@linuxfoundation.org>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Sat, 8 May 2021 14:23:58 +0200
+Message-ID: <CALbNGRSrYWyJxBzUnMoh72=tJboAt6ReG+jNmDT1LDyZ5-xa0g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: fix build with gcc11
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Sat, 2021-05-08 at 14:14 +0200, Andreas Müller wrote:
-> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-> ---
->  ...from-static-vars-to-fix-build-with-g.patch | 100 ++++++++++++++++++
->  .../gstreamer1.0-plugins-good_1.18.4.bb       |   1 +
->  2 files changed, 101 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0003-Remove-volatile-from-static-vars-to-fix-build-with-g.patch
+On Sat, May 8, 2021 at 2:18 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I'm guessing this only happens when qt is enabled? I was wondering
+> why we hadn't seen this initially...
+>
+> Cheers,
+>
+> Richard
+>
+Wanted to write something like: 'What am I missing?' - now I know:
+Have Qt enabled
 
-I'm guessing this only happens when qt is enabled? I was wondering
-why we hadn't seen this initially...
+Cheers
 
-Cheers,
-
-Richard
-
+Andreas
