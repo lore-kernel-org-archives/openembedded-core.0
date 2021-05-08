@@ -1,81 +1,118 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.7204.1620485319901938948
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.8275.1620490596284016123
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 May 2021 07:48:40 -0700
+ Sat, 08 May 2021 09:16:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=otdPMfBo;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id b15so505044plh.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 07:48:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X94cxeJq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id a2so11553620qkh.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 09:16:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=luPK8SYrrUnALjL7hNC+p8IILQ5eaPSuEtsp/FCUzCA=;
-        b=otdPMfBoxnU+cyzpFazYJC2Vg4+HGT4n3nPxp52iwUt16BIwRgZd403WT05TFoRhWN
-         cYs/0zQyBnq3OkCnyvsFQDprw7n4Q7OP5B06nl9kLzwob7CKdGBH8JIQ4Cz+WCwNSgNL
-         gDfhTVqJ+ho4Skr933l/7fDa29r5KZSlDjRibWWIoMnexDD/Shn15BasYEdTRBMfz8xY
-         K2T9lYEj4jy6UMfKAGIDFoI7Mp5Nupr1JSzgUnrUbyK4P6ZY8VNKodTxyswku5HReC0D
-         PoR9h7kft3jsdXWVGGIilLgIRD5VtHJSNtB6+o/l70w7yuoGo1BCcBrPX4R39W0vVWYG
-         u8mw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1qu70W30qEUl5pdfH+B2vkdyU2xgPBYoDfnn5EbvXm0=;
+        b=X94cxeJqjABLr+uH/gHi2FFb66gy0eDb/XKSKse0QbQME7i3dqkuH1hwQw9cGy8xkA
+         kpYnvverYazHlXmNigux0RGb6lfx0UERTJ6D66wBP92ENRsdnAsIod97EdfDDslUxTA7
+         OeshU8IPR5GhWSJt5iBit+AyAmZrI79IUzCVfH3CYQsNn+Q5XQkHT52YOwPW7g4q2Xso
+         hQrah1DRAOH62ZvmIyUkxl9I6Tw91jQ9aussFDt6U1Tk1nFOVmH5QzcF/rp5dQ1D6u+W
+         Mkjw1s4Ph1trL8I5PNIaLM5b3r0LydyC8Lr3+jhNtNNhldTZbwLHzGMrifSv4FNcBd8n
+         dhIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=luPK8SYrrUnALjL7hNC+p8IILQ5eaPSuEtsp/FCUzCA=;
-        b=FBDsPn4MiUryUzSYNDvV74zrjqeZcIIZieB3Wt1y1sW/JOCugeXpYMOZpjge4b/b7C
-         ymnz+G/z93wAskhxyiOYy/08we6xsS70kJOVQIgEWpZ81nIEoXOHvpvwQBPnqG3jFvuN
-         tzDg+tOWKsWzT66hMauTmrgRK+kIBNvEpaAp+wv88CSEthgBrhzRQWyhaU4j489fLxrK
-         VSdQyDZr0L14jeD7FVHijMaW3PRfZHI/N2K4HTG9Bp7lbzCMn/OU2l6/43grdtGSMrSE
-         TxRNBwf7/b6KfK8bXcXWDqKwZBFtnNHhmQA35fgcprO729PwsSym4YCGNc0RUja8VeXq
-         zHhg==
-X-Gm-Message-State: AOAM530nrcTYj5uUDl5HXXD1bSb23cUPl25qCuveyFbSX7X62i7oOE/W
-	DofUBzKae2+y8u5NkomyZ76F4pLC7148WQ==
-X-Google-Smtp-Source: ABdhPJye9B8dmBdVX/rDIFhb/72DE/dBRf8HySGENHAF2C1OyqPPP9gWEsIaxSsWjCvjhLfpBVX9Vw==
-X-Received: by 2002:a17:90b:310c:: with SMTP id gc12mr16614297pjb.217.1620485318981;
-        Sat, 08 May 2021 07:48:38 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::308d])
-        by smtp.gmail.com with ESMTPSA id b21sm6928446pfl.82.2021.05.08.07.48.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 07:48:38 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3-markdown: Upgrade to 3.3.4
-Date: Sat,  8 May 2021 07:48:36 -0700
-Message-Id: <20210508144836.2045090-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1qu70W30qEUl5pdfH+B2vkdyU2xgPBYoDfnn5EbvXm0=;
+        b=m0Rv6Ne6Iy/4F5KfXfaAR4Nujlz7EgPwsXkRy50b30EuVM4yO/OqVzhHO3wPzKVuUQ
+         ksZYn5Zu6ElEccOalFuyqFrg5TiRJXxBtt2SevQm28Yks2l+jLHFck2CeCAzp6ZRgnj1
+         sb1Gt7yEcThmYaujf5N4yRsc0sHMTjpIFW69qAAUUlZIpz5MZHZz+hAA3jcGwq98uT79
+         ihTiuoBrpz035M8LmI7dVZc7I5dSGboAjr5MGjIY58mk8Y4imOSaTpcQNOwkIIr0WTMw
+         Dmj9AorxNtjEf0ca8zeaKeXYT/khoyuKqCPfqjryR5cCuVeOsqAbo4gO2/fqN/W3gTig
+         bFRQ==
+X-Gm-Message-State: AOAM532+Uxvb3ll5dcm5IqAYHEQiSG61Ws9SATX84oT8/WgRYXHypt4Q
+	bPzwpNFXEivwT7PSCb/iz/B0sz5+QQgxXgsioRo=
+X-Google-Smtp-Source: ABdhPJzYLQz/MqjeOqfL2C2Kie5YKDKWp/Y0097lJNVqAX6emnDY5+8oB0aOQxuhVf1DoiLnPtmDS4HwFqMoyhSGhUA=
+X-Received: by 2002:a05:620a:9c8:: with SMTP id y8mr15033366qky.125.1620490595346;
+ Sat, 08 May 2021 09:16:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210508083031.1448886-1-alejandro@enedino.org>
+In-Reply-To: <20210508083031.1448886-1-alejandro@enedino.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 8 May 2021 09:16:08 -0700
+Message-ID: <CAMKF1spzTGhbLjcx6sW_J51ADSDRFj3sPfnb6wa=VUqam_0H+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Enable RISC-V 64 port
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-meta-python is carrying 3.3.4, once we upgrade it in core
-we can safely drop it from meta-python, helps with layer-compatibility
-checks
+On Sat, May 8, 2021 at 1:30 AM Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
+>
+> Add support for MACHINE=qemuriscv64.
+>
+> $ runqemu nographic
+>
+> BIOS: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv64.elf]
+> MACHINE: [qemuriscv64]
+>
+> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv64
+>
+> Hello OpenEmbedded on RISC-V 64!
+>
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+> ---
+>  .../baremetal-examples/baremetal-helloworld_git.bb   | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> index ee945c1ff0..3b7b8193a7 100644
+> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
+>
+> -SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
+> +SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
+>  PV = "0.1+git${SRCPV}"
+>
+>  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
+> @@ -28,12 +28,13 @@ inherit baremetal-image
+>  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+>  # but the examples can also be run on other architectures/machines
+>  # such as vexpress-a15 by overriding the setting on the machine.conf
+> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
+> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
+>
+>  BAREMETAL_QEMUARCH ?= ""
+>  BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
+>  BAREMETAL_QEMUARCH_qemuarm = "arm"
+>  BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
+> +BAREMETAL_QEMUARCH_qemuriscv64 = "riscv64"
+>
+>  EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+>
+> @@ -49,3 +50,10 @@ FILES_${PN} += " \
+>      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
+>      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
+>  "
+> +
+> +# RISC-V tunes set the BIOS, redefine since runqemu jumps there
+> +QB_DEFAULT_BIOS_qemuriscv64 = "${IMAGE_LINK_NAME}.elf"
+> +
+> +# Use the medium-any code model for the RISC-V 64 bit implementation,
+> +# since medlow can only access addresses below 0x80000000
+> +CFLAGS_append_qemuriscv64 = " -mcmodel=medany"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../{python3-markdown_3.3.3.bb => python3-markdown_3.3.4.bb}   | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-markdown_3.3.3.bb => python3-markdown_3.3.4.bb} (71%)
+I would have thought medlow would be appropriate for baremetal apps.
+Since this is a sample app
+we should try to use good defaults as it will serve as template.
+having no access below 0x80000000
+should not be such a hard limitation or is it so ?
 
-diff --git a/meta/recipes-devtools/python/python3-markdown_3.3.3.bb b/meta/recipes-devtools/python/python3-markdown_3.3.4.bb
-similarity index 71%
-rename from meta/recipes-devtools/python/python3-markdown_3.3.3.bb
-rename to meta/recipes-devtools/python/python3-markdown_3.3.4.bb
-index c456f05541..47cccbe5bd 100644
---- a/meta/recipes-devtools/python/python3-markdown_3.3.3.bb
-+++ b/meta/recipes-devtools/python/python3-markdown_3.3.4.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=745aaad0c69c60039e638bff9ffc59ed"
- inherit pypi setuptools3
- 
- PYPI_PACKAGE = "Markdown"
--SRC_URI[md5sum] = "034e3bccfde211d44b4a7a69cb290ba0"
--SRC_URI[sha256sum] = "5d9f2b5ca24bc4c7a390d22323ca4bad200368612b5aaa7796babf971d2b2f18"
-+SRC_URI[sha256sum] = "31b5b491868dcc87d6c24b7e3d19a0d730d59d3e46f4eea6430a321bed387a49"
- 
- BBCLASSEXTEND = "native"
- 
--- 
-2.31.1
-
+> --
+> 2.25.1
+>
+>
+> 
+>
