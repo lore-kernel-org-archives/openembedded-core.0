@@ -1,118 +1,88 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.web11.8275.1620490596284016123
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.8765.1620493555156302975
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 May 2021 09:16:36 -0700
+ Sat, 08 May 2021 10:05:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X94cxeJq;
- spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f170.google.com with SMTP id a2so11553620qkh.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 09:16:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Yq3ymabq;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id a5so3180825pfa.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 08 May 2021 10:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1qu70W30qEUl5pdfH+B2vkdyU2xgPBYoDfnn5EbvXm0=;
-        b=X94cxeJqjABLr+uH/gHi2FFb66gy0eDb/XKSKse0QbQME7i3dqkuH1hwQw9cGy8xkA
-         kpYnvverYazHlXmNigux0RGb6lfx0UERTJ6D66wBP92ENRsdnAsIod97EdfDDslUxTA7
-         OeshU8IPR5GhWSJt5iBit+AyAmZrI79IUzCVfH3CYQsNn+Q5XQkHT52YOwPW7g4q2Xso
-         hQrah1DRAOH62ZvmIyUkxl9I6Tw91jQ9aussFDt6U1Tk1nFOVmH5QzcF/rp5dQ1D6u+W
-         Mkjw1s4Ph1trL8I5PNIaLM5b3r0LydyC8Lr3+jhNtNNhldTZbwLHzGMrifSv4FNcBd8n
-         dhIA==
+         :cc:content-transfer-encoding;
+        bh=Xcvn9jCUi5UxokChZ9z5+Mh/IM0j754fnOWJ5UA0MJU=;
+        b=Yq3ymabqqrMU0OVGNfpeIV1y4JD6kwatqq7GBo53nyPUvob8aLSn7oZsufkVMimSXy
+         ZjzX0XgDMqaAZq2doMXhw6UPlRhqBq2lt62ZeAkvW7RNoANiXP/nBgDzxVCGLw3gZDLM
+         bg9iXaNzer+qN9gXNc5+fB+dScggz6eEKBK/o3/qdxoaDoUrp1bfJPpkNqphFe1fUTSc
+         kMpVl+hp6xLTT7IFeNXy50PIur5jwbgrfjI67F9ait6ee2fmY2tHpPtDl3RsBBIGfkz8
+         T0jrw1De3bA6wmNFuGnXBF8eKVPGdNFGmUXi862qkprUB4st7CIgc165H/FDWsfhVgWk
+         nBfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1qu70W30qEUl5pdfH+B2vkdyU2xgPBYoDfnn5EbvXm0=;
-        b=m0Rv6Ne6Iy/4F5KfXfaAR4Nujlz7EgPwsXkRy50b30EuVM4yO/OqVzhHO3wPzKVuUQ
-         ksZYn5Zu6ElEccOalFuyqFrg5TiRJXxBtt2SevQm28Yks2l+jLHFck2CeCAzp6ZRgnj1
-         sb1Gt7yEcThmYaujf5N4yRsc0sHMTjpIFW69qAAUUlZIpz5MZHZz+hAA3jcGwq98uT79
-         ihTiuoBrpz035M8LmI7dVZc7I5dSGboAjr5MGjIY58mk8Y4imOSaTpcQNOwkIIr0WTMw
-         Dmj9AorxNtjEf0ca8zeaKeXYT/khoyuKqCPfqjryR5cCuVeOsqAbo4gO2/fqN/W3gTig
-         bFRQ==
-X-Gm-Message-State: AOAM532+Uxvb3ll5dcm5IqAYHEQiSG61Ws9SATX84oT8/WgRYXHypt4Q
-	bPzwpNFXEivwT7PSCb/iz/B0sz5+QQgxXgsioRo=
-X-Google-Smtp-Source: ABdhPJzYLQz/MqjeOqfL2C2Kie5YKDKWp/Y0097lJNVqAX6emnDY5+8oB0aOQxuhVf1DoiLnPtmDS4HwFqMoyhSGhUA=
-X-Received: by 2002:a05:620a:9c8:: with SMTP id y8mr15033366qky.125.1620490595346;
- Sat, 08 May 2021 09:16:35 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Xcvn9jCUi5UxokChZ9z5+Mh/IM0j754fnOWJ5UA0MJU=;
+        b=qkfA0OKO+TCd+Et+5e9Yn7TyIORHFWI18CItmMQH5Zy9/bDtdi5ZcRnDDgwAdyO13j
+         GrI0e32WhTA/hjmCN+GWEkPecsb40j112YI3cjbalJaGohL9YAirmSmCiDNs+W20DqUK
+         LN+KIuxyELLEOWV9BzRDfXCSA+NigqpCLmtjdFggNSG1qWYw+dPcwX/mf0XvFhlc/s67
+         ujWqWk7y+ebxBuItk55ohyjzPM3/zh736fYKjkCBjAxZ1Dlt4yvSFLi8kMKtNXF8axNa
+         kL194BjLH2bLXV+dgRqJ4fHSgCV17ZTcwXG3GtDGhRViH5YDqnzscrnpaF6BI321Ol62
+         2N2A==
+X-Gm-Message-State: AOAM5325AuVtJsjMgUtVvuo+8gT7GEuFCUiXpyOchbTrjkAF2Vrh21Sm
+	YrlEzuBeUWEbUsvtumfBqU2e5iSQZD6YLJ6Y1uA=
+X-Google-Smtp-Source: ABdhPJwKBoqNuAFLFqR6EgKqYCikwjLQfRy090Bp3iCfC2tCb7qbQ2GVbqeoFxBAgLY3+Ez/nPnIoJ0pAVK2lXXmdYM=
+X-Received: by 2002:a65:6a50:: with SMTP id o16mr16562545pgu.6.1620493554535;
+ Sat, 08 May 2021 10:05:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210508083031.1448886-1-alejandro@enedino.org>
-In-Reply-To: <20210508083031.1448886-1-alejandro@enedino.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 8 May 2021 09:16:08 -0700
-Message-ID: <CAMKF1spzTGhbLjcx6sW_J51ADSDRFj3sPfnb6wa=VUqam_0H+g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Enable RISC-V 64 port
-To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+References: <CAOSpxdbUdiAU4Eq-6Ogzudm70ieGhzuop0_zCiOBYvczYKi+cQ@mail.gmail.com>
+ <CALbNGRS5TPuj_+prg_jsFyMckyoaFzxFO0g_Lq4QCSZCw+-CJA@mail.gmail.com> <CAOSpxdYnKTSjBPD1BuqYyo6r1X6TzQm9M6_wpDPWq4y66Vhk3Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdYnKTSjBPD1BuqYyo6r1X6TzQm9M6_wpDPWq4y66Vhk3Q@mail.gmail.com>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Sat, 8 May 2021 19:05:43 +0200
+Message-ID: <CALbNGRS7ziX_bR0V-=gREaF9SqdPsYWHCEVVAye6_V2hY+A2LQ@mail.gmail.com>
+Subject: Re: [OE-core] Dunfell support for Fedora 33
+To: Steve Sakoman <steve@sakoman.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 8, 2021 at 1:30 AM Alejandro Hernandez Samaniego
-<alejandro@enedino.org> wrote:
+On Thu, Apr 29, 2021 at 7:17 PM Steve Sakoman <steve@sakoman.com> wrote:
 >
-> Add support for MACHINE=qemuriscv64.
+> On Thu, Apr 29, 2021 at 6:57 AM Andreas M=C3=BCller <schnitzeltony@gmail.=
+com> wrote:
+> >
+> > On Thu, Apr 22, 2021 at 6:24 PM Steve Sakoman <steve@sakoman.com> wrote=
+:
+> > >
+> > > I'd like to work toward getting Fedora 33 as a supported distro for
+> > > the next dunfell release (3.1.8).
+> > >
+> > > Initial autobuilder testing looks fairly good, but I'd like to get
+> > > some feedback from people who are already doing dunfell builds on
+> > > Fedora 33.  Have you run into any issues?  If including
+> > > meta-openembedded in your builds, any issues there?
+> > >
+> > > Thanks!
+> > >
+> > > Steve
+> > >
+> > Hi,
+> >
+> > FWIW: on my new machine I gave my monster image a build with dunfell /
+> > fedora 33. Ok this is not a world build but I had no issues on oe-core
+> > / meta-openembedded.
 >
-> $ runqemu nographic
+> Thanks for the report!
 >
-> BIOS: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv64.elf]
-> MACHINE: [qemuriscv64]
->
-> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv64
->
-> Hello OpenEmbedded on RISC-V 64!
->
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-> ---
->  .../baremetal-examples/baremetal-helloworld_git.bb   | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> index ee945c1ff0..3b7b8193a7 100644
-> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
->
-> -SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
-> +SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
->  PV = "0.1+git${SRCPV}"
->
->  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
-> @@ -28,12 +28,13 @@ inherit baremetal-image
->  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
->  # but the examples can also be run on other architectures/machines
->  # such as vexpress-a15 by overriding the setting on the machine.conf
-> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
-> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
->
->  BAREMETAL_QEMUARCH ?= ""
->  BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
->  BAREMETAL_QEMUARCH_qemuarm = "arm"
->  BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
-> +BAREMETAL_QEMUARCH_qemuriscv64 = "riscv64"
->
->  EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
->
-> @@ -49,3 +50,10 @@ FILES_${PN} += " \
->      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
->      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
->  "
-> +
-> +# RISC-V tunes set the BIOS, redefine since runqemu jumps there
-> +QB_DEFAULT_BIOS_qemuriscv64 = "${IMAGE_LINK_NAME}.elf"
-> +
-> +# Use the medium-any code model for the RISC-V 64 bit implementation,
-> +# since medlow can only access addresses below 0x80000000
-> +CFLAGS_append_qemuriscv64 = " -mcmodel=medany"
+> Steve
+Hi Steve,
 
-I would have thought medlow would be appropriate for baremetal apps.
-Since this is a sample app
-we should try to use good defaults as it will serve as template.
-having no access below 0x80000000
-should not be such a hard limitation or is it so ?
+it seems Fedora 33 updated python to 3.9.2 (bottom posts in [1]) and
+am not sure my tests included that. Will try another build.
 
-> --
-> 2.25.1
->
->
-> 
->
+[1] https://github.com/kraj/meta-clang/issues/463
+
+Cheers,
+
+Andreas
