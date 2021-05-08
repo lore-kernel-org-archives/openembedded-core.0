@@ -1,62 +1,62 @@
-Received: from mail1.bemta25.messagelabs.com (mail1.bemta25.messagelabs.com [195.245.230.67])
- by mx.groups.io with SMTP id smtpd.web09.1224.1620435885941603487
+Received: from mail3.bemta25.messagelabs.com (mail3.bemta25.messagelabs.com [195.245.230.85])
+ by mx.groups.io with SMTP id smtpd.web09.1229.1620435919728632367
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 May 2021 18:04:46 -0700
+ Fri, 07 May 2021 18:05:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=skahNN1m;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.67, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=psvztS4y;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.85, mailfrom: wangmy@fujitsu.com)
 Return-Path: <wangmy@fujitsu.com>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1620435884; i=@fujitsu.com;
-	bh=xxVUxaA4iosQD8Fc0ryKo/xYnX7nlX+gtQqOFgcspIw=;
+	s=170520fj; t=1620435918; i=@fujitsu.com;
+	bh=HF48TFXlv80KXpwAU249wyn5ebF4VLJdv2jajKT9rvM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=skahNN1mJhlUQUutQSqWF0LJXYVK8PvsEjfbEk6V6Pg6aZ8PnuqL36rcUe23GZjqM
-	 6nDAtpz+Le5ShxAjp8EeQmVZRw6wvKm1Yx0gsyyOFO60z+DQRo8BKgjf5ATdy+EZxt
-	 XRuWdNwNrtltzaQjqRJZnHFITQ3qsSkiD0IzzmLzNexGQ3smUfF/GzJ62rIXTSMrnV
-	 NOarYEmkdDGsVbt8gUBUluv9PQDOtYjJxbYp7gZhvg0jabpYNiwi3Scy0WxkIhsiI6
-	 inH7iS+KPmNq8x+uGk/Mr0dTjGjqBogXVlFCwmMsGDxRYn6bQ1Lmk+BnyVmo36xuWu
-	 QhT+Uv2088snQ==
-Received: from [100.112.199.60] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-b.eu-west-1.aws.symcld.net id FC/92-55620-CA3E5906; Sat, 08 May 2021 01:04:44 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRqrv68dQ
-  EgwX9+hZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bF/19ZCo5wVhw628jawHieo4uRi0NIYCaT
-  xKqT25ggnGOMEttXLGDvYuTkYBNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv3vASoQFrCU2b
-  9vAAmKzAMU/vlnMDGLzCjhJbP3aABaXEFCQmPLwPVicU8BZ4s77tWwgthBQzcFZ19gg6gUlTs
-  58wgIxX0Li4IsXzBC9ihKzLzdDzamQeH34EvMERv5ZSFpmIWlZwMi0itEiqSgzPaMkNzEzR9f
-  QwEDX0NBI19DSTNfI0EQvsUo3SS+1VLc8tbhE11AvsbxYr7gyNzknRS8vtWQTIzAcUwqOXNvB
-  eOD1B71DjJIcTEqivEU5UxOE+JLyUyozEosz4otKc1KLDzHKcHAoSfDuvA6UEyxKTU+tSMvMA
-  cYGTFqCg0dJhNfrEVCat7ggMbc4Mx0idYpRUUqc9ylIQgAkkVGaB9cGi8dLjLJSwryMDAwMQj
-  wFqUW5mSWo8q8YxTkYlYR55UCm8GTmlcBNfwW0mAlo8ce1k0AWlyQipKQamJbsvaI0R9/i+ee
-  e2Evth0OXfDzfdcPp3kaGeX5qzFcDd7LI71Yqn8k4OUtxm/fFRtfwq8LCDvnHg63VfO7Vfd68
-  IO81t69z3+9AC/vWTw+FvVTTMktYXwc/drxvJu5t7B6yP1Y5ZcXC+en306VSmwMi8x1UllbVn
-  V226tjxvD5m419vJk770y9z7srTTzySM74nXwy785a5ve9Ebci25Qfk2e5LlmzVKNvzpMNNLf
-  HuWnm2d/UKPffvSmbHXku/u+CDtWmsWaHG9Mh/8hZNWsZmJ9yktO/kbdczZYi+2Lvr+IZPaZ9
-  NWG0fRrvrrJto9+ZRCbfHx+gefUWectFvk8qmFnYLn2Bx7PlezJitxFKckWioxVxUnAgA2LGk
-  aUIDAAA=
+	b=psvztS4yMj4T2pAk/uzBfowf6EEl9o324/qqHhR9GpG09pHvN72ASWEi31T7YEnvA
+	 2KEiP7vOIViNNdw1hMGFtU8rI+kDN7cOwhknQp0O+rPk+eZJCKuLjVv4k23FEZ2gqo
+	 iZVFeMtGUKa+xHMjveUozESgfjb/WVJHcPerMRNcj9+c284YyF3EBCeEYQldTwY8xv
+	 Y8zRSAQEEat8b9sIiFbpPcjMNnvFdCzzhDmXqEPTdE7cICNOhI07DPjCKNBJQ2ZSeS
+	 9PS5TWTr0VAEDsoffpOmxcb80eavbxN6x3gqQ3d4OwZoAXr/tkvwCo6tJeXyIrCCrq
+	 vVy8gEwcDRW2w==
+Received: from [100.112.198.228] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-5.bemta.az-b.eu-west-1.aws.symcld.net id CD/73-53303-DC3E5906; Sat, 08 May 2021 01:05:17 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8MRonv28dQ
+  Eg2OnZS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1ow9f96zFOzkqGibvIm1gfEGexcjF4eQwEwm
+  iQ+z9rBBOMcYJbZsXcvYxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvfvewg9jCAs4S/
+  Vd+soLYLEDx719fs4DYvAJOEn8+tTKD2BICChJTHr4HszmB6u+8X8sGYgsB1RycdY0Nol5Q4u
+  TMJywQ8yUkDr54AdWrKDH7cjMLhF0h8frwJeYJjPyzkLTMQtKygJFpFaN5UlFmekZJbmJmjq6
+  hgYGuoaGRrqGlma6ZiV5ilW6SXmqpbnlqcYmuoV5iebFecWVuck6KXl5qySZGYDCmFBxx2MF4
+  //UHvUOMkhxMSqK8RTlTE4T4kvJTKjMSizPii0pzUosPMcpwcChJ8O68DpQTLEpNT61Iy8wBR
+  gZMWoKDR0mE1+sRUJq3uCAxtzgzHSJ1ilGXY+fpxYuYhVjy8vNSpcR5n4IUCYAUZZTmwY2ARe
+  klRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8ciBTeDLzSuA2vQI6ggnoiI9rJ4EcUZKIkJJ
+  qYIpgUGDUf3a+MrwlPNGwI0jU/eiqyzser1eZr3rmvfEciQl8aw+KBX457NdWHyTi6ldv0J9e
+  7pvwsE35nF33ibdc3+2+/pG4d6/p38TuNV1aPPGWVVNLIlmeC8x7f26ei/nBPwdbJ/cwpd07x
+  Zwf+3hS7PY8T4kSH8GPxqJXSrJKGMUVNnrMzFWyrok2sTm6L9107WIL6cSV2+Vr9rClGa0238
+  lQY7Bp2feDEkuffWPRdzDl2OwjzbpEKP1zzb3U4surfEXOpLwLz0jLf6kw/edSmQk3NViTDzx
+  y3zjpidRpSaGosKjVUpLugckC9hZfP7zNq7pxavqU+6nLtPKcpDYXNwidyZj2Jc59bvBNJZbi
+  jERDLeai4kQAW2caQU0DAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-287.messagelabs.com!1620435883!53665!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-12.tower-285.messagelabs.com!1620435917!648636!1
+X-Originating-IP: [62.60.8.84]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.75.3; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 15818 invoked from network); 8 May 2021 01:04:43 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-  by server-15.tower-287.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 May 2021 01:04:43 -0000
+Received: (qmail 8534 invoked from network); 8 May 2021 01:05:17 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-12.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 May 2021 01:05:17 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14814hg2010396
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14815HtF017607
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Sat, 8 May 2021 02:04:43 +0100
+	for <openembedded-core@lists.openembedded.org>; Sat, 8 May 2021 02:05:17 +0100
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 8 May 2021 02:04:41 +0100
+ (TLS) id 15.0.1497.2; Sat, 8 May 2021 02:05:15 +0100
 From: "wangmy" <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libepoxy: upgrade 1.5.5 -> 1.5.7
-Date: Sat, 8 May 2021 09:04:14 +0800
-Message-ID: <1620435855-48558-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-pygments: upgrade 2.8.1 -> 2.9.0
+Date: Sat, 8 May 2021 09:04:15 +0800
+Message-ID: <1620435855-48558-5-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620435855-48558-1-git-send-email-wangmy@fujitsu.com>
 References: <1620435855-48558-1-git-send-email-wangmy@fujitsu.com>
@@ -68,26 +68,26 @@ Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libepoxy/{libepoxy_1.5.5.bb => libepoxy_1.5.7.bb}           | 2 +-
+ .../{python3-pygments_2.8.1.bb => python3-pygments_2.9.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.5.bb => libepoxy_1.5.7.bb} (93%)
+ rename meta/recipes-devtools/python/{python3-pygments_2.8.1.bb => python3-pygments_2.9.0.bb} (83%)
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-similarity index 93%
-rename from meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb
-rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-index a404fe2852..acf2ab0b03 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
- SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
-            file://0001-dispatch_common.h-define-also-EGL_NO_X11.patch \
-            "
--SRC_URI[sha256sum] = "261663db21bcc1cc232b07ea683252ee6992982276536924271535875f5b0556"
-+SRC_URI[sha256sum] = "9479cc0146ffb395fdecf9bd2a5930834fd0bce490cbcc4681ffd716bb3a0763"
- UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.8.1.bb b/meta/recipes-devtools/python/python3-pygments_2.9.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-pygments_2.8.1.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.9.0.bb
+index a2e0083483..7fedcb5a88 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.8.1.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.9.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
  
- inherit meson pkgconfig features_check
+ inherit setuptools3
+-SRC_URI[sha256sum] = "2656e1a6edcdabf4275f9a3640db59fd5de107d88e8663c5d4e9a0fa62f77f94"
++SRC_URI[sha256sum] = "a18f47b506a429f6f4b9df81bb02beab9ca21d0a5fee38ed15aef65f0545519f"
+ 
+ DEPENDS += "\
+             ${PYTHON_PN} \
 -- 
 2.25.1
 
