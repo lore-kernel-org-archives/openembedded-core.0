@@ -1,63 +1,88 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.3815.1620459684473632253
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.3985.1620462639466391106
  for <openembedded-core@lists.openembedded.org>;
- Sat, 08 May 2021 00:41:25 -0700
+ Sat, 08 May 2021 01:30:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 1487fLHt012790
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 8 May 2021 00:41:21 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Sat, 8 May 2021 00:41:20 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.4 via Frontend Transport; Sat, 8 May 2021 00:41:19 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <tonyb@cybernetics.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] grub2.inc: remove '-O2' from CFLAGS
-Date: Sat, 8 May 2021 15:41:14 +0800
-Message-ID: <20210508074114.1064-2-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210508074114.1064-1-kai.kang@windriver.com>
-References: <20210508074114.1064-1-kai.kang@windriver.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
+Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com [68.201.52.49])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9A3BF20B7178;
+	Sat,  8 May 2021 01:30:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9A3BF20B7178
+From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Subject: [PATCH] baremetal-helloworld: Enable RISC-V 64 port
+Date: Sat,  8 May 2021 02:30:31 -0600
+Message-Id: <20210508083031.1448886-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-From: Kai Kang <kai.kang@windriver.com>
+Add support for MACHINE=3Dqemuriscv64.
 
-It fails to boot grub after upgrade grub to 2.06. According to
-description in
+$ runqemu nographic
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14367
+BIOS: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv=
+64.elf]
+MACHINE: [qemuriscv64]
 
-it is introduced by a commit to fix CVE. So remove option '-O2' from
-CFLAGS rather than revert the commit to avoid the failure.
+runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/=
+recipe-sysroot-native/usr/bin/qemu-system-riscv64
 
-[YOCTO #14367]
+Hello OpenEmbedded on RISC-V 64!
 
-CC: Tony Battersby <tonyb@cybernetics.com>
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
+rg>
 ---
- meta/recipes-bsp/grub/grub2.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../baremetal-examples/baremetal-helloworld_git.bb   | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 590deb8d92..6de683ee1c 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -49,6 +49,8 @@ GRUBPLATFORM ??= "pc"
- 
- inherit autotools gettext texinfo pkgconfig
- 
-+CFLAGS_remove = "-O2"
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal=
+-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/b=
+aremetal-helloworld_git.bb
+index ee945c1ff0..3b7b8193a7 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
+orld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-hellow=
+orld_git.bb
+@@ -4,7 +4,7 @@ DESCRIPTION =3D "These are introductory examples to showc=
+ase the use of QEMU to ru
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39346640a23c701e4f459e05f56f4=
+449"
+=20
+-SRCREV =3D "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
++SRCREV =3D "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
+ PV =3D "0.1+git${SRCPV}"
+=20
+ SRC_URI =3D "git://github.com/aehs29/baremetal-helloqemu.git;protocol=3D=
+https;branch=3Dmaster"
+@@ -28,12 +28,13 @@ inherit baremetal-image
+ # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+ # but the examples can also be run on other architectures/machines
+ # such as vexpress-a15 by overriding the setting on the machine.conf
+-COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64"
++COMPATIBLE_MACHINE =3D "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
+=20
+ BAREMETAL_QEMUARCH ?=3D ""
+ BAREMETAL_QEMUARCH_qemuarmv5 =3D "versatile"
+ BAREMETAL_QEMUARCH_qemuarm =3D "arm"
+ BAREMETAL_QEMUARCH_qemuarm64 =3D "aarch64"
++BAREMETAL_QEMUARCH_qemuriscv64 =3D "riscv64"
+=20
+ EXTRA_OEMAKE_append =3D " QEMUARCH=3D${BAREMETAL_QEMUARCH} V=3D1"
+=20
+@@ -49,3 +50,10 @@ FILES_${PN} +=3D " \
+     ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
+     ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
+ "
 +
- EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} \
-                 --disable-grub-mkfont \
-                 --program-prefix="" \
--- 
-2.17.1
++# RISC-V tunes set the BIOS, redefine since runqemu jumps there
++QB_DEFAULT_BIOS_qemuriscv64 =3D "${IMAGE_LINK_NAME}.elf"
++
++# Use the medium-any code model for the RISC-V 64 bit implementation,
++# since medlow can only access addresses below 0x80000000
++CFLAGS_append_qemuriscv64 =3D " -mcmodel=3Dmedany"
+--=20
+2.25.1
 
