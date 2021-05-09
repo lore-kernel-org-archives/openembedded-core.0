@@ -1,134 +1,99 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.22551.1620586614024520333
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.24159.1620596869196347106
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 11:56:54 -0700
+ Sun, 09 May 2021 14:47:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dm0Ezqu9;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.43, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f43.google.com with SMTP id x5so14298386wrv.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 11:56:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AcCyQkCS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso8783312wmc.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 14:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v3oTWcalWWVzWJXJ+5c4fovv6o2jNxfVZty4wmqw9bA=;
-        b=dm0Ezqu9L9fSzlNeoTt11lvBNAisChgJYLY2THV6Czv8aPihCqF0fg8Zb+7+avN+m7
-         4Gu2qApbt4xsBn2+G45hQnT91975DJp/PUgFvXKtDQU23Lf477Kh3BwvsNu+sWI6nnu3
-         FWsP8U9acMu+aGjJoM3P7vSkg4rEPuvUWrISNAIemz/Vu7g1AVC/3eZqhxztVu6EDRq4
-         nVrpbox19MGnVgdlTTnxD87mQoDUlM+r01VAbgFZnFR6zJBKS+WCSItXcjMHhyPCjFFS
-         POSpavAEf2L49vCvxBiNjWQt6MmovRIF0wFird9ZQVuW/vmTuhQf/wZz/6q5rZf7gw3/
-         Ty+Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=io82Eis5+eicwWrkjooRqnSeDKLjsSlFzX4Rp20e4yc=;
+        b=AcCyQkCSBxnONwZ3aU7AdL+cZGBkUWXrXFCBnfVd8mYMuM/eq4A17j8ejTxcU3BFlY
+         6PqD16QZVrco15vHtlok4zh8pjhAf5ISbOMuO++Rgg9WhSHurrmGhrlA4kYEOKqgYrdB
+         tjUK27txSOmROICyk4n6l5xrFsAbUuQ4k96Ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v3oTWcalWWVzWJXJ+5c4fovv6o2jNxfVZty4wmqw9bA=;
-        b=FLZ5ijQCvHVAhZTi3pb4WiVXxrtA0pMuud7oE9b9G2vT768hFTQN3ZgSs+wCF4QmOX
-         /KPGNVi4MzctP6k1DEUC8H/EK1pRE+47GHqoujTNkLTneuTqEKaF/fPg95yk6Je+NAmL
-         YaABuQhWZQq3rQz0n/MLHIXAZHPfw1xM7SWgFDACsY72VUAymcmvc6d2TymXMY8kqNeL
-         4oHPBhq3ROdbBgkAOX3nHFhNSMowfBpWXTrgCUcpV4uUG1MiYS7UmNVvw1OYcxy8umF1
-         FChFEQCBoDEXKq2iZfxrUXBu78mHfyKHtOG5tJtCO2LA1o3r3E2v/W5TKZtLiwFpbZnL
-         q2KA==
-X-Gm-Message-State: AOAM5315qsGBA0NzYhc5v7XoB91HFXutXrZnMuO8YfszIPuAJ/ioH5w0
-	on6DX9T+jwNiq9vcBBp8mpOAqO+tLZM19bgciVh9wQ==
-X-Google-Smtp-Source: ABdhPJwtzsSQ1m+TjyJyQ6blhe6hQdb7VaQl/P4MMfJCX7L/wL/ytog9C+u1kKm1b+E0q36pBlQwyZdx3nI4mtc5Sqc=
-X-Received: by 2002:a05:6000:186f:: with SMTP id d15mr26490337wri.400.1620586612434;
- Sun, 09 May 2021 11:56:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210506171232.2832063-1-steve@sakoman.com> <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
-In-Reply-To: <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Sun, 9 May 2021 08:56:40 -1000
-Message-ID: <CAOSpxdbBXT7gDYHPP47Er6pArh3ZPUhmPXcpKKQTYfyKLde12Q@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=io82Eis5+eicwWrkjooRqnSeDKLjsSlFzX4Rp20e4yc=;
+        b=KMmEM4dxrZ7BzDFxBJqlVpumh6u1Hzr9p8IMelm6hBWddA1eOJ671UKlWVMkS90pGS
+         Z1SsauWuCG8gLfsSitmFl/t0xLGfAmeJks87VPSMGDXBnrxeM9sRTDH9KAqFddNlMfBF
+         M5mcjbGaTQeGQyPY0+UQF8S+S2ctFmCC4Bv5GuRDmLOOWov6BvxBDrpzftOWkwoFZ3sW
+         3M1Nkj9yln6acKJeZKv25hzm5pJBA+rUFKftc7E4FAlFlaVNDf3CPYAVe8x9FSJS47Dg
+         DB9XYeq4YDOaO6wrTeENG8J77rXsVLbbeFV/U7SfgDuLTHMG7uErfyDqXYq1jAaaAFcb
+         QzOg==
+X-Gm-Message-State: AOAM530ZTJLEabsin055miBZnnp2Guo1MAkpRpNPINtvmzg94VJa7rX5
+	lQPj3ZRnf1Xk/CBjW7YblOQLWg==
+X-Google-Smtp-Source: ABdhPJz0theBwSK370vDA5kBOCaCyxWYKtDKVecmkFctmkuujx//bCVGg6UhA+p4qssHTlp2mSHv0Q==
+X-Received: by 2002:a1c:4302:: with SMTP id q2mr34011858wma.1.1620596867597;
+        Sun, 09 May 2021 14:47:47 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6? ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
+        by smtp.gmail.com with ESMTPSA id 16sm16690524wmi.13.2021.05.09.14.47.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 May 2021 14:47:47 -0700 (PDT)
+Message-ID: <41f87a4c7e3ac473e163bec0ef0877876a7d8bcb.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list for intractable CVE's
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 09 May 2021 22:47:45 +0100
+In-Reply-To: <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
+References: <20210506171232.2832063-1-steve@sakoman.com>
+	 <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 9, 2021 at 8:17 AM akuster808 <akuster808@gmail.com> wrote:
+On Sun, 2021-05-09 at 11:17 -0700, Armin Kuster wrote:
+> 
 > On 5/6/21 10:12 AM, Steve Sakoman wrote:
 > > The preferred methods for CVE resolution are:
-> >
+> > 
 > > 1. Version upgrades where possible
 > > 2. Patches where not possible
 > > 3. Database updates where version info is incorrect
 > > 4. Exclusion from checking where it is determined that the CVE
-> >    does not apply to our environment
-
+> >    does not apply to our environment
 > I do see the desire of doing this as it is one file to maintain if there
-> are multiple packages being updated at once.
-
-No, that isn't the intent of this at all!  The above four methods are still
-the desired method to deal with CVE's on a per recipe basis, even if
-a CVE applies to multiple packages (quite rare).
-
-> This does highlight a few
+> are multiple packages being updated at once.  This does highlight a few
 > things to me:
->
+> 
 > 1) We have been dealing with this on a per-recipe basis. This is a shift
 > from that. ( Does this need to be documented)
-
-As I stated above, this is not the intent.
-
 > 2) Recipe Maintainers aren't engage in this area of activity as we had
 > original hoped. So we are working around that.
+>  
+> Reporting a false positive is better than masking an actual issue IMHO. 
 
-True, they haven't. But, no, working around lack of engagement is not the
-intent!  See my last two paragraphs in the original patch for my intent.
+Steve has covered most things in his reply but I want to add something on
+this last bit.
 
-> Reporting a false positive is better than masking an actual issue IMHO.
+Right now, multiple people have gone off and looked at some of these CVEs
+and all the people I know who have done it concluded they're intractable, 
+there is nothing we can do about them.
 
-I agree completely, and this is why this mechanism is optional.
+I'd like to document this somewhere to save people doing the same work over
+and over. If someone wants to investigate further and can propose actual 
+fixes, great, but it is helpful for them to have what we know so far to start 
+from.
 
-> So what was the Policy used to decide on what can be put into this file?
-> Did I miss that conversion ? Is it documented anywhere?
+This patch is effectively there to start a discussion if necessary. I do
+strongly believe we need to do something here though as the false positives 
+*are* harmful. Currently, it looks like the project doesn't care about 60 
+odd CVEs in master. Anyone wanting to try and improve that has to guess
+which ones have been investigated and which haven't.
 
-See the next two paragraphs from the original patch.  If you have some
-suggestions on how to better explain that this file is for ancient/intractable
-CVE's I would be happy to update the wording so there is no confusion!
+Cheers,
 
-Same goes for the leading comment in the include file.  Suggestions for
-revisions to the wording are welcome!
+Richard
 
-> > In some cases none of these methods are possible. For example the
-> > CVE may be decades old with no apparent resolution, and with broken
-> > links that make further research impractical.
-> >
-> > This patch creates a mechanism for users to remove this type of
-> > CVE from the cve-check results via an optional include file.
-> >
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  .../distro/include/cve-extra-exclusions.inc    | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >  create mode 100644 meta/conf/distro/include/cve-extra-exclusions.inc
-> >
-> > diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-> > new file mode 100644
-> > index 0000000000..956b3a9a3c
-> > --- /dev/null
-> > +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-> > @@ -0,0 +1,18 @@
-> > +# This file contains a list of CVE's where resolution has proven to be impractical.
-> > +# It contains all the information we are aware of about an issue and analysis about
-> > +# why we believe it can't be fixed/handled. Additional information is welcome through
-> > +# patches to the file.
-> > +#
-> > +# Include this file in your local.conf or distro.conf to exclude these CVE's
-> > +# from the cve-check results
-> > +
-> > +# strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006
-> > +# CVE is more than 20 years old with no resolution evident
-> > +# broken links in CVE database references make resolution impractical
-> > +CVE_CHECK_WHITELIST += "CVE-2000-0006"
-> > +
-> > +# groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803
-> > +# CVE is more than 20 years old with no resolution evident
-> > +# broken links in CVE database references make resolution impractical
-> > +CVE_CHECK_WHITELIST += "CVE-2000-0803"
-> > +
-> >
-> > 
-> >
->
->
+
+
+
+
