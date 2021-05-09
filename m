@@ -1,47 +1,47 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.24404.1620598294798834272
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.24475.1620598822127533824
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 15:11:35 -0700
+ Sun, 09 May 2021 15:20:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DbxVMErs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id d4so14574824wru.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 15:11:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Uo5ZYH/Y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id m9so14617565wrx.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 15:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=aqncOcNj08CLw3bvH0pmU2hYnq/O33uaKNO+jlcZAeo=;
-        b=DbxVMErsic5XcHFZ4ilcYmEdzKC4KVSJHior3udhG5TU6hpKGjavDBtNx3sO+1GBOW
-         516tXWkZnoVJLvxYhQ0vdTMJXM5UxKNHaacTXqmhTfJAe2bBt6Mxr7kl5S16aWGOzW5Q
-         k1iV/EzoGPa15ZpqqIlQqrIQuRRHlZgjvi+Lc=
+        bh=q/uPLeEva5dOSIaAJ8scI58jutx7+LHAihQ1slM9XbQ=;
+        b=Uo5ZYH/Yf55agX35EyaPjTemB7Qplt6ZlZiGNJGUN6kjOQtJuXqPGjdnhFC91hOWaj
+         1VmojSysRoXAD47Ixv71KUXEeF4bt6PaNRx56+NS9QIWoWpYf2LJkrSfV+h6YzV42SmK
+         vC3f6Zilv4PkRXINlPkwMz17pK+zA3Lywf5xU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aqncOcNj08CLw3bvH0pmU2hYnq/O33uaKNO+jlcZAeo=;
-        b=BiQ7WEnnEM5trsY9oTVhkkbaCAoOYR/2YmcccPif5S0ruUNkbPMnQ3RzbBgJxLVlOg
-         u0PjO4Xxe5OdiIrk8AdYEy0bER5XEj99Conr+RMRXecQKcqjAQ8wft5YKh1TndJHuf6n
-         qp/vwacMACUNC/i4QjWV9LJwdD86eG9aUlIQku/qeWG6/eu/Mq47MPNQ9Entclb3srdS
-         H9YD6kv8dHHH6yXKGrfjizlIo4VTNc1v1SxzH41DVMM1YNoDu2JZnGOb+2VwmYM+PFzb
-         winMLM7sQTm949aexTI8O6rPL6xCgCEUplPIKmscJXkUeLMdZ4bokhqVmYQgO/wg5Knq
-         qxXg==
-X-Gm-Message-State: AOAM531xPZsTPGYp0ZzDF4J5gD9aLYh2WYrSP0WnbBC3QmH/E+GX41Zl
-	iOfiUdggoSqOCeqMZBBnk8AscA==
-X-Google-Smtp-Source: ABdhPJw4/GEL07vDeHZoh6+xiujc62K2SyRJ4lzdDL6Qu2M+LvXk0Lgp3suHcYJyiwzY9pwXyMmtJQ==
-X-Received: by 2002:adf:f38c:: with SMTP id m12mr26423685wro.282.1620598293120;
-        Sun, 09 May 2021 15:11:33 -0700 (PDT)
+        bh=q/uPLeEva5dOSIaAJ8scI58jutx7+LHAihQ1slM9XbQ=;
+        b=Jd1oDE9TXxg5HcKlLQ6YzLX1GeP4SFHDs43pJmiF07PoeYUtWC7ZNsOPPHKkHihYeR
+         scSQbSVNdS1b+IkK1QQo5k3cNSEQ8I2cFntbU8mBnVD/M33tPSYjnMYmzqtEcEnidI6i
+         mcl9jR/FHG6MgDPqk2mmp8nbrZdrKXwS4kQWoRH3IKVRyRabYI0aEyVohSmvVXdnebsy
+         iw6ws0Tm4++GHH1K3D0uAMahDpakHJqrPkrA67ttCBHQFp+sGHB4M7CyDC3QJhkka785
+         GrtAaX7+/Xxi/tXKEA2qvR0Sv48biD51VnRVvc8LUjCc4zm4twH5ODDDF2V8iZTQ4GI1
+         TpbQ==
+X-Gm-Message-State: AOAM533r4A6i5xV2HKZ6gS0LHa5Z/2OzPMjFTX0GaYNYq5hGwttF1Mwq
+	oO9r85zfF5kqatiUz31BirhrvA==
+X-Google-Smtp-Source: ABdhPJyednAdZYRksjkRftoHhH3cZMfzJZX/ZMATkn5hi9KjSwVvcuNRv/3OWLrO9pidQAEUFnMZ2Q==
+X-Received: by 2002:adf:dcc5:: with SMTP id x5mr27385270wrm.1.1620598820540;
+        Sun, 09 May 2021 15:20:20 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6? ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id e8sm19507994wrt.30.2021.05.09.15.11.32
+        by smtp.gmail.com with ESMTPSA id f3sm19294737wrp.7.2021.05.09.15.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 15:11:32 -0700 (PDT)
-Message-ID: <f7bf7b7708f94dcbc6e4b6c37d89b89f7ac63505.camel@linuxfoundation.org>
+        Sun, 09 May 2021 15:20:20 -0700 (PDT)
+Message-ID: <0f59b33783d6d31306c4db6721bbba2518e423cd.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list for intractable CVE's
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: Steve Sakoman <steve@sakoman.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sun, 09 May 2021 23:11:32 +0100
+Date: Sun, 09 May 2021 23:20:19 +0100
 In-Reply-To: <20210506171232.2832063-1-steve@sakoman.com>
 References: <20210506171232.2832063-1-steve@sakoman.com>
 User-Agent: Evolution 3.40.0-1 
@@ -94,24 +94,21 @@ On Thu, 2021-05-06 at 07:12 -1000, Steve Sakoman wrote:
 > +# CVE is more than 20 years old with no resolution evident
 > +# broken links in CVE database references make resolution impractical
 > +CVE_CHECK_WHITELIST += "CVE-2000-0803"
+> +
 
-I was thinking of adding a better description for this one and went digging. I 
-then found (I think?) that the above was fixed in:
+One I propose we could add which I'd looked into previously:
 
-https://git.savannah.gnu.org/cgit/groff.git/commit/?id=07f95f1674217275ed4612f1dcaa95a88435c6a7
-
-which would make it fixed in groff 1.17. We can probably submit a request
-to update the CPE on that one...
-
-I do think we're going to need this file and that having it might encourage
-people to either document issues or as I maybe found here, get to the bottom 
-of one..
+# epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238
+# The issue here is spoofing of domain names using characters from other character sets.
+# There has been much discussion amongst the epiphany and webkit developers and
+# whilst there are improvements about how domains are handled and displayed to the user
+# there is unlikely ever to be a single fix to webkit or epiphany which addresses this
+# problem. Whitelisted as there isn't any mitigation or fix or way to progress this further
+# we can seem to take.
+CVE_CHECK_WHITELIST += "CVE-2005-0238"
 
 Cheers,
 
 Richard
-
-
-
 
 
