@@ -1,99 +1,105 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.24159.1620596869196347106
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web09.24212.1620597153066675573
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 14:47:49 -0700
+ Sun, 09 May 2021 14:52:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AcCyQkCS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso8783312wmc.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 14:47:48 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PYVtAOUx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id y124-20020a1c32820000b029010c93864955so10040016wmy.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 14:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=io82Eis5+eicwWrkjooRqnSeDKLjsSlFzX4Rp20e4yc=;
-        b=AcCyQkCSBxnONwZ3aU7AdL+cZGBkUWXrXFCBnfVd8mYMuM/eq4A17j8ejTxcU3BFlY
-         6PqD16QZVrco15vHtlok4zh8pjhAf5ISbOMuO++Rgg9WhSHurrmGhrlA4kYEOKqgYrdB
-         tjUK27txSOmROICyk4n6l5xrFsAbUuQ4k96Ss=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZKMdGvUw+7+BpQAqG3cNEIAQWXO9ESZerEfLw7wu23k=;
+        b=PYVtAOUxcu0XUhgCCKpfqxR0MzuOrZpi7LFt/o8oLeIuZXgpznlvkdesG1iXqD+kdv
+         DhKSQm9c4blyGgINq6ArHiGaNJoVrGF2kMaEaZBY+wR5RS3LpxcE44ZGzIvnbUnsSOAT
+         SLcsqQC46wCj7jXl2KHvRRCTr8tbtuH9M/PJg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=io82Eis5+eicwWrkjooRqnSeDKLjsSlFzX4Rp20e4yc=;
-        b=KMmEM4dxrZ7BzDFxBJqlVpumh6u1Hzr9p8IMelm6hBWddA1eOJ671UKlWVMkS90pGS
-         Z1SsauWuCG8gLfsSitmFl/t0xLGfAmeJks87VPSMGDXBnrxeM9sRTDH9KAqFddNlMfBF
-         M5mcjbGaTQeGQyPY0+UQF8S+S2ctFmCC4Bv5GuRDmLOOWov6BvxBDrpzftOWkwoFZ3sW
-         3M1Nkj9yln6acKJeZKv25hzm5pJBA+rUFKftc7E4FAlFlaVNDf3CPYAVe8x9FSJS47Dg
-         DB9XYeq4YDOaO6wrTeENG8J77rXsVLbbeFV/U7SfgDuLTHMG7uErfyDqXYq1jAaaAFcb
-         QzOg==
-X-Gm-Message-State: AOAM530ZTJLEabsin055miBZnnp2Guo1MAkpRpNPINtvmzg94VJa7rX5
-	lQPj3ZRnf1Xk/CBjW7YblOQLWg==
-X-Google-Smtp-Source: ABdhPJz0theBwSK370vDA5kBOCaCyxWYKtDKVecmkFctmkuujx//bCVGg6UhA+p4qssHTlp2mSHv0Q==
-X-Received: by 2002:a1c:4302:: with SMTP id q2mr34011858wma.1.1620596867597;
-        Sun, 09 May 2021 14:47:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZKMdGvUw+7+BpQAqG3cNEIAQWXO9ESZerEfLw7wu23k=;
+        b=YES53wDsci4HVbEccCXfnT54cVc8383Q4tZC7HJB4+wJrom16B3wI3B2dFkoepvy7P
+         rMq0kR0k38SmnsuZDy0HKVQr07nQ33Ck0KHyA4r5y7fv4feFsg4XBF2VqrV4HenbZXDa
+         sBOxzw9gEubDTNQMxjZNaKtAJvnJrmIUL4/jSmDrhyHyh8diCZKfbMk6Io9Ugjq2YOwe
+         auLPKuq/vXmxFeKeVzMp/2469RPGZfJGDG5rWIdZY42kEhI2spMiw8WRlF4Wo5dBdEiZ
+         4hU7mJ+xN0k0cEc89XuGFhiA7jKiEJCpqjVgkXdH52DdfWAQwKfdd1ykptp6pRXO3s9f
+         kQ1w==
+X-Gm-Message-State: AOAM533YMiU/7qU65XuVz+Hhw8Vlpi3BCsJscQMLyR95y+l6SZ1CYIKT
+	BTD5JGAneZqbuHdvwvdVzPxNsQgd9TGawg==
+X-Google-Smtp-Source: ABdhPJyTx44BmAkEqWK+ZInF11K8xQQir/6XaAWBGtq/HbhlkF4bel1C+TqDuIudavL750cFklTnVQ==
+X-Received: by 2002:a1c:35c6:: with SMTP id c189mr33429241wma.127.1620597151623;
+        Sun, 09 May 2021 14:52:31 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6? ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id 16sm16690524wmi.13.2021.05.09.14.47.47
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
+        by smtp.gmail.com with ESMTPSA id e10sm20407546wrw.20.2021.05.09.14.52.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:47:47 -0700 (PDT)
-Message-ID: <41f87a4c7e3ac473e163bec0ef0877876a7d8bcb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cve-extra-exclusions.inc: add exclusion list for intractable CVE's
+        Sun, 09 May 2021 14:52:31 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>, Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 09 May 2021 22:47:45 +0100
-In-Reply-To: <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
-References: <20210506171232.2832063-1-steve@sakoman.com>
-	 <6a7e59c6-594e-b2c1-9d71-d9976fab4b70@gmail.com>
-User-Agent: Evolution 3.40.0-1 
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] qemu: use 4 cores in qemu guests
+Date: Sun,  9 May 2021 22:52:28 +0100
+Message-Id: <20210509215229.2137549-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 2021-05-09 at 11:17 -0700, Armin Kuster wrote:
-> 
-> On 5/6/21 10:12 AM, Steve Sakoman wrote:
-> > The preferred methods for CVE resolution are:
-> > 
-> > 1. Version upgrades where possible
-> > 2. Patches where not possible
-> > 3. Database updates where version info is incorrect
-> > 4. Exclusion from checking where it is determined that the CVE
-> >    does not apply to our environment
-> I do see the desire of doing this as it is one file to maintain if there
-> are multiple packages being updated at once.  This does highlight a few
-> things to me:
-> 
-> 1) We have been dealing with this on a per-recipe basis. This is a shift
-> from that. ( Does this need to be documented)
-> 2) Recipe Maintainers aren't engage in this area of activity as we had
-> original hoped. So we are working around that.
->  
-> Reporting a false positive is better than masking an actual issue IMHO. 
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Steve has covered most things in his reply but I want to add something on
-this last bit.
+Each of the cores is mapped to a thread on the host, this
+should speed up things inside qemu which can take advantage of that.
 
-Right now, multiple people have gone off and looked at some of these CVEs
-and all the people I know who have done it concluded they're intractable, 
-there is nothing we can do about them.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/qemuboot.bbclass | 4 ++++
+ scripts/runqemu               | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-I'd like to document this somewhere to save people doing the same work over
-and over. If someone wants to investigate further and can propose actual 
-fixes, great, but it is helpful for them to have what we know so far to start 
-from.
-
-This patch is effectively there to start a discussion if necessary. I do
-strongly believe we need to do something here though as the false positives 
-*are* harmful. Currently, it looks like the project doesn't care about 60 
-odd CVEs in master. Anyone wanting to try and improve that has to guess
-which ones have been investigated and which haven't.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 1f8012edc1d..0fdd10099ce 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -19,6 +19,9 @@
+ # QB_CPU_KVM: the similar to QB_CPU, but used when kvm, e.g., '-cpu kvm64',
+ #             set it when support kvm.
+ #
++# QB_SMP: amount of CPU cores inside qemu guest, each mapped to a thread on the host,
++#             e.g. "-smp 8".
++#
+ # QB_KERNEL_CMDLINE_APPEND: options to append to kernel's -append
+ #                           option, e.g., "console=ttyS0 console=tty"
+ #
+@@ -80,6 +83,7 @@
+ # See "runqemu help" for more info
+ 
+ QB_MEM ?= "-m 256"
++QB_SMP ?= "-smp 4"
+ QB_SERIAL_OPT ?= "-serial mon:stdio -serial null"
+ QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
+ QB_DEFAULT_FSTYPE ?= "ext4"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index edd17d09c4a..e2dc529baaf 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -540,13 +540,13 @@ class BaseConfig(object):
+     def check_kvm(self):
+         """Check kvm and kvm-host"""
+         if not (self.kvm_enabled or self.vhost_enabled):
+-            self.qemu_opt_script += ' %s %s' % (self.get('QB_MACHINE'), self.get('QB_CPU'))
++            self.qemu_opt_script += ' %s %s %s' % (self.get('QB_MACHINE'), self.get('QB_CPU'), self.get('QB_SMP'))
+             return
+ 
+         if not self.get('QB_CPU_KVM'):
+             raise RunQemuError("QB_CPU_KVM is NULL, this board doesn't support kvm")
+ 
+-        self.qemu_opt_script += ' %s %s' % (self.get('QB_MACHINE'), self.get('QB_CPU_KVM'))
++        self.qemu_opt_script += ' %s %s %s' % (self.get('QB_MACHINE'), self.get('QB_CPU_KVM'), self.get('QB_SMP'))
+         yocto_kvm_wiki = "https://wiki.yoctoproject.org/wiki/How_to_enable_KVM_for_Poky_qemu"
+         yocto_paravirt_kvm_wiki = "https://wiki.yoctoproject.org/wiki/Running_an_x86_Yocto_Linux_image_under_QEMU_KVM"
+         dev_kvm = '/dev/kvm'
+-- 
+2.30.2
 
