@@ -1,106 +1,121 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web12.20565.1620575822393034008
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web12.21323.1620579731386834466
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 08:57:02 -0700
+ Sun, 09 May 2021 10:02:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VFn0C4Sz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id s82so7796404wmf.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 08:57:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MpuqLvJl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id l6so13729915oii.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 10:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/BQL6tevuM2Z6YW+lEDD2vKz4O1Iw2hDQAKLKfqmyd0=;
-        b=VFn0C4Sz6vjhfI2vseXD4osdxcDA4U203jjjTxrRsk5fntCcbpQ6yrE/gWJ2JWk/6T
-         Y1MuzVEv6IHYCKG0WFFLmrweMdxD7o9fNCPNcqdCRV0nn/yhX8+QHso7UW7gwzPTBIJz
-         6H9XEcFIdq0qQngs247l8FarAXMAtL5Rr9y5w=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=TJf98Oil6zcfb3zkV0AUNRVuvDSOCcf895WNU3FVRHI=;
+        b=MpuqLvJlI0QwwWN126edYKv9ChFwCsPHASr+3Rthk7Tt9q6DazysVqQA9hrIAUR1Mj
+         NmctK8y5TGR2mVTcpLM80a+k5QBk0eFIbgLaXOC0Mg4GNyjMslSI5NxClGC9aXP4s2YB
+         /BEz8pDLsBB9QmXKVTyoHRZzyLRQqqt566ipXr3Rcbm53rLxvJ73h3UFu2otVS2kJUId
+         3sfEz79k36sO+J4qk0+xKNFUh1KZoazEbeAdDrK+h5+QtZJY0iuFWe103LrmEyXzU44v
+         C0onndYykWdakfaKRkH9cVobnspLnPXsk+lOK4Z7Q0kxLruqn5DOUJw2+iX4VKraJNmn
+         Ck2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/BQL6tevuM2Z6YW+lEDD2vKz4O1Iw2hDQAKLKfqmyd0=;
-        b=fWlcrU5OoEgiZAgYp0kKh/armoOFOj2rhycwDSmu7BoHPJLQfQo18v0/D+TN0lLj4N
-         78caGvko0yfX65O4LrFJbueNJxwVjQcGknpyf4Dbnp/ac8CZhZnAXTfEqfNuhhH3HyI5
-         F2iPsn3nGLdgEezW91qwc1Kwzo6GT1aMwUG/o1g0parYShm16a9gEZKhMpS5wpopH4AP
-         ZIlmSC36PnLyL/yhH0IfLjfwnWbsrmdOk9rDuYho3ZGGqr0iC4izKv9u9gAyx1u+c4rw
-         zEnEz5d7kphYxleigLhQBF2CfHkfNVAiPvTWvj/4UnCsclMSEL2iMVK3kDNV7DUL9qpW
-         zx8Q==
-X-Gm-Message-State: AOAM530AjH085AEK6rey0OPHqNW43PFD6sPXqcHGAmqCx/zh7nNOYsW7
-	1xBrcQaB/soye6FgGboHamic9SKLVE/uWA==
-X-Google-Smtp-Source: ABdhPJzWJZXwNnhGdaB9t4WK5a40WdjpUJaxM9JKz8Y5WZiGwrN23js8lVOBRHTNUULWO0wAi4MzXA==
-X-Received: by 2002:a1c:35c6:: with SMTP id c189mr32435561wma.127.1620575820714;
-        Sun, 09 May 2021 08:57:00 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:2a5:760d:7a5d:1e99])
-        by smtp.gmail.com with ESMTPSA id x65sm25932141wmg.36.2021.05.09.08.57.00
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=TJf98Oil6zcfb3zkV0AUNRVuvDSOCcf895WNU3FVRHI=;
+        b=lE8NwT5EI3DoIWAUG8sUAE9QI0vjfXaloND//Yo95y+iSIyYBy900Eg+vuk66Chhaf
+         L5BVNE4HeKz81g3MoJO+yQh9wIGw+mVSL0n4VftnHBgqKcq55+MGwCI+KNzZPoNNTomE
+         hBhG608/H5jLIeh5Yosj1uNDP0eKyCpo/BAP2lfa+Wabf3ys764p1DtN58C4wrTxnuVT
+         gXa0JuDGwdimz/NYA8UhFx4nr9qQ5/9D+GBgcDXTfjmiK6nujugwGgmQfOQQWxdW2mGE
+         dFbg+q71GVCIJ8T6vtCQOILzw8NNdbmB6nvJ0mcvMFCpVX6CbQmZGl07zimYOfOxtib/
+         ougQ==
+X-Gm-Message-State: AOAM530nrQNwjWc8s3cWehp/yFqBb33ZZLkawbTZ7RtJprDyP7ZqwFbs
+	0xwC/DwqeqzWCdim7mQ0+9s0Ea2gEw5Try1FpvY=
+X-Google-Smtp-Source: ABdhPJyf0cg2JEY+qOpCphJUNTfw/Dj8qvcKW3vT36Doy1wND1cZxdt/LOjYDj0iUlY2Sin0qjMsIw==
+X-Received: by 2002:aca:dc56:: with SMTP id t83mr15464690oig.92.1620579730265;
+        Sun, 09 May 2021 10:02:10 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([172.243.4.16])
+        by smtp.gmail.com with ESMTPSA id x11sm1985500otr.36.2021.05.09.10.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 08:57:00 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ovmf: Improve reproducibility by enabling prefix mapping
-Date: Sun,  9 May 2021 16:56:59 +0100
-Message-Id: <20210509155659.2131070-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 09 May 2021 10:02:09 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 65723960159; Sun,  9 May 2021 07:02:01 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 09 May 2021 07:00:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20210509170201.65723960159@nuc.router0800d9.com>
+Date: Sun,  9 May 2021 07:02:01 -1000 (HST)
 
-We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
---debug-prefix-map to nasm (we carry a patch to nasm for this). The
-tools commands are built by ovmf-native so we need to patch this in
-at target build time when we know the right values. This function also
-has to be able to undo what it changed and rerun. By using determininistc
-file paths in the ovmf build, it removes the opportunitity for gcc/ld to
-change the output binaries due to path lengths overflowing section sizes
-and causing small changes in the binary output.
+Branch: master
 
-This also means that if builds have reproducibility issues in future, it
-becomes much easier to compare intermediate build artefacts.
+New this week: 2 CVEs
+CVE-2021-25215: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25215 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/ovmf/ovmf_git.bb | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Removed this week: 1 CVEs
+CVE-2021-20263: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20263 *
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 896b3b63202..91de742c06c 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -104,6 +104,33 @@ fix_toolchain_append_class-native() {
-         ${S}/BaseTools/Conf/tools_def.template
- }
- 
-+#
-+# We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
-+# --debug-prefix-map to nasm (we carry a patch to nasm for this). The
-+# tools commands are built by ovmf-native so we need to patch this in
-+# at target build time when we know the right values. This function also
-+# has to be able to undo what it changed and rerun. By using determininistc
-+# file paths during the ovmf build, it removes the opportunitity for gcc/ld to
-+# change the output binaries due to path lengths overflowing section sizes
-+# and causing small changes in the binary output. Previously we relied on 
-+# the stripped output being the same which isn't always the case if the 
-+# size of the debug symbols varies.
-+#
-+do_configure_class-target() {
-+    sed -i \
-+        -e 's# DEF(GCC_PREFIX_MAP)##g' \
-+        -e 's# DEF(NASM_PREFIX_MAP)##g' \
-+        -e '/^DEFINE \(GCC|NASM\)_PREFIX_MAP/d' \
-+        -e 's#^\(DEFINE GCC_ALL_CC_FLAGS.*=.*\)\r$#\1 DEF(GCC_PREFIX_MAP)#' \
-+        -e 's#^\(DEFINE GCC_PP_FLAGS.*=.*\)\r$#\1 DEF(GCC_PREFIX_MAP)#' \
-+        -e 's#^\(DEFINE GCC_ASM_FLAGS.*=.*\)\r$#\1 DEF(GCC_PREFIX_MAP)#' \
-+        -e 's#^\(*_GCC5_IA32_NASM_FLAGS.*=.*\)\r$#\1 DEF(NASM_PREFIX_MAP)#' \
-+        -e 's#^\(*_GCC5_X64_NASM_FLAGS.*=.*\)\r$#\1 DEF(NASM_PREFIX_MAP)#' \
-+        -e '1 i\DEFINE NASM_PREFIX_MAP = --debug-prefix-map=${WORKDIR}=/usr/src/debug/ovmf/${EXTENDPE}${PV}-${PR}' \
-+        -e '1 i\DEFINE GCC_PREFIX_MAP = ${DEBUG_PREFIX_MAP}' \
-+        ${STAGING_BINDIR_NATIVE}/${EDK_TOOLS_DIR}/BaseTools/Conf/tools_def.template
-+}
-+
- GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
- 
- fixup_target_tools() {
--- 
-2.30.2
-
+Full list:  Found 63 unpatched CVEs
+CVE-2000-0006: strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006 *
+CVE-2000-0803: groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803 *
+CVE-2005-0238: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238 *
+CVE-2007-0998: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
+CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
+CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
+CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
+CVE-2008-0888: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
+CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
+CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
+CVE-2008-4539: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
+CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
+CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
+CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
+CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
+CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
+CVE-2013-0221: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
+CVE-2013-0222: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
+CVE-2013-0223: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9390: libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9390 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2016-2781: coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-18438: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-6293: flex:flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-10713: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
+CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+CVE-2020-14308: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-14372: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14372 *
+CVE-2020-15705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15706: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-24490: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24490 *
+CVE-2020-25632: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2020-27749: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27779: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27779 *
+CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
+CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
+CVE-2020-35492: cairo:cairo-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35492 *
+CVE-2021-20225: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20271: rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20271 *
+CVE-2021-25215: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25215 *
+CVE-2021-26720: avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-26720 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-3418: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
