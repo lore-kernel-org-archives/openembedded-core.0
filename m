@@ -1,89 +1,117 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web09.24767.1620600496816938833
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+ by mx.groups.io with SMTP id smtpd.web08.26033.1620609938438497536
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 15:48:17 -0700
+ Sun, 09 May 2021 18:25:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M+ILeivF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id i128so8094319wma.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 15:48:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RvRo6Zrk;
+ spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f51.google.com with SMTP id p11so13231573iob.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 09 May 2021 18:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=fcXISzQi6QJ7grP3xGoFfWZcxID4c6All4dJ9oBzOJU=;
-        b=M+ILeivFrpgeRyEVvSSflkrwTXKS/8EaU7eg7OhusmSayKyHPidM5QmwnfLY6sLAW4
-         o5xSZNGtsMhXQpr7T0KJpO0Mrm5B6YoRLCD7zSCwUzfuDnW73fKNYEE/QAvKTeWDw6+C
-         5Db5oq81ixcZ32E8PAjCaan3oNZ2rvIdPDKgo=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XJ86lurT2YAZ65IetDnLeEobmYOz0F1ZbqBVq3IagPk=;
+        b=RvRo6ZrkyzBdwM8wTSUByRWRYACwOmXcDKCWWtjHNM73UdLuseilg7Gr740UT/BoSP
+         tCLtCq1NagfOH2wrXcSDjxsYWKxp/4nKOMAi/If+IEEKxd/1QUCjgmr0Dqelkavv8KBu
+         gNmVoZuw7dWXaubr2qHXUoircA71KIg5V26oNdOsJE11HrtuJGhov+StlvkuNSMZonBq
+         c3n5dQpr8kHJT/4MF8z7/QL2E61I0P1hYcfWyNDjR7fweBrlTWR1Z7GW1wCyDnuNc1nN
+         yLe1moRcObVv36jE/vsSMo1jzE+pg3BPNeD9tYNpURDdC70vLdr24NDfCfZsWDr2gav0
+         4a4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fcXISzQi6QJ7grP3xGoFfWZcxID4c6All4dJ9oBzOJU=;
-        b=P+bgUBSkh58AD77Y97KaoKYM9RuzsK1tjA/4M8LI3KDNGJkCoPS8H0WXGyMYmq8zxi
-         idQ/w8XTbB8Kt90SpQa6CwilpmxMOjEfzKazKu3ryFfTN9DcuTYF8E8Eca7b0HA+PyMP
-         VnTad+6Yh0nTmvwvH75q0cjfITRCe9oiH4Dubo6T9jCqMuRucmhvXcC+cg81LqiXdCBQ
-         q3PSiEM4dzddFvl4t3VWObHZv6E/CSzIgYl6lSiyRYvb6LzN0G7J0lBzlrsnD4j5DZVS
-         t290+IoKMm5w1R64J+8angrFolgwqE8JK/GzYkiY1ZmyB7FHMH/96ydWA7TPxcEQk//s
-         M9Ig==
-X-Gm-Message-State: AOAM5309mXjHVUoCqXsKvbGkbXNbp4qUaFHNXhzTC1Rz26PsxHhIKaKT
-	ZCqrxDf6H9rgqLniLr3anB+ZOA==
-X-Google-Smtp-Source: ABdhPJwm/7ZI6GvuPR+L6Pk6BDDZ4VpaJRkPK27Py69zkHAv+5onw2vL6/gQ2+uqU3nOrg3RyGYQXg==
-X-Received: by 2002:a1c:e409:: with SMTP id b9mr34188885wmh.189.1620600495290;
-        Sun, 09 May 2021 15:48:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6? ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id e10sm20586399wrw.20.2021.05.09.15.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 15:48:14 -0700 (PDT)
-Message-ID: <1c456ff005e730656a20a74fbe547808a4972844.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libepoxy: upgrade 1.5.5 -> 1.5.7
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 09 May 2021 23:48:13 +0100
-In-Reply-To: <1620435855-48558-4-git-send-email-wangmy@fujitsu.com>
-References: <1620435855-48558-1-git-send-email-wangmy@fujitsu.com>
-	 <1620435855-48558-4-git-send-email-wangmy@fujitsu.com>
-User-Agent: Evolution 3.40.0-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XJ86lurT2YAZ65IetDnLeEobmYOz0F1ZbqBVq3IagPk=;
+        b=LlH1qq5lozqBhvr+yCdkpdWCKC+C55ZCyxf0CGMODZRnZIO3diTSrIuNuwcHBgDU/H
+         snI2Kx9n4Tj6KaPL08aretC0nHq2exa8SnS2ZhYntgd9/LRlHneTHPpk8gFkhaR4sh5g
+         xLQQ/DL70khgAA2HjM02XDU9V8ai0uRfw+jlCO2F5Xld7AF8cU5rxMsoCa6z/EgYBH0Y
+         5Z/9oVcoHsFLqEwk7R48IU2XGhPhh/Ho7YjpaQojnwV1C9k1niNUzpJQONxidptACBI0
+         RzRToL6PgeZGpUAvi/A227z5ciBC3xF95MnkEyysmbj7TP3onI3dKeYj7CYFD72rSKkM
+         gm7Q==
+X-Gm-Message-State: AOAM5321e+Ea6Xla6agb+NIbAQV0iUFhYtFtpghBx5BCbT/bEBepfBHL
+	rw1NTsqcaMJ5mpBR53ce/ICL+FHNYmitm+NAR00=
+X-Google-Smtp-Source: ABdhPJy3M/vGG81zdRkSgBO5nRf2R2jNafrpgx9jPq+ljlTcnl15gH76mX7BDWWtphPm6tKunzoUJ8k7wz7YmYhcGVc=
+X-Received: by 2002:a5d:944e:: with SMTP id x14mr16509928ior.175.1620609937763;
+ Sun, 09 May 2021 18:25:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210508083031.1448886-1-alejandro@enedino.org>
+In-Reply-To: <20210508083031.1448886-1-alejandro@enedino.org>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Mon, 10 May 2021 11:25:08 +1000
+Message-ID: <CAKmqyKNVQQf6fsKaHT=_T_5GFOnNytqaXoisYQ7eDiFLK_1N5A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Enable RISC-V 64 port
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Sat, 2021-05-08 at 09:04 +0800, wangmy wrote:
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+On Sat, May 8, 2021 at 6:30 PM Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
+>
+> Add support for MACHINE=qemuriscv64.
+>
+> $ runqemu nographic
+>
+> BIOS: [tmp/deploy/images/qemuriscv64/baremetal-helloworld-image-qemuriscv64.elf]
+> MACHINE: [qemuriscv64]
+>
+> runqemu - INFO - Running tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-riscv64
+>
+> Hello OpenEmbedded on RISC-V 64!
+>
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
 > ---
->  .../libepoxy/{libepoxy_1.5.5.bb => libepoxy_1.5.7.bb}           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.5.bb => libepoxy_1.5.7.bb} (93%)
+>  .../baremetal-examples/baremetal-helloworld_git.bb   | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> index ee945c1ff0..3b7b8193a7 100644
+> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
+>
+> -SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
+> +SRCREV = "0bf9ea216e6f76be50726a3a74e527b7bbb0ad93"
+>  PV = "0.1+git${SRCPV}"
+>
+>  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
+> @@ -28,12 +28,13 @@ inherit baremetal-image
+>  # machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
+>  # but the examples can also be run on other architectures/machines
+>  # such as vexpress-a15 by overriding the setting on the machine.conf
+> -COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
+> +COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64|qemuriscv64"
+>
+>  BAREMETAL_QEMUARCH ?= ""
+>  BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
+>  BAREMETAL_QEMUARCH_qemuarm = "arm"
+>  BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
+> +BAREMETAL_QEMUARCH_qemuriscv64 = "riscv64"
+>
+>  EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+>
+> @@ -49,3 +50,10 @@ FILES_${PN} += " \
+>      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin \
+>      ${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf \
+>  "
+> +
+> +# RISC-V tunes set the BIOS, redefine since runqemu jumps there
+> +QB_DEFAULT_BIOS_qemuriscv64 = "${IMAGE_LINK_NAME}.elf"
+
+You should also just be able to say `-bios none` and then use the
+-kernel argument as normal.
+
+Alistair
+
+> +
+> +# Use the medium-any code model for the RISC-V 64 bit implementation,
+> +# since medlow can only access addresses below 0x80000000
+> +CFLAGS_append_qemuriscv64 = " -mcmodel=medany"
+> --
+> 2.25.1
+>
+>
 > 
-> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-> similarity index 93%
-> rename from meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb
-> rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-> index a404fe2852..acf2ab0b03 100644
-> --- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.5.bb
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.7.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
->  SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
->             file://0001-dispatch_common.h-define-also-EGL_NO_X11.patch \
->             "
-> -SRC_URI[sha256sum] = "261663db21bcc1cc232b07ea683252ee6992982276536924271535875f5b0556"
-> +SRC_URI[sha256sum] = "9479cc0146ffb395fdecf9bd2a5930834fd0bce490cbcc4681ffd716bb3a0763"
->  UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
-> 
-
-Somehow this causes:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2113
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/2080
-
-which have failures in the selftest:
-
-runtime_test.TestImage.test_testimage_virgl_gtk_sdl
-
-Cheers,
-
-Richard
-
-
+>
