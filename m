@@ -1,121 +1,235 @@
-Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
- by mx.groups.io with SMTP id smtpd.web11.31607.1620653644512481558
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web12.32441.1620656115308496210
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 06:34:05 -0700
+ Mon, 10 May 2021 07:15:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=AwrFkn7k;
- spf=pass (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=75725d379=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1620653644; x=1652189644;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=jfzh+tk3YV35SJhBoD1lbkQ7M9tkRa9Z9ONOCZ7gk6g=;
-  b=AwrFkn7k4nSxiAW30N1QTSmNfuxh+lRkP8WsM1Z5j0y9alJ4BPEpBTi8
-   5gsUn8NtfL2bD1riw8ztvavAOZ0XM1JXqbMBW5ECCugdrucDkn/YoCeZ5
-   a7XSiPMe2dWlXNg19En80LJ7B63UCip1ArZTQfi7jjLFlKLnLPMsdkcLi
-   o=;
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 10 May 2021 15:34:02 +0200
-Received: from esabb4.muc ([160.50.100.33])  by esagw2.muc with ESMTP/TLS;
- 10 May 2021 15:34:01 +0200
-Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp) ([160.46.167.67])
- by esabb4.muc with ESMTP/TLS; 10 May 2021 15:34:01 +0200
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33k.europe.bmw.corp
- (160.46.167.67) with Microsoft SMTP Server (TLS;
- Mon, 10 May 2021 15:34:01 +0200
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.015; Mon,
- 10 May 2021 15:34:01 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <ml@embed.me.uk>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] rng-tools: disable the CPU affinity mask
-Thread-Topic: [OE-core] [PATCH] rng-tools: disable the CPU affinity mask
-Thread-Index: AQHXRUUAOpDviTbsd0iv49+h2ZESF6rcVyeAgAA7/ACAAAMQAA==
-Date: Mon, 10 May 2021 13:34:01 +0000
-Message-ID: <YJk2SH7uPrbP5ZbS@korppu>
-References: <20210510023310.5516-1-mingli.yu@windriver.com>
- <5aa52a186119be3add2555d6dbc89f348699aae8.camel@linuxfoundation.org>
- <fac5bcb3-fa84-5b3d-20be-779b6b55781a@embed.me.uk>
-In-Reply-To: <fac5bcb3-fa84-5b3d-20be-779b6b55781a@embed.me.uk>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: bst@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7] helo=dude.pengutronix.de.)
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <bst@pengutronix.de>)
+	id 1lg6gi-0000IQ-KM; Mon, 10 May 2021 16:15:12 +0200
+From: "Bastian Krause" <bst@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Bastian Krause <bst@pengutronix.de>
+Subject: [PATCH] ccache: version bump 4.2.1 -> 4.3
+Date: Mon, 10 May 2021 16:15:09 +0200
+Message-Id: <20210510141509.20043-1-bst@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <07C2BB2B25EDBE46A21662C4ECD246F7@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: bst@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Instead of [1] a very similar PR [2] was merged that allows
+enabling/disabling documentation builds. So drop the patch here and use
+the upstream cmake option ENABLE_DOCUMENTATION instead.
 
-On Mon, May 10, 2021 at 02:23:02PM +0100, Jack Mitchell wrote:
-> On 10/05/2021 10:48, Richard Purdie wrote:
-> > On Mon, 2021-05-10 at 10:33 +0800, Yu, Mingli wrote:
-> >> From: Mingli Yu <mingli.yu@windriver.com>
-> >>
-> >> For the jitter entropy source, each task thread will create an interna=
-l
-> >> counter timer thread when the system clock resolution is under 5MHz.
-> >>
-> >> But it will introduce high cpu usage for a long time and also make ran=
-dom
-> >> data generate too slow if sets the CPU affinity mask of the internal c=
-ounter
-> >> timer thread.
-> >>
-> >> There is no solution until now and the Upstream recommends to disable
-> >> the internal timer and think Jitter RNG will not work due to the coars=
-e
-> >> timer. Check [1] and [2] for more details.
-> >>
-> >> So disable the CPU affinity mask as a workaround to avoid lots of cont=
-ext
-> >> switch and too high cpu load for a long time.
-> >>
-> >> [1] https://github.com/smuellerDD/jitterentropy-library/issues/37
-> >> [2] https://github.com/nhorman/rng-tools/pull/123
-> >>
-> >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >> ---
-> >> =A0...tter.c-disable-the-CPU-affinity-mask.patch | 48 ++++++++++++++++=
-+++
-> >> =A0.../rng-tools/rng-tools_6.11.bb               |  1 +
-> >> =A02 files changed, 49 insertions(+)
-> >> =A0create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rn=
-gd_jitter.c-disable-the-CPU-affinity-mask.patch
-> >=20
-> > Thanks for investigating this upstream. From an OE-Core perspective, I'=
-ve very
-> > reluctant to take what looks like a very board specific change which th=
-e upstream
-> > is advising against. The issue is that this will affect all hardware, n=
-ot just
-> > the hardware which has the issue. I think we need to find a better solu=
-tion.
-> >=20
-> > Cheers,
-> >=20
-> > Richard
-> >=20
->=20
-> FWIW I forcefully have to ensure nothing pulls in rng-tools in my builds
-> which are for two different Rockchip chipsets (armv7 and armv8) as the
-> rng-tools binary pegs the CPU at 100% for minutes after boot, every
-> boot. It's particularly annoying as openssh brings it in by default
-> which I've unsuccessfully argued is wrong before. I believe the problem
-> is probably fairly widespread but just unnoticed.
+[1] https://github.com/ccache/ccache/pull/844
+[2] https://github.com/ccache/ccache/pull/842
 
-Unfortunately this is better than not having ssh, TLS etc encrypted access
-at all to/from the target HW since openssl and kernel refuse to proceed
-due to lack of entropy.
+Signed-off-by: Bastian Krause <bst@pengutronix.de>
+---
+ ...w-disabling-docs-man-page-generation.patch | 161 ------------------
+ .../ccache/{ccache_4.2.1.bb => ccache_4.3.bb} |   8 +-
+ 2 files changed, 3 insertions(+), 166 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache/0001-doc-allow-disabling-docs-man-page-generation.patch
+ rename meta/recipes-devtools/ccache/{ccache_4.2.1.bb => ccache_4.3.bb} (72%)
 
-If your HW has random number generators and driver support is in place,
-then rng-tools isn't needed.
+diff --git a/meta/recipes-devtools/ccache/ccache/0001-doc-allow-disabling-docs-man-page-generation.patch b/meta/recipes-devtools/ccache/ccache/0001-doc-allow-disabling-docs-man-page-generation.patch
+deleted file mode 100644
+index 51ca0e82f6..0000000000
+--- a/meta/recipes-devtools/ccache/ccache/0001-doc-allow-disabling-docs-man-page-generation.patch
++++ /dev/null
+@@ -1,161 +0,0 @@
+-From aebabafe085dd1b84027a1e31e5566c82528bd62 Mon Sep 17 00:00:00 2001
+-From: Bastian Krause <bst@pengutronix.de>
+-Date: Tue, 4 May 2021 11:41:56 +0200
+-Subject: [PATCH] doc: allow disabling docs/man page generation
+-
+-The assumption that HTML documentation and manual pages should be
+-generated if the required tools (asciidoc) are present is not always
+-true. So add a cmake option that allows disabling the docs/man page
+-generation. The default is to generate docs/man pages like before.
+-
+-Origin: https://github.com/ccache/ccache/pull/844
+-Upstream-Status: Submitted
+-Signed-off-by: Bastian Krause <bst@pengutronix.de>
+----
+- doc/CMakeLists.txt | 128 +++++++++++++++++++++++----------------------
+- 1 file changed, 66 insertions(+), 62 deletions(-)
+-
+-diff --git a/doc/CMakeLists.txt b/doc/CMakeLists.txt
+-index c5ce224d..74b7831b 100644
+---- a/doc/CMakeLists.txt
+-+++ b/doc/CMakeLists.txt
+-@@ -1,70 +1,74 @@
+-+option(BUILD_DOCS "Indicates whether HTML documentation and manual pages should be built or not" ON)
+-+
+- find_program(ASCIIDOC_EXE asciidoc)
+- mark_as_advanced(ASCIIDOC_EXE) # Don't show in CMake UIs
+- 
+--if(NOT ASCIIDOC_EXE)
+--  message(WARNING "Could not find asciidoc; documentation will not be generated")
+--else()
+--  #
+--  # HTML documentation
+--  #
+--  function(generate_html adoc_file)
+--    get_filename_component(base_name "${adoc_file}" NAME_WE)
+--    set(html_file "${base_name}.html")
+--    add_custom_command(
+--      OUTPUT "${html_file}"
+--      COMMAND
+--        ${ASCIIDOC_EXE}
+--          -o "${html_file}"
+--          -a revnumber="${CCACHE_VERSION}"
+--          -a toc
+--          -b xhtml11
+--          "${CMAKE_SOURCE_DIR}/${adoc_file}"
+--      MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/${adoc_file}"
+--    )
+--    set(html_files "${html_files}" "${html_file}" PARENT_SCOPE)
+--  endfunction()
+-+if (BUILD_DOCS)
+-+  if(NOT ASCIIDOC_EXE)
+-+    message(WARNING "Could not find asciidoc; documentation will not be generated")
+-+  else()
+-+    #
+-+    # HTML documentation
+-+    #
+-+    function(generate_html adoc_file)
+-+      get_filename_component(base_name "${adoc_file}" NAME_WE)
+-+      set(html_file "${base_name}.html")
+-+      add_custom_command(
+-+        OUTPUT "${html_file}"
+-+        COMMAND
+-+          ${ASCIIDOC_EXE}
+-+            -o "${html_file}"
+-+            -a revnumber="${CCACHE_VERSION}"
+-+            -a toc
+-+            -b xhtml11
+-+            "${CMAKE_SOURCE_DIR}/${adoc_file}"
+-+        MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/${adoc_file}"
+-+      )
+-+      set(html_files "${html_files}" "${html_file}" PARENT_SCOPE)
+-+    endfunction()
+- 
+--  generate_html(LICENSE.adoc)
+--  generate_html(doc/AUTHORS.adoc)
+--  generate_html(doc/MANUAL.adoc)
+--  generate_html(doc/NEWS.adoc)
+-+    generate_html(LICENSE.adoc)
+-+    generate_html(doc/AUTHORS.adoc)
+-+    generate_html(doc/MANUAL.adoc)
+-+    generate_html(doc/NEWS.adoc)
+- 
+--  add_custom_target(doc-html DEPENDS "${html_files}")
+--  set(doc_files "${html_files}")
+-+    add_custom_target(doc-html DEPENDS "${html_files}")
+-+    set(doc_files "${html_files}")
+- 
+--  #
+--  # Man page
+--  #
+--  find_program(A2X_EXE a2x)
+--  mark_as_advanced(A2X_EXE) # Don't show in CMake UIs
+--  if(NOT A2X_EXE)
+--    message(WARNING "Could not find a2x; man page will not be generated")
+--  else()
+--    # MANUAL.adoc -> MANUAL.xml -> man page
+--    add_custom_command(
+--      OUTPUT MANUAL.xml
+--      COMMAND
+--        ${ASCIIDOC_EXE}
+--          -o -
+--          -a revnumber=${CCACHE_VERSION}
+--          -d manpage
+--          -b docbook "${CMAKE_SOURCE_DIR}/doc/MANUAL.adoc"
+--        | perl -pe 's!<literal>\(.*?\)</literal>!<emphasis role="strong">\\1</emphasis>!g'
+--            >MANUAL.xml
+--      MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/doc/MANUAL.adoc"
+--    )
+--    add_custom_command(
+--      OUTPUT ccache.1
+--      COMMAND ${A2X_EXE} --doctype manpage --format manpage MANUAL.xml
+--      MAIN_DEPENDENCY MANUAL.xml
+--    )
+--    add_custom_target(doc-man-page DEPENDS ccache.1)
+--    install(
+--      FILES "${CMAKE_CURRENT_BINARY_DIR}/ccache.1"
+--      DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
+--    )
+--    set(doc_files "${doc_files}" ccache.1)
+--  endif()
+-+    #
+-+    # Man page
+-+    #
+-+    find_program(A2X_EXE a2x)
+-+    mark_as_advanced(A2X_EXE) # Don't show in CMake UIs
+-+    if(NOT A2X_EXE)
+-+      message(WARNING "Could not find a2x; man page will not be generated")
+-+    else()
+-+      # MANUAL.adoc -> MANUAL.xml -> man page
+-+      add_custom_command(
+-+        OUTPUT MANUAL.xml
+-+        COMMAND
+-+          ${ASCIIDOC_EXE}
+-+            -o -
+-+            -a revnumber=${CCACHE_VERSION}
+-+            -d manpage
+-+            -b docbook "${CMAKE_SOURCE_DIR}/doc/MANUAL.adoc"
+-+          | perl -pe 's!<literal>\(.*?\)</literal>!<emphasis role="strong">\\1</emphasis>!g'
+-+              >MANUAL.xml
+-+        MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/doc/MANUAL.adoc"
+-+      )
+-+      add_custom_command(
+-+        OUTPUT ccache.1
+-+        COMMAND ${A2X_EXE} --doctype manpage --format manpage MANUAL.xml
+-+        MAIN_DEPENDENCY MANUAL.xml
+-+      )
+-+      add_custom_target(doc-man-page DEPENDS ccache.1)
+-+      install(
+-+        FILES "${CMAKE_CURRENT_BINARY_DIR}/ccache.1"
+-+        DESTINATION "${CMAKE_INSTALL_MANDIR}/man1"
+-+      )
+-+      set(doc_files "${doc_files}" ccache.1)
+-+    endif()
+- 
+--  add_custom_target(doc ALL DEPENDS "${doc_files}")
+-+    add_custom_target(doc ALL DEPENDS "${doc_files}")
+-+  endif()
+- endif()
+--- 
+-2.29.2
+-
+diff --git a/meta/recipes-devtools/ccache/ccache_4.2.1.bb b/meta/recipes-devtools/ccache/ccache_4.3.bb
+similarity index 72%
+rename from meta/recipes-devtools/ccache/ccache_4.2.1.bb
+rename to meta/recipes-devtools/ccache/ccache_4.3.bb
+index 8dd5893d68..53a0bcf7ae 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.2.1.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.3.bb
+@@ -11,10 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=698a26b57e513d678e1e7727bf56395b"
+ 
+ DEPENDS = "zstd"
+ 
+-SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz \
+-           file://0001-doc-allow-disabling-docs-man-page-generation.patch \
+-	   "
+-SRC_URI[sha256sum] = "320d2b17d2f76393e5d4bb28c8dee5ca783248e9cd23dff0654694d60f8a4b62"
++SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
++SRC_URI[sha256sum] = "b9789c42e52c73e99428f311a34def9ffec3462736439afd12dbacc7987c1533"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
+ 
+@@ -24,4 +22,4 @@ PATCHTOOL = "patch"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-PACKAGECONFIG[docs] = "-DBUILD_DOCS=ON,-DBUILD_DOCS=OFF,asciidoc"
++PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
+-- 
+2.29.2
 
-Cheers,
-
--Mikko=
