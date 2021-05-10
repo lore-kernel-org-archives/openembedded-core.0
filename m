@@ -1,81 +1,100 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web12.32687.1620657027297676505
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web12.32690.1620657032685058091
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:30:27 -0700
+ Mon, 10 May 2021 07:30:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vDXyKXLc;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id 36-20020a9d0ba70000b02902e0a0a8fe36so8265502oth.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:30:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=upvQ/7hs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id w22so2079233oiw.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Heap1NqYZ7uSPbuYBugPC7Deo3TxEpofa64bnQfSjHE=;
-        b=vDXyKXLcApcX7Zh0lgQRVp4kfNbYXeiM/rps04ye7Uo7rQSOeTyLCVDW8yQLkQWrM1
-         0z4MvkTRAKKfaUR2UeMkUsTRQTEk9VKjLzY5U6oBgxTyEA21gOx6eWZtfVaTGnzokHBt
-         HvCgPVyfcgpnwDmC5zciDYUmeukh5ytX9Z3oH2GjNPv1VShzI7AjmUXwuMMIHjj11UFf
-         BxC2h2Eb7A8o6B/5uUp1xoyfc0fcweY/qyIZSQwfgXMG+KVK+p9VvqDW89oKTQkE49Q/
-         O1Fsv9jgxYJhl9vfGtd4aoF+6pG7i5l7kt6SxF8dp+5xl1Jy/tdVFDveqeO46/Gro7lT
-         nZEA==
+        bh=23wps0vBDtI/Q7Hr0qfm93cMsYDms6f950UuT6V+Ki4=;
+        b=upvQ/7hszVNbDXObQPOH7j5IVLNNE+rOqLhdzbXmb62Qcf7HJwCEKnU8lhaNhlZ9Kv
+         nM3FIaEjm5B/94VjahTXj/Eqn/uGd+ehE4ESK7vtwY4YqAK0ASEQacwJOpKRzv/3uSdT
+         zZ2DPsY+8JtYhAEzrlmUPzXLDlhKDfkxaWGs7YSZ0hmcZBLb4BFU9i2oBOM1l93PMpUS
+         H4pQmtZPMZcrLAiRcXscWHL/r8rjTRnTxCYsWkgtUATJHlTNk8hfdxPWRIZ4RsUU24DU
+         7dH3oBWkyllf2KBU94XRvPdQ3MUqO7LkOQRmpUvBm4+/6wQ24I+2SlToA3qVhkETATtN
+         uykQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Heap1NqYZ7uSPbuYBugPC7Deo3TxEpofa64bnQfSjHE=;
-        b=pBY2yJ/LZ9DEhYGH0niDmrolI4JwQ4EzRkDK+NNACjnSCn7qhGYbHVEhUvyV8u1gTR
-         /oUrZzx0eDMyQGzv+M4KGeJaoPGaQLXCzMi+Z8+RX7hBtI90rOvoniUZqPOk1oH8OhgB
-         L0TT9ZVPfBt0HrZTh+elkkxpo9EduGnat1dkJ+hPczQOLrzW89PtENkLokZ2WlgusLTw
-         t/jOp9257ZtlUnA0hhuULmBGUza9JdhqG2w9LK9OZaPnLUX40ebtDbIdIls3ykTHcDS8
-         JFyMNFdh3siMA2aGYvbiR0OSplrGdDeb1JRwZjM3FcScXwZOJ/r7YRb2m/8sP6rMObev
-         wrUg==
-X-Gm-Message-State: AOAM532VO9w/yX+JqV2ZNFwFzil9PqY/ezeAgZwDh0cJLh2HVFFjCcR0
-	hy4OtPrqdRzOzx5/RM6D4IPD/pexbv2T/SBMJAQ=
-X-Google-Smtp-Source: ABdhPJz/LTKWLk1SfbocpgU5e9HZWMGkdzl+8CjGD4NWtvm/Jq4hypHHhO5ZBhm5ryVFA2aJdDG68w==
-X-Received: by 2002:a05:6830:1e6e:: with SMTP id m14mr21369328otr.215.1620657026221;
-        Mon, 10 May 2021 07:30:26 -0700 (PDT)
+        bh=23wps0vBDtI/Q7Hr0qfm93cMsYDms6f950UuT6V+Ki4=;
+        b=SGEJ+8p9ea+TkCrdNwbOSG4iIr8uEkvz42bMoRJ4rDMpNUpiUjYpTS+hJVbi5nQ0Op
+         tqgVniq+dqv6IUvakqiLgLb9fYwv8g0zgILi1BZ58Cy5AJB6GRfTthnp5auSwdPv9haL
+         iBWt+vqxTFFvTsX9N2X9WtBe3deeFfe61oBOnXF429cIizh+h6fnAZ4CNNvaFatwuaxT
+         gqTUPvKuZ+/GsE/s5sd2XqF6GX5C9Ye3IFpBv23JTjGZVsxcNIvZyTuifECTCHVDuYX1
+         XwhxXDQY0I9/jKz0XB63XYNmePbmMWQfT7nfdIN9/16fz4RKpT6RIdB73/TMUX+PS0SU
+         tUiA==
+X-Gm-Message-State: AOAM532p0sU8KmfklMfCKj2/k9YbLD87NHg0vNgw/ZrjmZg/Vc4eC13c
+	IF1XBd4v6c72kR6NiuEV6cd5Hdc1RgxKVOgu7UU=
+X-Google-Smtp-Source: ABdhPJzMDs53DYznWX2F5klA8a4CiGlMl13Qri0PSyhpHdrQM8KN/muf4XrFk+Z26ASZOUCVietZQg==
+X-Received: by 2002:aca:2b16:: with SMTP id i22mr24252545oik.162.1620657031474;
+        Mon, 10 May 2021 07:30:31 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.23
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:30:25 -0700 (PDT)
+        Mon, 10 May 2021 07:30:31 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/25] kernel.bbclass: Remove do_install[prefunc] no longer needed
-Date: Mon, 10 May 2021 04:28:50 -1000
-Message-Id: <d2fe8c5861283ff4a4bd18239a61eb6745b7f696.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/25] gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
+Date: Mon, 10 May 2021 04:28:51 -1000
+Message-Id: <362416f7960919dc66acce4f7b2d25f607dee14a.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
+From: Kai Uwe Broulik <kai_uwe.broulik@mbition.io>
 
-Prior work has refactored the do_install task multiple times, and any
-references to PKGV and PKGR (even indirect ones) have been removed.
+The code in ext/qt/meson.build looks for the Qt5WaylandClient pkg-config file.
+Without this module, qmlglsink will not work with Wayland.
+This can be tested by checking whether or not HAVE_QT_WAYLAND has
+been added to the cflags in the autogenerated ninja file.
 
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Writen by:
+Carlos Rafael Giani
+https://lists.openembedded.org/g/openembedded-core/message/143574
+
+(From OE-Core rev: ba2e0f647894b51d2f365b1d2eee7b673ddf8b7e)
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 36fe4db8ae827a93abe9fce6740459d215411965)
+(cherry picked from commit 41bba2b226ff5332561a644a2fd4a2c8b8d7d967)
+Signed-off-by: Kai Uwe Broulik <kai_uwe.broulik@mbition.io>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ .../gstreamer/gstreamer1.0-plugins-good_1.16.3.bb             | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 22b1224d79..518aaef724 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -405,7 +405,6 @@ kernel_do_install() {
- 	install -d ${D}${sysconfdir}/modules-load.d
- 	install -d ${D}${sysconfdir}/modprobe.d
- }
--do_install[prefuncs] += "package_get_auto_pr"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
+index 168bff4137..b3f17d4a4a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
+@@ -34,6 +34,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+ X11ENABLEOPTS = "-Dximagesrc=enabled -Dximagesrc-xshm=enabled -Dximagesrc-xfixes=enabled -Dximagesrc-xdamage=enabled"
+ X11DISABLEOPTS = "-Dximagesrc=disabled -Dximagesrc-xshm=disabled -Dximagesrc-xfixes=disabled -Dximagesrc-xdamage=disabled"
  
- # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
- do_kernel_version_sanity_check() {
++QT5WAYLANDDEPENDS = "${@bb.utils.contains("DISTRO_FEATURES", "wayland", "qtwayland", "", d)}"
++
+ PACKAGECONFIG[bz2]        = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
+ PACKAGECONFIG[cairo]      = "-Dcairo=enabled,-Dcairo=disabled,cairo"
+ PACKAGECONFIG[dv1394]     = "-Ddv1394=enabled,-Ddv1394=disabled,libiec61883 libavc1394 libraw1394"
+@@ -48,7 +50,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
+ PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
+ PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
+ PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
+-PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native"
++PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
+ PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
+ PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
+ PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
 -- 
 2.25.1
 
