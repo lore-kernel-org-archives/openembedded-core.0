@@ -1,72 +1,119 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web09.33875.1620662188215921031
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web12.34390.1620663709460509401
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 08:56:28 -0700
+ Mon, 10 May 2021 09:21:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z3/3Fc/L;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id n205so9504037wmf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 08:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mjuy1q8J4AXvhkPwsM4ZDq7glylnBpu4OVjjWPiLfAI=;
-        b=Z3/3Fc/L0SwIZLyzBi3j/pA+ZX4+hOvrbhu+OmFoFaJYPoohdeOs2Ta72v2oliESuY
-         BWp4m1L0cJ8pnrkxpYDo1SEqQSUBcBw9AAF/YxnxXtVdz88aqeiCVZIPmE5P00dJ2frA
-         Nviq0BYeUCYmUgSx/rnHLHzjrYiQGpecgxr6E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mjuy1q8J4AXvhkPwsM4ZDq7glylnBpu4OVjjWPiLfAI=;
-        b=XATjCcNA6MtpwBhqVqhAbocEGrDnbrsGaFS5BtZDRBRIqtnBc8NpKTRvgeKroZSDfU
-         8KYhzbeH/MHhsJ4ujelEuASQv6JhJP1LkhtAq+AqQ4vVFdFoYfWqTQGyJNZN5VPJRNWK
-         qosvjh96L1m8M0RSlB7CK37vjPbo1VWAmfaLQf/r8VuMhDUU0yFqSszxxZNyPMxsDI6x
-         4i0scmhHbMMKpdGZXAN8KBOw7gk3W/CIeOS643b9y4+XC8qwjiAVruoWwnMA0jASn/je
-         qcw2oVtdq1iPENTof7Ji0ciiVK4FJKFTxm/1Sa/6/0bvo+wOGCBGkA56fw7/qMgeh7ep
-         Mb/w==
-X-Gm-Message-State: AOAM532S05dgge1WHLyfsK4F6CSdn/+nHWZDnC1TPHUz4mc4boOe1CWW
-	jXUkxzSvNO8JsrDqu7unPezDWVFufdes0Q==
-X-Google-Smtp-Source: ABdhPJyJniS/ysX3toisWvWnYS76JDm0tomBxnfH74kfJ9VS7ep8zByc1vGLozfwoiV4oO2q0uikUQ==
-X-Received: by 2002:a1c:1bca:: with SMTP id b193mr27709333wmb.28.1620662186495;
-        Mon, 10 May 2021 08:56:26 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id k15sm24911471wro.87.2021.05.10.08.56.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 08:56:26 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssh: Exclude CVE-2007-2768 from cve-check
-Date: Mon, 10 May 2021 16:56:25 +0100
-Message-Id: <20210510155625.2169407-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 93BF840C7B;
+	Mon, 10 May 2021 16:21:48 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id quybvJxVYuFe; Mon, 10 May 2021 16:21:48 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 60F4D409E0;
+	Mon, 10 May 2021 16:21:45 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 18CB71745DD; Mon, 10 May 2021 12:21:45 -0400 (EDT)
+Date: Mon, 10 May 2021 12:21:45 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>,
+	Quentin Schulz <quentin.schulz@streamunlimited.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] SDK question: does "-c populate_sdk" build SDK based on entire image?
+Message-ID: <20210510162145.GA1528@denix.org>
+References: <36cf577f-e2e2-4c58-5cb5-37eafa42b266@crashcourse.ca>
+ <20210507132101.f37cq2j6yjbe7otb@qschulz>
+ <9874edc2-b8ff-6b82-4f8d-9f0cfb0ef4c@crashcourse.ca>
+ <CAJ86T=VuYu-OaB_SghE6+9KYPOjnKwtVmRjT1j8jBQO+H+6D7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ86T=VuYu-OaB_SghE6+9KYPOjnKwtVmRjT1j8jBQO+H+6D7w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We don't build/use the OPIE PAM module, exclude the CVE from this recipe.
+On Fri, May 07, 2021 at 09:49:32AM -0700, Andre McCurdy wrote:
+> On Fri, May 7, 2021 at 6:47 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> > On Fri, 7 May 2021, Quentin Schulz wrote:
+> >
+> > > Hi Robert,
+> > >
+> > > No SDK expert here, so as usual, to be taken with a grain of salt.
+> > >
+> > > On Fri, May 07, 2021 at 09:11:37AM -0400, Robert P. J. Day wrote:
+> > > >
+> > > >   almost certainly a silly question as i'm still poring over the
+> > > > mechanics of standard SDK creation, but if i define a perfectly normal
+> > > > image, then build the corresponding SDK with:
+> > > >
+> > > >   $ bitbake -c populate_sdk my_image
+> > > >
+> > > > is the resulting SDK populated based on the entire contents of the
+> > > > target image? that is, if i subsequently add a new package to the
+> > > > target and rebuild the SDK, will the new SDK now contain the
+> > > > corresponding content from that newly-added package? (i'm just about
+> > > > to test this with a build but that's going to take over an hour on
+> > > > this server. *sigh* ...)
+> > > >
+> > >
+> > > I think you're mixing SDK and eSDK. AFAIU so far, you're looking for
+> > > an eSDK. An SDK just gives you the minimal toolchain and associated
+> > > tools, to be able to compile something. I would go as far as saying
+> > > it's basically what a PC distro package for cross-compile with gcc
+> > > is doing.
+> >
+> >    ... snip ...
+> >
+> > it's slowly coming back to me, as i once examined the recipe
+> > meta-toolchain.bb for building a toolchain, whose contents are
+> > effectively:
+> >
+> >   inherit populate_sdk
+> >
+> > and when you run "bitbake meta-toolchain", you're obviously not
+> > supplying a particular image as an argument, so whatever is being done
+> > has to be based on fundamental information like MACHINE and so on,
+> > with no reference to a particular image so, yes, you'd get a "minimal"
+> > toolchain as you describe above independent of any image.
+> >
+> >   however, as populate_sdk.bbclass inherits populate_sdk_base.bbclass,
+> > and that latter class file contains:
+> >
+> > TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
+> > TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+> > TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} target-sdk-provides-dummy"
+> > TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+> > TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+> >
+> > it seems clear that you can augment that minimal toolchain with
+> > exactly the two variables i mentioned earlier. ok, i think i've
+> > refreshed my memory on this. now off to figure out the eSDK.
+> 
+> Didn't we discuss exactly this (ie the difference between a pure SDK
+> recipe such as meta-toolchain and the populate_sdk task of an image
+> recipe) a couple of weeks ago?
+> 
+> Both are valid ways to create an SDK and there are no rules about one
+> or the other being specific to creating a "minimal" toolchain.
+> Basically a pure SDK recipe gives you full control while the
+> populare_sdk task of an image recipe is easier to set up (no new
+> recipe to write) at the expense of the final SDK containing extra junk
+> such as busybox init scripts, etc which are needed in the image but
+> not an SDK.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-connectivity/openssh/openssh_8.6p1.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Exactly! Thanks for this excellent summary!
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb b/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-index be56fe43b9e..57ad5e841ca 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-@@ -27,6 +27,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            "
- SRC_URI[sha256sum] = "c3e6e4da1621762c850d03b47eed1e48dff4cc9608ddeb547202a234df8ed7ae"
- 
-+# This CVE is specific to OpenSSH with the pam opie which we don't build/use here
-+CVE_CHECK_WHITELIST += "CVE-2007-2768"
-+
- # This CVE is specific to OpenSSH server, as used in Fedora and Red Hat Enterprise Linux 7
- # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
- CVE_CHECK_WHITELIST += "CVE-2014-9278"
+I've heard so many times before that my meta-toolchain recipe is not the 
+"Yocto" way of doing things and I should instead use populate_sdk. I got 
+tired arguing with people and explaining that meta-toolchain is quite valid 
+and has its merits...
+
 -- 
-2.30.2
-
+Regards,
+Denys Dmytriyenko <denis@denix.org>
+PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
