@@ -1,140 +1,79 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web10.32434.1620657087885541540
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web09.32555.1620657092857676647
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:31:28 -0700
+ Mon, 10 May 2021 07:31:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qJdqvhSv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f53.google.com with SMTP id t4-20020a05683014c4b02902ed26dd7a60so4432061otq.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mohvwYS+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f42.google.com with SMTP id g15-20020a9d128f0000b02902a7d7a7bb6eso14570770otg.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KT3gak1tpG7U4rF53LO1+6iqw/FS9BmZpSWyhDekJCM=;
-        b=qJdqvhSvQclNdM+6DdAXthFyc99qF38gcHEmxe74L1vrua/uYg/sttD7WJgBCELkrs
-         9YaPHB12FJUT5maauwtzuX9CtV+Pjb6jxAjXDKJbudrsdIJiRmaP5ny4uLOqpL+j4Dof
-         Wmy1LGdhEzuHwXs2GOMVUjsDIChNDSOC3+RSXj4izGZmqOG3ePBv2StV2qqrVWBV5DKb
-         CXarmgk4WE5+d7OWQfDfyK9Q6kvesIxeQ63e4dzdxzuEazcUTjYTRj4bjPaImndf8K7o
-         Frc1HFwpM6bJ7mdWgvL0PA2OARFjrurRkWcTXikOkSwNHY79LLWxBb/poLlVP0g7Yt9C
-         Y1/Q==
+        bh=mYmwY3oMCTcFQ0/Mj0ydlbZNV4O4VSUPHZUhiY21c78=;
+        b=mohvwYS+blAecxLPbiPrOFmaKf96orQZppa5w8atTVbS0JeiDpthdnme04kvbjB0+W
+         86NvZraeGxaBsIvrIJEA60s/mY9JL2Rw+VXrAQwBG/AyEOFH2vYKZs/FBNfpFmxSaIIm
+         qJhIUmpKsxwqa1x0IjG9Lp0XyNb9zj4xBkGRIw942m4SHPqg3X0wRuRizx95L8X2wDws
+         QAkly/4H7TRtEUknOPaILJ7T1wZ+8Jlzo4NGvzgjL1oDOJkLYK7fVp6RBRJcbN07d/GR
+         JLXtUd6LaT6Veff/rpcVdzRMzq7+/q3rRoJIWsl5AKBbocOWfRLkyUK1ZoSxdl5/wIO5
+         aZtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KT3gak1tpG7U4rF53LO1+6iqw/FS9BmZpSWyhDekJCM=;
-        b=Zv1kuyhgCTlFpZkWBxVxCHAv4l2GtI5WevQS/YaYHbwckfxRzqgfxQAVSlnuSR9jeX
-         BuRzReCoDm7CZDh3XDbAT26ycM5dpRAYWZAERUjScTDa5/6Wmjz4ukD5OWa8aWhC5RMs
-         L6r/vWn9M+W9ctjeCoAwP31kImjpL5mTf/MU5A6Xipvvz4ooq43TmucbY/Z+MsH6ZfUs
-         ntkp0MMiGdKZxAeyf5Y/Ei7twFicSS3fxlt8N8dfUSal7aluCACbfcU0JhI2nAZk72eh
-         azP9OreS5qL0y7VqChA++wubyVEVFUmeoPnIcPwaQ4sVuxD9n40+DFro/vlWQijMKk+P
-         uwdQ==
-X-Gm-Message-State: AOAM533ewZLlWLZ+6Q9W+nasnAmjQj2uebx5d2gj+JOD0mvOeKt0GSoK
-	NfQjnrepW02eYuopeMWMxzEtJGptsaEiVucMt9Y=
-X-Google-Smtp-Source: ABdhPJyFBcJwhBe7ZMcgwma6JiGuIGAvPJP9yOujdGnlN04NOe4j+yte8b8L3X82X3MTYR2Cfp8InA==
-X-Received: by 2002:a05:6830:1ac3:: with SMTP id r3mr14674784otc.322.1620657086742;
-        Mon, 10 May 2021 07:31:26 -0700 (PDT)
+        bh=mYmwY3oMCTcFQ0/Mj0ydlbZNV4O4VSUPHZUhiY21c78=;
+        b=Oq9fa4Y0liAxZ6pu34iBhtF6yTqtY4zDkdqRp20ccisKFgQ7dg2pFytiasStwcBKX9
+         KSCM1fQ1N29AEAvDVtsvwPFAoQ0R8Q29w0q0/fdF/bOSzhRo0psymmYZXxYlGAfx8tSd
+         ie8amAW7w0kgv68xQWaTukdjBAdQhYZBbx7tNOcE6oRnhtYolJ6oeib2zKdZzjjuL7eo
+         p3/3UQZlpQ2I/khiKfVR1fUM/ZszyPnAG3XHrVr2SgTl9WYn3vnp/fDi4yfP+Cke/QpQ
+         uVHPUDlUMuy0qYMCFVWz+xJ3645C8GyzrW1vQGbCO6uPnraJ+Vq7czqAv0nREqj/Z/Ef
+         5BKQ==
+X-Gm-Message-State: AOAM533whl1cDXLWILxw9/dhUWGS6r+ZRDqL23VwCZTMzl5mHu4GYNi8
+	e6D6ChRrY2DGT5wDOv12j4rQagrxDaEnArFrIYc=
+X-Google-Smtp-Source: ABdhPJyDxHtSJC1Cf9FNa+ZNjDswfdy0v8LY1j96Jj0WrAgCMAk8H8I2ULh2Gks41DOc9IkEvAIoSg==
+X-Received: by 2002:a9d:70c1:: with SMTP id w1mr2428769otj.276.1620657091790;
+        Mon, 10 May 2021 07:31:31 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.31.23
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.31.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:31:26 -0700 (PDT)
+        Mon, 10 May 2021 07:31:31 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/25] oeqa/qemurunner: Improve logging thread exit handling for qemu shutdown test
-Date: Mon, 10 May 2021 04:29:02 -1000
-Message-Id: <07aeb15203c9c89ae82a814961b27593156e723a.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/25] lib/package_manager: Use shutil.copy instead of bb.utils.copyfile for intercepts
+Date: Mon, 10 May 2021 04:29:03 -1000
+Message-Id: <6d5d19d0dd0b274b25e708a1ae1cb41a4a3e3403.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Rather than totally disabling the logging, inform it we're about to exit
-so we can log messages over the exit cleanly too. This aids debugging. It
-also avoids a race where the logging handler could still error whilst
-shutting down.
-
-Also remove a race window by notificing the handler of the shutdown
-first, before triggering it. This removes a race window I watched in
-local testing.
+If the scripts/postinst-intercepts is owned by root/root then the copyfile() calls
+will fail due to chown issues. We don't care about ownership of these files so
+use shutil.copy() instead which won't perform any chown.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0e19f31a1005f94105e1cef252abfffcef2aafad)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/runqemu.py |  9 ++++-----
- meta/lib/oeqa/utils/qemurunner.py       | 12 +++++++++++-
- 2 files changed, 15 insertions(+), 6 deletions(-)
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 7e676bcb41..da22f77b27 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -163,12 +163,11 @@ class QemuTest(OESelftestTestCase):
-         bitbake(cls.recipe)
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b0660411ea..db988d9247 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -403,7 +403,7 @@ class PackageManager(object, metaclass=ABCMeta):
+         bb.utils.remove(self.intercepts_dir, True)
+         bb.utils.mkdirhier(self.intercepts_dir)
+         for intercept in postinst_intercepts:
+-            bb.utils.copyfile(intercept, os.path.join(self.intercepts_dir, os.path.basename(intercept)))
++            shutil.copy(intercept, os.path.join(self.intercepts_dir, os.path.basename(intercept)))
  
-     def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
-+        # Allow the runner's LoggingThread instance to exit without errors
-+        # (such as the exception "Console connection closed unexpectedly")
-+        # as qemu will disappear when we shut it down
-+        qemu.runner.allowexit()
-         qemu.run_serial("shutdown -h now")
--        # Stop thread will stop the LoggingThread instance used for logging
--        # qemu through serial console, stop thread will prevent this code
--        # from facing exception (Console connection closed unexpectedly)
--        # when qemu was shutdown by the above shutdown command
--        qemu.runner.stop_thread()
-         time_track = 0
-         try:
-             while True:
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 77ec939ad7..410789b815 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -467,6 +467,10 @@ class QemuRunner:
-             self.thread.stop()
-             self.thread.join()
- 
-+    def allowexit(self):
-+        if self.thread:
-+            self.thread.allowexit()
-+
-     def restart(self, qemuparams = None):
-         self.logger.warning("Restarting qemu process")
-         if self.runqemu.poll() is None:
-@@ -560,6 +564,7 @@ class LoggingThread(threading.Thread):
-         self.logger = logger
-         self.readsock = None
-         self.running = False
-+        self.canexit = False
- 
-         self.errorevents = select.POLLERR | select.POLLHUP | select.POLLNVAL
-         self.readevents = select.POLLIN | select.POLLPRI
-@@ -593,6 +598,9 @@ class LoggingThread(threading.Thread):
-         self.close_ignore_error(self.writepipe)
-         self.running = False
- 
-+    def allowexit(self):
-+        self.canexit = True
-+
-     def eventloop(self):
-         poll = select.poll()
-         event_read_mask = self.errorevents | self.readevents
-@@ -649,7 +657,9 @@ class LoggingThread(threading.Thread):
-             # happened. But for this code it counts as an
-             # error since the connection shouldn't go away
-             # until qemu exits.
--            raise Exception("Console connection closed unexpectedly")
-+            if not self.canexit:
-+                raise Exception("Console connection closed unexpectedly")
-+            return ''
- 
-         return data
- 
+     @abstractmethod
+     def _handle_intercept_failure(self, failed_script):
 -- 
 2.25.1
 
