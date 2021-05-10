@@ -1,69 +1,74 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.30773.1620649338839937712
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.31240.1620650182178102159
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 05:22:19 -0700
+ Mon, 10 May 2021 05:36:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@hyprua-org.20150623.gappssmtp.com header.s=20150623 header.b=Ac3U/ixn;
- spf=none, err=SPF record not found (domain: hyprua.org, ip: 209.85.221.53, mailfrom: mathieu.dubois-briand@hyprua.org)
-Received: by mail-wr1-f53.google.com with SMTP id h4so16387186wrt.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 05:22:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dL3sPOZB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id t18so16467031wry.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 05:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hyprua-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DDr0iFDUMAEC+llgoasXeYJeT/Pi1jwaD6fU7yLi+s8=;
-        b=Ac3U/ixnThQWGyvD5DcNQ9w4Tx+i+nucyLRAnFio3MeMUiO5qHfe4JOvipwzRNPMnD
-         r6sTSo5hZf670X30G2wVi311m2urZ2gWn7FXD5nDV4Pr0EwxvvjNHmIZEQFKM0jaZfIH
-         oCeZEwTCausE3HyqWGA8rRglJvEac2sinobZ8I7LzICo40MOMsTC0vATy9RZpJARPrxx
-         ApAJ4++BAWvN2KD8dsQPE7+CHfhSHE2VldMXmAOQ32y+9jEVc8Bz+2F9qYi1x2oGNvcA
-         jYD/hRN5SekEjz3WGuiS6uSmgDf8JnGTVacWvUOPYdywcbVKy23fKzg6DA4Fy5G6xn/O
-         Qrcw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1qY8nLMB9iQ1JdWsCws88KAFmOrHUey24nAbJiQwTNY=;
+        b=dL3sPOZBALqrXYsDcSK5vx0iETxmJER4VhMqSO3iAvQahai2HdbWjXXXItHQ3Cz83Q
+         1+1QWIvFsMmCXEWzHJbeuBw2lzwL6BhWVtG0MMS606Chfm1LUI7xJ3KIlMehPNPXP3xX
+         SQ251NLbwiVAetfbFUQmxmFwX654MnuNlhnmc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DDr0iFDUMAEC+llgoasXeYJeT/Pi1jwaD6fU7yLi+s8=;
-        b=IcYuIHZF4JMaKwvgeQ35MF+ag7I5E3HfgC6SH/m1zisS9mKRu6gyubqxAc6eN+3vLC
-         UfpZgsQAFMhreNLl4KWc2fMkJw6hQ5vGJJtVoOLALqDJ6oj/Dg33DltwY8j8/cXO1ZiY
-         M8bP6zghlpwuE6PkXrgrnl/TSQ39oz1FX9SQQu2Ub97hckjA/f7QuNfehAEnGGvmYwtM
-         GShB2r0qb1p+0mPJq+dcTsGceGMCLU40hPCgLBVLlLRGwP0nrpaa8vTg74FFdMOL02Rg
-         zs8tsOksHeMXIYmdj3TTmF/ij6ccIsT+ed6xiMyavi+NePimAz+ioxMfHYJaatdlJ3Ix
-         LE+A==
-X-Gm-Message-State: AOAM532Dsi11jITOyx7na1TCcmZXv+KfyjSoKvvPJeV1Q8HTdgIVQpWc
-	9L+EO3a7KOEoFdpvtGKf0srWLXCSISZELzV1
-X-Google-Smtp-Source: ABdhPJxDFn7ZELzVkswAcvl+TiuVTfdhQdG44bAL5KWMJ2ywahDRmyDCWAiEoHV0qzRgiWsWmcDMsg==
-X-Received: by 2002:a5d:5903:: with SMTP id v3mr30258371wrd.405.1620649336982;
-        Mon, 10 May 2021 05:22:16 -0700 (PDT)
-Return-Path: <mathieu.dubois-briand@hyprua.org>
-Received: from celeri ([2a01:e0a:4b9:9060:a198:f697:d53:3bb5])
-        by smtp.gmail.com with ESMTPSA id m6sm23708721wrp.29.2021.05.10.05.22.15
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1qY8nLMB9iQ1JdWsCws88KAFmOrHUey24nAbJiQwTNY=;
+        b=D7iHxGigQvnO4UxhN7R/PPfMU29hqFLGC0m24fsC5zeoJj6/pjrnZdkqRXvsGVitMG
+         bePTCbsV+E2DTTNsisEQ0hQMyNn8ciYnPllP00S5PTGewzlkUru3uPnd98pHIdI3p9HX
+         ARpvsyCwsLcm+w/5r07wGBzL/hMdz+SZ8ZnpYwtl8Zv7kDzS4/TipjkNPM3mmn8NzRo/
+         K0822kaZrRNxXknCRA0mMfE3yuWJSxpZPePRiwLSNJ/w3QkQtDA7BywzI5l54soLyCgp
+         KWtZshO3RU4Bdw4WwYPliOkOiJW6Pp4ERMZ+mailDaHFkC8uMvhBLpFAmLrajkt0R+2n
+         9D3Q==
+X-Gm-Message-State: AOAM531M6AGn8AzMB4m5EZ1dYwh0zo1U95UZlLrEqWYgqWFRRvWkC58Z
+	4f2veXEkGchBMh9Yk5vlikm5R7NhHBuf8A==
+X-Google-Smtp-Source: ABdhPJzU4Sq3d0HG947lGT39JTeeVh9lUK5LVJdwas58RJVEN8jnYO+zeJGYEAUCf3mR32PVUSKUxQ==
+X-Received: by 2002:a5d:4688:: with SMTP id u8mr29835789wrq.427.1620650180450;
+        Mon, 10 May 2021 05:36:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
+        by smtp.gmail.com with ESMTPSA id z8sm22303622wrw.74.2021.05.10.05.36.20
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 05:22:16 -0700 (PDT)
-Date: Mon, 10 May 2021 14:22:14 +0200
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@hyprua.org>
-To: openembedded-core@lists.openembedded.org,
-	Mathieu Dubois-Briand <mbriand@witekio.com>
-Subject: Re: [OE-core] [PATCH] e2fsprogs: use default inode size for small fs
-Message-ID: <20210510122214.GA99795@celeri>
-References: <1673E3579AD24F09.16683@lists.openembedded.org>
- <1673E371308B0719.6806@lists.openembedded.org>
+        Mon, 10 May 2021 05:36:20 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemu: Exclude CVE-2018-18438 from cve-check
+Date: Mon, 10 May 2021 13:36:19 +0100
+Message-Id: <20210510123619.2160436-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <1673E371308B0719.6806@lists.openembedded.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The issues were investigated and found not to be an issue therefore
+exclude from checks.
 
-I don't see much enthusiasm for this patch. As I said, maybe the way I
-did it is not be the best one, but I'm open to any comment or request
-for modification.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I feel like the goal of this patch is important. Without it, small ext
-partitions generated with open embedded will not support any date beyond
-year 2038.
-
-Is there any way I can help to progress with this issue ?
-
-Best regards,
-Mathieu
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 32be057d0ed..82d1cb5566c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -72,6 +72,10 @@ CVE_CHECK_WHITELIST += "CVE-2017-5957"
+ # enable it by default.
+ CVE_CHECK_WHITELIST += "CVE-2007-0998"
+ 
++# 'The issues identified by this CVE were determined to not constitute a vulnerability.'
++# https://bugzilla.redhat.com/show_bug.cgi?id=1609015#c11
++CVE_CHECK_WHITELIST += "CVE-2018-18438"
++
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
+ 
+-- 
+2.30.2
 
