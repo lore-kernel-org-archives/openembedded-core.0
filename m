@@ -1,168 +1,97 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
- by mx.groups.io with SMTP id smtpd.web10.31386.1620652424948671512
+Received: from outbound.soverin.net (outbound.soverin.net [116.202.65.218])
+ by mx.groups.io with SMTP id smtpd.web12.31780.1620652988307594300
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 06:13:45 -0700
+ Mon, 10 May 2021 06:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f8yo+kY+;
- spf=pass (domain: gmail.com, ip: 209.85.217.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f51.google.com with SMTP id o192so8355757vsd.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 06:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9LDPzjk8UNSrCcDt7fL4bJxZ9Tha+ZjvleiJuff7TA4=;
-        b=f8yo+kY+1vBgoODgILZSiUQO0fhHqk5ez8D6HBiyvnNdhMTH83X/UgaUlYa7fBNCer
-         dEalM6Rm37wwrs3ykY+fY7qplmQmc1IlPeNGrr/Rl+77gVQyugdPtJzLGfBIVvcY3S02
-         8+cqywdqEWJOaU78plySPUOot+dtKjA+Fd3vY3Eo41yS/I9NmmMZTdfm1cu0GVAMwVH7
-         huRNAp7H3kMxzMURrKoMjkXoAwe5V9O5SV6/sxYBDXtqor122SZLhNuA6t5jdbGVb70L
-         xzMRAKi13qlSY4HSSoETNQHN04G8GlDgmHA+XQ/ltwhhPqPnOZTwO9HyGA6+pmbj2wz2
-         TOlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9LDPzjk8UNSrCcDt7fL4bJxZ9Tha+ZjvleiJuff7TA4=;
-        b=J25i+4t6cNSuygDV4F43I1ByLo2Vbo4B0ohchZJjJ+y3+o21Zg44J6d0ZIBcqkEwBI
-         XT7/r5sAOD0RZ1QHuWoxfYOL8MJhXAkDW6z/BxE0xovbcSZAJ14CP5UruGWjlTibKSyu
-         CVpuqxJP1+zDMEvNWgiXRvG/PNE7fIA0tAzY2DIPbciiq7AJiE3tpOSa/0d1UMufTfJ4
-         p9OkElWLn33ZsKibNxavAyOSFdCllIz8R0pM1b/hsy9Fh4BnzAIArSDNWT+ksAgZNhrC
-         zK8RtnSFWOryDzrGGPHo+RCC6cNFuBmMOl/nGIJVjLsCYDx49ACY2xyODVWaM0k452lj
-         NDXQ==
-X-Gm-Message-State: AOAM532nWDsxS06xBv42B+9R7nSzo5bvd5wfBl7B+UotOdrkWQPiMiOB
-	11Lg/SL58y9MZhYpcGV8Ghas0YWiYVSWCSaQI1s=
-X-Google-Smtp-Source: ABdhPJxwRrgVzmF1jmPoF6NZuHcET8s0/WHgiaG8vhcGmS1j4u8KkTTjbSuEyu0mM6GdAN7GWb8JprT1o0xn9Zkd8ig=
-X-Received: by 2002:a67:d715:: with SMTP id p21mr11039107vsj.31.1620652424149;
- Mon, 10 May 2021 06:13:44 -0700 (PDT)
+ dkim=fail reason="no key for verify" header.i=@embed.me.uk header.s=soverin header.b=IBUVRTxD;
+ spf=pass (domain: embed.me.uk, ip: 116.202.65.218, mailfrom: ml@embed.me.uk)
+Received: from smtp.soverin.net (unknown [10.10.3.24])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by outbound.soverin.net (Postfix) with ESMTPS id 5A1B5600ED
+	for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 13:23:05 +0000 (UTC)
+Received: from smtp.soverin.net (smtp.soverin.net [159.69.232.138]) by soverin.net
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=embed.me.uk;
+	s=soverin; t=1620652984;
+	bh=cMY43rs1v1FuRShDg6MNw2l259y8z6Aut2TVN3w1b1c=;
+	h=Subject:To:References:From:Date:In-Reply-To:From;
+	b=IBUVRTxDFvmsVkLmbs6ObYxcuh/AwnEQPzkUE6vbvHWlEaKAbfx1gA8FIC00wtn+C
+	 Qmh76i2BjYGR5fCyG7QhnryS6bPypM5ui+UhH3qKhz8H0W6MlNJlzSAoMDPYmj0Z4D
+	 9Zrj4WZ3UXfi5y2U7PSA+W/PJOBBTpkEVRKpVZvdUtLCHLGf4M50ZXs0DdxA/wzyom
+	 MiRb47oFg3t3+lJfWIY+AYvr5/Y+Ik7Jv70JSgeCqGyHaSkBHrom6DYn+X48f686q5
+	 M947JOsv2GQ4IZrEj0Xy/hSfrwLLvRVM6g2ImRpcab7Y/w65WyFz1jFUcc1aC+9n07
+	 rp5gLfwpIEryA==
+Subject: Re: [OE-core] [PATCH] rng-tools: disable the CPU affinity mask
+To: openembedded-core@lists.openembedded.org
+References: <20210510023310.5516-1-mingli.yu@windriver.com>
+ <5aa52a186119be3add2555d6dbc89f348699aae8.camel@linuxfoundation.org>
+From: "Jack Mitchell" <ml@embed.me.uk>
+Message-ID: <fac5bcb3-fa84-5b3d-20be-779b6b55781a@embed.me.uk>
+Date: Mon, 10 May 2021 14:23:02 +0100
 MIME-Version: 1.0
-References: <20210423180254.706537-1-alex.kanavin@gmail.com>
- <20210423180254.706537-4-alex.kanavin@gmail.com> <CAAnfSTsz5L60dtRGqCAam_1DCV3Lhb40GZ+8HMvEGC8RitwgKA@mail.gmail.com>
- <CANNYZj8p6061c24KP=0QxrXsAq+Qp0oAGSyaYzr10=Zq=BtvZw@mail.gmail.com> <CAAnfSTtOtEMXhYZBaf23GCr+DCR_t+bFp3PgNJ8-82kNSXszCA@mail.gmail.com>
-In-Reply-To: <CAAnfSTtOtEMXhYZBaf23GCr+DCR_t+bFp3PgNJ8-82kNSXszCA@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 10 May 2021 15:13:32 +0200
-Message-ID: <CANNYZj_yMEhTz08E33PLGcMVZMHhE=zJbnkHYW5zxprbhg9i3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/7] oeqa/selftest: transition to weston images
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000bc3b505c1f98cc9"
-
---0000000000000bc3b505c1f98cc9
-Content-Type: text/plain; charset="UTF-8"
-
-How about now?
-
-http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/commit/?h=contrib/akanavin/transition-to-weston&id=1cd449267db015fb89f6c3f2c85fe855fd845015
-
-Alex
-
-On Mon, 10 May 2021 at 13:08, Ross Burton <ross@burtonini.com> wrote:
-
-> The only-x11 target is close but it should drop the opengl distro feature
-> too.
->
-> Ross
->
-> On Tue, 4 May 2021 at 19:04, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > On Tue, 4 May 2021 at 19:01, Ross Burton <ross@burtonini.com> wrote:
-> >>
-> >> Hi Alex,
-> >>
-> >> First, I love to see this. :)
-> >>
-> >> However, using this as a convenient starting point: if both nodistro
-> >> and Poky have OpenGL enabled then there's no test cases for the non-GL
-> >> configuration anymore, which is important for headless systems, of
-> >> which there are many.  Whilst I agree that graphical systems that
-> >> don't support modern rendering in some way are on the way out, this
-> >> trend isn't across all of our target platforms.
-> >>
-> >> Can you add a configuration to the autobuilder along the like of
-> >> poky-altconfig that does at least one build without GL?
-> >> core-image-base as a *minimum* but a core-image-sato should continue
-> >> to work.
-> >
-> >
-> > I already have a companion patchset for the autobuilder:
-> >
-> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/log/?h=contrib/akanavin/transition-to-weston
-> >
-> > I don't think it has the non-opengl build yet, but I could easily add
-> that. Can you take a look at the patches and maybe propose something
-> specific to add? I can simply add a patch to my set if you write one.
-> >
-> > Alex
-> >
-> >
-> >
->
-
---0000000000000bc3b505c1f98cc9
-Content-Type: text/html; charset="UTF-8"
+In-Reply-To: <5aa52a186119be3add2555d6dbc89f348699aae8.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>How about now?</div><div><br></div><div><a href=3D"ht=
-tp://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/commit/?h=
-=3Dcontrib/akanavin/transition-to-weston&amp;id=3D1cd449267db015fb89f6c3f2c=
-85fe855fd845015">http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilde=
-r-helper/commit/?h=3Dcontrib/akanavin/transition-to-weston&amp;id=3D1cd4492=
-67db015fb89f6c3f2c85fe855fd845015</a></div><div><br></div><div>Alex<br></di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Mon, 10 May 2021 at 13:08, Ross Burton &lt;<a href=3D"mailto:ross@burt=
-onini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">The only-x11 target is close but it should dro=
-p the opengl distro feature too.<br>
-<br>
-Ross<br>
-<br>
-On Tue, 4 May 2021 at 19:04, Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
-anavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<b=
-r>
-&gt;<br>
-&gt; On Tue, 4 May 2021 at 19:01, Ross Burton &lt;<a href=3D"mailto:ross@bu=
-rtonini.com" target=3D"_blank">ross@burtonini.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Alex,<br>
-&gt;&gt;<br>
-&gt;&gt; First, I love to see this. :)<br>
-&gt;&gt;<br>
-&gt;&gt; However, using this as a convenient starting point: if both nodist=
-ro<br>
-&gt;&gt; and Poky have OpenGL enabled then there&#39;s no test cases for th=
-e non-GL<br>
-&gt;&gt; configuration anymore, which is important for headless systems, of=
-<br>
-&gt;&gt; which there are many.=C2=A0 Whilst I agree that graphical systems =
-that<br>
-&gt;&gt; don&#39;t support modern rendering in some way are on the way out,=
- this<br>
-&gt;&gt; trend isn&#39;t across all of our target platforms.<br>
-&gt;&gt;<br>
-&gt;&gt; Can you add a configuration to the autobuilder along the like of<b=
-r>
-&gt;&gt; poky-altconfig that does at least one build without GL?<br>
-&gt;&gt; core-image-base as a *minimum* but a core-image-sato should contin=
-ue<br>
-&gt;&gt; to work.<br>
-&gt;<br>
-&gt;<br>
-&gt; I already have a companion patchset for the autobuilder:<br>
-&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder=
--helper/log/?h=3Dcontrib/akanavin/transition-to-weston" rel=3D"noreferrer" =
-target=3D"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuild=
-er-helper/log/?h=3Dcontrib/akanavin/transition-to-weston</a><br>
-&gt;<br>
-&gt; I don&#39;t think it has the non-opengl build yet, but I could easily =
-add that. Can you take a look at the patches and maybe propose something sp=
-ecific to add? I can simply add a patch to my set if you write one.<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div>
+On 10/05/2021 10:48, Richard Purdie wrote:
+> On Mon, 2021-05-10 at 10:33 +0800, Yu, Mingli wrote:
+>> From: Mingli Yu <mingli.yu@windriver.com>
+>>
+>> For the jitter entropy source, each task thread will create an interna=
+l
+>> counter timer thread when the system clock resolution is under 5MHz.
+>>
+>> But it will introduce high cpu usage for a long time and also make ran=
+dom
+>> data generate too slow if sets the CPU affinity mask of the internal c=
+ounter
+>> timer thread.
+>>
+>> There is no solution until now and the Upstream recommends to disable
+>> the internal timer and think Jitter RNG will not work due to the coars=
+e
+>> timer. Check [1] and [2] for more details.
+>>
+>> So disable the CPU affinity mask as a workaround to avoid lots of cont=
+ext
+>> switch and too high cpu load for a long time.
+>>
+>> [1] https://github.com/smuellerDD/jitterentropy-library/issues/37
+>> [2] https://github.com/nhorman/rng-tools/pull/123
+>>
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> ---
+>> =C2=A0...tter.c-disable-the-CPU-affinity-mask.patch | 48 +++++++++++++=
+++++++
+>> =C2=A0.../rng-tools/rng-tools_6.11.bb               |  1 +
+>> =C2=A02 files changed, 49 insertions(+)
+>> =C2=A0create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001=
+-rngd_jitter.c-disable-the-CPU-affinity-mask.patch
+>=20
+> Thanks for investigating this upstream. From an OE-Core perspective, I'=
+ve very
+> reluctant to take what looks like a very board specific change which th=
+e upstream
+> is advising against. The issue is that this will affect all hardware, n=
+ot just
+> the hardware which has the issue. I think we need to find a better solu=
+tion.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
---0000000000000bc3b505c1f98cc9--
+FWIW I forcefully have to ensure nothing pulls in rng-tools in my builds
+which are for two different Rockchip chipsets (armv7 and armv8) as the
+rng-tools binary pegs the CPU at 100% for minutes after boot, every
+boot. It's particularly annoying as openssh brings it in by default
+which I've unsuccessfully argued is wrong before. I believe the problem
+is probably fairly widespread but just unnoticed.
+
+Regards,
+
+--=20
+Jack Mitchell, Consultant
+https://www.tuxable.co.uk
