@@ -1,95 +1,85 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
- by mx.groups.io with SMTP id smtpd.web11.32425.1620657058013936948
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web09.32546.1620657062641242910
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:30:58 -0700
+ Mon, 10 May 2021 07:31:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BgDQItPV;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.54, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f54.google.com with SMTP id i8-20020a4aa1080000b0290201edd785e7so3511497ool.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:30:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tXXTmgQQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.181, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f181.google.com with SMTP id u16so15962550oiu.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=pANVVbtk/djYfsFPRUAJESga1ZlTY3Fcp5mDhx1Kl5s=;
-        b=BgDQItPVUONi3vZg4G7k3x7d9HzHwxfX1kinVlmqmWM0BcqlanzyGi2HXDCUYlAmrx
-         8zVGoe81xdLiXFCLZ3vde0gOf83FPbCXJePLEzfjcKsidh1FQEEwDoTPRFikymBMAXfP
-         hNsT0PrMD6HVimFtZrG2TCQmCF4WFsi56Aciwj7Ho6umklzW+SL4DJwH9ZLpfjuYPWg/
-         JP65XfTsCH0C+O3IKZ/RgDEAB8Mw3bOstbL5DpstvxdrjFIiDMPZcF+OCaabB+yb0pVp
-         N1l4jdO0t71WSb+WH0xydPAd+k8jD9/Cd9dfp7aXVYgIsb9mR1NQJU53AHquJ/5K/03F
-         eKDQ==
+        bh=E9/z4Js9U91eRqEw+zTNcgyQoGaV8PKc6yka7pS1OEI=;
+        b=tXXTmgQQtiQWEW/XIW6K6pSUzMDe13aG5+CqVhHimMslPED8ELEWxo8n6lI6RGW3/K
+         XtgYoZoDgQ95NnAUJkCPq0/L79ZozEnc0cTdWjo4IsGwUZAJOIQLyXDqZRQF2SwR5Tk0
+         xCiFVmKKP4akNLEJqHKRuR4LY+NtmEZAwWKb3cE+0+uG74LG2mR7JCddEy0erybZiFER
+         07iV9uB1j27xSyUlEuJMoiSqf13aanbO71wR2npcKC4XF//d4r80WoVMWl78+IxpsOX9
+         O5NVdJsuNLSayyahnwrW0NiyX3+TtZw1Ac133n4VDH4WaTV2uSvXOsnZkRUj42P/mCHr
+         hXtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pANVVbtk/djYfsFPRUAJESga1ZlTY3Fcp5mDhx1Kl5s=;
-        b=TiVxn2fW8zMWeUUU8f57x52tmzlO5eBmGy5fciw53McS5KDRhYIiLViDjnweVEUBIK
-         dJL5Xmiz/sS63k7e2Q0/uGR9eOyzZOAWCbi03NKU1lt8xcksdLBW6d38mZ8x+wPpA1k2
-         thYTtUvb66tQqW+KaC0Z9yS78SEYxBqQa0nu2J3OkrQDnByzNngxoxKh60dO/L/1UPOT
-         9veBi+W8RbknvNzWsC0ACO7xEZ3Hf6m5rRnBsiaVf0lX7RvfZ1O8BYeaSw84PQZlUC6l
-         F02giNh1g3RJrmRl9Ne9NoAiVJEC9uSQinqhp67u6d31CwXBCHfw6xQuJFEwCYyqSjQb
-         KwtQ==
-X-Gm-Message-State: AOAM532qFB/VJ7Q6AVFOpt+jvG4zCCGBm7D739za3hNgKQ0FbSabdINa
-	O1q4GM6rVs80BFMOhBk5SAcN0Vcg0uPP5pbz3ek=
-X-Google-Smtp-Source: ABdhPJw4oDlNZW2n/oTZ6f9QgiY4vvQs4bQ5X1ZKIqccpPGioTVI/C95rZDShKhRfBAfvYkrlBT4Ng==
-X-Received: by 2002:a4a:e385:: with SMTP id l5mr19169283oov.48.1620657056889;
-        Mon, 10 May 2021 07:30:56 -0700 (PDT)
+        bh=E9/z4Js9U91eRqEw+zTNcgyQoGaV8PKc6yka7pS1OEI=;
+        b=HZpQFSGyGh4Ty1P5RNSvpcfX5ngs4nlNGXQ+9ZZxAH+HdVdC4nszVoK4LtawFo8xlK
+         SiLoHi3EobnG9lTKGBd1c0XMxj6qyufe8Iivnbp7/mTWS2ZOaRZUqzYOBcCjN/yiIMre
+         HO8MQUwDCA7u+1U20Qdbeu/U1AbYGYcfqk5ECQiTZG4xxchRcDDhh1w+KEdrJR4GD3yH
+         uVhXQR0m+Ku5mlWwaB1tgPVvqqhbQCM52jOVO2ge0Bt8MZZ3nTncYzWcJ9YrqNelqMGX
+         EpTwELVG9BHdQvbHg6m8IJqrABYejtVwWrHQa9YS8ltLeI+XTls6/3Y1lZOy/5YK5Hcw
+         Lrwg==
+X-Gm-Message-State: AOAM532tjZXRHqw6JncCIR3rpMBLRK+S+OJC3Jl8jgHgkoM+3cs0SLrO
+	Qojx9fjKmbpA2to3u+eY5sJGKDsp/yOuMz/1NHc=
+X-Google-Smtp-Source: ABdhPJyu1bE0s4dCRNOFcoupjTk6iehyJvjI3L9ihD2oz00c4LfTXF/3Cle1glD1YpLpvjjGJ26TgQ==
+X-Received: by 2002:aca:d8d5:: with SMTP id p204mr8803788oig.151.1620657061536;
+        Mon, 10 May 2021 07:31:01 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.54
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:30:56 -0700 (PDT)
+        Mon, 10 May 2021 07:31:01 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/25] make-mod-scripts: add HOSTCXX definitions and gmp-native dependency
-Date: Mon, 10 May 2021 04:28:56 -1000
-Message-Id: <51a09f99127a90716b22a48a221838e6af1a617f.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/25] diffoscope: add native libraries to LD_LIBRARY_PATH
+Date: Mon, 10 May 2021 04:28:57 -1000
+Message-Id: <0f4531275c1e332de81b31b89e52f588fc34b14a.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-With kernel v5.8+ and gcc10 plugins, we can run into the following build error:
+Reversal of global setting in previous commit necessitates
+a local fix, otherwise, this happens:
 
-      HOSTCXX -fPIC scripts/gcc-plugins/arm_ssp_per_task_plugin.o
-    In file included from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/10.1.0/plugin/include/gcc-plugin.h:28,
-                     from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work-shared/qemuarm/kernel-source/scripts/gcc-plugins/gcc-common.h:7,
-                     from
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work-shared/qemuarm/kernel-source/scripts/gcc-plugins/arm_ssp_per_task_plugin.c:3:
-    /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/../../lib/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/10.1.0/plugin/include/system.h:687:10:
-    fatal error: gmp.h: No such file or directory
-      687 | #include <gmp.h>
-          |          ^~~~~~~
+  File "/home/pokybuild/yocto-worker/reproducible-debian/build/build-st-52142/tmp/work/x86_64-linux/diffoscope-native/172-r0/recipe-sysroot-native/usr/lib/python3.9/ctypes/__init__.py", line 392, in __getitem__
+    func = self._FuncPtr((name_or_ordinal, self))
+AttributeError: nativepython3: undefined symbol: archive_errno
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb055446e0fe4771c8bd6122e79d43ef8db2e45b)
+(cherry picked from commit 87884d9938829d5ae5d250f483c749e00cd83322)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/diffoscope/diffoscope_172.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 87b7d240f5..b58fa9a603 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -16,8 +16,10 @@ do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
- RDEPENDS_${PN}-dev = ""
+diff --git a/meta/recipes-support/diffoscope/diffoscope_172.bb b/meta/recipes-support/diffoscope/diffoscope_172.bb
+index eb85d6c854..b26713c47f 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_172.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_172.bb
+@@ -18,6 +18,7 @@ do_install_append_class-native() {
+ 	create_wrapper ${D}${bindir}/diffoscope \
+ 		MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
+ 		RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
++		LD_LIBRARY_PATH=${STAGING_LIBDIR_NATIVE} \
+ 		RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
+ }
  
- DEPENDS += "bc-native bison-native"
-+DEPENDS += "gmp-native"
- 
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
-+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
- 
- # Build some host tools under work-shared.  CC, LD, and AR are probably
- # not used, but this is the historical way of invoking "make scripts".
 -- 
 2.25.1
 
