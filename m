@@ -1,92 +1,91 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.29861.1620642676181536135
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web10.29826.1620642978688824271
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 03:31:16 -0700
+ Mon, 10 May 2021 03:36:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dSPBr54D;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id l14so16050879wrx.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 03:31:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aaAka9u4;
+ spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f46.google.com with SMTP id j13so8148164vsf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 03:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qmqJnKUHFBzRbVVZ3Oipep8uye6Ih8wE8j1VviMO69g=;
-        b=dSPBr54DcGzPW7ZbSVE3C3MHM3wWnWUj427U9ulS8d59q01NnfdsfhurHkmy9Z57T/
-         XkZW5ik73RLU4MUsMW3asS/Fvbt+XeN5IG6hPAdK1Rou2yPOhtLg6ic3Ts+fs66glLn9
-         JzbTVctRBUIOTFqkE65Uu8E5ZtRiYHKSXHgBs=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FTNB1MsrT2xEg18G2BIYPzu/YJMf90Q8b9sSkvdWDyo=;
+        b=aaAka9u4nGfpp5eNbE2ThpIGU31Tg01r+KGWo0V3Xi6uJSvt9ZGir2RrZla5G+kN5i
+         rwpGbTeDOHmgU7HwULrV6IRf9ouC29qZQTEJ5r0Eg5BdisRjuI6fGtGFw9x4DOwMQQOt
+         +s9s2qw8aR9QOTT7JXGHTF10TcXhr0kAx/HEaU3G8F6wo0WQDtaLyp6uF4uwha84Boz/
+         GdXHBZY9oewkNkfp6jU81/X6heLt0BPS7KKwkz2jvtoRxU1aaebTPUv9mKREVAiRY3I0
+         90xeOHfM1e0JB5+IQsaodsRmSg/jiMR0MaHMwaNLZzk27Zjq61nUudkVugXHm/EeFf6c
+         tuUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qmqJnKUHFBzRbVVZ3Oipep8uye6Ih8wE8j1VviMO69g=;
-        b=ZXnDa2hUwm/Ft4AxXVHBi0tzFJV7tsigl0QWnSCBqNnqcL23flqpJTIsku32+LoNy3
-         +5bAJZ3jqeDdi0E1HpcISbOuSat6fvnRAxi/srAzkgf8hbn8ixRtta2XiPU/B6/fT0Uf
-         G3EPYq0JsNQatGFgGrUBVX2DAstPNaUyw7LtBsxhIlCvO7DF+JcDZblWyy3q91Q6u8N0
-         tteaLVpB3FlgtMnonR5bxUCl8HITwfnB9DliIAhAMuHNBaBZk29FhDiD6Aipps2exNwb
-         /6cDgYuygu8VtDwbnLsyx/N7mwTWjZEXb8Fc10TDcV2gLzD78B52/Z2BUUC4+sXBHm98
-         r49A==
-X-Gm-Message-State: AOAM531dOrDzAadq6CjRUowu2qi4kPPvLKbiPCSVKc3JNGHBDQ3yo1vH
-	6i6k7QBz6SpZC6bdMHJJTz/VhG2WL2S7Hg==
-X-Google-Smtp-Source: ABdhPJz6CzNBg5CgALqpDugnlGfK/jHeaUTaiWQRNv23ovL9g2iL9w9FWu55bA8ezcNwVoa5zMzkMA==
-X-Received: by 2002:adf:eb82:: with SMTP id t2mr26247725wrn.337.1620642674484;
-        Mon, 10 May 2021 03:31:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id o62sm58217798wmo.3.2021.05.10.03.31.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 03:31:14 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cve-extra-exclusions: Update/add CVE-2000-0803, CVE-2005-0238, CVE-2019-14865
-Date: Mon, 10 May 2021 11:31:13 +0100
-Message-Id: <20210510103113.2156587-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FTNB1MsrT2xEg18G2BIYPzu/YJMf90Q8b9sSkvdWDyo=;
+        b=BB3I1tVufopP2VwyXs7wBvcO2LezW9+Wgx28BByPzDw5G6BKY8EM7m+2e4UPecSSSq
+         xc/Ha+jxFW7GIU/6MNuvzh+Z1k/WIiZ6t+AWCmCTaqmWzfs/BuZiFeY5YRuSd1dIXajZ
+         Tv38dv7yoeIA6UX/IbxuNW6AVcm4tp0GrIey1a4G6LFFC1qyMGGRrXBbiXlqlmR4fFht
+         KKhc6RX0rYG646jQtFRr2UJqRXtcGredlyoFwK3tx4qtdE0RiAR4I1t8+qr20m0mtPCD
+         kwNE1z8HJw0EXXarMyE00aN717Q4e5TfE195554ZI4Vz7RdAB7yRssdFioFQaHfRUCuF
+         029A==
+X-Gm-Message-State: AOAM532dJoCEq3ak0yESyDlGkdjeNyCDCw2V1sbk2W+rpIB9HZC094KO
+	XgrsC3ZS+hXhRFDwHaer9/FHNZGfI2rbrUD9voM=
+X-Google-Smtp-Source: ABdhPJxL8pRsMeEDXQ8BYksFtWM3yjKjUkOw8z8xkTlj1Sjx+9bP/oghwn/bTT5pG+kNKAX8czgIRcRiN2f9F3s5Wk0=
+X-Received: by 2002:a67:f04a:: with SMTP id q10mr17519297vsm.41.1620642977888;
+ Mon, 10 May 2021 03:36:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210505151850.660512-1-alex.kanavin@gmail.com>
+ <20210505151850.660512-2-alex.kanavin@gmail.com> <d1f5adca-a9b8-f041-9bfe-088ee60477e2@gmail.com>
+In-Reply-To: <d1f5adca-a9b8-f041-9bfe-088ee60477e2@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 10 May 2021 12:36:06 +0200
+Message-ID: <CANNYZj-ni+kkVQgzmcMFaLdsM=63nuFc0LDYkH_p3+ic59Zm4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/61] go: correct upstream version check
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000013c7b05c1f75997"
 
-Update a CVE status with the data sent upstream to the database, document another
-as unifxable by us and add the status of another sent upstream for a database
-entry change.
+--000000000000013c7b05c1f75997
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../distro/include/cve-extra-exclusions.inc   | 23 ++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+On Wed, 5 May 2021 at 21:34, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index 956b3a9a3ca..714db0544eb 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -12,7 +12,24 @@
- CVE_CHECK_WHITELIST += "CVE-2000-0006"
- 
- # groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803
--# CVE is more than 20 years old with no resolution evident
--# broken links in CVE database references make resolution impractical
--CVE_CHECK_WHITELIST += "CVE-2000-0803"
-+# Appears it was fixed in https://git.savannah.gnu.org/cgit/groff.git/commit/?id=07f95f1674217275ed4612f1dcaa95a88435c6a7
-+# so from 1.17 onwards. Reported to the database for update by RP 2021/5/9
-+#CVE_CHECK_WHITELIST += "CVE-2000-0803"
-+
-+# epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238
-+# The issue here is spoofing of domain names using characters from other character sets.
-+# There has been much discussion amongst the epiphany and webkit developers and
-+# whilst there are improvements about how domains are handled and displayed to the user
-+# there is unlikely ever to be a single fix to webkit or epiphany which addresses this
-+# problem. Whitelisted as there isn't any mitigation or fix or way to progress this further
-+# we can seem to take.
-+CVE_CHECK_WHITELIST += "CVE-2005-0238"
-+
-+# grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865
-+# Looks like grub-set-bootflag is patched in by Fedora/RHEL:
-+# https://src.fedoraproject.org/rpms/grub2/blob/498ea7003b4dd8079fc075fad7e19e0b190d0f97/f/0133-Add-grub-set-bootflag-utility.patch
-+# Does not exist in upstream grub2:
-+# https://git.savannah.gnu.org/cgit/grub.git/tree/util
-+# Reported to the database for update by RP 2021/5/9
-+#CVE_CHECK_WHITELIST += "CVE-2019-14865"
- 
--- 
-2.30.2
+> > +UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+>
+> I think we should revert
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=8470e38ac1d9f9bb6d8a4ee43724af452d080057
+>
+> instead. That fix was unnessary, the problem was in AB download mirror
+> which has been fixed.
+>
 
+I did that, will send in an updated/rebased set.
+
+Alex
+
+--000000000000013c7b05c1f75997
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 5 May 2021 at 21:34, Khem Raj &lt;<a href=3D"mailto:raj.khem=
+@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">&gt; +UPSTREAM_CHECK_URI =3D &quot;<a href=3D=
+"https://golang.org/dl/" rel=3D"noreferrer" target=3D"_blank">https://golan=
+g.org/dl/</a>&quot;<br>
+<br>
+I think we should revert<br>
+<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D8470=
+e38ac1d9f9bb6d8a4ee43724af452d080057" rel=3D"noreferrer" target=3D"_blank">=
+https://git.openembedded.org/openembedded-core/commit/?id=3D8470e38ac1d9f9b=
+b6d8a4ee43724af452d080057</a><br>
+<br>
+instead. That fix was unnessary, the problem was in AB download mirror <br>
+which has been fixed.<br></blockquote><div><br></div><div>I did that, will =
+send in an updated/rebased set.</div><div><br></div><div>Alex<br></div></di=
+v></div>
+
+--000000000000013c7b05c1f75997--
