@@ -1,100 +1,84 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web12.32690.1620657032685058091
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web08.32534.1620657037031823586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:30:32 -0700
+ Mon, 10 May 2021 07:30:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=upvQ/7hs;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id w22so2079233oiw.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:30:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=i6RIt4Gq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.180, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f180.google.com with SMTP id w22so2079473oiw.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=23wps0vBDtI/Q7Hr0qfm93cMsYDms6f950UuT6V+Ki4=;
-        b=upvQ/7hszVNbDXObQPOH7j5IVLNNE+rOqLhdzbXmb62Qcf7HJwCEKnU8lhaNhlZ9Kv
-         nM3FIaEjm5B/94VjahTXj/Eqn/uGd+ehE4ESK7vtwY4YqAK0ASEQacwJOpKRzv/3uSdT
-         zZ2DPsY+8JtYhAEzrlmUPzXLDlhKDfkxaWGs7YSZ0hmcZBLb4BFU9i2oBOM1l93PMpUS
-         H4pQmtZPMZcrLAiRcXscWHL/r8rjTRnTxCYsWkgtUATJHlTNk8hfdxPWRIZ4RsUU24DU
-         7dH3oBWkyllf2KBU94XRvPdQ3MUqO7LkOQRmpUvBm4+/6wQ24I+2SlToA3qVhkETATtN
-         uykQ==
+        bh=5hSj6/2rz72d87+RzZ+F+TwbrY4f9Ndc+CkC8dggrkE=;
+        b=i6RIt4Gq+iKUrdnN9HfxC0ZrPrAxH+jLrBPbVll8vBlU95sF2CFJ4O/q8fWHB7QqWO
+         6xW5C81lCGV0zU5dRZxu0EQbN0EtFrTt98U3t4LFOct9pZ7N/PfJumgVY0hG7W/o/YbL
+         Ex+NopNlF9H3ZPltmVgMielpXI3yppcZPVteGx+eIHmuce16l5uT/Q3YgIVBeWh8sxMQ
+         h095/nRGKlWUnOpesNOpHnuaKiozVUpU93db9vvojtQIgs8g53NJeckhReabzvmEIODE
+         B10pENAfx8DDYirkHE0UBnsBgpNWB0AOBfN/sxLO2ZN03ly/HepDFEqb3AxcMosKz25C
+         4OMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=23wps0vBDtI/Q7Hr0qfm93cMsYDms6f950UuT6V+Ki4=;
-        b=SGEJ+8p9ea+TkCrdNwbOSG4iIr8uEkvz42bMoRJ4rDMpNUpiUjYpTS+hJVbi5nQ0Op
-         tqgVniq+dqv6IUvakqiLgLb9fYwv8g0zgILi1BZ58Cy5AJB6GRfTthnp5auSwdPv9haL
-         iBWt+vqxTFFvTsX9N2X9WtBe3deeFfe61oBOnXF429cIizh+h6fnAZ4CNNvaFatwuaxT
-         gqTUPvKuZ+/GsE/s5sd2XqF6GX5C9Ye3IFpBv23JTjGZVsxcNIvZyTuifECTCHVDuYX1
-         XwhxXDQY0I9/jKz0XB63XYNmePbmMWQfT7nfdIN9/16fz4RKpT6RIdB73/TMUX+PS0SU
-         tUiA==
-X-Gm-Message-State: AOAM532p0sU8KmfklMfCKj2/k9YbLD87NHg0vNgw/ZrjmZg/Vc4eC13c
-	IF1XBd4v6c72kR6NiuEV6cd5Hdc1RgxKVOgu7UU=
-X-Google-Smtp-Source: ABdhPJzMDs53DYznWX2F5klA8a4CiGlMl13Qri0PSyhpHdrQM8KN/muf4XrFk+Z26ASZOUCVietZQg==
-X-Received: by 2002:aca:2b16:: with SMTP id i22mr24252545oik.162.1620657031474;
-        Mon, 10 May 2021 07:30:31 -0700 (PDT)
+        bh=5hSj6/2rz72d87+RzZ+F+TwbrY4f9Ndc+CkC8dggrkE=;
+        b=Wd5DaMSUBoUaapxamMfbPbJOF0Vi3tS6r+KrxAzsUaZsAdFKR+iUhmLJBXMdj2yfLd
+         nUQKaVQlVeD+ZycO+Ceoo/9zV1IXj2A+rqiCJm4ErDhO+hmfpX4TD44P8JR6AIr/oZ1m
+         54GgSfR648jOQLAeNPYqeErt+cdsBi8Y1hU7k9Yj5jCVaZOfgcjkU+sTQM89UfjLRXoQ
+         MgO8BKeO0cAWXO/AVvVdIWRnHKHrRwx5C1QTEUSXZIfWIa92mfqwGMkrTnq9Eh6WVYsQ
+         n236S/5VsNCiqcwASx/dqL/87jRrOv8978PeiAq6AK4blwWA2gbuDTY9FHnlonKXW57C
+         DMog==
+X-Gm-Message-State: AOAM531mXB1KprFGQxBOL8s7OiTKT9Pa3Z2cPcKkCWdO4zataqq0BgMl
+	p9oRZzMHVSqmhSIKYVdAnkm6sNcw9cGyTasfHA8=
+X-Google-Smtp-Source: ABdhPJxxqKTmRLVtDBSvRE2QuWT11gmP4a8wta9aLGW5NDDZsasDF6AnO7yxBtplS50k7tNI3zOM8g==
+X-Received: by 2002:aca:bac2:: with SMTP id k185mr17863890oif.2.1620657035988;
+        Mon, 10 May 2021 07:30:35 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.27
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.30.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:30:31 -0700 (PDT)
+        Mon, 10 May 2021 07:30:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/25] gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
-Date: Mon, 10 May 2021 04:28:51 -1000
-Message-Id: <362416f7960919dc66acce4f7b2d25f607dee14a.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/25] pybootchart/draw: Avoid divide by zero error
+Date: Mon, 10 May 2021 04:28:52 -1000
+Message-Id: <6c4355cd13ae47c327ddc5e9b66623e44ba5b118.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kai Uwe Broulik <kai_uwe.broulik@mbition.io>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The code in ext/qt/meson.build looks for the Qt5WaylandClient pkg-config file.
-Without this module, qmlglsink will not work with Wayland.
-This can be tested by checking whether or not HAVE_QT_WAYLAND has
-been added to the cflags in the autogenerated ninja file.
+When disk stats don't run frequenctly enough, we see divide by zero
+errors. The code already has a fallback path so ensure we use it
+for this case too.
 
-Writen by:
-Carlos Rafael Giani
-https://lists.openembedded.org/g/openembedded-core/message/143574
+[YOCTO #14360]
 
-(From OE-Core rev: ba2e0f647894b51d2f365b1d2eee7b673ddf8b7e)
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 41bba2b226ff5332561a644a2fd4a2c8b8d7d967)
-Signed-off-by: Kai Uwe Broulik <kai_uwe.broulik@mbition.io>
+(cherry picked from commit b71d30aef5dc2c360432c0dd4147859dd303ea48)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-good_1.16.3.bb             | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/pybootchartgui/pybootchartgui/draw.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-index 168bff4137..b3f17d4a4a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.3.bb
-@@ -34,6 +34,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
- X11ENABLEOPTS = "-Dximagesrc=enabled -Dximagesrc-xshm=enabled -Dximagesrc-xfixes=enabled -Dximagesrc-xdamage=enabled"
- X11DISABLEOPTS = "-Dximagesrc=disabled -Dximagesrc-xshm=disabled -Dximagesrc-xfixes=disabled -Dximagesrc-xdamage=disabled"
- 
-+QT5WAYLANDDEPENDS = "${@bb.utils.contains("DISTRO_FEATURES", "wayland", "qtwayland", "", d)}"
-+
- PACKAGECONFIG[bz2]        = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
- PACKAGECONFIG[cairo]      = "-Dcairo=enabled,-Dcairo=disabled,cairo"
- PACKAGECONFIG[dv1394]     = "-Ddv1394=enabled,-Ddv1394=disabled,libiec61883 libavc1394 libraw1394"
-@@ -48,7 +50,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
- PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
- PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
- PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
--PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native"
-+PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
- PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
- PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
- PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
+diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
+index 53324b9f8b..29eb7505bc 100644
+--- a/scripts/pybootchartgui/pybootchartgui/draw.py
++++ b/scripts/pybootchartgui/pybootchartgui/draw.py
+@@ -271,7 +271,7 @@ def draw_chart(ctx, color, fill, chart_bounds, data, proc_tree, data_range):
+     # If data_range is given, scale the chart so that the value range in
+     # data_range matches the chart bounds exactly.
+     # Otherwise, scale so that the actual data matches the chart bounds.
+-    if data_range:
++    if data_range and (data_range[1] - data_range[0]):
+         yscale = float(chart_bounds[3]) / (data_range[1] - data_range[0])
+         ybase = data_range[0]
+     else:
 -- 
 2.25.1
 
