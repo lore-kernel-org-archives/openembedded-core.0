@@ -1,159 +1,80 @@
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com [85.158.142.4])
- by mx.groups.io with SMTP id smtpd.web12.27067.1620615220295982106
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.29060.1620634288782751157
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 May 2021 19:53:41 -0700
+ Mon, 10 May 2021 01:11:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=vlGO9TyI;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.4, mailfrom: zhengrq.fnst@fujitsu.com)
-Return-Path: <zhengrq.fnst@fujitsu.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1620615218; i=@fujitsu.com;
-	bh=nrSnYHQ+9991LjAL2GRKyI0nL8wfaudFBnr4FiwyJ28=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=vlGO9TyIs6xI2wz25/LvQOZAARO+r1fU1yHNgZDve67uzqjm5nTX87EPn6MyXcSlH
-	 6rkNYM5ItOFyfw+2glfxsP53/Nrxlt5gfLW3yfLOejsIES3nBT83KZwfIdp4GFGtYH
-	 Qcljdt4V/sww7XkI4CBiO3hhiGZvNNx1tsEyFqlHYyWhSArNoUE4/rifYnWVvI44J7
-	 /6655Gkqt9fnNrgHa5weWGwORjx1J+7qQFreDmdg7Iygcw+eozH81Nji6mMJoizzRY
-	 2uN4MpQWykz2tslkgk6EbKAo7DrTvTvZiJSiLLdPB8I6yfpG0wHwebVS2z07X2ZH9r
-	 xrKpoB2Itqjqg==
-Received: from [100.113.0.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.symcld.net id DB/99-42359-130A8906; Mon, 10 May 2021 02:53:37 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeJIrShJLcpLzFFi42Kxs+EI0TVcMCP
-  BoPWluMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnF25naWgucKFZ/fT2FtYDwv08XIxSEkMItJ
-  4vPquSwQzm5GieWbjjF2MXJysAnoSpx7vJa9i5GDQ0RAT+LqP1GQsLCAjcSy9TvASlgEVCUe7
-  N/NBGLzCnhIXD86FSwuIaAgMeXhe2aIuKDEyZlPWEBsZgEJiYMvXjCDjJQQUJSYPV0eorxCYs
-  aMbWwTGHlmIemYhaRjASPTKkaLpKLM9IyS3MTMHF1DAwNdQ0NjXUNdU0O9xCrdRL3UUt3k1Ly
-  SokSgpF5iebFecWVuck6KXl5qySZGYBClFDIa72A8+PqD3iFGSQ4mJVHe36HTE4T4kvJTKjMS
-  izPii0pzUosPMcpwcChJ8F6ZNyNBSLAoNT21Ii0zBxjQMGkJDh4lEd4ukDRvcUFibnFmOkTqF
-  KOilDjvx7lACQGQREZpHlwbLIouMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmnQQyniczrw
-  Ru+iugxUxAix8smgayuCQRISXVwJS9t+FG4MYHBWpmH/apPumY/XrzvXClV46t67d3auvv//l
-  ui9ltZeX34hH+vW+mlDx2X8Hxqva2Y0f9++bsRS8/vBJkSOG0YUtzZfiwr2LnZFm+hRVfZkql
-  8+w9vOF85szQC6cF/i3MK1tWu/HK+pp5ukrcrwQSVr6yLTu0e/P2V5US8oFnryizuYmynwmRd
-  5SYPN3/rrJHgdxW/SfKiyL/33/gE3/cd32J5nqJkoYZx46sdtCykD718P1En8I/1nbCdw+cWC
-  KpuH+2wsekn3aLFv+a9ZBhdaqQNFNrs+rUhJ/GGyLz5t2IrPY7dfnt85yLUYUFDU9nq739Fyh
-  a2Phved6fBJ4TFgKf0o4rzBNVYinOSDTUYi4qTgQACoGRWR0DAAA=
-X-Env-Sender: zhengrq.fnst@fujitsu.com
-X-Msg-Ref: server-6.tower-228.messagelabs.com!1620615216!173370!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 30897 invoked from network); 10 May 2021 02:53:37 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-6.tower-228.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 10 May 2021 02:53:37 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 14A2rVZL016771
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 03:53:36 +0100
-Received: from localhost.localdomain (10.167.225.35) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 10 May 2021 03:53:29 +0100
-From: "zhengruoqin" <zhengrq.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] busybox: upgrade 1.33.0 -> 1.33.1
-Date: Mon, 10 May 2021 10:53:06 +0800
-Message-ID: <1620615186-72748-1-git-send-email-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=Gfaqvdbp;
+ spf=pass (domain: blade-group.com, ip: 209.85.221.54, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-wr1-f54.google.com with SMTP id d11so15578437wrw.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 01:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blade-group.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y9Q1PyBHCj/jpzZCkCz4i81Cxpp80dj8OWDkMGJKyeE=;
+        b=GfaqvdbpBF/yYmIQ5KOon6U55oID5Qk4GnSb38hjyxavPTyUD6803dwIk9yuuNKPsI
+         AyV4vp064JIIWKA7q4IaOPTdnoXz7df63OQlPtwHXD4CHqrbi60TUZr90KGzSld6zHhH
+         RRmXMVh+hy3g4rvXffVUfGCW1gml9IObjnBSuJzzqBepRybSlsD/SUV34KPUS1Zcx/tY
+         8fISdPfOPeXIF52ufEs3J0ok8HRnrTAWYu+KXQumuaO9yX/YcvoEafLTBMqLahZpwGfI
+         dKd+KPx5mmfURfBIJD/OIjbVnlB1dDnBefLAh5MTBdNEZeYhtrY4DSgCwIlXJDK12O8L
+         UBFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y9Q1PyBHCj/jpzZCkCz4i81Cxpp80dj8OWDkMGJKyeE=;
+        b=pi2kz4wwu04gasAqoal4c8Mrmn4rAao62DhXIcNkgWUBYmm9Ai/FnfeFsQCmdISCLv
+         RqCLDCHrlkOx3L5eu0nqf/kkkG1cg8kQ1WOGKFJKT7qZaakVjO8Rz8tt3Zw0vC4hpNYT
+         6BT4JAbGihb5XR1Xr2mR8N3OtDqkeh6v/6QtKcQlXPjWrWJQLNpLEXepzd12zQqCOEwm
+         sZQ9ykGmtaUvMyqLAHqTrJBIRmJGVABaowawDAQs2cGVDMcCvKePHeT3vkNjy22RuZrq
+         7ayojsGEstXghdjG2MJsTruL9vBV68ppY/SEYn7L3XX9VUDQEA21qpNIB/6PGWlJqRxz
+         B+yQ==
+X-Gm-Message-State: AOAM532++nXyFxmZ7kqzpWWSft3tZRuAZmeabKHFVRw4HYyQmjM9HXrm
+	oKeOfStBhA134wgnsNKHA1aL/OcwmvcCaA==
+X-Google-Smtp-Source: ABdhPJzvNeAg4GzUbgQSnpA9jAHv2hvm9zy7YXaFLGGW+28O4l2DvG48eQjMx8+tKk4t0X2qFqnroQ==
+X-Received: by 2002:adf:eb86:: with SMTP id t6mr29387165wrn.253.1620634287296;
+        Mon, 10 May 2021 01:11:27 -0700 (PDT)
+Return-Path: <yann.dirson@blade-group.com>
+Received: from blanquette.lan ([88.120.44.86])
+        by smtp.gmail.com with ESMTPSA id z18sm20688961wrh.16.2021.05.10.01.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 May 2021 01:11:26 -0700 (PDT)
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+X-Google-Original-From: yann@blade-group.com
+To: openembedded-core@lists.openembedded.org
+Cc: Yann Dirson <yann@blade-group.com>
+Subject: [PATCH] linux-firmware: include all relevant files in -bcm4356
+Date: Mon, 10 May 2021 10:11:03 +0200
+Message-Id: <20210510081103.3912768-1-yann@blade-group.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-removed since it is included in 1.33.1
+From: Yann Dirson <yann@blade-group.com>
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+This currently catches the .clb_blob and .vamrs,rock960.txt, and other
+.txt files may come in future upstream releases.
+
+Signed-off-by: Yann Dirson <yann@blade-group.com>
 ---
- ...ss_gunzip-Fix-DoS-if-gzip-is-corrupt.patch | 58 -------------------
- .../{busybox_1.33.0.bb => busybox_1.33.1.bb}  |  3 +-
- 2 files changed, 1 insertion(+), 60 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
- rename meta/recipes-core/busybox/{busybox_1.33.0.bb => busybox_1.33.1.bb} (92%)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch b/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-deleted file mode 100644
-index 67c9f189cc..0000000000
---- a/meta/recipes-core/busybox/busybox/0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch
-+++ /dev/null
-@@ -1,58 +0,0 @@
--From fe791386ebc270219ca00406c9fdadc5130b64ee Mon Sep 17 00:00:00 2001
--From: Samuel Sapalski <samuel.sapalski@nokia.com>
--Date: Wed, 3 Mar 2021 16:31:22 +0100
--Subject: [PATCH] decompress_gunzip: Fix DoS if gzip is corrupt
--
--On certain corrupt gzip files, huft_build will set the error bit on
--the result pointer. If afterwards abort_unzip is called huft_free
--might run into a segmentation fault or an invalid pointer to
--free(p).
--
--In order to mitigate this, we check in huft_free if the error bit
--is set and clear it before the linked list is freed.
--
--Signed-off-by: Samuel Sapalski <samuel.sapalski@nokia.com>
--Signed-off-by: Peter Kaestle <peter.kaestle@nokia.com>
--Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
--
--Upstream-Status: Backport
--CVE: CVE-2021-28831
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- archival/libarchive/decompress_gunzip.c | 12 ++++++++++--
-- 1 file changed, 10 insertions(+), 2 deletions(-)
--
--diff --git a/archival/libarchive/decompress_gunzip.c b/archival/libarchive/decompress_gunzip.c
--index eb3b64930..e93cd5005 100644
----- a/archival/libarchive/decompress_gunzip.c
--+++ b/archival/libarchive/decompress_gunzip.c
--@@ -220,10 +220,20 @@ static const uint8_t border[] ALIGN1 = {
--  * each table.
--  * t: table to free
--  */
--+#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
--+#define ERR_RET     ((huft_t*)(uintptr_t)1)
-- static void huft_free(huft_t *p)
-- {
-- 	huft_t *q;
-- 
--+	/*
--+	 * If 'p' has the error bit set we have to clear it, otherwise we might run
--+	 * into a segmentation fault or an invalid pointer to free(p)
--+	 */
--+	if (BAD_HUFT(p)) {
--+		p = (huft_t*)((uintptr_t)(p) ^ (uintptr_t)(ERR_RET));
--+	}
--+
-- 	/* Go through linked list, freeing from the malloced (t[-1]) address. */
-- 	while (p) {
-- 		q = (--p)->v.t;
--@@ -289,8 +299,6 @@ static unsigned fill_bitbuffer(STATE_PARAM unsigned bitbuffer, unsigned *current
--  * or a valid pointer to a Huffman table, ORed with 0x1 if incompete table
--  * is given: "fixed inflate" decoder feeds us such data.
--  */
---#define BAD_HUFT(p) ((uintptr_t)(p) & 1)
---#define ERR_RET     ((huft_t*)(uintptr_t)1)
-- static huft_t* huft_build(const unsigned *b, const unsigned n,
-- 			const unsigned s, const struct cp_ext *cp_ext,
-- 			unsigned *m)
-diff --git a/meta/recipes-core/busybox/busybox_1.33.0.bb b/meta/recipes-core/busybox/busybox_1.33.1.bb
-similarity index 92%
-rename from meta/recipes-core/busybox/busybox_1.33.0.bb
-rename to meta/recipes-core/busybox/busybox_1.33.1.bb
-index c334c42000..a71ff530cb 100644
---- a/meta/recipes-core/busybox/busybox_1.33.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.1.bb
-@@ -47,9 +47,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-            file://rev.cfg \
-            file://pgrep.cfg \
--           file://0001-decompress_gunzip-Fix-DoS-if-gzip-is-corrupt.patch \
-            file://0001-gen_build_files-Use-C-locale-when-calling-sed-on-glo.patch \
-            "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--SRC_URI[tarball.sha256sum] = "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
-+SRC_URI[tarball.sha256sum] = "12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
+index 892455b039..1e32d1c8b6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
+@@ -656,8 +656,8 @@ FILES_${PN}-bcm43455 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43455-sdio.
+ "
+ FILES_${PN}-bcm4350c2 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350c2-pcie.bin"
+ FILES_${PN}-bcm4350 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350-pcie.bin"
+-FILES_${PN}-bcm4356 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-sdio.bin \
+-  ${nonarch_base_libdir}/firmware/cypress/cyfmac4356-sdio.bin \
++FILES_${PN}-bcm4356 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-sdio.* \
++  ${nonarch_base_libdir}/firmware/cypress/cyfmac4356-sdio.* \
+ "
+ FILES_${PN}-bcm43569 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43569.bin"
+ FILES_${PN}-bcm43570 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43570-pcie.bin \
 -- 
-2.25.1
+2.30.2
 
