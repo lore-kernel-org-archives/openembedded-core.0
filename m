@@ -1,80 +1,87 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web09.29230.1620637210414242610
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.29426.1620640104296978302
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 02:00:10 -0700
+ Mon, 10 May 2021 02:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TVJslLzF;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id s6so17770583edu.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 02:00:10 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FLJT3x9S;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id d11so15895891wrw.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 02:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6gkUEtI16L4nC8h3yFlc4W/JkvJUQ3miiluxzdDTP9Y=;
-        b=TVJslLzFUeveCRzjPr4oIAvjNkMED7mrm69T5bwrwN3Y24lU0mxq259MerYG95W6Sz
-         8QDl0TW1wPbvP9g85qm2R/j8SDNIkQmxnODFRgSWbxPmq3BMeqsduZmsRAHqhLfj0eRX
-         gRvguUBRMI/E7UvbtFOE73b7DzIVB5XhCJOuGX6+sTqBAj8RZtlV8CsBk/Q7E5beF2UO
-         A6qm0/x1si5QnYng38u1bCN7+zeHZqWkLXkdszljcx1yzVZ5BMmtkW2QjVcGYoaPNrDX
-         y7mgZpZM1Wchpe0rDPxQZohL6x2PEWix/bCBzrpLXEImr/TDqDYE4uSBVB3ZcJsinIPl
-         rTAA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=YV0VwiCAsZC/AYIL+oWMp6EXdSQxuAqoYkmZY3uqAw8=;
+        b=FLJT3x9S7wm4FABXvyzCk2aOwCYJw8EyVAIex8aygo00fExpGnGOE/HFsc7dVE1J0O
+         dnZPlSGLuB7XxZ/RuK78hKYCGZ8SKd/cso12Vg7bXXtu0BU5ZFmWTa2aoy9/9KF8rDCK
+         VcQplMgTbLVC+kbqL2gQaMcH1u1Xlg9uTft2s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6gkUEtI16L4nC8h3yFlc4W/JkvJUQ3miiluxzdDTP9Y=;
-        b=cGhewk2iIvLFob9XfDGhcftVV/xcJRG6vnFqkVTJt63S67i1YCwlMSHmyWOh7XhPfE
-         XuPAC1pwGN2JgTq0Cs3m9fuQPqLdSMufHtc0iFJg5mXqH5Rx/AW3VVeSQY+Hgppo302Y
-         ym3pP0foDb+hLLLdsdbfJ6pcNRQBr6Vl+n8TMTVphU2ag7TbUxgQqa3KenDssCX5XpSG
-         UdChLxi+3BrFIwJdb36typAvwHaRVpCkL+ZBCeA6LvfyWA0nf022mWT0LsRvA26hdlf1
-         FmPRkq55tNFR2hfnYtz0nqv6cQbmHw/OPSipvBUy7bO5bUi02bv7nFez/OYmlYkY1pjE
-         8IRw==
-X-Gm-Message-State: AOAM530RvKIWMlJIc3bSsVQyP4RBubaGr5OWpIXSCtHHZREPVKdYa1sH
-	yiWXZW8K4ZsDAtdCHMjbgBFwBQAtklg=
-X-Google-Smtp-Source: ABdhPJxETWe1B3J/H+E2TXHoiXTeevs/RuzbdBSsXuYHEoWz2YH8HFRgSopLupGA953y6bD3AKlOXw==
-X-Received: by 2002:a50:ccc9:: with SMTP id b9mr26919545edj.316.1620637208945;
-        Mon, 10 May 2021 02:00:08 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id k5sm12043195edk.46.2021.05.10.02.00.08
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YV0VwiCAsZC/AYIL+oWMp6EXdSQxuAqoYkmZY3uqAw8=;
+        b=ccg1EMi4O9Y1OAWMAk2Gh7RM8F/ve/UW1tOD2cmJi0+d3Elh0nV4JWzjtvY5x1IylM
+         nxwSzh5FpH7NXWqGFZDhfU8J+Yx4XR4vGgL+sZ4z91hs7DUbqWlhwE6K+Ny59b3URcZV
+         i1++8U1UYYHMDD/osIPkDHu+royW7CyKf1FTbTdqQ1HNCyT708jDtiF66rnpICtJFZ5g
+         MXBPiPvkRoil06HPGdVoKmUxB7D4sFkFPh+sXlpTPJJJ56QR854zz5kAY2lhkBIqW/D9
+         1mo5kD+A0HmP/QWCzcvAVYI8exzuLCjFzSd6c80wQs5y8A1ob1eSDD7vyHZgj8rpC1mE
+         UcyA==
+X-Gm-Message-State: AOAM531+ne4AExcMUXUdOpyMuyLuH7IpxMR7Wrl7Ie4N9vT7PgxKOYfc
+	A1GTkAJLdF8J9+KsSDcVZIctag==
+X-Google-Smtp-Source: ABdhPJwWoOxGWkP+DDbqLwEcSvg7+rnq7tHENqSChFmGbFhaZ86IFCo7yyi8Bb860jHl0JcwtpNhKg==
+X-Received: by 2002:a05:6000:110d:: with SMTP id z13mr29542630wrw.92.1620640102772;
+        Mon, 10 May 2021 02:48:22 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6? ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
+        by smtp.gmail.com with ESMTPSA id j7sm18890857wmi.21.2021.05.10.02.48.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 02:00:08 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] gcc-sanitizers: Package up static hwasan files as well
-Date: Mon, 10 May 2021 11:00:04 +0200
-Message-Id: <20210510090004.1057872-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 10 May 2021 02:48:22 -0700 (PDT)
+Message-ID: <5aa52a186119be3add2555d6dbc89f348699aae8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rng-tools: disable the CPU affinity mask
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Yu, Mingli" <mingli.yu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 10 May 2021 10:48:21 +0100
+In-Reply-To: <20210510023310.5516-1-mingli.yu@windriver.com>
+References: <20210510023310.5516-1-mingli.yu@windriver.com>
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-* introduced with gcc-11, other hwasan files were already packaged in:
-  3df4a25465 gcc-sanitizers: Package up hwasan files
-  but static library was still triggering installed-vs-shipped
+On Mon, 2021-05-10 at 10:33 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> For the jitter entropy source, each task thread will create an internal
+> counter timer thread when the system clock resolution is under 5MHz.
+> 
+> But it will introduce high cpu usage for a long time and also make random
+> data generate too slow if sets the CPU affinity mask of the internal counter
+> timer thread.
+> 
+> There is no solution until now and the Upstream recommends to disable
+> the internal timer and think Jitter RNG will not work due to the coarse
+> timer. Check [1] and [2] for more details.
+> 
+> So disable the CPU affinity mask as a workaround to avoid lots of context
+> switch and too high cpu load for a long time.
+> 
+> [1] https://github.com/smuellerDD/jitterentropy-library/issues/37
+> [2] https://github.com/nhorman/rng-tools/pull/123
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  ...tter.c-disable-the-CPU-affinity-mask.patch | 48 +++++++++++++++++++
+>  .../rng-tools/rng-tools_6.11.bb               |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-rngd_jitter.c-disable-the-CPU-affinity-mask.patch
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Thanks for investigating this upstream. From an OE-Core perspective, I've very
+reluctant to take what looks like a very board specific change which the upstream
+is advising against. The issue is that this will affect all hardware, not just
+the hardware which has the issue. I think we need to find a better solution.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index d0348c4817..59e91daaea 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -90,7 +90,9 @@ FILES_libasan-dev += "\
-     ${libdir}/libhwasan.so \
-     ${libdir}/libasan.la \
- "
--FILES_libasan-staticdev += "${libdir}/libasan.a"
-+FILES_libasan-staticdev += "${libdir}/libasan.a \
-+    ${libdir}/libhwasan.a \
-+"
- 
- FILES_libubsan += "${libdir}/libubsan.so.*"
- FILES_libubsan-dev += "\
--- 
-2.30.2
+Cheers,
+
+Richard
 
