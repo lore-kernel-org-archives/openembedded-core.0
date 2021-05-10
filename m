@@ -1,131 +1,168 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web09.31343.1620651684045589626
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+ by mx.groups.io with SMTP id smtpd.web10.31386.1620652424948671512
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 06:01:24 -0700
+ Mon, 10 May 2021 06:13:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ul9wRR4f;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id w3so24391779ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 06:01:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f8yo+kY+;
+ spf=pass (domain: gmail.com, ip: 209.85.217.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f51.google.com with SMTP id o192so8355757vsd.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 06:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+DT7nvqiPTR2yfvqMCYTVeWph41GdXUlqbIFxmeNzo0=;
-        b=ul9wRR4fbfUywzTXUvRBZ4ZnQsfBu2TmmgBmEw+eB6k1zCfVXUad2NuJbNmTim0s7T
-         mU3ywO0C7XvWtobhkyUZxoeVFzqlPsJhyvtbminhNF+VF0NncLxCTfU2fTzOFIq+DeFc
-         rP/vDoxP0PKYTZ6ib64P3j1gwaEzqfKhfOA5o5r7mIfxLn67xFxx27ReAQbD6VCbmsDV
-         ZmUs0etkd3QoiQsSCHdcvFFE27nh0G7JsMZEh/aW/01plZHWXVhcmLTipHs5vBpzHHmI
-         MUpBIRPItTheGGDepCOSBBnXikoPoY2IHwjtA9L2BiDyi6DIataYuXy8XHC8rkUdv5xn
-         hBmQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9LDPzjk8UNSrCcDt7fL4bJxZ9Tha+ZjvleiJuff7TA4=;
+        b=f8yo+kY+1vBgoODgILZSiUQO0fhHqk5ez8D6HBiyvnNdhMTH83X/UgaUlYa7fBNCer
+         dEalM6Rm37wwrs3ykY+fY7qplmQmc1IlPeNGrr/Rl+77gVQyugdPtJzLGfBIVvcY3S02
+         8+cqywdqEWJOaU78plySPUOot+dtKjA+Fd3vY3Eo41yS/I9NmmMZTdfm1cu0GVAMwVH7
+         huRNAp7H3kMxzMURrKoMjkXoAwe5V9O5SV6/sxYBDXtqor122SZLhNuA6t5jdbGVb70L
+         xzMRAKi13qlSY4HSSoETNQHN04G8GlDgmHA+XQ/ltwhhPqPnOZTwO9HyGA6+pmbj2wz2
+         TOlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+DT7nvqiPTR2yfvqMCYTVeWph41GdXUlqbIFxmeNzo0=;
-        b=Ei6d49mqK3g7AycbR4s8BS7YOyJi+KGFwEoVtTn2yU+uvop8e1SjV19WHT/hVjPHHx
-         VU0NdD+iAbu7YNEk3Ay5mQLxCawMzLg4nYiIpu67NnO9dkpyGvTae3m0LJwzRERRHvkR
-         2SulhTNu6EE6U5k5z+RZGz+nfVDXUrW+QWB+EC8/iX2F2YuSTEx777qT8tubinCf23SG
-         jVk8viQzmoOBQPP6zdH5KrDgQcnDdQV9evEZnWOXFwvAeu2d49bBCCk4Z6B9IIRkOzWQ
-         Sbq2VnAnjwXTKqh0dY697fpoWYizWs5t04qsVTCQ7fgJN6Z8LoNrWFyCifcPgKmVlvOW
-         rEeQ==
-X-Gm-Message-State: AOAM531G9rrHjHOv23ZeEA/EENLmY6RAlaT7Wkiz/O6Z/SbA5p6ow51k
-	YOU9G2UGtivWZ3yKfRr01mpM8MDbLeo=
-X-Google-Smtp-Source: ABdhPJwkvg0cK4Lcvh7zPP1g8mjPUEKUgEh2Q/pP+r7Ylc5d3JjkLJ1sXsE6XcElQHf61G0spoGBYg==
-X-Received: by 2002:a17:906:bc4c:: with SMTP id s12mr24041083ejv.57.1620651682609;
-        Mon, 10 May 2021 06:01:22 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
-        by smtp.gmail.com with ESMTPSA id pw11sm9057361ejb.88.2021.05.10.06.01.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 06:01:22 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 8/8] gstreamer1.0-plugins-base_1.18.4.bb: backport a patch to fix meson 0.58 builds
-Date: Mon, 10 May 2021 15:01:10 +0200
-Message-Id: <20210510130110.939820-8-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210510130110.939820-1-alex.kanavin@gmail.com>
-References: <20210510130110.939820-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9LDPzjk8UNSrCcDt7fL4bJxZ9Tha+ZjvleiJuff7TA4=;
+        b=J25i+4t6cNSuygDV4F43I1ByLo2Vbo4B0ohchZJjJ+y3+o21Zg44J6d0ZIBcqkEwBI
+         XT7/r5sAOD0RZ1QHuWoxfYOL8MJhXAkDW6z/BxE0xovbcSZAJ14CP5UruGWjlTibKSyu
+         CVpuqxJP1+zDMEvNWgiXRvG/PNE7fIA0tAzY2DIPbciiq7AJiE3tpOSa/0d1UMufTfJ4
+         p9OkElWLn33ZsKibNxavAyOSFdCllIz8R0pM1b/hsy9Fh4BnzAIArSDNWT+ksAgZNhrC
+         zK8RtnSFWOryDzrGGPHo+RCC6cNFuBmMOl/nGIJVjLsCYDx49ACY2xyODVWaM0k452lj
+         NDXQ==
+X-Gm-Message-State: AOAM532nWDsxS06xBv42B+9R7nSzo5bvd5wfBl7B+UotOdrkWQPiMiOB
+	11Lg/SL58y9MZhYpcGV8Ghas0YWiYVSWCSaQI1s=
+X-Google-Smtp-Source: ABdhPJxwRrgVzmF1jmPoF6NZuHcET8s0/WHgiaG8vhcGmS1j4u8KkTTjbSuEyu0mM6GdAN7GWb8JprT1o0xn9Zkd8ig=
+X-Received: by 2002:a67:d715:: with SMTP id p21mr11039107vsj.31.1620652424149;
+ Mon, 10 May 2021 06:13:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210423180254.706537-1-alex.kanavin@gmail.com>
+ <20210423180254.706537-4-alex.kanavin@gmail.com> <CAAnfSTsz5L60dtRGqCAam_1DCV3Lhb40GZ+8HMvEGC8RitwgKA@mail.gmail.com>
+ <CANNYZj8p6061c24KP=0QxrXsAq+Qp0oAGSyaYzr10=Zq=BtvZw@mail.gmail.com> <CAAnfSTtOtEMXhYZBaf23GCr+DCR_t+bFp3PgNJ8-82kNSXszCA@mail.gmail.com>
+In-Reply-To: <CAAnfSTtOtEMXhYZBaf23GCr+DCR_t+bFp3PgNJ8-82kNSXszCA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 10 May 2021 15:13:32 +0200
+Message-ID: <CANNYZj_yMEhTz08E33PLGcMVZMHhE=zJbnkHYW5zxprbhg9i3g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/7] oeqa/selftest: transition to weston images
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000bc3b505c1f98cc9"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...c91697a141fea7317aff7f0f28e5a861db99.patch | 50 +++++++++++++++++++
- .../gstreamer1.0-plugins-base_1.18.4.bb       |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
+--0000000000000bc3b505c1f98cc9
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
-new file mode 100644
-index 0000000000..a2f5dff5e9
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/4ef5c91697a141fea7317aff7f0f28e5a861db99.patch
-@@ -0,0 +1,50 @@
-+From 4ef5c91697a141fea7317aff7f0f28e5a861db99 Mon Sep 17 00:00:00 2001
-+From: Xavier Claessens <xavier.claessens@collabora.com>
-+Date: Mon, 26 Apr 2021 14:25:03 -0400
-+Subject: [PATCH] gstgl: Fix build when Meson >= 0.58.0rc1
-+
-+"implicit_include_directories: false" now also means that current build
-+directory is not added to include paths by default any more. We have to
-+add it manually because we have some custom_target() that generate
-+headers in current build directory.
-+
-+See https://github.com/mesonbuild/meson/issues/8700.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/merge_requests/1125>
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/gl/meson.build | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/gst-libs/gst/gl/meson.build b/gst-libs/gst/gl/meson.build
-+index 66668644e..53891625a 100644
-+--- a/gst-libs/gst/gl/meson.build
-++++ b/gst-libs/gst/gl/meson.build
-+@@ -1004,11 +1004,20 @@ if build_gstgl
-+     command : [mkenums, glib_mkenums, '@OUTPUT@', '@INPUT@'])
-+   gen_sources = [gl_enumtypes_h]
-+ 
-++  common_args = gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL']
-++
-++  # We have custom_target() that generate headers in the current build dir,
-++  # but with implicit_include_directories: false, meson >= 0.58.0 won't include
-++  # it by default. We cannot use include_directories('.') here because it would
-++  # also include current source dir which is what we want to avoid because
-++  # case-insensitive FS would include gst-libs/gl/egl/egl.h as EGL/egl.h.
-++  common_args += '-I@0@'.format(meson.current_build_dir())
-++
-+   gstgl = library('gstgl-' + api_version,
-+     gl_sources, gl_egl_sources, gl_x11_sources, gl_wayland_sources, gl_priv_sources, gl_enumtypes_c, gl_enumtypes_h,
-+-    c_args : gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL'],
-+-    cpp_args : gst_plugins_base_args + gl_cpp_args + ['-DBUILDING_GST_GL'],
-+-    objc_args : gst_plugins_base_args + gl_cpp_args + gl_objc_args + ['-DBUILDING_GST_GL'],
-++    c_args : common_args,
-++    cpp_args : common_args,
-++    objc_args : common_args + gl_objc_args,
-+     include_directories : [configinc, libsinc, gl_includes],
-+     version : libversion,
-+     soversion : soversion,
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-index beddfb0386..73b433ab91 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.4.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            file://0004-glimagesink-Downrank-to-marginal.patch \
-+           file://4ef5c91697a141fea7317aff7f0f28e5a861db99.patch \
-            "
- SRC_URI[sha256sum] = "29e53229a84d01d722f6f6db13087231cdf6113dd85c25746b9b58c3d68e8323"
- 
--- 
-2.31.1
+How about now?
 
+http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/commit/?h=contrib/akanavin/transition-to-weston&id=1cd449267db015fb89f6c3f2c85fe855fd845015
+
+Alex
+
+On Mon, 10 May 2021 at 13:08, Ross Burton <ross@burtonini.com> wrote:
+
+> The only-x11 target is close but it should drop the opengl distro feature
+> too.
+>
+> Ross
+>
+> On Tue, 4 May 2021 at 19:04, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+> >
+> > On Tue, 4 May 2021 at 19:01, Ross Burton <ross@burtonini.com> wrote:
+> >>
+> >> Hi Alex,
+> >>
+> >> First, I love to see this. :)
+> >>
+> >> However, using this as a convenient starting point: if both nodistro
+> >> and Poky have OpenGL enabled then there's no test cases for the non-GL
+> >> configuration anymore, which is important for headless systems, of
+> >> which there are many.  Whilst I agree that graphical systems that
+> >> don't support modern rendering in some way are on the way out, this
+> >> trend isn't across all of our target platforms.
+> >>
+> >> Can you add a configuration to the autobuilder along the like of
+> >> poky-altconfig that does at least one build without GL?
+> >> core-image-base as a *minimum* but a core-image-sato should continue
+> >> to work.
+> >
+> >
+> > I already have a companion patchset for the autobuilder:
+> >
+> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/log/?h=contrib/akanavin/transition-to-weston
+> >
+> > I don't think it has the non-opengl build yet, but I could easily add
+> that. Can you take a look at the patches and maybe propose something
+> specific to add? I can simply add a patch to my set if you write one.
+> >
+> > Alex
+> >
+> >
+> >
+>
+
+--0000000000000bc3b505c1f98cc9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>How about now?</div><div><br></div><div><a href=3D"ht=
+tp://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/commit/?h=
+=3Dcontrib/akanavin/transition-to-weston&amp;id=3D1cd449267db015fb89f6c3f2c=
+85fe855fd845015">http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilde=
+r-helper/commit/?h=3Dcontrib/akanavin/transition-to-weston&amp;id=3D1cd4492=
+67db015fb89f6c3f2c85fe855fd845015</a></div><div><br></div><div>Alex<br></di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Mon, 10 May 2021 at 13:08, Ross Burton &lt;<a href=3D"mailto:ross@burt=
+onini.com">ross@burtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">The only-x11 target is close but it should dro=
+p the opengl distro feature too.<br>
+<br>
+Ross<br>
+<br>
+On Tue, 4 May 2021 at 19:04, Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
+anavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<b=
+r>
+&gt;<br>
+&gt; On Tue, 4 May 2021 at 19:01, Ross Burton &lt;<a href=3D"mailto:ross@bu=
+rtonini.com" target=3D"_blank">ross@burtonini.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Hi Alex,<br>
+&gt;&gt;<br>
+&gt;&gt; First, I love to see this. :)<br>
+&gt;&gt;<br>
+&gt;&gt; However, using this as a convenient starting point: if both nodist=
+ro<br>
+&gt;&gt; and Poky have OpenGL enabled then there&#39;s no test cases for th=
+e non-GL<br>
+&gt;&gt; configuration anymore, which is important for headless systems, of=
+<br>
+&gt;&gt; which there are many.=C2=A0 Whilst I agree that graphical systems =
+that<br>
+&gt;&gt; don&#39;t support modern rendering in some way are on the way out,=
+ this<br>
+&gt;&gt; trend isn&#39;t across all of our target platforms.<br>
+&gt;&gt;<br>
+&gt;&gt; Can you add a configuration to the autobuilder along the like of<b=
+r>
+&gt;&gt; poky-altconfig that does at least one build without GL?<br>
+&gt;&gt; core-image-base as a *minimum* but a core-image-sato should contin=
+ue<br>
+&gt;&gt; to work.<br>
+&gt;<br>
+&gt;<br>
+&gt; I already have a companion patchset for the autobuilder:<br>
+&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder=
+-helper/log/?h=3Dcontrib/akanavin/transition-to-weston" rel=3D"noreferrer" =
+target=3D"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuild=
+er-helper/log/?h=3Dcontrib/akanavin/transition-to-weston</a><br>
+&gt;<br>
+&gt; I don&#39;t think it has the non-opengl build yet, but I could easily =
+add that. Can you take a look at the patches and maybe propose something sp=
+ecific to add? I can simply add a patch to my set if you write one.<br>
+&gt;<br>
+&gt; Alex<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div>
+
+--0000000000000bc3b505c1f98cc9--
