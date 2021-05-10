@@ -1,217 +1,168 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web08.32517.1620656989360986332
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web09.32528.1620656996716322276
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:29:49 -0700
+ Mon, 10 May 2021 07:29:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HZbKkWH2;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.45, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f45.google.com with SMTP id d3-20020a9d29030000b029027e8019067fso14532296otb.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:29:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NfJX8koy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f178.google.com with SMTP id k25so15968288oic.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=HC+6qq5FwdldSqP3FzSDUvZlXbhOzyntJkxOMazT6rw=;
-        b=HZbKkWH2fteltOusHl7VevVDefVny14ATNvApsEaL49Rbm5G6l4AGtp+etp3M2aibL
-         KjMieyAfk+5LNWUBJAZ5NhyyFilLKn0qmO/u0aDXFT5hZU9SliRb6lHaQrcFBu5Uxl14
-         pJbUZqRi07jtmaQ+sCVuWOeVSOeYzEL0SAMVs9mr3sV9D3466VVSQSgUCOF1ZT6m26dC
-         1uTyhYGMxEhYLeuPeLV5QNeobK1jfyZMwixSjQFraQE72WKgyLB8+RyQwgKSjeBSp5IX
-         TWkJ+DTuZCE9Kzuhh37kpopFb8SgPxX8HSVchSw3H9PTqSWFx7yLtahLWTUsUhZErcfE
-         AL0g==
+        bh=/TUsNYu+8nIMYtDiRlfM2RJSEz5ck9mu+2ecSDNpuic=;
+        b=NfJX8koy5MzK7zL/0MuaZnquGvX92m5JLd+MkNb5H4yDXLgWyjUEIEf2Za4pN2a/3i
+         h+DI0RwOJuQpDGx3A23qH9jn35y3xF53wve+2/edOlkr4EkHc9qnXyoYcjDyfRHB/rc4
+         V5Ht1dK6/ww9YBMCIe5vg1iOkwabL6WGA1aixPSI+VuB6GjmNPCgjVpF3J4ZkWBe9SlS
+         AM+EIBE2cQ2NYjhyJvp1Nt1NhJofV6Vz6BNzjl6y/Q5O/HXbF/hlaRpHOuDBvB96lHmZ
+         VASU7LhotAlRXL1KrM4W6iRhdx+33lUwpnlMD/9FjrVbUPR093LgbSj4VcX4UUm07rEf
+         7/7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HC+6qq5FwdldSqP3FzSDUvZlXbhOzyntJkxOMazT6rw=;
-        b=dFDCrKh/nqw/ZJnBc4YMzY4RDOXE9GXYMTowD6Sz4CxqHmC/W2XtpCBoKIiDX3fGo5
-         DaTk8hUAHT3pXBbxlgV+7Gmn9CEJ8njDGcKe9q1OhX/xm0fWeN++LYucacPjmtjLpTw6
-         KG0s+/V+APacauL3pvaFmH6yhSb+oZUygbq7ElRkddJV3M21GYiAY/XYpqpHpGUdMVTM
-         SBShSH+IhpnaSIYs8ofeS4/+eZgjnhsHKQ6yr3S4okizflChCoH47v+ycjH8l6iDprQv
-         v+F/fhYbnl+hxJg1Vz2Sd1bPEuQR2mvnlqBNQdmNV0lzdAJ4MGKyUIuIfyjMUjsX7T9M
-         j6tA==
-X-Gm-Message-State: AOAM533Hp8OrjZtiMc1qleuFyW3C1j4KNfJ4t5VPqM0ULcSgdqMpbYAA
-	TPeyv+vIDGsYXKM1u5JW+KJQdp47DmT0BuJVFiE=
-X-Google-Smtp-Source: ABdhPJwdYDTlRtKk7HpfH4Uccjs2RrE0G9egTITtNaQrCLUKL3UM3iuRcIwf1qcWeCovFObA7X0q7A==
-X-Received: by 2002:a05:6830:611:: with SMTP id w17mr7699998oti.225.1620656988149;
-        Mon, 10 May 2021 07:29:48 -0700 (PDT)
+        bh=/TUsNYu+8nIMYtDiRlfM2RJSEz5ck9mu+2ecSDNpuic=;
+        b=MNDIA+hyrDx4a2ujkT60ZAOjd60DlVn+vhty45qhye/dnuh5D6lD+fNwWjWJbYj+vh
+         E3lZARnAJ/hJybz+Twdwug4CWbReiGfu5IfVGa77BQbS3tWbCZP+I99oOquZzFFiWDa5
+         BX+q0IOjZTlUO3uqq5zbIag3nEXR1aWeVFlB1vv1HmE+lnFTL3E0UFjG2cUEZmzc+mJT
+         YKSLYXrP4m9k9HrBIcu+gVD3Gcopuh5CWs7R3odSS7QLe6TY8Plma32sP/Psjb+znwPx
+         vxQKOItGiHKjGs9tGaDfw99FmFkE80gbbxy/p1PEVA5qWQ041Ka/IKRhvvd8pHmDo0j2
+         NO/g==
+X-Gm-Message-State: AOAM533hLxYJw4+bjnXFOSFHTDrGEQzgSf2IFBj4afGimD3UH6z/+9KB
+	dM+Cem/m91PiwYJw+hPve0dCu/vDYMH4/RgUnh0=
+X-Google-Smtp-Source: ABdhPJzXyZhDHrAO6apUI/I8tRub0W3fxvb//glzD60hozt6FKHEfF/P6ttsT3Yw2HcaqY+rwnqoGg==
+X-Received: by 2002:aca:d8d5:: with SMTP id p204mr8800051oig.151.1620656995565;
+        Mon, 10 May 2021 07:29:55 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.29.44
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.29.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:29:47 -0700 (PDT)
+        Mon, 10 May 2021 07:29:55 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/25] tar: Fix CVE-2021-20193
-Date: Mon, 10 May 2021 04:28:43 -1000
-Message-Id: <c8f48471bea67cbf0f12a35639b764f90acae854.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/25] binutils: fix CVE-2021-3487
+Date: Mon, 10 May 2021 04:28:44 -1000
+Message-Id: <c955d1fc332b8c0a931ffa4a068844981406ae8a.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Anatol Belski <anbelski@linux.microsoft.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+drop changes to changelog file in the patch so it can be backport.
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../tar/tar/CVE-2021-20193.patch              | 133 ++++++++++++++++++
- meta/recipes-extended/tar/tar_1.32.bb         |   1 +
- 2 files changed, 134 insertions(+)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+ .../binutils/binutils-2.34.inc                |  1 +
+ .../binutils/binutils/CVE-2021-3487.patch     | 83 +++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-3487.patch
 
-diff --git a/meta/recipes-extended/tar/tar/CVE-2021-20193.patch b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index a586faf5ab..3e10279b1d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -47,5 +47,6 @@ SRC_URI = "\
+      file://CVE-2020-16592.patch \
+      file://CVE-2020-16598.patch \
+      file://CVE-2021-20197.patch \
++     file://CVE-2021-3487.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-3487.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-3487.patch
 new file mode 100644
-index 0000000000..89e8e20844
+index 0000000000..1502d03f43
 --- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2021-20193.patch
-@@ -0,0 +1,133 @@
-+From d9d4435692150fa8ff68e1b1a473d187cc3fd777 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Sun, 17 Jan 2021 20:41:11 +0200
-+Subject: Fix memory leak in read_header
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-3487.patch
+@@ -0,0 +1,83 @@
++From 647cebce12a6b0a26960220caff96ff38978cf24 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Thu, 26 Nov 2020 17:08:33 +0000
++Subject: [PATCH] Prevent a memory allocation failure when parsing corrupt
++ DWARF debug sections.
 +
-+Bug reported in https://savannah.gnu.org/bugs/?59897
++	PR 26946
++	* dwarf2.c (read_section): Check for debug sections with excessive
++	sizes.
 +
-+* src/list.c (read_header): Don't return directly from the loop.
-+Instead set the status and break.  Return the status.  Free
-+next_long_name and next_long_link before returning.
 +
-+CVE: CVE-2021-20193
-+Upstream-Status: Backport
-+[https://git.savannah.gnu.org/cgit/tar.git/patch/?id=d9d4435692150fa8ff68e1b1a473d187cc3fd777]
-+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
++Upstream-Status: Backport [
++https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=647cebce12a6b0a26960220caff96ff38978cf24
++]
++CVE: CVE-2021-3487
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +
 +---
-+ src/list.c | 40 ++++++++++++++++++++++++++++------------
-+ 1 file changed, 28 insertions(+), 12 deletions(-)
++ bfd/dwarf2.c  | 25 +++++++++++++++++++------
++ 1 files changed, 25 insertions(+), 6 deletions(-)
 +
-+diff --git a/src/list.c b/src/list.c
-+index e40a5c8..d7ef441 100644
-+--- a/src/list.c
-++++ b/src/list.c
-+@@ -408,26 +408,27 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	     enum read_header_mode mode)
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 977bf43a6a1..8bbfc81d3e7 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -531,22 +531,24 @@ read_section (bfd *	      abfd,
++ 	      bfd_byte **     section_buffer,
++ 	      bfd_size_type * section_size)
 + {
-+   union block *header;
-+-  union block *header_copy;
-+   char *bp;
-+   union block *data_block;
-+   size_t size, written;
-+-  union block *next_long_name = 0;
-+-  union block *next_long_link = 0;
-++  union block *next_long_name = NULL;
-++  union block *next_long_link = NULL;
-+   size_t next_long_name_blocks = 0;
-+   size_t next_long_link_blocks = 0;
-+-
-++  enum read_header status = HEADER_SUCCESS;
-++  
-+   while (1)
++-  asection *msec;
++   const char *section_name = sec->uncompressed_name;
++   bfd_byte *contents = *section_buffer;
++-  bfd_size_type amt;
++ 
++   /* The section may have already been read.  */
++   if (contents == NULL)
 +     {
-+-      enum read_header status;
-+-
-+       header = find_next_block ();
-+       *return_block = header;
-+       if (!header)
-+-	return HEADER_END_OF_FILE;
+++      bfd_size_type amt;
+++      asection *msec;
+++      ufile_ptr filesize;
+++
++       msec = bfd_get_section_by_name (abfd, section_name);
++-      if (! msec)
+++      if (msec == NULL)
++ 	{
++ 	  section_name = sec->compressed_name;
++ 	  if (section_name != NULL)
++ 	    msec = bfd_get_section_by_name (abfd, section_name);
++ 	}
++-      if (! msec)
+++      if (msec == NULL)
++ 	{
++ 	  _bfd_error_handler (_("DWARF error: can't find %s section."),
++ 			      sec->uncompressed_name);
++@@ -554,12 +556,23 @@ read_section (bfd *	      abfd,
++ 	  return FALSE;
++ 	}
++ 
++-      *section_size = msec->rawsize ? msec->rawsize : msec->size;
+++      amt = bfd_get_section_limit_octets (abfd, msec);
+++      filesize = bfd_get_file_size (abfd);
+++      if (amt >= filesize)
 ++	{
-++	  status = HEADER_END_OF_FILE;
-++	  break;
+++	  /* PR 26946 */
+++	  _bfd_error_handler (_("DWARF error: section %s is larger than its filesize! (0x%lx vs 0x%lx)"),
+++			      section_name, (long) amt, (long) filesize);
+++	  bfd_set_error (bfd_error_bad_value);
+++	  return FALSE;
 ++	}
-+ 
-+       if ((status = tar_checksum (header, false)) != HEADER_SUCCESS)
-+-	return status;
-++	break;
-+ 
-+       /* Good block.  Decode file size and return.  */
-+ 
-+@@ -437,7 +438,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
+++      *section_size = amt;
++       /* Paranoia - alloc one extra so that we can make sure a string
++ 	 section is NUL terminated.  */
++-      amt = *section_size + 1;
+++      amt += 1;
++       if (amt == 0)
 + 	{
-+ 	  info->stat.st_size = OFF_FROM_HEADER (header->header.size);
-+ 	  if (info->stat.st_size < 0)
-+-	    return HEADER_FAILURE;
-++	    {
-++	      status = HEADER_FAILURE;
-++	      break;
-++	    }
+++	  /* Paranoia - this should never happen.  */
++ 	  bfd_set_error (bfd_error_no_memory);
++ 	  return FALSE;
 + 	}
-+ 
-+       if (header->header.typeflag == GNUTYPE_LONGNAME
-+@@ -447,10 +451,14 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	  || header->header.typeflag == SOLARIS_XHDTYPE)
-+ 	{
-+ 	  if (mode == read_header_x_raw)
-+-	    return HEADER_SUCCESS_EXTENDED;
-++	    {
-++	      status = HEADER_SUCCESS_EXTENDED;
-++	      break;
-++	    }
-+ 	  else if (header->header.typeflag == GNUTYPE_LONGNAME
-+ 		   || header->header.typeflag == GNUTYPE_LONGLINK)
-+ 	    {
-++	      union block *header_copy;
-+ 	      size_t name_size = info->stat.st_size;
-+ 	      size_t n = name_size % BLOCKSIZE;
-+ 	      size = name_size + BLOCKSIZE;
-+@@ -517,7 +525,10 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      xheader_decode_global (&xhdr);
-+ 	      xheader_destroy (&xhdr);
-+ 	      if (mode == read_header_x_global)
-+-		return HEADER_SUCCESS_EXTENDED;
-++		{
-++		  status = HEADER_SUCCESS_EXTENDED;
-++		  break;
-++		}
-+ 	    }
-+ 
-+ 	  /* Loop!  */
-+@@ -536,6 +547,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      name = next_long_name->buffer + BLOCKSIZE;
-+ 	      recent_long_name = next_long_name;
-+ 	      recent_long_name_blocks = next_long_name_blocks;
-++	      next_long_name = NULL;
-+ 	    }
-+ 	  else
-+ 	    {
-+@@ -567,6 +579,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	      name = next_long_link->buffer + BLOCKSIZE;
-+ 	      recent_long_link = next_long_link;
-+ 	      recent_long_link_blocks = next_long_link_blocks;
-++	      next_long_link = NULL;
-+ 	    }
-+ 	  else
-+ 	    {
-+@@ -578,9 +591,12 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 	    }
-+ 	  assign_string (&info->link_name, name);
-+ 
-+-	  return HEADER_SUCCESS;
-++	  break;
-+ 	}
-+     }
-++  free (next_long_name);
-++  free (next_long_link);
-++  return status;
-+ }
-+ 
-+ #define ISOCTAL(c) ((c)>='0'&&(c)<='7')
 +-- 
-+cgit v1.2.1
++2.27.0
 +
-diff --git a/meta/recipes-extended/tar/tar_1.32.bb b/meta/recipes-extended/tar/tar_1.32.bb
-index ebe6cb0dbd..3ae6d674a5 100644
---- a/meta/recipes-extended/tar/tar_1.32.bb
-+++ b/meta/recipes-extended/tar/tar_1.32.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
-            file://musl_dirent.patch \
-+           file://CVE-2021-20193.patch \
- "
- 
- SRC_URI[md5sum] = "17917356fff5cb4bd3cd5a6c3e727b05"
 -- 
 2.25.1
 
