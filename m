@@ -1,82 +1,79 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web09.32564.1620657113221742581
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web09.32855.1620658284872843603
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:31:53 -0700
+ Mon, 10 May 2021 07:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f+vbupbW;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id n184so15915654oia.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iXaowDwW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f182.google.com with SMTP id v39so22003527ybd.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=7zIc0MLY45y2jm0R646NCfSO2Nptb3Nw2RFS+eVbOLQ=;
-        b=f+vbupbWc0PpIb6NvqshSL2zoGnoFbkTIaMnB79MkbvQOSqCpVEAAYN6rtnpvi5KW1
-         FdO/gfDefZ3Jy4aaCg+KZxnSfoHTBr4cRnoHxUwtMD2HKRhZyu3eSfHXtzZtkqCd9tv9
-         UITMt6C8Z/l0DgyPPxMM/8JH6364s765/Y+RQS7gKY+eZwK01YY76AsDg1EZqJhhNzOS
-         tBpsSDB4ayCaPRn1sYajB96VaYbvQ2wIu265xojATGkNCZ7/RiX14eKfwDZzsfk/SccL
-         jSchL3PcJ3FTqMoT2SR7b6bfOk5kK0nTgD0BMFc50bM4VVlGzpGFuBkOdcdrWRUgroHx
-         plSQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t4aSmh4N1PwOag2V2aU2GBiQEvy6IPntowzp6EoggOE=;
+        b=iXaowDwWdmUakCQpfDpWtqFSmvhMxz/1Yw8YXygria5oO1wPSE6hJGHKUgj+Lt7UU1
+         j6W4ei2J466ihYA7pSq8fAgihJyimAXGrjcX8z14iODejkngh4yVOQAi9RlMvKrXnMjo
+         z+95SNAdT20XK9tFW7zgYM64vDE8JHDYS4ex8MWTMFxeS2lG1H2OqWE6P8AQFFGq61bq
+         bB5r7001sVFyKXou+IT9qq2SzxVpZblaQXOZEpq/gnbU3rWn0td/advcmlWBOU5cgH7x
+         PDTT53Zu10y7ci1dOvqGjCG408DElCjA5twHvH7aQFonTbQNewoVwUXFUE1MtysRMYxE
+         o7UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7zIc0MLY45y2jm0R646NCfSO2Nptb3Nw2RFS+eVbOLQ=;
-        b=mtfFKgK/DfYVXvZH12NUMDA3Pbko+dAqmzZn28UBBeMDpMZvMvTJPB1SrDfErNH2e4
-         AZgRomgtIvp9ZCdGEMyTF9d8KwiTHRPO2E6FgfZbwP1FXZq9cldQoCAuyzYAnN9KOyxt
-         Ti4zxRiP9QeplJABor9OsTGYMJ/XPV4dHsaOY6KhNPU1b52g8Q4CrJp8QN+YdHs0FXvD
-         pW3aKIkopOt0rRJZNZisW35URPosMx/A8RW0aoPqsKKWHtftcIKH8hz6JwVLuQXb2vBm
-         QXTDNZkfRnyWmt5yyPMkBEsklFlOB/Bhy8ruqZrNJQBqIJybUh7zC/sE63SAcogJj87g
-         t0Uw==
-X-Gm-Message-State: AOAM530fzjKLRk6DcbYunZWT1697ilTgdt8zZWoKHDiOJndKn2XM/0AY
-	Kf/rx6A+PGcE0UmMCl7aM9pjgx5+iXt9V+fvB6w=
-X-Google-Smtp-Source: ABdhPJw4wCLfRpVlJzC+Y7zCTRFQ5fA1uYwb+V4VrbUpqDXUnGHE6IlgAV1XTFvO+DzpU+3fYtE/zg==
-X-Received: by 2002:aca:f5c5:: with SMTP id t188mr18090559oih.25.1620657112119;
-        Mon, 10 May 2021 07:31:52 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.31.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:31:51 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/25] reproducible.py: add quilt-ptest and valgrind-ptest
-Date: Mon, 10 May 2021 04:29:07 -1000
-Message-Id: <5b2ad70cd82c3b812652886ee4bf29f88dcac42c.1620656333.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
-References: <cover.1620656333.git.steve@sakoman.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t4aSmh4N1PwOag2V2aU2GBiQEvy6IPntowzp6EoggOE=;
+        b=PQTMg53r/e7q76X5JL5lIFTUSI48wTuVFoJSlnoK2Y54Y1hoFjotqz3j/eGd5gtsd/
+         op4h9wKXQcn0y8IW8STtw/CYLluujhoyulnzfdePW/23Zz9KIcqV7ynFjM6iMvr3V+4N
+         xt9r+2tmDjtnwoyPTwaHxswQ9EDrzpfk9ENFMTVIFqjpCs56IY9+CggTDFxOfLrb8lsU
+         R1FIqKeFeweXA8p7X0UTxZlW6xAsSbsSn9iYkc9wUjbFadBXzq9DSvt60ifqg6KTdyjZ
+         YVJl/WuQ0IDaEipkf2A5pNaWG2Yh79Ps13q7BzF6kQQU6S6YBbdmv1F709UREoZh/aGF
+         vrXA==
+X-Gm-Message-State: AOAM533CaDjM54ICcHKn+wj2acBIVHyO+cReDPCVLb0rx5IUXQmHXSpO
+	xnC1NzmwbhTt/tpz/GePigHn2rhwAdNBHT37I+k=
+X-Google-Smtp-Source: ABdhPJyINshfZ/JJd15jkkZugc+4PrcWoddSf2HV/FZRb3FLV7OGpMQFYKx+McI6FGTWgQ7VckQmcJ0T4WbIw7BoA+Q=
+X-Received: by 2002:a25:442:: with SMTP id 63mr19447351ybe.93.1620658283953;
+ Mon, 10 May 2021 07:51:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210510090004.1057872-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20210510090004.1057872-1-Martin.Jansa@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 10 May 2021 07:50:57 -0700
+Message-ID: <CAMKF1srw=8yKkzrLf-nnaC=KLqx5jG=e=K3sB=jm7psZnYKoTQ@mail.gmail.com>
+Subject: Re: [PATCH] gcc-sanitizers: Package up static hwasan files as well
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Both don't seem to be reproducible with fedora 33
+On Mon, May 10, 2021 at 2:00 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> * introduced with gcc-11, other hwasan files were already packaged in:
+>   3df4a25465 gcc-sanitizers: Package up hwasan files
+>   but static library was still triggering installed-vs-shipped
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> index d0348c4817..59e91daaea 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> @@ -90,7 +90,9 @@ FILES_libasan-dev += "\
+>      ${libdir}/libhwasan.so \
+>      ${libdir}/libasan.la \
+>  "
+> -FILES_libasan-staticdev += "${libdir}/libasan.a"
+> +FILES_libasan-staticdev += "${libdir}/libasan.a \
+> +    ${libdir}/libhwasan.a \
+> +"
+>
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 2 ++
- 1 file changed, 2 insertions(+)
+LGTM
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index f5e3bff5a4..0e44ce4dbf 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -54,12 +54,14 @@ exclude_packages = [
- 	'piglit',
- 	'pybootchartgui',
- 	'qemu',
-+	'quilt-ptest',
- 	"rpm",
- 	'rsync',
- 	'ruby',
- 	'stress-ng',
- 	'systemd-bootchart',
- 	'systemtap',
-+	'valgrind-ptest',
- 	'vim',
- 	'webkitgtk',
- 	]
--- 
-2.25.1
-
+>  FILES_libubsan += "${libdir}/libubsan.so.*"
+>  FILES_libubsan-dev += "\
+> --
+> 2.30.2
+>
