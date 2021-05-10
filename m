@@ -1,92 +1,90 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web11.32427.1620657067337113616
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+ by mx.groups.io with SMTP id smtpd.web11.32429.1620657071812892498
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 07:31:07 -0700
+ Mon, 10 May 2021 07:31:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=CeNe0/zF;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f177.google.com with SMTP id n184so15913347oia.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=igYU/mkA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.50, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f50.google.com with SMTP id p6-20020a4adc060000b02901f9a8fc324fso3508933oov.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 07:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=PIvXnS2FzI0CaSo3bGlgTdfBYe3nsmVRVWXf87lrbRY=;
-        b=CeNe0/zFEhtgZINDM9TRV9RgjBEkREqxyFzwVZ7x8/MzhR7MaD4TVzi+oVoel7AMJq
-         0S7VHJ/YbwKlMntKcrBWUvmG1UFaYf4hR3cwIQJP2f6Swto3FBMs4EMcBw844N9K+hBQ
-         /+oDclqp7WpZzKGO7GfBRDtrA2cfa1u9lN85QVSbbfNY3aTKbMotz9dx3dDfBV6nJlxZ
-         CikZ3uvSvLujMsOql/4qJsMD5ykKtmuHAPp3wPQ33ABpg+fMJGZCnk18gQtm2d0eyG51
-         DXy3GCEQgWvNJ3mfov2oC6jpkKGtkTljr/4zJw33reiNQXeJkaFJRVda86GReu4038WT
-         Uljw==
+        bh=CYYwJhLsTeDFj3t/ck7sjIb9pLVFzEorL/cJEJGSHBs=;
+        b=igYU/mkAfny9hrLEKv6Ir+yjy14z0Qd4nDSG4eK5efSSYLd0Cm26aasbc0Vk4HHXVF
+         soM4z/j9Hd9r6hIVB7wWDYxFBFQOZ9bhUaiG7qNpVsylmdR7aNbKsHkwN2FRRQUoaSKa
+         AnI+7sGvxmMNBro69QlNdEYEPPm2V8LiaNEXVUCiplQNWZj9zecZ3+mcNm8pxXmViPNd
+         zbpBt20GnBo54qihp81NJWK3VOdnRhPjhgE9uaDNTbDmUlil3nFHoFEpvgmSAgDShW6K
+         SMsL/j/g5mv57+U89FjQu9xHzW2Fnv0Tuirn35wFI3Duhv4VKwAuc/KtU2GQp2PLs8IN
+         jNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PIvXnS2FzI0CaSo3bGlgTdfBYe3nsmVRVWXf87lrbRY=;
-        b=MtTasR2Z7u5OCOAGd2LK4z/p1yjJ1ekEXZLrkwwtZyQxZEKciaqSuVGWvM9P/VawRc
-         fPyznB97JlAYbHoC9BzXQUvyMXLA5gu6jMbFfB0fgZeYwrfLspWqZM7FnpiPqawVKkA3
-         2VBXwVSRFdeDeROg+aU/W8jWcyoAfPWNr1NiiqwX9CJLDU9PItXl7E17EwJ9kikH4X1f
-         GwVdO14b9gHkE9soBgEjkhNIaPATbVMT6bnspaGGpNL+pF+SUMvsxtepu6JL2vo9mXO+
-         8d7j9ZojWCpmMS26EU0IV+26yhcMP2LN9gjixNeChuy1NTUJnIzJq09IJDeNk/2GZ+oV
-         FliQ==
-X-Gm-Message-State: AOAM532HKRe4y8V6zv+E0+4fnznRj615c4H98H7OWntedlLCcjM/P/uo
-	qT74Clkz40bh/YAn3f3geJ4slmV1AQb9rzRx62k=
-X-Google-Smtp-Source: ABdhPJwbIls1J4qiLanULrF1cIZxL8+9pNLzR4Gm/FsPNNifMAWxA8pmhVhpShBSiJHJFQvh5mWp5g==
-X-Received: by 2002:a54:4396:: with SMTP id u22mr25634537oiv.118.1620657066243;
-        Mon, 10 May 2021 07:31:06 -0700 (PDT)
+        bh=CYYwJhLsTeDFj3t/ck7sjIb9pLVFzEorL/cJEJGSHBs=;
+        b=J8rkRuDU8v4BDkCbbPEmr7bDsLPPPeHW5GAzVGD4pP8AqA7VNpdeSlr7hIEX001TuN
+         /mFRRSQrv86QTkeMuAD55xw3qy8n9DUH8PP9XAxPQyXHiFHW52wQyDt/Ftr+4+/CfMds
+         26SKIQWx41UgMf/c/wAV0mbdH2gkDBMK/bzhInCMK/7TWYDLg/mkAZP5A7HoniE86jVQ
+         DOatlZu3F8rFLCctryP0geRmJlDm0kg+7728Lt5e+uzSQyzCQhnldXljhsW3qvAz7ncO
+         AibD8EHi70wAx8tc7GTxQIxfjyxCkoUXknAAqVXDzc/QjvemGJ8VMeQUlABg10DuT7j+
+         xWuQ==
+X-Gm-Message-State: AOAM531HgZ5Wm+T91KBWsDvW/upJo/NkaKA1Xc9/iCth6ns6u76JjbJD
+	0qKFERTg/nmLEZ+C9u70/K2C7e9HoFbYpCrb/Dg=
+X-Google-Smtp-Source: ABdhPJwWp1yNGsVPn4AdcWIEIWmMknq01LRrhO+IDmLDrVhVOzwe2EXK8x5CDV7OVlznjqVklp0gyQ==
+X-Received: by 2002:a4a:1104:: with SMTP id 4mr19391836ooc.57.1620657070702;
+        Mon, 10 May 2021 07:31:10 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.31.03
+        by smtp.gmail.com with ESMTPSA id g16sm2661309oof.43.2021.05.10.07.31.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 07:31:05 -0700 (PDT)
+        Mon, 10 May 2021 07:31:10 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/25] Revert "oeqa: Set LD_LIBRARY_PATH when executing native commands"
-Date: Mon, 10 May 2021 04:28:58 -1000
-Message-Id: <a150f6fba94518509ee80869ffbfb973c1283e3b.1620656333.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/25] classes/image: Use xargs to set file timestamps
+Date: Mon, 10 May 2021 04:28:59 -1000
+Message-Id: <2538a566f01f79537f8a94d93ac02588d6c239ec.1620656333.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620656333.git.steve@sakoman.com>
 References: <cover.1620656333.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-LD_LIBRARY_PATH leaks into host executables too, and breaks them
-as they are not uninative-enabled. E.g. on ubuntu 18.04 trying
-to run host bash with a sysroot that was built on Fedora 33:
+Instead of having find directly invoke touch for each file in the root
+file system, pass a list to xargs for batching. This significantly
+reduces the number of times the touch program is invoked and speeds up
+the do_image task time:
 
-akanavin@ubuntu1804-ty-3:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-24341/tmp/work/x86_64-linux/gnupg-native/2.3.1-r0/recipe-sysroot-native$ LD_LIBRARY_PATH=./usr/lib /bin/bash
-/bin/bash: ./usr/lib/libtinfo.so.5: no version information available (required by /bin/bash)
-/bin/bash: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found (required by ./usr/lib/libtinfo.so.5)
+    PKG           TASK      ABSDIFF  RELDIFF  CPUTIME1 -> CPUTIME2
+    my-image      do_image   -45.3s   -94.2%     48.1s -> 2.8s
 
-This was seen e.g. here:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2090/steps/14/logs/stdio
+    Cumulative cputime:
+      -44.3s    -92.3%    00:48.1 (48.1s) -> 00:03.7 (3.7s)
 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0e9850486b74a3de934527ca1077df001d3a8d22)
+(cherry picked from commit 15c65f90a3aa1e98c2beab2539403157df1fca08)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/commands.py | 3 ---
- 1 file changed, 3 deletions(-)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index a71c16ab14..024261410e 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -174,11 +174,8 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, sync=T
-     if native_sysroot:
-         extra_paths = "%s/sbin:%s/usr/sbin:%s/usr/bin" % \
-                       (native_sysroot, native_sysroot, native_sysroot)
--        extra_libpaths = "%s/lib:%s/usr/lib" % \
--                         (native_sysroot, native_sysroot)
-         nenv = dict(options.get('env', os.environ))
-         nenv['PATH'] = extra_paths + ':' + nenv.get('PATH', '')
--        nenv['LD_LIBRARY_PATH'] = extra_libpaths + ':' + nenv.get('LD_LIBRARY_PATH', '')
-         options['env'] = nenv
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 79c487ea18..98513ddf08 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -662,7 +662,7 @@ reproducible_final_image_task () {
+         fi
+         # Set mtime of all files to a reproducible value
+         bbnote "reproducible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS"
+-        find  ${IMAGE_ROOTFS} -exec touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS {} \;
++        find  ${IMAGE_ROOTFS} -print0 | xargs -0 touch -h  --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS
+     fi
+ }
  
-     cmd = Command(command, timeout=timeout, output_log=output_log, **options)
 -- 
 2.25.1
 
