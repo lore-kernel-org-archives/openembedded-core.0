@@ -1,85 +1,83 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.29985.1620644305656151073
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.30209.1620644898233650865
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 May 2021 03:58:26 -0700
+ Mon, 10 May 2021 04:08:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h+6eNeGC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id v12so16122182wrq.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 03:58:25 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=aoY9KLKz;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.46, mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f46.google.com with SMTP id m9so16183231wrx.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 10 May 2021 04:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A3HeEu8qSouHpsblzE9M9ef37MXh1t397jsbCoelO2M=;
-        b=h+6eNeGCpgUMowtggm4jb9PpPGwtRzGEqpZ3a0pjJ3ovMRLgd9p9WAoFPVzfAcWnzK
-         MvnT7e+BB7vnL7BaFTJr65lAcHjrRJMck+IiqaX3ZA9MyBZSYfltF/SVGLB0o+fFa6jt
-         IXeZ/1aI7MpkX077udXAm8e8yyI7ZmZ5BCgWM=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SuZ2hGI4kvpKXl5TxISpIa9sfR+b5RkoDhos9kc5Sp0=;
+        b=aoY9KLKzNhRDeH7DFMqJ9JOfj8BlbiXfottYaf2AlojlzRcvcj1SqtctriO+dysws6
+         PzpJKz0IL2arJ4hjCz7cCYjj5Hf1ezNa4juk2AY0kezuImdBCewEZCTZ+09Iywr70hz5
+         GUEaZHX7qCK/KPXeqylpZWSPttzuU2FkIEDjhIDgi2IzZScwlcyGxr/C14HjEaefU7sZ
+         TR+qSAasZ160xRx37TBItRYD11hKvYc4hycnsZJmnjb31opIXjDty4h3nrOnspz8UvVP
+         v4VU7/SodZGIU9q0nfCTwraCJnJ7gEMT5eQSPMKkEmjUJcbXOW45qHgMUVeCf7G9g9B/
+         Ne7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A3HeEu8qSouHpsblzE9M9ef37MXh1t397jsbCoelO2M=;
-        b=s/FJIP6Qxy9FzDY/ZRg0//ZrMOTjfTJEgJBDH1eKZkwH1JX9HWJt3uufrP2L3p9YCa
-         fBT6YP/4lS4ypMW9BJQhrjp1NDbd3LuVV7/zaKVK0TG8dr0H5I2AKr+dy/+HTYSCDJ9h
-         WPCHUagDb7Gj5AoNx12+A8cqohNsW7vdBbc1OTdhGirJg95eargai2vz2/rltrCv2Yqn
-         lfSnhr+GOwiFuso+SbS/WACApAh90sLzt8eH0jVDHBVnW79sMlUIPjf6I6B53BGp+kAT
-         IJ5nwIumBKACTHB5HfbLptDkiBJh8c1VLysBKp9MlH/HebNTC4bexhNuPS7tdFj5Bvqv
-         AVeg==
-X-Gm-Message-State: AOAM53364REnkzMh5KiedFNi+e/w9nDXXvBeIZluH7yN5Z2N8ONM1Kh5
-	iYzzvvuOosOqZPgQYSuP48C2DGSEBF8g5g==
-X-Google-Smtp-Source: ABdhPJwHNNQtoFYnds63mOypNRGyeTKvFiy/uLAXO/AsAAfreUoQURPlux/qvPqbWVqhOoMr96K7dg==
-X-Received: by 2002:a5d:6e06:: with SMTP id h6mr29755673wrz.201.1620644303923;
-        Mon, 10 May 2021 03:58:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:67a1:e913:59c9:6aa6])
-        by smtp.gmail.com with ESMTPSA id k10sm58365185wmf.0.2021.05.10.03.58.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 03:58:23 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glibc: Document and whitelist CVE-2019-1010022-25
-Date: Mon, 10 May 2021 11:58:22 +0100
-Message-Id: <20210510105822.2157436-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SuZ2hGI4kvpKXl5TxISpIa9sfR+b5RkoDhos9kc5Sp0=;
+        b=E7uIUYmkLDkxheEJmQnq575IUi8UDnx472192zQBxy6/I91sAA9UlwFCom3AhzVBE5
+         eblq3Yb5hRi4tKyqyfn4rh+rgob0pU/AqModQDdAIU4zaD/Lk6uoX3s+9AwaDaZNJL90
+         jqXVr/fgRXFA8Shb8zv9GOhGgO0hF0jCk/OLEF9WAx8AIuV81SimVAEvSXQk7ptDURMe
+         InhdVVsxFhbjX5pJcbA3tonvCqDa4v2IkC8vCTGFsKQWI3mbNiLADDRC4kD7CoTEfre/
+         Uc8Tg7tywz/g5EMjo/jsHTz3o2R2bPqMEljJ9saqGYssTQwGBGakeiyqsf9R7ZfggSOP
+         hhdw==
+X-Gm-Message-State: AOAM532JBdg/QIBZgF1AjMmptBm06OhuXkfbsASbVex6pjOlJlEuehNH
+	8e0P8ZHdw6EoYSIHjaavRyArOr2/4db0RMCHgJVw/g==
+X-Google-Smtp-Source: ABdhPJysolE0M6sc6Uk1mQg73bXwViNjBVTTrkMu7TrcuXAKDaqFDx8Z7Uzxad/21MbXAcYoIBE96tgpi6+tZfu9+Fc=
+X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr30117394wrs.395.1620644896806;
+ Mon, 10 May 2021 04:08:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210423180254.706537-1-alex.kanavin@gmail.com>
+ <20210423180254.706537-4-alex.kanavin@gmail.com> <CAAnfSTsz5L60dtRGqCAam_1DCV3Lhb40GZ+8HMvEGC8RitwgKA@mail.gmail.com>
+ <CANNYZj8p6061c24KP=0QxrXsAq+Qp0oAGSyaYzr10=Zq=BtvZw@mail.gmail.com>
+In-Reply-To: <CANNYZj8p6061c24KP=0QxrXsAq+Qp0oAGSyaYzr10=Zq=BtvZw@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 10 May 2021 12:08:06 +0100
+Message-ID: <CAAnfSTtOtEMXhYZBaf23GCr+DCR_t+bFp3PgNJ8-82kNSXszCA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/7] oeqa/selftest: transition to weston images
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-These CVEs are disputed by upstream and there is no plan to fix/address them. No
-other distros are carrying patches for them. There is a patch for 1010025
-however it isn't merged upstream and probably carries more risk of other bugs
-than not having it.
+The only-x11 target is close but it should drop the opengl distro feature too.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/glibc/glibc_2.33.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Ross
 
-diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
-index 5e0baa53e8d..75a1f36d6bf 100644
---- a/meta/recipes-core/glibc/glibc_2.33.bb
-+++ b/meta/recipes-core/glibc/glibc_2.33.bb
-@@ -3,6 +3,19 @@ require glibc-version.inc
- 
- CVE_CHECK_WHITELIST += "CVE-2020-10029"
- 
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024
-+# Upstream glibc maintainers dispute there is any issue and have no plans to address it further.
-+# "this is being treated as a non-security bug and no real threat."
-+CVE_CHECK_WHITELIST += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
-+
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025
-+# Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, may allow
-+# easier access for another. "ASLR bypass itself is not a vulnerability."
-+# Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
-+CVE_CHECK_WHITELIST += "CVE-2019-1010025"
-+
- DEPENDS += "gperf-native bison-native make-native"
- 
- NATIVESDKFIXES ?= ""
--- 
-2.30.2
-
+On Tue, 4 May 2021 at 19:04, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Tue, 4 May 2021 at 19:01, Ross Burton <ross@burtonini.com> wrote:
+>>
+>> Hi Alex,
+>>
+>> First, I love to see this. :)
+>>
+>> However, using this as a convenient starting point: if both nodistro
+>> and Poky have OpenGL enabled then there's no test cases for the non-GL
+>> configuration anymore, which is important for headless systems, of
+>> which there are many.  Whilst I agree that graphical systems that
+>> don't support modern rendering in some way are on the way out, this
+>> trend isn't across all of our target platforms.
+>>
+>> Can you add a configuration to the autobuilder along the like of
+>> poky-altconfig that does at least one build without GL?
+>> core-image-base as a *minimum* but a core-image-sato should continue
+>> to work.
+>
+>
+> I already have a companion patchset for the autobuilder:
+> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/log/?h=contrib/akanavin/transition-to-weston
+>
+> I don't think it has the non-opengl build yet, but I could easily add that. Can you take a look at the patches and maybe propose something specific to add? I can simply add a patch to my set if you write one.
+>
+> Alex
+>
+>
+>
