@@ -1,28 +1,28 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web08.11129.1620730754987893592
+Received: from mga12.intel.com (mga12.intel.com [])
+ by mx.groups.io with SMTP id smtpd.web10.10843.1620730753710592003
  for <openembedded-core@lists.openembedded.org>;
  Tue, 11 May 2021 03:59:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: cBh4mPXC5+jG+ROUFUMpPL88HNq3cyMDz3kQThqlEi6+fi8bTBLSxVe6qEXH16nW5Gc8A9hQ/C
- GZQ32HsPMSmg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179006557"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: 3Y3HkqPhBoUuk0U2nHgpTvixPoVlGahOdbcZBuBGJbF35gmOYOtbIU9Vcy4ztp5ZaeQAJO9MR1
+ k8h459g052gg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179006556"
 X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
-   d="scan'208";a="179006557"
+   d="scan'208";a="179006556"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 03:59:14 -0700
-IronPort-SDR: Qy2uPw/vVDu6ABbw8+XijlbmuMZI63M0vY/ylEEE6ecAag317aWNVI7Gbxu+hXgbKHkCgFgTRC
- 0ssl5YyN75Xg==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 03:59:13 -0700
+IronPort-SDR: RR1pjzt3ND6Xoj1sotm3PjJcwv7nKUQRRwVZzLt+/TCnY48jqx8adxI7jbUlROHDqkjCnPTc0V
+ YFTc2nmOzuKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
-   d="scan'208";a="430252137"
+   d="scan'208";a="430252131"
 Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga007.jf.intel.com with ESMTP; 11 May 2021 03:59:13 -0700
+  by orsmga007.jf.intel.com with ESMTP; 11 May 2021 03:59:12 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH 3/4] qemu: fix CVE-2021-3392
-Date: Tue, 11 May 2021 18:59:09 +0800
-Message-Id: <20210511105910.3052-3-chee.yang.lee@intel.com>
+Subject: [dunfell][PATCH 2/4] subversion: fix CVE-2020-17525
+Date: Tue, 11 May 2021 18:59:08 +0800
+Message-Id: <20210511105910.3052-2-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210511105910.3052-1-chee.yang.lee@intel.com>
 References: <20210511105910.3052-1-chee.yang.lee@intel.com>
@@ -34,121 +34,146 @@ From: Lee Chee Yang <chee.yang.lee@intel.com>
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3392.patch             | 92 +++++++++++++++++++
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+ .../subversion/CVE-2020-17525.patch           | 117 ++++++++++++++++++
+ .../subversion/subversion_1.13.0.bb           |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5e8d3e09ff..7647e44726 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,6 +54,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-24352.patch \
- 	   file://CVE-2020-25723.patch \
- 	   file://CVE-2021-20203.patch \
-+	   file://CVE-2021-3392.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
+diff --git a/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
 new file mode 100644
-index 0000000000..45b8a4f1dd
+index 0000000000..5bebde2a86
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3392.patch
-@@ -0,0 +1,92 @@
-+From 3791642c8d60029adf9b00bcb4e34d7d8a1aea4d Mon Sep 17 00:00:00 2001
-+From: Michael Tokarev <mjt@tls.msk.ru>
-+Date: Mon, 19 Apr 2021 15:42:47 +0200
-+Subject: [PATCH] mptsas: Remove unused MPTSASState 'pending' field
-+ (CVE-2021-3392)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
-+the Megaraid emulator appends new MPTSASRequest object 'req' to
-+the 's->pending' queue. In case of an error, this same object gets
-+dequeued in mptsas_free_request() only if SCSIRequest object
-+'req->sreq' is initialised. This may lead to a use-after-free issue.
-+
-+Since s->pending is actually not used, simply remove it from
-+MPTSASState.
-+
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+Reviewed-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-+Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+Message-id: 20210419134247.1467982-1-f4bug@amsat.org
-+Message-Id: <20210416102243.1293871-1-mjt@msgid.tls.msk.ru>
-+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-+BugLink: https://bugs.launchpad.net/qemu/+bug/1914236 (CVE-2021-3392)
-+Fixes: e351b826112 ("hw: Add support for LSI SAS1068 (mptsas) device")
-+[PMD: Reworded description, added more tags]
-+Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-+
-+Upstream-Status: Backport [ https://git.qemu.org/?p=qemu.git;a=commit;h=3791642c8d60029adf9b00bcb4e34d7d8a1aea4d ]
-+CVE: CVE-2021-3392
++++ b/meta/recipes-devtools/subversion/subversion/CVE-2020-17525.patch
+@@ -0,0 +1,117 @@
++Upstream-Status: Backport [ https://subversion.apache.org/security/CVE-2020-17525-advisory.txt ] 
++CVE: CVE-2020-17525
 +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/scsi/mptsas.c | 6 ------
-+ hw/scsi/mptsas.h | 1 -
-+ 2 files changed, 7 deletions(-)
 +
-+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-+index 7416e78..db3219e 100644
-+--- a/hw/scsi/mptsas.c
-++++ b/hw/scsi/mptsas.c
-+@@ -251,13 +251,10 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
-+ 
-+ static void mptsas_free_request(MPTSASRequest *req)
-+ {
-+-    MPTSASState *s = req->dev;
-+-
-+     if (req->sreq != NULL) {
-+         req->sreq->hba_private = NULL;
-+         scsi_req_unref(req->sreq);
-+         req->sreq = NULL;
-+-        QTAILQ_REMOVE(&s->pending, req, next);
-+     }
-+     qemu_sglist_destroy(&req->qsg);
-+     g_free(req);
-+@@ -303,7 +300,6 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
-+     }
-+ 
-+     req = g_new0(MPTSASRequest, 1);
-+-    QTAILQ_INSERT_TAIL(&s->pending, req, next);
-+     req->scsi_io = *scsi_io;
-+     req->dev = s;
-+ 
-+@@ -1319,8 +1315,6 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
-+ 
-+     s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
-+ 
-+-    QTAILQ_INIT(&s->pending);
-+-
-+     scsi_bus_new(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info, NULL);
-+ }
-+ 
-+diff --git a/hw/scsi/mptsas.h b/hw/scsi/mptsas.h
-+index b85ac1a..c046497 100644
-+--- a/hw/scsi/mptsas.h
-++++ b/hw/scsi/mptsas.h
-+@@ -79,7 +79,6 @@ struct MPTSASState {
-+     uint16_t reply_frame_size;
-+ 
-+     SCSIBus bus;
-+-    QTAILQ_HEAD(, MPTSASRequest) pending;
-+ };
-+ 
-+ void mptsas_fix_scsi_io_endianness(MPIMsgSCSIIORequest *req);
-+-- 
-+1.8.3.1
++  Remote unauthenticated denial-of-service in Subversion mod_authz_svn.
 +
++Summary:
++========
++
++  Subversion's mod_authz_svn module will crash if the server is using
++  in-repository authz rules with the AuthzSVNReposRelativeAccessFile
++  option and a client sends a request for a non-existing repository URL.
++
++  This can lead to disruption for users of the service.
++
++Known vulnerable:
++=================
++
++  mod_dav_svn+mod_authz_svn servers 1.9.0 through 1.10.6 (inclusive).
++  mod_dav_svn+mod_authz_svn servers 1.11.0 through 1.14.0 (inclusive).
++
++Known fixed:
++============
++
++  mod_dav_svn+mod_authz_svn servers 1.14.1
++  mod_dav_svn+mod_authz_svn servers 1.10.7
++
++Details:
++========
++
++  A null-pointer-dereference has been found in mod_authz_svn that results in
++  a remote unauthenticated Denial-of-Service in some server configurations.
++
++  The vulnerability can be triggered by an unauthenticated user if the
++  Apache HTTPD server is configured to use an in-repository authz file,
++  with configuration directives such as:
++
++    AuthzSVNAccessFile "^/authz"
++    AuthzSVNReposRelativeAccessFile "^/authz"
++
++  The problem originates when sending a GET request to a non-existent
++  repository. The mod_authz_svn module will attempt to find authz rules
++  at a path within the requested SVN repository. Upon constructing this
++  path, the function svn_repos_find_root_path will return a NULL pointer
++  since the requested repository does not exist on-disk.
++  A check for this legitimate NULL pointer condition is missing, which
++  results in a segmentation fault when the NULL pointer is used.
++
++  The in-repository authz feature was first introduced in Subversion 1.8:
++  https://subversion.apache.org/docs/release-notes/1.8.html#in-repo-authz
++
++  The missing NULL check was first introduced during refactoring of the
++  authz code during development work leading up to Subversion 1.9.
++  Subversion 1.8 servers are unaffected.
++
++Severity:
++=========
++
++  CVSSv3 Base Score: 7.5 (High)
++
++  CVSSv3 Base Vector: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++
++  Exploitation results in denial of service by crashing the HTTPD worker
++  handling the request. The impact of this differs depending on how the
++  Apache HTTPD server is configured, including the choice of MPM (Multi-
++  Processing-Module). If the worker shares its memory address space with
++  the main thread, as is the case with e.g. the Event MPM, the entire
++  HTTPD server process will terminate. If the pre-fork MPM is used, the
++  worker will terminate but the HTTPD server will stay up, and service
++  availability will depend on how frequently the attacker is able to
++  send malicious requests which target the vulnerability.
++
++Recommendations:
++================
++
++  We recommend all users to upgrade to a known fixed release of the
++  Subversion mod_dav_svn server.
++
++  Users who are unable to upgrade may apply the included patches.
++
++  As a workaround, the use of in-repository authz rules files with
++  the AuthzSVNReposRelativeAccessFile can be avoided by switching
++  to an alternative configuration which fetches an authz rules file
++  from the server's filesystem, rather than from an SVN repository.
++
++References:
++===========
++
++  CVE-2020-17525 (Subversion)
++
++Reported by:
++============
++
++  Thomas Åkesson, simonsoft.se
++
++Patches:
++========
++
++  Patch for Subversion 1.10, 1.14:
++
++[[[
++Index: subversion/libsvn_repos/config_file.c
++===================================================================
++--- a/subversion/libsvn_repos/config_file.c	(revision 1883994)
+++++ b/subversion/libsvn_repos/config_file.c	(working copy)
++@@ -237,6 +237,10 @@ get_repos_config(svn_stream_t **stream,
++     {
++       /* Search for a repository in the full path. */
++       repos_root_dirent = svn_repos_find_root_path(dirent, scratch_pool);
+++      if (repos_root_dirent == NULL)
+++        return svn_error_trace(handle_missing_file(stream, checksum, access,
+++                                                   url, must_exist,
+++                                                   svn_node_none));
++ 
++       /* Attempt to open a repository at repos_root_dirent. */
++       SVN_ERR(svn_repos_open3(&access->repos, repos_root_dirent, NULL,
++]]]
+diff --git a/meta/recipes-devtools/subversion/subversion_1.13.0.bb b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
+index 37b8ca3602..34c0dbe5b8 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.13.0.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.13.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://disable_macos.patch \
+            file://0001-Fix-libtool-name-in-configure.ac.patch \
+            file://serfmacro.patch \
++           file://CVE-2020-17525.patch \
+            "
+ 
+ SRC_URI[md5sum] = "3004b4dae18bf45a0b6ea4ef8820064d"
 -- 
 2.17.1
 
