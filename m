@@ -1,97 +1,78 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.3191.1620767014190196824
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.3538.1620768990517612747
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 May 2021 14:03:34 -0700
+ Tue, 11 May 2021 14:36:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=n+ivE6rr;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.46, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f46.google.com with SMTP id v18so825649qvx.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 14:03:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FljS0RhZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: christian.morales.vega@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id e7so3009747wrc.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 14:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=enEvV7Wu/e43bj6Q1BmYcQFN2nXdZrPNGwMsyEAU2+I=;
-        b=n+ivE6rrP2K1byDpD+inLWcGcg6KlHAOiD10a5XESUwUhsTTp1FYC9hHFE2dUgtpzw
-         K41M0qMg2Aa2blRjcRn/eJ16sw4eyqyywNxDrMKzT+JcOCCXQESWjY0zZGSMimLR6XxX
-         BdV+hRK2CzvXNGYff1peQqPOlC4QvfVmSkFnhjCwn1BJl/9947xANMRE6UOwNCNc96xX
-         bxSzZQ68s5XXFhV27vRFFRdEsr/qGwTAf19PB1ZZWhKg2Ek/5aGLyfN80w8egaTtRpA8
-         9Okdn3lbA8jupZ1Gl3X69mGY8O6oO6lTRby/vqAhtF0NFFhOdoOMOqgWYOMducGSiakk
-         r8CA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GKAkwy4mIPZjp8PArLllfSmo7dJ+LZgIk4VNOahi5AE=;
+        b=FljS0RhZh3JGM+3moflpieYim5/qrP1zZ065LJWPeKG9zIp+fKxeh7NOH1n4c09P4l
+         hEsqrRmbc1psmVGtaClkv1/iL2IBtKu8/ujj2yUFIc1JxG5WRO048OHnj0mfu2xR0iEq
+         i5X/aJHaXsRxCVfP6WoIvdzW1heJ49HL25cR7BXXCaeJ+l9B7vUs8dUeDtUPMJUgBVBN
+         TNX2/Lt4mcQOgPp5rSGuRuF6iwJSacAovDCAo19htpu5e21EpL+GTRJbI+HO15hRusuG
+         hNq/HguvRQ5Jl0e2XIkESCuLMIRoscOr5dMfgScN2zTP+hAbkatr1QhZN0FSIjpPAneO
+         iOng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=enEvV7Wu/e43bj6Q1BmYcQFN2nXdZrPNGwMsyEAU2+I=;
-        b=tOee8BAaKYneYCxiqUUX+XeRq+AemzM2b74GN00nT5BeH44FbGoOHmtn5FmIuNGQOq
-         j/poThCnrtMeWFJB0QJ5k9qoytKA+MVSuOz2tWj7xaB1eLOi1+dOMBg7njyiNIeD1oS6
-         5BsZ3idiJI5vw2QgQNXqvXU7ISj3tzyZCrYxX7+PoqYJCFR/UDyb8FXW0wxBlr3zygSg
-         CtRQ3a1GQ0PyjvQUFoWy9bHslaQRN16U0N2Vi0pVSeBrhRhWb8B/H4PZ/DAUoQfWAAPJ
-         LVBueL79swrmMsNxzguoZmxxAgYxNrMpFI21k9cYja/l52j4ol1TcXDrxtsS67VDN6hV
-         9++Q==
-X-Gm-Message-State: AOAM530c5qr+OCvrSOCAtmjIzWjYu2khmIyQ07ju7OW88PeGoTFRvYuM
-	CeI04zZtAqmxvAfCUOnPPjYi75dsmAtXvFu8
-X-Google-Smtp-Source: ABdhPJz7j3ofKPHZdQNd3IoKFwHK87on6ytoMsdj/m/xZvuFi/XfThIb3BWxlfOetxtgm7/g61uXXg==
-X-Received: by 2002:a05:6214:2b0:: with SMTP id m16mr31972242qvv.4.1620767013108;
-        Tue, 11 May 2021 14:03:33 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com. [209.85.160.173])
-        by smtp.gmail.com with ESMTPSA id n17sm1703235qke.14.2021.05.11.14.03.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 May 2021 14:03:32 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f173.google.com with SMTP id c10so5909810qtx.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 14:03:32 -0700 (PDT)
-X-Received: by 2002:ac8:5748:: with SMTP id 8mr10300780qtx.233.1620767012250;
- Tue, 11 May 2021 14:03:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GKAkwy4mIPZjp8PArLllfSmo7dJ+LZgIk4VNOahi5AE=;
+        b=hR54V11vPTsFZjYYkdRirQsJ5NB+etSs5O7xhDocGhpXNIlpNMeNkgGjolpP6WVCcp
+         EMRQUwyz26TZYXh2RZi71p7VeIU++ciUq0XDOvnMiOFQEBQI7s1167Jm2qFJ4Hx3RR6l
+         9+UGqrR6Hc8FrvRNphA70DykStu//Njlr0nISssnkJ4pnX80UcZ1WNsZJQdH98S729Hr
+         c7LlMER6ACHTKmzF5UPEdXjoN4MF5mYkX4Iz0jpNrc7HIKfkGj0+aJVHzYzGna4WWP0b
+         bVfdD5LSEMLTLggJN1hHl/1UE91csFhMZl9rKt2KZqdrMq6IKDJPMpVlK6HFPxGlW/Og
+         TkWA==
+X-Gm-Message-State: AOAM531fzn4TaEWuPAUdjNH/E3SJ5CyM5zkS3IsBZxmRIFjsVpakBd0E
+	9Oasd13DgFLjojrdG+VB+mGo4GiFTq4xP+0l
+X-Google-Smtp-Source: ABdhPJx+IxALnRPZdivYQqLb23rZaYKHJi/N4abvdBuc+VV+16jkkr09T0kr7sE3IjUxSTb53S1Org==
+X-Received: by 2002:adf:cf0f:: with SMTP id o15mr40590260wrj.181.1620768988842;
+        Tue, 11 May 2021 14:36:28 -0700 (PDT)
+Return-Path: <christian.morales.vega@gmail.com>
+Received: from localhost.localdomain ([2a00:23c7:cb1c:100:73f5:7d83:a900:462e])
+        by smtp.gmail.com with ESMTPSA id f8sm22475839wmg.43.2021.05.11.14.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 14:36:28 -0700 (PDT)
+From: "Cristian Morales Vega" <christian.morales.vega@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Cristian Morales Vega <christian.morales.vega@gmail.com>
+Subject: [PATCH] OEToolchainConfig.cmake: Remove CMAKE_FIND_ROOT_PATH
+Date: Tue, 11 May 2021 22:36:18 +0100
+Message-Id: <20210511213618.188369-1-christian.morales.vega@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAP9ODKqJhiss1VOz8KF-cfQ5Hpq2MvOddMyd7ARvxBo6qkccYA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqJhiss1VOz8KF-cfQ5Hpq2MvOddMyd7ARvxBo6qkccYA@mail.gmail.com>
-Date: Tue, 11 May 2021 18:03:19 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrdLBZNoEVMEmtG0xLQByHn1sD_fyLqunVS_VTFBx7XaQ@mail.gmail.com>
-Message-ID: <CAP9ODKrdLBZNoEVMEmtG0xLQByHn1sD_fyLqunVS_VTFBx7XaQ@mail.gmail.com>
-Subject: Re: OpenEmbedded generated toolchain fail to build latest Linux
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Andrey Zhizhikin <andrey.z@gmail.com>, "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em dom., 2 de mai. de 2021 =C3=A0s 21:04, Otavio Salvador
-<otavio@ossystems.com.br> escreveu:
-> While doing the upgrade of our Linux recipe to 5.12[1] we found that
-> we are unable to fully build it using the generated toolchain.
->
-> 1. https://github.com/Freescale/meta-freescale/pull/756
->
-> We could improve it, adding the nativesdk-gmp and nativesdk-gmp-dev to
-> the toolchain however I ended facing another issue:
->
-> cc1: error: cannot load plugin
-> ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so:
-> ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: undefined symbol:
-> _ZN8opt_pass14set_pass_paramEjb
-> cc1: error: cannot load plugin
-> ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so:
-> ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: undefined symbol:
-> _ZN8opt_pass14set_pass_paramEjb
-> make[1]: *** [scripts/Makefile.build:271: scripts/mod/empty.o] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> make[1]: *** [scripts/Makefile.build:116:
-> scripts/mod/devicetable-offsets.s] Error 1
-> make: *** [Makefile:1234: prepare0] Error 2
->
-> I tried that on an Ubuntu 20.04 and an Arch Linux system and it failed
-> on both cases. For now, I ended disabling the GCC_PLUGIN support and
-> moved on but it does not seem to be a good long term solution.
+Since cb42802f2fe CMAKE_SYSROOT has been set, making
+CMAKE_FIND_ROOT_PATH unnecessary.
+It also overwrites any CMAKE_FIND_ROOT_PATH the user may have provided,
+which is wrong.
+---
+I am using this file because I received it as part of a Yocto SDK. I
+have never used OpenEmbedded, I guess this can potentially break
+something. Test before merging.
 
-Anyone found it? On OE-Core environment it works but fails on the SDK/Toolc=
-hain.
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index 8f6f3a272d..4403f8aa9c 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -5,7 +5,6 @@ set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_SYSROOT $ENV{OECORE_TARGET_SYSROOT} )
+ 
+-set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} )
+ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
+ set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+ set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+-- 
+2.31.1
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
