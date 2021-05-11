@@ -1,75 +1,81 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web08.12287.1620737502787913493
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.12138.1620737503367762952
  for <openembedded-core@lists.openembedded.org>;
  Tue, 11 May 2021 05:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P5AvIqJD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id e7so1489103wrc.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:51:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DE+gA4aj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id l2so20012035wrm.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:51:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1Qh8mTDeDH4ZMxdTrrRhL6G76eFCaG4vZZpAwk9lf50=;
-        b=P5AvIqJDw4kAGtN8mhhLdCYEmrXE7kM1QYf61Qfa5raxLoep+leymOPNFZjDrHcJRL
-         eNR1RdmoSfaTCWRov29sQQu1ZDplJuMRqMEcuwu8Kv2emdZJeDO7lkgxXsMmXyz/Nx4o
-         D0e9MRHCGJePtAzCracIjLRuu0WXVRXUd8r2Y=
+        bh=OV0yRbjLD8+12Y/73lp2jjhkwHalJgZ0mSh4U8bmu4g=;
+        b=DE+gA4ajvERBgPGKOC93/NPuhHs9kI9BEMoUJWZP56FfdV384DgipaVVq6fJD6Evdz
+         o1OLZ4ywVrgfPf5qBxMR9KoCDYLqn+/tJqEZS1jJd5lAf5Zb6dZL7K0PQj8BY5iD3rpP
+         RqxakLUfRgbIbZwLr9XQMUoar/wUswQDYQZXI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1Qh8mTDeDH4ZMxdTrrRhL6G76eFCaG4vZZpAwk9lf50=;
-        b=BdohRu1kKvfHXVdUWTCXS7Pdf9E8tghlsO/wSeHNtux1qUiXZUBTnJiT2wS5nJVfUq
-         sU70TjfemDD9XPo6/gLmsG3k8QZESD8airIvjLhLR/vApfvx6dJmPtTSWRqZLE3s/a3Y
-         SAnEDsozF4qWBxQH24cCBrrQ70ZfSR219DMcy+jqA6HNjFgegW4b9tQsnhbvu+gSUK9o
-         ALwCqUX7F0mEIrPigQkxfpZK5wCzRFnXWZOBdlW+GO+BuKsxVOjxxqmcz2WnhVqee3n+
-         N/vE1Vuf1dkey3iutahzRzlNxSbXN6pP0R/WfE7zGPCNFpOU7f8BFjBPu/beHdrC+/Lk
-         kd0A==
-X-Gm-Message-State: AOAM532YCfPfZ6gLLjXhivUh1FlB/rVI29Nc+TPZ6yovxs9hBco8hqbF
-	LmoXtSUVE5xUrT9pEJkRNI6dAiRDdIwTYw==
-X-Google-Smtp-Source: ABdhPJzCKRSuZjOG98cEwGZW/PTlE8IlMr1I5xDAmh6p9LnWZQ5x4DteUZCwQRo9juUFVLG9TBYj/g==
-X-Received: by 2002:adf:e7c2:: with SMTP id e2mr36210020wrn.180.1620737501294;
+        bh=OV0yRbjLD8+12Y/73lp2jjhkwHalJgZ0mSh4U8bmu4g=;
+        b=X4CSNOxRwtw4e3KYKM1DEUO50MgsBzpk8OWDwawOEQtcqXO/09ZlDF2smJ66tpMDeA
+         VYbA2Vt/3xaH55BbCN6tfShUp2zXW68/MOwHCkAlzQBvRo30RongsjCDB8tfFBTkxanl
+         z3Fh874swcGgp9JrsSZgshKPpmdcykHlp3836a9t77+5idw60VW3cpG+8xfXbZrUK9ax
+         hClhttYgDh4LM5VnkkFT1qKnNk9picPhKpFKmC2DZygT6HIOvNeSwt4SJ/sjdxNe3Ogb
+         qDDHVYeYJodEvoxym2kIntPeA3cLb+t6GKw58o7gDlCu2T3uN2FFUWUGj3470ciB7R8u
+         m4xA==
+X-Gm-Message-State: AOAM532LtqBKW5Lq7pzpJ342jMx8wqWyMoE7yVkF96rINFClDrProh1e
+	1FIpNK/uNBw8Ed/XqTwvF14Yn42SjUc1uA==
+X-Google-Smtp-Source: ABdhPJz3bPYVW5Ij0YQ8xp7ZxAyikRvxpSjMO9lEmaMu/6VkOZt/qPcUigZXFp0jKCeWKr1TlYoQGw==
+X-Received: by 2002:adf:ef90:: with SMTP id d16mr37658851wro.359.1620737501861;
         Tue, 11 May 2021 05:51:41 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:29c0:3873:464b:b647])
-        by smtp.gmail.com with ESMTPSA id y14sm27119099wrs.64.2021.05.11.05.51.40
+        by smtp.gmail.com with ESMTPSA id y14sm27119099wrs.64.2021.05.11.05.51.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 11 May 2021 05:51:41 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/8] unzip: Exclude CVE-2008-0888 from cve-check
-Date: Tue, 11 May 2021 13:51:33 +0100
-Message-Id: <20210511125138.2232637-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 4/8] tar: Exclude CVE-2007-4476 from cve-check
+Date: Tue, 11 May 2021 13:51:34 +0100
+Message-Id: <20210511125138.2232637-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 References: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The patch mentioned as the fix for the CVE is applied to the 6.0 source
-code. Zip versioning makes CPE entry changes hard.
+CPE lists only SUSE for all versions of tar.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=280961 shows issue affects paxutils
+included in tar or cpio
+http://cvs.savannah.gnu.org/viewvc/paxutils/paxutils/paxlib/names.c?r1=1.2&r2=1.4 was the fix
+which included in tar 1.19 and later.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/unzip/unzip_6.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/tar/tar_1.34.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index ec69508eea8..40f0346f8d3 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -33,6 +33,9 @@ UPSTREAM_VERSION_UNKNOWN = "1"
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
- SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
+diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
+index af04919c414..8dd0af2566f 100644
+--- a/meta/recipes-extended/tar/tar_1.34.bb
++++ b/meta/recipes-extended/tar/tar_1.34.bb
+@@ -10,6 +10,11 @@ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
  
-+# Patch from https://bugzilla.redhat.com/attachment.cgi?id=293893&action=diff applied to 6.0 source
-+CVE_CHECK_WHITELIST += "CVE-2008-0888"
+ SRC_URI[sha256sum] = "b44cc67f8a1f6b0250b7c860e952b37e8ed932a90bd9b1862a511079255646ff"
+ 
++# https://bugzilla.redhat.com/show_bug.cgi?id=280961 - issue affects paxutils included in tar
++# http://cvs.savannah.gnu.org/viewvc/paxutils/paxutils/paxlib/names.c?r1=1.2&r2=1.4 was the fix
++# included in tar 1.19 and later
++CVE_CHECK_WHITELIST += "CVE-2007-4476"
 +
- # exclude version 5.5.2 which triggers a false positive
- UPSTREAM_CHECK_REGEX = "unzip(?P<pver>(?!552).+)\.tgz"
+ inherit autotools gettext texinfo
  
+ PACKAGECONFIG ??= ""
 -- 
 2.30.2
 
