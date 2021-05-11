@@ -1,74 +1,75 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.12288.1620737503748311197
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.12289.1620737504263116121
  for <openembedded-core@lists.openembedded.org>;
  Tue, 11 May 2021 05:51:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SteHEnSQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id p14-20020a05600c358eb029015c01f207d7so1164013wmq.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:51:43 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K4i0aVun;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id o127so11056921wmo.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=O8q/32Q5qqusaSTwJtES6pXZd8DEsSskifD0OZBjyWw=;
-        b=SteHEnSQjmMP1fg2CH+HzcHFaDNROn3K42voSZLuMK+l7UrovgPmUDmfrouVuWJ2uu
-         ydQsAZtJkkfOd6D2VwA3UjXF7vBJTj0qtDpACwYqFbUtD2kfv5WyUzXfQrnGVP1vkYva
-         eGvxq8QiVH5lgKHcxXaTp31OaX0Yc0hzxRaXU=
+        bh=fXDuvRLOUoP/5cg2QsYQi3qK4zKplhG9Bf1J8wG6e0c=;
+        b=K4i0aVunWh8J+3P4OCEkXyNtednxnRC5T82UaIWzebcNoUef1Z9uIvUtT4SefaweGu
+         rBZyH2/GfCKlEniNA6U3EZo5qwDzl/ytZAsArKuUA8pL+RLfhrDnpcD3ER7+jBls2hs9
+         ibHWhkJheqUFFGyUcsypAEDPEvkZt9lrymvIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O8q/32Q5qqusaSTwJtES6pXZd8DEsSskifD0OZBjyWw=;
-        b=JN1lEcN7gbc/LLX/ZRG4EQcumSIfdMD6r+bKxyg0Hko+btSBwnUtgnoXBpLb0hwhcb
-         yXo4Ns6foBjXA5r6nmwGxSRDznu09hDWJV/bnSRdXJxfFZn/b44IP7r7wmubFn5CuwyN
-         ubETfF/VAsysWNYD0KnJUyjZN9iVYwbDrR6R7LB45drkGDmsTUfzfa3Ct5HrElbfxaXL
-         RE9bflm/LZ0TzoonSqlCvtadFaVO11j3TPD3/UBAZDwjzjc5aTL5Uh8/3yRE7kugAG+H
-         suRttrjyzmvJk4efSYBjL7SV8OIdvOOfZW1cxkqBw8QoEQNQItHoiQDP3TkrcJjAWmiE
-         6wxA==
-X-Gm-Message-State: AOAM533M/T6FbzjmxLNWfxkvD3C7+fpCP3iGC670wemzjfaJq3gtdzVU
-	+qiZaNGfP/wD3CrJ7HxHHiF3zeZGxMNz2A==
-X-Google-Smtp-Source: ABdhPJxmM7/tH1DfhN117HWw1Ig4hxfKXzRQZLJ/lRiD25FlvpuWyzDoP8w1wBinpSARzP7NkH2xdw==
-X-Received: by 2002:a1c:c911:: with SMTP id f17mr33132031wmb.45.1620737502309;
+        bh=fXDuvRLOUoP/5cg2QsYQi3qK4zKplhG9Bf1J8wG6e0c=;
+        b=iEOlWwAAgO2mVEQQfJjwtS+cMB9VkJBWATl6Wfv3EOE9M7rXu+zBjeIvl9sOUwzy1B
+         VCdj4jU1ViiM7luxQjK0VMRw9h4jLhySH4K31IswC8zKnKkHCHoITNKU0YRRYcjd5+Ew
+         A/4GSvAzXxrGMCwKgFAUhGPsEssOdL+HcSKPgU6UvND2cFa0Poz7eyvVXRlJ53HDolgL
+         wYvSCZTvrrusvklUhb6Z/thx5z23Vkpx435XlrFLtL+ZGi7LSJxTkRpe0ww3Y4AsLU0y
+         clSHTQ7XFj50i5r7UpEfkWsoRU3/hrzsvZhJ3ewx13CLuZM3NfSkgTu3hdFYGGWApTd6
+         iohQ==
+X-Gm-Message-State: AOAM531wZihfECFrrovq0sRZwHEfy67f2xpcBwqtb0tLVwYGnVvzINVH
+	nkKRyezQlSHfFqnScY0tdkRgInLZuCBaiA==
+X-Google-Smtp-Source: ABdhPJzVuOgC7/8GY3mRppHxzVKGXLRAZ+aDT7Mn5ISGRYNkJtZxMQVeqZ2RrxhXMbXjeWwoaUzRxw==
+X-Received: by 2002:a05:600c:4f0f:: with SMTP id l15mr5270881wmq.143.1620737502806;
         Tue, 11 May 2021 05:51:42 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:29c0:3873:464b:b647])
-        by smtp.gmail.com with ESMTPSA id y14sm27119099wrs.64.2021.05.11.05.51.41
+        by smtp.gmail.com with ESMTPSA id y14sm27119099wrs.64.2021.05.11.05.51.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 11 May 2021 05:51:42 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/8] cpio: Exclude CVE-2010-4226 from cve-check
-Date: Tue, 11 May 2021 13:51:35 +0100
-Message-Id: <20210511125138.2232637-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 6/8] xinetd: Exclude CVE-2013-4342 from cve-check
+Date: Tue, 11 May 2021 13:51:36 +0100
+Message-Id: <20210511125138.2232637-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 References: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Issue applies to use of cpio in SUSE/OBS, doesn't apply to us.
+We use the SUSE mirror of xinetd. The CVE fix was added to the main repo
+after the latest release but is included in the version from the SUSE repo.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/cpio/cpio_2.13.bb | 3 +++
+ meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
-index 94d86100c74..f4df826ed9c 100644
---- a/meta/recipes-extended/cpio/cpio_2.13.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.13.bb
-@@ -16,6 +16,9 @@ SRC_URI[sha256sum] = "e87470d9c984317f658567c03bfefb6b0c829ff17dbf6b0de48d71a4c8
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+index 2787b270fac..69d5b2f83b7 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.4.bb
+@@ -19,6 +19,9 @@ SRCREV = "6a4af7786630ce48747d9687e2f18f45ea6684c4"
  
- inherit autotools gettext texinfo
+ S = "${WORKDIR}/git"
  
-+# Issue applies to use of cpio in SUSE/OBS, doesn't apply to us
-+CVE_CHECK_WHITELIST += "CVE-2010-4226"
++# https://github.com/xinetd-org/xinetd/pull/10 is merged into this git tree revision
++CVE_CHECK_WHITELIST += "CVE-2013-4342"
 +
- EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+ inherit autotools update-rc.d systemd pkgconfig
  
- do_install () {
+ SYSTEMD_SERVICE_${PN} = "xinetd.service"
 -- 
 2.30.2
 
