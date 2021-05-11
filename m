@@ -1,210 +1,272 @@
-Received: from mga12.intel.com (mga12.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.11129.1620730754987893592
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by mx.groups.io with SMTP id smtpd.web10.11151.1620732600834252102
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 May 2021 03:59:15 -0700
+ Tue, 11 May 2021 04:30:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 1C3QwGP43XtVpKCStaM8GqJUAP3vJDWplmRpBTaVH5iBnWIY+ItD0rt4HAad7jDYf0pM5S1fBe
- HFGHIZJQ9LgA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179006558"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
-   d="scan'208";a="179006558"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2021 03:59:14 -0700
-IronPort-SDR: BjedD+bKGI/njOmvjqSARF3LaLKMK8tbPUM/RQU6mX8fuEtFt/pa1INQX1bmfkEW9Dkr7YdRWU
- UZiJpZ+I/bKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; 
-   d="scan'208";a="430252141"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga007.jf.intel.com with ESMTP; 11 May 2021 03:59:14 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH 4/4] tiff: fix CVE-2020-35523 CVE-2020-35524
-Date: Tue, 11 May 2021 18:59:10 +0800
-Message-Id: <20210511105910.3052-4-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210511105910.3052-1-chee.yang.lee@intel.com>
-References: <20210511105910.3052-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=is7qammx;
+ spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f45.google.com with SMTP id g24so6223085uak.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 04:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZEf6/ywN6hWwba6/biRV8pA7Lb9dcwZzp80g5ag7lJA=;
+        b=is7qammxJkqNFPmWuXVrRvJRVU/q7GqesDsCUFOTWRo7Kx8ozV072Hy2mAPjC8uEpP
+         pBLfmWEN+hII6N0AEV8wYJJJIHWf0QgIvUWWJL9O+oYfmYJ6W5VEwkrPYev507+lV1BC
+         LNSKSrMW+Mkrx2x1pXSnQIrbWRpYp1VXwYYd9VHg4IUu5WHKX8jdmhUA37yUmg11hsN4
+         f3ezswss7VFwnK5kMAZ6Bqp1B1qXHRRJ84qESGv2kCRCFR4gLUxpCanpSYaAVb56ArvH
+         zIJdlxGoWLhdpxXo26HPrzDsZfoyt1Lp1y+WANAHK41XLIsOnTnMHiBxodz3UGyaK002
+         D/nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZEf6/ywN6hWwba6/biRV8pA7Lb9dcwZzp80g5ag7lJA=;
+        b=J3t/WgH9TG6o/Mg3Xc21fCDPh+IWvrqH5+XOxQeUH4He1p5hmID2Mc8fcE0wVvGePc
+         liiZGpktyN2UewuDyjGztr5HD+ykqZqmfAUALU0LFwYIuyvc9IkqEU9agpnb/CIT+Sg7
+         BDMgTuJ3a6Gbkzo9QzDy45Q0PZmHXTe01BZLzkFXLRC5vAtqPlB8DfdDdw6I9X0o5LSr
+         3yHdVADQDw/44aXCd0nglZgshR3bqBKzi3VWCD/0joZSQvmQ22UQkqwxj128yCX3gTpC
+         mNEIQ2FXacR0q842StoS6e1A2MVMy1gkmW1OtSmsjNdfnzUtREZvvoqtOhRrFtR6o2cB
+         tNtw==
+X-Gm-Message-State: AOAM5317kdUuQC7YoKIRerAI/5zBeDPDjjo1Y1Cgo+zdF93GrK/3Z1BB
+	jJUvB5H7xvRrZdiqB3jUuWXqcRVNNxOeuPbfmh0=
+X-Google-Smtp-Source: ABdhPJxlJRdyy1Dtnus2Z2enHAoT1tC77oPnLRGC9pqcQlmt+kXZitDL147Hf0KHsxrCeO93LyGS7ILG5cX91eqhJvs=
+X-Received: by 2002:ab0:77c1:: with SMTP id y1mr24933258uar.89.1620732599395;
+ Tue, 11 May 2021 04:29:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210511053907.246803-1-robert.joslyn@redrectangle.org>
+In-Reply-To: <20210511053907.246803-1-robert.joslyn@redrectangle.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 11 May 2021 13:29:48 +0200
+Message-ID: <CANNYZj8wmXHEScrv6PU=QBeRr-_XUK7=WVmGYQG-OTdk0DpaZQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] epiphany: Update to 40.1
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000dce71305c20c36a5"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+--000000000000dce71305c20c36a5
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../libtiff/files/CVE-2020-35523.patch        | 55 +++++++++++++++++++
- .../libtiff/files/CVE-2020-35524-1.patch      | 42 ++++++++++++++
- .../libtiff/files/CVE-2020-35524-2.patch      | 36 ++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  3 +
- 4 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch
+Thanks Robert, I guess we should drop upstream-version-is-even from all
+gnome recipes which I'll take care of - these new 40.x versions weren't
+properly reported somehow.
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch b/meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch
-new file mode 100644
-index 0000000000..1f30b32799
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2020-35523.patch
-@@ -0,0 +1,55 @@
-+From c8d613ef497058fe653c467fc84c70a62a4a71b2 Mon Sep 17 00:00:00 2001
-+From: Thomas Bernard <miniupnp@free.fr>
-+Date: Tue, 10 Nov 2020 01:54:30 +0100
-+Subject: [PATCH] gtTileContig(): check Tile width for overflow
-+
-+fixes #211
-+
-+Upstream-Status: Backport [ https://gitlab.com/libtiff/libtiff/-/commit/c8d613ef497058fe653c467fc84c70a62a4a71b2 ]
-+CVE: CVE-2020-35523
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ libtiff/tif_getimage.c | 17 +++++++++++++----
-+ 1 file changed, 13 insertions(+), 4 deletions(-)
-+
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index 4da785d3..96ab1460 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -29,6 +29,7 @@
-+  */
-+ #include "tiffiop.h"
-+ #include <stdio.h>
-++#include <limits.h>
-+ 
-+ static int gtTileContig(TIFFRGBAImage*, uint32*, uint32, uint32);
-+ static int gtTileSeparate(TIFFRGBAImage*, uint32*, uint32, uint32);
-+@@ -645,12 +646,20 @@ gtTileContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 
-+     flip = setorientation(img);
-+     if (flip & FLIP_VERTICALLY) {
-+-	    y = h - 1;
-+-	    toskew = -(int32)(tw + w);
-++        if ((tw + w) > INT_MAX) {
-++            TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "%s", "unsupported tile size (too wide)");
-++            return (0);
-++        }
-++        y = h - 1;
-++        toskew = -(int32)(tw + w);
-+     }
-+     else {
-+-	    y = 0;
-+-	    toskew = -(int32)(tw - w);
-++        if (tw > (INT_MAX + w)) {
-++            TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "%s", "unsupported tile size (too wide)");
-++            return (0);
-++        }
-++        y = 0;
-++        toskew = -(int32)(tw - w);
-+     }
-+      
-+     /*
-+-- 
-+GitLab
-+
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch
-new file mode 100644
-index 0000000000..5232eacb50
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-1.patch
-@@ -0,0 +1,42 @@
-+From c6a12721b46f1a72974f91177890301730d7b330 Mon Sep 17 00:00:00 2001
-+From: Thomas Bernard <miniupnp@free.fr>
-+Date: Tue, 10 Nov 2020 01:01:59 +0100
-+Subject: [PATCH] tiff2pdf.c: properly calculate datasize when saving to JPEG
-+ YCbCr
-+
-+fixes #220
-+Upstream-Status: Backport
-+https://gitlab.com/libtiff/libtiff/-/commit/c6a12721b46f1a72974f91177890301730d7b330
-+https://gitlab.com/libtiff/libtiff/-/merge_requests/159/commits
-+CVE: CVE-2021-35524
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ tools/tiff2pdf.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
-+index 719811ea..dc69d2f9 100644
-+--- a/tools/tiff2pdf.c
-++++ b/tools/tiff2pdf.c
-+@@ -2087,9 +2087,14 @@ void t2p_read_tiff_size(T2P* t2p, TIFF* input){
-+ #endif
-+ 		(void) 0;
-+ 	}
-+-	k = checkMultiply64(TIFFScanlineSize(input), t2p->tiff_length, t2p);
-+-	if(t2p->tiff_planar==PLANARCONFIG_SEPARATE){
-+-		k = checkMultiply64(k, t2p->tiff_samplesperpixel, t2p);
-++	if(t2p->pdf_compression == T2P_COMPRESS_JPEG
-++	   && t2p->tiff_photometric == PHOTOMETRIC_YCBCR) {
-++		k = checkMultiply64(TIFFNumberOfStrips(input), TIFFStripSize(input), t2p);
-++	} else {
-++		k = checkMultiply64(TIFFScanlineSize(input), t2p->tiff_length, t2p);
-++		if(t2p->tiff_planar==PLANARCONFIG_SEPARATE){
-++			k = checkMultiply64(k, t2p->tiff_samplesperpixel, t2p);
-++		}
-+ 	}
-+ 	if (k == 0) {
-+ 		/* Assume we had overflow inside TIFFScanlineSize */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch
-new file mode 100644
-index 0000000000..406d467766
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2020-35524-2.patch
-@@ -0,0 +1,36 @@
-+From d74f56e3b7ea55c8a18a03bc247cd5fd0ca288b2 Mon Sep 17 00:00:00 2001
-+From: Thomas Bernard <miniupnp@free.fr>
-+Date: Tue, 10 Nov 2020 02:05:05 +0100
-+Subject: [PATCH] Fix for building without JPEG support
-+
-+Upstream-Status: Backport
-+https://gitlab.com/libtiff/libtiff/-/commit/d74f56e3b7ea55c8a18a03bc247cd5fd0ca288b2
-+https://gitlab.com/libtiff/libtiff/-/merge_requests/159/commits
-+CVE: CVE-2021-35524
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ tools/tiff2pdf.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
-+index dc69d2f9..d0b0ede7 100644
-+--- a/tools/tiff2pdf.c
-++++ b/tools/tiff2pdf.c
-+@@ -2087,10 +2087,13 @@ void t2p_read_tiff_size(T2P* t2p, TIFF* input){
-+ #endif
-+ 		(void) 0;
-+ 	}
-++#ifdef JPEG_SUPPORT
-+ 	if(t2p->pdf_compression == T2P_COMPRESS_JPEG
-+ 	   && t2p->tiff_photometric == PHOTOMETRIC_YCBCR) {
-+ 		k = checkMultiply64(TIFFNumberOfStrips(input), TIFFStripSize(input), t2p);
-+-	} else {
-++	} else
-++#endif
-++	{
-+ 		k = checkMultiply64(TIFFScanlineSize(input), t2p->tiff_length, t2p);
-+ 		if(t2p->tiff_planar==PLANARCONFIG_SEPARATE){
-+ 			k = checkMultiply64(k, t2p->tiff_samplesperpixel, t2p);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-index 5a1cb13c53..97ad575f64 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-@@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
- CVE_PRODUCT = "libtiff"
- 
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+           file://CVE-2020-35523.patch  \
-+           file://CVE-2020-35524-1.patch \
-+           file://CVE-2020-35524-2.patch \
-           "
- SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
- SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
--- 
-2.17.1
+Alex
 
+On Tue, 11 May 2021 at 07:39, Robert Joslyn <robert.joslyn@redrectangle.org>
+wrote:
+
+> Refresh patch and adjust version directory for new version numbering
+> scheme. Add new dependency on libarchive.
+>
+> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+> ---
+>  .../epiphany/{epiphany_3.38.3.bb => epiphany_40.1.bb}     | 7 ++++---
+>  .../0002-help-meson.build-disable-the-use-of-yelp.patch   | 8 ++++----
+>  2 files changed, 8 insertions(+), 7 deletions(-)
+>  rename meta/recipes-gnome/epiphany/{epiphany_3.38.3.bb =>
+> epiphany_40.1.bb} (82%)
+>
+> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> b/meta/recipes-gnome/epiphany/epiphany_40.1.bb
+> similarity index 82%
+> rename from meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> rename to meta/recipes-gnome/epiphany/epiphany_40.1.bb
+> index ce24336ace..e1e3ad7868 100644
+> --- a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+> +++ b/meta/recipes-gnome/epiphany/epiphany_40.1.bb
+> @@ -8,18 +8,19 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>
+>  DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr
+> gnutls \
+>            gsettings-desktop-schemas libxml2-native \
+> -          glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
+> +          glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal
+> \
+> +          libarchive"
+>
+>  GNOMEBASEBUILDCLASS = "meson"
+>  inherit gnomebase gsettings features_check upstream-version-is-even
+> gettext mime-xdg
+>  REQUIRED_DISTRO_FEATURES = "x11 opengl"
+>
+> -SRC_URI =
+> "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive
+> \
+> +SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}",
+> 1)}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+>             file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+>             file://migrator.patch \
+>             file://distributor.patch \
+>             "
+> -SRC_URI[archive.sha256sum] =
+> "ce62c1fa3e442a9d6131fc884a6bc9a65cf06224c30d649c49624c2ebcb0d275"
+> +SRC_URI[archive.sha256sum] =
+> "696a426b1702774af8d0f056828f5d9ff9350507aba7f4c7e3e499f07a581ad0"
+>
+>  # Developer mode enables debugging
+>  PACKAGECONFIG[developer-mode] =
+> "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+> diff --git
+> a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+> b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+> index 118b5d1825..a6c4f92c86 100644
+> ---
+> a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+> +++
+> b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+> @@ -1,4 +1,4 @@
+> -From 3725c254f1d1d8204fa299e71c1e2bfd0ff6a634 Mon Sep 17 00:00:00 2001
+> +From 77c9f87dc2b3ad0854a678e234e22dfb31902b82 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Wed, 31 Jan 2018 15:50:38 +0200
+>  Subject: [PATCH] help/meson.build: disable the use of yelp
+> @@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <
+> alex.kanavin@gmail.com>
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+>  diff --git a/help/meson.build b/help/meson.build
+> -index 484860c..d9b2e80 100644
+> +index ff324dd..f5e421d 100644
+>  --- a/help/meson.build
+>  +++ b/help/meson.build
+> -@@ -32,7 +32,7 @@ help_media = [
+> -   'media/epiphany-private-3-36.png'
+> +@@ -31,7 +31,7 @@ help_media = [
+> +   'media/org.gnome.Epiphany.svg'
+>   ]
+>
+>  -gnome.yelp(meson.project_name(),
+> --
+> 2.26.3
+>
+>
+> 
+>
+>
+
+--000000000000dce71305c20c36a5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks Robert, I guess we should drop upstream-versio=
+n-is-even from all gnome recipes which I&#39;ll take care of - these new 40=
+.x versions weren&#39;t properly reported somehow.</div><div><br></div><div=
+>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, 11 May 2021 at 07:39, Robert Joslyn &lt;<a href=3D=
+"mailto:robert.joslyn@redrectangle.org">robert.joslyn@redrectangle.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Refre=
+sh patch and adjust version directory for new version numbering<br>
+scheme. Add new dependency on libarchive.<br>
+<br>
+Signed-off-by: Robert Joslyn &lt;<a href=3D"mailto:robert.joslyn@redrectan=
+gle.org" target=3D"_blank">robert.joslyn@redrectangle.org</a>&gt;<br>
+---<br>
+=C2=A0.../epiphany/{<a href=3D"http://epiphany_3.38.3.bb" rel=3D"noreferre=
+r" target=3D"_blank">epiphany_3.38.3.bb</a> =3D&gt; <a href=3D"http://epiph=
+any_40.1.bb" rel=3D"noreferrer" target=3D"_blank">epiphany_40.1.bb</a>}=C2=
+=A0 =C2=A0 =C2=A0| 7 ++++---<br>
+=C2=A0.../0002-help-meson.build-disable-the-use-of-yelp.patch=C2=A0 =C2=A0=
+| 8 ++++----<br>
+=C2=A02 files changed, 8 insertions(+), 7 deletions(-)<br>
+=C2=A0rename meta/recipes-gnome/epiphany/{<a href=3D"http://epiphany_3.38.=
+3.bb" rel=3D"noreferrer" target=3D"_blank">epiphany_3.38.3.bb</a> =3D&gt; <=
+a href=3D"http://epiphany_40.1.bb" rel=3D"noreferrer" target=3D"_blank">epi=
+phany_40.1.bb</a>} (82%)<br>
+<br>
+diff --git a/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.38.3=
+.bb" rel=3D"noreferrer" target=3D"_blank">epiphany_3.38.3.bb</a> b/meta/rec=
+ipes-gnome/epiphany/<a href=3D"http://epiphany_40.1.bb" rel=3D"noreferrer" =
+target=3D"_blank">epiphany_40.1.bb</a><br>
+similarity index 82%<br>
+rename from meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.38.3.=
+bb" rel=3D"noreferrer" target=3D"_blank">epiphany_3.38.3.bb</a><br>
+rename to meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_40.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">epiphany_40.1.bb</a><br>
+index ce24336ace..e1e3ad7868 100644<br>
+--- a/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.38.3.bb" re=
+l=3D"noreferrer" target=3D"_blank">epiphany_3.38.3.bb</a><br>
++++ b/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_40.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">epiphany_40.1.bb</a><br>
+@@ -8,18 +8,19 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd32239bc=
+b673463ab874e80d47fae504&quot;<br>
+<br>
+=C2=A0DEPENDS =3D &quot;libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnot=
+ify gcr gnutls \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gsettings-desktop-schemas libxml2=
+-native \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 glib-2.0 glib-2.0-native json-glib lib=
+dazzle libhandy libportal&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 glib-2.0 glib-2.0-native json-glib lib=
+dazzle libhandy libportal \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libarchive&quot;<br>
+<br>
+=C2=A0GNOMEBASEBUILDCLASS =3D &quot;meson&quot;<br>
+=C2=A0inherit gnomebase gsettings features_check upstream-version-is-even =
+gettext mime-xdg<br>
+=C2=A0REQUIRED_DISTRO_FEATURES =3D &quot;x11 opengl&quot;<br>
+<br>
+-SRC_URI =3D &quot;${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir(&quot;${PV}&=
+quot;)}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=3Darchive \<br>
++SRC_URI =3D &quot;${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version(&qu=
+ot;${PV}&quot;, 1)}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=3Darch=
+ive \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-help-meson.build-dis=
+able-the-use-of-yelp.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://migrator.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://distributor.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-SRC_URI[archive.sha256sum] =3D &quot;ce62c1fa3e442a9d6131fc884a6bc9a65cf0=
+6224c30d649c49624c2ebcb0d275&quot;<br>
++SRC_URI[archive.sha256sum] =3D &quot;696a426b1702774af8d0f056828f5d9ff935=
+0507aba7f4c7e3e499f07a581ad0&quot;<br>
+<br>
+=C2=A0# Developer mode enables debugging<br>
+=C2=A0PACKAGECONFIG[developer-mode] =3D &quot;-Ddeveloper_mode=3Dtrue,-Dde=
+veloper_mode=3Dfalse&quot;<br>
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disab=
+le-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meso=
+n.build-disable-the-use-of-yelp.patch<br>
+index 118b5d1825..a6c4f92c86 100644<br>
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-=
+use-of-yelp.patch<br>
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-=
+use-of-yelp.patch<br>
+@@ -1,4 +1,4 @@<br>
+-From 3725c254f1d1d8204fa299e71c1e2bfd0ff6a634 Mon Sep 17 00:00:00 2001<br=
+>
++From 77c9f87dc2b3ad0854a678e234e22dfb31902b82 Mon Sep 17 00:00:00 2001<br=
+>
+=C2=A0From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
+" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+=C2=A0Date: Wed, 31 Jan 2018 15:50:38 +0200<br>
+=C2=A0Subject: [PATCH] help/meson.build: disable the use of yelp<br>
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto=
+:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<b=
+r>
+=C2=A0 1 file changed, 4 insertions(+), 4 deletions(-)<br>
+<br>
+=C2=A0diff --git a/help/meson.build b/help/meson.build<br>
+-index 484860c..d9b2e80 100644<br>
++index ff324dd..f5e421d 100644<br>
+=C2=A0--- a/help/meson.build<br>
+=C2=A0+++ b/help/meson.build<br>
+-@@ -32,7 +32,7 @@ help_media =3D [<br>
+-=C2=A0 =C2=A0&#39;media/epiphany-private-3-36.png&#39;<br>
++@@ -31,7 +31,7 @@ help_media =3D [<br>
++=C2=A0 =C2=A0&#39;media/org.gnome.Epiphany.svg&#39;<br>
+=C2=A0 ]<br>
+<br>
+=C2=A0-gnome.yelp(meson.project_name(),<br>
+-- <br>
+2.26.3<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000dce71305c20c36a5--
