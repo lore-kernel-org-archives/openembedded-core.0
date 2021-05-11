@@ -1,230 +1,222 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.web11.11300.1620732658156220910
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+ by mx.groups.io with SMTP id smtpd.web08.11462.1620732848413393442
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 May 2021 04:30:58 -0700
+ Tue, 11 May 2021 04:34:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sbphF2Ge;
- spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f44.google.com with SMTP id 66so10001066vsk.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 04:30:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PUd+eISz;
+ spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f48.google.com with SMTP id g24so6226567uak.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 04:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7Oum1P9EFvataPyAPoB9SYc4p00k1Smb1pn2pcvFvak=;
-        b=sbphF2GeG+eru9IaQjdW1sPQhTh9Rtk9Q9zCGyWj5AUBBXl2CnukgA0ni/tiviFZOX
-         U+pGOZ3PpCukRVHmH33qC+Y3PwS95jo7GdHMRpW27uC2H8yCu9Ni24VRKbZWczCrrXbb
-         I4ka3WpdVEpwbKjc2aUT6UIyEMqgQlrh9oz6gVV5UtFTIoBLjld5SJnUiPEZb1gSA/mw
-         zkDh+3VEgoq6k7Y5YQPRDm0nZuPZ+vzQ56UN3V5oL9BZCkDMxRtbm3je4QN2P18BpOQk
-         dkHZHC0EM6OnGnY4LZc4UwOzmYCcFp4ZzCtNjfDWCHQy2xI/UuxuAbBiikJ0xjB5nlBp
-         51CA==
+        bh=iF4zHVbzA4NntgenBIKi2MdNarYhP5u5ytM5lkeqQzA=;
+        b=PUd+eISzSvPb048USY+NlwHsUVFyYb93O0uDlio1xV201ZbWEz9TdStHllM2f0RvKz
+         tB+F+mme7mSwoXuMrIK+y9pKJKDjzsOWMjAhDzwV6zGTXPZmjRCLnSwVabyfCEGaXREH
+         WZZgasS6wu8XIJ3MeqjH4pl0JaMWBbRiVClb8viaSDmOKPwoGCdJLS2JO18189+1wAr+
+         6Qc81kJeyThZYfvGOeL9e5aAfkmhzje5fABMQKScRWntCL1f9iRcS864jsPZaWJ94VUt
+         JYnLV6kGcx9RBqSbSo5l2PIYaSNC3JioPjUaS3J1v1TqL/uK07Qn55IpN2dHVR4+AU8s
+         UlbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7Oum1P9EFvataPyAPoB9SYc4p00k1Smb1pn2pcvFvak=;
-        b=ECfyF0QFpEWOf4rpbqQlIeOzIP9oC0Zmq+0HwW9lWt8mEOFWXJbVv3F4lJRTkibUZS
-         S+U7yHYNdMF4qpXdvORvsF5x7LOGXYEoiKhhk+SlIB3/JCHAeXULrDHMZtNsk5pynWED
-         MTNY48itB0Zf08iUSuGAEgypqboym3GdqLHcM5Wnj35i/KpDxl91t4ryZuxn/2zfgzbT
-         IEI9vZ4soyhzGASXmGxOF4TsXj4GoesIrFXjeJ20Hj/fMnjHK+9nHPv8TodOCXE/GyJN
-         XKFlXaWu3nNWtjuA3/Dfu2Fm5+CdzPmFVoiO07sPKx2/AoAc3rmrtZpRBn4L0VLwpsK/
-         Usrg==
-X-Gm-Message-State: AOAM53388ttn/NZhTIMRaEImv08TOijINDGynVxAdJBReYZjRacdU7XL
-	f0RJ1JO6G4EruJiao2HREnUiEvY9YdUBifNAL5I=
-X-Google-Smtp-Source: ABdhPJxySP7c93ukih9bzabpHs1rN2kX5UXMNQxByaW5DVJWgA9GQBaPmqmN0syW7tU7AhLnnUoEQcHbCz7PrC/GqaY=
-X-Received: by 2002:a67:d715:: with SMTP id p21mr16447115vsj.31.1620732657316;
- Tue, 11 May 2021 04:30:57 -0700 (PDT)
+        bh=iF4zHVbzA4NntgenBIKi2MdNarYhP5u5ytM5lkeqQzA=;
+        b=OlgnCP/y5E62pR3xZq1/FwYCP7q2AMUuEzxn57vbsuN0D4/nc/8mDeXxv/+jXX1qFW
+         FZTh3bAQdr/RbEZtnsdafNidGGpBmBkzJ+UOZaxnPmUlDGFKMNeVdCXDZx/PvSTTJhMn
+         UGKKk4QLV2/M6ndZQPGxP4Rikp7bFA2keuMkrcOOAB1Xx0fkT3U8Bub9T/o2cU8wQqfW
+         Vt7kaKBGepE96Q1Kl3xUvJbhsikhY7p/n7EbD4ihoLx8QNEPvkS7GIAH/hLhKBphyf6o
+         HijnsiraJc2RcT2Ml0jHLrPALNNe65Bg3P8FXa288aOQtICx8Kq7Z9SvIgZD8jHA1x5b
+         8QrA==
+X-Gm-Message-State: AOAM532Y/rf0swmwEyUq/eQYiBw6hrMarKeD8DByjmt9sANdBobqcbsS
+	aQd8Mg/N6UxEFvxIWnGyzXvNsGHsKdVzJUfr5+U=
+X-Google-Smtp-Source: ABdhPJyghYGowXu1Fs2yMdiViKITijxaoWRyQ4PLGqXQo//wmvC6HL8teCXNBe5OojuulLvJS4k/FMbC5t2wJq5nk8c=
+X-Received: by 2002:ab0:4e0b:: with SMTP id g11mr6665447uah.22.1620732847597;
+ Tue, 11 May 2021 04:34:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210511011101.1859568-1-raj.khem@gmail.com>
-In-Reply-To: <20210511011101.1859568-1-raj.khem@gmail.com>
+References: <167DF913750C3E0E.1178@lists.openembedded.org> <82398336819fe90e1645fb2176037e28b11eb360.camel@linuxfoundation.org>
+In-Reply-To: <82398336819fe90e1645fb2176037e28b11eb360.camel@linuxfoundation.org>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 11 May 2021 13:30:45 +0200
-Message-ID: <CANNYZj9UUyKEPox7L0Wzq_JdoE1hQO7wpqc+qHr83g_n1LvbMQ@mail.gmail.com>
-Subject: Re: [PATCH] ffmpeg: Fix build on mips
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000050b5f405c20c3ae9"
+Date: Tue, 11 May 2021 13:33:56 +0200
+Message-ID: <CANNYZj8ujWetFPd+S4KpiV22ZrQMO7ozn2cpBmzs44RcgO-zgQ@mail.gmail.com>
+Subject: Re: [OE-core] QEMU rcu stalls on autobuilder - not what they seem?
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Tim Orling <timothy.t.orling@linux.intel.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	Randy MacLeod <randy.macleod@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000a82e9b05c20c4558"
 
---00000000000050b5f405c20c3ae9
+--000000000000a82e9b05c20c4558
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Khem, good that it can be done without patches.
+A quick question: are the AB machines using nested kvm, or are they
+baremetal?
+
+We've seen similar errors here with qemu SMP that were only resolved after
+moving to baremetal builds for qemu targets.
 
 Alex
 
-On Tue, 11 May 2021 at 03:11, Khem Raj <raj.khem@gmail.com> wrote:
+On Tue, 11 May 2021 at 11:59, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> configure is not able to decode, right options to compiler, it needs to
-> be set according to default tune manually. Fixes build issue on mips
-> e.g.
+> On Tue, 2021-05-11 at 10:28 +0100, Richard Purdie via
+> lists.openembedded.org wrote:
+> > We have patches in master-next where we test enabling SMP for x86 and
+> arm.
+> > This has resulted in a few build failures where qemu crashes with an RCU
+> > stall. The SMP output is different to our non-SMP case. For ages we've
+> > been blaming the autobuilder load/contention. The SMP case does appear to
+> > have it happen more regularly but it was happening before.
+> >
+> > As an example, this morning I awoke to:
+> >
+> >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2123/steps/14/logs/stdio
+> >
+> > and I've pasted the full boot log below. It is easy to blame the
+> autobuilder
+> > load as usual but I'd note that the kernel messages stop after about 1s
+> after
+> > the tsc clocksource message.
+> >
+> > I'd argue that the RCU stall message is just pointing out the kernel is
+> mostly
+> > dead, its also interesting the RCU stall handler crashes before it can
+> print
+> > the process traces.
+> >
+> > I read that the tsc clocksource message hang is notorious as it is where
+> the
+> > kernel starts initing other subsystems so the issue may not be in the
+> tsc
+> > clocksource but elsewhere. I'd also note it is using the kvm-clocksource
+> and just
+> > inited the tsc clocksource, it isn't using it. The TSC clocksource
+> appears to be
+> > know it init slowly.
+> >
+> > I think we may have some other kernel issue going on here and blaming
+> the
+> > autobuilder load isn't the right path forward. Is there anyone who
+> understands
+> > what may be going on here or a way we could debug it further?
 >
->  {standard input}: Assembler messages:
-> | {standard input}:2162: Error: opcode not supported on this processor:
-> mips32r2 (mips32r2) `dmult $22,$22'
-> | {standard input}:2164: Error: opcode not supported on this processor:
-> mips32r2 (mips32r2) `dsrl $5,$5,32'
-> | make: ***
-> [/mnt/b/yoe/master/build/tmp/work/mips32r2-yoe-linux/ffmpeg/4.4-r0/ffmpeg-4.4/ffbuild/common.mak:67:
-> libavcodec/aptxenc.o] Error 1
+> To follow up, some qemu literate friends looked at this and asked why on
+> earth we were using a machine type from 1996 and why such an old cpu which
+> didn't
+> support SMP and had a broken TSC. I think those are good questions. The
+> current
+> options we're using aren't tested by others. They also suggested some qemu
+> boot
+> options which if nothing else could speed things up.
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb | 22 +++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
+> It is time we changed the x86 qemu types so I've put a patch into
+> master-next
+> for testing moving to IvyBridge and the cpu options. I think these are
+> changes
+> we should be making anyway but I'd be very happy if the help the AB-INT
+> issues
+> which have been plaguing us.
 >
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> index 19a8e58370..384e07362a 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.bb
-> @@ -103,15 +103,15 @@ EXTRA_OECONF = " \
->      \
->      --cross-prefix=${TARGET_PREFIX} \
->      \
-> -    --ld="${CCLD}" \
-> -    --cc="${CC}" \
-> -    --cxx="${CXX}" \
-> +    --ld='${CCLD}' \
-> +    --cc='${CC}' \
-> +    --cxx='${CXX}' \
->      --arch=${TARGET_ARCH} \
-> -    --target-os="linux" \
-> +    --target-os='linux' \
->      --enable-cross-compile \
-> -    --extra-cflags="${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
-> -    --extra-ldflags="${LDFLAGS}" \
-> -    --sysroot="${STAGING_DIR_TARGET}" \
-> +    --extra-cflags='${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}' \
-> +    --extra-ldflags='${LDFLAGS}' \
-> +    --sysroot='${STAGING_DIR_TARGET}' \
->      ${EXTRA_FFCONF} \
->      --libdir=${libdir} \
->      --shlibdir=${libdir} \
-> @@ -121,6 +121,14 @@ EXTRA_OECONF = " \
->  "
+> Cheers,
 >
->  EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
-> +
-> +EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa64r6',
-> '--disable-mips64r2 --disable-mips32r2', '', d)}"
-> +EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa64r2',
-> '--disable-mips64r6 --disable-mips32r6', '', d)}"
-> +EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mips32r2',
-> '--disable-mips64r6 --disable-mips32r6', '', d)}"
-> +EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mips32r6',
-> '--disable-mips64r2 --disable-mips32r2', '', d)}"
-> +EXTRA_OECONF_append_mips = " --extra-libs=-latomic --disable-mips32r5
-> --disable-mipsdsp --disable-mipsdspr2 \
-> +                             --disable-loongson2 --disable-loongson3
-> --disable-mmi --disable-msa --disable-msa2"
-> +
->  # gold crashes on x86, another solution is to --disable-asm but thats
-> more hacky
->  # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
+> Richard
 >
-> --
-> 2.31.1
+>
+>
+> 
 >
 >
 
---00000000000050b5f405c20c3ae9
+--000000000000a82e9b05c20c4558
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thanks Khem, good that it can be done without patches=
-.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 11 May 2021 at 03:11, Khem=
- Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">configure =
-is not able to decode, right options to compiler, it needs to<br>
-be set according to default tune manually. Fixes build issue on mips<br>
-e.g.<br>
+<div dir=3D"ltr"><div>A quick question: are the AB machines using nested kv=
+m, or are they baremetal?</div><div><br></div><div>We&#39;ve seen similar e=
+rrors here with qemu SMP that were only resolved after moving to baremetal =
+builds for qemu targets.<br></div><div><br></div><div>Alex<br></div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
+ 11 May 2021 at 11:59, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@=
+linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2021-05-11 a=
+t 10:28 +0100, Richard Purdie via <a href=3D"http://lists.openembedded.org"=
+ rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; We have patches in master-next where we test enabling SMP for x86 and=
+ arm.<br>
+&gt; This has resulted in a few build failures where qemu crashes with an =
+RCU=C2=A0<br>
+&gt; stall. The SMP output is different to our non-SMP case. For ages we&#=
+39;ve<br>
+&gt; been blaming the autobuilder load/contention. The SMP case does appea=
+r to<br>
+&gt; have it happen more regularly but it was happening before.<br>
+&gt; <br>
+&gt; As an example, this morning I awoke to:<br>
+&gt; <br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/87=
+/builds/2123/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">http=
+s://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2123/steps/14=
+/logs/stdio</a><br>
+&gt; <br>
+&gt; and I&#39;ve pasted the full boot log below. It is easy to blame the =
+autobuilder<br>
+&gt; load as usual but I&#39;d note that the kernel messages stop after ab=
+out 1s after<br>
+&gt; the tsc clocksource message.<br>
+&gt; <br>
+&gt; I&#39;d argue that the RCU stall message is just pointing out the ker=
+nel is mostly<br>
+&gt; dead, its also interesting the RCU stall handler crashes before it ca=
+n print<br>
+&gt; the process traces.<br>
+&gt; <br>
+&gt; I read that the tsc clocksource message hang is notorious as it is wh=
+ere the<br>
+&gt; kernel starts initing other subsystems so the issue may not be in the=
+ tsc=C2=A0<br>
+&gt; clocksource but elsewhere. I&#39;d also note it is using the kvm-cloc=
+ksource and just<br>
+&gt; inited the tsc clocksource, it isn&#39;t using it. The TSC clocksourc=
+e appears to be<br>
+&gt; know it init slowly.<br>
+&gt; <br>
+&gt; I think we may have some other kernel issue going on here and blaming=
+ the=C2=A0<br>
+&gt; autobuilder load isn&#39;t the right path forward. Is there anyone wh=
+o understands<br>
+&gt; what may be going on here or a way we could debug it further?<br>
 <br>
-=C2=A0{standard input}: Assembler messages:<br>
-| {standard input}:2162: Error: opcode not supported on this processor: mip=
-s32r2 (mips32r2) `dmult $22,$22&#39;<br>
-| {standard input}:2164: Error: opcode not supported on this processor: mip=
-s32r2 (mips32r2) `dsrl $5,$5,32&#39;<br>
-| make: *** [/mnt/b/yoe/master/build/tmp/work/mips32r2-yoe-linux/ffmpeg/4.4=
--r0/ffmpeg-4.4/ffbuild/common.mak:67: libavcodec/aptxenc.o] Error 1<br>
+To follow up, some qemu literate friends looked at this and asked why on<b=
+r>
+earth we were using a machine type from 1996 and why such an old cpu which=
+ didn&#39;t<br>
+support SMP and had a broken TSC.=C2=A0I think those are good questions.=
+=C2=A0The current <br>
+options we&#39;re using aren&#39;t tested by others. They also=C2=A0sugges=
+ted some qemu boot<br>
+options which if nothing else could speed things up.<br>
 <br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;<br>
-Cc: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=
-=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-multimedia/ffmpeg/<a href=3D"http://ffmpeg_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">ffmpeg_4.4.bb</a> | 22 +++++++++++++-----=
---<br>
-=C2=A01 file changed, 15 insertions(+), 7 deletions(-)<br>
+It is time we changed the x86 qemu types so I&#39;ve put a patch into mast=
+er-next<br>
+for testing moving to IvyBridge and the cpu options. I think these are cha=
+nges<br>
+we should be making anyway but I&#39;d be very happy if the help the AB-IN=
+T issues<br>
+which have been plaguing us.<br>
 <br>
-diff --git a/meta/recipes-multimedia/ffmpeg/<a href=3D"http://ffmpeg_4.4.bb=
-" rel=3D"noreferrer" target=3D"_blank">ffmpeg_4.4.bb</a> b/meta/recipes-mul=
-timedia/ffmpeg/<a href=3D"http://ffmpeg_4.4.bb" rel=3D"noreferrer" target=
-=3D"_blank">ffmpeg_4.4.bb</a><br>
-index 19a8e58370..384e07362a 100644<br>
---- a/meta/recipes-multimedia/ffmpeg/<a href=3D"http://ffmpeg_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">ffmpeg_4.4.bb</a><br>
-+++ b/meta/recipes-multimedia/ffmpeg/<a href=3D"http://ffmpeg_4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">ffmpeg_4.4.bb</a><br>
-@@ -103,15 +103,15 @@ EXTRA_OECONF =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0 =C2=A0 =C2=A0--cross-prefix=3D${TARGET_PREFIX} \<br>
-=C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 --ld=3D&quot;${CCLD}&quot; \<br>
--=C2=A0 =C2=A0 --cc=3D&quot;${CC}&quot; \<br>
--=C2=A0 =C2=A0 --cxx=3D&quot;${CXX}&quot; \<br>
-+=C2=A0 =C2=A0 --ld=3D&#39;${CCLD}&#39; \<br>
-+=C2=A0 =C2=A0 --cc=3D&#39;${CC}&#39; \<br>
-+=C2=A0 =C2=A0 --cxx=3D&#39;${CXX}&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0--arch=3D${TARGET_ARCH} \<br>
--=C2=A0 =C2=A0 --target-os=3D&quot;linux&quot; \<br>
-+=C2=A0 =C2=A0 --target-os=3D&#39;linux&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0--enable-cross-compile \<br>
--=C2=A0 =C2=A0 --extra-cflags=3D&quot;${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_=
-OPTIONS}&quot; \<br>
--=C2=A0 =C2=A0 --extra-ldflags=3D&quot;${LDFLAGS}&quot; \<br>
--=C2=A0 =C2=A0 --sysroot=3D&quot;${STAGING_DIR_TARGET}&quot; \<br>
-+=C2=A0 =C2=A0 --extra-cflags=3D&#39;${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_O=
-PTIONS}&#39; \<br>
-+=C2=A0 =C2=A0 --extra-ldflags=3D&#39;${LDFLAGS}&#39; \<br>
-+=C2=A0 =C2=A0 --sysroot=3D&#39;${STAGING_DIR_TARGET}&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0${EXTRA_FFCONF} \<br>
-=C2=A0 =C2=A0 =C2=A0--libdir=3D${libdir} \<br>
-=C2=A0 =C2=A0 =C2=A0--shlibdir=3D${libdir} \<br>
-@@ -121,6 +121,14 @@ EXTRA_OECONF =3D &quot; \<br>
-=C2=A0&quot;<br>
+Cheers,<br>
 <br>
-=C2=A0EXTRA_OECONF_append_linux-gnux32 =3D &quot; --disable-asm&quot;<br>
-+<br>
-+EXTRA_OECONF +=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39=
-;mipsisa64r6&#39;, &#39;--disable-mips64r2 --disable-mips32r2&#39;, &#39;&#=
-39;, d)}&quot;<br>
-+EXTRA_OECONF +=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39=
-;mipsisa64r2&#39;, &#39;--disable-mips64r6 --disable-mips32r6&#39;, &#39;&#=
-39;, d)}&quot;<br>
-+EXTRA_OECONF +=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39=
-;mips32r2&#39;, &#39;--disable-mips64r6 --disable-mips32r6&#39;, &#39;&#39;=
-, d)}&quot;<br>
-+EXTRA_OECONF +=3D &quot;${@bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39=
-;mips32r6&#39;, &#39;--disable-mips64r2 --disable-mips32r2&#39;, &#39;&#39;=
-, d)}&quot;<br>
-+EXTRA_OECONF_append_mips =3D &quot; --extra-libs=3D-latomic --disable-mips=
-32r5 --disable-mipsdsp --disable-mipsdspr2 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-loongson2 --disable-loongson3 --di=
-sable-mmi --disable-msa --disable-msa2&quot;<br>
-+<br>
-=C2=A0# gold crashes on x86, another solution is to --disable-asm but thats=
- more hacky<br>
-=C2=A0# ld.gold: internal error in relocate_section, at ../../gold/i386.cc:=
-3684<br>
+Richard<br>
 <br>
--- <br>
-2.31.1<br>
+<br>
+<br>
+<br>
 <br>
 </blockquote></div>
 
---00000000000050b5f405c20c3ae9--
+--000000000000a82e9b05c20c4558--
