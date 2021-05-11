@@ -1,222 +1,117 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web08.11462.1620732848413393442
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.11908.1620736404399895537
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 May 2021 04:34:08 -0700
+ Tue, 11 May 2021 05:33:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PUd+eISz;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id g24so6226567uak.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 04:34:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Vzzi8v17;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id zg3so29515414ejb.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iF4zHVbzA4NntgenBIKi2MdNarYhP5u5ytM5lkeqQzA=;
-        b=PUd+eISzSvPb048USY+NlwHsUVFyYb93O0uDlio1xV201ZbWEz9TdStHllM2f0RvKz
-         tB+F+mme7mSwoXuMrIK+y9pKJKDjzsOWMjAhDzwV6zGTXPZmjRCLnSwVabyfCEGaXREH
-         WZZgasS6wu8XIJ3MeqjH4pl0JaMWBbRiVClb8viaSDmOKPwoGCdJLS2JO18189+1wAr+
-         6Qc81kJeyThZYfvGOeL9e5aAfkmhzje5fABMQKScRWntCL1f9iRcS864jsPZaWJ94VUt
-         JYnLV6kGcx9RBqSbSo5l2PIYaSNC3JioPjUaS3J1v1TqL/uK07Qn55IpN2dHVR4+AU8s
-         UlbQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IgSA3lgA3FUnEHanzNZomgWg5DZLkI3EmYtp69AA74U=;
+        b=Vzzi8v17tHIRPi5cfdQgAyzK7PCd9u04tR4UqGzNNQYqfJR7OCW+n9vCbGCzecnXPW
+         paj60CrsGbLdsyUFfwztt3dM6zxk0csQqjWXH7BFoDAwKsFDxmfGjdc5rvPlNRmZBF8C
+         1S3IXTBhsO/5H7rncYEMRCA7FDxDq6tpFbeb3af8mL2+LDRBRC0pS1jobke8E4zholej
+         Tib4PRsUTIk1DX/B6iSEl/pNuF3E2tQK2DoG1vQAzTrFyDfgOchWKwIFuL/5KVtIoYhg
+         /kOtF2amBFk7bpWle1wVfASNOtkMoEYXdYXeIZXYOPfZVzzQyK+cuqzOcgwCQzqKbo0I
+         5V0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iF4zHVbzA4NntgenBIKi2MdNarYhP5u5ytM5lkeqQzA=;
-        b=OlgnCP/y5E62pR3xZq1/FwYCP7q2AMUuEzxn57vbsuN0D4/nc/8mDeXxv/+jXX1qFW
-         FZTh3bAQdr/RbEZtnsdafNidGGpBmBkzJ+UOZaxnPmUlDGFKMNeVdCXDZx/PvSTTJhMn
-         UGKKk4QLV2/M6ndZQPGxP4Rikp7bFA2keuMkrcOOAB1Xx0fkT3U8Bub9T/o2cU8wQqfW
-         Vt7kaKBGepE96Q1Kl3xUvJbhsikhY7p/n7EbD4ihoLx8QNEPvkS7GIAH/hLhKBphyf6o
-         HijnsiraJc2RcT2Ml0jHLrPALNNe65Bg3P8FXa288aOQtICx8Kq7Z9SvIgZD8jHA1x5b
-         8QrA==
-X-Gm-Message-State: AOAM532Y/rf0swmwEyUq/eQYiBw6hrMarKeD8DByjmt9sANdBobqcbsS
-	aQd8Mg/N6UxEFvxIWnGyzXvNsGHsKdVzJUfr5+U=
-X-Google-Smtp-Source: ABdhPJyghYGowXu1Fs2yMdiViKITijxaoWRyQ4PLGqXQo//wmvC6HL8teCXNBe5OojuulLvJS4k/FMbC5t2wJq5nk8c=
-X-Received: by 2002:ab0:4e0b:: with SMTP id g11mr6665447uah.22.1620732847597;
- Tue, 11 May 2021 04:34:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <167DF913750C3E0E.1178@lists.openembedded.org> <82398336819fe90e1645fb2176037e28b11eb360.camel@linuxfoundation.org>
-In-Reply-To: <82398336819fe90e1645fb2176037e28b11eb360.camel@linuxfoundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IgSA3lgA3FUnEHanzNZomgWg5DZLkI3EmYtp69AA74U=;
+        b=cgyPvJzJAp6eDcu9RAKlvxqMcSn8gBF6e9mb5docMg6qHvuhNQ1hPWaa0FDg8TMDQI
+         q29hoLrJDjXrR/09O2J1yQl7wrCWYn8yVp2mXLISM6lRTxNY6gFS+ImeYIKLGsCl+McF
+         +foRcGBSJbUhTMi+ckuG2CO3noHdOqPt1X3FHXmqceNLuoPB33Hl75kONnglpBIhYS9Z
+         RR6rqhclGQM0tL/1bkq4vj5WkyPKfNYta8jaHOzQw1a2c06Emuyf5ytLXCsrHjXYEP+D
+         +BW2NnTWEsuR76CnLy0qBoFAAFxqKDaBsPtOT8QWPaYEysnTPRm53QJaGC8kdjhtsawq
+         dM7w==
+X-Gm-Message-State: AOAM531h35qnOzSKaeSx6GxFMH2FJReuFz8oLwXUAHETh8qy70S4R/3+
+	8Ke0stloCZG/ehnWBWmHrGFzqLrUA/s=
+X-Google-Smtp-Source: ABdhPJySYHFe4yr6i1ifWAwrpIJcr8tc5acZpXLAa/sHTmkzquxmnSA2wZO2nZHEOlVvWhJpgvNQvg==
+X-Received: by 2002:a17:906:11d4:: with SMTP id o20mr31452081eja.247.1620736402760;
+        Tue, 11 May 2021 05:33:22 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost.localdomain ([2a02:2454:2a0:cb00:eb83:2e01:3dda:5d46])
+        by smtp.gmail.com with ESMTPSA id i19sm11308173ejd.114.2021.05.11.05.33.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 05:33:21 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 11 May 2021 13:33:56 +0200
-Message-ID: <CANNYZj8ujWetFPd+S4KpiV22ZrQMO7ozn2cpBmzs44RcgO-zgQ@mail.gmail.com>
-Subject: Re: [OE-core] QEMU rcu stalls on autobuilder - not what they seem?
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Tim Orling <timothy.t.orling@linux.intel.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	Randy MacLeod <randy.macleod@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000a82e9b05c20c4558"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] gnome: drop upstream even condition from a few recipes
+Date: Tue, 11 May 2021 14:33:11 +0200
+Message-Id: <20210511123311.975969-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000a82e9b05c20c4558
-Content-Type: text/plain; charset="UTF-8"
+They have adopted the new gnome version scheme where the distinction
+is no longer:
+https://lwn.net/Articles/831746/
 
-A quick question: are the AB machines using nested kvm, or are they
-baremetal?
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-gnome/epiphany/epiphany_3.38.3.bb                  | 2 +-
+ meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb           | 2 +-
+ meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb           | 2 +-
+ .../gsettings-desktop-schemas_3.38.0.bb                         | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-We've seen similar errors here with qemu SMP that were only resolved after
-moving to baremetal builds for qemu targets.
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+index ce24336ace..64b7b33aa1 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.3.bb
+@@ -11,7 +11,7 @@ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr gnutls \
+ 	   glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+-inherit gnomebase gsettings features_check upstream-version-is-even gettext mime-xdg
++inherit gnomebase gsettings features_check gettext mime-xdg
+ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+index 6cde6fffa3..61927c0dd1 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+                     file://COPYING_CCBYSA3;md5=96143d33de3a79321b1006c4e8ed07e7 \
+                     file://COPYING_LGPL;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-inherit allarch autotools pkgconfig gettext gtk-icon-cache upstream-version-is-even
++inherit allarch autotools pkgconfig gettext gtk-icon-cache
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+index a36a2b113c..672fbd2b07 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+                     file://COPYING_CCBYSA3;md5=96143d33de3a79321b1006c4e8ed07e7 \
+                     file://COPYING_LGPL;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-inherit allarch autotools pkgconfig gettext gtk-icon-cache upstream-version-is-even
++inherit allarch autotools pkgconfig gettext gtk-icon-cache
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
+index 34681197d8..cf06af57d6 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
+@@ -11,6 +11,6 @@ DEPENDS = "glib-2.0"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+ 
+-inherit gnomebase gsettings gobject-introspection gettext upstream-version-is-even
++inherit gnomebase gsettings gobject-introspection gettext
+ 
+ SRC_URI[archive.sha256sum] = "5704c8266004b296036671f223c705dc046aa694a1b1abb87c67e7d2747a8c67"
+-- 
+2.31.1
 
-Alex
-
-On Tue, 11 May 2021 at 11:59, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Tue, 2021-05-11 at 10:28 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > We have patches in master-next where we test enabling SMP for x86 and
-> arm.
-> > This has resulted in a few build failures where qemu crashes with an RCU
-> > stall. The SMP output is different to our non-SMP case. For ages we've
-> > been blaming the autobuilder load/contention. The SMP case does appear to
-> > have it happen more regularly but it was happening before.
-> >
-> > As an example, this morning I awoke to:
-> >
-> >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2123/steps/14/logs/stdio
-> >
-> > and I've pasted the full boot log below. It is easy to blame the
-> autobuilder
-> > load as usual but I'd note that the kernel messages stop after about 1s
-> after
-> > the tsc clocksource message.
-> >
-> > I'd argue that the RCU stall message is just pointing out the kernel is
-> mostly
-> > dead, its also interesting the RCU stall handler crashes before it can
-> print
-> > the process traces.
-> >
-> > I read that the tsc clocksource message hang is notorious as it is where
-> the
-> > kernel starts initing other subsystems so the issue may not be in the
-> tsc
-> > clocksource but elsewhere. I'd also note it is using the kvm-clocksource
-> and just
-> > inited the tsc clocksource, it isn't using it. The TSC clocksource
-> appears to be
-> > know it init slowly.
-> >
-> > I think we may have some other kernel issue going on here and blaming
-> the
-> > autobuilder load isn't the right path forward. Is there anyone who
-> understands
-> > what may be going on here or a way we could debug it further?
->
-> To follow up, some qemu literate friends looked at this and asked why on
-> earth we were using a machine type from 1996 and why such an old cpu which
-> didn't
-> support SMP and had a broken TSC. I think those are good questions. The
-> current
-> options we're using aren't tested by others. They also suggested some qemu
-> boot
-> options which if nothing else could speed things up.
->
-> It is time we changed the x86 qemu types so I've put a patch into
-> master-next
-> for testing moving to IvyBridge and the cpu options. I think these are
-> changes
-> we should be making anyway but I'd be very happy if the help the AB-INT
-> issues
-> which have been plaguing us.
->
-> Cheers,
->
-> Richard
->
->
->
-> 
->
->
-
---000000000000a82e9b05c20c4558
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>A quick question: are the AB machines using nested kv=
-m, or are they baremetal?</div><div><br></div><div>We&#39;ve seen similar e=
-rrors here with qemu SMP that were only resolved after moving to baremetal =
-builds for qemu targets.<br></div><div><br></div><div>Alex<br></div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue,=
- 11 May 2021 at 11:59, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@=
-linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2021-05-11 a=
-t 10:28 +0100, Richard Purdie via <a href=3D"http://lists.openembedded.org"=
- rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; We have patches in master-next where we test enabling SMP for x86 and=
- arm.<br>
-&gt; This has resulted in a few build failures where qemu crashes with an =
-RCU=C2=A0<br>
-&gt; stall. The SMP output is different to our non-SMP case. For ages we&#=
-39;ve<br>
-&gt; been blaming the autobuilder load/contention. The SMP case does appea=
-r to<br>
-&gt; have it happen more regularly but it was happening before.<br>
-&gt; <br>
-&gt; As an example, this morning I awoke to:<br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/87=
-/builds/2123/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">http=
-s://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/2123/steps/14=
-/logs/stdio</a><br>
-&gt; <br>
-&gt; and I&#39;ve pasted the full boot log below. It is easy to blame the =
-autobuilder<br>
-&gt; load as usual but I&#39;d note that the kernel messages stop after ab=
-out 1s after<br>
-&gt; the tsc clocksource message.<br>
-&gt; <br>
-&gt; I&#39;d argue that the RCU stall message is just pointing out the ker=
-nel is mostly<br>
-&gt; dead, its also interesting the RCU stall handler crashes before it ca=
-n print<br>
-&gt; the process traces.<br>
-&gt; <br>
-&gt; I read that the tsc clocksource message hang is notorious as it is wh=
-ere the<br>
-&gt; kernel starts initing other subsystems so the issue may not be in the=
- tsc=C2=A0<br>
-&gt; clocksource but elsewhere. I&#39;d also note it is using the kvm-cloc=
-ksource and just<br>
-&gt; inited the tsc clocksource, it isn&#39;t using it. The TSC clocksourc=
-e appears to be<br>
-&gt; know it init slowly.<br>
-&gt; <br>
-&gt; I think we may have some other kernel issue going on here and blaming=
- the=C2=A0<br>
-&gt; autobuilder load isn&#39;t the right path forward. Is there anyone wh=
-o understands<br>
-&gt; what may be going on here or a way we could debug it further?<br>
-<br>
-To follow up, some qemu literate friends looked at this and asked why on<b=
-r>
-earth we were using a machine type from 1996 and why such an old cpu which=
- didn&#39;t<br>
-support SMP and had a broken TSC.=C2=A0I think those are good questions.=
-=C2=A0The current <br>
-options we&#39;re using aren&#39;t tested by others. They also=C2=A0sugges=
-ted some qemu boot<br>
-options which if nothing else could speed things up.<br>
-<br>
-It is time we changed the x86 qemu types so I&#39;ve put a patch into mast=
-er-next<br>
-for testing moving to IvyBridge and the cpu options. I think these are cha=
-nges<br>
-we should be making anyway but I&#39;d be very happy if the help the AB-IN=
-T issues<br>
-which have been plaguing us.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000a82e9b05c20c4558--
