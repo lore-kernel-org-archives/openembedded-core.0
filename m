@@ -1,74 +1,75 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.12137.1620737502230525286
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.12287.1620737502787913493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 May 2021 05:51:42 -0700
+ Tue, 11 May 2021 05:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V9xEOWV3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 82-20020a1c01550000b0290142562ff7c9so1170519wmb.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P5AvIqJD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id e7so1489103wrc.11
         for <openembedded-core@lists.openembedded.org>; Tue, 11 May 2021 05:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=fydSEZhZAEJ6dmHWaKDKEEV1n5TIkUCsECA/mNQCYQc=;
-        b=V9xEOWV3JYAX/PMjztiP+tMg3uc2I7308+nw2+RtFnodsq5Qx7s7AamE8I1clnmqjh
-         nMslRRIr+R6LuGKw4jUqgDjOd0oInP+7NBZ+dldA/A4qD4eyD7RDd6cGGka4AtUMNxEA
-         1f+bykV4RF5GQdxSQdyyVMA5FbFEoHWkX+zOc=
+        bh=1Qh8mTDeDH4ZMxdTrrRhL6G76eFCaG4vZZpAwk9lf50=;
+        b=P5AvIqJDw4kAGtN8mhhLdCYEmrXE7kM1QYf61Qfa5raxLoep+leymOPNFZjDrHcJRL
+         eNR1RdmoSfaTCWRov29sQQu1ZDplJuMRqMEcuwu8Kv2emdZJeDO7lkgxXsMmXyz/Nx4o
+         D0e9MRHCGJePtAzCracIjLRuu0WXVRXUd8r2Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fydSEZhZAEJ6dmHWaKDKEEV1n5TIkUCsECA/mNQCYQc=;
-        b=ccKprfw4l616w//fiaHQkcBG/0Wk0iPE3S+fnh+bYyZFjC6LPUPj5lJkjfJvtI4AO9
-         ptw3tiW6s9L+ClK7g0hKFMXkRvytYfY1LG5IdEuSwI4Tt82VpMp1i7LbC4poECBeJUlH
-         FUGmueLkixfu89VNIOc3EQgzzH330mv6g9ul3Vm4ZqgxaUWFspxM5JEMe3aHIKbdedPH
-         hbXginq6wcAiiPcgbdrIsMa7OsVj+V4gFQzLxfkf7p691y9GeZVHsDBQAWUU9JFTsFao
-         eoOyffj9Ccj4ZXkZ4TN/sK8qE7fdJZ+5CXlXncLyGpWIteSO64KEk1aAsObgPsKF8WAa
-         Hbhg==
-X-Gm-Message-State: AOAM533pHLSVQ+nznN2GMdhrfKC8t9oL6mAzeKtIbhKxIH67HUOkF51C
-	fIZpLn8DTzN8KrXozXrAZliFvaxqk3VvPA==
-X-Google-Smtp-Source: ABdhPJwnuFenIvL6NKI9x8eC9nyOzfgehI83hJbh/tR041uQkuncNOLIooti/nK3eg51uR7Nt1VOJw==
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr5433064wma.39.1620737500812;
-        Tue, 11 May 2021 05:51:40 -0700 (PDT)
+        bh=1Qh8mTDeDH4ZMxdTrrRhL6G76eFCaG4vZZpAwk9lf50=;
+        b=BdohRu1kKvfHXVdUWTCXS7Pdf9E8tghlsO/wSeHNtux1qUiXZUBTnJiT2wS5nJVfUq
+         sU70TjfemDD9XPo6/gLmsG3k8QZESD8airIvjLhLR/vApfvx6dJmPtTSWRqZLE3s/a3Y
+         SAnEDsozF4qWBxQH24cCBrrQ70ZfSR219DMcy+jqA6HNjFgegW4b9tQsnhbvu+gSUK9o
+         ALwCqUX7F0mEIrPigQkxfpZK5wCzRFnXWZOBdlW+GO+BuKsxVOjxxqmcz2WnhVqee3n+
+         N/vE1Vuf1dkey3iutahzRzlNxSbXN6pP0R/WfE7zGPCNFpOU7f8BFjBPu/beHdrC+/Lk
+         kd0A==
+X-Gm-Message-State: AOAM532YCfPfZ6gLLjXhivUh1FlB/rVI29Nc+TPZ6yovxs9hBco8hqbF
+	LmoXtSUVE5xUrT9pEJkRNI6dAiRDdIwTYw==
+X-Google-Smtp-Source: ABdhPJzCKRSuZjOG98cEwGZW/PTlE8IlMr1I5xDAmh6p9LnWZQ5x4DteUZCwQRo9juUFVLG9TBYj/g==
+X-Received: by 2002:adf:e7c2:: with SMTP id e2mr36210020wrn.180.1620737501294;
+        Tue, 11 May 2021 05:51:41 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:29c0:3873:464b:b647])
         by smtp.gmail.com with ESMTPSA id y14sm27119099wrs.64.2021.05.11.05.51.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 May 2021 05:51:40 -0700 (PDT)
+        Tue, 11 May 2021 05:51:41 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/8] openssh: Exclude CVE-2008-3844 from cve-check
-Date: Tue, 11 May 2021 13:51:32 +0100
-Message-Id: <20210511125138.2232637-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/8] unzip: Exclude CVE-2008-0888 from cve-check
+Date: Tue, 11 May 2021 13:51:33 +0100
+Message-Id: <20210511125138.2232637-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 References: <20210511125138.2232637-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CVE only applies to some distributed RHEL binaries so irrelavent to us.
+The patch mentioned as the fix for the CVE is applied to the 6.0 source
+code. Zip versioning makes CPE entry changes hard.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssh/openssh_8.6p1.bb | 3 +++
+ meta/recipes-extended/unzip/unzip_6.0.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb b/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-index 57ad5e841ca..e8f041c58c1 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.6p1.bb
-@@ -34,6 +34,9 @@ CVE_CHECK_WHITELIST += "CVE-2007-2768"
- # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
- CVE_CHECK_WHITELIST += "CVE-2014-9278"
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index ec69508eea8..40f0346f8d3 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -33,6 +33,9 @@ UPSTREAM_VERSION_UNKNOWN = "1"
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
  
-+# CVE only applies to some distributed RHEL binaries
-+CVE_CHECK_WHITELIST += "CVE-2008-3844"
++# Patch from https://bugzilla.redhat.com/attachment.cgi?id=293893&action=diff applied to 6.0 source
++CVE_CHECK_WHITELIST += "CVE-2008-0888"
 +
- PAM_SRC_URI = "file://sshd"
+ # exclude version 5.5.2 which triggers a false positive
+ UPSTREAM_CHECK_REGEX = "unzip(?P<pver>(?!552).+)\.tgz"
  
- inherit manpages useradd update-rc.d update-alternatives systemd
 -- 
 2.30.2
 
