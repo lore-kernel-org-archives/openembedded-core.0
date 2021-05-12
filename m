@@ -1,593 +1,1481 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.5402.1620818798677944899
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web09.6171.1620823347846894762
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 04:26:41 -0700
+ Wed, 12 May 2021 05:42:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=H7E2lpCo;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: h1KS/AnBhibRMiTkJ9lvuc3F4WOqqPyFFMPnKISb1gGIdvrb0qhOG+ZE5yAcuxBk9hWUdWPQxX
- NH/gQXmlw+oA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="263609972"
-X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="263609972"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 04:26:35 -0700
-IronPort-SDR: j7rwFIepnpWlD7qJk7up/p9WTtSD4jyj3pE426Nz7ClF9It3RWyCJSZocvPZyazShUzkhvAG0w
- GBGbLvR7MR+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="392707433"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga006.jf.intel.com with ESMTP; 12 May 2021 04:26:35 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 12 May 2021 04:26:34 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Wed, 12 May 2021 04:26:34 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Wed, 12 May 2021 04:26:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YgjiRc5lZT5FvGpu0xR4flpEZDlnENjXN2/6dNcPqb9vf6F2EHv5WwxgOW9AjlsaQry25/LvjOM6fJThga81qiXJnGsQgVi5tXXVcQOxncLOO5ckY8HyuP41T5GuXmB1dInvd26HQcDqnaKEbo0DD38+3aErbAi3wuYQPodZf9EB3hc+ynzQqmWSXMDL0BfccUa9pShUsQILtgl29KumdZsjwxtTT4QhDk0VYMMJOOdK7pJW+V7DGRUXS1fvOWe62UNmCG7OBS7SNecLdHQNr9N3ynNvW5dSSIGYLGuaGmLkhmeyQd3ztnBse/nfg/9nK5rLx3HBKNMcBsoRssUPJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mu4dfU9x6I4MMBby6+wn2h8fH/CiM0ZH8S5ZbPVX53M=;
- b=VHVGpPGN5ShKCVgs+evwnWz98FzsBKqmVY883QVwvsM/Af36ddrxttL/m9DgwtU6kweGxqD7H7Rm6Cww9iT9KJUrb5rTS3b/FDxt6hrX3gp/g0/1kB9FXGIX0o8Z5YG1mp/FfJZyntjFEoeGERAf18zzEB3oJ/CVXp4NbzyRKN1PUqYApPqFLMiGCSMYcwmCo7sDvpIUb639haVznnEEYx5NfnvgxI55Xtohv6ey4mG+6dkcmVRy3F/X1hOcqX1PJBkwF3yS0WHDkZUGo6jI3OYfkBUiQmj4T2fl196GD73o8jC1mK6fEVfogG6BT27eGi4qYJrnas4rRV0dRcGBfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mu4dfU9x6I4MMBby6+wn2h8fH/CiM0ZH8S5ZbPVX53M=;
- b=H7E2lpCoFR/ki8Sj5RYj4ViBHqbpu8Xo5+ZHwt+eY6dfd4dTbfQsVkUwvutXV99PIw+1mbJA9t7Om3t1SJSZbffNMDH0KMD3fSfzRjw34aFhtO6IQGGHn91eVNldYy49BN/kIQ+5Dk0qvJ0/Gp7Vega+9ROoNpMpdHYtscJ6tVM=
-Received: from DM6PR11MB4105.namprd11.prod.outlook.com (2603:10b6:5:5::30) by
- DM6PR11MB3900.namprd11.prod.outlook.com (2603:10b6:5:19a::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.24; Wed, 12 May 2021 11:26:32 +0000
-Received: from DM6PR11MB4105.namprd11.prod.outlook.com
- ([fe80::448b:c046:6d5d:3395]) by DM6PR11MB4105.namprd11.prod.outlook.com
- ([fe80::448b:c046:6d5d:3395%3]) with mapi id 15.20.4108.032; Wed, 12 May 2021
- 11:26:32 +0000
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 7/8] meson: update 0.57.2 -> 0.58.0
-Thread-Topic: [OE-core] [PATCH 7/8] meson: update 0.57.2 -> 0.58.0
-Thread-Index: AQHXRZyt+r6Tsz6ARUSB/5sZruFt36rftozA
-Date: Wed, 12 May 2021 11:26:32 +0000
-Message-ID: <DM6PR11MB4105F796CF8133DCFF0D73F9B9529@DM6PR11MB4105.namprd11.prod.outlook.com>
-References: <20210510130110.939820-1-alex.kanavin@gmail.com>
- <20210510130110.939820-7-alex.kanavin@gmail.com>
-In-Reply-To: <20210510130110.939820-7-alex.kanavin@gmail.com>
-Accept-Language: en-SG, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [42.189.49.89]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3cd30a0-5a7a-4634-aca7-08d91538cb6f
-x-ms-traffictypediagnostic: DM6PR11MB3900:
-x-microsoft-antispam-prvs: <DM6PR11MB390002A776189867B98FA051B9529@DM6PR11MB3900.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:227;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SVMMEGJnHg5BeWdhZx1PS0f+56o+/3M3+QfUphjfOpA72Ps++2SNfa6BKRGzXlXRkQ0pQON5hUUEo49sxiDR1GcUM26Ch0Glu5GrPGXbfPgyxN8D04g2vdFPKNqkpjuulIwuYw9Q+dCfVetUPyhqbCVYWm5SoZQg+M4G3wXdvNry1x/vtzFr+L4TQqVE7UJ3dKgYq7wicZKzkllyv44Zf3BLZacGQ5l/ijveeskCJOA6fBNqZf5Lnn8Vn+x4r/97bNTtjDujqmCQxHFkw0O2BG+o1lfl4yjdVBAc9lCKIol8di10kjbc0GHmuyN0HPQynEeE4+FKDhritzvLNmbn+uXK/xZkzV6ywjj+0j8cGk5JkacNW5rf4+cfx+QJpwHu44egwyaaxyHmfFGayF+WmhX1ri3qSvYmRFXiw4xOK7hOFFiQG5LxGSHtpncrHhjb2RIUBhxlftl6uVrXmmxOM57tfPf4Em30UHJ8ka8gOomkIJoJCbjagOFzg/s6WzGpv0WU4XrdIPFac01I+mKFifPTFg6P/9o9/YukBeemctwwe4oxGIOFfrUthOvqKFqstSnvXCgmvxVJO2/TrcdMABDQtcg68l2jArVk8V0R/pCTlrTRoAeZz+8xoL+5M6+sIsX8cEtz/6dXCodwkSL8DTWxZh7Dy00gTH/DZaPdwcA6Tgq2AioJG6nYTCTfJ3GtIt8lYdOWDgMSDsajm+0PBjxWyLWfpT5G8dk2m9n7pOE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4105.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(376002)(396003)(346002)(39860400002)(366004)(478600001)(52536014)(316002)(26005)(966005)(110136005)(15650500001)(122000001)(66946007)(5660300002)(76116006)(30864003)(55016002)(8936002)(83380400001)(186003)(66556008)(7696005)(2906002)(8676002)(64756008)(6506007)(66446008)(9686003)(33656002)(38100700002)(53546011)(71200400001)(66476007)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?AVU38vDsetvu5s/TVt1zBD8u/tbcD3Q2ADW6oX5sZ9CRGjBQhLigegrpCLk0?=
- =?us-ascii?Q?dki4bV6eQZICLo8PP8t3tgvWsWq9tk1VP5A8Sp7VCYZIQKFl5KF73ORR/eot?=
- =?us-ascii?Q?2/0PtdC7omonBC1hyI0DNgVZAIBqdqgH3YSxLW74zqNZIfwBl4/8Yle2XGeK?=
- =?us-ascii?Q?U8gEBv9a7ADbakFqYzyhbdhQMMLtQlJfP+T0sFKpWDOxsAxMJ9ZKa4hbe5f/?=
- =?us-ascii?Q?bn7ZYKIK4EJ05EfX9n+KRBEiL0aUvkGUGDIbIzSGWcGDfXZRplwAF4gJqnv8?=
- =?us-ascii?Q?Ords1YfrEeuYqIWTAM7ip2S3zZfK+6fWHcrQVeRJdF0JONr9DW44NATeZeje?=
- =?us-ascii?Q?ytCzBQ7YX0c77FK7RCUnBtrDsnDh0U8e8/kapvqfR3/FWIcyUoNsA85PTDNg?=
- =?us-ascii?Q?U9PdiYzxbPOfKJFawgdDOqO5XZ+mOQunje26lWnQeE6007vitvM/93qK+4QT?=
- =?us-ascii?Q?Urtn7O50tnTNVOOe9a5VwQrc+rBq3AuAoml1+HJzCZcpT7H+HxwUmxs0paN8?=
- =?us-ascii?Q?VrsHAJD1wZwPGn5CH/EW7X1vHHuaIO6b1OIf3sW/uYzekGDL90BDOJLPFuaz?=
- =?us-ascii?Q?C1tjomXMTfPUpDXmWIpDE173mkMiO4tyP7Ki8M2XWPoAmlbS0ZS4F6ETDqPD?=
- =?us-ascii?Q?dNdpUtP5ckIlIeuZEGB+KtrSmJ9JtEI6kPydbWaFtUWZMCjfngNT1lF09R4e?=
- =?us-ascii?Q?X4puCg5ET7V9+vhTbRHqvOOhQ6wM26uZEKedwsdDIsI/qpg8jEQINJQEgb6+?=
- =?us-ascii?Q?pvfNirU5+6PP9le7FX5AdioX6TUAGN0lKFwHvAs8MJqfEgPwOgMgG6e8etA0?=
- =?us-ascii?Q?/2pYhY2MT3/DvSjM7TejBd8fLDncDaKz5XvMF5uLSFIG4QeTK3XJqBLF4aNO?=
- =?us-ascii?Q?2RfNmay9FY/jrnJCK6NHXY4qpLy5oV1kxxASLFrmTqczS6boDRdya7iH3wNh?=
- =?us-ascii?Q?MIGGJAM7XSVRjyIgDhYyXzB9zQhmrPJpUkwhskVpklrKacDxhpyrkZXDGYqd?=
- =?us-ascii?Q?dFwEuA0FZGm3VzQI9uGwiwQgTJnuoKHltpk2Rl6GecsGygbn2Sqgn46NmYFF?=
- =?us-ascii?Q?91Cn63DdtEgh+BL8Se/Lvh1y/XCdjeli89ZrIrGFwYeoSn4pAbThdFs8XevG?=
- =?us-ascii?Q?zmFLlvybTtVZdkFwrMGyXtjnv9SPU9lufftgDOqa7bK+64Q+mD8E+l2v6y1b?=
- =?us-ascii?Q?V0ZZoAMe071YutL3TKJOdX6oAX7NDTos5Qvw1T0wRwTjiCnNGGSWzKrD0mRU?=
- =?us-ascii?Q?2C+F2ZznAmg2aHm0XYV5He6VgVp2QfXmkT1M0zXKws1wOVxE12SJd2+3oXPz?=
- =?us-ascii?Q?YM0=3D?=
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HDFI3Wsq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id c22so26874050edn.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 05:42:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Xi46tjugm72ZNaJ5WOSVuF1wUVI+tJ/mfD1t9RkIKCU=;
+        b=HDFI3Wsq8600LDuZYYTsEaa4CnCg2kqSM0RXniTX7vX2yBT7/d44iD1LQUH0DYnZuY
+         9kd2wbrns9nQ7GbhMrbomsl1O2F5ENdx4n/9yu3OUrVqNsC7ibGLp5UngISdVqu4juPD
+         sRxpdJQ0s3azK0sM9mHskJ1LYOnNKE34XrRuVAPM5BOm9k4RxTAA19R59z1ZPONF/FKk
+         b+Io/KdhyeHQVakW7YLWNWx3no41gnycOma4f5sLVg/tr0zF5+u7IMIzR10nM2M/IMDk
+         CkXP3CC5e7MriNJ8NXpfc1RzZcISyPn4s6K3mFAxDrvFwp/J0S9AZ5BpSjh9qWRKxLY/
+         /5FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Xi46tjugm72ZNaJ5WOSVuF1wUVI+tJ/mfD1t9RkIKCU=;
+        b=njJVXbFbkCuuryPoccd70ZECmCMA9Ol//8LmnOntl12GxF+VNqPIh38kae5b0YmI8L
+         Je/QYsfytD+E4f0LGhlmas7waTKNBbjtYyGKjqLkx+XaQRpwUs7pLp7CMssMdZUM+hjp
+         s7L5eg3sWsi9f2yt1n7Bf83gPMM2M5yOV4Mv2iUyAI1a06D7eeQO5SAf/wjZkzkyAmI0
+         Swuf+HiQX/tj4Pw8dHx/gi5GTYLZTrvRZySTGwp/H6IzMf32DxRjMyV5y7ty8U3wpmkI
+         7YCZu11vv1psTiBpS19pS3L0Okvf78ddgrX6ub9LxyyICQqwjpOFD9xpBgFqNjYUOKV+
+         fV0w==
+X-Gm-Message-State: AOAM530vLgN96mRq8iyop8CjEuMy65vDikKIUWjoCkmaV9MIPYAQSNSS
+	6P4zAf1fpvRLV4QWcwFss064XD026rY=
+X-Google-Smtp-Source: ABdhPJzpdz+C65HlzluF0DbYBq56eC5J6RKiXcnPgWOb10IWE9u5cvIPVHj2zNJNBYPNoyI67IfEqA==
+X-Received: by 2002:a05:6402:1587:: with SMTP id c7mr42526359edv.181.1620823345809;
+        Wed, 12 May 2021 05:42:25 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id p5sm7282882ejm.115.2021.05.12.05.42.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 May 2021 05:42:25 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] binutils: backport DWARF-5 support
+Date: Wed, 12 May 2021 14:42:21 +0200
+Message-Id: <20210512124221.61985-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4105.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3cd30a0-5a7a-4634-aca7-08d91538cb6f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2021 11:26:32.3682
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UVN4o31JEBmnYULIglo+7fmJ8CHfw1pKpDdPB0w+FZk8ANIGTvqaIW1rvDqWxfC2qm9zUwVp8vgu2V9v/JA+NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3900
-Return-Path: chee.yang.lee@intel.com
-X-OriginatorOrg: intel.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Looks like this patch failed buildepoxy.EpoxyTest.test_epoxy test
+* DWARF-5 is now used by default with gcc-11, causing
+  11.1.0/ld: internal error in format_file_lineno, at ../../gold/dwarf_reader.cc:2278
+  collect2: error: ld returned 1 exit status
+  in various projects (runc-opencontainers, libhybris, collada-dom)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/3417/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/3416/step=
-s/12/logs/stdio
+* https://gcc.gnu.org/gcc-11/changes.html
 
+  For targets that produce DWARF debugging information GCC now defaults to DWARF version 5
+  (with the exception of VxWorks and Darwin/Mac OS X which default to version 2 and
+  AIX which defaults to version 4). This can produce up to 25% more compact debug
+  information compared to earlier versions.
 
+  To take full advantage of DWARF version 5 GCC needs to be build against binutils version 2.35.2 or higher.
+  When GCC is build against earlier versions of binutils GCC will still emit DWARF version 5 for
+  most debuginfo data, but will generate version 4 debug line tables (even when explicitly given -gdwarf-5).
 
->-----Original Message-----
->From: openembedded-core@lists.openembedded.org <openembedded-
->core@lists.openembedded.org> On Behalf Of Alexander Kanavin
->Sent: Monday, 10 May, 2021 9:01 PM
->To: openembedded-core@lists.openembedded.org
->Cc: Alexander Kanavin <alex.kanavin@gmail.com>
->Subject: [OE-core] [PATCH 7/8] meson: update 0.57.2 -> 0.58.0
->
->Rebase patches; dropped chunks (and cross-prop-default.patch) have been
->removed upstream.
->
->Move native-only patches to all-patches, as they're a pain to rebase
->separately.
->
->Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->---
-> meta/recipes-devtools/meson/meson.inc         | 10 +---
-> .../0001-Make-CPU-family-warnings-fatal.patch | 18 +++---  ...sues-that-a=
-rise-
->when-cross-compiling.patch |  8 +--  ...-not-manipulate-the-environment-
->when.patch | 14 ++---  ...pport-building-allarch-recipes-again.patch | 10 =
-++--
-> .../meson/meson/0003-native_bindir.patch      | 58 +++++--------------
-> .../meson/meson/cross-prop-default.patch      | 23 --------
-> .../{meson_0.57.2.bb =3D> meson_0.58.0.bb}      |  0
-> ...on_0.57.2.bb =3D> nativesdk-meson_0.58.0.bb} |  0
-> 9 files changed, 43 insertions(+), 98 deletions(-)  delete mode 100644
->meta/recipes-devtools/meson/meson/cross-prop-default.patch
-> rename meta/recipes-devtools/meson/{meson_0.57.2.bb =3D>
->meson_0.58.0.bb} (100%)  rename meta/recipes-devtools/meson/{nativesdk-
->meson_0.57.2.bb =3D> nativesdk-meson_0.58.0.bb} (100%)
->
->diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-
->devtools/meson/meson.inc
->index 10e7d8a1ce..12a48fc992 100644
->--- a/meta/recipes-devtools/meson/meson.inc
->+++ b/meta/recipes-devtools/meson/meson.inc
->@@ -12,16 +12,12 @@ SRC_URI =3D
->"https://github.com/mesonbuild/meson/releases/download/${PV}/meson-
->${P
->            file://0003-native_bindir.patch \
->            file://0001-python-module-do-not-manipulate-the-environment-
->when.patch \
->            file://disable-rpath-handling.patch \
->-           file://cross-prop-default.patch \
->            file://0001-modules-python.py-do-not-substitute-python-s-
->install.patch \
->            file://gi-target-dep.patch \
->+           file://0001-Make-CPU-family-warnings-fatal.patch \
->+           file://0002-Support-building-allarch-recipes-again.patch \
->            "
->-SRC_URI[sha256sum] =3D
->"3a83e7b1c5de94fa991ec34d9b198d94f38ed699d3524cb0fdf3b99fd23d4cc5"
->-
->-SRC_URI_append_class-native =3D " \
->-    file://0001-Make-CPU-family-warnings-fatal.patch \
->-    file://0002-Support-building-allarch-recipes-again.patch \
->-"
->+SRC_URI[sha256sum] =3D
->"f4820df0bc969c99019fd4af8ca5f136ee94c63d8a5ad67e7eb73bdbc9182fdd"
->
-> UPSTREAM_CHECK_URI =3D "https://github.com/mesonbuild/meson/releases"
-> UPSTREAM_CHECK_REGEX =3D "meson-(?P<pver>\d+(\.\d+)+)\.tar"
->diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
->warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-
->CPU-family-warnings-fatal.patch
->index 300797f9ee..bcccfabd17 100644
->--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
->warnings-fatal.patch
->+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
->warnings-fa
->+++ tal.patch
->@@ -1,34 +1,33 @@
->-From 198e2de24adf5845e3ba389b533cf43440ee8acb Mon Sep 17 00:00:00
->2001
->+From b64032a2eb1fb760f4ffd5b4b666e2433cf80d39 Mon Sep 17 00:00:00
->2001
-> From: Ross Burton <ross.burton@intel.com>
-> Date: Tue, 3 Jul 2018 13:59:09 +0100
->-Subject: [PATCH] Make CPU family warnings fatal
->+Subject: [PATCH 1/2] Make CPU family warnings fatal
->
-> Upstream-Status: Inappropriate [OE specific]
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
->-
-> ---
->  mesonbuild/envconfig.py   | 2 +-
->  mesonbuild/environment.py | 4 +---
->  2 files changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py -index
->ba35d16..2d3c34c 100644
->+index c6a4df3..4d58c91 100644
-> --- a/mesonbuild/envconfig.py
-> +++ b/mesonbuild/envconfig.py
->-@@ -262,7 +262,7 @@ class MachineInfo:
->+@@ -266,7 +266,7 @@ class MachineInfo:
->
->          cpu_family =3D literal['cpu_family']
->          if cpu_family not in known_cpu_families:
->--            mlog.warning('Unknown CPU family {}, please report this at
->https://github.com/mesonbuild/meson/issues/new'.format(cpu_family))
->+-            mlog.warning(f'Unknown CPU family {cpu_family}, please repor=
-t this
->at https://github.com/mesonbuild/meson/issues/new')
-> +            raise EnvironmentException('Unknown CPU family {}, see
->https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for
->directions.'.format(cpu_family))
->
->          endian =3D literal['endian']
->          if endian not in ('little', 'big'):
-> diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py -
->index 756dd81..4d2c2b6 100644
->+index fc9b703..eea8345 100644
-> --- a/mesonbuild/environment.py
-> +++ b/mesonbuild/environment.py
->-@@ -434,9 +434,7 @@ def detect_cpu_family(compilers: CompilersDict) ->
->str:
->+@@ -436,9 +436,7 @@ def detect_cpu_family(compilers: CompilersDict) ->
->str:
->              trial =3D 'ppc64'
->
->      if trial not in known_cpu_families:
->@@ -39,3 +38,6 @@ index 756dd81..4d2c2b6 100644
->
->      return trial
->
->+--
->+2.24.0
->+
->diff --git a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-
->that-arise-when-cross-compiling.patch b/meta/recipes-
->devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-
->compiling.patch
->index 471f1500da..ce90e515da 100644
->--- a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-
->arise-when-cross-compiling.patch
->+++ b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-aris
->+++ e-when-cross-compiling.patch
->@@ -1,4 +1,4 @@
->-From d3ef01a4208a801acad380a4aaceb6a21f8fa603 Mon Sep 17 00:00:00 2001
->+From 2f9c59e0489e569c5382404667c10f5c200a72ad Mon Sep 17 00:00:00
->2001
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> Date: Fri, 4 Aug 2017 16:16:41 +0300
-> Subject: [PATCH] gtkdoc: fix issues that arise when cross-compiling @@ -
->20,11 +20,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->  1 file changed, 4 insertions(+)
->
-> diff --git a/mesonbuild/modules/gnome.py
->b/mesonbuild/modules/gnome.py -index bcf77b9..6a4b472 100644
->+index dc2979e..c9ff9bd 100644
-> --- a/mesonbuild/modules/gnome.py
-> +++ b/mesonbuild/modules/gnome.py
->-@@ -974,6 +974,10 @@ This will become a hard error in the future.''')
->-             args.append('--{}=3D{}'.format(program_name, path))
->+@@ -1053,6 +1053,10 @@ class GnomeModule(ExtensionModule):
->+             args.append(f'--{program_name}=3D{path}')
->          if namespace:
->              args.append('--namespace=3D' + namespace)
-> +        gtkdoc_exe_wrapper =3D
->state.environment.properties.host.get('gtkdoc_exe_wrapper', None)
->diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-
->not-manipulate-the-environment-when.patch b/meta/recipes-
->devtools/meson/meson/0001-python-module-do-not-manipulate-the-
->environment-when.patch
->index eb0e90dbdd..fdadc6869b 100644
->--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-
->manipulate-the-environment-when.patch
->+++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-
->manipu
->+++ late-the-environment-when.patch
->@@ -1,4 +1,4 @@
->-From 689e28c49b85311f93f39df70cbee702fc44afb6 Mon Sep 17 00:00:00 2001
->+From 2264e67d7c2c22ca634fd26ea8ada6f0344ab280 Mon Sep 17 00:00:00
->2001
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> Date: Mon, 19 Nov 2018 14:24:26 +0100
-> Subject: [PATCH] python module: do not manipulate the environment when
->calling @@ -12,10 +12,10 @@ Signed-off-by: Alexander Kanavin
-><alex.kanavin@gmail.com>
->  1 file changed, 12 deletions(-)
->
-> diff --git a/mesonbuild/modules/python.py
->b/mesonbuild/modules/python.py -index 07be318..b770603 100644
->+index 422155b..aaf5844 100644
-> --- a/mesonbuild/modules/python.py
-> +++ b/mesonbuild/modules/python.py
->-@@ -71,11 +71,6 @@ class PythonDependency(ExternalDependency):
->+@@ -70,11 +70,6 @@ class PythonDependency(ExternalDependency):
->                  old_pkg_libdir =3D os.environ.get('PKG_CONFIG_LIBDIR')
->                  old_pkg_path =3D os.environ.get('PKG_CONFIG_PATH')
->
->@@ -26,9 +26,9 @@ index 07be318..b770603 100644
-> -
->                  try:
->                      self.pkgdep =3D PkgConfigDependency(pkg_name, enviro=
-nment,
->kwargs)
->-                     mlog.debug('Found "{}" via pkgconfig lookup in LIBPC
->({})'.format(pkg_name, pkg_libdir))
->-@@ -84,13 +79,6 @@ class PythonDependency(ExternalDependency):
->-                     mlog.debug('"{}" could not be found in LIBPC
->({})'.format(pkg_name, pkg_libdir))
->+                     mlog.debug(f'Found "{pkg_name}" via pkgconfig
->+lookup in LIBPC ({pkg_libdir})') @@ -83,13 +78,6 @@ class
->PythonDependency(ExternalDependency):
->+                     mlog.debug(f'"{pkg_name}" could not be found in
->+LIBPC ({pkg_libdir})')
->                      mlog.debug(e)
->
-> -                if old_pkg_path is not None:
->@@ -39,5 +39,5 @@ index 07be318..b770603 100644
-> -                else:
-> -                    os.environ.pop('PKG_CONFIG_LIBDIR', None)
->              else:
->-                 mlog.debug('"{}" could not be found in LIBPC ({}), this =
-is likely due to
->a relocated python installation'.format(pkg_name, pkg_libdir))
->+                 mlog.debug(f'"{pkg_name}" could not be found in LIBPC
->+ ({pkg_libdir}), this is likely due to a relocated python
->+ installation')
->
->diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-
->allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-
->Support-building-allarch-recipes-again.patch
->index f6175a194c..dcc1ce9c27 100644
->--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-
->recipes-again.patch
->+++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-
->re
->+++ cipes-again.patch
->@@ -1,19 +1,18 @@
->-From ac1021a3abf612e8be9b19eecb97062e0c314701 Mon Sep 17 00:00:00
->2001
->+From 656bf55fed01df2d2e2ad6d9d9887173cb16b85c Mon Sep 17 00:00:00
->2001
-> From: Peter Kjellerstedt <pkj@axis.com>
-> Date: Thu, 26 Jul 2018 16:32:49 +0200
->-Subject: [PATCH] Support building allarch recipes again
->+Subject: [PATCH 2/2] Support building allarch recipes again
->
-> This registers "allarch" as a known CPU family.
->
-> Upstream-Status: Inappropriate [OE specific]
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->-
-> ---
->  mesonbuild/envconfig.py | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py -index
->2d3c34c..b9e7908 100644
->+index 4d58c91..ff01ad1 100644
-> --- a/mesonbuild/envconfig.py
-> +++ b/mesonbuild/envconfig.py
-> @@ -36,6 +36,7 @@ from pathlib import Path @@ -24,3 +23,6 @@ index
->2d3c34c..b9e7908 100644
->      'aarch64',
->      'alpha',
->      'arc',
->+--
->+2.24.0
->+
->diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
->b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
->index ed85116c4f..89257b9e05 100644
->--- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
->+++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
->@@ -1,4 +1,4 @@
->-From 1546e1f95a119175b7a4e4272a26dd85505e5ede Mon Sep 17 00:00:00
->2001
->+From 30e97d4090a3d3f5b7ddcaf27cfa17f3c8c1d462 Mon Sep 17 00:00:00
->2001
-> From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> Date: Wed, 15 Nov 2017 15:05:01 +0100
-> Subject: [PATCH] native_bindir
->@@ -18,23 +18,22 @@ Signed-off-by: Ricardo Ribalda Delgado
-><ricardo.ribalda@gmail.com>
->
-> ---
->  mesonbuild/dependencies/base.py | 19 +++++++++++--------
->- mesonbuild/dependencies/ui.py   |  6 +++---
->- 2 files changed, 14 insertions(+), 11 deletions(-)
->+ 1 file changed, 11 insertions(+), 8 deletions(-)
->
-> diff --git a/mesonbuild/dependencies/base.py
->b/mesonbuild/dependencies/base.py -index cd77b4b..7e3f338 100644
->+index 14380d4..d0c443f 100644
-> --- a/mesonbuild/dependencies/base.py
-> +++ b/mesonbuild/dependencies/base.py
->-@@ -192,7 +192,7 @@ class Dependency:
->+@@ -179,7 +179,7 @@ class Dependency:
->      def get_exe_args(self, compiler):
->          return []
->
-> -    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[=
-str,
->T.Any]) -> str:
-> +    def get_pkgconfig_variable(self, variable_name: str, kwargs: T.Dict[=
-str,
->T.Any], use_native=3DFalse) -> str:
->-         raise DependencyException('{!r} is not a pkgconfig
->dependency'.format(self.name))
->+         raise DependencyException(f'{self.name!r} is not a pkgconfig
->+ dependency')
->
->      def get_configtool_variable(self, variable_name):
->-@@ -280,7 +280,7 @@ class InternalDependency(Dependency):
->+@@ -267,7 +267,7 @@ class InternalDependency(Dependency):
->              return True
->          return any(d.is_built() for d in self.ext_deps)
->
->@@ -43,7 +42,7 @@ index cd77b4b..7e3f338 100644
->          raise DependencyException('Method "get_pkgconfig_variable()" is =
-'
->                                    'invalid for an internal dependency')
->
->-@@ -658,8 +658,11 @@ class PkgConfigDependency(ExternalDependency):
->+@@ -645,8 +645,11 @@ class PkgConfigDependency(ExternalDependency):
->          return s.format(self.__class__.__name__, self.name, self.is_foun=
-d,
->                          self.version_reqs)
->
->@@ -57,16 +56,16 @@ index cd77b4b..7e3f338 100644
->          p, out, err =3D Popen_safe(cmd, env=3Denv)
->          rc, out, err =3D p.returncode, out.strip(), err.strip()
->          call =3D ' '.join(cmd)
->-@@ -685,7 +688,7 @@ class PkgConfigDependency(ExternalDependency):
->-             env['PKG_CONFIG_LIBDIR'] =3D new_pkg_config_libdir
->-             mlog.debug('PKG_CONFIG_LIBDIR: ' + new_pkg_config_libdir)
->+@@ -674,7 +677,7 @@ class PkgConfigDependency(ExternalDependency):
->+             if key.startswith('PKG_'):
->+                 mlog.debug(f'env[{key}]: {value}')
->
-> -    def _call_pkgbin(self, args, env=3DNone):
-> +    def _call_pkgbin(self, args, env=3DNone, use_native=3DFalse):
->          # Always copy the environment since we're going to modify it
->          # with pkg-config variables
->          if env is None:
->-@@ -699,7 +702,7 @@ class PkgConfigDependency(ExternalDependency):
->+@@ -688,7 +691,7 @@ class PkgConfigDependency(ExternalDependency):
->          targs =3D tuple(args)
->          cache =3D PkgConfigDependency.pkgbin_cache
->          if (self.pkgbin, targs, fenv) not in cache:
->@@ -75,7 +74,7 @@ index cd77b4b..7e3f338 100644
->          return cache[(self.pkgbin, targs, fenv)]
->
->      def _convert_mingw_paths(self, args: T.List[str]) -> T.List[str]:
->-@@ -905,7 +908,7 @@ class PkgConfigDependency(ExternalDependency):
->+@@ -894,7 +897,7 @@ class PkgConfigDependency(ExternalDependency):
->                                        (self.name, out_raw))
->          self.link_args, self.raw_link_args =3D self._search_libs(out, ou=
-t_raw)
->
->@@ -84,7 +83,7 @@ index cd77b4b..7e3f338 100644
->          options =3D ['--variable=3D' + variable_name, self.name]
->
->          if 'define_variable' in kwargs:
->-@@ -918,7 +921,7 @@ class PkgConfigDependency(ExternalDependency):
->+@@ -907,7 +910,7 @@ class PkgConfigDependency(ExternalDependency):
->
->              options =3D ['--define-variable=3D' + '=3D'.join(definition)=
-] + options
->
->@@ -93,34 +92,3 @@ index cd77b4b..7e3f338 100644
->          variable =3D ''
->          if ret !=3D 0:
->              if self.required:
->-diff --git a/mesonbuild/dependencies/ui.py
->b/mesonbuild/dependencies/ui.py -index d897d76..a598d2e 100644
->---- a/mesonbuild/dependencies/ui.py
->-+++ b/mesonbuild/dependencies/ui.py
->-@@ -325,7 +325,7 @@ class QtBaseDependency(ExternalDependency):
->-         self.bindir =3D self.get_pkgconfig_host_bins(core)
->-         if not self.bindir:
->-             # If exec_prefix is not defined, the pkg-config file is brok=
-en
->--            prefix =3D core.get_pkgconfig_variable('exec_prefix', {})
->-+            prefix =3D core.get_pkgconfig_variable('exec_prefix', {},
->-+ use_native=3DTrue)
->-             if prefix:
->-                 self.bindir =3D os.path.join(prefix, 'bin')
->-
->-@@ -528,7 +528,7 @@ class Qt4Dependency(QtBaseDependency):
->-         applications =3D ['moc', 'uic', 'rcc', 'lupdate', 'lrelease']
->-         for application in applications:
->-             try:
->--                return os.path.dirname(core.get_pkgconfig_variable('%s_l=
-ocation' %
->application, {}))
->-+                return
->-+ os.path.dirname(core.get_pkgconfig_variable('%s_location' %
->-+ application, {}, use_native=3DTrue))
->-             except MesonException:
->-                 pass
->-
->-@@ -538,7 +538,7 @@ class Qt5Dependency(QtBaseDependency):
->-         QtBaseDependency.__init__(self, 'qt5', env, kwargs)
->-
->-     def get_pkgconfig_host_bins(self, core):
->--        return core.get_pkgconfig_variable('host_bins', {})
->-+        return core.get_pkgconfig_variable('host_bins', {},
->-+ use_native=3DTrue)
->-
->-     def get_private_includes(self, mod_inc_dir, module):
->-         return _qt_get_private_includes(mod_inc_dir, module, self.versio=
-n)
->diff --git a/meta/recipes-devtools/meson/meson/cross-prop-default.patch
->b/meta/recipes-devtools/meson/meson/cross-prop-default.patch
->deleted file mode 100644
->index 772395e879..0000000000
->--- a/meta/recipes-devtools/meson/meson/cross-prop-default.patch
->+++ /dev/null
->@@ -1,23 +0,0 @@
->-meson.build files that use cc.run() in native builds can silently fallbac=
-k to
->-meson.get_cross_property() in cross builds without an exe-wrapper, but
->there's -no way to know that this is happening.
->-
->-As the defaults may be pessimistic (for example, disabling the support fo=
-r a -
->feature that should be enabled) emit a warning when the default is used, s=
-o
->that -the recipe can explicitly set the cross property as relevant.
->-
->-Upstream-Status: Submitted
->[https://github.com/mesonbuild/meson/pull/5071]
->-Signed-off-by: Ross Burton <ross.burton@intel.com>
->-
->-diff --git a/mesonbuild/interpreter.py b/mesonbuild/interpreter.py -index
->3c3cfae0..10e741ae 100644
->---- a/mesonbuild/interpreter.py
->-+++ b/mesonbuild/interpreter.py
->-@@ -1890,6 +1890,7 @@ class MesonMain(InterpreterObject):
->-             return props[propname]
->-         except Exception:
->-             if len(args) =3D=3D 2:
->-+                mlog.warning('Cross property %s is using default value
->-+ %s' % (propname, args[1]))
->-                 return args[1]
->-             raise InterpreterException('Unknown cross property: %s.' % p=
-ropname)
->-
->diff --git a/meta/recipes-devtools/meson/meson_0.57.2.bb b/meta/recipes-
->devtools/meson/meson_0.58.0.bb
->similarity index 100%
->rename from meta/recipes-devtools/meson/meson_0.57.2.bb
->rename to meta/recipes-devtools/meson/meson_0.58.0.bb
->diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.57.2.bb
->b/meta/recipes-devtools/meson/nativesdk-meson_0.58.0.bb
->similarity index 100%
->rename from meta/recipes-devtools/meson/nativesdk-meson_0.57.2.bb
->rename to meta/recipes-devtools/meson/nativesdk-meson_0.58.0.bb
->--
->2.31.1
+  The following debug information consumers can process DWARF version 5:
+
+  GDB 8.0, or higher
+  valgrind 3.17.0
+  elfutils 0.172, or higher (for use with systemtap, dwarves/pahole, perf and libabigail)
+  dwz 0.14
+  Programs embedding libbacktrace are urged to upgrade to the version shipping with GCC 11.
+
+  To make GCC 11 generate an older DWARF version use -g together with -gdwarf-2, -gdwarf-3 or -gdwarf-4.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../binutils/binutils-2.36.inc                |    1 +
+ .../0018-Add-DWARF-5-support-in-gold.patch    | 1374 +++++++++++++++++
+ 2 files changed, 1375 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Add-DWARF-5-support-in-gold.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc b/meta/recipes-devtools/binutils/binutils-2.36.inc
+index 66080dfcee..d54e2a3457 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.36.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
+@@ -36,6 +36,7 @@ SRC_URI = "\
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-Check-for-clang-before-checking-gcc-version.patch \
+      file://0017-Add-support-for-the-DW_FORM_strx-forms-to-the-BFD-li.patch \
++     file://0018-Add-DWARF-5-support-in-gold.patch \
+      file://CVE-2021-20197.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0018-Add-DWARF-5-support-in-gold.patch b/meta/recipes-devtools/binutils/binutils/0018-Add-DWARF-5-support-in-gold.patch
+new file mode 100644
+index 0000000000..353b680857
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0018-Add-DWARF-5-support-in-gold.patch
+@@ -0,0 +1,1374 @@
++From 29dab7648672342418a9d32767e3b3182d9e6a30 Mon Sep 17 00:00:00 2001
++From: Cary Coutant <ccoutant@gmail.com>
++Date: Wed, 17 Mar 2021 21:31:15 -0700
++Subject: [PATCH] Add DWARF 5 support in gold.
++
++elfcpp/
++	PR gold/27246
++	* dwarf.h (enum DW_LNCT): Add line number table content type codes.
++	(enum DW_LINE_OPS): Reformat.
++	(enum DW_LINE_EXTENDED_OPS): Reformat.
++	(enum DW_CHILDREN): Reformat.
++	(enum DW_RLE): Add range list entry types.
++	(enum DW_SECT): Update values for DWARF 5.
++
++gold/
++	PR gold/27246
++	* dwarf_reader.cc (Dwarf_abbrev_table::do_get_abbrev): Handle
++	DW_FORM_implicit_const.
++	(Dwarf_ranges_table::read_ranges_table): Add version parameter;
++	Adjust all callers.  Look for .debug_rnglists section if DWARF 5.
++	(Dwarf_ranges_table::read_range_list_v5): New method.
++	(Dwarf_die::read_attributes): Handle new DWARF 5 DW_FORM codes.
++	(Dwarf_die::skip_attributes): Likewise.
++	(Dwarf_info_reader::do_parse): Support DWARF 5 unit header format.
++	(Dwarf_info_reader::read_3bytes_from_pointer): New method.
++	(Sized_dwarf_line_info::Sized_dwarf_line_info): Initialize
++	str_buffer_, str_buffer_start, reloc_map_, line_number_map_.
++	Look for .debug_line_str section.
++	(Sized_dwarf_line_info::read_header_prolog): Support DWARF 5 prolog.
++	(Sized_dwarf_line_info::read_header_tables): Rename to...
++	(Sized_dwarf_line_info::read_header_tables_v2): ... this.
++	(Sized_dwarf_line_info::read_header_tables_v5): New method.
++	(Sized_dwarf_line_info::process_one_opcode): Insert missing "this->".
++	Change advance_line to signed int64_t.
++	(Sized_dwarf_line_info::read_lines): Add endptr parameter; adjust
++	callers.  Insert missing "this->".
++	(Sized_dwarf_line_info::read_line_mappings): Support DWARF 5.
++	(Sized_dwarf_line_info::do_addr2line): Add debug code.
++	* dwarf_reader.h (Dwarf_abbrev_table::Attribute): Add implicit_const
++	field. Adjust constructor.
++	(Dwarf_abbrev_table::add_sttribute): Add implicit_const parameter.
++	(Dwarf_ranges_table::read_ranges_table): Add version parameter.
++	(Dwarf_ranges_table::read_range_list_v5): New method.
++	(Dwarf_die): Remove unused attr_off field.
++	(Dwarf_info_reader::Dwarf_info_reader): Initialize unit_type_ field.
++	(Dwarf_info_reader::is_type_unit): New method.
++	(Dwarf_info_reader::read_3bytes_from_pointer): New method.
++	(Dwarf_info_reader::read_range_list): Call read_range_list_v5 for
++	DWARF 5 range lists.
++	(Dwarf_info_reader::is_type_unit_): Remove.
++	(Dwarf_info_reader::unit_type_): New field.
++	(Sized_dwarf_line_info::~Sized_dwarf_line_info): Delete
++	str_buffer_start_.
++	(Sized_dwarf_line_info::read_header_tables): Rename to...
++	(Sized_dwarf_line_info::read_header_tables_v2): ... this.
++	(Sized_dwarf_line_info::read_header_tables_v5): New method.
++	(Sized_dwarf_line_info::read_lines): Add endptr parameter.
++	(Sized_dwarf_line_info::Dwarf_line_infoHeader): Add address_size field.
++	(Sized_dwarf_line_info::str_buffer_): New field.
++	(Sized_dwarf_line_info::str_buffer_end_): New field.
++	(Sized_dwarf_line_info::str_buffer_start_): New field.
++	(Sized_dwarf_line_info::end_of_header_length_): New field.
++	(Sized_dwarf_line_info::end_of_unit_): New field.
++
++Upstream-Status: Backport [5cde809b7b9 Add DWARF 5 support in gold.]
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ elfcpp/dwarf.h       |  89 +++++--
++ gold/dwarf_reader.cc | 591 +++++++++++++++++++++++++++++++++++++------
++ gold/dwarf_reader.h  | 103 ++++++--
++ 3 files changed, 654 insertions(+), 129 deletions(-)
++
++diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
++index e24347f8481..c9a9e02369c 100644
++--- a/elfcpp/dwarf.h
+++++ b/elfcpp/dwarf.h
++@@ -152,35 +152,48 @@ enum DW_EH_PE
++   DW_EH_PE_indirect = 0x80
++ };
++ 
+++// Line number table content type codes.
+++
+++enum DW_LNCT
+++{
+++  DW_LNCT_path            = 0x1,
+++  DW_LNCT_directory_index = 0x2,
+++  DW_LNCT_timestamp       = 0x3,
+++  DW_LNCT_size            = 0x4,
+++  DW_LNCT_MD5             = 0x5,
+++  DW_LNCT_lo_user         = 0x2000,
+++  DW_LNCT_hi_user         = 0x3fff
+++};
+++
++ // Line number opcodes.
++ 
++ enum DW_LINE_OPS
++ {
++-  DW_LNS_extended_op = 0,
++-  DW_LNS_copy = 1,
++-  DW_LNS_advance_pc = 2,
++-  DW_LNS_advance_line = 3,
++-  DW_LNS_set_file = 4,
++-  DW_LNS_set_column = 5,
++-  DW_LNS_negate_stmt = 6,
++-  DW_LNS_set_basic_block = 7,
++-  DW_LNS_const_add_pc = 8,
++-  DW_LNS_fixed_advance_pc = 9,
+++  DW_LNS_extended_op        = 0x00,
+++  DW_LNS_copy               = 0x01,
+++  DW_LNS_advance_pc         = 0x02,
+++  DW_LNS_advance_line       = 0x03,
+++  DW_LNS_set_file           = 0x04,
+++  DW_LNS_set_column         = 0x05,
+++  DW_LNS_negate_stmt        = 0x06,
+++  DW_LNS_set_basic_block    = 0x07,
+++  DW_LNS_const_add_pc       = 0x08,
+++  DW_LNS_fixed_advance_pc   = 0x09,
++   // DWARF 3.
++-  DW_LNS_set_prologue_end = 10,
++-  DW_LNS_set_epilogue_begin = 11,
++-  DW_LNS_set_isa = 12
+++  DW_LNS_set_prologue_end   = 0x0a,
+++  DW_LNS_set_epilogue_begin = 0x0b,
+++  DW_LNS_set_isa            = 0x0c
++ };
++ 
++ // Line number extended opcodes.
++ 
++ enum DW_LINE_EXTENDED_OPS
++ {
++-  DW_LNE_end_sequence = 1,
++-  DW_LNE_set_address = 2,
++-  DW_LNE_define_file = 3,
+++  DW_LNE_end_sequence                = 0x01,
+++  DW_LNE_set_address                 = 0x02,
+++  DW_LNE_define_file                 = 0x03,
++   // DWARF4.
++-  DW_LNE_set_discriminator = 4,
+++  DW_LNE_set_discriminator           = 0x04,
++   // HP extensions.
++   DW_LNE_HP_negate_is_UV_update      = 0x11,
++   DW_LNE_HP_push_context             = 0x12,
++@@ -191,13 +204,15 @@ enum DW_LINE_EXTENDED_OPS
++   DW_LNE_HP_negate_post_semantics    = 0x17,
++   DW_LNE_HP_negate_function_exit     = 0x18,
++   DW_LNE_HP_negate_front_end_logical = 0x19,
++-  DW_LNE_HP_define_proc              = 0x20
+++  DW_LNE_HP_define_proc              = 0x20,
+++  DW_LNE_lo_user                     = 0x80,
+++  DW_LNE_hi_user                     = 0xff
++ };
++ 
++ enum DW_CHILDREN
++ {
++-  DW_CHILDREN_no		     =0x00,
++-  DW_CHILDREN_yes		     =0x01
+++  DW_CHILDREN_no  = 0,
+++  DW_CHILDREN_yes = 1
++ };
++ 
++ // Source language names and codes.
++@@ -247,20 +262,38 @@ enum DW_LANG
++   DW_LANG_HP_Assembler = 0x8007
++ };
++ 
+++// Range list entry kinds in .debug_rnglists* section.
+++
+++enum DW_RLE
+++{
+++  DW_RLE_end_of_list   = 0x00,
+++  DW_RLE_base_addressx = 0x01,
+++  DW_RLE_startx_endx   = 0x02,
+++  DW_RLE_startx_length = 0x03,
+++  DW_RLE_offset_pair   = 0x04,
+++  DW_RLE_base_address  = 0x05,
+++  DW_RLE_start_end     = 0x06,
+++  DW_RLE_start_length  = 0x07
+++};
+++
++ // DWARF section identifiers used in the package format.
++ // Extensions for Fission.  See http://gcc.gnu.org/wiki/DebugFissionDWP.
+++// Added (with changes) in DWARF 5.
++ 
++ enum DW_SECT
++ {
++-  DW_SECT_INFO = 1,
++-  DW_SECT_TYPES = 2,
++-  DW_SECT_ABBREV = 3,
++-  DW_SECT_LINE = 4,
++-  DW_SECT_LOC = 5,
+++  DW_SECT_INFO        = 1,
+++  DW_SECT_ABBREV      = 3,
+++  DW_SECT_LINE        = 4,
+++  DW_SECT_LOCLISTS    = 5,
++   DW_SECT_STR_OFFSETS = 6,
++-  DW_SECT_MACINFO = 7,
++-  DW_SECT_MACRO = 8,
++-  DW_SECT_MAX = DW_SECT_MACRO,
+++  DW_SECT_MACINFO     = 7,
+++  DW_SECT_RNGLISTS    = 8,
+++  DW_SECT_MAX = DW_SECT_RNGLISTS,
+++  // These were used only for the experimental Fission support in DWARF 4.
+++  DW_SECT_TYPES       = 2,
+++  DW_SECT_LOC         = 5,
+++  DW_SECT_MACRO       = 8
++ };
++ 
++ } // End namespace elfcpp.
++diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
++index f0e6b89bde2..83a0114ed39 100644
++--- a/gold/dwarf_reader.cc
+++++ b/gold/dwarf_reader.cc
++@@ -26,6 +26,7 @@
++ #include <utility>
++ #include <vector>
++ 
+++#include "debug.h"
++ #include "elfcpp_swap.h"
++ #include "dwarf.h"
++ #include "object.h"
++@@ -275,6 +276,14 @@ Dwarf_abbrev_table::do_get_abbrev(unsigned int code)
++ 	  uint64_t form = read_unsigned_LEB_128(this->buffer_pos_, &len);
++ 	  this->buffer_pos_ += len;
++ 
+++	  // For DW_FORM_implicit_const, read the constant.
+++	  int64_t implicit_const = 0;
+++	  if (form == elfcpp::DW_FORM_implicit_const)
+++	    {
+++	      implicit_const = read_signed_LEB_128(this->buffer_pos_, &len);
+++	      this->buffer_pos_ += len;
+++	    }
+++
++ 	  // A (0,0) pair terminates the list.
++ 	  if (attr == 0 && form == 0)
++ 	    break;
++@@ -282,7 +291,7 @@ Dwarf_abbrev_table::do_get_abbrev(unsigned int code)
++ 	  if (attr == elfcpp::DW_AT_sibling)
++ 	    entry->has_sibling_attribute = true;
++ 
++-	  entry->add_attribute(attr, form);
+++	  entry->add_attribute(attr, form, implicit_const);
++ 	}
++ 
++       this->store_abbrev(nextcode, entry);
++@@ -302,8 +311,16 @@ Dwarf_ranges_table::read_ranges_table(
++     Relobj* object,
++     const unsigned char* symtab,
++     off_t symtab_size,
++-    unsigned int ranges_shndx)
+++    unsigned int ranges_shndx,
+++    unsigned int version)
++ {
+++  const std::string section_name(version < 5
+++				 ? ".debug_ranges"
+++				 : ".debug_rnglists");
+++  const std::string compressed_section_name(version < 5
+++					    ? ".zdebug_ranges"
+++					    : ".zdebug_rnglists");
+++
++   // If we've already read this abbrev table, return immediately.
++   if (this->ranges_shndx_ > 0
++       && this->ranges_shndx_ == ranges_shndx)
++@@ -318,7 +335,7 @@ Dwarf_ranges_table::read_ranges_table(
++       for (unsigned int i = 1; i < object->shnum(); ++i)
++ 	{
++ 	  std::string name = object->section_name(i);
++-	  if (name == ".debug_ranges" || name == ".zdebug_ranges")
+++	  if (name == section_name || name == compressed_section_name)
++ 	    {
++ 	      ranges_shndx = i;
++ 	      this->output_section_offset_ = object->output_section_offset(i);
++@@ -393,7 +410,7 @@ Dwarf_ranges_table::read_range_list(
++ {
++   Dwarf_range_list* ranges;
++ 
++-  if (!this->read_ranges_table(object, symtab, symtab_size, ranges_shndx))
+++  if (!this->read_ranges_table(object, symtab, symtab_size, ranges_shndx, 4))
++     return NULL;
++ 
++   // Correct the offset.  For incremental update links, we have a
++@@ -459,6 +476,125 @@ Dwarf_ranges_table::read_range_list(
++   return ranges;
++ }
++ 
+++// Read a DWARF 5 range list from section RANGES_SHNDX at offset RANGES_OFFSET.
+++
+++Dwarf_range_list*
+++Dwarf_ranges_table::read_range_list_v5(
+++    Relobj* object,
+++    const unsigned char* symtab,
+++    off_t symtab_size,
+++    unsigned int addr_size,
+++    unsigned int ranges_shndx,
+++    off_t offset)
+++{
+++  Dwarf_range_list* ranges;
+++
+++  if (!this->read_ranges_table(object, symtab, symtab_size, ranges_shndx, 5))
+++    return NULL;
+++
+++  ranges = new Dwarf_range_list();
+++  off_t base = 0;
+++  unsigned int shndx0 = 0;
+++
+++  // Correct the offset.  For incremental update links, we have a
+++  // relocated offset that is relative to the output section, but
+++  // here we need an offset relative to the input section.
+++  offset -= this->output_section_offset_;
+++
+++  // Read the range list at OFFSET.
+++  const unsigned char* prle = this->ranges_buffer_ + offset;
+++  while (prle < this->ranges_buffer_end_)
+++    {
+++      off_t start;
+++      off_t end;
+++      unsigned int shndx1 = 0;
+++      unsigned int shndx2 = 0;
+++      size_t len;
+++
+++      // Read the entry type.
+++      unsigned int rle_type = *prle++;
+++      offset += 1;
+++
+++      if (rle_type == elfcpp::DW_RLE_end_of_list)
+++	break;
+++
+++      switch (rle_type)
+++	{
+++	  case elfcpp::DW_RLE_base_address:
+++	    if (addr_size == 4)
+++	      base = this->dwinfo_->read_from_pointer<32>(prle);
+++	    else
+++	      base = this->dwinfo_->read_from_pointer<64>(prle);
+++	    if (this->ranges_reloc_mapper_ != NULL)
+++		shndx0 = this->lookup_reloc(offset, &base);
+++	    prle += addr_size;
+++	    offset += addr_size;
+++	    break;
+++
+++	  case elfcpp::DW_RLE_offset_pair:
+++	    start = read_unsigned_LEB_128(prle, &len);
+++	    prle += len;
+++	    offset += len;
+++	    end = read_unsigned_LEB_128(prle, &len);
+++	    prle += len;
+++	    offset += len;
+++	    if (shndx0 == 0 || object->is_section_included(shndx0))
+++	      ranges->add(shndx0, base + start, base + end);
+++	    break;
+++
+++	  case elfcpp::DW_RLE_start_end:
+++	    if (addr_size == 4)
+++	      {
+++		start = this->dwinfo_->read_from_pointer<32>(prle);
+++		end = this->dwinfo_->read_from_pointer<32>(prle + 4);
+++	      }
+++	    else
+++	      {
+++		start = this->dwinfo_->read_from_pointer<64>(prle);
+++		end = this->dwinfo_->read_from_pointer<64>(prle + 8);
+++	      }
+++	    if (this->ranges_reloc_mapper_ != NULL)
+++	      {
+++		shndx1 = this->lookup_reloc(offset, &start);
+++		shndx2 = this->lookup_reloc(offset + addr_size, &end);
+++		if (shndx1 != shndx2)
+++		  gold_warning(_("%s: DWARF info may be corrupt; offsets in a "
+++				 "range list entry are in different sections"),
+++			       object->name().c_str());
+++	      }
+++	    prle += addr_size * 2;
+++	    offset += addr_size * 2;
+++	    if (shndx1 == 0 || object->is_section_included(shndx1))
+++	      ranges->add(shndx1, start, end);
+++	    break;
+++
+++	  case elfcpp::DW_RLE_start_length:
+++	    if (addr_size == 4)
+++	      start = this->dwinfo_->read_from_pointer<32>(prle);
+++	    else
+++	      start = this->dwinfo_->read_from_pointer<64>(prle);
+++	    if (this->ranges_reloc_mapper_ != NULL)
+++	      shndx1 = this->lookup_reloc(offset, &start);
+++	    prle += addr_size;
+++	    offset += addr_size;
+++	    end = start + read_unsigned_LEB_128(prle, &len);
+++	    prle += len;
+++	    offset += len;
+++	    if (shndx1 == 0 || object->is_section_included(shndx1))
+++	      ranges->add(shndx1, start, end);
+++	    break;
+++
+++	  default:
+++	    gold_warning(_("%s: DWARF range list contains "
+++			   "unsupported entry type (%d)"),
+++			 object->name().c_str(), rle_type);
+++	    break;
+++	}
+++    }
+++
+++  return ranges;
+++}
+++
++ // Look for a relocation at offset OFF in the range table,
++ // and return the section index and offset of the target.
++ 
++@@ -709,7 +845,13 @@ Dwarf_die::read_attributes()
++ 	  case elfcpp::DW_FORM_flag_present:
++ 	    attr_value.val.intval = 1;
++ 	    break;
+++	  case elfcpp::DW_FORM_implicit_const:
+++	    attr_value.val.intval =
+++		this->abbrev_code_->attributes[i].implicit_const;
+++	    break;
++ 	  case elfcpp::DW_FORM_strp:
+++	  case elfcpp::DW_FORM_strp_sup:
+++	  case elfcpp::DW_FORM_line_strp:
++ 	    {
++ 	      off_t str_off;
++ 	      if (this->dwinfo_->offset_size() == 4)
++@@ -722,6 +864,26 @@ Dwarf_die::read_attributes()
++ 	      attr_value.val.refval = str_off;
++ 	      break;
++ 	    }
+++	  case elfcpp::DW_FORM_strx:
+++	  case elfcpp::DW_FORM_GNU_str_index:
+++	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
+++	    pattr += len;
+++	    break;
+++	  case elfcpp::DW_FORM_strx1:
+++	    attr_value.val.uintval = *pattr++;
+++	    break;
+++	  case elfcpp::DW_FORM_strx2:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_from_pointer<16>(&pattr);
+++	    break;
+++	  case elfcpp::DW_FORM_strx3:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_3bytes_from_pointer(&pattr);
+++	    break;
+++	  case elfcpp::DW_FORM_strx4:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_from_pointer<32>(&pattr);
+++	    break;
++ 	  case elfcpp::DW_FORM_sec_offset:
++ 	    {
++ 	      off_t sec_off;
++@@ -747,7 +909,6 @@ Dwarf_die::read_attributes()
++ 		  this->dwinfo_->lookup_reloc(attr_off, &sec_off);
++ 	      attr_value.aux.shndx = shndx;
++ 	      attr_value.val.refval = sec_off;
++-	      ref_form = true;
++ 	      break;
++ 	    }
++ 	  case elfcpp::DW_FORM_ref_addr:
++@@ -815,6 +976,7 @@ Dwarf_die::read_attributes()
++ 	      break;
++ 	    }
++ 	  case elfcpp::DW_FORM_ref4:
+++	  case elfcpp::DW_FORM_ref_sup4:
++ 	    {
++ 	      off_t sec_off;
++ 	      sec_off = this->dwinfo_->read_from_pointer<32>(&pattr);
++@@ -835,11 +997,20 @@ Dwarf_die::read_attributes()
++ 	      attr_value.val.intval = sec_off;
++ 	      break;
++ 	    }
+++	  case elfcpp::DW_FORM_data16:
+++	    {
+++	      // For now, treat this as a 16-byte block.
+++	      attr_value.val.blockval = pattr;
+++	      attr_value.aux.blocklen = 16;
+++	      pattr += 16;
+++	      break;
+++	    }
++ 	  case elfcpp::DW_FORM_ref_sig8:
++ 	    attr_value.val.uintval =
++ 		this->dwinfo_->read_from_pointer<64>(&pattr);
++ 	    break;
++ 	  case elfcpp::DW_FORM_ref8:
+++	  case elfcpp::DW_FORM_ref_sup8:
++ 	    {
++ 	      off_t sec_off;
++ 	      sec_off = this->dwinfo_->read_from_pointer<64>(&pattr);
++@@ -856,11 +1027,29 @@ Dwarf_die::read_attributes()
++ 	    pattr += len;
++ 	    break;
++ 	  case elfcpp::DW_FORM_udata:
+++	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
+++	    pattr += len;
+++	    break;
+++	  case elfcpp::DW_FORM_addrx:
++ 	  case elfcpp::DW_FORM_GNU_addr_index:
++-	  case elfcpp::DW_FORM_GNU_str_index:
++ 	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
++ 	    pattr += len;
++ 	    break;
+++	  case elfcpp::DW_FORM_addrx1:
+++	    attr_value.val.uintval = *pattr++;
+++	    break;
+++	  case elfcpp::DW_FORM_addrx2:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_from_pointer<16>(&pattr);
+++	    break;
+++	  case elfcpp::DW_FORM_addrx3:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_3bytes_from_pointer(&pattr);
+++	    break;
+++	  case elfcpp::DW_FORM_addrx4:
+++	    attr_value.val.uintval =
+++		this->dwinfo_->read_from_pointer<32>(&pattr);
+++	    break;
++ 	  case elfcpp::DW_FORM_sdata:
++ 	    attr_value.val.intval = read_signed_LEB_128(pattr, &len);
++ 	    pattr += len;
++@@ -870,6 +1059,11 @@ Dwarf_die::read_attributes()
++ 	    len = strlen(attr_value.val.stringval);
++ 	    pattr += len + 1;
++ 	    break;
+++	  case elfcpp::DW_FORM_loclistx:
+++	  case elfcpp::DW_FORM_rnglistx:
+++	    attr_value.val.uintval = read_unsigned_LEB_128(pattr, &len);
+++	    pattr += len;
+++	    break;
++ 	  default:
++ 	    return false;
++ 	}
++@@ -954,9 +1148,12 @@ Dwarf_die::skip_attributes()
++       switch(form)
++ 	{
++ 	  case elfcpp::DW_FORM_flag_present:
+++	  case elfcpp::DW_FORM_implicit_const:
++ 	    break;
++ 	  case elfcpp::DW_FORM_strp:
++ 	  case elfcpp::DW_FORM_sec_offset:
+++	  case elfcpp::DW_FORM_strp_sup:
+++	  case elfcpp::DW_FORM_line_strp:
++ 	    pattr += this->dwinfo_->offset_size();
++ 	    break;
++ 	  case elfcpp::DW_FORM_addr:
++@@ -993,23 +1190,42 @@ Dwarf_die::skip_attributes()
++ 	  case elfcpp::DW_FORM_data1:
++ 	  case elfcpp::DW_FORM_ref1:
++ 	  case elfcpp::DW_FORM_flag:
+++	  case elfcpp::DW_FORM_strx1:
+++	  case elfcpp::DW_FORM_addrx1:
++ 	    pattr += 1;
++ 	    break;
++ 	  case elfcpp::DW_FORM_data2:
++ 	  case elfcpp::DW_FORM_ref2:
+++	  case elfcpp::DW_FORM_strx2:
+++	  case elfcpp::DW_FORM_addrx2:
++ 	    pattr += 2;
++ 	    break;
+++	  case elfcpp::DW_FORM_strx3:
+++	  case elfcpp::DW_FORM_addrx3:
+++	    pattr += 3;
+++	    break;
++ 	  case elfcpp::DW_FORM_data4:
++ 	  case elfcpp::DW_FORM_ref4:
+++	  case elfcpp::DW_FORM_ref_sup4:
+++	  case elfcpp::DW_FORM_strx4:
+++	  case elfcpp::DW_FORM_addrx4:
++ 	    pattr += 4;
++ 	    break;
++ 	  case elfcpp::DW_FORM_data8:
++ 	  case elfcpp::DW_FORM_ref8:
++ 	  case elfcpp::DW_FORM_ref_sig8:
+++	  case elfcpp::DW_FORM_ref_sup8:
++ 	    pattr += 8;
++ 	    break;
+++	  case elfcpp::DW_FORM_data16:
+++	    pattr += 16;
+++	    break;
++ 	  case elfcpp::DW_FORM_ref_udata:
++ 	  case elfcpp::DW_FORM_udata:
+++	  case elfcpp::DW_FORM_addrx:
+++	  case elfcpp::DW_FORM_strx:
+++	  case elfcpp::DW_FORM_loclistx:
+++	  case elfcpp::DW_FORM_rnglistx:
++ 	  case elfcpp::DW_FORM_GNU_addr_index:
++ 	  case elfcpp::DW_FORM_GNU_str_index:
++ 	    read_unsigned_LEB_128(pattr, &len);
++@@ -1313,6 +1529,13 @@ Dwarf_info_reader::do_parse()
++ 	  elfcpp::Swap_unaligned<16, big_endian>::readval(pinfo);
++       pinfo += 2;
++ 
+++      // DWARF 5: Read the unit type (1 byte) and address size (1 byte).
+++      if (this->cu_version_ >= 5)
+++	{
+++	  this->unit_type_ = *pinfo++;
+++	  this->address_size_ = *pinfo++;
+++	}
+++
++       // Read debug_abbrev_offset (4 or 8 bytes).
++       if (this->offset_size_ == 4)
++ 	abbrev_offset = elfcpp::Swap_unaligned<32, big_endian>::readval(pinfo);
++@@ -1333,13 +1556,14 @@ Dwarf_info_reader::do_parse()
++ 	}
++       pinfo += this->offset_size_;
++ 
++-      // Read address_size (1 byte).
++-      this->address_size_ = *pinfo++;
+++      // DWARF 2-4: Read address_size (1 byte).
+++      if (this->cu_version_ < 5)
+++	this->address_size_ = *pinfo++;
++ 
++       // For type units, read the two extra fields.
++       uint64_t signature = 0;
++       off_t type_offset = 0;
++-      if (this->is_type_unit_)
+++      if (this->is_type_unit())
++         {
++ 	  if (!this->check_buffer(pinfo + 8 + this->offset_size_))
++ 	    break;
++@@ -1369,7 +1593,7 @@ Dwarf_info_reader::do_parse()
++       if (root_die.tag() != 0)
++ 	{
++ 	  // Visit the CU or TU.
++-	  if (this->is_type_unit_)
+++	  if (this->is_type_unit())
++ 	    this->visit_type_unit(section_offset + this->cu_offset_,
++ 				  cu_end - cu_start, type_offset, signature,
++ 				  &root_die);
++@@ -1460,6 +1684,19 @@ Dwarf_info_reader::read_from_pointer(const unsigned char** source)
++   return return_value;
++ }
++ 
+++// Read a 3-byte integer.  Update SOURCE after read.
+++inline typename elfcpp::Valtype_base<32>::Valtype
+++Dwarf_info_reader::read_3bytes_from_pointer(const unsigned char** source)
+++{
+++  typename elfcpp::Valtype_base<32>::Valtype return_value;
+++  if (this->object_->is_big_endian())
+++    return_value = ((*source)[0] << 16) | ((*source)[1] << 8) | (*source)[2];
+++  else
+++    return_value = ((*source)[2] << 16) | ((*source)[1] << 8) | (*source)[0];
+++  *source += 3;
+++  return return_value;
+++}
+++
++ // Look for a relocation at offset ATTR_OFF in the dwarf info,
++ // and return the section index and offset of the target.
++ 
++@@ -1561,27 +1798,40 @@ Sized_dwarf_line_info<size, big_endian>::Sized_dwarf_line_info(
++     Object* object,
++     unsigned int read_shndx)
++   : data_valid_(false), buffer_(NULL), buffer_start_(NULL),
+++    str_buffer_(NULL), str_buffer_start_(NULL),
++     reloc_mapper_(NULL), symtab_buffer_(NULL), directories_(), files_(),
++-    current_header_index_(-1)
+++    current_header_index_(-1), reloc_map_(), line_number_map_()
++ {
++-  unsigned int debug_shndx;
+++  unsigned int debug_line_shndx = 0;
+++  unsigned int debug_line_str_shndx = 0;
++ 
++-  for (debug_shndx = 1; debug_shndx < object->shnum(); ++debug_shndx)
+++  for (unsigned int i = 1; i < object->shnum(); ++i)
++     {
+++      section_size_type buffer_size;
+++      bool is_new = false;
+++
++       // FIXME: do this more efficiently: section_name() isn't super-fast
++-      std::string name = object->section_name(debug_shndx);
+++      std::string name = object->section_name(i);
++       if (name == ".debug_line" || name == ".zdebug_line")
++ 	{
++-	  section_size_type buffer_size;
++-	  bool is_new = false;
++-	  this->buffer_ = object->decompressed_section_contents(debug_shndx,
++-								&buffer_size,
++-								&is_new);
+++	  this->buffer_ =
+++	      object->decompressed_section_contents(i, &buffer_size, &is_new);
++ 	  if (is_new)
++ 	    this->buffer_start_ = this->buffer_;
++ 	  this->buffer_end_ = this->buffer_ + buffer_size;
++-	  break;
+++	  debug_line_shndx = i;
+++	}
+++      else if (name == ".debug_line_str" || name == ".zdebug_line_str")
+++	{
+++	  this->str_buffer_ =
+++	      object->decompressed_section_contents(i, &buffer_size, &is_new);
+++	  if (is_new)
+++	    this->str_buffer_start_ = this->str_buffer_;
+++	  this->str_buffer_end_ = this->str_buffer_ + buffer_size;
+++	  debug_line_str_shndx = i;
++ 	}
+++      if (debug_line_shndx > 0 && debug_line_str_shndx > 0)
+++        break;
++     }
++   if (this->buffer_ == NULL)
++     return;
++@@ -1594,7 +1844,7 @@ Sized_dwarf_line_info<size, big_endian>::Sized_dwarf_line_info(
++       unsigned int reloc_sh_type = object->section_type(i);
++       if ((reloc_sh_type == elfcpp::SHT_REL
++ 	   || reloc_sh_type == elfcpp::SHT_RELA)
++-	  && object->section_info(i) == debug_shndx)
+++	  && object->section_info(i) == debug_line_shndx)
++ 	{
++ 	  reloc_shndx = i;
++ 	  this->track_relocs_type_ = reloc_sh_type;
++@@ -1640,65 +1890,80 @@ Sized_dwarf_line_info<size, big_endian>::read_header_prolog(
++   uint32_t initial_length = elfcpp::Swap_unaligned<32, big_endian>::readval(lineptr);
++   lineptr += 4;
++ 
++-  // In DWARF2/3, if the initial length is all 1 bits, then the offset
+++  // In DWARF, if the initial length is all 1 bits, then the offset
++   // size is 8 and we need to read the next 8 bytes for the real length.
++   if (initial_length == 0xffffffff)
++     {
++-      header_.offset_size = 8;
+++      this->header_.offset_size = 8;
++       initial_length = elfcpp::Swap_unaligned<64, big_endian>::readval(lineptr);
++       lineptr += 8;
++     }
++   else
++-    header_.offset_size = 4;
+++    this->header_.offset_size = 4;
++ 
++-  header_.total_length = initial_length;
+++  this->header_.total_length = initial_length;
++ 
++-  gold_assert(lineptr + header_.total_length <= buffer_end_);
+++  this->end_of_unit_ = lineptr + initial_length;
+++  gold_assert(this->end_of_unit_ <= buffer_end_);
++ 
++-  header_.version = elfcpp::Swap_unaligned<16, big_endian>::readval(lineptr);
+++  this->header_.version =
+++      elfcpp::Swap_unaligned<16, big_endian>::readval(lineptr);
++   lineptr += 2;
++ 
++-  // Skip address size and segment selector for DWARF5.
++-  if (header_.version >= 5)
++-    lineptr += 2;
+++  // We can only read versions 2-5 of the DWARF line number table.
+++  // For other versions, just skip the entire line number table.
+++  if (this->header_.version < 2 || this->header_.version > 5)
+++    return this->end_of_unit_;
++ 
++-  if (header_.offset_size == 4)
++-    header_.prologue_length = elfcpp::Swap_unaligned<32, big_endian>::readval(lineptr);
+++  // DWARF 5 only: address size and segment selector.
+++  if (this->header_.version >= 5)
+++    {
+++      this->header_.address_size = *lineptr;
+++      // We ignore the segment selector.
+++      lineptr += 2;
+++    }
+++
+++  if (this->header_.offset_size == 4)
+++    this->header_.prologue_length =
+++	elfcpp::Swap_unaligned<32, big_endian>::readval(lineptr);
++   else
++-    header_.prologue_length = elfcpp::Swap_unaligned<64, big_endian>::readval(lineptr);
++-  lineptr += header_.offset_size;
+++    this->header_.prologue_length =
+++	elfcpp::Swap_unaligned<64, big_endian>::readval(lineptr);
+++  lineptr += this->header_.offset_size;
++ 
++-  header_.min_insn_length = *lineptr;
+++  this->end_of_header_length_ = lineptr;
+++
+++  this->header_.min_insn_length = *lineptr;
++   lineptr += 1;
++ 
++-  if (header_.version < 4)
++-    header_.max_ops_per_insn = 1;
+++  if (this->header_.version < 4)
+++    this->header_.max_ops_per_insn = 1;
++   else
++     {
++       // DWARF 4 added the maximum_operations_per_instruction field.
++-      header_.max_ops_per_insn = *lineptr;
+++      this->header_.max_ops_per_insn = *lineptr;
++       lineptr += 1;
++       // TODO: Add support for values other than 1.
++-      gold_assert(header_.max_ops_per_insn == 1);
+++      gold_assert(this->header_.max_ops_per_insn == 1);
++     }
++ 
++-  header_.default_is_stmt = *lineptr;
+++  this->header_.default_is_stmt = *lineptr;
++   lineptr += 1;
++ 
++-  header_.line_base = *reinterpret_cast<const signed char*>(lineptr);
+++  this->header_.line_base = *reinterpret_cast<const signed char*>(lineptr);
++   lineptr += 1;
++ 
++-  header_.line_range = *lineptr;
+++  this->header_.line_range = *lineptr;
++   lineptr += 1;
++ 
++-  header_.opcode_base = *lineptr;
+++  this->header_.opcode_base = *lineptr;
++   lineptr += 1;
++ 
++-  header_.std_opcode_lengths.resize(header_.opcode_base + 1);
++-  header_.std_opcode_lengths[0] = 0;
++-  for (int i = 1; i < header_.opcode_base; i++)
+++  this->header_.std_opcode_lengths.resize(this->header_.opcode_base + 1);
+++  this->header_.std_opcode_lengths[0] = 0;
+++  for (int i = 1; i < this->header_.opcode_base; i++)
++     {
++-      header_.std_opcode_lengths[i] = *lineptr;
+++      this->header_.std_opcode_lengths[i] = *lineptr;
++       lineptr += 1;
++     }
++ 
++@@ -1707,10 +1972,11 @@ Sized_dwarf_line_info<size, big_endian>::read_header_prolog(
++ 
++ // The header for a debug_line section is mildly complicated, because
++ // the line info is very tightly encoded.
+++// This routine is for DWARF versions 2, 3, and 4.
++ 
++ template<int size, bool big_endian>
++ const unsigned char*
++-Sized_dwarf_line_info<size, big_endian>::read_header_tables(
+++Sized_dwarf_line_info<size, big_endian>::read_header_tables_v2(
++     const unsigned char* lineptr)
++ {
++   ++this->current_header_index_;
++@@ -1775,6 +2041,169 @@ Sized_dwarf_line_info<size, big_endian>::read_header_tables(
++   return lineptr;
++ }
++ 
+++// This routine is for DWARF version 5.
+++
+++template<int size, bool big_endian>
+++const unsigned char*
+++Sized_dwarf_line_info<size, big_endian>::read_header_tables_v5(
+++    const unsigned char* lineptr)
+++{
+++  size_t len;
+++
+++  ++this->current_header_index_;
+++
+++  gold_assert(static_cast<int>(this->directories_.size())
+++	      == this->current_header_index_);
+++  gold_assert(static_cast<int>(this->files_.size())
+++	      == this->current_header_index_);
+++
+++  // Read the directory list.
+++  unsigned int format_count = *lineptr;
+++  lineptr += 1;
+++
+++  unsigned int *types = new unsigned int[format_count];
+++  unsigned int *forms = new unsigned int[format_count];
+++
+++  for (unsigned int i = 0; i < format_count; i++)
+++    {
+++      types[i] = read_unsigned_LEB_128(lineptr, &len);
+++      lineptr += len;
+++      forms[i] = read_unsigned_LEB_128(lineptr, &len);
+++      lineptr += len;
+++    }
+++
+++  uint64_t entry_count = read_unsigned_LEB_128(lineptr, &len);
+++  lineptr += len;
+++  this->directories_.push_back(std::vector<std::string>(0));
+++  std::vector<std::string>& dir_list = this->directories_.back();
+++
+++  for (unsigned int j = 0; j < entry_count; j++)
+++    {
+++      std::string dirname;
+++
+++      for (unsigned int i = 0; i < format_count; i++)
+++       {
+++	 if (types[i] == elfcpp::DW_LNCT_path)
+++	   {
+++	     if (forms[i] == elfcpp::DW_FORM_string)
+++	       {
+++		 dirname = reinterpret_cast<const char*>(lineptr);
+++		 lineptr += dirname.size() + 1;
+++	       }
+++	     else if (forms[i] == elfcpp::DW_FORM_line_strp)
+++	       {
+++		 uint64_t offset;
+++		 if (this->header_.offset_size == 4)
+++		   offset =
+++		       elfcpp::Swap_unaligned<32, big_endian>::readval(lineptr);
+++		 else
+++		   offset =
+++		       elfcpp::Swap_unaligned<64, big_endian>::readval(lineptr);
+++		 typename Reloc_map::const_iterator it
+++		     = this->reloc_map_.find(lineptr - this->buffer_);
+++		 if (it != reloc_map_.end())
+++		   {
+++		     if (this->track_relocs_type_ == elfcpp::SHT_RELA)
+++		       offset = 0;
+++		     offset += it->second.second;
+++		   }
+++		 lineptr += this->header_.offset_size;
+++		 dirname = reinterpret_cast<const char*>(this->str_buffer_
+++							 + offset);
+++	       }
+++	     else
+++	       return lineptr;
+++	   }
+++	 else
+++	   return lineptr;
+++       }
+++      dir_list.push_back(dirname);
+++    }
+++
+++  delete[] types;
+++  delete[] forms;
+++
+++  // Read the filenames list.
+++  format_count = *lineptr;
+++  lineptr += 1;
+++
+++  types = new unsigned int[format_count];
+++  forms = new unsigned int[format_count];
+++
+++  for (unsigned int i = 0; i < format_count; i++)
+++    {
+++      types[i] = read_unsigned_LEB_128(lineptr, &len);
+++      lineptr += len;
+++      forms[i] = read_unsigned_LEB_128(lineptr, &len);
+++      lineptr += len;
+++    }
+++
+++  entry_count = read_unsigned_LEB_128(lineptr, &len);
+++  lineptr += len;
+++  this->files_.push_back(
+++      std::vector<std::pair<int, std::string> >(0));
+++  std::vector<std::pair<int, std::string> >& file_list = this->files_.back();
+++
+++  for (unsigned int j = 0; j < entry_count; j++)
+++    {
+++      const char* path = NULL;
+++      int dirindex = 0;
+++
+++      for (unsigned int i = 0; i < format_count; i++)
+++       {
+++	 if (types[i] == elfcpp::DW_LNCT_path)
+++	   {
+++	     if (forms[i] == elfcpp::DW_FORM_string)
+++	       {
+++		 path = reinterpret_cast<const char*>(lineptr);
+++		 lineptr += strlen(path) + 1;
+++	       }
+++	     else if (forms[i] == elfcpp::DW_FORM_line_strp)
+++	       {
+++		 uint64_t offset;
+++		 if (this->header_.offset_size == 4)
+++		   offset = elfcpp::Swap_unaligned<32, big_endian>::readval(lineptr);
+++		 else
+++		   offset = elfcpp::Swap_unaligned<64, big_endian>::readval(lineptr);
+++		 typename Reloc_map::const_iterator it
+++		     = this->reloc_map_.find(lineptr - this->buffer_);
+++		 if (it != reloc_map_.end())
+++		   {
+++		     if (this->track_relocs_type_ == elfcpp::SHT_RELA)
+++		       offset = 0;
+++		     offset += it->second.second;
+++		   }
+++		 lineptr += this->header_.offset_size;
+++		 path = reinterpret_cast<const char*>(this->str_buffer_
+++						      + offset);
+++	       }
+++	     else
+++	       return lineptr;
+++	   }
+++	 else if (types[i] == elfcpp::DW_LNCT_directory_index)
+++	   {
+++	     if (forms[i] == elfcpp::DW_FORM_udata)
+++	       {
+++		 dirindex = read_unsigned_LEB_128(lineptr, &len);
+++		 lineptr += len;
+++	       }
+++	     else
+++	       return lineptr;
+++	   }
+++	 else
+++	   return lineptr;
+++       }
+++      gold_debug(DEBUG_LOCATION, "File %3d: %s",
+++		 static_cast<int>(file_list.size()), path);
+++      file_list.push_back(std::make_pair(dirindex, path));
+++    }
+++
+++  delete[] types;
+++  delete[] forms;
+++
+++  return lineptr;
+++}
+++
++ // Process a single opcode in the .debug.line structure.
++ 
++ template<int size, bool big_endian>
++@@ -1790,15 +2219,15 @@ Sized_dwarf_line_info<size, big_endian>::process_one_opcode(
++ 
++   // If the opcode is great than the opcode_base, it is a special
++   // opcode. Most line programs consist mainly of special opcodes.
++-  if (opcode >= header_.opcode_base)
+++  if (opcode >= this->header_.opcode_base)
++     {
++-      opcode -= header_.opcode_base;
++-      const int advance_address = ((opcode / header_.line_range)
++-                                   * header_.min_insn_length);
+++      opcode -= this->header_.opcode_base;
+++      const int advance_address = ((opcode / this->header_.line_range)
+++                                   * this->header_.min_insn_length);
++       lsm->address += advance_address;
++ 
++-      const int advance_line = ((opcode % header_.line_range)
++-                                + header_.line_base);
+++      const int advance_line = ((opcode % this->header_.line_range)
+++                                + this->header_.line_base);
++       lsm->line_num += advance_line;
++       lsm->basic_block = true;
++       *len = oplen;
++@@ -1818,13 +2247,13 @@ Sized_dwarf_line_info<size, big_endian>::process_one_opcode(
++         const uint64_t advance_address
++             = read_unsigned_LEB_128(start, &templen);
++         oplen += templen;
++-        lsm->address += header_.min_insn_length * advance_address;
+++        lsm->address += this->header_.min_insn_length * advance_address;
++       }
++       break;
++ 
++     case elfcpp::DW_LNS_advance_line:
++       {
++-        const uint64_t advance_line = read_signed_LEB_128(start, &templen);
+++        const int64_t advance_line = read_signed_LEB_128(start, &templen);
++         oplen += templen;
++         lsm->line_num += advance_line;
++       }
++@@ -1865,9 +2294,9 @@ Sized_dwarf_line_info<size, big_endian>::process_one_opcode(
++ 
++     case elfcpp::DW_LNS_const_add_pc:
++       {
++-        const int advance_address = (header_.min_insn_length
++-                                     * ((255 - header_.opcode_base)
++-                                        / header_.line_range));
+++        const int advance_address = (this->header_.min_insn_length
+++                                     * ((255 - this->header_.opcode_base)
+++                                        / this->header_.line_range));
++         lsm->address += advance_address;
++       }
++       break;
++@@ -1950,7 +2379,7 @@ Sized_dwarf_line_info<size, big_endian>::process_one_opcode(
++     default:
++       {
++         // Ignore unknown opcode  silently
++-        for (int i = 0; i < header_.std_opcode_lengths[opcode]; i++)
+++        for (int i = 0; i < this->header_.std_opcode_lengths[opcode]; i++)
++           {
++             size_t templen;
++             read_unsigned_LEB_128(start, &templen);
++@@ -1970,28 +2399,24 @@ Sized_dwarf_line_info<size, big_endian>::process_one_opcode(
++ template<int size, bool big_endian>
++ unsigned const char*
++ Sized_dwarf_line_info<size, big_endian>::read_lines(unsigned const char* lineptr,
+++                                                    unsigned const char* endptr,
++                                                     unsigned int shndx)
++ {
++   struct LineStateMachine lsm;
++ 
++-  // LENGTHSTART is the place the length field is based on.  It is the
++-  // point in the header after the initial length field.
++-  const unsigned char* lengthstart = buffer_;
++-
++-  // In 64 bit dwarf, the initial length is 12 bytes, because of the
++-  // 0xffffffff at the start.
++-  if (header_.offset_size == 8)
++-    lengthstart += 12;
++-  else
++-    lengthstart += 4;
++-
++-  while (lineptr < lengthstart + header_.total_length)
+++  while (lineptr < endptr)
++     {
++-      ResetLineStateMachine(&lsm, header_.default_is_stmt);
+++      ResetLineStateMachine(&lsm, this->header_.default_is_stmt);
++       while (!lsm.end_sequence)
++         {
++           size_t oplength;
+++
+++	  if (lineptr >= endptr)
+++	    break;
+++
++           bool add_line = this->process_one_opcode(lineptr, &lsm, &oplength);
+++          lineptr += oplength;
+++
++           if (add_line
++               && (shndx == -1U || lsm.shndx == -1U || shndx == lsm.shndx))
++             {
++@@ -2012,11 +2437,10 @@ Sized_dwarf_line_info<size, big_endian>::read_lines(unsigned const char* lineptr
++ 		map.back().last_line_for_offset = false;
++ 	      map.push_back(entry);
++             }
++-          lineptr += oplength;
++         }
++     }
++ 
++-  return lengthstart + header_.total_length;
+++  return endptr;
++ }
++ 
++ // Read the relocations into a Reloc_map.
++@@ -2057,9 +2481,17 @@ Sized_dwarf_line_info<size, big_endian>::read_line_mappings(unsigned int shndx)
++     {
++       const unsigned char* lineptr = this->buffer_;
++       lineptr = this->read_header_prolog(lineptr);
++-      lineptr = this->read_header_tables(lineptr);
++-      lineptr = this->read_lines(lineptr, shndx);
++-      this->buffer_ = lineptr;
+++      if (this->header_.version >= 2 && this->header_.version <= 4)
+++	{
+++	  lineptr = this->read_header_tables_v2(lineptr);
+++	  lineptr = this->read_lines(lineptr, this->end_of_unit_, shndx);
+++	}
+++      else if (this->header_.version == 5)
+++	{
+++	  lineptr = this->read_header_tables_v5(lineptr);
+++	  lineptr = this->read_lines(lineptr, this->end_of_unit_, shndx);
+++	}
+++      this->buffer_ = this->end_of_unit_;
++     }
++ 
++   // Sort the lines numbers, so addr2line can use binary search.
++@@ -2215,6 +2647,9 @@ Sized_dwarf_line_info<size, big_endian>::do_addr2line(
++     off_t offset,
++     std::vector<std::string>* other_lines)
++ {
+++  gold_debug(DEBUG_LOCATION, "do_addr2line: shndx %u offset %08x",
+++	     shndx, static_cast<int>(offset));
+++
++   if (this->data_valid_ == false)
++     return "";
++ 
++diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
++index 80b2231327c..921a1f7c876 100644
++--- a/gold/dwarf_reader.h
+++++ b/gold/dwarf_reader.h
++@@ -173,11 +173,12 @@ class Dwarf_abbrev_table
++   // An attribute list entry.
++   struct Attribute
++   {
++-    Attribute(unsigned int a, unsigned int f)
++-      : attr(a), form(f)
+++    Attribute(unsigned int a, unsigned int f, int c)
+++      : attr(a), form(f), implicit_const(c)
++     { }
++     unsigned int attr;
++     unsigned int form;
+++    int implicit_const;
++   };
++ 
++   // An abbrev code entry.
++@@ -190,9 +191,9 @@ class Dwarf_abbrev_table
++     }
++ 
++     void
++-    add_attribute(unsigned int attr, unsigned int form)
+++    add_attribute(unsigned int attr, unsigned int form, int implicit_const)
++     {
++-      this->attributes.push_back(Attribute(attr, form));
+++      this->attributes.push_back(Attribute(attr, form, implicit_const));
++     }
++ 
++     // The DWARF tag.
++@@ -349,14 +350,15 @@ class Dwarf_ranges_table
++       delete this->ranges_reloc_mapper_;
++   }
++ 
++-  // Read the ranges table from an object file.
+++  // Fetch the contents of the ranges table from an object file.
++   bool
++   read_ranges_table(Relobj* object,
++ 		    const unsigned char* symtab,
++ 		    off_t symtab_size,
++-		    unsigned int ranges_shndx);
+++		    unsigned int ranges_shndx,
+++		    unsigned int version);
++ 
++-  // Read the range table from an object file.
+++  // Read the DWARF 2/3/4 range table.
++   Dwarf_range_list*
++   read_range_list(Relobj* object,
++ 		  const unsigned char* symtab,
++@@ -365,6 +367,15 @@ class Dwarf_ranges_table
++ 		  unsigned int ranges_shndx,
++ 		  off_t ranges_offset);
++ 
+++  // Read the DWARF 5 rnglists table.
+++  Dwarf_range_list*
+++  read_range_list_v5(Relobj* object,
+++		     const unsigned char* symtab,
+++		     off_t symtab_size,
+++		     unsigned int address_size,
+++		     unsigned int ranges_shndx,
+++		     off_t ranges_offset);
+++
++   // Look for a relocation at offset OFF in the range table,
++   // and return the section index and offset of the target.
++   unsigned int
++@@ -490,8 +501,6 @@ class Dwarf_die
++       unsigned int shndx;
++       // Block length for block forms.
++       unsigned int blocklen;
++-      // Attribute offset for DW_FORM_strp.
++-      unsigned int attr_off;
++     } aux;
++   };
++ 
++@@ -684,6 +693,10 @@ class Dwarf_die
++ // calls the various visit_xxx() methods for each header.  Clients
++ // should derive a new class from this one and implement the
++ // visit_compilation_unit() and visit_type_unit() functions.
+++// IS_TYPE_UNIT is true if we are reading from a .debug_types section,
+++// which is used only in DWARF 4. For DWARF 5, it will be false,
+++// and we will determine whether it's a type init when we parse the
+++// header.
++ 
++ class Dwarf_info_reader
++ {
++@@ -695,7 +708,7 @@ class Dwarf_info_reader
++ 		    unsigned int shndx,
++ 		    unsigned int reloc_shndx,
++ 		    unsigned int reloc_type)
++-    : is_type_unit_(is_type_unit), object_(object), symtab_(symtab),
+++    : object_(object), symtab_(symtab),
++       symtab_size_(symtab_size), shndx_(shndx), reloc_shndx_(reloc_shndx),
++       reloc_type_(reloc_type), abbrev_shndx_(0), string_shndx_(0),
++       buffer_(NULL), buffer_end_(NULL), cu_offset_(0), cu_length_(0),
++@@ -703,7 +716,12 @@ class Dwarf_info_reader
++       abbrev_table_(), ranges_table_(this),
++       reloc_mapper_(NULL), string_buffer_(NULL), string_buffer_end_(NULL),
++       owns_string_buffer_(false), string_output_section_offset_(0)
++-  { }
+++  {
+++    // For DWARF 4, we infer the unit type from the section name.
+++    // For DWARF 5, we will read this from the unit header.
+++    this->unit_type_ =
+++	(is_type_unit ? elfcpp::DW_UT_type : elfcpp::DW_UT_compile);
+++  }
++ 
++   virtual
++   ~Dwarf_info_reader()
++@@ -714,6 +732,13 @@ class Dwarf_info_reader
++       delete[] this->string_buffer_;
++   }
++ 
+++  bool
+++  is_type_unit() const
+++  {
+++    return (this->unit_type_ == elfcpp::DW_UT_type
+++	    || this->unit_type_ == elfcpp::DW_UT_split_type);
+++  }
+++
++   // Begin parsing the debug info.  This calls visit_compilation_unit()
++   // or visit_type_unit() for each compilation or type unit found in the
++   // section, and visit_die() for each top-level DIE.
++@@ -745,6 +770,9 @@ class Dwarf_info_reader
++   inline typename elfcpp::Valtype_base<valsize>::Valtype
++   read_from_pointer(const unsigned char** source);
++ 
+++  inline typename elfcpp::Valtype_base<32>::Valtype
+++  read_3bytes_from_pointer(const unsigned char** source);
+++
++   // Look for a relocation at offset ATTR_OFF in the dwarf info,
++   // and return the section index and offset of the target.
++   unsigned int
++@@ -818,12 +846,20 @@ class Dwarf_info_reader
++   Dwarf_range_list*
++   read_range_list(unsigned int ranges_shndx, off_t ranges_offset)
++   {
++-    return this->ranges_table_.read_range_list(this->object_,
++-					       this->symtab_,
++-					       this->symtab_size_,
++-					       this->address_size_,
++-					       ranges_shndx,
++-					       ranges_offset);
+++    if (this->cu_version_ < 5)
+++      return this->ranges_table_.read_range_list(this->object_,
+++						 this->symtab_,
+++						 this->symtab_size_,
+++						 this->address_size_,
+++						 ranges_shndx,
+++						 ranges_offset);
+++    else
+++      return this->ranges_table_.read_range_list_v5(this->object_,
+++						    this->symtab_,
+++						    this->symtab_size_,
+++						    this->address_size_,
+++						    ranges_shndx,
+++						    ranges_offset);
++   }
++ 
++   // Return the object.
++@@ -873,8 +909,8 @@ class Dwarf_info_reader
++   bool
++   do_read_string_table(unsigned int string_shndx);
++ 
++-  // True if this is a type unit; false for a compilation unit.
++-  bool is_type_unit_;
+++  // The unit type (DW_UT_xxx).
+++  unsigned int unit_type_;
++   // The object containing the .debug_info or .debug_types input section.
++   Relobj* object_;
++   // The ELF symbol table.
++@@ -1008,6 +1044,8 @@ class Sized_dwarf_line_info : public Dwarf_line_info
++   {
++     if (this->buffer_start_ != NULL)
++       delete[] this->buffer_start_;
+++    if (this->str_buffer_start_ != NULL)
+++      delete[] this->str_buffer_start_;
++   }
++ 
++  private:
++@@ -1030,19 +1068,23 @@ class Sized_dwarf_line_info : public Dwarf_line_info
++   void
++   read_relocs();
++ 
++-  // Reads the DWARF2/3 header for this line info.  Each takes as input
+++  // Reads the DWARF header for this line info.  Each takes as input
++   // a starting buffer position, and returns the ending position.
++   const unsigned char*
++   read_header_prolog(const unsigned char* lineptr);
++ 
++   const unsigned char*
++-  read_header_tables(const unsigned char* lineptr);
+++  read_header_tables_v2(const unsigned char* lineptr);
+++
+++  const unsigned char*
+++  read_header_tables_v5(const unsigned char* lineptr);
++ 
++-  // Reads the DWARF2/3 line information.  If shndx is non-negative,
+++  // Reads the DWARF line information.  If shndx is non-negative,
++   // discard all line information that doesn't pertain to the given
++   // section.
++   const unsigned char*
++-  read_lines(const unsigned char* lineptr, unsigned int shndx);
+++  read_lines(const unsigned char* lineptr, const unsigned char* endptr,
+++	     unsigned int shndx);
++ 
++   // Process a single line info opcode at START using the state
++   // machine at LSM.  Return true if we should define a line using the
++@@ -1069,6 +1111,7 @@ class Sized_dwarf_line_info : public Dwarf_line_info
++   {
++     off_t total_length;
++     int version;
+++    int address_size;
++     off_t prologue_length;
++     int min_insn_length; // insn stands for instruction
++     int max_ops_per_insn; // Added in DWARF-4.
++@@ -1089,6 +1132,20 @@ class Sized_dwarf_line_info : public Dwarf_line_info
++   // of the buffer.
++   const unsigned char* buffer_start_;
++ 
+++  // str_buffer is the buffer for the line table strings.
+++  const unsigned char* str_buffer_;
+++  const unsigned char* str_buffer_end_;
+++  // If the buffer was allocated temporarily, and therefore must be
+++  // deallocated in the dtor, this contains a pointer to the start
+++  // of the buffer.
+++  const unsigned char* str_buffer_start_;
+++
+++  // Pointer to the end of the header_length field (aka prologue_length).
+++  const unsigned char* end_of_header_length_;
+++
+++  // Pointer to the end of the current compilation unit.
+++  const unsigned char* end_of_unit_;
+++
++   // This has relocations that point into buffer.
++   Sized_elf_reloc_mapper<size, big_endian>* reloc_mapper_;
++   // The type of the reloc section in track_relocs_--SHT_REL or SHT_RELA.
+-- 
+2.30.2
 
