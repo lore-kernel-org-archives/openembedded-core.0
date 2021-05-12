@@ -1,141 +1,88 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web10.4356.1620854572616096859
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.4446.1620855135713469918
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 14:22:52 -0700
+ Wed, 12 May 2021 14:32:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cmLCmkJe;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id x22so7946077uav.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 14:22:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z8sfwrn4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id m9so25060543wrx.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 14:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wO+e37ZvJRaeK/D+p2f8PAL5DflrBfRpm0WwDX65LIA=;
-        b=cmLCmkJenBqq3Wf6fBTTodi3X22+dYgyMbDcFm7yxcLUxAyYxYxKpA/6vPOL+do+78
-         9lVWW7DA7t3hkT/+HFr/gg4olM1yh0c6+ClebQgtSzhJa5KNMCYv6K5UvZSo6tiING6S
-         pzjQ//8xSkZwY+k52kfNgqEJ037owO+hBwTo3dedSIjIpx6U+2Mv96JBAlIfwqSX6kCT
-         u2E1Mw+gMstLK4Lle4LCA7uX//W0sCC6qB+xsdATuVRRrIOX9KbD6+1viUiy4NVAPIhc
-         1+ujOyv2xIk/KU3G0GwamC5vyAKbLyj6HK1QmdEu5Am9DCEvge17w5D8B67x+bIA558+
-         RmiQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aVRwG9/seCkyncPHOx41Z1x064mn9SoOfVvcIbYcW9U=;
+        b=Z8sfwrn4BbBgUvfzPKQl2C5oY5LvcdJ33YaWsEZSzkl0+HmjDEGeFvYEggtTHtPtrH
+         4tq+deLgYu32Zc65/CQ8jegmOybkIpe6Zwoej9JVK4YoiiM+BEIx+tbAbPxjF8xwoM03
+         VdgOzJg2EwmI+NjCHNWorFtdzgsrPMJ1JVvZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wO+e37ZvJRaeK/D+p2f8PAL5DflrBfRpm0WwDX65LIA=;
-        b=ikEZbYKYZl/0YPJ18FNWYcDrvygV88dpr6IiXKwDTtu8QYO7dLUnJUjghWgak4O9vu
-         b7OVe7mtSvR5QloV1jtyuKmIYtTHNztI9Y3O+4eR6liqWzl9CMQgt5SF8Yi+beWu7EFB
-         bmpyOVUq7M9dKJ5TjjEAcoRj0Y8jQoo+JSFOFGfgg0Qmf/vWs23i/LbQ2ZufVoFsM5WF
-         n7h0AXSmkFr4/U4Yv+8fGExKjPBNuIGBb+NuD+JaCGHj0D1q0xvVGpmWH8d+JtV7vx0b
-         GCdnYhmpsTF7WK9uuUkzX4kxz+0vV3O8P35lYdVQQyCVBolUxv3ujtpyXHdwKBZRtt/c
-         za1A==
-X-Gm-Message-State: AOAM530r9KRU4Z/eHyVls5G9BjQA2Ig71YhRFiyWxMJO/J9MEcX1aTbo
-	dUfX7Il30v6kRHVOHB4ClwcIh1iuaVPboLxtT2Q=
-X-Google-Smtp-Source: ABdhPJwTmNBS3B3fg8Rw4yHZzhEenRCqULSAaYfFq3SGWi1Ft/KenUQhYBACBfsEf1zgrWbBuafUmEoIhQ8N5pjMJGg=
-X-Received: by 2002:ab0:59cb:: with SMTP id k11mr20660423uad.100.1620854571805;
- Wed, 12 May 2021 14:22:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aVRwG9/seCkyncPHOx41Z1x064mn9SoOfVvcIbYcW9U=;
+        b=fEobG1VuwzLTKTcIPxIJujiedYqgqEeU67e/yUTRbnE2RYUH+edFpYnpVwcmzQgDXQ
+         AASVYkn2Pwb/HMm/blWZVSDIY5Z51qn713D1AUzpXzGnr9THF2EuvV/ZaNFYB8vROoZN
+         ahy0Sk4HdPjXllI+SvU0dzCYChMuFS3eZ5bkOqR1wJGfHSZJq2/Oxcs8Wd48DYespWab
+         Lcda4I/+CYE6G4VDCwwtG+Ih5HFXwk15k6uktSvRkPiAZZWHduXkEyEStAYpNltZ5m0L
+         jUiug7JXYag+7HG0mEBD++sQr7b/JUvgStvlzuJyIjel7IwYhLE6N3nrDhA5KGZm53pa
+         72sA==
+X-Gm-Message-State: AOAM530GFZuqXXeGSb1/n8LtiAq5+dt6FwbnvAEXDfbRtdXEIe+kVSiJ
+	fm5IB/Du54VCDnnrJrTiV1e555nCExLDtQ==
+X-Google-Smtp-Source: ABdhPJz5YGoil30171wSBnkENoEic8lsNqkV+tVDvWBRjp4a2fgw/yqMM6hFESwWuQ0gXe0RuR7t8Q==
+X-Received: by 2002:a05:6000:186f:: with SMTP id d15mr48153136wri.400.1620855133861;
+        Wed, 12 May 2021 14:32:13 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f649:3481:d239:bb03])
+        by smtp.gmail.com with ESMTPSA id j10sm893861wrt.32.2021.05.12.14.32.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 May 2021 14:32:13 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] ovmf: Disable lto to aid reproducibility
+Date: Wed, 12 May 2021 22:32:11 +0100
+Message-Id: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
- <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
- <255c6c61-af04-4866-bb2f-0ddc50ca6391@www.fastmail.com> <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
-In-Reply-To: <CANNYZj-PSq4bAQpy3s=8Vuqk-PcstZZFPzr710VXfS3Lj8Aiow@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 12 May 2021 23:22:40 +0200
-Message-ID: <CANNYZj8yZ5Ays2dsPV5jkptLea0faY2uqd5_n6SeOFZdoqV8Gw@mail.gmail.com>
-Subject: Re: [OE-core] master/main branch renaming and bitbake
-To: Colin Walters <walters@verbum.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fc2ec605c2289c36"
+Content-Transfer-Encoding: 8bit
 
---000000000000fc2ec605c2289c36
-Content-Type: text/plain; charset="UTF-8"
+lto tends to break reproducibility and makes ovmf near impossible to debug
+reproducibility issues in. Disable it and supress the warnings that then
+generates from Werror.
 
-And by the way, another reason to check that revision is linked to a branch
-is when SRCREV is updated - we need some reassurance that the updated
-SRCREV comes from the same branch as previous SRCREV, or that if the branch
-has changed, it's explicitly visible in the diff and explained in the
-commit message.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/ovmf/ovmf_git.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 1fe01146d6b..ef5545bf705 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -102,15 +102,22 @@ fix_toolchain_append_class-native() {
+     # to make ovmf-native reusable across distros.
+     sed -i \
+         -e 's#^\(DEFINE GCC.*DLINK.*FLAGS  *=\)#\1 -fuse-ld=bfd#' \
++        -e 's#-flto#-fno-lto#g' \
++        -e 's#-DUSING_LTO##g' \
+         ${S}/BaseTools/Conf/tools_def.template
+ }
+ 
++# We disable lto above since the results are not reproducible and make it hard to compare
++# binary build aretfacts to debug reproducibility problems.
++# Surprisingly, if you disable lto, you see compiler warnings which are fatal. We therefore
++# have to hack warnings overrides into GCC_PREFIX_MAP to allow it to build.
++
+ # We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
+ # --debug-prefix-map to nasm (we carry a patch to nasm for this). The
+ # tools definitions are built by ovmf-native so we need to pass this in
+ # at target build time when we know the right values.
+ export NASM_PREFIX_MAP = "--debug-prefix-map=${WORKDIR}=/usr/src/debug/ovmf/${EXTENDPE}${PV}-${PR}"
+-export GCC_PREFIX_MAP = "${DEBUG_PREFIX_MAP}"
++export GCC_PREFIX_MAP = "${DEBUG_PREFIX_MAP} -Wno-stringop-overflow -Wno-maybe-uninitialized"
+ 
+ GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
+ 
+-- 
+2.30.2
 
-On Wed, 12 May 2021 at 23:17, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Wed, 12 May 2021 at 22:44, Colin Walters <walters@verbum.org> wrote:
->
->> On Wed, May 12, 2021, at 4:40 PM, Alexander Kanavin wrote:
->> > For ostree, yes:
->> > http://git.openembedded.org/meta-openembedded/log/?h=master-next
->> >
->> > For the generic case, no. It's not a good idea to start guessing what
->> > the upstream did.
->>
->> What is the goal of the `branch=` specification?  I can understand it
->> being *informative* for humans specifically when things like
->> non-master/main branches e.g. `release-4.x`, `lts-`, `stable-` etc. are
->> involved.
->>
->> But why is bitbake explicitly checking it?  Is it to validate what the
->> human expressed, or is it to try to cover some security aspect?  Something
->> else?
->>
->
-> To ensure the specified revision is actually linked with the specified
-> branch, and not just free-floating, and catch branch renames, deletions and
-> force pushes. You can override that behaviour with nobranch=1, at your own
-> risk - free-floating revisions can be 'garbage collected'.
->
-> Yes, it's annoying when the upstream renames branches, but it's no
-> different than upstreams clearing up old tarballs, or disappearing
-> altogether. Ensure you have proper download mirrors.
->
-> Alex
->
-
---000000000000fc2ec605c2289c36
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>And by the way, another reason to check that revision=
- is linked to a branch is when SRCREV is updated - we need some reassurance=
- that the updated SRCREV comes from the same branch as previous SRCREV, or =
-that if the branch has changed, it&#39;s explicitly visible in the diff and=
- explained in the commit message.</div><div><br></div><div>Alex<br></div></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Wed, 12 May 2021 at 23:17, Alexander Kanavin &lt;<a href=3D"mailto:alex.ka=
-navin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 12 May 2021 at 22:44,=
- Colin Walters &lt;<a href=3D"mailto:walters@verbum.org" target=3D"_blank">=
-walters@verbum.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Wed, May 12, 2021, at 4:40 PM, Alexander Kanavin wrote=
-:<br>
-&gt; For ostree, yes:<br>
-&gt; <a href=3D"http://git.openembedded.org/meta-openembedded/log/?h=3Dmast=
-er-next" rel=3D"noreferrer" target=3D"_blank">http://git.openembedded.org/m=
-eta-openembedded/log/?h=3Dmaster-next</a><br>
-&gt; <br>
-&gt; For the generic case, no. It&#39;s not a good idea to start guessing w=
-hat <br>
-&gt; the upstream did.<br>
-<br>
-What is the goal of the `branch=3D` specification?=C2=A0 I can understand i=
-t being *informative* for humans specifically when things like non-master/m=
-ain branches e.g. `release-4.x`, `lts-`, `stable-` etc. are involved.<br>
-<br>
-But why is bitbake explicitly checking it?=C2=A0 Is it to validate what the=
- human expressed, or is it to try to cover some security aspect?=C2=A0 Some=
-thing else?<br></blockquote><div><br></div><div>To ensure the specified rev=
-ision is actually linked with the specified branch, and not just free-float=
-ing, and catch branch renames, deletions and force pushes. You can override=
- that behaviour with nobranch=3D1, at your own risk - free-floating revisio=
-ns can be &#39;garbage collected&#39;.</div><div><br></div><div>Yes, it&#39=
-;s annoying when the upstream renames branches, but it&#39;s no different t=
-han upstreams clearing up old tarballs, or disappearing altogether. Ensure =
-you have proper download mirrors.<br></div><div><br></div><div>Alex<br></di=
-v></div></div>
-</blockquote></div>
-
---000000000000fc2ec605c2289c36--
