@@ -1,50 +1,50 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web10.8260.1620831536167152520
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+ by mx.groups.io with SMTP id smtpd.web12.8357.1620831541806648770
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 07:58:56 -0700
+ Wed, 12 May 2021 07:59:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hKukcONR;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f44.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso20796163otn.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:58:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lNJjQdwc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.47, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f47.google.com with SMTP id i23-20020a9d68d70000b02902dc19ed4c15so16813168oto.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4RryR48gNOpkLetiqu3DgJVjVVVLCNzPHRlHUHuZgmA=;
-        b=hKukcONRwDYjWPbdcR8FmaZpfIMGeDcaFuPh2Ry7dr8a6Uxal72BjfDeVneCxwNi8p
-         D7s2bNEivEtN7RmaJZTQzWlYVVFEtkjN3FDtnSdWgUYxslvy/DRnmjUMdYj3/2Xz3hrn
-         /Z/YwAkC8gzo3v/yD1JvoyWrsoO5KCh1hOYqtDASlJbTH6oiraxtcf6ObT23TGACc4CZ
-         BJpXoBmUSNlSjgWgihxFEkOHaCxcCmpF0I1PxVs4I8/wPoVcBwzLCr2QD0d94aYoMnXp
-         E3jmRyhFNTVw2iBDOq9uxu2T+HVcayGOOO0nU/OrZCYO4IZwVarQNzELmJ54TNr6Rszj
-         hbvA==
+        bh=wQZDN47I90+2Rna5FAy4BeXXmL1bh95BnohE+ebJx+s=;
+        b=lNJjQdwcf6LK9IgyFqv9dqWo6GP4dnCtRww1PxFW9FdYpLWOpIH0MzoZkhWSgTNy7L
+         QHLJ1E9xO0hxNg9bgEA6kYBV20rtzYmFgG6FOu9vHo6o831yCg06dbngpJbhkXqmfjOL
+         v144RXGPq+6zqA9JGcoqUjVQuSpXOOMrorik0dDI2kgAHfNTNbsb6o0SwILsAv0hrNJt
+         wzhlThda3QJq7RR4JqwQxXQ8hK2TVp++lgz/sWNGjeJZ+BWlCGQyfaZCWAuyP4uxcTIf
+         uuXTzu2xxe2WRbo08illlpDn4qSmK82c02jNqo97BNUgUe+Y7/eIKJnfyKCqbUdabKiA
+         YojA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4RryR48gNOpkLetiqu3DgJVjVVVLCNzPHRlHUHuZgmA=;
-        b=WfAedbAmEyebdgaMMNIfM9/pY8PEGuGKQs1nsuQE+PclZQKaQHz3eA/2STYT8aO8vx
-         3+AhPBhBrs+AHpS876kSknDr3ec4lvE+XlBwxKrbtAkuw3uPZONRG5ndu7XwJhzyA0Mf
-         C9QwJ0yY73372Pwrec/wJxoVsL8X50Zw9yN3bRKY6RTYiOKwosHwRf7R/HH26wtL9v7S
-         o1vMdMCmUdvktKovL9ora9BsvdgpvZPmQLsDe6Rwp7pFdCB/jYWOgoJWOV8DgSxiwg4P
-         50jMlKPLlzsmqv0PzbxN1+OFoBZazTMz7z9KZ+6HW34jQqKCQ0lbIck6QsDz41fKL8v4
-         0O1A==
-X-Gm-Message-State: AOAM532bKpai9wVG4VZE2n+UNaSpfoGGHzEtexx0ypRZe9kRDy7t+nRf
-	pTNC87lsdjR4wtTTxNp2JGV4bXQu1KeXgj9X/Og=
-X-Google-Smtp-Source: ABdhPJzIebaQJFZtlw7TiNg9Fg73vvjTEus8Ni8yKIZ9wHBa23n0VPsEd6MFVzk5ebWh/v34KJjTEA==
-X-Received: by 2002:a05:6830:55b:: with SMTP id l27mr30818295otb.260.1620831535101;
-        Wed, 12 May 2021 07:58:55 -0700 (PDT)
+        bh=wQZDN47I90+2Rna5FAy4BeXXmL1bh95BnohE+ebJx+s=;
+        b=Vc7hXvfgH5i3LSkVRvQfInCOYI/sY7ljfvlN6euWJn3XIHifO1WroM0nnuTFHSPVM2
+         LHlVGC5B5XpFWh8pf4/jrmHd+3vhzSyStGjPWPz/Z2USV9DoqiScvfgHxKND/j/BHauu
+         i1HRbwjkJ3GPtVuk03CiTyVf4YpHLphIVqdfrHFMD3vj7Lq7hfE+piZAGWIE2esLnRZD
+         ul2Zk5mRBlcKfbRmEb+Y0oO6w3mrs28J6OjEgzUVTh6khJjsoJ42y4UIRLi5LAqYe3sf
+         IxXNiz2ysB0jWG1k7RW6Z0diMThH8G83b1LYGH1GAkP1nkDmma68EdGIXn4QyuCbMT23
+         YGeg==
+X-Gm-Message-State: AOAM531NZ7GHzddKe6N2fZm8kdMgV8Oxg9mDGYXBhddAwpLTXOWlYpKp
+	0k/Yg2tJ768D0Mj3S4WI5gbQJPKufdZMpWLcKpY=
+X-Google-Smtp-Source: ABdhPJwvNNFGQaC65dwMhRrc5heMf3kmW8os8Uf0/RfBbmxiFcae/oeD4rlojbY/ZITfedXEH2TEhg==
+X-Received: by 2002:a05:6830:1dba:: with SMTP id z26mr10090034oti.133.1620831540719;
+        Wed, 12 May 2021 07:59:00 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.58.50
+        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.58.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 07:58:54 -0700 (PDT)
+        Wed, 12 May 2021 07:59:00 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/22] oeqa/qemurunner: Fix binary vs str issue
-Date: Wed, 12 May 2021 04:56:54 -1000
-Message-Id: <d024fec441148d1022dd57cd3bb9f12bd10a6378.1620831171.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/22] oeqa/qemurunner: Improve handling of run_serial for shutdown commands
+Date: Wed, 12 May 2021 04:56:55 -1000
+Message-Id: <a7590631e5263e8924a4f516fe7acc7eaba97ff4.1620831171.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620831171.git.steve@sakoman.com>
 References: <cover.1620831171.git.steve@sakoman.com>
@@ -53,43 +53,50 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The recent logging changes for qemurunner showed up as errors on the
-autobuilder where decode couldn't be called on the returned string.
-Since the code returns binary data, return b'' instead of '' to match
-to avoid tracebacks.
-
-One of these cases was newly added, copied from the other which has
-been there for a long time, always broken.
+When running a shutdown command, the serial port can close without the
+command returning. This is seen as the socket being readable but having
+no data. Change the way this case is handled in the code to avoid
+tracebacks.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b8995b27db265b0a0b2d2ca595915f70f9f96e07)
+(cherry picked from commit 396a3ba884820d040c91f7592daf20ac28c49b5d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 410789b815..09ef9fadb2 100644
+index 09ef9fadb2..79db2cc247 100644
 --- a/meta/lib/oeqa/utils/qemurunner.py
 +++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -646,7 +646,7 @@ class LoggingThread(threading.Thread):
-             data = self.readsock.recv(count)
-         except socket.error as e:
-             if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
--                return ''
-+                return b''
-             else:
-                 raise
+@@ -70,6 +70,8 @@ class QemuRunner:
+         self.monitorpipe = None
  
-@@ -659,7 +659,7 @@ class LoggingThread(threading.Thread):
-             # until qemu exits.
-             if not self.canexit:
-                 raise Exception("Console connection closed unexpectedly")
--            return ''
-+            return b''
+         self.logger = logger
++        # Whether we're expecting an exit and should show related errors
++        self.canexit = False
  
-         return data
+         # Enable testing other OS's
+         # Set commands for target communication, and default to Linux ALWAYS
+@@ -468,6 +470,7 @@ class QemuRunner:
+             self.thread.join()
  
+     def allowexit(self):
++        self.canexit = True
+         if self.thread:
+             self.thread.allowexit()
+ 
+@@ -526,7 +529,9 @@ class QemuRunner:
+                     if re.search(self.boot_patterns['search_cmd_finished'], data):
+                         break
+                 else:
+-                    raise Exception("No data on serial console socket")
++                    if self.canexit:
++                        return (1, "")
++                    raise Exception("No data on serial console socket, connection closed?")
+ 
+         if data:
+             if raw:
 -- 
 2.25.1
 
