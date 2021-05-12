@@ -1,119 +1,72 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web09.5505.1620860176391248976
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web08.5544.1620860425493699320
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 15:56:16 -0700
+ Wed, 12 May 2021 16:00:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=anDCPZ0u;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id l1so1307653ejb.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 15:56:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FUxjhmfV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id v12so25177930wrq.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dZz3uqL7CqKUrzQUjJ914U3pzMokzOmI4ufQIvqukQ0=;
-        b=anDCPZ0uJ4LeLfy4MGPoziXE6uwLgwmfsZ1IKQORpr3Q8f4PeCSxCzYrMp88aFxriW
-         tyMTvefPG2tCCg75GatMThrF+wUsyTqEToW9rQK3aLCjMBLKee5YyGAhSjnCSzHm760H
-         Q9eqDYkpLWLMSnP5mEEp8eQU5CgimPD+vBPhiTUi2lMwNh14t/oGzc1sS9AgXljjW31R
-         5XOk8eToEJX/mFDEQR9ghRV21JWs6AkiSl9p7rGPY+UJOB9chhQe7s7EsGTHdf/7qms8
-         vr8AzMp1EoN2ZwSKokRPInnKoqcNTZvGZXWjmpyS29fDco0n91YoiYqOUyMiD3NzbnTN
-         1XaQ==
+        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
+        b=FUxjhmfVbj024uaDv2OTseX3pWCUKrrO4WXRlhVV/WUdC8F70lrx2vbe+Nr2vQ6f4L
+         JySolWvUf6rI3TFLqhCFcROMV3Li82xMEQy5EiaFmJn6hPmF+XVYB5s++R2pOZZ2g1Vt
+         5QwFkOjMHVGUnKEaPTEtlmVvBrxNgRqXyjg3g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dZz3uqL7CqKUrzQUjJ914U3pzMokzOmI4ufQIvqukQ0=;
-        b=VYyI049B6Hghp1xJWw/KpaC3e9smKLYq1Q8Ga8qxTCoiSpYFMCnnMAUP3Q/9dXNqsE
-         5TETJbV4LaAGZ0GNSKvssxq6HYjNvLEWGBqGr7/FGM2jNEA2A3zzvgQXq/r5RlGkJ6Cm
-         p8Pq4YgU51LtJEpc7RDZfRqGWkUGsYq15r0R0D0cm/qT4pFDiSGdD/D1f917XzfE/LNH
-         yTZTl/i5HDUwj2TSYEsL7GyI+w5nveeJ2+ywMQfmyBmRgA3N5PBtBUJlChI9ci08DO+z
-         n8a32uGrGhFTs82AbVuJLV+FdL+U2cxOKtLo1rke5tBX9Thw10Mk8IAzOQZbbKYxJuhb
-         qD6w==
-X-Gm-Message-State: AOAM530POjydE2BtTUlCMPloYZXAdMCuRvbtU8/nw94wpvQLgC14mPXT
-	RZ9oUtorCQKS1y8MWKXH/nbpya30aeI=
-X-Google-Smtp-Source: ABdhPJzie6rREoQRuKVyQoi2dFQ2FHA7uCxlO6nTygom9LsLHwlvB2KZ0FDiOWr0l7EaVlIVgeEpXQ==
-X-Received: by 2002:a17:906:9141:: with SMTP id y1mr41882086ejw.111.1620860174723;
-        Wed, 12 May 2021 15:56:14 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id d9sm1014595eds.68.2021.05.12.15.56.14
+        bh=L+lnJXJNYwv5hGPzhocPG3NT7KYt0RCJl/0K7pLhofQ=;
+        b=OCNtazP1PiBFrVvg1zur19qGf3FRK2wsWH1tkqbfIg5wTcX9FKSc4YwTFdnWuZ1Vl5
+         KJmYhQaR0oRk55Ta9vbHWq8wN1OjUxoo2gPm529YZWnDEEPN3xCzIDGLcaW8lA3/HFc2
+         cKjO7OGhJlMUf7TpV6h9+nMHfHdT659IFcGU/vvlzT1BWhZQoxHNULoU1JI62ks3CmSC
+         EURRIDA+Y5c8H1sjcJCSY6icMnowdi41DiJoFKvhunHtn3vQnxoygQNWQ9np7a1QLh+v
+         NQ1JjZWiRh9USZAx5HbYS52HA6omB/zxO2buOcIyYxtptEAOssFrZf7CmBlQUUUKMown
+         AMKw==
+X-Gm-Message-State: AOAM533YpIjKQafVyQ/vVHDwg9Y+qRbjs+6dvHW7k9D+gUFjoDnvRmrW
+	diZ8haZEtVYcDAKp50AJGa+6yqt6162T4A==
+X-Google-Smtp-Source: ABdhPJz8ta6L+ZWwI3fex8+lZ1LME74nE4tsue6CEMfF1LI6Kn3TsybSCULR1K1nzfaUqcjViCOe+A==
+X-Received: by 2002:adf:ea82:: with SMTP id s2mr10924725wrm.397.1620860423918;
+        Wed, 12 May 2021 16:00:23 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f649:3481:d239:bb03])
+        by smtp.gmail.com with ESMTPSA id v12sm1156273wrv.76.2021.05.12.16.00.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 15:56:14 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Wed, 12 May 2021 16:00:23 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] webkitgtk: fix build without opengl in DISTRO_FEATURES
-Date: Thu, 13 May 2021 00:56:06 +0200
-Message-Id: <20210512225606.3830968-1-Martin.Jansa@gmail.com>
+Subject: [PATCH] avahi: Exclude CVE-2021-26720 from cve-check
+Date: Thu, 13 May 2021 00:00:23 +0100
+Message-Id: <20210512230023.2287497-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...pletionHandler-when-USE_OPENGL_OR_ES.patch | 37 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.32.0.bb  |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Properly-use-CompletionHandler-when-USE_OPENGL_OR_ES.patch
+Issue only affects Debian and SUSE.
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Properly-use-CompletionHandler-when-USE_OPENGL_OR_ES.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Properly-use-CompletionHandler-when-USE_OPENGL_OR_ES.patch
-new file mode 100644
-index 0000000000..b5367022d8
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Properly-use-CompletionHandler-when-USE_OPENGL_OR_ES.patch
-@@ -0,0 +1,37 @@
-+From 834f335bb3e63e0bf78eed0520df33d5c55e5e8a Mon Sep 17 00:00:00 2001
-+From: "commit-queue@webkit.org"
-+ <commit-queue@webkit.org@268f45cc-cd09-0410-ab3c-d52691b4dbfc>
-+Date: Sat, 10 Apr 2021 22:02:50 +0000
-+Subject: [PATCH] Properly use CompletionHandler when USE_OPENGL_OR_ES is set
-+ to OFF https://bugs.webkit.org/show_bug.cgi?id=224149
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Patch by Charlène Wendling <julianaito@posteo.jp> on 2021-04-10
-+Reviewed by Fujii Hironori.
-+
-+* WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:
-+(WebKit::LayerTreeHost::forceRepaintAsync):
-+
-+git-svn-id: http://svn.webkit.org/repository/webkit/trunk@275802 268f45cc-cd09-0410-ab3c-d52691b4dbfc
-+
-+Upstream-Status: Backport
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ .../WebPage/CoordinatedGraphics/LayerTreeHost.h        |  2 +-
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h b/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h
-+index 6727d16c8c0b..db65f813267d 100644
-+--- a/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h
-++++ b/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h
-+@@ -213,7 +213,7 @@ inline void LayerTreeHost::setRootCompositingLayer(WebCore::GraphicsLayer*) { }
-+ inline void LayerTreeHost::setViewOverlayRootLayer(WebCore::GraphicsLayer*) { }
-+ inline void LayerTreeHost::scrollNonCompositedContents(const WebCore::IntRect&) { }
-+ inline void LayerTreeHost::forceRepaint() { }
-+-inline bool LayerTreeHost::forceRepaintAsync(CompletionHandler<void()>&) { return false; }
-++inline void LayerTreeHost::forceRepaintAsync(CompletionHandler<void()>&&) { }
-+ inline void LayerTreeHost::sizeDidChange(const WebCore::IntSize&) { }
-+ inline void LayerTreeHost::pauseRendering() { }
-+ inline void LayerTreeHost::resumeRendering() { }
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
-index 8a07fadd9b..31a6c97a32 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.32.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://musl-lower-stack-usage.patch \
-            file://0001-MiniBrowser-Fix-reproduciblity.patch \
-            file://49a19c49c6de8af74e521f36cb43e6c1ec2e391c.patch \
-+           file://0001-Properly-use-CompletionHandler-when-USE_OPENGL_OR_ES.patch \
-            "
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/avahi/avahi_0.8.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+index c8a3f876aa9..23c0e8d8239 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -30,6 +30,9 @@ UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
+ SRC_URI[md5sum] = "229c6aa30674fc43c202b22c5f8c2be7"
+ SRC_URI[sha256sum] = "060309d7a333d38d951bc27598c677af1796934dbd98e1024e7ad8de798fedda"
  
- SRC_URI[sha256sum] = "9d7df4dae9ada2394257565acc2a68ace9308c4c61c3fcc00111dc1f11076bf0"
++# Issue only affects Debian/SUSE, not us
++CVE_CHECK_WHITELIST += "CVE-2021-26720"
++
+ DEPENDS = "expat libcap libdaemon glib-2.0 intltool-native"
+ 
+ # For gtk related PACKAGECONFIGs: gtk, gtk3
 -- 
 2.30.2
 
