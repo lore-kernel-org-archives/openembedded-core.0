@@ -1,296 +1,174 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.4489.1620855135878440838
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.5297.1620859022735362523
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 14:32:16 -0700
+ Wed, 12 May 2021 15:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YSed79KE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id m9so25060546wrx.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 14:32:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WSqwhvlk;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id v5so17827254edc.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 15:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=8vDbpVugHXJlv5aLd5Y3Z/rW5lyV57KFkQ/aljDamPg=;
-        b=YSed79KEoSodTIqzuD1aU+6kbt1oT5ImrSznTduRoAFYV9UQJAyzd+iazpli5sHnDa
-         j6CFLrhhrBuWryDGi0t5ixlV5PL6tewaYth6c38M1FQ2qehCjwaf+0dsvcRf/y17W8gu
-         n2/n7bm+R+ROdSYzX9pVKvNypS3cR3p3GCow8=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=n1CeGEKfmfAuN7+SnbWkGjzE82fuK7iKpZ0ulj07Crk=;
+        b=WSqwhvlkiLeNoD0xrsJ3xZZbb5MPS07MO6MIZhru6lf1dqv7O3WbGdh/y3leGkbvdM
+         /9cyP5qMUmhD82hDh/95rPLGYjk4TOz2xj8TTiLy2/pzROa/l3bkbDQe3LKBeYNAfOjF
+         RspvMbGly9AXFGjSz79TR/rGB3HOkukNSCB8gIgx0QYlnCdcsdASEcTd62XIpIDWem7l
+         XdCiWZX29gmwf9WSG87NRiXJruiao01Xi2GJp7DeHxUIrHnkfa0f44f8jxn7nlFIQvzi
+         uknOLPUoM6IlYQl7r/uP9YGCZFx0L2SmG4sQ4DEv0Ejlu6UtVtNbwH18lstLq4hzj7Zi
+         1ycw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8vDbpVugHXJlv5aLd5Y3Z/rW5lyV57KFkQ/aljDamPg=;
-        b=Z5iQFj9OoAuAwBrUCXgqMi2MDziou3r15vEE29JS9WOVpJpxMvPo/pNeSNVwTNohJv
-         WQk070Pn8NbsLPU40FGrxgRrlonw3oG/cJ+as/7tOoFyRIGYoA43LJlKQGsru8YuCyl4
-         VN/Nr9Cb0/A3rf/Nr/DNXqwv5IdOkh2/uBLCDmNbLp7TXeD3nxRZn6r08w5RYKJKdHeN
-         yqZ39EzT7wgYrUZvXjmUffUsYfV+GTTC3QCqzEbpVv1duDPTNc0A6b2GWWLPRyLY7i+/
-         0wO0t43eV0zSe78QnmEaFSC2kQIKkG+yFsoJbTf1yKu8/amqZbQSRUge9R+fiKdx2QE9
-         xkCg==
-X-Gm-Message-State: AOAM531pRektvwUSeOHX6C8aGbweMIC+J0TCg9x8SkxKhrV2HK+VnMYe
-	3UrIvtD5C3GgA5wFNf55WlT+CW+ppSyC3A==
-X-Google-Smtp-Source: ABdhPJwn9yxJw0TNyaJgczc4CZCVumUMBhX9wGNdmSB/srG2jj9hRtlGdZrn7ABp7/VFNWrqhAvjsw==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr49082133wro.413.1620855134240;
-        Wed, 12 May 2021 14:32:14 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f649:3481:d239:bb03])
-        by smtp.gmail.com with ESMTPSA id j10sm893861wrt.32.2021.05.12.14.32.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 14:32:14 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] ovmf: Fix other reproducibility issues
-Date: Wed, 12 May 2021 22:32:12 +0100
-Message-Id: <20210512213212.2283022-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
-References: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n1CeGEKfmfAuN7+SnbWkGjzE82fuK7iKpZ0ulj07Crk=;
+        b=FpyZ/zAqITdYlAnys7LJuPqbB4e6Uij/1dGrHgZRHT7SUjL4gRmW4WarExAY8BI1xy
+         RjD33OqRhQX6iNbN5hTRNSqdpQ27D21jZudmfT0SW8q/1vRpxgNMTB1DFFUFxOA2do+O
+         Ek6EeuCJygOa5h49qdZ1fDm5rPwRER5nQgIPdwUx6KhP5WMIxP5hKb3aGUqNa+38ZI68
+         O+lXrIY6GOhRcrrNjqGREqiwOjBzVCwJXOzxLXtVMhPfliAYy0Y/TWw4TfNIjJvAlKfi
+         aGCj5YQr6N8Sta+dlojdW3/6hWlRjxgWRnJSpOGoPvypRBqInZEUSFJRjPgWktLt/H8+
+         pNGg==
+X-Gm-Message-State: AOAM531M+kW475W2PY1i1LjtifOrvloSHaQYpe290F96iSe9OF2dbvou
+	g1g18Ve6gF69wB3qWEAWkW7UF8UcSKJitTGS2sE=
+X-Google-Smtp-Source: ABdhPJyUW4YgMaBMbCEH4Wr7AB6x8NGnT+Hg6EQO/5t6qS9zUb6eEwM/5JstnEnUP/jRzsd/4UMvmxDpDOZwPmGssE4=
+X-Received: by 2002:aa7:c349:: with SMTP id j9mr45432617edr.230.1620859021128;
+ Wed, 12 May 2021 15:37:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210505151850.660512-1-alex.kanavin@gmail.com> <20210505151850.660512-24-alex.kanavin@gmail.com>
+In-Reply-To: <20210505151850.660512-24-alex.kanavin@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 13 May 2021 00:36:50 +0200
+Message-ID: <CA+chaQfQBUphmMXsbOmM4Z82D75hZQUQMPMzKAzCctYudqAq6A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 24/61] webkitgtk: update 2.30.6 -> 2.32.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002f77d405c229a6ef"
+
+--0000000000002f77d405c229a6ef
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-When building in longer paths, the ovmf build changes in many ways. This ad=
-ds a
-patch addressing various causes of problems. Full details are in the patch =
-header.
+On Wed, May 5, 2021 at 5:20 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../recipes-core/ovmf/ovmf/reproducible.patch | 165 ++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
- 2 files changed, 166 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/reproducible.patch
+> Drop 0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
+> (merged upstream).
+>
+> Rebase other patches.
+>
 
-diff --git a/meta/recipes-core/ovmf/ovmf/reproducible.patch b/meta/recipes-=
-core/ovmf/ovmf/reproducible.patch
-new file mode 100644
-index 00000000000..5d2aeaacfe5
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/reproducible.patch
-@@ -0,0 +1,165 @@
-+This patch fixes various things which make the build more reproducible. So=
-me changes
-+here only change intermediate artefacts but that means when you have two b=
-uild trees
-+giving differing results, the differences can be isolated more easily. The=
- issues here
-+usually become apparent with longer paths.
-+
-+This was all debugged with:
-+TMPDIR =3D "${TOPDIR}/tmp"
-+vs.
-+TMPDIR =3D "${TOPDIR}/tmp-inital-mylongpath-mylongpath-mylongpath-mylongpa=
-th-mylongpath-mylongpath-mylongpath-mylongpath-mylongpath"
-+
-+The patch specifically:
-+
-+ * Sorts output in GNUmakefile
-+ * Always generates indirect flags files used to avoid pathlength issues e=
-lse the=20
-+   compile commands suddenly change when using longer paths
-+ * Sorts the AutoGenTimeStamp file contents
-+ * Makes the TargetDescBlock objects from BuildEngine sortable to allow th=
-e makefile fix
-+ * Fix ElfConvert within GenFw so that only the basename of the binary bei=
-ng converted=20
-+   is used, else the output from "GenFw XXX.bin" differs from "GenFw /long=
-/path/XXX.bin"
-+   with sufficiently long paths
-+
-+Upstream-Status: Pending [At least some of this might be interesting to up=
-stream]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: git/BaseTools/Source/Python/AutoGen/GenMake.py
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- git.orig/BaseTools/Source/Python/AutoGen/GenMake.py
-++++ git/BaseTools/Source/Python/AutoGen/GenMake.py
-+@@ -571,7 +571,7 @@ cleanlib:
-+                 os.remove(RespFileList)=0D
-+ =0D
-+         # convert source files and binary files to build targets=0D
-+-        self.ResultFileList =3D [str(T.Target) for T in MyAgo.CodaTargetL=
-ist]=0D
-++        self.ResultFileList =3D sorted([str(T.Target) for T in MyAgo.Coda=
-TargetList])=0D
-+         if len(self.ResultFileList) =3D=3D 0 and len(MyAgo.SourceFileList=
-) !=3D 0:=0D
-+             EdkLogger.error("build", AUTOGEN_ERROR, "Nothing to build",=0D
-+                             ExtraData=3D"[%s]" % str(MyAgo))=0D
-+@@ -722,7 +722,7 @@ cleanlib:
-+         OutputFile =3D ''=0D
-+         DepsFileList =3D []=0D
-+ =0D
-+-        for Cmd in self.GenFfsList:=0D
-++        for Cmd in sorted(self.GenFfsList):=0D
-+             if Cmd[2]:=0D
-+                 for CopyCmd in Cmd[2]:=0D
-+                     Src, Dst =3D CopyCmd=0D
-+@@ -755,7 +755,7 @@ cleanlib:
-+             self.BuildTargetList.append('\t%s' % CmdString)=0D
-+ =0D
-+             self.ParseSecCmd(DepsFileList, Cmd[1])=0D
-+-            for SecOutputFile, SecDepsFile, SecCmd in self.FfsOutputFileL=
-ist :=0D
-++            for SecOutputFile, SecDepsFile, SecCmd in sorted(self.FfsOutp=
-utFileList):=0D
-+                 self.BuildTargetList.append('%s : %s' % (self.ReplaceMacr=
-o(SecOutputFile), self.ReplaceMacro(SecDepsFile)))=0D
-+                 self.BuildTargetList.append('\t%s' % self.ReplaceMacro(Se=
-cCmd))=0D
-+             self.FfsOutputFileList =3D []=0D
-+@@ -794,13 +794,13 @@ cleanlib:
-+ =0D
-+     def CommandExceedLimit(self):=0D
-+         FlagDict =3D {=0D
-+-                    'CC'    :  { 'Macro' : '$(CC_FLAGS)',    'Value' : Fa=
-lse},=0D
-+-                    'PP'    :  { 'Macro' : '$(PP_FLAGS)',    'Value' : Fa=
-lse},=0D
-+-                    'APP'   :  { 'Macro' : '$(APP_FLAGS)',   'Value' : Fa=
-lse},=0D
-+-                    'ASLPP' :  { 'Macro' : '$(ASLPP_FLAGS)', 'Value' : Fa=
-lse},=0D
-+-                    'VFRPP' :  { 'Macro' : '$(VFRPP_FLAGS)', 'Value' : Fa=
-lse},=0D
-+-                    'ASM'   :  { 'Macro' : '$(ASM_FLAGS)',   'Value' : Fa=
-lse},=0D
-+-                    'ASLCC' :  { 'Macro' : '$(ASLCC_FLAGS)', 'Value' : Fa=
-lse},=0D
-++                    'CC'    :  { 'Macro' : '$(CC_FLAGS)',    'Value' : Tr=
-ue},=0D
-++                    'PP'    :  { 'Macro' : '$(PP_FLAGS)',    'Value' : Tr=
-ue},=0D
-++                    'APP'   :  { 'Macro' : '$(APP_FLAGS)',   'Value' : Tr=
-ue},=0D
-++                    'ASLPP' :  { 'Macro' : '$(ASLPP_FLAGS)', 'Value' : Tr=
-ue},=0D
-++                    'VFRPP' :  { 'Macro' : '$(VFRPP_FLAGS)', 'Value' : Tr=
-ue},=0D
-++                    'ASM'   :  { 'Macro' : '$(ASM_FLAGS)',   'Value' : Tr=
-ue},=0D
-++                    'ASLCC' :  { 'Macro' : '$(ASLCC_FLAGS)', 'Value' : Tr=
-ue},=0D
-+                    }=0D
-+ =0D
-+         RespDict =3D {}=0D
-+@@ -1003,9 +1003,9 @@ cleanlib:
-+                 if not self.ObjTargetDict.get(T.Target.SubDir):=0D
-+                     self.ObjTargetDict[T.Target.SubDir] =3D set()=0D
-+                 self.ObjTargetDict[T.Target.SubDir].add(NewFile)=0D
-+-        for Type in self._AutoGenObject.Targets:=0D
-++        for Type in sorted(self._AutoGenObject.Targets):=0D
-+             resp_file_number =3D 0=0D
-+-            for T in self._AutoGenObject.Targets[Type]:=0D
-++            for T in sorted(self._AutoGenObject.Targets[Type]):=0D
-+                 # Generate related macros if needed=0D
-+                 if T.GenFileListMacro and T.FileListMacro not in self.Fil=
-eListMacros:=0D
-+                     self.FileListMacros[T.FileListMacro] =3D []=0D
-+Index: git/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- git.orig/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
-++++ git/BaseTools/Source/Python/AutoGen/ModuleAutoGen.py
-+@@ -1484,6 +1484,9 @@ class ModuleAutoGen(AutoGen):
-+             for File in Files:=0D
-+                 if File.lower().endswith('.pdb'):=0D
-+                     AsBuiltInfDict['binary_item'].append('DISPOSABLE|' + =
-File)=0D
-++=0D
-++        AsBuiltInfDict['binary_item'] =3D sorted(AsBuiltInfDict['binary_i=
-tem'])=0D
-++=0D
-+         HeaderComments =3D self.Module.HeaderComments=0D
-+         StartPos =3D 0=0D
-+         for Index in range(len(HeaderComments)):=0D
-+@@ -1759,7 +1762,7 @@ class ModuleAutoGen(AutoGen):
-+             if os.path.exists (self.TimeStampPath):=0D
-+                 os.remove (self.TimeStampPath)=0D
-+ =0D
-+-            SaveFileOnChange(self.TimeStampPath, "\n".join(FileSet), Fals=
-e)=0D
-++            SaveFileOnChange(self.TimeStampPath, "\n".join(sorted(FileSet=
-)), False)=0D
-+ =0D
-+         # Ignore generating makefile when it is a binary module=0D
-+         if self.IsBinaryModule:=0D
-+Index: git/BaseTools/Source/Python/AutoGen/BuildEngine.py
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- git.orig/BaseTools/Source/Python/AutoGen/BuildEngine.py
-++++ git/BaseTools/Source/Python/AutoGen/BuildEngine.py
-+@@ -70,6 +70,9 @@ class TargetDescBlock(object):
-+         else:=0D
-+             return str(Other) =3D=3D self.Target.Path=0D
-+ =0D
-++    def __lt__(self, other):=0D
-++        return str(self) < str(other)=0D
-++=0D
-+     def AddInput(self, Input):=0D
-+         if Input not in self.Inputs:=0D
-+             self.Inputs.append(Input)=0D
-+Index: git/BaseTools/Source/C/GenFw/Elf64Convert.c
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- git.orig/BaseTools/Source/C/GenFw/Elf64Convert.c
-++++ git/BaseTools/Source/C/GenFw/Elf64Convert.c
-+@@ -14,6 +14,8 @@ SPDX-License-Identifier: BSD-2-Clause-Pa
-+ #ifndef __GNUC__=0D
-+ #include <windows.h>=0D
-+ #include <io.h>=0D
-++#else=0D
-++#define _GNU_SOURCE=0D
-+ #endif=0D
-+ #include <assert.h>=0D
-+ #include <stdio.h>=0D
-+@@ -770,7 +772,7 @@ ScanSections64 (
-+   }=0D
-+   mCoffOffset =3D mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTORY_ENTRY) =
-+=0D
-+                 sizeof(EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY) +=0D
-+-                strlen(mInImageName) + 1;=0D
-++                strlen(basename(mInImageName)) + 1;=0D
-+ =0D
-+   mCoffOffset =3D CoffAlign(mCoffOffset);=0D
-+   if (SectionCount =3D=3D 0) {=0D
-+@@ -1609,7 +1611,7 @@ WriteDebug64 (
-+   EFI_IMAGE_DEBUG_DIRECTORY_ENTRY     *Dir;=0D
-+   EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY *Nb10;=0D
-+ =0D
-+-  Len =3D strlen(mInImageName) + 1;=0D
-++  Len =3D strlen(basename(mInImageName)) + 1;=0D
-+ =0D
-+   Dir =3D (EFI_IMAGE_DEBUG_DIRECTORY_ENTRY*)(mCoffFile + mDebugOffset);=0D
-+   Dir->Type =3D EFI_IMAGE_DEBUG_TYPE_CODEVIEW;=0D
-+@@ -1619,7 +1621,7 @@ WriteDebug64 (
-+ =0D
-+   Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);=0D
-+   Nb10->Signature =3D CODEVIEW_SIGNATURE_NB10;=0D
-+-  strcpy ((char *)(Nb10 + 1), mInImageName);=0D
-++  strcpy ((char *)(Nb10 + 1), basename(mInImageName));=0D
-+ =0D
-+ =0D
-+   NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffset)=
-;=0D
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index ef5545bf705..696c2340359 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -18,6 +18,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0004-ovmf-Update-to-latest.patch \
-            file://zero.patch \
-            file://debug_prefix_map.patch \
-+           file://reproducible.patch \
-            "
-=20
- PV =3D "edk2-stable202102"
---=20
-2.30.2
+This version fails to build in default oe-core setup (with x11 and without
+opengl in DISTRO_FEATURES), see:
+http://errors.yoctoproject.org/Errors/Details/581086/
 
+In file included from
+TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.32.=
+0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/DrawingAreaCoordinat=
+edGraphics.cpp:32,
+                 from
+DerivedSources/WebKit/unified-sources/UnifiedSource-54928a2b-35.cpp:5:
+TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.32.=
+0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:216:=
+13:
+error: no declaration matches 'bool
+WebKit::LayerTreeHost::forceRepaintAsync(WTF::CompletionHandler<void()>&)'
+  216 | inline bool
+LayerTreeHost::forceRepaintAsync(CompletionHandler<void()>&) { return
+false; }
+      |             ^~~~~~~~~~~~~
+TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.32.=
+0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:82:1=
+0:
+note: candidate is: 'void
+WebKit::LayerTreeHost::forceRepaintAsync(WTF::CompletionHandler<void()>&&)'
+   82 |     void forceRepaintAsync(CompletionHandler<void()>&&);
+      |          ^~~~~~~~~~~~~~~~~
+TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.32.=
+0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:61:7=
+:
+note: 'class WebKit::LayerTreeHost' defined here
+   61 | class LayerTreeHost
+      |       ^~~~~~~~~~~~~
+
+This upstream change should probably fix that:
+
+commit 834f335bb3e63e0bf78eed0520df33d5c55e5e8a
+Author: commit-queue@webkit.org <commit-queue@webkit.org
+@268f45cc-cd09-0410-ab3c-d52691b4dbfc>
+Date:   Sat Apr 10 22:02:50 2021 +0000
+
+    Properly use CompletionHandler when USE_OPENGL_OR_ES is set to OFF
+    https://bugs.webkit.org/show_bug.cgi?id=3D224149
+
+    Patch by Charl=C3=A8ne Wendling <julianaito@posteo.jp> on 2021-04-10
+    Reviewed by Fujii Hironori.
+
+    * WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:
+    (WebKit::LayerTreeHost::forceRepaintAsync):
+
+    git-svn-id: http://svn.webkit.org/repository/webkit/trunk@275802
+268f45cc-cd09-0410-ab3c-d52691b4dbfc
+
+There is 2.32.1 which might contain this fix but it's not explicitly
+mentioned in https://webkitgtk.org/2021/05/10/webkitgtk2.32.1-released.html
+
+--0000000000002f77d405c229a6ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>On Wed, May 5, 2021 at 5:20 PM Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gma=
+il.com</a>&gt; wrote:<br></div></div><div class=3D"gmail_quote"><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">Drop 0001-Extend-atomics-check-to-in=
+clude-1-byte-CAS-test.patch<br>
+(merged upstream).<br>
+<br>
+Rebase other patches.<br></blockquote><div><br></div>This version fails to =
+build in default oe-core setup (with x11 and without opengl in DISTRO_FEATU=
+RES), see:<div><a href=3D"http://errors.yoctoproject.org/Errors/Details/581=
+086/">http://errors.yoctoproject.org/Errors/Details/581086/</a><br></div><d=
+iv><br></div><div>In file included from TOPDIR/tmp-glibc/work/core2-64-oe-l=
+inux/webkitgtk/2.32.0-r0/webkitgtk-2.32.0/Source/WebKit/WebProcess/WebPage/=
+CoordinatedGraphics/DrawingAreaCoordinatedGraphics.cpp:32,<br>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from DerivedSources/WebKit=
+/unified-sources/UnifiedSource-54928a2b-35.cpp:5:<br>TOPDIR/tmp-glibc/work/=
+core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.32.0/Source/WebKit/WebPro=
+cess/WebPage/CoordinatedGraphics/LayerTreeHost.h:216:13: error: no declarat=
+ion matches &#39;bool WebKit::LayerTreeHost::forceRepaintAsync(WTF::Complet=
+ionHandler&lt;void()&gt;&amp;)&#39;<br>=C2=A0 216 | inline bool LayerTreeHo=
+st::forceRepaintAsync(CompletionHandler&lt;void()&gt;&amp;) { return false;=
+ }<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~=
+~~~~~~~~~<br>TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/we=
+bkitgtk-2.32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTr=
+eeHost.h:82:10: note: candidate is: &#39;void WebKit::LayerTreeHost::forceR=
+epaintAsync(WTF::CompletionHandler&lt;void()&gt;&amp;&amp;)&#39;<br>=C2=A0 =
+=C2=A082 | =C2=A0 =C2=A0 void forceRepaintAsync(CompletionHandler&lt;void()=
+&gt;&amp;&amp;);<br>=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0^~~~~~~~~~~~~~~~~<br>TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2=
+.32.0-r0/webkitgtk-2.32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraph=
+ics/LayerTreeHost.h:61:7: note: &#39;class WebKit::LayerTreeHost&#39; defin=
+ed here<br>=C2=A0 =C2=A061 | class LayerTreeHost<br></div><div>=C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~</div><div><br></div><div>Th=
+is upstream change should probably fix that:</div><div><br></div><div>commi=
+t 834f335bb3e63e0bf78eed0520df33d5c55e5e8a<br>Author: <a href=3D"mailto:com=
+mit-queue@webkit.org">commit-queue@webkit.org</a> &lt;commit-queue@webkit.o=
+rg@268f45cc-cd09-0410-ab3c-d52691b4dbfc&gt;<br>Date: =C2=A0 Sat Apr 10 22:0=
+2:50 2021 +0000<br><br>=C2=A0 =C2=A0 Properly use CompletionHandler when US=
+E_OPENGL_OR_ES is set to OFF<br>=C2=A0 =C2=A0 <a href=3D"https://bugs.webki=
+t.org/show_bug.cgi?id=3D224149">https://bugs.webkit.org/show_bug.cgi?id=3D2=
+24149</a><br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Patch by Charl=C3=A8ne Wendlin=
+g &lt;<a href=3D"mailto:julianaito@posteo.jp">julianaito@posteo.jp</a>&gt; =
+on 2021-04-10<br>=C2=A0 =C2=A0 Reviewed by Fujii Hironori.<br>=C2=A0 =C2=A0=
+ <br>=C2=A0 =C2=A0 * WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h=
+:<br>=C2=A0 =C2=A0 (WebKit::LayerTreeHost::forceRepaintAsync):<br>=C2=A0 =
+=C2=A0 <br>=C2=A0 =C2=A0 git-svn-id: <a href=3D"http://svn.webkit.org/repos=
+itory/webkit/trunk@275802">http://svn.webkit.org/repository/webkit/trunk@27=
+5802</a> 268f45cc-cd09-0410-ab3c-d52691b4dbfc<br></div><div><br></div><div>=
+There is 2.32.1 which might contain this fix but it&#39;s not explicitly me=
+ntioned in <a href=3D"https://webkitgtk.org/2021/05/10/webkitgtk2.32.1-rele=
+ased.html">https://webkitgtk.org/2021/05/10/webkitgtk2.32.1-released.html</=
+a></div></div></div>
+
+--0000000000002f77d405c229a6ef--
