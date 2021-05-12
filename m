@@ -1,63 +1,67 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
- by mx.groups.io with SMTP id smtpd.web09.3776.1620852059727248348
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web09.3779.1620852086129308940
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 13:40:59 -0700
+ Wed, 12 May 2021 13:41:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=e0lRwQUx;
- spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f45.google.com with SMTP id x188so7068778vsx.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 13:40:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ltPTDaUu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id di13so28635318edb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 13:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Hgiq5/iShM47N+TE/8Lp8kU2Eh30lTp92w8jbttxx7Q=;
-        b=e0lRwQUxV5fOuaGg1V6xjwkfxf4aEua5GnTVy3wZu5Nfd3nszxeN5TPabxv5Uxjapx
-         0hpE9wzGFF3xKwXbWr2HqTWO5ng2/3fWo9GBYBTKRGrgC957aSAZoTItM4QX8s4sSlLC
-         SWYzUPS31lFWlXw80hGDpIV3OkKKpzuov7BdkCOi5JVZ5y8olNg0mkYGNvMGwfu78cz7
-         QLvHHYDI41l8nCT4xnH/38wOdKCMsX+f46wzNEbkREQz2kmz5rtzgk8jXWz/s/ryKUok
-         q2lmJbH234EZG9gmSH2od/FDz7hPTDV+AXlN28iQSZliMP0DzwIJ2G2at++xSGf7AKP7
-         yoQg==
+        bh=ZueszJeOQLm8YO5IL4VPvkGOuHO+PqFi9QFhx2lgfhc=;
+        b=ltPTDaUuPnQT2aNPt4iVT8JwSO4Ao56kDLct4x6C4QrEzv1AuIu0v9SAZcwoBL7/5d
+         07ruhAM/xr2F+cK7WaYqJnfUOL8Vr7pmzC7htW63czO9IdILJM9mB5elm4Fvnd5lnxIb
+         xUlCfafb5GmMcg7j4mYNhKp4NeayEvCtHhc9iGn5nzwy3xEZE+9WeH/ZqCktK4HjTXll
+         oen6v5+0Qt6W6SkFOldaurF+AQ92yxjzhZbugQkgstTf4t1G5WNo8G00DbhD0JCWG6sF
+         h+JH1o+A7Egg5PyPzDMiZxyO1+iCSrEUHqv95/M4OQ0GoPOVs2/rQRN9am2DRN1APTWI
+         kGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Hgiq5/iShM47N+TE/8Lp8kU2Eh30lTp92w8jbttxx7Q=;
-        b=e6KL9iPnKo1zqzmFTu4hFFtY0dnYsGTsohoItMw+i9QfMCue81x3PfUj+yljroxHbo
-         I8z1o5Tbu5DMeZrZe9nYGl2B2OD5QRlbDSRuf8os1c5wcC2gCUBRSDxQhy1L5bVoNg4q
-         gFSRoE00HMEzl8J46JTakzjGsn0DtcBXYpwshaDVQq960fEKNyEkoktAdHgeqOdNE4vm
-         MkiACurt3csdw+BjvWcBxv9RFwJXRJg0GGNHe8nUP4gbpgjwLJnFv9g8netckpK5cirj
-         nOLZRvtNHtmWWKIjQxWNGHLgUrbFcDNXflk0YNmhcMNHEEuyqLFva048P+OwHLObM+lf
-         MSVg==
-X-Gm-Message-State: AOAM532hYP1f8Bcyo40dpysNj0bH9VQZGtA0Ig1WWt9K+tYBFxi7nR4l
-	wCwY/Qv13c3TbH5RmcxPdDH0ZssZG/uIid5eUfY=
-X-Google-Smtp-Source: ABdhPJzGeGb8Zk1Ocu7Mfx2iJ1/pj8NlkDY9BwJn6iBUOFUwnyYRONl9nbyVWTiIxM2JRENw8EIGQ7JAbMtap3SfJt0=
-X-Received: by 2002:a67:c401:: with SMTP id c1mr33706119vsk.51.1620852058693;
- Wed, 12 May 2021 13:40:58 -0700 (PDT)
+        bh=ZueszJeOQLm8YO5IL4VPvkGOuHO+PqFi9QFhx2lgfhc=;
+        b=q9Q2ENrbsDT4Z2qmqUonaCeViyaVKuNwkzkFSNtoUgPwtovZqoQhSjas+dIl1HUfGe
+         56f9A6Mr2DNLqwDRKrSqob+YzDU0Yy4psuWGBLmCejUorKrzi7SP8gu2qQrUyNjaoCEm
+         f7Y9BT0J5I8wY9i5QGzbLAF/YkQ6iPZ45LEa1mdPDNe69N1uRqhXRbyWF/5R3GgE3yB+
+         V1kjO9IvWLHXdSUb3T2x1usIjdQGJjN1lEA65RFE7UbOcrXD4b5/TPxp0pmfCgPnCB9+
+         7UlBii62VNAgaBkMi0rBxWV6KAzK3rZUR0Q7LHeuS6trY5QETMqRbl7ITDZM25CYo2uE
+         5oxg==
+X-Gm-Message-State: AOAM5307mqKO1f4GFneJ39hFxqUY1JiDW3p7HkPuUZSZkuVJTJLpsWcs
+	J6YpjK9JWyEQf1MY9cx5eRg/6Q1OvD/WjQRqcYA=
+X-Google-Smtp-Source: ABdhPJwTCHjzQ6tYG0+lvfXzzHxBCDZ/3QlmecUW2bwxydWFpQX+8MgxtPynK8SobyJ10Y8fT5xGK7H6xdFMSmKA6+4=
+X-Received: by 2002:a50:fc97:: with SMTP id f23mr44300326edq.311.1620852084652;
+ Wed, 12 May 2021 13:41:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
 In-Reply-To: <ca363208-ab63-44c4-92e7-98b1788a8a8c@www.fastmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 12 May 2021 22:40:47 +0200
-Message-ID: <CANNYZj9_4WC91DoTeXcsVAJi=kS2DRXHTHE5L6Wgbb2PJfTimA@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Wed, 12 May 2021 22:41:13 +0200
+Message-ID: <CA+chaQfifcU+SLZmJ4np9bnoxyRFx_0BVeJBkQK-BOUQ+A77hg@mail.gmail.com>
 Subject: Re: [OE-core] master/main branch renaming and bitbake
 To: colin walters <walters@verbum.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000031230a05c2280781"
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000bd407505c2280838"
 
---00000000000031230a05c2280781
+--000000000000bd407505c2280838
 Content-Type: text/plain; charset="UTF-8"
 
-For ostree, yes:
-http://git.openembedded.org/meta-openembedded/log/?h=master-next
+meta-oe/master
+https://lists.openembedded.org/g/openembedded-devel/message/91252
+meta-oe/hardknott
+https://lists.openembedded.org/g/openembedded-devel/message/91253
+meta-oe/gatesgarth
+https://lists.openembedded.org/g/openembedded-devel/message/91254
+meta-oe/dunfell
+https://lists.openembedded.org/g/openembedded-devel/message/91255
 
-For the generic case, no. It's not a good idea to start guessing what the
-upstream did.
+It will be a while until it's merged in these still supported branches, for
+older branches it would be responsibility of the unlucky people using
+unsupported release to fix it on their own with .bbappend.
 
-Alex
-
-
-On Wed, 12 May 2021 at 22:34, colin walters <walters@verbum.org> wrote:
+On Wed, May 12, 2021 at 10:34 PM colin walters <walters@verbum.org> wrote:
 
 > (Sorry I think this isn't the right list, but I happen to still be
 > subscribed to this one so...)
@@ -71,22 +75,28 @@ On Wed, 12 May 2021 at 22:34, colin walters <walters@verbum.org> wrote:
 >
 >
 
---00000000000031230a05c2280781
+--000000000000bd407505c2280838
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>For ostree, yes:</div><div><a href=3D"http://git.open=
-embedded.org/meta-openembedded/log/?h=3Dmaster-next">http://git.openembedde=
-d.org/meta-openembedded/log/?h=3Dmaster-next</a></div><div><br></div><div>F=
-or the generic case, no. It&#39;s not a good idea to start guessing what th=
-e upstream did.<br></div><div><br></div><div>Alex<br></div></div><div dir=
-=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, 12 May 2021 at 22:34, colin walters &lt;<a href=3D=
-"mailto:walters@verbum.org" target=3D"_blank">walters@verbum.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">(Sorry I th=
-ink this isn&#39;t the right list, but I happen to still be subscribed to t=
-his one so...)<br>
+<div dir=3D"ltr">meta-oe/master <a href=3D"https://lists.openembedded.org/g=
+/openembedded-devel/message/91252">https://lists.openembedded.org/g/openemb=
+edded-devel/message/91252</a><br>meta-oe/hardknott <a href=3D"https://lists=
+.openembedded.org/g/openembedded-devel/message/91253">https://lists.openemb=
+edded.org/g/openembedded-devel/message/91253</a><br>meta-oe/gatesgarth <a h=
+ref=3D"https://lists.openembedded.org/g/openembedded-devel/message/91254">h=
+ttps://lists.openembedded.org/g/openembedded-devel/message/91254</a><br>met=
+a-oe/dunfell <a href=3D"https://lists.openembedded.org/g/openembedded-devel=
+/message/91255">https://lists.openembedded.org/g/openembedded-devel/message=
+/91255</a><br><br>It will be a while until it&#39;s merged in these still s=
+upported branches, for older branches it would be responsibility of the unl=
+ucky people using unsupported release to fix it on their own with .bbappend=
+.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Wed, May 12, 2021 at 10:34 PM colin walters &lt;<a href=3D"mailto:w=
+alters@verbum.org">walters@verbum.org</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">(Sorry I think this isn&#39;t the righ=
+t list, but I happen to still be subscribed to this one so...)<br>
 <br>
 Can someone please tell me there&#39;s a fix for yocto/bitbake failing if =
 the master branch is renamed?<br>
@@ -99,4 +109,4 @@ br>
 <br>
 </blockquote></div>
 
---00000000000031230a05c2280781--
+--000000000000bd407505c2280838--
