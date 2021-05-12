@@ -1,119 +1,98 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web12.5574.1620860569140918652
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web08.5602.1620860715833220715
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 16:02:49 -0700
+ Wed, 12 May 2021 16:05:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kDk8cNej;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id l129so23945921qke.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:02:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aXxysyOj;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id 76so23939147qkn.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 16:05:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OR3sI82poc7M4vbX8Hc5ZQ7720QMNWhqqhwAvUUkJRw=;
-        b=kDk8cNejoOfdjz3WvSScGf5LcQL3bGYkUwoK0ifto7gKYEpbQB4IvOuazzIIBAa/L3
-         Yrr0A2IAU7hFHUqhigr7nHkZwWbf9XO4K22nJdR6Bf8Q4LcuybkVtNHXFTG4SzGmXhIJ
-         aqAaqUcNa9mEiC01KfzVOsMWKOL9W8a2YsXiR759u5suDm3yl5Iqf5TpuRZObdpCBGqL
-         DapGDsCGFTrzYOITWt/s1cSHbBnicZPgtwUJEnbNIGvz++IRLc5xMu6FEDRZvA1RO0t5
-         8MGbbL9yQ733LLG2txUShU2CjhimJ4WTGCr2IP1okNT83V4SJ67dJvHiyi3xSVmXixqR
-         myMw==
+         :cc;
+        bh=yNGvGDWjAwFROU3+ryUc6NPBzcAGH8apu9ivPdeRnrE=;
+        b=aXxysyOj41RIKijh4ItT4CuYZ0+lkaJ+UlKpJeJ4cHbiNCRs0jwKVzm6uRCM406w3f
+         0+uMKI039aGCFMob89HYaS4vKUgFcTdXozCKqvBPunE6giZItLyUPGp9RQrnpAZIDNeA
+         9McyHbmBgzbYSuTds0oe6O1BFskWPG8QuUxkY8fTBK/D3ECfWzUQuVxmfTkErHeJR2LR
+         BAyQWTZ4GvQ4am7SXaGLWu9bTVUuU1sH1eYXHOL51umoJBBcPndg5cdPTOvuhYNI+VkV
+         YhGVxXrbfPXuRANd0uTLXulEL/58idwrbRBvrqGFw5J2TQZUTnEl4vWfwGrvzWOtGf4N
+         5ZWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OR3sI82poc7M4vbX8Hc5ZQ7720QMNWhqqhwAvUUkJRw=;
-        b=brjE84/5HMpqsBILYysW9PP8Xn0J3Z3vvRroxy3PluQg1CPCpEkNBmCmlwbP8rjwBh
-         gZf7n+Djlyza7YB7XIkJQ0c0ErY7ZMcwzujG23quXjhtzPiKCF+rOh4tpG3dv/oQ7gsW
-         I6LgCiYiVIaSzTh1Kct0ZkT40bF75kZy1qUXINKV5tV62wvm1bVu/CG5P9L3o5xoPZjV
-         74I5V4vK2PdLDs3nFpHOVQ4AkcTYlULMHE7sjxaR52+6YWxCkae4ea1hX5f+cyTdOAIE
-         defqYBShAh1XVV//WALhJT/TiVac35o19aOZV7dG3TKhik2nrdTc+EERgbNwgkEpAzNw
-         sVug==
-X-Gm-Message-State: AOAM530t5bHRn7QXyQ/MX9JA6JKoEyT7jP+nmFB1tx3mfON8/sUrSevv
-	EdbTpIAt1vf8KpIHq8o4kbK8/1W9LkSMHsZWSy0=
-X-Google-Smtp-Source: ABdhPJwZwmU+YCQ+XaPYnrABx4TteQB6nIlEf9pyqD3WZ9YeziIJYBH+5JXAZnSSBc1Gqs60JqctuY+B6tE6Hu6Osgk=
-X-Received: by 2002:a05:620a:24b:: with SMTP id q11mr16963011qkn.25.1620860568264;
- Wed, 12 May 2021 16:02:48 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=yNGvGDWjAwFROU3+ryUc6NPBzcAGH8apu9ivPdeRnrE=;
+        b=iGjkek0Dx/M0M3Q7CDu+tHZXQreSro8jJWjovCQvuisUA66y7iYEIR6M3JMQ05/lmI
+         XE8VZKO6PJ4nTQMHqixHnyG6Vj8PSZc9dUCjG2e9nLu0k2Bn58GHrMiAKbLavzObIVb5
+         94bYPidGHPMczMtCsQpubv9jgPKZo3G3Xb4ZFzVUWCuO39VCGsLTvfK9jyQMkFKxT2+6
+         KlOozjvmmsQ6RKQVxfdqujMq5aMXJ3Aidx/IoLYa4skcrCSFAebYNFVoDwKGvp2XY9yh
+         Ewsvp3XXKqWYeCGT5JjNUHxYSXBRBgXAHLgsMFqTpTr0zmb7Jc/nhlvCN5NnrZKXUKtc
+         koJA==
+X-Gm-Message-State: AOAM531bRxnjqY/sWTIBluRt5bKeymS1nA7CMuqzjWQRxHwp+YhDsQLj
+	lvioURieSjCfyzsczAtHI4K4jtzQ2hcA0VJzCnA=
+X-Google-Smtp-Source: ABdhPJx9MzHmh19buWQ02zZV2MwMdhwdz4BWmSt5KaRCkoyqXF7hn8Z0F4yjlwAfWb8dWpifO8wVAUNNukvqRXLlYWg=
+X-Received: by 2002:a05:620a:24b:: with SMTP id q11mr16973382qkn.25.1620860714979;
+ Wed, 12 May 2021 16:05:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210505151850.660512-1-alex.kanavin@gmail.com>
- <20210505151850.660512-24-alex.kanavin@gmail.com> <CA+chaQfQBUphmMXsbOmM4Z82D75hZQUQMPMzKAzCctYudqAq6A@mail.gmail.com>
-In-Reply-To: <CA+chaQfQBUphmMXsbOmM4Z82D75hZQUQMPMzKAzCctYudqAq6A@mail.gmail.com>
+References: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20210512213212.2283022-1-richard.purdie@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 12 May 2021 16:02:22 -0700
-Message-ID: <CAMKF1sryddpR-2sQ_K6Eoj=AfM3gAVM=VAmth5vwLv0m6tTNJQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 24/61] webkitgtk: update 2.30.6 -> 2.32.0
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 May 2021 16:04:49 -0700
+Message-ID: <CAMKF1spC4W1sWy32C_=WwY8SwH2CHPD7YQJym-gUShy2BZaR5g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] ovmf: Disable lto to aid reproducibility
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 3:37 PM Martin Jansa <Martin.Jansa@gmail.com> wrote=
-:
+On Wed, May 12, 2021 at 2:32 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Wed, May 5, 2021 at 5:20 PM Alexander Kanavin <alex.kanavin@gmail.com=
-> wrote:
->>
->> Drop 0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch
->> (merged upstream).
->>
->> Rebase other patches.
+> lto tends to break reproducibility and makes ovmf near impossible to debug
+> reproducibility issues in. Disable it and supress the warnings that then
+> generates from Werror.
 >
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-core/ovmf/ovmf_git.bb | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
-> This version fails to build in default oe-core setup (with x11 and witho=
-ut opengl in DISTRO_FEATURES), see:
-> http://errors.yoctoproject.org/Errors/Details/581086/
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+> index 1fe01146d6b..ef5545bf705 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -102,15 +102,22 @@ fix_toolchain_append_class-native() {
+>      # to make ovmf-native reusable across distros.
+>      sed -i \
+>          -e 's#^\(DEFINE GCC.*DLINK.*FLAGS  *=\)#\1 -fuse-ld=bfd#' \
+> +        -e 's#-flto#-fno-lto#g' \
+> +        -e 's#-DUSING_LTO##g' \
+>          ${S}/BaseTools/Conf/tools_def.template
+>  }
+>
+> +# We disable lto above since the results are not reproducible and make it hard to compare
+> +# binary build aretfacts to debug reproducibility problems.
+> +# Surprisingly, if you disable lto, you see compiler warnings which are fatal. We therefore
+> +# have to hack warnings overrides into GCC_PREFIX_MAP to allow it to build.
+> +
 
-I think there still are a plenty of products which don't use OpenGL
-capable h/w but need some display ( fbdev ), I Wonder if there are
-users who are using such
-a combination maybe with X or without but without openGL
+could lto piece be turned into a packageconfig,as I think LTO usage
+will only grow in coming future
+some distros may prefer LTO over reproducibility for performance reasons.
+
+>  # We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
+>  # --debug-prefix-map to nasm (we carry a patch to nasm for this). The
+>  # tools definitions are built by ovmf-native so we need to pass this in
+>  # at target build time when we know the right values.
+>  export NASM_PREFIX_MAP = "--debug-prefix-map=${WORKDIR}=/usr/src/debug/ovmf/${EXTENDPE}${PV}-${PR}"
+> -export GCC_PREFIX_MAP = "${DEBUG_PREFIX_MAP}"
+> +export GCC_PREFIX_MAP = "${DEBUG_PREFIX_MAP} -Wno-stringop-overflow -Wno-maybe-uninitialized"
 >
-> In file included from TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/=
-2.32.0-r0/webkitgtk-2.32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGrap=
-hics/DrawingAreaCoordinatedGraphics.cpp:32,
->                  from DerivedSources/WebKit/unified-sources/UnifiedSourc=
-e-54928a2b-35.cpp:5:
-> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
-32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:2=
-16:13: error: no declaration matches 'bool WebKit::LayerTreeHost::forceRepa=
-intAsync(WTF::CompletionHandler<void()>&)'
->   216 | inline bool LayerTreeHost::forceRepaintAsync(CompletionHandler<v=
-oid()>&) { return false; }
->       |             ^~~~~~~~~~~~~
-> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
-32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:8=
-2:10: note: candidate is: 'void WebKit::LayerTreeHost::forceRepaintAsync(WT=
-F::CompletionHandler<void()>&&)'
->    82 |     void forceRepaintAsync(CompletionHandler<void()>&&);
->       |          ^~~~~~~~~~~~~~~~~
-> TOPDIR/tmp-glibc/work/core2-64-oe-linux/webkitgtk/2.32.0-r0/webkitgtk-2.=
-32.0/Source/WebKit/WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:6=
-1:7: note: 'class WebKit::LayerTreeHost' defined here
->    61 | class LayerTreeHost
->       |       ^~~~~~~~~~~~~
+>  GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}')"
 >
-> This upstream change should probably fix that:
+> --
+> 2.30.2
 >
-> commit 834f335bb3e63e0bf78eed0520df33d5c55e5e8a
-> Author: commit-queue@webkit.org <commit-queue@webkit.org@268f45cc-cd09-0=
-410-ab3c-d52691b4dbfc>
-> Date:   Sat Apr 10 22:02:50 2021 +0000
 >
->     Properly use CompletionHandler when USE_OPENGL_OR_ES is set to OFF
->     https://bugs.webkit.org/show_bug.cgi?id=3D224149
->
->     Patch by Charl=C3=A8ne Wendling <julianaito@posteo.jp> on 2021-04-10
->     Reviewed by Fujii Hironori.
->
->     * WebProcess/WebPage/CoordinatedGraphics/LayerTreeHost.h:
->     (WebKit::LayerTreeHost::forceRepaintAsync):
->
->     git-svn-id: http://svn.webkit.org/repository/webkit/trunk@275802 268=
-f45cc-cd09-0410-ab3c-d52691b4dbfc
->
-> There is 2.32.1 which might contain this fix but it's not explicitly men=
-tioned in https://webkitgtk.org/2021/05/10/webkitgtk2.32.1-released.html
->
->=20
+> 
 >
