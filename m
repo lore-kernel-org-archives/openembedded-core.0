@@ -1,115 +1,79 @@
-Received: from mga17.intel.com (mga17.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.4074.1620808565759951992
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web11.4150.1620808566675357961
  for <openembedded-core@lists.openembedded.org>;
  Wed, 12 May 2021 01:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 5GIS/rb4CObejpsAevYdN7mUQooJ94PDc3+/RGprESNybc1xdRQI93bESVpufH6iZ8kIo0Q1jv
- eGjgWMGHGKog==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917770"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: d/eVymEBb+bgjt9UcHVW7Ifd5psfBhmohUV5Zif4V3CVt9nxjGMLhrhR0T0i7Pi5xCfpsjGIgA
+ VsikYJr/+lzQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917783"
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="179917770"
+   d="scan'208";a="179917783"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:01 -0700
-IronPort-SDR: TAxNxg0tWQbPiDQvn2Cv++VuLOZHFg8vFGlLsRgvEAYzfbx8qRPeRIXl00qSf3RqSdMhOVC0sT
- v/3XUSufHJUA==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:06 -0700
+IronPort-SDR: c3Uv1EwpP/xCerTSVCLp03vdz/vPKKho6fVy2b9pmHObq/xkzRKCRWizohgVX4NzM+Y7MGumSq
+ yZjR2uCGpyEg==
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="430645686"
+   d="scan'208";a="430645738"
 Received: from tmustofa-mobl1.amr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.35.122])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:35:56 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:04 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/15] review request
-Date: Wed, 12 May 2021 16:35:32 +0800
-Message-Id: <cover.1620808329.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 04/15] oeqa/qemurunner: Improve handling of run_serial for shutdown commands
+Date: Wed, 12 May 2021 16:35:36 +0800
+Message-Id: <a72572532b976a4c3e8fa68fe63f63e39399ee88.1620808329.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1620808329.git.anuj.mittal@intel.com>
+References: <cover.1620808329.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Please review these changes for hardknott. No problems while testing on
-autobuilder.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Thanks,
+When running a shutdown command, the serial port can close without the
+command returning. This is seen as the socket being readable but having
+no data. Change the way this case is handled in the code to avoid
+tracebacks.
 
-Anuj
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 396a3ba884820d040c91f7592daf20ac28c49b5d)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-The following changes since commit d5d88c2293e8ebc958d1bce9af8f796024443be9:
-
-  libevent: Increase ptest timing tolerance 50 ms -> 100 ms (2021-05-07 08:51:54 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20210208 -> 20210315
-
-Anuj Mittal (1):
-  lsb-release: fix reproducibility failure
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: qemuppc32: reduce serial shutdown issues
-
-Chen Qi (1):
-  db: update CVE_PRODUCT
-
-Kai Kang (1):
-  grub2.inc: remove '-O2' from CFLAGS
-
-Michael Opdenacker (1):
-  sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
-    message
-
-Peter Kjellerstedt (1):
-  libcap: Configure Make variables correctly without a horrible hack
-
-Richard Purdie (4):
-  oeqa/qemurunner: Improve logging thread exit handling for qemu
-    shutdown test
-  oeqa/qemurunner: Fix binary vs str issue
-  oeqa/qemurunner: Improve handling of run_serial for shutdown commands
-  puzzles: Upstream changed to main branch for development
-
-Romain Naour (1):
-  dejagnu: needs expect at runtime
-
-Vinícius Ossanes Aquino (1):
-  lttng-modules: backport patches to fix build against 5.12+ kernel
-
-Yann Dirson (1):
-  linux-firmware: include all relevant files in -bcm4356
-
-zhengruoqin (1):
-  ruby: upgrade 3.0.0 -> 3.0.1
-
- meta/classes/sanity.bbclass                   |   9 +-
- meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
- meta/lib/oeqa/utils/qemurunner.py             |  21 +-
- meta/recipes-bsp/grub/grub2.inc               |   2 +
- .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |   1 +
- .../ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb}     |   2 +-
- .../help2man-reproducibility.patch            |  27 ++
- meta/recipes-extended/lsb/lsb-release_1.4.bb  |   1 +
- ...20210208.bb => linux-firmware_20210315.bb} |   8 +-
- .../linux/linux-yocto-rt_5.4.bb               |   2 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
- ...block-add-a-disk_uevent-helper-v5.12.patch | 305 ++++++++++++++++++
- ...block-add-a-disk_uevent-helper-v5.12.patch |  48 +++
- ...free-event-name-mismatching-with-pro.patch |  71 ++++
- .../lttng/lttng-modules_2.12.5.bb             |   3 +
- meta/recipes-sato/puzzles/puzzles_git.bb      |   2 +-
- meta/recipes-support/db/db_5.3.28.bb          |   2 +-
- meta/recipes-support/libcap/libcap_2.48.bb    |  21 +-
- 19 files changed, 504 insertions(+), 34 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb} (97%)
- create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210208.bb => linux-firmware_20210315.bb} (99%)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 526b493669..a0f17d557b 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -71,6 +71,8 @@ class QemuRunner:
+         self.monitorpipe = None
+ 
+         self.logger = logger
++        # Whether we're expecting an exit and should show related errors
++        self.canexit = False
+ 
+         # Enable testing other OS's
+         # Set commands for target communication, and default to Linux ALWAYS
+@@ -472,6 +474,7 @@ class QemuRunner:
+             self.thread.join()
+ 
+     def allowexit(self):
++        self.canexit = True
+         if self.thread:
+             self.thread.allowexit()
+ 
+@@ -530,7 +533,9 @@ class QemuRunner:
+                     if re.search(self.boot_patterns['search_cmd_finished'], data):
+                         break
+                 else:
+-                    raise Exception("No data on serial console socket")
++                    if self.canexit:
++                        return (1, "")
++                    raise Exception("No data on serial console socket, connection closed?")
+ 
+         if data:
+             if raw:
 -- 
 2.31.1
 
