@@ -1,50 +1,50 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web09.8179.1620831524674002464
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web12.8352.1620831529916328867
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 07:58:44 -0700
+ Wed, 12 May 2021 07:58:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bl8D5Bec;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f48.google.com with SMTP id t17-20020a4a3e110000b02901fab2f46a48so5008200oot.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:58:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pchh9XH5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.176, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f176.google.com with SMTP id k25so22535191oic.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=MlyjT2FBgZNLbtIAcZtKQgg6EQjOcBR6i5bpOP+J9TI=;
-        b=bl8D5BecgmTLm7Mp/9bLJ+MSRXeSeLpB9KeHLpa2nBz0H3+uMwrvyvQjzKEEk9WeZ4
-         yd5PZ7KCM0bIDyxGnN4ORNGHUH9xjMvLE5ZEF6SUPwAEH8xfLzSEzWzTjWUeLC/d+PMD
-         egPrO4Zbml5JMQVHgPlWGBvyFHEz8LlnOzqeq5NIeLeacgzims5uAxwX1Lrb307S62MM
-         Aco7BIdkhiyNQZJmDcYOr4qko1odWmPZyQ9/KuSpyvjUhSGek78exmp0YIlWweaX8PWr
-         tIYxfdnHoE5JWDzEZC+O9TvatUy1Vi2tKhJAd8+wVzUdGBYSUWaVf3s+uELxK25mJWeR
-         JjAw==
+        bh=43hPWeqHCTDotlMfASeVORhEJYu/ORrIfwjdV5Kj160=;
+        b=pchh9XH5rGscEsTaopccs94inQVEhkGWtWUC0D9Z195y8k0lHSx4YEuAPC0qAwT0Nh
+         WghpNv3t2PWPMa5H9a3lRpqVU5L4/rZ2ZprJBhFY0rq/q4KtfOxiiNtST4FGkB1iEDXE
+         hAY3UnAV6lONK2rTFBxsdOJfOa4dk7qR9sZi04TNTna5FlDT7JKxVAuTNSciDtclLhS7
+         mK1rlYkKC3gGQ19Cc0c8WEUViRxpEvodjFPObDSN2uuS7rwysRpnE0yj1OF5NEk9ZTwV
+         ibOqo/hfbjlBltidgiiTYYXBFkCV+vMcEA492jnMLwcvf0tDN7EzmEwDt1fSSwwRPeL9
+         o5xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MlyjT2FBgZNLbtIAcZtKQgg6EQjOcBR6i5bpOP+J9TI=;
-        b=BnLXWJikeE0+mDHCPue55hhCpCjXVPph3bFzJ7DHwnYyfD3HvBTT2FXEhI2oef2lLs
-         Gm/A5IHbs4VITdAjK9//qBZLv/bol45YFc5+s2DijAtk317rikLpNNdZgRWIgGIZAPh+
-         Vt7X8b615rT0Im1KhuobagDdPIKUUddLd1smt17/N9tm5XZ2Idm1gXCKXKFhb08MZ46X
-         iDUZk1nZStJeJ48tl34Y+AkjK77xqNskuW6QL2DvypQlv9QAN+cnToUjI6ZGxoPuKVwz
-         XE7Mu2SSALByqox6K7lBRNd5WIHtmlwVGgqgGl/dFAbxttwkmhCY1biFTUNBJybLYaAu
-         5kqA==
-X-Gm-Message-State: AOAM531yHAsVqq45hcHnw68Wvn+gYkti8oPthT87chcF1ovlYgWNvhRm
-	wRZaDbtgagY+pe5KnLK/YbJWbbMK75zYNl9dr4s=
-X-Google-Smtp-Source: ABdhPJwVYwkcDkDN+WQffMVfhlOELx8ZXob9vVB2JA+yAVyTyCkxQm1SB/xKA5ebe1ATsyIenzujXw==
-X-Received: by 2002:a4a:ab83:: with SMTP id m3mr14600054oon.2.1620831523610;
-        Wed, 12 May 2021 07:58:43 -0700 (PDT)
+        bh=43hPWeqHCTDotlMfASeVORhEJYu/ORrIfwjdV5Kj160=;
+        b=VvNhJZrmPWdvUYagJ0NtaKLqE0QKiwiqn1FrjEgL7EA4nkTzjCPXz001rQQB46dqJD
+         J0HV+YgkwgPr+8b9E1lMyo19z6qFWFK+IRL8WlaeT6Qes5JfEa0+xzGGhfBVvgrsfRYe
+         q5zT1OJiT50HaqoDtCxCO884E6MOs2GHfMuO1zsmtBY4+qQdzLOHbYkOxSJyftlj36/4
+         ANvdCc5K6565bHzU2aHKcIdtJsyFYP52KrKwRdVmxfU9ZGdxB5zyVz2TjI2EE+Ebawc7
+         1ey4+0JLigSG2p7JeNb2HJfwII9QoO3sSK0ZTiSDSca/kRkMyOWPjyKaQZ8CB6TVCGMO
+         +a4w==
+X-Gm-Message-State: AOAM53060ONcz5MKwrcY8zOD+YtDjeFzTg8KZpJi1MXPyKkHhyP7fwZp
+	VcQ9+hbeMapQpjWGLdBtAH4zf4RDcItwStJdhGs=
+X-Google-Smtp-Source: ABdhPJx4INBfcR/pgZuw7rXIatBL6kk6zyv6tYMfo8ACqWtquHb8h7yxt5RKikiQ6DRBX/AeKUQ7Ww==
+X-Received: by 2002:aca:bdc6:: with SMTP id n189mr7865037oif.156.1620831528825;
+        Wed, 12 May 2021 07:58:48 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.58.39
+        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.58.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 07:58:43 -0700 (PDT)
+        Wed, 12 May 2021 07:58:48 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/22] logrotate: Exclude CVE-2011-1548,1549,1550 from cve-check
-Date: Wed, 12 May 2021 04:56:52 -1000
-Message-Id: <7222f10e99e5a345c68feb254d309e55024ef4aa.1620831171.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/22] openssh: Exclude CVE-2007-2768 from cve-check
+Date: Wed, 12 May 2021 04:56:53 -1000
+Message-Id: <67d5e034a7e89453f8efd5700621a97d32d7d956.1620831171.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620831171.git.steve@sakoman.com>
 References: <cover.1620831171.git.steve@sakoman.com>
@@ -53,30 +53,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-These CVEs apply to the way logrotate was installed on Gentoo, Debian
-and SUSE, exclude from cve-check as they don't apply to OE.
+We don't build/use the OPIE PAM module, exclude the CVE from this recipe.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 23643016f3b8794db772e333ff0b8f598571b628)
+(cherry picked from commit 3670be602f2ace24dc49e196407efec577164050)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/logrotate/logrotate_3.15.1.bb | 3 +++
+ meta/recipes-connectivity/openssh/openssh_8.2p1.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.15.1.bb b/meta/recipes-extended/logrotate/logrotate_3.15.1.bb
-index 503a0622b1..7c1b77add8 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.15.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.15.1.bb
-@@ -22,6 +22,9 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz
- SRC_URI[md5sum] = "afe109afea749c306ff489203fde6beb"
- SRC_URI[sha256sum] = "491fec9e89f1372f02a0ab66579aa2e9d63cac5178dfa672c204c88e693a908b"
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+index fe94f30503..b429fbe96d 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+@@ -28,6 +28,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+ SRC_URI[md5sum] = "3076e6413e8dbe56d33848c1054ac091"
+ SRC_URI[sha256sum] = "43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff8bcebdff64e671"
  
-+# These CVEs are debian, gentoo or SUSE specific on the way logrotate was installed/used
-+CVE_CHECK_WHITELIST += "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
++# This CVE is specific to OpenSSH with the pam opie which we don't build/use here
++CVE_CHECK_WHITELIST += "CVE-2007-2768"
 +
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
- 
- PACKAGECONFIG[acl] = ",,acl"
+ # This CVE is specific to OpenSSH server, as used in Fedora and Red Hat Enterprise Linux 7
+ # and when running in a Kerberos environment. As such it is not relevant to OpenEmbedded
+ CVE_CHECK_WHITELIST += "CVE-2014-9278"
 -- 
 2.25.1
 
