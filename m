@@ -4,114 +4,112 @@ Received: from mga17.intel.com (mga17.intel.com [])
  Wed, 12 May 2021 01:36:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: JRzzKKW8N67pmCLI/flcl8cTln9WCh92/M/VlR63/IH725oUN8BoHBlEbPHEmkWHp3HgFwWW0+
- 1AURlO7V+U9w==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917779"
+IronPort-SDR: 5GIS/rb4CObejpsAevYdN7mUQooJ94PDc3+/RGprESNybc1xdRQI93bESVpufH6iZ8kIo0Q1jv
+ eGjgWMGHGKog==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917770"
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="179917779"
+   d="scan'208";a="179917770"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:03 -0700
-IronPort-SDR: cYo3333jwgAcIdyv0qM0fO3NUMqNu7w/4NkesWr/fzhXyfTHJZiBkut8wxE6PX1LMX+E8cHlm5
- Ic5Dx5QJeDmQ==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:01 -0700
+IronPort-SDR: TAxNxg0tWQbPiDQvn2Cv++VuLOZHFg8vFGlLsRgvEAYzfbx8qRPeRIXl00qSf3RqSdMhOVC0sT
+ v/3XUSufHJUA==
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="430645726"
+   d="scan'208";a="430645686"
 Received: from tmustofa-mobl1.amr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.35.122])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:02 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:35:56 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 02/15] oeqa/qemurunner: Improve logging thread exit handling for qemu shutdown test
-Date: Wed, 12 May 2021 16:35:34 +0800
-Message-Id: <7f931dce4484a2740b419b2d25830fc453748a0c.1620808329.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 00/15] review request
+Date: Wed, 12 May 2021 16:35:32 +0800
+Message-Id: <cover.1620808329.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1620808329.git.anuj.mittal@intel.com>
-References: <cover.1620808329.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Please review these changes for hardknott. No problems while testing on
+autobuilder.
 
-Rather than totally disabling the logging, inform it we're about to exit
-so we can log messages over the exit cleanly too. This aids debugging. It
-also avoids a race where the logging handler could still error whilst
-shutting down.
+Thanks,
 
-Also remove a race window by notificing the handler of the shutdown
-first, before triggering it. This removes a race window I watched in
-local testing.
+Anuj
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0e19f31a1005f94105e1cef252abfffcef2aafad)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/lib/oeqa/selftest/cases/runqemu.py |  9 ++++-----
- meta/lib/oeqa/utils/qemurunner.py       | 12 +++++++++++-
- 2 files changed, 15 insertions(+), 6 deletions(-)
+The following changes since commit d5d88c2293e8ebc958d1bce9af8f796024443be9:
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 7e676bcb41..da22f77b27 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -163,12 +163,11 @@ class QemuTest(OESelftestTestCase):
-         bitbake(cls.recipe)
- 
-     def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
-+        # Allow the runner's LoggingThread instance to exit without errors
-+        # (such as the exception "Console connection closed unexpectedly")
-+        # as qemu will disappear when we shut it down
-+        qemu.runner.allowexit()
-         qemu.run_serial("shutdown -h now")
--        # Stop thread will stop the LoggingThread instance used for logging
--        # qemu through serial console, stop thread will prevent this code
--        # from facing exception (Console connection closed unexpectedly)
--        # when qemu was shutdown by the above shutdown command
--        qemu.runner.stop_thread()
-         time_track = 0
-         try:
-             while True:
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 278904ba0b..84f7c5e76d 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -471,6 +471,10 @@ class QemuRunner:
-             self.thread.stop()
-             self.thread.join()
- 
-+    def allowexit(self):
-+        if self.thread:
-+            self.thread.allowexit()
-+
-     def restart(self, qemuparams = None):
-         self.logger.warning("Restarting qemu process")
-         if self.runqemu.poll() is None:
-@@ -564,6 +568,7 @@ class LoggingThread(threading.Thread):
-         self.logger = logger
-         self.readsock = None
-         self.running = False
-+        self.canexit = False
- 
-         self.errorevents = select.POLLERR | select.POLLHUP | select.POLLNVAL
-         self.readevents = select.POLLIN | select.POLLPRI
-@@ -597,6 +602,9 @@ class LoggingThread(threading.Thread):
-         self.close_ignore_error(self.writepipe)
-         self.running = False
- 
-+    def allowexit(self):
-+        self.canexit = True
-+
-     def eventloop(self):
-         poll = select.poll()
-         event_read_mask = self.errorevents | self.readevents
-@@ -653,7 +661,9 @@ class LoggingThread(threading.Thread):
-             # happened. But for this code it counts as an
-             # error since the connection shouldn't go away
-             # until qemu exits.
--            raise Exception("Console connection closed unexpectedly")
-+            if not self.canexit:
-+                raise Exception("Console connection closed unexpectedly")
-+            return ''
- 
-         return data
- 
+  libevent: Increase ptest timing tolerance 50 ms -> 100 ms (2021-05-07 08:51:54 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20210208 -> 20210315
+
+Anuj Mittal (1):
+  lsb-release: fix reproducibility failure
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: qemuppc32: reduce serial shutdown issues
+
+Chen Qi (1):
+  db: update CVE_PRODUCT
+
+Kai Kang (1):
+  grub2.inc: remove '-O2' from CFLAGS
+
+Michael Opdenacker (1):
+  sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure
+    message
+
+Peter Kjellerstedt (1):
+  libcap: Configure Make variables correctly without a horrible hack
+
+Richard Purdie (4):
+  oeqa/qemurunner: Improve logging thread exit handling for qemu
+    shutdown test
+  oeqa/qemurunner: Fix binary vs str issue
+  oeqa/qemurunner: Improve handling of run_serial for shutdown commands
+  puzzles: Upstream changed to main branch for development
+
+Romain Naour (1):
+  dejagnu: needs expect at runtime
+
+Vinícius Ossanes Aquino (1):
+  lttng-modules: backport patches to fix build against 5.12+ kernel
+
+Yann Dirson (1):
+  linux-firmware: include all relevant files in -bcm4356
+
+zhengruoqin (1):
+  ruby: upgrade 3.0.0 -> 3.0.1
+
+ meta/classes/sanity.bbclass                   |   9 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py       |   9 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  21 +-
+ meta/recipes-bsp/grub/grub2.inc               |   2 +
+ .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |   1 +
+ .../ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb}     |   2 +-
+ .../help2man-reproducibility.patch            |  27 ++
+ meta/recipes-extended/lsb/lsb-release_1.4.bb  |   1 +
+ ...20210208.bb => linux-firmware_20210315.bb} |   8 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   2 +-
+ ...block-add-a-disk_uevent-helper-v5.12.patch | 305 ++++++++++++++++++
+ ...block-add-a-disk_uevent-helper-v5.12.patch |  48 +++
+ ...free-event-name-mismatching-with-pro.patch |  71 ++++
+ .../lttng/lttng-modules_2.12.5.bb             |   3 +
+ meta/recipes-sato/puzzles/puzzles_git.bb      |   2 +-
+ meta/recipes-support/db/db_5.3.28.bb          |   2 +-
+ meta/recipes-support/libcap/libcap_2.48.bb    |  21 +-
+ 19 files changed, 504 insertions(+), 34 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.0.0.bb => ruby_3.0.1.bb} (97%)
+ create mode 100644 meta/recipes-extended/lsb/lsb-release/help2man-reproducibility.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20210208.bb => linux-firmware_20210315.bb} (99%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-backport-block-add-a-disk_uevent-helper-v5.12.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-mm-tracing-kfree-event-name-mismatching-with-pro.patch
+
 -- 
 2.31.1
 
