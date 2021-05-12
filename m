@@ -1,81 +1,84 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web09.8189.1620831567849475614
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web09.8190.1620831573688251497
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 07:59:28 -0700
+ Wed, 12 May 2021 07:59:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RgF0p60r;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id b25so17281397oic.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:59:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wmTpVMt6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f50.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso20798058otn.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 12 May 2021 07:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OUvADhLprt96qyN6eAxXZ/jPz3dkPBy3ogZqLiW/YGg=;
-        b=RgF0p60rmIC9i1sR1hkTqagDxp+6Qk7ib8BY1laydPbBQX5JVYFOn9VZzgQgvJtJaN
-         ZLUcMUx7KKWE/hnJqSviPa77xOT2RCQtamrY4x+9w7FumnZ3ky3OSPfW1NgQE+Aa2H2h
-         hZoNkJ0Dy5ReL9ykyXDBklsD0I66E02W317jaHLLQlIyq3a6Co1psSxV48gpkOCphoLD
-         oSU3/W9SJwSSPs6kZQKa1YNppr6iyV6psKTaCxcOdbLddNIFkx8yGyshdd5YfnauE+2d
-         FiACWV+gocRT4e0B2Eok+X6caJYITpRTz9LrMKCZGd4Ukb9wHv4SxCBsr7Wsh8psMIw6
-         eILA==
+        bh=O9MqKeIVwexnxS4mRMRcAJ03GafB0nrlkHm5RUn8Z8s=;
+        b=wmTpVMt6BmTOk7HBsWu48afLX7AyNOMkf80cpTjKJR7Zpd6LMZr+rdmqzRw9NaWCDB
+         wYmCyT0CYKsK+RBamCtsT1kYHMzogiUcIqn0kOul+wC0vbySyX5VIuiFKFHV0JAZrkzo
+         FRXeSstPd5VeiYX1wZrhy6L62NFl+dqTmocEwjoJSnV73SMjZI6r0yb5ntvDmwu0LM6X
+         9RVpklX5PHlwBPveS6E342/s/fbAY7rqnaV+rDe626SWA9xYKSyvkwyPORvnZsWs4Uj0
+         VAraYJfMvP52MKByeCwWSZyptz2IFASD9RsoXRzz4ngF/B+DaOH7cRxNUmQvr5eKXcn6
+         Sg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OUvADhLprt96qyN6eAxXZ/jPz3dkPBy3ogZqLiW/YGg=;
-        b=cdDu+LPgqF39MpICbKmgvSIwQjLftN8rZuYuP27oxy6yTaQHCxDMQ3F1mxmXPpBmk1
-         nNiLcRKLYLJe32CqXwHVsgm4Vsgglr2qDEzZPnTBsDDVO3he1dzX3055RhAax7j0UWNv
-         D7HOHrc7v3y06BFtyLPPfiDeZMc4ZsYnp75l0mBzbXK6X75J38c7EdOQCGDxBwGxg47M
-         paw5WXpaC/t6+JY5BdGLlHLwGl4wG0iQ99PDl+fiaPhJNxog7kAlagDx3oyrreCO4Zxg
-         BHDPuxhThwxYOmk+XjfAwLG6P3sa2EUxGF1dzR66XK1sLZqW8fhHoA37LzKYukN7Qlv8
-         ctgQ==
-X-Gm-Message-State: AOAM531ThaPGBg3JIG0c7d/PWax7yFczOEjouK4DdlqC0iCwnxrHRl9R
-	zoluiwVEaWnUe3fGYhzqpTE6JEPbTCkddPMtvb4=
-X-Google-Smtp-Source: ABdhPJxfFV9kgg2YHudJ5JtVIak22v1/vfRaF4zmPsceJmB7RfOJM45BBn2siaJkNgQD5ThX+3jRqQ==
-X-Received: by 2002:aca:df87:: with SMTP id w129mr26723891oig.128.1620831566829;
-        Wed, 12 May 2021 07:59:26 -0700 (PDT)
+        bh=O9MqKeIVwexnxS4mRMRcAJ03GafB0nrlkHm5RUn8Z8s=;
+        b=HYg/LUMVANsnmaKWVAe1LPBLAQacB3G9rU08Iz+Ye0RatZSfmLYqGU0u3+rRnwrjFN
+         OWoPzxZ6TVliqoYXO/2saltu2wcH8LlgVeRUiWErTLMdEVxuHTUF36JxZ3TYaf2oSY8i
+         MDM3b9ag50Tr7vhPQVP+iixA/dzPdYd43scx1RAv7BsoI/67EmT3g3/9zZ9IfOAML6Yr
+         XoJ7XTwKUQ9dA32T483bBFUkvBA8mpUsdyE9ZhsXHWJ67dp9kf/aw8+KJiAkHNvZ9qME
+         fjnro53fNLDFKoCk3XqcYUjUvEiNShNCgvijJBEa5snD5c08eRfpVf7FnMy20QETyTzz
+         MwZw==
+X-Gm-Message-State: AOAM5334iQZ0sWcoGXG2gdc3au5YWnwRz7b+g3OS7ViF1fRGHLXu2XK/
+	7wBN1Syj4WS0Ti7vLn207Nzqs6FpH+/zoTpZyxY=
+X-Google-Smtp-Source: ABdhPJxjkHsvWjA6pfZY2Wx9w5uO6yWdjLLTobPT+szRewaqL1V/F5h9T2hpSrGygAGeuhQhidvpzg==
+X-Received: by 2002:a05:6830:1452:: with SMTP id w18mr31320528otp.227.1620831572642;
+        Wed, 12 May 2021 07:59:32 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from localhost.localdomain ([172.243.4.16])
-        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.59.23
+        by smtp.gmail.com with ESMTPSA id 21sm1678otg.4.2021.05.12.07.59.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 07:59:26 -0700 (PDT)
+        Wed, 12 May 2021 07:59:32 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 21/22] dejagnu: needs expect at runtime
-Date: Wed, 12 May 2021 04:57:00 -1000
-Message-Id: <4e1a1fc3b032cc571c85bb10f3a55720eccd3c66.1620831171.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 22/22] linux-firmware: include all relevant files in -bcm4356
+Date: Wed, 12 May 2021 04:57:01 -1000
+Message-Id: <fb8138e7b4fc00d99c11d5af64260add2c4ca02c.1620831171.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1620831171.git.steve@sakoman.com>
 References: <cover.1620831171.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Romain Naour <romain.naour@gmail.com>
+From: Yann Dirson <yann@blade-group.com>
 
-runtest return an error due to missing expect on the target.
-Add expect as runtime dependency.
+This currently catches the .clb_blob and .vamrs,rock960.txt, and other
+.txt files may come in future upstream releases.
 
-Signed-off-by: Romain Naour <romain.naour@gmail.com>
+Signed-off-by: Yann Dirson <yann@blade-group.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d9a3a08edc1efcbe7b02e80be98370792d3c6cc2)
+(cherry picked from commit e332738a8aae0914c58b40faae8b9d7a82fd6a95)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
-index 0a007bb2cd..ce242c3593 100644
---- a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
-+++ b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SECTION = "devel"
- 
- DEPENDS += "expect-native"
-+RDEPENDS_${PN} = "expect"
- 
- inherit autotools
- 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
+index 892455b039..1e32d1c8b6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20210315.bb
+@@ -656,8 +656,8 @@ FILES_${PN}-bcm43455 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43455-sdio.
+ "
+ FILES_${PN}-bcm4350c2 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350c2-pcie.bin"
+ FILES_${PN}-bcm4350 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350-pcie.bin"
+-FILES_${PN}-bcm4356 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-sdio.bin \
+-  ${nonarch_base_libdir}/firmware/cypress/cyfmac4356-sdio.bin \
++FILES_${PN}-bcm4356 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-sdio.* \
++  ${nonarch_base_libdir}/firmware/cypress/cyfmac4356-sdio.* \
+ "
+ FILES_${PN}-bcm43569 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43569.bin"
+ FILES_${PN}-bcm43570 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43570-pcie.bin \
 -- 
 2.25.1
 
