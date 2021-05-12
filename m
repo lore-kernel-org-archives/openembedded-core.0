@@ -1,72 +1,68 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga17.intel.com (mga17.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.4074.1620808565759951992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 May 2021 01:36:05 -0700
+ Wed, 12 May 2021 01:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: +ha+HOfAI7G3euBJ8krmd9YEkl53k74qr1Se6LfuAAseihINRJPFAtFIF1uG7LrrJH6Es/cSeW
- rmIpSh6sn5KA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917781"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: SJeO6aASD2wDowfQyTLXWKyifBqiSL/ixOeFhQcUv0fCmhzoe+Ne9yGIJdAuOdsSM1IcWVTxm0
+ TiBvPIHY0Ekw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="179917773"
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="179917781"
+   d="scan'208";a="179917773"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:04 -0700
-IronPort-SDR: 6R6uANbAPA96ri3WfILVSPpDd97ZomcJmDtaJdAWiMGgeD4MhJkyjKeI0WSQoehiXqz5Y6Ep9m
- UWJssCSU31jw==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:02 -0700
+IronPort-SDR: TrUMJQM+RZYNTL5AYhOJKJICjD/S/LW1FtTYOU16wQJE7KXqYstTW7ux89YZlAdHsVEvBVKI47
+ JEhPp2Cd3AZQ==
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="430645735"
+   d="scan'208";a="430645717"
 Received: from tmustofa-mobl1.amr.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.35.122])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:03 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:36:01 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 03/15] oeqa/qemurunner: Fix binary vs str issue
-Date: Wed, 12 May 2021 16:35:35 +0800
-Message-Id: <000feb98ff99e74d6118fc3f53330b8e975923d9.1620808329.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 01/15] sanity.bbclass: mention CONNECTIVITY_CHECK_URIS in network failure message
+Date: Wed, 12 May 2021 16:35:33 +0800
+Message-Id: <f54eaf65ff549a98ff98157d6b3aa48f9adc9ca5.1620808329.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1620808329.git.anuj.mittal@intel.com>
 References: <cover.1620808329.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-The recent logging changes for qemurunner showed up as errors on the
-autobuilder where decode couldn't be called on the returned string.
-Since the code returns binary data, return b'' instead of '' to match
-to avoid tracebacks.
+This expands the error message when a network failure is detected.
+It happens that some ISPs or networks block the default example.com
+domain. Therefore, instead of disabling network access, it
+lets the user know how to modify the test URL.
 
-One of these cases was newly added, copied from the other which has
-been there for a long time, always broken.
-
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b8995b27db265b0a0b2d2ca595915f70f9f96e07)
+(cherry picked from commit 62c94bb925543c1e1c5af3c751913d9f06d9597d)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sanity.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 84f7c5e76d..526b493669 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -650,7 +650,7 @@ class LoggingThread(threading.Thread):
-             data = self.readsock.recv(count)
-         except socket.error as e:
-             if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
--                return ''
-+                return b''
-             else:
-                 raise
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 14ffac0bf2..a2ac4eeb80 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -392,9 +392,12 @@ def check_connectivity(d):
+             msg = data.getVar('CONNECTIVITY_CHECK_MSG') or ""
+             if len(msg) == 0:
+                 msg = "%s.\n" % err
+-                msg += "    Please ensure your host's network is configured correctly,\n"
+-                msg += "    or set BB_NO_NETWORK = \"1\" to disable network access if\n"
+-                msg += "    all required sources are on local disk.\n"
++                msg += "    Please ensure your host's network is configured correctly.\n"
++                msg += "    If your ISP or network is blocking the above URL,\n"
++                msg += "    try with another domain name, for example by setting:\n"
++                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.yoctoproject.org/\""
++                msg += "    You could also set BB_NO_NETWORK = \"1\" to disable network\n"
++                msg += "    access if all required sources are on local disk.\n"
+             retval = msg
  
-@@ -663,7 +663,7 @@ class LoggingThread(threading.Thread):
-             # until qemu exits.
-             if not self.canexit:
-                 raise Exception("Console connection closed unexpectedly")
--            return ''
-+            return b''
- 
-         return data
- 
+     return retval
 -- 
 2.31.1
 
